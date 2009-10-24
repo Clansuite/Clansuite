@@ -193,6 +193,6 @@ enabled = 0
 ; help
 ;----------------------------------------
 [help]
-tracking = 0
+tracking = 1
 
 ; DO NOT REMOVE THIS LINE */ ?>

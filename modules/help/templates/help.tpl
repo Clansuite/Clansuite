@@ -44,13 +44,18 @@
            </div>
            <!-- http://www.LiveZilla.net Chat Button Link Code -->
 
-           <!-- http://www.LiveZilla.net Tracking Code -->
-           <div id="livezilla_tracking" style="display:none"></div>
-           <script language="JavaScript" type="text/javascript">var script = document.createElement("script");script.type="text/javascript";var src = "http://www.clansuite.com/livezilla/server.php?request=track&output=jcrpt&reset=true&nse="+Math.random();setTimeout("script.src=src;document.getElementById('livezilla_tracking').appendChild(script)",1);</script>
-           <!-- http://www.LiveZilla.net Tracking Code -->
+           {if isset($helptracking) and ($helptracking==true)}
+               <div style="padding-left: 40px; margin-top:2px;"><a href="http://www.clansuite.com/livezilla/livezilla.php" target="_blank" title="Clansuite Live Support" style="font-size:10px;color:#bfbfbf;text-decoration:none;font-family:verdana,arial,tahoma;">Help Tracking enabled.</a></div>
+               <!-- http://www.LiveZilla.net Tracking Code -->
+               <div id="livezilla_tracking" style="display:none"></div>
+               <script language="JavaScript" type="text/javascript">var script = document.createElement("script");script.type="text/javascript";var src = "http://www.clansuite.com/livezilla/server.php?request=track&output=jcrpt&reset=true&nse="+Math.random();setTimeout("script.src=src;document.getElementById('livezilla_tracking').appendChild(script)",1);</script>
+               <!-- http://www.LiveZilla.net Tracking Code -->
+           {/if}
+
+           </div>
         </p>
      </li>
 
     </ul>
 
-</div
+</div>

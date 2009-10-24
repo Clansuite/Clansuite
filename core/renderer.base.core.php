@@ -382,6 +382,9 @@ abstract class Clansuite_Renderer_Base
 
         # Assign Benchmarks
         #$template_constants['db_exectime'] = benchmark::returnDbexectime() );
+        
+        # Help Tracking
+        $template_constants['helptracking'] = $this->config['help']['tracking'];
 
         # Debug Display
         #clansuite_xdebug::printR($template_constants);
