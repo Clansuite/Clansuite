@@ -488,10 +488,7 @@ class Module_News extends Clansuite_ModuleController implements Clansuite_Module
          * 2) modulecfg
          * 3) hardcoded defaultvalue
          */
-        if($numberNews == null)
-        {            
-            $numberNews = $this->getConfigValue('items_newswidget', '8');              
-        }
+        $numberNews = $this->getConfigValue('items_newswidget', $numberNews, '8');
         
         # get smarty as the view
         $smarty = $this->getView();
