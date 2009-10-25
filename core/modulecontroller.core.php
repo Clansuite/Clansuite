@@ -246,19 +246,29 @@ abstract class Clansuite_ModuleController extends Clansuite_ModuleController_Res
     }
 
     /**
-     * Get Config Value
+     * Gets a Config Value or sets a default value
+     *
+     * Usage for one default variable:
+     * $this->getConfigValue('items_newswidget', '8');
+     * Gets the value for the key items_newswidget from the moduleconfig or sets the value to 8.
+     *
+     * Usage for two default variables:
+     * $this->getConfigValue('items_newswidget', $_GET['numberNews'], '8');
+     * Gets the value for the key items_newswidget from the moduleconfig or sets the value
+     * incomming via GET, if nothing is incomming, sets the default value of 8.
      *
      * @param $keyname The keyname to find in the array.
-     * @param $default A default value, which is returned, if the keyname was not found.
+     * @param $default_one A default value, which is returned, if the keyname was not found.
+     * @param $default_two A default value, which is returned, if the keyname was not found and default_one is null.
      */
-    public function getConfigValue($keyname, $default = null)
+    public function getConfigValue($keyname, $default_one = null, $default_two = null)
     {
         # if we don't have a moduleconfig array yet, get it
         if($this->moduleconfig == null)
         {
-            $this->getModuleConfig();   
+            $this->getModuleConfig();
         }
-        
+
         # try a lookup of the value by keyname
         $value = Clansuite_Functions::array_find_element_by_key($keyname, $this->moduleconfig);
 
@@ -267,9 +277,13 @@ abstract class Clansuite_ModuleController extends Clansuite_ModuleController_Res
         {
             return $value;
         }
-        elseif( $default != null )
+        elseif( $default_one != null )
         {
-            return $default;
+            return $default_one;
+        }
+        elseif( $default_two )
+        {
+            return $default_two;
         }
     }
 

@@ -60,11 +60,7 @@ class Module_Shoutbox extends Clansuite_ModuleController implements Clansuite_Mo
      */
     public function widget_shoutbox($items)
     {
-        if($items == null)
-        {            
-            $items = $this->getConfigValue('items_shoutboxwidget', '10');              
-        }
-        
+        $items = $this->getConfigValue('items_shoutboxwidget', $items, '10');        
         $this->getView()->assign('shoutbox_widget', Doctrine::getTable('CsShoutbox')->fetchAll($items));
     }
 }
