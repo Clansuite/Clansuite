@@ -281,9 +281,13 @@ abstract class Clansuite_ModuleController extends Clansuite_ModuleController_Res
         {
             return $default_one;
         }
-        elseif( $default_two )
+        elseif( $default_two != null )
         {
             return $default_two;
+        }
+        else
+        {
+            return null;   
         }
     }
 
