@@ -39,7 +39,7 @@ function smarty_function_load_module($params, &$smarty)
     $action = (string) $params['action'];
 
     $params = isset( $params['params'] ) ? (string) $params['params'] : '';
-    $items  = isset( $params['items'] )  ? (int)    $params['items']  : 5;
+    $items  = isset( $params['items'] )  ? (int)    $params['items']  : null;
 
     # Build a Parameter Array from Parameter String like: param|param|etc
     if( empty($params['params']) )
