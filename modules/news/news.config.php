@@ -8,6 +8,7 @@
 resultsPerPage_show = 3
 resultsPerPage_archive = 3
 resultsPerPage_fullarchive = 25
+items_newswidget = 3
 
 
 ; DO NOT REMOVE THIS LINE */ ?>

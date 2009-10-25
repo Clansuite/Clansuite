@@ -481,6 +481,18 @@ class Module_News extends Clansuite_ModuleController implements Clansuite_Module
      */
     public function widget_news($numberNews)
     {
+        /**
+         * get the incomming value for the number of items to display
+         * we have the following order:
+         * 1) specified by {load_module name="" action="" items="2"}
+         * 2) modulecfg
+         * 3) hardcoded defaultvalue
+         */
+        if($numberNews == null)
+        {            
+            $numberNews = $this->getConfigValue('items_newswidget', '8');              
+        }
+        
         # get smarty as the view
         $smarty = $this->getView();
 
