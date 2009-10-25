@@ -2,13 +2,20 @@
 ;
 ; Clansuite Configuration File for Module News
 ;
-[news]
 
-; Limitation for different Actions
+; Limitation for News
+[news]
 resultsPerPage_show = 3
-resultsPerPage_archive = 3
-resultsPerPage_fullarchive = 25
+
+; Limitation for News Widgets
+[newswidgets]
 items_newswidget = 3
 
+; Limitation for Newsarchive
+[newsarchive]
+resultsPerPage_fullarchive = 25
 
+; Limitation for Newsarchive Widgets
+[newsarchivewidgets]
+resultsPerPage_archive = 3
 ; DO NOT REMOVE THIS LINE */ ?>
