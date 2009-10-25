@@ -32,23 +32,36 @@
 function smarty_function_load_module($params, &$smarty)
 {
     # @todo use module and action mapping here
-
+    
+    # debugdisplay for the incomming parameters of a specific load_module request
+    /*if($params['name'] == 'news')
+    {
+        clansuite_xdebug::printR($params);
+    }*/
+    
     # Init incomming Variables
     $mod    = isset( $params['name'] ) ? (string) $params['name'] : '';
-    $sub    = isset( $params['sub'] )  ? (string) $params['sub']  : '';
-    $action = (string) $params['action'];
+    $sub    = isset( $params['sub'] ) ? (string) $params['sub']  : '';
+    $action = isset( $params['action'] ) ? (string) $params['action'] : '';    
+    $items  = isset( $params['items'] )  ? (int) $params['items']  : null;
+    
+    # debugdisplay for a specific incomming value
+    /*if($params['name'] == 'news')
+    {
+        clansuite_xdebug::printR($items);
+    }*/
 
-    $params = isset( $params['params'] ) ? (string) $params['params'] : '';
-    $items  = isset( $params['items'] )  ? (int)    $params['items']  : null;
-
+    # WATCH it, this resets the incomming parameters array
+    #$params = isset( $params['params'] ) ? (string) $params['params'] : '';
+ 
     # Build a Parameter Array from Parameter String like: param|param|etc
     if( empty($params['params']) )
     {
-        $param_array = null;
+        $parameter_array = null;
     }
     else
     {
-        $param_array = split('\|', $params['params']);
+        $parameter_array = split('\|', $params['params']);
     }
 
     # Construct the variable module_name
@@ -86,7 +99,7 @@ function smarty_function_load_module($params, &$smarty)
         # exceptional handling of parameters and output for adminmenu
         if ( $module_name == 'module_menu_admin' )
         {
-            return $controller->$action($param_array);
+            return $controller->$action($parameter_array);
         }
 
         # slow call
