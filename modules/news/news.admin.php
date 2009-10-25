@@ -59,6 +59,10 @@ class Module_News_Admin extends Clansuite_ModuleController implements Clansuite_
 
     public function execute(Clansuite_HttpRequest $request, Clansuite_HttpResponse $response)
     {
+	
+	    # read module config
+        $this->getModuleConfig();
+	
         parent::initRecords('news');
         parent::initRecords('users');
         parent::initRecords('categories');
@@ -567,6 +571,47 @@ class Module_News_Admin extends Clansuite_ModuleController implements Clansuite_
         }
         $this->suppress_wrapper = 1;
     }
-
+	
+	
+	
+	/**
+	*
+	*	Action for display the Settings of a Module
+	*
+	*/
+	function settings()
+	{
+		settings['news'][] = array(
+										'name' => 'resultsPerPage_show',
+										'description' => '_('Newsitems to show in Newsmodule')',
+										'id' => 'resultsPerPage_show',
+										'type' => 'text',
+										'value' => $this->getConfigValue('resultsPerPage_show', '3')
+									);						
+							
+		settings['newswidgets'][] = array(
+										'name' => 'items_newswidget',
+										'description' => '_('Newsitems to show in LatestNews Widget')',
+										'id' => 'items_newswidget',
+										'type' => 'text',
+										'value' => $this->getConfigValue('items_newswidget', '5')
+									);
+																		
+		settings['newsarchive'][] = array(
+										'name' => 'resultsPerPage_fullarchive',
+										'description' => '_('Newsitems to show in Newsarchive')',
+										'id' => 'resultsPerPage_fullarchive',
+										'type' => 'text',
+										'value' => $this->getConfigValue('resultsPerPage_fullarchive', '3')
+									);
+									
+		settings['newsarchivewidgets'][] = array(
+										'name' => 'resultsPerPage_archive',
+										'description' => '_('Newsitems to show in Newsarchive')',
+										'id' => 'resultsPerPage_archive',
+										'type' => 'text',
+										'value' => $this->getConfigValue('resultsPerPage_archive', '3')
+									);
+	}
 }
 ?>
