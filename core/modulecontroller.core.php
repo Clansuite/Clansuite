@@ -205,6 +205,8 @@ abstract class Clansuite_ModuleController extends Clansuite_ModuleController_Res
      * $this->moduleconfig = $this->config->readConfig( ROOT_MOD . 'mod/mod.config.php');
      * var_dump($this->moduleconfig);
      *
+     * @todo check structure of the moduleconfig [news][news][cfgid] = cfgvalue
+     *
      * @param string $filename configuration ini-filename to read
      */
     public function getModuleConfig($filename = null)
@@ -251,6 +253,12 @@ abstract class Clansuite_ModuleController extends Clansuite_ModuleController_Res
      */
     public function getConfigValue($keyname, $default = null)
     {
+        # if we don't have a moduleconfig array yet, get it
+        if($this->moduleconfig == null)
+        {
+            $this->getModuleConfig();   
+        }
+        
         # try a lookup of the value by keyname
         $value = Clansuite_Functions::array_find_element_by_key($keyname, $this->moduleconfig);
 
