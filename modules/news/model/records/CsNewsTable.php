@@ -340,5 +340,19 @@ class CsNewsTable extends Doctrine_Table
 		# put things in an array-box for delivery multiple things with one return stmt
         return array( 'newscategories_dropdown' => $newscategories_dropdown );
 	}
+	
+    public static function fetchNewsArchiveWidget()
+	{
+        # fetch all newsentries, ordered by creation date ASCENDING
+        $widget_archive = Doctrine_Query::create()
+                                    ->select('n.news_id, n.created_at')
+                                    ->from('CsNews n')
+                                    ->setHydrationMode(Doctrine::HYDRATE_ARRAY)
+                                    ->orderby('n.created_at ASC')
+                                    ->execute( array() );
+									
+		# put things in an array-box for delivery multiple things with one return stmt
+        return array( 'widget_archive' => $widget_archive );
+	}
 }
 ?>
