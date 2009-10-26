@@ -88,6 +88,7 @@ if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.');}
  *    c) Repopulate formfields on submission error
  *       -> goto a)
  *
+ * @link http://www.whatwg.org/specs/web-apps/current-work/multipage/forms.html
  *
  * @author     Jens-André Koch   <vain@clansuite.com>
  * @copyright  Jens-André Koch (2005-onwards)
@@ -162,7 +163,7 @@ class Clansuite_Form /*extends Clansuite_HTML*/ implements Clansuite_Form_Interf
      * @var string
      */
     protected $heading;
-    
+
     protected $target;
 
     /**
@@ -368,7 +369,7 @@ class Clansuite_Form /*extends Clansuite_HTML*/ implements Clansuite_Form_Interf
         if( empty($this->encoding) )
         {
             $this->encoding = 'multipart/form-data';
-            
+
             return $this->encoding;
         }
         else
@@ -376,7 +377,7 @@ class Clansuite_Form /*extends Clansuite_HTML*/ implements Clansuite_Form_Interf
             return $this->encoding;
         }
     }
-    
+
     /**
      * Set target of this form.
      *
@@ -455,7 +456,7 @@ class Clansuite_Form /*extends Clansuite_HTML*/ implements Clansuite_Form_Interf
         {
             $html_form .= 'enctype="'.$this->getEncoding().'" ';
         }
-        
+
         if( strlen($this->getTarget()) > 0 )
         {
             $html_form .= 'target="'.$this->getTarget().'" ';
@@ -493,14 +494,14 @@ class Clansuite_Form /*extends Clansuite_HTML*/ implements Clansuite_Form_Interf
         # loop over all registered formelements of this form and render them
         foreach( $this->formelements as $formelement )
         {
-            # render the formelement
-            $html_form .= CR . $formelement->render() . CR;
-
             # add label
             if ( $formelement->hasLabel() == true)
             {
                 $html_form .= CR . '<span class="label">' . $formelement->getLabel() . '</span>' . CR;
             }
+
+            # render the formelement
+            $html_form .= CR . $formelement->render() . CR;
 
             # seperator
             $html_form .= '<br/>' .CR;

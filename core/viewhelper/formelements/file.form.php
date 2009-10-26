@@ -49,12 +49,14 @@ if (!class_exists('Clansuite_Formelement_Input')) { require 'input.form.php'; }
 class Clansuite_Formelement_File extends Clansuite_Formelement_Input implements Clansuite_Formelement_Interface
 {
     /**
-     * Flag variable for the uploadType
-     * There are several different formelements available to upload files.
-     * 1) Ajaxupload
-     * 2) APC
-     * 3) Uploadify
-     * 4) Default HTML
+     * Flag variable for the uploadType.
+     *
+     * There are several different formelements available to upload files:
+     *
+     * 1) Ajaxupload    -> uploadajax.form.php
+     * 2) APC           -> uploadapc.form.php
+     * 3) Uploadify     -> uploadify.form.php
+     * 4) Default HTML  -> this class
      *
      * @string
      */
@@ -82,25 +84,23 @@ class Clansuite_Formelement_File extends Clansuite_Formelement_Input implements 
 
     public function render()
     {
-        
-        
         /**
          * Switch for uploadType
          */
         switch ($this->uploadType)
-        {          
+        {
             default:
             case 'ajaxupload':
-                    if (!class_exists('Clansuite_Formelement_Uploadajax')) { require 'uploadajax.form.php'; }
+                    if (!class_exists('Clansuite_Formelement_Uploadajax')) { include 'uploadajax.form.php'; }
                     return new Clansuite_Formelement_Uploadajax();
                 break;
             case 'apc':
-                    if (!class_exists('Clansuite_Formelement_Uploadapc')) { require 'uploadapc.form.php'; }
+                    if (!class_exists('Clansuite_Formelement_Uploadapc')) { include 'uploadapc.form.php'; }
                     return new Clansuite_Formelement_Uploadapc();
-                    
+
                 break;
             case 'uploadify':
-                    if (!class_exists('Clansuite_Formelement_Uploadify')) { require 'uploadify.form.php'; }
+                    if (!class_exists('Clansuite_Formelement_Uploadify')) { include'uploadify.form.php'; }
                     return new Clansuite_Formelement_Uploadify();
                 break;
             case 'html':
