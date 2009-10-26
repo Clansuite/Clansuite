@@ -489,7 +489,7 @@ class Module_News extends Clansuite_ModuleController implements Clansuite_Module
          * 3) hardcoded defaultvalue
          */
         $numberNews = $this->getConfigValue('items_newswidget', $numberNews, '8');
-        
+
         # get smarty as the view
         $smarty = $this->getView();
 
@@ -497,9 +497,8 @@ class Module_News extends Clansuite_ModuleController implements Clansuite_Module
         parent::initRecords('categories');
 
         # fetch news via doctrine query
-		$latestnewsQuery = Doctrine::getTable('CsNews')->fetchLatestNews($numberNews);
-		
-		$latestnews = $latestnewsQuery['latestnews'];
+        $latestnews = Doctrine::getTable('CsNews')->fetchLatestNews($numberNews);
+
         # assign the fetched news to the view
         $smarty->assign('widget_latestnews', $latestnews);
     }
@@ -509,15 +508,14 @@ class Module_News extends Clansuite_ModuleController implements Clansuite_Module
          /**
          * Widget for displaying NewsCategories in List-Style
          */
-		 
-		# get smarty as the view
+
+        # get smarty as the view
         $smarty = $this->getView();
 
         parent::initRecords('categories');
 
-		$newscategories_listQuery = Doctrine::getTable('CsNews')->fetchNewsCategoriesList();
-		
-		$newscategories_list = $newscategories_listQuery['newscategories_list'];
+        $newscategories_list = Doctrine::getTable('CsNews')->fetchNewsCategoriesList();
+
         # assign the fetched news to the view
         $smarty->assign('widget_newscategories_list', $newscategories_list);
     }
@@ -527,17 +525,16 @@ class Module_News extends Clansuite_ModuleController implements Clansuite_Module
          /**
          * Widget for displaying NewsCategories in Dropdown-Style
          */
-		
-		# get smarty as the view
+
+        # get smarty as the view
         $smarty = $this->getView();
 
         # initialize the records of other modules
         parent::initRecords('categories');
 
         # get catdropdown options from database
-		$newscategories_dropdownQuery = Doctrine::getTable('CsNews')->fetchNewsCategoriesDropdown();
-		
-		$newscategories_dropdown = $newscategories_dropdownQuery['newscategories_dropdown'];
+        $newscategories_dropdown = Doctrine::getTable('CsNews')->fetchNewsCategoriesDropdown();
+
         # assign the fetched news to the view
         $smarty->assign('widget_newscategories_dropdown', $newscategories_dropdown);
     }
@@ -549,9 +546,7 @@ class Module_News extends Clansuite_ModuleController implements Clansuite_Module
 
         # fetch all newsentries, ordered by creation date ASCENDING
         # get catdropdown options from database
-		$widget_archiveQuery = Doctrine::getTable('CsNews')->fetchNewsArchiveWidget();
-		
-		$widget_archive = $widget_archiveQuery['widget_archive'];
+        $widget_archive = Doctrine::getTable('CsNews')->fetchNewsArchiveWidget();
 
         # init a new array, to assign the year-month structured entries to
         $archiv = array();

@@ -142,7 +142,7 @@ class CsNewsTable extends Doctrine_Table
                         ->fetchArray();
 
         # put things in an array-box for delivery multiple things with one return stmt
-        return array( 'news' => $news );
+        return $news;
     }
 
     /**
@@ -169,7 +169,7 @@ class CsNewsTable extends Doctrine_Table
                     ->fetchArray();
 
         # put things in an array-box for delivery multiple things with one return stmt
-        return array( 'single_news' => $single_news );
+        return $single_news;
     }
 
     /**
@@ -276,7 +276,7 @@ class CsNewsTable extends Doctrine_Table
                       'pager_layout' => $pager_layout
                     );
     }
-	
+
     /**
      * fetchLatestNews
      *
@@ -296,9 +296,9 @@ class CsNewsTable extends Doctrine_Table
                               ->execute( array() );
 
         # put things in an array-box for delivery multiple things with one return stmt
-        return array( 'latestnews' => $latestnews );
+        return $latestnews;
     }
-	
+
     /**
      * fetch News Categories for List-Style
      *
@@ -307,7 +307,7 @@ class CsNewsTable extends Doctrine_Table
     public static function fetchNewsCategoriesList()
     {
         # fetch news via doctrine query
-		$newscategories_list = Doctrine_Query::create()
+        $newscategories_list = Doctrine_Query::create()
                                     ->select('n.cat_id, COUNT(n.cat_id) sum, c.name')
                                     ->from('CsNews n')
                                     ->innerJoin('n.CsCategories c ON n.cat_id = c.cat_id')
@@ -315,11 +315,10 @@ class CsNewsTable extends Doctrine_Table
                                     ->groupBy('c.name')
                                     ->setHydrationMode(Doctrine::HYDRATE_ARRAY)
                                     ->execute( array() );
-		
-		# put things in an array-box for delivery multiple things with one return stmt
-        return array( 'newscategories_list' => $newscategories_list );
-	}
-	
+
+        return $newscategories_list;
+    }
+
     /**
      * fetch News Categories for Dropdown-Style
      *
@@ -336,13 +335,13 @@ class CsNewsTable extends Doctrine_Table
                                     ->groupBy('c.name')
                                     ->setHydrationMode(Doctrine::HYDRATE_ARRAY)
                                     ->execute( array() );
-									
-		# put things in an array-box for delivery multiple things with one return stmt
-        return array( 'newscategories_dropdown' => $newscategories_dropdown );
-	}
-	
+
+
+        return $newscategories_dropdown;
+    }
+
     public static function fetchNewsArchiveWidget()
-	{
+    {
         # fetch all newsentries, ordered by creation date ASCENDING
         $widget_archive = Doctrine_Query::create()
                                     ->select('n.news_id, n.created_at')
@@ -350,9 +349,8 @@ class CsNewsTable extends Doctrine_Table
                                     ->setHydrationMode(Doctrine::HYDRATE_ARRAY)
                                     ->orderby('n.created_at ASC')
                                     ->execute( array() );
-									
-		# put things in an array-box for delivery multiple things with one return stmt
-        return array( 'widget_archive' => $widget_archive );
-	}
+
+        return $widget_archive;
+    }
 }
 ?>
