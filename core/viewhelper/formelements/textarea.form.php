@@ -43,9 +43,26 @@ if (!class_exists('Clansuite_Formelement')) { require ROOT_CORE . 'viewhelper/fo
  *  Clansuite_Formelement
  *  |
  *  \- Clansuite_Formelement_Textarea
+ *
+ * This class renders the formelement textarea.
+ * It gives you the option to add a JavaScript WYSIWYG editor as textarea replacement.
  */
 class Clansuite_Formelement_Textarea extends Clansuite_Formelement implements Clansuite_Formelement_Interface
 {
+    /**
+     * Flag variable for the editorType.
+     *
+     * There are several different wysiwyg editor formelements available:
+     *
+     * 1) Nicedit       -> wysiwygnicedit.form.php
+     * 2) TinyMCE       -> wysiwygtinymce.form.php
+     * 3) CKEditor      -> wysiwygckeditor.form.php
+     * 4) Default HTML  -> this class
+     *
+     * @string
+     */
+    protected $editorType;
+
     /**
      * width of textarea in letters
      *
@@ -59,6 +76,20 @@ class Clansuite_Formelement_Textarea extends Clansuite_Formelement implements Cl
      * @var int
      */
     protected $rows = 0;
+    
+    public function __construct()
+    {
+        $this->type  = 'textarea';
+
+        return $this;
+    }
+
+    public function setEditorType($editorType)
+    {
+        $this->editorType = $editorType;
+
+        return $this;
+    }
 
     /**
      * defines width of textarea in letters
@@ -68,7 +99,7 @@ class Clansuite_Formelement_Textarea extends Clansuite_Formelement implements Cl
     public function setCols($cols)
     {
         $this->cols = $cols;
-        
+
         return $this;
     }
 
@@ -80,19 +111,17 @@ class Clansuite_Formelement_Textarea extends Clansuite_Formelement implements Cl
     public function setRows($rows)
     {
         $this->rows = $rows;
-        
-        return $this;
-    }
-
-
-    public function __construct()
-    {
-        $this->type  = 'textarea';
 
         return $this;
     }
 
-    public function render()
+    /**
+     * Renders a normal html textarea representation.
+     * Without wysiwyg editor attached!
+     *
+     * @return $html HTML Representation of an textarea
+     */
+    public function render_html_textarea()
     {
         /**
          * Opening of tag
@@ -106,6 +135,7 @@ class Clansuite_Formelement_Textarea extends Clansuite_Formelement implements Cl
         $html .= (bool)$this->class ? ' class="'.$this->class.'"' : null;
         $html .= (bool)$this->disabled ? ' disabled="disabled"' : null;
         $html .= (bool)$this->maxlength ? ' maxlength="'.$this->maxlength.'"' : null;
+        $html .= (bool)$this->style ? ' style="'.$this->style.'"' : null;
         $html .= '>';
 
         /**
@@ -119,6 +149,38 @@ class Clansuite_Formelement_Textarea extends Clansuite_Formelement implements Cl
         $html .= "</textarea>\n";
 
         return $html;
+    }
+
+    public function render()
+    {
+        /**
+         * Switch for editorType
+         */
+        switch ($this->editorType)
+        {
+            default:
+            case 'nicedit':
+                    if (!class_exists('Clansuite_Formelement_Wysiwygnicedit')) { include 'wysiwygnicedit.form.php'; }
+                    return new Clansuite_Formelement_Wysiwygnicedit();
+                break;
+            case 'ckeditor':
+                    if (!class_exists('Clansuite_Formelement_Wysiwygckeditor')) { include 'wysiwygckeditor.form.php'; }
+                    return new Clansuite_Formelement_Wysiwygckeditor();
+                break;
+            case 'tinymce':
+                    if (!class_exists('Clansuite_Formelement_Wysiwygtinymce')) { include 'wysiwygtinymce.form.php'; }
+                    return new Clansuite_Formelement_Wysiwygtinymce();
+                break;
+            case 'html':
+                    # Fallback to normal <textarea>
+                    return $this->render_html_textarea();
+                break;
+        }
+    }
+
+    public function __toString()
+    {
+        return $this->render();
     }
 }
 ?>
