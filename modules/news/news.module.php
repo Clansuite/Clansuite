@@ -548,18 +548,16 @@ class Module_News extends Clansuite_ModuleController implements Clansuite_Module
         $smarty = $this->getView();
 
         # fetch all newsentries, ordered by creation date ASCENDING
-        $newsentries = Doctrine_Query::create()
-                                    ->select('n.news_id, n.created_at')
-                                    ->from('CsNews n')
-                                    ->setHydrationMode(Doctrine::HYDRATE_ARRAY)
-                                    ->orderby('n.created_at ASC')
-                                    ->execute( array() );
+        # get catdropdown options from database
+		$widget_archiveQuery = Doctrine::getTable('CsNews')->fetchNewsArchiveWidget();
+		
+		$widget_archive = $widget_archiveQuery['widget_archive'];
 
         # init a new array, to assign the year-month structured entries to
         $archiv = array();
 
         # loop over all entries
-        foreach($newsentries as $entry)
+        foreach($widget_archive as $entry)
         {
             # extract year and month from created_at
             $year  = date('Y',strtotime($entry['created_at']));
