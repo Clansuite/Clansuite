@@ -63,7 +63,7 @@
     	<ul>
         	<li><a class="navlink" href="{$www_root}/index.php">Home</a></li>
         	<li><a class="navlink" href="{$www_root}/index.php?mod=news">News</a></li>
-            <li><a class="navlink" href="{$www_root}/index.php?mod=news&action=fullarchiv">Newsarchiv</a></li>
+            <li><a class="navlink" href="{$www_root}/index.php?mod=news&action=fullarchive">Newsarchiv</a></li>
 		</ul>
     	</div>
     </div>
@@ -76,10 +76,10 @@
         	<div class="widget" id="widget_usercenter">{load_module name="user" action="widget_usercenter"}</div>
     		{/if} *}
 
-        	<div class="widget" id="widget_news">{load_module name="news" action="widget_news" items="2"}</div>
-        	<div class="widget" id="widget_categories">{load_module name="news" action="widget_newscats"}</div>
-			<div class="widget" id="widget_newscatsdropdown">{load_module name="news" action="widget_newscatsdropdown"}</div>
-			<div class="widget" id="widget_archiv">{load_module name="news" action="widget_archiv"}</div>
+        	<div class="widget" id="widget_news">{load_module name="news" action="widget_latestnews"}</div>
+        	<div class="widget" id="widget_categories">{load_module name="news" action="widget_newscategories_list"}</div>
+			<div class="widget" id="widget_newscatsdropdown">{load_module name="news" action="widget_newscategories_dropdown"}</div>
+			<div class="widget" id="widget_archiv">{load_module name="news" action="widget_archive"}</div>
     	</div>
     	<div id="main">{$content}</div>
 	</div>
