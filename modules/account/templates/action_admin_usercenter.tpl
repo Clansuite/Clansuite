@@ -20,6 +20,6 @@ Account: {$smarty.session.user.nick}
 <a href="index.php?mod=messages&amp;sub=admin&amp;id={$smarty.session.user.user_id}">{t}Private Messages{/t}</a>
 <br /> <br />
 <a href="index.php?mod=account&amp;action=logout">
-    <img height="16" border="0" width="16" alt="logout-image" src="http://www.clansuite-dev.com/themes/core/images/tango/16/System-log-out.png" style="position: relative; top: 4px;"/>
+    <img height="16" border="0" width="16" alt="logout-image" src="{$www_root_themes_core}/images/tango/16/System-log-out.png" style="position: relative; top: 4px;"/>
     {t}Logout{/t}
 </a>

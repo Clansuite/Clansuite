@@ -48,7 +48,7 @@
         </form>
 
         {if empty($theme.layoutpath) == false }
-            <a href="http://www.clansuite-dev.com/index.php?mod=templatemanager&sub=admin&action=editor&file={$theme.layoutpath}"
+            <a href="index.php?mod=templatemanager&sub=admin&action=editor&file={$theme.layoutpath}"
                class="ButtonOrange">{t}Edit{/t}</a>
         {/if}
 
