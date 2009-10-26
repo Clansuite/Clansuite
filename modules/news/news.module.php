@@ -479,7 +479,7 @@ class Module_News extends Clansuite_ModuleController implements Clansuite_Module
      * @param $smarty Smarty Render Engine Object
      * @returns content of news_widget.tpl
      */
-    public function widget_news($numberNews)
+    public function widget_latestnews($numberNews)
     {
         /**
          * get the incomming value for the number of items to display
@@ -497,63 +497,52 @@ class Module_News extends Clansuite_ModuleController implements Clansuite_Module
         parent::initRecords('categories');
 
         # fetch news via doctrine query
-        $news = Doctrine_Query::create()
-                              ->select('n.*, u.nick, u.user_id, c.name, c.image')
-                              ->from('CsNews n')
-                              ->leftJoin('n.CsUsers u')
-                              ->leftJoin('n.CsCategories c')
-                              ->setHydrationMode(Doctrine::HYDRATE_ARRAY)
-                              ->orderby('n.news_id DESC')
-                              ->limit($numberNews)
-                              ->execute( array() );
-
+		$latestnewsQuery = Doctrine::getTable('CsNews')->fetchLatestNews($numberNews);
+		
+		$latestnews = $latestnewsQuery['latestnews'];
         # assign the fetched news to the view
-        $smarty->assign('news_widget', $news);
+        $smarty->assign('widget_latestnews', $latestnews);
     }
 
-    public function widget_newscats()
+    public function widget_newscategories_list()
     {
-        # get smarty as the view
+         /**
+         * Widget for displaying NewsCategories in List-Style
+         */
+		 
+		# get smarty as the view
         $smarty = $this->getView();
 
         parent::initRecords('categories');
 
-        $newscats = Doctrine_Query::create()
-                                    ->select('n.cat_id, COUNT(n.cat_id) sum, c.name')
-                                    ->from('CsNews n')
-                                    ->innerJoin('n.CsCategories c ON n.cat_id = c.cat_id')
-                                    ->where('c.module_id = 7')
-                                    ->groupBy('c.name')
-                                    ->setHydrationMode(Doctrine::HYDRATE_ARRAY)
-                                    ->execute( array() );
-
+		$newscategories_listQuery = Doctrine::getTable('CsNews')->fetchNewsCategoriesList();
+		
+		$newscategories_list = $newscategories_listQuery['newscategories_list'];
         # assign the fetched news to the view
-        $smarty->assign('widget_newscats', $newscats);
+        $smarty->assign('widget_newscategories_list', $newscategories_list);
     }
 
-    public function widget_newscatsdropdown()
+    public function widget_newscategories_dropdown()
     {
-        # get smarty as the view
+         /**
+         * Widget for displaying NewsCategories in Dropdown-Style
+         */
+		
+		# get smarty as the view
         $smarty = $this->getView();
 
         # initialize the records of other modules
         parent::initRecords('categories');
 
         # get catdropdown options from database
-        $newscatsdropdown = Doctrine_Query::create()
-                                    ->select('n.cat_id, COUNT(n.cat_id) sum, c.name')
-                                    ->from('CsNews n')
-                                    ->innerJoin('n.CsCategories c ON n.cat_id = c.cat_id')
-                                    ->where('c.module_id = 7')
-                                    ->groupBy('c.name')
-                                    ->setHydrationMode(Doctrine::HYDRATE_ARRAY)
-                                    ->execute( array() );
-
+		$newscategories_dropdownQuery = Doctrine::getTable('CsNews')->fetchNewsCategoriesDropdown();
+		
+		$newscategories_dropdown = $newscategories_dropdownQuery['newscategories_dropdown'];
         # assign the fetched news to the view
-        $smarty->assign('widget_newscatsdropdown', $newscatsdropdown);
+        $smarty->assign('widget_newscategories_dropdown', $newscategories_dropdown);
     }
 
-    public function widget_archiv()
+    public function widget_archive()
     {
         #get smarty as view
         $smarty = $this->getView();
@@ -584,7 +573,7 @@ class Module_News extends Clansuite_ModuleController implements Clansuite_Module
         }
 
         #assign the fetched news to the view
-        $smarty->assign('widget_archiv', $archiv);
+        $smarty->assign('widget_archive', $archiv);
     }
 }
 ?>

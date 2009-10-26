@@ -276,5 +276,69 @@ class CsNewsTable extends Doctrine_Table
                       'pager_layout' => $pager_layout
                     );
     }
+	
+    /**
+     * fetchLatestNews
+     *
+     * Doctrine_Query to fetch Latest News
+     */
+    public static function fetchLatestNews($numberNews)
+    {
+        # fetch news via doctrine query
+        $latestnews = Doctrine_Query::create()
+                              ->select('n.*, u.nick, u.user_id, c.name, c.image')
+                              ->from('CsNews n')
+                              ->leftJoin('n.CsUsers u')
+                              ->leftJoin('n.CsCategories c')
+                              ->setHydrationMode(Doctrine::HYDRATE_ARRAY)
+                              ->orderby('n.news_id DESC')
+                              ->limit($numberNews)
+                              ->execute( array() );
+
+        # put things in an array-box for delivery multiple things with one return stmt
+        return array( 'latestnews' => $latestnews );
+    }
+	
+    /**
+     * fetch News Categories for List-Style
+     *
+     * Doctrine_Query to fetch News Categories
+     */
+    public static function fetchNewsCategoriesList()
+    {
+        # fetch news via doctrine query
+		$newscategories_list = Doctrine_Query::create()
+                                    ->select('n.cat_id, COUNT(n.cat_id) sum, c.name')
+                                    ->from('CsNews n')
+                                    ->innerJoin('n.CsCategories c ON n.cat_id = c.cat_id')
+                                    ->where('c.module_id = 7')
+                                    ->groupBy('c.name')
+                                    ->setHydrationMode(Doctrine::HYDRATE_ARRAY)
+                                    ->execute( array() );
+		
+		# put things in an array-box for delivery multiple things with one return stmt
+        return array( 'newscategories_list' => $newscategories_list );
+	}
+	
+    /**
+     * fetch News Categories for Dropdown-Style
+     *
+     * Doctrine_Query to fetch News Categories
+     */
+    public static function fetchNewsCategoriesDropdown()
+    {
+        # fetch news via doctrine query
+        $newscategories_dropdown = Doctrine_Query::create()
+                                    ->select('n.cat_id, COUNT(n.cat_id) sum, c.name')
+                                    ->from('CsNews n')
+                                    ->innerJoin('n.CsCategories c ON n.cat_id = c.cat_id')
+                                    ->where('c.module_id = 7')
+                                    ->groupBy('c.name')
+                                    ->setHydrationMode(Doctrine::HYDRATE_ARRAY)
+                                    ->execute( array() );
+									
+		# put things in an array-box for delivery multiple things with one return stmt
+        return array( 'newscategories_dropdown' => $newscategories_dropdown );
+	}
 }
 ?>
