@@ -142,8 +142,12 @@ class Module_Users extends Clansuite_ModuleController implements Clansuite_Modul
      */
     public function widget_lastregisteredusers($numberUsers)
     {
-
+        # set cfg value, or set the the incomming value or the default value for the number of user to display 
+        $numberUsers = $this->getConfigValue('items_lastregisteredusers', $numberUsers, '5');
+        
+        # get smarty as the view
         $smarty = $this->getView();
+        
         # fetch specified num of last registered users
         $last_registered_users = Doctrine_Query::create()
                                  ->select('u.user_id, u.email, u.nick, u.country, u.joined')
@@ -169,10 +173,11 @@ class Module_Users extends Clansuite_ModuleController implements Clansuite_Modul
      * @param $smarty Smarty Render Engine Object
      * @returns content of news_widget.tpl
      */
-    public function widget_useronline()
+    public function widget_usersonline()
     {
         $smarty = $this->getView();
-
+        
+        /*
         $usersonline = Doctrine_Query::create()
                           ->select('')
                           ->from('')
@@ -181,9 +186,11 @@ class Module_Users extends Clansuite_ModuleController implements Clansuite_Modul
                           ->setHydrationMode(Doctrine::HYDRATE_ARRAY)
                           ->orderby('')
                           #->limit()
-                          ->execute( array());
+                          ->execute( array());*/
+        
+        $usersonline = '@todo Query';
 
-        $smarty->assign('useronline_widget', $usersonline);
+        $smarty->assign('usersonline', $usersonline);
 
 
     }
