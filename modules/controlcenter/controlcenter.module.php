@@ -192,5 +192,41 @@ class Module_ControlCenter extends Clansuite_ModuleController implements Clansui
 
         return $output;
     }
+	
+ 
+    /**
+     * Action for displaying the Settings of a Module News
+     */
+    function action_settings()
+    {
+        $settings = array();
+        $settings['controlcenter'][] = array(    
+										'id' => 'show_box_shortcuts',
+                                        'name' => 'show_box_shortcuts',
+                                        'description' => _('Show Shurtcuts'),
+                                        'formfieldtype' => 'selectyesno',
+                                        'value' => $this->getConfigValue('show_box_shortcuts', '1'));
+ 
+        $settings['controlcenter'][] = array(    
+										'id' => 'show_box_news',
+                                        'name' => 'show_box_news',
+                                        'description' => _('Show News'),
+                                        'formfieldtype' => 'selectyesno',
+                                        'value' => $this->getConfigValue('show_box_news', '1'));
+ 
+        $settings['controlcenter'][] = array(    
+										'id' => 'show_box_security',
+                                        'name' => 'show_box_security',
+                                        'description' => _('Show Security'),
+                                        'formfieldtype' => 'selectyesno',
+                                        'value' => $this->getConfigValue('show_box_security', '1'));
+ 
+        $settings['controlcenter'][] = array(    
+										'id' => 'show_box_extensions',
+                                        'name' => 'show_box_extensions',
+                                        'description' => _('Show Extensions'),
+                                        'formfieldtype' => 'selectyesno',
+                                        'value' => $this->getConfigValue('show_box_extensions', '1'));
+    } 
 }
 ?>

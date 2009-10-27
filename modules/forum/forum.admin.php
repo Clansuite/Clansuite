@@ -161,7 +161,44 @@ class Module_Forum_Admin extends Clansuite_ModuleController implements Clansuite
         $this->prepareOutput();
     }
 
-
+	public function action_admin_settings ()
+	{
+		$settings = array();
+		$settings['forum'][] = array(    
+										'id' => 'list_max',
+                                        'name' => 'list_max',
+                                        'description' => _('list_max'),
+                                        'formfieldtype' => 'text',
+                                        'value' => $this->getConfigValue('list_max', '30'));
+										
+		$settings['forum'][] = array(    
+										'id' => 'char_max',
+                                        'name' => 'char_max',
+                                        'description' => _('Maximum Textcharacter'),
+                                        'formfieldtype' => 'text',
+                                        'value' => $this->getConfigValue('char_max', '999'));
+										
+		$settings['forum'][] = array(    
+										'id' => 'allow_bb_code',
+                                        'name' => 'allow_bb_code',
+                                        'description' => _('Allow BBCode'),
+                                        'formfieldtype' => 'text',
+                                        'value' => $this->getConfigValue('allow_bb_code', '1'));
+										
+		$settings['forum'][] = array(    
+										'id' => 'allow_html',
+                                        'name' => 'allow_html',
+                                        'description' => _('Allow HTML'),
+                                        'formfieldtype' => 'text',
+                                        'value' => $this->getConfigValue('allow_html', '0'));
+										
+		$settings['forum'][] = array(    
+										'id' => 'allow_geshi_highlight',
+                                        'name' => 'allow_geshi_highlight',
+                                        'description' => _('Allow Geshi Highlighting'),
+                                        'formfieldtype' => 'text',
+                                        'value' => $this->getConfigValue('allow_geshi_highlight', '1'));
+	}
 }
 
 ?>
