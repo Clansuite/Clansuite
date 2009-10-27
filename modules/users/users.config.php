@@ -3,6 +3,6 @@
 ; Clansuite Configuration File for Module users
 ;
 [users]
-
+items_lastregisteredusers = 4
 
 ; DO NOT REMOVE THIS LINE */ ?>

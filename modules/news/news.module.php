@@ -469,9 +469,9 @@ class Module_News extends Clansuite_ModuleController implements Clansuite_Module
     }
 
     /**
-     * widget_news
+     * widget_latestnews
      *
-     * Displayes the specified number of news in the news_widget.tpl.
+     * Displayes the specified number of news in the latestnews_widget.tpl.
      * This is called from template-side by adding:
      * {load_module name="news" action="widget_news" items="2"}
      *
@@ -502,13 +502,12 @@ class Module_News extends Clansuite_ModuleController implements Clansuite_Module
         # assign the fetched news to the view
         $smarty->assign('widget_latestnews', $latestnews);
     }
-
+    
+    /**
+     * Widget for displaying NewsCategories in List-Style
+     */
     public function widget_newscategories_list()
     {
-         /**
-         * Widget for displaying NewsCategories in List-Style
-         */
-
         # get smarty as the view
         $smarty = $this->getView();
 
@@ -519,13 +518,12 @@ class Module_News extends Clansuite_ModuleController implements Clansuite_Module
         # assign the fetched news to the view
         $smarty->assign('widget_newscategories_list', $newscategories_list);
     }
-
+    
+    /**
+     * Widget for displaying NewsCategories in Dropdown-Style
+     */
     public function widget_newscategories_dropdown()
     {
-         /**
-         * Widget for displaying NewsCategories in Dropdown-Style
-         */
-
         # get smarty as the view
         $smarty = $this->getView();
 
@@ -549,7 +547,7 @@ class Module_News extends Clansuite_ModuleController implements Clansuite_Module
         $widget_archive = Doctrine::getTable('CsNews')->fetchNewsArchiveWidget();
 
         # init a new array, to assign the year-month structured entries to
-        $archiv = array();
+        $archive = array();
 
         # loop over all entries
         foreach($widget_archive as $entry)
@@ -560,13 +558,13 @@ class Module_News extends Clansuite_ModuleController implements Clansuite_Module
 
             # use extracted year and month to build up the new array
             # and reassign the entry itself
-            $archiv[$year][$month][] = $entry;
+            $archive[$year][$month][] = $entry;
 
-            #$archiv['years'][$year]['months'][$month]['entries'][] = $entry;
+            #$archive['years'][$year]['months'][$month]['entries'][] = $entry;
         }
 
         #assign the fetched news to the view
-        $smarty->assign('widget_archive', $archiv);
+        $smarty->assign('widget_archive', $archive);
     }
 }
 ?>
