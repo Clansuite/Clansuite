@@ -37,6 +37,8 @@
 // Security Handler
 if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.');}
 
+if (!class_exists('Clansuite_Form')) { require 'form.core.php'; }
+
 /**
  * Clansuite Form Generator via Doctrine Records
  *
@@ -78,7 +80,7 @@ class Clansuite_Doctrine_Formgenerator extends Clansuite_Form
     protected $excludedColumns   = array();
 
     /**
-     * Generate a Form from a Table
+     * Generates a Form from a Table
      *
      * @param string $DoctrineTableName Name of the Doctrine Tablename to build the form from.
      */
@@ -110,7 +112,7 @@ class Clansuite_Doctrine_Formgenerator extends Clansuite_Form
             if( $table->isIdentifier($columnName) )
             {
                 # add it as an hidden field
-                $form[] = new Clansuite_Form::formfactory( 'hidden', $fieldName);
+                #$form[] = new Clansuite_Form->formfactory( 'hidden', $fieldName);
             }
             else
             {
@@ -118,11 +120,100 @@ class Clansuite_Doctrine_Formgenerator extends Clansuite_Form
                 $printableName = ucwords(str_replace('_','',$columnName));
 
                 # determine the columnname type and add the formfield
-                $form[] = new Clansuite_Form::formfactory( $table->getTypeOf($columnName), $fieldName, $printableName);
+                #$form[] = new Clansuite_Form->formfactory( $table->getTypeOf($columnName), $fieldName, $printableName);
             }
         }
 
         return $form;
     }
+    
+    /**
+     * Facade/Shortcut 
+     */
+    public function generate($array)
+    {
+        $this->generateFormByTable($array);
+    }
 }
+
+/**
+ * Clansuite Form Generator via Array
+ *
+ * Purpose: automatic form generation from an array.
+ */
+class Clansuite_Array_Formgenerator extends Clansuite_Form
+{
+    protected $form_array;
+    
+    public function __construct(array $form_array)
+    {
+        parent::__construct( $form_array['form']['name'], $form_array['form']['method'], $form_array['form']['action'] );
+    
+        unset($form_array['form']);
+        
+        $this->form_array = $form_array;
+        
+        return $this;
+    }
+    
+    public function generateFormByArray()
+    {
+        # new form
+        $form = array();
+        
+        # debug display incomming form description array
+        #clansuite_xdebug::printR($this->form_array);
+        
+        # loop over all elements of the form description array
+        foreach($this->form_array as $form_array_sectionname => $form_array_elements)
+        {
+            #clansuite_xdebug::printR($form_array_elements);
+            #clansuite_xdebug::printR($form_array_sectionname);
+            
+            foreach($form_array_elements as $form_array_element_number => $form_array_element)
+            {
+               /**
+                * $form_array_element is an array of the following structure:
+                *
+                * Array (
+                *     [id] => resultsPerPage_show
+                *     [name] => resultsPerPage_show
+                *     [description] => Newsitems to show in Newsmodule
+                *     [formfieldtype] => text
+                *     [value] => 3
+                * )
+                */               
+               #clansuite_xdebug::printR($form_array_element);
+               
+               # add a new element to this form, position it by it's number in the array
+               $this->addElement( $form_array_element['formfieldtype'], $form_array_element_number );
+               
+               # fetch the new formelement object
+               $formelement = $this->getElementByPosition($form_array_element_number);
+              
+               # and apply the settings (id, name, description, value) to it
+               $formelement->setID($form_array_element['id']);
+               $formelement->setName($form_array_element['name']);
+               $formelement->setDescription($form_array_element['description']);
+               $formelement->setValue($form_array_element['value']);               
+              
+               # attach to form html
+               #$form .= parent::render();
+                                
+            }                              
+        }
+        # unset the form description array, because we are done with it
+        unset($this->form_array);
+        
+        return $this->render();    
+    }
+    
+    /**
+     * Facade/Shortcut 
+     */
+    public function generate($array)
+    {
+        $this->generateFormByArray($array);
+    }    
+} 
 ?>

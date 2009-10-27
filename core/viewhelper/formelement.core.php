@@ -57,6 +57,8 @@ class Clansuite_Formelement implements Clansuite_Formelement_Interface
     protected $label;
 
     protected $value;
+    
+    protected $position;
 
     /**
      * Set id of this form.
@@ -200,7 +202,29 @@ class Clansuite_Formelement implements Clansuite_Formelement_Interface
             return false;    
         }
     }
+    
+    /**
+     * Set description of this formelement.
+     *
+     * @param $description Description of this formelement.
+     */
+    public function setDescription($description)
+    {
+        $this->description = $description;
 
+        return $this;
+    }
+
+    /**
+     * Returns description of this formelement.
+     *
+     * @return string Description of this formelement.
+     */
+    public function getDescription()
+    {
+        return $this->description;
+    }  
+    
     /**
      * override
      */

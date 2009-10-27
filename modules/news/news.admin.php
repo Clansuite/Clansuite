@@ -59,10 +59,6 @@ class Module_News_Admin extends Clansuite_ModuleController implements Clansuite_
 
     public function execute(Clansuite_HttpRequest $request, Clansuite_HttpResponse $response)
     {
-	
-	    # read module config
-        $this->getModuleConfig();
-	
         parent::initRecords('news');
         parent::initRecords('users');
         parent::initRecords('categories');
@@ -310,19 +306,29 @@ class Module_News_Admin extends Clansuite_ModuleController implements Clansuite_
         # Load Form Class (@todo autoloader / di)
         require ROOT_CORE . 'viewhelper/form.core.php';
         # Create a new form
-        $form = new Clansuite_Form('news_create_form', 'POST', 'action_admin_create');
-        $form->setId('news_create_form')->setHeading('News Create Form')->setDescription('My news create form...');
+
+        $form = new Clansuite_Form('news_create_form', 'POST', 'upload-file.php');
+        $form->setId('news_create_form')
+             ->setTarget('hidden_upload')
+             ->setHeading('News Create Form')
+             ->setEncoding('multipart/form-data')
+             ->setDescription('My news create form...');
 
         # Assign some Formlements
-        $form->addElement('captcha')->setLabel('captcha label');
+        /*$form->addElement('captcha')->setLabel('captcha label');
 
         $form->addElement('checkbox')->setLabel('checkbox label');
         $form->addElement('checkboxlist')->setLabel('checkboxlist label');
         $form->addElement('confirmsubmitbutton')->setLabel('confirmsubmitbutton label');
+        */
 
+        # you can specify several uploadTypes: uploadify, apc, ajaxupload
+        # or no uploadType at all (for default upload)
+        #$form->addElement('file')->setUploadType('uploadify')->setLabel('file upload label');
+/*
         $form->addElement('jqconfirmsubmitbutton')->setFormId('news_create_form')->setLabel('jqconfirmsubmitbutton label');
 
-        $form->addElement('jqselectdate')->asIcon()->setLabel('jqselectdate label'); #->setFormId('news_create_form')
+        $form->addElement('jqselectdate')->setLabel('jqselectdate label'); #->setFormId('news_create_form')
 
         $form->addElement('hidden')->setLabel('hidden label');
 
@@ -331,15 +337,15 @@ class Module_News_Admin extends Clansuite_ModuleController implements Clansuite_
 
         $form->addElement('selectcountry');
         $form->addElement('selectyesno');
-
+*/
         $form->addElement('text')->setLabel('text label');
         $form->addElement('textarea')->setCols('70')->setLabel('textarea label');
 
-        $form->addElement('submitbutton')->setValue('Submit')->setLabel('Submit Button')->setClass('ButtonGreen');
-        $form->addElement('resetbutton')->setValue('Reset')->setLabel('Reset Button');
-
+        #$form->addElement('submitbutton')->setValue('Submit')->setLabel('Submit Button')->setClass('ButtonGreen');
+        #$form->addElement('resetbutton')->setValue('Reset')->setLabel('Reset Button');
+/*
         $form->addElement('imagebutton')->setValue('Reset')->setLabel('Image Button'); # setSource
-
+*/
         # Debugging Form Object
         #clansuite_xdebug::printR($form);
 
@@ -571,47 +577,60 @@ class Module_News_Admin extends Clansuite_ModuleController implements Clansuite_
         }
         $this->suppress_wrapper = 1;
     }
-	
-	
-	
-	/**
-	*
-	*	Action for display the Settings of a Module
-	*
-	*/
-	function settings()
-	{
-		settings['news'][] = array(
-										'name' => 'resultsPerPage_show',
-										'description' => '_('Newsitems to show in Newsmodule')',
-										'id' => 'resultsPerPage_show',
-										'type' => 'text',
-										'value' => $this->getConfigValue('resultsPerPage_show', '3')
-									);						
-							
-		settings['newswidgets'][] = array(
-										'name' => 'items_newswidget',
-										'description' => '_('Newsitems to show in LatestNews Widget')',
-										'id' => 'items_newswidget',
-										'type' => 'text',
-										'value' => $this->getConfigValue('items_newswidget', '5')
-									);
-																		
-		settings['newsarchive'][] = array(
-										'name' => 'resultsPerPage_fullarchive',
-										'description' => '_('Newsitems to show in Newsarchive')',
-										'id' => 'resultsPerPage_fullarchive',
-										'type' => 'text',
-										'value' => $this->getConfigValue('resultsPerPage_fullarchive', '3')
-									);
-									
-		settings['newsarchivewidgets'][] = array(
-										'name' => 'resultsPerPage_archive',
-										'description' => '_('Newsitems to show in Newsarchive')',
-										'id' => 'resultsPerPage_archive',
-										'type' => 'text',
-										'value' => $this->getConfigValue('resultsPerPage_archive', '3')
-									);
-	}
+
+
+
+    /**
+     * Action for displaying the Settings of a Module News
+     */
+    function action_admin_settings()
+    {
+        $settings = array();
+        
+        $settings['form']   = array(    'name' => 'name',
+                                        'method' => 'POST',
+                                        'action' => 'action');
+                                        
+        $settings['news'][] = array(    'id' => 'resultsPerPage_show',
+                                        'name' => 'resultsPerPage_show',
+                                        'description' => _('Newsitems to show in Newsmodule'),
+                                        'formfieldtype' => 'text',
+                                        'value' => $this->getConfigValue('resultsPerPage_show', '3'));
+
+        $settings['news'][] = array(    'id' => 'items_newswidget',
+                                        'name' => 'items_newswidget',
+                                        'description' => _('Newsitems to show in LatestNews Widget'),
+                                        'formfieldtype' => 'text',
+                                        'value' => $this->getConfigValue('items_newswidget', '5'));
+
+        $settings['news'][] = array(    'id' => 'resultsPerPage_fullarchive',
+                                        'name' => 'resultsPerPage_fullarchive',
+                                        'description' => _('Newsitems to show in Newsarchive'),
+                                        'formfieldtype' => 'text',
+                                        'value' => $this->getConfigValue('resultsPerPage_fullarchive', '3'));
+
+        $settings['news'][] = array(    'id' => 'resultsPerPage_archive',
+                                        'name' => 'resultsPerPage_archive',
+                                        'description' => _('Newsitems to show in Newsarchive'),
+                                        'formfieldtype' => 'text',
+                                        'value' => $this->getConfigValue('resultsPerPage_archive', '3'));
+                                     
+        #clansuite_xdebug::printR($settings);                             
+        
+        require ROOT_CORE . '/viewhelper/formgenerator.core.php';
+        $formgenerator = new Clansuite_Array_Formgenerator($settings);
+        $formgenerator->generateFormByArray();
+
+        # display formgenerator object
+        #clansuite_xdebug::printR($formgenerator); 
+        
+        # display form html
+        #clansuite_xdebug::printR($formgenerator->render());
+        
+        # assign the html of the form to the view
+        $this->getView()->assign('form', $formgenerator->render());
+
+        $this->prepareOutput();       
+    }
 }
 ?>
