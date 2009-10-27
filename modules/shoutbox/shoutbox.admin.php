@@ -60,5 +60,16 @@ class Module_Shoutbox_Admin extends Clansuite_ModuleController implements Clansu
         # Prepare the Output
         $this->prepareOutput();
     }    
+	
+	public function action_admin_settings ()
+	{
+		$settings = array();
+        $settings['shoutbox'][] = array(    
+										'id' => 'items_shoutboxwidget',
+                                        'name' => 'items_shoutboxwidget',
+                                        'description' => _('Shoutbox Items'),
+                                        'formfieldtype' => 'text',
+                                        'value' => $this->getConfigValue('items_shoutboxwidget', '12'));
+	}
 }
 ?>

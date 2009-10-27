@@ -588,5 +588,15 @@ class Module_Users_Admin extends Clansuite_ModuleController implements Clansuite
 		 */
 		$this->redirect( 'index.php?mod=users&sub=admin&action=show_all', 3, _( 'The selected user(s) were deleted.' ));
 	}
+	
+	public function action_admin_settings ()
+	{
+		$settings = array();
+        $settings['users'][] = array(    'id' => 'items_lastregisteredusers',
+                                        'name' => 'items_lastregisteredusers',
+                                        'description' => _('How many Last Users'),
+                                        'formfieldtype' => 'text',
+                                        'value' => $this->getConfigValue('items_lastregisteredusers', '4'));
+	}
 }
 ?>
