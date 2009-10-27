@@ -541,7 +541,7 @@ class Clansuite_Form /*extends Clansuite_HTML*/ implements Clansuite_Form_Interf
         }
 
         # if we don't have a position to order the elements, we just add an element
-        if($position === null)
+        if($position == null)
         {
             $this->formelements[] = $formelement;
         }
@@ -550,7 +550,7 @@ class Clansuite_Form /*extends Clansuite_HTML*/ implements Clansuite_Form_Interf
         {
             $this->formelements[$position] = $formelement;
         }
-
+        
         # return object -> fluent interface / method chaining
         return $formelement;
     }
@@ -617,10 +617,14 @@ class Clansuite_Form /*extends Clansuite_HTML*/ implements Clansuite_Form_Interf
      */
     public static function formfactory($formelement, $type = '')
     {
-        require ROOT_CORE . 'viewhelper/formelements/'.$formelement.'.form.php';
+        if (!class_exists('Clansuite_Formelement_'.$formelement))
+        {
+            require ROOT_CORE . 'viewhelper/formelements/'.$formelement.'.form.php';            
+        }
+        
         $formelement_classname = 'Clansuite_Formelement_'.ucfirst($formelement);
         $formelement = new $formelement_classname;
-
+        
         return $formelement;
     }
 
