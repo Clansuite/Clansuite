@@ -619,7 +619,10 @@ class Clansuite_Form /*extends Clansuite_HTML*/ implements Clansuite_Form_Interf
     {
         if (!class_exists('Clansuite_Formelement_'.$formelement))
         {
-            require ROOT_CORE . 'viewhelper/formelements/'.$formelement.'.form.php';            
+            if(is_file(ROOT_CORE . 'viewhelper/formelements/'.$formelement.'.form.php'))
+            {
+                require ROOT_CORE . 'viewhelper/formelements/'.$formelement.'.form.php';
+            }
         }
         
         $formelement_classname = 'Clansuite_Formelement_'.ucfirst($formelement);
