@@ -585,11 +585,14 @@ class Module_News_Admin extends Clansuite_ModuleController implements Clansuite_
      */
     function action_admin_settings()
     {
+        # Set Pagetitle and Breadcrumbs
+        Clansuite_Trail::addStep( _('Settings'), '/index.php?mod=news&amp;sub=admin&amp;action=settings');
+        
         $settings = array();
         
-        $settings['form']   = array(    'name' => 'name',
+        $settings['form']   = array(    'name' => 'news_settings',
                                         'method' => 'POST',
-                                        'action' => 'action');
+                                        'action' => WWW_ROOT.'/index.php?mod=news&amp;sub=admin&amp;action=savesettings');
                                         
         $settings['news'][] = array(    'id' => 'resultsPerPage_show',
                                         'name' => 'resultsPerPage_show',
@@ -614,21 +617,21 @@ class Module_News_Admin extends Clansuite_ModuleController implements Clansuite_
                                         'description' => _('Newsitems to show in Newsarchive'),
                                         'formfieldtype' => 'text',
                                         'value' => $this->getConfigValue('resultsPerPage_archive', '3'));
-                                     
-        #clansuite_xdebug::printR($settings);                             
         
         require ROOT_CORE . '/viewhelper/formgenerator.core.php';
-        $formgenerator = new Clansuite_Array_Formgenerator($settings);
-        $formgenerator->generateFormByArray();
+        $form = new Clansuite_Array_Formgenerator($settings);
 
         # display formgenerator object
-        #clansuite_xdebug::printR($formgenerator); 
+        #clansuite_xdebug::printR($form); 
+        
+        $form->addElement('submitbutton')->setName('Save');
+        $form->addElement('resetbutton');
         
         # display form html
-        #clansuite_xdebug::printR($formgenerator->render());
+        #clansuite_xdebug::printR($form->render());
         
         # assign the html of the form to the view
-        $this->getView()->assign('form', $formgenerator->render());
+        $this->getView()->assign('form', $form->render());
 
         $this->prepareOutput();       
     }

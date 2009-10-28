@@ -153,16 +153,15 @@ class Clansuite_Array_Formgenerator extends Clansuite_Form
         
         $this->form_array = $form_array;
         
+        $this->generateFormByArray();
+        
         return $this;
     }
     
     public function generateFormByArray()
-    {
-        # new form
-        $form = array();
-        
+    { 
         # debug display incomming form description array
-        #clansuite_xdebug::printR($this->form_array);
+        #clansuite_xdebug::printR($this->array);
         
         # loop over all elements of the form description array
         foreach($this->form_array as $form_array_sectionname => $form_array_elements)
