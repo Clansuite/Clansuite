@@ -29,9 +29,9 @@
 	display:block;
 	width:30px;
 	height:77px;
-	background:url(images/btn_prev.gif) no-repeat 0 0;
+	background:url(../images/easyslider/btn_prev.gif) no-repeat 0 0;
 	}
 #nextBtn a
 {
-	background:url(images/btn_next.gif) no-repeat 0 0;
+	background:url(../images/easyslider/btn_next.gif) no-repeat 0 0;
 	}

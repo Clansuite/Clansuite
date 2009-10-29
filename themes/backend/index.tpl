@@ -52,29 +52,29 @@
 <div id="subHeader">
 	<div class="inside">
 
-		<div id="taskbar_Header">												<!-- Start Taskbar-Header //-->
+		<div id="taskbar_Header">												<!-- Start Taskbar-Header -->
 			<div class="inside">
 				<div class="taskbar_title">Taskbar</div>
             </div>
-        </div>																	<!-- Ende Taskbar-Header //-->
+        </div>																	<!-- Ende Taskbar-Header -->
 
-        <div id="navmain">														<!-- Start Main-Navigation //-->
+        <div id="navmain">														<!-- Start Main-Navigation -->
 			<div class="inside">
 				{* Adminmenu Navigation *}
 				{include file="menu/templates/adminmenu.tpl"}
             </div>
-        </div>																	<!-- Ende Main-Navigation //-->
+        </div>																	<!-- Ende Main-Navigation -->
 
 	</div>
 </div>
 
-<div class="floatclearall"></div>												<!-- clear all floatings //-->
+<div class="floatclearall"></div>												<!-- clear all floatings -->
 
 <table cellpadding="0" cellspacing="0" id="main">
   <tr >
     <td valign="top" id="main_left">
     	<div class="inside">
-			<div id="rss-news">													<!-- Start rss-news //-->
+			<div id="rss-news">													<!-- Start rss-news -->
             	<div class="box-head">
                 	<img class="leftcorner" src="{$www_root_themes}/backend/images/title_leftcorner.jpg" />
 					<div class="box-heading">Aktuelle ClanSuite News</div>
@@ -82,8 +82,8 @@
                 <div class="box-content">
 					 {load_module name="rssreader" action="widget_rssreader"}
                 </div>
-            </div>																<!-- Ende rss-news //-->
-			<div id="content">													<!-- Start Content //-->
+            </div>																<!-- Ende rss-news -->
+			<div id="content">													<!-- Start Content -->
             	<div class="box-head">
                 	<img class="leftcorner" src="{$www_root_themes}/backend/images/title_leftcorner.jpg" />
 					<div id="breadcrumb">{include file='breadcrumbs.tpl'}</div>
@@ -94,7 +94,7 @@
 						{$content}
                     </div>
                 </div>
-            </div>																<!-- Ende Content //-->
+            </div>																<!-- Ende Content -->
         </div>
     </td>
     <td valign="top" id="main_right">

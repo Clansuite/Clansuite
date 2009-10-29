@@ -1,6 +1,6 @@
 {* {$serverinfo|@var_dump} *}
 
-<!-- [Start] Widget: Teamspeak Ministatus //-->
+<!-- [Start] Widget: Teamspeak Ministatus -->
 <div class="td_header">Teamspeak Online Check</div>
 
 <div class="cell1">
@@ -68,4 +68,4 @@
 
 </div>
 </div>
-<!-- [-End-] Widget: Teamspeak Ministatus //-->
+<!-- [-End-] Widget: Teamspeak Ministatus -->

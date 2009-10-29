@@ -12,9 +12,7 @@
 
         <!-- RSS Icon -->
         <div style="float:right;">
-            <a href="/index.php">
-                {icon name="rss" alt="Clansuite RSS News Feed"}
-            </a>
+            <a href="/index.php?mod=news&action=getfeed"> {icon name="rss" alt="Clansuite RSS News Feed"} </a>
         </div>
 
         {pagination}
@@ -53,8 +51,8 @@
             <a href="index.php?mod=news&amp;action=showone&amp;id={$news.news_id}">{$news.nr_news_comments} Comments</a>
             {if isset($news.CsComments.CsUsers.lastcomment_by) }<span> : {$news.CsComments.CsUsers.lastcomment_by}</span>{/if}
         </td>
-    	<td>
-    	{if isset($smarty.session.user.rights.permission_edit_news) AND isset($smarty.session.user.rights.permission_access) }
+        <td>
+        {if isset($smarty.session.user.rights.permission_edit_news) AND isset($smarty.session.user.rights.permission_access) }
 
             <form action="index.php?mod=news&amp;sub=admin&amp;action=delete&amp;front=1" method="post">
                 <input type="hidden" value="{$news.news_id}" name="delete[]" />
@@ -63,7 +61,7 @@
                 <input class="ButtonRed" type="submit" name="submit" value="{t}Delete{/t}" />
             </form>
         {/if}
-    	</td>
+        </td>
     </tr>
 </table>
 <br />

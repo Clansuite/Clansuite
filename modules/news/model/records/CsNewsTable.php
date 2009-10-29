@@ -132,6 +132,7 @@ class CsNewsTable extends Doctrine_Table
                                   c.name, c.image, c.icon, c.color,
                                   nc.*,
                                   ncu.nick, ncu.email, ncu.country')
+                        ->addSelect('(SELECT COUNT(cc.comment_id) FROM CsNews ns LEFTJOIN ns.CsComments cc WHERE ns.news_id = n.news_id) as nr_news_comments')                                  
                         ->from('CsNews n')
                         ->leftJoin('n.CsUsers u')
                         ->leftJoin('n.CsCategories c')

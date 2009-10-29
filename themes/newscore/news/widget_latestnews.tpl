@@ -14,4 +14,4 @@
     {/foreach}
 </ul>
 
-<!-- Ende latestNews Widget //-->
+<!-- Ende latestNews Widget -->

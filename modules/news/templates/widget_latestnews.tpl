@@ -1,6 +1,6 @@
 {* {$widget_latestnews|var_dump} *}
 
-<!-- Start News Widget from Module News /-->
+<!-- Start News Widget from Module News -->
 
 <table class="latestnews_widget" width="100%" cellpadding="0" cellspacing="0">
     <tr>
@@ -20,4 +20,4 @@
     {/foreach}
 </table>
 
-<!-- Ende News Widget //-->
+<!-- End News Widget -->

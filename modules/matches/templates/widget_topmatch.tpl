@@ -4,7 +4,7 @@
    {$topmatch|@var_dump}
 *}
 
-<!-- Start Widget Topmatch from Module Matches //-->
+<!-- Start Widget Topmatch from Module Matches -->
 
 <div class="news_widget" id="widget_topmatch" width="100%">
 
@@ -26,4 +26,4 @@
 
 </div>
 
-<!-- End Widget Topmatch //-->
+<!-- End Widget Topmatch -->

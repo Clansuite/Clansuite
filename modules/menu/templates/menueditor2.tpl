@@ -19,6 +19,7 @@
 	</script>
 {/literal}
 
+@todo: jquery.tree.js den themepath zur style.css übergeben default ui themepath
 
 <div id="basic_html">
 	<ul>

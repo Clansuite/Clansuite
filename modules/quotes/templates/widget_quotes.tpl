@@ -1,6 +1,6 @@
 {* {$quote|@var_dump} *}
 
-<!-- Start: Quotes Widget from Module Quotes  //-->
+<!-- Start: Quotes Widget from Module Quotes  -->
 
 <table class="quotes_widget_info" width="100%" cellpadding="0" cellspacing="0">
     <tr>
@@ -16,4 +16,4 @@
     </tr>
 </table>
 
-<!-- End: Quotes Widget Module Template //-->
+<!-- End: Quotes Widget Module Template -->

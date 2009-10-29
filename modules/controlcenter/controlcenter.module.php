@@ -191,13 +191,13 @@ class Module_ControlCenter extends Clansuite_ModuleController implements Clansui
         }
 
         return $output;
-    }
+    }    
 	
  
     /**
      * Action for displaying the Settings of a Module News
      */
-    function action_settings()
+    public function action_settings()
     {
         $settings = array();
         $settings['controlcenter'][] = array(    

@@ -654,3 +654,14 @@ table.admintable tr#cell3
     padding: 5px;
     font-weight: bold;
 }
+
+/* ?mod=controlcenter&action=about : tab developers */
+.user_inactive
+{
+    background: #ed9e8e
+}
+
+.user_active
+{
+    background: #90ee90;
+}
