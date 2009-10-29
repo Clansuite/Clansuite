@@ -138,7 +138,7 @@ class Module_News extends Clansuite_ModuleController implements Clansuite_Module
      *
      * URL-Parameters: ?items=15 or 30
      */
-    public function createFeed()
+    public function action_getFeed()
     {
         # Require Feedcreator Class
         if(!class_exists('UniversalFeedCreator'))
@@ -154,6 +154,19 @@ class Module_News extends Clansuite_ModuleController implements Clansuite_Module
         # Set Number of Items Range 0<15 || MAX 30
         if($feed_items == null or $feed_items < 15)   { $feed_items = 15;  }
         elseif($feed_items > 15 )                     { $feed_items = 30;  }
+        
+        /**
+         * Get Format of Feed to create         
+         */
+        # white list for valid feed format strings
+        $feed_format_array = array('RSS0.91', 'RSS1.0', 'RSS2.0', 'MBOX', 'OPML', 'ATOM', 'ATOM0.3', 'HTML', 'JS');
+        # get format from request
+        $feed_format = (string) $this->getHttpRequest()->getParameter('format');
+        # check its a valid string or set default
+        if(in_array($feed_format, $feed_format_array) == false or $feed_format === null)
+        {
+            $feed_format = 'RSS2.0';    
+        }
 
         /**
          * Create Main Feed Object
@@ -188,29 +201,28 @@ class Module_News extends Clansuite_ModuleController implements Clansuite_Module
 
         # Fetch News via Doctrine
 
-        $newsQuery = Doctrine::getTable('CsNews')->fetchNewsForFeed();
+        $news_array = Doctrine::getTable('CsNews')->fetchNewsForFeed();
 
-        $news           = $newsQuery['news'];
         /**
          * Loop over Dataset
          */
-        foreach ($news as $k => $v)
-        {
+        foreach ($news_array as $key => $news)
+        {  
             /**
              * Create Feed Item Object
              */
             $item = new FeedItem();
-            $item->title = $data->title;
-            $item->link = $data->url;
-            $item->description = $data->short;
+            $item->title = $news['news_title'];
+            $item->link =  WWW_ROOT . 'index.php?mod=news&action='.$news['news_id'];
+            $item->description = $news['news_body'];
 
             # optional
             $item->descriptionTruncSize = 500;
             $item->descriptionHtmlSyndicated = true;
 
-            $item->date = $data->newsdate;
+            $item->date = $news['created_at'];
             $item->source = "http://www.clanwebsite.net";
-            $item->author = "John 'wanker' Vain";
+            $item->author = $news['CsUsers']['nick'];
 
             # Set Feed Item Object to Main Feed Object
             $rss->addItem($item);
@@ -219,11 +231,11 @@ class Module_News extends Clansuite_ModuleController implements Clansuite_Module
         /**
          * Set Feed Format and save to file
          *
-         * Valid format strings are:
+         * Valid $feed_format strings are:
          * RSS0.91, RSS1.0, RSS2.0, PIE0.1 (deprecated),
          * MBOX, OPML, ATOM, ATOM0.3, HTML, JS
          */
-        $rss->saveFeed('RSS2.0', ROOT_MOD . 'news/feed-'.$feed_items.'.xml');
+        $rss->saveFeed($feed_format, ROOT_MOD . 'news/feed-'.$feed_items.'.xml');
     }
 
      /**
@@ -566,5 +578,13 @@ class Module_News extends Clansuite_ModuleController implements Clansuite_Module
         #assign the fetched news to the view
         $smarty->assign('widget_archive', $archive);
     }
+    
+    /**
+     * Widget: Newsfeeds
+     */
+    public function widget_newsfeeds()
+    {
+        # nothing
+    }    
 }
 ?>

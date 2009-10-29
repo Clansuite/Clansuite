@@ -4,7 +4,7 @@
    {$latestmatches|@var_dump}  
 *} 
 
-<!-- Start Widget Nextmatches from Module Matches //-->
+<!-- Start Widget Nextmatches from Module Matches -->
 
 <div class="news_widget" id="widget_latestmatches" width="100%">
 
@@ -26,4 +26,4 @@
 	</table>
 
 </div>
-<!-- End Widget Latestmatches //-->
+<!-- End Widget Latestmatches -->

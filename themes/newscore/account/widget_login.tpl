@@ -65,4 +65,4 @@
 </div>
 </form>
 
-<!-- Ende Login Widget //-->
+<!-- Ende Login Widget -->

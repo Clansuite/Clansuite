@@ -1,6 +1,6 @@
  {*  {$widget_nextmatches|@var_dump} *}
 
-<!-- Start Widget Nextmatches from Module Matches //-->
+<!-- Start Widget Nextmatches from Module Matches -->
 
 <div class="news_widget" id="widget_nextmatches" width="100%">
 
@@ -23,7 +23,7 @@
     <h2 class="td_header">{t}Next Matches{/t}</h2>
 
 
-<!-- Start Nextmatches-Slider from Module Matches //-->
+<!-- Start Nextmatches-Slider from Module Matches -->
 <div id="nextmatches_slider">
 
 	<ul>
@@ -51,7 +51,7 @@
 	</ul>
 
 </div>
-<!-- End Nextmatches-Slider from Module Matches //-->
+<!-- End Nextmatches-Slider from Module Matches -->
 </div>
 
-<!-- End Widget Nextmatches //-->
+<!-- End Widget Nextmatches -->

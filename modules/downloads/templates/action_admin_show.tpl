@@ -10,4 +10,4 @@
 {modulenavigation}
 <!-- Module Heading -->
 <div class="ModuleHeading">Downloads</div>
-<div class="ModuleHeadingSmall">Sie können Downloads hinzufügen, verändern und löschen.</div>
+<div class="ModuleHeadingSmall">Sie kÃ¶nnen Downloads hinzufÃ¼gen, verÃ¤ndern und lÃ¶schen.</div>

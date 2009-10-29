@@ -1,10 +1,12 @@
 {* {$widget_archive|@var_dump} *}
 
-<!-- Start News Archiv Widget from Module News /-->
+<!-- Start News Archiv Widget from Module News -->
 
-<div class="widget_head">
-    <span class="widget_title">Newsarchiv</span>
-</div>
+
+<div class="news_widget" id="widget_newsarchiv" width="100%">
+
+    <h2 class="td_header"> {t}News Archive{/t}</h2>
+
 
 {* Years *}
 {foreach key=year item=year_archiv from=$widget_archive}
@@ -26,4 +28,5 @@
     <br />
 {/foreach}
 
-<!-- Ende News Archiv Widget from Theme Newscore /-->
+
+<!-- End News Archiv Widget from Theme Newscore -->

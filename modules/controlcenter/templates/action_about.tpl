@@ -7,11 +7,11 @@
 
 {literal}
 <script type="text/javascript">
-	$(document).ready(function(){
-    	$(".tabs").accessibleTabs({
-    	                            fx:"fadeIn",
-                                	tabbody:'.tab-page',
-                                	tabhead: '.tab',
+    $(document).ready(function(){
+        $(".tabs").accessibleTabs({
+                                    fx:"fadeIn",
+                                    tabbody:'.tab-page',
+                                    tabhead: '.tab',
                                     currentInfoText: '&raquo; ',
                                     currentInfoPosition: 'prepend',
                                     currentInfoClass: 'current-info'
@@ -62,21 +62,26 @@
          "Clansuite - just an eSport CMS" ist OSI Certified Open Source Software.
         OSI Certified is a certification mark of the <a href="http://www.opensource.org/">Open Source Initiative</a>.
        </h3>
-	</div>
+    </div>
 
-	{* /---------------------------------------------------
+    {* /---------------------------------------------------
        |
        |     Tab: Clansuite Development Team
        |
        \--------------------------------------------------- *}
        
-	<div class="tab-page">
-	<h2 class="tab">{t}Developers{/t}</h2>
+    <div class="tab-page">
+    <h2 class="tab">{t}Developers{/t}</h2>
 
+    <br />
     <h2 align="center">Clansuite Development Team</h2>
+    <br />
     <h3 align="center">{t}Thanks to everyone who tested, reported bugs, made suggestions and contributed to this project. ^ _ ^ {/t}
                       <br />
-                      {t}Send bugreports, fixes, enhancements, t-shirts, money, beer & pizza to ...{/t}</h3>
+                      {t}Send bugreports, fixes, enhancements, t-shirts, money, beer & pizza to ...{/t}</h3>                      
+    <br />
+    <br />
+                      
     <table cellspacing="5" cellpadding="2" border="0" width="100%">
      <tbody><tr>
           <td bgcolor="#dddddd"><strong>Name</strong></td>
@@ -85,71 +90,71 @@
           <td bgcolor="#dddddd"><strong>Position</strong></td>
           <td bgcolor="#dddddd"><strong>Gifts</strong></td>
         </tr>
-        <tr>
+        <tr class="user_active">
           <td><b>Pasqual Eusterfeldhaus</b></td>
           <td valign="top"><b>thunderm00n</b></td>
           <td valign="top"><b>thundermoon@gna.org</b></td>
           <td valign="top">Graphics, Forum-Support & Moderation, Beta-Testing</td>
           <td/>
-          <td/>
         </tr>
-        <tr>
+        <tr class="user_active">
           <td valign="top"><b>Tino Goratsch</b></td>
            <td valign="top"><b>Vyper</b></td>
            <td valign="top"><b>vyper@gna.org</b></td>
            <td valign="top">Developer, Website, Themes (especially Accessible-Theme)</td>
+           <td/>
         </tr>
-        <tr>
+        <tr class="user_active">
           <td valign="top"><b>Jens-Andr&#233; Koch</b></td>
           <td valign="top"><b>vain</b></td>
           <td valign="top"><b>vain@clansuite.com</b></td>
           <td valign="top">Clansuite Project Founder & Maintainer, Benevolent Dictator for Life <br /> Developer, Website, Toolbar</td>
           <td><a href="http://www.amazon.de/gp/registry/registry.html?ie=UTF8&type=wishlist&id=2TN4SKVI467SX">{t}Amazon Wishlist{/t}</a></td>
         </tr>
-        <tr>
+        <tr class="user_inactive">
           <td valign="top"><b>Ren&#233; Stalder</b></td>
           <td valign="top"><b>nachtmeister</b></td>
           <td valign="top"><b>nachtmeister@6pounder.com</b></td>
           <td valign="top"></td>
           <td/>
         </tr>
-         <tr>
+         <tr class="user_inactive">
           <td valign="top"><b>Björn Sp.</b></td>
           <td valign="top"><b>freq77</b></td>
           <td valign="top"><b>---</b></td>
           <td valign="top">Developer (Shoutbox)</td>
           <td/>
         </tr>
-        <tr>
+        <tr class="user_inactive">
           <td valign="top"><b>Daniel Winterfeldt</b></td>
           <td valign="top"><b>rikku</b></td>
           <td valign="top"><b>rikku@gna.org</b></td>
           <td valign="top">Developer (Image-Processing-Library)</td>
           <td/>
         </tr>
-        <tr>
+        <tr class="user_inactive">
           <td valign="top"><b>Florian Wolf</b></td>
           <td valign="top"><b>xsign.dll</b></td>
           <td valign="top"><b>xsign.dll@clansuite.com</b></td>
           <td valign="top">Developer, Serveradminstrator, Javascripts and AJAX<br /> Developer of Clansuite Core v0.1</td>
           <td></td>
         </tr>
-        <tr>
+        <tr class="user_inactive">
           <td valign="top"><b>Pascal</b></td>
           <td valign="top"><b>raensen</b></td>
           <td valign="top"><b>---</b></td>
           <td valign="top"></td>
           <td/>
         </tr>
-        <tr>
+        <tr class="user_inactive">
           <td valign="top"><b>Niklas Karoly</b></td>
           <td valign="top"><b>creep7</b></td>
           <td valign="top"><b>---</b></td>
           <td valign="top"></td>
           <td/>
         </tr>
-	</tbody>
-	</table>
+    </tbody>
+    </table>
    </div>
 
    {*  /---------------------------------------------------
@@ -157,8 +162,11 @@
        |     Tab: Components
        |
        \--------------------------------------------------- *}
-	<div class="tab-page">
-	<h2 class="tab">Components</h2>
+    <div class="tab-page">
+    <h2 class="tab">Components</h2>
+    
+    <h2 align="center">{t}Components{/t}</h2>
+    <br />
 
     <h2 align="center">Clansuite</h2>
     <table cellspacing="0" cellpadding="0" border="0" width="100%" align="center">
@@ -181,12 +189,12 @@
           <td><a href="mailto:vain@clansuite.com">Jens-Andr&#233; Koch (vain)</a></td>
           <td></td>
         </tr>
-		</tbody>
-	</table>
+        </tbody>
+    </table>
 
     <br />
 
-	<h2 align="center">Modules</h2>
+    <h2 align="center">Modules</h2>
     <table cellspacing="0" cellpadding="0" border="0" width="100%" align="center">
         <tbody><tr>
           <td bgcolor="#dddddd"><strong>{t}Module{/t}</strong></td>
@@ -244,10 +252,10 @@
        |     Tab: Lizenzen
        |
        \--------------------------------------------------- *}
-	<div class="tab-page">
-	<h2 class="tab">{t}Licenses{/t}</h2>
+    <div class="tab-page">
+    <h2 class="tab">{t}Licenses{/t}</h2>
 
-	<h2 align="center">{t}3th Party Libraries & Licenses{/t}</h2>
+    <h2 align="center">{t}Licenses & 3th Party Libraries{/t}</h2>
 
 
         <h3 align="center">
@@ -329,10 +337,10 @@
        |     Tab: Sponsors
        |
        \--------------------------------------------------- *}
-	<div class="tab-page">
-	<h2 class="tab">{t}Sponsors{/t}</h2>
+    <div class="tab-page">
+    <h2 class="tab">{t}Sponsors{/t}</h2>
 
-	<h2 align="center">{t}Sponsors{/t}</h2>
+    <h2 align="center">{t}Sponsors{/t}</h2>
     <table border="0" width="100%">
      <tbody>
         <tr>
@@ -340,15 +348,15 @@
         </tr>
         <tr>
             <td>{t}We are passionate open-source programmers, but passion alone doesnï¿½t make software.{/t}
-            	<br />
-            	{t}All donations are appreciated, no matter if they are big or small, and thanks for your support.{/t}
+                <br />
+                {t}All donations are appreciated, no matter if they are big or small, and thanks for your support.{/t}
             </td>
             <td>
                 <br />
-            	<a href='http://www.pledgie.com/campaigns/6324' target='_new'>Unterst&uuml;tzt Clansuite!</a>
-            	<br /><br />
-            	<a href='http://www.pledgie.com/campaigns/6324'><img alt='Click here to lend your support to: Unterstï¿½tzt Clansuite! and make a donation at www.pledgie.com !' src='http://www.pledgie.com/campaigns/6324.png?skin_name=chrome' border='0' /></a>
-            	<br />
+                <a href='http://www.pledgie.com/campaigns/6324' target='_new'>Unterst&uuml;tzt Clansuite!</a>
+                <br /><br />
+                <a href='http://www.pledgie.com/campaigns/6324'><img alt='Click here to lend your support to: Unterstï¿½tzt Clansuite! and make a donation at www.pledgie.com !' src='http://www.pledgie.com/campaigns/6324.png?skin_name=chrome' border='0' /></a>
+                <br />
             </td>
         </tr>
      </tbody>
@@ -373,7 +381,7 @@
           <td>Name</td>
           <td>Amazon Wishlist</td>
         </tr>
-		</tbody>
-	   </table>
+        </tbody>
+       </table>
    </div>
 </div>

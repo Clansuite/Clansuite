@@ -1,23 +1,33 @@
 {* {$widget_newscategories_dropdown|@var_dump} *}
 
-<form action="">
-  <label>
-      <select name="newscatsdropdown" id="newscatsdropdown" size=1
-              onchange="top.location.href=this.options[this.selectedIndex].value;">
+<!-- Start Start Widget NewsCategoriesDropDown from Module News -->
 
-      {* First Item in Options *}
-      <option>- {t}Choose{/t} -</option>
+<div class="news_widget" id="widget_newscategoriesdropdown" width="100%">
 
-      {* Second is all Cats (normal news display) *}
-      <option value="{$www_root}/index.php?mod=news&action=show">- {t}All{/t} -</option>
+    <h2 class="td_header"> {t}News Categories{/t}</h2>
 
-      {foreach item=newscategory from=$widget_newscategories_dropdown}
+            <form action="">
+              <label>
+                  <select name="newscatsdropdown" id="newscatsdropdown" size=1
+                          onchange="top.location.href=this.options[this.selectedIndex].value;">
 
-        <option value="{$www_root}/index.php?mod=news&action=show&cat={$newscategory.cat_id}">
-            {$newscategory.CsCategories.name} ({$newscategory.sum})
-        </option>
-      {/foreach}
+                  {* First Item in Options *}
+                  <option>- {t}Choose{/t} -</option>
 
-      </select>
-    </label>
-</form>
+                  {* Second is all Cats (normal news display) *}
+                  <option value="{$www_root}/index.php?mod=news&action=show">- {t}All{/t} -</option>
+
+                  {foreach item=newscategory from=$widget_newscategories_dropdown}
+
+                    <option value="{$www_root}/index.php?mod=news&action=show&cat={$newscategory.cat_id}">
+                        {$newscategory.CsCategories.name} ({$newscategory.sum})
+                    </option>
+                  {/foreach}
+
+                  </select>
+                </label>
+            </form>
+            
+</div>
+
+<!-- End Start Widget NewsCategoriesDropDown from Module News -->

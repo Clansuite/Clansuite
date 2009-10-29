@@ -4,7 +4,7 @@
    {$shoutbox_widget|@var_dump}
 *} 
 
-<!-- Start Widget Shoutbox from Module Shoutbox //-->
+<!-- Start Widget Shoutbox from Module Shoutbox -->
 
 <div class="shoutbox_widget" id="widget_shoutbox" width="100%">
 
@@ -20,4 +20,4 @@
 </div>
 {/foreach}
 </div>
-<!-- End Widget Shoutbox from Module Shoutbox //-->
+<!-- End Widget Shoutbox from Module Shoutbox -->

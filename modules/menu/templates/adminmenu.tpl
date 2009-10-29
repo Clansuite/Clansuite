@@ -3,7 +3,7 @@
 <script type="text/javascript" src="{$www_root}/modules/menu/javascript/XulMenu.js"></script>
 {/move_to}
 
-<!-- Start: Adminmenu (Modules->Menu)//-->
+<!-- Start: Adminmenu (Modules->Menu)-->
 
 <script type="text/javscript">
 /* preload images */
@@ -17,10 +17,10 @@ arrow2.src =  "{$www_root}/modules/menu/images/arrow2.gif";
 
     <div class="bar">
 
-        <!-- XULMenu Table - Important is the id tag, it's the selector used by the JS. //-->
+        <!-- XULMenu Table - Important is the id tag, it's the selector used by the JS. -->
         <table id="Adminmenu" cellspacing="0" cellpadding="0" class="XulMenu" width="100%">
             <tr>
-                <!-- module-include: admin menueditor get_html_div //-->
+                <!-- module-include: admin menueditor get_html_div -->
                 {load_module name="menu" sub="admin" action="get_html_div"}
             </tr>
         </table>
@@ -58,4 +58,4 @@ arrow2.src =  "{$www_root}/modules/menu/images/arrow2.gif";
       </div>
 
 </div>
-<!-- End: AdminMenu (Modules->Menu) //-->
+<!-- End: AdminMenu (Modules->Menu) -->

@@ -33,13 +33,13 @@ array
   'mapname2' => string '0' (length=1)
 *}
 
-<!-- Start Matches_Show //-->
+<!-- Start Matches_Show -->
 <div class="content" id="matches_show">
-    <!-- Matchauswertung Gesamt //-->
+    <!-- Matchauswertung Gesamt -->
     <div class="stats" id="matches_show_stats">
-       {* {$matches.stats} *} <!-- [ Won: 1171 (68.8%) ] - [ Draw: 34 (2%) ] - [ Loss: 498 (29.2%) ] mit oder ohne Statistikbalken //-->
+       {* {$matches.stats} *} <!-- [ Won: 1171 (68.8%) ] - [ Draw: 34 (2%) ] - [ Loss: 498 (29.2%) ] mit oder ohne Statistikbalken -->
     </div>
-  <!-- Matches Übersicht //-->
+  <!-- Matches Übersicht -->
   <div class="showall" id="matches_show_list">
         <span class="matches_row">{* {$matches.matches} *}</span>
         <table width="100%" border="0" cellspacing="0" cellpadding="0">
@@ -63,28 +63,28 @@ array
 
                 <td>{$match.id}</td>
                 {*
-                <td>{$match.game}</td>                    <!-- name of the game "cs, bf, dota" //-->
-                <td>{$match.gametype}</td>                <!-- type of the game "5on5, capture the flag" //-->
-                <td>{$match.gameicon}</td>                <!-- kann auch matchcategory sein //-->
+                <td>{$match.game}</td>                    <!-- name of the game "cs, bf, dota" -->
+                <td>{$match.gametype}</td>                <!-- type of the game "5on5, capture the flag" -->
+                <td>{$match.gameicon}</td>                <!-- kann auch matchcategory sein -->
                 *}
-                <td>{$match.matchdate}</td>               <!-- //-->
+                <td>{$match.matchdate}</td>               <!-- -->
 
-                <!-- Teamnamen //-->
+                <!-- Teamnamen -->
                 <td>{$match.team1_id.name} vs {$match.team2_id.name}</td>
 
-                <!-- Anzeige des Gesamtergebnisses (bestehend aus den zwei Teamscores) //-->
+                <!-- Anzeige des Gesamtergebnisses (bestehend aus den zwei Teamscores) -->
                 <td>{$match.team1score} : {$match.team2score}</td>
 
-                <!-- Mapnames und Mapscores//-->
-                <!-- Scores für Map1 //-->
+                <!-- Mapnames und Mapscores-->
+                <!-- Scores für Map1 -->
                 <td>{$match.mapname1}</td>
                 <td>{$match.team1map1score} : {$match.team2map1score}</td>
 
-                <!-- Scores für Map2 //-->
+                <!-- Scores für Map2 -->
                 <td>{$match.mapname2}</td>
                 <td>{$match.team1map2score} : {$match.team2map2score}</td>
 
-                {* <td>{$match.matchlink}</td>               <!-- Link zu den Matchdetails //--> *}
+                {* <td>{$match.matchlink}</td>               <!-- Link zu den Matchdetails --> *}
             </tr>
             {/foreach}
 
@@ -92,4 +92,4 @@ array
 
     </div>
 </div>
-<!-- End Matches_Show //-->
+<!-- End Matches_Show -->

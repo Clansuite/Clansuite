@@ -1,6 +1,6 @@
 {* {$serverinfos|@var_dump} *}
 
-<!-- [Start] Widget: Shockvoice Viewer //-->
+<!-- [Start] Widget: Shockvoice Viewer -->
 <div class="td_header">Shockvoice Viewer</div>
 
 <div class="cell1">
@@ -69,4 +69,4 @@
 {/if}
 
 </div>
-<!-- [-End-] Widget: Shockvoice Viewer //-->
+<!-- [-End-] Widget: Shockvoice Viewer -->

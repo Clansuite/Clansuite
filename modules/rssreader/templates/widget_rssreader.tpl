@@ -1,6 +1,6 @@
 {* {$feed|@var_dump} *}
 
-<!-- ## Start: Rssreader Widget from Module Rssreader ## //-->
+<!-- ## Start: Rssreader Widget from Module Rssreader ## -->
 
 <div class="rss-inside">
 
@@ -17,7 +17,7 @@
     </script>
     {/literal}
 
-    <!-- ## Start: RssReader Accordion ## ///-->
+    <!-- ## Start: RssReader Accordion ## /-->
     <div id="accordion">
         {foreach from=$feed->get_items() item=i name=csRSSForeach}
 
@@ -35,8 +35,8 @@
 
         {/foreach}
     </div>
-    <!-- ## End: RssReader Accordion ## ///-->
+    <!-- ## End: RssReader Accordion ## /-->
 
 </div>
 
-<!-- ## End: Rssreader Widget Module Template ## //-->
+<!-- ## End: Rssreader Widget Module Template ## -->

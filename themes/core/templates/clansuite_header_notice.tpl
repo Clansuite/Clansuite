@@ -8,5 +8,5 @@
         Clansuite is copyright 2005-2008 of Jens-André Koch. Extensions are copyright of their respective owners.
         Information and contribution at http://clansuite.com/
         =========================================================================================================<3
-        //-->
+        -->
 {/literal}

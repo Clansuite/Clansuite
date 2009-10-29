@@ -80,36 +80,37 @@
 </tr>
 </table>
 
-<!-- Main Table //-->
+<!-- Main Table -->
 <table cellspacing="0" cellpadding="0" width="100%">
 
-<!-- TableHeader + Breadcrumbs //-->
+<!-- TableHeader + Breadcrumbs -->
 <tr class="tr_header">
     <td colspan="3">{include file='breadcrumbs.tpl'}</td>
 </tr>
 
-<!-- Middle/Center Part of Table //-->
+<!-- Middle/Center Part of Table -->
 <tr>
-    <!-- Left Widget Bar //-->
+    <!-- Left Widget Bar -->
     <td id="left_widget_bar" class="cell1">
         <div class="widget" id="widget_menu">{load_module name="menu" action="widget_menu"}</div>
-        <div class="widget" id="widget_latestnews">{load_module name="news" action="widget_latestnews" items="2"}</div>
+        <div class="widget" id="widget_latestnews">{load_module name="news" action="widget_latestnews" items="2"}</div>  
         <div class="widget" id="widget_newscategories_list>{load_module name="news" action="widget_newscategories_list"}</div>
-        <div class="widget" id="widget_newscategories_dropdown>{load_module name="news" action="widget_newscategories_dropdown"}</div>
-        <div class="widget" id="widget_archive>{load_module name="news" action="widget_archive"}</div>
+        <div class="widget" id="widget_newscategories_dropdown>{load_module name="news" action="widget_newscategories_dropdown"}</div> 
+        <div class="widget" id="widget_newsfeeds">{load_module name="news" action="widget_newsfeeds"}</div>    
+        <div class="widget" id="widget_newsarchive>{load_module name="news" action="widget_archive"}</div>
         <div class="widget" id="widget_gallery">{load_module name="gallery" action="widget_gallery"}</div>
         <div class="widget" id="widget_nextmatches">{load_module name="matches" action="widget_nextmatches" items="3"}</div>
         <div class="widget" id="widget_latestmatches">{load_module name="matches" action="widget_latestmatches" items="3"}</div>
         <div class="widget" id="widget_topmatch">{load_module name="matches" action="widget_topmatch"}</div>
-        <div class="widget" id="widget_shoutbox">{load_module name="shoutbox" action="widget_shoutbox"}</div>
+        <div class="widget" id="widget_shoutbox">{load_module name="shoutbox" action="widget_shoutbox"}</div>        
     </td>
 
-    <!-- Middle + Center = Main Content //-->
+    <!-- Middle + Center = Main Content -->
     <td class="cell1" width="99%">
         {$content}
     </td>
 
-    <!-- Right Widget Bar //-->
+    <!-- Right Widget Bar -->
     <td id="right_widget_bar" class="cell1">
    {* {if isset($smarty.session.user.user_id) && $smarty.session.user.user_id == 0 &&
           isset($smarty.session.user.authed) && $smarty.session.user.authed == 1 } *}
@@ -124,7 +125,7 @@
     </td>
 </tr>
 <tr>
-    <!-- Bottom Widget Bar //-->
+    <!-- Bottom Widget Bar -->
     <td id="bottom_widget_bar" class="cell1" width="100%" colspan="3" align="center" valign="top">
         <div class="widget" id="widget_quotes">{load_module name="quotes" action="widget_quotes"}</div>
         <div class="widget" id="widget_lastregistered">{load_module name="users" action="widget_lastregisteredusers"}</div>
@@ -135,7 +136,7 @@
 </tr>
 </table>
 
-<!-- Footer with Copyright and Theme-Copyright //-->
+<!-- Footer with Copyright and Theme-Copyright -->
 <p style="float:left; text-align:left;">
     <br/> Theme: {$smarty.session.user.theme} by {* {$theme_copyright} *}
 </p>
