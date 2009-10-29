@@ -464,6 +464,12 @@ class FeedCreator extends HtmlDescribable {
 	* Ignored in the output when empty.
 	*/
 	var $xslStyleSheet = "";
+	
+	/**
+	* The url of the external xsl stylesheet used to format the naked rss feed.
+	* Ignored in the output when empty.
+	*/
+	var $cssStyleSheet = "";
 
 
 	/**
