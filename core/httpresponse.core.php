@@ -207,7 +207,7 @@ class Clansuite_HttpResponse implements Clansuite_Response_Interface
         $this->activateOutputCompression();
 
         // Send the status line
-        header('HTTP/1.1 '.$this->statusCode.' '.$this->getStatusCodeDescription($this->statusCode));
+        $this->addheader('HTTP/1.1', $this->statusCode.' '.$this->getStatusCodeDescription($this->statusCode));
 
         // Set X-Powered-By Header to Clansuite Signature
         $this->addheader('X-Powered-By', '[ Clansuite - just an eSport CMS ][ Version : '. CLANSUITE_VERSION .' ][ www.clansuite.com ]');
@@ -216,9 +216,12 @@ class Clansuite_HttpResponse implements Clansuite_Response_Interface
         #$this->addHeader('Content-Type', 'text/html; charset=UTF-8');
 
         // Send user specificed headers from $this->headers array
-        foreach ($this->headers as $name => $value)
+        if(!headers_sent())
         {
-             header("{$name}: {$value}", false);
+            foreach ($this->headers as $name => $value)
+            {
+                header("{$name}: {$value}", false);
+            }
         }
 
         // Finally PRINT the response body
@@ -452,8 +455,9 @@ class Clansuite_HttpResponse implements Clansuite_Response_Interface
      * @param int    seconds before redirecting (for the html tag "meta refresh")
      * @param int    http status code, default: '302' => 'Not Found'
      * @param text   text of redirect message
+     * @param string redirect mode LOCATION, REFRESH, JS, HTML
      */
-    public function redirect($url, $time = 0, $statusCode = 302, $text = '')
+    public function redirect($url, $time = 0, $statusCode = 302, $text = '', $mode = null )
     {
         # redirect only, if headers are NOT already send
         if (headers_sent($filename, $linenum) == false)
@@ -463,13 +467,27 @@ class Clansuite_HttpResponse implements Clansuite_Response_Interface
 
             # redirect to ...
             $this->setStatusCode($statusCode);
-
-            # redirect html content
-            $redirect_html  = '';
-            $redirect_html  = '<html><head>';
-            $redirect_html .= '<meta http-equiv="refresh" content="' . $time . '; URL=' . $url . '" />';
-            $redirect_html .= '</head><body>' . $text . '</body></html>';
-
+            
+            switch($mode)
+            {
+                case 'LOCATION':
+                    $this->addheader('LOCATION', $url);
+                    break;                   
+                case 'REFRESH':
+                    header("Refresh: 0; URL=\"$url\"");
+                    break;
+                case 'JS':
+                    $redirect_html = '<script type="text/javascript">window.location.href='.$url.';</script>';
+                    break;
+                default:
+                case 'HTML':
+                    # redirect html content
+                    $redirect_html  = '<html><head>';
+                    $redirect_html .= '<meta http-equiv="refresh" content="' . $time . '; URL=' . $url . '" />';
+                    $redirect_html .= '</head><body>' . $text . '</body></html>';
+                    break;
+            }
+            
             # $this->addHeader('Location', $url);
             $this->setContent($redirect_html, $time, htmlspecialchars($url, ENT_QUOTES, 'UTF-8'));
 
@@ -488,6 +506,6 @@ class Clansuite_HttpResponse implements Clansuite_Response_Interface
             # Exit after redirect
             exit;
         }
-    }
+    }       
 }
 ?>

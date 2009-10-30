@@ -592,7 +592,7 @@ class Module_News_Admin extends Clansuite_ModuleController implements Clansuite_
         
         $settings['form']   = array(    'name' => 'news_settings',
                                         'method' => 'POST',
-                                        'action' => WWW_ROOT.'/index.php?mod=news&amp;sub=admin&amp;action=savesettings');
+                                        'action' => WWW_ROOT.'/index.php?mod=news&amp;sub=admin&amp;action=settings_update');
                                         
         $settings['news'][] = array(    'id' => 'resultsPerPage_show',
                                         'name' => 'resultsPerPage_show',
@@ -617,6 +617,24 @@ class Module_News_Admin extends Clansuite_ModuleController implements Clansuite_
                                         'description' => _('Newsitems to show in Newsarchive'),
                                         'formfieldtype' => 'text',
                                         'value' => $this->getConfigValue('resultsPerPage_archive', '3'));
+                                        
+        $settings['news'][] = array(    'id' => 'feed_format',
+                                        'name' => 'feed_format',
+                                        'description' => _('Set the default format of the news feed. You can chose among these options: RSS2.0, MBOX, OPML, ATOM, HTML, JS'),
+                                        'formfieldtype' => 'multiselect',
+                                        'value' => array( 'selected' => $this->getConfigValue('feed_format', 'RSS2.0'),
+                                                          'RSS2.0'   => 'RSS2.0',
+                                                          'MBOX'     => 'MBOX',
+                                                          'OPML'     => 'OPML',
+                                                          'ATOM'     => 'ATOM',
+                                                          'HTML'     => 'HTML',
+                                                          'JS'       => 'JS'));
+                                        
+        $settings['news'][] = array(    'id' => 'feed_items',
+                                        'name' => 'feed_items',
+                                        'description' => _('Sets the default number of feed items.'),
+                                        'formfieldtype' => 'text',
+                                        'value' => $this->getConfigValue('feed_items', '10'));
         
         require ROOT_CORE . '/viewhelper/formgenerator.core.php';
         $form = new Clansuite_Array_Formgenerator($settings);
@@ -634,6 +652,29 @@ class Module_News_Admin extends Clansuite_ModuleController implements Clansuite_
         $this->getView()->assign('form', $form->render());
 
         $this->prepareOutput();       
+    }
+    
+    function action_admin_settings_update()
+    { 
+        # Set Pagetitle and Breadcrumbs
+        Clansuite_Trail::addStep( _('Update'), '/index.php?mod=controlcenter&amp;sub=settings&amp;action=update');
+
+        # Incomming Data
+        # @todo get post via request object, sanitize
+        $data = $this->getHttpRequest()->getParameter('news_settings');
+
+        # Get Configuration from Injector
+        $config = $this->injector->instantiate('Clansuite_Config');
+        
+        # write config
+        $config->confighandler->writeConfig( ROOT_MOD . 'news/news.config.php', $data);
+
+        # clear the cache / compiled tpls
+        # $this->getView()->clear_all_cache();
+        $this->getView()->clear_compiled_tpl();
+
+        # Redirect
+        $this->getHttpResponse()->redirectNoCache('index.php?mod=news&amp;sub=admin', 2, 302, 'The config file has been succesfully updated.');
     }
 }
 ?>
