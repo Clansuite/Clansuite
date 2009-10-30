@@ -4,5 +4,7 @@
 ;
 [replays]
 
+items_resultsPerPage = 25
+widget_latestreplays = 5
 
 ; DO NOT REMOVE THIS LINE */ ?>

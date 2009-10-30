@@ -237,5 +237,63 @@ class Module_Staticpages_Admin extends Clansuite_ModuleController implements Cla
         # Prepare the Output
         $this->prepareOutput();
     }
+	
+    /**
+     * Action for displaying the Settings of a Module Staticpages
+     */
+    function action_admin_settings()
+    {
+        # Set Pagetitle and Breadcrumbs
+        Clansuite_Trail::addStep( _('Settings'), '/index.php?mod=staticpages&amp;sub=admin&amp;action=settings');
+        
+        $settings = array();
+        
+        $settings['form']   = array(    'name' => 'staticpages_settings',
+                                        'method' => 'POST',
+                                        'action' => WWW_ROOT.'/index.php?mod=staticpages&amp;sub=admin&amp;action=settings_update');
+                                        
+        $settings['staticpages'][] = array(    'id' => 'items_resultsPerPage',
+                                        'name' => 'items_resultsPerPage',
+                                        'description' => _('Staticpages per Page'),
+                                        'formfieldtype' => 'text',
+                                        'value' => $this->getConfigValue('items_resultsPerPage', '25'));
+        
+        require ROOT_CORE . '/viewhelper/formgenerator.core.php';
+        $form = new Clansuite_Array_Formgenerator($settings);
+
+        # display formgenerator object
+        #clansuite_xdebug::printR($form); 
+        
+        $form->addElement('submitbutton')->setName('Save');
+        $form->addElement('resetbutton');
+        
+        # display form html
+        #clansuite_xdebug::printR($form->render());
+        
+        # assign the html of the form to the view
+        $this->getView()->assign('form', $form->render());
+
+        $this->prepareOutput();       
+    }
+    
+    function action_admin_settings_update()
+    { 
+        # Incomming Data
+        # @todo get post via request object, sanitize
+        $data = $this->getHttpRequest()->getParameter('staticpages_settings');
+
+        # Get Configuration from Injector
+        $config = $this->injector->instantiate('Clansuite_Config');
+        
+        # write config
+        $config->confighandler->writeConfig( ROOT_MOD . 'staticpages/staticpages.config.php', $data);
+
+        # clear the cache / compiled tpls
+        # $this->getView()->clear_all_cache();
+        $this->getView()->clear_compiled_tpl();
+
+        # Redirect
+        $this->getHttpResponse()->redirectNoCache('index.php?mod=staticpages&amp;sub=admin', 2, 302, 'The config file has been succesfully updated.');
+    }
 }
 ?>

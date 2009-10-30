@@ -4,5 +4,6 @@
 ;
 [matches]
 
-
+widget_latestmatches = 5
+widget_nextmatches   = 5
 ; DO NOT REMOVE THIS LINE */ ?>

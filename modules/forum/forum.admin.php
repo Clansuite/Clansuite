@@ -163,7 +163,15 @@ class Module_Forum_Admin extends Clansuite_ModuleController implements Clansuite
 
 	public function action_admin_settings ()
 	{
-		$settings = array();
+        # Set Pagetitle and Breadcrumbs
+        Clansuite_Trail::addStep( _('Settings'), '/index.php?mod=forum&amp;sub=admin&amp;action=settings');
+        
+        $settings = array();
+		
+        $settings['form']   = array(    'name' => 'forums_settings',
+                                        'method' => 'POST',
+                                        'action' => WWW_ROOT.'/index.php?mod=forum&amp;sub=admin&amp;action=settings_update');
+		
 		$settings['forum'][] = array(    
 										'id' => 'list_max',
                                         'name' => 'list_max',
@@ -198,7 +206,44 @@ class Module_Forum_Admin extends Clansuite_ModuleController implements Clansuite
                                         'description' => _('Allow Geshi Highlighting'),
                                         'formfieldtype' => 'text',
                                         'value' => $this->getConfigValue('allow_geshi_highlight', '1'));
+										
+        require ROOT_CORE . '/viewhelper/formgenerator.core.php';
+        $form = new Clansuite_Array_Formgenerator($settings);
+
+        # display formgenerator object
+        #clansuite_xdebug::printR($form); 
+        
+        $form->addElement('submitbutton')->setName('Save');
+        $form->addElement('resetbutton');
+        
+        # display form html
+        #clansuite_xdebug::printR($form->render());
+        
+        # assign the html of the form to the view
+        $this->getView()->assign('form', $form->render());
+
+        $this->prepareOutput(); 
 	}
+	
+    function action_admin_settings_update()
+    { 
+        # Incomming Data
+        # @todo get post via request object, sanitize
+        $data = $this->getHttpRequest()->getParameter('forum_settings');
+
+        # Get Configuration from Injector
+        $config = $this->injector->instantiate('Clansuite_Config');
+        
+        # write config
+        $config->confighandler->writeConfig( ROOT_MOD . 'forum/forum.config.php', $data);
+
+        # clear the cache / compiled tpls
+        # $this->getView()->clear_all_cache();
+        $this->getView()->clear_compiled_tpl();
+
+        # Redirect
+        $this->getHttpResponse()->redirectNoCache('index.php?mod=forum&amp;sub=admin', 2, 302, 'The config file has been succesfully updated.');
+    }
 }
 
 ?>
