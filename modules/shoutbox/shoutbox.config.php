@@ -3,6 +3,7 @@
 ; Clansuite Configuration File for Module shoutbox
 ;
 [shoutbox]
-items_shoutboxwidget = 12
+
+widget_shoutbox = 12
 
 ; DO NOT REMOVE THIS LINE */ ?>
