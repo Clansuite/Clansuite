@@ -192,9 +192,24 @@ class Clansuite_Array_Formgenerator extends Clansuite_Form
               
                # and apply the settings (id, name, description, value) to it
                $formelement->setID($form_array_element['id']);
-               $formelement->setName($form_array_element['name']);
+               
+               # provide array access to the form data (in $_POST) by prefixing it with the formulars name
+               $formelement->setName($this->getName().'['.$form_array_element['name'].']');
                $formelement->setDescription($form_array_element['description']);
-               $formelement->setValue($form_array_element['value']);               
+               
+               /**
+                * check if $form_array_element['value'] is of type array or single value
+                * array indicates, that we have a request for 
+                * something like a multiselect formfield with several options 
+                */
+               if(is_array($form_array_element['value']) == false)
+               {
+                   $formelement->setValue($form_array_element['value']);
+               }
+               else
+               {
+                   $formelement->setOptions($form_array_element['value']);    
+               }
               
                # attach to form html
                #$form .= parent::render();

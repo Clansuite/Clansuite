@@ -81,6 +81,8 @@ class Clansuite_Localization
          * The library provides a simple gettext replacement that works independently from
          * the system's gettext abilities.
          * It can read the MO files and use them for the translation of strings.
+         * It can also cache the mo files.
+         * Note that gettext.inc includes gettext.php and streams.php.
          *
          * Review the following articles/manual to understand how this works:
          * @link http://www.php.net/gettext PHP Manual Gettext
@@ -88,7 +90,7 @@ class Clansuite_Localization
          * @link http://www.gnu.org/software/gettext/manual/gettext.html GNU Gettext
          */
         require_once ROOT_LIBRARIES.'/php-gettext/gettext.inc';
-
+        
         # Load Clansuite Domain
         $this->loadTextDomain('LC_ALL', $this->domain, $locale);
     }

@@ -152,11 +152,17 @@ class Module_News extends Clansuite_ModuleController implements Clansuite_Module
         $feed_items = (int) $this->getHttpRequest()->getParameter('items');
 
         # Set Number of Items Range 0<15 || MAX 30
-        if($feed_items == null or $feed_items < 15)   { $feed_items = 15;  }
-        elseif($feed_items > 15 )                     { $feed_items = 30;  }
-        
+        if($feed_items == null or $feed_items < 15)
+        {
+            $feed_items = $this->getConfigValue('feed_items', '15');
+        }
+        elseif($feed_items > 15 )
+        {
+            $feed_items = 30;
+        }
+
         /**
-         * Get Format of Feed to create         
+         * Get Format of Feed to create
          */
         # white list for valid feed format strings
         $feed_format_array = array('RSS0.91', 'RSS1.0', 'RSS2.0', 'MBOX', 'OPML', 'ATOM', 'ATOM0.3', 'HTML', 'JS');
@@ -165,7 +171,7 @@ class Module_News extends Clansuite_ModuleController implements Clansuite_Module
         # check its a valid string or set default
         if(in_array($feed_format, $feed_format_array) == false or $feed_format === null)
         {
-            $feed_format = 'RSS2.0';    
+            $feed_format = $this->getConfigValue('feed_format', 'RSS2.0');
         }
 
         /**
@@ -207,7 +213,7 @@ class Module_News extends Clansuite_ModuleController implements Clansuite_Module
          * Loop over Dataset
          */
         foreach ($news_array as $key => $news)
-        {  
+        {
             /**
              * Create Feed Item Object
              */
@@ -235,7 +241,7 @@ class Module_News extends Clansuite_ModuleController implements Clansuite_Module
          * RSS0.91, RSS1.0, RSS2.0, PIE0.1 (deprecated),
          * MBOX, OPML, ATOM, ATOM0.3, HTML, JS
          */
-        $rss->saveFeed($feed_format, ROOT_MOD . 'news/feed-'.$feed_items.'.xml');
+        $rss->saveFeed($feed_format, ROOT_MOD . 'news/newsfeed-'.$feed_items.'.xml');
     }
 
      /**
@@ -514,7 +520,7 @@ class Module_News extends Clansuite_ModuleController implements Clansuite_Module
         # assign the fetched news to the view
         $smarty->assign('widget_latestnews', $latestnews);
     }
-    
+
     /**
      * Widget for displaying NewsCategories in List-Style
      */
@@ -530,7 +536,7 @@ class Module_News extends Clansuite_ModuleController implements Clansuite_Module
         # assign the fetched news to the view
         $smarty->assign('widget_newscategories_list', $newscategories_list);
     }
-    
+
     /**
      * Widget for displaying NewsCategories in Dropdown-Style
      */
@@ -578,13 +584,13 @@ class Module_News extends Clansuite_ModuleController implements Clansuite_Module
         #assign the fetched news to the view
         $smarty->assign('widget_archive', $archive);
     }
-    
+
     /**
      * Widget: Newsfeeds
      */
     public function widget_newsfeeds()
     {
         # nothing
-    }    
+    }
 }
 ?>

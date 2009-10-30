@@ -1,12 +1,14 @@
 ; <?php die( 'Access forbidden.' ); /* DO NOT MODIFY THIS LINE! ?>
+; 
+; Clansuite Configuration File : 
+; D:\xampplite\htdocs\work\clansuite\trunk\modules\news/news.config.php 
 ;
-; Clansuite Configuration File for Module News
-;
-[news]
-resultsPerPage_show = 3
-resultsPerPage_fullarchive = 25
-resultsPerPage_archive = 3
-items_newswidget = 3
 
+resultsPerPage_show = 3
+items_newswidget = 5
+resultsPerPage_fullarchive = 3
+resultsPerPage_archive = 3
+feed_format = "ATOM"
+feed_items = 14000
 
 ; DO NOT REMOVE THIS LINE */ ?>

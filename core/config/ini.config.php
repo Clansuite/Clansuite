@@ -122,9 +122,12 @@ class Clansuite_Config_INIHandler extends Clansuite_Config_Base implements Array
            # array_merge_recursive ??
            $config_array = array_merge($old_config_array, $assoc_array);
        }
-       else # the config array = the incoming assoc_array
+       else 
        {
+           # create file
            touch($ini_filename);
+           
+           # the config array = the incoming assoc_array
            $config_array = $assoc_array;
        }
 
