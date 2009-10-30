@@ -76,11 +76,11 @@ class Module_Shoutbox_Admin extends Clansuite_ModuleController implements Clansu
                                         'action' => WWW_ROOT.'/index.php?mod=shoutbox&amp;sub=admin&amp;action=settings_update');
                                         
         $settings['shoutbox'][] = array(    
-										'id' => 'items_shoutboxwidget',
-                                        'name' => 'items_shoutboxwidget',
+										'id' => 'widget_shoutbox',
+                                        'name' => 'widget_shoutbox',
                                         'description' => _('Shoutbox Items'),
                                         'formfieldtype' => 'text',
-                                        'value' => $this->getConfigValue('items_shoutboxwidget', '12'));
+                                        'value' => $this->getConfigValue('widget_shoutbox', '12'));
         
         require ROOT_CORE . '/viewhelper/formgenerator.core.php';
         $form = new Clansuite_Array_Formgenerator($settings);
