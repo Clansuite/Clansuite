@@ -589,14 +589,65 @@ class Module_Users_Admin extends Clansuite_ModuleController implements Clansuite
 		$this->redirect( 'index.php?mod=users&sub=admin&action=show_all', 3, _( 'The selected user(s) were deleted.' ));
 	}
 	
-	public function action_admin_settings ()
-	{
-		$settings = array();
+    /**
+     * Action for displaying the Settings of a Module Users
+     */
+    function action_admin_settings()
+    {
+        # Set Pagetitle and Breadcrumbs
+        Clansuite_Trail::addStep( _('Settings'), '/index.php?mod=users&amp;sub=admin&amp;action=settings');
+        
+        $settings = array();
+        
+        $settings['form']   = array(    'name' => 'users_settings',
+                                        'method' => 'POST',
+                                        'action' => WWW_ROOT.'/index.php?mod=users&amp;sub=admin&amp;action=settings_update');
+                                        
         $settings['users'][] = array(    'id' => 'items_lastregisteredusers',
                                         'name' => 'items_lastregisteredusers',
                                         'description' => _('How many Last Users'),
                                         'formfieldtype' => 'text',
                                         'value' => $this->getConfigValue('items_lastregisteredusers', '4'));
-	}
+       
+        require ROOT_CORE . '/viewhelper/formgenerator.core.php';
+        $form = new Clansuite_Array_Formgenerator($settings);
+
+        # display formgenerator object
+        #clansuite_xdebug::printR($form); 
+        
+        $form->addElement('submitbutton')->setName('Save');
+        $form->addElement('resetbutton');
+        
+        # display form html
+        #clansuite_xdebug::printR($form->render());
+        
+        # assign the html of the form to the view
+        $this->getView()->assign('form', $form->render());
+
+        $this->prepareOutput();       
+    }
+    
+    function action_admin_settings_update()
+    { 
+        # Set Pagetitle and Breadcrumbs
+        Clansuite_Trail::addStep( _('Update'), '/index.php?mod=users&amp;sub=settings&amp;action=update');
+
+        # Incomming Data
+        # @todo get post via request object, sanitize
+        $data = $this->getHttpRequest()->getParameter('users_settings');
+
+        # Get Configuration from Injector
+        $config = $this->injector->instantiate('Clansuite_Config');
+        
+        # write config
+        $config->confighandler->writeConfig( ROOT_MOD . 'users/users.config.php', $data);
+
+        # clear the cache / compiled tpls
+        # $this->getView()->clear_all_cache();
+        $this->getView()->clear_compiled_tpl();
+
+        # Redirect
+        $this->getHttpResponse()->redirectNoCache('index.php?mod=users&amp;sub=admin', 2, 302, 'The config file has been succesfully updated.');
+    }
 }
 ?>

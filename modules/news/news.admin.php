@@ -656,9 +656,6 @@ class Module_News_Admin extends Clansuite_ModuleController implements Clansuite_
     
     function action_admin_settings_update()
     { 
-        # Set Pagetitle and Breadcrumbs
-        Clansuite_Trail::addStep( _('Update'), '/index.php?mod=controlcenter&amp;sub=settings&amp;action=update');
-
         # Incomming Data
         # @todo get post via request object, sanitize
         $data = $this->getHttpRequest()->getParameter('news_settings');

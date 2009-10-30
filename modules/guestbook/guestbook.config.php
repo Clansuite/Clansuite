@@ -4,4 +4,6 @@
 ;
 [guestbook]
 
+guestbook_resultsPerPage = 10
+
 ; DO NOT REMOVE THIS LINE */ ?>

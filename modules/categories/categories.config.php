@@ -4,5 +4,6 @@
 ;
 [categories]
 
+items_resultsPerPage = 25
 
 ; DO NOT REMOVE THIS LINE */ ?>

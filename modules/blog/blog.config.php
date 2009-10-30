@@ -4,5 +4,6 @@
 ;
 [blog]
 
+items_resultsPerPage = 5
 
 ; DO NOT REMOVE THIS LINE */ ?>

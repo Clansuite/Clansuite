@@ -199,7 +199,16 @@ class Module_ControlCenter extends Clansuite_ModuleController implements Clansui
      */
     public function action_settings()
     {
+        $settings = array();									
+        # Set Pagetitle and Breadcrumbs
+        Clansuite_Trail::addStep( _('Settings'), '/index.php?mod=controlcenter&amp;sub=admin&amp;action=settings');
+        
         $settings = array();
+		
+        $settings['form']   = array(    'name' => 'controlcenter_settings',
+                                        'method' => 'POST',
+                                        'action' => WWW_ROOT.'/index.php?mod=controlcenter&amp;action=settings_update');
+		
         $settings['controlcenter'][] = array(    
 										'id' => 'show_box_shortcuts',
                                         'name' => 'show_box_shortcuts',
@@ -227,6 +236,43 @@ class Module_ControlCenter extends Clansuite_ModuleController implements Clansui
                                         'description' => _('Show Extensions'),
                                         'formfieldtype' => 'selectyesno',
                                         'value' => $this->getConfigValue('show_box_extensions', '1'));
+        
+        require ROOT_CORE . '/viewhelper/formgenerator.core.php';
+        $form = new Clansuite_Array_Formgenerator($settings);
+
+        # display formgenerator object
+        #clansuite_xdebug::printR($form); 
+        
+        $form->addElement('submitbutton')->setName('Save');
+        $form->addElement('resetbutton');
+        
+        # display form html
+        #clansuite_xdebug::printR($form->render());
+        
+        # assign the html of the form to the view
+        $this->getView()->assign('form', $form->render());
+
+        $this->prepareOutput();  
     } 
+	
+    function action_settings_update()
+    { 
+        # Incomming Data
+        # @todo get post via request object, sanitize
+        $data = $this->getHttpRequest()->getParameter('controlcenter_settings');
+
+        # Get Configuration from Injector
+        $config = $this->injector->instantiate('Clansuite_Config');
+        
+        # write config
+        $config->confighandler->writeConfig( ROOT_MOD . 'controlcenter/controlcenter.config.php', $data);
+
+        # clear the cache / compiled tpls
+        # $this->getView()->clear_all_cache();
+        $this->getView()->clear_compiled_tpl();
+
+        # Redirect
+        $this->getHttpResponse()->redirectNoCache('index.php?mod=controlcenter', 2, 302, 'The config file has been succesfully updated.');
+    }
 }
 ?>
