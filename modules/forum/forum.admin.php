@@ -168,7 +168,7 @@ class Module_Forum_Admin extends Clansuite_ModuleController implements Clansuite
         
         $settings = array();
 		
-        $settings['form']   = array(    'name' => 'forums_settings',
+        $settings['form']   = array(    'name' => 'forum_settings',
                                         'method' => 'POST',
                                         'action' => WWW_ROOT.'/index.php?mod=forum&amp;sub=admin&amp;action=settings_update');
 		
@@ -190,8 +190,8 @@ class Module_Forum_Admin extends Clansuite_ModuleController implements Clansuite
 										'id' => 'allow_bb_code',
                                         'name' => 'allow_bb_code',
                                         'description' => _('Allow BBCode'),
-                                        'formfieldtype' => 'text',
-                                        'value' => $this->getConfigValue('allow_bb_code', '1'));
+                                        'formfieldtype' => 'selectyesno',
+                                        'value' => array( 'selected' => $this->getConfigValue('allow_bb_code', '1')));
 										
 		$settings['forum'][] = array(    
 										'id' => 'allow_html',
@@ -235,7 +235,7 @@ class Module_Forum_Admin extends Clansuite_ModuleController implements Clansuite
         $config = $this->injector->instantiate('Clansuite_Config');
         
         # write config
-        $config->confighandler->writeConfig( ROOT_MOD . 'forum/forum.config.php', $data);
+        $config->confighandler->writeConfig( ROOT_MOD . 'forum'.DS.'forum.config.php', $data);
 
         # clear the cache / compiled tpls
         # $this->getView()->clear_all_cache();

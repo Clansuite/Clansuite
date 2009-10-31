@@ -299,9 +299,10 @@ class Module_News_Admin extends Clansuite_ModuleController implements Clansuite_
     }
 
     /**
-     * Create News
+     * Debugging Action
+     * testformgenerator
      */
-    function action_admin_create()
+    function action_admin_testformgenerator()
     {
         # Load Form Class (@todo autoloader / di)
         require ROOT_CORE . 'viewhelper/form.core.php';
@@ -361,71 +362,67 @@ class Module_News_Admin extends Clansuite_ModuleController implements Clansuite_
     /**
      * Create News
      */
-    function action_admin_creates()
+    function action_admin_create()
     {
+        # Load Form Class (@todo autoloader / di)
+        require ROOT_CORE . 'viewhelper/form.core.php';
+        
+        /**
+         * Create a new form
+         */
+        $form = new Clansuite_Form('news_form', 'post', 'index.php?mod=news&sub=admin&action=update');
 
-        // Permission check
+        /**
+         * Assign some Formlements
+         */
+        $form->addElement('text')->setName('news_form[title]')->setLabel(_('Title'));        
+        $categories = Doctrine::getTable('CsNews')->fetchAllNewsCategoriesDropDown();        
+        $form->addElement('multiselect')->setName('news_form[category]')->setLabel(_('Category'))->setOptions($categories);
+        $form->addElement('textarea')->setName('news_form[body]')->setCols('70')->setLabel(_('Newsbody'));
+        $form->addElement('submitbutton')->setValue('Submit')->setLabel('Submit Button')->setClass('ButtonGreen');
+        $form->addElement('resetbutton')->setValue('Reset')->setLabel('Reset Button');
+
+        # Debugging Form Object
+        #clansuite_xdebug::printR($form);
+
+        # Debugging Form HTML Output
+        #clansuite_xdebug::printR($form->render());
+
+        # assign the html of the form to the view
+        $this->getView()->assign('form', $form->render());
+
+        $this->prepareOutput();
+    }
+
+    /**
+     * Update News
+     *
+     * Purpose: save content of newsform into db.
+     */
+    function action_admin_update()
+    {
+        # Permission check
         #$perms->check('cc_create_news');
 
-        // Incoming Vars
-        $submit = isset($_POST['submit']) ? $_POST['submit'] : '';
-        #$infos = $_POST['infos'];
+        # get incoming data
+        $data = $this->getHttpRequest()->getParameter('news_form');
+    
+        #clansuite_xdebug::printR($data);
+        
+        # @todo validation
+        
+        # insert
+        $news = new CsNews;
+        $news['news_title'] = $data['title'];
+        #@todo we have a problem submitting a nicedit div content field
+        # this has to be replaced with an textarea again, call save: nicedit.saveContent() or something
+        $news['news_body']  = $data['body']; 
+        $news['cat_id']     = $data['category'];
+        #$news['news_status']     = $data['news_form']['status'];
+        $news->save();       
 
-        // check for fills
-        if( ( empty($infos['title']) OR
-            empty($infos['body']) )
-            AND !empty($submit) )
-        {
-            $err['fill_form'] = 1;
-        }
-
-        // Create news in DB
-        if( !empty($submit) && count($err) == 0)
-        {
-            // build groups
-            /*
-            foreach( $infos['groups'] as $key => $value )
-            {
-                $groups .= $value . ',';
-            }
-            $groups = substr( $groups, 0, -1 );
-            */
-
-            // Query DB
-            $stmt = $db->prepare( 'INSERT INTO ' . DB_PREFIX . 'news SET news_title = ?, news_body = ?, cat_id = ?, user_id = ?, draft = ?' );
-            $stmt->execute( array(  $infos['title'],
-                                    $infos['body'],
-                                    $infos['cat_id'],
-                                    $_SESSION['user']['user_id'],
-                                    $infos['draft'],
-                                    //$groups ) );
-                                    ) );
-
-            // Redirect on finish
-            $functions->redirect( 'index.php?mod=news&sub=admin&action=show', 'metatag|newsite', 3, $lang->t( 'The news has been created.' ), 'admin' );
-
-        }
-
-        // Get all groups
-        /*
-        $stmt = $db->prepare( 'SELECT * FROM ' . DB_PREFIX . 'groups' );
-
-        $stmt->execute();
-        $all_groups = $stmt->fetchAll(PDO::FETCH_ASSOC);
-        */
-
-        // $categories for module_news
-        $stmt = $db->prepare( 'SELECT cat_id, name FROM ' . DB_PREFIX . 'categories WHERE module_id = ?' );
-        $stmt->execute( array ( $cfg->modules['news']['module_id'] ) );
-        $newscategories = $stmt->fetchAll(PDO::FETCH_NAMED);
-
-        // give $newslist array to Smarty for template output
-        $tpl->assign('newscategories', $newscategories);
-
-        // Output Stuff
-        $tpl->assign( 'err'         , $err);
-        //$tpl->assign( 'all_groups'  , $all_groups);
-        $this->output .= $tpl->fetch('news/admin_create.tpl');
+        # Redirect
+        $this->getHttpResponse()->redirectNoCache('index.php?mod=news&amp;sub=admin', 2, 302, _('The news has been created.'));
     }
 
     /**
@@ -578,8 +575,6 @@ class Module_News_Admin extends Clansuite_ModuleController implements Clansuite_
         $this->suppress_wrapper = 1;
     }
 
-
-
     /**
      * Action for displaying the Settings of a Module News
      */
@@ -587,13 +582,13 @@ class Module_News_Admin extends Clansuite_ModuleController implements Clansuite_
     {
         # Set Pagetitle and Breadcrumbs
         Clansuite_Trail::addStep( _('Settings'), '/index.php?mod=news&amp;sub=admin&amp;action=settings');
-        
+
         $settings = array();
-        
+
         $settings['form']   = array(    'name' => 'news_settings',
                                         'method' => 'POST',
                                         'action' => WWW_ROOT.'/index.php?mod=news&amp;sub=admin&amp;action=settings_update');
-                                        
+
         $settings['news'][] = array(    'id' => 'resultsPerPage_show',
                                         'name' => 'resultsPerPage_show',
                                         'description' => _('Newsitems to show in Newsmodule'),
@@ -617,7 +612,7 @@ class Module_News_Admin extends Clansuite_ModuleController implements Clansuite_
                                         'description' => _('Newsitems to show in Newsarchive'),
                                         'formfieldtype' => 'text',
                                         'value' => $this->getConfigValue('resultsPerPage_archive', '3'));
-                                        
+
         $settings['news'][] = array(    'id' => 'feed_format',
                                         'name' => 'feed_format',
                                         'description' => _('Set the default format of the news feed. You can chose among these options: RSS2.0, MBOX, OPML, ATOM, HTML, JS'),
@@ -629,42 +624,42 @@ class Module_News_Admin extends Clansuite_ModuleController implements Clansuite_
                                                           'ATOM'     => 'ATOM',
                                                           'HTML'     => 'HTML',
                                                           'JS'       => 'JS'));
-                                        
+
         $settings['news'][] = array(    'id' => 'feed_items',
                                         'name' => 'feed_items',
                                         'description' => _('Sets the default number of feed items.'),
                                         'formfieldtype' => 'text',
                                         'value' => $this->getConfigValue('feed_items', '10'));
-        
+
         require ROOT_CORE . '/viewhelper/formgenerator.core.php';
         $form = new Clansuite_Array_Formgenerator($settings);
 
         # display formgenerator object
-        #clansuite_xdebug::printR($form); 
-        
+        #clansuite_xdebug::printR($form);
+
         $form->addElement('submitbutton')->setName('Save');
         $form->addElement('resetbutton');
-        
+
         # display form html
         #clansuite_xdebug::printR($form->render());
-        
+
         # assign the html of the form to the view
         $this->getView()->assign('form', $form->render());
 
-        $this->prepareOutput();       
+        $this->prepareOutput();
     }
-    
+
     function action_admin_settings_update()
-    { 
+    {
         # Incomming Data
         # @todo get post via request object, sanitize
         $data = $this->getHttpRequest()->getParameter('news_settings');
 
         # Get Configuration from Injector
         $config = $this->injector->instantiate('Clansuite_Config');
-        
+
         # write config
-        $config->confighandler->writeConfig( ROOT_MOD . 'news/news.config.php', $data);
+        $config->confighandler->writeConfig( ROOT_MOD . 'news'.DS.'news.config.php', $data);
 
         # clear the cache / compiled tpls
         # $this->getView()->clear_all_cache();

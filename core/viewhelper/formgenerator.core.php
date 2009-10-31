@@ -126,9 +126,9 @@ class Clansuite_Doctrine_Formgenerator extends Clansuite_Form
 
         return $form;
     }
-    
+
     /**
-     * Facade/Shortcut 
+     * Facade/Shortcut
      */
     public function generate($array)
     {
@@ -144,34 +144,36 @@ class Clansuite_Doctrine_Formgenerator extends Clansuite_Form
 class Clansuite_Array_Formgenerator extends Clansuite_Form
 {
     protected $form_array;
-    
+
     public function __construct(array $form_array)
     {
         parent::__construct( $form_array['form']['name'], $form_array['form']['method'], $form_array['form']['action'] );
-    
+
         unset($form_array['form']);
-        
+
         $this->form_array = $form_array;
-        
+
         $this->generateFormByArray();
-        
+
         return $this;
     }
     
     public function generateFormByArray()
-    { 
+    {
         # debug display incomming form description array
         #clansuite_xdebug::printR($this->array);
-        
+
         # loop over all elements of the form description array
         foreach($this->form_array as $form_array_sectionname => $form_array_elements)
         {
             #clansuite_xdebug::printR($form_array_elements);
             #clansuite_xdebug::printR($form_array_sectionname);
-            
+
             foreach($form_array_elements as $form_array_element_number => $form_array_element)
             {
                /**
+                * These array keys have to exist!
+                *
                 * $form_array_element is an array of the following structure:
                 *
                 * Array (
@@ -181,26 +183,36 @@ class Clansuite_Array_Formgenerator extends Clansuite_Form
                 *     [formfieldtype] => text
                 *     [value] => 3
                 * )
-                */               
+                */
                #clansuite_xdebug::printR($form_array_element);
-               
+
+               # @todo ensure these elements exist !!!
+
                # add a new element to this form, position it by it's number in the array
                $this->addElement( $form_array_element['formfieldtype'], $form_array_element_number );
-               
+
                # fetch the new formelement object
                $formelement = $this->getElementByPosition($form_array_element_number);
-              
+
                # and apply the settings (id, name, description, value) to it
                $formelement->setID($form_array_element['id']);
-               
+
                # provide array access to the form data (in $_POST) by prefixing it with the formulars name
                $formelement->setName($this->getName().'['.$form_array_element['name'].']');
                $formelement->setDescription($form_array_element['description']);
-               
+               $formelement->setLabel($this->getName().'['.$form_array_element['name'].']');
+
+               # set the options['selected'] value as default value
+               if(isset($form_array_element['options']['selected']))
+               {   
+                   $formelement->setDefault($form_array_element['options']['selected']);
+                   unset($form_array_element['options']['selected']);
+               }
+
                /**
                 * check if $form_array_element['value'] is of type array or single value
-                * array indicates, that we have a request for 
-                * something like a multiselect formfield with several options 
+                * array indicates, that we have a request for
+                * something like a multiselect formfield with several options
                 */
                if(is_array($form_array_element['value']) == false)
                {
@@ -208,26 +220,34 @@ class Clansuite_Array_Formgenerator extends Clansuite_Form
                }
                else
                {
-                   $formelement->setOptions($form_array_element['value']);    
+                   $formelement->setOptions($form_array_element['value']);
                }
-              
-               # attach to form html
-               #$form .= parent::render();
-                                
-            }                              
+
+               /**
+                * OPTIONAL ELEMENTS
+                */
+
+               # if we have a class attribute defined, then add it (optional)
+               if(isset($form_array_element['class']))
+               {
+                   $formelement->setClass($form_array_element['class']);
+               }
+            }            
+            
         }
+        
         # unset the form description array, because we are done with it
         unset($this->form_array);
-        
-        return $this->render();    
+
+        return $this->render();
     }
-    
+
     /**
-     * Facade/Shortcut 
+     * Facade/Shortcut
      */
     public function generate($array)
     {
         $this->generateFormByArray($array);
-    }    
-} 
+    }
+}
 ?>
