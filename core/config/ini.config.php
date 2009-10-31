@@ -112,6 +112,12 @@ class Clansuite_Config_INIHandler extends Clansuite_Config_Base implements Array
     {
        # debug incomming array
        #clansuite_xdebug::printR($assoc_array);
+       if(is_array($assoc_array) == false)
+       {
+           #@todo exit gracefully
+           exit('writeConfig Parameter $assoc_array is not an array.');
+       }
+       
 
        # when ini_filename exists, get old config array
        if(is_file($ini_filename))

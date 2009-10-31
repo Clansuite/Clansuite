@@ -71,7 +71,8 @@ class Clansuite_Formelement_Wysiwygnicedit extends Clansuite_Formelement_Textare
                                         iconsPath : '" . WWW_ROOT_THEMES_CORE . "/javascript/nicedit/nicEditorIcons.gif',
                                         maxHeight : 600,
                                         bbCode    : true,
-                                        xhtml     : true
+                                        xhtml     : true,
+                                        onSave    : function(content, id, instance) { this.saveContent(); }
                                     })
                                 }
                             );

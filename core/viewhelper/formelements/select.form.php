@@ -37,6 +37,8 @@
 // Security Handler
 if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.');}
 
+if (!class_exists('Clansuite_Formelement')) { require ROOT_CORE.'viewhelper/formelement.core.php'; }
+
 /**
  *
  *  Clansuite_Form
@@ -58,20 +60,22 @@ class Clansuite_Formelement_Select extends Clansuite_Formelement implements Clan
      * @var string
      */
     protected $default = '';
+    
+    protected $description;
+    
+    /**
+     * number of displayed items
+     * 0 = pure dropdown with 1 field
+     * 3 = 3 elements shown, rest available via scrollbar
+     */
+    protected $size;
 
     # string
-    protected $label ='Select an item from this pull-down menu.';
+    #protected $label ='Select an item from this pull-down menu.';
 
     public function __construct()
     {
         $this->type = 'select';
-    }
-    
-    public function setDefaultOption($default)
-    {
-        $this->default = $default;
-        
-        return $this;   
     }
 
     public function setOptions($options)
@@ -80,25 +84,66 @@ class Clansuite_Formelement_Select extends Clansuite_Formelement implements Clan
 
         return $this;
     }
+    
+    public function setSize($size)
+    {
+        $this->size = $size;
+
+        return $this;
+    }
+    
+   /* public function setLabel($label)
+    {
+        $this->label = $label;
+        
+        return $this;   
+    }   */
 
     public function render()
     {
+        # open the html select tag
         $html = '';
-        $html .= '<select name='.$this->name.' class="'.$this->class.'">';
-
-        foreach ($this->options as $key => $value)
+        $html .= '<select name="'.$this->name.'"';
+        $html .= (bool)$this->class ? 'class="'.$this->class.'"' : null;
+        $html .= (bool)$this->size ? 'size="'.$this->size.'"' : null;
+        $html .= '>';
+        
+        /**
+         * this handles the delaut value setting via the options array, parameter "selected"
+         * it grabs the first element in the options array, which keyname should be 'selected'
+         * and then removes it, setting its value to $this->default.
+         *
+         * note: if the options array is incomming via a formgenerator, the formgenerator has already performed this step
+         * $this->setDefault(options['selected']);
+         */
+        if(isset($this->options['selected']))
         {
-            if ($key == $this->default)
-            {
-                $html .= '<option value='.$key.' selected >'.$value.'</option>';
+           $this->default = $this->options['selected'];
+           unset($this->options['selected']);          
+        }
+                
+        # loop over all selectfield options
+        foreach ($this->options as $key => $value)
+        {  
+            /**
+             * check if the value is the default one
+             * in case it is, add html "selected" 
+             */
+            if ($value == $this->default)
+            {  
+                $html .= '<option value="'.$key.'" selected>'.$value.'</option>';
             }
-            else
+            else # a normal select element is rendered
             {
-                $html .= '<option value='.$key.'>'.$value.'</option>';
+                $html .= '<option value="'.$key.'">'.$value.'</option>';
             }
         }
 
+        # close the html select tag
         $html .= '</select>';
+        
+        # add a description after the element
+        $html .= (bool)$this->description ? $this->description : null;
         
         return $html;
     }

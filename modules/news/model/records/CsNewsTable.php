@@ -301,43 +301,51 @@ class CsNewsTable extends Doctrine_Table
     }
 
     /**
-     * fetch News Categories for List-Style
+     * fetch used News Categories
      *
-     * Doctrine_Query to fetch News Categories
+     * Doctrine_Query to fetch all used News Categories
      */
-    public static function fetchNewsCategoriesList()
+    public static function fetchUsedNewsCategories()
     {
         # fetch news via doctrine query
-        $newscategories_list = Doctrine_Query::create()
-                                    ->select('n.cat_id, COUNT(n.cat_id) sum, c.name')
+        $newscategories = Doctrine_Query::create()
+                                    ->select('n.cat_id, COUNT(n.cat_id) sum_news, c.name')
                                     ->from('CsNews n')
-                                    ->innerJoin('n.CsCategories c ON n.cat_id = c.cat_id')
+                                    ->leftJoin('n.CsCategories c ON n.cat_id = c.cat_id')
                                     ->where('c.module_id = 7')
                                     ->groupBy('c.name')
                                     ->setHydrationMode(Doctrine::HYDRATE_ARRAY)
                                     ->execute( array() );
 
-        return $newscategories_list;
+        return $newscategories;
     }
-
+    
     /**
-     * fetch News Categories for Dropdown-Style
+     * fetch all News Categories
      *
-     * Doctrine_Query to fetch News Categories
+     * Doctrine_Query to fetch all News Categories
      */
-    public static function fetchNewsCategoriesDropdown()
+    public static function fetchAllNewsCategoriesDropDown()
     {
         # fetch news via doctrine query
-        $newscategories_dropdown = Doctrine_Query::create()
-                                    ->select('n.cat_id, COUNT(n.cat_id) sum, c.name')
-                                    ->from('CsNews n')
-                                    ->innerJoin('n.CsCategories c ON n.cat_id = c.cat_id')
+        $newscategories = Doctrine_Query::create()
+                                    ->select('c.cat_id, c.name')
+                                    ->from('CsCategories c')
                                     ->where('c.module_id = 7')
                                     ->groupBy('c.name')
                                     ->setHydrationMode(Doctrine::HYDRATE_ARRAY)
-                                    ->execute( array() );
-
-
+                                    ->execute( array() );        
+        
+        /**
+         * restructure numbered array to 'cat_id' => 'name' for the dropdown
+         */
+        $newscategories_dropdown = array();
+        
+        foreach($newscategories as $array_element)
+        {
+            $newscategories_dropdown[$array_element['cat_id']] =  $array_element['name'];
+        }
+        
         return $newscategories_dropdown;
     }
 

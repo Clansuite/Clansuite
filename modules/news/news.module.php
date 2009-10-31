@@ -531,7 +531,7 @@ class Module_News extends Clansuite_ModuleController implements Clansuite_Module
 
         parent::initRecords('categories');
 
-        $newscategories_list = Doctrine::getTable('CsNews')->fetchNewsCategoriesList();
+        $newscategories_list = Doctrine::getTable('CsNews')->fetchUsedNewsCategories();
 
         # assign the fetched news to the view
         $smarty->assign('widget_newscategories_list', $newscategories_list);
@@ -549,7 +549,7 @@ class Module_News extends Clansuite_ModuleController implements Clansuite_Module
         parent::initRecords('categories');
 
         # get catdropdown options from database
-        $newscategories_dropdown = Doctrine::getTable('CsNews')->fetchNewsCategoriesDropdown();
+        $newscategories_dropdown = Doctrine::getTable('CsNews')->fetchUsedNewsCategories();
 
         # assign the fetched news to the view
         $smarty->assign('widget_newscategories_dropdown', $newscategories_dropdown);

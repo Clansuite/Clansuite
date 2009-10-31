@@ -56,14 +56,14 @@ $modulenavigation = array(
 										    'icon'    => '',
 										    'tooltip' => ''
 										),
-
+                            /*
 						    '3' => array(
 							                'action'  => 'settings',
 							                'name'    => 'Settings',
 										    'url'     => 'index.php?mod=categories&sub=admin&action=settings',
 										    'icon'    => '',
 										    'tooltip' => ''
-										),
+										),*/
 						 );
 
 /**

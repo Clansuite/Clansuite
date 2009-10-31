@@ -77,6 +77,8 @@ class Clansuite_Formelement_Textarea extends Clansuite_Formelement implements Cl
      */
     protected $rows = 0;
     
+    protected $name;
+    
     public function __construct()
     {
         $this->type  = 'textarea';
@@ -113,6 +115,13 @@ class Clansuite_Formelement_Textarea extends Clansuite_Formelement implements Cl
         $this->rows = $rows;
 
         return $this;
+    }
+    
+    public function setName($name)
+    {
+        $this->name = $name;
+        
+        return $this;   
     }
 
     /**
