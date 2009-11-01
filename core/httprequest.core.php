@@ -284,15 +284,51 @@ class Clansuite_HttpRequest implements Clansuite_Request_Interface, ArrayAccess
     {
         $parameterArrayName = strtoupper($parameterArrayName);
 
-        if(in_array($parameterArrayName, $this->{strtolower($parameterArrayName).'_arraynames'}))
+        if(in_array($parameterArrayName, $this->request_arraynames) and isset($this->request_parameters[$parametername]))
         {
             if($where == false)
             {
-                return isset($this->{strtolower($parameterArrayName).'_parameters'}[$parametername]);
+                return true;
             }
             else
             {
-                return strtolower($parameterArrayName);
+                return 'request';
+            }
+        }
+        
+        if(in_array($parameterArrayName, $this->post_arraynames) and isset($this->post_parameters[$parametername]))
+        {
+            if($where == false)
+            {
+                return true;
+            }
+            else
+            {
+                return 'post';
+            }
+        }
+        
+        if(in_array($parameterArrayName, $this->get_arraynames) and isset($this->get_parameters[$parametername]))
+        {
+            if($where == false)
+            {
+                return true;
+            }
+            else
+            {
+                return 'get';
+            }
+        }
+        
+        if(in_array($parameterArrayName, $this->cookie_arraynames) and isset($this->cookie_parameters[$parametername]))
+        {
+            if($where == false)
+            {
+                return true;
+            }
+            else
+            {
+                return 'cookie';
             }
         }
 
@@ -308,9 +344,17 @@ class Clansuite_HttpRequest implements Clansuite_Request_Interface, ArrayAccess
      */
     public function getParameter($parametername, $parameterArrayName = 'REQUEST')
     {
+        /**
+         * check if the parameter exists in $parameterArrayName
+         * the third property of issetParameter is set to true, so that we get the full and correct array name back
+         * even if shortcut like R, G, P or C ($parameterArrayName) was used.
+         */
         $parameter_array = $this->issetParameter($parametername, $parameterArrayName, true);
-
-        if($parameter_array != false)
+        
+        /**
+         * we use type hinting here to cast the string with array name to boolean
+         */
+        if((bool)$parameter_array == true)
         {
             return $this->{strtolower($parameter_array).'_parameters'}[$parametername];
         }
