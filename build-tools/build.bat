@@ -6,6 +6,6 @@
 @REM   `------------------------------------'
 @REM SVN: $Id$
 
-START /MAX d:\xampplite\php\phing.bat -f build-clansuite.xml
+START /MAX d:\xampplite\php\phing.bat -f build-clansuite.xml %1
 
 @REM ======= EOF build.bat =======
