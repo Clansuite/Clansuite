@@ -206,7 +206,6 @@ class Module_News extends Clansuite_ModuleController implements Clansuite_Module
         $rss->image = $image;
 
         # Fetch News via Doctrine
-
         $news_array = Doctrine::getTable('CsNews')->fetchNewsForFeed();
 
         /**
@@ -238,8 +237,7 @@ class Module_News extends Clansuite_ModuleController implements Clansuite_Module
          * Set Feed Format and save to file
          *
          * Valid $feed_format strings are:
-         * RSS0.91, RSS1.0, RSS2.0, PIE0.1 (deprecated),
-         * MBOX, OPML, ATOM, ATOM0.3, HTML, JS
+         * RSS0.91, RSS1.0, RSS2.0, PIE0.1 (deprecated), MBOX, OPML, ATOM, ATOM0.3, HTML, JS
          */
         $rss->saveFeed($feed_format, ROOT_MOD . 'news/newsfeed-'.$feed_items.'.xml');
     }
@@ -258,20 +256,16 @@ class Module_News extends Clansuite_ModuleController implements Clansuite_Module
         $news_id = (int) $this->getHttpRequest()->getParameter('id');
         if($news_id == null) { $news_id = 1;  }
 
-        $newsQuery = Doctrine::getTable('CsNews')->fetchSingleNews($news_id);
-
-        $single_news = $newsQuery['single_news'];
-
-        #clansuite_xdebug::printR($single_news);
+        $news = Doctrine::getTable('CsNews')->fetchSingleNews($news_id);
 
         # if a news was found
-        if(!empty($single_news) && is_array($single_news))
+        if(!empty($news) && is_array($news))
         {
-            // Set Pagetitle and Breadcrumbs
-            Clansuite_Trail::addStep( _('Viewing Single News: ') . $single_news['0']['news_title'] , '/index.php?mod=news&amp;action=show');
+            # Set Pagetitle and Breadcrumbs
+            Clansuite_Trail::addStep( _('Viewing Single News: ') . $news['0']['news_title'] , '/index.php?mod=news&amp;action=show');
 
             # Assign News
-            $smarty->assign('news', $single_news);
+            $smarty->assign('news', $news);
 
             /**
              * Check if this news_id has comments and assign them to an extra smarty variable
@@ -279,13 +273,13 @@ class Module_News extends Clansuite_ModuleController implements Clansuite_Module
              * Notice: if unset is not commented, the comments array is doubled:
              * you could also access the values via {$news.} in the tpl.
              */
-            if ( !empty($single_news['0']['CsComments']) )
+            if ( !empty($news['0']['CsComments']) )
             {
                 # Assign News
-                $smarty->assign('news_comments', $single_news['0']['CsComments']);
+                $smarty->assign('news_comments', $news['0']['CsComments']);
 
                 # unsetting the $single_news['0']['CsComments'] to save memory
-                unset($single_news['0']['CsComments']);
+                unset($news['0']['CsComments']);
             }
             else
             {
@@ -499,6 +493,10 @@ class Module_News extends Clansuite_ModuleController implements Clansuite_Module
      */
     public function widget_latestnews($numberNews)
     {
+        # because, we are in a widget, we have to load the dependend records
+        parent::initRecords('users');
+        parent::initRecords('categories');
+
         /**
          * get the incomming value for the number of items to display
          * we have the following order:
@@ -508,17 +506,11 @@ class Module_News extends Clansuite_ModuleController implements Clansuite_Module
          */
         $numberNews = $this->getConfigValue('items_newswidget', $numberNews, '8');
 
-        # get smarty as the view
-        $smarty = $this->getView();
-
-        parent::initRecords('users');
-        parent::initRecords('categories');
-
         # fetch news via doctrine query
         $latestnews = Doctrine::getTable('CsNews')->fetchLatestNews($numberNews);
 
-        # assign the fetched news to the view
-        $smarty->assign('widget_latestnews', $latestnews);
+        # get view and assign the fetched news
+        $this->getView()->assign('widget_latestnews', $latestnews);
     }
 
     /**
@@ -526,15 +518,12 @@ class Module_News extends Clansuite_ModuleController implements Clansuite_Module
      */
     public function widget_newscategories_list()
     {
-        # get smarty as the view
-        $smarty = $this->getView();
-
         parent::initRecords('categories');
 
         $newscategories_list = Doctrine::getTable('CsNews')->fetchUsedNewsCategories();
 
         # assign the fetched news to the view
-        $smarty->assign('widget_newscategories_list', $newscategories_list);
+        $this->getView()->assign('widget_newscategories_list', $newscategories_list);
     }
 
     /**
@@ -542,9 +531,6 @@ class Module_News extends Clansuite_ModuleController implements Clansuite_Module
      */
     public function widget_newscategories_dropdown()
     {
-        # get smarty as the view
-        $smarty = $this->getView();
-
         # initialize the records of other modules
         parent::initRecords('categories');
 
@@ -552,14 +538,14 @@ class Module_News extends Clansuite_ModuleController implements Clansuite_Module
         $newscategories_dropdown = Doctrine::getTable('CsNews')->fetchUsedNewsCategories();
 
         # assign the fetched news to the view
-        $smarty->assign('widget_newscategories_dropdown', $newscategories_dropdown);
+        $this->getView()->assign('widget_newscategories_dropdown', $newscategories_dropdown);
     }
 
+     /**
+     * Widget Archive
+     */
     public function widget_archive()
     {
-        #get smarty as view
-        $smarty = $this->getView();
-
         # fetch all newsentries, ordered by creation date ASCENDING
         # get catdropdown options from database
         $widget_archive = Doctrine::getTable('CsNews')->fetchNewsArchiveWidget();
@@ -581,16 +567,16 @@ class Module_News extends Clansuite_ModuleController implements Clansuite_Module
             #$archive['years'][$year]['months'][$month]['entries'][] = $entry;
         }
 
-        #assign the fetched news to the view
-        $smarty->assign('widget_archive', $archive);
+        # assign the fetched news to the view
+        $this->getView()->assign('widget_archive', $archive);
     }
 
     /**
-     * Widget: Newsfeeds
+     * Widget Newsfeeds
      */
     public function widget_newsfeeds()
     {
-        # nothing
+        # nothing to assign, it a pure template widget
     }
 }
 ?>

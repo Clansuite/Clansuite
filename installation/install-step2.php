@@ -417,7 +417,7 @@ if (!defined('IN_CS')){ die( 'Clansuite not loaded. Direct Access forbidden.' );
                 <!--
                 <br />
                 <div style="text-align:center;">
-                <script language="javascript"> function reload() { window.location.reload(true); }</script>
+                <script type="text/javascript"> function reload() { window.location.reload(true); }</script>
                 <input class="button" type="button" name="Re-check" value="Re-check" onClick="reload();" tabindex="2">
                 </div>
                 -->

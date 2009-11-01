@@ -7,7 +7,7 @@
 <script type="text/javascript" src="{$www_root_themes_core}/javascript/mootools/milkbox.js"></script>
 
 {literal}
-<script language="JavaScript" type="text/javascript">
+<script type="text/javascript">
     var myMooFlowPage = {
         start: function(){
             var mf = new MooFlow($('MooFlow'), {

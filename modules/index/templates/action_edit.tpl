@@ -1,5 +1,5 @@
 {literal}
-<script language="JavaScript" type="text/javascript">
+<script type="text/javascript">
     window.addEvent('domready', function() {
         // All widgets Container
         var bCont = new Element('div');
