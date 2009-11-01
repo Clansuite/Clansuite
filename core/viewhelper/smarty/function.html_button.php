@@ -150,7 +150,7 @@ function smarty_function_html_button($params, &$smarty)
   {
     $_smarty_html_button_ie_wa_output = 1;
     $_html_result .= <<<ENDJS
-\n<script language="JavaScript" type="text/javascript">
+\n<script type="text/javascript">
 <!--
 function IEButtonWa( btn )
 {

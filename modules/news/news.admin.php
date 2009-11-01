@@ -378,7 +378,7 @@ class Module_News_Admin extends Clansuite_ModuleController implements Clansuite_
         $form->addElement('text')->setName('news_form[title]')->setLabel(_('Title'));        
         $categories = Doctrine::getTable('CsNews')->fetchAllNewsCategoriesDropDown();        
         $form->addElement('multiselect')->setName('news_form[category]')->setLabel(_('Category'))->setOptions($categories);
-        $form->addElement('textarea')->setName('news_form[body]')->setCols('70')->setLabel(_('Newsbody'));
+        $form->addElement('textarea')->setName('news_form[body]')->setID('news_form[body]')->setCols('110')->setRows('30')->setLabel(_('Your Article:'));
         $form->addElement('submitbutton')->setValue('Submit')->setLabel('Submit Button')->setClass('ButtonGreen');
         $form->addElement('resetbutton')->setValue('Reset')->setLabel('Reset Button');
 
@@ -410,7 +410,7 @@ class Module_News_Admin extends Clansuite_ModuleController implements Clansuite_
         #clansuite_xdebug::printR($data);
         
         # @todo validation
-        
+        try{
         # insert
         $news = new CsNews;
         $news['news_title'] = $data['title'];
@@ -420,7 +420,11 @@ class Module_News_Admin extends Clansuite_ModuleController implements Clansuite_
         $news['cat_id']     = $data['category'];
         #$news['news_status']     = $data['news_form']['status'];
         $news->save();       
-
+    }
+    catch (Exception $e) {
+     echo $e; var_dump(debug_backtrace());   
+    }
+    
         # Redirect
         $this->getHttpResponse()->redirectNoCache('index.php?mod=news&amp;sub=admin', 2, 302, _('The news has been created.'));
     }

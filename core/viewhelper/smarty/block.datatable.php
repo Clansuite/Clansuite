@@ -227,13 +227,13 @@ function smarty_block_datatable( $params, $content, &$smarty, &$repeat )
   {
     $__smarty_datatable_js_output = true;
     $htmlcode .= <<<ENDJS
-\n<script language="JavaScript" type="text/javascript">
+\n<script type="text/javascript">
 var sort_col = 0;
 </script>\n
 ENDJS;
   }
     $htmlcode .= <<<ENDJS
-\n<script language="JavaScript" type="text/javascript">
+\n<script type="text/javascript">
 var sort_{$id}_idx = -1;
 var sortorder_{$id} = false;\n
 var rows_{$id} = new Array();
