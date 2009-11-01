@@ -47,7 +47,7 @@ interface Clansuite_Request_Interface
 {
     # Parameters
     public function getParameterNames();
-    public function issetParameter($parametername, $parameterArrayName = 'REQUEST');
+    public function issetParameter($parametername, $parameterArrayName = 'REQUEST', $where = false);
     public function getParameter($parametername, $parameterArrayName = 'REQUEST');
     public function getHeader($name);
     public function getCookie($name);
@@ -100,6 +100,12 @@ class Clansuite_HttpRequest implements Clansuite_Request_Interface, ArrayAccess
     # boolean of magic_quotes
     private $magic_quotes_gpc;
 
+    # define arrays with valid arraynames (also shortcuts) to adress the parameters
+    private $request_arraynames = array ('R', 'REQUEST');
+    private $post_arraynames    = array ('P', 'POST');
+    private $get_arraynames     = array ('G', 'GET');
+    private $cookie_arraynames  = array ('C', 'COOKIE');
+
     /**
      * Construct the Request Object
      *
@@ -108,11 +114,11 @@ class Clansuite_HttpRequest implements Clansuite_Request_Interface, ArrayAccess
      * 3) Import SUPERGLOBAL $_REQUEST into $parameters
      */
     public function __construct()
-    {                 
+    {
         # 1) run IDS
         $doorKeeper = new Clansuite_DoorKeeper;
         $doorKeeper->runIDS();
-        
+
         # 2) Filter Globals and Request
 
         // Reverse the effect of register_globals
@@ -256,24 +262,13 @@ class Clansuite_HttpRequest implements Clansuite_Request_Interface, ArrayAccess
     {
         $parameterArrayName = strtoupper($parameterArrayName);
 
-        if($parameterArrayName == 'R' or $parameterArrayName == 'REQUEST')
+        if(in_array($parameterArrayName, $this->{strtolower($parameterArrayName).'_arraynames'}))
         {
-            return array_keys($this->request_parameters);
+            return array_keys($this->{strtolower($parameterArrayName).'_parameters'});
         }
-
-        if($parameterArrayName == 'G' or $parameterArrayName == 'GET')
+        else
         {
-            return array_keys($this->get_parameters);
-        }
-
-        if($parameterArrayName == 'P' or $parameterArrayName == 'POST')
-        {
-            return array_keys($this->post_parameters);
-        }
-
-        if($parameterArrayName == 'C' or $parameterArrayName == 'COOKIE')
-        {
-            return array_keys($this->cookie_parameters);
+            return null;
         }
     }
 
@@ -282,30 +277,23 @@ class Clansuite_HttpRequest implements Clansuite_Request_Interface, ArrayAccess
      *
      * @param string $parametername Name of the Parameter
      * @param string $parameterArrayName R, G, P, C
-     * @return boolean true|false
+     * @param boolean $where If set to true, method will returns the name of the array the parameter was found in.
+     * @return mixed | boolean true|false | string arrayname
      */
-    public function issetParameter($parametername, $parameterArrayName = 'REQUEST')
+    public function issetParameter($parametername, $parameterArrayName = 'REQUEST', $where = false)
     {
         $parameterArrayName = strtoupper($parameterArrayName);
 
-        if($parameterArrayName == 'R' or $parameterArrayName == 'REQUEST')
+        if(in_array($parameterArrayName, $this->{strtolower($parameterArrayName).'_arraynames'}))
         {
-            return isset($this->request_parameters[$parametername]);
-        }
-
-        if($parameterArrayName == 'G' or $parameterArrayName == 'GET')
-        {
-            return isset($this->get_parameters[$parametername]);
-        }
-
-        if($parameterArrayName == 'P' or $parameterArrayName == 'POST')
-        {
-            return isset($this->post_parameters[$parametername]);
-        }
-
-        if($parameterArrayName == 'C' or $parameterArrayName == 'COOKIE')
-        {
-            return isset($this->cookie_parameters[$parametername]);
+            if($where == false)
+            {
+                return isset($this->{strtolower($parameterArrayName).'_parameters'}[$parametername]);
+            }
+            else
+            {
+                return strtolower($parameterArrayName);
+            }
         }
 
         return false;
@@ -320,9 +308,11 @@ class Clansuite_HttpRequest implements Clansuite_Request_Interface, ArrayAccess
      */
     public function getParameter($parametername, $parameterArrayName = 'REQUEST')
     {
-        if(true == $this->issetParameter($parametername, $parameterArrayName))
+        $parameter_array = $this->issetParameter($parametername, $parameterArrayName, true);
+
+        if($parameter_array != false)
         {
-            return $this->{strtolower($parameterArrayName).'_parameters'}[$parametername];
+            return $this->{strtolower($parameter_array).'_parameters'}[$parametername];
         }
         else
         {
