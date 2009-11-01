@@ -31,7 +31,7 @@
 
     Version:  $Id$
 -->
-<project name="Clansuite" description="Phing Build File | Clansuite - just an eSports CMS" basedir="/home/clansuite/" default="help">
+<project name="Clansuite" description="Phing Build File | Clansuite - just an eSports CMS" default="help"><!--  basedir="/home/clansuite/" -->
 
     <!-- ==================================================== -->
     <!-- ======     0) Display HELP TEXT first, ok?    ====== -->
@@ -47,7 +47,7 @@
 
                   phing   &lt;build command&gt;
 
-        where &lt;build command&gt; can be one of the following:
+        where &lt;build command&gt; can be one of the following commands:
 
 
         List of Clansuite Build Commands
@@ -61,7 +61,9 @@
         - mrproper  : clean up the build directory
         - rebuild   : clean first and then build
         - translate : search files for strings to translate
-        - run_tests : runs simpletest testsuite
+        - run-tests : runs simpletest testsuite
+
+        - visualize-buildfile : generates a visualization of the clansuite build file
 
         List of Subversion Commands
         ---------------------------
@@ -78,6 +80,7 @@
         Release-Directory   : ${build.src.dir}
 
         <!-- Paths for Debugging
+        "Current Project Basedir" : ${project.basedir}
         "basedir"              : ${base.directory}
         "build.base.directory" : ${build.base.directory}
         "svn.repository"       : ${svn.repository}
@@ -321,7 +324,7 @@
               dir="${basedir}/source"
               output="${basedir}/build/logs/checkstyle.xml"
               error="/tmp/checkstyle.error.log"
-		      escape="false">
+              escape="false">
         </exec>
     </target>
 
@@ -359,8 +362,8 @@
     <!-- COMMAND = "all-docs" -->
     <target name="all-docs" description="Generates the overall project documentation (combined task)">
         <echo>-----------------------------------</echo>
- 	    <echo>|   Creating ALL Documentations   |</echo>
-	    <echo>-----------------------------------</echo>
+        <echo>|   Creating ALL Documentations   |</echo>
+        <echo>-----------------------------------</echo>
         <phingcall target="doc_phpdoc" />
         <phingcall target="doc_doxygen" />
         <phingcall target="doc_phpxref" />
@@ -436,6 +439,8 @@
 
     <!--
          COMMAND = "visualize-buildfile"
+         
+        .Note: this depends on the "dot"-tool of Graphviz. Please adjust the property "dot.path.win".
          Thanks and credits to the original author of the following target:
          @author Raphael Stolt
          @link http://raphaelstolt.blogspot.com/2008/10/getting-visualization-of-phing.html
@@ -443,9 +448,10 @@
     <target name="visualize-buildfile" description="Generates a visualization of the Clansuite Build File">
 
         <property name="buildfile" value="build-clansuite.xml" />
-        <property name="phing2dot.xsl" value="${base.directory}/ant2dot.xsl" />
+        <property name="phing2dot.xsl" value="${project.basedir}/ant2dot.xsl" /> <!-- ${base.directory} -->
         <property name="dot.file" value="${buildfile}.dot" />
         <property name="png.file" value="${buildfile}.png" />
+        <property name="dot.path.win" value="D:\Programme\ATT\Graphviz\bin\" />
         <property name="dot.command.win" value="dot.exe -Tpng ${dot.file} -o ${png.file}" />
         <property name="dot.command.mac" value="dot -Tpng ${dot.file} -o ${png.file}" />
 
@@ -454,12 +460,12 @@
               style="${phing2dot.xsl}"
               overwrite="true"
               tofile="${project.basedir}/${dot.file}">
-            <param name="graph.label" expression="${buildfile}" />
+            <param name="graph.label" expression="{$project.basedir}${buildfile}" />
             <param name="use.target.description" expression="true" />
         </xslt>
 
         <!-- Generate image from DOT file -->
-        <exec command="${dot.command.win}" dir="${project.basedir}" os="WINNT" />
+        <exec command="${dot.path.win}${dot.command.win}" dir="${project.basedir}" os="WINNT" />
         <exec command="${dot.command.mac}" dir="${project.basedir}" os="Darwin" />
 
         <delete file="${project.basedir}/${dot.file}" />
