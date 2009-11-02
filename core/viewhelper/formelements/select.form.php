@@ -59,7 +59,7 @@ class Clansuite_Formelement_Select extends Clansuite_Formelement implements Clan
      *
      * @var string
      */
-    protected $default = '';
+    protected $default;
     
     protected $description;
     
@@ -99,6 +99,17 @@ class Clansuite_Formelement_Select extends Clansuite_Formelement implements Clan
         return $this;   
     }   */
 
+    /**
+     * This sets the default value.
+     * Value is used to mark that option as "selected" 
+     */
+    public function setDefaultValue($default)
+    {
+        $this->default = $default;
+        
+        return $this;   
+    }
+
     public function render()
     {
         # open the html select tag
@@ -109,19 +120,23 @@ class Clansuite_Formelement_Select extends Clansuite_Formelement implements Clan
         $html .= '>';
         
         /**
-         * this handles the delaut value setting via the options array, parameter "selected"
+         * this handles the deflaut value setting via the options array, parameter "selected"
          * it grabs the first element in the options array, which keyname should be 'selected'
          * and then removes it, setting its value to $this->default.
+         *
+         * the check for empty($this->default) is important, because the default value might already be set via setDefaultValue().
+         * such a scenario is given, when the form is generated via array.
+         * the array would contain options['selected'] with an default value, but the actual default value is incomming via setDefaultValue().
          *
          * note: if the options array is incomming via a formgenerator, the formgenerator has already performed this step
          * $this->setDefault(options['selected']);
          */
-        if(isset($this->options['selected']))
+        if(isset($this->options['selected']) and empty($this->default))
         {
            $this->default = $this->options['selected'];
            unset($this->options['selected']);          
         }
-                
+        
         # loop over all selectfield options
         foreach ($this->options as $key => $value)
         {  
@@ -129,7 +144,7 @@ class Clansuite_Formelement_Select extends Clansuite_Formelement implements Clan
              * check if the value is the default one
              * in case it is, add html "selected" 
              */
-            if ($value == $this->default)
+            if ($key == $this->default)
             {  
                 $html .= '<option value="'.$key.'" selected>'.$value.'</option>';
             }

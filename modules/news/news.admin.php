@@ -80,102 +80,37 @@ class Module_News_Admin extends Clansuite_ModuleController implements Clansuite_
 
         # Incoming Variables
         $request = $this->getHttpRequest();
-        $cat_id      = (int) $request->getParameter('cat_id');
-        // add cat_id to select statement if set, else empty
-        #$sql_cat = $cat_id == 0 ? 0 : $cat_id;
-        $currentPage = (int) $request->getParameter('page');
-        $resultsPerPage = (int) 10;
+        $category       = (int) $request['news_category_form']['cat_id'];
+        $currentPage    = (int) $request->getParameter('page');
+        $resultsPerPage = (int) $this->getConfigValue('resultsPerPage_adminshow', '10');;
 
-
-        // SmartyColumnSort -- Easy sorting of html table columns.
+        # SmartyColumnSort -- Easy sorting of html table columns.
         require( ROOT_LIBRARIES . '/smarty/SmartyColumnSort.class.php');
-        // A list of database columns to use in the table.
+        # A list of database columns to use in the table.
         $columns = array( 'n.created_at', 'n.news_title', 'c.name','u.nick', 'n.news_status');
-        // Create the columnsort object
+        # Create the columnsort object
         $columnsort = new SmartyColumnSort($columns);
-        // And set the the default sort column and order.
+        # And set the the default sort column and order.
         $columnsort->setDefault('n.created_at', 'desc');
-        // Get sort order from columnsort
+        # Get sort order from columnsort
         $sortorder = $columnsort->sortOrder(); // Returns 'name ASC' as default
 
-        # Display ALL NEWS
-        if($cat_id == 0)
+        # if cat is no set, we need a query to show all news regardless which category,
+        if(empty($category))
         {
-            # Creating Pager Object with a Query Object inside
-            $pager_layout = new Doctrine_Pager_Layout(
-                            new Doctrine_Pager(
-                                Doctrine_Query::create()
-                                        ->select('n.*, u.nick, u.user_id, c.name, c.image')
-                                        ->from('CsNews n')
-                                        ->leftJoin('n.CsUsers u')
-                                        ->leftJoin('n.CsCategories c')
-                                       #->where('c.module_id = 7')
-                                       #->setHydrationMode(Doctrine::HYDRATE_ARRAY)
-                                        ->orderby($sortorder),
-                                         # The following is Limit  ?,? =
-                                         $currentPage, // Current page of request
-                                         $resultsPerPage // (Optional) Number of results per page Default is 25
-                                 ),
-                                 new Doctrine_Pager_Range_Sliding(array(
-                                     'chunk' => 5
-                                 )),
-                                 '?mod=news&sub=admin&action=show&page={%page}'
-                                 );
-
-            # Assigning templates for page links creation
-            $pager_layout->setTemplate('[<a href="{%url}">{%page}</a>]');
-            $pager_layout->setSelectedTemplate('[{%page}]');
-            # Retrieving Doctrine_Pager instance
-            $pager = $pager_layout->getPager();
-
-            // Fetching news
-            #var_dump($pager->getExecuted());
-            $news = $pager->execute(array(), Doctrine::HYDRATE_ARRAY);
+            $newsQuery = Doctrine::getTable('CsNews')->fetchAllNews($currentPage, $resultsPerPage, true);
         }
-        # Display News ordered by Category
-        else
+        else # else we need a qry with the where(cat) statement
         {
-            # Creating Pager Object with a Query Object inside
-            $pager_layout = new Doctrine_Pager_Layout(
-                            new Doctrine_Pager(
-                                Doctrine_Query::create()
-                                        ->select('n.*, u.nick, u.user_id, c.name, c.image')
-                                        ->from('CsNews n')
-                                        ->leftJoin('n.CsUsers u')
-                                        ->leftJoin('n.CsCategories c')
-                                       #->where('c.module_id = 7')
-                                       #->setHydrationMode(Doctrine::HYDRATE_ARRAY)
-                                        ->where('n.cat_id = ?')
-                                        ->orderby($sortorder),
-                                         # The following is Limit  ?,? =
-                                         $currentPage, // Current page of request
-                                         $resultsPerPage // (Optional) Number of results per page Default is 25
-                                 ),
-                                 new Doctrine_Pager_Range_Sliding(array(
-                                     'chunk' => 5
-                                 )),
-                                 '?mod=news&sub=admin&action=show&page={%page}'
-                                 );
-
-            # Assigning templates for page links creation
-            $pager_layout->setTemplate('[<a href="{%url}">{%page}</a>]');
-            $pager_layout->setSelectedTemplate('[{%page}]');
-            # Retrieving Doctrine_Pager instance
-            $pager = $pager_layout->getPager();
-
-             // Fetching news
-            #var_dump($pager->getExecuted());
-            $news = $pager->execute(array($cat_id), Doctrine::HYDRATE_ARRAY);
+            $newsQuery = Doctrine::getTable('CsNews')->fetchNewsByCategory($category, $currentPage, $resultsPerPage, true);
         }
 
-        // Get all $categories for module_news
-        $newscategories = Doctrine_Query::create()
-                               ->select('cat_id, name')
-                               ->from('CsCategories c')
-                               ->where('c.module_id = 7')
-                              #->where('c.module_id = ?);
-                         #$stmt->execute( array ( $cfg->modules['news']['module_id'] ) );
-                               ->execute(array(), Doctrine::HYDRATE_ARRAY);
+        # this is not needed, but for showing, that $newsQuery is an array
+        $news           = $newsQuery['news'];
+        $pager          = $newsQuery['pager'];
+        $pager_layout   = $newsQuery['pager_layout'];
+
+        $newscategories = Doctrine::getTable('CsNews')->fetchUsedNewsCategories();
 
         # Get Render Engine
         $smarty = $this->getView();
@@ -192,110 +127,23 @@ class Module_News_Admin extends Clansuite_ModuleController implements Clansuite_
 
         # Set Layout Template
         $this->getView()->setLayoutTemplate('index.tpl');
+
         # specifiy the template manually
         #$this->setTemplate('news/admin_show.tpl');
+
         # Prepare the Output
         $this->prepareOutput();
     }
 
     /**
-     * Deletes a news with questioning
-     *
-     * @global $db
-     * @global $lang
-     * @global $functions
-     * @global $input
-     * @global $perms
+     * Deletes News
      */
-    function delete()
+    function action_admin_delete()
     {
-        global $db, $functions, $input, $lang, $perms;
-
-        // Permission check
-        $perms->check('cc_edit_news');
-
-        /**
-         * @desc Init
-         */
-        $submit     = $_POST['submit'];
-        $confirm    = $_POST['confirm'];
-        $abort      = $_POST['abort'];
-        $ids        = isset($_POST['ids'])      ? $_POST['ids'] : array();
-        $ids        = isset($_POST['confirm'])  ? unserialize(urldecode($_GET['ids'])) : $ids;
-        $delete     = isset($_POST['delete'])   ? $_POST['delete'] : array();
-        $delete     = isset($_POST['confirm'])  ? unserialize(urldecode($_GET['delete'])) : $delete;
-        $front      = isset($_GET['front'])     ? $_GET['front'] : 0;
-
-        if ( count($delete) < 1 )
-        {
-            $functions->redirect( 'index.php?mod=news&sub=admin', 'metatag|newsite', 3, $lang->t( 'No news selected to delete! Aborted... ' ), 'admin' );
-        }
-
-        /**
-         * @desc Abort
-         */
-        if ( !empty( $abort ) )
-        {
-            $functions->redirect( 'index.php?mod=news&sub=admin' );
-        }
-
-        /**
-         * @desc Create Select Statement
-         */
-        $select = 'SELECT news_id, news_title FROM ' . DB_PREFIX . 'news WHERE ';
-        foreach ( $delete as $key => $id )
-        {
-            $select .= 'news_id = ' . (int) $id . ' OR ';
-        }
-        /**
-         * dirty select statement creation, by cutting off the last OR
-         */
-        $select = substr($select, 0, -4);
-        $stmt = $db->prepare( $select );
-        $stmt->execute();
-        while( $result = $stmt->fetch(PDO::FETCH_ASSOC) )
-        {
-            if( in_array( $result['news_id'], $delete  ) )
-            {
-                $names .= '<br /><b>' .  $result['news_title'] . '</b>';
-            }
-            $all[] = $result;
-        }
-
-        /**
-         * @desc Delete the groups
-         */
-        foreach( $all as $key => $value )
-        {
-            if ( count ( $delete ) > 0 )
-            {
-                if ( in_array( $value['news_id'], $ids ) )
-                {
-                    $d = in_array( $value['news_id'], $delete  ) ? 1 : 0;
-                    if ( !isset ( $_POST['confirm'] ) )
-                    {
-                        $functions->redirect( 'index.php?mod=news&sub=admin&action=delete&ids=' . urlencode(serialize($ids)) . '&delete=' . urlencode(serialize($delete)) . ( $front==1 ? '&front=1' : '' ), 'confirm', 3, $names, 'admin', $lang->t( 'You have selected the following news to delete:') );
-                    }
-                    else
-                    {
-                        if ( $d == 1 )
-                        {
-                            $stmt = $db->prepare( 'DELETE FROM ' . DB_PREFIX . 'news WHERE news_id = ?' );
-                            $stmt->execute( array($value['news_id']) );
-                        }
-                    }
-                }
-            }
-        }
-
-        /**
-        * @desc Redirect on finish
-        */
-        if( $front == 1 )
-            $functions->redirect( 'index.php?mod=news&action=show', 'metatag|newsite', 3, $lang->t( 'The selected news has/have been deleted.' ), 'admin' );
-        else
-            $functions->redirect( 'index.php?mod=news&sub=admin&action=show', 'metatag|newsite', 3, $lang->t( 'The selected news has/have been deleted.' ), 'admin' );
-
+        $request = $this->getHttpRequest();
+        $delete  = $request->getParameter('delete');          
+        $numDeleted = Doctrine_Query::create()->delete('CsNews')->whereIn('news_id', $delete)->execute();        
+        $this->getHttpResponse()->redirectNoCache('index.php?mod=news&amp;sub=admin', 2, 302, _( $numDeleted. ' News deleted.'));        
     }
 
     /**
@@ -366,7 +214,7 @@ class Module_News_Admin extends Clansuite_ModuleController implements Clansuite_
     {
         # Load Form Class (@todo autoloader / di)
         require ROOT_CORE . 'viewhelper/form.core.php';
-        
+
         /**
          * Create a new form
          */
@@ -375,8 +223,8 @@ class Module_News_Admin extends Clansuite_ModuleController implements Clansuite_
         /**
          * Assign some Formlements
          */
-        $form->addElement('text')->setName('news_form[title]')->setLabel(_('Title'));        
-        $categories = Doctrine::getTable('CsNews')->fetchAllNewsCategoriesDropDown();        
+        $form->addElement('text')->setName('news_form[title]')->setLabel(_('Title'));
+        $categories = Doctrine::getTable('CsNews')->fetchAllNewsCategoriesDropDown();
         $form->addElement('multiselect')->setName('news_form[category]')->setLabel(_('Category'))->setOptions($categories);
         $form->addElement('textarea')->setName('news_form[body]')->setID('news_form[body]')->setCols('110')->setRows('30')->setLabel(_('Your Article:'));
         $form->addElement('submitbutton')->setValue('Submit')->setLabel('Submit Button')->setClass('ButtonGreen');
@@ -395,38 +243,86 @@ class Module_News_Admin extends Clansuite_ModuleController implements Clansuite_
     }
 
     /**
-     * Update News
-     *
-     * Purpose: save content of newsform into db.
+     * Edit News
+     */
+    function action_admin_edit()
+    {
+        # get id
+        $news_id = $this->getHttpRequest()->getParameter('id');
+
+        # fetch news
+        $news = Doctrine::getTable('CsNews')->fetchSingleNews($news_id);
+
+        #clansuite_xdebug::printR($news);
+
+        # Load Form Class (@todo autoloader / di)
+        require ROOT_CORE . 'viewhelper/form.core.php';
+
+        /**
+         * Create a new form
+         */
+        # @todo form object with auto-population of values
+        #$form = new Clansuite_Form('news_form', 'post', 'index.php?mod=news&sub=admin&action=update', $news);
+
+        $form = new Clansuite_Form('news_form', 'post', 'index.php?mod=news&sub=admin&action=update');
+
+        /**
+         * news_id as hidden field
+         */
+        $form->addElement('hidden')->setName('news_form[news_id]')->setValue($news['news_id']);
+
+        /**
+         * Assign some Formlements
+         */
+        $form->addElement('text')->setName('news_form[news_title]')->setLabel(_('Title'))->setValue($news['news_title']);
+        $categories = Doctrine::getTable('CsNews')->fetchAllNewsCategoriesDropDown();
+        $form->addElement('multiselect')->setName('news_form[cat_id]')->setLabel(_('Category'))->setOptions($categories)->setDefaultValue($news['cat_id']);
+        $form->addElement('textarea')->setName('news_form[news_body]')->setID('news_form[news_body]')->setCols('110')->setRows('30')->setLabel(_('Your Article:'))->setValue($news['news_body']);;
+        $form->addElement('submitbutton')->setValue('Submit')->setLabel('Submit Button')->setClass('ButtonGreen');
+        $form->addElement('resetbutton')->setValue('Reset')->setLabel('Reset Button');
+        
+
+        # Debugging Form Object
+        #clansuite_xdebug::printR($form);
+
+        # Debugging Form HTML Output
+        #clansuite_xdebug::printR($form->render());
+
+        # assign the html of the form to the view
+        $this->getView()->assign('form', $form->render());
+
+        $this->prepareOutput();
+    }
+
+    /**
+     * Update a News Entry identified by news_id
      */
     function action_admin_update()
     {
-        # Permission check
-        #$perms->check('cc_create_news');
-
         # get incoming data
         $data = $this->getHttpRequest()->getParameter('news_form');
-    
-        #clansuite_xdebug::printR($data);
-        
+
         # @todo validation
-        try{
-        # insert
-        $news = new CsNews;
-        $news['news_title'] = $data['title'];
-        #@todo we have a problem submitting a nicedit div content field
-        # this has to be replaced with an textarea again, call save: nicedit.saveContent() or something
-        $news['news_body']  = $data['body']; 
-        $news['cat_id']     = $data['category'];
-        #$news['news_status']     = $data['news_form']['status'];
-        $news->save();       
-    }
-    catch (Exception $e) {
-     echo $e; var_dump(debug_backtrace());   
-    }
-    
-        # Redirect
-        $this->getHttpResponse()->redirectNoCache('index.php?mod=news&amp;sub=admin', 2, 302, _('The news has been created.'));
+         
+        # get the news table
+        $newsTable = Doctrine::getTable('CsNews');
+        
+        # fetch the news to update by news_id
+        $news = $newsTable->findOneByNews_Id($data['news_id']);
+       
+        # if that news exist, update values and save
+        if ($news !== false)
+        {     
+            $news->news_id    = $data['news_id'];
+            $news->news_title = $data['news_title'];
+            $news->news_body  = $data['news_body'];
+            $news->cat_id     = $data['cat_id'];
+            #$news['news_status']     = $data['news_form']['status'];
+            $news->save();
+        }
+
+        # redirect
+        $this->getHttpResponse()->redirectNoCache('index.php?mod=news&amp;sub=admin', 2, 302, _('The news has been edited.'));
     }
 
     /**
@@ -610,6 +506,13 @@ class Module_News_Admin extends Clansuite_ModuleController implements Clansuite_
                                         'description' => _('Newsitems to show in Newsarchive'),
                                         'formfieldtype' => 'text',
                                         'value' => $this->getConfigValue('resultsPerPage_fullarchive', '3'));
+
+        $settings['news'][] = array(    'id' => 'resultsPerPage_adminshow',
+                                        'name' => 'resultsPerPage_adminshow',
+                                        'description' => _('Newsitems to show in the administration area.'),
+                                        'formfieldtype' => 'text',
+                                        'value' => $this->getConfigValue('resultsPerPage_adminshow', '10'));
+
 
         $settings['news'][] = array(    'id' => 'resultsPerPage_archive',
                                         'name' => 'resultsPerPage_archive',
