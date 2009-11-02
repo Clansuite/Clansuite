@@ -31,9 +31,9 @@
         <li>
             <table>
                 <tr>
-                    <td>1111$match.team1name<br><img class="logo_left" href="$match.team1logo"></td>
-                    <td><span class="team_divider"> vs </span><br>$match.matchtime</td>
-                    <td>$match.team1name<br><img class="logo_right" href="$match.team1logo"></td>
+                    <td>1111$match.team1name<br /><img class="logo_left" src="$match.team1logo" alt="" /></td>
+                    <td><span class="team_divider"> vs </span><br />$match.matchtime</td>
+                    <td>$match.team1name<br /><img class="logo_right" src="$match.team1logo" alt="" /></td>
                 </tr>
             </table>
         </li>
@@ -41,9 +41,9 @@
         <li>
             <table>
                 <tr>
-                    <td>2222$match.team1name<br><img class="logo_left" href="$match.team1logo"></td>
-                    <td><span class="team_divider"> vs </span><br>$match.matchtime</td>
-                    <td>$match.team1name<br><img class="logo_right" href="$match.team1logo"></td>
+                    <td>2222$match.team1name<br /><img class="logo_left" src="$match.team1logo" alt="" /></td>
+                    <td><span class="team_divider"> vs </span><br />$match.matchtime</td>
+                    <td>$match.team1name<br /><img class="logo_right" src="$match.team1logo" alt="" /></td>
                 </tr>
             </table>
         </li>
