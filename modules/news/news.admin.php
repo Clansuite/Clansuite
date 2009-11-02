@@ -136,78 +136,6 @@ class Module_News_Admin extends Clansuite_ModuleController implements Clansuite_
     }
 
     /**
-     * Deletes News
-     */
-    function action_admin_delete()
-    {
-        $request = $this->getHttpRequest();
-        $delete  = $request->getParameter('delete');          
-        $numDeleted = Doctrine_Query::create()->delete('CsNews')->whereIn('news_id', $delete)->execute();        
-        $this->getHttpResponse()->redirectNoCache('index.php?mod=news&amp;sub=admin', 2, 302, _( $numDeleted. ' News deleted.'));        
-    }
-
-    /**
-     * Debugging Action
-     * testformgenerator
-     */
-    function action_admin_testformgenerator()
-    {
-        # Load Form Class (@todo autoloader / di)
-        require ROOT_CORE . 'viewhelper/form.core.php';
-        # Create a new form
-
-        $form = new Clansuite_Form('news_create_form', 'POST', 'upload-file.php');
-        $form->setId('news_create_form')
-             ->setTarget('hidden_upload')
-             ->setHeading('News Create Form')
-             ->setEncoding('multipart/form-data')
-             ->setDescription('My news create form...');
-
-        # Assign some Formlements
-        /*$form->addElement('captcha')->setLabel('captcha label');
-
-        $form->addElement('checkbox')->setLabel('checkbox label');
-        $form->addElement('checkboxlist')->setLabel('checkboxlist label');
-        $form->addElement('confirmsubmitbutton')->setLabel('confirmsubmitbutton label');
-        */
-
-        # you can specify several uploadTypes: uploadify, apc, ajaxupload
-        # or no uploadType at all (for default upload)
-        #$form->addElement('file')->setUploadType('uploadify')->setLabel('file upload label');
-/*
-        $form->addElement('jqconfirmsubmitbutton')->setFormId('news_create_form')->setLabel('jqconfirmsubmitbutton label');
-
-        $form->addElement('jqselectdate')->setLabel('jqselectdate label'); #->setFormId('news_create_form')
-
-        $form->addElement('hidden')->setLabel('hidden label');
-
-        $form->addElement('radio')->setLabel('radio label');
-        $form->addElement('radiolist')->setLabel('radiolist label');
-
-        $form->addElement('selectcountry');
-        $form->addElement('selectyesno');
-*/
-        $form->addElement('text')->setLabel('text label');
-        $form->addElement('textarea')->setCols('70')->setLabel('textarea label');
-
-        #$form->addElement('submitbutton')->setValue('Submit')->setLabel('Submit Button')->setClass('ButtonGreen');
-        #$form->addElement('resetbutton')->setValue('Reset')->setLabel('Reset Button');
-/*
-        $form->addElement('imagebutton')->setValue('Reset')->setLabel('Image Button'); # setSource
-*/
-        # Debugging Form Object
-        #clansuite_xdebug::printR($form);
-
-        # Debugging Form HTML Output
-        #clansuite_xdebug::printR($form->render());
-
-        # assign the html of the form to the view
-        $this->getView()->assign('form', $form->render());
-
-        $this->prepareOutput();
-    }
-
-    /**
      * Create News
      */
     function action_admin_create()
@@ -280,7 +208,7 @@ class Module_News_Admin extends Clansuite_ModuleController implements Clansuite_
         $form->addElement('textarea')->setName('news_form[news_body]')->setID('news_form[news_body]')->setCols('110')->setRows('30')->setLabel(_('Your Article:'))->setValue($news['news_body']);;
         $form->addElement('submitbutton')->setValue('Submit')->setLabel('Submit Button')->setClass('ButtonGreen');
         $form->addElement('resetbutton')->setValue('Reset')->setLabel('Reset Button');
-        
+
 
         # Debugging Form Object
         #clansuite_xdebug::printR($form);
@@ -303,16 +231,16 @@ class Module_News_Admin extends Clansuite_ModuleController implements Clansuite_
         $data = $this->getHttpRequest()->getParameter('news_form');
 
         # @todo validation
-         
+
         # get the news table
         $newsTable = Doctrine::getTable('CsNews');
-        
+
         # fetch the news to update by news_id
         $news = $newsTable->findOneByNews_Id($data['news_id']);
-       
+
         # if that news exist, update values and save
         if ($news !== false)
-        {     
+        {
             $news->news_id    = $data['news_id'];
             $news->news_title = $data['news_title'];
             $news->news_body  = $data['news_body'];
@@ -326,154 +254,16 @@ class Module_News_Admin extends Clansuite_ModuleController implements Clansuite_
     }
 
     /**
-     * Edit news
-     *
-     * @global $db
-     * @global $lang
-     * @global $functions
-     * @global $input
-     * @global $tpl
-     * @global $cfg
-     * @global $perms
+     * Deletes News
      */
-    function edit()
+    function action_admin_delete()
     {
-        global $db, $functions, $input, $lang, $tpl, $cfg, $perms;
-
-        // Permission check
-        if( $perms->check('cc_edit_news', 'no_redirect') == true )
-        {
-
-            // Incoming Vars
-            $submit = isset($_POST['submit']) ? $_POST['submit'] : '';
-            $infos = $_POST['infos'];
-            $id = isset($_GET['id']) ? $_GET['id'] : $_POST['id'];
-            $front  = isset($_GET['front']) ? $_GET['front'] : 0;
-
-            // check for fills
-            if( ( empty($infos['title']) OR
-                empty($infos['news_body']) )
-                AND !empty($submit) )
-            {
-                $err['fill_form'] = 1;
-            }
-
-            // Create news in DB
-            if( !empty($submit) )
-            {
-                if( count($err) == 0 )
-                {
-                    // build groups
-                    /*
-                    foreach( $infos['groups'] as $key => $value )
-                    {
-                        $groups .= $value . ',';
-                    }
-                    $groups = substr( $groups, 0, -1 );
-                    */
-
-                    // Query DB
-                    $stmt = $db->prepare( 'UPDATE ' . DB_PREFIX . 'news SET news_title = ?, news_body = ?, cat_id = ?, user_id = ?, draft = ? WHERE news_id = ?' );
-                    $stmt->execute( array(  $infos['title'],
-                                            $infos['news_body'],
-                                            $infos['cat_id'],
-                                            $_SESSION['user']['user_id'],
-                                            $infos['draft'],
-                                            //$groups ) );
-                                            $id ) );
-
-                    if( $infos['front'] == 1 )
-                    {
-                        // Redirect on finish
-                        $functions->redirect( 'index.php?mod=news&action=show', 'metatag|newsite', 3, $lang->t( 'The news has been edited.' ) );
-                    }
-                    else
-                    {
-                        // Redirect on finish
-                        $functions->redirect( 'index.php?mod=news&sub=admin&action=show', 'metatag|newsite', 3, $lang->t( 'The news has been edited.' ), 'admin' );
-                    }
-                }
-                else
-                {
-                    $functions->redirect( 'index.php?mod=news&sub=admin&action=show', 'metatag|newsite', 3, $lang->t( 'ERROR: Please fill all fields!' ), 'admin' );
-                }
-
-            }
-
-            // Get all groups
-            /*
-            $stmt = $db->prepare( 'SELECT * FROM ' . DB_PREFIX . 'groups' );
-
-            $stmt->execute();
-            $all_groups = $stmt->fetchAll(PDO::FETCH_ASSOC);
-            */
-
-            // get infos
-            $stmt = $db->prepare('SELECT * FROM ' . DB_PREFIX . 'news WHERE news_id = ?');
-            $stmt->execute( array( $id ) );
-            $result = $stmt->fetch(PDO::FETCH_NAMED);
-
-            // $categories for module_news
-            $stmt = $db->prepare( 'SELECT cat_id, name FROM ' . DB_PREFIX . 'categories WHERE module_id = ?' );
-            $stmt->execute( array ( $cfg->modules['news']['module_id'] ) );
-            $newscategories = $stmt->fetchAll(PDO::FETCH_NAMED);
-
-            // give $newslist array to Smarty for template output
-            $tpl->assign('newscategories', $newscategories);
-
-            // Load FCK
-            require( ROOT_CORE . '/fckeditor/fckeditor_php5.php' );
-            $fck = new FCKeditor('infos[news_body]');
-            $fck->Height = '450';
-            $fck->Value = $result['news_body'];
-            $fck_html = $fck->CreateHtml();
-
-            // Output Stuff
-            $tpl->assign( 'front'       , $front );
-            $tpl->assign( 'fck'         , $fck_html );
-            $tpl->assign( 'infos'       , $result );
-            $tpl->assign( 'err'         , $err);
-            //$tpl->assign( 'all_groups'  , $all_groups);
-            $this->output .= $tpl->fetch('news/admin_edit.tpl');
-        }
-        else
-        {
-            $this->output = $lang->t('You do not have sufficient rights.') . '<br /><input class="ButtonRed" type="button" onclick="Dialog.okCallback()" value="Abort"/>';
-        }
-        $this->suppress_wrapper = 1;
+        $request = $this->getHttpRequest();
+        $delete  = $request->getParameter('delete');
+        $numDeleted = Doctrine_Query::create()->delete('CsNews')->whereIn('news_id', $delete)->execute();
+        $this->getHttpResponse()->redirectNoCache('index.php?mod=news&amp;sub=admin', 2, 302, _( $numDeleted. ' News deleted.'));
     }
 
-    /**
-     * Show a single news
-     *
-     * @global $db
-     * @global $lang
-     * @global $functions
-     * @global $input
-     * @global $tpl
-     * @global $cfg
-     * @global $perms
-     */
-    function show_single()
-    {
-        global $db, $functions, $input, $lang, $tpl, $cfg, $perms;
-
-        // Incoming vars
-        $news_id = $_GET['id'];
-
-        if( $perms->check('cc_view_news', 'no_redirect') == true )
-        {
-            $stmt = $db->prepare('SELECT news_body FROM ' . DB_PREFIX . 'news WHERE news_id = ?');
-            $stmt->execute( array( $news_id ) );
-            $result = $stmt->fetch( PDO::FETCH_NAMED );
-            $this->output =  $result['news_body'];
-        }
-        else
-        {
-            $this->output .= $lang->t('You are not allowed to view single news.');
-        }
-        $this->suppress_wrapper = 1;
-    }
 
     /**
      * Action for displaying the Settings of a Module News
