@@ -50,7 +50,7 @@
         <th>{columnsort html='Date'}</th>
         <th>{columnsort selected_class="selected"
                         html='Title'}</th>
-        <th>{columnsort html='Categorie'}</th>
+        <th>{columnsort html='Category'}</th>
         <th>{columnsort html='Author'}</th>
         <th>Draft</th>
         <th>Action</th>
