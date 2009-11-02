@@ -134,6 +134,59 @@ class Module_News extends Clansuite_ModuleController implements Clansuite_Module
     }
 
     /**
+      * module news action_showone()
+      *
+      * Show one single news with comments
+      *
+      */
+     public function action_showone()
+     {
+        # Get Render Engine
+        $smarty = $this->getView();
+
+        $news_id = (int) $this->getHttpRequest()->getParameter('id');
+        if($news_id == null) { $news_id = 1;  }
+
+        $news = Doctrine::getTable('CsNews')->fetchSingleNews($news_id);
+
+        # if a news was found
+        if(!empty($news) && is_array($news))
+        {
+            # Set Pagetitle and Breadcrumbs
+            Clansuite_Trail::addStep( _('Viewing Single News: ') . $news['news_title'] , '/index.php?mod=news&amp;action=show');
+
+            # Assign News
+            $smarty->assign('news', $news);
+
+            /**
+             * Check if this news_id has comments and assign them to an extra smarty variable
+             * {$news_comments.} for easier access on template side.
+             * Notice: if unset is not commented, the comments array is doubled:
+             * you could also access the values via {$news.} in the tpl.
+             */
+            if ( !empty($news['CsComments']) )
+            {
+                # Assign News
+                $smarty->assign('news_comments', $news['CsComments']);
+
+                # unsetting the $single_news['CsComments'] to save memory
+                unset($news['CsComments']);
+            }
+            else
+            {
+                $smarty->assign('news_comments', array());
+            }
+        }
+        else # no news found for this id
+        {
+            $this->setTemplate('newsnotfound.tpl');
+        }
+
+        # Prepare Output
+        $this->prepareOutput();
+     }
+
+    /**
      * createFeed
      *
      * URL-Parameters: ?items=15 or 30
@@ -241,60 +294,6 @@ class Module_News extends Clansuite_ModuleController implements Clansuite_Module
          */
         $rss->saveFeed($feed_format, ROOT_MOD . 'news/newsfeed-'.$feed_items.'.xml');
     }
-
-     /**
-      * module news action_showone()
-      *
-      * Show one single news with comments
-      *
-      */
-     public function action_showone()
-     {
-        # Get Render Engine
-        $smarty = $this->getView();
-
-        $news_id = (int) $this->getHttpRequest()->getParameter('id');
-        if($news_id == null) { $news_id = 1;  }
-
-        $news = Doctrine::getTable('CsNews')->fetchSingleNews($news_id);
-
-        # if a news was found
-        if(!empty($news) && is_array($news))
-        {
-            # Set Pagetitle and Breadcrumbs
-            Clansuite_Trail::addStep( _('Viewing Single News: ') . $news['news_title'] , '/index.php?mod=news&amp;action=show');
-
-            # Assign News
-            $smarty->assign('news', $news);
-
-            /**
-             * Check if this news_id has comments and assign them to an extra smarty variable
-             * {$news_comments.} for easier access on template side.
-             * Notice: if unset is not commented, the comments array is doubled:
-             * you could also access the values via {$news.} in the tpl.
-             */
-            if ( !empty($news['CsComments']) )
-            {
-                # Assign News
-                $smarty->assign('news_comments', $news['CsComments']);
-
-                # unsetting the $single_news['CsComments'] to save memory
-                unset($news['CsComments']);
-            }
-            else
-            {
-                $smarty->assign('news_comments', array());
-            }
-        }
-        else # no news found for this id
-        {
-            $this->setTemplate('newsnotfound.tpl');
-        }
-
-        # Prepare Output
-        $this->prepareOutput();
-     }
-
 
     /**
      * module news action_archive()
