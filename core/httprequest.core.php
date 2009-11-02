@@ -340,9 +340,11 @@ class Clansuite_HttpRequest implements Clansuite_Request_Interface, ArrayAccess
      *
      * @param string $parametername Name of the Parameter
      * @param string $parameterArrayName R, G, P, C
+     * @param string $default You can set a default value. It's returned if parametername was not found.
+     *
      * @return mixed data | null
      */
-    public function getParameter($parametername, $parameterArrayName = 'REQUEST')
+    public function getParameter($parametername, $parameterArrayName = 'REQUEST', $default = null)
     {
         /**
          * check if the parameter exists in $parameterArrayName
@@ -356,7 +358,13 @@ class Clansuite_HttpRequest implements Clansuite_Request_Interface, ArrayAccess
          */
         if((bool)$parameter_array == true)
         {
+            # this returns a value from the parameterarray
             return $this->{strtolower($parameter_array).'_parameters'}[$parametername];
+        }
+        elseif($default !== null)
+        {
+            # this returns the default value,incomming via method property $default
+            return $default;
         }
         else
         {
