@@ -12,7 +12,7 @@
 
         <!-- RSS Icon -->
         <div style="float:right;">
-            <a href="/index.php?mod=news&action=getfeed"> {icon name="rss" alt="Clansuite RSS News Feed"} </a>
+            <a href="index.php?mod=news&amp;action=getfeed"> {icon name="rss" alt="Clansuite RSS News Feed"} </a>
         </div>
 
         {pagination}
@@ -25,7 +25,7 @@
 
 {foreach item=news from=$news}
 
-<!-- Anker-Sprungmarke für {$news.news_id}--> <a name="news-{$news.news_id}"></a>
+<!-- Anker-Sprungmarke fï¿½r {$news.news_id}--> <a name="news-{$news.news_id}"></a>
 <table border="1" cellspacing="1" cellpadding="3" style="width:99%">
 
 

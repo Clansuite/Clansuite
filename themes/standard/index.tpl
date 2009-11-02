@@ -94,10 +94,10 @@
     <td id="left_widget_bar" class="cell1">
         <div class="widget" id="widget_menu">{load_module name="menu" action="widget_menu"}</div>
         <div class="widget" id="widget_latestnews">{load_module name="news" action="widget_latestnews" items="2"}</div>  
-        <div class="widget" id="widget_newscategories_list>{load_module name="news" action="widget_newscategories_list"}</div>
-        <div class="widget" id="widget_newscategories_dropdown>{load_module name="news" action="widget_newscategories_dropdown"}</div> 
+        <div class="widget" id="widget_newscategories_list">{load_module name="news" action="widget_newscategories_list"}</div>
+        <div class="widget" id="widget_newscategories_dropdown">{load_module name="news" action="widget_newscategories_dropdown"}</div>
         <div class="widget" id="widget_newsfeeds">{load_module name="news" action="widget_newsfeeds"}</div>    
-        <div class="widget" id="widget_newsarchive>{load_module name="news" action="widget_archive"}</div>
+        <div class="widget" id="widget_newsarchive">{load_module name="news" action="widget_archive"}</div>
         <div class="widget" id="widget_gallery">{load_module name="gallery" action="widget_gallery"}</div>
         <div class="widget" id="widget_nextmatches">{load_module name="matches" action="widget_nextmatches" items="3"}</div>
         <div class="widget" id="widget_latestmatches">{load_module name="matches" action="widget_latestmatches" items="3"}</div>
