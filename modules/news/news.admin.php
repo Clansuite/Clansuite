@@ -154,7 +154,7 @@ class Module_News_Admin extends Clansuite_ModuleController implements Clansuite_
         $form->addElement('text')->setName('news_form[news_title]')->setLabel(_('Title'));
         $categories = Doctrine::getTable('CsNews')->fetchAllNewsCategoriesDropDown();
         $form->addElement('multiselect')->setName('news_form[cat_id]')->setLabel(_('Category'))->setOptions($categories);
-        $form->addElement('textarea')->setName('news_form[news_body]')->setID('news_form[body]')->setCols('110')->setRows('30')->setLabel(_('Your Article:'));
+        $form->addElement('textarea')->setName('news_form[news_body]')->setID('news_form[news_body]')->setCols('110')->setRows('30')->setLabel(_('Your Article:'));
         $form->addElement('submitbutton')->setValue('Submit')->setLabel('Submit Button')->setClass('ButtonGreen');
         $form->addElement('resetbutton')->setValue('Reset')->setLabel('Reset Button');
 
