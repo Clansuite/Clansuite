@@ -87,7 +87,7 @@ class Module_News_Admin extends Clansuite_ModuleController implements Clansuite_
         # SmartyColumnSort -- Easy sorting of html table columns.
         require( ROOT_LIBRARIES . '/smarty/SmartyColumnSort.class.php');
         # A list of database columns to use in the table.
-        $columns = array( 'n.created_at', 'n.news_title', 'c.name','u.nick', 'n.news_status');
+        $columns = array( 'n.created_at', 'n.news_title', 'c.name', 'u.nick', 'n.news_status');
         # Create the columnsort object
         $columnsort = new SmartyColumnSort($columns);
         # And set the the default sort column and order.
@@ -146,15 +146,15 @@ class Module_News_Admin extends Clansuite_ModuleController implements Clansuite_
         /**
          * Create a new form
          */
-        $form = new Clansuite_Form('news_form', 'post', 'index.php?mod=news&sub=admin&action=update');
-
+        $form = new Clansuite_Form('news_form', 'post', 'index.php?mod=news&sub=admin&action=update&type=create');
+        
         /**
          * Assign some Formlements
          */
-        $form->addElement('text')->setName('news_form[title]')->setLabel(_('Title'));
+        $form->addElement('text')->setName('news_form[news_title]')->setLabel(_('Title'));
         $categories = Doctrine::getTable('CsNews')->fetchAllNewsCategoriesDropDown();
-        $form->addElement('multiselect')->setName('news_form[category]')->setLabel(_('Category'))->setOptions($categories);
-        $form->addElement('textarea')->setName('news_form[body]')->setID('news_form[body]')->setCols('110')->setRows('30')->setLabel(_('Your Article:'));
+        $form->addElement('multiselect')->setName('news_form[cat_id]')->setLabel(_('Category'))->setOptions($categories);
+        $form->addElement('textarea')->setName('news_form[news_body]')->setID('news_form[body]')->setCols('110')->setRows('30')->setLabel(_('Your Article:'));
         $form->addElement('submitbutton')->setValue('Submit')->setLabel('Submit Button')->setClass('ButtonGreen');
         $form->addElement('resetbutton')->setValue('Reset')->setLabel('Reset Button');
 
@@ -192,7 +192,7 @@ class Module_News_Admin extends Clansuite_ModuleController implements Clansuite_
         # @todo form object with auto-population of values
         #$form = new Clansuite_Form('news_form', 'post', 'index.php?mod=news&sub=admin&action=update', $news);
 
-        $form = new Clansuite_Form('news_form', 'post', 'index.php?mod=news&sub=admin&action=update');
+        $form = new Clansuite_Form('news_form', 'post', 'index.php?mod=news&sub=admin&action=update&type=edit');
 
         /**
          * news_id as hidden field
@@ -229,25 +229,43 @@ class Module_News_Admin extends Clansuite_ModuleController implements Clansuite_
     {
         # get incoming data
         $data = $this->getHttpRequest()->getParameter('news_form');
+        $type = $this->getHttpRequest()->getParameter('type', 'G');
 
-        # @todo validation
-
-        # get the news table
-        $newsTable = Doctrine::getTable('CsNews');
-
-        # fetch the news to update by news_id
-        $news = $newsTable->findOneByNews_Id($data['news_id']);
-
-        # if that news exist, update values and save
-        if ($news !== false)
+        if(isset($type) and $type == 'create')
         {
-            $news->news_id    = $data['news_id'];
+            $news = new CsNews;           
             $news->news_title = $data['news_title'];
             $news->news_body  = $data['news_body'];
             $news->cat_id     = $data['cat_id'];
             #$news['news_status']     = $data['news_form']['status'];
             $news->save();
         }
+        elseif(isset($type) and $type == 'edit')
+        {
+             # @todo validation
+
+            # get the news table
+            $newsTable = Doctrine::getTable('CsNews');
+    
+            # fetch the news to update by news_id
+            $news = $newsTable->findOneByNews_Id($data['news_id']);
+    
+            # if that news exist, update values and save
+            if ($news !== false)
+            {
+                $news->news_id    = $data['news_id'];
+                $news->news_title = $data['news_title'];
+                $news->news_body  = $data['news_body'];
+                $news->cat_id     = $data['cat_id'];
+                #$news['news_status']     = $data['news_form']['status'];
+                $news->save();
+            }
+        }
+        else
+        {
+            # redirect
+            $this->getHttpResponse()->redirectNoCache('index.php?mod=news&amp;sub=admin', 2, 302, _('Unknown Formaction.'));
+        }       
 
         # redirect
         $this->getHttpResponse()->redirectNoCache('index.php?mod=news&amp;sub=admin', 2, 302, _('The news has been edited.'));
