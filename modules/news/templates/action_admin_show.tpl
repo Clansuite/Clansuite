@@ -62,7 +62,7 @@
         <!-- Content of Table -->
         {foreach item=news from=$news}
         <tr class="tr_row1">
-                <td>{$news.created_at|date_format:"%H:%M:%S"}</td>
+                <td>{$news.created_at|date_format:"%d.%m.%y"}</td>
                 <td>{$news.news_title}</td>
                 <td>{$news.CsCategories.name}</td>
                 <td><a href='index.php?mod=users&amp;id={$news.CsUsers.user_id}'>{$news.CsUsers.nick}</a></td>
