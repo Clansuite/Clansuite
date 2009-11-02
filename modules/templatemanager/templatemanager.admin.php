@@ -75,9 +75,12 @@ class Module_Templatemanager_Admin extends Clansuite_ModuleController implements
      */
     public function action_admin_editor()
     {
+        # get view
+        $smarty = $this->getView();
+         
         # Set Pagetitle and Breadcrumbs
         Clansuite_Trail::addStep( _('Editor'), '/index.php?mod=templatemanager&amp;action=editor');
-
+        
         # Incomming Variables
 
         # GET: tplmod (module of the template)
@@ -89,6 +92,8 @@ class Module_Templatemanager_Admin extends Clansuite_ModuleController implements
         {
             $tplmod = null;
         }
+        
+        $smarty->assign('templateeditor_modulename',  $tplmod);
 
         # GET: tpltheme (theme of the template)
         if(isset($_GET['tpltheme']) and (empty($_GET['tpltheme']) == false) )
@@ -99,6 +104,8 @@ class Module_Templatemanager_Admin extends Clansuite_ModuleController implements
         {
             $tpltheme = null;
         }
+        
+        $smarty->assign('templateeditor_themename',   $tpltheme);
 
         # GET: file (path+templatefilename)
         if(empty($_GET['file']))
@@ -122,6 +129,8 @@ class Module_Templatemanager_Admin extends Clansuite_ModuleController implements
             # correct slashes
             $file = str_replace('/', '\\', $file);
         }
+        
+        $smarty->assign('templateeditor_filename',    $file);
 
         # let's check, if this template exists
         if(is_file($file))
@@ -132,20 +141,15 @@ class Module_Templatemanager_Admin extends Clansuite_ModuleController implements
             fclose($handle);
 
             $templateeditor_newfile = false;
-        }
+        } 
         else # template does not exist
-        {
-            $templateText = '<!-- Start of Template: '.$file.' -->'.CR.CR.'Insert your template content here'.CR.CR.'<!-- End of Template -->';
+        {   
+            # fetch a template for rapidly setting up the new template :)
+            $templateText =  $smarty->fetch('create_new_template.tpl');
 
             $templateeditor_newfile = true;
         }
-
-        #Clansuite_xdebug::printr($templateText);
-
-        $smarty = $this->getView();
-        $smarty->assign('templateeditor_filename',    $file);
-        $smarty->assign('templateeditor_modulename',  $tplmod);
-        $smarty->assign('templateeditor_themename',   $tpltheme);
+               
         $smarty->assign('templateeditor_textarea',    htmlentities($templateText));
         $smarty->assign('templateeditor_newfile',     $templateeditor_newfile);
 

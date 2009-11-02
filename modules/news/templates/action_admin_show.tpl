@@ -6,7 +6,7 @@
     {$news|@var_dump}
     <hr>
     {$newscategories|@var_dump}
-*}
+*} 
 
 <style type="text/css">
 {literal}
@@ -26,11 +26,11 @@
 
          <!-- Modify the View : Drop-Down Selection of the News-Categories -->
          <td colspan="8" align="right">Select Categorie:
-            <form method="post" name="news_list" action="/index.php?mod=news&amp;sub=admin&amp;action=show">
-            <select name="cat_id" class="form">
+            <form method="post" name="news_category_form" action="/index.php?mod=news&amp;sub=admin&amp;action=show">
+            <select name="news_category_form[cat_id]" class="form">
                 <option value="0">----</option>
                 {foreach item=cats from=$newscategories}
-                <option value="{$cats.cat_id}">{$cats.name}</option>
+                    <option value="{$cats.CsCategories.cat_id}">{$cats.CsCategories.name} ({$cats.sum_news})</option>
                 {/foreach}
             </select>
             <input type="submit" name="submit" value="Change View" class="ButtonOrange"/>
@@ -67,7 +67,7 @@
                 <td>{$news.CsCategories.name}</td>
                 <td><a href='index.php?mod=users&amp;id={$news.CsUsers.user_id}'>{$news.CsUsers.nick}</a></td>
                 <td>published</td>
-                <td><input class="ButtonOrange" type="button" value="{t}Edit{/t}" /></td>
+                <td><a class="ButtonOrange" href="index.php?mod=news&amp;sub=admin&amp;action=edit&amp;id={$news.news_id}" />{t}Edit{/t}</a></td>
                 <td align="center" width="1%">
                     <input type="hidden" name="ids[]" value="{$news.news_id}" />
                     <input name="delete[]" type="checkbox" value="{$news.news_id}" />

@@ -262,7 +262,7 @@ class Module_News extends Clansuite_ModuleController implements Clansuite_Module
         if(!empty($news) && is_array($news))
         {
             # Set Pagetitle and Breadcrumbs
-            Clansuite_Trail::addStep( _('Viewing Single News: ') . $news['0']['news_title'] , '/index.php?mod=news&amp;action=show');
+            Clansuite_Trail::addStep( _('Viewing Single News: ') . $news['news_title'] , '/index.php?mod=news&amp;action=show');
 
             # Assign News
             $smarty->assign('news', $news);
@@ -273,13 +273,13 @@ class Module_News extends Clansuite_ModuleController implements Clansuite_Module
              * Notice: if unset is not commented, the comments array is doubled:
              * you could also access the values via {$news.} in the tpl.
              */
-            if ( !empty($news['0']['CsComments']) )
+            if ( !empty($news['CsComments']) )
             {
                 # Assign News
-                $smarty->assign('news_comments', $news['0']['CsComments']);
+                $smarty->assign('news_comments', $news['CsComments']);
 
-                # unsetting the $single_news['0']['CsComments'] to save memory
-                unset($news['0']['CsComments']);
+                # unsetting the $single_news['CsComments'] to save memory
+                unset($news['CsComments']);
             }
             else
             {

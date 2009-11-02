@@ -14,8 +14,20 @@ class CsNewsTable extends Doctrine_Table
      * For Pager Chapter in Doctrine Manual
      * @link http://www.phpdoctrine.org/documentation/manual/0_10?one-page#utilities
      */
-    public static function fetchAllNews($currentPage, $resultsPerPage)
+    public static function fetchAllNews($currentPage, $resultsPerPage, $admin = null)
     {
+        # create public or administration link
+        if($admin == null)
+        {   
+            # link for public area       
+            $link =  '?mod=news&amp;action=show&amp;page={%page}';    
+        }
+        else 
+        {
+            # link for administration area
+            $link = '?mod=news&amp;sub=admin&amp;action=show&amp;page={%page}';
+        }
+        
         # Creating Pager Object with a Query Object inside
         $pager_layout= new Doctrine_Pager_Layout(
                                 new Doctrine_Pager(
@@ -40,7 +52,7 @@ class CsNewsTable extends Doctrine_Table
                                  new Doctrine_Pager_Range_Sliding(array(
                                      'chunk' => 5
                                     )),
-                                 '?mod=news&amp;action=show&amp;page={%page}'
+                                    $link
                                  );
 
         # Sets Layout of the pager links
@@ -67,8 +79,20 @@ class CsNewsTable extends Doctrine_Table
      *
      * Doctrine_Query to fetch News by Category
      */
-    public static function fetchNewsByCategory($category, $currentPage, $resultsPerPage)
+    public static function fetchNewsByCategory($category, $currentPage, $resultsPerPage, $admin = null)
     {
+        # create public or administration link
+        if($admin == null)
+        {   
+            # link for public area       
+            $link = '?mod=news&amp;action=show&amp;page={%page}&amp;cat='.$category;    
+        }
+        else 
+        {
+            # link for administration area
+            $link = '?mod=news&amp;sub=admin&amp;action=show&amp;page={%page}&amp;cat='.$category;
+        }
+                
         # Creating Pager Object with a Query Object inside
         $pager_layout = new Doctrine_Pager_Layout(
                                 new Doctrine_Pager(
@@ -94,7 +118,7 @@ class CsNewsTable extends Doctrine_Table
                                  new Doctrine_Pager_Range_Sliding(array(
                                      'chunk' => 5
                                     )),
-                                 '?mod=news&amp;action=show&amp;page={%page}&amp;cat='.$category
+                                 $link
                                  );
 
         # Set Layout of the pager links
@@ -170,7 +194,7 @@ class CsNewsTable extends Doctrine_Table
                     ->fetchArray();
 
         # put things in an array-box for delivery multiple things with one return stmt
-        return $single_news;
+        return $single_news['0'];
     }
 
     /**
