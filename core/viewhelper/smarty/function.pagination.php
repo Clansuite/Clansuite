@@ -49,8 +49,5 @@ function smarty_function_pagination($params, &$smarty)
     {
         return $smarty->fetch('pagination-generic.tpl');
     }
-
-    # @deprecated: check if it's necessary to paginate
-    # if( $smarty->get_template_vars('pager')->haveToPaginate() )
 }
 ?>
