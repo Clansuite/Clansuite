@@ -1,7 +1,7 @@
 <?php
    /**
     * Clansuite - just an eSports CMS
-    * Jens-Andr� Koch � 2005 - onwards
+    * Jens-André Koch � 2005 - onwards
     * http://www.clansuite.com/
     *
     * This file is part of "Clansuite - just an eSports CMS".
@@ -24,8 +24,8 @@
     *
     * @license    GNU/GPL v2 or (at your option) any later version, see "/doc/LICENSE".
     *
-    * @author     Jens-Andr� Koch <vain@clansuite.com>
-    * @copyright  Jens-Andr� Koch (2005 - onwards)
+    * @author     Jens-André Koch <vain@clansuite.com>
+    * @copyright  Jens-André Koch (2005 - onwards)
     *
     * @link       http://www.clansuite.com
     * @link       http://gna.org/projects/clansuite
@@ -92,42 +92,17 @@ class Module_News extends Clansuite_ModuleController implements Clansuite_Module
             $newsQuery = Doctrine::getTable('CsNews')->fetchNewsByCategory($category, $currentPage, $resultsPerPage);
         }
 
-        # get news, pager, pager_layout
-        #clansuite_xdebug::printR($newsQuery['pager_layout']);
-        #extract($newsQuery);
-        #unset($newsQuery);
-
-        $news           = $newsQuery['news'];
-        $pager          = $newsQuery['pager'];
-        $pager_layout   = $newsQuery['pager_layout'];
+        # import array variables into the current symbol table
+        extract($newsQuery);
+        unset($newsQuery);
 
         # Get Render Engine
         $smarty = $this->getView();
 
-        // Assign $news array to Smarty for template output
-        // Also pass the complete pager object to smarty (referenced to save memory - no extra vars needed) => assign_by_ref()
-        // Another way (and much more flexible one) is via register_object()
-        // SEE: http://www.smarty.net/manual/en/advanced.features.php
-        // TODO: Can we get the news object by reference into smarty too ? register_object() should be essential
+        # Assign $news array and pager objects to smarty to Smarty for template output
         $smarty->assign('news', $news);
         $smarty->assign_by_ref('pager', $pager);
         $smarty->assign_by_ref('pager_layout', $pager_layout);
-
-        /*
-        // Displaying page links: [1][2][3][4][5]
-        // With links in all pages, except the $currentPage (our example, page 1)
-        // display 2 parameter = true = only return, not echo the pager template.
-        $smarty->assign('pagination_links',$pager_layout->display('',true));
-        $smarty->assign('pagination_needed',$pager->haveToPaginate());          #   Return true if it's necessary to paginate or false if not
-        $smarty->assign('paginate_totalitems',$pager->getNumResults());         #   total number of items found on query search
-        $smarty->assign('paginate_resultsinpage',$pager->getResultsInPage());   #   current Page
-        $smarty->assign('paginate_lastpage',$pager->getLastPage());             #   Return the total number of pages
-        $smarty->assign('paginate_currentpage',$pager->getPage());              #   Return the current page
-        */
-
-        // Specifiy the template manually
-        // !! Template is set by parameter 'action' coming from the URI, so no need for manually set of tpl !!
-        //$this->setTemplate('news/show.tpl');
 
         # Prepare the Output
         $this->prepareOutput();
@@ -310,10 +285,10 @@ class Module_News extends Clansuite_ModuleController implements Clansuite_Module
      */
     public function action_archive()
     {
-        // Set Pagetitle and Breadcrumbs
+        # Set Pagetitle and Breadcrumbs
         Clansuite_Trail::addStep( _('Archive'), '/index.php?mod=news&amp;action=archive');
 
-        // Defining initial variables
+        # Defining initial variables
         $currentPage = (int) $this->getHttpRequest()->getParameter('page');
         $date        = $this->getHttpRequest()->getParameter('date');
 
@@ -346,46 +321,17 @@ class Module_News extends Clansuite_ModuleController implements Clansuite_Module
         #Fetch News for Archiv with Doctrine
         $newsQuery = Doctrine::getTable('CsNews')->fetchNewsForArchiv($startdate, $enddate, $currentPage, $resultsPerPage);
 
-        # get news, pager, pager_layout
-        #clansuite_xdebug::printR($newsQuery['pager_layout']);
-        #extract($newsQuery);
-        #unset($newsQuery);
-
-        $news           = $newsQuery['news'];
-        $pager          = $newsQuery['pager'];
-        $pager_layout   = $newsQuery['pager_layout'];
-
-        #clansuite_xdebug::printR($news);
+        # import array variables into the current symbol table
+        extract($newsQuery);
+        unset($newsQuery);
 
         # Get Render Engine
         $smarty = $this->getView();
 
-        // Assign $news array to Smarty for template output
-        // Also pass the complete pager object to smarty (referenced to save memory - no extra vars needed) => assign_by_ref()
-        // Another way (and much more flexible one) is via register_object()
-        // SEE: http://www.smarty.net/manual/en/advanced.features.php
-        // TODO: Can we get the news object by reference into smarty too ? register_object() should be essential
+        # Assign $news array and pager objects to smarty to Smarty for template output
         $smarty->assign('news', $news);
         $smarty->assign_by_ref('pager', $pager);
         $smarty->assign_by_ref('pager_layout', $pager_layout);
-
-        /*
-        // Displaying page links: [1][2][3][4][5]
-        // With links in all pages, except the $currentPage (our example, page 1)
-        // display 2 parameter = true = only return, not echo the pager template.
-        $smarty->assign('pagination_links',$pager_layout->display('',true));
-        $smarty->assign('pagination_needed',$pager->haveToPaginate());          #   Return true if it's necessary to paginate or false if not
-        $smarty->assign('paginate_totalitems',$pager->getNumResults());         #   total number of items found on query search
-        $smarty->assign('paginate_resultsinpage',$pager->getResultsInPage());   #   current Page
-        $smarty->assign('paginate_lastpage',$pager->getLastPage());             #   Return the total number of pages
-        $smarty->assign('paginate_currentpage',$pager->getPage());              #   Return the current page
-        */
-
-        // Specifiy the template manually
-        // !! Template is set by parameter 'action' coming from the URI, so no need for manually set of tpl !!
-        //$this->setTemplate('news/show.tpl');
-
-        #clansuite_xdebug::printR($news);
 
         # Prepare the Output
         $this->prepareOutput();
@@ -406,22 +352,22 @@ class Module_News extends Clansuite_ModuleController implements Clansuite_Module
      */
     public function action_fullarchive()
     {
-        // Set Pagetitle and Breadcrumbs
+        # Set Pagetitle and Breadcrumbs
         Clansuite_Trail::addStep( _('Archiv'), '/index.php?mod=news&amp;action=fullarchive');
 
-        // Defining initial variables
+        # Defining initial variables
         $currentPage = (int) $this->getHttpRequest()->getParameter('page');
 
-        // SmartyColumnSort -- Easy sorting of html table columns.
+        # SmartyColumnSort -- Easy sorting of html table columns.
         require( ROOT_LIBRARIES . '/smarty/SmartyColumnSort.class.php');
-        // A list of database columns to use in the table.
+        # A list of database columns to use in the table.
         $columns = array( 'n.created_at', 'n.news_title', 'c.cat_id', 'u.user_id', 'nr_news_comments');
-        // Create the columnsort object
+        # Create the columnsort object
         $columnsort = new SmartyColumnSort($columns);
-        // And set the the default sort column and order.
+        # And set the the default sort column and order.
         $columnsort->setDefault('n.created_at', 'desc');
-        // Get sort order from columnsort
-        $sortorder = $columnsort->sortOrder(); // Returns 'name ASC' as default
+        # Get sort order from columnsort
+        $sortorder = $columnsort->sortOrder(); # Returns 'name ASC' as default
 
         # set custom starting and ending date
         $startdate = '1980-04-19';
@@ -433,47 +379,18 @@ class Module_News extends Clansuite_ModuleController implements Clansuite_Module
         #Fetch News for Archiv with Doctrine
         $newsQuery = Doctrine::getTable('CsNews')->fetchNewsForFullArchiv($sortorder, $startdate, $enddate, $currentPage, $resultsPerPage);
 
-        # get news, pager, pager_layout
-        #clansuite_xdebug::printR($newsQuery['pager_layout']);
-        #extract($newsQuery);
-        #unset($newsQuery);
-
-        $news           = $newsQuery['news'];
-        $pager          = $newsQuery['pager'];
-        $pager_layout   = $newsQuery['pager_layout'];
-
-
-        #clansuite_xdebug::printR($news);
+        # import array variables into the current symbol table
+        extract($newsQuery);
+        unset($newsQuery);
 
         # Get Render Engine
         $smarty = $this->getView();
 
-        // Assign $news array to Smarty for template output
-        // Also pass the complete pager object to smarty (referenced to save memory - no extra vars needed) => assign_by_ref()
-        // Another way (and much more flexible one) is via register_object()
-        // SEE: http://www.smarty.net/manual/en/advanced.features.php
-        // TODO: Can we get the news object by reference into smarty too ? register_object() should be essential
+        # Assign $news array to Smarty for template output
+        # Also pass the complete pager object to smarty (referenced to save memory - no extra vars needed) => assign_by_ref()
         $smarty->assign('news', $news);
         $smarty->assign_by_ref('pager', $pager);
         $smarty->assign_by_ref('pager_layout', $pager_layout);
-
-        /*
-        // Displaying page links: [1][2][3][4][5]
-        // With links in all pages, except the $currentPage (our example, page 1)
-        // display 2 parameter = true = only return, not echo the pager template.
-        $smarty->assign('pagination_links',$pager_layout->display('',true));
-        $smarty->assign('pagination_needed',$pager->haveToPaginate());          #   Return true if it's necessary to paginate or false if not
-        $smarty->assign('paginate_totalitems',$pager->getNumResults());         #   total number of items found on query search
-        $smarty->assign('paginate_resultsinpage',$pager->getResultsInPage());   #   current Page
-        $smarty->assign('paginate_lastpage',$pager->getLastPage());             #   Return the total number of pages
-        $smarty->assign('paginate_currentpage',$pager->getPage());              #   Return the current page
-        */
-
-        // Specifiy the template manually
-        // !! Template is set by parameter 'action' coming from the URI, so no need for manually set of tpl !!
-        //$this->setTemplate('news/show.tpl');
-
-        #clansuite_xdebug::printR($news);
 
         # Prepare the Output
         $this->prepareOutput();
