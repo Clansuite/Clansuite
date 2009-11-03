@@ -1,4 +1,4 @@
-<!-- Module Help - help.tpl -->
+<!-- Start core/templates/help.tpl -->
 <div id="help" class="admin_help" style="float: right; z-index: 99; position: absolute; right: 22px; top: 122px; font-size: 11px;">
 
     <ul start="1" type="I">
@@ -49,11 +49,10 @@
                <script type="text/javascript">var script = document.createElement("script");script.type="text/javascript";var src = "http://www.clansuite.com/livezilla/server.php?request=track&output=jcrpt&reset=true&nse="+Math.random();setTimeout("script.src=src;document.getElementById('livezilla_tracking').appendChild(script)",1);</script>
                <!-- http://www.LiveZilla.net Tracking Code -->
            {/if}
-
            
         </p>
      </li>
-
     </ul>
-
 </div>
+
+<!-- End Template core/templates/help.tpl -->

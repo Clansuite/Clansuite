@@ -61,24 +61,39 @@
         <tr>
             <td class="admin_header">
                 {include file='breadcrumbs.tpl'}
-                {include file='help_button.tpl'}
+                {include file='help_button.tpl'}                
 
                 {*
-
                 <!-- Update Icon -->
                 <div id="update-toggler" style="float: right; font-family: tahoma,verdana,arial,sans-serif; font-size: 11px; cursor: pointer; margin-right: 5px;">
-                    <img style="margin-bottom: -3px;" src="{$www_root_themes_core}/images/icons/warning.png" alt="Updates" />
+                    <img style="margin-bottom: -3px;" src="{$www_root_themes_core}/images/icons/warning.png" alt="{t}Show Updates{/t}" />
                     {t}Update{/t}
                 </div>
-
-                <!-- Bugreport Icon -->
-                <div id="bugreport-toggler" style="float: right; font-family: tahoma,verdana,arial,sans-serif; font-size: 11px; cursor: pointer; margin-right: 5px;">
-                    <img style="margin-bottom: -3px;" src="{$www_root_themes_core}/images/icons/error.png" alt="Updates" />
-                    {t}Bugreport{/t}
-                </div>
-
                 *}
 
+                {*
+                <!-- Bugreport Icon -->
+                <div id="bugreport-toggler" style="float: right; font-family: tahoma,verdana,arial,sans-serif; font-size: 11px; cursor: pointer; margin-right: 5px;">
+                    <img style="margin-bottom: -3px;" src="{$www_root_themes_core}/images/icons/error.png" alt="{t}Report Bug{/t}" />
+                    {t}Bugreport{/t}
+                </div> 
+                *}
+                
+                <!-- Debug Mode Icon -->
+                {if DEBUG == true}
+                <div id="debug-toggler" style="float: right; font-family: tahoma,verdana,arial,sans-serif; font-size: 11px; cursor: pointer; margin-right: 5px;">
+                    <img style="margin-bottom: -3px;" src="{$www_root_themes_core}/images/icons/error.png" alt="DEBUG" />
+                    DEBUG
+                </div>
+                {/if}
+                
+                <!-- Development Mode Icon -->
+                {if DEVELOPMENT == true}
+                <div id="development-toggler" style="float: right; font-family: tahoma,verdana,arial,sans-serif; font-size: 11px; cursor: pointer; margin-right: 5px;">
+                    <img style="margin-bottom: -3px;" src="{$www_root_themes_core}/images/icons/error.png" alt="DEVELOPMENT MODE ACTIVE" />
+                    DEVELOPMENT
+                </div>
+                {/if}
             </td>
         </tr>
     </thead>
