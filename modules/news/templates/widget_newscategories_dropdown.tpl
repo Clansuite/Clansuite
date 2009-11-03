@@ -8,7 +8,7 @@
     
     <div class="cell1">
     
-        <form action="">
+        <form>
           <label>
               <select name="newscatsdropdown" id="newscatsdropdown" size=1
                       onchange="top.location.href=this.options[this.selectedIndex].value;">
