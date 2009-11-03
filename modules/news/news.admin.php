@@ -1,7 +1,7 @@
 <?php
    /**
     * Clansuite - just an eSports CMS
-    * Jens-André Koch Â© 2005 - onwards
+    * Jens-André Koch © 2005 - onwards
     * http://www.clansuite.com/
     *
     * LICENSE:
@@ -105,10 +105,9 @@ class Module_News_Admin extends Clansuite_ModuleController implements Clansuite_
             $newsQuery = Doctrine::getTable('CsNews')->fetchNewsByCategory($category, $currentPage, $resultsPerPage, true);
         }
 
-        # this is not needed, but for showing, that $newsQuery is an array
-        $news           = $newsQuery['news'];
-        $pager          = $newsQuery['pager'];
-        $pager_layout   = $newsQuery['pager_layout'];
+        # import array variables into the current symbol table ($newsQuery is an array('news','pager','pager_layout')
+        extract($newsQuery);
+        unset($newsQuery);
 
         $newscategories = Doctrine::getTable('CsNews')->fetchUsedNewsCategories();
 
@@ -143,14 +142,10 @@ class Module_News_Admin extends Clansuite_ModuleController implements Clansuite_
         # Load Form Class (@todo autoloader / di)
         require ROOT_CORE . 'viewhelper/form.core.php';
 
-        /**
-         * Create a new form
-         */
+        # Create a new form
         $form = new Clansuite_Form('news_form', 'post', 'index.php?mod=news&sub=admin&action=update&type=create');
-        
-        /**
-         * Assign some Formlements
-         */
+
+        # Assign some formlements
         $form->addElement('text')->setName('news_form[news_title]')->setLabel(_('Title'));
         $categories = Doctrine::getTable('CsNews')->fetchAllNewsCategoriesDropDown();
         $form->addElement('multiselect')->setName('news_form[cat_id]')->setLabel(_('Category'))->setOptions($categories);
@@ -158,13 +153,7 @@ class Module_News_Admin extends Clansuite_ModuleController implements Clansuite_
         $form->addElement('submitbutton')->setValue('Submit')->setLabel('Submit Button')->setClass('ButtonGreen');
         $form->addElement('resetbutton')->setValue('Reset')->setLabel('Reset Button');
 
-        # Debugging Form Object
-        #clansuite_xdebug::printR($form);
-
-        # Debugging Form HTML Output
-        #clansuite_xdebug::printR($form->render());
-
-        # assign the html of the form to the view
+        # Assign the html of the form to the view
         $this->getView()->assign('form', $form->render());
 
         $this->prepareOutput();
@@ -181,14 +170,10 @@ class Module_News_Admin extends Clansuite_ModuleController implements Clansuite_
         # fetch news
         $news = Doctrine::getTable('CsNews')->fetchSingleNews($news_id);
 
-        #clansuite_xdebug::printR($news);
-
         # Load Form Class (@todo autoloader / di)
         require ROOT_CORE . 'viewhelper/form.core.php';
 
-        /**
-         * Create a new form
-         */
+        # Create a new form
         # @todo form object with auto-population of values
         #$form = new Clansuite_Form('news_form', 'post', 'index.php?mod=news&sub=admin&action=update', $news);
 
@@ -199,16 +184,13 @@ class Module_News_Admin extends Clansuite_ModuleController implements Clansuite_
          */
         $form->addElement('hidden')->setName('news_form[news_id]')->setValue($news['news_id']);
 
-        /**
-         * Assign some Formlements
-         */
+        # Assign some formlements
         $form->addElement('text')->setName('news_form[news_title]')->setLabel(_('Title'))->setValue($news['news_title']);
         $categories = Doctrine::getTable('CsNews')->fetchAllNewsCategoriesDropDown();
         $form->addElement('multiselect')->setName('news_form[cat_id]')->setLabel(_('Category'))->setOptions($categories)->setDefaultValue($news['cat_id']);
         $form->addElement('textarea')->setName('news_form[news_body]')->setID('news_form[news_body]')->setCols('110')->setRows('30')->setLabel(_('Your Article:'))->setValue($news['news_body']);;
         $form->addElement('submitbutton')->setValue('Submit')->setLabel('Submit Button')->setClass('ButtonGreen');
         $form->addElement('resetbutton')->setValue('Reset')->setLabel('Reset Button');
-
 
         # Debugging Form Object
         #clansuite_xdebug::printR($form);
@@ -233,7 +215,7 @@ class Module_News_Admin extends Clansuite_ModuleController implements Clansuite_
 
         if(isset($type) and $type == 'create')
         {
-            $news = new CsNews;           
+            $news = new CsNews;
             $news->news_title = $data['news_title'];
             $news->news_body  = $data['news_body'];
             $news->cat_id     = $data['cat_id'];
@@ -246,10 +228,10 @@ class Module_News_Admin extends Clansuite_ModuleController implements Clansuite_
 
             # get the news table
             $newsTable = Doctrine::getTable('CsNews');
-    
+
             # fetch the news to update by news_id
             $news = $newsTable->findOneByNews_Id($data['news_id']);
-    
+
             # if that news exist, update values and save
             if ($news !== false)
             {
@@ -265,7 +247,7 @@ class Module_News_Admin extends Clansuite_ModuleController implements Clansuite_
         {
             # redirect
             $this->getHttpResponse()->redirectNoCache('index.php?mod=news&amp;sub=admin', 2, 302, _('Unknown Formaction.'));
-        }       
+        }
 
         # redirect
         $this->getHttpResponse()->redirectNoCache('index.php?mod=news&amp;sub=admin', 2, 302, _('The news has been edited.'));
@@ -346,17 +328,14 @@ class Module_News_Admin extends Clansuite_ModuleController implements Clansuite_
                                         'formfieldtype' => 'text',
                                         'value' => $this->getConfigValue('feed_items', '10'));
 
+        # fetch the formgenerator
         require ROOT_CORE . '/viewhelper/formgenerator.core.php';
+
+        # fill the settings array into the formgenerator
         $form = new Clansuite_Array_Formgenerator($settings);
-
-        # display formgenerator object
-        #clansuite_xdebug::printR($form);
-
+        # add additional buttons to the form
         $form->addElement('submitbutton')->setName('Save');
         $form->addElement('resetbutton');
-
-        # display form html
-        #clansuite_xdebug::printR($form->render());
 
         # assign the html of the form to the view
         $this->getView()->assign('form', $form->render());
