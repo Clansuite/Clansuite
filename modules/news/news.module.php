@@ -207,8 +207,8 @@ class Module_News extends Clansuite_ModuleController implements Clansuite_Module
          */
         $rss = new UniversalFeedCreator();
         $rss->useCached(); // use cached version if age<1 hour
-        $rss->title = "PHP news";
-        $rss->description = "daily news from the clanwebsites world";
+        $rss->title = $this->getConfigValue('feed_title', 'Feedname');
+        $rss->description = $this->getConfigValue('feed_description', 'Descriptiontext');
 
         # optional
         $rss->descriptionTruncSize = 500;
@@ -221,10 +221,10 @@ class Module_News extends Clansuite_ModuleController implements Clansuite_Module
          * Create Feed Image Object
          */
         $image = new FeedImage();
-        $image->title = "clanwebsite.net logo";
-        $image->url = "http://www.clanwebsite.net/images/logo.gif";
-        $image->link = "http://www.clanwebsite.net";
-        $image->description = "Feed provided by clanwebsite.net. Click to visit.";
+        $image->title = $this->getConfigValue('feed_imagetitle', 'logo');
+        $image->url = $this->getConfigValue('feed_image', 'http://www.clanwebsite.net/images/logo.gif');
+        $image->link = $this->getCOnfigValue('feed_imageurl', 'http://www.clanwebsite.net');
+        $image->description = $this->getConfigValue('feed_imagedescription', 'Feed provided by clanwebsite.net. Click to visit.');
 
         # optional
         $image->descriptionTruncSize = 500;
@@ -246,7 +246,7 @@ class Module_News extends Clansuite_ModuleController implements Clansuite_Module
              */
             $item = new FeedItem();
             $item->title = $news['news_title'];
-            $item->link =  WWW_ROOT . 'index.php?mod=news&action='.$news['news_id'];
+            $item->link =  WWW_ROOT . '/index.php?mod=news&action=showone&id='.$news['news_id'];
             $item->description = $news['news_body'];
 
             # optional

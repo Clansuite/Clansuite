@@ -163,6 +163,7 @@ class CsNewsTable extends Doctrine_Table
                         ->leftJoin('n.CsComments nc')
                         ->leftJoin('nc.CsUsers ncu')
                         #->where('c.module_id = 7')
+						->orderBy('created_at DESC')
                         ->setHydrationMode(Doctrine::HYDRATE_ARRAY)
                         ->fetchArray();
 

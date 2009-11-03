@@ -12,4 +12,11 @@ feed_format = "RSS2.0"
 feed_items = 20
 resultsPerPage_adminshow = 10
 
+feed_title = "ClanSuite Newsfeed"
+feed_description = "ClanSuite | A new fast & flexible CMS for Clans."
+feed_image = "/uploads/noimage.png"
+feed_imagetitle = "Logo"
+feed_imagedescription = "Klick mich"
+feed_imageurl = "http://www.clansuite-dev.com"
+
 ; DO NOT REMOVE THIS LINE */ ?>
