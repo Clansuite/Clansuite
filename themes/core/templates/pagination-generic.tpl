@@ -7,7 +7,7 @@
 
         {if $pager->haveToPaginate() gt 0}
 
-             {assign var=numResults value=$pager->getNumResults()}
+            {assign var=numResults value=$pager->getNumResults()}
             {assign var=firstIndice value=$pager->getFirstIndice()}
             {assign var=lastIndice value=$pager->getLastIndice()}
 
@@ -19,11 +19,15 @@
 
         {elseif $pager->getResultsInPage() eq 1}
 
-          {t}1 Item displayed.{/t}
+          {t}Displaying 1 Item.{/t}
 
-        {else}
+        {elseif $pager->getNumResults() gt 1}
 
           {t 1=`$resultsInPage`}Items 1 to %1 displayed.{/t}
+ 
+        {else}
+
+          {* No Pagination Display *}
 
         {/if}
 </div>
