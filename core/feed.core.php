@@ -163,7 +163,7 @@ class Clansuite_Feed
         $cachetime = 60*60*3; # 10800min = 3h
 
         # try to return the file from cache
-        if (is_file($cachefile) and (time() - filemtime($cachefile)) > $cachetime)
+        if (is_file($cachefile) and (time() - filemtime($cachefile)) < $cachetime)
         {
             #return readfile($this->cachefile); # this writes directly to the output buffer
             return file_get_contents($cachefile);
