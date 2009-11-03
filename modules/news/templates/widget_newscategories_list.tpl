@@ -4,15 +4,19 @@
 
 <div class="news_widget" id="widget_topmatch" width="100%">
 
-    <h2 class="td_header"> {t}News Categories{/t}</h2>
+    <h2 class="td_header"> {t}News Categories{/t}</h2>    
+        
+    <div class="cell1">
 
-    <ul>
-    {foreach item=newscategory from=$widget_newscategories_list}
-    <li>
-        <a href="{$www_root}/index.php?mod=news&action=show&page=1&cat={$newscategory.cat_id}"> {$newscategory.CsCategories.name} ({$newscategory.sum_news})</a>
-    </li>
-    {/foreach}
-    </ul>
+        <ul>
+        {foreach item=newscategory from=$widget_newscategories_list}
+        <li>
+            <a href="{$www_root}/index.php?mod=news&action=show&page=1&cat={$newscategory.cat_id}"> {$newscategory.CsCategories.name} ({$newscategory.sum_news})</a>
+        </li>
+        {/foreach}
+        </ul>
+    
+    </div>
 
 </div>
 
