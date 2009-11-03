@@ -51,9 +51,6 @@ class Module_ControlCenter extends Clansuite_ModuleController implements Clansui
      */
     public function execute(Clansuite_HttpRequest $request, Clansuite_HttpResponse $response)
     {
-        # read module config
-        #$this->config->readConfig( ROOT_MOD . '/admin/admin.config.php');
-
         parent::initRecords('menu');
     }
 
@@ -122,7 +119,7 @@ class Module_ControlCenter extends Clansuite_ModuleController implements Clansui
 
 
     /**
-     * Show the Informations to submit a Bug
+     * action bug
      */
     public function action_bugs()
     {
@@ -136,7 +133,7 @@ class Module_ControlCenter extends Clansuite_ModuleController implements Clansui
     }
 
     /**
-     * Show the Informations to submit a Bug
+     * action about
      */
     public function action_about()
     {
@@ -144,6 +141,18 @@ class Module_ControlCenter extends Clansuite_ModuleController implements Clansui
 
         # Set Pagetitle and Breadcrumbs
         Clansuite_Trail::addStep( _('About Clansuite'), '/index.php?mod=controlcenter&amp;action=about');
+
+        # Prepare the Output
+        $this->prepareOutput();
+    }
+    
+    /**
+     * action supportlinks
+     */
+    public function action_supportlinks()
+    {
+        # Set Pagetitle and Breadcrumbs
+        Clansuite_Trail::addStep( _('Links for Help & Support'), '/index.php?mod=help&amp;sub=admin&amp;action=supportlinks');
 
         # Prepare the Output
         $this->prepareOutput();

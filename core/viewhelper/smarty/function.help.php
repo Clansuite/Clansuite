@@ -26,15 +26,21 @@
  */
 function smarty_function_help($params, &$smarty)
 {
+    $modulename = $smarty->get_template_vars('template_of_module');
+    
     # check if file exists
-    if( $smarty->template_exists( 'help.tpl') )
+    if( $smarty->template_exists( $modulename. '/templates/help.tpl') )
     {
         # load the help template from modulepath ->  modulename/templates/help.tpl
-        return $smarty->fetch( $smarty->get_template_vars('template_of_module').'/templates/help.tpl');
+        return $smarty->fetch( $modulename. '/templates/help.tpl');
+    }
+    elseif( DEBUG == true and DEVELOPMENT == true )
+    {
+        return $smarty->fetch( ROOT_THEMES . 'core/templates/help_not_found.tpl');
     }
     else
     {
-        echo 'Help Template not found.';
+        return 'Help Template not found.';
     }
 }
 ?>
