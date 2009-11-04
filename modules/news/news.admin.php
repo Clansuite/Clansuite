@@ -280,38 +280,38 @@ class Module_News_Admin extends Clansuite_ModuleController implements Clansuite_
                                         'action' => WWW_ROOT.'/index.php?mod=news&amp;sub=admin&amp;action=settings_update');
 
         $settings['news'][] = array(    'id' => 'resultsPerPage_show',
-                                        'name' => 'resultsPerPage_show',
+                                        'name' => 'News Items',
                                         'description' => _('Newsitems to show in Newsmodule'),
                                         'formfieldtype' => 'text',
                                         'value' => $this->getConfigValue('resultsPerPage_show', '3'));
 
         $settings['news'][] = array(    'id' => 'items_newswidget',
-                                        'name' => 'items_newswidget',
+                                        'name' => 'LatestNews Items',
                                         'description' => _('Newsitems to show in LatestNews Widget'),
                                         'formfieldtype' => 'text',
                                         'value' => $this->getConfigValue('items_newswidget', '5'));
 
         $settings['news'][] = array(    'id' => 'resultsPerPage_fullarchive',
-                                        'name' => 'resultsPerPage_fullarchive',
+                                        'name' => 'Newsarchive Items',
                                         'description' => _('Newsitems to show in Newsarchive'),
                                         'formfieldtype' => 'text',
                                         'value' => $this->getConfigValue('resultsPerPage_fullarchive', '3'));
 
         $settings['news'][] = array(    'id' => 'resultsPerPage_adminshow',
-                                        'name' => 'resultsPerPage_adminshow',
+                                        'name' => 'Admin News Items',
                                         'description' => _('Newsitems to show in the administration area.'),
                                         'formfieldtype' => 'text',
                                         'value' => $this->getConfigValue('resultsPerPage_adminshow', '10'));
 
 
         $settings['news'][] = array(    'id' => 'resultsPerPage_archive',
-                                        'name' => 'resultsPerPage_archive',
+                                        'name' => 'Newsarchive Widget Items',
                                         'description' => _('Newsitems to show in Newsarchive'),
                                         'formfieldtype' => 'text',
                                         'value' => $this->getConfigValue('resultsPerPage_archive', '3'));
 
         $settings['news'][] = array(    'id' => 'feed_format',
-                                        'name' => 'feed_format',
+                                        'name' => 'Newsfeed Format',
                                         'description' => _('Set the default format of the news feed. You can chose among these options: RSS2.0, MBOX, OPML, ATOM, HTML, JS'),
                                         'formfieldtype' => 'multiselect',
                                         'value' => array( 'selected' => $this->getConfigValue('feed_format', 'RSS2.0'),
@@ -322,7 +322,7 @@ class Module_News_Admin extends Clansuite_ModuleController implements Clansuite_
                                                           'HTML'     => 'HTML',
                                                           'JS'       => 'JS'));
 
-        $settings['news'][] = array(    'id' => 'feed_items',
+        $settings['news'][] = array(    'id' => 'Newsfeed Items',
                                         'name' => 'feed_items',
                                         'description' => _('Sets the default number of feed items.'),
                                         'formfieldtype' => 'text',

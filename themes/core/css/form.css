@@ -1,0 +1,86 @@
+@charset "utf-8";
+/* form.css for styling the formelements */
+
+.formline
+{
+	border-bottom:1px solid #cdcdcd;
+	padding:5px;
+	clear:both;
+}
+
+label
+{
+	float:left;
+	text-align:left;
+	width:140px;
+	margin-right:10px;
+}
+
+label em
+{
+	float:right;
+}
+
+.formdescription
+{
+	padding:0;
+	margin:0;
+	width:404px;
+	margin-left:150px;
+	font-family:Verdana, Geneva, sans-serif;
+	font-size:10px;
+	color:#999999;
+}
+
+span.formvalue
+{
+	font-family:Verdana, Geneva, sans-serif;
+	font-size:12px;
+	margin-bottom:2px;
+}
+
+input
+{
+	margin:0;
+	padding:0;
+	
+}
+
+input[type="text"]
+{
+	width:400px;
+}
+
+textarea
+{
+
+	height:150px;
+}
+
+input[type="checkbox"]
+{
+}
+
+input[type="radio"]
+{
+}
+
+select[type="list"]
+{
+}
+
+input[type="file"]
+{
+	size:100;
+}
+
+.submit
+{
+	float:right;
+}
+
+.reset
+{
+	float:left;
+}
+
