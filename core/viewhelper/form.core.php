@@ -513,15 +513,12 @@ class Clansuite_Form /*extends Clansuite_HTML*/ implements Clansuite_Form_Interf
             $html_form .= CR . $formelement->render() . CR;
             
             # add description
-            if ( $formelement->description == true)
+            if ( isset($formelement->description) == true)
             {
                 $html_form .= CR . '<p class="formdescription">'.$formelement->getDescription() . '</label>' . CR;
             }
 
             $html_form .= '</div>';
-
-            # seperator
-            $html_form .= '<br/>' .CR;
         }
 
         # add buttons @todo
