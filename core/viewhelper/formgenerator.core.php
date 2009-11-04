@@ -181,7 +181,8 @@ class Clansuite_Array_Formgenerator extends Clansuite_Form
                 * Array (
                 *     [id] => resultsPerPage_show
                 *     [name] => resultsPerPage_show
-                *     [description] => Newsitems to show in Newsmodule
+                *     {label] => Results per Page for Action Show
+                *     [description] => This defines the Number of Newsitems to show per Page in Newsmodule
                 *     [formfieldtype] => text
                 *     [value] => 3
                 * )
@@ -206,9 +207,12 @@ class Clansuite_Array_Formgenerator extends Clansuite_Form
 
                # provide array access to the form data (in $_POST) by prefixing it with the formulars name
                $formelement->setName($this->getName().'['.$form_array_element['name'].']');
-               $formelement->setDescription($form_array_element['description']);
-               #$formelement->setLabel($this->getName().'['.$form_array_element['name'].']');               
-               $formelement->setLabel($form_array_element['name']);
+               $formelement->setDescription($form_array_element['description']);               
+               
+               # @todo consider this as formdebug display
+               #$formelement->setLabel($this->getName().'['.$form_array_element['name'].']');
+               
+               $formelement->setLabel($form_array_element['label']);
 
                # set the options['selected'] value as default value
                if(isset($form_array_element['options']['selected']))
