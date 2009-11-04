@@ -8,6 +8,18 @@
 	clear:both;
 }
 
+/* nicedit workaround-fix for positioning the divs right */
+.formline div[style="border-style: none solid solid; border-color: -moz-use-text-color rgb(204, 204, 204) rgb(204, 204, 204); border-width: 0pt 1px 1px; width: 899px; overflow-y: auto; overflow-x: hidden; max-height: 600px;"]
+{
+	margin-left:150px;
+}
+
+/* fix for hiding the labels of the buttons */
+.formbutton label
+{
+	display:none;
+}
+
 label
 {
 	float:left;
