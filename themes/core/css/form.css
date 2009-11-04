@@ -39,7 +39,7 @@ span.formvalue
 	margin-bottom:2px;
 }
 
-input
+form input, form textarea, form select
 {
 	margin:0;
 	padding:0;
