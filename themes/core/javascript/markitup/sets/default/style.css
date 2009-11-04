@@ -25,3 +25,7 @@
 .markItUp .preview a {
 	background-image:url(images/preview.png);
 }
+
+.markItUp {
+	margin-left:145px;
+}
