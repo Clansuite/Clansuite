@@ -360,16 +360,6 @@ a:hover
     font-weight: bold;
 }
 
-form input,
-form textarea,
-form select
-{
-    width: auto;      /* auto-size, otherwise watch for wrap on resize */
-    margin: 3px 0 0 5px;  /* set margin on left of form elements rather than right of
-                              label aligns textarea better in IE */
-    padding-left: 3px;
-}
-
 .input_text
 {
     border: 1px solid black;
