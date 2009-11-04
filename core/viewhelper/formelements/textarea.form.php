@@ -57,7 +57,8 @@ class Clansuite_Formelement_Textarea extends Clansuite_Formelement implements Cl
      * 1) Nicedit       -> wysiwygnicedit.form.php
      * 2) TinyMCE       -> wysiwygtinymce.form.php
      * 3) CKEditor      -> wysiwygckeditor.form.php
-     * 4) Default HTML  -> this class
+     * 4) markItUp      -> wysiwygmarkItUp.form.phg  => DEFAULT
+     * 5) Default HTML  -> this class
      *
      * @string
      */
@@ -148,6 +149,10 @@ class Clansuite_Formelement_Textarea extends Clansuite_Formelement implements Cl
         switch ($this->editorType)
         {
             default:
+             case 'markitup':
+                    if (!class_exists('Clansuite_Formelement_Wysiwygmarkitup')) { include 'wysiwygmarkitup.form.php'; }
+                    return new Clansuite_Formelement_Wysiwygmarkitup($this);
+                break;
             case 'nicedit':
                     if (!class_exists('Clansuite_Formelement_Wysiwygnicedit')) { include 'wysiwygnicedit.form.php'; }
                     # passing 'this' into the child. so that child has a reference back to the parent
@@ -188,7 +193,7 @@ class Clansuite_Formelement_Textarea extends Clansuite_Formelement implements Cl
         /**
          * Opening of tag
          */
-        $html .= '<textarea ';
+        $html .= '<textarea';
         $html .= (bool)$this->id ? ' id="'.$this->id.'"' : null;
         $html .= (bool)$this->name ? ' name="'.$this->name.'"' : null;
         $html .= (bool)$this->size ? ' size="'.$this->size.'"' : null;
