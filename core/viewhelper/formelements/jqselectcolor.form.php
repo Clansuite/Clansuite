@@ -66,8 +66,7 @@ class Clansuite_Formelement_JQSelectColor extends Clansuite_Formelement implemen
                                           });
                                         </script>";
 
-        $html = '<div id="colorpicker"></div>';
-
+        $html = '<input type="text" id="color" name="'.$this->getName().'" value="#cccccc" /><div id="colorpicker"></div>';
 
         return $javascript.$datepicker_js.$html;
     }
