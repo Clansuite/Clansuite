@@ -44,54 +44,132 @@ if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.');}
  */
 class Clansuite_Formelement_JQSelectDate extends Clansuite_Formelement implements Clansuite_Formelement_Interface
 {
+    /**
+     * Flag Variable for the output of the datepicker as an icon (if true)
+     */
     protected $asIcon = false;
 
-    function __construct()
+    /**
+     * contains the datepicker html string for output
+     */
+    protected $html = '<div type="text" id="datepicker"></div>';
+
+    /**
+     * Datepicker Attributes Array contains the options for the javascript object.
+     *
+     * @var array
+     */
+    private $attributes = array();
+
+    /**
+     * Contains a sprintf javascript function string
+     * @var string
+     */
+    private $sprintf_datepicker_js = '<script type="text/javascript">
+                                         $(document).ready(function(){
+                                            $("#%s").datepicker({
+                                            %s
+                                         }); });</script>';
+
+    /**
+     * contains the javascripts (html)
+     *
+     * @todo js-queue, duplication check
+     *
+     * @var string
+     */
+     # <script type="text/javascript" src="http://jqueryui.com/latest/jquery-1.3.2.js"></script>
+     # <script type="text/javascript" src="http://jqueryui.com/latest/ui/ui.core.js"></script>
+    private $javascript_libraries =  '<link type="text/css" href="http://jqueryui.com/latest/themes/base/ui.all.css" rel="stylesheet" />
+                                      <script type="text/javascript" src="http://jqueryui.com/latest/ui/ui.datepicker.js"></script>';
+
+    public function __construct()
     {
         $this->type = "date";
-
-        # add the javascripts to the queue of the page (@todo queue, duplication check)
-        $this->addJS = '<link type="text/css" href="http://jqueryui.com/latest/themes/base/ui.all.css" rel="stylesheet" />
-                        <script type="text/javascript" src="http://jqueryui.com/latest/jquery-1.3.2.js"></script>
-                        <script type="text/javascript" src="http://jqueryui.com/latest/ui/ui.core.js"></script>
-                        <script type="text/javascript" src="http://jqueryui.com/latest/ui/ui.datepicker.js"></script>
-                       ';
-
-        # Add the jQuery UI Date Select Dialog.
-        # Watch out, that the div dialog is present in the dom, before you assign js function to it via $('#datepicker')
-        $this->datepicker_default   = '<script type="text/javascript">
-                                      $(document).ready(function(){
-                                        $("#datepicker").datepicker();
-                                      });
-                                      </script>';
-
-        $this->datepicker_icon   = '<script type="text/javascript">
-                                      $(document).ready(function(){
-                                        $("#datepicker").datepicker({showOn: \'button\', buttonImage: \'themes/core/images/lullacons/calendar.png\', buttonImageOnly: true});
-                                      });
-                                      </script>';
+        $this->name = 'datepicker';
     }
 
-    public function asIcon()
+    /**
+     * Returns the generated
+     */
+    public function getJavascript()
     {
-        $this->asIcon = true;
+        return $this->javascript_libraries.sprintf($this->sprintf_datepicker_js, $this->getName(), $this->getAttributes());
+    }
+
+    /**
+     * Gets the datepicker attributes array
+     *
+     * @see setAttributes
+     */
+    public function getAttributes()
+    {
+        #clansuite_xdebug::printR($this->attributes);
+        $attributes_html = '';
+        foreach($this->attributes as $attribute => $value)
+        {
+
+            $attributes_html .= $attribute.':"'.$value.'",'.CR;
+        }
+
+        return $attributes_html;
+    }
+
+    public function setAttributes(array $attributes)
+    {
+        $this->attributes = array_merge($this->attributes, $attributes);
 
         return $this;
     }
 
+    /**
+     * Sets a single attribute to the datepicker attributes array
+     *
+     * @see setAttributes
+     */
+    public function setAttribute($attribute, $value)
+    {
+        $$new_attribute = array();
+        $new_attribute[$attribute] = $value;
+        $this->setAttributes($new_attribute);
+
+        return $this;
+    }
+
+    /**
+     * Adjusts datepicker options and html output to display the datepicker as an icon.
+     */
+    public function asIcon()
+    {
+        # define relevat attributes to display the datepicker as an icon
+        $datepicker_attributes = array(
+                                       'firstDay' => '1',
+                                       'format' => 'yy-mm-dd',
+                                       'showOn' => 'button',
+                                       'buttonImage'    => 'themes/core/images/lullacons/calendar.png',
+                                       'buttonImageOnly' => 'true',
+                                       'constrainInput' => 'false',
+                                      );
+
+        # set the relevant attributes
+        $this->setAttributes($datepicker_attributes);
+
+        # datepicker icon trigger needs a input element, so we replace the original (div) string
+        $this->html = '<input type="text" id="datepicker">';
+
+        return $this;
+    }
+
+    /**
+     * Adds the jQuery UI Date Select Dialog
+     */
     public function render()
     {
-        if($this->asIcon == true)
-        {
-            # datepicker icon trigger needs a input element
-            return $this->datepicker_icon.' <input type="text" id="datepicker">';
-        }
-        else
-        {
-            # default needs a div-element
-            return $this->datepicker_default.'<div type="text" id="datepicker" title="JQuery Datepicker"></div>';
-        }
-
+        $html = '';
+        $html .= $this->html;
+        # Watch out, that the div dialog is present in the dom, before you assign js function to it via $('#datepicker')
+        $html .= $this->getJavascript();
+        return $html;
     }
 
     public function __toString()
