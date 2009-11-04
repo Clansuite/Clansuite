@@ -207,7 +207,8 @@ class Clansuite_Array_Formgenerator extends Clansuite_Form
                # provide array access to the form data (in $_POST) by prefixing it with the formulars name
                $formelement->setName($this->getName().'['.$form_array_element['name'].']');
                $formelement->setDescription($form_array_element['description']);
-               $formelement->setLabel($this->getName().'['.$form_array_element['name'].']');
+               #$formelement->setLabel($this->getName().'['.$form_array_element['name'].']');               
+               $formelement->setLabel($form_array_element['name']);
 
                # set the options['selected'] value as default value
                if(isset($form_array_element['options']['selected']))
