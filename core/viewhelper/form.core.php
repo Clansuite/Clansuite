@@ -494,7 +494,14 @@ class Clansuite_Form /*extends Clansuite_HTML*/ implements Clansuite_Form_Interf
         # loop over all registered formelements of this form and render them
         foreach( $this->formelements as $formelement )
         {
-            $html_form .= '<div class="formline">';
+            if( $formelement->getType() == 'submit' or $formelement->getType() == 'reset' )
+            {
+                $html_form .= '<div class="formbutton">';
+            }
+            else
+            {
+                $html_form .= '<div class="formline">';
+            }
             
             # add label
             if ( $formelement->hasLabel() == true)
