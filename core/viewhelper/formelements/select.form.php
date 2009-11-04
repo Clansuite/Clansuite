@@ -52,26 +52,26 @@ class Clansuite_Formelement_Select extends Clansuite_Formelement implements Clan
      *
      * @var array
      */
-    protected $options;
+    public $options;
     
     /**
      * default option of the select dropdown
      *
      * @var string
      */
-    protected $default;
+    public $default;
     
-    protected $description;
+    public $description;
     
     /**
      * number of displayed items
      * 0 = pure dropdown with 1 field
      * 3 = 3 elements shown, rest available via scrollbar
      */
-    protected $size;
+    public $size;
 
     # string
-    #protected $label ='Select an item from this pull-down menu.';
+    #public $label ='Select an item from this pull-down menu.';
 
     public function __construct()
     {
@@ -156,9 +156,6 @@ class Clansuite_Formelement_Select extends Clansuite_Formelement implements Clan
 
         # close the html select tag
         $html .= '</select>';
-        
-        # add a description after the element
-        $html .= (bool)$this->description ? $this->description : null;
         
         return $html;
     }

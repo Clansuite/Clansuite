@@ -494,14 +494,24 @@ class Clansuite_Form /*extends Clansuite_HTML*/ implements Clansuite_Form_Interf
         # loop over all registered formelements of this form and render them
         foreach( $this->formelements as $formelement )
         {
+            $html_form .= '<div class="formline">';
+            
             # add label
             if ( $formelement->hasLabel() == true)
             {
-                $html_form .= CR . '<span class="label">' . $formelement->getLabel() . '</span>' . CR;
+                $html_form .= CR . '<label>' . $formelement->getLabel() . '</label>' . CR; # @todo if required form field add (*)
             }
 
             # render the formelement
             $html_form .= CR . $formelement->render() . CR;
+            
+            # add description
+            if ( $formelement->description == true)
+            {
+                $html_form .= CR . '<p class="formdescription">'.$formelement->getDescription() . '</label>' . CR;
+            }
+
+            $html_form .= '</div>';
 
             # seperator
             $html_form .= '<br/>' .CR;

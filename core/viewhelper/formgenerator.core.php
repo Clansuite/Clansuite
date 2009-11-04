@@ -176,6 +176,8 @@ class Clansuite_Array_Formgenerator extends Clansuite_Form
                 *
                 * $form_array_element is an array of the following structure:
                 *
+                * MUST 
+                *
                 * Array (
                 *     [id] => resultsPerPage_show
                 *     [name] => resultsPerPage_show
@@ -183,6 +185,11 @@ class Clansuite_Array_Formgenerator extends Clansuite_Form
                 *     [formfieldtype] => text
                 *     [value] => 3
                 * )
+                *
+                * OPTIONAL 
+                *
+                * [class] => cssClass
+                *                
                 */
                #clansuite_xdebug::printR($form_array_element);
 
