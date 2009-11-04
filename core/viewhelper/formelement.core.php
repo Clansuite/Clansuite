@@ -52,7 +52,7 @@ if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.');}
 
 class Clansuite_Formelement implements Clansuite_Formelement_Interface
 {
-    protected $name, $id, $class, $size, $disabled, $maxlength, $style;
+    protected $name, $id, $type, $class, $size, $disabled, $maxlength, $style;
 
     protected $label;
 
@@ -80,6 +80,28 @@ class Clansuite_Formelement implements Clansuite_Formelement_Interface
     public function getID()
     {
         return $this->id;
+    }
+    
+    /**
+     * Set type of this form.
+     *
+     * @param $id string Type of this form.
+     */
+    public function setType($type)
+    {
+        $this->type = $type;
+
+         return $this;
+    }
+
+    /**
+     * Returns type of this form.
+     *
+     * @return string TYPE of this form.
+     */
+    public function getType()
+    {
+        return $this->type;
     }
 
     /**
