@@ -51,63 +51,63 @@ class Clansuite_Formelement_Input extends Clansuite_Formelement implements Clans
      *
      * @var int
      */
-    protected $type;
+    public $type;
 
     /**
      * custom css class
      *
      * @var string
      */
-    protected $class;
+    public $class;
 
     /**
      * indicates whether checkbox is checked
      *
      * @var int
      */
-    protected $checked;
+    public $checked;
 
     /**
      * indicates whether radio button is selected
      *
      * @var int
      */
-    protected $selected;
+    public $selected;
 
     /**
      * length of field in letters
      *
      * @var int
      */
-    protected $size;
+    public $size;
 
     /**
      * allowed length of input in letters
      *
      * @var int
      */
-    protected $maxlength;
+    public $maxlength;
 
     /**
      * URL of image
      *
      * @var string
      */
-    protected $source;
+    public $source;
 
     /**
      * width of image (px)
      *
      * @var int
      */
-    protected $width;
+    public $width;
 
     /**
      * height of image (px)
      *
      * @var int
      */
-    protected $height;
+    public $height;
 
     /**
      * additional string to attach to the opening form tag
@@ -115,9 +115,14 @@ class Clansuite_Formelement_Input extends Clansuite_Formelement implements Clans
      *
      * @var $string;
      */
-    protected $additionals;
-
-    protected $description;
+    public $additionals;
+   
+    /**
+     * description
+     *
+     * @var int
+     */
+    public $description;
 
     /**
      * Set Additionals to t formelement.
@@ -153,7 +158,6 @@ class Clansuite_Formelement_Input extends Clansuite_Formelement implements Clans
         $html .= (bool)$this->checked ? ' checked' : null;
         $html .= (bool)$this->additionals ? $this->additionals : null;
         $html .= ' />' . CR;
-        $html .= (bool)$this->description ? $this->description : null;
 
         return $html;
     }
