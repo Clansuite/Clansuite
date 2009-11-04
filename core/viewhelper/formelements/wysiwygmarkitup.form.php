@@ -99,7 +99,7 @@ class Clansuite_Formelement_Wysiwygmarkitup extends Clansuite_Formelement_Textar
         if(is_object($this->factory))
         {
              # e) set id markItUp
-            parent::setID($name);
+            parent::setName($name);
             parent::setCols('80');
             parent::setRows('20');
             $html = parent::render_textarea();
