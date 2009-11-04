@@ -78,8 +78,8 @@ class Clansuite_Formelement_Wysiwygmarkitup extends Clansuite_Formelement_Textar
         }
         
         # a) loads the markitup javascript files
-        $javascript = '<script type="text/javascript" src="'.WWW_ROOT_THEMES_CORE . '/javascript/markitup/jquery.js"></script>
-                       <script type="text/javascript" src="'.WWW_ROOT_THEMES_CORE . '/javascript/markitup/jquery.markitup.js"></script>';
+        #$javascript = '<script type="text/javascript" src="'.WWW_ROOT_THEMES_CORE . '/javascript/jquery/jquery.js"></script>';
+        $javascript .= '<script type="text/javascript" src="'.WWW_ROOT_THEMES_CORE . '/javascript/markitup/jquery.markitup.js"></script>';
                        
         # b) load JSON default settings
         $javascript .= '<script type="text/javascript" src="'.WWW_ROOT_THEMES_CORE . '/javascript/markitup/sets/default/set.js"></script>';
@@ -91,7 +91,7 @@ class Clansuite_Formelement_Wysiwygmarkitup extends Clansuite_Formelement_Textar
         # d) plug it to an specific textarea by ID
         $javascript .= "<script type=\"text/javascript\">// <![CDATA[                           
                            $(document).ready(function() {
-                              $(\"#$name\").markItUp(mySettings);
+                              $(\"textarea:visible\").markItUp(mySettings);
                            });
                         // ]]></script>";
 
