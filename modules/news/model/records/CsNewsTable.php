@@ -46,8 +46,8 @@ class CsNewsTable extends Doctrine_Table
                                             ->setHydrationMode(Doctrine::HYDRATE_ARRAY)
                                             ->orderby('n.news_id DESC, n.created_at DESC'),
                                          # the following two values are the (sql) limit  ?,? =
-                                         $currentPage, // Current page of request
-                                         $resultsPerPage // (Optional) Number of results per page Default is 25
+                                         $currentPage, # Current page of request
+                                         $resultsPerPage # (Optional) Number of results per page Default is 25
                                      ),
                                  new Doctrine_Pager_Range_Sliding(array(
                                      'chunk' => 5
@@ -67,11 +67,8 @@ class CsNewsTable extends Doctrine_Table
         # fetching the paginated news
         $news = $pager->execute(array(), Doctrine::HYDRATE_ARRAY);
 
-        # put things in an array-box for delivery multiple things with one return stmt
-        return array( 'news' => $news,
-                      'pager'=> $pager,
-                      'pager_layout' => $pager_layout
-                    );
+        # put things in an array-box for delivery of multiple things with one return stmt
+        return compact('news', 'pager', 'pager_layout');
     }
 
     /**
@@ -112,8 +109,8 @@ class CsNewsTable extends Doctrine_Table
                                             ->setHydrationMode(Doctrine::HYDRATE_ARRAY)
                                             ->orderby('n.news_id DESC, n.created_at DESC'),
                                          # The following is Limit  ?,? =
-                                         $currentPage, // Current page of request
-                                         $resultsPerPage // (Optional) Number of results per page Default is 25
+                                         $currentPage, # Current page of request
+                                         $resultsPerPage # (Optional) Number of results per page Default is 25
                                     ),
                                  new Doctrine_Pager_Range_Sliding(array(
                                      'chunk' => 5
@@ -137,10 +134,7 @@ class CsNewsTable extends Doctrine_Table
         $news = $pager->execute(array(), Doctrine::HYDRATE_ARRAY);
 
         # put things in an array-box for delivery multiple things with one return stmt
-        return array( 'news' => $news,
-                      'pager'=> $pager,
-                      'pager_layout' => $pager_layout
-                    );
+        return compact('news', 'pager', 'pager_layout');
     }
 
     /**
@@ -163,7 +157,7 @@ class CsNewsTable extends Doctrine_Table
                         ->leftJoin('n.CsComments nc')
                         ->leftJoin('nc.CsUsers ncu')
                         #->where('c.module_id = 7')
-						->orderBy('created_at DESC')
+                        ->orderBy('created_at DESC')
                         ->setHydrationMode(Doctrine::HYDRATE_ARRAY)
                         ->fetchArray();
 
@@ -225,8 +219,8 @@ class CsNewsTable extends Doctrine_Table
                                             #->setHydrationMode(Doctrine::HYDRATE_ARRAY)
                                             ->orderby('n.created_at'),
                                             # the following two values are the (sql) limit  ?,? =
-                                         $currentPage, // Current page of request
-                                         $resultsPerPage  // (Optional) Number of results per page Default is 25
+                                         $currentPage, # Current page of request
+                                         $resultsPerPage  # (Optional) Number of results per page Default is 25
                                      ),
                                  new Doctrine_Pager_Range_Sliding(array(
                                      'chunk' => 5
@@ -234,21 +228,18 @@ class CsNewsTable extends Doctrine_Table
                                  '?mod=news&amp;action=archiv&amp;page={%page}&amp;date='.$startdate
                                  );
 
-        // Assigning templates for page links creation
+        # Assigning templates for page links creation
         $pager_layout->setTemplate('[<a href="{%url}">{%page}</a>]');
         $pager_layout->setSelectedTemplate('[{%page}]');
 
-        // Retrieving Doctrine_Pager instance
+        # Retrieving Doctrine_Pager instance
         $pager = $pager_layout->getPager();
 
-        // Fetching news
+        # Fetching news
         $news = $pager->execute(array(), Doctrine::HYDRATE_ARRAY);
-        #clansuite_xdebug::printR($news);
+
         # put things in an array-box for delivery multiple things with one return stmt
-        return array( 'news' => $news,
-                      'pager'=> $pager,
-                      'pager_layout' => $pager_layout
-                    );
+        return compact('news', 'pager', 'pager_layout');
     }
 
     /**
@@ -278,29 +269,26 @@ class CsNewsTable extends Doctrine_Table
                                             #->setHydrationMode(Doctrine::HYDRATE_ARRAY)
                                             ->orderby($sortorder),
                                          # the following two values are the (sql) limit  ?,? =
-                                         $currentPage, // Current page of request
-                                         $resultsPerPage  // (Optional) Number of results per page Default is 25
+                                         $currentPage, # Current page of request
+                                         $resultsPerPage  # (Optional) Number of results per page Default is 25
                                      ),
                                  new Doctrine_Pager_Range_Sliding(array(
                                      'chunk' => 5
                                     )),
                                  '?mod=news&amp;action=fullarchiv&amp;page={%page}&amp;date='.$startdate
                                  );
-        // Assigning templates for page links creation
+        # Assigning templates for page links creation
         $pager_layout->setTemplate('[<a href="{%url}">{%page}</a>]');
         $pager_layout->setSelectedTemplate('[{%page}]');
 
-        // Retrieving Doctrine_Pager instance
+        # Retrieving Doctrine_Pager instance
         $pager = $pager_layout->getPager();
 
-        // Fetching news
+        # Fetching news
         $news = $pager->execute(array(), Doctrine::HYDRATE_ARRAY);
 
         # put things in an array-box for delivery multiple things with one return stmt
-        return array( 'news' => $news,
-                      'pager'=> $pager,
-                      'pager_layout' => $pager_layout
-                    );
+        return compact('news', 'pager', 'pager_layout');
     }
 
     /**
@@ -348,7 +336,9 @@ class CsNewsTable extends Doctrine_Table
     /**
      * fetch all News Categories
      *
-     * Doctrine_Query to fetch all News Categories
+     * Doctrine_Query to fetch all News Categories for display with an 
+     * 
+     * @todo check if there is an hydation mode for a relationship of two var (key => value) 
      */
     public static function fetchAllNewsCategoriesDropDown()
     {
