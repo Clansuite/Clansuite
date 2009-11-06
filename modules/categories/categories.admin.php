@@ -58,6 +58,7 @@ class Module_Categories_Admin extends Clansuite_ModuleController implements Clan
     public function execute(Clansuite_HttpRequest $request, Clansuite_HttpResponse $response)
     {
         parent::initRecords('categories');
+        parent::initRecords('modulemanager');
     }
 
     /**
@@ -79,6 +80,17 @@ class Module_Categories_Admin extends Clansuite_ModuleController implements Clan
 
         #clansuite_xdebug::printr($categories);
 
+        /*
+        [cat_id] => 1
+        [module_id] => 7
+        [sortorder] => 1
+        [name] => -keine-
+        [description] => Diese News sind keiner Kategorie zugeordnet
+        [image] =>
+        [icon] =>
+        [color] => #000000
+        */
+
         $view = $this->getView();
         $view->assign('categories', $categories);
 
@@ -88,7 +100,48 @@ class Module_Categories_Admin extends Clansuite_ModuleController implements Clan
         # Prepare the Output
         $this->prepareOutput();
     }
-	
+
+    /**
+     * Create Category
+     */
+    function action_admin_create()
+    {
+        # Load Form Class (@todo autoloader / di)
+        require ROOT_CORE . 'viewhelper/form.core.php';
+
+        /**
+         * Create a new form
+         */
+        $form = new Clansuite_Form('categrory_form', 'post', 'index.php?mod=categories&sub=admin&action=update&type=create');
+
+        /**
+         * Assign some Formlements
+         */
+        $form->addElement('text')->setName('cat_form[name]')->setLabel(_('Category Name'));
+        $modules = Doctrine::getTable('CsModules')->fetchAllModulesDropDown();        
+        $form->addElement('multiselect')->setName('cat_form[module_id]')->setLabel(_('Module'))->setOptions($modules)
+        ->setDescription(_('Select the module to create the category for.'));;
+        $form->addElement('textarea')->setName('cat_form[description]')->setID('cat_form[description]')->setCols('60')->setRows('5')->setLabel(_('Description'));        
+        $form->addElement('text')->setName('cat_form[sortorder]')->setLabel(_('Sort Order'));
+        $form->addElement('jqselectcolor')->setName('cat_form[color]')->setLabel(_('Select Color'));
+        # @todo category image upload + db insert
+        #$form->addElement('image');
+        #$form->addElement('icon');
+        $form->addElement('submitbutton')->setValue('Submit');
+        $form->addElement('resetbutton')->setValue('Reset');
+
+        # Debugging Form Object
+        #clansuite_xdebug::printR($form);
+
+        # Debugging Form HTML Output
+        #clansuite_xdebug::printR($form->render());
+
+        # assign the html of the form to the view
+        $this->getView()->assign('form', $form->render());
+
+        $this->prepareOutput();
+    }
+
     /**
      * Action for displaying the Settings of a Module Categories
      */
@@ -96,46 +149,46 @@ class Module_Categories_Admin extends Clansuite_ModuleController implements Clan
     {
         # Set Pagetitle and Breadcrumbs
         Clansuite_Trail::addStep( _('Settings'), '/index.php?mod=categories&amp;sub=admin&amp;action=settings');
-        
+
         $settings = array();
-        
+
         $settings['form']   = array(    'name' => 'news_settings',
                                         'method' => 'POST',
                                         'action' => WWW_ROOT.'/index.php?mod=categories&amp;sub=admin&amp;action=settings_update');
-                                        
-        $settings['categories'][] = array(    'id' => 'items_resultsPerPage',
-                                        'name' => 'items_resultsPerPage',
-                                        'description' => _('Categories per Page'),
-                                        'formfieldtype' => 'text',
-                                        'value' => $this->getConfigValue('items_resultsPerPage', '25'));
-       
+
+        $settings['categories'][] = array(  'id' => 'items_resultsPerPage',
+                                            'name' => 'items_resultsPerPage',
+                                            'description' => _('Categories per Page'),
+                                            'formfieldtype' => 'text',
+                                            'value' => $this->getConfigValue('items_resultsPerPage', '25'));
+
         require ROOT_CORE . '/viewhelper/formgenerator.core.php';
         $form = new Clansuite_Array_Formgenerator($settings);
 
         # display formgenerator object
-        #clansuite_xdebug::printR($form); 
-        
+        #clansuite_xdebug::printR($form);
+
         $form->addElement('submitbutton')->setName('Save');
         $form->addElement('resetbutton');
-        
+
         # display form html
         #clansuite_xdebug::printR($form->render());
-        
+
         # assign the html of the form to the view
         $this->getView()->assign('form', $form->render());
 
-        $this->prepareOutput();       
+        $this->prepareOutput();
     }
-    
+
     function action_admin_settings_update()
-    { 
+    {
         # Incomming Data
         # @todo get post via request object, sanitize
         $data = $this->getHttpRequest()->getParameter('categories_settings');
 
         # Get Configuration from Injector
         $config = $this->injector->instantiate('Clansuite_Config');
-        
+
         # write config
         $config->confighandler->writeConfig( ROOT_MOD . 'categories/categories.config.php', $data);
 
