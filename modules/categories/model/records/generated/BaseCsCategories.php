@@ -34,5 +34,17 @@ abstract class BaseCsCategories extends Doctrine_Record
         $this->hasColumn('icon', 'string', 60, array('type' => 'string', 'length' => 60));
         $this->hasColumn('color', 'string', 7, array('type' => 'string', 'length' => 7));       
     }
+    
+    public function setUp()
+    {
+        $this->index('cat_id', array('fields' => 'cat_id'));
+        $this->index('module_id', array('fields' => 'module_id'));
+        
+        $this->hasMany('CsModules', array('local' => 'module_id',
+                                          'foreign' => 'module_id'
+                                          #,
+                                          #'onDelete' => 'CASCADE')
+                                          ));        
+    }
 }
 ?>
