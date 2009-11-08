@@ -17,10 +17,10 @@
     <tr class="td_header">
         <th>{columnsort html='Module'}</th>
         <th>{columnsort selected_class="selected" html='Name'}</th>
-        <th>{columnsort html='Description'}</th>
-        <th>{columnsort html='Image'}</th>
-		<th>{columnsort html='Icon'}</th>
-		<th>{columnsort html='Color'}</th>
+        <th>Description</th>
+        <th>Image</th>
+		<th>Icon</th>
+		<th>Color</th>
 		<th>Action</th>
         <th>Select</th>
     </tr>
@@ -40,7 +40,6 @@
         </td>
 	</tr>
 	{/foreach}
-	
 
 </table>
 </div>
