@@ -14,7 +14,7 @@ class CsNewsTable extends Doctrine_Table
      * For Pager Chapter in Doctrine Manual
      * @link http://www.phpdoctrine.org/documentation/manual/0_10?one-page#utilities
      */
-    public static function fetchAllNews($currentPage, $resultsPerPage, $admin = null)
+    public static function fetchAllNews($sortorder, $currentPage, $resultsPerPage, $admin = null)
     {
         # create public or administration link
         if($admin == null)
@@ -44,7 +44,8 @@ class CsNewsTable extends Doctrine_Table
                                             ->leftJoin('n.CsComments nc')
                                             ->leftJoin('nc.CsUsers ncu')
                                             ->setHydrationMode(Doctrine::HYDRATE_ARRAY)
-                                            ->orderby('n.news_id DESC, n.created_at DESC'),
+                                            #->orderby('n.news_id DESC, n.created_at DESC'),
+                                            ->orderby($sortorder),
                                          # the following two values are the (sql) limit  ?,? =
                                          $currentPage, # Current page of request
                                          $resultsPerPage # (Optional) Number of results per page Default is 25
@@ -107,7 +108,8 @@ class CsNewsTable extends Doctrine_Table
                                             ->leftJoin('nc.CsUsers ncu')
                                             ->where('n.cat_id = ?', array( $category ) )
                                             ->setHydrationMode(Doctrine::HYDRATE_ARRAY)
-                                            ->orderby('n.news_id DESC, n.created_at DESC'),
+                                            #->orderby('n.news_id DESC, n.created_at DESC'),
+                                            ->orderby($sortorder),
                                          # The following is Limit  ?,? =
                                          $currentPage, # Current page of request
                                          $resultsPerPage # (Optional) Number of results per page Default is 25

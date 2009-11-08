@@ -98,11 +98,11 @@ class Module_News_Admin extends Clansuite_ModuleController implements Clansuite_
         # if cat is no set, we need a query to show all news regardless which category,
         if(empty($category))
         {
-            $newsQuery = Doctrine::getTable('CsNews')->fetchAllNews($currentPage, $resultsPerPage, true);
+            $newsQuery = Doctrine::getTable('CsNews')->fetchAllNews($sortorder, $currentPage, $resultsPerPage, true);
         }
         else # else we need a qry with the where(cat) statement
         {
-            $newsQuery = Doctrine::getTable('CsNews')->fetchNewsByCategory($category, $currentPage, $resultsPerPage, true);
+            $newsQuery = Doctrine::getTable('CsNews')->fetchNewsByCategory($sortorder, $category, $currentPage, $resultsPerPage, true);
         }
 
         # import array variables into the current symbol table ($newsQuery is an array('news','pager','pager_layout')
@@ -150,7 +150,7 @@ class Module_News_Admin extends Clansuite_ModuleController implements Clansuite_
         $categories = Doctrine::getTable('CsNews')->fetchAllNewsCategoriesDropDown();
         $form->addElement('multiselect')->setName('news_form[cat_id]')->setLabel(_('Category'))->setOptions($categories);
         $form->addElement('textarea')->setName('news_form[news_body]')->setID('news_form[news_body]')->setCols('110')->setRows('30')->setLabel(_('Your Article:'));
-        $form->addElement('submitbutton')->setValue('Submit')->setLabel('Submit Button')->setClass('ButtonGreen');
+        $form->addElement('submitbutton')->setValue('Submit')->setLabel('Submit Button')->setClass('ButtonGreen');         
         $form->addElement('resetbutton')->setValue('Reset')->setLabel('Reset Button');
 
         # Assign the html of the form to the view
@@ -281,28 +281,28 @@ class Module_News_Admin extends Clansuite_ModuleController implements Clansuite_
 
         $settings['news'][] = array(    'id' => 'resultsPerPage_show',
                                         'name' => 'resultsPerPage_show',
-										'label' => 'News Items',
+                                        'label' => 'News Items',
                                         'description' => _('Newsitems to show in Newsmodule'),
                                         'formfieldtype' => 'text',
                                         'value' => $this->getConfigValue('resultsPerPage_show', '3'));
 
         $settings['news'][] = array(    'id' => 'items_newswidget',
                                         'name' => 'items_newswidget',
-										'label' => 'LatestNews Items',
+                                        'label' => 'LatestNews Items',
                                         'description' => _('Newsitems to show in LatestNews Widget'),
                                         'formfieldtype' => 'text',
                                         'value' => $this->getConfigValue('items_newswidget', '5'));
 
         $settings['news'][] = array(    'id' => 'resultsPerPage_fullarchive',
                                         'name' => 'resultsPerPage_fullarchive',
-										'label' => 'Newsarchive Items',
+                                        'label' => 'Newsarchive Items',
                                         'description' => _('Newsitems to show in Newsarchive'),
                                         'formfieldtype' => 'text',
                                         'value' => $this->getConfigValue('resultsPerPage_fullarchive', '3'));
 
         $settings['news'][] = array(    'id' => 'resultsPerPage_adminshow',
                                         'name' => 'resultsPerPage_adminshow',
-										'label' => 'Admin News Items',
+                                        'label' => 'Admin News Items',
                                         'description' => _('Newsitems to show in the administration area.'),
                                         'formfieldtype' => 'text',
                                         'value' => $this->getConfigValue('resultsPerPage_adminshow', '10'));
@@ -310,14 +310,14 @@ class Module_News_Admin extends Clansuite_ModuleController implements Clansuite_
 
         $settings['news'][] = array(    'id' => 'resultsPerPage_archive',
                                         'name' => 'resultsPerPage_archive',
-										'label' => 'Newsarchive Widget Items',
+                                        'label' => 'Newsarchive Widget Items',
                                         'description' => _('Newsitems to show in Newsarchive'),
                                         'formfieldtype' => 'text',
                                         'value' => $this->getConfigValue('resultsPerPage_archive', '3'));
 
         $settings['news'][] = array(    'id' => 'feed_format',
                                         'name' => 'feed_format',
-										'label' => 'Newsfeed Format',
+                                        'label' => 'Newsfeed Format',
                                         'description' => _('Set the default format of the news feed. You can chose among these options: RSS2.0, MBOX, OPML, ATOM, HTML, JS'),
                                         'formfieldtype' => 'multiselect',
                                         'value' => array( 'selected' => $this->getConfigValue('feed_format', 'RSS2.0'),
@@ -330,7 +330,7 @@ class Module_News_Admin extends Clansuite_ModuleController implements Clansuite_
 
         $settings['news'][] = array(    'id' => 'feed_items',
                                         'name' => 'feed_items',
-										'label' => 'Newsfeed Items',
+                                        'label' => 'Newsfeed Items',
                                         'description' => _('Sets the default number of feed items.'),
                                         'formfieldtype' => 'text',
                                         'value' => $this->getConfigValue('feed_items', '10'));
