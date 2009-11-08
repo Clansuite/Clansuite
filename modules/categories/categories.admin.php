@@ -74,8 +74,9 @@ class Module_Categories_Admin extends Clansuite_ModuleController implements Clan
         Clansuite_Trail::addStep( _('Show'), '/index.php?mod=categories&amp;sub=admin&amp;action=show');
 
         $categories = Doctrine_Query::create()
-               ->select('c.*')
+               ->select('c.*, m.name as module')
                ->from('CsCategories c')
+			   ->leftJoin('c.CsModules m on c.module_id = m.module_id')
                ->fetchArray();
 
         #clansuite_xdebug::printr($categories);
