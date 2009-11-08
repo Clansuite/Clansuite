@@ -70,27 +70,23 @@ class Module_Categories_Admin extends Clansuite_ModuleController implements Clan
         # Permission check
         #$perms::check('cc_view_matches');
 
+        # SmartyColumnSort -- Easy sorting of html table columns.
+        require( ROOT_LIBRARIES . '/smarty/SmartyColumnSort.class.php');
+        # A list of database columns to use in the table.
+        $columns = array( 'm.name', 'c.name');
+        # Create the columnsort object
+        $columnsort = new SmartyColumnSort($columns);
+        # And set the the default sort column and order.
+        $columnsort->setDefault('m.name', 'desc');
+        # Get sort order from columnsort
+        $sortorder = $columnsort->sortOrder(); // Returns 'name ASC' as default
+
+		
         # Set Pagetitle and Breadcrumbs
         Clansuite_Trail::addStep( _('Show'), '/index.php?mod=categories&amp;sub=admin&amp;action=show');
 
-        $categories = Doctrine_Query::create()
-               ->select('c.*, m.name as module')
-               ->from('CsCategories c')
-			   ->leftJoin('c.CsModules m on c.module_id = m.module_id')
-               ->fetchArray();
-
-        #clansuite_xdebug::printr($categories);
-
-        /*
-        [cat_id] => 1
-        [module_id] => 7
-        [sortorder] => 1
-        [name] => -keine-
-        [description] => Diese News sind keiner Kategorie zugeordnet
-        [image] =>
-        [icon] =>
-        [color] => #000000
-        */
+		$categories = Doctrine::getTable('CsCategories')->fetchAllCategories($sortorder);
+		
 
         $view = $this->getView();
         $view->assign('categories', $categories);

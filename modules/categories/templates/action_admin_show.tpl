@@ -8,7 +8,7 @@
 {modulenavigation}
 <!-- Module Heading -->
 <div class="ModuleHeading">Categories</div>
-<div class="ModuleHeadingSmall">Sie können Categories hinzufügen, verändern und löschen.</div>
+<div class="ModuleHeadingSmall">{t}You can create, edit and delete Categories.{/t}</div>
 
 <div class="content" id="categories_admin_show">
 <table>
@@ -25,13 +25,15 @@
         <th>Select</th>
     </tr>
 
+    <!-- Open Form -->
+    <form action="index.php?mod=categories&sub=admin&amp;action=delete" method="post" accept-charset="UTF-8">
     {foreach item=category from=$categories}
 	<tr class="tr_row1">
 		<td>{$category.module|capitalize}</td>
 		<td>{$category.name}</td>
 		<td>{$category.description}</td>
 		<td><img src="{$category.image}" /></td>
-		<td>{$category.icon}</td>
+		<td><img src="{$category.icon}" /></td>
 		<td>{$category.color}<div style="width:5px; height:5px; border:1px solid #000000; background-color:{$category.color};"></div></td>
         <td><a class="ButtonOrange" href="index.php?mod=categories&amp;sub=admin&amp;action=edit&amp;id={$category.cat_id}" />{t}Edit{/t}</a></td>
         <td align="center" width="1%">
@@ -40,6 +42,16 @@
         </td>
 	</tr>
 	{/foreach}
+        <!-- Form Buttons -->
+        <tr class="tr_row1">
+            <td height="20" colspan="8" align="right">
+                <a class="ButtonGreen" href="index.php?mod=categories&amp;sub=admin&amp;action=create" />{t}Create Category{/t}</a>
+                <input class="Button" name="reset" type="reset" value="{t}Reset{/t}" />
+                <input class="ButtonRed" type="submit" name="delete_text" value="{t}Delete Selected Categories{/t}" />
+            </td>
+        </tr>
+    </form>
+    <!-- Close Form -->
 
 </table>
 </div>
