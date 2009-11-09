@@ -53,16 +53,16 @@ class Clansuite_Formelement_Select extends Clansuite_Formelement implements Clan
      * @var array
      */
     public $options;
-    
+
     /**
      * default option of the select dropdown
      *
      * @var string
      */
     public $default;
-    
+
     public $description;
-    
+
     /**
      * number of displayed items
      * 0 = pure dropdown with 1 field
@@ -84,37 +84,39 @@ class Clansuite_Formelement_Select extends Clansuite_Formelement implements Clan
 
         return $this;
     }
-    
+
     public function setSize($size)
     {
         $this->size = $size;
 
         return $this;
     }
-    
+
    /* public function setLabel($label)
     {
         $this->label = $label;
-        
-        return $this;   
+
+        return $this;
     }   */
 
     /**
      * This sets the default value.
-     * Value is used to mark that option as "selected" 
+     * Value is used to mark that option as "selected"
      */
     public function setDefaultValue($default)
     {
         $this->default = $default;
-        
-        return $this;   
+
+        return $this;
     }
 
     public function render()
     {
         # open the html select tag
         $html = '';
-        $html .= '<select name="'.$this->name.'"';
+        $html .= '<select ';
+        $html .= (bool)$this->name ? 'name="'.$this->name.'"' : null;
+        $html .= (bool)$this->id ? 'id="'.$this->id.'"' : null;
         $html .= (bool)$this->class ? 'class="'.$this->class.'"' : null;
         $html .= (bool)$this->size ? 'size="'.$this->size.'"' : null;
         $html .= '>';
@@ -134,35 +136,42 @@ class Clansuite_Formelement_Select extends Clansuite_Formelement implements Clan
         if(isset($this->options['selected']) and empty($this->default))
         {
            $this->default = $this->options['selected'];
-           unset($this->options['selected']);          
+           unset($this->options['selected']);
         }
-        
-        # loop over all selectfield options
-        foreach ($this->options as $key => $value)
-        {  
-            /**
-             * check if the value is the default one
-             * in case it is, add html "selected" 
-             */
-            if ($key == $this->default)
-            {  
-                $html .= '<option value="'.$key.'" selected>'.$value.'</option>';
-            }
-            else # a normal select element is rendered
+
+        if(empty($this->options) == false)
+        {
+            # loop over all selectfield options
+            foreach ($this->options as $key => $value)
             {
-                $html .= '<option value="'.$key.'">'.$value.'</option>';
+                /**
+                 * check if the value is the default one
+                 * in case it is, add html "selected"
+                 */
+                if ($key == $this->default)
+                {
+                    $html .= '<option value="'.$key.'" selected>'.$value.'</option>';
+                }
+                else # a normal select element is rendered
+                {
+                    $html .= '<option value="'.$key.'">'.$value.'</option>';
+                }
             }
+        }
+        else
+        {
+             $html .= '<option value="0">No Files found.</option>';
         }
 
         # close the html select tag
         $html .= '</select>';
-        
+
         return $html;
     }
-    
+
     public function __toString()
     {
-        return $this->render();   
+        return $this->render();
     }
 }
 ?>

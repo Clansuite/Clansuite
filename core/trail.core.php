@@ -107,7 +107,7 @@ class Clansuite_Trail
 
             $item = array('title' => $title);
 
-            if (strlen($link) > 0)
+            if(isset($link))
             {
                 $item['link'] = WWW_ROOT . $link;
             }
