@@ -308,7 +308,7 @@ abstract class Clansuite_Renderer_Base
         }
 
         # If template is not existant, show template_not_found
-        elseif(strlen($modulepath) == 0)
+        elseif(isset($modulepath) == false)
         {
             $modulepath = ROOT_THEMES . 'core/templates/template_not_found.tpl';
         }
