@@ -22,5 +22,19 @@ class CsCategoriesTable extends Doctrine_Table
 			   ->orderby($sortorder)
                ->fetchArray();
 	}
+	
+	
+    /**
+     * fetchSingleCategory
+     *
+     */
+    public static function fetchSingleCategory($cat_id)
+    {
+        return Doctrine_Query::create()
+                    ->select('c.*')
+                    ->from('CsCategories c')
+                    ->where('cat_id = ' . $cat_id)
+                    ->fetchArray();
+    }
 }
 ?>

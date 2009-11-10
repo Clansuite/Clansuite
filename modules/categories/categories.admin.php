@@ -121,6 +121,8 @@ class Module_Categories_Admin extends Clansuite_ModuleController implements Clan
         $form->addElement('textarea')->setName('cat_form[description]')->setID('cat_form[description]')->setCols('60')->setRows('5')->setLabel(_('Description'));        
         $form->addElement('text')->setName('cat_form[sortorder]')->setLabel(_('Sort Order'));
         $form->addElement('jqselectcolor')->setName('cat_form[color]')->setLabel(_('Select Color'));
+        $form->addElement('jqselectimage')->setName('cat_form[image]')->setLabel(_('Select Image'));
+        $form->addElement('jqselectimage')->setName('cat_form[icon]')->setLabel(_('Select Icon'));
         # @todo category image upload + db insert
         #$form->addElement('image');
         #$form->addElement('icon');
@@ -139,6 +141,130 @@ class Module_Categories_Admin extends Clansuite_ModuleController implements Clan
         $this->prepareOutput();
     }
 
+	
+    /**
+     * Edit News
+     */
+    function action_admin_edit()
+    {
+        # get id
+        $cat_id = $this->getHttpRequest()->getParameter('id');
+
+        # fetch category
+        $cat = Doctrine::getTable('CsCategories')->fetchSingleCategory($cat_id);
+
+        # Load Form Class (@todo autoloader / di)
+        require ROOT_CORE . 'viewhelper/form.core.php';
+
+        # Create a new form
+        # @todo form object with auto-population of values
+
+        $form = new Clansuite_Form('cat_form', 'post', 'index.php?mod=categories&sub=admin&action=update&type=edit');
+
+        /**
+         * cat_id as hidden field
+         */
+        $form->addElement('hidden')->setName('cat_form[cat_id]')->setValue($cat['cat_id']);
+
+        # Assign some formlements
+        $form->addElement('text')->setName('cat_form[name]')->setLabel(_('Category Name'));
+        $modules = Doctrine::getTable('CsModules')->fetchAllModulesDropDown();        
+        $form->addElement('multiselect')->setName('cat_form[module_id]')->setLabel(_('Module'))->setOptions($modules)
+        ->setDescription(_('Select the module to create the category for.'));;
+        $form->addElement('textarea')->setName('cat_form[description]')->setID('cat_form[description]')->setCols('60')->setRows('5')->setLabel(_('Description'));        
+        $form->addElement('text')->setName('cat_form[sortorder]')->setLabel(_('Sort Order'));
+        $form->addElement('jqselectcolor')->setName('cat_form[color]')->setLabel(_('Select Color'));
+        $form->addElement('jqselectimage')->setName('cat_form[image]')->setLabel(_('Select Image'));
+        $form->addElement('jqselectimage')->setName('cat_form[icon]')->setLabel(_('Select Icon'));
+        # @todo category image upload + db insert
+        #$form->addElement('image');
+        #$form->addElement('icon');
+        $form->addElement('submitbutton')->setValue('Submit');
+        $form->addElement('resetbutton')->setValue('Reset');
+
+        # Debugging Form Object
+        #clansuite_xdebug::printR($form);
+
+        # Debugging Form HTML Output
+        #clansuite_xdebug::printR($form->render());
+
+        # assign the html of the form to the view
+        $this->getView()->assign('form', $form->render());
+
+        $this->prepareOutput();
+    }
+	
+    /**
+     * Deletes Categories
+     */
+    function action_admin_delete()
+    {
+        $request = $this->getHttpRequest();
+        $delete  = $request->getParameter('delete');
+        $numDeleted = Doctrine_Query::create()->delete('CsCategories')->whereIn('cat_id', $delete)->execute();
+        $this->getHttpResponse()->redirectNoCache('index.php?mod=categories&amp;sub=admin', 2, 302, _( $numDeleted. ' Categories deleted.'));
+    }
+	
+	
+    /**
+     * Update a Categories Entry identified by cat_id
+     */
+    function action_admin_update()
+    {
+        # get incoming data
+        $data = $this->getHttpRequest()->getParameter('cat_form');
+        $type = $this->getHttpRequest()->getParameter('type', 'G');
+
+        if(isset($type) and $type == 'create')
+        {
+            $cats = new CsCategories;
+            $cats->module_id  = $data['module_id'];
+            $cats->name = $data['name'];
+            $cats->description  = $data['description'];
+            $cats->color     = $data['color'];
+            $cats->image     = $data['image'];
+            $cats->icon     = $data['icon'];
+            $cats->sortorder     = $data['sortorder'];
+            $cats->save();
+			
+        # redirect
+        $this->getHttpResponse()->redirectNoCache('index.php?mod=categories&amp;sub=admin', 2, 302, _('The Category has been created.'));
+        }
+        elseif(isset($type) and $type == 'edit')
+        {
+             # @todo validation
+
+            # get the news table
+            $catsTable = Doctrine::getTable('CsCategories');
+
+            # fetch the news to update by news_id
+            $cats = $catsTable->findOneByCat_Id($data['cat_id']);
+
+            # if that news exist, update values and save
+            if ($cats !== false)
+            {
+                $cats->cat_id    = $data['cat_id'];
+                $cats->module_id  = $data['module_id'];
+                $cats->name = $data['name'];
+                $cats->description  = $data['description'];
+                $cats->color     = $data['color'];
+                $cats->image     = $data['image'];
+                $cats->icon     = $data['icon'];
+                $cats->sortorder     = $data['sortorder'];
+                $cats->save();
+            }
+        # redirect
+        $this->getHttpResponse()->redirectNoCache('index.php?mod=categories&amp;sub=admin', 2, 302, _('The Category has been edited.'));
+        }
+        else
+        {
+            # redirect
+            $this->getHttpResponse()->redirectNoCache('index.php?mod=categories&amp;sub=admin', 2, 302, _('Unknown Formaction.'));
+        }
+
+
+    }
+	
     /**
      * Action for displaying the Settings of a Module Categories
      */
