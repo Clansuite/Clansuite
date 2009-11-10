@@ -119,7 +119,7 @@ class Clansuite_Formelement_JQSelectImage extends Clansuite_Formelement_Select i
                             });
                             </script>';
     
-            $html =  parent::render().CR.'<div id="imagePreview"></div>';
+            $html =  parent::render().CR.'<div id="imagePreview'.$this->getName().'"></div>';
     
             $this->html = $html.$javascript;        
         }
