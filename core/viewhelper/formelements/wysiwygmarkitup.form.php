@@ -77,6 +77,15 @@ class Clansuite_Formelement_Wysiwygmarkitup extends Clansuite_Formelement_Textar
             $name = $this->getName();   
         }
         
+        if(isset($this->factory) and $this->factory !== null)
+        {
+            $value = $this->factory->getValue(); 
+        }
+        else
+        {
+            $value = $this->getValue();   
+        }
+        
         # a) loads the markitup javascript files
         #$javascript = '<script type="text/javascript" src="'.WWW_ROOT_THEMES_CORE . '/javascript/jquery/jquery.js"></script>';
         $javascript = '<script type="text/javascript" src="'.WWW_ROOT_THEMES_CORE . '/javascript/markitup/jquery.markitup.js"></script>';
@@ -102,11 +111,12 @@ class Clansuite_Formelement_Wysiwygmarkitup extends Clansuite_Formelement_Textar
             parent::setName($name);
             parent::setCols('80');
             parent::setRows('20');
+            parent::setValue($value);
             $html = parent::render_textarea();
             #clansuite_xdebug::printR($html);
         }
 
-        #clansuite_xdebug::printR($javascript.$css.$html);
+        #clansuite_xdebug::printR($javascript.$css.CR.$html);
 
         return $javascript.$css.$html;
     }
