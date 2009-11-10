@@ -30,11 +30,14 @@ class CsCategoriesTable extends Doctrine_Table
      */
     public static function fetchSingleCategory($cat_id)
     {
-        return Doctrine_Query::create()
+        $cats =  Doctrine_Query::create()
                     ->select('c.*')
                     ->from('CsCategories c')
                     ->where('cat_id = ' . $cat_id)
                     ->fetchArray();
+					
+        # put things in an array-box for delivery multiple things with one return stmt
+        return $cats['0'];
     }
 }
 ?>

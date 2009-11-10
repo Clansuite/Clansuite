@@ -18,10 +18,28 @@ class CsModulesTable extends Doctrine_Table
                                     ->setHydrationMode(Doctrine::HYDRATE_ARRAY)
                                     ->execute( array() );
         
+		#create exlude array, these modules doen`t need categories
+		$exclude_modules = array (
+									'account',
+									'captcha',
+									'admin',
+									'shoutbox',
+									'guestbook',
+									'filebrowser',
+									'users',
+									'messaging'
+								  );
+								  
         # transform array
         foreach($modules as $module)
         {
-            $modules_dropdown_array[$module['module_id']] = $module['name'];
+			if(in_array($module['name'], $exclude_modules))
+			{
+			continue;
+            }
+			else {
+			$modules_dropdown_array[$module['module_id']] = $module['name'];
+			}
         }
         
         return $modules_dropdown_array;
