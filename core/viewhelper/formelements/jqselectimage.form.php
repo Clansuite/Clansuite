@@ -103,7 +103,7 @@ class Clansuite_Formelement_JQSelectImage extends Clansuite_Formelement_Select i
         
         if(empty($files))
         {
-            $this->html = 'There are no images in "/uploads/images/categories" to select. Please upload some.';
+            $this->html = 'There are no images in "'.$this->getDirectory().'" to select. Please upload some.';
         }
         else
         {    
