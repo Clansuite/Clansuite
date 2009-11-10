@@ -56,7 +56,6 @@ class Clansuite_Formelement_JQSelectImage extends Clansuite_Formelement_Select i
     function __construct()
     {
         $this->type = "image";
-        parent::setID('images');
     }
 
     public function getFiles()
@@ -98,6 +97,9 @@ class Clansuite_Formelement_JQSelectImage extends Clansuite_Formelement_Select i
     public function render()
     {
         $files = $this->getFiles();
+                        
+        # set "images" hardcoded to identify the select options and append the Name
+        parent::setID('images_'.$this->getNameWithoutBrackets());
         
         if(empty($files))
         {
