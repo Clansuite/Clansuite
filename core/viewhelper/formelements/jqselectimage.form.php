@@ -112,7 +112,7 @@ class Clansuite_Formelement_JQSelectImage extends Clansuite_Formelement_Select i
             # Watch out, that the div images/preview is present in the dom, before you assign js function to it via $('#image')
             $javascript = '<script type="text/javascript">
                            $(document).ready(function() {                           
-                              $("#images").change(function() {
+                              $("#images_'.$this->getNameWithoutBrackets().'").change(function() {
                                     var src = $("option:selected", this).val();
                                     $("#imagePreview_'.$this->getNameWithoutBrackets().'").html(src ? "<img src=\'" + src + "\'>" : "");
                                 });
