@@ -167,15 +167,15 @@ class Module_Categories_Admin extends Clansuite_ModuleController implements Clan
         $form->addElement('hidden')->setName('cat_form[cat_id]')->setValue($cat['cat_id']);
 
         # Assign some formlements
-        $form->addElement('text')->setName('cat_form[name]')->setLabel(_('Category Name'));
+        $form->addElement('text')->setName('cat_form[name]')->setLabel(_('Category Name'))->setValue($cat['name']);
         $modules = Doctrine::getTable('CsModules')->fetchAllModulesDropDown();        
-        $form->addElement('multiselect')->setName('cat_form[module_id]')->setLabel(_('Module'))->setDefaultValue('cat_form[module_id]')->setOptions($modules)
-        ->setDescription(_('Select the module to create the category for.'));;
-        $form->addElement('textarea')->setName('cat_form[description]')->setID('cat_form[description]')->setCols('60')->setRows('5')->setLabel(_('Description'));        
-        $form->addElement('text')->setName('cat_form[sortorder]')->setLabel(_('Sort Order'));
-        $form->addElement('jqselectcolor')->setName('cat_form[color]')->setLabel(_('Select Color'));
-        $form->addElement('jqselectimage')->setName('cat_form[image]')->setLabel(_('Select Image'));
-        $form->addElement('jqselectimage')->setName('cat_form[icon]')->setLabel(_('Select Icon'));
+        $form->addElement('multiselect')->setName('cat_form[module_id]')->setLabel(_('Module'))->setDefaultValue($cat['module_id'])->setOptions($modules)
+        ->setDescription(_('Select the module to create the category for.'))->setValue($cat['module_id']);
+        $form->addElement('textarea')->setName('cat_form[description]')->setID('cat_form[description]')->setCols('60')->setRows('5')->setLabel(_('Description'))->setValue($cat['description']);        
+        $form->addElement('text')->setName('cat_form[sortorder]')->setLabel(_('Sort Order'))->setValue($cat['sortorder']);
+        $form->addElement('jqselectcolor')->setName('cat_form[color]')->setLabel(_('Select Color'))->setValue($cat['color']);
+        $form->addElement('jqselectimage')->setName('cat_form[image]')->setLabel(_('Select Image'))->setValue($cat['image']);
+        $form->addElement('jqselectimage')->setName('cat_form[icon]')->setLabel(_('Select Icon'))->setValue($cat['icon']);
         # @todo category image upload + db insert
         #$form->addElement('image');
         #$form->addElement('icon');
@@ -237,7 +237,7 @@ class Module_Categories_Admin extends Clansuite_ModuleController implements Clan
             # get the categories table
             $catsTable = Doctrine::getTable('CsCategories');
 
-            # fetch the category to update by news_id
+            # fetch the category to update by cat_id
             $cats = $catsTable->findOneByCat_Id($data['cat_id']);
 
             # if that category exist, update values and save
