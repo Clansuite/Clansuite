@@ -35,29 +35,34 @@ function smarty_function_icon($params, &$smarty)
 {
     #clansuite_xdebug::printR($params);
 
-    extract($params);
-
-    # set a icondir / iconpack
-    if ( empty($icondir))
+    extract($params);    
+    
+    #clansuite_xdebug::printR($params);
+    
+    # we have two alternatives :
+    # a) src => user has set src, defining the path to the image and imagename
+    # b) icondir, name => user has defined the icons dir (relative to core/images folder) and the name of a png file    
+    
+    # check if it is a valid one
+    $icondir_whitelist = array( 'icons', 'lullacons' );
+    if(isset($icondir) and in_array($icondir, $icondir_whitelist))
+    {
+        # valid
+    }
+    else # fallback to a valid default
     {
         $icondir = 'icons';
     }
-    else # icondir var incomming
+
+    # if we got no valid src, set a default image
+    if(isset($src) and is_file($src) == false)
     {
-        # check if it is a valid one
-        $icondir_whitelist = array( 'icons', 'lullacons' );
-        if(in_array($icondir, $icondir_whitelist))
-        {
-            # valid
-        }
-        else # fallback to valid
-        {
-            $icondir = 'icons';
-        }
+        $src = WWW_ROOT_THEMES_CORE . '/images/nopreview.jpg';
+        $name = 'No Image found.';
     }
 
     # transform name into a valid image src
-    if (empty($src) and isset($name))
+    if (isset($icondir) and isset($name) and empty($src))
     {
         $src = WWW_ROOT_THEMES_CORE . '/images/'.$icondir.'/'.$name.'.png';
     }
@@ -85,7 +90,7 @@ function smarty_function_icon($params, &$smarty)
     # we got no alternative text. let's add a default text with $name;
     if(empty($alt))
     {
-        $alt = 'Clansuite Icon: '.$name;
+        $alt = 'Clansuite Image/Icon: '.$name;
     }
 
     # no extra attributes to add, then let it be an empty string
