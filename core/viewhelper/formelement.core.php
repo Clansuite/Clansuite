@@ -57,7 +57,7 @@ class Clansuite_Formelement implements Clansuite_Formelement_Interface
     protected $label;
 
     protected $value;
-    
+
     protected $position;
 
     /**
@@ -81,7 +81,7 @@ class Clansuite_Formelement implements Clansuite_Formelement_Interface
     {
         return $this->id;
     }
-    
+
     /**
      * Set type of this form.
      *
@@ -124,6 +124,30 @@ class Clansuite_Formelement implements Clansuite_Formelement_Interface
     public function getName()
     {
         return $this->name;
+    }
+    
+    /**
+     * Returns name of this form without brackets.
+     *
+     * @return string Name of this form.
+     */
+    public function getNameWithoutBrackets()
+    {
+        $name = strrpos($this->name, "[");
+        if ($name === false)
+        { 
+            return $this->name;
+        }
+        else # remove brackets
+        {
+           $name = $this->name;           
+           # replace left
+           $name = str_replace('[', '_', $name);           
+           # replace right with nothing (strip right)
+           $name = str_replace(']', '', $name); 
+        }
+                
+        return $name;
     }
 
     /**
@@ -206,8 +230,8 @@ class Clansuite_Formelement implements Clansuite_Formelement_Interface
     public function getLabel()
     {
         return $this->label;
-    }  
-    
+    }
+
     /**
      * Returns boolean true if a label exists for this formelement.
      *
@@ -217,14 +241,14 @@ class Clansuite_Formelement implements Clansuite_Formelement_Interface
     {
         if(isset($this->label))
         {
-            return true;    
+            return true;
         }
         else
         {
-            return false;    
+            return false;
         }
     }
-    
+
     /**
      * Set description of this formelement.
      *
@@ -245,14 +269,14 @@ class Clansuite_Formelement implements Clansuite_Formelement_Interface
     public function getDescription()
     {
         return $this->description;
-    }  
-    
+    }
+
     /**
      * override
      */
     public function render()
     {
-        
+
     }
 }
 

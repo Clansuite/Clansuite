@@ -114,12 +114,12 @@ class Clansuite_Formelement_JQSelectImage extends Clansuite_Formelement_Select i
                            $(document).ready(function() {                           
                               $("#images").change(function() {
                                     var src = $("option:selected", this).val();
-                                    $("#imagePreview").html(src ? "<img src=\'" + src + "\'>" : "");
+                                    $("#imagePreview_'.$this->getNameWithoutBrackets().'").html(src ? "<img src=\'" + src + "\'>" : "");
                                 });
                             });
                             </script>';
     
-            $html =  parent::render().CR.'<div id="imagePreview'.$this->getName().'"></div>';
+            $html =  parent::render().CR.'<div id="imagePreview_'.$this->getNameWithoutBrackets().'"></div>';
     
             $this->html = $html.$javascript;        
         }
