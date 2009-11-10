@@ -143,7 +143,7 @@ class Module_Categories_Admin extends Clansuite_ModuleController implements Clan
 
 	
     /**
-     * Edit News
+     * Edit Category
      */
     function action_admin_edit()
     {
@@ -169,7 +169,7 @@ class Module_Categories_Admin extends Clansuite_ModuleController implements Clan
         # Assign some formlements
         $form->addElement('text')->setName('cat_form[name]')->setLabel(_('Category Name'));
         $modules = Doctrine::getTable('CsModules')->fetchAllModulesDropDown();        
-        $form->addElement('multiselect')->setName('cat_form[module_id]')->setLabel(_('Module'))->setOptions($modules)
+        $form->addElement('multiselect')->setName('cat_form[module_id]')->setLabel(_('Module'))->setDefaultValue('cat_form[module_id]')->setOptions($modules)
         ->setDescription(_('Select the module to create the category for.'));;
         $form->addElement('textarea')->setName('cat_form[description]')->setID('cat_form[description]')->setCols('60')->setRows('5')->setLabel(_('Description'));        
         $form->addElement('text')->setName('cat_form[sortorder]')->setLabel(_('Sort Order'));
@@ -234,13 +234,13 @@ class Module_Categories_Admin extends Clansuite_ModuleController implements Clan
         {
              # @todo validation
 
-            # get the news table
+            # get the categories table
             $catsTable = Doctrine::getTable('CsCategories');
 
-            # fetch the news to update by news_id
+            # fetch the category to update by news_id
             $cats = $catsTable->findOneByCat_Id($data['cat_id']);
 
-            # if that news exist, update values and save
+            # if that category exist, update values and save
             if ($cats !== false)
             {
                 $cats->cat_id    = $data['cat_id'];
