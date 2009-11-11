@@ -57,7 +57,7 @@ function smarty_function_icon($params, &$smarty)
     # if we got no valid src, set a default image
     if(isset($src) and is_file($src) == false)
     {
-        $src = WWW_ROOT_THEMES_CORE . '/images/nopreview.jpg';
+        $src = WWW_ROOT_THEMES_CORE . '/images/noimage.gif';
         $name = 'No Image found.';
     }
 
