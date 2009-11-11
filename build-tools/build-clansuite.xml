@@ -55,7 +55,6 @@
 
         - help      : guess what? displays this help text
         - all       : do all build steps (phplint, docs, tar/zip)
-        - all_docs  : generate documentation (phpxref, phpdoc, doxygen)
         - dist      : create release files
         - build     : prepare a directory for distribution
         - mrproper  : clean up the build directory
@@ -63,6 +62,14 @@
         - translate : search files for strings to translate
         - run-tests : runs simpletest testsuite
 
+        List of Documentation Commands
+        --------------------------------
+
+        - all_docs            : generate documentation (phpxref, phpdoc, doxygen, asciidoc)
+        - doc_phpdoc          : generate the api docs via phpdoc
+        - doc_phpxref         : generate the api docs via phpxref
+        - doc_doxygen         : generate the api docs via doxygen
+        - doc_asciidoc        : generate the manuals from asciidoc files
         - visualize-buildfile : generates a visualization of the clansuite build file
 
         List of Subversion Commands
@@ -78,18 +85,15 @@
 
         Release/Packagename : ${phing.project.name}-${clansuite.version}
         Release-Directory   : ${build.src.directory}
-        
-        Paths for Debugging
-        -------------------------
-        "Current Project Basedir"     : ${project.basedir}
-        "basedir"                     : ${base.directory}
-        "build.base.directory"        : ${build.base.directory}
+
         "svn.repository"              : ${svn.repository}
         "svn.local.export.directory"  : ${svn.local.export.directory}
         "svn.local.directory"         : ${svn.local.directory}
+        Current Project Basedir       : ${project.basedir}
+        "basedir"                     : ${base.directory}
+        "build.base.directory"        : ${build.base.directory}
         "archive.directory"           : ${archive.directory}
         "phpdoc.directory"            : ${phpdoc.directory}
-         <!-- -->
 
         </echo>
     </target>
@@ -119,22 +123,32 @@
     <property name="archive.directory" value="${build.base.directory}archives" override="true" />
 
     <!-- Define Fileset "clansuite.projectfiles" -->
-    <fileset id="clansuite.projectfiles" dir="${base.directory}svn/">   <!-- based on trunk -->
+    <fileset id="clansuite.projectfiles" dir="${svn.local.export.directory}">   <!-- based on trunk -->
         <include name="**" />                           <!-- include all files -->
         <exclude name="build-tools" />                  <!-- exclude build-tools directory -->
         <exclude name="tests" />                        <!-- exclude tests directory -->
         <exclude name="tmp" />                          <!-- exclude temporary directory -->
         <exclude name=".htaccess"/>                     <!-- exclude htaccess -->
     </fileset>
+    
+    <!-- Define Fileset "clansuite.projectfiles.docs" Documentation Fileset (exclude Smarty, because Phing is stupid :) -->
+    <fileset id="clansuite.projectfiles.docs" dir="${svn.local.export.directory}">   <!-- based on trunk -->
+        <include name="**" />                           <!-- include all files -->
+        <exclude name="build-tools" />                  <!-- exclude build-tools directory -->
+        <exclude name="tests" />                        <!-- exclude tests directory -->
+        <exclude name="tmp" />                          <!-- exclude temporary directory -->
+        <exclude name=".htaccess"/>                     <!-- exclude htaccess -->
+        <exclude name="libraries"/>                     <!-- exclude libraries -->
+    </fileset>
 
     <!-- Define Fileset "clansuite.reportfiles" -->
-    <fileset id="clansuite.reportfiles" dir="${base.directory}svn/">
+    <fileset id="clansuite.reportfiles" dir="${svn.local.export.directory}">
         <include name="**/*.php"/>
         <exclude name="./${build.base.directory}libraries"/> <!-- do not apply reports and checks on 3th party libraries -->
     </fileset>
 
     <!-- Define Fileset "clansuite.testfiles" -->
-    <fileset id="clansuite.testfiles" dir="${base.directory}svn/">    <!-- based on trunk -->
+    <fileset id="clansuite.testfiles" dir="${svn.local.export.directory}">    <!-- based on trunk -->
        <include name="*Test.php"/>                     <!-- include all test files -->
        <include name="**/*Test.php"/>
        <exclude name="libraries" />                    <!-- exclude the libraries folder -->
@@ -307,7 +321,7 @@
     <!-- COMMAND = "codesniffer-report" -->
     <!-- @link: http://phing.info/docs/guide/current/chapters/appendixes/AppendixC-OptionalTasks.html#PhpCodeSnifferTask -->
     <target name="codesniffer-report" description="Runs the PHP-Codesniffer task and reports coding standard violations">
-        <phpcodesniffer standard="Clansuite" 
+        <phpcodesniffer standard="Clansuite"
                         format="checkstyle"
                         tabWidth="4"
                         error="/dev/null"
@@ -376,16 +390,18 @@
     <!-- destdir="${build.base.directory}/docs/API/phpdoc/html" -->
     <target name="doc_phpdoc" description="Generates the API Documentation using PHPDocumentor">
         <echo>Generates the API documentation using PHPDocumentor</echo>
-        <delete dir="${documentations.directory}${phpdoc.directory}" />
+        <delete dir="${phpdoc.directory}" />
+        <!-- Note: This is PhpDocumentorExternalTask AND NOT PhpDocumentorTask, because we have Smarty in our Libraries ! -->
         <phpdoc title="Clansuite API Documentation"
-                destdir="${documentations.directory}${phpdoc.directory}"
+                destdir="${phpdoc.directory}"
                 quiet="true"
                 sourcepath="${build.base.directory}/"
                 sourcecode="no"
-                output="HTML:Smarty:PHP"
-                defaultpackagename="Clansuite">
+                output="HTML:frames:phphtmllib"
+                defaultpackagename="Clansuite"
+                undocumentedelements="true">
 
-           <fileset refid="clansuite.projectfiles"/>
+           <fileset refid="clansuite.projectfiles.docs"/>
 
             <projdocfileset dir=".">
               <include name="README" />
@@ -442,7 +458,7 @@
 
     <!--
          COMMAND = "visualize-buildfile"
-         
+
         .Note: this depends on the "dot"-tool of Graphviz. Please adjust the property "dot.path.win".
          Thanks and credits to the original author of the following target:
          @author Raphael Stolt
