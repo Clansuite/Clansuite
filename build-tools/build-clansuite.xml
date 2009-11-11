@@ -68,26 +68,28 @@
         List of Subversion Commands
         ---------------------------
 
-        - svn-update            : updates ${svn.local.dir} via svn update
+        - svn-update            : updates ${svn.local.directory} via svn update
         - svn-checkout          : svn checkout from ${svn.repository}
         - svn-export-from-gna   : svn export from ${svn.repository}
-        - svn-export-from-local : svn export from ${svn.local.dir}
+        - svn-export-from-local : svn export from ${svn.local.directory}
 
         General Settings and Paths
         --------------------------
 
         Release/Packagename : ${phing.project.name}-${clansuite.version}
-        Release-Directory   : ${build.src.dir}
+        Release-Directory   : ${build.src.directory}
 
-        <!-- Paths for Debugging
-        "Current Project Basedir" : ${project.basedir}
-        "basedir"              : ${base.directory}
-        "build.base.directory" : ${build.base.directory}
-        "svn.repository"       : ${svn.repository}
-        "svn.local.export.dir" : ${svn.local.export.dir}
-        "svn.local.dir"        : ${svn.local.dir}
-        "archive.dir"          : ${archive.dir}
-        "phpdoc.dir"           : ${phpdoc.dir}
+        <!--
+        Paths for Debugging
+        -------------------------
+        "Current Project Basedir"     : ${project.basedir}
+        "basedir"                     : ${base.directory}
+        "build.base.directory"        : ${build.base.directory}
+        "svn.repository"              : ${svn.repository}
+        "svn.local.export.directory"  : ${svn.local.export.directory}
+        "svn.local.directory"         : ${svn.local.directory}
+        "archive.directory"           : ${archive.directory}
+        "phpdoc.directory"            : ${phpdoc.directory}
         -->
 
         </echo>
@@ -103,18 +105,19 @@
     <property name="clansuite.version.name" value="Trajan" override="true" />                           <!-- version name -->
     <property name="packagename" value="${phing.project.name}-${clansuite.version}" override="true" />  <!-- package name -->
 
-    <property name="base.directory" value="/home/clansuite/" />                         <!-- name of the base directory = ROOT for this project-->
-    <property name="build.base.directory" value="/home/clansuite/build/" />             <!-- name of the base build directory -->
-    <property name="build.src.dir" value="${build.base.directory}${packagename}/"/>     <!-- name of the build directory for current package -->
+    <property name="base.directory" value="/home/clansuite/" />                               <!-- name of the base directory = ROOT for this project-->
+    <property name="build.base.directory" value="/home/clansuite/build/" />                   <!-- name of the base build directory -->
+    <property name="build.src.directory" value="${build.base.directory}${packagename}/" />    <!-- name of the build directory for current package -->
+    <property name="webbase.directory" value="/srv/www/clansuite.com/public_html/" />         <!-- name of the web directory for documentation = WWWROOT -->
 
     <!-- Define the Properties for Section 5) Documentation -->
-    <property name="documentations.dir" value="/documentation/developer/" override="true" />
-    <property name="phpdoc.dir" value="${documentations.dir}phpdoc/" override="true" />
-    <property name="doxygen.dir" value="${documentations.dir}doxygen/" override="true" />
-    <property name="phpxref.dir" value="${documentations.dir}phpxref/" override="true" />
+    <property name="documentations.directory" value="${webbase.directory}documentation/developer/" override="true" />
+    <property name="phpdoc.directory" value="${documentations.directory}phpdoc/" override="true" />
+    <property name="doxygen.directory" value="${documentations.directory}doxygen/" override="true" />
+    <property name="phpxref.directory" value="${documentations.directory}phpxref/" override="true" />
 
     <!-- Define the Properties for Section 6) Building Archives -->
-    <property name="archive.dir" value="${build.base.directory}archives" override="true" />
+    <property name="archive.directory" value="${build.base.directory}archives" override="true" />
 
     <!-- Define Fileset "clansuite.projectfiles" -->
     <fileset id="clansuite.projectfiles" dir="${base.directory}svn/">   <!-- based on trunk -->
@@ -150,24 +153,24 @@
     <!-- We are building from /trunk. Later from /tag releases!
     <property name="repository" value="http://svn.gna.org/svn/clansuite/tag/${clansuite_version}/" />
     -->
-    <property name="svn.local.export.dir"  value="${base.directory}svn-export/" />     <!-- Local SVN Export Directory (todir) -->
-    <property name="svn.local.dir"         value="${base.directory}svn/" />            <!-- Local SVN Directory -->
+    <property name="svn.local.export.directory"  value="${base.directory}svn-export/" />     <!-- Local SVN Export Directory (todir) -->
+    <property name="svn.local.directory"         value="${base.directory}svn/" />            <!-- Local SVN Directory -->
 
     <!-- COMMAND = "svn-update" -->
-    <target name="svn-update" description="Updates ${svn.local.dir} via svn update.">
-        <exec command="svn update ${svn.local.dir}"/>
+    <target name="svn-update" description="Updates ${svn.local.directory} via svn update.">
+        <exec command="svn update ${svn.local.directory}"/>
     </target>
 
     <!-- COMMAND = "svn-checkout" -->
-    <target name="svn-checkout" description="Checks out the GNA Subversion repository to the local dir ${svn.local.dir}.">
+    <target name="svn-checkout" description="Checks out the GNA Subversion repository to the local directory ${svn.local.directory}.">
         <echo>Performing an SVN Checkout</echo>
         <svncheckout svnpath="${svn.path}"
                      repositoryurl="${svn.repository}"
-                     todir="${svn.local.dir}" />
+                     todir="${svn.local.directory}" />
     </target>
 
     <!-- COMMAND = "svn-export-from-gna" -->
-    <target name="svn-export-from-gna" description="Exports the GNA Subversion repository to a local export directory.">
+    <target name="svn-export-from-gna" description="Exports the GNA Subversion repository to the local export directory ${svn.local.export.directory}.">
         <echo>Performing an SVN Export</echo>
         <svnexport svnpath="${svn.path}"
                    username="${svn.username}"
@@ -175,34 +178,34 @@
                    nocache="true"
                    force="true"
                    repositoryurl="${svn.repository}"
-                   todir="${svn.local.export.dir}" />
+                   todir="${svn.local.export.directory}" />
     </target>
 
     <!-- COMMAND = "svn-local-export" -->
-    <target name="svn-export-from-local" description="Exports the local Clansuite Subversion repository to a local export directory.">
+    <target name="svn-export-from-local" description="Exports the local Clansuite Subversion repository to the local export directory ${svn.local.export.directory}.">
         <echo>Performing an SVN Export on local SVN Repository</echo>
         <svnexport svnpath="${svn.path}"
                    username="${svn.username}"
                    password="${svn.password}"
                    nocache="true"
                    force="true"
-                   repositoryurl="${svn.local.dir}"
-                   todir="${svn.local.export.dir}" />
+                   repositoryurl="${svn.local.directory}"
+                   todir="${svn.local.export.directory}" />
     </target>
 
     <!-- COMMAND = "svn-lastrevision" -->
     <target name="svn-lastrevision" description="Fetches the SVN Revision Number to a Property">
         <echo>Fetching the Revision Number</echo>
         <svnlastrevision svnpath="${svn.path}"
-                         workingcopy="${svn.local.dir}"
+                         workingcopy="${svn.local.directory}"
                          propertyname="svn.lastrevision"/>
     </target>
 
     <!-- COMMAND = "mrproper-svn-dir" -->
     <target name="mrproper-svn-dir" description="Mr.Proper will clean the SVN Export Dir">
         <echo>Removes and recreates the SVN Export Dir to have a clean copy</echo>
-        <delete dir="${svn.local.export.dir}" failonerror="true" verbose="false" includeemptydirs="true" />
-        <mkdir dir="${svn.local.export.dir}" />
+        <delete dir="${svn.local.export.directory}" failonerror="true" verbose="false" includeemptydirs="true" />
+        <mkdir dir="${svn.local.export.directory}" />
     </target>
 
     <!-- =============================================== -->
@@ -218,7 +221,7 @@
         <echo message="----------------------------------------------"/>
         <input propertyname="version" promptChar=":">Version</input>
         <property name="packagename" value="${phing.project.name}-${version}" override="true"/>
-        <property name="build.src.dir" value="${build.base.dir}${archive_filename}" override="true"/>
+        <property name="build.src.directory" value="${build.base.directory}${archive_filename}" override="true"/>
     </target>
 
     <!-- COMMAND = "all" -->
@@ -373,9 +376,9 @@
     <!-- destdir="${build.base.directory}/docs/API/phpdoc/html" -->
     <target name="doc_phpdoc" description="Generates the API Documentation using PHPDocumentor">
         <echo>Generates the API documentation using PHPDocumentor</echo>
-        <delete dir="${documentations.dir}${phpdoc.dir}" />
+        <delete dir="${documentations.directory}${phpdoc.directory}" />
         <phpdoc title="Clansuite API Documentation"
-                destdir="${documentations.dir}${phpdoc.dir}"
+                destdir="${documentations.directory}${phpdoc.directory}"
                 quiet="true"
                 sourcepath="${build.base.directory}/"
                 sourcecode="no"
