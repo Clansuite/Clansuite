@@ -78,8 +78,7 @@
 
         Release/Packagename : ${phing.project.name}-${clansuite.version}
         Release-Directory   : ${build.src.directory}
-
-        <!--
+        
         Paths for Debugging
         -------------------------
         "Current Project Basedir"     : ${project.basedir}
@@ -90,7 +89,7 @@
         "svn.local.directory"         : ${svn.local.directory}
         "archive.directory"           : ${archive.directory}
         "phpdoc.directory"            : ${phpdoc.directory}
-        -->
+         <!-- -->
 
         </echo>
     </target>
