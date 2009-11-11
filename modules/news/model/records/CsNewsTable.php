@@ -14,8 +14,13 @@ class CsNewsTable extends Doctrine_Table
      * For Pager Chapter in Doctrine Manual
      * @link http://www.phpdoctrine.org/documentation/manual/0_10?one-page#utilities
      */
-    public static function fetchAllNews($sortorder, $currentPage, $resultsPerPage, $admin = null)
+    public static function fetchAllNews($currentPage, $resultsPerPage, $admin = null, $sortorder = null)
     {
+        if($sortorder == null)
+        {
+            $sortorder = 'n.news_id DESC, n.created_at DESC'; 
+        }        
+        
         # create public or administration link
         if($admin == null)
         {   
@@ -44,7 +49,6 @@ class CsNewsTable extends Doctrine_Table
                                             ->leftJoin('n.CsComments nc')
                                             ->leftJoin('nc.CsUsers ncu')
                                             ->setHydrationMode(Doctrine::HYDRATE_ARRAY)
-                                            #->orderby('n.news_id DESC, n.created_at DESC'),
                                             ->orderby($sortorder),
                                          # the following two values are the (sql) limit  ?,? =
                                          $currentPage, # Current page of request
@@ -77,8 +81,13 @@ class CsNewsTable extends Doctrine_Table
      *
      * Doctrine_Query to fetch News by Category
      */
-    public static function fetchNewsByCategory($category, $currentPage, $resultsPerPage, $admin = null)
+    public static function fetchNewsByCategory($category, $currentPage, $resultsPerPage, $admin = null, $sortorder = null)
     {
+        if($sortorder == null)
+        {
+            $sortorder = 'n.news_id DESC, n.created_at DESC'; 
+        } 
+        
         # create public or administration link
         if($admin == null)
         {   
@@ -108,7 +117,6 @@ class CsNewsTable extends Doctrine_Table
                                             ->leftJoin('nc.CsUsers ncu')
                                             ->where('n.cat_id = ?', array( $category ) )
                                             ->setHydrationMode(Doctrine::HYDRATE_ARRAY)
-                                            #->orderby('n.news_id DESC, n.created_at DESC'),
                                             ->orderby($sortorder),
                                          # The following is Limit  ?,? =
                                          $currentPage, # Current page of request
@@ -191,6 +199,7 @@ class CsNewsTable extends Doctrine_Table
                     ->fetchArray();
 
         # put things in an array-box for delivery multiple things with one return stmt
+        # and get rid of the outer array ['0']
         return $single_news['0'];
     }
 
