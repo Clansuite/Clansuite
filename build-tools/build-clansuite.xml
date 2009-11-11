@@ -336,6 +336,7 @@
     </target>
 
     <!-- COMMAND = "code-coverage" -->
+    <!-- Disabled, depends on XDEBUG
     <target name="code-coverage" description="Creates a code-coverage report">
 
         <mkdir dir="coverage_db"/>
@@ -355,7 +356,7 @@
             <report todir="coverage_result"/>
         </coverage-report>
     </target>
-
+    -->
 
     <!-- ================================================= -->
     <!-- ======        5) Documentation Tasks       ====== -->
