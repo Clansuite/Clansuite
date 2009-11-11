@@ -320,7 +320,7 @@
     <!-- COMMAND = "codesniffer-report-w32" -->
     <!-- @link: http://phing.info/docs/guide/current/chapters/appendixes/AppendixC-OptionalTasks.html#PhpCodeSnifferTask -->
     <target name="codesniffer-report-w32" description="Runs the PHP-Codesniffer task and reports coding standard violations">
-        <exec executable="phpcs --report=checkstyle --standard=Clansuite"
+        <exec command="phpcs --report=checkstyle --standard=Clansuite"
               dir="${basedir}/source"
               output="${basedir}/build/logs/checkstyle.xml"
               error="/tmp/checkstyle.error.log"
