@@ -30,6 +30,8 @@
     * @link       http://www.clansuite.com
     * @link       http://gna.org/projects/clansuite
     *
+    * @version    SVN: $Id$
+    */
 
 // Security Handler
 if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
@@ -67,9 +69,6 @@ class Module_Categories_Admin extends Clansuite_ModuleController implements Clan
      */
     public function action_admin_show()
     {
-        # Permission check
-        #$perms::check('cc_view_matches');
-
         # SmartyColumnSort -- Easy sorting of html table columns.
         require( ROOT_LIBRARIES . '/smarty/SmartyColumnSort.class.php');
         # A list of database columns to use in the table.
@@ -81,18 +80,12 @@ class Module_Categories_Admin extends Clansuite_ModuleController implements Clan
         # Get sort order from columnsort
         $sortorder = $columnsort->sortOrder(); // Returns 'name ASC' as default
 
-		
         # Set Pagetitle and Breadcrumbs
         Clansuite_Trail::addStep( _('Show'), '/index.php?mod=categories&amp;sub=admin&amp;action=show');
 
-		$categories = Doctrine::getTable('CsCategories')->fetchAllCategories($sortorder);
-		
+        $categories = Doctrine::getTable('CsCategories')->fetchAllCategories($sortorder);
 
-        $view = $this->getView();
-        $view->assign('categories', $categories);
-
-        # Set Layout Template
-        $this->getView()->setLayoutTemplate('index.tpl');
+        $this->getView()->assign('categories', $categories);
 
         # Prepare the Output
         $this->prepareOutput();
@@ -115,16 +108,17 @@ class Module_Categories_Admin extends Clansuite_ModuleController implements Clan
          * Assign some Formlements
          */
         $form->addElement('text')->setName('cat_form[name]')->setLabel(_('Category Name'));
-        $modules = Doctrine::getTable('CsModules')->fetchAllModulesDropDown();        
+        $modules = Doctrine::getTable('CsModules')->fetchAllModulesDropDown();
         $form->addElement('multiselect')->setName('cat_form[module_id]')->setLabel(_('Module'))->setOptions($modules)
         ->setDescription(_('Select the module to create the category for.'));;
-        $form->addElement('textarea')->setName('cat_form[description]')->setID('cat_form[description]')->setCols('60')->setRows('5')->setLabel(_('Description'));        
-        $form->addElement('text')->setName('cat_form[sortorder]')->setLabel(_('Sort Order'));
+        $form->addElement('textarea')->setName('cat_form[description]')->setID('cat_form[description]')->setCols('60')->setRows('5')->setLabel(_('Description'));
+        #$form->addElement('text')->setName('cat_form[sortorder]')->setLabel(_('Sort Order')); # not needed here
         $form->addElement('jqselectcolor')->setName('cat_form[color]')->setLabel(_('Select Color'));
         $form->addElement('jqselectimage')->setName('cat_form[image]')->setLabel(_('Select Image'));
         $form->addElement('jqselectimage')->setName('cat_form[icon]')->setLabel(_('Select Icon'));
         # @todo category image upload + db insert
         #$form->addElement('image');
+        $form->addElement('jqselectimage');
         #$form->addElement('icon');
         $form->addElement('submitbutton')->setValue('Submit');
         $form->addElement('resetbutton')->setValue('Reset');
@@ -141,7 +135,7 @@ class Module_Categories_Admin extends Clansuite_ModuleController implements Clan
         $this->prepareOutput();
     }
 
-	
+
     /**
      * Edit Category
      */
@@ -168,17 +162,16 @@ class Module_Categories_Admin extends Clansuite_ModuleController implements Clan
 
         # Assign some formlements
         $form->addElement('text')->setName('cat_form[name]')->setLabel(_('Category Name'))->setValue($cat['name']);
-        $modules = Doctrine::getTable('CsModules')->fetchAllModulesDropDown();        
+        $modules = Doctrine::getTable('CsModules')->fetchAllModulesDropDown();
         $form->addElement('multiselect')->setName('cat_form[module_id]')->setLabel(_('Module'))->setDefaultValue($cat['module_id'])->setOptions($modules)
         ->setDescription(_('Select the module to create the category for.'))->setValue($cat['module_id']);
-        $form->addElement('textarea')->setName('cat_form[description]')->setID('cat_form[description]')->setCols('60')->setRows('5')->setLabel(_('Description'))->setValue($cat['description']);        
+        $form->addElement('textarea')->setName('cat_form[description]')->setID('cat_form[description]')->setCols('60')->setRows('5')->setLabel(_('Description'))->setValue($cat['description']);
         $form->addElement('text')->setName('cat_form[sortorder]')->setLabel(_('Sort Order'))->setValue($cat['sortorder']);
         $form->addElement('jqselectcolor')->setName('cat_form[color]')->setLabel(_('Select Color'))->setValue($cat['color']);
         $form->addElement('jqselectimage')->setName('cat_form[image]')->setLabel(_('Select Image'))->setValue($cat['image']);
+        #$form->addElement('uploadajax')->setName('Upload Image')->setLabel(_('Upload Image'));
         $form->addElement('jqselectimage')->setName('cat_form[icon]')->setLabel(_('Select Icon'))->setValue($cat['icon']);
-        # @todo category image upload + db insert
-        #$form->addElement('image');
-        #$form->addElement('icon');
+        #$form->addElement('uploadajax')->setName('Upload Icon')->setLabel(_('Upload Icon'));
         $form->addElement('submitbutton')->setValue('Submit');
         $form->addElement('resetbutton')->setValue('Reset');
 
@@ -193,7 +186,7 @@ class Module_Categories_Admin extends Clansuite_ModuleController implements Clan
 
         $this->prepareOutput();
     }
-	
+
     /**
      * Deletes Categories
      */
@@ -204,8 +197,8 @@ class Module_Categories_Admin extends Clansuite_ModuleController implements Clan
         $numDeleted = Doctrine_Query::create()->delete('CsCategories')->whereIn('cat_id', $delete)->execute();
         $this->getHttpResponse()->redirectNoCache('index.php?mod=categories&amp;sub=admin', 2, 302, _( $numDeleted. ' Categories deleted.'));
     }
-	
-	
+
+
     /**
      * Update a Categories Entry identified by cat_id
      */
@@ -218,17 +211,17 @@ class Module_Categories_Admin extends Clansuite_ModuleController implements Clan
         if(isset($type) and $type == 'create')
         {
             $cats = new CsCategories;
-            $cats->module_id  = $data['module_id'];
-            $cats->name = $data['name'];
+            $cats->module_id    = $data['module_id'];
+            $cats->name         = $data['name'];
             $cats->description  = $data['description'];
-            $cats->color     = $data['color'];
-            $cats->image     = $data['image'];
-            $cats->icon     = $data['icon'];
-            $cats->sortorder     = $data['sortorder'];
+            $cats->color        = $data['color'];
+            $cats->image        = $data['image'];
+            $cats->icon         = $data['icon'];
+            #$cats->sortorder    = $data['sortorder']; # not incomming via create, only via edit
             $cats->save();
-			
-        # redirect
-        $this->getHttpResponse()->redirectNoCache('index.php?mod=categories&amp;sub=admin', 2, 302, _('The Category has been created.'));
+
+            # redirect
+            $this->getHttpResponse()->redirectNoCache('index.php?mod=categories&amp;sub=admin', 2, 302, _('The Category has been created.'));
         }
         elseif(isset($type) and $type == 'edit')
         {
@@ -243,28 +236,27 @@ class Module_Categories_Admin extends Clansuite_ModuleController implements Clan
             # if that category exist, update values and save
             if ($cats !== false)
             {
-                $cats->cat_id    = $data['cat_id'];
-                $cats->module_id  = $data['module_id'];
-                $cats->name = $data['name'];
+                $cats->cat_id       = $data['cat_id'];
+                $cats->module_id    = $data['module_id'];
+                $cats->name         = $data['name'];
                 $cats->description  = $data['description'];
-                $cats->color     = $data['color'];
-                $cats->image     = $data['image'];
-                $cats->icon     = $data['icon'];
-                $cats->sortorder     = $data['sortorder'];
+                $cats->color        = $data['color'];
+                $cats->image        = $data['image'];
+                $cats->icon         = $data['icon'];
+                $cats->sortorder    = $data['sortorder'];
                 $cats->save();
             }
-        # redirect
-        $this->getHttpResponse()->redirectNoCache('index.php?mod=categories&amp;sub=admin', 2, 302, _('The Category has been edited.'));
+
+            # redirect
+            $this->getHttpResponse()->redirectNoCache('index.php?mod=categories&amp;sub=admin', 2, 302, _('The Category has been edited.'));
         }
         else
         {
             # redirect
             $this->getHttpResponse()->redirectNoCache('index.php?mod=categories&amp;sub=admin', 2, 302, _('Unknown Formaction.'));
         }
-
-
     }
-	
+
     /**
      * Action for displaying the Settings of a Module Categories
      */

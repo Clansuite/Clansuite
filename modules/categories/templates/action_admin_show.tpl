@@ -32,8 +32,8 @@
 		<td>{$category.module|capitalize}</td>
 		<td>{$category.name}</td>
 		<td>{$category.description}</td>
-		<td><img src="{$category.image}" /></td>
-		<td><img src="{$category.icon}" /></td>
+		<td>{icon src="`$category.image`"}</td>
+		<td>{icon src="`$category.icon`"}</td>
 		<td>{$category.color}<div style="width:5px; height:5px; border:1px solid #000000; background-color:{$category.color};"></div></td>
         <td><a class="ButtonOrange" href="index.php?mod=categories&amp;sub=admin&amp;action=edit&amp;id={$category.cat_id}" />{t}Edit{/t}</a></td>
         <td align="center" width="1%">
