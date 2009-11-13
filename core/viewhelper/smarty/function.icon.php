@@ -60,6 +60,10 @@ function smarty_function_icon($params, &$smarty)
         $src = WWW_ROOT_THEMES_CORE . '/images/noimage.gif';
         $name = 'No Image found.';
     }
+    else
+    {
+        $name = basename($src);   
+    }
 
     # transform name into a valid image src
     if (isset($icondir) and isset($name) and empty($src))
