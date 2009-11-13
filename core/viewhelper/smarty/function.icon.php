@@ -35,9 +35,19 @@ function smarty_function_icon($params, &$smarty)
 {
     #clansuite_xdebug::printR($params);
 
-    extract($params);    
+    extract($params);   
+
     
-    #clansuite_xdebug::printR($params);
+    /**
+     * if the src attribute contains a http://SERVER_NAME URL its cutted of
+     */
+    $needle = 'http://'.$_SERVER['SERVER_NAME'].'/';
+    $pos = strpos($src, $needle);    
+    if(isset($src) and is_int($pos))
+    {
+        #clansuite_xdebug::printR($pos);
+        $src = substr($src, $pos + strlen($needle));
+    }
     
     # we have two alternatives :
     # a) src => user has set src, defining the path to the image and imagename
@@ -58,10 +68,13 @@ function smarty_function_icon($params, &$smarty)
     if(isset($src) and is_file($src) == false)
     {
         $src = WWW_ROOT_THEMES_CORE . '/images/noimage.gif';
-        $name = 'No Image found.';
+        $name = 'No Image found.'.$src;
     }
-    else
+    else    
     {
+        #clansuite_xdebug::printR($src);
+        #clansuite_xdebug::printR('http://'.$_SERVER['HTTP_HOST']);
+        #clansuite_xdebug::printR(is_file('http://www.clansuite-dev.com/uploads/images/gallery/kunst.jpg'));
         $name = basename($src);   
     }
 
