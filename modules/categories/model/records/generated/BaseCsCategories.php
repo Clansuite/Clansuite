@@ -30,8 +30,8 @@ abstract class BaseCsCategories extends Doctrine_Record
         $this->hasColumn('sortorder', 'integer', 1, array('type' => 'integer', 'length' => 1, 'default' => '0'));
         $this->hasColumn('name', 'string', 200, array('type' => 'string', 'length' => 200, 'default' => 'New Category'));
         $this->hasColumn('description', 'string', null, array('type' => 'string'));
-        $this->hasColumn('image', 'string', 60, array('type' => 'string', 'length' => 60));
-        $this->hasColumn('icon', 'string', 60, array('type' => 'string', 'length' => 60));
+        $this->hasColumn('image', 'string', 255, array('type' => 'string', 'length' => 60));
+        $this->hasColumn('icon', 'string', 255, array('type' => 'string', 'length' => 60));
         $this->hasColumn('color', 'string', 7, array('type' => 'string', 'length' => 7));       
     }
     
