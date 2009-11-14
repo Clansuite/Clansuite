@@ -17,7 +17,7 @@
               <div class="section">
                   <a class="item" href="index.php"><img class="pic" src="{$www_root_themes_core}/images/crystal_clear/16/agt_home.png" border="0" width="16" height="16" alt=""/>Main</a>
                   <a class="item" href="index.php?mod=news"><img class="pic" src="{$www_root_themes_core}/images/symbols/news.png" border="0" width="16" height="16" alt=""/>News</a>
-                  <a class="item" href="index.php?mod=news&amp;action=archiv"><img class="pic" src="{$www_root_themes_core}/images/symbols/news.png" border="0" width="16" height="16" alt=""/>Newsarchiv</a>
+                  <a class="item" href="index.php?mod=news&amp;action=archive"><img class="pic" src="{$www_root_themes_core}/images/symbols/news.png" border="0" width="16" height="16" alt=""/>Newsarchiv</a>
                   <a class="item" href="index.php?mod=guestbook"><img class="pic" src="{$www_root_themes_core}/images/symbols/news.png" border="0" width="16" height="16" alt=""/>Guestbook</a>
                   <a class="item" href="index.php?mod=board"><img class="pic" src="{$www_root_themes_core}/images/symbols/news.png" border="0" width="16" height="16" alt=""/>Board</a>
                   <a class="item" href="index.php?mod=serverlist"><img class="pic" src="{$www_root_themes_core}/images/symbols/news.png" border="0" width="16" height="16" alt=""/>Serverlist</a>
