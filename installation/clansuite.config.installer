@@ -8,8 +8,8 @@
 ;----------------------------------------
 ; Database Connection Data
 ;----------------------------------------
-db_cache = ""
-db_type  = "mysql"
+cache = ""
+type  = "mysql"
 
 ;----------------------------------------
 ; Standard Path Configuration
