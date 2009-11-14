@@ -375,7 +375,7 @@ if (!defined('IN_CS')){ die( 'Clansuite not loaded. Direct Access forbidden.' );
                          $recommended['extension_mcrypt']['status']     = extension_loaded('mcrypt') ? SETTING_TRUE : SETTING_FALSE;
 
                          #  Checking for PHP Calendar : Calendar
-                         $recommended['extension_calendar']['text']       = $language['EXTENSION_Calendar'];
+                         $recommended['extension_calendar']['text']       = $language['EXTENSION_CALENDAR'];
                          $recommended['extension_calendar']['expected']   = 'on';
                          $recommended['extension_calendar']['actual']     = extension_loaded('calendar') ? 'on' : 'off';
                          $recommended['extension_calendar']['status']     = extension_loaded('calendar') ? SETTING_TRUE : SETTING_FALSE;

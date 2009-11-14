@@ -90,6 +90,7 @@ class language implements ArrayAccess
         $this->language['EXTENSION_APC'] = 'PHP Extension: APC';
         $this->language['EXTENSION_MEMCACHE'] = 'PHP Extension: MEMCACHE';
         $this->language['EXTENSION_MCRYPT'] = 'PHP Extension: MCRYPT';
+        $this->language['EXTENSION_CALENDAR'] = 'PHP Extension: CALENDAR';
 
         // STEP 3 - Licence
         $this->language['STEP3_LICENCE'] = 'Step [3] GNU/GPL Licence';
