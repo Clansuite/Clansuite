@@ -1,0 +1,25 @@
+# C:\WINDOWS\system32\drivers\etc\hosts
+#
+# Dies ist eine HOSTS-Beispieldatei, die von Microsoft TCP/IP
+# für Windows 2000 verwendet wird.
+#
+# Diese Datei enthält die Zuordnungen der IP-Adressen zu Hostnamen.
+# Jeder Eintrag muss in einer eigenen Zeile stehen. Die IP-
+# Adresse sollte in der ersten Spalte gefolgt vom zugehörigen
+# Hostnamen stehen.
+# Die IP-Adresse und der Hostname müssen durch mindestens ein
+# Leerzeichen getrennt sein.
+#
+# Zusätzliche Kommentare (so wie in dieser Datei) können in
+# einzelnen Zeilen oder hinter dem Computernamen eingefügt werden,
+# aber müssen mit dem Zeichen '#' eingegeben werden.
+#
+# Zum Beispiel:
+#
+#      102.54.94.97     rhino.acme.com          # Quellserver
+#       38.25.63.10     x.acme.com              # x-Clienthost
+
+127.0.0.1       localhost
+127.0.0.1       www.clansuite-dev.com
+127.0.0.1       clansuite-dev.com
+
