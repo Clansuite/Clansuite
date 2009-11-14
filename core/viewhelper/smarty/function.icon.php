@@ -102,9 +102,13 @@ function smarty_function_icon($params, &$smarty)
     }
 
     # we got no alternative text. let's add a default text with $name;
-    if(empty($alt))
+    if(isset($src) and empty($alt))
     {
-        $alt = 'Clansuite Image/Icon: '.$name;
+		$file = $src;
+
+		$info = pathinfo($file);
+		$file_name =  basename($file,'.'.$info['extension']);
+        $alt = $file_name;
     }
 
     # no extra attributes to add, then let it be an empty string
