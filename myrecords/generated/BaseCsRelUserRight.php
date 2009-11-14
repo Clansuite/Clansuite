@@ -18,7 +18,7 @@ abstract class BaseCsRelUserAccess extends Doctrine_Record
     parent::setUp();
     
       $this->hasOne('CsUser', array('local'    => 'user_id',
-                                    'foreign'  => 'user_id');
+                                    'foreign'  => 'user_id'));
     
       $this->hasMany('CsPermission', array('local'    => 'user_id',
                                            'foreign'  => 'right_id',

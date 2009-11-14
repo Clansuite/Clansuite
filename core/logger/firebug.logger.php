@@ -69,7 +69,7 @@ class Clansuite_Logger_Firebug extends Clansuite_Logger implements Clansuite_Log
     public function __construct(Clansuite_Config $config)
     {
         # load firebug only if enabled
-         if ( $config['logs']['firephp_enabled'] == true) )
+         if ( $config['logs']['firephp_enabled'] == true)
         {
             include 'FirePHPCore/FirePHP.class.php';
         }
@@ -95,7 +95,7 @@ class Clansuite_Logger_Firebug extends Clansuite_Logger implements Clansuite_Log
      *
      * @param string $level (comming from $data['level'] of the $data array to log)
      */
-    public function getFirePHPLoglevel($level);
+    public function getFirePHPLoglevel($level)
     {
         switch ($level)
         {

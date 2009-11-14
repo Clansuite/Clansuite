@@ -169,7 +169,7 @@ class Clansuite_Formelement_Uploadapc extends Clansuite_Formelement_File impleme
             $html .= $submit;
 
             return $javascript.$html;
-
+    }
 
     public function __toString()
     {
