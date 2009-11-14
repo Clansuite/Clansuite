@@ -217,13 +217,13 @@ include 'install_menu.php';
 if( isset($_POST['step_forward']) && $step == 5 )
 {
     # check if input-fields are filled
-    if (!empty($_POST['config']['database']['db_name']) &&
-        !ctype_digit($_POST['config']['database']['db_name']) &&
-        preg_match('#^[a-zA-Z0-9]{1,}[a-zA-Z0-9_\-@]+[a-zA-Z0-9_\-@]*$#', $_POST['config']['database']['db_name'] ) &&
-        !empty($_POST['config']['database']['db_host']) &&
-        !empty($_POST['config']['database']['db_type']) &&
-        !empty($_POST['config']['database']['db_username']) &&
-         isset($_POST['config']['database']['db_password'])
+    if (!empty($_POST['config']['database']['name']) &&
+        !ctype_digit($_POST['config']['database']['name']) &&
+        preg_match('#^[a-zA-Z0-9]{1,}[a-zA-Z0-9_\-@]+[a-zA-Z0-9_\-@]*$#', $_POST['config']['database']['name'] ) &&
+        !empty($_POST['config']['database']['host']) &&
+        !empty($_POST['config']['database']['type']) &&
+        !empty($_POST['config']['database']['username']) &&
+         isset($_POST['config']['database']['password'])
        )
     {
 
@@ -232,26 +232,26 @@ if( isset($_POST['step_forward']) && $step == 5 )
          */
 
         $db_connection = '';
-        $db_connection = mysql_pconnect($_POST['config']['database']['db_host'],
-                                         $_POST['config']['database']['db_username'],
-                                         $_POST['config']['database']['db_password']);
+        $db_connection = @mysql_pconnect($_POST['config']['database']['host'],
+                                         $_POST['config']['database']['username'],
+                                         $_POST['config']['database']['password']);
         if ($db_connection == false)
         {
             $step = 4;
             $error = 'Konnte keine Verbindung zur Datenbank herstellen. Host, User+PW pr�fen.' . '<br />' . mysql_error();
         }
 
-	    /**
-	     * 2. create the database?
-	     *
-	     * http://dev.mysql.com/doc/refman/5.0/en/charset-unicode-sets.html
+        /**
+         * 2. create the database?
+         *
+         * http://dev.mysql.com/doc/refman/5.0/en/charset-unicode-sets.html
          * so for german language there are "utf8_general_ci" or "utf8_unicode_ci"
          */
 
-        if (isset($_POST['config']['database']['db_create_database']) &&
-            $_POST['config']['database']['db_create_database'] == 'on')
+        if (isset($_POST['config']['database']['create_database']) &&
+            $_POST['config']['database']['create_database'] == 'on')
         {
-            if (!mysql_query('CREATE DATABASE ' . $_POST['config']['database']['db_name'] .' DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci', $db_connection))
+            if (!@mysql_query('CREATE DATABASE ' . $_POST['config']['database']['name'] .' DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci', $db_connection))
             {
                 $step = 4;
                 $error = $language['ERROR_WHILE_CREATING_DATABASE'] . '<br />' . mysql_error();
@@ -259,14 +259,14 @@ if( isset($_POST['step_forward']) && $step == 5 )
 
             # remove create_database from $_POST Config array
             # this shouldn't be written in the config file
-            unset($_POST['config']['database']['db_create_database']);
+            unset($_POST['config']['database']['create_database']);
         }
 
         /**
          * 3. Check if database is selectable
          */
 
-        if (!mysql_select_db($_POST['config']['database']['db_name']))
+        if (!@mysql_select_db($_POST['config']['database']['name']))
         {
             $step = 4;
             $error = 'Datenbanktabelle konnte nicht selektiert werden. Entweder falsch benannt oder momentan nicht erreichbar.' . '<br />' . mysql_error();
@@ -277,10 +277,10 @@ if( isset($_POST['step_forward']) && $step == 5 )
          */
 
         $sqlfile = INSTALLATION_ROOT . 'sql/clansuite.sql';
-        if( !loadSQL( $sqlfile , $_POST['config']['database']['db_host'],
-                                 $_POST['config']['database']['db_name'],
-                                 $_POST['config']['database']['db_username'],
-                                 $_POST['config']['database']['db_password']) )
+        if( !loadSQL( $sqlfile , $_POST['config']['database']['host'],
+                                 $_POST['config']['database']['name'],
+                                 $_POST['config']['database']['username'],
+                                 $_POST['config']['database']['password']) )
         {
             $step = 4;
             $error = $language['ERROR_NO_DB_CONNECT'] . '<br />' . mysql_error();
@@ -305,9 +305,9 @@ if( isset($_POST['step_forward']) && $step == 5 )
         $step = 4;
         $error = $language['ERROR_FILL_OUT_ALL_FIELDS'];
         # Adjust Error-Message in case validity of database name FAILED
-        if( isset($_POST['config']['database']['db_name']) && preg_match('#^[a-zA-Z0-9]{1,}[a-zA-Z0-9_\-@]+[a-zA-Z0-9_\-@]*$#', $_POST['config']['database']['db_name'] ))
+        if( isset($_POST['config']['database']['name']) && preg_match('#^[a-zA-Z0-9]{1,}[a-zA-Z0-9_\-@]+[a-zA-Z0-9_\-@]*$#', $_POST['config']['database']['name'] ))
         {
-            $error .= '<p>The database name you have entered, "'. $_POST['config']['database']['db_name'] . '", is invalid.</p>';
+            $error .= '<p>The database name you have entered, "'. $_POST['config']['database']['name'] . '", is invalid.</p>';
             $error .= '<p> It can only contain alphanumeric characters, periods, or underscores. Usable Chars: A-Z;a-z;0-9;-;_ </p>';
             $error .= '<p> Forbidden are database names containing only numbers and names like mysql-database commands.</p>';
         }
@@ -367,7 +367,7 @@ if( isset($_POST['step_forward']) && $step == 7 )
     else
     {
         # @todo Check mysql connect
-        $db = mysql_pconnect($_SESSION['config']['database']['db_host'], $_SESSION['config']['database']['db_username'], $_SESSION['config']['database']['db_password']);
+        $db = @mysql_pconnect($_SESSION['config']['database']['host'], $_SESSION['config']['database']['username'], $_SESSION['config']['database']['password']);
         // Generate activation code & salted hash
         $hashArr = build_salted_hash($_POST['admin_password'], $_SESSION['encryption']);
         $hash = $hashArr['hash'];
@@ -375,7 +375,7 @@ if( isset($_POST['step_forward']) && $step == 7 )
 
         // Insert User to DB
         # @todo check mysql insert
-        $result = mysql_query('INSERT INTO '.$_SESSION['config']['database']['db_prefix'].'users SET
+        $result = @mysql_query('INSERT INTO '.$_SESSION['config']['database']['prefix'].'users SET
                                 email= \'' . $_POST['admin_email'] . '\',
                                 nick= \'' .$_POST['admin_name']. '\',
                                 passwordhash = \'' .$hash. '\',
@@ -595,13 +595,13 @@ function installstep_3($language){    require INSTALLATION_ROOT.'install-step3.p
 // STEP 4 - System Check
 function installstep_4($language, $error)
 {
-    $values['db_host']      = isset($_SESSION['db_host']) ? $_SESSION['db_host'] : 'localhost';
-    $values['db_type']      = isset($_SESSION['db_type']) ? $_SESSION['db_type'] : 'mysql';
-    $values['db_name']      = isset($_SESSION['db_name']) ? $_SESSION['db_name'] : 'clansuite';
-    $values['db_create_database']    = isset($_SESSION['db_create_database']) ? $_SESSION['db_create_database'] : '0';
-    $values['db_username']  = isset($_SESSION['db_user']) ? $_SESSION['db_user'] : '';
-    $values['db_password']  = isset($_SESSION['db_pass']) ? $_SESSION['db_pass'] : '';
-    $values['db_prefix']    = isset($_SESSION['db_prefix']) ? $_SESSION['db_prefix'] : 'cs_';
+    $values['host']      = isset($_SESSION['host']) ? $_SESSION['host'] : 'localhost';
+    $values['type']      = isset($_SESSION['type']) ? $_SESSION['type'] : 'mysql';
+    $values['name']      = isset($_SESSION['name']) ? $_SESSION['name'] : 'clansuite';
+    $values['create_database']    = isset($_SESSION['create_database']) ? $_SESSION['create_database'] : '0';
+    $values['username']  = isset($_SESSION['user']) ? $_SESSION['user'] : '';
+    $values['password']  = isset($_SESSION['pass']) ? $_SESSION['pass'] : '';
+    $values['prefix']    = isset($_SESSION['prefix']) ? $_SESSION['prefix'] : 'cs_';
 
     require INSTALLATION_ROOT.'install-step4.php' ;
 }
@@ -642,7 +642,7 @@ function installstep_7($language){    require INSTALLATION_ROOT.'install-step7.p
 function loadSQL($sqlfile, $hostname, $database, $username, $password)
 {
     #print "Loading SQL";
-    if ($connection = @ mysql_pconnect($hostname, $username, $password))
+    if ($connection = @mysql_pconnect($hostname, $username, $password))
     {
         # select database
         mysql_select_db($database,$connection);
@@ -708,7 +708,7 @@ function getQueriesFromSQLFile($file)
                           $splitter);
 
     # replace the database prefix
-    $table_prefix = $_POST['config']['database']['db_prefix'];
+    $table_prefix = $_POST['config']['database']['prefix'];
     $splitter = preg_replace("/`cs_/", "`$table_prefix", $splitter);
 
     # remove empty lines

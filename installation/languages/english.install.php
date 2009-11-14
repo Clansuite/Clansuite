@@ -111,13 +111,13 @@ class language implements ArrayAccess
         $this->language['STEP4_SENTENCE4'] = 'Tables und Entries created.';
         $this->language['STEP4_SENTENCE5'] = 'Import Databasetables of another CMS?';
 
-        $this->language['DB_HOST'] = 'Database Hostname';
-        $this->language['DB_TYPE'] = 'Databank Type';
-        $this->language['DB_NAME'] = 'Database Name';
-        $this->language['DB_CREATE_DATABASE'] = 'Create Database?';
-        $this->language['DB_USERNAME'] = 'Database Username';
-        $this->language['DB_PASSWORD'] = 'Database Password';
-        $this->language['DB_PREFIX'] = 'Table Prefix';
+        $this->language['HOST'] = 'Database Hostname';
+        $this->language['TYPE'] = 'Databank Type';
+        $this->language['NAME'] = 'Database Name';
+        $this->language['CREATE_DATABASE'] = 'Create Database?';
+        $this->language['USERNAME'] = 'Database Username';
+        $this->language['PASSWORD'] = 'Database Password';
+        $this->language['PREFIX'] = 'Table Prefix';
 
         $this->language['ERROR_NO_DB_CONNECT'] = 'Database-Connection could not be established.';
         $this->language['ERROR_WHILE_CREATING_DATABASE'] = 'Database database could not be created.';

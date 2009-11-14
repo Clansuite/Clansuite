@@ -111,13 +111,13 @@ class language implements ArrayAccess
         $this->language['STEP4_SENTENCE4'] = 'Tabellen und Einträge werden angelegt.';
         $this->language['STEP4_SENTENCE5'] = 'Datenbanktabellen eines anderen CMS importieren.';
 
-        $this->language['DB_HOST'] = 'Datenbank Hostname';
-        $this->language['DB_TYPE'] = 'Databank Typ';
-        $this->language['DB_NAME'] = 'Datenbank Name';
-        $this->language['DB_CREATE_DATABASE'] = 'Datenbank erstellen';
-        $this->language['DB_USERNAME'] = 'Datenbank Benutzer';
-        $this->language['DB_PASSWORD'] = 'Datenbank Passwort';
-        $this->language['DB_PREFIX'] = 'Tabellen Präfix';
+        $this->language['HOST'] = 'Datenbank Hostname';
+        $this->language['TYPE'] = 'Databank Typ';
+        $this->language['NAME'] = 'Datenbank Name';
+        $this->language['CREATE_DATABASE'] = 'Datenbank erstellen';
+        $this->language['USERNAME'] = 'Datenbank Benutzer';
+        $this->language['PASSWORD'] = 'Datenbank Passwort';
+        $this->language['PREFIX'] = 'Tabellen Präfix';
 
         $this->language['ERROR_NO_DB_CONNECT'] = 'Es konnte keine Datenbankverbindung aufgebaut werden.';
         $this->language['ERROR_WHILE_CREATING_DATABASE'] = 'Die Datenbank konnte nicht erstellt werden.';
