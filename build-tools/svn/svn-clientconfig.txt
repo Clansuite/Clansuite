@@ -1,0 +1,93 @@
+# Clansuite - just an eSports CMS
+#
+#   Subversion Client Config
+#   ------------------------
+#
+#   $Id$
+
+# Windows:    EN: C:\Documents and Settings\accountname\Application Data\Subversion\config
+#             DE: C:\Dokumente und Einstellungen\benutzerkonto\Anwendungsdaten\Subversion\config
+#          Vista: C:\Users\AccountName\AppData\Roaming\Subversion
+#
+# Linux:      ~/.subversion/config
+
+# Place the file "config" in one of the mentioned directories
+# or just add something like the following lines to the one exisiting there.
+# Watch out for doublings!
+
+#[tunnel]
+#ssh="C://Program Files (x86)//PuTTY//plink.exe LINK zum Plink eben" -i "KeyFilePath" -pw HierDasPW
+
+[miscellany]
+global-ignores = .*~ *~ Thumbs.db *.exe *.bak
+enable-auto-props = yes
+
+[auto-props]
+# Scriptish formats
+*.bat        = svn:eol-style=native; svn:keywords=Date Author Id Revision HeadURL; svn-mine-type=text/plain
+*.bsh        = svn:eol-style=CRLF;   svn:keywords=Id; svn:mime-type=text/x-beanshell
+*.cgi        = svn:eol-style=native; svn:keywords=Id; svn-mine-type=text/plain
+*.cmd        = svn:eol-style=CRLF;   svn:keywords=Id; svn-mine-type=text/plain
+*.js         = svn:eol-style=native; svn:keywords=Date Author Id Revision HeadURL; svn:mime-type=text/javascript
+*.php        = svn:eol-style=native; svn:keywords=Date Author Id Revision HeadURL; svn:mime-type=text/x-php
+*.pl         = svn:eol-style=native; svn:keywords=Id; svn:mime-type=text/x-perl; svn:executable
+*.pm         = svn:eol-style=native; svn:keywords=Id; svn:mime-type=text/x-perl
+*.py         = svn:eol-style=native; svn:keywords=Id; svn:mime-type=text/x-python; svn:executable
+*.sh         = svn:eol-style=native; svn:keywords=Date Author Id Revision HeadURL; svn:mime-type=text/x-sh; svn:executable
+
+# Image formats
+*.bmp        = svn:mime-type=image/bmp
+*.gif        = svn:mime-type=image/gif
+*.ico        = svn:mime-type=image/ico
+*.jpeg       = svn:mime-type=image/jpeg
+*.jpg        = svn:mime-type=image/jpeg
+*.png        = svn:mime-type=image/png
+*.tif        = svn:mime-type=image/tiff
+*.tiff       = svn:mime-type=image/tiff
+
+# Data formats
+*.avi        = svn:mime-type=video/avi
+*.doc        = svn:mime-type=application/msword
+*.eps        = svn:mime-type=application/postscript
+*.gz         = svn:mime-type=application/gzip
+*.jar        = svn:mime-type=application/java-archive
+*.mov        = svn:mime-type=video/quicktime
+*.mp3        = svn:mime-type=audio/mpeg
+*.pdf        = svn:mime-type=application/pdf
+*.ppt        = svn:mime-type=application/vnd.ms-powerpoint
+*.ps         = svn:mime-type=application/postscript
+*.psd        = svn:mime-type=application/photoshop
+*.rdf        = svn:eol-style=native; svn:keywords=Id
+*.rss        = svn:eol-style=native; svn:keywords=Id
+*.rtf        = svn:mime-type=text/rtf
+*.swf        = svn:mime-type=application/x-shockwave-flash
+*.tgz        = svn:mime-type=application/gzip
+*.wav        = svn:mime-type=audio/wav
+*.xls        = svn:mime-type=application/vnd.ms-excel
+*.zip        = svn:mime-type=application/zip
+
+# Text formats
+*.asc        = svn:eol-style=native; svn:keywords=Date Author Id Revision HeadURL; svn:mime-type=text/plain
+*.css        = svn:eol-style=native; svn:keywords=Date Author Id Revision HeadURL; svn:mime-type=text/css
+*.dtd        = svn:eol-style=native; svn:keywords=Date Author Id Revision HeadURL; svn:mime-type=text/xml
+*.html       = svn:eol-style=native; svn:keywords=Date Author Id Revision HeadURL; svn:mime-type=text/html
+*.ini        = svn:eol-style=native; svn:keywords=Date Author Id Revision HeadURL; svn:mime-type=text/plain
+*.sql        = svn:eol-style=native; svn:keywords=Date Author Id Revision HeadURL; svn:mime-type=text/x-sql
+*.txt        = svn:eol-style=native; svn:keywords=Date Author Id Revision HeadURL; svn:mime-type=text/plain
+*.tpl        = svn:eol-style=native; svn:keywords=Date Author Id Revision HeadURL; svn:mime-type=text/plain
+*.wsdl       = svn:eol-style=native; svn:keywords=Date Author Id Revision HeadURL; svn:mime-type=text/xml
+*.xhtml      = svn:eol-style=native; svn:keywords=Date Author Id Revision HeadURL; svn:mime-type=text/xhtml+xml
+*.xml        = svn:eol-style=native; svn:keywords=Date Author Id Revision HeadURL; svn:mime-type=text/xml
+*.xsd        = svn:eol-style=native; svn:keywords=Date Author Id Revision HeadURL; svn:mime-type=text/xml
+*.xsl        = svn:eol-style=native; svn:keywords=Date Author Id Revision HeadURL; svn:mime-type=text/xml
+*.xslt       = svn:eol-style=native; svn:keywords=Date Author Id Revision HeadURL; svn:mime-type=text/xml
+*.xul        = svn:eol-style=native; svn:keywords=Date Author Id Revision HeadURL; svn:mime-type=text/xul
+*.yml        = svn:eol-style=native; svn:keywords=Date Author Id Revision HeadURL; svn:mime-type=text/plain
+.htaccess    = svn:eol-style=native; svn:keywords=Date Author Id Revision HeadURL; svn:mime-type=text/plain
+CHANGELOG    = svn:eol-style=native; svn:keywords=Date Author Id Revision HeadURL; svn:mime-type=text/plain
+COPYING      = svn:eol-style=native; svn:keywords=Date Author Id Revision HeadURL; svn:mime-type=text/plain
+INSTALL      = svn:eol-style=native; svn:keywords=Date Author Id Revision HeadURL; svn:mime-type=text/plain
+LICENSE      = svn:eol-style=native; svn:keywords=Date Author Id Revision HeadURL; svn:mime-type=text/plain
+Makefile*    = svn:eol-style=native; svn:keywords=Date Author Id Revision HeadURL; svn:mime-type=text/plain
+README       = svn:eol-style=native; svn:keywords=Date Author Id Revision HeadURL; svn:mime-type=text/plain
+TODO         = svn:eol-style=native; svn:keywords=Date Author Id Revision HeadURL; svn:mime-type=text/plain
