@@ -53,7 +53,7 @@ interface Clansuite_ActionController_Resolver_Interface
 
 class Clansuite_ActionController_Resolver implements Clansuite_ActionController_Resolver_Interface
 {
-    private $_defaultAction;             # holds the name of the defaultAction
+    private $_defaultAction = "";             # holds the name of the defaultAction
 
     public static $actionName = null;   # holds the Action of the Module
 

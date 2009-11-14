@@ -54,7 +54,7 @@ class AuthenticationLogging implements Clansuite_Event
     public function __construct($logger)
     {
         # set request object
-        $this->request = $requst;
+        $this->request = $request;
     }
     
     public function execute(Event $event)
@@ -62,8 +62,8 @@ class AuthenticationLogging implements Clansuite_Event
         $authData = $event->getInfo();
         
         $logData = array(date(),                # date
-                         $this->request->           # remote adress
-                         $event->getName();     # onLogin etc.
+                         $this->request->getRemoteAddress(), # remote adress
+                         $event->getName(),     # onLogin etc.
                          $authData['username']  # username
                          );
         

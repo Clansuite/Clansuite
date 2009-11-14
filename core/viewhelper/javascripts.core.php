@@ -49,42 +49,6 @@ if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
  */
 class Clansuite_Javascripts extends Clansuite_Layout
 {
-    public static function addJS_InitCFE()
-    {
-        $init = '';
-        Clansuite_Javascripts::addJSInit('Custom Form Elements',$init);
-    }
-
-    public static function addJS_CFE()
-    {
-        $basepath = '{$www_root_themes_core}/libraries/cfe';
-
-        # Custom Form Elements - Base
-        $javascript_files[] = array($basepath.'/base/cfe.base.js');
-
-        # Custom Form Elements - Modules
-        $cfe_modules = ('checkbox','radio','text','textarea','select',
-                        'image','submit','reset','file','password','fieldset');
-        foreach($cfe_modules as $cfe_module)
-        {
-            $javascript_files[] = array($basepath.'/modules/cfe.module.'.$cfe_module.'.js');
-        }
-
-        # Custom Form Elements - Addons
-        $cfe_addons = ('toolTips','dependencies');
-        foreach($cfe_addons as $cfe_addon)
-        {
-            $javascript_files[] = array($basepath.'/addons/cfe.module.'.$cfe_addon.'.js');
-        }
-
-        Clansuite_Javascripts::addMultipleJS($javascript_files);
-    }
-
-    public static function addCSS_CFE()
-    {
-        Clansuite_Javascripts::addCSS('cfe/css/cfe.css');
-        Clansuite_Javascripts::addCSS('cfe/css/fixPrematureIE.css.css', true);
-    }
 
     public static function addJS_JQuery()
     {
