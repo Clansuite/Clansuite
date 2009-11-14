@@ -148,6 +148,7 @@ class Clansuite_Eventdispatcher
          * if $event is not an instance of Clansuite_Event.
          * $event string will be the $name inside $event object,
          * accessible with $event->getName();
+         */
         if(!$event instanceof Clansuite_Event)
         {
             $event = new Clansuite_Event($event, $context, $info);
@@ -211,7 +212,7 @@ class Clansuite_Event implements ArrayAccess
     {
         $this->name     = $name;
         $this->content  = $context;
-        $this->info;    = $info;
+        $this->info    = $info;
     }
 
     /**

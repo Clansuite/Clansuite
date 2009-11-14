@@ -108,7 +108,7 @@ class Clansuite_Cache_Memcached implements Clansuite_Cache_Interface
             {
                 # persistent connect
                 if ( ! $this->memcache->pconnect($config['cache']['memcached_host'], # 127.0.0.1
-                                                 $config['cache']['memcache_port']) # 11211 )
+                                                 $config['cache']['memcache_port'])  )# 11211
                 {
                     throw new Clansuite_Exception('Persistant Connect to Memcache Server failed.');
                 }
@@ -186,7 +186,7 @@ class Clansuite_Cache_Memcached implements Clansuite_Cache_Interface
      *
      * @return $this->memcached_servers
      */
-    function  getServers();
+    function  getServers()
     {
         return $this->memcached_servers;
     }

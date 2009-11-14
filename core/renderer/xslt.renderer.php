@@ -122,7 +122,7 @@ class view_xslt extends Clansuite_Renderer_Base
         # $this->response()->setContentType('text/html');
 
         # import the stylesheet  for later transformation
-        $this->xslt->importStyleSheet( DOMDocument::load($this->getXSLStyleSheet());
+        $this->xslt->importStyleSheet( DOMDocument::load($this->getXSLStyleSheet()));
 
         # then import the xml data (or file) into the XSLTProcessor and start the transform
         $dom =  $this->xslt->transformToXML( DOMDocument::load( $data ) );
