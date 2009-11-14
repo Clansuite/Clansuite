@@ -66,10 +66,10 @@ class Clansuite_Logger_Firebug extends Clansuite_Logger implements Clansuite_Log
 
     private $config;
 
-    public function __construct(Clansuite_Config $config)
+    private function __construct(Clansuite_Config $config)
     {
         # load firebug only if enabled
-         if ( $config['logs']['firephp_enabled'] == true)
+        if ( $config['logs']['firephp_enabled'] == true)
         {
             include 'FirePHPCore/FirePHP.class.php';
         }
@@ -84,7 +84,7 @@ class Clansuite_Logger_Firebug extends Clansuite_Logger implements Clansuite_Log
     {
         if (self::$instance == 0)
         {
-            self::$instance = new FirePHP::getInstance(true);
+            self::$instance = FirePHP::getInstance(true);
         }
         return self::$instance;
     }

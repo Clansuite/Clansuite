@@ -114,7 +114,7 @@ class LoggerFactoryFileNotFoundException extends Exception
  * 
  * Purpose: All Loggers must implement the following functions.
  */
-class Clansuite_Logger_Interface()
+interface Clansuite_Logger_Interface
 {
     function getInstance($injector);
     function writeLog($string);

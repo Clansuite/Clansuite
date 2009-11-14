@@ -100,7 +100,7 @@ class Clansuite_ACM
             $resource = $this->getOption('global_resource');
         }
 
-        $rows = new Doctrine_Query::delete()
+        $rows = Doctrine_Query::delete()
               ->from($accessClass . ' a')
               ->where('a.' . $linkField . ' = ? AND a.resource_name = ? AND a.permission_name = ?')
 			  ->execute(array($record->id, $resource, $permission));
