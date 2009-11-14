@@ -166,9 +166,9 @@ class Module_Categories_Admin extends Clansuite_ModuleController implements Clan
         $form->addElement('textarea')->setName('cat_form[description]')->setID('cat_form[description]')->setCols('60')->setRows('5')->setLabel(_('Description'))->setValue($cat['description']);
         $form->addElement('text')->setName('cat_form[sortorder]')->setLabel(_('Sort Order'))->setValue($cat['sortorder']);
         $form->addElement('jqselectcolor')->setName('cat_form[color]')->setLabel(_('Select Color'))->setValue($cat['color']);
-        $form->addElement('jqselectimage')->setName('cat_form[image]')->setLabel(_('Select Image'))->setValue($cat['image']);
+        $form->addElement('jqselectimage')->setName('cat_form[image]')->setLabel(_('Select Image'))->setDefaultValue($cat['image']);
         #$form->addElement('uploadajax')->setName('Upload Image')->setLabel(_('Upload Image'));
-        $form->addElement('jqselectimage')->setName('cat_form[icon]')->setLabel(_('Select Icon'))->setValue($cat['icon']);
+        $form->addElement('jqselectimage')->setName('cat_form[icon]')->setLabel(_('Select Icon'))->setDefaultValue($cat['icon']);
         #$form->addElement('uploadajax')->setName('Upload Icon')->setLabel(_('Upload Icon'));
         $form->addElement('submitbutton')->setValue('Submit');
         $form->addElement('resetbutton')->setValue('Reset');
