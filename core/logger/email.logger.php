@@ -63,7 +63,7 @@ class Clansuite_Logger_Email extends Clansuite_Logger implements Clansuite_Logge
         $this->config = $config;
 
         # mailing of critical errors makes only sense, if we have a email of the sysadmin
-        if ( $config['mail']['to_sysadmin'] == true) )
+        if ( $config['mail']['to_sysadmin'] == true)
         {
             $this->mailer = new Clansuite_Mailer($config);
         }
@@ -97,7 +97,7 @@ class Clansuite_Logger_Email extends Clansuite_Logger implements Clansuite_Logge
         $subject      = '[' . date(DATE_FORMAT, mktime()) . '] ' . $data['label']; 
         $body         = var_export($data);
 
-        $this->sendmail($to_address, $from_address, $subject, $body)
+        $this->sendmail($to_address, $from_address, $subject, $body);
     }
 }
 ?>
