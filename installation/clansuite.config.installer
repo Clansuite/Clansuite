@@ -27,8 +27,9 @@ logfiles_folder    = "logs"
 ; Template
 ;----------------------------------------
 [template]
-theme               = "standard"
-layout    = "index.tpl"
+theme           = "standard"
+backendtheme    = "admin"
+layout          = "index.tpl"
 css             = "standard.css"
 javascript      = "standard.js"
 
@@ -61,5 +62,6 @@ xdebug 		= 0
 development 	= 0
 suppress_errors = 0
 debug_popup 	= 0
+webdebug        = 0
 
 ; DO NOT REMOVE THIS LINE */ ?>
