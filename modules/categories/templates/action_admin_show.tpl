@@ -61,11 +61,11 @@
 <div class="ModuleHeading">Categories</div>
 <div class="ModuleHeadingSmall">{t}You can create, edit and delete Categories.{/t}</div>
 
-<div class="content" id="categories_admin_show">
 <table>
 
     <!-- Header of Table -->
     <tr class="td_header">
+        <th>{columnsort html='#'}</th>
         <th>{columnsort html='Module'}</th>
         <th>{columnsort selected_class="selected" html='Name'}</th>
         <th>Description</th>
@@ -80,8 +80,9 @@
     <form id="deleteForm" name="deleteForm" action="index.php?mod=categories&sub=admin&amp;action=delete" method="post" accept-charset="UTF-8">
     {foreach item=category from=$categories}
 	<tr class="tr_row1">
+	    <td>{$category.cat_id}</td>
 		<td>{$category.module|capitalize}</td>
-		<td>{$category.name}</td>
+		<td><b><font color="{$category.color}">{$category.name}</font></b></td>
 		<td>{$category.description}</td>
 		<td>{icon src="`$category.image`"}</td>
 		<td>{icon src="`$category.icon`"}</td>
@@ -93,16 +94,17 @@
         </td>
 	</tr>
 	{/foreach}
-        <!-- Form Buttons -->
-        <tr class="tr_row1">
-            <td height="20" colspan="8" align="right">
-                <a class="ButtonGreen" href="index.php?mod=categories&amp;sub=admin&amp;action=create" />{t}Create Category{/t}</a>
-                <input class="Button" name="reset" type="reset" value="{t}Reset{/t}" />
-                <input class="ButtonRed" type="submit" name="delete_text" value="{t}Delete Selected Categories{/t}" />
-            </td>
-        </tr>
+	
+    <!-- Form Buttons -->
+    <tr class="tr_row1">
+        <td height="20" colspan="9" align="right">
+            <a class="ButtonGreen" href="index.php?mod=categories&amp;sub=admin&amp;action=create" />{t}Create Category{/t}</a>
+            <input class="Button" name="reset" type="reset" value="{t}Reset{/t}" />
+            <input class="ButtonRed" type="submit" name="delete_text" value="{t}Delete Selected Categories{/t}" />
+        </td>
+    </tr>
+        
     </form>
     <!-- Close Form -->
 
 </table>
-</div>

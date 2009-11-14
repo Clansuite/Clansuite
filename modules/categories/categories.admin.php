@@ -72,7 +72,7 @@ class Module_Categories_Admin extends Clansuite_ModuleController implements Clan
         # SmartyColumnSort -- Easy sorting of html table columns.
         require( ROOT_LIBRARIES . '/smarty/SmartyColumnSort.class.php');
         # A list of database columns to use in the table.
-        $columns = array( 'm.name', 'c.name');
+        $columns = array('c.cat_id', 'm.name', 'c.name');
         # Create the columnsort object
         $columnsort = new SmartyColumnSort($columns);
         # And set the the default sort column and order.
@@ -117,11 +117,9 @@ class Module_Categories_Admin extends Clansuite_ModuleController implements Clan
         $form->addElement('jqselectimage')->setName('cat_form[image]')->setLabel(_('Select Image'));
         $form->addElement('jqselectimage')->setName('cat_form[icon]')->setLabel(_('Select Icon'));
         # @todo category image upload + db insert
-        #$form->addElement('image');
-        $form->addElement('jqselectimage');
-        #$form->addElement('icon');
-        $form->addElement('submitbutton')->setValue('Submit');
-        $form->addElement('resetbutton')->setValue('Reset');
+        $form->addElement('cancelbutton');
+        $form->addElement('resetbutton');
+        $form->addElement('submitbutton');
 
         # Debugging Form Object
         #clansuite_xdebug::printR($form);

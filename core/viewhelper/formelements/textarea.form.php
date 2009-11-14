@@ -157,8 +157,8 @@ class Clansuite_Formelement_Textarea extends Clansuite_Formelement implements Cl
                     if (!class_exists('Clansuite_Formelement_Wysiwygnicedit')) { include 'wysiwygnicedit.form.php'; }
                     # passing 'this' into the child. so that child has a reference back to the parent
                     $wysiwyg = new Clansuite_Formelement_Wysiwygnicedit($this);
-                    $this->setWysiwygContent($wysiwyg->render());                    
-                    return $this->render_textarea();                    
+                    $this->setWysiwygContent($wysiwyg->render());
+                    return $this->render_textarea();
                 break;
             case 'ckeditor':
                     if (!class_exists('Clansuite_Formelement_Wysiwygckeditor')) { include 'wysiwygckeditor.form.php'; }
