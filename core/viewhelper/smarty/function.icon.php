@@ -41,12 +41,16 @@ function smarty_function_icon($params, &$smarty)
     /**
      * if the src attribute contains a http://SERVER_NAME URL its cutted of
      */
-    $needle = 'http://'.$_SERVER['SERVER_NAME'].'/';
-    $pos = strpos($src, $needle);    
-    if(isset($src) and is_int($pos))
+    if(isset($src) and empty($src) == false)
     {
-        #clansuite_xdebug::printR($pos);
-        $src = substr($src, $pos + strlen($needle));
+        $needle = 'http://'.$_SERVER['SERVER_NAME'].'/';
+        $pos = strpos($src, $needle);    
+        if(isset($src) and is_int($pos))
+        {
+            #clansuite_xdebug::printR($pos);
+            $src = substr($src, $pos + strlen($needle));
+            $name = basename($src);
+        }
     }
     
     # we have two alternatives :
@@ -69,13 +73,6 @@ function smarty_function_icon($params, &$smarty)
     {
         $src = WWW_ROOT_THEMES_CORE . '/images/noimage.gif';
         $name = 'No Image found.'.$src;
-    }
-    else    
-    {
-        #clansuite_xdebug::printR($src);
-        #clansuite_xdebug::printR('http://'.$_SERVER['HTTP_HOST']);
-        #clansuite_xdebug::printR(is_file('http://www.clansuite-dev.com/uploads/images/gallery/kunst.jpg'));
-        $name = basename($src);   
     }
 
     # transform name into a valid image src
