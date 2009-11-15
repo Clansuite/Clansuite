@@ -87,7 +87,14 @@
 		<td>{icon src="`$category.image`"}</td>
 		<td>{icon src="`$category.icon`"}</td>
 		<td>{$category.color}<div style="width:5px; height:5px; border:1px solid #000000; background-color:{$category.color};"></div></td>
-        <td><a class="ButtonOrange" href="index.php?mod=categories&amp;sub=admin&amp;action=edit&amp;id={$category.cat_id}" />{t}Edit{/t}</a></td>
+        <td>
+<a class="ui-button ui-button-check ui-widget ui-state-default ui-corner-all ui-button-size-small ui-button-orientation-l" href="index.php?mod=categories&amp;sub=admin&amp;action=edit&amp;id={$category.cat_id}" tabindex="0">
+<span class="ui-button-icon">
+	<span class="ui-icon ui-icon-pencil"></span>
+</span>
+<span class="ui-button-label" unselectable="on" style="-moz-user-select: none;">Edit</span>
+</a>
+		</td>
         <td align="center" width="1%">
             <input type="hidden" name="ids[]" value="{$category.cat_id}" />
             <input id="delete" name="delete[]" type="checkbox" value="{$category.cat_id}" />

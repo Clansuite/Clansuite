@@ -170,7 +170,8 @@ class Module_Categories_Admin extends Clansuite_ModuleController implements Clan
         #$form->addElement('uploadajax')->setName('Upload Image')->setLabel(_('Upload Image'));
         $form->addElement('jqselectimage')->setName('cat_form[icon]')->setLabel(_('Select Icon'))->setDefaultValue($cat['icon']);
         #$form->addElement('uploadajax')->setName('Upload Icon')->setLabel(_('Upload Icon'));
-        $form->addElement('submitbutton')->setValue('Submit');
+        $form->addElement('cancelbutton');
+		$form->addElement('submitbutton')->setValue('Submit');
         $form->addElement('resetbutton')->setValue('Reset');
 
         # Debugging Form Object
