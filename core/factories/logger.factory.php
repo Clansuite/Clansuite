@@ -43,7 +43,7 @@ class Clansuite_Logger_Factory
      *
      * @param $logger_type String (A Logger Name like "file", "db")
      * @param $injector Dependency Injector Phemto
-     * @return Renderer Object
+     * @return Logger Object
      */
     public static function getLogger($logger_type, Phemto $injector)
     {
@@ -71,7 +71,7 @@ class Clansuite_Logger_Factory
 				throw new LoggerFactoryFileNotFoundException($file);
 	        }
 	    }
-		catch(Exception $e) {}
+		catch(Clansuite_Exception $e) {}
     }
 }
 

@@ -35,6 +35,9 @@
 // Security Handler
 if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
 
+# Load Clansuite_Renderer_Base
+require dirname(__FILE__) . '/renderer.base.php';
+
 /**
  * Clansuite Renderer Class - Renderer for native PHP Templates
  *
