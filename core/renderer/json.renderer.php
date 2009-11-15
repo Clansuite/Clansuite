@@ -58,7 +58,7 @@ if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' ); 
  * @package     Core
  * @subpackage  View
  */
-class view_json extends Clansuite_Renderer_Base
+class Clansuite_Renderer_Json extends Clansuite_Renderer_Base
 {
     /**
      * RenderEngineConstructor
