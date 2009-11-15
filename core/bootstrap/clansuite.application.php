@@ -369,7 +369,6 @@ class Clansuite_CMS
                               'Clansuite_Localization',
                               'Clansuite_Security',
                               'Clansuite_Inputfilter',
-                              'Clansuite_Statistics',
                               'Clansuite_Localization',
                               'Clansuite_User',
                              );

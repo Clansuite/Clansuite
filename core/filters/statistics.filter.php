@@ -51,10 +51,9 @@ class statistics implements Clansuite_Filter_Interface
     private $config     = null;
     private $statistics = null;
 
-    function __construct(Clansuite_Config $config, Clansuite_Statistics $statistics)
+    function __construct(Clansuite_Config $config)
     {
        $this->config     = $config;
-       $this->statistics = $statistics;
     }
 
     public function executeFilter(Clansuite_HttpRequest $request, Clansuite_HttpResponse $response)
