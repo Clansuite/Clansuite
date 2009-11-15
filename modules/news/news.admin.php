@@ -98,11 +98,11 @@ class Module_News_Admin extends Clansuite_ModuleController implements Clansuite_
         # if cat is no set, we need a query to show all news regardless which category,
         if(empty($category))
         {
-            $newsQuery = Doctrine::getTable('CsNews')->fetchAllNews($sortorder, $currentPage, $resultsPerPage, true);
+            $newsQuery = Doctrine::getTable('CsNews')->fetchAllNews($currentPage, $resultsPerPage, true, $sortorder);
         }
         else # else we need a qry with the where(cat) statement
         {
-            $newsQuery = Doctrine::getTable('CsNews')->fetchNewsByCategory($sortorder, $category, $currentPage, $resultsPerPage, true);
+            $newsQuery = Doctrine::getTable('CsNews')->fetchNewsByCategory($category, $currentPage, $resultsPerPage, true, $sortorder);
         }
 
         # import array variables into the current symbol table ($newsQuery is an array('news','pager','pager_layout')
