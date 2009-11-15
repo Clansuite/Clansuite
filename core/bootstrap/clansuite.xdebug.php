@@ -46,7 +46,7 @@ if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
  * @package     Core
  * @subpackage  XDebug
  */
-class clansuite_xdebug
+class Clansuite_Xdebug
 {
     public static $_xdebug_memory_before = '';
 
