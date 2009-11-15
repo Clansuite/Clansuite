@@ -494,7 +494,7 @@ class Clansuite_Form /*extends Clansuite_HTML*/ implements Clansuite_Form_Interf
         # loop over all registered formelements of this form and render them
         foreach( $this->formelements as $formelement )
         {
-            if( $formelement->getType() == 'submit' or $formelement->getType() == 'reset' )
+            if( $formelement->getType() == 'submit' or $formelement->getType() == 'reset' or $formelement->getType() == 'button')
             {
                 $html_form .= '<div class="formbutton">';
             }
