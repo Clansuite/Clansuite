@@ -64,7 +64,7 @@
 <table>
 
     <!-- Header of Table -->
-    <tr class="td_header">
+    <tr class="tr_header">
         <th>{columnsort html='#'}</th>
         <th>{columnsort html='Module'}</th>
         <th>{columnsort selected_class="selected" html='Name'}</th>
