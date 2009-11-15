@@ -59,15 +59,15 @@ class AuthenticationLogging implements Clansuite_Event
     
     public function execute(Event $event)
     {
-        $authData = $event->getInfo();
+        $authdata = $event->getInfo();
         
-        $logData = array(date(),                # date
-                         $this->request->getRemoteAddress(), # remote adress
-                         $event->getName(),     # onLogin etc.
-                         $authData['username']  # username
+        $logdata = array( date(),                              # date
+                          $this->request->getRemoteAddress(),  # remote adress
+                          $event->getName(),                   # onLogin etc.
+                          $authdata['username']                # username
                          );
         
-        $this->logger->log($logData);
+        $this->logger->log($logdata);
     }
 }
 ?>
