@@ -112,7 +112,7 @@ class Clansuite_Config_Factory
      *
      * @param $cache_type String (a configuration filename type like "php", "xml", "yaml", "ini")
      * @param $configfile Configfile to load
-     * @return Renderer Object
+     * @return ConfigObject
      */
     public static function getConfiguration($configfile)
     {
@@ -120,7 +120,7 @@ class Clansuite_Config_Factory
 
         try
         {
-			$file = ROOT_CORE .'/config/'. strtolower($config_type) .'.config.php';
+			$file = ROOT_CORE .'config'.DS. strtolower($config_type) .'.config.php';
         	if (is_file($file) != 0)
 			{
 				require_once($file);
@@ -142,7 +142,7 @@ class Clansuite_Config_Factory
 				throw new ConfigFactoryFileNotFoundException($file);
 	        }
 	    }
-		catch(Exception $e) {}
+		catch(Clansuite_Exception $e) {}
     }
 }
 
