@@ -59,7 +59,7 @@ class statistics implements Clansuite_Filter_Interface
     public function executeFilter(Clansuite_HttpRequest $request, Clansuite_HttpResponse $response)
     {
         // take the initiative or pass through (do nothing)
-        if($this->config['statistics']['enabled'] == 1)
+        if(isset($this->config['statistics']['enabled']) and $this->config['statistics']['enabled'] == 1)
         {
             # aquire pieces of informtion from current visitor
 
@@ -72,11 +72,11 @@ class statistics implements Clansuite_Filter_Interface
              */
 
             # load library
-            require_once ROOT_LIBRARIES . '/phpSniffer/phpSniff.class.php';
+            #require_once ROOT_LIBRARIES . '/phpSniffer/phpSniff.class.php';
 
             # instantiate phpsniff
             #$phpSniff = new phpSniff($_SERVER["HTTP_USER_AGENT"]);
-            #var_dump($phpSniff);
+            #clansuite_xdebug::printR($phpSniff);
             #exit;
 
             # Get the browser type and version
