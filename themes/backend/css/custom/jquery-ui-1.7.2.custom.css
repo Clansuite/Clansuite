@@ -404,3 +404,115 @@
 .ui-tabs .ui-tabs-nav li a, .ui-tabs.ui-tabs-collapsible .ui-tabs-nav li.ui-tabs-selected a { cursor: pointer; } /* first selector in group seems obsolete, but required to overcome bug in Opera applying cursor: text overall if defined elsewhere... */
 .ui-tabs .ui-tabs-panel { padding: 1em 1.4em; display: block; border-width: 0; background: none; }
 .ui-tabs .ui-tabs-hide { display: none !important; }
+
+
+
+.ui-buttonset {
+display:inline-block;
+margin:0 1em;
+vertical-align:bottom;
+white-space:nowrap;
+}
+.ui-button-inlineBlockFix {
+display:inline !important;
+}
+.ui-button, button.ui-button {
+cursor:pointer;
+display:inline-block;
+font-size:1em;
+margin:0 0.1em;
+outline-color:-moz-use-text-color;
+outline-style:none;
+outline-width:medium;
+padding:0.2em 0.8em;
+position:relative;
+text-align:center;
+text-decoration:none;
+vertical-align:bottom;
+white-space:nowrap;
+}
+.ui-buttonset .ui-button, .ui-buttonset button.ui-button {
+margin:0;
+}
+.ui-button-size-tiny, button.ui-button-size-tiny {
+font-size:0.75em !important;
+}
+.ui-button-size-small, button.ui-button-size-small {
+font-size:0.9em !important;
+}
+.ui-button-size-normal, button.ui-button-size-normal {
+font-size:1em !important;
+}
+.ui-button-size-big, button.ui-button-size-big {
+font-size:1.1em !important;
+}
+.ui-button-size-huge, button.ui-button-size-huge {
+font-size:1.25em !important;
+}
+.ui-button-label {
+display:inline-block;
+font-size:1em;
+margin:auto;
+padding:0.2em;
+vertical-align:middle;
+white-space:nowrap;
+}
+.ui-button-label.ui-button-label-empty {
+margin:0 !important;
+overflow:visible;
+padding:0.2em 0;
+text-indent:-99999px;
+white-space:nowrap;
+width:0;
+}
+.ui-button-icon {
+font-size:1em;
+margin:auto;
+position:relative;
+text-align:center;
+vertical-align:middle;
+}
+.ui-button-icon img {
+border:medium none;
+display:block;
+margin:0 auto;
+}
+.ui-button-orientation-t .ui-button-icon {
+display:block !important;
+margin:0 auto;
+}
+.ui-button-orientation-b .ui-button-icon {
+display:block !important;
+margin:0 auto;
+}
+.ui-button-orientation-l .ui-button-icon {
+display:inline-block !important;
+}
+.ui-button-orientation-r .ui-button-icon {
+display:inline-block !important;
+}
+.ui-button-orientation-t .ui-icon, .ui-button-orientation-b .ui-icon {
+margin:0 auto;
+}
+.ui-button-orientation-b .ui-icon-none, .ui-button-orientation-t .ui-icon-none {
+-moz-background-clip:border !important;
+-moz-background-inline-policy:continuous !important;
+-moz-background-origin:padding !important;
+background:transparent none repeat scroll 0 0 !important;
+}
+.ui-button-orientation-r .ui-icon-none, .ui-button-orientation-l .ui-icon-none {
+-moz-background-clip:border;
+-moz-background-inline-policy:continuous;
+-moz-background-origin:padding;
+background:transparent none repeat scroll 0 0;
+width:0;
+}
+.ui-button-inlineBlockFix.ui-button-orientation-t .ui-button-icon {
+width:16px;
+}
+.ui-button-inlineBlockFix.ui-button-orientation-b .ui-button-icon {
+width:16px;
+}
+.ui-button-inlineBlockFix .ui-button-icon {
+margin:0;
+}
