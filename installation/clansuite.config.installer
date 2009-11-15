@@ -28,7 +28,7 @@ logfiles_folder    = "logs"
 ;----------------------------------------
 [template]
 theme           = "standard"
-backendtheme    = "admin"
+backend_theme    = "admin"
 layout          = "index.tpl"
 css             = "standard.css"
 javascript      = "standard.js"
