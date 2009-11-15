@@ -48,7 +48,7 @@ if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' ); 
  * @package     Core
  * @subpackage  View
  */
-class view_xslt extends Clansuite_Renderer_Base
+class Clansuite_Renderer_Xslt extends Clansuite_Renderer_Base
 {
     /**
      * holds instance of Dependency Injector Phemto
