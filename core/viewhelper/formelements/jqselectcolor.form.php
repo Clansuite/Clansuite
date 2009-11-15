@@ -51,6 +51,16 @@ class Clansuite_Formelement_JQSelectColor extends Clansuite_Formelement implemen
     {
         $this->type = "color";
     }
+    
+    public function getValue()
+    {
+        if(empty($this->value))
+        {
+            # set a default color as return value
+            return '#123456'; 
+        }
+        return $this->value;   
+    }
 
     public function render()
     {
@@ -65,8 +75,8 @@ class Clansuite_Formelement_JQSelectColor extends Clansuite_Formelement implemen
                                             $('#colorpicker').farbtastic('#color');
                                           });
                                         </script>";
-
-        $html = '<input type="text" id="color" name="'.$this->getName().'" value="'.$this->getValue().'" /><div id="colorpicker"></div>';
+        
+       $html = '<input type="text" id="color" name="'.$this->getName().'" value="'.$this->getValue().'" /><div id="colorpicker"></div>';
 
         return $javascript.$datepicker_js.$html;
     }
