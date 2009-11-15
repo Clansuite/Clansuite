@@ -143,6 +143,11 @@ class Clansuite_Doctrine_Formgenerator extends Clansuite_Form
  */
 class Clansuite_Array_Formgenerator extends Clansuite_Form
 {
+    /**
+     * The variable form_array contains the formdescription.
+     *
+     * @var array
+     */
     protected $form_array;
 
     public function __construct(array $form_array)
@@ -153,9 +158,141 @@ class Clansuite_Array_Formgenerator extends Clansuite_Form
 
         $this->form_array = $form_array;
 
-        $this->generateFormByArray();
+        if($this->validateFormArrayStructure($this->form_array))
+        {
+            $this->generateFormByArray();
+        }
+        else
+        {
+            die('Ensure that all obligatory formelements are present.');
+        }
 
         return $this;
+    }
+
+    /**
+     * Level 1 - The form
+     *
+     * $form_array_section is an array of the following structure:
+     *
+     *
+     *
+     * Level 2 - The formelements
+     *
+     * $form_array_element is an array of the following structure:
+     *
+     * Obligatory Elements to describe the Formelement
+     * These array keys have to exist!
+     *
+     *   [id]            => resultsPerPage_show
+     *   [name]          => resultsPerPage_show
+     *   [label]         => Results per Page for Action Show
+     *   [description]   => This defines the Number of Newsitems to show per Page in Newsmodule
+     *   [formfieldtype] => text
+     *
+     * Optional Elements to describe the Formelement
+     *
+     *   [value] => 3
+     *   [class] => cssClass
+     *
+     * @param $form_array the form array
+     * @return boolean true/false
+     */
+    public function validateFormArrayStructure($form_array)
+    {
+        $obligatory_form_array_elements = array('id', 'name', 'label', 'description', 'formfieldtype', 'value');
+        $optional_form_array_elements   = array('class');
+
+        # loop over all elements of the form description array
+        foreach($form_array as $form_array_section => $form_array_elements)
+        {
+            #clansuite_xdebug::printR($form_array_elements);
+            #clansuite_xdebug::printR($form_array_section);
+
+            foreach($form_array_elements as $form_array_element_number => $form_array_element)
+            {
+                #clansuite_xdebug::printR(array_keys($form_array_element));
+                #clansuite_xdebug::printR($obligatory_form_array_elements);
+
+                $report_differences_or_true = $this->array_compare($obligatory_form_array_elements, array_keys($form_array_element));
+
+                # errorcheck for valid formfield elements
+                if(is_array($report_differences_or_true) == false)
+                {
+                    # form description arrays are identical
+                    return true;
+                }
+                else
+                {
+                    # form description arrays are not identical
+                    die('Form Array Structure not valid. <br />
+                         The first array shows the obligatory form array elements. <br />
+                         The second array shows your form definition. <br />
+                         Please add the missing array keys with values. <br />'
+                         .var_dump($report_differences_or_true));
+                }
+            }
+        }
+    }
+
+    /**
+     * array_compare
+     *
+     * @author  55 dot php at imars dot com
+     * @author  dwarven dot co dot uk
+     * @link    http://www.php.net/manual/de/function.array-diff-assoc.php#89635
+     */
+    public function array_compare($array1, $array2)
+    {
+            $diff = false;
+
+            # Left-to-right
+            foreach ($array1 as $key => $value)
+            {
+                if (!array_key_exists($key,$array2))
+                {
+                    $diff[0][$key] = $value;
+                }
+                elseif (is_array($value))
+                {
+                     if (!is_array($array2[$key]))
+                     {
+                            $diff[0][$key] = $value;
+                            $diff[1][$key] = $array2[$key];
+                     }
+                     else
+                     {
+                            $new = array_compare($value, $array2[$key]);
+
+                            if ($new !== false)
+                            {
+                                 if (isset($new[0])) $diff[0][$key] = $new[0];
+                                 if (isset($new[1])) $diff[1][$key] = $new[1];
+                            }
+                     }
+                }
+                elseif ($array2[$key] !== $value)
+                {
+                     $diff[0][$key] = $value;
+                     $diff[1][$key] = $array2[$key];
+                }
+         }
+
+         # Right-to-left
+         foreach ($array2 as $key => $value)
+         {
+                if (!array_key_exists($key,$array1))
+                {
+                     $diff[1][$key] = $value;
+                }
+
+                /**
+                 * No direct comparsion because matching keys were compared in the
+                 * left-to-right loop earlier, recursively.
+                 */
+         }
+
+         return $diff;
     }
     
     public function generateFormByArray()
@@ -164,34 +301,13 @@ class Clansuite_Array_Formgenerator extends Clansuite_Form
         #clansuite_xdebug::printR($this->array);
 
         # loop over all elements of the form description array
-        foreach($this->form_array as $form_array_sectionname => $form_array_elements)
+        foreach($this->form_array as $form_array_section => $form_array_elements)
         {
             #clansuite_xdebug::printR($form_array_elements);
-            #clansuite_xdebug::printR($form_array_sectionname);
+            #clansuite_xdebug::printR($form_array_section);
 
             foreach($form_array_elements as $form_array_element_number => $form_array_element)
             {
-               /**
-                * These array keys have to exist!
-                *
-                * $form_array_element is an array of the following structure:
-                *
-                * MUST 
-                *
-                * Array (
-                *     [id] => resultsPerPage_show
-                *     [name] => resultsPerPage_show
-                *     {label] => Results per Page for Action Show
-                *     [description] => This defines the Number of Newsitems to show per Page in Newsmodule
-                *     [formfieldtype] => text
-                *     [value] => 3
-                * )
-                *
-                * OPTIONAL 
-                *
-                * [class] => cssClass
-                *                
-                */
                #clansuite_xdebug::printR($form_array_element);
 
                # @todo ensure these elements exist !!!
@@ -206,17 +322,18 @@ class Clansuite_Array_Formgenerator extends Clansuite_Form
                $formelement->setID($form_array_element['id']);
 
                # provide array access to the form data (in $_POST) by prefixing it with the formulars name
+               # @todo if you group formelements, add the name of the group here
                $formelement->setName($this->getName().'['.$form_array_element['name'].']');
-               $formelement->setDescription($form_array_element['description']);               
-               
+               $formelement->setDescription($form_array_element['description']);
+
                # @todo consider this as formdebug display
                #$formelement->setLabel($this->getName().'['.$form_array_element['name'].']');
-               
+
                $formelement->setLabel($form_array_element['label']);
 
                # set the options['selected'] value as default value
                if(isset($form_array_element['options']['selected']))
-               {   
+               {
                    $formelement->setDefault($form_array_element['options']['selected']);
                    unset($form_array_element['options']['selected']);
                }
@@ -244,10 +361,10 @@ class Clansuite_Array_Formgenerator extends Clansuite_Form
                {
                    $formelement->setClass($form_array_element['class']);
                }
-            }            
-            
+            }
+
         }
-        
+
         # unset the form description array, because we are done with it
         unset($this->form_array);
 
@@ -260,6 +377,22 @@ class Clansuite_Array_Formgenerator extends Clansuite_Form
     public function generate($array)
     {
         $this->generateFormByArray($array);
+    }
+}
+
+/**
+ * Clansuite Form Generator via XML
+ *
+ * Purpose: automatic form generation from an xml description file.
+ */
+class Clansuite_XML_Formgenerator extends Clansuite_Form
+{  
+    /**
+     * Facade/Shortcut
+     */
+    public function generate($array)
+    {
+        $this->generateFormByXML($array);
     }
 }
 ?>
