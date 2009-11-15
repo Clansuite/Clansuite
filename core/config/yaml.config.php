@@ -38,7 +38,7 @@
 if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
 
 # Load Clansuite_Config_Base
-require dirname(__FILE__) . '/abstract.core.php';
+require dirname(__FILE__) . '/config.base.php';
 
 /**
  * Clansuite Core File - Config Handler for YAML Format

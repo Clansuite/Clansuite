@@ -38,7 +38,7 @@
 if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
 
 # Load Clansuite_Config_Base
-require dirname(__FILE__) . '/abstract.core.php';
+require dirname(__FILE__) . '/config.base.php';
 
 /**
  * Clansuite Core File - Config Handler for INI Format
@@ -263,9 +263,9 @@ class Clansuite_Config_INIHandler extends Clansuite_Config_Base implements Array
             }
         }
         catch (Exception $e)
-        {
-            throw new clansuite_exception( $e, 'The ArrayIterator failed!', 200);
-            exit;
+        {           
+            throw new Clansuite_Exception('The ArrayIteration failed! <br/>'.$e->getMessage(), 200);
+            
         }
 
         return $ini;
