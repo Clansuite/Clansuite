@@ -1,0 +1,50 @@
+@charset "utf-8";
+/* CSS for Clansuite Forms */
+
+/* choose one */
+/* @import url("clansuite_buttons.css"); import clansuite button styles */
+/* @import url("ui_buttons.css"); import jquery ui button styles */
+
+/* CSS Browser fix */
+@import url("reset.css") all;
+
+* { margin:0; padding:0; }
+
+form { clear:both; margin:10px; font-family:Arial, Verdana; font-size:12px; color:#000000; }
+fieldset { margin-bottom:10px; padding:10px; border:1px solid #666; }
+legend { padding:0px 5px 0px 5px; }
+
+div.notice { padding:10px; border:1px solid #Fc7; background-color:#FCF9D8; }
+h1 { font-size:12px; font-weight:bold; }
+h2 { font-size:14px; font-weight:bold;}
+h3 { font-size:16px; font-weight:bold; }
+
+.formline { clear:both; padding:0px 0px 8px 0px; }
+.formline .inside { margin-left:140px; }
+label { float:left; width:140px; }
+
+span.formdescription { font-size:11px; color:#666666; }
+span.value { font-size:11px; margin-left:5px; }
+
+input[type=radio], input[type=checkbox] { float:left; }
+
+input[type=password], select,
+input[type=text] { width:255px; }
+
+textarea { width:100%; }
+
+input[type=text], input[type=password],
+input.text, input.title,
+textarea, select {
+  background-color:#fff;
+  border:1px solid #bbb;
+}
+
+input[type=text]:focus, input[type=password]:focus,
+input.text:focus, input.title:focus,
+textarea:focus, select:focus {
+  border-color:#000000;
+  background-color:#f4f4f3;
+}
+
+.formbutton { float:right; }
