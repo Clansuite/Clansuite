@@ -73,6 +73,10 @@ class Clansuite_Formelement_JQSelectColor extends Clansuite_Formelement implemen
         $datepicker_js   = "<script type=\"text/javascript\">
                                           $(document).ready(function() {
                                             $('#colorpicker').farbtastic('#color');
+											$('#colorpicker').hide();
+											$('input#color').click(function(){
+												$('#colorpicker').toggle();
+											});
                                           });
                                         </script>";
         
