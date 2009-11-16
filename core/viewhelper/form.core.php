@@ -502,22 +502,29 @@ class Clansuite_Form /*extends Clansuite_HTML*/ implements Clansuite_Form_Interf
             {
                 $html_form .= '<div class="formline">';
             }
-            
+
             # add label
             if ( $formelement->hasLabel() == true)
             {
                 $html_form .= CR . '<label>' . $formelement->getLabel() . '</label>' . CR; # @todo if required form field add (*)
             }
 
+            # add div inside
+            $html_form .= '<div class="inside">';
+
             # render the formelement
-            $html_form .= CR . $formelement->render() . CR;
-            
+            $html_form .= CR . $formelement->render() . CR . '<br />';
+
             # add description
             if ( isset($formelement->description) == true)
             {
-                $html_form .= CR . '<p class="formdescription">'.$formelement->getDescription() . '</label>' . CR;
+                $html_form .= CR . '<span class="formdescription">'.$formelement->getDescription() . '</span>' . CR;
             }
 
+            # close div inside
+            $html_form .= '</div>';
+
+            # close div formbutton/formline
             $html_form .= '</div>';
         }
 
@@ -564,7 +571,7 @@ class Clansuite_Form /*extends Clansuite_HTML*/ implements Clansuite_Form_Interf
         {
             $this->formelements[$position] = $formelement;
         }
-        
+
         # return object -> fluent interface / method chaining
         return $formelement;
     }
@@ -638,10 +645,10 @@ class Clansuite_Form /*extends Clansuite_HTML*/ implements Clansuite_Form_Interf
                 require ROOT_CORE . 'viewhelper/formelements/'.$formelement.'.form.php';
             }
         }
-        
+
         $formelement_classname = 'Clansuite_Formelement_'.ucfirst($formelement);
         $formelement = new $formelement_classname;
-        
+
         return $formelement;
     }
 
