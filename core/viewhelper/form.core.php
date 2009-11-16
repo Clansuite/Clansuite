@@ -510,7 +510,7 @@ class Clansuite_Form /*extends Clansuite_HTML*/ implements Clansuite_Form_Interf
             }
 
             # add div inside
-            $html_form .= '<div class="inside">';
+            $html_form .= '<div class="forminside">';
 
             # render the formelement
             $html_form .= CR . $formelement->render() . CR . '<br />';
