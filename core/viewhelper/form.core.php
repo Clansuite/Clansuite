@@ -513,12 +513,12 @@ class Clansuite_Form /*extends Clansuite_HTML*/ implements Clansuite_Form_Interf
             $html_form .= '<div class="forminside">';
 
             # render the formelement
-            $html_form .= CR . $formelement->render() . CR . '<br />';
+            $html_form .= CR . $formelement->render() . CR;
 
             # add description
             if ( isset($formelement->description) == true)
             {
-                $html_form .= CR . '<span class="formdescription">'.$formelement->getDescription() . '</span>' . CR;
+                $html_form .= '<br />' . CR . '<span class="formdescription">'.$formelement->getDescription() . '</span>' . CR;
             }
 
             # close div inside
