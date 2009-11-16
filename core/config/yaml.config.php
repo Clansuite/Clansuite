@@ -31,7 +31,7 @@
     * @link       http://www.clansuite.com
     * @link       http://gna.org/projects/clansuite
     *
-    * @version    SVN: $Id: clansuite.config.php 2009 2008-05-07 15:34:26Z xsign $
+    * @version    SVN: $Id$
     */
 
 // Security Handler

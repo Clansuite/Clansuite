@@ -30,7 +30,7 @@
     * @link       http://www.clansuite.com
     * @link       http://gna.org/projects/clansuite
     *
-    * @version    SVN: $Id: functions.core.php 2686 2009-01-12 01:00:11Z vain $response.class.php 2580 2008-11-20 20:38:03Z vain $
+    * @version    SVN: $Id$response.class.php 2580 2008-11-20 20:38:03Z vain $
     */
 
 // Security Handler

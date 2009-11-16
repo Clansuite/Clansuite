@@ -35,7 +35,7 @@
     * @link       http://gna.org/projects/clansuite
     * @since      File available since Release 0.2
     *
-    * @version    SVN: $Id: index.php 2805 2009-03-08 01:40:27Z vain $
+    * @version    SVN: $Id$
     */
 
    /** =====================================================================

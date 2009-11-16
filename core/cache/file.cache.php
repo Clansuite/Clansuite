@@ -30,7 +30,7 @@
     * @link       http://www.clansuite.com
     * @link       http://gna.org/projects/clansuite
     *
-    * @version    SVN: $Id: cache.class.php 1813 2008-03-21 22:46:21Z vain $
+    * @version    SVN: $Id$
     */
 
 // Security Handler

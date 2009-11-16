@@ -30,7 +30,7 @@
     * @link       http://www.clansuite.com
     * @link       http://gna.org/projects/clansuite
     *
-    * @version    SVN: $Id: language_via_get.filter.php 2614 2008-12-05 21:18:45Z vain $
+    * @version    SVN: $Id$
     */
 
 // Security Handler

@@ -30,7 +30,7 @@
     * @link       http://www.clansuite.com
     * @link       http://gna.org/projects/clansuite
     *
-    * @version    SVN: $Id: view_smarty.class.php 2530 2008-09-18 23:12:04Z vain $
+    * @version    SVN: $Id$
     */
 
 // Security Handler

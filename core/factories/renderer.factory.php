@@ -29,7 +29,7 @@
     * @link       http://gna.org/projects/clansuite
     * @since      File available since Release 0.2
     *
-    * @version    SVN: $Id: view_factory.class.php 2584 2008-11-21 22:39:52Z vain $
+    * @version    SVN: $Id$
     */
 
 // Security Handler

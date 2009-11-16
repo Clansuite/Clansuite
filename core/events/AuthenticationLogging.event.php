@@ -30,7 +30,7 @@
     * @link       http://www.clansuite.com
     * @link       http://gna.org/projects/clansuite
     *
-    * @version    SVN: $Id: eventhandler.core.php 2830 2009-03-17 13:22:09Z vain $
+    * @version    SVN: $Id$
     */
 
 // Security Handler

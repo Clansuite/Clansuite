@@ -30,7 +30,7 @@
     * @link       http://www.clansuite.com
     * @link       http://gna.org/projects/clansuite
     *
-    * @version    SVN: $Id: clansuite.init.php 2610 2008-12-01 22:24:39Z vain $
+    * @version    SVN: $Id$
     */
 
 // Security Handler

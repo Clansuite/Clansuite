@@ -30,7 +30,7 @@
     * @link       http://www.clansuite.com
     * @link       http://gna.org/projects/clansuite
     *
-    * @version    SVN: $Id: frontcontroller.core.php 2800 2009-03-03 14:45:13Z vain $
+    * @version    SVN: $Id$
     */
 
 // Security Handler

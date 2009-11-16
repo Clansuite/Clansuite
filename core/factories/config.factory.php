@@ -29,7 +29,7 @@
     * @link       http://gna.org/projects/clansuite
     * @since      File available since Release 0.2
     *
-    * @version    SVN: $Id: Cache_factory.class.php 2000 2008-05-05 19:09:46Z vain $
+    * @version    SVN: $Id$
     */
 
 // Security Handler
