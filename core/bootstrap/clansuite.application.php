@@ -68,9 +68,9 @@ class Clansuite_CMS
     {
         define('STARTTIME', microtime(1));
 
-        Clansuite_CMS::application_startup_checks();
-
         Clansuite_CMS::initialize_Config();
+        
+        Clansuite_CMS::application_startup_checks();        
 
         Clansuite_CMS::initialize_Paths();
 
@@ -104,13 +104,6 @@ class Clansuite_CMS
      */
     private static function application_startup_checks()
     {
-        # Check if clansuite.config.php is found, else we are not installed at all, so redirect to installation page
-        if ( is_file('configuration/clansuite.config.php' ) == false )
-        {
-            header( 'Location: installation/index.php' );
-            exit;
-        }
-
         # Check if install.php is still available, so we are installed but without security steps performed
         #if ( is_file( 'installation/install.php') == true ) { header( 'Location: installation/check_security.php'); exit; }
 
@@ -139,7 +132,6 @@ class Clansuite_CMS
         # check if database settings are available in configuration
         if(empty(self::$config['database']['type']) or
            empty(self::$config['database']['username']) or
-           empty(self::$config['database']['password']) or
            empty(self::$config['database']['host']) or
            empty(self::$config['database']['name'])
            )
@@ -157,6 +149,13 @@ class Clansuite_CMS
      */
     private static function initialize_Config()
     {
+        # Check if clansuite.config.php is found, else we are not installed at all, so redirect to installation page
+        if ( is_file('configuration/clansuite.config.php' ) == false )
+        {
+            header( 'Location: installation/index.php' );
+            exit;
+        }
+                
         # requires configuration & gets a config to work with
         require 'core/config/ini.config.php';
         self::$config = Clansuite_Config_IniHandler::readConfig('configuration/clansuite.config.php');
