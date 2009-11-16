@@ -3,10 +3,7 @@
 
 /* choose one */
 /* @import url("clansuite_buttons.css"); import clansuite button styles */
-/* @import url("ui_buttons.css"); import jquery ui button styles */
-
-/* CSS Browser fix */
-@import url("reset.css") all;
+@import url("ui_buttons.css"); /* import jquery ui button style */
 
 * { margin:0; padding:0; }
 
