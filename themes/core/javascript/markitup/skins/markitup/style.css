@@ -6,8 +6,6 @@
 	margin:0px; padding:0px;
 }
 
-div.markItUp { margin-left:145px; }
-
 .markItUp a:link,
 .markItUp a:visited {
 	color:#000;
@@ -15,7 +13,7 @@ div.markItUp { margin-left:145px; }
 }
 .markItUp  {
 	margin:0;
-	border:5px solid #F5F5F5;	
+	border:1px solid #F5F5F5;	
 }
 .markItUpContainer  {
 	border:1px solid #3C769D;	
