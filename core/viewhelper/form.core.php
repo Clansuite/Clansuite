@@ -31,7 +31,7 @@
     * @link       http://gna.org/projects/clansuite
     * @since      File available since Release 0.1
     *
-    * @version    SVN: $Id: trail.core.php 2870 2009-03-25 23:21:42Z vain $
+    * @version    SVN: $Id$
     */
 
 // Security Handler

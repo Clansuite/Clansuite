@@ -31,7 +31,7 @@
     * @link       http://gna.org/projects/clansuite
     * @since      File available since Release 0.2
     *
-    * @version    SVN: $Id: doctrine.core.php 2789 2009-02-22 13:24:13Z vain $
+    * @version    SVN: $Id$
     */
 
 // Security Handler

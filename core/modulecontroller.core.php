@@ -157,15 +157,35 @@ abstract class Clansuite_ModuleController extends Clansuite_ModuleController_Res
 
     /**
      * initalize the records of the module
+     *
+     * @param $modulename Modulname
+     * @param $recordname Recordname
      */
-    public static function initRecords($modulename = null)
+    public static function initRecords($modulename = null, $recordname = null)
     {
-        if($modulename === null)
+        /**
+         * Load the Records for the current module, if no modulename is specified.
+         * This is for lazy usage in the modulecontroller: $this->initRecords();
+         */
+        if(is_null($modulename))
         {
             $modulename = Clansuite_ModuleController_Resolver::getModuleName();
         }
 
-        $models_path = ROOT_MOD . strtolower($modulename) . DS . 'model' . DS . 'records';
+        /**
+         * If no recordname is given, a path to a record stored in the modulefolder is set.
+         */
+        if(is_null($recordname))
+        {
+            $models_path = ROOT_MOD . strtolower($modulename) . DS . 'model' . DS . 'records';
+        }
+        /*else
+        {
+            /**
+             * Modulename and Recordname differ! Like "modulemanager" asmodulename and "CsModules" = "modules" as recordname.
+             *//*
+            $models_path = ROOT_MOD . strtolower($modulename) . DS . 'model' . DS . 'records';
+        }  */
 
         if( is_dir($models_path) )
         {
@@ -213,14 +233,13 @@ abstract class Clansuite_ModuleController extends Clansuite_ModuleController_Res
     {
         $modulename = Clansuite_ModuleController_Resolver::getModuleName();
 
-        # build filename for config
+        # build filename for a moduleconfig
         if(is_null($filename))
         {
-            # construct config filename
             $filename = ROOT_MOD.$modulename.DS.$modulename.'.config.php';
         }
 
-        # set moduleconfig['modulename'] = configarray
+        # set moduleconfig['modulename'] = configuration array of module
         $this->moduleconfig[$modulename] = self::getInjector()->instantiate('Clansuite_Config')->readConfig($filename);
 
         return $this->moduleconfig[$modulename];
@@ -287,7 +306,7 @@ abstract class Clansuite_ModuleController extends Clansuite_ModuleController_Res
         }
         else
         {
-            return null;   
+            return null;
         }
     }
 

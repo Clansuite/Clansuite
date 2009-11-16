@@ -12,7 +12,7 @@
  * @author Jens-André Koch <jakoch@web.de>
  * @copyright Copyright (C) 2009 Jens-André Koch
  * @license GNU Public License (GPL) v2 or any later version
- * @version SVN $Id: $
+ * @version SVN $Id$
  *
  * Name:     	loadmodule
  * Type:     	function
@@ -65,7 +65,7 @@ function smarty_function_load_module($params, &$smarty)
     }
 
     # Construct the variable module_name
-    if (isset($sub) && strlen($sub) > 0)
+    if (isset($sub) and strlen($sub) > 0)
     {
         # like "module_admin_menueditor"
         $module_name = 'module_' . strtolower($mod) . '_'. strtolower($sub);
@@ -103,7 +103,7 @@ function smarty_function_load_module($params, &$smarty)
         }
 
         # slow call
-        #call_user_func_array( array($controller, $action), $param_array );
+        #call_user_func_array( array($controller, $action), $parameter_array );
 
         # fast call
         $controller->$action($items);

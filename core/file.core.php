@@ -30,7 +30,7 @@
     * @link       http://www.clansuite.com
     * @link       http://gna.org/projects/clansuite
 ´   *
-    * @version    SVN: $Id: $
+    * @version    SVN: $Id$
     */
 
 // Security Handler
