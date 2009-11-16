@@ -117,9 +117,9 @@ class Module_Categories_Admin extends Clansuite_ModuleController implements Clan
         $form->addElement('jqselectimage')->setName('cat_form[image]')->setLabel(_('Select Image'));
         $form->addElement('jqselectimage')->setName('cat_form[icon]')->setLabel(_('Select Icon'));
         # @todo category image upload + db insert
-        $form->addElement('cancelbutton');
-        $form->addElement('resetbutton');
         $form->addElement('submitbutton');
+        $form->addElement('resetbutton');
+		$form->addElement('cancelbutton');
 
         # Debugging Form Object
         #clansuite_xdebug::printR($form);
@@ -170,9 +170,9 @@ class Module_Categories_Admin extends Clansuite_ModuleController implements Clan
         #$form->addElement('uploadajax')->setName('Upload Image')->setLabel(_('Upload Image'));
         $form->addElement('jqselectimage')->setName('cat_form[icon]')->setLabel(_('Select Icon'))->setDefaultValue($cat['icon']);
         #$form->addElement('uploadajax')->setName('Upload Icon')->setLabel(_('Upload Icon'));
-        $form->addElement('cancelbutton');
 		$form->addElement('submitbutton')->setValue('Submit');
         $form->addElement('resetbutton')->setValue('Reset');
+		$form->addElement('cancelbutton');
 
         # Debugging Form Object
         #clansuite_xdebug::printR($form);
