@@ -392,14 +392,15 @@
         <echo>Generates the API documentation using PHPDocumentor</echo>
         <delete dir="${phpdoc.directory}" />
         <!-- Note: This is PhpDocumentorExternalTask AND NOT PhpDocumentorTask, because we have Smarty in our Libraries ! -->
-        <phpdoc title="Clansuite API Documentation"
+        <!-- Lets wait for an answer to: http://phing.info/trac/ticket/380 -->
+        <!-- <phpdoc title="Clansuite API Documentation"
                 destdir="${phpdoc.directory}"
-                quiet="true"
-                sourcepath="${build.base.directory}/"
+                quiet="false"
+                programpath="${build.base.directory}/"
                 sourcecode="no"
                 output="HTML:frames:phphtmllib"
                 defaultpackagename="Clansuite"
-                undocumentedelements="true">
+                undocumentedelements="true">       
 
            <fileset refid="clansuite.projectfiles.docs"/>
 
@@ -409,6 +410,8 @@
               <include name="CHANGELOG" />
             </projdocfileset>
         </phpdoc>
+        -->
+        <exec         
     </target>
 
     <!-- COMMAND = "doc_doxygen" -->
@@ -485,7 +488,7 @@
 
         <!-- Generate image from DOT file -->
         <exec command="${dot.path.win}${dot.command.win}" dir="${project.basedir}" os="WINNT" />
-        <exec command="${dot.command.mac}" dir="${project.basedir}" os="Darwin" />
+        <exec command="${dot.command.mac}" dir="${project.basedir}" os="Linux" /> <!-- Command is the same on MAC -->
 
         <delete file="${project.basedir}/${dot.file}" />
 

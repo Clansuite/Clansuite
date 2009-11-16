@@ -39,3 +39,9 @@ pear install --alldeps pear/Image_GraphViz
 pear channel-discover components.ez.no
 pear install --alldeps phpunit/phpUnderControl
 
+@REM MDB2 + MYSQL
+
+@REM Chiara_PEAR_Server
+
+@REM Frontend for Chiara
+
