@@ -73,7 +73,7 @@ padding:0;
 margin:0;
 }
 
-td#main_left .inside {
+td#main_left div.inside {
 padding: 10px 5px;
 }
 
