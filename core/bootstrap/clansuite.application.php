@@ -134,6 +134,19 @@ class Clansuite_CMS
         {
             die('<i>php_pdo_mysql</i> driver not enabled.');
         }
+
+        # Data Source Name Check
+        # check if database settings are available in configuration
+        if(empty(self::$config['database']['type']) or
+           empty(self::$config['database']['username']) or
+           empty(self::$config['database']['password']) or
+           empty(self::$config['database']['host']) or
+           empty(self::$config['database']['name'])
+           )
+        {
+            die('<b><font color="#FF0000">[Clansuite Error] The Database Connection Data missing!</font></b> <br />
+                 Please use <a href="/installation/index.php">Clansuite Installation</a> to perform a proper installation.');
+        }
     }
 
 
