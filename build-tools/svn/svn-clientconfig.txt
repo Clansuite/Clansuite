@@ -5,22 +5,31 @@
 #
 #   $Id$
 
-# Windows:    EN: C:\Documents and Settings\accountname\Application Data\Subversion\config
-#             DE: C:\Dokumente und Einstellungen\benutzerkonto\Anwendungsdaten\Subversion\config
-#          Vista: C:\Users\AccountName\AppData\Roaming\Subversion
-#
-# Linux:      ~/.subversion/config
-
-# Place the file "config" in one of the mentioned directories
+# Place this file in one of the mentioned directories, depending on your OS
 # or just add something like the following lines to the one exisiting there.
-# Watch out for doublings!
+#
+# Windows  XP EN: C:\Documents and Settings\<AccountName>\Application Data\Subversion\config
+#          XP DE: C:\Dokumente und Einstellungen\<benutzerkonto>\Anwendungsdaten\Subversion\config
+#          Vista: C:\Users\<AccountName>\AppData\Roaming\Subversion
+# Linux:          ~/.subversion/config
+
+
+# Section for automatic setup of tunneling agents (like svn+shh://hostname/path URLs).
 
 #[tunnel]
 #ssh="C://Program Files (x86)//PuTTY//plink.exe LINK zum Plink eben" -i "KeyFilePath" -pw HierDasPW
 
+# Section for configuring miscelleneous Subversion options.
+
 [miscellany]
 global-ignores = .*~ *~ Thumbs.db *.exe *.bak
+# Settings this to 'yes' enables automatic property application to files
+# when using 'svn add' and 'svn import'. Default is 'no'.
+# Properties are defined in the section [auto-props]
 enable-auto-props = yes
+
+# Section for automatic properties applied to files, when they are added(!) or imported(!).
+# SVN Properties Reference: http://svnbook.red-bean.com/en/1.5/svn.advanced.props.html
 
 [auto-props]
 # Scriptish formats
@@ -77,7 +86,7 @@ enable-auto-props = yes
 *.tpl        = svn:eol-style=native; svn:keywords=Date Author Id Revision HeadURL; svn:mime-type=text/plain
 *.wsdl       = svn:eol-style=native; svn:keywords=Date Author Id Revision HeadURL; svn:mime-type=text/xml
 *.xhtml      = svn:eol-style=native; svn:keywords=Date Author Id Revision HeadURL; svn:mime-type=text/xhtml+xml
-*.xml        = svn:eol-style=native; svn:keywords=Date Author Id Revision HeadURL; svn:mime-type=text/xml
+*.xml        = svn:eol-style=native; svn:keywords=Date Author Id Revision HeadURL; svn:mime-type=text/xml 
 *.xsd        = svn:eol-style=native; svn:keywords=Date Author Id Revision HeadURL; svn:mime-type=text/xml
 *.xsl        = svn:eol-style=native; svn:keywords=Date Author Id Revision HeadURL; svn:mime-type=text/xml
 *.xslt       = svn:eol-style=native; svn:keywords=Date Author Id Revision HeadURL; svn:mime-type=text/xml
