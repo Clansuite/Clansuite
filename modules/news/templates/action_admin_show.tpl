@@ -67,7 +67,14 @@
                 <td>{$news.CsCategories.name}</td>
                 <td><a href='index.php?mod=users&amp;id={$news.CsUsers.user_id}'>{$news.CsUsers.nick}</a></td>
                 <td>published</td>
-                <td><a class="ButtonOrange" href="index.php?mod=news&amp;sub=admin&amp;action=edit&amp;id={$news.news_id}" />{t}Edit{/t}</a></td>
+                <td>
+					<a class="ui-button ui-button-check ui-widget ui-state-default ui-corner-all ui-button-size-small ui-button-orientation-l" href="index.php?mod=news&amp;sub=admin&amp;action=edit&amp;id={$news.news_id}" tabindex="0">
+						<span class="ui-button-icon">
+							<span class="ui-icon ui-icon-pencil"></span>
+						</span>
+						<span class="ui-button-label" unselectable="on" style="-moz-user-select: none;">Edit</span>
+					</a>
+				</td>
                 <td align="center" width="1%">
                     <input type="hidden" name="ids[]" value="{$news.news_id}" />
                     <input name="delete[]" type="checkbox" value="{$news.news_id}" />
