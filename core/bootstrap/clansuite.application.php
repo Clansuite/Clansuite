@@ -69,8 +69,8 @@ class Clansuite_CMS
         define('STARTTIME', microtime(1));
 
         Clansuite_CMS::initialize_Config();
-        
-        Clansuite_CMS::application_startup_checks();        
+
+        Clansuite_CMS::application_startup_checks();
 
         Clansuite_CMS::initialize_Paths();
 
@@ -155,7 +155,7 @@ class Clansuite_CMS
             header( 'Location: installation/index.php' );
             exit;
         }
-                
+
         # requires configuration & gets a config to work with
         require 'core/config/ini.config.php';
         self::$config = Clansuite_Config_IniHandler::readConfig('configuration/clansuite.config.php');
@@ -490,19 +490,26 @@ class Clansuite_CMS
      */
     private static function initialize_Locale()
     {
-        ini_set('date.timezone', self::$config['language']['timezone']);
-
-        if(function_exists('date_default_timezone_set'))
+        # apply timezone defensivly
+        if(empty(self::$config['language']['timezone']) == false)
         {
-            date_default_timezone_set(self::$config['language']['timezone']);
-        }
-        else
-        {
-            putenv('TZ=' . self::$config['language']['timezone']);
+            ini_set('date.timezone', self::$config['language']['timezone']);
+
+            if(function_exists('date_default_timezone_set'))
+            {
+                date_default_timezone_set(self::$config['language']['timezone']);
+            }
+            else
+            {
+                putenv('TZ=' . self::$config['language']['timezone']);
+            }
         }
 
-        # set date formating via config
-        define('DATE_FORMAT', self::$config['defaults']['dateformat']);
+        if(empty(self::$config['defaults']['dateformat']) == false)
+        {
+            # set date formating via config
+            define('DATE_FORMAT', self::$config['defaults']['dateformat']);
+        }
     }
 
     /**
