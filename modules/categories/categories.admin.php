@@ -266,7 +266,7 @@ class Module_Categories_Admin extends Clansuite_ModuleController implements Clan
 
         $settings = array();
 
-        $settings['form']   = array(    'name' => 'news_settings',
+        $settings['form']   = array(    'name' => 'categories_settings',
                                         'method' => 'POST',
                                         'action' => WWW_ROOT.'/index.php?mod=categories&amp;sub=admin&amp;action=settings_update');
 

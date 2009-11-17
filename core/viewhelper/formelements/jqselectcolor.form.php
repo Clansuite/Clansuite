@@ -74,13 +74,13 @@ class Clansuite_Formelement_JQSelectColor extends Clansuite_Formelement implemen
                                           $(document).ready(function() {
                                             $('#colorpicker').farbtastic('#color');
 											$('#colorpicker').hide();
-											$('input#color').click(function(){
+											$('img#color').click(function(){
 												$('#colorpicker').toggle();
 											});
                                           });
                                         </script>";
         
-       $html = '<input type="text" id="color" name="'.$this->getName().'" value="'.$this->getValue().'" /><div id="colorpicker"></div>';
+       $html = '<input type="text" id="color" name="'.$this->getName().'" value="'.$this->getValue().'" /><img src="/themes/core/images/colors.png" align="top" style="margin-top:1px; margin-left:3px;" id="color"></img><div id="colorpicker"></div>';
 
         return $javascript.$datepicker_js.$html;
     }
