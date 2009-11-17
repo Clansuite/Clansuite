@@ -51,7 +51,7 @@ if (!class_exists('Clansuite_Formelement_Textarea')) { require 'textarea.form.ph
 class Clansuite_Formelement_Wysiwygckeditor extends Clansuite_Formelement_Textarea implements Clansuite_Formelement_Interface
 {
     protected $factory = null;
-    
+
     public function __construct($factory = null)
     {
         # I know! uhm... this is... a ball of mud. @todo
@@ -85,30 +85,33 @@ class Clansuite_Formelement_Wysiwygckeditor extends Clansuite_Formelement_Textar
         {
             $value = $this->getValue();   
         }
+
         # if we are in inheritance mode, skip this, the parent class handles this already
         if(is_object($this->factory))
         {
-             # e) set id ckeditor
+            # e) set id ckeditor
             parent::setName($name);
             parent::setCols('80');
             parent::setRows('20');
             parent::setValue($value);
-			parent::setID(''.$this->getNameWithoutBrackets());
+            parent::setID($name);
+
             $html = parent::render_textarea();
+
             #clansuite_xdebug::printR($html);
         }
+ 
         # a) loads the ckeditor javascript files
         $javascript = '<script type="text/javascript" src="'.WWW_ROOT_THEMES_CORE . '/javascript/ckeditor/ckeditor.js"></script>';
                  
         # d) plug it to an specific textarea by ID
         $javascript .= '<script type="text/javascript">
-								CKEDITOR.replace("'.$this->getNameWithoutBrackets().'");
-						</script>';
+                                CKEDITOR.replace("'.$this->getName().'");
+                        </script>';
 
+        #clansuite_xdebug::printR($html.$javascript);
 
-
-        #clansuite_xdebug::printR($javascript.$css.CR.$html);
-
+        # watch out! serve html elements first, before javascript dom selections are applied on them!
         return $html.$javascript;
     }
 
