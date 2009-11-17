@@ -170,11 +170,14 @@ class language implements ArrayAccess
         # Help Text for Buttons
         $this->language['CLICK_NEXT_TO_PROCEED'] = 'Click the Button ['. $this->language['NEXTSTEP'] .'] to proceed with the next Installstep.';
         $this->language['CLICK_BACK_TO_RETURN'] = 'Click the Button ['. $this->language['BACKSTEP'] .'] to return to the prior one.';
+        
         # Right Side Menu
         $this->language['INSTALL_PROGRESS'] = 'Install Progress';
         $this->language['COMPLETED'] = 'COMPLETED';
         $this->language['CHANGE_LANGUAGE'] = 'Change Language';
         $this->language['SHORTCUTS'] = 'Clansuite Shortcuts';
+        $this->language['LIVESUPPORT'] = 'Need Support?';
+        $this->language['GETLIVESUPPORT_STATIC'] = 'Live Support (Start Chat.)';        
 
         # Left Side Menu
         $this->language['MENU_HEADING'] = 'Installationsteps';

@@ -56,7 +56,7 @@
     *
     * HTML Written = Version 0.2 - 06 June 2007
     * HTML Document begins near Line #1000
-    * @version    SVN: $Id: webinstaller.php 2109 2008-06-25 16:42:31Z vain $
+    * @version    SVN: $Id$
     */
 
 if(ini_get("safe_mode") == true && ini_get("open_basedir") == true)
@@ -1695,7 +1695,7 @@ function render($renderType, $args=array()) {
             <br />
             Clansuite Webinstaller <?php echo $webinstaller_version; ?>
             <br />
-            SVN: $Rev: 2115 $ $Author: vain $
+            SVN: $Rev$ $Author$
             <br />
             &copy; 2005-<?=date("Y"); ?> by <a href="http://www.Jens-André-koch.de" target="_blank" style="text-decoration=none">Jens-Andr&#x00E9; Koch</a> &amp; Clansuite Development Team
          </p>
