@@ -162,7 +162,7 @@ class Clansuite_Formelement_Textarea extends Clansuite_Formelement implements Cl
                 break;
             case 'ckeditor':
                     if (!class_exists('Clansuite_Formelement_Wysiwygckeditor')) { include 'wysiwygckeditor.form.php'; }
-                    return new Clansuite_Formelement_Wysiwygckeditor();
+                    return new Clansuite_Formelement_Wysiwygckeditor($this);
                 break;
             case 'tinymce':
                     if (!class_exists('Clansuite_Formelement_Wysiwygtinymce')) { include 'wysiwygtinymce.form.php'; }
@@ -195,7 +195,7 @@ class Clansuite_Formelement_Textarea extends Clansuite_Formelement implements Cl
          */
         $html .= '<textarea';
         $html .= (bool)$this->id ? ' id="'.$this->id.'"' : null;
-        $html .= (bool)$this->name ? ' name="'.$this->name.'"' : null;
+        $html .= (bool)$this->name ? ' name="'.$this->getNameWithoutBrackets().'"' : null;
         $html .= (bool)$this->size ? ' size="'.$this->size.'"' : null;
         $html .= (bool)$this->cols ? ' cols="'.$this->cols.'"' : null;
         $html .= (bool)$this->rows ? ' rows="'.$this->rows.'"' : null;
