@@ -41,8 +41,7 @@ if (!defined('IN_CS')){die('Clansuite not loaded. Direct Access forbidden.');}
  * Clansuite Core Class for the Initialization of phpDoctrine
  *
  * The phpDoctrine library provides a database abstraction layer (DAL)
- * as well as object-relational mapping (ORM)
- * with drivers for every PDO-supported database:
+ * as well as object-relational mapping (ORM) with drivers for every PDO-supported database:
  *
  *    - FreeTDS / Microsoft SQL Server / Sybase
  *    - Firebird/Interbase 6
@@ -83,7 +82,7 @@ class Clansuite_Doctrine
             Doctrine::debug(true);
         }
     }
-    
+
     /**
      * Doctrine Initialize
      *
@@ -160,10 +159,22 @@ class Clansuite_Doctrine
             #Doctrine_Manager::getInstance()->getCurrentConnection();
             $this->connection = $this->manager->getCurrentConnection();
         }
-        
-        if(count($this->connection) === 0)
+
+        /**
+         * test connection
+         * @symfony: don't use @mysql_selct_db to test
+         */
+        try
         {
-            throw new Clansuite_Exception('Doctrine Connection could not be established. Check Data Source Name. Ensure that Databasename, Tablename, Username and Password are correct!', 1);
+            $this->connection->connect();
+        }
+        catch(Doctrine_Connection_Exception $e)
+        {
+            $exception_message = 'Doctrine Connection could not be established. Check Data Source Name.
+                                  Ensure that Databasename, Tablename, Username and Password are correct!
+                                  <br />'.$e->getMessage();
+
+            throw new Clansuite_Exception($exception_message, 1);
         }
 
         # Get Doctrine Locator and set ClassPrefix
