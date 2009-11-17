@@ -110,10 +110,10 @@ class Module_Categories_Admin extends Clansuite_ModuleController implements Clan
         $form->addElement('text')->setName('cat_form[name]')->setLabel(_('Category Name'));
         $modules = Doctrine::getTable('CsModules')->fetchAllModulesDropDown();
         $form->addElement('multiselect')->setName('cat_form[module_id]')->setLabel(_('Module'))->setOptions($modules)
-        ->setDescription(_('Select the module to create the category for.'));;
-        $form->addElement('textarea')->setName('cat_form[description]')->setID('cat_form[description]')->setCols('60')->setRows('5')->setLabel(_('Description'));
+        ->setDescription(_('Select the module to create the category for.'));
+        $form->addElement('textarea')->setName('cat_form[description]')->setID('cat_form[description]')->setCols('60')->setRows('5')->setLabel(_('Description'))->setEditorType('ckeditor');
         #$form->addElement('text')->setName('cat_form[sortorder]')->setLabel(_('Sort Order')); # not needed here
-        $form->addElement('jqselectcolor')->setName('cat_form[color]')->setLabel(_('Select Color'));
+        $form->addElement('jqselectcolor')->setName('cat_form[color]')->setLabel(_('Select Color'))->setDescription(_('Click Inputfield to toggle Colorwheel.'));
         $form->addElement('jqselectimage')->setName('cat_form[image]')->setLabel(_('Select Image'));
         $form->addElement('jqselectimage')->setName('cat_form[icon]')->setLabel(_('Select Icon'));
         # @todo category image upload + db insert
