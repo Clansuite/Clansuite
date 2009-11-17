@@ -543,72 +543,76 @@ class Clansuite_Errorhandler
      */
     public static function getErrorContext($file, $line, $scope)
     {
-        # ensure that sourcefile is readable
-        if (is_readable($file))
+        # ensure error context is only shown, when in debug mode
+        if(defined('DEVELOPMENT') and DEVELOPMENT == 1  and defined('DEBUG') and DEBUG == 1)
         {
-            # Scope Calculations
-            $surrounding_lines = round($scope/2);
-            $errorcontext_starting_line = $line - $surrounding_lines;
-            $errorcontext_ending_line = $line + $surrounding_lines;
-
-            # get linenumbers array
-            $lines_array = range($errorcontext_starting_line+1, $errorcontext_ending_line);
-
-            # now colourize the errorous linenumber
-            $lines_array[$scope-$surrounding_lines-1]  = '<span style="color: white; background-color:#BF0000;">'. $lines_array[$scope-$surrounding_lines-1]  .'</span>';
-
-            # transform linenumbers array to string for later display
-            $lines  = implode($lines_array, '<br />');
-
-            # get ALL LINES syntax highlighted source-code of the file and explode it into an array
-            $array_content = explode('<br />', highlight_file($file, true));
-
-            # get the ERROR SURROUNDING LINES from ALL LINES
-            $array_content_sliced = array_slice($array_content, $errorcontext_starting_line, $scope, true);
-
-            /**
-             * reindexig the array,
-             * we need the first element’s index being [1], because linenumbers don't start with [0]
-             * think of this problem moved from [0] to the [$errorcontext_starting_line] (because of slicing)
-             * this is not working on the whole array, but reindexing only the sliced segment
-             */
-            $result = array();
-            foreach ( $array_content_sliced as $key => $val )
+            # ensure that sourcefile is readable
+            if (is_readable($file))
             {
-                $result[ $key+1 ] = $val;
+                # Scope Calculations
+                $surrounding_lines = round($scope/2);
+                $errorcontext_starting_line = $line - $surrounding_lines;
+                $errorcontext_ending_line = $line + $surrounding_lines;
+
+                # get linenumbers array
+                $lines_array = range($errorcontext_starting_line+1, $errorcontext_ending_line);
+
+                # now colourize the errorous linenumber
+                $lines_array[$scope-$surrounding_lines-1]  = '<span style="color: white; background-color:#BF0000;">'. $lines_array[$scope-$surrounding_lines-1]  .'</span>';
+
+                # transform linenumbers array to string for later display
+                $lines  = implode($lines_array, '<br />');
+
+                # get ALL LINES syntax highlighted source-code of the file and explode it into an array
+                $array_content = explode('<br />', highlight_file($file, true));
+
+                # get the ERROR SURROUNDING LINES from ALL LINES
+                $array_content_sliced = array_slice($array_content, $errorcontext_starting_line, $scope, true);
+
+                /**
+                 * reindexig the array,
+                 * we need the first element’s index being [1], because linenumbers don't start with [0]
+                 * think of this problem moved from [0] to the [$errorcontext_starting_line] (because of slicing)
+                 * this is not working on the whole array, but reindexing only the sliced segment
+                 */
+                $result = array();
+                foreach ( $array_content_sliced as $key => $val )
+                {
+                    $result[ $key+1 ] = $val;
+                }
+
+                # now colourize the background of the errorous line with RED
+                # $result[$line] = '<span style="background-color:#BF0000;">'. $result[$line] .'</span>';
+
+                /**
+                 * transform the array into a string again
+                 * (1) we have to re-add <code> , bevause it got lost somewhere... hmm? @todo figure out why!
+                 * (2) implode array with linebreaks
+                 */
+                $errorcontext_lines  = '<code>'.implode($result, '<br />');
+
+                #clansuite_xdebug::printr($errorcontext_lines);
+
+                # attach some hardcoded style
+                $style_string = '<style type="text/css">
+                        .num {
+                        float: left;
+                        color: gray;
+                        font-size: 13px;
+                        font-family: monospace;
+                        text-align: right;
+                        margin-right: 6pt;
+                        padding-right: 6pt;
+                        border-right: 1px solid gray;}
+
+                        body {margin: 0px; margin-left: 5px;}
+                        td {vertical-align: top;}
+                        code {white-space: nowrap;}
+                    </style>';
+
+                # display LINES and ERRORCONTEXT_LINES in a table (prefixed with the hardcoded style)
+                return "$style_string <table><tr><td class=\"num\">\n$lines\n</td><td>\n$errorcontext_lines\n</td></tr></table>";
             }
-
-            # now colourize the background of the errorous line with RED
-            # $result[$line] = '<span style="background-color:#BF0000;">'. $result[$line] .'</span>';
-
-            /**
-             * transform the array into a string again
-             * (1) we have to re-add <code> , bevause it got lost somewhere... hmm? @todo figure out why!
-             * (2) implode array with linebreaks
-             */
-            $errorcontext_lines  = '<code>'.implode($result, '<br />');
-
-            #clansuite_xdebug::printr($errorcontext_lines);
-
-            # attach some hardcoded style
-            $style_string = '<style type="text/css">
-                    .num {
-                    float: left;
-                    color: gray;
-                    font-size: 13px;
-                    font-family: monospace;
-                    text-align: right;
-                    margin-right: 6pt;
-                    padding-right: 6pt;
-                    border-right: 1px solid gray;}
-
-                    body {margin: 0px; margin-left: 5px;}
-                    td {vertical-align: top;}
-                    code {white-space: nowrap;}
-                </style>';
-
-            # display LINES and ERRORCONTEXT_LINES in a table (prefixed with the hardcoded style)
-            return "$style_string <table><tr><td class=\"num\">\n$lines\n</td><td>\n$errorcontext_lines\n</td></tr></table>";
         }
     }
 
