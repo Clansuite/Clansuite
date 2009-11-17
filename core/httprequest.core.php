@@ -295,7 +295,7 @@ class Clansuite_HttpRequest implements Clansuite_Request_Interface, ArrayAccess
                 return 'request';
             }
         }
-        
+
         if(in_array($parameterArrayName, $this->post_arraynames) and isset($this->post_parameters[$parametername]))
         {
             if($where == false)
@@ -307,7 +307,7 @@ class Clansuite_HttpRequest implements Clansuite_Request_Interface, ArrayAccess
                 return 'post';
             }
         }
-        
+
         if(in_array($parameterArrayName, $this->get_arraynames) and isset($this->get_parameters[$parametername]))
         {
             if($where == false)
@@ -319,7 +319,7 @@ class Clansuite_HttpRequest implements Clansuite_Request_Interface, ArrayAccess
                 return 'get';
             }
         }
-        
+
         if(in_array($parameterArrayName, $this->cookie_arraynames) and isset($this->cookie_parameters[$parametername]))
         {
             if($where == false)
@@ -352,7 +352,7 @@ class Clansuite_HttpRequest implements Clansuite_Request_Interface, ArrayAccess
          * even if shortcut like R, G, P or C ($parameterArrayName) was used.
          */
         $parameter_array = $this->issetParameter($parametername, $parameterArrayName, true);
-        
+
         /**
          * we use type hinting here to cast the string with array name to boolean
          */
@@ -553,6 +553,16 @@ class Clansuite_HttpRequest implements Clansuite_Request_Interface, ArrayAccess
     public function getRemoteURI()
     {
         return $_SERVER['REMOTE_URI'];
+    }
+
+    /**
+     * Get $_SERVER QUERY_STRING
+     *
+     * @return string
+     */
+    public function getQueryString()
+    {
+        return $_SERVER['QUERY_STRING'];
     }
 
     /**
