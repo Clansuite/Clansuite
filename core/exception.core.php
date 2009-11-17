@@ -296,18 +296,26 @@ class Clansuite_Exception extends Exception
 
         # HEADING <Rapid Development>
 
-		# assign placeholders for replacements in the html
-		if(strpos(self::getMessage(),"action_"))
-		{
-		    $placeholders['actionname']  = substr(self::getMessage(),strpos(self::getMessage(),"action_"));
-		}
-		elseif(strpos(self::getMessage(),"module_"))
-		{
-		    $placeholders['classname']  = substr(self::getMessage(),strpos(self::getMessage(),"module_"));
-		}
-        $placeholders['modulename'] = $_GET['mod'];
+        # assign placeholders for replacements in the html
+        if(strpos(self::getMessage(),"action_"))
+        {
+            $placeholders['actionname']  = substr(self::getMessage(),strpos(self::getMessage(),"action_"));
+        }
+        elseif(strpos(self::getMessage(),"module_"))
+        {
+            $placeholders['classname']  = substr(self::getMessage(),strpos(self::getMessage(),"module_"));
+        }
+        
+        if(empty($_GET['mod']) == false)
+        {
+            $placeholders['modulename'] = (string) stripslashes($_GET['mod']);
+        }
+        else
+        {
+            $placeholders['modulename'] = '';    
+        }
 
-		if(self::getExceptionDevelopmentTemplate($placeholders) != '')
+        if(self::getExceptionDevelopmentTemplate($placeholders) != '')
         {
             $errormessage  .= '<tr><td colspan="2"><h3>Rapid Development</h3></td></tr>';
             $errormessage  .= '<tr><td colspan="2">'.self::getExceptionDevelopmentTemplate($placeholders).'</td></tr>';
@@ -323,8 +331,16 @@ class Clansuite_Exception extends Exception
         $errormessage   .= '</table>';
 
         # Footer with Support-Backlinks
-        $errormessage  .= '<div style="float:right;">
-                           <strong><a href="http://trac.clansuite.com/">Bug-Report</a></strong> |
+        $errormessage  .= '<div style="float:right;">';        
+        $errormessage  .= '<strong><!-- Live Support JavaScript -->
+                           <script type="text/javascript" 
+                              src="http://www.clansuite.com/livezilla/image.php?v=PGEgaHJlZj1cImphdmFzY3JpcHQ6dm9pZCh3aW5kb3cub3BlbignaHR0cDovL3d3dy5jbGFuc3VpdGUuY29tL2xpdmV6aWxsYS9saXZlemlsbGEucGhwP2NvZGU9UlhoalpYQjBhVzl1TDBWeWNtOXkmYW1wO3Jlc2V0PXRydWUnLCcnLCd3aWR0aD02MDAsaGVpZ2h0PTYwMCxsZWZ0PTAsdG9wPTAscmVzaXphYmxlPXllcyxtZW51YmFyPW5vLGxvY2F0aW9uPXllcyxzdGF0dXM9eWVzLHNjcm9sbGJhcnM9eWVzJykpXCIgPCEtLWNsYXNzLS0-PjwhLS10ZXh0LS0-PC9hPjwhPkxpdmUgSGVscCAoQ2hhdCBzdGFydGVuKTwhPkxpdmUgSGVscCAoTmFjaHJpY2h0IGhpbnRlcmxhc3Nlbik8IT4_">
+                           </script>
+                           <noscript>
+                              <a href="http://www.clansuite.com/livezilla/livezilla.php?code=RXhjZXB0aW9uL0Vycm9y&amp;reset=true" target="_blank">Live Help (Start Chat)</a>
+                           </noscript>                           
+                           <!-- Live Support JavaScript --></strong> | ';        
+        $errormessage  .= '<strong><a href="http://trac.clansuite.com/">Bug-Report</a></strong> |
                            <strong><a href="http://forum.clansuite.com/">Support-Forum</a></strong> |
                            <strong><a href="http://docs.clansuite.com/">Manuals</a></strong> |
                            <strong><a href="http://www.clansuite.com/">visit clansuite.com</a></strong>

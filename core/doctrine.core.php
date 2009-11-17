@@ -83,7 +83,7 @@ class Clansuite_Doctrine
             Doctrine::debug(true);
         }
     }
-
+    
     /**
      * Doctrine Initialize
      *
@@ -154,10 +154,16 @@ class Clansuite_Doctrine
             #$this->connection = $this->manager->openConnection(new PDO('sqlite::memory:'));
             #Doctrine_Manager::getInstance()->connection($dsn, $this->config['database']['name']);
             $this->connection = $this->manager->connection($dsn, $this->config['database']['name']);
-        } else
+        }
+        else
         {
             #Doctrine_Manager::getInstance()->getCurrentConnection();
             $this->connection = $this->manager->getCurrentConnection();
+        }
+        
+        if(count($this->connection) === 0)
+        {
+            throw new Clansuite_Exception('Doctrine Connection could not be established. Check Data Source Name. Ensure that Databasename, Tablename, Username and Password are correct!', 1);
         }
 
         # Get Doctrine Locator and set ClassPrefix
