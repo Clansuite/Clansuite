@@ -174,7 +174,9 @@ class language implements ArrayAccess
         $this->language['INSTALL_PROGRESS'] = 'Installations- fortschritt';
         $this->language['COMPLETED'] = 'Fertig';
         $this->language['CHANGE_LANGUAGE'] = 'Sprachauswahl';
-        $this->language['SHORTCUTS'] = 'Clansuite Shortcuts';
+        $this->language['SHORTCUTS'] = 'Clansuite Shortcuts';        
+        $this->language['LIVESUPPORT'] = 'Möchtest Du Hilfe?';
+        $this->language['GETLIVESUPPORT_STATIC'] = 'Live Support (Starte Chat.)';
 
         # Left Side Menu
         $this->language['MENU_HEADING'] = 'Installationsschritte';

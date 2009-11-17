@@ -32,7 +32,7 @@
     * @link       http://www.clansuite.com
     * @link       http://gna.org/projects/clansuite
     *
-    * @version    SVN: $Id: clansuite.xdebug.php 2540 2008-10-02 00:14:21Z vain $
+    * @version    SVN: $Id$
     */
 
 /**

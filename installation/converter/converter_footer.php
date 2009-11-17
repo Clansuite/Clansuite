@@ -30,7 +30,7 @@
     * @link       http://www.clansuite.com
     * @link       http://gna.org/projects/clansuite
     *
-    * @version    SVN: $Id: clansuite.xdebug.php 2540 2008-10-02 00:14:21Z vain $
+    * @version    SVN: $Id$
     */
     
 # Define security constant
@@ -118,7 +118,7 @@ date_default_timezone_set('Europe/Berlin');
             <?php $webinstaller_version = 'Version '. CONVERTER_VERSION .' - '. date("l, jS F Y",getlastmod()); ?>
             Clansuite Converter <?php echo $webinstaller_version; ?>
             <br />
-            SVN: $Rev: 2317 $ $Author: vain $
+            SVN: $Rev$ $Author$
             <br />
             &copy; 2005-<?=date("Y"); ?> by <a href="http://www.Jens-André-koch.de" target="_blank" style="text-decoration=none">Jens-Andr&#x00E9; Koch</a> &amp; Clansuite Development Team
         </p>
