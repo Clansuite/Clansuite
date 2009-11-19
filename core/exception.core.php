@@ -44,16 +44,44 @@ if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
  * is of PHP dying when an exception is thrown when running INSIDE an error or exception handler.
  * Avoid stacking Exceptions, e.g. try/catch Exception($e) and then throwing a Clansuite_Exception().
  *
+ * @see http://php.net/manual/de/class.exception.php
+ *
  * @author     Jens-André Koch <vain@clansuite.com>
  * @copyright  Jens-André Koch (2005 - onwards)
  *
  * @category    Clansuite
  * @package     Core
  * @subpackage  Errorhandler
- * @todo: implement usage of exceptions provides by SPL
  */
-class Clansuite_Exception extends Exception
+class Clansuite_Exception extends Exception implements Clansuite_Exception_Interface
 {
+    /**
+     * Variables of a PHP Exception
+     * They are used to store the content of incomming uncatched Exceptions.
+     */
+
+    # exception message
+    protected $message = 'Unknown exception';
+
+    # debug backtrace string
+    private   $string;
+
+    # user-defined exception code
+    protected $code    = 0;
+
+    # source filename of exception
+    protected $file;
+
+    # source line of exception
+    protected $line;
+
+    # trace
+    private   $trace;
+
+    /**
+     * Variables for the content of exception templates
+     */
+
     private static $exception_template_content = '';
     private static $exception_development_template_content = '';
 
@@ -121,7 +149,7 @@ class Clansuite_Exception extends Exception
     }
 
     /**
-     * Getter Method for the exception_template_conent
+     * Getter Method for the exception_template_content
      *
      * @return Content of $exception_template_content
      */
@@ -189,6 +217,7 @@ class Clansuite_Exception extends Exception
 
     /**
      * Exception Handler Callback
+     * Rethrows uncatched Exceptions in our presentation style.
      *
      * @param $exception A valid Exception Object is valid (Type Hint).
      */
@@ -197,18 +226,26 @@ class Clansuite_Exception extends Exception
        # display exceptions if errors are not suppressed
        #if ($this->config['suppress_errors'] == 0 )
        #{
-            echo $exception;
-       #}
-    }
+            # Simple structured output
+            #echo '<pre>'.$exception.'</pre';
 
-    /**
-     * Overwriteable Method of Class Exception
-     * This is the String representation of the exception.
-     * It is a pass-through to our presentation format (ysod);
-     */
-    public function __toString()
-    {
-        return $this->yellowScreenOfDeath();
+            # Assigning variables from an uncatched exception to this exception object
+            $this->message = $exception->getMessage();
+            $this->string  = $exception->getTraceAsString();
+            $this->code    = $exception->getCode();
+            $this->file    = $exception->getFile();
+            $this->line    = $exception->getLine();
+            $this->trace   = $exception->getTrace();
+
+            # if no errorcode is set, say that it's an rethrow
+            if($this->code == '0')
+            {
+                $this->code = '0 (This exception is uncatched and rethrown.)';
+            }
+
+            # stringifies this object via __toString by calling yellowScreenOfDeath()
+            echo $this;
+       #}
     }
 
     /**
@@ -229,7 +266,7 @@ class Clansuite_Exception extends Exception
     {
         # Header
         $errormessage    = '<html><head>';
-        $errormessage   .= '<title>Clansuite Exception : [ '. self::getMessage() .' | Exceptioncode: '. self::getCode() .' ] </title>';
+        $errormessage   .= '<title>Clansuite Exception : [ '.get_class($this).'][ '. $this->getMessage() .' | Exceptioncode: '. self::getCode() .' ] </title>';
         $errormessage   .= '<body>';
         $errormessage   .= '<link rel="stylesheet" href="'. WWW_ROOT_THEMES_CORE .'/css/error.css" type="text/css" />';
         $errormessage   .= '</head>';
@@ -251,22 +288,22 @@ class Clansuite_Exception extends Exception
         # HEADING <Exception Object>
         $errormessage   .= '<table>';
         $errormessage   .= '<tr><td colspan="2"><h3>Exception</h3></td></tr>';
-        $errormessage   .= '<tr><td width=15%><strong>Code: </strong></td><td>'.self::getCode().'</td></tr>';
-        $errormessage   .= '<tr><td><strong>Message: </strong></td><td>'.self::getMessage().'</td></tr>';
-        $errormessage   .= '<tr><td><strong>Pfad: </strong></td><td>'.dirname(self::getFile()).'</td></tr>';
-        $errormessage   .= '<tr><td><strong>Datei: </strong></td><td>'.basename(self::getFile()).'</td></tr>';
-        $errormessage   .= '<tr><td><strong>Zeile: </strong></td><td>'.self::getLine().'</td></tr>';
+        $errormessage   .= '<tr><td width=15%><strong>Code: </strong></td><td>'.$this->code.'</td></tr>';
+        $errormessage   .= '<tr><td><strong>Message: </strong></td><td>'.$this->message.'</td></tr>';
+        $errormessage   .= '<tr><td><strong>Pfad: </strong></td><td>'.dirname($this->file).'</td></tr>';
+        $errormessage   .= '<tr><td><strong>Datei: </strong></td><td>'.basename($this->file).'</td></tr>';
+        $errormessage   .= '<tr><td><strong>Zeile: </strong></td><td>'.$this->line.'</td></tr>';
 
         # Split
         $errormessage   .= '<tr><td colspan="2">&nbsp;</td></tr>';
 
-        /*if ( defined('DEBUG') and DEBUG == 1 )
+        if ( defined('DEBUG') and DEBUG == 1 )
         {
-            $errormessage   .= '<tr><td><strong>Trace: </strong></td><td colspan=2 width=80%>'. self::formatGetTraceString(self::getTraceAsString()) . '</td></tr>';
+            $errormessage   .= '<tr><td><strong>Debugtrace (Callstack): </strong></td><td colspan=2 width=80%>'. self::formatGetTraceString($this->string) . '</td></tr>';
 
             # Split
             $errormessage   .= '<tr><td colspan="2">&nbsp;</td></tr>';
-        }*/
+        }
 
         # Environmental Informations at Errortime
         if ( defined('DEBUG') and DEBUG == 1 )
@@ -299,20 +336,20 @@ class Clansuite_Exception extends Exception
         # assign placeholders for replacements in the html
         if(strpos(self::getMessage(),"action_"))
         {
-            $placeholders['actionname']  = substr(self::getMessage(),strpos(self::getMessage(),"action_"));
+            $placeholders['actionname']  = substr($this->message,strpos($this->message,"action_"));
         }
         elseif(strpos(self::getMessage(),"module_"))
         {
-            $placeholders['classname']  = substr(self::getMessage(),strpos(self::getMessage(),"module_"));
+            $placeholders['classname']  = substr($this->message,strpos($this->message,"module_"));
         }
-        
+
         if(empty($_GET['mod']) == false)
         {
             $placeholders['modulename'] = (string) stripslashes($_GET['mod']);
         }
         else
         {
-            $placeholders['modulename'] = '';    
+            $placeholders['modulename'] = '';
         }
 
         if(self::getExceptionDevelopmentTemplate($placeholders) != '')
@@ -331,15 +368,15 @@ class Clansuite_Exception extends Exception
         $errormessage   .= '</table>';
 
         # Footer with Support-Backlinks
-        $errormessage  .= '<div style="float:right;">';        
+        $errormessage  .= '<div style="float:right;">';
         $errormessage  .= '<strong><!-- Live Support JavaScript -->
-                           <script type="text/javascript" 
+                           <script type="text/javascript"
                               src="http://www.clansuite.com/livezilla/image.php?v=PGEgaHJlZj1cImphdmFzY3JpcHQ6dm9pZCh3aW5kb3cub3BlbignaHR0cDovL3d3dy5jbGFuc3VpdGUuY29tL2xpdmV6aWxsYS9saXZlemlsbGEucGhwP2NvZGU9UlhoalpYQjBhVzl1TDBWeWNtOXkmYW1wO3Jlc2V0PXRydWUnLCcnLCd3aWR0aD02MDAsaGVpZ2h0PTYwMCxsZWZ0PTAsdG9wPTAscmVzaXphYmxlPXllcyxtZW51YmFyPW5vLGxvY2F0aW9uPXllcyxzdGF0dXM9eWVzLHNjcm9sbGJhcnM9eWVzJykpXCIgPCEtLWNsYXNzLS0-PjwhLS10ZXh0LS0-PC9hPjwhPkxpdmUgSGVscCAoQ2hhdCBzdGFydGVuKTwhPkxpdmUgSGVscCAoTmFjaHJpY2h0IGhpbnRlcmxhc3Nlbik8IT4_">
                            </script>
                            <noscript>
                               <a href="http://www.clansuite.com/livezilla/livezilla.php?code=RXhjZXB0aW9uL0Vycm9y&amp;reset=true" target="_blank">Live Help (Start Chat)</a>
-                           </noscript>                           
-                           <!-- Live Support JavaScript --></strong> | ';        
+                           </noscript>
+                           <!-- Live Support JavaScript --></strong> | ';
         $errormessage  .= '<strong><a href="http://trac.clansuite.com/">Bug-Report</a></strong> |
                            <strong><a href="http://forum.clansuite.com/">Support-Forum</a></strong> |
                            <strong><a href="http://docs.clansuite.com/">Manuals</a></strong> |
@@ -355,13 +392,43 @@ class Clansuite_Exception extends Exception
     }
 
     /**
-     * formats the getTraceString by applying linebreaks
+     * formats the debugtrace by applying linebreaks
      */
     public static function formatGetTraceString($string)
     {
-        $string = str_replace('#','<br/><br/>#', $string);
-        $string = str_replace('):','):<br/><br/>', $string);
+        $string = str_replace('#','<br/><br/>Call #', $string);
+        #$string = str_replace('):','):<br/><br/>', $string);
         return $string;
     }
+
+    /**
+     * Overwriteable Method of Class Exception
+     * This is the String representation of the exception.
+     * It is a pass-through to our presentation format (ysod);
+     *
+     * @see yellowScreenOfDeath()
+     */
+    public function __toString()
+    {
+        return $this->yellowScreenOfDeath();
+    }
+}
+
+/**
+ * Clansuite_Exception has to implement the following methods.
+ */
+interface Clansuite_Exception_Interface
+{
+    /* Protected methods inherited from Exception class */
+    public function getMessage();                 // Exception message
+    public function getCode();                    // User-defined Exception code
+    public function getFile();                    // Source filename
+    public function getLine();                    // Source line
+    public function getTrace();                   // An array of the backtrace()
+    public function getTraceAsString();           // Formated string of trace
+
+    /* Overrideable methods inherited from Exception class */
+    public function __toString();                 // formated string for display
+    public function __construct($message = null, $code = 0);
 }
 ?>
