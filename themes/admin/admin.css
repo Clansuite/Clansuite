@@ -9,7 +9,7 @@
     Syntax recommendation http://www.w3.org/TR/REC-CSS2
 */
 
-@import url('/themes/core/css/form.css') all;
+@import url('../core/css/form.css') all;
 
 body
 {
