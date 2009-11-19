@@ -79,8 +79,8 @@ class Clansuite_Feed
      * fetches a feed_url and caches it via SimplePie.
      *
      * @param string $feed_url This is the URL you want to parse.
-	 * @param int $cache_duration This is the number of seconds that you want to store the feedcache file for.
-	 * @param string $cache_location This is where you want the cached feeds to be stored.
+     * @param int $cache_duration This is the number of seconds that you want to store the feedcache file for.
+     * @param string $cache_location This is where you want the cached feeds to be stored.
      */
     public function fetchRSS($feed_url, $number_of_items = null, $cache_duration = null, $cache_location = null)
     {
@@ -156,8 +156,10 @@ class Clansuite_Feed
      */
     public static function fetchRawRSS($feed_url)
     {
+        $feed_url = urlencode($feed_url);
+
         # Cache Filename and Path # . 'feeds' .
-        $cachefile = ROOT_CACHE . urlencode($feed_url);
+        $cachefile = ROOT_CACHE . $feed_url;
 
         # define cache lifetime
         $cachetime = 60*60*3; # 10800min = 3h
@@ -170,23 +172,21 @@ class Clansuite_Feed
         }
         else # get the feed from the source
         {
-            # ensure file exists, before we write
-            if (!is_file($cachefile))
-            {
-                # create and chmod
-                touch($cachefile);
-                chmod($cachefile, 0666);
-            }
-            else # the cachefile already exists
-            {
-            }
+            # ensure cachefile exists, before we write
+            touch($cachefile);
+            chmod($cachefile, 0666);
 
-            # Get Feed, Write File
-            $feedcontent = file_get_contents($feed_url);
-            $fp=fopen($cachefile, "w");
-            fwrite($fp, $feedcontent);
-            fclose($fp);
-            return $feedcontent;
+            # Get Feed from source, Write File
+            $feedcontent = file_get_content($feed_url);
+
+            # ensure that we have rss content
+            if(strlen($feedcontent) > 0)
+            {
+                $fp=fopen($cachefile, "w");
+                fwrite($fp, $feedcontent);
+                fclose($fp);
+                return $feedcontent;
+            }
         }
     }
 
