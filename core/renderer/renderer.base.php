@@ -457,5 +457,8 @@ abstract class Clansuite_Renderer_Base
             throw new Exception('Method "'. $method .'" not existant in RenderEngine "' . get_class($this->renderer) .'"!', 1);
         }
     }
+    
+    # object duplication / cloning is not permitted
+    protected function __clone() {}    
 }
 ?>
