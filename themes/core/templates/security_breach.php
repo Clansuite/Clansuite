@@ -23,7 +23,7 @@
     * @license    GNU/GPL v2 or (at your option) any later version, see "/doc/LICENSE".
     *
     * @author     Jens-André Koch   <vain@clansuite.com>
-    * @copyright  Jens-André Koch (2005-$Date: 2008-04-03 04:23:00 +0200 (Do, 03 Apr 2008) $), Florian Wolf (2006-2007)
+    * @copyright  Jens-André Koch (2005-$Date$), Florian Wolf (2006-2007)
     *
     * @link       http://www.clansuite.com
     * @link       http://gna.org/projects/clansuite
