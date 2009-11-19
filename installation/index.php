@@ -114,7 +114,7 @@ $error = '';
 #      SELF DELETION
 #========================
 
-if(isset($_GET['delete_installation'])) { rm_recursive(getcwd()); }
+if(isset($_GET['delete_installation'])) { removeDirectory(getcwd()); }
 
 
 #================================
@@ -753,51 +753,40 @@ function write_config_settings($data_array)
 }
 
 /**
- * rm_recursive
+ * removeDirectory
  *
- * @description Remove recursively. (Like `rm -r`) AND uses opendir() instead of glob()
- * @see Comment by davedx at gmail dot com on { http://us2.php.net/manual/en/function.rmdir.php }
+ * @description Remove a directory and all it files recursively.
  * @param file {String} The file or folder to be deleted.
  **/
-function rm_recursive($filepath)
+function removeDirectory($dir)
 {
-    echo "<p>[Deleting Installation Directory] Starting at $filepath </p>";
-
-    if (is_dir($filepath) && !is_link($filepath))
+    echo "<p>[Deleting Installation Directory] Starting at $dir</p>";
+    
+    # get files
+    $files = glob( $dir . '*', GLOB_MARK );
+    foreach( $files as $file )
     {
-        if ($dh = opendir($filepath))
+        # skip the index.php
+        if( substr( $file, -9 ) == 'installation'.DIRECTORY_SEPARATOR.'index.php' )
         {
-            while (($sf = readdir($dh)) !== false)
-            {
-                # handle . and ..
-                if ($sf == '.' || $sf == '..')
-                {
-                    continue;
-                }
-                else
-                {
-                    # handle files
-                    if(unlink($filepath.DS.$sf))
-                    {
-                        echo 'File '.$filepath.DS.$sf.' deleted successfully.<br />';
-                    }
-                    else
-                    {
-                        echo 'Unable to delete file '.$filepath.DS.$sf.'.<br />';
-                    }
-                }
-
-                # handle dirs recursivly
-                if (!rm_recursive($filepath.DS.$sf))
-                {
-                    throw new Exception($filepath.DS.$sf.' could not be deleted.');
-                }
-            }
-            closedir($dh);
+            continue;
         }
-        return rmdir($filepath);
+        
+        # skip dirs
+        if( substr( $file, -1 ) == DIRECTORY_SEPARATOR   )
+        {
+            removeDirectory( $file );
+        }
+        else
+        { 
+            @chmod($file, 0777);
+            @unlink( $file );            
+            echo '[Deleting File] '.$file.'.</br>';
+        }
     }
-    return unlink($filepath);
+    
+    echo "<p>[Deleting Directory] Removing Dir $dir</p>";
+    rmdir( $dir );    
 }
 
 // Save+Close the Session
