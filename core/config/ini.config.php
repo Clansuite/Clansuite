@@ -233,76 +233,9 @@ class Clansuite_Config_INIHandler extends Clansuite_Config_Base implements Array
         # when ini_filename exists, get config array
         if(is_file($filename))
         {
-            return self::_manageKeys(parse_ini_file($filename, true));
+            return parse_ini_file($filename, true);
         }
         return false;
-    }
-
-    /**
-     * Manage keys with SPL Iterator to minimize memory consumption of large arrays
-     *
-     * @access  public
-     * @param   array   The ini array
-     * @return  array
-     */
-    private static function _manageKeys($ini)
-    {
-        try
-        {
-            $object = new ArrayIterator($ini);
-            foreach($object as $key=>$value)
-            {
-                if( is_array($value) )
-                {
-                    self::_manageKeys($value);
-                }
-                else
-                {
-                    $ini[self::_getKey($key)] = self::_getValue($value);
-                }
-            }
-        }
-        catch (Exception $e)
-        {           
-            throw new Clansuite_Exception('The ArrayIteration failed! <br/>'.$e->getMessage(), 200);
-            
-        }
-
-        return $ini;
-    }
-
-    /**
-     * Get a safe/single value and convert values to bool,int,float
-     *
-     * @access  private
-     * @param   string  The value that should be converted
-     * @return  mixed
-     * @todo enable "config value security" by setting
-     */
-    private static function _getValue($value)
-    {
-        /*
-        if (preg_match('/^-?[0-9]+$/i', $value)) { return (int)$value; }
-        else if (strtolower($value) === 'true') { return true; }
-        else if (strtolower($value) === 'false') { return false; }
-        else if ( ((string)(float)$value) == $value ) { return (float)$value; }
-        else if (preg_match('/^"(.*)"$/i', $value, $m)) { return $m[1]; }
-        else if (preg_match('/^\'(.*)\'$/i', $value, $m)) { return $m[1]; }
-        */
-        return $value;
-    }
-
-    /**
-     *  Get a single Key
-     *
-     * @access  private
-     * @param   string  The single key
-     * @return  string  The key (int when available)
-     */
-    private static function _getKey($key)
-    {
-        #if (preg_match('/^[0-9]+$/i', $key)) { return (int)$key; }
-        return $key;
     }
 }
 ?>
