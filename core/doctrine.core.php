@@ -162,7 +162,6 @@ class Clansuite_Doctrine
 
         /**
          * test connection
-         * @symfony: don't use @mysql_selct_db to test
          */
         try
         {
@@ -276,7 +275,7 @@ class Clansuite_Doctrine
         $this->manager->setAttribute(Doctrine::ATTR_QUOTE_IDENTIFIER, false);
 
         # Set Connection Listener for Profiling if we are in DEBUG MODE
-        if(DEBUG)
+        if(DEBUG == 1)
         {
             $this->attachProfiler();
             register_shutdown_function(array($this,'shutdown'));

@@ -71,6 +71,10 @@ class Clansuite_Session implements Clansuite_Session_Interface, ArrayAccess
     /**
      * This creates the session
      *
+     * Injections:
+     * Clansuite_Configuration is needed for the configuration of session variables.
+     * Clansuite_HttpRequest is needed to determine the current location of the user on the website.
+     *
      * Overwrite php.ini settings
      * Start the session
      * @param object $injector Contains the Dependency Injector Phemto.
