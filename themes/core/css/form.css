@@ -14,6 +14,7 @@ div.notice { padding:10px; border:1px solid #Fc7; background-color:#FCF9D8; }
 .formline { clear:both; padding:0px 0px 8px 0px; }
 div.formline div.forminside { margin-left:200px; }
 label { float:left; min-width:200px; }
+label em { float:right; }
 
 span.formdescription { font-size:11px; color:#666666; }
 span.value { font-size:11px; margin-left:5px; }
