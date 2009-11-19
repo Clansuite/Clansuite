@@ -24,4 +24,4 @@
         Jens-André Koch
         Clansuite Maintainer
 
-  Version: $Id: README.EN.txt 2664 2009-01-08 22:38:40Z vain $
+  Version: $Id$
