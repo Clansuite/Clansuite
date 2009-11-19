@@ -59,11 +59,6 @@ class Clansuite_CMS
 
     private static $postfilter_classes;
 
-    function __construct()
-    {
-
-    }
-
     public static function run()
     {
         define('STARTTIME', microtime(1));
