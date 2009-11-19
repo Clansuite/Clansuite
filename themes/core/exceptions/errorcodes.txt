@@ -9,8 +9,12 @@
 
   This document lists all internally used Codes for Errors and Exceptions.
 
-  Exceptioncode    Exceptionname                                        Used in File
-  -----------------------------------------------------------------------------------------------
+  Exceptioncode    Exceptionname                                        Used in File               Method
+  ----------------------------------------------------------------------------------------------------------------------
+  dev-1            Database Connection Information invalid              /core/doctrine.core.php    prepareDbConnection()
+  dev-2            Action Missing. Create now.
+  dev-3            Module Missing. Create now.
+  ----------------------------------------------------------------------------------------------------------------------
   09               Smarty Template Directories do not exist.            startup_checks.filter.php
   10               Smarty Template Directories not writable.            "
 
@@ -46,4 +50,4 @@
         Jens-André Koch
         Clansuite Maintainer
 
-  Version: $Id: README.EN.txt 2575 2008-11-20 01:08:44Z vain $
+  Version: $Id$
