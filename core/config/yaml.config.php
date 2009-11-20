@@ -1,7 +1,7 @@
 <?php
    /**
     * Clansuite - just an eSports CMS
-    * Jens-André Koch © 2005 - onwards
+    * Jens-AndrÃ© Koch Â© 2005 - onwards
     * http://www.clansuite.com/
     *
     * This file is part of "Clansuite - just an eSports CMS".
@@ -24,9 +24,9 @@
     *
     * @license    GNU/GPL v2 or (at your option) any later version, see "/doc/LICENSE".
     *
-    * @author     Jens-André Koch   <vain@clansuite.com>
+    * @author     Jens-AndrÃ© Koch   <vain@clansuite.com>
     * @author     Florian Wolf      <xsign.dll@clansuite.com>
-    * @copyright  Jens-André Koch (2005 - onwards), Florian Wolf (2006-2007)
+    * @copyright  Jens-AndrÃ© Koch (2005 - onwards), Florian Wolf (2006-2007)
     *
     * @link       http://www.clansuite.com
     * @link       http://gna.org/projects/clansuite
@@ -133,14 +133,14 @@ class Clansuite_Config_YAMLHandler extends Clansuite_Config_Base implements Arra
             # open file
             if (!$filehandle = fopen($filename, 'wb'))
             {
-                 throw new Clansuite_Exception("Kann die Datei $filename nicht öffnen");
+                 throw new Clansuite_Exception("Could not open file $filename.");
                  return false;
             }
 
             # write YAML content to file
             if (!fwrite($filehandle, $yaml_content))
             {
-                throw new Clansuite_Exception("Kann in die Datei $filename nicht schreiben");
+                throw new Clansuite_Exception("Could not write to file $filename.");
                 return false;
 
             }
@@ -151,7 +151,7 @@ class Clansuite_Config_YAMLHandler extends Clansuite_Config_Base implements Arra
         }
         else
         {
-            throw new Clansuite_Exception("Die Datei $filename ist nicht schreibbar. Datei- und Verzeichnisschreibrechte vergeben!");
+            throw new Clansuite_Exception("Could not write to file $filename, because permissions are wrong. Apply correct file und directory permissions.");
             return false;
         }
     }

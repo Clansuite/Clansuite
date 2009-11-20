@@ -311,7 +311,8 @@ class Clansuite_Doctrine
 
     /**
      * Displayes all Doctrine Querys with profiling Informations
-     * @todo This is debug output + direct output breaks the abstraction
+     * 
+     * Because this is debug output, it's ok that direct output breaks the abstraction.
      */
     public function displayProfilingHTML()
     {
