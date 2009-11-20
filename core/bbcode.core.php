@@ -56,76 +56,93 @@ if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
 class Clansuite_Bbcode
 {
     /**
-     * @var array
+     * @var object instance of StringParser_BBCode
      */
-    public $bb_code;
+    public $bbcode;
+
+    function __construct()
+    {
+        # Include Stringpaser_bbcode Class
+        require_once( ROOT_LIBRARIES . '/bbcode/stringparser_bbcode.class.php' );
+
+        # Instantiate the object
+        $this->bbcode = new StringParser_BBCode();
+
+        $this->setupDefaultBBCodes();
+
+        $this->initializeBBCodesFromDatabase();
+    }
 
     /**
+     * Setup some default BBCodes
+     * - Conversions and Filters
+     * - Standard Elements like
+     *   - url, link, img, code
      *
      */
-    function __construct($injector)
+    public function setupDefaultBBCodes()
     {
-        /**
-         * Include Stringpaser_bbcode Class
-         * Generate the object
-         */
-
-        require_once( ROOT_LIBRARIES . '/bbcode/stringparser_bbcode.class.php' );
-        $this->bb_code = new StringParser_BBCode();
-
-        // Load the BB Code Vars
-        #$db = $injector->instantiate('clansuite_doctrine');
-        $bb_codes = Doctrine_Query::create()
-                                  ->select('*')
-                                  ->from('CsBbCode')
-                                  ->execute();
-
         /**
          * Conversions & Filters
          */
 
-        $this->bb_code->addFilter (STRINGPARSER_FILTER_PRE, array( $this, 'convertlinebreaks' ) );
-        $this->bb_code->addParser (array ('block', 'inline', 'link', 'listitem',), 'htmlspecialchars');
-        $this->bb_code->addParser (array ('block', 'inline', 'link', 'listitem',), 'nl2br');
+        $this->bbcode->addFilter (STRINGPARSER_FILTER_PRE, array( $this, 'convertlinebreaks' ) );
+        $this->bbcode->addParser (array ('block', 'inline', 'link', 'listitem',), 'htmlspecialchars');
+        $this->bbcode->addParser (array ('block', 'inline', 'link', 'listitem',), 'nl2br');
 
         /**
          * Generate Standard BB Codes such as [url][/url] etc.
          */
 
-        $this->bb_code->addCode ('url', 'usecontent?', array( $this, 'do_bbcode_url'), array ('usecontent_param' => 'default'),
+        $this->bbcode->addCode ('url', 'usecontent?', array( $this, 'do_bbcode_url'), array ('usecontent_param' => 'default'),
                           'link', array ('listitem', 'block', 'inline'), array ('link'));
-        $this->bb_code->addCode ('link', 'callback_replace_single', array( $this, 'do_bbcode_url' ), array (),
+        $this->bbcode->addCode ('link', 'callback_replace_single', array( $this, 'do_bbcode_url' ), array (),
                           'link', array ('listitem', 'block', 'inline'), array ('link'));
-        $this->bb_code->addCode ('img', 'usecontent', array( $this, 'do_bbcode_img' ), array (),
+        $this->bbcode->addCode ('img', 'usecontent', array( $this, 'do_bbcode_img' ), array (),
                           'image', array ('listitem', 'block', 'inline', 'link'), array ());
-        $this->bb_code->addCode ('bild', 'usecontent', array( $this, 'do_bbcode_img' ), array (),
-                          'image', array ('listitem', 'block', 'inline', 'link'), array ());
-        $this->bb_code->addCode ('code', 'usecontent?', array( $this, 'do_bbcode_code' ), array ('usecontent_param' => 'default'),
+        $this->bbcode->addCode ('code', 'usecontent?', array( $this, 'do_bbcode_code' ), array ('usecontent_param' => 'default'),
                           'code', array ('listitem', 'block', 'inline'), array ('code'));
-        $this->bb_code->setOccurrenceType ('img', 'image');
-        $this->bb_code->setOccurrenceType ('bild', 'image');
+        $this->bbcode->setOccurrenceType ('img', 'image');
+    }
 
-        /**
+    /**
+     * loads all bbcodes stored in database and assigns them to the bbcode parser object
+     */
+    public function initializeBBCodesFromDatabase()
+    {
+       # Load all BB Code Definition from Database
+       $bbcodes = Doctrine_Query::create()->select('*')->from('CsBbCode')->execute();
+
+       /**
          * Add the BBCodes from DB via addCode
          */
-        foreach( $bb_codes as $key => $code )
+        foreach( $bbcodes as $key => $code )
         {
+            # allowed
             $allowed_in = explode(',', $code['allowed_in']);
+
+            # not allowed
             $not_allowed_in = explode(',', $code['not_allowed_in']);
-            $this->bb_code->addCode ($code['name'], 'simple_replace', null, array ('start_tag' => $code['start_tag'], 'end_tag' => $code['end_tag']),
-                              $code['content_type'], $allowed_in, $not_allowed_in);
+
+            /**
+             * assign the code via stringparser object and its method addCode()
+             */
+            $this->bbcode->addCode ($code['name'], 'simple_replace', null,
+                                    array ('start_tag' => $code['start_tag'], 'end_tag' => $code['end_tag']),
+                                    $code['content_type'],
+                                    $allowed_in, $not_allowed_in);
         }
     }
 
     /**
-     * Parse the BB Code
+     * Parse the text and apply BBCode
      *
-     * @param string
-     * @return bb_code parsed text
+     * @param $text the string to parse and to apply the bbcode formatting to
+     * @return bbcode parsed text
      */
     public function parse($text)
     {
-        return $this->bb_code->parse($text);
+        return $this->bbcode->parse($text);
     }
 
     /**
@@ -203,3 +220,4 @@ class Clansuite_Bbcode
         return preg_replace ("/\015\012|\015|\012/", "\n", $text);
     }
 }
+?>
