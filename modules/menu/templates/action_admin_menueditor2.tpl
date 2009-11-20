@@ -15,15 +15,24 @@
 	<script type="text/javascript">
 	$(function () { $("#basic_html").tree({ rules : { multitree : true } });
 					$("#basic_html2").tree({ rules : { multitree : true	} })
+					$("#tree").tree({ rules : { multitree : true	} })
 				  });
 	</script>
 {/literal}
+
+<div id="tree">
+
+    {$tree}
+    
+</div>
+
+<br /><br />
 
 @todo: jquery.tree.js den themepath zur style.css übergeben default ui themepath
 
 <div id="basic_html">
 	<ul>
-		<li id="phtml_1" class="open"><a href="#"><ins>&nbsp;</ins>Root node 1</a>
+		<li><a href="#"><ins>&nbsp;</ins>Root node 1</a>
 			<ul>
 				<li id="phtml_2"><a href="#"><ins>&nbsp;</ins>Child node 1</a></li>
 				<li id="phtml_3"><a href="#"><ins>&nbsp;</ins>Child node 2</a></li>

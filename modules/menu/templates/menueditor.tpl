@@ -1,14 +1,12 @@
 {modulenavigation}
+
 {move_to target="pre_head_close"}
 <link rel="stylesheet" type="text/css" href="{$www_root_mod}/css/DynamicTree.css" />
 <script type="text/javascript" src="{$www_root_mod}/javascript/DynamicTreeBuilder.js"></script>
 <script type="text/javascript" src="{$www_root_mod}/javascript/plugins.js"></script>
 
-
 {literal}
     <style type="text/css">
-        body { background: #F1EFE2; }
-        {* body, table { font-family: georgia, sans-serif; font-size: 11px; } *}
         form { margin: 0; }
         input[readonly] { border: 1px solid #7F9DB9; background: #ffffff; }
         a { color: #0000ee; text-decoration: none; }
