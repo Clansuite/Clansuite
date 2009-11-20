@@ -17,92 +17,107 @@
 {/foreach}
 *}
 
+<!-- start jq confirm dialog -->
+{jqconfirm}
+<!-- end jq confirm dialog -->
+
+{modulenavigation}
 <div class="ModuleHeading">{t}Guestbook{/t}</div>
 <div class="ModuleHeadingSmall">{t}You can edit, delete and comment guestbook entries.{/t}</div>
 
-<div class="guestbook">
-    {pagination}
-    <div class="options-top">
-        <input class="ButtonGreen" type="button" value="{t}Add a guestbook entry{/t}" />
-    </div>
 
-    {foreach from=$guestbook item=entry key=key}
+<table border="0" cellspacing="1" cellpadding="3" style="width:99%">
 
-    <div class="gb" id="guestbook-entry-{$entry.gb_id}">
+    <caption class="td_header">Guestbook</caption>
 
-        <div class="gbhead">
+    <tr class="tr_row1">
+        <!-- Table-Head Pagination -->
+        <td height="20" colspan="9" align="right">
+            {pagination}
+        </td>
+    </tr>
 
-            <div class="author">
-                {t}Autor{/t}
-            </div>
+    <!-- Header of Table -->
+    <tr class="td_header">
+        <th>(Gr)Avatar</th>
+        <th>{columnsort html='Nickname'}</th>
+        <th>{columnsort selected_class="selected" html='Message'}</th>
+        <th>{columnsort html='Date'}</th>
+        <th>{columnsort html='Website'}</th>
+        <th>Contact</th>
+        <th>Draft</th>
+        <th>Action</th>
+        <th>Select</th>
+    </tr>
 
-            <div class="message">
-                {t}Message{/t}
-            </div>
+    <!-- Open Form -->
+    <form id="deleteForm" name="deleteForm" action="index.php?mod=news&sub=admin&amp;action=delete" method="post" accept-charset="UTF-8">
+        <!-- Content of Table -->
 
-        </div>
+        {foreach from=$guestbook item=entry key=key}
 
-        <div class="gbleft">
-            <span>{t}Name{/t}</span>: <span class="user-info">{$entry.gb_nick}</span>
-            <br />
-            {gravatar email="`$entry.gb_email`"}
-            <br />
-            <span>{t}Date{/t}</span>: {t}{$entry.gb_added|date_format:"%A"}{/t}, {t}{$entry.gb_added|date_format:"%B"}{/t}{$entry.gb_added|date_format:" %e, %Y"}<br />
-        </div>
+        <tr class="tr_row1" id="guestbook-entry-{$entry.gb_id}">
+                
+                <td>{gravatar email="`$entry.gb_email`"}</td>
+                
+                <td><a href='index.php?mod=users&amp;id={$entry.user_id}'>{$entry.gb_nick}</a></td>
+                
+                <td>{$entry.gb_text}</td>
+                
+                <td>{* date_format:"%d.%m.%y" *}
+                <span>{t}Date{/t}</span>: {t}{$entry.gb_added|date_format:"%A"}{/t}, {t}{$entry.gb_added|date_format:"%B"}{/t}{$entry.gb_added|date_format:" %e, %Y"}
+                </td>
+                
+                <td><a href="{$entry.gb_website}" target="_blank">{$entry.gb_website}</a></td>
+                
+                <td>Mail <a href="mailto:{$entry.gb_email}">{$entry.gb_email} - ICQ {$entry.gb_icq}</a></td>
+                
+                <td>published (Set hide)</td>
+                
+                <td>
+                    <a class="ui-button ui-button-check ui-widget ui-state-default ui-corner-all ui-button-size-small ui-button-orientation-l" 
+                       href="index.php?mod=guestbook&amp;sub=admin&amp;action=edit&amp;id={$entry.gb_id}" tabindex="0">
+                        <span class="ui-button-icon">
+                            <span class="ui-icon ui-icon-pencil"></span>
+                        </span>
+                        <span class="ui-button-label" unselectable="on" style="-moz-user-select: none;">Edit</span>
+                    </a>
+                </td>
+                
+                <td align="center" width="1%">                    
+                    <input name="delete[]" type="checkbox" value="{$entry.gb_id}" />
+                </td>
+        </tr>
 
-        <div class="gbright">
+        <!-- Show Guestbook Comment if one exists -->
+        {if !empty($entry.gb_comment)}
+            <tr class="tr_row2">
+                <td colspan="9">
+                        <legend>{t}Comment{/t}</legend>
+                        {$entry.gb_comment}
+                </td>
+            </tr>
+        {/if}
 
-            <!-- GB ENTRY TEXT -->
-            {$entry.gb_text}
+        {/foreach}
 
-            <!-- Show Comment if one exists -->
-            {if !empty($entry.gb_comment)}
-            <fieldset>
-                <legend>{t}Comment{/t}</legend>
-                {$entry.gb_comment}
-            </fieldset>
-            {/if}
+        <!-- Table-Footer Pagination -->
+        <tr class="tr_row1">
+            <td height="20" colspan="9" align="right">
+                {pagination}
+            </td>
+        </tr>
 
-        </div>
+        <!-- Form Buttons -->
+        <tr class="tr_row1">
+            <td height="20" colspan="9" align="right">
+                <a class="ButtonGreen" href="index.php?mod=news&amp;sub=admin&amp;action=create" />{t}Create News{/t}</a>
+                <input class="Button" name="reset" type="reset" value="{t}Reset{/t}" />
+                <input class="ButtonRed" type="submit" name="delete_text" value="{t}Delete Selected News{/t}" />
+            </td>
+        </tr>
 
-        <div class="gbfooter">
-        {* AJAX Needed *} {*
-        {if ( isset($smarty.session.user.rights.permission_edit_gb) AND isset($smarty.session.user.rights.permission_access) ) OR ($smarty.session.user.user_id == $entry.user_id) }
-            {if $smarty.session.user.user_id == $entry.user_id.1}
-            <input class="ButtonGreen" type="button" value="{t}Edit my entry{/t}" />
-            {/if}
-            {if isset($smarty.session.user.rights.permission_edit_gb) AND isset($smarty.session.user.rights.permission_access)}
-            <input class="ButtonGreen" type="button" value="{t}Edit or add comment{/t}" />
-            {/if}
-        {/if}     *}
-        </div>
+    </form>
+    <!-- Close Form -->
 
-        <dl>
-            <dt>{t}Date{/t}: </dt>
-                <dd>{t}{$entry.gb_added|date_format:"%A"}{/t}, {t}{$entry.gb_added|date_format:"%B"}{/t}{$entry.gb_added|date_format:" %e, %Y"}</dd>
-            <dt>{t}eMail{/t}: </dt>
-                <dd><a href="mailto:{$entry.gb_email}">{$entry.gb_email}</a></dd>
-            <dt>ICQ: </dt>
-                <dd>{$entry.gb_icq}</dd>
-            <dt>{t}Website{/t}: </dt>
-                <dd>
-                    {if empty($entry.gb_website)}
-                        <a href="http://www.clansuite.com" target="_blank">{t}no website{/t} | powered by clansuite.com</a>
-                    {else}
-                        <a href="{$entry.gb_website}" target="_blank">{$entry.gb_website}</a>
-                    {/if}
-                </dd>
-            <dt>{t}City{/t}: </dt>
-                <dd>{$entry.gb_town}</dd>
-            {if isset($smarty.session.user.rights.permission_edit_gb) and ($smarty.session.user.rights.permission_edit_gb == '1') and ($smarty.session.user.rights.permission_access == '1')}
-            <dt>IP: </dt>
-                <dd>{$entry.gb_ip}</dd>
-            {/if}
-        </dl>
-
-    {/foreach}
-    <div class="options-bottom">
-        <input class="ButtonGreen" type="button" value="{t}Add a guestbook entry{/t}" onclick='{literal}Dialog.info({url: "index.php?mod=guestbook&amp;action=create&amp;front=1", options: {method: "get"}}, {className: "alphacube", width:500, height: 420});{/literal}' />
-    </div>
-    {pagination}
-</div>
+</table>

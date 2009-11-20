@@ -96,7 +96,6 @@ class Module_Thememanager_Admin extends Clansuite_ModuleController implements Cl
                     $theme_info[$i]['layouttpl'] = $theme_info[$i]['layoutfiles']['layoutfile']['@attributes']['tpl'];
                     $theme_info[$i]['layoutpath'] = $theme_info[$i]['fullpath'].DS.$theme_info[$i]['layouttpl'];
                 }
-                
 
                 # add dirname
                 $theme_info[$i]['dirname']    = (string) $dir;

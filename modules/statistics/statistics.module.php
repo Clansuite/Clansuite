@@ -50,6 +50,7 @@ class Module_statistics extends Clansuite_ModuleController implements Clansuite_
      */
     public function execute(Clansuite_HttpRequest $request, Clansuite_HttpResponse $response)
     {
+
     }
 
     /**

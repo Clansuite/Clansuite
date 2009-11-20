@@ -1,7 +1,7 @@
 <?php
    /**
     * Clansuite - just an eSports CMS
-    * Jens-AndrÈ Koch © 2005 - onwards
+    * Jens-Andr√© Koch ¬© 2005 - onwards
     * http://www.clansuite.com/
     *
     * This file is part of "Clansuite - just an eSports CMS".
@@ -24,8 +24,8 @@
     *
     * @license    GNU/GPL v2 or (at your option) any later version, see "/doc/LICENSE".
     *
-    * @author     Jens-AndrÈ Koch <vain@clansuite.com>
-    * @copyright  Jens-AndrÈ Koch (2005 - onwards)
+    * @author     Jens-Andr√© Koch <vain@clansuite.com>
+    * @copyright  Jens-Andr√© Koch (2005 - onwards)
     *
     * @link       http://www.clansuite.com
     * @link       http://gna.org/projects/clansuite
@@ -39,9 +39,9 @@ if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
 /**
  * This is the Clansuite Module Class - Guestbook Admin
  *
- * @author     Jens-AndrÈ Koch <vain@clansuite.com>
+ * @author     Jens-Andr√© Koch <vain@clansuite.com>
  * @author     Florian Wolf    <xsign.dll@clansuite.com>
- * @copyright  Jens-AndrÈ Koch (2005 - onwards), Florian Wolf (2006-2007)
+ * @copyright  Jens-Andr√© Koch (2005 - onwards), Florian Wolf (2006-2007)
  * @since      Class available since Release 0.1
  *
  * @category    Clansuite
@@ -65,15 +65,9 @@ class Module_Guestbook_Admin extends Clansuite_ModuleController implements Clans
      */
     function action_admin_show()
     {
-        # Permission check
-        #$perms::check('cc_view_news');
-
-        # Set Pagetitle and Breadcrumbs
-        #Clansuite_Trail::addStep( _('Show'), '/index.php?mod=guestbook&amp;sub=admin&amp;action=show');
-
         # Incoming Variables
         $currentPage    = (int) $this->injector->instantiate('Clansuite_HttpRequest')->getParameter('page');
-        $resultsPerPage = (int) 10;
+        $resultsPerPage = (int) $this->getConfigValue('resultsPerPage_adminshow', '10');
 
         // SmartyColumnSort -- Easy sorting of html table columns.
         require( ROOT_LIBRARIES . '/smarty/SmartyColumnSort.class.php');
@@ -86,67 +80,97 @@ class Module_Guestbook_Admin extends Clansuite_ModuleController implements Clans
         // Get sort order from columnsort
         $sortorder = $columnsort->sortOrder(); // Returns 'name ASC' as default
 
-        // read * db -> $guestbook_entries
-        $pager_layout = new Doctrine_Pager_Layout(
-                            new Doctrine_Pager(
-                                Doctrine_Query::create()
-                                        ->select('g.*')
-                                        ->from('CsGuestbook g')
-                                        ->orderby($sortorder),
-                                         # The following is Limit  ?,? =
-                                         $currentPage, // Current page of request
-                                         $resultsPerPage // (Optional) Number of results per page Default is 25
-                                 ),
-                                 new Doctrine_Pager_Range_Sliding(array(
-                                     'chunk' => 5
-                                 )),
-                                 '?mod=guestbook&sub=admin&action=show&page={%page}'
-                                 );
+        # fetch entries
+        $guestbookQuery = Doctrine::getTable('CsGuestbook')->fetchAllGuestbookEntries($currentPage, $resultsPerPage, true, $sortorder);
+        
+        # import array variables into the current symbol table ($newsQuery is an array('news','pager','pager_layout')
+        extract($guestbookQuery);
+        unset($guestbookQuery);
 
-        # Assigning templates for page links creation
-        $pager_layout->setTemplate('[<a href="{%url}">{%page}</a>]');
-        $pager_layout->setSelectedTemplate('[{%page}]');
-        # Retrieving Doctrine_Pager instance
-        $pager = $pager_layout->getPager();
-
-        // Fetching news
-        #var_dump($pager->getExecuted());
-        $guestbook_entries = $pager->execute(array(), Doctrine::HYDRATE_ARRAY);
-
-        // Transform RAW text to BB-formatted Text
+        # fetch the BBCode formatter object
         Clansuite_Loader::loadCoreClass('bbcode');
         $bbcode = new Clansuite_Bbcode($this->injector);
 
+        # Transform RAW text from DB to BB-formatted Text
         foreach( $guestbook_entries as $key => $value )
         {
             $guestbook_entries[$key]['gb_text']     = $bbcode->parse($value['gb_text']);
             $guestbook_entries[$key]['gb_comment']  = $bbcode->parse($value['gb_comment']);
         }
 
-        // Get Number of Rows
+        # get Number of Rows
         $count = count($guestbook_entries);
-        // DEBUG - show total numbers of last Select
-        // echo 'Found Rows: ' . $count;
 
-         # Get Render Engine
+        # Get view and assign placeholders
         $smarty = $this->getView();
-
-        // Pagination
-        $smarty->assign_by_ref('pager', $pager);
-        $smarty->assign_by_ref('pager_layout', $pager_layout);
-
-        // give $newslist array to Smarty for template output
+        $smarty->assign('guestbook_counter', $count);
         $smarty->assign('guestbook', $guestbook_entries);
-
-        # Set Layout Template
-        $this->getView()->setLayoutTemplate('index.tpl');
-
-        # specifiy the template manually
-        #$this->setTemplate('guestbook/admin_show.tpl');
+        $smarty->assign('pager', $pager);
+        $smarty->assign('pager_layout', $pager_layout);
 
         # Prepare the Output
         $this->prepareOutput();
+    }
 
+    /**
+     * Debugging Action
+     * testformgenerator
+     */
+    function action_admin_testformgenerator()
+    {
+        # Load Form Class (@todo autoloader / di)
+        require ROOT_CORE . 'viewhelper/form.core.php';
+        # Create a new form
+
+        $form = new Clansuite_Form('news_create_form', 'POST', 'upload-file.php');
+        $form->setId('news_create_form')
+             ->setTarget('hidden_upload')
+             ->setHeading('News Create Form')
+             ->setEncoding('multipart/form-data')
+             ->setDescription('My news create form...');
+
+        # Assign some Formlements
+        /*$form->addElement('captcha')->setLabel('captcha label');
+
+        $form->addElement('checkbox')->setLabel('checkbox label');
+        $form->addElement('checkboxlist')->setLabel('checkboxlist label');
+        $form->addElement('confirmsubmitbutton')->setLabel('confirmsubmitbutton label');
+        */
+
+        # you can specify several uploadTypes: uploadify, apc, ajaxupload
+        # or no uploadType at all (for default upload)
+        #$form->addElement('file')->setUploadType('uploadify')->setLabel('file upload label');
+/*
+        $form->addElement('jqconfirmsubmitbutton')->setFormId('news_create_form')->setLabel('jqconfirmsubmitbutton label');
+
+        $form->addElement('jqselectdate')->setLabel('jqselectdate label'); #->setFormId('news_create_form')
+
+        $form->addElement('hidden')->setLabel('hidden label');
+
+        $form->addElement('radio')->setLabel('radio label');
+        $form->addElement('radiolist')->setLabel('radiolist label');
+
+        $form->addElement('selectcountry');
+        $form->addElement('selectyesno');
+*/
+        $form->addElement('text')->setLabel('text label');
+        $form->addElement('textarea')->setCols('70')->setLabel('textarea label');
+
+        #$form->addElement('submitbutton')->setValue('Submit')->setLabel('Submit Button')->setClass('ButtonGreen');
+        #$form->addElement('resetbutton')->setValue('Reset')->setLabel('Reset Button');
+/*
+        $form->addElement('imagebutton')->setValue('Reset')->setLabel('Image Button'); # setSource
+*/
+        # Debugging Form Object
+        #clansuite_xdebug::printR($form);
+
+        # Debugging Form HTML Output
+        #clansuite_xdebug::printR($form->render());
+
+        # assign the html of the form to the view
+        $this->getView()->assign('form', $form->render());
+
+        $this->prepareOutput();
     }
 
     /**
@@ -184,7 +208,7 @@ class Module_Guestbook_Admin extends Clansuite_ModuleController implements Clans
         $bbcode = new bbcode();
         $parsed_comment = $bbcode->parse($comment);
 
-        $this->output .= $parsed_comment;
+         $parsed_comment;
         $this->suppress_wrapper = 1;
     }
 
@@ -211,7 +235,7 @@ class Module_Guestbook_Admin extends Clansuite_ModuleController implements Clans
         $result = $stmt->fetch(PDO::FETCH_NAMED);
 
         // Helptext in Raw from Database
-        $this->output = $result['gb_comment'];
+         $result['gb_comment'];
         $this->suppress_wrapper = true;
     }
 
@@ -274,11 +298,11 @@ class Module_Guestbook_Admin extends Clansuite_ModuleController implements Clans
 
             $tpl->assign( 'infos', $result);
             $tpl->assign( 'front', $front);
-            $this->output = $tpl->fetch('guestbook/admin_edit.tpl');
+            $tpl->fetch('guestbook/admin_edit.tpl');
         }
         else
         {
-            $this->output = $lang->t('You do not have sufficient rights.') . '<br /><input class="ButtonRed" type="button" onclick="Dialog.okCallback()" value="Abort"/>';
+            $lang->t('You do not have sufficient rights.') . '<br /><input class="ButtonRed" type="button" onclick="Dialog.okCallback()" value="Abort"/>';
         }
         $this->suppress_wrapper = 1;
     }
@@ -390,15 +414,15 @@ class Module_Guestbook_Admin extends Clansuite_ModuleController implements Clans
             $result = $stmt->fetch( PDO::FETCH_NAMED );
 
             $tpl->assign( 'infos', $result);
-            $this->output = $tpl->fetch('guestbook/admin_edit.tpl');
+            $tpl->fetch('guestbook/admin_edit.tpl');
         }
         else
         {
-            $this->output = $lang->t('You are not allowed to view single news.');
+            $lang->t('You are not allowed to view single news.');
         }
         $this->suppress_wrapper = 1;
     }
-	
+
     /**
      * Action for displaying the Settings of a Module Guestbook
      */
@@ -406,47 +430,47 @@ class Module_Guestbook_Admin extends Clansuite_ModuleController implements Clans
     {
         # Set Pagetitle and Breadcrumbs
         Clansuite_Trail::addStep( _('Settings'), '/index.php?mod=guestbook&amp;sub=admin&amp;action=settings');
-        
+
         $settings = array();
-        
+
         $settings['form']   = array(    'name' => 'guestbook_settings',
                                         'method' => 'POST',
                                         'action' => WWW_ROOT.'/index.php?mod=guestbook&amp;sub=admin&amp;action=settings_update');
-										
-        $settings['guestbook'][] = array(    
+
+        $settings['guestbook'][] = array(
 										'id' => 'guestbook_resultsPerPage',
                                         'name' => 'guestbook_resultsPerPage',
                                         'description' => _('Guestbook Items'),
                                         'formfieldtype' => 'text',
                                         'value' => $this->getConfigValue('guestbook_resultsPerPage', '12'));
-        
+
         require ROOT_CORE . '/viewhelper/formgenerator.core.php';
         $form = new Clansuite_Array_Formgenerator($settings);
 
         # display formgenerator object
-        #clansuite_xdebug::printR($form); 
-        
+        #clansuite_xdebug::printR($form);
+
         $form->addElement('submitbutton')->setName('Save');
         $form->addElement('resetbutton');
-        
+
         # display form html
         #clansuite_xdebug::printR($form->render());
-        
+
         # assign the html of the form to the view
         $this->getView()->assign('form', $form->render());
 
-        $this->prepareOutput();       
+        $this->prepareOutput();
     }
-    
+
     function action_admin_settings_update()
-    { 
+    {
         # Incomming Data
         # @todo get post via request object, sanitize
         $data = $this->getHttpRequest()->getParameter('guestbook_settings');
 
         # Get Configuration from Injector
         $config = $this->injector->instantiate('Clansuite_Config');
-        
+
         # write config
         $config->confighandler->writeConfig( ROOT_MOD . 'guestbook/guestbook.config.php', $data);
 

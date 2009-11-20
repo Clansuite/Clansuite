@@ -1,7 +1,7 @@
 <?php
    /**
     * Clansuite - just an eSports CMS
-    * Jens-Andr� Koch © 2005 - onwards
+    * Jens-André Koch Â© 2005 - onwards
     * http://www.clansuite.com/
     *
     * This file is part of "Clansuite - just an eSports CMS".
@@ -24,9 +24,9 @@
     *
     * @license    GNU/GPL v2 or (at your option) any later version, see "/doc/LICENSE".
     *
-    * @author     Jens-Andr� Koch   <vain@clansuite.com>
+    * @author     Jens-André Koch   <vain@clansuite.com>
     * @author     Florian Wolf      <xsign.dll@clansuite.com>
-    * @copyright  Jens-Andr� Koch (2005 - onwards), Florian Wolf (2006-2007)
+    * @copyright  Jens-André Koch (2005 - onwards), Florian Wolf (2006-2007)
     *
     * @link       http://www.clansuite.com
     * @link       http://gna.org/projects/clansuite
@@ -41,8 +41,8 @@ if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
 /**
  * This is the Clansuite Module Class - Guestbook
  *
- * @author     Jens-Andr� Koch <vain@clansuite.com>
- * @copyright  Jens-Andr� Koch (2005 - onwards)
+ * @author     Jens-André Koch <vain@clansuite.com>
+ * @copyright  Jens-André Koch (2005 - onwards)
  * @since      Class available since Release 0.1
  *
  * @category    Clansuite
@@ -160,62 +160,15 @@ class Module_Guestbook extends Clansuite_ModuleController implements Clansuite_M
         $smarty->assign_by_ref('pager', $pager);
         $smarty->assign_by_ref('pager_layout', $pager_layout);
        
-        /**
-         *
-        $form->displayWithSmarty();
-        */
-        /*
-        $form = new Clansuite_Form;
-        $form->createForm('eingabe','post',$_SERVER['PHP_SELF']);
-        
-        #  mixed    Either type name (treated case-insensitively) or an element instance
-        #  mixed   	$name   	— 	  Element name
-        #  mixed   	$attributes — 	  Element attributes
-        #  array   	$data   	— 	  Element-specific data
-        // checkboxes and radios
-        $fs = $form->addElement('fieldset')->setLabel('Checkboxes and radios');
-        $fs->addElement('checkbox', 
-            'boxTest', null, array('label' => 'Test Checkbox:', 'content' => 'check me')
-        );
-        $fs->addElement('radio', 
-            'radioTest', array('value' => 1), array('label' => 'Test radio:', 'content' => 'select radio #1')
-        );
-        $fs->addElement('radio', 
-            'radioTest', array('value' => 2), array('label' => '(continued)', 'content' => 'select radio #2')
-        );
-        
-        $fs->addElement('button', 
-            'submit', array('value' => 2), array('label' => '(continued)', 'content' => 'select radio #2')
-        );
-        
-        $a = $form->output_element($fs);
-        $smarty->assign('form', $a);*/
+        # create form
+        $form = new Clansuite_Form('eingabe','post',$_SERVER['PHP_SELF']);
+       
+        $smarty->assign('form', $form);
         
         # Prepare the Output
         $this->prepareOutput();
     }
     
-    /*
-    <?php
-    $form->prepareCache();
-    include $form->getCacheFile();
-    ?>
-    
-    Validation would work as it currently does. You'd end up with something
-    like:
-    
-    <?php
-    $form = new HTML_Quickform2;
-    $form['name'] = 'whatever';
-    if ($form->submitted && $form->valid) {
-    }if ($form->cached) {
-    $form->displayCache();
-    } else {
-    // set up the form
-    }
-    
-    ?>
-    */
     /**
     * AJAX request to save the comment
     * 1. save comment in raw with bbcodes on - into database
@@ -294,11 +247,11 @@ class Module_Guestbook extends Clansuite_ModuleController implements Clansuite_M
 
             $tpl->assign( 'infos', $result);
             $tpl->assign( 'front', $front);
-            $this->output = $tpl->fetch('guestbook/create.tpl');
+            $tpl->fetch('guestbook/create.tpl');
         }
         else
         {
-            $this->output = $lang->t('You do not have sufficient rights.') . '<br /><input class="ButtonRed" type="button" onclick="Dialog.okCallback()" value="Abort"/>';
+            $lang->t('You do not have sufficient rights.') . '<br /><input class="ButtonRed" type="button" onclick="Dialog.okCallback()" value="Abort"/>';
         }
         $this->suppress_wrapper = 1;
     }    
