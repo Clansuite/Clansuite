@@ -178,7 +178,7 @@
                 <p style="text-align:left;clear:both;margin-top:20px;" class="copyright">
                     <center>
                             <hr />
-                            {$copyright} 
+                            {include file='copyright.tpl'}
                             <p> {include file='server_stats.tpl'} </p>
                     </center>
                 </p>
