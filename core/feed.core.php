@@ -177,7 +177,7 @@ class Clansuite_Feed
             chmod($cachefile, 0666);
 
             # Get Feed from source, Write File
-            $feedcontent = file_get_content($feed_url);
+            $feedcontent = file_get_contents($feed_url);
 
             # ensure that we have rss content
             if(strlen($feedcontent) > 0)

@@ -121,13 +121,6 @@ interface Clansuite_ABCD_Module_Interface extends Clansuite_Module_Interface
  */
 abstract class Clansuite_ModuleController extends Clansuite_ModuleController_Resolver
 {
-    /**
-     * Variable $output contains the output (view-data) of the module
-     * @todo output should be in response object or in a composite structured output class.
-     * @access protected
-     */
-    protected $output = null;
-
     // Variable contains the rendering engine (view object)
     public $view = null;
 

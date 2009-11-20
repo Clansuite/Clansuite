@@ -65,7 +65,7 @@ class Clansuite_CMS
 
         Clansuite_CMS::initialize_Config();
 
-        Clansuite_CMS::application_startup_checks();
+        Clansuite_CMS::perform_startup_checks();
 
         Clansuite_CMS::initialize_Paths();
 
@@ -97,7 +97,7 @@ class Clansuite_CMS
      *     Startup Checks
      *  ================================================
      */
-    private static function application_startup_checks()
+    private static function perform_startup_checks()
     {
         # Check if install.php is still available, so we are installed but without security steps performed
         #if ( is_file( 'installation/install.php') == true ) { header( 'Location: installation/check_security.php'); exit; }
@@ -509,18 +509,16 @@ class Clansuite_CMS
 
     /**
      * Starts a new Session and Userobject
-     *
-     * @todo some position problems (locale)
      */
     private static function start_Session()
     {
-        # instantiate the Locale
-        self::$injector->instantiate('Clansuite_Localization');
-
         new Clansuite_Doctrine(new Clansuite_Config());
 
         # Initialize Session, then register the session-depending User-Object manually
         new Clansuite_Session(new Clansuite_Config, self::$injector->instantiate('Clansuite_HttpRequest'));
+
+        # instantiate the Locale
+        self::$injector->instantiate('Clansuite_Localization');
 
         self::$injector->instantiate('Clansuite_User');
     }
