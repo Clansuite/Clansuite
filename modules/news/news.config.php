@@ -3,7 +3,7 @@
 ; Clansuite Configuration File : 
 ; D:\xampplite\htdocs\work\clansuite\trunk\modules\news\news.config.php 
 ;
-
+[news]
 resultsPerPage_show = 3
 items_newswidget = 5
 resultsPerPage_fullarchive = 3

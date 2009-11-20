@@ -76,7 +76,7 @@ class Module_News_Admin extends Clansuite_ModuleController implements Clansuite_
         #$perms::check('cc_view_news');
 
         # Set Pagetitle and Breadcrumbs
-        #Clansuite_Trail::addStep( _('Show'), '/index.php?mod=news&amp;sub=admin&amp;action=show');
+        #Clansuite_Trail::addStep( _('Show'), 'index.php?mod=news&amp;sub=admin&amp;action=show');
 
         # Incoming Variables
         $request = $this->getHttpRequest();
@@ -262,10 +262,17 @@ class Module_News_Admin extends Clansuite_ModuleController implements Clansuite_
     {
         $request = $this->getHttpRequest();
         $delete  = $request->getParameter('delete');
-        $numDeleted = Doctrine_Query::create()->delete('CsNews')->whereIn('news_id', $delete)->execute();
-        $this->getHttpResponse()->redirectNoCache('index.php?mod=news&amp;sub=admin', 2, 302, _( $numDeleted. ' News deleted.'));
+        
+        if(isset($delete))
+        {
+            $numDeleted = Doctrine_Query::create()->delete('CsNews')->whereIn('news_id', $delete)->execute();
+            $this->getHttpResponse()->redirectNoCache('index.php?mod=news&amp;sub=admin', 2, 302, $numDeleted . _(' News deleted.'));
+        }
+        else
+        {
+           $this->getHttpResponse()->redirectNoCache('index.php?mod=news&amp;sub=admin');
+        }
     }
-
 
     /**
      * Action for displaying the Settings of a Module News
@@ -307,7 +314,9 @@ class Module_News_Admin extends Clansuite_ModuleController implements Clansuite_
                                         'label' => 'Admin News Items',
                                         'description' => _('Newsitems to show in the administration area.'),
                                         'formfieldtype' => 'text',
-                                        'value' => $this->getConfigValue('resultsPerPage_adminshow', '10'));
+                                        'value' => $this->getConfigValue('resultsPerPage_adminshow', '10'),
+                                        'validationrules' => array('int'),
+                                        'errormessage' => 'Please use digits!');
 
 
         $settings['news'][] = array(    'id' => 'resultsPerPage_archive',

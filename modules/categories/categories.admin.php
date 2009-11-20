@@ -81,7 +81,7 @@ class Module_Categories_Admin extends Clansuite_ModuleController implements Clan
         $sortorder = $columnsort->sortOrder(); // Returns 'name ASC' as default
 
         # Set Pagetitle and Breadcrumbs
-        Clansuite_Trail::addStep( _('Show'), '/index.php?mod=categories&amp;sub=admin&amp;action=show');
+        Clansuite_Trail::addStep( _('Show'), 'index.php?mod=categories&amp;sub=admin&amp;action=show');
 
         $categories = Doctrine::getTable('CsCategories')->fetchAllCategories($sortorder);
 
@@ -102,7 +102,7 @@ class Module_Categories_Admin extends Clansuite_ModuleController implements Clan
         /**
          * Create a new form
          */
-        $form = new Clansuite_Form('categrory_form', 'post', 'index.php?mod=categories&sub=admin&action=update&type=create');
+        $form = new Clansuite_Form('category_form', 'post', 'index.php?mod=categories&sub=admin&action=update&type=create');
 
         /**
          * Assign some Formlements
@@ -111,7 +111,9 @@ class Module_Categories_Admin extends Clansuite_ModuleController implements Clan
         $modules = Doctrine::getTable('CsModules')->fetchAllModulesDropDown();
         $form->addElement('multiselect')->setName('cat_form[module_id]')->setLabel(_('Module'))->setOptions($modules)
         ->setDescription(_('Select the module to create the category for.'));
+        
         $form->addElement('textarea')->setName('cat_form[description]')->setID('cat_form[description]')->setCols('60')->setRows('5')->setLabel(_('Description'))->setEditorType('ckeditor');
+        
         #$form->addElement('text')->setName('cat_form[sortorder]')->setLabel(_('Sort Order')); # not needed here
         $form->addElement('jqselectcolor')->setName('cat_form[color]')->setLabel(_('Select Color'))->setDescription(_('Click Inputfield to toggle Colorwheel.'));
         $form->addElement('jqselectimage')->setName('cat_form[image]')->setLabel(_('Select Image'));
@@ -119,7 +121,7 @@ class Module_Categories_Admin extends Clansuite_ModuleController implements Clan
         # @todo category image upload + db insert
         $form->addElement('submitbutton');
         $form->addElement('resetbutton');
-		$form->addElement('cancelbutton');
+        $form->addElement('cancelbutton');
 
         # Debugging Form Object
         #clansuite_xdebug::printR($form);
@@ -170,9 +172,9 @@ class Module_Categories_Admin extends Clansuite_ModuleController implements Clan
         #$form->addElement('uploadajax')->setName('Upload Image')->setLabel(_('Upload Image'));
         $form->addElement('jqselectimage')->setName('cat_form[icon]')->setLabel(_('Select Icon'))->setDefaultValue($cat['icon']);
         #$form->addElement('uploadajax')->setName('Upload Icon')->setLabel(_('Upload Icon'));
-		$form->addElement('submitbutton')->setValue('Submit');
+        $form->addElement('submitbutton')->setValue('Submit');
         $form->addElement('resetbutton')->setValue('Reset');
-		$form->addElement('cancelbutton');
+        $form->addElement('cancelbutton');
 
         # Debugging Form Object
         #clansuite_xdebug::printR($form);
@@ -192,11 +194,31 @@ class Module_Categories_Admin extends Clansuite_ModuleController implements Clan
     function action_admin_delete()
     {
         $request = $this->getHttpRequest();
-        $delete  = $request->getParameter('delete');
-        $numDeleted = Doctrine_Query::create()->delete('CsCategories')->whereIn('cat_id', $delete)->execute();
-        $this->getHttpResponse()->redirectNoCache('index.php?mod=categories&amp;sub=admin', 2, 302, _( $numDeleted. ' Categories deleted.'));
-    }
+        $delete  = $request->getParameter('delete', 'P');
 
+        if(isset($delete))
+        {
+            $numDeleted = Doctrine_Query::create()->delete('CsCategories')->whereIn('cat_id', $delete)->execute();
+            $this->getHttpResponse()->redirectNoCache('index.php?mod=categories&amp;sub=admin', 2, 302, $numDeleted . _(' Categories deleted.'));
+        }
+        else
+        {
+           $this->getHttpResponse()->redirectNoCache('index.php?mod=categories&amp;sub=admin');
+        }
+    }
+    
+    /** Denests the nested arrays within the given array. */
+    function flatten_array(array $a) {
+        $i = 0;
+        while ($i < count($a)) {
+            if (is_array($a[$i])) {
+                array_splice($a, $i, 1, $a[$i]);
+            } else {
+                $i++;
+            }
+        }
+        return $a;
+    }
 
     /**
      * Update a Categories Entry identified by cat_id
