@@ -1,0 +1,22 @@
+@charset "utf-8";
+/* CSS for Clansuite Standard Theme 		*/
+/* ---------------------------------------- */
+
+/* 											*/
+/*	Standard Theme CSS Styling				*/
+/*											*/
+#wrapper { width:1000px; background-color:#333; margin-right:auto; margin-left:auto; border:2px solid #000; }
+#header {  height:90px; padding:10px; background-color:#1e1d1d; }
+#main { }
+#left { float:left; width:200px; }
+#content { margin-left: 200px; margin-right:200px; }
+#right { float:right; width:200px; }
+#foot { }
+/* ---------------------------------------- */
+
+/*	List Navigation Styling					*/
+ul { border-top:1px solid #CCC; }
+li { border-bottom:1px solid #CCC; list-style-type:none; margin-left:0; padding-left:10px; }
+/* ---------------------------------------- */
+
+input[name=nickname], input[name=password] { width:110px; }

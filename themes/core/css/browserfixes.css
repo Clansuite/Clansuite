@@ -1,0 +1,16 @@
+@charset "utf-8";
+/*											*/
+/*	fixes for some browser css issues		*/
+/*											*/
+
+/*	reset all Browser CSS 					*/
+* { margin:0; padding:0; }
+
+/*	restyle some elements					*/
+h2, p, ol { margin-bottom:1em; }
+ul, ul ul { margin-bottom:0; }
+li { margin-left:1em; }
+
+/* clear both */
+.clearfix { clear:both; }
+/* ---------------------------------------- */

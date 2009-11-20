@@ -1,0 +1,26 @@
+@charset "utf-8";
+/*												*/
+/*	Clansuite Core Standard Styling Classes		*/
+/*												*/
+
+/*												*/
+/*	Import other css files						*/
+/*												*/
+
+/*	import form.css								*/
+/*@import url("form.css") screen;				*/
+/*	import browserfixes.css						*/
+@import url("browserfixes.css") screen;
+/* --------------------------------------------	*/
+
+/*	Standard Core Styling						*/
+.inside { padding:10px; }
+.widgetcontainer { background-color:#999; border: 1px solid #CC6; }
+.modulecontainer { background-color:#999; }
+.twocols { width:49%; }
+.threecols { width:33%; }
+.left { float:left; }
+.middle { margin-left:auto; margin-right:auto; }
+.right { float:right; }
+/* --------------------------------------------	*/
+

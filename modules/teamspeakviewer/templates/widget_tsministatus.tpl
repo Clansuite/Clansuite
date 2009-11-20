@@ -67,5 +67,4 @@
     {/if}
 
 </div>
-</div>
 <!-- [-End-] Widget: Teamspeak Ministatus -->
