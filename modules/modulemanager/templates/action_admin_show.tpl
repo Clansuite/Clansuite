@@ -1,12 +1,19 @@
 {* DEBUG OUTPUT of assigned Arrays:
    {$smarty.session|@var_dump}
    <hr>
+    {$numberOfModules}
     {$modules|@var_dump}
 *}
 
 {modulenavigation}
 <div class="ModuleHeading">{t}Modulemanager{/t}</div>
 <div class="ModuleHeadingSmall">{t}Administrate the modules. You can add, delete, activate, deactivate modules.{/t}</div>
+
+<br />
+
+There are {$numberOfModules} Modules installed.
+
+<br />
 
 <table cellpadding="0" cellspacing="0" border="0" width="100%">
     <tr>
@@ -21,9 +28,9 @@
         <td class="cell2"></td>
         <td class="cell1"></td>
         <td class="cell2">
-            <a href="" type="button" class="delete" title="{$module.name}" />Activate</a>
-            <a href="" type="button" class="delete" title="{$module.name}" />Delete</a>
-            <a href="" type="button" class="delete" title="{$module.name}" />Options</a>
+            <a href="" type="button" class="delete" title="{$modules.name}" />Activate</a>
+            <a href="" type="button" class="delete" title="{$modules.name}" />Delete</a>
+            <a href="" type="button" class="delete" title="{$modules.name}" />Options</a>
         </td>
     </tr>
     {/foreach}

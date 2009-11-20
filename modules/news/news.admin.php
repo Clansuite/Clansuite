@@ -82,7 +82,7 @@ class Module_News_Admin extends Clansuite_ModuleController implements Clansuite_
         $request = $this->getHttpRequest();
         $category       = (int) $request['news_category_form']['cat_id'];
         $currentPage    = (int) $request->getParameter('page');
-        $resultsPerPage = (int) $this->getConfigValue('resultsPerPage_adminshow', '10');;
+        $resultsPerPage = (int) $this->getConfigValue('resultsPerPage_adminshow', '10');
 
         # SmartyColumnSort -- Easy sorting of html table columns.
         require( ROOT_LIBRARIES . '/smarty/SmartyColumnSort.class.php');

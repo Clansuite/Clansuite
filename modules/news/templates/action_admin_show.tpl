@@ -14,7 +14,6 @@
 {/literal}
 </style>
 
-
 <!-- start jq confirm dialog -->
 {jqconfirm}
 <!-- end jq confirm dialog -->

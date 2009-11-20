@@ -62,7 +62,6 @@ if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
  * @author
  * @copyright
  *
-
  */
 class Module_Modulemanager_Admin extends Clansuite_ModuleController implements Clansuite_Module_Interface
 {
@@ -86,27 +85,32 @@ class Module_Modulemanager_Admin extends Clansuite_ModuleController implements C
         # Set Pagetitle and Breadcrumbs
         Clansuite_Trail::addStep( _('Show'), '/index.php?mod=modulemanager&amp;sub=admin&amp;action=show');
 
-        // Set Layout Template
-        $this->getView()->setLayoutTemplate('index.tpl');
-
-        // Init vars
+        # Init vars
         $modules = array();
+        $number_of_modules = 0;
 
-        // Scan all modules
+        # Scan all modules
         $module_glob = glob( ROOT . 'modules' . DS . '*', GLOB_ONLYDIR );
         foreach( $module_glob as $module_path )
         {
-            echo $module_path;
-
-            #$modulename_by_dirname = str_replace( ROOT . 'modules' . DS ,'', $mod);
-
-            #$modules[$modulename_by_dirname][] = array();
+            #clansuite_xdebug::printR($module_glob);
+            
+            $modulename_by_dirname = str_replace( ROOT . 'modules' . DS ,'', $module_path);
+            $modules['counter']                = $number_of_modules++;
+            $modules[$modulename_by_dirname][] = $module_path;
+                        
             #getModuleInfo()
         }
+        
+        #clansuite_xdebug::printR($modules_counter);
+        
+        # Fetch view and assign vars
+        $view = $this->getView();
+        
+        $view->assign('numberOfModules', $number_of_modules);
+        $view->assign('modules', $modules);
 
-        $this->getView()->assign('modules', $modules);
-
-        // Prepare the Output
+        # Prepare the Output
         $this->prepareOutput();
     }
 

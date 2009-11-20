@@ -172,12 +172,12 @@ class Module_ControlCenter extends Clansuite_ModuleController implements Clansui
             }
             else
             {
-                throw Clansuite_Exception('SimpleXMLElement class does not exist!', 100);
+                throw new Clansuite_Exception('SimpleXMLElement class does not exist!', 100);
             }
         }
         catch (Exception $e)
         {
-            throw Clansuite_Exception('Feed could not be read. '.$e->getMessage, 100);
+            throw new Clansuite_Exception('Feed could not be read. '.$e->getMessage(), 100);
             #Clansuite_Logger::log('', $e);
         }
 

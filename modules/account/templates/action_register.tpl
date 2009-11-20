@@ -107,18 +107,22 @@
             <td>{t}Password Security:{/t}</td>
             <td><div id='password_verification' style='width: 1px;height: 15px; background-color: red; border: thin solid black;'>&nbsp;</div></td>
         </tr>
+        -->
         <tr>
             <td>{t}Captcha:{/t}</td>
             <td>
             {*{if $config.captcha.type == 'recaptcha'} *}
-            {* {$cs->loadModule("recaptcha")}
-             {$recaptcha->display_recaptcha()} *}
+
+             {load_module name="recaptcha" action="display_recaptcha"}
+
             {* {else} *}
-             <img src="{$captcha_url}" style="border:thin solid black;"><br /><input type="text" name="captcha" value="">
+
+            <!-- <img src="{$captcha_url}" style="border:thin solid black;"><br /><input type="text" name="captcha" value=""> -->
+
             {* {/if} *}
             </td>
         </tr>
-        -->
+
         <tr>
             <td cospan='2'><input type="submit" name="submit" value="{t}Register{/t}"></td>
         </tr>
