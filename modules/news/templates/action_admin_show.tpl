@@ -14,6 +14,11 @@
 {/literal}
 </style>
 
+
+<!-- start jq confirm dialog -->
+{jqconfirm}
+<!-- end jq confirm dialog -->
+
 {modulenavigation}
 <div class="ModuleHeading">{t}News - Administration{/t}</div>
 <div class="ModuleHeadingSmall">{t}You can write Articles, categorize, edit and delete them.{/t}</div>
@@ -58,7 +63,7 @@
     </tr>
 
     <!-- Open Form -->
-    <form action="index.php?mod=news&sub=admin&amp;action=delete" method="post" accept-charset="UTF-8">
+    <form id="deleteForm" name="deleteForm" action="index.php?mod=news&sub=admin&amp;action=delete" method="post" accept-charset="UTF-8">
         <!-- Content of Table -->
         {foreach item=news from=$news}
         <tr class="tr_row1">

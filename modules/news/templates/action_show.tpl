@@ -27,8 +27,6 @@
 
 <!-- Anker-Sprungmarke f�r {$news.news_id}--> <a name="news-{$news.news_id}"></a>
 <table border="1" cellspacing="1" cellpadding="3" style="width:99%">
-
-
     <tr>
         <td height="20" ><b>{$news.news_title} {icon name="category"} {$news.CsCategories.name} {icon name="tag"} No Tags applied yet!</b></td>
         <td rowspan="3" valign="top"><img src="{$news.CsCategories.image}" alt="Category-Image: {$news.CsCategories.name} " /></td>
@@ -54,7 +52,7 @@
         <td>
         {if isset($smarty.session.user.rights.permission_edit_news) AND isset($smarty.session.user.rights.permission_access) }
 
-            <form action="index.php?mod=news&amp;sub=admin&amp;action=delete&amp;front=1" method="post">
+            <form id="deleteForm" name="deleteForm" action="index.php?mod=news&amp;sub=admin&amp;action=delete&amp;front=1" method="post">
                 <input type="hidden" value="{$news.news_id}" name="delete[]" />
                 <input type="hidden" value="{$news.news_id}" name="ids[]" />
                 <input class="ButtonGreen" type="button" value="{t}Edit news{/t}" onclick='{literal}Dialog.info({url: "index.php?mod=news&amp;sub=admin&amp;action=edit&amp;id={/literal}{$news.news_id}{literal}&amp;front=1", options: {method: "get"}}, {className: "alphacube", width:900, height: 600});{/literal}' />
@@ -66,7 +64,7 @@
 </table>
 <br />
 
-  <div class="image">{if isset($news.image)} <img src="{php} print BASE_URL; {/php}{$news.CsCategories.image}" alt="{$news.CsCategories.image}"/> {/if}</div>
+<div class="image">{if isset($news.image)} <img src="{php} print BASE_URL; {/php}{$news.CsCategories.image}" alt="{$news.CsCategories.image}"/> {/if}</div>
 
 
 {/foreach}
