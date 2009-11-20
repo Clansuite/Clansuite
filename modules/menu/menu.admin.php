@@ -101,21 +101,95 @@ class Module_Menu_Admin extends Clansuite_ModuleController implements Clansuite_
         // Prepare the Output
         $this->prepareOutput();
     }
-
+    
     public function action_admin_menueditor2()
     {
-        #$user::hasAccess('admin','about');
-
         # Set Pagetitle and Breadcrumbs
         Clansuite_Trail::addStep( _('About Clansuite'), '/index.php?mod=menu&amp;sub=admin&amp;action=menueditor2');
-		
 
-        // specifiy the template manually
-		$this->setTemplate('menueditor2.tpl');
+        #clansuite_xdebug::printR($treeObject);
+        
+        
+        /**
+         * Creating a Root Node
+         */
+        /*
+        $category = new CsAdminmenuShortcuts();
+        $category->name = 'Root Category 3';
+        $category->save();
+        
+        $treeObject = Doctrine::getTable('CsAdminmenuShortcuts')->getTree();
+        $treeObject->createRoot($category);
+        
+        /**
+         * Inserting a Node
+         */
+        /* 
+        $child1 = new CsAdminmenuShortcuts();
+        $child1->name = 'Child Category 3';
+        
+        $child2 = new CsAdminmenuShortcuts();
+        $child2->name = 'Child Category 3';
+        
+        $child1->getNode()->insertAsLastChildOf($category);
+        $child2->getNode()->insertAsLastChildOf($child1);
+        */
+        /**
+         * Rendering a Simple Tree
+         */                  #fetchTree()
+        #$tree = $treeObject->fetchRoots();          
+                           
+        $treeObject = Doctrine::getTable('CsAdminmenuShortcuts')->getTree();
+        $rootColumnName = $treeObject->getAttribute('rootColumnName');
+        
+        # open unordered list tag
+        $html = "<ul>";
+        # flag var for the current level of the node
+        $lastLevel = 0;
+        
+        foreach ($treeObject->fetchRoots() as $root)
+        {          
+            $options = array('root_id' => $root->$rootColumnName);
+          
+            # Iterating tree from a current root
+            foreach($treeObject->fetchTree($options) as $node)
+            {                
+                # If we are on the item of the same level, closing <li> tag before printing item
+                if (($node ['level'] == $lastLevel) and ($lastLevel > 0))
+                {
+                    $html .= '</li>';
+                }
+                
+                # If we are printing a next-level item, starting a new <ul>
+                if ($node ['level'] > $lastLevel)
+                {
+                    $html .= '<ul>';
+                }
+                
+                # If we are going to return back by several levels, closing appropriate tags 
+                if ($node ['level'] < $lastLevel)
+                {
+                    $html .= str_repeat ( "</li></ul>", $lastLevel - $node ['level'] ) . '</li>';
+                }
+                
+                # Priting item without closing <li> tag
+                $html .= '<li id="AdminMenuNode' . $node ['id'] . '"><a href="#"><ins>&nbsp;</ins> Name: ' . $node ['name'] . ' ID: ' . $node ['id'];
+                
+                # Refreshing last level of the item
+                $lastLevel = $node ['level'];
+            }
+        }
+        
+        # close unordered list tag
+        $html .= "</ul>";
+
+        # assign the html of the tree to the view        
+        $this->getView()->assign('tree', $html);
+
         # Prepare the Output
         $this->prepareOutput();
     }
-	
+
     /**
      * Update the Adminmenu
      *
