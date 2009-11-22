@@ -561,5 +561,27 @@ class Clansuite_User
                                          ->where('activated = ? AND joined < ?')
                                          ->execute( array( 0, time() - 259200 ) );
      }
+     
+     /**
+      * Check whether a user is logged in
+      */
+     public function isUserAuthed()
+     {
+     	$bRes = false;
+     	if(isset($_SESSION['user']['authed'])) {
+     		$bRes = true;
+     	}
+     	return $bRes;
+     }
+     
+     /**
+      * Gives the UserID
+      * 
+      * @return int UserID
+      */
+     public function getUserID()
+     {
+     	return (int)$_SESSION['user']['user_id'];
+     }
 }
 ?>
