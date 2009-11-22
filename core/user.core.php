@@ -568,7 +568,7 @@ class Clansuite_User
      public function isUserAuthed()
      {
      	$bRes = false;
-     	if(isset($_SESSION['user']['authed'])) {
+     	if(isset($_SESSION['user']['authed']) and $_SESSION['user']['authed']==1) {
      		$bRes = true;
      	}
      	return $bRes;
@@ -579,9 +579,9 @@ class Clansuite_User
       * 
       * @return int UserID
       */
-     public function getUserID()
+     public function getUserIdFromSession()
      {
-     	return (int)$_SESSION['user']['user_id'];
+     	return $_SESSION['user']['user_id'];
      }
 }
 ?>
