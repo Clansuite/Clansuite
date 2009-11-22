@@ -19,7 +19,7 @@ abstract class BaseCsStatistic extends Doctrine_Record
 {
     public function setTableDefinition()
     {
-        $this->setTableName('cs_statistic');
+        $this->setTableName('statistic');
         $this->hasColumn('hits', 'integer', 4, array(
              'type' => 'integer',
              'length' => 4,

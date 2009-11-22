@@ -97,9 +97,12 @@ class statistics implements Clansuite_Filter_Interface
 		    # instantiate phpsniff
 		    #$phpSniff = new phpSniff($_SERVER["HTTP_USER_AGENT"]);
 		    
-		    
+		    /**
+			 *The Who logics, must be processed in a seperate filter
+		     */
 			$this->clearWhoTables();
 			$this->updateWhoTables($request->getRemoteAddress(), $request->getRequestURI());
+			$this->updateStatistics($request->getRemoteAddress());
         }
     }
 
@@ -131,9 +134,9 @@ class statistics implements Clansuite_Filter_Interface
     private function updateWhoTables($visitorIp, $targetSite)
     {
     	#Original if statement CHECK if user is an admin
-    	#if($this->m_UserCore->isUserAuthed()) {
+    	if($this->m_UserCore->isUserAuthed()) {
     	#Debug if statement
-    	if(true) {
+    	#if(true) {
     		#visitor is a registered user
     		
     		$userID = $this->m_UserCore->getUserIdFromSession();
@@ -251,6 +254,78 @@ class statistics implements Clansuite_Filter_Interface
 				$whoIsIns->site = $targetSite;
 				$whoIsIns->save();
 			}
+    }
+    
+    /**
+     * This method handled the statistics logic.
+     * It deletes the old ips and updates the counter
+     */
+    private function updateStatistics($visitorIp)
+    {
+	    $this->clearIpList();
+	    
+	    $query = Doctrine_Query::create()
+		    			->select("count(*) as sum")
+						->from("CsStatisticIp")
+						->where("ip = ?", array($visitorIp))
+						->setHydrationMode(Doctrine::HYDRATE_ARRAY)
+						->execute();
+	    
+	    if($query[0]['sum']==0) {
+	    	#update the statistic hits
+		    Doctrine_Query::create()
+				->update('CsStatistic')
+				->set('hits', 'hits + 1')
+				->execute();
+
+			# add ip to the List
+			# to which it is not inserted twice				
+			$ipListIns = new CsStatisticip();
+			$ipListIns->dates = $this->m_curDate;
+			$ipListIns->del = $this->m_curTimestamp;
+			$ipListIns->ip = $visitorIp;
+			$ipListIns->save();
+			
+			$this->updateStatisticStats();
+	    }
+    }
+    
+    /**
+     * deletes entries older then one day from the ip table
+     */
+    private function clearIpList()
+    {
+    	#delete old entries
+		$query = Doctrine_Query::create()
+						->delete("CsStatisticIp")
+						->where("del < ?", array($this->m_delTimeYesterday))
+						->execute();
+    }
+    
+    private function updateStatisticStats()
+    {
+    	$query = Doctrine_Query::create()
+		    			->select("count(*) as sum")
+						->from("CsStatisticStats")
+						->where("dates = ?", array($this->m_curDate))
+						->setHydrationMode(Doctrine::HYDRATE_ARRAY)
+						->execute();
+    	
+	    if($query[0]['sum']==0) {
+	    	
+	    	$statsIns = new CsStatisticStats();
+	    	$statsIns->dates = $this->m_curDate;
+	    	$statsIns->count = 1;
+	    	$statsIns->save(); 	
+	    }
+	    else {
+	    	#update the statistic hits
+		    Doctrine_Query::create()
+				->update('CsStatisticStats')
+				->set('count', 'count + 1')
+				->where('dates = ?', array($this->m_curDate))
+				->execute();
+	    }
     }
 }
 ?>
