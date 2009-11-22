@@ -48,44 +48,209 @@ if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' ); 
  */
 class statistics implements Clansuite_Filter_Interface
 {
-    private $config     = null;
-    private $statistics = null;
+	/**
+	 * UNIX timestamp (seconds) for the range of a day
+	 */
+	private static $TIME_SUBSTRACT_TO_YESTERDAY = 86400;
+	/**
+	 * timeout in seconds
+	 */
+	private static $TIMEOUT = 300;
+	
+    private $m_config     	= null;
+    private $m_UserCore 	= null;
+    private $m_statistics 	= null;
+    
+    private $m_curTimestamp 	= null;
+    private $m_curDate 			= null;
+    private $m_delTimeYesterday = null;
+    private $m_delTimeout 		= null;
 
-    function __construct(Clansuite_Config $config)
+    function __construct(Clansuite_Config $config, Clansuite_User $user)
     {
-       $this->config     = $config;
+       $this->m_config     		 = $config;
+       $this->m_curTimestamp 	 = time();
+       $this->m_curDate 		 = date("d.m.Y", $this->m_curTimestamp);
+       $this->m_delTimeYesterday = ($this->m_curTimestamp)-(self::$TIME_SUBSTRACT_TO_YESTERDAY);
+       $this->m_delTimeout 		 = ($this->m_curTimestamp)-(self::$TIMEOUT);
+       $this->m_UserCore 		 = $user; 
     }
 
     public function executeFilter(Clansuite_HttpRequest $request, Clansuite_HttpResponse $response)
     {
-        // take the initiative or pass through (do nothing)
-        if(isset($this->config['statistics']['enabled']) and $this->config['statistics']['enabled'] == 1)
+        # take the initiative or pass through (do nothing)
+        if(isset($this->m_config['statistics']['enabled']) and $this->m_config['statistics']['enabled'] == 1)
         {
+        	#######################
+        	# at the moment we do not need to use these libary !!!
+        	#######################
             # aquire pieces of informtion from current visitor
+           /**
+		    * Determine the client's browser and system information based on the HTTP
+		    * with PHPSniff by Roger Raymond.
+		    *
+		    * @link http://phpsniff.sourceforge.net/
+		    * @link http://phpsniff.sourceforge.net/docs/
+		    */
+		    # load library
+		    #require_once ROOT_LIBRARIES . '/phpSniffer/phpSniff.class.php';
+		    # instantiate phpsniff
+		    #$phpSniff = new phpSniff($_SERVER["HTTP_USER_AGENT"]);
+		    
+		    
+			$this->clearWhoTables();
+			$this->updateWhoTables($request->getRemoteAddress(), $request->getRequestURI());
+        }
+    }
 
-            /**
-             * Determine the client's browser and system information based on the HTTP
-             * with PHPSniff by Roger Raymond.
-             *
-             * @link http://phpsniff.sourceforge.net/
-             * @link http://phpsniff.sourceforge.net/docs/
-             */
+	/**
+	 * clear old entries from the WhoIs and WhoWas tables
+	 */    
+    private function clearWhoTables()
+    {
+		//TODO: make Timeout configureable
+		#delete entries older then the timeout from WhoIsOnline
+		$query = Doctrine_Query::create()
+						->delete("CsWhoisonline")
+						->where("time < ?", array($this->m_delTimeYesterday))
+						->execute();
+						
+		#delete entries older then the timeout from WhoWasOnline
+		$query = Doctrine_Query::create()
+						->delete("CsWhowasonline")
+						->where("time < ?", array($this->m_delTimeout))
+						->execute();
+    }
+    
+    /**
+     * update and/or create/insert a entry to the WhoIs and WhoWasOnline Tables
+     * 
+     * @param String visitorIp
+     * @param String targetSite
+     */
+    private function updateWhoTables($visitorIp, $targetSite)
+    {
+    	#Original if statement CHECK if user is an admin
+    	#if($this->m_UserCore->isUserAuthed()) {
+    	#Debug if statement
+    	if(true) {
+    		#visitor is a registered user
+    		
+    		$userID = $this->m_UserCore->getUserIdFromSession();
+    		
+			$this->updateWhoIsWithUserId($userID, $targetSite);
+			$this->updateWhoWas($userID, $targetSite);
+		}
+		else {
+			#visitor is not registered
+			$this->updateWhoIsWithIp($visitorIp, $targetSite);
+		}
+    }
+    
+    
+    /**
+     * Updates the WhoIsOnline table
+     * 
+     * The suffix WithUserId implies that the visitor must be a
+     * registered user.
+     */
+    private function updateWhoIsWithUserId($userID, $targetSite)
+    {
+    	   	#Now Check the WhoIs Table
+    		#check if the user entry must be updated or create it
+    		$query = Doctrine_Query::create()
+    						->select("count(*) as sum")
+    						->from("CsWhoisonline")
+    						->where("userID = ?", array($userID))
+    						->setHydrationMode(Doctrine::HYDRATE_ARRAY)
+                        	->execute();
+                        	
+    		if($query[0]['sum'] > 0) {
+				Doctrine_Query::create()
+						->update('CsWhoisonline')
+						->set('time', $this->m_curTimestamp)
+						->set('site', '?', $targetSite)
+						->where('userID = ?', array($userID))
+						->execute();
+			}
+			else {
+				$whoIsIns = new CsWhoisonline();
+				$whoIsIns->time = $this->m_curTimestamp;
+				$whoIsIns->userID = $userID;
+				$whoIsIns->site = $targetSite;
+				$whoIsIns->save();
+			}
+    }
 
-            # load library
-            #require_once ROOT_LIBRARIES . '/phpSniffer/phpSniff.class.php';
 
-            # instantiate phpsniff
-            #$phpSniff = new phpSniff($_SERVER["HTTP_USER_AGENT"]);
-            #clansuite_xdebug::printR($phpSniff);
-            #exit;
+	/**
+	 * Updates the WhoIsOnline table
+	 * 
+	 * The suffix WithIp implies that the visitor is not
+	 * registered. 
+ 	 */    
+    private function updateWhoIsWithIp($visitorIp, $targetSite)
+	{
+	    #Now Check the WhoIs Table
+	    #check if the user entry must be updated or create it
+	    $query = Doctrine_Query::create()
+				    	->select("count(*) as sum")
+						->from("CsWhoisonline")
+						->where("ip = ?", array($visitorIp))
+						->setHydrationMode(Doctrine::HYDRATE_ARRAY)
+						->execute();
+	    
+	    if($query[0]['sum'] > 0) {
+		    Doctrine_Query::create()
+				 	->update('CsWhoisonline')
+					->set('time', $this->m_curTimestamp)
+					->set('site', '?', $targetSite)
+					->where('ip = ?', array($visitorIp))
+					->execute();
+	    }
+	    else {
+		    $whoIsIns = new CsWhoisonline();
+		    $whoIsIns->time = $this->m_curTimestamp;
+		    $whoIsIns->ip = $visitorIp;
+		    $whoIsIns->site = $targetSite;
+		    $whoIsIns->save();
+	    }
+	}
+    
+    /**
+     * Updates the WhoWasOnline table
+     * 
+	 * WhoWas implies that the visitor must be an registered user.
+	 * Because of these information, there is no need to suffix 
+	 * the method name with WithUserId.
+     */
+    private function updateWhoWas($userID, $targetSite)
+    {
+    		#Now Check the WhoWas Table
+    		#check if the user entry must be updated or create it
+    		$query = Doctrine_Query::create()
+    						->select("count(*) as sum")
+    						->from("CsWhowasonline")
+    						->where("userID = ?", array($userID))
+    						->setHydrationMode(Doctrine::HYDRATE_ARRAY)
+                        	->execute();
 
-            # Get the browser type and version
-            #$browserShorthand = $phpSniff->property('browser');
-            #$browserVersion   = $phpSniff->property('maj_ver').$phpSniff->property('min_ver');
 
-            # and store it to DB
-
-        }// else => bypass
+    		if($query[0]['sum'] > 0) {
+				Doctrine_Query::create()
+						->update('CsWhowasonline')
+						->set('time', $this->m_curTimestamp)
+						->set('site', '?', $targetSite)
+						->where('userID = ?', array($userID))
+						->execute();
+			}
+			else {
+				$whoIsIns = new CsWhowasonline();
+				$whoIsIns->time = $this->m_curTimestamp;
+				$whoIsIns->userID = $userID;
+				$whoIsIns->site = $targetSite;
+				$whoIsIns->save();
+			}
     }
 }
 ?>
