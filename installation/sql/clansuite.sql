@@ -1,8 +1,8 @@
--- MySQL dump 10.13  Distrib 5.1.33, for Win32 (ia32)
+-- MySQL dump 10.13  Distrib 5.1.37, for Win32 (ia32)
 --
 -- Host: localhost    Database: clansuite
 -- ------------------------------------------------------
--- Server version	5.1.33-community
+-- Server version	5.1.37
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -312,7 +312,7 @@ CREATE TABLE `cs_categories` (
 --
 
 /*!40000 ALTER TABLE `cs_categories` DISABLE KEYS */;
-INSERT INTO `cs_categories` VALUES (1,7,1,'-keine-','Diese News sind keiner Kategorie zugeordnet','themes/core/images/nopreview.jpg','themes/core/images/nopreview.jpg','#000000'),(2,7,2,'Allgemein','Thema Allgemein','themes/core/images/nopreview.jpg','themes/core/images/nopreview.jpg','#000000'),(3,7,3,'Member','Thema Members','themes/core/images/nopreview.jpg','themes/core/images/nopreview.jpg','#3366CC'),(4,7,4,'Page','Thema Page','themes/core/images/nopreview.jpg','themes/core/images/nopreview.jpg','#000000'),(5,7,5,'IRC','Thema IRC','themes/core/images/nopreview.jpg','themes/core/images/nopreview.jpg','#000000'),(6,7,6,'Clan-Wars','Thema Matches','themes/core/images/nopreview.jpg','themes/core/images/nopreview.jpg','#000000'),(7,7,7,'Sonstiges','Thema Hardware','','','#000000'),(13,7,12,'bla','blubb','http://www.clansuite-dev.com/uploads/images/gallery/kunst.jpg','http://www.clansuite-dev.com/uploads/images/gallery/raetsel_1.jpg','#b93737');
+INSERT INTO `cs_categories` VALUES (1,7,1,'-keine-','Diese News sind keiner Kategorie zugeordnet','themes/core/images/nopreview.jpg','themes/core/images/nopreview.jpg','#000000'),(2,7,2,'Allgemein','Thema Allgemein','themes/core/images/nopreview.jpg','themes/core/images/nopreview.jpg','#000000'),(3,7,3,'Member','Thema Members','themes/core/images/nopreview.jpg','themes/core/images/nopreview.jpg','#3366CC'),(4,7,4,'Page','Thema Page','themes/core/images/nopreview.jpg','themes/core/images/nopreview.jpg','#000000'),(5,7,5,'IRC','Thema IRC','themes/core/images/nopreview.jpg','themes/core/images/nopreview.jpg','#000000'),(6,7,6,'Clan-Wars','Thema Matches','themes/core/images/nopreview.jpg','themes/core/images/nopreview.jpg','#000000');
 /*!40000 ALTER TABLE `cs_categories` ENABLE KEYS */;
 
 --
@@ -848,7 +848,7 @@ CREATE TABLE `cs_news` (
 --
 
 /*!40000 ALTER TABLE `cs_news` DISABLE KEYS */;
-INSERT INTO `cs_news` VALUES (1,'testeintrag1','testbody1\r\n1\r\n2\r\n3\r\n4\r\n5\r\n6\r\n7\r\n8\r\n9\r\n10\r\ntestbody11',2,1,'2009-10-02','2009-10-02 17:32:36',0),(2,'testeintrag2','testeintrag2body',1,1,'2009-09-02','2009-10-02 17:31:59',0),(3,'testeintrag3','testeintrag3body',1,1,'2009-10-02','2009-10-02 17:31:59',0),(7,'testeintrag7','testeintrag7body',2,1,'2009-10-02','2009-10-02 17:31:59',0),(16,'Lore ipsum','<a href=\"index.html\">Nunc eget pretium</a> diam.\r\n                \r\n                <p>Praesent nisi sem, bibendum in, ultrices sit amet, euismod sit amet, dui. Fusce nibh. Curabitur pellentesque, lectus at <a href=\"index.html\">volutpat interdum</a>. Pellentesque a nibh quis nunc volutpat aliquam</p>\r\n                            \r\n            <blockquote><p>Sed sodales nisl sit amet augue. Donec ultrices, augue ullamcorper posuere laoreet, turpis massa tristique justo, sed egestas metus magna sed purus.</p></blockquote>\r\n            \r\n                            <code>margin-bottom: 12px;\r\n                font-size: 1.1em;\r\n                background: url(images/quote.gif);\r\n                padding-left: 28px;\r\n                color: #555;</code>\r\n\r\n                <ul>\r\n                    <li>Tristique</li>\r\n                              <li>Aenean</li>\r\n               <li>Pretium</li>\r\n                            </ul>\r\n\r\n        <p>Eget feugiat est leo tempor quam. Ut quis neque convallis magna consequat molestie.</p>',1,1,'2009-10-02','2009-10-02 17:31:59',4),(21,'archiviert1','Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam sed vestibulum nulla. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; In ut felis scelerisque nibh rutrum dapibus eu et felis. Pellentesque eget nulla risus, at blandit lectus. Praesent venenatis tortor non neque molestie quis congue neque ullamcorper. Quisque at tellus sapien, molestie tempor lacus. Proin non lacus id justo dapibus feugiat ut sed nisi. Cras in purus tincidunt orci tincidunt dignissim sagittis non justo. Integer felis urna, sodales nec pharetra ac, tristique sit amet felis. Nam eget augue felis, sed sodales mauris. Aliquam molestie odio nec eros elementum quis lobortis felis fringilla. In semper sem id tellus pharetra id congue erat aliquet.\r\n',1,2,'2009-10-02','2009-10-02 17:31:59',4),(22,'archiviert2','Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam sed vestibulum nulla. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; In ut felis scelerisque nibh rutrum dapibus eu et felis. Pellentesque eget nulla risus, at blandit lectus. Praesent venenatis tortor non neque molestie quis congue neque ullamcorper. Quisque at tellus sapien, molestie tempor lacus. Proin non lacus id justo dapibus feugiat ut sed nisi. Cras in purus tincidunt orci tincidunt dignissim sagittis non justo. Integer felis urna, sodales nec pharetra ac, tristique sit amet felis. Nam eget augue felis, sed sodales mauris. Aliquam molestie odio nec eros elementum quis lobortis felis fringilla. In semper sem id tellus pharetra id congue erat aliquet.\r\n',1,2,'2009-10-02','2009-10-02 17:31:59',4),(23,'archiviert3','Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque imperdiet tristique justo ac pretium. Fusce odio nisl, dictum sed vestibulum in, tristique malesuada lacus. Suspendisse potenti. Proin bibendum placerat neque ut placerat. Nunc felis ligula, ullamcorper sed congue ut, pulvinar ut sapien. Nullam sem purus, adipiscing ut consectetur at, ornare eget magna. Vivamus ut eros vitae neque aliquam vulputate et molestie arcu. Etiam et metus id risus pulvinar pretium? Sed vulputate venenatis consectetur. Mauris id odio risus. Maecenas lacinia iaculis nisi vel egestas. Suspendisse potenti. Quisque vel dui in lectus ultrices vehicula. Donec convallis tortor et leo vehicula non placerat mi varius. Morbi ac pharetra lorem. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Fusce cursus pulvinar nisl. Nunc a nisi vel purus sagittis bibendum!\r\n',2,2,'2009-10-02','2009-10-02 17:31:59',4),(24,'archiviert4','Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque imperdiet tristique justo ac pretium. Fusce odio nisl, dictum sed vestibulum in, tristique malesuada lacus. Suspendisse potenti. Proin bibendum placerat neque ut placerat. Nunc felis ligula, ullamcorper sed congue ut, pulvinar ut sapien. Nullam sem purus, adipiscing ut consectetur at, ornare eget magna. Vivamus ut eros vitae neque aliquam vulputate et molestie arcu. Etiam et metus id risus pulvinar pretium? Sed vulputate venenatis consectetur. Mauris id odio risus. Maecenas lacinia iaculis nisi vel egestas. Suspendisse potenti. Quisque vel dui in lectus ultrices vehicula. Donec convallis tortor et leo vehicula non placerat mi varius. Morbi ac pharetra lorem. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Fusce cursus pulvinar nisl. Nunc a nisi vel purus sagittis bibendum!<br><br>patze<br>',2,2,'2009-10-02','2009-11-02 16:15:03',4),(67,'test','test',4,0,'2009-11-02','2009-11-02 16:43:18',0),(68,'test fÃ¼r editorfunktion','',2,0,'2009-11-05','2009-11-04 22:42:02',0),(69,'testfkjhg','',6,0,'2009-11-05','2009-11-04 22:58:13',0),(70,'Ã¶aufjkgb','Ã¤lskjgfv',6,0,'2009-11-05','2009-11-04 22:58:51',0);
+INSERT INTO `cs_news` VALUES (1,'testeintrag1','testbody1\r\n1\r\n2\r\n3\r\n4\r\n5\r\n6\r\n7\r\n8\r\n9\r\n10\r\ntestbody11',2,1,'2009-10-02','2009-10-02 17:32:36',0),(2,'testeintrag2','testeintrag2body',1,1,'2009-09-02','2009-10-02 17:31:59',0),(3,'testeintrag3','testeintrag3body',1,1,'2009-10-02','2009-10-02 17:31:59',0),(7,'testeintrag7','testeintrag7body',2,1,'2009-10-02','2009-10-02 17:31:59',0),(16,'Lore ipsum','<a href=\"index.html\">Nunc eget pretium</a> diam.\r\n                \r\n                <p>Praesent nisi sem, bibendum in, ultrices sit amet, euismod sit amet, dui. Fusce nibh. Curabitur pellentesque, lectus at <a href=\"index.html\">volutpat interdum</a>. Pellentesque a nibh quis nunc volutpat aliquam</p>\r\n                            \r\n            <blockquote><p>Sed sodales nisl sit amet augue. Donec ultrices, augue ullamcorper posuere laoreet, turpis massa tristique justo, sed egestas metus magna sed purus.</p></blockquote>\r\n            \r\n                            <code>margin-bottom: 12px;\r\n                font-size: 1.1em;\r\n                background: url(images/quote.gif);\r\n                padding-left: 28px;\r\n                color: #555;</code>\r\n\r\n                <ul>\r\n                    <li>Tristique</li>\r\n                              <li>Aenean</li>\r\n               <li>Pretium</li>\r\n                            </ul>\r\n\r\n        <p>Eget feugiat est leo tempor quam. Ut quis neque convallis magna consequat molestie.</p>',1,1,'2009-10-02','2009-10-02 17:31:59',4),(21,'archiviert1','Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam sed vestibulum nulla. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; In ut felis scelerisque nibh rutrum dapibus eu et felis. Pellentesque eget nulla risus, at blandit lectus. Praesent venenatis tortor non neque molestie quis congue neque ullamcorper. Quisque at tellus sapien, molestie tempor lacus. Proin non lacus id justo dapibus feugiat ut sed nisi. Cras in purus tincidunt orci tincidunt dignissim sagittis non justo. Integer felis urna, sodales nec pharetra ac, tristique sit amet felis. Nam eget augue felis, sed sodales mauris. Aliquam molestie odio nec eros elementum quis lobortis felis fringilla. In semper sem id tellus pharetra id congue erat aliquet.\r\n',1,2,'2009-10-02','2009-10-02 17:31:59',4),(24,'archiviert4','Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque imperdiet tristique justo ac pretium. Fusce odio nisl, dictum sed vestibulum in, tristique malesuada lacus. Suspendisse potenti. Proin bibendum placerat neque ut placerat. Nunc felis ligula, ullamcorper sed congue ut, pulvinar ut sapien. Nullam sem purus, adipiscing ut consectetur at, ornare eget magna. Vivamus ut eros vitae neque aliquam vulputate et molestie arcu. Etiam et metus id risus pulvinar pretium? Sed vulputate venenatis consectetur. Mauris id odio risus. Maecenas lacinia iaculis nisi vel egestas. Suspendisse potenti. Quisque vel dui in lectus ultrices vehicula. Donec convallis tortor et leo vehicula non placerat mi varius. Morbi ac pharetra lorem. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Fusce cursus pulvinar nisl. Nunc a nisi vel purus sagittis bibendum!<br><br>patze<br>',2,2,'2009-10-02','2009-11-02 16:15:03',4),(67,'test','test',4,0,'2009-11-02','2009-11-02 16:43:18',0);
 /*!40000 ALTER TABLE `cs_news` ENABLE KEYS */;
 
 --
@@ -1343,7 +1343,7 @@ CREATE TABLE `cs_session` (
 --
 
 /*!40000 ALTER TABLE `cs_session` DISABLE KEYS */;
-INSERT INTO `cs_session` VALUES (0,'2ef3276c3f39c640038b2f479c3e00f4','user|a:12:{s:6:\"authed\";i:0;s:7:\"user_id\";i:0;s:4:\"nick\";s:5:\"Guest\";s:12:\"passwordhash\";s:0:\"\";s:5:\"email\";s:0:\"\";s:8:\"disabled\";i:0;s:9:\"activated\";i:0;s:8:\"language\";s:2:\"de\";s:5:\"theme\";s:8:\"standard\";s:12:\"backendtheme\";s:7:\"backend\";s:6:\"groups\";a:1:{i:0;i:1;}s:6:\"rights\";a:1:{i:0;i:1;}}client_ip|s:9:\"127.0.0.1\";client_browser|s:97:\"Mozilla/5.0 (Windows; U; Windows NT 5.1; de; rv:1.9.1.5) Gecko/20091102 Firefox/3.5.5 FirePHP/0.3\";client_host|s:9:\"localhost\";','suiteSID',1258305391,1,'controlcenter'),(0,'3d3875bc151ad6b376c7b6cc6ca47fce','user|a:12:{s:6:\"authed\";i:0;s:7:\"user_id\";i:0;s:4:\"nick\";s:5:\"Guest\";s:12:\"passwordhash\";s:0:\"\";s:5:\"email\";s:0:\"\";s:8:\"disabled\";i:0;s:9:\"activated\";i:0;s:8:\"language\";s:2:\"de\";s:5:\"theme\";s:8:\"standard\";s:12:\"backendtheme\";s:7:\"backend\";s:6:\"groups\";a:1:{i:0;i:1;}s:6:\"rights\";a:1:{i:0;i:1;}}client_ip|s:9:\"127.0.0.1\";client_browser|s:97:\"Mozilla/5.0 (Windows; U; Windows NT 5.1; de; rv:1.9.1.5) Gecko/20091102 Firefox/3.5.5 FirePHP/0.3\";client_host|s:9:\"localhost\";SmartyColumnSort|a:1:{s:7:\"default\";a:8:{s:10:\"column_var\";s:10:\"defaultCol\";s:8:\"sort_var\";s:11:\"defaultSort\";s:12:\"column_array\";a:5:{i:0;s:9:\"u.user_id\";i:1;s:6:\"u.nick\";i:2;s:7:\"u.email\";i:3;s:11:\"u.timestamp\";i:4;s:8:\"u.joined\";}s:14:\"default_column\";i:1;s:12:\"default_sort\";s:3:\"asc\";s:14:\"current_column\";i:1;s:12:\"current_sort\";s:3:\"asc\";s:11:\"target_page\";s:30:\"/index.php?mod=users&sub=admin\";}}','suiteSID',1258295468,1,'settings');
+INSERT INTO `cs_session` VALUES (0,'v8one96e1ak9obi82rmiu5tg52','user|a:12:{s:8:\"language\";s:2:\"de\";s:6:\"authed\";i:0;s:7:\"user_id\";i:0;s:4:\"nick\";s:5:\"Guest\";s:12:\"passwordhash\";s:0:\"\";s:5:\"email\";s:0:\"\";s:8:\"disabled\";i:0;s:9:\"activated\";i:0;s:5:\"theme\";s:8:\"standard\";s:12:\"backendtheme\";s:5:\"admin\";s:6:\"groups\";a:1:{i:0;i:1;}s:6:\"rights\";a:1:{i:0;i:1;}}client_ip|s:9:\"127.0.0.1\";client_browser|s:97:\"Mozilla/5.0 (Windows; U; Windows NT 5.1; de; rv:1.9.1.5) Gecko/20091102 Firefox/3.5.5 FirePHP/0.3\";client_host|s:9:\"localhost\";','suiteSID',1259009043,1,'sessionstart');
 /*!40000 ALTER TABLE `cs_session` ENABLE KEYS */;
 
 --
@@ -1398,6 +1398,72 @@ CREATE TABLE `cs_staticpages` (
 /*!40000 ALTER TABLE `cs_staticpages` DISABLE KEYS */;
 INSERT INTO `cs_staticpages` VALUES (1,'Credits','Without their brains Clansuite would not be - Thanks alot!','','<u><strong>Clansuite - Credits </strong></u>\r\n<br />\r\n<br />\r\n<br />\r\n<table width=\"691\" height=\"393\" cellspacing=\"1\" cellpadding=\"1\" border=\"1\" align=\"\" summary=\"\">\r\n    <tbody>\r\n        <tr>\r\n            <td align=\"center\">Class</td>\r\n            <td align=\"center\">Author<br />\r\n            </td>\r\n            <td align=\"center\">&nbsp;Licence</td>\r\n        </tr>\r\n        <tr>\r\n            <td>tar.class.php</td>\r\n            <td>Vincent Blavet &lt;vincent@phpconcept.net&gt;<br />\r\n            Copyright (c) 1997-2003 The PHP Group <br />\r\n            </td>\r\n            <td>PHP license v3</td>\r\n        </tr>\r\n        <tr>\r\n            <td>PEAR, the PHP Extension and Application Repository</td>\r\n            <td>Sterling Hughes &lt;sterling@php.net&gt;<br />\r\n            Stig Bakken &lt;ssb@php.net&gt;<br />\r\n            Tomas V.V.Cox &lt;cox@idecnet.com&gt;<br />\r\n            Greg Beaver &lt;cellog@php.net&gt;<br />\r\n            &nbsp;Copyright&nbsp; 1997-2006 The PHP Group</td>\r\n            <td>PHP license v3</td>\r\n        </tr>\r\n        <tr>\r\n            <td>Swift Mailer: A Flexible PHP Mailer Class</td>\r\n            <td>&quot;Chris Corbyn&quot; &lt;chris@w3style.co.uk&gt;<br />\r\n            Copyright 2006 Chris Corbyn</td>\r\n            <td>LGPL</td>\r\n        </tr>\r\n        <tr>\r\n            <td valign=\"top\">Smarty: the PHP compiling template engine</td>\r\n            <td valign=\"top\">Monte Ohrt &lt;monte at ohrt dot com&gt;<br />\r\n            Andrei Zmievski &lt;andrei@php.net&gt;<br />\r\n            Copyright 2001-2005 New Digital Group, Inc.</td>\r\n            <td valign=\"top\">LGPL</td>\r\n        </tr>\r\n        <tr>\r\n            <td valign=\"top\">Sajax : cross-platform, cross-browser web scripting toolkit</td>\r\n            <td valign=\"top\">Copyright 2005-2006 modernmethod</td>\r\n            <td valign=\"top\">BSD</td>\r\n        </tr>\r\n        <tr>\r\n            <td valign=\"top\">Imagemanger</td>\r\n            <td valign=\"top\">Xiang Wei ZHUO &lt;wei@zhuo.org&gt;</td>\r\n            <td valign=\"top\">&nbsp;</td>\r\n        </tr>\r\n        <tr>\r\n            <td valign=\"top\">DHTML Calendar Javascript</td>\r\n            <td valign=\"top\">Copyright Mihai Bazon, 2002-2005</td>\r\n            <td valign=\"top\">LGPL</td>\r\n        </tr>\r\n        <tr>\r\n            <td valign=\"top\">Tab Pane Javascript</td>\r\n            <td valign=\"top\">Copyright (c) 2002, 2003, 2006 Erik Arvidsson</td>\r\n            <td valign=\"top\">Apache License v2</td>\r\n        </tr>\r\n        <tr>\r\n            <td valign=\"top\"><a href=\"http://www.fckeditor.net/\">FCKEditor</a>- WYSIWYG</td>\r\n            <td valign=\"top\">&nbsp;</td>\r\n            <td valign=\"top\">&nbsp;</td>\r\n        </tr>\r\n        <tr>\r\n            <td valign=\"top\">Icons by <a href=\"http://www.famfamfam.com/lab/icons/\">famfamfam</a></td>\r\n            <td valign=\"top\">&nbsp;</td>\r\n            <td valign=\"top\">&nbsp;</td>\r\n        </tr>\r\n        <tr>\r\n            <td valign=\"top\">mygosumenu\'s</td>\r\n            <td valign=\"top\">Copyright 2003,2004 Cezary Tomczak</td>\r\n            <td valign=\"top\">BSD</td>\r\n        </tr>\r\n        <tr>\r\n            <td valign=\"top\">Bitstream Vera Fonts </td>\r\n            <td valign=\"top\">Copyright (c) 2003 by Bitstream, Inc.</td>\r\n            <td valign=\"top\">own</td>\r\n        </tr>\r\n        <tr>\r\n            <td valign=\"top\">&nbsp;</td>\r\n            <td valign=\"top\">&nbsp;</td>\r\n            <td valign=\"top\">&nbsp;</td>\r\n        </tr>\r\n    </tbody>\r\n</table>\r\n<br />\r\n<br />\r\n<br />\r\n<br />\r\n<br />\r\n<br />\r\n<br />',1,300),(2,'Google','Google','http://www.google.de','',1,500),(3,'Help','The help for ClanSuite','','<strong><font size=\"4\">Help</font><br />\r\n<br />\r\n</strong><strong> - gogo<br />\r\n- gogogogo<br />\r\n- gogogogogogo</strong>',1,300),(4,'Manual','The Manual','','<font size=\"4\">Manual</font><br />\r\n<br />\r\n- some content',1,300),(5,'About','About ClanSuite','','<font size=\"4\">About</font><br />\r\n<br />\r\n- some content',1,300);
 /*!40000 ALTER TABLE `cs_staticpages` ENABLE KEYS */;
+
+--
+-- Table structure for table `cs_statistic`
+--
+
+DROP TABLE IF EXISTS `cs_statistic`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `cs_statistic` (
+  `hits` int(11) NOT NULL,
+  `views` int(11) NOT NULL,
+  `online` int(11) NOT NULL,
+  `maxonline` int(11) NOT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `cs_statistic`
+--
+
+/*!40000 ALTER TABLE `cs_statistic` DISABLE KEYS */;
+/*!40000 ALTER TABLE `cs_statistic` ENABLE KEYS */;
+
+--
+-- Table structure for table `cs_statistic_ip`
+--
+
+DROP TABLE IF EXISTS `cs_statistic_ip`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `cs_statistic_ip` (
+  `id` int(11) NOT NULL,
+  `dates` int(11) NOT NULL,
+  `del` int(11) NOT NULL,
+  `ip` text NOT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `cs_statistic_ip`
+--
+
+/*!40000 ALTER TABLE `cs_statistic_ip` DISABLE KEYS */;
+INSERT INTO `cs_statistic_ip` VALUES (0,2311,1259008995,'127.0.0.1');
+/*!40000 ALTER TABLE `cs_statistic_ip` ENABLE KEYS */;
+
+--
+-- Table structure for table `cs_statistic_stats`
+--
+
+DROP TABLE IF EXISTS `cs_statistic_stats`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `cs_statistic_stats` (
+  `id` int(11) NOT NULL,
+  `dates` int(11) NOT NULL,
+  `count` int(11) NOT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `cs_statistic_stats`
+--
+
+/*!40000 ALTER TABLE `cs_statistic_stats` DISABLE KEYS */;
+/*!40000 ALTER TABLE `cs_statistic_stats` ENABLE KEYS */;
 
 --
 -- Table structure for table `cs_submodules`
@@ -1529,6 +1595,53 @@ CREATE TABLE `cs_users` (
 /*!40000 ALTER TABLE `cs_users` DISABLE KEYS */;
 INSERT INTO `cs_users` VALUES (1,'jakoch@web.de','user1','d033e22ae348aeb5660fc2140aec35850c4da997','','','','',1215754325,0,0,1,0,'de','de_DE','UTC1','standard'),(2,'user2@clansuite.com','user2','d1ca11799e222d429424d47b424047002ea72d44','','','','',1215763325,0,0,1,0,'de','de_DE','UTC1','standard'),(8,'user3@clansuite.com','user3','e5292e82b58ec55069d178b092ad25ee97f1917d','','G1vmXy','','',1215764325,0,0,1,0,'','',NULL,''),(9,'user4@clansuite.com','user4','90b525e43d877ee890e3cd800584fbddd7cd6668','','eVH0Jx','','',1215768110,0,0,1,0,'','',NULL,''),(10,'user5@clansuite.com','user5','ff4e167734b0cc1c61fb9ca064a18d85045aea80','','AxOD.2','','',1215984499,0,0,1,0,'','',NULL,''),(11,'admin@email.com','admin','3979339f2a534fea635cc6df254eb2a616490653','','CPEr2Z','','',1229294500,0,0,1,0,'','german',NULL,''),(12,'admin@email.com','admin','06dc00bbadde6fee4c3c0e15ba1358bcb6542c64','','z36ZGW','','',1231801464,0,0,1,0,'','english',NULL,''),(13,'admin@email.com','admin','82e4ce57e28b89eb461a25d4af76a66c20274fc2','','ujfCzp','','',1258236734,0,0,1,0,'','english',NULL,'');
 /*!40000 ALTER TABLE `cs_users` ENABLE KEYS */;
+
+--
+-- Table structure for table `cs_whoisonline`
+--
+
+DROP TABLE IF EXISTS `cs_whoisonline`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `cs_whoisonline` (
+  `id` int(11) NOT NULL,
+  `time` int(11) NOT NULL,
+  `ip` text NOT NULL,
+  `userid` int(11) NOT NULL,
+  `site` text NOT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `cs_whoisonline`
+--
+
+/*!40000 ALTER TABLE `cs_whoisonline` DISABLE KEYS */;
+INSERT INTO `cs_whoisonline` VALUES (0,1259009042,'127.0.0.1',0,'/');
+/*!40000 ALTER TABLE `cs_whoisonline` ENABLE KEYS */;
+
+--
+-- Table structure for table `cs_whowasonline`
+--
+
+DROP TABLE IF EXISTS `cs_whowasonline`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `cs_whowasonline` (
+  `id` int(11) NOT NULL,
+  `time` int(11) NOT NULL,
+  `ip` text NOT NULL,
+  `userid` int(11) NOT NULL,
+  `site` text NOT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `cs_whowasonline`
+--
+
+/*!40000 ALTER TABLE `cs_whowasonline` DISABLE KEYS */;
+/*!40000 ALTER TABLE `cs_whowasonline` ENABLE KEYS */;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
@@ -1539,4 +1652,4 @@ INSERT INTO `cs_users` VALUES (1,'jakoch@web.de','user1','d033e22ae348aeb5660fc2
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2009-11-15 17:27:58
+-- Dump completed on 2009-11-23 21:44:23
