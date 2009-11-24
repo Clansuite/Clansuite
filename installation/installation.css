@@ -120,8 +120,11 @@ body {
 #sidebar
 {
   float:left;
-  padding:90px 31px 10px;
-  width:145px;
+  padding-left:25px;
+  padding-right:20px;
+  padding-top:90px;
+  padding-bottom:10px;
+  width:160px;
 }
 
 .left
@@ -934,7 +937,7 @@ dd
 fieldset
 {
     background:#FFFFFF none repeat scroll 0% 50%;
-    border:1px solid #EFEFEF;
+    border:1px solid #ccc;
     margin:0pt 0pt 5px;
     padding:10px 0px 10px 10px;
 }
