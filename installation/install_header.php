@@ -16,7 +16,7 @@ if (!defined('IN_CS')){ die( 'Clansuite not loaded. Direct Access forbidden.' );
     <title>Clansuite :: Installation</title>
 </head>
 <body>
-<center>
+<div id="wrapper">
 <div id="page">
     <div id="header">
         <div id="headerimg">
