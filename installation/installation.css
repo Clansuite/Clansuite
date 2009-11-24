@@ -387,14 +387,9 @@ dl dt
 }
 
 #content_footer
-{
-  background:url(images/kubrickcontentfooter.png) no-repeat scroll left bottom;
-  border:0;
+{  
   font-size:12px;
-  margin-bottom:-20px;
-  margin-left:-15px;
   min-height:85px;
-  width:450px;
   z-index:0;
 }
 
