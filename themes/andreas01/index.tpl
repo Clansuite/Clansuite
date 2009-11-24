@@ -10,12 +10,10 @@
 <meta http-equiv="reply-to" content="{$meta.email}">
 <meta name="description" content="{$meta.description}">
 <meta name="keywords" content="{$meta.keywords}">
-<link rel="stylesheet" type="text/css" href="{$www_root_themes}/andreas01.css" media="screen,projection" />
-<link rel="stylesheet" type="text/css" href="{$www_root_themes}/print.css" media="print" />
+<link rel="stylesheet" type="text/css" href="{$www_root_themes}/andreas01/andreas01.css" media="screen,projection" />
+<link rel="stylesheet" type="text/css" href="{$www_root_themes}/andreas01/print.css" media="print" />
 <link rel="stylesheet" type="text/css" href="{$css}">
 <script src="{$javascript}" type="text/javascript" language="javascript"></script>
-{$additional_head}
-{$redirect}
 <title>{$std_page_title} - {breadcrumbs title="1" trail=$trail separator=" &raquo; " length=30}</title>
 <!--
 page cached on {$smarty.now|date_format:"%Y-%m-%d %H:%M:%S"}
@@ -25,15 +23,15 @@ page cached on {$smarty.now|date_format:"%Y-%m-%d %H:%M:%S"}
 
 <!-- BrowserCheck //-->
  <h2 class="oops">{t}
-	You shouldn't be able to read this, because this site uses complex stylesheets to 
-	display the information - your browser doesn't support these new standards. However, all 
-	is not lost, you can upgrade your browser absolutely free, so please 
-	
-	UPGRADE NOW to a <a href="http://www.webstandards.org/upgrade/"  
-	title="Download a browser that complies with Web standards.">
-	standards-compliant browser</a>. If you decide against doing so, then 
-	this and other similar sites will be lost to you. Remember...upgrading is free, and it 
-	enhances your view of the Web.{/t}
+    You shouldn't be able to read this, because this site uses complex stylesheets to 
+    display the information - your browser doesn't support these new standards. However, all 
+    is not lost, you can upgrade your browser absolutely free, so please 
+    
+    UPGRADE NOW to a <a href="http://www.webstandards.org/upgrade/"  
+    title="Download a browser that complies with Web standards.">
+    standards-compliant browser</a>. If you decide against doing so, then 
+    this and other similar sites will be lost to you. Remember...upgrading is free, and it 
+    enhances your view of the Web.{/t}
 </h2>
 
 <div id="wrap">
@@ -43,38 +41,28 @@ page cached on {$smarty.now|date_format:"%Y-%m-%d %H:%M:%S"}
 <p><strong>"I can see you fly. You are an angel with wings, high above the ground!"</strong><br />(traditional haiku poem)</p>
 </div>
 
-<img id="frontphoto" src="{$www_root_themes}/images/front.jpg" width="760" height="175" alt="" />
+<img id="frontphoto" src="{$www_root_themes}/andreas01//images/front.jpg" width="760" height="175" alt="" />
 
 <div id="avmenu">
 <h2 class="hide">Menu:</h2>
 <ul>
 <li><a href="index.php">Home</a></li>
 <li><a href="index.php?mod=account">Account</a></li>
-<li><a href="index.php?mod=admin">ACPs</a></li>
+<li><a href="index.php?mod=controlcenter">ACPs</a></li>
 <li><a href="index.php?mod=downloads">Downloads</a></li>
 <li><a href="index.php?mod=gallery">Gallery</a></li>
-<li><a href="index.php?mod=gb">Guestbook</a></li>
+<li><a href="index.php?mod=guestbook">Guestbook</a></li>
 <li><a href="index.php?mod=impressum">Impressum</a></li>
 </ul>
 
 <div class="announce">
 <h3>Latest news:</h3>
-<p><strong>Nov 28, 2005:</strong><br />
-Updated to v1.3, fixed links.</p>
-<p><strong>Oct 21, 2005:</strong><br />
-Updated to v1.2, with minor adjustments and corrections.</p>
-<p><strong>June 25, 2005:</strong><br />
-v1.0 released on OSWD.org.</p>
-<p class="textright"><a href="#">Read more...</a></p>
+{load_module name="news" action="widget_latestnews" items="2"}
 </div>
 
 </div>
 
 <div id="extras">
-
-{mod name="account" func="login"}
-		
-{mod name="shoutbox" func="show"}
 
 <h3>More info:</h3>
 <p>This is the third column, which can be used in many different ways. For example, it can be used for comments, site news, external links, ads or for more navigation links. It is all up to you!</p>
@@ -92,12 +80,11 @@ v1.0 released on OSWD.org.</p>
 <p>andreas01 v1.3</p>
 
 <h3>Stats</h3>
-Online: {$stats_online}<br />
+Online: {* {$stats_online} *} <br />
 
-Siteimpressions: {$stats_page_impressions}<br />
+Siteimpressions:  {* {$stats_page_impressions} *} <br />
 
-All Impressions: {$stats_all_impressions}<br />
-
+All Impressions:  {* {$stats_all_impressions} *} <br />
 
 
 </div>
@@ -111,7 +98,7 @@ All Impressions: {$stats_all_impressions}<br />
 </div>
 
 <div id="footer">
-{include file='copyright.tpl'}Design by <a href="http://andreasviklund.com">Andreas Viklund</a>. Queries: {$query_counter}
+{include file='copyright.tpl'}Design by <a href="http://andreasviklund.com">Andreas Viklund</a>. Queries: {* {$query_counter} *}
 </div>
 
 </div>
