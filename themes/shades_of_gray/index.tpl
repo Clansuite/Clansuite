@@ -1,19 +1,60 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN"
-"http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
-<html>
-<head>
-<meta http-equiv="content-type" content="text/html; charset=iso-8859-1"/>
-<meta name="description" content="description"/>
-<meta name="keywords" content="keywords"/>
-<meta name="author" content="author"/>
-<link rel="stylesheet" type="text/css" href="{$css}" media="screen" />
-<title>{$std_page_title} - {breadcrumbs title="1" trail=$trail separator=" &raquo; " length=30}</title>
-<!-- page cached on {$smarty.now|date_format:"%Y-%m-%d %H:%M:%S"}  -->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html><head>
+
+    {* display cache time as comment *}
+    <!-- This Page was cached on {$smarty.now|dateformat}. -->
+
+    {* Include the Clansuite Header Notice *}
+    {include file='clansuite_header_notice.tpl'}
+
+    {* Pagetitle *}
+    <title>{$pagetitle} - {breadcrumbs title="1" trail=$trail separator=" &raquo; " length=30}</title>
+
+    {* Dublin Core Metatags *}
+
+    <link rel="schema.DC" href="http://purl.org/dc/elements/1.1/" />
+    <meta name="DC.Title" content="Clansuite - just an eSport CMS" />
+    <meta name="DC.Creator" content="Jens-Andre Koch" />
+    <meta name="DC.Date" content="20080101" />
+    <meta name="DC.Identifier" content="http://www.clansuite.com/" />
+    <meta name="DC.Subject" content="Subject" />
+    <meta name="DC.Subject.Keyword " content="Subject.Keyword" />
+    <meta name="DC.Subject.Keyword" content="Subject.Keyword" />
+    <meta name="DC.Description" content="Description" />
+    <meta name="DC.Publisher" content="Publisher" />
+    <meta name="DC.Coverage" content="Coverage" />
+
+    {* Metatags *}
+
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <meta http-equiv="content-language" content="{$meta.language}" />
+    <meta name="author" content="{$meta.author}" />
+    <meta http-equiv="reply-to" content="{$meta.email}" />
+    <meta name="description" content="{$meta.description}" />
+    <meta name="keywords" content="{$meta.keywords}" />
+    <meta name="generator" content="Clansuite - just an eSports CMS" />
+
+    {* Favicon *}
+
+    <link rel="shortcut icon" href="{$www_root_themes_core}/images/clansuite_logos/Clansuite-Favicon-16.ico" />
+    <link rel="icon" href="{$www_root_themes_core}/images/clansuite_logos/Clansuite-Favicon-16.ico" type="image/gif" />
+
+    {* Clip *}
+
+    <script src="{$www_root_themes_core}/javascript/clip.js" type="text/javascript"></script>
+
+    {* Cascading Style Sheets *}
+
+    <link rel="stylesheet" type="text/css" href="{$css}" />
+    <link rel="alternate"  type="application/rss+xml" href="{$www_root}/cache/photo.rss" title="" id="gallery" />
+
 </head>
 
 <!-- default margin = default layout -->
 <body style="margin: 0 12%;">
 
+{* IE FIX! *}
+<script type="text/javascript"></script>
 <div class="container">
 
     <div class="header">
@@ -24,9 +65,9 @@
 
     <div class="nav">
         <a href="index.php?mod=news">News</a>
-        <a href="index.php?mod=members">Roster</a>
-        <a href="index.php?mod=matches">Matches</a>
-        <a href="index.php?mod=calendar">Calendar</a>
+        <a href="index.php?mod=Controlcenter">Controlcenter</a>
+        <a href="index.php?mod=guestbook">Guestbook</a>
+        <a href="index.php?mod=account">Account</a>
         <a href="index.php?mod=forum">Forum</a>
         <div class="clearer"><span></span></div>
     </div>
@@ -41,31 +82,6 @@
             {include file='breadcrumbs.tpl'}
             <h1><!-- draw a line --></h1>
             {$content}
-
-                <br /> <br /><br /> <br /><br /> <br />
-
-                <h1>Formatting Examples</h1>
-                <div class="descr">May 24, 2006 by Lectus</div>
-
-                <a href="index.html">Nunc eget pretium</a> diam.
-
-                <p>Praesent nisi sem, bibendum in, ultrices sit amet, euismod sit amet, dui. Fusce nibh. Curabitur pellentesque, lectus at <a href="index.html">volutpat interdum</a>. Pellentesque a nibh quis nunc volutpat aliquam</p>
-
-                <blockquote><p>Sed sodales nisl sit amet augue. Donec ultrices, augue ullamcorper posuere laoreet, turpis massa tristique justo, sed egestas metus magna sed purus.</p></blockquote>
-
-                <code>margin-bottom: 12px;
-                font-size: 1.1em;
-                background: url(images/quote.gif);
-                padding-left: 28px;
-                color: #555;</code>
-
-                <ul>
-                    <li>Tristique</li>
-                    <li>Aenean</li>
-                    <li>Pretium</li>
-                </ul>
-
-                <p>Eget feugiat est leo tempor quam. Ut quis neque convallis magna consequat molestie.</p>
 
             </div>
 
@@ -89,26 +105,14 @@
                     <dd><a class="item" href="index.php?mod=account">Login</a></dd>
                     <dd><a class="item" href="index.php?mod=account"><img class="pic" src="{$www_root_themes}/images/icons/logout.png" border="0" width="16" height="16" alt=""/>Logout</a></dd>
                     <dt>ACP</dt>
-                    <dd><a class="button" href="index.php?mod=admin">Admin</a></dd>
+                    <dd><a class="button" href="index.php?mod=controlcenter">Controlcenter</a></dd>
                 </dl>
                 </div>
 
 
                 <div style="margin-top: 10px">{load_module name="news" action="widget_latestnews" items="2"}</div>
 
-                <div style="margin-top: 10px">
-                        <h2>{t}Statistics{/t}</h2>
-                            {* {$stats|@var_dump} *}
-                          Online: {* {$stats.online}  *}<br/>
-                          - Users : {* {$stats.authed_users} *}
-                          - Guests : {* {$stats.guest_users}  *}<br/>
-                          Today: {* {$stats.today_impressions}  *}<br/>
-                          Yesterday: {* {$stats.yesterday_impressions}  *}<br/>
-                          Month: {* {$stats.month_impressions}  *}<br/>
-
-                          This Page: {* {$stats.page_impressions}  *}<br/>
-                          Total Impressions: {* {$stats.all_impressions} *}<br/>
-                  </div>
+                <div style="margin-top: 10px">{load_module name="statistics" action="widget_statistics"}</div>
 
                 <h1>Sapien</h1>
                 <ul>
