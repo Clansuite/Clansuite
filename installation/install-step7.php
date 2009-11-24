@@ -12,27 +12,30 @@ if (!defined('IN_CS')){ die( 'Clansuite not loaded. Direct Access forbidden.' );
                    <?php echo $language['STEP7_FINISH']?>
                </h2>
                <p style="color:darkgreen"><strong><?php echo $language['STEP7_SENTENCE1']?></strong></p>
-                <p><?php echo $language['STEP7_SENTENCE2']?>
+               <p><?php echo $language['STEP7_SENTENCE2']?>
                   <img src="images/face-wink.png" border="0" style="vertical-align:middle;" alt="installstep image" />
-                   <br /><?php echo $language['STEP7_SENTENCE3']?>
+                   <br /><br />
+                   <?php echo $language['STEP7_SENTENCE3']?>
+                   <br /><br />
                    <p><b><?php echo $language['STEP7_SENTENCE4']?>
-                        <ul>
-                            <li><a href="../index.php"><?php echo $language['STEP7_SENTENCE5']?></a><br/></li>
-                            <?php echo $language['STEP7_SENTENCE6']?>
-                            <li><a href="../index.php?mod=controlcenter">Control Center (CC)</a>.<br /></li>
-                        </ul>
-                      </b>
-                      <br />
+                                 <a href="../index.php"><?php echo $language['STEP7_SENTENCE5']?></a>
+                                 <?php echo $language['STEP7_SENTENCE6']?>
+                                 <a href="../index.php?mod=controlcenter">Control Center (CC)</a>.                        
+                              </b>
+                      <br /><br />                      
                       <?php echo $language['STEP7_SENTENCE8']?><a href="http://www.clansuite.com/documentation/user/manual"><?php echo $language['STEP7_SENTENCE9']?></a>.
                       <br/>
                    </p>
-                   <fieldset style="border-color: red; background:lightsalmon;">
+                   <br />
+                   <fieldset style="border-color: red; background:#ffc">
                         <legend>
                         <strong style='border: 1px solid #000000; background: white; -moz-opacity:0.75;
                                        filter:alpha(opacity=75);'>&nbsp;<?php echo $language['STEP7_SENTENCE10']?>&nbsp;</strong>
                         </legend>
                         <i><?php echo $language['STEP7_SENTENCE11']?></i>
-                        <br /><a href="?delete_installation">Delete Installation</a>
+                        <br />
+                        <br />
+                        <b><a href="?delete_installation">Delete Installation</a></b>
                     </fieldset>
                 </p>
                <br />
