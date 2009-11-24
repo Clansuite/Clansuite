@@ -121,7 +121,7 @@ body {
 {
   float:left;
   padding:90px 31px 10px;
-  width:160px;
+  width:145px;
 }
 
 .left
@@ -352,10 +352,10 @@ dl dt
 {
   border:0;
   margin: 10px 1px 0px 0px;
-  padding-left: 10px;
   min-height:400px;
   z-index:0;
   width:570px;
+  border-left:1px solid #ccc;
 }
 
 #content_middle
