@@ -1,4 +1,9 @@
 /* $Id$ */
+#wrapper { width:1000px; margin-left:auto; margin-right:auto; }
+#rightpage { float:left; width:170px; background-image:url(images/rightbox-bg.png); background-repeat:repeat-y; }
+#rightpage #top { height:21px; background-image:url(images/rightbox-top.png); background-position:top right; background-repeat:no-repeat; }
+#rightpage #bottom { height:19px; background-image:url(images/rightbox-bottom.png); background-position:bottom; background-repeat:no-repeat; }
+#rightinner { padding-left:15px; padding-right:15px; }
 
 .install
 {
@@ -65,7 +70,7 @@
   padding:2px;
   position:relative;
   right:0;
-  width:100px;
+  width:133px;
 }
 
 #description
@@ -331,6 +336,7 @@ dl dt
   text-align:left;
   width:820px;
   z-index: auto;
+  float:left;
 }
 
 #header
@@ -344,13 +350,12 @@ dl dt
 
 #content
 {
-  background:url(images/kubrickcontent.png) repeat-y;
   border:0;
   margin: 10px 1px 0px 0px;
   padding-left: 10px;
   min-height:400px;
-  width:450px;
   z-index:0;
+  width:570px;
 }
 
 #content_middle
@@ -603,7 +608,6 @@ a,h2 a:hover,h3 a:hover
   float:left;
   margin:0 10px;
   padding:0 0 20px 17px;
-  width:450px;
 }
 
 .post
@@ -738,7 +742,7 @@ ol li,#leftsidebar ul ol li,#rightsidebar ul ol li
   padding:5px 3px;
 }
 
-#leftsidebar #searchform #s,#rightsidebar #searchform #s
+#leftsidebar #searchform #s, #searchform #s
 {
   padding:2px;
   width:115px;
@@ -793,14 +797,7 @@ select
   width:160px;
 }
 
-#rightsidebar
-{
-  float:left;
-  margin-left:2px;
-  margin-top:20px;
-  padding:6px 0 30px 5px;
-  width:105px;
-}
+
 
 #wp-calendar
 {
