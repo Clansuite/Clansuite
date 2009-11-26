@@ -131,7 +131,7 @@ class Clansuite_ActionController_Resolver implements Clansuite_ActionController_
         else # error
         {
 
-            throw new Clansuite_Exception('Action does not exist: ' . $methodname, 1);
+            throw new Clansuite_Exception('Action does not exist: ' . $methodname, 2);
         }
     }
 
