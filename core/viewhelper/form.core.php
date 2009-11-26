@@ -62,7 +62,6 @@ if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.');}
  *    a) Elements
  *    b) Attributes
  *    c) Validation rules
- *    d) Filters
  *
  * 2) Transformation / Generation
  *    The formular definition is then transformed into a valid html/xhtml/xml document segment
@@ -164,29 +163,39 @@ class Clansuite_Form /*extends Clansuite_HTML*/ implements Clansuite_Form_Interf
      */
     protected $heading;
 
+    /**
+     * Contains alternative target of the form.
+     *
+     * @var string
+     */
     protected $target;
 
     /**
+     * Flag variable to indicate, if form has an error.
+     *
+     * @var boolean
+     */
+    protected $form_error = false;
+
+    /**
+     * Form Decorators Array, contains one or several formdecorator objects
+     *
+     * @var array
+     */
+    protected $formdecorator = array();
+
+    /**
      * Construct
+     *
+     * @param $name Set the name of the form.
+     * @param $name Set the method of the form. Valid are get/post.
+     * @param $name Set the action of the form.
+     *
      */
     public function __construct($name, $method, $action)
     {
-         # set the name of the form
          $this->setName($name);
-
-         # set method get/post
-         $method = strtolower($method);
-
-         if($method == "post" or $method == "get")
-         {
-             $this->setMethod($method);
-         }
-         else
-         {
-             throw new Clansuite_Exception('When instantiating the form object the second parameter has to be GET or POST.');
-         }
-
-         # set action
+         $this->setMethod($method);
          $this->setAction($action);
     }
 
@@ -197,7 +206,16 @@ class Clansuite_Form /*extends Clansuite_HTML*/ implements Clansuite_Form_Interf
      */
     public function setMethod($method)
     {
-        $this->method = $method;
+        $method = strtolower($method);
+
+        if($method == "post" or $method == "get")
+        {
+            $this->method = $method;
+        }
+        else
+        {
+            throw new Clansuite_Exception('The parameter "$method" of the form has to be GET or POST.');
+        }
 
         return $this;
     }
@@ -403,7 +421,7 @@ class Clansuite_Form /*extends Clansuite_HTML*/ implements Clansuite_Form_Interf
     /**
      * Set a button element to the buttons stack of the form.
      */
-    function setButton($button)
+    public function setButton($button)
     {
         if (is_array($button) == false)
         {
@@ -419,9 +437,19 @@ class Clansuite_Form /*extends Clansuite_HTML*/ implements Clansuite_Form_Interf
     /**
      * Get the buttons stack.
      */
-    function getButtons()
+    public function getButtons()
     {
         return $this->buttons;
+    }
+
+    /**
+     * Get the form error status.
+     *
+     * @returns boolean
+     */
+    public function fromHasErrors()
+    {
+        return $this->form_errors;
     }
 
     /**
@@ -512,7 +540,11 @@ class Clansuite_Form /*extends Clansuite_HTML*/ implements Clansuite_Form_Interf
             # add div inside
             $html_form .= '<div class="forminside">';
 
-            # render the formelement
+            /**
+             * ============================================
+             *          render the formelement
+             * ============================================
+             */
             $html_form .= CR . $formelement->render() . CR;
 
             # add description
@@ -556,9 +588,16 @@ class Clansuite_Form /*extends Clansuite_HTML*/ implements Clansuite_Form_Interf
      */
     public function addElement($formelement, $position = null)
     {
+        /**
+         * We procced, if parameter $formelement is an fromelement object implementing the Clansuite_Formelement_Interface.
+         * Else it's a string with the name of the formelement, which we pass to the factory to deliver that formelement object.
+         *
+         * Note: Checking for the interface is nessescary here, because checking for string, like if($formelement == string),
+         * would result in true as formelement objects provide the __toString method.
+         */
         if( ($formelement instanceof Clansuite_Formelement_Interface) == false )
         {
-            $formelement = $this->formfactory($formelement);
+            $formelement = $this->formelementFactory($formelement);
         }
 
         # if we don't have a position to order the elements, we just add an element
@@ -632,12 +671,19 @@ class Clansuite_Form /*extends Clansuite_HTML*/ implements Clansuite_Form_Interf
     }
 
     /**
-     * Factory method. Instantiates and returns a new form object.
+     * ===================================================================================
+     *      Formelement Factory
+     * ===================================================================================
+     */
+
+    /**
+     * Factory method. Instantiates and returns a new formelement object.
      *
      * @return object
      */
-    public static function formfactory($formelement, $type = '')
+    public static function formelementFactory($formelement)
     {
+        # if not already loaded, require forelement file
         if (!class_exists('Clansuite_Formelement_'.$formelement))
         {
             if(is_file(ROOT_CORE . 'viewhelper/formelements/'.$formelement.'.form.php'))
@@ -646,7 +692,9 @@ class Clansuite_Form /*extends Clansuite_HTML*/ implements Clansuite_Form_Interf
             }
         }
 
+        # construct Clansuite_Formelement_Name
         $formelement_classname = 'Clansuite_Formelement_'.ucfirst($formelement);
+        # instantiate the new formelement
         $formelement = new $formelement_classname;
 
         return $formelement;
@@ -654,8 +702,153 @@ class Clansuite_Form /*extends Clansuite_HTML*/ implements Clansuite_Form_Interf
 
     /**
      * ===================================================================================
-     *    SPL Implementation
-     *    ArrayObject implements IteratorAggregate, Traversable, ArrayAccess, Countable
+     *      Form Processing
+     * ===================================================================================
+     */
+
+    /**
+     * processForm
+     *
+     * This is the main formular processing loop.
+     * If the form doesn't validate, redisplay it, else present "Success"-Message!
+     */
+    public function processForm()
+    {
+        # check if form has been submitted properly
+        if ($this->validateForm() == false)
+        {
+            # if not, redisplay the form (decorate with errors + render)
+            $form->errors();
+
+        }
+        else # form was properly filled, display a success web page
+        {
+            # success!!
+            $form->success();
+        }
+    }
+
+    /**
+     * ===================================================================================
+     *      Form Decoration
+     * ===================================================================================
+     */
+
+    /**
+     * setDecorator
+     *
+     * Is a shortcut/proxy/convenience method for addDecorator()
+     * @see $this->addDecorator()
+     */
+    public function setDecorator($decorators)
+    {
+        $this->addDecorator($decorators);
+    }
+
+    /**
+     * addDecorator
+     *
+     * Adds a decorator to the form
+     */
+    public function addDecorator($decorators)
+    {
+        foreach($decorators as $decorator)
+        {
+            if ( (in_array($decorator, $this->decorators) == false) and ($decorator instanceof Clansuite_Form_Decorator_Interface) )
+            {
+                $this->decorators[] = $decorator;
+            }
+        }
+    }
+
+    /**
+     * Factory method. Instantiates and returns a new formdecorator object.
+     *
+     * @return object
+     */
+    public function decoratorFactory($formdecorator)
+    {
+        # if not already loaded, require forelement file
+        if (!class_exists('Clansuite_Formelement_Decorator_'.$formdecorator))
+        {
+            if(is_file(ROOT_CORE . 'viewhelper/formdecorators/formelement/'.$formdecorator.'.form.php'))
+            {
+                require ROOT_CORE . 'viewhelper/formdecorators/formelement/'.$formdecorator.'.form.php';
+            }
+        }
+
+        # construct Clansuite_Formdecorator_Name
+        $formdecorator_classname = 'Clansuite_Formelement_Decorator_'.ucfirst($formdecorator);
+        # instantiate the new $formdecorator
+        $formdecorator = new $formdecorator_classname;
+
+        return $formdecorator;
+    }
+
+    /**
+     * ===================================================================================
+     *      Form Groups
+     * ===================================================================================
+     */
+
+    /**
+     * addGroup
+     *
+     * Adds a new group to the form, to group one or several formelements inside.
+     */
+    public function addGroup($groupname)
+    {
+        $this->formgroups[] = $groupname;
+    }
+
+    /**
+     * ===================================================================================
+     *      Form Validation
+     * ===================================================================================
+     */
+
+    /**
+     * addValidator
+     *
+     * Adds a validator to the formelement
+     */
+    public function addValidator()
+    {
+
+
+    }
+
+    /**
+     * Server-side validation the form.
+     *
+     * The method iterates (loops over) all formelement objects and calls the validation on each object.
+     *
+     * @return boolean Returns true if form validates, false if validation fails, because errors exist.
+     */
+    public function validateForm()
+    {
+        foreach($this->formelements as $formelement)
+        {
+            if($formelement->validate($this) == false)
+            {
+                # raise error flag
+                $this->form_errors = true;
+
+                $formelement->getError();
+            }
+        }
+
+        if($this->formHasErrors() == true)
+        {
+            # form has errors and does not validate
+            return false;
+        }
+    }
+
+    /**
+     * ===================================================================================
+     *      SPL Implementation
+     *      ArrayObject implements ArrayAccess, Countable, Iterator
      * ===================================================================================
      */
 
@@ -808,12 +1001,13 @@ class Clansuite_Form /*extends Clansuite_HTML*/ implements Clansuite_Form_Interf
  */
 interface Clansuite_Form_Interface
 {
-    # output the whole form
+    # output the html representation of the form
     public function render();
 
-    # set action and method
+    # set action, method, name
     public function setAction($action);
     public function setMethod($method);
+    public function setName($method);
 
     # add/remove a formelement
     public function addElement($formelement, $position = null);
@@ -824,7 +1018,7 @@ interface Clansuite_Form_Interface
     #public function saveDescriptionXML($xmlfile);
 
     # shortcut method / factory method for accessing the formelements
-    public static function formfactory($formelement, $type = '');
+    public static function formelementFactory($formelement);
 
     # callback for validation on the whole form (all formelements)
     #public function processForm();
