@@ -317,8 +317,8 @@ class Clansuite_CMS
          * @see clansuite_xdebug:printR()
          */
         # define XDebug and set it's value via the config
-        define('XDEBUG', self::$config['error']['xdebug']);
-
+        define('XDEBUG', self::$config['error']['xdebug']);       
+        
         # If XDebug is enabled, load xdebug helpers and start the debug/tracing
         if((bool)XDEBUG === true)
         {
@@ -377,7 +377,7 @@ class Clansuite_CMS
                               'Clansuite_Security',
                               'Clansuite_Inputfilter',
                               'Clansuite_Localization',
-                              'Clansuite_User',
+                              'Clansuite_User'
                              );
 
         # register them to the DI as singletons
