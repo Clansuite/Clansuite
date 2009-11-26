@@ -188,7 +188,7 @@ abstract class Clansuite_Renderer_Base
         {
             # fetch the template via looking through Module Template Paths
             #$module_template = $this->getModuleTemplatePath($template);
-            #echo '<br>'. __METHOD__ .' via MODULE = '. $module_template . '<br>';
+            #echo '<br>'. __METHOD__ .'<br> is now trying to fetch the template from the MODULE directory via method getModuleTemplatePath("'. $template . '")<br>';
             return $this->getModuleTemplatePath($template);
         }
     }
@@ -261,7 +261,7 @@ abstract class Clansuite_Renderer_Base
         #echo '<br>'. __METHOD__ .' INPUT '. $template . '<br>';
 
         # init var
-        $modulepath = '';
+        $modulepath = null;
 
         # Method 1: get module/action names
         $module = Clansuite_ModuleController_Resolver::getModuleName();
@@ -307,8 +307,8 @@ abstract class Clansuite_Renderer_Base
             $modulepath =  ROOT_MOD . $module . '/templates/' . $template;
         }
 
-        # If template is not existant, show template_not_found
-        elseif(isset($modulepath) == false)
+        # If there is still no modulepath with the template found, show template_not_found
+        elseif(is_null($modulepath))
         {
             $modulepath = ROOT_THEMES . 'core/templates/template_not_found.tpl';
         }
