@@ -80,9 +80,9 @@ class Clansuite_Xdebug
         # Start XDEBUG Tracing and Coverage
         if (self::is_xdebug_active())
         {
-            #ini_set('xdebug.auto_trace', 'On');
-            #ini_set('xdebug.trace_output_dir', getcwd() . '/logs/');
-            #ini_set('xdebug.trace_output_name', 'clansuite_trace%u');
+            ini_set('xdebug.auto_trace', 'On');
+            ini_set('xdebug.trace_output_dir', getcwd() . '/logs/');
+            ini_set('xdebug.trace_output_name', 'clansuite_trace%u');
             ini_set('xdebug.show_mem_delta', 'On');
             ini_set('xdebug_start_code_coverage', 'XDEBUG_CC_UNUSED');
             ini_set('xdebug.xdebug.collect_return', 'On');
@@ -97,13 +97,12 @@ class Clansuite_Xdebug
 
             self::$_xdebug_memory_before = 'Memory Usage (before): ' . self::roundMB(xdebug_memory_usage()) . ' MB.<hr />';
 
-
             #xdebug_start_trace(getcwd() . '/logs/clansuite_trace', XDEBUG_TRACE_HTML);
 
-            #xdebug_start_code_coverage(XDEBUG_CC_DEAD_CODE | XDEBUG_CC_UNUSED);
+            xdebug_start_code_coverage(XDEBUG_CC_DEAD_CODE | XDEBUG_CC_UNUSED);
             #var_dump(xdebug_get_code_coverage());
             #var_dump(xdebug_get_function_count());
-            #xdebug_get_code_coverage();
+            xdebug_get_code_coverage();
         }
 
         # stop tracing and display infos
@@ -182,9 +181,14 @@ class Clansuite_Xdebug
         exit;
     }
 
-    public static function xd_varDump()
+    public static function xd_varDump($var = null)
     {
-        echo xdebug_var_dump();
+        if(is_null($var))
+        {
+            die('clansuite_xdebug::xd_varDump() expects the variable you want to display as parameter.');   
+        }
+        
+        echo xdebug_var_dump($var);
     }
 
     public static function xd_break()

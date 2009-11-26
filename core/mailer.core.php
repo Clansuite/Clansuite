@@ -44,11 +44,11 @@ if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
 /**
  * Clansuite_Mailer - Clansuite Core Class for Mail Handling with SwiftMailer
  *
- * Basically this is a wrapper for SwiftMail
+ * This is a simple wrapper for SwiftMailer.
+ * @link http://swiftmailer.org/
  *
  * @author     Jens-André Koch  <vain@clansuite.com>
  * @copyright  Jens-André Koch  (2005-onwards)
- * @since      Class available since Release 0.1
  *
  * @category    Clansuite
  * @package     Core
@@ -56,23 +56,21 @@ if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
  */
 class Clansuite_Mailer
 {
-    public $mailer = null;
-    private $_config = null;
+    public  $mailer = null;
+    private $config = null;
 
     /**
      * CONSTRUCTOR
-     *
      */
     function __construct( Clansuite_Config $config )
     {
-        $this->_config = $config;
+        $this->config = $config;
         $this->loadMailer();
     }
 
     /**
-    * @desc Loads Swift Mailer
-    *
-    */
+     * Loads and instantiates Swift Mailer
+     */
     private function loadMailer()
     {
         /**
@@ -85,16 +83,16 @@ class Clansuite_Mailer
          * Include the Swiftmailer Connection Class and Set $connection
          */
 
-        if ($this->_config['email']['mailmethod'] != 'smtp')
+        if ($this->config['email']['mailmethod'] != 'smtp')
         {
             require( ROOT_LIBRARIES . '/swiftmailer/Swift/Connection/Sendmail.php');
         }
 
-        switch ($this->_config['email']['mailmethod'])
+        switch ($this->config['email']['mailmethod'])
         {
             case 'smtp':
                 require( ROOT_LIBRARIES . '/swiftmailer/Swift/Connection/SMTP.php');
-                $connection = new Swift_Connection_SMTP( $this->_config['email']['mailerhost'], $this->_config['email']['mailerport'], $this->_config['email']['mailencryption'] );
+                $connection = new Swift_Connection_SMTP( $this->config['email']['mailerhost'], $this->config['email']['mailerport'], $this->config['email']['mailencryption'] );
                 break;
 
             case 'sendmail':
@@ -120,23 +118,19 @@ class Clansuite_Mailer
         /**
          * This globalizes $this->mailer and initialize the class
          */
-        $this->mailer = new Swift($connection, $this->_config['email']['mailerhost']);
+        $this->mailer = new Swift($connection, $this->config['email']['mailerhost']);
     }
 
     /**
      * This is the sendmail command, it's a shortcut method to swiftmailer
      * Return true or false if successfully
      *
-     * @param string
-     * @param string
-     * @param string
-     * @param string
-     * @todo check if swiftmailer correctly writes errors to the docs? sends mails correctly?
-     *       use templates as body of emails?
-     *
+     * @param string $to_address
+     * @param string $from_address
+     * @param string $subject
+     * @param string $body
      * @return boolean true|false
      */
-
     public function sendmail($to_address, $from_address, $subject, $body)
     {
         if ($this->mailer->isConnected())
@@ -156,6 +150,21 @@ class Clansuite_Mailer
                            Log: <pre>' . print_r($this->mailer->transactions, 1) .'</pre>' );
             return false;
         }
+    }
+
+    /**
+     * Getter Method for the Swiftmailer Object
+     *
+     * @return object SwiftMailer
+     */
+    public function getMailer()
+    {
+        if(is_null($this->mailer))
+        {
+            $this->loadMailer();
+        }
+
+        return $this->mailer;
     }
 }
 ?>

@@ -53,9 +53,10 @@ class Clansuite_Version
         /**
          * Define Clansuite software version, version name and state for usage throughout the system
          */
-        define('CLANSUITE_VERSION',         '0.2');
+        define('CLANSUITE_VERSION',         '0.2.0');
         define('CLANSUITE_VERSION_NAME',    'Trajan');
         define('CLANSUITE_VERSION_STATE',   'alpha-dev');
+        define('CLANSUITE_URL',             'http://www.clansuite.com');            
 
         # Define Clansuite SVN Revision
         if (!defined('CLANSUITE_REVISION'))
