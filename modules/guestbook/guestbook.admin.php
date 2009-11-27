@@ -141,7 +141,7 @@ class Module_Guestbook_Admin extends Clansuite_ModuleController implements Clans
         # or no uploadType at all (for default upload)
         #$form->addElement('file')->setUploadType('uploadify')->setLabel('file upload label');
 /*
-        $form->addElement('jqconfirmsubmitbutton')->setFormId('news_create_form')->setLabel('jqconfirmsubmitbutton label');
+        #form->addElement('jqconfirmsubmitbutton')->setFormId('news_create_form')->setLabel('jqconfirmsubmitbutton label');
 
         $form->addElement('jqselectdate')->setLabel('jqselectdate label'); #->setFormId('news_create_form')
 
@@ -153,6 +153,7 @@ class Module_Guestbook_Admin extends Clansuite_ModuleController implements Clans
         $form->addElement('selectcountry');
         $form->addElement('selectyesno');
 */
+		$form->setDecorator('fieldset')->setLegend('Testform');
         $form->addElement('text')->setLabel('text label');
         $form->addElement('textarea')->setCols('70')->setLabel('textarea label');
 
