@@ -112,7 +112,7 @@ class Clansuite_Formelement_Textarea extends Clansuite_Formelement implements Cl
      *
      * @param int $cols
      */
-    public function getCols($cols)
+    public function getCols()
     {
         return $this->cols;
     }
@@ -134,7 +134,7 @@ class Clansuite_Formelement_Textarea extends Clansuite_Formelement implements Cl
      *
      * @param int $rows
      */
-    public function getRows($rows)
+    public function getRows()
     {
         return $this->rows;
     }
