@@ -85,7 +85,7 @@ class Clansuite_Formelement_Textarea extends Clansuite_Formelement implements Cl
         $this->type  = 'textarea';
 
         #do not return this, but return the class defined by the factory
-        return $this;        
+        return $this;
     }
 
     public function setEditorType($editorType)
@@ -96,7 +96,7 @@ class Clansuite_Formelement_Textarea extends Clansuite_Formelement implements Cl
     }
 
     /**
-     * defines width of textarea in letters
+     * defines width of textarea
      *
      * @param int $cols
      */
@@ -108,7 +108,17 @@ class Clansuite_Formelement_Textarea extends Clansuite_Formelement implements Cl
     }
 
     /**
-     * defines height of textarea in rows
+     * get defined width of textarea
+     *
+     * @param int $cols
+     */
+    public function getCols($cols)
+    {
+        return $this->cols;
+    }
+
+    /**
+     * define height of textarea in rows
      *
      * @param int $rows
      */
@@ -119,20 +129,30 @@ class Clansuite_Formelement_Textarea extends Clansuite_Formelement implements Cl
         return $this;
     }
 
+    /**
+     * get defined height of textarea in rows
+     *
+     * @param int $rows
+     */
+    public function getRows($rows)
+    {
+        return $this->rows;
+    }
+
     public function setName($name)
     {
         $this->name = $name;
 
         return $this;
     }
-    
+
     public function setWysiwygContent($wysiwyg)
     {
         $this->wysiwyg = $wysiwyg;
-        
+
         return $this;
     }
-    
+
     public function getWysiwygContent()
     {
         return $this->wysiwyg;
@@ -184,12 +204,12 @@ class Clansuite_Formelement_Textarea extends Clansuite_Formelement implements Cl
     public function render_textarea()
     {
         $html = ' ';
-       
+
         /**
          * Attach content of WYSIWYG
          */
         $html .= $this->getWysiwygContent();
-        
+
         /**
          * Opening of tag
          */
@@ -217,7 +237,7 @@ class Clansuite_Formelement_Textarea extends Clansuite_Formelement implements Cl
 
         #clansuite_xdebug::printR($html);
 
-        return $html;  
+        return $html;
     }
 
     public function __toString()
