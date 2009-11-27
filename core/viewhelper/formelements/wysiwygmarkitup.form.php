@@ -106,18 +106,18 @@ class Clansuite_Formelement_Wysiwygmarkitup extends Clansuite_Formelement_Textar
         
         # a) loads the markitup javascript files
         #$javascript = '<script type="text/javascript" src="'.WWW_ROOT_THEMES_CORE . '/javascript/jquery/jquery.js"></script>';
-        $javascript = '<script type="text/javascript" src="'.WWW_ROOT_THEMES_CORE . '/javascript/markitup/jquery.markitup.js"></script>';
+        $javascript = '<script type="text/javascript" src="'.WWW_ROOT_THEMES_CORE . '/javascript/markitup/jquery.markitup.js"></script>'.CR;
                        
         # b) load JSON default settings
-        $javascript .= '<script type="text/javascript" src="'.WWW_ROOT_THEMES_CORE . '/javascript/markitup/sets/default/set.js"></script>';
+        $javascript .= '<script type="text/javascript" src="'.WWW_ROOT_THEMES_CORE . '/javascript/markitup/sets/default/set.js"></script>'.CR;
         
         # c) include CSS
-        $css = '<link rel="stylesheet" type="text/css" href="'.WWW_ROOT_THEMES_CORE . '/javascript/markitup/skins/markitup/style.css" />
-                 <link rel="stylesheet" type="text/css" href="'.WWW_ROOT_THEMES_CORE . '/javascript/markitup/sets/default/style.css" />';
+        $css = '<link rel="stylesheet" type="text/css" href="'.WWW_ROOT_THEMES_CORE . '/javascript/markitup/skins/markitup/style.css" />'.CR.'
+                 <link rel="stylesheet" type="text/css" href="'.WWW_ROOT_THEMES_CORE . '/javascript/markitup/sets/default/style.css" />'.CR;
                  
         # d) plug it to an specific textarea by ID
         $javascript .= "<script type=\"text/javascript\">// <![CDATA[                           
-                           $(document).ready(function() {
+                           jQuery(document).ready(function($){
                               $(\"textarea:visible\").markItUp(mySettings);
                            });
                         // ]]></script>";
@@ -131,7 +131,7 @@ class Clansuite_Formelement_Wysiwygmarkitup extends Clansuite_Formelement_Textar
             parent::setRows($rows);
             parent::setValue($value);
             $html = parent::render_textarea();
-            clansuite_xdebug::printR($html);
+            #clansuite_xdebug::printR($html);
         }
 
         #clansuite_xdebug::printR($javascript.$css.CR.$html);
