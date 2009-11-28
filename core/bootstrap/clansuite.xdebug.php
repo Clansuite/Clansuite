@@ -169,11 +169,11 @@ class Clansuite_Xdebug
         if (is_array($var)) echo '<b>Length</b>: '.count($var)."\r\n";
         echo '<b>Value</b>: ';
         if($var === true)    { echo '<font color=green><b>true</b></font>'; }
-        if($var === false)   { echo '<font color=red><b>false</b></font>'; }
-        if($var === null)    { echo '<font color=red><b>null</b></font>'; }
-        if($var === 0)       { echo "0"; }
-        if(is_string($var) and strlen($var) == '0') { echo '<font color=green>*EMPTY STRING*</font>'; }
-        if(is_string($var))  { echo htmlspecialchars($var); }
+        elseif($var === false)   { echo '<font color=red><b>false</b></font>'; }
+        elseif($var === null)    { echo '<font color=red><b>null</b></font>'; }
+        elseif($var === 0)       { echo "0"; }
+        elseif(is_string($var) and strlen($var) == '0') { echo '<font color=green>*EMPTY STRING*</font>'; }
+        elseif(is_string($var))  { echo htmlspecialchars($var); }
         else {
             $print_r = print_r($var, true);
             // str_contains < or >
