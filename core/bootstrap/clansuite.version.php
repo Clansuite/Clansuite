@@ -46,7 +46,7 @@ if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
  * Clansuite_Version
  *
  */
-class Clansuite_Version
+final class Clansuite_Version
 {
     public static function setVersionInformation()
     {
@@ -56,7 +56,7 @@ class Clansuite_Version
         define('CLANSUITE_VERSION',         '0.2.0');
         define('CLANSUITE_VERSION_NAME',    'Trajan');
         define('CLANSUITE_VERSION_STATE',   'alpha-dev');
-        define('CLANSUITE_URL',             'http://www.clansuite.com');            
+        define('CLANSUITE_URL',             'http://www.clansuite.com');
 
         # Define Clansuite SVN Revision
         if (!defined('CLANSUITE_REVISION'))

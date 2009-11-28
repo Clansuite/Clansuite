@@ -165,10 +165,15 @@ class Clansuite_Xdebug
         $file = file($trace['file']);
         echo "<div style='background: #f5f5f5; padding: 0.2em 0em;'>".htmlspecialchars($file[$trace['line']-1])."</div>\r\n";
         echo '<b>Type</b>: '.gettype($var)."\r\n";
-        if (is_string($var)) echo "<b>Length</b>: ".strlen($var)."\r\n";
-        if (is_array($var)) echo "<b>Length</b>: ".count($var)."\r\n";
+        if (is_string($var)) echo '<b>Length</b>: '.strlen($var)."\r\n";
+        if (is_array($var)) echo '<b>Length</b>: '.count($var)."\r\n";
         echo '<b>Value</b>: ';
-        if (is_string($var)) echo htmlspecialchars($var);
+        if($var === true)    { echo '<font color=green><b>true</b></font>'; }
+        if($var === false)   { echo '<font color=red><b>false</b></font>'; }
+        if($var === null)    { echo '<font color=red><b>null</b></font>'; }
+        if($var === 0)       { echo "0"; }
+        if(is_string($var) and strlen($var) == '0') { echo '<font color=green>*EMPTY STRING*</font>'; }
+        if(is_string($var))  { echo htmlspecialchars($var); }
         else {
             $print_r = print_r($var, true);
             // str_contains < or >
@@ -185,9 +190,9 @@ class Clansuite_Xdebug
     {
         if(is_null($var))
         {
-            die('clansuite_xdebug::xd_varDump() expects the variable you want to display as parameter.');   
+            die('clansuite_xdebug::xd_varDump() expects the variable you want to display as parameter.');
         }
-        
+
         echo xdebug_var_dump($var);
     }
 
@@ -212,7 +217,7 @@ class Clansuite_Xdebug
     public static function shutdown()
     {
         if(defined('SHUTDOWN_FUNCTION_SUPPRESSION') and SHUTDOWN_FUNCTION_SUPPRESSION == false)
-        {        
+        {
             # Stop the tracing and show debugging infos.
             clansuite_xdebug::end_xdebug();
         }
