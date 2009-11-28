@@ -52,10 +52,19 @@ abstract class BaseCsWhoisonline extends Doctrine_Record
              'unsigned' => 0,
              'primary' => false,
              'default' => '0',
-             'notnull' => true,
+             'notnull' => false,
              'autoincrement' => false,
              ));
         $this->hasColumn('site', 'string', 255, array(
+             'type' => 'string',
+             'length' => 255,
+             'fixed' => false,
+             'primary' => false,
+             'default' => '',
+             'notnull' => true,
+             'autoincrement' => false,
+             ));
+        $this->hasColumn('date', 'string', 255, array(
              'type' => 'string',
              'length' => 255,
              'fixed' => false,
