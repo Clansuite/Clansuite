@@ -1,0 +1,133 @@
+<?php
+   /**
+    * Clansuite - just an eSports CMS
+    * Jens-André Koch © 2005 - onwards
+    * http://www.clansuite.com/
+    *
+    * This file is part of "Clansuite - just an eSports CMS".
+    *
+    * LICENSE:
+    *
+    *    This program is free software; you can redistribute it and/or modify
+    *    it under the terms of the GNU General Public License as published by
+    *    the Free Software Foundation; either version 2 of the License, or
+    *    (at your option) any later version.
+    *
+    *    This program is distributed in the hope that it will be useful,
+    *    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    *    GNU General Public License for more details.
+    *
+    *    You should have received a copy of the GNU General Public License
+    *    along with this program; if not, write to the Free Software
+    *    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+    *
+    * @license    GNU/GPL v2 or (at your option) any later version, see "/doc/LICENSE".
+    *
+    * @author     Jens-André Koch   <vain@clansuite.com>
+    * @copyright  Copyleft: All rights reserved. Jens-André Koch (2005-onwards)
+    *
+    * @link       http://www.clansuite.com
+    * @link       http://gna.org/projects/clansuite
+    * @since      File available since Release 0.1
+    *
+    * @version    SVN: $Id$
+    */
+
+// Security Handler
+if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.');}
+
+if (!class_exists('Clansuite_Form_Decorator')) { require ROOT_CORE . 'viewhelper'.DS.'formdecorator.core.php'; }
+
+class Clansuite_Form_Decorator_Form extends Clansuite_Form_Decorator
+{
+    public $name = 'form';
+
+    public function openOpenFormTag()
+    {
+        # init var
+        $html_form = '';
+
+        # init html form with an comment
+        $html_form = '<!-- Start of Form "'. $this->getName() .'" -->' . CR;
+
+        # open the opening form tag
+        $html_form .= '<form ';
+
+        return $html_form;
+    }
+
+    /**
+     * @return string returns html of attributes inside the opening form tag
+     */
+    public function getFormTagAttributesAsHTML()
+    {
+        # init var
+        $html_form = '';
+
+        if( strlen($this->getID()) > 0 )
+        {
+            $html_form .= 'id="'.$this->getID().'" ';
+        }
+
+        if( strlen($this->getAction()) > 0 )
+        {
+            $html_form .= 'action="'.$this->getAction().'" ';
+        }
+
+        if( strlen($this->getMethod()) > 0 )
+        {
+            $html_form .= 'method="'.$this->getMethod().'" ';
+        }
+
+        if( strlen($this->getEncoding()) > 0 )
+        {
+            $html_form .= 'enctype="'.$this->getEncoding().'" ';
+        }
+
+        if( strlen($this->getTarget()) > 0 )
+        {
+            $html_form .= 'target="'.$this->getTarget().'" ';
+        }
+
+        if( strlen($this->getName()) > 0 )
+        {
+             $html_form .= 'name="'.$this->getName().'" ';
+        }
+
+        if( strlen($this->getClass()) > 0 )
+        {
+             $html_form .= 'class="'.$this->getClass().'"';
+        }
+
+        # return the attributes inside the opening form tag
+        return $html_form;
+    }
+
+    public function closeOpenFormTag()
+    {
+        # close the opened form tag
+        return '>' . CR;
+    }
+
+    public function closeFormTag()
+    {
+        # close form
+        return '</form>' . CR . '<!--- End of Form "'. $this->getName() .'" -->' . CR;
+    }
+
+    public function render($html_form_content)
+    {
+        # put all the pieces of html together
+        $html_form_content = $this->openOpenFormTag().              # <form
+                             $this->getFormTagAttributesAsHTML().   #  ....
+                             $this->closeOpenFormTag().             # >
+                             CR.
+                             $html_form_content.                    # formelements
+                             CR.
+                             $this->closeFormTag() ;                # </form>
+
+        return $html_form_content;
+    }
+}
+?>
