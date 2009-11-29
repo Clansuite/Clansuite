@@ -26,7 +26,7 @@ class language implements ArrayAccess
 
         $this->language['STEP1_WELCOME'] = 'Willkommen zur Installation von Clansuite.';
         $this->language['STEP1_THANKS_CHOOSING'] = 'Vielen Dank, dass Sie sich für Clansuite entschieden haben!';
-        $this->language['STEP1_APPINSTALL_STEPWISE'] = 'Diese Anwendung führt Sie schrittweise durch die Installation.';
+        $this->language['STEP1_APPINSTALL_STEPWISE'] = 'Der Installationsassistent führt Sie schrittweise durch die Installation.';
         $this->language['STEP1_CHOOSELANGUAGE'] = 'Wählen Sie bitte die Sprache aus.';
 
         // STEP 2 - System Check
@@ -106,7 +106,7 @@ class language implements ArrayAccess
 
         $this->language['STEP4_SENTENCE1'] = 'In Schritt [4] geben Sie Ihre MySQL-Datenbank Verbindungsdaten an und wir werden bei erfolgreicher Verbindung mit der Datenbank einige grundlegende Tabellen und Inhalte für Clansuite darin abzulegen.';
         $this->language['STEP4_SENTENCE2'] = 'Bitte geben Sie Ihren Nutzernamen und das dazugehörige Passwort an.';
-        $this->language['STEP4_SENTENCE3'] = 'Wenn der Nutzer die Berechtigung zum Erstellen einer neuen Tabelle besitzt, so kann eine neue Tabelle mit dem gewünschten Namen automatisch angelegt werden - andernfalls, ist eine bereits existierende Datenbank Tabelle anzugeben.';
+        $this->language['STEP4_SENTENCE3'] = 'Wenn der Nutzer die Berechtigung zum Erstellen einer neuen Tabelle besitzt, so kann eine neue Tabelle mit dem gewünschten Namen automatisch angelegt werden - andernfalls, ist eine bereits existierende Datenbanktabelle anzugeben.';
 
         $this->language['STEP4_SENTENCE4'] = 'Tabellen und Einträge werden angelegt.';
         $this->language['STEP4_SENTENCE5'] = 'Datenbanktabellen eines anderen CMS importieren.';
