@@ -61,51 +61,40 @@ class Module_statistics extends Clansuite_ModuleController implements Clansuite_
     private static function fetch_wwwstats()
     {
         $stats = array();
-        $stats['all_impressions']        = 0;
-        $stats['page_impressions']       = 0;
-        $stats['today_impressions']      = 0;
-        $stats['yesterday_impressions']  = 0;
-        $stats['month_impressions']      = 0;
+        
+        /**
+         * All visits & max users online counter
+         */
+        $tmpVar = Doctrine::getTable("CsStatistic")->fetchAllImpressionsAndMaxVisitors();
+        $stats['all_impressions']        = $tmpVar[0]['hits'];
+        $stats['max_visitor']        	 = $tmpVar[0]['maxonline'];
+        
+        $tmpVar = Doctrine::getTable("CsStatistic")->fetchTodayAndYesterdayVisitors();
+        $stats['today_impressions']      = $tmpVar[0]['count'];
+        $stats['yesterday_impressions']  = $tmpVar[0]['count'];
+        
+        $tmpVar = Doctrine::getTable("CsStatistic")->sumMonthVisits();
+        $stats['month_impressions']      = $tmpVar;
 
         /**
          * Number of online users (equals sessions number)
          */
         $sessions_online = 0;
-        $sessions_online = Doctrine_Query::create()
-                                        ->select('COUNT(s.session_id) online')
-                                        ->from('CsSession s')
-                                        ->execute(array(), Doctrine::HYDRATE_ARRAY);
-
-        $stats['online'] = $sessions_online[0]['online'];
+        $sessions_online = Doctrine::getTable('CsStatistic')->countVisitorsOnline(5);
+        $stats['online'] = $sessions_online;
 
         /**
          * Number of authenticated users (user_id not 0) in session table
          */
         $authed_user_session  = 0;
-        $authed_user_session  = Doctrine_Query::create()
-                                ->select('COUNT(s.session_id) authed_users')
-                                ->from('CsSession s')
-                                ->where('user_id != 0')
-                                ->execute(array(), Doctrine::HYDRATE_ARRAY);
+        $authed_user_session  = Doctrine::getTable('CsStatistic')->countUsersOnline(5);
 
-        $stats['authed_users'] = $authed_user_session[0]['authed_users'];
+        $stats['authed_users'] = $authed_user_session;
 
         /**
          * Calculate number of guests, based on total users subtracted by authed users
          */
         $stats['guest_users'] = (int) $sessions_online - (int) $authed_user_session;
-
-        /**
-         * Who is online?
-         * Select Session's IDS and Nicks for USERID > 0 (no guests) BUT not hidden ones
-         */
-        /*$stmt = $this->db->prepare( 'SELECT table1.user_id, table1.session_where, table2.nick
-
-                                     FROM ' . DB_PREFIX .'session AS table1
-                                     LEFT JOIN ' . DB_PREFIX .'users AS table2 ON table1.user_id = table2.user_id
-                                     WHERE table1.user_id != 0 AND table1.session_visibility = 1' );
-        $stmt->execute();
-        $stats['whoisonline'] = $stmt->fetchALL(PDO::FETCH_ASSOC);*/
 
         return $stats;
     }

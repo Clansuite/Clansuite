@@ -31,6 +31,14 @@
     </tr>
     <tr>
         <td class="cell1">
+             - Max Online:
+        </td>
+        <td class="cell2">
+             {$stats.max_visitor}
+        </td>
+    </tr>
+    <tr>
+        <td class="cell1">
               Today:
         </td>
         <td class="cell2">
@@ -51,14 +59,6 @@
         </td>
         <td class="cell2">
               {$stats.month_impressions}
-        </td>
-    </tr>
-    <tr>
-        <td class="cell1">
-              This Page:
-        </td>
-        <td class="cell2">
-              {$stats.page_impressions}
         </td>
     </tr>
     <tr>

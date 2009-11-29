@@ -20,6 +20,13 @@ abstract class BaseCsStatistic extends Doctrine_Record
     public function setTableDefinition()
     {
         $this->setTableName('statistic');
+        $this->hasColumn('id', 'integer', 4, array(
+             'type' => 'integer',
+             'length' => 4,
+             'unsigned' => 0,
+             'primary' => true,
+             'autoincrement' => true,
+             ));
         $this->hasColumn('hits', 'integer', 4, array(
              'type' => 'integer',
              'length' => 4,

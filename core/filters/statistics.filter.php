@@ -52,7 +52,8 @@ class statistics implements Clansuite_Filter_Interface {
 	private $m_curTimestamp = null;
 	private $m_curDate = null;
 	
-	function __construct(Clansuite_Config $config, Clansuite_User $user) {
+	function __construct(Clansuite_Config $config, Clansuite_User $user) 
+	{
 		$this->m_config = $config;
 		$this->m_curTimestamp = time();
 		$this->m_curDate = date("d.m.Y", $this->m_curTimestamp);
@@ -62,7 +63,8 @@ class statistics implements Clansuite_Filter_Interface {
 		Doctrine::loadModels($models_path);
 	}
 	
-	public function executeFilter(Clansuite_HttpRequest $request, Clansuite_HttpResponse $response) {
+	public function executeFilter(Clansuite_HttpRequest $request, Clansuite_HttpResponse $response) 
+	{
 		# take the initiative or pass through (do nothing)
 		if (isset ($this->m_config['statistics']['enabled']) and $this->m_config['statistics']['enabled'] == 1) {
 			#######################
@@ -95,7 +97,8 @@ class statistics implements Clansuite_Filter_Interface {
 	 * @param String visitorIp
 	 * @param String targetSite
 	 */
-	private function updateWhoTables($visitorIp, $targetSite) {
+	private function updateWhoTables($visitorIp, $targetSite) 
+	{
 		#Original if statement CHECK if user is an admin
 		if ($this->m_UserCore->isUserAuthed()) {
 			$this->updateWhoIs($visitorIp, $targetSite, $this->m_UserCore->getUserIdFromSession());
@@ -104,7 +107,8 @@ class statistics implements Clansuite_Filter_Interface {
 			$this->updateWhoIs($visitorIp, $targetSite);
 		}
 	}
-	private function updateWhoIs($ip, $targetSite, $userID = null) {
+	private function updateWhoIs($ip, $targetSite, $userID = null) 
+	{
 		$curTimestamp = $this->m_curTimestamp;
 		
 		$result = Doctrine::getTable('CsStatistic')->updateWhoIsOnline($ip, $targetSite, $curTimestamp, $userID);
@@ -112,10 +116,8 @@ class statistics implements Clansuite_Filter_Interface {
 			Doctrine::getTable('CsStatistic')->insertWhoIsOnline($ip, $targetSite, $curTimestamp, $userID);
 		}
 	}
-	private function updateStatistics($visitorIp) {
-		Doctrine::getTable('CsStatistic')->deleteIpEntriesOlderThen(1);
-		
-		clansuite_xdebug::printR(Doctrine::getTable('CsStatistic')->existsIpEntryWithIp($visitorIp));
+	private function updateStatistics($visitorIp) 
+	{
 		if (Doctrine::getTable('CsStatistic')->existsIpEntryWithIp($visitorIp)) {
 							
 		} 
@@ -124,11 +126,11 @@ class statistics implements Clansuite_Filter_Interface {
 			$this->updateStatisticStats();
 		}
 		
-		$userOnline = Doctrine::getTable('CsStatistic')->countUsersOnline();
+		$userOnline = Doctrine::getTable('CsStatistic')->countVisitorsOnline(5);
 		Doctrine::getTable('CsStatistic')->updateStatisticMaxUsers($userOnline);
 	}
-	private function updateStatisticStats() {
-		
+	private function updateStatisticStats() 
+	{
 		if (Doctrine::getTable('CsStatistic')->existsStatsEntryWithDate($this->m_curDate)) {
 			Doctrine::getTable('CsStatistic')->incrementStatsWithDateByOne($this->m_curDate);
 		} 
