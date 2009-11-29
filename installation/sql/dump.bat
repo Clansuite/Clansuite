@@ -8,10 +8,10 @@
 @ECHO OFF
 
 @REM Verzeichnisse 
-SET basedir=D:\xampplite\htdocs\work\clansuite\trunk\installation
-SET mysqldir=D:\xampplite\mysql\bin
-SET mysqluser=clansuite
-SET mysqlpassword=toop
+SET basedir=C:\xampp\htdocs\projects\clansuite\installation
+SET mysqldir=C:\xampp\mysql\bin
+SET mysqluser=root
+SET mysqlpassword=300764
 SET dbname=clansuite
 
 @REM Clansuite DB dumpen
