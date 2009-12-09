@@ -37,29 +37,24 @@
 // Security Handler
 if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.');}
 
-class Clansuite_Formelement_Decorator_Label extends Clansuite_Formelement_Decorator
-{   
-    /**
-     * Name of this decorator
-     *
-     * @var string
-     */
-    public $name = 'label';
+if (!class_exists('Clansuite_Form_Decorator')) { require ROOT_CORE . 'viewhelper'.DS.'formdecorator.core.php'; }
+
+class Clansuite_Formelement_Decorator_Div extends Clansuite_Formelement_Decorator
+{
+    public $name = 'div';
     
-    /**
-     * renders label BEFORE formelement
-     *
-     * @todo if required form field add (*)
-     */
-    public function render($html_formelement)
-    {  
-        # add label
-        if ( $this->formelement->hasLabel() == true)
-        {
-            $html_formelement = CR . '<label>' . $this->formelement->getLabel() . '</label>'. CR . $html_formelement;
-        }    
+    public $classname;
+    
+    public function setClassName($classname)
+    {
+        $this->classname = $classname;  
         
-        return $html_formelement;
+        return $this->formelement;  
+    }
+
+    public function render($html_form_content)
+    {
+        return CR.'<div class="'.$this->classname.'">' . $html_form_content . '</div>'.CR;
     }
 }
 ?>

@@ -37,7 +37,6 @@
 // Security Handler
 if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.');}
 
-
 /**
  * Clansuite_Formelement
  *
@@ -59,6 +58,22 @@ class Clansuite_Formelement implements Clansuite_Formelement_Interface
     protected $value;
 
     protected $position;
+
+    protected $formelementdecorators = array();
+
+    /**
+     * validators are stored into an array. making multiple validators for one formelement possible.
+     *
+     * @var validator
+     */
+    protected $validators = array();
+
+    /**
+     * error stack array storing the incomming errors from validators.
+     *
+     * @var formelement_validation_errors
+     */
+    protected $formelement_validation_errors = array();
 
     /**
      * Set id of this form.
@@ -125,7 +140,7 @@ class Clansuite_Formelement implements Clansuite_Formelement_Interface
     {
         return $this->name;
     }
-    
+
     /**
      * Returns name of this form without brackets.
      *
@@ -134,19 +149,20 @@ class Clansuite_Formelement implements Clansuite_Formelement_Interface
     public function getNameWithoutBrackets()
     {
         $name = strrpos($this->name, "[");
+
         if ($name === false)
-        { 
+        {
             return $this->name;
         }
         else # remove brackets
         {
-           $name = $this->name;           
+           $name = $this->name;
            # replace left
-           $name = str_replace('[', '_', $name);           
+           $name = str_replace('[', '_', $name);
            # replace right with nothing (strip right)
-           $name = str_replace(']', '', $name); 
+           $name = str_replace(']', '', $name);
         }
-                
+
         return $name;
     }
 
@@ -272,11 +288,224 @@ class Clansuite_Formelement implements Clansuite_Formelement_Interface
     }
 
     /**
+     * Returns the requested attribute if existing else null.
+     *
+     * @param $parametername
+     * @return mixed null or value of the attribute
+     */
+    public function getAttribute($attributename)
+    {
+        if(isset($this->{$attributename}))
+        {
+            return $this->{$attributename};
+        }
+        else
+        {
+            return null;
+        }
+    }
+
+    /**
+     * Setter method for a validator
+     * validators are stored into an array (multiple validators for one formelement).
+     *
+     * @param $validator Accepts a Clansuite_Validator Object has to implement Clansuite_Validator_Interface.
+     */
+    public function setValidator(Clansuite_Validator_Interface $validator)
+    {
+        $this->validators[] = $validator;
+
+        return $this;
+    }
+
+    /**
+     * validation method for a single formelement
+     * it processes all registered validators for this formelement.
+     *
+     * @see $validators array
+     * @return boolean
+     */
+    public function validate()
+    {
+        # iterate over all validators
+        foreach($this->validators as $validator)
+        {
+            # ensure element validates
+            if($validator->validates() == true)
+            {
+                # everything is fine, proceed
+            }
+            else
+            {
+                # raise error flag
+                $formelement_validation_error = true;
+
+                # fetch error from the validator to the formelement
+                $this->addError($validator->getError());
+            }
+        }
+    }
+
+    /**
+     *
+     *
+     * @formmethod get/post
+     * @return $array with form data from post/get
+     */
+    public function getIncommingFormData($formmethod)
+    {
+        $request = $this->injector->instantiate('Clansuite_HttpRequest');
+
+        $formmethod = strtolower($formmethod);
+
+        # @todo tunneling detection
+
+        if($formmethod == 'post' and $request->isPost())
+        {
+             return $request->getParameter($this->getName(), 'post');
+
+        }
+
+        if($formmethod == 'get' and $request->isGet())
+        {
+             return $request->getParameter($this->getName(), 'get');
+        }
+    }
+
+    /**
+     * Method adds an validation error to the formelement_validation_error stack.
+     *
+     * @param $validation_error Accepts $
+     */
+    public function addError($validation_error)
+    {
+        $this->formelement_validation_errors[] = $validation_error;
+    }
+
+    /**
      * override
      */
     public function render()
     {
+        # nothing, because each formelement renders itself
+    }
 
+    /**
+     * ===================================================================================
+     *      Formelement Decoration
+     * ===================================================================================
+     */    
+
+    /**
+     * setDecorator
+     *
+     * Is a shortcut/proxy/convenience method for addDecorator()
+     * @see $this->addDecorator()
+     *
+     * WATCH IT! THIS BREAKS THE CHAINING IN REGARD TO THE FORM
+     * @return decorator object
+     */
+    public function setDecorator($decorators)
+    {
+        return $this->addDecorator($decorators);
+    }
+
+    /**
+     * addDecorator
+     *
+     * Adds a decorator to the form
+     *
+     * Usage:
+     * $form->addDecorator('fieldset')->setLegend('legendname');
+     *
+     * WATCH IT! THIS BREAKS THE CHAINING IN REGARD TO THE FORM 
+     * @return decorator object
+     */
+    public function addDecorator($decorators)
+    {
+        # check if multiple decorators are incomming at once
+        if(is_array($decorators))
+        {
+            # address each one of those decorators
+            foreach($decorators as $decorator)
+            {
+                # and check if it is an object implementing the right interface
+                if ( $decorator instanceof Clansuite_Formelement_Decorator_Interface )
+                {
+                    # if so, fetch this decorator objects name
+                    $decoratorname = $decorator->name;
+                }
+                else
+                {
+                    # turn it into an decorator object
+                    $decorator = $this->decoratorFactory($decorator);
+                    $decoratorname = $decorator->name;
+                    $this->addDecorator($decorator);
+                }
+            }
+        }
+        elseif(is_object($decorators)) # one element is incomming via recursion
+        {
+            $decorator = $decorators;
+            $decoratorname = $decorator->name;
+        }
+
+        # if we got a string (ignore the plural, it's a one element string, like 'fieldset')
+        if (is_string($decorators))
+        {
+            # turn it into an decorator object
+            $decorator = $this->decoratorFactory($decorators);
+            $decoratorname = $decorator->name;
+        }
+
+        # now check if this decorator is not already set (prevent decorator duplications)
+        if(in_array($decorator, $this->formelementdecorators) == false)
+        {
+            # set this decorator object under its name into the array
+            $this->formelementdecorators[$decoratorname] = $decorator;
+        }
+                
+        # WATCH IT! THIS BREAKS THE CHAINING IN REGARD TO THE FORM
+        # We dont return $this here, because $this would be the FORM.
+        # Insted the decorator is returned, to apply some properties.
+        # @return decorator object
+        #clansuite_xdebug::printR($this->formelementdecorators[$decoratorname]);
+
+        return $this->formelementdecorators[$decoratorname];
+    }
+
+    /**
+     * Getter Method for the formdecorators
+     *
+     * @return array with registered formdecorators
+     */
+    public function getDecorators()
+    {
+        return $this->formelementdecorators;
+    }
+
+    /**
+     * Factory method. Instantiates and returns a new formdecorator object.
+     *
+     * @return object
+     */
+    public function decoratorFactory($formelementdecorator)
+    {
+        # if not already loaded, require forelement file
+        if (!class_exists('Clansuite_Formelement_Decorator_'.$formelementdecorator))
+        {
+            if(is_file(ROOT_CORE . 'viewhelper/formdecorators/formelement/'.$formelementdecorator.'.form.php'))
+            {
+                require ROOT_CORE . 'viewhelper/formdecorators/formelement/'.$formelementdecorator.'.form.php';
+            }
+        }
+
+        # construct Clansuite_Formdecorator_Name
+        $formelementdecorator_classname = 'Clansuite_Formelement_Decorator_'.ucfirst($formelementdecorator);
+        # instantiate the new $formdecorator
+        $formelementdecorator = new $formelementdecorator_classname();
+
+        return $formelementdecorator;
     }
 }
 

@@ -110,10 +110,36 @@ class Clansuite_Form_Decorator_Form extends Clansuite_Form_Decorator
         return '>' . CR;
     }
 
+    public function addHeading()
+    {
+        $html_form = '';
+
+        # add heading
+        if( strlen($this->getHeading()) > 0 )
+        {
+             $html_form = '<h2>'.$this->getHeading().'</h2>' . CR;
+        }
+
+        return $html_form;
+    }
+
+    public function addDescription()
+    {
+         $html_form = '';
+
+        # add description
+        if( strlen($this->getDescription()) > 0 )
+        {
+             $html_form = '<p>'.$this->getDescription().'</p>' . CR;
+        }
+
+        return $html_form;
+    }
+
     public function closeFormTag()
     {
         # close form
-        return '</form>' . CR . '<!--- End of Form "'. $this->getName() .'" -->' . CR;
+        return CR . '</form>' . CR . '<!--- End of Form "'. $this->getName() .'" -->' . CR;
     }
 
     public function render($html_form_content)
@@ -122,9 +148,9 @@ class Clansuite_Form_Decorator_Form extends Clansuite_Form_Decorator
         $html_form_content = $this->openOpenFormTag().              # <form
                              $this->getFormTagAttributesAsHTML().   #  ....
                              $this->closeOpenFormTag().             # >
-                             CR.
+                             $this->addHeading().                   # heading
+                             $this->addDescription().               # description
                              $html_form_content.                    # formelements
-                             CR.
                              $this->closeFormTag() ;                # </form>
 
         return $html_form_content;
