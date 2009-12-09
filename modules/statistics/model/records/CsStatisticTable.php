@@ -32,14 +32,13 @@ class CsStatisticTable extends Doctrine_Table
 						->where("dates = ? or dates = ?", array($dateToday, $dateYesterday))
 						->setHydrationMode(Doctrine::HYDRATE_ARRAY)
 						->execute();
-		
-		if(isset($query[0]) and count($query) == 1)
+		if(isset($query[0]) and isset($query[1]) and count($query) == 2)
 		{
-		    return $query[0];   
+		    return $query;   
 		}
 		else
-		{
-		    return $query = array( 'count' => '0');   
+		{					
+		    return $query = array(array( 'count' => '0') , array( 'count' => '0'));   
 		}
 	}
 	

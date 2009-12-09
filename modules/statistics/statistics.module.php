@@ -70,8 +70,8 @@ class Module_statistics extends Clansuite_ModuleController implements Clansuite_
         $stats['max_visitor']            = $tmpVar['maxonline'];
 
         $tmpVar = Doctrine::getTable("CsStatistic")->fetchTodayAndYesterdayVisitors();
-        $stats['today_impressions']      = $tmpVar['count'];
-        $stats['yesterday_impressions']  = $tmpVar['count'];
+        $stats['today_impressions']      = $tmpVar[1]['count'];
+        $stats['yesterday_impressions']  = $tmpVar[0]['count'];
 
         $tmpVar = Doctrine::getTable("CsStatistic")->sumMonthVisits();
         $stats['month_impressions']      = $tmpVar;
