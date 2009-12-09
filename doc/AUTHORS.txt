@@ -11,6 +11,9 @@ For a detailed list of Development Team Members with SVN Access visit:
 For the project history visit:
     https://gna.org/project/admin/history.php?group=clansuite
 
+For the contributors list based on svn commits visit:
+    http://www.ohloh.net/p/clansuite/contributors
+
 Clansuite is developed by:
 
 ========================================================================================================================
@@ -56,6 +59,8 @@ Clansuite is developed by:
 
    Graphics ................................................................... (+) GNA Approved User 28.01.2008 vain
                                                                                     break from 07.2008 on
+                                                                                (-) GNA Removed User 07.12.2009 vain
+   R                                                                                Reason: inactive, no contact
 
 ------------------------------------------------------------------------------------------------------------------------
 
@@ -66,17 +71,19 @@ Clansuite is developed by:
 
 ------------------------------------------------------------------------------------------------------------------------
 
-7  Daniel Winterfeldt          rikku             rikku@gna.org
+7  Daniel Winterfeldt         rikku             rikku@gna.org
 
    Developer .................................................................. (+) GNA Approved User 10.12.2008 vain
+                                                                                (-) GNA Removed User 07.12.2009 vain
+   R                                                                                Reason: inactive, user request
 
 ------------------------------------------------------------------------------------------------------------------------
 
-8  B. S.                       freq77
+8  B. S.                      freq77
 
    Developer (especially Shoutbox) ...........................................  (+) GNA Approved User 16.08.2006 xsign
                                                                                 (-) GNA Removed  User 19.03.2007 vain
-   R                                                                                Reason: User request & Inactive
+   R                                                                                Reason: inactive, user request
 
 ------------------------------------------------------------------------------------------------------------------------
 
@@ -85,5 +92,11 @@ Clansuite is developed by:
    Developer .................................................................. (+) GNA Approved User 23.03.2009 vain
                                                                                 (-) GNA Removed  User 09.06.2009 vain
    R                                                                                Reason: inactive
+
+------------------------------------------------------------------------------------------------------------------------
+
+10 Ryan Riggen                milkshake         drizzttownz@yahoo.com
+
+   Developer .................................................................. (+) GNA Approved User 07.12.2009 vain
 
 ------------------------------------------------------------------------------------------------------------------------
