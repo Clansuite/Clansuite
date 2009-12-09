@@ -20,7 +20,7 @@
  * @param Smarty
  * @return string
  */
-function smarty_function_dhtml_calendar_init($params, &$smarty)
+function smarty_function_dhtml_calendar_init($params, $smarty)
 {
     $defaults = array(
       'css'       => 'calendar-win2k-1.css'

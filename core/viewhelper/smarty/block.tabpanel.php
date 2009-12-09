@@ -19,7 +19,7 @@
  * Purpose:     This TAG inserts a jquery tabpanel
  *
  */
-function smarty_block_tabpanel($params, $content, &$smarty, &$repeat)
+function smarty_block_tabpanel($params, $content, $smarty, &$repeat)
 {
     $name = isset($params['name']) ? $params['name'] : '1';
 

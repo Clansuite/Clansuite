@@ -23,7 +23,7 @@
  * @param Smarty $smarty
  * @return string
  */
-function smarty_function_currentmodule($params, &$smarty)
+function smarty_function_currentmodule($params, $smarty)
 {
     return Clansuite_ModuleController_Resolver::getModuleName();
 }

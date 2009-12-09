@@ -24,7 +24,7 @@
  * @param Smarty $smarty
  * @return string
  */
-function smarty_function_help($params, &$smarty)
+function smarty_function_help($params, $smarty)
 {
     $modulename = $smarty->get_template_vars('template_of_module');
     

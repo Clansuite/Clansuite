@@ -9,7 +9,7 @@
  * Purpose:  outputs a FCKeditor instance
  * -------------------------------------------------------------
  */
-function smarty_function_fckeditor($params, &$smarty)
+function smarty_function_fckeditor($params, $smarty)
 {
     // include FCKeditor class
     include FCKEDITOR_PATH . '/fckeditor.php';

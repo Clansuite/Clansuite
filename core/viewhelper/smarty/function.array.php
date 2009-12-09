@@ -24,7 +24,7 @@
  * @param Smarty $smarty
  * @return string
  */
-function smarty_function_array($params, &$smarty)
+function smarty_function_array($params, $smarty)
 {
     // be sure array has a name
     if( empty($params['name']) or is_string($params['name']) == false)

@@ -17,7 +17,7 @@
  * @param string Name of the element
  * @return mixed|null Variable
  */
-function smarty_function_get_var( $el_name, &$smarty )
+function smarty_function_get_var( $el_name, $smarty )
 {
   parse_str( $el_name.'=1', $arr );
   $varname = smarty_function_do_get_var( $arr );

@@ -25,7 +25,7 @@
  * @param Smarty
  * @return string
  */
-function smarty_outputfilter_move_it($tpl_output, &$smarty)
+function smarty_outputfilter_move_it($tpl_output, $smarty)
 {
     # PRE_HEAD_CLOSE = x</head>
     $matches = array();

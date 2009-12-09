@@ -24,7 +24,7 @@
  * @version 0.1
  */
 
-function smarty_block_ajax_form($params, $content, &$smarty, &$repeat)
+function smarty_block_ajax_form($params, $content, $smarty, &$repeat)
 {
   if ($content !== null)
   {

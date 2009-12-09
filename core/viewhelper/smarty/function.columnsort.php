@@ -24,7 +24,7 @@
 *   and
 *   line 76-84: asc_image and desc_image parameterdetection disabled
 */
-function smarty_function_columnsort($params, &$smarty)
+function smarty_function_columnsort($params, $smarty)
 {
 	static $selected_class = NULL;
 	static $current_id = 0;
@@ -144,7 +144,7 @@ function smarty_function_columnsort($params, &$smarty)
 	return "<a $class href=\"$url\"><span style=\"width:100%;padding:0px;margin:0px;text-align:center;\">$html $image</span></a>";
 }
 
-function _smarty_columnsort_sort_order($id, $columns, $default_sort, &$smarty) {
+function _smarty_columnsort_sort_order($id, $columns, $default_sort, $smarty) {
 	if(!isset($columns[$id])) return false;
 
 	if(!is_array($columns[$id])) return $default_sort;

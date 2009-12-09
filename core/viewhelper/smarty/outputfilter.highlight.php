@@ -28,7 +28,7 @@ if (strpos($_SERVER["SCRIPT_NAME"],basename(__FILE__)) !== false) {
  *           Referer parsing by mdavey
  * -------------------------------------------------------------
  */
- function smarty_outputfilter_highlight($source, &$smarty) {
+ function smarty_outputfilter_highlight($source, $smarty) {
     global $feature_referer_highlight;
 
     $highlight = $_REQUEST['highlight'];

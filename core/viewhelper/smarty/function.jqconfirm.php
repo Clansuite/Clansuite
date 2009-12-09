@@ -26,7 +26,7 @@
  * @return string
  */
 
-function smarty_function_jqconfirm($params, &$smarty)
+function smarty_function_jqconfirm($params, $smarty)
 {
     
 echo <<<EOD

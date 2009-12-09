@@ -31,7 +31,7 @@
  * @return string
  */
 
-function smarty_function_icon($params, &$smarty)
+function smarty_function_icon($params, $smarty)
 {
     #clansuite_xdebug::printR($params);
 

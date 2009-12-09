@@ -29,22 +29,22 @@
  * @param Smarty $smarty
  * @return string
  */
-function smarty_function_load_module($params, &$smarty)
+function smarty_function_load_module($params, $smarty)
 {
     # @todo use module and action mapping here
-    
+
     # debugdisplay for the incomming parameters of a specific load_module request
     /*if($params['name'] == 'news')
     {
         clansuite_xdebug::printR($params);
     }*/
-    
+
     # Init incomming Variables
     $mod    = isset( $params['name'] ) ? (string) $params['name'] : '';
     $sub    = isset( $params['sub'] ) ? (string) $params['sub']  : '';
-    $action = isset( $params['action'] ) ? (string) $params['action'] : '';    
+    $action = isset( $params['action'] ) ? (string) $params['action'] : '';
     $items  = isset( $params['items'] )  ? (int) $params['items']  : null;
-    
+
     # debugdisplay for a specific incomming value
     /*if($params['name'] == 'news')
     {
@@ -53,7 +53,7 @@ function smarty_function_load_module($params, &$smarty)
 
     # WATCH it, this resets the incomming parameters array
     #$params = isset( $params['params'] ) ? (string) $params['params'] : '';
- 
+
     # Build a Parameter Array from Parameter String like: param|param|etc
     if( empty($params['params']) )
     {

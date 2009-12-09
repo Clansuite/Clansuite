@@ -25,7 +25,7 @@
  * @param Smarty $smarty
  * @return string
  */
-function smarty_function_icq($params, &$smarty)
+function smarty_function_icq($params, $smarty)
 {
 
     // be sure icq parameter is present
