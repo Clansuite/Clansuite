@@ -102,12 +102,12 @@ class Clansuite_Renderer_Smarty extends Clansuite_Renderer_Base
             }
             else // throw error in case smarty library is missing
             {
-                die('Smarty Template Library missing!');
+                throw new Exception('Smarty Template Library missing!');
             }
         }
         else // throw error in case smarty was already loaded
         {
-            die('Smarty already loaded!');
+            throw new Exception('Smarty already loaded!');
         }
     }
 
@@ -379,6 +379,7 @@ class Clansuite_Renderer_Smarty extends Clansuite_Renderer_Base
      */
     public function fetch($template, $data = null)
     {
+        # ask the renderer.base.core for the template path
         $template = $this->getTemplatePath($template);
 
         #echo 'Template in '. __METHOD__ .' : '.$template . '<br>';
@@ -477,6 +478,7 @@ class Clansuite_Renderer_Smarty extends Clansuite_Renderer_Base
          * This is used in template_not_found.tpl to provide a link to the templateeditor
          */
         $this->renderer->assign('template_of_module', Clansuite_ModuleController_Resolver::getModuleName());
+        #$this->renderer->assign('template_to_render', Clansuite_ModuleController->getTemplateName());
         $this->renderer->assign('template_to_render', $template);
 
         # @todo caching
@@ -492,8 +494,6 @@ class Clansuite_Renderer_Smarty extends Clansuite_Renderer_Base
          * Change Fetch to Display to get an echo of the pure ModuleContent
          * else use the xdebug::printR to display the fetch!
          */
-
-        #$this->renderer->assign('template_to_render', Clansuite_ModuleController->getTemplateName());
 
         $modulecontent =  $this->fetch($template);
 

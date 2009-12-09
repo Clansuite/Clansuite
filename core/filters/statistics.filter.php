@@ -61,7 +61,8 @@ class statistics implements Clansuite_Filter_Interface
         $this->m_curTimestamp = time();
         $this->m_curDate = date("d.m.Y", $this->m_curTimestamp);
         $this->m_UserCore = $user;
-        ## Load Models
+        
+        # Load Models
         $models_path = ROOT_MOD . 'statistics' . DS . 'model' . DS . 'records';
         Doctrine::loadModels($models_path);
     }

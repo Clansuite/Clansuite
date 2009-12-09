@@ -149,7 +149,7 @@ abstract class Clansuite_ModuleController extends Clansuite_ModuleController_Res
     }
 
     /**
-     * initalize the records of the module
+     * Initalize the records of the module
      *
      * @param $modulename Modulname
      * @param $recordname Recordname
@@ -166,7 +166,7 @@ abstract class Clansuite_ModuleController extends Clansuite_ModuleController_Res
         }
 
         /**
-         * If no recordname is given, a path to a record stored in the modulefolder is set.
+         * If no recordname is given, the path to records stored in the modulefolder is set.
          */
         if(is_null($recordname))
         {
@@ -186,7 +186,7 @@ abstract class Clansuite_ModuleController extends Clansuite_ModuleController_Res
         }
         else
         {
-            # Module doesnt have Doctrine Records (Models)
+            # Module has no Doctrine Records (Models)
         }
     }
 
@@ -409,9 +409,9 @@ abstract class Clansuite_ModuleController extends Clansuite_ModuleController_Res
         $allowed_filetypes = array('html','php','tpl');
 
         # check if extension is one of the allowed ones
-        if (in_array($template_extension,$allowed_filetypes))
+        if (in_array($template_extension, $allowed_filetypes))
         {
-
+            # proceed
         }
         else
         {

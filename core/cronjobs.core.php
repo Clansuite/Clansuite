@@ -66,7 +66,7 @@ $cron = new Clansuite_Cronjobs;
  * All job definitions are made in a text file on the server with a
  * user-definable name. A valid command line in this file is, for example:
  *
- *          *	2	1,15	*	*	samplejob.inc.php
+ *          *   2   1,15    *   *   samplejob.inc.php
  *
  * This runs samplejob.inc.php at 2am on the 1st and 15th of each month.
  *

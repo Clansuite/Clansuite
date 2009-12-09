@@ -112,6 +112,18 @@ class Clansuite_Doctrine
 
             # Register the Doctrine autoloader
             spl_autoload_register(array('Doctrine', 'autoload'));
+
+            # automatically compile doctrine to one file, so that the next time Doctrine.compiled.php is found
+            if (is_file( ROOT_LIBRARIES . 'doctrine/Doctrine.compiled.php') == false)
+            {
+                Doctrine::compile();
+            }
+
+            # Register the Doctrine models autoloader
+            # @todo D2
+            # Doctrine_Core::setModelsDirectory(ROOT . 'records');
+            # Doctrine_Core::setModelsDirectory(ROOT_MOD); # somewhere beneath modules folder, rest via autoload
+            # spl_autoload_register(array('Doctrine, 'modelsAutoload');
         }
     }
 
@@ -213,6 +225,9 @@ class Clansuite_Doctrine
         # Load Tables (with custom methods) automatically
         $this->manager->setAttribute(Doctrine::ATTR_AUTOLOAD_TABLE_CLASSES, true);
 
+        # Enable automatic accessor overriding
+        # @todo D2 $this->manager->setAttribute(Doctrine::ATRR_AUTO_ACCESSOR_OVERRIDE, true);
+
         # Enables the auto freeing of query objects after execution
         $this->manager->setAttribute('auto_free_query_objects', true);
 
@@ -246,7 +261,7 @@ class Clansuite_Doctrine
          *
          * Quote from Johnatan Wage on http://groups.google.com/group/doctrine-user
          */
-        $this->manager->setAttribute('model_loading', 'conservative');
+        $this->manager->setAttribute(Doctrine::ATTR_MODEL_LOADING,Doctrine::MODEL_LOADING_CONSERVATIVE);
 
         # define the models directory
         # this will NOT require the .php files found
@@ -311,7 +326,7 @@ class Clansuite_Doctrine
 
     /**
      * Displayes all Doctrine Querys with profiling Informations
-     * 
+     *
      * Because this is debug output, it's ok that direct output breaks the abstraction.
      */
     public function displayProfilingHTML()
