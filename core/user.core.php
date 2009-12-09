@@ -309,11 +309,11 @@ class Clansuite_User
             /*
             $rights = Doctrine_Query::create()
                          ->select('g.group_id, r.right_id, r.name')
-                         ->from('CsGroup g')
-                         ->leftJoin('g.CsRight r')
+                         ->from('CsGroups g')
+                         ->leftJoin('g.CsRights r')
                          ->where('g.group_id = ?')
-                         ->fetchOne(array(1), Doctrine::HYDRATE_ARRAY);*/
-            #var_dump($rights);
+                         ->fetchOne(array(1), Doctrine::HYDRATE_ARRAY);
+            var_dump($rights);*/
 
             /* OLD PDO Style
             $stmt = $this->db->prepare( 'SELECT rg.*, ri.* FROM ' . DB_PREFIX . 'group_rights AS rg
@@ -568,10 +568,11 @@ class Clansuite_User
      public function isUserAuthed()
      {
      	$bRes = false;
-     	if(isset($_SESSION['user']['authed']) and $_SESSION['user']['authed']==1) {
+     	if(isset($_SESSION['user']['authed']) and $_SESSION['user']['authed']===1) {
      		$bRes = true;
      	}
-     	return $bRes;
+     	
+     	return (bool) $_SESSION['user']['authed'];
      }
      
      /**
