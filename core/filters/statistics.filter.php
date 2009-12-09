@@ -91,8 +91,8 @@ class statistics implements Clansuite_Filter_Interface
              *The Who logics, must be processed in a seperate filter
              */
             Doctrine :: getTable('CsStatistic')->deleteWhoEntriesOlderThen(1);
-            $this->updateWhoTables($request->getRemoteAddress(), $request->getRequestURI());
             $this->updateStatistics($request->getRemoteAddress());
+            $this->updateWhoTables($request->getRemoteAddress(), $request->getRequestURI());
         }
     }
 
@@ -150,6 +150,7 @@ class statistics implements Clansuite_Filter_Interface
             Doctrine::getTable('CsStatistic')->incrementHitsByOne();
             $this->updateStatisticStats();
         }
+        
 
         $userOnline = Doctrine::getTable('CsStatistic')->countVisitorsOnline(5);
 
