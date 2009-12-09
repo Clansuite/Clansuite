@@ -15,7 +15,7 @@
             {$pager_layout->display('',true)} - {t}Page{/t} {$pager->getPage()}/{$pager->getLastPage()}.
 
             {* Second Section of the Pagination, like: Displaying Items 1 to 3 of 3 total (with 3 per page). *}
-            <span>{t 1=`$firstIndice` 2=`$lastIndice` 3=`$numResults` 4=`$resultsInPage`}Displaying Items %1 to %2 of %3 total (with %4 per page).{/t}</span>
+            <span>{t 1=$firstIndice 2=$lastIndice 3=$numResults 4=$resultsInPage}Displaying Items %1 to %2 of %3 total (with %4 per page).{/t}</span>
 
         {elseif $pager->getResultsInPage() eq 1}
 
@@ -23,8 +23,8 @@
 
         {elseif $pager->getNumResults() gt 1}
 
-          {t 1=`$resultsInPage`}Items 1 to %1 displayed.{/t}
- 
+          {t 1=$resultsInPage}Items 1 to %1 displayed.{/t}
+
         {else}
 
           {* No Pagination Display *}

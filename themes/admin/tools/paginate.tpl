@@ -20,11 +20,11 @@ Anzahl Elemente max: {$paginate_maxperpage}
             <img class="img" src="{$www_root_themes_core}/images/icons/page_edit.png" alt="" />            
 
             {if $paginate_currentpage eq $paginate_lastpage}
-             {assign var=itemsOnPage value=`$paginate_totalitems`}
-             {assign var=itemsFrom value=`$paginate_totalitems+1-$paginate_resultsinpage`}
+             {assign var=itemsOnPage value=$paginate_totalitems}
+             {assign var=itemsFrom value=$paginate_totalitems+1-$paginate_resultsinpage}
             {else}
-             {assign var=itemsOnPage value=`$paginate_currentpage*$paginate_resultsinpage`}
-             {assign var=itemsFrom value=`$itemsOnPage+1-$paginate_resultsinpage`}
+             {assign var=itemsOnPage value=$paginate_currentpage*$paginate_resultsinpage}
+             {assign var=itemsFrom value=$itemsOnPage+1-$paginate_resultsinpage}
             {/if}
 
             {if $pagination_needed gt 0}
