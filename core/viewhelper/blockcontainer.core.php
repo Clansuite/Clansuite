@@ -75,7 +75,7 @@ class Clansuite_BlockContainer extends Clansuite_Layout
     /**
      * Render Blocks
      */
-	public function render($params,&$smarty)
+	public function render($params, $smarty)
 	{
 	    # Set Smarty as View to each Block
 		foreach($this->_blockObjects as $block)
