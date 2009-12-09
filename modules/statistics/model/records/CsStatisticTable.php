@@ -10,7 +10,15 @@ class CsStatisticTable extends Doctrine_Table
 						->from("CsStatistic")
 						->setHydrationMode(Doctrine::HYDRATE_ARRAY)
 						->execute();
-		return $query;
+		
+		if(isset($query[0]) and count($query) == 1)
+		{
+		    return $query[0];   
+		}
+		else
+		{
+		    return $query = array( 'hits' => '0', 'maxonline' => '0');   
+		}
 	}
 	
 	public function fetchTodayAndYesterdayVisitors()
@@ -24,7 +32,15 @@ class CsStatisticTable extends Doctrine_Table
 						->where("dates = ? or dates = ?", array($dateToday, $dateYesterday))
 						->setHydrationMode(Doctrine::HYDRATE_ARRAY)
 						->execute();
-		return $query;
+		
+		if(isset($query[0]) and count($query) == 1)
+		{
+		    return $query[0];   
+		}
+		else
+		{
+		    return $query = array( 'count' => '0');   
+		}
 	}
 	
 	public function deleteWhoEntriesOlderThen($days)

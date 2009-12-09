@@ -61,18 +61,18 @@ class Module_statistics extends Clansuite_ModuleController implements Clansuite_
     private static function fetch_wwwstats()
     {
         $stats = array();
-        
+
         /**
          * All visits & max users online counter
          */
         $tmpVar = Doctrine::getTable("CsStatistic")->fetchAllImpressionsAndMaxVisitors();
-        $stats['all_impressions']        = $tmpVar[0]['hits'];
-        $stats['max_visitor']        	 = $tmpVar[0]['maxonline'];
-        
+        $stats['all_impressions']        = $tmpVar['hits'];
+        $stats['max_visitor']            = $tmpVar['maxonline'];
+
         $tmpVar = Doctrine::getTable("CsStatistic")->fetchTodayAndYesterdayVisitors();
-        $stats['today_impressions']      = $tmpVar[0]['count'];
-        $stats['yesterday_impressions']  = $tmpVar[0]['count'];
-        
+        $stats['today_impressions']      = $tmpVar['count'];
+        $stats['yesterday_impressions']  = $tmpVar['count'];
+
         $tmpVar = Doctrine::getTable("CsStatistic")->sumMonthVisits();
         $stats['month_impressions']      = $tmpVar;
 
