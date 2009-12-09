@@ -4,23 +4,23 @@
 
 <a name="news_top" id="news_top"></a>
 
-<h2>News : {$news.news_title} </h2>
+<h2>News : {$singlenews.news_title} </h2>
 
 <table border="1" cellspacing="1" cellpadding="3" style="width:99%">
 
 
 	<tr>
-		<td height="20" ><b>{$news.news_title} - {$news.CsCategories.name}</b></td>
-		<td rowspan="3" valign="top"><img src="{$news.CsCategories.image}" alt="Category-Image: {$news.CsCategories.name} " /></td>
+		<td height="20" ><b>{$singlenews.news_title} - {$singlenews.CsCategories.name}</b></td>
+		<td rowspan="3" valign="top"><img src="{$singlenews.CsCategories.image}" alt="Category-Image: {$singlenews.CsCategories.name} " /></td>
 	</tr>
 
 	<tr>
-		<td valign="top" class="dunkler"><font size="1">{t}written by{/t}<a href='index.php?mod=users&amp;id={$news.CsUsers.user_id}'>{$news.CsUsers.nick}</a> on {$news.created_at|date_format}</font></td>
+		<td valign="top" class="dunkler"><font size="1">{t}written by{/t}<a href='index.php?mod=users&amp;id={$singlenews.CsUsers.user_id}'>{$singlenews.CsUsers.nick}</a> on {$singlenews.created_at|date_format}</font></td>
 	</tr>
 
 	<tr>
 
-		<td height="175" width="75%" valign="top">{$news.news_body}</td>
+		<td height="175" width="75%" valign="top">{$singlenews.news_body}</td>
 	</tr>
 
 	{if isset($smarty.session.user.rights.permission_edit_news) AND
@@ -32,9 +32,9 @@
 
 
 			<form action="index.php?mod=news&amp;sub=admin&amp;action=delete&amp;front=1" method="post">
-				<input type="hidden" value="{$news.news_id}" name="delete[]" />
-				<input type="hidden" value="{$news.news_id}" name="ids[]" />
-				<input class="ButtonGreen" type="button" value="{t}Edit news{/t}" onclick='{literal}Dialog.info({url: "index.php?mod=news&amp;sub=admin&amp;action=edit&amp;id={/literal}{$news.news_id}{literal}&amp;front=1", options: {method: "get"}}, {className: "alphacube", width:900, height: 600});{/literal}' /> <input class="ButtonRed" type="submit" name="submit" value="{t}Delete{/t}" />
+				<input type="hidden" value="{$singlenews.news_id}" name="delete[]" />
+				<input type="hidden" value="{$singlenews.news_id}" name="ids[]" />
+				<input class="ButtonGreen" type="button" value="{t}Edit news{/t}" onclick='{literal}Dialog.info({url: "index.php?mod=news&amp;sub=admin&amp;action=edit&amp;id={/literal}{$singlenews.news_id}{literal}&amp;front=1", options: {method: "get"}}, {className: "alphacube", width:900, height: 600});{/literal}' /> <input class="ButtonRed" type="submit" name="submit" value="{t}Delete{/t}" />
 			</form>
 
 		</td>
