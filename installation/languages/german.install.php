@@ -175,7 +175,7 @@ class language implements ArrayAccess
         $this->language['COMPLETED'] = 'Fertig';
         $this->language['CHANGE_LANGUAGE'] = 'Sprachauswahl';
         $this->language['SHORTCUTS'] = 'Clansuite Shortcuts';        
-        $this->language['LIVESUPPORT'] = 'Möchtest Du Hilfe?';
+        $this->language['LIVESUPPORT'] = 'Möchten Sie Hilfe?';
         $this->language['GETLIVESUPPORT_STATIC'] = 'Live Support (Starte Chat.)';
 
         # Left Side Menu
