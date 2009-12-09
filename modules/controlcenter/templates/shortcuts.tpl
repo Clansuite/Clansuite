@@ -3,8 +3,8 @@
 <table cellspacing="0" cellpadding="0" width="100%">
     <tbody>
     <tr height="14">
-        <td bgcolor="#ACD943" valign="bottom" width="30%" class="t2">&nbsp;&raquo; Shortcuts</td>
-        <td nowrap="" background="{$www_root}/modules/controlcenter/images/green-triangle.gif" width="100%" style="background-repeat: no-repeat;" class="bg"></td
+        <td style="min-width: 120px; background-color: #ACD943; text-align: bottom;" width="33%" valign="bottom"><b>&nbsp;&raquo; Shortcuts</b></td>
+        <td nowrap="" background="{$www_root}/modules/controlcenter/images/green-triangle.gif" width="100%" style="background-repeat: no-repeat;"></td
     </tr>
     <tr>
         <td height="3" bgcolor="#ACD943" colspan="2"/>

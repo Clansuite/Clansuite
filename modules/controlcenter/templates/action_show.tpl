@@ -10,22 +10,22 @@
 <table cellspacing="6" width="100%">
 <tbody>
     <tr>
-        <td width="60%" valign="top">
+        <td width="70%" valign="top">
 
                 <!-- Shortcuts Template from the Module or the Theme (autodetected) -->
                 {include file="shortcuts.tpl"}
 
         </td>
 
-        <td width="40%" valign="top">
+        <td width="30%" valign="top">
 
         <!-- Clansuite Newsfeed Box -->
-        <table cellspacing="0" cellpadding="0" width="60%">
+        <table cellspacing="0" cellpadding="0">
             <tbody>
                 <tr height="14">
-                    <td bgcolor="#FF924F" valign="bottom" width="35%" class="t2">&nbsp;&raquo; Clansuite News </td>
-                    <td nowrap="" background="{$www_root}/modules/controlcenter/images/red-triangle.gif" width="100%" style="background-repeat: no-repeat;" class="bg">
-                        <div align="right" class="gr">Last Updated: {$smarty.now|date_format:"%d-%m-%Y"} </div>
+                    <td style="min-width: 120px; background-color: #FF924F;" width="33%" valign="bottom"><b>&nbsp;&raquo; Clansuite News</b></td>
+                    <td nowrap="" background="{$www_root}/modules/controlcenter/images/red-triangle.gif" style="background-repeat: no-repeat;">
+                        <div align="right">Last Updated: {$smarty.now|date_format:"%d-%m-%Y"} </div>
                     </td>
                 </tr>
                 <tr>

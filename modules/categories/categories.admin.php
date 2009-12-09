@@ -70,7 +70,7 @@ class Module_Categories_Admin extends Clansuite_ModuleController implements Clan
     public function action_admin_show()
     {
         # SmartyColumnSort -- Easy sorting of html table columns.
-        require( ROOT_LIBRARIES . '/smarty/SmartyColumnSort.class.php');
+        require( ROOT_LIBRARIES . '/smarty/libs/SmartyColumnSort.class.php');
         # A list of database columns to use in the table.
         $columns = array('c.cat_id', 'm.name', 'c.name');
         # Create the columnsort object

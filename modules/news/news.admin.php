@@ -85,7 +85,7 @@ class Module_News_Admin extends Clansuite_ModuleController implements Clansuite_
         $resultsPerPage = (int) $this->getConfigValue('resultsPerPage_adminshow', '10');
 
         # SmartyColumnSort -- Easy sorting of html table columns.
-        require( ROOT_LIBRARIES . '/smarty/SmartyColumnSort.class.php');
+        require( ROOT_LIBRARIES . 'smarty/libs/SmartyColumnSort.class.php');
         # A list of database columns to use in the table.
         $columns = array( 'n.created_at', 'n.news_title', 'c.name', 'u.nick', 'n.news_status');
         # Create the columnsort object

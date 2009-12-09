@@ -6,7 +6,7 @@ Modul Template - Module Index - Show
 <strong>{t}Welcome{/t}</strong><br />
 <br />
 {* {$smarty|@var_dump} *}
-<em> {t 1=`$smarty.session.user.nick`}How are you, %1 ?{/t}</em>
+<em> {t 1=$smarty.session.user.nick}How are you, %1 ?{/t}</em>
 
 <p>
 <br />
@@ -14,7 +14,7 @@ Modul Template - Module Index - Show
 <br />
 {t}Hello World{/t}
 <br />
-{t name=`$smarty.session.user.nick`}How are you, %1 ?{/t}
+{t name=$smarty.session.user.nick}How are you, %1 ?{/t}
 <br />
 {t 1='one' 2='two' 3='three'}The 1st parameter is %1, the 2nd is %2 and the 3rd %3.{/t}
 </p>

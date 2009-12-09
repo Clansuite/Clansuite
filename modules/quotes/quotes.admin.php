@@ -67,7 +67,7 @@ class Module_Quotes_Admin extends Clansuite_ModuleController implements Clansuit
 
 
         // SmartyColumnSort -- Easy sorting of html table columns.
-        require( ROOT_LIBRARIES . '/smarty/SmartyColumnSort.class.php');
+        require( ROOT_LIBRARIES . '/smarty/libs/SmartyColumnSort.class.php');
         // A list of database columns to use in the table.
         $columns = array( 'q.quote_body', 'q.quote_author', 'q.qoute_source');
         // Create the columnsort object

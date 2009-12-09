@@ -359,7 +359,7 @@ class Module_News extends Clansuite_ModuleController implements Clansuite_Module
         $currentPage = (int) $this->getHttpRequest()->getParameter('page');
 
         # SmartyColumnSort -- Easy sorting of html table columns.
-        require( ROOT_LIBRARIES . '/smarty/SmartyColumnSort.class.php');
+        require( ROOT_LIBRARIES . '/smarty/libs/SmartyColumnSort.class.php');
         # A list of database columns to use in the table.
         $columns = array( 'n.created_at', 'n.news_title', 'c.cat_id', 'u.user_id', 'nr_news_comments');
         # Create the columnsort object

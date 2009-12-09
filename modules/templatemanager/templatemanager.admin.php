@@ -67,6 +67,51 @@ class Module_Templatemanager_Admin extends Clansuite_ModuleController implements
         # Prepare the Output
         $this->prepareOutput();
     }
+    
+    /**
+     * Show all templates for a certain module
+     */
+    public function action_admin_showmoduletemplates()
+    {
+        # get view
+        $smarty = $this->getView();
+         
+        # Set Pagetitle and Breadcrumbs
+        Clansuite_Trail::addStep( _('Editor'), '/index.php?mod=templatemanager&amp;sub=admin&amp;action=showmoduletemplates');
+        
+        # Incomming Variables
+
+        # GET: tplmod (module of the template)
+        if(isset($_GET['tplmod']) and (empty($_GET['tplmod']) == false) )
+        {
+            $tplmod = stripslashes($_GET['tplmod']);
+        }
+        else
+        {
+            $tplmod = null;
+        }
+        
+        $smarty->assign('templateeditor_modulename',  $tplmod);
+        
+        #clansuite_xdebug::printR( ROOT_MOD . $tplmod . DS. 'templates' .DS . '*.tpl' );
+        
+        $templates = array();
+        $i = 0;
+        
+        foreach ( glob( ROOT_MOD . $tplmod . DS. 'templates' .DS . '*.tpl' ) as $filename )
+        {   
+            ++$i;
+            $templates[$i]['filename'] = basename($filename);
+            $templates[$i]['fullpath'] = $filename;
+        }    
+        
+        #clansuite_xdebug::printR($templates);     
+        
+        $smarty->assign('templates', $templates);        
+        
+        # Prepare the Output
+        $this->prepareOutput();
+    }
 
     /**
      * The action_admin_editor method for the Templatemanager module
@@ -79,7 +124,7 @@ class Module_Templatemanager_Admin extends Clansuite_ModuleController implements
         $smarty = $this->getView();
          
         # Set Pagetitle and Breadcrumbs
-        Clansuite_Trail::addStep( _('Editor'), '/index.php?mod=templatemanager&amp;action=editor');
+        Clansuite_Trail::addStep( _('Editor'), '/index.php?mod=templatemanager&amp;sub=admin&amp;action=editor');
         
         # Incomming Variables
 
@@ -116,11 +161,11 @@ class Module_Templatemanager_Admin extends Clansuite_ModuleController implements
         # append ROOT_MOD path if tplmod is set
         if(empty($tplmod) == false)
         {
-            $file = ROOT_MOD . stripslashes($_GET['file']);
+            $file = ROOT_MOD . $_GET['file'];
         }
         else # it's a complete filepath
         {
-            $file = stripslashes($_GET['file']);
+            $file = $_GET['file'];
         }
 
         # DS on win is "\"
@@ -161,7 +206,7 @@ class Module_Templatemanager_Admin extends Clansuite_ModuleController implements
     {
         #Clansuite_Xdebug::printR($this->getHttpRequest());
 
-        $tplfilename    = (string) stripslashes($this->getHttpRequest()->getParameter('templateeditor_filename'));
+        $tplfilename    = (string) $this->getHttpRequest()->getParameter('templateeditor_filename');
         $tplmodulename  = (string) $this->getHttpRequest()->getParameter('templateeditor_modulename');
         $tplthemename   = (string) $this->getHttpRequest()->getParameter('templateeditor_themename');
         $tpltextarea    = (string) $this->getHttpRequest()->getParameter('templateeditor_textarea');

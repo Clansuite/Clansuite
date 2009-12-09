@@ -2,7 +2,6 @@
    /**
     * Clansuite - just an eSports CMS
     * Jens-André Koch © 2005 - onwards
-    * Florian Wolf © 2006 - onwards
     * http://www.clansuite.com/
     *
     * LICENSE:
@@ -24,19 +23,16 @@
     * @license    GNU/GPL v2 or (at your option) any later version, see "/doc/LICENSE".
     *
     * @author     Jens-André Koch <vain@clansuite.com>
-    * @author     Florian Wolf <xsign.dll@clansuite.com>
     * @copyright  Copyleft: All rights reserved. Jens-André Koch (2005-onwards)
-    * @copyright  Copyleft: All rights reserved. Florian Wolf (2006-onwards)
-    *
     *
     * @link       http://www.clansuite.com
     * @link       http://gna.org/projects/clansuite
     * @since      File available since Release 0.2
     *
-    * @version    SVN: $Id: $
+    * @version    SVN: $Id: news.admin.php 3747 2009-11-20 14:59:46Z vain $
     */
 
-//Security Handler
+// Security Handler
 if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
 
 /**
@@ -44,25 +40,16 @@ if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
  *
  * Description: Administration for the Modules
  *
- * @version    0.1
- * @author     Florian Wolf <xsign.dll@clansuite.com>
- * @copyright  Copyleft: All rights reserved. Florian Wolf (2006-2008),
  * @author     Jens-André Koch <vain@clansuite.com>
+ * @author     Florian Wolf <xsign.dll@clansuite.com>
+ * @copyright  Copyleft: All rights reserved. Florian Wolf (2006-2008).
  * @license    GPL v2 any later version
- * @link       -
  *
  * @category    Clansuite
  * @package     Modules
  * @subpackage  Modulemanager
  */
-/**
- * Module:       Module_Creator
- * Submodule:    Admin
- *
- * @author
- * @copyright
- *
- */
+
 class Module_Modulemanager_Admin extends Clansuite_ModuleController implements Clansuite_Module_Interface
 {
     /**
@@ -91,24 +78,51 @@ class Module_Modulemanager_Admin extends Clansuite_ModuleController implements C
 
         # Scan all modules
         $module_glob = glob( ROOT . 'modules' . DS . '*', GLOB_ONLYDIR );
+
         foreach( $module_glob as $module_path )
         {
             #clansuite_xdebug::printR($module_glob);
-            
+
             $modulename_by_dirname = str_replace( ROOT . 'modules' . DS ,'', $module_path);
-            $modules['counter']                = $number_of_modules++;
-            $modules[$modulename_by_dirname][] = $module_path;
-                        
-            #getModuleInfo()
+
+            # increase the module counter
+            $modules_summary['counter'] = ++$number_of_modules;
+
+            # use the module counter to create an numerical indexed array for the module informations
+            $modules[$number_of_modules]['dir_id']  = $number_of_modules;           # assign dir_id, identifier relative to the modules directory
+            $modules[$number_of_modules]['name']    = $modulename_by_dirname;
+            $modules[$number_of_modules]['path']    = $module_path;
+
+            # hasConfig
+            # hasInfo
+            # hasMenu
+            # hasRoutes
+
+            $moduleinfo = new Clansuite_ModuleInfoController($modulename_by_dirname);
+            $moduleinfo_array = $moduleinfo->getModuleInformations();
+
+            $arrayname = $modulename_by_dirname.'_info';
+
+            /*if($arrayname == 'core_info')
+            clansuite_xdebug::printR($moduleinfo_array);*/
+
+            if(is_array($moduleinfo_array))
+            {
+                $modules[$number_of_modules]['info'] = $moduleinfo_array[$arrayname];
+            }
+            elseif(is_bool($moduleinfo_array))
+            {
+                $modules[$number_of_modules]['info'] = $moduleinfo_array;
+            }
         }
-        
-        #clansuite_xdebug::printR($modules_counter);
-        
+
+        #clansuite_xdebug::printR($modules);
+
         # Fetch view and assign vars
         $view = $this->getView();
-        
-        $view->assign('numberOfModules', $number_of_modules);
+
         $view->assign('modules', $modules);
+        $view->assign('modules_summary', $modules_summary);
 
         # Prepare the Output
         $this->prepareOutput();
@@ -128,8 +142,6 @@ class Module_Modulemanager_Admin extends Clansuite_ModuleController implements C
         // Set Layout Template
         $this->getView()->setLayoutTemplate('index.tpl');
 
-
-
         // Prepare the Output
         $this->prepareOutput();
     }
@@ -147,8 +159,6 @@ class Module_Modulemanager_Admin extends Clansuite_ModuleController implements C
 
         // Set Layout Template
         $this->getView()->setLayoutTemplate('index.tpl');
-
-
 
         // Prepare the Output
         $this->prepareOutput();

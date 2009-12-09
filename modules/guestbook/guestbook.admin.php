@@ -63,14 +63,14 @@ class Module_Guestbook_Admin extends Clansuite_ModuleController implements Clans
     /**
      * Show all guestbook entries and give the possibility to edit/delete
      */
-    function action_admin_show()
+    public function action_admin_show()
     {
         # Incoming Variables
         $currentPage    = (int) $this->injector->instantiate('Clansuite_HttpRequest')->getParameter('page');
         $resultsPerPage = (int) $this->getConfigValue('resultsPerPage_adminshow', '10');
 
         // SmartyColumnSort -- Easy sorting of html table columns.
-        require( ROOT_LIBRARIES . '/smarty/SmartyColumnSort.class.php');
+        require( ROOT_LIBRARIES . '/smarty/libs/SmartyColumnSort.class.php');
         // A list of database columns to use in the table.
         $columns = array( 'gb_id', 'gb_added', 'gb_nick', 'gb_email', 'gb_icq', 'gb_website', 'gb_town', 'gb_text', 'gb_admincomment', 'gb_ip');
         // Create the columnsort object
@@ -82,7 +82,7 @@ class Module_Guestbook_Admin extends Clansuite_ModuleController implements Clans
 
         # fetch entries
         $guestbookQuery = Doctrine::getTable('CsGuestbook')->fetchAllGuestbookEntries($currentPage, $resultsPerPage, true, $sortorder);
-        
+
         # import array variables into the current symbol table ($newsQuery is an array('news','pager','pager_layout')
         extract($guestbookQuery);
         unset($guestbookQuery);
@@ -116,7 +116,7 @@ class Module_Guestbook_Admin extends Clansuite_ModuleController implements Clans
      * Debugging Action
      * testformgenerator
      */
-    function action_admin_testformgenerator()
+    public function action_admin_testformgenerator()
     {
         # Load Form Class (@todo autoloader / di)
         require ROOT_CORE . 'viewhelper/form.core.php';
@@ -128,6 +128,8 @@ class Module_Guestbook_Admin extends Clansuite_ModuleController implements Clans
              ->setHeading('News Create Form')
              ->setEncoding('multipart/form-data')
              ->setDescription('My news create form...');
+
+
 
         # Assign some Formlements
         /*$form->addElement('captcha')->setLabel('captcha label');
@@ -154,7 +156,14 @@ class Module_Guestbook_Admin extends Clansuite_ModuleController implements Clans
         $form->addElement('selectyesno');
 */
 		$form->setDecorator('fieldset')->setLegend('Testform');
-        $form->addElement('text')->setLabel('text label');
+
+        $form->addElement('text')->setLabel('text label')->setDescription('description');
+        #$form->setElementDecorator('label');
+        $form->setElementDecorator('div')->setClassName('forminside');
+        $form->setElementDecorator('div')->setClassName('formline');
+        #$form->setElementDecorator('description');
+        #clansuite_xdebug::printR($form->getFormelements());
+
         $form->addElement('textarea')->setCols('70')->setLabel('textarea label');
 
         #$form->addElement('submitbutton')->setValue('Submit')->setLabel('Submit Button')->setClass('ButtonGreen');
@@ -182,7 +191,7 @@ class Module_Guestbook_Admin extends Clansuite_ModuleController implements Clans
     * @global $db
     * @global $tpl
     */
-    function save_comment()
+    public function save_comment()
     {
         global $db, $tpl;
         /**
@@ -218,7 +227,7 @@ class Module_Guestbook_Admin extends Clansuite_ModuleController implements Clans
     *
     * @global $db
     */
-    function get_comment()
+    public function get_comment()
     {
         global $db;
 
@@ -251,7 +260,7 @@ class Module_Guestbook_Admin extends Clansuite_ModuleController implements Clans
     * @global $lang
     * @global $perms
     */
-    function edit()
+    public function edit()
     {
         global $db, $tpl, $functions, $lang, $perms;
 
@@ -308,7 +317,7 @@ class Module_Guestbook_Admin extends Clansuite_ModuleController implements Clans
         $this->suppress_wrapper = 1;
     }
 
-    function delete()
+    public function delete()
     {
         global $db, $functions, $input, $lang;
 
@@ -401,7 +410,7 @@ class Module_Guestbook_Admin extends Clansuite_ModuleController implements Clans
     * @global $cfg
     * @global $perms
     */
-    function show_single()
+    public function show_single()
     {
         global $db, $functions, $input, $lang, $tpl, $cfg, $perms;
 
@@ -427,7 +436,7 @@ class Module_Guestbook_Admin extends Clansuite_ModuleController implements Clans
     /**
      * Action for displaying the Settings of a Module Guestbook
      */
-    function action_admin_settings()
+    public function action_admin_settings()
     {
         # Set Pagetitle and Breadcrumbs
         Clansuite_Trail::addStep( _('Settings'), '/index.php?mod=guestbook&amp;sub=admin&amp;action=settings');
@@ -463,7 +472,7 @@ class Module_Guestbook_Admin extends Clansuite_ModuleController implements Clans
         $this->prepareOutput();
     }
 
-    function action_admin_settings_update()
+    public function action_admin_settings_update()
     {
         # Incomming Data
         # @todo get post via request object, sanitize
@@ -483,3 +492,4 @@ class Module_Guestbook_Admin extends Clansuite_ModuleController implements Clans
         $this->getHttpResponse()->redirectNoCache('index.php?mod=guestbook&amp;sub=admin', 2, 302, 'The config file has been succesfully updated.');
     }
 }
+?>

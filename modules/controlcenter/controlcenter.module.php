@@ -145,7 +145,7 @@ class Module_ControlCenter extends Clansuite_ModuleController implements Clansui
         # Prepare the Output
         $this->prepareOutput();
     }
-    
+
     /**
      * action supportlinks
      */
@@ -160,11 +160,13 @@ class Module_ControlCenter extends Clansuite_ModuleController implements Clansui
 
     private function assignFeedContent()
     {
+        $feedcontent = null;
+
         # get Feed Data (from Cache or File)
         $feedcontent = Clansuite_Feed::fetchRawRSS('http://groups.google.com/group/clansuite/feed/rss_v2_0_topics.xml');
 
         # try to read as xml
-        try
+        if(is_null($feedcontent) == false)
         {
             if(class_exists('SimpleXMLElement'))
             {
@@ -175,10 +177,11 @@ class Module_ControlCenter extends Clansuite_ModuleController implements Clansui
                 throw new Clansuite_Exception('SimpleXMLElement class does not exist!', 100);
             }
         }
-        catch (Exception $e)
+        else
         {
             throw new Clansuite_Exception('Feed could not be read. '.$e->getMessage(), 100);
             #Clansuite_Logger::log('', $e);
+            $xml = '';
         }
 
         # set output var
@@ -186,6 +189,8 @@ class Module_ControlCenter extends Clansuite_ModuleController implements Clansui
 
         # process output
         $i = 0;
+        $max_rss_items = $this->getConfigValue('news_rss_items', '5');
+
         foreach( $xml->channel->item as $items )
         {
             $i++;
@@ -193,86 +198,86 @@ class Module_ControlCenter extends Clansuite_ModuleController implements Clansui
             $output .= '<span style="font-size: 11px;">' . htmlspecialchars($items->pubDate) . '</span><br /></p>';
 
             # show 10 items @todo configvalue for itemnumber
-            if ( $i == 5 )
+            if ( $i == $max_rss_items )
             {
                 break(0);
             }
         }
 
         return $output;
-    }    
-	
- 
+    }
+
+
     /**
      * Action for displaying the Settings of a Module News
      */
     public function action_settings()
     {
-        $settings = array();									
+        $settings = array();
         # Set Pagetitle and Breadcrumbs
         Clansuite_Trail::addStep( _('Settings'), '/index.php?mod=controlcenter&amp;sub=admin&amp;action=settings');
-        
+
         $settings = array();
-		
+
         $settings['form']   = array(    'name' => 'controlcenter_settings',
                                         'method' => 'POST',
                                         'action' => WWW_ROOT.'/index.php?mod=controlcenter&amp;action=settings_update');
-		
-        $settings['controlcenter'][] = array(    
+
+        $settings['controlcenter'][] = array(
 										'id' => 'show_box_shortcuts',
                                         'name' => 'show_box_shortcuts',
                                         'description' => _('Show Shurtcuts'),
                                         'formfieldtype' => 'selectyesno',
                                         'value' => $this->getConfigValue('show_box_shortcuts', '1'));
- 
-        $settings['controlcenter'][] = array(    
+
+        $settings['controlcenter'][] = array(
 										'id' => 'show_box_news',
                                         'name' => 'show_box_news',
                                         'description' => _('Show News'),
                                         'formfieldtype' => 'selectyesno',
                                         'value' => $this->getConfigValue('show_box_news', '1'));
- 
-        $settings['controlcenter'][] = array(    
+
+        $settings['controlcenter'][] = array(
 										'id' => 'show_box_security',
                                         'name' => 'show_box_security',
                                         'description' => _('Show Security'),
                                         'formfieldtype' => 'selectyesno',
                                         'value' => $this->getConfigValue('show_box_security', '1'));
- 
-        $settings['controlcenter'][] = array(    
+
+        $settings['controlcenter'][] = array(
 										'id' => 'show_box_extensions',
                                         'name' => 'show_box_extensions',
                                         'description' => _('Show Extensions'),
                                         'formfieldtype' => 'selectyesno',
                                         'value' => $this->getConfigValue('show_box_extensions', '1'));
-        
+
         require ROOT_CORE . '/viewhelper/formgenerator.core.php';
         $form = new Clansuite_Array_Formgenerator($settings);
 
         # display formgenerator object
-        #clansuite_xdebug::printR($form); 
-        
+        #clansuite_xdebug::printR($form);
+
         $form->addElement('submitbutton')->setName('Save');
         $form->addElement('resetbutton');
-        
+
         # display form html
         #clansuite_xdebug::printR($form->render());
-        
+
         # assign the html of the form to the view
         $this->getView()->assign('form', $form->render());
 
-        $this->prepareOutput();  
-    } 
-	
+        $this->prepareOutput();
+    }
+
     function action_settings_update()
-    { 
+    {
         # Incomming Data
         # @todo get post via request object, sanitize
         $data = $this->getHttpRequest()->getParameter('controlcenter_settings');
 
         # Get Configuration from Injector
         $config = $this->injector->instantiate('Clansuite_Config');
-        
+
         # write config
         $config->confighandler->writeConfig( ROOT_MOD . 'controlcenter/controlcenter.config.php', $data);
 
