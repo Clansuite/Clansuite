@@ -1,4 +1,8 @@
-{* {$feed|@var_dump} *}
+{* 
+    {$feed|@var_dump} 
+    <br />
+    {$items_newswidget|@var_dump}
+*}
 
 <!-- ## Start: Rssreader Widget from Module Rssreader ## -->
 
@@ -31,7 +35,7 @@
             </div>
 
             {* Limit to 5 Entries *}
-            {if $smarty.foreach.csRSSForeach.iteration == '5' } {break} {/if}
+            {if $smarty.foreach.csRSSForeach.iteration == $items_newswidget } {break} {/if}
 
         {/foreach}
     </div>

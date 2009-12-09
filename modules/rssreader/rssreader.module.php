@@ -58,28 +58,27 @@ class Module_Rssreader extends Clansuite_ModuleController implements Clansuite_M
     {
         $smarty = $this->getView();
 
-
-
-
         # Prepare the Output
         $this->prepareOutput();
     }
 
     public function widget_rssreader()
     {
+        # mute all errors, because simplepie.inc is a mess
         error_reporting(0);
 
-        # get smarty as the view
-        $smarty = $this->getView();
-
-		# get Feed
+		# get clansuite feed component
 		$cs_feed = new Clansuite_Feed();
+
+		# fetch the google group clansuite for latest news
 		$feeditems = $cs_feed->fetchRSS('http://groups.google.com/group/clansuite/feed/rss_v2_0_topics.xml');
 
-        #clansuite_xdebug::printR($feeditems);
+        $this->getModuleConfig(ROOT_MOD . 'rssreader/rssreader.config.php');
 
-		# assign the Feed to Smarty
-		$smarty->assign_by_ref('feed', $feeditems);
+        # assign to smarty
+        $smarty = $this->getView();
+        $smarty->assign('items_newswidget', $this->getConfigValue('items_newswidget', '3'));
+		$smarty->assign('feed', $feeditems);
     }
 }
 ?>
