@@ -19,7 +19,7 @@
 
     <!-- ## Start: RssReader Accordion ## /-->
     <div id="accordion">
-        {foreach from=$feed->get_items() item=i name=csRSSForeach}
+        {foreach from=$feed->get_items() item=i name=csRSSforeach}
 
             <h3><a href="#">{$i->get_title()}</a></h3>
             <div>
@@ -31,7 +31,7 @@
             </div>
 
             {* Limit to 5 Entries *}
-            {if $smarty.foreach.csRSSForeach.iteration == '5' } {break} {/if}
+            {if $smarty.foreach.csRSSforeach.iteration == $items_newswidget} {break} {/if}
 
         {/foreach}
     </div>
