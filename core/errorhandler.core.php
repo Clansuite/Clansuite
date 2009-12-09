@@ -176,7 +176,7 @@ class Clansuite_Errorhandler
                                 #8191   => 'E_ALL 8191'             # PHP 6 -> 8191
                                 #8192   => 'E_DEPRECATED',          # notice marker for 'in future' deprecated php-functions (since PHP 5.3.0)
                                 #16384  => 'E_USER_DEPRECATED',     # trigger_error() / user_error() reports user-defined deprecated functions
-                                #30719  => 'E_ALL 30719 PHP5.3.x'   # all errors and warnings - E_ALL of PHP Version 5.3.x
+                                #30719  => 'E_ALL 30719 PHP5.3.x',  # all errors and warnings - E_ALL of PHP Version 5.3.x
                                 #32767  => 'E_ALL 32767 PHP6'       # all errors and warnings - E_ALL of PHP Version 6
                                  );
 
@@ -259,6 +259,7 @@ class Clansuite_Errorhandler
      */
     private function smarty_error_display( $errornumber, $errorname, $errorstring, $errorfile, $errorline, $errorcontext )
     {
+
         # small errorreport
         $errormessage  =  "<h3><font color=red>&raquo; Smarty Template Error &laquo;</font></h3>";
         $errormessage .=  "<u>$errorname:</u><br/>";
@@ -284,9 +285,9 @@ class Clansuite_Errorhandler
     {
         # display the link to the templateeditor,
         # if we are in DEVELOPMENT MODE and if the error relates to a template file
-        if(defined('DEVELOPMENT') and DEVELOPMENT == 1 and (strpos(strtolower($errorfile),'.tpl') == true))
+        if(defined('DEVELOPMENT') and DEVELOPMENT === 1 and (strpos(strtolower($errorfile),'.tpl') == true))
         {
-            #clansuite_xdebug::printR($errorcontext);
+            clansuite_xdebug::printR($errorcontext);
 
             $tpl_vars = $errorcontext['this']->get_template_vars();
 

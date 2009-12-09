@@ -156,10 +156,11 @@ class Clansuite_Feed
      */
     public static function fetchRawRSS($feed_url)
     {
-        $feed_url = urlencode($feed_url);
+        # @todo php5.3 file_get_contents works without urlencoding now
+        #$feed_url = urlencode($feed_url);
 
         # Cache Filename and Path # . 'feeds' .
-        $cachefile = ROOT_CACHE . $feed_url;
+        $cachefile = ROOT_CACHE . urlencode($feed_url);
 
         # define cache lifetime
         $cachetime = 60*60*3; # 10800min = 3h
@@ -178,7 +179,7 @@ class Clansuite_Feed
 
             # Get Feed from source, Write File
             # silenced, whats wrong with file_get_contents fetching via http?
-            $feedcontent = @file_get_contents($feed_url);
+            $feedcontent = file_get_contents($feed_url, FILE_TEXT);
 
             # ensure that we have rss content
             if(strlen($feedcontent) > 0)
