@@ -68,9 +68,9 @@ if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.');}
  * @package     Core
  * @subpackage  Form
  */
-abstract class Clansuite_Form_Decorator implements Clansuite_Form_Interface
+abstract class Clansuite_Form_Decorator #implements Clansuite_Form_Interface
 {
-    # instance of form, which is to decorate or the decorator before
+    # instance of form, which is to decorate
     protected $form;
 
     /**
@@ -78,15 +78,17 @@ abstract class Clansuite_Form_Decorator implements Clansuite_Form_Interface
      *
      * @param $form Accepts a Clansuite_Form Object implementing the Clansuite_Form_Interface.
      */
-    public function __construct(Clansuite_Form_Interface $form)
+    /*public function __construct(Clansuite_Form_Interface $form)
     {
-        $this->setDecorator($form);
-    }
+        $this->decorate($form);
+    }*/
 
     /**
      * Setter method to set the object which is to decorate.
+     *
+     * @param $form object of type Clansuite_Form_Interface or Clansuite_Form_Decorator_Interface
      */
-    public function setDecorater($form)
+    public function decorateWith($form)
     {
         $this->form = $form;
     }
@@ -127,6 +129,7 @@ abstract class Clansuite_Form_Decorator implements Clansuite_Form_Interface
      */
     public function __call($method, $parameters)
     {
+        # performance killer
         return call_user_func_array(array($this->form, $method), $parameters);
     }
 }
@@ -142,7 +145,69 @@ abstract class Clansuite_Form_Decorator implements Clansuite_Form_Interface
  * @subpackage  Form
  */
 
-class Clansuite_Formelement_Decorator implements Clansuite_Formelement_Decorator_Interface
+abstract class Clansuite_Formelement_Decorator #implements Clansuite_Form_Interface
 {
+    # instance of formelement, which is to decorate
+    protected $formelement;
+
+    /**
+     * Constructor
+     *
+     * @param $form Accepts a Clansuite_Form Object implementing the Clansuite_Form_Interface.
+     */
+    /*public function __construct(Clansuite_Form_Interface $form)
+    {
+        $this->decorate($form);
+    }*/
+
+    /**
+     * Setter method to set the object which is to decorate.
+     *
+     * @param $form object of type Clansuite_Form_Interface or Clansuite_Form_Decorator_Interface
+     */
+    public function decorateWith($formelement)
+    {
+        $this->formelement = $formelement;
+    }
+
+    /**
+     * Purpose of this method is to check, if this object or a decorator implements a certain method.
+     *
+     * @param $method
+     * @return boolean
+     */
+    public function hasMethod($method)
+    {
+        # check if method exists in this object
+        if(method_exists($this, $method))
+        {
+            return true;
+        }
+        # check if method exists in the decorator of this object
+        elseif($this->formelement instanceof Clansuite_Formelement_Decorator)
+        {
+            return $this->formelement->hasMethod($method);
+        }
+        else # nope, method does not exist
+        {
+            return false;
+        }
+    }
+
+    /**
+     * __call Magic Method
+     *
+     * In general this calls a certain method with parameters on the object which is to decorate ($form).
+     *
+     * @toto use Clansuite_Loader here to speed it up?
+     *
+     * @param $method
+     * @param $parameters
+     */
+    public function __call($method, $parameters)
+    {
+        # performance killer
+        return call_user_func_array(array($this->formelement, $method), $parameters);
+    }
 }
 ?>

@@ -175,14 +175,21 @@ class Clansuite_Form /*extends Clansuite_HTML*/ implements Clansuite_Form_Interf
      *
      * @var boolean
      */
-    protected $form_error = false;
+    protected $formerror_flag = false;
 
     /**
      * Form Decorators Array, contains one or several formdecorator objects
      *
      * @var array
      */
-    protected $formdecorator = array();
+    private $formdecorators = array();
+
+    /**
+     * Form Groups Array, contains one or several formgroup objects
+     *
+     * @var array
+     */
+    protected $formgroups = array();
 
     /**
      * Construct
@@ -397,6 +404,22 @@ class Clansuite_Form /*extends Clansuite_HTML*/ implements Clansuite_Form_Interf
     }
 
     /**
+     * Getter for formelements array
+     */
+    public function getFormelements()
+    {
+        return $this->formelements;
+    }
+
+    /**
+     * Set formelements
+     */
+    public function setFormelements(array $formelements)
+    {
+        $this->formelements = $formelements;
+    }
+
+    /**
      * Set target of this form.
      *
      * @param $target string ID of this form.
@@ -433,7 +456,6 @@ class Clansuite_Form /*extends Clansuite_HTML*/ implements Clansuite_Form_Interf
         return $this;
     }
 
-
     /**
      * Get the buttons stack.
      */
@@ -443,129 +465,87 @@ class Clansuite_Form /*extends Clansuite_HTML*/ implements Clansuite_Form_Interf
     }
 
     /**
+     * ===================================================================================
+     *      Formerrors
+     * ===================================================================================
+     */
+
+    /**
      * Get the form error status.
      *
      * @returns boolean
      */
-    public function fromHasErrors()
+    public function formHasErrors()
     {
-        return $this->form_errors;
+        return $this->formerror_flag;
     }
 
     /**
-     * Renders the Form
+     * Translate the error messages.
+     * Basically what this method does is:
+     * to pull the gettext underscore from the form definition array to this class.
      *
-     * @return $html_form string HTML Code of the Form.
+     * @return array
      */
-    public function render()
+    protected function translateErrorMessages()
     {
-        # init html form
-        $html_form = '<!-- Start of Form "'. $this->getName() .'" -->' . CR;
+        $messages = $this->getErrorMessages();
 
-        # open form
-        $html_form  .= '<form ';
-
-        if( strlen($this->getID()) > 0 )
+        foreach ($messages as $key => $message)
         {
-            $html_form .= 'id="'.$this->getID().'" ';
+            # translate with gettext
+            $messages[$key] = _($message);
         }
 
-        if( strlen($this->getAction()) > 0 )
-        {
-            $html_form .= 'action="'.$this->getAction().'" ';
-        }
+        return $messages;
+    }
 
-        if( strlen($this->getMethod()) > 0 )
-        {
-            $html_form .= 'method="'.$this->getMethod().'" ';
-        }
+    public function renderAllFormelements()
+    {
+        # init var
+        $html_form = '';
 
-        if( strlen($this->getEncoding()) > 0 )
-        {
-            $html_form .= 'enctype="'.$this->getEncoding().'" ';
-        }
-
-        if( strlen($this->getTarget()) > 0 )
-        {
-            $html_form .= 'target="'.$this->getTarget().'" ';
-        }
-
-        if( strlen($this->getName()) > 0 )
-        {
-             $html_form .= 'name="'.$this->getName().'" ';
-        }
-
-        if( strlen($this->getClass()) > 0 )
-        {
-             $html_form .= 'class="'.$this->getClass().'"';
-        }
-
-        # close the form tag
-        $html_form .= '>' . CR;
-
-
-        # add heading
-        if( strlen($this->getHeading()) > 0 )
-        {
-             $html_form .= '<br /> <h2>'.$this->getHeading().'</h2>' . CR;
-        }
-
-        # add description
-        if( strlen($this->getDescription()) > 0 )
-        {
-             $html_form .= '<p>'.$this->getDescription().'</p>' .CR;
-        }
+        # fetch all formelements
+        $formelements = $this->getFormelements();
 
         # sort formelements by index
-        ksort($this->formelements);
+        ksort($formelements);
 
         # loop over all registered formelements of this form and render them
-        foreach( $this->formelements as $formelement )
+        foreach( $formelements as $formelement )
         {
-            if( $formelement->getType() == 'submit' or $formelement->getType() == 'reset' or $formelement->getType() == 'button')
+            # fetch all decorators of this formelement
+            $formelementdecorators = $formelement->getDecorators();
+
+            # then render this formelement (pure)
+            $html_form .= $formelement->render();
+
+            # for each decorator, decorate the formelement and render it
+            foreach ($formelementdecorators as $formelementdecorator)
             {
-                $html_form .= '<div class="formbutton">';
+                $formelementdecorator->decorateWith($formelement);
+                $html_form = $formelementdecorator->render($html_form);
             }
-            else
-            {
-                $html_form .= '<div class="formline">';
-            }
-
-            # add label
-            if ( $formelement->hasLabel() == true)
-            {
-                $html_form .= CR . '<label>' . $formelement->getLabel() . '</label>' . CR; # @todo if required form field add (*)
-            }
-
-            # add div inside
-            $html_form .= '<div class="forminside">';
-
-            /**
-             * ============================================
-             *          render the formelement
-             * ============================================
-             */
-            $html_form .= CR . $formelement->render() . CR;
-
-            # add description
-            if ( isset($formelement->description) == true)
-            {
-                $html_form .= '<br />' . CR . '<span class="formdescription">'.$formelement->getDescription() . '</span>' . CR;
-            }
-
-            # close div inside
-            $html_form .= '</div>';
-
-            # close div formbutton/formline
-            $html_form .= '</div>';
         }
+        return $html_form;
+    }
 
-        # add buttons @todo
-        #$html_form .= $this->buttons;
+    public function applyDefaultDecorators()
+    {
+        $this->addDecorator('form');
+    }
 
-        # close form
-        $html_form .= '</form>' . CR . '<!--- End of Form "'. $this->getName() .'" -->' . CR;
+    public function render()
+    {
+        $this->applyDefaultDecorators();
 
+        $html_form = $this->renderAllFormelements();
+
+        foreach ($this->getDecorators() as $decorator)
+        {
+            $decorator->decorateWith($this);
+            $html_form = $decorator->render($html_form);
+        }
         return $html_form;
     }
 
@@ -573,11 +553,18 @@ class Clansuite_Form /*extends Clansuite_HTML*/ implements Clansuite_Form_Interf
      * Returns a XHTML string representation of the form
      *
      * @see Clansuite_Form::render()
+     * @return string
      */
     public function __toString()
     {
         return $this->render();
     }
+
+    /**
+     * ===================================================================================
+     *      Formelement Handling (add, del, getByPos, getByName)
+     * ===================================================================================
+     */
 
     /**
      * Adds a formelement to the form
@@ -734,31 +721,106 @@ class Clansuite_Form /*extends Clansuite_HTML*/ implements Clansuite_Form_Interf
      * ===================================================================================
      */
 
+    public function setElementDecorator($decorator)
+    {
+        # count
+        $number_of_formelements = count($this->formelements)-1;
+        
+        #get last formelement object in formelements array
+        $last_formelement_object = $this->getElementByPosition($number_of_formelements);
+
+        # and add the decorator
+        # WATCH IT! this is a call to formelement.core.php addDecorator()
+        return $last_formelement_object->addDecorator($decorator);
+    }
+
     /**
      * setDecorator
      *
      * Is a shortcut/proxy/convenience method for addDecorator()
      * @see $this->addDecorator()
+     *
+     * WATCH IT! THIS BREAKS THE CHAINING IN REGARD TO THE FORM
+     * @return decorator object
      */
     public function setDecorator($decorators)
     {
-        $this->addDecorator($decorators);
+        return $this->addDecorator($decorators);
     }
 
     /**
      * addDecorator
      *
      * Adds a decorator to the form
+     *
+     * Usage:
+     * $form->addDecorator('fieldset')->setLegend('legendname');
+     *
+     * WATCH IT! THIS BREAKS THE CHAINING IN REGARD TO THE FORM
+     * @return decorator object
      */
     public function addDecorator($decorators)
     {
-        foreach($decorators as $decorator)
+        # Debug of incomming decorators
+        #clansuite_xdebug::printR($decorators);
+
+        # check if multiple decorators are incomming at once
+        if(is_array($decorators))
         {
-            if ( (in_array($decorator, $this->decorators) == false) and ($decorator instanceof Clansuite_Form_Decorator_Interface) )
+            # address each one of those decorators
+            foreach($decorators as $decorator)
             {
-                $this->decorators[] = $decorator;
+                # and check if it is an object implementing the right interface
+                if ( $decorator instanceof Clansuite_Form_Decorator_Interface )
+                {
+                    # if so, fetch this decorator objects name
+                    $decoratorname = $decorator->name;
+                }
+                else
+                {
+                    # turn it into an decorator object
+                    $decorator = $this->decoratorFactory($decorator);
+                    $decoratorname = $decorator->name;
+                    #$this->addDecorator();
+                }
             }
         }
+
+        # if we got a string (ignore the plural, it's a one element string, like 'fieldset')
+        if (is_string($decorators))
+        {
+            # turn it into an decorator object
+            $decorator = $this->decoratorFactory($decorators);
+            $decoratorname = $decorator->name;
+            #clansuite_xdebug::printR($decorator);
+        }
+
+        # now check if this decorator is not already set (prevent decorator duplications)
+        if(in_array($decorator, $this->formdecorators) == false)
+        {
+            # set this decorator object under its name into the array
+            $this->formdecorators[$decoratorname] = $decorator;
+        }
+        else
+        {
+            $this->formdecorators[$decoratorname] = $decorator;   
+        }
+
+        # WATCH IT! THIS BREAKS THE CHAINING IN REGARD TO THE FORM
+        # We dont return $this here, because $this would be the FORM.
+        # Insted the decorator is returned, to apply some properties.
+        # @return decorator object
+        return $this->formdecorators[$decoratorname];
+    }
+
+    /**
+     * Getter Method for the formdecorators
+     *
+     * @return array with registered formdecorators
+     */
+    public function getDecorators()
+    {
+        return $this->formdecorators;
     }
 
     /**
@@ -769,18 +831,18 @@ class Clansuite_Form /*extends Clansuite_HTML*/ implements Clansuite_Form_Interf
     public function decoratorFactory($formdecorator)
     {
         # if not already loaded, require forelement file
-        if (!class_exists('Clansuite_Formelement_Decorator_'.$formdecorator))
+        if (!class_exists('Clansuite_Form_Decorator_'.$formdecorator))
         {
-            if(is_file(ROOT_CORE . 'viewhelper/formdecorators/formelement/'.$formdecorator.'.form.php'))
+            if(is_file(ROOT_CORE . 'viewhelper/formdecorators/form/'.$formdecorator.'.form.php'))
             {
-                require ROOT_CORE . 'viewhelper/formdecorators/formelement/'.$formdecorator.'.form.php';
+                require ROOT_CORE . 'viewhelper/formdecorators/form/'.$formdecorator.'.form.php';
             }
         }
 
         # construct Clansuite_Formdecorator_Name
-        $formdecorator_classname = 'Clansuite_Formelement_Decorator_'.ucfirst($formdecorator);
+        $formdecorator_classname = 'Clansuite_Form_Decorator_'.ucfirst($formdecorator);
         # instantiate the new $formdecorator
-        $formdecorator = new $formdecorator_classname;
+        $formdecorator = new $formdecorator_classname();
 
         return $formdecorator;
     }
@@ -798,7 +860,11 @@ class Clansuite_Form /*extends Clansuite_HTML*/ implements Clansuite_Form_Interf
      */
     public function addGroup($groupname)
     {
+        # @todo groupname becomes ID of decorator (e.g. a fieldset)
+
         $this->formgroups[] = $groupname;
+
+        return $this;
     }
 
     /**
@@ -815,7 +881,7 @@ class Clansuite_Form /*extends Clansuite_HTML*/ implements Clansuite_Form_Interf
     public function addValidator()
     {
 
-
+        return $this;
     }
 
     /**
@@ -832,7 +898,7 @@ class Clansuite_Form /*extends Clansuite_HTML*/ implements Clansuite_Form_Interf
             if($formelement->validate($this) == false)
             {
                 # raise error flag
-                $this->form_errors = true;
+                $this->formerror_flag = true;
 
                 $formelement->getError();
             }
