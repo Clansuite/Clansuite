@@ -14,7 +14,7 @@ package = Development
 
 [account_package]
 version = 0.2-0.x-dev
-project = acocunt
+project = account
 datestamp =
 uniqueid =
 

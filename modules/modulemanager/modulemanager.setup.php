@@ -66,7 +66,6 @@ class Module_Modulemanager_Setup extends Clansuite_ModuleController implements C
      */
     public function loadModuleInformations(Clansuite_ModuleInformationsController $modInfoController, $info_file)
     {
-
         require $info_file;
 
         #$modInfoController

@@ -1,7 +1,7 @@
 <?php
    /**
     * Clansuite - just an eSports CMS
-    * Jens-André Koch © 2005 - onwards
+    * Jens-AndrÃ© Koch Â© 2005 - onwards
     * http://www.clansuite.com/
     *
     * This file is part of "Clansuite - just an eSports CMS".
@@ -24,8 +24,8 @@
     *
     * @license    GNU/GPL v2 or (at your option) any later version, see "/doc/LICENSE".
     *
-    * @author     Jens-André Koch <vain@clansuite.com>
-    * @copyright  Jens-André Koch (2005 - onwards)
+    * @author     Jens-AndrÃ© Koch <vain@clansuite.com>
+    * @copyright  Jens-AndrÃ© Koch (2005 - onwards)
     *
     * @link       http://www.clansuite.com
     * @link       http://gna.org/projects/clansuite
@@ -507,7 +507,7 @@ class Module_Account extends Clansuite_ModuleController implements Clansuite_Mod
         // Activation code is wrong
         if ( !$code )
         {
-            $this->output .= $error->show( _( 'Code Failure' ), _('The given activation code is wrong. Please make sure you copied the whole activation URL into your browser.'), 2 );
+            $error->show( _( 'Code Failure' ), _('The given activation code is wrong. Please make sure you copied the whole activation URL into your browser.'), 2 );
             return;
         }
 
@@ -521,7 +521,7 @@ class Module_Account extends Clansuite_ModuleController implements Clansuite_Mod
             // Account already activated
             if ( $res['activated'] == 1 )
             {
-                $this->output .= $error->show( _( 'Already' ), _('This account has been already activated.'), 2 );
+                $error->show( _( 'Already' ), _('This account has been already activated.'), 2 );
                 return;
             }
             else
@@ -534,7 +534,7 @@ class Module_Account extends Clansuite_ModuleController implements Clansuite_Mod
         }
         else
         {   // Activation Code not matching user_id
-            $this->output .= $error->show( _( 'Code Failure' ), _('The activation code does not match to the given user id'), 2 );
+            $error->show( _( 'Code Failure' ), _('The activation code does not match to the given user id'), 2 );
             return;
         }
     }
@@ -793,6 +793,7 @@ class Module_Account extends Clansuite_ModuleController implements Clansuite_Mod
 		
 		#$form->addDecorator('fieldset')->setLegend('Special Data');
 		#$form->addGroup('special');
+	
 		$form->addElement('text')->setName('userdata_form[city]')->setLabel(_('City'));
 		$form->addElement('textarea')->setName('userdata_form[address]')->setID('userdata_form[address]')->setCols('110')->setRows('30')->setLabel(_('Your Address:'));
 		$form->addElement('text')->setName('userdata_form[mailaddress]')->setLabel(_('Mailaddress'));
@@ -801,6 +802,7 @@ class Module_Account extends Clansuite_ModuleController implements Clansuite_Mod
 		
 		#$form->addDecorator('fieldset')->setLegend('Contact Data');
 		#$form->addGroup('contact');
+		
 		$form->addElement('text')->setName('userdata_form[icq]')->setLabel(_('ICQ'));		
 		$form->addElement('text')->setName('userdata_form[msn]')->setLabel(_('MSN'));
 		$form->addElement('text')->setName('userdata_form[xfire]')->setLabel(_('XFire'));
