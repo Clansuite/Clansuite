@@ -1,5 +1,5 @@
 <?php
-function smarty_make_template($resource_type, $resource_name, &$template_source, &$template_timestamp, &$smarty_obj)
+function smarty_make_template($resource_type, $resource_name, &$template_source, &$template_timestamp, $smarty_obj)
 {
     if( $resource_type == 'file' ) {
         if ( ! is_readable ( $resource_name )) {

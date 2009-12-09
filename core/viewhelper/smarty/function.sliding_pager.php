@@ -13,7 +13,7 @@
 * HTTP:     http://www.chengfu.net/
 * -------------------------------------------------------------
 */
-function smarty_function_sliding_pager($params, &$smarty)
+function smarty_function_sliding_pager($params, $smarty)
 {
     /*
     @param  mixed   $pagecount          - number of pages to browse

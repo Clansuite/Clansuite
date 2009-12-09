@@ -22,7 +22,7 @@
 * messju mohr <messju@lammfellpuschen.de>
 * -------------------------------------------------------------
 */
-function smarty_outputfilter_tidyrepairhtml ($source, &$smarty)
+function smarty_outputfilter_tidyrepairhtml ($source, $smarty)
 {
 if(extension_loaded('tidy'))
 {

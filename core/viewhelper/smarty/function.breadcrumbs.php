@@ -1,9 +1,9 @@
 <?php
-    function smarty_function_breadcrumbs($params, &$smarty)
+    function smarty_function_breadcrumbs($params, $smarty)
     {
         if (isset($params['trail']) && is_array($params['trail']))
         {
-        	$trail = &$params['trail'];
+        	$trail = $params['trail'];
         }
         else
         {
@@ -29,8 +29,7 @@
 
             if ($length > 0)
             {
-                require_once $smarty->_get_plugin_filepath('modifier', 'truncate');
-                $title = smarty_modifier_truncate($trail[$i]['title'], $length);
+                $title = substr($trail[$i]['title'], 0, $length); 
             }
             else
             {

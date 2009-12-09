@@ -24,7 +24,7 @@
  * @version 0.1
  */
 
-function smarty_function_ajax_call($params, &$smarty)
+function smarty_function_ajax_call($params, $smarty)
 {
   $function = isset($params['function']) ? $params['function'] : '';
   $url = isset($params['url']) ? $params['url'] : $_SERVER['PHP_SELF'];

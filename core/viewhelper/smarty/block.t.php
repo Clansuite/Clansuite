@@ -72,7 +72,7 @@ function smarty_gettext_strarg($str)
  *
  * Modifed for use with php-gettext by Jens-André Koch.
  */
-function smarty_block_t($params, $text, &$smarty)
+function smarty_block_t($params, $text, $smarty)
 {
     $text = stripslashes($text);
 

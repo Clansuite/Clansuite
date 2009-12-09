@@ -24,7 +24,7 @@
  * @param Smarty $smarty
  * @return string
  */
-function smarty_function_pagination($params, &$smarty)
+function smarty_function_pagination($params, $smarty)
 {
     # check if a alphabet pagination is requested
     if( isset($params['type']) and $params['type'] == 'alphabet' )

@@ -24,7 +24,7 @@
  *           from application.
  * -------------------------------------------------------------
  */
-function smarty_outputfilter_gzip($tpl_source, &$smarty)
+function smarty_outputfilter_gzip($tpl_source, $smarty)
 {
 	/*~ the compression level to use
 		default: 9

@@ -24,7 +24,7 @@
  * @param Smarty $smarty
  * @return string
  */
-function smarty_function_modulenavigation($params, &$smarty)
+function smarty_function_modulenavigation($params, $smarty)
 {
     # determine the path of the modulenavigation description file
     $modulenavigation_file = ROOT_MOD. Clansuite_ModuleController_Resolver::getModuleName() . DS .

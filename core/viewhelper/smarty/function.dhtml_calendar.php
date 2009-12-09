@@ -155,7 +155,7 @@ showOthers boolean false
     "faded-out" color)
 
 */
-function smarty_function_dhtml_calendar($params, &$smarty)
+function smarty_function_dhtml_calendar($params, $smarty)
 {
     static $requires = array(
       'flat'            => 'string'

@@ -37,7 +37,7 @@
  * @param boolean
  * @return string
  */
-function smarty_block_move_to($params, $content, &$smarty, &$repeat)
+function smarty_block_move_to($params, $content, $smarty, &$repeat)
 {
     if ( empty($content) )
     {
@@ -81,8 +81,11 @@ function smarty_block_move_to($params, $content, &$smarty, &$repeat)
      * This is inserts a comment, showing from which template a certain move is performed.
      * This makes it easier to determine the origin of the move operation.
      */
-    $origin_start = '<!-- [Start] Segment moved from: '.$smarty->_tpl_vars['templatename']." -->\n";
-    $origin_end   = '<!-- [-End-] Segment moved from: '.$smarty->_tpl_vars['templatename']." -->\n";
+     
+    $templatename = $smarty->get_template_vars('templatename');
+     
+    $origin_start = '<!-- [Start] Segment moved from: '.$templatename." -->\n";
+    $origin_end   = '<!-- [-End-] Segment moved from: '.$templatename." -->\n";
 
     $content = '@@@SMARTY:'.$tag.':BEGIN@@@'.$origin_start.' '.trim($content)."\n".$origin_end.'@@@SMARTY:'.$tag.':END@@@';
 

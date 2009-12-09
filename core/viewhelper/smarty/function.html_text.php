@@ -29,7 +29,7 @@
  * @return string
  * @uses smarty_function_escape_special_chars()
  */
-function smarty_function_html_text($params, &$smarty)
+function smarty_function_html_text($params, $smarty)
 {
   global $_smarty_pp_autocomplete_js_output;
   require_once $smarty->_get_plugin_filepath('shared','escape_special_chars');

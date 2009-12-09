@@ -19,7 +19,7 @@
  * Purpose:     This TAG inserts a tabpage.
  *
  */
-function smarty_block_tabpage($params, $content, &$smarty, &$repeat)
+function smarty_block_tabpage($params, $content, $smarty, &$repeat)
 {
     # check for name
     if(isset($params['name'])) { $name = _($params['name']); }

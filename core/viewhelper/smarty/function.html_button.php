@@ -40,7 +40,7 @@
  * @return string
  * @uses smarty_function_escape_special_chars()
  */
-function smarty_function_html_button($params, &$smarty)
+function smarty_function_html_button($params, $smarty)
 {
   global $_smarty_html_button_ie_wa_output, $is_pda;
   $is_ie = 0; /* strpos(strtoupper($_SERVER['HTTP_USER_AGENT']), 'MSIE') !== false; */

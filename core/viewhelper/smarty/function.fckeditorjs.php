@@ -32,7 +32,7 @@
 * CustomConfigurationsPath is useful for example.
 * See http://wiki.fckeditor.net/Developer%27s_Guide/Configuration/Configurations_File for more configuration info.
 */
-function smarty_function_fckeditorJS($params, &$smarty)
+function smarty_function_fckeditorJS($params, $smarty)
 {
    if(!isset($params['InstanceName']) || empty($params['InstanceName']))
    {

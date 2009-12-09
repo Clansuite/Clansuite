@@ -93,7 +93,7 @@
  * @return string
  */
 
-function smarty_function_html_alt_table($params, &$smarty)
+function smarty_function_html_alt_table($params, $smarty)
 {
 
     // default values

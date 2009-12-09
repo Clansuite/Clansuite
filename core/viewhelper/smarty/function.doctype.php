@@ -31,7 +31,7 @@
  * @param Smarty $smarty
  * @return string
  */
-function smarty_function_doctype($params, &$smarty)
+function smarty_function_doctype($params, $smarty)
 {
     if( !isset( $params['doctype'] ))
     {
