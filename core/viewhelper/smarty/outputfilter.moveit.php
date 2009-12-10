@@ -14,7 +14,7 @@
  * @license GNU General Public License v2 or any later version
  * @version SVN $Id$
  *
- * Smarty {move_it} outputfilter moves content to several tag positions
+ * Smarty {moveit} outputfilter moves content to several tag positions
  *
  * The x marks the position, the content will be moved to.
  * pre_head_close = x</head>
@@ -25,7 +25,7 @@
  * @param Smarty
  * @return string
  */
-function smarty_outputfilter_move_it($tpl_output, $smarty)
+function smarty_outputfilter_moveit($tpl_output, $smarty)
 {
     # PRE_HEAD_CLOSE = x</head>
     $matches = array();
