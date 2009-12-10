@@ -1,6 +1,6 @@
 <h2>User :: Search</h2>
 
-{move_to}
+{move_to target="pre_head_close"}
 <link rel="stylesheet" type="text/css" href="{$www_root_themes_core}/admin/datatable.css" />
 <script type="text/javascript" src="{$www_root_themes_core}/admin/datatable.js"></script>
 {/move_to}

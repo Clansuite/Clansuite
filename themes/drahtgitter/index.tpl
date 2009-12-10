@@ -1,6 +1,6 @@
 {doc_info DOCTYPE=XHTML LEVEL=Transitional}
 
-{move_to}
+{move_to target="pre_head_close"}
 {* everything in doc_raw is moved "as is" to header *}
 <!-- Clip -->
 <script src="{$www_root_themes_core}/javascript/clip.js" type="application/javascript"></script>

@@ -1,4 +1,4 @@
-{move_to}
+{move_to target="pre_head_close"}
 <link rel="stylesheet" type="text/css" href="{$www_root_themes_core}/admin/adminmenu/DynamicTree.css" />
 {* Prototype + Scriptaculous + Smarty_Ajax *}
 <script type="text/javascript" src="{$www_root_themes_core}/javascript/prototype/prototype.js" ></script>

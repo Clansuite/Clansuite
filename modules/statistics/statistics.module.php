@@ -65,15 +65,15 @@ class Module_statistics extends Clansuite_ModuleController implements Clansuite_
         /**
          * All visits & max users online counter
          */
-        $tmpVar = Doctrine::getTable("CsStatistic")->fetchAllImpressionsAndMaxVisitors();
+        $tmpVar = Doctrine::getTable('CsStatistic')->fetchAllImpressionsAndMaxVisitors();
         $stats['all_impressions']        = $tmpVar['hits'];
         $stats['max_visitor']            = $tmpVar['maxonline'];
 
-        $tmpVar = Doctrine::getTable("CsStatistic")->fetchTodayAndYesterdayVisitors();
+        $tmpVar = Doctrine::getTable('CsStatistic')->fetchTodayAndYesterdayVisitors();
         $stats['today_impressions']      = $tmpVar[1]['count'];
         $stats['yesterday_impressions']  = $tmpVar[0]['count'];
 
-        $tmpVar = Doctrine::getTable("CsStatistic")->sumMonthVisits();
+        $tmpVar = Doctrine::getTable('CsStatistic')->sumMonthVisits();
         $stats['month_impressions']      = $tmpVar;
 
         /**
@@ -98,8 +98,6 @@ class Module_statistics extends Clansuite_ModuleController implements Clansuite_
 
         return $stats;
     }
-
-
 
     public function widget_statistics($params)
     {
