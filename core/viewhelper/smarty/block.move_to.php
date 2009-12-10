@@ -46,7 +46,7 @@ function smarty_block_move_to($params, $content, $smarty, &$repeat)
 
     if( isset($params['target']) )
     {
-        $tag = strtoupper($params['target']);
+        $target = strtoupper($params['target']);
     }
     else
     {
@@ -71,7 +71,7 @@ function smarty_block_move_to($params, $content, $smarty, &$repeat)
                                       'PRE_BODY_CLOSE'); #  x</body>
 
     # whitelist: check if tag is a valid movement position
-    if( !in_array($tag, $valid_movement_positions) )
+    if( !in_array($target, $valid_movement_positions) )
     {
         $smarty->trigger_error("Parameter 'target' needs one of the following values: pre_head_close, post_body_open, pre_body_close");
         return;
@@ -81,13 +81,13 @@ function smarty_block_move_to($params, $content, $smarty, &$repeat)
      * This is inserts a comment, showing from which template a certain move is performed.
      * This makes it easier to determine the origin of the move operation.
      */
-     
+
     $templatename = $smarty->get_template_vars('templatename');
-     
+
     $origin_start = '<!-- [Start] Segment moved from: '.$templatename." -->\n";
     $origin_end   = '<!-- [-End-] Segment moved from: '.$templatename." -->\n";
 
-    $content = '@@@SMARTY:'.$tag.':BEGIN@@@'.$origin_start.' '.trim($content)."\n".$origin_end.'@@@SMARTY:'.$tag.':END@@@';
+    $content = '@@@SMARTY:'.$target.':BEGIN@@@'.$origin_start.' '.trim($content)."\n".$origin_end.'@@@SMARTY:'.$target.':END@@@';
 
     return $content;
 }
