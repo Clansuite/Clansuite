@@ -1,4 +1,4 @@
-{move_to}
+{move_to target="pre_head_close"}
     {* StyleSheets *}
     <link rel="stylesheet" type="text/css" href="{$www_root_themes_core}/admin/js_color_picker_v2.css" />
     <link rel="stylesheet" type="text/css" href="{$www_root_themes_core}/admin/fieldset.css" />

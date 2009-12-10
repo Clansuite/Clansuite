@@ -36,7 +36,7 @@
     {/error}
 {/if}
 
-{move_to}
+{move_to target="pre_head_close"}
 
 {*
 {literal}

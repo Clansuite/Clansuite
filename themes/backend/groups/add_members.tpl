@@ -6,7 +6,7 @@
 *}
 
 
-{move_to}
+{move_to target="pre_head_close"}
 <script src="{$www_root_themes_core}/javascript/picklist.js" type="text/javascript"></script>
 {/move_to}
 

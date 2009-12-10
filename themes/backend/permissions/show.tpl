@@ -1,4 +1,4 @@
-{move_to}
+{move_to target="pre_head_close"}
     {* Prototype + Scriptaculous + Smarty_Ajax + Xilinus*}
     <script src="{$www_root_themes_core}/javascript/prototype/prototype.js" type="text/javascript"></script>
   	<script type="text/javascript" src="{$www_root_themes_core}/javascript/scriptaculous/effects.js"></script>

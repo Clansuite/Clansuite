@@ -212,7 +212,7 @@ class CsStatisticTable extends Doctrine_Table
 				->from("CsStatisticStats")
 				->where("dates like ?", array($date))
 				->setHydrationMode(Doctrine::HYDRATE_ARRAY)
-				->execute();
+				->execute();	
 		return $query[0]['sum'];
 	}
 }

@@ -1,4 +1,4 @@
-{move_to}
+{move_to target="pre_head_close"}
     {* StyleSheets *}
     <link rel="stylesheet" type="text/css" href="{$www_root_themes_core}/admin/fieldset.css" />
 {/move_to}

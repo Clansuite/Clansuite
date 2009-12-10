@@ -1,5 +1,5 @@
 {* DEBUG {$info|@var_dump} *}
-{move_to}
+{move_to target="pre_head_close"}
     {* Clip Clap Toggle *}
     <script type="text/javascript" src="{$www_root_themes_core}/javascript/clip.js"></script>
 {/move_to}

@@ -3,7 +3,7 @@
 
     {* display cache time as comment *}
 
-    <!-- This Page was cached on {$smarty.now|dateformat}. -->
+    <!-- This Page was cached on {$smarty.now}. -->
 
     {* jQuery *}
 
