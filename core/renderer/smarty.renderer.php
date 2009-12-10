@@ -84,9 +84,6 @@ class Clansuite_Renderer_Smarty extends Clansuite_Renderer_Base
      *    custom-made Smarty Document Processor
      * ==============================================
      *
-     * @note by vain: Please leave the following commented lines,
-     *                i need them for SmartyDOC development!
-     *
      * @return Smarty Object
      */
     public function initializeEngine()
@@ -126,20 +123,22 @@ class Clansuite_Renderer_Smarty extends Clansuite_Renderer_Base
         $this->renderer->debug_tpl           = ROOT_THEMES . 'core/templates/debug.tpl';   # set debugging template for smarty
         if ( $this->renderer->debugging == true )
         {
-            #$this->renderer->clear_compiled_tpl(); # clear compiled tpls in case of debug
-            #$this->renderer->clear_all_cache();
+            $this->renderer->clear_compiled_tpl(); # clear compiled tpls in case of debug
+            $this->renderer->clear_all_cache();
         }
-        # $this->renderer->debug_tpl        = SMARTY_DIR."libs/";   # define path to debug_tpl file only if not found with std path or moved
+
         # $this->renderer->debug_ctrl       = "NONE";               # NONE ... not active, URL ... activates debugging if SMARTY_DEBUG found in query string
         # $this->renderer->global_assign    = "";                   # list of vars assign to all template files
         # $this->renderer->undefined        = null;                 # defines value of undefined variables
 
+        $this->renderer->auto_literal       = true;                 # auto delimiter of javascript/css (The literal tag of Smarty v2.x)
+
         #### SMARTY FILTERS
         # $this->renderer->autoload_filters  = "";                   # loading filters used for every template
         $this->renderer->autoload_filters    = array(       # indicates which filters will be auto-loaded
-                                                     #'pre'    => array('inserttplnames')
-                                                     #,'post'   => array()
-                                                     #,'output' => array()
+                                                     #'pre'    => array('inserttplnames'),
+                                                     #'post'   => array(),
+                                                     #'output' => array('trimwhitespaces')
                                                    );
 
         #### COMPILER OPTIONS
@@ -156,8 +155,6 @@ class Clansuite_Renderer_Smarty extends Clansuite_Renderer_Base
              $this->renderer->compile_check      = false;             # if a template was changed it would be recompiled, if set to false nothing will be compiled (changes take no effect)
              $this->renderer->force_compile      = true;             # if true compiles each template everytime, overwrites $compile_check
         /*}*/
-
-
 
         #### CACHING OPTIONS (set these options if caching is enabled)
         #clansuite_xdebug::printr($this->config['cache']);
