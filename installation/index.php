@@ -761,7 +761,7 @@ function write_config_settings($data_array)
 function removeDirectory($dir)
 {
     echo "<p>[Deleting Installation Directory] Starting at $dir</p>";
-    
+
     # get files
     $files = glob( $dir . '*', GLOB_MARK );
     foreach( $files as $file )
@@ -771,22 +771,40 @@ function removeDirectory($dir)
         {
             continue;
         }
-        
+
         # skip dirs
         if( substr( $file, -1 ) == DIRECTORY_SEPARATOR   )
         {
             removeDirectory( $file );
         }
         else
-        { 
+        {
             @chmod($file, 0777);
-            @unlink( $file );            
+            @unlink( $file );
             echo '[Deleting File] '.$file.'.</br>';
         }
     }
-    
-    echo "<p>[Deleting Directory] Removing Dir $dir</p>";
-    rmdir( $dir );    
+
+    # try to apply delete permissiosn
+    if(@chmod($dir, 0777) == false)
+    {
+        echo "<p>[Deleting Directory] Setting the permission to delete the directory on directory $dir failed!</p>";
+    }
+    else
+    {
+        echo "<p>[Deleting Directory] Successfully applied permission to delete the directory on directory $dir!</p>";
+    }
+
+    # try to remove directory
+    if(@rmdir($dir) == false)
+    {
+        echo "<p>[Deleting Directory] Removing of directory $dir failed! Please remove it manually.</p>";
+    }
+    else
+    {
+        # rmdir sucessfull
+        echo "<p>[Deleting Directory] Removing of directory $dir</p>";
+    }
 }
 
 // Save+Close the Session
