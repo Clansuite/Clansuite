@@ -57,13 +57,11 @@
 
 <body>
 
-	<div id="wrapper">
+	<div id="wrapper" class="res_normal">
 
         
         <div id="header"><img src="{$www_root_themes}/darky/images/logo.gif" /></div>
-        
-		<div id="main">
-        
+              
         	<div id="left">
 				<div class="widgetcontainer">
                 	<div class="widgettitle">Moduletitle</div>
@@ -95,22 +93,17 @@
 	        	<div class="widgetcontainer" id="widget_tsministatus">{load_module name="teamspeakviewer" action="widget_tsministatus"}</div>
             </div>
             
-            <div id="content">
-            	<div class="inside">
+            <div id="main">
                 	<div class="topwidgets">
 				        <div class="widgetcontainer threecols left" id="widget_newscategories_list">{load_module name="news" action="widget_newscategories_list"}</div>
 				        <div class="widgetcontainer threecols right" id="widget_newscategories_dropdown">{load_module name="news" action="widget_newscategories_dropdown"}</div>
 				        <div class="widgetcontainer threecols middle" id="widget_newsfeeds">{load_module name="news" action="widget_newsfeeds"}</div>
                     </div>
-                	<div class="modulecontainer">
-                    	<div class="moduletitle">modultitle</div>
-                    	<div class="modulecontent">modulecontent</div>
-                    </div>
-                </div>
+					<div id="content">
+						{$content}
+                	</div>
             </div>
-                   
-        </div>
-        
+                           
         <div id="bottomwidgets" class="clearfix">
         		<div class="widgetcontainer threecols left" id="widget_quotes">{load_module name="quotes" action="widget_quotes"}</div>
 		        <div class="widgetcontainer threecols right" id="widget_stats">{load_module name="statistics" action="widget_statistics"}</div>
