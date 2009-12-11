@@ -54,7 +54,7 @@ class statistics implements Clansuite_Filter_Interface
     private $m_UserCore = null;
     private $m_curTimestamp = null;
     private $m_curDate = null;
-
+    
     function __construct(Clansuite_Config $config, Clansuite_User $user)
     {
         $this->m_config = $config;
