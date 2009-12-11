@@ -79,24 +79,5 @@ class Clansuite_Config extends Clansuite_Config_Base implements ArrayAccess
         # check object name auf teilstring configtype object(Clansuite_Config_INIHandler)
         return $this->confighandler->readConfig($configfile);
     }
-
-    /**
-     * Clansuite_Config
-     *
-     * @param object $filename Filename
-     *
-     * @return instance of Clansuite_Config
-     */
-    public static function newInstance($filename)
-    {
-        static $instance;
-
-        if ( ! isset($instance))
-        {
-            $instance = new Clansuite_Config($filename);
-        }
-
-        return $instance;
-    }
 }
 ?>
