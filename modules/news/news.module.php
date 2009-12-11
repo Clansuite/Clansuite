@@ -124,6 +124,9 @@ class Module_News extends Clansuite_ModuleController implements Clansuite_Module
 
         $news = Doctrine::getTable('CsNews')->fetchSingleNews($news_id);
 
+		# Debugging SQL Request
+        #clansuite_xdebug::printR($news);
+		
         # if a news was found
         if(!empty($news) && is_array($news))
         {
