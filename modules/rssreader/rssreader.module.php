@@ -73,7 +73,7 @@ class Module_Rssreader extends Clansuite_ModuleController implements Clansuite_M
 		# fetch the google group clansuite for latest news
 		$feeditems = $cs_feed->fetchRSS('http://groups.google.com/group/clansuite/feed/rss_v2_0_topics.xml');
 
-        $this->getModuleConfig(ROOT_MOD . 'rssreader/rssreader.config.php');
+        $this->getModuleConfig('rssreader');
 
         # assign to smarty
         $smarty = $this->getView();
