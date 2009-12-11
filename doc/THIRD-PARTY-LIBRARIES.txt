@@ -14,7 +14,7 @@ DOCTRINE                  1.1.0      LGPL                     http://www.doctrin
 FCKEDITOR                 2.6.3      GPL, LGPL, MPL           http://www.fckeditor.net
 FEEDCREATOR               1.7.2      LGPL                     http://www.bitfolge.de
 GESHI                     1.0.8      GPL                      http://www.qbnz.com/highlighter/
-GRAPH                     1.7.4      NONE, FREE               http://www.zackbloom.org/graph/ *down
+GRAPH                     1.8.0      LGPL v2.1 or above       http://www.zackbloom.com/graph/
 GZIP_ENCODE               0.67       LGPL                     http://www.leknor.com/code/php/ *down, fetchable via typo3 repos
 IDS (PHP-IDS)             0.4        LGPL                     http://www.php-ids.org/
 LIBACTS2                  SVN#30     GPL v2 or above          http://forum.planetteamspeak.com/showthread.php?t=81
