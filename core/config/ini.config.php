@@ -251,7 +251,7 @@ class Clansuite_Config_INIHandler extends Clansuite_Config_Base implements Array
         # check ini_filename exists
         if(is_file($filename) == false)
         {
-            throw new Clansuite_Exception('File not found: '.$filename);    
+            throw new Clansuite_Exception('File not found: '.$filename, 4);    
         }
         
         /**
