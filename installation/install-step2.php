@@ -101,9 +101,8 @@ if (!defined('IN_CS')){ die( 'Clansuite not loaded. Direct Access forbidden.' );
                           */
                          function check_temporary_dir()
                          {
-                             $tempdir = ini_get("session.save_path");
                              # filehandle for temp file
-                             $temp_file_name = tempnam($tempdir, "FOO FIGHTERS");
+                             $temp_file_name = tempnam(sys_get_temp_dir(), "FOO FIGHTERS");
 
                              if (!empty($temp_file_name))
                              {
@@ -120,7 +119,7 @@ if (!defined('IN_CS')){ die( 'Clansuite not loaded. Direct Access forbidden.' );
                          }
 
                          # REQUIRED CHECKS
-                         
+
 
 
                          # Setting: PHP-Version
@@ -182,14 +181,14 @@ if (!defined('IN_CS')){ die( 'Clansuite not loaded. Direct Access forbidden.' );
                          $required['is_writable_smarty_templates_c']['expected'] = 'w';
                          $required['is_writable_smarty_templates_c']['actual']   = is_writeable(ROOT . '/cache/templates_c') ? 'w' : '---';
                          $required['is_writable_smarty_templates_c']['status']   = is_writeable(ROOT . '/cache/templates_c') ? SETTING_TRUE : SETTING_FALSE;
-                        
+
                          # Permissions Check: write on \smarty\cache
                          $required['is_writable_smarty_cache']['text']     = $language['IS_WRITEABLE_SMARYT_CACHE'];
                          $required['is_writable_smarty_cache']['expected'] = 'w';
                          $required['is_writable_smarty_cache']['actual']   = is_writeable(ROOT . '/cache') ? 'w' : '---';
                          $required['is_writable_smarty_cache']['status']   = is_writeable(ROOT . '/cache') ? SETTING_TRUE : SETTING_FALSE;
                          */
-                         
+
                          # Permissions Check: write on uploads folder
                          $required['is_writable_uploads']['text']     = $language['IS_WRITEABLE_UPLOADS'];
                          $required['is_writable_uploads']['expected'] = 'w';
