@@ -221,21 +221,11 @@ abstract class Clansuite_ModuleController extends Clansuite_ModuleController_Res
      * @todo check structure of the moduleconfig [news][news][cfgid] = cfgvalue
      *
      * @param string $filename configuration ini-filename to read
+     * @return array moduleconfig['modulename'] configuration array of module
      */
     public function getModuleConfig($filename = null)
-    {
-        $modulename = Clansuite_ModuleController_Resolver::getModuleName();
-
-        # build filename for a moduleconfig
-        if(is_null($filename))
-        {
-            $filename = ROOT_MOD.$modulename.DS.$modulename.'.config.php';
-        }
-
-        # set moduleconfig['modulename'] = configuration array of module
-        $this->moduleconfig[$modulename] = self::getInjector()->instantiate('Clansuite_Config')->readConfig($filename);
-
-        return $this->moduleconfig[$modulename];
+    {   
+        return self::getInjector()->instantiate('Clansuite_Config')->readConfigForModule($filename);
     }
 
     public function getClansuiteConfig()

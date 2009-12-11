@@ -65,11 +65,11 @@ class Clansuite_Config_Factory
      * Instantiates the correct subclass determined by the fileextension
      *
      * Possible Extensions of the Configuration Files
-     * (.config.ini)
      *  .config.php
      *  .config.xml
      *  .config.yaml
      *
+     * @param $configfile string path to configuration file
      * @return Cache Engine Object reads the configfile -> access to values via $config
      */
     public static function determineConfigurationHandlerTypeBy($configfile)
@@ -78,6 +78,7 @@ class Clansuite_Config_Factory
 
         /**
          * deprecated, because unsecure!
+         * @todo change this to .config.ini.php
         if ($extension == '.config.ini')
         {
             $type = 'ini';
@@ -89,7 +90,7 @@ class Clansuite_Config_Factory
         # the content of the file IS NOT a php-array as you might think
         if($extension == '.config.php')
         {
-            $type = 'ini';
+            $type = 'ini'; # @todo change this to 'php' (read/write of php-array)
         }
         elseif($extension == '.config.xml')
         {
