@@ -52,14 +52,6 @@ if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
 class Clansuite_DoorKeeper
 {
     /**
-     * DoorKeeper Constructor
-     */
-    public function __construct()
-    {
-
-    }
-
-    /**
      * Initialize phpIDS and run the IDS-Monitoring on all incomming arrays
      *
      * Smoke Example:

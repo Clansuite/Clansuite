@@ -79,5 +79,46 @@ class Clansuite_Config extends Clansuite_Config_Base implements ArrayAccess
         # check object name auf teilstring configtype object(Clansuite_Config_INIHandler)
         return $this->confighandler->readConfig($configfile);
     }
+
+    /**
+     * Reads a configuration file of a module
+     *
+     * @param $modulename Name of Module
+     */
+    public function readConfigForModule($modulename = null)
+    {
+        # if no modulename is set, determine the name of the current module
+        if(is_null($modulename))
+        {
+            $modulename = Clansuite_ModuleController_Resolver::getModuleName();
+        }
+
+        # construct path
+        # @todo support for different configtypes
+        $configfile = ROOT_MOD.$modulename.DS.$modulename.'.config.php';
+
+        return $this->confighandler->readConfig($configfile);
+    }
+
+    /**
+     * Write module configuration file
+     *
+     * Examples to write a module cfg:
+     * a) direct $config->confighandler->writeConfig( ROOT_MOD . 'news'.DS.'news.config.php', $data);
+     * b) indirect with this method $config->writeConfigForModule('news', 'ini', $cfg_array);
+     *
+     * @param $modulename
+     * @param $type determines the configuration handler type, like ini, yaml, db
+     * @param $cfg_array the configuration array to write
+     */
+    public function writeConfigForModule($modulename, $type, $cfg_array)
+    {
+        if( ! is_object($this->confighandler))
+        {
+            $this->confighandler = Clansuite_Config_Factory::getConfiguration($configfile);
+        }
+
+        $this->confighandler->writeConfig( ROOT_MOD.$modulename.DS.$modulename.'.config.php', $cfg_array);
+    }
 }
 ?>
