@@ -175,7 +175,7 @@ class Clansuite_Array_Formgenerator extends Clansuite_Form
      *
      * $form_array_section is an array of the following structure:
      *
-     *
+     * @todo
      *
      * Level 2 - The formelements
      *
@@ -201,7 +201,7 @@ class Clansuite_Array_Formgenerator extends Clansuite_Form
     public function validateFormArrayStructure($form_array)
     {
         $obligatory_form_array_elements = array('id', 'name', 'label', 'description', 'formfieldtype', 'value');
-        $optional_form_array_elements   = array('class');
+        $optional_form_array_elements   = array('class', 'decorator');
 
         # loop over all elements of the form description array
         foreach($form_array as $form_array_section => $form_array_elements)
@@ -294,7 +294,7 @@ class Clansuite_Array_Formgenerator extends Clansuite_Form
 
          return $diff;
     }
-    
+
     public function generateFormByArray()
     {
         # debug display incomming form description array
@@ -361,8 +361,16 @@ class Clansuite_Array_Formgenerator extends Clansuite_Form
                {
                    $formelement->setClass($form_array_element['class']);
                }
-            }
 
+               /**
+                * set a decorator for the formelement
+                * why is this optional, because: if you do not define a decorator, the default one will be active
+                */
+               if(isset($form_array_element['decorator']))
+               {
+                   $formelement->setDecorator($form_array_element['decorator']);
+               }
+            }
         }
 
         # unset the form description array, because we are done with it
@@ -386,7 +394,7 @@ class Clansuite_Array_Formgenerator extends Clansuite_Form
  * Purpose: automatic form generation from an xml description file.
  */
 class Clansuite_XML_Formgenerator extends Clansuite_Form
-{  
+{
     /**
      * Facade/Shortcut
      */

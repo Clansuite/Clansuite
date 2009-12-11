@@ -500,44 +500,79 @@ class Clansuite_Form /*extends Clansuite_HTML*/ implements Clansuite_Form_Interf
         return $messages;
     }
 
+    public function applyDefaultFormelementDecorators($formelement_position)
+    {
+        $this->setFormelementDecorator('label', $formelement_position);
+        $this->setFormelementDecorator('description', $formelement_position);
+        $this->setFormelementDecorator('div', $formelement_position)->setClassname('formline');        
+    }
+
     public function renderAllFormelements()
     {
         # init var
         $html_form = '';
+        $html_formelement = '';
 
         # fetch all formelements
         $formelements = $this->getFormelements();
 
+        #clansuite_xdebug::printR($formelements);
+
         # sort formelements by index
         ksort($formelements);
+        $formelement_position = 0;
 
         # loop over all registered formelements of this form and render them
         foreach( $formelements as $formelement )
         {
             # fetch all decorators of this formelement
             $formelementdecorators = $formelement->getDecorators();
+            
+            if(empty($formelementdecorators))
+            {
+                # set
+                $this->applyDefaultFormelementDecorators($formelement_position);
+
+                # fetch again all decorators of this formelement
+                $formelementdecorators = $formelement->getDecorators();
+            }
+            
+            /*if($formelement_position == 1)
+            {
+                clansuite_xdebug::printR($formelements);
+            }*/
+
+            #clansuite_xdebug::printR($formelement);
 
             # then render this formelement (pure)
-            $html_form .= $formelement->render();
+            $html_formelement = $formelement->render();
 
             # for each decorator, decorate the formelement and render it
             foreach ($formelementdecorators as $formelementdecorator)
             {
                 $formelementdecorator->decorateWith($formelement);
-                $html_form = $formelementdecorator->render($html_form);
+                $html_formelement = $formelementdecorator->render($html_formelement);
             }
+            
+            # increase formelement position
+            $formelement_position++;  
+            
+            # append the form html with the decorated formelement html
+            $html_form .= $html_formelement;         
         }
+
+        #clansuite_xdebug::printR($html_form);
         return $html_form;
     }
 
-    public function applyDefaultDecorators()
+    public function applyDefaultFormDecorators()
     {
         $this->addDecorator('form');
     }
 
     public function render()
     {
-        $this->applyDefaultDecorators();
+        $this->applyDefaultFormDecorators();
 
         $html_form = $this->renderAllFormelements();
 
@@ -721,13 +756,43 @@ class Clansuite_Form /*extends Clansuite_HTML*/ implements Clansuite_Form_Interf
      * ===================================================================================
      */
 
-    public function setElementDecorator($decorator)
+    /**
+     * setFormelementDecorator
+     *
+     * Is a shortcut/proxy/convenience method for addFormelementDecorator()
+     * @see $this->addFormelementDecorator()
+     *
+     * WATCH IT! THIS BREAKS THE CHAINING IN REGARD TO THE FORM
+     * @return decorator object
+     */
+    public function setFormelementDecorator($decorator, $formelement_position = null)
     {
-        # count
-        $number_of_formelements = count($this->formelements)-1;
-        
-        #get last formelement object in formelements array
-        $last_formelement_object = $this->getElementByPosition($number_of_formelements);
+        return $this->addFormelementDecorator($decorator, $formelement_position);
+    }
+
+    /**
+     * addFormelementDecorator
+     *
+     * Adds a decorator to the formelement
+     *
+     * Usage:
+     * $form->addFormelementDecorator('fieldset')->setLegend('legendname');
+     *
+     * WATCH IT! THIS BREAKS THE CHAINING IN REGARD TO THE FORM
+     * @return decorator object
+     */
+    public function addFormelementDecorator($decorator, $formelement_position = null)
+    {
+        # if no position is incomming we return the last formelement item
+        # this would be the normal call to this method, when manually chaining
+        if(is_null($formelement_position))
+        {
+            # count formelements, -1 because starting with 0 not with 1
+            $position = count($this->formelements)-1;
+        }
+
+        # get last formelement object in formelements array
+        $last_formelement_object = $this->getElementByPosition($formelement_position);
 
         # and add the decorator
         # WATCH IT! this is a call to formelement.core.php addDecorator()
@@ -803,7 +868,7 @@ class Clansuite_Form /*extends Clansuite_HTML*/ implements Clansuite_Form_Interf
         }
         else
         {
-            $this->formdecorators[$decoratorname] = $decorator;   
+            $this->formdecorators[$decoratorname] = $decorator;
         }
 
         # WATCH IT! THIS BREAKS THE CHAINING IN REGARD TO THE FORM
