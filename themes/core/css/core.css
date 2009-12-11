@@ -13,10 +13,19 @@
 @import url("browserfixes.css") screen;
 /* --------------------------------------------	*/
 
+/*												*/
 /*	Standard Core Styling						*/
-.inside { padding:10px; }
+/*												*/
+
+/*	widget styling	*/
 .widgetcontainer { background-color:#999; border: 1px solid #CC6; }
+.widget_title { }
+.widget_content { }
+/*	modulstyling	*/
 .modulecontainer { background-color:#999; }
+.module_title { }
+.module_content { }
+
 .twocols { width:49%; }
 .threecols { width:33%; }
 .left { float:left; }

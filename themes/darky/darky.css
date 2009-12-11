@@ -5,12 +5,14 @@
 /* 											*/
 /*	Standard Theme CSS Styling				*/
 /*											*/
-#wrapper { width:1000px; background-color:#333; margin-right:auto; margin-left:auto; border:2px solid #000; }
+#wrapper { background-color:#333; border:2px solid #000; }	
+.res_full { background-color:#333; border:2px solid #000; }			 /*	full screen resolution	*/
+.res_normal { width:1000px; margin-right:auto; margin-left:auto; }		 /*	1280x1024px screen resolution	*/
 #header {  height:90px; padding:10px; background-color:#1e1d1d; }
 #main { }
-#left { float:left; width:200px; }
-#content { margin-left: 200px; margin-right:200px; }
-#right { float:right; width:200px; }
+#left { float:left; width:200px; background-color:#666; }
+#content { margin-left: 200px; margin-right:200px; background-color:#FFF; }
+#right { float:right; width:200px; background-color:#666; }
 #foot { }
 /* ---------------------------------------- */
 

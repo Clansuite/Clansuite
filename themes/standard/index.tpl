@@ -93,7 +93,7 @@
     <!-- Left Widget Bar -->
     <td id="left_widget_bar" class="cell1">
         <div class="widget" id="widget_menu">{load_module name="menu" action="widget_menu"}</div>
-        <div class="widget" id="widget_latestnews">{load_module name="news" action="widget_latestnews" items="2"}</div>  
+        <div class="widget" id="widget_latestnews">{load_module name="news" action="widget_latestnews"}</div>  
         <div class="widget" id="widget_newscategories_list">{load_module name="news" action="widget_newscategories_list"}</div>
         <div class="widget" id="widget_newscategories_dropdown">{load_module name="news" action="widget_newscategories_dropdown"}</div>
         <div class="widget" id="widget_newsfeeds">{load_module name="news" action="widget_newsfeeds"}</div>    
