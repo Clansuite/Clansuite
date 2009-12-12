@@ -397,7 +397,7 @@ class Clansuite_CMS
                                          'php_debug_console', # let the debug console be first
                                          'maintenance',
                                          'get_user',
-                                         'session_security',
+                                         #'session_security',
                                          'language_via_get',
                                          'theme_via_get',
                                          'set_module_language',
