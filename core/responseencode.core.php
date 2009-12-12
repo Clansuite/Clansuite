@@ -37,7 +37,7 @@
 if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
 
 /**
- * Clansuite_Response_Encode
+ * Clansuite_ResponseEncode
  * formerly known as gzip_encode - a class to gzip encode php output.
  *
  * @author      Sandy McArthur, Jr. <Leknor@Leknor.com>
@@ -46,23 +46,23 @@ if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
  * @license     GNU LGPL 2.1 and above (http://www.gnu.org/copyleft/lesser.html)
  *
  * Usage:
- * 1. Include the class file (Clansuite_Response_Encode).
+ * 1. Include the class file (Clansuite_ResponseEncode).
  * 2. Start Output buffering by calling
- *    Clansuite_Response_Encode::start_outputbuffering();
+ *    Clansuite_ResponseEncode::start_outputbuffering();
  * 3. At the very end of your script you have to end the outputbuffering by calling
- *    Clansuite_Response_Encode::end_outputbuffering();
+ *    Clansuite_ResponseEncode::end_outputbuffering();
  *
  * Example:
  *  ------------Start of file----------
  *  |<?php
  *  | include('class.gzip_encode.php');
- *  | Clansuite_Response_Encode::start_outputbuffering();
+ *  | Clansuite_ResponseEncode::start_outputbuffering();
  *  |?>
  *  |<html>
  *  |... Content of Page ...
  *  |</html>
  *  |<?php
- *  | Clansuite_Response_Encode::end_outputbuffering();
+ *  | Clansuite_ResponseEncode::end_outputbuffering();
  *  |?>
  *  -------------End of file-----------
  *
@@ -83,7 +83,7 @@ if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
  *          Removed second/third parameter.
  *          Removed unused class properties.
  *          Added start_outputbuffering() and end_outputbuffering methods.
- *          Renamed class from gzip_encode to Clansuite_Response_Encode.
+ *          Renamed class from gzip_encode to Clansuite_ResponseEncode.
  *          Relicensed under GNU/GPL v2 or (at your option) any later version.
  *  0.68:   Applied latest fixed from the Typo3 Team.
  *  0.67:   Added Vary header to aid in caching.
@@ -111,9 +111,9 @@ if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
  *  0.2:    Checks for 'gzip' in the Accept-Encoding header
  *  0.1:    First working version.
  */
-class Clansuite_Response_Encode
+class Clansuite_ResponseEncode
 {
-    # Version of the Clansuite_Response_Encode class
+    # Version of the Clansuite_ResponseEncode class
     public static $version = 0.7;
 
     public static function start_outputbuffering($level = -1)
@@ -140,13 +140,13 @@ class Clansuite_Response_Encode
         }
         else
         {
-            trigger_error('Function gzcompress() not found. PHP Extension Zlib needs to be installed for Clansuite_Response_Encode.', E_USER_WARNING);
+            trigger_error('Function gzcompress() not found. PHP Extension Zlib needs to be installed for Clansuite_ResponseEncode.', E_USER_WARNING);
             return;
         }
 
         if (function_exists('crc32') == false)
         {
-            trigger_error('Function crc32() not found. Needed for Clansuite_Response_Encode', E_USER_WARNING);
+            trigger_error('Function crc32() not found. Needed for Clansuite_ResponseEncode', E_USER_WARNING);
             return;
         }
     }
@@ -156,7 +156,7 @@ class Clansuite_Response_Encode
      */
     public static function end_outputbuffering($level)
     {
-        Clansuite_Response_Encode::gzip_encode($level);
+        Clansuite_ResponseEncode::gzip_encode($level);
     }
 
     /**
@@ -196,7 +196,7 @@ class Clansuite_Response_Encode
             return;
         }
 
-        $encoding = Clansuite_Response_Encode::gzip_accepted();
+        $encoding = Clansuite_ResponseEncode::gzip_accepted();
 
         if ($encoding == false)
         {
@@ -205,7 +205,7 @@ class Clansuite_Response_Encode
 
         if ($level === true)
         {
-            $level = Clansuite_Response_Encode::get_compression_level();
+            $level = Clansuite_ResponseEncode::get_compression_level();
         }
 
         $content = ob_get_contents();
@@ -251,7 +251,7 @@ class Clansuite_Response_Encode
         header('Content-Encoding: ' . $encoding);
         header('Vary: Accept-Encoding');
         header('Content-Length: ' . strlen($gzdata));
-        header('X-Content-Encoded-By: Clansuite_Response_Encode v'.self::$version);
+        header('X-Content-Encoded-By: Clansuite_ResponseEncode v'.self::$version);
 
         /**
          * Note by Jens-André Koch:
@@ -280,7 +280,7 @@ class Clansuite_Response_Encode
      * Purpose: test headers for Accept-Encoding: gzip/x-gzip
      *
      * Usage to test if output will be zipped:
-     * if (Clansuite_Response_Encode::gzip_accepted()) { echo "Page will be gziped"; }
+     * if (Clansuite_ResponseEncode::gzip_accepted()) { echo "Page will be gziped"; }
      *
      * @return mixed (string|boolean) $encoding Returns 'gzip' or 'x-gzip' if Accept-Encoding Header is found. False otherwise.
      */
@@ -359,7 +359,7 @@ class Clansuite_Response_Encode
      * get_compression_level() - The level of compression we should use.
      *
      * Usage to determine the compression level, before compressing output:
-     * $compression_level = Clansuite_Response_Encode::get_complevel();
+     * $compression_level = Clansuite_ResponseEncode::get_complevel();
      *
      * @return integer $level Returns an int between 0 and 9.
      */
@@ -370,11 +370,11 @@ class Clansuite_Response_Encode
         switch ($uname['sysname'])
         {
             case 'Linux':
-                $cl = (1 - Clansuite_Response_Encode::linux_loadavg()) * 10;
+                $cl = (1 - Clansuite_ResponseEncode::linux_loadavg()) * 10;
                 $level = (int)max(min(9, $cl), 0);
             break;
             case 'FreeBSD':
-                $cl = (1 - Clansuite_Response_Encode::freebsd_loadavg()) * 10;
+                $cl = (1 - Clansuite_ResponseEncode::freebsd_loadavg()) * 10;
                 $level = (int)max(min(9, $cl), 0);
             break;
             default:

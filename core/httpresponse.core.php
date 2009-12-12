@@ -228,7 +228,10 @@ class Clansuite_HttpResponse implements Clansuite_Response_Interface
         print $this->body;
 
         // Flush Compressed Buffer
-        if(defined('OB_GZIP')){ new gzip_encode($this->output_compression_level); }
+        if(class_exists('Clansuite_Response_Encode'))
+        {
+            Clansuite_Response_Encode::end_outputbuffering($this->output_compression_level);
+        }
 
         // OK, Reset -> Package delivered! Return to Base!
         $this->clearHeaders();
@@ -238,41 +241,18 @@ class Clansuite_HttpResponse implements Clansuite_Response_Interface
      *  ================================================
      *     Compress output if the browser supports it
      *  ================================================
-     * This method takes care of the output compression.
-     * Because you cannot use both ob_gzhandler() and zlib.output_compression.
-     * Therefore zlib.output_compression is preferred over ob_gzhandler().
-     * So two methods are used:
-     * Method 1: zlib.output_compression
-     * Method 2: Fallback to ob_start('gz_handler') = output buffering with gzip handling
-
-     * @link http://www.php.net/ob_gzhandler
      */
     public function activateOutputCompression()
     {
         # Check for Debugging (because we want no Output-Compression when Debugging! )
         if( (bool)XDEBUG === false or (bool)DEBUG === false)
         {
-            # both methods depend on the zlib extension
-            if (extension_loaded('zlib'))
-            {
-                # Method 1: zlib.output_compression
-                ini_set('zlib.output_compression'       , true);
-                ini_set('zlib.output_compression_level' , $this->output_compression_level);
 
-                # Method 2: Fallback to ob_start('gz_handler') = output buffering with gzip handling
-                if((bool)ini_get('zlib.output_compression') === false)
-                {
-                  ob_start('ob_gzhandler');
-
-                  require ROOT_LIBRARIES . 'gzip_encode/class.gzip_encode.php';
-
-                  define('OB_GZIP', true);
-                }
-            }
+            Clansuite_ResponseEncode::start_outputbuffering($this->output_compression_level);
         }
         else
         {
-            #No Output-Compression when Debugging!
+            # No Output-Compression when Debugging!
         }
     }
 
@@ -467,12 +447,12 @@ class Clansuite_HttpResponse implements Clansuite_Response_Interface
 
             # redirect to ...
             $this->setStatusCode($statusCode);
-            
+
             switch($mode)
             {
                 case 'LOCATION':
                     $this->addheader('LOCATION', $url);
-                    break;                   
+                    break;
                 case 'REFRESH':
                     header("Refresh: 0; URL=\"$url\"");
                     break;
@@ -487,7 +467,7 @@ class Clansuite_HttpResponse implements Clansuite_Response_Interface
                     $redirect_html .= '</head><body>' . $text . '</body></html>';
                     break;
             }
-            
+
             # $this->addHeader('Location', $url);
             $this->setContent($redirect_html, $time, htmlspecialchars($url, ENT_QUOTES, 'UTF-8'));
 
@@ -506,6 +486,6 @@ class Clansuite_HttpResponse implements Clansuite_Response_Interface
             # Exit after redirect
             exit;
         }
-    }       
+    }
 }
 ?>
