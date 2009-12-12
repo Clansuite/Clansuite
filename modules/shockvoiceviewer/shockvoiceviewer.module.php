@@ -56,21 +56,16 @@ class Module_Shockvoiceviewer extends Clansuite_ModuleController implements Clan
 
     /**
      * Widget Shockvoiceviewer
-     *
-     * @todo set serverdata to configfile
      */
     public function widget_shockvoiceviewer()
     {
         # ensure the php extension cURL is loaded
         if (!function_exists('curl_init'))
         {
-            return _('The module shockvoiceviewer requires cURL.');
+            throw new Clansuite_Exception('The module shockvoiceviewer requires cURL.');
         }
 
-        # set modulename, because outside this widget a different module could be active
-        $modulename = 'shockvoiceviewer';
-        # insert the modulename to construct a configfilename and fetch it
-        //$this->getModuleConfig(ROOT_MOD.$modulename.DS.$modulename.'.config.php');
+        # fetch module config
         $this->getModuleConfig('shockvoiceviewer');
 
         $host       = $this->getConfigValue('hostname', 'druckwelle-hq.de');
@@ -78,12 +73,10 @@ class Module_Shockvoiceviewer extends Clansuite_ModuleController implements Clan
         $server     = $this->getConfigValue('serverid', '1');
 
         # load Shockvoice Viewer Class
-        require_once(ROOT_MOD.$modulename.DS.'library/shockvoice.class.php');
+        require_once dirname(__FILE__) . '/library/shockvoice.class.php';
 
         # instantiate with connection data from config
         $SVQ = new Clansuite_Shockvoice_Query($host , $port , '8010', $server, 'UTF-8');
-
-        #clansuite_xdebug::printr($SVQ);
 
         # get the view and assign data
         $this->getView()->assign('serverinfos', $SVQ->getShockvoice());
