@@ -70,7 +70,8 @@ class Module_Shockvoiceviewer extends Clansuite_ModuleController implements Clan
         # set modulename, because outside this widget a different module could be active
         $modulename = 'shockvoiceviewer';
         # insert the modulename to construct a configfilename and fetch it
-        $this->getModuleConfig(ROOT_MOD.$modulename.DS.$modulename.'.config.php');
+        //$this->getModuleConfig(ROOT_MOD.$modulename.DS.$modulename.'.config.php');
+        $this->getModuleConfig('shockvoiceviewer');
 
         $host       = $this->getConfigValue('hostname', 'druckwelle-hq.de');
         $port       = $this->getConfigValue('port', '8010');

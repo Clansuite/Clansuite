@@ -54,6 +54,8 @@ class statistics implements Clansuite_Filter_Interface
     private $m_UserCore = null;
     private $m_curTimestamp = null;
     private $m_curDate = null;
+    private $m_statsWhoDeleteTime = null;
+    private $m_statsWhoTimeout = null;
     
     function __construct(Clansuite_Config $config, Clansuite_User $user)
     {
@@ -65,6 +67,10 @@ class statistics implements Clansuite_Filter_Interface
         # Load Models
         $models_path = ROOT_MOD . 'statistics' . DS . 'model' . DS . 'records';
         Doctrine::loadModels($models_path);
+        
+        $cfg = $config->readConfigForModule('statistics');
+        $this->m_statsWhoDeleteTime = $cfg['statistics']['deleteTimeWho'];
+        $this->m_stasWhoTimeout = $cfg['statistics']['timoutWho'];   
     }
 
     public function executeFilter(Clansuite_HttpRequest $request, Clansuite_HttpResponse $response)
@@ -90,7 +96,7 @@ class statistics implements Clansuite_Filter_Interface
             /**
              *The Who logics, must be processed in a seperate filter
              */
-            Doctrine :: getTable('CsStatistic')->deleteWhoEntriesOlderThen(1);
+            Doctrine :: getTable('CsStatistic')->deleteWhoEntriesOlderThen($this->m_statsWhoDeleteTime);
             $this->updateStatistics($request->getRemoteAddress());
             $this->updateWhoTables($request->getRemoteAddress(), $request->getRequestURI());
         }
@@ -152,7 +158,7 @@ class statistics implements Clansuite_Filter_Interface
         }
         
 
-        $userOnline = Doctrine::getTable('CsStatistic')->countVisitorsOnline(5);
+        $userOnline = Doctrine::getTable('CsStatistic')->countVisitorsOnline($this->m_stasWhoTimeout);
 
         Doctrine::getTable('CsStatistic')->updateStatisticMaxUsers($userOnline);
     }
