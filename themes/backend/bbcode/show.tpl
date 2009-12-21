@@ -3,7 +3,7 @@
     <script src="{$www_root_themes_core}/javascript/prototype/prototype.js" type="text/javascript"></script>
     <script src="{$www_root_themes_core}/javascript/scriptaculous/scriptaculous.js" type="text/javascript"></script>
     <script type="text/javascript" src="{$www_root_themes_core}/javascript/tablegrid.js"></script>
-    {literal}
+    
       <style type="text/css">
             /* Define the basic CSS used by TableGrid - Editable Ajax Table */
             .tableedit {
@@ -34,7 +34,7 @@
             }
 
         </style>
-   {/literal}
+   
 {/move_to}
 
 <form action="index.php?mod=controlcenter&sub=bbcode&action=create" method="post" accept-charset="UTF-8">

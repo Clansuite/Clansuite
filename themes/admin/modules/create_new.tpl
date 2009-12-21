@@ -39,7 +39,7 @@
 {move_to target="pre_head_close"}
 
 {*
-{literal}
+
 <script type="text/javascript">
 
 function str_replace (search, replace, subject)
@@ -82,7 +82,7 @@ function rem_col(id)
     document.getElementById('col' + id).innerHTML = '';
     document.getElementById('col' + id).outerHTML = '';
 }
-{/literal}
+
 </script>
 *}
 {/move_to}
@@ -345,13 +345,13 @@ function rem_col(id)
 <table style="display: none">
     <tr id="add_col_container">
         <td class="cell1" width="50" align="center">
-            <strong>{t}Col{/t} #{literal}{$key}{/literal}:</strong>
+            <strong>{t}Col{/t} #{$key}:</strong>
         </td>
         <td class="cell2" width="50" align="center">
-            <input class="input_text" type="text" name="db_cols[{literal}{$key}{/literal}][name]" value="">
+            <input class="input_text" type="text" name="db_cols[{$key}][name]" value="">
         </td>
         <td class="cell1" align="center" width="50">
-            <select name="db_cols[{literal}{$key}{/literal}][type]" class="input_text">
+            <select name="db_cols[{$key}][type]" class="input_text">
                 <option value="VARCHAR">VARCHAR</option>
                 <option value="TINYINT">TINYINT</option>
 
@@ -389,18 +389,18 @@ function rem_col(id)
         </td>
 
         <td class="cell2" width="50" align="center">
-            <input type="text" class="input_text" value="" name="db_cols[{literal}{$key}{/literal}][length]">
+            <input type="text" class="input_text" value="" name="db_cols[{$key}][length]">
         </td>
 
         <td class="cell1" width="50" align="center">
-            <select name="db_cols[{literal}{$key}{/literal}][extras]" class="input_text">
+            <select name="db_cols[{$key}][extras]" class="input_text">
                 <option value="" selected></option>
                 <option value="auto_increment">{t}auto_increment{/t}</option>
             </select>
         </td>
 
         <td class="cell2" width="50" align="center">
-            <select name="db_cols[{literal}{$key}{/literal}][keys]" class="input_text">
+            <select name="db_cols[{$key}][keys]" class="input_text">
                 <option value="" selected="selected"></option>
                 <option value="PRIMARY KEY">{t}PRIMARY KEY{/t}</option>
                 <option value="INDEX">{t}INDEX{/t}</option>
@@ -408,7 +408,7 @@ function rem_col(id)
             </select>
         </td>
         <td class="cell1" align="center">
-            <input type="button" class="ButtonRed" value="{t}Remove{/t}" onclick="javascript:rem_col('{literal}{$key}{/literal}');" />
+            <input type="button" class="ButtonRed" value="{t}Remove{/t}" onclick="javascript:rem_col('{$key}');" />
         </td>
     </tr>
 </table>

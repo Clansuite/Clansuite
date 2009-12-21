@@ -33,15 +33,15 @@
             </div>
 
             {if $help_edit_mode==1}
-                {literal}
+                
                  <script type="text/javascript">
 				 	//<![CDATA[
                     new Ajax.InPlaceEditor('helptext',
-                                          'index.php?mod=controlcenter&sub=help&action=save_helptext&m={/literal}{$smarty.request.mod}{literal}&s={/literal}{$smarty.request.sub}{literal}&a={/literal}{$smarty.request.main_action}{literal}',
-                                          {handleLineBreaks: false, okText: '{/literal}Save{literal}', formClassName: 'ajax_input_text',hoverText: '{/literal}Click to Edit{literal}',cancelButton: true, cancelLink: false, cancelText:'{/literal}Cancel{literal}',okButtonClass: 'ButtonGreen',cancelButtonClass: 'ButtonGrey',rows:15,cols:35, loadTextURL:'index.php?mod=controlcenter&sub=help&action=get_helptext&m={/literal}{$smarty.request.mod}{literal}&s={/literal}{$smarty.request.sub}{literal}&a={/literal}{$smarty.request.main_action}{literal}'});
+                                          'index.php?mod=controlcenter&sub=help&action=save_helptext&m={$smarty.request.mod}&s={$smarty.request.sub}&a={$smarty.request.main_action}',
+                                          {handleLineBreaks: false, okText: 'Save', formClassName: 'ajax_input_text',hoverText: 'Click to Edit',cancelButton: true, cancelLink: false, cancelText:'Cancel',okButtonClass: 'ButtonGreen',cancelButtonClass: 'ButtonGrey',rows:15,cols:35, loadTextURL:'index.php?mod=controlcenter&sub=help&action=get_helptext&m={$smarty.request.mod}&s={$smarty.request.sub}&a={$smarty.request.main_action}'});
 					//]]>
                  </script>
-                {/literal}
+                
             {/if}
 
         </td>
@@ -71,16 +71,16 @@
         <p>
             <input id="links_edit_button" type="button" value="Edit links" class="ButtonGreen" />
         </p>
-            {literal}
+            
              <script type="text/javascript">
 				//<![CDATA[
                 new Ajax.InPlaceEditor('related_links_container',
-                                   'index.php?mod=controlcenter&sub=help&action=save_related_links&m={/literal}{$smarty.request.mod}{literal}&s={/literal}{$smarty.request.sub}{literal}&a={/literal}{$smarty.request.main_action}{literal}',
-                                   {externalControl:$('links_edit_button'), handleLineBreaks: false, formClassName: 'ajax_input_text', okText: '{/literal}Save{literal}',cancelButton: true, cancelLink: false, cancelText:'{/literal}Cancel{literal}',okButtonClass: 'ButtonGreen',cancelButtonClass: 'ButtonGrey',rows:15,cols:35, loadTextURL:'index.php?mod=controlcenter&sub=help&action=get_related_links&m={/literal}{$smarty.request.mod}{literal}&s={/literal}{$smarty.request.sub}{literal}&a={/literal}{$smarty.request.main_action}{literal}'}
+                                   'index.php?mod=controlcenter&sub=help&action=save_related_links&m={$smarty.request.mod}&s={$smarty.request.sub}&a={$smarty.request.main_action}',
+                                   {externalControl:$('links_edit_button'), handleLineBreaks: false, formClassName: 'ajax_input_text', okText: 'Save',cancelButton: true, cancelLink: false, cancelText:'Cancel',okButtonClass: 'ButtonGreen',cancelButtonClass: 'ButtonGrey',rows:15,cols:35, loadTextURL:'index.php?mod=controlcenter&sub=help&action=get_related_links&m={$smarty.request.mod}&s={$smarty.request.sub}&a={$smarty.request.main_action}'}
                                     );
 				//]]>
              </script>
-           {/literal}
+           
         {/if}
         </td>
     </tr>

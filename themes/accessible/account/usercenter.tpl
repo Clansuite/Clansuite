@@ -13,10 +13,10 @@
 	SessionCountdown:
     <div id="countdown"></div>
 {move_to target="pre_head_close"}
-{literal}
+
     <script type="text/javascript">
-    var ServerCurrentTime        = {/literal}{$SessionCurrentTime}{literal};	    // Current
-    var ServerSessionLogoutTime  = {/literal}{$SessionExpireTime}{literal};	        // Logout
+    var ServerCurrentTime        = {$SessionCurrentTime};	    // Current
+    var ServerSessionLogoutTime  = {$SessionExpireTime};	        // Logout
 
     function count() {
         var theCountdown = new Date((ServerSessionLogoutTime - ++ServerCurrentTime) * 1000);
@@ -30,7 +30,7 @@
     }
     setTimeout('count()', 1000);
     </script>
-{/literal}
+
 {/move_to}
 {$SessionCurrentTime|date_format:"%H:%M:%S"} {$SessionExpireTime|date_format:"%H:%M:%S"} *}
 </div>

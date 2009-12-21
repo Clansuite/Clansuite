@@ -12,7 +12,7 @@
   	<link rel="stylesheet" type="text/css" href="{$www_root_themes_core}/javascript/xilinus/themes/default.css" />
 {/move_to}
 
-{literal}
+
     <script type="text/javascript">
         function clip_area(id)
         {
@@ -48,7 +48,7 @@
             }
         }
     </script>
-{/literal}
+
 
 {* Debuganzeige, wenn DEBUG = 1 | {$permissions_data|@var_dump}
 {if $smarty.const.DEBUG eq "1"} Debugausgabe des Arrays:   {html_alt_table loop=$permissions_data} {/if}*}
@@ -89,7 +89,7 @@
                         <td style="vertical-align: middle" align="left"><b>{if substr($right_array.name, 0, 3) == 'permission_'}<span style="color: red">{$right_array.name}</span>{else}{$right_array.name}{/if}</b></td>
                         <td style="vertical-align: middle">{$right_array.description}</td>
                         <td align="center">
-                            <input type="button" class="ButtonGreen" onclick='{literal}Dialog.info({url: "index.php?mod=controlcenter&amp;sub=permissions&amp;action=edit_right&amp;right_id={/literal}{$right_array.right_id}{literal}", options: {method: "get"}}, {className: "alphacube", width:300, height: 130});{/literal}' value="{t}Edit{/t}" />
+                            <input type="button" class="ButtonGreen" onclick='Dialog.info({url: "index.php?mod=controlcenter&amp;sub=permissions&amp;action=edit_right&amp;right_id={$right_array.right_id}", options: {method: "get"}}, {className: "alphacube", width:300, height: 130});' value="{t}Edit{/t}" />
                             <input type="button" class="ButtonYellow" onclick="self.location.href='index.php?mod=controlcenter&amp;sub=permissions&amp;action=lookup_users&amp;right_id={$right_array.right_id}'" value="{t}Lookup users{/t}" />
                         </td>
                         <td align="center" style="vertical-align: middle">
@@ -100,8 +100,8 @@
                     {/foreach}
                     <tr class="tr_row1">
                         <td align="right" colspan="5">
-                            <input type="button" onclick='{literal}Dialog.info({url: "index.php?mod=controlcenter&amp;sub=permissions&amp;action=create_right&amp;area_id={/literal}{$area_id}{literal}", options: {method: "get"}}, {className: "alphacube", width:300, height: 130});{/literal}' class="ButtonGreen" value="{t}Create right{/t}" />
-                            <input type="button" onclick='{literal}Dialog.info({url: "index.php?mod=controlcenter&amp;sub=permissions&amp;action=edit_area&amp;area_id={/literal}{$area_id}{literal}", options: {method: "get"}}, {className: "alphacube", width:300, height: 130});{/literal}' class="ButtonGreen" value="{t}Edit area{/t}" />
+                            <input type="button" onclick='Dialog.info({url: "index.php?mod=controlcenter&amp;sub=permissions&amp;action=create_right&amp;area_id={$area_id}", options: {method: "get"}}, {className: "alphacube", width:300, height: 130});' class="ButtonGreen" value="{t}Create right{/t}" />
+                            <input type="button" onclick='Dialog.info({url: "index.php?mod=controlcenter&amp;sub=permissions&amp;action=edit_area&amp;area_id={$area_id}", options: {method: "get"}}, {className: "alphacube", width:300, height: 130});' class="ButtonGreen" value="{t}Edit area{/t}" />
                             <input type="button" onclick="self.location.href='index.php?mod=controlcenter&amp;sub=permissions&amp;action=delete_area&amp;area_id={$area_id}'" class="ButtonRed" value="{t}Delete area{/t}" />
                             <input type="submit" name="submit" class="ButtonRed" value="{t}Delete selected Permissions{/t}" />
                             <input type="reset" name="submit" class="ButtonGrey" value="{t}Reset{/t}" />
@@ -126,7 +126,7 @@
                         <td>{$right_array.name}</td>
                         <td>{$right_array.description}</td>
                         <td align="center">
-                            <input onclick='{literal}Dialog.info({url: "index.php?mod=controlcenter&amp;sub=permissions&amp;action=edit_rght&amp;right_id={/literal}{$right_array.right_id}{literal}", options: {method: "get"}}, {className: "alphacube", width:300, height: 130});{/literal}' type="Button" class="ButtonGreen" value="{t}Edit{/t}" />
+                            <input onclick='Dialog.info({url: "index.php?mod=controlcenter&amp;sub=permissions&amp;action=edit_rght&amp;right_id={$right_array.right_id}", options: {method: "get"}}, {className: "alphacube", width:300, height: 130});' type="Button" class="ButtonGreen" value="{t}Edit{/t}" />
                             <input onclick="self.location.href='index.php?mod=controlcenter&amp;sub=permissions&amp;action=lookup_users&amp;right_id={$right_array.right_id}'" type="Button" class="ButtonYellow" value="{t}Lookup users{/t}" />
                         </td>
                         <td align="center">
@@ -147,8 +147,8 @@
     </tr>
     <tr class="tr_row1">
         <td colspan="2" align="right">
-            <input onclick='{literal}Dialog.info({url: "index.php?mod=controlcenter&amp;sub=permissions&amp;action=create_area", options: {method: "get"}}, {className: "alphacube", width:300, height: 130});{/literal}' type="button" class="ButtonGreen" value="{t}Create new area{/t}" />
-            <input onclick='{literal}Dialog.info({url: "index.php?mod=controlcenter&amp;sub=permissions&amp;action=create_right", options: {method: "get"}}, {className: "alphacube", width:300, height: 130});{/literal}' type="button" class="ButtonGreen" value="{t}Create new right{/t}" />
+            <input onclick='Dialog.info({url: "index.php?mod=controlcenter&amp;sub=permissions&amp;action=create_area", options: {method: "get"}}, {className: "alphacube", width:300, height: 130});' type="button" class="ButtonGreen" value="{t}Create new area{/t}" />
+            <input onclick='Dialog.info({url: "index.php?mod=controlcenter&amp;sub=permissions&amp;action=create_right", options: {method: "get"}}, {className: "alphacube", width:300, height: 130});' type="button" class="ButtonGreen" value="{t}Create new right{/t}" />
         </td>
     </tr>
 </table>

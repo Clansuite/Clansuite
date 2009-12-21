@@ -49,10 +49,9 @@
         </tr>
     </table>
 </form>
-{literal}
+
 <script type="text/javascript">
 window.onload = function() {
 initIt();
 }
 </script>
-{/literal}

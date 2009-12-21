@@ -67,7 +67,7 @@
             
             <td class="cell2">
                 <div class="message_buttons">
-                    <input class="ButtonGreen" type="button" value="{t}Reply{/t}" onclick='{literal}Dialog.info({url: "index.php?mod=messaging&action=create&reply_id={/literal}{$item.message_id}{literal}", options: {method: "get"}}, {className: "alphacube", width:420, height: 325});{/literal}' />
+                    <input class="ButtonGreen" type="button" value="{t}Reply{/t}" onclick='Dialog.info({url: "index.php?mod=messaging&action=create&reply_id={$item.message_id}", options: {method: "get"}}, {className: "alphacube", width:420, height: 325});' />
                     <br />
                     <input type="button" class="ButtonYellow" value="{if $item.read==0}{t}Mark as read{/t}{else}{t}Mark as unread{/t}{/if}" onclick="self.location.href='index.php?mod=messaging&action=mark&id={$item.message_id}&read={if $item.read==0}1{else}0{/if}'" />
                     <br />

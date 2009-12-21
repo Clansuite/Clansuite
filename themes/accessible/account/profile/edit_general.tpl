@@ -334,7 +334,7 @@
                 {elseif $key == timestamp}
                     {$item|date_format:'<input type="text" size="2" name="profile[timestamp][day]" class="input_text" value="%d" /><input type="text" size="2" name="profile[timestamp][month]" class="input_text" value="%m" /><input type="text" size="4" name="profile[timestamp][year]" class="input_text" value="%Y" />'}
                 {elseif $key == image_id}
-                    <select name="profile[avatar_type]" id="type" onchange="{literal}if(document.getElementById('type').options[document.getElementById('type').options.selectedIndex].text=='url'){document.getElementById('upload').type='text'}else{document.getElementById('upload').type='file';}{/literal}" class="input_text">
+                    <select name="profile[avatar_type]" id="type" onchange="if(document.getElementById('type').options[document.getElementById('type').options.selectedIndex].text=='url'){document.getElementById('upload').type='text'}else{document.getElementById('upload').type='file';}" class="input_text">
                         <option value="upload">{t}upload{/t}</option>
                         <option value="url">{t}url{/t}</option>
                     </select>

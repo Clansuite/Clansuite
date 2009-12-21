@@ -2,7 +2,7 @@
 <head>
 <link rel="stylesheet" href="{$css}" type="text/css" />
 <link rel="stylesheet" href="{$www_root_themes_core}/css/error.css" type="text/css" />
-{literal}
+
 <style type="text/css">
 html, body {
     height: 100%;
@@ -20,7 +20,7 @@ div#centered {
     top: 25%;
 }
 </style>
-{/literal}
+
 <title>{$pagetitle} - Maintenance Mode</title>
 </head>
 <body>

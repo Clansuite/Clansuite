@@ -201,13 +201,13 @@
 </table>
 {*
 <script type="text/javascript">new TableGrid('profile', '2', 'index.php?mod=account&sub=profile&action=ajax_update', 'profile_editcell');</script>
-{literal}
+
  <script type="text/javascript">
     new Ajax.InPlaceEditor('custom_text',
                           'index.php?mod=account&sub=profile&action=ajax_update&cell=custom_text',
-                          {handleLineBreaks: false, okText: '{/literal}Save{literal}',hoverText: '{/literal}Click to Edit{literal}',cancelText:'{/literal}Cancel{literal}',okButtonClass: 'ButtonGreen',cancelButtonClass: 'ButtonGrey',rows:15,cols:48, loadTextURL:'index.php?mod=account&sub=profile&action=get_custom_text'});
+                          {handleLineBreaks: false, okText: 'Save',hoverText: 'Click to Edit',cancelText:'Cancel',okButtonClass: 'ButtonGreen',cancelButtonClass: 'ButtonGrey',rows:15,cols:48, loadTextURL:'index.php?mod=account&sub=profile&action=get_custom_text'});
  </script>
-{/literal}
+
 *}
 {* AJAX Needed *}
 <div style="visibility: hidden">
@@ -469,8 +469,8 @@
 </div>
 
 {if $smarty.session.user.user_id == $info.user_id}
-<input class="ButtonGreen" type="button" value="{t}Edit my profile{/t}" onclick='{literal}Dialog.info({url: "index.php?mod=account&amp;sub=general&amp;action=edit", options: {method: "get"}}, {className: "alphacube", width:450, height: 550});{/literal}' />
+<input class="ButtonGreen" type="button" value="{t}Edit my profile{/t}" onclick='Dialog.info({url: "index.php?mod=account&amp;sub=general&amp;action=edit", options: {method: "get"}}, {className: "alphacube", width:450, height: 550});' />
 {/if}
 {if $smarty.session.rights.permission_access == 1 && $smarty.session.rights.edit_profile}
-    <input class="ButtonGreen" type="button" value="{t}Edit my profile{/t}" onclick='{literal}Dialog.info({url: "index.php?mod=account&amp;sub=general&amp;action=edit", options: {method: "get"}}, {className: "alphacube", width:600, height: 400});{/literal}' />
+    <input class="ButtonGreen" type="button" value="{t}Edit my profile{/t}" onclick='Dialog.info({url: "index.php?mod=account&amp;sub=general&amp;action=edit", options: {method: "get"}}, {className: "alphacube", width:600, height: 400});' />
 {/if}

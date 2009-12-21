@@ -10,7 +10,7 @@
     <script src="{$www_root_themes_core}/javascript/smarty_ajax.js" type="text/javascript"></script>
     {* Tablegrid Extension *}
     <script type="text/javascript" src="{$www_root_themes_core}/javascript/tablegrid.js"></script>
-    {literal}
+    
         <script type="text/javascript">
         function toggle(x,id)
         {
@@ -25,7 +25,7 @@
             bold = (x.src == 'bold_aan.gif')
         }
         </script>
-    {/literal}
+    
 {/move_to}
 
 {* <a id="addrow" href="#"><img src="newrow.gif" alt="" /></a> *}

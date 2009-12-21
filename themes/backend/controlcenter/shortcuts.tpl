@@ -21,13 +21,13 @@
                             <td>
 
                                 {* Start:Shortcuts Content*}
-                                {literal}
+                                
                                     <script type="text/javascript">
                                     jQuery(function() {
         	                            jQuery('#vertical-tabs > ul').tabs({ fx: { height: 'toggle', opacity: 'toggle' } });
                                     });
                                     </script>
-                                {/literal}
+                                
 
                                 {move_to target="pre_head_close"}
                                 <link rel="stylesheet" type="text/css" href="{$www_root_themes}/admin/vertical-tabs.css" />

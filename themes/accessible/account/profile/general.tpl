@@ -81,10 +81,10 @@
     <div class="options">
         <div class="edit_button">
             {if $smarty.session.user.user_id == $info.user_id.0}
-                <input class="ButtonGreen" type="button" value="{t}Edit my profile{/t}" onclick='{literal}Dialog.info({url: "index.php?mod=account&amp;sub=general&amp;action=edit", options: {method: "get"}}, {className: "alphacube", width:650, height: 550});{/literal}' />
+                <input class="ButtonGreen" type="button" value="{t}Edit my profile{/t}" onclick='Dialog.info({url: "index.php?mod=account&amp;sub=general&amp;action=edit", options: {method: "get"}}, {className: "alphacube", width:650, height: 550});' />
             {/if}
             {if $smarty.session.rights.permission_access == 1 && $smarty.session.rights.permission_edit_generals}
-                <input class="ButtonGreen" type="button" value="{t}Edit profile (admin){/t}" onclick='{literal}Dialog.info({url: "index.php?mod=controlcenter&amp;sub=users&amp;action=permission_edit_generals", options: {method: "get"}}, {className: "alphacube", width:450, height: 400});{/literal}' />
+                <input class="ButtonGreen" type="button" value="{t}Edit profile (admin){/t}" onclick='Dialog.info({url: "index.php?mod=controlcenter&amp;sub=users&amp;action=permission_edit_generals", options: {method: "get"}}, {className: "alphacube", width:450, height: 400});' />
             {/if}
         </div>
     </div>

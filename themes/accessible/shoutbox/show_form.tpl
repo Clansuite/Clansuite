@@ -35,13 +35,13 @@
 	{$save_entry}
 {else}
 {move_to target="pre_head_close"}
-{literal}
+
 <script type="text/javascript">
 $(document).ready(function() {
 
 })
 </script>
-{/literal}
+
 {/move_to}
 {/if}
 </div>

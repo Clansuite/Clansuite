@@ -5,7 +5,7 @@
 <script type="text/javascript" src="{$www_root_themes_core}/javascript/scriptaculous/scriptaculous.js"></script>
 <script type="text/javascript" src="{$www_root_themes_core}/javascript/smarty_ajax.js"></script>
 
-    {literal}
+    
         <style type="text/css">
        
             body { background: #F1EFE2; }
@@ -26,12 +26,12 @@
             if( document.getElementById('section-' + id).style.display == 'none' )
             {
                 document.getElementById('section-' + id).style.display = 'block';
-                document.getElementById('node-' + id).src = '{/literal}{$www_root_themes_core}{literal}/admin/adminmenu/images/tree-node-open.gif';
+                document.getElementById('node-' + id).src = '{$www_root_themes_core}/admin/adminmenu/images/tree-node-open.gif';
             }
             else
             {
                 document.getElementById('section-' + id).style.display = 'none';
-                document.getElementById('node-' + id).src = '{/literal}{$www_root_themes_core}{literal}/admin/adminmenu/images/tree-node.gif';
+                document.getElementById('node-' + id).src = '{$www_root_themes_core}/admin/adminmenu/images/tree-node.gif';
             }
         }   
        
@@ -57,7 +57,7 @@
         				{method: 'post', parameters: 'filename=' + $('filename').innerHTML + '&content=' + $('template_textarea').value });
         	}  
         </script>
-    {/literal}
+    
     
 {/move_to}
 
