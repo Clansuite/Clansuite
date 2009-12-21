@@ -18,7 +18,9 @@ class Smarty_Internal_Templatelexer
     public $value;
     public $node;
     public $line;
+    public $taglineno;
     public $state = 1;
+    public $strip = false;
     public $smarty_token_names = array (		// Text for parser error messages
     				'IDENTITY'	=> '===',
     				'NONEIDENTITY'	=> '!==',
@@ -66,6 +68,7 @@ class Smarty_Internal_Templatelexer
     				'COMMENT' => 'comment',
      				'LITERALEND' => 'literal close',
     				'AS' => 'as',
+    				'TO' => 'to',
     				'NULL' => 'null',
     				'BOOLEAN' => 'boolean'
     				);
@@ -134,13 +137,16 @@ class Smarty_Internal_Templatelexer
               10 => 0,
               11 => 0,
               12 => 0,
-              13 => 2,
-              16 => 0,
+              13 => 0,
+              14 => 0,
+              15 => 0,
+              16 => 2,
+              19 => 0,
             );
         if ($this->counter >= strlen($this->data)) {
             return false; // end of input
         }
-        $yy_global_pattern = "/^(\\{\\})|^(".$this->ldel."\\*([\S\s]*?)\\*".$this->rdel.")|^(<\\?xml)|^(<\\?php)|^(<\\?=)|^(".$this->ldel."literal".$this->rdel.")|^(".$this->ldel."\/literal".$this->rdel.")|^(".$this->ldel."\\s{1,}\/)|^(".$this->ldel."\\s{1,})|^(".$this->ldel."\/)|^(".$this->ldel.")|^(([\S\s]*?)(".$this->ldel."|<\\?))|^([\S\s]+)/";
+        $yy_global_pattern = "/^(\\{\\})|^(".$this->ldel."\\*([\S\s]*?)\\*".$this->rdel.")|^(<\\?xml)|^(<\\?php)|^(<\\?=)|^([\t ]*[\r\n]+[\t ]*)|^(".$this->ldel."strip".$this->rdel.")|^(".$this->ldel."\/strip".$this->rdel.")|^(".$this->ldel."literal".$this->rdel.")|^(".$this->ldel."\/literal".$this->rdel.")|^(".$this->ldel."\\s{1,}\/)|^(".$this->ldel."\\s{1,})|^(".$this->ldel."\/)|^(".$this->ldel.")|^(([\S\s]*?)([\t ]*[\r\n]+[\t ]*|".$this->ldel."|<\\?))|^([\S\s]+)/";
 
         do {
             if (preg_match($yy_global_pattern, substr($this->data, $this->counter), $yymatches)) {
@@ -179,66 +185,7 @@ class Smarty_Internal_Templatelexer
                     }
                     // skip this token
                     continue;
-                } else {                    $yy_yymore_patterns = array(
-        1 => array(0, "^(".$this->ldel."\\*([\S\s]*?)\\*".$this->rdel.")|^(<\\?xml)|^(<\\?php)|^(<\\?=)|^(".$this->ldel."literal".$this->rdel.")|^(".$this->ldel."\/literal".$this->rdel.")|^(".$this->ldel."\\s{1,}\/)|^(".$this->ldel."\\s{1,})|^(".$this->ldel."\/)|^(".$this->ldel.")|^(([\S\s]*?)(".$this->ldel."|<\\?))|^([\S\s]+)"),
-        2 => array(1, "^(<\\?xml)|^(<\\?php)|^(<\\?=)|^(".$this->ldel."literal".$this->rdel.")|^(".$this->ldel."\/literal".$this->rdel.")|^(".$this->ldel."\\s{1,}\/)|^(".$this->ldel."\\s{1,})|^(".$this->ldel."\/)|^(".$this->ldel.")|^(([\S\s]*?)(".$this->ldel."|<\\?))|^([\S\s]+)"),
-        4 => array(1, "^(<\\?php)|^(<\\?=)|^(".$this->ldel."literal".$this->rdel.")|^(".$this->ldel."\/literal".$this->rdel.")|^(".$this->ldel."\\s{1,}\/)|^(".$this->ldel."\\s{1,})|^(".$this->ldel."\/)|^(".$this->ldel.")|^(([\S\s]*?)(".$this->ldel."|<\\?))|^([\S\s]+)"),
-        5 => array(1, "^(<\\?=)|^(".$this->ldel."literal".$this->rdel.")|^(".$this->ldel."\/literal".$this->rdel.")|^(".$this->ldel."\\s{1,}\/)|^(".$this->ldel."\\s{1,})|^(".$this->ldel."\/)|^(".$this->ldel.")|^(([\S\s]*?)(".$this->ldel."|<\\?))|^([\S\s]+)"),
-        6 => array(1, "^(".$this->ldel."literal".$this->rdel.")|^(".$this->ldel."\/literal".$this->rdel.")|^(".$this->ldel."\\s{1,}\/)|^(".$this->ldel."\\s{1,})|^(".$this->ldel."\/)|^(".$this->ldel.")|^(([\S\s]*?)(".$this->ldel."|<\\?))|^([\S\s]+)"),
-        7 => array(1, "^(".$this->ldel."\/literal".$this->rdel.")|^(".$this->ldel."\\s{1,}\/)|^(".$this->ldel."\\s{1,})|^(".$this->ldel."\/)|^(".$this->ldel.")|^(([\S\s]*?)(".$this->ldel."|<\\?))|^([\S\s]+)"),
-        8 => array(1, "^(".$this->ldel."\\s{1,}\/)|^(".$this->ldel."\\s{1,})|^(".$this->ldel."\/)|^(".$this->ldel.")|^(([\S\s]*?)(".$this->ldel."|<\\?))|^([\S\s]+)"),
-        9 => array(1, "^(".$this->ldel."\\s{1,})|^(".$this->ldel."\/)|^(".$this->ldel.")|^(([\S\s]*?)(".$this->ldel."|<\\?))|^([\S\s]+)"),
-        10 => array(1, "^(".$this->ldel."\/)|^(".$this->ldel.")|^(([\S\s]*?)(".$this->ldel."|<\\?))|^([\S\s]+)"),
-        11 => array(1, "^(".$this->ldel.")|^(([\S\s]*?)(".$this->ldel."|<\\?))|^([\S\s]+)"),
-        12 => array(1, "^(([\S\s]*?)(".$this->ldel."|<\\?))|^([\S\s]+)"),
-        13 => array(3, "^([\S\s]+)"),
-        16 => array(3, ""),
-    );
-
-                    // yymore is needed
-                    do {
-                        if (!strlen($yy_yymore_patterns[$this->token][1])) {
-                            throw new Exception('cannot do yymore for the last token');
-                        }
-                        $yysubmatches = array();
-                        if (preg_match('/' . $yy_yymore_patterns[$this->token][1] . '/',
-                              substr($this->data, $this->counter), $yymatches)) {
-                            $yysubmatches = $yymatches;
-                            $yymatches = array_filter($yymatches, 'strlen'); // remove empty sub-patterns
-                            next($yymatches); // skip global match
-                            $this->token += key($yymatches) + $yy_yymore_patterns[$this->token][0]; // token number
-                            $this->value = current($yymatches); // token value
-                            $this->line = substr_count($this->value, "\n");
-                            if ($tokenMap[$this->token]) {
-                                // extract sub-patterns for passing to lex function
-                                $yysubmatches = array_slice($yysubmatches, $this->token + 1,
-                                    $tokenMap[$this->token]);
-                            } else {
-                                $yysubmatches = array();
-                            }
-                        }
-                    	$r = $this->{'yy_r1_' . $this->token}($yysubmatches);
-                    } while ($r !== null && !is_bool($r));
-			        if ($r === true) {
-			            // we have changed state
-			            // process this token in the new state
-			            return $this->yylex();
-                    } elseif ($r === false) {
-                        $this->counter += strlen($this->value);
-                        $this->line += substr_count($this->value, "\n");
-                        if ($this->counter >= strlen($this->data)) {
-                            return false; // end of input
-                        }
-                        // skip this token
-                        continue;
-			        } else {
-	                    // accept
-	                    $this->counter += strlen($this->value);
-	                    $this->line += substr_count($this->value, "\n");
-	                    return true;
-			        }
-                }
-            } else {
+                }            } else {
                 throw new Exception('Unexpected input at line' . $this->line .
                     ': ' . $this->data[$this->counter]);
             }
@@ -280,15 +227,36 @@ class Smarty_Internal_Templatelexer
     function yy_r1_7($yy_subpatterns)
     {
 
-  $this->yypushstate(self::LITERAL);
-  return true;
+  if ($this->strip) {
+     return false;
+  } else {
+     $this->token = Smarty_Internal_Templateparser::TP_OTHER;
+  }
     }
     function yy_r1_8($yy_subpatterns)
     {
 
-  return false;  // unexspected here just ignore
+  $this->strip = true;
+  return false;
     }
     function yy_r1_9($yy_subpatterns)
+    {
+
+  $this->strip = false;
+  return false;
+    }
+    function yy_r1_10($yy_subpatterns)
+    {
+
+  $this->yypushstate(self::LITERAL);
+  return true;
+    }
+    function yy_r1_11($yy_subpatterns)
+    {
+
+  return false;  // unexspected here just ignore
+    }
+    function yy_r1_12($yy_subpatterns)
     {
 
   if ($this->smarty->auto_literal) {
@@ -296,9 +264,10 @@ class Smarty_Internal_Templatelexer
   } else {
      $this->token = Smarty_Internal_Templateparser::TP_LDELSLASH;
      $this->yypushstate(self::SMARTY);
+     $this->taglineno = $this->line;
   }
     }
-    function yy_r1_10($yy_subpatterns)
+    function yy_r1_13($yy_subpatterns)
     {
 
   if ($this->smarty->auto_literal) {
@@ -306,34 +275,39 @@ class Smarty_Internal_Templatelexer
   } else {
      $this->token = Smarty_Internal_Templateparser::TP_LDEL;
      $this->yypushstate(self::SMARTY);
+     $this->taglineno = $this->line;
   }
     }
-    function yy_r1_11($yy_subpatterns)
+    function yy_r1_14($yy_subpatterns)
     {
 
   $this->token = Smarty_Internal_Templateparser::TP_LDELSLASH;
      $this->yypushstate(self::SMARTY);
+     $this->taglineno = $this->line;
     }
-    function yy_r1_12($yy_subpatterns)
+    function yy_r1_15($yy_subpatterns)
     {
 
   $this->token = Smarty_Internal_Templateparser::TP_LDEL;
      $this->yypushstate(self::SMARTY);
+     $this->taglineno = $this->line;
     }
-    function yy_r1_13($yy_subpatterns)
+    function yy_r1_16($yy_subpatterns)
     {
 
   $this->token = Smarty_Internal_Templateparser::TP_OTHER;
   if (substr($this->value,-2) == '<?') {
      $this->value = substr($this->value,0,-2);
-  } else {
+  } elseif (substr($this->value,-strlen($this->smarty->left_delimiter)) == $this->smarty->left_delimiter){
      $this->value = substr($this->value,0,-strlen($this->smarty->left_delimiter));
+  } else {
+     $this->value = rtrim($this->value);
   }
   if (strlen($this->value) == 0) {
      return true;		// rescan
   }
     }
-    function yy_r1_16($yy_subpatterns)
+    function yy_r1_19($yy_subpatterns)
     {
 
   $this->token = Smarty_Internal_Templateparser::TP_OTHER;
@@ -355,12 +329,12 @@ class Smarty_Internal_Templatelexer
               12 => 0,
               13 => 0,
               14 => 1,
-              16 => 0,
-              17 => 0,
+              16 => 1,
               18 => 0,
               19 => 0,
               20 => 0,
-              21 => 1,
+              21 => 0,
+              22 => 0,
               23 => 1,
               25 => 1,
               27 => 1,
@@ -371,8 +345,7 @@ class Smarty_Internal_Templatelexer
               37 => 1,
               39 => 1,
               41 => 1,
-              43 => 0,
-              44 => 0,
+              43 => 1,
               45 => 0,
               46 => 0,
               47 => 0,
@@ -381,19 +354,19 @@ class Smarty_Internal_Templatelexer
               50 => 0,
               51 => 0,
               52 => 0,
-              53 => 3,
-              57 => 0,
-              58 => 0,
+              53 => 0,
+              54 => 0,
+              55 => 3,
               59 => 0,
               60 => 0,
               61 => 0,
               62 => 0,
               63 => 0,
               64 => 0,
-              65 => 1,
-              67 => 1,
-              69 => 1,
-              71 => 0,
+              65 => 0,
+              66 => 1,
+              68 => 1,
+              70 => 1,
               72 => 0,
               73 => 0,
               74 => 0,
@@ -407,13 +380,18 @@ class Smarty_Internal_Templatelexer
               82 => 0,
               83 => 0,
               84 => 0,
-              85 => 0,
-              86 => 0,
+              85 => 1,
+              87 => 0,
+              88 => 0,
+              89 => 0,
+              90 => 0,
+              91 => 0,
+              92 => 0,
             );
         if ($this->counter >= strlen($this->data)) {
             return false; // end of input
         }
-        $yy_global_pattern = "/^((\\\\\"|\\\\'))|^(''|'([\S\s]*?)[^\\\\]')|^(".$this->ldel."literal".$this->rdel.")|^(".$this->ldel."\/literal".$this->rdel.")|^(".$this->ldel."\\s{1,}\/)|^(".$this->ldel."\\s{1,})|^(\\s{1,}".$this->rdel.")|^(".$this->ldel."\/)|^(".$this->ldel.")|^(".$this->rdel.")|^(\\s+is\\s+in\\s+)|^(\\s+(AS|as)\\s+)|^(\\s+instanceof\\s+)|^(true|false)|^(null)|^(\\s*===\\s*)|^(\\s*!==\\s*)|^(\\s*==\\s*|\\s+(EQ|eq)\\s+)|^(\\s*!=\\s*|\\s*<>\\s*|\\s+(NE|NEQ|ne|neq)\\s+)|^(\\s*>=\\s*|\\s+(GE|GTE|ge|gte)\\s+)|^(\\s*<=\\s*|\\s+(LE|LTE|le|lte)\\s+)|^(\\s*>\\s*|\\s+(GT|gt)\\s+)|^(\\s*<\\s*|\\s+(LT|lt)\\s+)|^(\\s+(MOD|mod)\\s+)|^(!\\s*|(NOT|not)\\s+)|^(\\s*&&\\s*|\\s*(AND|and)\\s+)|^(\\s*\\|\\|\\s*|\\s*(OR|or)\\s+)|^(\\s*(XOR|xor)\\s+)|^(\\s+is\\s+odd\\s+by\\s+)|^(\\s+is\\s+not\\s+odd\\s+by\\s+)|^(\\s+is\\s+odd)|^(\\s+is\\s+not\\s+odd)|^(\\s+is\\s+even\\s+by\\s+)|^(\\s+is\\s+not\\s+even\\s+by\\s+)|^(\\s+is\\s+even)|^(\\s+is\\s+not\\s+even)|^(\\s+is\\s+div\\s+by\\s+)|^(\\s+is\\s+not\\s+div\\s+by\\s+)|^(\\((int(eger)?|bool(ean)?|float|double|real|string|binary|array|object)\\))|^(\\(\\s*)|^(\\s*\\))|^(\\[\\s*)|^(\\s*\\])|^(\\s*->\\s*)|^(\\s*=>\\s*)|^(\\s*=\\s*)|^(\\d+)|^((\\+\\+|--)\\s*)|^(\\s*(\\+|-)\\s*)|^(\\s*(\\*|\/|%)\\s*)|^(\\$)|^(\\s*;)|^(::)|^(\\s*:\\s*)|^(@)|^(#)|^(\")|^(`)|^(\\|)|^(\\.)|^(\\s*,\\s*)|^(\\s*&\\s*)|^(\\s*\\?\\s*)|^(\\w+)|^(\\s+)|^(.)/";
+        $yy_global_pattern = "/^((\\\\\"|\\\\'))|^(''|'([\S\s]*?)[^\\\\]')|^(".$this->ldel."literal".$this->rdel.")|^(".$this->ldel."\/literal".$this->rdel.")|^(".$this->ldel."\\s{1,}\/)|^(".$this->ldel."\\s{1,})|^(\\s{1,}".$this->rdel.")|^(".$this->ldel."\/)|^(".$this->ldel.")|^(".$this->rdel.")|^(\\s+is\\s+in\\s+)|^(\\s+(AS|as)\\s+)|^(\\s+(to)\\s+)|^(\\s+instanceof\\s+)|^(true|TRUE|True|false|FALSE|False)|^(null|NULL|Null)|^(\\s*===\\s*)|^(\\s*!==\\s*)|^(\\s*==\\s*|\\s+(EQ|eq)\\s+)|^(\\s*!=\\s*|\\s*<>\\s*|\\s+(NE|NEQ|ne|neq)\\s+)|^(\\s*>=\\s*|\\s+(GE|GTE|ge|gte)\\s+)|^(\\s*<=\\s*|\\s+(LE|LTE|le|lte)\\s+)|^(\\s*>\\s*|\\s+(GT|gt)\\s+)|^(\\s*<\\s*|\\s+(LT|lt)\\s+)|^(\\s+(MOD|mod)\\s+)|^(!\\s*|(NOT|not)\\s+)|^(\\s*&&\\s*|\\s*(AND|and)\\s+)|^(\\s*\\|\\|\\s*|\\s*(OR|or)\\s+)|^(\\s*(XOR|xor)\\s+)|^(\\s+is\\s+odd\\s+by\\s+)|^(\\s+is\\s+not\\s+odd\\s+by\\s+)|^(\\s+is\\s+odd)|^(\\s+is\\s+not\\s+odd)|^(\\s+is\\s+even\\s+by\\s+)|^(\\s+is\\s+not\\s+even\\s+by\\s+)|^(\\s+is\\s+even)|^(\\s+is\\s+not\\s+even)|^(\\s+is\\s+div\\s+by\\s+)|^(\\s+is\\s+not\\s+div\\s+by\\s+)|^(\\((int(eger)?|bool(ean)?|float|double|real|string|binary|array|object)\\))|^(\\(\\s*)|^(\\s*\\))|^(\\[\\s*)|^(\\s*\\])|^(\\s*->\\s*)|^(\\s*=>\\s*)|^(\\s*=\\s*)|^((\\+\\+|--)\\s*)|^(\\s*(\\+|-)\\s*)|^(\\s*(\\*|\/|%)\\s*)|^(\\$)|^(\\s*;)|^(::)|^(\\s*:\\s*)|^(@)|^(#)|^(\")|^(`)|^(\\|)|^(\\.)|^(\\s*,\\s*)|^(\\s*&\\s*)|^(\\s*\\?\\s*)|^((if|elseif|while)(?![^\s]))|^(foreach(?![^\s]))|^(for(?![^\s]))|^([0-9]*[a-zA-Z_]\\w*)|^(\\d+)|^(\\s+)|^(.)/";
 
         do {
             if (preg_match($yy_global_pattern, substr($this->data, $this->counter), $yymatches)) {
@@ -452,119 +430,7 @@ class Smarty_Internal_Templatelexer
                     }
                     // skip this token
                     continue;
-                } else {                    $yy_yymore_patterns = array(
-        1 => array(0, "^(''|'([\S\s]*?)[^\\\\]')|^(".$this->ldel."literal".$this->rdel.")|^(".$this->ldel."\/literal".$this->rdel.")|^(".$this->ldel."\\s{1,}\/)|^(".$this->ldel."\\s{1,})|^(\\s{1,}".$this->rdel.")|^(".$this->ldel."\/)|^(".$this->ldel.")|^(".$this->rdel.")|^(\\s+is\\s+in\\s+)|^(\\s+(AS|as)\\s+)|^(\\s+instanceof\\s+)|^(true|false)|^(null)|^(\\s*===\\s*)|^(\\s*!==\\s*)|^(\\s*==\\s*|\\s+(EQ|eq)\\s+)|^(\\s*!=\\s*|\\s*<>\\s*|\\s+(NE|NEQ|ne|neq)\\s+)|^(\\s*>=\\s*|\\s+(GE|GTE|ge|gte)\\s+)|^(\\s*<=\\s*|\\s+(LE|LTE|le|lte)\\s+)|^(\\s*>\\s*|\\s+(GT|gt)\\s+)|^(\\s*<\\s*|\\s+(LT|lt)\\s+)|^(\\s+(MOD|mod)\\s+)|^(!\\s*|(NOT|not)\\s+)|^(\\s*&&\\s*|\\s*(AND|and)\\s+)|^(\\s*\\|\\|\\s*|\\s*(OR|or)\\s+)|^(\\s*(XOR|xor)\\s+)|^(\\s+is\\s+odd\\s+by\\s+)|^(\\s+is\\s+not\\s+odd\\s+by\\s+)|^(\\s+is\\s+odd)|^(\\s+is\\s+not\\s+odd)|^(\\s+is\\s+even\\s+by\\s+)|^(\\s+is\\s+not\\s+even\\s+by\\s+)|^(\\s+is\\s+even)|^(\\s+is\\s+not\\s+even)|^(\\s+is\\s+div\\s+by\\s+)|^(\\s+is\\s+not\\s+div\\s+by\\s+)|^(\\((int(eger)?|bool(ean)?|float|double|real|string|binary|array|object)\\))|^(\\(\\s*)|^(\\s*\\))|^(\\[\\s*)|^(\\s*\\])|^(\\s*->\\s*)|^(\\s*=>\\s*)|^(\\s*=\\s*)|^(\\d+)|^((\\+\\+|--)\\s*)|^(\\s*(\\+|-)\\s*)|^(\\s*(\\*|\/|%)\\s*)|^(\\$)|^(\\s*;)|^(::)|^(\\s*:\\s*)|^(@)|^(#)|^(\")|^(`)|^(\\|)|^(\\.)|^(\\s*,\\s*)|^(\\s*&\\s*)|^(\\s*\\?\\s*)|^(\\w+)|^(\\s+)|^(.)"),
-        3 => array(1, "^(".$this->ldel."literal".$this->rdel.")|^(".$this->ldel."\/literal".$this->rdel.")|^(".$this->ldel."\\s{1,}\/)|^(".$this->ldel."\\s{1,})|^(\\s{1,}".$this->rdel.")|^(".$this->ldel."\/)|^(".$this->ldel.")|^(".$this->rdel.")|^(\\s+is\\s+in\\s+)|^(\\s+(AS|as)\\s+)|^(\\s+instanceof\\s+)|^(true|false)|^(null)|^(\\s*===\\s*)|^(\\s*!==\\s*)|^(\\s*==\\s*|\\s+(EQ|eq)\\s+)|^(\\s*!=\\s*|\\s*<>\\s*|\\s+(NE|NEQ|ne|neq)\\s+)|^(\\s*>=\\s*|\\s+(GE|GTE|ge|gte)\\s+)|^(\\s*<=\\s*|\\s+(LE|LTE|le|lte)\\s+)|^(\\s*>\\s*|\\s+(GT|gt)\\s+)|^(\\s*<\\s*|\\s+(LT|lt)\\s+)|^(\\s+(MOD|mod)\\s+)|^(!\\s*|(NOT|not)\\s+)|^(\\s*&&\\s*|\\s*(AND|and)\\s+)|^(\\s*\\|\\|\\s*|\\s*(OR|or)\\s+)|^(\\s*(XOR|xor)\\s+)|^(\\s+is\\s+odd\\s+by\\s+)|^(\\s+is\\s+not\\s+odd\\s+by\\s+)|^(\\s+is\\s+odd)|^(\\s+is\\s+not\\s+odd)|^(\\s+is\\s+even\\s+by\\s+)|^(\\s+is\\s+not\\s+even\\s+by\\s+)|^(\\s+is\\s+even)|^(\\s+is\\s+not\\s+even)|^(\\s+is\\s+div\\s+by\\s+)|^(\\s+is\\s+not\\s+div\\s+by\\s+)|^(\\((int(eger)?|bool(ean)?|float|double|real|string|binary|array|object)\\))|^(\\(\\s*)|^(\\s*\\))|^(\\[\\s*)|^(\\s*\\])|^(\\s*->\\s*)|^(\\s*=>\\s*)|^(\\s*=\\s*)|^(\\d+)|^((\\+\\+|--)\\s*)|^(\\s*(\\+|-)\\s*)|^(\\s*(\\*|\/|%)\\s*)|^(\\$)|^(\\s*;)|^(::)|^(\\s*:\\s*)|^(@)|^(#)|^(\")|^(`)|^(\\|)|^(\\.)|^(\\s*,\\s*)|^(\\s*&\\s*)|^(\\s*\\?\\s*)|^(\\w+)|^(\\s+)|^(.)"),
-        5 => array(1, "^(".$this->ldel."\/literal".$this->rdel.")|^(".$this->ldel."\\s{1,}\/)|^(".$this->ldel."\\s{1,})|^(\\s{1,}".$this->rdel.")|^(".$this->ldel."\/)|^(".$this->ldel.")|^(".$this->rdel.")|^(\\s+is\\s+in\\s+)|^(\\s+(AS|as)\\s+)|^(\\s+instanceof\\s+)|^(true|false)|^(null)|^(\\s*===\\s*)|^(\\s*!==\\s*)|^(\\s*==\\s*|\\s+(EQ|eq)\\s+)|^(\\s*!=\\s*|\\s*<>\\s*|\\s+(NE|NEQ|ne|neq)\\s+)|^(\\s*>=\\s*|\\s+(GE|GTE|ge|gte)\\s+)|^(\\s*<=\\s*|\\s+(LE|LTE|le|lte)\\s+)|^(\\s*>\\s*|\\s+(GT|gt)\\s+)|^(\\s*<\\s*|\\s+(LT|lt)\\s+)|^(\\s+(MOD|mod)\\s+)|^(!\\s*|(NOT|not)\\s+)|^(\\s*&&\\s*|\\s*(AND|and)\\s+)|^(\\s*\\|\\|\\s*|\\s*(OR|or)\\s+)|^(\\s*(XOR|xor)\\s+)|^(\\s+is\\s+odd\\s+by\\s+)|^(\\s+is\\s+not\\s+odd\\s+by\\s+)|^(\\s+is\\s+odd)|^(\\s+is\\s+not\\s+odd)|^(\\s+is\\s+even\\s+by\\s+)|^(\\s+is\\s+not\\s+even\\s+by\\s+)|^(\\s+is\\s+even)|^(\\s+is\\s+not\\s+even)|^(\\s+is\\s+div\\s+by\\s+)|^(\\s+is\\s+not\\s+div\\s+by\\s+)|^(\\((int(eger)?|bool(ean)?|float|double|real|string|binary|array|object)\\))|^(\\(\\s*)|^(\\s*\\))|^(\\[\\s*)|^(\\s*\\])|^(\\s*->\\s*)|^(\\s*=>\\s*)|^(\\s*=\\s*)|^(\\d+)|^((\\+\\+|--)\\s*)|^(\\s*(\\+|-)\\s*)|^(\\s*(\\*|\/|%)\\s*)|^(\\$)|^(\\s*;)|^(::)|^(\\s*:\\s*)|^(@)|^(#)|^(\")|^(`)|^(\\|)|^(\\.)|^(\\s*,\\s*)|^(\\s*&\\s*)|^(\\s*\\?\\s*)|^(\\w+)|^(\\s+)|^(.)"),
-        6 => array(1, "^(".$this->ldel."\\s{1,}\/)|^(".$this->ldel."\\s{1,})|^(\\s{1,}".$this->rdel.")|^(".$this->ldel."\/)|^(".$this->ldel.")|^(".$this->rdel.")|^(\\s+is\\s+in\\s+)|^(\\s+(AS|as)\\s+)|^(\\s+instanceof\\s+)|^(true|false)|^(null)|^(\\s*===\\s*)|^(\\s*!==\\s*)|^(\\s*==\\s*|\\s+(EQ|eq)\\s+)|^(\\s*!=\\s*|\\s*<>\\s*|\\s+(NE|NEQ|ne|neq)\\s+)|^(\\s*>=\\s*|\\s+(GE|GTE|ge|gte)\\s+)|^(\\s*<=\\s*|\\s+(LE|LTE|le|lte)\\s+)|^(\\s*>\\s*|\\s+(GT|gt)\\s+)|^(\\s*<\\s*|\\s+(LT|lt)\\s+)|^(\\s+(MOD|mod)\\s+)|^(!\\s*|(NOT|not)\\s+)|^(\\s*&&\\s*|\\s*(AND|and)\\s+)|^(\\s*\\|\\|\\s*|\\s*(OR|or)\\s+)|^(\\s*(XOR|xor)\\s+)|^(\\s+is\\s+odd\\s+by\\s+)|^(\\s+is\\s+not\\s+odd\\s+by\\s+)|^(\\s+is\\s+odd)|^(\\s+is\\s+not\\s+odd)|^(\\s+is\\s+even\\s+by\\s+)|^(\\s+is\\s+not\\s+even\\s+by\\s+)|^(\\s+is\\s+even)|^(\\s+is\\s+not\\s+even)|^(\\s+is\\s+div\\s+by\\s+)|^(\\s+is\\s+not\\s+div\\s+by\\s+)|^(\\((int(eger)?|bool(ean)?|float|double|real|string|binary|array|object)\\))|^(\\(\\s*)|^(\\s*\\))|^(\\[\\s*)|^(\\s*\\])|^(\\s*->\\s*)|^(\\s*=>\\s*)|^(\\s*=\\s*)|^(\\d+)|^((\\+\\+|--)\\s*)|^(\\s*(\\+|-)\\s*)|^(\\s*(\\*|\/|%)\\s*)|^(\\$)|^(\\s*;)|^(::)|^(\\s*:\\s*)|^(@)|^(#)|^(\")|^(`)|^(\\|)|^(\\.)|^(\\s*,\\s*)|^(\\s*&\\s*)|^(\\s*\\?\\s*)|^(\\w+)|^(\\s+)|^(.)"),
-        7 => array(1, "^(".$this->ldel."\\s{1,})|^(\\s{1,}".$this->rdel.")|^(".$this->ldel."\/)|^(".$this->ldel.")|^(".$this->rdel.")|^(\\s+is\\s+in\\s+)|^(\\s+(AS|as)\\s+)|^(\\s+instanceof\\s+)|^(true|false)|^(null)|^(\\s*===\\s*)|^(\\s*!==\\s*)|^(\\s*==\\s*|\\s+(EQ|eq)\\s+)|^(\\s*!=\\s*|\\s*<>\\s*|\\s+(NE|NEQ|ne|neq)\\s+)|^(\\s*>=\\s*|\\s+(GE|GTE|ge|gte)\\s+)|^(\\s*<=\\s*|\\s+(LE|LTE|le|lte)\\s+)|^(\\s*>\\s*|\\s+(GT|gt)\\s+)|^(\\s*<\\s*|\\s+(LT|lt)\\s+)|^(\\s+(MOD|mod)\\s+)|^(!\\s*|(NOT|not)\\s+)|^(\\s*&&\\s*|\\s*(AND|and)\\s+)|^(\\s*\\|\\|\\s*|\\s*(OR|or)\\s+)|^(\\s*(XOR|xor)\\s+)|^(\\s+is\\s+odd\\s+by\\s+)|^(\\s+is\\s+not\\s+odd\\s+by\\s+)|^(\\s+is\\s+odd)|^(\\s+is\\s+not\\s+odd)|^(\\s+is\\s+even\\s+by\\s+)|^(\\s+is\\s+not\\s+even\\s+by\\s+)|^(\\s+is\\s+even)|^(\\s+is\\s+not\\s+even)|^(\\s+is\\s+div\\s+by\\s+)|^(\\s+is\\s+not\\s+div\\s+by\\s+)|^(\\((int(eger)?|bool(ean)?|float|double|real|string|binary|array|object)\\))|^(\\(\\s*)|^(\\s*\\))|^(\\[\\s*)|^(\\s*\\])|^(\\s*->\\s*)|^(\\s*=>\\s*)|^(\\s*=\\s*)|^(\\d+)|^((\\+\\+|--)\\s*)|^(\\s*(\\+|-)\\s*)|^(\\s*(\\*|\/|%)\\s*)|^(\\$)|^(\\s*;)|^(::)|^(\\s*:\\s*)|^(@)|^(#)|^(\")|^(`)|^(\\|)|^(\\.)|^(\\s*,\\s*)|^(\\s*&\\s*)|^(\\s*\\?\\s*)|^(\\w+)|^(\\s+)|^(.)"),
-        8 => array(1, "^(\\s{1,}".$this->rdel.")|^(".$this->ldel."\/)|^(".$this->ldel.")|^(".$this->rdel.")|^(\\s+is\\s+in\\s+)|^(\\s+(AS|as)\\s+)|^(\\s+instanceof\\s+)|^(true|false)|^(null)|^(\\s*===\\s*)|^(\\s*!==\\s*)|^(\\s*==\\s*|\\s+(EQ|eq)\\s+)|^(\\s*!=\\s*|\\s*<>\\s*|\\s+(NE|NEQ|ne|neq)\\s+)|^(\\s*>=\\s*|\\s+(GE|GTE|ge|gte)\\s+)|^(\\s*<=\\s*|\\s+(LE|LTE|le|lte)\\s+)|^(\\s*>\\s*|\\s+(GT|gt)\\s+)|^(\\s*<\\s*|\\s+(LT|lt)\\s+)|^(\\s+(MOD|mod)\\s+)|^(!\\s*|(NOT|not)\\s+)|^(\\s*&&\\s*|\\s*(AND|and)\\s+)|^(\\s*\\|\\|\\s*|\\s*(OR|or)\\s+)|^(\\s*(XOR|xor)\\s+)|^(\\s+is\\s+odd\\s+by\\s+)|^(\\s+is\\s+not\\s+odd\\s+by\\s+)|^(\\s+is\\s+odd)|^(\\s+is\\s+not\\s+odd)|^(\\s+is\\s+even\\s+by\\s+)|^(\\s+is\\s+not\\s+even\\s+by\\s+)|^(\\s+is\\s+even)|^(\\s+is\\s+not\\s+even)|^(\\s+is\\s+div\\s+by\\s+)|^(\\s+is\\s+not\\s+div\\s+by\\s+)|^(\\((int(eger)?|bool(ean)?|float|double|real|string|binary|array|object)\\))|^(\\(\\s*)|^(\\s*\\))|^(\\[\\s*)|^(\\s*\\])|^(\\s*->\\s*)|^(\\s*=>\\s*)|^(\\s*=\\s*)|^(\\d+)|^((\\+\\+|--)\\s*)|^(\\s*(\\+|-)\\s*)|^(\\s*(\\*|\/|%)\\s*)|^(\\$)|^(\\s*;)|^(::)|^(\\s*:\\s*)|^(@)|^(#)|^(\")|^(`)|^(\\|)|^(\\.)|^(\\s*,\\s*)|^(\\s*&\\s*)|^(\\s*\\?\\s*)|^(\\w+)|^(\\s+)|^(.)"),
-        9 => array(1, "^(".$this->ldel."\/)|^(".$this->ldel.")|^(".$this->rdel.")|^(\\s+is\\s+in\\s+)|^(\\s+(AS|as)\\s+)|^(\\s+instanceof\\s+)|^(true|false)|^(null)|^(\\s*===\\s*)|^(\\s*!==\\s*)|^(\\s*==\\s*|\\s+(EQ|eq)\\s+)|^(\\s*!=\\s*|\\s*<>\\s*|\\s+(NE|NEQ|ne|neq)\\s+)|^(\\s*>=\\s*|\\s+(GE|GTE|ge|gte)\\s+)|^(\\s*<=\\s*|\\s+(LE|LTE|le|lte)\\s+)|^(\\s*>\\s*|\\s+(GT|gt)\\s+)|^(\\s*<\\s*|\\s+(LT|lt)\\s+)|^(\\s+(MOD|mod)\\s+)|^(!\\s*|(NOT|not)\\s+)|^(\\s*&&\\s*|\\s*(AND|and)\\s+)|^(\\s*\\|\\|\\s*|\\s*(OR|or)\\s+)|^(\\s*(XOR|xor)\\s+)|^(\\s+is\\s+odd\\s+by\\s+)|^(\\s+is\\s+not\\s+odd\\s+by\\s+)|^(\\s+is\\s+odd)|^(\\s+is\\s+not\\s+odd)|^(\\s+is\\s+even\\s+by\\s+)|^(\\s+is\\s+not\\s+even\\s+by\\s+)|^(\\s+is\\s+even)|^(\\s+is\\s+not\\s+even)|^(\\s+is\\s+div\\s+by\\s+)|^(\\s+is\\s+not\\s+div\\s+by\\s+)|^(\\((int(eger)?|bool(ean)?|float|double|real|string|binary|array|object)\\))|^(\\(\\s*)|^(\\s*\\))|^(\\[\\s*)|^(\\s*\\])|^(\\s*->\\s*)|^(\\s*=>\\s*)|^(\\s*=\\s*)|^(\\d+)|^((\\+\\+|--)\\s*)|^(\\s*(\\+|-)\\s*)|^(\\s*(\\*|\/|%)\\s*)|^(\\$)|^(\\s*;)|^(::)|^(\\s*:\\s*)|^(@)|^(#)|^(\")|^(`)|^(\\|)|^(\\.)|^(\\s*,\\s*)|^(\\s*&\\s*)|^(\\s*\\?\\s*)|^(\\w+)|^(\\s+)|^(.)"),
-        10 => array(1, "^(".$this->ldel.")|^(".$this->rdel.")|^(\\s+is\\s+in\\s+)|^(\\s+(AS|as)\\s+)|^(\\s+instanceof\\s+)|^(true|false)|^(null)|^(\\s*===\\s*)|^(\\s*!==\\s*)|^(\\s*==\\s*|\\s+(EQ|eq)\\s+)|^(\\s*!=\\s*|\\s*<>\\s*|\\s+(NE|NEQ|ne|neq)\\s+)|^(\\s*>=\\s*|\\s+(GE|GTE|ge|gte)\\s+)|^(\\s*<=\\s*|\\s+(LE|LTE|le|lte)\\s+)|^(\\s*>\\s*|\\s+(GT|gt)\\s+)|^(\\s*<\\s*|\\s+(LT|lt)\\s+)|^(\\s+(MOD|mod)\\s+)|^(!\\s*|(NOT|not)\\s+)|^(\\s*&&\\s*|\\s*(AND|and)\\s+)|^(\\s*\\|\\|\\s*|\\s*(OR|or)\\s+)|^(\\s*(XOR|xor)\\s+)|^(\\s+is\\s+odd\\s+by\\s+)|^(\\s+is\\s+not\\s+odd\\s+by\\s+)|^(\\s+is\\s+odd)|^(\\s+is\\s+not\\s+odd)|^(\\s+is\\s+even\\s+by\\s+)|^(\\s+is\\s+not\\s+even\\s+by\\s+)|^(\\s+is\\s+even)|^(\\s+is\\s+not\\s+even)|^(\\s+is\\s+div\\s+by\\s+)|^(\\s+is\\s+not\\s+div\\s+by\\s+)|^(\\((int(eger)?|bool(ean)?|float|double|real|string|binary|array|object)\\))|^(\\(\\s*)|^(\\s*\\))|^(\\[\\s*)|^(\\s*\\])|^(\\s*->\\s*)|^(\\s*=>\\s*)|^(\\s*=\\s*)|^(\\d+)|^((\\+\\+|--)\\s*)|^(\\s*(\\+|-)\\s*)|^(\\s*(\\*|\/|%)\\s*)|^(\\$)|^(\\s*;)|^(::)|^(\\s*:\\s*)|^(@)|^(#)|^(\")|^(`)|^(\\|)|^(\\.)|^(\\s*,\\s*)|^(\\s*&\\s*)|^(\\s*\\?\\s*)|^(\\w+)|^(\\s+)|^(.)"),
-        11 => array(1, "^(".$this->rdel.")|^(\\s+is\\s+in\\s+)|^(\\s+(AS|as)\\s+)|^(\\s+instanceof\\s+)|^(true|false)|^(null)|^(\\s*===\\s*)|^(\\s*!==\\s*)|^(\\s*==\\s*|\\s+(EQ|eq)\\s+)|^(\\s*!=\\s*|\\s*<>\\s*|\\s+(NE|NEQ|ne|neq)\\s+)|^(\\s*>=\\s*|\\s+(GE|GTE|ge|gte)\\s+)|^(\\s*<=\\s*|\\s+(LE|LTE|le|lte)\\s+)|^(\\s*>\\s*|\\s+(GT|gt)\\s+)|^(\\s*<\\s*|\\s+(LT|lt)\\s+)|^(\\s+(MOD|mod)\\s+)|^(!\\s*|(NOT|not)\\s+)|^(\\s*&&\\s*|\\s*(AND|and)\\s+)|^(\\s*\\|\\|\\s*|\\s*(OR|or)\\s+)|^(\\s*(XOR|xor)\\s+)|^(\\s+is\\s+odd\\s+by\\s+)|^(\\s+is\\s+not\\s+odd\\s+by\\s+)|^(\\s+is\\s+odd)|^(\\s+is\\s+not\\s+odd)|^(\\s+is\\s+even\\s+by\\s+)|^(\\s+is\\s+not\\s+even\\s+by\\s+)|^(\\s+is\\s+even)|^(\\s+is\\s+not\\s+even)|^(\\s+is\\s+div\\s+by\\s+)|^(\\s+is\\s+not\\s+div\\s+by\\s+)|^(\\((int(eger)?|bool(ean)?|float|double|real|string|binary|array|object)\\))|^(\\(\\s*)|^(\\s*\\))|^(\\[\\s*)|^(\\s*\\])|^(\\s*->\\s*)|^(\\s*=>\\s*)|^(\\s*=\\s*)|^(\\d+)|^((\\+\\+|--)\\s*)|^(\\s*(\\+|-)\\s*)|^(\\s*(\\*|\/|%)\\s*)|^(\\$)|^(\\s*;)|^(::)|^(\\s*:\\s*)|^(@)|^(#)|^(\")|^(`)|^(\\|)|^(\\.)|^(\\s*,\\s*)|^(\\s*&\\s*)|^(\\s*\\?\\s*)|^(\\w+)|^(\\s+)|^(.)"),
-        12 => array(1, "^(\\s+is\\s+in\\s+)|^(\\s+(AS|as)\\s+)|^(\\s+instanceof\\s+)|^(true|false)|^(null)|^(\\s*===\\s*)|^(\\s*!==\\s*)|^(\\s*==\\s*|\\s+(EQ|eq)\\s+)|^(\\s*!=\\s*|\\s*<>\\s*|\\s+(NE|NEQ|ne|neq)\\s+)|^(\\s*>=\\s*|\\s+(GE|GTE|ge|gte)\\s+)|^(\\s*<=\\s*|\\s+(LE|LTE|le|lte)\\s+)|^(\\s*>\\s*|\\s+(GT|gt)\\s+)|^(\\s*<\\s*|\\s+(LT|lt)\\s+)|^(\\s+(MOD|mod)\\s+)|^(!\\s*|(NOT|not)\\s+)|^(\\s*&&\\s*|\\s*(AND|and)\\s+)|^(\\s*\\|\\|\\s*|\\s*(OR|or)\\s+)|^(\\s*(XOR|xor)\\s+)|^(\\s+is\\s+odd\\s+by\\s+)|^(\\s+is\\s+not\\s+odd\\s+by\\s+)|^(\\s+is\\s+odd)|^(\\s+is\\s+not\\s+odd)|^(\\s+is\\s+even\\s+by\\s+)|^(\\s+is\\s+not\\s+even\\s+by\\s+)|^(\\s+is\\s+even)|^(\\s+is\\s+not\\s+even)|^(\\s+is\\s+div\\s+by\\s+)|^(\\s+is\\s+not\\s+div\\s+by\\s+)|^(\\((int(eger)?|bool(ean)?|float|double|real|string|binary|array|object)\\))|^(\\(\\s*)|^(\\s*\\))|^(\\[\\s*)|^(\\s*\\])|^(\\s*->\\s*)|^(\\s*=>\\s*)|^(\\s*=\\s*)|^(\\d+)|^((\\+\\+|--)\\s*)|^(\\s*(\\+|-)\\s*)|^(\\s*(\\*|\/|%)\\s*)|^(\\$)|^(\\s*;)|^(::)|^(\\s*:\\s*)|^(@)|^(#)|^(\")|^(`)|^(\\|)|^(\\.)|^(\\s*,\\s*)|^(\\s*&\\s*)|^(\\s*\\?\\s*)|^(\\w+)|^(\\s+)|^(.)"),
-        13 => array(1, "^(\\s+(AS|as)\\s+)|^(\\s+instanceof\\s+)|^(true|false)|^(null)|^(\\s*===\\s*)|^(\\s*!==\\s*)|^(\\s*==\\s*|\\s+(EQ|eq)\\s+)|^(\\s*!=\\s*|\\s*<>\\s*|\\s+(NE|NEQ|ne|neq)\\s+)|^(\\s*>=\\s*|\\s+(GE|GTE|ge|gte)\\s+)|^(\\s*<=\\s*|\\s+(LE|LTE|le|lte)\\s+)|^(\\s*>\\s*|\\s+(GT|gt)\\s+)|^(\\s*<\\s*|\\s+(LT|lt)\\s+)|^(\\s+(MOD|mod)\\s+)|^(!\\s*|(NOT|not)\\s+)|^(\\s*&&\\s*|\\s*(AND|and)\\s+)|^(\\s*\\|\\|\\s*|\\s*(OR|or)\\s+)|^(\\s*(XOR|xor)\\s+)|^(\\s+is\\s+odd\\s+by\\s+)|^(\\s+is\\s+not\\s+odd\\s+by\\s+)|^(\\s+is\\s+odd)|^(\\s+is\\s+not\\s+odd)|^(\\s+is\\s+even\\s+by\\s+)|^(\\s+is\\s+not\\s+even\\s+by\\s+)|^(\\s+is\\s+even)|^(\\s+is\\s+not\\s+even)|^(\\s+is\\s+div\\s+by\\s+)|^(\\s+is\\s+not\\s+div\\s+by\\s+)|^(\\((int(eger)?|bool(ean)?|float|double|real|string|binary|array|object)\\))|^(\\(\\s*)|^(\\s*\\))|^(\\[\\s*)|^(\\s*\\])|^(\\s*->\\s*)|^(\\s*=>\\s*)|^(\\s*=\\s*)|^(\\d+)|^((\\+\\+|--)\\s*)|^(\\s*(\\+|-)\\s*)|^(\\s*(\\*|\/|%)\\s*)|^(\\$)|^(\\s*;)|^(::)|^(\\s*:\\s*)|^(@)|^(#)|^(\")|^(`)|^(\\|)|^(\\.)|^(\\s*,\\s*)|^(\\s*&\\s*)|^(\\s*\\?\\s*)|^(\\w+)|^(\\s+)|^(.)"),
-        14 => array(2, "^(\\s+instanceof\\s+)|^(true|false)|^(null)|^(\\s*===\\s*)|^(\\s*!==\\s*)|^(\\s*==\\s*|\\s+(EQ|eq)\\s+)|^(\\s*!=\\s*|\\s*<>\\s*|\\s+(NE|NEQ|ne|neq)\\s+)|^(\\s*>=\\s*|\\s+(GE|GTE|ge|gte)\\s+)|^(\\s*<=\\s*|\\s+(LE|LTE|le|lte)\\s+)|^(\\s*>\\s*|\\s+(GT|gt)\\s+)|^(\\s*<\\s*|\\s+(LT|lt)\\s+)|^(\\s+(MOD|mod)\\s+)|^(!\\s*|(NOT|not)\\s+)|^(\\s*&&\\s*|\\s*(AND|and)\\s+)|^(\\s*\\|\\|\\s*|\\s*(OR|or)\\s+)|^(\\s*(XOR|xor)\\s+)|^(\\s+is\\s+odd\\s+by\\s+)|^(\\s+is\\s+not\\s+odd\\s+by\\s+)|^(\\s+is\\s+odd)|^(\\s+is\\s+not\\s+odd)|^(\\s+is\\s+even\\s+by\\s+)|^(\\s+is\\s+not\\s+even\\s+by\\s+)|^(\\s+is\\s+even)|^(\\s+is\\s+not\\s+even)|^(\\s+is\\s+div\\s+by\\s+)|^(\\s+is\\s+not\\s+div\\s+by\\s+)|^(\\((int(eger)?|bool(ean)?|float|double|real|string|binary|array|object)\\))|^(\\(\\s*)|^(\\s*\\))|^(\\[\\s*)|^(\\s*\\])|^(\\s*->\\s*)|^(\\s*=>\\s*)|^(\\s*=\\s*)|^(\\d+)|^((\\+\\+|--)\\s*)|^(\\s*(\\+|-)\\s*)|^(\\s*(\\*|\/|%)\\s*)|^(\\$)|^(\\s*;)|^(::)|^(\\s*:\\s*)|^(@)|^(#)|^(\")|^(`)|^(\\|)|^(\\.)|^(\\s*,\\s*)|^(\\s*&\\s*)|^(\\s*\\?\\s*)|^(\\w+)|^(\\s+)|^(.)"),
-        16 => array(2, "^(true|false)|^(null)|^(\\s*===\\s*)|^(\\s*!==\\s*)|^(\\s*==\\s*|\\s+(EQ|eq)\\s+)|^(\\s*!=\\s*|\\s*<>\\s*|\\s+(NE|NEQ|ne|neq)\\s+)|^(\\s*>=\\s*|\\s+(GE|GTE|ge|gte)\\s+)|^(\\s*<=\\s*|\\s+(LE|LTE|le|lte)\\s+)|^(\\s*>\\s*|\\s+(GT|gt)\\s+)|^(\\s*<\\s*|\\s+(LT|lt)\\s+)|^(\\s+(MOD|mod)\\s+)|^(!\\s*|(NOT|not)\\s+)|^(\\s*&&\\s*|\\s*(AND|and)\\s+)|^(\\s*\\|\\|\\s*|\\s*(OR|or)\\s+)|^(\\s*(XOR|xor)\\s+)|^(\\s+is\\s+odd\\s+by\\s+)|^(\\s+is\\s+not\\s+odd\\s+by\\s+)|^(\\s+is\\s+odd)|^(\\s+is\\s+not\\s+odd)|^(\\s+is\\s+even\\s+by\\s+)|^(\\s+is\\s+not\\s+even\\s+by\\s+)|^(\\s+is\\s+even)|^(\\s+is\\s+not\\s+even)|^(\\s+is\\s+div\\s+by\\s+)|^(\\s+is\\s+not\\s+div\\s+by\\s+)|^(\\((int(eger)?|bool(ean)?|float|double|real|string|binary|array|object)\\))|^(\\(\\s*)|^(\\s*\\))|^(\\[\\s*)|^(\\s*\\])|^(\\s*->\\s*)|^(\\s*=>\\s*)|^(\\s*=\\s*)|^(\\d+)|^((\\+\\+|--)\\s*)|^(\\s*(\\+|-)\\s*)|^(\\s*(\\*|\/|%)\\s*)|^(\\$)|^(\\s*;)|^(::)|^(\\s*:\\s*)|^(@)|^(#)|^(\")|^(`)|^(\\|)|^(\\.)|^(\\s*,\\s*)|^(\\s*&\\s*)|^(\\s*\\?\\s*)|^(\\w+)|^(\\s+)|^(.)"),
-        17 => array(2, "^(null)|^(\\s*===\\s*)|^(\\s*!==\\s*)|^(\\s*==\\s*|\\s+(EQ|eq)\\s+)|^(\\s*!=\\s*|\\s*<>\\s*|\\s+(NE|NEQ|ne|neq)\\s+)|^(\\s*>=\\s*|\\s+(GE|GTE|ge|gte)\\s+)|^(\\s*<=\\s*|\\s+(LE|LTE|le|lte)\\s+)|^(\\s*>\\s*|\\s+(GT|gt)\\s+)|^(\\s*<\\s*|\\s+(LT|lt)\\s+)|^(\\s+(MOD|mod)\\s+)|^(!\\s*|(NOT|not)\\s+)|^(\\s*&&\\s*|\\s*(AND|and)\\s+)|^(\\s*\\|\\|\\s*|\\s*(OR|or)\\s+)|^(\\s*(XOR|xor)\\s+)|^(\\s+is\\s+odd\\s+by\\s+)|^(\\s+is\\s+not\\s+odd\\s+by\\s+)|^(\\s+is\\s+odd)|^(\\s+is\\s+not\\s+odd)|^(\\s+is\\s+even\\s+by\\s+)|^(\\s+is\\s+not\\s+even\\s+by\\s+)|^(\\s+is\\s+even)|^(\\s+is\\s+not\\s+even)|^(\\s+is\\s+div\\s+by\\s+)|^(\\s+is\\s+not\\s+div\\s+by\\s+)|^(\\((int(eger)?|bool(ean)?|float|double|real|string|binary|array|object)\\))|^(\\(\\s*)|^(\\s*\\))|^(\\[\\s*)|^(\\s*\\])|^(\\s*->\\s*)|^(\\s*=>\\s*)|^(\\s*=\\s*)|^(\\d+)|^((\\+\\+|--)\\s*)|^(\\s*(\\+|-)\\s*)|^(\\s*(\\*|\/|%)\\s*)|^(\\$)|^(\\s*;)|^(::)|^(\\s*:\\s*)|^(@)|^(#)|^(\")|^(`)|^(\\|)|^(\\.)|^(\\s*,\\s*)|^(\\s*&\\s*)|^(\\s*\\?\\s*)|^(\\w+)|^(\\s+)|^(.)"),
-        18 => array(2, "^(\\s*===\\s*)|^(\\s*!==\\s*)|^(\\s*==\\s*|\\s+(EQ|eq)\\s+)|^(\\s*!=\\s*|\\s*<>\\s*|\\s+(NE|NEQ|ne|neq)\\s+)|^(\\s*>=\\s*|\\s+(GE|GTE|ge|gte)\\s+)|^(\\s*<=\\s*|\\s+(LE|LTE|le|lte)\\s+)|^(\\s*>\\s*|\\s+(GT|gt)\\s+)|^(\\s*<\\s*|\\s+(LT|lt)\\s+)|^(\\s+(MOD|mod)\\s+)|^(!\\s*|(NOT|not)\\s+)|^(\\s*&&\\s*|\\s*(AND|and)\\s+)|^(\\s*\\|\\|\\s*|\\s*(OR|or)\\s+)|^(\\s*(XOR|xor)\\s+)|^(\\s+is\\s+odd\\s+by\\s+)|^(\\s+is\\s+not\\s+odd\\s+by\\s+)|^(\\s+is\\s+odd)|^(\\s+is\\s+not\\s+odd)|^(\\s+is\\s+even\\s+by\\s+)|^(\\s+is\\s+not\\s+even\\s+by\\s+)|^(\\s+is\\s+even)|^(\\s+is\\s+not\\s+even)|^(\\s+is\\s+div\\s+by\\s+)|^(\\s+is\\s+not\\s+div\\s+by\\s+)|^(\\((int(eger)?|bool(ean)?|float|double|real|string|binary|array|object)\\))|^(\\(\\s*)|^(\\s*\\))|^(\\[\\s*)|^(\\s*\\])|^(\\s*->\\s*)|^(\\s*=>\\s*)|^(\\s*=\\s*)|^(\\d+)|^((\\+\\+|--)\\s*)|^(\\s*(\\+|-)\\s*)|^(\\s*(\\*|\/|%)\\s*)|^(\\$)|^(\\s*;)|^(::)|^(\\s*:\\s*)|^(@)|^(#)|^(\")|^(`)|^(\\|)|^(\\.)|^(\\s*,\\s*)|^(\\s*&\\s*)|^(\\s*\\?\\s*)|^(\\w+)|^(\\s+)|^(.)"),
-        19 => array(2, "^(\\s*!==\\s*)|^(\\s*==\\s*|\\s+(EQ|eq)\\s+)|^(\\s*!=\\s*|\\s*<>\\s*|\\s+(NE|NEQ|ne|neq)\\s+)|^(\\s*>=\\s*|\\s+(GE|GTE|ge|gte)\\s+)|^(\\s*<=\\s*|\\s+(LE|LTE|le|lte)\\s+)|^(\\s*>\\s*|\\s+(GT|gt)\\s+)|^(\\s*<\\s*|\\s+(LT|lt)\\s+)|^(\\s+(MOD|mod)\\s+)|^(!\\s*|(NOT|not)\\s+)|^(\\s*&&\\s*|\\s*(AND|and)\\s+)|^(\\s*\\|\\|\\s*|\\s*(OR|or)\\s+)|^(\\s*(XOR|xor)\\s+)|^(\\s+is\\s+odd\\s+by\\s+)|^(\\s+is\\s+not\\s+odd\\s+by\\s+)|^(\\s+is\\s+odd)|^(\\s+is\\s+not\\s+odd)|^(\\s+is\\s+even\\s+by\\s+)|^(\\s+is\\s+not\\s+even\\s+by\\s+)|^(\\s+is\\s+even)|^(\\s+is\\s+not\\s+even)|^(\\s+is\\s+div\\s+by\\s+)|^(\\s+is\\s+not\\s+div\\s+by\\s+)|^(\\((int(eger)?|bool(ean)?|float|double|real|string|binary|array|object)\\))|^(\\(\\s*)|^(\\s*\\))|^(\\[\\s*)|^(\\s*\\])|^(\\s*->\\s*)|^(\\s*=>\\s*)|^(\\s*=\\s*)|^(\\d+)|^((\\+\\+|--)\\s*)|^(\\s*(\\+|-)\\s*)|^(\\s*(\\*|\/|%)\\s*)|^(\\$)|^(\\s*;)|^(::)|^(\\s*:\\s*)|^(@)|^(#)|^(\")|^(`)|^(\\|)|^(\\.)|^(\\s*,\\s*)|^(\\s*&\\s*)|^(\\s*\\?\\s*)|^(\\w+)|^(\\s+)|^(.)"),
-        20 => array(2, "^(\\s*==\\s*|\\s+(EQ|eq)\\s+)|^(\\s*!=\\s*|\\s*<>\\s*|\\s+(NE|NEQ|ne|neq)\\s+)|^(\\s*>=\\s*|\\s+(GE|GTE|ge|gte)\\s+)|^(\\s*<=\\s*|\\s+(LE|LTE|le|lte)\\s+)|^(\\s*>\\s*|\\s+(GT|gt)\\s+)|^(\\s*<\\s*|\\s+(LT|lt)\\s+)|^(\\s+(MOD|mod)\\s+)|^(!\\s*|(NOT|not)\\s+)|^(\\s*&&\\s*|\\s*(AND|and)\\s+)|^(\\s*\\|\\|\\s*|\\s*(OR|or)\\s+)|^(\\s*(XOR|xor)\\s+)|^(\\s+is\\s+odd\\s+by\\s+)|^(\\s+is\\s+not\\s+odd\\s+by\\s+)|^(\\s+is\\s+odd)|^(\\s+is\\s+not\\s+odd)|^(\\s+is\\s+even\\s+by\\s+)|^(\\s+is\\s+not\\s+even\\s+by\\s+)|^(\\s+is\\s+even)|^(\\s+is\\s+not\\s+even)|^(\\s+is\\s+div\\s+by\\s+)|^(\\s+is\\s+not\\s+div\\s+by\\s+)|^(\\((int(eger)?|bool(ean)?|float|double|real|string|binary|array|object)\\))|^(\\(\\s*)|^(\\s*\\))|^(\\[\\s*)|^(\\s*\\])|^(\\s*->\\s*)|^(\\s*=>\\s*)|^(\\s*=\\s*)|^(\\d+)|^((\\+\\+|--)\\s*)|^(\\s*(\\+|-)\\s*)|^(\\s*(\\*|\/|%)\\s*)|^(\\$)|^(\\s*;)|^(::)|^(\\s*:\\s*)|^(@)|^(#)|^(\")|^(`)|^(\\|)|^(\\.)|^(\\s*,\\s*)|^(\\s*&\\s*)|^(\\s*\\?\\s*)|^(\\w+)|^(\\s+)|^(.)"),
-        21 => array(3, "^(\\s*!=\\s*|\\s*<>\\s*|\\s+(NE|NEQ|ne|neq)\\s+)|^(\\s*>=\\s*|\\s+(GE|GTE|ge|gte)\\s+)|^(\\s*<=\\s*|\\s+(LE|LTE|le|lte)\\s+)|^(\\s*>\\s*|\\s+(GT|gt)\\s+)|^(\\s*<\\s*|\\s+(LT|lt)\\s+)|^(\\s+(MOD|mod)\\s+)|^(!\\s*|(NOT|not)\\s+)|^(\\s*&&\\s*|\\s*(AND|and)\\s+)|^(\\s*\\|\\|\\s*|\\s*(OR|or)\\s+)|^(\\s*(XOR|xor)\\s+)|^(\\s+is\\s+odd\\s+by\\s+)|^(\\s+is\\s+not\\s+odd\\s+by\\s+)|^(\\s+is\\s+odd)|^(\\s+is\\s+not\\s+odd)|^(\\s+is\\s+even\\s+by\\s+)|^(\\s+is\\s+not\\s+even\\s+by\\s+)|^(\\s+is\\s+even)|^(\\s+is\\s+not\\s+even)|^(\\s+is\\s+div\\s+by\\s+)|^(\\s+is\\s+not\\s+div\\s+by\\s+)|^(\\((int(eger)?|bool(ean)?|float|double|real|string|binary|array|object)\\))|^(\\(\\s*)|^(\\s*\\))|^(\\[\\s*)|^(\\s*\\])|^(\\s*->\\s*)|^(\\s*=>\\s*)|^(\\s*=\\s*)|^(\\d+)|^((\\+\\+|--)\\s*)|^(\\s*(\\+|-)\\s*)|^(\\s*(\\*|\/|%)\\s*)|^(\\$)|^(\\s*;)|^(::)|^(\\s*:\\s*)|^(@)|^(#)|^(\")|^(`)|^(\\|)|^(\\.)|^(\\s*,\\s*)|^(\\s*&\\s*)|^(\\s*\\?\\s*)|^(\\w+)|^(\\s+)|^(.)"),
-        23 => array(4, "^(\\s*>=\\s*|\\s+(GE|GTE|ge|gte)\\s+)|^(\\s*<=\\s*|\\s+(LE|LTE|le|lte)\\s+)|^(\\s*>\\s*|\\s+(GT|gt)\\s+)|^(\\s*<\\s*|\\s+(LT|lt)\\s+)|^(\\s+(MOD|mod)\\s+)|^(!\\s*|(NOT|not)\\s+)|^(\\s*&&\\s*|\\s*(AND|and)\\s+)|^(\\s*\\|\\|\\s*|\\s*(OR|or)\\s+)|^(\\s*(XOR|xor)\\s+)|^(\\s+is\\s+odd\\s+by\\s+)|^(\\s+is\\s+not\\s+odd\\s+by\\s+)|^(\\s+is\\s+odd)|^(\\s+is\\s+not\\s+odd)|^(\\s+is\\s+even\\s+by\\s+)|^(\\s+is\\s+not\\s+even\\s+by\\s+)|^(\\s+is\\s+even)|^(\\s+is\\s+not\\s+even)|^(\\s+is\\s+div\\s+by\\s+)|^(\\s+is\\s+not\\s+div\\s+by\\s+)|^(\\((int(eger)?|bool(ean)?|float|double|real|string|binary|array|object)\\))|^(\\(\\s*)|^(\\s*\\))|^(\\[\\s*)|^(\\s*\\])|^(\\s*->\\s*)|^(\\s*=>\\s*)|^(\\s*=\\s*)|^(\\d+)|^((\\+\\+|--)\\s*)|^(\\s*(\\+|-)\\s*)|^(\\s*(\\*|\/|%)\\s*)|^(\\$)|^(\\s*;)|^(::)|^(\\s*:\\s*)|^(@)|^(#)|^(\")|^(`)|^(\\|)|^(\\.)|^(\\s*,\\s*)|^(\\s*&\\s*)|^(\\s*\\?\\s*)|^(\\w+)|^(\\s+)|^(.)"),
-        25 => array(5, "^(\\s*<=\\s*|\\s+(LE|LTE|le|lte)\\s+)|^(\\s*>\\s*|\\s+(GT|gt)\\s+)|^(\\s*<\\s*|\\s+(LT|lt)\\s+)|^(\\s+(MOD|mod)\\s+)|^(!\\s*|(NOT|not)\\s+)|^(\\s*&&\\s*|\\s*(AND|and)\\s+)|^(\\s*\\|\\|\\s*|\\s*(OR|or)\\s+)|^(\\s*(XOR|xor)\\s+)|^(\\s+is\\s+odd\\s+by\\s+)|^(\\s+is\\s+not\\s+odd\\s+by\\s+)|^(\\s+is\\s+odd)|^(\\s+is\\s+not\\s+odd)|^(\\s+is\\s+even\\s+by\\s+)|^(\\s+is\\s+not\\s+even\\s+by\\s+)|^(\\s+is\\s+even)|^(\\s+is\\s+not\\s+even)|^(\\s+is\\s+div\\s+by\\s+)|^(\\s+is\\s+not\\s+div\\s+by\\s+)|^(\\((int(eger)?|bool(ean)?|float|double|real|string|binary|array|object)\\))|^(\\(\\s*)|^(\\s*\\))|^(\\[\\s*)|^(\\s*\\])|^(\\s*->\\s*)|^(\\s*=>\\s*)|^(\\s*=\\s*)|^(\\d+)|^((\\+\\+|--)\\s*)|^(\\s*(\\+|-)\\s*)|^(\\s*(\\*|\/|%)\\s*)|^(\\$)|^(\\s*;)|^(::)|^(\\s*:\\s*)|^(@)|^(#)|^(\")|^(`)|^(\\|)|^(\\.)|^(\\s*,\\s*)|^(\\s*&\\s*)|^(\\s*\\?\\s*)|^(\\w+)|^(\\s+)|^(.)"),
-        27 => array(6, "^(\\s*>\\s*|\\s+(GT|gt)\\s+)|^(\\s*<\\s*|\\s+(LT|lt)\\s+)|^(\\s+(MOD|mod)\\s+)|^(!\\s*|(NOT|not)\\s+)|^(\\s*&&\\s*|\\s*(AND|and)\\s+)|^(\\s*\\|\\|\\s*|\\s*(OR|or)\\s+)|^(\\s*(XOR|xor)\\s+)|^(\\s+is\\s+odd\\s+by\\s+)|^(\\s+is\\s+not\\s+odd\\s+by\\s+)|^(\\s+is\\s+odd)|^(\\s+is\\s+not\\s+odd)|^(\\s+is\\s+even\\s+by\\s+)|^(\\s+is\\s+not\\s+even\\s+by\\s+)|^(\\s+is\\s+even)|^(\\s+is\\s+not\\s+even)|^(\\s+is\\s+div\\s+by\\s+)|^(\\s+is\\s+not\\s+div\\s+by\\s+)|^(\\((int(eger)?|bool(ean)?|float|double|real|string|binary|array|object)\\))|^(\\(\\s*)|^(\\s*\\))|^(\\[\\s*)|^(\\s*\\])|^(\\s*->\\s*)|^(\\s*=>\\s*)|^(\\s*=\\s*)|^(\\d+)|^((\\+\\+|--)\\s*)|^(\\s*(\\+|-)\\s*)|^(\\s*(\\*|\/|%)\\s*)|^(\\$)|^(\\s*;)|^(::)|^(\\s*:\\s*)|^(@)|^(#)|^(\")|^(`)|^(\\|)|^(\\.)|^(\\s*,\\s*)|^(\\s*&\\s*)|^(\\s*\\?\\s*)|^(\\w+)|^(\\s+)|^(.)"),
-        29 => array(7, "^(\\s*<\\s*|\\s+(LT|lt)\\s+)|^(\\s+(MOD|mod)\\s+)|^(!\\s*|(NOT|not)\\s+)|^(\\s*&&\\s*|\\s*(AND|and)\\s+)|^(\\s*\\|\\|\\s*|\\s*(OR|or)\\s+)|^(\\s*(XOR|xor)\\s+)|^(\\s+is\\s+odd\\s+by\\s+)|^(\\s+is\\s+not\\s+odd\\s+by\\s+)|^(\\s+is\\s+odd)|^(\\s+is\\s+not\\s+odd)|^(\\s+is\\s+even\\s+by\\s+)|^(\\s+is\\s+not\\s+even\\s+by\\s+)|^(\\s+is\\s+even)|^(\\s+is\\s+not\\s+even)|^(\\s+is\\s+div\\s+by\\s+)|^(\\s+is\\s+not\\s+div\\s+by\\s+)|^(\\((int(eger)?|bool(ean)?|float|double|real|string|binary|array|object)\\))|^(\\(\\s*)|^(\\s*\\))|^(\\[\\s*)|^(\\s*\\])|^(\\s*->\\s*)|^(\\s*=>\\s*)|^(\\s*=\\s*)|^(\\d+)|^((\\+\\+|--)\\s*)|^(\\s*(\\+|-)\\s*)|^(\\s*(\\*|\/|%)\\s*)|^(\\$)|^(\\s*;)|^(::)|^(\\s*:\\s*)|^(@)|^(#)|^(\")|^(`)|^(\\|)|^(\\.)|^(\\s*,\\s*)|^(\\s*&\\s*)|^(\\s*\\?\\s*)|^(\\w+)|^(\\s+)|^(.)"),
-        31 => array(8, "^(\\s+(MOD|mod)\\s+)|^(!\\s*|(NOT|not)\\s+)|^(\\s*&&\\s*|\\s*(AND|and)\\s+)|^(\\s*\\|\\|\\s*|\\s*(OR|or)\\s+)|^(\\s*(XOR|xor)\\s+)|^(\\s+is\\s+odd\\s+by\\s+)|^(\\s+is\\s+not\\s+odd\\s+by\\s+)|^(\\s+is\\s+odd)|^(\\s+is\\s+not\\s+odd)|^(\\s+is\\s+even\\s+by\\s+)|^(\\s+is\\s+not\\s+even\\s+by\\s+)|^(\\s+is\\s+even)|^(\\s+is\\s+not\\s+even)|^(\\s+is\\s+div\\s+by\\s+)|^(\\s+is\\s+not\\s+div\\s+by\\s+)|^(\\((int(eger)?|bool(ean)?|float|double|real|string|binary|array|object)\\))|^(\\(\\s*)|^(\\s*\\))|^(\\[\\s*)|^(\\s*\\])|^(\\s*->\\s*)|^(\\s*=>\\s*)|^(\\s*=\\s*)|^(\\d+)|^((\\+\\+|--)\\s*)|^(\\s*(\\+|-)\\s*)|^(\\s*(\\*|\/|%)\\s*)|^(\\$)|^(\\s*;)|^(::)|^(\\s*:\\s*)|^(@)|^(#)|^(\")|^(`)|^(\\|)|^(\\.)|^(\\s*,\\s*)|^(\\s*&\\s*)|^(\\s*\\?\\s*)|^(\\w+)|^(\\s+)|^(.)"),
-        33 => array(9, "^(!\\s*|(NOT|not)\\s+)|^(\\s*&&\\s*|\\s*(AND|and)\\s+)|^(\\s*\\|\\|\\s*|\\s*(OR|or)\\s+)|^(\\s*(XOR|xor)\\s+)|^(\\s+is\\s+odd\\s+by\\s+)|^(\\s+is\\s+not\\s+odd\\s+by\\s+)|^(\\s+is\\s+odd)|^(\\s+is\\s+not\\s+odd)|^(\\s+is\\s+even\\s+by\\s+)|^(\\s+is\\s+not\\s+even\\s+by\\s+)|^(\\s+is\\s+even)|^(\\s+is\\s+not\\s+even)|^(\\s+is\\s+div\\s+by\\s+)|^(\\s+is\\s+not\\s+div\\s+by\\s+)|^(\\((int(eger)?|bool(ean)?|float|double|real|string|binary|array|object)\\))|^(\\(\\s*)|^(\\s*\\))|^(\\[\\s*)|^(\\s*\\])|^(\\s*->\\s*)|^(\\s*=>\\s*)|^(\\s*=\\s*)|^(\\d+)|^((\\+\\+|--)\\s*)|^(\\s*(\\+|-)\\s*)|^(\\s*(\\*|\/|%)\\s*)|^(\\$)|^(\\s*;)|^(::)|^(\\s*:\\s*)|^(@)|^(#)|^(\")|^(`)|^(\\|)|^(\\.)|^(\\s*,\\s*)|^(\\s*&\\s*)|^(\\s*\\?\\s*)|^(\\w+)|^(\\s+)|^(.)"),
-        35 => array(10, "^(\\s*&&\\s*|\\s*(AND|and)\\s+)|^(\\s*\\|\\|\\s*|\\s*(OR|or)\\s+)|^(\\s*(XOR|xor)\\s+)|^(\\s+is\\s+odd\\s+by\\s+)|^(\\s+is\\s+not\\s+odd\\s+by\\s+)|^(\\s+is\\s+odd)|^(\\s+is\\s+not\\s+odd)|^(\\s+is\\s+even\\s+by\\s+)|^(\\s+is\\s+not\\s+even\\s+by\\s+)|^(\\s+is\\s+even)|^(\\s+is\\s+not\\s+even)|^(\\s+is\\s+div\\s+by\\s+)|^(\\s+is\\s+not\\s+div\\s+by\\s+)|^(\\((int(eger)?|bool(ean)?|float|double|real|string|binary|array|object)\\))|^(\\(\\s*)|^(\\s*\\))|^(\\[\\s*)|^(\\s*\\])|^(\\s*->\\s*)|^(\\s*=>\\s*)|^(\\s*=\\s*)|^(\\d+)|^((\\+\\+|--)\\s*)|^(\\s*(\\+|-)\\s*)|^(\\s*(\\*|\/|%)\\s*)|^(\\$)|^(\\s*;)|^(::)|^(\\s*:\\s*)|^(@)|^(#)|^(\")|^(`)|^(\\|)|^(\\.)|^(\\s*,\\s*)|^(\\s*&\\s*)|^(\\s*\\?\\s*)|^(\\w+)|^(\\s+)|^(.)"),
-        37 => array(11, "^(\\s*\\|\\|\\s*|\\s*(OR|or)\\s+)|^(\\s*(XOR|xor)\\s+)|^(\\s+is\\s+odd\\s+by\\s+)|^(\\s+is\\s+not\\s+odd\\s+by\\s+)|^(\\s+is\\s+odd)|^(\\s+is\\s+not\\s+odd)|^(\\s+is\\s+even\\s+by\\s+)|^(\\s+is\\s+not\\s+even\\s+by\\s+)|^(\\s+is\\s+even)|^(\\s+is\\s+not\\s+even)|^(\\s+is\\s+div\\s+by\\s+)|^(\\s+is\\s+not\\s+div\\s+by\\s+)|^(\\((int(eger)?|bool(ean)?|float|double|real|string|binary|array|object)\\))|^(\\(\\s*)|^(\\s*\\))|^(\\[\\s*)|^(\\s*\\])|^(\\s*->\\s*)|^(\\s*=>\\s*)|^(\\s*=\\s*)|^(\\d+)|^((\\+\\+|--)\\s*)|^(\\s*(\\+|-)\\s*)|^(\\s*(\\*|\/|%)\\s*)|^(\\$)|^(\\s*;)|^(::)|^(\\s*:\\s*)|^(@)|^(#)|^(\")|^(`)|^(\\|)|^(\\.)|^(\\s*,\\s*)|^(\\s*&\\s*)|^(\\s*\\?\\s*)|^(\\w+)|^(\\s+)|^(.)"),
-        39 => array(12, "^(\\s*(XOR|xor)\\s+)|^(\\s+is\\s+odd\\s+by\\s+)|^(\\s+is\\s+not\\s+odd\\s+by\\s+)|^(\\s+is\\s+odd)|^(\\s+is\\s+not\\s+odd)|^(\\s+is\\s+even\\s+by\\s+)|^(\\s+is\\s+not\\s+even\\s+by\\s+)|^(\\s+is\\s+even)|^(\\s+is\\s+not\\s+even)|^(\\s+is\\s+div\\s+by\\s+)|^(\\s+is\\s+not\\s+div\\s+by\\s+)|^(\\((int(eger)?|bool(ean)?|float|double|real|string|binary|array|object)\\))|^(\\(\\s*)|^(\\s*\\))|^(\\[\\s*)|^(\\s*\\])|^(\\s*->\\s*)|^(\\s*=>\\s*)|^(\\s*=\\s*)|^(\\d+)|^((\\+\\+|--)\\s*)|^(\\s*(\\+|-)\\s*)|^(\\s*(\\*|\/|%)\\s*)|^(\\$)|^(\\s*;)|^(::)|^(\\s*:\\s*)|^(@)|^(#)|^(\")|^(`)|^(\\|)|^(\\.)|^(\\s*,\\s*)|^(\\s*&\\s*)|^(\\s*\\?\\s*)|^(\\w+)|^(\\s+)|^(.)"),
-        41 => array(13, "^(\\s+is\\s+odd\\s+by\\s+)|^(\\s+is\\s+not\\s+odd\\s+by\\s+)|^(\\s+is\\s+odd)|^(\\s+is\\s+not\\s+odd)|^(\\s+is\\s+even\\s+by\\s+)|^(\\s+is\\s+not\\s+even\\s+by\\s+)|^(\\s+is\\s+even)|^(\\s+is\\s+not\\s+even)|^(\\s+is\\s+div\\s+by\\s+)|^(\\s+is\\s+not\\s+div\\s+by\\s+)|^(\\((int(eger)?|bool(ean)?|float|double|real|string|binary|array|object)\\))|^(\\(\\s*)|^(\\s*\\))|^(\\[\\s*)|^(\\s*\\])|^(\\s*->\\s*)|^(\\s*=>\\s*)|^(\\s*=\\s*)|^(\\d+)|^((\\+\\+|--)\\s*)|^(\\s*(\\+|-)\\s*)|^(\\s*(\\*|\/|%)\\s*)|^(\\$)|^(\\s*;)|^(::)|^(\\s*:\\s*)|^(@)|^(#)|^(\")|^(`)|^(\\|)|^(\\.)|^(\\s*,\\s*)|^(\\s*&\\s*)|^(\\s*\\?\\s*)|^(\\w+)|^(\\s+)|^(.)"),
-        43 => array(13, "^(\\s+is\\s+not\\s+odd\\s+by\\s+)|^(\\s+is\\s+odd)|^(\\s+is\\s+not\\s+odd)|^(\\s+is\\s+even\\s+by\\s+)|^(\\s+is\\s+not\\s+even\\s+by\\s+)|^(\\s+is\\s+even)|^(\\s+is\\s+not\\s+even)|^(\\s+is\\s+div\\s+by\\s+)|^(\\s+is\\s+not\\s+div\\s+by\\s+)|^(\\((int(eger)?|bool(ean)?|float|double|real|string|binary|array|object)\\))|^(\\(\\s*)|^(\\s*\\))|^(\\[\\s*)|^(\\s*\\])|^(\\s*->\\s*)|^(\\s*=>\\s*)|^(\\s*=\\s*)|^(\\d+)|^((\\+\\+|--)\\s*)|^(\\s*(\\+|-)\\s*)|^(\\s*(\\*|\/|%)\\s*)|^(\\$)|^(\\s*;)|^(::)|^(\\s*:\\s*)|^(@)|^(#)|^(\")|^(`)|^(\\|)|^(\\.)|^(\\s*,\\s*)|^(\\s*&\\s*)|^(\\s*\\?\\s*)|^(\\w+)|^(\\s+)|^(.)"),
-        44 => array(13, "^(\\s+is\\s+odd)|^(\\s+is\\s+not\\s+odd)|^(\\s+is\\s+even\\s+by\\s+)|^(\\s+is\\s+not\\s+even\\s+by\\s+)|^(\\s+is\\s+even)|^(\\s+is\\s+not\\s+even)|^(\\s+is\\s+div\\s+by\\s+)|^(\\s+is\\s+not\\s+div\\s+by\\s+)|^(\\((int(eger)?|bool(ean)?|float|double|real|string|binary|array|object)\\))|^(\\(\\s*)|^(\\s*\\))|^(\\[\\s*)|^(\\s*\\])|^(\\s*->\\s*)|^(\\s*=>\\s*)|^(\\s*=\\s*)|^(\\d+)|^((\\+\\+|--)\\s*)|^(\\s*(\\+|-)\\s*)|^(\\s*(\\*|\/|%)\\s*)|^(\\$)|^(\\s*;)|^(::)|^(\\s*:\\s*)|^(@)|^(#)|^(\")|^(`)|^(\\|)|^(\\.)|^(\\s*,\\s*)|^(\\s*&\\s*)|^(\\s*\\?\\s*)|^(\\w+)|^(\\s+)|^(.)"),
-        45 => array(13, "^(\\s+is\\s+not\\s+odd)|^(\\s+is\\s+even\\s+by\\s+)|^(\\s+is\\s+not\\s+even\\s+by\\s+)|^(\\s+is\\s+even)|^(\\s+is\\s+not\\s+even)|^(\\s+is\\s+div\\s+by\\s+)|^(\\s+is\\s+not\\s+div\\s+by\\s+)|^(\\((int(eger)?|bool(ean)?|float|double|real|string|binary|array|object)\\))|^(\\(\\s*)|^(\\s*\\))|^(\\[\\s*)|^(\\s*\\])|^(\\s*->\\s*)|^(\\s*=>\\s*)|^(\\s*=\\s*)|^(\\d+)|^((\\+\\+|--)\\s*)|^(\\s*(\\+|-)\\s*)|^(\\s*(\\*|\/|%)\\s*)|^(\\$)|^(\\s*;)|^(::)|^(\\s*:\\s*)|^(@)|^(#)|^(\")|^(`)|^(\\|)|^(\\.)|^(\\s*,\\s*)|^(\\s*&\\s*)|^(\\s*\\?\\s*)|^(\\w+)|^(\\s+)|^(.)"),
-        46 => array(13, "^(\\s+is\\s+even\\s+by\\s+)|^(\\s+is\\s+not\\s+even\\s+by\\s+)|^(\\s+is\\s+even)|^(\\s+is\\s+not\\s+even)|^(\\s+is\\s+div\\s+by\\s+)|^(\\s+is\\s+not\\s+div\\s+by\\s+)|^(\\((int(eger)?|bool(ean)?|float|double|real|string|binary|array|object)\\))|^(\\(\\s*)|^(\\s*\\))|^(\\[\\s*)|^(\\s*\\])|^(\\s*->\\s*)|^(\\s*=>\\s*)|^(\\s*=\\s*)|^(\\d+)|^((\\+\\+|--)\\s*)|^(\\s*(\\+|-)\\s*)|^(\\s*(\\*|\/|%)\\s*)|^(\\$)|^(\\s*;)|^(::)|^(\\s*:\\s*)|^(@)|^(#)|^(\")|^(`)|^(\\|)|^(\\.)|^(\\s*,\\s*)|^(\\s*&\\s*)|^(\\s*\\?\\s*)|^(\\w+)|^(\\s+)|^(.)"),
-        47 => array(13, "^(\\s+is\\s+not\\s+even\\s+by\\s+)|^(\\s+is\\s+even)|^(\\s+is\\s+not\\s+even)|^(\\s+is\\s+div\\s+by\\s+)|^(\\s+is\\s+not\\s+div\\s+by\\s+)|^(\\((int(eger)?|bool(ean)?|float|double|real|string|binary|array|object)\\))|^(\\(\\s*)|^(\\s*\\))|^(\\[\\s*)|^(\\s*\\])|^(\\s*->\\s*)|^(\\s*=>\\s*)|^(\\s*=\\s*)|^(\\d+)|^((\\+\\+|--)\\s*)|^(\\s*(\\+|-)\\s*)|^(\\s*(\\*|\/|%)\\s*)|^(\\$)|^(\\s*;)|^(::)|^(\\s*:\\s*)|^(@)|^(#)|^(\")|^(`)|^(\\|)|^(\\.)|^(\\s*,\\s*)|^(\\s*&\\s*)|^(\\s*\\?\\s*)|^(\\w+)|^(\\s+)|^(.)"),
-        48 => array(13, "^(\\s+is\\s+even)|^(\\s+is\\s+not\\s+even)|^(\\s+is\\s+div\\s+by\\s+)|^(\\s+is\\s+not\\s+div\\s+by\\s+)|^(\\((int(eger)?|bool(ean)?|float|double|real|string|binary|array|object)\\))|^(\\(\\s*)|^(\\s*\\))|^(\\[\\s*)|^(\\s*\\])|^(\\s*->\\s*)|^(\\s*=>\\s*)|^(\\s*=\\s*)|^(\\d+)|^((\\+\\+|--)\\s*)|^(\\s*(\\+|-)\\s*)|^(\\s*(\\*|\/|%)\\s*)|^(\\$)|^(\\s*;)|^(::)|^(\\s*:\\s*)|^(@)|^(#)|^(\")|^(`)|^(\\|)|^(\\.)|^(\\s*,\\s*)|^(\\s*&\\s*)|^(\\s*\\?\\s*)|^(\\w+)|^(\\s+)|^(.)"),
-        49 => array(13, "^(\\s+is\\s+not\\s+even)|^(\\s+is\\s+div\\s+by\\s+)|^(\\s+is\\s+not\\s+div\\s+by\\s+)|^(\\((int(eger)?|bool(ean)?|float|double|real|string|binary|array|object)\\))|^(\\(\\s*)|^(\\s*\\))|^(\\[\\s*)|^(\\s*\\])|^(\\s*->\\s*)|^(\\s*=>\\s*)|^(\\s*=\\s*)|^(\\d+)|^((\\+\\+|--)\\s*)|^(\\s*(\\+|-)\\s*)|^(\\s*(\\*|\/|%)\\s*)|^(\\$)|^(\\s*;)|^(::)|^(\\s*:\\s*)|^(@)|^(#)|^(\")|^(`)|^(\\|)|^(\\.)|^(\\s*,\\s*)|^(\\s*&\\s*)|^(\\s*\\?\\s*)|^(\\w+)|^(\\s+)|^(.)"),
-        50 => array(13, "^(\\s+is\\s+div\\s+by\\s+)|^(\\s+is\\s+not\\s+div\\s+by\\s+)|^(\\((int(eger)?|bool(ean)?|float|double|real|string|binary|array|object)\\))|^(\\(\\s*)|^(\\s*\\))|^(\\[\\s*)|^(\\s*\\])|^(\\s*->\\s*)|^(\\s*=>\\s*)|^(\\s*=\\s*)|^(\\d+)|^((\\+\\+|--)\\s*)|^(\\s*(\\+|-)\\s*)|^(\\s*(\\*|\/|%)\\s*)|^(\\$)|^(\\s*;)|^(::)|^(\\s*:\\s*)|^(@)|^(#)|^(\")|^(`)|^(\\|)|^(\\.)|^(\\s*,\\s*)|^(\\s*&\\s*)|^(\\s*\\?\\s*)|^(\\w+)|^(\\s+)|^(.)"),
-        51 => array(13, "^(\\s+is\\s+not\\s+div\\s+by\\s+)|^(\\((int(eger)?|bool(ean)?|float|double|real|string|binary|array|object)\\))|^(\\(\\s*)|^(\\s*\\))|^(\\[\\s*)|^(\\s*\\])|^(\\s*->\\s*)|^(\\s*=>\\s*)|^(\\s*=\\s*)|^(\\d+)|^((\\+\\+|--)\\s*)|^(\\s*(\\+|-)\\s*)|^(\\s*(\\*|\/|%)\\s*)|^(\\$)|^(\\s*;)|^(::)|^(\\s*:\\s*)|^(@)|^(#)|^(\")|^(`)|^(\\|)|^(\\.)|^(\\s*,\\s*)|^(\\s*&\\s*)|^(\\s*\\?\\s*)|^(\\w+)|^(\\s+)|^(.)"),
-        52 => array(13, "^(\\((int(eger)?|bool(ean)?|float|double|real|string|binary|array|object)\\))|^(\\(\\s*)|^(\\s*\\))|^(\\[\\s*)|^(\\s*\\])|^(\\s*->\\s*)|^(\\s*=>\\s*)|^(\\s*=\\s*)|^(\\d+)|^((\\+\\+|--)\\s*)|^(\\s*(\\+|-)\\s*)|^(\\s*(\\*|\/|%)\\s*)|^(\\$)|^(\\s*;)|^(::)|^(\\s*:\\s*)|^(@)|^(#)|^(\")|^(`)|^(\\|)|^(\\.)|^(\\s*,\\s*)|^(\\s*&\\s*)|^(\\s*\\?\\s*)|^(\\w+)|^(\\s+)|^(.)"),
-        53 => array(16, "^(\\(\\s*)|^(\\s*\\))|^(\\[\\s*)|^(\\s*\\])|^(\\s*->\\s*)|^(\\s*=>\\s*)|^(\\s*=\\s*)|^(\\d+)|^((\\+\\+|--)\\s*)|^(\\s*(\\+|-)\\s*)|^(\\s*(\\*|\/|%)\\s*)|^(\\$)|^(\\s*;)|^(::)|^(\\s*:\\s*)|^(@)|^(#)|^(\")|^(`)|^(\\|)|^(\\.)|^(\\s*,\\s*)|^(\\s*&\\s*)|^(\\s*\\?\\s*)|^(\\w+)|^(\\s+)|^(.)"),
-        57 => array(16, "^(\\s*\\))|^(\\[\\s*)|^(\\s*\\])|^(\\s*->\\s*)|^(\\s*=>\\s*)|^(\\s*=\\s*)|^(\\d+)|^((\\+\\+|--)\\s*)|^(\\s*(\\+|-)\\s*)|^(\\s*(\\*|\/|%)\\s*)|^(\\$)|^(\\s*;)|^(::)|^(\\s*:\\s*)|^(@)|^(#)|^(\")|^(`)|^(\\|)|^(\\.)|^(\\s*,\\s*)|^(\\s*&\\s*)|^(\\s*\\?\\s*)|^(\\w+)|^(\\s+)|^(.)"),
-        58 => array(16, "^(\\[\\s*)|^(\\s*\\])|^(\\s*->\\s*)|^(\\s*=>\\s*)|^(\\s*=\\s*)|^(\\d+)|^((\\+\\+|--)\\s*)|^(\\s*(\\+|-)\\s*)|^(\\s*(\\*|\/|%)\\s*)|^(\\$)|^(\\s*;)|^(::)|^(\\s*:\\s*)|^(@)|^(#)|^(\")|^(`)|^(\\|)|^(\\.)|^(\\s*,\\s*)|^(\\s*&\\s*)|^(\\s*\\?\\s*)|^(\\w+)|^(\\s+)|^(.)"),
-        59 => array(16, "^(\\s*\\])|^(\\s*->\\s*)|^(\\s*=>\\s*)|^(\\s*=\\s*)|^(\\d+)|^((\\+\\+|--)\\s*)|^(\\s*(\\+|-)\\s*)|^(\\s*(\\*|\/|%)\\s*)|^(\\$)|^(\\s*;)|^(::)|^(\\s*:\\s*)|^(@)|^(#)|^(\")|^(`)|^(\\|)|^(\\.)|^(\\s*,\\s*)|^(\\s*&\\s*)|^(\\s*\\?\\s*)|^(\\w+)|^(\\s+)|^(.)"),
-        60 => array(16, "^(\\s*->\\s*)|^(\\s*=>\\s*)|^(\\s*=\\s*)|^(\\d+)|^((\\+\\+|--)\\s*)|^(\\s*(\\+|-)\\s*)|^(\\s*(\\*|\/|%)\\s*)|^(\\$)|^(\\s*;)|^(::)|^(\\s*:\\s*)|^(@)|^(#)|^(\")|^(`)|^(\\|)|^(\\.)|^(\\s*,\\s*)|^(\\s*&\\s*)|^(\\s*\\?\\s*)|^(\\w+)|^(\\s+)|^(.)"),
-        61 => array(16, "^(\\s*=>\\s*)|^(\\s*=\\s*)|^(\\d+)|^((\\+\\+|--)\\s*)|^(\\s*(\\+|-)\\s*)|^(\\s*(\\*|\/|%)\\s*)|^(\\$)|^(\\s*;)|^(::)|^(\\s*:\\s*)|^(@)|^(#)|^(\")|^(`)|^(\\|)|^(\\.)|^(\\s*,\\s*)|^(\\s*&\\s*)|^(\\s*\\?\\s*)|^(\\w+)|^(\\s+)|^(.)"),
-        62 => array(16, "^(\\s*=\\s*)|^(\\d+)|^((\\+\\+|--)\\s*)|^(\\s*(\\+|-)\\s*)|^(\\s*(\\*|\/|%)\\s*)|^(\\$)|^(\\s*;)|^(::)|^(\\s*:\\s*)|^(@)|^(#)|^(\")|^(`)|^(\\|)|^(\\.)|^(\\s*,\\s*)|^(\\s*&\\s*)|^(\\s*\\?\\s*)|^(\\w+)|^(\\s+)|^(.)"),
-        63 => array(16, "^(\\d+)|^((\\+\\+|--)\\s*)|^(\\s*(\\+|-)\\s*)|^(\\s*(\\*|\/|%)\\s*)|^(\\$)|^(\\s*;)|^(::)|^(\\s*:\\s*)|^(@)|^(#)|^(\")|^(`)|^(\\|)|^(\\.)|^(\\s*,\\s*)|^(\\s*&\\s*)|^(\\s*\\?\\s*)|^(\\w+)|^(\\s+)|^(.)"),
-        64 => array(16, "^((\\+\\+|--)\\s*)|^(\\s*(\\+|-)\\s*)|^(\\s*(\\*|\/|%)\\s*)|^(\\$)|^(\\s*;)|^(::)|^(\\s*:\\s*)|^(@)|^(#)|^(\")|^(`)|^(\\|)|^(\\.)|^(\\s*,\\s*)|^(\\s*&\\s*)|^(\\s*\\?\\s*)|^(\\w+)|^(\\s+)|^(.)"),
-        65 => array(17, "^(\\s*(\\+|-)\\s*)|^(\\s*(\\*|\/|%)\\s*)|^(\\$)|^(\\s*;)|^(::)|^(\\s*:\\s*)|^(@)|^(#)|^(\")|^(`)|^(\\|)|^(\\.)|^(\\s*,\\s*)|^(\\s*&\\s*)|^(\\s*\\?\\s*)|^(\\w+)|^(\\s+)|^(.)"),
-        67 => array(18, "^(\\s*(\\*|\/|%)\\s*)|^(\\$)|^(\\s*;)|^(::)|^(\\s*:\\s*)|^(@)|^(#)|^(\")|^(`)|^(\\|)|^(\\.)|^(\\s*,\\s*)|^(\\s*&\\s*)|^(\\s*\\?\\s*)|^(\\w+)|^(\\s+)|^(.)"),
-        69 => array(19, "^(\\$)|^(\\s*;)|^(::)|^(\\s*:\\s*)|^(@)|^(#)|^(\")|^(`)|^(\\|)|^(\\.)|^(\\s*,\\s*)|^(\\s*&\\s*)|^(\\s*\\?\\s*)|^(\\w+)|^(\\s+)|^(.)"),
-        71 => array(19, "^(\\s*;)|^(::)|^(\\s*:\\s*)|^(@)|^(#)|^(\")|^(`)|^(\\|)|^(\\.)|^(\\s*,\\s*)|^(\\s*&\\s*)|^(\\s*\\?\\s*)|^(\\w+)|^(\\s+)|^(.)"),
-        72 => array(19, "^(::)|^(\\s*:\\s*)|^(@)|^(#)|^(\")|^(`)|^(\\|)|^(\\.)|^(\\s*,\\s*)|^(\\s*&\\s*)|^(\\s*\\?\\s*)|^(\\w+)|^(\\s+)|^(.)"),
-        73 => array(19, "^(\\s*:\\s*)|^(@)|^(#)|^(\")|^(`)|^(\\|)|^(\\.)|^(\\s*,\\s*)|^(\\s*&\\s*)|^(\\s*\\?\\s*)|^(\\w+)|^(\\s+)|^(.)"),
-        74 => array(19, "^(@)|^(#)|^(\")|^(`)|^(\\|)|^(\\.)|^(\\s*,\\s*)|^(\\s*&\\s*)|^(\\s*\\?\\s*)|^(\\w+)|^(\\s+)|^(.)"),
-        75 => array(19, "^(#)|^(\")|^(`)|^(\\|)|^(\\.)|^(\\s*,\\s*)|^(\\s*&\\s*)|^(\\s*\\?\\s*)|^(\\w+)|^(\\s+)|^(.)"),
-        76 => array(19, "^(\")|^(`)|^(\\|)|^(\\.)|^(\\s*,\\s*)|^(\\s*&\\s*)|^(\\s*\\?\\s*)|^(\\w+)|^(\\s+)|^(.)"),
-        77 => array(19, "^(`)|^(\\|)|^(\\.)|^(\\s*,\\s*)|^(\\s*&\\s*)|^(\\s*\\?\\s*)|^(\\w+)|^(\\s+)|^(.)"),
-        78 => array(19, "^(\\|)|^(\\.)|^(\\s*,\\s*)|^(\\s*&\\s*)|^(\\s*\\?\\s*)|^(\\w+)|^(\\s+)|^(.)"),
-        79 => array(19, "^(\\.)|^(\\s*,\\s*)|^(\\s*&\\s*)|^(\\s*\\?\\s*)|^(\\w+)|^(\\s+)|^(.)"),
-        80 => array(19, "^(\\s*,\\s*)|^(\\s*&\\s*)|^(\\s*\\?\\s*)|^(\\w+)|^(\\s+)|^(.)"),
-        81 => array(19, "^(\\s*&\\s*)|^(\\s*\\?\\s*)|^(\\w+)|^(\\s+)|^(.)"),
-        82 => array(19, "^(\\s*\\?\\s*)|^(\\w+)|^(\\s+)|^(.)"),
-        83 => array(19, "^(\\w+)|^(\\s+)|^(.)"),
-        84 => array(19, "^(\\s+)|^(.)"),
-        85 => array(19, "^(.)"),
-        86 => array(19, ""),
-    );
-
-                    // yymore is needed
-                    do {
-                        if (!strlen($yy_yymore_patterns[$this->token][1])) {
-                            throw new Exception('cannot do yymore for the last token');
-                        }
-                        $yysubmatches = array();
-                        if (preg_match('/' . $yy_yymore_patterns[$this->token][1] . '/',
-                              substr($this->data, $this->counter), $yymatches)) {
-                            $yysubmatches = $yymatches;
-                            $yymatches = array_filter($yymatches, 'strlen'); // remove empty sub-patterns
-                            next($yymatches); // skip global match
-                            $this->token += key($yymatches) + $yy_yymore_patterns[$this->token][0]; // token number
-                            $this->value = current($yymatches); // token value
-                            $this->line = substr_count($this->value, "\n");
-                            if ($tokenMap[$this->token]) {
-                                // extract sub-patterns for passing to lex function
-                                $yysubmatches = array_slice($yysubmatches, $this->token + 1,
-                                    $tokenMap[$this->token]);
-                            } else {
-                                $yysubmatches = array();
-                            }
-                        }
-                    	$r = $this->{'yy_r2_' . $this->token}($yysubmatches);
-                    } while ($r !== null && !is_bool($r));
-			        if ($r === true) {
-			            // we have changed state
-			            // process this token in the new state
-			            return $this->yylex();
-                    } elseif ($r === false) {
-                        $this->counter += strlen($this->value);
-                        $this->line += substr_count($this->value, "\n");
-                        if ($this->counter >= strlen($this->data)) {
-                            return false; // end of input
-                        }
-                        // skip this token
-                        continue;
-			        } else {
-	                    // accept
-	                    $this->counter += strlen($this->value);
-	                    $this->line += substr_count($this->value, "\n");
-	                    return true;
-			        }
-                }
-            } else {
+                }            } else {
                 throw new Exception('Unexpected input at line' . $this->line .
                     ': ' . $this->data[$this->counter]);
             }
@@ -604,6 +470,7 @@ class Smarty_Internal_Templatelexer
   } else {
      $this->token = Smarty_Internal_Templateparser::TP_LDELSLASH;
      $this->yypushstate(self::SMARTY);
+     $this->taglineno = $this->line;
   }
     }
     function yy_r2_8($yy_subpatterns)
@@ -614,6 +481,7 @@ class Smarty_Internal_Templatelexer
   } else {
      $this->token = Smarty_Internal_Templateparser::TP_LDEL;
      $this->yypushstate(self::SMARTY);
+     $this->taglineno = $this->line;
   }
     }
     function yy_r2_9($yy_subpatterns)
@@ -631,12 +499,14 @@ class Smarty_Internal_Templatelexer
 
   $this->token = Smarty_Internal_Templateparser::TP_LDELSLASH;
      $this->yypushstate(self::SMARTY);
+     $this->taglineno = $this->line;
     }
     function yy_r2_11($yy_subpatterns)
     {
 
   $this->token = Smarty_Internal_Templateparser::TP_LDEL;
      $this->yypushstate(self::SMARTY);
+     $this->taglineno = $this->line;
     }
     function yy_r2_12($yy_subpatterns)
     {
@@ -657,271 +527,291 @@ class Smarty_Internal_Templatelexer
     function yy_r2_16($yy_subpatterns)
     {
 
-  $this->token = Smarty_Internal_Templateparser::TP_INSTANCEOF;
-    }
-    function yy_r2_17($yy_subpatterns)
-    {
-
-  $this->token = Smarty_Internal_Templateparser::TP_BOOLEAN;
+  $this->token = Smarty_Internal_Templateparser::TP_TO;
     }
     function yy_r2_18($yy_subpatterns)
     {
 
-  $this->token = Smarty_Internal_Templateparser::TP_NULL;
+  $this->token = Smarty_Internal_Templateparser::TP_INSTANCEOF;
     }
     function yy_r2_19($yy_subpatterns)
     {
 
-  $this->token = Smarty_Internal_Templateparser::TP_IDENTITY;
+  $this->token = Smarty_Internal_Templateparser::TP_BOOLEAN;
     }
     function yy_r2_20($yy_subpatterns)
     {
 
-  $this->token = Smarty_Internal_Templateparser::TP_NONEIDENTITY;
+  $this->token = Smarty_Internal_Templateparser::TP_NULL;
     }
     function yy_r2_21($yy_subpatterns)
     {
 
-  $this->token = Smarty_Internal_Templateparser::TP_EQUALS;
+  $this->token = Smarty_Internal_Templateparser::TP_IDENTITY;
+    }
+    function yy_r2_22($yy_subpatterns)
+    {
+
+  $this->token = Smarty_Internal_Templateparser::TP_NONEIDENTITY;
     }
     function yy_r2_23($yy_subpatterns)
     {
 
-  $this->token = Smarty_Internal_Templateparser::TP_NOTEQUALS;
+  $this->token = Smarty_Internal_Templateparser::TP_EQUALS;
     }
     function yy_r2_25($yy_subpatterns)
     {
 
-  $this->token = Smarty_Internal_Templateparser::TP_GREATEREQUAL;
+  $this->token = Smarty_Internal_Templateparser::TP_NOTEQUALS;
     }
     function yy_r2_27($yy_subpatterns)
     {
 
-  $this->token = Smarty_Internal_Templateparser::TP_LESSEQUAL;
+  $this->token = Smarty_Internal_Templateparser::TP_GREATEREQUAL;
     }
     function yy_r2_29($yy_subpatterns)
     {
 
-  $this->token = Smarty_Internal_Templateparser::TP_GREATERTHAN;
+  $this->token = Smarty_Internal_Templateparser::TP_LESSEQUAL;
     }
     function yy_r2_31($yy_subpatterns)
     {
 
-  $this->token = Smarty_Internal_Templateparser::TP_LESSTHAN;
+  $this->token = Smarty_Internal_Templateparser::TP_GREATERTHAN;
     }
     function yy_r2_33($yy_subpatterns)
     {
 
-  $this->token = Smarty_Internal_Templateparser::TP_MOD;
+  $this->token = Smarty_Internal_Templateparser::TP_LESSTHAN;
     }
     function yy_r2_35($yy_subpatterns)
     {
 
-  $this->token = Smarty_Internal_Templateparser::TP_NOT;
+  $this->token = Smarty_Internal_Templateparser::TP_MOD;
     }
     function yy_r2_37($yy_subpatterns)
     {
 
-  $this->token = Smarty_Internal_Templateparser::TP_LAND;
+  $this->token = Smarty_Internal_Templateparser::TP_NOT;
     }
     function yy_r2_39($yy_subpatterns)
     {
 
-  $this->token = Smarty_Internal_Templateparser::TP_LOR;
+  $this->token = Smarty_Internal_Templateparser::TP_LAND;
     }
     function yy_r2_41($yy_subpatterns)
     {
 
-  $this->token = Smarty_Internal_Templateparser::TP_LXOR;
+  $this->token = Smarty_Internal_Templateparser::TP_LOR;
     }
     function yy_r2_43($yy_subpatterns)
     {
 
-  $this->token = Smarty_Internal_Templateparser::TP_ISODDBY;
-    }
-    function yy_r2_44($yy_subpatterns)
-    {
-
-  $this->token = Smarty_Internal_Templateparser::TP_ISNOTODDBY;
+  $this->token = Smarty_Internal_Templateparser::TP_LXOR;
     }
     function yy_r2_45($yy_subpatterns)
     {
 
-  $this->token = Smarty_Internal_Templateparser::TP_ISODD;
+  $this->token = Smarty_Internal_Templateparser::TP_ISODDBY;
     }
     function yy_r2_46($yy_subpatterns)
     {
 
-  $this->token = Smarty_Internal_Templateparser::TP_ISNOTODD;
+  $this->token = Smarty_Internal_Templateparser::TP_ISNOTODDBY;
     }
     function yy_r2_47($yy_subpatterns)
     {
 
-  $this->token = Smarty_Internal_Templateparser::TP_ISEVENBY;
+  $this->token = Smarty_Internal_Templateparser::TP_ISODD;
     }
     function yy_r2_48($yy_subpatterns)
     {
 
-  $this->token = Smarty_Internal_Templateparser::TP_ISNOTEVENBY;
+  $this->token = Smarty_Internal_Templateparser::TP_ISNOTODD;
     }
     function yy_r2_49($yy_subpatterns)
     {
 
-  $this->token = Smarty_Internal_Templateparser::TP_ISEVEN;
+  $this->token = Smarty_Internal_Templateparser::TP_ISEVENBY;
     }
     function yy_r2_50($yy_subpatterns)
     {
 
-  $this->token = Smarty_Internal_Templateparser::TP_ISNOTEVEN;
+  $this->token = Smarty_Internal_Templateparser::TP_ISNOTEVENBY;
     }
     function yy_r2_51($yy_subpatterns)
     {
 
-  $this->token = Smarty_Internal_Templateparser::TP_ISDIVBY;
+  $this->token = Smarty_Internal_Templateparser::TP_ISEVEN;
     }
     function yy_r2_52($yy_subpatterns)
     {
 
-  $this->token = Smarty_Internal_Templateparser::TP_ISNOTDIVBY;
+  $this->token = Smarty_Internal_Templateparser::TP_ISNOTEVEN;
     }
     function yy_r2_53($yy_subpatterns)
     {
 
+  $this->token = Smarty_Internal_Templateparser::TP_ISDIVBY;
+    }
+    function yy_r2_54($yy_subpatterns)
+    {
+
+  $this->token = Smarty_Internal_Templateparser::TP_ISNOTDIVBY;
+    }
+    function yy_r2_55($yy_subpatterns)
+    {
+
   $this->token = Smarty_Internal_Templateparser::TP_TYPECAST;
-    }
-    function yy_r2_57($yy_subpatterns)
-    {
-
-  $this->token = Smarty_Internal_Templateparser::TP_OPENP;
-    }
-    function yy_r2_58($yy_subpatterns)
-    {
-
-  $this->token = Smarty_Internal_Templateparser::TP_CLOSEP;
     }
     function yy_r2_59($yy_subpatterns)
     {
 
-  $this->token = Smarty_Internal_Templateparser::TP_OPENB;
+  $this->token = Smarty_Internal_Templateparser::TP_OPENP;
     }
     function yy_r2_60($yy_subpatterns)
     {
 
-  $this->token = Smarty_Internal_Templateparser::TP_CLOSEB;
+  $this->token = Smarty_Internal_Templateparser::TP_CLOSEP;
     }
     function yy_r2_61($yy_subpatterns)
     {
 
-  $this->token = Smarty_Internal_Templateparser::TP_PTR; 
+  $this->token = Smarty_Internal_Templateparser::TP_OPENB;
     }
     function yy_r2_62($yy_subpatterns)
     {
 
-  $this->token = Smarty_Internal_Templateparser::TP_APTR;
+  $this->token = Smarty_Internal_Templateparser::TP_CLOSEB;
     }
     function yy_r2_63($yy_subpatterns)
     {
 
-  $this->token = Smarty_Internal_Templateparser::TP_EQUAL;
+  $this->token = Smarty_Internal_Templateparser::TP_PTR; 
     }
     function yy_r2_64($yy_subpatterns)
     {
 
-  $this->token = Smarty_Internal_Templateparser::TP_INTEGER;
+  $this->token = Smarty_Internal_Templateparser::TP_APTR;
     }
     function yy_r2_65($yy_subpatterns)
     {
 
+  $this->token = Smarty_Internal_Templateparser::TP_EQUAL;
+    }
+    function yy_r2_66($yy_subpatterns)
+    {
+
   $this->token = Smarty_Internal_Templateparser::TP_INCDEC;
     }
-    function yy_r2_67($yy_subpatterns)
+    function yy_r2_68($yy_subpatterns)
     {
 
   $this->token = Smarty_Internal_Templateparser::TP_UNIMATH;
     }
-    function yy_r2_69($yy_subpatterns)
+    function yy_r2_70($yy_subpatterns)
     {
 
   $this->token = Smarty_Internal_Templateparser::TP_MATH;
     }
-    function yy_r2_71($yy_subpatterns)
+    function yy_r2_72($yy_subpatterns)
     {
 
   $this->token = Smarty_Internal_Templateparser::TP_DOLLAR;
     }
-    function yy_r2_72($yy_subpatterns)
+    function yy_r2_73($yy_subpatterns)
     {
 
   $this->token = Smarty_Internal_Templateparser::TP_SEMICOLON;
     }
-    function yy_r2_73($yy_subpatterns)
+    function yy_r2_74($yy_subpatterns)
     {
 
   $this->token = Smarty_Internal_Templateparser::TP_DOUBLECOLON;
     }
-    function yy_r2_74($yy_subpatterns)
+    function yy_r2_75($yy_subpatterns)
     {
 
   $this->token = Smarty_Internal_Templateparser::TP_COLON;
     }
-    function yy_r2_75($yy_subpatterns)
+    function yy_r2_76($yy_subpatterns)
     {
 
   $this->token = Smarty_Internal_Templateparser::TP_AT;
     }
-    function yy_r2_76($yy_subpatterns)
+    function yy_r2_77($yy_subpatterns)
     {
 
   $this->token = Smarty_Internal_Templateparser::TP_HATCH;
     }
-    function yy_r2_77($yy_subpatterns)
+    function yy_r2_78($yy_subpatterns)
     {
 
   $this->token = Smarty_Internal_Templateparser::TP_QUOTE;
   $this->yypushstate(self::DOUBLEQUOTEDSTRING);
     }
-    function yy_r2_78($yy_subpatterns)
+    function yy_r2_79($yy_subpatterns)
     {
 
   $this->token = Smarty_Internal_Templateparser::TP_BACKTICK;
   $this->yypopstate();
     }
-    function yy_r2_79($yy_subpatterns)
+    function yy_r2_80($yy_subpatterns)
     {
 
   $this->token = Smarty_Internal_Templateparser::TP_VERT;
     }
-    function yy_r2_80($yy_subpatterns)
+    function yy_r2_81($yy_subpatterns)
     {
 
   $this->token = Smarty_Internal_Templateparser::TP_DOT;
     }
-    function yy_r2_81($yy_subpatterns)
+    function yy_r2_82($yy_subpatterns)
     {
 
   $this->token = Smarty_Internal_Templateparser::TP_COMMA;
     }
-    function yy_r2_82($yy_subpatterns)
+    function yy_r2_83($yy_subpatterns)
     {
 
   $this->token = Smarty_Internal_Templateparser::TP_ANDSYM;
     }
-    function yy_r2_83($yy_subpatterns)
+    function yy_r2_84($yy_subpatterns)
     {
 
   $this->token = Smarty_Internal_Templateparser::TP_QMARK;
     }
-    function yy_r2_84($yy_subpatterns)
+    function yy_r2_85($yy_subpatterns)
+    {
+
+  $this->token = Smarty_Internal_Templateparser::TP_IF;
+    }
+    function yy_r2_87($yy_subpatterns)
+    {
+
+  $this->token = Smarty_Internal_Templateparser::TP_FOREACH;
+    }
+    function yy_r2_88($yy_subpatterns)
+    {
+
+  $this->token = Smarty_Internal_Templateparser::TP_FOR;
+    }
+    function yy_r2_89($yy_subpatterns)
     {
 
   $this->token = Smarty_Internal_Templateparser::TP_ID;
     }
-    function yy_r2_85($yy_subpatterns)
+    function yy_r2_90($yy_subpatterns)
+    {
+
+  $this->token = Smarty_Internal_Templateparser::TP_INTEGER;
+    }
+    function yy_r2_91($yy_subpatterns)
     {
 
   $this->token = Smarty_Internal_Templateparser::TP_SPACE;
     }
-    function yy_r2_86($yy_subpatterns)
+    function yy_r2_92($yy_subpatterns)
     {
 
   $this->token = Smarty_Internal_Templateparser::TP_OTHER;
@@ -977,56 +867,7 @@ class Smarty_Internal_Templatelexer
                     }
                     // skip this token
                     continue;
-                } else {                    $yy_yymore_patterns = array(
-        1 => array(0, "^(([\S\s]*?)\\?>)|^([\S\s]+)"),
-        2 => array(1, "^([\S\s]+)"),
-        4 => array(1, ""),
-    );
-
-                    // yymore is needed
-                    do {
-                        if (!strlen($yy_yymore_patterns[$this->token][1])) {
-                            throw new Exception('cannot do yymore for the last token');
-                        }
-                        $yysubmatches = array();
-                        if (preg_match('/' . $yy_yymore_patterns[$this->token][1] . '/',
-                              substr($this->data, $this->counter), $yymatches)) {
-                            $yysubmatches = $yymatches;
-                            $yymatches = array_filter($yymatches, 'strlen'); // remove empty sub-patterns
-                            next($yymatches); // skip global match
-                            $this->token += key($yymatches) + $yy_yymore_patterns[$this->token][0]; // token number
-                            $this->value = current($yymatches); // token value
-                            $this->line = substr_count($this->value, "\n");
-                            if ($tokenMap[$this->token]) {
-                                // extract sub-patterns for passing to lex function
-                                $yysubmatches = array_slice($yysubmatches, $this->token + 1,
-                                    $tokenMap[$this->token]);
-                            } else {
-                                $yysubmatches = array();
-                            }
-                        }
-                    	$r = $this->{'yy_r3_' . $this->token}($yysubmatches);
-                    } while ($r !== null && !is_bool($r));
-			        if ($r === true) {
-			            // we have changed state
-			            // process this token in the new state
-			            return $this->yylex();
-                    } elseif ($r === false) {
-                        $this->counter += strlen($this->value);
-                        $this->line += substr_count($this->value, "\n");
-                        if ($this->counter >= strlen($this->data)) {
-                            return false; // end of input
-                        }
-                        // skip this token
-                        continue;
-			        } else {
-	                    // accept
-	                    $this->counter += strlen($this->value);
-	                    $this->line += substr_count($this->value, "\n");
-	                    return true;
-			        }
-                }
-            } else {
+                }            } else {
                 throw new Exception('Unexpected input at line' . $this->line .
                     ': ' . $this->data[$this->counter]);
             }
@@ -1106,57 +947,7 @@ class Smarty_Internal_Templatelexer
                     }
                     // skip this token
                     continue;
-                } else {                    $yy_yymore_patterns = array(
-        1 => array(0, "^(".$this->ldel."\/literal".$this->rdel.")|^(([\S\s]*?)".$this->ldel."\/literal".$this->rdel.")|^([\S\s]+)"),
-        2 => array(0, "^(([\S\s]*?)".$this->ldel."\/literal".$this->rdel.")|^([\S\s]+)"),
-        3 => array(1, "^([\S\s]+)"),
-        5 => array(1, ""),
-    );
-
-                    // yymore is needed
-                    do {
-                        if (!strlen($yy_yymore_patterns[$this->token][1])) {
-                            throw new Exception('cannot do yymore for the last token');
-                        }
-                        $yysubmatches = array();
-                        if (preg_match('/' . $yy_yymore_patterns[$this->token][1] . '/',
-                              substr($this->data, $this->counter), $yymatches)) {
-                            $yysubmatches = $yymatches;
-                            $yymatches = array_filter($yymatches, 'strlen'); // remove empty sub-patterns
-                            next($yymatches); // skip global match
-                            $this->token += key($yymatches) + $yy_yymore_patterns[$this->token][0]; // token number
-                            $this->value = current($yymatches); // token value
-                            $this->line = substr_count($this->value, "\n");
-                            if ($tokenMap[$this->token]) {
-                                // extract sub-patterns for passing to lex function
-                                $yysubmatches = array_slice($yysubmatches, $this->token + 1,
-                                    $tokenMap[$this->token]);
-                            } else {
-                                $yysubmatches = array();
-                            }
-                        }
-                    	$r = $this->{'yy_r4_' . $this->token}($yysubmatches);
-                    } while ($r !== null && !is_bool($r));
-			        if ($r === true) {
-			            // we have changed state
-			            // process this token in the new state
-			            return $this->yylex();
-                    } elseif ($r === false) {
-                        $this->counter += strlen($this->value);
-                        $this->line += substr_count($this->value, "\n");
-                        if ($this->counter >= strlen($this->data)) {
-                            return false; // end of input
-                        }
-                        // skip this token
-                        continue;
-			        } else {
-	                    // accept
-	                    $this->counter += strlen($this->value);
-	                    $this->line += substr_count($this->value, "\n");
-	                    return true;
-			        }
-                }
-            } else {
+                }            } else {
                 throw new Exception('Unexpected input at line' . $this->line .
                     ': ' . $this->data[$this->counter]);
             }
@@ -1214,7 +1005,7 @@ class Smarty_Internal_Templatelexer
         if ($this->counter >= strlen($this->data)) {
             return false; // end of input
         }
-        $yy_global_pattern = "/^(".$this->ldel."\\s{1,}\/)|^(".$this->ldel."\\s{1,})|^(".$this->ldel."\/)|^(".$this->ldel.")|^(\")|^(`\\$)|^(\\$\\w+)|^(\\$)|^(([\S\s]*?)(\\\\\\\\|[^\\\\]\"|".$this->ldel."|\\$|`\\$))|^([\S\s]+)/";
+        $yy_global_pattern = "/^(".$this->ldel."\\s{1,}\/)|^(".$this->ldel."\\s{1,})|^(".$this->ldel."\/)|^(".$this->ldel.")|^(\")|^(`\\$)|^(\\$\\w+)|^(\\$)|^(([\S\s]*?)(".$this->ldel."|\\$|`\\$|\\\\\\\\|[^\\\\]\"))|^([\S\s]+)/";
 
         do {
             if (preg_match($yy_global_pattern, substr($this->data, $this->counter), $yymatches)) {
@@ -1253,63 +1044,7 @@ class Smarty_Internal_Templatelexer
                     }
                     // skip this token
                     continue;
-                } else {                    $yy_yymore_patterns = array(
-        1 => array(0, "^(".$this->ldel."\\s{1,})|^(".$this->ldel."\/)|^(".$this->ldel.")|^(\")|^(`\\$)|^(\\$\\w+)|^(\\$)|^(([\S\s]*?)(\\\\\\\\|[^\\\\]\"|".$this->ldel."|\\$|`\\$))|^([\S\s]+)"),
-        2 => array(0, "^(".$this->ldel."\/)|^(".$this->ldel.")|^(\")|^(`\\$)|^(\\$\\w+)|^(\\$)|^(([\S\s]*?)(\\\\\\\\|[^\\\\]\"|".$this->ldel."|\\$|`\\$))|^([\S\s]+)"),
-        3 => array(0, "^(".$this->ldel.")|^(\")|^(`\\$)|^(\\$\\w+)|^(\\$)|^(([\S\s]*?)(\\\\\\\\|[^\\\\]\"|".$this->ldel."|\\$|`\\$))|^([\S\s]+)"),
-        4 => array(0, "^(\")|^(`\\$)|^(\\$\\w+)|^(\\$)|^(([\S\s]*?)(\\\\\\\\|[^\\\\]\"|".$this->ldel."|\\$|`\\$))|^([\S\s]+)"),
-        5 => array(0, "^(`\\$)|^(\\$\\w+)|^(\\$)|^(([\S\s]*?)(\\\\\\\\|[^\\\\]\"|".$this->ldel."|\\$|`\\$))|^([\S\s]+)"),
-        6 => array(0, "^(\\$\\w+)|^(\\$)|^(([\S\s]*?)(\\\\\\\\|[^\\\\]\"|".$this->ldel."|\\$|`\\$))|^([\S\s]+)"),
-        7 => array(0, "^(\\$)|^(([\S\s]*?)(\\\\\\\\|[^\\\\]\"|".$this->ldel."|\\$|`\\$))|^([\S\s]+)"),
-        8 => array(0, "^(([\S\s]*?)(\\\\\\\\|[^\\\\]\"|".$this->ldel."|\\$|`\\$))|^([\S\s]+)"),
-        9 => array(2, "^([\S\s]+)"),
-        12 => array(2, ""),
-    );
-
-                    // yymore is needed
-                    do {
-                        if (!strlen($yy_yymore_patterns[$this->token][1])) {
-                            throw new Exception('cannot do yymore for the last token');
-                        }
-                        $yysubmatches = array();
-                        if (preg_match('/' . $yy_yymore_patterns[$this->token][1] . '/',
-                              substr($this->data, $this->counter), $yymatches)) {
-                            $yysubmatches = $yymatches;
-                            $yymatches = array_filter($yymatches, 'strlen'); // remove empty sub-patterns
-                            next($yymatches); // skip global match
-                            $this->token += key($yymatches) + $yy_yymore_patterns[$this->token][0]; // token number
-                            $this->value = current($yymatches); // token value
-                            $this->line = substr_count($this->value, "\n");
-                            if ($tokenMap[$this->token]) {
-                                // extract sub-patterns for passing to lex function
-                                $yysubmatches = array_slice($yysubmatches, $this->token + 1,
-                                    $tokenMap[$this->token]);
-                            } else {
-                                $yysubmatches = array();
-                            }
-                        }
-                    	$r = $this->{'yy_r5_' . $this->token}($yysubmatches);
-                    } while ($r !== null && !is_bool($r));
-			        if ($r === true) {
-			            // we have changed state
-			            // process this token in the new state
-			            return $this->yylex();
-                    } elseif ($r === false) {
-                        $this->counter += strlen($this->value);
-                        $this->line += substr_count($this->value, "\n");
-                        if ($this->counter >= strlen($this->data)) {
-                            return false; // end of input
-                        }
-                        // skip this token
-                        continue;
-			        } else {
-	                    // accept
-	                    $this->counter += strlen($this->value);
-	                    $this->line += substr_count($this->value, "\n");
-	                    return true;
-			        }
-                }
-            } else {
+                }            } else {
                 throw new Exception('Unexpected input at line' . $this->line .
                     ': ' . $this->data[$this->counter]);
             }
@@ -1328,6 +1063,7 @@ class Smarty_Internal_Templatelexer
   } else {
      $this->token = Smarty_Internal_Templateparser::TP_LDELSLASH;
      $this->yypushstate(self::SMARTY);
+     $this->taglineno = $this->line;
   }
     }
     function yy_r5_2($yy_subpatterns)
@@ -1338,6 +1074,7 @@ class Smarty_Internal_Templatelexer
   } else {
      $this->token = Smarty_Internal_Templateparser::TP_LDEL;
      $this->yypushstate(self::SMARTY);
+     $this->taglineno = $this->line;
   }
     }
     function yy_r5_3($yy_subpatterns)
@@ -1345,12 +1082,14 @@ class Smarty_Internal_Templatelexer
 
   $this->token = Smarty_Internal_Templateparser::TP_LDELSLASH;
      $this->yypushstate(self::SMARTY);
+     $this->taglineno = $this->line;
     }
     function yy_r5_4($yy_subpatterns)
     {
 
   $this->token = Smarty_Internal_Templateparser::TP_LDEL;
      $this->yypushstate(self::SMARTY);
+     $this->taglineno = $this->line;
     }
     function yy_r5_5($yy_subpatterns)
     {
@@ -1364,6 +1103,7 @@ class Smarty_Internal_Templatelexer
   $this->token = Smarty_Internal_Templateparser::TP_BACKTICK;
   $this->value = substr($this->value,0,-1);
   $this->yypushstate(self::SMARTY);
+  $this->taglineno = $this->line;
     }
     function yy_r5_7($yy_subpatterns)
     {

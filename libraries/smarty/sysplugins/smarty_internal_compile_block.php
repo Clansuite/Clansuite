@@ -63,27 +63,28 @@ class Smarty_Internal_Compile_Blockclose extends Smarty_Internal_CompileBase {
         } 
         $_name = trim($saved_data[0]['name'], "\"'");
         if (isset($this->smarty->block_data[$_name])) {
-            if (strpos($this->smarty->block_data[$_name]['compiled'], '%%%%SMARTY_PARENT%%%%') !== false) {
-                $_output = str_replace('%%%%SMARTY_PARENT%%%%', $compiler->template->extracted_compiled_code, $this->smarty->block_data[$_name]['compiled']);
+            $_tpl = $this->smarty->createTemplate('string:' . $this->smarty->block_data[$_name]['source'], null, null, $compiler->template);
+            $_tpl->template_filepath = $this->smarty->block_data[$_name]['file'];
+            $_tpl->forceNocache = true;
+            $_tpl->suppressHeader = true;
+            $_tpl->suppressFileDependency = true;
+
+            if (strpos($this->smarty->block_data[$_name]['source'], '%%%%SMARTY_PARENT%%%%') !== false) {
+                $_output = str_replace('%%%%SMARTY_PARENT%%%%', $compiler->template->extracted_compiled_code, $_tpl->getCompiledTemplate());
             } elseif ($this->smarty->block_data[$_name]['mode'] == 'prepend') {
-                $_output = $this->smarty->block_data[$_name]['compiled'] . $compiler->template->extracted_compiled_code;
+                $_output = $_tpl->getCompiledTemplate() . $compiler->template->extracted_compiled_code;
             } elseif ($this->smarty->block_data[$_name]['mode'] == 'append') {
-                $_output = $compiler->template->extracted_compiled_code . $this->smarty->block_data[$_name]['compiled'];
+                $_output = $compiler->template->extracted_compiled_code . $_tpl->getCompiledTemplate();
             } elseif (!empty($this->smarty->block_data[$_name])) {
-                $_output = $this->smarty->block_data[$_name]['compiled'];
-            } 
+                $_output = $_tpl->getCompiledTemplate();
+            }
+            $compiler->template->properties = array_merge_recursive($compiler->template->properties, $_tpl->properties);
+            unset($_tpl);
         } else {
             $_output = $compiler->template->extracted_compiled_code;
         } 
         $compiler->template->extracted_compiled_code = $saved_data[1];
         $compiler->template->extract_code = $saved_data[2]; 
-        // check for includes in block tags
-        preg_match('/(\<\?php \$_smarty_tpl-\>decodeProperties\(\')(.*)(\'.*\?\>)/', $_output, $matches);
-        $_output = preg_replace(array('/(\<\?php \$_smarty_tpl-\>decodeProperties\(\')(.*)(\'.*\?\>.*\n)/', '/(\<\?php if\(\!defined\(\'SMARTY_DIR\'\)\))(.*)(\?\>.*\n)/'), '', $_output); 
-        if (isset($matches[2])) {
-            $prop = unserialize($matches[2]);
-            $compiler->template->properties['file_dependency'] = array_merge($compiler->template->properties['file_dependency'], $prop['file_dependency']);
-        } 
         return $_output;
     } 
 } 

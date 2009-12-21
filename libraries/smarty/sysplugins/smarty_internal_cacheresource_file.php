@@ -27,7 +27,7 @@ class Smarty_Internal_CacheResource_File {
     */
     public function getCachedFilepath($template)
     {
-        return $this->buildCachedFilepath ($template->resource_name, $template->cache_id, $template->compile_id);
+        return $this->buildCachedFilepath ($template->getTemplateFilepath(), $template->cache_id, $template->compile_id);
     } 
 
     /**
@@ -130,10 +130,10 @@ class Smarty_Internal_CacheResource_File {
                         (isset($resource_name) && (string)$_file == $_dir . $_resource_part)) {
                     if (isset($exp_time)) {
                         if (time() - @filemtime($_file) >= $exp_time) {
-                            $_count += unlink((string) $_file) ? 1 : 0;
+                            $_count += @unlink((string) $_file) ? 1 : 0;
                         } 
                     } else {
-                        $_count += unlink((string) $_file) ? 1 : 0;
+                        $_count += @unlink((string) $_file) ? 1 : 0;
                     } 
                 } 
             } 
