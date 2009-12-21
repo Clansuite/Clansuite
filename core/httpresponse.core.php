@@ -247,12 +247,7 @@ class Clansuite_HttpResponse implements Clansuite_Response_Interface
         # Check for Debugging (because we want no Output-Compression when Debugging! )
         if( (bool)XDEBUG === false or (bool)DEBUG === false)
         {
-
             Clansuite_ResponseEncode::start_outputbuffering($this->output_compression_level);
-        }
-        else
-        {
-            # No Output-Compression when Debugging!
         }
     }
 
