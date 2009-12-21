@@ -618,6 +618,16 @@ class Clansuite_HttpRequest implements Clansuite_Request_Interface, ArrayAccess
     {
         return $_SERVER['HTTP_USER_AGENT'];
     }
+    
+    /**
+     * Get $_SERVER HTTP_REFERER
+     *
+     * @return string
+     */
+    public function getReferer()
+    {
+        return $_SERVER['HTTP_Referer'];
+    }
 
     /**
      * Validates a given IP and takes care of reserved IANA IPv4 addresses
