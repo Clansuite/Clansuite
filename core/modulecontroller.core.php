@@ -224,7 +224,7 @@ abstract class Clansuite_ModuleController extends Clansuite_ModuleController_Res
      * @return array moduleconfig['modulename'] configuration array of module
      */
     public function getModuleConfig($filename = null)
-    {   
+    {  
         return self::getInjector()->instantiate('Clansuite_Config')->readConfigForModule($filename);
     }
 
@@ -578,6 +578,24 @@ abstract class Clansuite_ModuleController extends Clansuite_ModuleController_Res
     public function redirect($url, $time = 0, $statusCode = 302, $text = '')
     {
         $this->injector->instantiate('Clansuite_HttpResponse')->redirect($url, $time, $statusCode, $text);
+    }
+
+    /**
+     * Redirect ro referer
+     */
+    public function redirectToReferer()
+    {
+        $referer = '';
+        $referer = $this->injector->instantiate('Clansuite_HttpRequest')->getReferer();
+
+        if(empty($referer) == false)
+        {
+            $this->redirect($referer);
+        }
+        /*else
+        {
+            $this->redirect($module);
+        }*/
     }
 
     /**
