@@ -1,5 +1,5 @@
 {move_to target="pre_head_close"}
-    {literal}
+    
         <script type="text/javascript" src="{$www_root_themes_core}/javascript/ajax.js"></script>
         <script type="text/javascript">
             var global_path="a";
@@ -12,7 +12,7 @@
 
                 if( document.getElementById('section-' + name + '-' + path).style.display == 'block' )
                 {
-                    document.getElementById('node-' + name + '-' + path).src = '{/literal}{$www_root_themes_core}{literal}/admin/adminmenu/images/tree-node.gif';
+                    document.getElementById('node-' + name + '-' + path).src = '{$www_root_themes_core}/admin/adminmenu/images/tree-node.gif';
                     document.getElementById('section-' + name + '-' + path).style.display = 'none';
                     return true;
                 }
@@ -21,7 +21,7 @@
 		            if( document.getElementById('section-' + name + '-' + path).innerHTML != '' )
                     {
                         document.getElementById('section-' + name + '-' + path).style.display = 'block';
-                        document.getElementById('node-' + name + '-' + path).src = '{/literal}{$www_root_themes_core}{literal}/admin/adminmenu/images/tree-node-open.gif';
+                        document.getElementById('node-' + name + '-' + path).src = '{$www_root_themes_core}/admin/adminmenu/images/tree-node-open.gif';
                     }
                     else
                     {
@@ -30,7 +30,7 @@
                         global_path = path;
                         global_name = name;
 
-                        param = 'path='+escape(encodeURIComponent(path))+'&section_template='+escape(encodeURIComponent('{/literal}{$section_template}{literal}'))+'&name='+escape(encodeURIComponent(name));
+                        param = 'path='+escape(encodeURIComponent(path))+'&section_template='+escape(encodeURIComponent('{$section_template}'))+'&name='+escape(encodeURIComponent(name));
 
 		                con.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
 		                con.setRequestHeader("Content-length", param.length);
@@ -56,7 +56,7 @@
 
                     document.getElementById('section-' + global_name + '-' + global_path).style.display = 'block';
                     document.getElementById('section-' + global_name + '-' + global_path).innerHTML = response;
-                    document.getElementById('node-' + global_name + '-' + global_path).src = '{/literal}{$www_root_themes_core}{literal}/admin/adminmenu/images/tree-node-open.gif';
+                    document.getElementById('node-' + global_name + '-' + global_path).src = '{$www_root_themes_core}/admin/adminmenu/images/tree-node-open.gif';
 
                     return true;
 		        }
@@ -67,5 +67,5 @@
                 return false;
             }
         </script>
-    {/literal}
+    
 {/move_to}

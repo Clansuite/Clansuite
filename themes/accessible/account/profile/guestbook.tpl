@@ -17,13 +17,13 @@
     <div class="gb_empty">
         <span class="the_text">{t}We are sorry, but the guestbook is empty.{/t}</span>
         <div class="options">
-            <input class="ButtonGreen" type="button" value="{t}Add a guestbook entry{/t}" onclick='{literal}Dialog.info({url: "index.php?mod=guestbook&amp;action=create&amp;front=1", options: {method: "get"}}, {className: "alphacube", width:500, height: 420});{/literal}' />
+            <input class="ButtonGreen" type="button" value="{t}Add a guestbook entry{/t}" onclick='Dialog.info({url: "index.php?mod=guestbook&amp;action=create&amp;front=1", options: {method: "get"}}, {className: "alphacube", width:500, height: 420});' />
         </div>
     </div>
 {else}
     {pagination}
     <div class="options">
-        <input class="ButtonGreen" type="button" value="{t}Add a guestbook entry{/t}" onclick='{literal}Dialog.info({url: "index.php?mod=guestbook&amp;action=create&amp;front=1", options: {method: "get"}}, {className: "alphacube", width:500, height: 420});{/literal}' />
+        <input class="ButtonGreen" type="button" value="{t}Add a guestbook entry{/t}" onclick='Dialog.info({url: "index.php?mod=guestbook&amp;action=create&amp;front=1", options: {method: "get"}}, {className: "alphacube", width:500, height: 420});' />
     </div>
 
     {foreach from=$guestbook item=entry key=key}
@@ -81,10 +81,10 @@
             <div class="options">
                 <div class="edit_button">
                     {if $smarty.session.user.user_id == $entry.user_id.1}
-                        <input class="ButtonGreen" type="button" value="{t}Edit my entry{/t}" onclick='{literal}Dialog.info({url: "index.php?mod=guestbook&amp;action=edit&amp;id={/literal}{$entry.gb_id}{literal}", options: {method: "get"}}, {className: "alphacube", width:500, height: 420});{/literal}' />
+                        <input class="ButtonGreen" type="button" value="{t}Edit my entry{/t}" onclick='Dialog.info({url: "index.php?mod=guestbook&amp;action=edit&amp;id={$entry.gb_id}", options: {method: "get"}}, {className: "alphacube", width:500, height: 420});' />
                     {/if}
                     {if $smarty.session.user.rights.permission_edit_gb == 1 AND $smarty.session.user.rights.permission_access == 1}
-                        <input class="ButtonGreen" type="button" value="{t}Edit or add comment{/t}" onclick='{literal}Dialog.info({url: "index.php?mod=guestbook&amp;sub=admin&amp;action=edit&amp;id={/literal}{$entry.gb_id}{literal}&amp;front=1", options: {method: "get"}}, {className: "alphacube", width:500, height: 420});{/literal}' />
+                        <input class="ButtonGreen" type="button" value="{t}Edit or add comment{/t}" onclick='Dialog.info({url: "index.php?mod=guestbook&amp;sub=admin&amp;action=edit&amp;id={$entry.gb_id}&amp;front=1", options: {method: "get"}}, {className: "alphacube", width:500, height: 420});' />
                     {/if}
                 </div>
             </div>
@@ -93,7 +93,7 @@
         <div class="divider"><hr></div>
     {/foreach}
     <div class="options">
-        <input class="ButtonGreen" type="button" value="{t}Add a guestbook entry{/t}" onclick='{literal}Dialog.info({url: "index.php?mod=guestbook&amp;action=create&amp;front=1", options: {method: "get"}}, {className: "alphacube", width:500, height: 420});{/literal}' />
+        <input class="ButtonGreen" type="button" value="{t}Add a guestbook entry{/t}" onclick='Dialog.info({url: "index.php?mod=guestbook&amp;action=create&amp;front=1", options: {method: "get"}}, {className: "alphacube", width:500, height: 420});' />
     </div>
     {pagination}
 {/if}

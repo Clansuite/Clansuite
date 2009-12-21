@@ -11,7 +11,7 @@
 <div class="guestbook">
     {pagination}
     <div class="options-top">
-        <input type="button" value="{t}Add a guestbook entry{/t}" onclick='{literal}Dialog.info({url: "index.php?mod=guestbook&amp;action=create&amp;front=1", options: {method: "get"}}, {className: "alphacube", width:500, height: 420});{/literal}' />
+        <input type="button" value="{t}Add a guestbook entry{/t}" onclick='Dialog.info({url: "index.php?mod=guestbook&amp;action=create&amp;front=1", options: {method: "get"}}, {className: "alphacube", width:500, height: 420});' />
     </div>
     {foreach from=$guestbook item=entry key=key}
 	<div class="gb">
@@ -48,10 +48,10 @@
         {* AJAX Needed *}
         {if (isset($smarty.session.user.rights.permission_edit_gb) AND isset($smarty.session.user.rights.permission_access)) OR ($smarty.session.user.user_id == $entry.user_id)}
             {if $smarty.session.user.user_id == $entry.user_id.1}
-            <input type="button" value="{t}Edit my entry{/t}" onclick='{literal}Dialog.info({url: "index.php?mod=guestbook&amp;action=edit&amp;id={/literal}{$entry.gb_id}{literal}", options: {method: "get"}}, {className: "alphacube", width:500, height: 420});{/literal}' />
+            <input type="button" value="{t}Edit my entry{/t}" onclick='Dialog.info({url: "index.php?mod=guestbook&amp;action=edit&amp;id={$entry.gb_id}", options: {method: "get"}}, {className: "alphacube", width:500, height: 420});' />
             {/if}
             {if isset($smarty.session.user.rights.permission_edit_gb) AND isset($smarty.session.user.rights.permission_access)}
-            <input type="button" value="{t}Edit or add comment{/t}" onclick='{literal}Dialog.info({url: "index.php?mod=guestbook&amp;sub=admin&amp;action=edit&amp;id={/literal}{$entry.gb_id}{literal}&amp;front=1", options: {method: "get"}}, {className: "alphacube", width:500, height: 420});{/literal}' />
+            <input type="button" value="{t}Edit or add comment{/t}" onclick='Dialog.info({url: "index.php?mod=guestbook&amp;sub=admin&amp;action=edit&amp;id={$entry.gb_id}&amp;front=1", options: {method: "get"}}, {className: "alphacube", width:500, height: 420});' />
             {/if}
         {/if}
         </div>
@@ -82,7 +82,7 @@
 *}
     {/foreach}
     <div class="options-bottom">
-        <input type="button" value="{t}Add a guestbook entry{/t}" onclick='{literal}Dialog.info({url: "index.php?mod=guestbook&amp;action=create&amp;front=1", options: {method: "get"}}, {className: "alphacube", width:500, height: 420});{/literal}' />
+        <input type="button" value="{t}Add a guestbook entry{/t}" onclick='Dialog.info({url: "index.php?mod=guestbook&amp;action=create&amp;front=1", options: {method: "get"}}, {className: "alphacube", width:500, height: 420});' />
     </div>
     {pagination}
 </div>

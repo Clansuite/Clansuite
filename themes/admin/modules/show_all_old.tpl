@@ -3,7 +3,7 @@
 
     <link rel="stylesheet" type="text/css" href="{$www_root_themes_core}/admin/luna.css" />
     <script type="text/javascript" src="{$www_root_themes_core}/javascript/tabpane.js"></script>
-    {literal}
+    
     <script type="text/javascript">
 
     function str_replace (search, replace, subject)
@@ -139,18 +139,18 @@
             }
         }
     }
-    {/literal}
+    
     </script>
 {/move_to}
 
-{literal}
+
 <div id="hidden_input_container" style="display: none;">
 <input type="hidden" name="info[{$wert.module_id}][subs][{$key}][create_sub]" value="1">
 </div>
 
 <div id="enter_sub_name" style="position:absolute; border: 1px solid orange; background-color: white; width: 300px; padding: 8px; display:none">
     <center>
-    <strong>{/literal}{t}{literal}Name:{/literal}{/t}{literal}</strong>&nbsp;<input class="input_text" type="text" value="" id="subs_name" size="40"><br />
+    <strong>{t}Name:{/t}</strong>&nbsp;<input class="input_text" type="text" value="" id="subs_name" size="40"><br />
     <input type="checkbox" value="1" name="create_sub_file" id="create_sub_file">Create the submodule file?<br />
     <a href="javascript:sub_add('{$table}', '{$mod_id}', 'check_text_field')">Confirm</a>&nbsp;|&nbsp;<a href="javascript:void(document.getElementById('enter_sub_name').style.display = 'none');">Abort</a><br />
     </center>
@@ -161,7 +161,7 @@
     <tr id="{$wert.module_id}_sub_{$item.submodule_id}_tr1">
         <td width="40" height="20">
             <a name="{$wert.module_id}_{$key}">
-            <strong>{/literal}{t}Name:{/t}{literal}</strong>
+            <strong>{t}Name:{/t}</strong>
         </td>
         <td width="165">
             <span onDblClick="javascript:clip_edit('{$wert.module_id}','_subs_{$key}_name');" id="{$wert.module_id}_subs_{$key}_name_text" style="display: none;"></span>
@@ -169,7 +169,7 @@
     </tr>
     <tr id="{$wert.module_id}_sub_{$item.submodule_id}_tr2">
         <td height="20">
-            <strong>{/literal}{t}File:{/t}{literal}</strong>
+            <strong>{t}File:{/t}</strong>
         </td>
         <td>
             <span onDblClick="javascript:clip_edit('{$wert.module_id}','_subs_{$key}_file');" id="{$wert.module_id}_subs_{$key}_file_text" style="display: none;"></span>
@@ -185,7 +185,7 @@
     </tr>
     <tr id="{$wert.module_id}_sub_{$item.submodule_id}_tr4">
         <td colspan="2" height="20">
-        <a href="javascript:sub_delete('{$wert.module_id}_subtest1_{$key}');">{/literal}{t}Delete submodule{/t}{literal} '{$key}' {/literal}{t}from whitelist{/t}{literal}</a>
+        <a href="javascript:sub_delete('{$wert.module_id}_subtest1_{$key}');">{t}Delete submodule{/t} '{$key}' {t}from whitelist{/t}</a>
         </td>
     </tr>
     <tr id="{$wert.module_id}_sub_{$item.submodule_id}_tr5">
@@ -195,7 +195,7 @@
     </tr>
     
 </table>
-{/literal}
+
 
 {if isset($content.not_in_whitelist)}
 
@@ -598,7 +598,7 @@
 
 <script type="text/javascript">
 setupAllTabs();
-{literal}
+
 function clip_edit(id,edit)
 {
     self.focus();
@@ -623,5 +623,5 @@ function clip_edit(id,edit)
         document.getElementById(id + "_remember_to_update").style.display = "block";
     }
 }
-{/literal}
+
 </script>

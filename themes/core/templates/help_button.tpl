@@ -1,4 +1,4 @@
-{literal}
+
 
     <!-- (jQuery) Javascript for the Help Toggle -->
 
@@ -13,7 +13,7 @@
 
     </script>
 
-{/literal}
+
 
 <!-- Help Icon -->
 <div id="help-toggler" style="float: right; font-family: tahoma,verdana,arial,sans-serif; font-size: 11px; cursor: pointer;">

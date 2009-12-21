@@ -5,7 +5,7 @@
 {capture assign=debug_output}
     {move_to target="pre_head_close"}
 
-    {literal}
+    
     <style type="text/css">
         div.debug_one, caption { cursor: pointer; width: auto; font-variant: small-caps; font-family: Verdana; font-size: 11px; height: 8px; text-align:left; font-weight:bold; padding: 8px; background: #ECE9D8; border-top: 1px solid #ffffff; border-bottom: 1px solid #ACA899;  }
         col.debug_one         { background-color: #eeeeee; }
@@ -17,7 +17,7 @@
         h2.debug_heading { text-align: center; color: grey; }
         div.debug_inline { padding: 0px; width: 100%;background: #ECE9D8; border-top: 1px solid #ffffff; border-bottom: 1px solid #ACA899; }
     </style>
-  {/literal}
+  
 
   {/move_to}
 
@@ -230,7 +230,7 @@
     </script>
 {/if}
 
-{literal}
+
 <script type="text/javascript">
     window.onload = function ()
     {
@@ -244,4 +244,3 @@
         }
     }
 </script>
-{/literal}

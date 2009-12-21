@@ -5,7 +5,7 @@
 {/move_to}
 
 <script type="text/javascript">
-{literal}
+
 var Serverform = { 
 
   params: function() {
@@ -14,7 +14,7 @@ var Serverform = {
              port: $F("gametype") }
   }  
 }
-{/literal}
+
 </script>
 
 {* Debuganzeige, wenn DEBUG = 1 |  {$servers|@var_dump}
