@@ -43,10 +43,10 @@ if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
  * @author      Sandy McArthur, Jr. <Leknor@Leknor.com>
  * @author      Jens-André Koch <vain@clansuite.com>
  * @copyright   Copyright 2001 (c) McArthur. Copyright 2009 (c) Koch.
- * @license     GNU LGPL 2.1 and above (http://www.gnu.org/copyleft/lesser.html)
+ * @license     GNU/GPL v2 or (at your option) any later version, see "/doc/LICENSE"
  *
  * Usage:
- * 1. Include the class file (Clansuite_ResponseEncode).
+ * 1. Include/require/autoload the class file (Clansuite_ResponseEncode).
  * 2. Start Output buffering by calling
  *    Clansuite_ResponseEncode::start_outputbuffering();
  * 3. At the very end of your script you have to end the outputbuffering by calling
@@ -55,7 +55,7 @@ if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
  * Example:
  *  ------------Start of file----------
  *  |<?php
- *  | include('class.gzip_encode.php');
+ *  | require 'responseencode.core.php'; # or autoload
  *  | Clansuite_ResponseEncode::start_outputbuffering();
  *  |?>
  *  |<html>
@@ -72,7 +72,7 @@ if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
  *
  * Requirments: PHP5 & PHP Extensions: zlib, crc
  *
- * Note by vain@clansuite.com:
+ * Note by Jens-André Koch:
  *  TYPO3 4.5 is now using "ob_gzhandler" for compression.
  *  That is suboptimal because using zlib.output_compression is preferred over ob_gzhandler().
  *
@@ -116,27 +116,40 @@ class Clansuite_ResponseEncode
     # Version of the Clansuite_ResponseEncode class
     public static $version = 0.7;
 
-    public static function start_outputbuffering($level = -1)
+    /**
+     * Integer holding the GZIP compression level
+     * Default = -1 compressionlevel of system; normal range 0-9
+     * @var      integer
+     */
+    protected static $compression_level = 7;
+
+    public static function start_outputbuffering()
     {
         # both methods depend on the zlib extension
         if (extension_loaded('zlib'))
         {
-            # Method 1: zlib.output_compression
-            # @todo do not uncomment, else strange things will happen
-            #ini_set('zlib.output_compression'       , true);
-            #ini_set('zlib.output_compression_level' , $level);
-
-            # Method 2: Fallback to ob_start('gz_handler') = output buffering with gzip handling
-            # because: ob_start() [ref.outcontrol]: output handler 'ob_gzhandler' conflicts with 'zlib output compression'
-            /*if((bool)ini_get('zlib.output_compression') === false)
+            if((bool)ini_get('zlib.output_compression') === false
+               and (ini_get('output_handler') != 'ob_gzhandler') and ob_get_length() === false)
             {
-                ob_start("ob_gzhandler");
-                define('OB_GZHANDLER', true);
-            }*/
+                # Method 1: on-the-fly transparent zlib.output_compression
+                # Additional output handlers are not valid, when zlib.output_compression is activated.
+                #ini_set('zlib.output_compression'       , true);
+                #ini_set('zlib.output_compression_level' , self::$compression_level);
 
-                ob_start("ob_gzhandler");
-                #ob_implicit_flush(0);
-                define('OB_START', true);
+                # if zlib.output_compression still not enabled
+                # Method 2: compression via this class
+                if( (bool)ini_get('zlib.output_compression') === false)
+                {
+                    ob_start();
+                    ob_implicit_flush(0);
+                }
+            }
+            else
+            {
+                # Method 3: Fallback to ob_start('gz_handler') = output buffering with gzip handling
+                # because: output handler 'ob_gzhandler' conflicts with 'zlib output compression'
+                ob_start('ob_gzhandler');
+            }
         }
         else
         {
@@ -154,9 +167,9 @@ class Clansuite_ResponseEncode
     /**
      * Convenience/Proxy method for gzip_encode
      */
-    public static function end_outputbuffering($level)
+    public static function end_outputbuffering()
     {
-        Clansuite_ResponseEncode::gzip_encode($level);
+        self::gzip_encode();
     }
 
     /**
@@ -184,7 +197,7 @@ class Clansuite_ResponseEncode
      * @param boolean debug
      * @param integer outputCompressedSizes
      */
-    public static function gzip_encode($level = 7)
+    public static function gzip_encode()
     {
         if (headers_sent())
         {
@@ -196,17 +209,20 @@ class Clansuite_ResponseEncode
             return;
         }
 
-        $encoding = Clansuite_ResponseEncode::gzip_accepted();
+        $encoding = self::gzip_accepted();
 
         if ($encoding == false)
         {
              return;
         }
 
-        if ($level === true)
+        /* this determines the compression level based on current server load
+        if (isset(self::$compression_level))
         {
             $level = Clansuite_ResponseEncode::get_compression_level();
-        }
+        }*/
+        $level = self::$compression_level;
+
 
         $content = ob_get_contents();
 
@@ -216,7 +232,7 @@ class Clansuite_ResponseEncode
             return;
         }
 
-        # determine the content siz
+        # determine the content size
         $original_content_size = strlen($content);
 
         # if size of content is small, do not waste resources in compressing very little data, exit
@@ -228,21 +244,34 @@ class Clansuite_ResponseEncode
         /**
          * The Content Compression
          */
+        switch ($encoding)
+        {
+            default:
+            case 'compress':
+            case 'gzip':
+                    # gzip header
+                    $gzdata = "\x1f\x8b\x08\x00\x00\x00\x00\x00";
 
-        # gzip header
-        $gzdata = "\x1f\x8b\x08\x00\x00\x00\x00\x00";
+                    # compress
+                    $gzdata .= gzcompress($content, $level);
 
-        # compress
-        $gzdata .= gzcompress($content, $level);
+                    # determine size of compressed content
+                    $compressed_content_size = strlen($gzdata);
 
-        # determine size of compressed content
-        $compressed_content_size = strlen($gzdata);
+                    # fix crc bug
+                    $gzdata = substr($gzdata, 0, $compressed_content_size - 4);
 
-        # fix crc bug
-        $gzdata = substr($gzdata, 0, $compressed_content_size - 4);
+                    # add pack infos
+                    $gzdata .= pack("V", crc32($content)) . pack("V", $original_content_size);
 
-        # add pack infos
-        $gzdata .= pack("V", crc32($content)) . pack("V", $original_content_size);
+                    break;
+            case 'x-gzip':
+                    $gzdata = gzencode($content, $level);
+                    break;
+            case 'deflate':
+                    $gzdata = gzdeflate($content, $level);
+                    break;
+        }
 
         # delete output-buffer and deactivate buffering
         ob_end_clean();
@@ -250,8 +279,8 @@ class Clansuite_ResponseEncode
         # send Headers
         header('Content-Encoding: ' . $encoding);
         header('Vary: Accept-Encoding');
-        header('Content-Length: ' . strlen($gzdata));
-        header('X-Content-Encoded-By: Clansuite_ResponseEncode v'.self::$version);
+        header('Content-Length: ' . (int)strlen($gzdata));
+        header('X-Content-Encoded-By: Clansuite_ResponseEncode v' . self::$version);
 
         /**
          * Note by Jens-André Koch:
@@ -296,25 +325,20 @@ class Clansuite_ResponseEncode
             $encoding = 'x-gzip';
         }
 
-        # prefer x-gzip over gzip
-        if($encoding !== 'x-gzip')
+        # check Accept-Encoding for gzip
+        if (strpos($http_accept_encoding, 'gzip') !== false)
         {
+            $encoding = 'gzip';
+        }
 
-            # check Accept-Encoding for gzip
-            if (strpos($http_accept_encoding, 'gzip') !== false)
-            {
-                $encoding = 'gzip';
-            }
-
-            # Perform a "qvalue" check. The Accept-Encoding "gzip;q=0" means that gzip is NOT accepted.
-            # preg_matches only, if first condition is true.
-            if( (strpos($http_accept_encoding, 'gzip;q=') == true)
-                and
-                (preg_match('/(^|,\s*)(x-)?gzip(;q=(\d(\.\d+)?))?(,|$)/i', $http_accept_encoding, $match) and ($match[4] === '' or $match[4] > 0))
-              )
-            {
-    		    $encoding = 'gzip';
-    		}
+        # Perform a "qvalue" check. The Accept-Encoding "gzip;q=0" means that gzip is NOT accepted.
+        # preg_matches only, if first condition is true.
+        if( (strpos($http_accept_encoding, 'gzip;q=') !== false)
+            and
+            (preg_match('/(^|,\s*)(x-)?gzip(;q=(\d(\.\d+)?))?(,|$)/i', $http_accept_encoding, $match) and ($match[4] === '' or $match[4] > 0))
+          )
+        {
+            $encoding = 'gzip';
         }
 
         /**
@@ -343,7 +367,8 @@ class Clansuite_ResponseEncode
         }
         else if (substr($magic,0,3) === 'FWS')
         {
-            # Don't gzip Shockwave Flash files. Flash on windows incorrectly claims it accepts gzip'd content.
+            # Don't gzip Shockwave Flash files.
+            # Flash on windows incorrectly claims it accepts gzip'd content.
             $encoding = false;
         }
         else if (substr($magic,0,2) === 'PK')
@@ -392,17 +417,17 @@ class Clansuite_ResponseEncode
     private static function linux_loadavg()
     {
         $buffer = '0 0 0';
-		$f = @fopen('/proc/loadavg', 'rb');
-		if ($f)
-		{
-			if (!feof($f))
-			{
-				$buffer = fgets($f, 1024);
-			}
-			fclose($f);
-		}
-		$load = explode(' ', $buffer);
-		return max((float)$load[0], (float)$load[1], (float)$load[2]);
+        $f = @fopen('/proc/loadavg', 'rb');
+        if ($f)
+        {
+            if (!feof($f))
+            {
+                $buffer = fgets($f, 1024);
+            }
+            fclose($f);
+        }
+        $load = explode(' ', $buffer);
+        return max((float)$load[0], (float)$load[1], (float)$load[2]);
     }
 
     /*
