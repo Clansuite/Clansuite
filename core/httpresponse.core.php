@@ -85,13 +85,6 @@ class Clansuite_HttpResponse implements Clansuite_Response_Interface
     protected $headers = array();
 
     /**
-     * Integer holding the GZIP compression level
-     *
-     * @var      integer
-     */
-    protected $output_compression_level = 7;
-
-    /**
      * String holding the response body.
      *
      * @var       string
@@ -203,8 +196,11 @@ class Clansuite_HttpResponse implements Clansuite_Response_Interface
         // Guess what?
         session_write_close();
 
-        // activateOutputCompression
-        $this->activateOutputCompression();
+        // activateOutputCompression when not in debugging mode
+        if( (bool)XDEBUG === false or (bool)DEBUG === false)
+        {
+            Clansuite_ResponseEncode::start_outputbuffering('7');
+        }
 
         // Send the status line
         $this->addheader('HTTP/1.1', $this->statusCode.' '.$this->getStatusCodeDescription($this->statusCode));
@@ -228,27 +224,13 @@ class Clansuite_HttpResponse implements Clansuite_Response_Interface
         print $this->body;
 
         // Flush Compressed Buffer
-        if(class_exists('Clansuite_Response_Encode'))
+        if( (bool)XDEBUG === false or (bool)DEBUG === false)
         {
-            Clansuite_Response_Encode::end_outputbuffering($this->output_compression_level);
+            Clansuite_ResponseEncode::end_outputbuffering();
         }
 
         // OK, Reset -> Package delivered! Return to Base!
         $this->clearHeaders();
-    }
-
-    /**
-     *  ================================================
-     *     Compress output if the browser supports it
-     *  ================================================
-     */
-    public function activateOutputCompression()
-    {
-        # Check for Debugging (because we want no Output-Compression when Debugging! )
-        if( (bool)XDEBUG === false or (bool)DEBUG === false)
-        {
-            Clansuite_ResponseEncode::start_outputbuffering($this->output_compression_level);
-        }
     }
 
     /**
