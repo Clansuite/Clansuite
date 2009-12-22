@@ -60,26 +60,28 @@ class Module_Shockvoiceviewer extends Clansuite_ModuleController implements Clan
     public function widget_shockvoiceviewer()
     {
         # ensure the php extension cURL is loaded
-        if (!function_exists('curl_init'))
+        if (function_exists('curl_init') == false)
         {
-            throw new Clansuite_Exception('The module shockvoiceviewer requires cURL.');
+            trigger_error('The module shockvoiceviewer requires cURL.');
         }
-
-        # fetch module config
-        $this->getModuleConfig('shockvoiceviewer');
-
-        $host       = $this->getConfigValue('hostname', 'druckwelle-hq.de');
-        $port       = $this->getConfigValue('port', '8010');
-        $server     = $this->getConfigValue('serverid', '1');
-
-        # load Shockvoice Viewer Class
-        require_once dirname(__FILE__) . '/library/shockvoice.class.php';
-
-        # instantiate with connection data from config
-        $SVQ = new Clansuite_Shockvoice_Query($host , $port , '8010', $server, 'UTF-8');
-
-        # get the view and assign data
-        $this->getView()->assign('serverinfos', $SVQ->getShockvoice());
+        else
+        {
+            # fetch module config
+            $this->getModuleConfig('shockvoiceviewer');
+    
+            $host       = $this->getConfigValue('hostname', 'druckwelle-hq.de');
+            $port       = $this->getConfigValue('port', '8010');
+            $server     = $this->getConfigValue('serverid', '1');
+    
+            # load Shockvoice Viewer Class
+            require_once dirname(__FILE__) . '/library/shockvoice.class.php';
+    
+            # instantiate with connection data from config
+            $SVQ = new Clansuite_Shockvoice_Query($host , $port , '8010', $server, 'UTF-8');
+    
+            # get the view and assign data
+            $this->getView()->assign('serverinfos', $SVQ->getShockvoice());
+        }
     }
 }
 ?>
