@@ -2,7 +2,7 @@
 
 <!-- [Start] widget_tsviewer @ module teamspeakviewer -->
 
-<div class="td_header">Teamspeak Viewer</div>
+<div class="td_header">Teamspeak2 Viewer</div>
 
 <div class="cell1">
 
