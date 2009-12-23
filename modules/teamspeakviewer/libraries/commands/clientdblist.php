@@ -23,7 +23,7 @@ class Teamspeak3_ServerQueryCommand_clientdblist extends Clansuite_Teamspeak3_Se
     	    return false;
     	}
 
-        return $this->extendedServerQuery('clientdblist');
+        return $this->ServerQueryCommand('clientdblist');
     }
 }
 ?>

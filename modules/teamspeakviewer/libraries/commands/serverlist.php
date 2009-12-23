@@ -24,7 +24,7 @@ class Teamspeak3_ServerQueryCommand_serverlist extends Clansuite_Teamspeak3_Serv
      */
 	public function serverList()
 	{
-		return $this->extendedServerQuery("serverlist");
+		return $this->toArray($this->ServerQueryCommand('serverlist'));
 	}
 }
 ?>

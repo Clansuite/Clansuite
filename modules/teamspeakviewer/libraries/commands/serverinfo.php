@@ -56,6 +56,7 @@ class Teamspeak3_ServerQueryCommand_serverinfo extends Clansuite_Teamspeak3_Serv
      *    [virtualserver_machine_id]
      *    [virtualserver_needed_identity_security_level]
      *    [virtualserver_status]
+     *
      *    [connection_filetransfer_bandwidth_sent]
      *    [connection_filetransfer_bandwidth_received]
      *    [connection_packets_sent_total]
@@ -77,7 +78,7 @@ class Teamspeak3_ServerQueryCommand_serverinfo extends Clansuite_Teamspeak3_Serv
     	    return false;
     	}
 
-        return $this->serverQuery("serverinfo");
+        return $this->toArray($this->serverQuery("serverinfo"));
     }
 }
 ?>
