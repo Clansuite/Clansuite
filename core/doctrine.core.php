@@ -95,10 +95,12 @@ class Clansuite_Doctrine
         # prevent redeclaration
         if (!class_exists('Doctrine'))
         {
+            $doctrine_compiled = ROOT_LIBRARIES . 'doctrine'.DS.'Doctrine.compiled.php';
+
             # Require compiled or normal Library
-            if (is_file( ROOT_LIBRARIES . 'doctrine/Doctrine.compiled.php'))
+            if (is_file($doctrine_compiled))
             {
-                require ROOT_LIBRARIES .'doctrine/Doctrine.compiled.php';
+                require $doctrine_compiled;
             }
             elseif(is_file( ROOT_LIBRARIES . 'doctrine/Doctrine.php'))
             {
@@ -113,17 +115,24 @@ class Clansuite_Doctrine
             # Register the Doctrine autoloader
             spl_autoload_register(array('Doctrine', 'autoload'));
 
-            # automatically compile doctrine to one file, so that the next time Doctrine.compiled.php is found
-            if (is_file( ROOT_LIBRARIES . 'doctrine/Doctrine.compiled.php') == false)
+            /**
+             * automatically compile doctrine to one file, but only compile with the mysql driver
+             * so that the next time Doctrine.compiled.php is found
+             * @link compile but only use only compile the mysql driver
+             * @todo add the dbtype from config as the driver to compile
+             */
+            if (is_file($doctrine_compiled) == false)
             {
-                Doctrine::compile();
+                Doctrine::compile($doctrine_compiled, array('mysql'));
             }
 
-            # Register the Doctrine models autoloader
-            # @todo D2
+            # Register the Doctrine models via autoloader
+            # @todo this is for Doctrine2
             # Doctrine_Core::setModelsDirectory(ROOT . 'records');
             # Doctrine_Core::setModelsDirectory(ROOT_MOD); # somewhere beneath modules folder, rest via autoload
             # spl_autoload_register(array('Doctrine, 'modelsAutoload');
+ 
+            unset($doctrine_compiled);
         }
     }
 
