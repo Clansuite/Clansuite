@@ -1,4 +1,4 @@
-{literal}
+
         $this->injector->register('Clansuite_Mailer');
         $mailer = $this->injector->instantiate('Clansuite_Mailer');
 
@@ -17,4 +17,3 @@
         {
             trigger_error( _( 'Mailer Error: There has been an error in the mailing system. Please inform the webmaster.' ) );
         }
-{/literal}

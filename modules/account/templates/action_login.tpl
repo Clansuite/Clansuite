@@ -2,14 +2,14 @@
 <script src="{$www_root_themes_core}/javascript/webtoolkit.sha1.js" type="application/javascript"></script>
 {/move_to}
 
-{literal}
+
     <script>
     function hashLoginPassword(theForm)
     {
         theForm.password.value = SHA1(theForm.password.value);
     }
     </script>
-{/literal}
+
 
 {* OLD ERRORS
     {if $error.not_filled == 1}<p class="error">{t}Please fill out all required fields!{/t}</p>{/if}

@@ -9,9 +9,9 @@
 *} 
 
 <style type="text/css">
-{literal}
+
     .selected { color:green; }
-{/literal}
+
 </style>
 
 <!-- start jq confirm dialog -->

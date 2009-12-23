@@ -2,14 +2,14 @@
 <script src="{$www_root_themes_core}/javascript/webtoolkit.sha1.js" type="application/javascript"></script>
 {/move_to}
 
-{literal}
+
     <script>
     function hashLoginPassword(theForm)
     {
         theForm.password.value = SHA1(theForm.password.value);
     }
     </script>
-{/literal}
+
 <h1>{t}Forgot Password{/t}</h1>
 
     <p>{t}Enter your email below and a new password will be generated for your account and sent to you by email.{/t}</p>

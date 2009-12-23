@@ -6,7 +6,7 @@
 <script type="text/javascript" src="{$www_root_themes_core}/javascript/mootools/MooFlow.js"></script>
 <script type="text/javascript" src="{$www_root_themes_core}/javascript/mootools/milkbox.js"></script>
 
-{literal}
+
 <script type="text/javascript">
     var myMooFlowPage = {
         start: function(){
@@ -25,7 +25,7 @@
     };
     window.addEvent('domready', myMooFlowPage.start);
 </script>
-{/literal}
+
 {/move_to}
 
 <div class="td_header">Gallery</div>

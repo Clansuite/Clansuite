@@ -27,7 +27,7 @@
         </td>
         <td class="cell1" style="padding: 3px">
             <small>{t}Select the default timzone:{/t}</small><br />
-            {html_options name='config[locale][timezone]' options=$timezones selected=´$config.locale.timezone´ separator='<br />'}
+            {html_options name='config[locale][timezone]' options=$timezones selected=$config.locale.timezone separator='<br />'}
         </td>
     </tr>
     <tr>

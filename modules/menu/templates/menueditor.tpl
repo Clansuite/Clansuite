@@ -5,7 +5,7 @@
 <script type="text/javascript" src="{$www_root_mod}/javascript/DynamicTreeBuilder.js"></script>
 <script type="text/javascript" src="{$www_root_mod}/javascript/plugins.js"></script>
 
-{literal}
+
     <style type="text/css">
         form { margin: 0; }
         input[readonly] { border: 1px solid #7F9DB9; background: #ffffff; }
@@ -15,7 +15,7 @@
         #tree-plugin, #tree-plugin-button-import-html { display: none; }
         #tree-plugin-textarea { white-space: nowrap; }
     </style>
-{/literal}
+
 
 {/move_to}
 

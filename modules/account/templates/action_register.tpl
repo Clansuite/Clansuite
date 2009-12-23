@@ -2,7 +2,7 @@
 <script src="{$www_root_themes_core}/javascript/webtoolkit.sha1.js" type="application/javascript"></script>
 {/move_to}
 
-{literal}
+
     <script>
 
     function hashLoginPassword(theForm)
@@ -58,7 +58,7 @@
         document.register_form.password2.value = '';
     }
     </script>
-{/literal}
+
 <h2>{t}Register{/t}</h2>
 {* OLD ERRORS
     {if $err.not_filled == 1}<p class="error">{t}Please fill out all required fields!{/t}</p>{/if}

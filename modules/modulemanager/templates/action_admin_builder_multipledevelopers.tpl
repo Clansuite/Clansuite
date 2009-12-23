@@ -24,7 +24,7 @@
         </tr>
         <tr>
             <td class="cell2">{t}Website{/t}</td>
-            <td class="cell1"><input name="m[meta][website]" class="input_text" type="text" value="http://" pattern="{literal}^http://[a-zA-Z0-9\-]+\.[a-zA-Z0-9\-]+\.?[a-zA-Z]+${/literal}" /></td>
+            <td class="cell1"><input name="m[meta][website]" class="input_text" type="text" value="http://" pattern="^http://[a-zA-Z0-9\-]+\.[a-zA-Z0-9\-]+\.?[a-zA-Z]+$" /></td>
         </tr>
          <tr>
             <td class="cell2" width="100px">{t}Repository Username{/t}</td>

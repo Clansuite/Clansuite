@@ -93,19 +93,20 @@ class Module_Teamspeakviewer extends Clansuite_ModuleController implements Clans
         require dirname(__FILE__).'/libraries/teamspeak3.lib.php';
 
         # hardcoded for testing
-        $server_ip         = 'clansuite.com';
-        #$server_ip         = '85.214.133.198';
+        #$server_ip         = 'clansuite.com';
+        $server_ip         = '85.214.133.198';
         $server_port       = '9987';
         $server_queryport  = '10011';
         $vserver_id        = '1';
 
         $ts3 = new Clansuite_Teamspeak3_ServerQueryInterface($server_ip, $server_queryport, $vserver_id);
-        $ts3->selectVirtualServer();
-        clansuite_xdebug::printR($ts3->version()); # ok
+        $ts3->selectVirtualServer(1);
+        clansuite_xdebug::printR($ts3->serverViewer());
+        #clansuite_xdebug::printR($ts3->version()); # ok
         #clansuite_xdebug::printR($ts3->channellist());
         #clansuite_xdebug::printR($ts3->instanceinfo()); # ok
         #clansuite_xdebug::printR($ts3->serverinfo()); # ??? what is wrong here?? no return values
-        $ts3->close();
+        #$ts3->close();
 
         clansuite_xdebug::printR($serverinfo);
 

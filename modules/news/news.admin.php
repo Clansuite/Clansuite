@@ -137,7 +137,7 @@ class Module_News_Admin extends Clansuite_ModuleController implements Clansuite_
     /**
      * Create News
      */
-    function action_admin_create()
+    public function action_admin_create()
     {
         # Load Form Class (@todo autoloader / di)
         require ROOT_CORE . 'viewhelper/form.core.php';
@@ -163,7 +163,7 @@ class Module_News_Admin extends Clansuite_ModuleController implements Clansuite_
     /**
      * Edit News
      */
-    function action_admin_edit()
+    public function action_admin_edit()
     {
         # get id
         $news_id = $this->getHttpRequest()->getParameter('id');
@@ -209,7 +209,7 @@ class Module_News_Admin extends Clansuite_ModuleController implements Clansuite_
     /**
      * Update a News Entry identified by news_id
      */
-    function action_admin_update()
+    public function action_admin_update()
     {
         # get incoming data
         $data = $this->getHttpRequest()->getParameter('news_form');
@@ -258,11 +258,11 @@ class Module_News_Admin extends Clansuite_ModuleController implements Clansuite_
     /**
      * Deletes News
      */
-    function action_admin_delete()
+    public function action_admin_delete()
     {
         $request = $this->getHttpRequest();
         $delete  = $request->getParameter('delete');
-        
+
         if(isset($delete))
         {
             $numDeleted = Doctrine_Query::create()->delete('CsNews')->whereIn('news_id', $delete)->execute();
@@ -277,7 +277,7 @@ class Module_News_Admin extends Clansuite_ModuleController implements Clansuite_
     /**
      * Action for displaying the Settings of a Module News
      */
-    function action_admin_settings()
+    public function action_admin_settings()
     {
         # Set Pagetitle and Breadcrumbs
         Clansuite_Trail::addStep( _('Settings'), '/index.php?mod=news&amp;sub=admin&amp;action=settings');
@@ -355,13 +355,15 @@ class Module_News_Admin extends Clansuite_ModuleController implements Clansuite_
         $form->addElement('submitbutton')->setName('Save');
         $form->addElement('resetbutton');
 
+        #clansuite_xdebug::printR( $form->render() );
+
         # assign the html of the form to the view
         $this->getView()->assign('form', $form->render());
 
         $this->prepareOutput();
     }
 
-    function action_admin_settings_update()
+    public function action_admin_settings_update()
     {
         # Incomming Data
         # @todo get post via request object, sanitize
@@ -375,7 +377,7 @@ class Module_News_Admin extends Clansuite_ModuleController implements Clansuite_
 
         # clear the cache / compiled tpls
         # $this->getView()->clear_all_cache();
-        $this->getView()->clear_compiled_tpl();
+        #$this->getView()->clear_compiled_tpl();
 
         # Redirect
         $this->getHttpResponse()->redirectNoCache('index.php?mod=news&amp;sub=admin', 2, 302, 'The config file has been succesfully updated.');

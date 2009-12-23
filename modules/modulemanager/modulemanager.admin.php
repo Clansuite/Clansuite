@@ -58,7 +58,18 @@ class Module_Modulemanager_Admin extends Clansuite_ModuleController implements C
     public function execute(Clansuite_HttpRequest $request, Clansuite_HttpResponse $response)
     {
         # read module config
-        $this->getModuleConfig( ROOT_MOD . '/modulemanager/modulemanager.config.php');
+        $this->getModuleConfig();
+    }
+
+    /**
+     * Get a list of all the module directories
+     *
+     * @todo figure out, if SPL recursivedirectoryiterator is faster
+     * @return array
+     */
+    private static function getModuleDirsList()
+    {
+        return glob( ROOT_MOD . '[a-zA-Z]*', GLOB_ONLYDIR);
     }
 
     /**
@@ -77,9 +88,9 @@ class Module_Modulemanager_Admin extends Clansuite_ModuleController implements C
         $number_of_modules = 0;
 
         # Scan all modules
-        $module_glob = glob( ROOT . 'modules' . DS . '*', GLOB_ONLYDIR );
+        $module_dirs = self::getModuleDirsList();
 
-        foreach( $module_glob as $module_path )
+        foreach( $module_dirs as $module_path )
         {
             #clansuite_xdebug::printR($module_glob);
 
@@ -106,7 +117,7 @@ class Module_Modulemanager_Admin extends Clansuite_ModuleController implements C
             /*if($arrayname == 'core_info')
             clansuite_xdebug::printR($moduleinfo_array);*/
 
-            if(is_array($moduleinfo_array))
+            if(is_array($moduleinfo_array) and isset($moduleinfo_array[$arrayname]))
             {
                 $modules[$number_of_modules]['info'] = $moduleinfo_array[$arrayname];
             }
@@ -179,11 +190,9 @@ class Module_Modulemanager_Admin extends Clansuite_ModuleController implements C
         $this->prepareOutput();
     }
 
-
     //
     // Module creator + methods below
     //
-
 
     /**
      * Shows the module builder
@@ -196,23 +205,17 @@ class Module_Modulemanager_Admin extends Clansuite_ModuleController implements C
         # Set Pagetitle and Breadcrumbs
         Clansuite_Trail::addStep( _('Builder'), '/index.php?mod=modulemanager&amp;sub=admin&amp;action=builder');
 
-        $smarty = $this->getView();
-
-        // Get all modules in the directory
-        // I know... MVC -.- but we need to get going...
         $existing_modules_js = '[';
-        $existing_glob = glob( ROOT_MOD . '[a-zA-Z]*', GLOB_ONLYDIR);
-        foreach( $existing_glob as $key => $value )
+        $module_dirs = self::getModuleDirsList();
+        foreach( $module_dirs as $key => $value )
         {
             $existing_modules_js .= '"' . str_replace(strtolower(ROOT_MOD), '', strtolower($value)) . '",';
         }
         $existing_modules_js = preg_replace( '#,$#', ']', $existing_modules_js);
+
+        $smarty = $this->getView();
         $smarty->assign('existing_modules_js', $existing_modules_js);
 
-        // Set Layout Template
-        $smarty->setLayoutTemplate('index.tpl');
-
-        // Prepare the Output
         $this->prepareOutput();
     }
 
@@ -319,7 +322,9 @@ class Module_Modulemanager_Admin extends Clansuite_ModuleController implements C
     }
 
     /**
-     * Create the new mod
+     * Create the new module
+     *
+     * a) RAD: &modulename=language&classname=module_language_admin
      */
     public function action_admin_create()
     {
@@ -330,82 +335,100 @@ class Module_Modulemanager_Admin extends Clansuite_ModuleController implements C
         Clansuite_Trail::addStep( _('Create'), '/index.php?mod=modulemanager&amp;sub=admin&amp;action=create');
 
         $request = $this->injector->instantiate('Clansuite_HttpRequest');
-        $mod = unserialize(base64_decode($request->getParameter('mod_data')));
+        $mod = $request->getParameter('mod_data');
 
-        $smarty = $this->getView();
-        $smarty->assign( 'mod', $mod );
-
-        /**
-        * @desc Folder's writeable?
-        */
-        if ( !is_writeable( ROOT_MOD ) )
+        if($mod)
         {
-            $err['mod_folder_not_writeable'] = 1;
-        }
+            # unserialize module data
+            $mod = unserialize(base64_decode($mod));
 
-        if (!is_dir(ROOT_MOD .  $mod['module_name']))
-        {
-            // CREATE DIRECTORIES
-            mkdir( ROOT_MOD .  $mod['module_name'] );
-            mkdir( ROOT_MOD .  $mod['module_name'] . DS . 'templates' );
-
-        }
-        else
-        {
-            echo 'The Module folder already exists: '. ROOT_MOD .  $mod['module_name'];
-            exit;
-        }
-
-        // FRONTEND
-        if( isset($mod['frontend']['checked']) && $mod['frontend']['checked'] == 1)
-        {
-            // WIDGETS
-            if( isset($mod['widget']['checked']) && $mod['widget']['checked'] == 1)
+            # Check if the Modules folder is writeable
+            if ( !is_writeable( ROOT_MOD ) )
             {
-                $widget_methods = $smarty->fetch( ROOT_MOD . 'scaffolding/module_widget_method.tpl');
-                $smarty->assign( 'widget_methods',  $widget_methods);
+                $err['mod_folder_not_writeable'] = 1;
             }
 
-            $frontend_methods = $smarty->fetch( ROOT_MOD . 'scaffolding/module_frontend_method.tpl');
-            $smarty->assign( 'frontend_methods',  $frontend_methods);
-            $frontend = $smarty->fetch('module_frontend.tpl');
-            file_put_contents(ROOT_MOD .  $mod['module_name'] . DS . $mod['module_name'] . '.module.php', $frontend );
-        }
+            # Check if the Module directory is not already existing
+            if (!is_dir(ROOT_MOD .  $mod['modulename']))
+            {
+                // CREATE DIRECTORIES
+                mkdir( ROOT_MOD .  $mod['modulename'] );
+                mkdir( ROOT_MOD .  $mod['modulename'] . DS . 'templates' );
+            }
+            else
+            {
+                echo 'The Module folder already exists: '. ROOT_MOD .  $mod['modulename'];
+                #exit;
+            }
 
-        // BACKEND
-        if( isset($mod['backend']['checked']) && $mod['backend']['checked'] == 1)
+            /**
+             * FRONTEND
+             * It is the mainmodule of a module with the name modulename.module.php.
+             */
+            if( isset($mod['frontend']['checked']) && $mod['frontend']['checked'] == 1)
+            {
+                // WIDGETS
+                if( isset($mod['widget']['checked']) && $mod['widget']['checked'] == 1)
+                {
+                    $widget_methods = $smarty->fetch( ROOT_MOD . 'scaffolding/module_widget_method.tpl');
+                    $smarty->assign( 'widget_methods',  $widget_methods);
+                }
+
+                $frontend_methods = $smarty->fetch( ROOT_MOD . 'scaffolding/module_frontend_method.tpl');
+                $smarty->assign( 'frontend_methods',  $frontend_methods);
+                $frontend = $smarty->fetch('module_frontend.tpl');
+                file_put_contents(ROOT_MOD .  $mod['modulename'] . DS . $mod['modulename'] . '.module.php', $frontend );
+            }
+
+            /**
+             * BACKEND
+             * It is an submodule with the name modulename.admin.php.
+             */
+            if( isset($mod['backend']['checked']) && $mod['backend']['checked'] == 1)
+            {
+                $backend_methods = $smarty->fetch( ROOT_MOD . 'scaffolding/module_backend_method.tpl');
+                $smarty->assign( 'backend_methods',  $backend_methods );
+                $backend = $smarty->fetch( ROOT_MOD . 'scaffolding/module_backend.tpl');
+                file_put_contents(ROOT_MOD .  $mod['modulename'] . DS . $mod['modulename'] . '.admin.php', $backend );
+            }
+
+            # Config
+            $this->createConfigFromTemplate($mod['modulename']);
+
+            # Setup
+            $this->createSetupFromTemplate($mod['modulename']);
+
+            # Frontend Templates
+            $this->createFrontendTemplatesFromTemplate($mod['modulename'], $mod['frontend']);
+
+            # Backend Templates = Adminmodule Templates
+            $this->createBackendTemplatesFromTemplate($mod['modulename'], $mod['backend']);
+
+            # Widget Method and Templates (Standalone Widget?)
+            #$this->createWidgetFromTemplate($mod['modulename'], $mod['widget']);
+
+            # Documentation
+            #$this->createModuleDocumentationFromTemplate($mod['modulename']);
+
+            # Unittest
+            #$this->createUnitTestFromTemplate($mod['modulename']);
+
+            # MODULE META INFORMATIONS
+
+            $smarty = $this->getView();
+            $smarty->assign( 'mod', $mod );
+
+            // Set Layout Template
+            #$this->getView()->setLayoutTemplate('index.tpl');
+        }
+        else # display a preview dialog of the module to be created
         {
-            $backend_methods = $smarty->fetch( ROOT_MOD . 'scaffolding/module_backend_method.tpl');
-            $smarty->assign( 'backend_methods',  $backend_methods );
-            $backend = $smarty->fetch( ROOT_MOD . 'scaffolding/module_backend.tpl');
-            file_put_contents(ROOT_MOD .  $mod['module_name'] . DS . $mod['module_name'] . '.admin.php', $backend );
+            $smarty = $this->getView();
+            $mod = array();
+            $mod['modulename'] = $request->getParameter('modulename');
+            $mod['classname']  = $request->getParameter('classname');
+            $smarty->assign( 'mod', $mod );
         }
-
-        # Config
-        $this->createConfigFromTemplate($mod['module_name']);
-
-        # Setup
-        $this->createSetupFromTemplate($mod['module_name']);
-
-        # Frontend Templates
-        $this->createFrontendTemplatesFromTemplate($mod['module_name'], $mod['frontend']);
-
-        # Backend Templates = Adminmodule Templates
-        $this->createBackendTemplatesFromTemplate($mod['module_name'], $mod['backend']);
-
-        # Widget Method and Templates (Standalone Widget?)
-        $this->createWidgetFromTemplate($mod['module_name'], $mod['widget']);
-
-        # Documentation
-        #$this->createModuleDocumentationFromTemplate($mod['module_name']);
-
-        # Unittest
-        #$this->createUnitTestFromTemplate($mod['module_name']);
-
-        # MODULE META INFORMATIONS
-
-        // Set Layout Template
-        $this->getView()->setLayoutTemplate('index.tpl');
 
         $this->prepareOutput();
     }
@@ -527,15 +550,6 @@ class Module_Modulemanager_Admin extends Clansuite_ModuleController implements C
             # write the documentation file to the moduledir
             file_put_contents( ROOT_MOD .  $module . DS . 'doc' . DS . $module . '_documentation.asc', $documentation_template_content);
         }
-    }
-
-    /**
-     * This Method is a loop over all Module Directories.
-     * It uses DirectoryIterator.
-     */
-    private function runThroughAllModuleDirectories()
-    {
-
     }
 
     public function activate()

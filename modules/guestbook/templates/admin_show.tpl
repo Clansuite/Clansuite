@@ -47,7 +47,7 @@
 
     <tr class="tr_row1">
        <td height="20" colspan="11" align="right">
-            <input class="ButtonGreen" type="button" value="{t}Accept New Entries{/t}" onclick='{literal}Dialog.info({url: "index.php?mod=guestbook&amp;sub=admin&amp;action=accept", options: {method: "get"}}, {className: "alphacube", width:370, height: 250});{/literal}' />
+            <input class="ButtonGreen" type="button" value="{t}Accept New Entries{/t}" onclick='Dialog.info({url: "index.php?mod=guestbook&amp;sub=admin&amp;action=accept", options: {method: "get"}}, {className: "alphacube", width:370, height: 250});' />
             <input class="Button" name="reset" type="reset" value="{t}Reset{/t}" />
             <input class="ButtonRed" type="submit" name="delete_text" value="{t}Delete Selected Entries{/t}" />
         </td>
