@@ -1,6 +1,6 @@
 <?php
 function banlist()
 {
-    return $this->extendedServerQuery('banlist');
+    return $this->toArray($this->ServerQueryCommand('banlist'));
 }
 ?>

@@ -291,7 +291,7 @@ class Clansuite_Teamspeak3_ServerQueryInterface
             $this->vserver_id = $vserver_id;
         }
 
-        if( $this->executeWithoutFetch("use $this->vserver_id") == true )
+        if( $this->executeWithoutFetch("use sid=$this->vserver_id") == true )
         {
             $this->vserver_select_status = true;
         }
@@ -374,7 +374,7 @@ class Clansuite_Teamspeak3_ServerQueryInterface
             {
                 $data .= fgets($this->socket);
             }
-            while(strpos($data, 'error id=') === false or strpos($data, 'msg=') === false);
+            while(strpos($data, 'msg=') === false);
 
             #clansuite_xdebug::printR($data);
 
@@ -391,106 +391,54 @@ class Clansuite_Teamspeak3_ServerQueryInterface
         }
     }
 
-    /**
-     * serverQuery
-     *
-     * @param  string  $command command
-     * @return array data
-     */
-    public function serverQuery($command)
+    public function toArray($responseData)
     {
-        $fetchedUnfilteredData = $this->ServerQueryCommand($command);
+        $responseData = $this->stripText($responseData);
 
-        if($fetchedUnfilteredData !== false)
+        $data = array();
+
+        $chunk = explode(' ', $responseData);
+
+        #clansuite_xdebug::printR($chunk);
+        
+        # count the elements of the array
+        $array_counter = count($chunk);
+        
+        do
         {
-
-            $fetchedUnfilteredData = str_replace('error id=0 msg=ok', '', $fetchedUnfilteredData);
-            $fetchedUnfilteredData = str_replace('\/', '/', $fetchedUnfilteredData);
-            $fetchedUnfilteredData = str_replace(array("\t", "\v", "\r", "\n", "\f"), '', $fetchedUnfilteredData);
-
-            $data = array();
-
-            $splitedKeys = explode(' ', $fetchedUnfilteredData);
-
-            foreach($splitedKeys as $key)
+            # get last element of array stack
+            # this reduces the array with each iteration of the while command
+            $chunk_element = array_pop($chunk);
+            
+            # and because of array_pop, it's now one element less
+            $array_counter--;
+            
+            # we have to handle the equal char carefully
+            # because it may occur several times in a value string
+            # imagine channel names like ..--==MyTS3Channel==--..
+            $equalCount = substr_count($chunk_element, '=');
+            
+            # ok, it's only one equal characters, let's explode
+            if($equalCount == 1)
             {
-                $equalCount = substr_count($key, '=');
-                if($equalCount > 1) {
-                    $keyVals = explode('=', $key);
-                    $val = $keyVals[1];
-                    for($i=2; $i<=$equalCount; $i++) {
-                        if(!empty($keyVals[$i])) {
-                            $val .= '='.$keyVals[$i];
-                        }else{
-                            $val .= '=';
-                        }
-                    }
-                    $data[$keyVals[0]] = str_replace('\s', ' ', str_replace('\p', '|', $val));
-                }else{
-                    $keyVals = explode('=', $key);
-                    $data[$keyVals[0]] = str_replace('\s', ' ', str_replace('\p', '|', $keyVals[1]));
-                }
+                $keyValuePair = explode('=', $chunk_element);                
             }
-            return $data;
-        }
-        else
-        {
-            return false;
-        }
-    }
-
-    /**
-     * getExtendData: returns piped server data
-     *
-     * @param      string  $command    command
-     * @return     multidimensional array data
-     */
-    public function extendedServerQuery($command)
-    {
-        $fetchedUnfilteredData = $this->ServerQueryCommand($command);
-
-        if($fetchedUnfilteredData !== false) {
-
-            $fetchedUnfilteredData = str_replace('error id=0 msg=ok', '', $fetchedUnfilteredData);
-            $fetchedUnfilteredData = str_replace('\/', '/', $fetchedUnfilteredData);
-            $fetchedUnfilteredData = str_replace(array("\t", "\v", "\r", "\n", "\f"), '', $fetchedUnfilteredData);
-
-            $data = array();
-            $pipeSplittedData = explode('|', $fetchedUnfilteredData);
-
-            if(empty($fetchedUnfilteredData)) { return $data; }
-
-            foreach($pipeSplittedData as $channelString) {
-                $splittedKeys = explode(' ', $channelString);
-
-                $keyArray = array();
-
-                foreach($splittedKeys as $key) {
-                    $equalCount = substr_count($key, '=');
-                    if($equalCount > 1) {
-                        $keyVal = explode('=', $key);
-                        $val = $keyVal[1];
-                        for($i=2; $i<=$equalCount; $i++) {
-                            if(!empty($keyVal[$i])) {
-                                $val .= '='.$keyVal[$i];
-                            }else{
-                                $val .= '=';
-                            }
-                        }
-                        $keyArray[$keyVal[0]] = str_replace('\s', ' ', str_replace('\p', '|', $val));
-                    }else{
-                        $keyVal = explode('=', $key);
-                        $keyArray[$keyVal[0]] = str_replace('\s', ' ', str_replace('\p', '|', $keyVal[1]));
-                    }
-                }
-
-                $data[] = $keyArray;
-
+            
+            # several equal characters
+            if($equalCount > 1)
+            {
+                # ok, at least we know the key is always "command_name="
+                # so we are able to explode after the first occurence of an equal character
+                $keyValuePair = explode('=', $chunk_element, 2);               
             }
-            return $data;
-        }else{
-            return false;
+            
+            # assign the key/value pair as element of the data array
+            # and clean the value from odd characters
+            $data[$keyValuePair[0]] = $this->replaceText($keyValuePair[1]);
         }
+        while($array_counter > 0);
+
+        return $data;
     }
 
     /**
@@ -513,8 +461,6 @@ class Clansuite_Teamspeak3_ServerQueryInterface
         }
     }
 
-
-
     /**
      * @param $newClientNickName string New Client Nickname.
      */
@@ -525,12 +471,24 @@ class Clansuite_Teamspeak3_ServerQueryInterface
         return $this->executeWithoutFetch('clientupdate client_nickname='.$newClientNickName);
     }
 
+    public function userCount()
+    {
+        $this->ServerQueryCommand('use sid='.$vserver_id);
+        $user = $ts3->executeCommand('clientlist');
+        $usercount = count(explode('|',$user));
+        return $usercount;
+    }
+
     public function serverViewer()
     {
-        $temp = $this->ServerQueryCommand('use 1');
-        $temp .= $this->ServerQueryCommand("serverinfo");
+        $temp = $this->ServerQueryCommand('use sid='.$this->vserver_id);
+        $temp .= $this->ServerQueryCommand('serverinfo');
         $temp .= $this->ServerQueryCommand('channellist');
-        $temp .= $this->ServerQueryCommand('clientlist');
+
+        clansuite_xdebug::printR($this->toArray($temp));
+        #$temp .= $this->ServerQueryCommand('clientlist');
+
+        #clansuite_xdebug::printR($this->toArray($temp));
 
         if($temp == false)
         {
@@ -588,7 +546,7 @@ class Clansuite_Teamspeak3_ServerQueryInterface
             {
                 foreach ($info['user'] as $u_key => $u_var)
                 {
-                    $temp_a .= $this->ServerQueryCommand("clientinfo clid=".$u_key."");
+                    $temp_a .= $this->ServerQueryCommand('clientinfo clid='.$u_key);
                 }
                 $temp_b = explode('msg=ok', $temp_a);
                 $i=1;
@@ -637,17 +595,45 @@ class Clansuite_Teamspeak3_ServerQueryInterface
 
     /**
      * replaceText
+     * Replaces several elements in the server response string.
+     * Think of it as postfilter, used before assigning the key/value pairs.
      *
      * @param  string $replace_text Text which should be imploded
      * @return string replaced Text
      */
     public function replaceText($text)
     {
+        # b) replace some special chars
         $chars        = array('\s','\p','\/');
         $replacements = array( ' ', '|', '/');
+        $text = str_replace($chars, $replacements, $text);
 
-        $replaced_text = str_replace($chars, $replacements, $text);
-        return $replaced_text;
+        # c) remove some chars
+        $text = str_replace(array("\t", "\v", "\r", "\n", "\f"), '', $text);
+
+        return $text;
+    }
+
+    /**
+     * stripText
+     * Removes unneeded elements from the server response string.
+     * Think of it as prefilter, before an array is build.
+     *
+     * @param  string $replace_text Text which should be imploded
+     * @return string replaced Text
+     */
+    public function stripText($text)
+    {
+        # a) remove the "success message"
+        $text = str_replace('error id=0 msg=ok', ' ', $text);
+
+        # b) remove "white"spaces
+        $text = trim($text);
+
+        # c) replace pipes with spaces
+        $text = str_replace('|', ' ', $text);
+
+        return $text;
     }
 
     /**
@@ -708,6 +694,7 @@ class Clansuite_Teamspeak3_ServerQueryInterface
     /**
      * setHostMessageMode
      *
+     * 0: display no message
      * 1: display message in chatlog
      * 2: display message in modal dialog
      * 3: display message in modal dialog and close connection
