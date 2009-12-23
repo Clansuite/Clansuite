@@ -1,0 +1,11 @@
+/**
+ * Doctrine Database Schema in YAML Style.
+ * DO NOT USE TABS IN HERE.
+ */
+
+options:
+  type: INNODB
+  collate: utf8_general_ci
+  charset: utf8
+  
+
