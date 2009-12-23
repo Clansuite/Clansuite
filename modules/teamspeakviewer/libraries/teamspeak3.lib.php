@@ -391,52 +391,51 @@ class Clansuite_Teamspeak3_ServerQueryInterface
         }
     }
 
+    /**
+     * toArray
+     * The function is the heart of the ServerQuery Processing.
+     * It transforms the response string into an array.
+     *
+     * @param $responseData The Server Response String.
+     * @return array
+     */
     public function toArray($responseData)
     {
+        # prefilter the response string
         $responseData = $this->stripText($responseData);
 
+        # init the array to be returned later
         $data = array();
 
-        $chunk = explode(' ', $responseData);
+        # build chunks array by exploding at whitespaces
+        $chunks = explode(' ', $responseData);
 
-        #clansuite_xdebug::printR($chunk);
-        
         # count the elements of the array
-        $array_counter = count($chunk);
-        
+        $array_counter = count($chunks);
+
         do
         {
             # get last element of array stack
             # this reduces the array with each iteration of the while command
-            $chunk_element = array_pop($chunk);
-            
+            $chunk_element = array_pop($chunks);
+
             # and because of array_pop, it's now one element less
             $array_counter--;
-            
-            # we have to handle the equal char carefully
-            # because it may occur several times in a value string
-            # imagine channel names like ..--==MyTS3Channel==--..
-            $equalCount = substr_count($chunk_element, '=');
-            
-            # ok, it's only one equal characters, let's explode
-            if($equalCount == 1)
-            {
-                $keyValuePair = explode('=', $chunk_element);                
-            }
-            
-            # several equal characters
-            if($equalCount > 1)
-            {
-                # ok, at least we know the key is always "command_name="
-                # so we are able to explode after the first occurence of an equal character
-                $keyValuePair = explode('=', $chunk_element, 2);               
-            }
-            
+
+            # at least we know the key is always a string "command_name="
+            # so we are able to explode after the first occurence of an equal character
+            # which makes the rest of the string the value
+            $keyValuePair = explode('=', $chunk_element, 2);
+
             # assign the key/value pair as element of the data array
             # and clean the value from odd characters
             $data[$keyValuePair[0]] = $this->replaceText($keyValuePair[1]);
+
         }
         while($array_counter > 0);
+
+        # cleanup, remove the original chunks array (which is now empty)
+        unset($chunks);
 
         return $data;
     }
