@@ -394,7 +394,7 @@ class Clansuite_Formelement implements Clansuite_Formelement_Interface
      * ===================================================================================
      *      Formelement Decoration
      * ===================================================================================
-     */    
+     */
 
     /**
      * setDecorator
@@ -418,7 +418,7 @@ class Clansuite_Formelement implements Clansuite_Formelement_Interface
      * Usage:
      * $form->addDecorator('fieldset')->setLegend('legendname');
      *
-     * WATCH IT! THIS BREAKS THE CHAINING IN REGARD TO THE FORM 
+     * WATCH IT! THIS BREAKS THE CHAINING IN REGARD TO THE FORM
      * @return decorator object
      */
     public function addDecorator($decorators)
@@ -464,7 +464,7 @@ class Clansuite_Formelement implements Clansuite_Formelement_Interface
             # set this decorator object under its name into the array
             $this->formelementdecorators[$decoratorname] = $decorator;
         }
-                
+
         # WATCH IT! THIS BREAKS THE CHAINING IN REGARD TO THE FORM
         # We dont return $this here, because $this would be the FORM.
         # Insted the decorator is returned, to apply some properties.
