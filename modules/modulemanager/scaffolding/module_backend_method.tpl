@@ -5,10 +5,10 @@
      * @param void
      * @return void 
      */
-    {$mod.backend.backend_scopes.$key} function {$item}(){literal}
-    {{/literal}
+    {$mod.backend.backend_scopes.$key} function {$item}()
+    {
         # Set Pagetitle and Breadcrumbs
-        trail::addStep( _('{$item|replace:'action_admin_':''|replace:'_':' '|capitalize}'), '/index.php?mod={$mod.module_name}&amp;action={$item|replace:'action_admin_':''}');
+        trail::addStep( _('{$item|replace:'action_admin_':''|replace:'_':' '|capitalize}'), '/index.php?mod={$mod.modulename}&amp;action={$item|replace:'action_admin_':''}');
 
         // Set Layout Template
         $this->getView()->setLayoutTemplate('admin/index.tpl');
@@ -21,6 +21,6 @@
         {/if}
         
         {if $mod.backend.backend_outputs.$key == '1'}# Prepare the Output
-        $this->prepareOutput();{/if}{literal}
-    }{/literal}
+        $this->prepareOutput();{/if}
+    }
 {/foreach}

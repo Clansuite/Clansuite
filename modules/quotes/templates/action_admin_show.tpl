@@ -61,7 +61,7 @@
 
                 <!-- Form Buttons/Commands -->
                 <input class="ButtonGreen" type="button" value="{t}Add Quote{/t}" />
-                <input class="ButtonGreen" type="button" value="{t}Edit Selected Quotes{/t}" onclick='{literal}Dialog.info({url: "index.php?mod=quotes&amp;sub=admin&amp;action=edit&amp;id={/literal}{$quote.quote_id}{literal}&amp;front=1", options: {method: "get"}}, {className: "alphacube", width:900, height: 600});{/literal}' />
+                <input class="ButtonGreen" type="button" value="{t}Edit Selected Quotes{/t}" onclick='Dialog.info({url: "index.php?mod=quotes&amp;sub=admin&amp;action=edit&amp;id={$quote.quote_id}&amp;front=1", options: {method: "get"}}, {className: "alphacube", width:900, height: 600});' />
                 <input class="Button" name="reset" type="reset" value="{t}Reset{/t}" />
                 <input class="ButtonRed" type="submit" name="submit" value="{t}Delete Selected Quotes{/t}" />
 

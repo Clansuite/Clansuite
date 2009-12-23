@@ -1,4 +1,4 @@
-{literal}
+
 <script type="text/javascript">
     window.addEvent('domready', function() {
         // All widgets Container
@@ -149,4 +149,4 @@
     });
 
 
-</script>{/literal}
+</script>

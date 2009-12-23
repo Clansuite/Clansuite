@@ -37,7 +37,7 @@
 
 </center>
 
-{literal}
+
 <script type="text/javascript">
 function row_clicked( user_id, nick, email )
 {
@@ -46,4 +46,3 @@ function row_clicked( user_id, nick, email )
 
 }
 </script>
-{/literal}

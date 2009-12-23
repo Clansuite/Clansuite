@@ -5,7 +5,7 @@
 <script type="text/javascript" src="{$www_root}/libraries/codemirror/js/mirrorframe.js"></script>
 <script type="text/javascript" src="{$www_root_themes_core}/javascript/codemirror_config.js"></script>
 
-{literal}
+
 <!-- Line Numbers for CodeMirror : crappy solution, because it depends on the correct line heigth -->
 <style type="text/css">
       .CodeMirror-line-numbers {
@@ -19,7 +19,7 @@
         padding-top: .4em;
       }
     </style>
-{/literal}
+
 {/move_to}
 
 <div class="ModuleHeading">{t}Templatemanager - Editor{/t}</div>

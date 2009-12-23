@@ -1,12 +1,12 @@
 <!-- Start of Template - {$templateeditor_filename} -->
 
-{literal}
+
 {* DEBUG OUTPUT of assigned Arrays:
     {$smarty.session|@var_dump}
     <hr>
     {$variablename|@var_dump}
 *}
-{/literal}
+
 
 >>> PLEASE INSERT YOUR TEMPLATE CONTENT HERE
 

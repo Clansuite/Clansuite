@@ -10,14 +10,14 @@
 <script type="text/javascript" src="{$www_root_themes_core}/javascript/jquery/jquery.js"></script>
 <script type="text/javascript" src="{$www_root_themes_core}/javascript/jquery/jquery.easySlider1.5.js"></script>
 
-{literal}
+
      <script type="text/javascript">
      var $j = jQuery.noConflict();
          $j(document).ready(function(){
             $j("#nextmatches_slider").easySlider();
         });
     </script>
-{/literal}
+
 {/move_to}
 
     <h2 class="td_header">{t}Next Matches{/t}</h2>

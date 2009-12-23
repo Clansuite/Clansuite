@@ -25,57 +25,48 @@
     * @license    GNU/GPL v2 or (at your option) any later version, see "/doc/LICENSE".
     *
     * @author     Jens-André Koch <vain@clansuite.com>
-    * @copyright  Jens-André Koch (2005 - onwards)
+    * @copyright  Copyleft: All rights reserved. Jens-André Koch (2005-onwards)
     *
     * @link       http://www.clansuite.com
     * @link       http://gna.org/projects/clansuite
+    * @since      File available since Release 0.2
     *
-    * @version    SVN: $Id: news.module.php 2753 2009-01-21 22:54:47Z vain $
+    * @version    SVN: $Id$
     */
 
+/**
+ * Templatemanager Admin Module (Backend)
+ * (templatemanager)
+ *
+ * @license    GNU GPL v2 any later licence
+ * @author     Jens-André Koch
+ * @link       http://www.clansuite.com
+ */
 
-//Security Handler
+// Security Handler
 if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
 
-
 /**
- * Clansuite Administration Module - {$mod.module_name|capitalize}
  *
- * Description: {$mod.meta.description}
- *
- * @version     {$mod.meta.initialversion}
- * @author      {$mod.meta.author} {$mod.meta.email}
- * @copyright   {$mod.meta.copyright}
- * @license     {$mod.meta.license}
- * @link        {$mod.meta.website}
- *
- * @category    Clansuite
- * @package     Modules
- * @subpackage  {$mod.module_name|capitalize}
+ * @package Clansuite
+ * @subpackage module_templatemanager
  */
- 
-class Module_{$mod.module_name|capitalize}_Admin extends ModuleController implements Clansuite_Module_Interface
+class Module_Templatemanager extends Clansuite_ModuleController implements Clansuite_Module_Interface
 {
-
     /**
-     * Module_{$mod.module_name|capitalize}_Admin -> Execute
+     * Main Method of Templatemanager Module
      *
-     * Execute sets up common module specific stuff, needed by all actions of the module.
-     * After execute is performed, the next step in the processing order is the requested action $_REQUEST['action'].
+     * Sets up module specific stuff, needed by all actions of the module
+     * Calls the requested Action $_REQUEST['action']
      */
-     
     public function execute(Clansuite_HttpRequest $request, Clansuite_HttpResponse $response)
     {
-
         # read module config
-        $this->config->readConfig( ROOT_MOD . '{$mod.modulename}/{$mod.modulename}.config.php');
-
-    
+        $this->config->readConfig( ROOT_MOD . '/templatemanager/templatemanager.config.php');
     }
 
-{$backend_methods|default}
-
-
+    public function widget_templatechooser()
+    {
+    }
 }
-
 ?>

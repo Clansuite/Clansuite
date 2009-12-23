@@ -33,10 +33,10 @@
     * @version    SVN: $Id: $    
     */
 
-{literal}  
+  
 //Security Handler
 if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
-{/literal}  
+  
        
 /**
  * Clansuite Module - {$mod.module_name|capitalize} 
@@ -54,8 +54,8 @@ if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
  * @subpackage  {$mod.module_name|capitalize}
  */
 
-class Module_{$mod.module_name|capitalize} extends ModuleController implements Clansuite_Module_Interface{literal}
-{{/literal}
+class Module_{$mod.module_name|capitalize} extends ModuleController implements Clansuite_Module_Interface
+{
     
     /**
      * Module_{$mod.module_name|capitalize} -> Execute 
@@ -64,20 +64,20 @@ class Module_{$mod.module_name|capitalize} extends ModuleController implements C
      * After execute is performed, the next step in the processing order is the requested action $_REQUEST['action'].
      */
      
-    public function execute(Clansuite_HttpRequest $request, Clansuite_HttpResponse $response){literal}
-    {{/literal}
+    public function execute(Clansuite_HttpRequest $request, Clansuite_HttpResponse $response)
+    {
         
         # read module config
-        $this->config->readConfig( ROOT_MOD . '{$mod.module_name}/{$mod.module_name}.config.php');
+        $this->config->readConfig( ROOT_MOD . '{$mod.modulename}/{$mod.modulename}.config.php');
 
-    {literal}
-    }{/literal}
+    
+    }
     
 {$frontend_methods|default}
 
 {$widget_methods|default}
 
-{literal}
+
 }
-{/literal}
+
 ?>

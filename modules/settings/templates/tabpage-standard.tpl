@@ -120,8 +120,9 @@
         {t}dateformat{/t}
     </td>
     <td class="cell1" style="padding: 3px">
-        <small>{t}Set the default dateformat.{/t}</small><br />
-        <input class="input_text" type="text" value="{$config.defaults.dateformat}" name="config[defaults][dateformat]" />
+        <small>{t}Set the default dateformat. Example: {/t} {$smarty.now|date_format:$config.defaults.dateformat}</small><br />                
+        <input class="input_text" type="text" value="{$config.defaults.dateformat}" name="config[defaults][dateformat]" /><br />
+        <a href="http://www.smarty.net/manual/de/language.modifier.date.format.php">Date Format Help</a>
     </td>
 </tr>
 

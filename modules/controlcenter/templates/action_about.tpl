@@ -5,7 +5,7 @@
 {* Tabs with jQuery + YAML Accessible Tabs Plugin *}
 <script type="text/javascript" src="{$www_root_themes_core}/javascript/jquery/jquery.tabs.js"></script>
 
-{literal}
+
 <script type="text/javascript">
     $(document).ready(function(){
         $(".tabs").accessibleTabs({
@@ -18,7 +18,7 @@
                                   });
     });
 </script>
-{/literal}
+
 
 <link rel="stylesheet" type="text/css" href="{$www_root_themes_core}/css/tabs.css" />
 {/move_to}

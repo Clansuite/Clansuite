@@ -11,14 +11,14 @@
 <div class="ModuleHeading">{t}Adminmenü - Verwaltung{/t}</div>
 <div class="ModuleHeadingSmall">{t}Mit dem Menüeditor können Sie die Menüpunkte des Adminmenüs verändern oder neue hinzufügen, sowie alte entfernen.{/t}</div>
 
-{literal}
+
 	<script type="text/javascript">
 	$(function () { $("#basic_html").tree({ rules : { multitree : true } });
 					$("#basic_html2").tree({ rules : { multitree : true	} })
 					$("#tree").tree({ rules : { multitree : true	} })
 				  });
 	</script>
-{/literal}
+
 
 <div id="tree">
 

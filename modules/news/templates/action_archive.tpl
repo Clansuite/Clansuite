@@ -41,7 +41,7 @@
                 <form action="index.php?mod=news&amp;sub=admin&amp;action=delete&amp;front=1" method="post">
                     <input type="hidden" value="{$singlenews.news_id}" name="delete[]" />
                     <input type="hidden" value="{$singlenews.news_id}" name="ids[]" />
-                    <input type="button" value="{t}Edit news{/t}" onclick='{literal}Dialog.info({url: "index.php?mod=news&amp;sub=admin&amp;action=edit&amp;id={/literal}{$singlenews.news_id}{literal}&amp;front=1", options: {method: "get"}}, {className: "alphacube", width:900, height: 600});{/literal}' /> <input type="submit" name="submit" value="{t}Delete{/t}" />
+                    <input type="button" value="{t}Edit news{/t}" onclick='Dialog.info({url: "index.php?mod=news&amp;sub=admin&amp;action=edit&amp;id={$singlenews.news_id}&amp;front=1", options: {method: "get"}}, {className: "alphacube", width:900, height: 600});' /> <input type="submit" name="submit" value="{t}Delete{/t}" />
                 </form>
             {/if}
     	    </td>

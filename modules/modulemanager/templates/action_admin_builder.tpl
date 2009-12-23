@@ -2,11 +2,10 @@
 <div class="ModuleHeading">{t}Builder for Modules{/t}</div>
 <div class="ModuleHeadingSmall">{t}With the Modulebuilder you can easily create your own Clansuite Module. The builder will guide you in several steps through the creation of your module.{/t}</div>
 
-{literal}
 <script type="text/javascript">
     window.addEvent('domready', function() {
         // Existing modules
-        var existing_modules = {/literal}{$existing_modules_js}{literal};
+        var existing_modules = {$existing_modules_js};
 
         // Tooltips
         var myTips = new Tips($$('.input_text option[title!=]'), {
@@ -193,12 +192,12 @@
                             if( $(scaler.id + '_scale').getStyle('max-height') == '150px' )
                             {
                                 $(scaler.id + '_scale').setStyle('max-height', '');
-                                $(scaler).innerHTML = "{/literal}{t}Decrease view{/t}{literal}";
+                                $(scaler).innerHTML = "{t}Decrease view{/t}";
                             }
                             else
                             {
                                 $(scaler.id + '_scale').setStyle('max-height', '150px');
-                                $(scaler).innerHTML = "{/literal}{t}Increase view{/t}{literal}";
+                                $(scaler).innerHTML = "{t}Increase view{/t}";
                             }
                         });
                     });
@@ -254,8 +253,6 @@
 
     });
 </script>
-{/literal}
-
 
 <div id="modulcreator">
 
@@ -352,7 +349,7 @@
                                 <tfoot>
                                     <tr>
                                         <td class="cell2">
-                                            <div style="float: left"><b>{t}Create widget methods?{/t}</b></div><div style="float: right;"><img src="{$www_root_themes_core}/images/icons/help.png" title="Widgets are methods that can be called from a Smarty template file. For example:<br />{literal}{load_module name='news' action='widget_news' items='2'}{/literal}" /></div>
+                                            <div style="float: left"><b>{t}Create widget methods?{/t}</b></div><div style="float: right;"><img src="{$www_root_themes_core}/images/icons/help.png" title="Widgets are methods that can be called from a Smarty template file. For example:<br />{load_module name='news' action='widget_news' items='2'}" /></div>
                                         </td>
                                         <td class="cell1" colspan="10">
                                             <input type="checkbox" name="m[widget][checked]" id="widget_module" class="check_below" value="1" />

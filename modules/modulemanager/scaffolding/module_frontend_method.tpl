@@ -5,10 +5,10 @@
      * @param void
      * @return void 
      */
-    {$mod.frontend.frontend_scopes.$key} function {$item}(){literal}
-    {{/literal}
+    {$mod.frontend.frontend_scopes.$key} function {$item}()
+    {
         # Set Pagetitle and Breadcrumbs
-        trail::addStep( _('{$item|replace:'action_':''|replace:'_':' '|capitalize}'), '/index.php?mod={$mod.module_name}&amp;action={$item|replace:'action_':''}');
+        trail::addStep( _('{$item|replace:'action_':''|replace:'_':' '|capitalize}'), '/index.php?mod={$mod.modulename}&amp;action={$item|replace:'action_':''}');
 
         {if isset($mod.frontend.frontend_snippets.$key) }
 
@@ -18,6 +18,6 @@
         {/if}
 
         {if $mod.frontend.frontend_outputs.$key == '1'}# Prepare the Output
-        $this->prepareOutput();{/if}{literal}
-    }{/literal}
+        $this->prepareOutput();{/if}
+    }
 {/foreach}
