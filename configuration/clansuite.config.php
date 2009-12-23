@@ -1,7 +1,7 @@
 ; <?php die( 'Access forbidden.' ); /* DO NOT MODIFY THIS LINE! ?>
-; 
-; Clansuite Configuration File : 
-; D:\xampplite\htdocs\work\clansuite\trunk\configuration\clansuite.config.php 
+;
+; Clansuite Configuration File :
+; D:\xampplite\htdocs\work\clansuite\trunk\configuration\clansuite.config.php
 ;
 
 
@@ -15,7 +15,16 @@ username = "clansuite"
 password = "toop"
 name = "clansuite"
 prefix = "cs_"
-cache = "APC"
+
+;----------------------------------------
+; doctrine
+;----------------------------------------
+[doctrine]
+datafixtures_path = ""
+sql_path = ""
+migrations_path = ""
+yaml_schema_path = ""
+models_path = ""
 
 ;----------------------------------------
 ; paths
@@ -67,7 +76,7 @@ languageswitch_via_url = 0
 [defaults]
 module = "news"
 action = "show"
-dateformat = "l, d.m.Y H:i"
+dateformat = "%A, %d.%m.%Y %H:%M %Z"
 
 ;----------------------------------------
 ; language
@@ -130,7 +139,7 @@ debug_popup = 0
 ; cache
 ;----------------------------------------
 [cache]
-adapter = 0
+adapter = apc
 caching = 0
 cache_lifetime = 90
 
