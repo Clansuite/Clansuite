@@ -1,12 +1,12 @@
 {* {$serverinfo|@var_dump} *}
 
 <!-- [Start] Widget: Teamspeak Ministatus -->
-<div class="td_header">Teamspeak Online Check</div>
+<div class="td_header">Teamspeak2 Online Check</div>
 
 <div class="cell1">
 
     {if $serverinfo.request_ok == true}
-    
+
         <div style="float:right; clear:both;">
         <a href="teamspeak://{$serverinfo.server_address}:{$serverinfo.server_tcpport}?nickname={$serverinfo.guest_nickname}?password={$serverinfo.server_password}" class="mainlevel">
         Connect
@@ -19,11 +19,6 @@
         <br /><br />
 
         <table cellspacing="0" cellpadding="0">
-        <tr>
-          <td nowrap="nowrap">Uptime:</td>
-          <td width="5" />
-          <td nowrap="nowrap">{$serverinfo.server_uptime|formatseconds}</td>
-        </tr>
         {*
         <tr>
           <td nowrap="nowrap">Location:</td>
@@ -41,23 +36,28 @@
           <td width="5" />
           <td nowrap="nowrap">{$serverinfo.server_currentchannels}</td>
         </tr>
+        <tr>
+          <td nowrap="nowrap">Uptime:</td>
+          <td width="5" />
+          <td nowrap="nowrap">{$serverinfo.server_uptime|formatseconds}</td>
+        </tr>
         </table>
 
         <br />
         <style type="text/css">
         <!--
             a.mainlevel
-            {literal}{{/literal}
+            {
                 background:transparent url(../images/default/play.png) no-repeat scroll 0 0;
                 display:block;
                 height:16px;
                 line-height:15px;
                 margin-bottom:3px;
                 padding:0 0 0 20px;
-            {literal}}{/literal}
+            }
         -->
         </style>
-       
+
     {else}
 
         {* ({$serverinfo.server_address}:{$serverinfo.server_tcpport}) *}
