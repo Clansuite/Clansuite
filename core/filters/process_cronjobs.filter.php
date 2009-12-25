@@ -46,12 +46,12 @@ if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' ); 
  * @subpackage  Filters
  * @implements  Clansuite_Filter_Interface
  */
-class process_cronjobs implements Clansuite_Filter_Interface
+class Clansuite_Filter_process_cronjobs implements Clansuite_Filter_Interface
 {
     private $config     = null;
     private $cronjobs    = null;
 
-public function __construct(Clansuite_Config $config, Clansuite_Cronjobs $cronjobs)
+    public function __construct(Clansuite_Config $config, Clansuite_Cronjobs $cronjobs)
     {
        $this->config   = $config;
        $this->cronjobs = $cronjobs;

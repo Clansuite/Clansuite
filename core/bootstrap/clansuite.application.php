@@ -394,16 +394,16 @@ class Clansuite_CMS
     {
         # define prefilters to load
         self::$prefilter_classes = array(
-                                         'php_debug_console', # let the debug console be first
-                                         'maintenance',
-                                         'get_user',
-                                         #'session_security',
-                                         'language_via_get',
-                                         'theme_via_get',
-                                         'set_module_language',
-                                         'set_breadcrumbs',
-                                         'startup_checks',
-                                         'statistics'
+                                         'Clansuite_Filter_php_debug_console', # let the debug console be first
+                                         'Clansuite_Filter_maintenance',
+                                         'Clansuite_Filter_get_user',
+                                         #'Clansuite_Filter_session_security',
+                                         'Clansuite_Filter_language_via_get',
+                                         'Clansuite_Filter_theme_via_get',
+                                         'Clansuite_Filter_set_module_language',
+                                         'Clansuite_Filter_set_breadcrumbs',
+                                         'Clansuite_Filter_startup_checks',
+                                         'Clansuite_Filter_statistics'
                                         );
 
         # register the prefilters at the DI
@@ -415,8 +415,8 @@ class Clansuite_CMS
         # define postfilters to load
         self::$postfilter_classes = array(
                                           #empty-at-this-time
-                                          'html_tidy',
-                                          'smarty_moves'
+                                          'Clansuite_Filter_html_tidy',
+                                          'Clansuite_Filter_smarty_moves'
                                           );
 
         # register the postfilters at the DI

@@ -98,7 +98,7 @@ class Clansuite_Loader
     }
 
     /**
-     * str_replace method to presents the incomming classname
+     * str_replace method to present the incomming classname
      * as a proper filename
      */
     private static function prepareClassnameAsFilename($className)

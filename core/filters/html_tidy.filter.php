@@ -49,7 +49,7 @@ if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' ); 
  * @subpackage  Filters
  * @implements  Clansuite_Filter_Interface
  */
-class html_tidy implements Clansuite_Filter_Interface
+class Clansuite_Filter_html_tidy implements Clansuite_Filter_Interface
 {
     private $config     = null;
 
@@ -76,14 +76,15 @@ class html_tidy implements Clansuite_Filter_Interface
 
             # tidy options for XHTML Strict
             /*
-            $xhtml = tidy_repair_string($xhtml, array('output-xhtml' => true,
-                                                      'show-body-only' => true,
-                                                      'doctype' => 'strict',
-                                                      'drop-font-tags' => true,
-                                                      'drop-proprietary-attributes' => true,
-                                                      'lower-literals' => true,
-                                                      'quote-ampersand' => true,
-                                                     'wrap' => 0), 'raw'); */
+                            $xhtml = tidy_repair_string($xhtml, array('output-xhtml' => true,
+                            'show-body-only' => true,
+                            'doctype' => 'strict',
+                            'drop-font-tags' => true,
+                            'drop-proprietary-attributes' => true,
+                            'lower-literals' => true,
+                            'quote-ampersand' => true,
+                            'wrap' => 0), 'raw'); 
+                            */
 
             # tidy the output
             $tidy->parseString($content, $config, 'utf8');
