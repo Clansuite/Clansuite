@@ -264,7 +264,7 @@ class Clansuite_Teamspeak3_ServerQueryInterface
      */
     public function setServerAdmin($server_admin_status = false)
     {
-        $this->server_admin_status = $login_status;
+        $this->server_admin_status = $server_admin_status;
     }
 
     /**
@@ -301,6 +301,17 @@ class Clansuite_Teamspeak3_ServerQueryInterface
         }
 
         return $this->vserver_select_status;
+    }
+
+    /**
+     * Getter Method for the virtual server id
+     *
+     * @see $vserver_id
+     * @return boolean
+     */
+    public function getVirtualServerID()
+    {
+        return $this->vserver_id;
     }
 
     /**
@@ -429,8 +440,14 @@ class Clansuite_Teamspeak3_ServerQueryInterface
 
             # assign the key/value pair as element of the data array
             # and clean the value from odd characters
-            $data[$keyValuePair[0]] = $this->replaceText($keyValuePair[1]);
-
+            if(isset($keyValuePair[1]))
+            {
+                $data[$keyValuePair[0]] = $this->replaceText($keyValuePair[1]);
+            }
+            else
+            {
+                $data[$keyValuePair[0]] = '';
+            }            
         }
         while($array_counter > 0);
 
@@ -470,126 +487,48 @@ class Clansuite_Teamspeak3_ServerQueryInterface
         return $this->executeWithoutFetch('clientupdate client_nickname='.$newClientNickName);
     }
 
-    public function userCount()
+    /**
+     * getUserCounter
+     *
+     * @return integer Number of Teamspeak Clients connected to the Server
+     */
+    public function getUserCounter()
     {
-        $this->ServerQueryCommand('use sid='.$vserver_id);
-        $user = $ts3->executeCommand('clientlist');
-        $usercount = count(explode('|',$user));
+        $this->selectVirtualServer();
+        $usercount = ($this->clientlist())-1;
         return $usercount;
     }
 
-    public function serverViewer()
+    /**
+     * getServerViewerData
+     *
+     * @return array Returns a combined array of Serverinfo, Channels and Clients.
+     */
+    public function getServerViewerData()
     {
-        $temp = $this->ServerQueryCommand('use sid='.$this->vserver_id);
-        $temp .= $this->ServerQueryCommand('serverinfo');
-        $temp .= $this->ServerQueryCommand('channellist');
+        $response = '';
+        $response .= $this->ServerQueryCommand('use sid='.$this->getVirtualServerID());
+        $response .= $this->ServerQueryCommand('serverinfo');
+        $response .= $this->ServerQueryCommand('channellist -topic -flags -voice -limits');
+        $response .= $this->ServerQueryCommand('clientlist -uid -away -voice -groups');
+        #clansuite_xdebug::printR($this->toArray($response));
 
-        clansuite_xdebug::printR($this->toArray($temp));
-        #$temp .= $this->ServerQueryCommand('clientlist');
+        return $response;
+     }
 
-        #clansuite_xdebug::printR($this->toArray($temp));
+    /**
+     * getServerViewerData
+     *
+     * @return array Returns an array with id,port,servername,clients,maxclients,uptime.
+     */
+    public function getServerStatusData()
+    {
+        $response = '';
+        $response .= $this->ServerQueryCommand('use sid='.$this->getVirtualServerID());
+        $response .= $this->ServerQueryCommand('serverlist -all');
+        #clansuite_xdebug::printR($this->toArray($response));
 
-        if($temp == false)
-        {
-            echo "Server is down !";
-        }
-        else
-        {
-            $temp   = explode('error id=0 msg=ok', $temp);
-            $temp1  = explode(' ', $temp[1]);
-
-            $info['server']['name']          = str_replace('virtualserver_name=', '', $temp1[1]);
-            $info['server']['maxclients']    = str_replace('virtualserver_maxclients=', '', $temp1[5]);
-            $info['server']['clientsonline'] = (str_replace('virtualserver_clientsonline=', '', $temp1[7]))-(str_replace('virtualserver_queryclientsonline=', '', $temp1[38]));
-            $info['server']['channels']      = (str_replace('virtualserver_channelsonline=', '', $temp1[8]));
-            $info['server']['banner']        = (str_replace('virtualserver_hostbanner_gfx_url=', '', $temp1[21]));
-
-            $temp2 = explode('cid=', $temp[2]);
-
-            foreach ($temp2 as $var)
-            {
-                $buffer = explode(' ', $var);
-                if(isset($buffer[5]))
-                {
-                    $info['channel'][$i]['id'] = $buffer[0];
-                    $info['channel'][$i]['pid'] = str_replace('pid=', '', $buffer[1]);
-                    $info['channel'][$i]['name'] = str_replace('channel_name=', '', $buffer[3]);
-                    $i++;
-                }
-            }
-
-            $i = 0;
-
-            $temp3 = explode('clid=', $temp[3]);
-
-            foreach ($temp3 as $var)
-            {
-                $buffer = explode(' ', $var);
-                if(isset($buffer[4]))
-                {
-                    $buffer[4] = str_replace('|', '', $buffer[4]);
-
-                    if(strpos($buffer[4], 'client_type=0') !== false)
-                    {
-                        $info['user'][$buffer[0]]['name']       = str_replace('client_nickname=', '', $buffer[3]);
-                        $info['user'][$buffer[0]]['channel']    = str_replace('cid=', '', $buffer[1]);
-                    }
-                }
-            }
-
-            $u_cmd = '';
-            $temp_a = '';
-            #$this->ServerQueryCommand("use ".$this->vserver_id."");
-
-            if(isset($info['user']))
-            {
-                foreach ($info['user'] as $u_key => $u_var)
-                {
-                    $temp_a .= $this->ServerQueryCommand('clientinfo clid='.$u_key);
-                }
-                $temp_b = explode('msg=ok', $temp_a);
-                $i=1;
-                foreach ($info['user'] as $u_key => $u_var)
-                {
-                    $temp_a = explode(' ', $temp_b[0]);
-
-                    foreach ($temp_a as $tu_key => $tu_var)
-                    {
-                        if(strpos($tu_var, 'client_channel_group_id') !== false)
-                        {
-                            $info['user'][$u_key]['cg']     = str_replace('client_channel_group_id=', '', $tu_var);
-                        }
-                        if(strpos($tu_var, 'client_away=') !== false)
-                        {
-                            $info['user'][$u_key]['away']   = str_replace('client_away=', '', $tu_var);
-                        }
-                        if(strpos($tu_var, 'client_input_muted') !== false)
-                        {
-                            $info['user'][$u_key]['mic']    = str_replace('client_input_muted=', '', $tu_var);
-                        }
-                        if(strpos($tu_var, 'client_output_muted') !== false)
-                        {
-                            $info['user'][$u_key]['head']   = str_replace('client_output_muted=', '', $tu_var);
-                        }
-
-                        if(strpos($tu_var, 'client_servergroups') !== false)
-                        {
-                            $temp_g = str_replace('client_servergroups=', '', $tu_var);
-                            if(strpos($temp_g, ',')!== false)
-                            {
-                                $info['user'][$u_key]['sg'] = explode(',', $temp_g);
-                            }
-                            else
-                            {
-                                $info['user'][$u_key]['sg'][0] = $temp_g;
-                            }
-                        }
-                    }
-                    $i++;
-                }
-            }
-        }
-        return $info;
+        return $response;
      }
 
     /**
