@@ -1,7 +1,7 @@
 <?php
 function clientmove($clid, $cid)
 {
-    if($this->hasActiveConnection() and $this->isLoggedIn())
+    if($this->hasActiveConnection() == false and $this->isLoggedIn() == false)
     {
         return false;
     }

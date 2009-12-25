@@ -22,7 +22,7 @@ class Teamspeak3_ServerQueryCommand_clientinfo extends Clansuite_Teamspeak3_Serv
             return false;
         }
 
-        return $this->ServerQueryCommand('clientlist');
+        return $this->toArray($this->ServerQueryCommand('clientlist'));
     }
 }
 ?>
