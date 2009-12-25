@@ -46,7 +46,7 @@ if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' ); 
  * @subpackage  Filters
  * @implements  Clansuite_Filter_Interface
  */
-class permissions implements Clansuite_Filter_Interface
+class Clansuite_Filter_permissions implements Clansuite_Filter_Interface
 {
     private $user    = null;
     private $rbacl   = null;
@@ -62,8 +62,8 @@ class permissions implements Clansuite_Filter_Interface
         if (!$rbacl->isAuthorized($actionname, $this->user->getUserId()))
         {
             # @todo errorpage, no permission to perform this action. access denied.
-			$response->redirect();
-		}
+            $response->redirect();
+        }
     }
 }
 ?>

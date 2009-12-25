@@ -59,11 +59,11 @@ if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' ); 
  * @subpackage  Filters
  * @implements  Clansuite_Filter_Interface
  */
-class language_via_get implements Clansuite_Filter_Interface
+class Clansuite_Filter_language_via_get implements Clansuite_Filter_Interface
 {
     private $config     = null;     # holds instance of config
 
-public function __construct(Clansuite_Config $config)
+    public function __construct(Clansuite_Config $config)
     {
        $this->config    = $config;      # set instance of config to class
     }
@@ -71,9 +71,9 @@ public function __construct(Clansuite_Config $config)
     public function executeFilter(Clansuite_HttpRequest $request, Clansuite_HttpResponse $response)
     {
         /**
-         * take the initiative of filtering, if language switching is enabled in CONFIG
-         * or pass through (do nothing) if disabled
-         */
+               * take the initiative of filtering, if language switching is enabled in CONFIG
+               * or pass through (do nothing) if disabled
+               */
         if($this->config['switches']['languageswitch_via_url'] == 1)
         {
             if(isset($request['lang']) && !empty($request['lang']) && (strlen($request['lang']) == 2))

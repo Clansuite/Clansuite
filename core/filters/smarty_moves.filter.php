@@ -46,7 +46,7 @@ if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' ); 
  * @subpackage  Filters
  * @implements  Clansuite_Filter_Interface
  */
-class smarty_moves implements Clansuite_Filter_Interface
+class Clansuite_Filter_smarty_moves implements Clansuite_Filter_Interface
 {
     private $config     = null;
 
