@@ -264,9 +264,22 @@ class Clansuite_Loader
             return false;
         }
 
-        $fileName = ROOT . 'core/filters/' . strtolower($className) . '.filter.php';
-        #echo '<br>loaded Filter-Class => '. $fileName;
-        return self::requireFile($fileName);
+        $fileName = null;
+
+        $className = strtolower($className);
+        $fileName = strstr($className,'clansuite_filter_');
+
+        if($fileName)
+        {
+            $fileName = substr($className, 17);
+            $fileName = ROOT . 'core/filters/' . $fileName . '.filter.php';
+            #echo '<br>loaded Filter-Class => '. $fileName;
+            return self::requireFile($fileName);
+        }
+        else
+        {
+            false;
+        }
     }
 
     /**
