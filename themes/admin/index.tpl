@@ -82,7 +82,7 @@
                 <!-- Debug Mode Icon -->
                 {if DEBUG == true}
                 <div id="debug-toggler" style="float: right; font-family: tahoma,verdana,arial,sans-serif; font-size: 11px; cursor: pointer; margin-right: 5px;">
-                    <img style="margin-bottom: -3px;" src="{$www_root_themes_core}/images/icons/error.png" alt="DEBUG" />
+                    <img style="margin-bottom: -3px;" src="{$www_root_themes_core}/images/icons/error.png" alt="DEBUG" title="Clansuite is in DEBUG MODE" />
                     DEBUG
                 </div>
                 {/if}
@@ -90,7 +90,7 @@
                 <!-- Development Mode Icon -->
                 {if DEVELOPMENT == true}
                 <div id="development-toggler" style="float: right; font-family: tahoma,verdana,arial,sans-serif; font-size: 11px; cursor: pointer; margin-right: 5px;">
-                    <img style="margin-bottom: -3px;" src="{$www_root_themes_core}/images/icons/error.png" alt="DEVELOPMENT MODE ACTIVE" />
+                    <img style="margin-bottom: -3px;" src="{$www_root_themes_core}/images/icons/error.png" alt="DEVELOPMENT MODE ACTIVE" title="Clansuite is in DEVELOPMENT MODE (RAD)" />
                     DEVELOPMENT
                 </div>
                 {/if}
