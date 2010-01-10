@@ -11,8 +11,8 @@
 [database]
 host = "localhost"
 type = "mysql"
-username = "clansuite"
-password = "toop"
+username = "root"
+password = ""
 name = "clansuite"
 prefix = "cs_"
 
@@ -96,7 +96,7 @@ remember_me_time = 90
 max_login_attempts = 5
 login_ban_minutes = 30
 min_pass_length = 6
-encryption = "sha1"
+hash_algorithm = "sha1"
 salt = "1-3-5-8-4-1-7-2-4-1-4-1"
 registration_term = ""
 
