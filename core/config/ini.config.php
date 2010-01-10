@@ -242,8 +242,8 @@ class Clansuite_Config_INIHandler extends Clansuite_Config_Base implements Array
     /**
      *  Read the complete config file *.ini.php
      *
-     * @access  public
      * @param   string  The filename
+     *
      * @return  array | boolean false
      */
     public static function readConfig($filename)

@@ -54,7 +54,6 @@ class Clansuite_Config_DatabaseHandler extends Clansuite_Config_Base implements 
      * protected-> only visible to childs
      *
      * @var array
-     * @access protected
      */
     protected $config = array();
 
@@ -89,8 +88,8 @@ class Clansuite_Config_DatabaseHandler extends Clansuite_Config_Base implements 
     /**
      * Write the configarray to the database
      *
-     * @access  public
      * @param   string  The filename
+     *
      * @return  mixed array | boolean false
      */
     public static function writeConfig($filename, $assoc_array)
@@ -101,8 +100,8 @@ class Clansuite_Config_DatabaseHandler extends Clansuite_Config_Base implements 
     /**
      *  Read the complete config array from database
      *
-     * @access  public
      * @param   string  The filename
+     *
      * @return  mixed array | boolean false
      */
     public static function readConfig($filename)

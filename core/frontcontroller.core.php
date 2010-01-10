@@ -137,8 +137,6 @@ class Clansuite_ActionController_Resolver implements Clansuite_ActionController_
 
     /**
      * Method to set the Action
-     *
-     * @access private
      */
     public static function setActionName($actionName)
     {
@@ -281,8 +279,6 @@ class Clansuite_ModuleController_Resolver implements Clansuite_ModuleController_
 
     /**
      * Method to set the ModuleName
-     *
-     * @access private
      */
     public static function setModuleName($moduleName)
     {
@@ -305,8 +301,6 @@ class Clansuite_ModuleController_Resolver implements Clansuite_ModuleController_
 
     /**
      * Method to set the SubModuleName
-     *
-     * @access private
      */
     private static function setSubModuleName($SubModuleName)
     {
