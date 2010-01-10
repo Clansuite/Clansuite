@@ -72,7 +72,6 @@ class Clansuite_Config_YAMLHandler extends Clansuite_Config_Base implements Arra
      * protected-> only visible to childs
      *
      * @var array
-     * @access protected
      */
     protected $config = array();
 
@@ -85,12 +84,6 @@ class Clansuite_Config_YAMLHandler extends Clansuite_Config_Base implements Arra
      */
     public function __construct($filename)
     {
-        # load SPYC
-        require ROOT_LIBARIES . 'spyc/spyc.class.php';
-
-        # instantiate SPYC
-        $this->spyc = new Spyc;
-
         # read config file, set to array
         $this->config = self::readConfig($filename);
     }
@@ -116,7 +109,6 @@ class Clansuite_Config_YAMLHandler extends Clansuite_Config_Base implements Arra
     /**
      * Write the config array to a yaml file
      *
-     * @access  public
      * @param   string  The filename
      * @return  array | boolean false
      * @todo use file_put_contents()
@@ -125,9 +117,18 @@ class Clansuite_Config_YAMLHandler extends Clansuite_Config_Base implements Arra
     public static function writeConfig($filename, $assoc_array)
     {
         # transform PHP Array into YAML Format
-        $yaml_content = $this->spyc->dump($assoc_array);
+        if( extension_loaded('syck') ) # take the faster one first
+        {
+            # convert to YAML via SYCK
+            $yaml_content = syck_dump($data);
+        }
+        else
+        {
+            # convert to YAML via SPYC
+            $yaml_content = $this->spyc->dump($assoc_array);
+        }
 
-       # ensure file is writable
+        # ensure file is writable
         if (is_writable($filename))
         {
             # open file
@@ -159,7 +160,6 @@ class Clansuite_Config_YAMLHandler extends Clansuite_Config_Base implements Arra
     /**
      *  Read the complete config file *.yaml
      *
-     * @access  public
      * @param   string  The yaml filename
      * @return  array
      */
@@ -186,10 +186,10 @@ class Clansuite_Config_YAMLHandler extends Clansuite_Config_Base implements Arra
             $php_datastructure = syck_load($yaml_content);
         }
         # else check if we habe spyc as a library
-        elseif(is_file(ROOT_LIBRARIES.'/Spyc.class.php'))
+        elseif(is_file(ROOT_LIBRARIES.'/spyc/Spyc.class.php'))
         {
             # ok, load spyc
-            require_once ROOT_LIBRARIES.'/Spyc.class.php';
+            require_once ROOT_LIBRARIES.'/spyc/Spyc.class.php';
 
             # instantiate
             $spyc = new Spyc();
@@ -199,7 +199,7 @@ class Clansuite_Config_YAMLHandler extends Clansuite_Config_Base implements Arra
         }
         else # we have no YAML Parser - too bad :(
         {
-            throw new Clansuite_Exception('No YAML Parser available. Get Spyc or Sycl!');
+            throw new Clansuite_Exception('No YAML Parser available. Get Spyc or Syck!');
         }
 
         # check if the php_datastructire is an filled array
