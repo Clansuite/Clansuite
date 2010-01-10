@@ -49,7 +49,6 @@ abstract class Clansuite_Config_Base
     /**
      * Returns $this->config Object as Array
      *
-     * @access   public
      * @return   config array
      */
     public function toArray()
@@ -62,8 +61,8 @@ abstract class Clansuite_Config_Base
     /**
      * Gets a config file item based on keyname
      *
-     * @access   public
      * @param    string    the config item key
+     *
      * @return   void
      */
     public function __get($configkey)
@@ -81,9 +80,9 @@ abstract class Clansuite_Config_Base
     /**
      * Set a config file item based on key:value
      *
-     * @access   public
      * @param    string    the config item key
      * @param    string    the config item value
+     *
      * @return   void
      *
      */

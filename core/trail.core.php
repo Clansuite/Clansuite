@@ -57,7 +57,6 @@ if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.');}
 class Clansuite_Trail
 {
         /**
-         * @access private
          * @var array $path contains the complete path structured as array
          */
         private static $path = array();

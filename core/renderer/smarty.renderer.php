@@ -407,8 +407,6 @@ class Clansuite_Renderer_Smarty extends Clansuite_Renderer_Base
 
     /**
      * Assign the common template values and Clansuite constants as Smarty Template Variables.
-     *
-     * @access protected
      */
     protected function assignConstants()
     {
@@ -416,7 +414,7 @@ class Clansuite_Renderer_Smarty extends Clansuite_Renderer_Base
         $this->renderer->assign($this->getConstants());
         #var_dump($this->getConstants());
 
-        # fetch the specific smarty constants from view_smarty->getSmartyConstants()
+        # fetch the specific smarty constants from Clansuite_Renderer_Smarty->getSmartyConstants()
         $this->renderer->assign($this->getSmartyConstants());
         #var_dump($this->getSmartyConstants());
 
@@ -451,7 +449,7 @@ class Clansuite_Renderer_Smarty extends Clansuite_Renderer_Base
     }
 
     /**
-     * view_smarty->render
+     * Clansuite_Renderer_Smarty->render
      *
      * Returns the mainframe layout with inserted modulcontent (templatename).
      *

@@ -53,7 +53,6 @@ class Clansuite_Config_XMLHandler extends Clansuite_Config_Base implements Array
      * protected-> only visible to childs
      *
      * @var array
-     * @access protected
      */
     protected $config = array();
 
@@ -93,8 +92,8 @@ class Clansuite_Config_XMLHandler extends Clansuite_Config_Base implements Array
     /**
      * Write the configarray to the xml file
      *
-     * @access  public
      * @param   string  The filename
+     *
      * @return  mixed array | boolean false
      */
     public static function writeConfig($filename, $assoc_array)
@@ -113,6 +112,7 @@ class Clansuite_Config_XMLHandler extends Clansuite_Config_Base implements Array
      * Convert a PHP array to XML (via XMLWriter)
      *
      * @param $array PHP Array
+     *
      * @return xml-string
      */
     public static function arrayToXml($array)
@@ -164,8 +164,8 @@ class Clansuite_Config_XMLHandler extends Clansuite_Config_Base implements Array
     /**
      * Read the complete config array from xml file
      *
-     * @access  public
      * @param   string  The filename
+     *
      * @return  mixed array | boolean false
      */
     public static function readConfig($filename)
