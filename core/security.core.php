@@ -40,11 +40,14 @@ if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.');}
  * This is the Clansuite Core Class for Security Handling
  *
  * It contains helper functions for encrypting and salting strings/passwords.
+ * Password hashing is not "password encryption". An encryption is reversible.
+ * A hash is not reversible. A salted hash is a combination of a string and a random value.
+ * Both (salt and hash) are stored in database.
  *
  * @link http://www.schneier.com/cryptography.html Website of Bruce Schneier
  * @link http://www.php.net/manual/en/refs.crypto.php
  *
- * @author     Jens-André Koch   <vain@clansuite.com>
+ * @author     Jens-André Koch <vain@clansuite.com>
  * @copyright  Jens-André Koch (2005 - onwards)
  * @since      Class available since Release 0.2
  *
@@ -58,6 +61,8 @@ class Clansuite_Security
 
     /**
      * Init Class
+     *
+     * @param $config Clansuite_Config Object
      */
     function __construct( Clansuite_Config $config )
     {
@@ -65,11 +70,14 @@ class Clansuite_Security
     }
 
     /**
-     * check_salted_hash()
+     * Checks whether a hashed password matches a stored salted+hashed password.
      *
-     * $passwordhash = password hashed from login formular
-     * $databasehash = hash from db
-     * $salt         = salt from db
+     * @param  string $passwordhash  The incomming hashed password. There is never a plain-text password incomming.
+     * @param  string $databasehash  The stored password. It's a salted hash.
+     * @param  string $salt          The salt from db.
+     *
+     * @return boolean               true if the incomming hashed password matches the hashed+salted in db,
+     *                               false otherwise
      */
     public function check_salted_hash( $passwordhash, $databasehash, $salt )
     {
@@ -77,10 +85,26 @@ class Clansuite_Security
         $salted_string =  $salt . $passwordhash;
 
         # get hash_algo from config and generate hash from $salted_string
-        $hash = $this->generate_hash($this->config['login']['encryption'], $salted_string);
+        $hash = $this->generate_hash($this->config['login']['hash_algorithm'], $salted_string);
 
         # then compare
         return $databasehash === $hash;
+    }
+
+    /**
+     * Convenience/Proxy Method for check_salted_hash()
+     * Checks whether a hashed password matches a stored salted+hashed password.
+     *
+     * @param  string $passwordhash  The incomming hashed password.
+     * @param  string $databasehash  The stored password. It's a salted hash.
+     * @param  string $salt          The salt from db.
+     *
+     * @return boolean               true if the incomming hashed password matches the hashed+salted in db,
+     *                               false otherwise
+     */
+    public function checkPassword()
+    {
+        return check_salted_hash( $passwordhash, $databasehash, $salt );
     }
 
     /**
@@ -97,6 +121,7 @@ class Clansuite_Security
      *    same, the random salt makes the difference while creating the hash.
      *
      * @param string A clear-text string, like a password "JohnDoe$123"
+     *
      * @return $hash is an array, containing ['salt'] and ['hash']
      */
     public function build_salted_hash( $string = '', $hash_algo = '')
@@ -120,17 +145,35 @@ class Clansuite_Security
      * When you have the "skein_hash" extension installed, we use "skein_hash".
      * When it's not possible to use hash() or skein_hash() for any reason, we use "md5" and "sha1".
      *
+     * @link http://www.php.net/manual/en/ref.hash.php
+     *
      * @param $string String to build a HASH from
      * @param $hash_type Encoding to use for the HASH (sha1, md5) default = sha1
+     *
      * @return hashed string
-     * @link http://www.php.net/manual/en/ref.hash.php
      */
     public function generate_hash($hash_algo = null, $string = '')
     {
         # Get Config Value for Hash-Algo/Encryption
         if($hash_algo == null)
         {
-            $hash_algo = $this->config['login']['encryption'];
+            $hash_algo = $this->config['login']['hash_algorithm'];
+        }
+        else
+        {
+            $hash_algo = strtolower($hash_algo);
+        }
+        
+        /**
+         * check, if we can use skein_hash()
+         *
+         * therefore the php extension "skein" has to be installed.
+         * website: http://www.skein-hash.info/downloads
+         */
+        if (extension_loaded('skein') and ($hash_algo == 'skein')) # function_exists('skein_hash')
+        {
+            # get the binary 512-bits hash of string
+            return skein_hash($string, 512);
         }
 
         # check, if we can use hash()
@@ -138,25 +181,16 @@ class Clansuite_Security
         {
             return hash($hash_algo, $string);
         }
-        /**
-         * check, if we can use skein_hash()
-         *
-         * therefore the php extension "skein" has to be installed.
-         * website: http://www.skein-hash.info/downloads
-         */
-        elseif (extension_loaded('skein')) # function_exists('skein_hash')
-        {
-            # get the binary 512-bits hash of string
-            return skein_hash($string, 512);
-        }
         else
         {   # when hash() not available, do hashing the old way
             switch($hash_algo)
             {
-                case 'MD5':     return md5($string);
+                case 'md5':     
+                                return md5($string);
                                 break;
                 default:
-                case 'SHA1':    return sha1($string);
+                case 'sha1':    
+                                return sha1($string);
                                 break;
             }
         }
@@ -164,10 +198,10 @@ class Clansuite_Security
 
     /**
      * Get random string/salt of size $length
-     * mt_srand() and mt_rand() are used to generate even better
-     * randoms, because of mersenne-twisting.
+     * mt_srand() and mt_rand() are used to generate even better randoms, because of mersenne-twisting.
      *
      * @param integer $length Length of random string to return
+     *
      * @return string Returns a string with random generated characters and numbers
      */
     public function generate_salt($length)
