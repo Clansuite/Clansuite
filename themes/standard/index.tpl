@@ -19,7 +19,6 @@
     <meta name="DC.Identifier" content="http://www.clansuite.com/" />
     <meta name="DC.Subject" content="Subject" />
     <meta name="DC.Subject.Keyword " content="Subject.Keyword" />
-    <meta name="DC.Subject.Keyword" content="Subject.Keyword" />
     <meta name="DC.Description" content="Description" />
     <meta name="DC.Publisher" content="Publisher" />
     <meta name="DC.Coverage" content="Coverage" />
@@ -32,7 +31,7 @@
     <meta http-equiv="reply-to" content="{$meta.email}" />
     <meta name="description" content="{$meta.description}" />
     <meta name="keywords" content="{$meta.keywords}" />
-    <meta name="generator" content="Clansuite - just an eSports CMS" />
+    <meta name="generator" content="Clansuite - just an eSports CMS. Version {$clansuite_version}" />
 
     {* Favicon *}
 
