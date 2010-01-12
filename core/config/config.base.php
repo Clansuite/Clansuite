@@ -47,6 +47,14 @@ if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
 abstract class Clansuite_Config_Base
 {
     /**
+     * Configuration Array
+     * protected-> only visible to childs
+     *
+     * @var array
+     */
+    protected $config = array();
+    
+    /**
      * Returns $this->config Object as Array
      *
      * @return   config array
@@ -55,6 +63,14 @@ abstract class Clansuite_Config_Base
     {
         $array = array();
         $array = $this->config;
+        
+        /**
+         * when the array is return(moved) to an outer object
+         * we can remove the inner config array to save memory
+         * this avoids duplications of the config array
+         */
+        unset($this->config);
+        
         return $array;
     }
 

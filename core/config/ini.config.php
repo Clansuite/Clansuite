@@ -68,7 +68,7 @@ class Clansuite_Config_INIHandler extends Clansuite_Config_Base implements Array
      *
      * @var array
      */
-    protected $config = array();
+    #protected $config = array();
     
     /**
      * Can either be INI_SCANNER_NORMAL (default) or INI_SCANNER_RAW. 
