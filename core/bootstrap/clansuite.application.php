@@ -136,11 +136,14 @@ class Clansuite_CMS
         }
     }
 
-
     /**
      *  ==========================================
-     *     Configuration, Initalization, Loader
+     *          Load Configuration
      *  ==========================================
+     *
+     * 1. Check if Check if clansuite.config.php is found, else redirect
+     * 2. Load clansuite.config.php
+     * 3. Alter php.ini settings
      */
     private static function initialize_Config()
     {
@@ -173,11 +176,13 @@ class Clansuite_CMS
      *  ================================================
      *     Define Constants
      *  ================================================
-     *   - Syntax Declarations
-     *   - Path Assignments
-     *   - ROOT & *_ROOT
+     *
+     *   1. Define Shorthands and Syntax Declarations
+     *   - DS, PS, NL, CR
+     *   2. Path Assignments
+     *   - ROOT_*
      *   - WWW_ROOT & WWW_ROOT_*
-     *   - NL, CR
+     *   3. Setup include path for 3th party libraries
      *  ------------------------------------------------
      */
     private static function initialize_Paths()
@@ -286,7 +291,7 @@ class Clansuite_CMS
          * flag constant for the "output" suppresion of shutdown functions
          * functions are called, but if set "true" no output is returned
          */
-        #define('SHUTDOWN_FUNCTION_SUPPRESSION', false);
+        define('SHUTDOWN_FUNCTION_SUPPRESSION', false);
 
         # If Debug is enabled, set FULL error_reporting, else DISABLE it completely
         if ( defined('DEBUG') and DEBUG == true ) # == true or false
@@ -317,8 +322,8 @@ class Clansuite_CMS
          * @see clansuite_xdebug:printR()
          */
         # define XDebug and set it's value via the config
-        define('XDEBUG', self::$config['error']['xdebug']);       
-        
+        define('XDEBUG', self::$config['error']['xdebug']);
+
         # If XDebug is enabled, load xdebug helpers and start the debug/tracing
         if((bool)XDEBUG === true)
         {
@@ -352,7 +357,7 @@ class Clansuite_CMS
 
     /**
      *  ============================================
-     *     Dependency Injector + Register Classes
+     *   Initializes the Dependency Injector Phemto
      *  ============================================
      */
     private static function initialize_DependecyInjection()
