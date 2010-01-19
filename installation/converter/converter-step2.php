@@ -217,7 +217,7 @@ $cmsArray = json_encode($array_matrix_systems_version);
 
                         <?php # SELECT FOR cmsArray[0] ?>
 
-                        <select name="cmsArray[0]" onchange="_hs_swapOptions(this.form, 'cmsArray', 0);" style="width: 160px">
+                        <select name="cmsArray[0]" onchange="_hs_swapOptions(this.form, 'cmsArray', 0);" style="width: 160px" />
                         <option value="">- Select System -</option>
                         <?php
                         $z = 1;
@@ -234,7 +234,7 @@ $cmsArray = json_encode($array_matrix_systems_version);
 
                         <?php # SELECT FOR cmsArray[1] ?>
 
-                        <select name="cmsArray[1]" style="width: 160px">
+                        <select name="cmsArray[1]" style="width: 160px" />
                         <option value="">- Select Version -</option>
                         <?php
                         foreach($array_matrix_systems_version as $version_name => $value)

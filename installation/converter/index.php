@@ -303,8 +303,8 @@ function get_total_steps()
  *    same, the random salt makes the difference while creating the hash.
  *
  * @param string A clear-text string, like a password "JohnDoe$123"
+ *
  * @return $hash is an array, containing ['salt'] and ['hash']
- * @access public
  */
 function build_salted_hash( $string = '', $hash_algo = '')
 {
@@ -328,8 +328,8 @@ function build_salted_hash( $string = '', $hash_algo = '')
  * randoms, because of mersenne-twisting.
  *
  * @param integer $length Length of random string to return
+ *
  * @return string Returns a string with random generated characters and numbers
- * @access public
  */
 function generate_salt($length)
 {
@@ -367,11 +367,12 @@ function generate_salt($length)
  * To get a complete list of available hash encodings use: print_r(hash_algos());
  * When it's not possible to use hash() for any reason, we use "md5" and "sha1".
  *
+ * @link http://www.php.net/manual/en/ref.hash.php
+ *
  * @param $string String to build a HASH from
  * @param $hash_type Encoding to use for the HASH (sha1, md5) default = sha1
+ *
  * @return hashed string
- * @link http://www.php.net/manual/en/ref.hash.php
- * @access public
  */
 function generate_hash($hash_algo = null, $string = '')
 {
@@ -405,6 +406,7 @@ function generate_hash($hash_algo = null, $string = '')
  *
  * @params $this_is_step Current Step
  * @params $of_total_steps Total Number of Steps
+ *
  * @return float progress-value
  */
 function calc_progress($this_is_step,$of_total_steps)
@@ -443,6 +445,7 @@ function converterstep_6($language){    require 'converter-step6.php' ;}
  * @params $database Database Name
  * @params $username Database Username
  * @params $password Database Password
+ *
  * @return BOOLEAN Returns true, if SQL was injected successfully
  */
 function loadSQL($sqlfile, $hostname, $database, $username, $password)
@@ -483,6 +486,7 @@ function loadSQL($sqlfile, $hostname, $database, $username, $password)
  * - replaces the db_prefix
  *
  * @param $file sqlfile
+ *
  * @return trimmed array of sql queries
  */
 function getQueriesFromSQLFile($file)
@@ -525,6 +529,7 @@ function getQueriesFromSQLFile($file)
  * Writes the Database-Settings into the clansuite.config.php
  *
  * @param $data_array
+ *
  * @return BOOLEAN true, if clansuite.config.php could be written to the ROOT
  *
  */
@@ -563,7 +568,7 @@ function write_config_settings($data_array)
  * @description Remove recursively. (Like `rm -r`) AND uses opendir() instead of glob()
  * @see Comment by davedx at gmail dot com on { http://us2.php.net/manual/en/function.rmdir.php }
  * @param file {String} The file or folder to be deleted.
- **/
+ */
 function rm_recursive($filepath)
 {
     echo "<p>[Deleting Installation Directory] Starting at $filepath </p>";

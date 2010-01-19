@@ -51,7 +51,7 @@ if (!defined('IN_CS')){ die( 'Clansuite not loaded. Direct Access forbidden.' );
                         <input type="hidden" name="lang" value="<?=$_SESSION['lang']?>" />
                         <?php # @todo nur reloaden, wenn eine neue sprache ausgewaehlt ?>
                         <select name="lang" style="width: 160px"
-                            onchange="window.location.href='<?php echo $_SERVER['PHP_SELF']; ?>?lang='+this.options[this.selectedIndex].value;" >
+                            onchange="window.location.href='<?php echo $_SERVER['PHP_SELF']; ?>?lang='+this.options[this.selectedIndex].value;" />
                         <?php
                         echo '<option value="">- Select Language -</option>';
                         $dirIterator = new DirectoryIterator('./languages/');
