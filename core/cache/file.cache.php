@@ -146,7 +146,7 @@ class Clansuite_Cache_File implements Clansuite_Cache_Interface
     /**
      * Get stats and usage Informations for display
      *
-     * @todo
+     * @todo implement statistics for file cache usage
      */
     function stats()
     {

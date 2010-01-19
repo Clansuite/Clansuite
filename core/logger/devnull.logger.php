@@ -4,6 +4,8 @@
     * Jens-André Koch © 2005 - onwards
     * http://www.clansuite.com/
     *
+    * This file is part of "Clansuite - just an eSports CMS".
+    *
     * LICENSE:
     *
     *    This program is free software; you can redistribute it and/or modify
@@ -23,11 +25,10 @@
     * @license    GNU/GPL v2 or (at your option) any later version, see "/doc/LICENSE".
     *
     * @author     Jens-André Koch <vain@clansuite.com>
-    * @copyright  Copyleft: All rights reserved. Jens-André Koch (2005-onwards)
+    * @copyright  Jens-André Koch (2005 - onwards)
     *
     * @link       http://www.clansuite.com
     * @link       http://gna.org/projects/clansuite
-    * @since      File available since Release 0.2
     *
     * @version    SVN: $Id$
     */
@@ -35,35 +36,55 @@
 // Security Handler
 if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
 
-class Clansuite_ModuleInfoController
+/**
+ * Clansuite Core File - Clansuite_Logger_Devnull
+ *
+ * This class is a service wrapper for logging messages to /dev/null.
+ * It's a dummy logger - doing nothing.
+ *
+ * @author      Jens-André Koch <vain@clansuite.com>
+ * @copyright   Jens-André Koch (2005 - onwards)
+ * @license     GPLv2 any later license
+ *
+ * @category    Clansuite
+ * @package     Core
+ * @subpackage  Logger
+ */
+class Clansuite_Logger_Devnull implements Clansuite_Logger_Interface
 {
+    private static $instance = null;
+
+    private $config;
+
+    public function __construct(Clansuite_Config $config)
+    {
+        $this->config = $config;
+    }
+
     /**
-     * @var array contains the moduleinformations
+     * returns an instance / singleton
+     *
+     * @return an instance of the logger
      */
-    private $moduleinformations = false;
-
-    public function __construct($modulename = null)
+    public static function getInstance()
     {
-        $this->config = new Clansuite_Config;
-
-        $this->loadModuleInformations($modulename);
+        if (self::$instance == 0)
+        {
+            self::$instance = new Clansuite_Logger_Devnull();
+        }
+        return self::$instance;
     }
 
-    public function getModuleInformations()
+    /**
+     * writeLog
+     *
+     * writes a string to /dev/null nirvana.
+     *
+     * @param $string The string to append to the logfile.
+     */
+    public function writeLog($string)
     {
-        return $this->moduleinformations;
-    }
-
-    public function setModuleInformations($module_infos_array)
-    {
-        $this->moduleinformations = $module_infos_array;
-
-        return $this;
-    }
-
-    public function loadModuleInformations($modulename = null)
-    {
-        #$this->setModuleInformations( $this->config->readConfigForModule($modulename) );
+        unset($string);
     }
 }
 ?>

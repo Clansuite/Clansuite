@@ -175,7 +175,7 @@ class Clansuite_Array_Formgenerator extends Clansuite_Form
      *
      * $form_array_section is an array of the following structure:
      *
-     * @todo
+     * @todo $form_array_section description
      *
      * Level 2 - The formelements
      *

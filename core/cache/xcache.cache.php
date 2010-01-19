@@ -105,7 +105,7 @@ class Clansuite_Cache_Xcache implements Clansuite_Cache_Interface
      *
      * Seems the XCache API does not provide infos. Are there any cache infos available?
      * @link http://xcache.lighttpd.net/wiki/XcacheApi
-     * @todo
+     * @todo implement statistics for xcache usage
      */
     function stats()
     {

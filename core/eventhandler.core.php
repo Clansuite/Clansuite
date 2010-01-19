@@ -81,9 +81,9 @@ class Clansuite_Eventdispatcher
     {
         if (self::$instance === null)
         {
-            self::instance = new Clansuite_Eventdispatcher();
+            self::$instance = new Clansuite_Eventdispatcher();
         }
-        return self::instance;
+        return self::$instance;
     }
 
     /**

@@ -160,7 +160,7 @@ class Clansuite_Session implements Clansuite_Session_Interface, ArrayAccess
         # START THE SESSION
         if( true === session_start())
         {
-             # Set Cookie + adjust the expiration time upon page load
+            # Set Cookie + adjust the expiration time upon page load
             setcookie(self::session_name, session_id() , time() + $time, "/");
         }
         else
@@ -227,15 +227,22 @@ class Clansuite_Session implements Clansuite_Session_Interface, ArrayAccess
      *
      * @param integer $id contains session_id
      * @param array $data contains session_data
+     *
      * @return bool
      */
     public function session_write($id, $data)
     {
         /**
          * Determine the current location of a user by checking request['mod']
-         * @todo get rid of request, use router or better resolver instead
          */
-        $userlocation = (!isset($request['mod']) && empty($this->request['mod'])) ? 'sessionstart' : $this->request['mod'];
+        if(isset($request['mod']) == false and empty($this->request['mod']))
+        {
+            $userlocation = 'sessionstart';
+        }
+        else
+        {
+            $userlocation = $this->request['mod'];
+        }
         #echo 'location '.$userlocation;
 
         /**
