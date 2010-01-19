@@ -141,21 +141,22 @@ class Clansuite_CMS
      *          Load Configuration
      *  ==========================================
      *
-     * 1. Check if Check if clansuite.config.php is found, else redirect
+     * 1. Check if clansuite.config.php is found, else redirect
      * 2. Load clansuite.config.php
      * 3. Alter php.ini settings
      */
     private static function initialize_Config()
     {
-        # Check if clansuite.config.php is found, else we are not installed at all, so redirect to installation page
+        # 1. Check if clansuite.config.php is found, else we are not installed at all, so redirect to installation page
         if ( is_file('configuration/clansuite.config.php' ) == false )
         {
             header( 'Location: installation/index.php' );
             exit;
         }
 
-        # requires configuration & gets a config to work with
+        # require the configuration handler for ini files
         require 'core/config/ini.config.php';
+        # 2. load the main clansuite configuration file
         self::$config = Clansuite_Config_IniHandler::readConfig('configuration/clansuite.config.php');
 
         # Debug Display of Config Array
@@ -163,7 +164,7 @@ class Clansuite_CMS
 
         /**
          *  ================================================
-         *     Alter php.ini settings
+         *          3. Alter php.ini settings
          *  ================================================
          */
         ini_set('short_open_tag'                , 'off');

@@ -123,7 +123,7 @@ class Clansuite_ActionController_Resolver implements Clansuite_ActionController_
         /*
         elseif
         {
-            @todo callFileActions
+            @todo call to a single command = ActionController
             # example: 'modulename/commands/action_show.php'
             return 'modulename/commands/'$methodname.'.php';
         }
@@ -437,9 +437,6 @@ class Clansuite_FrontController implements Clansuite_FrontController_Interface
         # 3) insert Injector
         $moduleController->setInjector($this->injector);
 
-        # 4) Module execute (pre_processActionController)
-        $moduleController->execute($request, $response);
-
         /**
          * Plugins for Modules
          * At this point, we don't want to extend the ModuleController or Module itself,
@@ -447,6 +444,9 @@ class Clansuite_FrontController implements Clansuite_FrontController_Interface
          * and add plugins.
          */
         #$moduleController = $this->moduleControllerDecorator->decorate($moduleController);
+
+        # 4) Module execute (pre_processActionController)
+        $moduleController->execute($request, $response);
 
         # 5) Fire Action !
         $this->actionResolver->processActionController($request, $moduleController);

@@ -618,7 +618,7 @@ class Clansuite_HttpRequest implements Clansuite_Request_Interface, ArrayAccess
     {
         return $_SERVER['HTTP_USER_AGENT'];
     }
-    
+
     /**
      * Get $_SERVER HTTP_REFERER
      *
@@ -765,7 +765,11 @@ class Clansuite_HttpRequest implements Clansuite_Request_Interface, ArrayAccess
      */
     public function isXhr()
     {
-       if(isset($_SERVER['X-Requested-With']) && strtolower($_SERVER['X-Requested-With']) === 'xmlhttprequest')
+       if(isset($_SERVER['X-Requested-With']) and strtolower($_SERVER['X-Requested-With']) === 'xmlhttprequest')
+       {
+           return true;
+       }
+       elseif(isset($_SERVER['HTTP_X_REQUESTED_WITH']) and strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) === 'xmlhttprequest')
        {
            return true;
        }
@@ -924,7 +928,6 @@ class Clansuite_HttpRequest implements Clansuite_Request_Interface, ArrayAccess
     /**
      * Implementation of SPL ArrayAccess
      * only offsetExists and offsetGet are relevant
-     * @todo!
      */
     public function offsetExists($offset)
     {

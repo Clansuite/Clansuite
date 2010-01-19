@@ -57,8 +57,8 @@ class Clansuite_Filter_get_user implements Clansuite_Filter_Interface
 
     public function executeFilter(Clansuite_HttpRequest $request, Clansuite_HttpResponse $response)
     {
-        $this->user->createUser();		    # Create a user (Guest)
-        $this->user->checkLoginCookie();	# Check for login cookie (Guest/Member)
+        $this->user->createUserSession();    # Create a user (Guest)
+        $this->user->checkLoginCookie();     # Check for login cookie (Guest/Member)
     }
 }
 ?>

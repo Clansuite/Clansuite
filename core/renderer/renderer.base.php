@@ -210,18 +210,18 @@ abstract class Clansuite_Renderer_Base
         # get module and submodule names
         $module    = Clansuite_ModuleController_Resolver::getModuleName();
         $submodule = Clansuite_ModuleController_Resolver::getSubModuleName();
-        
+
         # 1. because controlcenter or admin is requested, it has to be a BACKEND theme
         if($module == 'controlcenter' or $submodule == 'admin')
         {
             # (a) USER BACKENDTHEME - check in the active session backendtheme
             if(is_file(ROOT_THEMES . $_SESSION['user']['backendtheme'] .DS. $template) && isset($_SESSION['user']['backendtheme']) > 0)
-            {                     
+            {
                 return ROOT_THEMES . $_SESSION['user']['backendtheme'] .DS. $template;
             }
             elseif(is_file(ROOT_THEMES . $_SESSION['user']['backendtheme'] .DS. $module .DS. $template) && isset($_SESSION['user']['backendtheme']) > 0)
             {
-                return ROOT_THEMES . $_SESSION['user']['backendtheme'] .DS. $module .DS. $template;   
+                return ROOT_THEMES . $_SESSION['user']['backendtheme'] .DS. $module .DS. $template;
             }
             # (b) BACKEND FALLBACK - check the fallback dir: themes/admin
             elseif(is_file( ROOT_THEMES . 'admin' .DS. $template))
@@ -354,12 +354,14 @@ abstract class Clansuite_Renderer_Base
          * c) Clansuite Version
          *
          *    Note:
-         *    doubled functionality: you can use $smarty.const.CLANSUITE_VERSION or $clansuite_version
+         *    This is doubled functionality.
+         *    You can use $smarty.const.CLANSUITE_VERSION or $clansuite_version in a template.
          */
         $template_constants['clansuite_version']       = CLANSUITE_VERSION;
         $template_constants['clansuite_version_state'] = CLANSUITE_VERSION_STATE;
         $template_constants['clansuite_version_name']  = CLANSUITE_VERSION_NAME;
         $template_constants['clansuite_revision']      = CLANSUITE_REVISION;
+        $template_constants['clansuite_url']           = CLANSUITE_URL;
 
         /**
          * d) Page related
@@ -382,7 +384,7 @@ abstract class Clansuite_Renderer_Base
 
         # Assign Benchmarks
         #$template_constants['db_exectime'] = benchmark::returnDbexectime() );
-        
+
         # Help Tracking
         $template_constants['helptracking'] = $this->config['help']['tracking'];
 
@@ -457,8 +459,8 @@ abstract class Clansuite_Renderer_Base
             throw new Exception('Method "'. $method .'" not existant in RenderEngine "' . get_class($this->renderer) .'"!', 1);
         }
     }
-    
+
     # object duplication / cloning is not permitted
-    protected function __clone() {}    
+    protected function __clone() {}
 }
 ?>

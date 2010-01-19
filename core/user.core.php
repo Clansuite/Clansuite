@@ -117,7 +117,7 @@ class Clansuite_User
      * @param $nick
      */
 
-    public function createUser($user_id = '', $email = '', $nick = '')
+    public function createUserSession($user_id = '', $email = '', $nick = '')
     {
         # Initialize the User Object
         $this->user = null;
@@ -236,7 +236,7 @@ class Clansuite_User
             {
                 $_SESSION['user']['theme'] = (!empty($this->user['theme']) ? $this->user['theme'] : $this->config['template']['theme']);
             }
-            
+
             $_SESSION['user']['backendtheme'] = (!empty($this->user['backendtheme']) ? $this->user['backendtheme'] : $this->config['template']['backend_theme']);
 
             /**
@@ -349,8 +349,8 @@ class Clansuite_User
      * @param string $login_method contains the login_method ('nick' or 'email')
      * @param string $value contains nick or email string to look for
      * @param string $password contains password string
+     *
      * @return if user is found $user_id else false
-     * @todo has $user array to be resetted at the start of this function to get fresh values from db?
      */
 
     public function checkUser($login_method = 'nick', $value, $passwordhash)
@@ -379,17 +379,21 @@ class Clansuite_User
                          ->fetchOne(array($value), Doctrine::HYDRATE_ARRAY);
         }
 
-        // if user was found, check if passwords match each other
-        if ( $user && $this->security->check_salted_hash( $passwordhash, $user['passwordhash'], $user['salt'] ) )
+        # if user was found, check if passwords match each other
+        if ( $user and $this->security->check_salted_hash( $passwordhash, $user['passwordhash'], $user['salt'] ) )
         {
-
-            // ok, user with nick or email exists and passwords matched
-            // return the user_id
+            /**
+             * ok, the user with nick or email exists and the passwords matched
+             * then return the user_id
+             */
             return $user['user_id'];
         }
         else
         {
-            // the combination, either nick and password or email and password, doesn't exist
+            /**
+             * no user was found with this combination
+             * of either nick and password or email and password
+             */
             return false;
         }
     }
@@ -407,17 +411,14 @@ class Clansuite_User
         /**
          * 1. Create the User Data Array and the Session via $user_id
          */
-        $this->createUser($user_id);
+        $this->createUserSession($user_id);
 
         /**
          * 2. Remember-Me ( set Logindata via Cookie )
          */
         if ( $remember_me == 1 )
         {
-            setcookie('cs_cookie_user_id', $user_id, time() + round($this->config['login']['remember_me_time']*24*60*60));
-            # @todo note by vain:
-            # build_salted_hash deprecated check security.class.php
-            setcookie('cs_cookie_password', $passwordhash, time() + round($this->config['login']['remember_me_time']*24*60*60));
+            $this->setRememberMeCookie($user_id, $passwordhash);
         }
 
         /**
@@ -438,32 +439,45 @@ class Clansuite_User
     }
 
     /**
-     * Logout a user
+     * set the remember me cookie
+     * if this cookie is found, the user is re-logged in automatically
+     *
+     * @param integer $user_id contains user_id
+     * @param string $password contains password string
+     */
+    private function setRememberMeCookie($user_id, $passwordhash)
+    {
+        # calculate cookie lifetime
+        $cookie_lifetime = time() + round($this->config['login']['remember_me_time']*24*60*60);
+
+        setcookie('cs_cookie_user_id', $user_id, $cookie_lifetime);
+        setcookie('cs_cookie_password', $passwordhash, $cookie_lifetimee);
+
+        unset($cookie_lifetime);
+    }
+
+    /**
+     * Logs a user out
      *
      */
 
     public function logoutUser()
     {
-        // Destroy the session
+        # Destroy the session
         session_regenerate_id(true);
 
-        // Delete cookies
+        # Delete cookies
         setcookie('cs_cookie_user_id', false );
         setcookie('cs_cookie_password', false );
     }
 
     /**
      * Checks if a login cookie is set
-     *
      */
-
     public function checkLoginCookie()
     {
-        /**
-         * Check for login cookie
-         */
-
-        if ( !empty($_COOKIE['cs_cookie_user_id']) && !empty($_COOKIE['cs_cookie_password']) )
+        # Check for login cookie
+        if ( isset($_COOKIE['cs_cookie_user_id']) and isset($_COOKIE['cs_cookie_password']) )
         {
             $this->user = Doctrine_Query::create()
                                 ->select('user_id,passwordhash,salt')
@@ -475,22 +489,20 @@ class Clansuite_User
              * Proceed if match
              */
 
-            if ( is_array($this->user) &&
+            if ( is_array($this->user) and
                  $this->security->check_salted_hash( $_COOKIE['cs_cookie_password'], $this->user['passwordhash'], $this->user['salt'] ) &&
                  $_COOKIE['cs_cookie_user_id'] == $this->user['user_id'] )
             {
                 /**
                  * Update the cookie
                  */
-
-                setcookie('cs_cookie_user_id', $_COOKIE['cs_cookie_user_id'], time() + round($this->config['login']['remember_me_time']*24*60*60));
-                setcookie('cs_cookie_password',$_COOKIE['cs_cookie_password'], time() + round($this->config['login']['remember_me_time']*24*60*60));
+                $this->setRememberMeCookie($_COOKIE['cs_cookie_user_id'], $_COOKIE['cs_cookie_password']);
 
                 /**
                  * Create $this->session['user']
                  */
 
-                $this->createUser($this->user['user_id']);
+                $this->createUserSession($this->user['user_id']);
 
                 /**
                  * Update Session in DB
@@ -561,23 +573,26 @@ class Clansuite_User
                                          ->where('activated = ? AND joined < ?')
                                          ->execute( array( 0, time() - 259200 ) );
      }
-     
+
      /**
       * Check whether a user is logged in
+      *
+      * @return Returns true if user is authed, false otherwise.
       */
      public function isUserAuthed()
      {
-     	$bRes = false;
-     	if(isset($_SESSION['user']['authed']) and $_SESSION['user']['authed']===1) {
-     		$bRes = true;
+     	$boolResult = false;
+     	if( isset($_SESSION['user']['authed']) and ($_SESSION['user']['authed'] === 1) )
+     	{
+     		$boolResult = true;
      	}
-     	
-     	return (bool) $_SESSION['user']['authed'];
+
+     	return $boolResult;
      }
-     
+
      /**
       * Gives the UserID
-      * 
+      *
       * @return int UserID
       */
      public function getUserIdFromSession()
