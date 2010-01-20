@@ -1,6 +1,6 @@
 <?php
 /*
- *  $Id: Pessimistic.php 5876 2009-06-10 18:43:12Z piccoloprincipe $
+ *  $Id: Pessimistic.php 6484 2009-10-12 17:40:41Z jwage $
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -32,7 +32,7 @@
  * @author      Konsta Vesterinen <kvesteri@cc.hut.fi>
  * @license     http://www.opensource.org/licenses/lgpl-license.php LGPL
  * @since       1.0
- * @version     $Revision: 5876 $
+ * @version     $Revision: 6484 $
  */
 class Doctrine_Locking_Manager_Pessimistic
 {
@@ -60,7 +60,7 @@ class Doctrine_Locking_Manager_Pessimistic
     {
         $this->conn = $conn;
 
-        if ($this->conn->getAttribute(Doctrine::ATTR_EXPORT) & Doctrine::EXPORT_TABLES) {
+        if ($this->conn->getAttribute(Doctrine_Core::ATTR_EXPORT) & Doctrine_Core::EXPORT_TABLES) {
             $columns = array();
             $columns['object_type']        = array('type'    => 'string',
                                                    'length'  => 50,

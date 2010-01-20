@@ -35,6 +35,22 @@
 class Doctrine_Import_Schema
 {
     /**
+     * Schema definition keys that can be applied at the global level.
+     *
+     * @var array
+     */
+    protected static $_globalDefinitionKeys = array(
+        'connection',
+        'attributes',
+        'templates',
+        'actAs',
+        'options',
+        'package',
+        'package_custom_path',
+        'inheritance',
+        'detect_relations');
+
+    /**
      * _relations
      *
      * Array of all relationships parsed from all schema files
@@ -87,7 +103,8 @@ class Doctrine_Import_Schema
                                                           'inheritance',
                                                           'detect_relations',
                                                           'listeners',
-                                                          'checks'),
+                                                          'checks',
+                                                          'comment'),
 
                                    'column'     =>  array('name',
                                                           'format',
@@ -105,7 +122,8 @@ class Doctrine_Import_Schema
                                                           'protected',
                                                           'zerofill',
                                                           'owner',
-                                                          'extra'),
+                                                          'extra',
+                                                          'comment'),
 
                                    'relation'   =>  array('key',
                                                           'class',
@@ -123,12 +141,24 @@ class Doctrine_Import_Schema
                                                           'onUpdate',
                                                           'equal',
                                                           'owningSide',
-                                                          'refClassRelationAlias'),
+                                                          'refClassRelationAlias',
+                                                          'foreignKeyName',
+                                                          'orderBy'),
 
                                    'inheritance'=>  array('type',
                                                           'extends',
                                                           'keyField',
                                                           'keyValue'));
+
+    /**
+     * Returns an array of definition keys that can be applied at the global level.
+     * 
+     * @return array
+     */
+    public static function getGlobalDefinitionKeys()
+    {
+        return self::$_globalDefinitionKeys;
+    }
 
     /**
      * getOption
@@ -284,33 +314,18 @@ class Doctrine_Import_Schema
         
         $array = Doctrine_Parser::load($schema, $type);
 
-        // Go through the schema and look for global values so we can assign them to each table/class
-        $globals = array();
-        $globalKeys = array('connection',
-                            'attributes',
-                            'templates',
-                            'actAs',
-                            'options',
-                            'package',
-                            'package_custom_path',
-                            'inheritance',
-                            'detect_relations');
-
         // Loop over and build up all the global values and remove them from the array
+        $globals = array();
         foreach ($array as $key => $value) {
-            if (in_array($key, $globalKeys)) {
+            if (in_array($key, self::$_globalDefinitionKeys)) {
                 unset($array[$key]);
                 $globals[$key] = $value;
             }
         }
 
-        // Apply the globals to each table if it does not have a custom value set already
+        // Merge the globals that aren't specifically set to each class
         foreach ($array as $className => $table) {
-            foreach ($globals as $key => $value) {
-                if (!isset($array[$className][$key])) {
-                    $array[$className][$key] = $value;
-                }
-            }
+            $array[$className] = Doctrine_Lib::arrayDeepMerge($globals, $array[$className]);
         }
 
         $build = array();
@@ -652,7 +667,7 @@ class Doctrine_Import_Schema
                     $newRelation['refClass'] = $relation['refClass'];
                     $newRelation['type'] = isset($relation['foreignType']) ? $relation['foreignType']:$relation['type'];
                 } else {                
-                    if(isset($relation['foreignType'])) {
+                    if (isset($relation['foreignType'])) {
                         $newRelation['type'] = $relation['foreignType'];
                     } else {
                         $newRelation['type'] = $relation['type'] === Doctrine_Relation::ONE ? Doctrine_Relation::MANY:Doctrine_Relation::ONE;

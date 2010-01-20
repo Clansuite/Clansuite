@@ -1,6 +1,6 @@
 <?php
 /*
- *  $Id: Expression.php 5798 2009-06-02 15:10:46Z piccoloprincipe $
+ *  $Id: Expression.php 6628 2009-11-03 01:51:31Z jwage $
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -30,7 +30,7 @@
  * @license     http://www.opensource.org/licenses/lgpl-license.php LGPL
  * @link        www.phpdoctrine.org
  * @since       1.0
- * @version     $Revision: 5798 $
+ * @version     $Revision: 6628 $
  * @author      Konsta Vesterinen <kvesteri@cc.hut.fi>
  */
 class Doctrine_Expression
@@ -53,11 +53,11 @@ class Doctrine_Expression
      */
     public function __construct($expr, $conn = null)
     {
-        $this->_tokenizer = new Doctrine_Query_Tokenizer();
-        $this->setExpression($expr);
         if ($conn !== null) {
             $this->_conn = $conn;
         }
+        $this->_tokenizer = new Doctrine_Query_Tokenizer();
+        $this->setExpression($expr);
     }
 
     /**

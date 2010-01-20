@@ -32,54 +32,12 @@
  */
 class Doctrine_Relation_Nest extends Doctrine_Relation_Association
 {
-    /**
-     * getRelationDql
-     *
-     * @param integer $count
-     * @return string
-     */
-    /*public function getRelationDql($count, $context = 'record')
-    {
-        switch ($context) {
-            case 'record':
-                $identifierColumnNames = $this->definition['table']->getIdentifierColumnNames();
-                $identifier = array_pop($identifierColumnNames);
-                $sub    = 'SELECT '.$this->definition['foreign'] 
-                        . ' FROM '.$this->definition['refTable']->getTableName()
-                        . ' WHERE '.$this->definition['local']
-                        . ' = ?';
-
-                $sub2   = 'SELECT '.$this->definition['local']
-                        . ' FROM '.$this->definition['refTable']->getTableName()
-                        . ' WHERE '.$this->definition['foreign']
-                        . ' = ?';
-
-                $dql  = 'FROM ' . $this->definition['table']->getComponentName()
-                      . '.' . $this->definition['refTable']->getComponentName()
-                      . ' WHERE ' . $this->definition['table']->getComponentName()
-                      . '.' . $identifier 
-                      . ' IN (' . $sub . ')'
-                      . ' || ' . $this->definition['table']->getComponentName() 
-                      . '.' . $identifier
-                      . ' IN (' . $sub2 . ')';
-                break;
-            case 'collection':
-                $sub  = substr(str_repeat('?, ', $count),0,-2);
-                $dql  = 'FROM '.$this->definition['refTable']->getComponentName()
-                      . '.' . $this->definition['table']->getComponentName()
-                      . ' WHERE '.$this->definition['refTable']->getComponentName()
-                      . '.' . $this->definition['local'] . ' IN (' . $sub . ')';
-        };
-
-        return $dql;
-    }*/
-
     public function fetchRelatedFor(Doctrine_Record $record)
     {
         $id = $record->getIncremented();
 
-        if (empty($id) || ! $this->definition['table']->getAttribute(Doctrine::ATTR_LOAD_REFERENCES)) {
-            return new Doctrine_Collection($this->getTable());
+        if (empty($id) || ! $this->definition['table']->getAttribute(Doctrine_Core::ATTR_LOAD_REFERENCES)) {
+            return Doctrine_Collection::create($this->getTable());
         } else {
             $q = new Doctrine_RawSql($this->getTable()->getConnection());
 
@@ -87,7 +45,7 @@ class Doctrine_Relation_Nest extends Doctrine_Relation_Association
             $tableName  = $record->getTable()->getTableName();
             $identifierColumnNames = $record->getTable()->getIdentifierColumnNames();
             $identifier = array_pop($identifierColumnNames);
-    
+
             $sub = 'SELECT ' . $this->getForeignRefColumnName()
                  . ' FROM ' . $assocTable
                  . ' WHERE ' . $this->getLocalRefColumnName()
@@ -97,20 +55,24 @@ class Doctrine_Relation_Nest extends Doctrine_Relation_Association
             $joinCondition[] = $tableName . '.' . $identifier . ' = ' . $assocTable . '.' . $this->getForeignRefColumnName();
 
             if ($this->definition['equal']) {
-                $sub2 = 'SELECT ' . $this->getLocalRefColumnName()
-                      . ' FROM '  . $assocTable
-                      . ' WHERE ' . $this->getForeignRefColumnName()
-                      . ' = ?';
+                $sub2   = 'SELECT ' . $this->getLocalRefColumnName()
+                        . ' FROM '  . $assocTable
+                        . ' WHERE ' . $this->getForeignRefColumnName()
+                        . ' = ?';
 
                 $condition[] = $tableName . '.' . $identifier . ' IN (' . $sub2 . ')';
                 $joinCondition[] = $tableName . '.' . $identifier . ' = ' . $assocTable . '.' . $this->getLocalRefColumnName();
             }
             $q->select('{'.$tableName.'.*}, {'.$assocTable.'.*}')
               ->from($tableName . ' INNER JOIN ' . $assocTable . ' ON ' . implode(' OR ', $joinCondition))
-              ->where(implode(' OR ', $condition))
-              ->orderBy($tableName . '.' . $identifier . ' ASC');
+              ->where(implode(' OR ', $condition));
+            if ($orderBy = $this->getOrderByStatement($tableName, true)) {
+                $q->addOrderBy($orderBy);
+            } else {
+                $q->addOrderBy($tableName . '.' . $identifier . ' ASC');
+            }
             $q->addComponent($tableName,  $this->getClass());
-            
+
             $path = $this->getClass(). '.' . $this->getAssociationFactory()->getComponentName();
             if ($this->definition['refClassRelationAlias']) {
                 $path = $this->getClass(). '.' . $this->definition['refClassRelationAlias'];
