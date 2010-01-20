@@ -81,8 +81,8 @@ class Module_Gallery_Admin extends Clansuite_ModuleController implements Clansui
         #$smarty->assign('pagination_needed',$pager->haveToPaginate());
 
         // Pagination
-        #$smarty->assign_by_ref('pager', $pager);
-        #$smarty->assign_by_ref('pager_layout', $pager_layout);
+        #$smarty->assign('pager', $pager);
+        #$smarty->assign('pager_layout', $pager_layout);
 
         # Set Layout Template
         $this->getView()->setLayoutTemplate('index.tpl');

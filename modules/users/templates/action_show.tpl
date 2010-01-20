@@ -3,6 +3,7 @@
 {* Debugausgabe des Arrays: {$userslist|@var_dump} {html_alt_table loop=$userslist} *}
 
 {pagination}
+
 <table id="userslist" width="100%">
 	<thead>
 		<tr>

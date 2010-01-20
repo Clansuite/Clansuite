@@ -74,7 +74,7 @@
             <tr class="tr_row1">
                <td height="20" colspan="8" align="right">
 
-                    <input class="ButtonGreen" type="button" value="{t}Create new user{/t}" onclick='Dialog.info({url: "index.php?mod=controlcenter&amp;sub=users&amp;action=create", options: {method: "get"}}, {className: "alphacube", width:370, height: 250});' />
+                    <input class="ButtonGreen" type="button" value="{t}Create new user{/t}" />
                     <input class="Button" name="reset" type="reset" value="{t}Reset{/t}" />
                     <input class="ButtonRed" type="submit" name="delete_text" value="{t}Delete Selected Users{/t}" />
 

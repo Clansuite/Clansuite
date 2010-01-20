@@ -75,16 +75,34 @@ class Module_Account extends Clansuite_ModuleController implements Clansuite_Mod
     }
 
     /**
+     * @todo ban action
+     */
+    private function checkLoginAttemps()
+    {
+        if ( empty($_SESSION['login_attempts']) == false
+             and $_SESSION['login_attempts'] >= $config['login']['max_login_attempts'] )
+        {
+            # @todo ban action
+            $this->redirect('index.php', 3, '200',
+            _('You are temporarily banned for the following amount of minutes:').'<br /><b>'
+            .$config['login']['login_ban_minutes'].'</b>' );
+            die();
+        }
+    }
+
+    /**
      * Login
      */
     public function action_login()
     {
-        // Set Pagetitle and Breadcrumbs
+        # Set Pagetitle and Breadcrumbs
         Clansuite_Trail::addStep( _('Login'), '/index.php?mod=account&amp;action=login');
 
-        // Get Inputvariables
+        # Get Objects
         $request = $this->injector->instantiate('Clansuite_HttpRequest');
+        $config = $this->injector->instantiate('Clansuite_Config');
 
+        # Get Input Variables
         # from $_POST
         $nick        = $request->getParameter('nickname');
         $email       = $request->getParameter('email');
@@ -94,19 +112,19 @@ class Module_Account extends Clansuite_ModuleController implements Clansuite_Mod
         # from $_GET
         $referer	 = $request->getParameter('referer');
 
-        // Set Error Array
+        # Init Error Array
         $error = array();
-
-        $config = $this->injector->instantiate('Clansuite_Config');
 
         // Determine the Login method
         if( $config['login']['login_method'] == 'nick' )
         {
             $value = $nick;
+            unset($nick);
         }
         elseif( $config['login']['login_method'] == 'email' )
         {
             $value = $email;
+            unset($email);
         }
 
         // get user class
@@ -115,14 +133,7 @@ class Module_Account extends Clansuite_ModuleController implements Clansuite_Mod
         // Perform checks on Inputvariables & Form filled?
         if ( isset($value) && !empty($value) && !empty($password) )
         {
-            // ban ip
-            if ( !empty($_SESSION['login_attempts'])
-                 AND $_SESSION['login_attempts'] >= $config['login']['max_login_attempts'] )
-            {
-                # @todo ban action
-                $this->redirect('index.php', 3, '200', _('You are temporarily banned for the following amount of minutes:').'<br /><b>'.$config['login']['login_ban_minutes'].'</b>' );
-                die();
-            }
+            $this->checkLoginAttempts();
 
             // check whether user_id + password match
             $user_id = $user->checkUser($config['login']['login_method'], $value, $password);
@@ -240,10 +251,9 @@ class Module_Account extends Clansuite_ModuleController implements Clansuite_Mod
     }
 
     /**
-    * @desc Register a User
-    *
-    */
-
+     * Register a User
+     *
+     */
     public function action_register()
     {
         // Request Controller
@@ -383,6 +393,7 @@ class Module_Account extends Clansuite_ModuleController implements Clansuite_Mod
         }
 
         // Assign vars
+        $smarty->assign( 'config', $config );
         $smarty->assign( 'min_length', $config['login']['min_pass_length'] );
         $smarty->assign( 'err', $err );
         #$smarty->assign( 'captcha_url',  WWW_ROOT . '/index.php?mod=captcha&' . session_name() . '=' . session_id() );
@@ -753,19 +764,19 @@ class Module_Account extends Clansuite_ModuleController implements Clansuite_Mod
             return false;
         }
     }
-	
-	
-	
+
+
+
 	/**
     * @desc form to edit profiledata
     */
 	public function action_profile_edit ()
 	{
-	
+
 		# get id
         #$user_id = $this->getHttpRequest()->getParameter('id');
 		$user_id = 2;
-		
+
         # fetch userdata
         #$data = Doctrine::getTable('CsUsers')->fetchSingleUserData($user_id);
 
@@ -790,20 +801,20 @@ class Module_Account extends Clansuite_ModuleController implements Clansuite_Mod
 		$form->addElement('password')->setName('userdata_form[password]')->setLabel(_('Password'));
 		$form->addElement('text')->setName('userdata_form[country]')->setLabel(_('Country'));
 		$form->addElement('textarea')->setName('userdata_form[signature]')->setID('userdata_form[signature]')->setCols('10')->setRows('10')->setLabel(_('Your Signature:'));
-		
+
 		#$form->addDecorator('fieldset')->setLegend('Special Data');
 		#$form->addGroup('special');
-	
+
 		$form->addElement('text')->setName('userdata_form[city]')->setLabel(_('City'));
 		$form->addElement('textarea')->setName('userdata_form[address]')->setID('userdata_form[address]')->setCols('110')->setRows('30')->setLabel(_('Your Address:'));
 		$form->addElement('text')->setName('userdata_form[mailaddress]')->setLabel(_('Mailaddress'));
 		$form->addElement('text')->setName('userdata_form[phonenumber]')->setLabel(_('Phonenumber'));
 		$form->addElement('text')->setName('userdata_form[handynumber]')->setLabel(_('Handynumber'));
-		
+
 		#$form->addDecorator('fieldset')->setLegend('Contact Data');
 		#$form->addGroup('contact');
-		
-		$form->addElement('text')->setName('userdata_form[icq]')->setLabel(_('ICQ'));		
+
+		$form->addElement('text')->setName('userdata_form[icq]')->setLabel(_('ICQ'));
 		$form->addElement('text')->setName('userdata_form[msn]')->setLabel(_('MSN'));
 		$form->addElement('text')->setName('userdata_form[xfire]')->setLabel(_('XFire'));
 		$form->addElement('text')->setName('userdata_form[steam]')->setLabel(_('Steam'));
@@ -822,17 +833,17 @@ class Module_Account extends Clansuite_ModuleController implements Clansuite_Mod
 
         # assign the html of the form to the view
         $this->getView()->assign('form', $form->render());
-	
+
         # Prepare the Output
         $this->prepareOutput();
 	}
-	
+
 	/**
     * @desc form to edit avatar
     */
 	public function action_profile_edit_avatar ()
 	{
-	
+
 		# get id
         #$user_id = $this->getHttpRequest()->getParameter('id');
 		$user_id = 2;
@@ -870,17 +881,17 @@ class Module_Account extends Clansuite_ModuleController implements Clansuite_Mod
 
         # assign the html of the form to the view
         $this->getView()->assign('form', $form->render());
-	
+
         # Prepare the Output
         $this->prepareOutput();
 	}
-	
+
 	/**
     * @desc form to edit userpic
     */
 	public function action_profile_edit_userpic ()
 	{
-	
+
 		# get id
         #$user_id = $this->getHttpRequest()->getParameter('id');
 		$user_id = 2;
@@ -917,11 +928,11 @@ class Module_Account extends Clansuite_ModuleController implements Clansuite_Mod
 
         # assign the html of the form to the view
         $this->getView()->assign('form', $form->render());
-	
+
         # Prepare the Output
         $this->prepareOutput();
 	}
-	
+
 	/**
     * @desc form to update profiledata
     */
@@ -930,7 +941,7 @@ class Module_Account extends Clansuite_ModuleController implements Clansuite_Mod
         # Prepare the Output
         $this->prepareOutput();
 	}
-	
+
 	/**
     * @desc form to save profiledata
     */
