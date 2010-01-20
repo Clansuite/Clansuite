@@ -224,7 +224,7 @@ abstract class Clansuite_ModuleController extends Clansuite_ModuleController_Res
      * @return array moduleconfig['modulename'] configuration array of module
      */
     public function getModuleConfig($filename = null)
-    {  
+    {
         return self::getInjector()->instantiate('Clansuite_Config')->readConfigForModule($filename);
     }
 
@@ -581,7 +581,7 @@ abstract class Clansuite_ModuleController extends Clansuite_ModuleController_Res
     }
 
     /**
-     * Redirect ro referer
+     * Redirect to Referer
      */
     public function redirectToReferer()
     {
@@ -599,13 +599,14 @@ abstract class Clansuite_ModuleController extends Clansuite_ModuleController_Res
     }
 
     /**
-    * @desc  Shortcut for Redirect with an 404 Repsonse Code
-    * @param string Redirect to this URL
-    * @param int    seconds before redirecting (for the html tag "meta refresh")
-    */
+     * Shortcut for Redirect with an 404 Repsonse Code
+     * 
+     * @param string Redirect to this URL
+     * @param int    seconds before redirecting (for the html tag "meta refresh")
+     */
     public function redirect404($url, $time = 5)
     {
-        $this->redirect($url, $time, 404, _('The URL you request is not available.'));
+        $this->redirect($url, $time, 404, _('The URL you requested is not available.'));
     }
 
     /**
