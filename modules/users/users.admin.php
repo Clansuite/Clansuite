@@ -125,8 +125,8 @@ class Module_Users_Admin extends Clansuite_ModuleController implements Clansuite
         if ( is_array( $users ) )
         {
             $smarty->assign('users', $users);
-            $smarty->assign_by_ref('pager', $pager);
-            $smarty->assign_by_ref('pager_layout', $pager_layout);
+            $smarty->assign('pager', $pager);
+            $smarty->assign('pager_layout', $pager_layout);
         }
         else
         {
@@ -478,12 +478,12 @@ class Module_Users_Admin extends Clansuite_ModuleController implements Clansuite
         $smarty = $this->getView();
 
         // Permissions check
-        $perms->check( 'cc_search_users' );
+        #$perms->check( 'cc_search_users' );
 
         /**
          *  Get the users
          */
-        $stmt = $db->prepare( 'SELECT * FROM ' . DB_PREFIX . 'users LEFT JOIN ' . DB_PREFIX . 'profiles ON ' . DB_PREFIX . 'users.user_id = ' . DB_PREFIX . 'profiles.user_id' );
+       /* $stmt = $db->prepare( 'SELECT * FROM ' . DB_PREFIX . 'users LEFT JOIN ' . DB_PREFIX . 'profiles ON ' . DB_PREFIX . 'users.user_id = ' . DB_PREFIX . 'profiles.user_id' );
         $stmt->execute();
         $users = $stmt->fetchAll(PDO::FETCH_NAMED);
 
@@ -495,12 +495,12 @@ class Module_Users_Admin extends Clansuite_ModuleController implements Clansuite
         {
             $functions->redirect( 'index.php?mod=users&sub=admin&action=show', 'metatag|newsite', 3, $lang->t( 'No users could be found.' ), 'admin' );
         }
-
+*/
         # Set Admin Layout Template
-        $smarty->setLayoutTemplate('index.tpl');
+        #$smarty->setLayoutTemplate('index.tpl');
 
         # Specifiy the template manually
-        $this->setTemplate('admin_search.tpl');
+        #$this->setTemplate('admin_search.tpl');
 
         # Prepare the Output
         $this->prepareOutput();

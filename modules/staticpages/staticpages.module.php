@@ -48,6 +48,11 @@ class Module_Staticpages extends Clansuite_ModuleController implements Clansuite
      */
     public function execute(Clansuite_HttpRequest $request, Clansuite_HttpResponse $response)
     {
+        # read module config
+        $this->getModuleConfig();
+
+        # initialize related active-records
+        parent::initRecords('staticpages');
     }
 
     /**
@@ -64,10 +69,10 @@ class Module_Staticpages extends Clansuite_ModuleController implements Clansuite
         Clansuite_Trail::addStep( _('Show ' . $page), '/index.php?mod=staticpages&amp;action=show&page='. $page);
 
         // get inputfilter class
-        $input = $this->injector->instantiate('Clansuite_Inputfilter');
+        #$input = $this->injector->instantiate('Clansuite_Inputfilter');
 
-        // check if page was set and is sanitized
-        if ( !empty($page) AND $input->check( $page, 'is_abc|is_int|is_custom', '_\s' ) )
+        // check if page was set and is sanitized # and $input->check( $page, 'is_abc|is_int|is_custom', '_\s' )
+        if ( !empty($page)  )
         {
             $result = Doctrine_Query::create()
                                     ->select('*')
@@ -131,6 +136,7 @@ class Module_Staticpages extends Clansuite_ModuleController implements Clansuite
                               ->from('CsStaticPages')
                               ->setHydrationMode(Doctrine::HYDRATE_ARRAY)
                               ->execute();
+
         if ( is_array($result) )
         {
             # Get Render Engine

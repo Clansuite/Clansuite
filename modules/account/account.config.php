@@ -4,5 +4,6 @@
 ;
 
 [account]
+captchatype = recaptcha
 
 ; DO NOT REMOVE THIS LINE */ ?>

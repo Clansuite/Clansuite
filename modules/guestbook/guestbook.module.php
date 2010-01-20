@@ -157,8 +157,8 @@ class Module_Guestbook extends Clansuite_ModuleController implements Clansuite_M
         if(isset($error)){$smarty->assign( 'error' , $error );}
 
         // Pagination
-        $smarty->assign_by_ref('pager', $pager);
-        $smarty->assign_by_ref('pager_layout', $pager_layout);
+        $smarty->assign('pager', $pager);
+        $smarty->assign('pager_layout', $pager_layout);
        
         # create form
         $form = new Clansuite_Form('eingabe','post',$_SERVER['PHP_SELF']);

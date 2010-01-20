@@ -101,14 +101,14 @@ class Module_Teamspeakviewer extends Clansuite_ModuleController implements Clans
 
         $ts3 = new Clansuite_Teamspeak3_ServerQueryInterface($server_ip, $server_queryport, $vserver_id);
         $ts3->selectVirtualServer(1);
-        clansuite_xdebug::printR($ts3->serverViewer());
+        #clansuite_xdebug::printR($ts3->serverViewer());
         #clansuite_xdebug::printR($ts3->version()); # ok
         #clansuite_xdebug::printR($ts3->channellist());
         #clansuite_xdebug::printR($ts3->instanceinfo()); # ok
         #clansuite_xdebug::printR($ts3->serverinfo()); # ??? what is wrong here?? no return values
         #$ts3->close();
 
-        clansuite_xdebug::printR($serverinfo);
+        #clansuite_xdebug::printR($serverinfo);
 
         $view->assign('serverinfo', $serverinfo);
     }

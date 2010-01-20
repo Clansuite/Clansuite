@@ -2,9 +2,7 @@
 <script src="{$www_root_themes_core}/javascript/webtoolkit.sha1.js" type="application/javascript"></script>
 {/move_to}
 
-
-    <script>
-
+<script>
     function hashLoginPassword(theForm)
     {
         if( (theForm.password.value  != '') &&
@@ -57,9 +55,9 @@
         document.register_form.password2.disabled = false;
         document.register_form.password2.value = '';
     }
-    </script>
+</script>
 
-<h2>{t}Register{/t}</h2>
+<h2>{t}Register a new useraccount{/t}</h2>
 {* OLD ERRORS
     {if $err.not_filled == 1}<p class="error">{t}Please fill out all required fields!{/t}</p>{/if}
     {if $err.nick_wrong == 1}<p class="error">{t}The nickname contains violating characters!{/t}</p>{/if}
@@ -71,16 +69,21 @@
     {if $err.wrong_captcha == 1}<p class="error">{t}The code you entered is wrong!{/t}</p>{/if}
     {if $err.emails_mismatching == 1}<p class="error">{t}The email adresses do not match!{/t}</p>{/if}
 *}
-    <form action="index.php?mod=account&action=register" method="post" name="register_form" id="register_form" onsubmit="hashLoginPassword(this)">
+
+<form action="index.php?mod=account&action=register" method="post" name="register_form" id="register_form" onsubmit="hashLoginPassword(this)">
+
     <table>
+
         <tr>
             <td>{t}Nick:{/t}</td>
             <td><input type="text" name="nick" value="{$smarty.post.nick|default|escape:"html"}"></td>
         </tr>
+
         <tr>
             <td>{t}Email:{/t}</td>
             <td><input onkeyup="javascript:mailTest()" oncopy="javascript:mailTest()" onpaste="javascript:mailTest()" oncut="javascript:mailTest()" type="text" id="email" name="email" id='email' value="{$smarty.post.email|default|escape:"html"}"></td>
         </tr>
+
         <tr>
             <td>{t}Confirm email:{/t}</td>
             <td><input onkeyup="javascript:mailTest()" oncopy="javascript:mailTest()" onpaste="javascript:mailTest()" oncut="javascript:mailTest()" type="text" id="email2" name="email2" id='email2' value="{$smarty.post.email2|default|escape:"html"}"></td>
@@ -98,33 +101,39 @@
                 </form>
             </td>
         </tr>
+
         <tr>
             <td valign="top">{t}Confirm Password:{/t}</td>
             <td><input onkeyup="javascript:passTest()" oncopy="javascript:passTest()" onpaste="javascript:passTest()" oncut="javascript:passTest()" type="password" id='password2' name="password2" value=""><br /><span class='font_mini'>{t}Minimum: {/t}{$min_length}</span></td>
         </tr>
+
         <!--
         <tr>
             <td>{t}Password Security:{/t}</td>
             <td><div id='password_verification' style='width: 1px;height: 15px; background-color: red; border: thin solid black;'>&nbsp;</div></td>
         </tr>
         -->
-        <tr>
-            <td>{t}Captcha:{/t}</td>
-            <td>
-            {*{if $config.captcha.type == 'recaptcha'} *}
 
-             {load_module name="recaptcha" action="display_recaptcha"}
+        {$config|@dump}
 
-            {* {else} *}
+        {if $config.captchatype == 'recaptcha'}
+            <tr>
+                <td>{t}Captcha:{/t}</td>
+                <td>
+                    {* {load_module name="recaptcha" action="display_recaptcha"} *}
 
-            <!-- <img src="{$captcha_url}" style="border:thin solid black;"><br /><input type="text" name="captcha" value=""> -->
-
-            {* {/if} *}
-            </td>
-        </tr>
+                    {* {else}
+                        <!-- <img src="{$captcha_url}" style="border:thin solid black;">
+                        <br />
+                        <input type="text" name="captcha" value=""> -->
+                    *}
+                </td>
+            </tr>
+        {/if}
 
         <tr>
             <td cospan='2'><input type="submit" name="submit" value="{t}Register{/t}"></td>
         </tr>
     </table>
-    </form>
+
+</form>

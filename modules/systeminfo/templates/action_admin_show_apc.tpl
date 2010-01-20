@@ -4,12 +4,18 @@
 {* {$apc_sysinfos.system_cache_info|@dump:APC_SYSINFOS_system_cache_info} *}
 {* {$apc_sysinfos.settings|@dump:APC_SYSINFOS_settings} *}
 
-{if empty($apc_sysinfos.version)}
-<b>Alternative PHP Cache not loaded. Enable the PHP Extension 'extension=php_apc.dll' in php.ini.</b>
-{else}
-
 <div class="ModuleHeading">{t}Statistics for "Alternative PHP Cache {$apc_sysinfos.version}"{/t}</div>
-<div class="ModuleHeadingSmall">{t}Aktueller Zustand und statistische Informationen des AP-Cache.{/t}</div>
+<div class="ModuleHeadingSmall">{t}Current Status and statistics of AP-Cache.{/t}</div>
+
+{if empty($apc_sysinfos.version)}
+
+    {messagebox type="alert"}
+        <strong>Alternative PHP Cache is  <u> not loaded. </u> !</strong>
+        <br />
+        Enable the PHP Extension 'extension=php_apc.dll' in php.ini.
+    {/messagebox}
+
+{else}
 
 <h2>General Cache Informations</h2>
 <table>

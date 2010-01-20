@@ -101,8 +101,8 @@ class Module_News extends Clansuite_ModuleController implements Clansuite_Module
 
         # Assign $news array and pager objects to smarty to Smarty for template output
         $smarty->assign('news', $news);
-        $smarty->assign_by_ref('pager', $pager);
-        $smarty->assign_by_ref('pager_layout', $pager_layout);
+        $smarty->assign('pager', $pager);
+        $smarty->assign('pager_layout', $pager_layout);
 
         # Prepare the Output
         $this->prepareOutput();
@@ -333,8 +333,8 @@ class Module_News extends Clansuite_ModuleController implements Clansuite_Module
 
         # Assign $news array and pager objects to smarty to Smarty for template output
         $smarty->assign('news', $news);
-        $smarty->assign_by_ref('pager', $pager);
-        $smarty->assign_by_ref('pager_layout', $pager_layout);
+        $smarty->assign('pager', $pager);
+        $smarty->assign('pager_layout', $pager_layout);
 
         # Prepare the Output
         $this->prepareOutput();
@@ -390,10 +390,10 @@ class Module_News extends Clansuite_ModuleController implements Clansuite_Module
         $smarty = $this->getView();
 
         # Assign $news array to Smarty for template output
-        # Also pass the complete pager object to smarty (referenced to save memory - no extra vars needed) => assign_by_ref()
+        # Also pass the complete pager object to smarty (referenced to save memory - no extra vars needed) => assign()
         $smarty->assign('news', $news);
-        $smarty->assign_by_ref('pager', $pager);
-        $smarty->assign_by_ref('pager_layout', $pager_layout);
+        $smarty->assign('pager', $pager);
+        $smarty->assign('pager_layout', $pager_layout);
 
         # Prepare the Output
         $this->prepareOutput();

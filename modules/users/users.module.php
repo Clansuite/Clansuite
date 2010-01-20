@@ -120,8 +120,8 @@ class Module_Users extends Clansuite_ModuleController implements Clansuite_Modul
         $smarty->assign('userslist', $userslist);
 
         // Pagination
-        $smarty->assign_by_ref('pager', $pager);
-        $smarty->assign_by_ref('pager_layout', $pager_layout);
+        $smarty->assign('pager', $pager);
+        $smarty->assign('pager_layout', $pager_layout);
 
         # specifiy the template manually
         #$this->setTemplate('userslist/templates/show.tpl');

@@ -116,8 +116,8 @@ class Module_Quotes_Admin extends Clansuite_ModuleController implements Clansuit
         $view->assign('pagination_needed', $pager->haveToPaginate());
 
         # Assign Pagination
-        $view->assign_by_ref('pager', $pager);
-        $view->assign_by_ref('pager_layout', $pager_layout);
+        $view->assign('pager', $pager);
+        $view->assign('pager_layout', $pager_layout);
 
         /**
          * Layout & Output
