@@ -1,6 +1,6 @@
 <?php
 /*
- *  $Id: Unique.php 6398 2009-09-24 14:36:27Z guilhermeblanco $
+ *  $Id: Unique.php 6498 2009-10-13 04:56:16Z jwage $
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -27,10 +27,10 @@
  * @license     http://www.opensource.org/licenses/lgpl-license.php LGPL
  * @link        www.phpdoctrine.org
  * @since       1.0
- * @version     $Revision: 6398 $
+ * @version     $Revision: 6498 $
  * @author      Konsta Vesterinen <kvesteri@cc.hut.fi>
  */
-class Doctrine_Validator_Unique
+class Doctrine_Validator_Unique extends Doctrine_Validator_Driver
 {
     /**
      * checks if given value is unique
@@ -81,6 +81,10 @@ class Doctrine_Validator_Unique
                 $pkFieldName = $table->getFieldName($pk);
                 $values[] = $this->invoker->$pkFieldName;
             }
+        }
+
+        if (isset($this->args) && is_array($this->args) && isset($this->args['where'])) {
+            $sql .= ' AND ' . $this->args['where'];
         }
 
         $stmt  = $table->getConnection()->getDbh()->prepare($sql);

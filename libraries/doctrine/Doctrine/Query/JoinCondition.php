@@ -1,6 +1,6 @@
 <?php
 /*
- *  $Id: JoinCondition.php 5843 2009-06-08 20:06:07Z hobodave $
+ *  $Id: JoinCondition.php 6859 2009-12-05 00:12:51Z kriswallsmith $
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -27,7 +27,7 @@
  * @license     http://www.opensource.org/licenses/lgpl-license.php LGPL
  * @link        www.phpdoctrine.org
  * @since       1.0
- * @version     $Revision: 5843 $
+ * @version     $Revision: 6859 $
  * @author      Konsta Vesterinen <kvesteri@cc.hut.fi>
  */
 class Doctrine_Query_JoinCondition extends Doctrine_Query_Condition
@@ -36,6 +36,13 @@ class Doctrine_Query_JoinCondition extends Doctrine_Query_Condition
     {
         $condition = trim($condition);
         $e = $this->_tokenizer->sqlExplode($condition);
+
+        foreach ($e as $k => $v) {
+          if ( ! $v) {
+            unset($e[$k]);
+          }
+        }
+        $e = array_values($e);
 
         if (($l = count($e)) > 2) {
             $leftExpr = $this->query->parseClause($e[0]);
@@ -75,8 +82,9 @@ class Doctrine_Query_JoinCondition extends Doctrine_Query_Condition
 
                 if (substr($trimmed_upper, 0, 4) == 'FROM' || substr($trimmed_upper, 0, 6) == 'SELECT') {
                     // subquery found
-                    $q     = $this->query->createSubquery()->parseQuery($trimmed, false);
-                    $value   = '(' . $q->getSql() . ')';
+                    $q = $this->query->createSubquery()
+                        ->parseDqlQuery($trimmed, false);
+                    $value   = '(' . $q->getSqlQuery() . ')';
                     $q->free();
                 } elseif (substr($trimmed_upper, 0, 4) == 'SQL:') {
                     // Change due to bug "(" XXX ")"
@@ -114,7 +122,7 @@ class Doctrine_Query_JoinCondition extends Doctrine_Query_Condition
                 default:
                     $rightExpr = (($hasRightAggExpression) ? $rightMatches[1] . '(' : '')
                               . $value
-                              . (($hasRightAggExpression) ? $rightMatches[3] . ')' : '') ;
+                              . (($hasRightAggExpression) ? ')' . $rightMatches[3] : '') ;
 
                     $condition  = $leftExpr . ' ' . $operator . ' ' . $rightExpr;
             }

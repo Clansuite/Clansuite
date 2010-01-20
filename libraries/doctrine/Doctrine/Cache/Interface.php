@@ -1,6 +1,6 @@
 <?php
 /*
- *  $Id: Interface.php 5798 2009-06-02 15:10:46Z piccoloprincipe $
+ *  $Id: Interface.php 6821 2009-11-30 17:32:21Z jwage $
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -27,24 +27,23 @@
  * @license     http://www.opensource.org/licenses/lgpl-license.php LGPL
  * @link        www.phpdoctrine.org
  * @since       1.0
- * @version     $Revision: 5798 $
+ * @version     $Revision: 6821 $
  * @author      Konsta Vesterinen <kvesteri@cc.hut.fi>
+ * @author      Jonathan H. Wage <jonwage@gmail.com>
  */
 interface Doctrine_Cache_Interface 
 {
     /**
-     * Test if a cache is available for the given id and (if yes) return it (false else)
-     * 
-     * Note : return value is always "string" (unserialization is done by the core not by the backend)
-     * 
+     * Fetch a cache record from this cache driver instance
+     *
      * @param string $id cache id
      * @param boolean $testCacheValidity        if set to false, the cache validity won't be tested
-     * @return string cached datas (or false)
+     * @return mixed  Returns either the cached data or false
      */
     public function fetch($id, $testCacheValidity = true);
 
     /**
-     * Test if a cache is available or not (for the given id)
+     * Test if a cache record exists for the passed id
      *
      * @param string $id cache id
      * @return mixed false (a cache is not available) or "last modified" timestamp (int) of the available cache record
@@ -52,16 +51,15 @@ interface Doctrine_Cache_Interface
     public function contains($id);
 
     /**
-     * Save some string datas into a cache record
-     *
-     * Note : $data is always saved as a string
+     * Save a cache record and add the key to the index of cached keys
      *
      * @param string $id        cache id
      * @param string $data      data to cache
      * @param int $lifeTime     if != false, set a specific lifetime for this cache record (null => infinite lifeTime)
+     * @param boolean $saveKey  Whether or not to save the key in the cache key index
      * @return boolean true if no problem
      */
-    public function save($id, $data, $lifeTime = false);
+    public function save($id, $data, $lifeTime = false, $saveKey = true);
 
     /**
      * Remove a cache record

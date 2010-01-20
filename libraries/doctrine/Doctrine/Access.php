@@ -1,6 +1,6 @@
 <?php
 /*
- *  $Id: Access.php 5876 2009-06-10 18:43:12Z piccoloprincipe $
+ *  $Id: Access.php 6506 2009-10-13 23:29:18Z jwage $
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -27,7 +27,7 @@
  * @license     http://www.opensource.org/licenses/lgpl-license.php LGPL
  * @link        www.phpdoctrine.org
  * @since       1.0
- * @version     $Revision: 5876 $
+ * @version     $Revision: 6506 $
  * @author      Konsta Vesterinen <kvesteri@cc.hut.fi>
  */
 abstract class Doctrine_Access extends Doctrine_Locator_Injectable implements ArrayAccess

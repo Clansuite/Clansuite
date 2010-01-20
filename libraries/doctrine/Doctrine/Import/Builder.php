@@ -1,6 +1,6 @@
 <?php
 /*
- *  $Id: Builder.php 6401 2009-09-24 16:12:04Z guilhermeblanco $
+ *  $Id: Builder.php 6820 2009-11-30 17:27:49Z jwage $
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -30,7 +30,7 @@
  * @link        www.phpdoctrine.org
  * @license     http://www.opensource.org/licenses/lgpl-license.php LGPL
  * @since       1.0
- * @version     $Revision: 6401 $
+ * @version     $Revision: 6820 $
  * @author      Konsta Vesterinen <kvesteri@cc.hut.fi>
  * @author      Jukka Hassinen <Jukka.Hassinen@BrainAlliance.com>
  * @author      Nicolas Bérard-Nault <nicobn@php.net>
@@ -39,38 +39,34 @@
 class Doctrine_Import_Builder extends Doctrine_Builder
 {
     /**
-     * _path
-     *
-     * the path where imported files are being generated
+     * Path where to generated files
      *
      * @var string $_path
      */
     protected $_path = '';
 
     /**
-     * _packagesPrefix
+     * Class prefix for generated packages
      *
      * @var string
      */
     protected $_packagesPrefix = 'Package';
 
     /**
-     * _packagesPath
+     * Path to generate packages
      *
      * @var string
      */
     protected $_packagesPath = '';
 
     /**
-     * _packagesFolderName
+     * Name of folder to generate packages in
      *
      * @var string
      */
     protected $_packagesFolderName = 'packages';
 
     /**
-     * _suffix
-     *
      * File suffix to use when writing class definitions
      *
      * @var string $suffix
@@ -78,8 +74,6 @@ class Doctrine_Import_Builder extends Doctrine_Builder
     protected $_suffix = '.php';
 
     /**
-     * _generateBaseClasses
-     *
      * Bool true/false for whether or not to generate base classes
      *
      * @var boolean $generateBaseClasses
@@ -87,8 +81,6 @@ class Doctrine_Import_Builder extends Doctrine_Builder
     protected $_generateBaseClasses = true;
 
     /**
-     * _generateTableClasses
-     *
      * Bool true/false for whether or not to generate child table classes
      *
      * @var boolean $generateTableClasses
@@ -96,8 +88,6 @@ class Doctrine_Import_Builder extends Doctrine_Builder
     protected $_generateTableClasses = false;
 
     /**
-     * _base
-     *
      * Prefix to use for generated base classes
      *
      * @var string
@@ -105,8 +95,6 @@ class Doctrine_Import_Builder extends Doctrine_Builder
     protected $_baseClassPrefix = 'Base';
 
     /**
-     * _baseClassesDirectory
-     *
      * Directory to put the generate base classes in
      *
      * @var string $suffix
@@ -114,11 +102,18 @@ class Doctrine_Import_Builder extends Doctrine_Builder
     protected $_baseClassesDirectory = 'generated';
 
     /**
-     * _baseClassName
+     * Base class name for generated classes
      *
      * @var string
      */
     protected $_baseClassName = 'Doctrine_Record';
+
+    /**
+     * Base table class name for generated classes
+     *
+     * @var string
+     */
+    protected $_baseTableClassName = 'Doctrine_Table';
 
     /**
      * Prefix to all generated classes
@@ -126,6 +121,20 @@ class Doctrine_Import_Builder extends Doctrine_Builder
      * @var string
      */
     protected $_classPrefix = null;
+
+    /** 
+     * Whether to use the class prefix for the filenames too 
+     * 
+     * @var boolean 
+     **/ 
+    protected $_classPrefixFiles = true;
+
+    /**
+     * Whether or not to generate PEAR style directories and files
+     *
+     * @var boolean
+     */
+    protected $_pearStyle = false;
 
     /**
      * The package name to use for the generated php docs
@@ -171,6 +180,13 @@ class Doctrine_Import_Builder extends Doctrine_Builder
      */
     public function __construct()
     {
+        $manager = Doctrine_Manager::getInstance();
+        if ($tableClass = $manager->getAttribute(Doctrine_Core::ATTR_TABLE_CLASS)) {
+            $this->_baseTableClassName = $tableClass;
+        }
+        if ($classPrefix = $manager->getAttribute(Doctrine_Core::ATTR_MODEL_CLASS_PREFIX)) {
+            $this->_classPrefix = $classPrefix;
+        }
         $this->loadTemplate();
     }
 
@@ -184,34 +200,10 @@ class Doctrine_Import_Builder extends Doctrine_Builder
     {
         if ($path) {
             if ( ! $this->_packagesPath) {
-                $this->setPackagesPath($path . DIRECTORY_SEPARATOR . $this->_packagesFolderName);
+                $this->setOption('packagesPath', $path . DIRECTORY_SEPARATOR . $this->_packagesFolderName);
             }
 
             $this->_path = $path;
-        }
-    }
-
-    /**
-     * setPackagePath
-     *
-     * @param string $packagesPrefix
-     * @return void
-     */
-    public function setPackagesPrefix($packagesPrefix)
-    {
-        $this->_packagesPrefix = $packagesPrefix;
-    }
-
-    /**
-     * setPackagesPath
-     *
-     * @param string $packagesPath
-     * @return void
-     */
-    public function setPackagesPath($packagesPath)
-    {
-        if ($packagesPath) {
-            $this->_packagesPath = $packagesPath;
         }
     }
 
@@ -247,58 +239,6 @@ class Doctrine_Import_Builder extends Doctrine_Builder
         }
 
         return $this->_generateTableClasses;
-    }
-
-    /**
-     * setBaseClassPrefix
-     *
-     * @param string $prefix
-     * @return void
-     */
-    public function setBaseClassPrefix($prefix)
-    {
-        $this->_baseClassPrefix = $prefix;
-    }
-
-    /**
-     * getBaseClassPrefix
-     *
-     * @return void
-     */
-    public function getBaseClassPrefix()
-    {
-        return $this->_baseClassPrefix;
-    }
-
-    /**
-     * setBaseClassesDirectory
-     *
-     * @return void
-     */
-    public function setBaseClassesDirectory($baseClassesDirectory)
-    {
-        $this->_baseClassesDirectory = $baseClassesDirectory;
-    }
-
-    /**
-     * setBaseClassName
-     *
-     * @package default
-     */
-    public function setBaseClassName($className)
-    {
-        $this->_baseClassName = $className;
-    }
-
-    /**
-     * setSuffix
-     *
-     * @param string $suffix
-     * @return void
-     */
-    public function setSuffix($suffix)
-    {
-        $this->_suffix = $suffix;
     }
 
     /**
@@ -420,7 +360,12 @@ class Doctrine_Import_Builder extends Doctrine_Builder
         }
 
         if (isset($definition['inheritance']['subclasses']) && ! empty($definition['inheritance']['subclasses'])) {
-            $ret[$i] = "        ".'$this->setSubClasses('. $this->varExport($definition['inheritance']['subclasses']).');';
+            $subClasses = array();
+            foreach ($definition['inheritance']['subclasses'] as $className => $def) {
+                $className = $this->_classPrefix . $className;
+                $subClasses[$className] = $def;
+            }
+            $ret[$i] = "        ".'$this->setSubClasses('. $this->varExport($subClasses).');';
             $i++;
         }
 
@@ -446,7 +391,7 @@ class Doctrine_Import_Builder extends Doctrine_Builder
         if (isset($definition['relations']) && is_array($definition['relations']) && ! empty($definition['relations'])) {
             foreach ($definition['relations'] as $name => $relation) {
                 $class = isset($relation['class']) ? $relation['class']:$name;
-                $alias = (isset($relation['alias']) && $relation['alias'] !== $relation['class']) ? ' as ' . $relation['alias'] : '';
+                $alias = (isset($relation['alias']) && $relation['alias'] !== $this->_classPrefix . $relation['class']) ? ' as ' . $relation['alias'] : '';
 
                 if ( ! isset($relation['type'])) {
                     $relation['type'] = Doctrine_Relation::ONE;
@@ -500,6 +445,14 @@ class Doctrine_Import_Builder extends Doctrine_Builder
                     $a[] = '\'owningSide\' => ' . $this->varExport($relation['owningSide']);
                 }
 
+                if (isset($relation['foreignKeyName']) && $relation['foreignKeyName']) {
+                    $a[] = '\'foreignKeyName\' => ' . $this->varExport($relation['foreignKeyName']);
+                }
+
+                if (isset($relation['orderBy']) && $relation['orderBy']) {
+                    $a[] = '\'orderBy\' => ' . $this->varExport($relation['orderBy']);
+                }
+
                 if ( ! empty($a)) {
                     $ret[$i] .= ', ' . 'array(' . PHP_EOL . str_repeat(' ', 13);
                     $length = strlen($ret[$i]);
@@ -524,15 +477,7 @@ class Doctrine_Import_Builder extends Doctrine_Builder
         $code = implode(PHP_EOL, $ret);
         $code = trim($code);
 
-        // If the body of the function has contents then we need to 
-        if ($code) {
-            // If the body of the function has contents and we are using inheritance
-            // then we need call the parent::setUp() before the body of the function
-            // Class table inheritance is the only one we shouldn't call parent::setUp() for
-            if ( ! isset($definition['inheritance']['type']) || $definition['inheritance']['type'] != 'class_table') {
-                $code = "parent::setUp();" . PHP_EOL . '    ' . $code;
-            }
-        }
+        $code = "parent::setUp();" . PHP_EOL . '        ' . $code;
 
         // If we have some code for the function then lets define it and return it
         if ($code) {
@@ -691,7 +636,7 @@ class Doctrine_Import_Builder extends Doctrine_Builder
 
             if (isset($definition['relations']) && ! empty($definition['relations'])) {
                 foreach ($definition['relations'] as $relation) {
-                    $type = (isset($relation['type']) && $relation['type'] == Doctrine_Relation::MANY) ? 'Doctrine_Collection':$relation['class'];
+                    $type = (isset($relation['type']) && $relation['type'] == Doctrine_Relation::MANY) ? 'Doctrine_Collection' : $this->_classPrefix . $relation['class'];
                     $ret[] = '@property ' . $type . ' $' . $relation['alias'];
                 }
             }
@@ -701,9 +646,7 @@ class Doctrine_Import_Builder extends Doctrine_Builder
         $ret[] = '@package    ' . $this->_phpDocPackage;
         $ret[] = '@subpackage ' . $this->_phpDocSubpackage;
         $ret[] = '@author     ' . $this->_phpDocName . ' <' . $this->_phpDocEmail . '>';
-
-        $fileName = $definition['className']  . $this->_suffix;
-        $ret[] = '@version    SVN: $Id: Builder.php 6401 2009-09-24 16:12:04Z guilhermeblanco $';
+        $ret[] = '@version    SVN: $Id: Builder.php 6820 2009-11-30 17:27:49Z jwage $';
 
         $ret = ' * ' . implode(PHP_EOL . ' * ', $ret);
         $ret = ' ' . trim($ret);
@@ -755,7 +698,6 @@ class Doctrine_Import_Builder extends Doctrine_Builder
         return "        \$this->actAs(\$" . strtolower($name) . "$level);" . PHP_EOL;
     }
 
-
     /**
      * buildActAs: builds a complete actAs code. It supports hierarchy of plugins
      * @param array $actAs array of plugin definitions and options
@@ -782,13 +724,13 @@ class Doctrine_Import_Builder extends Doctrine_Builder
     private function innerBuildActAs($actAs, $level = 0, $parent = null, array &$emittedActAs)
     {
         // rewrite special case of actAs: [Behavior] which gave [0] => Behavior
-        if(is_array($actAs) && isset($actAs[0]) && !is_array($actAs[0])) {
+        if (is_array($actAs) && isset($actAs[0]) && !is_array($actAs[0])) {
             $actAs = array_flip($actAs);
         }
 
         $build = '';
         $currentParent = $parent;
-        if(is_array($actAs)) {
+        if (is_array($actAs)) {
             foreach($actAs as $template => $options) {
                 if ($template == 'actAs') {
                     // found another actAs
@@ -854,7 +796,7 @@ class Doctrine_Import_Builder extends Doctrine_Builder
             }
 
             $useOptions = ( ! empty($options) && isset($options['useOptions']) && $options['useOptions'] == true) 
-                ? '$this->_options' : '';
+                ? '$this->getOptions()' : 'array()';
             $class = ( ! empty($options) && isset($options['class'])) ? $options['class'] : $name;
 
             $build .= "    \$this->addListener(new " . $class . "(" . $useOptions . "), '" . $name . "');" . PHP_EOL;
@@ -884,7 +826,7 @@ class Doctrine_Import_Builder extends Doctrine_Builder
                 }
     
                 foreach ($value as $attr) {
-                    $const = "Doctrine::" . strtoupper($key) . "_" . strtoupper($attr);
+                    $const = "Doctrine_Core::" . strtoupper($key) . "_" . strtoupper($attr);
                     if (defined($const)) {
                         $values[] = $const;
                     } else {
@@ -894,7 +836,7 @@ class Doctrine_Import_Builder extends Doctrine_Builder
             }
     
             $string = implode(' ^ ', $values);
-            $build .= "        \$this->setAttribute(Doctrine::ATTR_" . strtoupper($key) . ", " . $string . ");" . PHP_EOL;
+            $build .= "        \$this->setAttribute(Doctrine_Core::ATTR_" . strtoupper($key) . ", " . $string . ");" . PHP_EOL;
         }
     
         return $build;
@@ -1029,13 +971,13 @@ class Doctrine_Import_Builder extends Doctrine_Builder
                 unset($packageLevel['connection']);
 
                 $packageLevel['tableClassName'] = $packageLevel['className'] . 'Table';
-                $packageLevel['inheritance']['tableExtends'] = isset($definition['inheritance']['extends']) ? $definition['inheritance']['extends'] . 'Table':'Doctrine_Table';
+                $packageLevel['inheritance']['tableExtends'] = isset($definition['inheritance']['extends']) ? $definition['inheritance']['extends'] . 'Table':$this->_baseTableClassName;
 
                 $topLevel['tableClassName'] = $topLevel['topLevelClassName'] . 'Table';
                 $topLevel['inheritance']['tableExtends'] = $packageLevel['className'] . 'Table';
             } else {
                 $topLevel['tableClassName'] = $topLevel['className'] . 'Table';
-                $topLevel['inheritance']['tableExtends'] = isset($definition['inheritance']['extends']) ? $definition['inheritance']['extends'] . 'Table':'Doctrine_Table';
+                $topLevel['inheritance']['tableExtends'] = isset($definition['inheritance']['extends']) ? $definition['inheritance']['extends'] . 'Table':$this->_baseTableClassName;
             }
 
             $baseClass = $definition;
@@ -1056,27 +998,57 @@ class Doctrine_Import_Builder extends Doctrine_Builder
         }
     }
 
+    public function buildTableClassDefinition($className, $options = array())
+    {
+        $extends = isset($options['extends']) ? $options['extends']:$this->_baseTableClassName;
+        if ($extends !== $this->_baseTableClassName) {
+            $extends = $this->_classPrefix . $extends;
+        }
+        $content  = '<?php' . PHP_EOL;
+        $content .= sprintf(self::$_tpl,
+            null,
+            false,
+            $className,
+            $extends,
+            null,
+            null,
+            null
+        );
+
+        return $content;
+    }
+
     /**
-     * writeTableDefinition
+     * writeTableClassDefinition
      *
      * @return void
      */
-    public function writeTableDefinition($className, $path, $options = array())
+    public function writeTableClassDefinition(array $definition, $path, $options = array())
     {
-        $content  = '<?php' . PHP_EOL;
-        $content .= sprintf(self::$_tpl, null, false,
-                                       $className,
-                                       isset($options['extends']) ? $options['extends']:'Doctrine_Table',
-                                       null,
-                                       null,
-                                       null
-                                       );
+        if ($prefix = $this->_classPrefix) {
+            $className = $prefix . $definition['tableClassName'];
+            if ($this->_classPrefixFiles) {
+                $fileName = $className . $this->_suffix;               
+            } else {
+                $fileName = $definition['tableClassName'] . $this->_suffix;
+            }
+            $writePath = $path . DIRECTORY_SEPARATOR . $fileName;
+        } else {
+            $className = $definition['tableClassName'];
+            $fileName = $className . $this->_suffix;
+        }
 
-        Doctrine_Lib::makeDirectories($path);
+        if ($this->_pearStyle) {
+            $writePath = $path . DIRECTORY_SEPARATOR . str_replace('_', '/', $fileName);
+        } else {
+            $writePath = $path . DIRECTORY_SEPARATOR . $fileName;
+        }
 
-        $writePath = $path . DIRECTORY_SEPARATOR . $className . $this->_suffix;
+        $content = $this->buildTableClassDefinition($className, $options);
 
-        Doctrine::loadModel($className, $writePath);
+        Doctrine_Lib::makeDirectories(dirname($writePath));
+
+        Doctrine_Core::loadModel($className, $writePath);
 
         if ( ! file_exists($writePath)) {
             file_put_contents($writePath, $content);
@@ -1099,9 +1071,6 @@ class Doctrine_Import_Builder extends Doctrine_Builder
     {
         $originalClassName = $definition['className'];
         if ($prefix = $this->_classPrefix) {
-            if (isset($definition['tableClassName'])) {
-                $definition['tableClassName'] = $prefix . $definition['tableClassName'];
-            }
             $definition['className'] = $prefix . $definition['className'];
             if (isset($definition['connectionClassName'])) {
                 $definition['connectionClassName'] = $prefix . $definition['connectionClassName'];
@@ -1120,7 +1089,15 @@ class Doctrine_Import_Builder extends Doctrine_Builder
             $definitionCode = str_replace("'refClass' => '", "'refClass' => '$prefix", $definitionCode);
         }
 
-        $fileName = $definition['className'] . $this->_suffix;
+        if ($this->_classPrefixFiles) { 
+            $fileName = $definition['className'] . $this->_suffix; 
+        } else { 
+            $fileName = $originalClassName . $this->_suffix; 
+        }
+
+        if ($this->_pearStyle) {
+            $fileName = str_replace('_', '/', $fileName);
+        }
 
         $packagesPath = $this->_packagesPath ? $this->_packagesPath:$this->_path;
 
@@ -1135,7 +1112,7 @@ class Doctrine_Import_Builder extends Doctrine_Builder
             }
 
             if ($this->generateTableClasses()) {
-                $this->writeTableDefinition($definition['tableClassName'], $writePath, array('extends' => $definition['inheritance']['tableExtends']));
+                $this->writeTableClassDefinition($definition, $writePath, array('extends' => $definition['inheritance']['tableExtends']));
             }
         }
         // If is the package class then we need to make the path to the complete package
@@ -1147,7 +1124,7 @@ class Doctrine_Import_Builder extends Doctrine_Builder
             }
 
             if ($this->generateTableClasses()) {
-                $this->writeTableDefinition($definition['tableClassName'], $writePath, array('extends' => $definition['inheritance']['tableExtends']));
+                $this->writeTableClassDefinition($definition, $writePath, array('extends' => $definition['inheritance']['tableExtends']));
             }
         }
         // If it is the base class of the doctrine record definition
@@ -1183,6 +1160,8 @@ class Doctrine_Import_Builder extends Doctrine_Builder
 
         $code .= PHP_EOL . $definitionCode;
 
+        Doctrine_Lib::makeDirectories(dirname($writePath));
+
         if (isset($definition['generate_once']) && $definition['generate_once'] === true) {
             if ( ! file_exists($writePath)) {
                 $bytes = file_put_contents($writePath, $code);
@@ -1195,6 +1174,6 @@ class Doctrine_Import_Builder extends Doctrine_Builder
             throw new Doctrine_Import_Builder_Exception("Couldn't write file " . $writePath);
         }
 
-        Doctrine::loadModel($definition['className'], $writePath);
+        Doctrine_Core::loadModel($definition['className'], $writePath);
     }
 }

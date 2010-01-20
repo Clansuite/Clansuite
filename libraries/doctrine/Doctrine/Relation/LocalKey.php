@@ -1,6 +1,6 @@
 <?php
 /*
- *  $Id: LocalKey.php 5798 2009-06-02 15:10:46Z piccoloprincipe $
+ *  $Id: LocalKey.php 6508 2009-10-14 06:28:49Z jwage $
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -29,7 +29,7 @@
  * @license     http://www.opensource.org/licenses/lgpl-license.php LGPL
  * @link        www.phpdoctrine.org
  * @since       1.0
- * @version     $Revision: 5798 $
+ * @version     $Revision: 6508 $
  */
 class Doctrine_Relation_LocalKey extends Doctrine_Relation
 {
@@ -46,7 +46,7 @@ class Doctrine_Relation_LocalKey extends Doctrine_Relation
         $localFieldName = $record->getTable()->getFieldName($this->definition['local']);
         $id = $record->get($localFieldName);
 
-        if (is_null($id) || ! $this->definition['table']->getAttribute(Doctrine::ATTR_LOAD_REFERENCES)) {
+        if (is_null($id) || ! $this->definition['table']->getAttribute(Doctrine_Core::ATTR_LOAD_REFERENCES)) {
             $related = $this->getTable()->create();
 
             // Ticket #1131 Patch.            
@@ -56,7 +56,7 @@ class Doctrine_Relation_LocalKey extends Doctrine_Relation
             }
         } else {
             $dql  = 'FROM ' . $this->getTable()->getComponentName()
-                 . ' WHERE ' . $this->getCondition();
+                 . ' WHERE ' . $this->getCondition() . $this->getOrderBy(null, false);
 
             $related = $this->getTable()
                             ->getConnection()
