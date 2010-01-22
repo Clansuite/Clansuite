@@ -55,8 +55,8 @@ interface Clansuite_Event_Interface
  * Clansuite_Eventdispatcher
  *
  * Purpose:
- * Eventdispatcher is a container class for all the EventHandlers. This class is an aide for event-driven development.
- * You can register eventhandlers under a eventname. When you trigger an event, it performs an lookup of the eventname
+ * Eventdispatcher is a container class for all the EventHandlers. This class is a helper for event-driven development.
+ * You can register eventhandlers under an eventname. When you trigger an event, it performs an lookup of the eventname
  * over all registered eventhandlers and fires the event, if found.
  * This is a very flexible form of communication between objects.
  *
@@ -75,7 +75,7 @@ class Clansuite_Eventdispatcher
     private $eventhandlers = array();
 
     /**
-     * Clansuite_Eventdispatcher is a Singelton implementation
+     * Clansuite_Eventdispatcher is a Singleton implementation
      */
     public static function instantiate()
     {
