@@ -44,8 +44,8 @@ if (!defined('IN_CS')){die('Clansuite not loaded. Direct Access forbidden.');}
  *
  * Usage:
  * $logger = new Clansuite_Logger('auth.log');
- * $dispatcher->addEventHandler('onInvalidLogin', $logger);
- * $dispatcher->addEventHandler('onLogin', $logger); 
+ * $eventhandler->addEventHandler('onInvalidLogin', $logger);
+ * $eventhandler->addEventHandler('onLogin', $logger); 
  */
 class AuthenticationLogging implements Clansuite_Event
 {
@@ -55,17 +55,20 @@ class AuthenticationLogging implements Clansuite_Event
     {
         # set request object
         $this->request = $request;
+        # set logger object
+        $this->logger = $logger;
     }
     
     public function execute(Event $event)
     {
         $authdata = $event->getInfo();
         
-        $logdata = array( date(),                              # date
+        $logdata = array( 
+                          date(),                              # date
                           $this->request->getRemoteAddress(),  # remote adress
                           $event->getName(),                   # onLogin etc.
                           $authdata['username']                # username
-                         );
+                        );
         
         $this->logger->log($logdata);
     }

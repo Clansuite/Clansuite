@@ -78,6 +78,7 @@ class Clansuite_Loader
         #spl_autoload_register(array (__CLASS__,'loadClass'));
         spl_autoload_register(array (__CLASS__,'loadFilter'));
         spl_autoload_register(array (__CLASS__,'loadFactory'));
+        spl_autoload_register(array (__CLASS__,'loadEvent'));
     }
 
     /**
@@ -111,6 +112,31 @@ class Clansuite_Loader
         $className = strtolower($className);
 
         return $className;
+    }
+    
+    /**
+     * Loads an event
+     *
+     * @param string $className The eventclass, which should be loaded
+     * @param string $directory without start/end slashes
+     * @return boolean
+     */
+    public static function loadEvent($className, $directory = null)
+    {
+        if (class_exists($className, false))
+        {
+            return false;
+        }
+        
+        if(is_null($directory))
+        {
+            $directory = 'events';
+        }
+        
+        $fileName = ROOT . $directory . strtolower($className) . '.class.php';
+        
+        #echo '<br>loaded Eventfile => '. $fileName;
+        return self::requireFile($fileName);
     }
 
     /**
