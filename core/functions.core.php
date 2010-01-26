@@ -147,6 +147,7 @@ class Clansuite_Functions
      * Converts an Object to an Array
      *
      * @param $object object to convert
+     *
      * @return array
      */
     public static function object2array($object)
@@ -168,6 +169,42 @@ class Clansuite_Functions
             }
         }
         return $array;
+    }
+    
+    /**
+     * Converts an Array to an Object
+     *
+     * @param $array array to convert to an object
+     *
+     * @return array
+     */
+    public function array2object($array)
+    {
+    	if(is_array($array) == false)
+    	{
+    		return $array;
+    	}
+       
+    	$object = new stdClass();
+    	
+    	if (is_array($array) and count($array) > 0)
+    	{
+            foreach ($array as $name=>$value)
+            {
+                $name = strtolower(trim($name));
+                
+                if (empty($name) == false)
+                {
+                    $object->$name = arrayToObject($value);
+                }
+            }
+            
+            return $object; 
+    	}
+        else
+        {
+            return false;
+        }
     }
 
     /**
