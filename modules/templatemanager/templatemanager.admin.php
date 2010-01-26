@@ -132,50 +132,45 @@ class Module_Templatemanager_Admin extends Clansuite_ModuleController implements
         if(isset($_GET['tplmod']) and (empty($_GET['tplmod']) == false) )
         {
             $tplmod = stripslashes($_GET['tplmod']);
-        }
-        else
-        {
-            $tplmod = null;
-        }
-        
-        $smarty->assign('templateeditor_modulename',  $tplmod);
+            $smarty->assign('templateeditor_modulename',  $tplmod);
+        }        
 
         # GET: tpltheme (theme of the template)
         if(isset($_GET['tpltheme']) and (empty($_GET['tpltheme']) == false) )
         {
             $tpltheme = stripslashes($_GET['tpltheme']);
+            $smarty->assign('templateeditor_themename',   $tpltheme);
         }
-        else
+              
+        $file = '';
+        
+        if(isset($_GET['file']))
         {
-            $tpltheme = null;
+            # append ROOT_MOD path if tplmod is set
+            if(empty($tplmod) == false)
+            {
+                $file = ROOT_MOD . $_GET['file'];
+            }
+            else # it's a complete filepath
+            {
+                $file = $_GET['file'];
+            }
+            
+            # DS on win is "\"
+            if( DS == '\\')
+            {
+                # correct slashes
+                $file = str_replace('/', '\\', $file);
+            }        
+            
+            $smarty->assign('templateeditor_filename', $file);
         }
         
-        $smarty->assign('templateeditor_themename',   $tpltheme);
-
         # GET: file (path+templatefilename)
-        if(empty($_GET['file']))
+        /*if(empty($_GET['file']))
         {
             throw new Clansuite_Exception('No filename given. Please specify a filename for the template you want to edit.', 100);
-        }
-
-        # append ROOT_MOD path if tplmod is set
-        if(empty($tplmod) == false)
-        {
-            $file = ROOT_MOD . $_GET['file'];
-        }
-        else # it's a complete filepath
-        {
-            $file = $_GET['file'];
-        }
-
-        # DS on win is "\"
-        if( DS == '\\')
-        {
-            # correct slashes
-            $file = str_replace('/', '\\', $file);
-        }
-        
-        $smarty->assign('templateeditor_filename',    $file);
+        }*/
 
         # let's check, if this template exists
         if(is_file($file))
@@ -215,6 +210,15 @@ class Module_Templatemanager_Admin extends Clansuite_ModuleController implements
         {
             file_put_contents($tplfilename, stripslashes($tpltextarea));
         }
+
+        # Prepare the Output
+        $this->prepareOutput();
+    }
+    
+    public function action_admin_settings()
+    {
+        # Set Pagetitle and Breadcrumbs
+        Clansuite_Trail::addStep( _('Editor'), '/index.php?mod=templatemanager&amp;sub=admin&amp;action=editor');
 
         # Prepare the Output
         $this->prepareOutput();

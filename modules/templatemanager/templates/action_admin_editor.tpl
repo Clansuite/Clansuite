@@ -22,6 +22,7 @@
 
 {/move_to}
 
+{modulenavigation}
 <div class="ModuleHeading">{t}Templatemanager - Editor{/t}</div>
 <div class="ModuleHeadingSmall">{t}You can create and edit your templates here.{/t}</div>
 
