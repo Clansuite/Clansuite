@@ -152,7 +152,7 @@ class Module_News_Admin extends Clansuite_ModuleController implements Clansuite_
         $form->addElement('textarea')->setName('news_form[news_body]')->setID('news_form[news_body]')->setCols('110')->setRows('30')->setLabel(_('Your Article:'));
         $form->addElement('submitbutton');
         $form->addElement('resetbutton');
-		$form->addElement('cancelbutton');
+        $form->addElement('cancelbutton');
 
         # Assign the html of the form to the view
         $this->getView()->assign('form', $form->render());
@@ -190,9 +190,9 @@ class Module_News_Admin extends Clansuite_ModuleController implements Clansuite_
         $categories = Doctrine::getTable('CsNews')->fetchAllNewsCategoriesDropDown();
         $form->addElement('multiselect')->setName('news_form[cat_id]')->setLabel(_('Category'))->setOptions($categories)->setDefaultValue($news['cat_id']);
         $form->addElement('textarea')->setName('news_form[news_body]')->setID('news_form[news_body]')->setCols('110')->setRows('30')->setLabel(_('Your Article:'))->setValue($news['news_body']);;
-		$form->addElement('submitbutton')->setValue('Submit');
+        $form->addElement('submitbutton')->setValue('Submit');
         $form->addElement('resetbutton')->setValue('Reset');
-		$form->addElement('cancelbutton');
+        $form->addElement('cancelbutton');
 
         # Debugging Form Object
         #clansuite_xdebug::printR($form);
