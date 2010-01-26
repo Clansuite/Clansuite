@@ -117,7 +117,10 @@ class Clansuite_Doctrine
             Doctrine::loadModels(ROOT . '/myrecords');
 
             # Register the Doctrine autoloader
-            spl_autoload_register(array('Doctrine', 'autoload'));
+            #spl_autoload_register(array('Doctrine', 'autoload'));
+
+            spl_autoload_register(array('Doctrine_Core', 'autoload'));
+            spl_autoload_register(array('Doctrine_Core', 'modelsAutoload'));
 
             /**
              * automatically compile doctrine to one file, but only compile with the mysql driver
