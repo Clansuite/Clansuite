@@ -48,7 +48,7 @@ function smarty_function_modulenavigation($params, $smarty)
 
         $errormessage = $smarty->fetch('modulenavigation_not_found.tpl');
 
-        $smarty->trigger_error($errormessage);
+        trigger_error($errormessage);
     }
 }
 ?>
