@@ -112,6 +112,10 @@ class Clansuite_Doctrine
                 throw new Clansuite_Exception('Doctrine could not be loaded. Check Libraries Folder.', 100);
             }
 
+            # Register the directory for the Clansuite Core Records, so that Doctrine is able to lazy-load them later on
+            Doctrine::loadModels(ROOT . '/myrecords/generated');
+            Doctrine::loadModels(ROOT . '/myrecords');
+
             # Register the Doctrine autoloader
             spl_autoload_register(array('Doctrine', 'autoload'));
 
@@ -131,7 +135,7 @@ class Clansuite_Doctrine
             # Doctrine_Core::setModelsDirectory(ROOT . 'records');
             # Doctrine_Core::setModelsDirectory(ROOT_MOD); # somewhere beneath modules folder, rest via autoload
             # spl_autoload_register(array('Doctrine, 'modelsAutoload');
- 
+
             unset($doctrine_compiled);
         }
     }
@@ -270,7 +274,7 @@ class Clansuite_Doctrine
          *
          * Quote from Johnatan Wage on http://groups.google.com/group/doctrine-user
          */
-        $this->manager->setAttribute(Doctrine::ATTR_MODEL_LOADING,Doctrine::MODEL_LOADING_CONSERVATIVE);
+        $this->manager->setAttribute(Doctrine::ATTR_MODEL_LOADING, Doctrine::MODEL_LOADING_CONSERVATIVE);
 
         # define the models directory
         # this will NOT require the .php files found
