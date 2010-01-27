@@ -8,7 +8,7 @@ class Teamspeak3_ServerQueryCommand_servergrouplist extends Clansuite_Teamspeak3
             return false;
         }
         
-		return $this->toArray($this->ServerQueryCommand('servergrouplist');
+		return $this->toArray($this->ServerQueryCommand('servergrouplist'));
 	}
 }
 ?>

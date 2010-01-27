@@ -20,4 +20,5 @@ class Teamspeak3_ServerQueryCommand_serveridgetbyport extends Clansuite_Teamspea
 			return false;
 		}
 	}
+}
 ?>
