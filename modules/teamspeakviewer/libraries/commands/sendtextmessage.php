@@ -13,4 +13,5 @@ class Teamspeak3_ServerQueryCommand_sendmessage extends Clansuite_Teamspeak3_Ser
 	{
 		return $this->executeWithoutFetch("sendtextmessage targetmode=$mode target=$target msg=".$this->replaceText($msg));
 	}
+}
 ?>
