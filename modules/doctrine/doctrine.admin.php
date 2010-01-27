@@ -109,7 +109,7 @@ class Module_Doctrine_Admin extends Clansuite_ModuleController implements Clansu
                        #'baseClassName'         => '',
                         'baseClassesDirectory'  => 'records',
                         'generateTableClasses'  => true,
-                        'baseTableClassName'    => ''
+                        'baseTableClassName'    => '',
                         'classPrefix'           => 'Modules_Models_', # determines the pear style nameing convention for autoload
                         'classPrefixFiles'      => true,
                         'pearStyle'             => true,
