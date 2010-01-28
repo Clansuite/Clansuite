@@ -472,7 +472,9 @@ class Clansuite_Renderer_Smarty extends Clansuite_Renderer_Base
          * Assign the original template name and the requested module
          * This is used in template_not_found.tpl to provide a link to the templateeditor
          */
-        $this->renderer->assign('template_of_module', Clansuite_ModuleController_Resolver::getModuleName());
+        $this->renderer->assign('modulename', Clansuite_ModuleController_Resolver::getModuleName());
+        $this->renderer->assign('actionname', Clansuite_ActionController_Resolver::getActionName());
+
         # @todo remove duplication, scan for templatename and template_to_render
         $this->renderer->assign('templatename', $template);
         $this->renderer->assign('template_to_render', $template);
