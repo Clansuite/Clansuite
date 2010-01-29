@@ -49,7 +49,7 @@ interface Clansuite_Request_Interface
     public function getParameterNames();
     public function issetParameter($parametername, $parameterArrayName = 'REQUEST', $where = false);
     public function getParameter($parametername, $parameterArrayName = 'REQUEST');
-    public function getHeader($name);
+    public static function getHeader($name);
     public function getCookie($name);
 
     # Request Method
@@ -58,8 +58,8 @@ interface Clansuite_Request_Interface
 
     # $_SERVER Stuff
     public static function getServerProtocol();
-    public function isSecure();
-    public function getRemoteAddress();
+    public static function isSecure();
+    public static function getRemoteAddress();
 }
 
 /**
@@ -438,7 +438,7 @@ class Clansuite_HttpRequest implements Clansuite_Request_Interface, ArrayAccess
      * @param string $name Name of the Parameter
      * @return string
      */
-    public function getHeader($name)
+    public static function getHeader($name)
     {
         $name = 'HTTP_' . strtoupper(str_replace('-','_', $name));
         if (isset($_SERVER[$name]))
@@ -475,7 +475,7 @@ class Clansuite_HttpRequest implements Clansuite_Request_Interface, ArrayAccess
      * @see $this->getServerProtocol()
      * @return bool
      */
-    public function isSecure()
+    public static function isSecure()
     {
         if(isset($_SERVER['HTTPS']) and (strtolower($_SERVER['HTTPS']) === 'on' or $_SERVER['HTTPS'] == '1') )
         {
@@ -550,7 +550,7 @@ class Clansuite_HttpRequest implements Clansuite_Request_Interface, ArrayAccess
      *
      * @return string
      */
-    public function getRemoteURI()
+    public static function getRemoteURI()
     {
         return $_SERVER['REMOTE_URI'];
     }
@@ -560,7 +560,7 @@ class Clansuite_HttpRequest implements Clansuite_Request_Interface, ArrayAccess
      *
      * @return string
      */
-    public function getQueryString()
+    public static function getQueryString()
     {
         return $_SERVER['QUERY_STRING'];
     }
@@ -570,7 +570,7 @@ class Clansuite_HttpRequest implements Clansuite_Request_Interface, ArrayAccess
      *
      * @return string
      */
-    public function getRemoteAddress()
+    public static function getRemoteAddress()
     {
         if (array_key_exists('HTTP_CLIENT_IP', $_SERVER) && self::validateIP($_SERVER["HTTP_CLIENT_IP"]))
         {
@@ -614,7 +614,7 @@ class Clansuite_HttpRequest implements Clansuite_Request_Interface, ArrayAccess
      *
      * @return string
      */
-    public function getUserAgent()
+    public static function getUserAgent()
     {
         return $_SERVER['HTTP_USER_AGENT'];
     }
@@ -624,7 +624,7 @@ class Clansuite_HttpRequest implements Clansuite_Request_Interface, ArrayAccess
      *
      * @return string
      */
-    public function getReferer()
+    public static function getReferer()
     {
         return $_SERVER['HTTP_Referer'];
     }
