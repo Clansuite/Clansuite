@@ -387,6 +387,9 @@ class Clansuite_Exception extends Exception implements Clansuite_Exception_Inter
         $errormessage   .= '</fieldset>';
         $errormessage   .= '</body></html>';
 
+        # save session
+        session_write_close();
+        
         # Output the errormessage
         return $errormessage;
     }

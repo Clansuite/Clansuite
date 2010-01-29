@@ -388,6 +388,9 @@ class Clansuite_Errorhandler
         $errormessage   .= '</fieldset><br /><br />';
         $errormessage   .= '</body></html>';
 
+        # save session
+        session_write_close();
+        
         # Output the errormessage
         return $errormessage;
     }
