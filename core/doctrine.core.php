@@ -111,17 +111,19 @@ class Clansuite_Doctrine
             {
                 throw new Clansuite_Exception('Doctrine could not be loaded. Check Libraries Folder.', 100);
             }
-
-            # Register the directory for the Clansuite Core Records, so that Doctrine is able to lazy-load them later on
-            Doctrine::loadModels(ROOT . '/myrecords/generated');
-            Doctrine::loadModels(ROOT . '/myrecords');
-
+            
             # Register the Doctrine autoloader
-            #spl_autoload_register(array('Doctrine', 'autoload'));
-
             spl_autoload_register(array('Doctrine_Core', 'autoload'));
             spl_autoload_register(array('Doctrine_Core', 'modelsAutoload'));
 
+            # Register the Doctrine models via autoloader
+            # @todo this is for Doctrine2            
+            # Doctrine_Core::setModelsDirectory(ROOT . 'records');
+            # Doctrine_Core::setModelsDirectory(ROOT_MOD); # somewhere beneath modules folder, rest via autoload
+            # Register the directory for the Clansuite Core Records, so that Doctrine is able to lazy-load them later on
+            Doctrine::loadModels(ROOT . '/myrecords/generated');
+            Doctrine::loadModels(ROOT . '/myrecords');
+            
             /**
              * automatically compile doctrine to one file, but only compile with the mysql driver
              * so that the next time Doctrine.compiled.php is found
@@ -132,12 +134,6 @@ class Clansuite_Doctrine
             {
                 Doctrine::compile($doctrine_compiled, array('mysql'));
             }
-
-            # Register the Doctrine models via autoloader
-            # @todo this is for Doctrine2
-            # Doctrine_Core::setModelsDirectory(ROOT . 'records');
-            # Doctrine_Core::setModelsDirectory(ROOT_MOD); # somewhere beneath modules folder, rest via autoload
-            # spl_autoload_register(array('Doctrine, 'modelsAutoload');
 
             unset($doctrine_compiled);
         }
