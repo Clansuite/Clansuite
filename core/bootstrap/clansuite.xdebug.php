@@ -182,7 +182,9 @@ class Clansuite_Xdebug
             }
             echo $print_r;
         }
-        echo '</pre>';
+        echo '</pre>';        
+        # save session before exit
+        session_write_close();
         exit;
     }
 
