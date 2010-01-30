@@ -6,7 +6,7 @@
     {t}This is the Control Center (CC) of Clansuite.{/t}
 </h3>
 
-<!-- Table for Shortscuts and News/Updates Feed -->
+<!-- Table for Shortcuts and News/Updates Feed -->
 <table cellspacing="6" width="100%">
 <tbody>
     <tr>

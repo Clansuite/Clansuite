@@ -2,9 +2,11 @@
 
 <table cellspacing="0" cellpadding="0" width="100%">
     <tbody>
-    <tr height="14">
-        <td style="min-width: 120px; background-color: #ACD943; text-align: bottom;" width="33%" valign="bottom"><b>&nbsp;&raquo; Shortcuts</b></td>
-        <td nowrap="" background="{$www_root}/modules/controlcenter/images/green-triangle.gif" width="100%" style="background-repeat: no-repeat;"></td
+    <tr style="height: 14">
+        <td style="min-width: 120px; background-color: #ACD943; text-align: bottom;" width="33%" valign="bottom">
+            <b>&nbsp;&raquo; Shortcuts</b>
+        </td>
+        <td nowrap="nowrap" style="background-image:url('{$www_root}/modules/controlcenter/images/green-triangle.gif'); background-repeat: no-repeat; width: 100%;" />
     </tr>
     <tr>
         <td height="3" bgcolor="#ACD943" colspan="2"/>
@@ -83,7 +85,7 @@
                                     <div id="fragment-5"> V </div>
 
                                     <!-- Clear -->
-                                    <div style="clear:both">
+                                    <div style="clear:both"></div>
 
                                  <!-- Close Vertical Tabs -->
                                  </div>
@@ -94,7 +96,7 @@
                         </tbody>
                     </table>
                     
-                    <input class="ButtonOrange" type="Button" value="Edit" />                    
+                    <input class="ButtonOrange" type="button" value="Edit" />                    
                     
                     
                     </td>
