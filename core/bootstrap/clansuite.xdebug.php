@@ -192,6 +192,25 @@ class Clansuite_Xdebug
         session_write_close();
         exit;
     }
+    
+    /**
+     * Debug logs the output of $var to the firebug console
+     *
+     * @param $var
+     * @param $firebugmethod log,info,warn, error
+     * @return Content of $var will be returned via Header and is displayed in the FireBugConsole.
+     */
+    public static function firebug($var, $firebugmethod = 'log' )
+    {
+        if(class_exists('FirePHP') == false)
+        {
+            require ROOT_LIBRARIES.'firephp/FirePHP.class.php';
+        }            
+            
+        $firephp = FirePHP::getInstance(true);
+            
+        $firephp->{$firebugmethod}($var);
+    }
 
     public static function xd_varDump($var = null)
     {
