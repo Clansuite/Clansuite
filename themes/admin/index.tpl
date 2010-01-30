@@ -127,7 +127,7 @@
 </div>
 
 <!-- Start Copyright-Footer  // -->
-<div id="footer" class="admin_content_seperated" style="height: auto; margin-top: 10px; padding: 10px; clear:both;">
+<div id="footer2" class="admin_content_seperated" style="height: auto; margin-top: 10px; padding: 10px; clear:both;">
 {include file='copyright.tpl'}
 </div>
 
