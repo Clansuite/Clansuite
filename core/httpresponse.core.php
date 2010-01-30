@@ -197,7 +197,7 @@ class Clansuite_HttpResponse implements Clansuite_Response_Interface
         session_write_close();
 
         // activateOutputCompression when not in debugging mode
-        if( (bool)XDEBUG === false or (bool)DEBUG === false)
+        if( XDEBUG === false and DEBUG === false)
         {
             Clansuite_ResponseEncode::start_outputbuffering('7');
         }
@@ -224,7 +224,7 @@ class Clansuite_HttpResponse implements Clansuite_Response_Interface
         print $this->body;
 
         // Flush Compressed Buffer
-        if( (bool)XDEBUG === false or (bool)DEBUG === false)
+        if( XDEBUG === false and DEBUG === false)
         {
             Clansuite_ResponseEncode::end_outputbuffering();
         }
