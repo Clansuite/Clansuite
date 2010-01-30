@@ -122,7 +122,7 @@ class Module_Statistics_Admin extends Clansuite_ModuleController implements Clan
         #$this->getView()->clear_compiled_tpl();
 
         # Redirect
-        $this->getHttpResponse()->redirectNoCache('/index.php?mod=statistics&amp;sub=admin&amp;action=settings_update', 2, 302, 'The config file has been succesfully updated.');
+        $this->getHttpResponse()->redirectNoCache(WWW_ROOT . '/index.php?mod=statistics&amp;sub=admin&amp;action=settings', 2, 302, 'The config file has been succesfully updated.');
     }
 }
 ?>

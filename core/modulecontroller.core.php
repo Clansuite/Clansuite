@@ -268,12 +268,11 @@ abstract class Clansuite_ModuleController extends Clansuite_ModuleController_Res
         # if we don't have a moduleconfig array yet, get it
         if($this->moduleconfig == null)
         {
-            $this->getModuleConfig();
+            $this->moduleconfig = $this->getModuleConfig();
         }
-
+		
         # try a lookup of the value by keyname
         $value = Clansuite_Functions::array_find_element_by_key($keyname, $this->moduleconfig);
-
         # return value or default
         if(empty($value) == false)
         {

@@ -92,11 +92,8 @@ class Clansuite_Config extends Clansuite_Config_Base implements ArrayAccess
         {
             $modulename = Clansuite_ModuleController_Resolver::getModuleName();
         }
-
-        # construct path
         # @todo support for different configtypes
         $configfile = ROOT_MOD.$modulename.DS.$modulename.'.config.php';
-
         return $this->confighandler->readConfig($configfile);
     }
 
