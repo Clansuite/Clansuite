@@ -205,10 +205,12 @@ class Clansuite_Xdebug
         if(class_exists('FirePHP') == false)
         {
             require ROOT_LIBRARIES.'firephp/FirePHP.class.php';
-        }            
-            
+        }    
         $firephp = FirePHP::getInstance(true);
-            
+        
+        $backtrace_array = debug_backtrace();
+        $firephp->info('You are debugging like fire in file "'.$backtrace_array[0]['file'].'" line "'.$backtrace_array[0]['line'].'".');
+        
         $firephp->{$firebugmethod}($var);
     }
 
