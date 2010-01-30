@@ -95,6 +95,10 @@ class Clansuite_Datagrid_Base
  */
 class Clansuite_Datagrid extends Clansuite_Datagrid_Base
 {
+    //--------------------
+    // Class parameters
+    //--------------------
+
     /**
     * Doctrine Datatable object
     *
@@ -126,12 +130,12 @@ class Clansuite_Datagrid extends Clansuite_Datagrid_Base
     private $_QueryName = 'fetchAll';
 
     /**
-    * Doctrine Pager object
+    * Doctrine Pager Layout object
     *
-    * @link http://www.doctrine-project.org/documentation/manual/1_2/en/utilities#pagination:working-with-pager Doctrine_Pager
-    * @var mixed
+    * @link http://www.doctrine-project.org/documentation/manual/1_2/en/utilities#pagination:working-with-pager Doctrine_Pager_Layout
+    * @var Doctrine_Pager_Layout
     */
-    private $_PagedQuery;
+    private $_PagerLayout;
 
     /**
     * The renderer for the datagrid
@@ -204,12 +208,12 @@ class Clansuite_Datagrid extends Clansuite_Datagrid_Base
     private $_DatagridType  = 'Normal';
 
     /**
-    * The basepath for this datagrid
-    * Every Link in the datagrid (sorting, pagination, etc.) has this URI as base
+    * The baseURL for this datagrid
+    * Every Link in the datagrid (sorting, pagination, etc.) has this URL as base
     *
     * @var string
     */
-    private $_BasePath       = 'index.php';
+    private $_BaseURL   = 'index.php';
 
     /**
     * Boolean datagrid values for configuration, wrapped into an array
@@ -233,65 +237,9 @@ class Clansuite_Datagrid extends Clansuite_Datagrid_Base
     */
     private $_ColumnSets = array();
 
-    /**
-    * Check for datagrid features
-    *
-    * @see $this->_features
-    * @param string $feature
-    * @return boolean $this->features[$_feature]
-    */
-    public function isEnabled($feature)
-    {
-        if( !isset($this->_Features[$feature]) )
-        {
-            throw new Clansuite_Exception(_('There is no such feature in this datagrid: ') . $feature);
-        }
-        else
-        {
-            return $this->_Features[$feature];
-        }
-    }
-
-    /**
-    * Enable datagrid features and return true if it succeeded, false if not
-    *
-    * @see $this->_features
-    * @param mixed $feature
-    * @return boolean
-    */
-    public function enableFeature($feature)
-    {
-        if( !isset($this->_Features[$feature]) )
-        {
-            return 0;
-        }
-        else
-        {
-            $this->_Features[$feature] = true;
-            return 1;
-        }
-    }
-
-    /**
-    * Disable datagrid features
-    * Return true if succeeded, false if not
-    *
-    * @see $this->_features
-    * @param mixed $feature
-    * @return boolean
-    */
-    public function disableFeature($toggleVar)
-    {
-        if( !isset($this->_Features[$feature]) )
-        {
-            return 0;
-        }
-        else
-        {
-            $this->_Features[$feature] = false;
-            return 1;
-        }
-    }
+    //--------------------
+    // Class methods
+    //--------------------
 
     /**
     * Constructor
@@ -332,7 +280,68 @@ class Clansuite_Datagrid extends Clansuite_Datagrid_Base
     }
 
     /**
+    * Check for datagrid features
+    *
+    * @see $this->_features
+    * @param string $feature
+    * @return boolean
+    */
+    public function isEnabled($feature)
+    {
+        if( !isset($this->_Features[$feature]) )
+        {
+            throw new Clansuite_Exception(_('There is no such feature in this datagrid: ') . $feature);
+        }
+        else
+        {
+            return $this->_Features[$feature];
+        }
+    }
+
+    /**
+    * Enable datagrid features and return true if it succeeded, false if not
+    *
+    * @see $this->_features
+    * @param string $feature
+    * @return boolean
+    */
+    public function enableFeature($feature)
+    {
+        if( !isset($this->_Features[$feature]) )
+        {
+            return 0;
+        }
+        else
+        {
+            $this->_Features[$feature] = true;
+            return 1;
+        }
+    }
+
+    /**
+    * Disable datagrid features
+    * Return true if succeeded, false if not
+    *
+    * @see $this->_features
+    * @param mixed $feature
+    * @return boolean
+    */
+    public function disableFeature($toggleVar)
+    {
+        if( !isset($this->_Features[$feature]) )
+        {
+            return 0;
+        }
+        else
+        {
+            $this->_Features[$feature] = false;
+            return 1;
+        }
+    }
+
+    /**
     * Render the datagrid
+    * Sends the renderer the command to procede with rendering
     *
     * @return string $_html Returns html-code
     */
@@ -371,7 +380,7 @@ class Clansuite_Datagrid extends Clansuite_Datagrid_Base
     */
     private function _initDatagrid()
     {
-        $_Result = $this->_PagedQuery->execute();
+        $_Result = $this->_PagerLayout->getPager()->execute();
 
         $this->_generateCols($_Result);
         $this->_generateRows($_Result);
@@ -389,12 +398,20 @@ class Clansuite_Datagrid extends Clansuite_Datagrid_Base
     public function setLabel($_Label)               { $this->_Label = $_Label; }
     public function setCaption($_Caption)           { $this->_Caption = $_Caption; }
     public function setDescription($_Description)   { $this->_Description = $_Description; }
+    public function setBaseURL($_BaseURL)           { $this->_BaseURL = $_BaseURL; }
+
+    /**
+    * Sets the column objects of the grid
+    *
+    * @param array Clansuite_Datagrid_Col
+    */
     public function setCols($_Cols)                 { $this->_Cols = $_Cols; }
 
     // Getter
     public function getLabel()          { return $this->_Label; }
     public function getCaption()        { return $this->_Caption; }
     public function getDescription()    { return $this->_Description; }
+    public function getBaseURL()        { return $this->_BaseURL; }
 
     /**
     * Returns the column objects
@@ -515,9 +532,9 @@ class Clansuite_Datagrid extends Clansuite_Datagrid_Base
     }
 
     /**
-    * Get the datagrid cols
+    * Get the datagrid column sets from initial configuration
     *
-    * @return array Clansuite_Datagrid_Col
+    * @return array
     */
     public function getColumnSets()
     {
@@ -529,8 +546,7 @@ class Clansuite_Datagrid extends Clansuite_Datagrid_Base
      */
     private function _generateCols($_Result)
     {
-        $_Position = 10;
-        foreach( $this->getColumnSets() as $colKey => $colSet )
+        foreach( $this->_ColumnSets as $colKey => &$colSet )
         {
             if( isset($_Result[0][$colSet['DBCol']]) )
             {
@@ -539,9 +555,8 @@ class Clansuite_Datagrid extends Clansuite_Datagrid_Base
                 $oCol->setId($colSet['Alias']);
                 $oCol->setName($colSet['Name']);
                 $oCol->setSortMode($colSet['Sort']);
-                $oCol->setPosition($_Position);
-                $_Position += 10;
-                array_push($this->_Cols, $oCol);
+                $oCol->setPosition($colKey);
+                $this->_Cols[$colKey] = $oCol;
             }
         }
         #Clansuite_Xdebug::printR($this->getColumnSets());
@@ -573,14 +588,13 @@ class Clansuite_Datagrid extends Clansuite_Datagrid_Base
      */
     private function _generateQuery()
     {
-        $_Query = array();
         if( isset($this->_QueryName) )
         {
-            $_Query = $this->_Datatable->createNamedQuery($this->_QueryName);
+            $_Query = $this->getDatatable()->createNamedQuery($this->_QueryName);
         }
         else
         {
-            $_Query = $this->_Datatable->createQuery()
+            $_Query = $this->getDatatable()->createQuery()
                                 ->select('*')
                                 ->setHydrationMode(Doctrine::HYDRATE_ARRAY);
         }
@@ -588,9 +602,7 @@ class Clansuite_Datagrid extends Clansuite_Datagrid_Base
         $this->_Query = $_Query;
 
         $this->_generateQuerySorts();
-        $this->_generatePager();
-
-        return;
+        $this->_generatePagerLayout();
     }
 
     /**
@@ -611,22 +623,20 @@ class Clansuite_Datagrid extends Clansuite_Datagrid_Base
             }
         }
         #Clansuite_Xdebug::printR($SortValue);
-        if( isset($SortKey) && isset($this->_sortReverseDefinitions[$SortValue]))
+        if( isset($SortKey) && isset($this->_SortReverseDefinitions[$SortValue]))
         {
-            $this->_Query->orderBy($this->cols[$SortKey]['DBCol'] . ' ' . $SortValue);
-            $this->cols[$SortKey]['Sort'] = $SortValue;
+            $this->_Query->orderBy($this->_ColumnSets[$SortKey]['DBCol'] . ' ' . $SortValue);
+            $this->_ColumnSets[$SortKey]['Sort'] = $SortValue;
         }
 
         #Clansuite_Xdebug::printR($this->_Query->getSqlQuery());
     }
 
     /**
-    * Generate the Pager for a query
+    * Generate the PagerLayout for a query
     *
-    * @todo sanitize by vain
-    * @return NULL
     */
-    private function _generatePager()
+    private function _generatePagerLayout()
     {
         $_Page = 1;
         $_ResultsPerPage = 25;
@@ -642,11 +652,24 @@ class Clansuite_Datagrid extends Clansuite_Datagrid_Base
         }
 
 
-        $this->_PagedQuery = new Doctrine_Pager($this->_Query, $_Page, $_ResultsPerPage);
+        $this->_PagerLayout = new Doctrine_Pager_Layout(
+                                    new Doctrine_Pager(
+                                        $this->_Query,
+                                        $_Page,
+                                        $_ResultsPerPage
+                                    ),
+                                    new Doctrine_Pager_Range_Sliding(array(
+                                        'chunk' => 5
+                                    )),
+                                    $this->getBaseURL() . "dg_Page={%page}"
+                              );
 
-        return;
+        # Sets Layout of the pager links
+        $this->_PagerLayout->setTemplate($this->getRenderer()->getPagerLinkLayout()); # '[<a href="{%url}">{%page}</a>]'
+
+        # Sets Layout of the pager
+        $this->_PagerLayout->setSelectedTemplate($this->getRenderer()->getPagerLayout()); # '[{%page}]'
     }
-
 }
 
 
@@ -733,6 +756,10 @@ class Clansuite_Datagrid_Row extends Clansuite_Datagrid_Base
 */
 class Clansuite_Datagrid_Cell extends Clansuite_Datagrid_Base
 {
+    //----------------------
+    // Class parameters
+    //----------------------
+
     /**
     * Value of the cell
     *
@@ -754,9 +781,14 @@ class Clansuite_Datagrid_Cell extends Clansuite_Datagrid_Base
     */
     private $_Row;
 
-    //----------------------------
+
+    //----------------------
+    // Class methods
+    //----------------------
+
+    //----------------------
     // Setter
-    //----------------------------
+    //----------------------
 
     /**
     * Set the value of the cell
@@ -779,9 +811,9 @@ class Clansuite_Datagrid_Cell extends Clansuite_Datagrid_Base
     */
     public function setRow($_Row)      { $this->_Row = $_Row; }
 
-    //----------------------------
+    //----------------------
     // Getter
-    //----------------------------
+    //----------------------
 
     /**
     * Returns the value of this cell
@@ -818,6 +850,10 @@ class Clansuite_Datagrid_Cell extends Clansuite_Datagrid_Base
 
 class Clansuite_Datagrid_Renderer
 {
+    //----------------------
+    // Class parameters
+    //----------------------
+
     /**
     * The datagrid
     *
@@ -826,18 +862,24 @@ class Clansuite_Datagrid_Renderer
     private $_Datagrid;
 
     /**
-    * Set the datagrid object
+    * The PagerLayout of the datagrid
     *
-    * @param Clansuite_Datagrid $_Datagrid
+    * @link http://www.doctrine-project.org/documentation/manual/1_2/en/utilities#pagination:customizing-pager-layout Customizing Pager Layout
+    * @var string
     */
-    public function setDatagrid($_Datagrid) { $this->_Datagrid = $_Datagrid; }
+    private $_PagerLayout = '[{%page}]';
 
     /**
-    * Get the Datagrid object
+    * The look of the links of the pager
     *
-    * @return Clansuite_Datagrid $_Datagrid
+    * @link http://www.doctrine-project.org/documentation/manual/1_2/en/utilities#pagination:customizing-pager-layout Customizing Pager Layout
+    * @var string
     */
-    public function getDatagrid() { return $this->_Datagrid; }
+    private $_PagerLinkLayout = '[<a href="{%url}">{%page}</a>]';
+
+    //----------------------
+    // Class methods
+    //----------------------
 
     /**
     * Instantiate renderer and attack Datagrid to it
@@ -849,6 +891,66 @@ class Clansuite_Datagrid_Renderer
     {
         $this->setDatagrid($_Datagrid);
     }
+
+    //----------------------
+    // Setter
+    //----------------------
+
+    /**
+    * Set the datagrid object
+    *
+    * @param Clansuite_Datagrid $_Datagrid
+    */
+    public function setDatagrid($_Datagrid) { $this->_Datagrid = $_Datagrid; }
+
+    /**
+    * Set the pager layout
+    *
+    * @see $_PagerLayout
+    * @param string
+    * @example
+    * $oDatagrid->getRenderer()->setPagerLayout('[{%page}]');
+    */
+    public function setPagerLayout($_PagerLayout)           { $this->_PagerLayout = $_PagerLayout; }
+
+    /**
+    * Set the pager link layout
+    *
+    * @see $_PagerLinkLayout
+    * @param string
+    * @example
+    * $oDatagrid->getRenderer()->setPagerLinkLayout('[<a href="{%url}">{%page}</a>]');
+    */
+    public function setPagerLinkLayout($_PagerLinkLayout)   { $this->_PagerLinkLayout = $_PagerLinkLayout; }
+
+    //----------------------
+    // Getter
+    //----------------------
+
+    /**
+    * Get the Datagrid object
+    *
+    * @return Clansuite_Datagrid $_Datagrid
+    */
+    public function getDatagrid() { return $this->_Datagrid; }
+
+    /**
+    * Get the pager layout
+    *
+    * @return string
+    */
+    public function getPagerLayout()        { return $this->_PagerLayout; }
+
+    /**
+    * Get the pager link layout
+    *
+    * @return string
+    */
+    public function getPagerLinkLayout()    { return $this->_PagerLinkLayout; }
+
+    //----------------------
+    // Render methods
+    //----------------------
 
     /**
     * Render the datagrid table
@@ -889,7 +991,6 @@ class Clansuite_Datagrid_Renderer
         else
             return;
     }
-
 
     /**
     * Render the caption
