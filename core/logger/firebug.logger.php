@@ -71,7 +71,7 @@ class Clansuite_Logger_Firebug extends Clansuite_Logger implements Clansuite_Log
         # load firebug only if enabled
         if ( $config['logs']['firephp_enabled'] == true)
         {
-            include 'FirePHPCore/FirePHP.class.php';
+            include ROOT_LIBRARIES.'firephp/FirePHP.class.php';
         }
     }
 
