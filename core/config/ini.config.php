@@ -141,7 +141,6 @@ class Clansuite_Config_INIHandler extends Clansuite_Config_Base implements Array
        if(is_file($ini_filename))
        {
            $old_config_array = self::readConfig($ini_filename);
-
            # array merge: overwrite the array to the left, with the array to the right, when keys identical
            # array_merge_recursive ??
            $config_array = array_merge($old_config_array, $assoc_array);
@@ -154,7 +153,7 @@ class Clansuite_Config_INIHandler extends Clansuite_Config_Base implements Array
            # the config array = the incoming assoc_array
            $config_array = $assoc_array;
        }
-
+		
        # attach an security header at the top of the ini file
        $content = '';
        $content = "; <?php die( 'Access forbidden.' ); /* DO NOT MODIFY THIS LINE! ?>\n";
@@ -251,7 +250,12 @@ class Clansuite_Config_INIHandler extends Clansuite_Config_Base implements Array
         # check ini_filename exists
         if(is_file($filename) == false)
         {
-            throw new Clansuite_Exception('File not found: '.$filename, 4);    
+            //throw new Clansuite_Exception('File not found: '.$filename, 4);
+			$configFile = fopen($filename, 'w');
+			if($configFile == false) {
+				throw new Clansuite_Exception("File couldn't be create: ".$filename, 4);
+			}
+			fclose($configFile);
         }
         
         /**
@@ -262,7 +266,7 @@ class Clansuite_Config_INIHandler extends Clansuite_Config_Base implements Array
             /**
              * egro the default mode INI_SCANNER_NORMAL is active
              * we don't need to set the third param
-             */            
+             */
             return parse_ini_file($filename, true);
         }
         else # ok, we have a scanner_mode, set it
