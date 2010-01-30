@@ -34,7 +34,7 @@
 
 <table width="100%">
 <tr>
-    <td width="75%">
+    <td width="70%">
 
         <form action="index.php?mod=templatemanager&sub=admin&action=save" method="post">
 

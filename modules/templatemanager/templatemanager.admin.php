@@ -82,14 +82,7 @@ class Module_Templatemanager_Admin extends Clansuite_ModuleController implements
         # Incomming Variables
 
         # GET: tplmod (module of the template)
-        if(isset($_GET['tplmod']) and (empty($_GET['tplmod']) == false) )
-        {
-            $tplmod = stripslashes($_GET['tplmod']);
-        }
-        else
-        {
-            $tplmod = null;
-        }
+        $tplmod = $request->getParameter('tplmod','G');
         
         $smarty->assign('templateeditor_modulename',  $tplmod);
         
@@ -118,59 +111,54 @@ class Module_Templatemanager_Admin extends Clansuite_ModuleController implements
      * @param void
      * @return void
      */
-    public function action_admin_editor()
+    public function action_admin_edit()
     {
+        # Set Pagetitle and Breadcrumbs
+        Clansuite_Trail::addStep( _('Edit'), '/index.php?mod=templatemanager&amp;sub=admin&amp;action=edit');
+        
         # get view
         $smarty = $this->getView();
-         
-        # Set Pagetitle and Breadcrumbs
-        Clansuite_Trail::addStep( _('Editor'), '/index.php?mod=templatemanager&amp;sub=admin&amp;action=editor');
         
         # Incomming Variables
 
         # GET: tplmod (module of the template)
-        if(isset($_GET['tplmod']) and (empty($_GET['tplmod']) == false) )
+        $tplmod = $this->getHttpRequest()->getParameter('tplmod');
+        
+        if(isset($tplmod) )
         {
-            $tplmod = stripslashes($_GET['tplmod']);
+            $tplmod = stripslashes($tplmod);
             $smarty->assign('templateeditor_modulename',  $tplmod);
+            #Clansuite_Xdebug::printR($tplmod);
         }        
 
         # GET: tpltheme (theme of the template)
-        if(isset($_GET['tpltheme']) and (empty($_GET['tpltheme']) == false) )
+        $tpltheme = $this->getHttpRequest()->getParameter('tplmod');
+        
+        if(isset($tpltheme))
         {
-            $tpltheme = stripslashes($_GET['tpltheme']);
+            $tpltheme = stripslashes($tpltheme);
             $smarty->assign('templateeditor_themename',   $tpltheme);
+            #Clansuite_Xdebug::printR($tpltheme);
         }
               
-        $file = '';
+        # GET: template filename
+        $file = $this->getHttpRequest()->getParameter('file');
+        #Clansuite_Xdebug::printR($file);
         
-        if(isset($_GET['file']))
-        {
-            # append ROOT_MOD path if tplmod is set
-            if(empty($tplmod) == false)
-            {
-                $file = ROOT_MOD . $_GET['file'];
-            }
-            else # it's a complete filepath
-            {
-                $file = $_GET['file'];
-            }
-            
-            # DS on win is "\"
+        if(isset($file))
+        {            
+           $file = ROOT_MOD . $file;
+           
+           # DS on win is "\"
             if( DS == '\\')
             {
                 # correct slashes
                 $file = str_replace('/', '\\', $file);
-            }        
+            } 
             
+            #Clansuite_Xdebug::printR($file);
             $smarty->assign('templateeditor_filename', $file);
         }
-        
-        # GET: file (path+templatefilename)
-        /*if(empty($_GET['file']))
-        {
-            throw new Clansuite_Exception('No filename given. Please specify a filename for the template you want to edit.', 100);
-        }*/
 
         # let's check, if this template exists
         if(is_file($file))
@@ -218,7 +206,7 @@ class Module_Templatemanager_Admin extends Clansuite_ModuleController implements
     public function action_admin_settings()
     {
         # Set Pagetitle and Breadcrumbs
-        Clansuite_Trail::addStep( _('Editor'), '/index.php?mod=templatemanager&amp;sub=admin&amp;action=editor');
+        Clansuite_Trail::addStep( _('Settings'), '/index.php?mod=templatemanager&amp;sub=admin&amp;action=settings');
 
         # Prepare the Output
         $this->prepareOutput();
