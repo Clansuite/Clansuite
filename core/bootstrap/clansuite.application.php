@@ -211,14 +211,50 @@ class Clansuite_CMS
          *
          * Purpose: absolute path shortcuts
          */
+
+        /**
+        * Root path of the modules directory (with trailing slash)
+        */
         define('ROOT_MOD'           , ROOT . self::$config['paths']['mod_folder'].DS);
+
+        /**
+        * Root path of the themes directory (with trailing slash)
+        */
         define('ROOT_THEMES'        , ROOT . self::$config['paths']['themes_folder'].DS);
+
+        /**
+        * Root path of the languages directory (with trailing slash)
+        */
         define('ROOT_LANGUAGES'     , ROOT . self::$config['paths']['language_folder'].DS);
+
+        /**
+        * Root path of the core directory (with trailing slash)
+        */
         define('ROOT_CORE'          , ROOT . self::$config['paths']['core_folder'].DS);
+
+        /**
+        * Root path of the libraries directory (with trailing slash)
+        */
         define('ROOT_LIBRARIES'     , ROOT . self::$config['paths']['libraries_folder'].DS);
+
+        /**
+        * Root path of the upload directory (with trailing slash)
+        */
         define('ROOT_UPLOAD'        , ROOT . self::$config['paths']['upload_folder'].DS);
+
+        /**
+        * Root path of the logs directory (with trailing slash)
+        */
         define('ROOT_LOGS'          , ROOT . self::$config['paths']['logfiles_folder'].DS);
+
+        /**
+        * Root path of the cache directory (with trailing slash)
+        */
         define('ROOT_CACHE'         , ROOT . 'cache'.DS);
+
+        /**
+        * Root path of the config directory (with trailing slash)
+        */
         define('ROOT_CONFIG'        , ROOT . 'configuration'.DS);
 
         /**
