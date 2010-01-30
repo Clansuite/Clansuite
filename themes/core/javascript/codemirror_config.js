@@ -22,7 +22,7 @@ $(document).ready(function() {
       //content: textarea.value,
 
       // The path parameter specifies the location where the script will find the parser and tokenizers files.
-      path: "/libraries/codemirror/js/",
+      path: "libraries/codemirror/js/",
 
       // The parserfile parameter specifies which parsers and tokenizer to load.
       // The following will enable a mixed-mode syntax highlighting by combining several parsers:
@@ -36,9 +36,9 @@ $(document).ready(function() {
       //parserfile: ["parsexml.js", "parsecss.js", "tokenizejavascript.js", "parsejavascript.js", "parsehtmlmixed.js"],
 
       // The stylesheet parameter defines the CSS to pull in for each corresponding parser.
-      stylesheet: ["/libraries/codemirror/css/xmlcolors.css",
-                   "/libraries/codemirror/css/jscolors.css",
-                   "/libraries/codemirror/css/csscolors.css"],
+      stylesheet: ["libraries/codemirror/css/xmlcolors.css",
+                   "libraries/codemirror/css/jscolors.css",
+                   "libraries/codemirror/css/csscolors.css"],
 
       autoMatchParens: true,
       width: '100%',
