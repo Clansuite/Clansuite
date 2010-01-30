@@ -259,7 +259,6 @@ class Clansuite_Errorhandler
      */
     private function smarty_error_display( $errornumber, $errorname, $errorstring, $errorfile, $errorline, $errorcontext )
     {
-
         # small errorreport
         $errormessage  =  "<h3><font color=red>&raquo; Smarty Template Error &laquo;</font></h3>";
         $errormessage .=  "<u>$errorname:</u><br/>";
@@ -287,7 +286,7 @@ class Clansuite_Errorhandler
         # if we are in DEVELOPMENT MODE and if the error relates to a template file
         if(defined('DEVELOPMENT') and DEVELOPMENT === 1 and (strpos(strtolower($errorfile),'.tpl') == true))
         {
-            clansuite_xdebug::printR($errorcontext);
+            #clansuite_xdebug::printR($errorcontext);
 
             $tpl_vars = $errorcontext['this']->get_template_vars();
 

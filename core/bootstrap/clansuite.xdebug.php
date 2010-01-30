@@ -156,19 +156,24 @@ class Clansuite_Xdebug
      */
     public static function printR($var)
     {
-        while (ob_get_level()) { ob_end_clean(); }
-        if (func_num_args() > 1) $var = func_get_args();
-
+        while (ob_get_level())
+        {
+            ob_end_clean();
+        }        
+        if (func_num_args() > 1)
+        {
+            $var = func_get_args();
+        }        
         echo '<pre>';
         $trace = array_shift((debug_backtrace()));
         echo "<b>Debugging <font color=red>".basename($trace['file'])."</font> on line <font color=red>{$trace['line']}</font></b>:\r\n";
         $file = file($trace['file']);
         echo "<div style='background: #f5f5f5; padding: 0.2em 0em;'>".htmlspecialchars($file[$trace['line']-1])."</div>\r\n";
         echo '<b>Type</b>: '.gettype($var)."\r\n";
-        if (is_string($var)) echo '<b>Length</b>: '.strlen($var)."\r\n";
-        if (is_array($var)) echo '<b>Length</b>: '.count($var)."\r\n";
+        if (is_string($var)) { echo '<b>Length</b>: '.strlen($var)."\r\n"; }
+        if (is_array($var)) { echo '<b>Length</b>: '.count($var)."\r\n"; }
         echo '<b>Value</b>: ';
-        if($var === true)    { echo '<font color=green><b>true</b></font>'; }
+        if($var === true)        { echo '<font color=green><b>true</b></font>'; }
         elseif($var === false)   { echo '<font color=red><b>false</b></font>'; }
         elseif($var === null)    { echo '<font color=red><b>null</b></font>'; }
         elseif($var === 0)       { echo "0"; }
