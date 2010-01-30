@@ -538,6 +538,14 @@ class Clansuite_CMS
     {
         require ROOT_CORE . 'bootstrap/clansuite.version.php';
     }
+    
+    /**
+     * @return Returns the Dependency Injector
+     */
+    private static function getInjector()
+    {
+        return self::$injector;
+    }
 
     /**
      * ==================================================
