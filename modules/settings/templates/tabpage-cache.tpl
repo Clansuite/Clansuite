@@ -25,8 +25,16 @@
             {t}Cache On{/t}
         </td>
         <td class="cell1" style="padding: 3px">
-            <input type="radio" value="1" name="config[cache][caching]" {if $config.cache.caching == 1}checked="checked"{/if} /> {t}yes{/t}
-            <input type="radio" value="0" name="config[cache][caching]" {if $config.cache.caching == 0}checked="checked"{/if} /> {t}no{/t}
+                   
+            <label for="caching_1">
+                <input id="caching_1" type="radio" value="1" name="config[cache][caching]" {if isset($config.cache.caching) and $config.cache.caching == 1}checked="checked"{/if} />
+                {t}yes{/t}
+            </label>
+            
+            <label for="caching_0">
+                <input id="caching_0" type="radio" value="0" name="config[cache][caching]" {if empty($config.cache.caching) or $config.cache.caching == 0}checked="checked"{/if} />
+                {t}no{/t}
+            </label>         
         </td>
     </tr>
     <tr>
@@ -34,8 +42,8 @@
             {t}Cache Lifetime{/t}
         </td>
         <td class="cell1" style="padding: 3px">
-            <input class="input_text" type="text" value="{$config.cache.cache_lifetime}" name="config[cache][cache_lifetime]" />&nbsp; seconds
-            <br /> <small>{t}set to -1 if developers mode on{/t}</small>
+            <input class="input_text" type="text" value="{if isset($config.cache.cache_lifetime) and $config.cache.cache_lifetime == 1}{$config.cache.cache_lifetime}{else}0{/if}" name="config[cache][cache_lifetime]" />&nbsp; seconds
+            <br /> <small>{t}Note: This is automatically set to "-1" (deactiviated) if the "Developers Mode" is active.{/t}</small>
         </td>
     </tr>
 </table>
