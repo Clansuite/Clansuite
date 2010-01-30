@@ -29,7 +29,7 @@
 {if $smarty.const.DEBUG AND $smarty.const.DEVELOPMENT}
 <div class="create">
         {t}You can create this template directly in the{/t}
-        <a href="{$www_root}/index.php?mod=templatemanager&amp;sub=admin&amp;action=editor&amp;file={$modulename}/templates/{$templatename}&amp;tplmod={$modulename}">Templateeditor</a>
+        <a href="{$www_root}/index.php?mod=templatemanager&amp;sub=admin&amp;action=edit&amp;file={$modulename}/templates/{$templatename}&amp;tplmod={$modulename}">Templateeditor</a>
         {t} now.{/t}
 </div>
 {/if}
