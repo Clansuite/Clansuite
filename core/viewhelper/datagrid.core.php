@@ -407,6 +407,13 @@ class Clansuite_Datagrid extends Clansuite_Datagrid_Base
     */
     public function setCols($_Cols)                 { $this->_Cols = $_Cols; }
 
+    /**
+    * Sets the row objects of the grid
+    *
+    * @param array Clansuite_Datagrid_Row
+    */
+    public function setRows($_Rows)                 { $this->_Rows = $_Rows; }
+
     // Getter
     public function getLabel()          { return $this->_Label; }
     public function getCaption()        { return $this->_Caption; }
@@ -414,11 +421,18 @@ class Clansuite_Datagrid extends Clansuite_Datagrid_Base
     public function getBaseURL()        { return $this->_BaseURL; }
 
     /**
-    * Returns the column objects
+    * Returns the column objects (ref)
     *
     * @return array Clansuite_Datagrid_Col
     */
     public function getCols()           { return $this->_Cols; }
+
+    /**
+    * Returns the row objects
+    *
+    * @return array Clansuite_Datagrid_Row
+    */
+    public function getRows()           { return $this->_Rows; }
 
     /**
     * Get the pendant to DESC/ASC
@@ -559,7 +573,7 @@ class Clansuite_Datagrid extends Clansuite_Datagrid_Base
                 $this->_Cols[$colKey] = $oCol;
             }
         }
-        #Clansuite_Xdebug::printR($this->getColumnSets());
+        #Clansuite_Xdebug::printR($this->_ColumnSets());
         #Clansuite_Xdebug::printR($this->_Cols);
     }
 
@@ -570,17 +584,33 @@ class Clansuite_Datagrid extends Clansuite_Datagrid_Base
     {
         foreach( $_Result as $dbKey => $dbSet )
         {
+            $oRow = new Clansuite_Datagrid_Row();
+            $oRow->setAlias('Row_' . $dbKey);
+            $oRow->setId('RowId_' . $dbKey);
+            $oRow->setName('RowName_' . $dbKey);
+            $oRow->setPosition($dbKey);
+
             foreach( $this->_ColumnSets as $colKey => $colSet )
             {
                 if( isset($dbSet[$colSet['DBCol']]) )
                 {
-                    #$this->rows[$dbKey][$colSet['Alias']] = $dbSet[$colSet['DBCol']];
+                    $oCell = new Clansuite_Datagrid_Cell();
+                    $oCell->setValue($dbSet[$colSet['DBCol']]);
+
+                    $oRow->addCell($oCell);
+                    $oCol = $this->_Cols[$colKey];
+                    $oCol->addCell($oCell);
+
+                    $this->_Rows[$dbKey] = $oRow;
                 }
             }
         }
         #Clansuite_Xdebug::printR($this->_Rows);
     }
 
+    /**
+    * Generates cells for rows and cols
+    */
 
 
     /**
@@ -638,17 +668,26 @@ class Clansuite_Datagrid extends Clansuite_Datagrid_Base
     */
     private function _generatePagerLayout()
     {
-        $_Page = 1;
-        $_ResultsPerPage = 25;
+        if( isset($_SESSION['Datagrid_' . $this->getAlias()]['Page']) )
+            $_Page = $_SESSION['Datagrid_' . $this->getAlias()]['Page'];
+        else
+            $_Page = 1;
+
+        if( isset($_SESSION['Datagrid_' . $this->getAlias()]['ResultsPerPage']) )
+            $_ResultsPerPage = $_SESSION['Datagrid_' . $this->getAlias()]['ResultsPerPage'];
+        else
+            $_ResultsPerPage = 25;
 
         if( isset($_REQUEST['dg_Page']) )
         {
             $_Page = (int) $_REQUEST['dg_Page'];
+            $_SESSION['Datagrid_' . $this->getAlias()]['Page'] = $_Page;
         }
 
         if( isset($_REQUEST['dg_ResultsPerPage']) )
         {
             $_ResultsPerPage = (int) $_REQUEST['dg_ResultsPerPage'];
+            $_SESSION['Datagrid_' . $this->getAlias()]['ResultsPerPage'] = $_ResultsPerPage;
         }
 
 
@@ -681,6 +720,17 @@ class Clansuite_Datagrid extends Clansuite_Datagrid_Base
 */
 class Clansuite_Datagrid_Col extends Clansuite_Datagrid_Base
 {
+    //--------------------
+    // Class parameters
+    //--------------------
+
+    /**
+    * All cells of this col (array of references)
+    *
+    * @var array Clansuite_Datagrid_Cell
+    */
+    private $_Cells = array();
+
     /**
     * The sortmode of the column
     *
@@ -696,24 +746,18 @@ class Clansuite_Datagrid_Col extends Clansuite_Datagrid_Base
     */
     private $_Position = 0;
 
-    /**
-    * Set the sort-mode (ASC, DESC, NATASC, NETDESC, ...)
-    *
-    * @param string $_sortMode
-    */
-    public function setSortMode($_sortMode)
-    {
-        $this->_sortMode = $_sortMode;
-    }
+    //--------------------
+    // Setter
+    //--------------------
 
     /**
-    * Get the sort-mode
+    * Set all row-cells
     *
-    * @return string $_sortMode
+    * @param array Clansuite_Datagrid_Cell
     */
-    public function getSortMode()
+    public function setCells($_Cells)
     {
-        return $this->_sortMode;
+        $this->_Cells = $_Cells;
     }
 
     /**
@@ -727,13 +771,51 @@ class Clansuite_Datagrid_Col extends Clansuite_Datagrid_Base
     }
 
     /**
-    * Set the position
+    * Set the sort-mode (ASC, DESC, NATASC, NETDESC, ...)
+    *
+    * @param string
+    */
+    public function setSortMode($_sortMode)
+    {
+        $this->_sortMode = $_sortMode;
+    }
+
+    //--------------------
+    // Getter
+    //--------------------
+
+    /**
+    * Get the position
     *
     * @return int
     */
     public function getPosition()
     {
         return $this->_Position;
+    }
+
+    /**
+    * Get the sort-mode
+    *
+    * @return string
+    */
+    public function getSortMode()
+    {
+        return $this->_sortMode;
+    }
+
+    //--------------------
+    // Class methods
+    //--------------------
+
+    /**
+    * Add a cell reference to the col
+    *
+    * @param object Clansuite_Datagrid_Cell
+    */
+    public function addCell($_Cell)
+    {
+        array_push($this->_Cells, $_Cell);
     }
 }
 
@@ -745,7 +827,85 @@ class Clansuite_Datagrid_Col extends Clansuite_Datagrid_Base
 */
 class Clansuite_Datagrid_Row extends Clansuite_Datagrid_Base
 {
+    //--------------------
+    // Class parameters
+    //--------------------
 
+    /**
+    * All cells of this row
+    *
+    * @var array Clansuite_Datagrid_Cell
+    */
+    private $_Cells = array();
+
+    /**
+    * The position of a column
+    *
+    * @var int
+    */
+    private $_Position = 0;
+
+    //--------------------
+    // Setter
+    //--------------------
+
+    /**
+    * Set all row-cells
+    *
+    * @param array Clansuite_Datagrid_Cell
+    */
+    public function setCells($_Cells)
+    {
+        $this->_Cells = $_Cells;
+    }
+
+    /**
+    * Set the position
+    *
+    * @param int
+    */
+    public function setPosition($_Position)
+    {
+        $this->_Position = $_Position;
+    }
+
+    //--------------------
+    // Getter
+    //--------------------
+
+    /**
+    * Get the cells for this row
+    *
+    * @return array Clansuite_Datagrid_Cell
+    */
+    public function getCells()
+    {
+        return $this->_Cells;
+    }
+
+    /**
+    * Set the position
+    *
+    * @return int
+    */
+    public function getPosition()
+    {
+        return $this->_Position;
+    }
+
+    //--------------------
+    // Class methods
+    //--------------------
+
+    /**
+    * Add a cell to the row
+    *
+    * @param object Clansuite_Datagrid_Cell
+    */
+    public function addCell(&$_Cell)
+    {
+        array_push($this->_Cells, $_Cell);
+    }
 }
 
 /**
@@ -960,7 +1120,7 @@ class Clansuite_Datagrid_Renderer
     */
     private function _renderTable($_innerTableData)
     {
-        return '<table class="DatagridTable '. $this->getDatagrid()->getClass() .'" id="'. $this->getDatagrid()->getId() .'" name="'. $this->getDatagrid()->getName() .'">' . CR . $_innerTableData  . CR . '</table>';
+        return '<table border="1" class="DatagridTable '. $this->getDatagrid()->getClass() .'" id="'. $this->getDatagrid()->getId() .'" name="'. $this->getDatagrid()->getName() .'">' . CR . $_innerTableData  . CR . '</table>';
     }
 
 
@@ -1016,10 +1176,20 @@ class Clansuite_Datagrid_Renderer
     /**
     * Represents a sortstring for a-Tags
     *
-    * @return string $sSort A string such as ?mod=news&amp;action=admin&amp;dg_Sort=0;ASC&amp;
+    * @return string Returns a string such as index.php?mod=news&amp;action=admin&amp;dg_Sort=0;ASC&amp;
     */
     private function _getSortString($_colKey, $_sortMode)
     {
+        $StartSeparator = '?';
+        if( preg_match('#\?#', $this->getDatagrid()->getBaseURL()) )
+        {
+            $StartSeparator = '&amp;';
+        }
+        #Clansuite_Xdebug::printR(Clansuite_CMS::getInjector());
+        return $this->getDatagrid()->getBaseURL() . $StartSeparator . 'dg_Sort=' . $_colKey . ':' . $_sortMode;
+
+
+        /*
         $sSort = '?';
 
         if( isset($_GET['dg_Sort']) )
@@ -1048,12 +1218,13 @@ class Clansuite_Datagrid_Renderer
             }
             return $sSort . 'dg_Sort=' . $_colKey . ':' . $_sortMode;
         }
+        */
     }
 
     /**
     * Render the header
     *
-    * @return String HTMLCode Returns the html-code for the header
+    * @return string Returns the html-code for the header
     */
     private function _renderTableHeader()
     {
@@ -1122,17 +1293,23 @@ class Clansuite_Datagrid_Renderer
     private function _renderTableRows()
     {
         $htmlString = '';
-        $htmlString .= '<tr>';
-
-        /*foreach( $this->getDatagrid()->cols as $colName => $colSet )
+        
+        $_Rows = $this->getDatagrid()->getRows();
+        foreach( $_Rows as $rowKey => $oRow )
         {
-            $a = 'b';
-        } */
+            $htmlString .= '<tr>';
 
-        #Clansuite_Xdebug::printR( Clansuite_HttpRequest::getQueryString() );
+            $_Cells = $oRow->getCells();
+            foreach( $_Cells as $oCell )
+            {
+                $htmlString .= '<td>' . $oCell->getValue() . '</td>';
+            }
 
-        $htmlString .= '</tr>';
+            $htmlString .= '</tr>';
+        }
+
         return $htmlString;
+        #Clansuite_Xdebug::printR( Clansuite_HttpRequest::getQueryString() );
     }
 
     /**
@@ -1142,7 +1319,8 @@ class Clansuite_Datagrid_Renderer
     */
     private function _renderTableRow()
     {
-
+        $htmlString = '';
+        $htmlString .= '<tr>';
     }
 
     /**
