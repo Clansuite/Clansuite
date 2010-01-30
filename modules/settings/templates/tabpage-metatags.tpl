@@ -16,7 +16,7 @@
             {t}Description{/t}
         </td>
         <td class="cell1" style="padding: 3px">
-            <input class="input_text" type="text" value="{$config.meta.description}" name="config[meta][description]" />
+            <input class="input_text" type="text" value="{if isset($config.meta.description)} {$config.meta.description} {else}description{/if}" name="config[meta][description]" />
         </td>
     </tr>
     <tr>
@@ -24,7 +24,7 @@
             {t}Language{/t}
         </td>
         <td class="cell1" style="padding: 3px">
-            <input class="input_text" type="text" value="{$config.meta.language}" name="config[meta][language]" />
+            <input class="input_text" type="text" value="{if isset($config.meta.language)} {$config.meta.language} {else}language of this website{/if}" name="config[meta][language]" />
         </td>
     </tr>
     <tr>
@@ -32,7 +32,7 @@
             {t}Author{/t}
         </td>
         <td class="cell1" style="padding: 3px">
-            <input class="input_text" type="text" value="{$config.meta.author}" name="config[meta][author]" />
+            <input class="input_text" type="text" value="{if isset($config.meta.author)} {$config.meta.author} {else}name of author{/if}" name="config[meta][author]" />
         </td>
     </tr>
     <tr>
@@ -40,7 +40,7 @@
             {t}Mailer{/t}
         </td>
         <td class="cell1" style="padding: 3px">
-            <input class="input_text" type="text" value="{$config.meta.email}" name="config[meta][email]" />
+            <input class="input_text" type="text" value="{if isset($config.meta.email)} {$config.meta.email} {else}webmaster@domain.com{/if}" name="config[meta][email]" />
         </td>
     </tr>
     <tr>
@@ -49,7 +49,7 @@
         </td>
         <td class="cell1" style="padding: 3px">
             <small>{t}Provide some comma separated keywords which describe your website. This will help search engines:{/t}</small><br />
-            <input class="input_text" type="text" value="{$config.meta.keywords}" name="config[meta][keywords]" />
+            <input class="input_text" type="text" value="{if isset($config.meta.keywords)} {$config.meta.keywords} {else}Keyword, Keyword{/if}" name="config[meta][keywords]" />
         </td>
     </tr>
 
@@ -82,8 +82,16 @@
         </td>
         <td class="cell1" style="padding: 3px">
             <small>{t}When your Webserver has Mod Rewrite enabled, then you can turn this setting on to make your URLs more user friendly:{/t}</small><br />
-            <input type="radio" value="1" name="config[webserver][mod_rewrite]" {if $config.webserver.mod_rewrite == 1}checked="checked"{/if} /> {t}yes{/t}
-            <input type="radio" value="0" name="config[webserver][mod_rewrite]" {if $config.webserver.mod_rewrite == 0}checked="checked"{/if} /> {t}no{/t}
+            
+            <label for="mod_rewrite_1">
+                <input type="radio" value="1" name="config[webserver][mod_rewrite]" {if isset($config.webserver.mod_rewrite) and $config.webserver.mod_rewrite == 1}checked="checked"{/if} />
+                {t}yes{/t}
+            </label>
+            
+            <label for="mod_rewrite_0">
+                <input type="radio" value="0" name="config[webserver][mod_rewrite]" {if empty($config.webserver.mod_rewrite) or  $config.webserver.mod_rewrite == 0}checked="checked"{/if} />
+                {t}no{/t}
+            </label>
         </td>
     </tr>
 </table>
