@@ -31,7 +31,7 @@
     * @link       http://gna.org/projects/clansuite
     * @since      File available since Release 2.0alpha
     *
-    * @version    SVN: $Id: formgenerator.core.php 3926 2010-01-19 21:13:23Z vain $
+    * @version    SVN: $Id$
     */
 
 // Security Handler
