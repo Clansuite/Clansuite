@@ -43,7 +43,8 @@ if (!class_exists('Clansuite_Datagrid_Base', false)) { require 'datagrid.core.ph
 * Clansuite Datagrid Col
 *
 * Defines one single column for the datagrid
-*
+* 
+* @author Florian Wolf <xsign.dll@clansuite.com>
 */
 class Clansuite_Datagrid_Col extends Clansuite_Datagrid_Base
 {
