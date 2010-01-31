@@ -140,7 +140,7 @@ class Module_News_Admin extends Clansuite_ModuleController implements Clansuite_
                     ),
            2 => array(
                     'Alias'     => 'EMail',
-                    'ResultKey' => 'CsUsers.email',
+                    'ResultKey' => array('CsUsers.email','CsUsers.nick'),
                     'SortCol'   => 'u.email',
                     'Name'      => _('EMail'),
                     'Sort'      => 'DESC',
@@ -148,8 +148,13 @@ class Module_News_Admin extends Clansuite_ModuleController implements Clansuite_
                     ),
         );
 
-        $oDatagrid = new Clansuite_Datagrid(Doctrine::getTable('CsNews'), 'fetchAllNews', $columnSets);
-        $oDatagrid->setBaseURL('index.php?mod=news&amp;sub=admin&amp;action=show');
+        $oDatagrid = new Clansuite_Datagrid( array(
+                'Datatable'     => Doctrine::getTable('CsNews'),
+                'NamedQuery'    => 'fetchAllNews',
+                'ColumnSets'    => $columnSets,
+                'BaseURL'       => 'index.php?mod=news&sub=admin&action=show'
+        ) );
+
         $htmlString = $oDatagrid->render();
 
 

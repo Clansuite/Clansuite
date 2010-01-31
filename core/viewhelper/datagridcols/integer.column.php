@@ -54,7 +54,7 @@ class Clansuite_Datagrid_Col_Renderer_Integer extends Clansuite_Datagrid_Col_Ren
     /**
     * Render the value(s) of a cell
     *
-    * @param object Clansuite_Datagrid_Cell
+    * @param Clansuite_Datagrid_Cell
     * @return string Return html-code
     */
     public function renderCell($oCell)

@@ -159,11 +159,11 @@ class Clansuite_Xdebug
         while (ob_get_level())
         {
             ob_end_clean();
-        }        
+        }
         if (func_num_args() > 1)
         {
             $var = func_get_args();
-        }        
+        }
         echo '<pre>';
         $trace = array_shift((debug_backtrace()));
         echo "<b>Debugging <font color=red>".basename($trace['file'])."</font> on line <font color=red>{$trace['line']}</font></b>:\r\n";
@@ -187,16 +187,16 @@ class Clansuite_Xdebug
             }
             echo $print_r;
         }
-        echo '</pre>';        
+        echo '</pre>';
         # save session before exit
         session_write_close();
         exit;
     }
-    
+
     /**
      * Debug logs the output of $var to the firebug console
      *
-     * @param $var
+     * @param mixed $var
      * @param $firebugmethod log,info,warn, error
      * @return Content of $var will be returned via Header and is displayed in the FireBugConsole.
      */
@@ -206,14 +206,14 @@ class Clansuite_Xdebug
         if(class_exists('FirePHP') == false)
         {
             require ROOT_LIBRARIES.'firephp/FirePHP.class.php';
-        }    
+        }
         $firephp = FirePHP::getInstance(true);
-        
+
         # get callstack and log the origin of the call to clansuite_xdebug::firebug()
         $backtrace_array = debug_backtrace();
         $firephp->info('You are debugging like fire in file "'.$backtrace_array[0]['file'].'" line "'.$backtrace_array[0]['line'].'".');
         unset($backtrace_array);
-        
+
         # debug the var
         $firephp->{$firebugmethod}($var);
     }

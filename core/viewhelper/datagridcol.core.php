@@ -43,7 +43,7 @@ if (!class_exists('Clansuite_Datagrid_Base', false)) { require 'datagrid.core.ph
 * Clansuite Datagrid Col
 *
 * Defines one single column for the datagrid
-* 
+*
 * @author Florian Wolf <xsign.dll@clansuite.com>
 */
 class Clansuite_Datagrid_Col extends Clansuite_Datagrid_Base
@@ -151,7 +151,7 @@ class Clansuite_Datagrid_Col extends Clansuite_Datagrid_Base
     /**
     * Get the renderer for the column
     *
-    * @return object Clansuite_Datagrid_Col_Renderer
+    * @return Clansuite_Datagrid_Col_Renderer
     */
     public function getRenderer()
     {
@@ -175,7 +175,7 @@ class Clansuite_Datagrid_Col extends Clansuite_Datagrid_Base
     /**
     * Add a cell reference to the col
     *
-    * @param object Clansuite_Datagrid_Cell
+    * @param Clansuite_Datagrid_Cell
     */
     public function addCell($_Cell)
     {
@@ -219,7 +219,7 @@ class Clansuite_Datagrid_Col extends Clansuite_Datagrid_Base
     * Default renderer: String
     *
     * @return string Returns html-code
-    * @param object Clansuite_Datagrid_Cell
+    * @param Clansuite_Datagrid_Cell
     */
     public function renderCell($oCell)
     {
@@ -254,7 +254,7 @@ class Clansuite_Datagrid_Col_Renderer_Base
     /**
     * Set the col object
     *
-    * @param object Clansuite_Datagrid_Col
+    * @param Clansuite_Datagrid_Col
     */
     public function setCol($_Col)
     {
@@ -264,7 +264,7 @@ class Clansuite_Datagrid_Col_Renderer_Base
     /**
     * Get the column object
     *
-    * @return object Clansuite_Datagrid_Col
+    * @return Clansuite_Datagrid_Col
     */
     public function getCol()
     {
@@ -274,8 +274,8 @@ class Clansuite_Datagrid_Col_Renderer_Base
     /**
     * Instantiate the Column Base
     *
-    * @param object Clansuite_Datagrid_Col
-    * @return object Clansuite_Datagrid_Col_Renderer_Base
+    * @param Clansuite_Datagrid_Col
+    * @return Clansuite_Datagrid_Col_Renderer_Base
     */
     public function __construct($_Col)
     {
