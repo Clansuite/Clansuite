@@ -214,15 +214,17 @@ class Clansuite_Datagrid_Col extends Clansuite_Datagrid_Base
     }
 
     /**
-    * Renders the column depanding on the renderer that is assigned to the column
-    * Default Renderer: String
+    * Renders the column cell depanding on the renderer that is assigned to the column object
+    * Default renderer: String
     *
     * @return string Returns html-code
+    * @param object Clansuite_Datagrid_Cell
     */
-    public function render()
+    public function renderCell($oCell)
     {
-        return $this->getRenderer()->render();
+        return $this->getRenderer()->render($oCell->getValue());
     }
+
 }
 
 /**
@@ -231,9 +233,9 @@ class Clansuite_Datagrid_Col extends Clansuite_Datagrid_Base
 interface Clansuite_Datagrid_Col_Renderer_Interface
 {
     /**
-    * Render the given column
+    * Render the given cell of the column
     */
-    public function render();
+    public function render($_Value);
 }
 
 /**

@@ -48,13 +48,14 @@ if (!class_exists('Clansuite_Datagrid_Col', false)) { require ROOT_CORE.'viewhel
 class Clansuite_Datagrid_Col_Renderer_String extends Clansuite_Datagrid_Col_Renderer_Base implements Clansuite_Datagrid_Col_Renderer_Interface
 {
     /**
-    * Render the string
+    * Render the string of a cell
     *
+    * @param string Input string to work with
     * @return string Return html-code
     */
-    public function render()
+    public function render($_Value)
     {
-        return $this->getCol()->getValue();
+        return $_Value;
     }
 }
 
