@@ -10,14 +10,16 @@
 #
 # Windows  XP EN: C:\Documents and Settings\<AccountName>\Application Data\Subversion\config
 #          XP DE: C:\Dokumente und Einstellungen\<benutzerkonto>\Anwendungsdaten\Subversion\config
-#          Vista: C:\Users\<AccountName>\AppData\Roaming\Subversion
+#          Vista/7: C:\Users\<AccountName>\AppData\Roaming\Subversion\config
 # Linux:          ~/.subversion/config
 
 
 # Section for automatic setup of tunneling agents (like svn+shh://hostname/path URLs).
 
-#[tunnel]
-#ssh="C://Program Files (x86)//PuTTY//plink.exe LINK zum Plink eben" -i "KeyFilePath" -pw HierDasPW
+#[tunnels]
+#ssh="PathToPlink//plink.exe" -i "KeyFilePath" -pw "Password"
+#example:
+ssh="C://Program Files (x86)//PuTTY//plink.exe" -i "C://MyPrivateKey.ppk" -pw "MyPrivatePassword12345"
 
 # Section for configuring miscelleneous Subversion options.
 
