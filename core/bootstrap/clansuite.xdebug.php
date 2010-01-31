@@ -202,15 +202,19 @@ class Clansuite_Xdebug
      */
     public static function firebug($var, $firebugmethod = 'log' )
     {
+        # get firephp instance, if class not existant
         if(class_exists('FirePHP') == false)
         {
             require ROOT_LIBRARIES.'firephp/FirePHP.class.php';
         }    
         $firephp = FirePHP::getInstance(true);
         
+        # get callstack and log the origin of the call to clansuite_xdebug::firebug()
         $backtrace_array = debug_backtrace();
         $firephp->info('You are debugging like fire in file "'.$backtrace_array[0]['file'].'" line "'.$backtrace_array[0]['line'].'".');
+        unset($backtrace_array);
         
+        # debug the var
         $firephp->{$firebugmethod}($var);
     }
 
