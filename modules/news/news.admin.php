@@ -105,14 +105,58 @@ class Module_News_Admin extends Clansuite_ModuleController implements Clansuite_
             $newsQuery = Doctrine::getTable('CsNews')->fetchNewsByCategory($category, $currentPage, $resultsPerPage, true, $sortorder);
         }
 
+
         # import array variables into the current symbol table ($newsQuery is an array('news','pager','pager_layout')
         extract($newsQuery);
-        unset($newsQuery);
+        #unset($newsQuery);
 
         $newscategories = Doctrine::getTable('CsNews')->fetchUsedNewsCategories();
 
         # Get Render Engine
         $smarty = $this->getView();
+
+        #########################
+        /*
+        require ROOT_LIBRARIES.'firephp/FirePHP.class.php';
+        $firephp = FirePHP::getInstance(true);
+        $firephp->log('Hello World');
+        */
+
+        require ROOT_CORE . DS . "viewhelper" . DS . "Datagrid.core.php";
+        $columnSets = array(
+           0 => array(
+                    'Alias'     => 'Title',
+                    'ResultKey' => 'news_title',
+                    'Name'      => _('Title'),
+                    'Sort'      => 'DESC',
+                    'Type'      => 'String'
+                    ),
+           1 => array(
+                    'Alias'     => 'Status',
+                    'ResultKey' => 'news_status',
+                    'Name'      => _('Status'),
+                    'Sort'      => 'DESC',
+                    'Type'      => 'Integer'
+                    ),
+           2 => array(
+                    'Alias'     => 'EMail',
+                    'ResultKey' => 'CsUsers.email',
+                    'SortCol'   => 'u.email',
+                    'Name'      => _('EMail'),
+                    'Sort'      => 'DESC',
+                    'Type'      => 'EMail'
+                    ),
+        );
+
+        $oDatagrid = new Clansuite_Datagrid(Doctrine::getTable('CsNews'), 'fetchAllNews', $columnSets);
+        $oDatagrid->setBaseURL('index.php?mod=news&amp;sub=admin&amp;action=show');
+        $htmlString = $oDatagrid->render();
+
+
+
+
+
+        $smarty->assign('datagrid', $htmlString);
 
         $smarty->assign('news', $news);
         $smarty->assign('newscategories', $newscategories);
@@ -124,6 +168,7 @@ class Module_News_Admin extends Clansuite_ModuleController implements Clansuite_
         $smarty->assign('pager', $pager);
         $smarty->assign('pager_layout', $pager_layout);
 
+
         # Set Layout Template
         $this->getView()->setLayoutTemplate('index.tpl');
 
@@ -132,6 +177,7 @@ class Module_News_Admin extends Clansuite_ModuleController implements Clansuite_
 
         # Prepare the Output
         $this->prepareOutput();
+
     }
 
     /**

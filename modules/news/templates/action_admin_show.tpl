@@ -19,6 +19,10 @@
 <!-- end jq confirm dialog -->
 
 {modulenavigation}
+
+{$datagrid}
+
+
 <div class="ModuleHeading">{t}News - Administration{/t}</div>
 <div class="ModuleHeadingSmall">{t}You can write Articles, categorize, edit and delete them.{/t}</div>
 

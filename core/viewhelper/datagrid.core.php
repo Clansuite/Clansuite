@@ -660,7 +660,7 @@ class Clansuite_Datagrid extends Clansuite_Datagrid_Base
         {
             if( !is_array($_TmpArrayHandler) OR !isset($_TmpArrayHandler[$_LevelKey]) )
             {
-                Clansuite_Xdebug::firebug('FALSE: ' . $_TmpArrayHandler);
+                #Clansuite_Xdebug::firebug('FALSE: ' . $_TmpArrayHandler);
                 return false;
             }
             $_TmpArrayHandler = $_TmpArrayHandler[$_LevelKey];
