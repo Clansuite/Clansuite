@@ -29,7 +29,7 @@
     *
     * @link       http://www.clansuite.com
     * @link       http://gna.org/projects/clansuite
-    * @since      File available since Release 0.1
+    * @since      File available since Release 2.0alpha
     *
     * @version    SVN: $Id: formgenerator.core.php 3926 2010-01-19 21:13:23Z vain $
     */
@@ -222,7 +222,7 @@ class Clansuite_Datagrid_Col extends Clansuite_Datagrid_Base
     */
     public function renderCell($oCell)
     {
-        return $this->getRenderer()->render($oCell->getValue());
+        return $this->getRenderer()->renderCell($oCell);
     }
 
 }
@@ -235,7 +235,7 @@ interface Clansuite_Datagrid_Col_Renderer_Interface
     /**
     * Render the given cell of the column
     */
-    public function render($_Value);
+    public function renderCell($_Value);
 }
 
 /**
