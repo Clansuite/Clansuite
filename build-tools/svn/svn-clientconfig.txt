@@ -16,7 +16,7 @@
 
 # Section for automatic setup of tunneling agents (like svn+shh://hostname/path URLs).
 
-#[tunnels]
+[tunnels]
 #ssh="PathToPlink//plink.exe" -i "KeyFilePath" -pw "Password"
 #example:
 ssh="C://Program Files (x86)//PuTTY//plink.exe" -i "C://MyPrivateKey.ppk" -pw "MyPrivatePassword12345"
