@@ -494,13 +494,13 @@ class Clansuite_Datagrid extends Clansuite_Datagrid_Base
     *    $this->_setDatagridCols = array(
     *           0 => array(
     *                    'Alias'   => 'Title',
-    *                    'DBCol'   => 'n.news_title',
+    *                    'ResultKey'   => 'n.news_title',
     *                    'Name'    => _('Title'),
     *                    'Sort'    => 'DESC'
     *                    ),
     *           1 => array(
     *                    'Alias'   => 'Status',
-    *                    'DBCol'   => 'n.news_status',
+    *                    'ResultKey'   => 'n.news_status',
     *                    'Name'    => _('Status'),
     *                    'Sort'    => 'ASC'
     *                    ),
@@ -513,7 +513,7 @@ class Clansuite_Datagrid extends Clansuite_Datagrid_Base
             if( !isset($colSet['Alias']) || $colSet['Alias'] == '' )
             { throw new Clansuite_Exception(sprintf(_('The datagrid columnset has an error at key %s (arraykey "Alias" is missing)'), $key)); }
 
-            if( !isset($colSet['DBCol']) || $colSet['DBCol'] == '' )
+            if( !isset($colSet['ResultKey']) || $colSet['ResultKey'] == '' )
             { throw new Clansuite_Exception(sprintf(_('The datagrid columnset has an error at key %s (arraykey "DBCol" is missing)'), $key)); }
 
             if( !isset($colSet['Name']) || $colSet['Name'] == '')
@@ -540,12 +540,12 @@ class Clansuite_Datagrid extends Clansuite_Datagrid_Base
     *    $oDatagrid->setDatagridCols = array(
     *           0 => array(
     *                    'Alias'   => 'Title',
-    *                    'DBCol'   => 'n.news_title',
+    *                    'ResultKey'   => 'n.news_title',
     *                    'Name'    => _('Title'),
     *                    ),
     *           1 => array(
     *                    'Alias'   => 'Status',
-    *                    'DBCol'   => 'n.news_status',
+    *                    'ResultKey'   => 'n.news_status',
     *                    'Name'    => _('Status'),
     *                    ),
     *    );
@@ -573,7 +573,7 @@ class Clansuite_Datagrid extends Clansuite_Datagrid_Base
     {
         foreach( $this->_ColumnSets as $colKey => &$colSet )
         {
-            if( $this->_getColumnSetDBCols($colSet,$_Result[0]) !== false )
+            /*if( $this->_getColumnSetDBCols($colSet,$_Result[0]) !== false )
             {
                 $oCol = new Clansuite_Datagrid_Col();
                 $oCol->setAlias($colSet['Alias']);
@@ -583,7 +583,16 @@ class Clansuite_Datagrid extends Clansuite_Datagrid_Base
                 $oCol->setPosition($colKey);
                 $oCol->setRenderer($colSet['Type']);
                 $this->_Cols[$colKey] = $oCol;
-            }
+            }*/
+
+            $oCol = new Clansuite_Datagrid_Col();
+            $oCol->setAlias($colSet['Alias']);
+            $oCol->setId($colSet['Alias']);
+            $oCol->setName($colSet['Name']);
+            $oCol->setSortMode($colSet['Sort']);
+            $oCol->setPosition($colKey);
+            $oCol->setRenderer($colSet['Type']);
+            $this->_Cols[$colKey] = $oCol;
         }
         Clansuite_Xdebug::firebug($_Result);
         #Clansuite_Xdebug::printR($this->_ColumnSets());
@@ -605,23 +614,25 @@ class Clansuite_Datagrid extends Clansuite_Datagrid_Base
 
             foreach( $this->_ColumnSets as $colKey => $colSet )
             {
+                $oCell = new Clansuite_Datagrid_Cell();
+                $oRow->addCell($oCell);
+                $oCol = $this->_Cols[$colKey];
+                $oCol->addCell($oCell);
+
+                $this->_Rows[$dbKey] = $oRow;
+
+                $oCell->setCol($oCol);
+                $oCell->setRow($oRow);
+
                 $_Value = $this->_getColumnSetDBCols($colSet, $dbSet);
+
                 if( $_Value !== false )
                 {
-                    $oCell = new Clansuite_Datagrid_Cell();
                     $oCell->setValue($_Value);
-
-                    $oRow->addCell($oCell);
-                    $oCol = $this->_Cols[$colKey];
-                    $oCol->addCell($oCell);
-
-                    $this->_Rows[$dbKey] = $oRow;
-
-
-                    $oCell->setCol($oCol);
-                    $oCell->setRow($oRow);
-
-                    #Clansuite_Xdebug::firebug($colKey . ' ' . $_Value);
+                }
+                else
+                {
+                    $oCell->setValue('');
                 }
             }
         }
@@ -642,7 +653,7 @@ class Clansuite_Datagrid extends Clansuite_Datagrid_Base
             throw new Clansuite_Exception(_('You haven\'t supplied any columnset to validate.'));
         }
 
-        $_ArrayStructure = explode('.', $_ColumnSet['DBCol']);
+        $_ArrayStructure = explode('.', $_ColumnSet['ResultKey']);
 
         $_TmpArrayHandler = $_dbSet;
         foreach( $_ArrayStructure as $_LevelKey )
@@ -702,7 +713,14 @@ class Clansuite_Datagrid extends Clansuite_Datagrid_Base
         #Clansuite_Xdebug::printR($SortValue);
         if( isset($SortKey) && isset($this->_SortReverseDefinitions[$SortValue]))
         {
-            $this->_Query->orderBy($this->_ColumnSets[$SortKey]['DBCol'] . ' ' . $SortValue);
+            if(isset($this->_ColumnSets[$SortKey]['SortCol']))
+            {
+                $this->_Query->orderBy($this->_ColumnSets[$SortKey]['SortCol'] . ' ' . $SortValue);
+            }
+            else
+            {
+                $this->_Query->orderBy($this->_ColumnSets[$SortKey]['ResultKey'] . ' ' . $SortValue);
+            }
             $this->_ColumnSets[$SortKey]['Sort'] = $SortValue;
         }
 
@@ -938,11 +956,11 @@ class Clansuite_Datagrid_Cell extends Clansuite_Datagrid_Base
     /**
     * Render the value
     *
-    * @return mixed $_value Returns the value (maybe manipulated by this function)
+    * @return string Returns the value (maybe manipulated by column cell renderer)
     */
     public function render()
     {
-        return $this->getValue();
+        return $this->getCol()->renderCell($this);
     }
 }
 

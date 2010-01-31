@@ -48,13 +48,14 @@ if (!class_exists('Clansuite_Datagrid_Col', false)) { require ROOT_CORE.'viewhel
 class Clansuite_Datagrid_Col_Renderer_Email extends Clansuite_Datagrid_Col_Renderer_Base implements Clansuite_Datagrid_Col_Renderer_Interface
 {
     /**
-    * Render the string
+    * Render the string of the cell
     *
+    * @param string Input string to work with
     * @return string Return html-code
     */
-    public function render()
+    public function render($_Value)
     {
-        return '<a href="mailto:' . $this->getCol()->getValue() . '">' . $this->getCol()->getValue() . '</a>';
+        return '<a href="mailto:' . $_Value . '">' . $_Value . '</a>';
     }
 }
 
