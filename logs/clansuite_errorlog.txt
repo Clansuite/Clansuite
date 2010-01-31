@@ -1,0 +1,2 @@
+[30-Jan-2010 21:34:52] PHP Fatal error:  Class 'Clansuite_Xdebug' not found in K:\Downloads\Clansuite-Serverpack-w32-xampp1.7.2\webserver\htdocs\clansuite\core\viewhelper\datagrid.core.php on line 387
+[30-Jan-2010 21:34:54] PHP Fatal error:  Class 'Clansuite_Xdebug' not found in K:\Downloads\Clansuite-Serverpack-w32-xampp1.7.2\webserver\htdocs\clansuite\core\viewhelper\datagrid.core.php on line 387
