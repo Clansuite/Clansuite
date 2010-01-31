@@ -29,7 +29,7 @@
     *
     * @link       http://www.clansuite.com
     * @link       http://gna.org/projects/clansuite
-    * @since      File available since Release 0.1
+    * @since      File available since Release 2.0alpha
     *
     * @version    SVN: $Id: formgenerator.core.php 3926 2010-01-19 21:13:23Z vain $
     */
@@ -624,15 +624,15 @@ class Clansuite_Datagrid extends Clansuite_Datagrid_Base
                 $oCell->setCol($oCol);
                 $oCell->setRow($oRow);
 
-                $_Value = $this->_getColumnSetDBCols($colSet, $dbSet);
+                $_Values = $this->_getColumnSetDBCols($colSet, $dbSet);
 
-                if( $_Value !== false )
+                if( $_Values !== false )
                 {
-                    $oCell->setValue($_Value);
+                    $oCell->setValues($_Values);
                 }
                 else
                 {
-                    $oCell->setValue('');
+                    $oCell->setValues(array());
                 }
             }
         }
@@ -653,20 +653,37 @@ class Clansuite_Datagrid extends Clansuite_Datagrid_Base
             throw new Clansuite_Exception(_('You haven\'t supplied any columnset to validate.'));
         }
 
-        $_ArrayStructure = explode('.', $_ColumnSet['ResultKey']);
+        $_Values = array();
 
-        $_TmpArrayHandler = $_dbSet;
-        foreach( $_ArrayStructure as $_LevelKey )
+        # Standard for all columnset ResultKeys is an array
+        if( !is_array($_ColumnSet['ResultKey']) )
         {
-            if( !is_array($_TmpArrayHandler) OR !isset($_TmpArrayHandler[$_LevelKey]) )
-            {
-                #Clansuite_Xdebug::firebug('FALSE: ' . $_TmpArrayHandler);
-                return false;
-            }
-            $_TmpArrayHandler = $_TmpArrayHandler[$_LevelKey];
+            $aResultKeys = array($_ColumnSet['ResultKey']);
+        }
+        else
+        {
+            $aResultKeys = $_ColumnSet['ResultKey'];
         }
 
-        return $_TmpArrayHandler;
+        foreach($aResultKeys as $ResultKey)
+        {
+            $_ArrayStructure = explode('.', $ResultKey);
+
+            $_TmpArrayHandler = $_dbSet;
+            foreach( $_ArrayStructure as $_LevelKey )
+            {
+                if( !is_array($_TmpArrayHandler) OR !isset($_TmpArrayHandler[$_LevelKey]) )
+                {
+                    Clansuite_Xdebug::firebug('FALSE: ' . $_TmpArrayHandler);
+                    $_TmpArrayHandler = '';
+                    break;
+                    #return false;
+                }
+                $_TmpArrayHandler = $_TmpArrayHandler[$_LevelKey];
+            }
+            array_push($_Values, $_TmpArrayHandler);
+        }
+        return $_Values;
     }
 
 
@@ -878,11 +895,12 @@ class Clansuite_Datagrid_Cell extends Clansuite_Datagrid_Base
     //----------------------
 
     /**
-    * Value of the cell
+    * Value(s) of the cell
+    * $_Values[0] is the standard value returned by getValue()
     *
-    * @var mixed
+    * @var array Mixed values
     */
-    private $_Value;
+    private $_Values = array();
 
     /**
     * Column object (Clansuite_Datagrid_Col)
@@ -919,9 +937,16 @@ class Clansuite_Datagrid_Cell extends Clansuite_Datagrid_Base
     /**
     * Set the value of the cell
     *
-    * @param mixed $_Value
+    * @param mixed A single value ($_Value[0])
     */
-    public function setValue($_Value)    { $this->_Value = $_Value; }
+    public function setValue($_Value)    { $this->_Values[0] = $_Value; }
+
+    /**
+    * Set the values of the cell
+    *
+    * @param array Array of values
+    */
+    public function setValues($_Values)    { $this->_Values = $_Values; }
 
     //----------------------
     // Getter
@@ -945,9 +970,16 @@ class Clansuite_Datagrid_Cell extends Clansuite_Datagrid_Base
     /**
     * Returns the value of this cell
     *
-    * @return mixed $_Value
+    * @return mixed
     */
-    public function getValue()  { return $this->_Value; }
+    public function getValue()  { return $this->_Values[0]; }
+
+    /**
+    * Returns the values of this cell
+    *
+    * @return array
+    */
+    public function getValues()  { return $this->_Values; }
 
     //----------------------
     // Class methods
@@ -1329,9 +1361,9 @@ class Clansuite_Datagrid_Renderer
     }
 
     /**
-     * Show the whole grid
+     * Render the whole grid
      *
-     * @return String HTMLCode Returns the html-code for the datatable <table>...</table>
+     * @return string Returns the html-code for the datatable and its named query
      */
     public function render()
     {

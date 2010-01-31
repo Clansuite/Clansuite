@@ -29,7 +29,7 @@
     *
     * @link       http://www.clansuite.com
     * @link       http://gna.org/projects/clansuite
-    * @since      File available since Release 0.1
+    * @since      File available since Release 2.0alpha
     *
     * @version    SVN: $Id: formgenerator.core.php 3926 2010-01-19 21:13:23Z vain $
     */
@@ -40,22 +40,24 @@ if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.');}
 if (!class_exists('Clansuite_Datagrid_Col', false)) { require ROOT_CORE.'viewhelper/datagridcol.core.php'; }
 
 /**
-* Clansuite Datagrid Base
+* Clansuite Datagrid Col Renderer
+*
+* Integer
 *
 * Purpose:
-* Supply methods for all datagrid-subclasses
+* Render integer cells
 */
 class Clansuite_Datagrid_Col_Renderer_Integer extends Clansuite_Datagrid_Col_Renderer_Base implements Clansuite_Datagrid_Col_Renderer_Interface
 {
     /**
-    * Render the string of a cell
+    * Render the value(s) of a cell
     *
-    * @param string Input string to work with
+    * @param object Clansuite_Datagrid_Cell
     * @return string Return html-code
     */
-    public function render($_Value)
+    public function renderCell($oCell)
     {
-        return $_Value;
+        return $oCell->getValue();
     }
 }
 
