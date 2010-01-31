@@ -6,6 +6,32 @@
 class CsNewsTable extends Doctrine_Table
 {
     /**
+    * construct
+    * Introducing Named Queries
+    */
+    public function construct()
+    {
+        // Get all news elements
+        $this->addNamedQuery(
+            'fetchAllNews', Doctrine_Query::create()
+                                    ->select('n.*,
+                                              u.nick, u.user_id, u.email, u.country,
+                                              c.name, c.image, c.icon, c.color,
+                                              nc.*,
+                                              ncu.nick, ncu.email, ncu.country')
+                                    ->addSelect('(SELECT COUNT(cc.comment_id) FROM CsNews ns LEFTJOIN ns.CsComments cc WHERE ns.news_id = n.news_id) as nr_news_comments')
+                                    ->from('CsNews n')
+                                    ->leftJoin('n.CsUsers u')
+                                    ->leftJoin('n.CsCategories c')
+                                    ->leftJoin('n.CsComments nc')
+                                    ->leftJoin('nc.CsUsers ncu')
+                                    ->setHydrationMode(Doctrine::HYDRATE_ARRAY)
+                                    ->orderBy('n.news_id DESC, n.created_at DESC')
+                             );
+    }
+
+
+    /**
      * fetchAllNews
      *
      * Doctrine_Query to fetch News by Category
@@ -18,21 +44,21 @@ class CsNewsTable extends Doctrine_Table
     {
         if($sortorder == null)
         {
-            $sortorder = 'n.news_id DESC, n.created_at DESC'; 
-        }        
-        
+            $sortorder = 'n.news_id DESC, n.created_at DESC';
+        }
+
         # create public or administration link
         if($admin == null)
-        {   
-            # link for public area       
-            $link =  '?mod=news&amp;action=show&amp;page={%page}';    
+        {
+            # link for public area
+            $link =  '?mod=news&amp;action=show&amp;page={%page}';
         }
-        else 
+        else
         {
             # link for administration area
             $link = '?mod=news&amp;sub=admin&amp;action=show&amp;page={%page}';
         }
-        
+
         # Creating Pager Object with a Query Object inside
         $pager_layout= new Doctrine_Pager_Layout(
                                 new Doctrine_Pager(
@@ -85,21 +111,21 @@ class CsNewsTable extends Doctrine_Table
     {
         if($sortorder == null)
         {
-            $sortorder = 'n.news_id DESC, n.created_at DESC'; 
-        } 
-        
+            $sortorder = 'n.news_id DESC, n.created_at DESC';
+        }
+
         # create public or administration link
         if($admin == null)
-        {   
-            # link for public area       
-            $link = '?mod=news&amp;action=show&amp;page={%page}&amp;cat='.$category;    
+        {
+            # link for public area
+            $link = '?mod=news&amp;action=show&amp;page={%page}&amp;cat='.$category;
         }
-        else 
+        else
         {
             # link for administration area
             $link = '?mod=news&amp;sub=admin&amp;action=show&amp;page={%page}&amp;cat='.$category;
         }
-                
+
         # Creating Pager Object with a Query Object inside
         $pager_layout = new Doctrine_Pager_Layout(
                                 new Doctrine_Pager(
@@ -160,7 +186,7 @@ class CsNewsTable extends Doctrine_Table
                                   c.name, c.image, c.icon, c.color,
                                   nc.*,
                                   ncu.nick, ncu.email, ncu.country')
-                        ->addSelect('(SELECT COUNT(cc.comment_id) FROM CsNews ns LEFTJOIN ns.CsComments cc WHERE ns.news_id = n.news_id) as nr_news_comments')                                  
+                        ->addSelect('(SELECT COUNT(cc.comment_id) FROM CsNews ns LEFTJOIN ns.CsComments cc WHERE ns.news_id = n.news_id) as nr_news_comments')
                         ->from('CsNews n')
                         ->leftJoin('n.CsUsers u')
                         ->leftJoin('n.CsCategories c')
@@ -343,13 +369,13 @@ class CsNewsTable extends Doctrine_Table
 
         return $newscategories;
     }
-    
+
     /**
      * fetch all News Categories
      *
-     * Doctrine_Query to fetch all News Categories for display with an 
-     * 
-     * @todo check if there is an hydation mode for a relationship of two var (key => value) 
+     * Doctrine_Query to fetch all News Categories for display with an
+     *
+     * @todo check if there is an hydation mode for a relationship of two var (key => value)
      */
     public static function fetchAllNewsCategoriesDropDown()
     {
@@ -360,18 +386,18 @@ class CsNewsTable extends Doctrine_Table
                                     ->where('c.module_id = 7')
                                     ->groupBy('c.name')
                                     ->setHydrationMode(Doctrine::HYDRATE_ARRAY)
-                                    ->execute( array() );        
-        
+                                    ->execute( array() );
+
         /**
          * restructure numbered array to 'cat_id' => 'name' for the dropdown
          */
         $newscategories_dropdown = array();
-        
+
         foreach($newscategories as $array_element)
         {
             $newscategories_dropdown[$array_element['cat_id']] =  $array_element['name'];
         }
-        
+
         return $newscategories_dropdown;
     }
 

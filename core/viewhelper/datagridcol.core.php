@@ -202,7 +202,7 @@ class Clansuite_Datagrid_Col extends Clansuite_Datagrid_Base
                 }
                 else
                 {
-                    Clansuite_Xdebug::firebug('RENDERER: ' . $_ClassName);
+                    #Clansuite_Xdebug::firebug('RENDERER: ' . $_ClassName);
                     return new $_ClassName($this);
                 }
             }
