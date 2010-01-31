@@ -46,6 +46,8 @@ if (!class_exists('Clansuite_Datagrid_Col', false)) { require ROOT_CORE.'viewhel
 *
 * Purpose:
 * Render integer cells
+*
+* @author Florian Wolf <xsign.dll@clansuite.com>
 */
 class Clansuite_Datagrid_Col_Renderer_Integer extends Clansuite_Datagrid_Col_Renderer_Base implements Clansuite_Datagrid_Col_Renderer_Interface
 {

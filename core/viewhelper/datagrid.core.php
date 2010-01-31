@@ -44,6 +44,8 @@ if (!class_exists('Clansuite_Datagrid_Col', false)) { require 'datagridcol.core.
 *
 * Purpose:
 * Supply methods for all datagrid-subclasses
+*
+* @author Florian Wolf <xsign.dll@clansuite.com>
 */
 class Clansuite_Datagrid_Base
 {
@@ -152,10 +154,10 @@ class Clansuite_Datagrid extends Clansuite_Datagrid_Base
     * @var array
     */
     private $_SortReverseDefinitions = array(
-      'ASC'     => 'DESC',
-      'DESC'    => 'ASC',
-      'NATASC'  => 'NATDESC',
-      'NATDESC' => 'NATASC'
+                      'ASC'     => 'DESC',
+                      'DESC'    => 'ASC',
+                      'NATASC'  => 'NATDESC',
+                      'NATDESC' => 'NATASC'
     );
 
     /**
@@ -163,21 +165,28 @@ class Clansuite_Datagrid extends Clansuite_Datagrid_Base
     *
     * @var array
     */
-    private $_Cols          = array();
+    private $_Cols      = array();
+
+    /**
+    * Amount of columns
+    *
+    * @var integer
+    */
+    private $_ColCount  = 0;
 
     /**
     * Array of Clansuite_Datagrid_Row objects
     *
     * @var array
     */
-    private $_Rows          = array();
+    private $_Rows      = array();
 
     /**
     * Array of Clansuite_Datagrid_Cell objects
     *
     * @var array
     */
-    private $_Cells      = array();
+    private $_Cells     = array();
 
 
     /**
@@ -185,14 +194,14 @@ class Clansuite_Datagrid extends Clansuite_Datagrid_Base
     *
     * @var string
     */
-    private $_Label         = 'Label';
+    private $_Label     = 'Label';
 
     /**
     * The caption (<caption>...</caption>) for this datagrid
     *
     * @var string
     */
-    private $_Caption       = 'Caption';
+    private $_Caption   = 'Caption';
 
     /**
     * The description for this datagrid
@@ -387,14 +396,12 @@ class Clansuite_Datagrid extends Clansuite_Datagrid_Base
         # scalar values
         $this->setAlias($this->_Datatable->getClassnameToReturn());
 
-        $this->setId('Datagrid' . $this->getAlias() . 'Id');
-        $this->setName('Datagrid' . $this->getAlias() . 'Name');
-        $this->setClass('Datagrid' . $this->getAlias() . 'Class');
+        $this->setId('DatagridId-' . $this->getAlias());
+        $this->setName('DatagridName-' . $this->getAlias());
+        $this->setClass('Datagrid-' . $this->getAlias());
         $this->setLabel($this->getAlias());
         $this->setCaption($this->getAlias());
         $this->setDescription(_('This is the datagrid of ') . $this->getAlias());
-
-        #Clansuite_Xdebug::printR($this->getClass());
 
         $this->_generateCols($_Result);
         $this->_generateRows($_Result);
@@ -432,6 +439,13 @@ class Clansuite_Datagrid extends Clansuite_Datagrid_Base
     * @return array Clansuite_Datagrid_Col
     */
     public function getCols()           { return $this->_Cols; }
+
+    /**
+    * Amount of columns in the grid
+    *
+    * @return integer Amount of columns
+    */
+    public function getColCount()       { return count($this->getCols()); }
 
     /**
     * Returns the row objects
@@ -595,8 +609,6 @@ class Clansuite_Datagrid extends Clansuite_Datagrid_Base
             $this->_Cols[$colKey] = $oCol;
         }
         Clansuite_Xdebug::firebug($_Result);
-        #Clansuite_Xdebug::printR($this->_ColumnSets());
-        #Clansuite_Xdebug::printR($this->_Cols);
     }
 
     /**
@@ -655,7 +667,7 @@ class Clansuite_Datagrid extends Clansuite_Datagrid_Base
 
         $_Values = array();
 
-        # Standard for all columnset ResultKeys is an array
+        # Standard for ResultKeys is an array
         if( !is_array($_ColumnSet['ResultKey']) )
         {
             $aResultKeys = array($_ColumnSet['ResultKey']);
@@ -1104,12 +1116,12 @@ class Clansuite_Datagrid_Renderer
     /**
     * Render the datagrid table
     *
-    * @param String HTMLCode Returns the html-code for the table
-    * @return String HTMLCode Returns the html-code of the datagrid
+    * @param string The html-code for the table
+    * @return string Returns the html-code of the datagridtable
     */
     private function _renderTable($_innerTableData)
     {
-        return '<table border="1" class="DatagridTable '. $this->getDatagrid()->getClass() .'" id="'. $this->getDatagrid()->getId() .'" name="'. $this->getDatagrid()->getName() .'">' . CR . $_innerTableData  . CR . '</table>';
+        return '<table border="1" class="DatagridTable DatagridTable-'. $this->getDatagrid()->getAlias() .'" id="'. $this->getDatagrid()->getId() .'" name="'. $this->getDatagrid()->getName() .'">' . CR . $_innerTableData  . CR . '</table>';
     }
 
 
@@ -1117,12 +1129,12 @@ class Clansuite_Datagrid_Renderer
     /**
     * Render the label
     *
-    * @return String HTMLCode Returns the html-code for the label if enabled
+    * @return string Returns the html-code for the label if enabled
     */
     private function _renderLabel()
     {
         if( $this->getDatagrid()->isEnabled('Label') )
-            return '<div class="DatagridTableLabel">' . CR . $this->getDatagrid()->getLabel() . CR . '</div>';
+            return '<div class="DatagridLabel DatagridLabel-'. $this->getDatagrid()->getAlias() .'">' . CR . $this->getDatagrid()->getLabel() . CR . '</div>';
         else
             return;
     }
@@ -1131,12 +1143,12 @@ class Clansuite_Datagrid_Renderer
     /**
     * Render the description
     *
-    * @return String HTMLCode Returns the html-code for the description
+    * @return string Returns the html-code for the description
     */
     private function _renderDescription()
     {
         if( $this->getDatagrid()->isEnabled('Description') )
-            return '<div class="DatagridTableDescription">' . CR . $this->getDatagrid()->getDescription() . CR . '</div>';
+            return '<div class="DatagridDescription DatagridDescription-'. $this->getDatagrid()->getAlias() .'">' . CR . $this->getDatagrid()->getDescription() . CR . '</div>';
         else
             return;
     }
@@ -1144,7 +1156,7 @@ class Clansuite_Datagrid_Renderer
     /**
     * Render the caption
     *
-    * @return String HTMLCode Returns the html-code for the caption
+    * @return string Returns the html-code for the caption
     */
     private function _renderTableCaption()
     {
@@ -1174,40 +1186,8 @@ class Clansuite_Datagrid_Renderer
         {
             $StartSeparator = '&amp;';
         }
-        #Clansuite_Xdebug::printR(Clansuite_CMS::getInjector());
+
         return $this->getDatagrid()->getBaseURL() . $StartSeparator . 'dg_Sort=' . $_colKey . ':' . $_sortMode;
-
-
-        /*
-        $sSort = '?';
-
-        if( isset($_GET['dg_Sort']) )
-        {
-            foreach( $_GET as $key => $value )
-            {
-                if( preg_match('#^[a-z0-9:_]#i', $key) && preg_match('#^[a-z0-9:_]#i', $key) )
-                {
-                    if($key == 'dg_Sort')
-                    {
-                        $value = $_colKey . ':' . $_sortMode;
-                    }
-                    $sSort .= $key . '=' . $value . '&amp;';
-                }
-            }
-            return substr($sSort, 0, strlen($sSort)-5);
-        }
-        else
-        {
-            foreach( $_GET as $key => $value )
-            {
-                if( preg_match('#^[a-z0-9:_]#i', $key) && preg_match('#^[a-z0-9:_]#i', $key) )
-                {
-                    $sSort .= $key . '=' . $value . '&amp;';
-                }
-            }
-            return $sSort . 'dg_Sort=' . $_colKey . ':' . $_sortMode;
-        }
-        */
     }
 
     /**
@@ -1245,24 +1225,25 @@ class Clansuite_Datagrid_Renderer
     /**
     * Render the pagination for the datagrid
     *
-    * @return String HTMLCode Returns the html-code for pagination
+    * @return string Returns the html-code for the pagination row
     */
     private function _renderTablePagination()
     {
+        $htmlString = '';
+        Clansuite_Xdebug::firebug('Pagination: ' . $this->getDatagrid()->isEnabled("Pagination"));
         if( $this->getDatagrid()->isEnabled("Pagination") )
         {
-            return '';
+            $htmlString .= '<tr><td class="DatagridPagination DatagridPagination-'. $this->getDatagrid()->getAlias() .'"colspan="'. $this->getDatagrid()->getColCount() .'">';
+            $htmlString .= 'Pagination';
+            $htmlString .= '</td></tr>';
         }
-        else
-        {
-            return;
-        }
+        return $htmlString;
     }
 
     /**
     * Render the body
     *
-    * @return String HTMLCode Returns the html-code for the body
+    * @return string Returns the html-code for the table body
     */
     private function _renderTableBody()
     {
@@ -1277,7 +1258,7 @@ class Clansuite_Datagrid_Renderer
     /**
     * Render all the rows
     *
-    * @return String HTMLCode Returns the html-code for all rows
+    * @return string Returns the html-code for all rows
     */
     private function _renderTableRows()
     {
@@ -1290,7 +1271,6 @@ class Clansuite_Datagrid_Renderer
         }
 
         return $htmlString;
-        #Clansuite_Xdebug::printR( Clansuite_HttpRequest::getQueryString() );
     }
 
     /**
@@ -1332,6 +1312,7 @@ class Clansuite_Datagrid_Renderer
     /**
     * Render the column
     *
+    * @todo don't really know if we should implement this... makes no sense to me
     * @return string Returns the html-code for a single column
     */
     private function _renderTableCol()
@@ -1342,7 +1323,7 @@ class Clansuite_Datagrid_Renderer
     /**
     * Render the footer
     *
-    * @return String HTMLCode Returns the html-code for the footer
+    * @return string Returns the html-code for the footer
     */
     private function _renderTableFooter()
     {
@@ -1363,25 +1344,29 @@ class Clansuite_Datagrid_Renderer
     /**
      * Render the whole grid
      *
-     * @return string Returns the html-code for the datatable and its named query
+     * @return string Returns the html-code for the whole datagrid and its resultset of the named query
      */
     public function render()
     {
         $_htmlCode = '';
 
-        $_htmlCode .= $this->_renderLabel();
-        $_htmlCode .= $this->_renderDescription();
+        $_htmlCode .= '<div class="Datagrid ' . $this->getDatagrid()->getClass() . '">';
 
-        $_innerTableData = '';
+            $_htmlCode .= $this->_renderLabel();
+            $_htmlCode .= $this->_renderDescription();
 
-        $_innerTableData .= $this->_renderTableCaption();
-        $_innerTableData .= $this->_renderTablePagination();
-        $_innerTableData .= $this->_renderTableHeader();
-        $_innerTableData .= $this->_renderTableBody();
-        $_innerTableData .= $this->_renderTablePagination();
-        $_innerTableData .= $this->_renderTableFooter();
+            $_innerTableData = '';
 
-        $_htmlCode .= $this->_renderTable($_innerTableData);
+            $_innerTableData .= $this->_renderTableCaption();
+            $_innerTableData .= $this->_renderTablePagination();
+            $_innerTableData .= $this->_renderTableHeader();
+            $_innerTableData .= $this->_renderTableBody();
+            $_innerTableData .= $this->_renderTablePagination();
+            $_innerTableData .= $this->_renderTableFooter();
+
+            $_htmlCode .= $this->_renderTable($_innerTableData);
+
+        $_htmlCode .= '</div>';
 
         return $_htmlCode;
     }
