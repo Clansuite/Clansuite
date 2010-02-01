@@ -40,12 +40,47 @@
 * @author Florian Wolf <xsign.dll@clansuite.com>
 */
 
-.DatagridRowHover
+.Datagrid table
 {
-    background-color: #cccccc;
+    /*width: 100%;*/
 }
 
-.DatagridRowSelected
+.Datagrid input[type="password"],
+.Datagrid select,
+.Datagrid input[type="text"]
 {
-    background-color: #cccccc
+    width: auto;
+}
+
+.Datagrid td,
+.Datagrid th
+{
+    border: 1px solid grey;
+    padding: 4px;
+}
+
+.Datagrid .Pages
+{
+    float: left;
+    padding: 2px;
+}
+
+.Datagrid .ResultsPerPage
+{
+    float: right;
+}
+
+.DatagridRow.Alternate
+{
+    background-color: #D8D8BF;
+}
+
+.DatagridRow.DatagridRowSelected
+{
+    background-color: #FFFF00;
+}
+
+.DatagridRow.DatagridRowHover
+{
+    background-color: #FFFFFF;
 }
