@@ -496,7 +496,7 @@ class Clansuite_Datagrid extends Clansuite_Datagrid_Base
     * @param mixed $feature
     * @return boolean
     */
-    public function disableFeature($toggleVar)
+    public function disableFeature($feature)
     {
         if( !isset($this->_Features[$feature]) )
         {
@@ -524,6 +524,7 @@ class Clansuite_Datagrid extends Clansuite_Datagrid_Base
     * Add an url-string to the baseurl
     *
     * @param string
+    * @todo move complete method into router.core.php
     * @example
     *   $sUrl = $this->addToUrl('dg_Sort=0:ASC');
     */
@@ -645,7 +646,14 @@ class Clansuite_Datagrid extends Clansuite_Datagrid_Base
             $oCol->setAlias($colSet['Alias']);
             $oCol->setId($colSet['Alias']);
             $oCol->setName($colSet['Name']);
-            $oCol->setSortMode($colSet['Sort']);
+            if( !isset($colSet['Sort']) )
+            {
+                $oCol->disableFeature('Sorting');
+            }
+            else
+            {
+                $oCol->setSortMode($colSet['Sort']);
+            }
             $oCol->setPosition($colKey);
             $oCol->setRenderer($colSet['Type']);
             $this->_Cols[$colKey] = $oCol;
@@ -767,22 +775,36 @@ class Clansuite_Datagrid extends Clansuite_Datagrid_Base
 
     /**
     * Generate the Sorts for a query
-    *
-    * @return NULL
     */
     private function _generateQuerySorts()
     {
 
         $aSort = array();
+        $sSort = '';
+
+        # Set sort if in session
+        if( isset($_SESSION['Datagrid_' . $this->getAlias()]['Sort']) )
+        {
+            $sSort = $_SESSION['Datagrid_' . $this->getAlias()]['Sort'];
+        }
+
+        # Prefer requests
         if( isset($_REQUEST['dg_Sort']) )
         {
-            if( preg_match('#^([0-9]+):([a-z]+)$#i', $_REQUEST['dg_Sort'], $aSort) )
+            $sSort = $_REQUEST['dg_Sort'];
+        }
+
+        if( $sSort != '' )
+        {
+            if( preg_match('#^([0-9]+):([a-z]+)$#i', $sSort, $aSort) )
             {
                 $SortKey = $aSort[1];
                 $SortValue = $aSort[2];
+                $_SESSION['Datagrid_' . $this->getAlias()]['Sort'] = $sSort;
+                $this->getRenderer()->setCurrentSort($sSort);
             }
         }
-        #Clansuite_Xdebug::printR($SortValue);
+
         if( isset($SortKey) && isset($this->_SortReverseDefinitions[$SortValue]))
         {
             if(isset($this->_ColumnSets[$SortKey]['SortCol']))
@@ -795,8 +817,6 @@ class Clansuite_Datagrid extends Clansuite_Datagrid_Base
             }
             $this->_ColumnSets[$SortKey]['Sort'] = $SortValue;
         }
-
-        #Clansuite_Xdebug::printR($this->_Query->getSqlQuery());
     }
 
     /**
@@ -1097,18 +1117,25 @@ class Clansuite_Datagrid_Renderer
     private $_PagerLinkLayoutString = '[<a href="{%url}">{%page}</a>]';
 
     /**
-    * Holds the current set results per page
+    * Holds the current results per page
     *
     * @var integer
     */
     private $_CurrentResultsPerPage;
 
     /**
-    * Holds the current set page
+    * Holds the current page
     *
     * @var integer
     */
     private $_CurrentPage;
+
+    /**
+    * Holds the current set sort string
+    *
+    * @var string
+    */
+    private $_CurrentSort;
 
     //----------------------
     // Class methods
@@ -1142,6 +1169,13 @@ class Clansuite_Datagrid_Renderer
     * @param int
     */
     public function setCurrentResultsPerPage($_Value)           { $this->_CurrentResultsPerPage = $_Value; }
+
+    /**
+    * Sets the current sort string
+    *
+    * @param string
+    */
+    public function setCurrentSort($_Sort)                      { $this->_CurrentSort = $_Sort; }
 
     /**
     * Set the datagrid object
@@ -1187,6 +1221,14 @@ class Clansuite_Datagrid_Renderer
     * @return int
     */
     public function getCurrentResultsPerPage()      { return $this->_CurrentResultsPerPage; }
+
+
+    /**
+    * Gets the current sort string
+    *
+    * @return string
+    */
+    public function getCurrentSort()                { return $this->_CurrentSort; }
 
     /**
     * Get the Datagrid object
@@ -1308,10 +1350,7 @@ class Clansuite_Datagrid_Renderer
 
             foreach( $this->getDatagrid()->getCols() as $oCol )
             {
-                $htmlString .= '<th id="ColHeaderId-'. $oCol->getAlias() . '" class="ColHeader ColHeader-'. $oCol->getAlias() .'">';
-                $htmlString .= $oCol->getName();
-                $htmlString .= '&nbsp;<a href="' . $this->_getSortString($oCol->getPosition(), $this->getDatagrid()->getSortReverseDefinition($oCol->getSortMode())) . '">' . _($oCol->getSortMode()) . '</a>';
-                $htmlString .= '</th>';
+                $htmlString .= $this->_renderTableCol($oCol);
             }
             $htmlString .= '</tr>';
 
@@ -1392,7 +1431,7 @@ class Clansuite_Datagrid_Renderer
     */
     private function _renderTableRow($_oRow)
     {
-        $htmlString = '<tr>';
+        $htmlString = '<tr class="DatagridRow DatagridRow-' . $_oRow->getAlias() . '">';
 
         $_Cells = $_oRow->getCells();
         foreach( $_Cells as $oCell )
@@ -1423,12 +1462,21 @@ class Clansuite_Datagrid_Renderer
     /**
     * Render the column
     *
-    * @todo don't really know if we should implement this... makes no sense to me
+    * @param Clansuite_Datagrid_Col
     * @return string Returns the html-code for a single column
     */
-    private function _renderTableCol()
+    private function _renderTableCol($oCol)
     {
+        $htmlString = '';
+        $htmlString .= '<th id="ColHeaderId-'. $oCol->getAlias() . '" class="ColHeader ColHeader-'. $oCol->getAlias() .'">';
+        $htmlString .= $oCol->getName();
+        if( $oCol->isEnabled('Sorting') )
+        {
+            $htmlString .= '&nbsp;<a href="' . $this->_getSortString($oCol->getPosition(), $this->getDatagrid()->getSortReverseDefinition($oCol->getSortMode())) . '">' . _($oCol->getSortMode()) . '</a>';
+        }
+        $htmlString .= '</th>';
 
+        return $htmlString;
     }
 
     /**
@@ -1461,10 +1509,13 @@ class Clansuite_Datagrid_Renderer
     {
         $_htmlCode = '';
 
-        $_htmlCode .= '<form action="' . $this->getDatagrid()->getBaseURL() . '" method="post">';
+        $_htmlCode .= '<link rel="stylesheet" type="text/css" href="'. WWW_ROOT_THEMES_CORE . '/css/datagrid.css" />';
+        $_htmlCode .= '<script src="'. WWW_ROOT_THEMES_CORE . '/javascript/datagrid.js" type="text/javascript"></script>';
+        $_htmlCode .= '<form action="' . $this->getDatagrid()->getBaseURL() . '" method="post" name="Datagrid-' . $this->getDatagrid()->getAlias() . '">';
 
             $_htmlCode .= '<input type="hidden" name="dg_Page" value="' . $this->getCurrentPage() . '" />';
             $_htmlCode .= '<input type="hidden" name="dg_ResultsPerPage" value="' . $this->getCurrentResultsPerPage() . '" />';
+            $_htmlCode .= '<input type="hidden" name="dg_Sort" value="' . $this->getCurrentSort() . '" />';
 
             $_htmlCode .= '<div class="Datagrid ' . $this->getDatagrid()->getClass() . '">';
 

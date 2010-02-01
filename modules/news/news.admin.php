@@ -115,15 +115,12 @@ class Module_News_Admin extends Clansuite_ModuleController implements Clansuite_
         # Get Render Engine
         $smarty = $this->getView();
 
-        #########################
-        /*
-        require ROOT_LIBRARIES.'firephp/FirePHP.class.php';
-        $firephp = FirePHP::getInstance(true);
-        $firephp->log('Hello World');
-        */
+        //--------------------------
+        // Datagrid configuration
+        //--------------------------
 
         require ROOT_CORE . DS . "viewhelper" . DS . "Datagrid.core.php";
-        $columnSets = array(
+        $ColumnSets = array(
            0 => array(
                     'Alias'     => 'Title',
                     'ResultKey' => 'news_title',
@@ -146,15 +143,29 @@ class Module_News_Admin extends Clansuite_ModuleController implements Clansuite_
                     'Sort'      => 'DESC',
                     'Type'      => 'EMail'
                     ),
+           3 => array(
+                    'Alias'     => 'Action',           #@todo move props into +.column.php objects
+                    'ResultKey' => 'news_id',
+                    'Name'      => _('Action'),
+                    'Type'      => 'Editbutton'
+                    ),
+           4 => array(
+                    'Alias'     => 'Select',           #@todo move props into +.column.php objects
+                    'ResultKey' => 'news_id',
+                    'Name'      => _('Select'),
+                    'Type'      => 'Checkbox'
+                    ),
         );
 
+        # Instantiate the datagrid
         $oDatagrid = new Clansuite_Datagrid( array(
                 'Datatable'     => Doctrine::getTable('CsNews'),
                 'NamedQuery'    => 'fetchAllNews',
-                'ColumnSets'    => $columnSets,
+                'ColumnSets'    => $ColumnSets,
                 'BaseURL'       => 'index.php?mod=news&sub=admin&action=show'
         ) );
 
+        # Render the datagrid
         $htmlString = $oDatagrid->render();
 
 
