@@ -335,6 +335,14 @@ class Clansuite_Datagrid extends Clansuite_Datagrid_Base
     public function getBaseURL()        { return $this->_BaseURL; }
 
     /**
+    * Get a column depending on its alias
+    *
+    * @return Clansuite_Datagrid_Col
+    * @param string $sColKey
+    */
+    public function getCol($sColKey)     { return $this->_Cols[$sColKey]; }
+
+    /**
     * Amount of columns in the grid
     *
     * @return integer Amount of columns
@@ -442,6 +450,9 @@ class Clansuite_Datagrid extends Clansuite_Datagrid_Base
         $this->setLabel($this->getAlias());
         $this->setCaption($this->getAlias());
         $this->setDescription(_('This is the datagrid of ') . $this->getAlias());
+
+        # generate the columns
+        $this->_generateCols();
     }
 
     /**
@@ -461,8 +472,7 @@ class Clansuite_Datagrid extends Clansuite_Datagrid_Base
         # update the current page
         $this->getRenderer()->setCurrentPage($this->getPagerLayout()->getPager()->getPage());
 
-        # generate the grid-data
-        $this->_generateCols();
+        # generate the data-rows
         $this->_generateRows($this->_Datasets);
     }
 
@@ -661,7 +671,7 @@ class Clansuite_Datagrid extends Clansuite_Datagrid_Base
             }
             $oCol->setPosition($colKey);
             $oCol->setRenderer($colSet['Type']);
-            $this->_Cols[$colKey] = $oCol;
+            $this->_Cols[$colSet['Alias']] = $oCol;
         }
     }
 
@@ -684,7 +694,7 @@ class Clansuite_Datagrid extends Clansuite_Datagrid_Base
             {
                 $oCell = new Clansuite_Datagrid_Cell();
                 $oRow->addCell($oCell);
-                $oCol = $this->_Cols[$colKey];
+                $oCol = $this->_Cols[$colSet['Alias']];
                 $oCol->addCell($oCell);
 
                 $this->_Rows[$dataKey] = $oRow;

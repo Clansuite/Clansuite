@@ -128,6 +128,12 @@ class Module_News_Admin extends Clansuite_ModuleController implements Clansuite_
                                 'Name'      => _('[x]'),
                                 'Type'      => 'Checkbox' );
 
+        $ColumnSets[] = array(  'Alias'     => 'Date',
+                                'ResultKey' => 'created_at',
+                                'Name'      => _('Date'),
+                                'Sort'      => 'DESC',
+                                'Type'      => 'Date' );
+
         $ColumnSets[] = array(  'Alias'     => 'Title',
                                 'ResultKey' => 'news_title',
                                 'Name'      => _('Title'),
@@ -137,6 +143,7 @@ class Module_News_Admin extends Clansuite_ModuleController implements Clansuite_
         $ColumnSets[] = array(  'Alias'     => 'Category',
                                 'ResultKey' => 'CsCategories.name',
                                 'Name'      => _('Category'),
+                                'SortCol'   => 'c.name',
                                 'Sort'      => 'DESC',
                                 'Type'      => 'String' );
 
@@ -166,6 +173,12 @@ class Module_News_Admin extends Clansuite_ModuleController implements Clansuite_
                 'ColumnSets'    => $ColumnSets,
                 'BaseURL'       => 'index.php?mod=news&sub=admin&action=show'
         ) );
+
+        Clansuite_Xdebug::firebug($oDatagrid->getCol('Date'));
+        Clansuite_Xdebug::firebug($oDatagrid->getCol('Date')->getRenderer());
+
+        $oDatagrid->getCol('Date')->disableFeature('Sorting');
+        $oDatagrid->getCol('Date')->getRenderer()->dateFormat = 'd-m-Y';
 
         # Render the datagrid
         $htmlString = $oDatagrid->render();
