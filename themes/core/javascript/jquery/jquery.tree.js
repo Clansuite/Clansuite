@@ -211,6 +211,10 @@
 							if(this.src.toString().match(/jquery\.tree.*?js$/)) { _this.settings.ui.theme_path = this.src.toString().replace(/jquery\.tree.*?js$/, "") + "themes/" + _this.settings.ui.theme_name + "/style.css"; return false; }
 						});
 					}
+                    else
+					{
+						_this.settings.ui.theme_path = _this.settings.ui.theme_path + '/' + _this.settings.ui.theme_name + '/style.css';
+					}
 					if(this.settings.ui.theme_path != "" && $.inArray(this.settings.ui.theme_path, tree_component.themes) == -1) {
 						tree_component.add_sheet({ url : this.settings.ui.theme_path });
 						tree_component.themes.push(this.settings.ui.theme_path);
