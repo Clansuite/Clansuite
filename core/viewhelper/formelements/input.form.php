@@ -37,7 +37,7 @@
 // Security Handler
 if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.');}
 
-if (!class_exists('Clansuite_Formelement')) { require ROOT_CORE.'viewhelper/formelement.core.php'; }
+if (!class_exists('Clansuite_Formelement', false)) { require ROOT_CORE.'viewhelper/formelement.core.php'; }
 
 /**
  *  Clansuite_Formelement
@@ -116,7 +116,7 @@ class Clansuite_Formelement_Input extends Clansuite_Formelement implements Clans
      * @var $string;
      */
     public $additionals;
-   
+
     /**
      * description
      *
@@ -132,7 +132,6 @@ class Clansuite_Formelement_Input extends Clansuite_Formelement implements Clans
     public function setAdditionals($additionals)
     {
         $this->additionals = $additionals;
-
         return $this;
     }
 

@@ -54,16 +54,18 @@ class Clansuite_Formelement_Checkbox extends Clansuite_Formelement_Input impleme
      * @var string
      */
     protected $label;
-    
+
     protected $default;
-    
-    protected $options, $description;
-    
+
+    protected $options;
+
+    public $description;
+
     public function setDefaultOption($default)
     {
         $this->default = $default;
-        
-        return $this;   
+
+        return $this;
     }
 
     public function setOptions($options)
@@ -92,7 +94,7 @@ class Clansuite_Formelement_Checkbox extends Clansuite_Formelement_Input impleme
     public function setChecked($checked)
     {
         $this->checked = $checked;
-        
+
         return $this;
     }
 
@@ -116,18 +118,18 @@ class Clansuite_Formelement_Checkbox extends Clansuite_Formelement_Input impleme
     public function setDescription($text)
     {
         $this->description = $text;
-        
+
         return $this;
     }
-    
+
     public function render()
     {
         return parent::render() . $this->getLabel();
     }
-    
+
     public function __toString()
     {
-        return $this->render();   
+        return $this->render();
     }
 }
 ?>

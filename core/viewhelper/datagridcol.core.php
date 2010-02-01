@@ -83,6 +83,15 @@ class Clansuite_Datagrid_Col extends Clansuite_Datagrid_Base
     private $_Renderer;
 
 
+    /**
+    * Boolean datagrid column values for configuration, wrapped into an array
+    *
+    * @var array
+    */
+    private $_Features = array(
+        'Sorting'       => true
+    );
+
     //--------------------
     // Setter
     //--------------------
@@ -173,6 +182,67 @@ class Clansuite_Datagrid_Col extends Clansuite_Datagrid_Base
     //--------------------
 
     /**
+    * Check for datagrid column features
+    *
+    * @see $this->_features
+    * @param string $feature
+    * @return boolean
+    */
+    public function isEnabled($feature)
+    {
+        if( !isset($this->_Features[$feature]) )
+        {
+            throw new Clansuite_Exception(_('There is no such feature in this datagrid column: ') . $feature);
+        }
+        else
+        {
+            return $this->_Features[$feature];
+        }
+    }
+
+    /**
+    * Enable datagrid column features and return true if it succeeded, false if not
+    *
+    * @see $this->_features
+    * @param string $feature
+    * @return boolean
+    */
+    public function enableFeature($feature)
+    {
+        if( !isset($this->_Features[$feature]) )
+        {
+            return 0;
+        }
+        else
+        {
+            $this->_Features[$feature] = true;
+            return 1;
+        }
+    }
+
+    /**
+    * Disable datagrid column features
+    * Return true if succeeded, false if not
+    *
+    * @see $this->_features
+    * @param mixed $feature
+    * @return boolean
+    */
+    public function disableFeature($feature)
+    {
+        if( !isset($this->_Features[$feature]) )
+        {
+            return 0;
+        }
+        else
+        {
+            $this->_Features[$feature] = false;
+            return 1;
+        }
+    }
+
+
+    /**
     * Add a cell reference to the col
     *
     * @param Clansuite_Datagrid_Cell
@@ -191,10 +261,11 @@ class Clansuite_Datagrid_Col extends Clansuite_Datagrid_Base
     private function _loadRenderer($_RendererName = 'string')
     {
         $_FileLocation = ROOT_CORE . 'viewhelper' . DS . 'datagridcols' . DS . strtolower($_RendererName) . '.column.php';
-        if( file_exists($_FileLocation) )
+        $_ClassName = 'Clansuite_Datagrid_Col_Renderer_' . ucfirst(strtolower($_RendererName));
+
+        if(!class_exists($_ClassName, false))
         {
-            $_ClassName = 'Clansuite_Datagrid_Col_Renderer_' . ucfirst(strtolower($_RendererName));
-            if(!class_exists($_ClassName, false))
+            if( is_file($_FileLocation) )
             {
                 require $_FileLocation;
                 if(!class_exists($_ClassName, false))
@@ -207,10 +278,14 @@ class Clansuite_Datagrid_Col extends Clansuite_Datagrid_Base
                     return new $_ClassName($this);
                 }
             }
+            else
+            {
+                throw new Clansuite_Exception(_('The column renderer file does not exist: ') . $_FileLocation);
+            }
         }
         else
         {
-            throw new Clansuite_Exception(_('The column renderer file does not exist: ') . $_FileLocation);
+            return new $_ClassName($this);
         }
     }
 
