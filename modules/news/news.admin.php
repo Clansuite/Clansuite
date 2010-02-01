@@ -119,43 +119,45 @@ class Module_News_Admin extends Clansuite_ModuleController implements Clansuite_
         // Datagrid configuration
         //--------------------------
 
+        #@todo move props into +.column.php objects
         require ROOT_CORE . DS . "viewhelper" . DS . "Datagrid.core.php";
-        $ColumnSets = array(
-           0 => array(
-                    'Alias'     => 'Title',
-                    'ResultKey' => 'news_title',
-                    'Name'      => _('Title'),
-                    'Sort'      => 'DESC',
-                    'Type'      => 'String'
-                    ),
-           1 => array(
-                    'Alias'     => 'Status',
-                    'ResultKey' => 'news_status',
-                    'Name'      => _('Status'),
-                    'Sort'      => 'DESC',
-                    'Type'      => 'Integer'
-                    ),
-           2 => array(
-                    'Alias'     => 'EMail',
-                    'ResultKey' => array('CsUsers.email','CsUsers.nick'),
-                    'SortCol'   => 'u.email',
-                    'Name'      => _('EMail'),
-                    'Sort'      => 'DESC',
-                    'Type'      => 'EMail'
-                    ),
-           3 => array(
-                    'Alias'     => 'Action',           #@todo move props into +.column.php objects
-                    'ResultKey' => 'news_id',
-                    'Name'      => _('Action'),
-                    'Type'      => 'Editbutton'
-                    ),
-           4 => array(
-                    'Alias'     => 'Select',           #@todo move props into +.column.php objects
-                    'ResultKey' => 'news_id',
-                    'Name'      => _('Select'),
-                    'Type'      => 'Checkbox'
-                    ),
-        );
+        $ColumnSets = array();
+
+        $ColumnSets[] = array(  'Alias'     => 'Select',
+                                'ResultKey' => 'news_id',
+                                'Name'      => _('[x]'),
+                                'Type'      => 'Checkbox' );
+
+        $ColumnSets[] = array(  'Alias'     => 'Title',
+                                'ResultKey' => 'news_title',
+                                'Name'      => _('Title'),
+                                'Sort'      => 'DESC',
+                                'Type'      => 'String' );
+
+        $ColumnSets[] = array(  'Alias'     => 'Category',
+                                'ResultKey' => 'CsCategories.name',
+                                'Name'      => _('Category'),
+                                'Sort'      => 'DESC',
+                                'Type'      => 'String' );
+
+        $ColumnSets[] = array(  'Alias'     => 'Status',
+                                'ResultKey' => 'news_status',
+                                'Name'      => _('Status'),
+                                'Sort'      => 'DESC',
+                                'Type'      => 'Integer' );
+
+        $ColumnSets[] = array(  'Alias'     => 'EMail',
+                                'ResultKey' => array('CsUsers.email','CsUsers.nick'),
+                                'SortCol'   => 'u.email',
+                                'Name'      => _('EMail'),
+                                'Sort'      => 'DESC',
+                                'Type'      => 'EMail' );
+
+        $ColumnSets[] = array(  'Alias'     => 'Action',
+                                'ResultKey' => 'news_id',
+                                'Name'      => _('Action'),
+                                'Type'      => 'Editbutton' );
+
 
         # Instantiate the datagrid
         $oDatagrid = new Clansuite_Datagrid( array(

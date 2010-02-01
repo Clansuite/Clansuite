@@ -53,7 +53,7 @@ $(document).ready(function() {
     });
 
 
-    // Clicks
+    // Row Clicks
     $(".DatagridRow").click( function(e) {
 
         // Set color
@@ -68,12 +68,43 @@ $(document).ready(function() {
 
             if( oCheckbox.attr('checked') )
             {
+                $(this).removeClass('DatagridRowSelected');
                 oCheckbox.removeAttr('checked');
             }
             else
             {
+                $(this).addClass('DatagridRowSelected');
                 oCheckbox.attr('checked', 'checked');
             }
+        }
+    });
+
+    // Checkbox changes
+    $(".DatagridCheckbox").change( function(e) {
+       if($(this).attr('checked'))
+       {
+           $(this).parents(".DatagridRow").addClass('DatagridRowSelected');
+       }
+       else
+       {
+           $(this).parents(".DatagridRow").removeClass('DatagridRowSelected');
+       }
+    });
+
+    // Select all click
+    $(".DatagridSelectAll").click( function(e) {
+
+        if( $(this).attr('checked') )
+        {
+            $(".DatagridSelectAll").attr('checked', 'checked');
+            $(".DatagridCheckbox").attr('checked', 'checked').change();
+            //$(".DatagridCheckbox").change();
+        }
+        else
+        {
+            $(".DatagridSelectAll").removeAttr('checked');
+            $(".DatagridCheckbox").removeAttr('checked').change();
+            //$(".DatagridCheckbox").change();
         }
     });
 });
