@@ -40,6 +40,15 @@
 * @author Florian Wolf <xsign.dll@clansuite.com>
 */
 
+function Datagrid()
+{
+    var DatagridTable       = $("table[id^='Datagrid']");
+    var DatagridCheckboxes  = $(".DatagridCheckbox", this.DatagridTable);
+    var DatagridSelectAll   = $(".DatagridSelectAll", this.DatagridTable);
+    var DatagridRows        = $(".DatagridRow", this.DatagridTable);
+
+}
+
 
 /**
 * Colorize Rows
@@ -94,17 +103,20 @@ $(document).ready(function() {
     // Select all click
     $(".DatagridSelectAll").click( function(e) {
 
+
+        var DatagridTable       = $("table[id^='Datagrid']");
+        var DatagridCheckboxes  = $(".DatagridCheckbox", DatagridTable);
+        var DatagridSelectAll   = $(".DatagridSelectAll", DatagridTable);
+
         if( $(this).attr('checked') )
         {
-            $(".DatagridSelectAll").attr('checked', 'checked');
-            $(".DatagridCheckbox").attr('checked', 'checked').change();
-            //$(".DatagridCheckbox").change();
+            DatagridSelectAll.attr('checked', 'checked');
+            DatagridCheckboxes.attr('checked', 'checked').change();
         }
         else
         {
-            $(".DatagridSelectAll").removeAttr('checked');
-            $(".DatagridCheckbox").removeAttr('checked').change();
-            //$(".DatagridCheckbox").change();
+            DatagridSelectAll.removeAttr('checked');
+            DatagridCheckboxes.removeAttr('checked').change();
         }
     });
 });
