@@ -668,6 +668,14 @@ class Clansuite_Datagrid extends Clansuite_Datagrid_Base
             else
             {
                 $oCol->setSortMode($colSet['Sort']);
+                if( isset($colSet['SortCol']) )
+                {
+                    $oCol->setSortField($colSet['SortCol']);
+                }
+                else
+                {
+                    $oCol->setSortField($colSet['ResultKey']);
+                }
             }
             $oCol->setPosition($colKey);
             $oCol->setRenderer($colSet['Type']);
@@ -810,7 +818,7 @@ class Clansuite_Datagrid extends Clansuite_Datagrid_Base
 
         if( $sSort != '' )
         {
-            if( preg_match('#^([0-9]+):([a-z]+)$#i', $sSort, $aSort) )
+            if( preg_match('#^([0-9a-z_]+):([a-z]+)$#i', $sSort, $aSort) )
             {
                 $SortKey = $aSort[1];
                 $SortValue = $aSort[2];
@@ -821,15 +829,9 @@ class Clansuite_Datagrid extends Clansuite_Datagrid_Base
 
         if( isset($SortKey) && isset($this->_SortReverseDefinitions[$SortValue]))
         {
-            if(isset($this->_ColumnSets[$SortKey]['SortCol']))
-            {
-                $this->_Query->orderBy($this->_ColumnSets[$SortKey]['SortCol'] . ' ' . $SortValue);
-            }
-            else
-            {
-                $this->_Query->orderBy($this->_ColumnSets[$SortKey]['ResultKey'] . ' ' . $SortValue);
-            }
-            $this->_ColumnSets[$SortKey]['Sort'] = $SortValue;
+            $oCol = $this->getCol($SortKey);
+            $this->_Query->orderBy($oCol->getSortField() . ' ' . $SortValue);
+            $oCol->setSortMode($SortValue);
         }
     }
 
@@ -1552,7 +1554,7 @@ class Clansuite_Datagrid_Renderer
         $htmlString .= $oCol->getName();
         if( $oCol->isEnabled('Sorting') )
         {
-            $htmlString .= '&nbsp;<a href="' . $this->_getSortString($oCol->getPosition(), $this->getDatagrid()->getSortReverseDefinition($oCol->getSortMode())) . '">' . _($oCol->getSortMode()) . '</a>';
+            $htmlString .= '&nbsp;<a href="' . $this->_getSortString($oCol->getAlias(), $this->getDatagrid()->getSortReverseDefinition($oCol->getSortMode())) . '">' . _($oCol->getSortMode()) . '</a>';
         }
         $htmlString .= '</th>';
 
