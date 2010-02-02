@@ -66,6 +66,12 @@ class Clansuite_Datagrid_Col extends Clansuite_Datagrid_Base
     */
     private $_sortMode = 'DESC';
 
+    /**
+    * The sortfield of the column
+    *
+    * @var string
+    */
+    private $_sortField = '';
 
     /**
     * The position of a column
@@ -134,6 +140,16 @@ class Clansuite_Datagrid_Col extends Clansuite_Datagrid_Base
     }
 
     /**
+    * Set the database sortfield
+    *
+    * @param string
+    */
+    public function setSortField($_sortField)
+    {
+        $this->_sortField = $_sortField;
+    }
+
+    /**
     * Set the sort-mode (ASC, DESC, NATASC, NETDESC, ...)
     *
     * @param string
@@ -165,6 +181,16 @@ class Clansuite_Datagrid_Col extends Clansuite_Datagrid_Base
     public function getRenderer()
     {
         return $this->_Renderer;
+    }
+
+    /**
+    * Get the sort-field
+    *
+    * @return string
+    */
+    public function getSortField()
+    {
+        return $this->_sortField;
     }
 
     /**
