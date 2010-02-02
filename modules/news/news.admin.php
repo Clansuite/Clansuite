@@ -165,6 +165,8 @@ class Module_News_Admin extends Clansuite_ModuleController implements Clansuite_
                                 'Name'      => _('Action'),
                                 'Type'      => 'Editbutton' );
 
+        
+
 
         # Instantiate the datagrid
         $oDatagrid = new Clansuite_Datagrid( array(
