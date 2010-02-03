@@ -152,6 +152,16 @@ class Clansuite_ActionController_Resolver implements Clansuite_ActionController_
     {
         return self::$actionName;
     }
+    
+    /**
+     * Method to get the DefaultAction
+     *
+     * @return $string
+     */
+    public static function getDefaultActionName()
+    {
+        return self::$_defaultAction;
+    }
 }
 
 /**
