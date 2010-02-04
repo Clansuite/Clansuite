@@ -248,7 +248,24 @@ class Clansuite_HTML /* extends DOMDocument */
     {
         if(method_exists('Clansuite_HTML', $tagname))
         {
-            return Clansuite_HTML::$tagname($text, $attributes);
+            if(isset($attributes['src']))
+            {
+                $link = $attributes['src'];
+                unset($attributes['src']);
+
+                return Clansuite_HTML::$tagname($link, $text, $attributes);
+            }
+            elseif(isset($attributes['href']))
+            {
+                $link = $attributes['href'];
+                unset($attributes['href']);
+
+                return Clansuite_HTML::$tagname($link, $text, $attributes);
+            }
+            else
+            {
+                return Clansuite_HTML::$tagname($text, $attributes);
+            }
         }
         else
         {
