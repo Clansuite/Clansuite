@@ -78,6 +78,7 @@ class Module_News_Admin extends Clansuite_ModuleController implements Clansuite_
         # Set Pagetitle and Breadcrumbs
         #Clansuite_Trail::addStep( _('Show'), 'index.php?mod=news&amp;sub=admin&amp;action=show');
 
+        /*
         # Incoming Variables
         $request = $this->getHttpRequest();
         $category       = (int) $request['news_category_form']['cat_id'];
@@ -87,6 +88,8 @@ class Module_News_Admin extends Clansuite_ModuleController implements Clansuite_
         # SmartyColumnSort -- Easy sorting of html table columns.
         require( ROOT_LIBRARIES . 'smarty/libs/SmartyColumnSort.class.php');
         # A list of database columns to use in the table.
+
+
         $columns = array( 'n.created_at', 'n.news_title', 'c.name', 'u.nick', 'n.news_status');
         # Create the columnsort object
         $columnsort = new SmartyColumnSort($columns);
@@ -111,6 +114,8 @@ class Module_News_Admin extends Clansuite_ModuleController implements Clansuite_
         #unset($newsQuery);
 
         $newscategories = Doctrine::getTable('CsNews')->fetchUsedNewsCategories();
+
+        */
 
         # Get Render Engine
         $smarty = $this->getView();
@@ -193,19 +198,19 @@ class Module_News_Admin extends Clansuite_ModuleController implements Clansuite_
         #$oDatagrid->getCol('Date')->disableFeature('Sorting');
         #$oDatagrid->getCol('Date')->getRenderer()->dateFormat = 'd-m-Y';
 
+
+        $oDatagrid->getCol('Select')->disableFeature('Search');
+
         $oDatagrid->getCol('Title')->getRenderer()->linkFormat  = '&action=edit&id=%{id}';
         $oDatagrid->getCol('Title')->getRenderer()->linkTitle   = _('Edit this news');
 
         # Render the datagrid
         $htmlString = $oDatagrid->render();
 
-
-
-
-
-
+        # Assing datagrid
         $smarty->assign('datagrid', $htmlString);
 
+        /*
         $smarty->assign('news', $news);
         $smarty->assign('newscategories', $newscategories);
 
@@ -215,7 +220,7 @@ class Module_News_Admin extends Clansuite_ModuleController implements Clansuite_
         // Pagination
         $smarty->assign('pager', $pager);
         $smarty->assign('pager_layout', $pager_layout);
-
+        */
 
         # Set Layout Template
         $this->getView()->setLayoutTemplate('index.tpl');

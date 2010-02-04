@@ -104,7 +104,8 @@ class Clansuite_Datagrid_Col extends Clansuite_Datagrid_Base
     * @var array
     */
     private $_Features = array(
-        'Sorting'       => true
+        'Sorting'       => true,
+        'Search'        => true
     );
 
     //--------------------
