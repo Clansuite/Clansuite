@@ -1762,8 +1762,9 @@ class Clansuite_Datagrid_Renderer
         if( $this->getDatagrid()->isEnabled('Search') )
         {
             $htmlString .= '<tr><td colspan="'.$this->getDatagrid()->getColCount().'">';
+            $htmlString .= _('Search: ');
             $htmlString .= '<input type="text" value="'.htmlentities($_SESSION['Datagrid_' . $this->getDatagrid()->getAlias()]['SearchValue']).'" name="'.$this->getDatagrid()->getInputParameterName('SearchValue').'" />';
-            $htmlString .= '<select name="'.$this->getDatagrid()->getInputParameterName('SearchKey').'">';
+            $htmlString .= ' <select name="'.$this->getDatagrid()->getInputParameterName('SearchKey').'">';
             $aCols = $this->getDatagrid()->getCols();
             foreach( $aCols as $oCol )
             {
@@ -1778,7 +1779,7 @@ class Clansuite_Datagrid_Renderer
                 }
             }
             $htmlString .= '</select>';
-            $htmlString .= '<input type="submit" value="'._('Search').'" name="submit" />';
+            $htmlString .= ' <input type="submit" value="'._('Search').'" name="submit" />';
             $htmlString .= '</td></tr>';
         }
         return $htmlString;
