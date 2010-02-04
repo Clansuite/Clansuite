@@ -61,7 +61,7 @@ class Clansuite_HTML /* extends DOMDocument */
      *
      * @return HTML String
      */
-    public static function a($url, $attributes, $text)
+    public static function a($url, $text, $attributes = array())
     {
         $html_attributes = '';
         $html_attributes .= Clansuite_HTML::renderAttributes($attributes);
@@ -77,12 +77,12 @@ class Clansuite_HTML /* extends DOMDocument */
      *
      * @return HTML String
      */
-    public static function span($text, $attributes)
+    public static function span($text, $attributes = array())
     {
         $html_attributes = '';
         $html_attributes .= Clansuite_HTML::renderAttributes($attributes);
 
-        return '<span '.$html_$attributes.'>'.$text.'</div>';
+        return '<span '.$html_attributes.'>'.$text.'</div>';
     }
 
     /**
@@ -93,7 +93,7 @@ class Clansuite_HTML /* extends DOMDocument */
      *
      * @return HTML String
      */
-    public static function div($text, $attributes)
+    public static function div($text, $attributes = array())
     {
         $html_attributes = '';
         $html_attributes .= Clansuite_HTML::renderAttributes($attributes);
@@ -109,7 +109,7 @@ class Clansuite_HTML /* extends DOMDocument */
      *
      * @return HTML String
      */
-    public static function p($text, $attributes)
+    public static function p($text, $attributes = array())
     {
         $html_attributes = '';
         $html_attributes .= Clansuite_HTML::renderAttributes($attributes);
@@ -126,7 +126,7 @@ class Clansuite_HTML /* extends DOMDocument */
      *
      * @return HTML String
      */
-    public static function image($attributes, $link_to_image)
+    public static function image($link_to_image, $attributes = array())
     {
         $html_attributes = '';
         $html_attributes .= Clansuite_HTML::renderAttributes($attributes);
@@ -135,7 +135,7 @@ class Clansuite_HTML /* extends DOMDocument */
     }
 
     /**
-     * HTML Tag <ul><li>...
+     * HTML Tag Rendering
      * Builds a list from an multidimensional attributes array
      *
      * @example
@@ -150,7 +150,7 @@ class Clansuite_HTML /* extends DOMDocument */
      *
      * @return HTML String
      */
-    public static function list($attributes)
+    public static function liste($attributes = array())
     {
         $html = '';
 
@@ -160,11 +160,11 @@ class Clansuite_HTML /* extends DOMDocument */
             if (is_array($attribute))
             {
                 # watch out! recursion
-                Clansuite_HTML::list($attribute);
+                $html .= Clansuite_HTML::liste($attribute);
             }
             else
             {
-                $html .= '<li>'.$item.'</li>';
+                $html .= '<li>'.$attribute.'</li>';
             }
         }
         $html .= '</ul>';
@@ -216,33 +216,39 @@ class Clansuite_HTML /* extends DOMDocument */
      *
      * @return Render the HTML String of Attributes
      */
-    public static function renderAttributes($attributes)
+    public static function renderAttributes($attributes = array())
     {
         $html = '';
-
-        # insert all attributes
-        foreach ($attributes as $key=>$value)
+        
+        if(is_array($attributes))
         {
-            $html .= " $key=\"$value\"";
+            # insert all attributes
+            foreach ($attributes as $key=>$value)
+            {
+                $html .= " $key=\"$value\"";
+            }
         }
-
+        
         return $html;
     }
 
     /**
      * Render an HTML Element
      *
+     * @example
+     * echo Clansuite_HTML::renderElement('tagname', array('attribute_name'=>'attribut_value'), 'text');
+     *
      * @param $tagname Name of the tag to render
-     * @param $attributes array of attributes
      * @param $text string
+     * @param $attributes array of attributes
      *
      * @return HTML String with Attributes
      */
-    public static function renderElement($tagname, $attributes = array(), $text = null)
+    public static function renderElement($tagname, $text = null, $attributes = array())
     {
         if(method_exists('Clansuite_HTML', $tagname))
         {
-            return Clansuite_HTML::{$tagname}($text, $attributes);
+            return Clansuite_HTML::$tagname($text, $attributes);
         }
         else
         {
