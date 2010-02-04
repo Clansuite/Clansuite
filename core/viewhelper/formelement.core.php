@@ -49,7 +49,7 @@ if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.');}
  * @subpackage  Form
  */
 
-class Clansuite_Formelement implements Clansuite_Formelement_Interface
+class Clansuite_Formelement /* extends Clansuite_HTML */ implements Clansuite_Formelement_Interface
 {
     protected $name, $id, $type, $class, $size, $disabled, $maxlength, $style;
 
