@@ -189,14 +189,15 @@ class Clansuite_Datagrid extends Clansuite_Datagrid_Base
     * @var array
     */
     private $_Features = array(
-        'Label'         => true,
+        'BatchActions'  => true,
         'Caption'       => true,
         'Description'   => true,
-        'Header'        => true,
-        'Pagination'    => true,
         'Footer'        => true,
-        'Sorting'       => true,
-        'BatchActions'  => true
+        'Header'        => true,
+        'Label'         => true,
+        'Pagination'    => true,
+        'Search'        => true,
+        'Sorting'       => true
     );
 
     /**
@@ -205,10 +206,12 @@ class Clansuite_Datagrid extends Clansuite_Datagrid_Base
     *
     * @var array
     */
-    private $_InputMapping = array( 'SortKey'        => 'sk',
-                                    'SortValue'      => 'sv',
-                                    'Page'           => 'p',
-                                    'ResultsPerPage' => 'rpp' );
+    private $_InputMapping = array( 'SortKey'           => 'sk',
+                                    'SortValue'         => 'sv',
+                                    'Page'              => 'p',
+                                    'ResultsPerPage'    => 'rpp',
+                                    'SearchValue'       => 'searchvalue',
+                                    'SearchKey'         => 'searchkey' );
 
     /**
     * The label for this datagrid
@@ -850,6 +853,7 @@ class Clansuite_Datagrid extends Clansuite_Datagrid_Base
         $this->_Query = $_Query;
 
         $this->_generateQuerySorts();
+        $this->_generateQuerySearch();
         $this->_generatePagerLayout();
     }
 
@@ -858,7 +862,6 @@ class Clansuite_Datagrid extends Clansuite_Datagrid_Base
     */
     private function _generateQuerySorts()
     {
-        $aSort      = array();
         $SortKey    = '';
         $SortValue  = '';
 
@@ -889,11 +892,47 @@ class Clansuite_Datagrid extends Clansuite_Datagrid_Base
             $this->_Query->orderBy($oCol->getSortField() . ' ' . $SortValue);
             $oCol->setSortMode($SortValue);
         }
+        else
+        {
+            $_SESSION['Datagrid_' . $this->getAlias()]['SortKey']   = '';
+            $_SESSION['Datagrid_' . $this->getAlias()]['SortValue'] = '';
+        }
+    }
+
+    /**
+    * Generate the Serach for the query
+    */
+    private function _generateQuerySearch()
+    {
+        $SearchKey    = '';
+        $SearchValue  = '';
+
+        # Set sortkey and sortvalue if in session
+        if( isset($_SESSION['Datagrid_' . $this->getAlias()]['SearchKey']) AND isset($_SESSION['Datagrid_' . $this->getAlias()]['SearchValue']) )
+        {
+            $SearchKey    = $_SESSION['Datagrid_' . $this->getAlias()]['SearchKey'];
+            $SearchValue  = $_SESSION['Datagrid_' . $this->getAlias()]['SearchValue'];
+        }
+
+        # Prefer requests
+        if( isset($_REQUEST[$this->_InputMapping['SearchKey']]) AND isset($_REQUEST[$this->_InputMapping['SearchValue']]) )
+        {
+            $SearchKey    = $_REQUEST[$this->_InputMapping['SearchKey']];
+            $SearchValue  = $_REQUEST[$this->_InputMapping['SearchValue']];
+        }
+
+        $_SESSION['Datagrid_' . $this->getAlias()]['SearchKey']     = $SearchKey;
+        $_SESSION['Datagrid_' . $this->getAlias()]['SearchValue']   = $SearchValue;
+
+        # Check for valid formats of key and value
+        if( ($SearchKey != '' AND $SearchValue != '') )
+        {
+            $this->_Query->andWhere($this->getCol($SearchKey)->getSortField() .' LIKE ?', array('%' . $SearchValue . '%') );
+        }
     }
 
     /**
     * Generate the PagerLayout for a query
-    *
     */
     private function _generatePagerLayout()
     {
@@ -1514,6 +1553,12 @@ class Clansuite_Datagrid_Renderer
                     $htmlString .= '</select>';
                 $htmlString .= '</div>';
             }
+            else
+            {
+                $htmlString .= '<div class="ResultsPerPage">';
+                    $htmlString .= $this->getDatagrid()->getPagerLayout()->getPager()->getNumResults() . _(' items');
+                $htmlString .= '</div>';
+            }
 
             $htmlString .= '</td></tr>';
         }
@@ -1609,6 +1654,15 @@ class Clansuite_Datagrid_Renderer
             $htmlString .= $this->_renderTableRow($oRow, !($i % 2));
         }
 
+        if( $htmlString == '' )
+        {
+            $htmlString .= '<tr class="DatagridRow DatagridRow-NoResults">';
+                $htmlString .= '<td class="DatagridCell DatagridCell-NoResults" colspan="'.$this->getDatagrid()->getColCount().'">';
+                $htmlString .= _('No Results');
+                $htmlString .= '</td>';
+            $htmlString .= '</tr>';
+        }
+
         return $htmlString;
     }
 
@@ -1700,6 +1754,36 @@ class Clansuite_Datagrid_Renderer
         }
     }
 
+    public function _renderTableSearch()
+    {
+        $request = Clansuite_CMS::getInjector()->instantiate('Clansuite_HttpRequest');
+
+        $htmlString = '';
+        if( $this->getDatagrid()->isEnabled('Search') )
+        {
+            $htmlString .= '<tr><td colspan="'.$this->getDatagrid()->getColCount().'">';
+            $htmlString .= '<input type="text" value="'.htmlentities($_SESSION['Datagrid_' . $this->getDatagrid()->getAlias()]['SearchValue']).'" name="'.$this->getDatagrid()->getInputParameterName('SearchValue').'" />';
+            $htmlString .= '<select name="'.$this->getDatagrid()->getInputParameterName('SearchKey').'">';
+            $aCols = $this->getDatagrid()->getCols();
+            foreach( $aCols as $oCol )
+            {
+                if( $oCol->isEnabled('Search') )
+                {
+                    $selected = '';
+                    if($request->getParameter($this->getDatagrid()->getInputParameterName('SearchKey')) == $oCol->getAlias())
+                    {
+                        $selected = ' selected="selected"';
+                    }
+                    $htmlString .= '<option value="'.$oCol->getAlias().'"'.$selected.'>'.$oCol->getName().'</option>';
+                }
+            }
+            $htmlString .= '</select>';
+            $htmlString .= '<input type="submit" value="'._('Search').'" name="submit" />';
+            $htmlString .= '</td></tr>';
+        }
+        return $htmlString;
+    }
+
     /**
      * Render the whole grid
      *
@@ -1735,6 +1819,7 @@ class Clansuite_Datagrid_Renderer
                 $_innerTableData .= $this->_renderTableCaption();
                 $_innerTableData .= $this->_renderTableHeader();
                 $_innerTableData .= $this->_renderTablePagination();
+                $_innerTableData .= $this->_renderTableSearch();
                 $_innerTableData .= $this->_renderTableBody();
                 $_innerTableData .= $this->_renderTablePagination(false);
                 $_innerTableData .= $this->_renderTableFooter();
