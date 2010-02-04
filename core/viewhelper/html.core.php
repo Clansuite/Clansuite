@@ -46,7 +46,7 @@ if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.');}
  * @copyright  Jens-André Koch (2005-onwards)
  *
  * @category    Clansuite
- * @package     Core
+ * @package     Viewhelper
  * @subpackage  HTML
  */
 
@@ -82,7 +82,7 @@ class Clansuite_HTML /* extends DOMDocument */
         $html_attributes = '';
         $html_attributes .= Clansuite_HTML::renderAttributes($attributes);
 
-        return '<span '.$html_attributes.'>'.$text.'</div>';
+        return '<span'.$html_attributes.'>'.$text.'</div>';
     }
 
     /**
@@ -98,7 +98,7 @@ class Clansuite_HTML /* extends DOMDocument */
         $html_attributes = '';
         $html_attributes .= Clansuite_HTML::renderAttributes($attributes);
 
-        return '<div '.$html_attributes.'>'.$text.'</div>';
+        return '<div'.$html_attributes.'>'.$text.'</div>';
     }
 
     /**
@@ -114,7 +114,7 @@ class Clansuite_HTML /* extends DOMDocument */
         $html_attributes = '';
         $html_attributes .= Clansuite_HTML::renderAttributes($attributes);
 
-        return '<p '.$html_attributes.'>'.$text.'</p>';
+        return '<p'.$html_attributes.'>'.$text.'</p>';
     }
 
     /**
@@ -131,7 +131,7 @@ class Clansuite_HTML /* extends DOMDocument */
         $html_attributes = '';
         $html_attributes .= Clansuite_HTML::renderAttributes($attributes);
 
-        return '<img '.$html_attributes.' src="$link_to_image" />';
+        return '<img'.$html_attributes.' src="$link_to_image" />';
     }
 
     /**
@@ -219,7 +219,7 @@ class Clansuite_HTML /* extends DOMDocument */
     public static function renderAttributes($attributes = array())
     {
         $html = '';
-        
+
         if(is_array($attributes))
         {
             # insert all attributes
@@ -228,7 +228,7 @@ class Clansuite_HTML /* extends DOMDocument */
                 $html .= " $key=\"$value\"";
             }
         }
-        
+
         return $html;
     }
 
