@@ -1779,7 +1779,7 @@ class Clansuite_Datagrid_Renderer
                 }
             }
             $htmlString .= '</select>';
-            $htmlString .= ' <input type="submit" value="'._('Search').'" name="submit" />';
+            $htmlString .= ' <input type="submit" value="'._('Search').'" />';
             $htmlString .= '</td></tr>';
         }
         return $htmlString;
@@ -1801,7 +1801,7 @@ class Clansuite_Datagrid_Renderer
 
         $_htmlCode .= '<link rel="stylesheet" type="text/css" href="'. WWW_ROOT_THEMES_CORE . '/css/datagrid.css" />';
         $_htmlCode .= '<script src="'. WWW_ROOT_THEMES_CORE . '/javascript/datagrid.js" type="text/javascript"></script>';
-        $_htmlCode .= '<form action="' . $this->getDatagrid()->getBaseURL() . '" method="post" name="Datagrid-' . $this->getDatagrid()->getAlias() . '">';
+        $_htmlCode .= '<form action="' . $this->getDatagrid()->getBaseURL() . '" method="post" name="Datagrid-' . $this->getDatagrid()->getAlias() . '" id="Datagrid-' . $this->getDatagrid()->getAlias() . '">';
 
             #$_htmlCode .= '<input type="hidden" name="action" value="' . Clansuite_ActionController_Resolver::getDefaultActionName() . '" />';
             #$_htmlCode .= '<input type="hidden" name="action" id="ActionId" value="' . ((isset($_REQUEST['action'])&&preg_match('#^[0-9a-z_]$#i',$_REQUEST['action']))?$_REQUEST['action']:'show') . '" />';
