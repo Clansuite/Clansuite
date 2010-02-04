@@ -5,39 +5,93 @@
 /* @import url("clansuite_buttons.css"); import clansuite button styles */
 @import url("ui_buttons.css"); /* import jquery ui button style */
 
-form { clear:both; margin:10px; font-family:Arial, Verdana; font-size:12px; color:#000000; }
-fieldset { margin-bottom:10px; padding:10px; border:1px solid #666; }
-legend { padding:0px 5px 0px 5px; }
+form
+{
+  clear:both;
+  font-family:Arial, Verdana;
+  font-size:12px;
+  color:#000;
+  margin:10px;
+}
 
-div.notice { padding:10px; border:1px solid #Fc7; background-color:#FCF9D8; }
+fieldset
+{
+  margin-bottom:10px;
+  border:1px solid #666;
+  padding:10px;
+}
 
-.formline { clear:both; padding:0px 0px 8px 0px; }
-div.formline div.forminside { margin-left:200px; }
-label { float:left; min-width:200px; }
-label em { float:right; }
+legend
+{
+  padding:0 5px;
+}
 
-span.formdescription { font-size:11px; color:#666666; }
-span.value { font-size:11px; margin-left:5px; }
+div.notice
+{
+  border:1px solid #Fc7;
+  background-color:#FCF9D8;
+  padding:10px;
+}
 
-input[type=radio], input[type=checkbox] { float:left; }
+.formline
+{
+  clear:both;
+  padding:0 0 8px;
+}
 
-input[type=password], select,
-input[type=text] { width:255px; }
+div.formline div.forminside
+{
+  margin-left:200px;
+}
 
-textarea { width:100%; }
+label
+{
+  float:left;
+  min-width:200px;
+  height: 40px;
+}
 
-input[type=text], input[type=password],
-input.text, input.title,
-textarea, select {
+span.formdescription
+{
+  font-size:11px;
+  color:#666;
+  float: left;
+}
+
+span.value
+{
+  font-size:11px;
+  margin-left:5px;
+}
+
+input[type=radio],input[type=checkbox]
+{
+  float:left;
+}
+
+input[type=password],select,input[type=text]
+{
+  width:255px;
+}
+
+textarea
+{
+  width:100%;
+}
+
+input[type=text],input[type=password],input.text,input.title,textarea,select
+{
   background-color:#fff;
   border:1px solid #bbb;
 }
 
-input[type=text]:focus, input[type=password]:focus,
-input.text:focus, input.title:focus,
-textarea:focus, select:focus {
-  border-color:#000000;
+input[type=text]:focus,input[type=password]:focus,input.text:focus,input.title:focus,textarea:focus,select:focus
+{
   background-color:#f4f4f3;
+  border-color:#000;
 }
 
-.formbutton { float:right; }
+label em,.formbutton
+{
+  float:right;
+}
