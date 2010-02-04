@@ -8,12 +8,6 @@
     {$newscategories|@var_dump}
 *}
 
-<style type="text/css">
-
-    .selected { color:green; }
-
-</style>
-
 <!-- start jq confirm dialog -->
 {jqconfirm}
 <!-- end jq confirm dialog -->
