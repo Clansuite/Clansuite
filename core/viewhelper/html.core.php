@@ -164,10 +164,10 @@ class Clansuite_HTML /* extends DOMDocument */
             }
             else
             {
-                $html .= '<li>'.$attribute.'</li>';
+                $html .= '<li>'.$attribute.'</li>' . CR;
             }
         }
-        $html .= '</ul>';
+        $html .= '</ul>' . CR;
 
 
         return $html;
@@ -264,7 +264,7 @@ class Clansuite_HTML /* extends DOMDocument */
             {
                 $html .= '>';
                 $html .= $text;
-                $html .= "</$tagname>";
+                $html .= "</$tagname>" . CR;
             }
 
             return $html;
