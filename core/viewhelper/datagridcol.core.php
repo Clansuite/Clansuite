@@ -37,11 +37,13 @@
 // Security Handler
 if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.');}
 
-if (!class_exists('Clansuite_Datagrid_Base', false)) { require 'datagrid.core.php'; }
+if (!class_exists('Clansuite_Datagrid_Base', false))    { require 'datagrid.core.php'; }
+if (!class_exists('Clansuite_HTML', false))             { require 'html.core.php'; }
 
 /**
 * Clansuite Datagrid Col
 *
+* Purpose:
 * Defines one single column for the datagrid
 *
 * @author Florian Wolf <xsign.dll@clansuite.com>
@@ -58,6 +60,13 @@ class Clansuite_Datagrid_Col extends Clansuite_Datagrid_Base
     * @var array Clansuite_Datagrid_Cell
     */
     private $_Cells = array();
+
+    /**
+    * The datagrid
+    *
+    * @var Clansuite_Datagrid $_Datagrid
+    */
+    private $_Datagrid;
 
     /**
     * The sortmode of the column
@@ -113,6 +122,16 @@ class Clansuite_Datagrid_Col extends Clansuite_Datagrid_Base
     }
 
     /**
+    * Set the datagrid object
+    *
+    * @param Clansuite_Datagrid $_Datagrid
+    */
+    public function setDatagrid($_Datagrid)
+    {
+        $this->_Datagrid = $_Datagrid;
+    }
+
+    /**
     * Set the position
     *
     * @param int
@@ -164,6 +183,16 @@ class Clansuite_Datagrid_Col extends Clansuite_Datagrid_Base
     //--------------------
 
     /**
+    * Get the Datagrid object
+    *
+    * @return Clansuite_Datagrid $_Datagrid
+    */
+    public function getDatagrid()
+    {
+        return $this->_Datagrid;
+    }
+
+    /**
     * Get the position
     *
     * @return int
@@ -206,6 +235,17 @@ class Clansuite_Datagrid_Col extends Clansuite_Datagrid_Base
     //--------------------
     // Class methods
     //--------------------
+
+    /**
+    * Brings up the object
+    *
+    * @param Clansuite_Datagrid $_Datagrid
+    * @return Clansuite_Datagrid_Col
+    */
+    public function __construct(Clansuite_Datagrid $_Datagrid)
+    {
+        $this->setDatagrid($_Datagrid);
+    }
 
     /**
     * Check for datagrid column features
@@ -341,7 +381,12 @@ interface Clansuite_Datagrid_Col_Renderer_Interface
 }
 
 /**
- * Interface for a Clansuite Datagrid Column Renderer
+ * Base of Col-Renderers
+ *
+ * Purpose:
+ * Standard integration for all renderers of a Clansuite_Datagrid_Col_Renderer
+ *
+ * @author Florian Wolf <xsign.dll@clansuite.com>
  */
 class Clansuite_Datagrid_Col_Renderer_Base
 {
@@ -352,15 +397,23 @@ class Clansuite_Datagrid_Col_Renderer_Base
     */
     private $_Col;
 
+    //---------------------
+    // Setter
+    //---------------------
+
     /**
     * Set the col object
     *
-    * @param Clansuite_Datagrid_Col
+    * @param Clansuite_Datagrid_Col $_Col
     */
     public function setCol($_Col)
     {
         $this->_Col = $_Col;
     }
+
+    //---------------------
+    // Getter
+    //---------------------
 
     /**
     * Get the column object
@@ -383,4 +436,5 @@ class Clansuite_Datagrid_Col_Renderer_Base
         $this->setCol($_Col);
     }
 }
+
 ?>

@@ -57,18 +57,18 @@ class Clansuite_Datagrid_Base
     private $_Style;
 
     // Setters
-    public function setAlias($_)   { $this->_Alias = $_; }
-    public function setName($_)    { $this->_Name = $_; }
-    public function setClass($_)   { $this->_Class = $_; }
-    public function setId($_)      { $this->_Id = $_; }
-    public function setStyle($_)   { $this->_Style = $_; }
+    public function setAlias($_)    { $this->_Alias = $_; }
+    public function setName($_)     { $this->_Name = $_; }
+    public function setClass($_)    { $this->_Class = $_; }
+    public function setId($_)       { $this->_Id = $_; }
+    public function setStyle($_)    { $this->_Style = $_; }
 
     // Getters
-    public function getAlias()   { return $this->_Alias; }
-    public function getName()    { return $this->_Name; }
-    public function getClass()   { return $this->_Class; }
-    public function getId()      { return $this->_Id; }
-    public function getStyle()   { return $this->_Style; }
+    public function getAlias()      { return $this->_Alias; }
+    public function getName()       { return $this->_Name; }
+    public function getClass()      { return $this->_Class; }
+    public function getId()         { return $this->_Id; }
+    public function getStyle()      { return $this->_Style; }
 }
 
 /**
@@ -104,11 +104,126 @@ class Clansuite_Datagrid extends Clansuite_Datagrid_Base
     //--------------------
 
     /**
+    * The BaseURL for this datagrid
+    * Every Link in the datagrid (sorting, pagination, etc.) has this URL as base
+    *
+    * @var string
+    */
+    private $_BaseURL   = 'index.php';
+
+    /**
+    * The Batchactions for this grid (edit, delete, move, ...)
+    *
+    * @var array
+    */
+    private $_BatchActions = array();
+
+    /**
+    * The caption (<caption>...</caption>) for this datagrid
+    *
+    * @var string
+    */
+    private $_Caption   = 'Caption';
+
+    /**
+    * Array of Clansuite_Datagrid_Cell objects
+    *
+    * @var array
+    */
+    private $_Cells     = array();
+
+    /**
+    * Amount of columns
+    *
+    * @var integer
+    */
+    private $_ColCount  = 0;
+
+    /**
+    * Array of Clansuite_Datagrid_Col objects
+    *
+    * @var array
+    */
+    private $_Cols      = array();
+
+    /**
+    * An array of sets (arrays) to configure the columns
+    *
+    * @var array
+    */
+    private $_ColumnSets = array();
+
+    /**
+    * The datagrid type
+    *
+    * @todo implement
+    * @var string
+    */
+    private $_DatagridType  = 'Normal';
+
+    /**
+    * Array of datasets
+    * Usually this will be a doctrine-dataset
+    *
+    * @var array
+    */
+    private $_Datasets = array();
+
+    /**
     * Doctrine Datatable object
     *
     * @var Doctrine_Datatable
     */
     private $_Datatable;
+
+    /**
+    * The description for this datagrid
+    *
+    * @var string
+    */
+    private $_Description   = 'This is a clansuite datagrid';
+
+    /**
+    * Boolean datagrid values for configuration, wrapped into an array
+    *
+    * @var array
+    */
+    private $_Features = array(
+        'Label'         => true,
+        'Caption'       => true,
+        'Description'   => true,
+        'Header'        => true,
+        'Pagination'    => true,
+        'Footer'        => true,
+        'Sorting'       => true,
+        'BatchActions'  => true
+    );
+
+    /**
+    * Maps internal variables to incoming parameters
+    * Default URL: ?sk=Title&sv=DESC&p=2&rpp=10
+    *
+    * @var array
+    */
+    private $_InputMapping = array( 'SortKey'        => 'sk',
+                                    'SortValue'      => 'sv',
+                                    'Page'           => 'p',
+                                    'ResultsPerPage' => 'rpp' );
+
+    /**
+    * The label for this datagrid
+    *
+    * @var string
+    */
+    private $_Label     = 'Label';
+
+    /**
+    * Doctrine Pager Layout object
+    *
+    * @link http://www.doctrine-project.org/documentation/manual/1_2/en/utilities#pagination:working-with-pager Doctrine_Pager_Layout
+    * @var Doctrine_Pager_Layout
+    */
+    private $_PagerLayout;
 
     /**
     * Doctrine Query object
@@ -134,19 +249,18 @@ class Clansuite_Datagrid extends Clansuite_Datagrid_Base
     private $_QueryName = 'fetchAll';
 
     /**
-    * Doctrine Pager Layout object
-    *
-    * @link http://www.doctrine-project.org/documentation/manual/1_2/en/utilities#pagination:working-with-pager Doctrine_Pager_Layout
-    * @var Doctrine_Pager_Layout
-    */
-    private $_PagerLayout;
-
-    /**
     * The renderer for the datagrid
     *
     * @var Clansuite_Datagrid_Renderer
     */
     private $_Renderer;
+
+    /**
+    * Array of Clansuite_Datagrid_Row objects
+    *
+    * @var array
+    */
+    private $_Rows      = array();
 
     /**
     * Associated sortables
@@ -160,102 +274,6 @@ class Clansuite_Datagrid extends Clansuite_Datagrid_Base
                       'NATDESC' => 'NATASC'
     );
 
-    /**
-    * Array of Clansuite_Datagrid_Col objects
-    *
-    * @var array
-    */
-    private $_Cols      = array();
-
-    /**
-    * Amount of columns
-    *
-    * @var integer
-    */
-    private $_ColCount  = 0;
-
-    /**
-    * Array of datasets
-    * Usually this will be a doctrine-resultset
-    *
-    * @var array
-    */
-    private $_Datasets = array();
-
-    /**
-    * Array of Clansuite_Datagrid_Row objects
-    *
-    * @var array
-    */
-    private $_Rows      = array();
-
-    /**
-    * Array of Clansuite_Datagrid_Cell objects
-    *
-    * @var array
-    */
-    private $_Cells     = array();
-
-
-    /**
-    * The label for this datagrid (<div>...</div>)
-    *
-    * @var string
-    */
-    private $_Label     = 'Label';
-
-    /**
-    * The caption (<caption>...</caption>) for this datagrid
-    *
-    * @var string
-    */
-    private $_Caption   = 'Caption';
-
-    /**
-    * The description for this datagrid
-    *
-    * @var string
-    */
-    private $_Description   = 'This is a clansuite datagrid';
-
-    /**
-    * The datagrid type
-    *
-    * @todo implement
-    * @var string
-    */
-    private $_DatagridType  = 'Normal';
-
-    /**
-    * The baseURL for this datagrid
-    * Every Link in the datagrid (sorting, pagination, etc.) has this URL as base
-    *
-    * @var string
-    */
-    private $_BaseURL   = 'index.php';
-
-    /**
-    * Boolean datagrid values for configuration, wrapped into an array
-    *
-    * @var array
-    */
-    private $_Features = array(
-        'Label'         => true,
-        'Caption'       => true,
-        'Description'   => true,
-        'Header'        => true,
-        'Pagination'    => true,
-        'Footer'        => true,
-        'Sorting'       => true
-    );
-
-    /**
-    * An array of sets to configure the columns
-    *
-    * @var array
-    */
-    private $_ColumnSets = array();
-
 
     //--------------------
     // Setter
@@ -268,7 +286,7 @@ class Clansuite_Datagrid extends Clansuite_Datagrid_Base
     /**
     * Set the baseurl and modify string
     *
-    * @param string
+    * @param string $_BaseURL
     */
     private function _setBaseURL($_BaseURL)
     {
@@ -276,16 +294,29 @@ class Clansuite_Datagrid extends Clansuite_Datagrid_Base
     }
 
     /**
-    * Sets the column objects of the grid
+    * Set the batchactions
     *
-    * @param array Clansuite_Datagrid_Col
+    * @param array $_BatchActions
     */
-    public function setCols($_Cols)                 { $this->_Cols = $_Cols; }
+    public function setBatchActions( $_BatchActions )
+    {
+        $this->_BatchActions = $_BatchActions;
+    }
+
+    /**
+    * Sets the column objects of the grid (Clansuite_Datagrid_Col)
+    *
+    * @param array $_Cols
+    */
+    public function setCols($_Cols)
+    {
+        $this->_Cols = $_Cols;
+    }
 
     /**
     * Set the Datatable of the generator
     *
-    * @param Doctrine_Datatable
+    * @param Doctrine_Datatable $_Datatable
     */
     public function setDatatable(Doctrine_Table $_Datatable)
     {
@@ -296,23 +327,32 @@ class Clansuite_Datagrid extends Clansuite_Datagrid_Base
     /**
     * Set the doctrine pager layout object
     *
-    * @param Doctrine_Pager_Layout
+    * @param Doctrine_Pager_Layout $_PagerLayout
     */
-    public function setPagerLayout($_PagerLayout)         { $this->_PagerLayout = $_PagerLayout; }
+    public function setPagerLayout(Doctrine_Pager_Layout $_PagerLayout)
+    {
+        $this->_PagerLayout = $_PagerLayout;
+    }
 
     /**
     * Set the renderer object
     *
     * @param Clansuite_Datagrid_Renderer $_Renderer
     */
-    public function setRenderer($_Renderer)         { $this->_Renderer = $_Renderer; }
+    public function setRenderer(Clansuite_Datagrid_Renderer $_Renderer)
+    {
+        $this->_Renderer = $_Renderer;
+    }
 
     /**
-    * Sets the row objects of the grid
+    * Sets the row objects of the grid (Clansuite_Datagrid_Row)
     *
-    * @param array Clansuite_Datagrid_Row
+    * @param array $_Rows
     */
-    public function setRows($_Rows)                 { $this->_Rows = $_Rows; }
+    public function setRows($_Rows)
+    {
+        $this->_Rows = $_Rows;
+    }
 
     /**
     * Sets the queryname and updates the datagrid
@@ -333,6 +373,7 @@ class Clansuite_Datagrid extends Clansuite_Datagrid_Base
     public function getCaption()        { return $this->_Caption; }
     public function getDescription()    { return $this->_Description; }
     public function getBaseURL()        { return $this->_BaseURL; }
+    public function getBatchActions()   { return $this->_BatchActions; }
 
     /**
     * Get a column depending on its alias
@@ -350,9 +391,9 @@ class Clansuite_Datagrid extends Clansuite_Datagrid_Base
     public function getColCount()       { return count($this->getCols()); }
 
     /**
-    * Returns the column objects (ref)
+    * Returns the column objects (Clansuite_Datagrid_Col)
     *
-    * @return array Clansuite_Datagrid_Col
+    * @return array
     */
     public function getCols()           { return $this->_Cols; }
 
@@ -364,6 +405,20 @@ class Clansuite_Datagrid extends Clansuite_Datagrid_Base
     public function getDatatable()
     {
         return $this->_Datatable;
+    }
+
+    /**
+    * Get the input parameter depending on the mapping
+    *
+    * @param string $_InternalKey
+    */
+    public function getInputParameterName($_InternalKey)
+    {
+        if( !isset($this->_InputMapping[$_InternalKey]) )
+        {
+            throw new Clansuite_Exception(_('This internal key is not know to private array $_InputMapping: ') . $_InternalKey);
+        }
+        return $this->_InputMapping[$_InternalKey];
     }
 
     /**
@@ -381,9 +436,9 @@ class Clansuite_Datagrid extends Clansuite_Datagrid_Base
     public function getRenderer()       { return $this->_Renderer; }
 
     /**
-    * Returns the row objects
+    * Returns the row objects (Clansuite_Datagrid_Row)
     *
-    * @return array Clansuite_Datagrid_Row
+    * @return array
     */
     public function getRows()           { return $this->_Rows; }
 
@@ -395,7 +450,9 @@ class Clansuite_Datagrid extends Clansuite_Datagrid_Base
     public function getSortReverseDefinition($_sortMode)
     {
         if( !isset($this->_SortReverseDefinitions[$_sortMode]) )
-            throw new Clansuite_Exception(_('This sortMode is not in the list: ') . $_sortMode );
+        {
+            throw new Clansuite_Exception(_('This sortMode is not in the list of private var $_SortReverseDefinitions: ') . $_sortMode );
+        }
 
         return $this->_SortReverseDefinitions[$_sortMode];
     }
@@ -586,45 +643,43 @@ class Clansuite_Datagrid extends Clansuite_Datagrid_Base
     * Set Datagrid Cols (internally without auto-update)
     *
     * @params array Columns Array
-    * @example
-    *    $this->_setDatagridCols = array(
-    *           0 => array(
-    *                    'Alias'   => 'Title',
-    *                    'ResultKey'   => 'n.news_title',
-    *                    'Name'    => _('Title'),
-    *                    'Sort'    => 'DESC'
-    *                    ),
-    *           1 => array(
-    *                    'Alias'   => 'Status',
-    *                    'ResultKey'   => 'n.news_status',
-    *                    'Name'    => _('Status'),
-    *                    'Sort'    => 'ASC'
-    *                    ),
-    *    );
     */
     private function _setColumnSets($_ColumnSets = array())
     {
         foreach( $_ColumnSets as $key => $colSet )
         {
+            # No alias given
             if( !isset($colSet['Alias']) || $colSet['Alias'] == '' )
-            { throw new Clansuite_Exception(sprintf(_('The datagrid columnset has an error at key %s (arraykey "Alias" is missing)'), $key)); }
-
-            if( !isset($colSet['ResultKey']) || $colSet['ResultKey'] == '' )
-            { throw new Clansuite_Exception(sprintf(_('The datagrid columnset has an error at key %s (arraykey "DBCol" is missing)'), $key)); }
-
-            if( !isset($colSet['Name']) || $colSet['Name'] == '')
-            { throw new Clansuite_Exception(sprintf(_('The datagrid columnset has an error at key %s (arraykey "Name" is missing)'), $key)); }
-
-            if( !isset($colSet['Sort']) || $colSet['Sort'] == '')
             {
-                $colSet['Sort'] = 'DESC';
+                throw new Clansuite_Exception(sprintf(_('The datagrid columnset has an error at key %s (arraykey "Alias" is missing)'), $key));
             }
 
+            # No resultset given
+            if( !isset($colSet['ResultSet']) || $colSet['ResultSet'] == '' )
+            {
+                throw new Clansuite_Exception(sprintf(_('The datagrid columnset has an error at key %s (arraykey "ResultSet" is missing)'), $key));
+            }
+
+            # No name given
+            if( !isset($colSet['Name']) || $colSet['Name'] == '')
+            {
+                throw new Clansuite_Exception(sprintf(_('The datagrid columnset has an error at key %s (arraykey "Name" is missing)'), $key));
+            }
+
+            # No SortCol although sorting is enabled
+            if( isset($colSet['Sort']) AND !isset($colSet['SortCol']) )
+            {
+                throw new Clansuite_Exception(sprintf(_('The datagrid columnset has an error at key %s (sorting is enabled but "SortCol" is missing)'), $key));
+            }
+
+            # Default type: String
             if( !isset($colSet['Type']) || $colSet['Type'] == '')
             {
                 $colSet['Type'] = 'String';
             }
         }
+
+        # Everything validates
         $this->_ColumnSets = $_ColumnSets;
     }
 
@@ -657,7 +712,7 @@ class Clansuite_Datagrid extends Clansuite_Datagrid_Base
     {
         foreach( $this->_ColumnSets as $colKey => &$colSet )
         {
-            $oCol = new Clansuite_Datagrid_Col();
+            $oCol = new Clansuite_Datagrid_Col($this);
             $oCol->setAlias($colSet['Alias']);
             $oCol->setId($colSet['Alias']);
             $oCol->setName($colSet['Name']);
@@ -674,7 +729,7 @@ class Clansuite_Datagrid extends Clansuite_Datagrid_Base
                 }
                 else
                 {
-                    $oCol->setSortField($colSet['ResultKey']);
+                    $oCol->setSortField($colSet['ResultSet']);
                 }
             }
             $oCol->setPosition($colKey);
@@ -692,7 +747,7 @@ class Clansuite_Datagrid extends Clansuite_Datagrid_Base
     {
         foreach( $_Datasets as $dataKey => $dataSet )
         {
-            $oRow = new Clansuite_Datagrid_Row();
+            $oRow = new Clansuite_Datagrid_Row($this);
             $oRow->setAlias('Row_' . $dataKey);
             $oRow->setId('RowId_' . $dataKey);
             $oRow->setName('RowName_' . $dataKey);
@@ -732,7 +787,7 @@ class Clansuite_Datagrid extends Clansuite_Datagrid_Base
     * @param array The dbSet for this column
     * @return string The records value
     */
-    private function _getCellValues(&$_ColumnSet, &$_Datasets)
+    private function _getCellValues(&$_ColumnSet, &$_Dataset)
     {
         if( !is_array($_ColumnSet) )
         {
@@ -741,32 +796,35 @@ class Clansuite_Datagrid extends Clansuite_Datagrid_Base
 
         $_Values = array();
 
-        # Standard for ResultKeys is an array
-        if( !is_array($_ColumnSet['ResultKey']) )
+        # Standard for ResultSets is an array
+        if( !is_array($_ColumnSet['ResultSet']) )
         {
-            $aResultKeys = array($_ColumnSet['ResultKey']);
+            $aResultSet = array($_ColumnSet['ResultSet']);
         }
         else
         {
-            $aResultKeys = $_ColumnSet['ResultKey'];
+            $aResultSet = $_ColumnSet['ResultSet'];
         }
 
-        foreach($aResultKeys as $ResultKey)
+        $i = 0;
+        foreach($aResultSet as $ResultKey => $ResultValue)
         {
-            $_ArrayStructure = explode('.', $ResultKey);
+            $_ArrayStructure = explode('.', $ResultValue);
 
-            $_TmpArrayHandler = $_Datasets;
+            $_TmpArrayHandler = $_Dataset;
             foreach( $_ArrayStructure as $_LevelKey )
             {
                 if( !is_array($_TmpArrayHandler) OR !isset($_TmpArrayHandler[$_LevelKey]) )
                 {
-                    Clansuite_Xdebug::firebug('ResultKey not found in database ResultSet: ' . $ResultKey, 'warn');
+                    Clansuite_Xdebug::firebug('ResultSet not found in Dataset: ' . $ResultValue, 'warn');
                     $_TmpArrayHandler = '';
                     break;
                 }
                 $_TmpArrayHandler = $_TmpArrayHandler[$_LevelKey];
             }
-            array_push($_Values, $_TmpArrayHandler);
+            $_Values[$i] = $_TmpArrayHandler;
+            $_Values[$ResultKey] = $_TmpArrayHandler;
+            $i++;
         }
         return $_Values;
     }
@@ -800,35 +858,33 @@ class Clansuite_Datagrid extends Clansuite_Datagrid_Base
     */
     private function _generateQuerySorts()
     {
+        $aSort      = array();
+        $SortKey    = '';
+        $SortValue  = '';
 
-        $aSort = array();
-        $sSort = '';
-
-        # Set sort if in session
-        if( isset($_SESSION['Datagrid_' . $this->getAlias()]['Sort']) )
+        # Set sortkey and sortvalue if in session
+        if( isset($_SESSION['Datagrid_' . $this->getAlias()]['SortKey']) AND isset($_SESSION['Datagrid_' . $this->getAlias()]['SortValue']) )
         {
-            $sSort = $_SESSION['Datagrid_' . $this->getAlias()]['Sort'];
+            $SortKey    = $_SESSION['Datagrid_' . $this->getAlias()]['SortKey'];
+            $SortValue  = $_SESSION['Datagrid_' . $this->getAlias()]['SortValue'];
         }
 
         # Prefer requests
-        if( isset($_REQUEST['dg_Sort']) )
+        if( isset($_REQUEST[$this->_InputMapping['SortKey']]) AND isset($_REQUEST[$this->_InputMapping['SortValue']]) )
         {
-            $sSort = $_REQUEST['dg_Sort'];
+            $SortKey    = $_REQUEST[$this->_InputMapping['SortKey']];
+            $SortValue  = $_REQUEST[$this->_InputMapping['SortValue']];
         }
 
-        if( $sSort != '' )
+        # Check for valid formats of key and value
+        if( ($SortKey != '' AND $SortValue != '') AND
+            ( preg_match('#^([0-9a-z_]+)#i', $SortKey) AND preg_match('#([a-z]+)$#i', $SortValue) ) )
         {
-            if( preg_match('#^([0-9a-z_]+):([a-z]+)$#i', $sSort, $aSort) )
-            {
-                $SortKey = $aSort[1];
-                $SortValue = $aSort[2];
-                $_SESSION['Datagrid_' . $this->getAlias()]['Sort'] = $sSort;
-                $this->getRenderer()->setCurrentSort($sSort);
-            }
-        }
+            $_SESSION['Datagrid_' . $this->getAlias()]['SortKey']   = $SortKey;
+            $_SESSION['Datagrid_' . $this->getAlias()]['SortValue'] = $SortValue;
+            $this->getRenderer()->setCurrentSortKey($SortKey);
+            $this->getRenderer()->setCurrentSortValue($SortValue);
 
-        if( isset($SortKey) && isset($this->_SortReverseDefinitions[$SortValue]))
-        {
             $oCol = $this->getCol($SortKey);
             $this->_Query->orderBy($oCol->getSortField() . ' ' . $SortValue);
             $oCol->setSortMode($SortValue);
@@ -861,15 +917,16 @@ class Clansuite_Datagrid extends Clansuite_Datagrid_Base
         }
 
         # Add to session
-        if( isset($_REQUEST['dg_Page']) )
+        if( isset($_REQUEST[$this->_InputMapping['Page']]) )
         {
-            $_Page = (int) $_REQUEST['dg_Page'];
+            $_Page = (int) $_REQUEST[$this->_InputMapping['Page']];
             $_SESSION['Datagrid_' . $this->getAlias()]['Page'] = $_Page;
         }
 
-        if( isset($_REQUEST['dg_ResultsPerPage']) )
+        if( isset($_REQUEST[$this->_InputMapping['ResultsPerPage']]) )
         {
-            $_ResultsPerPage = (int) $_REQUEST['dg_ResultsPerPage'];
+            Clansuite_Xdebug::firebug('ResultsPerPage:' . $_ResultsPerPage);
+            $_ResultsPerPage = (int) $_REQUEST[$this->_InputMapping['ResultsPerPage']];
             $_SESSION['Datagrid_' . $this->getAlias()]['ResultsPerPage'] = $_ResultsPerPage;
         }
 
@@ -886,7 +943,7 @@ class Clansuite_Datagrid extends Clansuite_Datagrid_Base
                                     new Doctrine_Pager_Range_Sliding(array(
                                         'chunk' => 5
                                     )),
-                                    $this->addToUrl('?dg_Page={%page}')
+                                    $this->addToUrl('?' . $this->_InputMapping['Page'] . '={%page}')
                               ) );
 
         # Set the layout of the pager links
@@ -919,6 +976,13 @@ class Clansuite_Datagrid_Row extends Clansuite_Datagrid_Base
     * @var array Clansuite_Datagrid_Cell
     */
     private $_Cells = array();
+
+    /**
+    * The datagrid
+    *
+    * @var Clansuite_Datagrid $_Datagrid
+    */
+    private $_Datagrid;
 
     /**
     * The position of a column
@@ -1038,6 +1102,16 @@ class Clansuite_Datagrid_Cell extends Clansuite_Datagrid_Base
     public function setCol($_Col)      { $this->_Col = $_Col; }
 
     /**
+    * Set the datagrid object
+    *
+    * @param Clansuite_Datagrid $_Datagrid
+    */
+    public function setDatagrid($_Datagrid)
+    {
+        $this->_Datagrid = $_Datagrid;
+    }
+
+    /**
     * Set the row object of this cell
     *
     * @param Clansuite_Datagrid_Row $_Row
@@ -1068,6 +1142,16 @@ class Clansuite_Datagrid_Cell extends Clansuite_Datagrid_Base
     * @return Clansuite_Datagrid_Col $_Col
     */
     public function getCol()    { return $this->_Col; }
+
+    /**
+    * Get the Datagrid object
+    *
+    * @return Clansuite_Datagrid $_Datagrid
+    */
+    public function getDatagrid()
+    {
+        return $this->_Datagrid;
+    }
 
     /**
     * Returns the row object of this cell
@@ -1121,6 +1205,34 @@ class Clansuite_Datagrid_Renderer
     //----------------------
 
     /**
+    * Holds the current page
+    *
+    * @var integer
+    */
+    private $_CurrentPage;
+
+    /**
+    * Holds the current results per page
+    *
+    * @var integer
+    */
+    private $_CurrentResultsPerPage;
+
+    /**
+    * Holds the current sort key
+    *
+    * @var string
+    */
+    private $_CurrentSortKey;
+
+    /**
+    * Holds the current sort value
+    *
+    * @var string
+    */
+    private $_CurrentSortValue;
+
+    /**
     * The datagrid
     *
     * @var Clansuite_Datagrid $_Datagrid
@@ -1133,7 +1245,7 @@ class Clansuite_Datagrid_Renderer
     * @link http://www.doctrine-project.org/documentation/manual/1_2/en/utilities#pagination:customizing-pager-layout Customizing Pager Layout
     * @var string
     */
-    private $_PagerLayoutString = '[{%page}]';
+    private $_PagerLayoutString = '<span class="PagerItem Active">{%page}</span>';
 
     /**
     * The look of the links of the pager
@@ -1141,28 +1253,7 @@ class Clansuite_Datagrid_Renderer
     * @link http://www.doctrine-project.org/documentation/manual/1_2/en/utilities#pagination:customizing-pager-layout Customizing Pager Layout
     * @var string
     */
-    private $_PagerLinkLayoutString = '[<a href="{%url}">{%page}</a>]';
-
-    /**
-    * Holds the current results per page
-    *
-    * @var integer
-    */
-    private $_CurrentResultsPerPage;
-
-    /**
-    * Holds the current page
-    *
-    * @var integer
-    */
-    private $_CurrentPage;
-
-    /**
-    * Holds the current set sort string
-    *
-    * @var string
-    */
-    private $_CurrentSort;
+    private $_PagerLinkLayoutString = '<a href="{%url}"><span class="PagerItem Inactive">{%page}</span></a>';
 
     //----------------------
     // Class methods
@@ -1198,11 +1289,18 @@ class Clansuite_Datagrid_Renderer
     public function setCurrentResultsPerPage($_Value)           { $this->_CurrentResultsPerPage = $_Value; }
 
     /**
-    * Sets the current sort string
+    * Sets the current sortkey
     *
     * @param string
     */
-    public function setCurrentSort($_Sort)                      { $this->_CurrentSort = $_Sort; }
+    public function setCurrentSortKey($_SortKey)                { $this->_CurrentSortKey = $_SortKey; }
+
+    /**
+    * Sets the current sortkey
+    *
+    * @param string
+    */
+    public function setCurrentSortValue($_SortValue)            { $this->_CurrentSortValue = $_SortValue; }
 
     /**
     * Set the datagrid object
@@ -1249,13 +1347,19 @@ class Clansuite_Datagrid_Renderer
     */
     public function getCurrentResultsPerPage()      { return $this->_CurrentResultsPerPage; }
 
-
     /**
-    * Gets the current sort string
+    * Gets the current sortkey
     *
     * @return string
     */
-    public function getCurrentSort()                { return $this->_CurrentSort; }
+    public function getCurrentSortKey()             { return $this->_CurrentSortKey; }
+
+    /**
+    * Gets the current sortvalue
+    *
+    * @return string
+    */
+    public function getCurrentSortValue()           { return $this->_CurrentSortValue; }
 
     /**
     * Get the Datagrid object
@@ -1353,17 +1457,11 @@ class Clansuite_Datagrid_Renderer
     /**
     * Represents a sortstring for a-Tags
     *
-    * @return string Returns a string such as index.php?mod=news&amp;action=admin&amp;dg_Sort=0;ASC&amp;
+    * @return string Returns a string such as index.php?mod=news&action=admin&sk=Title&sv=DESC
     */
-    private function _getSortString($_colKey, $_sortMode)
+    private function _getSortString($_SortKey, $_SortValue)
     {
-        $StartSeparator = '?';
-        if( preg_match('#\?#', $this->getDatagrid()->getBaseURL()) )
-        {
-            $StartSeparator = '&amp;';
-        }
-
-        return $this->getDatagrid()->getBaseURL() . $StartSeparator . 'dg_Sort=' . $_colKey . ':' . $_sortMode;
+        return $this->getDatagrid()->addToUrl('?' . $this->getDatagrid()->getInputParameterName('SortKey') . '=' . $_SortKey . '&' . $this->getDatagrid()->getInputParameterName('SortValue') . '=' . $_SortValue);
     }
 
     /**
@@ -1396,7 +1494,7 @@ class Clansuite_Datagrid_Renderer
     *
     * @return string Returns the html-code for the pagination row
     */
-    private function _renderTablePagination()
+    private function _renderTablePagination($_ShowResultsPerPage = true)
     {
         $htmlString = '';
         #Clansuite_Xdebug::firebug('Pagination: ' . $this->getDatagrid()->getPagerLayout());
@@ -1405,14 +1503,18 @@ class Clansuite_Datagrid_Renderer
             $htmlString .= '<tr><td class="DatagridPagination DatagridPagination-'. $this->getDatagrid()->getAlias() .'" colspan="'. $this->getDatagrid()->getColCount() .'">';
             $htmlString .= '<div class="Pages">' . $this->getDatagrid()->getPagerLayout() . '</div>';
 
-            $htmlString .= '<div class="ResultsPerPage">';
-                $htmlString .= '<select name="dg_ResultsPerPageSelector" onChange="this.form.dg_ResultsPerPage.value=this.options[this.selectedIndex].value;this.form.submit();">';
-                    $htmlString .= '<option value="10" ' . (($this->getCurrentResultsPerPage()==10) ? 'selected="selected"' : '') . '>10</option>';
-                    $htmlString .= '<option value="20" ' . (($this->getCurrentResultsPerPage()==20) ? 'selected="selected"' : '') . '>20</option>';
-                    $htmlString .= '<option value="50" ' . (($this->getCurrentResultsPerPage()==50) ? 'selected="selected"' : '') . '>50</option>';
-                    $htmlString .= '<option value="100" ' . (($this->getCurrentResultsPerPage()==100) ? 'selected="selected"' : '') . '>100</option>';
-                $htmlString .= '</select>';
-            $htmlString .= '</div>';
+            if( $_ShowResultsPerPage )
+            {
+                $htmlString .= '<div class="ResultsPerPage">';
+                    $htmlString .= '<select name="' . $this->getDatagrid()->getInputParameterName('ResultsPerPage') . '" onChange="this.form.submit();">';
+                        $htmlString .= '<option value="10" ' . (($this->getCurrentResultsPerPage()==10) ? 'selected="selected"' : '') . '>10</option>';
+                        $htmlString .= '<option value="20" ' . (($this->getCurrentResultsPerPage()==20) ? 'selected="selected"' : '') . '>20</option>';
+                        $htmlString .= '<option value="50" ' . (($this->getCurrentResultsPerPage()==50) ? 'selected="selected"' : '') . '>50</option>';
+                        $htmlString .= '<option value="100" ' . (($this->getCurrentResultsPerPage()==100) ? 'selected="selected"' : '') . '>100</option>';
+                    $htmlString .= '</select>';
+                $htmlString .= '</div>';
+            }
+
             $htmlString .= '</td></tr>';
         }
         return $htmlString;
@@ -1430,7 +1532,10 @@ class Clansuite_Datagrid_Renderer
         $htmlString .= $this->_renderTableRowsHeader();
         #$htmlString .= $this->_renderTableActions();
         $htmlString .= $this->_renderTableRows();
-        $htmlString .= $this->_renderTableActions();
+        if( $this->getDatagrid()->isEnabled('BatchActions') )
+        {
+            $htmlString .= $this->_renderTableBatchActions();
+        }
         $htmlString .= '</tbody>';
         return $htmlString;
     }
@@ -1459,8 +1564,10 @@ class Clansuite_Datagrid_Renderer
     *
     * @return string Returns the html-code for the actions
     */
-    private function _renderTableActions()
+    private function _renderTableBatchActions()
     {
+        $config = Clansuite_CMS::getInjector()->instantiate('Clansuite_Config')->toArray();
+
         $htmlString = '';
         $htmlString .= '<tr>';
 
@@ -1469,7 +1576,15 @@ class Clansuite_Datagrid_Renderer
         $htmlString .= '</td>';
 
         $htmlString .= '<td colspan=' . ($this->getDatagrid()->getColCount()-1) . '>';
-        $htmlString .= '<select name="DatagridActions"><option>(bitte auswählen)</option><option>Verschieben</option><option>Löschen</option></select><input type="submit" value="Ausführen" />';
+
+        $htmlString .= '<select name="action" id="BatchActionId">';
+        $htmlString .= '<option value="'.$config['defaults']['action'].'">' . _('(Please select)') . '</option>';
+        foreach( $this->getDatagrid()->getBatchActions() as $BatchActionSet )
+        {
+            $htmlString .= '<option value="' . $BatchActionSet['Action'] . '">' . $BatchActionSet['Name'] . '</option>';
+        }
+        $htmlString .= '</select>';
+        $htmlString .= '<input type="submit" value="' . _('Execute') . '" />';
         $htmlString .= '</td>';
 
         $htmlString .= '</tr>';
@@ -1554,7 +1669,10 @@ class Clansuite_Datagrid_Renderer
         $htmlString .= $oCol->getName();
         if( $oCol->isEnabled('Sorting') )
         {
-            $htmlString .= '&nbsp;<a href="' . $this->_getSortString($oCol->getAlias(), $this->getDatagrid()->getSortReverseDefinition($oCol->getSortMode())) . '">' . _($oCol->getSortMode()) . '</a>';
+            $htmlString .= '&nbsp;<a href="' . $this->_getSortString($oCol->getAlias(), $this->getDatagrid()->getSortReverseDefinition($oCol->getSortMode())) . '">';
+            #$htmlString .= '<img src="' . WWW_ROOT_THEMES .'/'. $_SESSION['user']['theme'] .'/" />';
+            $htmlString .= _($oCol->getSortMode());
+            $htmlString .= '</a>';
         }
         $htmlString .= '</th>';
 
@@ -1585,7 +1703,8 @@ class Clansuite_Datagrid_Renderer
     /**
      * Render the whole grid
      *
-     * @return string Returns the html-code for the whole datagrid and its resultset of the named query
+     * @todo vain: Clansuite_ActionController_Resolver::getDefaultActionName() + resolve ternary
+     * @return string Returns the html-code for the whole datagrid and its dataset of the named query
      */
     public function render()
     {
@@ -1599,9 +1718,12 @@ class Clansuite_Datagrid_Renderer
         $_htmlCode .= '<script src="'. WWW_ROOT_THEMES_CORE . '/javascript/datagrid.js" type="text/javascript"></script>';
         $_htmlCode .= '<form action="' . $this->getDatagrid()->getBaseURL() . '" method="post" name="Datagrid-' . $this->getDatagrid()->getAlias() . '">';
 
-            $_htmlCode .= '<input type="hidden" name="dg_Page" value="' . $this->getCurrentPage() . '" />';
-            $_htmlCode .= '<input type="hidden" name="dg_ResultsPerPage" value="' . $this->getCurrentResultsPerPage() . '" />';
-            $_htmlCode .= '<input type="hidden" name="dg_Sort" value="' . $this->getCurrentSort() . '" />';
+            #$_htmlCode .= '<input type="hidden" name="action" value="' . Clansuite_ActionController_Resolver::getDefaultActionName() . '" />';
+            #$_htmlCode .= '<input type="hidden" name="action" id="ActionId" value="' . ((isset($_REQUEST['action'])&&preg_match('#^[0-9a-z_]$#i',$_REQUEST['action']))?$_REQUEST['action']:'show') . '" />';
+            $_htmlCode .= '<input type="hidden" name="' . $this->getDatagrid()->getInputParameterName('Page') . '" value="' . $this->getCurrentPage() . '" />';
+            $_htmlCode .= '<input type="hidden" name="' . $this->getDatagrid()->getInputParameterName('ResultsPerPage') . '" value="' . $this->getCurrentResultsPerPage() . '" />';
+            $_htmlCode .= '<input type="hidden" name="' . $this->getDatagrid()->getInputParameterName('SortKey') . '" value="' . $this->getCurrentSortKey() . '" />';
+            $_htmlCode .= '<input type="hidden" name="' . $this->getDatagrid()->getInputParameterName('SortValue') . '" value="' . $this->getCurrentSortValue() . '" />';
 
             $_htmlCode .= '<div class="Datagrid ' . $this->getDatagrid()->getClass() . '">';
 
@@ -1614,7 +1736,7 @@ class Clansuite_Datagrid_Renderer
                 $_innerTableData .= $this->_renderTableHeader();
                 $_innerTableData .= $this->_renderTablePagination();
                 $_innerTableData .= $this->_renderTableBody();
-                $_innerTableData .= $this->_renderTablePagination();
+                $_innerTableData .= $this->_renderTablePagination(false);
                 $_innerTableData .= $this->_renderTableFooter();
 
                 $_htmlCode .= $this->_renderTable($_innerTableData);

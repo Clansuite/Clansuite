@@ -119,53 +119,62 @@ class Module_News_Admin extends Clansuite_ModuleController implements Clansuite_
         // Datagrid configuration
         //--------------------------
 
-        #@todo move props into +.column.php objects
         require ROOT_CORE . DS . "viewhelper" . DS . "Datagrid.core.php";
         $ColumnSets = array();
 
         $ColumnSets[] = array(  'Alias'     => 'Select',
-                                'ResultKey' => 'news_id',
+                                'ResultSet' => 'news_id',
                                 'Name'      => _('[x]'),
                                 'Type'      => 'Checkbox' );
 
-        $ColumnSets[] = array(  'Alias'     => 'Date',
-                                'ResultKey' => 'created_at',
-                                'Name'      => _('Date'),
-                                'Sort'      => 'DESC',
-                                'Type'      => 'Date' );
-
         $ColumnSets[] = array(  'Alias'     => 'Title',
-                                'ResultKey' => 'news_title',
+                                'ResultSet' => array(   'name'  => 'news_title',
+                                                        'id'    => 'news_id' ),
                                 'Name'      => _('Title'),
                                 'Sort'      => 'DESC',
-                                'Type'      => 'String' );
+                                'SortCol'   => 'news_title',
+                                'Type'      => 'Link' );
+
+        $ColumnSets[] = array(  'Alias'     => 'Date',
+                                'ResultSet' => 'created_at',
+                                'Name'      => _('Date'),
+                                'Sort'      => 'DESC',
+                                'SortCol'   => 'created_at',
+                                'Type'      => 'Date' );
 
         $ColumnSets[] = array(  'Alias'     => 'Category',
-                                'ResultKey' => 'CsCategories.name',
+                                'ResultSet' => 'CsCategories.name',
                                 'Name'      => _('Category'),
-                                'SortCol'   => 'c.name',
                                 'Sort'      => 'DESC',
+                                'SortCol'   => 'c.name',
                                 'Type'      => 'String' );
 
         $ColumnSets[] = array(  'Alias'     => 'Status',
-                                'ResultKey' => 'news_status',
+                                'ResultSet' => 'news_status',
                                 'Name'      => _('Status'),
                                 'Sort'      => 'DESC',
+                                'SortCol'   => 'news_status',
                                 'Type'      => 'Integer' );
 
         $ColumnSets[] = array(  'Alias'     => 'EMail',
-                                'ResultKey' => array('CsUsers.email','CsUsers.nick'),
-                                'SortCol'   => 'u.email',
+                                'ResultSet' => array('CsUsers.email','CsUsers.nick'),
                                 'Name'      => _('EMail'),
                                 'Sort'      => 'DESC',
+                                'SortCol'   => 'u.email',
                                 'Type'      => 'EMail' );
 
-        $ColumnSets[] = array(  'Alias'     => 'Action',
-                                'ResultKey' => 'news_id',
+        /*$ColumnSets[] = array(  'Alias'     => 'Action',
+                                'ResultSet' => 'news_id',
                                 'Name'      => _('Action'),
-                                'Type'      => 'Editbutton' );
+                                'Type'      => 'Editbutton' );*/
 
-        
+        $BatchActions[] = array(    'Alias'     => 'create',
+                                    'Name'      => _('Create a news'),
+                                    'Action'    => 'create' );
+
+        $BatchActions[] = array(    'Alias'     => 'delete',
+                                    'Name'      => _('Delete'),
+                                    'Action'    => 'delete' );
 
 
         # Instantiate the datagrid
@@ -173,17 +182,23 @@ class Module_News_Admin extends Clansuite_ModuleController implements Clansuite_
                 'Datatable'     => Doctrine::getTable('CsNews'),
                 'NamedQuery'    => 'fetchAllNews',
                 'ColumnSets'    => $ColumnSets,
-                'BaseURL'       => 'index.php?mod=news&sub=admin&action=show'
+                'BaseURL'       => 'index.php?mod=news&sub=admin'
         ) );
 
-        Clansuite_Xdebug::firebug($oDatagrid->getCol('Date'));
-        Clansuite_Xdebug::firebug($oDatagrid->getCol('Date')->getRenderer());
+        $oDatagrid->setBatchActions( $BatchActions );
 
-        $oDatagrid->getCol('Date')->disableFeature('Sorting');
-        $oDatagrid->getCol('Date')->getRenderer()->dateFormat = 'd-m-Y';
+        #Clansuite_Xdebug::firebug($oDatagrid->getCol('Date'));
+        #Clansuite_Xdebug::firebug($oDatagrid->getCol('Date')->getRenderer());
+
+        #$oDatagrid->getCol('Date')->disableFeature('Sorting');
+        #$oDatagrid->getCol('Date')->getRenderer()->dateFormat = 'd-m-Y';
+
+        $oDatagrid->getCol('Title')->getRenderer()->linkFormat  = '&action=edit&id=%{id}';
+        $oDatagrid->getCol('Title')->getRenderer()->linkTitle   = _('Edit this news');
 
         # Render the datagrid
         $htmlString = $oDatagrid->render();
+
 
 
 
@@ -340,11 +355,15 @@ class Module_News_Admin extends Clansuite_ModuleController implements Clansuite_
     public function action_admin_delete()
     {
         $request = $this->getHttpRequest();
-        $delete  = $request->getParameter('delete');
+        $aDelete  = $request->getParameter('Checkbox');
 
-        if(isset($delete))
+        if(isset($aDelete) && is_array($aDelete))
         {
-            $numDeleted = Doctrine_Query::create()->delete('CsNews')->whereIn('news_id', $delete)->execute();
+            $numDeleted = 0;
+            foreach( $aDelete as $id )
+            {
+                $numDeleted += Doctrine_Query::create()->delete('CsNews')->whereIn('news_id', $id)->execute();
+            }
             $this->getHttpResponse()->redirectNoCache('index.php?mod=news&amp;sub=admin', 2, 302, $numDeleted . _(' News deleted.'));
         }
         else
