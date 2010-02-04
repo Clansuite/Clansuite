@@ -133,8 +133,9 @@ class Module_News_Admin extends Clansuite_ModuleController implements Clansuite_
                                 'Type'      => 'Checkbox' );
 
         $ColumnSets[] = array(  'Alias'     => 'Title',
-                                'ResultSet' => array(   'name'  => 'news_title',
-                                                        'id'    => 'news_id' ),
+                                'ResultSet' => array(   'name'      => 'news_title',
+                                                        'id'        => 'news_id',
+                                                        'comments'  => 'nr_news_comments' ),
                                 'Name'      => _('Title'),
                                 'Sort'      => 'DESC',
                                 'SortCol'   => 'news_title',
@@ -203,6 +204,12 @@ class Module_News_Admin extends Clansuite_ModuleController implements Clansuite_
 
         $oDatagrid->getCol('Title')->getRenderer()->linkFormat  = '&action=edit&id=%{id}';
         $oDatagrid->getCol('Title')->getRenderer()->linkTitle   = _('Edit this news');
+        $oDatagrid->getCol('Title')->getRenderer()->nameFormat  = '%{name} (%{comments})';
+
+        #Clansuite_Xdebug::firebug($oDatagrid->getCol('Title')->getRenderer()->nameFormat);
+
+        #$oDatagrid->getCol('Comments')->getRenderer()->linkFormat  = '&action=showcomments&id=%{id}';
+        #$oDatagrid->getCol('Comments')->getRenderer()->linkTitle   = _('Show comments');
 
         # Render the datagrid
         $htmlString = $oDatagrid->render();
