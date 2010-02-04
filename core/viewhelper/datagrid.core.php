@@ -1771,7 +1771,7 @@ class Clansuite_Datagrid_Renderer
                 if( $oCol->isEnabled('Search') )
                 {
                     $selected = '';
-                    if($request->getParameter($this->getDatagrid()->getInputParameterName('SearchKey')) == $oCol->getAlias())
+                    if($_SESSION['Datagrid_' . $this->getDatagrid()->getAlias()]['SearchKey'] == $oCol->getAlias())
                     {
                         $selected = ' selected="selected"';
                     }
