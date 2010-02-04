@@ -211,7 +211,8 @@ class Clansuite_Datagrid extends Clansuite_Datagrid_Base
                                     'Page'              => 'p',
                                     'ResultsPerPage'    => 'rpp',
                                     'SearchValue'       => 'searchvalue',
-                                    'SearchKey'         => 'searchkey' );
+                                    'SearchKey'         => 'searchkey',
+                                    'Reset'             => 'reset' );
 
     /**
     * The label for this datagrid
@@ -503,6 +504,12 @@ class Clansuite_Datagrid extends Clansuite_Datagrid_Base
     {
         # set scalar values
         $this->setAlias($this->_Datatable->getClassnameToReturn());
+
+        # reset session?
+        if( isset($_REQUEST[$this->getInputParameterName('Reset')]) )
+        {
+               $_SESSION['Datagrid_' . $this->getAlias()] = '';
+        }
 
         $this->setId('DatagridId-' . $this->getAlias());
         $this->setName('DatagridName-' . $this->getAlias());
@@ -964,7 +971,7 @@ class Clansuite_Datagrid extends Clansuite_Datagrid_Base
 
         if( isset($_REQUEST[$this->_InputMapping['ResultsPerPage']]) )
         {
-            Clansuite_Xdebug::firebug('ResultsPerPage:' . $_ResultsPerPage);
+            #Clansuite_Xdebug::firebug('ResultsPerPage:' . $_ResultsPerPage);
             $_ResultsPerPage = (int) $_REQUEST[$this->_InputMapping['ResultsPerPage']];
             $_SESSION['Datagrid_' . $this->getAlias()]['ResultsPerPage'] = $_ResultsPerPage;
         }
