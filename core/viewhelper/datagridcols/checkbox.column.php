@@ -63,6 +63,7 @@ class Clansuite_Datagrid_Col_Renderer_Checkbox extends Clansuite_Datagrid_Col_Re
         $oCheckbox = new Clansuite_Formelement_Checkbox();
         $oCheckbox->setName('Checkbox[]');
         $oCheckbox->setID('Checkbox-' . $oCell->getValue());
+        $oCheckbox->setValue($oCell->getValue());
         $oCheckbox->setClass('DatagridCheckbox DatagridCheckbox-' . $oCell->getCol()->getAlias());
 
         return $oCheckbox->render();
