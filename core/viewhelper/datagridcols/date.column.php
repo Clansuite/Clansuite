@@ -57,7 +57,7 @@ class Clansuite_Datagrid_Col_Renderer_Date extends Clansuite_Datagrid_Col_Render
     *
     * @var string
     */
-    public $dateFormat = 'd.m.Y';
+    public $dateFormat = 'd.m.Y H:i';
 
     /**
     * Render the value(s) of a cell

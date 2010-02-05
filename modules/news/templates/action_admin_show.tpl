@@ -13,6 +13,7 @@
 <!-- end jq confirm dialog -->
 
 {modulenavigation}
+<div class="ModuleHeading">{t}News - Show{/t}</div>
+<div class="ModuleHeadingSmall">{t}You can edit, delete, search and comment on news entries.{/t}</div>
 
 {$datagrid}
-
