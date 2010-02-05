@@ -761,20 +761,20 @@ function write_config_settings($data_array)
  **/
 function removeDirectory($dir)
 {
-    echo "<p>[Deleting Installation Directory] Starting at $dir</p>";
+    echo "[Deleting Installation Directory] Starting at $dir<br/>";
 
     # get files
     $files = glob( $dir . '*', GLOB_MARK );
     foreach( $files as $file )
     {
         # skip the index.php
-        if( substr( $file, -9 ) == 'installation'.DIRECTORY_SEPARATOR.'index.php' )
-        {
-            continue;
-        }
+        #if( strpos( 'installation'.DIRECTORY_SEPARATOR.'index.php', $file ) !== FALSE )
+        #{
+        #    continue;
+        #}
 
         # skip dirs
-        if( substr( $file, -1 ) == DIRECTORY_SEPARATOR   )
+        if( is_dir( $file ) )
         {
             removeDirectory( $file );
         }
@@ -787,24 +787,24 @@ function removeDirectory($dir)
     }
 
     # try to apply delete permissiosn
-    if(@chmod($dir, 0777) == false)
+    if(@chmod($dir, 0777) === FALSE)
     {
-        echo "<p>[Deleting Directory] Setting the permission to delete the directory on directory $dir failed!</p>";
+        echo "[Deleting Directory] Setting the permission to delete the directory on directory $dir failed!<br/>";
     }
     else
     {
-        echo "<p>[Deleting Directory] Successfully applied permission to delete the directory on directory $dir!</p>";
+        echo "[Deleting Directory] Successfully applied permission to delete the directory on directory $dir!<br/>";
     }
 
     # try to remove directory
-    if(@rmdir($dir) == false)
+    if(@rmdir($dir) === FALSE)
     {
-        echo "<p>[Deleting Directory] Removing of directory $dir failed! Please remove it manually.</p>";
+        echo "[Deleting Directory] Removing of directory $dir failed! Please remove it manually.<br/>";
     }
     else
     {
         # rmdir sucessfull
-        echo "<p>[Deleting Directory] Removing of directory $dir</p>";
+        echo "[Deleting Directory] Removing of directory $dir<br/>";
     }
 }
 

@@ -113,8 +113,8 @@ implements Clansuite_Datagrid_Col_Renderer_Interface
         # search for placeholders %{...}
         preg_match_all('#%\{([^\}]+)\}#', $_Format, $_Placeholders, PREG_PATTERN_ORDER );
 
-        Clansuite_Xdebug::firebug($_Placeholders[1]);
-        Clansuite_Xdebug::firebug('$_Format: ' . $_Format);
+        #Clansuite_Xdebug::firebug($_Placeholders[1]);
+        #Clansuite_Xdebug::firebug('$_Format: ' . $_Format);
 
         # loop through placeholders
         $_PlacerholderCount = count($_Placeholders[1]);
@@ -125,7 +125,7 @@ implements Clansuite_Datagrid_Col_Renderer_Interface
                 if( isset($_Values[$_Placeholders[1][$i]]) )
                 {
                     $_Replacers['%{' . $_Placeholders[1][$i] . '}'] = $_Values[$_Placeholders[1][$i]];
-                    Clansuite_Xdebug::firebug($_Replacers);
+                    #Clansuite_Xdebug::firebug($_Replacers);
                 }
             }
         }
