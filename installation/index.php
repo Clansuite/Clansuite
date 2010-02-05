@@ -114,7 +114,7 @@ $error = '';
 #      SELF DELETION
 #========================
 
-if(isset($_GET['delete_installation'])) { removeDirectory(getcwd()); }
+if(isset($_GET['delete_installation'])) { deleteInstallationFolder(); }
 
 
 #================================
@@ -754,6 +754,21 @@ function write_config_settings($data_array)
 }
 
 /**
+* Delete the installation folder
+*/
+function deleteInstallationFolder()
+{
+    echo "Deleting ";
+    $dir = getcwd();
+    removeDirectory($dir);
+    if( !file_exists($dir) )
+    {
+        echo '<p><center><h1>Finished!</h1><br /><p><a href="../index.php">Click here to proceed!</a></p></center></p>';
+    }
+    die();
+}
+
+/**
  * removeDirectory
  *
  * @description Remove a directory and all it files recursively.
@@ -761,17 +776,18 @@ function write_config_settings($data_array)
  **/
 function removeDirectory($dir)
 {
-    echo "[Deleting Installation Directory] Starting at $dir<br/>";
 
     # get files
-    $files = glob( $dir . '*', GLOB_MARK );
+    $files = array_merge(glob( $dir . '/*' ), glob( $dir . '/.*' ));
+    if( strpos($dir, 'installation') === FALSE ) { die('ERROR!' . var_dump($dir)); };
+
     foreach( $files as $file )
     {
         # skip the index.php
-        #if( strpos( 'installation'.DIRECTORY_SEPARATOR.'index.php', $file ) !== FALSE )
-        #{
-        #    continue;
-        #}
+        if( preg_match('#[\\|/]\.$#', $file) || preg_match('#[\\|/]\.\.$#', $file) )
+        {
+            continue;
+        }
 
         # skip dirs
         if( is_dir( $file ) )
@@ -782,7 +798,7 @@ function removeDirectory($dir)
         {
             @chmod($file, 0777);
             @unlink( $file );
-            echo '[Deleting File] '.$file.'.</br>';
+            echo '.'; #[Deleting File] '.$file.'.</br>';
         }
     }
 
@@ -793,7 +809,7 @@ function removeDirectory($dir)
     }
     else
     {
-        echo "[Deleting Directory] Successfully applied permission to delete the directory on directory $dir!<br/>";
+        # echo "[Deleting Directory] Successfully applied permission to delete the directory on directory $dir!<br/>";
     }
 
     # try to remove directory
@@ -804,7 +820,7 @@ function removeDirectory($dir)
     else
     {
         # rmdir sucessfull
-        echo "[Deleting Directory] Removing of directory $dir<br/>";
+        # echo "[Deleting Directory] Removing of directory $dir<br/>";
     }
 }
 
