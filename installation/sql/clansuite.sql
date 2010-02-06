@@ -16,6 +16,14 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
+-- Current Database: `clansuite`
+--
+
+CREATE DATABASE /*!32312 IF NOT EXISTS*/ `clansuite` /*!40100 DEFAULT CHARACTER SET utf8 */;
+
+USE `clansuite`;
+
+--
 -- Table structure for table `cs_adminmenu`
 --
 
@@ -1706,4 +1714,4 @@ CREATE TABLE `cs_whowasonline` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2010-02-04 20:15:04
+-- Dump completed on 2010-02-06  2:04:38
