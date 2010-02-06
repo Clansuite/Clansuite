@@ -82,7 +82,7 @@ class Clansuite_Doctrine
             Doctrine::debug(true);
         }
     }
-    
+
     /**
      * Doctrine Initialize
      *
@@ -111,13 +111,13 @@ class Clansuite_Doctrine
             {
                 throw new Clansuite_Exception('Doctrine could not be loaded. Check Libraries Folder.', 100);
             }
-                  
+
             # Register the Doctrine autoloader
             spl_autoload_register(array('Doctrine_Core', 'autoload'));
             spl_autoload_register(array('Doctrine_Core', 'modelsAutoload'));
 
             # Register the Doctrine models via autoloader
-            # @todo this is for Doctrine2            
+            # @todo this is for Doctrine2
             # Doctrine_Core::setModelsDirectory(ROOT . 'records');
             # Doctrine_Core::setModelsDirectory(ROOT_MOD); # somewhere beneath modules folder, rest via autoload
             # Register the directory for the Clansuite Core Records, so that Doctrine is able to lazy-load them later on
@@ -350,7 +350,7 @@ class Clansuite_Doctrine
 
         </p>";
         echo '<table width="95%" border="1">';
-        echo '<tr style="font-weight: bold;"><td>Query Counter</td><td>Command</td><td>Time</td><td width="50%">Query with placeholder (?) for parameters</td><td width="40%">Parameters</td></tr>';
+        echo '<tr style="font-weight: bold;"><td>Query Counter</td><td>Command</td><td>Time</td><td width="40%">Query with placeholder (?) for parameters</td><td width="40%">Parameters</td></tr>';
         foreach ( $this->getProfiler() as $event )
         {
             /*if ($event->getName() != 'execute')
@@ -360,18 +360,24 @@ class Clansuite_Doctrine
             */
             $query_count++;
             echo "<tr>";
-            $time += $event->getElapsedSecs();
-            echo "<td>" . $query_count . "</td>";
-            echo "<td>" . $event->getName() . "</td>";
-            echo "<td>" . sprintf ( "%f" , $event->getElapsedSecs() ) . "</td>";
-            echo "<td>" . $event->getQuery() . "</td>";
-            $params = $event->getParams();
-            if ( !empty($params))
-            {
-                  echo "<td>";
-                  echo join(', ', $params);
-                  echo "</td>";
-            }
+                $time += $event->getElapsedSecs();
+                echo "<td>" . $query_count . "</td>";
+                echo "<td>" . $event->getName() . "</td>";
+                echo "<td>" . sprintf ( "%f" , $event->getElapsedSecs() ) . "</td>";
+                echo '<td>' . $event->getQuery() . '</td>';
+                $params = $event->getParams();
+                if ( !empty($params))
+                {
+                      echo "<td>";
+                      echo wordwrap(join(', ', $params),150,"\n",true) . '</div>';
+                      echo "</td>";
+                }
+                else
+                {
+                      echo "<td>";
+                      echo "&nbsp;";
+                      echo "</td>";
+                }
             echo "</tr>";
         }
         echo "</table>";
@@ -388,7 +394,7 @@ class Clansuite_Doctrine
             # append Doctrine's SQL-Profiling Report
             $this->displayProfilingHTML();
         }
-        
+
         # save session before exit
         session_write_close();
     }
