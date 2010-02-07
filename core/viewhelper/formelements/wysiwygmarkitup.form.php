@@ -51,7 +51,7 @@ if (!class_exists('Clansuite_Formelement_Textarea')) { require 'textarea.form.ph
 class Clansuite_Formelement_Wysiwygmarkitup extends Clansuite_Formelement_Textarea implements Clansuite_Formelement_Interface
 {
     protected $factory = null;
-    
+
     public function __construct($factory = null)
     {
         # I know! uhm... this is... a ball of mud. @todo
@@ -59,10 +59,10 @@ class Clansuite_Formelement_Wysiwygmarkitup extends Clansuite_Formelement_Textar
         {
             $this->factory = $factory;
         }
-        
-        return $this;   
+
+        return $this;
     }
-    
+
     /**
      * This renders a textarea with the WYSWIWYG editor markItUp! attached.
      */
@@ -70,53 +70,53 @@ class Clansuite_Formelement_Wysiwygmarkitup extends Clansuite_Formelement_Textar
     {
         if(isset($this->factory) and $this->factory !== null)
         {
-            $name = $this->factory->getName(); 
+            $name = $this->factory->getName();
         }
         else
         {
-            $name = $this->getName();   
+            $name = $this->getName();
         }
-        
+
         if(isset($this->factory) and $this->factory !== null)
         {
-            $value = $this->factory->getValue(); 
+            $value = $this->factory->getRawValue();
         }
         else
         {
-            $value = $this->getValue();   
+            $value = $this->getRawValue();
         }
-        
+
         if(isset($this->factory) and $this->factory !== null)
         {
-            $rows = $this->factory->getRows(); 
+            $rows = $this->factory->getRows();
         }
         else
         {
-            $rows = $this->getRows();   
+            $rows = $this->getRows();
         }
-        
+
         if(isset($this->factory) and $this->factory !== null)
         {
-            $cols = $this->factory->getCols(); 
+            $cols = $this->factory->getCols();
         }
         else
         {
-            $cols = $this->getCols();   
+            $cols = $this->getCols();
         }
-        
+
         # a) loads the markitup javascript files
         #$javascript = '<script type="text/javascript" src="'.WWW_ROOT_THEMES_CORE . '/javascript/jquery/jquery.js"></script>';
         $javascript = '<script type="text/javascript" src="'.WWW_ROOT_THEMES_CORE . '/javascript/markitup/jquery.markitup.js"></script>'.CR;
-                       
+
         # b) load JSON default settings
         $javascript .= '<script type="text/javascript" src="'.WWW_ROOT_THEMES_CORE . '/javascript/markitup/sets/default/set.js"></script>'.CR;
-        
+
         # c) include CSS
         $css = '<link rel="stylesheet" type="text/css" href="'.WWW_ROOT_THEMES_CORE . '/javascript/markitup/skins/markitup/style.css" />'.CR.'
                  <link rel="stylesheet" type="text/css" href="'.WWW_ROOT_THEMES_CORE . '/javascript/markitup/sets/default/style.css" />'.CR;
-                 
+
         # d) plug it to an specific textarea by ID
-        $javascript .= "<script type=\"text/javascript\">// <![CDATA[                           
+        $javascript .= "<script type=\"text/javascript\">// <![CDATA[
                            jQuery(document).ready(function($){
                               $(\"textarea:visible\").markItUp(mySettings);
                            });

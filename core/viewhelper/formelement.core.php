@@ -206,6 +206,11 @@ class Clansuite_Formelement /* extends Clansuite_HTML */ implements Clansuite_Fo
         return htmlspecialchars($this->value);
     }
 
+    public function getRawValue()
+    {
+        return $this->value;
+    }
+
     /**
      * Disables this formelement.
      */

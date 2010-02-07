@@ -52,6 +52,8 @@ if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
  */
 class Module_News_Admin extends Clansuite_ModuleController implements Clansuite_Module_Interface
 {
+    public $_Statusmap = array();
+
     public function __construct(Phemto $injector=null)
     {
         parent::__construct(); # run constructor on controller_base
@@ -62,6 +64,12 @@ class Module_News_Admin extends Clansuite_ModuleController implements Clansuite_
         parent::initRecords('news');
         parent::initRecords('users');
         parent::initRecords('categories');
+
+        $this->_Statusmap = array(  "0" => _('Not published'),
+                                    "1" => _('No clue'),
+                                    "2" => _('No clue'),
+                                    "3" => _('No clue'),
+                                    "4" => _('Published') );
     }
 
     /**
@@ -192,20 +200,7 @@ class Module_News_Admin extends Clansuite_ModuleController implements Clansuite_
     public function manipulateValues(&$_ArrayReference)
     {
         #Clansuite_Xdebug::firebug($_ArrayReference['news_status']);
-        switch($_ArrayReference['news_status'])
-        {
-            case "0":
-                $_ArrayReference['news_status'] = _('Not published');
-                break;
-
-            case "4":
-                $_ArrayReference['news_status'] = _('Published');
-                break;
-
-            default:
-                $_ArrayReference['news_status'] = _('Not set');
-                break;
-        }
+        $_ArrayReference['news_status'] = $this->_Statusmap[$_ArrayReference['news_status']];
 
         $wrapLength = 50;
         $_ArrayReference['news_body'] = htmlspecialchars(strip_tags($_ArrayReference['news_body']));
@@ -222,10 +217,12 @@ class Module_News_Admin extends Clansuite_ModuleController implements Clansuite_
 
     /**
      * Create News
+     *
+     * @todo autoloader/di for forms
      */
     public function action_admin_create()
     {
-        # Load Form Class (@todo autoloader / di)
+        # Load Form Class
         require ROOT_CORE . 'viewhelper/form.core.php';
 
         # Create a new form
@@ -235,6 +232,7 @@ class Module_News_Admin extends Clansuite_ModuleController implements Clansuite_
         $form->addElement('text')->setName('news_form[news_title]')->setLabel(_('Title'));
         $categories = Doctrine::getTable('CsNews')->fetchAllNewsCategoriesDropDown();
         $form->addElement('multiselect')->setName('news_form[cat_id]')->setLabel(_('Category'))->setOptions($categories);
+        $form->addElement('multiselect')->setName('news_form[news_status]')->setLabel(_('Status'))->setOptions($this->_Statusmap)->setDefaultValue("0");
         $form->addElement('textarea')->setName('news_form[news_body]')->setID('news_form[news_body]')->setCols('110')->setRows('30')->setLabel(_('Your Article:'));
         $form->addElement('submitbutton');
         $form->addElement('resetbutton');
@@ -248,6 +246,8 @@ class Module_News_Admin extends Clansuite_ModuleController implements Clansuite_
 
     /**
      * Edit News
+     *
+     * @todo autoloader/di for forms
      */
     public function action_admin_edit()
     {
@@ -257,24 +257,27 @@ class Module_News_Admin extends Clansuite_ModuleController implements Clansuite_
         # fetch news
         $news = Doctrine::getTable('CsNews')->fetchSingleNews($news_id);
 
-        # Load Form Class (@todo autoloader / di)
+        # Load Form Class
         require ROOT_CORE . 'viewhelper/form.core.php';
 
         # Create a new form
-        # @todo form object with auto-population of values
-        #$form = new Clansuite_Form('news_form', 'post', 'index.php?mod=news&sub=admin&action=update', $news);
-
         $form = new Clansuite_Form('news_form', 'post', 'index.php?mod=news&sub=admin&action=update&type=edit');
 
-        /**
-         * news_id as hidden field
-         */
-        $form->addElement('hidden')->setName('news_form[news_id]')->setValue($news['news_id']);
+        # news_id as hidden field
+        $IdElement = $form->addElement('hidden');
+        $IdElement->setDecorator('none');
+        $IdElement->setName('news_form[news_id]')->setValue($news['news_id']);
+
+        # iser_id as hidden field
+        $UserIdElement = $form->addElement('hidden');
+        $UserIdElement->setDecorator('none');
+        $UserIdElement->setName('news_form[user_id]')->setValue($news['user_id']);
 
         # Assign some formlements
         $form->addElement('text')->setName('news_form[news_title]')->setLabel(_('Title'))->setValue($news['news_title']);
         $categories = Doctrine::getTable('CsNews')->fetchAllNewsCategoriesDropDown();
         $form->addElement('multiselect')->setName('news_form[cat_id]')->setLabel(_('Category'))->setOptions($categories)->setDefaultValue($news['cat_id']);
+        $form->addElement('multiselect')->setName('news_form[news_status]')->setLabel(_('Status'))->setOptions($this->_Statusmap)->setDefaultValue($news['news_status']);
         $form->addElement('textarea')->setName('news_form[news_body]')->setID('news_form[news_body]')->setCols('110')->setRows('30')->setLabel(_('Your Article:'))->setValue($news['news_body']);;
         $form->addElement('submitbutton')->setValue('Submit');
         $form->addElement('resetbutton')->setValue('Reset');
@@ -294,6 +297,8 @@ class Module_News_Admin extends Clansuite_ModuleController implements Clansuite_
 
     /**
      * Update a News Entry identified by news_id
+     *
+     * @todo validation
      */
     public function action_admin_update()
     {
@@ -303,42 +308,46 @@ class Module_News_Admin extends Clansuite_ModuleController implements Clansuite_
 
         if(isset($type) and $type == 'create')
         {
-            $news = new CsNews;
-            $news->news_title = $data['news_title'];
-            $news->news_body  = $data['news_body'];
-            $news->cat_id     = $data['cat_id'];
-            #$news['news_status']     = $data['news_form']['status'];
+            $news = new CsNews();
+            $news->news_title   = $data['news_title'];
+            $news->news_body    = $data['news_body'];
+            $news->cat_id       = $data['cat_id'];
+            $news->user_id      = $data['user_id'];
+            $news->news_status  = $data['news_status'];
             $news->save();
+
+            # redirect
+            $this->getHttpResponse()->redirectNoCache('index.php?mod=news&amp;sub=admin', 2, 302, _('The news has been created.'));
         }
         elseif(isset($type) and $type == 'edit')
         {
-             # @todo validation
-
-            # get the news table
-            $newsTable = Doctrine::getTable('CsNews');
-
             # fetch the news to update by news_id
-            $news = $newsTable->findOneByNews_Id($data['news_id']);
+            $news = Doctrine::getTable('CsNews')->findOneByNews_Id($data['news_id']);
 
             # if that news exist, update values and save
             if ($news !== false)
             {
-                $news->news_id    = $data['news_id'];
-                $news->news_title = $data['news_title'];
-                $news->news_body  = $data['news_body'];
-                $news->cat_id     = $data['cat_id'];
-                #$news['news_status']     = $data['news_form']['status'];
+                $news->news_title   = $data['news_title'];
+                $news->news_body    = $data['news_body'];
+                $news->cat_id       = $data['cat_id'];
+                $news->user_id      = $data['user_id'];
+                $news->news_status  = $data['news_status'];
                 $news->save();
             }
+            else
+            {
+                # redirect
+                $this->getHttpResponse()->redirectNoCache('index.php?mod=news&amp;sub=admin', 2, 302, _('The news doesn\'t exist anymore.'));
+            }
+
+            # redirect
+            $this->getHttpResponse()->redirectNoCache('index.php?mod=news&amp;sub=admin', 2, 302, _('The news has been edited.'));
         }
         else
         {
             # redirect
             $this->getHttpResponse()->redirectNoCache('index.php?mod=news&amp;sub=admin', 2, 302, _('Unknown Formaction.'));
         }
-
-        # redirect
-        $this->getHttpResponse()->redirectNoCache('index.php?mod=news&amp;sub=admin', 2, 302, _('The news has been edited.'));
     }
 
     /**
