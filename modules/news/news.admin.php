@@ -72,51 +72,6 @@ class Module_News_Admin extends Clansuite_ModuleController implements Clansuite_
      */
     public function action_admin_show()
     {
-        # Permission check
-        #$perms::check('cc_view_news');
-
-        # Set Pagetitle and Breadcrumbs
-        #Clansuite_Trail::addStep( _('Show'), 'index.php?mod=news&amp;sub=admin&amp;action=show');
-
-        /*
-        # Incoming Variables
-        $request = $this->getHttpRequest();
-        $category       = (int) $request['news_category_form']['cat_id'];
-        $currentPage    = (int) $request->getParameter('page');
-        $resultsPerPage = (int) $this->getConfigValue('resultsPerPage_adminshow', '10');
-
-        # SmartyColumnSort -- Easy sorting of html table columns.
-        require( ROOT_LIBRARIES . 'smarty/libs/SmartyColumnSort.class.php');
-        # A list of database columns to use in the table.
-
-
-        $columns = array( 'n.created_at', 'n.news_title', 'c.name', 'u.nick', 'n.news_status');
-        # Create the columnsort object
-        $columnsort = new SmartyColumnSort($columns);
-        # And set the the default sort column and order.
-        $columnsort->setDefault('n.created_at', 'desc');
-        # Get sort order from columnsort
-        $sortorder = $columnsort->sortOrder(); // Returns 'name ASC' as default
-
-        # if cat is no set, we need a query to show all news regardless which category,
-        if(empty($category))
-        {
-            $newsQuery = Doctrine::getTable('CsNews')->fetchAllNews($currentPage, $resultsPerPage, true, $sortorder);
-        }
-        else # else we need a qry with the where(cat) statement
-        {
-            $newsQuery = Doctrine::getTable('CsNews')->fetchNewsByCategory($category, $currentPage, $resultsPerPage, true, $sortorder);
-        }
-
-
-        # import array variables into the current symbol table ($newsQuery is an array('news','pager','pager_layout')
-        extract($newsQuery);
-        #unset($newsQuery);
-
-        $newscategories = Doctrine::getTable('CsNews')->fetchUsedNewsCategories();
-
-        */
-
         # Get Render Engine
         $smarty = $this->getView();
 
@@ -179,7 +134,7 @@ class Module_News_Admin extends Clansuite_ModuleController implements Clansuite_
                                     'Action'    => 'create' );
 
         $BatchActions[] = array(    'Alias'     => 'delete',
-                                    'Name'      => _('Delete'),
+                                    'Name'      => _('Delete selected items'),
                                     'Action'    => 'delete' );
 
 
@@ -193,41 +148,19 @@ class Module_News_Admin extends Clansuite_ModuleController implements Clansuite_
 
         $oDatagrid->setBatchActions( $BatchActions );
 
-        #Clansuite_Xdebug::firebug($oDatagrid->getCol('Date'));
-        #Clansuite_Xdebug::firebug($oDatagrid->getCol('Date')->getRenderer());
-
-        #$oDatagrid->getCol('Date')->disableFeature('Sorting');
-        #$oDatagrid->getCol('Date')->getRenderer()->dateFormat = 'd-m-Y';
-
-
+        $oDatagrid->disableFeature('Label');
+        $oDatagrid->disableFeature('Caption');
+        $oDatagrid->disableFeature('Description');
         $oDatagrid->getCol('Select')->disableFeature('Search');
 
         $oDatagrid->getCol('Title')->getRenderer()->linkFormat  = '&action=edit&id=%{id}';
         $oDatagrid->getCol('Title')->getRenderer()->linkTitle   = _('Edit this news');
-        $oDatagrid->getCol('Title')->getRenderer()->nameFormat  = '%{name} (%{comments})';
+        $oDatagrid->getCol('Title')->getRenderer()->nameFormat  = '%{name} - %{comments} Comment(s)';
 
-        #Clansuite_Xdebug::firebug($oDatagrid->getCol('Title')->getRenderer()->nameFormat);
-
-        #$oDatagrid->getCol('Comments')->getRenderer()->linkFormat  = '&action=showcomments&id=%{id}';
-        #$oDatagrid->getCol('Comments')->getRenderer()->linkTitle   = _('Show comments');
-
-        # Render the datagrid
-        $htmlString = $oDatagrid->render();
+        $oDatagrid->setResultSetHook($this, 'mapValues');
 
         # Assing datagrid
-        $smarty->assign('datagrid', $htmlString);
-
-        /*
-        $smarty->assign('news', $news);
-        $smarty->assign('newscategories', $newscategories);
-
-        // Return true if it's necessary to paginate or false if not
-        $smarty->assign('pagination_needed',$pager->haveToPaginate());
-
-        // Pagination
-        $smarty->assign('pager', $pager);
-        $smarty->assign('pager_layout', $pager_layout);
-        */
+        $smarty->assign('datagrid', $oDatagrid->render());
 
         # Set Layout Template
         $this->getView()->setLayoutTemplate('index.tpl');
@@ -238,6 +171,30 @@ class Module_News_Admin extends Clansuite_ModuleController implements Clansuite_
         # Prepare the Output
         $this->prepareOutput();
 
+    }
+
+    /**
+    * Hook for remapping database values
+    *
+    * @param array $_ArrayReference
+    */
+    public function mapValues(&$_ArrayReference)
+    {
+        Clansuite_Xdebug::firebug($_ArrayReference['news_status']);
+        switch($_ArrayReference['news_status'])
+        {
+            case "0":
+                $_ArrayReference['news_status'] = _('Not published');
+                break;
+
+            case "4":
+                $_ArrayReference['news_status'] = _('Published');
+                break;
+
+            default:
+                $_ArrayReference['news_status'] = _('Not set');
+                break;
+        }
     }
 
     /**

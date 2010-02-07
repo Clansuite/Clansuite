@@ -436,6 +436,43 @@ class Clansuite_Datagrid_Col_Renderer_Base
     {
         $this->setCol($_Col);
     }
+
+    //---------------------
+    // Class methods
+    //---------------------
+
+    /**
+    * Replace placeholders with values
+    *
+    * @param array $_Values
+    * @param string $_Format
+    * @return string
+    */
+    public function _replacePlaceholders($_Values, $_Format)
+    {
+
+        $_Placeholders   = array();
+        $_Replacers     = array();
+
+        # search for placeholders %{...}
+        preg_match_all('#%\{([^\}]+)\}#', $_Format, $_Placeholders, PREG_PATTERN_ORDER );
+
+        # loop through placeholders
+        $_PlacerholderCount = count($_Placeholders[1]);
+        if( $_PlacerholderCount > 0 )
+        {
+            for($i=0;$i<$_PlacerholderCount;$i++)
+            {
+                if( isset($_Values[$_Placeholders[1][$i]]) )
+                {
+                    $_Replacers['%{' . $_Placeholders[1][$i] . '}'] = $_Values[$_Placeholders[1][$i]];
+                }
+            }
+        }
+
+        # return substituted string
+        return strtr($_Format, $_Replacers);
+    }
 }
 
 ?>

@@ -51,6 +51,8 @@ if (!class_exists('Clansuite_Datagrid_Col', false)) { require ROOT_CORE.'viewhel
 */
 class Clansuite_Datagrid_Col_Renderer_String extends Clansuite_Datagrid_Col_Renderer_Base implements Clansuite_Datagrid_Col_Renderer_Interface
 {
+    public $stringFormat = '';
+
     /**
     * Render the value(s) of a cell
     *
@@ -59,7 +61,14 @@ class Clansuite_Datagrid_Col_Renderer_String extends Clansuite_Datagrid_Col_Rend
     */
     public function renderCell($oCell)
     {
-        return $oCell->getValue();
+        if( $this->stringFormat == '' )
+        {
+            return $oCell->getValue();
+        }
+        else
+        {
+            return $this->_replacePlaceholders($oCell->getValues(), $this->stringFormat);
+        }
     }
 }
 

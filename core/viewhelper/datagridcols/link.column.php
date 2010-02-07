@@ -57,7 +57,7 @@ implements Clansuite_Datagrid_Col_Renderer_Interface
     public $linkFormat      = '&id=%{id}';
     public $linkId          = '';
     public $linkTitle       = '';
-    public $nameWrapLength  = 30;
+    public $nameWrapLength  = 50;
     public $nameFormat      = '%{name}';
 
 
@@ -85,54 +85,22 @@ implements Clansuite_Datagrid_Col_Renderer_Interface
         }
         else
         {
-            $_Values['name'] = substr($_Values['name'],0,$this->nameWrapLength-3) . '...';
-        }
-
-        # render
-        return Clansuite_HTML::renderElement(   'a',
-                                                $this->_replacePlaceholders($_Values, $this->nameFormat),
-                                                array(  'href'  => $_Datagrid->addToUrl($this->_replacePlaceholders($_Values, $this->linkFormat)),
-                                                        #'name'  => $this->_replacePlaceholders($_Values, $this->nameFormat),
-                                                        'id'    => $this->linkId,
-                                                        'title' => $this->linkTitle ) );
-    }
-
-    /**
-    * Replace placeholders with values
-    *
-    * @param array $_Values
-    * @param string $_Format
-    * @return string
-    */
-    private function _replacePlaceholders($_Values, $_Format)
-    {
-
-        $_Placeholders   = array();
-        $_Replacers     = array();
-
-        # search for placeholders %{...}
-        preg_match_all('#%\{([^\}]+)\}#', $_Format, $_Placeholders, PREG_PATTERN_ORDER );
-
-        #Clansuite_Xdebug::firebug($_Placeholders[1]);
-        #Clansuite_Xdebug::firebug('$_Format: ' . $_Format);
-
-        # loop through placeholders
-        $_PlacerholderCount = count($_Placeholders[1]);
-        if( $_PlacerholderCount > 0 )
-        {
-            for($i=0;$i<$_PlacerholderCount;$i++)
+            if( strlen($_Values['name']) > $this->nameWrapLength )
             {
-                if( isset($_Values[$_Placeholders[1][$i]]) )
-                {
-                    $_Replacers['%{' . $_Placeholders[1][$i] . '}'] = $_Values[$_Placeholders[1][$i]];
-                    #Clansuite_Xdebug::firebug($_Replacers);
-                }
+                $_Values['name'] = substr($_Values['name'],0,$this->nameWrapLength-3) . '...';
             }
         }
 
-        # return substituted string
-        return strtr($_Format, $_Replacers);
+        # render
+        return $this->_replacePlaceholders( $_Values,
+                                            Clansuite_HTML::renderElement(  'a',
+                                                                            $this->nameFormat,
+                                                                            array(  'href'  => $_Datagrid->addToUrl($this->linkFormat),
+                                                                                    'id'    => $this->linkId,
+                                                                                    'title' => $this->linkTitle )));
     }
+
+
 }
 
 ?>
