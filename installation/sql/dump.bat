@@ -9,16 +9,19 @@
 @ECHO OFF
 
 @REM Verzeichnisse 
-SET basedir=%CLANSUITE%\installation
-SET mysqldir=%XAMPP%\mysql\bin
+SetLocal
+
+SET basedir="%CLANSUITE%\installation"
+SET mysqldir="%XAMPP%\mysql\bin"
 SET mysqluser=root
 SET mysqlpassword=toop
 SET dbname=clansuite
 
 @REM Dump clansuite
-
 @ECHO Beginning backup of %dbname%...
-%mysqldir%/mysqldump -u %mysqluser% -p%mysqlpassword% --skip-add-locks --add-drop-table --databases %dbname% > %basedir%\sql\%dbname%.sql
+%mysqldir%\mysqldump -u %mysqluser% -p%mysqlpassword% --skip-add-locks --add-drop-table --databases %dbname% > %basedir%\sql\%dbname%.sql
 
 @ECHO Finished backup!  - Press any Key -
 pause
+
+EndLocal
