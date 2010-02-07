@@ -96,9 +96,17 @@ class Module_News_Admin extends Clansuite_ModuleController implements Clansuite_
                                 'SortCol'   => 'news_title',
                                 'Type'      => 'Link' );
 
+        $ColumnSets[] = array(  'Alias'     => 'Preview',
+                                'ResultSet' => array(  'preview' => 'news_preview',
+                                                       'body'    => 'news_body' ),
+                                'Name'      => _('Preview'),
+                                'Sort'      => 'DESC',
+                                'SortCol'   => 'news_body',
+                                'Type'      => 'String' );
+
         $ColumnSets[] = array(  'Alias'     => 'Date',
                                 'ResultSet' => 'created_at',
-                                'Name'      => _('Date'),
+                                'Name'      => _('Created at'),
                                 'Sort'      => 'DESC',
                                 'SortCol'   => 'created_at',
                                 'Type'      => 'Date' );
@@ -117,12 +125,12 @@ class Module_News_Admin extends Clansuite_ModuleController implements Clansuite_
                                 'SortCol'   => 'news_status',
                                 'Type'      => 'Integer' );
 
-        $ColumnSets[] = array(  'Alias'     => 'EMail',
+        $ColumnSets[] = array(  'Alias'     => 'User',
                                 'ResultSet' => array('CsUsers.email','CsUsers.nick'),
-                                'Name'      => _('EMail'),
+                                'Name'      => _('User'),
                                 'Sort'      => 'DESC',
-                                'SortCol'   => 'u.email',
-                                'Type'      => 'EMail' );
+                                'SortCol'   => 'u.nick',
+                                'Type'      => 'Email' );
 
         /*$ColumnSets[] = array(  'Alias'     => 'Action',
                                 'ResultSet' => 'news_id',
@@ -157,7 +165,10 @@ class Module_News_Admin extends Clansuite_ModuleController implements Clansuite_
         $oDatagrid->getCol('Title')->getRenderer()->linkTitle   = _('Edit this news');
         $oDatagrid->getCol('Title')->getRenderer()->nameFormat  = '%{name} - %{comments} Comment(s)';
 
-        $oDatagrid->setResultSetHook($this, 'mapValues');
+        $oDatagrid->getCol('Preview')->disableFeature('Sorting');
+        $oDatagrid->getCol('Preview')->getRenderer()->stringFormat = '<div title="%{body}">%{preview}</div>';
+
+        $oDatagrid->setResultSetHook($this, 'manipulateValues');
 
         # Assing datagrid
         $smarty->assign('datagrid', $oDatagrid->render());
@@ -174,13 +185,13 @@ class Module_News_Admin extends Clansuite_ModuleController implements Clansuite_
     }
 
     /**
-    * Hook for remapping database values
+    * Hook for manipulating database values
     *
     * @param array $_ArrayReference
     */
-    public function mapValues(&$_ArrayReference)
+    public function manipulateValues(&$_ArrayReference)
     {
-        Clansuite_Xdebug::firebug($_ArrayReference['news_status']);
+        #Clansuite_Xdebug::firebug($_ArrayReference['news_status']);
         switch($_ArrayReference['news_status'])
         {
             case "0":
@@ -195,6 +206,18 @@ class Module_News_Admin extends Clansuite_ModuleController implements Clansuite_
                 $_ArrayReference['news_status'] = _('Not set');
                 break;
         }
+
+        $wrapLength = 50;
+        $_ArrayReference['news_body'] = htmlspecialchars(strip_tags($_ArrayReference['news_body']));
+        if( strlen($_ArrayReference['news_body']) > $wrapLength )
+        {
+            $_ArrayReference['news_preview'] = substr($_ArrayReference['news_body'],0,$wrapLength) . '...';
+        }
+        else
+        {
+            $_ArrayReference['news_preview'] = $_ArrayReference['news_body'];
+        }
+
     }
 
     /**
