@@ -42,7 +42,7 @@
 
 .Datagrid table
 {
-    /*width: 100%;*/
+    width: 100%;
 }
 
 .Datagrid input[type="password"],

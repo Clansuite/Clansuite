@@ -119,6 +119,13 @@ class Clansuite_Datagrid extends Clansuite_Datagrid_Base
     private $_BatchActions = array();
 
     /**
+    * Object which called
+    *
+    * @var object
+    */
+    private $_Caller;
+
+    /**
     * The caption (<caption>...</caption>) for this datagrid
     *
     * @var string
@@ -260,6 +267,13 @@ class Clansuite_Datagrid extends Clansuite_Datagrid_Base
     private $_Renderer;
 
     /**
+    * Methodname to call on the resultset
+    *
+    * @var string
+    */
+    private $_ResultSetHook;
+
+    /**
     * Array of Clansuite_Datagrid_Row objects
     *
     * @var array
@@ -346,6 +360,18 @@ class Clansuite_Datagrid extends Clansuite_Datagrid_Base
     public function setRenderer(Clansuite_Datagrid_Renderer $_Renderer)
     {
         $this->_Renderer = $_Renderer;
+    }
+
+    /**
+    * Set the hook for the resultset manipulation
+    *
+    * @param Object $_Caller
+    * @param Methodname $_Methodname
+    */
+    public function setResultSetHook($_Caller, $_Methodname)
+    {
+        $this->_Caller          = $_Caller;
+        $this->_ResultSetHook   = $_Methodname;
     }
 
     /**
@@ -757,6 +783,13 @@ class Clansuite_Datagrid extends Clansuite_Datagrid_Base
     {
         foreach( $_Datasets as $dataKey => $dataSet )
         {
+            # Hook
+            if( isset($this->_ResultSetHook) )
+            {
+                #Clansuite_Xdebug::firebug($dataSet);
+                $this->_Caller->{$this->_ResultSetHook}($dataSet);
+            }
+
             $oRow = new Clansuite_Datagrid_Row($this);
             $oRow->setAlias('Row_' . $dataKey);
             $oRow->setId('RowId_' . $dataKey);
@@ -817,6 +850,7 @@ class Clansuite_Datagrid extends Clansuite_Datagrid_Base
         }
 
         $i = 0;
+
         foreach($aResultSet as $ResultKey => $ResultValue)
         {
             $_ArrayStructure = explode('.', $ResultValue);
@@ -832,14 +866,13 @@ class Clansuite_Datagrid extends Clansuite_Datagrid_Base
                 }
                 $_TmpArrayHandler = $_TmpArrayHandler[$_LevelKey];
             }
+
             $_Values[$i] = $_TmpArrayHandler;
             $_Values[$ResultKey] = $_TmpArrayHandler;
             $i++;
         }
         return $_Values;
     }
-
-
 
     /**
      * Generates a customized query for this table
