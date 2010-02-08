@@ -69,10 +69,10 @@ class Clansuite_Config_INIHandler extends Clansuite_Config_Base implements Array
      * @var array
      */
     #protected $config = array();
-    
+
     /**
-     * Can either be INI_SCANNER_NORMAL (default) or INI_SCANNER_RAW. 
-     * 
+     * Can either be INI_SCANNER_NORMAL (default) or INI_SCANNER_RAW.
+     *
      * @var string
      */
     private static $scanner_mode;
@@ -107,11 +107,11 @@ class Clansuite_Config_INIHandler extends Clansuite_Config_Base implements Array
 
     /**
      * Set ScannerMode for parse_ini_file
-     * Can either be INI_SCANNER_NORMAL (default) or INI_SCANNER_RAW. 
+     * Can either be INI_SCANNER_NORMAL (default) or INI_SCANNER_RAW.
      *
      * @param $scanner_mode
      * @return this
-     */    
+     */
     public static function setScannerMode($scanner_mode)
     {
         self::$scannerMode = $scanner_mode;
@@ -130,12 +130,12 @@ class Clansuite_Config_INIHandler extends Clansuite_Config_Base implements Array
     {
        # debug incomming array
        #clansuite_xdebug::printR($assoc_array);
-       if(is_array($assoc_array) == false)
+       if(is_array($assoc_array) === false)
        {
            #@todo exit gracefully
            exit('writeConfig Parameter $assoc_array is not an array.');
        }
-       
+
 
        # when ini_filename exists, get old config array
        if(is_file($ini_filename))
@@ -143,17 +143,18 @@ class Clansuite_Config_INIHandler extends Clansuite_Config_Base implements Array
            $old_config_array = self::readConfig($ini_filename);
            # array merge: overwrite the array to the left, with the array to the right, when keys identical
            # array_merge_recursive ??
-           $config_array = array_merge($old_config_array, $assoc_array);
+           $config_array = self::array_merge_recursive_distinct($old_config_array, $assoc_array);
        }
-       else 
+       else
        {
+
            # create file
            touch($ini_filename);
-           
+
            # the config array = the incoming assoc_array
            $config_array = $assoc_array;
        }
-		
+
        # attach an security header at the top of the ini file
        $content = '';
        $content = "; <?php die( 'Access forbidden.' ); /* DO NOT MODIFY THIS LINE! ?>\n";
@@ -257,7 +258,7 @@ class Clansuite_Config_INIHandler extends Clansuite_Config_Base implements Array
 			}
 			fclose($configFile);
         }
-        
+
         /**
          * check if we have a scannermode set
          */
@@ -275,6 +276,30 @@ class Clansuite_Config_INIHandler extends Clansuite_Config_Base implements Array
         }
 
         return false;
+    }
+
+    /**
+    * Thx to php.net
+    * 
+    * @link: http://www.php.net/manual/en/function.array-merge-recursive.php
+    * @author: Daniel <daniel (at) danielsmedegaardbuus (dot) dk>
+    */
+    public static function array_merge_recursive_distinct( array &$array1, array &$array2 )
+    {
+      $merged = $array1;
+
+      foreach ( $array2 as $key => &$value )
+      {
+        if ( is_array ( $value ) && isset ( $merged [$key] ) && is_array ( $merged [$key] ) )
+        {
+          $merged [$key] = self::array_merge_recursive_distinct ( $merged [$key], $value );
+        }
+        else
+        {
+          $merged [$key] = $value;
+        }
+      }
+      return $merged;
     }
 }
 ?>
