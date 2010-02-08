@@ -560,7 +560,7 @@ class Clansuite_Datagrid extends Clansuite_Datagrid_Base
         $this->_Datasets = $this->getPagerLayout()->getPager()->execute();
 
         # Debug
-        Clansuite_Xdebug::firebug($this->_Datasets);
+        # Clansuite_Xdebug::firebug($this->_Datasets);
 
         # update the current page
         $this->getRenderer()->setCurrentPage($this->getPagerLayout()->getPager()->getPage());
@@ -1477,6 +1477,7 @@ class Clansuite_Datagrid_Renderer
     {
         $htmlString = '';
         $htmlString .= '<table  class="DatagridTable DatagridTable-'. $this->getDatagrid()->getAlias() .'"
+                                cellspacing="0" cellpadding="0" border="0"
                                 id="'. $this->getDatagrid()->getId() .'"
                                 name="'. $this->getDatagrid()->getName() .'">';
         $htmlString .= CR . $_innerTableData  . CR . '</table>';
