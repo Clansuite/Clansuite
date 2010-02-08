@@ -22,12 +22,5 @@ feed_image = "/uploads/noimage.png"
 feed_imagetitle = "Logo"
 feed_imagedescription = "Klick mich"
 feed_imageurl = "http://www.clansuite-dev.com"
-resultsPerPage_show = 3
-items_newswidget = 5
-resultsPerPage_fullarchive = 3
-resultsPerPage_adminshow = 10
-resultsPerPage_archive = 3
-feed_format = "RSS2.0"
-feed_items = 20
 
 ; DO NOT REMOVE THIS LINE */ ?>

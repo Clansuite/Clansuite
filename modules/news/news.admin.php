@@ -53,6 +53,7 @@ if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
 class Module_News_Admin extends Clansuite_ModuleController implements Clansuite_Module_Interface
 {
     public $_Statusmap = array();
+    public $_AdminItems = array();
 
     public function __construct(Phemto $injector=null)
     {
@@ -70,6 +71,11 @@ class Module_News_Admin extends Clansuite_ModuleController implements Clansuite_
                                     "2" => _('No clue'),
                                     "3" => _('No clue'),
                                     "4" => _('Published') );
+
+        $this->_AdminItems = array( "5" => "5",
+                                    "10" => "10",
+                                    "20" => "20",
+                                    "50" => "50" );
     }
 
     /**
@@ -177,6 +183,9 @@ class Module_News_Admin extends Clansuite_ModuleController implements Clansuite_
         $oDatagrid->getCol('Preview')->getRenderer()->stringFormat = '<div title="%{body}">%{preview}</div>';
 
         $oDatagrid->setResultSetHook($this, 'manipulateValues');
+
+        $oDatagrid->setResultsPerPage($this->getConfigValue('resultsPerPage_adminshow', '5'));
+        $oDatagrid->getRenderer()->setResultsPerPageItems($this->_AdminItems);
 
         # Assing datagrid
         $smarty->assign('datagrid', $oDatagrid->render());
@@ -385,6 +394,8 @@ class Module_News_Admin extends Clansuite_ModuleController implements Clansuite_
         Clansuite_Trail::addStep( _('Settings'), '/index.php?mod=news&amp;sub=admin&amp;action=settings');
 
         $settings = array();
+        $adminitems = $this->_AdminItems;
+        $adminitems['selected'] = $this->getConfigValue('resultsPerPage_adminshow', '10');
 
         $settings['form']   = array(    'name' => 'news_settings',
                                         'method' => 'POST',
@@ -415,8 +426,8 @@ class Module_News_Admin extends Clansuite_ModuleController implements Clansuite_
                                         'name' => 'resultsPerPage_adminshow',
                                         'label' => 'Admin News Items',
                                         'description' => _('Newsitems to show in the administration area.'),
-                                        'formfieldtype' => 'text',
-                                        'value' => $this->getConfigValue('resultsPerPage_adminshow', '10'),
+                                        'formfieldtype' => 'multiselect',
+                                        'value' => $adminitems,
                                         'validationrules' => array('int'),
                                         'errormessage' => 'Please use digits!');
 
