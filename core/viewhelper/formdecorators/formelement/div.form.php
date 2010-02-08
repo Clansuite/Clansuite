@@ -42,24 +42,10 @@ if (!class_exists('Clansuite_Form_Decorator', false)) { require ROOT_CORE . 'vie
 class Clansuite_Formelement_Decorator_Div extends Clansuite_Formelement_Decorator
 {
     public $name = 'div';
-    
-    public $classname;
-    
-    public function setClassName($classname)
-    {
-        $this->classname = $classname;  
-        
-        return $this->formelement;  
-    }
-    
-    public function getClassName()
-    {
-        return $this->classname;
-    }
 
     public function render($html_form_content)
     {
-        return CR.'<div class="'.$this->getClassname().'">' . $html_form_content . '</div>'.CR;
+        return CR.'<div class="'.$this->getClass().'">' . $html_form_content . '</div>'.CR;
     }
 }
 ?>

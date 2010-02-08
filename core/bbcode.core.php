@@ -63,7 +63,7 @@ class Clansuite_Bbcode
     function __construct()
     {
         # Include Stringpaser_bbcode Class
-        if(!class_exists('StringParser_BBCode', false)) { require( ROOT_LIBRARIES . '/bbcode/stringparser_bbcode.class.php' ) } ;
+        if(!class_exists('StringParser_BBCode', false)) { require( ROOT_LIBRARIES . '/bbcode/stringparser_bbcode.class.php' ); }
 
         # Instantiate the object
         $this->bbcode = new StringParser_BBCode();

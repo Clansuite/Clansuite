@@ -37,7 +37,7 @@
 
     {* Pagetitle *}
 
-    <title>{$pagetitle} - {breadcrumbs title="1" trail=$trail separator=" &raquo; " length=30}</title>
+    <title>{if isset($pagetitle)}{$pagetitle} - {/if}{breadcrumbs title="1" trail=$trail separator=" &raquo; " length=30}</title>
 
 </head><body>
 
@@ -61,7 +61,7 @@
         <tr>
             <td class="admin_header">
                 {include file='breadcrumbs.tpl'}
-                {include file='help_button.tpl'}                
+                {include file='help_button.tpl'}
 
                 {*
                 <!-- Update Icon -->
@@ -76,9 +76,9 @@
                 <div id="bugreport-toggler" style="float: right; font-family: tahoma,verdana,arial,sans-serif; font-size: 11px; cursor: pointer; margin-right: 5px;">
                     <img style="margin-bottom: -3px;" src="{$www_root_themes_core}/images/icons/error.png" alt="{t}Report Bug{/t}" />
                     {t}Bugreport{/t}
-                </div> 
+                </div>
                 *}
-                
+
                 <!-- Debug Mode Icon -->
                 {if $smarty.const.DEBUG == true}
                 <div id="debug-toggler" style="float: right; font-family: tahoma,verdana,arial,sans-serif; font-size: 11px; cursor: pointer; margin-right: 5px;">
@@ -86,7 +86,7 @@
                     DEBUG
                 </div>
                 {/if}
-                
+
                 <!-- Development Mode Icon -->
                 {if $smarty.const.DEVELOPMENT == true}
                 <div id="development-toggler" style="float: right; font-family: tahoma,verdana,arial,sans-serif; font-size: 11px; cursor: pointer; margin-right: 5px;">

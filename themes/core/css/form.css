@@ -5,7 +5,7 @@
 /* @import url("clansuite_buttons.css"); import clansuite button styles */
 @import url("ui_buttons.css"); /* import jquery ui button style */
 
-form
+.Form
 {
   clear:both;
   font-family:Arial, Verdana;
@@ -33,70 +33,93 @@ div.notice
   padding:10px;
 }
 
-.formline
+.Form .Formline
 {
   clear:both;
   padding:0 0 8px;
 }
 
-div.formline div.forminside
+.Form .Formline,
+.Form .Formline label
+{
+  height: 30px;
+}
+
+.Form .Formline .Forminside
 {
   margin-left:200px;
 }
 
-label
+.Form .Formline label
 {
   float:left;
   min-width:200px;
-  height: 40px;
 }
 
-span.formdescription
+.Form span.FormDescription
 {
   font-size:11px;
   color:#666;
   float: left;
 }
 
-span.value
+.Form span.value
 {
   font-size:11px;
   margin-left:5px;
 }
 
-input[type=radio],input[type=checkbox]
+.Form input[type=radio],
+.Form input[type=checkbox]
 {
   float:left;
 }
 
-input[type=password],select,input[type=text]
+.Form input[type=password],
+.Form select,input[type=text]
 {
   width:255px;
 }
 
-textarea
+.Form textarea
 {
   width:100%;
 }
 
-input[type=text],input[type=password],input.text,input.title,textarea,select
+.Form input[type=text],
+.Form input[type=password],
+.Form input.text,
+.Form input.title,
+.Form textarea,
+.Form select
 {
   background-color:#fff;
   border:1px solid #bbb;
 }
 
-input[type=text]:focus,input[type=password]:focus,input.text:focus,input.title:focus,textarea:focus,select:focus
+.Form input[type=text]:focus,
+.Form input[type=password]:focus,
+.Form input.text:focus,
+.Form input.title:focus,
+.Form textarea:focus,
+.Form select:focus
 {
   background-color:#f4f4f3;
   border-color:#000;
 }
 
-label em,.formbutton
+.Form label em,
+.Form .formbutton
 {
   float:right;
 }
 
-.markItUp
+.Form .ActionButton
+{
+    float: left;
+}
+
+.Form .markItUp
 {
     float: left;
 }

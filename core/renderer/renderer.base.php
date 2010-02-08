@@ -242,9 +242,9 @@ abstract class Clansuite_Renderer_Base
                 return ROOT_THEMES . $_SESSION['user']['theme'] .DS. $module .DS.  $template;
             }
             # (c) FRONTEND FALLBACK - check, if template exists in standard theme
-            elseif(is_file( ROOT_THEMES . '/standard/' . $template))
+            elseif(is_file( ROOT_THEMES .DS. 'standard' .DS. $template))
             {
-                return ROOT_THEMES . '/standard/' . $template;
+                return ROOT_THEMES .DS. 'standard' .DS. $template;
             }
         }
     }
@@ -302,19 +302,19 @@ abstract class Clansuite_Renderer_Base
         }
 
         # Check, if template exists in module folder + 'news' + 'templates' +'/name.tpl'
-        elseif(is_file( ROOT_MOD . $module . '/templates/' . $template))
+        elseif(is_file( ROOT_MOD . $module . DS . 'templates' . DS . $template))
         {
-            $modulepath =  ROOT_MOD . $module . '/templates/' . $template;
+            $modulepath =  ROOT_MOD . $module . DS . 'templates' . DS . $template;
         }
 
         # If there is still no modulepath with the template found, show template_not_found
         elseif(is_null($modulepath))
         {
-            $modulepath = ROOT_THEMES . 'core/templates/template_not_found.tpl';
+            $modulepath = ROOT_THEMES . 'core'.DS.'templates'.DS.'template_not_found.tpl';
         }
 
         # single slash correction
-        $modulepath = str_replace("\\", "/",  $modulepath);
+        # $modulepath = str_replace("\\", "/",  $modulepath);
 
         #echo '<br>'. __METHOD__ .' OUTPUT '.'<br>We found '. $template  . ' on the module path: '. $modulepath. '<br>';
 

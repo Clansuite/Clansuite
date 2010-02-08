@@ -37,7 +37,7 @@
 if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
 
 # Load Clansuite_Renderer_Base
-require dirname(__FILE__) . '/renderer.base.php';
+if( !class_exists('Clansuite_Renderer_Base',false) ) { require dirname(__FILE__) . '/renderer.base.php'; };
 
 /**
  * Clansuite View Class - View for Smarty Templates
@@ -134,12 +134,17 @@ class Clansuite_Renderer_Smarty extends Clansuite_Renderer_Base
         $this->renderer->auto_literal       = true;                 # auto delimiter of javascript/css (The literal tag of Smarty v2.x)
 
         #### SMARTY FILTERS
-        # $this->renderer->autoload_filters  = "";                   # loading filters used for every template
-        $this->renderer->autoload_filters    = array(       # indicates which filters will be auto-loaded
+        $autoload_filters = array();
+        if( $this->config['error']['debug'] )
+        {
+            $autoload_filters = array( 'pre'    => array('inserttplnames') );
+        }
+        $this->renderer->autoload_filters    = $autoload_filters;
+                                                #array(       # indicates which filters will be auto-loaded
                                                      #'pre'    => array('inserttplnames'),
                                                      #'post'   => array(),
                                                      #'output' => array('trimwhitespaces')
-                                                   );
+                                                   #);
 
         #### COMPILER OPTIONS
         # $this->renderer->compiler_class   = "Smarty_Compiler";     # defines the compiler class for Smarty ... ONLY FOR ADVANCED USERS
