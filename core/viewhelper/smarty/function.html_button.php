@@ -26,7 +26,7 @@
  *           - orientation (optional) - image orientation, default 'fixr' ('fixr', 'fixl')<br>
  * Possible templates:<br>
  *  ok, newitem, forward, back, finish, edit, save, add, saveandnew, delete, cancel, close, print, search, list, attach, help, reset, restore, import, export
- * The name of the button is the name of the template. 
+ * The name of the button is the name of the template.
  * Almost all buttons are of type "submit" per default, exceptions are:
  *  - "close": type="button" onClick="window.close();"
  *  - "cancel": type="button" onClick="window.close();"
@@ -45,9 +45,9 @@ function smarty_function_html_button($params, $smarty)
   global $_smarty_html_button_ie_wa_output, $is_pda;
   $is_ie = 0; /* strpos(strtoupper($_SERVER['HTTP_USER_AGENT']), 'MSIE') !== false; */
 
-  require_once $smarty->_get_plugin_filepath('shared','escape_special_chars');
-  require_once $smarty->_get_plugin_filepath('shared','get_var');
-  require_once $smarty->_get_plugin_filepath('function','png_image');
+  if( !function_exists('smarty_function_escape_special_chars') ) { require $smarty->_get_plugin_filepath('shared','escape_special_chars'); }
+  if( !function_exists('smarty_function_get_var') ) { require $smarty->_get_plugin_filepath('shared','get_var'); }
+  if( !function_exists('smarty_function_png_image') ) { require $smarty->_get_plugin_filepath('function','png_image'); }
 
   if( isset($params['arr']) )
   {

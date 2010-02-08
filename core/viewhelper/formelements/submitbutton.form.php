@@ -37,7 +37,7 @@
 // Security Handler
 if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.');}
 
-if (!class_exists('Clansuite_Formelement_Input')) { require 'input.form.php'; }
+if (!class_exists('Clansuite_Formelement_Input',false)) { require dirname(__FILE__) . '/input.form.php'; }
 
 /**
  *  Clansuite_Formelement
@@ -57,10 +57,10 @@ class Clansuite_Formelement_Submitbutton extends Clansuite_Formelement_Input imp
     {
         $this->type = 'submit';
         $this->value = _('Submit');
-        
+
         $this->class = "ButtonGreen";
     }
-    
+
     /**
      * setName to rename the button
      */

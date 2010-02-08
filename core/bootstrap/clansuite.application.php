@@ -111,7 +111,7 @@ class Clansuite_CMS
         unset($REQUIRED_PHP_VERSION);
 
         # PDO Check
-        if ( class_exists('pdo') === false )
+        if ( class_exists('pdo',false) === false )
         {
             die('<i>php_pdo</i> not enabled!');
         }
@@ -155,7 +155,7 @@ class Clansuite_CMS
         }
 
         # require the configuration handler for ini files
-        require 'core/config/ini.config.php';
+        require(getcwd() . '/core/config/ini.config.php');
         # 2. load the main clansuite configuration file
         self::$config = Clansuite_Config_IniHandler::readConfig('configuration/clansuite.config.php');
 
@@ -364,7 +364,7 @@ class Clansuite_CMS
         # If XDebug is enabled, load xdebug helpers and start the debug/tracing
         if( defined('XDEBUG') and (bool)XDEBUG === true)
         {
-            require 'core/bootstrap/clansuite.xdebug.php';
+            require ROOT_CORE . 'bootstrap/clansuite.xdebug.php';
             Clansuite_Xdebug::start_xdebug();
         }
     }
@@ -375,7 +375,7 @@ class Clansuite_CMS
     private static function initialize_Loader()
     {
         # get clansuite loaders
-        require 'core/bootstrap/clansuite.loader.php';
+        require ROOT_CORE . 'bootstrap/clansuite.loader.php';
         # and register the loading handlers by overwriting the spl_autoload handling
         clansuite_loader::register_autoload();
     }

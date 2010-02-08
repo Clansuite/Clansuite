@@ -37,7 +37,7 @@
 // Security Handler
 if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.');}
 
-if (!class_exists('Clansuite_Formelement_Checkbox')) { require 'checkbox.form.php'; }
+if (!class_exists('Clansuite_Formelement_Checkbox',false)) { require dirname(__FILE__) . '/checkbox.form.php'; }
 
 /**
  *  Clansuite_Formelement_Input

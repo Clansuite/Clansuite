@@ -497,7 +497,7 @@ class Clansuite_Formelement /* extends Clansuite_HTML */ implements Clansuite_Fo
     public function decoratorFactory($formelementdecorator)
     {
         # if not already loaded, require forelement file
-        if (!class_exists('Clansuite_Formelement_Decorator_'.$formelementdecorator))
+        if (!class_exists('Clansuite_Formelement_Decorator_'.$formelementdecorator,false))
         {
             if(is_file(ROOT_CORE . 'viewhelper/formdecorators/formelement/'.$formelementdecorator.'.form.php'))
             {

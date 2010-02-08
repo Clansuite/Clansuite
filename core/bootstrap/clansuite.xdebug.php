@@ -203,7 +203,7 @@ class Clansuite_Xdebug
     public static function firebug($var, $firebugmethod = 'log' )
     {
         # get firephp instance, if class not existant
-        if(class_exists('FirePHP') == false)
+        if( class_exists('FirePHP', false) === false )
         {
             require ROOT_LIBRARIES.'firephp/FirePHP.class.php';
         }

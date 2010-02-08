@@ -1,3 +1,4 @@
+ 
 <?php
 /**
  * Smarty plugin
@@ -53,7 +54,7 @@ function smarty_function_gravatar($params, $smarty)
 	if(isset($params['rating']))    {   $rating = $params['rating']; } else { $rating = ''; }
 
 	# initialize gravatar library
-	if (!class_exists('clansuite_gravatar')) // prevent redeclaration
+	if (!class_exists('clansuite_gravatar',false)) // prevent redeclaration
     {
 	    require ROOT_LIBRARIES . '/gravatar/clansuite_gravatar.class.php';
     }

@@ -81,9 +81,10 @@ class Clansuite_Cache_Factory
 			$file = ROOT_CORE .'/cache/'. strtolower($cache_type) .'.cache.php';
         	if (is_file($file) != 0)
 			{
-				require_once($file);
-	            $class = 'Clansuite_Cache_'. $cache_type;
-	            if (class_exists($class))
+                $class = 'Clansuite_Cache_'. $cache_type;
+				if( !class_exists($class,false) ) { require($file); }
+
+	            if (class_exists($class,false))
 	            {
 	                # instantiate and return the renderer and pass $injector into
 	                $cache = new $class($injector);

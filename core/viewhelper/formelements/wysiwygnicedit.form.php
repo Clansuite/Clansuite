@@ -37,7 +37,7 @@
 // Security Handler
 if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.');}
 
-if (!class_exists('Clansuite_Formelement_Textarea')) { require 'textarea.form.php'; }
+if (!class_exists('Clansuite_Formelement_Textarea',false)) { require dirname(__FILE__) . '/textarea.form.php'; }
 
 /**
  *  Clansuite_Formelement
@@ -52,17 +52,17 @@ if (!class_exists('Clansuite_Formelement_Textarea')) { require 'textarea.form.ph
 class Clansuite_Formelement_Wysiwygnicedit extends Clansuite_Formelement_Textarea implements Clansuite_Formelement_Interface
 {
     protected $factory = null;
-    
+
     public function __construct($factory = null)
     {
         if(isset($factory) and $factory !== null)
         {
             $this->factory = $factory;
         }
-        
-        return $this;   
+
+        return $this;
     }
-    
+
     /**
      * This renders a textarea with the WYSWIWYG editor NicEdit attached.
      */
@@ -70,13 +70,13 @@ class Clansuite_Formelement_Wysiwygnicedit extends Clansuite_Formelement_Textare
     {
         if(isset($this->factory) and $this->factory !== null)
         {
-            $name = $this->factory->getName(); 
+            $name = $this->factory->getName();
         }
         else
         {
-            $name = $this->getName();   
+            $name = $this->getName();
         }
-        
+
         # a) loads the nicedit javascript file
         $javascript = '<script src="'.WWW_ROOT_THEMES_CORE . '/javascript/nicedit/nicedit.js'. '" type="text/javascript"></script>';
 
@@ -91,11 +91,11 @@ class Clansuite_Formelement_Wysiwygnicedit extends Clansuite_Formelement_Textare
                                     iconsPath : '" . WWW_ROOT_THEMES_CORE . "/javascript/nicedit/nicEditorIcons.gif',
                                     maxHeight : 600,
                                     bbCode    : true,
-                                    xhtml     : true 
+                                    xhtml     : true
                                   }).panelInstance('".$name."');
                             });
                             // ]]></script>";
-                            
+
         # wysiwyg.instanceById('page_body').saveContent();
 
         # c) css style

@@ -189,7 +189,7 @@ class Clansuite_Config_YAMLHandler extends Clansuite_Config_Base implements Arra
         elseif(is_file(ROOT_LIBRARIES.'/spyc/Spyc.class.php'))
         {
             # ok, load spyc
-            require_once ROOT_LIBRARIES.'/spyc/Spyc.class.php';
+            if( !class_exists('Spyc',false) ) { require( ROOT_LIBRARIES.'/spyc/Spyc.class.php' ); }
 
             # instantiate
             $spyc = new Spyc();

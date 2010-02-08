@@ -37,7 +37,7 @@
 // Security Handler
 if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.');}
 
-if (!class_exists('Clansuite_Formelement_Input')) { require 'input.form.php'; }
+if (!class_exists('Clansuite_Formelement_Input',false)) { require dirname(__FILE__) . '/input.form.php'; }
 
 /**
  *  Clansuite_Formelement
@@ -47,9 +47,9 @@ if (!class_exists('Clansuite_Formelement_Input')) { require 'input.form.php'; }
  *     \- Clansuite_Formelement_JQConfirmSubmitButton
  */
 class Clansuite_Formelement_JQConfirmSubmitButton extends Clansuite_Formelement_Input implements Clansuite_Formelement_Interface
-{    
+{
     protected $message = 'Please Confirm';
-    
+
     # takes the name of the form (to trigger the original sumbit)
     protected $formid;
 
@@ -58,7 +58,7 @@ class Clansuite_Formelement_JQConfirmSubmitButton extends Clansuite_Formelement_
         $this->type = "submit";
         $this->value = _("Confirm & Submit");
         $this->class = "ButtonGreen";
-        
+
         #clansuite_xdebug::printR($this->formid);
 
         # Add the Form Submit Confirmation Javascript. This is a jQuery UI Modal Confirm Dialog.
@@ -66,11 +66,11 @@ class Clansuite_Formelement_JQConfirmSubmitButton extends Clansuite_Formelement_
         # watch out, that div dialog is present in the dom, before you assign function to it via $('#dialog')
         $this->description = "<div id=\"dialog\" title=\"Verify Form\">
                                   <p>If your is correct click Submit Form.</p>
-                                  <p>To edit, click Cancel.<p>                                  
+                                  <p>To edit, click Cancel.<p>
                               </div>
-                              
+
                               <script type=\"text/javascript\">
-                                      
+
                                // jQuery UI Dialog
 
                                $('#dialog').dialog({
@@ -87,13 +87,13 @@ class Clansuite_Formelement_JQConfirmSubmitButton extends Clansuite_Formelement_
                                         }
                                     }
                                 });
-        
-        
+
+
                               $('form#".$this->formid."').submit(function(){
                                 $('#dialog').dialog('open');
                                  return false;
                                });
-                              </script>                             
+                              </script>
                              ";
     }
 
@@ -103,7 +103,7 @@ class Clansuite_Formelement_JQConfirmSubmitButton extends Clansuite_Formelement_
 
         return $this;
     }
-    
+
     public function setFormId($formid)
     {
         $this->formid = $formid;

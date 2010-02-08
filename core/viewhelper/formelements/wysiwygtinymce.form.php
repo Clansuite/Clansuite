@@ -37,7 +37,7 @@
 // Security Handler
 if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.');}
 
-if (!class_exists('Clansuite_Formelement_Textarea')) { require 'textarea.form.php'; }
+if (!class_exists('Clansuite_Formelement_Textarea',false)) { require dirname(__FILE__) . '/textarea.form.php'; }
 
 /**
  *  Clansuite_Formelement
@@ -63,7 +63,7 @@ class Clansuite_Formelement_Wysiwygtinymce extends Clansuite_Formelement_Textare
 
         # b) handler to attach tinymce to all textareas
         $javascript .= "<script type=\"text/javascript\">// <![CDATA[
-                            
+
 ...
 
                         // ]]></script>";

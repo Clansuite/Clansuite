@@ -706,7 +706,7 @@ class Clansuite_Form /*extends Clansuite_HTML*/ implements Clansuite_Form_Interf
     public static function formelementFactory($formelement)
     {
         # if not already loaded, require forelement file
-        if (!class_exists('Clansuite_Formelement_'.$formelement))
+        if (!class_exists('Clansuite_Formelement_'.$formelement,false))
         {
             if(is_file(ROOT_CORE . 'viewhelper/formelements/'.$formelement.'.form.php'))
             {
@@ -896,7 +896,7 @@ class Clansuite_Form /*extends Clansuite_HTML*/ implements Clansuite_Form_Interf
     public function decoratorFactory($formdecorator)
     {
         # if not already loaded, require forelement file
-        if (!class_exists('Clansuite_Form_Decorator_'.$formdecorator))
+        if (!class_exists('Clansuite_Form_Decorator_'.$formdecorator,false))
         {
             if(is_file(ROOT_CORE . 'viewhelper/formdecorators/form/'.$formdecorator.'.form.php'))
             {

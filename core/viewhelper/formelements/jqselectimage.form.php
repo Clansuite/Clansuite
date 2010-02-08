@@ -60,7 +60,7 @@ class Clansuite_Formelement_JQSelectImage extends Clansuite_Formelement_Select i
 
     public function getFiles()
     {
-        if (!class_exists('Clansuite_Directory')) { require ROOT_CORE.'file.core.php'; }
+        if (!class_exists('Clansuite_Directory',false)) { require ROOT_CORE.'file.core.php'; }
 
         $dir = new Clansuite_Directory();
 
@@ -97,33 +97,33 @@ class Clansuite_Formelement_JQSelectImage extends Clansuite_Formelement_Select i
     public function render()
     {
         $files = $this->getFiles();
-                        
+
         # set "images" hardcoded to identify the select options and append the Name
         parent::setID('images_'.$this->getNameWithoutBrackets());
-        
+
         if(empty($files))
         {
             $this->html = 'There are no images in "'.$this->getDirectory().'" to select. Please upload some.';
         }
         else
-        {    
+        {
             $this->setOptions($files);
-            
+
             # @todo first image is not displayed... display it.
-            
+
             # Watch out, that the div images/preview is present in the dom, before you assign js function to it via $('#image')
             $javascript = '<script type="text/javascript">
-                           $(document).ready(function() {                           
+                           $(document).ready(function() {
                               $("#images_'.$this->getNameWithoutBrackets().'").change(function() {
                                     var src = $("option:selected", this).val();
                                     $("#imagePreview_'.$this->getNameWithoutBrackets().'").html(src ? "<img src=\'" + src + "\'>" : "");
                                 });
                             });
                             </script>';
-    
+
             $html =  parent::render().CR.'<div id="imagePreview_'.$this->getNameWithoutBrackets().'"></div>';
-    
-            $this->html = $html.$javascript;        
+
+            $this->html = $html.$javascript;
         }
 
         return $this->html;

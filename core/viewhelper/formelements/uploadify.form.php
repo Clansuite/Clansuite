@@ -37,7 +37,7 @@
 // Security Handler
 if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.');}
 
-if (!class_exists('Clansuite_Formelement_File')) { require 'file.form.php'; }
+if (!class_exists('Clansuite_Formelement_File',false)) { require dirname(__FILE__) . '/file.form.php'; }
 
 /**
  *  Clansuite_Formelement
@@ -58,7 +58,7 @@ class Clansuite_Formelement_Uploadify extends Clansuite_Formelement_File impleme
                         <link href="'. WWW_ROOT_THEMES_CORE .'/css/uploadify/uploadify.css" rel="stylesheet" type="text/css" />
                         <script type="text/javascript" src="'.WWW_ROOT_THEMES_CORE . '/javascript/uploadify/swfobject.js"></script>
                         <script type="text/javascript" src="'.WWW_ROOT_THEMES_CORE . '/javascript/jquery/jquery.uploadify.v2.1.0.min.js"></script>';
-        
+
         # attach the uploadify handler and apply some configuration
         $javascript .= "<script type=\"text/javascript\">// <![CDATA[
                         $(document).ready(function() {
@@ -71,12 +71,12 @@ class Clansuite_Formelement_Uploadify extends Clansuite_Formelement_File impleme
                             });
                         });
                         // ]]></script>";
-        
+
         # output the div elements
         $html = "<div id=\"fileQueue\"></div>
                  <input type=\"file\" name=\"uploadify\" id=\"uploadify\" />
                  <p><a href=\"javascript:jQuery('#uploadify').uploadifyClearQueue()\">Cancel All Uploads</a></p>";
-        
+
         return $javascript.$html;
     }
 

@@ -37,7 +37,7 @@
 // Security Handler
 if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.');}
 
-if (!class_exists('Clansuite_Formelement_Select')) { require 'select.form.php'; }
+if (!class_exists('Clansuite_Formelement_Select',false)) { require dirname(__FILE__) . '/select.form.php'; }
 
 /**
  *
@@ -50,7 +50,7 @@ if (!class_exists('Clansuite_Formelement_Select')) { require 'select.form.php'; 
 class Clansuite_Formelement_Selectcountry extends Clansuite_Formelement_Select implements Clansuite_Formelement_Interface
 {
     /**
-     * getCountries() 
+     * getCountries()
      *
      * @return array with country names
      */
@@ -294,22 +294,22 @@ class Clansuite_Formelement_Selectcountry extends Clansuite_Formelement_Select i
             _("Zambia"),
             _("Zimbabwe")
          );
-         
+
          return $countries;
     }
-    
+
     public function render()
     {
-        $html  = '';        
+        $html  = '';
         $select_element = new Clansuite_Formelement_Select();
-        $select_element->setOptions($this->getCountries());        
-        $html .= $select_element;        
+        $select_element->setOptions($this->getCountries());
+        $html .= $select_element;
         return $html;
     }
-    
+
     public function __toString()
     {
-        $this->render();   
+        $this->render();
     }
 }
 ?>
