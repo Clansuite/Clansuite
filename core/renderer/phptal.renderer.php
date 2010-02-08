@@ -78,7 +78,7 @@ class Clansuite_Renderer_Phptal extends Clansuite_Renderer_Base
     public function initializeEngine()
     {
 		# prevent redeclaration
-        if (!class_exists('PHPTAL'))
+        if (!class_exists('PHPTAL',false))
         {
     		# check if library exists
             if ( is_file(ROOT_LIBRARIES . 'phptal/PHPTAL.php') )

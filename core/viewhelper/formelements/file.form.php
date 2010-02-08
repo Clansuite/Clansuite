@@ -37,7 +37,7 @@
 // Security Handler
 if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.');}
 
-if (!class_exists('Clansuite_Formelement_Input')) { require 'input.form.php'; }
+if (!class_exists('Clansuite_Formelement_Input',false)) { require dirname(__FILE__) . '/input.form.php'; }
 
 /**
  *  Clansuite_Formelement
@@ -91,16 +91,16 @@ class Clansuite_Formelement_File extends Clansuite_Formelement_Input implements 
         {
             default:
             case 'ajaxupload':
-                    if (!class_exists('Clansuite_Formelement_Uploadajax')) { include 'uploadajax.form.php'; }
+                    if (!class_exists('Clansuite_Formelement_Uploadajax',false)) { include 'uploadajax.form.php'; }
                     return new Clansuite_Formelement_Uploadajax();
                 break;
             case 'apc':
-                    if (!class_exists('Clansuite_Formelement_Uploadapc')) { include 'uploadapc.form.php'; }
+                    if (!class_exists('Clansuite_Formelement_Uploadapc',false)) { include 'uploadapc.form.php'; }
                     return new Clansuite_Formelement_Uploadapc();
 
                 break;
             case 'uploadify':
-                    if (!class_exists('Clansuite_Formelement_Uploadify')) { include'uploadify.form.php'; }
+                    if (!class_exists('Clansuite_Formelement_Uploadify',false)) { include'uploadify.form.php'; }
                     return new Clansuite_Formelement_Uploadify();
                 break;
             case 'html':

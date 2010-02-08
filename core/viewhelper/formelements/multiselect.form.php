@@ -38,7 +38,7 @@
 if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.');}
 
 
-if (!class_exists('Clansuite_Formelement_Select')) { require 'select.form.php'; }
+if (!class_exists('Clansuite_Formelement_Select',false)) { require dirname(__FILE__) . '/select.form.php'; }
 
 /**
  *

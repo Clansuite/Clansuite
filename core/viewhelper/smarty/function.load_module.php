@@ -77,7 +77,7 @@ function smarty_function_load_module($params, $smarty)
     }
 
     # Load class, if not already loaded
-    if (!class_exists(ucfirst($module_name)))
+    if (!class_exists(ucfirst($module_name),false))
     {
         # Check if class was loaded
         if( clansuite_loader::loadModul($module_name) == false)

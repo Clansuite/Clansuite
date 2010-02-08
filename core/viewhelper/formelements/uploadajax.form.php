@@ -37,7 +37,7 @@
 // Security Handler
 if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.');}
 
-if (!class_exists('Clansuite_Formelement_File')) { require 'file.form.php'; }
+if (!class_exists('Clansuite_Formelement_File',false)) { require dirname(__FILE__) . '/file.form.php'; }
 
 /**
  *  Clansuite_Formelement

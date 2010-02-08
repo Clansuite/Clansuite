@@ -32,8 +32,8 @@
 function smarty_function_html_text($params, $smarty)
 {
   global $_smarty_pp_autocomplete_js_output;
-  require_once $smarty->_get_plugin_filepath('shared','escape_special_chars');
-  require_once $smarty->_get_plugin_filepath('shared','get_var');
+  if( !function_exists('smarty_function_escape_special_chars') ) { require $smarty->_get_plugin_filepath('shared','escape_special_chars'); }
+  if( !function_exists('smarty_function_get_var') ) { require $smarty->_get_plugin_filepath('shared','get_var'); }
 
   $name = '';
   $type = 'text';
@@ -108,7 +108,7 @@ function smarty_function_html_text($params, $smarty)
   {
     if( !$_smarty_pp_autocomplete_js_output )
     {
-      require_once $smarty->_get_plugin_filepath('block','javascript');
+      if( !function_exists('smarty_block_javascript') ) { $smarty->_get_plugin_filepath('block','javascript'); }
       $_html_result .= '<script type="text/javascript" src="fetch.php?mod=main&what=autocomplete.js"></script>';
       $_smarty_pp_autocomplete_js_output = true;
     }

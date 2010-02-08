@@ -37,7 +37,7 @@
 // Security Handler
 if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.');}
 
-if (!class_exists('Clansuite_Formelement_Textarea')) { require 'textarea.form.php'; }
+if (!class_exists('Clansuite_Formelement_Textarea',false)) { require dirname(__FILE__) . '/textarea.form.php'; }
 
 /**
  *  Clansuite_Formelement
@@ -59,10 +59,10 @@ class Clansuite_Formelement_Wysiwygckeditor extends Clansuite_Formelement_Textar
         {
             $this->factory = $factory;
         }
-        
-        return $this;   
+
+        return $this;
     }
-    
+
     /**
      * This renders a textarea with the WYSWIWYG editor ckeditor attached.
      */
@@ -70,20 +70,20 @@ class Clansuite_Formelement_Wysiwygckeditor extends Clansuite_Formelement_Textar
     {
         if(isset($this->factory) and $this->factory !== null)
         {
-            $name = $this->factory->getName(); 
+            $name = $this->factory->getName();
         }
         else
         {
-            $name = $this->getName();   
+            $name = $this->getName();
         }
-        
+
         if(isset($this->factory) and $this->factory !== null)
         {
-            $value = $this->factory->getValue(); 
+            $value = $this->factory->getValue();
         }
         else
         {
-            $value = $this->getValue();   
+            $value = $this->getValue();
         }
 
         # if we are in inheritance mode, skip this, the parent class handles this already
@@ -100,10 +100,10 @@ class Clansuite_Formelement_Wysiwygckeditor extends Clansuite_Formelement_Textar
 
             #clansuite_xdebug::printR($html);
         }
- 
+
         # a) loads the ckeditor javascript files
         $javascript = '<script type="text/javascript" src="'.WWW_ROOT_THEMES_CORE . '/javascript/ckeditor/ckeditor.js"></script>';
-                 
+
         # d) plug it to an specific textarea by ID
         $javascript .= '<script type="text/javascript">
                                 CKEDITOR.replace("'.$this->getName().'");

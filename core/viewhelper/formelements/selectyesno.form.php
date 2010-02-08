@@ -37,7 +37,7 @@
 // Security Handler
 if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.');}
 
-if (!class_exists('Clansuite_Formelement_Select')) { require 'select.form.php'; }
+if (!class_exists('Clansuite_Formelement_Select',false)) { require dirname(__FILE__) . '/select.form.php'; }
 
 /**
  *
@@ -51,31 +51,31 @@ class Clansuite_Formelement_Selectyesno extends Clansuite_Formelement_Select imp
 {
     public function getYesNo()
     {
-        $options = array( 'yes' => '1', 'no' => '0' );        
-        return $options;   
+        $options = array( 'yes' => '1', 'no' => '0' );
+        return $options;
     }
-    
+
     public function render()
-    { 
+    {
         # check if we have options
         if($this->options == null)
         {
            # if we don't have options, we set only 'yes' and 'no'
-           $this->setOptions($this->getYesNo());  
+           $this->setOptions($this->getYesNo());
         }
         else
-        {  
+        {
             # if options is set, it means that a options['select'] is given
             # we combine it with yes/no
-            $this->setOptions( $this->options += $this->getYesNo() );   
+            $this->setOptions( $this->options += $this->getYesNo() );
         }
-        
+
         return parent::render();
     }
-    
+
     public function __toString()
     {
-        return $this->render();        
+        return $this->render();
     }
 }
 ?>

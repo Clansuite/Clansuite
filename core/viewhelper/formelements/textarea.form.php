@@ -37,7 +37,7 @@
 // Security Handler
 if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.');}
 
-if (!class_exists('Clansuite_Formelement')) { require ROOT_CORE . 'viewhelper/formelement.core.php'; }
+if (!class_exists('Clansuite_Formelement',false)) { require ROOT_CORE . 'viewhelper/formelement.core.php'; }
 
 /**
  *  Clansuite_Formelement
@@ -170,22 +170,22 @@ class Clansuite_Formelement_Textarea extends Clansuite_Formelement implements Cl
         {
             default:
              case 'markitup':
-                    if (!class_exists('Clansuite_Formelement_Wysiwygmarkitup')) { include 'wysiwygmarkitup.form.php'; }
+                    if (!class_exists('Clansuite_Formelement_Wysiwygmarkitup',false)) { include 'wysiwygmarkitup.form.php'; }
                     return new Clansuite_Formelement_Wysiwygmarkitup($this);
                 break;
             case 'nicedit':
-                    if (!class_exists('Clansuite_Formelement_Wysiwygnicedit')) { include 'wysiwygnicedit.form.php'; }
+                    if (!class_exists('Clansuite_Formelement_Wysiwygnicedit',false)) { include 'wysiwygnicedit.form.php'; }
                     # passing 'this' into the child. so that child has a reference back to the parent
                     $wysiwyg = new Clansuite_Formelement_Wysiwygnicedit($this);
                     $this->setWysiwygContent($wysiwyg->render());
                     return $this->render_textarea();
                 break;
             case 'ckeditor':
-                    if (!class_exists('Clansuite_Formelement_Wysiwygckeditor')) { include 'wysiwygckeditor.form.php'; }
+                    if (!class_exists('Clansuite_Formelement_Wysiwygckeditor',false)) { include 'wysiwygckeditor.form.php'; }
                     return new Clansuite_Formelement_Wysiwygckeditor($this);
                 break;
             case 'tinymce':
-                    if (!class_exists('Clansuite_Formelement_Wysiwygtinymce')) { include 'wysiwygtinymce.form.php'; }
+                    if (!class_exists('Clansuite_Formelement_Wysiwygtinymce',false)) { include 'wysiwygtinymce.form.php'; }
                     return new Clansuite_Formelement_Wysiwygtinymce();
                 break;
             case 'html':

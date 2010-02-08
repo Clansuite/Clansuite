@@ -64,9 +64,10 @@ class Clansuite_Renderer_Factory
 			$file = ROOT_CORE .'renderer'.DS. strtolower($view_type) .'.renderer.php';
         	if (is_file($file) != 0)
 			{
-				require_once($file);
 	            $class = 'Clansuite_Renderer_'. $view_type;
-	            if (class_exists($class))
+                if( !class_exists($class,false) ) { require($file); }
+
+	            if (class_exists($class,false))
 	            {
 	                # instantiate and return the renderer and pass $injector into
 	                $view = new $class($injector, $injector->instantiate('Clansuite_Config'));

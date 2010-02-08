@@ -200,7 +200,10 @@ class Module_News_Admin extends Clansuite_ModuleController implements Clansuite_
     public function manipulateValues(&$_ArrayReference)
     {
         #Clansuite_Xdebug::firebug($_ArrayReference['news_status']);
-        $_ArrayReference['news_status'] = $this->_Statusmap[$_ArrayReference['news_status']];
+       if(isset($this->_Statusmap[$_ArrayReference['news_status']]))
+       {
+            $_ArrayReference['news_status'] = $this->_Statusmap[$_ArrayReference['news_status']];
+       }
 
         $wrapLength = 50;
         $_ArrayReference['news_body'] = htmlspecialchars(strip_tags($_ArrayReference['news_body']));
@@ -312,7 +315,7 @@ class Module_News_Admin extends Clansuite_ModuleController implements Clansuite_
             $news->news_title   = $data['news_title'];
             $news->news_body    = $data['news_body'];
             $news->cat_id       = $data['cat_id'];
-            $news->user_id      = $data['user_id'];
+            $news->user_id      = $_SESSION['user']['user_id'];
             $news->news_status  = $data['news_status'];
             $news->save();
 

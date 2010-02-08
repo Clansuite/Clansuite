@@ -37,7 +37,7 @@
 // Security Handler
 if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.');}
 
-if (!class_exists('Clansuite_Form')) { require 'form.core.php'; }
+if (!class_exists('Clansuite_Form',false)) { require dirname(__FILE__) . '/form.core.php'; }
 
 /**
  * Clansuite Form Generator via Doctrine Records
@@ -156,7 +156,7 @@ class Clansuite_Array_Formgenerator extends Clansuite_Form
         parent::__construct( $form_array['form']['name'],
                              $form_array['form']['method'],
                              $form_array['form']['action'] );
-        
+
         # unset the key form inside form_array, because the "form" description is no longer needed, parent Clansuite_Form is already informed
         unset($form_array['form']);
 
@@ -242,7 +242,7 @@ class Clansuite_Array_Formgenerator extends Clansuite_Form
                 }
             }
         }
-    }   
+    }
 
     public function generateFormByArray()
     {

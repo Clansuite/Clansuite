@@ -89,7 +89,7 @@ class Clansuite_Renderer_Smarty extends Clansuite_Renderer_Base
     public function initializeEngine()
     {
         # prevent redeclaration
-        if (!class_exists('Smarty'))
+        if (!class_exists('Smarty',false))
         {
             # check if Smarty library exists - eat like a bird, poop like an elefant!
             if ( is_file(ROOT_LIBRARIES . 'smarty/Smarty.class.php') )

@@ -52,9 +52,10 @@ class Clansuite_Logger_Factory
 			$file = ROOT_CORE .'logger'.DS. strtolower($logger_type) .'.logger.php';
         	if (is_file($file) != 0)
 			{
-				require_once($file);
 	            $class = 'logger_'. $logger_type;
-	            if (class_exists($class))
+                if( !class_exists($class,false) ) { require($file); }
+                
+	            if (class_exists($class,false))
 	            {
 	                # instantiate and return the logger and pass $injector into
 	                $logger = new $class($injector);
@@ -111,7 +112,7 @@ class LoggerFactoryFileNotFoundException extends Exception
 
 /**
  * Clansuite_Logger_Interface
- * 
+ *
  * Purpose: All Loggers must implement the following functions.
  */
 interface Clansuite_Logger_Interface
