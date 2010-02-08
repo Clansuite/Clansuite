@@ -267,6 +267,13 @@ class Clansuite_Datagrid extends Clansuite_Datagrid_Base
     private $_Renderer;
 
     /**
+    * Results per Page
+    *
+    * @var int
+    */
+    private $_ResultPerPage;
+
+    /**
     * Methodname to call on the resultset
     *
     * @var string
@@ -360,6 +367,16 @@ class Clansuite_Datagrid extends Clansuite_Datagrid_Base
     public function setRenderer(Clansuite_Datagrid_Renderer $_Renderer)
     {
         $this->_Renderer = $_Renderer;
+    }
+
+    /**
+    * Set the results per page
+    *
+    * @param int $_ResultsPerPage
+    */
+    public function setResultsPerPage($_ResultsPerPage)
+    {
+        $this->_ResultsPerPage = $_ResultsPerPage;
     }
 
     /**
@@ -464,6 +481,13 @@ class Clansuite_Datagrid extends Clansuite_Datagrid_Base
     * @return Clansuite_Datagrid_Renderer
     */
     public function getRenderer()       { return $this->_Renderer; }
+
+    /**
+    * Get the results per page
+    *
+    * @return int
+    */
+    public function getResultsPerPage() { return $this->_ResultsPerPage; }
 
     /**
     * Returns the row objects (Clansuite_Datagrid_Row)
@@ -992,7 +1016,7 @@ class Clansuite_Datagrid extends Clansuite_Datagrid_Base
         }
         else
         {
-            $_ResultsPerPage = 10;
+            $_ResultsPerPage = $this->getResultsPerPage();
         }
 
         # Add to session
@@ -1334,6 +1358,16 @@ class Clansuite_Datagrid_Renderer
     */
     private $_PagerLinkLayoutString = '<a href="{%url}"><span class="PagerItem Inactive">{%page}</span></a>';
 
+    /**
+    * The items for results per page
+    *
+    * @var array
+    */
+    private $_ResultsPerPageItems = array(  "10",
+                                            "20",
+                                            "50",
+                                            "100" );
+
     //----------------------
     // Class methods
     //----------------------
@@ -1408,6 +1442,14 @@ class Clansuite_Datagrid_Renderer
     */
     public function setPagerLinkLayoutString($_PagerLinkLayout) { $this->_PagerLinkLayout = $_PagerLinkLayout; }
 
+
+    /**
+    * Set the items for the dropdownbox of results per page
+    *
+    * @param array $_Items
+    */
+    public function setResultsPerPageItems($_Items)             { $this->_ResultsPerPageItems = $_Items; }
+
     //----------------------
     // Getter
     //----------------------
@@ -1461,7 +1503,12 @@ class Clansuite_Datagrid_Renderer
     */
     public function getPagerLinkLayoutString()      { return $this->_PagerLinkLayoutString; }
 
-
+    /**
+    * Get the items for the dropdownbox of results per page
+    *
+    * @return string
+    */
+    public function getResultsPerPageItems()        { return $this->_ResultsPerPageItems; }
 
     //----------------------
     // Render methods
@@ -1586,12 +1633,13 @@ class Clansuite_Datagrid_Renderer
             if( $_ShowResultsPerPage )
             {
                 $htmlString .= '<div class="ResultsPerPage">';
-                    $htmlString .= '<select name="' . $this->getDatagrid()->getInputParameterName('ResultsPerPage') . '" onChange="this.form.submit();">';
-                        $htmlString .= '<option value="10" ' . (($this->getCurrentResultsPerPage()==10) ? 'selected="selected"' : '') . '>10</option>';
-                        $htmlString .= '<option value="20" ' . (($this->getCurrentResultsPerPage()==20) ? 'selected="selected"' : '') . '>20</option>';
-                        $htmlString .= '<option value="50" ' . (($this->getCurrentResultsPerPage()==50) ? 'selected="selected"' : '') . '>50</option>';
-                        $htmlString .= '<option value="100" ' . (($this->getCurrentResultsPerPage()==100) ? 'selected="selected"' : '') . '>100</option>';
-                    $htmlString .= '</select>';
+                $htmlString .= '<select name="' . $this->getDatagrid()->getInputParameterName('ResultsPerPage') . '" onChange="this.form.submit();">';
+                    $_ResultsPerPageItems = $this->getResultsPerPageItems();
+                    foreach( $_ResultsPerPageItems as $ItemCount )
+                    {
+                        $htmlString .= '<option value="'.$ItemCount.'" ' . (($this->getCurrentResultsPerPage()==$ItemCount) ? 'selected="selected"' : '') . '>'.$ItemCount.'</option>';
+                    }
+                $htmlString .= '</select>';
                 $htmlString .= '</div>';
             }
             else
