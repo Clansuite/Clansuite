@@ -150,6 +150,30 @@ abstract class Clansuite_Formelement_Decorator #implements Clansuite_Form_Interf
     # instance of formelement, which is to decorate
     protected $formelement;
 
+    private $_class;
+
+    /**
+    * Set class=""
+    *
+    * @param string $classname
+    */
+    public function setClass($classname)
+    {
+        $this->_class = $classname;
+
+        return $this->formelement;
+    }
+
+    /**
+    * Get class="" values
+    *
+    * @return string
+    */
+    public function getClass()
+    {
+        return $this->_class;
+    }
+
     /**
      * Constructor
      *

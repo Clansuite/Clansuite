@@ -239,6 +239,7 @@ class Module_News_Admin extends Clansuite_ModuleController implements Clansuite_
 
         # Create a new form
         $form = new Clansuite_Form('news_form', 'post', 'index.php?mod=news&sub=admin&action=update&type=create');
+        $form->setClass('News');
 
         # Assign some formlements
         $form->addElement('text')->setName('news_form[news_title]')->setLabel(_('Title'));
@@ -464,11 +465,13 @@ class Module_News_Admin extends Clansuite_ModuleController implements Clansuite_
 
         # fill the settings array into the formgenerator
         $form = new Clansuite_Array_Formgenerator($settings);
-        # add additional buttons to the form
-        $form->addElement('submitbutton')->setName('Save');
-        $form->addElement('resetbutton');
+        $form->setClass('News');
 
-        #clansuite_xdebug::printR( $form->render() );
+        # add additional buttons to the form
+        $submitEl = $form->addElement('submitbutton');
+        $submitEl->setDecorator('div')->setClass('ActionButton');
+        $submitEl->setName(_('Save'));
+        $form->addElement('resetbutton')->setDecorator('div')->setClass('ActionButton');
 
         # assign the html of the form to the view
         $this->getView()->assign('form', $form->render());

@@ -4,7 +4,7 @@
  * @package Smarty
  * @subpackage plugins
  */
- 
+
 /**
  * This smarty function is part of "Clansuite - just an eSports CMS"
  * @link http://www.clansuite.com
@@ -31,6 +31,7 @@
  */
 function smarty_prefilter_inserttplnames( $tpl_source, $compiler )
 {
-    return "\n<!-- [Start] Included Template {\$smarty.template} -->\n".$tpl_source."\n<!-- [-End-] Included Template {\$smarty.template}  -->\n";
+    #Clansuite_Xdebug::firebug($compiler);
+    return "\n<!-- [-Start-] Included Template {\$smarty.current_dir}".DS."{\$smarty.template} -->\n".$tpl_source."\n<!-- [-End-] Included Template {\$smarty.current_dir}".DS."{\$smarty.template}  -->\n";
 }
 ?>

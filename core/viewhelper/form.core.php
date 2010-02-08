@@ -504,7 +504,7 @@ class Clansuite_Form /*extends Clansuite_HTML*/ implements Clansuite_Form_Interf
     {
         $this->setFormelementDecorator('label', $formelement_position);
         $this->setFormelementDecorator('description', $formelement_position);
-        $this->setFormelementDecorator('div', $formelement_position)->setClassname('formline');        
+        $this->setFormelementDecorator('div', $formelement_position)->setClass('Formline');
     }
 
     public function renderAllFormelements()
@@ -527,7 +527,7 @@ class Clansuite_Form /*extends Clansuite_HTML*/ implements Clansuite_Form_Interf
         {
             # fetch all decorators of this formelement
             $formelementdecorators = $formelement->getDecorators();
-            
+
             if(empty($formelementdecorators))
             {
                 # set
@@ -536,7 +536,7 @@ class Clansuite_Form /*extends Clansuite_HTML*/ implements Clansuite_Form_Interf
                 # fetch again all decorators of this formelement
                 $formelementdecorators = $formelement->getDecorators();
             }
-            
+
             /*if($formelement_position == 1)
             {
                 clansuite_xdebug::printR($formelements);
@@ -553,12 +553,12 @@ class Clansuite_Form /*extends Clansuite_HTML*/ implements Clansuite_Form_Interf
                 $formelementdecorator->decorateWith($formelement);
                 $html_formelement = $formelementdecorator->render($html_formelement);
             }
-            
+
             # increase formelement position
-            $formelement_position++;  
-            
+            $formelement_position++;
+
             # append the form html with the decorated formelement html
-            $html_form .= $html_formelement;         
+            $html_form .= $html_formelement;
         }
 
         #clansuite_xdebug::printR($html_form);

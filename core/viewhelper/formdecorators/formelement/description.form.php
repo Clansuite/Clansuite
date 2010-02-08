@@ -57,7 +57,7 @@ class Clansuite_Formelement_Decorator_Description extends Clansuite_Formelement_
         if ( isset($this->formelement->description) == true)
         {
             $html_formelement .= '<br />'.
-                                      CR . '<span class="formdescription">'.
+                                      CR . '<span class="FormDescription">'.
                                       $this->formelement->getDescription().
                                       '</span>'.
                                       CR;

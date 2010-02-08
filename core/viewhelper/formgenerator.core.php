@@ -255,6 +255,7 @@ class Clansuite_Array_Formgenerator extends Clansuite_Form
             #clansuite_xdebug::printR($form_array_elements);
             #clansuite_xdebug::printR($form_array_section);
 
+            
             foreach($form_array_elements as $form_array_element_number => $form_array_element)
             {
                #clansuite_xdebug::printR($form_array_element);

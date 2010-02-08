@@ -159,8 +159,8 @@ class Module_Guestbook_Admin extends Clansuite_ModuleController implements Clans
 
         $form->addElement('text')->setLabel('text label')->setDescription('description');
         #$form->setElementDecorator('label');
-        $form->setElementDecorator('div')->setClassName('forminside');
-        $form->setElementDecorator('div')->setClassName('formline');
+        $form->setElementDecorator('div')->setClass('Forminside');
+        $form->setElementDecorator('div')->setClass('Formline');
         #$form->setElementDecorator('description');
         #clansuite_xdebug::printR($form->getFormelements());
 
