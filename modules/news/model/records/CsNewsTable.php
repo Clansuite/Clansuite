@@ -25,7 +25,6 @@ class CsNewsTable extends Doctrine_Table
                                     ->leftJoin('n.CsCategories c')
                                     ->leftJoin('n.CsComments nc')
                                     ->leftJoin('nc.CsUsers ncu')
-                                    ->setHydrationMode(Doctrine::HYDRATE_ARRAY)
                                     ->orderBy('n.news_id DESC, n.created_at DESC')
                              );
     }

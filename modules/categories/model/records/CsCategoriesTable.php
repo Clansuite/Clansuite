@@ -5,6 +5,23 @@
 */
 class CsCategoriesTable extends Doctrine_Table
 {
+    /**
+    * construct
+    * Introducing Named Queries
+    */
+    public function construct()
+    {
+        // Get all news elements
+        $this->addNamedQuery(
+            'fetchAllCategories', Doctrine_Query::create()
+               ->select('c.*, m.name as module')
+               ->from('CsCategories c')
+               ->leftJoin('c.CsModules m on c.module_id = m.module_id'));
+    }
+
+
+
+
     public static function fetchAll()
     {
         return Doctrine_Query::create()
@@ -12,7 +29,7 @@ class CsCategoriesTable extends Doctrine_Table
                ->from('CsCategories c')
                ->fetchArray();
     }
-	
+
 	public static function fetchAllCategories($sortorder)
 	{
         return Doctrine_Query::create()
@@ -22,8 +39,8 @@ class CsCategoriesTable extends Doctrine_Table
 			   ->orderby($sortorder)
                ->fetchArray();
 	}
-	
-	
+
+
     /**
      * fetchSingleCategory
      *
@@ -35,7 +52,7 @@ class CsCategoriesTable extends Doctrine_Table
                     ->from('CsCategories c')
                     ->where('cat_id = ' . $cat_id)
                     ->fetchArray();
-					
+
         # put things in an array-box for delivery multiple things with one return stmt
         return $cats['0'];
     }
