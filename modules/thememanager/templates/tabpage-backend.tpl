@@ -2,6 +2,7 @@
     <tbody>
 
     {foreach item=theme from=$themes}
+    
 {if $theme.adminlayout == true}
     <tr>
 
@@ -47,7 +48,7 @@
              {* {if $admin} <input class="ButtonGreen" type="submit"  value="Select as Default Theme" /> {/if} *}
         </form>
 
-        {if empty($theme.layoutpath) == false }
+        {if isset($theme.layoutpath)}
             <a href="index.php?mod=templatemanager&sub=admin&action=editor&file={$theme.layoutpath}"
                class="ButtonOrange">{t}Edit{/t}</a>
         {/if}
