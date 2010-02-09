@@ -2,7 +2,7 @@
 
 {*{modulenavigation}*}
 <div class="ModuleHeading">{t}Thememanager{/t}</div>
-<div class="ModuleHeadingSmall">{t}Themes change the look of our Clansuite website. You can change the deafult theme, set a new theme for all your members or install a new theme.{/t}</div>
+<div class="ModuleHeadingSmall">{t}Themes change the look of our Clansuite website. You can change the default theme, set a new theme for all your members or install a new theme.{/t}</div>
 
 {tabpanel name="tplmanager"}
     {tabpage name="Frontend"}   {include file='tabpage-frontend.tpl'}  {/tabpage}

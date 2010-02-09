@@ -2,6 +2,7 @@
     <tbody>
 
     {foreach item=theme from=$themes}
+    
 {if $theme.adminlayout == false}
     <tr>
 
@@ -46,16 +47,12 @@
         <form action="http://www.irgendwo.de" method="GET">
              {* {if $admin} <input class="ButtonGreen" type="submit"  value="Select as Default Theme" /> {/if} *}
         </form>
-
-        {if empty($theme.layoutpath) == false }
+        
+        {if isset($theme.layoutpath)}
             <a href="index.php?mod=templatemanager&sub=admin&action=editor&file={$theme.layoutpath}"
                class="ButtonOrange">{t}Edit{/t}</a>
         {/if}
-
-        <form action="http://www.irgendwo.de" method="GET">
-            <input class="ButtonRed" type="submit" value="Delete" />
-        </form>
-
+        
         </td>
     </tr>
 {/if}
