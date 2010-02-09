@@ -247,9 +247,9 @@ class Module_News_Admin extends Clansuite_ModuleController implements Clansuite_
         $form->addElement('multiselect')->setName('news_form[cat_id]')->setLabel(_('Category'))->setOptions($categories);
         $form->addElement('multiselect')->setName('news_form[news_status]')->setLabel(_('Status'))->setOptions($this->_Statusmap)->setDefaultValue("0");
         $form->addElement('textarea')->setName('news_form[news_body]')->setID('news_form[news_body]')->setCols('110')->setRows('30')->setLabel(_('Your Article:'));
-        $form->addElement('submitbutton');
-        $form->addElement('resetbutton');
-        $form->addElement('cancelbutton');
+
+        # add the buttonbar
+        $form->addElement('buttonbar')->getButton('cancelbutton')->cancelURL = 'index.php?mod=news&amp;sub=admin';
 
         # Assign the html of the form to the view
         $this->getView()->assign('form', $form->render());
@@ -292,15 +292,9 @@ class Module_News_Admin extends Clansuite_ModuleController implements Clansuite_
         $form->addElement('multiselect')->setName('news_form[cat_id]')->setLabel(_('Category'))->setOptions($categories)->setDefaultValue($news['cat_id']);
         $form->addElement('multiselect')->setName('news_form[news_status]')->setLabel(_('Status'))->setOptions($this->_Statusmap)->setDefaultValue($news['news_status']);
         $form->addElement('textarea')->setName('news_form[news_body]')->setID('news_form[news_body]')->setCols('110')->setRows('30')->setLabel(_('Your Article:'))->setValue($news['news_body']);;
-        $form->addElement('submitbutton')->setValue('Submit');
-        $form->addElement('resetbutton')->setValue('Reset');
-        $form->addElement('cancelbutton');
 
-        # Debugging Form Object
-        #clansuite_xdebug::printR($form);
-
-        # Debugging Form HTML Output
-        #clansuite_xdebug::printR($form->render());
+        # add the buttonbar
+        $form->addElement('buttonbar')->getButton('cancelbutton')->cancelURL = 'index.php?mod=news&amp;sub=admin';
 
         # assign the html of the form to the view
         $this->getView()->assign('form', $form->render());
@@ -467,11 +461,8 @@ class Module_News_Admin extends Clansuite_ModuleController implements Clansuite_
         $form = new Clansuite_Array_Formgenerator($settings);
         $form->setClass('News');
 
-        # add additional buttons to the form
-        $submitEl = $form->addElement('submitbutton');
-        $submitEl->setDecorator('div')->setClass('ActionButton');
-        $submitEl->setName(_('Save'));
-        $form->addElement('resetbutton')->setDecorator('div')->setClass('ActionButton');
+        # add the buttonbar
+        $form->addElement('buttonbar')->getButton('cancelbutton')->cancelURL = 'index.php?mod=news&amp;sub=admin';
 
         # assign the html of the form to the view
         $this->getView()->assign('form', $form->render());

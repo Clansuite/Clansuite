@@ -52,8 +52,8 @@ div.notice
 
 .Form .Formline label
 {
-  float:left;
-  min-width:200px;
+  float: left;
+  min-width: 150px;
 }
 
 .Form span.FormDescription
@@ -69,43 +69,22 @@ div.notice
   margin-left:5px;
 }
 
-.Form input[type=radio],
-.Form input[type=checkbox]
+.Form .Formline input[type=radio],
+.Form .Formline input[type=checkbox]
 {
   float:left;
 }
 
-.Form input[type=password],
-.Form select,input[type=text]
+.Form .Formline input[type=password],
+.Form .Formline select,
+.Form .Formline input[type=text]
 {
   width:255px;
 }
 
-.Form textarea
+.Form .Formline textarea
 {
   width:100%;
-}
-
-.Form input[type=text],
-.Form input[type=password],
-.Form input.text,
-.Form input.title,
-.Form textarea,
-.Form select
-{
-  background-color:#fff;
-  border:1px solid #bbb;
-}
-
-.Form input[type=text]:focus,
-.Form input[type=password]:focus,
-.Form input.text:focus,
-.Form input.title:focus,
-.Form textarea:focus,
-.Form select:focus
-{
-  background-color:#f4f4f3;
-  border-color:#000;
 }
 
 .Form label em,
@@ -119,7 +98,18 @@ div.notice
     float: left;
 }
 
-.Form .markItUp
+.Form .Formline .markItUp
 {
     float: left;
+}
+
+.Form .Formline .markItUp textarea
+{
+    width: auto;
+}
+
+.Form .Buttonbar
+{
+    padding-top: 10px;
+    margin-left: 150px;
 }

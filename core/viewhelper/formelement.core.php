@@ -79,6 +79,7 @@ class Clansuite_Formelement /* extends Clansuite_HTML */ implements Clansuite_Fo
      * Set id of this form.
      *
      * @param $id string ID of this form.
+     * @return Clansuite_Formelement
      */
     public function setID($id)
     {
@@ -101,6 +102,7 @@ class Clansuite_Formelement /* extends Clansuite_HTML */ implements Clansuite_Fo
      * Set type of this form.
      *
      * @param $id string Type of this form.
+     * @return Clansuite_Formelement
      */
     public function setType($type)
     {
@@ -123,12 +125,12 @@ class Clansuite_Formelement /* extends Clansuite_HTML */ implements Clansuite_Fo
      * Set name of this form.
      *
      * @param $name string Name of this form.
+     * @return Clansuite_Formelement
      */
     public function setName($name)
     {
         $this->name = $name;
-
-         return $this;
+        return $this;
     }
 
     /**
@@ -169,13 +171,34 @@ class Clansuite_Formelement /* extends Clansuite_HTML */ implements Clansuite_Fo
     /**
      * Set class of this form.
      *
-     * @param $action string Name of this form.
+     * @param string $class Class to set
+     * @return Clansuite_Formelement
      */
     public function setClass($class)
     {
         $this->class = $class;
 
-         return $this;
+        return $this;
+    }
+
+    /**
+     * Set class of this form.
+     *
+     * @param string $class Class to add
+     * @return Clansuite_Formelement
+     */
+    public function addClass($class)
+    {
+        if( $this->class == '' )
+        {
+            $this->class = $class;
+        }
+        else
+        {
+            $this->class = ' ' . $class;
+        }
+
+        return $this;
     }
 
     /**
@@ -189,10 +212,10 @@ class Clansuite_Formelement /* extends Clansuite_HTML */ implements Clansuite_Fo
     }
 
     /**
-     * sets value for this element
+     * Sets value for this element
      *
-     * @return boid
      * @param string $value
+     * @return Clansuite_Formelement
      */
     public function setValue($value)
     {
@@ -201,11 +224,21 @@ class Clansuite_Formelement /* extends Clansuite_HTML */ implements Clansuite_Fo
         return $this;
     }
 
+    /**
+    * Return the value (escaped)
+    *
+    * @return string Escaped string
+    */
     public function getValue()
     {
         return htmlspecialchars($this->value);
     }
 
+    /**
+    * Returns the value (unescaped)
+    *
+    * @return string Unescaped string
+    */
     public function getRawValue()
     {
         return $this->value;
@@ -213,6 +246,8 @@ class Clansuite_Formelement /* extends Clansuite_HTML */ implements Clansuite_Fo
 
     /**
      * Disables this formelement.
+     *
+     * @return Clansuite_Formelement
      */
     public function disable()
     {
@@ -222,7 +257,9 @@ class Clansuite_Formelement /* extends Clansuite_HTML */ implements Clansuite_Fo
     }
 
     /**
-     * Enables this formelement.
+     * Enables this formelement
+     *
+     * @return Clansuite_Formelement
      */
     public function enable()
     {
@@ -234,7 +271,8 @@ class Clansuite_Formelement /* extends Clansuite_HTML */ implements Clansuite_Fo
     /**
      * Set label of this formelement.
      *
-     * @param $label of this formelement.
+     * @param string $label Label of this formelement.
+     * @return Clansuite_Formelement
      */
     public function setLabel($label)
     {
@@ -256,7 +294,7 @@ class Clansuite_Formelement /* extends Clansuite_HTML */ implements Clansuite_Fo
     /**
      * Returns boolean true if a label exists for this formelement.
      *
-     * @return boolean True if label exists.
+     * @return boolean True if label exists, false if not.
      */
     public function hasLabel()
     {
@@ -273,7 +311,8 @@ class Clansuite_Formelement /* extends Clansuite_HTML */ implements Clansuite_Fo
     /**
      * Set description of this formelement.
      *
-     * @param $description Description of this formelement.
+     * @param string $description Description of this formelement.
+     * @return Clansuite_Formelement
      */
     public function setDescription($description)
     {
@@ -285,7 +324,7 @@ class Clansuite_Formelement /* extends Clansuite_HTML */ implements Clansuite_Fo
     /**
      * Returns description of this formelement.
      *
-     * @return string Description of this formelement.
+     * @return string Description of this formeement.
      */
     public function getDescription()
     {
@@ -314,7 +353,8 @@ class Clansuite_Formelement /* extends Clansuite_HTML */ implements Clansuite_Fo
      * Setter method for a validator
      * validators are stored into an array (multiple validators for one formelement).
      *
-     * @param $validator Accepts a Clansuite_Validator Object has to implement Clansuite_Validator_Interface.
+     * @param Clansuite_Validator $validator Accepts a Clansuite_Validator Object that has to implement Clansuite_Validator_Interface.
+     * @return Clansuite_Formelement
      */
     public function setValidator(Clansuite_Validator_Interface $validator)
     {
@@ -339,6 +379,7 @@ class Clansuite_Formelement /* extends Clansuite_HTML */ implements Clansuite_Fo
             if($validator->validates() == true)
             {
                 # everything is fine, proceed
+                return true;
             }
             else
             {
@@ -347,6 +388,7 @@ class Clansuite_Formelement /* extends Clansuite_HTML */ implements Clansuite_Fo
 
                 # fetch error from the validator to the formelement
                 $this->addError($validator->getError());
+                return false;
             }
         }
     }
@@ -408,7 +450,7 @@ class Clansuite_Formelement /* extends Clansuite_HTML */ implements Clansuite_Fo
      * @see $this->addDecorator()
      *
      * WATCH IT! THIS BREAKS THE CHAINING IN REGARD TO THE FORM
-     * @return decorator object
+     * @return Clansuite_Formelement_Decorator
      */
     public function setDecorator($decorators)
     {
@@ -424,7 +466,7 @@ class Clansuite_Formelement /* extends Clansuite_HTML */ implements Clansuite_Fo
      * $form->addDecorator('fieldset')->setLegend('legendname');
      *
      * WATCH IT! THIS BREAKS THE CHAINING IN REGARD TO THE FORM
-     * @return decorator object
+     * @return Clansuite_Formelement_Decorator
      */
     public function addDecorator($decorators)
     {
@@ -481,6 +523,7 @@ class Clansuite_Formelement /* extends Clansuite_HTML */ implements Clansuite_Fo
 
     /**
      * Getter Method for the formdecorators
+     * Array of Clansuite_Formelement_Decorator
      *
      * @return array with registered formdecorators
      */
@@ -492,7 +535,7 @@ class Clansuite_Formelement /* extends Clansuite_HTML */ implements Clansuite_Fo
     /**
      * Factory method. Instantiates and returns a new formdecorator object.
      *
-     * @return object
+     * @return Clansuite_Formelement_Decorator
      */
     public function decoratorFactory($formelementdecorator)
     {
