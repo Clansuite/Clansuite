@@ -36,13 +36,14 @@ div.notice
 .Form .Formline
 {
   clear:both;
-  padding:0 0 8px;
+  padding-top: 5px;
+  padding-bottom: 5px;
 }
 
 .Form .Formline,
 .Form .Formline label
 {
-  height: 30px;
+  min-height: 30px;
 }
 
 .Form .Formline .Forminside
@@ -101,6 +102,7 @@ div.notice
 .Form .Formline .markItUp
 {
     float: left;
+    margin-bottom:5px;
 }
 
 .Form .Formline .markItUp textarea
@@ -110,6 +112,5 @@ div.notice
 
 .Form .Buttonbar
 {
-    padding-top: 10px;
     margin-left: 150px;
 }

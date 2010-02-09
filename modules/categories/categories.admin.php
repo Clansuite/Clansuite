@@ -69,23 +69,90 @@ class Module_Categories_Admin extends Clansuite_ModuleController implements Clan
      */
     public function action_admin_show()
     {
-        # SmartyColumnSort -- Easy sorting of html table columns.
-        require( ROOT_LIBRARIES . '/smarty/libs/SmartyColumnSort.class.php');
-        # A list of database columns to use in the table.
-        $columns = array('c.cat_id', 'm.name', 'c.name');
-        # Create the columnsort object
-        $columnsort = new SmartyColumnSort($columns);
-        # And set the the default sort column and order.
-        $columnsort->setDefault('m.name', 'desc');
-        # Get sort order from columnsort
-        $sortorder = $columnsort->sortOrder(); // Returns 'name ASC' as default
+        //--------------------------
+        // Datagrid configuration
+        //--------------------------
 
-        # Set Pagetitle and Breadcrumbs
-        Clansuite_Trail::addStep( _('Show'), 'index.php?mod=categories&amp;sub=admin&amp;action=show');
+        require ROOT_CORE . DS . "viewhelper" . DS . "Datagrid.core.php";
+        $ColumnSets = array();
 
-        $categories = Doctrine::getTable('CsCategories')->fetchAllCategories($sortorder);
+        $ColumnSets[] = array(  'Alias'     => 'Select',
+                                'ResultSet' => 'cat_id',
+                                'Name'      => _('[x]'),
+                                'Type'      => 'Checkbox' );
 
-        $this->getView()->assign('categories', $categories);
+        $ColumnSets[] = array(  'Alias'     => 'Name',
+                                'ResultSet' => array(   'name'      => 'name',
+                                                        'id'        => 'cat_id' ),
+                                'Name'      => _('Name'),
+                                'Sort'      => 'DESC',
+                                'SortCol'   => 'name',
+                                'Type'      => 'Link' );
+
+        $ColumnSets[] = array(  'Alias'     => 'Description',
+                                'ResultSet' => 'description',
+                                'Name'      => _('Description'),
+                                'Sort'      => 'DESC',
+                                'SortCol'   => 'description',
+                                'Type'      => 'String' );
+
+        $ColumnSets[] = array(  'Alias'     => 'Module',
+                                'ResultSet' => 'module',
+                                'Name'      => _('Module'),
+                                'Sort'      => 'DESC',
+                                'SortCol'   => 'module',
+                                'Type'      => 'String' );
+
+        $ColumnSets[] = array(  'Alias'     => 'Image',
+                                'ResultSet' => 'image',
+                                'Name'      => _('Image'),
+                                'Type'      => 'String' );
+
+        $ColumnSets[] = array(  'Alias'     => 'Icon',
+                                'ResultSet' => 'icon',
+                                'Name'      => _('Icon'),
+                                'Type'      => 'String' );
+
+        $ColumnSets[] = array(  'Alias'     => 'Color',
+                                'ResultSet' => 'color',
+                                'Name'      => _('Color'),
+                                'Sort'      => 'DESC',
+                                'SortCol'   => 'color',
+                                'Type'      => 'String' );
+
+        # Batchactions
+        $BatchActions[] = array(    'Alias'     => 'create',
+                                    'Name'      => _('Create a news'),
+                                    'Action'    => 'create' );
+
+        $BatchActions[] = array(    'Alias'     => 'delete',
+                                    'Name'      => _('Delete selected items'),
+                                    'Action'    => 'delete' );
+
+
+        # Instantiate the datagrid
+        $oDatagrid = new Clansuite_Datagrid( array(
+                'Datatable'     => Doctrine::getTable('CsCategories'),
+                'NamedQuery'    => 'fetchAllCategories',
+                'ColumnSets'    => $ColumnSets,
+                'BaseURL'       => 'index.php?mod=categories&sub=admin'
+        ) );
+
+        $oDatagrid->setBatchActions( $BatchActions );
+
+        $oDatagrid->disableFeature('Label');
+        $oDatagrid->disableFeature('Caption');
+        $oDatagrid->disableFeature('Description');
+        $oDatagrid->getCol('Select')->disableFeature('Search');
+
+        $oDatagrid->getCol('Name')->getRenderer()->linkFormat  = '&action=edit&id=%{id}';
+        $oDatagrid->getCol('Name')->getRenderer()->linkTitle   = _('Edit this category');
+
+        # Assign to tpl
+        $this->getView()->assign('datagrid', $oDatagrid->render());
+
+        # Set Layout Template
+        $this->getView()->setLayoutTemplate('index.tpl');
 
         # Prepare the Output
         $this->prepareOutput();
@@ -111,23 +178,14 @@ class Module_Categories_Admin extends Clansuite_ModuleController implements Clan
         $modules = Doctrine::getTable('CsModules')->fetchAllModulesDropDown();
         $form->addElement('multiselect')->setName('cat_form[module_id]')->setLabel(_('Module'))->setOptions($modules)
         ->setDescription(_('Select the module to create the category for.'));
-        
+
         $form->addElement('textarea')->setName('cat_form[description]')->setID('cat_form[description]')->setCols('60')->setRows('5')->setLabel(_('Description'))->setEditorType('ckeditor');
-        
-        #$form->addElement('text')->setName('cat_form[sortorder]')->setLabel(_('Sort Order')); # not needed here
         $form->addElement('jqselectcolor')->setName('cat_form[color]')->setLabel(_('Select Color'))->setDescription(_('Click Inputfield to toggle Colorwheel.'));
         $form->addElement('jqselectimage')->setName('cat_form[image]')->setLabel(_('Select Image'));
         $form->addElement('jqselectimage')->setName('cat_form[icon]')->setLabel(_('Select Icon'));
         # @todo category image upload + db insert
-        $form->addElement('submitbutton');
-        $form->addElement('resetbutton');
-        $form->addElement('cancelbutton');
 
-        # Debugging Form Object
-        #clansuite_xdebug::printR($form);
-
-        # Debugging Form HTML Output
-        #clansuite_xdebug::printR($form->render());
+        $form->addElement('buttonbar')->getButton('cancelbutton')->cancelURL = 'index.php?mod=categories&amp;sub=admin';
 
         # assign the html of the form to the view
         $this->getView()->assign('form', $form->render());
@@ -172,15 +230,7 @@ class Module_Categories_Admin extends Clansuite_ModuleController implements Clan
         #$form->addElement('uploadajax')->setName('Upload Image')->setLabel(_('Upload Image'));
         $form->addElement('jqselectimage')->setName('cat_form[icon]')->setLabel(_('Select Icon'))->setDefaultValue($cat['icon']);
         #$form->addElement('uploadajax')->setName('Upload Icon')->setLabel(_('Upload Icon'));
-        $form->addElement('submitbutton')->setValue('Submit');
-        $form->addElement('resetbutton')->setValue('Reset');
-        $form->addElement('cancelbutton');
-
-        # Debugging Form Object
-        #clansuite_xdebug::printR($form);
-
-        # Debugging Form HTML Output
-        #clansuite_xdebug::printR($form->render());
+        $form->addElement('buttonbar')->getButton('cancelbutton')->cancelURL = 'index.php?mod=categories&amp;sub=admin';
 
         # assign the html of the form to the view
         $this->getView()->assign('form', $form->render());
@@ -206,7 +256,7 @@ class Module_Categories_Admin extends Clansuite_ModuleController implements Clan
            $this->getHttpResponse()->redirectNoCache('index.php?mod=categories&amp;sub=admin');
         }
     }
-    
+
     /** Denests the nested arrays within the given array. */
     function flatten_array(array $a) {
         $i = 0;
@@ -238,11 +288,10 @@ class Module_Categories_Admin extends Clansuite_ModuleController implements Clan
             $cats->color        = $data['color'];
             $cats->image        = $data['image'];
             $cats->icon         = $data['icon'];
-            #$cats->sortorder    = $data['sortorder']; # not incomming via create, only via edit
             $cats->save();
 
             # redirect
-            $this->getHttpResponse()->redirectNoCache('index.php?mod=categories&amp;sub=admin', 2, 302, _('The Category has been created.'));
+            $this->getHttpResponse()->redirectNoCache('index.php?mod=categories&amp;sub=admin', 2, 302, _('The category has been created.'));
         }
         elseif(isset($type) and $type == 'edit')
         {
@@ -269,7 +318,7 @@ class Module_Categories_Admin extends Clansuite_ModuleController implements Clan
             }
 
             # redirect
-            $this->getHttpResponse()->redirectNoCache('index.php?mod=categories&amp;sub=admin', 2, 302, _('The Category has been edited.'));
+            $this->getHttpResponse()->redirectNoCache('index.php?mod=categories&amp;sub=admin', 2, 302, _('The category has been edited.'));
         }
         else
         {

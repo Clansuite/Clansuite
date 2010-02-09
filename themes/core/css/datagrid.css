@@ -69,27 +69,50 @@
     padding: 2px;
 }
 
+.Datagrid .Pages .PagerDescription
+{
+    display: block;
+    float: left;
+    padding-right: 3px;
+    font-weight: bold;
+}
+
+.Datagrid .Pages a span {
+    text-decoration: underline;
+}
+
+.Datagrid .Pages a:hover span {
+    text-decoration: none;
+}
+
+.Datagrid .Pages .Active,
+.Datagrid .Pages .Inactive {
+    display: block;
+    width: 13px;
+    float: left;
+}
+
 .Datagrid .ResultsPerPage
 {
     float: right;
 }
 
-.DatagridRow.Alternate
+.Datagrid .DatagridRow.Alternate
 {
     background-color: #DFDFC6;
 }
 
-.DatagridRow.DatagridRowSelected
+.Datagrid .DatagridRow.DatagridRowSelected
 {
     background-color: #FFFF00;
 }
 
-.DatagridRow.DatagridRowHover
+.Datagrid .DatagridRow.DatagridRowHover
 {
     background-color: #FFFFFF;
 }
 
-.ColHeader
+.Datagrid .ColHeader
 {
     background:url("../images/thback.gif") repeat-x scroll 0 0 transparent;
     border-color:#FFFFFF #ACA899 #ACA899 #FFFFFF;
@@ -101,17 +124,10 @@
     padding:5px;
 }
 
-.Pages a span {
-    text-decoration: underline;
-}
-
-.Pages a:hover span {
-    text-decoration: none;
-}
-
-.Pages .Active,
-.Pages .Inactive {
-    display: block;
-    width: 13px;
-    float: left;
+.Datagrid .DatagridCell-NoResults
+{
+    font-weight: bold;
+    text-align: center;
+    font-size: 12px;
+    height: 40px;
 }

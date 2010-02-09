@@ -271,7 +271,7 @@ class Clansuite_Datagrid extends Clansuite_Datagrid_Base
     *
     * @var int
     */
-    private $_ResultPerPage;
+    private $_ResultsPerPage;
 
     /**
     * Methodname to call on the resultset
@@ -584,7 +584,7 @@ class Clansuite_Datagrid extends Clansuite_Datagrid_Base
         $this->_Datasets = $this->getPagerLayout()->getPager()->execute();
 
         # Debug
-        # Clansuite_Xdebug::firebug($this->_Datasets);
+        Clansuite_Xdebug::firebug($this->_Datasets);
 
         # update the current page
         $this->getRenderer()->setCurrentPage($this->getPagerLayout()->getPager()->getPage());
@@ -905,7 +905,7 @@ class Clansuite_Datagrid extends Clansuite_Datagrid_Base
     {
         if( isset($this->_QueryName) )
         {
-            $_Query = $this->getDatatable()->createNamedQuery($this->_QueryName);
+            $_Query = $this->getDatatable()->createNamedQuery($this->_QueryName)->setHydrationMode(Doctrine::HYDRATE_ARRAY);
         }
         else
         {
@@ -1628,7 +1628,7 @@ class Clansuite_Datagrid_Renderer
         if( $this->getDatagrid()->isEnabled("Pagination") )
         {
             $htmlString .= '<tr><td class="DatagridPagination DatagridPagination-'. $this->getDatagrid()->getAlias() .'" colspan="'. $this->getDatagrid()->getColCount() .'">';
-            $htmlString .= '<div class="Pages">' . $this->getDatagrid()->getPagerLayout() . '</div>';
+            $htmlString .= '<div class="Pages"><span class="PagerDescription">' . _('Pages: ') . '</span>' . $this->getDatagrid()->getPagerLayout() . '</div>';
 
             if( $_ShowResultsPerPage )
             {
@@ -1666,10 +1666,7 @@ class Clansuite_Datagrid_Renderer
         $htmlString .= $this->_renderTableRowsHeader();
         #$htmlString .= $this->_renderTableActions();
         $htmlString .= $this->_renderTableRows();
-        if( $this->getDatagrid()->isEnabled('BatchActions') )
-        {
-            $htmlString .= $this->_renderTableBatchActions();
-        }
+        $htmlString .= $this->_renderTableBatchActions();
         $htmlString .= '</tbody>';
         return $htmlString;
     }
@@ -1700,28 +1697,32 @@ class Clansuite_Datagrid_Renderer
     */
     private function _renderTableBatchActions()
     {
-        $config = Clansuite_CMS::getInjector()->instantiate('Clansuite_Config')->toArray();
-
+        $_BatchActions = $this->getDatagrid()->getBatchActions();
         $htmlString = '';
-        $htmlString .= '<tr>';
 
-        $htmlString .= '<td>';
-        $htmlString .= '<input type="checkbox" class="DatagridSelectAll" />';
-        $htmlString .= '</td>';
-
-        $htmlString .= '<td colspan=' . ($this->getDatagrid()->getColCount()-1) . '>';
-
-        $htmlString .= '<select name="action" id="BatchActionId">';
-        $htmlString .= '<option value="'.$config['defaults']['action'].'">' . _('(Please select)') . '</option>';
-        foreach( $this->getDatagrid()->getBatchActions() as $BatchActionSet )
+        if( count($_BatchActions) > 0 && $this->getDatagrid()->isEnabled('BatchActions') )
         {
-            $htmlString .= '<option value="' . $BatchActionSet['Action'] . '">' . $BatchActionSet['Name'] . '</option>';
-        }
-        $htmlString .= '</select>';
-        $htmlString .= '<input type="submit" value="' . _('Execute') . '" />';
-        $htmlString .= '</td>';
+            $_Config = Clansuite_CMS::getInjector()->instantiate('Clansuite_Config')->toArray();
+            $htmlString .= '<tr>';
 
-        $htmlString .= '</tr>';
+            $htmlString .= '<td>';
+            $htmlString .= '<input type="checkbox" class="DatagridSelectAll" />';
+            $htmlString .= '</td>';
+
+            $htmlString .= '<td colspan=' . ($this->getDatagrid()->getColCount()-1) . '>';
+
+            $htmlString .= '<select name="action" id="BatchActionId">';
+            $htmlString .= '<option value="'.$_Config['defaults']['action'].'">' . _('(Please select)') . '</option>';
+            foreach( $_BatchActions as $BatchActionSet )
+            {
+                $htmlString .= '<option value="' . $BatchActionSet['Action'] . '">' . $BatchActionSet['Name'] . '</option>';
+            }
+            $htmlString .= '</select>';
+            $htmlString .= '<input type="submit" value="' . _('Execute') . '" />';
+            $htmlString .= '</td>';
+
+            $htmlString .= '</tr>';
+        }
 
         return $htmlString;
     }
