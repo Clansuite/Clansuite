@@ -4,7 +4,7 @@
     * Jens-André Koch © 2005 - onwards
     * http://www.clansuite.com/
     *
-    * This file is part of "Clansuite - just an eSports CMS".
+    * This file is part of 'Clansuite - just an eSports CMS'.
     *
     * LICENSE:
     *
@@ -22,7 +22,7 @@
     *    along with this program; if not, write to the Free Software
     *    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
     *
-    * @license    GNU/GPL v2 or (at your option) any later version, see "/doc/LICENSE".
+    * @license    GNU/GPL v2 or (at your option) any later version, see '/doc/LICENSE'.
     *
     * @author     Jens-André Koch   <vain@clansuite.com>
     * @copyright  Copyleft: All rights reserved. Jens-André Koch (2005-onwards)
@@ -55,8 +55,10 @@ class Clansuite_Formelement_Resetbutton extends Clansuite_Formelement_Input impl
     {
         $this->type = 'reset';
         $this->value = _('Reset');
-        
-        $this->class = "Button";
+
+        $this->class    = 'ResetButton';
+        $this->id       = 'ResetButton';
+        $this->name     = 'ResetButton';
     }
 }
 ?>

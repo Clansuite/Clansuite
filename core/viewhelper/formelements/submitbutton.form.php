@@ -58,15 +58,9 @@ class Clansuite_Formelement_Submitbutton extends Clansuite_Formelement_Input imp
         $this->type = 'submit';
         $this->value = _('Submit');
 
-        $this->class = "ButtonGreen";
-    }
-
-    /**
-     * setName to rename the button
-     */
-    public function setName($name)
-    {
-        $this->value = _($name);
+        $this->class    = "SubmitButton";
+        $this->id       = "SubmitButton";
+        $this->name     = "SubmitButton";
     }
 }
 ?>
