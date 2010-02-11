@@ -410,8 +410,7 @@
               <include name="CHANGELOG" />
             </projdocfileset>
         </phpdoc>
-        -->
-        <exec         
+        -->       
     </target>
 
     <!-- COMMAND = "doc_doxygen" -->
