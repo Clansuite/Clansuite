@@ -202,9 +202,10 @@ class Clansuite_CMS
          * DEFINE -> ROOT
          *
          * Purpose of ROOT is to provide the absolute path to the current working dir of clansuite
+         * ROOT is the APPLICATION PATH
          */
         define('ROOT',  getcwd() . DS);
-        #define('ROOT'       , str_replace('\\', '/', dirname(dirname(__FILE__)) ) . '/'); # Replace the DSs to Unix Style
+        #define('ROOT',  realpath('../'));
 
         /**
          * DEFINE -> Directories related to ROOT
@@ -294,13 +295,22 @@ class Clansuite_CMS
         define('WWW_ROOT_THEMES_CORE'  , WWW_ROOT . '/' . self::$config['paths']['themes_folder'] .  '/core');
 
         /**
-         * SET INCLUDE PATH -> for PEAR and other 3th party Libraries
+         * SET INCLUDE PATHS
+         *
+         * We set INCLUDE PATHS for PEAR and other 3th party Libraries by defining an paths array first.
+         * We are not setting the clansuite core path here, because files located there are handled via autoloading.
+         * The $paths array is set to the php environment with set_include_path.
+         * Note, that for set_include_path the path order is important   <first path to look>:<second path>:<etc>:
          */
-        # Note: Path order is important <first path to look>:<second path>:<etc>:
-        set_include_path( ROOT_LIBRARIES . 'PEAR' . DS . PS .                   # /libraries/PEAR
-                          ROOT_LIBRARIES . PS  .                                # /libraries/
-                          get_include_path()                                    # attach rest
-                         );
+        $paths = array(
+                        ROOT,
+                        ROOT_LIBRARIES,                     # /libraries/
+                        ROOT_LIBRARIES . 'PEAR' . DS,       # /libraries/PEAR
+                        get_include_path()                  # attach original include paths
+                      );
+
+        set_include_path( implode( $paths, PATH_SEPARATOR ) );
+        unset($paths);
     }
 
     /**
