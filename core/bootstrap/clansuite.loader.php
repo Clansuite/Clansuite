@@ -42,12 +42,8 @@ if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.'); }
  * This Loader overwrites the normal _autoload with our own user defined loading functions.
  * We register the multiple loaders in the constructor.
  * There are several loader-functions, each seperated by the directories they are loading classes from.
+ * Autoload will run, if a file is not found.
  *
- * Note by vain:
- * This is not based on usage of path environment via ini_set('include_path', "xy" ... '); ,
- * because it's too complex for me - i simply cant remove paths, so i don't want to mess around with it.
- * Sorry, but include_path is not my favorite choice when it comes to path assignments.
- * Any ideas or help on that topic? Report to board or contact me.
  *
  * @todo by vain:
  * 1. Check about default implementation and support of ini_set paths while autoloading!
@@ -74,6 +70,7 @@ class Clansuite_Loader
      */
     public static function register_autoload()
     {
+        #spl_autoload_register(array (__CLASS__,'loadNamespace'));
         spl_autoload_register(array (__CLASS__,'loadCoreClass'));
         #spl_autoload_register(array (__CLASS__,'loadClass'));
         spl_autoload_register(array (__CLASS__,'loadFilter'));
@@ -113,7 +110,7 @@ class Clansuite_Loader
 
         return $className;
     }
-    
+
     /**
      * Loads an event
      *
@@ -127,14 +124,14 @@ class Clansuite_Loader
         {
             return false;
         }
-        
+
         if(is_null($directory))
         {
             $directory = 'events';
         }
-        
+
         $fileName = ROOT . $directory . strtolower($className) . '.class.php';
-        
+
         #echo '<br>loaded Eventfile => '. $fileName;
         return self::requireFile($fileName);
     }
@@ -328,6 +325,27 @@ class Clansuite_Loader
         $fileName = ROOT . 'core/factories/' . $className . '.php';
         #echo '<br>loaded Factory-Class => '. $fileName;
         return self::requireFile($fileName);
+    }
+
+    /**
+     * loadNamespace
+     * requires a file by it's namespace
+     * PHP5.3+
+     *
+     * Usage:
+     * a) no alias (note: first slash "\" determines absolute path)
+     * $httprequest = new \com\clansuite\core\httprequest;
+     * b) with namespace alias
+     * use \com\clansuite\core as core;
+     * $httprequest = new core\httprequest;
+     *
+     * @param string $className The name of the class to autoload
+     * @return boolean
+     */
+    public static function loadNamespace($classname)
+    {
+        $filename = str_replace('//', '/', $classname ) . '.php';
+        return  self::requireFile($fileName);
     }
 
     /**
