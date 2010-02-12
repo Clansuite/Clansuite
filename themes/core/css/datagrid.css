@@ -1,44 +1,8 @@
 /**
-* Clansuite - just an eSports CMS
-* Jens-André Koch © 2005 - onwards
-* http://www.clansuite.com/
-*
-* This file is part of "Clansuite - just an eSports CMS".
-*
-* LICENSE:
-*
-*    This program is free software; you can redistribute it and/or modify
-*    it under the terms of the GNU General Public License as published by
-*    the Free Software Foundation; either version 2 of the License, or
-*    (at your option) any later version.
-*
-*    This program is distributed in the hope that it will be useful,
-*    but WITHOUT ANY WARRANTY; without even the implied warranty of
-*    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-*    GNU General Public License for more details.
-*
-*    You should have received a copy of the GNU General Public License
-*    along with this program; if not, write to the Free Software
-*    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
-*
-* @license    GNU/GPL v2 or (at your option) any later version, see "/doc/LICENSE".
-*
-* @author     Jens-André Koch   <vain@clansuite.com>
-* @copyright  Copyleft: All rights reserved. Jens-André Koch (2005-onwards)
-*
-* @link       http://www.clansuite.com
-* @link       http://gna.org/projects/clansuite
-* @since      File available since Release 2.0alpha
-*
-* @version    SVN: $Id$
-*/
-
-/**
-* Purpose:
-* Supply CSS styles for the clansuite datagrid
-*
-* @author Florian Wolf <xsign.dll@clansuite.com>
-*/
+ * Name:    Clansuite Datagrid Styles
+ * Purpose: CSS styles for the Clansuite Datagrid
+ * @author  Florian Wolf <xsign.dll@clansuite.com>
+ */
 
 .Datagrid table
 {
@@ -55,7 +19,7 @@
 .Datagrid td,
 .Datagrid th
 {
-    border: 1px solid grey;
+    border: 1px solid;
     border-color:#FFFFFF #ACA899 #ACA899 #FFFFFF;
     border-style:solid;
     border-width:1px;
@@ -99,17 +63,17 @@
 
 .Datagrid .DatagridRow.Alternate
 {
-    background-color: #DFDFC6;
+    background-color: #E4E0C7;
 }
 
 .Datagrid .DatagridRow.DatagridRowSelected
 {
-    background-color: #FFFF00;
+    background-color: #D5DED9;
 }
 
 .Datagrid .DatagridRow.DatagridRowHover
 {
-    background-color: #FFFFFF;
+    background-color: #D9CEB2;
 }
 
 .Datagrid .ColHeader
