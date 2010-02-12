@@ -24,7 +24,7 @@ FOR /F "tokens=1,2 delims=/: " %%a in ('time/T') do set CTIME=%%a-%%b
 REM Clansuite DB insert
 
 REM Check if db exists
-ECHO select 1; exit; | %mysqldir%\mysqltest.exe -uroot -ptoop -Dclansuite -s >nul 2>&1
+ECHO select 1; exit; | %mysqldir%\mysqltest.exe -u%mysqluser% -p%mysqlpassword% -D%dbname% -s >nul 2>&1
 if "%ERRORLEVEL%"=="1" GOTO INSERT
 ECHO  Creating backup of database %dbname%
 ECHO  File: %~dp0backup\%dbname%_%CDATE%_%CTIME%_backup.sql
