@@ -39,7 +39,8 @@
 
     <title>{if isset($pagetitle)}{$pagetitle} - {/if}{breadcrumbs title="1" trail=$trail separator=" &raquo; " length=30}</title>
 
-</head><body>
+</head>
+<body class="{$modulename} {$actionname}">
 
 {* Header with Logo *}
 

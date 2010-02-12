@@ -5,112 +5,85 @@
 /* @import url("clansuite_buttons.css"); import clansuite button styles */
 @import url("ui_buttons.css"); /* import jquery ui button style */
 
-.Form
-{
-  clear:both;
-  font-family:Arial, Verdana;
-  font-size:12px;
-  color:#000;
-  margin:10px;
+.form {
+clear:both;
+color:#000;
+font-family:Arial, Verdana;
+font-size:12px;
+margin:10px;
 }
 
-fieldset
-{
-  margin-bottom:10px;
-  border:1px solid #666;
-  padding:10px;
+fieldset {
+border:1px solid #666;
+margin-bottom:10px;
+padding:10px;
 }
 
-legend
-{
-  padding:0 5px;
+legend {
+padding:0 5px;
 }
 
-div.notice
-{
-  border:1px solid #Fc7;
-  background-color:#FCF9D8;
-  padding:10px;
+div.notice {
+background:#FCF9D8;
+border:1px solid #Fc7;
+padding:10px;
 }
 
-.Form .Formline
-{
-  clear:both;
-  padding-top: 5px;
-  padding-bottom: 5px;
+.form .formline {
+clear:both;
+padding-bottom:5px;
+padding-top:5px;
 }
 
-.Form .Formline,
-.Form .Formline label
-{
-  min-height: 30px;
+.form .formline,.form .formline label {
+min-height:30px;
 }
 
-.Form .Formline .Forminside
-{
-  margin-left:200px;
+.form .formline .forminside {
+margin-left:200px;
 }
 
-.Form .Formline label
-{
-  float: left;
-  min-width: 150px;
+.form .formline label {
+float:left;
+min-width:150px;
 }
 
-.Form span.FormDescription
-{
-  font-size:11px;
-  color:#666;
-  float: left;
+.form span.formdescription {
+color:#666;
+float:left;
+font-size:11px;
 }
 
-.Form span.value
-{
-  font-size:11px;
-  margin-left:5px;
+.form span.value {
+font-size:11px;
+margin-left:5px;
 }
 
-.Form .Formline input[type=radio],
-.Form .Formline input[type=checkbox]
-{
-  float:left;
+.form .formline input[type=password],.form .formline select,.form .formline input[type=text] {
+width:255px;
 }
 
-.Form .Formline input[type=password],
-.Form .Formline select,
-.Form .Formline input[type=text]
-{
-  width:255px;
+.form .formline textarea {
+width:100%;
 }
 
-.Form .Formline textarea
-{
-  width:100%;
+.form label em,.form .formbutton {
+float:right;
 }
 
-.Form label em,
-.Form .formbutton
-{
-  float:right;
+.form .formline .markitup {
+float:left;
+margin-bottom:5px;
 }
 
-.Form .ActionButton
-{
-    float: left;
+.form .formline .markitup textarea {
+width:auto;
 }
 
-.Form .Formline .markItUp
-{
-    float: left;
-    margin-bottom:5px;
+.form .buttonbar {
+margin-left:150px;
 }
 
-.Form .Formline .markItUp textarea
-{
-    width: auto;
-}
-
-.Form .Buttonbar
-{
-    margin-left: 150px;
+.form .formline input[type=radio],.form .formline input[type=checkbox],.form .actionbutton {
+float:left;
 }

@@ -1,23 +1,41 @@
 /* Error Messages */
-.error_red, .error_orange, .error_beige {
-	width: 90%;
-	margin: 0 auto;
-	padding: 5px;
-	border: 1px solid #333;
+.error_red,.error_orange,.error_beige {
+    border:1px solid #333;
+    margin:0 auto;
+    padding:5px;
+    width:90%;
 }
-.error_red legend, .error_orange legend, .error_beige legend {
-	padding: 2px 15px;
-	background: #fff;
-	border: 1px solid #333;
-	font-weight: bold;
-	opacity: 0.75;
+
+.error_red legend,.error_orange legend,.error_beige legend {
+    background:#fff;
+    border:1px solid #333;
+    font-weight:700;
+    padding:2px 15px;
 }
-.error_red {
-	background: #af0000;
+
+.error_red,.alert {
+    background:#af0000;
 }
+
 .error_orange {
-	background: #f90;
+    background:#f90;
 }
+
 .error_beige {
-	background: #ffc;
+    background:#ffc;
+}
+
+.messagebox {
+    border:1px solid #333;
+    padding:5px;
+    width:30%;
+}
+
+.error_help {
+    background:url(http://www.clansuite-dev.com/themes/core/images/icons/error.png) no-repeat 15px 12px #FDD;
+    border:1px solid #FBB;
+    color:#B00;
+    font-weight:700;
+    margin:.5em 15px 1em -20px;
+    padding:15px 20px 15px 50px;
 }

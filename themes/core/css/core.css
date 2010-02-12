@@ -18,18 +18,38 @@
 /*												*/
 
 /*	widget styling	*/
-.widgetcontainer { background-color:#999; border: 1px solid #CC6; }
+.widgetcontainer {
+    background-color:#999;
+    border: 1px solid #CC6;
+}
+
 .widget_title { }
 .widget_content { }
+
 /*	modulstyling	*/
-.modulecontainer { background-color:#999; }
+.modulecontainer { 
+    background-color:#999;
+}
 .module_title { }
 .module_content { }
 
-.twocols { width:49%; }
-.threecols { width:33%; }
-.left { float:left; }
-.middle { margin-left:auto; margin-right:auto; }
-.right { float:right; }
+.twocols{ 
+    width:49%;
+}
+
+.threecols { 
+    width:33%;
+}
+
+.left { 
+    float:left;
+}
+.middle { 
+    margin-left:auto; margin-right:auto;
+}
+
+.right { 
+    float:right;
+}
 /* --------------------------------------------	*/
 
