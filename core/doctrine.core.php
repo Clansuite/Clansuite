@@ -79,7 +79,7 @@ class Clansuite_Doctrine
         if ( defined('DEBUG') )
         {
             # activate Doctrine Debug also
-            Doctrine::debug(true);
+            Doctrine_Core::debug(true);
         }
     }
 
@@ -116,14 +116,6 @@ class Clansuite_Doctrine
             spl_autoload_register(array('Doctrine_Core', 'autoload'));
             spl_autoload_register(array('Doctrine_Core', 'modelsAutoload'));
 
-            # Register the Doctrine models via autoloader
-            # @todo this is for Doctrine2
-            # Doctrine_Core::setModelsDirectory(ROOT . 'records');
-            # Doctrine_Core::setModelsDirectory(ROOT_MOD); # somewhere beneath modules folder, rest via autoload
-            # Register the directory for the Clansuite Core Records, so that Doctrine is able to lazy-load them later on
-            Doctrine::loadModels(ROOT . '/myrecords/generated');
-            Doctrine::loadModels(ROOT . '/myrecords');
-
             /**
              * automatically compile doctrine to one file, but only compile with the mysql driver
              * so that the next time Doctrine.compiled.php is found
@@ -132,8 +124,8 @@ class Clansuite_Doctrine
              */
             if (is_file($doctrine_compiled) == false)
             {
-                # @todo doctrine::compile seems to be broken
-                #Doctrine::compile($doctrine_compiled, array('mysql'));
+                # @todo Doctrine_Core::compile seems to be broken
+                #Doctrine_Core::compile($doctrine_compiled, array('mysql'));
             }
 
             unset($doctrine_compiled);
@@ -213,10 +205,10 @@ class Clansuite_Doctrine
            isset($this->config['database']['cache']) and ('APC' == $this->config['database']['cache']))
         {
             $cachedriver = new Doctrine_Cache_Apc();
-            $this->manager->setAttribute(Doctrine::ATTR_RESULT_CACHE, $cachedriver);
+            $this->manager->setAttribute(Doctrine_Core::ATTR_RESULT_CACHE, $cachedriver);
 
             # set the lifespan as one hour (60 seconds * 60 minutes = 1 hour = 3600 secs)
-            $this->manager->setAttribute(Doctrine::ATTR_RESULT_CACHE_LIFESPAN, 3600);
+            $this->manager->setAttribute(Doctrine_Core::ATTR_RESULT_CACHE_LIFESPAN, 3600);
         }
 
         /**
@@ -229,17 +221,18 @@ class Clansuite_Doctrine
         define('DB_PREFIX', $this->config['database']['prefix'] );
 
         # Set portability for all rdbms = default
-        #$manager->setAttribute('portability', Doctrine::PORTABILITY_ALL);
+        #$manager->setAttribute('portability', Doctrine_Core::PORTABILITY_ALL);
+
         # Changing the database naming convention by adding
         # TBLNAME: clansuite.DB_PREFIX_tablename
-        $this->manager->setAttribute(Doctrine::ATTR_TBLNAME_FORMAT, DB_PREFIX ."%s");
-        $this->manager->setAttribute(Doctrine::ATTR_USE_NATIVE_ENUM, true);
+        $this->manager->setAttribute(Doctrine_Core::ATTR_TBLNAME_FORMAT, DB_PREFIX ."%s");
+        $this->manager->setAttribute(Doctrine_Core::ATTR_USE_NATIVE_ENUM, true);
 
         # Load Tables (with custom methods) automatically
-        $this->manager->setAttribute(Doctrine::ATTR_AUTOLOAD_TABLE_CLASSES, true);
+        $this->manager->setAttribute(Doctrine_Core::ATTR_AUTOLOAD_TABLE_CLASSES, true);
 
         # Enable automatic accessor overriding
-        # @todo D2 $this->manager->setAttribute(Doctrine::ATRR_AUTO_ACCESSOR_OVERRIDE, true);
+        $this->manager->setAttribute(Doctrine_Core::ATTR_AUTO_ACCESSOR_OVERRIDE, true);
 
         # Enables the auto freeing of query objects after execution
         $this->manager->setAttribute('auto_free_query_objects', true);
@@ -249,7 +242,7 @@ class Clansuite_Doctrine
          * This changes the column identifier from 'id' to 'tablename_id',
          * where %s stands for tablename. table news, column "id" becomes "news_id".
          */
-        #$this->manager->setAttribute(Doctrine::ATTR_DEFAULT_IDENTIFIER_OPTIONS,
+        #$this->manager->setAttribute(Doctrine_Core::ATTR_DEFAULT_IDENTIFIER_OPTIONS,
         #array('name' => '%s_id', 'type' => 'string', 'length' => 30));
 
         /**
@@ -270,37 +263,49 @@ class Clansuite_Doctrine
          * builds an array of className => /path/to/file. The className is parsed from
          * the name of the file, so each file must contain only one class and the file
          * must be named after the class inside of it. This array is then referenced in
-         * Doctrine::autoload() and used to load models when they are asked for."
+         * Doctrine_Core::autoload() and used to load models when they are asked for."
          *
          * Quote from Johnatan Wage on http://groups.google.com/group/doctrine-user
          */
-        $this->manager->setAttribute(Doctrine::ATTR_MODEL_LOADING, Doctrine::MODEL_LOADING_CONSERVATIVE);
+        $this->manager->setAttribute(Doctrine_Core::ATTR_MODEL_LOADING, Doctrine_Core::MODEL_LOADING_CONSERVATIVE);
+        
+        #$this->manager->setAttribute(Doctrine_Core::ATTR_MODEL_LOADING, Doctrine_Core::MODEL_LOADING_PEAR);
 
-        # define the models directory
-        # this will NOT require the .php files found
-        Doctrine::loadModels( ROOT . '/myrecords/' );
+        /**
+         * Setup Doctrine Models Directory
+         *
+         * Register the Doctrine models by defining the models directory for the autoloader.
+         * Note: this will NOT require the .php files found. Doctrine is able to lazy-load them later on.
+         */
+
+        # @todo this is for Doctrine2
+        # Doctrine_Core::setModelsDirectory(ROOT . 'records');
+        # Doctrine_Core::setModelsDirectory(ROOT_MOD); # somewhere beneath modules folder, rest via autoload
+
+        #Doctrine_Core::loadModels(ROOT . '/myrecords/generated');
+        Doctrine_Core::loadModels( ROOT . '/myrecords/' );
 
         # Debug Listing of all loaded Doctrine Models
-        #$models = Doctrine::getLoadedModels();
+        #$models = Doctrine_Core::getLoadedModels();
         #var_dump($models);
 
-        #$path = Doctrine::getPath();
+        #$path = Doctrine_Core::getPath();
         #var_dump($path);
 
         # DBMS Portability All is Doctrines default, therefore commented out.
-        # $manager->setAttribute(Doctrine::ATTR_PORTABILITY, Doctrine::PORTABILITY_ALL);
+        # $manager->setAttribute(Doctrine_Core::ATTR_PORTABILITY, Doctrine_Core::PORTABILITY_ALL);
 
         # Validate All
-        #$this->manager->setAttribute(Doctrine::ATTR_VALIDATE, Doctrine::VALIDATE_ALL);
+        #$this->manager->setAttribute(Doctrine_Core::ATTR_VALIDATE, Doctrine_Core::VALIDATE_ALL);
 
         # Export All
-        $this->manager->setAttribute(Doctrine::ATTR_EXPORT, Doctrine::EXPORT_ALL);
+        $this->manager->setAttribute(Doctrine_Core::ATTR_EXPORT, Doctrine_Core::EXPORT_ALL);
 
         # Identifier Quoting
         # In general, quoting make things worse.
         # Only one problem solved by quoting: usage of reserved words as field names.
         # We won't use reserved words - therefore this attribute is disabled for now.
-        $this->manager->setAttribute(Doctrine::ATTR_QUOTE_IDENTIFIER, false);
+        $this->manager->setAttribute(Doctrine_Core::ATTR_QUOTE_IDENTIFIER, false);
 
         # Set Connection Listener for Profiling if we are in DEBUG MODE
         if(DEBUG == 1)
@@ -346,7 +351,7 @@ class Clansuite_Doctrine
     {
         $query_count = 0;
         $time = 0;
-        echo "<p><strong>Doctrine Queries</strong>
+        echo "<p><strong>Debug Console for Doctrine Queries</strong>
 
         </p>";
         echo '<table width="95%" border="1">';
