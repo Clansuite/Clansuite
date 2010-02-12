@@ -1,19 +1,12 @@
-
-
-    <!-- (jQuery) Javascript for the Help Toggle -->
-
-    <script type="text/javascript">
-
-        $(document).ready( function(){
-            $("#help").hide();
-            $("#help-toggler").click( function(){
-                $("#help").slideToggle("normal");
-            });
+<!-- (jQuery) Javascript for the Help Toggle -->
+<script type="text/javascript">
+    $(document).ready( function(){
+        $("#help").hide();
+        $("#help-toggler").click( function(){
+            $("#help").slideToggle("normal");
         });
-
-    </script>
-
-
+    });
+</script>
 
 <!-- Help Icon -->
 <div id="help-toggler" style="float: right; font-family: tahoma,verdana,arial,sans-serif; font-size: 11px; cursor: pointer;">
