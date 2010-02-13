@@ -297,9 +297,11 @@ class Clansuite_Exception extends Exception implements Clansuite_Exception_Inter
         # Split
         $errormessage   .= '<tr><td colspan="2">&nbsp;</td></tr>';
 
+        # Debug Backtrace
         if ( defined('DEBUG') and DEBUG == 1 )
         {
-            $errormessage   .= '<tr><td><strong>Debugtrace (Callstack): </strong></td><td colspan=2 width=80%>'. self::formatGetTraceString($this->string) . '</td></tr>';
+            $errormessage   .= '<tr><td colspan="2"><h3>Backtrace</h3></td></tr>';
+            $errormessage   .= '<tr><td><strong>Callstack: </strong></td><td colspan=2 width=80%>'. self::formatGetTraceString($this->string) . '</td></tr>';
 
             # Split
             $errormessage   .= '<tr><td colspan="2">&nbsp;</td></tr>';
@@ -374,7 +376,7 @@ class Clansuite_Exception extends Exception implements Clansuite_Exception_Inter
                               src="http://www.clansuite.com/livezilla/image.php?v=PGEgaHJlZj1cImphdmFzY3JpcHQ6dm9pZCh3aW5kb3cub3BlbignaHR0cDovL3d3dy5jbGFuc3VpdGUuY29tL2xpdmV6aWxsYS9saXZlemlsbGEucGhwP2NvZGU9UlhoalpYQjBhVzl1TDBWeWNtOXkmYW1wO3Jlc2V0PXRydWUnLCcnLCd3aWR0aD02MDAsaGVpZ2h0PTYwMCxsZWZ0PTAsdG9wPTAscmVzaXphYmxlPXllcyxtZW51YmFyPW5vLGxvY2F0aW9uPXllcyxzdGF0dXM9eWVzLHNjcm9sbGJhcnM9eWVzJykpXCIgPCEtLWNsYXNzLS0-PjwhLS10ZXh0LS0-PC9hPjwhPkxpdmUgSGVscCAoQ2hhdCBzdGFydGVuKTwhPkxpdmUgSGVscCAoTmFjaHJpY2h0IGhpbnRlcmxhc3Nlbik8IT4_">
                            </script>
                            <noscript>
-                              <a href="http://www.clansuite.com/livezilla/livezilla.php?code=RXhjZXB0aW9uL0Vycm9y&amp;reset=true" target="_blank">Live Help (Start Chat)</a>
+                              <a href="http://www.clansuite.com/livezilla/livezilla.php?code=RXhjZXB0aW9uL0Vycm9y&amp;reset=true" target="_blank">Contact Support (Start Chat)</a>
                            </noscript>
                            <!-- Live Support JavaScript --></strong> | ';
         $errormessage  .= '<strong><a href="http://trac.clansuite.com/">Bug-Report</a></strong> |
@@ -399,8 +401,7 @@ class Clansuite_Exception extends Exception implements Clansuite_Exception_Inter
      */
     public static function formatGetTraceString($string)
     {
-        $string = str_replace('#','<br/><br/>Call #', $string);
-        #$string = str_replace('):','):<br/><br/>', $string);
+        $string = str_replace('#','<p>Call #', $string).'</p>';
         return $string;
     }
 
