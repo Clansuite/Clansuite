@@ -358,15 +358,15 @@ class Clansuite_Doctrine
          * @var int time in seconds, counting the elapsed time for all queries
          */
         $time = 0;
-        
-        echo '<br/><fieldset class="error_beige"><legend>Debug Console for Doctrine Queries</legend>';
+
         echo '<style type="text/css">
+              /*<![CDATA[*/
                 table.doctrine-profiler {
                     background: none repeat scroll 0 0 #FFFFCC;
                     border-width: 1px;
                     border-style: outset;
                     border-color: #BF0000;
-                    border-collapse: collapse;                    
+                    border-collapse: collapse;
                     font-size: 11px;
                     color: #222;
                  }
@@ -381,10 +381,14 @@ class Clansuite_Doctrine
                     border:1px inset grey;
                     padding: 2px;
                 }
+                table.doctrine-profiler tr:hover {
+                    background: #ffff88;
+                }
+                /*]]>*/
                 </style>';
-
-        echo '<table class="doctrine-profiler" width="95%">';
         
+        echo '<p>&nbsp;</p><fieldset class="error_beige"><legend>Debug Console for Doctrine Queries</legend>';
+        echo '<table class="doctrine-profiler" width="95%">';        
         echo '<tr>
                 <th>Query Counter</th>
                 <th>Command</th>
@@ -421,7 +425,7 @@ class Clansuite_Doctrine
                 if ( !empty($params))
                 {
                       echo '<td>';
-                      echo wordwrap(join(', ', $params),150,"\n",true) . '</div>';
+                      echo wordwrap(join(', ', $params),150,"\n",true);
                       echo '</td>';
                 }
                 else
