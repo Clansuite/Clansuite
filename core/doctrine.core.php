@@ -268,7 +268,7 @@ class Clansuite_Doctrine
          * Quote from Johnatan Wage on http://groups.google.com/group/doctrine-user
          */
         $this->manager->setAttribute(Doctrine_Core::ATTR_MODEL_LOADING, Doctrine_Core::MODEL_LOADING_CONSERVATIVE);
-        
+
         #$this->manager->setAttribute(Doctrine_Core::ATTR_MODEL_LOADING, Doctrine_Core::MODEL_LOADING_PEAR);
 
         /**
@@ -354,7 +354,7 @@ class Clansuite_Doctrine
         echo "<p><strong>Debug Console for Doctrine Queries</strong>
 
         </p>";
-        echo '<table width="95%" border="1">';
+        echo '<table width="95%" style="font-size: 10px;" border="1">';
         echo '<tr style="font-weight: bold;"><td>Query Counter</td><td>Command</td><td>Time</td><td width="40%">Query with placeholder (?) for parameters</td><td width="40%">Parameters</td></tr>';
         foreach ( $this->getProfiler() as $event )
         {

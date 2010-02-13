@@ -1,12 +1,22 @@
-/* Error Messages */
-.error_red,.error_orange,.error_beige {
+/*
+    Document   : error.css
+    Description: CSS for Clansuite Error Messages and Exception Screens
+
+    Created on : 11.05.2009 17:23
+    Author     : vain@clansuite.com
+    Version    : SVN: $Id$
+
+    Syntax recommendation http://www.w3.org/TR/REC-CSS2
+
+*/
+.error_red, .error_orange, .error_beige {
     border:1px solid #333;
     margin:0 auto;
     padding:5px;
     width:90%;
 }
 
-.error_red legend,.error_orange legend,.error_beige legend {
+.error_red legend, .error_orange legend, .error_beige legend {
     background:#fff;
     border:1px solid #333;
     font-weight:700;
@@ -39,3 +49,19 @@
     margin:.5em 15px 1em -20px;
     padding:15px 20px 15px 50px;
 }
+
+body {
+    -moz-border-radius: 12px;
+    border-radius: 12px
+    background: #fff;
+    color: #333;
+    font: 11px arial, verdana, tahoma, sans-serif;
+    width: 1280px;
+    margin: 2em auto 0 auto;
+    padding: 1em 2em;
+}
+
+A:link {text-decoration: none}
+A:visited {text-decoration: none}
+A:active {text-decoration: none}
+A:hover {text-decoration: underline; color: #FF0000; }
