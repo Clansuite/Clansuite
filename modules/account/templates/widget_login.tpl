@@ -2,15 +2,13 @@
 
 {move_to target="pre_head_close"}
 <script src="{$www_root_themes_core}/javascript/webtoolkit.sha1.js" type="application/javascript"></script>
+<script type="text/javascript">
+function hashLoginPassword(theForm)
+{
+    theForm.password.value = SHA1(theForm.password.value);
+}
+</script>
 {/move_to}
-
-
-    <script>
-    function hashLoginPassword(theForm)
-    {
-        theForm.password.value = SHA1(theForm.password.value);
-    }
-    </script>
 
 
 {* OLD ERRORS
@@ -54,7 +52,7 @@
             <td class="cell2"><input class="input_text" type="password" name="password" id="block_password"
                                      onblur="if(this.value=='')this.value=this.defaultValue;"
                                      onfocus="if(this.value==this.defaultValue)this.value='';"
-                                     value="******" autocomplete="off" /></td>
+                                     value="******" /></td>
         </tr>
         <tr>
             <td colspan="2" class="cell1">

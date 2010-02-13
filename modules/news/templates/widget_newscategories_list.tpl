@@ -2,7 +2,7 @@
 
 <!-- Start Widget NewsCategoriesList from Module News -->
 
-<div class="news_widget" id="widget_topmatch" width="100%">
+<div class="news_widget" id="widget_topmatch">
 
     <h2 class="td_header"> {t}News Categories{/t}</h2>    
         

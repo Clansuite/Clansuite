@@ -2,7 +2,7 @@
 
 <!-- Start Start Widget NewsCategoriesDropDown from Module News -->
 
-<div class="news_widget" id="widget_newscategoriesdropdown" width="100%">
+<div class="news_widget" id="widget_newscategoriesdropdown">
 
     <h2 class="td_header"> {t}News Categories{/t}</h2>
     
