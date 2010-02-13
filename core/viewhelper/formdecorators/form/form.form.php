@@ -95,7 +95,7 @@ class Clansuite_Form_Decorator_Form extends Clansuite_Form_Decorator
              $html_form .= 'name="'.$this->getName().'" ';
         }
 
-        $html_form .= 'class="Form '.$this->getClass().'"';
+        $html_form .= 'class="form '.$this->getClass().'"';
 
         # return the attributes inside the opening form tag
         return $html_form;
