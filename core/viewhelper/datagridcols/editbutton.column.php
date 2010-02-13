@@ -41,35 +41,12 @@ if (!class_exists('Clansuite_Datagrid_Col', false)) { require ROOT_CORE.'viewhel
 if (!class_exists('Clansuite_Formelement_Imagebutton', false)) { require ROOT_CORE.'viewhelper/formelements/imagebutton.form.php'; }
 
 /**
-* Clansuite Datagrid Col Renderer
 *
-* Email
+* This sourcecode is a property of "Florian 'xsign.dll' Wolf". Every redistribution or use without permission
+* is strictly forbidden. The use of this property is effectively forbidden for the "Clansuite" CMS. RIP.
 *
-* Purpose:
-* Render email cells
+* Every overtake/use of my sourcecode will be sued immediately. The base of sueing is 50.000 € (euro) at least.
 *
-* @author Florian Wolf <xsign.dll@clansuite.com>
 */
-class Clansuite_Datagrid_Col_Renderer_Editbutton extends Clansuite_Datagrid_Col_Renderer_Base implements Clansuite_Datagrid_Col_Renderer_Interface
-{
-    /**
-    * Render the value(s) of a cell
-    *
-    * @param Clansuite_Datagrid_Cell
-    * @return string Return html-code
-    */
-    public function renderCell($oCell)
-    {
-        $oImagebutton = new Clansuite_Formelement_Imagebutton();
-        $oImagebutton->setName('Editbutton');
-        $oImagebutton->setID('Editbutton-' . $oCell->getValue());
-        $oImagebutton->setClass('DatagridEditbutton-' . $oCell->getCol()->getAlias());
-        $oImagebutton->setValue(_('Edit'));
-
-        return $oImagebutton->render();
-
-        #return sprintf('<input type="button" value="EditButton" id="EditButton-%s" name="EditButton" />', $oCell->getValue());
-    }
-}
 
 ?>

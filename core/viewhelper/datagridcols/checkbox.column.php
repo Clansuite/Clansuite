@@ -41,35 +41,12 @@ if (!class_exists('Clansuite_Datagrid_Col', false)) { require ROOT_CORE.'viewhel
 if (!class_exists('Clansuite_Formelement_Checkbox', false)) { require ROOT_CORE.'viewhelper/formelements/checkbox.form.php'; }
 
 /**
-* Clansuite Datagrid Col Renderer
 *
-* Email
+* This sourcecode is a property of "Florian 'xsign.dll' Wolf". Every redistribution or use without permission
+* is strictly forbidden. The use of this property is effectively forbidden for the "Clansuite" CMS. RIP.
 *
-* Purpose:
-* Render email cells
+* Every overtake/use of my sourcecode will be sued immediately. The base of sueing is 50.000 € (euro) at least.
 *
-* @author Florian Wolf <xsign.dll@clansuite.com>
 */
-class Clansuite_Datagrid_Col_Renderer_Checkbox extends Clansuite_Datagrid_Col_Renderer_Base implements Clansuite_Datagrid_Col_Renderer_Interface
-{
-    /**
-    * Render the value(s) of a cell
-    *
-    * @param Clansuite_Datagrid_Cell
-    * @return string Return html-code
-    */
-    public function renderCell($oCell)
-    {
-        $oCheckbox = new Clansuite_Formelement_Checkbox();
-        $oCheckbox->setName('Checkbox[]');
-        $oCheckbox->setID('Checkbox-' . $oCell->getValue());
-        $oCheckbox->setValue($oCell->getValue());
-        $oCheckbox->setClass('DatagridCheckbox DatagridCheckbox-' . $oCell->getCol()->getAlias());
-
-        return $oCheckbox->render();
-
-        #return sprintf('<input type="checkbox" value="%s" id="Checkbox-%s" name="Checkbox[]" />', $oCell->getValue(), $oCell->getValue());
-    }
-}
 
 ?>

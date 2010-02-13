@@ -66,16 +66,15 @@ class Module_News_Admin extends Clansuite_ModuleController implements Clansuite_
         parent::initRecords('users');
         parent::initRecords('categories');
 
-        $this->_Statusmap = array(  "0" => _('Not published'),
-                                    "1" => _('No clue'),
-                                    "2" => _('No clue'),
-                                    "3" => _('No clue'),
-                                    "4" => _('Published') );
+/**
+*
+* This sourcecode is a property of "Florian 'xsign.dll' Wolf". Every redistribution or use without permission
+* is strictly forbidden. The use of this property is effectively forbidden for the "Clansuite" CMS. RIP.
+*
+* Every overtake/use of my sourcecode will be sued immediately. The base of sueing is 50.000 € (euro) at least.
+*
+*/
 
-        $this->_AdminItems = array( "5" => "5",
-                                    "10" => "10",
-                                    "20" => "20",
-                                    "50" => "50" );
     }
 
     /**
@@ -89,106 +88,15 @@ class Module_News_Admin extends Clansuite_ModuleController implements Clansuite_
         # Get Render Engine
         $smarty = $this->getView();
 
-        //--------------------------
-        // Datagrid configuration
-        //--------------------------
+                                                               /**
+*
+* This sourcecode is a property of "Florian 'xsign.dll' Wolf". Every redistribution or use without permission
+* is strictly forbidden. The use of this property is effectively forbidden for the "Clansuite" CMS. RIP.
+*
+* Every overtake/use of my sourcecode will be sued immediately. The base of sueing is 50.000 € (euro) at least.
+*
+*/
 
-        require ROOT_CORE . DS . "viewhelper" . DS . "Datagrid.core.php";
-        $ColumnSets = array();
-
-        $ColumnSets[] = array(  'Alias'     => 'Select',
-                                'ResultSet' => 'news_id',
-                                'Name'      => _('[x]'),
-                                'Type'      => 'Checkbox' );
-
-        $ColumnSets[] = array(  'Alias'     => 'Title',
-                                'ResultSet' => array(   'name'      => 'news_title',
-                                                        'id'        => 'news_id',
-                                                        'comments'  => 'nr_news_comments' ),
-                                'Name'      => _('Title'),
-                                'Sort'      => 'DESC',
-                                'SortCol'   => 'news_title',
-                                'Type'      => 'Link' );
-
-        $ColumnSets[] = array(  'Alias'     => 'Preview',
-                                'ResultSet' => array(  'preview' => 'news_preview',
-                                                       'body'    => 'news_body' ),
-                                'Name'      => _('Preview'),
-                                'Sort'      => 'DESC',
-                                'SortCol'   => 'news_body',
-                                'Type'      => 'String' );
-
-        $ColumnSets[] = array(  'Alias'     => 'Date',
-                                'ResultSet' => 'created_at',
-                                'Name'      => _('Created at'),
-                                'Sort'      => 'DESC',
-                                'SortCol'   => 'created_at',
-                                'Type'      => 'Date' );
-
-        $ColumnSets[] = array(  'Alias'     => 'Category',
-                                'ResultSet' => 'CsCategories.name',
-                                'Name'      => _('Category'),
-                                'Sort'      => 'DESC',
-                                'SortCol'   => 'c.name',
-                                'Type'      => 'String' );
-
-        $ColumnSets[] = array(  'Alias'     => 'Status',
-                                'ResultSet' => 'news_status',
-                                'Name'      => _('Status'),
-                                'Sort'      => 'DESC',
-                                'SortCol'   => 'news_status',
-                                'Type'      => 'Integer' );
-
-        $ColumnSets[] = array(  'Alias'     => 'User',
-                                'ResultSet' => array('CsUsers.email','CsUsers.nick'),
-                                'Name'      => _('User'),
-                                'Sort'      => 'DESC',
-                                'SortCol'   => 'u.nick',
-                                'Type'      => 'Email' );
-
-        /*$ColumnSets[] = array(  'Alias'     => 'Action',
-                                'ResultSet' => 'news_id',
-                                'Name'      => _('Action'),
-                                'Type'      => 'Editbutton' );*/
-
-        $BatchActions[] = array(    'Alias'     => 'create',
-                                    'Name'      => _('Create a news'),
-                                    'Action'    => 'create' );
-
-        $BatchActions[] = array(    'Alias'     => 'delete',
-                                    'Name'      => _('Delete selected items'),
-                                    'Action'    => 'delete' );
-
-
-        # Instantiate the datagrid
-        $oDatagrid = new Clansuite_Datagrid( array(
-                'Datatable'     => Doctrine::getTable('CsNews'),
-                'NamedQuery'    => 'fetchAllNews',
-                'ColumnSets'    => $ColumnSets,
-                'BaseURL'       => 'index.php?mod=news&sub=admin'
-        ) );
-
-        $oDatagrid->setBatchActions( $BatchActions );
-
-        $oDatagrid->disableFeature('Label');
-        $oDatagrid->disableFeature('Caption');
-        $oDatagrid->disableFeature('Description');
-        $oDatagrid->getCol('Select')->disableFeature('Search');
-
-        $oDatagrid->getCol('Title')->getRenderer()->linkFormat  = '&action=edit&id=%{id}';
-        $oDatagrid->getCol('Title')->getRenderer()->linkTitle   = _('Edit this news');
-        $oDatagrid->getCol('Title')->getRenderer()->nameFormat  = '%{name} - %{comments} Comment(s)';
-
-        $oDatagrid->getCol('Preview')->disableFeature('Sorting');
-        $oDatagrid->getCol('Preview')->getRenderer()->stringFormat = '<div title="%{body}">%{preview}</div>';
-
-        $oDatagrid->setResultSetHook($this, 'manipulateValues');
-
-        $oDatagrid->setResultsPerPage($this->getConfigValue('resultsPerPage_adminshow', '5'));
-        $oDatagrid->getRenderer()->setResultsPerPageItems($this->_AdminItems);
-
-        # Assing datagrid
-        $smarty->assign('datagrid', $oDatagrid->render());
 
         # Set Layout Template
         $this->getView()->setLayoutTemplate('index.tpl');
@@ -266,6 +174,7 @@ class Module_News_Admin extends Clansuite_ModuleController implements Clansuite_
     {
         # get id
         $news_id = $this->getHttpRequest()->getParameter('id');
+
 
         # fetch news
         $news = Doctrine::getTable('CsNews')->fetchSingleNews($news_id);
