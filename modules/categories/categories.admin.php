@@ -122,7 +122,7 @@ class Module_Categories_Admin extends Clansuite_ModuleController implements Clan
 
         # Batchactions
         $BatchActions[] = array(    'Alias'     => 'create',
-                                    'Name'      => _('Create a news'),
+                                    'Name'      => _('Create a category'),
                                     'Action'    => 'create' );
 
         $BatchActions[] = array(    'Alias'     => 'delete',
@@ -179,7 +179,7 @@ class Module_Categories_Admin extends Clansuite_ModuleController implements Clan
         $form->addElement('multiselect')->setName('cat_form[module_id]')->setLabel(_('Module'))->setOptions($modules)
         ->setDescription(_('Select the module to create the category for.'));
 
-        $form->addElement('textarea')->setName('cat_form[description]')->setID('cat_form[description]')->setCols('60')->setRows('5')->setLabel(_('Description'))->setEditorType('ckeditor');
+        $form->addElement('textarea')->setName('cat_form[description]')->setID('cat_form[description]')->setCols('60')->setRows('5')->setLabel(_('Description'))->setEditorType('markItUp');
         $form->addElement('jqselectcolor')->setName('cat_form[color]')->setLabel(_('Select Color'))->setDescription(_('Click Inputfield to toggle Colorwheel.'));
         $form->addElement('jqselectimage')->setName('cat_form[image]')->setLabel(_('Select Image'));
         $form->addElement('jqselectimage')->setName('cat_form[icon]')->setLabel(_('Select Icon'));
