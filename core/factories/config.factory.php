@@ -1,7 +1,7 @@
 <?php
    /**
     * Clansuite - just an eSports CMS
-    * Jens-AndrÈ Koch © 2005 - onwards
+    * Jens-Andr√© Koch ¬© 2005 - onwards
     * http://www.clansuite.com/
     *
     * LICENSE:
@@ -22,8 +22,8 @@
     *
     * @license    GNU/GPL v2 or (at your option) any later version, see "/doc/LICENSE".
     *
-    * @author     Jens-AndrÈ Koch <vain@clansuite.com>
-    * @copyright  Jens-AndrÈ Koch (2005 - onwards)
+    * @author     Jens-Andr√© Koch <vain@clansuite.com>
+    * @copyright  Jens-Andr√© Koch (2005 - onwards)
     *
     * @link       http://www.clansuite.com
     * @link       http://gna.org/projects/clansuite
@@ -41,8 +41,8 @@ if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
  * The static method getConfiguration() returns the appropiate configuration handler for that file
  * included and instantiated Configuration Engine Object!
  *
- * @author     Jens-AndrÈ Koch <vain@clansuite.com>
- * @copyright  Jens-AndrÈ Koch (2005 - onwards)
+ * @author     Jens-Andr√© Koch <vain@clansuite.com>
+ * @copyright  Jens-Andr√© Koch (2005 - onwards)
  *
  * @category    Clansuite
  * @package     Core
@@ -74,6 +74,9 @@ class Clansuite_Config_Factory
      */
     public static function determineConfigurationHandlerTypeBy($configfile)
     {
+        # init var
+        $type = '';
+
         $extension = substr($configfile, -11);
 
         /**
