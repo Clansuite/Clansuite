@@ -98,9 +98,9 @@
         <div class="widget" id="widget_newsfeeds">{load_module name="news" action="widget_newsfeeds"}</div>
         <div class="widget" id="widget_newsarchive">{load_module name="news" action="widget_archive"}</div>
         <div class="widget" id="widget_gallery">{load_module name="gallery" action="widget_gallery"}</div>
-        <div class="widget" id="widget_nextmatches">{load_module name="matches" action="widget_nextmatches" items="3"}</div>
-        <div class="widget" id="widget_latestmatches">{load_module name="matches" action="widget_latestmatches" items="3"}</div>
-        <div class="widget" id="widget_topmatch">{load_module name="matches" action="widget_topmatch"}</div>
+        {* <div class="widget" id="widget_nextmatches">{load_module name="matches" action="widget_nextmatches" items="3"}</div> *}
+        {* <div class="widget" id="widget_latestmatches">{load_module name="matches" action="widget_latestmatches" items="3"}</div> *}
+        {* <div class="widget" id="widget_topmatch">{load_module name="matches" action="widget_topmatch"}</div> *}
         <div class="widget" id="widget_shoutbox">{load_module name="shoutbox" action="widget_shoutbox"}</div>
     </td>
 
@@ -117,8 +117,9 @@
     {*{else}
         <div class="widget" id="widget_usercenter">{load_module name="user" action="widget_usercenter"}</div>
     {/if} *}
+        {* <div class="widget" id="widget_ts2viewer">{load_module name="teamspeakviewer" action="widget_ts2viewer"}</div> *}
+        <div class="widget" id="widget_ts3viewer">{load_module name="teamspeakviewer" action="widget_ts3viewer"}</div>
         {*
-        <div class="widget" id="widget_ts2viewer">{load_module name="teamspeakviewer" action="widget_ts2viewer"}</div>
         <div class="widget" id="widget_ts2ministatus">{load_module name="teamspeakviewer" action="widget_ts2ministatus"}</div>
         <div class="widget" id="widget_ts3ministatus">{load_module name="teamspeakviewer" action="widget_ts3ministatus"}</div>
         <div class="widget" id="widget_shockvoiceviewer">{load_module name="shockvoiceviewer" action="widget_shockvoiceviewer"}</div>
