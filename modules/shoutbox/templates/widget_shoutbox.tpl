@@ -13,7 +13,7 @@
 <div class="shoutbox_row">
 	<div class="shoutbox_head">
 		<span class="shoutbox_name">{$shoutbox.name}</span>
-		<span class="shoutbox_mail"><a href="mailto:{$shoutbox.mail}"><img src="../../../themes/core/images/icons/email_open_image.png" border="0" /></a></span>
+		<span class="shoutbox_mail"><a href="mailto:{$shoutbox.mail}"><img src="../../../themes/core/images/icons/email_open_image.png" border="0" alt="Icon Open Email"/></a></span>
 	</div>
 	<div class="shoutbox_time_row"><span class="shoutbox_time">am: {$shoutbox.time|date_format:"%d.%m.%y, %H:%M:%S"} Uhr</span></div>
     <div class="shoutbox_msg_row"><span class="shoutbox_msg">{$shoutbox.msg}</span></div>
