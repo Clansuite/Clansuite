@@ -10,9 +10,9 @@
 
 */
 .error_red, .error_orange, .error_beige {
-    border:1px solid #333;
+    border:1px solid #666;
     margin:0 auto;
-    padding:5px;
+    padding:12px;
     width:90%;
 }
 

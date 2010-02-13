@@ -1,7 +1,7 @@
 <?php
    /**
     * Clansuite - just an eSports CMS
-    * Jens-André Koch © 2005 - onwards
+    * Jens-Andrï¿½ Koch ï¿½ 2005 - onwards
     * http://www.clansuite.com/
     *
     * This file is part of "Clansuite - just an eSports CMS".
@@ -24,8 +24,8 @@
     *
     * @license    GNU/GPL v2 or (at your option) any later version, see "/doc/LICENSE".
     *
-    * @author     Jens-André Koch <vain@clansuite.com>
-    * @copyright  Jens-André Koch (2005 - onwards)
+    * @author     Jens-Andrï¿½ Koch <vain@clansuite.com>
+    * @copyright  Jens-Andrï¿½ Koch (2005 - onwards)
     *
     * @link       http://www.clansuite.com
     * @link       http://gna.org/projects/clansuite
@@ -346,47 +346,95 @@ class Clansuite_Doctrine
      * Displayes all Doctrine Querys with profiling Informations
      *
      * Because this is debug output, it's ok that direct output breaks the abstraction.
+     * @return Direct HTML Output
      */
     public function displayProfilingHTML()
     {
-        $query_count = 0;
+        /**
+         * @var int total number of database queries performed
+         */
+        $query_counter = 0;
+        /**
+         * @var int time in seconds, counting the elapsed time for all queries
+         */
         $time = 0;
-        echo "<p><strong>Debug Console for Doctrine Queries</strong>
+        
+        echo '<br/><fieldset class="error_beige"><legend>Debug Console for Doctrine Queries</legend>';
+        echo '<style type="text/css">
+                table.doctrine-profiler {
+                    background: none repeat scroll 0 0 #FFFFCC;
+                    border-width: 1px;
+                    border-style: outset;
+                    border-color: #BF0000;
+                    border-collapse: collapse;                    
+                    font-size: 11px;
+                    color: #222;
+                 }
+                table.doctrine-profiler th {
+                    border:1px inset #BF0000;
+                    padding: 3px;
+                    padding-bottom: 3px;
+                    font-weight: bold;
+                    background: #E03937;
+                }
+                table.doctrine-profiler td {
+                    border:1px inset grey;
+                    padding: 2px;
+                }
+                </style>';
 
-        </p>";
-        echo '<table width="95%" style="font-size: 10px;" border="1">';
-        echo '<tr style="font-weight: bold;"><td>Query Counter</td><td>Command</td><td>Time</td><td width="40%">Query with placeholder (?) for parameters</td><td width="40%">Parameters</td></tr>';
+        echo '<table class="doctrine-profiler" width="95%">';
+        
+        echo '<tr>
+                <th>Query Counter</th>
+                <th>Command</th>
+                <th>Time</th>
+                <th>Query with placeholder (?) for parameters</th>
+                <th>Parameters</th>
+              </tr>';
+              
         foreach ( $this->getProfiler() as $event )
         {
-            /*if ($event->getName() != 'execute')
+            /**
+             * By activiating the following lines, only the "execute" queries are shown.
+             * It's usefull for debugging a certain type of database statement.
+             */
+            /*
+            if ($event->getName() != 'execute')
             {
                 continue;
             }
             */
-            $query_count++;
-            echo "<tr>";
-                $time += $event->getElapsedSecs();
-                echo "<td>" . $query_count . "</td>";
-                echo "<td>" . $event->getName() . "</td>";
-                echo "<td>" . sprintf ( "%f" , $event->getElapsedSecs() ) . "</td>";
+
+            # increase query counter
+            $query_counter++;
+
+            # increase time
+            $time += $event->getElapsedSecs();
+
+            echo '<tr>';
+                echo '<td style="text-align: center;">' . $query_counter . '</td>';
+                echo '<td style="text-align: center;">' . $event->getName() . '</td>';
+                echo '<td>' . sprintf ( "%f" , $event->getElapsedSecs() ) . '</td>';
                 echo '<td>' . $event->getQuery() . '</td>';
                 $params = $event->getParams();
                 if ( !empty($params))
                 {
-                      echo "<td>";
+                      echo '<td>';
                       echo wordwrap(join(', ', $params),150,"\n",true) . '</div>';
-                      echo "</td>";
+                      echo '</td>';
                 }
                 else
                 {
-                      echo "<td>";
-                      echo "&nbsp;";
-                      echo "</td>";
+                      echo '<td>';
+                      echo '&nbsp;';
+                      echo '</td>';
                 }
-            echo "</tr>";
+            echo '</tr>';            
         }
-        echo "</table>";
-        echo "<br />$query_count Queries in " . sprintf("%2.5f", $time) . " secs.<br>\n";
+        echo '</table>';
+        echo '<p style="font-weight: bold;">&nbsp; &raquo; &nbsp; '.$query_counter.' statements in ' . sprintf("%2.5f", $time) . ' secs.</p>';
+        echo '</fieldset>';
     }
 
     /**
