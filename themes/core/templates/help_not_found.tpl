@@ -25,7 +25,7 @@
 
 
 <div class="error_help">
-    <strong>{t}A helptext for this module does {/t} <u>{t}not exist{/t}</u> !</strong>
+    <strong>{t}A helptext for this module is {/t} <u> {t}not existing{/t} </u> !</strong>
 </div>
 
 {if $smarty.const.DEBUG AND $smarty.const.DEVELOPMENT}

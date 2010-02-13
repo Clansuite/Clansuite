@@ -40,12 +40,45 @@ if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.');}
 if (!class_exists('Clansuite_Datagrid_Col', false)) { require ROOT_CORE.'viewhelper/datagridcol.core.php'; }
 
 /**
+* Clansuite Datagrid Col Renderer
 *
-* This sourcecode is a property of "Florian 'xsign.dll' Wolf". Every redistribution or use without permission
-* is strictly forbidden. The use of this property is effectively forbidden for the "Clansuite" CMS. RIP.
+* Date
 *
-* Every overtake/use of my sourcecode will be sued immediately. The base of sueing is 50.000 € (euro) at least.
+* Purpose:
+* Render date cells
 *
+* @author Florian Wolf <xsign.dll@clansuite.com>
 */
+class Clansuite_Datagrid_Col_Renderer_Date extends Clansuite_Datagrid_Col_Renderer_Base implements Clansuite_Datagrid_Col_Renderer_Interface
+{
+    /**
+    * Date format
+    * Default: d.m.Y => 13.03.2007
+    *
+    * @var string
+    */
+    public $dateFormat = 'd.m.Y H:i';
+
+    /**
+    * Render the value(s) of a cell
+    *
+    * @todo How to format date? user-language? user-country?
+    *
+    * @param Clansuite_Datagrid_Cell
+    * @return string Return html-code
+    */
+    public function renderCell($oCell)
+    {
+        #date_default_timezone_set('Europe/Berlin');
+
+        $sDate = '';
+        $oDatetime = date_create($oCell->getValue());
+        if( $oDatetime !== false )
+        {
+            $sDate = $oDatetime->format($this->dateFormat);
+        }
+        return $sDate;
+    }
+}
 
 ?>

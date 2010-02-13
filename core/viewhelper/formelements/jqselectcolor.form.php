@@ -51,22 +51,22 @@ class Clansuite_Formelement_JQSelectColor extends Clansuite_Formelement implemen
     {
         $this->type = "color";
     }
-
+    
     public function getValue()
     {
         if(empty($this->value))
         {
             # set a default color as return value
-            return '#123456';
+            return '#123456'; 
         }
-        return $this->value;
+        return $this->value;   
     }
 
     public function render()
     {
         # add the javascripts to the queue of the page (@todo queue, duplication check)
-        $javascript = '<script type="text/javascript" src="' . WWW_ROOT_THEMES_CORE . '/javascript/jquery/jquery.farbtastic.js"></script>
-                             <link rel="stylesheet" href="' . WWW_ROOT_THEMES_CORE . '/css/farbtastic.css" type="text/css" />';
+        $javascript = '<script type="text/javascript" src="'.WWW_ROOT_THEMES_CORE . '/javascript/jquery/jquery.farbtastic.js"></script>
+                             <link rel="stylesheet" href="'.WWW_ROOT_THEMES_CORE . '/css/farbtastic.css" type="text/css" />';
 
         # Add the jQuery UI Date Select Dialog.
         # Watch out, that the div dialog is present in the dom, before you assign js function to it via $('#datepicker')
@@ -74,14 +74,13 @@ class Clansuite_Formelement_JQSelectColor extends Clansuite_Formelement implemen
                                           $(document).ready(function() {
                                             $('#colorpicker').farbtastic('#color');
 											$('#colorpicker').hide();
-											$('img#color').click(function(e){
+											$('img#color').click(function(){
 												$('#colorpicker').toggle();
-                                                $('#colorpicker').position().left = $(this).position().left
 											});
                                           });
                                         </script>";
-
-       $html = '<input type="text" id="color" name="'.$this->getName().'" value="'.$this->getValue().'" /><img src="'.WWW_ROOT_THEMES_CORE . '/images/icons/colors.png" align="top" style="margin-top:1px; margin-left:3px;" id="color"></img><div id="colorpicker" style="position: absolute;"></div>';
+        
+       $html = '<input type="text" id="color" name="'.$this->getName().'" value="'.$this->getValue().'" /><img src="'.WWW_ROOT_THEMES_CORE . '/images/icons/colors.png" align="top" style="margin-top:1px; margin-left:3px;" id="color"></img><div id="colorpicker"></div>';
 
         return $javascript.$datepicker_js.$html;
     }
