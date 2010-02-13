@@ -66,8 +66,8 @@ class Module_Teamspeakviewer extends Clansuite_ModuleController implements Clans
 
         # hardcoded for testing
         $server_address  = 'clansuite.com';
-        $server_tcpport  = '51234';
-        $server_udpport  = '8000';
+        $server_tcpport  = '10011';
+        $server_udpport  = '9987';
         $server_password = '';
 
         $starttime = microtime(true);
@@ -93,8 +93,7 @@ class Module_Teamspeakviewer extends Clansuite_ModuleController implements Clans
         require dirname(__FILE__).'/libraries/teamspeak3.lib.php';
 
         # hardcoded for testing
-        #$server_ip         = 'clansuite.com';
-        $server_ip         = '85.214.133.198';
+        $server_ip         = 'clansuite.com';        
         $server_port       = '9987';
         $server_queryport  = '10011';
         $vserver_id        = '1';
@@ -181,6 +180,25 @@ class Module_Teamspeakviewer extends Clansuite_ModuleController implements Clans
 
         # assign
         $view->assign('serverinfo', $serverinfo);
+    }
+    
+    public function widget_ts3viewer($params)
+    {
+        $view = $this->getView();
+
+        /*
+        # get data
+        $serverinfo = Doctrine_Query::create()
+                    ->select('s.*')
+                    ->from('CStsviewer s')
+                    ->execute(array(), Doctrine::HYDRATE_ARRAY);
+        */
+
+        # hardcoded for testing
+        $serverinfo['server_id'] = '77135';
+
+        # assign
+        $view->assign('serverinfo', $serverinfo);       
     }
 }
 

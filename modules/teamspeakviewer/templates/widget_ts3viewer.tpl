@@ -4,24 +4,12 @@
 
 <div class="td_header">Teamspeak3 Viewer</div>
 
-<div class="cell1">
-
- {* {if $serverinfo.request_ok == true} *}
-
-    <script type="text/javascript"
-            src="http://www.tsviewer.com/ts_viewer_pur.php?ID={$serverinfo.server_id}&bg=transparent&type=a8820f&type_size=10&type_family=1&info=0&channels=1&users=1&js=1&type_s_weight=normal&type_s_style=normal&type_s_variant=normal&type_s_decoration=none&type_s_weight_h=normal&type_s_style_h=normal&type_s_variant_h=normal&type_s_decoration_h=none&type_i_weight=normal&type_i_style=normal&type_i_variant=normal&type_i_decoration=none&type_i_weight_h=normal&type_i_style_h=normal&type_i_variant_h=normal&type_i_decoration_h=none&type_c_color=294c73&type_c_weight=bold&type_c_style=normal&type_c_variant=normal&type_c_decoration=none&type_c_weight_h=normal&type_c_style_h=normal&type_c_variant_h=normal&type_c_decoration_h=none&type_u_color=b07119&type_u_weight=bold&type_u_style=italic&type_u_variant=normal&type_u_decoration=none&type_u_weight_h=normal&type_u_style_h=normal&type_u_variant_h=normal&type_u_decoration_h=none&skin=tsv_mini&cflags=0">
+<div class="cell1" style="width: 100%;">
+    <script type="text/javascript" charset="utf-8" 
+            src="http://www.tsviewer.com/ts3viewer.php?ID={$serverinfo.server_id}&amp;text=000000&amp;text_size=12&amp;text_family=1&amp;js=1&amp;text_s_weight=bold&amp;text_s_style=normal&amp;text_s_variant=normal&amp;text_s_decoration=none&amp;text_s_color_h=525284&amp;text_s_weight_h=bold&amp;text_s_style_h=normal&amp;text_s_variant_h=normal&amp;text_s_decoration_h=underline&amp;text_i_weight=normal&amp;text_i_style=normal&amp;text_i_variant=normal&amp;text_i_decoration=none&amp;text_i_color_h=525284&amp;text_i_weight_h=normal&amp;text_i_style_h=normal&amp;text_i_variant_h=normal&amp;text_i_decoration_h=underline&amp;text_c_weight=normal&amp;text_c_style=normal&amp;text_c_variant=normal&amp;text_c_decoration=none&amp;text_c_color_h=525284&amp;text_c_weight_h=normal&amp;text_c_style_h=normal&amp;text_c_variant_h=normal&amp;text_c_decoration_h=underline&amp;text_u_weight=bold&amp;text_u_style=normal&amp;text_u_variant=normal&amp;text_u_decoration=none&amp;text_u_color_h=525284&amp;text_u_weight_h=bold&amp;text_u_style_h=normal&amp;text_u_variant_h=normal&amp;text_u_decoration_h=none">
     </script>
-
     <noscript>
-        Enable JavaScript to see TeamSpeak Viewer or click
-        <a href="http://www.tsviewer.com/index.php?page=ts_viewer&ID={$serverinfo.server_id}">here</a>.
+        Enable JavaScript or visit <a href="http://www.tsviewer.com/index.php?page=ts_viewer&amp;ID={$serverinfo.server_id}">TeamSpeak Viewer</a> to display the TeamSpeak server.
     </noscript>
-
- {* {else}
-
-    <span style="color: red; font-weight: bold;">offline</span>
-
- {/if} *}
-
 </div>
 <!-- [-End-] widget_ts3viewer @ module teamspeakviewer -->
