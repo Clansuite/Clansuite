@@ -526,7 +526,7 @@ class Clansuite_Form /*extends Clansuite_HTML*/ implements Clansuite_Form_Interf
     {
         $this->setFormelementDecorator('label', $formelement_position);
         $this->setFormelementDecorator('description', $formelement_position);
-        $this->setFormelementDecorator('div', $formelement_position)->setClass('Formline');
+        $this->setFormelementDecorator('div', $formelement_position)->setClass('formline');
     }
 
     /**
