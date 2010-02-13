@@ -1,7 +1,7 @@
 <?php
    /**
     * Clansuite - just an eSports CMS
-    * Jens-André Koch © 2005 - onwards
+    * Jens-AndrÃ© Koch Â© 2005 - onwards
     * http://www.clansuite.com/
     *
     * This file is part of "Clansuite - just an eSports CMS".
@@ -24,8 +24,8 @@
     *
     * @license    GNU/GPL v2 or (at your option) any later version, see "/doc/LICENSE".
     *
-    * @author     Jens-André Koch <vain@clansuite.com>
-    * @copyright  Jens-André Koch (2005 - onwards)
+    * @author     Jens-AndrÃ© Koch <vain@clansuite.com>
+    * @copyright  Jens-AndrÃ© Koch (2005 - onwards)
     *
     * @link       http://www.clansuite.com
     * @link       http://gna.org/projects/clansuite
@@ -53,9 +53,15 @@ interface Clansuite_ActionController_Resolver_Interface
 
 class Clansuite_ActionController_Resolver implements Clansuite_ActionController_Resolver_Interface
 {
-    private $_defaultAction = "";             # holds the name of the defaultAction
+    /**
+     * @var string holds the name of the defaultAction
+     */
+    private $_defaultAction = '';
 
-    public static $actionName = null;   # holds the Action of the Module
+    /**
+     * @var string holds the Action of the Module
+     */
+    public static $actionName = null;   
 
     public function __construct($defaultAction)
     {
@@ -195,18 +201,36 @@ interface Clansuite_ModuleController_Resolver_Interface
  */
 class Clansuite_ModuleController_Resolver implements Clansuite_ModuleController_Resolver_Interface
 {
-    private $_defaultModule;                # defaultModule
+    /**
+     * @var string Name of the Default Module
+     */
+    private $_defaultModule;
 
-    private static $_ModuleName = null;     # mod
-    private static $_SubModuleName = null;  # sub
+    /**
+     * @var string Modulename
+     */
+    private static $_ModuleName = null;
+
+    /**
+     * @var string SubModuleName
+     */
+    private static $_SubModuleName = null;
 
     public function __construct($defaultModule)
     {
         $this->_defaultModule = (string) strtolower($defaultModule);
     }
 
+    /**
+     * @param <type> $request
+     * @return string "module_"
+     */
     private function mapModuleController($request)
     {
+        $module_name = '';
+        $submodule_name = '';
+        $required_modulename = '';
+
         /**
          * ModuleName is either
          * 1) internally set (in case of internal forward)
@@ -304,7 +328,7 @@ class Clansuite_ModuleController_Resolver implements Clansuite_ModuleController_
     {
         if(empty(self::$_ModuleName))
         {
-            self::setModuleName($_defaultModule);
+            self::setModuleName($this->_defaultModule);
         }
         return self::$_ModuleName;
     }
@@ -367,15 +391,28 @@ interface Clansuite_FrontController_Interface
 class Clansuite_FrontController implements Clansuite_FrontController_Interface
 {
     /**
-     * Private Variables containing
-     * the resolver
-     * the injector
-     * and the PRE and POST Filtermanager Objects
+     * @var object actionResolver
      */
     private $actionResolver;
+
+    /**
+     * @var object moduleResolver
+     */
     private $moduleResolver;
+
+    /**
+     * @var object Dependency Injector - Phemto
+     */
     private $injector;
+
+    /**
+     * @var object FilterManager for Prefilters
+     */
     private $pre_filtermanager;
+
+    /**
+     * @var object FilterManager for Postfilters
+     */
     private $post_filtermanager;
 
     /**

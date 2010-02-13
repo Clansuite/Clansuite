@@ -1,7 +1,7 @@
 <?php
    /**
     * Clansuite - just an eSports CMS
-    * Jens-AndrÈ Koch © 2005 - onwards
+    * Jens-Andr√© Koch ¬© 2005 - onwards
     * http://www.clansuite.com/
     *
     * This file is part of "Clansuite - just an eSports CMS".
@@ -24,8 +24,8 @@
     *
     * @license    GNU/GPL v2 or (at your option) any later version, see "/doc/LICENSE".
     *
-    * @author     Jens-AndrÈ Koch <vain@clansuite.com>
-    * @copyright  Jens-AndrÈ Koch (2005 - onwards)
+    * @author     Jens-Andr√© Koch <vain@clansuite.com>
+    * @copyright  Jens-Andr√© Koch (2005 - onwards)
     *
     * @link       http://www.clansuite.com
     * @link       http://gna.org/projects/clansuite
@@ -43,12 +43,6 @@ if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.'); }
  * We register the multiple loaders in the constructor.
  * There are several loader-functions, each seperated by the directories they are loading classes from.
  * Autoload will run, if a file is not found.
- *
- *
- * @todo by vain:
- * 1. Check about default implementation and support of ini_set paths while autoloading!
- * 2. Check about specific file-extension and their support while autoloading,
- *    like ".inc" or ".inc.php". maybe it's faster, because hardcoded c+?
  *
  * PHP Manual: __autoload
  * @http://www.php.net/manual/en/language.oop5.autoload.php
