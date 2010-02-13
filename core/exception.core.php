@@ -265,9 +265,10 @@ class Clansuite_Exception extends Exception implements Clansuite_Exception_Inter
     public function yellowScreenOfDeath()
     {
         # Header
-        $errormessage    = '<html><head>';
+        $errormessage    = '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">';
+        $errormessage   .= '<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">';
+        $errormessage   .= '<head>';
         $errormessage   .= '<title>Clansuite Exception : [ '.get_class($this).'][ '. $this->getMessage() .' | Exceptioncode: '. self::getCode() .' ] </title>';
-        $errormessage   .= '<body>';
         $errormessage   .= '<link rel="stylesheet" href="'. WWW_ROOT_THEMES_CORE .'/css/error.css" type="text/css" />';
         $errormessage   .= '</head>';
 
@@ -279,7 +280,7 @@ class Clansuite_Exception extends Exception implements Clansuite_Exception_Inter
 
         # Errorlogo
         $errormessage   .= '<div style="float: left; margin: 5px; margin-right: 25px; border:1px inset #bf0000; padding: 20px;">';
-        $errormessage   .= '<img src="'. WWW_ROOT_THEMES_CORE .'/images/Clansuite-Toolbar-Icon-64-exception.png" style="border: 2px groove #000000;"/></div>';
+        $errormessage   .= '<img src="'. WWW_ROOT_THEMES_CORE .'/images/Clansuite-Toolbar-Icon-64-exception.png" style="border: 2px groove #000000;" alt="Clansuite Exception Icon" /></div>';
 
         # Fieldset Legend
         $errormessage   .= '<legend>Clansuite Exception : [ '. self::getMessage() .' ]</legend>';
@@ -288,7 +289,7 @@ class Clansuite_Exception extends Exception implements Clansuite_Exception_Inter
         # HEADING <Exception Object>
         $errormessage   .= '<table>';
         $errormessage   .= '<tr><td colspan="2"><h3>Exception</h3></td></tr>';
-        $errormessage   .= '<tr><td width=15%><strong>Code: </strong></td><td>'.$this->code.'</td></tr>';
+        $errormessage   .= '<tr><td width="15%"><strong>Code: </strong></td><td>'.$this->code.'</td></tr>';
         $errormessage   .= '<tr><td><strong>Message: </strong></td><td>'.$this->message.'</td></tr>';
         $errormessage   .= '<tr><td><strong>Pfad: </strong></td><td>'.dirname($this->file).'</td></tr>';
         $errormessage   .= '<tr><td><strong>Datei: </strong></td><td>'.basename($this->file).'</td></tr>';
@@ -301,7 +302,7 @@ class Clansuite_Exception extends Exception implements Clansuite_Exception_Inter
         if ( defined('DEBUG') and DEBUG == 1 )
         {
             $errormessage   .= '<tr><td colspan="2"><h3>Backtrace</h3></td></tr>';
-            $errormessage   .= '<tr><td><strong>Callstack: </strong></td><td colspan=2 width=80%>'. self::formatGetTraceString($this->string) . '</td></tr>';
+            $errormessage   .= '<tr><td><strong>Callstack: </strong></td><td colspan="2" width="80%">'. self::formatGetTraceString($this->string) . '</td></tr>';
 
             # Split
             $errormessage   .= '<tr><td colspan="2">&nbsp;</td></tr>';
@@ -376,7 +377,7 @@ class Clansuite_Exception extends Exception implements Clansuite_Exception_Inter
                               src="http://www.clansuite.com/livezilla/image.php?v=PGEgaHJlZj1cImphdmFzY3JpcHQ6dm9pZCh3aW5kb3cub3BlbignaHR0cDovL3d3dy5jbGFuc3VpdGUuY29tL2xpdmV6aWxsYS9saXZlemlsbGEucGhwP2NvZGU9UlhoalpYQjBhVzl1TDBWeWNtOXkmYW1wO3Jlc2V0PXRydWUnLCcnLCd3aWR0aD02MDAsaGVpZ2h0PTYwMCxsZWZ0PTAsdG9wPTAscmVzaXphYmxlPXllcyxtZW51YmFyPW5vLGxvY2F0aW9uPXllcyxzdGF0dXM9eWVzLHNjcm9sbGJhcnM9eWVzJykpXCIgPCEtLWNsYXNzLS0-PjwhLS10ZXh0LS0-PC9hPjwhPkxpdmUgSGVscCAoQ2hhdCBzdGFydGVuKTwhPkxpdmUgSGVscCAoTmFjaHJpY2h0IGhpbnRlcmxhc3Nlbik8IT4_">
                            </script>
                            <noscript>
-                              <a href="http://www.clansuite.com/livezilla/livezilla.php?code=RXhjZXB0aW9uL0Vycm9y&amp;reset=true" target="_blank">Contact Support (Start Chat)</a>
+                              <div><a href="http://www.clansuite.com/livezilla/livezilla.php?code=RXhjZXB0aW9uL0Vycm9y&amp;reset=true" target="_blank">Contact Support (Start Chat)</a></div>
                            </noscript>
                            <!-- Live Support JavaScript --></strong> | ';
         $errormessage  .= '<strong><a href="http://trac.clansuite.com/">Bug-Report</a></strong> |
@@ -401,7 +402,8 @@ class Clansuite_Exception extends Exception implements Clansuite_Exception_Inter
      */
     public static function formatGetTraceString($string)
     {
-        $string = str_replace('#','<p>Call #', $string).'</p>';
+        $string = str_replace('#','<br/><br/>Call #', $string);
+        $string = str_replace('):',')<br/>', $string);
         return $string;
     }
 
