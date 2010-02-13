@@ -40,12 +40,67 @@ if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.');}
 if (!class_exists('Clansuite_Datagrid_Col', false)) { require ROOT_CORE.'viewhelper/datagridcol.core.php'; }
 
 /**
+* Clansuite Datagrid Col Renderer
 *
-* This sourcecode is a property of "Florian 'xsign.dll' Wolf". Every redistribution or use without permission
-* is strictly forbidden. The use of this property is effectively forbidden for the "Clansuite" CMS. RIP.
+* String
 *
-* Every overtake/use of my sourcecode will be sued immediately. The base of sueing is 50.000 € (euro) at least.
+* Purpose:
+* Render string cells
 *
+* @author Florian Wolf <xsign.dll@clansuite.com>
 */
+class Clansuite_Datagrid_Col_Renderer_Link
+extends Clansuite_Datagrid_Col_Renderer_Base
+implements Clansuite_Datagrid_Col_Renderer_Interface
+{
+    public $link            = '';
+    public $linkFormat      = '&id=%{id}';
+    public $linkId          = '';
+    public $linkTitle       = '';
+    public $nameWrapLength  = 50;
+    public $nameFormat      = '%{name}';
+
+
+    /**
+    * Render the value(s) of a cell
+    *
+    * @param Clansuite_Datagrid_Cell
+    * @return string Return html-code
+    */
+    public function renderCell($oCell)
+    {
+        # assign values to internal var
+        $_Values = $oCell->getValues();
+
+        # get the datagrid
+        $_Datagrid = $oCell->getCol()->getDatagrid();
+
+        # set internal link
+        $this->link = $_Datagrid->getBaseURL();
+
+        # validate
+        if( !isset($_Values['name']) )
+        {
+            throw new Clansuite_Exception(_('A link needs a name. Please define "name" in the ResultKeys'));
+        }
+        else
+        {
+            if( strlen($_Values['name']) > $this->nameWrapLength )
+            {
+                $_Values['name'] = substr($_Values['name'],0,$this->nameWrapLength-3) . '...';
+            }
+        }
+
+        # render
+        return $this->_replacePlaceholders( $_Values,
+                                            Clansuite_HTML::renderElement(  'a',
+                                                                            $this->nameFormat,
+                                                                            array(  'href'  => $_Datagrid->addToUrl($this->linkFormat),
+                                                                                    'id'    => $this->linkId,
+                                                                                    'title' => $this->linkTitle )));
+    }
+
+
+}
 
 ?>

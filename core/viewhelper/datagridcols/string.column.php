@@ -40,12 +40,36 @@ if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.');}
 if (!class_exists('Clansuite_Datagrid_Col', false)) { require ROOT_CORE.'viewhelper/datagridcol.core.php'; }
 
 /**
+* Clansuite Datagrid Col Renderer
 *
-* This sourcecode is a property of "Florian 'xsign.dll' Wolf". Every redistribution or use without permission
-* is strictly forbidden. The use of this property is effectively forbidden for the "Clansuite" CMS. RIP.
+* String
 *
-* Every overtake/use of my sourcecode will be sued immediately. The base of sueing is 50.000 € (euro) at least.
+* Purpose:
+* Render string cells
 *
+* @author Florian Wolf <xsign.dll@clansuite.com>
 */
+class Clansuite_Datagrid_Col_Renderer_String extends Clansuite_Datagrid_Col_Renderer_Base implements Clansuite_Datagrid_Col_Renderer_Interface
+{
+    public $stringFormat = '';
+
+    /**
+    * Render the value(s) of a cell
+    *
+    * @param Clansuite_Datagrid_Cell
+    * @return string Return html-code
+    */
+    public function renderCell($oCell)
+    {
+        if( $this->stringFormat == '' )
+        {
+            return $oCell->getValue();
+        }
+        else
+        {
+            return $this->_replacePlaceholders($oCell->getValues(), $this->stringFormat);
+        }
+    }
+}
 
 ?>

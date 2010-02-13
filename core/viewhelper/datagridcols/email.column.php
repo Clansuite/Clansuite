@@ -40,12 +40,40 @@ if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.');}
 if (!class_exists('Clansuite_Datagrid_Col', false)) { require ROOT_CORE.'viewhelper/datagridcol.core.php'; }
 
 /**
+* Clansuite Datagrid Col Renderer
 *
-* This sourcecode is a property of "Florian 'xsign.dll' Wolf". Every redistribution or use without permission
-* is strictly forbidden. The use of this property is effectively forbidden for the "Clansuite" CMS. RIP.
+* Email
 *
-* Every overtake/use of my sourcecode will be sued immediately. The base of sueing is 50.000 € (euro) at least.
+* Purpose:
+* Render email cells
 *
+* @author Florian Wolf <xsign.dll@clansuite.com>
 */
+class Clansuite_Datagrid_Col_Renderer_Email extends Clansuite_Datagrid_Col_Renderer_Base implements Clansuite_Datagrid_Col_Renderer_Interface
+{
+    /**
+    * Render the value(s) of a cell
+    *
+    * @param Clansuite_Datagrid_Cell
+    * @return string Return html-code
+    */
+    public function renderCell($oCell)
+    {
+        $_Values = $oCell->getValues();
+        #Clansuite_Xdebug::firebug($_Values);
+        if( isset($_Values[0]) AND isset($_Values[1]) )
+        {
+            return sprintf('<a href="mailto:%s">%s</a>', $_Values[0], $_Values[1] );
+        }
+
+        if( isset($_Values[0]) )
+        {
+            return sprintf('<a href="mailto:%s">%s</a>', $_Values[0], $_Values[0] );
+        }
+
+        return '';
+
+    }
+}
 
 ?>
