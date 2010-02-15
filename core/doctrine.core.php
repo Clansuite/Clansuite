@@ -384,10 +384,16 @@ class Clansuite_Doctrine
                 table.doctrine-profiler tr:hover {
                     background: #ffff88;
                 }
+                fieldset.doctrine-profiler legend {
+                    background:#fff;
+                    border:1px solid #333;
+                    font-weight:700;
+                    padding:2px 15px;
+                }
                 /*]]>*/
                 </style>';
         
-        echo '<p>&nbsp;</p><fieldset class="error_beige"><legend>Debug Console for Doctrine Queries</legend>';
+        echo '<p>&nbsp;</p><fieldset class="doctrine-profiler"><legend>Debug Console for Doctrine Queries</legend>';
         echo '<table class="doctrine-profiler" width="95%">';        
         echo '<tr>
                 <th>Query Counter</th>
