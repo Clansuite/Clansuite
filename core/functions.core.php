@@ -432,7 +432,9 @@ class Clansuite_Functions
     }
 
     /**
-     * Convert $size to readable format
+     * Convert $size to readable format.
+     * This determines prefixes for binary multiples according to IEC 60027-2,
+     * Second edition, 2000-11, Letter symbols to be used in electrical technology - Part 2: Telecommunications and electronics.
      *
      * @author Mike Cochrane
      * @param $size bytes
@@ -441,7 +443,7 @@ class Clansuite_Functions
      */
     public static function getsize($size)
     {
-        $si = array('B', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB');
+        $si = array('B', 'KB', 'MB', 'GB', 'TB'); #  'PB', 'EB', 'ZB', 'YB');
         $remainder = $i = 0;
         while ($size >= 1024 && $i < 8)
         {
