@@ -1,7 +1,7 @@
 <?php
    /**
     * Clansuite - just an eSports CMS
-    * Jens-AndrÈ Koch © 2005 - onwards
+    * Jens-Andr√© Koch ¬© 2005 - onwards
     * http://www.clansuite.com/
     *
     * This file is part of "Clansuite - just an eSports CMS".
@@ -24,8 +24,8 @@
     *
     * @license    GNU/GPL v2 or (at your option) any later version, see "/doc/LICENSE".
     *
-    * @author     Jens-AndrÈ Koch <vain@clansuite.com>
-    * @copyright  Jens-AndrÈ Koch (2005 - onwards)
+    * @author     Jens-Andr√© Koch <vain@clansuite.com>
+    * @copyright  Jens-Andr√© Koch (2005 - onwards)
     *
     * @link       http://www.clansuite.com
     * @link       http://gna.org/projects/clansuite
@@ -136,9 +136,9 @@ class Clansuite_Eventdispatcher
     /**
      * triggerEvent
      *
-     * @param $name
-     * @param $context default null
-     * @param $info default null
+     * @param $event Name of Event or Event object to trigger.
+     * @param $context default null The context of the event triggering, often the object from where we are calling.
+     * @param $info default null Some pieces of information.
      * @return $event object
      */
     public function triggerEvent($event, $context = null, $info = null)
@@ -174,6 +174,7 @@ class Clansuite_Eventdispatcher
                 break;
             }
         }
+
         return $event;
     }
 
