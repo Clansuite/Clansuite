@@ -28,9 +28,9 @@
 
 function smarty_function_jqconfirm($params, $smarty)
 {
-    
+
 echo <<<EOD
-<script>
+<script type="text/javascript">
     $(function(){
         // jQuery UI Dialog
         $('#dialog').dialog({
@@ -72,11 +72,12 @@ echo <<<EOD
 
 <div id="dialog" title="Verify Form Selections">
     <p>
-        <span class="ui-icon ui-icon-alert" style="float:left; margin:0 7px 0 0;"></span>You have selected the following elements:
+        <span class="ui-icon ui-icon-alert" style="float:left; margin:0 7px 0 0;"></span>
+        You have selected the following elements:
     </p>
     <p id="dialog-text"></p>
     <p>If this is correct, click Submit Form.</p>
-    <p>To edit the selections again, click Cancel.<p>
+    <p>To edit the selections again, click Cancel.</p>
 </div>
 EOD;
 }
