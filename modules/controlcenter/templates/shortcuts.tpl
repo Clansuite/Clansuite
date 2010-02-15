@@ -2,7 +2,7 @@
 
 <table cellspacing="0" cellpadding="0" width="100%">
     <tbody>
-    <tr style="height: 14">
+    <tr style="height: 15px;">
         <td style="min-width: 120px; background-color: #ACD943; text-align: bottom;" width="33%" valign="bottom">
             <b>&nbsp;&raquo; Shortcuts</b>
         </td>

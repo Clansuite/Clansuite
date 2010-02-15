@@ -22,7 +22,7 @@
         <!-- Clansuite Newsfeed Box -->
         <table cellspacing="0" cellpadding="0">
             <tbody>
-                <tr style="height: 14">
+                <tr style="height: 15px;">
                     <td style="min-width: 120px; background-color: #FF924F;" width="33%" valign="bottom">
                         <b>&nbsp;&raquo; Clansuite News</b>
                     </td>
@@ -31,7 +31,7 @@
                     </td>
                 </tr>
                 <tr>
-                    <td style="height: 3" bgcolor="#FF924F" colspan="2"/>
+                    <td style="height: 3px;" bgcolor="#FF924F" colspan="2"/>
                 </tr>
                 <tr>
                     <td bgcolor="#dde9cf" valign="top" colspan="2">
