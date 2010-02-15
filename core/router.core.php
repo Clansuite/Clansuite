@@ -49,7 +49,7 @@ if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
  * 2. Fake HTML File Request or SMF-Style, like so: /mod.sub.action.id.html
  *
  */
-class Clansuite_Route
+class Clansuite_Router
 {
     # Route
     private $route;
@@ -63,16 +63,58 @@ class Clansuite_Route
     # Objects: Request, Config
     private $request;
     private $config;
-
+    
+    # Base URL
+    private static $baseURL = 'index.php';
+    
     public function construct(Clansuite_HttpRequest $request, Clansuite_Config $config)
     {
         $this->request = $request;
         $this->config  = $config;
     }
-
+    
+    /**
+     * Returns the current Route
+     *
+     * @return
+     */
     public function getRoute()
     {
         return $this->route;
     }
+    
+    /**
+     * getBaseURL() returns the web path of the application
+     *
+     * @returns string the web path of the application (WWW_ROOT + baseURL)
+     */
+    public static function getBaseURL()
+    {
+        return WWW_ROOT . self::$baseURL;
+    }    
+    
+    /**
+     * Add an url-string segment (&x=y) to the baseurl
+     *
+     * @param string $appendString the string to append to the url 
+     * @example
+     *   $sUrl = $this->addToUrl('dg_Sort=0:ASC');
+     */
+    public static function addToUrl($appendString)
+    {
+        $startSeparator = '?';
+        
+        if( preg_match('#\?#', self::$baseURL) )
+        {
+            $startSeparator = '&amp;';
+        }
+
+        $cleanAppendString = preg_replace('#^&amp;#', '', $appendString);
+        $cleanAppendString = preg_replace('#^&#', '', $cleanAppendString);
+        $cleanAppendString = preg_replace('#^\?#', '', $cleanAppendString);
+        $cleanAppendString = preg_replace('#&(?!amp;)#i', '&amp;', $cleanAppendString);
+
+        return self::$baseURL . $startSeparator . $cleanAppendString;
+    }    
 }
 ?>
