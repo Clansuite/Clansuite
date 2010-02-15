@@ -584,7 +584,7 @@ class Clansuite_Datagrid extends Clansuite_Datagrid_Base
         $this->_Datasets = $this->getPagerLayout()->getPager()->execute();
 
         # Debug
-        Clansuite_Xdebug::firebug($this->_Datasets);
+        #Clansuite_Xdebug::firebug($this->_Datasets);
 
         # update the current page
         $this->getRenderer()->setCurrentPage($this->getPagerLayout()->getPager()->getPage());
@@ -884,7 +884,7 @@ class Clansuite_Datagrid extends Clansuite_Datagrid_Base
             {
                 if( !is_array($_TmpArrayHandler) OR !isset($_TmpArrayHandler[$_LevelKey]) )
                 {
-                    Clansuite_Xdebug::firebug('ResultSet not found in Dataset: ' . $ResultValue, 'warn');
+                    #Clansuite_Xdebug::firebug('ResultSet not found in Dataset: ' . $ResultValue, 'warn');
                     $_TmpArrayHandler = '';
                     break;
                 }
