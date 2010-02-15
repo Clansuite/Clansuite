@@ -1,7 +1,7 @@
 <?php
    /**
     * Clansuite - just an eSports CMS
-    * Jens-André Koch © 2005 - onwards
+    * Jens-AndrÃ© Koch Â© 2005 - onwards
     * http://www.clansuite.com/
     *
     *        _\|/_
@@ -28,8 +28,8 @@
     *
     * @license    GNU/GPL v2 or (at your option) any later version, see "/doc/LICENSE".
     *
-    * @author     Jens-André Koch <vain@clansuite.com>
-    * @copyright  Copyleft: All rights reserved. Jens-André Koch (2005 - onwards)
+    * @author     Jens-AndrÃ© Koch <vain@clansuite.com>
+    * @copyright  Copyleft: All rights reserved. Jens-AndrÃ© Koch (2005 - onwards)
     *
     * @link       http://www.clansuite.com
     * @link       http://gna.org/projects/clansuite
@@ -71,11 +71,13 @@ class Clansuite_CMS
 
         Clansuite_CMS::initialize_Debug();
 
-        Clansuite_CMS::set_Version();
+        Clansuite_CMS::initialize_Version();
 
         Clansuite_CMS::initialize_Locale();
 
         Clansuite_CMS::initialize_Loader();
+
+        Clansuite_CMS::initialize_Eventdispatcher();
 
         Clansuite_CMS::initialize_Errorhandling();
 
@@ -262,7 +264,7 @@ class Clansuite_CMS
          * DEFINE -> Webpaths for Templates
          *
          * Purpose: direct usage of wwwpaths as constants in templates
-         * @toto get rid of using $_SERVER, use abstraction
+         * @toto get rid of using $_SERVER, this is already present in the httprequest class
          */
 
         # 1. Determine Type of Protocol for Webpaths (http/https)
@@ -334,12 +336,6 @@ class Clansuite_CMS
          */
         define('DEBUG', self::$config['error']['debug']);
 
-        /**
-         * flag constant for the "output" suppresion of shutdown functions
-         * functions are called, but if set "true" no output is returned
-         */
-        define('SHUTDOWN_FUNCTION_SUPPRESSION', false);
-
         # If Debug is enabled, set FULL error_reporting, else DISABLE it completely
         if ( defined('DEBUG') and DEBUG == true ) # == true or false
         {
@@ -387,7 +383,16 @@ class Clansuite_CMS
         # get clansuite loaders
         require ROOT_CORE . 'bootstrap/clansuite.loader.php';
         # and register the loading handlers by overwriting the spl_autoload handling
-        clansuite_loader::register_autoload();
+        Clansuite_Loader::register_autoload();
+    }
+
+    /**
+     * Initialize Eventdispatcher
+     */
+    private static function initialize_Eventdispatcher()
+    {
+        require ROOT_CORE . 'eventhandler.core.php';
+        Clansuite_Eventdispatcher::instantiate();
     }
 
     /**
@@ -580,7 +585,7 @@ class Clansuite_CMS
      *     Clansuite Version Information
      *  ================================================
      */
-    private static function set_version()
+    private static function initialize_Version()
     {
         require ROOT_CORE . 'bootstrap/clansuite.version.php';
     }
@@ -594,13 +599,31 @@ class Clansuite_CMS
     }
 
     /**
+     * triggerEvent
+     * Is an convenience/proxy method for easier registration of Events.
+     * The method parameters are passed to / forwarded to
+     * Clansuite_Eventdispatcher::instantiate()->triggerEvent().
+     *
+     * @param string|object $event   Name of Event or Event object to trigger.
+     * @param string        $context The context of the event triggering, the object from where we are calling. Defaults to null.
+     * @param string        $info    Some pieces of information. Defaults to null.
+     */
+    public static function triggerEvent($event, $context = null, $info = null)
+    {
+        $eventdispatcher = Clansuite_Eventdispatcher::instantiate();
+        $eventdispatcher->triggerEvent($event, $context, $info);
+    }
+
+    /**
      * ==================================================
      *     Perform a proper Shutdown and Exit
      * ==================================================
      */
     public static function shutdown_and_exit()
     {
-        if(DEBUG == true and defined('SHUTDOWN_FUNCTION_SUPPRESSION') and SHUTDOWN_FUNCTION_SUPPRESSION == false)
+        Clansuite_CMS::triggerEvent('onApplicationShutdown');
+        
+        if(DEBUG == true)
         {
             # Display the General Application Runtime
             echo 'Application Runtime: '.round(microtime(1) - constant('STARTTIME'), 3).' Seconds';
