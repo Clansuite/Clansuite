@@ -1,7 +1,7 @@
 <?php
    /**
     * Clansuite - just an eSports CMS
-    * Jens-André Koch © 2005 - onwards
+    * Jens-Andrï¿½ Koch ï¿½ 2005 - onwards
     * http://www.clansuite.com/
     *
     * This file is part of "Clansuite - just an eSports CMS".
@@ -24,8 +24,8 @@
     *
     * @license    GNU/GPL v2 or (at your option) any later version, see "/doc/LICENSE".
     *
-    * @author     Jens-André Koch   <vain@clansuite.com>
-    * @copyright  Copyleft: All rights reserved. Jens-André Koch (2005-onwards)
+    * @author     Jens-Andrï¿½ Koch   <vain@clansuite.com>
+    * @copyright  Copyleft: All rights reserved. Jens-Andrï¿½ Koch (2005-onwards)
     *
     * @link       http://www.clansuite.com
     * @link       http://gna.org/projects/clansuite
@@ -41,69 +41,62 @@ if (!class_exists('Clansuite_Datagrid_Base', false))    { require dirname(__FILE
 if (!class_exists('Clansuite_HTML', false))             { require dirname(__FILE__) . '/html.core.php'; }
 
 /**
-* Clansuite Datagrid Col
-*
-* Purpose:
-* Defines one single column for the datagrid
-*
-* @author Florian Wolf <xsign.dll@clansuite.com>
-*/
-class Clansuite_Datagrid_Col extends Clansuite_Datagrid_Base
+ * Clansuite Datagrid Column
+ *
+ * Purpose:
+ * Defines a column of the datagrid
+ *
+ * @author Florian Wolf <xsign.dll@clansuite.com>
+ */
+class Clansuite_Datagrid_Column extends Clansuite_Datagrid_Base
 {
     //--------------------
-    // Class parameters
+    // Class properties
     //--------------------
 
     /**
-    * All cells of this col (array of references)
-    *
-    * @var array Clansuite_Datagrid_Cell
-    */
-    private $_Cells = array();
+     * All cells of this column (array of references)
+     *
+     * @var array Clansuite_Datagrid_Cell
+     */
+    private $_cells = array();
 
     /**
-    * The datagrid
-    *
-    * @var Clansuite_Datagrid $_Datagrid
-    */
-    private $_Datagrid;
-
-    /**
-    * The sortmode of the column
-    *
-    * @var string
-    */
+     * The sortmode of the column
+     *
+     * @var string
+     */
     private $_sortMode = 'DESC';
 
     /**
-    * The sortfield of the column
-    *
-    * @var string
-    */
+     * The sortfield of the column
+     *
+     * @var string
+     */
     private $_sortField = '';
 
     /**
-    * The position of a column
-    *
-    * @var int
-    */
-    private $_Position = 0;
+     * The position of a column
+     *
+     * @var int
+     */
+    private $_position = 0;
 
 
     /**
-    * Renderer for the cell
-    *
-    * @var object Clansuite_Datagrid_Col_Renderer
-    */
-    private $_Renderer;
+     * Renderer for the cell
+     *
+     * @var object Clansuite_Datagrid_Column_Renderer
+     */
+    private $_renderer;
 
 
     /**
-    * Boolean datagrid column values for configuration, wrapped into an array
-    *
-    * @var array
-    */
-    private $_Features = array(
+     * Boolean datagrid column values for configuration, wrapped into an array
+     *
+     * @var array
+     */
+    private $_features = array(
         'Sorting'       => true,
         'Search'        => true
     );
@@ -113,67 +106,57 @@ class Clansuite_Datagrid_Col extends Clansuite_Datagrid_Base
     //--------------------
 
     /**
-    * Set all row-cells
-    *
-    * @param array Clansuite_Datagrid_Cell
-    */
+     * Set all row-cells
+     *
+     * @param array Clansuite_Datagrid_Cell
+     */
     public function setCells($_Cells)
     {
-        $this->_Cells = $_Cells;
+        $this->_cells = $_Cells;
     }
 
     /**
-    * Set the datagrid object
-    *
-    * @param Clansuite_Datagrid $_Datagrid
-    */
-    public function setDatagrid($_Datagrid)
-    {
-        $this->_Datagrid = $_Datagrid;
-    }
-
-    /**
-    * Set the position
-    *
-    * @param int
-    */
+     * Set the position
+     *
+     * @param int
+     */
     public function setPosition($_Position)
     {
-        $this->_Position = $_Position;
+        $this->_position = $_Position;
     }
 
     /**
-    * Set the renderer for the column
-    *
-    * @param mixed string|object Renderer Name|Clansuite_Datagrid_Col_Renderer
-    */
+     * Set the renderer for the column
+     *
+     * @param mixed string|object Renderer Name|Clansuite_Datagrid_Column_Renderer
+     */
     public function setRenderer($_Renderer)
     {
-        if( $_Renderer instanceof Clansuite_Datagrid_Col_Renderer_Base )
+        if( $_Renderer instanceof Clansuite_Datagrid_Column_Renderer_Base )
         {
-            $this->_Renderer = $_Renderer;
+            $this->_renderer = $_Renderer;
         }
         else
         {
-            $this->_Renderer = $this->_loadRenderer($_Renderer);
+            $this->_renderer = $this->_loadRenderer($_Renderer);
         }
     }
 
     /**
-    * Set the database sortfield
-    *
-    * @param string
-    */
+     * Set the database sortfield
+     *
+     * @param string
+     */
     public function setSortField($_sortField)
     {
         $this->_sortField = $_sortField;
     }
 
     /**
-    * Set the sort-mode (ASC, DESC, NATASC, NETDESC, ...)
-    *
-    * @param string
-    */
+     * Set the sort-mode (ASC, DESC, NATASC, NETDESC, ...)
+     *
+     * @param string
+     */
     public function setSortMode($_sortMode)
     {
         $this->_sortMode = $_sortMode;
@@ -184,50 +167,40 @@ class Clansuite_Datagrid_Col extends Clansuite_Datagrid_Base
     //--------------------
 
     /**
-    * Get the Datagrid object
-    *
-    * @return Clansuite_Datagrid $_Datagrid
-    */
-    public function getDatagrid()
-    {
-        return $this->_Datagrid;
-    }
-
-    /**
-    * Get the position
-    *
-    * @return int
-    */
+     * Get the position
+     *
+     * @return int
+     */
     public function getPosition()
     {
-        return $this->_Position;
+        return $this->_position;
     }
 
     /**
-    * Get the renderer for the column
-    *
-    * @return Clansuite_Datagrid_Col_Renderer
-    */
+     * Get the renderer for the column
+     *
+     * @return Clansuite_Datagrid_Column_Renderer
+     */
     public function getRenderer()
     {
-        return $this->_Renderer;
+        return $this->_renderer;
     }
 
     /**
-    * Get the sort-field
-    *
-    * @return string
-    */
+     * Get the sort-field
+     *
+     * @return string
+     */
     public function getSortField()
     {
         return $this->_sortField;
     }
 
     /**
-    * Get the sort-mode
-    *
-    * @return string
-    */
+     * Get the sort-mode
+     *
+     * @return string
+     */
     public function getSortMode()
     {
         return $this->_sortMode;
@@ -238,178 +211,170 @@ class Clansuite_Datagrid_Col extends Clansuite_Datagrid_Base
     //--------------------
 
     /**
-    * Brings up the object
-    *
-    * @param Clansuite_Datagrid $_Datagrid
-    * @return Clansuite_Datagrid_Col
-    */
-    public function __construct(Clansuite_Datagrid $_Datagrid)
-    {
-        $this->setDatagrid($_Datagrid);
-    }
-
-    /**
-    * Check for datagrid column features
-    *
-    * @see $this->_features
-    * @param string $feature
-    * @return boolean
-    */
+     * Check for datagrid column features
+     *
+     * @see $this->_features
+     * @param string $feature
+     * @return boolean
+     */
     public function isEnabled($feature)
     {
-        if( !isset($this->_Features[$feature]) )
+        if( !isset($this->_features[$feature]) )
         {
             throw new Clansuite_Exception(_('There is no such feature in this datagrid column: ') . $feature);
         }
         else
         {
-            return $this->_Features[$feature];
+            return $this->_features[$feature];
         }
     }
 
     /**
-    * Enable datagrid column features and return true if it succeeded, false if not
-    *
-    * @see $this->_features
-    * @param string $feature
-    * @return boolean
-    */
+     * Enable datagrid column features and return true if it succeeded, false if not
+     *
+     * @see $this->_features
+     * @param string $feature
+     * @return boolean
+     */
     public function enableFeature($feature)
     {
-        if( !isset($this->_Features[$feature]) )
+        if( false == isset($this->_features[$feature]) )
         {
-            return 0;
+            return false;
         }
         else
         {
-            $this->_Features[$feature] = true;
-            return 1;
+            $this->_features[$feature] = true;
+            return true;
         }
     }
 
     /**
-    * Disable datagrid column features
-    * Return true if succeeded, false if not
-    *
-    * @see $this->_features
-    * @param mixed $feature
-    * @return boolean
-    */
+     * Disable datagrid column features
+     * Return true if succeeded, false if not
+     *
+     * @see $this->_features
+     * @param mixed $feature
+     * @return boolean
+     */
     public function disableFeature($feature)
     {
-        if( !isset($this->_Features[$feature]) )
+        if( false == isset($this->_features[$feature]) )
         {
-            return 0;
+            return false;
         }
         else
         {
-            $this->_Features[$feature] = false;
-            return 1;
+            $this->_features[$feature] = false;
+            return true;
         }
     }
 
 
     /**
-    * Add a cell reference to the col
-    *
-    * @param Clansuite_Datagrid_Cell
-    */
-    public function addCell($_Cell)
+     * Add a cell reference to the col
+     *
+     * @param Clansuite_Datagrid_Cell
+     */
+    public function addCell($cell)
     {
-        array_push($this->_Cells, $_Cell);
+        array_push($this->_cells, $cell);
     }
 
     /**
-    * Load the renderer depending on a string (lowercased)
-    * The method looks into the folder "datagridcols" and loads [$name].column.php
-    *
-    * @param string The renderer name
-    */
-    private function _loadRenderer($_RendererName = 'string')
+     * Load the renderer depending on a string (lowercased)
+     * The method looks into the folder "datagridcols" and loads [$name].column.php
+     *
+     * @param string $rendererName The renderer name
+     */
+    private function _loadRenderer($rendererName = 'string')
     {
-        $_FileLocation = ROOT_CORE . 'viewhelper' . DS . 'datagridcols' . DS . strtolower($_RendererName) . '.column.php';
-        $_ClassName = 'Clansuite_Datagrid_Col_Renderer_' . ucfirst(strtolower($_RendererName));
+        $rendererName = strtolower($rendererName);
+        
+        $className = 'Clansuite_Datagrid_Column_Renderer_' . ucfirst($rendererName);
 
-        if(!class_exists($_ClassName, false))
+        if(!class_exists($className, false))
         {
-            if( is_file($_FileLocation) )
+            $file = ROOT_CORE . 'viewhelper' . DS . 'datagridcols' . DS . $rendererName . '.column.php';
+
+            if( is_file($file) )
             {
-                require $_FileLocation;
-                if(!class_exists($_ClassName, false))
+                require_once $file;
+                
+                if(!class_exists($className, false))
                 {
-                    throw new Clansuite_Exception(_('The column renderer class does not exist: ') . $_ClassName);
+                    throw new Clansuite_Exception(_('The column renderer class does not exist: ') . $className);
                 }
                 else
                 {
-                    #Clansuite_Xdebug::firebug('RENDERER: ' . $_ClassName);
-                    return new $_ClassName($this);
+                    #Clansuite_Xdebug::firebug('Loaded Column Renderer: ' . $_ClassName);
+                    return new $className($this);
                 }
             }
             else
             {
-                throw new Clansuite_Exception(_('The column renderer file does not exist: ') . $_FileLocation);
+                throw new Clansuite_Exception(_('The column renderer file does not exist: ') . $file);
             }
         }
         else
         {
-            return new $_ClassName($this);
+            return new $className($this);
         }
     }
 
     /**
-    * Renders the column cell depanding on the renderer that is assigned to the column object
-    * Default renderer: String
-    *
-    * @return string Returns html-code
-    * @param Clansuite_Datagrid_Cell
-    */
+     * Renders the column cell depanding on the renderer that is assigned to the column object
+     * Default renderer: String
+     *
+     * @return string Returns html-code
+     * @param Clansuite_Datagrid_Cell
+     */
     public function renderCell($oCell)
     {
         return $this->getRenderer()->renderCell($oCell);
     }
-
 }
 
 /**
  * Interface for a Clansuite Datagrid Column Renderer
  */
-interface Clansuite_Datagrid_Col_Renderer_Interface
+interface Clansuite_Datagrid_Column_Renderer_Interface
 {
     /**
-    * Render the given cell of the column
-    */
+     * Render the given cell of the column
+     */
     public function renderCell($_Value);
 }
 
 /**
- * Base of Col-Renderers
+ * Base Class of Clansuite_Datagrid_Column_Renderers
  *
  * Purpose:
- * Standard integration for all renderers of a Clansuite_Datagrid_Col_Renderer
+ * Provides standard methods for all Clansuite_Datagrid_Column_Renderers
  *
  * @author Florian Wolf <xsign.dll@clansuite.com>
  */
-class Clansuite_Datagrid_Col_Renderer_Base
+class Clansuite_Datagrid_Column_Renderer_Base extends Clansuite_Datagrid_Renderer
 {
     /**
-    * The column object
-    *
-    * @var object Clansuite_Datagrid_Col
-    */
-    private $_Col;
+     * The column object
+     *
+     * @var object Clansuite_Datagrid_Column
+     */
+    private $_column;
 
     //---------------------
     // Setter
     //---------------------
 
     /**
-    * Set the col object
-    *
-    * @param Clansuite_Datagrid_Col $_Col
-    */
-    public function setCol($_Col)
+     * Set the col object
+     *
+     * @param Clansuite_Datagrid_Column $column
+     */
+    public function setColumn($column)
     {
-        $this->_Col = $_Col;
+        $this->_column = $column;
     }
 
     //---------------------
@@ -417,24 +382,23 @@ class Clansuite_Datagrid_Col_Renderer_Base
     //---------------------
 
     /**
-    * Get the column object
-    *
-    * @return Clansuite_Datagrid_Col
-    */
-    public function getCol()
+     * Get the column object
+     *
+     * @return Clansuite_Datagrid_Column
+     */
+    public function getColumn()
     {
-        return $this->_Col;
+        return $this->_column;
     }
 
     /**
-    * Instantiate the Column Base
-    *
-    * @param Clansuite_Datagrid_Col
-    * @return Clansuite_Datagrid_Col_Renderer_Base
-    */
-    public function __construct($_Col)
+     * Instantiate the Column Base
+     *
+     * @param Clansuite_Datagrid_Column
+     */
+    public function __construct($column)
     {
-        $this->setCol($_Col);
+        $this->setColumn($column);
     }
 
     //---------------------
@@ -442,37 +406,38 @@ class Clansuite_Datagrid_Col_Renderer_Base
     //---------------------
 
     /**
-    * Replace placeholders with values
-    *
-    * @param array $_Values
-    * @param string $_Format
-    * @return string
-    */
-    public function _replacePlaceholders($_Values, $_Format)
+     * Replace placeholders with values
+     *
+     * @param array $values
+     * @param string $format
+     * @return string
+     */
+    public function _replacePlaceholders($values, $format)
     {
-
-        $_Placeholders   = array();
-        $_Replacers     = array();
+        $placeholders   = array();
+        $replacements   = array();
 
         # search for placeholders %{...}
-        preg_match_all('#%\{([^\}]+)\}#', $_Format, $_Placeholders, PREG_PATTERN_ORDER );
+        preg_match_all('#%\{([^\}]+)\}#', $format, $placeholders, PREG_PATTERN_ORDER );
 
-        # loop through placeholders
-        $_PlacerholderCount = count($_Placeholders[1]);
-        if( $_PlacerholderCount > 0 )
+        # check if placeholders are used
+        # @todo replace count() with check for first placeholder element: if(isset($_Placeholders[1][0]))
+        #       and move count into the if
+        $_PlacerholderCount = count($placeholders[1]);
+        if( $_PlacerholderCount > 0 ) 
         {
+            # loop over placeholders
             for($i=0;$i<$_PlacerholderCount;$i++)
             {
-                if( isset($_Values[$_Placeholders[1][$i]]) )
+                if( isset($values[$placeholders[1][$i]]) )
                 {
-                    $_Replacers['%{' . $_Placeholders[1][$i] . '}'] = $_Values[$_Placeholders[1][$i]];
+                    $replacements['%{' . $placeholders[1][$i] . '}'] = $values[$placeholders[1][$i]];
                 }
             }
         }
 
         # return substituted string
-        return strtr($_Format, $_Replacers);
+        return strtr($format, $replacements);
     }
 }
-
 ?>
