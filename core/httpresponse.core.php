@@ -1,7 +1,7 @@
 <?php
    /**
     * Clansuite - just an eSports CMS
-    * Jens-AndrÃ© Koch Â© 2005 - onwards
+    * Jens-André Koch © 2005 - onwards
     * http://www.clansuite.com/
     *
     * This file is part of "Clansuite - just an eSports CMS".
@@ -24,8 +24,8 @@
     *
     * @license    GNU/GPL v2 or (at your option) any later version, see "/doc/LICENSE".
     *
-    * @author     Jens-AndrÃ© Koch <vain@clansuite.com>
-    * @copyright  Jens-AndrÃ© Koch (2005 - onwards)
+    * @author     Jens-André Koch <vain@clansuite.com>
+    * @copyright  Jens-André Koch (2005 - onwards)
     *
     * @link       http://www.clansuite.com
     * @link       http://gna.org/projects/clansuite
@@ -219,6 +219,10 @@ class Clansuite_HttpResponse implements Clansuite_Response_Interface
                 header("{$name}: {$value}", false);
             }
         }
+        
+        // unheroic approach to silence all html validators by fixing the ampersand problem ( turns & to &amp;)
+        // @todo maybe htmlspecialchars is faster? maybe we need an url generator method?
+        $this->body = preg_replace('/&(?![#]?[a-z0-9]+;)/i', "&amp;$1", $this->body);
 
         // Finally PRINT the response body
         print $this->body;
