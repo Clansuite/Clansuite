@@ -1,7 +1,7 @@
 <?php
    /**
     * Clansuite - just an eSports CMS
-    * Jens-André Koch © 2005 - onwards
+    * Jens-Andrï¿½ Koch ï¿½ 2005 - onwards
     * http://www.clansuite.com/
     *
     * This file is part of "Clansuite - just an eSports CMS".
@@ -24,8 +24,8 @@
     *
     * @license    GNU/GPL v2 or (at your option) any later version, see "/doc/LICENSE".
     *
-    * @author     Jens-André Koch   <vain@clansuite.com>
-    * @copyright  Copyleft: All rights reserved. Jens-André Koch (2005-onwards)
+    * @author     Jens-Andrï¿½ Koch   <vain@clansuite.com>
+    * @copyright  Copyleft: All rights reserved. Jens-Andrï¿½ Koch (2005-onwards)
     *
     * @link       http://www.clansuite.com
     * @link       http://gna.org/projects/clansuite
@@ -37,7 +37,7 @@
 // Security Handler
 if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.');}
 
-if (!class_exists('Clansuite_Datagrid_Col', false)) { require ROOT_CORE.'viewhelper/datagridcol.core.php'; }
+if (!class_exists('Clansuite_Datagrid_Column', false)) { require ROOT_CORE.'viewhelper/datagridcol.core.php'; }
 
 /**
 * Clansuite Datagrid Col Renderer
@@ -49,7 +49,7 @@ if (!class_exists('Clansuite_Datagrid_Col', false)) { require ROOT_CORE.'viewhel
 *
 * @author Florian Wolf <xsign.dll@clansuite.com>
 */
-class Clansuite_Datagrid_Col_Renderer_Integer extends Clansuite_Datagrid_Col_Renderer_Base implements Clansuite_Datagrid_Col_Renderer_Interface
+class Clansuite_Datagrid_Column_Renderer_Integer extends Clansuite_Datagrid_Column_Renderer_Base implements Clansuite_Datagrid_Column_Renderer_Interface
 {
     /**
     * Render the value(s) of a cell

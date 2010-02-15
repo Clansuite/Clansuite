@@ -1,7 +1,7 @@
 <?php
    /**
     * Clansuite - just an eSports CMS
-    * Jens-André Koch © 2005 - onwards
+    * Jens-Andrï¿½ Koch ï¿½ 2005 - onwards
     * http://www.clansuite.com/
     *
     * This file is part of "Clansuite - just an eSports CMS".
@@ -24,8 +24,8 @@
     *
     * @license    GNU/GPL v2 or (at your option) any later version, see "/doc/LICENSE".
     *
-    * @author     Jens-André Koch   <vain@clansuite.com>
-    * @copyright  Copyleft: All rights reserved. Jens-André Koch (2005-onwards)
+    * @author     Jens-Andrï¿½ Koch   <vain@clansuite.com>
+    * @copyright  Copyleft: All rights reserved. Jens-Andrï¿½ Koch (2005-onwards)
     *
     * @link       http://www.clansuite.com
     * @link       http://gna.org/projects/clansuite
@@ -37,21 +37,18 @@
 // Security Handler
 if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.');}
 
-if (!class_exists('Clansuite_Datagrid_Col', false)) { require ROOT_CORE.'viewhelper/datagridcol.core.php'; }
+if (!class_exists('Clansuite_Datagrid_Column', false)) { require ROOT_CORE.'viewhelper/datagridcol.core.php'; }
 
 /**
-* Clansuite Datagrid Col Renderer
-*
-* String
+* Clansuite Datagrid Column Renderer Link
 *
 * Purpose:
-* Render string cells
+* Render a cell with a link
 *
 * @author Florian Wolf <xsign.dll@clansuite.com>
 */
-class Clansuite_Datagrid_Col_Renderer_Link
-extends Clansuite_Datagrid_Col_Renderer_Base
-implements Clansuite_Datagrid_Col_Renderer_Interface
+class Clansuite_Datagrid_Column_Renderer_Link extends Clansuite_Datagrid_Column_Renderer_Base
+implements Clansuite_Datagrid_Column_Renderer_Interface
 {
     public $link            = '';
     public $linkFormat      = '&id=%{id}';
@@ -60,47 +57,43 @@ implements Clansuite_Datagrid_Col_Renderer_Interface
     public $nameWrapLength  = 50;
     public $nameFormat      = '%{name}';
 
-
     /**
-    * Render the value(s) of a cell
-    *
-    * @param Clansuite_Datagrid_Cell
-    * @return string Return html-code
-    */
+     * Render the value(s) of a cell
+     *
+     * @param Clansuite_Datagrid_Cell
+     * @return string Return html-code
+     */
     public function renderCell($oCell)
     {
         # assign values to internal var
-        $_Values = $oCell->getValues();
+        $values = $oCell->getValues();
 
         # get the datagrid
-        $_Datagrid = $oCell->getCol()->getDatagrid();
+        #$datagrid = $oCell->getColumn()->getDoctrineTable();
 
         # set internal link
-        $this->link = $_Datagrid->getBaseURL();
+        $this->link = parent::getColumn()->getBaseURL();
 
         # validate
-        if( !isset($_Values['name']) )
+        if( false == isset($values['name']) )
         {
             throw new Clansuite_Exception(_('A link needs a name. Please define "name" in the ResultKeys'));
         }
         else
         {
-            if( strlen($_Values['name']) > $this->nameWrapLength )
+            if( strlen($values['name']) > $this->nameWrapLength )
             {
-                $_Values['name'] = substr($_Values['name'],0,$this->nameWrapLength-3) . '...';
+                $values['name'] = substr($values['name'], 0, $this->nameWrapLength-3) . '...';
             }
         }
 
         # render
-        return $this->_replacePlaceholders( $_Values,
+        return $this->_replacePlaceholders( $values,
                                             Clansuite_HTML::renderElement(  'a',
                                                                             $this->nameFormat,
-                                                                            array(  'href'  => $_Datagrid->addToUrl($this->linkFormat),
+                                                                            array(  'href'  => Clansuite_Datagrid::addToUrl($this->linkFormat),
                                                                                     'id'    => $this->linkId,
                                                                                     'title' => $this->linkTitle )));
     }
-
-
 }
-
 ?>
