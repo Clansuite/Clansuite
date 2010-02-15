@@ -1,7 +1,7 @@
 <?php
    /**
     * Clansuite - just an eSports CMS
-    * Jens-André Koch © 2005 - onwards
+    * Jens-AndrÃ© Koch Â© 2005 - onwards
     * http://www.clansuite.com/
     *
     * This file is part of "Clansuite - just an eSports CMS".
@@ -24,8 +24,8 @@
     *
     * @license    GNU/GPL v2 or (at your option) any later version, see "/doc/LICENSE".
     *
-    * @author     Jens-André Koch <vain@clansuite.com>
-    * @copyright  Jens-André Koch (2005 - onwards)
+    * @author     Jens-AndrÃ© Koch <vain@clansuite.com>
+    * @copyright  Jens-AndrÃ© Koch (2005 - onwards)
     *
     * @link       http://www.clansuite.com
     * @link       http://gna.org/projects/clansuite
@@ -457,7 +457,7 @@ class Clansuite_HttpRequest implements Clansuite_Request_Interface, ArrayAccess
      */
     public static function getServerProtocol()
     {
-        if($this->isSecure()) # @todo check -> or $_SERVER['SSL_PROTOCOL']
+        if(self::isSecure()) # @todo check -> or $_SERVER['SSL_PROTOCOL']
         {
              return 'https://';
         }
@@ -528,7 +528,7 @@ class Clansuite_HttpRequest implements Clansuite_Request_Interface, ArrayAccess
     /**
      * Get $_SERVER SERVER_NAME
      *
-     * @return string
+     * @return string The name of the server host under which the current script is executing.
      */
     public static function getServerName()
     {
@@ -538,7 +538,7 @@ class Clansuite_HttpRequest implements Clansuite_Request_Interface, ArrayAccess
     /**
      * Get $_SERVER REQUEST_URI
      *
-     * @return string
+     * @return string The URI which was given in order to access this page; for instance, '/index.html'. 
      */
     public function getRequestURI()
     {
@@ -558,7 +558,7 @@ class Clansuite_HttpRequest implements Clansuite_Request_Interface, ArrayAccess
     /**
      * Get $_SERVER QUERY_STRING
      *
-     * @return string
+     * @return string The query string via which the page was accessed.
      */
     public static function getQueryString()
     {
@@ -566,9 +566,19 @@ class Clansuite_HttpRequest implements Clansuite_Request_Interface, ArrayAccess
     }
 
     /**
+     * Get the current Url
+     *
+     * @return string Returns the current URL, which is the HOST + REQUEST_URI, without index.php.
+     */
+    public static function getCurrentUrl()
+    {
+        return str_replace('/index.php', '', 'http://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI']);
+    }
+
+    /**
      * Get IP = $_SERVER REMOTE_ADDRESS
      *
-     * @return string
+     * @return string The IP/HOST from which the user is viewing the current page.
      */
     public static function getRemoteAddress()
     {
@@ -612,7 +622,7 @@ class Clansuite_HttpRequest implements Clansuite_Request_Interface, ArrayAccess
     /**
      * Get $_SERVER HTTP_USER_AGENT
      *
-     * @return string
+     * @return string String denoting the user agent being which is accessing the page.
      */
     public static function getUserAgent()
     {
@@ -622,11 +632,11 @@ class Clansuite_HttpRequest implements Clansuite_Request_Interface, ArrayAccess
     /**
      * Get $_SERVER HTTP_REFERER
      *
-     * @return string
+     * @return string The address of the page (if any) which referred the user agent to the current page.
      */
     public static function getReferer()
     {
-        return $_SERVER['HTTP_Referer'];
+        return $_SERVER['HTTP_REFERER'];
     }
 
     /**
@@ -636,7 +646,7 @@ class Clansuite_HttpRequest implements Clansuite_Request_Interface, ArrayAccess
      * @link http://algorytmy.pl/doc/php/function.getenv.php
      * @see getRemoteAddress()
      * @param $ip
-     * @return boolean
+     * @return boolean True, if IP is valid. False, otherwise.
      */
     public static function validateIP($ip)
     {
