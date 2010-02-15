@@ -94,6 +94,8 @@
         "build.base.directory"        : ${build.base.directory}
         "archive.directory"           : ${archive.directory}
         "phpdoc.directory"            : ${phpdoc.directory}
+        "phpxref.directory"           : ${phpdoc.directory}
+        "doxygen.directory"           : ${phpdoc.directory}
 
         </echo>
     </target>
@@ -111,7 +113,7 @@
     <property name="base.directory" value="/home/clansuite/" />                               <!-- name of the base directory = ROOT for this project-->
     <property name="build.base.directory" value="/home/clansuite/build/" />                   <!-- name of the base build directory -->
     <property name="build.src.directory" value="${build.base.directory}${packagename}/" />    <!-- name of the build directory for current package -->
-    <property name="webbase.directory" value="/srv/www/clansuite.com/public_html/" />         <!-- name of the web directory for documentation = WWWROOT -->
+    <property name="webbase.directory" value="/srv/www/htdocs/public_html/" />                <!-- name of the web directory for documentation = WWWROOT -->
 
     <!-- Define the Properties for Section 5) Documentation -->
     <property name="documentations.directory" value="${webbase.directory}documentation/developer/" override="true" />
@@ -130,7 +132,7 @@
         <exclude name="tmp" />                          <!-- exclude temporary directory -->
         <exclude name=".htaccess"/>                     <!-- exclude htaccess -->
     </fileset>
-    
+
     <!-- Define Fileset "clansuite.projectfiles.docs" Documentation Fileset (exclude Smarty, because Phing is stupid :) -->
     <fileset id="clansuite.projectfiles.docs" dir="${svn.local.export.directory}">   <!-- based on trunk -->
         <include name="**" />                           <!-- include all files -->
@@ -139,12 +141,6 @@
         <exclude name="tmp" />                          <!-- exclude temporary directory -->
         <exclude name=".htaccess"/>                     <!-- exclude htaccess -->
         <exclude name="libraries"/>                     <!-- exclude libraries -->
-    </fileset>
-
-    <!-- Define Fileset "clansuite.reportfiles" -->
-    <fileset id="clansuite.reportfiles" dir="${svn.local.export.directory}">
-        <include name="**/*.php"/>
-        <exclude name="./${build.base.directory}libraries"/> <!-- do not apply reports and checks on 3th party libraries -->
     </fileset>
 
     <!-- Define Fileset "clansuite.testfiles" -->
@@ -307,6 +303,14 @@
     <!-- ======     4) Testing & Validation Tasks     ====== -->
     <!-- =================================================== -->
 
+    <!-- Define Fileset "clansuite.reportfiles" -->
+    <fileset id="clansuite.reportfiles" dir="${svn.local.export.directory}">
+        <include name="*.php"/>
+        <include name="**/*.php"/>
+        <!-- exclude a) trunk/libraries b) trunk/modules/libraries -->
+        <exclude name="**/libraries/**"/> <!-- do not apply reports and checks on 3th party libraries -->
+    </fileset>
+
     <!-- COMMAND = "codequality-report" -->
     <target name="codequality-report" description="Generates the overall project codequality report"
             depends="lint-report, codesniffer-report, test-report" />
@@ -400,7 +404,7 @@
                 sourcecode="no"
                 output="HTML:frames:phphtmllib"
                 defaultpackagename="Clansuite"
-                undocumentedelements="true">       
+                undocumentedelements="true">
 
            <fileset refid="clansuite.projectfiles.docs"/>
 
@@ -410,7 +414,7 @@
               <include name="CHANGELOG" />
             </projdocfileset>
         </phpdoc>
-        -->       
+        -->
     </target>
 
     <!-- COMMAND = "doc_doxygen" -->
