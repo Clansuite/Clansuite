@@ -1,10 +1,8 @@
-{* Get Debug Informations *}
-{assign_debug_info}
+{* Clansuite - Smarty Debug Console *}
 
 {* Start - Assign the following content to Variable debug_content *}
 {capture assign=debug_output}
     {move_to target="pre_head_close"}
-
     
     <style type="text/css">
         div.debug_one, caption { cursor: pointer; width: auto; font-variant: small-caps; font-family: Verdana; font-size: 11px; height: 8px; text-align:left; font-weight:bold; padding: 8px; background: #ECE9D8; border-top: 1px solid #ffffff; border-bottom: 1px solid #ACA899;  }
@@ -17,8 +15,7 @@
         h2.debug_heading { text-align: center; color: grey; }
         div.debug_inline { padding: 0px; width: 100%;background: #ECE9D8; border-top: 1px solid #ffffff; border-bottom: 1px solid #ACA899; }
     </style>
-  
-
+ 
   {/move_to}
 
 <script src="{$www_root_themes_core}/javascript/clip.js" type="text/javascript"></script>
@@ -221,7 +218,7 @@
     	_csuite_console = window.open("",title.value,"width=800,height=600,resizable,scrollbars=yes");
     	_csuite_console.document.write('<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">');
         _csuite_console.document.write('<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">');
-        _csuite_console.document.write('<head><title>ClanSuite Debug Window</title>');
+        _csuite_console.document.write('<head><title>Clansuite - Smarty Debug Console</title>');
     	_csuite_console.document.write('<link rel="stylesheet" type="text/css" href="{$www_root_themes_core}/css/debug.css" />');
         _csuite_console.document.write('</head><body>');
     	_csuite_console.document.write('{$debug_output|escape:'javascript'}');
@@ -229,18 +226,4 @@
     	_csuite_console.document.close();
     </script>
 {/if}
-
-
-<script type="text/javascript">
-    window.onload = function ()
-    {
-        // check to see if firebug is installed and enabled
-        if (window.console && console.firebug)
-        {
-            var firebug = document.getElementById('firebug');
-            firebug.style.display = 'block';
-            firebug.innerHTML = 'It appears that <strong>you have firebug enabled</strong>.' +
-            'Using firebug with Clansuite will cause a <strong>significant performance degradation</strong>.';
-        }
-    }
-</script>
+{include file='firebug_active_warning.tpl'}
