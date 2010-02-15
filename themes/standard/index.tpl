@@ -152,6 +152,9 @@
 {include file='copyright.tpl'}
 
 {* debug *}
+{if $smarty.const.DEBUG == true}
+{debug}
+{/if}
 
 </body>
 </html>

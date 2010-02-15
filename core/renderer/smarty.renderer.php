@@ -120,7 +120,8 @@ class Clansuite_Renderer_Smarty extends Clansuite_Renderer_Base
 
         #### SMARTY DEBUGGING
         $this->renderer->debugging           = DEBUG ? true : false;             # set smarty debugging, when debug on
-        $this->renderer->debug_tpl           = ROOT_THEMES . 'core/templates/debug.tpl';   # set debugging template for smarty
+        #$this->renderer->debug_tpl           = ROOT_THEMES . 'core/templates/debug.tpl';   # set debugging template for smarty
+        $this->renderer->debug_tpl           = ROOT_LIBRARIES . 'smarty/debug.tpl';   # set debugging template for smarty
         if ( $this->renderer->debugging == true )
         {
             $this->renderer->clear_compiled_tpl(); # clear compiled tpls in case of debug
