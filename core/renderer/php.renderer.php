@@ -54,35 +54,40 @@ require dirname(__FILE__) . '/renderer.base.php';
 
 class Clansuite_Renderer_Php extends Clansuite_Renderer_Base
 {
-	private $template;
+    private $file;
+	#private $template;
 	private $data = array();
 
-	public function __construct($template)
+	public function __construct($file, $data)
 	{
-		$this->template = $template;
+		$this->file = $file;
+		$this->data = $data;
+		
+		return $this;
 	}
-
-	public function set($key, $value = NULL)
+	
+	public function fetch($filename = null, $directory = null)
 	{
-		if (!is_object($key))
-		{
-			$this->data[$key] = $value;
-		}
-		else
-		{
-		    $this->data[$key] = $value->fetch();
-		}
-	}
+	    if(is_null($filename))
+	    {
+	        $file = $directory . DS . $filename . '.tpl';
+	    }
+	    else
+	    {
+	        $file = $this->file;   
+	    }
 
-	public function fetch($filename, $directory)
-	{
-	    $file = $directory . '/' . $filename;
 	    if (is_file($file))
 	    {
-    		extract($this->data);
+	        /**
+	         * extract all templatevariables
+	         * and do not overwrite an existing variable, if there is a collision
+             * just prefix them with invalid_
+	         */
+    		extract($this->data, EXTR_REFS | EXTR_PREFIX_INVALID, 'invalid_');
 
     		ob_start();
-    		include($file);
+    		require $file;
     		$content = ob_get_contents();
     		ob_end_clean();
 
@@ -94,14 +99,52 @@ class Clansuite_Renderer_Php extends Clansuite_Renderer_Base
 		}
 	}
 
-    public function assign()
+    /**
+     * Assign specific variable to the template
+     *
+     * @param mixed $key Object with template vars (extraction method fetch), or array or key/value pair
+     * @param mixed $value Variable value
+     * @return Clansuite_Renderer_PHP
+     */
+    public function assign($key, $value=null)
     {
-
+		if ( is_object($key))
+		{
+		    $this->data[$key] = $value->fetch();
+		}
+        elseif (is_array($key))
+        {
+            array_merge($this->data, $key);
+        }
+        else
+        {
+            $this->data[$key] = $value;
+        }
+        
+        return $this;
     }
 
+    /**
+     * Display the rendered template
+     *
+     * @return string HTML Representation of Template with Vars
+     */
     public function render()
     {
+        return $this->fetch();
+    }
 
+    /**
+     * Render the content and return it
+     *
+     * @example
+     * echo new Clansuite_Renderer_PHP($file, array('title' => 'My title'));
+     *
+     * @return string  HTML Representation
+     */
+    public function __toString()
+    {
+        return $this->render();
     }
 }
 ?>

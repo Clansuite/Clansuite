@@ -122,7 +122,7 @@ class Clansuite_HttpRequest implements Clansuite_Request_Interface, ArrayAccess
         # 2) Filter Globals and Request
 
         // Reverse the effect of register_globals
-        if ((bool)ini_get('register_globals') && strtolower(ini_get('register_globals')) != 'off')
+        if ((bool)ini_get('register_globals') and strtolower(ini_get('register_globals')) != 'off')
         {
             $this->cleanGlobals();
         }
@@ -494,7 +494,7 @@ class Clansuite_HttpRequest implements Clansuite_Request_Interface, ArrayAccess
      */
     private static function getServerPort()
     {
-        if ( ! isset($_SERVER['HTTPS']) && $_SERVER['SERVER_PORT'] != 80 or isset($_SERVER['HTTPS']) && $_SERVER['SERVER_PORT'] != 443 )
+        if ( ! isset($_SERVER['HTTPS']) and $_SERVER['SERVER_PORT'] != 80 or isset($_SERVER['HTTPS']) and $_SERVER['SERVER_PORT'] != 443 )
         {
             return ":{$_SERVER['SERVER_PORT']}";
         }
@@ -540,9 +540,26 @@ class Clansuite_HttpRequest implements Clansuite_Request_Interface, ArrayAccess
      *
      * @return string The URI which was given in order to access this page; for instance, '/index.html'. 
      */
-    public function getRequestURI()
+    public static function getRequestURI()
     {
-        return $_SERVER['REQUEST_URI'];
+        if (isset($_SERVER['REQUEST_URI']))
+        {
+            return $_SERVER['REQUEST_URI'];
+        }
+
+        # MS-IIS and ISAPI Rewrite Filter
+        if ($_SERVER['HTTP_X_REWRITE_URL'])
+        {
+                return $_SERVER['HTTP_X_REWRITE_URL'];
+        }
+
+        $p = $_SERVER['SCRIPT_NAME'];
+        if ($_SERVER['QUERY_STRING'])
+        {
+                $p .= '?'.$_SERVER['QUERY_STRING'];
+        }
+        
+        return $p;
     }
 
     /**
@@ -582,7 +599,7 @@ class Clansuite_HttpRequest implements Clansuite_Request_Interface, ArrayAccess
      */
     public static function getRemoteAddress()
     {
-        if (array_key_exists('HTTP_CLIENT_IP', $_SERVER) && self::validateIP($_SERVER["HTTP_CLIENT_IP"]))
+        if (array_key_exists('HTTP_CLIENT_IP', $_SERVER) and self::validateIP($_SERVER["HTTP_CLIENT_IP"]))
         {
             return $_SERVER["HTTP_CLIENT_IP"];
         }
@@ -598,23 +615,22 @@ class Clansuite_HttpRequest implements Clansuite_Request_Interface, ArrayAccess
             }
         }
 
-        if (array_key_exists('HTTP_X_FORWARDED_FOR', $_SERVER) && self::validateIP($_SERVER["HTTP_X_FORWARDED_FOR"]))
-        {
-            return $_SERVER["HTTP_X_FORWARDED"];
-        }
-        elseif (array_key_exists('HTTP_FORWARDED_FOR', $_SERVER) && self::validateIP($_SERVER["HTTP_FORWARDED_FOR"]))
+        if (array_key_exists('HTTP_FORWARDED_FOR', $_SERVER) and self::validateIP($_SERVER["HTTP_FORWARDED_FOR"]))
         {
             return $_SERVER["HTTP_FORWARDED_FOR"];
         }
-        elseif (array_key_exists('HTTP_FORWARDED', $_SERVER) && self::validateIP($_SERVER["HTTP_FORWARDED"]))
+
+        if (array_key_exists('HTTP_FORWARDED', $_SERVER) and self::validateIP($_SERVER["HTTP_FORWARDED"]))
         {
             return $_SERVER["HTTP_FORWARDED"];
         }
-        elseif (array_key_exists('HTTP_X_FORWARDED', $_SERVER) && self::validateIP($_SERVER["HTTP_X_FORWARDED"]))
+
+        if (array_key_exists('HTTP_X_FORWARDED', $_SERVER) and self::validateIP($_SERVER["HTTP_X_FORWARDED"]))
         {
             return $_SERVER["HTTP_X_FORWARDED"];
         }
-        else {
+        else
+        {
             return $_SERVER["REMOTE_ADDR"];
         }
     }
@@ -650,7 +666,7 @@ class Clansuite_HttpRequest implements Clansuite_Request_Interface, ArrayAccess
      */
     public static function validateIP($ip)
     {
-        if (!empty($ip) && ip2long($ip)!=-1) {
+        if (!empty($ip) and ip2long($ip)!=-1) {
                 // reserved IANA IPv4 addresses
                 // http://www.iana.org/assignments/ipv4-address-space
                 $reserved_ips = array (
@@ -667,7 +683,7 @@ class Clansuite_HttpRequest implements Clansuite_Request_Interface, ArrayAccess
                 foreach ($reserved_ips as $r) {
                         $min = ip2long($r[0]);
                         $max = ip2long($r[1]);
-                        if ((ip2long($ip) >= $min) && (ip2long($ip) <= $max)) {
+                        if ((ip2long($ip) >= $min) and (ip2long($ip) <= $max)) {
                                 return false;
                         }
                 }
@@ -817,7 +833,7 @@ class Clansuite_HttpRequest implements Clansuite_Request_Interface, ArrayAccess
 
         # List of Variables which shouldn't be unset
         $list = array(
-                        'GLOBALS',
+                        #'GLOBALS',
                         '_POST',
                         '_GET',
                         '_COOKIE',
@@ -848,13 +864,13 @@ class Clansuite_HttpRequest implements Clansuite_Request_Interface, ArrayAccess
                     array_keys($_FILES),
                     // $_SESSION = null if you have not started the session yet.
                     // This insures that a check is performed regardless.
-                    isset($_SESSION) && is_array($_SESSION) ? array_keys($_SESSION) : array()
+                    isset($_SESSION) and is_array($_SESSION) ? array_keys($_SESSION) : array()
                 );
 
          // Unset the globals.
          foreach ($keys as $key)
          {
-            if (isset($GLOBALS[$key]) and !in_array($key, $list) )
+            if (isset($GLOBALS[$key]) and in_array($key, $list) == false )
             {
                 unset($GLOBALS[$key]);
             }
@@ -871,25 +887,25 @@ class Clansuite_HttpRequest implements Clansuite_Request_Interface, ArrayAccess
     private function sanitizeRequest()
     {
         # Filter for Request-Parameter: id
-        if(isset($_REQUEST['id']) && ctype_digit($_REQUEST['id']))
+        if(isset($_REQUEST['id']) and ctype_digit($_REQUEST['id']))
         {
             $this->parameters['id'] = (int) $_REQUEST['id'];
         }
 
         # Filter for Request-Parameter: items
-        if(isset($_REQUEST['items']) && ctype_digit($_REQUEST['items']))
+        if(isset($_REQUEST['items']) and ctype_digit($_REQUEST['items']))
         {
             $this->parameters['items'] = (int) $_REQUEST['items'];
         }
 
         # Filter for Request-Parameter: defaultCol (Smarty Paginate Get Variable)
-        if(isset($_REQUEST['defaultCol']) && ctype_digit($_REQUEST['defaultCol']))
+        if(isset($_REQUEST['defaultCol']) and ctype_digit($_REQUEST['defaultCol']))
         {
             $this->parameters['defaultCol'] = (int) $_REQUEST['defaultCol'];
         }
 
         # Filter for Request-Parameter: defaultSort (Smarty Paginate Get Variable)
-        if(isset($_REQUEST['defaultSort']) && ctype_alpha($_REQUEST['defaultSort']) && (($_REQUEST['defaultSort'] == 'desc') or ($_REQUEST['defaultSort'] == 'asc')) )
+        if(isset($_REQUEST['defaultSort']) and ctype_alpha($_REQUEST['defaultSort']) and (($_REQUEST['defaultSort'] == 'desc') or ($_REQUEST['defaultSort'] == 'asc')) )
         {
             $this->parameters['defaultSort'] = (int) $_REQUEST['defaultSort'];
         }
