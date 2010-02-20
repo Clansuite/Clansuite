@@ -63,7 +63,7 @@ class Clansuite_ModuleInfoController
 
     public function loadModuleInformations($modulename = null)
     {
-        #$this->setModuleInformations( $this->config->readConfigForModule($modulename) );
+        $this->setModuleInformations( $this->config->readConfigForModule($modulename) );
     }
 }
 ?>
