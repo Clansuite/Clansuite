@@ -736,6 +736,7 @@ class Clansuite_Form /*extends Clansuite_HTML*/ implements Clansuite_Form_Interf
 
     /**
      * Factory method. Instantiates and returns a new formelement object.
+     * For a list of all available formelements visit the "/formelements" directory.
      *
      * @return Clansuite_Formelement object
      */

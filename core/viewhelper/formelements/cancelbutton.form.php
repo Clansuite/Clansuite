@@ -47,10 +47,10 @@ if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.');}
 class Clansuite_Formelement_Cancelbutton extends Clansuite_Formelement_Input implements Clansuite_Formelement_Interface
 {
     /**
-    * Holds the url when canceling
-    *
-    * @var string
-    */
+     * Holds the url when canceling
+     *
+     * @var string
+     */
     public $cancelURL = 'index.php';
 
     /**
