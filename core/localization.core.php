@@ -50,7 +50,15 @@ class Clansuite_Localization
 {
     # Locale Variables
     public  $locale    = null;
+    
+    /**
+     * @var Set Locale Defaults: the textdomain. 'clansuite' => 'clansuite.mo' filename
+     */        
     private $domain    = null;
+    
+    /**
+     * @var Sets Encoding.
+     */
     private $encoding  = null;
 
     # References
@@ -62,8 +70,8 @@ class Clansuite_Localization
        $this->config = $config;
 
        # Set Locale Defaults
-       $this->domain = 'clansuite';    # sets the text domain as 'clansuite' => "clansuite.mo" filename
-       $this->encoding = $config['language']['outputcharset'];      # sets encoding
+       $this->domain = 'clansuite';
+       $this->encoding = $config['language']['outputcharset'];
 
        # Get Locale
        $locale = $this->getLocale();
@@ -89,7 +97,10 @@ class Clansuite_Localization
          * @link https://savannah.nongnu.org/projects/php-gettext PHP-GETTEXT Library
          * @link http://www.gnu.org/software/gettext/manual/gettext.html GNU Gettext
          */
-        if ( !function_exists('_get_reader') ) { require( ROOT_LIBRARIES.'/php-gettext/gettext.inc' ); }
+        if ( function_exists('_get_reader') == false )
+        {
+            require ROOT_LIBRARIES . '/php-gettext/gettext.inc' ;
+        }
 
         # Load Clansuite Domain
         $this->loadTextDomain('LC_ALL', $this->domain, $locale);
@@ -105,25 +116,22 @@ class Clansuite_Localization
     {
         # 1) if language_via_url was used, the filter set the URL value to the session
 
-        if(isset($_SESSION['user']['language_via_url']) AND ($_SESSION['user']['language_via_url'] == '1'))
+        if(isset($_SESSION['user']['language_via_url']) and ($_SESSION['user']['language_via_url'] == '1'))
         {
             # use language setting from session
             $this->locale = $_SESSION['user']['language'];
         }
-        else
+        else # 2) get language from the browser AND set it to session
         {
-            # 2) get language from the browser AND set it to session
-
             $this->locale = $this->getLanguage();
             $_SESSION['user']['language'] = $this->locale;
-
-            # 3) get the default language from config as fallback
-
-            if(empty($this->locale))
+        
+            if(empty($this->locale)) # 3) get the default language from config as fallback
             {
                 $this->locale = $this->config['language']['language'];
             }
         }
+        
         return $this->locale;
     }
 
@@ -141,14 +149,25 @@ class Clansuite_Localization
      *
      * @link http://www.php.net/function.bindtextdomain
      */
-    public function loadTextDomain($category, $domain, $locale, $moduleBaseDir = null)
+    public function loadTextDomain($category, $domain, $locale, $module = null)
     {
         # if, $locale string is not over 3 -> $locale = "en", build "en_EN"
-        if(!isset($locale{3})){ $locale = strtolower($locale).'_'.strtoupper($locale); }
+        if( isset($locale{3}) == false )
+        { 
+            $locale = strtolower($locale) . '_' . strtoupper($locale);
+        }
 
         # Environment Variable LANGUAGE has priority above any local setting
         putenv("LANGUAGE=$locale");
-        if (!defined('LC_MESSAGES')) { define('LC_MESSAGES', 5); }; # workaround for php on windows, to make LC_MESSAGES available
+        putenv('LANG='.$locale);
+        setlocale(LC_ALL, $locale);
+        
+        # workaround for php on windows, to set LC_MESSAGES 
+        if ( defined('LC_MESSAGES') == false)
+        {
+            define('LC_MESSAGES', 5);
+        } 
+        
         T_setlocale(LC_MESSAGES, $locale);
         #T_setlocale(LC_ALL, $language);                          # LC_ALL disabled, because possible damage of sql queries
         #T_setlocale(LC_TIME, $locale . '.UTF8', $locale);        # LC_TIME not figured out yet
@@ -156,17 +175,17 @@ class Clansuite_Localization
         # Set the domain_directory
         # a) general 'clansuite' domain directory
         # b) a specific module directory
-        if($moduleBaseDir == null)
+        if($module == null)
         {
-          $domain_directory = ROOT_LANGUAGES;                     # set ROOT_LANGUAGES
+            $domain_directory = ROOT_LANGUAGES;
         }
         else
         {
-          $domain_directory = ROOT_MOD . $moduleBaseDir .DS. 'languages' .DS; # set baseDir/languages
+            $domain_directory = ROOT_MOD . $module .DS. 'languages' .DS;
         }
 
         # Set the Domain
-        T_bindtextdomain($domain, $domain_directory);       # for domain 'clansuite' it's the ROOT_LANGUAGES directory
+        T_bindtextdomain($domain, $domain_directory);    # for domain 'clansuite' it's the ROOT_LANGUAGES directory
         T_bind_textdomain_codeset($domain, $this->encoding);
         T_textdomain($domain);
 
@@ -184,7 +203,7 @@ class Clansuite_Localization
      *                      Default Setting is 'en' for english.
      *  @return $language Returns a $language string, which is supported by browser and system.
      */
-    public function getLanguage( $supported=array( 'en', 'de' ) )
+    public function getLanguage( $supported = array( 'en', 'de' ) )
     {
         # start with the default language
         $language = $supported[0];
@@ -232,7 +251,7 @@ class Clansuite_Localization
     public function getBrowserLanguages()
     {
         # check if environment variable HTTP_ACCEPT_LANGUAGE exists
-        if(!isset($_SERVER['HTTP_ACCEPT_LANGUAGE']))
+        if( isset($_SERVER['HTTP_ACCEPT_LANGUAGE']) == false )
         {
             # if not return an empty language array
             return array();
@@ -243,6 +262,7 @@ class Clansuite_Localization
 
         # convert the headers string to an array
         $browserLanguagesSize = sizeof( $browserLanguages );
+        
         for ( $i = 0; $i < $browserLanguagesSize; $i++ )
         {
             # explode string at ;
