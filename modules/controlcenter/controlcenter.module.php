@@ -53,7 +53,7 @@ class Module_ControlCenter extends Clansuite_ModuleController implements Clansui
     {
         parent::initRecords('menu');
     }
-
+    
     /**
      * Show the welcome to adminmenu and shortcuts
      */
@@ -104,19 +104,16 @@ class Module_ControlCenter extends Clansuite_ModuleController implements Clansui
         {
             $stmt->execute( array( 'index.php?mod=controlcenter&sub='.$key, $key, $key.'.png' ) );
         }*/
-
-        ;
         $images = '';
         $view->assign( 'shortcuts', $images );
-
-        $view->assign( 'newsfeed', $this->assignFeedContent());
+        $view->assign( 'newsfeed', $this->assignFeedContent());        
+        $view->assign( 'security', $this->assignSecurityInfos());
         # @todo assign the lat change date of the file
         #$view->assign( 'newsfeed-updatetime', $this->assignFeedContent());
 
         # Prepare the Output
         $this->prepareOutput();
     }
-
 
     /**
      * action bug
@@ -156,6 +153,21 @@ class Module_ControlCenter extends Clansuite_ModuleController implements Clansui
 
         # Prepare the Output
         $this->prepareOutput();
+    }
+    
+    private function assignSecurityInfos()
+    {
+        $securityinfos = null;
+        $securityinfos .= '<b>Errorlog</b><br />';
+        
+        #$securityinfos .= print_r(error_get_last()).'<br/>';
+        
+        require ROOT_CORE . 'logger/file.logger.php';
+        $a = Clansuite_Logger_File::returnEntriesFromLogfile(3);
+        
+        $securityinfos .= $a;
+        
+        return $securityinfos;
     }
 
     private function assignFeedContent()
@@ -226,7 +238,7 @@ class Module_ControlCenter extends Clansuite_ModuleController implements Clansui
         $settings['controlcenter'][] = array(
 										'id' => 'show_box_shortcuts',
                                         'name' => 'show_box_shortcuts',
-                                        'description' => _('Show Shurtcuts'),
+                                        'description' => _('Show Shortcuts'),
                                         'formfieldtype' => 'selectyesno',
                                         'value' => $this->getConfigValue('show_box_shortcuts', '1'));
 
