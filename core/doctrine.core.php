@@ -1,7 +1,7 @@
 <?php
    /**
     * Clansuite - just an eSports CMS
-    * Jens-Andr� Koch � 2005 - onwards
+    * Jens-André Koch © 2005 - onwards
     * http://www.clansuite.com/
     *
     * This file is part of "Clansuite - just an eSports CMS".
@@ -24,12 +24,11 @@
     *
     * @license    GNU/GPL v2 or (at your option) any later version, see "/doc/LICENSE".
     *
-    * @author     Jens-Andr� Koch <vain@clansuite.com>
-    * @copyright  Jens-Andr� Koch (2005 - onwards)
+    * @author     Jens-André Koch <vain@clansuite.com>
+    * @copyright  Jens-André Koch (2005 - onwards)
     *
     * @link       http://www.clansuite.com
     * @link       http://gna.org/projects/clansuite
-    * @since      File available since Release 0.2
     *
     * @version    SVN: $Id$
     */
@@ -41,7 +40,7 @@ if (!defined('IN_CS')){die('Clansuite not loaded. Direct Access forbidden.');}
  * Clansuite Core Class for the Initialization of phpDoctrine
  *
  * The phpDoctrine library provides a database abstraction layer (DAL)
- * as well as object-relational mapping (ORM) with drivers for every PDO-supported database:
+ * as well as object-relational mapping (ORM) with drivers for every PDO supported database:
  *
  *    - FreeTDS / Microsoft SQL Server / Sybase
  *    - Firebird/Interbase 6
@@ -58,11 +57,30 @@ if (!defined('IN_CS')){die('Clansuite not loaded. Direct Access forbidden.');}
  */
 class Clansuite_Doctrine
 {
-    private $config;        # holds a config instance
-    protected $manager;     # holds instance of doctrine manager
-    protected $locator;     # holds instance of doctrine locator
-    protected $connection;  # holds instance of database connection
-    public $profiler;       # holds instance of doctrine connection profiler
+    /**
+     * @var Clansuite_Config instance.
+     */
+    private $config;
+
+    /**
+     * @var Doctrine_Manager instance.
+     */
+    protected $manager;
+
+    /**
+     * @var Doctrine_Locator instance
+     */
+    protected $locator;
+
+    /**
+     * @var Doctrine_Connection instance
+     */
+    protected $connection;
+
+    /**
+     * @var Doctrine_Profiler Holds an instance of the Doctrine Connection Profiler.
+     */
+    public $profiler;
 
     function __construct(Clansuite_Config $config)
     {
@@ -112,10 +130,6 @@ class Clansuite_Doctrine
                 throw new Clansuite_Exception('Doctrine could not be loaded. Check Libraries Folder.', 100);
             }
 
-            # Register the Doctrine autoloader
-            spl_autoload_register(array('Doctrine_Core', 'autoload'));
-            spl_autoload_register(array('Doctrine_Core', 'modelsAutoload'));
-
             /**
              * automatically compile doctrine to one file, but only compile with the mysql driver
              * so that the next time Doctrine.compiled.php is found
@@ -129,6 +143,13 @@ class Clansuite_Doctrine
             }
 
             unset($doctrine_compiled);
+        }
+
+        # Register the Doctrine autoloader, ensure it's not already registered
+        if( false == in_array(array('Doctrine_Core', 'autoload'), spl_autoload_functions()) )
+        {
+            spl_autoload_register(array('Doctrine_Core', 'autoload'));
+            spl_autoload_register(array('Doctrine_Core', 'modelsAutoload'));
         }
     }
 
@@ -161,10 +182,12 @@ class Clansuite_Doctrine
                        $this->config['database']['name']
         );
 
+
         /**
          * Setup phpDoctrine ConnectionObject for LATER Connection
          */
         $this->manager = Doctrine_Manager::getInstance();
+
         if (count($this->manager) === 0)
         {
             #$this->connection = $this->manager->openConnection(new PDO('sqlite::memory:'));
@@ -194,8 +217,8 @@ class Clansuite_Doctrine
         }
 
         # Get Doctrine Locator and set ClassPrefix
-        $this->locator = Doctrine_Locator::instance();
-        $this->locator->setClassPrefix('Clansuite_');
+        #$this->locator = Doctrine_Locator::instance();
+        #$this->locator->setClassPrefix('Clansuite_');
 
         /**
          * Set Cache Driver
@@ -452,11 +475,8 @@ class Clansuite_Doctrine
      */
     public function shutdown()
     {
-        if (defined('SHUTDOWN_FUNCTION_SUPPRESSION') and SHUTDOWN_FUNCTION_SUPPRESSION == false)
-        {
-            # append Doctrine's SQL-Profiling Report
-            $this->displayProfilingHTML();
-        }
+        # append Doctrine's SQL-Profiling Report
+        $this->displayProfilingHTML();
 
         # save session before exit
         session_write_close();
