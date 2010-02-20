@@ -298,23 +298,23 @@ class Clansuite_Datagrid extends Clansuite_Datagrid_Base
 
     /**
      * Array of datasets
-     * Usually this will be a doctrine-dataset
+     * Represents a doctrine dataset
      *
      * @var array
      */
     private $_datasets = array();
 
     /**
-     * Boolean datagrid values for configuration, wrapped into an array
+     * Feature configuration for the datagrid
      *
      * @var array
      */
     private $_features = array(
-        'BatchActions'  => true,
         'Caption'       => true,
-        'Description'   => true,
-        'Footer'        => true,
         'Header'        => true,
+        'Footer'        => true,
+        'BatchActions'  => true,
+        'Description'   => true,
         'Label'         => true,
         'Pagination'    => true,
         'Search'        => true,
@@ -413,7 +413,7 @@ class Clansuite_Datagrid extends Clansuite_Datagrid_Base
      */
     private function _setBaseURL($baseURL)
     {
-        $this->_baseURL = preg_replace('#&(?!amp;)#i', '&amp;', $baseURL);
+        #$this->_baseURL = preg_replace('#&(?!amp;)#i', '&amp;', $baseURL);
     }
 
     /**
@@ -616,8 +616,11 @@ class Clansuite_Datagrid extends Clansuite_Datagrid_Base
         # set queryname
         $this->_queryName = $options['NamedQuery'];
 
-        # set baseurl
-        $this->_setBaseURL($options['BaseURL']);
+        $baseurl = ( (isset($_SERVER['HTTPS']) && ( $_SERVER['HTTPS'] != 'off' ) ) ?'https://':'http://')
+                            .$_SERVER['HTTP_HOST'].'/';
+
+        # construct url by appending to the baseURL
+        $this->addToUrl($baseurl . $options['ModuleActionURL']);
 
         # generate default datasets that can be overwritten
         $this->_initDatagrid();
@@ -1587,12 +1590,11 @@ class Clansuite_Datagrid_Renderer
      */
     private function _renderTable($_innerTableData)
     {
-        $table_sprintf  = '<table class="DatagridTable DatagridTable-%s" cellspacing="0" cellpadding="0" border="0" id="%s"';
-        $table_sprintf .= ' name="%s">' . CR . '%s'  . CR . '</table>';
+        $table_sprintf  = '<table class="DatagridTable DatagridTable-%s" cellspacing="0" cellpadding="0" border="0" id="%s">';
+        $table_sprintf .= CR . '%s'  . CR . '</table>';
 
         $htmlString = sprintf($table_sprintf, $this->getDatagrid()->getAlias(),
                                                $this->getDatagrid()->getId(),
-                                               $this->getDatagrid()->getName(),
                                                $_innerTableData);
         return $htmlString;
     }
@@ -1928,8 +1930,6 @@ class Clansuite_Datagrid_Renderer
      */
     public function _renderTableSearch()
     {
-        $request = Clansuite_CMS::getInjector()->instantiate('Clansuite_HttpRequest');
-
         $htmlString = '';
         if( $this->getDatagrid()->isEnabled('Search') )
         {
@@ -1937,23 +1937,24 @@ class Clansuite_Datagrid_Renderer
             $htmlString .= _('Search: ');
             $htmlString .= '<input type="text" value="'.htmlentities($_SESSION['Datagrid_' . $this->getDatagrid()->getAlias()]['SearchValue']).'" name="'.$this->getDatagrid()->getInputParameterName('SearchValue').'" />';
             $htmlString .= ' <select name="'.$this->getDatagrid()->getInputParameterName('SearchKey').'">';
-            $aCols = $this->getDatagrid()->getColumns();
-            foreach( $aCols as $oCol )
+            $columnsArray = $this->getDatagrid()->getColumns();
+            foreach( $columnsArray as $columnObject )
             {
-                if( $oCol->isEnabled('Search') )
+                if( $columnObject->isEnabled('Search') )
                 {
                     $selected = '';
-                    if($_SESSION['Datagrid_' . $this->getDatagrid()->getAlias()]['SearchKey'] == $oCol->getAlias())
+                    if($_SESSION['Datagrid_' . $this->getDatagrid()->getAlias()]['SearchKey'] == $columnObject->getAlias())
                     {
                         $selected = ' selected="selected"';
                     }
-                    $htmlString .= '<option value="'.$oCol->getAlias().'"'.$selected.'>'.$oCol->getName().'</option>';
+                    $htmlString .= '<option value="'.$columnObject->getAlias().'"'.$selected.'>'.$columnObject->getName().'</option>';
                 }
             }
             $htmlString .= '</select>';
             $htmlString .= ' <input type="submit" value="'._('Search').'" />';
             $htmlString .= '</td></tr>';
         }
+        
         return $htmlString;
     }
 
