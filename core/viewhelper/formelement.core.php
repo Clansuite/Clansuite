@@ -1,7 +1,7 @@
 <?php
    /**
     * Clansuite - just an eSports CMS
-    * Jens-AndrÈ Koch © 2005 - onwards
+    * Jens-Andr√© Koch ¬© 2005 - onwards
     * http://www.clansuite.com/
     *
     * This file is part of "Clansuite - just an eSports CMS".
@@ -24,8 +24,8 @@
     *
     * @license    GNU/GPL v2 or (at your option) any later version, see "/doc/LICENSE".
     *
-    * @author     Jens-AndrÈ Koch   <vain@clansuite.com>
-    * @copyright  Copyleft: All rights reserved. Jens-AndrÈ Koch (2005-onwards)
+    * @author     Jens-Andr√© Koch   <vain@clansuite.com>
+    * @copyright  Copyleft: All rights reserved. Jens-Andr√© Koch (2005-onwards)
     *
     * @link       http://www.clansuite.com
     * @link       http://gna.org/projects/clansuite
@@ -40,8 +40,8 @@ if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.');}
 /**
  * Clansuite_Formelement
  *
- * @author     Jens-AndrÈ Koch   <vain@clansuite.com>
- * @copyright  Jens-AndrÈ Koch (2005-onwards)
+ * @author     Jens-Andr√© Koch   <vain@clansuite.com>
+ * @copyright  Jens-Andr√© Koch (2005-onwards)
  * @version    0.1
  *
  * @category    Clansuite
@@ -470,6 +470,10 @@ class Clansuite_Formelement /* extends Clansuite_HTML */ implements Clansuite_Fo
      */
     public function addDecorator($decorators)
     {
+        # init vars
+        $decoratorname = '';
+        $decorator = '';
+
         # check if multiple decorators are incomming at once
         if(is_array($decorators))
         {

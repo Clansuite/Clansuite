@@ -1,7 +1,7 @@
 <?php
    /**
     * Clansuite - just an eSports CMS
-    * Jens-André Koch © 2005 - onwards
+    * Jens-AndrÃ© Koch Â© 2005 - onwards
     * http://www.clansuite.com/
     *
     * This file is part of "Clansuite - just an eSports CMS".
@@ -24,8 +24,8 @@
     *
     * @license    GNU/GPL v2 or (at your option) any later version, see "/doc/LICENSE".
     *
-    * @author     Jens-André Koch   <vain@clansuite.com>
-    * @copyright  Copyleft: All rights reserved. Jens-André Koch (2005-onwards)
+    * @author     Jens-AndrÃ© Koch   <vain@clansuite.com>
+    * @copyright  Copyleft: All rights reserved. Jens-AndrÃ© Koch (2005-onwards)
     *
     * @link       http://www.clansuite.com
     * @link       http://gna.org/projects/clansuite
@@ -38,9 +38,6 @@
 if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.');}
 
 if (!class_exists('Clansuite_Formelement_Input',false)) { require dirname(__FILE__) . '/input.form.php'; }
-if (!class_exists('Clansuite_Formelement_Submitbutton',false)) { require dirname(__FILE__) . '/submitbutton.form.php'; }
-if (!class_exists('Clansuite_Formelement_Resetbutton',false)) { require dirname(__FILE__) . '/resetbutton.form.php'; }
-if (!class_exists('Clansuite_Formelement_Cancelbutton',false)) { require dirname(__FILE__) . '/cancelbutton.form.php'; }
 
 /**
  *  Clansuite_Formelement
@@ -50,130 +47,110 @@ if (!class_exists('Clansuite_Formelement_Cancelbutton',false)) { require dirname
 class Clansuite_Formelement_Buttonbar extends Clansuite_Formelement implements Clansuite_Formelement_Interface
 {
     /**
-    * Array of button objects
-    *
-    * @var array
-    */
-    private $_Buttons = array( "submitbutton"   => '',
-                               "resetbutton"    => '',
-                               "cancelbutton"   => '');
-
+     * Definition Array for the Buttonbar
+     * It defines the buttons to add as formelements to the buttonbar.
+     * The default buttons are submit, reset and cancel.
+     *
+     * @var array $_buttons buttonname => button object
+     */
+    private $_buttons = array( 'submitbutton' => '',
+                               'resetbutton'  => '',
+                               'cancelbutton' => '');
 
     /**
-    * Set all buttons
-    * Assoc array:
-    * "String" => Clansuite_Formelement_*
-    *
-    * @example:
-    *   $this->_Buttons['submitbutton'] = new Clansuite_Formelement_Submitbutton();
-    * @param array $_Buttons
-    */
-    private function _setButtons($_Buttons)
+     * Set all buttons
+     * Assoc array:
+     * "String" => object Clansuite_Formelement_*
+     *
+     * @example:
+     *   $this->_buttons['submitbutton'] = new Clansuite_Formelement_Submitbutton();
+     * @param array $_buttons
+     */
+    private function _setButtons($_buttons)
     {
-        $this->_Buttons = $_Buttons;
+        $this->_buttons[] = $_buttons;
+    }
+
+    public function addButton($buttonname)
+    {
+        # fetch the formelement (the button)
+        $formelement = Clansuite_Form::formelementFactory($_buttonname);
+
+        # attach button object to buttons array
+        $this->_buttons[$buttonname] = $formelement;
     }
 
     /**
-    * Add a button to the bar
-    *
-    * @param string $_ButtonName
-    * @param Clansuite_Formelement $_FormElement
-    * @return Clansuite_Formelement
-    */
-    public function addButton($_ButtonName, $_FormElement = null)
+     * Gets a button
+     *
+     * @param string $_buttonname
+     * @return Clansuite_Formelement_Buttonbar
+     */
+    public function getButton($_buttonname)
     {
-        if( $_FormElement === null )
+        #Clansuite_Xdebug::printR($this->_buttons);
+        if( isset($this->_buttons[$_buttonname]) and is_object($this->_buttons[$_buttonname]))
         {
-            if( class_exists('Clansuite_Formelement_' . $_ButtonName,false) )
-            {
-                $_ClassName = 'Clansuite_Formelement_' . $_ButtonName;
-                $Obj = $this->_Buttons[$_ButtonName] = new $_ClassName();
-            }
-            elseif( is_file( dirname(__FILE__).DS.$_ButtonName.'form.php' ))
-            {
-                require(dirname(__FILE__).DS.$_ButtonName.'form.php');
-
-                $_ClassName = 'Clansuite_Formelement_' . $_ButtonName;
-                $Obj = $this->_Buttons[$_ButtonName] = new $_ClassName();
-            }
+            return $this->_buttons[$_buttonname];
         }
         else
         {
-            if($_RelatedObject instanceof Clansuite_Formelement)
-            {
-                $Obj = $_FormElement;
-            }
-            else
-            {
-                throw new Clansuite_Exception(_('The button object you supplied seems not be an an instance of "Clansuite_Formelement": ') . $_ButtonName);
-            }
-        }
-
-        return $Obj;
-    }
-
-    /**
-    * Gets a button
-    *
-    * @param string $_ButtonName
-    * @return Clansuite_Formelement
-    */
-    public function getButton($_ButtonName)
-    {
-        if( isset($this->_Buttons[$_ButtonName]) )
-        {
-            return $this->_Buttons[$_ButtonName];
-        }
-        else
-        {
-            throw new Clansuite_Exception(_('This button does not exist in this buttonbar: ') . $_ButtonName);
+            throw new Clansuite_Exception(_('This button does not exist in this buttonbar: ') . $_buttonname);
         }
     }
 
     /**
-    * Remove a button from the stack
-    *
-    * @param string $_ButtonName
-    * @return Clansuite_Formelement_Buttonbar
-    */
-    public function removeButton($_ButtonName)
+     * Remove a button from the stack
+     *
+     * @param string $_buttonname
+     * @return Clansuite_Formelement_Buttonbar
+     */
+    public function removeButton($_buttonname)
     {
-        if( isset($this->_Buttons[$_ButtonName]) )
+        if( isset($this->_buttons[$_buttonname]) )
         {
-            unset($this->_Buttons[$_ButtonName]);
+            unset($this->_buttons[$_buttonname]);
         }
         return $this;
     }
 
     /**
-    * Adds the objects to the buttonnames fo the initial buttons array
-    *
-    * @return Clansuite_Formelement_Buttonbar
-    */
+     * Adds the objects to the buttonnames fo the initial buttons array
+     *
+     * @return Clansuite_Formelement_Buttonbar
+     */
     function __construct()
     {
-        foreach($this->_Buttons as $_ButtonName => $_FormElement)
-        {
-            $this->addButton($_ButtonName);
-        }
-        $this->setClass('Buttonbar');
+        # apply CSS class attribute
+        $this->setClass('buttonbar');
+        
         return $this;
     }
 
     /**
-    * Render all buttons and then itself
-    */
+     * Renders the buttonbar with all registered buttons
+     * 
+     * @return $htmlString HTML Representation of Clansuite_Formelement_Buttonbar
+     */
     public function render()
     {
         $htmlString = '<div class="'.$this->getClass().'">';
-        foreach($this->_Buttons as $_ButtonName => $_FormElement)
+        
+        foreach($this->_buttons as $_buttonname)
         {
-            $htmlString .= $_FormElement->render();
+            $formelement = Clansuite_Form::formelementFactory($_buttonname);
+            
+            $htmlString .= $formelement->render();
         }
+        
         $htmlString .= '</div>';
+        
         return $htmlString;
     }
 
+    /**
+     * @return HTML Representation of Clansuite_Formelement_Buttonbar
+     */
     public function __toString()
     {
         return $this->render();
