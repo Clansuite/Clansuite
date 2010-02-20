@@ -494,8 +494,8 @@ class Clansuite_HttpRequest implements Clansuite_Request_Interface, ArrayAccess
      */
     private static function getServerPort()
     {
-        if ( ! isset($_SERVER['HTTPS']) and $_SERVER['SERVER_PORT'] != 80 or isset($_SERVER['HTTPS']) and $_SERVER['SERVER_PORT'] != 443 )
-        {
+        if ( isset($_SERVER['HTTPS']) == false and $_SERVER['SERVER_PORT'] != 80 or isset($_SERVER['HTTPS']) and $_SERVER['SERVER_PORT'] != 443 )
+		{
             return ":{$_SERVER['SERVER_PORT']}";
         }
     }
