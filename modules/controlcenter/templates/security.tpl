@@ -1,15 +1,17 @@
+{* {$security|@var_dump} *}
+
 <!-- Clansuite Security Box -->
 <table cellspacing="0" cellpadding="0">
 <tbody>
     <tr style="height: 15px;">
-        <td style="min-width: 120px; background-color: #CC0F0F;" width="33%" valign="bottom">
+        <td style="min-width: 120px; color: black; background-color: #CC1717;" width="33%" valign="bottom">
             <b>&nbsp;&raquo; Clansuite Security</b>
         </td>
         <td nowrap="nowrap" style="background-image:url('{$www_root}/modules/controlcenter/images/red-triangle.gif'); background-repeat: no-repeat;">
         </td>
     </tr>
     <tr>
-        <td style="height: 3px;" bgcolor="#CC0F0F" colspan="2"/>
+        <td style="height: 3px;" bgcolor="#CC1717" colspan="2"/>
     </tr>
     <tr>
         <td bgcolor="#dde9cf" valign="top" colspan="2">

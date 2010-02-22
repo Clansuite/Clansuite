@@ -53,63 +53,19 @@ class Module_ControlCenter extends Clansuite_ModuleController implements Clansui
     {
         parent::initRecords('menu');
     }
-    
+
     /**
      * Show the welcome to adminmenu and shortcuts
      */
     public function action_show()
     {
-        #$user::hasAccess('admin','show');
-
         # Get Render Engine
         $view = $this->getView();
 
-        # Load DBAL
-        #parent::getInjector()->instantiate('clansuite_doctrine')->doctrine_initialize();
-
-        /*
-        $row    = 0;
-        $col    = 0;
-        $images = array();
-
-        $result = Doctrine_Query::create()
-                                 ->select('s.*')
-                                 ->from('CsAdminmenuShortcuts s')
-                                 ->setHydrationMode(Doctrine::HYDRATE_ARRAY)
-                                 #->setHydrationMode(Doctrine::HYDRATE_NONE)
-                                 ->orderby('s.cat DESC, s.order ASC, s.title ASC')
-                                 ->execute();
-        #var_dump($result);
-
-        if ( is_array ( $result ) )
-        {
-            foreach( $result as $data )
-            {
-                $col++;
-                $images[$row][$col] = $data;
-
-                if ( $col == 4 )
-                {
-                    $row = $row+1;
-                    $col = 0;
-                }
-            }
-        }
-
-        /* Insert Entry
-
-        $files = array( 'console', 'downloads', 'articles', 'links', 'calendar', 'time', 'email', 'shoutbox', 'help', 'security', 'gallery', 'system', 'replays', 'news', 'settings', 'users', 'backup', 'templates' );
-        $stmt = $db->prepare( "INSERT INTO cs_adminmenu_shortcuts ( href, title, file_name ) VALUES ( ?, ?, ? )" );
-        foreach( $files as $key )
-        {
-            $stmt->execute( array( 'index.php?mod=controlcenter&sub='.$key, $key, $key.'.png' ) );
-        }*/
         $images = '';
         $view->assign( 'shortcuts', $images );
-        $view->assign( 'newsfeed', $this->assignFeedContent());        
+        $view->assign( 'newsfeed', $this->assignFeedContent());
         $view->assign( 'security', $this->assignSecurityInfos());
-        # @todo assign the lat change date of the file
-        #$view->assign( 'newsfeed-updatetime', $this->assignFeedContent());
 
         # Prepare the Output
         $this->prepareOutput();
@@ -120,8 +76,6 @@ class Module_ControlCenter extends Clansuite_ModuleController implements Clansui
      */
     public function action_bugs()
     {
-        #$user::hasAccess('admin','bugs');
-
         # Set Pagetitle and Breadcrumbs
         Clansuite_Trail::addStep( _('Report Bugs &amp; Issues'), '/index.php??mod=controlcenter&amp;action=bugs');
 
@@ -134,8 +88,6 @@ class Module_ControlCenter extends Clansuite_ModuleController implements Clansui
      */
     public function action_about()
     {
-        #$user::hasAccess('admin','about');
-
         # Set Pagetitle and Breadcrumbs
         Clansuite_Trail::addStep( _('About Clansuite'), '/index.php?mod=controlcenter&amp;action=about');
 
@@ -154,19 +106,21 @@ class Module_ControlCenter extends Clansuite_ModuleController implements Clansui
         # Prepare the Output
         $this->prepareOutput();
     }
-    
+
     private function assignSecurityInfos()
     {
-        $securityinfos = null;
-        $securityinfos .= '<b>Errorlog</b><br />';
-        
-        #$securityinfos .= print_r(error_get_last()).'<br/>';
-        
         require ROOT_CORE . 'logger/file.logger.php';
-        $a = Clansuite_Logger_File::returnEntriesFromLogfile(3);
-        
-        $securityinfos .= $a;
-        
+        $errorlog_entries = null;
+        $errorlog_entries = Clansuite_Logger_File::returnEntriesFromLogfile(3);
+
+        $securityinfos = null;
+
+        if(strlen($errorlog_entries) > 0)
+        {
+            $securityinfos = '<b>Errorlog</b><br />';
+            $securityinfos .= $errorlog_entries;
+        }
+
         return $securityinfos;
     }
 
@@ -225,7 +179,6 @@ class Module_ControlCenter extends Clansuite_ModuleController implements Clansui
      */
     public function action_settings()
     {
-        $settings = array();
         # Set Pagetitle and Breadcrumbs
         Clansuite_Trail::addStep( _('Settings'), '/index.php?mod=controlcenter&amp;sub=admin&amp;action=settings');
 
