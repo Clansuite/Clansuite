@@ -330,6 +330,10 @@ class Clansuite_Doctrine
         # We won't use reserved words - therefore this attribute is disabled for now.
         $this->manager->setAttribute(Doctrine_Core::ATTR_QUOTE_IDENTIFIER, false);
 
+        # Set default primary key name for tables as 'id' being an integer with length of 4 bytes
+        $this->manager->setAttribute(Doctrine_Core::ATTR_DEFAULT_IDENTIFIER_OPTIONS,
+            array('name' => 'id', 'type' => 'integer', 'length' => 4));
+
         # Set Connection Listener for Profiling if we are in DEBUG MODE
         if(DEBUG == 1)
         {
@@ -415,9 +419,9 @@ class Clansuite_Doctrine
                 }
                 /*]]>*/
                 </style>';
-        
+
         echo '<p>&nbsp;</p><fieldset class="doctrine-profiler"><legend>Debug Console for Doctrine Queries</legend>';
-        echo '<table class="doctrine-profiler" width="95%">';        
+        echo '<table class="doctrine-profiler" width="95%">';
         echo '<tr>
                 <th>Query Counter</th>
                 <th>Command</th>
@@ -425,7 +429,7 @@ class Clansuite_Doctrine
                 <th>Query with placeholder (?) for parameters</th>
                 <th>Parameters</th>
               </tr>';
-              
+
         foreach ( $this->getProfiler() as $event )
         {
             /**
@@ -451,7 +455,7 @@ class Clansuite_Doctrine
                 echo '<td>' . sprintf ( "%f" , $event->getElapsedSecs() ) . '</td>';
                 echo '<td>' . $event->getQuery() . '</td>';
                 $params = $event->getParams();
-                if ( !empty($params))
+                if ( empty($params) == false)
                 {
                       echo '<td>';
                       echo wordwrap(join(', ', $params),150,"\n",true);
@@ -463,7 +467,7 @@ class Clansuite_Doctrine
                       echo '&nbsp;';
                       echo '</td>';
                 }
-            echo '</tr>';            
+            echo '</tr>';
         }
         echo '</table>';
         echo '<p style="font-weight: bold;">&nbsp; &raquo; &nbsp; '.$query_counter.' statements in ' . sprintf("%2.5f", $time) . ' secs.</p>';
