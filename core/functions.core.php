@@ -30,7 +30,7 @@
     * @link       http://www.clansuite.com
     * @link       http://gna.org/projects/clansuite
     *
-    * @version    SVN: $Id$response.class.php 2580 2008-11-20 20:38:03Z vain $
+    * @version    SVN: $Id$
     */
 
 // Security Handler
@@ -170,7 +170,7 @@ class Clansuite_Functions
         }
         return $array;
     }
-    
+
     /**
      * Converts an Array to an Object
      *
@@ -184,22 +184,22 @@ class Clansuite_Functions
     	{
     		return $array;
     	}
-       
+
     	$object = new stdClass();
-    	
+
     	if (is_array($array) and count($array) > 0)
     	{
             foreach ($array as $name=>$value)
             {
                 $name = strtolower(trim($name));
-                
+
                 if (empty($name) == false)
                 {
                     $object->$name = arrayToObject($value);
                 }
             }
-            
-            return $object; 
+
+            return $object;
     	}
         else
         {
@@ -326,7 +326,7 @@ class Clansuite_Functions
         }
         return false;
     }
-    
+
     /**
      * array_compare
      *
@@ -432,6 +432,64 @@ class Clansuite_Functions
     }
 
     /**
+     * Performs a dateToWord transformation via gettext.
+     * uses idate() to format a local time/date as integer and gettext functions _n(), _t()
+     * @see http://www.php.net/idate
+     *
+     * @access public
+     * @param string $from
+     * @param string $now
+     * @return string Word representation of
+     */
+    public static function dateToWord($from, $now = null)
+    {
+        if(is_null($now))
+        {
+            $now = time();
+        }
+
+        $between = $now - $from;
+
+        if ($between < 86400 and idate('d', $from) == idate('d', $now))
+        {
+
+            if ($between < 3600 and idate('H', $from) == idate('H', $now))
+            {
+
+                if ($between < 60 and idate('i', $from) == idate('i', $now))
+                {
+                    $second = idate('s', $now) - idate('s', $from);
+                    return sprintf(_n('%d', '%d', $second), $second);
+                }
+
+                $min = idate('i', $now) - idate('i', $from);
+                return sprintf(_n('%d', '%d', $min), $min);
+            }
+
+            $hour = idate('H', $now) - idate('H', $from);
+            return sprintf(_n('%d', '%d', $hour), $hour);
+        }
+
+        if ($between < 172800 and (idate('z', $from) + 1 == idate('z', $now) or idate('z', $from) > 2 + idate('z', $now)))
+        {
+            return _t('.. %s', date('H:i', $from));
+        }
+
+        if ($between < 604800 and idate('W', $from) == idate('W', $now))
+        {
+            $day = intval($between / (3600 * 24));
+            return sprintf(_n('...', '...', $day), $day);
+        }
+
+        if ($between < 31622400 and idate('Y', $from) == idate('Y', $now))
+        {
+            return date(_t('...'), $from);
+        }
+
+        return date(_t('...'), $from);
+    }
+
+    /**
      * Convert $size to readable format.
      * This determines prefixes for binary multiples according to IEC 60027-2,
      * Second edition, 2000-11, Letter symbols to be used in electrical technology - Part 2: Telecommunications and electronics.
@@ -465,15 +523,28 @@ class Clansuite_Functions
      */
     public static function vname(&$var, $scope=false, $prefix='unique', $suffix='value')
       {
-        if($scope) $vals = $scope;
-        else      $vals = $GLOBALS;
+        if($scope)
+        {
+            $vals = $scope;
+        }
+        #else
+        {
+            $vals = $GLOBALS;
+        }
+
         $old = $var;
         $var = $new = $prefix.rand().$suffix;
-        $vname = FALSE;
-        foreach($vals as $key => $val) {
-          if($val === $new) $vname = $key;
+        $vname = false;
+
+        foreach($vals as $key => $val)
+        {
+            if($val === $new)
+            {
+                $vname = $key;
+            }
         }
         $var = $old;
+
         return $vname;
       }
 
@@ -484,28 +555,29 @@ class Clansuite_Functions
      */
     public static function format_seconds_to_shortstring($seconds = 0)
     {
-      if(isset($seconds))
-      {
-        $time = sprintf("%dD %02d:%02d:%02dh", $seconds/60/60/24, ($seconds/60/60)%24, ($seconds/60)%60, $seconds%60);
-      }
-      else
-      {
-        return "00:00:00";
-      }
-      return $time;
+        if(isset($seconds))
+        {
+            $time = sprintf("%dD %02d:%02d:%02dh", $seconds/60/60/24, ($seconds/60/60)%24, ($seconds/60)%60, $seconds%60);
+        }
+        else
+        {
+            return "00:00:00";
+        }
+
+        return $time;
     }
 
     /**
-    * @desc Try a chmod
-    */
-
+     * Performs a chmod operation
+     */
     function chmod( $path = '', $chmod = '755', $recursive = 0 )
     {
-        if (!is_dir($path))
+        if (is_dir($path) == false)
         {
             $file_mode = '0'.$chmod;
             $file_mode = octdec($file_mode);
-            if( !chmod($path, $file_mode ) )
+
+            if( chmod($path, $file_mode ) == false )
             {
                 return false;
             }
@@ -514,7 +586,8 @@ class Clansuite_Functions
         {
             $dir_mode_r = '0'.$chmod;
             $dir_mode_r = octdec($dir_mode_r);
-            if (!chmod($path, $dir_mode_r))
+
+            if ( chmod($path, $dir_mode_r) == false)
             {
                 return false;
             }
@@ -531,14 +604,14 @@ class Clansuite_Functions
                         {
                             $mode = '0'.$chmod;
                             $mode = octdec($mode);
-                            if (!chmod($fullpath, $mode))
+                            if (chmod($fullpath, $mode) == false)
                             {
                                 return false;
                             }
                         }
                         else
                         {
-                            if ( !$this->chmod($fullpath, $chmod, 1) )
+                            if ( $this->chmod($fullpath, $chmod, 1) == false)
                             {
                                 return false;
                             }
@@ -552,8 +625,8 @@ class Clansuite_Functions
     }
 
     /**
-    * @desc Remove comments prefilter
-    */
+     * Remove comments prefilter
+     */
 
     function remove_tpl_comments( $tpl_source, &$tpl )
     {
@@ -561,8 +634,8 @@ class Clansuite_Functions
     }
 
     /**
-    * @desc Copy a directory recursively
-    */
+     * Copy a directory recursively
+     */
 
     function dir_copy( $source, $dest, $overwrite = true, $redirect_url )
     {
@@ -576,27 +649,34 @@ class Clansuite_Functions
                 {
                     $path = $source . $file;
 
-                    if(!is_file($dest . $file) || $overwrite)
+                    if(is_file($dest . $file) == false || $overwrite)
                     {
-                        $folder_path = array( strstr($dest.$file, '.') ? dirname($dest.$file) : $dest.$file );
+                        if(array( strstr($dest.$file, '.') == true)
+                        {
+                            $folder_path =dirname($dest.$file);
+                        }
+                        else
+                        {
+                            $folder_path = $dest.$file;
+                        }
 
                         while(is_dir(dirname(end($folder_path)))
-                               && dirname(end($folder_path)) != '/'
-                               && dirname(end($folder_path)) != '.'
-                               && dirname(end($folder_path)) != ''
-                               && !preg_match( '#^[A-Za-z]+\:\\\$#', dirname(end($folder_path)) ) )
+                              and dirname(end($folder_path)) != '/'
+                              and dirname(end($folder_path)) != '.'
+                              and dirname(end($folder_path)) != ''
+                              and !preg_match( '#^[A-Za-z]+\:\\\$#', dirname(end($folder_path)) ) )
                         {
                             array_push($folder_path, dirname(end($folder_path)));
                         }
 
                         while($parent_folder_path = array_pop($folder_path))
                         {
-                            if(!is_dir($parent_folder_path) && !@mkdir($parent_folder_path))
+                            if(is_dir($parent_folder_path) == false and @mkdir($parent_folder_path) == false)
                                 $this->redirect( $redirect_url, 'metatag|newsite', 3, $lang->t( 'Could not create the directory that should be copied (destination). Probably a permission problem.' ) );
                         }
 
                         $old = ini_set("error_reporting", 0);
-                        if(!copy($path, $dest . $file))
+                        if( copy($path, $dest . $file) == false )
                         {
                             $this->redirect( $redirect_url, 'metatag|newsite', 3, $lang->t( 'Could not copy the directory. Probably a permission problem.' ) );
                         }
@@ -604,9 +684,9 @@ class Clansuite_Functions
                     }
                     elseif (is_dir($path))
                     {
-                        if(!is_dir($dest . $file))
+                        if(is_dir($dest . $file) == false)
                         {
-                            if(!@mkdir($dest . $file));
+                            if(@mkdir($dest . $file) == false);
                         }
                         $this->dir_copy($path, $dest . $file, $overwrite);
                     }
@@ -672,19 +752,6 @@ class Clansuite_Functions
     }
 
     /**
-     * The Magic Call __call() is triggered when invoking inaccessible methods in an object context.
-     * Method overloading.
-     *
-     * @param $name string The $name argument is the name of the method being called.
-     * @param $arguments array The $arguments  argument is an enumerated array containing the parameters passed to the $name'ed method.
-     */
-    public function __call($name, $arguments)
-    {
-        // Note: value of $name is case sensitive.
-        # Clansuite_xdebug::printr("Debug Display: Calling object method '$name' ". implode(', ', $arguments). "\n");
-    }
-
-    /**
      * The Magic Call __callStatic() is triggered when invoking inaccessible methods in a static context.
      * Method overloading.
      * Available from PHP 5.3 onwards.
@@ -694,8 +761,65 @@ class Clansuite_Functions
      */
     public static function __callStatic($name, $arguments)
     {
-        // Note: value of $name is case sensitive.
-        # Clansuite_xdebug::printr("Debug Display: Calling static method '$name' ". implode(', ', $arguments). "\n");
+        # Because value of $name is case sensitive, its forced to be lowercase.
+        $method = strtolower($method);
+
+        # Debug message for Method Overloading
+        # Making it easier to see which static method is called magically
+        # Clansuite_XDebug::fbg('DEBUG (Overloading): Calling static method "'.$method.'" '. implode(', ', $arguments). "\n");
+
+        # construct the filename of the command
+        $command_filename = ROOT_CORE.DS.'functions'.DS.$method.'.function.php';
+
+        # check if name is valid
+        if(is_file($command_filename) and is_readable($command_filename))
+        {
+            # dynamically include the command
+            include_once $command_filename;
+            return call_user_func($method, $arguments);
+
+        }
+        else
+        {
+            trigger_error('Clansuite Function not found: "'.$command_filename.'".');
+        }
+    }
+
+    /**
+     * The Magic Call __call() is triggered when invoking inaccessible methods in an object context.
+     * Method overloading.
+     *
+     * This method takes care of loading the function command files.
+     *
+     * This means that a currently non-existing methods or properties of this class are dynamically "created".
+     * Overloading methods are always in the "public" scope.
+     *
+     * @param $name string The $name argument is the name of the method being called.
+     * @param $arguments array The $arguments  argument is an enumerated array containing the parameters passed to the $name'ed method.
+     */
+    public function __call($method, $arguments)
+    {
+        # Because value of $name is case sensitive, its forced to be lowercase.
+        $method = strtolower($method);
+
+        # Debug message for Method Overloading
+        # Making it easier to see which method is called magically
+        # Clansuite_XDebug::fbg('DEBUG (Overloading): Calling object method "'.$method.'" '. implode(', ', $arguments). "\n");
+
+        # construct the filename of the command
+        $command_filename = ROOT_CORE.DS.'functions'.DS.$method.'.function.php';
+
+        # check if name is valid
+        if(is_file($command_filename) and is_readable($command_filename))
+        {
+            # dynamically include the command
+            include_once $command_filename;
+            return call_user_func($method, $arguments);
+        }
+        else
+        {
+            trigger_error('Clansuite Function not found: "'.$command_filename.'".');
+        }
     }
 }
 ?>
