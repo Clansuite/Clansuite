@@ -1,6 +1,6 @@
 <!-- Start Template help_not_found.tpl -->
 
-
+{move_to target="pre_head_close"}
 <style type="text/css">
 /* this defines the look of the red error box, for example: when an template is missing */
 .error_help {
@@ -22,6 +22,7 @@
     padding:15px 20px 15px 50px;
 }
 </style>
+{/move_to}
 
 
 <div class="error_help">
