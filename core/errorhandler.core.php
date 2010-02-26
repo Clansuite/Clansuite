@@ -260,7 +260,7 @@ class Clansuite_Errorhandler
     private function smarty_error_display( $errornumber, $errorname, $errorstring, $errorfile, $errorline, $errorcontext )
     {
         # small errorreport
-        $errormessage  =  "<h3><font color=red>&raquo; Smarty Template Error &laquo;</font></h3>";
+        $errormessage  =  '<h3><font color="#ff0000">&raquo; Smarty Template Error &laquo;</font></h3>';
         $errormessage .=  "<u>$errorname:</u><br/>";
         $errormessage .=  '<b>'. wordwrap($errorstring,50,"\n") .'</b><br/>';
         $errormessage .=  "File: $errorfile <br/>Line: $errorline ";
