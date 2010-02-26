@@ -651,7 +651,7 @@ class Clansuite_Functions
 
                     if(is_file($dest . $file) == false || $overwrite)
                     {
-                        if(array( strstr($dest.$file, '.') == true)
+                        if(array( strstr($dest.$file, '.') == true))
                         {
                             $folder_path =dirname($dest.$file);
                         }
