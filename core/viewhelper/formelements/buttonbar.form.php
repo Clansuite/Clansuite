@@ -74,7 +74,7 @@ class Clansuite_Formelement_Buttonbar extends Clansuite_Formelement implements C
     public function addButton($buttonname)
     {
         # fetch the formelement (the button)
-        $formelement = Clansuite_Form::formelementFactory($_buttonname);
+        $formelement = Clansuite_Form::formelementFactory($buttonname);
 
         # attach button object to buttons array
         $this->_buttons[$buttonname] = $formelement;
@@ -86,16 +86,25 @@ class Clansuite_Formelement_Buttonbar extends Clansuite_Formelement implements C
      * @param string $_buttonname
      * @return Clansuite_Formelement_Buttonbar
      */
-    public function getButton($_buttonname)
+    public function getButton($buttonname)
     {
-        #Clansuite_Xdebug::printR($this->_buttons);
-        if( isset($this->_buttons[$_buttonname]) and is_object($this->_buttons[$_buttonname]))
+        try
         {
-            return $this->_buttons[$_buttonname];
+            #Clansuite_Xdebug::printR($this->_buttons);
+            if( isset($this->_buttons[$buttonname]) and is_object($this->_buttons[$buttonname]))
+            {
+                return $this->_buttons[$buttonname];
+            }
+            else
+            {
+               $this->addButton($buttonname);
+
+               return $this->_buttons[$buttonname];
+            }
         }
-        else
+        catch(Exception $e)
         {
-            throw new Clansuite_Exception(_('This button does not exist in this buttonbar: ') . $_buttonname);
+            throw new Clansuite_Exception(_('This button does not exist in this buttonbar: ') . $buttonname);
         }
     }
 
@@ -136,11 +145,19 @@ class Clansuite_Formelement_Buttonbar extends Clansuite_Formelement implements C
     {
         $htmlString = '<div class="'.$this->getClass().'">';
         
-        foreach($this->_buttons as $_buttonname)
+        foreach($this->_buttons as $buttonname => $buttonobject)
         {
-            $formelement = Clansuite_Form::formelementFactory($_buttonname);
+            Clansuite_Xdebug::firebug($buttonname);
             
-            $htmlString .= $formelement->render();
+            if(is_object($buttonobject))
+            {
+                $htmlString .= $buttonobject->render();   
+            }            
+            else
+            {
+                $formelement = Clansuite_Form::formelementFactory($buttonname);
+                $htmlString .= $formelement->render();
+            }            
         }
         
         $htmlString .= '</div>';
