@@ -16,7 +16,7 @@
             {t}Description{/t}
         </td>
         <td class="cell1" style="padding: 3px">
-            <input class="input_text" type="text" value="{if isset($config.meta.description)} {$config.meta.description} {else}description{/if}" name="config[meta][description]" />
+            <input class="input_text" type="text" value="{if isset($config.meta.description)}{strip}{$config.meta.description|strip}{strip}{else}description{/if}" name="config[meta][description]" />
         </td>
     </tr>
     <tr>
@@ -24,7 +24,7 @@
             {t}Language{/t}
         </td>
         <td class="cell1" style="padding: 3px">
-            <input class="input_text" type="text" value="{if isset($config.meta.language)} {$config.meta.language} {else}language of this website{/if}" name="config[meta][language]" />
+            <input class="input_text" type="text" value="{if isset($config.meta.language)}{strip}{$config.meta.language|strip}{strip}{else}language of this website{/if}" name="config[meta][language]" />
         </td>
     </tr>
     <tr>
@@ -32,7 +32,7 @@
             {t}Author{/t}
         </td>
         <td class="cell1" style="padding: 3px">
-            <input class="input_text" type="text" value="{if isset($config.meta.author)} {$config.meta.author} {else}name of author{/if}" name="config[meta][author]" />
+            <input class="input_text" type="text" value="{if isset($config.meta.author)}{strip}{$config.meta.author|strip}{strip}{else}name of author{/if}" name="config[meta][author]" />
         </td>
     </tr>
     <tr>
@@ -40,7 +40,7 @@
             {t}Mailer{/t}
         </td>
         <td class="cell1" style="padding: 3px">
-            <input class="input_text" type="text" value="{if isset($config.meta.email)} {$config.meta.email} {else}webmaster@domain.com{/if}" name="config[meta][email]" />
+            <input class="input_text" type="text" value="{if isset($config.meta.email)}{strip}{$config.meta.email|strip}{strip}{else}webmaster@domain.com{/if}" name="config[meta][email]" />
         </td>
     </tr>
     <tr>
@@ -49,7 +49,7 @@
         </td>
         <td class="cell1" style="padding: 3px">
             <small>{t}Provide some comma separated keywords which describe your website. This will help search engines:{/t}</small><br />
-            <input class="input_text" type="text" value="{if isset($config.meta.keywords)} {$config.meta.keywords} {else}Keyword, Keyword{/if}" name="config[meta][keywords]" />
+            <input class="input_text" type="text" value="{if isset($config.meta.keywords)}{strip}{$config.meta.keywords|strip}{/strip}{else}Keyword, Keyword{/if}" name="config[meta][keywords]" />
         </td>
     </tr>
 

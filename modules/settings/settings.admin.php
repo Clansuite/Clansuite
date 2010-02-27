@@ -56,9 +56,6 @@ class Module_Settings_Admin extends Clansuite_ModuleController implements Clansu
      */
     function action_admin_show()
     {
-        # Set Pagetitle and Breadcrumbs
-        #Clansuite_Trail::addStep( _('Show'), '/index.php?mod=settings&sub=admin');
-
         # Get Render Engine
         $view = $this->getView();
 

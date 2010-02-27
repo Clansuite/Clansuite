@@ -15,7 +15,7 @@ div#centered {
     border: 0;
     height: 50%;
     width: 50%;
-    position: absolute;
+    position: relative;
     left: 25%;
     top: 25%;
 }
@@ -31,14 +31,30 @@ div#centered {
             <legend>
             	<strong>Maintenance Mode</strong>
             </legend>
-            <strong>{$maintenance_reason}</strong>
+            {if isset($maintenance_reason)}
+            {$maintenance_reason}
+            {else}            
+            <b>The website is down!</b></a>
+            <br />SITE is currently undergoing scheduled maintenance.
+            <br />Sorry for the inconvenience. Please try back in 60 minutes.
+            {/if}
+            <br/><br/><br />
+            <object width="425" height="344">
+            <param name="movie" value="http://www.youtube.com/v/rVC7I5VcTiw&hl=de_DE&fs=1&"></param>
+            <param name="allowFullScreen" value="true"></param><param name="allowscriptaccess" value="always"></param>
+            <embed src="http://www.youtube.com/v/rVC7I5VcTiw&hl=de_DE&fs=1&" type="application/x-shockwave-flash" 
+                   allowscriptaccess="always" allowfullscreen="true" width="425" height="344">
+            </embed>
+            </object>
             </fieldset>
 
+{*
     <div id="centered">
 
-            {mod name="account" func="login"}
+            {load_module name="account" func="login"}
 
     </div>
+*}
 
 </div>
 </body>

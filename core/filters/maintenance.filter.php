@@ -65,9 +65,11 @@ public function __construct(Clansuite_Config $config)
          */
         if($this->config['maintenance']['maintenance'] == 1)
         {
-            # @todo a) create template?
             # @todo b) create override of maintenance mode, in case it's an admin user?
-            $response->setContent($this->config['maintenance']['maintenance_reason']);
+            $smarty =  Clansuite_Renderer_Factory::getRenderer('smarty', Clansuite_CMS::getInjector());
+            $html = $smarty->fetch( ROOT_THEMES . 'core/templates/maintenance.tpl', true);
+
+            $response->setContent($html);
             $response->flush();
             exit();
         }
