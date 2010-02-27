@@ -76,8 +76,8 @@
         </td>
         <td class="cell1" style="padding: 3px">
             <small>{t}Select the password encryption method: md5 or sha1.{/t}</small><br />
-            <select name="config[login][encryption]" class="input_text">                
-                <option value="sha1" {if $config.login.encryption == 'sha1' or empty($config.login.encryption)}selected="selected"{/if}>{t}SHA1 (more secure){/t}</option>
+            <select name="config[login][hash_algorithm]" class="input_text">                
+                <option value="sha1" {if $config.login.hash_algorithm == 'sha1' or empty($config.login.hash_algorithm)}selected="selected"{/if}>{t}SHA1 (more secure){/t}</option>
             </select>
         </td>
     </tr>   
