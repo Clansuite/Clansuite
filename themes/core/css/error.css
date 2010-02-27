@@ -23,7 +23,7 @@
     padding:2px 15px;
 }
 
-.error_red,.alert {
+.error_red {
     background:#af0000;
 }
 
@@ -36,21 +36,58 @@
 }
 
 .messagebox {
-    border:1px solid #333;
     padding:5px;
-    width:30%;
+    width:40%;
 }
 
-.error_help {
-    background:url(http://www.clansuite-dev.com/themes/core/images/icons/error.png) no-repeat 15px 12px #FDD;
-    border:1px solid #FBB;
-    color:#B00;
-    font-weight:700;
-    margin:.5em 15px 1em -20px;
+.alert {
+	background: #fff6bf url(http://www.clansuite-dev.com/themes/core/images/icons/error.png) center no-repeat;
+	background-position: 15px 50%; /* x-pos y-pos */
+	text-align: left;
+	padding: 5px 20px 5px 45px;
+	border-top: 2px solid #ffd324;
+	border-bottom: 2px solid #ffd324;
+}
+
+.info {
+    background: url(http://www.clansuite-dev.com/themes/core/images/icons/information.png) no-repeat scroll 15px 50% #F8FAFC;
+    border-bottom:2px solid #B5D4FE;
+    border-top:2px solid #B5D4FE;
+    padding:5px 20px 5px 45px;
+}
+
+.error {
+    background:#FFDDDD url(http://www.clansuite-dev.com/themes/core/images/icons/error.png) no-repeat scroll 15px 12px;
+    background-position: 15px 50%; /* x-pos y-pos */
+    border:1px solid #FFBBBB;
+    color:#BB0000;
+    margin:0.5em 15px 1em 0px;
     padding:15px 20px 15px 50px;
 }
 
-body {
+/* this defines the look of the red error box, for example: when an template is missing */
+.error_helpbox {
+    background:#FFDDDD url(http://www.clansuite-dev.com/themes/core/images/icons/error.png) no-repeat scroll 15px 12px;
+    background-position: 15px 50%; /* x-pos y-pos */
+    border:1px solid #FFBBBB;
+    color:#BB0000;
+    font-weight:bold;
+    margin:0.5em 15px 1em -20px;
+    padding:15px 20px 15px 50px;
+}
+
+/* this defines the look of box, providing the link to the editor, if an template is missing */
+.create_helpbox {
+    background:#DDFFDD url(http://www.clansuite-dev.com/themes/core/images/icons/page_edit.png) no-repeat scroll 15px 12px;
+    background-position: 15px 50%; /* x-pos y-pos */
+    border:1px solid #BBFFBB;
+    color:#00BB00;
+    font-weight:bold;
+    margin:0.5em 15px 1em -20px;
+    padding:15px 20px 15px 50px;
+}
+
+/*body {
     -moz-border-radius: 12px;
     border-radius: 12px
     background: #fff;
@@ -59,7 +96,7 @@ body {
     width: 1280px;
     margin: 2em auto 0 auto;
     padding: 1em 2em;
-}
+}*/
 
 A:link {text-decoration: none}
 A:visited {text-decoration: none}

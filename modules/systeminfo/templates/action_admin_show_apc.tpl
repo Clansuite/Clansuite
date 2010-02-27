@@ -9,7 +9,7 @@
 
 {if empty($apc_sysinfos.version)}
 
-    {messagebox type="alert"}
+    {messagebox level="info"}
         <strong>Alternative PHP Cache is  <u> not loaded. </u> !</strong>
         <br />
         Enable the PHP Extension 'extension=php_apc.dll' in php.ini.
