@@ -449,7 +449,7 @@ class Clansuite_Errorhandler
                 $backtrace_string .= '<tr><td><strong>Function: </strong></td><td>' . $debug_backtrace[$i]['function'] . '</td></tr>';
             }
 
-            if($debug_backtrace[$i]['args'])
+            if(isset($debug_backtrace[$i]['args']))
             {
                 $backtrace_string .= '<tr><td><strong>Arguments: </strong></td><td>';
 
