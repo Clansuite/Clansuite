@@ -215,11 +215,11 @@ abstract class Clansuite_Renderer_Base
         if($module == 'controlcenter' or $submodule == 'admin')
         {
             # (a) USER BACKENDTHEME - check in the active session backendtheme
-            if(is_file(ROOT_THEMES . $_SESSION['user']['backendtheme'] .DS. $template) && isset($_SESSION['user']['backendtheme']) > 0)
+            if(isset($_SESSION['user']['backendtheme']) and is_file(ROOT_THEMES . $_SESSION['user']['backendtheme'] .DS. $template))
             {
                 return ROOT_THEMES . $_SESSION['user']['backendtheme'] .DS. $template;
             }
-            elseif(is_file(ROOT_THEMES . $_SESSION['user']['backendtheme'] .DS. $module .DS. $template) && isset($_SESSION['user']['backendtheme']) > 0)
+            elseif(isset($_SESSION['user']['backendtheme']) and is_file(ROOT_THEMES . $_SESSION['user']['backendtheme'] .DS. $module .DS. $template))
             {
                 return ROOT_THEMES . $_SESSION['user']['backendtheme'] .DS. $module .DS. $template;
             }
@@ -232,7 +232,7 @@ abstract class Clansuite_Renderer_Base
         else # 2. it's a FRONTEND theme
         {
             # (a) USER FRONTENDTHEME - check, if template exists in current session user THEME
-            if(is_file( ROOT_THEMES . $_SESSION['user']['theme'] .DS. $template) && isset($_SESSION['user']['theme']) > 0)
+            if(isset($_SESSION['user']['theme']) and is_file( ROOT_THEMES . $_SESSION['user']['theme'] .DS. $template))
             {
                 return ROOT_THEMES . $_SESSION['user']['theme'] .DS. $template;
             }
