@@ -1,7 +1,8 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html>
 <head>
-<link rel="stylesheet" href="{$css}" type="text/css" />
-<link rel="stylesheet" href="{$www_root_themes_core}/css/error.css" type="text/css" />
+<link rel="stylesheet" href="/themes/core/css/error.css" type="text/css" />
 
 <style type="text/css">
 html, body {
@@ -11,7 +12,7 @@ html, body {
     text-align: center;
 }
 
-div#centered {
+.centered {
     border: 0;
     height: 50%;
     width: 50%;
@@ -25,36 +26,42 @@ div#centered {
 </head>
 <body>
 
-<div id="centered">
+<div class="centered">
 
-            <fieldset class="error_beige">
-            <legend>
-            	<strong>Maintenance Mode</strong>
-            </legend>
-            {if isset($maintenance_reason)}
-            {$maintenance_reason}
-            {else}            
-            <b>The website is down!</b></a>
-            <br />SITE is currently undergoing scheduled maintenance.
-            <br />Sorry for the inconvenience. Please try back in 60 minutes.
-            {/if}
-            <br/><br/><br />
-            <object width="425" height="344">
-            <param name="movie" value="http://www.youtube.com/v/rVC7I5VcTiw&hl=de_DE&fs=1&"></param>
-            <param name="allowFullScreen" value="true"></param><param name="allowscriptaccess" value="always"></param>
-            <embed src="http://www.youtube.com/v/rVC7I5VcTiw&hl=de_DE&fs=1&" type="application/x-shockwave-flash" 
-                   allowscriptaccess="always" allowfullscreen="true" width="425" height="344">
-            </embed>
-            </object>
-            </fieldset>
+    <fieldset class="error_beige">
+        <legend>
+            <strong>Maintenance Mode</strong>
+        </legend>
 
-{*
-    <div id="centered">
+        {if isset($maintenance_reason)}
+        {$maintenance_reason}
+        {else}
+        <b>The website is down!</b>
+        <br />SITE is currently undergoing scheduled maintenance.
+        <br />Sorry for the inconvenience. Please try back in 60 minutes.
+        {/if}
 
-            {load_module name="account" func="login"}
+        <br /><br />
 
-    </div>
-*}
+        <object width="425" height="344">
+        <param name="movie" value="http://www.youtube.com/v/rVC7I5VcTiw&hl=de_DE&fs=1&"></param>
+        <param name="allowFullScreen" value="true"></param><param name="allowscriptaccess" value="always"></param>
+        <embed src="http://www.youtube.com/v/rVC7I5VcTiw&hl=de_DE&fs=1&" type="application/x-shockwave-flash"
+               allowscriptaccess="always" allowfullscreen="true" width="425" height="344">
+        </embed>
+        </object>
+
+    </fieldset>
+
+    <hr style="clear:both;" />
+
+    {*
+        <div id="centered">
+
+                {load_module name="account" func="login"}
+
+        </div>
+    *}
 
 </div>
 </body>
