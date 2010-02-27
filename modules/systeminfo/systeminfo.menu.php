@@ -55,15 +55,7 @@ $modulenavigation = array(
 										    'url'     => 'index.php?mod=systeminfo&sub=admin&action=show_apc',
 										    'icon'    => '',
 										    'tooltip' => ''
-										),
-
-						    '3' => array(
-							                'action'  => 'settings',
-							                'name'    => 'Settings',
-										    'url'     => 'index.php?mod=systeminfo&sub=admin&action=settings',
-										    'icon'    => '',
-										    'tooltip' => ''
-										),
+										),						    
 						 );
 
 /**
