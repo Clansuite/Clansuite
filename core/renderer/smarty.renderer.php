@@ -216,6 +216,15 @@ class Clansuite_Renderer_Smarty extends Clansuite_Renderer_Base
          */
         $this->renderer->template_dir   = array();
 
+        if(empty($_SESSION['user']['theme']))
+        {
+            $frontendtheme = 'standard';
+        }
+        else
+        {
+            $frontendtheme = $_SESSION['user']['theme'];
+        }
+
         # in case the controlcenter is the requested module
         if(Clansuite_ModuleController_Resolver::getModuleName() == 'controlcenter' or Clansuite_ModuleController_Resolver::getSubModuleName() == 'admin')
         {
@@ -227,8 +236,8 @@ class Clansuite_Renderer_Smarty extends Clansuite_Renderer_Base
         else
         {
             # Frontend Theme Detections
-            $this->renderer->template_dir[] = ROOT_THEMES . $_SESSION['user']['theme'];
-            $this->renderer->template_dir[] = ROOT_THEMES . $_SESSION['user']['theme'] .DS. Clansuite_ModuleController_Resolver::getModuleName() .DS;
+            $this->renderer->template_dir[] = ROOT_THEMES . $frontendtheme;
+            $this->renderer->template_dir[] = ROOT_THEMES . $frontendtheme .DS. Clansuite_ModuleController_Resolver::getModuleName() .DS;
         }
 
         /**
