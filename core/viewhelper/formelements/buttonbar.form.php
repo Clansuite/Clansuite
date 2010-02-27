@@ -132,36 +132,36 @@ class Clansuite_Formelement_Buttonbar extends Clansuite_Formelement implements C
     {
         # apply CSS class attribute
         $this->setClass('buttonbar');
-        
+
         return $this;
     }
 
     /**
      * Renders the buttonbar with all registered buttons
-     * 
+     *
      * @return $htmlString HTML Representation of Clansuite_Formelement_Buttonbar
      */
     public function render()
     {
         $htmlString = '<div class="'.$this->getClass().'">';
-        
+
         foreach($this->_buttons as $buttonname => $buttonobject)
         {
             Clansuite_Xdebug::firebug($buttonname);
-            
+
             if(is_object($buttonobject))
             {
-                $htmlString .= $buttonobject->render();   
-            }            
+                $htmlString .= $buttonobject->render();
+            }
             else
             {
                 $formelement = Clansuite_Form::formelementFactory($buttonname);
                 $htmlString .= $formelement->render();
-            }            
+            }
         }
-        
+
         $htmlString .= '</div>';
-        
+
         return $htmlString;
     }
 
