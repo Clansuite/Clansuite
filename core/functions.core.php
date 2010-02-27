@@ -671,7 +671,7 @@ class Clansuite_Functions
 
                         while($parent_folder_path = array_pop($folder_path))
                         {
-                            if(is_dir($parent_folder_path) == false and @mkdir($parent_folder_path) == false)
+                            if(is_dir($parent_folder_path) == false and @mkdir($parent_folder_path, fileperms($parent_folder_path)) == false)
                                 $this->redirect( $redirect_url, 'metatag|newsite', 3, $lang->t( 'Could not create the directory that should be copied (destination). Probably a permission problem.' ) );
                         }
 
@@ -686,7 +686,7 @@ class Clansuite_Functions
                     {
                         if(is_dir($dest . $file) == false)
                         {
-                            if(@mkdir($dest . $file) == false);
+                            if(@mkdir($dest . $file, fileperms($path)) == false);
                         }
                         $this->dir_copy($path, $dest . $file, $overwrite);
                     }
