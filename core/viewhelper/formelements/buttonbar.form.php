@@ -90,7 +90,6 @@ class Clansuite_Formelement_Buttonbar extends Clansuite_Formelement implements C
     {
         try
         {
-            #Clansuite_Xdebug::printR($this->_buttons);
             if( isset($this->_buttons[$buttonname]) and is_object($this->_buttons[$buttonname]))
             {
                 return $this->_buttons[$buttonname];
@@ -147,8 +146,6 @@ class Clansuite_Formelement_Buttonbar extends Clansuite_Formelement implements C
 
         foreach($this->_buttons as $buttonname => $buttonobject)
         {
-            Clansuite_Xdebug::firebug($buttonname);
-
             if(is_object($buttonobject))
             {
                 $htmlString .= $buttonobject->render();
