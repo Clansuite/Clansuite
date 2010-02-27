@@ -1,7 +1,7 @@
 <?php
    /**
     * Clansuite - just an eSports CMS
-    * Jens-André Koch © 2005 - onwards
+    * Jens-Andrï¿½ Koch ï¿½ 2005 - onwards
     * http://www.clansuite.com/
     *
     * LICENSE:
@@ -22,8 +22,8 @@
     *
     * @license    GNU/GPL v2 or (at your option) any later version, see "/doc/LICENSE".
     *
-    * @author     Jens-André Koch <vain@clansuite.com>
-    * @copyright  Copyleft: All rights reserved. Jens-André Koch (2005-onwards)
+    * @author     Jens-Andrï¿½ Koch <vain@clansuite.com>
+    * @copyright  Copyleft: All rights reserved. Jens-Andrï¿½ Koch (2005-onwards)
     *
     * @link       http://www.clansuite.com
     * @link       http://gna.org/projects/clansuite
@@ -41,9 +41,9 @@ if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
  * Module:      News
  * Submodule:   Admin
  *
- * @author     Jens-André Koch   <vain@clansuite.com>
+ * @author     Jens-Andrï¿½ Koch   <vain@clansuite.com>
  * @author     Florian Wolf      <xsign.dll@clansuite.com>
- * @copyright  Jens-André Koch (2005 - onwards), Florian Wolf (2005 - 2008)
+ * @copyright  Jens-Andrï¿½ Koch (2005 - onwards), Florian Wolf (2005 - 2008)
  * @since      Class available since Release 1.0alpha
  *
  * @category    Clansuite
@@ -151,6 +151,7 @@ class Module_News_Admin extends Clansuite_ModuleController implements Clansuite_
                                 'Name'      => _('Action'),
                                 'Type'      => 'Editbutton' );*/
 
+        $BatchActions = array();
         $BatchActions[] = array(    'Alias'     => 'create',
                                     'Name'      => _('Create a news'),
                                     'Action'    => 'create' );
@@ -161,34 +162,34 @@ class Module_News_Admin extends Clansuite_ModuleController implements Clansuite_
 
 
         # Instantiate the datagrid
-        $oDatagrid = new Clansuite_Datagrid( array(
-                'Datatable'     => Doctrine::getTable('CsNews'),
-                'NamedQuery'    => 'fetchAllNews',
-                'ColumnSets'    => $ColumnSets,
-                'BaseURL'       => 'index.php?mod=news&sub=admin'
+        $datagrid = new Clansuite_Datagrid( array(
+                'Datatable'         => Doctrine::getTable('CsNews'),
+                'NamedQuery'        => 'fetchAllNews',
+                'ColumnSets'        => $ColumnSets,
+                'ModuleActionURL'   => '?mod=news&sub=admin'
         ) );
 
-        $oDatagrid->setBatchActions( $BatchActions );
+        $datagrid->setBatchActions( $BatchActions );
 
-        $oDatagrid->disableFeature('Label');
-        $oDatagrid->disableFeature('Caption');
-        $oDatagrid->disableFeature('Description');
-        $oDatagrid->getCol('Select')->disableFeature('Search');
+        $datagrid->disableFeature('Label');
+        $datagrid->disableFeature('Caption');
+        $datagrid->disableFeature('Description');
+        $datagrid->getColumn('Select')->disableFeature('Search');
 
-        $oDatagrid->getCol('Title')->getRenderer()->linkFormat  = '&action=edit&id=%{id}';
-        $oDatagrid->getCol('Title')->getRenderer()->linkTitle   = _('Edit this news');
-        $oDatagrid->getCol('Title')->getRenderer()->nameFormat  = '%{name} - %{comments} Comment(s)';
+        $datagrid->getColumn('Title')->getRenderer()->linkFormat  = '&action=edit&id=%{id}';
+        $datagrid->getColumn('Title')->getRenderer()->linkTitle   = _('Edit this news');
+        $datagrid->getColumn('Title')->getRenderer()->nameFormat  = '%{name} - %{comments} Comment(s)';
 
-        $oDatagrid->getCol('Preview')->disableFeature('Sorting');
-        $oDatagrid->getCol('Preview')->getRenderer()->stringFormat = '<div title="%{body}">%{preview}</div>';
+        $datagrid->getColumn('Preview')->disableFeature('Sorting');
+        $datagrid->getColumn('Preview')->getRenderer()->stringFormat = '<div title="%{body}">%{preview}</div>';
 
-        $oDatagrid->setResultSetHook($this, 'manipulateValues');
+        $datagrid->setResultSetHook($this, 'manipulateValues');
 
-        $oDatagrid->setResultsPerPage($this->getConfigValue('resultsPerPage_adminshow', '5'));
-        $oDatagrid->getRenderer()->setResultsPerPageItems($this->_AdminItems);
+        $datagrid->setResultsPerPage($this->getConfigValue('resultsPerPage_adminshow', '5'));
+        $datagrid->getRenderer()->setResultsPerPageItems($this->_AdminItems);
 
         # Assing datagrid
-        $smarty->assign('datagrid', $oDatagrid->render());
+        $smarty->assign('datagrid', $datagrid->render());
 
         # Set Layout Template
         $this->getView()->setLayoutTemplate('index.tpl');
