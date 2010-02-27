@@ -84,7 +84,14 @@ class Clansuite_Datagrid_Base
      * @var Doctrine_Datatable
      */
     private $_doctrineTable;
-  
+
+    /**
+     * Base URL for the Datatable
+     *
+     * @var string
+     */
+    private static $_baseURL = null;
+
     /**
      *  Setter Methods for a Datagrid
      */
@@ -92,6 +99,23 @@ class Clansuite_Datagrid_Base
     public function setAlias($alias)
     {
         $this->_alias = $alias;
+    }
+
+    /**
+     * Sets the BaseURL
+     *
+     * @param string $baseURL The baseURL for the datatable
+     */
+    public function setBaseURL($baseURL)
+    {
+        if(is_null(self::$_baseURL))
+        {
+            self::$_baseURL = Clansuite_HttpRequest::getRequestURI();
+        }
+        else
+        {
+            self::$_baseURL = $baseURL;
+        }
     }
 
     public function setName($name)
@@ -142,17 +166,17 @@ class Clansuite_Datagrid_Base
     /**
      * Getter Methods for Datagrid
      */
-    
+
     public function getAlias()
     {
         return $this->_alias;
     }
 
-    public function getBaseURL()
+    public static function getBaseURL()
     {
-        return Clansuite_Router::getBaseURL();
+       return self::$_baseURL;
     }
-    
+
     public function getName()
     {
         return $this->_name;
@@ -200,15 +224,25 @@ class Clansuite_Datagrid_Base
 
     /**
      * Add an url-string to the baseurl
-     * Convenience Method for Clansuite_Router::addToURL
      *
      * @param string $appendString String to append to the URL.
      * @example
-     *   $sUrl = $this->addToUrl('dg_Sort=0:ASC');
+     *   $sUrl = $this->addQueryToUrl('dg_Sort=0:ASC');
      */
-    public static function addToUrl($appendString)
+    public static function addQueryToUrl($appendString)
     {
-        return Clansuite_Router::addToURL($appendString);
+        $separator = '?';
+        if( preg_match('#\?#', self::getBaseURL()) )
+        {
+            $separator = '&amp;';
+        }
+
+        $cleanAppendString = preg_replace('#^&amp;#', '', $appendString);
+        $cleanAppendString = preg_replace('#^&#', '', $cleanAppendString);
+        $cleanAppendString = preg_replace('#^\?#', '', $cleanAppendString);
+        $cleanAppendString = preg_replace('#&(?!amp;)#i', '&amp;', $cleanAppendString);
+
+        return self::getBaseURL() . $separator . $cleanAppendString;
     }
 }
 
@@ -302,7 +336,7 @@ class Clansuite_Datagrid extends Clansuite_Datagrid_Base
      *
      * @var array
      */
-    private $_datasets = array();
+    private $datasets = array();
 
     /**
      * Feature configuration for the datagrid
@@ -333,7 +367,7 @@ class Clansuite_Datagrid extends Clansuite_Datagrid_Base
                                     'ResultsPerPage'    => 'rpp',
                                     'SearchValue'       => 'searchvalue',
                                     'SearchKey'         => 'searchkey',
-                                    'Reset'             => 'reset' );    
+                                    'Reset'             => 'reset' );
 
     /**
      * Doctrine Pager Layout object
@@ -496,7 +530,7 @@ class Clansuite_Datagrid extends Clansuite_Datagrid_Base
     public function setQueryName($queryName)
     {
         $this->_queryName = $queryName;
-        
+
         # generate a doctrine query
         $this->_generateQuery();
     }
@@ -616,11 +650,8 @@ class Clansuite_Datagrid extends Clansuite_Datagrid_Base
         # set queryname
         $this->_queryName = $options['NamedQuery'];
 
-        $baseurl = ( (isset($_SERVER['HTTPS']) && ( $_SERVER['HTTPS'] != 'off' ) ) ?'https://':'http://')
-                            .$_SERVER['HTTP_HOST'].'/';
-
         # construct url by appending to the baseURL
-        $this->addToUrl($baseurl . $options['ModuleActionURL']);
+        $this->setBaseUrl($options['ModuleActionURL']);
 
         # generate default datasets that can be overwritten
         $this->_initDatagrid();
@@ -634,7 +665,7 @@ class Clansuite_Datagrid extends Clansuite_Datagrid_Base
         # set scalar values
         $this->setAlias($this->getDoctrineTable()->getClassnameToReturn());
 
-        # reset session? 
+        # reset session?
         if( isset($_REQUEST[$this->getInputParameterName('Reset')]) )
         {
                $_SESSION['Datagrid_' . $this->getAlias()] = '';
@@ -664,7 +695,7 @@ class Clansuite_Datagrid extends Clansuite_Datagrid_Base
         $this->_generateQuery();
 
         # execute the doctrine-query
-        $this->_datasets = $this->getPagerLayout()->getPager()->execute();
+        $this->datasets = $this->getPagerLayout()->getPager()->execute();
 
         # Debug
         #Clansuite_Xdebug::firebug($this->_Datasets);
@@ -673,7 +704,7 @@ class Clansuite_Datagrid extends Clansuite_Datagrid_Base
         $this->getRenderer()->setCurrentPage($this->getPagerLayout()->getPager()->getPage());
 
         # generate the data-rows
-        $this->_generateRows($this->_datasets);
+        $this->_generateRows($this->datasets);
     }
 
     /**
@@ -745,7 +776,7 @@ class Clansuite_Datagrid extends Clansuite_Datagrid_Base
     public function render()
     {
         return $this->getRenderer()->render();
-    }   
+    }
 
     /**
      * Ensures a Column key exists or is not empty
@@ -812,7 +843,7 @@ class Clansuite_Datagrid extends Clansuite_Datagrid_Base
     public function setColumnSets($_ColumnSets = array())
     {
         $this->_setColumnSets($_ColumnSets);
-        
+
         # generate a doctrine query
         $this->_generateQuery();
     }
@@ -922,6 +953,8 @@ class Clansuite_Datagrid extends Clansuite_Datagrid_Base
      */
     private function _getCellValues(&$_ColumnSet, &$_Dataset)
     {
+        $aResultSet = null;
+
         if( !is_array($_ColumnSet) )
         {
             throw new Clansuite_Exception(_('You have not supplied any columnset to validate.'));
@@ -963,7 +996,7 @@ class Clansuite_Datagrid extends Clansuite_Datagrid_Base
             $values[$ResultKey] = $_TmpArrayHandler;
             $i++;
         }
-        
+
         return $values;
     }
 
@@ -1068,53 +1101,56 @@ class Clansuite_Datagrid extends Clansuite_Datagrid_Base
      */
     private function _generatePagerLayout()
     {
+        $page = null;
+        $resultsPerPage = null;
+
         # Read session
         if( isset($_SESSION['Datagrid_' . $this->getAlias()]['Page']) )
         {
-            $_Page = $_SESSION['Datagrid_' . $this->getAlias()]['Page'];
+            $page = $_SESSION['Datagrid_' . $this->getAlias()]['Page'];
         }
         else
         {
-            $_Page = 1;
+            $page = 1;
         }
 
         if( isset($_SESSION['Datagrid_' . $this->getAlias()]['ResultsPerPage']) )
         {
-            $_ResultsPerPage = $_SESSION['Datagrid_' . $this->getAlias()]['ResultsPerPage'];
+            $resultsPerPage = $_SESSION['Datagrid_' . $this->getAlias()]['ResultsPerPage'];
         }
         else
         {
-            $_ResultsPerPage = $this->getResultsPerPage();
+            $resultsPerPage = $this->getResultsPerPage();
         }
 
         # Add to session
         if( isset($_REQUEST[$this->_inputMapping['Page']]) )
         {
-            $_Page = (int) $_REQUEST[$this->_inputMapping['Page']];
-            $_SESSION['Datagrid_' . $this->getAlias()]['Page'] = $_Page;
+            $page = (int) $_REQUEST[$this->_inputMapping['Page']];
+            $_SESSION['Datagrid_' . $this->getAlias()]['Page'] = $page;
         }
 
         if( isset($_REQUEST[$this->_inputMapping['ResultsPerPage']]) )
         {
             #Clansuite_Xdebug::firebug('ResultsPerPage:' . $_ResultsPerPage);
-            $_ResultsPerPage = (int) $_REQUEST[$this->_inputMapping['ResultsPerPage']];
-            $_SESSION['Datagrid_' . $this->getAlias()]['ResultsPerPage'] = $_ResultsPerPage;
+            $resultsPerPage = (int) $_REQUEST[$this->_inputMapping['ResultsPerPage']];
+            $_SESSION['Datagrid_' . $this->getAlias()]['ResultsPerPage'] = $resultsPerPage;
         }
 
         # Add to renderer
-        $this->getRenderer()->setCurrentPage($_Page);
-        $this->getRenderer()->setCurrentResultsPerPage($_ResultsPerPage);
+        $this->getRenderer()->setCurrentPage($page);
+        $this->getRenderer()->setCurrentResultsPerPage($resultsPerPage);
 
         $this->setPagerLayout( new Doctrine_Pager_Layout(
                                     new Doctrine_Pager(
                                         $this->_query,
-                                        $_Page,
-                                        $_ResultsPerPage
+                                        $page,
+                                        $resultsPerPage
                                     ),
                                     new Doctrine_Pager_Range_Sliding(array(
                                         'chunk' => 5
                                     )),
-                                    $this->addToUrl('?' . $this->_inputMapping['Page'] . '={%page}')
+                                    $this->addQueryToUrl('?' . $this->_inputMapping['Page'] . '={%page}')
                               ) );
 
         # Set the layout of the pager links
@@ -1666,8 +1702,7 @@ class Clansuite_Datagrid_Renderer
                                $this->getDatagrid()->getInputParameterName('SortValue'), $_SortValue
                              );
 
-        return $this->getDatagrid()->addToUrl($url_string);
-
+        return $this->getDatagrid()->addQueryToUrl($url_string);
     }
 
     /**
@@ -1782,11 +1817,11 @@ class Clansuite_Datagrid_Renderer
         {
             $config = Clansuite_CMS::getInjector()->instantiate('Clansuite_Config')->toArray();
 
-            $htmlString .= '<tr>';            
+            $htmlString .= '<tr>';
             $htmlString .= '<td><input type="checkbox" class="DatagridSelectAll" /></td>';
-            
+
             $htmlString .= '<td colspan=' . ($this->getDatagrid()->getColumnCount()-1) . '>';
-            $htmlString .= '<select name="action" id="BatchActionId">';            
+            $htmlString .= '<select name="action" id="BatchActionId">';
             $htmlString .= '<option value="'.$config['defaults']['action'].'">' . _('(Please select)') . '</option>';
             foreach( $_BatchActions as $BatchActionSet )
             {
@@ -1896,7 +1931,7 @@ class Clansuite_Datagrid_Renderer
             $htmlString .= _($columnObject->getSortMode());
             $htmlString .= '</a>';
         }
-        
+
         $htmlString .= '</th>';
 
         return $htmlString;
@@ -1954,7 +1989,7 @@ class Clansuite_Datagrid_Renderer
             $htmlString .= ' <input type="submit" value="'._('Search').'" />';
             $htmlString .= '</td></tr>';
         }
-        
+
         return $htmlString;
     }
 

@@ -68,9 +68,6 @@ implements Clansuite_Datagrid_Column_Renderer_Interface
         # assign values to internal var
         $values = $oCell->getValues();
 
-        # get the datagrid
-        #$datagrid = $oCell->getColumn()->getDoctrineTable();
-
         # set internal link
         $this->link = parent::getColumn()->getBaseURL();
 
@@ -91,7 +88,7 @@ implements Clansuite_Datagrid_Column_Renderer_Interface
         return $this->_replacePlaceholders( $values,
                                             Clansuite_HTML::renderElement(  'a',
                                                                             $this->nameFormat,
-                                                                            array(  'href'  => Clansuite_Datagrid::addToUrl($this->linkFormat),
+                                                                            array(  'href'  => Clansuite_Datagrid::addQueryToUrl($this->linkFormat),
                                                                                     'id'    => $this->linkId,
                                                                                     'title' => $this->linkTitle )));
     }
