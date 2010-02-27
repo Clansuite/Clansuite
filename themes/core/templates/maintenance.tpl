@@ -3,7 +3,6 @@
 <html>
 <head>
 <link rel="stylesheet" href="/themes/core/css/error.css" type="text/css" />
-
 <style type="text/css">
 html, body {
     height: 100%;
@@ -12,7 +11,7 @@ html, body {
     text-align: center;
 }
 
-.centered {
+#centered {
     border: 0;
     height: 50%;
     width: 50%;
@@ -21,47 +20,34 @@ html, body {
     top: 25%;
 }
 </style>
-
-<title>{$pagetitle} - Maintenance Mode</title>
+<title>{* {$pagetitle} -*}{t}Maintenance Mode{/t}</title>
 </head>
 <body>
 
-<div class="centered">
+<div id="centered">
 
-    <fieldset class="error_beige">
-        <legend>
-            <strong>Maintenance Mode</strong>
-        </legend>
+<fieldset class="error_beige">
+    <legend>
+        <strong>{t}Maintenance Mode{/t}</strong>
+    </legend>
+    {if isset($maintenance_reason)}
 
-        {if isset($maintenance_reason)}
-        {$maintenance_reason}
-        {else}
-        <b>The website is down!</b>
-        <br />SITE is currently undergoing scheduled maintenance.
-        <br />Sorry for the inconvenience. Please try back in 60 minutes.
-        {/if}
+    {$maintenance_reason}
 
-        <br /><br />
+    {else}
 
-        <object width="425" height="344">
-        <param name="movie" value="http://www.youtube.com/v/rVC7I5VcTiw&hl=de_DE&fs=1&"></param>
-        <param name="allowFullScreen" value="true"></param><param name="allowscriptaccess" value="always"></param>
-        <embed src="http://www.youtube.com/v/rVC7I5VcTiw&hl=de_DE&fs=1&" type="application/x-shockwave-flash"
-               allowscriptaccess="always" allowfullscreen="true" width="425" height="344">
-        </embed>
-        </object>
+    <b> {t}The website is down!{/t}</b>
+    <br />{t}SITE is currently undergoing scheduled maintenance.{/t}
+    <br />{t}Sorry for the inconvenience. Please try back in 60 minutes.{/t}
 
-    </fieldset>
+    {/if}
+</fieldset>
 
-    <hr style="clear:both;" />
-
-    {*
-        <div id="centered">
-
-                {load_module name="account" func="login"}
-
-        </div>
-    *}
+{*
+<div id="centered">
+        {load_module name="account" func="login"}
+</div>
+*}
 
 </div>
 </body>
