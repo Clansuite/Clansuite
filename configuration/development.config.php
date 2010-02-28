@@ -147,7 +147,6 @@ cache_lifetime = 90
 ;----------------------------------------
 [maintenance]
 maintenance = 0
-maintenance_reason = "SITE is currently undergoing scheduled maintenance.<br />Sorry for the inconvenience. Please try back in 60 minutes."
 
 ;----------------------------------------
 ; meta
@@ -202,5 +201,11 @@ enabled = 0
 ;----------------------------------------
 [help]
 tracking = 1
+
+;----------------------------------------
+; eventsystem
+;----------------------------------------
+[eventsystem]
+eventsystem_enabled = 1
 
 ; DO NOT REMOVE THIS LINE */ ?>
