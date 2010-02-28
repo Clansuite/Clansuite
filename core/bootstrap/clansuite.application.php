@@ -391,8 +391,12 @@ class Clansuite_CMS
      */
     private static function initialize_Eventdispatcher()
     {
-        require ROOT_CORE . 'eventhandler.core.php';
-        Clansuite_Eventdispatcher::instantiate();
+        if( isset(self::$config['eventsystem']['eventsystem_enabled']) and self::$config['eventsystem']['eventsystem_enabled'] === true)
+        {
+            require ROOT_CORE . 'eventhandler.core.php';
+            Clansuite_Eventdispatcher::instantiate();
+            Clansuite_Eventdispatcher::autoloadEvents();
+        }
     }
 
     /**
@@ -610,8 +614,10 @@ class Clansuite_CMS
      */
     public static function triggerEvent($event, $context = null, $info = null)
     {
-        $eventdispatcher = Clansuite_Eventdispatcher::instantiate();
-        $eventdispatcher->triggerEvent($event, $context, $info);
+        if(class_exists('Clansuite_Eventdispatcher', false) == true)
+        {
+            Clansuite_Eventdispatcher::instantiate()->triggerEvent($event, $context, $info);
+        }
     }
 
     /**
@@ -622,7 +628,7 @@ class Clansuite_CMS
     public static function shutdown_and_exit()
     {
         Clansuite_CMS::triggerEvent('onApplicationShutdown');
-        
+
         if(DEBUG == true)
         {
             # Display the General Application Runtime
