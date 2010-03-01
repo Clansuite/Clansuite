@@ -1,4 +1,4 @@
-<!-- Start of Template: D:\xampplite\htdocs\work\clansuite\trunk\modules\news\templates\action_admin_create.tpl -->
+<!-- Start of Template: \trunk\modules\news\templates\action_admin_create.tpl -->
 
 {* DEBUG OUTPUT of assigned Arrays:
     {$smarty.session|@var_dump}
