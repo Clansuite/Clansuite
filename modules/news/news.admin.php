@@ -27,7 +27,6 @@
     *
     * @link       http://www.clansuite.com
     * @link       http://gna.org/projects/clansuite
-    * @since      File available since Release 0.2
     *
     * @version    SVN: $Id$
     */
@@ -44,7 +43,6 @@ if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
  * @author     Jens-Andr� Koch   <vain@clansuite.com>
  * @author     Florian Wolf      <xsign.dll@clansuite.com>
  * @copyright  Jens-Andr� Koch (2005 - onwards), Florian Wolf (2005 - 2008)
- * @since      Class available since Release 1.0alpha
  *
  * @category    Clansuite
  * @package     Modules
@@ -71,11 +69,6 @@ class Module_News_Admin extends Clansuite_ModuleController implements Clansuite_
                                     "2" => _('No clue'),
                                     "3" => _('No clue'),
                                     "4" => _('Published') );
-
-        $this->_AdminItems = array( "5" => "5",
-                                    "10" => "10",
-                                    "20" => "20",
-                                    "50" => "50" );
     }
 
     /**
@@ -160,7 +153,6 @@ class Module_News_Admin extends Clansuite_ModuleController implements Clansuite_
                                     'Name'      => _('Delete selected items'),
                                     'Action'    => 'delete' );
 
-
         # Instantiate the datagrid
         $datagrid = new Clansuite_Datagrid( array(
                 'Datatable'         => Doctrine::getTable('CsNews'),
@@ -170,12 +162,9 @@ class Module_News_Admin extends Clansuite_ModuleController implements Clansuite_
         ) );
 
         $datagrid->setBatchActions( $BatchActions );
-
-        $datagrid->disableFeature('Label');
-        $datagrid->disableFeature('Caption');
-        $datagrid->disableFeature('Description');
+        
         $datagrid->getColumn('Select')->disableFeature('Search');
-
+        
         $datagrid->getColumn('Title')->getRenderer()->linkFormat  = '&action=edit&id=%{id}';
         $datagrid->getColumn('Title')->getRenderer()->linkTitle   = _('Edit this news');
         $datagrid->getColumn('Title')->getRenderer()->nameFormat  = '%{name} - %{comments} Comment(s)';
@@ -186,8 +175,7 @@ class Module_News_Admin extends Clansuite_ModuleController implements Clansuite_
         $datagrid->setResultSetHook($this, 'manipulateValues');
 
         $datagrid->setResultsPerPage($this->getConfigValue('resultsPerPage_adminshow', '5'));
-        $datagrid->getRenderer()->setResultsPerPageItems($this->_AdminItems);
-
+        
         # Assing datagrid
         $smarty->assign('datagrid', $datagrid->render());
 
@@ -199,7 +187,6 @@ class Module_News_Admin extends Clansuite_ModuleController implements Clansuite_
 
         # Prepare the Output
         $this->prepareOutput();
-
     }
 
     /**
