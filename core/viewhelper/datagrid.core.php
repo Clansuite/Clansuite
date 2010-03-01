@@ -29,7 +29,6 @@
     *
     * @link       http://www.clansuite.com
     * @link       http://gna.org/projects/clansuite
-    * @since      File available since Release 2.0alpha
     *
     * @version    SVN: $Id$
     */
@@ -40,14 +39,14 @@ if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.');}
 if (!class_exists('Clansuite_Datagrid_Column', false)) { require dirname(__FILE__) . '/datagridcol.core.php'; }
 
 /**
-* Clansuite Datagrid Base
-*
-* Purpose:
-* It is the abstract base class for a datagrid,
-* supplying methods for all datagrid-subclasses.
-*
-* @author Florian Wolf <xsign.dll@clansuite.com>
-*/
+ * Clansuite Datagrid Base
+ *
+ * Purpose:
+ * It is the abstract base class for a datagrid,
+ * supplying methods for all datagrid-subclasses.
+ *
+ * @author Florian Wolf <xsign.dll@clansuite.com>
+ */
 class Clansuite_Datagrid_Base
 {
     // scoped vars
@@ -295,25 +294,23 @@ class Clansuite_Datagrid extends Clansuite_Datagrid_Base
     /**
      * Array of Clansuite_Datagrid_Cell objects
      *
-     * @todo implement
      * @var array
      */
-    private $_Cells     = array();
+    private $_Cells = array();
 
     /**
      * Amount of columns
      *
-     * @todo implement
      * @var integer
      */
-    private $_ColCount  = 0;
+    private $_ColCount = 0;
 
     /**
      * Array of Clansuite_Datagrid_Column objects
      *
      * @var array
      */
-    private $_columns      = array();
+    private $_columns = array();
 
     /**
      * An array of sets (arrays) to configure the columns
@@ -426,7 +423,7 @@ class Clansuite_Datagrid extends Clansuite_Datagrid_Base
      *
      * @var array
      */
-    private $_rows      = array();
+    private $_rows = array();
 
     /**
      * Associated sortables
@@ -645,6 +642,7 @@ class Clansuite_Datagrid extends Clansuite_Datagrid_Base
         $this->setDoctrineTable($options['Datatable']);
 
         # Set all columns
+        # @todo load from columnset definition file / remove array from module
         $this->_setColumnSets($options['ColumnSets']);
 
         # set queryname
@@ -652,6 +650,10 @@ class Clansuite_Datagrid extends Clansuite_Datagrid_Base
 
         # construct url by appending to the baseURL
         $this->setBaseUrl($options['ModuleActionURL']);
+
+        # disable some features
+        # @todo css for these elements
+        #$this->disableFeatures(array('Label', 'Caption', 'Description'));
 
         # generate default datasets that can be overwritten
         $this->_initDatagrid();
@@ -727,7 +729,7 @@ class Clansuite_Datagrid extends Clansuite_Datagrid_Base
     }
 
     /**
-     * Enable datagrid features and return true if it succeeded, false if not
+     * Enables a datagrid feature and returns true on success, false otherwise
      *
      * @see $this->_features
      * @param string $feature
@@ -745,10 +747,25 @@ class Clansuite_Datagrid extends Clansuite_Datagrid_Base
             return true;
         }
     }
+    
+    /**
+     * Enables several datagrid features
+     * Return true on success, false otherwise
+     *
+     * @see $this->_features
+     * @param array $features
+     */
+    public function disableFeatures(array $features)
+    {
+        foreach ($features as $feature)
+        {
+            $this->enableFeature($feature);
+        }
+    }
 
     /**
-     * Disable datagrid features
-     * Return true if succeeded, false if not
+     * Disables a datagrid feature
+     * Returns true on success, false otherwise
      *
      * @see $this->_features
      * @param mixed $feature
@@ -756,7 +773,7 @@ class Clansuite_Datagrid extends Clansuite_Datagrid_Base
      */
     public function disableFeature($feature)
     {
-        if( !isset($this->_features[$feature]) )
+        if( isset($this->_features[$feature]) == false)
         {
             return false;
         }
@@ -764,6 +781,21 @@ class Clansuite_Datagrid extends Clansuite_Datagrid_Base
         {
             $this->_features[$feature] = false;
             return true;
+        }
+    }
+
+    /**
+     * Disable several datagrid features
+     * Return true on success, false otherwise
+     *
+     * @see $this->_features
+     * @param array $features
+     */
+    public function disableFeatures(array $features)
+    {
+        foreach ($features as $feature)
+        {
+            $this->disableFeature($feature);
         }
     }
 
@@ -863,9 +895,11 @@ class Clansuite_Datagrid extends Clansuite_Datagrid_Base
      */
     private function _generateCols()
     {
+        $colSet = null;
+
         foreach( $this->_columnSets as $columnKey => &$colSet )
         {
-            $oCol = new Clansuite_Datagrid_Column(); # @todo why hand $this to Column Obj?
+            $oCol = new Clansuite_Datagrid_Column();
             $oCol->setAlias($colSet['Alias']);
             $oCol->setId($colSet['Alias']);
             $oCol->setName($colSet['Name']);
@@ -916,6 +950,8 @@ class Clansuite_Datagrid extends Clansuite_Datagrid_Base
             $oRow->setId('RowId_' . $dataKey);
             $oRow->setName('RowName_' . $dataKey);
             $oRow->setPosition($dataKey);
+
+            $ColumnKey = null;
 
             foreach( $this->_columnSets as $ColumnKey => $colSet )
             {
@@ -1468,10 +1504,7 @@ class Clansuite_Datagrid_Renderer
      *
      * @var array
      */
-    private $_ResultsPerPageItems = array(  "10",
-                                            "20",
-                                            "50",
-                                            "100" );
+    private $_ResultsPerPageItems = array( 5, 10, 20, 50, 100 );
 
     //----------------------
     // Class methods
@@ -1552,7 +1585,10 @@ class Clansuite_Datagrid_Renderer
      *
      * @param array $_Items
      */
-    public function setResultsPerPageItems($_Items)             { $this->_ResultsPerPageItems = $_Items; }
+    public function setResultsPerPageItems(array $_Items)
+    {
+        $this->_ResultsPerPageItems = $_Items;
+    }
 
     //----------------------
     // Getter
@@ -1693,6 +1729,8 @@ class Clansuite_Datagrid_Renderer
     /**
      * Represents a sortstring for a-Tags
      *
+     * @param string SortKey
+     * @param string SortValue
      * @return string Returns a string such as index.php?mod=news&action=admin&sk=Title&sv=DESC
      */
     private function _getSortString($_SortKey, $_SortValue)
@@ -1732,6 +1770,7 @@ class Clansuite_Datagrid_Renderer
     /**
      * Render the pagination for the datagrid
      *
+     * @param boolean $_ShowResultsPerPage If true, the drop-down for maximal results per page is shown. Otherwise the total number of items.
      * @return string Returns the html-code for the pagination row
      */
     private function _renderTablePagination($_ShowResultsPerPage = true)
@@ -1822,7 +1861,7 @@ class Clansuite_Datagrid_Renderer
 
             $htmlString .= '<td colspan=' . ($this->getDatagrid()->getColumnCount()-1) . '>';
             $htmlString .= '<select name="action" id="BatchActionId">';
-            $htmlString .= '<option value="'.$config['defaults']['action'].'">' . _('(Please select)') . '</option>';
+            $htmlString .= '<option value="'.$config['defaults']['action'].'">' . _('(Choose an action)') . '</option>';
             foreach( $_BatchActions as $BatchActionSet )
             {
                 $htmlString .= '<option value="' . $BatchActionSet['Action'] . '">' . $BatchActionSet['Name'] . '</option>';
@@ -1845,10 +1884,12 @@ class Clansuite_Datagrid_Renderer
     private function _renderTableRows()
     {
         $htmlString = '';
+        $rowKey = null;
 
-        $_Rows = $this->getDatagrid()->getRows();
+        $rows = $this->getDatagrid()->getRows();
+        
         $i = 0;
-        foreach( $_Rows as $rowKey => $oRow )
+        foreach( $rows as $rowKey => $oRow )
         {
             $i++;
             # @todo consider removing the css alternating code, in favor of css3 tr:nth-child
@@ -1875,6 +1916,8 @@ class Clansuite_Datagrid_Renderer
      */
     private function _renderTableRow($_oRow, $_Alternate)
     {
+        $_AlternateClass = null;
+
         if( $_Alternate === true )
         {
             $_AlternateClass = 'Alternate';
@@ -1885,6 +1928,7 @@ class Clansuite_Datagrid_Renderer
         }
 
         # @todo consider removing the css alternating code, in favor of css3 tr:nth-child
+        $htmlString = null;
         $htmlString = '<tr class="DatagridRow DatagridRow-' . $_oRow->getAlias() . ' ' . $_AlternateClass . '">';
 
         $_Cells = $_oRow->getCells();
