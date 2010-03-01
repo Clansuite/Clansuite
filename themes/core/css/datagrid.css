@@ -6,92 +6,97 @@
 
 .Datagrid table
 {
-    width: 100%;
+  width: 100%;
 }
 
 .Datagrid input[type="password"],
 .Datagrid select,
 .Datagrid input[type="text"]
 {
-    width: auto;
+  width: auto;
 }
 
 .Datagrid td,
 .Datagrid th
 {
-    border: 1px solid;
-    border-color:#FFFFFF #ACA899 #ACA899 #FFFFFF;
-    border-style:solid;
-    border-width:1px;
-    cursor:default;
-    padding: 4px;
+  border: 1px solid;
+  border-color:#FFFFFF #ACA899 #ACA899 #FFFFFF;
+  border-style:solid;
+  border-width:1px;
+  cursor:default;
+  padding: 4px;
 }
 
 .Datagrid .Pages
 {
-    float: left;
-    padding: 2px;
+  float: left;
+  padding: 2px;
 }
 
 .Datagrid .Pages .PagerDescription
 {
-    display: block;
-    float: left;
-    padding-right: 3px;
-    font-weight: bold;
+  display: block;
+  float: left;
+  padding-right: 3px;
+  font-weight: bold;
 }
 
 .Datagrid .Pages a span {
-    text-decoration: underline;
+  text-decoration: underline;
 }
 
 .Datagrid .Pages a:hover span {
-    text-decoration: none;
+  text-decoration: none;
 }
 
 .Datagrid .Pages .Active,
 .Datagrid .Pages .Inactive {
-    display: block;
-    width: 13px;
-    float: left;
+  display: block;
+  width: 13px;
+  float: left;
 }
 
 .Datagrid .ResultsPerPage
 {
-    float: right;
+  float: right;
 }
 
 .Datagrid .DatagridRow.Alternate
 {
-    background-color: #E4E0C7;
+  background-color: #E4E0C7;
 }
 
 .Datagrid .DatagridRow.DatagridRowSelected
 {
-    background-color: #D5DED9;
+  background-color: #D5DED9;
 }
 
 .Datagrid .DatagridRow.DatagridRowHover
 {
-    background-color: #D9CEB2;
+  background-color: #D9CEB2;
 }
 
 .Datagrid .ColHeader
 {
-    background:url("../images/thback.gif") repeat-x scroll 0 0 transparent;
-    border-color:#FFFFFF #ACA899 #ACA899 #FFFFFF;
-    border-style:solid;
-    border-width:1px;
-    cursor:default;
-    font-size:12px;
-    font-weight:bold;
-    padding:5px;
+  background:url("../images/thback.gif") repeat-x scroll 0 0 transparent;
+  border-color:#FFFFFF #ACA899 #ACA899 #FFFFFF;
+  border-style:solid;
+  border-width:1px;
+  cursor:default;
+  font-size:12px;
+  font-weight:bold;
+  padding:5px;
 }
 
 .Datagrid .DatagridCell-NoResults
 {
-    font-weight: bold;
-    text-align: center;
-    font-size: 12px;
-    height: 40px;
+  font-weight: bold;
+  text-align: center;
+  font-size: 12px;
+  height: 40px;
+}
+
+.DatagridCell
+{
+  text-align: center;
 }
