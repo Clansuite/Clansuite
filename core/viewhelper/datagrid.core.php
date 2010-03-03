@@ -755,7 +755,7 @@ class Clansuite_Datagrid extends Clansuite_Datagrid_Base
      * @see $this->_features
      * @param array $features
      */
-    public function disableFeatures(array $features)
+    public function enableFeatures(array $features)
     {
         foreach ($features as $feature)
         {
