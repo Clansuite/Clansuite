@@ -1,7 +1,7 @@
 <?php
    /**
     * Clansuite - just an eSports CMS
-    * Jens-André Koch © 2005 - onwards
+    * Jens-AndrÃ© Koch Â© 2005 - onwards
     * http://www.clansuite.com/
     *
     * This file is part of "Clansuite - just an eSports CMS".
@@ -24,8 +24,8 @@
     *
     * @license    GNU/GPL v2 or (at your option) any later version, see "/doc/LICENSE".
     *
-    * @author     Jens-André Koch <vain@clansuite.com>
-    * @copyright  Jens-André Koch (2005 - onwards)
+    * @author     Jens-AndrÃ© Koch <vain@clansuite.com>
+    * @copyright  Jens-AndrÃ© Koch (2005 - onwards)
     *
     * @link       http://www.clansuite.com
     * @link       http://gna.org/projects/clansuite
@@ -65,7 +65,7 @@ class Clansuite_Router
     private $config;
     
     # Base URL
-    private static $baseURL = 'index.php';
+    private static $baseURL = 'index.php/';
     
     public function construct(Clansuite_HttpRequest $request, Clansuite_Config $config)
     {
@@ -85,36 +85,77 @@ class Clansuite_Router
     
     /**
      * getBaseURL() returns the web path of the application
+     * convenience method for Clansuite_HttpRequest::getBaseURL()
      *
      * @returns string the web path of the application (WWW_ROOT + baseURL)
      */
     public static function getBaseURL()
     {
-        return WWW_ROOT . self::$baseURL;
-    }    
-    
+        #return WWW_ROOT . '/' . self::$baseURL . '?';
+        return Clansuite_HttpRequest::getBaseURL();
+    }
+
     /**
-     * Add an url-string segment (&x=y) to the baseurl
+     * Adds and retruns an url-string segment (&x=y) to the baseurl
+     * If Package pecl_http is present it is used.
      *
-     * @param string $appendString the string to append to the url 
+     * @param string $appendString the URL parameter string to append to the url
+     * @param string $url the url to append to
      * @example
-     *   $sUrl = $this->addToUrl('dg_Sort=0:ASC');
+     *   $sUrl = $this->addQueryToUrl("par1=value1&par2=value2...");
      */
-    public static function addToUrl($appendString)
-    {
-        $startSeparator = '?';
-        
-        if( preg_match('#\?#', self::$baseURL) )
-        {
-            $startSeparator = '&amp;';
+    public static function addQueryToUrl($appendString, $url = null)
+    {   
+        #Clansuite_Xdebug::firebug( http_build_url(self::$baseURL, array( "query"  => $appendString  ), HTTP_URL_JOIN_QUERY ) );
+        if (extension_loaded('http'))
+        {    
+            # add additional query parameter to the url
+            return http_build_url(self::$baseURL, array( "query"  => $appendString  ), HTTP_URL_JOIN_QUERY );
         }
+        else
+        {
+            if(is_null($url))
+            {
+                $url = self::$baseURL;
+            }
 
-        $cleanAppendString = preg_replace('#^&amp;#', '', $appendString);
-        $cleanAppendString = preg_replace('#^&#', '', $cleanAppendString);
-        $cleanAppendString = preg_replace('#^\?#', '', $cleanAppendString);
-        $cleanAppendString = preg_replace('#&(?!amp;)#i', '&amp;', $cleanAppendString);
+            if( (is_int(strpos($url, "?"))) )
+            {
+                $url = $url . "&" . $appendString;
+            }
+            else
+            {
+                $url = $url . "?" . $appendString;
+            }
+            
+            return $url;
+        }
+    }
 
-        return self::$baseURL . $startSeparator . $cleanAppendString;
-    }    
+    /**
+     * Add an path-string segment to the baseurl or exchange the path
+     * Note: If Package pecl_http is present it is used.
+     *
+     * @param string $path The path to append to an existing path or the new path.
+     * @param boolean $exchange If exchange is true, the path is exchanged. Otherwise the path is appended.
+     */
+    public static function addPathToUrl($path, $exchange)
+    {   
+        if (extension_loaded('http'))
+        {
+            if($exchange === true)
+            {
+                return http_build_url(self::$baseURL, array( "path"  => $path  ));
+            }
+            else # append path
+            {
+                return http_build_url(self::$baseURL, array( "path"  => $path ), HTTP_URL_JOIN_PATH );
+            }
+        }
+        else
+        {
+            # @todo
+        }
+    }
 }
 ?>
