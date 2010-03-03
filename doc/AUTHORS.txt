@@ -24,7 +24,7 @@ Clansuite is developed by:
 1  Jens-André Koch            vain              jakoch@web.de
 
    Founder & Headdeveloper .................................................... project founder (2005)
-									                                            (+) joined 18.05.2006
+                                                                                (+) joined 18.05.2006
    Maintainer & Benevolent Dictator ........................................... (+) 28.01.2008
 
 ------------------------------------------------------------------------------------------------------------------------
@@ -38,12 +38,17 @@ Clansuite is developed by:
                                                                                     joined Clansphere Project
    Developer / Serveradministration ........................................... (+) GNA Added User 04.04.2008 vain
                                                                                     break from 09.2008 on
+   Developer ..................................................................     Januar 2010
+                                                                                    active Jan/Feb 2010
+                                                                                (-) GNA Removed User 13.02.2010 vain
+   R                                                                                Reason:  commit behaviour
 
 ------------------------------------------------------------------------------------------------------------------------
 
 3  Tino Goratsch              vyper             tinogo@blue-cable.de
 
    Developer .................................................................. (+) GNA Approved User 14.02.2007 vain
+                                                                                    break from
 
 ------------------------------------------------------------------------------------------------------------------------
 
@@ -68,6 +73,7 @@ Clansuite is developed by:
 
    Bugs, Documentation, Themes, Graphics ...................................... (+) GNA Approved User 02.08.2008 vain
                                                                                     break from 09.2008 on
+                                                                                    break from 12.2009 on
 
 ------------------------------------------------------------------------------------------------------------------------
 
@@ -98,5 +104,7 @@ Clansuite is developed by:
 10 Ryan Riggen                milkshake         drizzttownz@yahoo.com
 
    Developer .................................................................. (+) GNA Approved User 07.12.2009 vain
+                                                                                (-) GNA Removed  User
+   R                                                                                Reason: inactive, no contact
 
 ------------------------------------------------------------------------------------------------------------------------
