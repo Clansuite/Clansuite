@@ -95,12 +95,26 @@ class Clansuite_Eventdispatcher
      */
     public function getEventHandlersForEvent($eventName)
     {
-        if (!isset($this->eventhandlers[$eventName]))
+        if (isset($this->eventhandlers[$eventName]) == false)
         {
             return array();
         }
 
         return $this->eventhandlers[$eventName];
+    }
+    
+    /**
+     * Loads the eventhandlers according to the events.configuration file:
+     * /configuration/events.config.php
+     */
+    public function loadEventhandlers()
+    {
+        $events = require ROOT . 'configuration/events.config.php';
+        
+        foreach($events as $event)
+        {
+            # @todo
+        }
     }
 
     /**
@@ -112,7 +126,7 @@ class Clansuite_Eventdispatcher
     public function addEventHandler($eventName, Clansuite_Event $event)
     {
         # if eventhandler is not set already, initialize as array
-        if (!isset($this->eventhandlers[$eventName]))
+        if (isset($this->eventhandlers[$eventName]) == false)
         {
             $this->eventhandlers[$eventName] = array();
         }
@@ -124,7 +138,7 @@ class Clansuite_Eventdispatcher
     public function removeEventHandlers($eventName)
     {
         # if eventhandler is not added, we have nothing to remove
-        if (!isset($this->eventhandlers[$eventName]))
+        if ( isset($this->eventhandlers[$eventName]) == false)
         {
             return false;
         }
@@ -157,7 +171,7 @@ class Clansuite_Eventdispatcher
         # get the Name
         $eventName = $event->getName();
 
-        if (!isset($this->eventhandlers[$eventName]))
+        if (isset($this->eventhandlers[$eventName]) == false)
         {
             return $event;
         }
