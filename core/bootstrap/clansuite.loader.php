@@ -84,8 +84,18 @@ class Clansuite_Loader
         if (is_file($fileName))
         {
             require_once $fileName;
+
+            # log for the autoloaded files
+            if(DEBUG == true)
+            {
+                $log = @fopen( ROOT_LOGS . 'autoload.log', 'a', false);
+                @fwrite($log, 'Autoloaded file: ' . str_replace('_', '/', $fileName) . PHP_EOL);
+                fclose($log);
+            }
+
             return true;
         }
+
         return false;
     }
 
