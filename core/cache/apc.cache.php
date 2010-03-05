@@ -49,7 +49,7 @@ if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.'); }
  */
 class Clansuite_Cache_APC implements Clansuite_Cache_Interface
 {
-    function __construct()
+    public function __construct()
     {
         try
         {
@@ -77,7 +77,7 @@ class Clansuite_Cache_APC implements Clansuite_Cache_Interface
      * @param string $key Identifier for the data
      * @return boolean True if the data was successfully fetched from the cache, false on failure
      */
-    function fetch($key)
+    public function fetch($key)
     {
         return apc_fetch($key);
     }
@@ -90,7 +90,7 @@ class Clansuite_Cache_APC implements Clansuite_Cache_Interface
      * @param integer $cache_lifetime How long to cache the data, in seconds
      * @return boolean True if the data was successfully cached, false on failure
      */
-    function store($key, $data, $cache_lifetime)
+    public function store($key, $data, $cache_lifetime)
     {
         return apc_store($key, $data, $cache_lifetime);
     }
@@ -101,7 +101,7 @@ class Clansuite_Cache_APC implements Clansuite_Cache_Interface
      * @param string $key Identifier for the data
      * @return boolean True if the data was successfully removed, false on failure
      */
-    function delete($key)
+    public function delete($key)
     {
         return apc_delete($key);
     }
@@ -112,7 +112,7 @@ class Clansuite_Cache_APC implements Clansuite_Cache_Interface
      * @param string $key Identifier for the data
      * @return boolean true|false
      */
-    function isCached($key)
+    public function isCached($key)
     {
         if( true === apc_fetch($key) )
         {
