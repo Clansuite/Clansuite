@@ -389,7 +389,7 @@ class Clansuite_Errorhandler
 
         # save session
         session_write_close();
-        
+
         # Output the errormessage
         return $errormessage;
     }

@@ -54,15 +54,26 @@ if (!defined('IN_CS')){die('Clansuite not loaded. Direct Access forbidden.');}
 class Clansuite_Download
 {
 	/**
+	 * Constructor and convenience/proxy method for sending a file as a download to the browser
+	 *
+	 * @param string $file The filepath as string
+	 * @param int $rate The speedlimit in KB/s
+	 */
+	public function __construct($file, $rate)
+	{
+	    self::send($file, $rate);
+	}
+
+	/**
 	 * Sends a file as a download to the browser
 	 *
 	 * Uses php fileinfo extension to determine the mimetype etc.
 	 *
 	 *
-	 * @param string $filePath
-	 * @param int $rate speedlimit in KB/s
+	 * @param string $filePath The filepath as string
+	 * @param int $rate The speedlimit in KB/s
 	 */
-	private function sendRated($filePath, $rate = 0)
+	private static function sendRated($filePath, $rate = 0)
 	{
 		# Check if file exists
 		if (is_file($filePath) == false)
@@ -158,11 +169,29 @@ class Clansuite_Download
 	 * @param string $filePath
 	 * @param int $rate speedlimit in KB/s
 	 */
-	public function send($filePath, $rate = 3)
+	public static function send($filePath, $rate = 3)
 	{
 	    try
 	    {
-        	$this->sendRated($filePath, $rate);
+        	self::sendRated($filePath, $rate);
+        }
+        catch (Clansuite_Exception $e)
+        {
+        	header('HTTP/1.1 404 File Not Found');
+        	die('Sorry, an error occured.');
+    }
+    
+    /**
+	 * Send a file as a download to the browser
+	 *
+	 * @param string $filePath
+	 * @param int $rate speedlimit in KB/s
+	 */
+	public function sendFile($filePath, $rate = 3)
+	{
+	    try
+	    {
+        	self::sendRated($filePath, $rate);
         }
         catch (Clansuite_Exception $e)
         {
