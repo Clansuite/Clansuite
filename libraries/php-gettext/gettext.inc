@@ -1,7 +1,7 @@
 <?php
 /*
    Copyright (c) 2005 Steven Armstrong <sa at c-area dot ch>
-   @author Kirk Steffensen, modified for Gallery2, updated 13 MAY 2008
+   Copyright (c) 2009 Danilo Segan <danilo@kvota.net>
 
    Drop in replacement for native gettext.
 
@@ -22,23 +22,29 @@
    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 */
-
 /*
 LC_CTYPE        0
-LC_NUMERIC  1
+LC_NUMERIC      1
 LC_TIME         2
-LC_COLLATE  3
-LC_MONETARY 4
-LC_MESSAGES 5
+LC_COLLATE      3
+LC_MONETARY     4
+LC_MESSAGES     5
 LC_ALL          6
 */
 
-if (!class_exists('CachedFileReader'))
+
+// LC_MESSAGES is not available if php-gettext is not loaded
+// while the other constants are already available from session extension.
+if (!defined('LC_MESSAGES')) {
+  define('LC_MESSAGES',	5);
+}
+
+if (!class_exists('CachedFileReader', false))
 {
     require('streams.php');
 }
 
-if (!class_exists('gettext_reader'))
+if (!class_exists('gettext_reader', false))
 {
     require('gettext.php');
 }
@@ -52,7 +58,64 @@ $LC_CATEGORIES = array('LC_CTYPE', 'LC_NUMERIC', 'LC_TIME', 'LC_COLLATE', 'LC_MO
 $EMULATEGETTEXT = 0;
 $CURRENTLOCALE = '';
 
+/* Class to hold a single domain included in $text_domains. */
+class domain {
+  var $l10n;
+  var $path;
+  var $codeset;
+}
+
 // Utility functions
+
+/**
+ * Return a list of locales to try for any POSIX-style locale specification.
+ */
+function get_list_of_locales($locale) {
+  /* Figure out all possible locale names and start with the most
+   * specific ones.  I.e. for sr_CS.UTF-8@latin, look through all of
+   * sr_CS.UTF-8@latin, sr_CS@latin, sr@latin, sr_CS.UTF-8, sr_CS, sr.
+   */
+  $locale_names = array();
+  $lang = NULL;
+  $country = NULL;
+  $charset = NULL;
+  $modifier = NULL;
+  if ($locale) {
+    if (preg_match("/^(?P<lang>[a-z]{2,3})"              // language code
+                   ."(?:_(?P<country>[A-Z]{2}))?"           // country code
+                   ."(?:\.(?P<charset>[-A-Za-z0-9_]+))?"    // charset
+                   ."(?:@(?P<modifier>[-A-Za-z0-9_]+))?$/",  // @ modifier
+                   $locale, $matches)) {
+
+      if (isset($matches["lang"])) $lang = $matches["lang"];
+      if (isset($matches["country"])) $country = $matches["country"];
+      if (isset($matches["charset"])) $charset = $matches["charset"];
+      if (isset($matches["modifier"])) $modifier = $matches["modifier"];
+
+      if ($modifier) {
+        if ($country) {
+          if ($charset)
+            array_push($locale_names, "${lang}_$country.$charset@$modifier");
+          array_push($locale_names, "${lang}_$country@$modifier");
+        } elseif ($charset)
+            array_push($locale_names, "${lang}.$charset@$modifier");
+        array_push($locale_names, "$lang@$modifier");
+      }
+      if ($country) {
+        if ($charset)
+          array_push($locale_names, "${lang}_$country.$charset");
+        array_push($locale_names, "${lang}_$country");
+      } elseif ($charset)
+          array_push($locale_names, "${lang}.$charset");
+      array_push($locale_names, $lang);
+    }
+
+    // If the locale name doesn't match POSIX style, just include it as-is.
+    if (!in_array($locale, $locale_names))
+      array_push($locale_names, $locale);
+  }
+  return $locale_names;
+}
 
 /**
  * Utility function to get a StreamReader for the given text domain.
@@ -60,33 +123,31 @@ $CURRENTLOCALE = '';
 function _get_reader($domain=null, $category=5, $enable_cache=true) {
     global $text_domains, $default_domain, $LC_CATEGORIES;
     if (!isset($domain)) $domain = $default_domain;
-    if (!isset($text_domains[$domain]['l10n'])) {
+    if (!isset($text_domains[$domain]->l10n)) {
         // get the current locale
         $locale = _setlocale(LC_MESSAGES, 0);
-        $p = isset($text_domains[$domain]['path']) ? $text_domains[$domain]['path'] : './';
-        
-        # en_EN/LC_MESSAGES/modulename.mo
-        $path = $p . "$locale/". $LC_CATEGORIES[$category] ."/$domain.mo";
+        $bound_path = isset($text_domains[$domain]->path) ?
+          $text_domains[$domain]->path : './';
+        $subpath = $LC_CATEGORIES[$category] ."/$domain.mo";
 
-        # path debugging
-        # var_dump($path);
-
-        if ( is_readable($path) and ($enable_cache == true))
-        {
-            $input = new CachedFileReader($path);
-        }
-        elseif( is_readable($path))
-        {
-            $input = new FileReader($path);
-        }
-        else
-        {
-            $input = null;
+        $locale_names = get_list_of_locales($locale);
+        $input = null;
+        foreach ($locale_names as $locale) {
+          $full_path = $bound_path . $locale . "/" . $subpath;
+          if (file_exists($full_path)) {
+            $input = new FileReader($full_path);
+            break;
+          }
         }
 
-        $text_domains[$domain]['l10n'] = new gettext_reader($input, $enable_cache);
+        if (!array_key_exists($domain, $text_domains)) {
+          // Initialize an empty domain object.
+          $text_domains[$domain] = new domain();
+        }
+        $text_domains[$domain]->l10n = new gettext_reader($input,
+                                                          $enable_cache);
     }
-    return $text_domains[$domain]['l10n'];
+    return $text_domains[$domain]->l10n;
 }
 
 /**
@@ -111,7 +172,7 @@ function _check_locale() {
 function _get_codeset($domain=null) {
     global $text_domains, $default_domain, $LC_CATEGORIES;
     if (!isset($domain)) $domain = $default_domain;
-    return (isset($text_domains[$domain]['codeset']))? $text_domains[$domain]['codeset'] : ini_get('mbstring.internal_encoding');
+    return (isset($text_domains[$domain]->codeset))? $text_domains[$domain]->codeset : ini_get('mbstring.internal_encoding');
 }
 
 /**
@@ -123,17 +184,10 @@ function _get_codeset($domain=null) {
  * translation, please check with your webhost about how to enable mbstring for your PHP instance.
  * See http://www.php.net/mbstring for more information.
  */
-function _encode($text)
-{
-    if (function_exists('mb_detect_encoding')) {
-        $source_encoding = mb_detect_encoding($text);
-    }
-    else {
-        $source_encoding = 'UTF-8';
-    }
-
+function _encode($text) {
+    $source_encoding = mb_detect_encoding($text);
     $target_encoding = _get_codeset();
-    if (($source_encoding != $target_encoding) && (function_exists('mb_convert_encoding'))) {
+    if ($source_encoding != $target_encoding) {
         return mb_convert_encoding($text, $target_encoding, $source_encoding);
     }
     else {
@@ -141,7 +195,20 @@ function _encode($text)
     }
 }
 
+
+
+
 // Custom implementation of the standard gettext related functions
+
+/**
+ * Returns passed in $locale, or environment variable $LANG if $locale == ''.
+ */
+function _get_default_locale($locale) {
+  if ($locale == '') // emulate variable support
+    return getenv('LANG');
+  else
+    return $locale;
+}
 
 /**
  * Sets a requested locale, if needed emulates it.
@@ -156,19 +223,25 @@ function _setlocale($category, $locale) {
             // even if we tried to read locale without setting it first
             return _setlocale($category, $CURRENTLOCALE);
     } else {
-        $ret = 0;
-        #if (function_exists('setlocale')) // I don't know if this ever happens ;)
-           $ret = setlocale($category, $locale);
-        if (($ret and $locale == '') or ($ret == $locale)) {
-            $EMULATEGETTEXT = 0;
-            $CURRENTLOCALE = $ret;
-        } else {
-        if ($locale == '') // emulate variable support
-            $CURRENTLOCALE = getenv('LANG');
-        else
-            $CURRENTLOCALE = $locale;
+        if (function_exists('setlocale')) {
+          $ret = setlocale($category, $locale);
+          if (($locale == '' and !$ret) or // failed setting it by env
+              ($locale != '' and $ret != $locale)) { // failed setting it
+            // Failed setting it according to environment.
+            $CURRENTLOCALE = _get_default_locale($locale);
             $EMULATEGETTEXT = 1;
+          } else {
+            $CURRENTLOCALE = $ret;
+            $EMULATEGETTEXT = 0;
+          }
+        } else {
+          // No function setlocale(), emulate it all.
+          $CURRENTLOCALE = _get_default_locale($locale);
+          $EMULATEGETTEXT = 1;
         }
+        // Allow locale to be changed on the go for one translation domain.
+        global $text_domains, $default_domain;
+        unset($text_domains[$default_domain]->l10n);
         return $CURRENTLOCALE;
     }
 }
@@ -178,10 +251,19 @@ function _setlocale($category, $locale) {
  */
 function _bindtextdomain($domain, $path) {
     global $text_domains;
-    // ensure $path ends with a slash
-    if ($path[strlen($path) - 1] != '/') $path .= '/';
-    elseif ($path[strlen($path) - 1] != '\\') $path .= '\\';
-    $text_domains[$domain]['path'] = $path;
+    // ensure $path ends with a slash ('/' should work for both, but lets still play nice)
+    if (substr(php_uname(), 0, 7) == "Windows") {
+      if ($path[strlen($path)-1] != '\\' and $path[strlen($path)-1] != '/')
+        $path .= '\\';
+    } else {
+      if ($path[strlen($path)-1] != '/')
+        $path .= '/';
+    }
+    if (!array_key_exists($domain, $text_domains)) {
+      // Initialize an empty domain object.
+      $text_domains[$domain] = new domain();
+    }
+    $text_domains[$domain]->path = $path;
 }
 
 /**
@@ -189,7 +271,7 @@ function _bindtextdomain($domain, $path) {
  */
 function _bind_textdomain_codeset($domain, $codeset) {
     global $text_domains;
-    $text_domains[$domain]['codeset'] = $codeset;
+    $text_domains[$domain]->codeset = $codeset;
 }
 
 /**
@@ -257,6 +339,8 @@ function _dcngettext($domain, $single, $plural, $number, $category) {
     return _encode($l10n->ngettext($single, $plural, $number));
 }
 
+
+
 // Wrappers to use if the standard gettext functions are available, but the current locale is not supported by the system.
 // Use the standard impl if the current locale is supported, use the custom impl otherwise.
 
@@ -306,6 +390,8 @@ function T_dcngettext($domain, $single, $plural, $number, $category) {
     else return _dcngettext($domain, $single, $plural, $number, $category);
 }
 
+
+
 // Wrappers used as a drop in replacement for the standard gettext functions
 
 if (!function_exists('gettext')) {
@@ -340,4 +426,5 @@ if (!function_exists('gettext')) {
         return _dcngettext($domain, $single, $plural, $number, $category);
     }
 }
+
 ?>
