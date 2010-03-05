@@ -114,11 +114,15 @@ class Module_ControlCenter extends Clansuite_ModuleController implements Clansui
         $errorlog_entries = Clansuite_Logger_File::returnEntriesFromLogfile(3);
 
         $securityinfos = null;
+        $securityinfos = '<b>'._('Errorlog').'</b><br />';
 
         if(strlen($errorlog_entries) > 0)
         {
-            $securityinfos = '<b>Errorlog</b><br />';
             $securityinfos .= $errorlog_entries;
+        }
+        else
+        {
+            $securityinfos .= _('No Errorlog entries.');
         }
 
         return $securityinfos;
