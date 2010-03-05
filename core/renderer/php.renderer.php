@@ -27,7 +27,6 @@
     *
     * @link       http://www.clansuite.com
     * @link       http://gna.org/projects/clansuite
-    * @since      File available since Release 0.2
     *
     * @version    SVN: $Id$
     */
@@ -45,7 +44,6 @@ require dirname(__FILE__) . '/renderer.base.php';
  *
  * @author     Jens-André Koch <vain@clansuite.com>
  * @copyright  Jens-André Koch (2005-onwards)
- * @since      Class available since Release 0.2
  *
  * @category    Clansuite
  * @package     Core

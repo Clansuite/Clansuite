@@ -109,7 +109,6 @@ class Clansuite_Functions
         return sprintf('%08s-%04s-%04x-%04x-%012s', $time_low, $time_mid, $time_hi_and_version, $clock_seq_hi_and_reserved, $node);
     }
 
-
     /**
      * Calculates the size of an Directory (recursiv)
      */

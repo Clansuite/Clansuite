@@ -29,7 +29,6 @@
     *
     * @link       http://www.clansuite.com
     * @link       http://gna.org/projects/clansuite
-    * @since      File available since Release 2.0alpha
     *
     * @version    SVN: $Id$
     */
@@ -40,25 +39,22 @@ if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.');}
 if (!class_exists('Clansuite_Datagrid_Column', false)) { require ROOT_CORE.'viewhelper/datagridcol.core.php'; }
 
 /**
-* Clansuite Datagrid Col Renderer
-*
-* String
-*
-* Purpose:
-* Render string cells
-*
-* @author Florian Wolf <xsign.dll@clansuite.com>
-*/
+ * Clansuite Datagrid Column Renderer String
+ *
+ * Purpose: Render string cells
+ *
+ * @author Florian Wolf <xsign.dll@clansuite.com>
+ */
 class Clansuite_Datagrid_Column_Renderer_String extends Clansuite_Datagrid_Column_Renderer_Base implements Clansuite_Datagrid_Column_Renderer_Interface
 {
     public $stringFormat = '';
 
     /**
-    * Render the value(s) of a cell
-    *
-    * @param Clansuite_Datagrid_Cell
-    * @return string Return html-code
-    */
+     * Render the value(s) of a cell
+     *
+     * @param Clansuite_Datagrid_Cell
+     * @return string Return html-code
+     */
     public function renderCell($oCell)
     {
         if( $this->stringFormat == '' )
@@ -71,5 +67,4 @@ class Clansuite_Datagrid_Column_Renderer_String extends Clansuite_Datagrid_Colum
         }
     }
 }
-
 ?>

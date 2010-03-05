@@ -33,7 +33,6 @@
     *
     * @link       http://www.clansuite.com
     * @link       http://gna.org/projects/clansuite
-    * @since      File available since Release 0.1
     *
     * @version    SVN: $Id$
     */
