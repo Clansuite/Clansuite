@@ -405,7 +405,7 @@ class Clansuite_CMS
     private static function initialize_Errorhandling()
     {
         # Set Exception Handler
-        set_exception_handler(array(new Clansuite_Exception, 'clansuite_exception_handler'));
+        Clansuite_Exception::setExceptionHandler();
 
         # Set Error Handler
         new Clansuite_Errorhandler(new Clansuite_Config);

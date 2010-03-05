@@ -103,6 +103,18 @@ class Clansuite_Exception extends Exception implements Clansuite_Exception_Inter
     }
 
     /**
+     * Registers the exception handler
+     *
+     * @see http://www.php.net/manual/en/function.set-exception-handler.php
+     * @see Clansuite_Exception::clansuite_excpetion_handler
+     */
+    public static function setExceptionHandler()
+    {
+        # Set Exception Handler
+        set_exception_handler(array(new Clansuite_Exception, 'clansuite_exception_handler'));
+    }
+
+    /**
      * Fetches the normal and rapid development templates for exceptions and sets them to class.
      * Callable via self::getExceptionTemplate() and self::getExceptionDevelopmentTemplate($placeholders).
      *
@@ -392,7 +404,7 @@ class Clansuite_Exception extends Exception implements Clansuite_Exception_Inter
 
         # save session
         session_write_close();
-        
+
         # Output the errormessage
         return $errormessage;
     }
