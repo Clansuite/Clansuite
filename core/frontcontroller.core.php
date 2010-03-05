@@ -481,9 +481,6 @@ class Clansuite_FrontController implements Clansuite_FrontController_Interface
         # 2) process Prefilters
         $this->pre_filtermanager->processFilters($request, $response);
 
-        # 3) insert Injector
-        $moduleController->setInjector($this->injector);
-
         /**
          * Plugins for Modules
          * At this point, we don't want to extend the ModuleController or Module itself,

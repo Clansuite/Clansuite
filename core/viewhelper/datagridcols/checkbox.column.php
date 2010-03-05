@@ -28,8 +28,7 @@
     * @copyright  Copyleft: All rights reserved. Jens-Andr� Koch (2005-onwards)
     *
     * @link       http://www.clansuite.com
-    * @link       http://gna.org/projects/clansuite
-    * @since      File available since Release 2.0alpha
+    * @link       http://gna.org/projects/
     *
     * @version    SVN: $Id$
     */
@@ -41,12 +40,9 @@ if (!class_exists('Clansuite_Datagrid_Column', false)) { require ROOT_CORE.'view
 if (!class_exists('Clansuite_Formelement_Checkbox', false)) { require ROOT_CORE.'viewhelper/formelements/checkbox.form.php'; }
 
 /**
-* Clansuite Datagrid Col Renderer
+* Clansuite Datagrid Column Renderer Checkbox
 *
-* Email
-*
-* Purpose:
-* Render email cells
+* Purpose: Renders a checkbox
 *
 * @author Florian Wolf <xsign.dll@clansuite.com>
 */
@@ -71,5 +67,4 @@ class Clansuite_Datagrid_Column_Renderer_Checkbox extends Clansuite_Datagrid_Col
         #return sprintf('<input type="checkbox" value="%s" id="Checkbox-%s" name="Checkbox[]" />', $oCell->getValue(), $oCell->getValue());
     }
 }
-
 ?>

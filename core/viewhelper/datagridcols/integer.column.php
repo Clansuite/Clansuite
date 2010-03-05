@@ -29,7 +29,6 @@
     *
     * @link       http://www.clansuite.com
     * @link       http://gna.org/projects/clansuite
-    * @since      File available since Release 2.0alpha
     *
     * @version    SVN: $Id$
     */
@@ -40,15 +39,13 @@ if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.');}
 if (!class_exists('Clansuite_Datagrid_Column', false)) { require ROOT_CORE.'viewhelper/datagridcol.core.php'; }
 
 /**
-* Clansuite Datagrid Col Renderer
-*
-* Integer
-*
-* Purpose:
-* Render integer cells
-*
-* @author Florian Wolf <xsign.dll@clansuite.com>
-*/
+ * Clansuite Datagrid Col Renderer Integer
+ *
+ * Purpose:
+ * Render integer cells
+ *
+ * @author Florian Wolf <xsign.dll@clansuite.com>
+ */
 class Clansuite_Datagrid_Column_Renderer_Integer extends Clansuite_Datagrid_Column_Renderer_Base implements Clansuite_Datagrid_Column_Renderer_Interface
 {
     /**
@@ -62,5 +59,4 @@ class Clansuite_Datagrid_Column_Renderer_Integer extends Clansuite_Datagrid_Colu
         return $oCell->getValue();
     }
 }
-
 ?>

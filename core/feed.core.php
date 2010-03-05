@@ -52,7 +52,6 @@ if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
  *
  * @author     Jens-André Koch <vain@clansuite.com>
  * @copyright  Jens-André Koch (2005-onwards)
- * @since      Class available since Release 0.2
  *
  * @category    Clansuite
  * @package     Core

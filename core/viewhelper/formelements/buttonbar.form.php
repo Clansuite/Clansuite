@@ -28,8 +28,7 @@
     * @copyright  Copyleft: All rights reserved. Jens-André Koch (2005-onwards)
     *
     * @link       http://www.clansuite.com
-    * @link       http://gna.org/projects/clansuite
-    * @since      File available since Release 0.2
+    * @link       http://gna.org/projects/
     *
     * @version    SVN: $Id$
     */

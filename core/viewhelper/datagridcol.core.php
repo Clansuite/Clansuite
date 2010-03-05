@@ -29,7 +29,6 @@
     *
     * @link       http://www.clansuite.com
     * @link       http://gna.org/projects/clansuite
-    * @since      File available since Release 2.0alpha
     *
     * @version    SVN: $Id$
     */
@@ -43,8 +42,7 @@ if (!class_exists('Clansuite_HTML', false))             { require dirname(__FILE
 /**
  * Clansuite Datagrid Column
  *
- * Purpose:
- * Defines a column of the datagrid
+ * Purpose: Defines a column of the datagrid
  *
  * @author Florian Wolf <xsign.dll@clansuite.com>
  */

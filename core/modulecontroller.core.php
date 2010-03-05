@@ -145,7 +145,10 @@ abstract class Clansuite_ModuleController extends Clansuite_ModuleController_Res
      */
     public function __construct()
     {
-
+        $this->setInjector(Clansuite_CMS::getInjector());
+        
+        # fetch config from dependency injector
+        $this->config = $this->injector->instantiate('Clansuite_Config');
     }
 
     /**
@@ -192,20 +195,16 @@ abstract class Clansuite_ModuleController extends Clansuite_ModuleController_Res
 
     /**
      * Set dependency injector (SetterInjection)
+     * a) as a static var self::$injector
+     * b) as a dynamic var $this->injector 
      * Type Hint set to only accept Phemto
      *
      * @param object $injector Dependency Injector (Phemto)
-
      * @todo move config injection somewhere else
      */
     public function setInjector(Phemto $injector)
-    {
-        # Set the incomming $injector
-        # a) as a static var
-        # b) as a dynamic var
+    {        
         self::$static_injector = $this->injector = $injector;
-        # fetch config from dependency injector
-        $this->config = $this->injector->instantiate('Clansuite_Config');
     }
 
     /**
