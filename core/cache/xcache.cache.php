@@ -60,7 +60,7 @@ class Clansuite_Cache_Xcache implements Clansuite_Cache_Interface
      * @param string $key Identifier for the data
      * @return boolean true|false
      */
-    function isCached($key)
+    public function isCached($key)
     {
        return xcache_isset($key);
     }
@@ -71,7 +71,7 @@ class Clansuite_Cache_Xcache implements Clansuite_Cache_Interface
      * @param string $key Identifier for the data
      * @return mixed boolean FALSE if the data was not fetched from the cache, DATA on success
      */
-    function fetch($key)
+    public function fetch($key)
     {
         return xcache_get($key);
     }
@@ -84,7 +84,7 @@ class Clansuite_Cache_Xcache implements Clansuite_Cache_Interface
      * @param integer $cache_lifetime How long to cache the data, in seconds
      * @return boolean True if the data was successfully cached, false on failure
      */
-    function store($key, $data, $cache_lifetime)
+    public function store($key, $data, $cache_lifetime)
     {
          return xcache_set($key, $data, $cache_lifetime);
     }
@@ -95,7 +95,7 @@ class Clansuite_Cache_Xcache implements Clansuite_Cache_Interface
      * @param string $key Identifier for the data
      * @return boolean True if the data was successfully removed, false on failure
      */
-    function delete($key)
+    public function delete($key)
     {
         return xcache_unset($key);
     }
@@ -107,7 +107,7 @@ class Clansuite_Cache_Xcache implements Clansuite_Cache_Interface
      * @link http://xcache.lighttpd.net/wiki/XcacheApi
      * @todo implement statistics for xcache usage
      */
-    function stats()
+    public function stats()
     {
     }
 }

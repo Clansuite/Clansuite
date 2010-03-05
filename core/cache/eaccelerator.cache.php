@@ -56,7 +56,7 @@ class Clansuite_Cache_Eaccelerator implements Clansuite_Cache_Interface
     /**
      *
      */
-    function __construct()
+    public function __construct()
     {
         try
         {
@@ -84,7 +84,7 @@ class Clansuite_Cache_Eaccelerator implements Clansuite_Cache_Interface
      * @param string $key Identifier for the data
      * @return boolean true|false
      */
-    function isCached($key)
+    public function isCached($key)
     {
         if ( true === eaccelerator_get($key) )
         {
@@ -102,7 +102,7 @@ class Clansuite_Cache_Eaccelerator implements Clansuite_Cache_Interface
      * @param string $key Identifier for the data
      * @return mixed boolean FALSE if the data was not fetched from the cache, DATA on success
      */
-    function fetch($key)
+    public function fetch($key)
     {
         $data = eaccelerator_get($key);
         if ($data == false)
@@ -120,7 +120,7 @@ class Clansuite_Cache_Eaccelerator implements Clansuite_Cache_Interface
      * @param integer $cache_lifetime How long to cache the data, in seconds
      * @return boolean True if the data was successfully cached, false on failure
      */
-    function store($key, $data, $cache_lifetime)
+    public function store($key, $data, $cache_lifetime)
     {
         $data = serialize($data);
         return eaccelerator_put($key, $data, $cache_lifetime);
@@ -132,7 +132,7 @@ class Clansuite_Cache_Eaccelerator implements Clansuite_Cache_Interface
      * @param string $key Identifier for the data
      * @return boolean True if the data was successfully removed, false on failure
      */
-    function delete($key)
+    public function delete($key)
     {
         return eaccelerator_rm($key);
     }
@@ -140,7 +140,7 @@ class Clansuite_Cache_Eaccelerator implements Clansuite_Cache_Interface
     /**
      *  Get stats and usage Informations for display from eAccelerator
      */
-    function stats()
+    public function stats()
     {
         if(CSID_EXTENSION_LOADED_EAC == false)
         {

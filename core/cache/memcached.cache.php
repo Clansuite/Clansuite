@@ -140,7 +140,7 @@ class Clansuite_Cache_Memcached implements Clansuite_Cache_Interface
      * @param $key
      * @param $value
      */
-    function __set($key, $value)
+    public function __set($key, $value)
     {
         $this->store($key, $value);
     }
@@ -150,7 +150,7 @@ class Clansuite_Cache_Memcached implements Clansuite_Cache_Interface
      *
      * @param $key
      */
-    function __get($key)
+    public function __get($key)
     {
         return $this->fetch($key);
     }
@@ -164,7 +164,7 @@ class Clansuite_Cache_Memcached implements Clansuite_Cache_Interface
      * @param array $servers
      * @return boolean
      */
-    function setServer($servers)
+    public function setServer($servers)
     {
         if(!$servers)
         {
@@ -186,7 +186,7 @@ class Clansuite_Cache_Memcached implements Clansuite_Cache_Interface
      *
      * @return $this->memcached_servers
      */
-    function  getServers()
+    public function  getServers()
     {
         return $this->memcached_servers;
     }
@@ -197,7 +197,7 @@ class Clansuite_Cache_Memcached implements Clansuite_Cache_Interface
      * @param string $key Identifier for the data
      * @return boolean true|false
      */
-    function isCached($key)
+    public function isCached($key)
     {
         # md5'ify the key
         $key = md5($key);
@@ -212,12 +212,22 @@ class Clansuite_Cache_Memcached implements Clansuite_Cache_Interface
     }
 
     /**
+     * Convenience/shortcut method for fetch
+     * @param string $key Identifier for the data
+     * @return mixed boolean FALSE if the data was not fetched from the cache, DATA on success
+     */
+    public function get($key)
+    {
+        $this->fetch($key);
+    }
+
+    /**
      * Read a key from the cache
      *
      * @param string $key Identifier for the data
      * @return mixed boolean FALSE if the data was not fetched from the cache, DATA on success
      */
-    function fetch($key)
+    public function fetch($key)
     {
         if(!is_array($key))
         {
@@ -248,6 +258,19 @@ class Clansuite_Cache_Memcached implements Clansuite_Cache_Interface
     }
 
     /**
+     * Convenience/shortcut method for storing data by key into cache
+     *
+     * @param string $key Identifier for the data
+     * @param mixed $data Data to be cached
+     * @param integer $cache_lifetime How long to cache the data, in seconds
+     * @return boolean True if the data was succesfully cached, false on failure
+     */
+    public function set($key, $data, $cache_lifetime)
+    {
+        $this->store($key, $data, $cache_lifetime);
+    }
+
+    /**
      * Stores data by key into cache
      *
      * @param string $key Identifier for the data
@@ -255,7 +278,7 @@ class Clansuite_Cache_Memcached implements Clansuite_Cache_Interface
      * @param integer $cache_lifetime How long to cache the data, in seconds
      * @return boolean True if the data was succesfully cached, false on failure
      */
-    function store($key, $data, $cache_lifetime)
+    public function store($key, $data, $cache_lifetime)
     {
         $compression = $this->config['cache']['memcached_autocompression'];
 
@@ -288,7 +311,7 @@ class Clansuite_Cache_Memcached implements Clansuite_Cache_Interface
      * @param $key string or array
      * @param $time delaytime before deletion
      */
-    function delete($keys, $time = null)
+    public function delete($keys, $time = null)
     {
         if(!is_array($keys))
         {
@@ -310,7 +333,7 @@ class Clansuite_Cache_Memcached implements Clansuite_Cache_Interface
      *
      * @return a flushed cache
      */
-    function delete_all()
+    public function delete_all()
     {
         return $this->memcache->flush;
     }
@@ -318,7 +341,7 @@ class Clansuite_Cache_Memcached implements Clansuite_Cache_Interface
     /**
      * Display Memcached Usage Informations
      */
-    function stats()
+    public function stats()
     {
         # ensure memcache is loaded
         if(CSID_EXTENSION_LOADED_MEMC == false)
