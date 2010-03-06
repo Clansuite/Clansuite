@@ -325,15 +325,14 @@
     <!-- COMMAND = "codesniffer-report" -->
     <!-- @link: http://phing.info/docs/guide/current/chapters/appendixes/AppendixC-OptionalTasks.html#PhpCodeSnifferTask -->
     <target name="codesniffer-report" description="Runs the PHP-Codesniffer task and reports coding standard violations">
-        <phpcodesniffer standard="Clansuite"
-                        format="checkstyle"
+        <phpcodesniffer standard="/home/clansuite/svn-export/build-tools/CodeSniffer/Standards/Clansuite/"
                         tabWidth="4"
-                        error="/dev/null"
-                        failonerror="false"
                         verbosity="0"
                         allowedFileExtensions="php"
                         >
             <fileset refid="clansuite.reportfiles" />
+            <formatter type="default" usefile="false"/>
+            <formatter type="checkstyle" outfile="/home/clansuite/logs/codesniffer_checkstyle.xml"/>
         </phpcodesniffer>
     </target>
 
