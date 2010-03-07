@@ -66,10 +66,10 @@
         --------------------------------
 
         - all_docs            : generate documentation (phpxref, phpdoc, doxygen, asciidoc)
-        - doc_phpdoc          : generate the api docs via phpdoc
-        - doc_phpxref         : generate the api docs via phpxref
-        - doc_doxygen         : generate the api docs via doxygen
-        - doc_asciidoc        : generate the manuals from asciidoc files
+        - doc-phpdoc          : generate the api docs via phpdoc
+        - doc-phpxref         : generate the api docs via phpxref
+        - doc-doxygen         : generate the api docs via doxygen
+        - doc-asciidoc        : generate the manuals from asciidoc files
         - visualize-buildfile : generates a visualization of the clansuite build file
 
         List of Subversion Commands
@@ -384,13 +384,13 @@
         <echo>-----------------------------------</echo>
         <echo>|   Creating ALL Documentations   |</echo>
         <echo>-----------------------------------</echo>
-        <phingcall target="doc_phpdoc" />
-        <phingcall target="doc_doxygen" />
-        <phingcall target="doc_phpxref" />
+        <phingcall target="doc-phpdoc" />
+        <phingcall target="doc-doxygen" />
+        <phingcall target="doc-phpxref" />
     </target>
 
-    <!-- COMMAND = "doc_phpdoc" -->
-    <target name="doc_phpdoc" description="Generates the API Documentation using PHPDocumentor">
+    <!-- COMMAND = "doc-phpdoc" -->
+    <target name="doc-phpdoc" description="Generates the API Documentation using PHPDocumentor">
         <echo>Generates the API documentation using PHPDocumentor</echo>
         <delete dir="${phpdoc.directory}" />
 
@@ -416,14 +416,14 @@
         </phpdoc>        
     </target>
 
-    <!-- COMMAND = "doc_doxygen" -->
-    <target name="doc_doxygen" description="Generates the API documentation using Doxygen">
+    <!-- COMMAND = "doc-doxygen" -->
+    <target name="doc-doxygen" description="Generates the API documentation using Doxygen">
         <echo>Generates the API documentation using Doxygen</echo>
         <exec command="doxygen" dir="."/>
     </target>
 
-    <!-- COMMAND = "doc_phpxref" -->
-    <target name="doc_phpxref" description="Generates the API documentation using PHP Cross Reference">
+    <!-- COMMAND = "doc-phpxref" -->
+    <target name="doc-phpxref" description="Generates the API documentation using PHP Cross Reference">
         <echo>Generates the API documentation using PHP Cross Reference</echo>
         <exec command="phpxref" dir="."/>
     </target>
