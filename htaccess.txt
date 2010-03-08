@@ -72,7 +72,7 @@ php_value output_handler        ob_gzhandler
 #     Removed Etag + Smaller Header for image, javascript, css files with cache lifetime 1 year+
 
 <IfModule mod_expires.c>
-    <FilesMatch "\.(gif|jpg|jpeg|png|swf|css|js|html?|xml|txt)$">
+    <FilesMatch "\.(ico|gif|jpg|jpeg|png|swf|css|js|html?|xml|txt)$">
 		ExpiresActive On
 		ExpiresDefault "access plus 1 years"
 	</FilesMatch>
@@ -86,7 +86,7 @@ php_value output_handler        ob_gzhandler
     Header unset ETag
     Header unset Last-Modified
 </IfModule>
-<FilesMatch "\.(gif|jpg|jpeg|png|swf|css|js|html?|xml|txt)$">
+<FilesMatch "\.(ico|gif|jpg|jpeg|png|swf|css|js|html?|xml|txt)$">
 	FileETag none
 </FilesMatch>
 
