@@ -132,7 +132,7 @@ class Clansuite_CMS
            empty(self::$config['database']['name'])
            )
         {
-            die('<b><font color="#FF0000">[Clansuite Error] The Database Connection Data missing!</font></b> <br />
+            die('<b><font color="#FF0000">[Clansuite Error] Database Connection Settings missing!</font></b> <br />
                  Please use <a href="/installation/index.php">Clansuite Installation</a> to perform a proper installation.');
         }
     }
