@@ -22,6 +22,7 @@
     Subversion          http://subversion.tigris.org/
     phpDocumentor       http://www.phpdoc.org/
     phpXref             http://phpxref.sourceforge.net/
+    Doxygen             http://www.stack.nl/~dimitri/doxygen/
     phpLint             http://www.icosaedro.it/phplint/
     phpCodeSniffer      http://pear.php.net/package/PHP_CodeSniffer
     Graphviz            http://www.graphviz.org/
@@ -63,9 +64,9 @@
         - run-tests : runs simpletest testsuite
 
         List of Documentation Commands
-        --------------------------------
+        ------------------------------
 
-        - all_docs            : generate documentation (phpxref, phpdoc, doxygen, asciidoc)
+        - all-docs            : generate documentation (phpxref, phpdoc, doxygen, asciidoc)
         - doc-phpdoc          : generate the api docs via phpdoc
         - doc-phpxref         : generate the api docs via phpxref
         - doc-doxygen         : generate the api docs via doxygen
@@ -79,6 +80,7 @@
         - svn-checkout          : svn checkout from ${svn.repository}
         - svn-export-from-gna   : svn export from ${svn.repository}
         - svn-export-from-local : svn export from ${svn.local.directory}
+        - svn-up-export-local   : svn-update + svn-export-from-local
 
         General Settings and Paths
         --------------------------
@@ -115,6 +117,10 @@
     <property name="build.src.directory" value="${build.base.directory}${packagename}/" />    <!-- name of the build directory for current package -->
     <property name="webbase.directory" value="/var/syscp/webs/clansuite/" />                  <!-- name of the web directory for documentation = WWWROOT -->
 
+    <!-- Define the Properties for Section 2) Subversion -->
+    <property name="svn.local.export.directory"  value="${base.directory}svn-export/" />     <!-- Local SVN Export Directory (todir) -->
+    <property name="svn.local.directory"         value="${base.directory}svn/" />            <!-- Local SVN Directory -->
+
     <!-- Define the Properties for Section 5) Documentation -->
     <property name="documentations.directory" value="${webbase.directory}documentation/developer/" override="true" />
     <property name="phpdoc.directory" value="${documentations.directory}phpdoc/" override="true" />
@@ -124,30 +130,35 @@
     <!-- Define the Properties for Section 6) Building Archives -->
     <property name="archive.directory" value="${build.base.directory}archives" override="true" />
 
-    <!-- Define Fileset "clansuite.projectfiles" -->
+     <!-- Define Fileset "clansuite.projectfiles" -->
     <fileset id="clansuite.projectfiles" dir="${svn.local.export.directory}">   <!-- based on trunk -->
         <include name="**" />                           <!-- include all files -->
-        <exclude name="build-tools" />                  <!-- exclude build-tools directory -->
-        <exclude name="tests" />                        <!-- exclude tests directory -->
-        <exclude name="tmp" />                          <!-- exclude temporary directory -->
+        <exclude name="build-tools/**" />               <!-- exclude build-tools directory -->
+        <exclude name="tests/**" />                     <!-- exclude tests directory -->
+        <exclude name="tmp/**" />                       <!-- exclude temporary directory -->
         <exclude name=".htaccess"/>                     <!-- exclude htaccess -->
     </fileset>
 
     <!-- Define Fileset "clansuite.projectfiles.docs" Documentation Fileset (exclude Smarty, because Phing is stupid :) -->
     <fileset id="clansuite.projectfiles.docs" dir="${svn.local.export.directory}">   <!-- based on trunk -->
-        <include name="**" />                           <!-- include all files -->
-        <exclude name="build-tools" />                  <!-- exclude build-tools directory -->
-        <exclude name="tests" />                        <!-- exclude tests directory -->
-        <exclude name="tmp" />                          <!-- exclude temporary directory -->
-        <exclude name=".htaccess"/>                     <!-- exclude htaccess -->
-        <exclude name="libraries"/>                     <!-- exclude libraries -->
+        <include name="**/*.php" />                     <!-- include all php files -->
+        <exclude name="build-tools/**" />               <!-- exclude build-tools directory -->
+        <exclude name="tests/**" />                     <!-- exclude tests directory -->
+        <exclude name="*Test.php"/>                     <!-- exclude all test files -->
+        <exclude name="**/*Test.php"/>
+        <exclude name="tmp/**p" />                      <!-- exclude temporary directory -->
+        <exclude name=".htaccess"/>                     <!-- exclude htaccess file -->
+        <exclude name="libraries/**"/>                  <!-- exclude libraries directory -->
+        <exclude name="PEAR/**" />                      <!-- exclude pear directory -->
+        <exclude name="pear-* />
     </fileset>
 
     <!-- Define Fileset "clansuite.testfiles" -->
     <fileset id="clansuite.testfiles" dir="${svn.local.export.directory}">    <!-- based on trunk -->
+       <include name="**/*.php" />                     <!-- include all php files -->
        <include name="*Test.php"/>                     <!-- include all test files -->
        <include name="**/*Test.php"/>
-       <exclude name="libraries" />                    <!-- exclude the libraries folder -->
+       <exclude name="libraries/**" />                 <!-- exclude the libraries folder -->
     </fileset>
 
     <!-- ============================================ -->
@@ -162,8 +173,6 @@
     <!-- We are building from /trunk. Later from /tag releases!
     <property name="repository" value="http://svn.gna.org/svn/clansuite/tag/${clansuite_version}/" />
     -->
-    <property name="svn.local.export.directory"  value="${base.directory}svn-export/" />     <!-- Local SVN Export Directory (todir) -->
-    <property name="svn.local.directory"         value="${base.directory}svn/" />            <!-- Local SVN Directory -->
 
     <!-- COMMAND = "svn-update" -->
     <target name="svn-update" description="Updates ${svn.local.directory} via svn update.">
@@ -194,8 +203,6 @@
     <target name="svn-export-from-local" description="Exports the local Clansuite Subversion repository to the local export directory ${svn.local.export.directory}.">
         <echo>Performing an SVN Export on local SVN Repository</echo>
         <svnexport svnpath="${svn.path}"
-                   username="${svn.username}"
-                   password="${svn.password}"
                    nocache="true"
                    force="true"
                    repositoryurl="${svn.local.directory}"
@@ -215,6 +222,13 @@
         <echo>Removes and recreates the SVN Export Dir to have a clean copy</echo>
         <delete dir="${svn.local.export.directory}" failonerror="true" verbose="false" includeemptydirs="true" />
         <mkdir dir="${svn.local.export.directory}" />
+    </target>
+
+    <!-- COMMAND = "svn-up-export-local" -->
+    <target name="svn-up-export-local" description="Combined tasks of svn update and svn export local">
+        <echo>Combined tasks of svn update and svn export local</echo>
+        <phingcall target="svn-update" />
+        <phingcall target="svn-export-from-local" />
     </target>
 
     <!-- =============================================== -->
@@ -387,6 +401,7 @@
         <phingcall target="doc-phpdoc" />
         <phingcall target="doc-doxygen" />
         <phingcall target="doc-phpxref" />
+        <phingcall target="doc-asciidoc" />
     </target>
 
     <!-- COMMAND = "doc-phpdoc" -->
@@ -394,26 +409,24 @@
         <echo>Generates the API documentation using PHPDocumentor</echo>
         <delete dir="${phpdoc.directory}" />
 
-        <!-- <phpdocext></phpdocext> -->
-        <phpdoc title="Clansuite API Documentation"
+        <phpdoc title="Clansuite - just an eSport CMS | Framework API Documentation"
                 destdir="${phpdoc.directory}"
                 quiet="true"
-                sourcecode="no"
-                output="HTML:frames:phphtmllib"
+                sourcecode="yes"
+                output="HTML:frames:phpedit"
                 defaultpackagename="Clansuite"
                 undocumentedelements="true">
 
            <fileset refid="clansuite.projectfiles.docs"/>
 
-            <projdocfileset dir=".">
-              <exclude name="build-tools" />
-              <exclude name="libraries" />
-              <include name="README" />
-              <include name="INSTALL" />
-              <include name="CHANGELOG" />
-            </projdocfileset>
-            
-        </phpdoc>        
+           <projdocfileset dir="${svn.local.export.directory}/doc">
+              <include name="README.EN.TXT" />
+              <include name="AUTHORS.txt" />
+              <include name="LICENSE.txt" />
+              <include name="THIRD-PARTY-LIBRARIES.txt" />
+           </projdocfileset>
+
+        </phpdoc>
     </target>
 
     <!-- COMMAND = "doc-doxygen" -->
@@ -425,7 +438,14 @@
     <!-- COMMAND = "doc-phpxref" -->
     <target name="doc-phpxref" description="Generates the API documentation using PHP Cross Reference">
         <echo>Generates the API documentation using PHP Cross Reference</echo>
-        <exec command="phpxref" dir="."/>
+        <exec command="/home/clansuite/build-tools/phpxref-0.7/phpxref.pl -c /home/clansuite/build-tools/clansuite-phpxref-linux.cfg > $CLANSUITE_LOGDIR/phpxref.log"
+              dir="."/>
+    </target>
+
+    <!-- COMMAND = "doc-asciidoc" -->
+    <target name="doc-asciidoc" description="Generates the documentation using Asciidoc">
+        <echo>Generates the documentation/manuals using Asciidoc</echo>
+        <exec command="asciidoc" dir="."/>
     </target>
 
     <!-- ======================================== -->
