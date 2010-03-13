@@ -13,11 +13,13 @@ CSQUERY                   0.11       LGPL v2 or above         http://www.clansui
 DOCTRINE                  1.1.0      LGPL                     http://www.doctrine-project.org/
 FCKEDITOR                 2.6.3      GPL, LGPL, MPL           http://www.fckeditor.net
 FEEDCREATOR               1.7.2      LGPL                     http://www.bitfolge.de
+FILE_GETTEXT              0.4.1      BSD (revised/new)        http://pear.php.net/package/File_Gettext/                 
 GESHI                     1.0.8      GPL                      http://www.qbnz.com/highlighter/
 GRAPH                     1.8.0      LGPL v2.1 or above       http://www.zackbloom.com/graph/
 IDS (PHP-IDS)             0.4        LGPL                     http://www.php-ids.org/
 LIBACTS2                  SVN#30     GPL v2 or above          http://forum.planetteamspeak.com/showthread.php?t=81
 MINIFY                    2.1.2      BSD (revised/new)        http://code.google.com/p/minify/
+NET_URL_MAPPER            0.9.1      BSD (revised/new)        http://pear.php.net/package/Net_URL_Mapper
 OFC                       1.9.7      LGPL v2.1 or above       http://teethgrinder.co.uk/open-flash-chart/
 PCLZIP                    2.6        LGPL                     http://www.phpconcept.net/pclzip/
 PHEMTO                    0.1a       NONE, Public Domain      http://www.sourceforge.net/projects/phemto/
