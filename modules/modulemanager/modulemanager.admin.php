@@ -352,8 +352,8 @@ class Module_Modulemanager_Admin extends Clansuite_ModuleController implements C
             if (!is_dir(ROOT_MOD .  $mod['modulename']))
             {
                 // CREATE DIRECTORIES
-                mkdir( ROOT_MOD .  $mod['modulename'] );
-                mkdir( ROOT_MOD .  $mod['modulename'] . DS . 'templates' );
+                mkdir( ROOT_MOD .  $mod['modulename'], fileperms(ROOT_MOD) );
+                mkdir( ROOT_MOD .  $mod['modulename'] . DS . 'templates', fileperms(ROOT_MOD .  $mod['modulename']) );
             }
             else
             {
@@ -549,6 +549,59 @@ class Module_Modulemanager_Admin extends Clansuite_ModuleController implements C
 
             # write the documentation file to the moduledir
             file_put_contents( ROOT_MOD .  $module . DS . 'doc' . DS . $module . '_documentation.asc', $documentation_template_content);
+        }
+    }
+
+    /**
+     * This Method creates a the modulenavigation file, if not existant yet.
+     * modulename.menu.php
+     *
+     * @param $module string Modulename
+     * @return void
+     */
+    public function createModuleMenunavigationTemplateFromTemplate($module)
+    {
+        # check, if the modulename.menu.php file exists, if not create menu from template
+        if( is_file( ROOT_MOD .  $module . DS . $module . '.menu.asc') == false )
+        {
+            # get some moduleinfos from module_info.xml
+            
+            # one menu entry
+            /*array = ( '1' => array(
+                                    'action'  => 'show',
+                                    'name'    => 'Overview',
+								    'url'	  => 'index.php?mod=news&sub=admin', # &action=show
+								    'icon'    => '',
+								    'tooltip' => ''
+										)
+		            )*/
+
+            # fill the documentation template with the moduleinfo data
+            $documentation_template_content = $smarty->fetch( ROOT_MOD . 'scaffolding/module_menu.tpl');
+
+            # write the documentation file to the moduledir
+            file_put_contents( ROOT_MOD .  $module . DS . '.menu.asc', $documentation_template_content);
+        }
+    }
+
+    public static function pretty_var($array)
+    {
+        print str_replace( array("\n"," "), array("<br>","&nbsp;"), var_export($array, true))."<br>";
+    }
+    
+    public static function recursive_print ($varname, $varval)
+    {
+        if (is_array($varval) == false)
+        {
+            print $varname . ' = ' . var_export($varval, true) . ";<br>\n";
+        }
+        else
+        {
+            print $varname . " = array();<br>\n";
+            foreach ($varval as $key => $val)
+            {
+              recursive_print ($varname . "[" . var_export($key, true) . "]", $val);
+            }
         }
     }
 

@@ -4,7 +4,7 @@
 
 You have selected the templates of module: {$templateeditor_modulename}
 
-{foreach from=$templates item=template}
+{foreach $templates  as template}
 
 {$template.filename}
 <br />

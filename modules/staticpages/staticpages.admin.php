@@ -290,7 +290,7 @@ class Module_Staticpages_Admin extends Clansuite_ModuleController implements Cla
 
         # clear the cache / compiled tpls
         # $this->getView()->clear_all_cache();
-        $this->getView()->clear_compiled_tpl();
+        $this->getView()->utility->clearCompiledTemplate();
 
         # Redirect
         $this->getHttpResponse()->redirectNoCache('index.php?mod=staticpages&amp;sub=admin', 2, 302, 'The config file has been succesfully updated.');

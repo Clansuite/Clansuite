@@ -113,7 +113,7 @@ class Module_Blog_Admin extends Clansuite_ModuleController implements Clansuite_
 
         # clear the cache / compiled tpls
         # $this->getView()->clear_all_cache();
-        $this->getView()->clear_compiled_tpl();
+        $this->getView()->utility->clearCompiledTemplate();
 
         # Redirect
         $this->getHttpResponse()->redirectNoCache('index.php?mod=blog&amp;sub=admin', 2, 302, 'The config file has been succesfully updated.');

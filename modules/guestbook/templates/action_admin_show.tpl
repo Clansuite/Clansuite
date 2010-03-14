@@ -54,7 +54,7 @@
     <form id="deleteForm" name="deleteForm" action="index.php?mod=news&sub=admin&amp;action=delete" method="post" accept-charset="UTF-8">
         <!-- Content of Table -->
 
-        {foreach from=$guestbook item=entry key=key}
+        {foreach $guestbook  as entry}
 
         <tr class="tr_row1" id="guestbook-entry-{$entry.gb_id}">
                 

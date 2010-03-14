@@ -22,7 +22,7 @@
         <input class="ButtonGreen" type="button" value="{t}Add a guestbook entry{/t}" />
     </div>
     
-    {foreach from=$guestbook item=entry key=key}
+    {foreach $guestbook  as entry}
     
     <div class="gb">
         <div class="gbhead">

@@ -80,7 +80,7 @@ class Module_Doctrine_Admin extends Clansuite_ModuleController implements Clansu
     public function execute(Clansuite_HttpRequest $request, Clansuite_HttpResponse $response)
     {
         # Setup the path constants
-        # They are configured via clansuite configuration, because access is only needed here
+        # They are not configured via clansuite configuration, because access is only needed in here
         define('MODELS_PATH',        ROOT . DS . 'models');
         define('YAML_SCHEMA_PATH',   ROOT . DS . 'doctrine' . DS . 'schema');
         define('SQL_PATH',           ROOT . DS . 'doctrine' . DS . 'sql');
@@ -101,16 +101,17 @@ class Module_Doctrine_Admin extends Clansuite_ModuleController implements Clansu
                         # PHP Documentor Comment Settings
                         'phpDocPackage'         => 'Doctrine',
                         'phpDocSubpackage'      => 'Records',
-                        'phpDocName'            => 'Jens-André Koch',
+                        'phpDocName'            => 'Jens-Andre Koch',
                         'phpDocEmail'           => 'vain@clansuite.com',
                         # Classnames and Filenames
-                        'generateBaseClasses'   => true,
-                        'baseClassPrefix'       => 'Clansuite_ModelsBase_',
+                        'generateBaseClasses'   => true,                        # generate BaseClasses too
+                        #'baseClassPrefix'       => 'Clansuite_ModelsBase_',
+                        'baseClassPrefix'       => 'Base_',
                        #'baseClassName'         => '',
                         'baseClassesDirectory'  => 'records',
-                        'generateTableClasses'  => true,
+                        'generateTableClasses'  => true,                        # generate Tables and Records
                         'baseTableClassName'    => '',
-                        'classPrefix'           => 'Modules_Models_', # determines the pear style nameing convention for autoload
+                        'classPrefix'           => 'Modules_Models_',           # determines the pear style nameing convention for autoload
                         'classPrefixFiles'      => true,
                         'pearStyle'             => true,
                         'suffix'                => '.model.php'
@@ -122,7 +123,7 @@ class Module_Doctrine_Admin extends Clansuite_ModuleController implements Clansu
 
     public function action_admin_show()
     {
-
+        $this->prepareOutput();
     }
 }
 ?>

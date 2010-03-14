@@ -25,7 +25,7 @@ There are {$modules_summary.counter} Modules installed.
         <th class="td_header_small">{t}Actions{/t}</th>
     </tr>
     
-    {foreach from=$modules item=module}
+    {foreach $modules  as module}
     
     <tr>
         <td class="cell1">{$module.dir_id}</td>
