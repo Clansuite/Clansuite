@@ -83,6 +83,9 @@ class Smarty_Internal_Config {
             if (file_exists($_filepath))
                 return $_filepath;
         } 
+        // check for absolute path
+        if (file_exists($this->config_resource_name))
+            return $this->config_resource_name;
         // no tpl file found
         throw new Exception("Unable to load config file \"{$this->config_resource_name}\"");
         return false;
@@ -134,7 +137,7 @@ class Smarty_Internal_Config {
     {
         $_flag = (int)$this->smarty->config_read_hidden + (int)$this->smarty->config_booleanize * 2 +
         (int)$this->smarty->config_overwrite * 4;
-        $_filepath = (string)abs(crc32($this->config_resource_name . $_flag)); 
+        $_filepath = sha1($this->config_resource_name . $_flag); 
         // if use_sub_dirs, break file into directories
         if ($this->smarty->use_sub_dirs) {
             $_filepath = substr($_filepath, 0, 2) . DS
@@ -225,21 +228,29 @@ class Smarty_Internal_Config {
     public function loadConfigVars ($sections = null, $scope)
     {
         if (isset($this->template)) {
-            $this->template->properties['file_dependency']['F' . abs(crc32($this->getConfigFilepath()))] = array($this->getConfigFilepath(), $this->getTimestamp());
+            $this->template->properties['file_dependency'][sha1($this->getConfigFilepath())] = array($this->getConfigFilepath(), $this->getTimestamp());
         } else {
-            $this->smarty->properties['file_dependency']['F' . abs(crc32($this->getConfigFilepath()))] = array($this->getConfigFilepath(), $this->getTimestamp());
-        }
+            $this->smarty->properties['file_dependency'][sha1($this->getConfigFilepath())] = array($this->getConfigFilepath(), $this->getTimestamp());
+        } 
         $config_data = unserialize($this->getCompiledConfig()); 
         // var_dump($config_data);
         // copy global config vars
         foreach ($config_data['vars'] as $variable => $value) {
-            $scope->config_vars[$variable] = $value;
+            if ($this->smarty->config_overwrite || !isset($scope->config_vars[$variable])) {
+                $scope->config_vars[$variable] = $value;
+            } else {
+                $scope->config_vars[$variable] = array_merge((array)$scope->config_vars[$variable], (array)$value);
+            } 
         } 
         // scan sections
         foreach ($config_data['sections'] as $this_section => $dummy) {
             if ($sections == null || in_array($this_section, (array)$sections)) {
                 foreach ($config_data['sections'][$this_section]['vars'] as $variable => $value) {
-                    $scope->config_vars[$variable] = $value;
+                    if ($this->smarty->config_overwrite || !isset($scope->config_vars[$variable])) {
+                        $scope->config_vars[$variable] = $value;
+                    } else {
+                        $scope->config_vars[$variable] = array_merge((array)$scope->config_vars[$variable], (array)$value);
+                    } 
                 } 
             } 
         } 

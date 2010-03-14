@@ -20,7 +20,10 @@ class Smarty_Internal_Resource_File {
     // classes used for compiling Smarty templates from file resource
     public $compiler_class = 'Smarty_Internal_SmartyTemplateCompiler';
     public $template_lexer_class = 'Smarty_Internal_Templatelexer';
-    public $template_parser_class = 'Smarty_Internal_Templateparser';
+    public $template_parser_class = 'Smarty_Internal_Templateparser'; 
+    // properties
+    public $usesCompiler = true;
+    public $isEvaluated = false;
 
     /**
     * Return flag if template source is existing
@@ -51,6 +54,7 @@ class Smarty_Internal_Resource_File {
                 $_template->smarty->security_handler->isTrustedResourceDir($_filepath);
             } 
         } 
+        $_template->templateUid = sha1($_filepath);
         return $_filepath;
     } 
 
@@ -83,37 +87,19 @@ class Smarty_Internal_Resource_File {
     } 
 
     /**
-    * Return flag that this resource uses the compiler
-    * 
-    * @return boolean true
-    */
-    public function usesCompiler()
-    { 
-        // template has tags, uses compiler
-        return true;
-    } 
-
-    /**
-    * Return flag that this is not evaluated
-    * 
-    * @return boolean false
-    */
-    public function isEvaluated()
-    { 
-        // save the compiled file to disk, do not evaluate
-        return false;
-    } 
-    /**
     * Get filepath to compiled template
     * 
     * @param object $_template template object
     * @return string return path to compiled template
     */
     public function getCompiledFilepath($_template)
-    { 
-        $_compile_id =  isset($_template->compile_id) ? preg_replace('![^\w\|]+!','_',$_template->compile_id) : null;
-        // $_filepath = md5($_template->resource_name);
-        $_filepath = (string)abs(crc32($_template->getTemplateFilepath())); 
+    {
+        $_compile_id = isset($_template->compile_id) ? preg_replace('![^\w\|]+!', '_', $_template->compile_id) : null;
+        // calculate Uid if not already done
+        if ($_template->templateUid == '') {
+            $_template->getTemplateFilepath();
+        } 
+        $_filepath = $_template->templateUid; 
         // if use_sub_dirs, break file into directories
         if ($_template->smarty->use_sub_dirs) {
             $_filepath = substr($_filepath, 0, 2) . DS
@@ -134,7 +120,7 @@ class Smarty_Internal_Resource_File {
         if (strpos('/\\', substr($_compile_dir, -1)) === false) {
             $_compile_dir .= DS;
         } 
-        return $_compile_dir . $_filepath . '.' . $_template->resource_type . '.' . basename($_template->resource_name). $_cache . '.php';
+        return $_compile_dir . $_filepath . '.' . $_template->resource_type . '.' . basename($_template->resource_name) . $_cache . '.php';
     } 
 } 
 
