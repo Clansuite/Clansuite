@@ -26,7 +26,7 @@
  */
 function smarty_function_help($params, $smarty)
 {
-    $modulename = $smarty->get_template_vars('template_of_module');
+    $modulename = $smarty->getTemplateVars('template_of_module');
     
     # check if file exists
     if( $smarty->template_exists( $modulename. '/templates/help.tpl') )

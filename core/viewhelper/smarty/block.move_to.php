@@ -82,7 +82,7 @@ function smarty_block_move_to($params, $content, $smarty, &$repeat)
      * This makes it easier to determine the origin of the move operation.
      */
 
-    $templatename = $smarty->get_template_vars('templatename');
+    $templatename = $smarty->getTemplateVars('templatename');
 
     $origin_start = '<!-- [Start] Segment moved from: '.$templatename." -->\n";
     $origin_end   = '<!-- [-End-] Segment moved from: '.$templatename." -->\n";

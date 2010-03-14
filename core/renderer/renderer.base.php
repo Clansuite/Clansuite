@@ -333,6 +333,8 @@ abstract class Clansuite_Renderer_Base
      */
     public function getConstants()
     {
+        $template_constants = array();
+
         /**
          * a) Assign Web Paths
          *
@@ -373,8 +375,14 @@ abstract class Clansuite_Renderer_Base
         # Normal CSS (global)
         $template_constants['css'] = WWW_ROOT_THEMES .'/'. $_SESSION['user']['theme'] .'/'. $this->config['template']['css'];
 
+        # Minifed Stylesheets of a certain group (?g=) of css files
+        $template_constants['minfied_css'] = ROOT_LIBRARIES . 'minify/?g=css&amp;' . $_SESSION['user']['theme'];
+
         # Normal Javascript (global)
         $template_constants['javascript'] = WWW_ROOT_THEMES .'/'. $_SESSION['user']['theme'] .'/'. $this->config['template']['javascript'];
+
+        # Minifed Javascripts of a certain group (?g=) of js files
+        $template_constants['minfied_javascript'] =  ROOT_LIBRARIES . 'minify/?g=js&amp;' . $_SESSION['user']['theme'];
 
         # Breadcrumb
         $template_constants['trail'] = Clansuite_Trail::getTrail();
