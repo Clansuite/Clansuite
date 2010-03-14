@@ -2,7 +2,7 @@
 ;
 ; Clansuite Configuration File :
 ; D:\xampplite\htdocs\work\clansuite\trunk\configuration\clansuite.config.php
-; When this file is not existant, Clansuite will redirect you to the Installation process.
+; When this file is deleted, Clansuite will redirect you to the Installation process.
 
 ;----------------------------------------
 ; database
