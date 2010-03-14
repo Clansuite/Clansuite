@@ -105,6 +105,11 @@ class Module_Templatemanager_Admin extends Clansuite_ModuleController implements
         # Prepare the Output
         $this->prepareOutput();
     }
+    
+    public function action_admin_create()
+    {
+        $this->action_admin_editor();
+    }
 
     /**
      * The action_admin_editor method for the Templatemanager module

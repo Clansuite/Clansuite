@@ -119,7 +119,7 @@ class Module_Statistics_Admin extends Clansuite_ModuleController implements Clan
 
         # clear the cache / compiled tpls
         # $this->getView()->clear_all_cache();
-        #$this->getView()->clear_compiled_tpl();
+        #$this->getView()->utility->clearCompiledTemplate();
 
         # Redirect
         $this->getHttpResponse()->redirectNoCache(WWW_ROOT . '/index.php?mod=statistics&amp;sub=admin&amp;action=settings', 2, 302, 'The config file has been succesfully updated.');
