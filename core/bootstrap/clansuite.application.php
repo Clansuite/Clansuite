@@ -60,6 +60,9 @@ class Clansuite_CMS
 
     public static function run()
     {
+        /**
+         * @const STARTTIME shows Application Starttime
+         */
         define('STARTTIME', microtime(1));
 
         Clansuite_CMS::initialize_Config();
@@ -190,110 +193,130 @@ class Clansuite_CMS
     private static function initialize_Paths()
     {
         /**
-         * DEFINE Shorthands and Syntax Declarations
+         * 1) Shorthands and Syntax Declarations
          */
-        define('DS', DIRECTORY_SEPARATOR);
-        define('PS', PATH_SEPARATOR);
-
-        # HTML Break + Carriage Return
-        define('NL', "<br />\r\n");
-        define('CR', "\n");
 
         /**
-         * DEFINE -> ROOT
-         *
-         * Purpose of ROOT is to provide the absolute path to the current working dir of clansuite
-         * ROOT is the APPLICATION PATH
+         * @const DS is a shorthand for DIRECTORY_SEPARATOR
          */
-        define('ROOT',  getcwd() . DS);
+        define('DS', DIRECTORY_SEPARATOR);
+
+        /**
+         * @const PS is a shorthand for PATH_SEPARATOR
+         */
+        define('PS', PATH_SEPARATOR);
+
+        /**
+         * @const HTML Break + Carriage Return "<br />\r\n"
+         */
+        define('NL', "<br />\r\n");
+
+        /**
+         * @const Carriage Return "\n"
+         */
+        define('CR', "\n");
+        
+        /**
+         * @const Carriage Return and Tabulator "\n\t"
+         */
+        define('CRT', "\n\t");
+
+        /**
+         * 2) Path Assignments
+         *    ROOT and directories related to ROOT as absolute path shortcuts.
+         */
+
+        /**
+         * ROOT is the APPLICATION PATH
+         * @const Purpose of ROOT is to provide the absolute path to the current working dir of clansuite
+         */
+        define('ROOT', getcwd() . DS);
         #define('ROOT',  realpath('../'));
 
         /**
-         * DEFINE -> Directories related to ROOT
-         *
-         * Purpose: absolute path shortcuts
+         * @const ROOT_MOD Root path of the modules directory (with trailing slash)
          */
+        define('ROOT_MOD'      , ROOT . self::$config['paths']['mod_folder'].DS);
 
         /**
-        * Root path of the modules directory (with trailing slash)
+        * @constRoot path of the themes directory (with trailing slash)
         */
-        define('ROOT_MOD'           , ROOT . self::$config['paths']['mod_folder'].DS);
+        define('ROOT_THEMES'   , ROOT . self::$config['paths']['themes_folder'].DS);
 
         /**
-        * Root path of the themes directory (with trailing slash)
-        */
-        define('ROOT_THEMES'        , ROOT . self::$config['paths']['themes_folder'].DS);
+         * @constRoot path of the languages directory (with trailing slash)
+         */
+        define('ROOT_LANGUAGES', ROOT . self::$config['paths']['language_folder'].DS);
 
         /**
-        * Root path of the languages directory (with trailing slash)
-        */
-        define('ROOT_LANGUAGES'     , ROOT . self::$config['paths']['language_folder'].DS);
+         * @constRoot path of the core directory (with trailing slash)
+         */
+        define('ROOT_CORE'     , ROOT . self::$config['paths']['core_folder'].DS);
 
         /**
-        * Root path of the core directory (with trailing slash)
-        */
-        define('ROOT_CORE'          , ROOT . self::$config['paths']['core_folder'].DS);
+         * @const Root path of the libraries directory (with trailing slash)
+         */
+        define('ROOT_LIBRARIES', ROOT . self::$config['paths']['libraries_folder'].DS);
 
         /**
-        * Root path of the libraries directory (with trailing slash)
-        */
-        define('ROOT_LIBRARIES'     , ROOT . self::$config['paths']['libraries_folder'].DS);
+         * @const Root path of the upload directory (with trailing slash)
+         */
+        define('ROOT_UPLOAD'   , ROOT . self::$config['paths']['upload_folder'].DS);
 
         /**
-        * Root path of the upload directory (with trailing slash)
-        */
-        define('ROOT_UPLOAD'        , ROOT . self::$config['paths']['upload_folder'].DS);
+         * @const Root path of the logs directory (with trailing slash)
+         */
+        define('ROOT_LOGS'     , ROOT . self::$config['paths']['logfiles_folder'].DS);
 
         /**
-        * Root path of the logs directory (with trailing slash)
-        */
-        define('ROOT_LOGS'          , ROOT . self::$config['paths']['logfiles_folder'].DS);
+         * @const Root path of the cache directory (with trailing slash)
+         */
+        define('ROOT_CACHE'    , ROOT . 'cache'.DS);
 
         /**
-        * Root path of the cache directory (with trailing slash)
-        */
-        define('ROOT_CACHE'         , ROOT . 'cache'.DS);
-
-        /**
-        * Root path of the config directory (with trailing slash)
-        */
+         * @const Root path of the config directory (with trailing slash)
+         */
         define('ROOT_CONFIG'        , ROOT . 'configuration'.DS);
 
         /**
-         * DEFINE -> Webpaths for Templates
-         *
-         * Purpose: direct usage of wwwpaths as constants in templates
-         * @toto get rid of using $_SERVER, this is already present in the httprequest class
+         * @const Determine Type of Protocol for Webpaths (http/https)
          */
-
-        # 1. Determine Type of Protocol for Webpaths (http/https)
         if(isset($_SERVER['HTTPS']) and strtolower($_SERVER['HTTPS']) == 'on')
         {
             define('PROTOCOL','https://');
         }
         else
         {
+
             define('PROTOCOL','http://');
         }
 
-        # 2. SERVER_URL
-        define('SERVER_URL'    , PROTOCOL.$_SERVER['SERVER_NAME']);
-
-        # 3. Build WWW_ROOT = complete www-path with server from SERVER_URL, depending on os-system
-        # Purpose of WWW_ROOT is to provide the complete www-path for later use in templates
-        # Example: WWW_ROOT = 'http://www.yourdomain.com/clansuite_root_directory/';
+        /**
+         * @const SERVER_URL
+         */
+        define('SERVER_URL', PROTOCOL . $_SERVER['SERVER_NAME']);
+        
+        /**
+         * @const WWW_ROOT is a complete www-path with servername from SERVER_URL, depending on os-system
+         */
         if (dirname($_SERVER['PHP_SELF']) == "\\" )
         {
-            define('WWW_ROOT', SERVER_URL );
+            define('WWW_ROOT', SERVER_URL);
         }
         else
         {
-            define('WWW_ROOT', SERVER_URL.dirname($_SERVER['PHP_SELF']) );
+            define('WWW_ROOT', SERVER_URL . dirname($_SERVER['PHP_SELF']) );
         }
 
-        # Purpose: webpath shortcuts for direct usage in templates
-        define('WWW_ROOT_THEMES'       , WWW_ROOT . '/' . self::$config['paths']['themes_folder']);
-        define('WWW_ROOT_THEMES_CORE'  , WWW_ROOT . '/' . self::$config['paths']['themes_folder'] .  '/core');
+        /**
+         * @const WWW_ROOT_THEMES defines the themes folder
+         */
+        define('WWW_ROOT_THEMES', WWW_ROOT . '/' . self::$config['paths']['themes_folder']);
+
+        /**
+         * @const WWW_ROOT_THEMES defines the themes/core folder
+         */
+        define('WWW_ROOT_THEMES_CORE', WWW_ROOT . '/' . self::$config['paths']['themes_folder'] .  '/core');
 
         /**
          * SET INCLUDE PATHS
@@ -331,7 +354,7 @@ class Clansuite_CMS
     private static function initialize_Debug()
     {
         /**
-         * Debug-Mode is set via config
+         * @const Debug-Mode Constant is set via config setting ['error']['debug']
          */
         define('DEBUG', self::$config['error']['debug']);
 
@@ -352,7 +375,7 @@ class Clansuite_CMS
         }
 
         /**
-         * Development-Mode is set via config
+         * @const Development-Mode is set via config setting ['error']['development']
          */
         define('DEVELOPMENT', self::$config['error']['development']);
 
@@ -363,7 +386,10 @@ class Clansuite_CMS
          * helper methods for profiling, tracing and enhancing the debug displays.
          * @see clansuite_xdebug:printR()
          */
-        # define XDebug and set it's value via the config
+
+        /**
+         * @const XDebug and set it's value via the config setting ['error']['xdebug']
+         */
         define('XDEBUG', self::$config['error']['xdebug']);
 
         # If XDebug is enabled, load xdebug helpers and start the debug/tracing
