@@ -107,23 +107,72 @@ class Clansuite_Javascripts extends Clansuite_Layout
      * The versions are whitelisted to keep a certain compatibilty frame.
      *
      * @param $version string The JQuery Version Number to load, like "1.3.2".
+     * @param $service string jquery for download from code.jquery.com, google for google.com/jsapi
      */
-    public static function addJS_JQuery_Service($version = null)
+    public static function addJS_JQuery_Service($version = null, $service = 'google')
+    {
+        # determine service
+        if($service == 'jquery')
+        {
+            # load from jquery.com
+            if($version === null)
+            {
+                Clansuite_Javascripts::addJS('http://code.jquery.com/jquery-latest.pack.js');
+            }
+            else
+            {
+                /**
+                 * JQuery version whitelist ensures a certain compatibilty frame
+                 */
+                $jquery_version_whitelist = array( '1.4.2', '1.4.1' ); # not 'latest'
+
+                if( in_array($version, $jquery_version_whitelist) )
+                {
+                    Clansuite_Javascripts::addJS('http://code.jquery.com/jquery-'.$version.'.pack.js');
+                }
+            }
+        }
+        else
+        {
+           # load from google.com
+           self::addJS_JQuery_GoogleCDN_Service($version);
+        }
+    }
+
+    /**
+     * Adds a JQuery Link, which fetches directly from google.com CDN
+     *
+     * If you don't specifiy the version parameter, the latest version will be fetched.
+     * For problems with this approach, @see addJS_JQuery_Service.
+     *
+     * The best practice usage is to provide a version number.
+     * The versions are whitelisted to keep a certain compatibilty frame.
+     *
+     * @param $version string The GoogleCDN Version Number to load, like "1.3.2".
+     */
+    public static function addJS_JQuery_GoogleCDN_Service($version = null)
     {
         if($version === null)
         {
-            Clansuite_Javascripts::addJS('http://code.jquery.com/jquery-latest.pack.js');
+            $version = 'latest';
         }
         else
         {
             /**
              * JQuery version whitelist ensures a certain compatibilty frame
              */
-            $jquery_version_whitelist = array( '1.3.2', '1.3.1' ); # not 'latest'
+            $jquery_version_whitelist = array( '1.4.2', '1.4.1' ); # not 'latest'
 
             if( in_array($version, $jquery_version_whitelist) )
             {
-                Clansuite_Javascripts::addJS('http://code.jquery.com/jquery-'.$version.'.pack.js');
+                $this->jquery_initscript  = '';
+                $this->jquery_initscript .= "    <script src=\"http://www.google.com/jsapi\"></script>\n";
+                $this->jquery_initscript .= "    <script>\n";
+                $this->jquery_initscript .= "      google.load('jquery', '{$version}');\n";
+                $this->jquery_initscript .= "      var $j = jQuery.noConflict();;\n";
+                $this->jquery_initscript .= "    </script>\n";
+
+                return $this->jquery_initscript;
             }
         }
     }
@@ -142,7 +191,7 @@ class Clansuite_Javascripts extends Clansuite_Layout
 	    {
 	        foreach($filenames as $filename)
     	    {
-    		    echo '<script src="{$www_root_themes_core}'.$filename.'" type="text/javascript"></script>'.CR;
+    		    return '<script src="{$www_root_themes_core}'.$filename.'" type="text/javascript"></script>'.CR;
     		}
 	    }
 	}
@@ -159,11 +208,11 @@ class Clansuite_Javascripts extends Clansuite_Layout
 		if( defined('OB_GZIP') )
 		{
 		    #Clansuite_Javascripts::addToCompressionWhitelist($javascript);
-		    echo '<script  src="{$www_root_themes_core}/compress.php?js='.$javascript.'" type="text/javascript"></script>'.CR;
+		    return '<script  src="{$www_root_themes_core}/compress.php?js='.$javascript.'" type="text/javascript"></script>'.CR;
 		}
 		else
 		{
-		    echo '<script src="'.$javascript.'" type="text/javascript"></script>'.CR;
+		    return '<script src="'.$javascript.'" type="text/javascript"></script>'.CR;
 		}
     }
 
@@ -181,7 +230,7 @@ class Clansuite_Javascripts extends Clansuite_Layout
 		$addJSInit .= $init;
 		$addJSInit .= CR.'// ]]></script>'.CR;
 
-	    echo $addJSInit;
+	    return $addJSInit;
 	}
 
     /**
@@ -194,14 +243,14 @@ class Clansuite_Javascripts extends Clansuite_Layout
 	{
 	    if($iehack == true)
 	    {
-	        echo '<!--[if IE]>';
+	        return '<!--[if IE]>';
 	    }
 
-	    echo "<style type=\"text/css\"> @import \"{$www_root_themes_core}/css/{$filename}.css\"; </style>".CR;
+	    return "<style type=\"text/css\"> @import \"{$www_root_themes_core}/css/{$filename}.css\"; </style>".CR;
 
 	    if($iehack == true)
 	    {
-	        echo '<![endif]-->';
+	        return '<![endif]-->';
 	    }
 	}
 }
