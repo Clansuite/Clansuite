@@ -83,7 +83,7 @@ class Clansuite_Loader
     {
         if (is_file($fileName))
         {
-            require_once $fileName;
+            require $fileName;
 
             # log for the autoloaded files
             if(DEBUG == true)
@@ -105,12 +105,14 @@ class Clansuite_Loader
      */
     private static function prepareClassnameAsFilename($className)
     {
-        # replace "Clansuite_Renderer_Factory" for the correct filename
-        $className = str_replace('Clansuite_','',$className);
-        # replace the classname "renderer_factory" with "renderer.factory" for the correct filename
-        $className = str_replace('_','.',$className);
         # strtolower
         $className = strtolower($className);
+
+        # replace "clansuite_renderer_factory" for the correct filename
+        $className = str_replace('clansuite_','',$className);
+
+        # replace the classname "renderer_factory" with "renderer.factory" for the correct filename
+        $className = str_replace('_','.',$className);
 
         return $className;
     }
