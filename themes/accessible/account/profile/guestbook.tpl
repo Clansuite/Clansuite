@@ -26,7 +26,7 @@
         <input class="ButtonGreen" type="button" value="{t}Add a guestbook entry{/t}" onclick='Dialog.info({url: "index.php?mod=guestbook&amp;action=create&amp;front=1", options: {method: "get"}}, {className: "alphacube", width:500, height: 420});' />
     </div>
 
-    {foreach from=$guestbook item=entry key=key}
+    {foreach $guestbook as entry}
         <div class="center">
             <div class="picture_infos">
                 <div class="nick">{$entry.nick}</div>
