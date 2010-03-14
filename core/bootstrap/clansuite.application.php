@@ -215,7 +215,7 @@ class Clansuite_CMS
          * @const Carriage Return "\n"
          */
         define('CR', "\n");
-        
+
         /**
          * @const Carriage Return and Tabulator "\n\t"
          */
@@ -295,7 +295,7 @@ class Clansuite_CMS
          * @const SERVER_URL
          */
         define('SERVER_URL', PROTOCOL . $_SERVER['SERVER_NAME']);
-        
+
         /**
          * @const WWW_ROOT is a complete www-path with servername from SERVER_URL, depending on os-system
          */
@@ -329,11 +329,10 @@ class Clansuite_CMS
         $paths = array(
                         ROOT,
                         ROOT_LIBRARIES,                     # /libraries/
-                        ROOT_LIBRARIES . 'PEAR' . DS,       # /libraries/PEAR
-                        get_include_path()                  # attach original include paths
+                        ROOT_LIBRARIES . 'PEAR' . DS        # /libraries/PEAR
                       );
 
-        set_include_path( implode( $paths, PATH_SEPARATOR ) );
+        set_include_path( implode( $paths, PATH_SEPARATOR ) . PATH_SEPARATOR . get_include_path() ); # attach original include paths
         unset($paths);
     }
 
