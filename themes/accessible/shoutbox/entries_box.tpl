@@ -1,6 +1,6 @@
 {if $shoutbox_is_empty == false}
 {* Einträge ausgeben *}
-{foreach from=$shoutbox_entries item=row key=key name=shoutbox}
+{foreach from=$shoutbox_entries item=row name=shoutbox}
 <div class="shoutbox" title="{$row.time|date_format:"%d.%m.%Y - %H:%M"}">
 	<div class="shout-header">
 		#{$row.id} - <strong>{$row.name}:</strong>

@@ -28,7 +28,7 @@
                         {* nestinglevel counter *}
                         {assign var=nestinglevel value=$nestinglevel+1}
                         
-                        {foreach from=$list item=element}
+                        {foreach $list as element}
                             
                          
                                 {* toplevel element without indention *}
@@ -112,7 +112,7 @@
                         {* nestinglevel counter *}
                         {assign var=nestinglevel value=$nestinglevel+1}
                         
-                        {foreach from=$list item=element}
+                        {foreach $list  as element}
                             
                             <option value="{$element.forumid}">
                                 {* toplevel element without indention *}
