@@ -655,7 +655,7 @@ class Clansuite_Datagrid extends Clansuite_Datagrid_Base
 
         # disable some features
         # @todo css for these elements
-        #$this->disableFeatures(array('Label', 'Caption', 'Description'));
+        $this->disableFeatures(array('Label', 'Caption', 'Description'));
 
         # generate default datasets that can be overwritten
         $this->_initDatagrid();
@@ -1664,13 +1664,13 @@ class Clansuite_Datagrid_Renderer
      */
     private static function renderTable()
     {
-        $table_sprintf  = '<table class="DatagridTable DatagridTable-%s" cellspacing="0" cellpadding="0" border="0" id="%s">';
-        $table_sprintf .= CR . '%s'  . CR . '</table>';
+        $table_sprintf  = '<table class="DatagridTable DatagridTable-%s" cellspacing="0" cellpadding="0" border="0" id="%s">'.CR;
+        $table_sprintf .= CR . '%s'  . CR . '</table>'.CR;
 
         $_innerTableContent = '';
         $_innerTableContent .= Clansuite_Datagrid_Renderer::renderTableCaption();
         $_innerTableContent .= Clansuite_Datagrid_Renderer::renderTableBody('one');
-        $_innerTableContent .= Clansuite_Datagrid_Renderer::renderTableHeader();
+        $_innerTableContent .= Clansuite_Datagrid_Renderer::renderTableHeader();      # this isn't a <thead> tag, but <tbody>
         $_innerTableContent .= Clansuite_Datagrid_Renderer::renderTableBody('two');
         $_innerTableContent .= Clansuite_Datagrid_Renderer::renderTableBody('three');
         $_innerTableContent .= Clansuite_Datagrid_Renderer::renderTableFooter();
@@ -1731,7 +1731,7 @@ class Clansuite_Datagrid_Renderer
             #$htmlString .= self::getDatagrid()->getCaption();
             $htmlString .= Clansuite_Datagrid_Renderer::renderLabel();
             $htmlString .= Clansuite_Datagrid_Renderer::renderDescription();
-            $htmlString .= '</caption>';
+            $htmlString .= '</caption>'.CR;
 
         }
 
@@ -1766,11 +1766,11 @@ class Clansuite_Datagrid_Renderer
 
         if( self::getDatagrid()->isEnabled('Header') )
         {
-            $htmlString .= '<thead>';
-            $htmlString .= '<tr colspan="'.self::getDatagrid()->getColumnCount().'">';
+            $htmlString .= '<tbody>'.CR; # OH MY GODDON! <thead> is not working here
+            $htmlString .= '<tr>'.CR;
             $htmlString .= self::renderTableRowsHeader();
-            $htmlString .= '</tr>';
-            $htmlString .= '</thead>';
+            $htmlString .= '</tr>'.CR;
+            $htmlString .= '</tbody>'.CR; # OMG^2
         }
 
         return $htmlString;
@@ -1843,16 +1843,16 @@ class Clansuite_Datagrid_Renderer
     {
         $htmlString = '';
 
-        if($type == 'one' or $type == 'two' or $type == 'three')
+        if($type == 'one')
+        {
+            #$htmlString .= Clansuite_Datagrid_Renderer::renderTableActions();
+            $htmlString .= Clansuite_Datagrid_Renderer::renderTableSearch();
+            $htmlString .= Clansuite_Datagrid_Renderer::renderTablePagination();
+        }
+
+        if($type == 'two' or $type == 'three')
         {
             $htmlString .= '<tbody>';
-
-            if($type == 'one')
-            {
-                #$htmlString .= Clansuite_Datagrid_Renderer::renderTableActions();
-                $htmlString .= Clansuite_Datagrid_Renderer::renderTableSearch();
-                $htmlString .= Clansuite_Datagrid_Renderer::renderTablePagination();
-            }
 
             if($type == 'two')
             {
@@ -1920,13 +1920,14 @@ class Clansuite_Datagrid_Renderer
         $rows = self::getDatagrid()->getRows();
 
         $i = 0;
-        foreach( $rows as $rowKey => $oRow )
+        foreach( $rows as $rowKey => $row )
         {
             $i++;
             # @todo consider removing the css alternating code, in favor of css3 tr:nth-child
-            $htmlString .= Clansuite_Datagrid_Renderer::renderTableRow($oRow, !($i % 2));
+            $htmlString .= Clansuite_Datagrid_Renderer::renderTableRow($row, !($i % 2));
         }
 
+        # render a "no results" row
         if( $htmlString == '' )
         {
             $htmlString .= '<tr class="DatagridRow DatagridRow-NoResults">';
@@ -2019,9 +2020,9 @@ class Clansuite_Datagrid_Renderer
         if( self::getDatagrid()->isEnabled('Footer') )
         {
             $htmlString = '';
-            $htmlString .= '<tfoot>';
+            $htmlString .= '<tfoot>'.CR;
             # @todo getter for footer html
-            $htmlString .= '</tfoot>';
+            $htmlString .= '</tfoot>'.CR;
             return $htmlString;
         }
         else
@@ -2078,10 +2079,10 @@ class Clansuite_Datagrid_Renderer
         # Build htmlcode
         $htmlString = '';
 
-        $htmlString .= '<link rel="stylesheet" type="text/css" href="'. WWW_ROOT_THEMES_CORE . '/css/datagrid.css" />';
-        $htmlString .= '<script src="'. WWW_ROOT_THEMES_CORE . '/javascript/datagrid.js" type="text/javascript"></script>';
+        $htmlString .= '<link rel="stylesheet" type="text/css" href="'. WWW_ROOT_THEMES_CORE . '/css/datagrid.css" />'.CR;
+        $htmlString .= '<script src="'. WWW_ROOT_THEMES_CORE . '/javascript/datagrid.js" type="text/javascript"></script>'.CR;
 
-        $htmlString .= '<form action="' . self::getDatagrid()->getBaseURL() . '" method="post" name="Datagrid-' . self::getDatagrid()->getAlias() . '" id="Datagrid-' . self::getDatagrid()->getAlias() . '">';
+        $htmlString .= '<form action="' . self::getDatagrid()->getBaseURL() . '" method="post" name="Datagrid-' . self::getDatagrid()->getAlias() . '" id="Datagrid-' . self::getDatagrid()->getAlias() . '">'.CRT;
 
             #$_htmlCode .= '<input type="hidden" name="action" value="' . Clansuite_ActionController_Resolver::getDefaultActionName() . '" />';
             #$_htmlCode .= '<input type="hidden" name="action" id="ActionId" value="' . ((isset($_REQUEST['action'])&&preg_match('#^[0-9a-z_]$#i',$_REQUEST['action']))?$_REQUEST['action']:'show') . '" />';
@@ -2092,13 +2093,13 @@ class Clansuite_Datagrid_Renderer
             $htmlString .= sprintf($input_field_sprintf, self::getDatagrid()->getInputParameterName('SortKey'), $this->getCurrentSortKey());
             $htmlString .= sprintf($input_field_sprintf, self::getDatagrid()->getInputParameterName('SortValue'), $this->getCurrentSortValue());
 
-            $htmlString .= '<div class="Datagrid ' . self::getDatagrid()->getClass() . '">';
+            $htmlString .= '<div class="Datagrid ' . self::getDatagrid()->getClass() . '">'.CR;
 
                 $htmlString .= Clansuite_Datagrid_Renderer::renderTable();
 
-            $htmlString .= '</div>';
+            $htmlString .= '</div>'.CR;
 
-        $htmlString .= '</form>';
+        $htmlString .= '</form>'.CR;
 
         return $htmlString;
     }
