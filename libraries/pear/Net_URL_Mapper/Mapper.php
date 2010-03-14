@@ -222,22 +222,31 @@ class Net_URL_Mapper
         }
 
         // Make sure one of the paths found is valid
+        $matches = array();
 
-        foreach ($paths as $path) {
+        foreach ($paths as $path)
+        {
             $regex = $path->getRule();
-            if (preg_match($regex, $nurl, $matches)) {
+           
+            if (preg_match($regex, $nurl, $matches))
+            {
                 $values = $path->getDefaults();
+
                 array_shift($matches);
-                $clean = array();
-                foreach ($matches as $k => $v) {
+                
+                foreach ($matches as $k => $v)
+                {
                     $v = trim($v, '/');
-                    if (!is_int($k) && $v !== '') {
+                    
+                    if (!is_int($k) && $v !== '')
+                    {
                         $values[$k] = $v;
                     }
                 }
                 break;
             }
         }
+        unset($matches);
 
         // A path conforms but does not validate
 
