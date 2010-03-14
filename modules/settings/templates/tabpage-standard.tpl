@@ -22,6 +22,33 @@
 </tr>
 <tr>
     <td class="cell2" width="15%">
+        {t}Clanname{/t}
+    </td>
+    <td class="cell1" style="padding: 3px">
+        <small>{t}Name your clan:{/t}</small><br />
+        <input class="input_text" type="text" value="{$config.clan.name}" name="config[clan][name]" />
+    </td>
+</tr>
+<tr>
+    <td class="cell2" width="15%">
+        {t}Clantag{/t}
+    </td>
+    <td class="cell1" style="padding: 3px">
+        <small>{t}Set the tag of your clan:{/t}</small><br />
+        <input class="input_text" type="text" value="{$config.clan.tag}" name="config[clan][tag]" />
+    </td>
+</tr>
+<tr>
+    <td class="cell2" width="15%">
+        {t}Country{/t}
+    </td>
+    <td class="cell1" style="padding: 3px">
+        <small>{t}Set your country:{/t}</small><br />
+        <input class="input_text" type="text" value="{$config.language.language}" name="config[language][language]" />
+    </td>
+</tr>
+<tr>
+    <td class="cell2" width="15%">
         {t}Favicon{/t}
     </td>
     <td class="cell1" style="padding: 3px">
