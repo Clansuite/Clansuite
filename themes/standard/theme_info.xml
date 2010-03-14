@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE theme SYSTEM "http://schemas.clansuite.com/dtd/theme_info.dtd">
 <theme>
     <name>Clansuite Standard</name>
     <author>Jens-André Koch, Florian Wolf</author>
