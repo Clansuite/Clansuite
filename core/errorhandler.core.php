@@ -288,7 +288,7 @@ class Clansuite_Errorhandler
         {
             #clansuite_xdebug::printR($errorcontext);
 
-            $tpl_vars = $errorcontext['this']->get_template_vars();
+            $tpl_vars = $errorcontext['this']->getTemplateVars();
 
             if(isset($tpl_vars['templatename']))
             {

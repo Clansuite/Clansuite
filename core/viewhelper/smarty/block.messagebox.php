@@ -49,7 +49,7 @@ function smarty_block_messagebox($params, $text, $smarty)
         return trigger_error('Please define a parameter level. You have the following options: hint, notice, alert.');
     }
 
-    $tpl_vars = $smarty->get_template_vars();
+    $tpl_vars = $smarty->getTemplateVars();
 
     $sprintf_textbox_text  = '<link rel="stylesheet" type="text/css" href="' . $tpl_vars['www_root_themes_core'] . '/css/error.css" />';
 

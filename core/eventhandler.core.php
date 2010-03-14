@@ -104,16 +104,27 @@ class Clansuite_Eventdispatcher
     }
     
     /**
-     * Loads the eventhandlers according to the events.configuration file:
-     * /configuration/events.config.php
+     * Loads the eventhandlers according to a events.configuration file:
+     * Default file is /configuration/events.config.php
      */
-    public function loadEventhandlers()
+    public function loadEventhandlers($event_cfg_file = null)
     {
-        $events = require ROOT . 'configuration/events.config.php';
+        $events = array();
+
+        if($event_cfg_file == null)
+        {
+            # load common events configuration
+            $events = require ROOT . 'configuration/events.config.php';
+        }
+        else
+        {
+            # load specific event config file
+            #$events = require ROOT . $event_cfg_file;
+        }
         
         foreach($events as $event)
         {
-            # @todo
+            # @todo register event
         }
     }
 

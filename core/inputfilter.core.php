@@ -167,7 +167,7 @@ class Clansuite_Inputfilter
      */
     public function check( $string = '', $types = '', $pattern = '', $length = 0 )
     {
-        global $error, $cfg;
+        #global $error, $cfg;
 
         $r_bool  = false;
         $bools   = array();

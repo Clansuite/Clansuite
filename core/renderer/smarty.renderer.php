@@ -120,12 +120,12 @@ class Clansuite_Renderer_Smarty extends Clansuite_Renderer_Base
 
         #### SMARTY DEBUGGING
         $this->renderer->debugging           = DEBUG ? true : false;             # set smarty debugging, when debug on
-        #$this->renderer->debug_tpl           = ROOT_THEMES . 'core/templates/debug.tpl';   # set debugging template for smarty
+        #$this->renderer->debug_tpl          = ROOT_THEMES . 'core/templates/debug.tpl';   # set debugging template for smarty
         $this->renderer->debug_tpl           = ROOT_LIBRARIES . 'smarty/debug.tpl';   # set debugging template for smarty
         if ( $this->renderer->debugging == true )
         {
-            $this->renderer->clear_compiled_tpl(); # clear compiled tpls in case of debug
-            $this->renderer->clear_all_cache();
+            $this->renderer->utility->clearCompiledTemplate(); # clear compiled tpls in case of debug
+            $this->renderer->cache->clearAll();                # clear cache
         }
 
         # $this->renderer->debug_ctrl       = "NONE";               # NONE ... not active, URL ... activates debugging if SMARTY_DEBUG found in query string
@@ -150,25 +150,39 @@ class Clansuite_Renderer_Smarty extends Clansuite_Renderer_Base
         #### COMPILER OPTIONS
         # $this->renderer->compiler_class   = "Smarty_Compiler";     # defines the compiler class for Smarty ... ONLY FOR ADVANCED USERS
         # $this->renderer->compile_id       = 0;                     # set individual compile_id instead of assign compile_ids to function-calls (useful with prefilter for different languages)
-        # recompile/rewrite templates only in debug mode
-        /*if ( $this->renderer->debugging == true )
+        
+        /**
+         * recompile/rewrite templates only in debug mode
+         * @see http://www.smarty.net/manual/de/variable.compile.check.php
+         */
+        if ( $this->renderer->debugging == true )
         {
              $this->renderer->compile_check      = true;             # if a template was changed it would be recompiled, if set to false nothing will be compiled (changes take no effect)
              $this->renderer->force_compile      = true;             # if true compiles each template everytime, overwrites $compile_check
         }
         else
-        {*/
-             $this->renderer->compile_check      = false;             # if a template was changed it would be recompiled, if set to false nothing will be compiled (changes take no effect)
-             $this->renderer->force_compile      = true;             # if true compiles each template everytime, overwrites $compile_check
-        /*}*/
+        {
+             $this->renderer->compile_check      = true;             # if a template was changed it would be recompiled, if set to false nothing will be compiled (changes take no effect)
+             $this->renderer->force_compile      = false;            # if true compiles each template everytime, overwrites $compile_check
+        }
 
         #### CACHING OPTIONS (set these options if caching is enabled)
         #clansuite_xdebug::printr($this->config['cache']);
         # var_dump($this->config['cache']);
-        $this->renderer->caching                = (bool) $this->config['cache']['caching'];
-        $this->renderer->cache_lifetime         = $this->config['cache']['cache_lifetime']; # -1 ... dont expire, 0 ... refresh everytime
-        # $this->renderer->cache_handler_func   = "";      # Specify your own cache_handler function
-        $this->renderer->cache_modified_check   = 0;       # set to 1 to activate
+        if ( $this->renderer->debugging == true )
+        {        
+            $this->renderer->caching                = 0;
+            $this->renderer->cache_lifetime         = $this->config['cache']['cache_lifetime']; # -1 ... dont expire, 0 ... refresh everytime
+            # $this->renderer->cache_handler_func   = "";      # Specify your own cache_handler function
+            $this->renderer->cache_modified_check   = 0;       # set to 1 to activate
+        }
+        else
+        {
+            $this->renderer->caching                = (bool) $this->config['cache']['caching'];
+            $this->renderer->cache_lifetime         = $this->config['cache']['cache_lifetime']; # -1 ... dont expire, 0 ... refresh everytime
+            # $this->renderer->cache_handler_func   = "";      # Specify your own cache_handler function
+            $this->renderer->cache_modified_check   = 1;       # set to 1 to activate
+        }
 
         #### DEFAULT TEMPLATE HANDLER FUNCTION
         # $this->renderer->default_template_handler_func = "";
@@ -371,7 +385,7 @@ class Clansuite_Renderer_Smarty extends Clansuite_Renderer_Base
      */
     public function __get($key)
     {
-        return $this->renderer->get_template_vars($key);
+        return $this->renderer->getTemplateVars($key);
     }
 
    /**

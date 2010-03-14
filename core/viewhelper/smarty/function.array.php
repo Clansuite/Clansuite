@@ -64,7 +64,7 @@ function smarty_function_array($params, $smarty)
     $temporary_array = explode($params['delimiter'], $params['values']);
 
     # ok, check the assigned template vars and see if a variable name exists and if it's an array
-    if (is_array($smarty->get_template_vars($params['name'])))
+    if (is_array($smarty->getTemplateVars($params['name'])))
     {
         # if yes, we append our array to the existing one
         $smarty->append($params['name'], $temporary_array, true);

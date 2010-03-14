@@ -359,13 +359,13 @@ class Clansuite_CMS
         define('DEBUG', self::$config['error']['debug']);
 
         # If Debug is enabled, set FULL error_reporting, else DISABLE it completely
-        if ( defined('DEBUG') and DEBUG == true ) # == true or false
+        if ( defined('DEBUG') and DEBUG == true )
         {
             ini_set('display_startup_errors', true);
             ini_set('display_errors', true);    # display errors in the browser
             error_reporting(E_ALL | E_STRICT);  # all errors and strict standard optimizations
         }
-        else
+        else # application is in live/production mode. errors are not shown, but logged to file!
         {
             ini_set('log_errors', true);        # enable error_logging
             ini_set('display_errors',   false); # do not display errors in the browser
@@ -375,6 +375,7 @@ class Clansuite_CMS
         }
 
         /**
+         * Toggle for Rapid Application Development
          * @const Development-Mode is set via config setting ['error']['development']
          */
         define('DEVELOPMENT', self::$config['error']['development']);
@@ -393,7 +394,7 @@ class Clansuite_CMS
         define('XDEBUG', self::$config['error']['xdebug']);
 
         # If XDebug is enabled, load xdebug helpers and start the debug/tracing
-        if( defined('XDEBUG') and (bool)XDEBUG === true)
+        if( XDEBUG === true)
         {
             require ROOT_CORE . 'bootstrap/clansuite.xdebug.php';
             Clansuite_Xdebug::start_xdebug();
@@ -420,7 +421,7 @@ class Clansuite_CMS
         {
             require ROOT_CORE . 'eventhandler.core.php';
             Clansuite_Eventdispatcher::instantiate();
-            Clansuite_Eventdispatcher::autoloadEvents();
+            #Clansuite_Eventdispatcher::autoloadEvents();
         }
     }
 
