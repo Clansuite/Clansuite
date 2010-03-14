@@ -1,7 +1,7 @@
 <?php
    /**
     * Clansuite - just an eSports CMS
-    * Jens-AndrÃ© Koch Â© 2005 - onwards
+    * Jens-André Koch © 2005 - onwards
     * http://www.clansuite.com/
     *
     * This file is part of "Clansuite - just an eSports CMS".
@@ -24,8 +24,8 @@
     *
     * @license    GNU/GPL v2 or (at your option) any later version, see "/doc/LICENSE".
     *
-    * @author     Jens-AndrÃ© Koch <vain@clansuite.com>
-    * @copyright  Jens-AndrÃ© Koch (2005 - onwards)
+    * @author     Jens-André Koch <vain@clansuite.com>
+    * @copyright  Jens-André Koch (2005 - onwards)
     *
     * @link       http://www.clansuite.com
     * @link       http://gna.org/projects/clansuite
@@ -165,34 +165,9 @@ class Clansuite_HttpRequest implements Clansuite_Request_Interface, ArrayAccess
         $this->cookie_parameters  = $_COOKIE;
 
         /**
-         * 5) set WWW_ROOT defines
-         */
-        #self::defineWWWPathConstants();
-
-        /**
-         * 6) Detect REST Tunneling through POST and set request_method accordingly
+         * 5) Detect REST Tunneling through POST and set request_method accordingly
          */
         $this->detectRESTTunneling();
-    }
-
-    /**
-     * defineWWWPathConstants()
-     *
-     * @todo These defines are used throughout the response with themes. This should therefore be part of Repsonse object.
-     * So the clansuite.init is the wrong position for this function, "but, we need it" for the exception and errorhandler outputs.
-     * still todo
-     */
-    public static function defineWWWPathConstants()
-    {
-        #  WWW_ROOT is a complete www-path with servername from SERVER_URL, depending on os-system
-        if (dirname($_SERVER['PHP_SELF']) == "\\" )
-        {
-            define('WWW_ROOT', self::getBaseURL());
-        }
-        else
-        {
-            define('WWW_ROOT', self::getBaseURL().dirname($_SERVER['PHP_SELF']) );
-        }
     }
 
     /**
