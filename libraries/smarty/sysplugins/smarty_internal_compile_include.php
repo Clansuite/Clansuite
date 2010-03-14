@@ -36,48 +36,23 @@ class Smarty_Internal_Compile_Include extends Smarty_Internal_CompileBase {
                 eval("\$tmp = $include_file;");
                 if ($this->compiler->template->template_resource != $tmp) {
                     $tpl = $compiler->smarty->createTemplate ($tmp, $compiler->template->cache_id, $compiler->template->compile_id, $compiler->template);
-                    if ($tpl->usesCompiler() && $tpl->isExisting()) {
-                        do {
-                            $must_compile = false;
-                            $prop = array();
-                            $compiled_tpl = $tpl->getCompiledTemplate();
-                            preg_match('/(\<\?php \$_smarty_tpl-\>decodeProperties\(\')(.*)(\'.*\?\>)/', $compiled_tpl, $matches);
-                            $compiled_tpl = preg_replace(array('/(\<\?php \$_smarty_tpl-\>decodeProperties\(\')(.*)(\'.*\?\>.*\n)/', '/(\<\?php if\(\!defined\(\'SMARTY_DIR\'\)\))(.*)(\?\>.*\n)/'), '', $compiled_tpl); 
-                            // var_dump($matches, $compiled_tpl);
-                            if (isset($matches[2])) {
-                                $prop = unserialize($matches[2]);
-                                foreach ($prop['file_dependency'] as $_file_to_check) {
-                                    If (is_file($_file_to_check[0])) {
-                                        $mtime = filemtime($_file_to_check[0]);
-                                    } else {
-                                        $tpl->parseResourceName($_file_to_check[0], $resource_type, $resource_name, $resource_handler);
-                                        if ($resource_type == 'file') {
-                                            $must_compile = true; // subtemplate no longer existing
-                                            break;
-                                        } 
-                                        $mtime = $resource_handler->getTemplateTimestampTypeName($resource_type, $resource_name);
-                                    } 
-                                    // If ($mtime != $_file_to_check[1]) {
-                                    If ($mtime > $_file_to_check[1]) {
-                                        $must_compile = true;
-                                        break;
-                                    } 
-                                } 
-                                if ($must_compile) {
-                                    // recompile
-                                    $tpl->compileTemplateSource();
-                                } 
-                            } 
-                        } while ($must_compile);
-                        if (isset($prop['file_dependency'])) {
-                            $compiler->template->properties['file_dependency'] = array_merge($compiler->template->properties['file_dependency'], $prop['file_dependency']);
-                        } 
-                        if (isset($prop['function'])) {
-                            if (isset($compiler->template->properties['function'])) {
-                                $compiler->template->properties['function'] = array_merge((array)$compiler->template->properties['function'], $prop['function']);
-                            } else {
-                                $compiler->template->properties['function'] = $prop['function'];
-                            } 
+                    if ($this->compiler->template->caching) {
+                        // needs code for cached page but no cache file
+                        $tpl->caching = 9999;
+                    } 
+                    if ($tpl->resource_object->usesCompiler && $tpl->isExisting()) {
+                        // make sure that template is up to date and merge template properties
+                        $tpl->renderTemplate(); 
+                        // compiled code for {function} tags
+                        $compiler->template->properties['function'] = array_merge($compiler->template->properties['function'], $tpl->properties['function']);
+                        // get compiled code
+                        $compiled_tpl = $tpl->getCompiledTemplate(); 
+                        // remove header code
+                        $compiled_tpl = preg_replace("/(<\?php \/\*%%SmartyHeaderCode:{$tpl->properties['nocache_hash']}%%\*\/(.+?)\/\*\/%%SmartyHeaderCode%%\*\/\?>\n)/s", '', $compiled_tpl);
+                        if ($tpl->has_nocache_code) {
+                            // replace nocache_hash
+                            $compiled_tpl = preg_replace("/{$tpl->properties['nocache_hash']}/", $compiler->template->properties['nocache_hash'], $compiled_tpl);
+                            $compiler->template->has_nocache_code = true;
                         } 
                         $has_compiled_template = true;
                     } 
@@ -132,7 +107,7 @@ class Smarty_Internal_Compile_Include extends Smarty_Internal_CompileBase {
             } 
         } 
         // create template object
-        $_output = "<?php \$_template = new {$compiler->smarty->template_class}($include_file, \$_smarty_tpl->smarty, \$_smarty_tpl, \$_smarty_tpl->cache_id, \$_smarty_tpl->compile_id, $_caching, $_cache_lifetime);"; 
+        $_output = "<?php \$_template = new {$compiler->smarty->template_class}($include_file, \$_smarty_tpl->smarty, \$_smarty_tpl, \$_smarty_tpl->cache_id, \$_smarty_tpl->compile_id, $_caching, $_cache_lifetime);\n"; 
         // delete {include} standard attributes
         unset($_attr['file'], $_attr['assign'], $_attr['cache_lifetime'], $_attr['nocache'], $_attr['caching'], $_attr['scope'], $_attr['inline']); 
         // remaining attributes must be assigned as smarty variable
@@ -151,18 +126,20 @@ class Smarty_Internal_Compile_Include extends Smarty_Internal_CompileBase {
             $_output .= "\$_smarty_tpl->assign($_assign,\$_template->getRenderedTemplate());?>";
         } else {
             if ($has_compiled_template && !($compiler->template->caching && ($this->compiler->tag_nocache || $this->compiler->nocache))) {
+                $_output .= "\$_template->properties['nocache_hash']  = '{$compiler->template->properties['nocache_hash']}';\n";
                 $_output .= "\$_tpl_stack[] = \$_smarty_tpl; \$_smarty_tpl = \$_template;?>\n";
                 $_output .= $compiled_tpl;
-                $_output .= "<?php \$_smarty_tpl->updateParentVariables($_parent_scope);?>";
-                $_output .= "<?php /*  End of included template \"" . $tpl->getTemplateFilepath() . "\" */ ?>";
+                $_output .= "<?php \$_smarty_tpl->updateParentVariables($_parent_scope);?>\n";
+                $_output .= "<?php /*  End of included template \"" . $tpl->getTemplateFilepath() . "\" */ ?>\n";
                 $_output .= "<?php \$_smarty_tpl = array_pop(\$_tpl_stack);?>";
             } else {
                 $_output .= " echo \$_template->getRenderedTemplate();?>";
                 $_output .= "<?php \$_template->updateParentVariables($_parent_scope);?>";
             } 
         } 
-        $_output .= "<?php unset(\$_template);?>";
+        $_output .= "<?php unset(\$_template);?>\n";
         return $_output;
-    }
-}
+    } 
+} 
+
 ?>

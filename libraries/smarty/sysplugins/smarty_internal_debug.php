@@ -12,7 +12,7 @@
 /**
 * Smarty Internal Plugin Debug Class
 */
-class Smarty_Internal_Debug extends Smarty_Internal_TemplateBase {
+class Smarty_Internal_Debug extends Smarty_Internal_Data {
     // template data
     static $template_data = array();
 
@@ -83,6 +83,8 @@ class Smarty_Internal_Debug extends Smarty_Internal_TemplateBase {
         $_template->caching = false;
         $_template->force_compile = false;
         $_template->security = false;
+        $_template->cache_id = null;
+        $_template->compile_id = null;
         $_template->assign('template_data', self::$template_data);
         $_template->assign('assigned_vars', $_assigned_vars);
         $_template->assign('config_vars', $_config_vars);
@@ -95,7 +97,11 @@ class Smarty_Internal_Debug extends Smarty_Internal_TemplateBase {
     */
     static function get_key($template)
     {
-        $key = 'F' . abs(crc32($template->getTemplateFilepath()));
+        // calculate Uid if not already done
+        if ($template->templateUid == '') {
+            $template->getTemplateFilepath();
+        } 
+        $key = $template->templateUid;
         if (isset(self::$template_data[$key])) {
             return $key;
         } else {

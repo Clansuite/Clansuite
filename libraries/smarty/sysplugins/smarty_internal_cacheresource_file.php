@@ -22,52 +22,81 @@ class Smarty_Internal_CacheResource_File {
     /**
     * Returns the filepath of the cached template output
     * 
-    * @param object $template current template
+    * @param object $_template current template
     * @return string the cache filepath
     */
-    public function getCachedFilepath($template)
+    public function getCachedFilepath($_template)
     {
-        return $this->buildCachedFilepath ($template->getTemplateFilepath(), $template->cache_id, $template->compile_id);
+        $_source_file_path = str_replace(':', '.', $_template->getTemplateFilepath());
+        $_cache_id = isset($_template->cache_id) ? preg_replace('![^\w\|]+!', '_', $_template->cache_id) : null;
+        $_compile_id = isset($_template->compile_id) ? preg_replace('![^\w\|]+!', '_', $_template->compile_id) : null;
+        $_filepath = $_template->templateUid; 
+        // if use_sub_dirs, break file into directories
+        if ($this->smarty->use_sub_dirs) {
+            $_filepath = substr($_filepath, 0, 2) . DS
+             . substr($_filepath, 2, 2) . DS
+             . substr($_filepath, 4, 2) . DS
+             . $_filepath;
+        } 
+        $_compile_dir_sep = $this->smarty->use_sub_dirs ? DS : '^';
+        if (isset($_cache_id)) {
+            $_cache_id = str_replace('|', $_compile_dir_sep, $_cache_id) . $_compile_dir_sep;
+        } else {
+            $_cache_id = '';
+        } 
+        if (isset($_compile_id)) {
+            $_compile_id = $_compile_id . $_compile_dir_sep;
+        } else {
+            $_compile_id = '';
+        } 
+        $_cache_dir = $this->smarty->cache_dir;
+        if (strpos('/\\', substr($_cache_dir, -1)) === false) {
+            $_cache_dir .= DS;
+        } 
+        return $_cache_dir . $_cache_id . $_compile_id . $_filepath . '.' . basename($_source_file_path) . '.php';
     } 
 
     /**
     * Returns the timpestamp of the cached template output
     * 
-    * @param object $template current template
+    * @param object $_template current template
     * @return integer |booelan the template timestamp or false if the file does not exist
     */
-    public function getCachedTimestamp($template)
-    {
-        return ($template->getCachedFilepath() && file_exists($template->getCachedFilepath())) ? filemtime($template->getCachedFilepath()) : false ;
+    public function getCachedTimestamp($_template)
+    { 
+        // return @filemtime ($_template->getCachedFilepath());
+        return ($_template->getCachedFilepath() && file_exists($_template->getCachedFilepath())) ? filemtime($_template->getCachedFilepath()) : false ;
     } 
 
     /**
     * Returns the cached template output
     * 
-    * @param object $template current template
+    * @param object $_template current template
     * @return string |booelan the template content or false if the file does not exist
     */
-    public function getCachedContents($template)
+    public function getCachedContents($_template)
     {
         ob_start();
-        $_smarty_tpl = $template;
-        include $template->getCachedFilepath();
+        $_smarty_tpl = $_template;
+        include $_template->getCachedFilepath();
         return ob_get_clean();
     } 
 
     /**
     * Writes the rendered template output to cache file
     * 
-    * @param object $template current template
+    * @param object $_template current template
     * @return boolean status
     */
-    public function writeCachedContent($template, $content)
+    public function writeCachedContent($_template, $content)
     {
-        if (!$template->isEvaluated()) {
-            return Smarty_Internal_Write_File::writeFile($template->getCachedFilepath(), $content, $this->smarty);
-        } else {
-            return false;
+        if (!$_template->resource_object->isEvaluated) {
+            if (Smarty_Internal_Write_File::writeFile($_template->getCachedFilepath(), $content, $this->smarty) === true) {
+                $_template->cached_timestamp = filemtime($_template->getCachedFilepath());
+                return true;
+            } 
         } 
+        return false;
     } 
 
     /**
@@ -91,93 +120,67 @@ class Smarty_Internal_CacheResource_File {
     */
     public function clear($resource_name, $cache_id, $compile_id, $exp_time)
     {
-        $_cache_id =  isset($cache_id) ? preg_replace('![^\w\|]+!','_',$cache_id) : null;
-        $_compile_id =  isset($compile_id) ? preg_replace('![^\w\|]+!','_',$compile_id) : null;
-        $_dir_sep = $this->smarty->use_sub_dirs ? DS : '^';
+        $_cache_id = isset($cache_id) ? preg_replace('![^\w\|]+!', '_', $cache_id) : null;
+        $_compile_id = isset($compile_id) ? preg_replace('![^\w\|]+!', '_', $compile_id) : null;
+        $_dir_sep = $this->smarty->use_sub_dirs ? '/' : '^';
+        $_compile_id_offset = $this->smarty->use_sub_dirs ? 3 : 0;
+        $_dir = rtrim($this->smarty->cache_dir, '/\\') . DS;
+        $_dir_length = strlen($_dir);
+        if (isset($_cache_id)) {
+            $_cache_id_parts = explode('|', $_cache_id);
+            $_cache_id_parts_count = count($_cache_id_parts);
+        } 
         if (isset($resource_name)) {
-            $_resource_part = (string)abs(crc32($resource_name)) . '.' . $resource_name . '.php';
-        } else {
-            $_resource_part = null;
+            $tpl = $this->smarty->createTemplate($resource_name);
+            if ($tpl->isExisting()) {
+                $_resourcename_parts = basename(str_replace('^','/',$tpl->getCachedFilepath()));
+            } else {
+                return 0;
+            } 
         } 
-        $_dir = $this->smarty->cache_dir;
-        if (strpos('/\\', substr($_dir, -1)) === false) {
-            $_dir .= DS;
-        } 
-        if ($this->smarty->use_sub_dirs && isset($_cache_id)) {
-            $_dir .= str_replace('|', $_dir_sep, $_cache_id) . $_dir_sep;
-        } 
-        $_compile_pos = $this->smarty->use_sub_dirs ? 5 : 2;
         $_count = 0;
         $_cacheDirs = new RecursiveDirectoryIterator($_dir);
         $_cache = new RecursiveIteratorIterator($_cacheDirs, RecursiveIteratorIterator::CHILD_FIRST);
         foreach ($_cache as $_file) {
-            if (strpos($_file, '.svn') !== false) continue;
+            if (strpos($_file, '.svn') !== false) continue; 
+            // directory ?
             if ($_file->isDir()) {
                 if (!$_cache->isDot()) {
                     // delete folder if empty
                     @rmdir($_file->getPathname());
                 } 
             } else {
-                $_parts = explode($_dir_sep, $_file);
-                $_parts_count = count($_parts);
-                $_parts_compile_pos = $_parts_count - $_compile_pos;
-                if ($_parts_compile_pos < 0) {
-                    $_parts_compile_pos = 0;
-                } 
-                if ((substr_compare((string)$_file, $_dir, 0, strlen($_dir)) == 0 &&
-                            (!isset($resource_name) || $_parts[$_parts_count-1] == $_resource_part) &&
-                            (!isset($_compile_id) || $_parts[$_parts_compile_pos] == $_compile_id)) ||
-                        (isset($resource_name) && (string)$_file == $_dir . $_resource_part)) {
-                    if (isset($exp_time)) {
-                        if (time() - @filemtime($_file) >= $exp_time) {
-                            $_count += @unlink((string) $_file) ? 1 : 0;
-                        } 
-                    } else {
-                        $_count += @unlink((string) $_file) ? 1 : 0;
+                $_parts = explode($_dir_sep, str_replace('\\', '/', substr((string)$_file, $_dir_length)));
+                $_parts_count = count($_parts); 
+                // check name
+                if (isset($resource_name)) {
+                    if ($_parts[$_parts_count-1] != $_resourcename_parts) {
+                        continue;
                     } 
                 } 
+                // check compile id
+                if (isset($_compile_id) && (!isset($_parts[$_parts_count-2 - $_compile_id_offset]) || $_parts[$_parts_count-2 - $_compile_id_offset] != $_compile_id)) {
+                    continue;
+                } 
+                // check cache id
+                if (isset($_cache_id)) {
+                    // count of cache id parts
+                    $_parts_count = (isset($_compile_id)) ? $_parts_count - 2 - $_compile_id_offset : $_parts_count - 1 - $_compile_id_offset;
+                    if ($_parts_count < $_cache_id_parts_count) {
+                        continue;
+                    } 
+                    for ($i = 0; $i < $_cache_id_parts_count; $i++) {
+                        if ($_parts[$i] != $_cache_id_parts[$i]) continue 2;
+                    } 
+                } 
+                // expired ?
+                if (isset($exp_time) && time() - @filemtime($_file) < $exp_time) {
+                    continue;
+                }
+                $_count += @unlink((string) $_file) ? 1 : 0;
             } 
         } 
         return $_count;
-    } 
-    /**
-    * Get system filepath to cached file
-    * 
-    * @param string $resource_name template name
-    * @param string $cache_id cache id
-    * @param string $compile_id compile id
-    * @return string filepath of cache file
-    */
-    private function buildCachedFilepath ($resource_name, $cache_id, $compile_id)
-    {
-        $_cache_id =  isset($cache_id) ? preg_replace('![^\w\|]+!','_',$cache_id) : null;
-        $_compile_id =  isset($compile_id) ? preg_replace('![^\w\|]+!','_',$compile_id) : null;
-        $_files = explode('|', $resource_name);
-        $_filepath = (string)abs(crc32($resource_name)); 
-        // if use_sub_dirs, break file into directories
-        if ($this->smarty->use_sub_dirs) {
-            $_filepath = substr($_filepath, 0, 2) . DS
-             . substr($_filepath, 2, 2) . DS
-             . substr($_filepath, 4, 2) . DS
-             . $_filepath;
-        } 
-        $_compile_dir_sep = $this->smarty->use_sub_dirs ? DS : '^';
-        if (isset($_cache_id)) {
-            $_cache_id = str_replace('|', $_compile_dir_sep, $_cache_id) . $_compile_dir_sep;
-        } else {
-            $_cache_id = '';
-        } 
-        if (isset($_compile_id)) {
-            $_compile_id = $_compile_id . $_compile_dir_sep;
-        } else {
-            $_compile_id = '';
-        } 
-        $_cache_dir = $this->smarty->cache_dir;
-        if (strpos('/\\', substr($_cache_dir, -1)) === false) {
-            $_cache_dir .= DS;
-        } 
-
-        return $_cache_dir . $_cache_id . $_compile_id . $_filepath . '.' . basename($_files[count($_files)-1]) . '.php';
     } 
 } 
 
