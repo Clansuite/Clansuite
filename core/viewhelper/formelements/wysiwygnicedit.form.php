@@ -50,32 +50,11 @@ if (!class_exists('Clansuite_Formelement_Textarea',false)) { require dirname(__F
  */
 class Clansuite_Formelement_Wysiwygnicedit extends Clansuite_Formelement_Textarea implements Clansuite_Formelement_Interface
 {
-    protected $factory = null;
-
-    public function __construct($factory = null)
-    {
-        if(isset($factory) and $factory !== null)
-        {
-            $this->factory = $factory;
-        }
-
-        return $this;
-    }
-
     /**
      * This renders a textarea with the WYSWIWYG editor NicEdit attached.
      */
     public function render()
-    {
-        if(isset($this->factory) and $this->factory !== null)
-        {
-            $name = $this->factory->getName();
-        }
-        else
-        {
-            $name = $this->getName();
-        }
-
+    {  
         # a) loads the nicedit javascript file
         $javascript = '<script src="'.WWW_ROOT_THEMES_CORE . '/javascript/nicedit/nicedit.js'. '" type="text/javascript"></script>';
 
@@ -91,7 +70,7 @@ class Clansuite_Formelement_Wysiwygnicedit extends Clansuite_Formelement_Textare
                                     maxHeight : 600,
                                     bbCode    : true,
                                     xhtml     : true
-                                  }).panelInstance('".$name."');
+                                  }).panelInstance('".$this->name."');
                             });
                             // ]]></script>";
 
@@ -106,16 +85,9 @@ class Clansuite_Formelement_Wysiwygnicedit extends Clansuite_Formelement_Textare
                     }'.CR.'
                 </STYLE>';
 
-        # c) render a normal textarea
-        $this->cols = 100;
-        $this->rows = 30;
 
         # if we are in inheritance mode, skip this, the parent class handles this already
-        if($this->factory == null)
-        {
-            $html .= parent::render_textarea();
-        }
-
+ 
         return $javascript.$html;
     }
 

@@ -56,42 +56,44 @@ class Clansuite_Formelement_Textarea extends Clansuite_Formelement implements Cl
      * 1) Nicedit       -> wysiwygnicedit.form.php
      * 2) TinyMCE       -> wysiwygtinymce.form.php
      * 3) CKEditor      -> wysiwygckeditor.form.php
-     * 4) markItUp      -> wysiwygmarkItUp.form.phg  => DEFAULT
-     * 5) Default HTML  -> this class
+     * 4) markItUp      -> wysiwygmarkItUp.form.phg
      *
-     * @string
+     * @var string
      */
-    protected $editorType;
+    private $editorType;
 
     /**
-     * width of textarea in letters
-     *
-     * @var int
+     * @var int width of textarea in letters
      */
-    protected $cols = 0;
+    public $cols = 0;
 
     /**
-     * height of textarea in rows
-     *
-     * @var int
+     * @var int height of textarea in rows
      */
-    protected $rows = 0;
+    public $rows = 0;
 
-    protected $name, $wysiwyg;
+    /**
+     * @var object of the wysiwyg editor
+     */
+    private $editorObject;
 
     public function __construct()
     {
         $this->type  = 'textarea';
 
-        #do not return this, but return the class defined by the factory
         return $this;
     }
 
     public function setEditorType($editorType)
     {
-        $this->editorType = $editorType;
+        $this->editorType = strtolower($editorType);
 
         return $this;
+    }
+
+    public function getEditorType()
+    {
+        return $this->editorType;
     }
 
     /**
@@ -145,72 +147,99 @@ class Clansuite_Formelement_Textarea extends Clansuite_Formelement implements Cl
         return $this;
     }
 
-    public function setWysiwygContent($wysiwyg)
+    public function setEditorFormelement(Clansuite_Formelement_Interface $editorObject)
     {
-        $this->wysiwyg = $wysiwyg;
+        $this->editorObject = $editorObject;
 
         return $this;
     }
 
-    public function getWysiwygContent()
+    public function getEditorFormelement()
     {
-        return $this->wysiwyg;
-    }
-
-    /**
-     * Factory Pattern
-     */
-    public function render()
-    {
-        /**
-         * Switch for editorType
-         */
-        switch ($this->editorType)
+        if(empty($this->editorObject))
         {
-            default:
-             case 'markitup':
-                    if (!class_exists('Clansuite_Formelement_Wysiwygmarkitup',false)) { include 'wysiwygmarkitup.form.php'; }
-                    return new Clansuite_Formelement_Wysiwygmarkitup($this);
-                break;
-            case 'nicedit':
-                    if (!class_exists('Clansuite_Formelement_Wysiwygnicedit',false)) { include 'wysiwygnicedit.form.php'; }
-                    # passing 'this' into the child. so that child has a reference back to the parent
-                    $wysiwyg = new Clansuite_Formelement_Wysiwygnicedit($this);
-                    $this->setWysiwygContent($wysiwyg->render());
-                    return $this->render_textarea();
-                break;
-            case 'ckeditor':
-                    if (!class_exists('Clansuite_Formelement_Wysiwygckeditor',false)) { include 'wysiwygckeditor.form.php'; }
-                    return new Clansuite_Formelement_Wysiwygckeditor($this);
-                break;
-            case 'tinymce':
-                    if (!class_exists('Clansuite_Formelement_Wysiwygtinymce',false)) { include 'wysiwygtinymce.form.php'; }
-                    return new Clansuite_Formelement_Wysiwygtinymce();
-                break;
-            case 'html':
-                    # Fallback to normal <textarea>
-                    return $this->render_textarea();
-                break;
+            return $this->setEditorFormelement($this->editorFactory());
+        }
+        else
+        {
+            return $this->editorObject;
         }
     }
 
     /**
-     * Renders a normal html textarea representation.
-     * Without wysiwyg editor attached!
+     * editorFactory
+     * loads and instantiates an wysiwyg editor object
+     */
+    private function editorFactory()
+    {
+        $name = $this->getEditorType();
+        Clansuite_Xdebug::firebug($name);
+
+        # construct classname
+        $classname = 'Clansuite_Formelement_Wysiwyg'. $name;
+
+        # load file
+        if (class_exists($classname, false) == false)
+        {
+            require ROOT_CORE.'viewhelper/formelements/wysiwyg'.$name.'.form.php';
+        }
+
+        # instantiate
+        $editor_formelement = new $classname();
+
+        return $editor_formelement;
+    }
+
+    /**
+     * At some point in the lifetime of this object you decided that this textarea should be a wysiwyg editor.
+     * The editorFactory will load the file and instantiate the editor object. But you already defined some properties
+     * like Cols or Rows for this textarea. Therefore it's now time to transfer these properties to the editor object.
+     * Because we don't render this textarea, but the requested wysiwyg editor object.
+     */
+    private function transferPropertiesToEditor()
+    {
+        # get editor formelement
+        $formelement = $this->getEditorFormelement();
+
+        # transfer props from $this to editor formelement
+        $formelement->setRequired($this->required);
+        $formelement->setRows($this->rows);
+        $formelement->setCols($this->cols);
+        $formelement->setLabel($this->label);
+        $formelement->setName($this->name);
+        $formelement->setValue($this->value);
+
+        # return the editor formelement, to call e.g. render() on it
+        return $formelement;
+    }
+
+    private function renderEditorFormelement()
+    {
+         return $this->getEditorFormelement()->transferPropertiesToEditor()->render();
+    }
+
+    /**
+     * Renders a normal html textarea representation when
+     * no wysiwyg editor object is attached to this textarea object.
+     * Otherwise the html content of the wysiwyg editor is prepended
+     * to the textarea html.!
      *
      * @return $html HTML Representation of an textarea
      */
-    public function render_textarea()
+    public function render()
     {
-        $html = ' ';
+        $html = '';
 
         /**
-         * Attach content of WYSIWYG
+         * Attach HTML content of WYSIWYG Editor
          */
-        $html .= $this->getWysiwygContent();
+        if(empty($this->editorType) == false)
+        {
+            $html .= $this->renderEditorFormelement();
+        }
 
         /**
-         * Opening of tag
+         * Opening of textarea tag
          */
         $html .= '<textarea';
         $html .= (bool)$this->id ? ' id="'.$this->id.'"' : null;
@@ -225,16 +254,14 @@ class Clansuite_Formelement_Textarea extends Clansuite_Formelement implements Cl
         $html .= '>';
 
         /**
-         * Content of tag (value)
+         * Content between tags (value)
          */
-        $html .= $this->getValue();
+        $html .= htmlspecialchars($this->getValue());
 
         /**
-         * Closing of tag
+         * Closing of textarea tag
          */
         $html .= "</textarea>\n";
-
-        #clansuite_xdebug::printR($html);
 
         return $html;
     }

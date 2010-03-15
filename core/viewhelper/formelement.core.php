@@ -52,11 +52,7 @@ class Clansuite_Formelement /* extends Clansuite_HTML */ implements Clansuite_Fo
 {
     protected $name, $id, $type, $class, $size, $disabled, $maxlength, $style;
 
-    protected $label;
-
-    protected $value;
-
-    protected $position;
+    protected $label, $value, $position, $required;
 
     protected $formelementdecorators = array();
 
@@ -307,6 +303,11 @@ class Clansuite_Formelement /* extends Clansuite_HTML */ implements Clansuite_Fo
         }
     }
 
+	public function isRequired()
+	{
+		$this->required = true;
+	}
+
     /**
      * Set description of this formelement.
      *
@@ -395,12 +396,14 @@ class Clansuite_Formelement /* extends Clansuite_HTML */ implements Clansuite_Fo
     /**
      *
      *
-     * @formmethod get/post
+     * @param formmethod get/post
      * @return $array with form data from post/get
      */
     public function getIncommingFormData($formmethod)
     {
         $request = $this->injector->instantiate('Clansuite_HttpRequest');
+        
+        # better use this -> $formmethod = $request->getMethod();
 
         $formmethod = strtolower($formmethod);
 

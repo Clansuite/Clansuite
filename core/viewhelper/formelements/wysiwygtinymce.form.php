@@ -45,7 +45,9 @@ if (!class_exists('Clansuite_Formelement_Textarea',false)) { require dirname(__F
  *      |
  *      \- Clansuite_Formelement_Wysiwygtinymce
  *
- * @see Http://www.
+ * @link http://tinymce.moxiecode.com/ Official Website
+ * @link http://tinymce.moxiecode.com/js/tinymce/docs/api/index.html API Documentation
+ * @link http://tinymce.moxiecode.com/examples/ Examples
  */
 class Clansuite_Formelement_Wysiwygtinymce extends Clansuite_Formelement_Textarea implements Clansuite_Formelement_Interface
 {
@@ -81,7 +83,7 @@ class Clansuite_Formelement_Wysiwygtinymce extends Clansuite_Formelement_Textare
         # c) render a normal textarea
         $this->cols = 100;
         $this->rows = 30;
-        $html .= parent::render_html_textarea();
+        #$html .= parent::render_html_textarea();
 
         return $javascript.$html;
     }
