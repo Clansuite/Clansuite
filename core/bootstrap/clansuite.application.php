@@ -393,7 +393,7 @@ class Clansuite_CMS
         define('XDEBUG', self::$config['error']['xdebug']);
 
         # If XDebug is enabled, load xdebug helpers and start the debug/tracing
-        if( XDEBUG === true)
+        if( XDEBUG == true)
         {
             require ROOT_CORE . 'bootstrap/clansuite.xdebug.php';
             Clansuite_Xdebug::start_xdebug();
