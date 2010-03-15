@@ -146,6 +146,25 @@ class Clansuite_Eventdispatcher
         $this->eventhandlers[$eventName][] = $event;
     }
 
+    /**
+     * Adds multiple Events at once to the Eventhandlers Array
+     *
+     * @param  $events array    Events to register (only names)
+     * @params $object int|string object id, owner of events
+     */
+    public function addMultipleEventHandlers($events, Clansuite_Event $object)
+    {
+        if ( empty($events) or is_array($events) == false )
+        { 
+            return;
+        }
+
+        foreach($events as $event)
+        {
+            $this->addEventHandler($event, $object);
+        }
+    }
+
     public function removeEventHandlers($eventName)
     {
         # if eventhandler is not added, we have nothing to remove
