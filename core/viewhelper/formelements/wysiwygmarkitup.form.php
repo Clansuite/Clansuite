@@ -49,60 +49,11 @@ if (!class_exists('Clansuite_Formelement_Textarea', false)) { require dirname(__
  */
 class Clansuite_Formelement_Wysiwygmarkitup extends Clansuite_Formelement_Textarea implements Clansuite_Formelement_Interface
 {
-    protected $factory = null;
-
-    public function __construct($factory = null)
-    {
-        # I know! uhm... this is... a ball of mud. @todo
-        if(isset($factory) and is_object($factory))
-        {
-            $this->factory = $factory;
-        }
-
-        return $this;
-    }
-
     /**
      * This renders a textarea with the WYSWIWYG editor markItUp! attached.
      */
     public function render()
-    {
-        if(isset($this->factory) and $this->factory !== null)
-        {
-            $name = $this->factory->getName();
-        }
-        else
-        {
-            $name = $this->getName();
-        }
-
-        if(isset($this->factory) and $this->factory !== null)
-        {
-            $value = $this->factory->getRawValue();
-        }
-        else
-        {
-            $value = $this->getRawValue();
-        }
-
-        if(isset($this->factory) and $this->factory !== null)
-        {
-            $rows = $this->factory->getRows();
-        }
-        else
-        {
-            $rows = $this->getRows();
-        }
-
-        if(isset($this->factory) and $this->factory !== null)
-        {
-            $cols = $this->factory->getCols();
-        }
-        else
-        {
-            $cols = $this->getCols();
-        }
-
+    {        
         # a) loads the markitup javascript files
         #$javascript = '<script type="text/javascript" src="'.WWW_ROOT_THEMES_CORE . '/javascript/jquery/jquery.js"></script>';
         $javascript = '<script type="text/javascript" src="'.WWW_ROOT_THEMES_CORE . '/javascript/markitup/jquery.markitup.js"></script>'.CR;
@@ -120,20 +71,6 @@ class Clansuite_Formelement_Wysiwygmarkitup extends Clansuite_Formelement_Textar
                               $(\"textarea:visible\").markItUp(mySettings);
                            });
                         // ]]></script>";
-
-        # if we are in inheritance mode, skip this, the parent class handles this already
-        if(is_object($this->factory))
-        {
-             # e) set id markItUp
-            parent::setName($name);
-            parent::setCols($cols);
-            parent::setRows($rows);
-            parent::setValue($value);
-            $html = parent::render_textarea();
-            #clansuite_xdebug::printR($html);
-        }
-
-        #clansuite_xdebug::printR($javascript.$css.CR.$html);
 
         return $javascript.$css.$html;
     }

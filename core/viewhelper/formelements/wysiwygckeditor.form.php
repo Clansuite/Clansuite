@@ -49,57 +49,11 @@ if (!class_exists('Clansuite_Formelement_Textarea',false)) { require dirname(__F
  */
 class Clansuite_Formelement_Wysiwygckeditor extends Clansuite_Formelement_Textarea implements Clansuite_Formelement_Interface
 {
-    protected $factory = null;
-
-    public function __construct($factory = null)
-    {
-        # I know! uhm... this is... a ball of mud. @todo
-        if(isset($factory) and is_object($factory))
-        {
-            $this->factory = $factory;
-        }
-
-        return $this;
-    }
-
     /**
      * This renders a textarea with the WYSWIWYG editor ckeditor attached.
      */
     public function render()
-    {
-        if(isset($this->factory) and $this->factory !== null)
-        {
-            $name = $this->factory->getName();
-        }
-        else
-        {
-            $name = $this->getName();
-        }
-
-        if(isset($this->factory) and $this->factory !== null)
-        {
-            $value = $this->factory->getValue();
-        }
-        else
-        {
-            $value = $this->getValue();
-        }
-
-        # if we are in inheritance mode, skip this, the parent class handles this already
-        if(is_object($this->factory))
-        {
-            # e) set id ckeditor
-            parent::setName($name);
-            parent::setCols('80');
-            parent::setRows('20');
-            parent::setValue($value);
-            parent::setID($name);
-
-            $html = parent::render_textarea();
-
-            #clansuite_xdebug::printR($html);
-        }
-
+    {  
         # a) loads the ckeditor javascript files
         $javascript = '<script type="text/javascript" src="'.WWW_ROOT_THEMES_CORE . '/javascript/ckeditor/ckeditor.js"></script>';
 
