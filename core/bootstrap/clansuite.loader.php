@@ -53,6 +53,8 @@ if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.'); }
  */
 class Clansuite_Loader
 {
+    private static $autoloaderMapFile = 'autoloader.map.php';
+
     /**
      * clansuite_loader:register_autoload();
      *
@@ -64,6 +66,7 @@ class Clansuite_Loader
      */
     public static function register_autoload()
     {
+        spl_autoload_register(array (__CLASS__,'loadViaMapping'));
         #spl_autoload_register(array (__CLASS__,'loadNamespace'));
         spl_autoload_register(array (__CLASS__,'loadCoreClass'));
         #spl_autoload_register(array (__CLASS__,'loadClass'));
@@ -79,7 +82,7 @@ class Clansuite_Loader
      * @param string $fileName The file to be required
      * @return bool
      */
-    private static function requireFile($fileName)
+    private static function requireFile($fileName, $classname)
     {
         if (is_file($fileName))
         {
@@ -93,40 +96,78 @@ class Clansuite_Loader
                 fclose($log);
             }
 
+            # if classname is given, its a mapping request
+            if(false == is_null($classname))
+            {
+                # add class and filename to the mapping array
+                self::addToMapping($fileName, $classname);
+            }
+
             return true;
         }
 
         return false;
     }
 
+    private static function writeAutoloadingMap($array)
+    {
+        file_put_contents(ROOT.'configuration/'.self::$autoloaderMapFile,serialize($array));
+    }
+
+    private static function readAutoloadingMap()
+    {
+        return unserialize(file_get_contents(ROOT.'configuration/'.self::$autoloaderMapFile));
+    }
+
+    private static function addToMapping($filename, $classname)
+    {
+        $autoloading_map = (array) self::readAutoloadingMap();
+
+        $new_path_mapping = array( $classname => $filename );
+
+        $merged_map = array_merge($autoloading_map, $new_path_mapping);
+
+        self::writeAutoloadingMap($merged_map);
+    }
+
     /**
      * str_replace method to present the incomming classname
      * as a proper filename
      */
-    private static function prepareClassnameAsFilename($className)
+    private static function prepareclassnameAsFilename($classname)
     {
         # strtolower
-        $className = strtolower($className);
+        $classname = strtolower($classname);
 
         # replace "clansuite_renderer_factory" for the correct filename
-        $className = str_replace('clansuite_','',$className);
+        $classname = str_replace('clansuite_','',$classname);
 
         # replace the classname "renderer_factory" with "renderer.factory" for the correct filename
-        $className = str_replace('_','.',$className);
+        $classname = str_replace('_','.',$classname);
 
-        return $className;
+        return $classname;
+    }
+
+    public static function loadViaMapping($classname)
+    {
+        $autoloading_map = self::readAutoloadingMap();
+
+        if(isset($autoloading_map[$classname]))
+        {
+            self::requireFile($autoloading_map[$classname]);
+        }
     }
 
     /**
      * Loads an event
      *
-     * @param string $className The eventclass, which should be loaded
+     * @param string $classname The eventclass, which should be loaded
      * @param string $directory without start/end slashes
      * @return boolean
      */
-    public static function loadEvent($className, $directory = null)
+    public static function loadEvent($classname, $directory = null)
     {
-        if (class_exists($className, false))
+        if (class_exists($classname, false))
         {
             return false;
         }
@@ -136,29 +177,29 @@ class Clansuite_Loader
             $directory = 'events';
         }
 
-        $fileName = ROOT . $directory . strtolower($className) . '.class.php';
+        $fileName = ROOT . $directory . strtolower($classname) . '.class.php';
 
         #echo '<br>loaded Eventfile => '. $fileName;
-        return self::requireFile($fileName);
+        return self::requireFile($fileName, $classname);
     }
 
     /**
      * Load a Class with name and dir
      * Extensions .class.php
      *
-     * @param string $className The class, which should be loaded
+     * @param string $classname The class, which should be loaded
      * @param string $directory without start/end slashes
      * @return boolean
      */
-    public static function loadClass($className, $directory = null)
+    public static function loadClass($classname, $directory = null)
     {
-        if (class_exists($className, false))
+        if (class_exists($classname, false))
         {
             return false;
         }
-        $fileName = ROOT . $directory . strtolower($className) . '.class.php';
+        $fileName = ROOT . $directory . strtolower($classname) . '.class.php';
         #echo '<br>loaded Class => '. $fileName;
-        return self::requireFile($fileName);
+        return self::requireFile($fileName, $classname);
     }
 
     /**
@@ -171,18 +212,18 @@ class Clansuite_Loader
      */
     public static function loadLibrary($file)
     {
-        $className = explode( DS , dirname($file));
+        $classname = explode( DS , dirname($file));
 
-        #clansuite_xdebug::printr($className['0']);
+        #clansuite_xdebug::printr($classname['0']);
 
-        if (class_exists($className['0'], false))
+        if (class_exists($classname['0'], false))
         {
             return false;
         }
 
         $fileName = ROOT_LIBRARIES. $file;
         #echo '<br>loaded Library => '. $fileName;
-        return self::requireFile($fileName);
+        return self::requireFile($fileName, $classname['0']);
     }
 
     /**
@@ -190,21 +231,21 @@ class Clansuite_Loader
      * requires: clansuite/core/class_name.class.php
      * require if found
      *
-     * @param string $className
+     * @param string $classname
      * @return boolean
      */
-    public static function loadCoreClass($className)
+    public static function loadCoreClass($classname)
     {
-        if (class_exists($className, false))
+        if (class_exists($classname, false))
         {
             return false;
         }
 
-        $className = self::prepareClassnameAsFilename($className);
+        $classname = self::prepareclassnameAsFilename($classname);
 
-        $fileName = ROOT_CORE . $className . '.core.php';
+        $fileName = ROOT_CORE . $classname . '.core.php';
         #echo '<br>loaded Core-Class => '. $fileName;
-        return self::requireFile($fileName);
+        return self::requireFile($fileName, $classname);
     }
 
     /**
@@ -227,6 +268,8 @@ class Clansuite_Loader
      */
     public static function loadModul($modulename)
     {
+        $classname = 'Clansuite';
+
         # check for prefix 'module_'
         $spos=strpos(strtolower($modulename), 'module_');
         if (is_int($spos) && ($spos==0))
@@ -259,6 +302,8 @@ class Clansuite_Loader
                 # admin submodule filename, like news.admin.php
                 $fileName .= strtolower($modulinfos['1']) . '.admin.php';
                 #echo '<br>loaded Admin SubModule => '. $fileName;
+
+                $classname .= 'Admin';
             }
             else
             {
@@ -273,7 +318,9 @@ class Clansuite_Loader
             $fileName .= strtolower($modulinfos['1']) . '.module.php';
             #echo '<br>loaded Module => '. $fileName;
         }
-        return self::requireFile($fileName);
+
+
+        return self::requireFile($fileName, $classname);
     }
 
     /**
@@ -281,29 +328,29 @@ class Clansuite_Loader
      * requires: clansuite/core/filters/classname.filter.php
      * require if found
      *
-     * @param string $className The name of the filter class
+     * @param string $classname The name of the filter class
      * @static
      *
      * @return boolean
      */
-    public static function loadFilter($className)
+    public static function loadFilter($classname)
     {
-        if (class_exists($className, false))
+        if (class_exists($classname, false))
         {
             return false;
         }
 
         $fileName = null;
 
-        $className = strtolower($className);
-        $fileName = strstr($className,'clansuite_filter_');
+        $classname = strtolower($classname);
+        $fileName = strstr($classname,'clansuite_filter_');
 
         if($fileName)
         {
-            $fileName = substr($className, 17);
+            $fileName = substr($classname, 17);
             $fileName = ROOT . 'core/filters/' . $fileName . '.filter.php';
             #echo '<br>loaded Filter-Class => '. $fileName;
-            return self::requireFile($fileName);
+            return self::requireFile($fileName, $classname);
         }
         else
         {
@@ -316,21 +363,21 @@ class Clansuite_Loader
      * requires: clansuite/core/factories/classname.php
      * require if found
      *
-     * @param string $className The name of the factories class
+     * @param string $classname The name of the factories class
      * @return boolean
      */
-    public static function loadFactory($className)
+    public static function loadFactory($classname)
     {
-        if (class_exists($className, false))
+        if (class_exists($classname, false))
         {
             return false;
         }
 
-        $className = self::prepareClassnameAsFilename($className);
+        $classname = self::prepareclassnameAsFilename($classname);
 
-        $fileName = ROOT . 'core/factories/' . $className . '.php';
+        $fileName = ROOT . 'core/factories/' . $classname . '.php';
         #echo '<br>loaded Factory-Class => '. $fileName;
-        return self::requireFile($fileName);
+        return self::requireFile($fileName, $classname);
     }
 
     /**
@@ -345,13 +392,13 @@ class Clansuite_Loader
      * use \com\clansuite\core as core;
      * $httprequest = new core\httprequest;
      *
-     * @param string $className The name of the class to autoload
+     * @param string $classname The name of the class to autoload
      * @return boolean
      */
     public static function loadNamespace($classname)
     {
         $filename = str_replace('//', '/', $classname ) . '.php';
-        return  self::requireFile($fileName);
+        return  self::requireFile($fileName, $classname);
     }
 
     /**
@@ -376,11 +423,11 @@ class Clansuite_Loader
         if (!is_object($class))
         {
             # ensure type
-            $className  = (string) $class;
+            $classname  = (string) $class;
             $method     = (string) $method;
 
             # initalize class
-            $class = new $className;
+            $class = new $classname;
         }
 
         switch (count($arguments))
