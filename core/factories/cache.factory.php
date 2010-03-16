@@ -45,7 +45,7 @@ if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.'); }
  */
 interface Clansuite_Cache_Interface
 {
-    function isCached($key);
+    function contains($key);
     function fetch($key);
     function store($key, $data, $cache_lifetime);
     function delete($key);

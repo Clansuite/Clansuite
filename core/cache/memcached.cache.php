@@ -192,12 +192,12 @@ class Clansuite_Cache_Memcached implements Clansuite_Cache_Interface
     }
 
     /**
-     * isCached checks the cache for a key
+     * Contains checks if a key exists in the cache
      *
      * @param string $key Identifier for the data
      * @return boolean true|false
      */
-    public function isCached($key)
+    public function contains($key)
     {
         # md5'ify the key
         $key = md5($key);
