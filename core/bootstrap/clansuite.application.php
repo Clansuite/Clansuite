@@ -405,10 +405,9 @@ class Clansuite_CMS
      */
     private static function initialize_Loader()
     {
-        # get clansuite loaders
         require ROOT_CORE . 'bootstrap/clansuite.loader.php';
-        # and register the loading handlers by overwriting the spl_autoload handling
-        Clansuite_Loader::register_autoload();
+        # instantiate the autoloading handlers by overwriting the spl_autoload handling
+        Clansuite_Loader::getInstance();
     }
 
     /**
