@@ -30,7 +30,7 @@ function smarty_function_pagination($params, $smarty)
     if( isset($params['type']) and $params['type'] == 'alphabet' )
     {
         # check if file exists
-        if( $smarty->template_exists('pagination-alphabet.tpl') == false )
+        if( $smarty->templateExists('pagination-alphabet.tpl') == false )
         {
             echo 'Pagination Template for alphabet not found.';
         }
@@ -41,7 +41,7 @@ function smarty_function_pagination($params, $smarty)
     }
 
     # check if file exists
-    if( $smarty->template_exists('pagination-generic.tpl') == false )
+    if( $smarty->templateExists('pagination-generic.tpl') == false )
     {
         echo 'Pagination Template not found.';
     }

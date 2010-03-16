@@ -120,12 +120,12 @@ function smarty_function_load_module($params, $smarty)
          * @see $smarty->template_dir, clansuite_xdebug::printr($smarty->template_dir);
          */
 
-        if($smarty->template_exists($mod.DS.$action.'.tpl'))
+        if($smarty->templateExists($mod.DS.$action.'.tpl'))
         {
             # $smarty->template_dir[s]..\news\widget_news.tpl
             return $smarty->fetch($mod.DS.$action.'.tpl');
         }
-        elseif($smarty->template_exists($mod.DS.'templates'.DS.$action.'.tpl'))
+        elseif($smarty->templateExists($mod.DS.'templates'.DS.$action.'.tpl'))
         {
             # $smarty->template_dir[s]..\news\templates\widget_news.tpl
             return $smarty->fetch($mod.DS.'templates'.DS.$action.'.tpl');
