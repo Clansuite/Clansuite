@@ -167,11 +167,6 @@ class Clansuite_Loader
      */
     public static function loadEvent($classname, $directory = null)
     {
-        if (class_exists($classname, false))
-        {
-            return false;
-        }
-
         if(is_null($directory))
         {
             $directory = 'events';
@@ -193,10 +188,6 @@ class Clansuite_Loader
      */
     public static function loadClass($classname, $directory = null)
     {
-        if (class_exists($classname, false))
-        {
-            return false;
-        }
         $fileName = ROOT . $directory . strtolower($classname) . '.class.php';
         #echo '<br>loaded Class => '. $fileName;
         return self::requireFile($fileName, $classname);
@@ -216,11 +207,6 @@ class Clansuite_Loader
 
         #clansuite_xdebug::printr($classname['0']);
 
-        if (class_exists($classname['0'], false))
-        {
-            return false;
-        }
-
         $fileName = ROOT_LIBRARIES. $file;
         #echo '<br>loaded Library => '. $fileName;
         return self::requireFile($fileName, $classname['0']);
@@ -236,11 +222,6 @@ class Clansuite_Loader
      */
     public static function loadCoreClass($classname)
     {
-        if (class_exists($classname, false))
-        {
-            return false;
-        }
-
         $classname = self::prepareclassnameAsFilename($classname);
 
         $fileName = ROOT_CORE . $classname . '.core.php';
@@ -335,11 +316,6 @@ class Clansuite_Loader
      */
     public static function loadFilter($classname)
     {
-        if (class_exists($classname, false))
-        {
-            return false;
-        }
-
         $fileName = null;
 
         $classname = strtolower($classname);
@@ -368,11 +344,6 @@ class Clansuite_Loader
      */
     public static function loadFactory($classname)
     {
-        if (class_exists($classname, false))
-        {
-            return false;
-        }
-
         $classname = self::prepareclassnameAsFilename($classname);
 
         $fileName = ROOT . 'core/factories/' . $classname . '.php';
