@@ -66,13 +66,17 @@ class Clansuite_Loader
      */
     public static function register_autoload()
     {
+        @unlink(ROOT_LOGS . 'autoload_misses.log');
+        
+        # check if autoloading map exists, else create file
+        $file = ROOT.'configuration/'.self::$autoloaderMapFile;
+        if(is_file($file) == false)
+        {
+            @fopen($file, 'a', false); @fclose($file);            
+        }
+        
         spl_autoload_register(array (__CLASS__,'loadViaMapping'));
-        #spl_autoload_register(array (__CLASS__,'loadNamespace'));
-        spl_autoload_register(array (__CLASS__,'loadCoreClass'));
-        #spl_autoload_register(array (__CLASS__,'loadClass'));
-        spl_autoload_register(array (__CLASS__,'loadFilter'));
-        spl_autoload_register(array (__CLASS__,'loadFactory'));
-        spl_autoload_register(array (__CLASS__,'loadEvent'));
+        spl_autoload_register(array (__CLASS__,'autoload'));
     }
 
     /**
@@ -82,7 +86,7 @@ class Clansuite_Loader
      * @param string $fileName The file to be required
      * @return bool
      */
-    private static function requireFile($fileName, $classname)
+    private static function requireFile($fileName, $classname = null)
     {
         if (is_file($fileName))
         {
@@ -91,7 +95,7 @@ class Clansuite_Loader
             # log for the autoloaded files
             if(DEBUG == true)
             {
-                $log = @fopen( ROOT_LOGS . 'autoload.log', 'a', false);
+                $log = @fopen( ROOT_LOGS . 'autoload_hits.log', 'a', false);
                 @fwrite($log, 'Autoloaded file: ' . str_replace('_', '/', $fileName) . PHP_EOL);
                 fclose($log);
             }
@@ -106,6 +110,14 @@ class Clansuite_Loader
             return true;
         }
 
+            # log missed autoloads
+            if(DEBUG == true)
+            {                
+                $log = @fopen( ROOT_LOGS . 'autoload_misses.log', 'a', false);
+                @fwrite($log, 'Autoloaded file: ' . str_replace('_', '/', $fileName) . PHP_EOL);
+                fclose($log);
+            }
+        
         return false;
     }
 
@@ -134,7 +146,7 @@ class Clansuite_Loader
      * str_replace method to present the incomming classname
      * as a proper filename
      */
-    private static function prepareclassnameAsFilename($classname)
+    private static function convertClassnameToFilename($classname)
     {
         # strtolower
         $classname = strtolower($classname);
@@ -150,86 +162,55 @@ class Clansuite_Loader
 
     public static function loadViaMapping($classname)
     {
+        if (class_exists($classname, false) or interface_exists($classname, false))
+        {
+            return true;
+        }
+    
         $autoloading_map = self::readAutoloadingMap();
-
+        
         if(isset($autoloading_map[$classname]))
         {
-            self::requireFile($autoloading_map[$classname]);
+            #Clansuite_Xdebug::PrintR($autoloading_map);
+            
+            return self::requireFile($autoloading_map[$classname]);
         }
     }
-
+    
     /**
-     * Loads an event
+     * load
      *
-     * @param string $classname The eventclass, which should be loaded
-     * @param string $directory without start/end slashes
+     * @param string $classname The name of the factories class
      * @return boolean
      */
-    public static function loadEvent($classname, $directory = null)
+    public static function autoload($classname)
     {
-        if(is_null($directory))
+        if (class_exists($classname, false) or interface_exists($classname, false))
         {
-            $directory = 'events';
+            return true;
         }
-
-        $fileName = ROOT . $directory . strtolower($classname) . '.class.php';
-
-        #echo '<br>loaded Eventfile => '. $fileName;
-        return self::requireFile($fileName, $classname);
+        
+        $filenames = array (        
+                        # Event = clansuite/core/events/classname.class.php
+                        ROOT_CORE . 'events/' . strtolower($classname) . '.class.php',
+                        # Core Class = clansuite/core/class_name.class.php
+                        ROOT_CORE . self::convertClassnameToFilename($classname) . '.core.php',
+                        # Factories = clansuite/core/factories/classname.php
+                        ROOT_CORE . 'factories/' . self::convertClassnameToFilename($classname). '.php',
+                        # Filter = clansuite/core/filters/classname.filter.php
+                        ROOT_CORE . 'filters/' . substr($classname, 17) . '.filter.php',                        
+                      );
+                      
+        foreach($filenames as $filename)
+        {
+            if(self::requireFile($filename, $classname) == true)
+            {
+                return true;
+            }
+        }
     }
 
-    /**
-     * Load a Class with name and dir
-     * Extensions .class.php
-     *
-     * @param string $classname The class, which should be loaded
-     * @param string $directory without start/end slashes
-     * @return boolean
-     */
-    public static function loadClass($classname, $directory = null)
-    {
-        $fileName = ROOT . $directory . strtolower($classname) . '.class.php';
-        #echo '<br>loaded Class => '. $fileName;
-        return self::requireFile($fileName, $classname);
-    }
-
-    /**
-     * Load a Library
-     *
-     * @todo: Suboptimal! Filename based, because of classes like "simplepie/simplepie.inc"
-     *
-     * @param string $file Full path and filename of the library to load.
-     * @return boolean
-     */
-    public static function loadLibrary($file)
-    {
-        $classname = explode( DS , dirname($file));
-
-        #clansuite_xdebug::printr($classname['0']);
-
-        $fileName = ROOT_LIBRARIES. $file;
-        #echo '<br>loaded Library => '. $fileName;
-        return self::requireFile($fileName, $classname['0']);
-    }
-
-    /**
-     * loadCoreClass
-     * requires: clansuite/core/class_name.class.php
-     * require if found
-     *
-     * @param string $classname
-     * @return boolean
-     */
-    public static function loadCoreClass($classname)
-    {
-        $classname = self::prepareclassnameAsFilename($classname);
-
-        $fileName = ROOT_CORE . $classname . '.core.php';
-        #echo '<br>loaded Core-Class => '. $fileName;
-        return self::requireFile($fileName, $classname);
-    }
-
-    /**
+   /**
      * loadModul
      *
      * - constructs classname
@@ -300,54 +281,6 @@ class Clansuite_Loader
             #echo '<br>loaded Module => '. $fileName;
         }
 
-
-        return self::requireFile($fileName, $classname);
-    }
-
-    /**
-     * loadFilter
-     * requires: clansuite/core/filters/classname.filter.php
-     * require if found
-     *
-     * @param string $classname The name of the filter class
-     * @static
-     *
-     * @return boolean
-     */
-    public static function loadFilter($classname)
-    {
-        $fileName = null;
-
-        $classname = strtolower($classname);
-        $fileName = strstr($classname,'clansuite_filter_');
-
-        if($fileName)
-        {
-            $fileName = substr($classname, 17);
-            $fileName = ROOT . 'core/filters/' . $fileName . '.filter.php';
-            #echo '<br>loaded Filter-Class => '. $fileName;
-            return self::requireFile($fileName, $classname);
-        }
-        else
-        {
-            false;
-        }
-    }
-
-    /**
-     * loadFactories
-     * requires: clansuite/core/factories/classname.php
-     * require if found
-     *
-     * @param string $classname The name of the factories class
-     * @return boolean
-     */
-    public static function loadFactory($classname)
-    {
-        $classname = self::prepareclassnameAsFilename($classname);
-
-        $fileName = ROOT . 'core/factories/' . $classname . '.php';
-        #echo '<br>loaded Factory-Class => '. $fileName;
         return self::requireFile($fileName, $classname);
     }
 
@@ -369,7 +302,7 @@ class Clansuite_Loader
     public static function loadNamespace($classname)
     {
         $filename = str_replace('//', '/', $classname ) . '.php';
-        return  self::requireFile($fileName, $classname);
+        return  self::requireFile($filename, $classname);
     }
 
     /**
