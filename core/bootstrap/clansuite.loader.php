@@ -338,7 +338,8 @@ class Clansuite_Loader
             #echo '<br>loaded Module => '. $filename;
         }
         
-        Clansuite_Xdebug::firebug($filename);
+        # @todo move Module loading into the autoloader
+        #Clansuite_Xdebug::firebug($filename);
         return self::requireFile($filename, $classname);
     }
 
