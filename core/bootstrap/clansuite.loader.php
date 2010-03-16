@@ -56,7 +56,7 @@ class Clansuite_Loader
     private static $instance = null;
 
     private static $autoloaderMapFile = 'autoloader.map.php';
-    private $autoload_mapping = array();
+    private $autoloading_map = array();
         
     /**
      * returns an instance / singleton
