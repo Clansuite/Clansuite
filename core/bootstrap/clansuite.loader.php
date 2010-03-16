@@ -53,7 +53,48 @@ if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.'); }
  */
 class Clansuite_Loader
 {
+    private static $instance = null;
+
     private static $autoloaderMapFile = 'autoloader.map.php';
+    private $autoload_mapping = array();
+        
+    /**
+     * returns an instance / singleton
+     *
+     * @return an instance of the loader
+     */
+    public static function getInstance()
+    {
+        if (self::$instance == 0)
+        {
+            self::$instance = new Clansuite_Loader();
+        }
+        return self::$instance;
+    }
+    
+    public function __construct()
+    {   
+        # reset autoload logs
+        if(DEBUG == true)
+        {
+            @unlink(ROOT_LOGS . 'autoload_hits.log');
+            @unlink(ROOT_LOGS . 'autoload_misses.log');
+        }
+        # check if file for the autoloading map exists
+        $file = ROOT.'configuration/'.self::$autoloaderMapFile;
+        if(is_file($file) == false)
+        {   
+            # file not existant, create it
+            @fopen($file, 'a', false); @fclose($file);            
+        }
+        else # load it
+        {            
+            $this->autoload_map = $this->readAutoloadingMap();
+        }
+        
+        # finally!
+        $this->register_autoload();
+    }
 
     /**
      * clansuite_loader:register_autoload();
@@ -64,39 +105,30 @@ class Clansuite_Loader
      * PHP Manual: spl_autoload_register
      * @link http://www.php.net/manual/de/function.spl-autoload-register.php
      */
-    public static function register_autoload()
+    public function register_autoload()
     {
-        @unlink(ROOT_LOGS . 'autoload_misses.log');
-        
-        # check if autoloading map exists, else create file
-        $file = ROOT.'configuration/'.self::$autoloaderMapFile;
-        if(is_file($file) == false)
-        {
-            @fopen($file, 'a', false); @fclose($file);            
-        }
-        
-        spl_autoload_register(array (__CLASS__,'loadViaMapping'));
-        spl_autoload_register(array (__CLASS__,'autoload'));
+        spl_autoload_register(array ($this,'loadViaMapping'));
+        spl_autoload_register(array ($this,'autoload'));
     }
 
     /**
      * Require File
      * if file found
      *
-     * @param string $fileName The file to be required
+     * @param string $filename The file to be required
      * @return bool
      */
-    private static function requireFile($fileName, $classname = null)
+    private function requireFileAndMap($filename, $classname = null)
     {
-        if (is_file($fileName))
+        if (is_file($filename))
         {
-            require $fileName;
+            require $filename;
 
             # log for the autoloaded files
             if(DEBUG == true)
             {
                 $log = @fopen( ROOT_LOGS . 'autoload_hits.log', 'a', false);
-                @fwrite($log, 'Autoloaded file: ' . str_replace('_', '/', $fileName) . PHP_EOL);
+                @fwrite($log, 'Autoloaded file: ' . str_replace('_', '/', $filename) . PHP_EOL);
                 fclose($log);
             }
 
@@ -104,21 +136,43 @@ class Clansuite_Loader
             if(false == is_null($classname))
             {
                 # add class and filename to the mapping array
-                self::addToMapping($fileName, $classname);
+                $this->addToMapping($filename, $classname);
             }
 
             return true;
         }
-
+        else
+        {
             # log missed autoloads
             if(DEBUG == true)
             {                
                 $log = @fopen( ROOT_LOGS . 'autoload_misses.log', 'a', false);
-                @fwrite($log, 'Autoloaded file: ' . str_replace('_', '/', $fileName) . PHP_EOL);
+                @fwrite($log, 'Autoloaded file: ' . str_replace('_', '/', $filename) . PHP_EOL);
                 fclose($log);
             }
         
-        return false;
+            return false;
+        }
+    }
+    
+    /**
+     * Require File
+     * if file found
+     *
+     * @param string $filename The file to be required
+     * @return bool
+     */
+    private static function requireFile($filename, $classname = null)
+    {
+        if (is_file($filename))
+        {
+            require $filename;            
+            return true;
+        }
+        else
+        {
+            return false;
+        }
     }
 
     private static function writeAutoloadingMap($array)
@@ -131,13 +185,16 @@ class Clansuite_Loader
         return unserialize(file_get_contents(ROOT.'configuration/'.self::$autoloaderMapFile));
     }
 
-    private static function addToMapping($filename, $classname)
+    private function addToMapping($filename, $classname)
     {
-        $autoloading_map = (array) self::readAutoloadingMap();
+        #$autoloading_map = (array) self::readAutoloadingMap();
+        #Clansuite_Xdebug::firebug($this->autoloading_map);
 
         $new_path_mapping = array( $classname => $filename );
-
-        $merged_map = array_merge($autoloading_map, $new_path_mapping);
+        #Clansuite_Xdebug::firebug($new_path_mapping);
+        
+        $merged_map = array_merge($this->autoloading_map, $new_path_mapping);
+        #Clansuite_Xdebug::firebug($merged_map);
 
         self::writeAutoloadingMap($merged_map);
     }
@@ -146,7 +203,7 @@ class Clansuite_Loader
      * str_replace method to present the incomming classname
      * as a proper filename
      */
-    private static function convertClassnameToFilename($classname)
+    private static function convertClassnameTofilename($classname)
     {
         # strtolower
         $classname = strtolower($classname);
@@ -160,7 +217,7 @@ class Clansuite_Loader
         return $classname;
     }
 
-    public static function loadViaMapping($classname)
+    public function loadViaMapping($classname)
     {
         if (class_exists($classname, false) or interface_exists($classname, false))
         {
@@ -173,7 +230,7 @@ class Clansuite_Loader
         {
             #Clansuite_Xdebug::PrintR($autoloading_map);
             
-            return self::requireFile($autoloading_map[$classname]);
+            return $this->requireFileAndMap($autoloading_map[$classname]);
         }
     }
     
@@ -183,7 +240,7 @@ class Clansuite_Loader
      * @param string $classname The name of the factories class
      * @return boolean
      */
-    public static function autoload($classname)
+    public function autoload($classname)
     {
         if (class_exists($classname, false) or interface_exists($classname, false))
         {
@@ -191,19 +248,19 @@ class Clansuite_Loader
         }
         
         $filenames = array (        
-                        # Event = clansuite/core/events/classname.class.php
-                        ROOT_CORE . 'events/' . strtolower($classname) . '.class.php',
                         # Core Class = clansuite/core/class_name.class.php
-                        ROOT_CORE . self::convertClassnameToFilename($classname) . '.core.php',
+                        ROOT_CORE . self::convertClassnameTofilename($classname) . '.core.php',
                         # Factories = clansuite/core/factories/classname.php
-                        ROOT_CORE . 'factories/' . self::convertClassnameToFilename($classname). '.php',
+                        ROOT_CORE . 'factories/' . self::convertClassnameTofilename($classname). '.php',
                         # Filter = clansuite/core/filters/classname.filter.php
-                        ROOT_CORE . 'filters/' . substr($classname, 17) . '.filter.php',                        
+                        ROOT_CORE . 'filters/' . substr($classname, 17) . '.filter.php',
+                        # Event = clansuite/core/events/classname.class.php
+                        ROOT_CORE . 'events/' . strtolower($classname) . '.class.php',                                                
                       );
                       
         foreach($filenames as $filename)
         {
-            if(self::requireFile($filename, $classname) == true)
+            if($this->requireFileAndMap($filename, $classname) == true)
             {
                 return true;
             }
@@ -253,7 +310,7 @@ class Clansuite_Loader
         $modulinfos = explode("_", $modulename);
 
         # construct first part of filename
-        $fileName = ROOT_MOD . $modulinfos['1'] . DS;
+        $filename = ROOT_MOD . $modulinfos['1'] . DS;
 
         # if there is a part [2], we have to require a submodule filename
         if(isset($modulinfos['2']))
@@ -262,26 +319,27 @@ class Clansuite_Loader
             if($modulinfos['2'] == 'admin')
             {
                 # admin submodule filename, like news.admin.php
-                $fileName .= strtolower($modulinfos['1']) . '.admin.php';
-                #echo '<br>loaded Admin SubModule => '. $fileName;
+                $filename .= strtolower($modulinfos['1']) . '.admin.php';
+                #echo '<br>loaded Admin SubModule => '. $filename;
 
                 $classname .= 'Admin';
             }
             else
             {
                 # normal submodule filename, like menueditor.module.php
-                $fileName .= strtolower($modulinfos['2']) . '.module.php';
-                #echo '<br>loaded SubModule => '. $fileName;
+                $filename .= strtolower($modulinfos['2']) . '.module.php';
+                #echo '<br>loaded SubModule => '. $filename;
             }
         }
         else
         {
             # module filename
-            $fileName .= strtolower($modulinfos['1']) . '.module.php';
-            #echo '<br>loaded Module => '. $fileName;
+            $filename .= strtolower($modulinfos['1']) . '.module.php';
+            #echo '<br>loaded Module => '. $filename;
         }
-
-        return self::requireFile($fileName, $classname);
+        
+        Clansuite_Xdebug::firebug($filename);
+        return self::requireFile($filename, $classname);
     }
 
     /**
@@ -299,10 +357,10 @@ class Clansuite_Loader
      * @param string $classname The name of the class to autoload
      * @return boolean
      */
-    public static function loadNamespace($classname)
+    public function loadNamespace($classname)
     {
         $filename = str_replace('//', '/', $classname ) . '.php';
-        return  self::requireFile($filename, $classname);
+        return  $this->requireFileAndMap($filename, $classname);
     }
 
     /**
