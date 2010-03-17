@@ -42,47 +42,68 @@ class PHP_CodeSniffer_Standards_Clansuite_ClansuiteCodingStandard extends PHP_Co
     public function getIncludedSniffs()
     {
         return array(
-                     # Files
+              # Files
                      'Generic/Sniffs/Files/LineEndingsSniff.php',
                      'PEAR/Sniffs/Files/IncludingFileSniff.php',
 
-                     # Formatting
-                     #'Generic/Sniffs/Formatting/SpaceAfterCastSniff.php',
+              # Formatting
+                     # Ensures there is a single space after cast tokens.
+                     'Generic/Sniffs/Formatting/SpaceAfterCastSniff.php',
+                     'Squiz/Sniffs/Strings/DoubleQuoteUsageSniff.php',
 
-                     # Functions
-                     #'Generic/Sniffs/Functions/OpeningFunctionBraceBsdAllmanSniff.php',
-                     #'PEAR/Sniffs/Functions/ValidDefaultValueSniff.php',
+              # Functions - Braces
+                     # Checks that the opening brace of a function is on the line after the function declaration.
+                     'Generic/Sniffs/Functions/OpeningFunctionBraceBsdAllmanSniff.php',
+                     //'PEAR/Sniffs/Functions/ValidDefaultValueSniff.php',
 
-                     # PHP
-                     #'Generic/Sniffs/PHP/NoSilencedErrorsSniff.php',
-                     #'Generic/Sniffs/PHP/UpperCaseConstantSniff.php',
-                     #'Squiz/Sniffs/PHP/GlobalKeywordSniff.php',
-                     #'Squiz/Sniffs/PHP/EvalSniff.php',
+                     'Squiz/Sniffs/PHP/LowercasePHPFunctionsSniff.php',
 
-                     # WhiteSpace
-                     #'Squiz/Sniffs/WhiteSpace/',
-                     #'Generic/Sniffs/WhiteSpace/DisallowTabIndentSniff.php',
-                     #'Generic/Sniffs/WhiteSpace/ScopeIndentSniff.php',
-                     #'PEAR/Sniffs/WhiteSpace/ScopeClosingBraceSniff.php',
+              # Classes
+                     'Squiz/Sniffs/Classes/LowercaseClassKeywordsSniff.php',
+                     'Squiz/Sniffs/Classes/SelfMemberReferenceSniff.php',
 
-                     # ControlStructures
-                     #'Generic/Sniffs/ControlStructures/InlineControlStructureSniff.php',
-                     #'Squiz/Sniffs/ControlStructures/InlineIfDeclarationSniff.php',
-                     #'Squiz/Sniffs/ControlStructures/ControlSignatureSniff.php',
-                     #'Squiz/Sniffs/ControlStructures/ForEachLoopDeclarationSniff.php',
-                     #'Squiz/Sniffs/ControlStructures/SwitchDeclarationSniff.php',
+              # PHP
+                     'Generic/Sniffs/PHP/NoSilencedErrorsSniff.php',
 
-                     # VersionControl -> SVN
-                     #'Generic/Sniffs/VersionControl/SubversionPropertiesSniff.php',
+                     # Checks that all uses of true, false and null are lowerrcase.
+                     'Generic/Sniffs/PHP/LowerCaseConstantSniff.php'
+                     # Stops the usage of the "global" keyword.
+                     'Squiz/Sniffs/PHP/GlobalKeywordSniff.php',
 
-                     # CSS
-                     #'Squiz/Sniffs/CSS',
+                     # The use of eval() is discouraged.
+                     'Squiz/Sniffs/PHP/EvalSniff.php',
 
-                     # Strings
-                     #'Squiz/Sniffs/Strings/EchoedStringsSniff.php',
+                     # Makes sure that shorthand PHP open tags are not used.
+                     'Generic/Sniffs/PHP/DisallowShortOpenTagSniff',
 
-                     # Array
-                     #'Squiz/Sniffs/Arrays/ArrayDeclarationSniff.php',
+              # WhiteSpace
+                     //'Squiz/Sniffs/WhiteSpace/',
+                     'Generic/Sniffs/WhiteSpace/DisallowTabIndentSniff.php',
+                     //'Generic/Sniffs/WhiteSpace/ScopeIndentSniff.php',
+                     //'PEAR/Sniffs/WhiteSpace/ScopeClosingBraceSniff.php',
+
+              # ControlStructures
+                     //'Generic/Sniffs/ControlStructures/InlineControlStructureSniff.php',
+                     //'Squiz/Sniffs/ControlStructures/InlineIfDeclarationSniff.php',
+                     //'Squiz/Sniffs/ControlStructures/ControlSignatureSniff.php',
+                     //'Squiz/Sniffs/ControlStructures/ForEachLoopDeclarationSniff.php',
+                     //'Squiz/Sniffs/ControlStructures/SwitchDeclarationSniff.php',
+
+              # VersionControl -> SVN
+                     //'Generic/Sniffs/VersionControl/SubversionPropertiesSniff.php',
+
+              # CSS
+                     //'Squiz/Sniffs/CSS',
+
+              # Strings
+                     //'Squiz/Sniffs/Strings/EchoedStringsSniff.php',
+
+              # Array
+                     //'Squiz/Sniffs/Arrays/ArrayDeclarationSniff.php',
+
+              # Naming Conventions
+                    # Ensures class and interface names start with a capital letter and use _ separators.
+                    'PEAR/Sniffs/NamingConventions/ValidClassNameSniff',
                    );
 
     }
