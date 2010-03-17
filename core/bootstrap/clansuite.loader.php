@@ -55,8 +55,6 @@ class Clansuite_Loader
 {
     private static $instance = null;
 
-    private static $autoloaderMapFile = 'autoloader.config.php';
-
     private $autoloading_map = array();
 
     /**
@@ -82,7 +80,7 @@ class Clansuite_Loader
             @unlink(ROOT_LOGS . 'autoload_misses.log');
         }
         # check if file for the autoloading map exists
-        $file = ROOT.'configuration/'.self::$autoloaderMapFile;
+        $file = ROOT.'configuration/autoloader.config.php';
         if(is_file($file) == false)
         {
             # file not existant, create it
@@ -193,15 +191,20 @@ class Clansuite_Loader
 
         #Clansuite_Xdebug::firebug($array);
 
-        file_put_contents(ROOT.'configuration/'.self::$autoloaderMapFile, serialize($array));
+        file_put_contents(ROOT.'configuration/autoloader.config.php', serialize($array));
     }
 
     /**
-     * readAutoloadingMap reads the content of the autoloading map file.
+     * readAutoloadingMap
+     *
+     * Reads the content of the autoloading map file and returns it unserialized.
      */
     private static function readAutoloadingMap()
     {
-        return unserialize(file_get_contents(ROOT.'configuration/'.self::$autoloaderMapFile));
+        /**
+         * Note: delete the autoloader.config.php file, if you get an unserialization error like "error at offset xy"
+         */
+        return unserialize(file_get_contents(ROOT.'configuration/autoloader.config.php'));
     }
 
     /**
