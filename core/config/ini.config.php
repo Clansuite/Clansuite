@@ -157,10 +157,12 @@ class Clansuite_Config_INIHandler extends Clansuite_Config_Base implements Array
 
        # attach an security header at the top of the ini file
        $content = '';
-       $content = "; <?php die( 'Access forbidden.' ); /* DO NOT MODIFY THIS LINE! ?>\n";
+       $content .= "; <?php die( 'Access forbidden.' ); /* DO NOT MODIFY THIS LINE! ?>\n";
        $content .= "; \n";
        $content .= "; Clansuite Configuration File : \n";
        $content .= "; $ini_filename \n";
+       $content .= "; \n";
+       $content .= "; This file was generated on " . date('d-m-Y H:i') . "\n";
        $content .= ";\n\n";
 
         # loop over every array element
@@ -280,7 +282,7 @@ class Clansuite_Config_INIHandler extends Clansuite_Config_Base implements Array
 
     /**
     * Thx to php.net
-    * 
+    *
     * @link: http://www.php.net/manual/en/function.array-merge-recursive.php
     * @author: Daniel <daniel (at) danielsmedegaardbuus (dot) dk>
     */
