@@ -234,14 +234,6 @@ class Clansuite_Formelement_Textarea extends Clansuite_Formelement implements Cl
         $html = '';
 
         /**
-         * Attach HTML content of WYSIWYG Editor
-         */
-        if(empty($this->editor) == false)
-        {
-            $html .= $this->getEditorFormelement()->transferPropertiesToEditor()->render();
-        }
-
-        /**
          * Opening of textarea tag
          */
         $html .= '<textarea';
@@ -265,6 +257,17 @@ class Clansuite_Formelement_Textarea extends Clansuite_Formelement implements Cl
          * Closing of textarea tag
          */
         $html .= "</textarea>\n";
+
+        /**
+         * Attach HTML content of WYSIWYG Editor
+         *
+         * Always after the textarea !
+         * Because html elements are served first, before javascript dom selections are applied upon them!
+         */
+        if(empty($this->editor) == false)
+        {
+            $html .= $this->getEditorFormelement()->transferPropertiesToEditor()->render();
+        }
 
         return $html;
     }

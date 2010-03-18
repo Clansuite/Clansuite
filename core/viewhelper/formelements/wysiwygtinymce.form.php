@@ -59,33 +59,22 @@ class Clansuite_Formelement_Wysiwygtinymce extends Clansuite_Formelement_Textare
         # a) loads the tinymce javascript file
         $javascript = '<script src="'.WWW_ROOT_THEMES_CORE . '/javascript/tiny_mce/tiny_mce.js" type="text/javascript"></script>';
 
-        # watch it! the online version has some icons changes
-        #$javascript = '<script type="text/javascript" src="..."></script>';
-
         # b) handler to attach tinymce to a textarea named "mceSimple" and "mceAdvanced"
         $javascript .= "<script type=\"text/javascript\">// <![CDATA[
                             tinyMCE.init({
-                            	mode : "textareas",
-                            	theme : "simple",
-                            	editor_selector : "mceSimple"
+                            	mode : \"textareas\",
+                            	theme : \"simple\",
+                            	editor_selector : \"mceSimple\"
                             });
 
                             tinyMCE.init({
-                            	mode : "textareas",
-                            	theme : "advanced",
-                            	editor_selector : "mceAdvanced"
+                            	mode : \"textareas\",
+                            	theme : \"advanced\",
+                            	editor_selector : \"mceAdvanced\"
                             });
                         // ]]></script>";
 
-        # c) css style
-        #$html = '<STYLE type="text/css">'.CR.'</STYLE>';
-
-        # c) render a normal textarea
-        $this->cols = 100;
-        $this->rows = 30;
-        #$html .= parent::render_html_textarea();
-
-        return $javascript.$html;
+        return $javascript;
     }
 
     public function __toString()

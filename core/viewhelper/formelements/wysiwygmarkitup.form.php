@@ -72,7 +72,7 @@ class Clansuite_Formelement_Wysiwygmarkitup extends Clansuite_Formelement_Textar
                            });
                         // ]]></script>";
 
-        return $javascript.$css.$html;
+        return $javascript.$css;
     }
 
     public function __toString()
