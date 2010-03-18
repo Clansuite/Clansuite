@@ -46,6 +46,8 @@ if (!class_exists('Clansuite_Formelement_Textarea',false)) { require dirname(__F
  *      \- Clansuite_Formelement_Wysiwygckeditor
  *
  * @see http://ckeditor.com/ Official Website of CKeditor
+ * @see http://docs.cksource.com/ CKEditor Documentations
+ * @see http://docs.cksource.com/CKEditor_3.x/Developers_Guide/Integration
  */
 class Clansuite_Formelement_Wysiwygckeditor extends Clansuite_Formelement_Textarea implements Clansuite_Formelement_Interface
 {
@@ -57,15 +59,14 @@ class Clansuite_Formelement_Wysiwygckeditor extends Clansuite_Formelement_Textar
         # a) loads the ckeditor javascript files
         $javascript = '<script type="text/javascript" src="'.WWW_ROOT_THEMES_CORE . '/javascript/ckeditor/ckeditor.js"></script>';
 
-        # d) plug it to an specific textarea by ID
+        # b) plug it to an specific textarea by ID
+        # This script block must be included at any point "after" the <textarea> tag in the page.
         $javascript .= '<script type="text/javascript">
                                 CKEDITOR.replace("'.$this->getName().'");
                         </script>';
 
-        #clansuite_xdebug::printR($html.$javascript);
-
-        # watch out! serve html elements first, before javascript dom selections are applied on them!
-        return $html.$javascript;
+        # Watch out! Serve html elements first, before javascript dom selections are applied on them!
+        return $javascript;
     }
 
     public function __toString()
