@@ -219,7 +219,7 @@ class Clansuite_Formelement /* extends Clansuite_HTML */ implements Clansuite_Fo
         return $this;
     }
 
-    /**
+   /**
     * Return the value (escaped)
     *
     * @return string Escaped string
@@ -303,10 +303,45 @@ class Clansuite_Formelement /* extends Clansuite_HTML */ implements Clansuite_Fo
         }
     }
 
-	public function isRequired()
-	{
-		$this->required = true;
-	}
+    /**
+     * Returns boolean true if this formelement is required.
+     *
+     * @return boolean True if formelement is required, false if not.
+     */
+    public function isRequired()
+    {
+        if(isset($this->required))
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    /**
+     * Returns required status.
+     *
+     * @return boolean True if formelement is required, false if not.
+     */
+    public function getRequired()
+    {
+        return $this->required;
+    }
+
+    /**
+     * Set required status for this formelement.
+     *
+     * @param string $label Label of this formelement.
+     * @return Clansuite_Formelement
+     */
+    public function setRequired($required)
+    {
+        $this->required = $required;
+
+        return $this;
+    }
 
     /**
      * Set description of this formelement.
@@ -402,7 +437,7 @@ class Clansuite_Formelement /* extends Clansuite_HTML */ implements Clansuite_Fo
     public function getIncommingFormData($formmethod)
     {
         $request = $this->injector->instantiate('Clansuite_HttpRequest');
-        
+
         # better use this -> $formmethod = $request->getMethod();
 
         $formmethod = strtolower($formmethod);
