@@ -215,4 +215,10 @@ eventsystem_enabled = 1
 name=clanname
 tag=[clantag]::
 
+;----------------------------------------
+; wysiwyg editor
+;----------------------------------------
+[editor]
+type=ckeditor
+
 ; DO NOT REMOVE THIS LINE */ ?>
