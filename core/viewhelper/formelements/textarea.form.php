@@ -49,18 +49,18 @@ if (!class_exists('Clansuite_Formelement',false)) { require ROOT_CORE . 'viewhel
 class Clansuite_Formelement_Textarea extends Clansuite_Formelement implements Clansuite_Formelement_Interface
 {
     /**
-     * Flag variable for the editorType.
+     * Flag variable for the What-You-See-Is-What-You-Get Editor.
      *
      * There are several different wysiwyg editor formelements available:
      *
-     * 1) Nicedit       -> wysiwygnicedit.form.php
-     * 2) TinyMCE       -> wysiwygtinymce.form.php
-     * 3) CKEditor      -> wysiwygckeditor.form.php
-     * 4) markItUp      -> wysiwygmarkItUp.form.phg
+     * 1) Nicedit   -> wysiwygnicedit.form.php
+     * 2) TinyMCE   -> wysiwygtinymce.form.php
+     * 3) CKEditor  -> wysiwygckeditor.form.php
+     * 4) markItUp  -> wysiwygmarkItUp.form.phg
      *
      * @var string
      */
-    private $editorType;
+    private $editor;
 
     /**
      * @var int width of textarea in letters
@@ -84,16 +84,24 @@ class Clansuite_Formelement_Textarea extends Clansuite_Formelement implements Cl
         return $this;
     }
 
-    public function setEditorType($editorType)
+    public function setEditor($editor = null)
     {
-        $this->editorType = strtolower($editorType);
+        # if no editor is given, take the one definied in configuration
+        if($editor == null)
+        {
+            $config = Clansuite_CMS::getInjector()->instantiate('Clansuite_Config');
+            $editor = $config['editor']['type'];
+            unset($config);
+        }
+
+        $this->editor = strtolower($editor);
 
         return $this;
     }
 
-    public function getEditorType()
+    public function getEditor()
     {
-        return $this->editorType;
+        return $this->editor;
     }
 
     /**
@@ -172,7 +180,7 @@ class Clansuite_Formelement_Textarea extends Clansuite_Formelement implements Cl
      */
     private function editorFactory()
     {
-        $name = $this->getEditorType();
+        $name = $this->getEditor();
         Clansuite_Xdebug::firebug($name);
 
         # construct classname
@@ -213,11 +221,6 @@ class Clansuite_Formelement_Textarea extends Clansuite_Formelement implements Cl
         return $formelement;
     }
 
-    private function renderEditorFormelement()
-    {
-         return $this->getEditorFormelement()->transferPropertiesToEditor()->render();
-    }
-
     /**
      * Renders a normal html textarea representation when
      * no wysiwyg editor object is attached to this textarea object.
@@ -233,9 +236,9 @@ class Clansuite_Formelement_Textarea extends Clansuite_Formelement implements Cl
         /**
          * Attach HTML content of WYSIWYG Editor
          */
-        if(empty($this->editorType) == false)
+        if(empty($this->editor) == false)
         {
-            $html .= $this->renderEditorFormelement();
+            $html .= $this->getEditorFormelement()->transferPropertiesToEditor()->render();
         }
 
         /**
