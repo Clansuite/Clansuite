@@ -62,7 +62,7 @@ if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.'); }
  * @package     Core
  * @subpackage  Flashmessages
  */
-class Clansuite_Flashmessages implements ArrayAccess
+class Clansuite_Flashmessages /*extends Clansuite_Session*/ implements ArrayAccess
 {
     # contains $session array of $flashmessages
     private $flashmessages = array();
