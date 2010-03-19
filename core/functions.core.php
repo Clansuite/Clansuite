@@ -758,7 +758,7 @@ class Clansuite_Functions
      * @param $name string The $name argument is the name of the method being called.
      * @param $arguments arra The $arguments argument is an enumerated array containing the parameters passed to the $name'ed method.
      */
-    public static function __callStatic($name, $arguments)
+    public static function __callStatic($method, $arguments)
     {
         # Because value of $name is case sensitive, its forced to be lowercase.
         $method = strtolower($method);
@@ -768,19 +768,21 @@ class Clansuite_Functions
         # Clansuite_XDebug::fbg('DEBUG (Overloading): Calling static method "'.$method.'" '. implode(', ', $arguments). "\n");
 
         # construct the filename of the command
-        $command_filename = ROOT_CORE.DS.'functions'.DS.$method.'.function.php';
+        $filename = ROOT_CORE.DS.'functions'.DS.$method.'.function.php';
 
         # check if name is valid
-        if(is_file($command_filename) and is_readable($command_filename))
+        if(is_file($filename) and is_readable($filename))
         {
             # dynamically include the command
-            include_once $command_filename;
-            return call_user_func($method, $arguments);
+            include_once $filename;
 
+            #return call_user_func_array($method, $arguments);
+            # @todo benchmark this call please :P
+            return Clansuite_Loader::callMethod( $method, $arguments);
         }
         else
         {
-            trigger_error('Clansuite Function not found: "'.$command_filename.'".');
+            trigger_error('Clansuite Function not found: "'.$filename.'".');
         }
     }
 
@@ -806,18 +808,19 @@ class Clansuite_Functions
         # Clansuite_XDebug::fbg('DEBUG (Overloading): Calling object method "'.$method.'" '. implode(', ', $arguments). "\n");
 
         # construct the filename of the command
-        $command_filename = ROOT_CORE.DS.'functions'.DS.$method.'.function.php';
+        $filename = ROOT_CORE.DS.'functions'.DS.$method.'.function.php';
 
         # check if name is valid
-        if(is_file($command_filename) and is_readable($command_filename))
+        if(is_file($filename) and is_readable($filename))
         {
             # dynamically include the command
-            include_once $command_filename;
-            return call_user_func($method, $arguments);
+            include_once $filename;
+
+            return Clansuite_Loader::callMethod( $method), $arguments);
         }
         else
         {
-            trigger_error('Clansuite Function not found: "'.$command_filename.'".');
+            trigger_error('Clansuite Function not found: "'.$filename.'".');
         }
     }
 }
