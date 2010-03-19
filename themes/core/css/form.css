@@ -14,9 +14,10 @@ margin:10px;
 }
 
 fieldset {
-border:1px solid #666;
-margin-bottom:10px;
-padding:10px;
+    border: 1px solid;
+    border-color: #FFFFFF #ACA899 #ACA899 #FFFFFF;
+    margin-bottom: 10px;
+    padding: 10px;
 }
 
 legend {
