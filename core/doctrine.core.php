@@ -386,7 +386,9 @@ class Clansuite_Doctrine
          */
         $time = 0;
 
-        echo '<style type="text/css">
+
+        echo '<!-- Disable Debug Mode to remove this!-->
+              <style type="text/css">
               /*<![CDATA[*/
                 table.doctrine-profiler {
                     background: none repeat scroll 0 0 #FFFFCC;
