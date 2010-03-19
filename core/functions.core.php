@@ -816,7 +816,7 @@ class Clansuite_Functions
             # dynamically include the command
             include_once $filename;
 
-            return Clansuite_Loader::callMethod( $method), $arguments);
+            return Clansuite_Loader::callMethod( $method, $arguments);
         }
         else
         {
