@@ -251,7 +251,7 @@ class Clansuite_Formelement_Textarea extends Clansuite_Formelement implements Cl
         /**
          * Content between tags (value)
          */
-        $html .= htmlspecialchars($this->getValue());
+        $html .= Clansuite_Functions::UTF8_to_HTML($this->getValue());
 
         /**
          * Closing of textarea tag
