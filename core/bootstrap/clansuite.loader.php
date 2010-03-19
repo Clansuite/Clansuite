@@ -420,7 +420,7 @@ class Clansuite_Loader
     }
 
     /**
-     * callMethod
+     * callClassMethod
      *
      * This method is some kind of performance tweak.
      * It's thought as a functional replacement of call_user_func_array,
@@ -435,7 +435,7 @@ class Clansuite_Loader
      *
      * @return object / method response
      */
-    public static function callMethod($class, $method, array $arguments = array())
+    public static function callClassMethod($class, $method, array $arguments = array())
     {
         # if $class is not an object, we have to initialize the class
         if (!is_object($class))
@@ -460,6 +460,41 @@ class Clansuite_Loader
                 return $class->$method($arguments[0], $arguments[1], $arguments[2]);
             default:
                 return call_user_func_array( array($class, $method), $arguments );
+        }
+    }
+    
+    /**
+     * callMethod
+     *
+     * Like callClassMethod, but not for classes :D
+     *
+     * This method is some kind of performance tweak.
+     * It's thought as a functional replacement of call_user_func_array,
+     * because it's too slow calling stuff.
+     * So instead we call the method directly with up to 3 parameters.
+     * After that we use call_user_func_array.
+     * Looks stupid, but may result in an speedup while calling!
+     *
+     * @param $class Takes name of the class or the class object itself.
+     * @param $method Methodname to call.
+     * @param $arguments Array of Arguments for the Method Call.
+     *
+     * @return object / method response
+     */
+    public static function callMethod($method, array $arguments = array())
+    {
+        switch (count($arguments))
+        {
+            case 0:
+                return $method();
+            case 1:
+                return $method($arguments[0]);
+            case 2:
+                return $method($arguments[0], $arguments[1]);
+            case 3:
+                return $method($arguments[0], $arguments[1], $arguments[2]);
+            default:
+                return call_user_func_array( $method, $arguments );
         }
     }
 }
