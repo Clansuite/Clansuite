@@ -27,7 +27,7 @@
     *
     * @link       http://www.clansuite.com
     * @link       http://gna.org/projects/clansuite
-    * @since      File available since Release 0.2
+
     *
     * @version    SVN: $Id: news.module.php 2006 2008-05-07 09:08:40Z xsign $
     */

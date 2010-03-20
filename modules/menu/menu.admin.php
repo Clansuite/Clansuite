@@ -26,8 +26,7 @@
     * @copyright  Copyleft: All rights reserved. Jens-André Koch (2005-onwards)
     *
     * @link       http://www.clansuite.com
-    * @link       http://gna.org/projects/clansuite
-    * @since      File available since Release 0.2
+    * @link       http://gna.org/projects/
     *
     * @version    SVN: $Id: menueditor.module.php 2248 2008-07-12 01:48:54Z vain $
     */
@@ -102,6 +101,30 @@ class Module_Menu_Admin extends Clansuite_ModuleController implements Clansuite_
         $this->prepareOutput();
     }
     
+    private function getTree($model, $rootId = null)
+ 	{
+        $tree = Doctrine_Core::getTable($model)->getTree();
+
+        $options = array();
+        
+        if(is_null($rootId))
+        {
+            $options['root_id'] = 1;
+        }
+        else
+        {
+            $options['root_id'] = $rootId;
+        }
+
+        return $tree->fetchTree($options);
+    }
+    
+    private function getRoots($model)
+    {
+ 	    $tree = Doctrine_Core::getTable($model)->getTree();
+	    return $tree->fetchRoots();
+	}
+    
     public function action_admin_menueditor2()
     {
         # Set Pagetitle and Breadcrumbs
@@ -113,18 +136,19 @@ class Module_Menu_Admin extends Clansuite_ModuleController implements Clansuite_
         /**
          * Creating a Root Node
          */
-        /*
+   /*
         $category = new CsAdminmenuShortcuts();
         $category->name = 'Root Category 3';
         $category->save();
         
+        /*
         $treeObject = Doctrine::getTable('CsAdminmenuShortcuts')->getTree();
         $treeObject->createRoot($category);
-        
+        */
         /**
          * Inserting a Node
          */
-        /* 
+/*
         $child1 = new CsAdminmenuShortcuts();
         $child1->name = 'Child Category 3';
         
@@ -133,17 +157,19 @@ class Module_Menu_Admin extends Clansuite_ModuleController implements Clansuite_
         
         $child1->getNode()->insertAsLastChildOf($category);
         $child2->getNode()->insertAsLastChildOf($child1);
-        */
+        
         /**
          * Rendering a Simple Tree
          */                  #fetchTree()
         #$tree = $treeObject->fetchRoots();          
+        
+        Clansuite_Xdebug::firebug($this->getTree('CsAdminmenuShortcuts'));
                            
         $treeObject = Doctrine::getTable('CsAdminmenuShortcuts')->getTree();
-        $rootColumnName = $treeObject->getAttribute('rootColumnName');
-        
+        $rootColumnName = $treeObject->getAttribute('rootColumnName'); 
+                
         # open unordered list tag
-        $html = "<ul>";
+        $html = "<div class=\"top\">Adminmenu</div>\n<ul>";
         # flag var for the current level of the node
         $lastLevel = 0;
         
@@ -154,8 +180,10 @@ class Module_Menu_Admin extends Clansuite_ModuleController implements Clansuite_
             # Iterating tree from a current root
             foreach($treeObject->fetchTree($options) as $node)
             {                
+                Clansuite_Xdebug::firebug($node->toArray());
+            
                 # If we are on the item of the same level, closing <li> tag before printing item
-                if (($node ['level'] == $lastLevel) and ($lastLevel > 0))
+               if (($node ['level'] == $lastLevel) and ($lastLevel > 0))
                 {
                     $html .= '</li>';
                 }
@@ -169,11 +197,11 @@ class Module_Menu_Admin extends Clansuite_ModuleController implements Clansuite_
                 # If we are going to return back by several levels, closing appropriate tags 
                 if ($node ['level'] < $lastLevel)
                 {
-                    $html .= str_repeat ( "</li></ul>", $lastLevel - $node ['level'] ) . '</li>';
+                    $html .= str_repeat ( "</li></ul>\n", $lastLevel - $node ['level'] ) . '</li>'. "\n";
                 }
                 
                 # Priting item without closing <li> tag
-                $html .= '<li id="AdminMenuNode' . $node ['id'] . '"><a href="#"><ins>&nbsp;</ins> Name: ' . $node ['name'] . ' ID: ' . $node ['id'];
+                $html .= "\t".'<li id="AdminMenuNode' . $node ['id'] . '"><a href="#"><ins>&nbsp;</ins> Name: ' . $node ['name'] . ' ID: ' . $node ['id'];
                 
                 # Refreshing last level of the item
                 $lastLevel = $node ['level'];
@@ -183,6 +211,8 @@ class Module_Menu_Admin extends Clansuite_ModuleController implements Clansuite_
         # close unordered list tag
         $html .= "</ul>";
 
+        Clansuite_Xdebug::firebug($html);
+        
         # assign the html of the tree to the view        
         $this->getView()->assign('tree', $html);
 

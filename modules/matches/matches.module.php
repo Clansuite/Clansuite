@@ -27,8 +27,7 @@
     * @copyright  Jens-André Koch (2005 - onwards), Florian Wolf (2006-2007)
     *
     * @link       http://www.clansuite.com
-    * @link       http://gna.org/projects/clansuite
-    * @since      File available since Release 0.1
+    * @link       http://gna.org/projects/
     *
     * @version    SVN: $Id$
     */
@@ -37,8 +36,8 @@
 if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
 
 /**
- * Clansuite
- *
+ * 
+    *
  * Module:      Matches
  *
  * @author     Jens-André Koch <vain@clansuite.com>

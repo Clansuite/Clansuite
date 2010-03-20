@@ -1,8 +1,6 @@
 {move_to target="pre_head_close"}
 <script src="{$www_root_themes_core}/javascript/webtoolkit.sha1.js" type="application/javascript"></script>
-{/move_to}
-
-<script>
+<script type="application/javascript">
     function hashLoginPassword(theForm)
     {
         if( (theForm.password.value  != '') &&
@@ -56,6 +54,8 @@
         document.register_form.password2.value = '';
     }
 </script>
+{/move_to}
+
 
 <h2>{t}Register a new useraccount{/t}</h2>
 {* OLD ERRORS
@@ -76,22 +76,37 @@
 
         <tr>
             <td>{t}Nick:{/t}</td>
-            <td><input type="text" name="nick" value="{$smarty.post.nick|default|escape:"html"}"></td>
+            <td>
+                <input type="text" name="register_form[nick]" value="{$register_form.nick|default|escape:"html"}">
+            </td>
         </tr>
 
         <tr>
             <td>{t}Email:{/t}</td>
-            <td><input onkeyup="javascript:mailTest()" oncopy="javascript:mailTest()" onpaste="javascript:mailTest()" oncut="javascript:mailTest()" type="text" id="email" name="email" id='email' value="{$smarty.post.email|default|escape:"html"}"></td>
+            <td>
+                <input onkeyup="javascript:mailTest()" oncopy="javascript:mailTest()"
+                       onpaste="javascript:mailTest()" oncut="javascript:mailTest()" 
+                       type="text" id="email" name="register_form[email]" id="email" 
+                       value="{$register_form.email|default|escape:"html"}">
+            </td>
         </tr>
 
         <tr>
             <td>{t}Confirm email:{/t}</td>
-            <td><input onkeyup="javascript:mailTest()" oncopy="javascript:mailTest()" onpaste="javascript:mailTest()" oncut="javascript:mailTest()" type="text" id="email2" name="email2" id='email2' value="{$smarty.post.email2|default|escape:"html"}"></td>
+            <td>
+                <input onkeyup="javascript:mailTest()" oncopy="javascript:mailTest()"
+                       onpaste="javascript:mailTest()" oncut="javascript:mailTest()"
+                       type="text" id="email2" name="register_form[email2]" id="email2"
+                       value="{$register_form.email2|default|escape:"html"}">
+            </td>
         </tr>
 
         <tr>
             <td valign='top'>{t}Password:{/t}</td>
-            <td><input onkeyup="javascript:passTest()" oncopy="javascript:passTest()" onpaste="javascript:passTest()" oncut="javascript:passTest()" type="password" id='password' name="password" value="">
+            <td>
+                <input onkeyup="javascript:passTest()" oncopy="javascript:passTest()" 
+                       onpaste="javascript:passTest()" oncut="javascript:passTest()"
+                       type="password" id="password" name="register_form[password]" value="">
                 <br />
                 <form name="generatePassword">
                 <input type="button" value="Generate Password" onClick="fillPasswordForm(this.form.passwordlength.value)"><br />
@@ -104,19 +119,28 @@
 
         <tr>
             <td valign="top">{t}Confirm Password:{/t}</td>
-            <td><input onkeyup="javascript:passTest()" oncopy="javascript:passTest()" onpaste="javascript:passTest()" oncut="javascript:passTest()" type="password" id='password2' name="password2" value=""><br /><span class='font_mini'>{t}Minimum: {/t}{$min_length}</span></td>
+            <td>
+                <input onkeyup="javascript:passTest()" oncopy="javascript:passTest()"
+                       onpaste="javascript:passTest()" oncut="javascript:passTest()"
+                       type="password" id="password2" name="register_form[password2]"
+                       value="">
+                       <br />
+                <span class='font_mini'>{t}Minimum: {/t}{$min_length}</span>
+            </td>
         </tr>
 
         <!--
         <tr>
             <td>{t}Password Security:{/t}</td>
-            <td><div id='password_verification' style='width: 1px;height: 15px; background-color: red; border: thin solid black;'>&nbsp;</div></td>
+            <td>
+                <div id='password_verification' style='width: 1px;height: 15px; background-color: red; border: thin solid black;'>&nbsp;</div>
+            </td>
         </tr>
         -->
 
-        {$config|@dump}
+        {$moduleconfig|@dump}
 
-        {if $config.captchatype == 'recaptcha'}
+        {if $moduleconfig.captchatype == 'recaptcha'}
             <tr>
                 <td>{t}Captcha:{/t}</td>
                 <td>

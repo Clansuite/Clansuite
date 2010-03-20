@@ -29,7 +29,7 @@
  *
  * @link       http://www.clansuite.com
  * @link       http://gna.org/projects/clansuite
- * @since      File available since Release 0.2
+
  *
  * @version    SVN: $Id: index.module.php 2625 2008-12-09 00:04:43Z vain $
  */

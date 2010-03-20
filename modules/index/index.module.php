@@ -28,8 +28,7 @@
     * @copyright  Jens-André Koch (2005 - onwards)
     *
     * @link       http://www.clansuite.com
-    * @link       http://gna.org/projects/clansuite
-    * @since      File available since Release 0.2
+    * @link       http://gna.org/projects/
     *
     * @version    SVN: $Id$
     */
@@ -38,8 +37,8 @@
 if (!defined('IN_CS')){die('Clansuite not loaded. Direct Access forbidden.');}
 
 /**
- * Clansuite
- *
+ * 
+    *
  * Module:      Index
  *
  * Purpose: This class is the PageController which has many pages to deal with.

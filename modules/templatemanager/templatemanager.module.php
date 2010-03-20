@@ -28,8 +28,7 @@
     * @copyright  Copyleft: All rights reserved. Jens-André Koch (2005-onwards)
     *
     * @link       http://www.clansuite.com
-    * @link       http://gna.org/projects/clansuite
-    * @since      File available since Release 0.2
+    * @link       http://gna.org/projects/
     *
     * @version    SVN: $Id$
     */
@@ -48,8 +47,8 @@ if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
 
 /**
  *
- * @package Clansuite
- * @subpackage module_templatemanager
+ * @package 
+    * @subpackage module_templatemanager
  */
 class Module_Templatemanager extends Clansuite_ModuleController implements Clansuite_Module_Interface
 {

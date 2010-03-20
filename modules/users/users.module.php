@@ -29,7 +29,6 @@
     *
     * @link       http://www.clansuite.com
     * @link       http://gna.org/projects/clansuite
-    * @since      File available since Release 0.2
     *
     * @version    SVN: $Id$
     */
@@ -44,7 +43,6 @@ if (!defined('IN_CS')){die('Clansuite not loaded. Direct Access forbidden.');}
  * @author     Florian Wolf      <xsign.dll@clansuite.com>
  * @copyright  Jens-André Koch (2005 - onwards), Florian Wolf (2006-2007)
  * @link
- * @since      Class available since Release 0.1
  *
  * @category    Clansuite
  * @package     Modules

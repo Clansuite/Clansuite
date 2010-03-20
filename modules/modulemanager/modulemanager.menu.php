@@ -56,8 +56,8 @@ $modulenavigation = array(
 										    'icon'    => '',
 										    'tooltip' => ''
 										),
-
-							'3' => array(
+                                        
+                            '3' => array(
 							                'action'  => 'install',
 							                'name'    => 'Install',
 										    'url'     => 'index.php?mod=modulemanager&sub=admin&action=install',
@@ -66,20 +66,21 @@ $modulenavigation = array(
 										),
 
 							'4' => array(
-							                'action'  => 'imexport',
-							                'name'    => 'Import &amp; Export',
-										    'url'     => 'index.php?mod=modulemanager&sub=admin&action=imexport',
+							                'action'  => 'edit',
+							                'name'    => 'Edit',
+										    'url'     => 'index.php?mod=modulemanager&sub=admin&action=edit',
+										    'icon'    => '',
+										    'tooltip' => ''
+										),
+                                        
+							'5' => array(
+							                'action'  => 'export',
+							                'name'    => 'Export',
+										    'url'     => 'index.php?mod=modulemanager&sub=admin&action=export',
 										    'icon'    => '',
 										    'tooltip' => ''
 										),
 
-							'5' => array(
-							                'action'  => 'backup',
-							                'name'    => 'Backup',
-										    'url'     => 'index.php?mod=modulemanager&sub=admin&action=backup',
-										    'icon'    => '',
-										    'tooltip' => ''
-										),
 							'6' => array(
 							                'action'  => 'settings',
 							                'name'    => 'Settings',
