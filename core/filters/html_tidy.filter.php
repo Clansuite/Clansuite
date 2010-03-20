@@ -69,27 +69,39 @@ class Clansuite_Filter_html_tidy implements Clansuite_Filter_Interface
             # init tidy
             $tidy = new tidy;
 
-            # set tidy options (@todo settings from configuration file)
-            $tidy_options = array('indent' => true,
-                                  'output-xhtml' => true,
-                                  'wrap' => 200);
-
-            # tidy options for XHTML Strict
             /*
-                            $xhtml = tidy_repair_string($xhtml, array('output-xhtml' => true,
-                            'show-body-only' => true,
-                            'doctype' => 'strict',
-                            'drop-font-tags' => true,
-                            'drop-proprietary-attributes' => true,
-                            'lower-literals' => true,
-                            'quote-ampersand' => true,
-                            'wrap' => 0), 'raw'); 
-                            */
+            $tidyoptions = array( 'indent-spaces'    => 4,
+                                  'wrap'             => 120,
+                                  'indent'           =>  auto,
+                                  'tidy-mark'        => true,
+                                  'show-body-only'   => true,
+                                  'force-output'     => true,
+                                  'output-xhtml'     => true,
+                                  'clean'            => true,
+                                  'hide-comments'    => false,
+                                  'join-classes'     => false,
+                                  'join-styles'      => false,
+                                  'doctype'          => 'strict',
+                                  'lower-literals'   => true,
+                                  'quote-ampersand'  => true,
+                                  'wrap'             => 0,
+                                  'drop-font-tags'   => true,
+                                  'drop-empty-paras' => true,
+                                  'drop-proprietary-attributes' => true);
+             */
+
+            $tidyoptions = array( 'clean' => true,
+                                  'output-xhtml' => true,
+                                  'drop-proprietary-attributes' => true,
+                                  'show-body-only' => true,
+                                  'indent-spaces' => 4,
+                                  'wrap' => 130,
+                                  'indent' => auto);
 
             # tidy the output
             $tidy->parseString($content, $config, 'utf8');
             $tidy->cleanRepair();
-            
+
             # @todo diagnose? errorreport?
 
             # set output to response
