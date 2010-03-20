@@ -49,7 +49,7 @@ if (!defined('IN_CS')){die('Clansuite not loaded. Direct Access forbidden.');}
  * @package     Modules
  * @subpackage  Gallery
  */
-class Module_Gallery extends Clansuite_ModuleController implements Clansuite_Module_Interface
+class Clansuite_Module_Gallery extends Clansuite_Module_Controller implements Clansuite_Module_Interface
 {
     /**
      * Main Method of Gallery Module

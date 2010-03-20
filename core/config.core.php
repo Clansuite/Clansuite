@@ -90,7 +90,7 @@ class Clansuite_Config extends Clansuite_Config_Base implements ArrayAccess
         # if no modulename is set, determine the name of the current module
         if(is_null($modulename))
         {
-            $modulename = Clansuite_ModuleController_Resolver::getModuleName();
+            $modulename = Clansuite_Module_Controller_Resolver::getModuleName();
         }
         # @todo support for different configtypes
         $configfile = ROOT_MOD.$modulename.DS.$modulename.'.config.php';

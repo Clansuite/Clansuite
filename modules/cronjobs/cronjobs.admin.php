@@ -41,7 +41,7 @@ if (!defined('IN_CS')){die('Clansuite not loaded. Direct Access forbidden.');}
  *
  * Purpose: The Cronjob Administration Module provides the GUI and Actions for the administration of repetitive tasks.
  */
-class Module_Cronjobs_Admin extends Clansuite_ModuleController implements Clansuite_Module_Interface
+class Clansuite_Module_Cronjobs_Admin extends Clansuite_Module_Controller implements Clansuite_Module_Interface
 {
     /**
      * Constructor with call to ModuleController as Parent

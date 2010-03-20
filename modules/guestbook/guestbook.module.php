@@ -49,21 +49,21 @@ if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
  * @package     Modules
  * @subpackage  Guestbook
  */
-class Module_Guestbook extends Clansuite_ModuleController implements Clansuite_Module_Interface
+class Clansuite_Module_Guestbook extends Clansuite_Module_Controller implements Clansuite_Module_Interface
 {
     /**
      * Module_Guestbook -> Execute
      */
     public function execute(Clansuite_HttpRequest $request, Clansuite_HttpResponse $response)
     {
-        parent::initRecords('guestbook');
+        parent::initModel('guestbook');
     }
 
     /**
      * Function: Show Guestbook
      * @todo change setLimit to a Variable for editing by user from (Guestbook Module Settings)
      */
-    function action_show()
+    public function action_show()
     {
         # Set Pagetitle and Breadcrumbs
         Clansuite_Trail::addStep( _('Show'), '/index.php?mod=guestbook&amp;action=show');

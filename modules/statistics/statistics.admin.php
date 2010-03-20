@@ -48,7 +48,7 @@ if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
  * @package     Modules
  * @subpackage  Statistics
  */
-class Module_Statistics_Admin extends Clansuite_ModuleController implements Clansuite_Module_Interface
+class Clansuite_Module_Statistics_Admin extends Clansuite_Module_Controller implements Clansuite_Module_Interface
 {
     public function __construct(Phemto $injector=null)
     {
@@ -109,7 +109,7 @@ class Module_Statistics_Admin extends Clansuite_ModuleController implements Clan
         $this->prepareOutput();
     }
 
-    function action_admin_settings_update()
+    public function action_admin_settings_update()
     {
         # Incomming Data
         # @todo get post via request object, sanitize

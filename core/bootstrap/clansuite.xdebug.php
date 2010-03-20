@@ -212,9 +212,23 @@ class Clansuite_Xdebug
         # get callstack and log the origin of the call to clansuite_xdebug::firebug()
         $backtrace_array = debug_backtrace();
 
-        $firephp->info('You are debugging like fire in '.$backtrace_array[1]['class'].':'.$backtrace_array[1]['function'].'()
-                        on line "'.$backtrace_array[0]['line'].'" in file "'.$backtrace_array[0]['file'].'".');
+        # check if debug origin was inside class/method or function, adjust message
+        if(isset($backtrace_array[1]['class']) == false)
+        {
+            $classname = '';
+        }
+        else
+        {
+            $classname = $backtrace_array[1]['class'];
+        }
 
+        $infomsg = sprintf('You are debugging like fire in %s %s() on line "%s" in file "%s".',
+                            $classname, $backtrace_array[1]['function'],
+                            $backtrace_array[0]['line'], $backtrace_array[0]['file']);
+
+        $firephp->info($infomsg);
+
+        unset($infomsg);
         unset($backtrace_array);
 
         # debug the var

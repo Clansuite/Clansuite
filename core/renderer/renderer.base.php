@@ -208,8 +208,8 @@ abstract class Clansuite_Renderer_Base
         $themepath = '';
 
         # get module and submodule names
-        $module    = Clansuite_ModuleController_Resolver::getModuleName();
-        $submodule = Clansuite_ModuleController_Resolver::getSubModuleName();
+        $module    = Clansuite_Module_Controller_Resolver::getModuleName();
+        $submodule = Clansuite_Module_Controller_Resolver::getSubModuleName();
 
         # 1. because controlcenter or admin is requested, it has to be a BACKEND theme
         if($module == 'controlcenter' or $submodule == 'admin')
@@ -264,8 +264,8 @@ abstract class Clansuite_Renderer_Base
         $modulepath = null;
 
         # Method 1: get module/action names
-        $module = Clansuite_ModuleController_Resolver::getModuleName();
-        #$action = Clansuite_ActionController_Resolver::getActionName();
+        $module = Clansuite_Module_Controller_Resolver::getModuleName();
+        #$action = Clansuite_Action_Controller_Resolver::getActionName();
 
         /*
         if(is_file( ROOT_MOD . $moduleName .'/templates/'. $actionName .'.tpl'))
@@ -344,7 +344,7 @@ abstract class Clansuite_Renderer_Base
          */
         $template_constants['www_root']             = WWW_ROOT;
         $template_constants['www_root_upload']      = WWW_ROOT .'/'. $this->config['paths']['upload_folder'];
-        $template_constants['www_root_mod']         = WWW_ROOT .'/modules/' . Clansuite_ModuleController_Resolver::getModuleName();
+        $template_constants['www_root_mod']         = WWW_ROOT .'/modules/' . Clansuite_Module_Controller_Resolver::getModuleName();
         $template_constants['www_root_theme']       = WWW_ROOT_THEMES .'/'. $_SESSION['user']['theme'];
         $template_constants['www_root_themes']      = WWW_ROOT_THEMES;
         $template_constants['www_root_themes_core'] = WWW_ROOT_THEMES_CORE;

@@ -27,8 +27,8 @@
 function smarty_function_modulenavigation($params, $smarty)
 {
     # determine the path of the modulenavigation description file
-    $modulenavigation_file = ROOT_MOD. Clansuite_ModuleController_Resolver::getModuleName() . DS .
-                                       Clansuite_ModuleController_Resolver::getModuleName() . '.menu.php';
+    $modulenavigation_file = ROOT_MOD. Clansuite_Module_Controller_Resolver::getModuleName() . DS .
+                                       Clansuite_Module_Controller_Resolver::getModuleName() . '.menu.php';
 
     # check if file exists
     if( is_file($modulenavigation_file) )
@@ -44,7 +44,7 @@ function smarty_function_modulenavigation($params, $smarty)
     }
     else # if no file was found - say so
     {
-        $smarty->assign('modulename', Clansuite_ModuleController_Resolver::getModuleName());
+        $smarty->assign('modulename', Clansuite_Module_Controller_Resolver::getModuleName());
 
         $errormessage = $smarty->fetch('modulenavigation_not_found.tpl');
 

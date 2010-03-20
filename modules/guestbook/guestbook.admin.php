@@ -48,7 +48,7 @@ if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
  * @package     Modules
  * @subpackage  Guestbook
  */
-class Module_Guestbook_Admin extends Clansuite_ModuleController implements Clansuite_Module_Interface
+class Clansuite_Module_Guestbook_Admin extends Clansuite_Module_Controller implements Clansuite_Module_Interface
 {
     public function __construct(Phemto $injector=null)
     {
@@ -57,7 +57,7 @@ class Module_Guestbook_Admin extends Clansuite_ModuleController implements Clans
 
     public function execute(Clansuite_HttpRequest $request, Clansuite_HttpResponse $response)
     {
-        parent::initRecords('guestbook');
+        parent::initModel('guestbook');
     }
 
     /**

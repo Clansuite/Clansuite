@@ -43,7 +43,7 @@ if (!defined('IN_CS')){die('Clansuite not loaded. Direct Access forbidden.');}
  *
  * Purpose: This class is the PageController which has many pages to deal with.
  */
-class Module_Index extends Clansuite_ModuleController implements Clansuite_Module_Interface
+class Clansuite_Module_Index extends Clansuite_Module_Controller implements Clansuite_Module_Interface
 {
     /**
      * @desc  Constructor with call to ModuleController as Parent

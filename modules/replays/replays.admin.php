@@ -43,7 +43,7 @@ if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
  *
 
  */
-class Module_Replays_Admin extends Clansuite_ModuleController implements Clansuite_Module_Interface
+class Clansuite_Module_Replays_Admin extends Clansuite_Module_Controller implements Clansuite_Module_Interface
 {
     /**
      * Module_Replays -> Execute
@@ -64,7 +64,7 @@ class Module_Replays_Admin extends Clansuite_ModuleController implements Clansui
     /**
      * Action for displaying the Settings of a Module Replays
      */
-    function action_admin_settings()
+    public function action_admin_settings()
     {
         # Set Pagetitle and Breadcrumbs
         Clansuite_Trail::addStep( _('Settings'), '/index.php?mod=replays&amp;sub=admin&amp;action=settings');
@@ -107,7 +107,7 @@ class Module_Replays_Admin extends Clansuite_ModuleController implements Clansui
         $this->prepareOutput();       
     }
     
-    function action_admin_settings_update()
+    public function action_admin_settings_update()
     { 
         # Incomming Data
         # @todo get post via request object, sanitize

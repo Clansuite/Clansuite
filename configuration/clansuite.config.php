@@ -221,4 +221,7 @@ tag=[clantag]::
 [editor]
 type=ckeditor
 
+[htmltidy]
+enabled = 1
+
 ; DO NOT REMOVE THIS LINE */ ?>

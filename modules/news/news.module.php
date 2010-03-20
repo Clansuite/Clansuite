@@ -44,7 +44,7 @@ if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
  * @package     Modules
  * @subpackage  News
  */
-class Module_News extends Clansuite_ModuleController implements Clansuite_Module_Interface
+class Clansuite_Module_News extends Clansuite_Module_Controller implements Clansuite_Module_Interface
 {
     /**
      * Module_News -> Execute
@@ -55,9 +55,9 @@ class Module_News extends Clansuite_ModuleController implements Clansuite_Module
         $this->getModuleConfig();
 
         # initialize related active-records
-        parent::initRecords('news');
-        parent::initRecords('users');
-        parent::initRecords('categories');
+        parent::initModel('news');
+        parent::initModel('users');
+        parent::initModel('categories');
     }
 
     /**
@@ -125,7 +125,7 @@ class Module_News extends Clansuite_ModuleController implements Clansuite_Module
 
 		# Debugging SQL Request
         #clansuite_xdebug::printR($news);
-		
+
         # if a news was found
         if(!empty($news) && is_array($news))
         {
@@ -133,7 +133,7 @@ class Module_News extends Clansuite_ModuleController implements Clansuite_Module
             Clansuite_Trail::addStep( _('Viewing Single News: ') . $news['news_title'] , '/index.php?mod=news&amp;action=show');
 
             Clansuite_Xdebug::firebug($news);
-            
+
             # UTF8 to HTML
             $news['news_title'] = Clansuite_Functions::UTF8_to_HTML($news['news_title']);
             $news['news_body'] = Clansuite_Functions::UTF8_to_HTML($news['news_body']);
@@ -418,8 +418,8 @@ class Module_News extends Clansuite_ModuleController implements Clansuite_Module
     public function widget_latestnews($numberNews)
     {
         # because, we are in a widget, we have to load the dependend records
-        parent::initRecords('users');
-        parent::initRecords('categories');
+        parent::initModel('users');
+        parent::initModel('categories');
 
         /**
          * get the incomming value for the number of items to display
@@ -442,7 +442,7 @@ class Module_News extends Clansuite_ModuleController implements Clansuite_Module
      */
     public function widget_newscategories_list()
     {
-        parent::initRecords('categories');
+        parent::initModel('categories');
 
         $newscategories_list = Doctrine::getTable('CsNews')->fetchUsedNewsCategories();
 
@@ -456,7 +456,7 @@ class Module_News extends Clansuite_ModuleController implements Clansuite_Module
     public function widget_newscategories_dropdown()
     {
         # initialize the records of other modules
-        parent::initRecords('categories');
+        parent::initModel('categories');
 
         # get catdropdown options from database
         $newscategories_dropdown = Doctrine::getTable('CsNews')->fetchUsedNewsCategories();

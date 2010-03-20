@@ -46,7 +46,7 @@ if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
  * @copyright  Jens-André Koch (2005 - onwards)
  * @version    0.1
  */
-class Clansuite_ModuleControllerDecorator implements Clansuite_Module_Interface
+class Clansuite_Module_ControllerDecorator implements Clansuite_Module_Interface
 {
     # the moduleController to decorate
     protected $_moduleController;
@@ -73,7 +73,7 @@ class Clansuite_ModuleControllerDecorator implements Clansuite_Module_Interface
         }
 
         # is the method provided by an encapsulated decorator?
-        if($this->_moduleController instanceof Clansuite_ModuleControllerDecorator)
+        if($this->_moduleController instanceof Clansuite_Module_ControllerDecorator)
         {
             # dig into the encapsulated controller and ask for the method
             return $this->_moduleController->hasMethod($methodname);

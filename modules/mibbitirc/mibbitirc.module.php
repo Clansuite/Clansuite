@@ -41,7 +41,7 @@ if (!defined('IN_CS')){die('Clansuite not loaded. Direct Access forbidden.');}
  *
  * @author  Jens-André Koch <vain@clansuite.com>
  */
-class Module_Mibbitirc extends Clansuite_ModuleController implements Clansuite_Module_Interface
+class Clansuite_Module_Mibbitirc extends Clansuite_Module_Controller implements Clansuite_Module_Interface
 {
     /**
      * Module_Mibbitirc -> Execute

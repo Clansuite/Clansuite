@@ -43,14 +43,14 @@ if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
  *
 
  */
-class Module_Shoutbox extends Clansuite_ModuleController implements Clansuite_Module_Interface
+class Clansuite_Module_Shoutbox extends Clansuite_Module_Controller implements Clansuite_Module_Interface
 {
     /**
      * Module_Shoutbox -> Execute
      */
     public function execute(Clansuite_HttpRequest $request, Clansuite_HttpResponse $response)
     {
-    parent::initRecords('shoutbox');
+    parent::initModel('shoutbox');
     }
 
     /**

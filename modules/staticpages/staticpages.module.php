@@ -41,7 +41,7 @@ if (!defined('IN_CS')){die('Clansuite not loaded. Direct Access forbidden.');}
  * Clansuite Module - Static Pages
  *
  */
-class Module_Staticpages extends Clansuite_ModuleController implements Clansuite_Module_Interface
+class Clansuite_Module_Staticpages extends Clansuite_Module_Controller implements Clansuite_Module_Interface
 {
     /**
      * Module_Staticpages -> Execute
@@ -52,13 +52,13 @@ class Module_Staticpages extends Clansuite_ModuleController implements Clansuite
         $this->getModuleConfig();
 
         # initialize related active-records
-        parent::initRecords('staticpages');
+        parent::initModel('staticpages');
     }
 
     /**
     * @desc Show a specific static page
     */
-    function action_show()
+    public function action_show()
     {
         $page = (string) $this->injector->instantiate('Clansuite_HttpRequest')->getParameter('page');
 
@@ -125,7 +125,7 @@ class Module_Staticpages extends Clansuite_ModuleController implements Clansuite
      * Static Pages
      * show all static pages
      */
-    function action_overview()
+    public function action_overview()
     {
         // Set Pagetitle and Breadcrumbs
         Clansuite_Trail::addStep( _('Overview'), '/index.php?mod=staticpages&amp;action=overview');

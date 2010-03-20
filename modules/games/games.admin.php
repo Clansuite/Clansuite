@@ -47,7 +47,7 @@ if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
  * @package     Modules
  * @subpackage  Games
  */
-class Module_Games_Admin extends Clansuite_ModuleController implements Clansuite_Module_Interface
+class Clansuite_Module_Games_Admin extends Clansuite_Module_Controller implements Clansuite_Module_Interface
 {
 
     public function __construct(Phemto $injector=null)
@@ -57,7 +57,7 @@ class Module_Games_Admin extends Clansuite_ModuleController implements Clansuite
 
     public function execute(Clansuite_HttpRequest $request, Clansuite_HttpResponse $response)
     {
-        parent::initRecords('games');
+        parent::initModel('games');
     }
 
     /**
@@ -82,7 +82,7 @@ class Module_Games_Admin extends Clansuite_ModuleController implements Clansuite
     /**
      * Action for displaying the Settings of a Module Games
      */
-    function action_admin_settings()
+    public function action_admin_settings()
     {
         # Set Pagetitle and Breadcrumbs
         Clansuite_Trail::addStep( _('Settings'), '/index.php?mod=games&amp;sub=admin&amp;action=settings');
@@ -117,7 +117,7 @@ class Module_Games_Admin extends Clansuite_ModuleController implements Clansuite
         $this->prepareOutput();       
     }
     
-    function action_admin_settings_update()
+    public function action_admin_settings_update()
     { 
         # Incomming Data
         # @todo get post via request object, sanitize

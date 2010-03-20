@@ -45,7 +45,7 @@ if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
  * @package     Modules
  * @subpackage  Settings
  */
-class Module_Settings_Admin extends Clansuite_ModuleController implements Clansuite_Module_Interface
+class Clansuite_Module_Settings_Admin extends Clansuite_Module_Controller implements Clansuite_Module_Interface
 {
     public function execute(Clansuite_HttpRequest $request, Clansuite_HttpResponse $response)
     {
@@ -54,7 +54,7 @@ class Module_Settings_Admin extends Clansuite_ModuleController implements Clansu
     /**
      * action_settings_show
      */
-    function action_admin_show()
+    public function action_admin_show()
     {
         # Get Render Engine
         $view = $this->getView();
@@ -85,7 +85,7 @@ class Module_Settings_Admin extends Clansuite_ModuleController implements Clansu
     /**
      * action_settings_update
      */
-    function action_admin_update()
+    public function action_admin_update()
     {
         # Set Pagetitle and Breadcrumbs
         Clansuite_Trail::addStep( _('Update'), '/index.php?mod=controlcenter&amp;sub=settings&amp;action=update');

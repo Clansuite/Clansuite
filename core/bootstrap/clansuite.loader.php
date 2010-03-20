@@ -226,29 +226,45 @@ class Clansuite_Loader
     }
 
     /**
-     * str_replace method to present the incomming classname
-     * as a proper filename
+     * str_replace method to present the incomming classname as a proper filename
+     *
+     * @param $classname
+     * @param $path_type
      */
-    private static function convertClassnameTofilename($classname, $path_type = null)
+    private static function convertClassnameToFilename($classname, $type = null)
     {
         # strtolower
         $classname = strtolower($classname);
 
-        # replace "clansuite_renderer_factory" for the correct filename
-        $classname = str_replace('clansuite_','',$classname);
+        # strip 'clansuite_' from beginning of the string
+        $classname = substr($classname, 10); # formerly $classname = str_replace('clansuite_','',$classname);
 
-        $classname = str_replace('//','\\',$classname);
+        # slash fix
+        $classname = str_replace('//','\\', $classname);
 
-        if($path_type == 'filters')
+        switch($type)
         {
-            #Clansuite_Xdebug::firebug($classname);
-             $classname = substr($classname, 7);
-             #Clansuite_Xdebug::firebug($classname);
-             return $classname;
-        }
+            case "filters":
+                     #Clansuite_Xdebug::firebug($classname);
+                     $classname = substr($classname, 7);
+                     #Clansuite_Xdebug::firebug($classname);
+                     return $classname;
+                 break;
 
-        # replace the classname "renderer_factory" with "renderer.factory" for the correct filename
-        $classname = str_replace('_','.',$classname);
+            case "core":
+                     $classname = str_replace('_','',$classname);
+                     #Clansuite_Xdebug::firebug($classname);
+                     return $classname;
+                break;
+
+            case "events":
+
+                break;
+
+            default:
+                # replace the classname "renderer_factory" with "renderer.factory" for the correct filename
+                $classname = str_replace('_','.',$classname);
+        }
 
         return $classname;
     }
@@ -302,7 +318,7 @@ class Clansuite_Loader
 
         $filenames = array (
             # Core Class = clansuite/core/class_name.class.php
-            ROOT_CORE . self::convertClassnameToFilename($classname) . '.core.php',
+            ROOT_CORE . self::convertClassnameToFilename($classname, 'core') . '.core.php',
             # Factories = clansuite/core/factories/classname.php
             ROOT_CORE . 'factories/' . self::convertClassnameToFilename($classname) . '.php',
             # Filter = clansuite/core/filters/classname.filter.php
@@ -342,39 +358,55 @@ class Clansuite_Loader
      */
     public static function loadModul($modulename)
     {
-        $classname = 'Clansuite';
+        $modulename = strtolower($modulename);
 
-        # check for prefix 'module_'
-        $spos=strpos(strtolower($modulename), 'module_');
-        if (is_int($spos) && ($spos==0))
+        # check for prefix 'clansuite_module_'
+        $spos=strpos($modulename, 'clansuite_module_');
+        if (is_int($spos) and ($spos==0))
         {
-            # ok, 'module_' is prefixed, do nothing
+            # ok, 'clansuite_module_' is prefixed, do nothing
         }
         else
         {
             # add the prefix
-            $modulename = 'module_'. strtolower($modulename);
+            $modulename = 'clansuite_module_'. $modulename;
         }
 
         /**
-         * now we have a common string like 'module_admin_menueditor' or 'module_news'
-         * which we split at underscore, via explode
-         * like: Array ( [0] => module [1] => admin [2] => menueditor )
-         * or  : Array ( [0] => module [1] => news )
+         * now we have a common string like 'clansuite_module_admin_menu' or 'clansuite_module_news'
+         * which we split at underscore, via explode, resulting in an array
+         * like: Array ( [0] => clansuite [1] => module [2] => admin [3] => menu )
+         * or  : Array ( [0] => clansuite [1] => module [2] => news )
          */
-        $modulinfos = explode("_", $modulename);
+        $moduleinfos = explode("_", $modulename);
+        $classname = '';
 
-        # construct first part of filename
-        $filename = ROOT_MOD . $modulinfos['1'] . DS;
-
-        # if there is a part [2], we have to require a submodule filename
-        if(isset($modulinfos['2']))
+        $i = 0;
+        foreach ($moduleinfos as $moduleinfo)
         {
-            # and if part [1] is "admin", we have to require a admin submodule filename
-            if($modulinfos['2'] == 'admin')
+            if($i == 0)
+            {
+                $classname .= ucfirst($moduleinfo);
+                ++$i;
+            }
+            else
+            {
+                $classname .= '_'.ucfirst($moduleinfo);
+            }
+        }
+
+        Clansuite_Xdebug::firebug($moduleinfos);
+
+        $filename =  ROOT_MOD;
+        
+        # if there is a part [3], we have to require a submodule filename
+        if(isset($moduleinfos['3']))
+        {
+            # and if part [3] is "admin", we have to require a admin submodule filename
+            if($moduleinfos['3'] == 'admin')
             {
                 # admin submodule filename, like news.admin.php
-                $filename .= strtolower($modulinfos['1']) . '.admin.php';
+                $filename .= $moduleinfos['2'] . DS . $moduleinfos['2'] . '.admin.php';
                 #echo '<br>loaded Admin SubModule => '. $filename;
 
                 $classname .= 'Admin';
@@ -382,19 +414,19 @@ class Clansuite_Loader
             else
             {
                 # normal submodule filename, like menueditor.module.php
-                $filename .= strtolower($modulinfos['2']) . '.module.php';
+                $filename .= $moduleinfos['3'] . DS . $moduleinfos['3'] . '.module.php';
                 #echo '<br>loaded SubModule => '. $filename;
             }
         }
         else
         {
             # module filename
-            $filename .= strtolower($modulinfos['1']) . '.module.php';
+            $filename .= $moduleinfos['2'] . DS . $moduleinfos['2'] . '.module.php';
             #echo '<br>loaded Module => '. $filename;
         }
 
-        # @todo move Module loading into the autoloader
-        #Clansuite_Xdebug::firebug($filename);
+        Clansuite_Xdebug::firebug($filename);
+        Clansuite_Xdebug::firebug($classname);
         return self::requireFile($filename, $classname);
     }
 
@@ -462,7 +494,7 @@ class Clansuite_Loader
                 return call_user_func_array( array($class, $method), $arguments );
         }
     }
-    
+
     /**
      * callMethod
      *

@@ -46,14 +46,14 @@ if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
  * @version    0.1
 
  */
-class Module_Downloads extends Clansuite_ModuleController implements Clansuite_Module_Interface
+class Clansuite_Module_Downloads extends Clansuite_Module_Controller implements Clansuite_Module_Interface
 {
     /**
      * Module_Downloads -> Execute
      */
     public function execute(Clansuite_HttpRequest $request, Clansuite_HttpResponse $response)
     {
-        parent::initRecords('downloads');
+        parent::initModel('downloads');
     }
 
     public function action_show()

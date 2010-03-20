@@ -44,7 +44,7 @@ if (!defined('IN_CS')){die('Clansuite not loaded. Direct Access forbidden.');}
  * @copyright  Jens-André Koch (2005 - onwards)
  * @version    0.2, 29.06.2009
  */
-class Module_Shockvoiceviewer extends Clansuite_ModuleController implements Clansuite_Module_Interface
+class Clansuite_Module_Shockvoiceviewer extends Clansuite_Module_Controller implements Clansuite_Module_Interface
 {
     /**
      * Module_Shockvoiceviewer->execute()

@@ -49,7 +49,7 @@ if (!defined('IN_CS')){die('Clansuite not loaded. Direct Access forbidden.');}
  * @package     Modules
  * @subpackage  Open Flash Chart
  */
-class Module_Flashchart_Admin extends Clansuite_ModuleController implements Clansuite_Module_Interface
+class Clansuite_Module_Flashchart_Admin extends Clansuite_Module_Controller implements Clansuite_Module_Interface
 {
     /**
      * Main Method of sysinfo Module

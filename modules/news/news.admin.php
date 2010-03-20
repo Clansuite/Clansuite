@@ -1,7 +1,7 @@
 <?php
    /**
     * Clansuite - just an eSports CMS
-    * Jens-Andr� Koch � 2005 - onwards
+    * Jens-Andre Koch c 2005 - onwards
     * http://www.clansuite.com/
     *
     * LICENSE:
@@ -22,7 +22,7 @@
     *
     * @license    GNU/GPL v2 or (at your option) any later version, see "/doc/LICENSE".
     *
-    * @author     Jens-Andr� Koch <vain@clansuite.com>
+    * @author     Jens-Andre Koch <vain@clansuite.com>
     * @copyright  Copyleft: All rights reserved. Jens-Andr� Koch (2005-onwards)
     *
     * @link       http://www.clansuite.com
@@ -40,29 +40,29 @@ if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
  * Module:      News
  * Submodule:   Admin
  *
- * @author     Jens-Andr� Koch   <vain@clansuite.com>
+ * @author     Jens-Andre Koch   <vain@clansuite.com>
  * @author     Florian Wolf      <xsign.dll@clansuite.com>
- * @copyright  Jens-Andr� Koch (2005 - onwards), Florian Wolf (2005 - 2008)
+ * @copyright  Jens-Andre Koch (2005 - onwards), Florian Wolf (2005 - 2008)
  *
  * @category    Clansuite
  * @package     Modules
  * @subpackage  News
  */
-class Module_News_Admin extends Clansuite_ModuleController implements Clansuite_Module_Interface
+class Clansuite_Module_News_Admin extends Clansuite_Module_Controller implements Clansuite_Admin_Module_BREAD_Interface
 {
     public $_Statusmap = array();
     public $_AdminItems = array();
 
-    public function __construct(Phemto $injector=null)
+    /*public function __construct(Phemto $injector=null)
     {
         parent::__construct(); # run constructor on controller_base
-    }
+    }*/
 
     public function execute(Clansuite_HttpRequest $request, Clansuite_HttpResponse $response)
     {
-        parent::initRecords('news');
-        parent::initRecords('users');
-        parent::initRecords('categories');
+        parent::initModel('news');
+        parent::initModel('users');
+        parent::initModel('categories');
 
         $this->_Statusmap = array(  "0" => _('Not published'),
                                     "1" => _('No clue'),
@@ -72,12 +72,12 @@ class Module_News_Admin extends Clansuite_ModuleController implements Clansuite_
     }
 
     /**
-     * Module_News_Admin - action_admin_show
+     * Module_News_Admin - action_admin_browse
      *
      * Show all news entries and give the possibility to edit/delete
      * Show DropDown with possibility to select the news category
      */
-    public function action_admin_show()
+    public function action_admin_browse()
     {
         # Get Render Engine
         $view = $this->getView();
@@ -180,10 +180,7 @@ class Module_News_Admin extends Clansuite_ModuleController implements Clansuite_
         $view->assign('datagrid', $datagrid->render());
 
         # Set Layout Template
-        #$this->getView()->setLayoutTemplate('index.tpl');
-
-        # specifiy the template manually
-        #$this->setTemplate('news/admin_show.tpl');
+        $this->getView()->setLayoutTemplate('index.tpl');
 
         # Prepare the Output
         $this->prepareOutput();
@@ -216,11 +213,9 @@ class Module_News_Admin extends Clansuite_ModuleController implements Clansuite_
     }
 
     /**
-     * Create News
-     *
-     * @todo autoloader/di for forms
+     * action_admin_add
      */
-    public function action_admin_create()
+    public function action_admin_add()
     {
         # Load Form Class
         require ROOT_CORE . 'viewhelper/form.core.php';

@@ -46,12 +46,12 @@ if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
  * @package     Core
  * @subpackage  ActionController
  */
-interface Clansuite_ActionController_Resolver_Interface
+interface Clansuite_Action_Controller_Resolver_Interface
 {
     public function processActionController(Clansuite_HttpRequest $request, Clansuite_Module_Interface $module);
 }
 
-class Clansuite_ActionController_Resolver implements Clansuite_ActionController_Resolver_Interface
+class Clansuite_Action_Controller_Resolver implements Clansuite_Action_Controller_Resolver_Interface
 {
     /**
      * @var string holds the name of the defaultAction
@@ -61,7 +61,7 @@ class Clansuite_ActionController_Resolver implements Clansuite_ActionController_
     /**
      * @var string holds the Action of the Module
      */
-    public static $actionName = null;   
+    public static $actionName = null;
 
     public function __construct($defaultAction)
     {
@@ -158,7 +158,7 @@ class Clansuite_ActionController_Resolver implements Clansuite_ActionController_
     {
         return self::$actionName;
     }
-    
+
     /**
      * Method to get the DefaultAction
      *
@@ -180,7 +180,7 @@ class Clansuite_ActionController_Resolver implements Clansuite_ActionController_
  * @package     Core
  * @subpackage  ModuleController
  */
-interface Clansuite_ModuleController_Resolver_Interface
+interface Clansuite_Module_Controller_Resolver_Interface
 {
     public function getModuleController(Clansuite_HttpRequest $request);
 }
@@ -193,32 +193,32 @@ interface Clansuite_ModuleController_Resolver_Interface
  * 2. via method getModuleController() it returns the appropriate $module_controller module object
  * 3. via method getActionCommand() it returns the appropriate $action_command action object
  *
- * @implements ControllerResolverInterface
+ * @implements Controller_ResolverInterface
  *
  * @category    Clansuite
  * @package     Core
  * @subpackage  ModuleController
  */
-class Clansuite_ModuleController_Resolver implements Clansuite_ModuleController_Resolver_Interface
+class Clansuite_Module_Controller_Resolver implements Clansuite_Module_Controller_Resolver_Interface
 {
     /**
      * @var string Name of the Default Module
      */
-    private $_defaultModule;
+    private $_defaultmodule;
 
     /**
      * @var string Modulename
      */
-    private static $_ModuleName = null;
+    private static $_modulename = null;
 
     /**
      * @var string SubModuleName
      */
-    private static $_SubModuleName = null;
+    private static $_submodulename = null;
 
-    public function __construct($defaultModule)
+    public function __construct($defaultmodule)
     {
-        $this->_defaultModule = (string) strtolower($defaultModule);
+        $this->_defaultmodule = (string) strtolower($defaultmodule);
     }
 
     /**
@@ -235,9 +235,9 @@ class Clansuite_ModuleController_Resolver implements Clansuite_ModuleController_
          * ModuleName is either
          * 1) internally set (in case of internal forward)
          * 2) requested by URL
-         * 3) the defaultModule by config value
+         * 3) the defaultmodule by config value
          */
-        if( isset(self::$_ModuleName) ) # internally set
+        if( isset(self::$_modulename) ) # internally set
         {
             $module_name = self::getModuleName();
         }
@@ -247,14 +247,14 @@ class Clansuite_ModuleController_Resolver implements Clansuite_ModuleController_
         }
         else # take the default module defined by config
         {
-            $module_name = $this->_defaultModule;
+            $module_name = $this->_defaultmodule;
         }
 
-        # When SubModulName exists, attach to the ModuleName
+        # When submodulename exists, attach to the ModuleName
         if(isset($module_name{1}) && isset($request['sub']) && !empty($request['sub']))
         {
             # get SubModuleName from Request
-            if( isset(self::$_SubModuleName) )
+            if( isset(self::$_submodulename) )
             {
                 $submodule_name = self::getSubModuleName();
             }
@@ -266,7 +266,7 @@ class Clansuite_ModuleController_Resolver implements Clansuite_ModuleController_
             # Set the modulename as public static class variables
             self::setSubModuleName($submodule_name);
 
-            # SubModulName is attached to the ModuleName
+            # submodulename is attached to the modulename
             $required_modulename = $module_name . '_'. $submodule_name;
             #echo "Module + Submodule => ModuleController => $module_name <br>";
         }
@@ -276,11 +276,11 @@ class Clansuite_ModuleController_Resolver implements Clansuite_ModuleController_
         }
 
         # Construct Classname to instantiate the required Module
-        return 'module_' .$required_modulename;
+        return 'clansuite_module_' .$required_modulename;
     }
 
     /**
-     * Clansuite_ControllerResolver->getController()
+     * Clansuite_Controller_Resolver->getController()
      *
      * @param $requet input REQUEST-Object
      * @return object controller (module)
@@ -289,21 +289,21 @@ class Clansuite_ModuleController_Resolver implements Clansuite_ModuleController_
     {
         $module = $this->mapModuleController($request);
 
-        # Load Modul (require) based on requested module_name
-        if(clansuite_loader::loadModul($module) == true)
+        # load modul (require) based on requested module_name
+        if(Clansuite_Loader::loadModul($module) == true)
         {
             # Set the modulename as public static class variables
-            # like request mod = without "module_" prefix and without "_admin"
-            $this->setModuleName(Clansuite_Functions::cut_string_backwards(substr($module, 7),'_admin'));
+            # like request mod = without "clansuite_module_" prefix and without "_admin"
+            $this->setModuleName(Clansuite_Functions::cut_string_backwards(substr($module, 17),'_admin'));
 
-            # Instantiate and Return the Module Object
+            # instantiate and return the module object
             $controller = new $module();
-            #var_dump($controller);
+
             return $controller;
         }
         else
         {
-            /**
+             /**
              * the module was not found. we cannot create it, because system is not in debug/dev mode.
              * @todo throw correct Status Header via httprequest - if not found and redirect to default
              */
@@ -316,7 +316,7 @@ class Clansuite_ModuleController_Resolver implements Clansuite_ModuleController_
      */
     public static function setModuleName($moduleName)
     {
-        self::$_ModuleName = (string) $moduleName;
+        self::$_modulename = (string) $moduleName;
     }
 
     /**
@@ -326,11 +326,12 @@ class Clansuite_ModuleController_Resolver implements Clansuite_ModuleController_
      */
     public static function getModuleName()
     {
-        if(empty(self::$_ModuleName))
+        if(empty(self::$_modulename))
         {
-            self::setModuleName($this->_defaultModule);
+            self::setModuleName(self::$_defaultmodule);
         }
-        return self::$_ModuleName;
+        
+        return self::$_modulename;
     }
 
     /**
@@ -338,7 +339,7 @@ class Clansuite_ModuleController_Resolver implements Clansuite_ModuleController_
      */
     private static function setSubModuleName($SubModuleName)
     {
-        self::$_SubModuleName = (string) $SubModuleName;
+        self::$_submodulename = (string) $SubModuleName;
     }
 
     /**
@@ -348,7 +349,7 @@ class Clansuite_ModuleController_Resolver implements Clansuite_ModuleController_
      */
     public static function getSubModuleName()
     {
-        return self::$_SubModuleName;
+        return self::$_submodulename;
     }
 }
 
@@ -361,7 +362,7 @@ class Clansuite_ModuleController_Resolver implements Clansuite_ModuleController_
  * @package     Core
  * @subpackage  FrontController
  */
-interface Clansuite_FrontController_Interface
+interface Clansuite_Front_Controller_Interface
 {
     public function processRequest(Clansuite_HttpRequest $request, Clansuite_HttpResponse $response);
     public function addPreFilter(Clansuite_Filter_Interface $filter);
@@ -383,12 +384,12 @@ interface Clansuite_FrontController_Interface
  * the ActionController_Resolver_Interface (so it's again an implementation against an interface)
  * and the Dependency Injector.
  *
- * @implements  Clansuite_FrontController_Interface
+ * @implements  Clansuite_Front_Controller_Interface
  * @category    Clansuite
  * @package     Core
  * @subpackage  FrontController
  */
-class Clansuite_FrontController implements Clansuite_FrontController_Interface
+class Clansuite_Front_Controller implements Clansuite_Front_Controller_Interface
 {
     /**
      * @var object actionResolver
@@ -424,8 +425,8 @@ class Clansuite_FrontController implements Clansuite_FrontController_Interface
      * 4. instantiate pre-filter objects
      * 5. instantiate post-filters objects
      */
-    public function __construct(Clansuite_ModuleController_Resolver_Interface $moduleResolver,
-                                Clansuite_ActionController_Resolver_Interface $actionResolver,
+    public function __construct(Clansuite_Module_Controller_Resolver_Interface $moduleResolver,
+                                Clansuite_Action_Controller_Resolver_Interface $actionResolver,
                                 Phemto $injector)
     {
            $this->actionResolver = $actionResolver;
@@ -454,7 +455,7 @@ class Clansuite_FrontController implements Clansuite_FrontController_Interface
     }
 
     /**
-     * clansuite_frontcontroller::processRequest()
+     * Clansuite_Front_Controller::processRequest()
      *
      * Speaking in very basic concepts: this is a RequestHandler.
      * It handles the dispatching of the request.
@@ -462,7 +463,7 @@ class Clansuite_FrontController implements Clansuite_FrontController_Interface
      * and returns a response.
      *
      * Processing:
-     * 1. get the modulecontroller via clansuite_controllerresolver
+     * 1. get the modulecontroller via clansuite_Controller_Resolver
      * 2. process preFilters
      * 3. set Injector to modulecontroller
      * 4. execute modulecontroller

@@ -43,7 +43,7 @@ if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
  *
 
  */
-class Module_Blog_Admin extends Clansuite_ModuleController implements Clansuite_Module_Interface
+class Clansuite_Module_Blog_Admin extends Clansuite_Module_Controller implements Clansuite_Module_Interface
 {
     /**
      * Module_Blog-> Execute
@@ -64,7 +64,7 @@ class Module_Blog_Admin extends Clansuite_ModuleController implements Clansuite_
     /**
      * Action for displaying the Settings of a Module Blog
      */
-    function action_admin_settings()
+    public function action_admin_settings()
     {
         # Set Pagetitle and Breadcrumbs
         Clansuite_Trail::addStep( _('Settings'), '/index.php?mod=blog&amp;sub=admin&amp;action=settings');
@@ -99,7 +99,7 @@ class Module_Blog_Admin extends Clansuite_ModuleController implements Clansuite_
         $this->prepareOutput();       
     }
     
-    function action_admin_settings_update()
+    public function action_admin_settings_update()
     { 
         # Incomming Data
         # @todo get post via request object, sanitize

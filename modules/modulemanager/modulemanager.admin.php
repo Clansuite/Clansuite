@@ -49,7 +49,7 @@ if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
  * @subpackage  Modulemanager
  */
 
-class Module_Modulemanager_Admin extends Clansuite_ModuleController implements Clansuite_Module_Interface
+class Clansuite_Module_Modulemanager_Admin extends Clansuite_Module_Controller implements Clansuite_Module_Interface
 {
     /**
      * Module_Module_Manager -> Execute
@@ -262,7 +262,7 @@ class Module_Modulemanager_Admin extends Clansuite_ModuleController implements C
         require_once( ROOT_LIBRARIES . 'geshi/geshi.php' );
 
         /**
-         * Frontend = class Module_Modulename
+         * Frontend = class Clansuite_Module_Modulename
          */
         if( isset($mod['frontend']['checked']) && $mod['frontend']['checked'] == 1)
         {

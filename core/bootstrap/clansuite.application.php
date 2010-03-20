@@ -525,12 +525,12 @@ class Clansuite_CMS
         /**
          * Setup Frontcontroller
          *
-         * pass ControllerResolvers for Module and Action with their defaults as fallback
+         * pass Controller_Resolvers for Module and Action with their defaults as fallback
          * start passing the dependency $injector around
          */
-        $clansuite = new Clansuite_FrontController(
-                         new Clansuite_ModuleController_Resolver(self::$config['defaults']['module']),
-                         new Clansuite_ActionController_Resolver(self::$config['defaults']['action']),
+        $clansuite = new Clansuite_Front_Controller(
+                         new Clansuite_Module_Controller_Resolver(self::$config['defaults']['module']),
+                         new Clansuite_Action_Controller_Resolver(self::$config['defaults']['action']),
                          self::$injector);
 
         /**

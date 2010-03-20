@@ -31,65 +31,50 @@
  */
 function smarty_function_load_module($params, $smarty)
 {
-    # @todo use module and action mapping here
-
     # debugdisplay for the incomming parameters of a specific load_module request
     /*if($params['name'] == 'news')
     {
-        clansuite_xdebug::printR($params);
+        clansuite_xdebug::firebug($params);
     }*/
 
     # Init incomming Variables
-    $mod    = isset( $params['name'] ) ? (string) $params['name'] : '';
-    $sub    = isset( $params['sub'] ) ? (string) $params['sub']  : '';
+    $module    = isset( $params['name'] ) ? (string) strtolower($params['name']) : '';
+    $submodule    = isset( $params['sub'] ) ? (string) strtolower($params['sub'])  : '';
     $action = isset( $params['action'] ) ? (string) $params['action'] : '';
     $items  = isset( $params['items'] )  ? (int) $params['items']  : null;
-
-    # debugdisplay for a specific incomming value
-    /*if($params['name'] == 'news')
-    {
-        clansuite_xdebug::printR($items);
-    }*/
 
     # WATCH it, this resets the incomming parameters array
     #$params = isset( $params['params'] ) ? (string) $params['params'] : '';
 
-    # Build a Parameter Array from Parameter String like: param|param|etc
-    if( empty($params['params']) )
+    $module_classname = 'clansuite_module_';
+    # Construct the variable module_name
+    if (isset($submodule) and strlen($submodule) > 0)
     {
-        $parameter_array = null;
+        # like "clansuite_module_admin_menu"
+        $module_classname .= $module . '_'. $submodule;
     }
     else
     {
-        $parameter_array = split('\|', $params['params']);
+        # like "clansuite_module_admin"
+        $module_classname .= $module;
     }
 
-    # Construct the variable module_name
-    if (isset($sub) and strlen($sub) > 0)
-    {
-        # like "module_admin_menueditor"
-        $module_name = 'module_' . strtolower($mod) . '_'. strtolower($sub);
-    }
-    else
-    {
-        # like "module_admin"
-        $module_name = 'module_' . strtolower($mod);
-    }
+    Clansuite_Xdebug::firebug($module_classname);
 
     # Load class, if not already loaded
-    if (!class_exists(ucfirst($module_name),false))
+    if (class_exists($module_classname, false) == false)
     {
         # Check if class was loaded
-        if( clansuite_loader::loadModul($module_name) == false)
+        if( Clansuite_Loader::loadModul($module_classname) == false)
         {
-            return '<br/>Module missing or misspelled: <strong>'. $module_name.'</strong>';
+            return '<br/>Module missing or misspelled: <strong>'. $module_classname.'</strong>';
         }
     }
 
     # Instantiate Class
-    $controller = new $module_name;
+    $controller = new $module_classname;
     $controller->setView($smarty);
-    $controller->initRecords($mod);
+    $controller->initModel($module);
 
     /**
      * Get the Ouptut of the Object->Method Call
@@ -97,16 +82,25 @@ function smarty_function_load_module($params, $smarty)
     if( method_exists( $controller, $action ) )
     {
         # exceptional handling of parameters and output for adminmenu
-        if ( $module_name == 'module_menu_admin' )
+        if ( $module_classname == 'clansuite_module_menu_admin' )
         {
-            return $controller->$action($parameter_array);
-        }
+            # Build a Parameter Array from Parameter String like: param|param|etc
+            if( empty($params['params']) )
+            {
+                $parameters = null;
+            }
+            else
+            {
+                $parameters = explode('\|', $params['params']);
+            }
 
-        # slow call
-        #call_user_func_array( array($controller, $action), $parameter_array );
+            return $controller->$action($parameters);
+        }
 
         # fast call
         $controller->$action($items);
+
+        #Clansuite_Loader::callClassMethod($controller, $action, $items);
 
         /**
          * Outputs the template of a widget
@@ -120,24 +114,24 @@ function smarty_function_load_module($params, $smarty)
          * @see $smarty->template_dir, clansuite_xdebug::printr($smarty->template_dir);
          */
 
-        if($smarty->templateExists($mod.DS.$action.'.tpl'))
+        if($smarty->templateExists($module.DS.$action.'.tpl'))
         {
             # $smarty->template_dir[s]..\news\widget_news.tpl
-            return $smarty->fetch($mod.DS.$action.'.tpl');
+            return $smarty->fetch($module.DS.$action.'.tpl');
         }
-        elseif($smarty->templateExists($mod.DS.'templates'.DS.$action.'.tpl'))
+        elseif($smarty->templateExists($module.DS.'templates'.DS.$action.'.tpl'))
         {
             # $smarty->template_dir[s]..\news\templates\widget_news.tpl
-            return $smarty->fetch($mod.DS.'templates'.DS.$action.'.tpl');
+            return $smarty->fetch($module.DS.'templates'.DS.$action.'.tpl');
         }
         else
         {
-            return $smarty->trigger_error("Error! Failed to load Widget-Template for <br /> $module_name -> $action($items)");
+            return $smarty->trigger_error("Error! Failed to load Widget-Template for <br /> $module_classname -> $action($items)");
         }
     }
     else
     {
-        return $smarty->trigger_error("Error! Failed to load Widget: <br /> $module_name -> $action($items)");
+        return $smarty->trigger_error("Error! Failed to load Widget: <br /> $module_classname -> $action($items)");
     }
 }
 ?>
