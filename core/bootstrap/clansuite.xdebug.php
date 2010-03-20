@@ -211,7 +211,10 @@ class Clansuite_Xdebug
 
         # get callstack and log the origin of the call to clansuite_xdebug::firebug()
         $backtrace_array = debug_backtrace();
-        $firephp->info('You are debugging like fire in file "'.$backtrace_array[0]['file'].'" line "'.$backtrace_array[0]['line'].'".');
+
+        $firephp->info('You are debugging like fire in '.$backtrace_array[1]['class'].':'.$backtrace_array[1]['function'].'()
+                        in file "'.$backtrace_array[0]['file'].'" line "'.$backtrace_array[0]['line'].'"');
+
         unset($backtrace_array);
 
         # debug the var
