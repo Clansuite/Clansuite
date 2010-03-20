@@ -362,7 +362,12 @@
     </target>
 
     <!-- COMMAND = "test-report" -->
-    <target name="test-report" description="Runs unit-tests and reports">
+    <target name="test-report" description="Runs simpletest unit-tests and creates report">
+        <exec executable="php" dir="" failonerror="true">
+            <arg line="tests/runAllTest.php" />
+        </exec>
+    </target> 
+
 
     </target>
 
