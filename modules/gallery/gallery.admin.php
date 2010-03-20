@@ -70,19 +70,19 @@ class Module_Gallery_Admin extends Clansuite_ModuleController implements Clansui
 
 
         # Get Render Engine
-        $smarty = $this->getView();
+        $view = $this->getView();
 
 
-        #$smarty->assign('', $news->toArray());
-        $smarty->assign('album', $album);
-        #$smarty->assign('newscategories', $newscategories);
+        #$view->assign('', $news->toArray());
+        $view->assign('album', $album);
+        #$view->assign('newscategories', $newscategories);
 
         // Return true if it's necessary to paginate or false if not
-        #$smarty->assign('pagination_needed',$pager->haveToPaginate());
+        #$view->assign('pagination_needed',$pager->haveToPaginate());
 
         // Pagination
-        #$smarty->assign('pager', $pager);
-        #$smarty->assign('pager_layout', $pager_layout);
+        #$view->assign('pager', $pager);
+        #$view->assign('pager_layout', $pager_layout);
 
         # Set Layout Template
         $this->getView()->setLayoutTemplate('index.tpl');
@@ -99,7 +99,7 @@ class Module_Gallery_Admin extends Clansuite_ModuleController implements Clansui
         Clansuite_Trail::addStep( _('Create Album'), '/index.php?mod=gallery&amp;sub=admin&amp;action=create_album');
 
         # Get Render Engine
-        $smarty = $this->getView();
+        $view = $this->getView();
 
        	# instantiate Clansuite_HttpRequest object
     	$request = $this->injector->instantiate('Clansuite_HttpRequest');
@@ -114,7 +114,7 @@ class Module_Gallery_Admin extends Clansuite_ModuleController implements Clansui
         $id = CsGalleryAlbum::createNewAlbum($album);
 
         # assign result to smarty
-       	$smarty->assign('id', $id);
+       	$view->assign('id', $id);
 
         # Set Layout Template
         $this->getView()->setLayoutTemplate('index.tpl');
@@ -133,7 +133,7 @@ class Module_Gallery_Admin extends Clansuite_ModuleController implements Clansui
         Clansuite_Trail::addStep( _('Update Album'), '/index.php?mod=gallery&amp;sub=admin&amp;action=update_album');
 
         # get render engine
-        $smarty = $this->getView();
+        $view = $this->getView();
 
 		# instantiate Clansuite_HttpRequest object
     	$request = $this->injector->instantiate('Clansuite_HttpRequest');
@@ -145,7 +145,7 @@ class Module_Gallery_Admin extends Clansuite_ModuleController implements Clansui
         $album = CsGalleryAlbum::getAlbumById($id);
 
         # assign result to smarty
-       	$smarty->assign('album', $album);
+       	$view->assign('album', $album);
 
         # set layout template
         $this->getView()->setLayoutTemplate('index.tpl');

@@ -72,8 +72,8 @@ class Module_Staticpages_Admin extends Clansuite_ModuleController implements Cla
                               ->execute(array(), Doctrine::HYDRATE_ARRAY);
 
          # Get Render Engine
-        $smarty = $this->getView();
-        $smarty->assign( 'staticpages', $staticpages);
+        $view = $this->getView();
+        $view->assign( 'staticpages', $staticpages);
 
         # Set Layout Template
         $this->getView()->setLayoutTemplate('index.tpl');
@@ -142,12 +142,12 @@ class Module_Staticpages_Admin extends Clansuite_ModuleController implements Cla
             }
         }
 
-        $smarty = $this->getView();
-        $smarty->assign( 'description' , $description );
-        $smarty->assign( 'title'       , $title );
-        $smarty->assign( 'url'         , $url );
-        $smarty->assign( 'html'        , $html);
-        $smarty->assign( 'error'       , $error);
+        $view = $this->getView();
+        $view->assign( 'description' , $description );
+        $view->assign( 'title'       , $title );
+        $view->assign( 'url'         , $url );
+        $view->assign( 'html'        , $html);
+        $view->assign( 'error'       , $error);
 
         # Set Layout Template
         $this->getView()->setLayoutTemplate('index.tpl');
@@ -226,9 +226,9 @@ class Module_Staticpages_Admin extends Clansuite_ModuleController implements Cla
             }
         }
 
-        $smarty = $this->getView();
-        $smarty->assign( 'error'  , $error);
-        $smarty->assign( 'info' , $info);
+        $view = $this->getView();
+        $view->assign( 'error'  , $error);
+        $view->assign( 'info' , $info);
 
         # Set Layout Template
         $this->getView()->setLayoutTemplate('index.tpl');

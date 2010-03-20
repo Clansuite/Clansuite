@@ -102,11 +102,11 @@ class Module_Guestbook_Admin extends Clansuite_ModuleController implements Clans
         $count = count($guestbook_entries);
 
         # Get view and assign placeholders
-        $smarty = $this->getView();
-        $smarty->assign('guestbook_counter', $count);
-        $smarty->assign('guestbook', $guestbook_entries);
-        $smarty->assign('pager', $pager);
-        $smarty->assign('pager_layout', $pager_layout);
+        $view = $this->getView();
+        $view->assign('guestbook_counter', $count);
+        $view->assign('guestbook', $guestbook_entries);
+        $view->assign('pager', $pager);
+        $view->assign('pager_layout', $pager_layout);
 
         # Prepare the Output
         $this->prepareOutput();

@@ -74,7 +74,7 @@ class Module_Templatemanager_Admin extends Clansuite_ModuleController implements
     public function action_admin_showmoduletemplates()
     {
         # get view
-        $smarty = $this->getView();
+        $view = $this->getView();
          
         # Set Pagetitle and Breadcrumbs
         Clansuite_Trail::addStep( _('Editor'), '/index.php?mod=templatemanager&amp;sub=admin&amp;action=showmoduletemplates');
@@ -84,7 +84,7 @@ class Module_Templatemanager_Admin extends Clansuite_ModuleController implements
         # GET: tplmod (module of the template)
         $tplmod = $request->getParameter('tplmod','G');
         
-        $smarty->assign('templateeditor_modulename',  $tplmod);
+        $view->assign('templateeditor_modulename',  $tplmod);
         
         #clansuite_xdebug::printR( ROOT_MOD . $tplmod . DS. 'templates' .DS . '*.tpl' );
         
@@ -100,7 +100,7 @@ class Module_Templatemanager_Admin extends Clansuite_ModuleController implements
         
         #clansuite_xdebug::printR($templates);     
         
-        $smarty->assign('templates', $templates);        
+        $view->assign('templates', $templates);        
         
         # Prepare the Output
         $this->prepareOutput();
@@ -122,7 +122,7 @@ class Module_Templatemanager_Admin extends Clansuite_ModuleController implements
         Clansuite_Trail::addStep( _('Edit'), '/index.php?mod=templatemanager&amp;sub=admin&amp;action=edit');
         
         # get view
-        $smarty = $this->getView();
+        $view = $this->getView();
         
         # Incomming Variables
 
@@ -132,7 +132,7 @@ class Module_Templatemanager_Admin extends Clansuite_ModuleController implements
         if(isset($tplmod) )
         {
             $tplmod = stripslashes($tplmod);
-            $smarty->assign('templateeditor_modulename',  $tplmod);
+            $view->assign('templateeditor_modulename',  $tplmod);
             #Clansuite_Xdebug::printR($tplmod);
         }        
 
@@ -142,7 +142,7 @@ class Module_Templatemanager_Admin extends Clansuite_ModuleController implements
         if(isset($tpltheme))
         {
             $tpltheme = stripslashes($tpltheme);
-            $smarty->assign('templateeditor_themename',   $tpltheme);
+            $view->assign('templateeditor_themename',   $tpltheme);
             #Clansuite_Xdebug::printR($tpltheme);
         }
               
@@ -162,7 +162,7 @@ class Module_Templatemanager_Admin extends Clansuite_ModuleController implements
             } 
             
             #Clansuite_Xdebug::printR($file);
-            $smarty->assign('templateeditor_filename', $file);
+            $view->assign('templateeditor_filename', $file);
         }
 
         # let's check, if this template exists
@@ -183,8 +183,8 @@ class Module_Templatemanager_Admin extends Clansuite_ModuleController implements
             $templateeditor_newfile = true;
         }
                
-        $smarty->assign('templateeditor_textarea',    htmlentities($templateText));
-        $smarty->assign('templateeditor_newfile',     $templateeditor_newfile);
+        $view->assign('templateeditor_textarea',    htmlentities($templateText));
+        $view->assign('templateeditor_newfile',     $templateeditor_newfile);
 
         # Prepare the Output
         $this->prepareOutput();

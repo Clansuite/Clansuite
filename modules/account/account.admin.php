@@ -36,12 +36,8 @@
 // Security Handler
 if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
 
- /**
+/**
  * Clansuite Module - Account
- *
- * Purpose:
- *
- * @todo registration and usage conditions agreement
  */
 class Module_Account_Admin extends Clansuite_ModuleController implements Clansuite_Module_Interface
 {
@@ -62,19 +58,19 @@ class Module_Account_Admin extends Clansuite_ModuleController implements Clansui
 		#var_dump($_REQUEST);
 
 		# Set Pagetitle and Breadcrumbs
-		Clansuite_Trail::addStep( _('Add Avatar'), '/index.php?mod=users&amp;sub=admin&amp;action=addavatar');
+		Clansuite_Trail::addStep( _('Add Avatar'), '/index.php?mod=users&sub=admin&action=addavatar');
 
 		# Get Render Engine
-		$smarty = $this->getView();
+		$view = $this->getView();
 
 		if( is_file( ROOT_UPLOAD . 'images/avatars/avatar'.$_SESSION['user']['email'].'png') )
 		{
 			$avatar_image = ROOT_UPLOAD . 'images/avatars/avatar'.$_SESSION['user']['email'].'png';
-			$smarty->assign('avatar_image', $avatar_image);
+			$view->assign('avatar_image', $avatar_image);
 		}
 
 		# Set Admin Layout Template
-		$smarty->setLayoutTemplate('index.tpl');
+		$view->setLayoutTemplate('index.tpl');
 
 		# Prepare the Output
 		$this->prepareOutput();
@@ -116,26 +112,19 @@ class Module_Account_Admin extends Clansuite_ModuleController implements Clansui
 		Clansuite_Trail::addStep( _('Usercenter'), '/index.php?mod=users&amp;sub=admin&amp;action=usercenter');
 
 		# Get Render Engine
-		$smarty = $this->getView();
+		$view = $this->getView();
 
 		/**
 		 * Get the user data
 		 */
-		#$stmt = $db->prepare( 'SELECT * FROM ' . DB_PREFIX . 'users WHERE user_id = ?' );
-		#$stmt->execute( array( $_SESSION['user']['user_id'] ) );
-		#$data = $stmt->fetch(PDO::FETCH_ASSOC);
-
-		#if ( is_array( $data ) )
-		#{
-			#$smarty->assign( 'usercenterdata', $data );
-		#}
-		#else
-		#{
-		   # $functions->redirect( 'index.php?mod=users&sub=admin&action=show', 'metatag|newsite', 3, $lang->t( 'The user could not be found.' ), 'admin' );
-		#}
+		#SELECT * FROM ' . DB_PREFIX . 'users WHERE user_id = ?' );
+		#$_SESSION['user']['user_id'] 
+		
+		#$view->assign( 'usercenterdata', $data );
+		
 
 		# Set Admin Layout Template
-		$smarty->setLayoutTemplate('index.tpl');
+		$view->setLayoutTemplate('index.tpl');
 
 		# Specifiy the template manually
 		#$this->setTemplate('admin/users/usercenter.tpl');

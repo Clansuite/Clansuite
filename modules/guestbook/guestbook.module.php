@@ -150,20 +150,20 @@ class Module_Guestbook extends Clansuite_ModuleController implements Clansuite_M
         }
 
         # Get Render Engine
-        $smarty = $this->getView();
+        $view = $this->getView();
         // Assign $guestbook array to Smarty for template output
-        $smarty->assign( 'guestbook', $guestbook);
+        $view->assign( 'guestbook', $guestbook);
         // if error was set, assign it to smarty
-        if(isset($error)){$smarty->assign( 'error' , $error );}
+        if(isset($error)){$view->assign( 'error' , $error );}
 
         // Pagination
-        $smarty->assign('pager', $pager);
-        $smarty->assign('pager_layout', $pager_layout);
+        $view->assign('pager', $pager);
+        $view->assign('pager_layout', $pager_layout);
        
         # create form
         $form = new Clansuite_Form('eingabe','post',$_SERVER['PHP_SELF']);
        
-        $smarty->assign('form', $form);
+        $view->assign('form', $form);
         
         # Prepare the Output
         $this->prepareOutput();

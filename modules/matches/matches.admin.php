@@ -75,18 +75,18 @@ class Module_Matches_Admin extends Clansuite_ModuleController implements Clansui
         #
         
         # Get Render Engine
-        $smarty = $this->getView();        
+        $view = $this->getView();        
         
-        #$smarty->assign('news', $news->toArray());
-        #$smarty->assign('newsarchiv', $newsarchiv);
-        #$smarty->assign('newscategories', $newscategories);
+        #$view->assign('news', $news->toArray());
+        #$view->assign('newsarchiv', $newsarchiv);
+        #$view->assign('newscategories', $newscategories);
 
         // Return true if it's necessary to paginate or false if not
-        #$smarty->assign('pagination_needed',$pager->haveToPaginate());
+        #$view->assign('pagination_needed',$pager->haveToPaginate());
 
         // Pagination
-        #$smarty->assign('pager', $pager);
-        #$smarty->assign('pager_layout', $pager_layout);
+        #$view->assign('pager', $pager);
+        #$view->assign('pager_layout', $pager_layout);
         
         # Set Layout Template
         $this->getView()->setLayoutTemplate('index.tpl');

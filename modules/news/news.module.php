@@ -96,12 +96,12 @@ class Module_News extends Clansuite_ModuleController implements Clansuite_Module
         unset($newsQuery);
 
         # Get Render Engine
-        $smarty = $this->getView();
+        $view = $this->getView();
 
         # Assign $news array and pager objects to smarty to Smarty for template output
-        $smarty->assign('news', $news);
-        $smarty->assign('pager', $pager);
-        $smarty->assign('pager_layout', $pager_layout);
+        $view->assign('news', $news);
+        $view->assign('pager', $pager);
+        $view->assign('pager_layout', $pager_layout);
 
         # Prepare the Output
         $this->prepareOutput();
@@ -116,7 +116,7 @@ class Module_News extends Clansuite_ModuleController implements Clansuite_Module
      public function action_showone()
      {
         # Get Render Engine
-        $smarty = $this->getView();
+        $view = $this->getView();
 
         $news_id = (int) $this->getHttpRequest()->getParameter('id');
         if($news_id == null) { $news_id = 1;  }
@@ -132,8 +132,14 @@ class Module_News extends Clansuite_ModuleController implements Clansuite_Module
             # Set Pagetitle and Breadcrumbs
             Clansuite_Trail::addStep( _('Viewing Single News: ') . $news['news_title'] , '/index.php?mod=news&amp;action=show');
 
+            Clansuite_Xdebug::firebug($news);
+            
+            # UTF8 to HTML
+            $news['news_title'] = Clansuite_Functions::UTF8_to_HTML($news['news_title']);
+            $news['news_body'] = Clansuite_Functions::UTF8_to_HTML($news['news_body']);
+
             # Assign News
-            $smarty->assign('news', $news);
+            $view->assign('news', $news);
 
             /**
              * Check if this news_id has comments and assign them to an extra smarty variable
@@ -144,14 +150,14 @@ class Module_News extends Clansuite_ModuleController implements Clansuite_Module
             if ( !empty($news['CsComments']) )
             {
                 # Assign News
-                $smarty->assign('news_comments', $news['CsComments']);
+                $view->assign('news_comments', $news['CsComments']);
 
                 # unsetting the $single_news['CsComments'] to save memory
                 unset($news['CsComments']);
             }
             else
             {
-                $smarty->assign('news_comments', array());
+                $view->assign('news_comments', array());
             }
         }
         else # no news found for this id
@@ -328,12 +334,12 @@ class Module_News extends Clansuite_ModuleController implements Clansuite_Module
         unset($newsQuery);
 
         # Get Render Engine
-        $smarty = $this->getView();
+        $view = $this->getView();
 
         # Assign $news array and pager objects to smarty to Smarty for template output
-        $smarty->assign('news', $news);
-        $smarty->assign('pager', $pager);
-        $smarty->assign('pager_layout', $pager_layout);
+        $view->assign('news', $news);
+        $view->assign('pager', $pager);
+        $view->assign('pager_layout', $pager_layout);
 
         # Prepare the Output
         $this->prepareOutput();
@@ -386,13 +392,13 @@ class Module_News extends Clansuite_ModuleController implements Clansuite_Module
         unset($newsQuery);
 
         # Get Render Engine
-        $smarty = $this->getView();
+        $view = $this->getView();
 
         # Assign $news array to Smarty for template output
         # Also pass the complete pager object to smarty (referenced to save memory - no extra vars needed) => assign()
-        $smarty->assign('news', $news);
-        $smarty->assign('pager', $pager);
-        $smarty->assign('pager_layout', $pager_layout);
+        $view->assign('news', $news);
+        $view->assign('pager', $pager);
+        $view->assign('pager_layout', $pager_layout);
 
         # Prepare the Output
         $this->prepareOutput();
