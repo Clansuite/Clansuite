@@ -139,7 +139,7 @@ class Module_Index extends Clansuite_ModuleController implements Clansuite_Modul
         Clansuite_Trail::addStep( _('Show'), '/index.php?mod=index&amp;action=show');
 
         $this->setTemplate( 'show.tpl' );
-        $smarty = $this->getView();
+        $view = $this->getView();
         $smarty->addRawContent($smarty->fetch('action_edit.tpl'));
 
         # Prepare the Output

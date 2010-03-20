@@ -176,15 +176,15 @@ class Module_Account extends Clansuite_ModuleController implements Clansuite_Mod
         }
 
         # Get Render Engine
-        $smarty = $this->getView();
+        $view = $this->getView();
 
         // Login Form / User Center
         if ( $_SESSION['user']['user_id'] == 0 )
         {
             // Assing vars & output template
-            $smarty->assign('config', $config);
-            $smarty->assign('error', $error);
-            $smarty->assign('referer', $referer);
+            $view->assign('config', $config);
+            $view->assign('error', $error);
+            $view->assign('referer', $referer);
 
 
             #$this->prepareOutput();
@@ -261,7 +261,7 @@ class Module_Account extends Clansuite_ModuleController implements Clansuite_Mod
         #$input = $this->injector->instantiate('input');
         $security = $this->injector->instantiate('Clansuite_Security');
         $config = $this->injector->instantiate('Clansuite_Config');
-        $smarty = $this->getView();
+        $view = $this->getView();
         $user = $this->injector->instantiate('Clansuite_User');
 
         // Get Inputvariables from $_POST
@@ -393,10 +393,10 @@ class Module_Account extends Clansuite_ModuleController implements Clansuite_Mod
         }
 
         // Assign vars
-        $smarty->assign( 'config', $config );
-        $smarty->assign( 'min_length', $config['login']['min_pass_length'] );
-        $smarty->assign( 'err', $err );
-        #$smarty->assign( 'captcha_url',  WWW_ROOT . '/index.php?mod=captcha&' . session_name() . '=' . session_id() );
+        $view->assign( 'config', $config );
+        $view->assign( 'min_length', $config['login']['min_pass_length'] );
+        $view->assign( 'err', $err );
+        #$view->assign( 'captcha_url',  WWW_ROOT . '/index.php?mod=captcha&' . session_name() . '=' . session_id() );
 
         // Output
         $this->prepareOutput();
@@ -482,10 +482,10 @@ class Module_Account extends Clansuite_ModuleController implements Clansuite_Mod
         }
 
         // get View Ctrl.
-        $smarty = $this->getView();
+        $view = $this->getView();
 
         // Assign tpl vars
-        $smarty->assign( 'err', $err );
+        $view->assign( 'err', $err );
 
         // Output
         #$this->setTemplate('activation_email.tpl');
@@ -635,8 +635,8 @@ class Module_Account extends Clansuite_ModuleController implements Clansuite_Mod
             }
         }
 
-        $smarty = $this->getView();
-        $smarty->assign('err', $err);
+        $view = $this->getView();
+        $view->assign('err', $err);
         #$this->setTemplate('forgot_password.tpl');
         $this->prepareOutput();
     }

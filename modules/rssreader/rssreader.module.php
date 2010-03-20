@@ -56,7 +56,7 @@ class Module_Rssreader extends Clansuite_ModuleController implements Clansuite_M
 
     public function action_show()
     {
-        $smarty = $this->getView();
+        $view = $this->getView();
 
         # Prepare the Output
         $this->prepareOutput();
@@ -76,9 +76,9 @@ class Module_Rssreader extends Clansuite_ModuleController implements Clansuite_M
         $this->getModuleConfig('rssreader');
 
         # assign to smarty
-        $smarty = $this->getView();
-        $smarty->assign('items_newswidget', $this->getConfigValue('items_newswidget', '3'));
-		$smarty->assign('feed', $feeditems);
+        $view = $this->getView();
+        $view->assign('items_newswidget', $this->getConfigValue('items_newswidget', '3'));
+		$view->assign('feed', $feeditems);
     }
 }
 ?>

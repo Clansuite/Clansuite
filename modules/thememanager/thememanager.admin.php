@@ -57,9 +57,9 @@ class Module_Thememanager_Admin extends Clansuite_ModuleController implements Cl
 
     public function action_admin_show()
     {
-        $smarty = $this->getView();
-        $smarty->assign('themes', $this->getThemesList());
-        #$smarty->setLayoutTemplate('index.tpl'); #wird hier nicht hardgecodet gebraucht
+        $view = $this->getView();
+        $view->assign('themes', $this->getThemesList());
+        #$view->setLayoutTemplate('index.tpl'); #wird hier nicht hardgecodet gebraucht
         $this->prepareOutput();
     }
 

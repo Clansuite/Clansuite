@@ -89,8 +89,8 @@ class Module_Staticpages extends Clansuite_ModuleController implements Clansuite
                     #$this->mod_page_title = $result['title'] . ' - ' . $result['description'];
 
                     # Get Render Engine
-                    $smarty = $this->getView();
-                    $smarty->assign('staticpagecontent', $result);
+                    $view = $this->getView();
+                    $view->assign('staticpagecontent', $result);
 
                     #$this->output .= $result['0']['html'];
                 }

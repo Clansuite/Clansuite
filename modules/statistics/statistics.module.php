@@ -89,8 +89,8 @@ class Module_statistics extends Clansuite_ModuleController implements Clansuite_
 	}
 	
 	public function widget_statistics($params) {
-		$smarty = $this->getView();
-		$smarty->assign('stats', self :: fetch_wwwstats());
+		$view = $this->getView();
+		$view->assign('stats', self :: fetch_wwwstats());
 	}
 }
 ?>

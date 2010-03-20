@@ -114,14 +114,14 @@ class Module_Users extends Clansuite_ModuleController implements Clansuite_Modul
         $count = count($userslist);
 
         # Get Render Engine
-        $smarty = $this->getView();
+        $view = $this->getView();
 
         // Assign $userslist array to Smarty for template output
-        $smarty->assign('userslist', $userslist);
+        $view->assign('userslist', $userslist);
 
         // Pagination
-        $smarty->assign('pager', $pager);
-        $smarty->assign('pager_layout', $pager_layout);
+        $view->assign('pager', $pager);
+        $view->assign('pager_layout', $pager_layout);
 
         # specifiy the template manually
         #$this->setTemplate('userslist/templates/show.tpl');
@@ -146,7 +146,7 @@ class Module_Users extends Clansuite_ModuleController implements Clansuite_Modul
         $numberUsers = $this->getConfigValue('items_lastregisteredusers', $numberUsers, '5');
         
         # get smarty as the view
-        $smarty = $this->getView();
+        $view = $this->getView();
         
         # fetch specified num of last registered users
         $last_registered_users = Doctrine_Query::create()
@@ -159,7 +159,7 @@ class Module_Users extends Clansuite_ModuleController implements Clansuite_Modul
                                  ->execute();
 
         # assign
-        $smarty->assign('last_registered_users', $last_registered_users);
+        $view->assign('last_registered_users', $last_registered_users);
     }
 
    /**
@@ -175,7 +175,7 @@ class Module_Users extends Clansuite_ModuleController implements Clansuite_Modul
      */
     public function widget_usersonline()
     {
-        $smarty = $this->getView();
+        $view = $this->getView();
         
         /*
         $usersonline = Doctrine_Query::create()
@@ -190,7 +190,7 @@ class Module_Users extends Clansuite_ModuleController implements Clansuite_Modul
         
         $usersonline = '@todo Query';
 
-        $smarty->assign('usersonline', $usersonline);
+        $view->assign('usersonline', $usersonline);
 
 
     }

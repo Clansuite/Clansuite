@@ -67,7 +67,7 @@ class Module_Users_Admin extends Clansuite_ModuleController implements Clansuite
         #Clansuite_Trail::addStep( _('Show'), '/index.php?mod=users&amp;sub=admin&amp;action=show');
 
         # Get Render Engine
-        $smarty = $this->getView();
+        $view = $this->getView();
 
         // Permissions
         #$perms->check( 'cc_show_users' );
@@ -124,18 +124,18 @@ class Module_Users_Admin extends Clansuite_ModuleController implements Clansuite
 
         if ( is_array( $users ) )
         {
-            $smarty->assign('users', $users);
-            $smarty->assign('pager', $pager);
-            $smarty->assign('pager_layout', $pager_layout);
+            $view->assign('users', $users);
+            $view->assign('pager', $pager);
+            $view->assign('pager_layout', $pager_layout);
         }
         else
         {
             $error['no_users'] = 1;
-            $smarty->assign( 'error', $error );
+            $view->assign( 'error', $error );
         }
 
         # Set Admin Layout Template
-        $smarty->setLayoutTemplate('index.tpl');
+        $view->setLayoutTemplate('index.tpl');
 
         # Specifiy the template manually
         #$this->setTemplate('admin/show.tpl');
@@ -256,9 +256,9 @@ class Module_Users_Admin extends Clansuite_ModuleController implements Clansuite
         /**
          * Give template and assign error
          */
-        $smarty->assign( 'all_groups'    , $all_groups);
-        $smarty->assign( 'groups'        , $groups );
-        $smarty->assign( 'error'         , $error );
+        $view->assign( 'all_groups'    , $all_groups);
+        $view->assign( 'groups'        , $groups );
+        $view->assign( 'error'         , $error );
 
         // specifiy the template manually
         $this->setTemplate('admin_create.tpl');
@@ -370,7 +370,7 @@ class Module_Users_Admin extends Clansuite_ModuleController implements Clansuite
             }
 
             $groups = $info['groups'];
-            $smarty->assign('user'     , $info);
+            $view->assign('user'     , $info);
         }
         else
         {
@@ -390,8 +390,8 @@ class Module_Users_Admin extends Clansuite_ModuleController implements Clansuite
 
             if ( is_array( $user ) )
             {
-                $smarty->assign('user', $user);
-                $smarty->assign('profile', $profile);
+                $view->assign('user', $user);
+                $view->assign('profile', $profile);
             }
             else
             {
@@ -451,12 +451,12 @@ class Module_Users_Admin extends Clansuite_ModuleController implements Clansuite
         /**
         * Template output & assignments
         */
-        $smarty->assign( 'all_groups'    , $all_groups);
-        $smarty->assign( 'groups'        , $groups);
-        $smarty->assign( 'error'         , $error );
+        $view->assign( 'all_groups'    , $all_groups);
+        $view->assign( 'groups'        , $groups);
+        $view->assign( 'error'         , $error );
 
         # Set Admin Layout Template
-        $smarty->setLayoutTemplate('index.tpl');
+        $view->setLayoutTemplate('index.tpl');
 
         # Specifiy the template manually
         $this->setTemplate('admin_edit.tpl');
@@ -475,7 +475,7 @@ class Module_Users_Admin extends Clansuite_ModuleController implements Clansuite
         Clansuite_Trail::addStep( _('Search'), '/index.php?mod=users&amp;sub=admin&amp;action=search');
 
         # Get Render Engine
-        $smarty = $this->getView();
+        $view = $this->getView();
 
         // Permissions check
         #$perms->check( 'cc_search_users' );
@@ -489,7 +489,7 @@ class Module_Users_Admin extends Clansuite_ModuleController implements Clansuite
 
         if ( is_array( $users ) )
         {
-            $smarty->assign('users', $users);
+            $view->assign('users', $users);
         }
         else
         {
@@ -497,7 +497,7 @@ class Module_Users_Admin extends Clansuite_ModuleController implements Clansuite
         }
 */
         # Set Admin Layout Template
-        #$smarty->setLayoutTemplate('index.tpl');
+        #$view->setLayoutTemplate('index.tpl');
 
         # Specifiy the template manually
         #$this->setTemplate('admin_search.tpl');
@@ -612,15 +612,9 @@ class Module_Users_Admin extends Clansuite_ModuleController implements Clansuite
        
         require ROOT_CORE . '/viewhelper/formgenerator.core.php';
         $form = new Clansuite_Array_Formgenerator($settings);
-
-        # display formgenerator object
-        #clansuite_xdebug::printR($form); 
         
         $form->addElement('submitbutton')->setName('Save');
         $form->addElement('resetbutton');
-        
-        # display form html
-        #clansuite_xdebug::printR($form->render());
         
         # assign the html of the form to the view
         $this->getView()->assign('form', $form->render());
@@ -634,7 +628,6 @@ class Module_Users_Admin extends Clansuite_ModuleController implements Clansuite
         Clansuite_Trail::addStep( _('Update'), '/index.php?mod=users&amp;sub=settings&amp;action=update');
 
         # Incomming Data
-        # @todo get post via request object, sanitize
         $data = $this->getHttpRequest()->getParameter('users_settings');
 
         # Get Configuration from Injector

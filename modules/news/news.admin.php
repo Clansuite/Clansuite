@@ -80,7 +80,7 @@ class Module_News_Admin extends Clansuite_ModuleController implements Clansuite_
     public function action_admin_show()
     {
         # Get Render Engine
-        $smarty = $this->getView();
+        $view = $this->getView();
 
         //--------------------------
         // Datagrid configuration
@@ -177,10 +177,10 @@ class Module_News_Admin extends Clansuite_ModuleController implements Clansuite_
         $datagrid->setResultsPerPage($this->getConfigValue('resultsPerPage_adminshow', '5'));
         
         # Assing datagrid
-        $smarty->assign('datagrid', $datagrid->render());
+        $view->assign('datagrid', $datagrid->render());
 
         # Set Layout Template
-        $this->getView()->setLayoutTemplate('index.tpl');
+        #$this->getView()->setLayoutTemplate('index.tpl');
 
         # specifiy the template manually
         #$this->setTemplate('news/admin_show.tpl');
@@ -197,10 +197,10 @@ class Module_News_Admin extends Clansuite_ModuleController implements Clansuite_
     public function manipulateValues(&$_ArrayReference)
     {
         #Clansuite_Xdebug::firebug($_ArrayReference['news_status']);
-       if(isset($this->_Statusmap[$_ArrayReference['news_status']]))
-       {
+        if(isset($this->_Statusmap[$_ArrayReference['news_status']]))
+        {
             $_ArrayReference['news_status'] = $this->_Statusmap[$_ArrayReference['news_status']];
-       }
+        }
 
         $wrapLength = 50;
         $_ArrayReference['news_body'] = htmlspecialchars(strip_tags($_ArrayReference['news_body']));
@@ -234,7 +234,13 @@ class Module_News_Admin extends Clansuite_ModuleController implements Clansuite_
         $categories = Doctrine::getTable('CsNews')->fetchAllNewsCategoriesDropDown();
         $form->addElement('multiselect')->setName('news_form[cat_id]')->setLabel(_('Category'))->setOptions($categories);
         $form->addElement('multiselect')->setName('news_form[news_status]')->setLabel(_('Status'))->setOptions($this->_Statusmap)->setDefaultValue("0");
-        $form->addElement('textarea')->setName('news_form[news_body]')->setID('news_form[news_body]')->setCols('110')->setRows('30')->setLabel(_('Your Article:'));
+        $form->addElement('textarea')
+        ->setName('news_form[news_body]')
+        ->setID('news_form[news_body]')
+        ->setCols('100')
+        ->setRows('40')
+        ->setLabel(_('Your Article:'))
+        ->setEditor();
 
         # add the buttonbar
         $form->addElement('buttonbar')->getButton('cancelbutton')->cancelURL = 'index.php?mod=news&amp;sub=admin';
@@ -279,7 +285,8 @@ class Module_News_Admin extends Clansuite_ModuleController implements Clansuite_
         $categories = Doctrine::getTable('CsNews')->fetchAllNewsCategoriesDropDown();
         $form->addElement('multiselect')->setName('news_form[cat_id]')->setLabel(_('Category'))->setOptions($categories)->setDefaultValue($news['cat_id']);
         $form->addElement('multiselect')->setName('news_form[news_status]')->setLabel(_('Status'))->setOptions($this->_Statusmap)->setDefaultValue($news['news_status']);
-        $form->addElement('textarea')->setName('news_form[news_body]')->setID('news_form[news_body]')->setCols('110')->setRows('30')->setLabel(_('Your Article:'))->setValue($news['news_body']);;
+        $form->addElement('textarea')->setName('news_form[news_body]')->setID('news_form[news_body]')->setCols('110')->setRows('30')->setLabel(_('Your Article:'))->setValue($news['news_body'])
+                ->setEditor('nicedit');
 
         # add the buttonbar
         $form->addElement('buttonbar')->getButton('cancelbutton')->cancelURL = 'index.php?mod=news&amp;sub=admin';
@@ -451,6 +458,7 @@ class Module_News_Admin extends Clansuite_ModuleController implements Clansuite_
 
         # add the buttonbar
         $form->addElement('buttonbar')->getButton('cancelbutton')->cancelURL = 'index.php?mod=news&amp;sub=admin';
+        $form->addDecorator('fieldset')->setLegend(_('News Settings'));
 
         # assign the html of the form to the view
         $this->getView()->assign('form', $form->render());
