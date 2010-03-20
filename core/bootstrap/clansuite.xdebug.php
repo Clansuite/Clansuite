@@ -213,7 +213,7 @@ class Clansuite_Xdebug
         $backtrace_array = debug_backtrace();
 
         $firephp->info('You are debugging like fire in '.$backtrace_array[1]['class'].':'.$backtrace_array[1]['function'].'()
-                        in file "'.$backtrace_array[0]['file'].'" line "'.$backtrace_array[0]['line'].'"');
+                        on line "'.$backtrace_array[0]['line'].'" in file "'.$backtrace_array[0]['file'].'".');
 
         unset($backtrace_array);
 
