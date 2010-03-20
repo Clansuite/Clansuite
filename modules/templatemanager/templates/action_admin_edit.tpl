@@ -27,9 +27,9 @@
 <div class="ModuleHeadingSmall">{t}You can create and edit your templates here.{/t}</div>
 
 {if isset($templateeditor_newfile) and ($templateeditor_newfile) == 1}
-    <div class="ModuleHeadingSmall">{t}You are about to create: {/t} <font color="red"> {$templateeditor_filename} </font></div>
+    <div class="ModuleHeadingSmall">{t}You are about to create: {/t} <font color="red"> {$templateeditor_absolute_filename} </font></div>
 {else}
-    <div class="ModuleHeadingSmall">{t}You are editing: {/t} <font color="red"> {$templateeditor_filename} </font></div>
+    <div class="ModuleHeadingSmall">{t}You are editing: {/t} <font color="red"> {$templateeditor_absolute_filename} </font></div>
 {/if}
 
 <table width="100%">
@@ -46,10 +46,10 @@
             <div align="right">
 
                 {* This is the template name, the content is saved to. *}
-                <input type="hidden" name="templateeditor_filename" value="{$templateeditor_filename}" />
+                <input type="hidden" value="{$templateeditor_absolute_filename}" name="templateeditor_absolute_filename" />
 
                 {* This is the module name, the template is created for. *}
-                <input type="hidden" name="templateeditor_modulename" value="{$templateeditor_modulename}" />
+                <input type="hidden" value="{$templateeditor_modulename}" name="templateeditor_modulename" />
 
                 {* Save Button *}
                 <input class="ButtonGreen" type="submit" value="Save" />

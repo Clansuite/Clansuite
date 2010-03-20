@@ -41,7 +41,7 @@ if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
  *
  * Module:     Clancash
  *
- * @since      File available since Release 0.2
+
  */
 class Module_Clancash_Admin extends Clansuite_ModuleController implements Clansuite_Module_Interface
 {

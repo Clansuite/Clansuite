@@ -27,7 +27,7 @@
     *
     * @link       http://www.clansuite.com
     * @link       http://gna.org/projects/clansuite
-    * @since      File available since Release 0.2
+
     *
     * @version    SVN: $Id: rssreader.admin.php 2750 2009-01-21 21:49:15Z vain $
     */

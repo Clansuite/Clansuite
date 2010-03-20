@@ -1,15 +1,12 @@
 {move_to target="pre_head_close"}
 <script src="{$www_root_themes_core}/javascript/webtoolkit.sha1.js" type="application/javascript"></script>
+<script type="application/javascript">
+function hashLoginPassword(theForm)
+{
+    theForm.password.value = SHA1(theForm.password.value);
+}
+</script>
 {/move_to}
-
-
-    <script>
-    function hashLoginPassword(theForm)
-    {
-        theForm.password.value = SHA1(theForm.password.value);
-    }
-    </script>
-
 
 {* OLD ERRORS
     {if $error.not_filled == 1}<p class="error">{t}Please fill out all required fields!{/t}</p>{/if}
@@ -37,8 +34,15 @@
                                      onfocus="if(this.value==this.defaultValue)this.value='';"
                                      value="email" /></td>
         </tr>
-        {/if}
-        {if isset($config.login.login_method) && $config.login.login_method == 'nick'}
+        {elseif isset($config.login.login_method) && $config.login.login_method == 'nick'}
+        <tr>
+            <td class="cell1">{t}Nickname:{/t}</td>
+            <td class="cell2"><input class="input_text" type="text" name="nickname"
+                                     onblur="if(this.value=='')this.value=this.defaultValue;"
+                                     onfocus="if(this.value==this.defaultValue)this.value='';"
+                                     value="username" /></td>
+        </tr>
+        {else}
         <tr>
             <td class="cell1">{t}Nickname:{/t}</td>
             <td class="cell2"><input class="input_text" type="text" name="nickname"

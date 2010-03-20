@@ -37,11 +37,11 @@
 if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
 
 /**
- * Clansuite
- *
+ * 
+    *
  * Module:     Shoutbox
  *
- * @since      File available since Release 0.2
+
  */
 class Module_Shoutbox extends Clansuite_ModuleController implements Clansuite_Module_Interface
 {

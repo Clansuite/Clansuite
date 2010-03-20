@@ -26,8 +26,7 @@
     * @copyright  Copyleft: All rights reserved. Jens-André Koch (2005-onwards)
     *
     * @link       http://www.clansuite.com
-    * @link       http://gna.org/projects/clansuite
-    * @since      File available since Release 0.2
+    * @link       http://gna.org/projects/
     *
     * @version    SVN: $Id: news.admin.php 3747 2009-11-20 14:59:46Z vain $
     */
@@ -111,11 +110,13 @@ class Module_Modulemanager_Admin extends Clansuite_ModuleController implements C
 
             $moduleinfo = new Clansuite_ModuleInfoController($modulename_by_dirname);
             $moduleinfo_array = $moduleinfo->getModuleInformations();
+            #Clansuite_Xdebug::printR($moduleinfo);
+            #Clansuite_Xdebug::printR($moduleinfo_array);
 
             $arrayname = $modulename_by_dirname.'_info';
 
-            /*if($arrayname == 'core_info')
-            clansuite_xdebug::printR($moduleinfo_array);*/
+            if($arrayname == 'core')
+            #clansuite_xdebug::printR($moduleinfo_array);
 
             if(is_array($moduleinfo_array) and isset($moduleinfo_array[$arrayname]))
             {
@@ -133,9 +134,19 @@ class Module_Modulemanager_Admin extends Clansuite_ModuleController implements C
         $view = $this->getView();
 
         $view->assign('modules', $modules);
+        
+        #Clansuite_Xdebug::printR($modules);
+        
+        
         $view->assign('modules_summary', $modules_summary);
 
         # Prepare the Output
+        $this->prepareOutput();
+    }
+    
+    public function action_admin_edit()
+    {
+    
         $this->prepareOutput();
     }
 
@@ -432,6 +443,13 @@ class Module_Modulemanager_Admin extends Clansuite_ModuleController implements C
 
         $this->prepareOutput();
     }
+    
+    public function action_admin_createconfig()
+    {
+        $smarty = $this->getView();
+    
+        $this->prepareOutput();
+    }
 
      /**
       * This Method creates the Config for the Module
@@ -450,6 +468,25 @@ class Module_Modulemanager_Admin extends Clansuite_ModuleController implements C
 
         # save to file
         file_put_contents( ROOT_MOD . $modulename . DS . $modulename . '.config.php' , $config);
+     }
+     
+     /**
+      * This Method creates the Menu (modulenavigation)  for the Module
+      *
+      * @param $modulename string Name of the Module
+      */
+     public function createMenuFromTemplate($modulename)
+     {
+        # get smarty
+        $smarty = $this->getView();
+
+        # load scaffolding template
+        $menu_template_content = $smarty->fetch( ROOT_MOD . 'scaffolding/module_menu.tpl');
+
+        # inject modifications
+
+        # save to file
+        file_put_contents( ROOT_MOD . $modulename . DS . $modulename . '.menu.php', $menu_template_content);
      }
 
     /**

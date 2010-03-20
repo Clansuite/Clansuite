@@ -26,8 +26,7 @@
     * @copyright  Copyleft: All rights reserved. Jens-André Koch (2005-onwards)
     *
     * @link       http://www.clansuite.com
-    * @link       http://gna.org/projects/clansuite
-    * @since      File available since Release 0.2
+    * @link       http://gna.org/projects/
     *
     * @version    SVN: $Id: news.admin.php 3815 2009-12-09 19:11:23Z vain $
     */
@@ -36,8 +35,8 @@
 if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
 
 /**
- * Clansuite
- *
+ * 
+    *
  * Module:      Statistics
  * Submodule:   Admin
  *
@@ -60,11 +59,16 @@ class Module_Statistics_Admin extends Clansuite_ModuleController implements Clan
     {
         //nothing todo
     }
+    
+    public function action_admin_show()
+    {       
+        $this->prepareOutput();        
+    }
 
     /**
      * Action for displaying the Settings of a Module News
      */
-    function action_admin_settings()
+    public function action_admin_settings()
     {
         # Set Pagetitle and Breadcrumbs
         Clansuite_Trail::addStep( _('Settings'), '/index.php?mod=statistics&amp;sub=admin&amp;action=settings');

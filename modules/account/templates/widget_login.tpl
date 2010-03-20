@@ -10,7 +10,6 @@ function hashLoginPassword(theForm)
 </script>
 {/move_to}
 
-
 {* OLD ERRORS
     {if $error.not_filled == 1}<p class="error">{t}Please fill out all required fields!{/t}</p>{/if}
     {if $error.mismatch == 1}<p class="error">{t}This combination is not stored in our database!{/t}</p>{/if}
@@ -37,8 +36,15 @@ function hashLoginPassword(theForm)
                                      onfocus="if(this.value==this.defaultValue)this.value='';"
                                      value="email" /></td>
         </tr>
-        {/if}
-        {if isset($config.login.login_method) && $config.login.login_method == 'nick'}
+        {elseif isset($config.login.login_method) && $config.login.login_method == 'nick'}
+        <tr>
+            <td class="cell1">{t}Nickname:{/t}</td>
+            <td class="cell2"><input class="input_text" type="text" name="nickname"
+                                     onblur="if(this.value=='')this.value=this.defaultValue;"
+                                     onfocus="if(this.value==this.defaultValue)this.value='';"
+                                     value="nickname" /></td>
+        </tr>
+        {else}
         <tr>
             <td class="cell1">{t}Nickname:{/t}</td>
             <td class="cell2"><input class="input_text" type="text" name="nickname"

@@ -27,7 +27,6 @@
     *
     * @link       http://www.clansuite.com
     * @link       http://gna.org/projects/clansuite
-    * @since      File available since Release 0.2
     *
     * @version    SVN: $Id: menueditor.module.php 2095 2008-06-11 23:44:20Z vain $
     */
