@@ -395,7 +395,7 @@ class Clansuite_Errorhandler
                               <div><a href="http://www.clansuite.com/livezilla/livezilla.php?code=RXhjZXB0aW9uL0Vycm9y&amp;reset=true" target="_blank">Contact Support (Start Chat)</a></div>
                            </noscript>
                            <!-- Live Support JavaScript --></strong> | ';
-        $errormessage  .= '<strong><a href="http://trac.clansuite.com/">Bug-Report</a></strong> |
+        $errormessage  .= '<strong><a href="http://trac.clansuite.com/newticket/">Bug-Report</a></strong> |
                            <strong><a href="http://forum.clansuite.com/">Support-Forum</a></strong> |
                            <strong><a href="http://docs.clansuite.com/">Manuals</a></strong> |
                            <strong><a href="http://www.clansuite.com/">visit clansuite.com</a></strong>
