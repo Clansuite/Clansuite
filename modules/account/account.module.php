@@ -37,11 +37,9 @@
 if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
 
 /**
- * Clansuite
+ * Clansuite Module Account
  *
- * Module:  Account (User Account Registration/ Login / Logout etc. )
- *
- * @todo registration and usage conditions agreement
+ * This Module handles the User Account Registration, the Login, Logout etc.
  */
 class Module_Account extends Clansuite_ModuleController implements Clansuite_Module_Interface
 {
@@ -52,7 +50,7 @@ class Module_Account extends Clansuite_ModuleController implements Clansuite_Mod
     {
         # read module config
         $this->getModuleConfig();
-		parent::initRecords('users');
+		      parent::initRecords('users');
     }
 
     public function action_show()
@@ -251,38 +249,40 @@ class Module_Account extends Clansuite_ModuleController implements Clansuite_Mod
     }
 
     /**
-     * Register a User
-     *
+     * Register a User Account
      */
     public function action_register()
     {
-        // Request Controller
+        # Request Controller
         $request = $this->injector->instantiate('Clansuite_HttpRequest');
-        #$input = $this->injector->instantiate('input');
         $security = $this->injector->instantiate('Clansuite_Security');
+<<<<<<< .mine
+        
+=======
         $config = $this->injector->instantiate('Clansuite_Config');
         $view = $this->getView();
+>>>>>>> .r4276
         $user = $this->injector->instantiate('Clansuite_User');
 
-        // Get Inputvariables from $_POST
+        # Get Inputvariables from $_POST
+        $nick       = $request->getParameter('nick');
         $email      = $request->getParameter('email');
         $email2     = $request->getParameter('email2');
-        $nick       = $request->getParameter('nick');
         $pass       = $request->getParameter('password');
         $pass2      = $request->getParameter('password2');
         $submit     = $request->getParameter('submit');
         $captcha    = $request->getParameter('captcha');
 
-        // Set Error Array
-        $err = array();
+        # Set Error Array
+        $error = array();
 
         // Perform checks on Inputvariables & Form filled?
-        if ( empty($email) OR empty($email2) OR empty($nick) OR empty($pass) OR empty($pass2) )
+        if ( empty($email) or empty($email2) or empty($nick) or empty($pass) or empty($pass2) )
         {
             if( isset($submit) )
             {
                 // Not all necessary fields are filled
-                $err['not_filled'] = 1;
+                $error['not_filled'] = 1;
             }
         }
         else
@@ -291,19 +291,19 @@ class Module_Account extends Clansuite_ModuleController implements Clansuite_Mod
             // Check both emails match
             if ($email != $email2 )
             {
-                $err['emails_mismatching'] = 1;
+                $error['emails_mismatching'] = 1;
             }
 
             // Check email
             if ($input->check($email, 'is_email' ) == false )
             {
-                $err['email_wrong'] = 1;
+                $error['email_wrong'] = 1;
             }
 
             // Check nick
             if ($input->check($nick, 'is_abc|is_int|is_custom', '-_()<>[]|.:\'{}$', 25 ) == false )
             {
-                $err['nick_wrong'] = 1;
+                $error['nick_wrong'] = 1;
             }
 
             // Check both passwords
@@ -323,7 +323,7 @@ class Module_Account extends Clansuite_ModuleController implements Clansuite_Mod
             // Check the password
             if (strlen($pass) < $config['login']['min_pass_length'])
             {
-                $err['pass_too_short'] = 1;
+                $error['pass_too_short'] = 1;
             }
 
             // Check if email already exists
@@ -334,7 +334,7 @@ class Module_Account extends Clansuite_ModuleController implements Clansuite_Mod
                             ->fetchOne(array($email), Doctrine::HYDRATE_ARRAY);
 
             if( $result )
-                $err['email_exists'] = 1;
+                $error['email_exists'] = 1;
 
             // Check if nick already exists
             $result = Doctrine_Query::create()
@@ -344,20 +344,20 @@ class Module_Account extends Clansuite_ModuleController implements Clansuite_Mod
                             ->fetchOne(array($nick), Doctrine::HYDRATE_ARRAY);
 
             if( $result )
-                $err['nick_exists'] = 1;
+                $error['nick_exists'] = 1;
 
             #var_dump($err);
             // No errors - then proceed
             // Register the user!
-            if ( count($err) == 0  )
+            if ( count($error) == 0  )
             {
                 // Generate activation code & salted hash
-                $hashArr = $security->build_salted_hash($pass);
-                $hash = $hashArr['hash'];
-                $salt = $hashArr['salt'];
+                $hashArray = $security->build_salted_hash($pass);
+                $hash = $hashArray['hash'];
+                $salt = $hashArray['salt'];
 
                 // Insert User to DB
-                $userIns = new CsUser();
+                $userIn = new CsUser();
                 $userIns->email = $email;
                 $userIns->nick = $nick;
                 $userIns->passwordhash = $hash;
@@ -380,7 +380,7 @@ class Module_Account extends Clansuite_ModuleController implements Clansuite_Mod
                     // Send activation mail
                     if( $this->_send_activation_email($email, $nick, $userIns->user_id, $code) )
                     {
-                        $this->redirect( 'index.php', 0, 200, _('You have sucessfully registered! Please check your mailbox...') );
+                        $this->redirect( 'index.php', 0, 200, _('You have sucessfully registered! Please check your mailbox.') );
                         die();
                     }
                     else
@@ -392,11 +392,20 @@ class Module_Account extends Clansuite_ModuleController implements Clansuite_Mod
             }
         }
 
+        $smarty = $this->getView();
+        
         // Assign vars
+<<<<<<< .mine
+        $smarty->assign( 'config', $moduleconfig );
+        $smarty->assign( 'min_length', $moduleconfig['login']['min_pass_length'] );
+        $smarty->assign( 'err', $error );
+        #$smarty->assign( 'captcha_url',  WWW_ROOT . '/index.php?mod=captcha&' . session_name() . '=' . session_id() );
+=======
         $view->assign( 'config', $config );
         $view->assign( 'min_length', $config['login']['min_pass_length'] );
         $view->assign( 'err', $err );
         #$view->assign( 'captcha_url',  WWW_ROOT . '/index.php?mod=captcha&' . session_name() . '=' . session_id() );
+>>>>>>> .r4276
 
         // Output
         $this->prepareOutput();
@@ -558,10 +567,10 @@ class Module_Account extends Clansuite_ModuleController implements Clansuite_Mod
     {
         // Request Controller
         $request = $this->injector->instantiate('Clansuite_HttpRequest');
-        $input = $this->injector->instantiate('input');
+        #$validation = $this->injector->instantiate('Clansuite_Validation');
         $config = $this->injector->instantiate('Clansuite_Config');
         $security = $this->injector->instantiate('Clansuite_Security');
-        $err = array();
+        $error = array();
 
         $email = $request->getParameter('email');
         $pass = $request->getParameter('password');
@@ -570,20 +579,20 @@ class Module_Account extends Clansuite_ModuleController implements Clansuite_Mod
         {
             if( empty($email) || empty($pass) )
             {
-                $err['form_not_filled'] = 1;
+                $error['form_not_filled'] = 1;
             }
             elseif ( !isset($pass{$config['login']['min_pass_length']-1}) )
             {
-                $err['pass_too_short'] = 1;
+                $error['pass_too_short'] = 1;
             }
             else
             {
-                if ( !$input->check( $email, 'is_email' ) )
+                if ( !$validation->check( $email, 'is_email' ) )
                 {
-                    $err['email_wrong'] = 1;
+                    $error['email_wrong'] = 1;
                 }
 
-                if ( count($err) == 0 )
+                if ( count($error) == 0 )
                 {
                     // Select a DB Row
                     $result = Doctrine_Query::create()
@@ -595,15 +604,15 @@ class Module_Account extends Clansuite_ModuleController implements Clansuite_Mod
 
                     if ( !$result )
                     {
-                        $err['no_such_mail'] = 1;
+                        $error['no_such_mail'] = 1;
                     }
                     else if ( $result->activated != 1 )
                     {
-                        $err['account_not_activated'] = 1;
+                        $error['account_not_activated'] = 1;
                     }
                     else
                     {
-                        if ( count($err) == 0 )
+                        if ( count($error) == 0 )
                         {
                             // Generate activation code & salted hash
                             $hashArr = $security->build_salted_hash($pass);
@@ -635,8 +644,13 @@ class Module_Account extends Clansuite_ModuleController implements Clansuite_Mod
             }
         }
 
+<<<<<<< .mine
+        $smarty = $this->getView();
+        $smarty->assign('err', $error);
+=======
         $view = $this->getView();
         $view->assign('err', $err);
+>>>>>>> .r4276
         #$this->setTemplate('forgot_password.tpl');
         $this->prepareOutput();
     }
