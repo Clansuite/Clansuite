@@ -28,8 +28,7 @@
     * @copyright  Jens-André Koch (2005 - onwards)
     *
     * @link       http://www.clansuite.com
-    * @link       http://gna.org/projects/clansuite
-    * @since      File available since Release 0.2
+    * @link       http://gna.org/projects/
     *
     * @version    SVN: $Id$
     */
@@ -42,7 +41,7 @@ if (!defined('IN_CS')){die('Clansuite not loaded. Direct Access forbidden.');}
  *
  * @author      Jens-André Koch  <vain@clansuite.com>
  * @copyright   Jens-André Koch, (2005 - onwards)
- * @since       0.2alpha
+
  *
  * @category    Clansuite
  * @package     Modules
@@ -68,6 +67,34 @@ class Module_Templatemanager_Admin extends Clansuite_ModuleController implements
         $this->prepareOutput();
     }
     
+    private static function force_file_put_contents($dir, $contents)
+    {
+        $parts = explode(DS, $dir);
+        $file = array_pop($parts);
+        $dir = '';
+        $i = 0;
+        
+        foreach($parts as $part)
+        {
+            if($i == 0)
+            {
+                $dir .= $part;
+            }
+            else
+            {
+                $dir .= DS . $part;
+            }
+            $i++;
+            
+            if( is_dir($dir) == false ) 
+            {
+                mkdir($dir);
+            }
+        }
+        
+        file_put_contents("$dir".DS."$file", $contents);
+    }
+    
     /**
      * Show all templates for a certain module
      */
@@ -82,12 +109,25 @@ class Module_Templatemanager_Admin extends Clansuite_ModuleController implements
         # Incomming Variables
 
         # GET: tplmod (module of the template)
-        $tplmod = $request->getParameter('tplmod','G');
+        $tplmod = $this->getHttpRequest()->getParameter('tplmod','G');
+        $tplmod = ucfirst(stripslashes($tplmod));
         
         $view->assign('templateeditor_modulename',  $tplmod);
         
-        #clansuite_xdebug::printR( ROOT_MOD . $tplmod . DS. 'templates' .DS . '*.tpl' );
+        clansuite_xdebug::firebug( ROOT_MOD . $tplmod . DS. 'templates' .DS . '*.tpl' );
         
+        $templates = $this->gettemplatesofmodule($tplmod);   
+        
+        #clansuite_xdebug::printR($templates);     
+        
+        $smarty->assign('templates', $templates);        
+        
+        # Prepare the Output
+        $this->prepareOutput();
+    }
+    
+    public function gettemplatesofmodule($tplmod)
+    {
         $templates = array();
         $i = 0;
         
@@ -96,14 +136,53 @@ class Module_Templatemanager_Admin extends Clansuite_ModuleController implements
             ++$i;
             $templates[$i]['filename'] = basename($filename);
             $templates[$i]['fullpath'] = $filename;
-        }    
+        }
         
+<<<<<<< .mine
+        return $templates;
+        /*
+        $_POST['dir'] = urldecode($_POST['dir']);
+
+        if( file_exists( ROOT . $_POST['dir']) )
+        {
+        	$files = scandir( ROOT . $_POST['dir']);
+        	
+            natcasesort($files);
+        	
+            if( count($files) > 2 )
+            { /* The 2 accounts for . and .. */
+        		/*
+                echo "<ul class=\"jqueryFileTree\" style=\"display: none;\">";
+        		
+                // All dirs
+        		foreach( $files as $file )
+                {
+        			if( file_exists($root . $_POST['dir'] . $file) && $file != '.' && $file != '..' && is_dir($root . $_POST['dir'] . $file) )
+                    {
+        				echo "<li class=\"directory collapsed\"><a href=\"#\" rel=\"" . htmlentities($_POST['dir'] . $file) . "/\">" . htmlentities($file) . "</a></li>";
+        			}
+        		}
+        		
+                // All files
+        		foreach( $files as $file )
+                {
+        			if( file_exists($root . $_POST['dir'] . $file) && $file != '.' && $file != '..' && !is_dir($root . $_POST['dir'] . $file) )
+                    {
+        				$ext = preg_replace('/^.*\./', '', $file);
+        				echo "<li class=\"file ext_$ext\"><a href=\"#\" rel=\"" . htmlentities($_POST['dir'] . $file) . "\">" . htmlentities($file) . "</a></li>";
+        			}
+        		}
+        		echo "</ul>";	
+        	}
+        }*/
+=======
         #clansuite_xdebug::printR($templates);     
         
         $view->assign('templates', $templates);        
         
         # Prepare the Output
         $this->prepareOutput();
+>>>>>>> .r4276
     }
     
     public function action_admin_create()
@@ -128,18 +207,17 @@ class Module_Templatemanager_Admin extends Clansuite_ModuleController implements
 
         # GET: tplmod (module of the template)
         $tplmod = $this->getHttpRequest()->getParameter('tplmod');
-        
-        if(isset($tplmod) )
-        {
-            $tplmod = stripslashes($tplmod);
-            $view->assign('templateeditor_modulename',  $tplmod);
-            #Clansuite_Xdebug::printR($tplmod);
-        }        
-
         # GET: tpltheme (theme of the template)
         $tpltheme = $this->getHttpRequest()->getParameter('tplmod');
         
-        if(isset($tpltheme))
+        # check if we edit a module template or a theme template
+        if(isset($tplmod) )
+        {
+            $tplmod = ucfirst(stripslashes($tplmod));
+            $view->assign('templateeditor_modulename',  $tplmod);
+            #Clansuite_Xdebug::printR($tplmod);
+        }
+        elseif(isset($tpltheme))
         {
             $tpltheme = stripslashes($tpltheme);
             $view->assign('templateeditor_themename',   $tpltheme);
@@ -150,19 +228,43 @@ class Module_Templatemanager_Admin extends Clansuite_ModuleController implements
         $file = $this->getHttpRequest()->getParameter('file');
         #Clansuite_Xdebug::printR($file);
         
+        #Clansuite_Xdebug::firebug($file);
+        
         if(isset($file))
-        {            
-           $file = ROOT_MOD . $file;
+        {              
+            # construct relative template filename
+            if(empty($tplmod) == false)
+            {
+                $relative_file = 'modules/'.$file;
+            }
+            elseif(empty($tpltheme) == false)
+            {
+                $relative_file = $tpltheme.'/'.$file;
+            }
+            else
+            {
+                $relative_file = $file;
+            }
+            
+            $smarty->assign('templateeditor_relative_filename', $relative_file);
+        
+            $file = ROOT_MOD . $file;
            
            # DS on win is "\"
             if( DS == '\\')
             {
                 # correct slashes
                 $file = str_replace('/', '\\', $file);
+<<<<<<< .mine
+            }
+
+            $smarty->assign('templateeditor_absolute_filename', $file);
+=======
             } 
             
             #Clansuite_Xdebug::printR($file);
             $view->assign('templateeditor_filename', $file);
+>>>>>>> .r4276
         }
 
         # let's check, if this template exists
@@ -194,16 +296,19 @@ class Module_Templatemanager_Admin extends Clansuite_ModuleController implements
     {
         #Clansuite_Xdebug::printR($this->getHttpRequest());
 
-        $tplfilename    = (string) $this->getHttpRequest()->getParameter('templateeditor_filename');
+        $tplfilename    = (string) $this->getHttpRequest()->getParameter('templateeditor_absolute_filename');
         $tplmodulename  = (string) $this->getHttpRequest()->getParameter('templateeditor_modulename');
         $tplthemename   = (string) $this->getHttpRequest()->getParameter('templateeditor_themename');
-        $tpltextarea    = (string) $this->getHttpRequest()->getParameter('templateeditor_textarea');
+        $tpltextarea    = (string) $this->getHttpRequest()->getParameter('templateeditor_textarea'); #@todo disable IDS check for this var
 
-        if(isset($tplfilename) and isset($tpltextarea))
+        if(empty($tplfilename) == false and isset($tpltextarea))
         {
-            file_put_contents($tplfilename, stripslashes($tpltextarea));
+            self::force_file_put_contents($tplfilename, stripslashes($tpltextarea));
         }
 
+        $smarty = $this->getView();
+        $smarty->assign('templateeditor_absolute_filename',    htmlentities($tplfilename));
+        
         # Prepare the Output
         $this->prepareOutput();
     }
