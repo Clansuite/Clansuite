@@ -54,7 +54,7 @@ if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
  * @subpackage  {$mod.module_name|capitalize}
  */
 
-class Module_{$mod.module_name|capitalize} extends ModuleController implements Clansuite_Module_Interface
+class Clansuite_Module_{$mod.module_name|capitalize} extends ModuleController implements Clansuite_Module_Interface
 {
     
     /**

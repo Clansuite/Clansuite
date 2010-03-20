@@ -43,7 +43,7 @@ if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
  *
 
  */
-class Module_Shoutbox_Admin extends Clansuite_ModuleController implements Clansuite_Module_Interface
+class Clansuite_Module_Shoutbox_Admin extends Clansuite_Module_Controller implements Clansuite_Module_Interface
 {
     /**
      * Module_Shoutbox -> Execute
@@ -64,7 +64,7 @@ class Module_Shoutbox_Admin extends Clansuite_ModuleController implements Clansu
     /**
      * Action for displaying the Settings of a Module Shoutbox
      */
-    function action_admin_settings()
+    public function action_admin_settings()
     {
         # Set Pagetitle and Breadcrumbs
         Clansuite_Trail::addStep( _('Settings'), '/index.php?mod=shoutbox&amp;sub=admin&amp;action=settings');
@@ -100,7 +100,7 @@ class Module_Shoutbox_Admin extends Clansuite_ModuleController implements Clansu
         $this->prepareOutput();       
     }
     
-    function action_admin_settings_update()
+    public function action_admin_settings_update()
     { 
         # Set Pagetitle and Breadcrumbs
         Clansuite_Trail::addStep( _('Update'), '/index.php?mod=shoutbox&amp;sub=settings&amp;action=update');

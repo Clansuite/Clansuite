@@ -43,7 +43,7 @@ if (!defined('IN_CS')) {
  * @author     Jens-André Koch <vain@clansuite.com>
  * @copyright  Jens-André Koch (2005 - onwards)
  */
-class Module_statistics extends Clansuite_ModuleController implements Clansuite_Module_Interface {
+class Clansuite_Module_statistics extends Clansuite_Module_Controller implements Clansuite_Module_Interface {
 	
 	/**
 	 * Module_News -> Execute

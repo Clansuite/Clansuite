@@ -47,7 +47,7 @@ if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
  * @package     Modules
  * @subpackage  Matches
  */
-class Module_Matches_Admin extends Clansuite_ModuleController implements Clansuite_Module_Interface
+class Clansuite_Module_Matches_Admin extends Clansuite_Module_Controller implements Clansuite_Module_Interface
 {
 
     public function __construct(Phemto $injector=null)
@@ -100,7 +100,7 @@ class Module_Matches_Admin extends Clansuite_ModuleController implements Clansui
     /**
      * Action for displaying the Settings of a Module Matches
      */
-    function action_admin_settings()
+    public function action_admin_settings()
     {
         # Set Pagetitle and Breadcrumbs
         Clansuite_Trail::addStep( _('Settings'), '/index.php?mod=matches&amp;sub=admin&amp;action=settings');
@@ -141,7 +141,7 @@ class Module_Matches_Admin extends Clansuite_ModuleController implements Clansui
         $this->prepareOutput();       
     }
     
-    function action_admin_settings_update()
+    public function action_admin_settings_update()
     { 
         # Incomming Data
         # @todo get post via request object, sanitize

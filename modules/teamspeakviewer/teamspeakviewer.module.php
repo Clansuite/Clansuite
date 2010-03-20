@@ -44,7 +44,7 @@ require( ROOT_LIBRARIES . 'libacts2/Absurd.php');
  * @package     Modules
  * @subpackage  TeamspeakViewer
  */
-class Module_Teamspeakviewer extends Clansuite_ModuleController implements Clansuite_Module_Interface
+class Clansuite_Module_Teamspeakviewer extends Clansuite_Module_Controller implements Clansuite_Module_Interface
 {
     /**
      * Module_Teamspeakviewer -> Execute

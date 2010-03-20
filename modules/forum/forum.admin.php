@@ -21,7 +21,7 @@ if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
  * @package     Modules
  * @subpackage  Forum
  */
-class Module_Forum_Admin extends Clansuite_ModuleController implements Clansuite_Module_Interface
+class Clansuite_Module_Forum_Admin extends Clansuite_Module_Controller implements Clansuite_Module_Interface
 {
     /**
      * Main Method of Forum Module
@@ -225,7 +225,7 @@ class Module_Forum_Admin extends Clansuite_ModuleController implements Clansuite
         $this->prepareOutput(); 
 	}
 	
-    function action_admin_settings_update()
+    public function action_admin_settings_update()
     { 
         # Incomming Data
         # @todo get post via request object, sanitize

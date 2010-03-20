@@ -43,14 +43,14 @@ if (!defined('IN_CS')){die('Clansuite not loaded. Direct Access forbidden.');}
  * @package     Modules
  * @subpackage  ControlCenter
  */
-class Module_ControlCenter extends Clansuite_ModuleController implements Clansuite_Module_Interface
+class Clansuite_Module_ControlCenter extends Clansuite_Module_Controller implements Clansuite_Module_Interface
 {
     /**
      * Module_Admin -> Execute
      */
     public function execute(Clansuite_HttpRequest $request, Clansuite_HttpResponse $response)
     {
-        parent::initRecords('menu');
+        parent::initModel('menu');
     }
 
     /**
@@ -237,7 +237,7 @@ class Module_ControlCenter extends Clansuite_ModuleController implements Clansui
         $this->prepareOutput();
     }
 
-    function action_settings_update()
+    public function action_settings_update()
     {
         # Incomming Data
         # @todo get post via request object, sanitize

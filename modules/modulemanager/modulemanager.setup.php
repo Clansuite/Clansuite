@@ -46,7 +46,7 @@ if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
  * @package     Modules
  * @subpackage  Modulemanager
  */
-class Module_Modulemanager_Setup extends Clansuite_ModuleController implements Clansuite_Module_Interface
+class Clansuite_Module_Modulemanager_Setup extends Clansuite_Module_Controller implements Clansuite_Module_Interface
 {
     /**
      * Module_Modulemanager_Setup -> Execute

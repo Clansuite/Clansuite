@@ -43,7 +43,7 @@ if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
  * @copyright  Jens-André Koch (2005 - onwards)
  * @version    0.1
  */
-class Module_Rssreader extends Clansuite_ModuleController implements Clansuite_Module_Interface
+class Clansuite_Module_Rssreader extends Clansuite_Module_Controller implements Clansuite_Module_Interface
 {
     /**
      * Module_rssreader -> Execute

@@ -41,18 +41,18 @@ if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
  * @package     Modules
  * @subpackage  Users
 */
-class Module_Users_Admin extends Clansuite_ModuleController implements Clansuite_Module_Interface
+class Clansuite_Module_Users_Admin extends Clansuite_Module_Controller implements Clansuite_Module_Interface
 {
     public function execute(Clansuite_HttpRequest $request, Clansuite_HttpResponse $response)
     {
-        parent::initRecords('users');
+        parent::initModel('users');
     }
 
-    function action_admin_banuser()
+    public function action_admin_banuser()
     {
     }
 
-    function action_admin_removebanuser()
+    public function action_admin_removebanuser()
     {
 
     }
@@ -60,7 +60,7 @@ class Module_Users_Admin extends Clansuite_ModuleController implements Clansuite
     /**
      * Show all users
      */
-    function action_admin_show()
+    public function action_admin_show()
     {
         # Set Pagetitle and Breadcrumbs
         #Clansuite_Trail::addStep( _('Show'), '/index.php?mod=users&amp;sub=admin&amp;action=show');
@@ -147,7 +147,7 @@ class Module_Users_Admin extends Clansuite_ModuleController implements Clansuite
      * Create a new user
      *
      */
-    function action_admin_create()
+    public function action_admin_create()
     {
         # Set Pagetitle and Breadcrumbs
         Clansuite_Trail::addStep( _('Create New Useraccount'), '/index.php?mod=users&amp;sub=admin&amp;action=create');
@@ -274,7 +274,7 @@ class Module_Users_Admin extends Clansuite_ModuleController implements Clansuite
      * AJAX
      *
      */
-    function action_admin_edit_standard()
+    public function action_admin_edit_standard()
     {
         /**
         * Init
@@ -468,7 +468,7 @@ class Module_Users_Admin extends Clansuite_ModuleController implements Clansuite
      * Advanced User-Search
      *
      */
-    function action_admin_search()
+    public function action_admin_search()
     {
         # Set Pagetitle and Breadcrumbs
         Clansuite_Trail::addStep( _('Search'), '/index.php?mod=users&amp;sub=admin&amp;action=search');
@@ -508,7 +508,7 @@ class Module_Users_Admin extends Clansuite_ModuleController implements Clansuite
     /**
      * Deletes a user
      */
-    function action_admin_delete()
+    public function action_admin_delete()
     {
         /**
          * Init
@@ -591,7 +591,7 @@ class Module_Users_Admin extends Clansuite_ModuleController implements Clansuite
     /**
      * Action for displaying the Settings of a Module Users
      */
-    function action_admin_settings()
+    public function action_admin_settings()
     {
         # Set Pagetitle and Breadcrumbs
         Clansuite_Trail::addStep( _('Settings'), '/index.php?mod=users&amp;sub=admin&amp;action=settings');
@@ -621,7 +621,7 @@ class Module_Users_Admin extends Clansuite_ModuleController implements Clansuite
         $this->prepareOutput();       
     }
     
-    function action_admin_settings_update()
+    public function action_admin_settings_update()
     { 
         # Set Pagetitle and Breadcrumbs
         Clansuite_Trail::addStep( _('Update'), '/index.php?mod=users&amp;sub=settings&amp;action=update');

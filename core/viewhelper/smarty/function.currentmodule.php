@@ -25,6 +25,6 @@
  */
 function smarty_function_currentmodule($params, $smarty)
 {
-    return Clansuite_ModuleController_Resolver::getModuleName();
+    return Clansuite_Module_Controller_Resolver::getModuleName();
 }
 ?>

@@ -42,7 +42,7 @@ if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
  * Module:  Module_Staticpages_Admin
  *
  */
-class Module_Staticpages_Admin extends Clansuite_ModuleController implements Clansuite_Module_Interface
+class Clansuite_Module_Staticpages_Admin extends Clansuite_Module_Controller implements Clansuite_Module_Interface
 {
     public function __construct(Phemto $injector=null)
     {
@@ -51,7 +51,7 @@ class Module_Staticpages_Admin extends Clansuite_ModuleController implements Cla
 
     public function execute(Clansuite_HttpRequest $request, Clansuite_HttpResponse $response)
     {
-		parent::initRecords('staticpages');
+		parent::initModel('staticpages');
     }
 
     /**
@@ -241,7 +241,7 @@ class Module_Staticpages_Admin extends Clansuite_ModuleController implements Cla
     /**
      * Action for displaying the Settings of a Module Staticpages
      */
-    function action_admin_settings()
+    public function action_admin_settings()
     {
         # Set Pagetitle and Breadcrumbs
         Clansuite_Trail::addStep( _('Settings'), '/index.php?mod=staticpages&amp;sub=admin&amp;action=settings');
@@ -276,7 +276,7 @@ class Module_Staticpages_Admin extends Clansuite_ModuleController implements Cla
         $this->prepareOutput();       
     }
     
-    function action_admin_settings_update()
+    public function action_admin_settings_update()
     { 
         # Incomming Data
         # @todo get post via request object, sanitize

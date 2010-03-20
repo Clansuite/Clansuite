@@ -43,7 +43,7 @@ if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
  *
 
  */
-class Module_Teams_Admin extends Clansuite_ModuleController implements Clansuite_Module_Interface
+class Clansuite_Module_Teams_Admin extends Clansuite_Module_Controller implements Clansuite_Module_Interface
 {
     /**
      * Module_Teams -> Execute

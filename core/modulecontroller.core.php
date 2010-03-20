@@ -60,11 +60,11 @@ interface Clansuite_Module_Interface
  * @package     Core
  * @subpackage  Module
  */
-interface Clansuite_BREAD_Module_Interface extends Clansuite_Module_Interface
+interface Clansuite_Module_BREAD_Interface extends Clansuite_Module_Interface
 {
     public function action_browse();
     public function action_read();
-    public function action_erase();
+    public function action_edit();
     public function action_add();
     public function action_delete();
 }
@@ -78,7 +78,7 @@ interface Clansuite_BREAD_Module_Interface extends Clansuite_Module_Interface
  * @package     Core
  * @subpackage  Module
  */
-interface Clansuite_CRUD_Module_Interface extends Clansuite_Module_Interface
+interface Clansuite_Module_CRUD_Interface extends Clansuite_Module_Interface
 {
     public function action_create();
     public function action_read();
@@ -95,12 +95,65 @@ interface Clansuite_CRUD_Module_Interface extends Clansuite_Module_Interface
  * @package     Core
  * @subpackage  Module
  */
-interface Clansuite_ABCD_Module_Interface extends Clansuite_Module_Interface
+interface Clansuite_Module_ABCD_Interface extends Clansuite_Module_Interface
 {
     public function action_add();
     public function action_browse();
     public function action_change();
     public function action_delete();
+}
+
+
+/**
+ * Interface for all modules which implement the ABCD action structure
+ *
+ * Force classes implementing the interface to define these (must have) methods!
+ *
+ * @category    Clansuite
+ * @package     Core
+ * @subpackage  Module
+ */
+interface Clansuite_Admin_Module_ABCD_Interface extends Clansuite_Module_Interface
+{
+    public function action_admin_add();
+    public function action_admin_browse();
+    public function action_admin_change();
+    public function action_admin_delete();
+}
+
+/**
+ * Interface for all modules which implement the BREAD action structure
+ *
+ * Force classes implementing the interface to define these (must have) methods!
+ *
+ * @category    Clansuite
+ * @package     Core
+ * @subpackage  Module
+ */
+interface Clansuite_Admin_Module_BREAD_Interface extends Clansuite_Module_Interface
+{
+    public function action_admin_browse();
+    public function action_admin_read();
+    public function action_admin_edit();
+    public function action_admin_add();
+    public function action_admin_delete();
+}
+
+/**
+ * Interface for all modules which implement the CRUD action structure
+ *
+ * Force classes implementing the interface to define these (must have) methods!
+ *
+ * @category    Clansuite
+ * @package     Core
+ * @subpackage  Module
+ */
+interface Clansuite_Admin_Module_CRUD_Interface extends Clansuite_Module_Interface
+{
+    public function action_admin_create();
+    public function action_admin_read();
+    public function action_admin_update();
+    public function action_admin_delete();
 }
 
 /**
@@ -119,7 +172,7 @@ interface Clansuite_ABCD_Module_Interface extends Clansuite_Module_Interface
  * @package     Core
  * @subpackage  Modulecontroller
  */
-abstract class Clansuite_ModuleController extends Clansuite_ModuleController_Resolver
+abstract class Clansuite_Module_Controller extends Clansuite_Module_Controller_Resolver
 {
     // Variable contains the rendering engine (view object)
     public $view = null;
@@ -146,7 +199,7 @@ abstract class Clansuite_ModuleController extends Clansuite_ModuleController_Res
     public function __construct()
     {
         $this->setInjector(Clansuite_CMS::getInjector());
-        
+
         # fetch config from dependency injector
         $this->config = $this->injector->instantiate('Clansuite_Config');
     }
@@ -157,15 +210,15 @@ abstract class Clansuite_ModuleController extends Clansuite_ModuleController_Res
      * @param $modulename Modulname
      * @param $recordname Recordname
      */
-    public static function initRecords($modulename = null, $recordname = null)
+    public static function initModel($modulename = null, $recordname = null)
     {
         /**
          * Load the Records for the current module, if no modulename is specified.
-         * This is for lazy usage in the modulecontroller: $this->initRecords();
+         * This is for lazy usage in the modulecontroller: $this->initModel();
          */
         if(is_null($modulename))
         {
-            $modulename = Clansuite_ModuleController_Resolver::getModuleName();
+            $modulename = Clansuite_Module_Controller_Resolver::getModuleName();
         }
 
         /**
@@ -196,14 +249,14 @@ abstract class Clansuite_ModuleController extends Clansuite_ModuleController_Res
     /**
      * Set dependency injector (SetterInjection)
      * a) as a static var self::$injector
-     * b) as a dynamic var $this->injector 
+     * b) as a dynamic var $this->injector
      * Type Hint set to only accept Phemto
      *
      * @param object $injector Dependency Injector (Phemto)
      * @todo move config injection somewhere else
      */
     public function setInjector(Phemto $injector)
-    {        
+    {
         self::$static_injector = $this->injector = $injector;
     }
 
@@ -269,7 +322,7 @@ abstract class Clansuite_ModuleController extends Clansuite_ModuleController_Res
         {
             $this->moduleconfig = $this->getModuleConfig();
         }
-		
+
         # try a lookup of the value by keyname
         $value = Clansuite_Functions::array_find_element_by_key($keyname, $this->moduleconfig);
         # return value or default
@@ -434,9 +487,9 @@ abstract class Clansuite_ModuleController extends Clansuite_ModuleController_Res
      */
     private function constructTemplateName()
     {
-        #$module    = Clansuite_ModuleController_Resolver::getModuleName();
-        #$submodule = Clansuite_ModuleController_Resolver::getSubModuleName();
-        $action    = Clansuite_ActionController_Resolver::getActionName();
+        #$module    = Clansuite_Module_Controller_Resolver::getModuleName();
+        #$submodule = Clansuite_Module_Controller_Resolver::getSubModuleName();
+        $action    = Clansuite_Action_Controller_Resolver::getActionName();
 
         #$module = Clansuite_Functions::cut_string_backwards($module, '_admin');
 
@@ -598,7 +651,7 @@ abstract class Clansuite_ModuleController extends Clansuite_ModuleController_Res
 
     /**
      * Shortcut for Redirect with an 404 Repsonse Code
-     * 
+     *
      * @param string Redirect to this URL
      * @param int    seconds before redirecting (for the html tag "meta refresh")
      */

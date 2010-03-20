@@ -39,7 +39,7 @@ if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
 /**
  * Clansuite Module - Account
  */
-class Module_Account_Admin extends Clansuite_ModuleController implements Clansuite_Module_Interface
+class Clansuite_Module_Account_Admin extends Clansuite_Module_Controller implements Clansuite_Module_Interface
 {
 	/**
 	 * Module_Admin -> Execute
@@ -53,7 +53,7 @@ class Module_Account_Admin extends Clansuite_ModuleController implements Clansui
 	/**
 	 *  Edits the user's Avatar Image
 	 */
-	function action_admin_editavatar()
+	public function action_admin_editavatar()
 	{
 		#var_dump($_REQUEST);
 
@@ -79,7 +79,7 @@ class Module_Account_Admin extends Clansuite_ModuleController implements Clansui
 	/**
 	 *
 	 */
-	function action_admin_deleteavatar()
+	public function action_admin_deleteavatar()
 	{
 		/**
 		 * @todo 1. in general:    permissions to delete
@@ -91,12 +91,12 @@ class Module_Account_Admin extends Clansuite_ModuleController implements Clansui
 		#var_dump($_REQUEST);
 	}
 
-	function action_admin_userpicture_edit()
+	public function action_admin_userpicture_edit()
 	{
 
 	}
 
-	function action_admin_userpicture_remove()
+	public function action_admin_userpicture_remove()
 	{
 
 	}
@@ -106,7 +106,7 @@ class Module_Account_Admin extends Clansuite_ModuleController implements Clansui
 	 *
 	 * Shows own Profil, Messages, Personal Geustbooks, Abonnenments from the Form, Next Events and Matches, Votes etc.
 	 */
-	function action_admin_usercenter()
+	public function action_admin_usercenter()
 	{
 		# Set Pagetitle and Breadcrumbs
 		Clansuite_Trail::addStep( _('Usercenter'), '/index.php?mod=users&amp;sub=admin&amp;action=usercenter');
@@ -146,7 +146,7 @@ class Module_Account_Admin extends Clansuite_ModuleController implements Clansui
     /**
      * Action for displaying the Settings of a Module Account
      */
-    function action_admin_settings()
+    public function action_admin_settings()
     {
         # Set Pagetitle and Breadcrumbs
         Clansuite_Trail::addStep( _('Settings'), '/index.php?mod=account&amp;sub=admin&amp;action=settings');
@@ -181,7 +181,7 @@ class Module_Account_Admin extends Clansuite_ModuleController implements Clansui
         $this->prepareOutput();       
     }
     
-    function action_admin_settings_update()
+    public function action_admin_settings_update()
     { 
         # Incomming Data
         # @todo get post via request object, sanitize

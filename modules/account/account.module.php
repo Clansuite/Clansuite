@@ -41,7 +41,7 @@ if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
  *
  * This Module handles the User Account Registration, the Login, Logout etc.
  */
-class Module_Account extends Clansuite_ModuleController implements Clansuite_Module_Interface
+class Clansuite_Module_Account extends Clansuite_Module_Controller implements Clansuite_Module_Interface
 {
     /**
      * Module_Admin -> Execute
@@ -50,7 +50,8 @@ class Module_Account extends Clansuite_ModuleController implements Clansuite_Mod
     {
         # read module config
         $this->getModuleConfig();
-		      parent::initRecords('users');
+
+        parent::initModel('users');
     }
 
     public function action_show()
@@ -256,12 +257,9 @@ class Module_Account extends Clansuite_ModuleController implements Clansuite_Mod
         # Request Controller
         $request = $this->injector->instantiate('Clansuite_HttpRequest');
         $security = $this->injector->instantiate('Clansuite_Security');
-<<<<<<< .mine
-        
-=======
         $config = $this->injector->instantiate('Clansuite_Config');
         $view = $this->getView();
->>>>>>> .r4276
+
         $user = $this->injector->instantiate('Clansuite_User');
 
         # Get Inputvariables from $_POST
@@ -395,17 +393,13 @@ class Module_Account extends Clansuite_ModuleController implements Clansuite_Mod
         $smarty = $this->getView();
         
         // Assign vars
-<<<<<<< .mine
+
         $smarty->assign( 'config', $moduleconfig );
         $smarty->assign( 'min_length', $moduleconfig['login']['min_pass_length'] );
         $smarty->assign( 'err', $error );
         #$smarty->assign( 'captcha_url',  WWW_ROOT . '/index.php?mod=captcha&' . session_name() . '=' . session_id() );
-=======
-        $view->assign( 'config', $config );
-        $view->assign( 'min_length', $config['login']['min_pass_length'] );
-        $view->assign( 'err', $err );
+
         #$view->assign( 'captcha_url',  WWW_ROOT . '/index.php?mod=captcha&' . session_name() . '=' . session_id() );
->>>>>>> .r4276
 
         // Output
         $this->prepareOutput();
@@ -644,13 +638,9 @@ class Module_Account extends Clansuite_ModuleController implements Clansuite_Mod
             }
         }
 
-<<<<<<< .mine
         $smarty = $this->getView();
         $smarty->assign('err', $error);
-=======
-        $view = $this->getView();
-        $view->assign('err', $err);
->>>>>>> .r4276
+
         #$this->setTemplate('forgot_password.tpl');
         $this->prepareOutput();
     }
@@ -950,7 +940,7 @@ class Module_Account extends Clansuite_ModuleController implements Clansuite_Mod
 	/**
     * @desc form to update profiledata
     */
-	private function action_profile_update ()
+	public function action_profile_update()
 	{
         # Prepare the Output
         $this->prepareOutput();
@@ -959,7 +949,7 @@ class Module_Account extends Clansuite_ModuleController implements Clansuite_Mod
 	/**
     * @desc form to save profiledata
     */
-	private function action_profile_save ()
+	public function action_profile_save ()
 	{
         # Prepare the Output
         $this->prepareOutput();

@@ -49,7 +49,7 @@ if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
  * @package     Modules
  * @subpackage  Categories
  */
-class Module_Categories_Admin extends Clansuite_ModuleController implements Clansuite_Module_Interface
+class Clansuite_Module_Categories_Admin extends Clansuite_Module_Controller implements Clansuite_Module_Interface
 {
 
     public function __construct(Phemto $injector=null)
@@ -59,8 +59,8 @@ class Module_Categories_Admin extends Clansuite_ModuleController implements Clan
 
     public function execute(Clansuite_HttpRequest $request, Clansuite_HttpResponse $response)
     {
-        parent::initRecords('categories');
-        parent::initRecords('modulemanager');
+        parent::initModel('categories');
+        parent::initModel('modulemanager');
     }
 
     /**
@@ -161,7 +161,7 @@ class Module_Categories_Admin extends Clansuite_ModuleController implements Clan
     /**
      * Create Category
      */
-    function action_admin_create()
+    public function action_admin_create()
     {
         # Load Form Class (@todo autoloader / di)
         require ROOT_CORE . 'viewhelper/form.core.php';
@@ -197,7 +197,7 @@ class Module_Categories_Admin extends Clansuite_ModuleController implements Clan
     /**
      * Edit Category
      */
-    function action_admin_edit()
+    public function action_admin_edit()
     {
         # get id
         $cat_id = $this->getHttpRequest()->getParameter('id');
@@ -241,7 +241,7 @@ class Module_Categories_Admin extends Clansuite_ModuleController implements Clan
     /**
      * Deletes Categories
      */
-    function action_admin_delete()
+    public function action_admin_delete()
     {
         $request = $this->getHttpRequest();
         $delete  = $request->getParameter('delete', 'P');
@@ -273,7 +273,7 @@ class Module_Categories_Admin extends Clansuite_ModuleController implements Clan
     /**
      * Update a Categories Entry identified by cat_id
      */
-    function action_admin_update()
+    public function action_admin_update()
     {
         # get incoming data
         $data = $this->getHttpRequest()->getParameter('cat_form');
@@ -330,7 +330,7 @@ class Module_Categories_Admin extends Clansuite_ModuleController implements Clan
     /**
      * Action for displaying the Settings of a Module Categories
      */
-    function action_admin_settings()
+    public function action_admin_settings()
     {
         # Set Pagetitle and Breadcrumbs
         Clansuite_Trail::addStep( _('Settings'), '/index.php?mod=categories&amp;sub=admin&amp;action=settings');
@@ -365,7 +365,7 @@ class Module_Categories_Admin extends Clansuite_ModuleController implements Clan
         $this->prepareOutput();
     }
 
-    function action_admin_settings_update()
+    public function action_admin_settings_update()
     {
         # Incomming Data
         # @todo get post via request object, sanitize
