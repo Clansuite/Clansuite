@@ -34,7 +34,7 @@
     */
     
 # Define security constant
-if (!defined('IN_CS')){ die( 'Clansuite not loaded. Direct Access forbidden.' );}
+if (defined('IN_CS') == false){ die( 'Clansuite not loaded. Direct Access forbidden.' );}
 # Set Timezone for date functions
 date_default_timezone_set('Europe/Berlin');
 ?>

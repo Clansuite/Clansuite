@@ -41,7 +41,7 @@
 
 session_start('clansuite_converter');
 
-// Security Handler
+# Security Handler
 define('IN_CS', true);
 
 // Debugging Handler

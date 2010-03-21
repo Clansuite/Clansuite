@@ -34,7 +34,7 @@
     */
     
 # Define security constant
-if (!defined('IN_CS')){ die( 'Clansuite not loaded. Direct Access forbidden.' );}
+if (defined('IN_CS') == false){ die( 'Clansuite not loaded. Direct Access forbidden.' );}
 
 # initialize variables / arrays
 $i = 1; $j = 1; $array_matrix_system_version = array();
