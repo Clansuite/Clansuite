@@ -33,8 +33,8 @@
     * @version    SVN: $Id$
     */
 
-// Security Handler
-if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.');}
+# Security Handler
+if (defined('IN_CS') == false){ die('Clansuite not loaded. Direct Access forbidden.');}
 
 if (!class_exists('Clansuite_Formelement_Input',false)) { require dirname(__FILE__) . '/input.form.php'; }
 
@@ -47,11 +47,6 @@ if (!class_exists('Clansuite_Formelement_Input',false)) { require dirname(__FILE
  */
 class Clansuite_Formelement_Text extends Clansuite_Formelement_Input implements Clansuite_Formelement_Interface
 {
-    /**
-     * constructor
-     *
-     * @return void
-     */
     public function __construct()
     {
         $this->type = 'text';
@@ -62,7 +57,6 @@ class Clansuite_Formelement_Text extends Clansuite_Formelement_Input implements 
     /**
      * defines length of field in letters
      *
-     * @return void
      * @param int $size
      */
     public function setSize($size)
@@ -73,7 +67,6 @@ class Clansuite_Formelement_Text extends Clansuite_Formelement_Input implements 
     /**
      * defines allowed length of input in letters
      *
-     * @return void
      * @param int $length
      */
     public function setMaxLength($length)

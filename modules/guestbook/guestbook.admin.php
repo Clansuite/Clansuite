@@ -34,15 +34,10 @@
     */
 
 //Security Handler
-if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
+if (defined('IN_CS') == false) { die('Clansuite not loaded. Direct Access forbidden.'); }
 
 /**
- * This is the Clansuite Module Class - Guestbook Admin
- *
- * @author     Jens-André Koch <vain@clansuite.com>
- * @author     Florian Wolf    <xsign.dll@clansuite.com>
- * @copyright  Jens-André Koch (2005 - onwards), Florian Wolf (2006-2007)
-
+ * Clansuite_Module_Guestbook_Admin
  *
  * @category    Clansuite
  * @package     Modules
@@ -50,19 +45,11 @@ if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
  */
 class Clansuite_Module_Guestbook_Admin extends Clansuite_Module_Controller implements Clansuite_Module_Interface
 {
-    public function __construct(Phemto $injector=null)
-    {
-        parent::__construct(); # run constructor on controller_base
-    }
-
-    public function execute(Clansuite_HttpRequest $request, Clansuite_HttpResponse $response)
+    public function initializeModule(Clansuite_HttpRequest $request, Clansuite_HttpResponse $response)
     {
         parent::initModel('guestbook');
     }
 
-    /**
-     * Show all guestbook entries and give the possibility to edit/delete
-     */
     public function action_admin_show()
     {
         # Incoming Variables
@@ -108,7 +95,6 @@ class Clansuite_Module_Guestbook_Admin extends Clansuite_Module_Controller imple
         $view->assign('pager', $pager);
         $view->assign('pager_layout', $pager_layout);
 
-        # Prepare the Output
         $this->prepareOutput();
     }
 
@@ -193,16 +179,13 @@ class Clansuite_Module_Guestbook_Admin extends Clansuite_Module_Controller imple
     */
     public function save_comment()
     {
-        global $db, $tpl;
-        /**
-        * @desc Incoming Vars
-        */
+        # Incoming Vars
+
         $gb_id      = urldecode($_GET['id']);
         $comment    = urldecode($_POST['value']);
 
-        /**
-        * @desc Get comment from DB
-        */
+        #  Get comment from DB
+
         $stmt = $db->prepare( 'SELECT gb_comment FROM ' . DB_PREFIX . 'guestbook
                                WHERE `gb_id` = ?' );
         $stmt->execute( array( $gb_id ) );
@@ -229,16 +212,13 @@ class Clansuite_Module_Guestbook_Admin extends Clansuite_Module_Controller imple
     */
     public function get_comment()
     {
-        global $db;
 
-        /**
-        * @desc Incoming Vars
-        */
+        #  Incoming Vars
+
         $gb_id = $_GET['id'];
 
-        /**
-        * @desc Get comment from DB
-        */
+        #  Get comment from DB
+
         $stmt = $db->prepare( 'SELECT gb_comment FROM ' . DB_PREFIX . 'guestbook
                                WHERE `gb_id` = ?' );
         $stmt->execute( array( $gb_id ) );
@@ -439,7 +419,7 @@ class Clansuite_Module_Guestbook_Admin extends Clansuite_Module_Controller imple
     public function action_admin_settings()
     {
         # Set Pagetitle and Breadcrumbs
-        Clansuite_Trail::addStep( _('Settings'), '/index.php?mod=guestbook&amp;sub=admin&amp;action=settings');
+        Clansuite_Breadcrumb::add( _('Settings'), '/index.php?mod=guestbook&amp;sub=admin&amp;action=settings');
 
         $settings = array();
 

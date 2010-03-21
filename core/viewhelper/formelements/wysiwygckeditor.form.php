@@ -33,8 +33,8 @@
     * @version    SVN: $Id: wysiwygckeditor.form.php 3631 2009-11-10 21:31:15Z vain $
     */
 
-// Security Handler
-if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.');}
+# Security Handler
+if (defined('IN_CS') == false){ die('Clansuite not loaded. Direct Access forbidden.');}
 
 if (!class_exists('Clansuite_Formelement_Textarea',false)) { require dirname(__FILE__) . '/textarea.form.php'; }
 

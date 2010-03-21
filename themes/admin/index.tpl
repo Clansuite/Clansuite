@@ -5,14 +5,16 @@
 
     <!-- This Page was cached on {$smarty.now|dateformat}. -->
 
-    {* jQuery *}
-
+    <!-- jQuery -->
     <script type="text/javascript" src="{$www_root_themes_core}/javascript/jquery/jquery.js"></script>
+
+    <!-- jQuery UI -->
     <script type="text/javascript" src="{$www_root_themes_core}/javascript/jquery/jquery.ui.js"></script>
+    <link rel="stylesheet" type="text/css" href="{$www_root_themes}/core/css/jquery-ui-peppergrinder/jquery-ui-1.7.2.custom.css" />
 
-    {* Clip *}
-
-    <script src="{$www_root_themes_core}/javascript/clip.js" type="text/javascript"></script>
+    <!-- jQuery Pines Notify -->
+    <script type="text/javascript" src="{$www_root_themes_core}/javascript/jquery/jquery.pnotify.js"></script>
+    <link rel="stylesheet" type="text/css" href="{$www_root_themes}/core/css/jquery.pnotify.default.css" />
 
     {* Metatags *}
 
@@ -30,10 +32,14 @@
     <link rel="shortcut icon" href="{$www_root_themes_core}/images/clansuite_logos/Clansuite-Favicon-16.ico" />
     <link rel="icon" href="{$www_root_themes_core}/images/clansuite_logos/Clansuite-Favicon-16.ico" type="image/gif" />
 
-    {* Cascading Style Sheets *}
+    {* Clansuite Cascading Style Sheets *}
 
     <link rel="stylesheet" type="text/css" href="{$www_root_themes}/admin/admin.css" />
-    <link rel="stylesheet" type="text/css" href="{$www_root_themes}/core/css/jquery-ui-peppergrinder/jquery-ui-1.7.2.custom.css" />
+<script type="text/javascript" src="{$www_root_themes_core}/javascript/admin.js"></script>
+
+    {* Clansuite Javascripts *}
+
+    <script src="{$www_root_themes_core}/javascript/clip.js" type="text/javascript"></script>
 
     {* Pagetitle *}
 
@@ -51,6 +57,8 @@
 
 {* Adminmenu Navigation *}
 {include file="menu/templates/adminmenu.tpl"}
+
+{include file="firebug_active_warning.tpl"}
 
 {* Main Table *}
 

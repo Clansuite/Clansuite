@@ -33,16 +33,11 @@
     * @version    SVN: $Id$
     */
 
-// Security Handler
-if (!defined('IN_CS')){die('Clansuite not loaded. Direct Access forbidden.');}
+# Security Handler
+if (defined('IN_CS') == false){die('Clansuite not loaded. Direct Access forbidden.');}
 
 /**
- * Clansuite Module : Users
- *
- * @author     Jens-André Koch   <vain@clansuite.com>
- * @author     Florian Wolf      <xsign.dll@clansuite.com>
- * @copyright  Jens-André Koch (2005 - onwards), Florian Wolf (2006-2007)
- * @link
+ * Clansuite_Module_Users
  *
  * @category    Clansuite
  * @package     Modules
@@ -50,13 +45,9 @@ if (!defined('IN_CS')){die('Clansuite not loaded. Direct Access forbidden.');}
  */
 class Clansuite_Module_Users extends Clansuite_Module_Controller implements Clansuite_Module_Interface
 {
-    /**
-     * Module_Userslist -> Execute
-     */
-    public function execute(Clansuite_HttpRequest $request, Clansuite_HttpResponse $response)
+    public function initializeModule(Clansuite_HttpRequest $request, Clansuite_HttpResponse $response)
     {
-        # read module config
-        $this->config->readConfig( ROOT_MOD . '/users/users.config.php');
+        $this->getModuleConfig();
     }
 
     /**
@@ -70,7 +61,7 @@ class Clansuite_Module_Users extends Clansuite_Module_Controller implements Clan
     public function action_show()
     {
         // Set Pagetitle and Breadcrumbs
-        Clansuite_Trail::addStep( _('Show'), '/index.php?mod=users&amp;action=show');
+        Clansuite_Breadcrumb::add( _('Show'), '/index.php?mod=users&amp;action=show');
 
         // Defining initial variables
         $currentPage = $this->injector->instantiate('Clansuite_HttpRequest')->getParameter('page');
@@ -123,7 +114,7 @@ class Clansuite_Module_Users extends Clansuite_Module_Controller implements Clan
 
         # specifiy the template manually
         #$this->setTemplate('userslist/templates/show.tpl');
-        # Prepare the Output
+
         $this->prepareOutput();
     }
 

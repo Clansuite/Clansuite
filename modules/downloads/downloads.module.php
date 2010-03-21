@@ -34,24 +34,18 @@
     */
 
 //Security Handler
-if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
+if (defined('IN_CS') == false) { die('Clansuite not loaded. Direct Access forbidden.'); }
 
 /**
- * Clansuite - just an eSports CMS
+ * Clansuite_Module_Downloads
  *
- * Module:     Downloads
- *
- * @author     Jens-André Koch <vain@clansuite.com>
- * @copyright  Jens-André Koch (2005 - onwards)
- * @version    0.1
-
+ * @category    Clansuite
+ * @package     Modules
+ * @subpackage  Downloads
  */
 class Clansuite_Module_Downloads extends Clansuite_Module_Controller implements Clansuite_Module_Interface
 {
-    /**
-     * Module_Downloads -> Execute
-     */
-    public function execute(Clansuite_HttpRequest $request, Clansuite_HttpResponse $response)
+    public function initializeModule(Clansuite_HttpRequest $request, Clansuite_HttpResponse $response)
     {
         parent::initModel('downloads');
     }
@@ -59,7 +53,7 @@ class Clansuite_Module_Downloads extends Clansuite_Module_Controller implements 
     public function action_show()
     {
         // Set Pagetitle and Breadcrumbs
-        Clansuite_Trail::addStep( _('Show'), '/index.php?mod=downloads&amp;action=show');
+        Clansuite_Breadcrumb::add( _('Show'), '/index.php?mod=downloads&amp;action=show');
 
         # fetch nextmatches
         $downloads = Doctrine::getTable('CsDownloads')->findAll()->toArray();

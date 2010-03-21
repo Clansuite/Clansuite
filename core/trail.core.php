@@ -34,11 +34,11 @@
     * @version    SVN: $Id$
     */
 
-// Security Handler
-if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.');}
+# Security Handler
+if (defined('IN_CS') == false){ die('Clansuite not loaded. Direct Access forbidden.');}
 
 /**
- *  Clansuite Core Class for Trail / Breadcrumb Handling
+ *  Clansuite Core Class for Breadcrumb Handling
  *
  * - Headings: Entrance >> News
  * - You are here : Entrance >> News (with links)
@@ -47,78 +47,78 @@ if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.');}
  * @author     Jens-André Koch   <vain@clansuite.com>
  * @author     Florian Wolf      <xsign.dll@clansuite.com>
  * @copyright  Jens-André Koch (2005-onwards), Florian Wolf (2006-2007)
-
  *
  * @category    Clansuite
  * @package     Core
  * @subpackage  Trail
  */
-class Clansuite_Trail
+class Clansuite_Breadcrumb
 {
-        /**
-         * @var array $path contains the complete path structured as array
-         */
-        private static $path = array();
+    /**
+     * @var array $path contains the complete path structured as array
+     */
+    private static $path = array();
 
-        /**
-         * Assigns a trailstep "Home >>"
-         *
-         * @param string $homeLabel contains the Home-Name shown at the trail, standard is Home
-         * @param string $homeLink contains the link as url, standard is '/' refering to base_url
-         */
-        public static function addHomeTrail($homeLabel = 'Home', $homeLink = '/')
+    /**
+     * Assigns a trailstep "Home >>"
+     *
+     * @param string $homeLabel contains the Home-Name shown at the trail, standard is Home
+     * @param string $homeLink contains the link as url, standard is '/' refering to base_url
+     */
+    public static function addHomeTrail($homeLabel = 'Home', $homeLink = '/')
+    {
+        # check if it's the first trail step, then let it be >> HOME
+        if(count(self::$path) == 0)
         {
-            # check if it's the first trail step, then let it be >> HOME
-            if(count(self::$path) == 0)
-            {
-                self::$path[] = array(  'title' => $homeLabel,
-                                        'link'  => WWW_ROOT . $homeLink);
-            }
+            self::$path[] = array(  'title' => $homeLabel,
+                                    'link'  => WWW_ROOT . $homeLink);
+        }
+    }
+
+    /**
+     * Assigns a trailstep "Control Center >>"
+     *
+     * @param string $homeLabel contains the Home-Name shown at the trail, standard is Home
+     * @param string $homeLink contains the link as url, standard is '/' refering to base_url
+     */
+    public static function addControlCenterTrail($homeLabel = 'Control Center', $homeLink = '/index.php?mod=controlcenter')
+    {
+        # check if it's the first trail step, then let it be >> HOME
+        if(count(self::$path) == 0)
+        {
+            self::$path[] = array(  'title' => $homeLabel,
+                                    'link'  => WWW_ROOT . $homeLink);
+        }
+    }
+
+    /**
+     * addBreadcrumb
+     * This adds a step or level to the trail-path / pagetitle
+     *
+     * @param string $title contains the Name shown at the trail
+     * @param string $link contains the link as url
+     */
+    public static function add($title, $link = '')
+    {
+        # let the first Trail, be "HOME >>"
+        #self::addHomeTrail();
+
+        $item = array('title' => $title);
+
+        if(isset($link))
+        {
+            $item['link'] = WWW_ROOT . $link;
         }
 
-        /**
-         * Assigns a trailstep "Control Center >>"
-         *
-         * @param string $homeLabel contains the Home-Name shown at the trail, standard is Home
-         * @param string $homeLink contains the link as url, standard is '/' refering to base_url
-         */
-        public static function addControlCenterTrail($homeLabel = 'Control Center', $homeLink = '/index.php?mod=controlcenter')
-        {
-            # check if it's the first trail step, then let it be >> HOME
-            if(count(self::$path) == 0)
-            {
-                self::$path[] = array(  'title' => $homeLabel,
-                                        'link'  => WWW_ROOT . $homeLink);
-            }
-        }
+        self::$path[] = $item;
+    }
 
-        /**
-         * This adds a step or level to the trail-path / pagetitle
-         *
-         * @param string $title contains the Name shown at the trail
-         * @param string $link contains the link as url
-         */
-        public static function addstep($title, $link = '')
-        {
-            # let the first Trail, be "HOME >>"
-            #self::addHomeTrail();
-
-            $item = array('title' => $title);
-
-            if(isset($link))
-            {
-                $item['link'] = WWW_ROOT . $link;
-            }
-
-            self::$path[] = $item;
-        }
-
-        /**
-         * Get Method for the Trail
-         */
-        public static function getTrail()
-        {
-            return self::$path;
-        }
+    /**
+     * Get Method for the Trail
+     */
+    public static function getTrail()
+    {
+        return self::$path;
+    }
 }
 ?>

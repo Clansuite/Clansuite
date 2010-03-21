@@ -33,8 +33,8 @@
     * @version    SVN: $Id$
     */
 
-// Security Handler
-if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.');}
+# Security Handler
+if (defined('IN_CS') == false){ die('Clansuite not loaded. Direct Access forbidden.');}
 
 /**
  *  Clansuite_Formelement
@@ -52,11 +52,6 @@ class Clansuite_Formelement_Cancelbutton extends Clansuite_Formelement_Input imp
      */
     public $cancelURL = 'index.php';
 
-    /**
-     * constructor
-     *
-     * @return void
-     */
     public function __construct()
     {
         $this->type  = 'button';

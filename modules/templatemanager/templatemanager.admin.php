@@ -33,15 +33,11 @@
     * @version    SVN: $Id$
     */
 
-// Security Handler
-if (!defined('IN_CS')){die('Clansuite not loaded. Direct Access forbidden.');}
+# Security Handler
+if (defined('IN_CS') == false){die('Clansuite not loaded. Direct Access forbidden.');}
 
 /**
- * Clansuite Module Administration - Templatemanager
- *
- * @author      Jens-André Koch  <vain@clansuite.com>
- * @copyright   Jens-André Koch, (2005 - onwards)
-
+ * Clansuite_Module_Templatemanager_Admin
  *
  * @category    Clansuite
  * @package     Modules
@@ -49,31 +45,23 @@ if (!defined('IN_CS')){die('Clansuite not loaded. Direct Access forbidden.');}
  */
 class Clansuite_Module_Templatemanager_Admin extends Clansuite_Module_Controller implements Clansuite_Module_Interface
 {
-    /**
-     * Main Method of Templatemanager Module
-     *
-     * Sets up module specific stuff, needed by all actions of the module
-     * Calls the requested Action $_REQUEST['action']
-     */
-    public function execute(Clansuite_HttpRequest $request, Clansuite_HttpResponse $response)
+    public function initializeModule(Clansuite_HttpRequest $request, Clansuite_HttpResponse $response)
     {
-        # read module config
-        $this->config->readConfig( ROOT_MOD . '/templatemanager/templatemanager.config.php');
+        $this->getModuleConfig();
     }
 
     public function action_admin_show()
     {
-        # Prepare the Output
         $this->prepareOutput();
     }
-    
+
     private static function force_file_put_contents($dir, $contents)
     {
         $parts = explode(DS, $dir);
         $file = array_pop($parts);
         $dir = '';
         $i = 0;
-        
+
         foreach($parts as $part)
         {
             if($i == 0)
@@ -85,16 +73,16 @@ class Clansuite_Module_Templatemanager_Admin extends Clansuite_Module_Controller
                 $dir .= DS . $part;
             }
             $i++;
-            
-            if( is_dir($dir) == false ) 
+
+            if( is_dir($dir) == false )
             {
                 mkdir($dir);
             }
         }
-        
+
         file_put_contents("$dir".DS."$file", $contents);
     }
-    
+
     /**
      * Show all templates for a certain module
      */
@@ -102,43 +90,41 @@ class Clansuite_Module_Templatemanager_Admin extends Clansuite_Module_Controller
     {
         # get view
         $view = $this->getView();
-         
+
         # Set Pagetitle and Breadcrumbs
-        Clansuite_Trail::addStep( _('Editor'), '/index.php?mod=templatemanager&amp;sub=admin&amp;action=showmoduletemplates');
-        
+        Clansuite_Breadcrumb::add( _('Editor'), '/index.php?mod=templatemanager&amp;sub=admin&amp;action=showmoduletemplates');
+
         # Incomming Variables
 
         # GET: tplmod (module of the template)
         $tplmod = $this->getHttpRequest()->getParameter('tplmod','G');
         $tplmod = ucfirst(stripslashes($tplmod));
-        
+
         $view->assign('templateeditor_modulename',  $tplmod);
-        
+
         clansuite_xdebug::firebug( ROOT_MOD . $tplmod . DS. 'templates' .DS . '*.tpl' );
-        
-        $templates = $this->gettemplatesofmodule($tplmod);   
-        
-        #clansuite_xdebug::printR($templates);     
-        
-        $smarty->assign('templates', $templates);        
-        
-        # Prepare the Output
+
+        $templates = $this->gettemplatesofmodule($tplmod);
+
+        #clansuite_xdebug::printR($templates);
+
+        $smarty->assign('templates', $templates);
+
         $this->prepareOutput();
     }
-    
+
     public function gettemplatesofmodule($tplmod)
     {
         $templates = array();
         $i = 0;
-        
+
         foreach ( glob( ROOT_MOD . $tplmod . DS. 'templates' .DS . '*.tpl' ) as $filename )
-        {   
+        {
             ++$i;
             $templates[$i]['filename'] = basename($filename);
             $templates[$i]['fullpath'] = $filename;
         }
-        
-<<<<<<< .mine
+
         return $templates;
         /*
         $_POST['dir'] = urldecode($_POST['dir']);
@@ -146,14 +132,14 @@ class Clansuite_Module_Templatemanager_Admin extends Clansuite_Module_Controller
         if( file_exists( ROOT . $_POST['dir']) )
         {
         	$files = scandir( ROOT . $_POST['dir']);
-        	
+
             natcasesort($files);
-        	
+
             if( count($files) > 2 )
             { /* The 2 accounts for . and .. */
         		/*
                 echo "<ul class=\"jqueryFileTree\" style=\"display: none;\">";
-        		
+
                 // All dirs
         		foreach( $files as $file )
                 {
@@ -162,7 +148,7 @@ class Clansuite_Module_Templatemanager_Admin extends Clansuite_Module_Controller
         				echo "<li class=\"directory collapsed\"><a href=\"#\" rel=\"" . htmlentities($_POST['dir'] . $file) . "/\">" . htmlentities($file) . "</a></li>";
         			}
         		}
-        		
+
                 // All files
         		foreach( $files as $file )
                 {
@@ -172,44 +158,40 @@ class Clansuite_Module_Templatemanager_Admin extends Clansuite_Module_Controller
         				echo "<li class=\"file ext_$ext\"><a href=\"#\" rel=\"" . htmlentities($_POST['dir'] . $file) . "\">" . htmlentities($file) . "</a></li>";
         			}
         		}
-        		echo "</ul>";	
+        		echo "</ul>";
         	}
         }*/
-=======
-        #clansuite_xdebug::printR($templates);     
-        
-        $view->assign('templates', $templates);        
-        
-        # Prepare the Output
+        #clansuite_xdebug::printR($templates);
+
+        $view->assign('templates', $templates);
+
         $this->prepareOutput();
->>>>>>> .r4276
     }
-    
+
     public function action_admin_create()
     {
         $this->action_admin_editor();
     }
 
-    /**
-     * The action_admin_editor method for the Templatemanager module
-     * @param void
-     * @return void
-     */
     public function action_admin_edit()
     {
         # Set Pagetitle and Breadcrumbs
-        Clansuite_Trail::addStep( _('Edit'), '/index.php?mod=templatemanager&amp;sub=admin&amp;action=edit');
-        
+        Clansuite_Breadcrumb::add( _('Edit'), '/index.php?mod=templatemanager&amp;sub=admin&amp;action=edit');
+
         # get view
         $view = $this->getView();
-        
+
         # Incomming Variables
 
-        # GET: tplmod (module of the template)
+        # GET: tplmod - thats the module of the template
         $tplmod = $this->getHttpRequest()->getParameter('tplmod');
-        # GET: tpltheme (theme of the template)
-        $tpltheme = $this->getHttpRequest()->getParameter('tplmod');
-        
+        # GET: tpltheme - thats the theme of the template
+        $tpltheme = $this->getHttpRequest()->getParameter('tpltheme');
+        # GET: template filename
+        $file = $this->getHttpRequest()->getParameter('file');
+
+        #Clansuite_Xdebug::firebug($file);
+
         # check if we edit a module template or a theme template
         if(isset($tplmod) )
         {
@@ -223,15 +205,9 @@ class Clansuite_Module_Templatemanager_Admin extends Clansuite_Module_Controller
             $view->assign('templateeditor_themename',   $tpltheme);
             #Clansuite_Xdebug::printR($tpltheme);
         }
-              
-        # GET: template filename
-        $file = $this->getHttpRequest()->getParameter('file');
-        #Clansuite_Xdebug::printR($file);
-        
-        #Clansuite_Xdebug::firebug($file);
-        
+
         if(isset($file))
-        {              
+        {
             # construct relative template filename
             if(empty($tplmod) == false)
             {
@@ -245,26 +221,23 @@ class Clansuite_Module_Templatemanager_Admin extends Clansuite_Module_Controller
             {
                 $relative_file = $file;
             }
-            
+
             $smarty->assign('templateeditor_relative_filename', $relative_file);
-        
+
             $file = ROOT_MOD . $file;
-           
+
            # DS on win is "\"
             if( DS == '\\')
             {
                 # correct slashes
                 $file = str_replace('/', '\\', $file);
-<<<<<<< .mine
+
             }
 
-            $smarty->assign('templateeditor_absolute_filename', $file);
-=======
-            } 
-            
+            #$smarty->assign('templateeditor_absolute_filename', $file);
+
             #Clansuite_Xdebug::printR($file);
             $view->assign('templateeditor_filename', $file);
->>>>>>> .r4276
         }
 
         # let's check, if this template exists
@@ -276,15 +249,15 @@ class Clansuite_Module_Templatemanager_Admin extends Clansuite_Module_Controller
             fclose($handle);
 
             $templateeditor_newfile = false;
-        } 
+        }
         else # template does not exist
-        {   
+        {
             # fetch a template for rapidly setting up the new template :)
             $templateText =  $smarty->fetch('create_new_template.tpl');
 
             $templateeditor_newfile = true;
         }
-               
+
         $view->assign('templateeditor_textarea',    htmlentities($templateText));
         $view->assign('templateeditor_newfile',     $templateeditor_newfile);
 
@@ -299,7 +272,7 @@ class Clansuite_Module_Templatemanager_Admin extends Clansuite_Module_Controller
         $tplfilename    = (string) $this->getHttpRequest()->getParameter('templateeditor_absolute_filename');
         $tplmodulename  = (string) $this->getHttpRequest()->getParameter('templateeditor_modulename');
         $tplthemename   = (string) $this->getHttpRequest()->getParameter('templateeditor_themename');
-        $tpltextarea    = (string) $this->getHttpRequest()->getParameter('templateeditor_textarea'); #@todo disable IDS check for this var
+        $tpltextarea    = (string) $this->getHttpRequest()->getParameter('templateeditor_textarea');
 
         if(empty($tplfilename) == false and isset($tpltextarea))
         {
@@ -308,17 +281,16 @@ class Clansuite_Module_Templatemanager_Admin extends Clansuite_Module_Controller
 
         $smarty = $this->getView();
         $smarty->assign('templateeditor_absolute_filename',    htmlentities($tplfilename));
-        
+
         # Prepare the Output
         $this->prepareOutput();
     }
-    
+
     public function action_admin_settings()
     {
         # Set Pagetitle and Breadcrumbs
-        Clansuite_Trail::addStep( _('Settings'), '/index.php?mod=templatemanager&amp;sub=admin&amp;action=settings');
+        Clansuite_Breadcrumb::add( _('Settings'), '/index.php?mod=templatemanager&amp;sub=admin&amp;action=settings');
 
-        # Prepare the Output
         $this->prepareOutput();
     }
 }

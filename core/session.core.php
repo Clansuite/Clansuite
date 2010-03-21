@@ -34,7 +34,7 @@
     */
 
 //Security Handler
-if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
+if (defined('IN_CS') == false) { die('Clansuite not loaded. Direct Access forbidden.'); }
 
 /**
  * This is the Clansuite Core Class for Session Handling
@@ -266,8 +266,6 @@ class Clansuite_Session implements Clansuite_Session_Interface, ArrayAccess
 	 * This redefines php's session_destroy()
 	 *
 	 * @param  string $session_id
-	 *
-	 * @return void
 	 */
     public function session_destroy( $session_id )
     {

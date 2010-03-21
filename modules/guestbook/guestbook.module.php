@@ -35,8 +35,8 @@
     * @version    SVN: $Id$
     */
 
-// Security Handler
-if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
+# Security Handler
+if (defined('IN_CS') == false) { die('Clansuite not loaded. Direct Access forbidden.'); }
 
 /**
  * This is the Clansuite Module Class - Guestbook
@@ -54,7 +54,7 @@ class Clansuite_Module_Guestbook extends Clansuite_Module_Controller implements 
     /**
      * Module_Guestbook -> Execute
      */
-    public function execute(Clansuite_HttpRequest $request, Clansuite_HttpResponse $response)
+    public function initializeModule(Clansuite_HttpRequest $request, Clansuite_HttpResponse $response)
     {
         parent::initModel('guestbook');
     }
@@ -66,7 +66,7 @@ class Clansuite_Module_Guestbook extends Clansuite_Module_Controller implements 
     public function action_show()
     {
         # Set Pagetitle and Breadcrumbs
-        Clansuite_Trail::addStep( _('Show'), '/index.php?mod=guestbook&amp;action=show');
+        Clansuite_Breadcrumb::add( _('Show'), '/index.php?mod=guestbook&amp;action=show');
 
         # Defining initial variables
         # Pager Chapter in Doctrine Manual  -> http://www.phpdoctrine.org/documentation/manual/0_10?one-page#utilities
@@ -165,7 +165,6 @@ class Clansuite_Module_Guestbook extends Clansuite_Module_Controller implements 
        
         $view->assign('form', $form);
         
-        # Prepare the Output
         $this->prepareOutput();
     }
     

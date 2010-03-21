@@ -33,8 +33,8 @@
     * @version    SVN: $Id$
     */
 
-// Security Handler
-if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.');}
+# Security Handler
+if (defined('IN_CS') == false){ die('Clansuite not loaded. Direct Access forbidden.');}
 
 if (!class_exists('Clansuite_Formelement_Input', false)) { require dirname(__FILE__) . '/input.form.php'; }
 
@@ -47,11 +47,6 @@ if (!class_exists('Clansuite_Formelement_Input', false)) { require dirname(__FIL
  */
 class Clansuite_Formelement_Imagebutton extends Clansuite_Formelement_Input implements Clansuite_Formelement_Interface
 {
-    /**
-     * constructor
-     *
-     * @return void
-     */
     public function __construct()
     {
         $this->type = 'image';
@@ -60,7 +55,6 @@ class Clansuite_Formelement_Imagebutton extends Clansuite_Formelement_Input impl
     /**
      * sets URL of image
      *
-     * @return void
      * @param string $source
      */
     public function setSource($source)
@@ -71,7 +65,6 @@ class Clansuite_Formelement_Imagebutton extends Clansuite_Formelement_Input impl
     /**
      * sets width and height of image (px)
      *
-     * @return void
      * @param int $width
      * @param int $height
      */

@@ -33,8 +33,8 @@
     * @version    SVN: $Id$
     */
 
-// Security Handler
-if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
+# Security Handler
+if (defined('IN_CS') == false) { die('Clansuite not loaded. Direct Access forbidden.'); }
 
 /**
  * Interface for the Request Object
@@ -795,8 +795,6 @@ class Clansuite_HttpRequest implements Clansuite_Request_Interface, ArrayAccess
      * in other super-globals.
      *
      * This code originally from Richard Heyes and Stefan Esser
-     *
-     * @return void
      */
      private function cleanGlobals()
      {
@@ -853,11 +851,7 @@ class Clansuite_HttpRequest implements Clansuite_Request_Interface, ArrayAccess
     }
 
     /**
-     * Essential clean-up of $_REQUEST
-     * Handles possible Injections
-     *
-     * @todo deprecated, this will move into the routes validation
-     * @return void
+     * Handles possible Injections and clean up of $_REQUEST
      */
     private function sanitizeRequest()
     {

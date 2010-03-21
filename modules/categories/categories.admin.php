@@ -33,17 +33,11 @@
     * @version    SVN: $Id$
     */
 
-// Security Handler
-if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
+# Security Handler
+if (defined('IN_CS') == false) { die('Clansuite not loaded. Direct Access forbidden.'); }
 
 /**
- * 
-    *
- * Module:      Downloads
- * Submodule:   Admin
- *
- * @author     Jens-André Koch <vain@clansuite.com>
- * @copyright  Jens-André Koch (2005 - $Date: 2008-06-12 01:44:20 +0200 (Do, 12 Jun 2008) $)
+ * Clansuite_Module_Categories_Admin
  *
  * @category    Clansuite
  * @package     Modules
@@ -51,22 +45,12 @@ if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
  */
 class Clansuite_Module_Categories_Admin extends Clansuite_Module_Controller implements Clansuite_Module_Interface
 {
-
-    public function __construct(Phemto $injector=null)
-    {
-        parent::__construct(); # run constructor on controller_base
-    }
-
-    public function execute(Clansuite_HttpRequest $request, Clansuite_HttpResponse $response)
+    public function initializeModule(Clansuite_HttpRequest $request, Clansuite_HttpResponse $response)
     {
         parent::initModel('categories');
         parent::initModel('modulemanager');
     }
 
-    /**
-     * Module_Matches_Admin - action_admin_show
-     *
-     */
     public function action_admin_show()
     {
         //--------------------------
@@ -154,13 +138,9 @@ class Clansuite_Module_Categories_Admin extends Clansuite_Module_Controller impl
         # Set Layout Template
         $this->getView()->setLayoutTemplate('index.tpl');
 
-        # Prepare the Output
         $this->prepareOutput();
     }
 
-    /**
-     * Create Category
-     */
     public function action_admin_create()
     {
         # Load Form Class (@todo autoloader / di)
@@ -193,10 +173,6 @@ class Clansuite_Module_Categories_Admin extends Clansuite_Module_Controller impl
         $this->prepareOutput();
     }
 
-
-    /**
-     * Edit Category
-     */
     public function action_admin_edit()
     {
         # get id
@@ -238,9 +214,6 @@ class Clansuite_Module_Categories_Admin extends Clansuite_Module_Controller impl
         $this->prepareOutput();
     }
 
-    /**
-     * Deletes Categories
-     */
     public function action_admin_delete()
     {
         $request = $this->getHttpRequest();
@@ -270,9 +243,6 @@ class Clansuite_Module_Categories_Admin extends Clansuite_Module_Controller impl
         return $a;
     }
 
-    /**
-     * Update a Categories Entry identified by cat_id
-     */
     public function action_admin_update()
     {
         # get incoming data
@@ -327,13 +297,10 @@ class Clansuite_Module_Categories_Admin extends Clansuite_Module_Controller impl
         }
     }
 
-    /**
-     * Action for displaying the Settings of a Module Categories
-     */
     public function action_admin_settings()
     {
         # Set Pagetitle and Breadcrumbs
-        Clansuite_Trail::addStep( _('Settings'), '/index.php?mod=categories&amp;sub=admin&amp;action=settings');
+        Clansuite_Breadcrumb::add( _('Settings'), '/index.php?mod=categories&amp;sub=admin&amp;action=settings');
 
         $settings = array();
 

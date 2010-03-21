@@ -31,18 +31,11 @@
     * @version    SVN: $Id: news.admin.php 3815 2009-12-09 19:11:23Z vain $
     */
 
-// Security Handler
-if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
+# Security Handler
+if (defined('IN_CS') == false) { die('Clansuite not loaded. Direct Access forbidden.'); }
 
 /**
- * 
-    *
- * Module:      Statistics
- * Submodule:   Admin
- *
- * @author     Jens-André Koch   <vain@clansuite.com>
- * @author     Florian Wolf      <xsign.dll@clansuite.com>
- * @copyright  Jens-André Koch (2005 - onwards), Florian Wolf (2005 - 2008)
+ * Clansuite_Module_Statistics_Admin
  *
  * @category    Clansuite
  * @package     Modules
@@ -50,14 +43,8 @@ if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
  */
 class Clansuite_Module_Statistics_Admin extends Clansuite_Module_Controller implements Clansuite_Module_Interface
 {
-    public function __construct(Phemto $injector=null)
+    public function initializeModule(Clansuite_HttpRequest $request, Clansuite_HttpResponse $response)
     {
-        parent::__construct(); # run constructor on controller_base
-    }
-
-    public function execute(Clansuite_HttpRequest $request, Clansuite_HttpResponse $response)
-    {
-        //nothing todo
     }
     
     public function action_admin_show()
@@ -65,13 +52,10 @@ class Clansuite_Module_Statistics_Admin extends Clansuite_Module_Controller impl
         $this->prepareOutput();        
     }
 
-    /**
-     * Action for displaying the Settings of a Module News
-     */
     public function action_admin_settings()
     {
         # Set Pagetitle and Breadcrumbs
-        Clansuite_Trail::addStep( _('Settings'), '/index.php?mod=statistics&amp;sub=admin&amp;action=settings');
+        Clansuite_Breadcrumb::add( _('Settings'), '/index.php?mod=statistics&amp;sub=admin&amp;action=settings');
 
         $settings = array();
 

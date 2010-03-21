@@ -31,18 +31,11 @@
     * @version    SVN: $Id: news.admin.php 3747 2009-11-20 14:59:46Z vain $
     */
 
-// Security Handler
-if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
+# Security Handler
+if (defined('IN_CS') == false) { die('Clansuite not loaded. Direct Access forbidden.'); }
 
 /**
- * Clansuite Administration Module - Modulemanager
- *
- * Description: Administration for the Modules
- *
- * @author     Jens-André Koch <vain@clansuite.com>
- * @author     Florian Wolf <xsign.dll@clansuite.com>
- * @copyright  Copyleft: All rights reserved. Florian Wolf (2006-2008).
- * @license    GPL v2 any later version
+ * Clansuite_Module_Modulemanager_Admin
  *
  * @category    Clansuite
  * @package     Modules
@@ -51,12 +44,8 @@ if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
 
 class Clansuite_Module_Modulemanager_Admin extends Clansuite_Module_Controller implements Clansuite_Module_Interface
 {
-    /**
-     * Module_Module_Manager -> Execute
-     */
-    public function execute(Clansuite_HttpRequest $request, Clansuite_HttpResponse $response)
+    public function initializeModule(Clansuite_HttpRequest $request, Clansuite_HttpResponse $response)
     {
-        # read module config
         $this->getModuleConfig();
     }
 
@@ -80,7 +69,7 @@ class Clansuite_Module_Modulemanager_Admin extends Clansuite_Module_Controller i
         #$perms::check('cc_show_menueditor');
 
         # Set Pagetitle and Breadcrumbs
-        Clansuite_Trail::addStep( _('Show'), '/index.php?mod=modulemanager&amp;sub=admin&amp;action=show');
+        Clansuite_Breadcrumb::add( _('Show'), '/index.php?mod=modulemanager&amp;sub=admin&amp;action=show');
 
         # Init vars
         $modules = array();
@@ -128,19 +117,13 @@ class Clansuite_Module_Modulemanager_Admin extends Clansuite_Module_Controller i
             }
         }
 
-        #clansuite_xdebug::printR($modules);
-
         # Fetch view and assign vars
         $view = $this->getView();
 
-        $view->assign('modules', $modules);
-        
-        #Clansuite_Xdebug::printR($modules);
-        
-        
+        $view->assign('modules', $modules);        
+       
         $view->assign('modules_summary', $modules_summary);
 
-        # Prepare the Output
         $this->prepareOutput();
     }
     
@@ -159,7 +142,7 @@ class Clansuite_Module_Modulemanager_Admin extends Clansuite_Module_Controller i
         #$perms::check('cc_show_menueditor');
 
         # Set Pagetitle and Breadcrumbs
-        Clansuite_Trail::addStep( _('Show'), '/index.php?mod=modulemanager&amp;sub=admin&amp;action=install_new');
+        Clansuite_Breadcrumb::add( _('Show'), '/index.php?mod=modulemanager&amp;sub=admin&amp;action=install_new');
 
         // Set Layout Template
         $this->getView()->setLayoutTemplate('index.tpl');
@@ -177,7 +160,7 @@ class Clansuite_Module_Modulemanager_Admin extends Clansuite_Module_Controller i
         #$perms::check('cc_show_menueditor');
 
         # Set Pagetitle and Breadcrumbs
-        Clansuite_Trail::addStep( _('Export'), '/index.php?mod=modulemanager&amp;sub=admin&amp;action=export');
+        Clansuite_Breadcrumb::add( _('Export'), '/index.php?mod=modulemanager&amp;sub=admin&amp;action=export');
 
         // Set Layout Template
         $this->getView()->setLayoutTemplate('index.tpl');
@@ -192,7 +175,7 @@ class Clansuite_Module_Modulemanager_Admin extends Clansuite_Module_Controller i
     public function action_admin_imexport()
     {
         # Set Pagetitle and Breadcrumbs
-        Clansuite_Trail::addStep( _('Import & Export'), '/index.php?mod=modulemanager&amp;sub=admin&amp;action=imexport');
+        Clansuite_Breadcrumb::add( _('Import & Export'), '/index.php?mod=modulemanager&amp;sub=admin&amp;action=imexport');
 
         // Set Layout Template
         $this->getView()->setLayoutTemplate('index.tpl');
@@ -214,7 +197,7 @@ class Clansuite_Module_Modulemanager_Admin extends Clansuite_Module_Controller i
         #$perms::check('cc_show_menueditor');
 
         # Set Pagetitle and Breadcrumbs
-        Clansuite_Trail::addStep( _('Builder'), '/index.php?mod=modulemanager&amp;sub=admin&amp;action=builder');
+        Clansuite_Breadcrumb::add( _('Builder'), '/index.php?mod=modulemanager&amp;sub=admin&amp;action=builder');
 
         $existing_modules_js = '[';
         $module_dirs = self::getModuleDirsList();
@@ -343,7 +326,7 @@ class Clansuite_Module_Modulemanager_Admin extends Clansuite_Module_Controller i
         #$perms::check('cc_update_menueditor');
 
         # Set Pagetitle and Breadcrumbs
-        Clansuite_Trail::addStep( _('Create'), '/index.php?mod=modulemanager&amp;sub=admin&amp;action=create');
+        Clansuite_Breadcrumb::add( _('Create'), '/index.php?mod=modulemanager&amp;sub=admin&amp;action=create');
 
         $request = $this->injector->instantiate('Clansuite_HttpRequest');
         $mod = $request->getParameter('mod_data');
@@ -547,7 +530,6 @@ class Clansuite_Module_Modulemanager_Admin extends Clansuite_Module_Controller i
      *
      * @param string $module modulename
      * @param array $module_widget widget parameters array
-     * @return void
      */
     public function createWidgetTemplateFromTemplate($module, $module_widget)
     {
@@ -572,7 +554,6 @@ class Clansuite_Module_Modulemanager_Admin extends Clansuite_Module_Controller i
      * This Method creates a Documentation Template for the Module, if not existant yet.
      *
      * @param $module string Modulename
-     * @return void
      */
     public function createModuleDocumentationTemplateFromTemplate($module)
     {
@@ -594,7 +575,6 @@ class Clansuite_Module_Modulemanager_Admin extends Clansuite_Module_Controller i
      * modulename.menu.php
      *
      * @param $module string Modulename
-     * @return void
      */
     public function createModuleMenunavigationTemplateFromTemplate($module)
     {

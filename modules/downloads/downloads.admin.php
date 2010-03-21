@@ -33,22 +33,19 @@
     * @version    SVN: $Id: news.module.php 2753 2009-01-21 22:54:47Z vain $
     */
 
-//Security Handler
-if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
+# Security Handler
+if (defined('IN_CS') == false) { die('Clansuite not loaded. Direct Access forbidden.'); }
 
 /**
- * Clansuite
+ * Clansuite_Module_Downloads_Admin
  *
- * Module:     Downloads
- *
-
+ * @category    Clansuite
+ * @package     Modules
+ * @subpackage  Downloads
  */
 class Clansuite_Module_Downloads_Admin extends Clansuite_Module_Controller implements Clansuite_Module_Interface
 {
-    /**
-     * Module_Downloads -> Execute
-     */
-    public function execute(Clansuite_HttpRequest $request, Clansuite_HttpResponse $response)
+    public function initializeModule(Clansuite_HttpRequest $request, Clansuite_HttpResponse $response)
     {
     }
  
@@ -57,7 +54,6 @@ class Clansuite_Module_Downloads_Admin extends Clansuite_Module_Controller imple
         # Set Layout Template
         $this->getView()->setLayoutTemplate('index.tpl');
         
-        # Prepare the Output
         $this->prepareOutput();
     }    
 	
@@ -67,7 +63,7 @@ class Clansuite_Module_Downloads_Admin extends Clansuite_Module_Controller imple
     public function action_admin_settings()
     {
         # Set Pagetitle and Breadcrumbs
-        Clansuite_Trail::addStep( _('Settings'), '/index.php?mod=downloads&amp;sub=admin&amp;action=settings');
+        Clansuite_Breadcrumb::add( _('Settings'), '/index.php?mod=downloads&amp;sub=admin&amp;action=settings');
         
         $settings = array();
         

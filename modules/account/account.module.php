@@ -1,7 +1,7 @@
 <?php
    /**
     * Clansuite - just an eSports CMS
-    * Jens-AndrÃ© Koch Â© 2005 - onwards
+    * Jens-André Koch © 2005 - onwards
     * http://www.clansuite.com/
     *
     * This file is part of "Clansuite - just an eSports CMS".
@@ -24,8 +24,8 @@
     *
     * @license    GNU/GPL v2 or (at your option) any later version, see "/doc/LICENSE".
     *
-    * @author     Jens-AndrÃ© Koch <vain@clansuite.com>
-    * @copyright  Jens-AndrÃ© Koch (2005 - onwards)
+    * @author     Jens-André Koch <vain@clansuite.com>
+    * @copyright  Jens-André Koch (2005 - onwards)
     *
     * @link       http://www.clansuite.com
     * @link       http://gna.org/projects/clansuite
@@ -33,20 +33,22 @@
     * @version    SVN: $Id$
     */
 
-// Security Handler
-if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
+# Security Handler
+if (defined('IN_CS') == false) { die('Clansuite not loaded. Direct Access forbidden.'); }
 
 /**
- * Clansuite Module Account
+ * Clansuite_Module_Account
  *
- * This Module handles the User Account Registration, the Login, Logout etc.
+ * @category    Clansuite
+ * @package     Modules
+ * @subpackage  Account
  */
 class Clansuite_Module_Account extends Clansuite_Module_Controller implements Clansuite_Module_Interface
 {
     /**
      * Module_Admin -> Execute
      */
-    public function execute(Clansuite_HttpRequest $request, Clansuite_HttpResponse $response)
+    public function initializeModule(Clansuite_HttpRequest $request, Clansuite_HttpResponse $response)
     {
         # read module config
         $this->getModuleConfig();
@@ -95,7 +97,7 @@ class Clansuite_Module_Account extends Clansuite_Module_Controller implements Cl
     public function action_login()
     {
         # Set Pagetitle and Breadcrumbs
-        Clansuite_Trail::addStep( _('Login'), '/index.php?mod=account&amp;action=login');
+        Clansuite_Breadcrumb::add( _('Login'), '/index.php?mod=account&amp;action=login');
 
         # Get Objects
         $request = $this->injector->instantiate('Clansuite_HttpRequest');
@@ -199,12 +201,11 @@ class Clansuite_Module_Account extends Clansuite_Module_Controller implements Cl
             $this->setTemplate('usercenter.tpl');
         }
 
-        # Prepare the Output
         $this->prepareOutput();
     }
 
     /**
-     * @desc Logout
+     * Logout
      *
      * @input: $confirm
      *
@@ -221,7 +222,7 @@ class Clansuite_Module_Account extends Clansuite_Module_Controller implements Cl
     public function action_logout()
     {
         // Set Pagetitle and Breadcrumbs
-        Clansuite_Trail::addStep( _('Logout'), '/index.php?mod=account&amp;action=logout');
+        Clansuite_Breadcrumb::add( _('Logout'), '/index.php?mod=account&amp;action=logout');
 
         // Get Inputvariables
         $request = $this->injector->instantiate('Clansuite_HttpRequest');
@@ -244,7 +245,6 @@ class Clansuite_Module_Account extends Clansuite_Module_Controller implements Cl
         }
         else
         {
-            # Prepare the Output
             $this->prepareOutput();
         }
     }
@@ -406,8 +406,8 @@ class Clansuite_Module_Account extends Clansuite_Module_Controller implements Cl
     }
 
     /**
-    * @desc Re-Send Activation Email
-    */
+     * Send Activation Email
+     */
     public function action_activation_email()
     {
         $err = array();
@@ -496,7 +496,7 @@ class Clansuite_Module_Account extends Clansuite_Module_Controller implements Cl
     }
 
     /**
-    * @desc Activate Account
+    * Activate Account
     *
     * @input: user_id, code
     *
@@ -508,7 +508,6 @@ class Clansuite_Module_Account extends Clansuite_Module_Controller implements Cl
     *
     *
     */
-
     public function action_activate_account()
     {
         // Request Controller
@@ -554,9 +553,8 @@ class Clansuite_Module_Account extends Clansuite_Module_Controller implements Cl
     }
 
     /**
-    * @desc Forgot Password
-    */
-
+     * Forgot Password
+     */
     public function action_forgot_password()
     {
         // Request Controller
@@ -646,8 +644,8 @@ class Clansuite_Module_Account extends Clansuite_Module_Controller implements Cl
     }
 
     /**
-    * @desc Activate Password
-    */
+     * Activate Password
+     */
     public function action_activate_password()
     {
         // Request Controller
@@ -703,8 +701,8 @@ class Clansuite_Module_Account extends Clansuite_Module_Controller implements Cl
     }
 
     /**
-    * @desc Private Function to send a activation email
-    */
+     * Private Function to send a activation email
+     */
     private function _send_activation_email($email, $nick, $user_id, $code)
     {
         $config = $this->injector->instantiate('Clansuite_Config');
@@ -736,8 +734,8 @@ class Clansuite_Module_Account extends Clansuite_Module_Controller implements Cl
     }
 
     /**
-    * @desc Send a link to validate new password
-    */
+     * Send a link to validate new password
+     */
     private function _send_password_email($email, $nick, $user_id, $code)
     {
         $config = $this->injector->instantiate('Clansuite_Config');
@@ -772,8 +770,8 @@ class Clansuite_Module_Account extends Clansuite_Module_Controller implements Cl
 
 
 	/**
-    * @desc form to edit profiledata
-    */
+     * form to edit profiledata
+     */
 	public function action_profile_edit ()
 	{
 
@@ -838,13 +836,12 @@ class Clansuite_Module_Account extends Clansuite_Module_Controller implements Cl
         # assign the html of the form to the view
         $this->getView()->assign('form', $form->render());
 
-        # Prepare the Output
         $this->prepareOutput();
 	}
 
 	/**
-    * @desc form to edit avatar
-    */
+     * form to edit avatar
+     */
 	public function action_profile_edit_avatar ()
 	{
 
@@ -886,13 +883,12 @@ class Clansuite_Module_Account extends Clansuite_Module_Controller implements Cl
         # assign the html of the form to the view
         $this->getView()->assign('form', $form->render());
 
-        # Prepare the Output
         $this->prepareOutput();
 	}
 
 	/**
-    * @desc form to edit userpic
-    */
+     *  form to edit userpic
+     */
 	public function action_profile_edit_userpic ()
 	{
 
@@ -933,25 +929,22 @@ class Clansuite_Module_Account extends Clansuite_Module_Controller implements Cl
         # assign the html of the form to the view
         $this->getView()->assign('form', $form->render());
 
-        # Prepare the Output
         $this->prepareOutput();
 	}
 
 	/**
-    * @desc form to update profiledata
-    */
+     *  form to update profiledata
+     */
 	public function action_profile_update()
 	{
-        # Prepare the Output
         $this->prepareOutput();
 	}
 
 	/**
-    * @desc form to save profiledata
-    */
+     * form to save profiledata
+     */
 	public function action_profile_save ()
 	{
-        # Prepare the Output
         $this->prepareOutput();
 	}
 }

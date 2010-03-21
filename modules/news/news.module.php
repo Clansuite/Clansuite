@@ -34,11 +34,10 @@
     */
 
 //Security Handler
-if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
+if (defined('IN_CS') == false) { die('Clansuite not loaded. Direct Access forbidden.'); }
 
 /**
- * Clansuite Module - News
- *
+ * Clansuite_Module_News
  *
  * @category    Clansuite
  * @package     Modules
@@ -49,7 +48,7 @@ class Clansuite_Module_News extends Clansuite_Module_Controller implements Clans
     /**
      * Module_News -> Execute
      */
-    public function execute(Clansuite_HttpRequest $request, Clansuite_HttpResponse $response)
+    public function initializeModule(Clansuite_HttpRequest $request, Clansuite_HttpResponse $response)
     {
         # read module config
         $this->getModuleConfig();
@@ -72,7 +71,7 @@ class Clansuite_Module_News extends Clansuite_Module_Controller implements Clans
     public function action_show()
     {
         # Set Pagetitle and Breadcrumbs
-        Clansuite_Trail::addStep( _('Show'), '/index.php?mod=news&amp;action=show');
+        Clansuite_Breadcrumb::add( _('Show'), '/index.php?mod=news&amp;action=show');
 
         # get resultsPerPage from ModuleConfig
         $resultsPerPage = $this->getConfigValue('resultsPerPage_show', '3');
@@ -103,7 +102,6 @@ class Clansuite_Module_News extends Clansuite_Module_Controller implements Clans
         $view->assign('pager', $pager);
         $view->assign('pager_layout', $pager_layout);
 
-        # Prepare the Output
         $this->prepareOutput();
     }
 
@@ -130,7 +128,7 @@ class Clansuite_Module_News extends Clansuite_Module_Controller implements Clans
         if(!empty($news) && is_array($news))
         {
             # Set Pagetitle and Breadcrumbs
-            Clansuite_Trail::addStep( _('Viewing Single News: ') . $news['news_title'] , '/index.php?mod=news&amp;action=show');
+            Clansuite_Breadcrumb::add( _('Viewing Single News: ') . $news['news_title'] , '/index.php?mod=news&amp;action=show');
 
             Clansuite_Xdebug::firebug($news);
 
@@ -294,7 +292,7 @@ class Clansuite_Module_News extends Clansuite_Module_Controller implements Clans
     public function action_archive()
     {
         # Set Pagetitle and Breadcrumbs
-        Clansuite_Trail::addStep( _('Archive'), '/index.php?mod=news&amp;action=archive');
+        Clansuite_Breadcrumb::add( _('Archive'), '/index.php?mod=news&amp;action=archive');
 
         # Defining initial variables
         $currentPage = (int) $this->getHttpRequest()->getParameter('page');
@@ -341,7 +339,6 @@ class Clansuite_Module_News extends Clansuite_Module_Controller implements Clans
         $view->assign('pager', $pager);
         $view->assign('pager_layout', $pager_layout);
 
-        # Prepare the Output
         $this->prepareOutput();
     }
 
@@ -361,7 +358,7 @@ class Clansuite_Module_News extends Clansuite_Module_Controller implements Clans
     public function action_fullarchive()
     {
         # Set Pagetitle and Breadcrumbs
-        Clansuite_Trail::addStep( _('Archiv'), '/index.php?mod=news&amp;action=fullarchive');
+        Clansuite_Breadcrumb::add( _('Archiv'), '/index.php?mod=news&amp;action=fullarchive');
 
         # Defining initial variables
         $currentPage = (int) $this->getHttpRequest()->getParameter('page');
@@ -400,7 +397,6 @@ class Clansuite_Module_News extends Clansuite_Module_Controller implements Clans
         $view->assign('pager', $pager);
         $view->assign('pager_layout', $pager_layout);
 
-        # Prepare the Output
         $this->prepareOutput();
     }
 

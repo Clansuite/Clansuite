@@ -29,19 +29,13 @@
     *
     * @link       http://www.clansuite.com
     * @link       http://gna.org/projects/clansuite
-    *
+    */
 
-// Security Handler
-if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
+# Security Handler
+if (defined('IN_CS') == false) { die('Clansuite not loaded. Direct Access forbidden.'); }
 
 /**
- * 
-    *
- * Module:      Games
- * Submodule:   Admin
- *
- * @author     Jens-André Koch <vain@clansuite.com>
- * @copyright  Jens-André Koch (2005 - $Date: 2008-06-12 01:44:20 +0200 (Do, 12 Jun 2008) $)
+ * Clansuite_Module_Games_Admin
  *
  * @category    Clansuite
  * @package     Modules
@@ -49,25 +43,15 @@ if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
  */
 class Clansuite_Module_Games_Admin extends Clansuite_Module_Controller implements Clansuite_Module_Interface
 {
-
-    public function __construct(Phemto $injector=null)
-    {
-        parent::__construct(); # run constructor on controller_base
-    }
-
-    public function execute(Clansuite_HttpRequest $request, Clansuite_HttpResponse $response)
+    public function initializeModule(Clansuite_HttpRequest $request, Clansuite_HttpResponse $response)
     {
         parent::initModel('games');
     }
 
-    /**
-     * Module_Games_Admin - action_admin_show
-     *
-     */
     public function action_admin_show()
     {
         # Set Pagetitle and Breadcrumbs
-        Clansuite_Trail::addStep( _('Show'), '/index.php?mod=games&amp;sub=admin&amp;action=show');
+        Clansuite_Breadcrumb::add( _('Show'), '/index.php?mod=games&amp;sub=admin&amp;action=show');
         
         # Fetch Data and Assign to View
         $this->getView()->assign('games', Doctrine::getTable('CsGames')->fetchAll());
@@ -75,17 +59,13 @@ class Clansuite_Module_Games_Admin extends Clansuite_Module_Controller implement
         # Set Layout Template
         $this->getView()->setLayoutTemplate('index.tpl');
 
-        # Prepare the Output
         $this->prepareOutput();
     }
 	
-    /**
-     * Action for displaying the Settings of a Module Games
-     */
     public function action_admin_settings()
     {
         # Set Pagetitle and Breadcrumbs
-        Clansuite_Trail::addStep( _('Settings'), '/index.php?mod=games&amp;sub=admin&amp;action=settings');
+        Clansuite_Breadcrumb::add( _('Settings'), '/index.php?mod=games&amp;sub=admin&amp;action=settings');
         
         $settings = array();
         

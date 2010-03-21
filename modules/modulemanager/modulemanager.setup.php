@@ -34,7 +34,7 @@
     */
 
 //Security Handler
-if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
+if (defined('IN_CS') == false) { die('Clansuite not loaded. Direct Access forbidden.'); }
 
 /**
  * Module:       Modulemanager Setup
@@ -51,7 +51,7 @@ class Clansuite_Module_Modulemanager_Setup extends Clansuite_Module_Controller i
     /**
      * Module_Modulemanager_Setup -> Execute
      */
-    public function execute(Clansuite_HttpRequest $request, Clansuite_HttpResponse $response)
+    public function initializeModule(Clansuite_HttpRequest $request, Clansuite_HttpResponse $response)
     {
         # read module config
         $this->config->readConfig( ROOT_MOD . 'modulemanager/modulemanager.config.php');

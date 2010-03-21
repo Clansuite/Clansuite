@@ -32,33 +32,21 @@
     * @version    SVN: $Id: rssreader.admin.php 2750 2009-01-21 21:49:15Z vain $
     */
 
-// Security Handler
-if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
+# Security Handler
+if (defined('IN_CS') == false) { die('Clansuite not loaded. Direct Access forbidden.'); }
 
 /**
- * Clansuite
- *
- * Module:      rssreader
- * Submodule:   Admin
- *
- * @author     Jens-André Koch   <vain@clansuite.com>
- * @copyright  Jens-André Koch   (2005 - $Date: 2009-01-21 22:49:15 +0100 (Mi, 21 Jan 2009) $)
+ * Clansuite_Module_Rssreader_Admin
  *
  * @category    Clansuite
  * @package     Modules
- * @subpackage  rssreader
+ * @subpackage  Rssreader
  */
 class Clansuite_Module_Rssreader_Admin extends Clansuite_Module_Controller implements Clansuite_Module_Interface
 {
-    public function __construct(Phemto $injector=null)
-    {
-        parent::__construct(); # run constructor on controller_base
-    }
 
-    public function execute(Clansuite_HttpRequest $request, Clansuite_HttpResponse $response)
+    public function initializeModule(Clansuite_HttpRequest $request, Clansuite_HttpResponse $response)
     {
     }
-    
-    
 }
 ?>

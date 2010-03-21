@@ -33,8 +33,8 @@
     * @version    SVN: $Id$response.class.php 2580 2008-11-20 20:38:03Z vain $
     */
 
-// Security Handler
-if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
+# Security Handler
+if (defined('IN_CS') == false) { die('Clansuite not loaded. Direct Access forbidden.'); }
 
 class Clansuite_Logger_Factory
 {

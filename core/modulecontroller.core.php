@@ -33,8 +33,8 @@
     * @version    SVN: $Id$
     */
 
-// Security Handler
-if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
+# Security Handler
+if (defined('IN_CS') == false) { die('Clansuite not loaded. Direct Access forbidden.'); }
 
 /**
  * Interface for all modules
@@ -47,126 +47,16 @@ if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
  */
 interface Clansuite_Module_Interface
 {
-    # always needed is the main execute() method
-    function execute(Clansuite_HttpRequest $request, Clansuite_HttpResponse $response);
-}
-
-/**
- * Interface for all modules which implement the BREAD action structure
- *
- * Force classes implementing the interface to define these (must have) methods!
- *
- * @category    Clansuite
- * @package     Core
- * @subpackage  Module
- */
-interface Clansuite_Module_BREAD_Interface extends Clansuite_Module_Interface
-{
-    public function action_browse();
-    public function action_read();
-    public function action_edit();
-    public function action_add();
-    public function action_delete();
-}
-
-/**
- * Interface for all modules which implement the CRUD action structure
- *
- * Force classes implementing the interface to define these (must have) methods!
- *
- * @category    Clansuite
- * @package     Core
- * @subpackage  Module
- */
-interface Clansuite_Module_CRUD_Interface extends Clansuite_Module_Interface
-{
-    public function action_create();
-    public function action_read();
-    public function action_update();
-    public function action_delete();
-}
-
-/**
- * Interface for all modules which implement the ABCD action structure
- *
- * Force classes implementing the interface to define these (must have) methods!
- *
- * @category    Clansuite
- * @package     Core
- * @subpackage  Module
- */
-interface Clansuite_Module_ABCD_Interface extends Clansuite_Module_Interface
-{
-    public function action_add();
-    public function action_browse();
-    public function action_change();
-    public function action_delete();
-}
-
-
-/**
- * Interface for all modules which implement the ABCD action structure
- *
- * Force classes implementing the interface to define these (must have) methods!
- *
- * @category    Clansuite
- * @package     Core
- * @subpackage  Module
- */
-interface Clansuite_Admin_Module_ABCD_Interface extends Clansuite_Module_Interface
-{
-    public function action_admin_add();
-    public function action_admin_browse();
-    public function action_admin_change();
-    public function action_admin_delete();
-}
-
-/**
- * Interface for all modules which implement the BREAD action structure
- *
- * Force classes implementing the interface to define these (must have) methods!
- *
- * @category    Clansuite
- * @package     Core
- * @subpackage  Module
- */
-interface Clansuite_Admin_Module_BREAD_Interface extends Clansuite_Module_Interface
-{
-    public function action_admin_browse();
-    public function action_admin_read();
-    public function action_admin_edit();
-    public function action_admin_add();
-    public function action_admin_delete();
-}
-
-/**
- * Interface for all modules which implement the CRUD action structure
- *
- * Force classes implementing the interface to define these (must have) methods!
- *
- * @category    Clansuite
- * @package     Core
- * @subpackage  Module
- */
-interface Clansuite_Admin_Module_CRUD_Interface extends Clansuite_Module_Interface
-{
-    public function action_admin_create();
-    public function action_admin_read();
-    public function action_admin_update();
-    public function action_admin_delete();
+    # always needed is the main initializeModule() method
+    function initializeModule(Clansuite_HttpRequest $request, Clansuite_HttpResponse $response);
 }
 
 /**
  * ModuleController
  *
- * Is an abstract class (parent class) to share some common features
- * for all (Module/Action)-Controllers.
+ * Is an abstract class (parent class) to share some common features for all (Module/Action)-Controllers.
  * You could call it ModuleController and ActionController.
- * It`s abstract because it should only extended, not instantiated.
- *
- * 1. saves a copy of the cfg class
- * 2. makes sure that controllers have an index() and execute() method
- * 3. provide access to create_global_view
+ * It`s abstract because it should only be extended, not instantiated.
  *
  * @category    Clansuite
  * @package     Core
@@ -266,11 +156,10 @@ abstract class Clansuite_Module_Controller extends Clansuite_Module_Controller_R
      * Reads the config for the requested module as default
      * or the config file specified by $filename.
      *
-     * Replacement function for the following call in an action controller:
+     * @example
+     * Its an replacement function for the following call in an action controller:
      * $this->moduleconfig = $this->config->readConfig( ROOT_MOD . 'mod/mod.config.php');
      * var_dump($this->moduleconfig);
-     *
-     * @todo check structure of the moduleconfig [news][news][cfgid] = cfgvalue
      *
      * @param string $filename configuration ini-filename to read
      * @return array moduleconfig['modulename'] configuration array of module
@@ -280,13 +169,18 @@ abstract class Clansuite_Module_Controller extends Clansuite_Module_Controller_R
         return self::getInjector()->instantiate('Clansuite_Config')->readConfigForModule($filename);
     }
 
+    /**
+     * Returns the Clansuite Configuration as Array
+     *
+     * We are fetching the Clansuite Configuration Object from the injector.
+     * So we have to determine first, if it is called from an static background
+     * or if the injector is available as an object. For instance from inside a module widget,
+     * the injector would only be available via static call.
+     *
+     * @return $array Clansuite Main Configuration (/configuration/clansuite.config.php)
+     */
     public function getClansuiteConfig()
     {
-        /**
-         * determine, if this function is called from an static background.
-         * if it's dynamically called it's an object, else it's static.
-         * a static call is used, if called from inside a module widget.
-         */
         if(is_object($this->injector))
         {
             $this->config = $this->injector->instantiate('Clansuite_Config')->toArray;
@@ -302,6 +196,7 @@ abstract class Clansuite_Module_Controller extends Clansuite_Module_Controller_R
     /**
      * Gets a Config Value or sets a default value
      *
+     * @example
      * Usage for one default variable:
      * $this->getConfigValue('items_newswidget', '8');
      * Gets the value for the key items_newswidget from the moduleconfig or sets the value to 8.
@@ -325,6 +220,7 @@ abstract class Clansuite_Module_Controller extends Clansuite_Module_Controller_R
 
         # try a lookup of the value by keyname
         $value = Clansuite_Functions::array_find_element_by_key($keyname, $this->moduleconfig);
+
         # return value or default
         if(empty($value) == false)
         {
@@ -437,7 +333,7 @@ abstract class Clansuite_Module_Controller extends Clansuite_Module_Controller_R
      */
     public function setTemplate($template)
     {
-        self::checkTemplateExtension($template);
+        #self::checkTemplateExtension($template);
         $this->template = $template;
     }
 
@@ -447,17 +343,13 @@ abstract class Clansuite_Module_Controller extends Clansuite_Module_Controller_R
         $template_extension = strtolower(pathinfo($template, PATHINFO_EXTENSION));
 
         # whitelist definition for listing all allowed template filetypes
-        $allowed_filetypes = array('html','php','tpl');
+        $allowed_extensions = array('html','php','tpl');
 
         # check if extension is one of the allowed ones
-        if (in_array($template_extension, $allowed_filetypes))
+        if (false == in_array($template_extension, $allowed_extensions))
         {
-            # proceed
-        }
-        else
-        {
-            # @todo development template with link to fileeditor's rename dialog ?
-            trigger_error('Invalid Template Extension <strong>'.$template_extension.'</strong> on <strong>'. $template.'</strong>', E_USER_NOTICE);
+            trigger_error('Template Extension invalid <strong>'.$template_extension.'</strong> on <strong>'.$template.'</strong>',
+                          E_USER_NOTICE);
         }
     }
 
@@ -481,31 +373,12 @@ abstract class Clansuite_Module_Controller extends Clansuite_Module_Controller_R
     /**
      * constructTemplateName
      *
-     * When this method is called, the templateName was not set manually!
-     * We construct the template name with the informations we got about the module and action
-     * and assign it via setTemplate!
+     * When this method is called, the templateName was not set manually.
+     * We construct the template name with the informations we got about the module and action and assign it via setTemplate.
      */
     private function constructTemplateName()
     {
-        #$module    = Clansuite_Module_Controller_Resolver::getModuleName();
-        #$submodule = Clansuite_Module_Controller_Resolver::getSubModuleName();
-        $action    = Clansuite_Action_Controller_Resolver::getActionName();
-
-        #$module = Clansuite_Functions::cut_string_backwards($module, '_admin');
-
-        # Construct Templatename, like news/templates/action_show.tpl
-        #$template = $module.DS.'templates'.DS.$action.'.tpl';
-        $template = $action.'.tpl';
-
-        /*if( $module == 'controlcenter' or $submodule == 'admin' )
-        {
-            $template = $module.DS.$action.'.tpl';
-        }*/
-
-        # Debug
-        #echo 'Module : '.$module.'<br>Action : '.$action.'<br>ConstructedTemplateName : '.$template.'<br>';
-
-
+        $template = Clansuite_Action_Controller_Resolver::getActionName() . '.tpl';
         $this->setTemplate($template);
     }
 
@@ -595,7 +468,7 @@ abstract class Clansuite_Module_Controller extends Clansuite_Module_Controller_R
         Clansuite_Errorhandler::addError($errormessage, $errorcode);
 
         # event log
-        #$this->addEvent('logErrormessage')
+        #$this->addEvent('logErrormessage');
     }
 
     /**
@@ -614,8 +487,6 @@ abstract class Clansuite_Module_Controller extends Clansuite_Module_Controller_R
 
         # event log
         #$this->addEvent('logErrormessage');
-
-        # set flash message  ?
     }
 
     /**

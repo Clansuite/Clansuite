@@ -33,8 +33,8 @@
     * @version    SVN: $Id$
     */
 
-// Security Handler
-if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
+# Security Handler
+if (defined('IN_CS') == false) { die('Clansuite not loaded. Direct Access forbidden.'); }
 
 #clansuite_preprocessor::build_monolith();
 #clansuite_preprocessor::empower_monolith();
@@ -169,8 +169,8 @@ class clansuite_preprocessor
         $string = substr($string, 0, -strlen('?>'.PHP_EOL));
 
         # remove clansuite security line from whole string
-        $string = str_replace("if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.'); }".PHP_EOL, "", $string);
-        $string = str_replace("if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}", '', $string);
+        $string = str_replace("if (defined('IN_CS') == false){ die('Clansuite not loaded. Direct Access forbidden.'); }".PHP_EOL, "", $string);
+        $string = str_replace("if (defined('IN_CS') == false) { die('Clansuite not loaded. Direct Access forbidden.'); }", '', $string);
 
         # remove php opening tag from whole string
         $string = str_replace('<?php', "", $string);
@@ -181,8 +181,8 @@ class clansuite_preprocessor
     /**
      * Compile Files for APC ( Performance Strategy : File Priming)
      * The function runs through each directory and compiles each *.php file through apc_compile_file
+     * 
      * @param string $dir start directory
-     * @return void
      */
     public static function apc_compile_files($dir)
     {

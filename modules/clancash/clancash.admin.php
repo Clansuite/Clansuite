@@ -34,21 +34,18 @@
     */
 
 //Security Handler
-if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
+if (defined('IN_CS') == false) { die('Clansuite not loaded. Direct Access forbidden.'); }
 
 /**
- * Clansuite
+ * Clansuite_Module_Clancash
  *
- * Module:     Clancash
- *
-
+ * @category    Clansuite
+ * @package     Modules
+ * @subpackage  Clancash
  */
 class Clansuite_Module_Clancash_Admin extends Clansuite_Module_Controller implements Clansuite_Module_Interface
 {
-    /**
-     * Module_Clancash -> Execute
-     */
-    public function execute(Clansuite_HttpRequest $request, Clansuite_HttpResponse $response)
+    public function initializeModule(Clansuite_HttpRequest $request, Clansuite_HttpResponse $response)
     {
     }
  
@@ -57,7 +54,6 @@ class Clansuite_Module_Clancash_Admin extends Clansuite_Module_Controller implem
         # Set Layout Template
         $this->getView()->setLayoutTemplate('index.tpl');
         
-        # Prepare the Output
         $this->prepareOutput();
     }    
 }

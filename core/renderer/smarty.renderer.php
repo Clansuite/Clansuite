@@ -33,8 +33,8 @@
     * @version    SVN: $Id$
     */
 
-// Security Handler
-if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
+# Security Handler
+if (defined('IN_CS') == false) { die('Clansuite not loaded. Direct Access forbidden.'); }
 
 # Load Clansuite_Renderer_Base
 if( !class_exists('Clansuite_Renderer_Base',false) ) { require dirname(__FILE__) . '/renderer.base.php'; };
@@ -329,7 +329,6 @@ class Clansuite_Renderer_Smarty extends Clansuite_Renderer_Base
      * Adds a Template Path
      *
      * @param string $templatepath Template-Directory to have Smarty search in
-     * @return void
      */
     public function setTemplatePath($templatepath)
     {
@@ -362,7 +361,6 @@ class Clansuite_Renderer_Smarty extends Clansuite_Renderer_Base
      * @see __set()
      * @param string|array $tpl_parameter Is a Key or an Array.
      * @param mixed $value (optional) In case a key-value pair is used, $value is the value.
-     * @return void
      */
     public function assign($tpl_parameter, $value = null)
     {
@@ -393,7 +391,6 @@ class Clansuite_Renderer_Smarty extends Clansuite_Renderer_Base
      *
      * @param string $key der Variablenname
      * @param mixed $val der Variablenwert
-     * @return void
      */
     public function __set($key, $value)
     {

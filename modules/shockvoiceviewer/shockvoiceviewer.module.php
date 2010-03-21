@@ -34,22 +34,19 @@
     * @version    SVN: $Id: index.module.php 2625 2008-12-09 00:04:43Z vain $
     */
 
-// Security Handler
-if (!defined('IN_CS')){die('Clansuite not loaded. Direct Access forbidden.');}
+# Security Handler
+if (defined('IN_CS') == false){die('Clansuite not loaded. Direct Access forbidden.');}
 
 /**
- * Clansuite Module - Shockvoiceviewer
+ * Clansuite_Module_Shockvoice
  *
- * @author     Jens-André Koch <vain@clansuite.com>
- * @copyright  Jens-André Koch (2005 - onwards)
- * @version    0.2, 29.06.2009
+ * @category    Clansuite
+ * @package     Modules
+ * @subpackage  Shockvoiceviewer
  */
 class Clansuite_Module_Shockvoiceviewer extends Clansuite_Module_Controller implements Clansuite_Module_Interface
 {
-    /**
-     * Module_Shockvoiceviewer->execute()
-     */
-    public function execute(Clansuite_HttpRequest $request, Clansuite_HttpResponse $response)
+    public function initializeModule(Clansuite_HttpRequest $request, Clansuite_HttpResponse $response)
     {
         #$this->moduleconfig = $this->getModuleConfig();
     }
@@ -68,17 +65,17 @@ class Clansuite_Module_Shockvoiceviewer extends Clansuite_Module_Controller impl
         {
             # fetch module config
             $this->getModuleConfig('shockvoiceviewer');
-    
+
             $host       = $this->getConfigValue('hostname', 'druckwelle-hq.de');
             $port       = $this->getConfigValue('port', '8010');
             $server     = $this->getConfigValue('serverid', '1');
-    
+
             # load Shockvoice Viewer Class
             require_once dirname(__FILE__) . '/library/shockvoice.class.php';
-    
+
             # instantiate with connection data from config
             $SVQ = new Clansuite_Shockvoice_Query($host , $port , '8010', $server, 'UTF-8');
-    
+
             # get the view and assign data
             $this->getView()->assign('serverinfos', $SVQ->getShockvoice());
         }

@@ -33,11 +33,11 @@
     * @version    SVN: $Id$
     */
 
-// Security Handler
-if (!defined('IN_CS')){die('Clansuite not loaded. Direct Access forbidden.');}
+# Security Handler
+if (defined('IN_CS') == false){die('Clansuite not loaded. Direct Access forbidden.');}
 
 /**
- * Clansuite Administration Module - ControlCenter
+ * Clansuite_Module_ControlCenter
  *
  * @category    Clansuite
  * @package     Modules
@@ -45,64 +45,46 @@ if (!defined('IN_CS')){die('Clansuite not loaded. Direct Access forbidden.');}
  */
 class Clansuite_Module_ControlCenter extends Clansuite_Module_Controller implements Clansuite_Module_Interface
 {
-    /**
-     * Module_Admin -> Execute
-     */
-    public function execute(Clansuite_HttpRequest $request, Clansuite_HttpResponse $response)
+    public function initializeModule(Clansuite_HttpRequest $request, Clansuite_HttpResponse $response)
     {
         parent::initModel('menu');
     }
 
-    /**
-     * Show the welcome to adminmenu and shortcuts
-     */
     public function action_show()
     {
         # Get Render Engine
         $view = $this->getView();
-
+        
         $images = '';
+
         $view->assign( 'shortcuts', $images );
         $view->assign( 'newsfeed', $this->assignFeedContent());
         $view->assign( 'security', $this->assignSecurityInfos());
 
-        # Prepare the Output
         $this->prepareOutput();
     }
 
-    /**
-     * action bug
-     */
     public function action_bugs()
     {
         # Set Pagetitle and Breadcrumbs
-        Clansuite_Trail::addStep( _('Report Bugs &amp; Issues'), '/index.php??mod=controlcenter&amp;action=bugs');
+        Clansuite_Breadcrumb::add( _('Report Bugs &amp; Issues'), '/index.php??mod=controlcenter&amp;action=bugs');
 
-        # Prepare the Output
         $this->prepareOutput();
     }
 
-    /**
-     * action about
-     */
     public function action_about()
     {
         # Set Pagetitle and Breadcrumbs
-        Clansuite_Trail::addStep( _('About Clansuite'), '/index.php?mod=controlcenter&amp;action=about');
+        Clansuite_Breadcrumb::add( _('About Clansuite'), '/index.php?mod=controlcenter&amp;action=about');
 
-        # Prepare the Output
         $this->prepareOutput();
     }
 
-    /**
-     * action supportlinks
-     */
     public function action_supportlinks()
     {
         # Set Pagetitle and Breadcrumbs
-        Clansuite_Trail::addStep( _('Links for Help & Support'), '/index.php?mod=help&amp;sub=admin&amp;action=supportlinks');
+        Clansuite_Breadcrumb::add( _('Links for Help & Support'), '/index.php?mod=help&amp;sub=admin&amp;action=supportlinks');
 
-        # Prepare the Output
         $this->prepareOutput();
     }
 
@@ -176,14 +158,10 @@ class Clansuite_Module_ControlCenter extends Clansuite_Module_Controller impleme
         return $output;
     }
 
-
-    /**
-     * Action for displaying the Settings of a Module News
-     */
     public function action_settings()
     {
         # Set Pagetitle and Breadcrumbs
-        Clansuite_Trail::addStep( _('Settings'), '/index.php?mod=controlcenter&amp;sub=admin&amp;action=settings');
+        Clansuite_Breadcrumb::add( _('Settings'), '/index.php?mod=controlcenter&amp;sub=admin&amp;action=settings');
 
         $settings = array();
 

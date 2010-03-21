@@ -31,16 +31,11 @@
     * @version    SVN: $Id: menueditor.module.php 2248 2008-07-12 01:48:54Z vain $
     */
 
-//Security Handler
-if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
+# Security Handler
+if (defined('IN_CS') == false) { die('Clansuite not loaded. Direct Access forbidden.'); }
 
 /**
- * Module:       Menu
- * Submodule:    Admin
- *
- * @author     Florian Wolf <xsign.dll@clansuite.com>
- * @author     Jens-André Koch <vain@clansuite.com>
- * @copyright  Copyleft: All rights reserved. Jens-André Koch (2005-onwards)
+ * Clansuite_Module_Menu_Admin
  *
  * @category    Clansuite
  * @package     Modules
@@ -48,10 +43,7 @@ if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
  */
 class Clansuite_Module_Menu_Admin extends Clansuite_Module_Controller implements Clansuite_Module_Interface
 {
-    /**
-     * Module_Menueditor -> Execute
-     */
-    public function execute(Clansuite_HttpRequest $request, Clansuite_HttpResponse $response)
+    public function initializeModule(Clansuite_HttpRequest $request, Clansuite_HttpResponse $response)
     {
         parent::initModel('menu');
     }
@@ -70,7 +62,7 @@ class Clansuite_Module_Menu_Admin extends Clansuite_Module_Controller implements
     public function action_admin_menueditor()
     {
         # Set Pagetitle and Breadcrumbs
-        # Clansuite_Trail::addStep( _('Show'), '/index.php?mod=menu&amp;sub=admin&amp;action=show');
+        # Clansuite_Breadcrumb::add( _('Show'), '/index.php?mod=menu&amp;sub=admin&amp;action=show');
 
         // Setup Icons Array
         $icons = array();
@@ -128,7 +120,7 @@ class Clansuite_Module_Menu_Admin extends Clansuite_Module_Controller implements
     public function action_admin_menueditor2()
     {
         # Set Pagetitle and Breadcrumbs
-        Clansuite_Trail::addStep( _('About Clansuite'), '/index.php?mod=menu&amp;sub=admin&amp;action=menueditor2');
+        Clansuite_Breadcrumb::add( _('About Clansuite'), '/index.php?mod=menu&amp;sub=admin&amp;action=menueditor2');
 
         #clansuite_xdebug::printR($treeObject);
         
@@ -216,7 +208,6 @@ class Clansuite_Module_Menu_Admin extends Clansuite_Module_Controller implements
         # assign the html of the tree to the view        
         $this->getView()->assign('tree', $html);
 
-        # Prepare the Output
         $this->prepareOutput();
     }
 
@@ -620,9 +611,8 @@ class Clansuite_Module_Menu_Admin extends Clansuite_Module_Controller implements
 
         foreach($menu as $entry)
         {
-            /**
-            * @desc Init Vars
-            */
+            #  Init Vars
+
             $entry['type']              = isset($entry['type'])             ? $entry['type']            : '';
             $entry['content']           = isset($entry['content'])          ? $entry['content']         : '';
             $entry['href']              = isset($entry['href'])             ? $entry['href']            : '';
@@ -632,9 +622,8 @@ class Clansuite_Module_Menu_Admin extends Clansuite_Module_Controller implements
             $entry['name']              = isset($entry['name'])             ? $entry['name']            : '';
             $entry['permission']        = isset($entry['permission'])       ? $entry['permission']      : '';
 
-            /**
-            * @desc Build Menu
-            */
+            #  Build Menu
+
             if ( $entry['type'] == 'folder')
             {
                 $values = split( ',', $level );

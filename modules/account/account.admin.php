@@ -33,32 +33,29 @@
 	* @version    SVN: $Id: account.module.php 2741 2009-01-20 16:35:21Z vain $
 	*/
 
-// Security Handler
-if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
+# Security Handler
+if (defined('IN_CS') == false) { die('Clansuite not loaded. Direct Access forbidden.'); }
 
 /**
- * Clansuite Module - Account
+ * Clansuite_Module_Account_Admin
+ *
+ * @category    Clansuite
+ * @package     Modules
+ * @subpackage  Account
  */
 class Clansuite_Module_Account_Admin extends Clansuite_Module_Controller implements Clansuite_Module_Interface
 {
-	/**
-	 * Module_Admin -> Execute
-	 */
-	public function execute(Clansuite_HttpRequest $request, Clansuite_HttpResponse $response)
+	public function initializeModule(Clansuite_HttpRequest $request, Clansuite_HttpResponse $response)
 	{
-		# read module config
 		$this->getModuleConfig();
 	}
 
-	/**
-	 *  Edits the user's Avatar Image
-	 */
 	public function action_admin_editavatar()
 	{
 		#var_dump($_REQUEST);
 
 		# Set Pagetitle and Breadcrumbs
-		Clansuite_Trail::addStep( _('Add Avatar'), '/index.php?mod=users&sub=admin&action=addavatar');
+		Clansuite_Breadcrumb::add( _('Add Avatar'), '/index.php?mod=users&sub=admin&action=addavatar');
 
 		# Get Render Engine
 		$view = $this->getView();
@@ -72,23 +69,12 @@ class Clansuite_Module_Account_Admin extends Clansuite_Module_Controller impleme
 		# Set Admin Layout Template
 		$view->setLayoutTemplate('index.tpl');
 
-		# Prepare the Output
 		$this->prepareOutput();
 	}
 
-	/**
-	 *
-	 */
 	public function action_admin_deleteavatar()
 	{
-		/**
-		 * @todo 1. in general:    permissions to delete
-		 * @todo 2. in particular: sessio.id = avatar.id to delete are matching
-		 */
-		# $user::hasAccess(deleteAvatar);
-		# and session.user_id = deleteavatar.id
-
-		#var_dump($_REQUEST);
+        
 	}
 
 	public function action_admin_userpicture_edit()
@@ -109,27 +95,20 @@ class Clansuite_Module_Account_Admin extends Clansuite_Module_Controller impleme
 	public function action_admin_usercenter()
 	{
 		# Set Pagetitle and Breadcrumbs
-		Clansuite_Trail::addStep( _('Usercenter'), '/index.php?mod=users&amp;sub=admin&amp;action=usercenter');
+		Clansuite_Breadcrumb::add( _('Usercenter'), '/index.php?mod=users&amp;sub=admin&amp;action=usercenter');
 
-		# Get Render Engine
+        # Get Render Engine
 		$view = $this->getView();
 
-		/**
-		 * Get the user data
-		 */
+		# Get the user data
 		#SELECT * FROM ' . DB_PREFIX . 'users WHERE user_id = ?' );
-		#$_SESSION['user']['user_id'] 
-		
+		#$_SESSION['user']['user_id']
+
 		#$view->assign( 'usercenterdata', $data );
-		
 
 		# Set Admin Layout Template
 		$view->setLayoutTemplate('index.tpl');
 
-		# Specifiy the template manually
-		#$this->setTemplate('admin/users/usercenter.tpl');
-
-		# Prepare the Output
 		$this->prepareOutput();
 	}
 
@@ -142,56 +121,50 @@ class Clansuite_Module_Account_Admin extends Clansuite_Module_Controller impleme
 	{
 
 	}
-	
-    /**
-     * Action for displaying the Settings of a Module Account
-     */
+
     public function action_admin_settings()
     {
         # Set Pagetitle and Breadcrumbs
-        Clansuite_Trail::addStep( _('Settings'), '/index.php?mod=account&amp;sub=admin&amp;action=settings');
-        
+        Clansuite_Breadcrumb::add( _('Settings'), '/index.php?mod=account&amp;sub=admin&amp;action=settings');
+
         $settings = array();
-        
+
         $settings['form']   = array(    'name' => 'account_settings',
                                         'method' => 'POST',
                                         'action' => WWW_ROOT.'/index.php?mod=account&amp;sub=admin&amp;action=settings_update');
-                                        
+
         #$settings['account'][] = array( 'id' => 'resultsPerPage_show',
         #                                'name' => 'resultsPerPage_show',
         #                                'description' => _('Newsitems to show in Newsmodule'),
         #                                'formfieldtype' => 'text',
         #                                'value' => $this->getConfigValue('resultsPerPage_show', '3'));
-       
+
         require ROOT_CORE . '/viewhelper/formgenerator.core.php';
         $form = new Clansuite_Array_Formgenerator($settings);
 
         # display formgenerator object
-        #clansuite_xdebug::printR($form); 
-        
+        #clansuite_xdebug::printR($form);
+
         $form->addElement('submitbutton')->setName('Save');
         $form->addElement('resetbutton');
-        
+
         # display form html
         #clansuite_xdebug::printR($form->render());
-        
+
         # assign the html of the form to the view
         $this->getView()->assign('form', $form->render());
 
-        $this->prepareOutput();       
+        $this->prepareOutput();
     }
-    
+
     public function action_admin_settings_update()
-    { 
+    {
         # Incomming Data
         # @todo get post via request object, sanitize
         $data = $this->getHttpRequest()->getParameter('account_settings');
 
-        # Get Configuration from Injector
-        $config = $this->injector->instantiate('Clansuite_Config');
-        
-        # write config
-        $config->confighandler->writeConfig( ROOT_MOD . 'account/account.config.php', $data);
+        # get configuration object and write config
+        $this->getClansuiteConfig()->confighandler->writeConfig( ROOT_MOD . 'account/account.config.php', $data);
 
         # clear the cache / compiled tpls
         # $this->getView()->clear_all_cache();

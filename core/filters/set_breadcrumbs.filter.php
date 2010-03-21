@@ -33,8 +33,8 @@
     * @version    SVN: $Id$
     */
 
-// Security Handler
-if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
+# Security Handler
+if (defined('IN_CS') == false) { die('Clansuite not loaded. Direct Access forbidden.'); }
 
 /**
  * Clansuite Filter - Set Breadcrumbs
@@ -117,7 +117,7 @@ class Clansuite_Filter_set_breadcrumbs implements Clansuite_Filter_Interface
 
             # Set Pagetitle and Breadcrumbs for that Module
             # >> MODULENAME
-            Clansuite_Trail::addStep( T_( ucfirst($trailName) ), $URL );
+            Clansuite_Breadcrumb::add( T_( ucfirst($trailName) ), $URL );
         }
 
         # add submodule part
@@ -135,7 +135,7 @@ class Clansuite_Filter_set_breadcrumbs implements Clansuite_Filter_Interface
 
             # Set Pagetitle and Breadcrumbs for that Module
             # >> SUBMODULENAME
-            Clansuite_Trail::addStep( T_( ucfirst($trailName) ), $URL );
+            Clansuite_Breadcrumb::add( T_( ucfirst($trailName) ), $URL );
         }
     }
 }
