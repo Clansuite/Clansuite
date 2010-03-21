@@ -34,7 +34,7 @@
     */
     
 # Define security constant
-if (!defined('IN_CS')){ die( 'Clansuite not loaded. Direct Access forbidden.' );}
+if (defined('IN_CS') == false){ die( 'Clansuite not loaded. Direct Access forbidden.' );}
 ?>
 
 <div id="sidebar">

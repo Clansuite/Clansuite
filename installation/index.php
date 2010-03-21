@@ -771,7 +771,7 @@ function deleteInstallationFolder()
 /**
  * removeDirectory
  *
- * @description Remove a directory and all it files recursively.
+ * Remove a directory and all it files recursively.
  * @param file {String} The file or folder to be deleted.
  **/
 function removeDirectory($dir)
