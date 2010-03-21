@@ -33,8 +33,8 @@
     * @version    SVN: $Id$
     */
 
-// Security Handler
-if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.');}
+# Security Handler
+if (defined('IN_CS') == false){ die('Clansuite not loaded. Direct Access forbidden.');}
 
 /**
  * Clansuite Core Class for Formular Handling
@@ -1024,7 +1024,6 @@ class Clansuite_Form /*extends Clansuite_HTML*/ implements Clansuite_Form_Interf
      * Implementation of SPL ArrayObject::append()
      *
      * @param $value mixed
-     * @return void
      */
     public function append($value)
     {
@@ -1044,8 +1043,6 @@ class Clansuite_Form /*extends Clansuite_HTML*/ implements Clansuite_Form_Interf
     /**
      * Create a new iterator from an ArrayObject instance
      * Implementation of SPL Iterator::current
-     *
-     * @return void
      */
     public function current()
     {
@@ -1054,8 +1051,6 @@ class Clansuite_Form /*extends Clansuite_HTML*/ implements Clansuite_Form_Interf
     /**
      * Create a new iterator from an ArrayObject instance
      * Implementation of SPL Iterator::key
-     *
-     * @return void
      */
     public function key()
     {
@@ -1064,8 +1059,6 @@ class Clansuite_Form /*extends Clansuite_HTML*/ implements Clansuite_Form_Interf
     /**
      * Create a new iterator from an ArrayObject instance
      * Implementation of SPL Iterator::next
-     *
-     * @return void
      */
     public function next()
     {
@@ -1074,8 +1067,6 @@ class Clansuite_Form /*extends Clansuite_HTML*/ implements Clansuite_Form_Interf
     /**
      * Create a new iterator from an ArrayObject instance
      * Implementation of SPL Iterator::rewind
-     *
-     * @return void
      */
     public function rewind()
     {
@@ -1084,8 +1075,6 @@ class Clansuite_Form /*extends Clansuite_HTML*/ implements Clansuite_Form_Interf
     /**
      * Create a new iterator from an ArrayObject instance
      * Implementation of SPL Iterator::valid
-     *
-     * @return void
      */
     public function valid()
     {
@@ -1094,8 +1083,6 @@ class Clansuite_Form /*extends Clansuite_HTML*/ implements Clansuite_Form_Interf
     /**
      * Returns whether the requested $index exists
      * Implementation of SPL ArrayAccess::offsetExists()
-     *
-     * @return void
      */
     public function offsetExists($index)
     {
@@ -1104,8 +1091,6 @@ class Clansuite_Form /*extends Clansuite_HTML*/ implements Clansuite_Form_Interf
     /**
      * Returns the value at the specfied $index
      * Implementation of SPL ArrayAccess::offsetGet()
-     *
-     * @return void
      */
     public function offsetGet($index)
     {
@@ -1117,7 +1102,6 @@ class Clansuite_Form /*extends Clansuite_HTML*/ implements Clansuite_Form_Interf
      *
      * @param $index
      * @param $value
-     * @return void
      */
     public function offsetSet($index, $value)
     {
@@ -1126,8 +1110,6 @@ class Clansuite_Form /*extends Clansuite_HTML*/ implements Clansuite_Form_Interf
     /**
      * Unsets the value at the specified $index
      * Implementation of SPL ArrayAccess::offsetUnset()
-     *
-     * @return void
      */
     public function offsetUnset($index)
     {

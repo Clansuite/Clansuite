@@ -34,21 +34,18 @@
     */
 
 //Security Handler
-if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
+if (defined('IN_CS') == false) { die('Clansuite not loaded. Direct Access forbidden.'); }
 
 /**
- * Clansuite
+ * Clansuite_Module_Replays_Admin
  *
- * Module:     Replays
- *
-
+ * @category    Clansuite
+ * @package     Modules
+ * @subpackage  Replays
  */
 class Clansuite_Module_Replays_Admin extends Clansuite_Module_Controller implements Clansuite_Module_Interface
 {
-    /**
-     * Module_Replays -> Execute
-     */
-    public function execute(Clansuite_HttpRequest $request, Clansuite_HttpResponse $response)
+    public function initializeModule(Clansuite_HttpRequest $request, Clansuite_HttpResponse $response)
     {
     }
  
@@ -57,7 +54,6 @@ class Clansuite_Module_Replays_Admin extends Clansuite_Module_Controller impleme
         # Set Layout Template
         $this->getView()->setLayoutTemplate('index.tpl');
         
-        # Prepare the Output
         $this->prepareOutput();
     }    
 	
@@ -67,7 +63,7 @@ class Clansuite_Module_Replays_Admin extends Clansuite_Module_Controller impleme
     public function action_admin_settings()
     {
         # Set Pagetitle and Breadcrumbs
-        Clansuite_Trail::addStep( _('Settings'), '/index.php?mod=replays&amp;sub=admin&amp;action=settings');
+        Clansuite_Breadcrumb::add( _('Settings'), '/index.php?mod=replays&amp;sub=admin&amp;action=settings');
         
         $settings = array();
         

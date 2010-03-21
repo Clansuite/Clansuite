@@ -34,8 +34,8 @@
     * @version    SVN: $Id: index.module.php 2625 2008-12-09 00:04:43Z vain $
     */
 
-// Security Handler
-if (!defined('IN_CS')){die('Clansuite not loaded. Direct Access forbidden.');}
+# Security Handler
+if (defined('IN_CS') == false){die('Clansuite not loaded. Direct Access forbidden.');}
 
 /**
  * Clansuite Module - Static Pages
@@ -46,7 +46,7 @@ class Clansuite_Module_Staticpages extends Clansuite_Module_Controller implement
     /**
      * Module_Staticpages -> Execute
      */
-    public function execute(Clansuite_HttpRequest $request, Clansuite_HttpResponse $response)
+    public function initializeModule(Clansuite_HttpRequest $request, Clansuite_HttpResponse $response)
     {
         # read module config
         $this->getModuleConfig();
@@ -55,9 +55,8 @@ class Clansuite_Module_Staticpages extends Clansuite_Module_Controller implement
         parent::initModel('staticpages');
     }
 
-    /**
-    * @desc Show a specific static page
-    */
+    #  Show a specific static page
+
     public function action_show()
     {
         $page = (string) $this->injector->instantiate('Clansuite_HttpRequest')->getParameter('page');
@@ -66,7 +65,7 @@ class Clansuite_Module_Staticpages extends Clansuite_Module_Controller implement
         if(empty($page)) { return $this->action_overview(); }
 
         // Set Pagetitle and Breadcrumbs
-        Clansuite_Trail::addStep( _('Show ' . $page), '/index.php?mod=staticpages&amp;action=show&page='. $page);
+        Clansuite_Breadcrumb::add( _('Show ' . $page), '/index.php?mod=staticpages&amp;action=show&page='. $page);
 
         // get inputfilter class
         #$input = $this->injector->instantiate('Clansuite_Inputfilter');
@@ -117,7 +116,6 @@ class Clansuite_Module_Staticpages extends Clansuite_Module_Controller implement
             #$this->redirect('index.php?mod=staticpages&action=overview');
         }
 
-        # Prepare the Output
         $this->prepareOutput();
     }
 
@@ -128,7 +126,7 @@ class Clansuite_Module_Staticpages extends Clansuite_Module_Controller implement
     public function action_overview()
     {
         // Set Pagetitle and Breadcrumbs
-        Clansuite_Trail::addStep( _('Overview'), '/index.php?mod=staticpages&amp;action=overview');
+        Clansuite_Breadcrumb::add( _('Overview'), '/index.php?mod=staticpages&amp;action=overview');
 
         // get all static pages without page content
         $result = Doctrine_Query::create()
@@ -148,7 +146,6 @@ class Clansuite_Module_Staticpages extends Clansuite_Module_Controller implement
             echo _('No static pages found.');
         }
 
-        # Prepare the Output
         $this->prepareOutput();
     }
 }

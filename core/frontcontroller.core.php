@@ -33,8 +33,8 @@
     * @version    SVN: $Id$
     */
 
-// Security Handler
-if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
+# Security Handler
+if (defined('IN_CS') == false) { die('Clansuite not loaded. Direct Access forbidden.'); }
 
 /**
  * Interface for Action/Command Controller Resolving
@@ -330,7 +330,7 @@ class Clansuite_Module_Controller_Resolver implements Clansuite_Module_Controlle
         {
             self::setModuleName(self::$_defaultmodule);
         }
-        
+
         return self::$_modulename;
     }
 
@@ -490,8 +490,8 @@ class Clansuite_Front_Controller implements Clansuite_Front_Controller_Interface
          */
         #$moduleController = $this->moduleControllerDecorator->decorate($moduleController);
 
-        # 4) Module execute (pre_processActionController)
-        $moduleController->execute($request, $response);
+        # 4) Module initialization (this is before the Action Controller is executed and for common tasks)
+        $moduleController->initializeModule($request, $response);
 
         # 5) Fire Action !
         $this->actionResolver->processActionController($request, $moduleController);

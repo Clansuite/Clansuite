@@ -33,8 +33,8 @@
     * @version    SVN: $Id$
     */
 
-// Security Handler
-if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.');}
+# Security Handler
+if (defined('IN_CS') == false){ die('Clansuite not loaded. Direct Access forbidden.');}
 
 /**
  *  Clansuite_Formelement
@@ -45,11 +45,6 @@ if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.');}
  */
 class Clansuite_Formelement_Resetbutton extends Clansuite_Formelement_Input implements Clansuite_Formelement_Interface
 {
-    /**
-     * constructor
-     *
-     * @return void
-     */
     public function __construct()
     {
         $this->type = 'reset';

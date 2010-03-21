@@ -34,10 +34,10 @@
     */
 
 //Security Handler
-if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
+if (defined('IN_CS') == false) { die('Clansuite not loaded. Direct Access forbidden.'); }
 
 /**
- * Clansuite Module - Doctrine Administration Interface
+ * Clansuite_Module_Doctrine_Admin
  *
  * Doctrine Command Line Interface Commands
  *
@@ -62,10 +62,6 @@ if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
  * migrate
  * rebuild-db
  *
- * @license    GNU/GPL v2 or (at your option) any later version, see "/doc/LICENSE".
- * @author     Jens-André Koch <vain@clansuite.com>
- * @copyright  Jens-André Koch (2005 - onwards)
- *
  * @category    Clansuite
  * @package     Doctrine
  * @subpackage  Administration
@@ -77,7 +73,7 @@ class Clansuite_Module_Doctrine_Admin extends Clansuite_Module_Controller implem
     /**
      * Module_Doctrine_Admin -> Execute
      */
-    public function execute(Clansuite_HttpRequest $request, Clansuite_HttpResponse $response)
+    public function initializeModule(Clansuite_HttpRequest $request, Clansuite_HttpResponse $response)
     {
         # Setup the path constants
         # They are not configured via clansuite configuration, because access is only needed in here

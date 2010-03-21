@@ -59,7 +59,7 @@ function smarty_function_load_module($params, $smarty)
         $module_classname .= $module;
     }
 
-    Clansuite_Xdebug::firebug($module_classname);
+    #Clansuite_Xdebug::firebug($module_classname);
 
     # Load class, if not already loaded
     if (class_exists($module_classname, false) == false)

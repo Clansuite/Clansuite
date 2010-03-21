@@ -33,15 +33,11 @@
     * @version    SVN: $Id: users.module.php 2634 2008-12-12 22:07:48Z vain $
     */
 
-// Security Handler
-if (!defined('IN_CS')){die('Clansuite not loaded. Direct Access forbidden.');}
+# Security Handler
+if (defined('IN_CS') == false){die('Clansuite not loaded. Direct Access forbidden.');}
 
 /**
- * Clansuite Module Administration - Thememanager
- *
- * @author      Jens-André Koch  <vain@clansuite.com>
- * @copyright   Jens-André Koch, (2005 - onwards)
-
+ * Clansuite_Module_Thememanager_Admin
  *
  * @category    Clansuite
  * @package     Modules
@@ -49,9 +45,8 @@ if (!defined('IN_CS')){die('Clansuite not loaded. Direct Access forbidden.');}
  */
 class Clansuite_Module_Thememanager_Admin extends Clansuite_Module_Controller implements Clansuite_Module_Interface
 {
-    public function execute(Clansuite_HttpRequest $request, Clansuite_HttpResponse $response)
+    public function initializeModule(Clansuite_HttpRequest $request, Clansuite_HttpResponse $response)
     {
-
     }
 
     public function action_admin_show()

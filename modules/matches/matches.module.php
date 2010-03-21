@@ -32,16 +32,11 @@
     * @version    SVN: $Id$
     */
 
-// Security Handler
-if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
+# Security Handler
+if (defined('IN_CS') == false) { die('Clansuite not loaded. Direct Access forbidden.'); }
 
 /**
- * 
-    *
- * Module:      Matches
- *
- * @author     Jens-André Koch <vain@clansuite.com>
- * @copyright  Jens-André Koch (2005 - onwards)
+ * Clansuite_Module_Matches
  *
  * @category    Clansuite
  * @package     Modules
@@ -49,10 +44,7 @@ if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
  */
 class Clansuite_Module_Matches extends Clansuite_Module_Controller implements Clansuite_Module_Interface
 {
-    /**
-     * Module_Guestbook -> Execute
-     */
-    public function execute(Clansuite_HttpRequest $request, Clansuite_HttpResponse $response)
+    public function initializeModule(Clansuite_HttpRequest $request, Clansuite_HttpResponse $response)
     {
         parent::initModel('matches');
     }
@@ -60,7 +52,7 @@ class Clansuite_Module_Matches extends Clansuite_Module_Controller implements Cl
     public function action_show()
     {
         // Set Pagetitle and Breadcrumbs
-        Clansuite_Trail::addStep( _('Show'), '/index.php?mod=matches&amp;action=show');
+        Clansuite_Breadcrumb::add( _('Show'), '/index.php?mod=matches&amp;action=show');
 
         # fetch nextmatches
         $matches = Doctrine::getTable('CsMatches')->findAll()->toArray();

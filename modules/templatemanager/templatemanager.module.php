@@ -33,35 +33,21 @@
     * @version    SVN: $Id$
     */
 
-/**
- * Templatemanager Admin Module (Backend)
- * (templatemanager)
- *
- * @license    GNU GPL v2 any later licence
- * @author     Jens-André Koch
- * @link       http://www.clansuite.com
- */
-
-// Security Handler
-if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
+# Security Handler
+if (defined('IN_CS') == false) { die('Clansuite not loaded. Direct Access forbidden.'); }
 
 /**
+ * Clansuite_Module_Templatemanager
  *
- * @package 
-    * @subpackage module_templatemanager
+ * @category    Clansuite
+ * @package     Modules
+ * @subpackage  Templatemanager
  */
 class Clansuite_Module_Templatemanager extends Clansuite_Module_Controller implements Clansuite_Module_Interface
 {
-    /**
-     * Main Method of Templatemanager Module
-     *
-     * Sets up module specific stuff, needed by all actions of the module
-     * Calls the requested Action $_REQUEST['action']
-     */
-    public function execute(Clansuite_HttpRequest $request, Clansuite_HttpResponse $response)
+    public function initializeModule(Clansuite_HttpRequest $request, Clansuite_HttpResponse $response)
     {
-        # read module config
-        $this->config->readConfig( ROOT_MOD . '/templatemanager/templatemanager.config.php');
+        $this->getModuleConfig();
     }
 
     public function widget_templatechooser()

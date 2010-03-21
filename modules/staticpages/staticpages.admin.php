@@ -27,29 +27,23 @@
     *
     * @link       http://www.clansuite.com
     * @link       http://gna.org/projects/clansuite
-
     *
     * @version    SVN: $Id: news.module.php 2006 2008-05-07 09:08:40Z xsign $
     */
 
-// Security Handler
-if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
-
+# Security Handler
+if (defined('IN_CS') == false) { die('Clansuite not loaded. Direct Access forbidden.'); }
 
 /**
- * Clansuite
+ * Clansuite_Module_Staticpages_Admin
  *
- * Module:  Module_Staticpages_Admin
- *
+ * @category    Clansuite
+ * @package     Modules
+ * @subpackage  Staticpages
  */
 class Clansuite_Module_Staticpages_Admin extends Clansuite_Module_Controller implements Clansuite_Module_Interface
 {
-    public function __construct(Phemto $injector=null)
-    {
-        parent::__construct();
-    }
-
-    public function execute(Clansuite_HttpRequest $request, Clansuite_HttpResponse $response)
+    public function initializeModule(Clansuite_HttpRequest $request, Clansuite_HttpResponse $response)
     {
 		parent::initModel('staticpages');
     }
@@ -63,7 +57,7 @@ class Clansuite_Module_Staticpages_Admin extends Clansuite_Module_Controller imp
         #$perms::check('cc_admin_show_staticpages');
 
         # Set Pagetitle and Breadcrumbs
-        Clansuite_Trail::addStep( _('Overview'), '/index.php?mod=staticpages&amp;sub=admin&amp;action=show');
+        Clansuite_Breadcrumb::add( _('Overview'), '/index.php?mod=staticpages&amp;sub=admin&amp;action=show');
 
         $staticpages = Doctrine_Query::create()
                               ->select('*')
@@ -79,7 +73,7 @@ class Clansuite_Module_Staticpages_Admin extends Clansuite_Module_Controller imp
         $this->getView()->setLayoutTemplate('index.tpl');
         # specifiy the template manually
         #$this->setTemplate('news/admin_show.tpl');
-        # Prepare the Output
+
         $this->prepareOutput();
     }
 
@@ -93,7 +87,7 @@ class Clansuite_Module_Staticpages_Admin extends Clansuite_Module_Controller imp
         #$perms::check('cc_admin_create_staticpages');
 
         # Set Pagetitle and Breadcrumbs
-        Clansuite_Trail::addStep( _('Create'), '/index.php?mod=staticpages&amp;sub=admin&amp;action=create');
+        Clansuite_Breadcrumb::add( _('Create'), '/index.php?mod=staticpages&amp;sub=admin&amp;action=create');
 
         $html           = $_POST['html'];
         $description    = $_POST['description'];
@@ -153,7 +147,7 @@ class Clansuite_Module_Staticpages_Admin extends Clansuite_Module_Controller imp
         $this->getView()->setLayoutTemplate('index.tpl');
         # specifiy the template manually
         #$this->setTemplate('staticpages/create.tpl');
-        # Prepare the Output
+
         $this->prepareOutput();
     }
 
@@ -166,7 +160,7 @@ class Clansuite_Module_Staticpages_Admin extends Clansuite_Module_Controller imp
         #$perms::check('cc_admin_edit_staticpages');
 
         # Set Pagetitle and Breadcrumbs
-        Clansuite_Trail::addStep( _('Edit'), '/index.php?mod=staticpages&amp;sub=admin&amp;action=edit');
+        Clansuite_Breadcrumb::add( _('Edit'), '/index.php?mod=staticpages&amp;sub=admin&amp;action=edit');
 
         $info['html']           = $_POST['html'];
         $info['description']    = $_POST['description'];
@@ -234,7 +228,7 @@ class Clansuite_Module_Staticpages_Admin extends Clansuite_Module_Controller imp
         $this->getView()->setLayoutTemplate('index.tpl');
         # specifiy the template manually
         #$this->setTemplate('staticpages/edit.tpl');
-        # Prepare the Output
+
         $this->prepareOutput();
     }
 	
@@ -244,7 +238,7 @@ class Clansuite_Module_Staticpages_Admin extends Clansuite_Module_Controller imp
     public function action_admin_settings()
     {
         # Set Pagetitle and Breadcrumbs
-        Clansuite_Trail::addStep( _('Settings'), '/index.php?mod=staticpages&amp;sub=admin&amp;action=settings');
+        Clansuite_Breadcrumb::add( _('Settings'), '/index.php?mod=staticpages&amp;sub=admin&amp;action=settings');
         
         $settings = array();
         

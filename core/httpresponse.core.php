@@ -33,8 +33,8 @@
     * @version    SVN: $Id$response.class.php 2580 2008-11-20 20:38:03Z vain $
     */
 
-// Security Handler
-if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
+# Security Handler
+if (defined('IN_CS') == false) { die('Clansuite not loaded. Direct Access forbidden.'); }
 
 /**
  * Interface for the Response Object
@@ -221,9 +221,11 @@ class Clansuite_HttpResponse implements Clansuite_Response_Interface
         }
         
         // unheroic approach to silence all html validators by fixing the ampersand problem ( turns & to &amp;)
-        // @todo maybe htmlspecialchars is faster? maybe we need an url generator method?
-        $this->body = preg_replace('/&(?![#]?[a-z0-9]+;)/i', "&amp;$1", $this->body);
-
+        // exclude javascript && logical operator
+        $this->body = str_replace('&&','CS+AND+CS', $this->body);
+        $this->body = preg_replace('/&(?![#]?[a-z0-9]{1,7};)/i', "&amp;$1", $this->body);
+        $this->body = str_replace('CS+AND+CS','&&', $this->body);
+   
         // Finally PRINT the response body
         print $this->body;
 

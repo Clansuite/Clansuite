@@ -33,11 +33,11 @@
     * @version    SVN: $Id: index.module.php 2625 2008-12-09 00:04:43Z vain $
     */
 
-// Security Handler
-if (!defined('IN_CS')){die('Clansuite not loaded. Direct Access forbidden.');}
+# Security Handler
+if (defined('IN_CS') == false){die('Clansuite not loaded. Direct Access forbidden.');}
 
 /**
- * Clansuite Module- Menu
+ * Clansuite_Module_Menu
  *
  * @category    Clansuite
  * @package     Modules
@@ -48,7 +48,7 @@ class Clansuite_Module_Menu extends Clansuite_Module_Controller implements Clans
     /**
      * Module_Menu -> Execute
      */
-    public function execute(Clansuite_HttpRequest $request, Clansuite_HttpResponse $response)
+    public function initializeModule(Clansuite_HttpRequest $request, Clansuite_HttpResponse $response)
     {
         parent::initModel('menu');
     }
@@ -60,7 +60,7 @@ class Clansuite_Module_Menu extends Clansuite_Module_Controller implements Clans
     public function action_show()
     {
         // Set Pagetitle and Breadcrumbs
-        Clansuite_Trail::addStep( _('Show'), '/index.php?mod=menu&amp;action=show');
+        Clansuite_Breadcrumb::add( _('Show'), '/index.php?mod=menu&amp;action=show');
 
         $this->prepareOutput();
     }

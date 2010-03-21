@@ -34,76 +34,69 @@
     */
 
 //Security Handler
-if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
+if (defined('IN_CS') == false) { die('Clansuite not loaded. Direct Access forbidden.'); }
 
 /**
- * Clansuite
+ * Clansuite_Module_Shoutbox_Admin
  *
- * Module:     Shoutbox
- *
-
+ * @category    Clansuite
+ * @package     Modules
+ * @subpackage  Shoutbox
  */
 class Clansuite_Module_Shoutbox_Admin extends Clansuite_Module_Controller implements Clansuite_Module_Interface
 {
-    /**
-     * Module_Shoutbox -> Execute
-     */
-    public function execute(Clansuite_HttpRequest $request, Clansuite_HttpResponse $response)
+    public function initializeModule(Clansuite_HttpRequest $request, Clansuite_HttpResponse $response)
     {
     }
- 
+
     public function action_admin_show()
     {
         # Set Layout Template
         $this->getView()->setLayoutTemplate('index.tpl');
-        
-        # Prepare the Output
+
         $this->prepareOutput();
-    }    
-	
-    /**
-     * Action for displaying the Settings of a Module Shoutbox
-     */
+    }
+
     public function action_admin_settings()
     {
         # Set Pagetitle and Breadcrumbs
-        Clansuite_Trail::addStep( _('Settings'), '/index.php?mod=shoutbox&amp;sub=admin&amp;action=settings');
-        
+        Clansuite_Breadcrumb::add( _('Settings'), '/index.php?mod=shoutbox&amp;sub=admin&amp;action=settings');
+
         $settings = array();
-        
+
         $settings['form']   = array(    'name' => 'shoutbox_settings',
                                         'method' => 'POST',
                                         'action' => WWW_ROOT.'/index.php?mod=shoutbox&amp;sub=admin&amp;action=settings_update');
-                                        
-        $settings['shoutbox'][] = array(    
+
+        $settings['shoutbox'][] = array(
 										'id' => 'widget_shoutbox',
                                         'name' => 'widget_shoutbox',
                                         'description' => _('Shoutbox Items'),
                                         'formfieldtype' => 'text',
                                         'value' => $this->getConfigValue('widget_shoutbox', '12'));
-        
+
         require ROOT_CORE . '/viewhelper/formgenerator.core.php';
         $form = new Clansuite_Array_Formgenerator($settings);
 
         # display formgenerator object
-        #clansuite_xdebug::printR($form); 
-        
+        #clansuite_xdebug::printR($form);
+
         $form->addElement('submitbutton')->setName('Save');
         $form->addElement('resetbutton');
-        
+
         # display form html
         #clansuite_xdebug::printR($form->render());
-        
+
         # assign the html of the form to the view
         $this->getView()->assign('form', $form->render());
 
-        $this->prepareOutput();       
+        $this->prepareOutput();
     }
-    
+
     public function action_admin_settings_update()
-    { 
+    {
         # Set Pagetitle and Breadcrumbs
-        Clansuite_Trail::addStep( _('Update'), '/index.php?mod=shoutbox&amp;sub=settings&amp;action=update');
+        Clansuite_Breadcrumb::add( _('Update'), '/index.php?mod=shoutbox&amp;sub=settings&amp;action=update');
 
         # Incomming Data
         # @todo get post via request object, sanitize
@@ -111,7 +104,7 @@ class Clansuite_Module_Shoutbox_Admin extends Clansuite_Module_Controller implem
 
         # Get Configuration from Injector
         $config = $this->injector->instantiate('Clansuite_Config');
-        
+
         # write config
         $config->confighandler->writeConfig( ROOT_MOD . 'shoutboxs/shoutbox.config.php', $data);
 

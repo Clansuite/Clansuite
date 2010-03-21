@@ -34,23 +34,20 @@
     */
 
 //Security Handler
-if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
+if (defined('IN_CS') == false) { die('Clansuite not loaded. Direct Access forbidden.'); }
 
 /**
- * 
-    *
- * Module:     Shoutbox
+ * Clansuite_Module_Shoutbox
  *
-
+ * @category    Clansuite
+ * @package     Modules
+ * @subpackage  Shoutbox
  */
 class Clansuite_Module_Shoutbox extends Clansuite_Module_Controller implements Clansuite_Module_Interface
 {
-    /**
-     * Module_Shoutbox -> Execute
-     */
-    public function execute(Clansuite_HttpRequest $request, Clansuite_HttpResponse $response)
+    public function initializeModule(Clansuite_HttpRequest $request, Clansuite_HttpResponse $response)
     {
-    parent::initModel('shoutbox');
+        parent::initModel('shoutbox');
     }
 
     /**
@@ -60,7 +57,7 @@ class Clansuite_Module_Shoutbox extends Clansuite_Module_Controller implements C
      */
     public function widget_shoutbox($items)
     {
-        $items = $this->getConfigValue('items_shoutboxwidget', $items, '10');        
+        $items = $this->getConfigValue('items_shoutboxwidget', $items, '10');
         $this->getView()->assign('shoutbox_widget', Doctrine::getTable('CsShoutbox')->fetchAll($items));
     }
 }

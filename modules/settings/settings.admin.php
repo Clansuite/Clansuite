@@ -33,13 +33,11 @@
     * @version    SVN: $Id: renderer.base.core.php 2614 2008-12-05 21:18:45Z vain $
     */
 
-//Security Handler
-if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
+# Security Handler
+if (defined('IN_CS') == false){die('Clansuite not loaded. Direct Access forbidden.');}
 
 /**
- * 
-    *
- * Module:       Admin Settings
+ * Clansuite_Module_Settings_Admin
  *
  * @category    Clansuite
  * @package     Modules
@@ -47,7 +45,7 @@ if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
  */
 class Clansuite_Module_Settings_Admin extends Clansuite_Module_Controller implements Clansuite_Module_Interface
 {
-    public function execute(Clansuite_HttpRequest $request, Clansuite_HttpResponse $response)
+    public function initializeModule(Clansuite_HttpRequest $request, Clansuite_HttpResponse $response)
     {
     }
 
@@ -60,7 +58,7 @@ class Clansuite_Module_Settings_Admin extends Clansuite_Module_Controller implem
         $view = $this->getView();
 
         # Get Configuration from Injector
-        $config = $this->injector->instantiate('Clansuite_Config')->toArray();
+        $config = $this->getClansuiteConfig();
 
         # Assign array with all cache adapters to smarty
         $cache_adapters = array('apc', 'memcached', 'xcache', 'eaccelerator', 'file-based');
@@ -78,7 +76,6 @@ class Clansuite_Module_Settings_Admin extends Clansuite_Module_Controller implem
         # Specifiy the template manually
         $this->setTemplate('settings.tpl');
 
-        # Prepare the Output
         $this->prepareOutput();
     }
 
@@ -88,7 +85,7 @@ class Clansuite_Module_Settings_Admin extends Clansuite_Module_Controller implem
     public function action_admin_update()
     {
         # Set Pagetitle and Breadcrumbs
-        Clansuite_Trail::addStep( _('Update'), '/index.php?mod=controlcenter&amp;sub=settings&amp;action=update');
+        Clansuite_Breadcrumb::add( _('Update'), '/index.php?mod=controlcenter&amp;sub=settings&amp;action=update');
 
         # Incomming Data
         # @todo get post via request object, sanitize

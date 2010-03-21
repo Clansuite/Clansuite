@@ -33,8 +33,8 @@
     * @version    SVN: $Id$
     */
 
-// Security Handler
-if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.'); }
+# Security Handler
+if (defined('IN_CS') == false){ die('Clansuite not loaded. Direct Access forbidden.'); }
 
 /**
  * Clansuite_Loader
@@ -395,7 +395,7 @@ class Clansuite_Loader
             }
         }
 
-        Clansuite_Xdebug::firebug($moduleinfos);
+        #Clansuite_Xdebug::firebug($moduleinfos);
 
         $filename =  ROOT_MOD;
         
@@ -425,8 +425,8 @@ class Clansuite_Loader
             #echo '<br>loaded Module => '. $filename;
         }
 
-        Clansuite_Xdebug::firebug($filename);
-        Clansuite_Xdebug::firebug($classname);
+        #Clansuite_Xdebug::firebug($filename);
+        #Clansuite_Xdebug::firebug($classname);
         return self::requireFile($filename, $classname);
     }
 

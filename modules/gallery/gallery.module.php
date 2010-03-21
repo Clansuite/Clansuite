@@ -34,16 +34,11 @@
     * @version    SVN: $Id: index.module.php 2625 2008-12-09 00:04:43Z vain $
     */
 
-// Security Handler
-if (!defined('IN_CS')){die('Clansuite not loaded. Direct Access forbidden.');}
+# Security Handler
+if (defined('IN_CS') == false){die('Clansuite not loaded. Direct Access forbidden.');}
 
 /**
- * Clansuite Module Gallery
- *
- * @license    GPL
- * @author     Florian Wolf
- * @link       http://www.clansuite.com
- * @version    SVN: $Id:$
+ * Clansuite_Module_Gallery
  *
  * @category    Clansuite
  * @package     Modules
@@ -51,49 +46,24 @@ if (!defined('IN_CS')){die('Clansuite not loaded. Direct Access forbidden.');}
  */
 class Clansuite_Module_Gallery extends Clansuite_Module_Controller implements Clansuite_Module_Interface
 {
-    /**
-     * Main Method of Gallery Module
-     *
-     * Sets up module specific stuff, needed by all actions of the module
-     * Calls the requested Action $_REQUEST['action']
-     */
-    public function execute(Clansuite_HttpRequest $request, Clansuite_HttpResponse $response)
-    {
-        # read module config
-        $this->config->readConfig( ROOT_MOD . '/gallery/gallery.config.php');
+    public function initializeModule(Clansuite_HttpRequest $request, Clansuite_HttpResponse $response)
+    {       
+        $this->getModuleConfig();
     }
 
-    /**
-     * The action_show method for the Gallery module
-     * @param void
-     * @return void
-     */
     public function action_show()
     {
         # Set Pagetitle and Breadcrumbs
-        Clansuite_Trail::addStep( _('show'), '/index.php?mod=gallery&amp;action=show');
+        Clansuite_Breadcrumb::add( _('show'), '/index.php?mod=gallery&amp;action=show');
 
-
-        # Prepare the Output
         $this->prepareOutput();
     }
 
-
-    /**
-     * The widget_gallery method for the Gallery module (widget!)
-     * @param void
-     * @return void
-     */
     public function widget_gallery($item)
     {
     
     }
 
-    /**
-     * The widget_gallery method for the Gallery module (widget!)
-     * @param void
-     * @return void
-     */
     public function widget_random_image($item)
     {
         

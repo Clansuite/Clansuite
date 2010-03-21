@@ -33,44 +33,26 @@
     * @version    SVN: $Id$
     */
 
-// Security Handler
-if (!defined('IN_CS')){die('Clansuite not loaded. Direct Access forbidden.');}
+# Security Handler
+if (defined('IN_CS') == false) { die('Clansuite not loaded. Direct Access forbidden.'); }
 
 /**
- * 
-    *
- * Module:      Index
+ * Clansuite_Module_Index
  *
- * Purpose: This class is the PageController which has many pages to deal with.
+ * @category    Clansuite
+ * @package     Modules
+ * @subpackage  Index
  */
 class Clansuite_Module_Index extends Clansuite_Module_Controller implements Clansuite_Module_Interface
 {
-    /**
-     * @desc  Constructor with call to ModuleController as Parent
-     */
-    public function __construct(Phemto $injector=null)
+    public function initializeModule(Clansuite_HttpRequest $request, Clansuite_HttpResponse $response)
     {
-        parent::__construct(); # run constructor on controller_base
-    }     
-    
-    /**
-     * Main Method of Index Module
-     *
-     * Sets up module specific stuff, needed by all actions of the module
-     * Calls the requested Action $_REQUEST['action']
-     */
-    public function execute(Clansuite_HttpRequest $request, Clansuite_HttpResponse $response)
-    {
-
     }
 
-    /**
-     * Show the Index / Entrance -> welcome message etc.
-     */
     public function action_show()
     {
         # Set Pagetitle and Breadcrumbs
-        Clansuite_Trail::addStep( _('Show'), '/index.php?mod=index&amp;action=show');
+        Clansuite_Breadcrumb::add( _('Show'), '/index.php?mod=index&amp;action=show');
 
         /***
          * You can set a Render Engine:
@@ -125,7 +107,6 @@ class Clansuite_Module_Index extends Clansuite_Module_Controller implements Clan
         # Set Errormessage
         $this->addError('Errormessage', 100);
 
-        # Prepare the Output
         $this->prepareOutput();
     }
 
@@ -135,13 +116,13 @@ class Clansuite_Module_Index extends Clansuite_Module_Controller implements Clan
     public function action_edit()
     {
         # Set Pagetitle and Breadcrumbs
-        Clansuite_Trail::addStep( _('Show'), '/index.php?mod=index&amp;action=show');
+        Clansuite_Breadcrumb::add( _('Show'), '/index.php?mod=index&amp;action=show');
 
         $this->setTemplate( 'show.tpl' );
         $view = $this->getView();
-        $smarty->addRawContent($smarty->fetch('action_edit.tpl'));
+        $view->addRawContent($smarty->fetch('action_edit.tpl'));
 
-        # Prepare the Output
+
         $this->prepareOutput();
     }
 }

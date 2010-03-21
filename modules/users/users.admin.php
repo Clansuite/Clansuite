@@ -32,10 +32,10 @@
     */
 
 //Security Handler
-if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
+if (defined('IN_CS') == false) { die('Clansuite not loaded. Direct Access forbidden.'); }
 
 /**
- * Admin Module - Config Class
+ * Clansuite_Module_Users_Admin
  *
  * @category    Clansuite
  * @package     Modules
@@ -43,7 +43,7 @@ if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
 */
 class Clansuite_Module_Users_Admin extends Clansuite_Module_Controller implements Clansuite_Module_Interface
 {
-    public function execute(Clansuite_HttpRequest $request, Clansuite_HttpResponse $response)
+    public function initializeModule(Clansuite_HttpRequest $request, Clansuite_HttpResponse $response)
     {
         parent::initModel('users');
     }
@@ -63,7 +63,7 @@ class Clansuite_Module_Users_Admin extends Clansuite_Module_Controller implement
     public function action_admin_show()
     {
         # Set Pagetitle and Breadcrumbs
-        #Clansuite_Trail::addStep( _('Show'), '/index.php?mod=users&amp;sub=admin&amp;action=show');
+        #Clansuite_Breadcrumb::add( _('Show'), '/index.php?mod=users&amp;sub=admin&amp;action=show');
 
         # Get Render Engine
         $view = $this->getView();
@@ -139,7 +139,6 @@ class Clansuite_Module_Users_Admin extends Clansuite_Module_Controller implement
         # Specifiy the template manually
         #$this->setTemplate('admin/show.tpl');
 
-        # Prepare the Output
         $this->prepareOutput();
     }
 
@@ -150,7 +149,7 @@ class Clansuite_Module_Users_Admin extends Clansuite_Module_Controller implement
     public function action_admin_create()
     {
         # Set Pagetitle and Breadcrumbs
-        Clansuite_Trail::addStep( _('Create New Useraccount'), '/index.php?mod=users&amp;sub=admin&amp;action=create');
+        Clansuite_Breadcrumb::add( _('Create New Useraccount'), '/index.php?mod=users&amp;sub=admin&amp;action=create');
 
         /**
          * Init
@@ -460,7 +459,6 @@ class Clansuite_Module_Users_Admin extends Clansuite_Module_Controller implement
         # Specifiy the template manually
         $this->setTemplate('admin_edit.tpl');
 
-        # Prepare the Output
         $this->prepareOutput();
     }
 
@@ -471,7 +469,7 @@ class Clansuite_Module_Users_Admin extends Clansuite_Module_Controller implement
     public function action_admin_search()
     {
         # Set Pagetitle and Breadcrumbs
-        Clansuite_Trail::addStep( _('Search'), '/index.php?mod=users&amp;sub=admin&amp;action=search');
+        Clansuite_Breadcrumb::add( _('Search'), '/index.php?mod=users&amp;sub=admin&amp;action=search');
 
         # Get Render Engine
         $view = $this->getView();
@@ -501,7 +499,6 @@ class Clansuite_Module_Users_Admin extends Clansuite_Module_Controller implement
         # Specifiy the template manually
         #$this->setTemplate('admin_search.tpl');
 
-        # Prepare the Output
         $this->prepareOutput();
     }
 
@@ -594,7 +591,7 @@ class Clansuite_Module_Users_Admin extends Clansuite_Module_Controller implement
     public function action_admin_settings()
     {
         # Set Pagetitle and Breadcrumbs
-        Clansuite_Trail::addStep( _('Settings'), '/index.php?mod=users&amp;sub=admin&amp;action=settings');
+        Clansuite_Breadcrumb::add( _('Settings'), '/index.php?mod=users&amp;sub=admin&amp;action=settings');
         
         $settings = array();
         
@@ -624,7 +621,7 @@ class Clansuite_Module_Users_Admin extends Clansuite_Module_Controller implement
     public function action_admin_settings_update()
     { 
         # Set Pagetitle and Breadcrumbs
-        Clansuite_Trail::addStep( _('Update'), '/index.php?mod=users&amp;sub=settings&amp;action=update');
+        Clansuite_Breadcrumb::add( _('Update'), '/index.php?mod=users&amp;sub=settings&amp;action=update');
 
         # Incomming Data
         $data = $this->getHttpRequest()->getParameter('users_settings');

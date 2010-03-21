@@ -33,8 +33,8 @@
     * @version    SVN: $Id$
     */
 
-// Security Handler
-if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
+# Security Handler
+if (defined('IN_CS') == false) { die('Clansuite not loaded. Direct Access forbidden.'); }
 
 /**
  * Clansuite_XDEBUG
@@ -119,7 +119,7 @@ class Clansuite_Xdebug
         if (self::is_xdebug_active())
         {
             # get page parsing time from xdebug
-            echo "<div id='xdebug'><center>";
+            echo '<div id="xdebug"><center>';
 
             self::$_xdebug_memory_before .= 'Time to execute: '. round(xdebug_time_index(),4) . ' seconds';
             self::$_xdebug_memory_before .= '<br />Memory Usage by Clansuite ' . self::roundMB(xdebug_memory_usage()) . ' MB';
@@ -129,7 +129,7 @@ class Clansuite_Xdebug
 
             # stop tracings and var_dump
             xdebug_dump_superglobals();
-            echo "</center></div>";
+            echo '</center></div>';
             # var_dump(xdebug_get_code_coverage());
         }
     }
@@ -160,18 +160,22 @@ class Clansuite_Xdebug
         {
             ob_end_clean();
         }
+        
         if (func_num_args() > 1)
         {
             $var = func_get_args();
         }
-        echo '<pre>';
+
         $trace = array_shift((debug_backtrace()));
-        echo "<b>Debugging <font color=red>".basename($trace['file'])."</font> on line <font color=red>{$trace['line']}</font></b>:\r\n";
         $file = file($trace['file']);
+
+        echo '<pre>';
+        echo '<b>Debugging <font color=red>'.basename($trace['file']).'</font> on line <font color=red>'.$trace['line']."</font></b>:\r\n";
         echo "<div style='background: #f5f5f5; padding: 0.2em 0em;'>".htmlspecialchars($file[$trace['line']-1])."</div>\r\n";
-        echo '<b>Type</b>: '.gettype($var)."\r\n";
+        echo '<b>Type</b>: '.gettype($var)."\r\n"; # uhhh.. gettype is slow like hell
+
         if (is_string($var)) { echo '<b>Length</b>: '.strlen($var)."\r\n"; }
-        if (is_array($var)) { echo '<b>Length</b>: '.count($var)."\r\n"; }
+        if (is_array($var))  { echo '<b>Length</b>: '.count($var)."\r\n";  }
         echo '<b>Value</b>: ';
         if($var === true)        { echo '<font color=green><b>true</b></font>'; }
         elseif($var === false)   { echo '<font color=red><b>false</b></font>'; }
@@ -179,15 +183,18 @@ class Clansuite_Xdebug
         elseif($var === 0)       { echo "0"; }
         elseif(is_string($var) and strlen($var) == '0') { echo '<font color=green>*EMPTY STRING*</font>'; }
         elseif(is_string($var))  { echo htmlspecialchars($var); }
-        else {
+        else
+        {
             $print_r = print_r($var, true);
-            // str_contains < or >
-            if ((strstr($print_r, '<') !== false) || (strstr($print_r, '>') !== false)) {
+            # str_contains < or >
+            if ((strstr($print_r, '<') !== false) or (strstr($print_r, '>') !== false))
+            {
                 $print_r = htmlspecialchars($print_r);
             }
             echo $print_r;
         }
         echo '</pre>';
+        
         # save session before exit
         session_write_close();
         exit;
@@ -222,7 +229,7 @@ class Clansuite_Xdebug
             $classname = $backtrace_array[1]['class'];
         }
 
-        $infomsg = sprintf('You are debugging like fire in %s %s() on line "%s" in file "%s".',
+        $infomsg = sprintf('You are debugging like fire in %s->%s() on line "%s" in file "%s".',
                             $classname, $backtrace_array[1]['function'],
                             $backtrace_array[0]['line'], $backtrace_array[0]['file']);
 

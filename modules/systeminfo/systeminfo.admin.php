@@ -34,45 +34,27 @@
     * @version    SVN: $Id: index.module.php 2625 2008-12-09 00:04:43Z vain $
     */
 
-// Security Handler
-if (!defined('IN_CS')){die('Clansuite not loaded. Direct Access forbidden.');}
+# Security Handler
+if (defined('IN_CS') == false){die('Clansuite not loaded. Direct Access forbidden.');}
 
 /**
- * Clansuite Module - Systeminfo
- *
- * Provides: System Informations
- *
- * @license    GPLv2 or any later version
- * @author     Jens-André Koch
- * @link       http://www.clansuite.com
+ * Clansuite_Module_Systeminfo_Admin
  *
  * @category    Clansuite
  * @package     Modules
  * @subpackage  Systeminfo
  */
-class Clansuite_Module_Systeminfo_Admin extends Clansuite_Module_Controller implements Clansuite_Module_Interface
+class  extends Clansuite_Module_Controller implements Clansuite_Module_Interface
 {
-    /**
-     * Main Method of sysinfo Module
-     *
-     * Sets up module specific stuff, needed by all actions of the module
-     * Calls the requested Action $_REQUEST['action']
-     */
-    public function execute(Clansuite_HttpRequest $request, Clansuite_HttpResponse $response)
+    public function initializeModule(Clansuite_HttpRequest $request, Clansuite_HttpResponse $response)
     {
-        # read module config
         $this->getModuleConfig();
     }
 
-    /**
-     * The action_admin_show method for the sysinfo module
-     * @param void
-     * @return void
-     */
     public function action_admin_show()
     {
         # Set Pagetitle and Breadcrumbs - not needed
-        # Clansuite_Trail::addStep( _('Show'), '/index.php?mod=sysinfo&amp;action=show');
+        # Clansuite_Breadcrumb::add( _('Show'), '/index.php?mod=sysinfo&amp;action=show');
 
         // Set Layout Template
         $this->getView()->setLayoutTemplate('index.tpl');
@@ -83,7 +65,6 @@ class Clansuite_Module_Systeminfo_Admin extends Clansuite_Module_Controller impl
         $this->getView()->assign('sysinfos', $sysinfo);
         unset($sysinfo);
 
-        # Prepare the Output
         $this->prepareOutput();
     }
 
@@ -248,13 +229,11 @@ class Clansuite_Module_Systeminfo_Admin extends Clansuite_Module_Controller impl
 
     /**
      * The action_admin_show method for the sysinfo module
-     * @param void
-     * @return void
      */
     public function action_admin_show_apc()
     {
         # Set Pagetitle and Breadcrumbs
-        Clansuite_Trail::addStep( _('Alternative PHP Cache'), '/index.php?mod=sysinfo&amp;action=showapc');
+        Clansuite_Breadcrumb::add( _('Alternative PHP Cache'), '/index.php?mod=sysinfo&amp;action=showapc');
 
         # Get APC Cache
         $cache_apc = Clansuite_Cache_Factory::getCache('apc', $this->getInjector());
@@ -265,14 +244,13 @@ class Clansuite_Module_Systeminfo_Admin extends Clansuite_Module_Controller impl
         # Set Layout Template
         $this->getView()->setLayoutTemplate('index.tpl');
 
-        # Prepare the Output
         $this->prepareOutput();
     }
 
     public function action_admin_show_logfiles()
     {
         # Set Pagetitle and Breadcrumbs
-        Clansuite_Trail::addStep( _('Show'), '/index.php?mod=sysinfo&amp;action=showapc');
+        Clansuite_Breadcrumb::add( _('Show'), '/index.php?mod=sysinfo&amp;action=showapc');
 
         # Get APC Cache
         $cache_apc = Clansuite_Cache_Factory::getCache('apc', $this->getInjector());
@@ -283,7 +261,6 @@ class Clansuite_Module_Systeminfo_Admin extends Clansuite_Module_Controller impl
         # Set Layout Template
         $this->getView()->setLayoutTemplate('index.tpl');
 
-        # Prepare the Output
         $this->prepareOutput();
     }
 }

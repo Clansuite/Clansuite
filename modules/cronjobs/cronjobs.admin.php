@@ -33,37 +33,22 @@
     * @version    SVN: $Id: index.module.php 2873 2009-03-27 01:50:12Z vain $
     */
 
-// Security Handler
-if (!defined('IN_CS')){die('Clansuite not loaded. Direct Access forbidden.');}
+# Security Handler
+if (defined('IN_CS') == false){die('Clansuite not loaded. Direct Access forbidden.');}
 
 /**
- * Clansuite Administration Module - Cronjobs
+ * Clansuite_Module_Cronjobs_Admin
  *
- * Purpose: The Cronjob Administration Module provides the GUI and Actions for the administration of repetitive tasks.
+ * @category    Clansuite
+ * @package     Modules
+ * @subpackage  Cronjobs
  */
 class Clansuite_Module_Cronjobs_Admin extends Clansuite_Module_Controller implements Clansuite_Module_Interface
 {
-    /**
-     * Constructor with call to ModuleController as Parent
-     */
-    public function __construct(Phemto $injector=null)
-    {
-        parent::__construct(); # run constructor on controller_base
-    }
-
-    /**
-     * Module_Cronjobs_Admin->Execute()
-     *
-     * Sets up module specific stuff, needed by all actions of the module
-     */
-    public function execute(Clansuite_HttpRequest $request, Clansuite_HttpResponse $response)
+    public function initializeModule(Clansuite_HttpRequest $request, Clansuite_HttpResponse $response)
     {
 
     }
-
-    /**
-     * Overview of Cronjobs
-     */
     public function action_admin_show()
     {
         # Applying a Layout Template
@@ -73,7 +58,6 @@ class Clansuite_Module_Cronjobs_Admin extends Clansuite_Module_Controller implem
 
         $this->getView()->assign('cronjobs', $cronjobs);
 
-        # Prepare the Output
         $this->prepareOutput();
     }
 }

@@ -33,8 +33,8 @@
     * @version    SVN: $Id$
     */
 
-// Security Handler
-if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.');}
+# Security Handler
+if (defined('IN_CS') == false){ die('Clansuite not loaded. Direct Access forbidden.');}
 
 if (!class_exists('Clansuite_Formelement_Input',false)) { require dirname(__FILE__) . '/input.form.php'; }
 
@@ -61,11 +61,6 @@ class Clansuite_Formelement_File extends Clansuite_Formelement_Input implements 
      */
     protected $uploadType;
 
-    /**
-     * constructor
-     *
-     * @return void
-     */
     public function __construct()
     {
         $this->type = 'file';

@@ -33,8 +33,8 @@
     * @version    SVN: $Id$
     */
 
-// Security Handler
-if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.');}
+# Security Handler
+if (defined('IN_CS') == false){ die('Clansuite not loaded. Direct Access forbidden.');}
 
 /**
  * Interface for all Nodes (Leaf-Objects)
@@ -127,8 +127,6 @@ class Clansuite_Composite_Iterator implements ArrayAccess, Countable, Iterator
      * Returns the number of nodes.
      *
      * Implementation of {@see Countable::count()}.
-     *
-     * @return void
      */
     public function count( )
     {
@@ -236,8 +234,6 @@ class Clansuite_View_Layout implements Clansuite_View_Node_Interface
 
     /**
      * Adds / appends a new view-node (leaf-object) to the bottom of the stack
-     *
-     * @return void
      */
     public function appendNode(Clansuite_View_Node_Interface $component)
     {

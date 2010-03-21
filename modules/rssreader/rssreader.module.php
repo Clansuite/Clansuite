@@ -34,31 +34,25 @@
     */
 
 //Security Handler
-if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
+if (defined('IN_CS') == false) { die('Clansuite not loaded. Direct Access forbidden.'); }
 
 /**
- * Clansuite Module - rssreader
+ * Clansuite_Module_Rssreader
  *
- * @author     Jens-André Koch <vain@clansuite.com>
- * @copyright  Jens-André Koch (2005 - onwards)
- * @version    0.1
+ * @category    Clansuite
+ * @package     Modules
+ * @subpackage  Rssreader
  */
 class Clansuite_Module_Rssreader extends Clansuite_Module_Controller implements Clansuite_Module_Interface
 {
-    /**
-     * Module_rssreader -> Execute
-     */
-    public function execute(Clansuite_HttpRequest $request, Clansuite_HttpResponse $response)
+    public function initializeModule(Clansuite_HttpRequest $request, Clansuite_HttpResponse $response)
     {
-        # nothing to do
-
     }
 
     public function action_show()
     {
         $view = $this->getView();
 
-        # Prepare the Output
         $this->prepareOutput();
     }
 

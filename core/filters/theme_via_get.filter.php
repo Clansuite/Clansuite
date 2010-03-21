@@ -33,8 +33,8 @@
     * @version    SVN: $Id$
     */
 
-// Security Handler
-if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
+# Security Handler
+if (defined('IN_CS') == false) { die('Clansuite not loaded. Direct Access forbidden.'); }
 
 /**
  * Clansuite Filter - Theme via URL
@@ -70,7 +70,7 @@ class Clansuite_Filter_theme_via_get implements Clansuite_Filter_Interface
                 #@todo debug traceing message
                 #echo 'processing themefilter';
 
-            	// Security Handler for $_GET['theme']
+            	# Security Handler for $_GET['theme']
             	// Allowed Chars: abc, 0-9, underscore
             	if( !$this->input->check( $request['theme'], 'is_abc|is_int|is_custom', '_' ) )
                 {

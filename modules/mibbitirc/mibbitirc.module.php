@@ -33,29 +33,27 @@
     * @version    SVN: $Id: index.module.php 2625 2008-12-09 00:04:43Z vain $
     */
 
-// Security Handler
-if (!defined('IN_CS')){die('Clansuite not loaded. Direct Access forbidden.');}
+# Security Handler
+if (defined('IN_CS') == false){die('Clansuite not loaded. Direct Access forbidden.');}
 
 /**
- * Clansuite Module - Mibbit IRC
+ * Clansuite_Module_Mibbitirc
  *
- * @author  Jens-André Koch <vain@clansuite.com>
+ * @category    Clansuite
+ * @package     Modules
+ * @subpackage  Mibbitirc
  */
 class Clansuite_Module_Mibbitirc extends Clansuite_Module_Controller implements Clansuite_Module_Interface
 {
-    /**
-     * Module_Mibbitirc -> Execute
-     */
-    public function execute(Clansuite_HttpRequest $request, Clansuite_HttpResponse $response)
+    public function initializeModule(Clansuite_HttpRequest $request, Clansuite_HttpResponse $response)
     {
-        # read module config
         $this->getModuleConfig();
     }
 
     public function action_show()
     {
         # Set Pagetitle and Breadcrumbs
-        Clansuite_Trail::addStep( _('Show'), '/index.php?mod=mibbitirc&amp;action=show');
+        Clansuite_Breadcrumb::add( _('Show'), '/index.php?mod=mibbitirc&amp;action=show');
 
         # Try to get Mibbit Options from config or set default ones
         $mibbit_options['nick']        = preg_replace('/ /', '_', $_SESSION['user']['nick']);

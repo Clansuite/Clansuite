@@ -31,14 +31,11 @@
     * @version    SVN: $Id: news.module.php 2345 2008-08-02 04:35:23Z vain $
     */
 
-// Security Handler
-if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
-
-# load library / init libacts2
-require( ROOT_LIBRARIES . 'libacts2/Absurd.php');
+# Security Handler
+if (defined('IN_CS') == false) { die('Clansuite not loaded. Direct Access forbidden.'); }
 
 /**
- * Clansuite Module - Teamspeakviewer
+ * Clansuite_Module_Teamspeakviewer
  *
  * @category    Clansuite
  * @package     Modules
@@ -49,9 +46,10 @@ class Clansuite_Module_Teamspeakviewer extends Clansuite_Module_Controller imple
     /**
      * Module_Teamspeakviewer -> Execute
      */
-    public function execute(Clansuite_HttpRequest $request, Clansuite_HttpResponse $response)
+    public function initializeModule(Clansuite_HttpRequest $request, Clansuite_HttpResponse $response)
     {
-
+        # load library / init libacts2
+        require( ROOT_LIBRARIES . 'libacts2/Absurd.php');
     }
 
     public function action_show()
@@ -301,7 +299,7 @@ class AdvancedTeamSpeak2Viewer implements Absurd_TeamSpeak2_Viewer
     * 4 .... Voice
     * 8 .... AutoOperator
     * 16 ... AutoVoice
-    * @desc var_dump($object['cprivs']);
+    *       var_dump($object['cprivs']);
     *       var_dump($object['pprivs']);
     *       var_dump($object['pflags']);
     */

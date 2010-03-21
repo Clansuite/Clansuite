@@ -31,34 +31,21 @@
     * @version    SVN: $Id$
     */
 
-// Security Handler
-if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
+# Security Handler
+if (defined('IN_CS') == false) { die('Clansuite not loaded. Direct Access forbidden.'); }
 
 /**
- * 
-    *
- * Module:      News
- * Submodule:   Admin
- *
- * @author     Jens-Andre Koch   <vain@clansuite.com>
- * @author     Florian Wolf      <xsign.dll@clansuite.com>
- * @copyright  Jens-Andre Koch (2005 - onwards), Florian Wolf (2005 - 2008)
+ * Clansuite_Module_News_Admin
  *
  * @category    Clansuite
  * @package     Modules
  * @subpackage  News
  */
-class Clansuite_Module_News_Admin extends Clansuite_Module_Controller implements Clansuite_Admin_Module_BREAD_Interface
+class Clansuite_Module_News_Admin extends Clansuite_Module_Controller implements Clansuite_Module_Interface
 {
     public $_Statusmap = array();
-    public $_AdminItems = array();
 
-    /*public function __construct(Phemto $injector=null)
-    {
-        parent::__construct(); # run constructor on controller_base
-    }*/
-
-    public function execute(Clansuite_HttpRequest $request, Clansuite_HttpResponse $response)
+    public function initializeModule(Clansuite_HttpRequest $request, Clansuite_HttpResponse $response)
     {
         parent::initModel('news');
         parent::initModel('users');
@@ -72,12 +59,12 @@ class Clansuite_Module_News_Admin extends Clansuite_Module_Controller implements
     }
 
     /**
-     * Module_News_Admin - action_admin_browse
+     * Clansuite_Module_News_Admin -> action_admin_show()
      *
      * Show all news entries and give the possibility to edit/delete
      * Show DropDown with possibility to select the news category
      */
-    public function action_admin_browse()
+    public function action_admin_show()
     {
         # Get Render Engine
         $view = $this->getView();
@@ -162,9 +149,9 @@ class Clansuite_Module_News_Admin extends Clansuite_Module_Controller implements
         ) );
 
         $datagrid->setBatchActions( $BatchActions );
-        
+
         $datagrid->getColumn('Select')->disableFeature('Search');
-        
+
         $datagrid->getColumn('Title')->getRenderer()->linkFormat  = '&action=edit&id=%{id}';
         $datagrid->getColumn('Title')->getRenderer()->linkTitle   = _('Edit this news');
         $datagrid->getColumn('Title')->getRenderer()->nameFormat  = '%{name} - %{comments} Comment(s)';
@@ -175,14 +162,13 @@ class Clansuite_Module_News_Admin extends Clansuite_Module_Controller implements
         $datagrid->setResultSetHook($this, 'manipulateValues');
 
         $datagrid->setResultsPerPage($this->getConfigValue('resultsPerPage_adminshow', '5'));
-        
+
         # Assing datagrid
         $view->assign('datagrid', $datagrid->render());
 
         # Set Layout Template
         $this->getView()->setLayoutTemplate('index.tpl');
 
-        # Prepare the Output
         $this->prepareOutput();
     }
 
@@ -376,11 +362,9 @@ class Clansuite_Module_News_Admin extends Clansuite_Module_Controller implements
     public function action_admin_settings()
     {
         # Set Pagetitle and Breadcrumbs
-        Clansuite_Trail::addStep( _('Settings'), '/index.php?mod=news&amp;sub=admin&amp;action=settings');
+        Clansuite_Breadcrumb::add( _('Settings'), '/index.php?mod=news&amp;sub=admin&amp;action=settings');
 
         $settings = array();
-        $adminitems = $this->_AdminItems;
-        $adminitems['selected'] = $this->getConfigValue('resultsPerPage_adminshow', '10');
 
         $settings['form']   = array(    'name' => 'news_settings',
                                         'method' => 'POST',
@@ -395,7 +379,7 @@ class Clansuite_Module_News_Admin extends Clansuite_Module_Controller implements
 
         $settings['news'][] = array(    'id' => 'items_newswidget',
                                         'name' => 'items_newswidget',
-                                        'label' => 'LatestNews Items',
+                                        'label' => 'LatestNews Wdiget Items',
                                         'description' => _('Newsitems to show in LatestNews Widget'),
                                         'formfieldtype' => 'text',
                                         'value' => $this->getConfigValue('items_newswidget', '5'));
@@ -412,10 +396,9 @@ class Clansuite_Module_News_Admin extends Clansuite_Module_Controller implements
                                         'label' => 'Admin News Items',
                                         'description' => _('Newsitems to show in the administration area.'),
                                         'formfieldtype' => 'multiselect',
-                                        'value' => $adminitems,
+                                        'value' => $this->getConfigValue('resultsPerPage_adminshow', '10'),
                                         'validationrules' => array('int'),
                                         'errormessage' => 'Please use digits!');
-
 
         $settings['news'][] = array(    'id' => 'resultsPerPage_archive',
                                         'name' => 'resultsPerPage_archive',
@@ -463,21 +446,16 @@ class Clansuite_Module_News_Admin extends Clansuite_Module_Controller implements
 
     public function action_admin_settings_update()
     {
-        # Incomming Data
-        # @todo get post via request object, sanitize
         $data = $this->getHttpRequest()->getParameter('news_settings');
 
-        # Get Configuration from Injector
-        $config = $this->injector->instantiate('Clansuite_Config');
-
-        # write config
-        $config->confighandler->writeConfig( ROOT_MOD . 'news'.DS.'news.config.php', $data);
+        $this->getClansuiteConfig()->confighandler->writeConfig( ROOT_MOD . 'news'.DS.'news.config.php', $data);
 
         # clear the cache / compiled tpls
         # $this->getView()->clear_all_cache();
-        #$this->getView()->utility->clearCompiledTemplate();
+        # $this->getView()->utility->clearCompiledTemplate();
 
         # Redirect
+        $this->
         $this->getHttpResponse()->redirectNoCache('index.php?mod=news&amp;sub=admin', 2, 302, 'The config file has been succesfully updated.');
     }
 }

@@ -33,8 +33,8 @@
     * @version    SVN: $Id: index.module.php 2625 2008-12-09 00:04:43Z vain $
     */
 
-// Security Handler
-if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.');}
+# Security Handler
+if (defined('IN_CS') == false) { die('Clansuite not loaded. Direct Access forbidden.'); }
 
 /**
  * Clansuite Module Gallery Administration
@@ -45,25 +45,16 @@ if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.');}
  */
 class Clansuite_Module_Gallery_Admin extends Clansuite_Module_Controller implements Clansuite_Module_Interface
 {
-    public function __construct(Phemto $injector=null)
-    {
-        parent::__construct(); # run constructor on controller_base
-    }
-
-    public function execute(Clansuite_HttpRequest $request, Clansuite_HttpResponse $response)
+    public function initializeModule(Clansuite_HttpRequest $request, Clansuite_HttpResponse $response)
     {
 		parent::initModel('gallery');
     }
 
-    /**
-     * Module_Gallery_Admin - action_admin_show
-     *
-     */
     public function action_admin_show()
     {
 
         # Set Pagetitle and Breadcrumbs
-        Clansuite_Trail::addStep( _('Show'), '/index.php?mod=gallery&amp;sub=admin&amp;action=show');
+        Clansuite_Breadcrumb::add( _('Show'), '/index.php?mod=gallery&amp;sub=admin&amp;action=show');
 
         $album = CsGalleryAlbum::getGalleryAlbums();
 
@@ -87,21 +78,20 @@ class Clansuite_Module_Gallery_Admin extends Clansuite_Module_Controller impleme
         $this->getView()->setLayoutTemplate('index.tpl');
         # specifiy the template manually
         #$this->setTemplate('news/admin_show.tpl');
-        # Prepare the Output
-        $this->prepareOutput();
 
+        $this->prepareOutput();
     }
 
     public function action_admin_create_album()
     {
     	# Set Pagetitle and Breadcrumbs
-        Clansuite_Trail::addStep( _('Create Album'), '/index.php?mod=gallery&amp;sub=admin&amp;action=create_album');
+        Clansuite_Breadcrumb::add( _('Create Album'), '/index.php?mod=gallery&amp;sub=admin&amp;action=create_album');
 
         # Get Render Engine
         $view = $this->getView();
 
        	# instantiate Clansuite_HttpRequest object
-    	$request = $this->injector->instantiate('Clansuite_HttpRequest');
+    	$request = $this->getHttpRequest();
 
     	# get valid $_POST params
     	$album['name'] 			= $request->getParameter('album_name');
@@ -121,26 +111,21 @@ class Clansuite_Module_Gallery_Admin extends Clansuite_Module_Controller impleme
         # specifiy the template manually
         $this->setTemplate('admin_create_album.tpl');
 
-        # Prepare the Output
         $this->prepareOutput();
-
     }
-
+    
     public function action_admin_update_album()
     {
     	# set pagetitle and breadcrumbs
-        Clansuite_Trail::addStep( _('Update Album'), '/index.php?mod=gallery&amp;sub=admin&amp;action=update_album');
+        Clansuite_Breadcrumb::add( _('Update Album'), '/index.php?mod=gallery&amp;sub=admin&amp;action=update_album');
 
         # get render engine
         $view = $this->getView();
 
 		# instantiate Clansuite_HttpRequest object
-    	$request = $this->injector->instantiate('Clansuite_HttpRequest');
+    	$id = $this->getHttpRequest()->getParameterFromGet('id');
 
-    	# get valid $_POST params
-    	$id = $request->getParameter('id');
-
-    	# get all album fields of given $id - retrun array
+    	# get all album fields of given $id - return array
         $album = CsGalleryAlbum::getAlbumById($id);
 
         # assign result to smarty
@@ -152,7 +137,6 @@ class Clansuite_Module_Gallery_Admin extends Clansuite_Module_Controller impleme
         # specifiy the template manually
         $this->setTemplate('admin_update_album.tpl');
 
-        # prepare the output
         $this->prepareOutput();
     }
 }
