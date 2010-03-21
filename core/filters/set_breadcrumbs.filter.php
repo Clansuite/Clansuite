@@ -53,89 +53,69 @@ class Clansuite_Filter_set_breadcrumbs implements Clansuite_Filter_Interface
         $moduleName     = Clansuite_Module_Controller_Resolver::getModuleName();
         $submoduleName  = Clansuite_Module_Controller_Resolver::getSubModuleName();
         $actionName     = Clansuite_Action_Controller_Resolver::getActionName();
-     
+
         /**
-         *  This adds the FIRST PART of the TRAIL.   
-         * 
-         *  We have 3 cases:
-         *  a) if a Submodule "admin" is requested, then the FIRST PART of the TRAIL has to be "Control Center"
-         *  b) if the Module Control Center is requested, then the FIRST PART of the TRAIL has to be "Control Center"
-         *  c) if 
+         *  This adds the FIRST PART of the TRAIL.
+         *  We have 3 cases.
          */
-        if(strlen($submoduleName) > 0 and ($submoduleName == 'admin'))  
-        {
-            # Set Pagetitle "Control Center"" and Breadcrumb-Link = '/index.php?mod=controlcenter'                      
-            Clansuite_Trail::addControlCenterTrail();
-        }
-         
-        if(strlen($moduleName) > 0 and ($moduleName == 'controlcenter'))
-        {
-            # Set Pagetitle "Control Center" and Breadcrumb-Link = '/index.php?mod=controlcenter'                      
-            Clansuite_Trail::addControlCenterTrail();
-        } 
-        
         if(strlen($moduleName) >= 0 and ($moduleName != 'controlcenter') and ($submoduleName != 'admin'))
         {
-            # Set Pagetitle "Home" and Breadcrumb-Link = '/index.php?mod=controlcenter'                      
-            Clansuite_Trail::addHomeTrail();
-        }        
-        
+            Clansuite_Breadcrumb::addHomeTrail();
+        }
+
+        if(strlen($moduleName) > 0 and ($moduleName == 'controlcenter'))
+        {
+            # Set Pagetitle "Control Center" and Breadcrumb-Link = '/index.php?mod=controlcenter'
+            Clansuite_Breadcrumb::addControlCenterTrail();
+        }
+
+        if(strlen($submoduleName) > 0 and ($submoduleName == 'admin'))
+        {
+            # Set Pagetitle "Control Center"" and Breadcrumb-Link = '/index.php?mod=controlcenter'
+            Clansuite_Breadcrumb::addControlCenterTrail();
+        }
+
         /**
-         * This adds the SECCOND PART of the TRAIL.   
+         * This adds the SECCOND PART of the TRAIL.
          */
         if(strlen($moduleName) > 0  and ($moduleName != 'controlcenter'))
         {
-            # Strip String ModuleName at "_admin", example: guestbook_admin
-            #$moduleName = strstr($moduleName, '_Admin', true);     # php6
-            /*$moduleName = Clansuite_Functions::cut_string_backwards($moduleName, '_admin');
-
-            # Strip String ModuleName at "admin_", example: admin_menueditor
-            if(strpos($moduleName,'admin_')!==false)
-            {
-                #$moduleName = substr($moduleName, 6);
-                $moduleName_exploded = explode("_", $moduleName);
-                $moduleName = $moduleName_exploded[0];
-            }*/
-
             # Construct URL
-             # BASE URL
-            $URL  = '/index.php';
-            $URL .= '?mod=' . $moduleName;
+            # BASE URL
+            $url  = '/index.php?mod=' . $moduleName;
             $trailName = $moduleName;
 
             # Add action Part only, if not no submodule following
             if( (strlen($actionName) > 0) and (strlen($submoduleName) == 0))
             {
-                $URL .= '&amp;action=' . $actionName;
+                $url .= '&amp;action=' . $actionName;
             }
-            
+
             # if this is an request to an submodule admin, we append that to the URL
-            if( (strlen($submoduleName) > 0)  and ($submoduleName == 'admin')) 
+            if( (strlen($submoduleName) > 0)  and ($submoduleName == 'admin'))
             {
-                $URL .= '&amp;sub=admin';
+                $url .= '&amp;sub=admin';
             }
 
             # Set Pagetitle and Breadcrumbs for that Module
-            # >> MODULENAME
-            Clansuite_Breadcrumb::add( T_( ucfirst($trailName) ), $URL );
+            Clansuite_Breadcrumb::add( T_( ucfirst($trailName) ), $url );
         }
 
         # add submodule part
         if(strlen($submoduleName) > 0 and ($submoduleName != 'admin'))
-        {   
+        {
             # Construct URL
-            $URL .= '&amp;sub=' . $submoduleName;
+            $url .= '&amp;sub=' . $submoduleName;
             $trailName = $submoduleName;
 
             # Add action Part now
             if(strlen($actionName) > 0)
             {
-                $URL .= '&amp;action=' . $actionName;
+                $url .= '&amp;action=' . $actionName;
             }
 
-            # Set Pagetitle and Breadcrumbs for that Module
-            # >> SUBMODULENAME
-            Clansuite_Breadcrumb::add( T_( ucfirst($trailName) ), $URL );
+            # Set Pagetitle and Breadcrumbs for that SubModule
+            Clansuite_Breadcrumb::add( T_( ucfirst($trailName) ), $url );
         }
     }
 }
