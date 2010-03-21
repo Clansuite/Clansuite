@@ -385,7 +385,7 @@ abstract class Clansuite_Renderer_Base
         $template_constants['minfied_javascript'] =  ROOT_LIBRARIES . 'minify/?g=js&amp;' . $_SESSION['user']['theme'];
 
         # Breadcrumb
-        $template_constants['trail'] = Clansuite_Trail::getTrail();
+        $template_constants['trail'] = Clansuite_Breadcrumb::getTrail();
 
         # Templatename itself
         $template_constants['template_to_render'] = $this->getTemplate();

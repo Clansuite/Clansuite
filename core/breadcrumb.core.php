@@ -50,7 +50,7 @@ if (defined('IN_CS') == false){ die('Clansuite not loaded. Direct Access forbidd
  *
  * @category    Clansuite
  * @package     Core
- * @subpackage  Trail
+ * @subpackage  Breadcrumb
  */
 class Clansuite_Breadcrumb
 {
