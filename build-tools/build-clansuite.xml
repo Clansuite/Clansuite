@@ -150,7 +150,7 @@
         <exclude name=".htaccess"/>                     <!-- exclude htaccess file -->
         <exclude name="libraries/**"/>                  <!-- exclude libraries directory -->
         <exclude name="PEAR/**" />                      <!-- exclude pear directory -->
-        <exclude name="pear-* />
+        <exclude name="pear-*" />
     </fileset>
 
     <!-- Define Fileset "clansuite.testfiles" -->
@@ -367,9 +367,6 @@
             <arg line="tests/runAllTest.php" />
         </exec>
     </target> 
-
-
-    </target>
 
     <!-- COMMAND = "code-coverage" -->
     <!-- Disabled, depends on XDEBUG
