@@ -51,7 +51,7 @@ if (defined('IN_CS') == false) { die('Clansuite not loaded. Direct Access forbid
  *
  * @category    Clansuite
  * @package     Core
- * @subpackage  Errorhandler
+ * @subpackage  Exceptionhandler
  */
 class Clansuite_Exception extends Exception implements Clansuite_Exception_Interface
 {
@@ -60,32 +60,56 @@ class Clansuite_Exception extends Exception implements Clansuite_Exception_Inter
      * They are used to store the content of incomming uncatched Exceptions.
      */
 
-    # exception message
+    /**
+     * @var string exception message
+     */
     protected $message = 'Unknown exception';
 
-    # debug backtrace string
+    /**
+     * @var string debug backtrace string
+     */
     private   $string;
 
-    # user-defined exception code
+    /**
+     * @var int user-defined exception code
+     */
     protected $code    = 0;
 
-    # source filename of exception
+    /**
+     * @var string source filename of exception
+     */
     protected $file;
 
-    # source line of exception
+    /**
+     * @var int source line of exception
+     */
     protected $line;
 
-    # trace
+    /**
+     * @var string trace
+     */
     private   $trace;
 
     /**
      * Variables for the content of exception templates
      */
 
+    /**
+     * @var string HTML Representation of the Exception Template
+     */
     private static $exception_template_content = '';
+
+    /**
+     * @var string HTML Representation of the Exception Development (RAD) Template
+     */
     private static $exception_development_template_content = '';
 
-    # redeclare exception, so that it is not optional
+    /**
+     * Constructor redeclares the exception
+     *
+     * @param string $message Exception Message
+     * @param int $code Exception Code
+     */
     public function __construct($message = null, $code = 0)
     {
         # assign to parent
@@ -97,9 +121,6 @@ class Clansuite_Exception extends Exception implements Clansuite_Exception_Inter
             self::fetchExceptionTemplates($code);
 
         }
-
-        # debug display of exception object
-        #clansuite_xdebug::printR($this);
     }
 
     /**
@@ -118,7 +139,7 @@ class Clansuite_Exception extends Exception implements Clansuite_Exception_Inter
      * Fetches the normal and rapid development templates for exceptions and sets them to class.
      * Callable via self::getExceptionTemplate() and self::getExceptionDevelopmentTemplate($placeholders).
      *
-     * @param $code exception
+     * @param int $code Exception Code
      */
     private static function fetchExceptionTemplates($code)
     {
@@ -135,7 +156,7 @@ class Clansuite_Exception extends Exception implements Clansuite_Exception_Inter
      * Filename has to be "exception-ID.html", where ID is the exception id.
      * Example with ID 20: throw new Clansuite_Exception('My Exception Message: ', 20);
      *
-     * @param $code exception
+     * @param int $code Exception Code
      */
     private static function fetchExceptionTemplate($code)
     {
@@ -153,7 +174,7 @@ class Clansuite_Exception extends Exception implements Clansuite_Exception_Inter
     /**
      * Setter Method for the Content of the ErrorTemplate
      *
-     * @param $content
+     * @param string $content Content of the ErrorTemplate
      */
     private static function setExceptionTemplate($content)
     {
@@ -176,7 +197,7 @@ class Clansuite_Exception extends Exception implements Clansuite_Exception_Inter
      * Filename has to be "exception-dev-ID.html", where ID is the exception id.
      * Example with ID 20: throw new Clansuite_Exception('My Exception Message: ', 20);
      *
-     * @param $code exception
+     * @param $code The exception code.
      */
     private static function fetchExceptionDevelopmentTemplate($code)
     {
@@ -193,7 +214,7 @@ class Clansuite_Exception extends Exception implements Clansuite_Exception_Inter
     /**
      * Setter Method for the Content of the ExceptionDevelopmentTemplate
      *
-     * @param $content
+     * @param string $content HTML Content of the Exception Development Template
      */
     private static function setExceptionDevelopmentTemplate($content)
     {
@@ -203,11 +224,12 @@ class Clansuite_Exception extends Exception implements Clansuite_Exception_Inter
     /**
      * Getter Method for the exception_development_template_content
      *
-     * @return Content of $exception_development_template_content
+     * @return HTML Representation of $exception_development_template_content
      */
     private static function getExceptionDevelopmentTemplate($placeholders)
     {
         $original_file_content = self::$exception_development_template_content;
+        $replaced_content = '';
 
         if(isset($placeholders['modulename']))
         {
@@ -231,16 +253,10 @@ class Clansuite_Exception extends Exception implements Clansuite_Exception_Inter
      * Exception Handler Callback
      * Rethrows uncatched Exceptions in our presentation style.
      *
-     * @param $exception A valid Exception Object is valid (Type Hint).
+     * @param $exception PHP Exception Objects are valid (Type Hint).
      */
     public function clansuite_exception_handler( Exception $exception )
     {
-       # display exceptions if errors are not suppressed
-       #if ($this->config['suppress_errors'] == 0 )
-       #{
-            # Simple structured output
-            #echo '<pre>'.$exception.'</pre';
-
             # Assigning variables from an uncatched exception to this exception object
             $this->message = $exception->getMessage();
             $this->string  = $exception->getTraceAsString();
@@ -255,15 +271,18 @@ class Clansuite_Exception extends Exception implements Clansuite_Exception_Inter
                 $this->code = '0 (This exception is uncatched and rethrown.)';
             }
 
-            # stringifies this object via __toString by calling yellowScreenOfDeath()
+            # output this object as string via __toString and calling yellowScreenOfDeath()
             echo $this;
-       #}
     }
 
     /**
-     * Method for Conditional Usage
+     * Method for Conditional Usage (Shortcut/Convenience Method)
      *
+     * @example
      * Usage: someFunction() OR throwException();
+     *
+     * @param string $message Exception Message
+     * @param int $code Exception Code
      */
     public function throwException($message = null, $code = null)
     {
@@ -271,8 +290,7 @@ class Clansuite_Exception extends Exception implements Clansuite_Exception_Inter
     }
 
     /**
-     * Exception Presentation:
-     * Yellow Screen of Death (YSOD)
+     * The Exception Presentation: Yellow Screen of Death (YSOD)
      */
     public function yellowScreenOfDeath()
     {
@@ -348,6 +366,7 @@ class Clansuite_Exception extends Exception implements Clansuite_Exception_Inter
 
         # HEADING <Rapid Development>
 
+        $placeholders = array();
         # assign placeholders for replacements in the html
         if(strpos(self::getMessage(),"action_"))
         {
@@ -379,7 +398,7 @@ class Clansuite_Exception extends Exception implements Clansuite_Exception_Inter
         # Split
         $errormessage   .= '<tr><td colspan="2">&nbsp;</td></tr>';
 
-        # close all html elements: table, fieldset, body+page
+        # close all html element table
         $errormessage   .= '</table>';
 
         # Footer with Support-Backlinks
@@ -410,13 +429,16 @@ class Clansuite_Exception extends Exception implements Clansuite_Exception_Inter
     }
 
     /**
-     * formats the debugtrace by applying linebreaks
+     * Formats the debugtrace by applying linebreaks
+     *
+     * @param $string The debug-trace string to format.
      */
     public static function formatGetTraceString($string)
     {
-        $string = str_replace('#','<br/><br/>Call #', $string);
-        $string = str_replace('):',')<br/>', $string);
-        return $string;
+        $search  = array('#', '):');
+        $replace = array('<br/><br/>Call #',')<br/>');
+
+        return str_replace($search, $replace, $string);
     }
 
     /**
