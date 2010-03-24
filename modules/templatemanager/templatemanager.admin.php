@@ -108,7 +108,7 @@ class Clansuite_Module_Templatemanager_Admin extends Clansuite_Module_Controller
 
         #clansuite_xdebug::printR($templates);
 
-        $smarty->assign('templates', $templates);
+        $view->assign('templates', $templates);
 
         $this->prepareOutput();
     }
@@ -222,7 +222,7 @@ class Clansuite_Module_Templatemanager_Admin extends Clansuite_Module_Controller
                 $relative_file = $file;
             }
 
-            $smarty->assign('templateeditor_relative_filename', $relative_file);
+            $view->assign('templateeditor_relative_filename', $relative_file);
 
             $file = ROOT_MOD . $file;
 
@@ -234,7 +234,7 @@ class Clansuite_Module_Templatemanager_Admin extends Clansuite_Module_Controller
 
             }
 
-            #$smarty->assign('templateeditor_absolute_filename', $file);
+            #$view->assign('templateeditor_absolute_filename', $file);
 
             #Clansuite_Xdebug::printR($file);
             $view->assign('templateeditor_filename', $file);
@@ -253,7 +253,7 @@ class Clansuite_Module_Templatemanager_Admin extends Clansuite_Module_Controller
         else # template does not exist
         {
             # fetch a template for rapidly setting up the new template :)
-            $templateText =  $smarty->fetch('create_new_template.tpl');
+            $templateText =  $view->fetch('create_new_template.tpl');
 
             $templateeditor_newfile = true;
         }
@@ -280,7 +280,7 @@ class Clansuite_Module_Templatemanager_Admin extends Clansuite_Module_Controller
         }
 
         $smarty = $this->getView();
-        $smarty->assign('templateeditor_absolute_filename',    htmlentities($tplfilename));
+        $view->assign('templateeditor_absolute_filename',    htmlentities($tplfilename));
 
         # Prepare the Output
         $this->prepareOutput();
