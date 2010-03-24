@@ -48,18 +48,25 @@ if (defined('IN_CS') == false) { die('Clansuite not loaded. Direct Access forbid
  */
 class Clansuite_Errorhandler
 {
-    private $config; # holds configuration instance
+    /**
+     * @var object configuration instance
+     */
+    private $config;
 
-    private static $errorstack = array(); # holds errorstack elements
+    /**
+     * @var array errorstack elements
+     */
+    private static $errorstack = array();
 
     /**
      * Errorhandler Constructor
      *
      * Sets up the ErrorHandler
      *
-     * Usage:
-     * trigger_error('Errormessage', E_ERROR_TYPE);
-     * E_ERROR_TYPE as string or int
+     * @example
+     * 1) trigger_error('Errormessage', E_ERROR_TYPE);
+     *    E_ERROR_TYPE as string or int
+     * 2) trigger_error('Errorhandler Test - This should trigger a E_USER_NOTICE!', E_USER_NOTICE);
      */
     function __construct(Clansuite_Config $config)
     {
@@ -68,18 +75,15 @@ class Clansuite_Errorhandler
         # register own error handler
         set_error_handler(array(&$this,'clansuite_error_handler'));
 
-        # DEBUG Test the errorhandler with the following function
-        #trigger_error('Errorhandler Test - This should trigger a E_USER_NOTICE!', E_USER_NOTICE);
-
         # register own shutdown function
-        #register_shutdown_function(array(&$this,'shutdown_and_exit'));
+        # register_shutdown_function(array(&$this,'shutdown_and_exit'));
     }
 
     /**
      * Add an Error to the ErrorStack
      *
-     * @param $errormessage
-     * @param $errorcode
+     * @param string $errormessage
+     * @param int $errorcode
      */
     public static function addError($errormessage, $errorcode)
     {
@@ -250,12 +254,11 @@ class Clansuite_Errorhandler
      * when Clansuite runs in DEVELOPMENT Mode.
      * @see addTemplateEditorLink()
      *
-     * @param $errornumber
-     * @param $errorname
-     * @param $errorstring
-     * @param $errorfile
-     * @param $errorline
-     * @param $errorcontext
+     * @param integer $errornumber contains the error as integer
+     * @param string $errorstring contains error string info
+     * @param string $errorfile contains the filename with occuring error
+     * @param string $errorline contains the line of error
+     * @param $errorcontext $errorline contains context
      */
     private function smarty_error_display( $errornumber, $errorname, $errorstring, $errorfile, $errorline, $errorcontext )
     {
@@ -273,7 +276,7 @@ class Clansuite_Errorhandler
     /**
      * addTemplateEditorLink
      *
-     * a) constructs a valid path to the errorous template file
+     * a) determines the path to the invalid template file
      * b) provides the html-link to the templateeditor for this file
      *
      * @param $errorfile Template File with the Error.
@@ -282,29 +285,26 @@ class Clansuite_Errorhandler
      */
     private static function addTemplateEditorLink($errorfile, $errorline, $errorcontext)
     {
-        # display the link to the templateeditor,
-        # if we are in DEVELOPMENT MODE and if the error relates to a template file
+        # display the link to the templateeditor, if we are in DEVELOPMENT MODE
+        # and more essential if the error relates to a template file
         if(defined('DEVELOPMENT') and DEVELOPMENT === 1 and (strpos(strtolower($errorfile),'.tpl') == true))
         {
-            #clansuite_xdebug::printR($errorcontext);
-
+            # ok, it's a template, so we have a template context to determine the templatename
             $tpl_vars = $errorcontext['this']->getTemplateVars();
 
+            # maybe the templatename is defined in tpl_vars
             if(isset($tpl_vars['templatename']))
             {
                 $errorfile = $tpl_vars['templatename'];
             }
-            else
+            else # else use resource_name from the errorcontext
             {
                 $errorfile = $errorcontext['resource_name'];
             }
 
-            #clansuite_xdebug::printR($errorfile);
-
             # construct the link to the tpl-editor
             $link_tpledit  = '<br/><a href="index.php?mod=templatemanager&amp;sub=admin&amp;action=editor';
-            $link_tpledit .= '&amp;file='.$errorfile;
-            $link_tpledit .= '&amp;line='.$errorline;
+            $link_tpledit .= '&amp;file='.$errorfile.'&amp;line='.$errorline;
             $link_tpledit .= '">Edit the Template</a>';
 
             # return the link
@@ -422,8 +422,7 @@ class Clansuite_Errorhandler
      */
     private static function getDebugBacktrace()
     {
-        # provide backtrace only when we are in Clansuite DEBUG Mode
-        # if we are not in debug mode, just return
+        # provide backtrace only when we are in Clansuite DEBUG Mode, otherwise just return
         if ( defined('DEBUG') == false xor DEBUG == 0 )
         {
             return;
@@ -432,12 +431,15 @@ class Clansuite_Errorhandler
         # get php's backtrace output
         $debug_backtrace = debug_backtrace();
 
-        # get rid of several last calls in the backtrace stack
-        # a) call to getDebugBacktrace()
+        /**
+         * now we get rid of several last calls in the backtrace stack
+         * to get nearer to the relevant position for the error in the stack
+         */
+        # a) shift-off the call to getDebugBacktrace() [this method]
         array_shift($debug_backtrace);
-        # b) call to ysod()
+        # b) shift-off the call to ysod() [our display method]
         array_shift($debug_backtrace);
-        # c) call to trigger_error() [php core function call]
+        # c) shift-off the call to trigger_error() [php core function call]
         array_shift($debug_backtrace);
 
         # prepare a new backtrace_string
@@ -451,7 +453,7 @@ class Clansuite_Errorhandler
         {
             $backtrace_string .= '<tr><td><br />Call #'.($backtrace_counter_i-$i+1).'</td></tr>';
 
-            if(!isset($debug_backtrace[$i]['file']))
+            if(isset($debug_backtrace[$i]['file']) == false)
             {
                 $backtrace_string .= '<tr><td><strong>[PHP Core Function called]</strong></td>';
             }
@@ -571,15 +573,16 @@ class Clansuite_Errorhandler
             if (is_readable($file))
             {
                 # Scope Calculations
-                $surrounding_lines = round($scope/2);
+                $surrounding_lines          = round($scope/2);
                 $errorcontext_starting_line = $line - $surrounding_lines;
-                $errorcontext_ending_line = $line + $surrounding_lines;
+                $errorcontext_ending_line   = $line + $surrounding_lines;
+                $linenumber                 = $scope-$surrounding_lines-1;
 
                 # get linenumbers array
                 $lines_array = range($errorcontext_starting_line+1, $errorcontext_ending_line);
 
                 # now colourize the errorous linenumber
-                $lines_array[$scope-$surrounding_lines-1]  = '<span style="color: white; background-color:#BF0000;">'. $lines_array[$scope-$surrounding_lines-1]  .'</span>';
+                $lines_array[$linenumber] = '<span style="color: white; background-color:#BF0000;">'.$lines_array[$linenumber].'</span>';
 
                 # transform linenumbers array to string for later display
                 $lines  = implode($lines_array, '<br />');
@@ -593,8 +596,7 @@ class Clansuite_Errorhandler
                 /**
                  * reindexig the array,
                  * we need the first element’s index being [1], because linenumbers don't start with [0]
-                 * think of this problem moved from [0] to the [$errorcontext_starting_line] (because of slicing)
-                 * this is not working on the whole array, but reindexing only the sliced segment
+                 * @todo use ksort() / rsort()?
                  */
                 $result = array();
                 foreach ( $array_content_sliced as $key => $val )
@@ -602,34 +604,15 @@ class Clansuite_Errorhandler
                     $result[ $key+1 ] = $val;
                 }
 
-                # now colourize the background of the errorous line with RED
+                # now colourize the background of the errorous line RED
                 # $result[$line] = '<span style="background-color:#BF0000;">'. $result[$line] .'</span>';
 
                 /**
                  * transform the array into a string again
-                 * (1) we have to re-add <code> , bevause it got lost somewhere... hmm? @todo figure out why!
-                 * (2) implode array with linebreaks
+                 * (1) we have to re-add <code> , because it got lost somewhere...
+                 * (2) enhance readablility by imploding the array with linebreaks
                  */
                 $errorcontext_lines  = '<code>'.implode($result, '<br />');
-
-                #clansuite_xdebug::printr($errorcontext_lines);
-
-                # attach some hardcoded style
-                $style_string = '<style type="text/css">
-                        .num {
-                        float: left;
-                        color: gray;
-                        font-size: 13px;
-                        font-family: monospace;
-                        text-align: right;
-                        margin-right: 6pt;
-                        padding-right: 6pt;
-                        border-right: 1px solid gray;}
-
-                        body {margin: 0px; margin-left: 5px;}
-                        td {vertical-align: top;}
-                        code {white-space: nowrap;}
-                    </style>';
 
                 # display LINES and ERRORCONTEXT_LINES in a table (prefixed with the hardcoded style)
                 return "$style_string <table><tr><td class=\"num\">\n$lines\n</td><td>\n$errorcontext_lines\n</td></tr></table>";

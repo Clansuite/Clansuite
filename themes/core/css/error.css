@@ -102,3 +102,24 @@ A:link {text-decoration: none}
 A:visited {text-decoration: none}
 A:active {text-decoration: none}
 A:hover {text-decoration: underline; color: #FF0000; }
+
+
+/* used by errorhandler.core.php->getErrorContext() */
+.num {
+  float: left;
+  color: gray;
+  font-size: 13px;
+  font-family: monospace;
+  text-align: right;
+  margin-right: 6pt;
+  padding-right: 6pt;
+  border-right: 1px solid gray;
+}
+
+td {
+  vertical-align: top;
+}
+
+code {
+  white-space: nowrap;
+}
