@@ -394,10 +394,10 @@ class Clansuite_Module_Account extends Clansuite_Module_Controller implements Cl
         
         // Assign vars
 
-        $smarty->assign( 'config', $moduleconfig );
-        $smarty->assign( 'min_length', $moduleconfig['login']['min_pass_length'] );
-        $smarty->assign( 'err', $error );
-        #$smarty->assign( 'captcha_url',  WWW_ROOT . '/index.php?mod=captcha&' . session_name() . '=' . session_id() );
+        $view->assign( 'config', $moduleconfig );
+        $view->assign( 'min_length', $moduleconfig['login']['min_pass_length'] );
+        $view->assign( 'err', $error );
+        #$view->assign( 'captcha_url',  WWW_ROOT . '/index.php?mod=captcha&' . session_name() . '=' . session_id() );
 
         #$view->assign( 'captcha_url',  WWW_ROOT . '/index.php?mod=captcha&' . session_name() . '=' . session_id() );
 
@@ -637,7 +637,7 @@ class Clansuite_Module_Account extends Clansuite_Module_Controller implements Cl
         }
 
         $smarty = $this->getView();
-        $smarty->assign('err', $error);
+        $view->assign('err', $error);
 
         #$this->setTemplate('forgot_password.tpl');
         $this->prepareOutput();
