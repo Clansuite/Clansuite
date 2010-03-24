@@ -514,10 +514,10 @@ abstract class Clansuite_Module_Controller extends Clansuite_Module_Controller_R
         {
             $this->redirect($referer);
         }
-        /*else
+        else
         {
-            $this->redirect($module);
-        }*/
+            $this->redirect( WWW_ROOT . Clansuite_Module_Controller_Resolver::getModuleName() );
+        }
     }
 
     /**
@@ -539,26 +539,27 @@ abstract class Clansuite_Module_Controller extends Clansuite_Module_Controller_R
      */
     public function addEvent($eventName, Clansuite_Event $event)
     {
-        $eventhandler = Clansuite_Eventhandler::instantiate();
-        $eventhandler->addEventHandler($eventName, $event);
+        Clansuite_Eventdispatcher::instantiate()->addEventHandler($eventName, $event);
     }
 
     /**
-     * notify is alternate methodname for addEvent (shortcut for usage in modules)
+     * triggerEvent is shortcut/convenience method for Clansuite_Eventdispatcher->triggerEvent
      *
-     * @param string Name of the Event
-     * @param object Eventobject
+     * @param $event mixed (string|object) Name of Event or Event object to trigger.
+     * @param $context object Context of the event triggering, often the object from where we are calling ($this). Default Null.
+     * @param $info string Some pieces of information. Default Null.
      */
-    public function notify($eventName, Clansuite_Event $event)
+    public function triggerEvent($event, $context = null, $info = null)
     {
-        $this->addEvent($eventName, $event);
+        Clansuite_Eventdispatcher::instantiate()->triggerEvent($event, $context = null, $info = null);
     }
 
     /**
      * Shortcut to set a Flashmessage
      *
-     * @param $type
-     * @param $message
+     * @see Clansuite_Flashmessages::setMessage()
+     * @param $type string error, warning, notice, success, debug
+     * @param $message string A textmessage.
      */
     public function flashmessage($type, $message)
     {

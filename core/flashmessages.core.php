@@ -83,7 +83,7 @@ class Clansuite_Flashmessages /*extends Clansuite_Session*/ implements ArrayAcce
     public static function getInstance($injector)
     {
         static $instance;
-        if ( ! isset($instance))
+        if(isset($instance) == false)
         {
             $instance = new Clansuite_Flashmessages($injector);
         }

@@ -615,7 +615,7 @@ class Clansuite_Errorhandler
                 $errorcontext_lines  = '<code>'.implode($result, '<br />');
 
                 # display LINES and ERRORCONTEXT_LINES in a table (prefixed with the hardcoded style)
-                return "$style_string <table><tr><td class=\"num\">\n$lines\n</td><td>\n$errorcontext_lines\n</td></tr></table>";
+                return "<table><tr><td class=\"num\">\n$lines\n</td><td>\n$errorcontext_lines\n</td></tr></table>";
             }
         }
     }

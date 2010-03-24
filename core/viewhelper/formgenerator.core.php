@@ -212,13 +212,13 @@ class Clansuite_Array_Formgenerator extends Clansuite_Form
         # loop over all elements of the form description array
         foreach($form_array as $form_array_section => $form_array_elements)
         {
-            #clansuite_xdebug::printR($form_array_elements);
-            #clansuite_xdebug::printR($form_array_section);
+            #clansuite_xdebug::firebug($form_array_elements);
+            #clansuite_xdebug::firebug($form_array_section);
 
             foreach($form_array_elements as $form_array_element_number => $form_array_element)
             {
-                #clansuite_xdebug::printR(array_keys($form_array_element));
-                #clansuite_xdebug::printR($obligatory_form_array_elements);
+                #clansuite_xdebug::firebug(array_keys($form_array_element));
+                #clansuite_xdebug::firebug($obligatory_form_array_elements);
 
                 # this does the validation. it ensures that required keys are present
                 $report_differences_or_true = Clansuite_Functions::array_compare($obligatory_form_array_elements, array_keys($form_array_element));
@@ -246,18 +246,18 @@ class Clansuite_Array_Formgenerator extends Clansuite_Form
     public function generateFormByArray()
     {
         # debug display incomming form description array
-        #clansuite_xdebug::printR($this->array);
+        #clansuite_xdebug::firebug($this->array);
 
         # loop over all elements of the form description array
         foreach($this->form_array as $form_array_section => $form_array_elements)
         {
-            #clansuite_xdebug::printR($form_array_elements);
-            #clansuite_xdebug::printR($form_array_section);
+            #clansuite_xdebug::firebug($form_array_elements);
+            #clansuite_xdebug::firebug($form_array_section);
 
             
             foreach($form_array_elements as $form_array_element_number => $form_array_element)
             {
-               #clansuite_xdebug::printR($form_array_element);
+               #clansuite_xdebug::firebug($form_array_element);
 
                # @todo ensure these elements exist !!!
 
@@ -344,6 +344,21 @@ class Clansuite_Array_Formgenerator extends Clansuite_Form
  */
 class Clansuite_XML_Formgenerator extends Clansuite_Form
 {
+    public function generateFormByXML($filename)
+    {
+        # XML -> toArray -> Clansuite_Array_Formgenerator->generate($array)
+        $array = array();
+        $array = Clansuite_Config($filename);
+
+        Clansuite_Xdebug::firebug($filename);
+
+        $form = Clansuite_Array_Formgenerator($array);
+
+        Clansuite_Xdebug::firebug($form);
+
+        return $form;
+    }
+
     /**
      * Facade/Shortcut
      */

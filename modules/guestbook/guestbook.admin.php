@@ -53,7 +53,7 @@ class Clansuite_Module_Guestbook_Admin extends Clansuite_Module_Controller imple
     public function action_admin_show()
     {
         # Incoming Variables
-        $currentPage    = (int) $this->injector->instantiate('Clansuite_HttpRequest')->getParameter('page');
+        $currentPage    = (int) $this->getHttpRequest()->getParameter('page');
         $resultsPerPage = (int) $this->getConfigValue('resultsPerPage_adminshow', '10');
 
         // SmartyColumnSort -- Easy sorting of html table columns.
@@ -75,7 +75,6 @@ class Clansuite_Module_Guestbook_Admin extends Clansuite_Module_Controller imple
         unset($guestbookQuery);
 
         # fetch the BBCode formatter object
-        Clansuite_Loader::loadCoreClass('bbcode');
         $bbcode = new Clansuite_Bbcode($this->injector);
 
         # Transform RAW text from DB to BB-formatted Text
@@ -98,10 +97,6 @@ class Clansuite_Module_Guestbook_Admin extends Clansuite_Module_Controller imple
         $this->prepareOutput();
     }
 
-    /**
-     * Debugging Action
-     * testformgenerator
-     */
     public function action_admin_testformgenerator()
     {
         # Load Form Class (@todo autoloader / di)
@@ -169,81 +164,42 @@ class Clansuite_Module_Guestbook_Admin extends Clansuite_Module_Controller imple
         $this->prepareOutput();
     }
 
-    /**
-    * AJAX request to save the comment
-    * 1. save comment in raw with bbcodes on - into database
-    * 2. return comment with formatted bbcode = raw to html-style
-    *
-    * @global $db
-    * @global $tpl
-    */
     public function save_comment()
     {
-        # Incoming Vars
+        $gb_id      = $this->getHttpRequest()->getParameterFromGet('gb_id');
+        $comment    = $this->getHttpRequest()->getParameterFromPost('value');
 
-        $gb_id      = urldecode($_GET['id']);
-        $comment    = urldecode($_POST['value']);
+        # Add/Modify comment
+        Doctrine_Query::create()
+                      ->update('CsComments')
+                      ->set('gb_comment', $comment)
+                      ->whereIn('gb_id = ?', $gb_id);
 
-        #  Get comment from DB
-
-        $stmt = $db->prepare( 'SELECT gb_comment FROM ' . DB_PREFIX . 'guestbook
-                               WHERE `gb_id` = ?' );
-        $stmt->execute( array( $gb_id ) );
-        $result = $stmt->fetch(PDO::FETCH_NAMED);
-
-        // Add/Modify comment
-        $stmt = $db->prepare( 'UPDATE ' . DB_PREFIX . 'guestbook
-                               SET `gb_comment` = ? WHERE `gb_id` = ?' );
-        $stmt->execute( array( $comment, $gb_id ) );
-
-        // Transform RAW text to BB-formatted Text
+        # Transform RAW text to BB-formatted Text
         Clansuite_Loader::loadCoreClass('bbcode');
         $bbcode = new bbcode();
         $parsed_comment = $bbcode->parse($comment);
 
-         $parsed_comment;
-        $this->suppress_wrapper = 1;
+        #$this->suppress_wrapper = 1;
     }
 
-    /**
-    * AJAX request to get the helptext in raw from database
-    *
-    * @global $db
-    */
     public function get_comment()
     {
+        $gb_id = $this->getHttpRequest()->getParameterFromGet('gb_id');
 
-        #  Incoming Vars
+        $result = Doctrine_Query::create()
+                                ->select('gb_comment')
+                                ->from('CsGuestbook')
+                                ->where('gb_id', $gb_id)->fetchArray();
 
-        $gb_id = $_GET['id'];
+        #Helptext in Raw from Database
+        $result['gb_comment'];
 
-        #  Get comment from DB
-
-        $stmt = $db->prepare( 'SELECT gb_comment FROM ' . DB_PREFIX . 'guestbook
-                               WHERE `gb_id` = ?' );
-        $stmt->execute( array( $gb_id ) );
-        $result = $stmt->fetch(PDO::FETCH_NAMED);
-
-        // Helptext in Raw from Database
-         $result['gb_comment'];
-        $this->suppress_wrapper = true;
+        #$this->suppress_wrapper = true;
     }
 
-    /**
-    * AJAX request to save the comment
-    * 1. save comment in raw with bbcodes on - into database
-    * 2. return comment with formatted bbcode = raw to html-style
-    *
-    * @global $db
-    * @global $tpl
-    * @global $functions
-    * @global $lang
-    * @global $perms
-    */
-    public function edit()
+    public function action_admin_edit()
     {
-        global $db, $tpl, $functions, $lang, $perms;
-
         // Permissions check
         if( $perms->check('cc_edit_gb', 'no_redirect') == true )
         {
@@ -282,139 +238,119 @@ class Clansuite_Module_Guestbook_Admin extends Clansuite_Module_Controller imple
 
             }
 
-            $stmt = $db->prepare('SELECT * FROM ' . DB_PREFIX . 'guestbook WHERE gb_id = ?');
-            $stmt->execute( array( $gb_id ) );
-            $result = $stmt->fetch( PDO::FETCH_NAMED );
+            $result = Doctrine_Query::create()
+                                ->select('gb_comment')
+                                ->from('CsGuestbook')
+                                ->where('gb_id', $gb_id)->fetchArray();
 
-            $tpl->assign( 'infos', $result);
-            $tpl->assign( 'front', $front);
-            $tpl->fetch('guestbook/admin_edit.tpl');
+            $this->getView()->assign('infos', $result);
+            $this->getView()->assign('front', $front);
+            # $tpl->fetch('guestbook/admin_edit.tpl');
         }
         else
         {
-            $lang->t('You do not have sufficient rights.') . '<br /><input class="ButtonRed" type="button" onclick="Dialog.okCallback()" value="Abort"/>';
+            $this->flashmessage('error', _('You do not have sufficient rights.'));
         }
-        $this->suppress_wrapper = 1;
+
+        $this->prepareOutput();
     }
 
-    public function delete()
+    public function action_admin_delete()
     {
-        global $db, $functions, $input, $lang;
+        $submit     = $this->getHttpRequest()->getParameterFromPOST('submit');
+        $confirm    = $this->getHttpRequest()->getParameterFromPOST('confirm');
+        $abort      = $this->getHttpRequest()->getParameterFromPOST('abort');
+        $ids        = $this->getHttpRequest()->getParameterFromPOST('ids', array());
+        #$ids        = isset($_POST['confirm'])  ? unserialize(urldecode($_GET['ids'])) : $ids;
+        $delete     = $this->getHttpRequest()->getParameterFromPOST('delete', array());
+        #$delete     = isset($_POST['confirm'])  ? unserialize(urldecode($_GET['delete'])) : $delete;
+     }
 
-        // Init
-        $submit     = $_POST['submit'];
-        $confirm    = $_POST['confirm'];
-        $abort      = $_POST['abort'];
-        $ids        = isset($_POST['ids'])      ? $_POST['ids'] : array();
-        $ids        = isset($_POST['confirm'])  ? unserialize(urldecode($_GET['ids'])) : $ids;
-        $delete     = isset($_POST['delete'])   ? $_POST['delete'] : array();
-        $delete     = isset($_POST['confirm'])  ? unserialize(urldecode($_GET['delete'])) : $delete;
+    public function admin_action_create()
+    {
+        // Incoming Vars
+        $infos  = $_POST['infos'];
+        $submit = isset($_POST['submit']) ? $_POST['submit'] : '';
+        $gb_id  = isset($_GET['id']) ? $_GET['id'] : 0;
+        $front  = isset($_GET['front']) ? $_GET['front'] : 0;
 
-        echo 'to delete :' . count($delete);
-        var_dump($delete);
-
-        echo 'ids:';
-        var_dump($ids);
-
-        // Check, if there is a delete request
-        if ( count($delete) < 1 )
+        if( !empty( $submit ) )
         {
-            $functions->redirect( 'index.php?mod=guestbook&sub=admin&action=show', 'metatag|newsite', 3, $lang->t( 'Aborted ! So there were no guestbook entries selected to delete!  ' ), 'admin' );
-        }
+            // Set user stuff
+            $infos['gb_ip'] = $_SESSION['client_ip'];
+            $infos['gb_added'] = time();
+            $infos['user_id'] = $_SESSION['user']['user_id'];
 
-        // Abort...
-        if ( isset( $_POST['abort'] ) )
-        {
-            $functions->redirect( 'index.php?mod=guestbook&sub=admin&action=show' );
-        }
-
-        // Create the select to fetch (the Entries to delete) from DB
-        // to have more infos to ask and decide on deletion
-        $select = 'SELECT gb_id, gb_nick, gb_text FROM ' . DB_PREFIX . 'guestbook WHERE ';
-        foreach ( $delete as $key => $id )
-        {
-            $select .= 'gb_id = ' . $id . ' OR ';
-        }
-        // code by xsign
-        // @todo explain reason for settings this: [OR user_id = -1000]
-        $select .= 'gb_id = -1000';
-
-        // prepare and execute the constructed select
-        $stmt = $db->prepare( $select );
-        $stmt->execute();
-        while( $result = $stmt->fetch(PDO::FETCH_ASSOC) )
-        {
-            if( in_array( $result['gb_id'], $delete  ) )
+            # Get an image, if existing
+            if( $infos['user_id'] != 0 )
             {
-                $names = '<br /># ' . $result['gb_id'] . ' by ' . $result['gb_nick'] . ' <b>' .  $result['gb_text'] . '</b>';
-            }
-            $all_gb_entries_to_delete[] = $result;
-        }
+                $result = Doctrine_Query::create()
+                                        ->select('image_id')
+                                        ->from('CsProfiles')
+                                        ->whereIn('user_id', $infos['user_id']);
 
-        // Delete Groups
-        foreach( $all_gb_entries_to_delete as $key => $value )
-        {
-            if ( count ( $delete ) > 0 )
+                $infos['image_id'] = $result['image_id'];
+            }
+            else
             {
-                if ( in_array( $value['gb_id'], $ids ) )
-                {
-                    $d = in_array( $value['gb_id'], $delete  ) ? 1 : 0;
-                    if ( !isset ( $_POST['confirm'] ) )
-                    {
-                        $functions->redirect( 'index.php?mod=guestbook&sub=admin&action=delete&ids=' . urlencode(serialize($ids)) . '&delete=' . urlencode(serialize($delete)), 'confirm', 3, $lang->t( 'You have selected the following guestbook entry(ies) to delete: ' . $names ), 'admin' );
-                    }
-                    else
-                    {
-                        if ( $d == 1 )
-                        {
-                            $stmt = $db->prepare( 'DELETE FROM ' . DB_PREFIX . 'guestbook WHERE gb_id = ?' );
-                            $stmt->execute( array($value['gb_id']) );
-                        }
-                    }
-                }
+                $infos['image_id'] = 0;
             }
+
+
+            $guestbook = new CsGuestbook();
+            $guestbook->gb_added    = $infos['gb_added'];
+            $guestbook->gb_icq      = $infos['gb_icq'];
+            $guestbook->gb_nick     = $infos['gb_nick'];
+            $guestbook->gb_email    = $infos['gb_email'];
+            $guestbook->gb_website  = $infos['gb_website'];
+            $guestbook->gb_town     = $infos['gb_town'];
+            $guestbook->gb_text     = $infos['gb_text'];
+            $guestbook->gb_ip       = $infos['gb_ip'];
+            $guestbook->user_id     = $infos['user_id'];
+            $guestbook->image_id    = $infos['image_id'];
+            $guestbook->save();
+
+            $this->flashmessage('success', _( 'Guestbook entry created.'));
+
+            $this->redirectToReferer();
         }
 
-        // Redirect to main
-        $functions->redirect( 'index.php?mod=guestbook&sub=admin&action=show', 'metatag|newsite', 3, $lang->t( 'The selected guestbook entr(y/ies) were deleted.' ), 'admin' );
+        $result = Doctrine_Query::create()
+                                ->from('CsGuestbook')
+                                ->whereIn('gb_id', $gb_id)
+                                ->fetchArray($params);
+
+        $view->assign( 'infos', $result);
+        $view->assign( 'front', $front);
+        $view->fetch('guestbook/create.tpl');
+
+        $this->prepareOutput();
     }
 
-    /**
-    * Show a single news
-    *
-    * @global $db
-    * @global $lang
-    * @global $functions
-    * @global $input
-    * @global $tpl
-    * @global $cfg
-    * @global $perms
-    */
-    public function show_single()
+    public function action_admin_show_single()
     {
-        global $db, $functions, $input, $lang, $tpl, $cfg, $perms;
-
-        // Incoming vars
-        $gb_id = $_GET['id'];
+        $id = $this->getHttpRequest()->getParameterFromGet('id');
 
         if( $perms->check('cc_view_gb', 'no_redirect') == true )
         {
-            $stmt = $db->prepare('SELECT * FROM ' . DB_PREFIX . 'guestbook WHERE gb_id = ?');
-            $stmt->execute( array( $gb_id ) );
-            $result = $stmt->fetch( PDO::FETCH_NAMED );
+            $result = Doctrine_Query::create()
+                                    ->select('CsGuestbook')
+                                    ->where('gb_id', $gb_id)
+                                    ->fetchArray();
 
-            $tpl->assign( 'infos', $result);
-            $tpl->fetch('guestbook/admin_edit.tpl');
+            $this->getView()->assign('infos', $result);
+            #$tpl->fetch('guestbook/admin_edit.tpl');
         }
         else
         {
             $lang->t('You are not allowed to view single news.');
         }
-        $this->suppress_wrapper = 1;
+
+        $this->prepareOutput();
     }
 
     /**
-     * Action for displaying the Settings of a Module Guestbook
+     * Action for displaying the Settings
      */
     public function action_admin_settings()
     {
@@ -458,18 +394,15 @@ class Clansuite_Module_Guestbook_Admin extends Clansuite_Module_Controller imple
         # @todo get post via request object, sanitize
         $data = $this->getHttpRequest()->getParameter('guestbook_settings');
 
-        # Get Configuration from Injector
-        $config = $this->injector->instantiate('Clansuite_Config');
-
-        # write config
-        $config->confighandler->writeConfig( ROOT_MOD . 'guestbook/guestbook.config.php', $data);
+        # Get Configuration, then handler and write config
+        $this->getClansuiteConfig()->confighandler->writeConfig( ROOT_MOD . 'guestbook/guestbook.config.php', $data);
 
         # clear the cache / compiled tpls
         # $this->getView()->clear_all_cache();
         $this->getView()->utility->clearCompiledTemplate();
 
         # Redirect
-        $this->getHttpResponse()->redirectNoCache('index.php?mod=guestbook&amp;sub=admin', 2, 302, 'The config file has been succesfully updated.');
+        $this->getHttpResponse()->redirectNoCache('index.php?mod=guestbook&amp;sub=admin', 2, 302, _('The config file has been succesfully updated.'));
     }
 }
 ?>

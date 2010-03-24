@@ -53,9 +53,6 @@ class Clansuite_Module_Staticpages_Admin extends Clansuite_Module_Controller imp
      */
     public function action_admin_show()
     {
-        # Permission check
-        #$perms::check('cc_admin_show_staticpages');
-
         # Set Pagetitle and Breadcrumbs
         Clansuite_Breadcrumb::add( _('Overview'), '/index.php?mod=staticpages&amp;sub=admin&amp;action=show');
 
@@ -65,30 +62,18 @@ class Clansuite_Module_Staticpages_Admin extends Clansuite_Module_Controller imp
                               ->orderby('s.title ASC')
                               ->execute(array(), Doctrine::HYDRATE_ARRAY);
 
-         # Get Render Engine
         $view = $this->getView();
         $view->assign( 'staticpages', $staticpages);
-
-        # Set Layout Template
-        $this->getView()->setLayoutTemplate('index.tpl');
-        # specifiy the template manually
-        #$this->setTemplate('news/admin_show.tpl');
-
+        $view->setLayoutTemplate('index.tpl');
         $this->prepareOutput();
     }
 
-
-    /**
-     * create_staticpages()
-     */
     function create_staticpages()
     {
-        # Permission check
-        #$perms::check('cc_admin_create_staticpages');
-
         # Set Pagetitle and Breadcrumbs
         Clansuite_Breadcrumb::add( _('Create'), '/index.php?mod=staticpages&amp;sub=admin&amp;action=create');
 
+        # @todo define form array 
         $html           = $_POST['html'];
         $description    = $_POST['description'];
         $title          = $_POST['title'];
@@ -97,6 +82,7 @@ class Clansuite_Module_Staticpages_Admin extends Clansuite_Module_Controller imp
         $iframe         = $_POST['iframe'];
         $iframe_height  = $_POST['iframe_height'];
 
+        # @todo form validation
         if ( !empty( $submit ) )
         {
             if ( empty( $description ) OR
@@ -118,21 +104,28 @@ class Clansuite_Module_Staticpages_Admin extends Clansuite_Module_Controller imp
                 $error['give_correct_url'] = 1;
             }
 
-            $stmt = $db->prepare( 'SELECT id FROM ' . DB_PREFIX . 'static_pages WHERE title = ?' );
-            $stmt->execute( array( $title ) );
-            $result = $stmt->fetch(PDO::FETCH_ASSOC);
+            $result = Doctrine_Query::create()->select('id')->from('CsStaticPages')->where('title', $title);
 
             if ( is_array( $result ) )
             {
                 $error['static_already_exist'] = 1;
             }
 
+            # ----
+
             if ( count( $error ) == 0 )
             {
-                $stmt = $db->prepare( 'INSERT INTO ' . DB_PREFIX . 'static_pages ( title, description, url, html, iframe, iframe_height ) VALUES ( ?, ?, ?, ?, ?, ? )' );
-                $stmt->execute( array( $title, $description, $url, $html, $iframe, $iframe_height ) );
+                $page = new CsStaticPages();
+                $page->title = $title;
+                $page->description = $description;
+                $page->url = $url;
+                $page->html = $html;
+                $page->iframe = $iframe;
+                $page->iframe_height = $iframe_height;
+                $page-save();
 
-                $functions->redirect( 'index.php?mod=controlcenter&sub=staticpages&action=show', 'metatag|newsite', 3, $lang->t( 'The static page was successfully created...' ), 'admin' );
+                $this->flashmessage('success', _( 'The Page successfully created.'));
+                $this->redirectToReferer();
             }
         }
 
@@ -151,14 +144,8 @@ class Clansuite_Module_Staticpages_Admin extends Clansuite_Module_Controller imp
         $this->prepareOutput();
     }
 
-    /**
-     * edit_staticpages()
-     */
     function edit_staticpages()
     {
-        # Permission check
-        #$perms::check('cc_admin_edit_staticpages');
-
         # Set Pagetitle and Breadcrumbs
         Clansuite_Breadcrumb::add( _('Edit'), '/index.php?mod=staticpages&amp;sub=admin&amp;action=edit');
 
@@ -193,45 +180,40 @@ class Clansuite_Module_Staticpages_Admin extends Clansuite_Module_Controller imp
                 $error['give_correct_url'] = 1;
             }
 
-            $stmt = $db->prepare( 'SELECT id FROM ' . DB_PREFIX . 'static_pages WHERE title = ?' );
-            $stmt->execute( array( $info['title'] ) );
-            $result = $stmt->fetch(PDO::FETCH_ASSOC);
+            $page = Doctrine::getTable('CsStaticPages')->findOneBy('title', $title);
 
-            if ( is_array( $result ) AND $info['orig_title'] != $info['title'] )
+            if ( is_array( $page ) and $info['orig_title'] != $info['title'] )
             {
                 $error['static_already_exist'] = 1;
             }
 
             if ( count( $error ) == 0 )
-            {
-                $stmt = $db->prepare( 'UPDATE ' . DB_PREFIX . 'static_pages SET title = ?, description = ?, url = ?, html = ?, iframe = ?, iframe_height = ? WHERE id = ?' );
-                $stmt->execute( array( $info['title'], $info['description'], $info['url'], $info['html'], $info['iframe'], $info['iframe_height'], $info['id'] ) );
-
-                $functions->redirect( 'index.php?mod=controlcenter&sub=staticpages&action=show', 'metatag|newsite', 3, $lang->t( 'The static page was successfully changed...' ), 'admin' );
+            {               
+                $page->title         = $info['title'];
+                $page->description   = $info['description'];
+                $page->url           = $info['url'];
+                $page->html          = $info['html'];
+                $page->iframe        = $info['iframe'];
+                $page->iframe_height = $info['iframe_height'];
+                $page->save();
+     
+                $this->flashmessage('success', _( 'The page was successfully modified.' ));
+                $this->redirect( 'index.php?mod=controlcenter&sub=staticpages&action=show');
             }
         }
         else
         {
-            if ( !empty( $info['id'] ) )
-            {
-                $stmt = $db->prepare( 'SELECT * FROM ' . DB_PREFIX . 'static_pages WHERE id = ?' );
-                $stmt->execute( array( $info['id'] ) );
-                $info = $stmt->fetch(PDO::FETCH_ASSOC);
-            }
+            $info 
         }
 
         $view = $this->getView();
-        $view->assign( 'error'  , $error);
-        $view->assign( 'info' , $info);
-
-        # Set Layout Template
-        $this->getView()->setLayoutTemplate('index.tpl');
-        # specifiy the template manually
-        #$this->setTemplate('staticpages/edit.tpl');
-
+        $view->assign('error', $error);
+        $view->assign('info', $info);
+        $view->setLayoutTemplate('index.tpl');
+        
         $this->prepareOutput();
     }
-	
+
     /**
      * Action for displaying the Settings of a Module Staticpages
      */
@@ -239,55 +221,52 @@ class Clansuite_Module_Staticpages_Admin extends Clansuite_Module_Controller imp
     {
         # Set Pagetitle and Breadcrumbs
         Clansuite_Breadcrumb::add( _('Settings'), '/index.php?mod=staticpages&amp;sub=admin&amp;action=settings');
-        
+
         $settings = array();
-        
+
         $settings['form']   = array(    'name' => 'staticpages_settings',
                                         'method' => 'POST',
                                         'action' => WWW_ROOT.'/index.php?mod=staticpages&amp;sub=admin&amp;action=settings_update');
-                                        
+
         $settings['staticpages'][] = array(    'id' => 'items_resultsPerPage',
                                         'name' => 'items_resultsPerPage',
                                         'description' => _('Staticpages per Page'),
                                         'formfieldtype' => 'text',
                                         'value' => $this->getConfigValue('items_resultsPerPage', '25'));
-        
+
         require ROOT_CORE . '/viewhelper/formgenerator.core.php';
         $form = new Clansuite_Array_Formgenerator($settings);
 
         # display formgenerator object
-        #clansuite_xdebug::printR($form); 
-        
+        #clansuite_xdebug::printR($form);
+
         $form->addElement('submitbutton')->setName('Save');
         $form->addElement('resetbutton');
-        
+
         # display form html
         #clansuite_xdebug::printR($form->render());
-        
+
         # assign the html of the form to the view
         $this->getView()->assign('form', $form->render());
 
-        $this->prepareOutput();       
+        $this->prepareOutput();
     }
-    
+
     public function action_admin_settings_update()
-    { 
+    {
         # Incomming Data
-        # @todo get post via request object, sanitize
         $data = $this->getHttpRequest()->getParameter('staticpages_settings');
 
-        # Get Configuration from Injector
-        $config = $this->injector->instantiate('Clansuite_Config');
-        
-        # write config
-        $config->confighandler->writeConfig( ROOT_MOD . 'staticpages/staticpages.config.php', $data);
+        # Get Configuration, get handler and write config
+        $this->getClansuiteConfig()->confighandler->writeConfig( ROOT_MOD . 'staticpages/staticpages.config.php', $data);
 
         # clear the cache / compiled tpls
         # $this->getView()->clear_all_cache();
         $this->getView()->utility->clearCompiledTemplate();
 
+        $this->flashmessage('success', _('The config file has been succesfully updated.'));
         # Redirect
-        $this->getHttpResponse()->redirectNoCache('index.php?mod=staticpages&amp;sub=admin', 2, 302, 'The config file has been succesfully updated.');
+        $this->getHttpResponse()->redirectNoCache('index.php?mod=staticpages&amp;sub=admin');
     }
 }
 ?>

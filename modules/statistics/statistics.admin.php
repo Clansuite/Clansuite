@@ -48,8 +48,12 @@ class Clansuite_Module_Statistics_Admin extends Clansuite_Module_Controller impl
     }
     
     public function action_admin_show()
-    {       
-        $this->prepareOutput();        
+    {
+        $view = $this->getView();
+
+        $view->assign('stuff', '123');
+
+        $this->prepareOutput();
     }
 
     public function action_admin_settings()
