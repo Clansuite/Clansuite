@@ -402,11 +402,6 @@ class Clansuite_Front_Controller implements Clansuite_Front_Controller_Interface
     private $moduleResolver;
 
     /**
-     * @var object Dependency Injector - Phemto
-     */
-    private $injector;
-
-    /**
      * @var object FilterManager for Prefilters
      */
     private $pre_filtermanager;
@@ -426,12 +421,10 @@ class Clansuite_Front_Controller implements Clansuite_Front_Controller_Interface
      * 5. instantiate post-filters objects
      */
     public function __construct(Clansuite_Module_Controller_Resolver_Interface $moduleResolver,
-                                Clansuite_Action_Controller_Resolver_Interface $actionResolver,
-                                Phemto $injector)
+                                Clansuite_Action_Controller_Resolver_Interface $actionResolver)
     {
            $this->actionResolver = $actionResolver;
            $this->moduleResolver = $moduleResolver;
-           $this->injector = $injector;
            $this->pre_filtermanager  = new Clansuite_Filtermanager();
            $this->post_filtermanager = new Clansuite_Filtermanager();
     }
@@ -458,19 +451,18 @@ class Clansuite_Front_Controller implements Clansuite_Front_Controller_Interface
      * Clansuite_Front_Controller::processRequest()
      *
      * Speaking in very basic concepts: this is a RequestHandler.
-     * It handles the dispatching of the request.
-     * Calls/executes the apropriate controller
-     * and returns a response.
+     * The C in MVC. It handles the dispatching of the request.
+     * Calls/executes the apropriate controller and returns a response.
      *
      * Processing:
-     * 1. get the modulecontroller via clansuite_Controller_Resolver
+     * 1. get the modulecontroller via Clansuite_Module_Controller_Resolver
      * 2. process preFilters
-     * 3. set Injector to modulecontroller
-     * 4. execute modulecontroller
-     * 5. execute action
+     * #3. decorate the module with additional actions (plugins)
+     * 4. execute initialize module (common tasks for all action of a module)
+     * 5. -> execute ACTION <-
      * 6. process postFilters
-     * 7. fetches view / implicit getRenderEngine
-     * 8. assign view to response / implicit getTemplate
+     * #7. fetches view / implicit getRenderEngine
+     * #8. assign view to response / implicit getTemplate
      * 9. flush response
      *
      */
@@ -483,15 +475,29 @@ class Clansuite_Front_Controller implements Clansuite_Front_Controller_Interface
         $this->pre_filtermanager->processFilters($request, $response);
 
         /**
-         * Plugins for Modules
+         * 3) Decorate a Module with a Plugins
+         *
          * At this point, we don't want to extend the ModuleController or Module itself,
          * but add functionality at runtime. So we wrap the object into an Decorator (Wrapper)
          * and add plugins.
          */
         #$moduleController = $this->moduleControllerDecorator->decorate($moduleController);
 
-        # 4) Module initialization (this is before the Action Controller is executed and for common tasks)
-        $moduleController->initializeModule($request, $response);
+        /**
+         * 4) Module initialization
+         *
+         * You can place common tasks in the initialization method of a module,
+         * because this step is performed before the Action Controller is executed.
+         * For instance, loading of a library which is used by a majority of actions of that module.
+         * If the method initializeModule() is not present, it won't get triggered.
+         * 
+         * Note, that you are still able to use __construct with dependency injection
+         * to fetch whichever object you like in the modulecontroller.
+         */
+        if(method_exists($moduleController, 'initializeModule'));
+        {
+            $moduleController->initializeModule($request, $response);
+        }
 
         # 5) Fire Action !
         $this->actionResolver->processActionController($request, $moduleController);
