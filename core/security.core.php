@@ -162,7 +162,7 @@ class Clansuite_Security
         {
             $hash_algo = strtolower($hash_algo);
         }
-        
+
         /**
          * check, if we can use skein_hash()
          *
@@ -184,11 +184,11 @@ class Clansuite_Security
         {   # when hash() not available, do hashing the old way
             switch($hash_algo)
             {
-                case 'md5':     
+                case 'md5':
                                 return md5($string);
                                 break;
                 default:
-                case 'sha1':    
+                case 'sha1':
                                 return sha1($string);
                                 break;
             }

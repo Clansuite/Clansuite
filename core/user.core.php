@@ -50,37 +50,34 @@ if (defined('IN_CS') == false){ die('Clansuite not loaded. Direct Access forbidd
 class Clansuite_User
 {
     /**
-     * References to user, session, security, input
+     * @var object User Object
      */
-
     private $user       = null;
+
+    /**
+     * @var object Clansuite_Configuration
+     */
     private $config     = null;
-    private $security   = null;
+
     private $input      = null;
 
     /**
      * Constructor
      *
-     * Sets up the References
+     * Set up references
      */
-
-    function __construct(Clansuite_Config $config, Clansuite_Security $security, Clansuite_Inputfilter $input )
+    function __construct(Clansuite_Config $config)
     {
         $this->config       = $config;
-        $this->security     = $security;
-        $this->input        = $input;
     }
 
     /**
      * getUser
-     * - Get a user by any field of the users and profiles table
-     * - seperate the fields by commata
      *
-     * @param integer
-     * @param string
+     * @param integer $user_id The ID of the User. Default is user_id from session.
+     * @return array $userdata (Dataset of CsUser + CsProfile)
      */
-
-    public function getUser( $user_id = null, $fields = '*')
+    public function getUser( $user_id = null)
     {
         if($user_id == null)
         {
@@ -90,14 +87,14 @@ class Clansuite_User
         {
             $user_id = (int) $user_id;
         }
-         /*
+
         $userdata = Doctrine_Query::create()
                         ->select($fields)
                         ->from('CsUser')
                         ->leftJoin('CsProfile')
                         ->where('CsUser.user_id = ?')
                         ->fetchOne(array($user_id), Doctrine::HYDRATE_ARRAY);
-                           */
+
         if(is_array($userdata))
         {
             return $userdata;
@@ -111,11 +108,10 @@ class Clansuite_User
     /**
      * Creates the User-Object and the $session['user'] Array
      *
-     * @param $user_id
-     * @param $email
-     * @param $nick
+     * @param $user_id The ID of the User.
+     * @param $email The email of the User.
+     * @param $nick The nick of the User.
      */
-
     public function createUserSession($user_id = '', $email = '', $nick = '')
     {
         # Initialize the User Object
@@ -127,12 +123,11 @@ class Clansuite_User
          * 1) user_id
          * 2) email
          * 3) nick
-         * 4) session_id
          */
 
-        if ( !empty($user_id) )
+        if( empty($user_id) == false )
         {
-            // Get the user from the user_id
+            # Get the user from the user_id
             $this->user = Doctrine_Query::create()
                          #->select('u.*,g.*,o.*')
                          ->from('CsUser u')
@@ -142,9 +137,9 @@ class Clansuite_User
                          ->where('u.user_id = ?')
                          ->fetchOne(array($user_id), Doctrine::HYDRATE_ARRAY);
         }
-        else if ( !empty($email) )
+        elseif( empty($email) == false )
         {
-            // Get the user from the email
+            # Get the user from the email
             $this->user = Doctrine_Query::create()
                          #->select('u.*,g.*,o.*')
                          ->from('CsUser u')
@@ -154,9 +149,9 @@ class Clansuite_User
                          ->where('u.email = ?')
                          ->fetchOne(array($email), Doctrine::HYDRATE_ARRAY);
         }
-        else if ( !empty($nick) )
+        elseif( empty($nick) == false )
         {
-            // Get the user from the nick
+            # Get the user from the nick
             $this->user = Doctrine_Query::create()
                          #->select('u.*,g.*,o.*')
                          ->from('CsUser u')
@@ -167,41 +162,16 @@ class Clansuite_User
                          ->fetchOne(array($nick), Doctrine::HYDRATE_ARRAY);
 
         }
-        /*else
-        {
-            // Get the user from the session_id
-            $session_result = Doctrine_Query::create()
-                                ->select('user_id')
-                                ->from('CsSession')
-                                ->where('session_id = ?')
-                                ->fetchOne(array(session_id()), Doctrine::HYDRATE_ARRAY);
-        } */
 
-        // check if session-table[user_id] is a valid user-table[user_id]
-        /*if (!empty($_SESSION['user']['user_id']))
-        {
-            if ( isset($session_result) and $session_result['user_id'] == $_SESSION['user']['user_id'] )
-            {
-                $this->user = Doctrine_Query::create()
-                             ->from('CsUser u')
-                             ->leftJoin('u.CsOption o')
-                             ->leftJoin('u.CsGroup g')
-                             ->leftJoin('g.CsRight r')
-                             ->where('u.user_id = ?')
-                             ->fetchOne(array($session_result['user_id']), Doctrine::HYDRATE_ARRAY);
-
-            }
-            else
-            {
-                session_regenerate_id(true);
-            }
-        }  */
-
-        // check if this user is activated, else reset cookie, session and redirect
-        if ( is_array($this->user) AND $this->user['activated'] == 0 )
+        # check if this user is activated, else reset cookie, session and redirect
+        if ( is_array($this->user) and $this->user['activated'] == 0 )
         {
             $this->logoutUser();
-            $functions->redirect( 'index.php?mod=account&action=activation_email', 'metatag|newsite', 5, _('Your account is not yet activated - please enter your email in the form that appears in 5 seconds to resend the activation email.') );
+
+            # redirect
+            Clansuite_CMS::getInjector()
+            ->instantiate('Clansuite_HttpResponse')
+            ->redirect( 'index.php?mod=account&action=activation_email', 5, 403, _('Your account is not yet activated.'));
         }
 
         /**
@@ -224,21 +194,41 @@ class Clansuite_User
             $_SESSION['user']['disabled']       = $this->user['disabled'];
             $_SESSION['user']['activated']      = $this->user['activated'];
 
-            // Fallback: first take user['language'], else standard language as defined by $this->config['->language
-            if ( !isset($_SESSION['user']['language_via_url']) )
+            /**
+             * Language
+             *
+             * first take user['language'], else standard language as defined by $this->config['->language
+             */
+            if ( isset($_SESSION['user']['language_via_url']) == false )
             {
                 $_SESSION['user']['language'] = (!empty($this->user['language']) ? $this->user['language'] : $this->config['language']['language']);
             }
 
-            // Fallback: first take standard theme as defined by $config->theme
-            if ( !isset($_REQUEST['theme']) )
+            /**
+             * Frontend-Theme
+             *
+             * first take standard theme as defined by $config->theme
+             */
+            if ( isset($_REQUEST['theme']) == false )
             {
                 $_SESSION['user']['theme'] = (!empty($this->user['theme']) ? $this->user['theme'] : $this->config['template']['theme']);
             }
 
-            $_SESSION['user']['backendtheme'] = (!empty($this->user['backendtheme']) ? $this->user['backendtheme'] : $this->config['template']['backend_theme']);
+            /**
+             * Backend-Theme
+             */
+            if(empty($this->user['backendtheme']) == false)
+            {
+                $_SESSION['user']['backendtheme'] = $this->user['backendtheme'];            
+            }
+            else
+            {
+                $_SESSION['user']['backendtheme'] = $this->config['template']['backend_theme'];
+            }
 
             /**
+             * Permissions
+             *
              * Get Groups & Rights of user_id
              */
 
@@ -263,114 +253,47 @@ class Clansuite_User
                 }
             }
         }
-        else // reset $_SESSION['user'] array
+        else 
         {
-            /**
-             * Fill $_SESSION[user] with Guest-User-infos
-             */
-
-            $_SESSION['user']['authed']         = 0;
-            $_SESSION['user']['user_id']        = 0;
-            $_SESSION['user']['nick']           = 'Guest'; #T_('Guest');
-
-            $_SESSION['user']['passwordhash']   = '';
-            $_SESSION['user']['email']          = '';
-
-            $_SESSION['user']['disabled']       = 0;
-            $_SESSION['user']['activated']      = 0;
-
-            // Fallback: Language for Guest Users as defined by $this->config['language']['language']
-            if ( !isset($_SESSION['user']['language_via_url']) )
-            {
-                $_SESSION['user']['language']   = $this->config['language']['language'];
-            }
-
-            // Fallback: Theme for Guest Users as defined by config['template']['theme']
-            if (empty($_SESSION['user']['theme']))
-            {
-                $_SESSION['user']['theme']      = $this->config['template']['theme'];
-            }
-
-            # @todo this is a workaround / backendthemes is enabled for guests .. it's nonsense
-            # this rule is active, unless the login is activated
-            $_SESSION['user']['backendtheme'] = (!empty($this->user['backendtheme']) ? $this->user['backendtheme'] : $this->config['template']['backend_theme']);
-
-            /**
-             * Groups & Rights (Guest Group id = 1)
-             */
-
-            $_SESSION['user']['groups'] = array();
-            $_SESSION['user']['rights'] = array();
-
-            $_SESSION['user']['groups'][] = 1;
-            $_SESSION['user']['rights'][] = 1;
-
-            /*
-            $rights = Doctrine_Query::create()
-                         ->select('g.group_id, r.right_id, r.name')
-                         ->from('CsGroups g')
-                         ->leftJoin('g.CsRights r')
-                         ->where('g.group_id = ?')
-                         ->fetchOne(array(1), Doctrine::HYDRATE_ARRAY);
-            var_dump($rights);*/
-
-            /* OLD PDO Style
-            $stmt = $this->db->prepare( 'SELECT rg.*, ri.* FROM ' . DB_PREFIX . 'group_rights AS rg
-                                         JOIN ' . DB_PREFIX . 'rights AS ri
-                                         ON ri.right_id = rg.right_id
-                                         WHERE rg.group_id = ?' );
-            $stmt->execute( array( 1 ) );
-            $rights = $stmt->fetchAll(PDO::FETCH_ASSOC);
-            */
-
-            #var_dump($rights);
-            /*
-            if( is_array( $rights['CsRight'] ) )
-            {
-                foreach( $rights['CsRight'] as $key => $values )
-                {
-                    $_SESSION['user']['rights'][$values['name']] = 1;
-                }
-            }
-            */
-            #var_dump($_SESSION);
+            # this resets the $_SESSION['user'] array
+            Clansuite_GuestUser::getInstance();
         }
     }
 
     /**
      * Check the user
      *
-     * Validate the existance of the user via nick or email and the password
+     * Validates the existance of the user via nick or email and the passwordhash
      * This is done in two steps:
      * 1. check if given nick or email exists
-     * 2. if thats the case compare password
+     * and if thats the case
+     * 2. compare password from login form with database
      *
      * @param string $login_method contains the login_method ('nick' or 'email')
      * @param string $value contains nick or email string to look for
      * @param string $password contains password string
      *
-     * @return if user is found $user_id else false
+     * @return int ID of User. If the user is found, the $user_id - otherwise false.
      */
-
     public function checkUser($login_method = 'nick', $value, $passwordhash)
     {
         $user = null;
 
-        // check if a given nick or email exists
+        # check if a given nick or email exists
         if( $login_method == 'nick' )
         {
-            // get user_id and passwordhash with the nick
+            # get user_id and passwordhash with the nick
             $user = Doctrine_Query::create()
                          ->select('user_id, passwordhash, salt')
-                         ->from('CsUser u')
+                         ->from('CsUsers u')
                          ->where('nick = ?')
                          ->fetchOne(array($value), Doctrine::HYDRATE_ARRAY);
         }
 
-        // check if a given email exists
+        # check if a given email exists
         if( $login_method == 'email' )
         {
-            // get user_id and passwordhash with the email
+            # get user_id and passwordhash with the email
             $user = Doctrine_Query::create()
                          ->select('user_id, passwordhash, salt')
                          ->from('CsUser u')
@@ -378,21 +301,18 @@ class Clansuite_User
                          ->fetchOne(array($value), Doctrine::HYDRATE_ARRAY);
         }
 
+        # Fetch Clansuite_Security Helpers
+        $security = Clansuite_CMS::getInjector()->instantiate('Clansuite_Security');
+
         # if user was found, check if passwords match each other
-        if ( $user and $this->security->check_salted_hash( $passwordhash, $user['passwordhash'], $user['salt'] ) )
+        if( is_null($user) == false and $security->check_salted_hash( $passwordhash, $user['passwordhash'], $user['salt'] ))
         {
-            /**
-             * ok, the user with nick or email exists and the passwords matched
-             * then return the user_id
-             */
+            # ok, the user with nick or email exists and the passwords matched, then return the user_id
             return $user['user_id'];
         }
         else
         {
-            /**
-             * no user was found with this combination
-             * of either nick and password or email and password
-             */
+            # no user was found with this combination of either nick and password or email and password
             return false;
         }
     }
@@ -404,7 +324,6 @@ class Clansuite_User
      * @param integer $remember_me contains remember_me setting
      * @param string $password contains password string
      */
-
     public function loginUser($user_id, $remember_me, $passwordhash)
     {
         /**
@@ -456,10 +375,8 @@ class Clansuite_User
     }
 
     /**
-     * Logs a user out
-     *
+     * Logout
      */
-
     public function logoutUser()
     {
         # Destroy the session
@@ -492,35 +409,22 @@ class Clansuite_User
                  $this->security->check_salted_hash( $_COOKIE['cs_cookie_password'], $this->user['passwordhash'], $this->user['salt'] ) &&
                  $_COOKIE['cs_cookie_user_id'] == $this->user['user_id'] )
             {
-                /**
-                 * Update the cookie
-                 */
+                # Update the cookie
                 $this->setRememberMeCookie($_COOKIE['cs_cookie_user_id'], $_COOKIE['cs_cookie_password']);
 
-                /**
-                 * Create $this->session['user']
-                 */
+                # Create the user session array ($this->session['user'] etc.) by using this user_id
+                 $this->createUserSession($this->user['user_id']);
 
-                $this->createUserSession($this->user['user_id']);
-
-                /**
-                 * Update Session in DB
-                 */
-
+                # Update Session in DB
                 $this->sessionSetUserId();
             }
-            else
+            else # Delete cookies, if no match
             {
-                /**
-                 * Delete cookies, if no match
-                 */
-
                 setcookie('cs_cookie_user_id', false );
                 setcookie('cs_cookie_password', false );
             }
         }
     }
-
 
     /**
      * Sets user_id to a session
@@ -567,10 +471,11 @@ class Clansuite_User
      */
      public function deleteJoinedButNotActivitatedUsers()
      {
-        $query = Doctrine_Query::create()->delete('CsUser')
-                                         ->from('CsUser')
-                                         ->where('activated = ? AND joined < ?')
-                                         ->execute( array( 0, time() - 259200 ) );
+        Doctrine_Query::create()
+                      ->delete('CsUser')
+                      ->from('CsUser')
+                      ->where('activated = ? AND joined < ?')
+                      ->execute( array( 0, time() - 259200 ) );
      }
 
      /**
@@ -598,5 +503,110 @@ class Clansuite_User
      {
      	return $_SESSION['user']['user_id'];
      }
+}
+
+/**
+ * Clansuite_GuestUser represents the initial values of the user object.
+ * This is the guest visitor.
+ */
+class Clansuite_GuestUser
+{
+    /**
+     * @var object Clansuite_GuestUser is a singleton.
+     */
+    static private $instance = null;
+
+    /**
+     * @var object Clansuite_Configuration
+     */
+    private $config = null;
+
+    /**
+     * @return This object is a singleton.
+     */
+    static public function getInstance()
+    {
+        if (null === self::$instance)
+        {
+            self::$instance = new self;
+        }
+
+        return self::$instance;
+    }
+
+    function __construct()
+    {
+        $this->config = Clansuite_CMS::getInjector()->instantiate('Clansuite_Config');
+    
+        /**
+         * Fill $_SESSION[user] with Guest-User-infos
+         */
+
+        $_SESSION['user']['authed']         = 0;
+        $_SESSION['user']['user_id']        = 0;            # guest have user_id 0
+        $_SESSION['user']['nick']           = _('Guest');
+
+        $_SESSION['user']['passwordhash']   = '';
+        $_SESSION['user']['email']          = '';
+
+        $_SESSION['user']['disabled']       = 0;
+        $_SESSION['user']['activated']      = 0;
+
+        /**
+         * Language for Guests
+         *
+         * Sets the Default Language for all Guest Visitors as defined by configuration value,
+         * if not already set via a GET request, like "index.php?lang=fr".
+         */
+        if ( isset($_SESSION['user']['language_via_url']) == false )
+        {
+            $_SESSION['user']['language']   = $this->config['language']['language'];
+        }
+
+        /**
+         * Theme for Guests
+         *
+         * Sets the Default Theme for all Guest Visitors, if not already set via a GET request.
+         * Theme for Guest Users as defined by config['template']['theme']
+         */
+        if (empty($_SESSION['user']['theme']))
+        {
+            $_SESSION['user']['theme']      = $this->config['template']['theme'];
+        }
+
+        /**
+         * Permissions for Guests
+         */
+
+        # Reset Groups
+        $_SESSION['user']['groups'] = array();
+        $_SESSION['user']['groups'][] = 1;
+
+        # Reset Rights
+        $_SESSION['user']['rights'] = array();
+        $_SESSION['user']['rights'][] = 1;
+
+        # Database Lookup
+        /*$rights = Doctrine_Query::create()
+                     ->select('g.group_id, r.right_id, r.name')
+                     ->from('CsGroups g')
+                     ->leftJoin('g.CsRights r')
+                     ->where('g.group_id = ?')
+                     ->fetchOne(array(1), Doctrine::HYDRATE_ARRAY);*/
+
+        #Clansuite_XDebug::firebug($rights);
+
+        /*
+        if( is_array( $rights['CsRight'] ) )
+        {
+            foreach( $rights['CsRight'] as $key => $values )
+            {
+                $_SESSION['user']['rights'][$values['name']] = 1;
+            }
+        }
+        */
+
+        #Clansuite_XDebug::firebug($_SESSION);
+    }
 }
 ?>

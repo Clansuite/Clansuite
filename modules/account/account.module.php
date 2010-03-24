@@ -58,16 +58,14 @@ class Clansuite_Module_Account extends Clansuite_Module_Controller implements Cl
 
     public function action_show()
     {
-        $this->setTemplate('action_login.tpl');
+        # internal forward
         $this->action_login();
-
-        #$this->prepareOutput();
     }
 
     /**
      * Login Block
      */
-    public function widget_login(&$item)
+    public function widget_login($item)
     {
         # @todo assign not the whole config, only the parameters need
 
@@ -78,16 +76,17 @@ class Clansuite_Module_Account extends Clansuite_Module_Controller implements Cl
     /**
      * @todo ban action
      */
-    private function checkLoginAttemps()
+    private static function checkLoginAttemps()
     {
         if ( empty($_SESSION['login_attempts']) == false
              and $_SESSION['login_attempts'] >= $config['login']['max_login_attempts'] )
         {
             # @todo ban action
-            $this->redirect('index.php', 3, '200',
-            _('You are temporarily banned for the following amount of minutes:').'<br /><b>'
-            .$config['login']['login_ban_minutes'].'</b>' );
-            die();
+            
+            $this->redirect( WWW_ROOT, 3, '200',
+            _('You are temporarily banned. Please come back in <b>' .$config['login']['login_ban_minutes'].'</b> minutes.'));
+
+            exit();
         }
     }
 
@@ -102,21 +101,23 @@ class Clansuite_Module_Account extends Clansuite_Module_Controller implements Cl
         # Get Objects
         $request = $this->injector->instantiate('Clansuite_HttpRequest');
         $config = $this->injector->instantiate('Clansuite_Config');
+        $user = $this->injector->instantiate('Clansuite_User');
 
         # Get Input Variables
-        # from $_POST
-        $nick        = $request->getParameter('nickname');
-        $email       = $request->getParameter('email');
-        $password    = $request->getParameter('password');
-        $remember_me = $request->getParameter('remember_me');
-        $submit      = $request->getParameter('submit');
-        # from $_GET
-        $referer	 = $request->getParameter('referer');
+        $nick        = $request->getParameterFromPost('nickname');
+        $email       = $request->getParameterFromPost('email');
+        $password    = $request->getParameterFromPost('password');
+        $remember_me = $request->getParameterFromPost('remember_me');
+        $submit      = $request->getParameterFromPost('submit');
+        $referer	 = $request->getParameterFromGet('referer');
 
         # Init Error Array
         $error = array();
+        $value = '';
 
-        // Determine the Login method
+        /**
+         * Determine the default login method by config value
+         */
         if( $config['login']['login_method'] == 'nick' )
         {
             $value = $nick;
@@ -128,41 +129,44 @@ class Clansuite_Module_Account extends Clansuite_Module_Controller implements Cl
             unset($email);
         }
 
-        // get user class
-        $user = $this->injector->instantiate('Clansuite_User');
-
-        // Perform checks on Inputvariables & Form filled?
-        if ( isset($value) && !empty($value) && !empty($password) )
+        /**
+         * @todo this is a form validation -> move it
+         *
+         * Perform checks on Inputvariables & Form filled?
+         */
+        if ( isset($value) and empty($value) == false and empty($password) == false )
         {
-            $this->checkLoginAttempts();
+            self::checkLoginAttemps();
 
-            // check whether user_id + password match
+            # check whether user_id + password match
             $user_id = $user->checkUser($config['login']['login_method'], $value, $password);
 
-            // proceed if true
+            # proceed if true
             if ($user_id != false)
             {
-                // perform login for user_id and redirect
-
+                # perform login for user_id
                 $user->loginUser( $user_id, $remember_me, $password );
 
-                #$this->redirect( !empty($referer) ? WWW_ROOT . '/' . base64_decode($referer) : 'index.php', 'metatag|newsite', 3 , _('You successfully logged in...') );
+                # register hook for onLogin and pass the user object as context
+                $this->triggerEvent('onLogin', $this->user);
+
+                $this->flashmessage('success', _('You logged in successfully.'));
+
+                $this->redirectToReferer();
             }
             else
             {
-                // log the login attempts to ban the ip at a specific number
+                $this->triggerEvent('onInvalidLogin');
+
+                # @todo this is a plugin 'login_attempts' -> move it
+                # log the login attempts to ban the ip at a specific number
                 if (!isset($_SESSION['login_attempts']))
                 {
                     $_SESSION['login_attempts'] = 1;
                 }
                 else
                 {
-                    # @todo whats LOGIN_ALREADY??
-                    #if( !defined('LOGIN_ALREADY') )
-                    #{
-                        #define('LOGIN_ALREADY', 1);
-                        $_SESSION['login_attempts']++;
-                    #}
+                    $_SESSION['login_attempts']++;
                 }
 
                 // Error Variables
@@ -170,78 +174,46 @@ class Clansuite_Module_Account extends Clansuite_Module_Controller implements Cl
                 $error['login_attempts'] = $_SESSION['login_attempts'];
             }
         }
-        else
+        elseif(isset($submit))
         {
-            if ( isset ( $submit ) )
-            { $error['not_filled'] = 1; }
+            $error['not_filled'] = 1;
         }
 
-        # Get Render Engine
-        $view = $this->getView();
-
-        // Login Form / User Center
-        if ( $_SESSION['user']['user_id'] == 0 )
+        # Login Form / User Center
+        if( $_SESSION['user']['user_id'] == 0 )
         {
-            // Assing vars & output template
+            $view = $this->getView();
             $view->assign('config', $config);
             $view->assign('error', $error);
-            $view->assign('referer', $referer);
+            # $view->assign('referer', $referer);
 
-
-            #$this->prepareOutput();
-            #return $smarty->fetch('account/login.tpl');
-            //return $smarty->fetch('login.tpl');
-
+            $this->prepareOutput();
         }
         else
         {
-            //  Show usercenter
-            #var_dump($smarty->template_dir);
-            #var_dump($smarty->plugins_dir);
             $this->setTemplate('usercenter.tpl');
         }
-
-        $this->prepareOutput();
     }
 
     /**
      * Logout
      *
-     * @input: $confirm
-     *
-     * If logout is confirmed:
-     *
-     * Destroy Session
-     * Delete Cookie
-     * Redirect to index.php
-     *
-     * else:
-     * @output: $tpl->fetch( 'account/logout.tpl' )
-     *
+     * If logout is confirmed: Destroy Session, Delete Cookie and Redirect to index.php
      */
     public function action_logout()
     {
         // Set Pagetitle and Breadcrumbs
         Clansuite_Breadcrumb::add( _('Logout'), '/index.php?mod=account&amp;action=logout');
 
-        // Get Inputvariables
-        $request = $this->injector->instantiate('Clansuite_HttpRequest');
+        $confirm = (bool) $request->getParameterFromPost('confirm');
 
-        // $_POST
-        $confirm = (int) $request->getParameter('confirm');
-
-        // User instance
-        $user = $this->injector->instantiate('Clansuite_User');
-
-
-        if( $confirm == 1 )
+        if( $confirm == true )
         {
-            // Logout the user
-            $user->logoutUser();
-
-            // Redirect
-            $this->redirect( 'index.php', 3, 200, _( 'You have successfully logged out...') );
-            die();
+            # log the user OUT
+            $this->injector->instantiate('Clansuite_User')->logoutUser();
+            $this->flashmessage('success', _('Logout successfull. Have a nice day. Goodbye.'));
+            $this->redirect(WWW_ROOT, 3, 200);
+            exit();
         }
         else
         {
@@ -390,7 +362,7 @@ class Clansuite_Module_Account extends Clansuite_Module_Controller implements Cl
             }
         }
 
-        $smarty = $this->getView();
+        $view = $this->getView();
         
         // Assign vars
 
@@ -496,59 +468,57 @@ class Clansuite_Module_Account extends Clansuite_Module_Controller implements Cl
     }
 
     /**
-    * Activate Account
-    *
-    * @input: user_id, code
-    *
-    * validate code
-    * SELECT activated WHERE user_id and code
-    * 1. code wrong for user_id
-    * 2. code found, but already activated=1
-    * 3. code found, SET activated=1
-    *
-    *
-    */
+     * Activate Account
+     *
+     * validate code
+     * SELECT activated WHERE user_id and code
+     * 1. code wrong for user_id
+     * 2. code found, but already activated=1
+     * 3. code found, SET activated=1
+     */
     public function action_activate_account()
     {
-        // Request Controller
+        # Request Controller
         $request = $this->injector->instantiate('Clansuite_HttpRequest');
 
-        // Get Inputvariables from $_GET
-        $user_id = (int) $request->getParameter('user_id');
+        # Inputvariables
+        $user_id = (int) $request->getParameterFromGet('user_id');
         $code    = $input->check($request->getParameter('code'), 'is_int|is_abc') ? $request->getParameter('code') : false;
 
-        // Activation code is wrong
+        # Activation code is wrong
         if ( !$code )
         {
             $error->show( _( 'Code Failure' ), _('The given activation code is wrong. Please make sure you copied the whole activation URL into your browser.'), 2 );
             return;
         }
 
-        // SELECT activated WHERE user_id and code
-        $stmt = $db->prepare( 'SELECT activated FROM ' . DB_PREFIX . 'users WHERE user_id = ? AND code = ?' );
-        $stmt->execute( array( $user_id, $code ) );
-        $res = $stmt->fetch();
+        $result = Doctrine_Query::create()
+                            ->select('activated')
+                            ->from('CsUsers')
+                            ->where('user_id = ?')
+                            ->andWhere('code = ?')
+                            ->fetchArray(array($user_id, $email), Doctrine::HYDRATE_ARRAY);
 
-        if ( is_array ( $res ) )
+        if ( is_array ( $result ) )
         {
-            // Account already activated
-            if ( $res['activated'] == 1 )
+            # Account already activated
+            if ( $result['activated'] == 1 )
             {
-                $error->show( _( 'Already' ), _('This account has been already activated.'), 2 );
-                return;
+                $this->flashmessage('error', 'This account has been already activated.');
+                $this->redirectToReferer();
             }
-            else
+            else # activate this account
             {
-                // UPDATE activated=1 WHERE user_id
-                $stmt = $db->prepare( 'UPDATE ' . DB_PREFIX . 'users SET activated = ? WHERE user_id = ?' );
-                $stmt->execute( array ( 1, $user_id ) );
-                $this->redirect( 'index.php?mod=account&action=login', 'metatag|newsite', 3, _('Your account has been activated successfully - please login.') );
+                Doctrine_Query::create()->update('CsUsers')->set('activated', 1)->where('user_id', $user_id);
+                $this->flashmessage('success', _('Your account has been activated successfully. You may now login.'));
+                $this->redirectToReferer();
             }
         }
         else
-        {   // Activation Code not matching user_id
-            $error->show( _( 'Code Failure' ), _('The activation code does not match to the given user id'), 2 );
-            return;
+        {   
+            # Activation Code not matching user_id
+            $this->flashmessage('error', _('The activation code does not match to the given user id'));
+            $this->redirectToReferer();
         }
     }
 
@@ -636,7 +606,7 @@ class Clansuite_Module_Account extends Clansuite_Module_Controller implements Cl
             }
         }
 
-        $smarty = $this->getView();
+        $view = $this->getView();
         $view->assign('err', $error);
 
         #$this->setTemplate('forgot_password.tpl');
@@ -660,10 +630,8 @@ class Clansuite_Module_Account extends Clansuite_Module_Controller implements Cl
             $this->error( _( 'Code Failure: The given activation code is wrong. Please make sure you copied the whole activation URL into your browser.') );
             return;
         }
-
-
-
-        // Select a DB Row
+        
+        # Select a DB Row
         $result = Doctrine_Query::create()
                         ->select('user_id, activated, new_passwordhash, activation_code, new_salt')
                         ->from('CsUser')

@@ -231,7 +231,7 @@ class Clansuite_Functions
      * Converts a SimpleXML String recursivly to an Array
      *
      * @author : Jason Sheets <jsheets at shadonet dot com>
-     * @param unknown_type $xml
+     * @param string $xml SimpleXML String
      * @return Array
      */
     public static function SimpleXMLToArray($simplexml)
@@ -259,8 +259,7 @@ class Clansuite_Functions
         }
         else
         {
-            #@todo this returns a string? should it be an array?
-            return (string)$simplexml;
+            return (string) $simplexml;
         }
     }
 
@@ -269,21 +268,38 @@ class Clansuite_Functions
         $subject_original=$subject;
         $len=strlen($search);
         $pos=0;
-        for ($i=1;$i<=$times;$i++) {
-        $pos=strpos($subject,$search,$pos);
-        if($pos!==false)
+
+        for ($i=1; $i<=$times; $i++)
         {
-            $subject=substr($subject_original,0,$pos);
-            $subject.=$replace;
-            $subject.=substr($subject_original,$pos+$len);
-            $subject_original=$subject;
+            $pos = strpos($subject,$search,$pos);
+            
+            if($pos !== false)
+            {
+                $subject  = substr($subject_original, 0, $pos);
+                $subject .= $replace;
+                $subject .= substr($subject_original, $pos+$len);
+                $subject_original=$subject;
+            }
+            else
+            {
+                break;
+            }
         }
-        else
-        {
-            break;
-        }
-        }
+        
         return($subject);
+    }
+
+    /**
+     * Guess what?!
+     */
+    public static function slashfix($path)
+    {
+        # DS on win is "\"
+        if( DS == '\\')
+        {
+            # correct slashes
+            return str_replace('/', '\\', $path);
+        }
     }
 
    /**

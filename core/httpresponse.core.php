@@ -456,17 +456,13 @@ class Clansuite_HttpResponse implements Clansuite_Response_Interface
 
             # Flush the content on the normal way!
             $this->flush();
-
-            # @todo event log
         }
         else # headers already send!
         {
             #echo "<script>document.location.href='$url';</script>";
-            print "Header bereits gesendet in $filename in Zeile $linenum\n" .
-                  "Redirect nicht moeglich, klicken Sie daher statt dessen <a " .
-                  "href=\"$url\">diesen Link</a> an\n";
-
-            # Exit after redirect
+            print "Header already send in file $filename in line $linenum\n" .
+                  "Redirect is impossible. You might click this instead to redirect yourself to the <a " .
+                  "href=\"$url\">target url </a> an\n";
             exit;
         }
     }

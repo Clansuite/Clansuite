@@ -429,7 +429,7 @@ class Clansuite_Module_Modulemanager_Admin extends Clansuite_Module_Controller i
     
     public function action_admin_createconfig()
     {
-        $smarty = $this->getView();
+        $view = $this->getView();
     
         $this->prepareOutput();
     }
@@ -461,7 +461,7 @@ class Clansuite_Module_Modulemanager_Admin extends Clansuite_Module_Controller i
      public function createMenuFromTemplate($modulename)
      {
         # get smarty
-        $smarty = $this->getView();
+        $view = $this->getView();
 
         # load scaffolding template
         $menu_template_content = $smarty->fetch( ROOT_MOD . 'scaffolding/module_menu.tpl');
@@ -649,7 +649,6 @@ class Clansuite_Module_Modulemanager_Admin extends Clansuite_Module_Controller i
 
     public function remove($id)
     {
-
         $disallowed_to_delete = array('account', 'controlcenter', 'modulemanager', 'permissions', 'users');
 
         if( in_array($module->module, $disallowed_to_delete) == false )
@@ -665,7 +664,7 @@ class Clansuite_Module_Modulemanager_Admin extends Clansuite_Module_Controller i
             $module->remove();
 
             # report position to the eventdispatcher
-            $this->addEvent('onAfterModuleRemove');
+            $this->triggerEvent('onAfterModuleRemove');
 
             # redirect back to the administration area of the modulemanager
             $this->redirect('index.php?mod=modulemanager&sub=admin');

@@ -81,7 +81,7 @@ class Clansuite_Config_XMLHandler extends Clansuite_Config_Base implements Array
     {
         static $instance;
 
-        if ( ! isset($instance))
+        if ( isset($instance) == false)
         {
             $instance = new Clansuite_Config_XMLHandler($filename);
         }
@@ -92,7 +92,8 @@ class Clansuite_Config_XMLHandler extends Clansuite_Config_Base implements Array
     /**
      * Write the configarray to the xml file
      *
-     * @param   string  The filename
+     * @param string The filename
+     * @param array  Array to transform and write as xml
      *
      * @return  mixed array | boolean false
      */
@@ -174,8 +175,8 @@ class Clansuite_Config_XMLHandler extends Clansuite_Config_Base implements Array
         # Clansuite_Logger::notice( __CLASS__ . ": Loading XML from $filename." );
 
         # read file
-        # @toto consider usage of simplexml_load_file() here
-        $xml = file_get_contents($filename);
+        # formerly $xml = file_get_contents($filename);
+        $xml = simplexml_load_file($filename);
 
         # transform XML to PHP Array
         $array = Clansuite_Functions::SimpleXMLToArray($xml);
