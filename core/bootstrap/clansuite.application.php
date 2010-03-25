@@ -48,20 +48,30 @@ if ( !defined('IN_CS') ) { die('Clansuite not loaded. Direct Access forbidden.')
 
 class Clansuite_CMS
 {
-    # Dependency Injector Phemto
+    /**
+     * @var object Dependency Injector Phemto
+     */
     private static $injector;
 
-    # Configuration
+    /**
+     * @var object Clansuite_Config
+     */
     private static $config;
 
+    /**
+     * @var array Static Array with all prefilter classnames
+     */
     private static $prefilter_classes;
 
+    /**
+     * @var array Static Array with all postfilterclassnames
+     */
     private static $postfilter_classes;
 
     public static function run()
     {
         /**
-         * @const STARTTIME shows Application Starttime
+         * @var STARTTIME shows Application Starttime
          */
         define('STARTTIME', microtime(1));
 
@@ -163,9 +173,6 @@ class Clansuite_CMS
         # 2. load the main clansuite configuration file
         self::$config = Clansuite_Config_IniHandler::readConfig('configuration/clansuite.config.php');
 
-        # Debug Display of Config Array
-        # clansuite_xdebug::printR(self::$config);
-
         /**
          *  ================================================
          *          3. Alter php.ini settings
@@ -197,27 +204,27 @@ class Clansuite_CMS
          */
 
         /**
-         * @const DS is a shorthand for DIRECTORY_SEPARATOR
+         * @var DS is a shorthand for DIRECTORY_SEPARATOR
          */
         define('DS', DIRECTORY_SEPARATOR);
 
         /**
-         * @const PS is a shorthand for PATH_SEPARATOR
+         * @var PS is a shorthand for PATH_SEPARATOR
          */
         define('PS', PATH_SEPARATOR);
 
         /**
-         * @const HTML Break + Carriage Return "<br />\r\n"
+         * @var HTML Break + Carriage Return "<br />\r\n"
          */
         define('NL', "<br />\r\n");
 
         /**
-         * @const Carriage Return "\n"
+         * @var Carriage Return "\n"
          */
         define('CR', "\n");
 
         /**
-         * @const Carriage Return and Tabulator "\n\t"
+         * @var Carriage Return and Tabulator "\n\t"
          */
         define('CRT', "\n\t");
 
@@ -228,58 +235,58 @@ class Clansuite_CMS
 
         /**
          * ROOT is the APPLICATION PATH
-         * @const Purpose of ROOT is to provide the absolute path to the current working dir of clansuite
+         * @var Purpose of ROOT is to provide the absolute path to the current working dir of clansuite
          */
         define('ROOT', getcwd() . DS);
         #define('ROOT',  realpath('../'));
 
         /**
-         * @const ROOT_MOD Root path of the modules directory (with trailing slash)
+         * @var ROOT_MOD Root path of the modules directory (with trailing slash)
          */
         define('ROOT_MOD'      , ROOT . self::$config['paths']['mod_folder'].DS);
 
         /**
-        * @constRoot path of the themes directory (with trailing slash)
+        * @var Root path of the themes directory (with trailing slash)
         */
         define('ROOT_THEMES'   , ROOT . self::$config['paths']['themes_folder'].DS);
 
         /**
-         * @constRoot path of the languages directory (with trailing slash)
+         * @var Root path of the languages directory (with trailing slash)
          */
         define('ROOT_LANGUAGES', ROOT . self::$config['paths']['language_folder'].DS);
 
         /**
-         * @constRoot path of the core directory (with trailing slash)
+         * @var Root path of the core directory (with trailing slash)
          */
         define('ROOT_CORE'     , ROOT . self::$config['paths']['core_folder'].DS);
 
         /**
-         * @const Root path of the libraries directory (with trailing slash)
+         * @var Root path of the libraries directory (with trailing slash)
          */
         define('ROOT_LIBRARIES', ROOT . self::$config['paths']['libraries_folder'].DS);
 
         /**
-         * @const Root path of the upload directory (with trailing slash)
+         * @var Root path of the upload directory (with trailing slash)
          */
         define('ROOT_UPLOAD'   , ROOT . self::$config['paths']['upload_folder'].DS);
 
         /**
-         * @const Root path of the logs directory (with trailing slash)
+         * @var Root path of the logs directory (with trailing slash)
          */
         define('ROOT_LOGS'     , ROOT . self::$config['paths']['logfiles_folder'].DS);
 
         /**
-         * @const Root path of the cache directory (with trailing slash)
+         * @var Root path of the cache directory (with trailing slash)
          */
         define('ROOT_CACHE'    , ROOT . 'cache'.DS);
 
         /**
-         * @const Root path of the config directory (with trailing slash)
+         * @var Root path of the config directory (with trailing slash)
          */
         define('ROOT_CONFIG'        , ROOT . 'configuration'.DS);
 
         /**
-         * @const Determine Type of Protocol for Webpaths (http/https)
+         * @var Determine Type of Protocol for Webpaths (http/https)
          */
         if(isset($_SERVER['HTTPS']) and strtolower($_SERVER['HTTPS']) == 'on')
         {
@@ -292,12 +299,12 @@ class Clansuite_CMS
         }
 
         /**
-         * @const SERVER_URL
+         * @var SERVER_URL
          */
         define('SERVER_URL', PROTOCOL . $_SERVER['SERVER_NAME']);
 
         /**
-         * @const WWW_ROOT is a complete www-path with servername from SERVER_URL, depending on os-system
+         * @var WWW_ROOT is a complete www-path with servername from SERVER_URL, depending on os-system
          */
         if (dirname($_SERVER['PHP_SELF']) == "\\" )
         {
@@ -307,14 +314,14 @@ class Clansuite_CMS
         {
             define('WWW_ROOT', SERVER_URL . dirname($_SERVER['PHP_SELF']) );
         }
-
+        
         /**
-         * @const WWW_ROOT_THEMES defines the themes folder
+         * @var WWW_ROOT_THEMES defines the themes folder
          */
         define('WWW_ROOT_THEMES', WWW_ROOT . '/' . self::$config['paths']['themes_folder']);
 
         /**
-         * @const WWW_ROOT_THEMES defines the themes/core folder
+         * @var WWW_ROOT_THEMES defines the themes/core folder
          */
         define('WWW_ROOT_THEMES_CORE', WWW_ROOT . '/' . self::$config['paths']['themes_folder'] .  '/core');
 
@@ -353,7 +360,7 @@ class Clansuite_CMS
     private static function initialize_Debug()
     {
         /**
-         * @const Debug-Mode Constant is set via config setting ['error']['debug']
+         * @var Debug-Mode Constant is set via config setting ['error']['debug']
          */
         define('DEBUG', self::$config['error']['debug']);
 
@@ -375,7 +382,7 @@ class Clansuite_CMS
 
         /**
          * Toggle for Rapid Application Development
-         * @const Development-Mode is set via config setting ['error']['development']
+         * @var Development-Mode is set via config setting ['error']['development']
          */
         define('DEVELOPMENT', self::$config['error']['development']);
 
@@ -388,7 +395,7 @@ class Clansuite_CMS
          */
 
         /**
-         * @const XDebug and set it's value via the config setting ['error']['xdebug']
+         * @var XDebug and set it's value via the config setting ['error']['xdebug']
          */
         define('XDEBUG', self::$config['error']['xdebug']);
 
@@ -415,11 +422,12 @@ class Clansuite_CMS
      */
     private static function initialize_Eventdispatcher()
     {
-        if( isset(self::$config['eventsystem']['eventsystem_enabled']) and self::$config['eventsystem']['eventsystem_enabled'] === true)
+        if( isset(self::$config['eventsystem']['eventsystem_enabled'])
+              and self::$config['eventsystem']['eventsystem_enabled'] === true)
         {
             require ROOT_CORE . 'eventhandler.core.php';
             Clansuite_Eventdispatcher::instantiate();
-            #Clansuite_Eventdispatcher::autoloadEvents();
+            Clansuite_Eventdispatcher::autoloadEvents();
         }
     }
 
@@ -530,8 +538,7 @@ class Clansuite_CMS
          */
         $clansuite = new Clansuite_Front_Controller(
                          new Clansuite_Module_Controller_Resolver(self::$config['defaults']['module']),
-                         new Clansuite_Action_Controller_Resolver(self::$config['defaults']['action']),
-                         self::$injector);
+                         new Clansuite_Action_Controller_Resolver(self::$config['defaults']['action']));
 
         /**
          * Add the Prefilters and Postfilters to the Frontcontroller
