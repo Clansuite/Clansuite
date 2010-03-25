@@ -1,7 +1,7 @@
 <?php
    /**
     * Clansuite - just an eSports CMS
-    * Jens-André Koch © 2005 - onwards
+    * Jens-AndrçŸ‹och Â© 2005 - onwards
     * http://www.clansuite.com/
     *
     * This file is part of "Clansuite - just an eSports CMS".
@@ -24,8 +24,8 @@
     *
     * @license    GNU/GPL v2 or (at your option) any later version, see "/doc/LICENSE".
     *
-    * @author     Jens-André Koch <vain@clansuite.com>
-    * @copyright  Jens-André Koch (2005 - onwards)
+    * @author     Jens-AndrçŸ‹och <vain@clansuite.com>
+    * @copyright  Jens-AndrçŸ‹och (2005 - onwards)
     *
     * @link       http://www.clansuite.com
     * @link       http://gna.org/projects/clansuite
@@ -222,9 +222,13 @@ class Clansuite_HttpResponse implements Clansuite_Response_Interface
         
         // unheroic approach to silence all html validators by fixing the ampersand problem ( turns & to &amp;)
         // exclude javascript && logical operator
+        // @todo find preg_match for & replacing that does not grab && AND remove double str_replace
         $this->body = str_replace('&&','CS+AND+CS', $this->body);
         $this->body = preg_replace('/&(?![#]?[a-z0-9]{1,7};)/i', "&amp;$1", $this->body);
         $this->body = str_replace('CS+AND+CS','&&', $this->body);
+
+        // make it possible to attach HTML content to the body directly before flushing the response
+        Clansuite_CMS::triggerEvent('onBeforeResponse', array('body' => $this->body));
    
         // Finally PRINT the response body
         print $this->body;
@@ -306,8 +310,8 @@ class Clansuite_HttpResponse implements Clansuite_Response_Interface
      * @param bool Only allow HTTP usage? (PHP 5.2)
      * @return bool True or false whether the method has successfully run
      *
-     * @todo until php6 namespaces, the methodname can not be setCookie()
-     *       because this would conflict with the php function
+     * Note: until php6 namespaces, the methodname can not be setCookie()
+     *       because this would conflict with the php function name.
      */
     public function createCookie($name, $value='', $maxage = 0, $path='', $domain='', $secure = false, $HTTPOnly = false)
     {
@@ -342,9 +346,6 @@ class Clansuite_HttpResponse implements Clansuite_Response_Interface
             }
         }
 
-        # Prevent "headers already sent" error with utf8 support (BOM)
-        //if ( utf8_support ) header('Content-Type: text/html; charset=utf-8');
-        # @todo appending to string with dots is slow, "sprintf"y this
         header('Set-Cookie: '.rawurlencode($name).'='.rawurlencode($value)
                                     .(empty($domain) ? '' : '; Domain='.$domain)
                                     .(empty($maxage) ? '' : '; Max-Age='.$maxage)
@@ -451,18 +452,20 @@ class Clansuite_HttpResponse implements Clansuite_Response_Interface
                     break;
             }
 
-            # $this->addHeader('Location', $url);
-            $this->setContent($redirect_html, $time, htmlspecialchars($url, ENT_QUOTES, 'UTF-8'));
+            if($mode == 'JS' or $mode == 'HTML')
+            {
+                # $this->addHeader('Location', $url);
+                $this->setContent($redirect_html, $time, htmlspecialchars($url, ENT_QUOTES, 'UTF-8'));
+            }
 
             # Flush the content on the normal way!
             $this->flush();
         }
         else # headers already send!
         {
-            #echo "<script>document.location.href='$url';</script>";
-            print "Header already send in file $filename in line $linenum\n" .
-                  "Redirect is impossible. You might click this instead to redirect yourself to the <a " .
-                  "href=\"$url\">target url </a> an\n";
+            $msg  = _('Header already send in file %s in line %s. Redirecting impossible.');
+            $msg .= _('You might click this link instead to redirect yourself to the <a href="%s">target url</a> an');
+            printf($msg, $filename, $linenum, $url);
             exit;
         }
     }
