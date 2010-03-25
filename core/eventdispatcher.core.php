@@ -68,10 +68,14 @@ interface Clansuite_Event_Interface
  */
 class Clansuite_Eventdispatcher
 {
-    # holds instance of this class (singleton)
+    /**
+     * @var object Instance of Clansuite_Eventdispatcher (Its a singleton)
+     */
     static private $instance;
 
-    # holds eventhandlers
+    /**
+     * @var array All registered Eventhandlers
+     */
     private $eventhandlers = array();
 
     /**
@@ -83,6 +87,7 @@ class Clansuite_Eventdispatcher
         {
             self::$instance = new Clansuite_Eventdispatcher();
         }
+
         return self::$instance;
     }
 
@@ -101,31 +106,6 @@ class Clansuite_Eventdispatcher
         }
 
         return $this->eventhandlers[$eventName];
-    }
-    
-    /**
-     * Loads the eventhandlers according to a events.configuration file:
-     * Default file is /configuration/events.config.php
-     */
-    public function loadEventhandlers($event_cfg_file = null)
-    {
-        $events = array();
-
-        if($event_cfg_file == null)
-        {
-            # load common events configuration
-            $events = require ROOT . 'configuration/events.config.php';
-        }
-        else
-        {
-            # load specific event config file
-            #$events = require ROOT . $event_cfg_file;
-        }
-        
-        foreach($events as $event)
-        {
-            # @todo register event
-        }
     }
 
     /**
@@ -155,7 +135,7 @@ class Clansuite_Eventdispatcher
     public function addMultipleEventHandlers($events, Clansuite_Event $object)
     {
         if ( empty($events) or is_array($events) == false )
-        { 
+        {
             return;
         }
 
@@ -237,27 +217,38 @@ class Clansuite_Eventdispatcher
  */
 class Clansuite_Event implements ArrayAccess
 {
-    # name of the event
-    private $name;
-    # context of the event triggering, the object from where we are calling
+    /**
+     * @var Name of the event
+     */
+    private $eventname;
+
+    /**
+     * @var array The context of the event triggering. Often the object from where we are calling.
+     */
     private $context;
-    # some pieces of information
+
+    /**
+     * @var string Some pieces of additional information
+     */
     private $info;
-    # cancel state of the event
+
+    /**
+     * @var boolean The cancel state of the event
+     */
     private $cancelled = false;
 
     /**
      * Event constructor
      *
      * @param $name     Event Name
-     * @param $context  default null
-     * @param $info     default null
+     * @param $context  The context of the event triggering. Often the object from where we are calling. Default null.
+     * @param $info     Some pieces of additional information. Default null.
      */
     public function __construct($name, $context = null, $info = null)
     {
-        $this->name     = $name;
-        $this->content  = $context;
-        $this->info    = $info;
+        $this->eventname = $name;
+        $this->content = $context;
+        $this->info = $info;
     }
 
     /**
@@ -267,7 +258,7 @@ class Clansuite_Event implements ArrayAccess
      */
     public function getName()
     {
-        return $this->name;
+        return $this->eventname;
     }
 
     /**
@@ -312,24 +303,114 @@ class Clansuite_Event implements ArrayAccess
      * ArrayAccess Implementation
      */
 
-   public function offsetExists($name)
-   {
+    /**
+     * Returns true if the parameter exists (implements the ArrayAccess interface).
+     *
+     * @param string $name The parameter name
+     *
+     * @return Boolean true if the parameter exists, false otherwise
+     */
+    public function offsetExists($name)
+    {
+        return array_key_exists($name, $this->context);
+    }
 
-   }
+    /**
+     * Returns a parameter value (implements the ArrayAccess interface).
+     *
+     * @param string $name The parameter name
+     *
+     * @return mixed The parameter value
+     */
+    public function offsetGet($name)
+    {
+        if ( false == array_key_exists($name, $this->context) )
+        {
+            throw new Clansuite_Exception(sprintf(_('The event "%s" has no context parameter "%s" .'), $this->eventname, $name));
+        }
 
-   public function offsetGet($name)
-   {
+        return $this->context[$name];
+    }
 
-   }
+    /**
+     * Sets a parameter (implements the ArrayAccess interface).
+     *
+     * @param string $name  The parameter name
+     * @param mixed  $value The parameter value
+     */
+    public function offsetSet($name, $value)
+    {
+        $this->context[$name] = $value;
+    }
 
-   public function offsetSet($name, $value)
-   {
+    /**
+     * Removes a parameter (implements the ArrayAccess interface).
+     *
+     * @param string $name The parameter name
+     */
+    public function offsetUnset($name)
+    {
+        unset($this->context[$name]);
+    }
+}
 
-   }
+/**
+ * Clansuite_Eventloader
+ *
+ * Purpose:
+ * Eventloader handles the loading and registering of events by using event configuration files.
+ *
+ * @category    Clansuite
+ * @package     Core
+ * @subpackage  Eventloader
+ */
+class Clansuite_Eventloader
+{
+    /**
+     * Loads and registers all events of the core and all activated modules.
+     */
+    public static function autoloadEvents()
+    {
+        #Clansuite_Eventloader::loadAllModuleEvents();
+        Clansuite_Eventloader::loadCoreEvents();
+    }
 
-   public function offsetUnset($name)
-   {
+    /**
+     * Loads and registers the core eventhandlers according to the event configuration file.
+     * The event configuration for the core is file is /configuration/events.config.php.
+     */
+    public static function loadCoreEvents()
+    {
+        $events = array();
+        $events = require ROOT . 'configuration/events.config.php';
+        Clansuite_Eventdispatcher::instantiate()->addMultipleEventHandlers($events);
+    }
 
-   }
+    /**
+     * Loads and registers the eventhandlers for a module according to the module event configuration file.
+     * The event configuration files for a module resides in /module/module.events.php (abstract).
+     * For instance the eventcfg filename for module news is /modules/news/news.events.php.
+     *
+     * @param string $modulename Name of a module.
+     */
+    public static function loadModuleEvents($modulename)
+    {
+        $events = array();
+        $events = require ROOT_MOD . $modulename .DS. $modulename.'events.php';
+        Clansuite_Eventdispatcher::instantiate()->addMultipleEventHandlers($events);
+    }
+
+    /**
+     * Loads and registers the eventhandlers for all activated modules.
+     */
+    public static function loadAllModuleEvents()
+    {
+        $modules = # @todo fetch all activated modules
+
+        foreach($modules as $modulename)
+        {
+            Clansuite_Eventloader::loadModuleEvents($modulename);
+        }
+    }
 }
 ?>
