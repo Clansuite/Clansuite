@@ -314,7 +314,7 @@ class Clansuite_CMS
         {
             define('WWW_ROOT', SERVER_URL . dirname($_SERVER['PHP_SELF']) );
         }
-        
+
         /**
          * @var WWW_ROOT_THEMES defines the themes folder
          */
@@ -427,7 +427,7 @@ class Clansuite_CMS
         {
             require ROOT_CORE . 'eventhandler.core.php';
             Clansuite_Eventdispatcher::instantiate();
-            Clansuite_Eventdispatcher::autoloadEvents();
+            Clansuite_Eventloader::autoloadEvents();
         }
     }
 
