@@ -150,7 +150,7 @@ class Clansuite_Renderer_Smarty extends Clansuite_Renderer_Base
         #### COMPILER OPTIONS
         # $this->renderer->compiler_class   = "Smarty_Compiler";     # defines the compiler class for Smarty ... ONLY FOR ADVANCED USERS
         # $this->renderer->compile_id       = 0;                     # set individual compile_id instead of assign compile_ids to function-calls (useful with prefilter for different languages)
-        
+
         /**
          * recompile/rewrite templates only in debug mode
          * @see http://www.smarty.net/manual/de/variable.compile.check.php
@@ -170,7 +170,7 @@ class Clansuite_Renderer_Smarty extends Clansuite_Renderer_Base
         #clansuite_xdebug::printr($this->config['cache']);
         # var_dump($this->config['cache']);
         if ( $this->renderer->debugging == true )
-        {        
+        {
             $this->renderer->caching                = 0;
             $this->renderer->cache_lifetime         = $this->config['cache']['cache_lifetime']; # -1 ... dont expire, 0 ... refresh everytime
             # $this->renderer->cache_handler_func   = "";      # Specify your own cache_handler function
@@ -223,8 +223,8 @@ class Clansuite_Renderer_Smarty extends Clansuite_Renderer_Base
          * 1) "/themes/theme_of_user_session/"
          * 2) "/themes/theme_of_user_session/modulename/"
          * 3) "/modules/"
-         * 4) "/modules/modulename/templates/"
-         * 5) "/themes/core/templates/"
+         * 4) "/modules/modulename/view/"
+         * 5) "/themes/core/view/"
          * 6) "/themes/admin/"
          * 7) "/themes/"
          */
@@ -262,11 +262,11 @@ class Clansuite_Renderer_Smarty extends Clansuite_Renderer_Base
 
         # FALLBACK to the modules dir
         $this->renderer->template_dir[] = ROOT_MOD;
-        $this->renderer->template_dir[] = ROOT_MOD    . Clansuite_Module_Controller_Resolver::getModuleName() .DS. 'view' .DS;
+        $this->renderer->template_dir[] = ROOT_MOD . Clansuite_Module_Controller_Resolver::getModuleName() .DS. 'view' .DS;
 
         # FALLBACK to the themes dir
-        # CORE/TEMPLATES
-        $this->renderer->template_dir[] = ROOT_THEMES . 'core'.DS.'templates' .DS;
+        # CORE/view
+        $this->renderer->template_dir[] = ROOT_THEMES . 'core'.DS.'view' .DS;
 
         # THEMES/ADMIN
         if(Clansuite_Module_Controller_Resolver::getModuleName() == 'controlcenter' or Clansuite_Module_Controller_Resolver::getSubModuleName() == 'admin')
@@ -438,14 +438,9 @@ class Clansuite_Renderer_Smarty extends Clansuite_Renderer_Base
     {
         # fetch the general clansuite constants from Clansuite_Renderer_Base->getConstants()
         $this->renderer->assign($this->getConstants());
-        #var_dump($this->getConstants());
 
         # fetch the specific smarty constants from Clansuite_Renderer_Smarty->getSmartyConstants()
         $this->renderer->assign($this->getSmartyConstants());
-        #var_dump($this->getSmartyConstants());
-
-        # leave this for debugging purposes
-        #var_dump($this->renderer);
     }
 
     public function setRenderMode($mode)
