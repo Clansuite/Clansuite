@@ -7,7 +7,7 @@
 
 /**
  * Smarty pagination
- * Displays help text of a module
+ * Displays help text of this module
  *
  * Examples:
  * <pre>
@@ -36,7 +36,7 @@ function smarty_function_help($params, $smarty)
     }
     elseif( DEBUG == true and DEVELOPMENT == true )
     {
-        return $smarty->fetch( ROOT_THEMES . 'core/templates/help_not_found.tpl');
+        return $smarty->fetch( ROOT_THEMES . 'core/view/help_not_found.tpl');
     }
     else
     {
