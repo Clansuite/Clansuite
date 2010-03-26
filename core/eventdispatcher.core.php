@@ -112,7 +112,7 @@ class Clansuite_Eventdispatcher
      * Adds an Event to the Eventhandlers Array
      *
      * @param $eventName    Name of the Event
-     * @param $event        Instance of Clansuite_Event
+     * @param $eventobject  Instance of Clansuite_Event
      */
     public function addEventHandler($eventName, Clansuite_Event $event)
     {
@@ -130,7 +130,7 @@ class Clansuite_Eventdispatcher
      * Adds multiple Events at once to the Eventhandlers Array
      *
      * @param  $events array    Events to register (only names)
-     * @params $object int|string object id, owner of events
+     * @params $event object int|string object id, owner of events
      */
     public function addMultipleEventHandlers($events, Clansuite_Event $object)
     {
@@ -179,6 +179,7 @@ class Clansuite_Eventdispatcher
         }
 
         # get the Name
+        $eventName = '';
         $eventName = $event->getName();
 
         if (isset($this->eventhandlers[$eventName]) == false)
@@ -193,7 +194,7 @@ class Clansuite_Eventdispatcher
             $eventhandler->execute($event);
 
             # break, on cancelled
-            if($event->isCancelled())
+            if( method_exists($event, 'isCancelled') and $event->isCancelled() == true)
             {
                 break;
             }
@@ -405,7 +406,7 @@ class Clansuite_Eventloader
      */
     public static function loadAllModuleEvents()
     {
-        $modules = # @todo fetch all activated modules
+        #$modules = # @todo fetch all activated modules
 
         foreach($modules as $modulename)
         {

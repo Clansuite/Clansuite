@@ -64,68 +64,84 @@ class Clansuite_Filter_php_debug_console implements Clansuite_Filter_Interface
              * Initialize PHP_Debug Web-Debuggign Console
              *  ================================================
              */
-            if(DEBUG)
+            if(DEBUG == true)
             {
                 # Additional ini path for PHPDEBUG
                 define('ADD_PHPDEBUG_ROOT', ROOT_LIBRARIES . 'phpdebug' );
                 set_include_path(ADD_PHPDEBUG_ROOT . PATH_SEPARATOR. get_include_path());
 
                 # Load Library
-                if( !class_exists('PHP_Debug',false) ) { require( ROOT_LIBRARIES . 'phpdebug/PHP/Debug.php' ); }
+                if( class_exists('PHP_Debug',false) == false )
+                {
+                    require( ROOT_LIBRARIES . 'phpdebug/PHP/Debug.php' );
+                }
 
                 # Setup Options for the PHPDebug Object
                 $options = array(
-                        # General Options
-                        'render_type'          => 'HTML',    // Renderer type
-                        'render_mode'          => 'div',     // Renderer mode
-                        'restrict_access'      => false,     // Restrict access of debug
-                        'allow_url_access'     => true,      // Allow url access
-                        'url_key'              => 'key',     // Url key
-                        'url_pass'             => 'nounou',  // Url pass
-                        'enable_watch'         => true,     // Enable wath of vars
-                        'replace_errorhandler' => true,      // Replace the php error handler
-                        'lang'                 => 'EN',      // Lang
+                    # General Options
+                    'render_type'          => 'HTML',    # Renderer type
+                    'render_mode'          => 'div',     # Renderer mode
+                    'restrict_access'      => false,     # Restrict access of debug
+                    'allow_url_access'     => true,      # Allow url access
+                    'url_key'              => 'key',     # Url key
+                    'url_pass'             => 'nounou',  # Url pass
+                    'enable_watch'         => true,      # Enable wath of vars
+                    'replace_errorhandler' => true,      # Replace the php error handler
+                    'lang'                 => 'EN',      # Lang
 
-                        # Renderer specific
-                        'HTML_DIV_view_source_script_name' => ROOT . '/libraries/phpdebug/PHP_Debug_ShowSource.php',
-                        'HTML_DIV_images_path' =>  WWW_ROOT . '/libraries/phpdebug/images',
-                        'HTML_DIV_css_path' =>  WWW_ROOT . '/libraries/phpdebug/css',
-                        'HTML_DIV_js_path' =>  WWW_ROOT . '/libraries/phpdebug/js',
-                        'HTML_DIV_remove_templates_pattern' => true,
-                        'HTML_DIV_templates_pattern' => array('/var/www-protected/php-debug.com' => '/var/www/php-debug')
+                    # Renderer specific
+                    'HTML_DIV_view_source_script_name' => ROOT . '/libraries/phpdebug/PHP_Debug_ShowSource.php',
+                    'HTML_DIV_images_path' =>  WWW_ROOT . '/libraries/phpdebug/images',
+                    'HTML_DIV_css_path' =>  WWW_ROOT . '/libraries/phpdebug/css',
+                    'HTML_DIV_js_path' =>  WWW_ROOT . '/libraries/phpdebug/js',
+                    'HTML_DIV_remove_templates_pattern' => true,
+                    #'HTML_DIV_templates_pattern' => array('/var/www-protected/php-debug.com' => '/var/www/php-debug')
                 );
 
-                # Guess what? => developers from localhost only :) @todo we might change that to a config settings
-                # Guess why? => security
-                $allowedip = array('127.0.0.1');
+                #Clansuite_Xdebug::printR($options);
 
                 # Initialiaze Object
                 $debug = new PHP_Debug($options);
 
-                /**
-                 *  Load JS / CSS for PHP Debug Console into the Output Buffer
-                 */
-                ob_start();
-                echo '<script type="text/javascript" src="'.$options['HTML_DIV_js_path'].'/html_div.js"></script>';
-                echo '<link rel="stylesheet" type="text/css" media="screen" href="'.$options['HTML_DIV_css_path'].'/html_div.css" />';
-                $content = ob_get_contents();
-    		    ob_end_clean();
-
-                # unset $options
-                unset($options);
-
                 # Set Title to Debug Console
                 $debug->add('Clansuite DEBUG INFO');
 
-                # we like to fetch the console contents also into the buffer
-                # for displaying it at the end of application runtime
-                # for a direct display of the console use $debug->display()
-                $content .= $debug->getOutput();
+                /**
+                 *  Load JS / CSS for PHP Debug Console into the Output Buffer
+                 */   
+                $html  = '<script type="text/javascript" src="'.$options['HTML_DIV_js_path'].'/html_div.js"></script>';
+                $html .= '<link rel="stylesheet" type="text/css" media="screen" href="'.$options['HTML_DIV_css_path'].'/html_div.css" />';
+       
+                # unset $options
+                unset($options);
 
-                # we append the console output ($content) to "BEFORE_BODY_END</body>"
-                $response->setContent($content, BEFORE_BODY_END);
+                # combine the html output
+                $debugbarHTML = $html . $debug->getOutput();
+
+                # push output into event object
+                $event = new DebugConsoleResponse_Event($debugbarHTML);
+
+                # and output the debugging console at the end of the application runtime
+                Clansuite_Eventdispatcher::instantiate()->addEventHandler('onApplicationShutdown', $event);
             }
-        }// else => bypass
+        } // else => bypass
+    }
+}
+
+/**
+ * Helper Object for echoing the HTML content
+ */
+class DebugConsoleResponse_Event # implements Clansuite_Event_Interface
+{
+    public  $name = 'DebugConsoleResponse';
+    private $debugbarHTML;
+    public function __construct($debugbarHTML)
+    {
+        $this->debugbarHTML = $debugbarHTML;
+    }    
+    public function execute()
+    {
+        echo $this->debugbarHTML;
     }
 }
 ?>
