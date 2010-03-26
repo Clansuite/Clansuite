@@ -61,7 +61,7 @@
         <div id="navmain">														<!-- Start Main-Navigation -->
 			<div class="inside">
 				{* Adminmenu Navigation *}
-				{include file="menu/templates/adminmenu.tpl"}
+				{include file="menu/view/adminmenu.tpl"}
             </div>
         </div>																	<!-- Ende Main-Navigation -->
 

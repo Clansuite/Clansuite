@@ -15,4 +15,4 @@
 </div>
 
 <!-- Display the Helptext from Core -->
-{include file="core/templates/help.tpl"}
+{include file="core/view/help.tpl"}

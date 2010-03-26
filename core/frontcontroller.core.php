@@ -130,8 +130,8 @@ class Clansuite_Action_Controller_Resolver implements Clansuite_Action_Controlle
         elseif
         {
             @todo call to a single command = ActionController
-            # example: 'modulename/commands/action_show.php'
-            return 'modulename/commands/'$methodname.'.php';
+            # example: 'modulename/controller/commands/action_show.php'
+            return 'modulename/controller/commands/'$methodname.'.php';
         }
         */
         else # error

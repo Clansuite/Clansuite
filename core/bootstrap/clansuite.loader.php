@@ -397,7 +397,7 @@ class Clansuite_Loader
 
         #Clansuite_Xdebug::firebug($moduleinfos);
 
-        $filename =  ROOT_MOD;
+        $filename = ROOT_MOD;
         
         # if there is a part [3], we have to require a submodule filename
         if(isset($moduleinfos['3']))
@@ -406,25 +406,22 @@ class Clansuite_Loader
             if($moduleinfos['3'] == 'admin')
             {
                 # admin submodule filename, like news.admin.php
-                $filename .= $moduleinfos['2'] . DS . $moduleinfos['2'] . '.admin.php';
-                #echo '<br>loaded Admin SubModule => '. $filename;
+                $filename .= $moduleinfos['2'] . DS . 'controller' . DS . $moduleinfos['2'] . '.admin.php';
 
                 $classname .= 'Admin';
             }
             else
             {
                 # normal submodule filename, like menueditor.module.php
-                $filename .= $moduleinfos['3'] . DS . $moduleinfos['3'] . '.module.php';
-                #echo '<br>loaded SubModule => '. $filename;
+                $filename .= $moduleinfos['3'] . DS . 'controller' . DS . $moduleinfos['3'] . '.module.php';
             }
         }
         else
         {
             # module filename
-            $filename .= $moduleinfos['2'] . DS . $moduleinfos['2'] . '.module.php';
-            #echo '<br>loaded Module => '. $filename;
+            $filename .= $moduleinfos['2'] . DS . 'controller' . DS . $moduleinfos['2'] . '.module.php';
         }
-
+        
         #Clansuite_Xdebug::firebug($filename);
         #Clansuite_Xdebug::firebug($classname);
         return self::requireFile($filename, $classname);
