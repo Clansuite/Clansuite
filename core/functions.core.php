@@ -114,30 +114,31 @@ class Clansuite_Functions
      */
     public static function dirsize($dir)
     {
-       if (!is_dir($dir))
-       {
-           return false;
+        if (!is_dir($dir))
+        {
+            return false;
+        }
+
+        $size = 0;
+        $dh = opendir($dir);
+        while(($entry = readdir($dh)) !== false)
+        {
+            # exclude ./..
+            if($entry == "." or $entry == "..")
+            {
+                continue;
+            }
+
+            if(is_dir( $dir . "/" . $entry))
+            {
+                $size += dirsize($dir . "/" . $entry);
+            }
+            else
+            {
+                $size += filesize($dir . "/" . $entry);
+            }
        }
 
-       $size = 0;
-       $dh = opendir($dir);
-       while(($entry = readdir($dh)) !== false)
-       {
-          # exclude ./..
-          if($entry == "." or $entry == "..")
-          {
-             continue;
-          }
-
-          if(is_dir( $dir . "/" . $entry))
-          {
-             $size += dirsize($dir . "/" . $entry);
-          }
-          else
-          {
-            $size += filesize($dir . "/" . $entry);
-          }
-       }
        closedir($dh);
        return $size;
    }
@@ -272,7 +273,7 @@ class Clansuite_Functions
         for ($i=1; $i<=$times; $i++)
         {
             $pos = strpos($subject,$search,$pos);
-            
+
             if($pos !== false)
             {
                 $subject  = substr($subject_original, 0, $pos);
@@ -285,7 +286,7 @@ class Clansuite_Functions
                 break;
             }
         }
-        
+
         return($subject);
     }
 

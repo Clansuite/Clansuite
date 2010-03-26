@@ -64,23 +64,40 @@ interface Clansuite_Module_Interface
  */
 abstract class Clansuite_Module_Controller extends Clansuite_Module_Controller_Resolver
 {
-    // Variable contains the rendering engine (view object)
+    /**
+     * @var object The rendering engine / view object
+     */
     public $view = null;
 
-    // Variable contains the name of the rendering engine
+    /**
+     * @var string Name of the rendering engine
+     */
     public $renderEngineName = null;
 
-    // Variable contains the name of the template
+    /**
+     * @var string The name of the template to render
+     */
     public $template = null;
 
-    // Variable contains the Dependecy Injector
-    public $injector = null;                    # dynamic
-    static $static_injector = null;             # static
+    /**
+     * @var object Dependecy Injector (dynamic)
+     */
+    public $injector = null;
 
-    // Variable contains the Configuration Object
+    /**
+     * @var object Dependecy Injector (static)
+     */
+    static $static_injector = null;
+
+    /**
+     *
+     * @var object The Configuration Object
+     */
     public $config = null;
 
-    // Variable contains the Module Configuration Object
+    /**
+     * @var array The Module Configuration Array
+     */
     public $moduleconfig = null;
 
     /**
@@ -521,7 +538,7 @@ abstract class Clansuite_Module_Controller extends Clansuite_Module_Controller_R
     }
 
     /**
-     * Shortcut for Redirect with an 404 Repsonse Code
+     * Shortcut for Redirect with an 404 Response Code
      *
      * @param string Redirect to this URL
      * @param int    seconds before redirecting (for the html tag "meta refresh")

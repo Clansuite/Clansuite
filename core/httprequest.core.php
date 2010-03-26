@@ -63,15 +63,11 @@ interface Clansuite_Request_Interface
 }
 
 /**
- * HttpRequest
+ * Clansuite_HttpRequest
  *
- * Purpose:  Clansuite Core Class for Request Handling
- *
- * Request class for encapsulating access to the superglobal $_REQUEST.
- * There are two ways of access:
- * (1) via methods and (2) via spl arrayaccess array handling.
- *
- * @todo split $_REQUEST into GET and POST with each seperate access methods
+ * Purpose:  This is the Clansuite Core Class for Request Handling.
+ * It encapsulates the access to sanitized superglobals ($_GET, $_POST, $_SERVER).
+ * There are two ways of access (1) via methods and (2) via spl arrayaccess array handling.
  *
  * @category    Clansuite
  * @package     Core
@@ -79,55 +75,65 @@ interface Clansuite_Request_Interface
  */
 class Clansuite_HttpRequest implements Clansuite_Request_Interface, ArrayAccess
 {
-    # contains the cleaned $_REQUEST Parameters
+    /**
+     * @var array Contains the cleaned $_REQUEST Parameters
+     */
     private $request_parameters;
 
-    # contains the cleaned $_POST Parameters
+    /**
+     * @var array Contains the cleaned $_POST Parameters
+     */
     private $post_parameters;
 
-    # contains the cleaned $_GET Parameters
+    /**
+     * @var array Contains the cleaned $_GET Parameters
+     */
     private $get_parameters;
 
-    # contains the cleaned $_COOKIE Parameters
+    /**
+     * @var array Contains the cleaned $_COOKIE Parameters
+     */
     private $cookie_parameters;
 
-    # the requestmethod takes GET, POST, PUT, DELETE
+    /**
+     * @var The requestmethod. Possible values are GET, POST, PUT, DELETE.
+     */
     protected $request_method;
 
-    # the base URL (protocol://server:port)
+    /**
+     * @var string the base URL (protocol://server:port)
+     */
     protected static $baseURL;
 
-    # boolean of magic_quotes
+    /**
+     * @var boolean for magic_quotes_gpc
+     */
     private $magic_quotes_gpc;
-
-    # define arrays with valid arraynames (also shortcuts) to adress the parameters
-    private $request_arraynames = array ('R', 'REQUEST');
-    private $post_arraynames    = array ('P', 'POST');
-    private $get_arraynames     = array ('G', 'GET');
-    private $cookie_arraynames  = array ('C', 'COOKIE');
 
     /**
      * Construct the Request Object
      *
-     * 1) Filter Globals and Request
-     * 2) Run $_REQUEST through Filterset of Intrusion Detection System
-     * 3) Import SUPERGLOBAL $_REQUEST into $parameters
+     * 1) Intrusion Detection System
+     * 2) Filter Globals and Request
+     * 3) Additional Security Checks
+     * 4) Clear Array, Filter and Assign the $_REQUEST Global to it
+     * 5) Detect REST Tunneling through POST and set request_method accordingly
      */
     public function __construct()
     {
-        # 1) run IDS
+        # 1) Run Intrusion Detection System
         $doorKeeper = new Clansuite_DoorKeeper;
         $doorKeeper->runIDS();
 
         # 2) Filter Globals and Request
 
-        // Reverse the effect of register_globals
+        # Reverse the effect of register_globals
         if ((bool)ini_get('register_globals') and strtolower(ini_get('register_globals')) != 'off')
         {
             $this->cleanGlobals();
         }
 
-        // disable magic_quotes_runtime
+        # disable magic_quotes_runtime
         @set_magic_quotes_runtime(0);
 
         # if magic quotes gpc is on, stripslash them
@@ -154,11 +160,10 @@ class Clansuite_HttpRequest implements Clansuite_Request_Interface, ArrayAccess
         $this->post_parameters      = array();
         $this->cookie_parameters    = array();
 
-        # Sanitize $_REQUEST
-        # $_REQUEST is at first a clone of $_GET, later $_REQUEST, then $_COOKIES are merged; each overwriting former values.
+        # Sanitize
         $this->sanitizeRequest();
 
-        # Assign the GLOBAL $_REQUEST, $_GET, $_POST
+        # Assign the GLOBALS $_REQUEST, $_GET, $_POST, $_COOKIE
         $this->request_parameters = $_REQUEST;
         $this->get_parameters     = $_GET;
         $this->post_parameters    = $_POST;
@@ -252,14 +257,14 @@ class Clansuite_HttpRequest implements Clansuite_Request_Interface, ArrayAccess
      *
      * @param string $parametername Name of the Parameter
      * @param string $parameterArrayName R, G, P, C
-     * @param boolean $where If set to true, method will returns the name of the array the parameter was found in.
+     * @param boolean $where If set to true, method will return the name of the array the parameter was found in.
      * @return mixed | boolean true|false | string arrayname
      */
     public function issetParameter($parametername, $parameterArrayName = 'REQUEST', $where = false)
     {
         $parameterArrayName = strtoupper($parameterArrayName);
 
-        if(in_array($parameterArrayName, $this->request_arraynames) and isset($this->request_parameters[$parametername]))
+        if(in_array($parameterArrayName, array ('R', 'REQUEST')) and isset($this->request_parameters[$parametername]))
         {
             if($where == false)
             {
@@ -271,7 +276,7 @@ class Clansuite_HttpRequest implements Clansuite_Request_Interface, ArrayAccess
             }
         }
 
-        if(in_array($parameterArrayName, $this->post_arraynames) and isset($this->post_parameters[$parametername]))
+        if(in_array($parameterArrayName, array ('P', 'POST')) and isset($this->post_parameters[$parametername]))
         {
             if($where == false)
             {
@@ -283,7 +288,7 @@ class Clansuite_HttpRequest implements Clansuite_Request_Interface, ArrayAccess
             }
         }
 
-        if(in_array($parameterArrayName, $this->get_arraynames) and isset($this->get_parameters[$parametername]))
+        if(in_array($parameterArrayName, array ('G', 'GET')) and isset($this->get_parameters[$parametername]))
         {
             if($where == false)
             {
@@ -295,7 +300,7 @@ class Clansuite_HttpRequest implements Clansuite_Request_Interface, ArrayAccess
             }
         }
 
-        if(in_array($parameterArrayName, $this->cookie_arraynames) and isset($this->cookie_parameters[$parametername]))
+        if(in_array($parameterArrayName, array ('C', 'COOKIE')) and isset($this->cookie_parameters[$parametername]))
         {
             if($where == false)
             {
@@ -513,7 +518,7 @@ class Clansuite_HttpRequest implements Clansuite_Request_Interface, ArrayAccess
     /**
      * Get $_SERVER REQUEST_URI
      *
-     * @return string The URI which was given in order to access this page; for instance, '/index.html'. 
+     * @return string The URI which was given in order to access this page; for instance, '/index.html'.
      */
     public static function getRequestURI()
     {
@@ -533,7 +538,7 @@ class Clansuite_HttpRequest implements Clansuite_Request_Interface, ArrayAccess
         {
                 $p .= '?'.$_SERVER['QUERY_STRING'];
         }
-        
+
         return $p;
     }
 
@@ -725,8 +730,8 @@ class Clansuite_HttpRequest implements Clansuite_Request_Interface, ArrayAccess
      */
     public function getRequestMethod()
     {
-        # first get the internally set request_method (PUT, DELETE) because we might have a REST-tunneling
-        if(isset($this->$request_method))
+        # first get the internally set request_method (PUT or DELETE) because we might have a REST-tunneling
+        if(isset($this->request_method))
         {
             return $this->request_method;
         }
@@ -895,7 +900,7 @@ class Clansuite_HttpRequest implements Clansuite_Request_Interface, ArrayAccess
     {
         if($this->magic_quotes_gpc == false)
         {
-            return $var;
+            return $input;
         }
 
         // if no var is specified, fix all affected superglobals
@@ -903,6 +908,9 @@ class Clansuite_HttpRequest implements Clansuite_Request_Interface, ArrayAccess
         {
             $input = array($_ENV, $_REQUEST, $_GET, $_POST, $_COOKIE, $_SERVER);
         }
+
+        $k = null;
+        $v = null;
 
         while ( list($k,$v) = each($input) )
         {
