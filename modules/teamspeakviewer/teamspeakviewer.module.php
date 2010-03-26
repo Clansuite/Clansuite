@@ -206,7 +206,7 @@ class Clansuite_Module_Teamspeakviewer extends Clansuite_Module_Controller imple
  * @package     Modules
  * @subpackage  TeamspeakViewer
  */
-class AdvancedTeamSpeak2Viewer implements Absurd_TeamSpeak2_Viewer
+class AdvancedTeamSpeak2Viewer #implements Absurd_TeamSpeak2_Viewer
 {
     public $view = '';
 
@@ -376,7 +376,7 @@ class AdvancedTeamSpeak2Viewer implements Absurd_TeamSpeak2_Viewer
  * @package     Modules
  * @subpackage  TeamspeakViewer
  */
-class TextTeamSpeak2Viewer implements Absurd_TeamSpeak2_Viewer
+class TextTeamSpeak2Viewer #implements Absurd_TeamSpeak2_Viewer
 {
     public function displayObject(Absurd_TeamSpeak2_Object $object, array $moreSiblings)
     {

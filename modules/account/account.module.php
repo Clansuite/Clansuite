@@ -76,15 +76,15 @@ class Clansuite_Module_Account extends Clansuite_Module_Controller implements Cl
     /**
      * @todo ban action
      */
-    private static function checkLoginAttemps()
+    private function checkLoginAttemps()
     {
         if ( empty($_SESSION['login_attempts']) == false
-             and $_SESSION['login_attempts'] >= $config['login']['max_login_attempts'] )
+             and $_SESSION['login_attempts'] >= $this->config['login']['max_login_attempts'] )
         {
             # @todo ban action
             
             $this->redirect( WWW_ROOT, 3, '200',
-            _('You are temporarily banned. Please come back in <b>' .$config['login']['login_ban_minutes'].'</b> minutes.'));
+            _('You are temporarily banned. Please come back in <b>' .$this->config['login']['login_ban_minutes'].'</b> minutes.'));
 
             exit();
         }

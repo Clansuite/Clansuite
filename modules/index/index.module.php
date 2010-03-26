@@ -85,7 +85,7 @@ class Clansuite_Module_Index extends Clansuite_Module_Controller implements Clan
         *
         * As a result of this direct connection of URL to TPL, it's possible to
         * code in a very straightforward way:  index.php?mod=something&action=any
-        * would result in a template-search in /modules/something/templates/any.tpl
+        * would result in a template-search in /modules/something/view/any.tpl
         *
         * Even an empty module function would result in an rendering - a good starting point i guess!
         *
@@ -96,7 +96,7 @@ class Clansuite_Module_Index extends Clansuite_Module_Controller implements Clan
         #$this->setTemplate('index/show.tpl');
         # OR
         # b) directly call template in module path
-        #$this->setTemplate( ROOT_MOD . '/index/templates/show.tpl' );
+        #$this->setTemplate( ROOT_MOD . '/index/view/show.tpl' );
 
         # Starting the View
         #$this->setView($this->getRenderEngine());

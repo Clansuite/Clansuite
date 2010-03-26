@@ -347,7 +347,7 @@ class Clansuite_Module_Modulemanager_Admin extends Clansuite_Module_Controller i
             {
                 // CREATE DIRECTORIES
                 mkdir( ROOT_MOD .  $mod['modulename'], fileperms(ROOT_MOD) );
-                mkdir( ROOT_MOD .  $mod['modulename'] . DS . 'templates', fileperms(ROOT_MOD .  $mod['modulename']) );
+                mkdir( ROOT_MOD .  $mod['modulename'] . DS . 'view', fileperms(ROOT_MOD .  $mod['modulename']) );
             }
             else
             {
@@ -500,7 +500,7 @@ class Clansuite_Module_Modulemanager_Admin extends Clansuite_Module_Controller i
             {
                 if( isset( $module_frontend_data['frontend_tpls'][$key] ) )
                 {
-                    file_put_contents(ROOT_MOD . $module_name . DS . 'templates' . DS . $value . '.tpl', '');
+                    file_put_contents(ROOT_MOD . $module_name . DS . 'view' . DS . $value . '.tpl', '');
                 }
             }
         }
@@ -519,7 +519,7 @@ class Clansuite_Module_Modulemanager_Admin extends Clansuite_Module_Controller i
             {
                 if( isset( $module_backend_data['backend_tpls'][$key] ) )
                 {
-                    file_put_contents(ROOT_MOD . $module_name . DS . 'templates' . DS . $value . '.tpl', '');
+                    file_put_contents(ROOT_MOD . $module_name . DS . 'view' . DS . $value . '.tpl', '');
                 }
             }
         }
@@ -544,7 +544,7 @@ class Clansuite_Module_Modulemanager_Admin extends Clansuite_Module_Controller i
             {
                 if( isset($mod['widget']['widget_tpls'][$key]) )
                 {
-                    file_put_contents(ROOT_MOD .  $module . DS . 'templates' . DS . $value . '.tpl', '');
+                    file_put_contents(ROOT_MOD .  $module . DS . 'view' . DS . $value . '.tpl', '');
                 }
             }
         }
