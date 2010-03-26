@@ -113,7 +113,7 @@ class Clansuite_Module_Users extends Clansuite_Module_Controller implements Clan
         $view->assign('pager_layout', $pager_layout);
 
         # specifiy the template manually
-        #$this->setTemplate('userslist/templates/show.tpl');
+        #$this->setTemplate('userslist/view/show.tpl');
 
         $this->prepareOutput();
     }

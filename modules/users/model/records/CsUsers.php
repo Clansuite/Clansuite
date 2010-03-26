@@ -6,58 +6,59 @@
 class CsUsers extends BaseCsUsers
 {
     /**
- 	   * Returns an user in array form by ID
- 	   *
- 	   * @param   integer $id
- 	   * @return  array
- 	   */
-     public static function getUser($id)
+ 	 * Returns an user in array form by ID
+ 	 *
+ 	 * @param   integer $id
+ 	 * @return  array
+ 	 */
+    public static function getUser($id)
     {
-        $query = new Doctrine_Query();
-        $user_array = $query->from('CsUsers u')
-                       ->leftJoin('u.CsGroups g INDEXBY g.id')
-                       ->where('u.id = ?', $id)
-                       ->execute( array(), Doctrine::HYDRATE_ARRAY);
+        $user_array =  Doctrine_Query::create()
+                        ->from('CsUsers u')
+                        ->leftJoin('u.CsGroups g INDEXBY g.id')
+                        ->where('u.id = ?', $id)
+                        ->execute( array(), Doctrine::HYDRATE_ARRAY);
 
-        Clansuite_Logger::log('Doctrine Query '.__METHOD__.' '.var_export($user_array,true));
+        #Clansuite_Logger::log('Doctrine Query '.__METHOD__.' '.var_export($user_array,true));
 
         return $user_array;
     }
 
     /**
- 	   * Returns an user in array form by EMAIL
- 	   *
- 	   * @param   string $email
- 	   * @return  array
- 	   */
-     public static function getUserByEmail($email)
+ 	 * Returns an user in array form by EMAIL
+ 	 *
+ 	 * @param   string $email
+ 	 * @return  array
+ 	 */
+    public static function getUserByEmail($email)
     {
-        $query = new Doctrine_Query();
-        $user_array = $query->from('CsUsers u')
+        $user_array = Doctrine_Query::create()
+                       ->from('CsUsers u')
                        ->leftJoin('u.CsGroups g INDEXBY g.id')
                        ->where('u.email = ?', $email)
                        ->execute( array(), Doctrine::HYDRATE_ARRAY);
 
-        Clansuite_Logger::log('Doctrine Query '.__METHOD__.' '.var_export($user_array,true));
+        #Clansuite_Logger::log('Doctrine Query '.__METHOD__.' '.var_export($user_array,true));
 
         return $user_array;
     }
 
     /**
- 	   * Returns an user in array form by NICKNAME
- 	   *
- 	   * @param   string $nickname
- 	   * @return  array
- 	   */
-     public static function getUserByNick($nick)
+     * Returns an user in array form by NICKNAME
+     *
+     * @param   string $nickname
+     * @return  array
+     */
+    public static function getUserByNick($nick)
     {
-        $query = new Doctrine_Query();
-        $user_array = $query->from('CsUsers u')
+
+        $user_array = Doctrine_Query::create()
+                       ->from('CsUsers u')
                        ->leftJoin('u.CsGroups g INDEXBY g.id')
                        ->where('u.email = ?', $email)
                        ->execute( array(), Doctrine::HYDRATE_ARRAY);
 
-        Clansuite_Logger::log('Doctrine Query '.__METHOD__.' '.var_export($user_array,true));
+        #Clansuite_Logger::log('Doctrine Query '.__METHOD__.' '.var_export($user_array,true));
 
         return $user_array;
     }

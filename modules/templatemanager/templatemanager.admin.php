@@ -73,11 +73,11 @@ class Clansuite_Module_Templatemanager_Admin extends Clansuite_Module_Controller
 
         $view->assign('templateeditor_modulename',  $tplmod);
 
-        clansuite_xdebug::firebug( ROOT_MOD . $tplmod . DS. 'templates' .DS . '*.tpl' );
+        clansuite_xdebug::firebug( ROOT_MOD . $tplmod . DS. 'view' .DS . '*.tpl' );
 
         $templates = $this->getTemplatesOfModule($tplmod);
 
-        $view->assign('templates', $templates);
+        $view->assign('view', $templates);
 
         $this->prepareOutput();
     }
@@ -87,7 +87,7 @@ class Clansuite_Module_Templatemanager_Admin extends Clansuite_Module_Controller
         $templates = array();
         $i = 0;
 
-        $tpls = glob( ROOT_MOD . $tplmod . DS. 'templates' .DS . '*.tpl' );
+        $tpls = glob( ROOT_MOD . $tplmod . DS. 'view' .DS . '*.tpl' );
 
         foreach ( $tpls as $filename )
         {
