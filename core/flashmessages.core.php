@@ -97,6 +97,43 @@ class Clansuite_Flashmessages /*extends Clansuite_Session*/ implements ArrayAcce
     }
 
     /**
+     * Sets a message to the session
+     *
+     * Supported Messagetypes are error, warning, notice, success, debug
+     * @see self::$flashmessagetypes
+     *
+     * @param $type string type of the message, usable for formatting.
+     * @param $message object the actual message
+     */
+    public function setMessage($type, $message)
+    {
+        if(in_array($type, self::$flashmessagetypes) == true)
+        {
+           # set message the session in flashmessages array container
+           $this->flashmessages[$type][] = $message;
+        }
+    }
+
+    /**
+     * Returns the whole array of flashmessages, if $type is not specified/null.
+     * Or the subarray of flashmessages with key $type.
+     *
+     * @param $type string type of the message, usable for formatting.
+     * @return array If $type is null, returns whole flashmessages array. Otherwise, subarray with key $type.
+     */
+    public function getMessages($type = null)
+    {
+        if($type === null)
+        {
+            return $this->flashmessages;
+        }
+        elseif(isset($type) and $this->hasMessageType($type))
+        {
+            return $this->flashmessages[$type];
+        }
+    }
+
+    /**
      * Load all flashmessages from the session to this object and remove the flashmessages from the session.
      */
     private static function getMessagesFromSession()
@@ -109,41 +146,23 @@ class Clansuite_Flashmessages /*extends Clansuite_Session*/ implements ArrayAcce
     }
 
     /**
-     * sets a message to the session
+     * Checks if a certain messagetype is set as flashmessage
      *
-     * Supported Messagetypes are error, warning, notice, success, debug
-     * @see self::$flashmessagetypes
-     *
-     * @param   $messagetype    string type of the message, usable for formatting.
-     * @param   $message        object the actual message
+     * @param   $type    string type of the message, usable for formatting.
+     * @return  boolean  true|false
      */
-    public function setMessage($messagetype, $message)
+    public function hasMessageType($type)
     {
-        if(in_array($messagetype, self::$flashmessagetypes) == true)
-        {
-           # set message the session in flashmessages array container
-           $this->flashmessages[$messagetype][] = $message;
-        }
+        return array_key_exists($type, $this->flashmessages);
     }
 
     /**
-     * checks if a certain messagetype is set as flashmessage
-     *
-     * @param   $messagetype    string type of the message, usable for formatting.
-     * @return  boolean         true|false
+     * Removes a specific message from the session
      */
-    public function hasMessageType($messagetype)
-    {
-        return array_key_exists($messagetype, $this->flashmessages);
-    }
-
-    /**
-     * removes a specific message from the session
-     */
-    public function delMessage($messagetype, $message_id)
+    public function delMessage($type, $id)
     {
          # @todo message_id as identifier
-         $this->flashmessages[$messagetype][$message_id] = array();
+         $this->flashmessages[$type][$id] = array();
     }
 
     /**
@@ -155,7 +174,7 @@ class Clansuite_Flashmessages /*extends Clansuite_Session*/ implements ArrayAcce
     }
 
     /**
-     * save the flashmessages of this object to the session
+     * Save the flashmessages of this object to the session
      */
     private function saveFlashMessagesToSession()
     {
@@ -163,11 +182,40 @@ class Clansuite_Flashmessages /*extends Clansuite_Session*/ implements ArrayAcce
     }
 
     /**
-     *  Destructor Method implementing the Savehandler
+     * Destructor Method implementing the Savehandler
      */
     public function __destruct()
     {
         $this->saveFlashMessagesToSession();
+    }
+
+    /**
+     * Output
+     * @param $type string type of the message. this will render only messages of this type.
+     */
+    public function render($type = null)
+    {
+        $flashmessages = $this->getFlashmessages($type);
+
+        foreach($flashmessages as $flashmessage)
+        {
+             # extract flashmessages in case its an array of $flashmessage[$type]
+             if(is_array($flashmessage) )
+             {
+                 extract($flashmessage);
+             }
+
+             return '<div id="flashmessage" class="flashmessage '.$type.'">'.$flashmessage.'</div>';
+        }
+    }
+
+    /**
+     * MagicMethod for Output
+     * @see $this->render;
+     */
+    public function __toString()
+    {
+        $this->render();
     }
 }
 ?>
