@@ -11,7 +11,7 @@
 {if $smarty.const.DEBUG AND $smarty.const.DEVELOPMENT}
 <div class="create_helpbox">
         {t}You can create a helptext in the{/t}
-        <a href="{$www_root}/index.php?mod=templatemanager&amp;sub=admin&amp;action=edit&amp;file={$modulename}/templates/help.tpl&amp;tplmod={$modulename}">Templateeditor</a>
+        <a href="{$www_root}/index.php?mod=templatemanager&amp;sub=admin&amp;action=edit&amp;file={$modulename}/view/help.tpl&amp;tplmod={$modulename}">Templateeditor</a>
         {t} now.{/t}
 </div>
 {/if}

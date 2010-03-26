@@ -1,4 +1,4 @@
-<!-- Start core/templates/help.tpl -->
+<!-- Start core/view/help.tpl -->
 <div id="help" class="admin_help" style="float: right; z-index: 99; position: absolute; right: 22px; top: 122px; font-size: 11px;">
 
     <ol type="I">
@@ -62,4 +62,4 @@
      </ol>
 </div>
 
-<!-- End Template core/templates/help.tpl -->
+<!-- End Template core/view/help.tpl -->

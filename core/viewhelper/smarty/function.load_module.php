@@ -121,7 +121,7 @@ function smarty_function_load_module($params, $smarty)
         }
         elseif($smarty->templateExists($module.DS.'view'.DS.$action.'.tpl'))
         {
-            # $smarty->template_dir[s]..\news\templates\widget_news.tpl
+            # $smarty->template_dir[s]..\news\view\widget_news.tpl
             return $smarty->fetch($module.DS.'view'.DS.$action.'.tpl');
         }
         else

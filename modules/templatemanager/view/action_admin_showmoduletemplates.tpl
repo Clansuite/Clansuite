@@ -65,7 +65,7 @@ $(function () {
             {foreach from=$templates item=template name=tpls}
                 
                 <li id="file-{$smarty.foreach.tpls.iteration}" rel="file"><ins>&nbsp;</ins>
-                    [{$smarty.foreach.tpls.iteration}] <a href="{$www_root}/index.php?mod=templatemanager&amp;sub=admin&amp;action=edit&amp;file={$templateeditor_modulename}/templates/{$template.filename}">
+                    [{$smarty.foreach.tpls.iteration}] <a href="{$www_root}/index.php?mod=templatemanager&amp;sub=admin&amp;action=edit&amp;file={$templateeditor_modulename}/view/{$template.filename}">
                     <ins>&nbsp;</ins>
                     {$template.filename} 
                     </a>

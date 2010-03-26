@@ -56,7 +56,7 @@
 </div>
 
 {* Adminmenu Navigation *}
-{include file="menu/templates/adminmenu.tpl"}
+{include file="menu/view/adminmenu.tpl"}
 
 {include file="firebug_active_warning.tpl"}
 
