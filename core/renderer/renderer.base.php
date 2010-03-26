@@ -166,7 +166,7 @@ abstract class Clansuite_Renderer_Base
      *
      * Path Priority
      * 1) Themes
-     * 2) modulename/templates
+     * 2) modulename/view
      *
      * @return $templatepath
      */
@@ -200,7 +200,7 @@ abstract class Clansuite_Renderer_Base
      * @return string
      *
      * @todo for renderer related templates we have to add "renderer/", like
-     *        modules/modulename/templates/renderer/actioname.tpl
+     *        modules/modulename/view/renderer/actioname.tpl
      */
     public function getThemeTemplatePath($template)
     {
@@ -268,19 +268,19 @@ abstract class Clansuite_Renderer_Base
         #$action = Clansuite_Action_Controller_Resolver::getActionName();
 
         /*
-        if(is_file( ROOT_MOD . $moduleName .'/templates/'. $actionName .'.tpl'))
+        if(is_file( ROOT_MOD . $moduleName .'/view/'. $actionName .'.tpl'))
         {
-            return ROOT_MOD . $moduleName .'/templates/'. $actionName .'.tpl';
+            return ROOT_MOD . $moduleName .'/view/'. $actionName .'.tpl';
         }
         */
 
         # Method 2: detect it via $template string
         # Given is a string like "news/show.tpl"
-        # we insert "/templates" at the last slash
+        # we insert "/view" at the last slash
 
         /*
         # attach "/template/" to the $template string, at "news\action_show.tpl" DS
-        $template = substr_replace($template, DS.'templates'.DS , strpos($template,DS), 0);
+        $template = substr_replace($template, DS.'view'.DS , strpos($template,DS), 0);
         # single slash correction
         $template = str_replace("\\", "/",  $template);
         # get rid of double slashes
@@ -289,7 +289,7 @@ abstract class Clansuite_Renderer_Base
         */
 
         # Check, if template exists in module folder + 'templates/name.tpl'
-        # template has to be something like "/news/templates/action_show.tpl"
+        # template has to be something like "/news/view/action_show.tpl"
         if(is_file( ROOT_MOD . $template ))
         {
             $modulepath = ROOT_MOD . $template;
@@ -301,16 +301,16 @@ abstract class Clansuite_Renderer_Base
             $modulepath =  ROOT_MOD . $module . $template;
         }
 
-        # Check, if template exists in module folder + 'news' + 'templates' +'/name.tpl'
-        elseif(is_file( ROOT_MOD . $module . DS . 'templates' . DS . $template))
+        # Check, if template exists in module folder + 'news' + 'view' +'/name.tpl'
+        elseif(is_file( ROOT_MOD . $module . DS . 'view' . DS . $template))
         {
-            $modulepath =  ROOT_MOD . $module . DS . 'templates' . DS . $template;
+            $modulepath =  ROOT_MOD . $module . DS . 'view' . DS . $template;
         }
 
         # If there is still no modulepath with the template found, show template_not_found
         elseif(is_null($modulepath))
         {
-            $modulepath = ROOT_THEMES . 'core'.DS.'templates'.DS.'template_not_found.tpl';
+            $modulepath = ROOT_THEMES . 'core'.DS.'view'.DS.'template_not_found.tpl';
         }
 
         # single slash correction
