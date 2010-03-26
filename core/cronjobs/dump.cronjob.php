@@ -40,7 +40,7 @@ class Clansuite_Cronjob_Dump implements Clansuite_Cronjob_Interface
 {
     public function execute()
     {
-        echo "It's just me, a dumb example of an cronjump. <br/> My name is 'dump.cronjob.php'.";
+        echo "It's just me, a dumb example of a cronjump. <br/> My name is 'dump.cronjob.php'.";
     }
 }
 ?>

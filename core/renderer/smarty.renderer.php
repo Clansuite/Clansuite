@@ -262,7 +262,7 @@ class Clansuite_Renderer_Smarty extends Clansuite_Renderer_Base
 
         # FALLBACK to the modules dir
         $this->renderer->template_dir[] = ROOT_MOD;
-        $this->renderer->template_dir[] = ROOT_MOD    . Clansuite_Module_Controller_Resolver::getModuleName() .DS. 'templates' .DS;
+        $this->renderer->template_dir[] = ROOT_MOD    . Clansuite_Module_Controller_Resolver::getModuleName() .DS. 'view' .DS;
 
         # FALLBACK to the themes dir
         # CORE/TEMPLATES

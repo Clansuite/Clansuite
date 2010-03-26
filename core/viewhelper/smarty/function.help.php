@@ -29,10 +29,10 @@ function smarty_function_help($params, $smarty)
     $modulename = $smarty->getTemplateVars('template_of_module');
     
     # check if file exists
-    if( $smarty->templateExists( $modulename. '/templates/help.tpl') )
+    if( $smarty->templateExists( $modulename. '/view/help.tpl') )
     {
-        # load the help template from modulepath ->  modulename/templates/help.tpl
-        return $smarty->fetch( $modulename. '/templates/help.tpl');
+        # load the help template from modulepath ->  modulename/view/help.tpl
+        return $smarty->fetch( $modulename. '/view/help.tpl');
     }
     elseif( DEBUG == true and DEVELOPMENT == true )
     {
