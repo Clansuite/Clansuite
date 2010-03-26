@@ -64,10 +64,16 @@ if (defined('IN_CS') == false){ die('Clansuite not loaded. Direct Access forbidd
  */
 class Clansuite_Flashmessages /*extends Clansuite_Session*/ implements ArrayAccess
 {
-    # contains $session array of $flashmessages
+    /**
+     * @var contains $session array of $flashmessages
+     */
     private $flashmessages = array();
 
-    # no constructor
+    /**
+     * @var array types of flashmessages (whitelist)
+     */
+    private static $flashmessagetypes = array( 'error', 'warning', 'notice', 'success', 'debug');
+
     function __construct()
     {
         self::getMessagesFromSession();
@@ -85,52 +91,39 @@ class Clansuite_Flashmessages /*extends Clansuite_Session*/ implements ArrayAcce
         static $instance;
         if(isset($instance) == false)
         {
-            $instance = new Clansuite_Flashmessages($injector);
+            $instance = new Clansuite_Flashmessages();
         }
         return $instance;
     }
 
     /**
-     * General Methods for FlashMessage Handling
-     */
-
-    /**
-     * Load all flashmessages from the session to this object
-     * and remove the flashmessages from the session.
-     * @todo abstract session access
+     * Load all flashmessages from the session to this object and remove the flashmessages from the session.
      */
     private static function getMessagesFromSession()
     {
         if (array_key_exists('flashmessages', $_SESSION))
         {
-            foreach ($_SESSION['flashmessages'] as $message => $value)
-            {
-                $this->flashmessages[$message] = $value;
-
-            }
+            $this->flashmessages = $_SESSION['flashmessages'];
             unset($_SESSION['flashmessages']);
         }
     }
 
     /**
-     * save the flashmessages of this object to the session
-     * @todo abstract session access
-     */
-    private function saveFlashMessagesToSession()
-    {
-       $_SESSION['flashmessages'] = $this->flashmessages;
-    }
-
-    /**
      * sets a message to the session
+     *
+     * Supported Messagetypes are error, warning, notice, success, debug
+     * @see self::$flashmessagetypes
      *
      * @param   $messagetype    string type of the message, usable for formatting.
      * @param   $message        object the actual message
      */
     public function setMessage($messagetype, $message)
     {
-        # set message the session in flashmessages array container
-        $this->flashmessages[$messagetype][] = $message;
+        if(in_array($messagetype, self::$flashmessagetypes) == true)
+        {
+           # set message the session in flashmessages array container
+           $this->flashmessages[$messagetype][] = $message;
+        }
     }
 
     /**
@@ -141,17 +134,17 @@ class Clansuite_Flashmessages /*extends Clansuite_Session*/ implements ArrayAcce
      */
     public function hasMessageType($messagetype)
     {
-        return array_key_exists($key, $this->flashmessages);
+        return array_key_exists($messagetype, $this->flashmessages);
     }
 
     /**
      * removes a specific message from the session
      */
-    /*public function delMessage($messagetype, $message_id)
+    public function delMessage($messagetype, $message_id)
     {
          # @todo message_id as identifier
-         $this->flashmessages[$message_id] = array();
-    }*/
+         $this->flashmessages[$messagetype][$message_id] = array();
+    }
 
     /**
      * resets the whole flashmessage array
@@ -162,111 +155,19 @@ class Clansuite_Flashmessages /*extends Clansuite_Session*/ implements ArrayAcce
     }
 
     /**
-     * Direct Messages with specialized templates
-     *
-     * 1. error
-     * 2. warning
-     * 3. notice
-     * 4. success
-     * 5. debug
+     * save the flashmessages of this object to the session
      */
-
-    /**
-     * 1) sets a error-message to the session
-     *
-     * @param   $message    object the actual message
-     */
-    public function setError($message)
+    private function saveFlashMessagesToSession()
     {
-        $this->setMessage('error', $message);
+        $_SESSION['flashmessages'] = $this->flashmessages;
     }
 
     /**
-     * 2) sets a warning-message to the session
-     *
-     * @param   $message    object the actual message
-     */
-    public function setWarning($message)
-    {
-        $this->setMessage('warning', $message);
-    }
-
-    /**
-     * 3) sets a notice-message to the session
-     *
-     * @param   $message    object the actual message
-     */
-    public function setNotice($message)
-    {
-        $this->setMessage('notice', $message);
-    }
-
-    /**
-     * 4) sets a success-message to the session
-     *
-     * @param   $message    object the actual message
-     */
-    public function setSuccess($message)
-    {
-        $this->setMessage('success', $message);
-    }
-
-    /**
-     * 5) sets a debug-message to the session
-     *
-     * @param   $message    object the actual message
-     */
-    public function setDebug($message)
-    {
-        $this->setMessage('debug', $message);
-    }
-
-    /**
-     *  Destructor Method
-     *  implements the Savehandler
+     *  Destructor Method implementing the Savehandler
      */
     public function __destruct()
     {
-       $this->saveFlashMessagesToSession();
-    }
-
-    # Magic Methods
-    # This is not helpful, because of key-usage.
-    # @todo add type, key, id handling
-    # @todo wakeup(), sleep()
-
-    /**
-    * magic set
-    */
-    function __set($key, $value)
-    {
-        $this->flashmessages[$key] = $value;
-    }
-
-    /**
-    * magic get
-    */
-    function __get($key)
-    {
-        if (isset($this->flashmessages[$key])) {
-            return $this->flashmessages[$key];
-        }
-    }
-
-    /**
-    * magic conditional check isset
-    */
-    function __isset($key)
-    {
-        return array_key_exists($key, $this->flashmessages);
-    }
-
-    /**
-     * magic unset
-     */
-    function __unset($key)
-    {
-        unset($this->flashmessage[$key]);
+        $this->saveFlashMessagesToSession();
     }
 }
 ?>
