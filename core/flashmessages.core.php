@@ -205,8 +205,15 @@ class Clansuite_Flashmessages /*extends Clansuite_Session*/ implements ArrayAcce
                  extract($flashmessage);
              }
 
-             return '<div id="flashmessage" class="flashmessage '.$type.'">'.$flashmessage.'</div>';
+             $html = '';
+             $html .= '<div id="flashmessage" class="flashmessage '.$type.'">'.$flashmessage.'</div>';
         }
+
+        # reset the messages array
+        $this->delMessages();
+
+        # and flush output
+        return $html;
     }
 
     /**
