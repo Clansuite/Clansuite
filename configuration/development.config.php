@@ -215,4 +215,23 @@ eventsystem_enabled = 1
 name=clanname
 tag=[clantag]::
 
+;----------------------------------------
+; wysiwyg editor
+;----------------------------------------
+[editor]
+type=ckeditor
+
+[htmltidy]
+enabled = 1
+
+;----------------------------------------
+; ANTI-SPAM / CAPTCHA
+;----------------------------------------
+[antispam]
+captchatype = recaptcha
+
+[recaptcha]
+public_key = keystring
+private_key = keystring
+
 ; DO NOT REMOVE THIS LINE */ ?>

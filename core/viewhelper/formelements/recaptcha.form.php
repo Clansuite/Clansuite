@@ -45,28 +45,28 @@ if (!class_exists('Clansuite_Formelement',false)) { require ROOT_CORE . 'viewhel
  *      |
  *      \- Clansuite_Formelement_ReCaptcha
  */
-class Clansuite_Formelement_ReCaptcha extends Clansuite_Formelement implements Clansuite_Formelement_Interface
+class Clansuite_Formelement_ReCaptcha extends Clansuite_Formelement_Captcha implements Clansuite_Formelement_Interface
 {
     /**
-     * @var string The ReCaptcha API PublicKey. You got this key from the recaptcha signup page.
+     * @var string The ReCaptcha API PublicKey. You got this key from the ReCaptcha signup page.
      */
     private $publicKey;
 
     public function __construct()
     {
         # Load Recaptcha Library
-        require_once( ROOT_MOD . 'recaptcha/library/recaptchalib.php');
+        require_once( ROOT_LIBRARIES . 'recaptcha/recaptchalib.php' );
 
         /**
-         * Fetch publickey from config.
-         * 
+         * Fetch publickey from config
+         *
          * [recaptcha]
-         * public_key = ""
+         * public_key  = ""
          * private_key = ""
          */
         $config = Clansuite_CMS::getInjector()->instantiate('Clansuite_Config');
-        # @todo get setting from cfg
-        #$this->publicKey = $this->getConfigValue('public_key', 'No PublicKey given!');
+        $this->publicKey = $config['recaptcha']['public_key'];
+        unset($config);
     }
 
     /**
