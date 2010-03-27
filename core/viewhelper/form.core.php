@@ -497,26 +497,6 @@ class Clansuite_Form /*extends Clansuite_HTML*/ implements Clansuite_Form_Interf
     }
 
     /**
-     * Translate the error messages.
-     * Basically what this method does is:
-     * to pull the gettext underscore from the form definition array to this class.
-     *
-     * @return array
-     */
-    protected function translateErrorMessages()
-    {
-        $messages = $this->getErrorMessages();
-
-        foreach ($messages as $key => $message)
-        {
-            # translate with gettext
-            $messages[$key] = _($message);
-        }
-
-        return $messages;
-    }
-
-    /**
     * Sets the default positioning
     *
     * @param int $formelement_position
