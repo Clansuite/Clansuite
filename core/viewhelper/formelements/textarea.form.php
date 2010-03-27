@@ -181,7 +181,7 @@ class Clansuite_Formelement_Textarea extends Clansuite_Formelement implements Cl
     private function editorFactory()
     {
         $name = $this->getEditor();
-        Clansuite_Xdebug::firebug($name);
+        #Clansuite_Xdebug::firebug($name);
 
         # construct classname
         $classname = 'Clansuite_Formelement_Wysiwyg'. $name;

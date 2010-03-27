@@ -39,13 +39,135 @@ if (defined('IN_CS') == false){ die('Clansuite not loaded. Direct Access forbidd
 if (!class_exists('Clansuite_Formelement',false)) { require ROOT_CORE . 'viewhelper/formelement.core.php'; }
 
 /**
- *
  *  Clansuite_Formelement
  *  |
  *  \- Clansuite_Formelement_Captcha
  */
 class Clansuite_Formelement_Captcha extends Clansuite_Formelement implements Clansuite_Formelement_Interface
 {
+    /**
+     * @var string Name the Captcha Type: 'recaptcha', 'simplecaptcha', 'somenamecaptcha'.
+     */
+    private $captcha;
 
+    /**
+     * @var object The captcha object.
+     */
+    private $captchaObject;
+
+    public function __construct()
+    {
+        # formfield type
+        $this->type  = 'captcha';
+
+        return $this;
+    }
+
+    public function setCaptcha($captcha = null)
+    {
+        # if no captcha is given, take the one definied in configuration
+        if($captcha == null)
+        {
+            $config = Clansuite_CMS::getInjector()->instantiate('Clansuite_Config');
+            $captcha = $config['antispam']['captchatype'];
+            unset($config);
+        }
+
+        $this->captcha = strtolower($captcha);
+
+        return $this;
+    }
+
+    public function getCaptcha()
+    {
+        # cut "captcha" (last 7 chars)
+        return substr($this->captcha, 0, -7);
+    }
+
+    public function setCaptchaFormelement(Clansuite_Formelement_Interface $captchaObject)
+    {
+        $this->captchaObject = $captchaObject;
+
+        return $this;
+    }
+
+    public function getCaptchaFormelement()
+    {
+        if(empty($this->captchaObject))
+        {
+            return $this->setCaptchaFormelement($this->captchaFactory());
+        }
+        else
+        {
+            return $this->captchaObject;
+        }
+    }
+
+    /**
+     * The CaptchaFactory loads and instantiates a captcha object
+     */
+    private function captchaFactory()
+    {
+        $name = $this->getCaptcha();
+        #Clansuite_Xdebug::firebug($name);
+
+        # construct classname
+        $classname = 'Clansuite_Formelement_'. $name.'Captcha';
+
+        # load file
+        if (class_exists($classname, false) == false)
+        {
+            require ROOT_CORE.'viewhelper/formelements/'.$name.'captcha.form.php';
+        }
+
+        # instantiate
+        $editor_formelement = new $classname();
+
+        return $editor_formelement;
+    }
+
+    /**
+     * At some point in the lifetime of this object you decided that this captcha should be a captcha element of specific kind.
+     * The captchaFactory will load the file and instantiate the captcha object. But you already defined some properties
+     * like Name or Size for this captcha. Therefore it's now time to transfer these properties to the captcha object.
+     * Because we don't render this captcha, but the requested captcha object.
+     */
+    private function transferPropertiesToCatpcha()
+    {
+        # get captcha formelement
+        $formelement = $this->getCaptchaFormelement();
+
+        # transfer props from $this to captcha formelement
+        $formelement->setRequired($this->required);
+        $formelement->setLabel($this->label);
+        $formelement->setName($this->name);
+        $formelement->setValue($this->value);
+
+        # return the formelement, to call e.g. render() on it
+        return $formelement;
+    }
+
+
+    /**
+     * Renders the captcha representation of the specific captcha formelement.
+     *
+     * @return $html HTML Representation of captcha formelement
+     */
+    public function render()
+    {
+        $html = '';
+
+        if(empty($this->captcha) == false)
+        {
+            $html .= $this->getCaptchaFormelement()->transferPropertiesToCaptcha()->render();
+        }
+
+        return $html;
+    }
+
+    public function __toString()
+    {
+        return $this->render();
+    }
 }
 ?>
