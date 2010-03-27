@@ -74,7 +74,7 @@ class Clansuite_Formelement_ReCaptcha extends Clansuite_Formelement_Captcha impl
      */
     public function render()
     {
-        echo recaptcha_get_html($this->publicKey);
+        return recaptcha_get_html($this->publicKey);
     }
 
     /**
@@ -84,13 +84,13 @@ class Clansuite_Formelement_ReCaptcha extends Clansuite_Formelement_Captcha impl
      */
     public function validate()
     {
-        $resp = recaptcha_check_answer( $this->public_key,
-                                        $this->request->getRemoteAddress(),
-                                        $this->request->getParameterFromPost('recaptcha_challenge_field'),
-                                        $this->request->getParameterFromPost('recaptcha_response_field')
-                                      );
+        $response = recaptcha_check_answer( $this->publicKey,
+                                            $this->request->getRemoteAddress(),
+                                            $this->request->getParameterFromPost('recaptcha_challenge_field'),
+                                            $this->request->getParameterFromPost('recaptcha_response_field')
+                                          );
 
-        if ($resp->is_valid == false)
+        if ($response->is_valid == false)
         {
             die ("The reCAPTCHA wasn't entered correctly. Go back and try again. (reCAPTCHA said: " . $resp->error . ")");
         }
