@@ -132,7 +132,7 @@ class Clansuite_Formelement_Captcha extends Clansuite_Formelement implements Cla
      * like Name or Size for this captcha. Therefore it's now time to transfer these properties to the captcha object.
      * Because we don't render this captcha, but the requested captcha object.
      */
-    private function transferPropertiesToCatpcha()
+    private function transferPropertiesToCaptcha()
     {
         # get captcha formelement
         $formelement = $this->getCaptchaFormelement();
