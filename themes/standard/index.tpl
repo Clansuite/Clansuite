@@ -113,6 +113,7 @@
 
     <!-- Right Widget Bar -->
     <td id="right_widget_bar" class="cell1">
+    {addtoany}
    {* {if isset($smarty.session.user.user_id) && $smarty.session.user.user_id == 0 &&
           isset($smarty.session.user.authed) && $smarty.session.user.authed == 1 } *}
         <div class="widget" id="widget_login">{load_module name="account" action="widget_login"}</div>

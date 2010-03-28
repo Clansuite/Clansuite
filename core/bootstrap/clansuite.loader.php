@@ -81,7 +81,7 @@ class Clansuite_Loader
         }
         # check if file for the autoloading map exists
         $file = ROOT.'configuration/autoloader.config.php';
-        if(is_file($file) == false)
+        if(is_file($file) === false)
         {
             # file not existant, create it
             @fopen($file, 'a', false); @fclose($file);
@@ -119,7 +119,7 @@ class Clansuite_Loader
      */
     private function requireFileAndMap($filename, $classname = null)
     {
-        if (is_file($filename))
+        if (is_file($filename) === true)
         {
             require $filename;
 
@@ -163,7 +163,7 @@ class Clansuite_Loader
      */
     private static function requireFile($filename)
     {
-        if (is_file($filename))
+        if (is_file($filename) === true)
         {
             require $filename;
             return true;
