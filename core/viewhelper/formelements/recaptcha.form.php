@@ -52,8 +52,24 @@ class Clansuite_Formelement_ReCaptcha extends Clansuite_Formelement_Captcha impl
      */
     private $publicKey;
 
+    /**
+     * @var string The ReCaptcha API PrivateKey.
+     */
+    private $publicKey;
+
+    /**
+     * @var string The ReCaptcha Error String.
+     */
+    private $error;
+
+    /**
+     * @var object Instance of Clansuite_HttpRequest Object.
+     */
+
     public function __construct()
     {
+        $this->request = Clansuite_CMS::getInjector()->instantiate('Clansuite_HttpRequest');
+
         # Load Recaptcha Library
         require_once( ROOT_LIBRARIES . 'recaptcha/recaptchalib.php' );
 
@@ -65,12 +81,13 @@ class Clansuite_Formelement_ReCaptcha extends Clansuite_Formelement_Captcha impl
          * private_key = ""
          */
         $config = Clansuite_CMS::getInjector()->instantiate('Clansuite_Config');
-        $this->publicKey = $config['recaptcha']['public_key'];
+        $this->publicKey  = $config['recaptcha']['public_key'];
+        $this->privateKey = $config['recaptcha']['private_key'];
         unset($config);
     }
 
     /**
-     * display_recaptcha
+     * Displays a ReCaptcha
      */
     public function render()
     {
@@ -78,13 +95,13 @@ class Clansuite_Formelement_ReCaptcha extends Clansuite_Formelement_Captcha impl
     }
 
     /**
-     * validate_recaptcha
+     * Validates a ReCaptcha
      *
      * In the code that processes the form submission, you need to add code to validate the CAPTCHA.
      */
     public function validate()
     {
-        $response = recaptcha_check_answer( $this->publicKey,
+        $response = recaptcha_check_answer( $this->privateKey,
                                             $this->request->getRemoteAddress(),
                                             $this->request->getParameterFromPost('recaptcha_challenge_field'),
                                             $this->request->getParameterFromPost('recaptcha_response_field')
@@ -92,7 +109,7 @@ class Clansuite_Formelement_ReCaptcha extends Clansuite_Formelement_Captcha impl
 
         if ($response->is_valid == false)
         {
-            die ("The reCAPTCHA wasn't entered correctly. Go back and try again. (reCAPTCHA said: " . $resp->error . ")");
+            return _("The reCAPTCHA wasn't entered correctly. Go back and try again. (reCAPTCHA said: " . $resp->error . ")");
         }
     }
 
@@ -101,7 +118,7 @@ class Clansuite_Formelement_ReCaptcha extends Clansuite_Formelement_Captcha impl
      */
     public function get_apikey()
     {
-        recaptcha_get_signup_url();
+        return recaptcha_get_signup_url();
     }
 }
 ?>
