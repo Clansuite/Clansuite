@@ -75,7 +75,7 @@ class Clansuite_Cache_File implements Clansuite_Cache_Interface
         $filepath = $this->filesystemKey($key);
 
         # try to open file, read-only
-        if((is_file($filepath)) && fopen($filepath, 'r'))
+        if((is_file($filepath)) and fopen($filepath, 'r'))
         {
              # get the expiration time stamp
              $expires = (int)fread($file, 10);

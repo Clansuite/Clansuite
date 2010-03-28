@@ -128,26 +128,25 @@ class Clansuite_Router
     /**
      * Constructor of Clansuite_Router
      *
-     * 1) loads PEAR Net_URL_Mapper
-     *
      * @param Clansuite_HttpRequest $request
      * @param Clansuite_Config $config
      */
     public function __construct(Clansuite_HttpRequest $request, Clansuite_Config $config)
-    {
-        # PEAR Net_URL_Mapper = Router
-        if(class_exists($class_name, false))
+    {       
+        $this->request = $request;
+        $this->config  = $config;
+
+        # load Pear Net_URL_Mapper
+        if(class_exists('Net_URL_Mapper', false))
         {
             require '/Net/URL/Mapper.php';
         }
 
+        # and attach a named instance to this object
         if ($this->router == false)
         {
             $this->router = Net_URL_Mapper::getInstance('Clansuite_Default_Router');
         }
-
-        $this->request = $request;
-        $this->config  = $config;
     }
 
     public function initializeRoutes()
@@ -155,13 +154,20 @@ class Clansuite_Router
         # load Routes Table from routes.config.php
         # $this->routes = $this->loadRoutesFromConfig();
 
-        # set index.php as base scriptname for the router = "index.php" + routes
+        # set index.php as base scriptname for the routing
         $this->router->setScriptname('index.php');
 
-        # Event: initializeRoutes with context (guess what?) Net_URL_Mapper
-        Clansuite_CMS::triggerEvent('initializeRoutes', array($this->routes));
+        # Fire event "onInitializeRoutes" with this object as context, to attach more routes via an event
+        Clansuite_CMS::triggerEvent('onInitializeRoutes', Clansuite_Router::getInstance());
 
         return $this->routes;
+    }
+
+
+
+    static function loadModuleRoutes($modulename)
+    {
+        return  $routes = ROOT_MOD . '/'.$modulename.'/$modulename.routes.php';
     }
 
     public function loadRoutesFromConfig($routes_config_file = null)
@@ -170,13 +176,13 @@ class Clansuite_Router
 
         if($routes_cfg_file == null)
         {
-            # load common events configuration
-            $routes = require ROOT . 'configuration/events.config.php';
+            # load common routes configuration
+            $routes = require ROOT . 'configuration/routes.config.php';
         }
         else
         {
             # load specific event config file
-            $routes = require ROOT . $event_cfg_file;
+            $routes = require ROOT . $routes_config_file;
         }
 
         # register routing for all activated modules

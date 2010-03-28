@@ -114,7 +114,7 @@ class Clansuite_CMS
     private static function perform_startup_checks()
     {
         # Check if install.php is still available, so we are installed but without security steps performed
-        #if ( is_file( 'installation/install.php') == true ) { header( 'Location: installation/check_security.php'); exit; }
+        #if ( is_file( 'installation/install.php') === true ) { header( 'Location: installation/check_security.php'); exit; }
 
         # PHP Version Check
         $REQUIRED_PHP_VERSION = '5.2';
@@ -162,7 +162,7 @@ class Clansuite_CMS
     private static function initialize_Config()
     {
         # 1. Check if clansuite.config.php is found, else we are not installed at all, so redirect to installation page
-        if ( is_file('configuration/clansuite.config.php' ) == false )
+        if ( is_file('configuration/clansuite.config.php' ) === false )
         {
             header( 'Location: installation/index.php' );
             exit;

@@ -243,6 +243,7 @@ class Clansuite_Renderer_Smarty extends Clansuite_Renderer_Base
         if(Clansuite_Module_Controller_Resolver::getModuleName() == 'controlcenter' or Clansuite_Module_Controller_Resolver::getSubModuleName() == 'admin')
         {
             # Backend Theme Detections
+            $_SESSION['user']['backendtheme'] = 'admin';
             $this->renderer->template_dir[] = ROOT_THEMES . $_SESSION['user']['backendtheme'];
             $this->renderer->template_dir[] = ROOT_THEMES . $_SESSION['user']['backendtheme'] .DS. Clansuite_Module_Controller_Resolver::getModuleName() .DS;
 
