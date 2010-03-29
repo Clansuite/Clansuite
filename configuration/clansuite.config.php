@@ -1,8 +1,11 @@
 ; <?php die( 'Access forbidden.' ); /* DO NOT MODIFY THIS LINE! ?>
+; 
+; Clansuite Configuration File : 
+; D:\xampplite\htdocs\work\clansuite\trunk\configuration\clansuite.config.php 
+; 
+; This file was generated on 29-03-2010 11:26
 ;
-; Clansuite Configuration File :
-; D:\xampplite\htdocs\work\clansuite\trunk\configuration\clansuite.config.php
-; When this file is deleted, Clansuite will redirect you to the Installation process.
+
 
 ;----------------------------------------
 ; database
@@ -120,9 +123,9 @@ use_cookies = 1
 use_cookies_only = 0
 session_expire_time = 30
 session_name = ""
-check_browser = 1
-check_host = 1
-check_ip = 1
+check_browser = 0
+check_host = 0
+check_ip = 0
 
 ;----------------------------------------
 ; error
@@ -133,6 +136,8 @@ debug = 1
 xdebug = 1
 webdebug = 0
 debug_popup = 0
+help_edit_mode = 0
+compression = 0
 
 ;----------------------------------------
 ; cache
@@ -159,16 +164,10 @@ email = "system@clansuite.com"
 keywords = "Clansuite, open-source, eSport, cms, clan,content management system, portal, online gaming"
 
 ;----------------------------------------
-; webserver
-;----------------------------------------
-[webserver]
-mod_rewrite = 0
-
-;----------------------------------------
 ; locale
 ;----------------------------------------
 [locale]
-dateformat = "l, d.m.Y H:i"
+dateformat = "%A, %B %e, %Y"
 timezone = 0
 
 ;----------------------------------------
@@ -219,19 +218,25 @@ tag=[clantag]::
 ; wysiwyg editor
 ;----------------------------------------
 [editor]
-type=ckeditor
+type = "ckeditor"
 
+;----------------------------------------
+; htmltidy
+;----------------------------------------
 [htmltidy]
 enabled = 1
 
 ;----------------------------------------
-; ANTI-SPAM / CAPTCHA
+; antispam
 ;----------------------------------------
 [antispam]
-captchatype = recaptcha
+captchatype = "recaptcha"
 
+;----------------------------------------
+; recaptcha
+;----------------------------------------
 [recaptcha]
-public_key = keystring
-private_key = keystring
+public_key = "keystring"
+private_key = "keystring"
 
 ; DO NOT REMOVE THIS LINE */ ?>
