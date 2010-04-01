@@ -39,7 +39,7 @@ Clansuite is developed by:
    Developer / Serveradministration ........................................... (+) GNA Added User 04.04.2008 vain
                                                                                     break from 09.2008 on
    Developer ..................................................................     Januar 2010
-                                                                                    active Jan/Feb 2010
+                                                                                active Jan/Feb 2010
                                                                                 (-) GNA Removed User 13.02.2010 vain
    R                                                                                Reason:  commit behaviour
 
@@ -48,63 +48,24 @@ Clansuite is developed by:
 3  Tino Goratsch              vyper             tinogo@blue-cable.de
 
    Developer .................................................................. (+) GNA Approved User 14.02.2007 vain
-                                                                                    break from
+                                                                                    break from 11.2009 on
+   I                                                                                inactive
 
 ------------------------------------------------------------------------------------------------------------------------
 
-4  Florian Schleifenbaum      rotor             florian_schleifenbaum@web.de
-
-   Graphics ................................................................... (+) GNA Added User 10.09.2006 xsign
-                                                                                (-) GNA Removed User 28.01.2008 vain
-   R                                                                                Reason: inactive, no contact
-
-------------------------------------------------------------------------------------------------------------------------
-
-5  René Stalder               nachtmeister      nachtmeister@6pounder.com
-
-   Graphics ................................................................... (+) GNA Approved User 28.01.2008 vain
-                                                                                    break from 07.2008 on
-                                                                                (-) GNA Removed User 07.12.2009 vain
-   R                                                                                Reason: inactive, no contact
-
-------------------------------------------------------------------------------------------------------------------------
-
-6  Pasqual Eusterfeldhus      thunderm00n
+4  Pasqual Eusterfeldhus      thunderm00n
 
    Bugs, Documentation, Themes, Graphics ...................................... (+) GNA Approved User 02.08.2008 vain
                                                                                     break from 09.2008 on
                                                                                     break from 12.2009 on
+   I                                                                                inactive 04.2010, user request
 
 ------------------------------------------------------------------------------------------------------------------------
 
-7  Daniel Winterfeldt         rikku             rikku@gna.org
+5  Daniel Winterfeldt         rikku             rikku@gna.org
 
    Developer .................................................................. (+) GNA Approved User 10.12.2008 vain
                                                                                 (-) GNA Removed User 07.12.2009 vain
    R                                                                                Reason: inactive, user request
-
-------------------------------------------------------------------------------------------------------------------------
-
-8  B. S.                      freq77
-
-   Developer (especially Shoutbox) ...........................................  (+) GNA Approved User 16.08.2006 xsign
-                                                                                (-) GNA Removed  User 19.03.2007 vain
-   R                                                                                Reason: inactive, user request
-
-------------------------------------------------------------------------------------------------------------------------
-
-9  Niklas Karoly              creep7
-
-   Developer .................................................................. (+) GNA Approved User 23.03.2009 vain
-                                                                                (-) GNA Removed  User 09.06.2009 vain
-   R                                                                                Reason: inactive
-
-------------------------------------------------------------------------------------------------------------------------
-
-10 Ryan Riggen                milkshake         drizzttownz@yahoo.com
-
-   Developer .................................................................. (+) GNA Approved User 07.12.2009 vain
-                                                                                (-) GNA Removed  User
-   R                                                                                Reason: inactive, no contact
 
 ------------------------------------------------------------------------------------------------------------------------
