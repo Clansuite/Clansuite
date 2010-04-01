@@ -39,14 +39,6 @@ if (defined('IN_CS') == false) { die('Clansuite not loaded. Direct Access forbid
 /**
  * Clansuite Functions
  *
- * Module:      Core
- * Submodule:   Common Functions
- *
- * @author      Florian Wolf <xsign.dll@clansuite.com>
- * @copyright   Florian Wolf, (2005 - 2007)
- * @author      Jens-André Koch  <vain@clansuite.com>
- * @copyright   Jens-André Koch, (2005 - onwards)
- *
  * @category    Clansuite
  * @package     Core
  * @subpackage  Functions
@@ -110,11 +102,19 @@ class Clansuite_Functions
     }
 
     /**
-     * Calculates the size of an Directory (recursiv)
+     * Calculates the size of a directory (recursiv)
+     *
+     * Hint: use return getsize() on the return value of this function transform it to a readable format.
+     * @see getsize()
+     * @example
+     * $readable_dirsize = Clansuite_Functions::getsize(Clansuite_Functions::dirsize($dir));
+     *
+     * @param $dir Directory Path
+     * @return $size size of directory in bytes
      */
     public static function dirsize($dir)
     {
-        if (!is_dir($dir))
+        if (is_dir($dir) == false)
         {
             return false;
         }
@@ -131,6 +131,7 @@ class Clansuite_Functions
 
             if(is_dir( $dir . "/" . $entry))
             {
+                # recursion
                 $size += dirsize($dir . "/" . $entry);
             }
             else
@@ -147,7 +148,6 @@ class Clansuite_Functions
      * Converts an Object to an Array
      *
      * @param $object object to convert
-     *
      * @return array
      */
     public static function object2array($object)
@@ -175,7 +175,6 @@ class Clansuite_Functions
      * Converts an Array to an Object
      *
      * @param $array array to convert to an object
-     *
      * @return array
      */
     public function array2object($array)
@@ -214,8 +213,12 @@ class Clansuite_Functions
      * needle = _def
      * result = abc
      *
-     * Strip String ModuleName at "_admin", example: guestbook_admin
-     * $moduleName = strstr($moduleName, '_Admin', true);     # php6
+     * In PHP6
+     * abc = $string = strstr('abc_def', '_def');
+     *
+     * @param $haystack string
+     * @param $needle string
+     * @return string
      */
     public static function cut_string_backwards($haystack, $needle)
     {
@@ -231,7 +234,7 @@ class Clansuite_Functions
     /**
      * Converts a SimpleXML String recursivly to an Array
      *
-     * @author : Jason Sheets <jsheets at shadonet dot com>
+     * @author Jason Sheets <jsheets at shadonet dot com>
      * @param string $xml SimpleXML String
      * @return Array
      */
@@ -264,22 +267,29 @@ class Clansuite_Functions
         }
     }
 
-    public static function str_replace_count($search,$replace,$subject,$times)
+    /**
+     * @param string $haystack
+     * @param string $replace
+     * @param string $needle
+     * @param int $times
+     * @return $needle
+     */
+    public static function str_replace_count($haystack, $replace, $needle, $times)
     {
-        $subject_original=$subject;
-        $len=strlen($search);
-        $pos=0;
+        $subject_original = $needle;
+        $length = strlen($haystack);
+        $pos = 0;
 
         for ($i=1; $i<=$times; $i++)
         {
-            $pos = strpos($subject,$search,$pos);
+            $pos = strpos($needle,$haystack,$pos);
 
             if($pos !== false)
             {
-                $subject  = substr($subject_original, 0, $pos);
-                $subject .= $replace;
-                $subject .= substr($subject_original, $pos+$len);
-                $subject_original=$subject;
+                $needle  = substr($subject_original, 0, $pos);
+                $needle .= $replace;
+                $needle .= substr($subject_original, $pos+$length);
+                $subject_original = $needle;
             }
             else
             {
@@ -287,11 +297,14 @@ class Clansuite_Functions
             }
         }
 
-        return($subject);
+        return $needle;
     }
 
     /**
-     * Guess what?!
+     * Applies a slashfix to the path.
+     *
+     * @param $path
+     * @return $string slashfixed path
      */
     public static function slashfix($path)
     {
@@ -306,40 +319,31 @@ class Clansuite_Functions
    /**
      * Takes a needle and multi-dimensional haystack array and does a search on it's values.
      *
-     * @param    string        $string        Needle to find
-     * @param    array        $array        Haystack to look through
-     * @result    array                    Returns the elements that the $string was found in
+     * @param string $needle Needle to find
+     * @param array $haystack Haystack to look through
+     * @result array Returns the elements that the $string was found in
      *
      * array_values_recursive
      */
-    static function array_find_element_by_key($key, $array)
+    static function array_find_element_by_key($needle, $haystack)
     {
-        # ensure we have a haystack array
-        if(is_array($array))
+        # take a look for the needle
+        if (array_key_exists($needle, $haystack))
         {
-            # take a look for the needle
-            if (array_key_exists($key, $array))
-            {
-                # if found, return it
-                $result= $array[$key];
-                return $result;
-            }
+            # if found, return it
+            return $haystack[$needle];
+        }
 
-            # dig a little bit deeper in the array structure
-            foreach ($array as $k => $v)
+        # dig a little bit deeper in the array structure
+        foreach ($haystack as $k => $v)
+        {
+            if (is_array($v))
             {
-                if (is_array($v))
-                {
-                    # recursion
-                    $result = self::array_find_element_by_key($key, $array[$k]);
-
-                    if ($result)
-                    {
-                        return $result;
-                    }
-                }
+                # recursion
+                return self::array_find_element_by_key($needle, $v);
             }
         }
+
         return false;
     }
 
@@ -349,6 +353,8 @@ class Clansuite_Functions
      * @author  55 dot php at imars dot com
      * @author  dwarven dot co dot uk
      * @link    http://www.php.net/manual/de/function.array-diff-assoc.php#89635
+     * @param $array1
+     * @param $array2
      */
     public static function array_compare($array1, $array2)
     {
@@ -357,13 +363,13 @@ class Clansuite_Functions
             # Left-to-right
             foreach ($array1 as $key => $value)
             {
-                if (!array_key_exists($key,$array2))
+                if (array_key_exists($key,$array2) == false)
                 {
                     $diff[0][$key] = $value;
                 }
                 elseif (is_array($value))
                 {
-                     if (!is_array($array2[$key]))
+                     if (is_array($array2[$key]) == false)
                      {
                             $diff[0][$key] = $value;
                             $diff[1][$key] = $array2[$key];
@@ -389,7 +395,7 @@ class Clansuite_Functions
          # Right-to-left
          foreach ($array2 as $key => $value)
          {
-                if (!array_key_exists($key,$array1))
+                if (array_key_exists($key,$array1) == false)
                 {
                      $diff[1][$key] = $value;
                 }
@@ -421,7 +427,7 @@ class Clansuite_Functions
 
         if ( $distanceInMinutes <= 1 )
         {
-            if ( !$showLessThanAMinute )
+            if ( $showLessThanAMinute == false )
             {
                 return ($distanceInMinutes == 0) ? 'less than a minute' : '1 minute';
             }
@@ -452,7 +458,6 @@ class Clansuite_Functions
      * uses idate() to format a local time/date as integer and gettext functions _n(), _t()
      * @see http://www.php.net/idate
      *
-     * @access public
      * @param string $from
      * @param string $now
      * @return string Word representation of
@@ -512,7 +517,6 @@ class Clansuite_Functions
      *
      * @author Mike Cochrane
      * @param $size bytes
-     *
      * @return string
      */
     public static function getsize($size)
@@ -534,25 +538,20 @@ class Clansuite_Functions
      * @author http://us2.php.net/manual/en/language.variables.php#76245
      * @param $var variable as reference
      * @param $scope scope
-     *
      * @return string
      */
-    public static function vname(&$var, $scope=false, $prefix='unique', $suffix='value')
-      {
+    public static function vname($var, $scope = false, $prefix = 'unique', $suffix = 'value')
+    {
         if($scope)
         {
-            $vals = $scope;
-        }
-        #else
-        {
-            $vals = $GLOBALS;
+            $values = $scope;
         }
 
         $old = $var;
         $var = $new = $prefix.rand().$suffix;
         $vname = false;
 
-        foreach($vals as $key => $val)
+        foreach($values as $key => $val)
         {
             if($val === $new)
             {
@@ -562,15 +561,17 @@ class Clansuite_Functions
         $var = $old;
 
         return $vname;
-      }
+    }
 
     /**
      * format_seconds_to_shortstring
      *
-     * Ouput: 4D 10:12:20
+     * @param $seconds int
+     * @return string Ouput: 4D 10:12:20
      */
     public static function format_seconds_to_shortstring($seconds = 0)
     {
+        $time = '';
         if(isset($seconds))
         {
             $time = sprintf("%dD %02d:%02d:%02dh", $seconds/60/60/24, ($seconds/60/60)%24, ($seconds/60)%60, $seconds%60);
@@ -585,6 +586,10 @@ class Clansuite_Functions
 
     /**
      * Performs a chmod operation
+     *
+     * @param $path
+     * @param $chmod
+     * @param $recursive
      */
     function chmod( $path = '', $chmod = '755', $recursive = 0 )
     {
@@ -608,7 +613,7 @@ class Clansuite_Functions
                 return false;
             }
 
-            if ( $recursive == 1 )
+            if ( $recursive == true )
             {
                 $dh = opendir($path);
                 while ($file = readdir($dh))
@@ -627,7 +632,7 @@ class Clansuite_Functions
                         }
                         else
                         {
-                            if ( $this->chmod($fullpath, $chmod, 1) == false)
+                            if ( $this->chmod($fullpath, $chmod, true) == false)
                             {
                                 return false;
                             }
@@ -642,38 +647,42 @@ class Clansuite_Functions
 
     /**
      * Remove comments prefilter
+     *
+     * @param $html A String with HTML Comments.
+     * @return string $html String without Comments.
      */
-
-    function remove_tpl_comments( $tpl_source, &$tpl )
+    function remove_tpl_comments( $html )
     {
-        return preg_replace("/<!--.*-->/U",'',$tpl_source);
+        return preg_replace("/<!--.*-->/U",'', $html);
     }
 
     /**
      * Copy a directory recursively
+     *
+     * @param $source
+     * @param $destination
+     * @param $overwrite boolean
      */
-
-    function dir_copy( $source, $dest, $overwrite = true, $redirect_url )
+    function dir_copy( $source, $destination, $overwrite = true )
     {
-        global $lang;
-
         if($handle = opendir($source))
         {
             while( false !== ($file = readdir($handle)) )
             {
                 if (substr($file,0,1) != '.')
                 {
-                    $path = $source . $file;
+                    $source_path = $source . $file;
+                    $target_path = $destination . $file;
 
-                    if(is_file($dest . $file) == false || $overwrite)
+                    if(is_file($target_path) == false || $overwrite)
                     {
-                        if(array( strstr($dest.$file, '.') == true))
+                        if(array( strstr($target_path, '.') == true))
                         {
-                            $folder_path =dirname($dest.$file);
+                            $folder_path = dirname($target_path);
                         }
                         else
                         {
-                            $folder_path = $dest.$file;
+                            $folder_path = $target_path;
                         }
 
                         while(is_dir(dirname(end($folder_path)))
@@ -688,23 +697,25 @@ class Clansuite_Functions
                         while($parent_folder_path = array_pop($folder_path))
                         {
                             if(is_dir($parent_folder_path) == false and @mkdir($parent_folder_path, fileperms($parent_folder_path)) == false)
-                                $this->redirect( $redirect_url, 'metatag|newsite', 3, $lang->t( 'Could not create the directory that should be copied (destination). Probably a permission problem.' ) );
+                            {
+                                die(_('Could not create the directory that should be copied (destination). Probably a permission problem.'));
+                            }
                         }
 
                         $old = ini_set("error_reporting", 0);
-                        if( copy($path, $dest . $file) == false )
+                        if( copy($source_path, $target_path) == false )
                         {
-                            $this->redirect( $redirect_url, 'metatag|newsite', 3, $lang->t( 'Could not copy the directory. Probably a permission problem.' ) );
+                            die(_( 'Could not copy the directory. Probably a permission problem.' ));
                         }
                         ini_set("error_reporting", $old);
                     }
-                    elseif (is_dir($path))
+                    elseif (is_dir($source_path))
                     {
-                        if(is_dir($dest . $file) == false)
+                        if(is_dir($target_path) == false)
                         {
-                            if(@mkdir($dest . $file, fileperms($path)) == false);
+                            if(@mkdir($target_path, fileperms($source_path)) == false);
                         }
-                        $this->dir_copy($path, $dest . $file, $overwrite);
+                        $this->dir_copy($source_path, $target_path, $overwrite);
                     }
 
                 }
@@ -716,8 +727,8 @@ class Clansuite_Functions
     /**
      * Delete a directory or it's content recursively
      *
-     * @param directory string Name / Path of the Directory to delete.
-     * @param sub
+     * @param $directory directory string Name / Path of the Directory to delete.
+     * @param $subdirectory boolean subdirectory
      */
     public static function delete_dir_content($directory, $subdirectory = false)
     {
