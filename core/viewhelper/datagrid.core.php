@@ -36,7 +36,11 @@
 # Security Handler
 if (defined('IN_CS') == false){ die('Clansuite not loaded. Direct Access forbidden.');}
 
-if (!class_exists('Clansuite_Datagrid_Column', false)) { require dirname(__FILE__) . '/datagridcol.core.php'; }
+# conditional include of the parent class
+if (false == class_exists('Clansuite_Datagrid_Column',false))
+{ 
+    include dirname(__FILE__) . '/datagridcol.core.php';
+}
 
 /**
  * Clansuite Datagrid Base

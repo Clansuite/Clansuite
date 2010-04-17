@@ -37,7 +37,7 @@
 if (defined('IN_CS') == false){ die('Clansuite not loaded. Direct Access forbidden.');}
 
 if (!class_exists('Clansuite_Datagrid_Column', false)) { require ROOT_CORE.'viewhelper/datagridcol.core.php'; }
-if (!class_exists('Clansuite_Formelement_Checkbox', false)) { require ROOT_CORE.'viewhelper/formelements/checkbox.form.php'; }
+if (false == class_exists('Clansuite_Formelement_Checkbox', false)) { require ROOT_CORE.'viewhelper/formelements/checkbox.form.php'; }
 
 /**
 * Clansuite Datagrid Column Renderer Checkbox

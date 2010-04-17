@@ -65,7 +65,7 @@ class Clansuite_Filter_statistics implements Clansuite_Filter_Interface
         $this->m_UserCore = $user;
         
         # Load Models
-        $models_path = ROOT_MOD . 'statistics' . DS . 'model' . DS . 'records';
+        $models_path = ROOT_MOD . 'statistics/model/records';
         Doctrine::loadModels($models_path);
         
         $cfg = $config->readConfigForModule('statistics');
@@ -147,16 +147,12 @@ class Clansuite_Filter_statistics implements Clansuite_Filter_Interface
      */
     private function updateStatistics($visitorIp)
     {
-        if (Doctrine::getTable('CsStatistic')->existsIpEntryWithIp($visitorIp))
-        {
-          # if entry exists, we have nothing to do
-        }
-        else
+        # if there is no entry for this ip, increment hits
+        if (false == Doctrine::getTable('CsStatistic')->existsIpEntryWithIp($visitorIp))
         {
             Doctrine::getTable('CsStatistic')->incrementHitsByOne();
             $this->updateStatisticStats();
-        }
-        
+        }        
 
         $userOnline = Doctrine::getTable('CsStatistic')->countVisitorsOnline($this->m_stasWhoTimeout);
 

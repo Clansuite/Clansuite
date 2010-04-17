@@ -204,9 +204,6 @@ abstract class Clansuite_Renderer_Base
      */
     public function getThemeTemplatePath($template)
     {
-        # init var
-        $themepath = '';
-
         # get module and submodule names
         $module    = Clansuite_Module_Controller_Resolver::getModuleName();
         $submodule = Clansuite_Module_Controller_Resolver::getSubModuleName();
@@ -257,68 +254,26 @@ abstract class Clansuite_Renderer_Base
      */
     public function getModuleTemplatePath($template)
     {
-        # Debug Display
-        #echo '<br>'. __METHOD__ .' INPUT '. $template . '<br>';
-
-        # init var
-        $modulepath = null;
-
-        # Method 1: get module/action names
+        # fetch modulename for template path construction
         $module = Clansuite_Module_Controller_Resolver::getModuleName();
-        #$action = Clansuite_Action_Controller_Resolver::getActionName();
 
-        /*
-        if(is_file( ROOT_MOD . $moduleName .'/view/'. $actionName .'.tpl'))
+        $paths = array( ROOT_MOD . $template,
+                        ROOT_MOD . $module . DS . $template,
+                        ROOT_MOD . $module . DS . 'view' . DS . $template
+        );
+
+        # check if template exists in one of the defined paths
+        foreach($paths as $path)
         {
-            return ROOT_MOD . $moduleName .'/view/'. $actionName .'.tpl';
-        }
-        */
-
-        # Method 2: detect it via $template string
-        # Given is a string like "news/show.tpl"
-        # we insert "/view" at the last slash
-
-        /*
-        # attach "/template/" to the $template string, at "news\action_show.tpl" DS
-        $template = substr_replace($template, DS.'view'.DS , strpos($template,DS), 0);
-        # single slash correction
-        $template = str_replace("\\", "/",  $template);
-        # get rid of double slashes
-        $template = str_replace("//", "/",  $template);
-        $template = str_replace("\\\\", "\\",  $template);
-        */
-
-        # Check, if template exists in module folder + 'templates/name.tpl'
-        # template has to be something like "/news/view/action_show.tpl"
-        if(is_file( ROOT_MOD . $template ))
-        {
-            $modulepath = ROOT_MOD . $template;
+            # on true, return that path
+            if(is_file($path) == true)
+            {
+                return $path;
+            }
         }
 
-        # Check, if template exists in module folder + 'news' + 'templates/name.tpl'
-        elseif(is_file( ROOT_MOD . $module . $template))
-        {
-            $modulepath =  ROOT_MOD . $module . $template;
-        }
-
-        # Check, if template exists in module folder + 'news' + 'view' +'/name.tpl'
-        elseif(is_file( ROOT_MOD . $module . DS . 'view' . DS . $template))
-        {
-            $modulepath =  ROOT_MOD . $module . DS . 'view' . DS . $template;
-        }
-
-        # If there is still no modulepath with the template found, show template_not_found
-        elseif(is_null($modulepath))
-        {
-            $modulepath = ROOT_THEMES . 'core'.DS.'view'.DS.'template_not_found.tpl';
-        }
-
-        # single slash correction
-        # $modulepath = str_replace("\\", "/",  $modulepath);
-
-        #echo '<br>'. __METHOD__ .' OUTPUT '.'<br>We found '. $template  . ' on the module path: '. $modulepath. '<br>';
-
-        return $modulepath;
+        # the template with that name is not found on our default paths, show template_not_found
+        return ROOT_THEMES . 'core'.DS.'view'.DS.'template_not_found.tpl';
     }
 
     /**
@@ -402,35 +357,26 @@ abstract class Clansuite_Renderer_Base
         return $template_constants;
     }
 
-     /**
-     * Sets a so called Wrapper-Template = Layout.
-     * The Content of a Module is rendered at variable $content inside this layout!
+    /**
+     * Set the Layout Template. The layout template is a Wrapper-Template.
+     * The Content of a Module is rendered at variable {$content} inside this layout!
      *
      * @param string $template Template Filename for the wrapper Layout
-     * @return string
      */
     public function setLayoutTemplate($template)
     {
-        #if (is_file($template) && is_readable($template))
-        #{
-            $this->layoutTemplate = $template;
-        #}
-        #else
-        #{
-            #throw new Exception('Invalid Smarty Layout Template provided. Check Name and Path.');
-        #}
+        $this->layoutTemplate = $template;
     }
 
-     /**
+    /**
      * Returns the Name of the Layout Template.
-     * Returns the config value if no layout template is set
+     * Returns the config value if no layout template is set.
      *
      * @return string layout name, config layout as default
      */
     public function getLayoutTemplate()
     {
-        #echo 'Layout Template: '.$this->layoutTemplate.'<br>';
-        if (empty($this->layoutTemplate))
+        if ($this->layoutTemplate == null)
         {
             $this->setLayoutTemplate($this->config['template']['layout']);
         }

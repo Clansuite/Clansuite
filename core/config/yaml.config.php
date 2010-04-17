@@ -1,7 +1,7 @@
 <?php
    /**
     * Clansuite - just an eSports CMS
-    * Jens-AndrÃ© Koch Â© 2005 - onwards
+    * Jens-André Koch © 2005 - onwards
     * http://www.clansuite.com/
     *
     * This file is part of "Clansuite - just an eSports CMS".
@@ -24,9 +24,9 @@
     *
     * @license    GNU/GPL v2 or (at your option) any later version, see "/doc/LICENSE".
     *
-    * @author     Jens-AndrÃ© Koch   <vain@clansuite.com>
+    * @author     Jens-André Koch   <vain@clansuite.com>
     * @author     Florian Wolf      <xsign.dll@clansuite.com>
-    * @copyright  Jens-AndrÃ© Koch (2005 - onwards), Florian Wolf (2006-2007)
+    * @copyright  Jens-André Koch (2005 - onwards), Florian Wolf (2006-2007)
     *
     * @link       http://www.clansuite.com
     * @link       http://gna.org/projects/clansuite
@@ -189,7 +189,10 @@ class Clansuite_Config_YAMLHandler extends Clansuite_Config_Base implements Arra
         elseif(is_file(ROOT_LIBRARIES.'/spyc/Spyc.class.php'))
         {
             # ok, load spyc
-            if( !class_exists('Spyc',false) ) { require( ROOT_LIBRARIES.'/spyc/Spyc.class.php' ); }
+            if( false == class_exists('Spyc',false) )
+            {
+                include  ROOT_LIBRARIES.'/spyc/Spyc.class.php';
+            }
 
             # instantiate
             $spyc = new Spyc();

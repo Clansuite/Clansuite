@@ -65,7 +65,7 @@ class Clansuite_Config extends Clansuite_Config_Base implements ArrayAccess
     function __construct($configfile = 'configuration/clansuite.config.php')
     {
         $this->confighandler = Clansuite_Config_Factory::getConfiguration($configfile);
-        $this->config = $this->confighandler->toArray();
+        $this->config = $this->confighandler->toArray();        
     }
 
     public function readConfig($configfile)

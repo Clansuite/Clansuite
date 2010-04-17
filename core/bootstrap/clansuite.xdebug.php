@@ -160,7 +160,7 @@ class Clansuite_Xdebug
         {
             ob_end_clean();
         }
-        
+
         if (func_num_args() > 1)
         {
             $var = func_get_args();
@@ -194,7 +194,7 @@ class Clansuite_Xdebug
             echo $print_r;
         }
         echo '</pre>';
-        
+
         # save session before exit
         session_write_close();
         exit;
@@ -205,16 +205,17 @@ class Clansuite_Xdebug
      *
      * @param mixed $var
      * @param $firebugmethod log,info,warn, error
+     * @param $backtrace boolean Enables tracing of the origin of the debug call (adds a seconds fb msg).
      * @return Content of $var will be returned via Header and is displayed in the FireBugConsole.
      */
-    public static function firebug($var, $firebugmethod = 'log' )
+    public static function firebug($var, $firebugmethod = 'log')
     {
         # get firephp instance, if class not existant
         if( class_exists('FirePHP', false) === false )
         {
             require ROOT_LIBRARIES.'firephp/FirePHP.class.php';
         }
-        
+
         $firephp = FirePHP::getInstance(true);
 
         # get callstack and log the origin of the call to clansuite_xdebug::firebug()
@@ -232,8 +233,6 @@ class Clansuite_Xdebug
             $classname = $backtrace_array[1]['class'];
         }
 
-        
-
         $infomsg = sprintf('You are debugging like fire in %s->%s() on line "%s" in file "%s".',
                             $classname, $backtrace_array[1]['function'],
                             $backtrace_array[0]['line'], $backtrace_array[0]['file']);
@@ -247,11 +246,14 @@ class Clansuite_Xdebug
         $firephp->{$firebugmethod}($var);
     }
 
+    /**
+     * @param mixed $variable The variable to debug display.
+     */
     public static function xd_varDump($var = null)
     {
         if(is_null($var))
         {
-            die('clansuite_xdebug::xd_varDump() expects the variable you want to display as parameter.');
+            throw new Clansuite_Exception('clansuite_xdebug::xd_varDump() expects the variable you want to display as parameter.');
         }
 
         echo xdebug_var_dump($var);
@@ -264,12 +266,12 @@ class Clansuite_Xdebug
 
     public static function showCallStack()
     {
-        echo "CallStack - File: ".xdebug_call_file();
-        echo "<br />Class: ".xdebug_call_class();
-        echo "<br />Function: ".xdebug_call_function();
-        echo "<br />Line: ".xdebug_call_line();
-        echo "<br />Depth of Stacks: ".xdebug_get_stack_depth();
-        echo "<br />Content of Stack:"; xdebug_var_dump(xdebug_get_function_stack());
+        echo 'CallStack - File: '       . xdebug_call_file();
+        echo '<br />Class: '            . xdebug_call_class();
+        echo '<br />Function: '         . xdebug_call_function();
+        echo '<br />Line: '             . xdebug_call_line();
+        echo '<br />Depth of Stacks: '  . xdebug_get_stack_depth();
+        echo '<br />Content of Stack: ' . xdebug_var_dump(xdebug_get_function_stack());
     }
 
     /**
@@ -277,11 +279,8 @@ class Clansuite_Xdebug
      */
     public static function shutdown()
     {
-        if(defined('SHUTDOWN_FUNCTION_SUPPRESSION') and SHUTDOWN_FUNCTION_SUPPRESSION == false)
-        {
-            # Stop the tracing and show debugging infos.
-            clansuite_xdebug::end_xdebug();
-        }
+        # Stop the tracing and show debugging infos.
+        clansuite_xdebug::end_xdebug();
     }
 }
 ?>

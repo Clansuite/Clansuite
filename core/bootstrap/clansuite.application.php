@@ -1,7 +1,7 @@
 <?php
    /**
     * Clansuite - just an eSports CMS
-    * Jens-AndrÃ© Koch Â© 2005 - onwards
+    * Jens-André Koch © 2005 - onwards
     * http://www.clansuite.com/
     *
     *        _\|/_
@@ -28,8 +28,8 @@
     *
     * @license    GNU/GPL v2 or (at your option) any later version, see "/doc/LICENSE".
     *
-    * @author     Jens-AndrÃ© Koch <vain@clansuite.com>
-    * @copyright  Copyleft: All rights reserved. Jens-AndrÃ© Koch (2005 - onwards)
+    * @author     Jens-André Koch <vain@clansuite.com>
+    * @copyright  Copyleft: All rights reserved. Jens-André Koch (2005 - onwards)
     *
     * @link       http://www.clansuite.com
     * @link       http://gna.org/projects/clansuite

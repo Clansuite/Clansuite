@@ -75,7 +75,7 @@ class Clansuite_User
      * getUser
      *
      * @param integer $user_id The ID of the User. Default is user_id from session.
-     * @return array $userdata (Dataset of CsUser + CsProfile)
+     * @return array $userdata (Dataset of CsUsers + CsProfile)
      */
     public function getUser( $user_id = null)
     {
@@ -90,9 +90,9 @@ class Clansuite_User
 
         $userdata = Doctrine_Query::create()
                         ->select($fields)
-                        ->from('CsUser')
+                        ->from('CsUsers')
                         ->leftJoin('CsProfile')
-                        ->where('CsUser.user_id = ?')
+                        ->where('CsUsers.user_id = ?')
                         ->fetchOne(array($user_id), Doctrine::HYDRATE_ARRAY);
 
         if(is_array($userdata))
@@ -130,7 +130,7 @@ class Clansuite_User
             # Get the user from the user_id
             $this->user = Doctrine_Query::create()
                          #->select('u.*,g.*,o.*')
-                         ->from('CsUser u')
+                         ->from('CsUsers u')
                          ->leftJoin('u.CsOption o')
                          ->leftJoin('u.CsGroup g')
                          ->leftJoin('g.CsRight r')
@@ -142,7 +142,7 @@ class Clansuite_User
             # Get the user from the email
             $this->user = Doctrine_Query::create()
                          #->select('u.*,g.*,o.*')
-                         ->from('CsUser u')
+                         ->from('CsUsers u')
                          ->leftJoin('u.CsOption o')
                          ->leftJoin('u.CsGroup g')
                          ->leftJoin('g.CsRight r')
@@ -154,7 +154,7 @@ class Clansuite_User
             # Get the user from the nick
             $this->user = Doctrine_Query::create()
                          #->select('u.*,g.*,o.*')
-                         ->from('CsUser u')
+                         ->from('CsUsers u')
                          ->leftJoin('u.CsOption o')
                          ->leftJoin('u.CsGroup g')
                          ->leftJoin('g.CsRight r')
@@ -296,7 +296,7 @@ class Clansuite_User
             # get user_id and passwordhash with the email
             $user = Doctrine_Query::create()
                          ->select('user_id, passwordhash, salt')
-                         ->from('CsUser u')
+                         ->from('CsUsers u')
                          ->where('email = ?')
                          ->fetchOne(array($value), Doctrine::HYDRATE_ARRAY);
         }
@@ -397,7 +397,7 @@ class Clansuite_User
         {
             $this->user = Doctrine_Query::create()
                                 ->select('user_id,passwordhash,salt')
-                                ->from('CsUser')
+                                ->from('CsUsers')
                                 ->where('user_id = ?')
                                 ->fetchOne(array((int)$_COOKIE['cs_cookie_user_id']), Doctrine::HYDRATE_ARRAY);
 
@@ -472,8 +472,8 @@ class Clansuite_User
      public function deleteJoinedButNotActivitatedUsers()
      {
         Doctrine_Query::create()
-                      ->delete('CsUser')
-                      ->from('CsUser')
+                      ->delete('CsUsers')
+                      ->from('CsUsers')
                       ->where('activated = ? AND joined < ?')
                       ->execute( array( 0, time() - 259200 ) );
      }

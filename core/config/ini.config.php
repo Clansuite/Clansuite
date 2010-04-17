@@ -47,7 +47,7 @@ require dirname(__FILE__) . '/config.base.php';
  * which is a storage container for settings.
  *
  * We use some php magic in here:
- * The array access implementation makes it seem that $registry is an array,
+ * The array access implementation makes it seem that $config is an array,
  * even though it's an object! Why we do that? Because less to type!
  * The __set, __get, __isset, __unset are overloading functions to work with that array.
  *
@@ -63,14 +63,6 @@ require dirname(__FILE__) . '/config.base.php';
 class Clansuite_Config_INIHandler extends Clansuite_Config_Base implements ArrayAccess
 {
     /**
-     * Configuration Array
-     * protected-> only visible to childs
-     *
-     * @var array
-     */
-    #protected $config = array();
-
-    /**
      * Can either be INI_SCANNER_NORMAL (default) or INI_SCANNER_RAW.
      *
      * @var string
@@ -79,7 +71,6 @@ class Clansuite_Config_INIHandler extends Clansuite_Config_Base implements Array
 
     /**
      * CONSTRUCTOR
-     * sets up all variables
      */
     public function __construct($filename = 'configuration/clansuite.config.php')
     {
@@ -89,17 +80,15 @@ class Clansuite_Config_INIHandler extends Clansuite_Config_Base implements Array
     /**
      * Clansuite_Config_INIHandler is a Singleton
      *
-     * @param object $filename Filename
-     *
      * @return instance of Config_INIHandler class
      */
-    public static function getInstance($filename)
+    public static function getInstance()
     {
     	static $instance;
 
-        if ( ! isset($instance))
+        if(isset($instance) == false)
         {
-            $instance = new Clansuite_Config_INIHandler($filename);
+            $instance = new Clansuite_Config_INIHandler();
         }
 
         return $instance;
@@ -107,9 +96,8 @@ class Clansuite_Config_INIHandler extends Clansuite_Config_Base implements Array
 
     /**
      * Set ScannerMode for parse_ini_file
-     * Can either be INI_SCANNER_NORMAL (default) or INI_SCANNER_RAW.
      *
-     * @param $scanner_mode
+     * @param $scanner_mode string INI_SCANNER_NORMAL (default) or INI_SCANNER_RAW.
      * @return this
      */
     public static function setScannerMode($scanner_mode)
@@ -123,17 +111,15 @@ class Clansuite_Config_INIHandler extends Clansuite_Config_Base implements Array
      *
      * @param string $ini_filename Filename of .ini to write
      * @param array $assoc_array Associative Array with Ini-Values
-     *
      * @return mixed/boolean Returns the amount of bytes written to the file, or FALSE on failure.
      */
     public static function writeConfig($ini_filename, array $assoc_array)
     {
-       # debug incomming array
-       #clansuite_xdebug::printR($assoc_array);
+       # ensure we got an array
        if(is_array($assoc_array) === false)
        {
-           #@todo exit gracefully
-           exit('writeConfig Parameter $assoc_array is not an array.');
+           echo ('writeConfig Parameter $assoc_array is not an array.');
+           return false;
        }
 
 
@@ -242,10 +228,9 @@ class Clansuite_Config_INIHandler extends Clansuite_Config_Base implements Array
     }
 
     /**
-     *  Read the complete config file *.ini.php
+     * Read the complete config file *.ini.php
      *
      * @param   string  The filename
-     *
      * @return  array | boolean false
      */
     public static function readConfig($filename)
@@ -253,7 +238,7 @@ class Clansuite_Config_INIHandler extends Clansuite_Config_Base implements Array
         # check ini_filename exists
         if(is_file($filename) == false)
         {
-            throw new Clansuite_Exception('File not found: '.$filename, 4);            
+            throw new Clansuite_Exception('File not found: '.$filename, 4);
         }
 
         /**
@@ -276,27 +261,27 @@ class Clansuite_Config_INIHandler extends Clansuite_Config_Base implements Array
     }
 
     /**
-    * Thx to php.net
-    *
-    * @link: http://www.php.net/manual/en/function.array-merge-recursive.php
-    * @author: Daniel <daniel (at) danielsmedegaardbuus (dot) dk>
-    */
-    public static function array_merge_recursive_distinct( array &$array1, array &$array2 )
+     * Merges two arrays recursivly
+     *
+     * @link: http://www.php.net/manual/en/function.array-merge-recursive.php
+     * @author: Daniel <daniel (at) danielsmedegaardbuus (dot) dk>
+     */
+    public static function array_merge_recursive_distinct(array $array1, array $array2)
     {
-      $merged = $array1;
+       $merged = $array1;
 
-      foreach ( $array2 as $key => &$value )
-      {
-        if ( is_array ( $value ) && isset ( $merged [$key] ) && is_array ( $merged [$key] ) )
+        foreach($array2 as $key => $value)
         {
-          $merged [$key] = self::array_merge_recursive_distinct ( $merged [$key], $value );
+            if(is_array($value) && isset($merged[$key]) && is_array($merged[$key]))
+            {
+                $merged[$key] = self::array_merge_recursive_distinct($merged[$key], $value);
+            }
+            else
+            {
+                $merged[$key] = $value;
+            }
         }
-        else
-        {
-          $merged [$key] = $value;
-        }
-      }
-      return $merged;
+        return $merged;
     }
 }
 ?>

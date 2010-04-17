@@ -1,7 +1,7 @@
 <?php
    /**
     * Clansuite - just an eSports CMS
-    * Jens-AndrÃ© Koch Â© 2005 - onwards
+    * Jens-André Koch © 2005 - onwards
     * http://www.clansuite.com/
     *
     * This file is part of "Clansuite - just an eSports CMS".
@@ -24,8 +24,8 @@
     *
     * @license    GNU/GPL v2 or (at your option) any later version, see "/doc/LICENSE".
     *
-    * @author     Jens-AndrÃ© Koch   <vain@clansuite.com>
-    * @copyright  Copyleft: All rights reserved. Jens-AndrÃ© Koch (2005-onwards)
+    * @author     Jens-André Koch   <vain@clansuite.com>
+    * @copyright  Copyleft: All rights reserved. Jens-André Koch (2005-onwards)
     *
     * @link       http://www.clansuite.com
     * @link       http://gna.org/projects/clansuite
@@ -88,8 +88,8 @@ if (defined('IN_CS') == false){ die('Clansuite not loaded. Direct Access forbidd
  *
  * @link http://www.whatwg.org/specs/web-apps/current-work/multipage/forms.html
  *
- * @author     Jens-AndrÃ© Koch   <vain@clansuite.com>
- * @copyright  Jens-AndrÃ© Koch (2005-onwards)
+ * @author     Jens-André Koch   <vain@clansuite.com>
+ * @copyright  Jens-André Koch (2005-onwards)
  * @version    0.1
  *
  * @category    Clansuite
@@ -722,12 +722,12 @@ class Clansuite_Form /*extends Clansuite_HTML*/ implements Clansuite_Form_Interf
     public static function formelementFactory($formelement)
     {
         # if not already loaded, require forelement file
-        if (!class_exists('Clansuite_Formelement_'.$formelement,false))
+        if (false == class_exists('Clansuite_Formelement_'.$formelement,false))
         {
-            if(is_file(ROOT_CORE . 'viewhelper/formelements/'.$formelement.'.form.php'))
-            {
-                require ROOT_CORE . 'viewhelper/formelements/'.$formelement.'.form.php';
-            }
+            #if(is_file(ROOT_CORE . 'viewhelper/formelements/'.$formelement.'.form.php'))
+            #{
+                include ROOT_CORE . 'viewhelper/formelements/'.$formelement.'.form.php';
+            #}
         }
 
         # construct Clansuite_Formelement_Name
@@ -912,12 +912,12 @@ class Clansuite_Form /*extends Clansuite_HTML*/ implements Clansuite_Form_Interf
     public function decoratorFactory($formdecorator)
     {
         # if not already loaded, require forelement file
-        if (!class_exists('Clansuite_Form_Decorator_'.$formdecorator,false))
+        if (false == class_exists('Clansuite_Form_Decorator_'.$formdecorator,false))
         {
-            if(is_file(ROOT_CORE . 'viewhelper/formdecorators/form/'.$formdecorator.'.form.php'))
-            {
-                require ROOT_CORE . 'viewhelper/formdecorators/form/'.$formdecorator.'.form.php';
-            }
+            #if(is_file(ROOT_CORE . 'viewhelper/formdecorators/form/'.$formdecorator.'.form.php'))
+            #{
+                include ROOT_CORE . 'viewhelper/formdecorators/form/'.$formdecorator.'.form.php';
+            #}
         }
 
         # construct Clansuite_Formdecorator_Name

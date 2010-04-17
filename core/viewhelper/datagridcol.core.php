@@ -36,8 +36,17 @@
 # Security Handler
 if (defined('IN_CS') == false){ die('Clansuite not loaded. Direct Access forbidden.');}
 
-if (!class_exists('Clansuite_Datagrid_Base', false))    { require dirname(__FILE__) . '/datagrid.core.php'; }
-if (!class_exists('Clansuite_HTML', false))             { require dirname(__FILE__) . '/html.core.php'; }
+# conditional include of the parent class
+if (false == class_exists('Clansuite_Datagrid_Base', false))
+{ 
+    include dirname(__FILE__) . '/datagrid.core.php';
+}
+
+# conditional include of the parent class
+if (false ==  class_exists('Clansuite_HTML', false))
+{ 
+    include dirname(__FILE__) . '/html.core.php';
+}
 
 /**
  * Clansuite Datagrid Column
@@ -291,22 +300,17 @@ class Clansuite_Datagrid_Column extends Clansuite_Datagrid_Base
         
         $className = 'Clansuite_Datagrid_Column_Renderer_' . ucfirst($rendererName);
 
-        if(!class_exists($className, false))
+        if(false == class_exists($className, false))
         {
-            $file = ROOT_CORE . 'viewhelper' . DS . 'datagridcols' . DS . $rendererName . '.column.php';
+            $file = ROOT_CORE . 'viewhelper/datagridcols/' . $rendererName . '.column.php';
 
             if( is_file($file) )
             {
-                require_once $file;
+                include $file;
                 
-                if(!class_exists($className, false))
+                if(false == class_exists($className, false))
                 {
                     throw new Clansuite_Exception(_('The column renderer class does not exist: ') . $className);
-                }
-                else
-                {
-                    #Clansuite_Xdebug::firebug('Loaded Column Renderer: ' . $_ClassName);
-                    return new $className($this);
                 }
             }
             else
@@ -314,10 +318,9 @@ class Clansuite_Datagrid_Column extends Clansuite_Datagrid_Base
                 throw new Clansuite_Exception(_('The column renderer file does not exist: ') . $file);
             }
         }
-        else
-        {
-            return new $className($this);
-        }
+
+        #Clansuite_Xdebug::firebug('Loaded Column Renderer: ' . $className);
+        return new $className($this);
     }
 
     /**
