@@ -52,44 +52,44 @@ class Clansuite_Javascripts extends Clansuite_Layout
 
     public static function addJS_JQuery()
     {
-        Clansuite_Javascripts::addJS('jquery/jquery.js');
-        Clansuite_Javascripts::addJS('jquery/jquery.ui.js');
+        self::addJS('jquery/jquery.js');
+        self::addJS('jquery/jquery.ui.js');
     }
 
     public static function addJS_Lightbox()
     {
-        Clansuite_Javascripts::addJS('lightbox/scripts/lightbox.js');
+        self::addJS('lightbox/scripts/lightbox.js');
     }
 
     public static function addCSS_Lightbox()
     {
-        Clansuite_Javascripts::addCSS('lightbox/css/lightbox.css');
+        self::addCSS('lightbox/css/lightbox.css');
     }
 
     public static function addJS_Moofx()
     {
-        Clansuite_Javascripts::addJS('moo-fx/moo.fx.js');
+        self::addJS('moo-fx/moo.fx.js');
     }
 
     public static function addJS_Mootools()
     {
-        Clansuite_Javascripts::addJS('mootools/mootools.js');
-        Clansuite_Javascripts::addJS('mootools/mootools-more.js');
+        self::addJS('mootools/mootools.js');
+        self::addJS('mootools/mootools-more.js');
     }
 
     public static function addJS_Overlib()
     {
-        Clansuite_Javascripts::addJS('overlib/overlib.js');
+        self::addJS('overlib/overlib.js');
     }
 
     public static function addJS_Tabpane()
     {
-        Clansuite_Javascripts::addJS('tabpane/tabpane.js');
+        self::addJS('tabpane/tabpane.js');
     }
 
     public static function addJS_Clip()
     {
-        Clansuite_Javascripts::addJS('clip');
+        self::addJS('clip');
     }
 
     /**
@@ -117,7 +117,7 @@ class Clansuite_Javascripts extends Clansuite_Layout
             # load from jquery.com
             if($version === null)
             {
-                Clansuite_Javascripts::addJS('http://code.jquery.com/jquery-latest.pack.js');
+                self::addJS('http://code.jquery.com/jquery-latest.pack.js');
             }
             else
             {
@@ -128,7 +128,7 @@ class Clansuite_Javascripts extends Clansuite_Layout
 
                 if( in_array($version, $jquery_version_whitelist) )
                 {
-                    Clansuite_Javascripts::addJS('http://code.jquery.com/jquery-'.$version.'.pack.js');
+                    self::addJS('http://code.jquery.com/jquery-'.$version.'.pack.js');
                 }
             }
         }
@@ -207,7 +207,7 @@ class Clansuite_Javascripts extends Clansuite_Layout
 
         if( defined('OB_GZIP') )
         {
-            #Clansuite_Javascripts::addToCompressionWhitelist($javascript);
+            #self::addToCompressionWhitelist($javascript);
             return '<script  src="{$www_root_themes_core}/compress.php?js='.$javascript.'" type="text/javascript"></script>'.CR;
         }
         else

@@ -128,7 +128,7 @@ class Clansuite_HttpRequest implements Clansuite_Request_Interface, ArrayAccess
         # 2) Filter Globals and Request
 
         # Reverse the effect of register_globals
-        if ((bool)ini_get('register_globals') and strtolower(ini_get('register_globals')) != 'off')
+        if ((bool) ini_get('register_globals') and strtolower(ini_get('register_globals')) != 'off')
         {
             $this->cleanGlobals();
         }
@@ -182,7 +182,7 @@ class Clansuite_HttpRequest implements Clansuite_Request_Interface, ArrayAccess
      */
     public function isGet()
     {
-        if($this->requestMethod == "GET")
+        if($this->requestMethod == 'GET')
         {
             return true;
         }
@@ -196,7 +196,7 @@ class Clansuite_HttpRequest implements Clansuite_Request_Interface, ArrayAccess
      */
     public function isPost()
     {
-       if($this->requestMethod == "POST")
+       if($this->requestMethod == 'POST')
        {
            return true;
        }
@@ -210,7 +210,7 @@ class Clansuite_HttpRequest implements Clansuite_Request_Interface, ArrayAccess
      */
     public function isPut()
     {
-       if($this->requestMethod == "PUT")
+       if($this->requestMethod == 'PUT')
        {
            return true;
        }
@@ -224,7 +224,7 @@ class Clansuite_HttpRequest implements Clansuite_Request_Interface, ArrayAccess
      */
     public function isDelete()
     {
-       if($this->requestMethod == "DELETE")
+       if($this->requestMethod == 'DELETE')
        {
            return true;
        }
@@ -579,14 +579,14 @@ class Clansuite_HttpRequest implements Clansuite_Request_Interface, ArrayAccess
      */
     public static function getRemoteAddress()
     {
-        if (array_key_exists('HTTP_CLIENT_IP', $_SERVER) and self::validateIP($_SERVER["HTTP_CLIENT_IP"]))
+        if (array_key_exists('HTTP_CLIENT_IP', $_SERVER) and self::validateIP($_SERVER['HTTP_CLIENT_IP']))
         {
-            return $_SERVER["HTTP_CLIENT_IP"];
+            return $_SERVER['HTTP_CLIENT_IP'];
         }
 
         if (array_key_exists('HTTP_X_FORWARDED_FOR', $_SERVER))
         {
-            foreach (explode(",",$_SERVER["HTTP_X_FORWARDED_FOR"]) as $ip)
+            foreach (explode(",",$_SERVER['HTTP_X_FORWARDED_FOR']) as $ip)
             {
                 if (self::validateIP(trim($ip)))
                 {
@@ -595,23 +595,23 @@ class Clansuite_HttpRequest implements Clansuite_Request_Interface, ArrayAccess
             }
         }
 
-        if (array_key_exists('HTTP_FORWARDED_FOR', $_SERVER) and self::validateIP($_SERVER["HTTP_FORWARDED_FOR"]))
+        if (array_key_exists('HTTP_FORWARDED_FOR', $_SERVER) and self::validateIP($_SERVER['HTTP_FORWARDED_FOR']))
         {
-            return $_SERVER["HTTP_FORWARDED_FOR"];
+            return $_SERVER['HTTP_FORWARDED_FOR'];
         }
 
-        if (array_key_exists('HTTP_FORWARDED', $_SERVER) and self::validateIP($_SERVER["HTTP_FORWARDED"]))
+        if (array_key_exists('HTTP_FORWARDED', $_SERVER) and self::validateIP($_SERVER['HTTP_FORWARDED']))
         {
-            return $_SERVER["HTTP_FORWARDED"];
+            return $_SERVER['HTTP_FORWARDED'];
         }
 
-        if (array_key_exists('HTTP_X_FORWARDED', $_SERVER) and self::validateIP($_SERVER["HTTP_X_FORWARDED"]))
+        if (array_key_exists('HTTP_X_FORWARDED', $_SERVER) and self::validateIP($_SERVER['HTTP_X_FORWARDED']))
         {
-            return $_SERVER["HTTP_X_FORWARDED"];
+            return $_SERVER['HTTP_X_FORWARDED'];
         }
         else
         {
-            return $_SERVER["REMOTE_ADDR"];
+            return $_SERVER['REMOTE_ADDR'];
         }
     }
 
@@ -943,9 +943,15 @@ class Clansuite_HttpRequest implements Clansuite_Request_Interface, ArrayAccess
     }
 
     # not setting request vars
-    public function offsetSet($offset, $value){}
+    public function offsetSet($offset, $value)
+    {
+        return;
+    }
 
     # not unsetting request vars
-    public function offsetUnset($offset){}
+    public function offsetUnset($offset)
+    {
+        return;
+    }
 }
 ?>

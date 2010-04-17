@@ -37,14 +37,16 @@
 if (defined('IN_CS') == false){ die( 'Clansuite not loaded. Direct Access forbidden.' );}
 
 # initialize variables / arrays
-$i = 1; $j = 1; $array_matrix_system_version = array();
+$i = 1;
+$j = 1;
+$array_matrix_system_version = array();
 
 # setup iterator for /import directory
 $dirIterator = new DirectoryIterator('./import/');
 foreach ($dirIterator as $cms)
 {
     # each directory element but not (.,..)
-    if ((!$cms->isDot()) && $cms->isDir())
+    if ((!$cms->isDot()) and $cms->isDir())
     {
         #$array_matrix_systems_version[$i] = array();
         $array_matrix_systems_version[$cms->getFilename] = $cms->getFilename();

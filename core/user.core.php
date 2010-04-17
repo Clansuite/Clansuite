@@ -399,7 +399,7 @@ class Clansuite_User
                                 ->select('user_id,passwordhash,salt')
                                 ->from('CsUsers')
                                 ->where('user_id = ?')
-                                ->fetchOne(array((int)$_COOKIE['cs_cookie_user_id']), Doctrine::HYDRATE_ARRAY);
+                                ->fetchOne(array((int) $_COOKIE['cs_cookie_user_id']), Doctrine::HYDRATE_ARRAY);
 
             /**
              * Proceed if match

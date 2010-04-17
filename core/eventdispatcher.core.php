@@ -372,8 +372,8 @@ class Clansuite_Eventloader
      */
     public static function autoloadEvents()
     {
-        #Clansuite_Eventloader::loadAllModuleEvents();
-        Clansuite_Eventloader::loadCoreEvents();
+        #self::loadAllModuleEvents();
+        self::loadCoreEvents();
     }
 
     /**
@@ -410,7 +410,7 @@ class Clansuite_Eventloader
 
         foreach($modules as $modulename)
         {
-            Clansuite_Eventloader::loadModuleEvents($modulename);
+            self::loadModuleEvents($modulename);
         }
     }
 }

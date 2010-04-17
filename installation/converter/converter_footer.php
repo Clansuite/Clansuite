@@ -44,10 +44,11 @@ date_default_timezone_set('Europe/Berlin');
 
                     <!-- Converter Progress BAR -->
                     <li><h2><?php echo $language['INSTALL_PROGRESS']; ?></h2></li>
-                    <li><?php echo $language['COMPLETED']; ?> <b><?php echo $_SESSION['progress']; ?>%</b>
+                    <li><?php echo $language['COMPLETED']; ?>
+                      <b><?php echo $_SESSION['progress']; ?>%</b>
                       <div id="progressbar">
                             <?php
-                            #note by vain: this fixes a 2pixel problem while displaying the progress bar at 100percent:P
+                            # note by vain: subtraction fixes a 2pixel problem while displaying the progress bar at 100percent
                             if ($_SESSION['step'] == 7 ) { $_SESSION['progress'] = $_SESSION['progress'] - 2; }
                             ?>
                             <div style="border: 1px solid white; height: 5px ! important; width: <?php echo $_SESSION['progress']; ?>px; background-color: rgb(181, 0, 22);"/>
