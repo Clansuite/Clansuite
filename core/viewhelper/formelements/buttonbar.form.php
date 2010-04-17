@@ -1,7 +1,7 @@
 <?php
    /**
     * Clansuite - just an eSports CMS
-    * Jens-AndrÃ© Koch Â© 2005 - onwards
+    * Jens-André Koch © 2005 - onwards
     * http://www.clansuite.com/
     *
     * This file is part of "Clansuite - just an eSports CMS".
@@ -24,8 +24,8 @@
     *
     * @license    GNU/GPL v2 or (at your option) any later version, see "/doc/LICENSE".
     *
-    * @author     Jens-AndrÃ© Koch   <vain@clansuite.com>
-    * @copyright  Copyleft: All rights reserved. Jens-AndrÃ© Koch (2005-onwards)
+    * @author     Jens-André Koch   <vain@clansuite.com>
+    * @copyright  Copyleft: All rights reserved. Jens-André Koch (2005-onwards)
     *
     * @link       http://www.clansuite.com
     * @link       http://gna.org/projects/
@@ -36,7 +36,11 @@
 # Security Handler
 if (defined('IN_CS') == false){ die('Clansuite not loaded. Direct Access forbidden.');}
 
-if (!class_exists('Clansuite_Formelement_Input',false)) { require dirname(__FILE__) . '/input.form.php'; }
+# conditional include of the parent class
+if (false == class_exists('Clansuite_Formelement_Input',false))
+{ 
+    include dirname(__FILE__) . '/input.form.php';
+}
 
 /**
  *  Clansuite_Formelement

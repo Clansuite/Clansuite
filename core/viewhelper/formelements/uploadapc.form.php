@@ -36,7 +36,11 @@
 # Security Handler
 if (defined('IN_CS') == false){ die('Clansuite not loaded. Direct Access forbidden.');}
 
-if (!class_exists('Clansuite_Formelement_File',false)) { require dirname(__FILE__) . '/file.form.php'; }
+# conditional include of the parent class
+if (false == class_exists('Clansuite_Formelement_File',false))
+{ 
+    include dirname(__FILE__) . '/file.form.php';
+}
 
 /**
  *  Clansuite_Formelement
@@ -151,7 +155,7 @@ class Clansuite_Formelement_Uploadapc extends Clansuite_Formelement_File impleme
              * b) with a unique tracking id for the file
              * c) placed before the input file element.
              */
-            if (!class_exists('Clansuite_Formelement_Hidden',false)) { require dirname(__FILE__) . '/hidden.form.php'; }
+            if (false == class_exists('Clansuite_Formelement_Hidden',false)) { include dirname(__FILE__) . '/hidden.form.php'; }
             $uniqueID = md5(uniqid(mt_rand(), true));
             $hidden = new Clansuite_Formelement_Hidden();
             $hidden->setName('APC_UPLOAD_PROGRESS')->setID('upload_status')->setValue($uniqueID);
@@ -161,7 +165,7 @@ class Clansuite_Formelement_Uploadapc extends Clansuite_Formelement_File impleme
             $html .= '<input name="uploadfile" size="30" type="file">';
 
             # add a submit button
-            if (!class_exists('Clansuite_Formelement_Submitbutton',false)) { require dirname(__FILE__) . '/submitbutton.form.php'; }
+            if (false == class_exists('Clansuite_Formelement_Submitbutton',false)) { include dirname(__FILE__) . '/submitbutton.form.php'; }
             $submit = new Clansuite_Formelement_Submitbutton();
             $submit->setValue(_('Upload File'));
             $submit->setAdditionals("onclick=\"this.disabled=true; setInterval('getUploadProgress(\''+this.form.APC_UPLOAD_PROGRESS.value+'\')', 750); \" ");

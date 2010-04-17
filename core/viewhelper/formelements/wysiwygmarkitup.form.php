@@ -36,7 +36,11 @@
 # Security Handler
 if (defined('IN_CS') == false){ die('Clansuite not loaded. Direct Access forbidden.');}
 
-if (!class_exists('Clansuite_Formelement_Textarea', false)) { require dirname(__FILE__) . '/textarea.form.php'; }
+# conditional include of the parent class
+if (false == class_exists('Clansuite_Formelement_Textarea', false))
+{ 
+    include dirname(__FILE__) . '/textarea.form.php';
+}
 
 /**
  *  Clansuite_Formelement

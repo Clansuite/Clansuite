@@ -36,7 +36,11 @@
 # Security Handler
 if (defined('IN_CS') == false){ die('Clansuite not loaded. Direct Access forbidden.');}
 
-if (!class_exists('Clansuite_Formelement',false)) { require ROOT_CORE . 'viewhelper/formelement.core.php'; }
+# conditional include of the parent class
+if (false == class_exists('Clansuite_Formelement',false))
+{ 
+    include ROOT_CORE . 'viewhelper/formelement.core.php';
+}
 
 /**
  *  Clansuite_Formelement
@@ -237,15 +241,15 @@ class Clansuite_Formelement_Textarea extends Clansuite_Formelement implements Cl
          * Opening of textarea tag
          */
         $html .= '<textarea';
-        $html .= (bool)$this->id ? ' id="'.$this->id.'"' : null;
-        $html .= (bool)$this->name ? ' name="'.$this->name.'"' : null;
-        $html .= (bool)$this->size ? ' size="'.$this->size.'"' : null;
-        $html .= (bool)$this->cols ? ' cols="'.$this->cols.'"' : null;
-        $html .= (bool)$this->rows ? ' rows="'.$this->rows.'"' : null;
-        $html .= (bool)$this->class ? ' class="'.$this->class.'"' : null;
-        $html .= (bool)$this->disabled ? ' disabled="disabled"' : null;
-        $html .= (bool)$this->maxlength ? ' maxlength="'.$this->maxlength.'"' : null;
-        $html .= (bool)$this->style ? ' style="'.$this->style.'"' : null;
+        $html .= (bool) $this->id ? ' id="'.$this->id.'"' : null;
+        $html .= (bool) $this->name ? ' name="'.$this->name.'"' : null;
+        $html .= (bool) $this->size ? ' size="'.$this->size.'"' : null;
+        $html .= (bool) $this->cols ? ' cols="'.$this->cols.'"' : null;
+        $html .= (bool) $this->rows ? ' rows="'.$this->rows.'"' : null;
+        $html .= (bool) $this->class ? ' class="'.$this->class.'"' : null;
+        $html .= (bool) $this->disabled ? ' disabled="disabled"' : null;
+        $html .= (bool) $this->maxlength ? ' maxlength="'.$this->maxlength.'"' : null;
+        $html .= (bool) $this->style ? ' style="'.$this->style.'"' : null;
         $html .= '>';
 
         /**
