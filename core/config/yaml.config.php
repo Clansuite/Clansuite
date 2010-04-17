@@ -165,6 +165,9 @@ class Clansuite_Config_YAMLHandler extends Clansuite_Config_Base implements Arra
      */
     public static function readConfig($filename)
     {
+        $php_datastructure = '';
+        $yaml_content = '';
+
         # check if the filename exists
         if(is_file($filename))
         {
@@ -173,7 +176,7 @@ class Clansuite_Config_YAMLHandler extends Clansuite_Config_Base implements Arra
         }
         else
         {
-            throw new Clansuite_Exception("Die Datei $filename existiert nicht. Kann YAML Config nicht lesen!");
+            throw new Clansuite_Exception('Die Datei '.$filename.' existiert nicht. Kann YAML Config nicht lesen!');
         }
 
         /**
@@ -189,7 +192,7 @@ class Clansuite_Config_YAMLHandler extends Clansuite_Config_Base implements Arra
         elseif(is_file(ROOT_LIBRARIES.'/spyc/Spyc.class.php'))
         {
             # ok, load spyc
-            if( false == class_exists('Spyc',false) )
+            if( false === class_exists('Spyc',false) )
             {
                 include  ROOT_LIBRARIES.'/spyc/Spyc.class.php';
             }

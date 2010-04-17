@@ -47,7 +47,7 @@ define('DEBUG', true);
 
 /**
  * Suppress Errors and use E_STRICT when Debugging
- * E_STRICT forbids the shortage of "<?php print $language->XY ?>" to "<?=$language->XY ?>"
+ * E_STRICT forbids the shortage of "<?php print $language->XY ?>" to "<?php echo $language->XY ?>"
  * so we use E_ALL when DEBUGING. This is just an installer btw :)
  */
 ini_set('display_startup_errors', true);
@@ -588,11 +588,23 @@ function calc_progress($this_is_step,$of_total_steps)
 }
 
 // STEP 1 - Language Selection
-function installstep_1($language){    require INSTALLATION_ROOT.'install-step1.php' ;}
+function installstep_1($language)
+{    
+    require INSTALLATION_ROOT.'install-step1.php' ;
+}
+
 // STEP 2 - System Check
-function installstep_2($language){    require INSTALLATION_ROOT.'install-step2.php' ;}
+function installstep_2($language)
+{    
+    require INSTALLATION_ROOT.'install-step2.php' ;
+}
+
 // STEP 3 - System Check
-function installstep_3($language){    require INSTALLATION_ROOT.'install-step3.php' ;}
+function installstep_3($language)
+{    
+    require INSTALLATION_ROOT.'install-step3.php' ;
+}
+
 // STEP 4 - System Check
 function installstep_4($language, $error)
 {
@@ -606,6 +618,7 @@ function installstep_4($language, $error)
 
     require INSTALLATION_ROOT.'install-step4.php' ;
 }
+
 // STEP 5 - System Check
 function installstep_5($language)
 {
@@ -616,6 +629,7 @@ function installstep_5($language)
 
     require INSTALLATION_ROOT.'install-step5.php';
 }
+
 // STEP 6 - System Check
 function installstep_6($language)
 {
@@ -626,9 +640,12 @@ function installstep_6($language)
 
     require 'install-step6.php';
 }
-// STEP 7 - System Check
-function installstep_7($language){    require INSTALLATION_ROOT.'install-step7.php' ;}
 
+// STEP 7 - System Check
+function installstep_7($language)
+{    
+    require INSTALLATION_ROOT.'install-step7.php' ;
+}
 
 /**
  * Load an SQL stream into the database one command at a time
@@ -650,16 +667,19 @@ function loadSQL($sqlfile, $hostname, $database, $username, $password)
         # ensure database entries are written as UTF8
         mysql_query("SET NAMES 'utf8'");
 
-        if (!is_readable($sqlfile)) {
-          die("$sqlfile does not exist or is not readable");
+        if (!is_readable($sqlfile))
+        {
+            die("$sqlfile does not exist or is not readable");
         }
         $queries = getQueriesFromSQLFile($sqlfile);
-        for ($i = 0, $ix = count($queries); $i < $ix; ++$i) {
-          $sql = $queries[$i];
+        for ($i = 0, $ix = count($queries); $i < $ix; ++$i)
+        {
+            $sql = $queries[$i];
 
-          if (!mysql_query($sql, $connection)) {
-            die(sprintf("error while executing mysql query #%u: %s<br />\nerror: %s", $i + 1, $sql, mysql_error()));
-          }
+            if (!mysql_query($sql, $connection))
+            {
+                die(sprintf("error while executing mysql query #%u: %s<br />\nerror: %s", $i + 1, $sql, mysql_error()));
+            }
         }
         #print "$ix queries imported";
         return true; //"SQL file loaded correctly";

@@ -113,14 +113,14 @@ class Clansuite_Feed
          * @link: http://tech.groups.yahoo.com/group/simplepie-support/message/3289
          */
         # finally: fetch the feed and cache it!
-        @$simplepie->set_feed_url($feed_url);
-        @$simplepie->set_cache_location($cache_location);
-        @$simplepie->set_cache_duration($cache_duration);
-        @$simplepie->set_timeout(5);
-        @$simplepie->set_output_encoding('UTF-8');
-        @$simplepie->set_stupidly_fast(true);
-        @$simplepie->init();
-        @$simplepie->handle_content_type();
+        $simplepie->set_feed_url($feed_url);
+        $simplepie->set_cache_location($cache_location);
+        $simplepie->set_cache_duration($cache_duration);
+        $simplepie->set_timeout(5);
+        $simplepie->set_output_encoding('UTF-8');
+        $simplepie->set_stupidly_fast(true);
+        $simplepie->init();
+        $simplepie->handle_content_type();
 
         /*
         # build array

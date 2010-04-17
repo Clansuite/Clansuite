@@ -51,7 +51,7 @@ set_time_limit(0);
 
 /**
  * Suppress Errors and use E_STRICT when Debugging
- * E_STRICT forbids the shortage of "<?php print $language->XY ?>" to "<?=$language->XY ?>"
+ * E_STRICT forbids the shortage of "<?php print $language->XY ?>" to "<?php echo $language->XY ?>"
  * so we use E_ALL when DEBUGING. This is just an installer btw :)
  */
 $boolean = true;
@@ -416,11 +416,23 @@ function calc_progress($this_is_step,$of_total_steps)
 }
 
 // STEP 1 - Language Selection
-function converterstep_1($language){    require 'converter-step1.php' ;}
+function converterstep_1($language)
+{    
+    require 'converter-step1.php' ;
+}
+
 // STEP 2 - System Check
-function converterstep_2($language){    require 'converter-step2.php' ;}
+function converterstep_2($language)
+{    
+    require 'converter-step2.php' ;
+}
+
 // STEP 3 - System Check
-function converterstep_3($language){    require 'converter-step3.php' ;}
+function converterstep_3($language)
+{    
+    require 'converter-step3.php' ;
+}
+
 // STEP 4 - System Check
 function converterstep_4($language, $error)
 {
@@ -434,8 +446,16 @@ function converterstep_4($language, $error)
 
     require 'converter-step4.php' ;
 }
-function converterstep_5($language){    require 'converter-step5.php' ;}
-function converterstep_6($language){    require 'converter-step6.php' ;}
+
+function converterstep_5($language)
+{    
+    require 'converter-step5.php' ;
+}
+
+function converterstep_6($language)
+{    
+    require 'converter-step6.php' ;
+}
 
 /**
  * Load an SQL stream into the database one command at a time

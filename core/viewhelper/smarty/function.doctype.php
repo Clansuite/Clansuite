@@ -45,7 +45,6 @@ function smarty_function_doctype($params, $smarty)
         return;
     }
 
-
     /**
      * DOCTYPES Array
      *
@@ -89,10 +88,6 @@ function smarty_function_doctype($params, $smarty)
 	if (array_key_exists($params['doctype'], $DTDS) && array_key_exists($params['level'], $DTDS[$params['doctype']]))
 	{
 	    $dtd = $DTDS[$params['doctype']][$params['level']]['signature'];
-	}
-	else
-	{
-	    # smarty error with display of available options
 	}
 
 	return $dtd."\n";

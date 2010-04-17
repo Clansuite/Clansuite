@@ -370,11 +370,11 @@ class Clansuite_Exception extends Exception implements Clansuite_Exception_Inter
         # assign placeholders for replacements in the html
         if(strpos(self::getMessage(),"action_"))
         {
-            $placeholders['actionname']  = substr($this->message,strpos($this->message,"action_"));
+            $placeholders['actionname']  = substr($this->message,strpos($this->message,'action_'));
         }
         elseif(strpos(self::getMessage(),"module_"))
         {
-            $placeholders['classname']  = substr($this->message,strpos($this->message,"module_"));
+            $placeholders['classname']  = substr($this->message,strpos($this->message,'module_'));
         }
 
         if(empty($_GET['mod']) == false)

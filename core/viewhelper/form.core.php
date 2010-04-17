@@ -215,7 +215,7 @@ class Clansuite_Form /*extends Clansuite_HTML*/ implements Clansuite_Form_Interf
     {
         $method = strtolower($method);
 
-        if($method == "post" or $method == "get")
+        if($method == 'post' or $method == 'get')
         {
             $this->method = $method;
         }

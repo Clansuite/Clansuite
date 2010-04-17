@@ -22,22 +22,22 @@ if (defined('IN_CS') == false){ die( 'Clansuite not loaded. Direct Access forbid
                     <label for="agreecheck">
                         <input type="checkbox" class="inputbox" id="agreecheck" name="agreecheck"
                            onclick="if(this.checked==true) { document.getElementById('ButtonNext').disabled=false; } else { document.getElementById('ButtonNext').disabled=true;}" />
-                        <?php echo $language['STEP3_CHECKBOX']?>
+                        <?php echo $language['STEP3_CHECKBOX']; ?>
                     </label>
                 </div>
                 <div id="content_footer">
                     <div class="navigation">
                         <span style="font-size:10px;">
-                            <?php echo $language['CLICK_NEXT_TO_PROCEED']?><br />
-                            <?php echo $language['CLICK_BACK_TO_RETURN']?>
+                            <?php echo $language['CLICK_NEXT_TO_PROCEED']; ?><br />
+                            <?php echo $language['CLICK_BACK_TO_RETURN']; ?>
                         </span>
                         <form action="index.php" method="post">
                             <div class="alignleft">
-                                <input type="submit" value="<?php echo $language['BACKSTEP']?>" class="ButtonRed" name="step_backward" />
-                                <input type="hidden" name="lang" value="<?php echo $_SESSION['lang']?>" />
+                                <input type="submit" value="<?php echo $language['BACKSTEP']; ?>" class="ButtonRed" name="step_backward" />
+                                <input type="hidden" name="lang" value="<?php echo $_SESSION['lang']; ?>" />
                             </div>
                             <div class="alignright">
-                                <input type="submit" value="<?php echo $language['NEXTSTEP']?>" class="ButtonGreen" name="step_forward" id="ButtonNext" disabled="disabled" />
+                                <input type="submit" value="<?php echo $language['NEXTSTEP']; ?>" class="ButtonGreen" name="step_forward" id="ButtonNext" disabled="disabled" />
                             </div>
                         </form>
                     </div><!-- div navigation end -->

@@ -51,10 +51,10 @@ abstract class Clansuite_Renderer_Base
      *
      * @var Object
      */
-    public $renderer            = null;     #
-
-    public $layoutTemplate      = null;
-    public $template            = null;
+    public $renderer = null;
+    
+    public $layoutTemplate = null;
+    public $template = null;
 
     /**
      * Variable for the RenderMode (available: WRAPPED)
@@ -68,8 +68,8 @@ abstract class Clansuite_Renderer_Base
      *
      * @var object
      */
-    protected $injector         = null;
-    protected $config           = null;
+    protected $injector = null;
+    protected $config = null;
 
     /**
      * Construct Renderer
@@ -96,12 +96,12 @@ abstract class Clansuite_Renderer_Base
      *
      * @return Engine Object
      */
-    /** abstract **/ public function initializeEngine(){}
+    abstract public function initializeEngine();
 
     /**
      * Configure the render engine object
      */
-    /** abstract **/ public function configureEngine(){}
+    abstract public function configureEngine();
 
     /**
      * Renders the given Template with renderMode wrapped (with Layout)
@@ -115,7 +115,7 @@ abstract class Clansuite_Renderer_Base
      *
      * @return string
      */
-    /** abstract **/ public function renderPartial($template) {}
+    abstract public function renderPartial($template);
 
     /**
      * Assigns a value to a template parameter.
@@ -123,7 +123,7 @@ abstract class Clansuite_Renderer_Base
      * @param string $tpl_parameter The template parameter name
      * @param mixed $value The value to assign
      */
-    /*abstract*/ public function assign($tpl_parameter, $value = null) {}
+    abstract public function assign($tpl_parameter, $value = null);
 
     /**
      * Executes the template rendering and returns the result.
@@ -132,7 +132,7 @@ abstract class Clansuite_Renderer_Base
      * @param mixed $data Additional data to process
      * @return string
      */
-    /*abstract*/ public function fetch($template, $data = null) {}
+    abstract public function fetch($template, $data = null);
 
     /**
      * Executes the template rendering and displays the result.
@@ -141,7 +141,7 @@ abstract class Clansuite_Renderer_Base
      * @param mixed $data Additional data to process
      * @return string
      */
-    /*abstract*/ public function display($template, $data = null) {}
+    abstract public function display($template, $data = null);
 
     /**
      * Set the template name

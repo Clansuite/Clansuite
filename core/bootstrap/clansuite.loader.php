@@ -76,15 +76,16 @@ class Clansuite_Loader
         # reset autoload logs
         if(DEBUG == true)
         {
-            @unlink(ROOT_LOGS . 'autoload_hits.log');
-            @unlink(ROOT_LOGS . 'autoload_misses.log');
+            unlink(ROOT_LOGS . 'autoload_hits.log');
+            unlink(ROOT_LOGS . 'autoload_misses.log');
         }
         # check if file for the autoloading map exists
         $file = ROOT.'configuration/autoloader.config.php';
         if(is_file($file) === false)
         {
             # file not existant, create it
-            @fopen($file, 'a', false); @fclose($file);
+            fopen($file, 'a', false);
+            fclose($file);
         }
         else # load it
         {
@@ -152,15 +153,15 @@ class Clansuite_Loader
 
     private static function logHit($filename)
     {
-        $log = @fopen( ROOT_LOGS . 'autoload_hits.log', 'a', false);
-        @fwrite($log, 'Autoload Hit: ' . str_replace('_', '/', $filename) . PHP_EOL);
+        $log = fopen( ROOT_LOGS . 'autoload_hits.log', 'a', false);
+        fwrite($log, 'Autoload Hit: ' . str_replace('_', '/', $filename) . PHP_EOL);
         fclose($log);
     }
 
     private static function logMiss($filename)
     {
-        $log = @fopen( ROOT_LOGS . 'autoload_misses.log', 'a', false);
-        @fwrite($log, 'Autoload Miss: ' . str_replace('_', '/', $filename) . PHP_EOL);
+        $log = fopen( ROOT_LOGS . 'autoload_misses.log', 'a', false);
+        fwrite($log, 'Autoload Miss: ' . str_replace('_', '/', $filename) . PHP_EOL);
         fclose($log);
     }
 

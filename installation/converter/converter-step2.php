@@ -78,9 +78,9 @@ $cmsArray = json_encode($array_matrix_systems_version);
             <div class="accordion">
                 <h2 class="headerstyle">
                     <img src="../images/64px-Tango_Globe_of_Letters.svg.png" border="0" style="vertical-align:middle" alt="installstep image" />
-                    <?=$language['STEP2_HEADING']?>
+                    <?php echo $language['STEP2_HEADING']; ?>
                 </h2>
-                <p><strong><?=$language['STEP2_SELECT_OLD_CMS_AND_VERSION']?></strong></p>
+                <p><strong><?php echo $language['STEP2_SELECT_OLD_CMS_AND_VERSION']; ?></strong></p>
                 
                 <fieldset>
                 <legend> CMS and Version </legend>
@@ -250,19 +250,19 @@ $cmsArray = json_encode($array_matrix_systems_version);
                         ?>
                     </fieldset>
                     </p>
-                    <p><?=$language['STEP2_REQUEST_CONVERTER']?><a href="http://forum.clansuite.com/index.php?board=26">Converter-Forum</a>.</p>
+                    <p><?php echo $language['STEP2_REQUEST_CONVERTER']; ?><a href="http://forum.clansuite.com/index.php?board=26">Converter-Forum</a>.</p>
                     <div id="content_footer">
                         <div class="navigation">
                             <span style="font-size:10px;">
-                                <?=$language['CLICK_NEXT_TO_PROCEED']?><br />
-                                <?=$language['CLICK_BACK_TO_RETURN']?>
+                                <?php echo $language['CLICK_NEXT_TO_PROCEED']; ?><br />
+                                <?php echo $language['CLICK_BACK_TO_RETURN']; ?>
                             </span>
                             <div class="alignright">
-                                <input type="submit" value="<?=$language['NEXTSTEP']?>" class="ButtonGreen" name="step_forward" />
+                                <input type="submit" value="<?php echo $language['NEXTSTEP']; ?>" class="ButtonGreen" name="step_forward" />
                             </div>
                             <div class="alignleft">
-                                <input type="submit" value="<?=$language['BACKSTEP']?>" class="ButtonRed" name="step_backward" />
-                                <input type="hidden" name="lang" value="<?=$_SESSION['lang']?>" />
+                                <input type="submit" value="<?php echo $language['BACKSTEP']; ?>" class="ButtonRed" name="step_backward" />
+                                <input type="hidden" name="lang" value="<?php echo $_SESSION['lang']; ?>" />
                             </div>
                         </div><!-- div navigation end -->
                     </div> <!-- div content_footer end -->

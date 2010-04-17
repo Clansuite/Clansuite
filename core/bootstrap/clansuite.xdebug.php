@@ -124,7 +124,7 @@ class Clansuite_Xdebug
             self::$_xdebug_memory_before .= 'Time to execute: '. round(xdebug_time_index(),4) . ' seconds';
             self::$_xdebug_memory_before .= '<br />Memory Usage by Clansuite ' . self::roundMB(xdebug_memory_usage()) . ' MB';
             self::$_xdebug_memory_before .= '<br />Memory Peak of ' . self::roundMB(xdebug_peak_memory_usage()) . ' MB';
-            self::$_xdebug_memory_before .= '<br />Debug Trace is saved: '. @xdebug_stop_trace();
+            self::$_xdebug_memory_before .= '<br />Debug Trace is saved: '. xdebug_stop_trace();
             echo self::$_xdebug_memory_before;
 
             # stop tracings and var_dump

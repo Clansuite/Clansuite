@@ -39,7 +39,7 @@ if (defined('IN_CS') == false){ die( 'Clansuite not loaded. Direct Access forbid
 
 <div id="sidebar">
 <div id="stepbar">
-<p><?=$language['MENU_HEADING']?></p>
+<p><?php echo $language['MENU_HEADING']; ?></p>
 <?php
 for($i = 1; $i <= $total_steps; $i++)
 {
