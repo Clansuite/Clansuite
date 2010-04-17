@@ -100,6 +100,16 @@
         "doxygen.directory"           : ${doxygen.directory}
         "env.WORKSPACE"               : ${env.WORKSPACE}
 
+        Hudson Environment Variables
+        ----------------------------
+
+        Current build number          : ${BUILD_NUMBER}
+        Current build id              : ${BUILD_ID}
+        Name of build job             : ${JOB_NAME}
+        Label/Tag for this build      : ${BUILD_TAG}
+        Absolute path                 : ${WORKSPACE}
+        SVN Rev of this build         : ${SVN_REVISION}
+
         </echo>
     </target>
 
@@ -119,18 +129,24 @@
     <property name="build.src.directory" value="${build.base.directory}${packagename}/" />    <!-- name of the build directory for current package -->
     <property name="webbase.directory" value="/var/syscp/webs/clansuite/" />                  <!-- name of the web directory for documentation = WWWROOT -->
 
-    <!-- Properties for Mr. Hudson -->
-    <property name="base" value="/var/lib/hudson/jobs/Clansuite/workspace/" />
-    <property name="builddir" value="/var/lib/hudson/jobs/Clansuite/workspace/build/" />
-    <property name="tmp" value="/var/lib/hudson/jobs/Clansuite/workspace/tmp/" />
-    <property name="srcdir" value="/var/lib/hudson/jobs/Clansuite/workspace/svn/" override="true" />
+    <!-- Properties for Hudson -->
+    <property name="builddir" value="${workspace}/build" />
+    <property name="sourcedir" value="${workspace}/source" />
+    <property name="package" value="${job_name}.build${build_number}" />
+    <property name="exportdir" value="${builddir}/export" />
+    <property name="archivedir" value="${builddir}/archive" />
+    <property name="packagepath" value="${exportdir}/${job_name}" />
+    <property name="checksumpath" value="${archivedir}/${package}-checksums" />
+    <property name="patchdir" value="${builddir}/patch" />
+    <property name="tmpdir" value="${builddir}/tmp" />
+    <property name="ignorepaths" value="libraries/*" />
 
     <!-- Define the Properties for Section 2) Subversion -->
     <property name="svn.local.export.directory"  value="${base.directory}svn-export/" />     <!-- Local SVN Export Directory (todir) -->
     <property name="svn.local.directory"         value="${base.directory}svn/" />            <!-- Local SVN Directory -->
 
     <!-- Define the Properties for Section 4) Tests & Validations -->
-    <property name="sniffsdir" value="${basedir}/build-tools/CodeSniffer/Standards/Clansuite/" override="true" />
+    <property name="sniffsdir" value="${sourcedir}/build-tools/CodeSniffer/Standards/Clansuite/" override="true" />
 
     <!-- Define the Properties for Section 5) Documentation -->
     <property name="documentations.directory" value="${webbase.directory}documentation/developer/" override="true" />
@@ -257,23 +273,25 @@
         </echo>
     </target>
 
-    <target name="clean" description="remove all old directories">
-        <delete dir="${base}/build"/>
-        <delete dir="${base}/release"/>
-        <delete dir="${base}/codebrowser"/>
+    <target name="clean" description="Removes the old builddir and its directories.">
+        <echo msg="Removes the old builddir and its directories." />
+        <delete dir="${builddir}" includeemptydirs="true" />
     </target>
 
-    <target name="prepare" description="create the used directories">
-        <mkdir dir="${base}/build/logs"/>
-        <mkdir dir="${base}/build/docs"/>
-        <mkdir dir="${base}/release"/>
-        <mkdir dir="${base}/codebrowser"/>
-        <mkdir dir="${base}/coverage"/>
-        <mkdir dir="${base}/htmlreports/codebrowser"/>
-        <mkdir dir="${base}/htmlreports/coverage"/>
+    <target name="prepare" description="Re/create the used directories">
+        <echo msg="Recreate directories in the builddir ${builddir}." />
+        <mkdir dir="${builddir}" />
+        <mkdir dir="${builddir}/logs" />
+        <mkdir dir="${builddir}/coverage" />
+        <mkdir dir="${builddir}/docs" />
+        <mkdir dir="${builddir}/phpcb" />
+        <mkdir dir="${builddir}/archive" />
+        <mkdir dir="${builddir}/export" />
+        <mkdir dir="${builddir}/patch" />
+        <mkdir dir="${builddir}/tmp" />
     </target>
 
-    <target name="mrproper" description="Cleans the Building Directory">
+    <target name="mrproper" description="Combined tasks of clean and prepare.">
         <echo>Mr.Proper wipes the Building (removes and recreates build directories)</echo>
         <phingcall target="clean"/>
         <phingcall target="prepare"/>
@@ -293,9 +311,6 @@
         <!-- <phingcall target="create-htaccess-files" /> -->
     </target>
 
-    <!-- this a combined task: -->
-    <!-- 1) cleans the Building Directories via comannd "mrproper" -->
-    <!-- 2) runs a clansuite build via command "build_clansuite" -->
     <target name="rebuild" description="Cleans and Rebuilds the Clansuite Package">
         <phingcall target="mrproper" />
         <phingcall target="build-clansuite" />
@@ -318,7 +333,7 @@
     </target>
 
     <!-- =================================================== -->
-    <!-- ======     4) Testing & Validation Tasks     ====== -->
+    <!-- ======     4) QA & Tests/Validation Tasks    ====== -->
     <!-- =================================================== -->
 
     <!-- Define Fileset "clansuite.reportfiles" -->
@@ -329,24 +344,10 @@
         <exclude name="**/libraries/**"/> <!-- do not apply reports and checks on 3th party libraries -->
     </fileset>
 
-    <!-- COMMAND = "lint-report" -->
     <target name="lint-report" description="PHP-Lint validates Clansuite's PHP Sourcecode">
         <phplint> <!-- add haltonfailure="true" to Stop if Syntax Error Detected -->
            <fileset refid="clansuite.reportfiles" />
         </phplint>
-    </target>
-
-    <!-- @link: http://phing.info/docs/guide/current/chapters/appendixes/AppendixC-OptionalTasks.html#PhpCodeSnifferTask -->
-    <target name="phpcs" description="Runs the PHP-Codesniffer task and reports coding standard violations">
-        <phpcodesniffer standard="${base}/svn/build-tools/CodeSniffer/Standards/Clansuite/"
-                        tabWidth="4"
-                        verbosity="0"
-                        allowedFileExtensions="php"
-                        >
-            <fileset refid="clansuite.reportfiles" />
-            <formatter type="default" usefile="false"/>
-            <formatter type="checkstyle" outfile="${builddir}/logs/checkstyle.xml" />
-        </phpcodesniffer>
     </target>
 
     <target name="simpletest" description="Runs simpletest unit-tests and creates report">
@@ -354,29 +355,44 @@
               dir="${base}" />
     </target>
 
-    <target name="phpcpd" description="Detects copy and paste codesegements">
-        <exec command="phpcpd --log-pmd ${builddir}/logs/cpd.xml ${base}/svn --exclude ${excludes}" />
-    </target>
-
-    <target name="pdepend" description="Creates Dependency Metrics">
-        <exec command="pdepend --jdepend-xml=${builddir}/logs/jdepend.xml ${base}/svn --ignore=${excludes}" escape="false" />
-    </target>
-
-    <!-- bootstrap=${project}/test/bootstrap.php  -->
-    <target name="phpunit" description="Performs unit-tests. Creates 2 log files: the test log and the coverage log.">
-        <exec command="phpunit --log-junit ${builddir}/logs/junit.xml
-                               --coverage-clover ${builddir}/logs/clover.xml
-                               --coverage-source ${builddir}/coverage/
-                               --coverage-html ${builddir}/htmlreports/coverage/ ${base}/svn/tests/*"/>
-    </target>
-
-    <target name="phpcb" description="Codebrowser builds a HTML Representation with reported Errors.">
-        <exec command="phpcb --log ${builddir}/logs --source ${base}/svn --output ${builddir}/codebrowser" />
+    <target name="phpcpd" description="Detects copy and pasted codesegements.">>
+        <echo msg="PHP Copy'n'Paste detection." />
+        <exec command="phpcpd --log-pmd ${builddir}/logs/phpcpd.xml --suffixes php --exclude ${ignorepaths} ${sourcedir}" escape="false" />
     </target>
 
     <target name="phpmd" description="Generates PHP Mess Detection Report.">
-        <exec command="phpmd ${base}/svn xml unusedcode --reportfile ${builddir}/logs/pmd.xml"
-              dir="${base}" logoutput="true" />
+        <echo msg="PHP_MD generates a Mess Detection Report." />
+        <exec command="phpmd ${sourcedir} xml codesize --reportfile ${builddir}/logs/pmd.xml --ignore ${ignorepaths}" escape="false" />
+    </target>
+    
+    <target name="pdepend" description="Creates Dependency Metrics">>
+        <echo msg="PHP_Depend creates dependency metrics." />
+        <exec command="pdepend --jdepend-xml=${builddir}/logs/jdepend.xml
+                               --jdepend-chart=${builddir}/logs/jdepend.png
+                               --phpunit-xml=${builddir}/logs/pdepend_phpunit.xml
+                               --overview-pyramid=${builddir}/logs/pdepend_pyramid.png
+                               --summary-xml=${builddir}/logs/pdepend_summary.xml
+                               --ignore=${ignorepaths} --optimization=best --suffix=php ${sourcedir}" escape="false" />
+    </target>
+
+    <target name="phpcs" description="Runs the PHP-Codesniffer task and reports coding standard violations">
+        <echo msg="PHP_CodeSniffer runs CodeSniffs and reports coding standard violations." />
+        <exec command="phpcs --extensions=php --report=checkstyle
+                             --standard=${sourcedir}/build-tools/CodeSniffer/Standards/Clansuite/.
+                             --ignore=${ignorepaths} ${sourcedir} > ${builddir}/logs/phpcs.xml" escape="false" />
+    </target>
+
+    <!-- bootstrap=${project}/test/bootstrap.php  -->
+    <target name="phpunit" description="Performs unit-tests and coverage analysis. Creates 2 log files: the test log and the coverage log.">>
+        <echo msg="PHPUnit performs unit-tests and coverage analysis." />
+        <exec command="phpunit --log-junit ${builddir}/logs/phpunit.xml
+                               --coverage-clover ${builddir}/coverage/clover.xml
+                               --coverage-html ${builddir}/coverage/ ${sourcedir}/tests"/>
+    </target>
+
+    <target name="phpcb" description="PHP_Codebrowser builds a HTML Representation out of the Code-Violations.">>
+        <echo msg="PHP_Codebrowser builds a HTML Representation out of the Code-Violations." />
+        <exec command="phpcb --log ${builddir}/logs --output ${builddir}/phpcb" />
     </target>
 
     <!-- ================================================= -->
@@ -391,6 +407,12 @@
         <phingcall target="doc-doxygen" />
         <phingcall target="doc-phpxref" />
         <phingcall target="doc-asciidoc" />
+    </target>
+
+    <!-- Hudson Task -->
+    <target name="phpdoc" description="Generates the API Documentation using PHPDocumentor">>
+         <echo>Generates the API documentation using PHPDocumentor</echo>
+        <exec command="phpdoc --directory ${sourcedir} --ignore libraries/* --target ${builddir}/docs" escape="false" />
     </target>
 
     <target name="doc-phpdoc" description="Generates the API Documentation using PHPDocumentor">
