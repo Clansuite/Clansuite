@@ -64,7 +64,10 @@ class Clansuite_Renderer_Factory
             if (is_file($file) != 0)
             {
                 $class = 'Clansuite_Renderer_'. $view_type;
-                if( false === class_exists($class,false) ) { include$file); }
+                if( false === class_exists($class,false))
+                {
+                    include $file;
+                }
 
                 if (class_exists($class,false))
                 {

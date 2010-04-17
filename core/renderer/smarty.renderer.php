@@ -38,7 +38,7 @@ if (defined('IN_CS') == false) { die('Clansuite not loaded. Direct Access forbid
 
 # Load Clansuite_Renderer_Base
 if(false === class_exists('Clansuite_Renderer_Base',false) )
-{ 
+{
     include dirname(__FILE__) . '/renderer.base.php';
 }
 
@@ -88,11 +88,10 @@ class Clansuite_Renderer_Smarty extends Clansuite_Renderer_Base
         # prevent redeclaration
         if (class_exists('Smarty',false) == false)
         {
-            # check if Smarty library exists - eat like a bird, poop like an elefant!
+            # check if Smarty library exists
             if ( is_file(ROOT_LIBRARIES . 'smarty/Smarty.class.php') )
             {
-                includeROOT_LIBRARIES . 'smarty/Smarty.class.php');
-                $this->renderer = new Smarty();
+                include ROOT_LIBRARIES . 'smarty/Smarty.class.php';
             }
             else // throw error in case smarty library is missing
             {
@@ -103,6 +102,9 @@ class Clansuite_Renderer_Smarty extends Clansuite_Renderer_Base
         {
             throw new Exception('Smarty already loaded!');
         }
+
+        # Do it with smarty style > eat like a bird, poop like an elefant!
+        $this->renderer = new Smarty();
     }
 
     /**
