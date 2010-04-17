@@ -6,7 +6,7 @@
  *  and several other projectes like kquery and hlsw. 
  *
  *  csQuery - gameserver query class
- *  Copyright (c) 2005-2006 Jens-Andre Koch <jakoch@web.de>
+ *  Copyright (c) 2005-2006 Jens-André Koch <jakoch@web.de>
  *  http://www.clansuite.com
  *
  *  gsQuery - Querys game servers

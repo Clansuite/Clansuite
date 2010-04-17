@@ -538,15 +538,15 @@ class Clansuite_Renderer_Smarty extends Clansuite_Renderer_Base
         $renderChecksArray = array(
             '1' => array(
                           'needle' => '{include file=\'copyright.tpl\'}',
-                          'exceptionmessage' => "The copyright tag is missing.
-                            Please insert {include file='copyright.tpl'} in your layout/wrapper template file: <br /> $filename",
+                          'exceptionmessage' => 'The copyright tag is missing.
+                            Please insert {include file=\'copyright.tpl\'} in your layout/wrapper template file: <br /> '.$filename,
                           'exceptioncode' => '12'
                         ),
 
             '2' => array(
                           'needle' => '{include file=\'clansuite_header_notice.tpl\'}',
-                          'exceptionmessage' => "The header notice tag is missing.
-               Please insert {include file='clansuite_header_notice.tpl'} in your layout/wrapper template file: <br /> $filename",
+                          'exceptionmessage' => 'The header notice tag is missing.
+               Please insert {include file=\'clansuite_header_notice.tpl\'} in your layout/wrapper template file: <br /> '.$filename,
                           'exceptioncode' => '13'
                         ),
 

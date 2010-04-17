@@ -121,18 +121,16 @@ class Clansuite_Loader
     {
         if (is_file($filename) === true)
         {
-            require $filename;
+            include $filename;
 
             # log for the autoloaded files
             if(DEBUG == true)
             {
-                $log = @fopen( ROOT_LOGS . 'autoload_hits.log', 'a', false);
-                @fwrite($log, 'Autoload Hit: ' . str_replace('_', '/', $filename) . PHP_EOL);
-                fclose($log);
+                self::logHit($filename);
             }
 
             # if classname is given, its a mapping request
-            if(false == is_null($classname))
+            if(false === is_null($classname))
             {
                 # add class and filename to the mapping array
                 $this->addToMapping($filename, $classname);
@@ -145,13 +143,25 @@ class Clansuite_Loader
             # log missed autoloads
             if(DEBUG == true)
             {
-                $log = @fopen( ROOT_LOGS . 'autoload_misses.log', 'a', false);
-                @fwrite($log, 'Autoload Miss: ' . str_replace('_', '/', $filename) . PHP_EOL);
-                fclose($log);
+                self::logMiss($filename);
             }
 
             return false;
         }
+    }
+
+    private static function logHit($filename)
+    {
+        $log = @fopen( ROOT_LOGS . 'autoload_hits.log', 'a', false);
+        @fwrite($log, 'Autoload Hit: ' . str_replace('_', '/', $filename) . PHP_EOL);
+        fclose($log);
+    }
+
+    private static function logMiss($filename)
+    {
+        $log = @fopen( ROOT_LOGS . 'autoload_misses.log', 'a', false);
+        @fwrite($log, 'Autoload Miss: ' . str_replace('_', '/', $filename) . PHP_EOL);
+        fclose($log);
     }
 
     /**
