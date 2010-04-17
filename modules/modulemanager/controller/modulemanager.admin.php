@@ -589,11 +589,11 @@ class Clansuite_Module_Modulemanager_Admin extends Clansuite_Module_Controller i
             /*array = ( '1' => array(
                                     'action'  => 'show',
                                     'name'    => 'Overview',
-								    'url'	  => 'index.php?mod=news&sub=admin', # &action=show
-								    'icon'    => '',
-								    'tooltip' => ''
-										)
-		            )*/
+                                    'url'      => 'index.php?mod=news&sub=admin', # &action=show
+                                    'icon'    => '',
+                                    'tooltip' => ''
+                                        )
+                    )*/
 
             # fill the documentation template with the moduleinfo data
             $documentation_template_content = $smarty->fetch( ROOT_MOD . 'scaffolding/module_menu.tpl');

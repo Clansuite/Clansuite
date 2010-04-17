@@ -4,15 +4,15 @@ class Teamspeak3_ServerQueryCommand_serveredit extends Clansuite_Teamspeak3_Serv
    /**
     * serverEdit
     * edits serversettings on selected virtualserver<br>
-    *		Note: login needed / for some settings superAdmin login
+    *        Note: login needed / for some settings superAdmin login
     *
-    *	Howto edit:<br>
-    *	<br>
-    *	$newSettings = array();<br>
-    *	<br>
+    *    Howto edit:<br>
+    *    <br>
+    *    $newSettings = array();<br>
+    *    <br>
     * $newSettings[] = array('setting', 'value');<br>
     * $newSettings[] = array('setting', 'value');<br>
-    *	<br>
+    *    <br>
     * serverEdit($newSettings);<br>
     * <br>
     * server must be selected serverSelect();<br>
@@ -45,19 +45,19 @@ class Teamspeak3_ServerQueryCommand_serveredit extends Clansuite_Teamspeak3_Serv
     */
     public function serveredit($newSettings)
     {
-    	if($this->selectedVirtualServer() == false)
-    	{
-    	    return false;
-    	}
-    	
-    	$settingsString = '';
-    	
-    	foreach($newSettings as $setting)
-    	{
-    		$settingsString .= ' virtualserver_'.$setting[0].'='.$this->replaceText($setting[1]);
-    	}
-    	
-    	return $this->executeWithoutFetch("serveredit".$settingsString);
+        if($this->selectedVirtualServer() == false)
+        {
+            return false;
+        }
+        
+        $settingsString = '';
+        
+        foreach($newSettings as $setting)
+        {
+            $settingsString .= ' virtualserver_'.$setting[0].'='.$this->replaceText($setting[1]);
+        }
+        
+        return $this->executeWithoutFetch("serveredit".$settingsString);
     }
 }
 ?>

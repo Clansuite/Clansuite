@@ -44,20 +44,20 @@ $modulenavigation = array(
                             '1' => array(
                                             'action'  => 'show_frontend',
                                             'name'    => 'Frontend',
-										    'url'	  => 'index.php?mod=thememanager&sub=admin', # &action=show_frontend
-										    'icon'    => '',
-										    'tooltip' => ''
-										),
+                                            'url'      => 'index.php?mod=thememanager&sub=admin', # &action=show_frontend
+                                            'icon'    => '',
+                                            'tooltip' => ''
+                                        ),
 
-							'2' => array(
-							                'action'  => 'show_backend',
-							                'name'    => 'Backend',
-										    'url'     => 'index.php?mod=thememanager&sub=admin&action=show_backend',
-										    'icon'    => '',
-										    'tooltip' => ''
-										),
+                            '2' => array(
+                                            'action'  => 'show_backend',
+                                            'name'    => 'Backend',
+                                            'url'     => 'index.php?mod=thememanager&sub=admin&action=show_backend',
+                                            'icon'    => '',
+                                            'tooltip' => ''
+                                        ),
 
-						 );
+                         );
 
 /**
  * Clansuite Adminmenu for Module thememanager

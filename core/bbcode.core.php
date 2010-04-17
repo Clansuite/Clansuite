@@ -62,7 +62,10 @@ class Clansuite_Bbcode
     function __construct()
     {
         # Include Stringpaser_bbcode Class
-        if(!class_exists('StringParser_BBCode', false)) { require( ROOT_LIBRARIES . '/bbcode/stringparser_bbcode.class.php' ); }
+        if(false === class_exists('StringParser_BBCode', false))
+        {
+            include ROOT_LIBRARIES . '/bbcode/stringparser_bbcode.class.php';
+        }
 
         # Instantiate the object
         $this->bbcode = new StringParser_BBCode();
@@ -200,7 +203,7 @@ class Clansuite_Bbcode
         }
 
         // Include & Instantiate GeSHi
-        if( !class_exists('GeSHi',false) ) { require( ROOT_LIBRARIES . '/geshi/geshi.php' ); }
+        if( false === class_exists('GeSHi',false) ) { include ROOT_LIBRARIES . '/geshi/geshi.php' ); }
         $geshi = new GeSHi($content, $attributes['default']);
 
         return $geshi->parse_code();

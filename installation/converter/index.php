@@ -103,7 +103,7 @@ if(false == is_file( ROOT . '/configuration/clansuite.config.php'))
 
 
 // The Clansuite version this script installs
-require( ROOT . '/core/clansuite.version.php');
+include ROOT . '/core/clansuite.version.php');
 define('CONVERTER_VERSION', '0.1');
 
 // Define $error

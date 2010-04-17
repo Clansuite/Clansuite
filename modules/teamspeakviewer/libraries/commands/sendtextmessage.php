@@ -9,9 +9,9 @@ class Teamspeak3_ServerQueryCommand_sendmessage extends Clansuite_Teamspeak3_Ser
      * @param  string $msg The message
      * @return boolean success
      */
-	function sendmessage($mode, $target, $msg)
-	{
-		return $this->executeWithoutFetch("sendtextmessage targetmode=$mode target=$target msg=".$this->replaceText($msg));
-	}
+    function sendmessage($mode, $target, $msg)
+    {
+        return $this->executeWithoutFetch("sendtextmessage targetmode=$mode target=$target msg=".$this->replaceText($msg));
+    }
 }
 ?>

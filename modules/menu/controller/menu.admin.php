@@ -94,7 +94,7 @@ class Clansuite_Module_Menu_Admin extends Clansuite_Module_Controller implements
     }
 
     private function getTree($model, $rootId = null)
- 	{
+     {
         $tree = Doctrine_Core::getTable($model)->getTree();
 
         $options = array();
@@ -113,9 +113,9 @@ class Clansuite_Module_Menu_Admin extends Clansuite_Module_Controller implements
 
     private function getRoots($model)
     {
- 	    $tree = Doctrine_Core::getTable($model)->getTree();
-	    return $tree->fetchRoots();
-	}
+         $tree = Doctrine_Core::getTable($model)->getTree();
+        return $tree->fetchRoots();
+    }
 
     public function action_admin_menueditor2()
     {

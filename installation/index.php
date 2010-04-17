@@ -74,7 +74,7 @@ if (version_compare(PHP_VERSION, REQUIRED_PHP_VERSION, '<') == true)
 try
 {
     # PDO Check
-    if(!class_exists('PDO'))
+    if(false === class_exists('PDO'))
     {
         throw new Clansuite_Installation_Startup_Exception('<i>PHP_PDO</i> extension not enabled! | The Extension is needed for Database Access!', 2);
     }
@@ -827,22 +827,22 @@ function removeDirectory($dir)
     # try to apply delete permissiosn
     if(chmod($dir, 0777) === false)
     {
-        echo "[Deleting Directory] Setting the permission to delete the directory on directory $dir failed!<br/>";
+        echo '[Deleting Directory] Setting the permission to delete the directory on directory '.$dir.' failed!<br/>';
     }
     else
     {
-        # echo "[Deleting Directory] Successfully applied permission to delete the directory on directory $dir!<br/>";
+        # echo '[Deleting Directory] Successfully applied permission to delete the directory on directory '.$dir.'!<br/>';
     }
 
     # try to remove directory
     if(rmdir($dir) === false)
     {
-        echo "[Deleting Directory] Removing of directory $dir failed! Please remove it manually.<br/>";
+        echo '[Deleting Directory] Removing of directory '.$dir.' failed! Please remove it manually.<br/>';
     }
     else
     {
         # rmdir sucessfull
-        # echo "[Deleting Directory] Removing of directory $dir<br/>";
+        # echo '[Deleting Directory] Removing of directory '.$dir.'<br/>';
     }
 }
 

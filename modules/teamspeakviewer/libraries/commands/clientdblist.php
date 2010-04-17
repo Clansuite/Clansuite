@@ -19,9 +19,9 @@ class Teamspeak3_ServerQueryCommand_clientdblist extends Clansuite_Teamspeak3_Se
     public function clientdblist()
     {
         if($this->selectedVirtualServer() == false)
-    	{
-    	    return false;
-    	}
+        {
+            return false;
+        }
 
         return $this->ServerQueryCommand('clientdblist');
     }

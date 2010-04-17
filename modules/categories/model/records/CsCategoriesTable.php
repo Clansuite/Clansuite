@@ -30,15 +30,15 @@ class CsCategoriesTable extends Doctrine_Table
                ->fetchArray();
     }
 
-	public static function fetchAllCategories($sortorder)
-	{
+    public static function fetchAllCategories($sortorder)
+    {
         return Doctrine_Query::create()
                ->select('c.*, m.name as module')
                ->from('CsCategories c')
-			   ->leftJoin('c.CsModules m on c.module_id = m.module_id')
-			   ->orderby($sortorder)
+               ->leftJoin('c.CsModules m on c.module_id = m.module_id')
+               ->orderby($sortorder)
                ->fetchArray();
-	}
+    }
 
 
     /**

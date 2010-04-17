@@ -71,7 +71,7 @@ class Clansuite_Module_Users_Admin extends Clansuite_Module_Controller implement
         $searchletter = $this->getHttpRequest()->getParameter('searchletter');
 
         // SmartyColumnSort -- Easy sorting of html table columns.
-        require( ROOT_LIBRARIES . '/smarty/libs/SmartyColumnSort.class.php');
+        include ROOT_LIBRARIES . '/smarty/libs/SmartyColumnSort.class.php');
         // A list of database columns to use in the table.
         $columns = array( 'u.user_id', 'u.nick', 'u.email', 'u.timestamp', 'u.joined');
         // Create the columnsort object

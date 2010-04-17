@@ -73,7 +73,7 @@ class Clansuite_Filter_php_debug_console implements Clansuite_Filter_Interface
                 # Load Library
                 if( class_exists('PHP_Debug',false) == false )
                 {
-                    require( ROOT_LIBRARIES . 'phpdebug/PHP/Debug.php' );
+                    include ROOT_LIBRARIES . 'phpdebug/PHP/Debug.php' );
                 }
 
                 # Setup Options for the PHPDebug Object

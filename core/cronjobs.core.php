@@ -244,7 +244,7 @@ class Clansuite_Cronjobs
      */
     private function parseElement($element, &$targetArray, $numberOfElements)
     {
-        $subelements = explode(",",$element);
+        $subelements = explode(',',$element);
 
         for ($i=0;$i<$numberOfElements;$i++)
         {
@@ -329,14 +329,14 @@ class Clansuite_Cronjobs
 
         if ($unit=="mday")
         {
-            $dateArr["hours"] = 0;
-            $dateArr["minutes"] = 0;
-            $dateArr["seconds"] = 0;
-            $dateArr["mday"] += $amount;
-            $dateArr["wday"] += $amount % 7;
-            if ($dateArr["wday"]>6)
+            $dateArr['hours'] = 0;
+            $dateArr['minutes'] = 0;
+            $dateArr['seconds'] = 0;
+            $dateArr['mday'] += $amount;
+            $dateArr['wday'] += $amount % 7;
+            if ($dateArr['wday']>6)
             {
-                $dateArr["wday"]-=7;
+                $dateArr['wday']-=7;
             }
 
             $months28 = Array(2);
@@ -344,38 +344,38 @@ class Clansuite_Cronjobs
             $months31 = Array(1,3,5,7,8,10,12);
 
             if (
-                (in_array($dateArr["mon"], $months28) && $dateArr["mday"]==28) ||
-                (in_array($dateArr["mon"], $months30) && $dateArr["mday"]==30) ||
-                (in_array($dateArr["mon"], $months31) && $dateArr["mday"]==31)
+                (in_array($dateArr['mon'], $months28) && $dateArr['mday']==28) ||
+                (in_array($dateArr['mon'], $months30) && $dateArr['mday']==30) ||
+                (in_array($dateArr['mon'], $months31) && $dateArr['mday']==31)
             ) {
-                $dateArr["mon"]++;
-                $dateArr["mday"] = 1;
+                $dateArr['mon']++;
+                $dateArr['mday'] = 1;
             }
 
         }
         elseif ($unit=="hour")
         {
-            if ($dateArr["hours"]==23)
+            if ($dateArr['hours']==23)
             {
                 $this->incrementDate($dateArr, 1, "mday");
             }
             else
             {
-                $dateArr["minutes"] = 0;
-                $dateArr["seconds"] = 0;
-                $dateArr["hours"]++;
+                $dateArr['minutes'] = 0;
+                $dateArr['seconds'] = 0;
+                $dateArr['hours']++;
             }
         }
         elseif ($unit=="minute")
         {
-            if ($dateArr["minutes"]==59)
+            if ($dateArr['minutes']==59)
             {
                 $this->incrementDate($dateArr, 1, "hour");
             }
             else
             {
-                $dateArr["seconds"] = 0;
-                $dateArr["minutes"]++;
+                $dateArr['seconds'] = 0;
+                $dateArr['minutes']++;
             }
         }
 
@@ -390,10 +390,10 @@ class Clansuite_Cronjobs
      */
     private function runJob($job)
     {
-        $lastActual = $job["lastActual"];
-        $lastScheduled = $job["lastScheduled"];
+        $lastActual = $job['lastActual'];
+        $lastScheduled = $job['lastScheduled'];
 
-        if ($lastScheduled<time())
+        if ($lastScheduled < time())
         {
             #echo("<br>Running     ".$job[self::const_PC_CRONLINE]);
             #echo("<br> Last run:       ".date("r",$lastActual));
@@ -406,7 +406,8 @@ class Clansuite_Cronjobs
             /*if ($debug)
             {
             */
-                include(dirname(__FILE__)."/".$job[self::const_PC_CMD]);
+                include dirname(__FILE__).'/'.$job[self::const_PC_CMD];
+
                 $jobname = substr($job[self::const_PC_CMD], 9, -12);
 
                 # instantiate job
@@ -439,10 +440,10 @@ class Clansuite_Cronjobs
         {
             if ($debug)
             {
-                logMessage("Skipping     ".$job[self::const_PC_CRONLINE]);
-                logMessage("  Last run:       ".date("r",$lastActual));
-                logMessage("  Last scheduled: ".date("r",$lastScheduled));
-                logMessage("Completed    ".$job[self::const_PC_CRONLINE]);
+                logMessage('Skipping     '.$job[self::const_PC_CRONLINE]);
+                logMessage('  Last run:       '.date("r",$lastActual));
+                logMessage('  Last scheduled: '.date("r",$lastScheduled));
+                logMessage('Completed    '.$job[self::const_PC_CRONLINE]);
             }
 
             return false;
@@ -481,7 +482,7 @@ class Clansuite_Cronjobs
                     if ($jobs[$jobNumber][self::const_PC_DOW][0]!='*' and !is_numeric($jobs[$jobNumber][self::const_PC_DOW]))
                     {
                         $jobs[$jobNumber][self::const_PC_DOW] = str_replace(
-                            array("Sun","Mon","Tue","Wed","Thu","Fri","Sat"),
+                            array('Sun','Mon','Tue','Wed','Thu','Fri','Sat'),
                             array(0,1,2,3,4,5,6),
                             $jobs[$jobNumber][self::const_PC_DOW]);
                     }
@@ -492,8 +493,8 @@ class Clansuite_Cronjobs
 
                 $jobfile = $this->getJobFileName($jobs[$jobNumber][self::const_PC_CMD]);
 
-                $jobs[$jobNumber]["lastActual"] = $this->getLastActualRunTime($jobs[$jobNumber][self::const_PC_CMD]);
-                $jobs[$jobNumber]["lastScheduled"] = $this->getLastScheduledRunTime($jobs[$jobNumber]);
+                $jobs[$jobNumber]['lastActual'] = $this->getLastActualRunTime($jobs[$jobNumber][self::const_PC_CMD]);
+                $jobs[$jobNumber]['lastScheduled'] = $this->getLastScheduledRunTime($jobs[$jobNumber]);
             }
         }
 
@@ -522,27 +523,28 @@ class Clansuite_Cronjobs
 
         $minutesAhead = 0;
         while ( $minutesAhead<525600 and
-                (!$extjob[self::const_PC_MINUTE][$dateArr["minutes"]] or
-                !$extjob[self::const_PC_HOUR][$dateArr["hours"]] or
-                (!$extjob[self::const_PC_DOM][$dateArr["mday"]] or !$extjob[self::const_PC_DOW][$dateArr["wday"]]) or
-                !$extjob[self::const_PC_MONTH][$dateArr["mon"]])
-        ) {
+                (!$extjob[self::const_PC_MINUTE][$dateArr['minutes']] or
+                        !$extjob[self::const_PC_HOUR][$dateArr['hours']] or
+                        (!$extjob[self::const_PC_DOM][$dateArr['mday']] or !$extjob[self::const_PC_DOW][$dateArr['wday']]) or
+                        !$extjob[self::const_PC_MONTH][$dateArr['mon']])
+        )
+        {
 
-            if (!$extjob[self::const_PC_DOM][$dateArr["mday"]] or !$extjob[self::const_PC_DOW][$dateArr["wday"]])
+            if (!$extjob[self::const_PC_DOM][$dateArr['mday']] or !$extjob[self::const_PC_DOW][$dateArr['wday']])
             {
                 $this->incrementDate($dateArr,1,"mday");
                 $minutesAhead+=1440;
                 continue;
             }
 
-            if (!$extjob[self::const_PC_HOUR][$dateArr["hours"]])
+            if (!$extjob[self::const_PC_HOUR][$dateArr['hours']])
             {
                 $this->incrementDate($dateArr,1,"hour");
                 $minutesAhead+=60;
                 continue;
             }
 
-            if (!$extjob[self::const_PC_MINUTE][$dateArr["minutes"]])
+            if (!$extjob[self::const_PC_MINUTE][$dateArr['minutes']])
             {
                 $this->incrementDate($dateArr,1,"minute");
                 $minutesAhead++;
@@ -552,7 +554,7 @@ class Clansuite_Cronjobs
 
         //if ($debug) print_r($dateArr);
 
-        return mktime($dateArr["hours"],$dateArr["minutes"],0,$dateArr["mon"],$dateArr["mday"],$dateArr["year"]);
+        return mktime($dateArr['hours'],$dateArr['minutes'],0,$dateArr['mon'],$dateArr['mday'],$dateArr['year']);
     }
 
     private function getJobFileName($jobname)

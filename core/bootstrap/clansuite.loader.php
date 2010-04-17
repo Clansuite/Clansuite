@@ -76,8 +76,8 @@ class Clansuite_Loader
         # reset autoload logs
         if(DEBUG == true)
         {
-            unlink(ROOT_LOGS . 'autoload_hits.log');
-            unlink(ROOT_LOGS . 'autoload_misses.log');
+            @unlink(ROOT_LOGS . 'autoload_hits.log');
+            @unlink(ROOT_LOGS . 'autoload_misses.log');
         }
         # check if file for the autoloading map exists
         $file = ROOT.'configuration/autoloader.config.php';
@@ -253,25 +253,25 @@ class Clansuite_Loader
 
         switch($type)
         {
-            case "filters":
-                     #Clansuite_Xdebug::firebug($classname);
-                     $classname = substr($classname, 7);
-                     #Clansuite_Xdebug::firebug($classname);
-                     return $classname;
-                 break;
-
-            case "core":
-                     $classname = str_replace('_','',$classname);
-                     #Clansuite_Xdebug::firebug($classname);
-                     return $classname;
+            case 'filters':
+            #Clansuite_Xdebug::firebug($classname);
+                $classname = substr($classname, 7);
+                #Clansuite_Xdebug::firebug($classname);
+                return $classname;
                 break;
 
-            case "events":
+            case 'core':
+                $classname = str_replace('_','',$classname);
+                #Clansuite_Xdebug::firebug($classname);
+                return $classname;
+                break;
+
+            case 'events':
 
                 break;
 
             default:
-                # replace the classname "renderer_factory" with "renderer.factory" for the correct filename
+            # replace the classname "renderer_factory" with "renderer.factory" for the correct filename
                 $classname = str_replace('_','.',$classname);
         }
 
@@ -473,7 +473,7 @@ class Clansuite_Loader
     public static function callClassMethod($class, $method, array $arguments = array())
     {
         # if $class is not an object, we have to initialize the class
-        if (!is_object($class))
+        if (false === is_object($class))
         {
             # ensure type
             $classname  = (string) $class;

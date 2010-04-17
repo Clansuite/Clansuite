@@ -22,9 +22,9 @@ class Teamspeak3_ServerQueryCommand_serverlist extends Clansuite_Teamspeak3_Serv
      *
      * @return multidimensional array serverlist
      */
-	public function serverList()
-	{
-		return $this->toArray($this->ServerQueryCommand('serverlist'));
-	}
+    public function serverList()
+    {
+        return $this->toArray($this->ServerQueryCommand('serverlist'));
+    }
 }
 ?>

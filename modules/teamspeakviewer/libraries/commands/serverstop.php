@@ -3,7 +3,7 @@ class Teamspeak3_ServerQueryCommand_servercreate extends Clansuite_Teamspeak3_Se
 {
     /**
      * serverStop: stops a server on the selected instance<br>
-     *		Note: superAdmin login needed
+     *        Note: superAdmin login needed
      *
      * @param   integer $sid The serverID
      * @return  boolean success

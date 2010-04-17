@@ -80,7 +80,7 @@ class Clansuite_Module_Matches_Admin extends Clansuite_Module_Controller impleme
         $this->prepareOutput();
        
     }
-	
+    
     public function action_admin_settings()
     {
         # Set Pagetitle and Breadcrumbs

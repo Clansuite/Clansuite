@@ -45,56 +45,56 @@ if (defined('IN_CS') == false) { die('Clansuite not loaded. Direct Access forbid
  */
 class Clansuite_Module_Statistics extends Clansuite_Module_Controller implements Clansuite_Module_Interface
 {
-	/**
-	 * This fetches the statistics from db and returns them as array.
-	 *
-	 * @return stats array
-	 */
-	private function fetch_wwwstats()
+    /**
+     * This fetches the statistics from db and returns them as array.
+     *
+     * @return stats array
+     */
+    private function fetch_wwwstats()
     {
-		$stats = array ();
+        $stats = array ();
 
         /**
-		 * All visits & max users online counter
-		 */
+         * All visits & max users online counter
+         */
 
         $temp_array = Doctrine::getTable('CsStatistic')->fetchAllImpressionsAndMaxVisitors();
-		$stats['all_impressions'] = $temp_array['hits'];
-		$stats['max_visitor'] = $temp_array['maxonline'];
+        $stats['all_impressions'] = $temp_array['hits'];
+        $stats['max_visitor'] = $temp_array['maxonline'];
 
-		$temp_array = Doctrine::getTable('CsStatistic')->fetchTodayAndYesterdayVisitors();
-		$stats['today_impressions'] = $temp_array[1]['count'];
-		$stats['yesterday_impressions'] = $temp_array[0]['count'];
+        $temp_array = Doctrine::getTable('CsStatistic')->fetchTodayAndYesterdayVisitors();
+        $stats['today_impressions'] = $temp_array[1]['count'];
+        $stats['yesterday_impressions'] = $temp_array[0]['count'];
         
-		$temp_array = Doctrine::getTable('CsStatistic')->sumMonthVisits();
-		$stats['month_impressions'] = $temp_array;
+        $temp_array = Doctrine::getTable('CsStatistic')->sumMonthVisits();
+        $stats['month_impressions'] = $temp_array;
 
         /**
-		 * Number of online users (equals sessions number)
-		 */
-		$sessions_online = 0;
-		$sessions_online = Doctrine :: getTable('CsStatistic')->countVisitorsOnline($this->getConfigValue('timoutWho', '5'));
-		$stats['online'] = $sessions_online;
+         * Number of online users (equals sessions number)
+         */
+        $sessions_online = 0;
+        $sessions_online = Doctrine :: getTable('CsStatistic')->countVisitorsOnline($this->getConfigValue('timoutWho', '5'));
+        $stats['online'] = $sessions_online;
 
         /**
-		 * Number of authenticated users (user_id not 0) in session table
-		 */
-		$authed_user_session = 0;
-		$authed_user_session = Doctrine::getTable('CsStatistic')->countUsersOnline($this->getConfigValue('timoutWho', '5'));
-		$stats['authed_users'] = $authed_user_session;
+         * Number of authenticated users (user_id not 0) in session table
+         */
+        $authed_user_session = 0;
+        $authed_user_session = Doctrine::getTable('CsStatistic')->countUsersOnline($this->getConfigValue('timoutWho', '5'));
+        $stats['authed_users'] = $authed_user_session;
 
         /**
-		 * Calculate number of guests, based on total users subtracted by authed users
-		 */
-		$stats['guest_users'] = (int) $sessions_online - (int) $authed_user_session;
+         * Calculate number of guests, based on total users subtracted by authed users
+         */
+        $stats['guest_users'] = (int) $sessions_online - (int) $authed_user_session;
 
-		return $stats;
-	}
-	
-	public function widget_statistics($params)
+        return $stats;
+    }
+    
+    public function widget_statistics($params)
     {
-		$view = $this->getView();
-		$view->assign('stats', self::fetch_wwwstats());
-	}
+        $view = $this->getView();
+        $view->assign('stats', self::fetch_wwwstats());
+    }
 }
 ?>

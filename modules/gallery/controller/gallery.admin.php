@@ -47,7 +47,7 @@ class Clansuite_Module_Gallery_Admin extends Clansuite_Module_Controller impleme
 {
     public function initializeModule(Clansuite_HttpRequest $request, Clansuite_HttpResponse $response)
     {
-		parent::initModel('gallery');
+        parent::initModel('gallery');
     }
 
     public function action_admin_show()
@@ -84,26 +84,26 @@ class Clansuite_Module_Gallery_Admin extends Clansuite_Module_Controller impleme
 
     public function action_admin_create_album()
     {
-    	# Set Pagetitle and Breadcrumbs
+        # Set Pagetitle and Breadcrumbs
         Clansuite_Breadcrumb::add( _('Create Album'), '/index.php?mod=gallery&amp;sub=admin&amp;action=create_album');
 
         # Get Render Engine
         $view = $this->getView();
 
-       	# instantiate Clansuite_HttpRequest object
-    	$request = $this->getHttpRequest();
+           # instantiate Clansuite_HttpRequest object
+        $request = $this->getHttpRequest();
 
-    	# get valid $_POST params
-    	$album['name'] 			= $request->getParameter('album_name');
-    	$album['description']	= $request->getParameter('album_description');
-        $album['position'] 		= $request->getParameter('album_position');
-        $album['thumb']			= $request->getParameter('album_thumb');
+        # get valid $_POST params
+        $album['name']             = $request->getParameter('album_name');
+        $album['description']    = $request->getParameter('album_description');
+        $album['position']         = $request->getParameter('album_position');
+        $album['thumb']            = $request->getParameter('album_thumb');
 
         # create new gallery album - return int
         $id = CsGalleryAlbum::createNewAlbum($album);
 
         # assign result to smarty
-       	$view->assign('id', $id);
+           $view->assign('id', $id);
 
         # Set Layout Template
         $this->getView()->setLayoutTemplate('index.tpl');
@@ -116,20 +116,20 @@ class Clansuite_Module_Gallery_Admin extends Clansuite_Module_Controller impleme
     
     public function action_admin_update_album()
     {
-    	# set pagetitle and breadcrumbs
+        # set pagetitle and breadcrumbs
         Clansuite_Breadcrumb::add( _('Update Album'), '/index.php?mod=gallery&amp;sub=admin&amp;action=update_album');
 
         # get render engine
         $view = $this->getView();
 
-		# instantiate Clansuite_HttpRequest object
-    	$id = $this->getHttpRequest()->getParameterFromGet('id');
+        # instantiate Clansuite_HttpRequest object
+        $id = $this->getHttpRequest()->getParameterFromGet('id');
 
-    	# get all album fields of given $id - return array
+        # get all album fields of given $id - return array
         $album = CsGalleryAlbum::getAlbumById($id);
 
         # assign result to smarty
-       	$view->assign('album', $album);
+           $view->assign('album', $album);
 
         # set layout template
         $this->getView()->setLayoutTemplate('index.tpl');

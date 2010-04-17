@@ -111,7 +111,7 @@ class Clansuite_Doctrine
     private function doctrine_initialize()
     {
         # prevent redeclaration
-        if (!class_exists('Doctrine',false))
+        if (false === class_exists('Doctrine',false))
         {
             $doctrine_compiled = ROOT_LIBRARIES . 'doctrine'.DS.'Doctrine.compiled.php';
 

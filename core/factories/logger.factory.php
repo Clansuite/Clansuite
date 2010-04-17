@@ -53,7 +53,7 @@ class Clansuite_Logger_Factory
             if (is_file($file) != 0)
             {
                 $class = 'logger_'. $logger_type;
-                if( !class_exists($class,false) ) { require($file); }
+                if( false === class_exists($class,false) ) { include$file); }
                 
                 if (class_exists($class,false))
                 {

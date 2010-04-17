@@ -61,7 +61,7 @@ class Clansuite_Module_Games_Admin extends Clansuite_Module_Controller implement
 
         $this->prepareOutput();
     }
-	
+    
     public function action_admin_settings()
     {
         # Set Pagetitle and Breadcrumbs

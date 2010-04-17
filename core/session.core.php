@@ -87,28 +87,28 @@ class Clansuite_Session implements Clansuite_Session_Interface, ArrayAccess
         /**
          * Configure Session
          */
-        ini_set('session.name'              , self::session_name );
-        ini_set('session.save_handler'      , 'user');
+        ini_set('session.name', self::session_name );
+        ini_set('session.save_handler', 'user');
 
         /**
          * Configure Garbage Collector
          * This will call the GC in 10% of the requests.
          * Calculation : gc_probability/gc_divisor = 1/10 = 0,1 = 10%
          */
-        ini_set('session.gc_maxlifetime'    , $this->config['session']['session_expire_time']);
-        ini_set('session.gc_probability'    , 1 );
-        ini_set('session.gc_divisor'        , 10 );
+        ini_set('session.gc_maxlifetime', $this->config['session']['session_expire_time']);
+        ini_set('session.gc_probability', 1 );
+        ini_set('session.gc_divisor', 10 );
 
         # use_trans_sid off -> because spiders will index with PHPSESSID
         # use_trans_sid on  -> considered evil
-        ini_set('session.use_trans_sid'     , 0 );
+        ini_set('session.use_trans_sid', 0 );
 
         # @todo check if there is a problem with rewriting
         #ini_set('url_rewriter.tags'         , "a=href,area=href,frame=src,form=,formfieldset=");
 
         # use a cookie to store the session id
-        ini_set('session.use_cookies'       , $this->config['session']['use_cookies'] );
-        ini_set('session.use_only_cookies'  , $this->config['session']['use_cookies_only'] );
+        ini_set('session.use_cookies', $this->config['session']['use_cookies'] );
+        ini_set('session.use_only_cookies', $this->config['session']['use_cookies_only'] );
 
         # Setup the custom session handler methods
         session_set_save_handler(   array($this, "session_open"   ),
@@ -120,7 +120,7 @@ class Clansuite_Session implements Clansuite_Session_Interface, ArrayAccess
                                  );
 
         # Create new ID, if session string-lenght corrupted OR not initiated already OR application token missing
-        if (  strlen(session_id()) != 32 or !isset($_SESSION['initiated']) or ((string)$_SESSION['application'] != 'CS-'.CLANSUITE_REVISION))
+        if (  strlen(session_id()) != 32 or !isset($_SESSION['initiated']) or ((string) $_SESSION['application'] != 'CS-'.CLANSUITE_REVISION))
         {
             # Make a new session_id and destroy old session
             # from PHP 5.1 on , if set to true, it will force the session extension to remove the old session on an id change

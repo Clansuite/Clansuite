@@ -74,9 +74,9 @@ class Teamspeak3_ServerQueryCommand_serverinfo extends Clansuite_Teamspeak3_Serv
     public function serverinfo()
     {
         if($this->selectedVirtualServer() == false)
-    	{
-    	    return false;
-    	}
+        {
+            return false;
+        }
 
         return $this->toArray($this->serverQuery("serverinfo"));
     }

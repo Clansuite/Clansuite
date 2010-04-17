@@ -57,7 +57,7 @@ class Clansuite_Module_Guestbook_Admin extends Clansuite_Module_Controller imple
         $resultsPerPage = (int) $this->getConfigValue('resultsPerPage_adminshow', '10');
 
         // SmartyColumnSort -- Easy sorting of html table columns.
-        require( ROOT_LIBRARIES . '/smarty/libs/SmartyColumnSort.class.php');
+        include ROOT_LIBRARIES . '/smarty/libs/SmartyColumnSort.class.php');
         // A list of database columns to use in the table.
         $columns = array( 'gb_id', 'gb_added', 'gb_nick', 'gb_email', 'gb_icq', 'gb_website', 'gb_town', 'gb_text', 'gb_admincomment', 'gb_ip');
         // Create the columnsort object
@@ -136,7 +136,7 @@ class Clansuite_Module_Guestbook_Admin extends Clansuite_Module_Controller imple
         $form->addElement('selectcountry');
         $form->addElement('selectyesno');
 */
-		$form->setDecorator('fieldset')->setLegend('Testform');
+        $form->setDecorator('fieldset')->setLegend('Testform');
 
         $form->addElement('text')->setLabel('text label')->setDescription('description');
         #$form->setElementDecorator('label');
@@ -364,7 +364,7 @@ class Clansuite_Module_Guestbook_Admin extends Clansuite_Module_Controller imple
                                         'action' => WWW_ROOT.'/index.php?mod=guestbook&amp;sub=admin&amp;action=settings_update');
 
         $settings['guestbook'][] = array(
-										'id' => 'guestbook_resultsPerPage',
+                                        'id' => 'guestbook_resultsPerPage',
                                         'name' => 'guestbook_resultsPerPage',
                                         'description' => _('Guestbook Items'),
                                         'formfieldtype' => 'text',

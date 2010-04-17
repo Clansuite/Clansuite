@@ -49,7 +49,7 @@ class Clansuite_Module_Teamspeakviewer extends Clansuite_Module_Controller imple
     public function initializeModule(Clansuite_HttpRequest $request, Clansuite_HttpResponse $response)
     {
         # load library / init libacts2
-        require( ROOT_LIBRARIES . 'libacts2/Absurd.php');
+        include ROOT_LIBRARIES . 'libacts2/Absurd.php');
     }
 
     public function action_show()
