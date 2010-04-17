@@ -22,7 +22,7 @@ if (class_exists('PHP_CodeSniffer_Standards_CodingStandard', true) === false) {
  * @link http://pear.php.net/manual/de/package.php.php-codesniffer.coding-standard-class.php
  *
  * 2. Available Sniffs
- * @link http://pear.php.net/reference/PHP_CodeSniffer-0.6.0/li_PHP_CodeSniffer.html
+ * @link http://pear.php.net/package/PHP_CodeSniffer/docs/latest/
  *
  * @category   Clansuite
  * @package    BuildTools
@@ -43,7 +43,7 @@ class PHP_CodeSniffer_Standards_Clansuite_ClansuiteCodingStandard extends PHP_Co
     {
         return array(
               # Files
-                     'Generic/Sniffs/Files/LineEndingsSniff.php',
+                     #'Generic/Sniffs/Files/LineEndingsSniff.php',
                      'PEAR/Sniffs/Files/IncludingFileSniff.php',
 
               # Formatting
@@ -56,17 +56,30 @@ class PHP_CodeSniffer_Standards_Clansuite_ClansuiteCodingStandard extends PHP_Co
                      'Generic/Sniffs/Functions/OpeningFunctionBraceBsdAllmanSniff.php',
                      //'PEAR/Sniffs/Functions/ValidDefaultValueSniff.php',
 
+                     # lowercased function names
                      'Squiz/Sniffs/PHP/LowercasePHPFunctionsSniff.php',
+
+                     # One Line - one statement
+                     'Generic/Sniffs/Formatting/DisallowMultipleStatementsSniff.php',
+
+                     # Detects unnecessary overriden methods that simply call their parent.
+                     'Generic/Sniffs/CodeAnalysis/UselessOverridingMethodSniff.php',
 
               # Classes
                      'Squiz/Sniffs/Classes/LowercaseClassKeywordsSniff.php',
                      'Squiz/Sniffs/Classes/SelfMemberReferenceSniff.php',
 
+                # Constructor
+
+                     # enforce PHP 5 constructor syntax "function __construct()"
+                     'Generic/Sniffs/NamingConventions/ConstructorNameSniff.php',
+
+
               # PHP
                      'Generic/Sniffs/PHP/NoSilencedErrorsSniff.php',
 
                      # Checks that all uses of true, false and null are lowerrcase.
-                     'Generic/Sniffs/PHP/LowerCaseConstantSniff.php'
+                     'Generic/Sniffs/PHP/LowerCaseConstantSniff.php',
                      # Stops the usage of the "global" keyword.
                      'Squiz/Sniffs/PHP/GlobalKeywordSniff.php',
 
@@ -74,7 +87,12 @@ class PHP_CodeSniffer_Standards_Clansuite_ClansuiteCodingStandard extends PHP_Co
                      'Squiz/Sniffs/PHP/EvalSniff.php',
 
                      # Makes sure that shorthand PHP open tags are not used.
-                     'Generic/Sniffs/PHP/DisallowShortOpenTagSniff',
+                     'Generic/Sniffs/PHP/DisallowShortOpenTagSniff.php',
+
+                     'Generic/Sniffs/CodeAnalysis/EmptyStatementSniff.php',
+
+                     # Detects for-loops that use a function call in the test expression.
+                     'Generic/Sniffs/CodeAnalysis/ForLoopWithTestFunctionCallSniff.php',
 
               # WhiteSpace
                      //'Squiz/Sniffs/WhiteSpace/',
@@ -103,7 +121,7 @@ class PHP_CodeSniffer_Standards_Clansuite_ClansuiteCodingStandard extends PHP_Co
 
               # Naming Conventions
                     # Ensures class and interface names start with a capital letter and use _ separators.
-                    'PEAR/Sniffs/NamingConventions/ValidClassNameSniff',
+                    'PEAR/Sniffs/NamingConventions/ValidClassNameSniff.php',
                    );
 
     }
