@@ -78,7 +78,7 @@ if (defined('IN_CS') == false){ die( 'Clansuite not loaded. Direct Access forbid
                             <li>
                                 <label class="formularleft" for="db_create_database"><?php echo $language['DB_CREATE_DATABASE']; ?></label>
                                 <input class="formularright" type="checkbox" id="db_create_database" name="config[database][db_create_database]"
-                                <? if($values['db_create_database'] == '1') { ?> checked="checked" <? } ?> />
+                                <?php if($values['db_create_database'] == '1') { ?> checked="checked" <?php } ?> />
                             </li>
                             <li>
                                 <label class="formularleft" for="db_prefix"><?php echo $language['DB_PREFIX']; ?></label>

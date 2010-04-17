@@ -46,7 +46,7 @@ if (defined('IN_CS') == false){ die( 'Clansuite not loaded. Direct Access forbid
                             </select>
                         </li>
                         <li>
-                            <? # timezone detection fucntion ?>
+                            <?php # timezone detection fucntion ?>
                             <label class="formularleft" for="timezone"><?php echo $language['STEP5_CONFIG_TIMEZONE']; ?></label>
                             <select class="formularright" id="timezone" name="config[language][timezone]" class="form">
                                 <option value="-36000">UTC -10 Hawaii</option>
