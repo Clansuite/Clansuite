@@ -355,7 +355,7 @@
               dir="${base}" />
     </target>
 
-    <target name="phpcpd" description="Detects copy and pasted codesegements.">>
+    <target name="phpcpd" description="Detects copy and pasted codesegements.">
         <echo msg="PHP Copy'n'Paste detection." />
         <exec command="phpcpd --log-pmd ${builddir}/logs/phpcpd.xml --suffixes php --exclude ${ignorepaths} ${sourcedir}" escape="false" />
     </target>
@@ -365,7 +365,7 @@
         <exec command="phpmd ${sourcedir} xml codesize --reportfile ${builddir}/logs/pmd.xml --ignore ${ignorepaths}" escape="false" />
     </target>
     
-    <target name="pdepend" description="Creates Dependency Metrics">>
+    <target name="pdepend" description="Creates Dependency Metrics">
         <echo msg="PHP_Depend creates dependency metrics." />
         <exec command="pdepend --jdepend-xml=${builddir}/logs/jdepend.xml
                                --jdepend-chart=${builddir}/logs/jdepend.png
@@ -383,14 +383,14 @@
     </target>
 
     <!-- bootstrap=${project}/test/bootstrap.php  -->
-    <target name="phpunit" description="Performs unit-tests and coverage analysis. Creates 2 log files: the test log and the coverage log.">>
+    <target name="phpunit" description="Performs unit-tests and coverage analysis. Creates 2 log files: the test log and the coverage log.">
         <echo msg="PHPUnit performs unit-tests and coverage analysis." />
         <exec command="phpunit --log-junit ${builddir}/logs/phpunit.xml
                                --coverage-clover ${builddir}/coverage/clover.xml
                                --coverage-html ${builddir}/coverage/ ${sourcedir}/tests"/>
     </target>
 
-    <target name="phpcb" description="PHP_Codebrowser builds a HTML Representation out of the Code-Violations.">>
+    <target name="phpcb" description="PHP_Codebrowser builds a HTML Representation out of the Code-Violations.">
         <echo msg="PHP_Codebrowser builds a HTML Representation out of the Code-Violations." />
         <exec command="phpcb --log ${builddir}/logs --output ${builddir}/phpcb" />
     </target>
@@ -410,7 +410,7 @@
     </target>
 
     <!-- Hudson Task -->
-    <target name="phpdoc" description="Generates the API Documentation using PHPDocumentor">>
+    <target name="phpdoc" description="Generates the API Documentation using PHPDocumentor">
          <echo>Generates the API documentation using PHPDocumentor</echo>
         <exec command="phpdoc --directory ${sourcedir} --ignore libraries/* --target ${builddir}/docs" escape="false" />
     </target>
