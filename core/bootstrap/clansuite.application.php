@@ -75,35 +75,35 @@ class Clansuite_CMS
          */
         define('STARTTIME', microtime(1));
 
-        Clansuite_CMS::initialize_Config();
+        self::initialize_Config();
 
-        Clansuite_CMS::perform_startup_checks();
+        self::perform_startup_checks();
 
-        Clansuite_CMS::initialize_Paths();
+        self::initialize_Paths();
 
-        Clansuite_CMS::initialize_Debug();
+        self::initialize_Debug();
 
-        Clansuite_CMS::initialize_Version();
+        self::initialize_Version();
 
-        Clansuite_CMS::initialize_Locale();
+        self::initialize_Locale();
 
-        Clansuite_CMS::initialize_Loader();
+        self::initialize_Loader();
 
-        Clansuite_CMS::initialize_Eventdispatcher();
+        self::initialize_Eventdispatcher();
 
-        Clansuite_CMS::initialize_Errorhandling();
+        self::initialize_Errorhandling();
 
-        Clansuite_CMS::initialize_DependecyInjection();
+        self::initialize_DependecyInjection();
 
-        Clansuite_CMS::register_DI_Core();
+        self::register_DI_Core();
 
-        Clansuite_CMS::register_DI_Filters();
+        self::register_DI_Filters();
 
-        Clansuite_CMS::start_Session();
+        self::start_Session();
 
-        Clansuite_CMS::execute_Frontcontroller();
+        self::execute_Frontcontroller();
 
-        Clansuite_CMS::shutdown_and_exit();
+        self::shutdown_and_exit();
     }
 
     /**
@@ -658,7 +658,7 @@ class Clansuite_CMS
      */
     public static function shutdown_and_exit()
     {
-        Clansuite_CMS::triggerEvent('onApplicationShutdown');
+        self::triggerEvent('onApplicationShutdown');
 
         if(DEBUG == true)
         {
