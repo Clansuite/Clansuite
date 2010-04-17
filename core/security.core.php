@@ -185,12 +185,12 @@ class Clansuite_Security
             switch($hash_algo)
             {
                 case 'md5':
-                                return md5($string);
-                                break;
+                    return md5($string);
+                    break;
                 default:
                 case 'sha1':
-                                return sha1($string);
-                                break;
+                    return sha1($string);
+                    break;
             }
         }
     }
@@ -209,7 +209,7 @@ class Clansuite_Security
         $salt = '';
         # seed the randoms generator with microseconds since last "whole" second
         # @todo this is considered a week seeding, as of php5.3 with ext/openssl use openssl_random_pseudo_bytes()
-        mt_srand((double)microtime()*1000000);
+        mt_srand((double) microtime()*1000000);
         # set up the random chars to choose from
         $chars = "./0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
         # count the number of random_chars
