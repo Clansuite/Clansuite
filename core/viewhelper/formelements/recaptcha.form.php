@@ -75,7 +75,7 @@ class Clansuite_Formelement_ReCaptcha extends Clansuite_Formelement_Captcha impl
         $this->request = Clansuite_CMS::getInjector()->instantiate('Clansuite_HttpRequest');
 
         # Load Recaptcha Library
-        require_once( ROOT_LIBRARIES . 'recaptcha/recaptchalib.php' );
+        include_once ROOT_LIBRARIES . 'recaptcha/recaptchalib.php';
 
         /**
          * Fetch publickey from config

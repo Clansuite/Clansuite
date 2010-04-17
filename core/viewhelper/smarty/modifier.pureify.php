@@ -31,9 +31,9 @@ function smarty_modifier_purify($string)
      */
     static $purifier;
     
-    if (isset($purifier) == false or class_exists('HTMLPurifier', false) == false)
+    if (isset($purifier) == false or class_exists('HTMLPurifier', false) === false)
     {
-        require ROOT_LIBRARIES . '/IDS/vendors/htmlpurifier/HTMLPurifier.php';
+        include ROOT_LIBRARIES . '/IDS/vendors/htmlpurifier/HTMLPurifier.php';
         
         $config = HTMLPurifier_Config::createDefault();        
         $config->set('Core.Encoding', 'ISO-8859-1');

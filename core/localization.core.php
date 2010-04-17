@@ -50,12 +50,12 @@ class Clansuite_Localization
 {
     # Locale Variables
     public  $locale    = null;
-    
+
     /**
      * @var Set Locale Defaults: the textdomain. 'clansuite' => 'clansuite.mo' filename
-     */        
+     */
     private $domain    = null;
-    
+
     /**
      * @var Sets Encoding.
      */
@@ -97,9 +97,9 @@ class Clansuite_Localization
          * @link https://savannah.nongnu.org/projects/php-gettext PHP-GETTEXT Library
          * @link http://www.gnu.org/software/gettext/manual/gettext.html GNU Gettext
          */
-        if ( function_exists('_get_reader') == false )
+        if ( function_exists('_get_reader') === false )
         {
-            require ROOT_LIBRARIES . '/php-gettext/gettext.inc' ;
+            include ROOT_LIBRARIES . '/php-gettext/gettext.inc' ;
         }
 
         # Load Clansuite Domain
@@ -125,13 +125,13 @@ class Clansuite_Localization
         {
             $this->locale = $this->getLanguage();
             $_SESSION['user']['language'] = $this->locale;
-        
+
             if(empty($this->locale)) # 3) get the default language from config as fallback
             {
                 $this->locale = $this->config['language']['language'];
             }
         }
-        
+
         return $this->locale;
     }
 
@@ -153,7 +153,7 @@ class Clansuite_Localization
     {
         # if, $locale string is not over 3 -> $locale = "en", build "en_EN"
         if( isset($locale{3}) == false )
-        { 
+        {
             $locale = strtolower($locale) . '_' . strtoupper($locale);
         }
 
@@ -161,13 +161,13 @@ class Clansuite_Localization
         putenv("LANGUAGE=$locale");
         putenv('LANG='.$locale);
         setlocale(LC_ALL, $locale);
-        
-        # workaround for php on windows, to set LC_MESSAGES 
+
+        # workaround for php on windows, to set LC_MESSAGES
         if ( defined('LC_MESSAGES') == false)
         {
             define('LC_MESSAGES', 5);
-        } 
-        
+        }
+
         T_setlocale(LC_MESSAGES, $locale);
         #T_setlocale(LC_ALL, $language);                          # LC_ALL disabled, because possible damage of sql queries
         #T_setlocale(LC_TIME, $locale . '.UTF8', $locale);        # LC_TIME not figured out yet
@@ -262,7 +262,7 @@ class Clansuite_Localization
 
         # convert the headers string to an array
         $browserLanguagesSize = sizeof( $browserLanguages );
-        
+
         for ( $i = 0; $i < $browserLanguagesSize; $i++ )
         {
             # explode string at ;

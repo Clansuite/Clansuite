@@ -14,7 +14,7 @@
  * Contributors: vain
  */
 
-class language implements ArrayAccess
+class Language implements ArrayAccess
 {
     private $language = array();
 

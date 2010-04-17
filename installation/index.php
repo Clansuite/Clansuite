@@ -114,7 +114,10 @@ $error = '';
 #      SELF DELETION
 #========================
 
-if(isset($_GET['delete_installation'])) { deleteInstallationFolder(); }
+if(isset($_GET['delete_installation']))
+{ 
+    deleteInstallationFolder();
+}
 
 
 #================================

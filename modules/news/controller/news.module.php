@@ -175,9 +175,9 @@ class Clansuite_Module_News extends Clansuite_Module_Controller implements Clans
     public function action_getFeed()
     {
         # Require Feedcreator Class
-        if(false === class_exists('UniversalFeedCreator'))
+        if(false === class_exists('UniversalFeedCreator', false))
         {
-            require ROOT_LIBRARIES . 'feedcreator/feedcreator.class.php';
+            include ROOT_LIBRARIES . 'feedcreator/feedcreator.class.php';
         }
 
         /**

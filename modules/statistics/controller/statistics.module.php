@@ -80,7 +80,7 @@ class Clansuite_Module_Statistics extends Clansuite_Module_Controller implements
          * Number of online users (equals sessions number)
          */
         $sessions_online = 0;
-        $sessions_online = Doctrine :: getTable('CsStatistic')->countVisitorsOnline($this->getConfigValue('timoutWho', '5'));
+        $sessions_online = Doctrine::getTable('CsStatistic')->countVisitorsOnline($this->getConfigValue('timoutWho', '5'));
         $stats['online'] = $sessions_online;
 
         /**

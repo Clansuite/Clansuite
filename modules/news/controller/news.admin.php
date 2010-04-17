@@ -73,7 +73,8 @@ class Clansuite_Module_News_Admin extends Clansuite_Module_Controller implements
         // Datagrid configuration
         //--------------------------
 
-        require ROOT_CORE . DS . "viewhelper" . DS . "Datagrid.core.php";
+        include ROOT_CORE . DS . "viewhelper" . DS . "Datagrid.core.php";
+        
         $ColumnSets = array();
 
         $ColumnSets[] = array(  'Alias'     => 'Select',
@@ -204,7 +205,7 @@ class Clansuite_Module_News_Admin extends Clansuite_Module_Controller implements
     public function action_admin_add()
     {
         # Load Form Class
-        require ROOT_CORE . 'viewhelper/form.core.php';
+        include ROOT_CORE . 'viewhelper/form.core.php';
 
         # Create a new form
         $form = new Clansuite_Form('news_form', 'post', 'index.php?mod=news&sub=admin&action=update&type=create');
@@ -246,7 +247,7 @@ class Clansuite_Module_News_Admin extends Clansuite_Module_Controller implements
         $news = Doctrine::getTable('CsNews')->fetchSingleNews($news_id);
 
         # Load Form Class
-        require ROOT_CORE . 'viewhelper/form.core.php';
+        include ROOT_CORE . 'viewhelper/form.core.php';
 
         # Create a new form
         $form = new Clansuite_Form('news_form', 'post', 'index.php?mod=news&sub=admin&action=update&type=edit');
@@ -430,7 +431,7 @@ class Clansuite_Module_News_Admin extends Clansuite_Module_Controller implements
                                         'value' => $this->getConfigValue('feed_items', '10'));
 
         # fetch the formgenerator
-        require ROOT_CORE . '/viewhelper/formgenerator.core.php';
+        include ROOT_CORE . '/viewhelper/formgenerator.core.php';
 
         # fill the settings array into the formgenerator
         $form = new Clansuite_Array_Formgenerator($settings);

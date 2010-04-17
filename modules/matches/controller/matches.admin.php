@@ -104,7 +104,7 @@ class Clansuite_Module_Matches_Admin extends Clansuite_Module_Controller impleme
                                         'formfieldtype' => 'text',
                                         'value' => $this->getConfigValue('widget_nextmatches', '5'));
         
-        require ROOT_CORE . '/viewhelper/formgenerator.core.php';
+        include ROOT_CORE . '/viewhelper/formgenerator.core.php';
         $form = new Clansuite_Array_Formgenerator($settings);
 
         # display formgenerator object

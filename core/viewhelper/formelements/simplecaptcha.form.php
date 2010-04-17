@@ -54,7 +54,7 @@ class Clansuite_Formelement_SimpleCaptcha extends Clansuite_Formelement_Captcha 
     public function __construct()
     {
         # Load Recaptcha Library
-        # require_once( ROOT_LIBRARIES ... );
+        # include_once ROOT_LIBRARIES . 'xz.php' ;
     }
 
     /**

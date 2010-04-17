@@ -285,7 +285,7 @@ class WebInstaller {
             global $folderPermissionList;
             if (in_array($folderPermissions, $folderPermissionList))
             {
-                $folderPermissions = (string)('0' . (int) $folderPermissions);
+                $folderPermissions = (string) ('0' . (int) $folderPermissions);
                 $success = @chmod($folderName, octdec($folderPermissions));
                 if (!$success)
                 {

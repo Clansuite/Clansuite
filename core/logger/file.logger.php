@@ -36,7 +36,10 @@
 # Security Handler
 if (defined('IN_CS') == false) { die('Clansuite not loaded. Direct Access forbidden.'); }
 
-if(!interface_exists('Clansuite_Logger_Interface', false)) { require ROOT_CORE . 'logger.core.php'; }
+if( false === interface_exists('Clansuite_Logger_Interface', false))
+{ 
+    include ROOT_CORE . 'logger.core.php';
+}
 
 /**
  * Clansuite Core File - Clansuite_Logger_File
