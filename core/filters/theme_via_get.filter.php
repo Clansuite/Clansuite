@@ -70,9 +70,9 @@ class Clansuite_Filter_theme_via_get implements Clansuite_Filter_Interface
                 #@todo debug traceing message
                 #echo 'processing themefilter';
 
-            	# Security Handler for $_GET['theme']
-            	// Allowed Chars: abc, 0-9, underscore
-            	if( !$this->input->check( $request['theme'], 'is_abc|is_int|is_custom', '_' ) )
+                # Security Handler for $_GET['theme']
+                // Allowed Chars: abc, 0-9, underscore
+                if( !$this->input->check( $request['theme'], 'is_abc|is_int|is_custom', '_' ) )
                 {
                     // @todo umstellen auf thrown Exception
                     $this->input->display_intrusion_warning();

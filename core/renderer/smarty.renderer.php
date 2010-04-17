@@ -37,7 +37,10 @@
 if (defined('IN_CS') == false) { die('Clansuite not loaded. Direct Access forbidden.'); }
 
 # Load Clansuite_Renderer_Base
-if( !class_exists('Clansuite_Renderer_Base',false) ) { require dirname(__FILE__) . '/renderer.base.php'; };
+if(false === class_exists('Clansuite_Renderer_Base',false) )
+{ 
+    include dirname(__FILE__) . '/renderer.base.php';
+}
 
 /**
  * Clansuite View Class - View for Smarty Templates

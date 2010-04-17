@@ -66,15 +66,15 @@ class Clansuite_Formelement_Wysiwygtinymce extends Clansuite_Formelement_Textare
         # b) handler to attach tinymce to a textarea named "mceSimple" and "mceAdvanced"
         $javascript .= "<script type=\"text/javascript\">// <![CDATA[
                             tinyMCE.init({
-                            	mode : \"textareas\",
-                            	theme : \"simple\",
-                            	editor_selector : \"mceSimple\"
+                                mode : \"textareas\",
+                                theme : \"simple\",
+                                editor_selector : \"mceSimple\"
                             });
 
                             tinyMCE.init({
-                            	mode : \"textareas\",
-                            	theme : \"advanced\",
-                            	editor_selector : \"mceAdvanced\"
+                                mode : \"textareas\",
+                                theme : \"advanced\",
+                                editor_selector : \"mceAdvanced\"
                             });
                         // ]]></script>";
 

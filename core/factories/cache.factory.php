@@ -78,30 +78,30 @@ class Clansuite_Cache_Factory
     {
         try
         {
-			$file = ROOT_CORE .'/cache/'. strtolower($cache_type) .'.cache.php';
-        	if (is_file($file) != 0)
-			{
+            $file = ROOT_CORE .'/cache/'. strtolower($cache_type) .'.cache.php';
+            if (is_file($file) != 0)
+            {
                 $class = 'Clansuite_Cache_'. $cache_type;
-				if( !class_exists($class,false) ) { require($file); }
+                if( !class_exists($class,false) ) { require($file); }
 
-	            if (class_exists($class,false))
-	            {
-	                # instantiate and return the renderer and pass $injector into
-	                $cache = new $class($injector);
-	                # var_dump($Cache);
-	                return $cache;
-	            }
-	            else
-	            {
-	            	 throw new CacheFactoryClassNotFoundException($class);
-	            }
-	        }
-			else
-			{
-				throw new CacheFactoryFileNotFoundException($file);
-	        }
-	    }
-		catch(Exception $e){}
+                if (class_exists($class,false))
+                {
+                    # instantiate and return the renderer and pass $injector into
+                    $cache = new $class($injector);
+                    # var_dump($Cache);
+                    return $cache;
+                }
+                else
+                {
+                     throw new CacheFactoryClassNotFoundException($class);
+                }
+            }
+            else
+            {
+                throw new CacheFactoryFileNotFoundException($file);
+            }
+        }
+        catch(Exception $e){}
     }
 }
 
@@ -114,12 +114,12 @@ class Clansuite_Cache_Factory
  */
 class CacheFactoryClassNotFoundException extends Exception
 {
-	function __construct($class)
-	{
-		parent::__construct();
-	  	echo 'Cache_Factory -> Class not found: ' . $class;
-	  	die();
-	}
+    function __construct($class)
+    {
+        parent::__construct();
+          echo 'Cache_Factory -> Class not found: ' . $class;
+          die();
+    }
 }
 
 /**
@@ -131,11 +131,11 @@ class CacheFactoryClassNotFoundException extends Exception
  */
 class CacheFactoryFileNotFoundException extends Exception
 {
-	function __construct($file)
-	{
-		parent::__construct();
-		echo 'Cache_Factory -> File not found: ' . $file;
-		die();
-	}
+    function __construct($file)
+    {
+        parent::__construct();
+        echo 'Cache_Factory -> File not found: ' . $file;
+        die();
+    }
 }
 ?>

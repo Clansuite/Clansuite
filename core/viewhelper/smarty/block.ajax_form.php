@@ -31,7 +31,7 @@ function smarty_block_ajax_form($params, $content, $smarty, &$repeat)
     $url = isset($params['url']) ? $params['url'] : $_SERVER['PHP_SELF'];
     $method = isset($params['method']) ? $params['method'] : 'get';
     $parameters = isset($params['params']) ? $params['params'] : '';
-	$onsubmit = isset($params['onsubmit']) ? $params['onsubmit'] : '';
+    $onsubmit = isset($params['onsubmit']) ? $params['onsubmit'] : '';
 
     return '<form method="' . $method . '" action="' . $url .
       '" onsubmit="' . $onsubmit . ';SmartyAjax.submit(this, \'' . $parameters . '\'' .

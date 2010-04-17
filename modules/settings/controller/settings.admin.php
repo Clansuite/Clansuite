@@ -70,11 +70,32 @@ class Clansuite_Module_Settings_Admin extends Clansuite_Module_Controller implem
         # Assign Config to Smarty
         $view->assign('config', $config);
 
-        # Set Admin Layout Template
-        $view->setLayoutTemplate('index.tpl');
-
         # Specifiy the template manually
         $this->setTemplate('settings.tpl');
+
+        $this->prepareOutput();
+    }
+
+    /**
+     * action_settings_easylist
+     */
+    public function action_admin_easylist()
+    {
+        # Get Render Engine
+        $view = $this->getView();
+
+        # Get Configuration from Injector
+        $config = $this->getClansuiteConfig();
+
+        # Assign array with all cache adapters to smarty
+        $cache_adapters = array('apc', 'memcached', 'xcache', 'eaccelerator', 'file-based');
+        $view->assign('cache_adapters', $cache_adapters);
+
+        $timezones = array('Berlin', 'Rio');
+        $view->assign('timezones', $timezones);
+
+        # Assign Config to Smarty
+        $view->assign('config', $config);
 
         $this->prepareOutput();
     }

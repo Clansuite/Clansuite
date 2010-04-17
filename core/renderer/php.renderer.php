@@ -53,49 +53,49 @@ require dirname(__FILE__) . '/renderer.base.php';
 class Clansuite_Renderer_Php extends Clansuite_Renderer_Base
 {
     private $file;
-	#private $template;
-	private $data = array();
+    #private $template;
+    private $data = array();
 
-	public function __construct($file, $data)
-	{
-		$this->file = $file;
-		$this->data = $data;
-		
-		return $this;
-	}
-	
-	public function fetch($filename = null, $directory = null)
-	{
-	    if(is_null($filename))
-	    {
-	        $file = $directory . DS . $filename . '.tpl';
-	    }
-	    else
-	    {
-	        $file = $this->file;   
-	    }
+    public function __construct($file, $data)
+    {
+        $this->file = $file;
+        $this->data = $data;
+        
+        return $this;
+    }
+    
+    public function fetch($filename = null, $directory = null)
+    {
+        if(is_null($filename))
+        {
+            $file = $directory . DS . $filename . '.tpl';
+        }
+        else
+        {
+            $file = $this->file;   
+        }
 
-	    if (is_file($file))
-	    {
-	        /**
-	         * extract all templatevariables
-	         * and do not overwrite an existing variable, if there is a collision
+        if (is_file($file))
+        {
+            /**
+             * extract all templatevariables
+             * and do not overwrite an existing variable, if there is a collision
              * just prefix them with invalid_
-	         */
-    		extract($this->data, EXTR_REFS | EXTR_PREFIX_INVALID, 'invalid_');
+             */
+            extract($this->data, EXTR_REFS | EXTR_PREFIX_INVALID, 'invalid_');
 
-    		ob_start();
-    		require $file;
-    		$content = ob_get_contents();
-    		ob_end_clean();
+            ob_start();
+            require $file;
+            $content = ob_get_contents();
+            ob_end_clean();
 
-    		return $content;
-		}
-		else
-		{
-			exit('Error: Template ' . $file . ' not found!');
-		}
-	}
+            return $content;
+        }
+        else
+        {
+            exit('Error: Template ' . $file . ' not found!');
+        }
+    }
 
     /**
      * Assign specific variable to the template
@@ -106,10 +106,10 @@ class Clansuite_Renderer_Php extends Clansuite_Renderer_Base
      */
     public function assign($key, $value=null)
     {
-		if ( is_object($key))
-		{
-		    $this->data[$key] = $value->fetch();
-		}
+        if ( is_object($key))
+        {
+            $this->data[$key] = $value->fetch();
+        }
         elseif (is_array($key))
         {
             array_merge($this->data, $key);

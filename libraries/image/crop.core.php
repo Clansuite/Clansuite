@@ -1,7 +1,8 @@
 <?php
-class Clansuite_Crop extends Clansuite_Image {
-	
-	public function __construct($config) {
+class Clansuite_Crop extends Clansuite_Image
+{	
+	public function __construct($config)
+	{
 		$this->startX 			= $config['start_x'];
 		$this->startY 			= $config['start_y'];
 		$this->newWidth 		= $config['width'];

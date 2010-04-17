@@ -14,8 +14,8 @@
  * @license GNU Public License (GPL) v2 or any later version
  * @version SVN $Id$
  *
- * Name:     	loadmodule
- * Type:     	function
+ * Name:         loadmodule
+ * Type:         function
  * Purpose: This TAG inserts the a certain module and its widget.
  *
  * Static Function to Call variable Methods from templates via

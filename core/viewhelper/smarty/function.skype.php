@@ -27,42 +27,42 @@
  * @param Smarty $smarty
  * @return string
  */
-function smarty_function_skype($params, &$smarty){
-
-    if(empty($params['username'])){
+function smarty_function_skype($params, &$smarty)
+{
+    if(empty($params['username']))
+    {
         $smarty->trigger_error("skype: missing skype parameter");
         return;
     }
 
-        $cUrl = curl_init();
-        curl_setopt($cUrl, CURLOPT_URL, 'http://mystatus.skype.com/'.$params['username'].'.num');
-        curl_setopt($cUrl, CURLOPT_RETURNTRANSFER, 1);
-        curl_setopt($cUrl, CURLOPT_TIMEOUT, 5);
+    $cUrl = curl_init();
+    curl_setopt($cUrl, CURLOPT_URL, 'http://mystatus.skype.com/'.$params['username'].'.num');
+    curl_setopt($cUrl, CURLOPT_RETURNTRANSFER, 1);
+    curl_setopt($cUrl, CURLOPT_TIMEOUT, 5);
 
-        $status_code = trim(curl_exec($cUrl));
-        curl_close($cUrl);
+    $status_code = trim(curl_exec($cUrl));
+    curl_close($cUrl);
 
-        $status_code = intval($status_code);
+    $status_code = intval($status_code);
 
-        switch ($status_code) {
-                case 0:
-                   return "unknown";
-                case 1:
-                        return "offline";
-                case 2:
-                        return "online";
-                case 3:
-                        return "away";
-                case 4:
-                        return "not_available";
-                case 5:
-                        return "do_not_disturb";
-                case 6:
-                        return "offline";
-                case 7:
-                        return "skype_me";
-        }
-
+    switch ($status_code)
+    {
+        case 0:
+            return "unknown";
+        case 1:
+            return "offline";
+        case 2:
+            return "online";
+        case 3:
+            return "away";
+        case 4:
+            return "not_available";
+        case 5:
+            return "do_not_disturb";
+        case 6:
+            return "offline";
+        case 7:
+            return "skype_me";
+    }
 }
-
 ?>

@@ -50,31 +50,34 @@ class Clansuite_Module_Account_Admin extends Clansuite_Module_Controller impleme
 		$this->getModuleConfig();
 	}
 
-	public function action_admin_editavatar()
+	public function action_admin_avatar_edit()
 	{
-		#var_dump($_REQUEST);
-
 		# Set Pagetitle and Breadcrumbs
 		Clansuite_Breadcrumb::add( _('Add Avatar'), '/index.php?mod=users&sub=admin&action=addavatar');
 
 		# Get Render Engine
 		$view = $this->getView();
 
-		if( is_file( ROOT_UPLOAD . 'images/avatars/avatar'.$_SESSION['user']['email'].'png') )
-		{
-			$avatar_image = ROOT_UPLOAD . 'images/avatars/avatar'.$_SESSION['user']['email'].'png';
-			$view->assign('avatar_image', $avatar_image);
-		}
+        $md5_email = md5($_SESSION['user']['email']);
+        $avatar_image = '';
 
-		# Set Admin Layout Template
-		$view->setLayoutTemplate('index.tpl');
+		if( is_file( ROOT_UPLOAD . 'images/avatars/avatar'.$md5_email.'png') )
+		{
+			$avatar_image = ROOT_UPLOAD . 'images/avatars/avatar'.$md5_email.'png';
+		}
+        else
+        {
+            $avatar_image = ROOT_UPLOAD . 'images/avatars/no_avatar.png';
+        }
+
+        $view->assign('avatar_image', $avatar_image);
 
 		$this->prepareOutput();
 	}
 
-	public function action_admin_deleteavatar()
+	public function action_admin_avatar_delete()
 	{
-        
+
 	}
 
 	public function action_admin_userpicture_edit()

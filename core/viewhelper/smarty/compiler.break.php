@@ -8,8 +8,8 @@
  * @license GNU Public License (GPL) v2 or any later version
  * @version SVN $Id$
  *
- * Name:     	break
- * Type:     	compiler
+ * Name:         break
+ * Type:         compiler
  * Purpose:     this TAG breaks foreach loops
  * Alternative: {php} break; {/php}
  *

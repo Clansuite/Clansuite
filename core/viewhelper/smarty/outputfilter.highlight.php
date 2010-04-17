@@ -28,73 +28,89 @@ if (strpos($_SERVER["SCRIPT_NAME"],basename(__FILE__)) !== false) {
  *           Referer parsing by mdavey
  * -------------------------------------------------------------
  */
- function smarty_outputfilter_highlight($source, $smarty) {
-    global $feature_referer_highlight;
+ function smarty_outputfilter_highlight($source, $smarty)
+ {
+     global $feature_referer_highlight;
 
-    $highlight = $_REQUEST['highlight'];
-    if(isset($feature_referer_highlight) && $feature_referer_highlight == 'y') {
-        $refererhi = _refererhi();
-        if(isset($refererhi) && !empty($refererhi)) {
-            if(isset($highlight) && !empty($highlight)) {
-                $highlight = $highlight." ".$refererhi;
-            } else {
-                $highlight = $refererhi;
-            }
-        }
-    }
-    if (!isset($highlight) || empty($highlight)) {
-                        return $source;
-    }
+     $highlight = $_REQUEST['highlight'];
 
-   $source = preg_replace_callback(
+     if(isset($feature_referer_highlight) && $feature_referer_highlight == 'y')
+     {
+         $refererhi = _refererhi();
+         if(isset($refererhi) && !empty($refererhi))
+         {
+             if(isset($highlight) && !empty($highlight))
+             {
+                 $highlight = $highlight." ".$refererhi;
+             } else
+             {
+                 $highlight = $refererhi;
+             }
+         }
+     }
+
+     if (!isset($highlight) || empty($highlight))
+     {
+         return $source;
+     }
+
+     $source = preg_replace_callback(
       '~(?:<head>.*?</head>                          # head blocks
       |<div[^>]*nohighlight.*?</div>\{\*nohighlight  # div with nohightlight
       |<script[^>]+>.*?</script>                     # script blocks
       |onmouseover=(?:"[^"]*"|\'[^\']*\')            # onmouseover (user popup)
       |<[^>]*?>                                      # all html tags
       |(' . _enlightColor($highlight) . '))~xsi',
-      '_enlightColor',  $source);
+             '_enlightColor',  $source);
 
-    return $source;
+     return $source;
  }
 
-function _enlightColor($matches) {
-    static $colword = array();
-    if (is_string($matches)) { // just to set the color array
-        // This array is used to choose colors for supplied highlight terms
-        $colorArr = array('#ffff66','#ff9999','#A0FFFF','#ff66ff','#99ff99');
+ function _enlightColor($matches)
+ {
+     static $colword = array();
+     if (is_string($matches))
+     { // just to set the color array
+         // This array is used to choose colors for supplied highlight terms
+         $colorArr = array('#ffff66','#ff9999','#A0FFFF','#ff66ff','#99ff99');
 
-        // Wrap all the highlight words with tags bolding them and changing
-        // their background colors
-        $i = 0;
-        $seaword = $seasep = '';
-        $wordArr = preg_split('~%20|\+|\s+~', $matches);
-        foreach($wordArr as $word) {
-		if ($word == '')
-			continue;
-            $seaword .= $seasep.preg_quote($word, '~');
-            $seasep ='|';
-            $colword[strtolower($word)] = $colorArr[$i%5];
-			$i++;
-        }
-        return $seaword;
-    }
-    // actual replacement callback
-    if (isset($matches[1])) {
-        return '<span style="color:black; background-color:'
-            . $colword[strtolower($matches[1])] . ';">' . $matches[1] . '</span>';
-    }
-    return $matches[0];
-}
+         // Wrap all the highlight words with tags bolding them and changing
+         // their background colors
+         $i = 0;
+         $seaword = $seasep = '';
+         $wordArr = preg_split('~%20|\+|\s+~', $matches);
+         foreach($wordArr as $word)
+         {
+             if ($word == '')
+                 continue;
+             $seaword .= $seasep.preg_quote($word, '~');
+             $seasep ='|';
+             $colword[strtolower($word)] = $colorArr[$i%5];
+             $i++;
+         }
+         return $seaword;
+     }
+     // actual replacement callback
+     if (isset($matches[1]))
+     {
+         return '<span style="color:black; background-color:'
+                 . $colword[strtolower($matches[1])] . ';">' . $matches[1] . '</span>';
+     }
+     return $matches[0];
+ }
 
  // helper function
  // q= for Google, p= for Yahoo
- function _refererhi() {
+ function _refererhi()
+ {
      $referer = parse_url($_SERVER['HTTP_REFERER']);
      parse_str($referer['query'],$vars);
-     if (isset($vars['q'])) {
+     if (isset($vars['q']))
+     {
          return $vars['q'];
-     } else if (isset($vars['p'])) {
+     }
+     else if (isset($vars['p']))
+     {
          return $vars['p'];
      }
  }

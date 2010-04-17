@@ -14,8 +14,8 @@
  * @license GNU General Public License v2 or any later version
  * @version SVN $Id$
  *
- * Name:     	tabpage
- * Type:     	function
+ * Name:         tabpage
+ * Type:         function
  * Purpose:     This TAG inserts a tabpage.
  *
  */
@@ -26,7 +26,7 @@ function smarty_block_tabpage($params, $content, $smarty, &$repeat)
     else
     {
         $smarty->trigger_error("Tabpage Name not set! Please add Parameter 'name=tabpagename'!");
-    	return;
+        return;
     }
 
     # Start TAB Page

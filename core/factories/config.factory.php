@@ -123,30 +123,30 @@ class Clansuite_Config_Factory
 
         try
         {
-			$file = ROOT_CORE .'config'.DS. strtolower($config_type) .'.config.php';
-        	if (is_file($file) != 0)
-			{
-	            $class = 'Clansuite_Config_'. strtoupper($config_type).'Handler';
+            $file = ROOT_CORE .'config'.DS. strtolower($config_type) .'.config.php';
+            if (is_file($file) != 0)
+            {
+                $class = 'Clansuite_Config_'. strtoupper($config_type).'Handler';
                 if( !class_exists($class,false) ) { require($file); }
 
-	            if (class_exists($class,false))
-	            {
-	                # instantiate and return the specific confighandler with the $configfile to read
-	                $config = new $class($configfile);
-	                #var_dump($config);
-	                return $config;
-	            }
-	            else
-	            {
-	            	 throw new ConfigFactoryClassNotFoundException($class);
-	            }
-	        }
-			else
-			{
-				throw new ConfigFactoryFileNotFoundException($file);
-	        }
-	    }
-		catch(Clansuite_Exception $e) {}
+                if (class_exists($class,false))
+                {
+                    # instantiate and return the specific confighandler with the $configfile to read
+                    $config = new $class($configfile);
+                    #var_dump($config);
+                    return $config;
+                }
+                else
+                {
+                     throw new ConfigFactoryClassNotFoundException($class);
+                }
+            }
+            else
+            {
+                throw new ConfigFactoryFileNotFoundException($file);
+            }
+        }
+        catch(Clansuite_Exception $e) {}
     }
 }
 
@@ -159,12 +159,12 @@ class Clansuite_Config_Factory
  */
 class ConfigFactoryClassNotFoundException extends Exception
 {
-	function __construct($class)
-	{
-		parent::__construct();
-	  	echo 'Cache_Factory -> Class not found: ' . $class;
-	  	die();
-	}
+    function __construct($class)
+    {
+        parent::__construct();
+          echo 'Cache_Factory -> Class not found: ' . $class;
+          die();
+    }
 }
 
 /**
@@ -176,11 +176,11 @@ class ConfigFactoryClassNotFoundException extends Exception
  */
 class ConfigFactoryFileNotFoundException extends Exception
 {
-	function __construct($file)
-	{
-		parent::__construct();
-		echo 'Cache_Factory -> File not found: ' . $file;
-		die();
-	}
+    function __construct($file)
+    {
+        parent::__construct();
+        echo 'Cache_Factory -> File not found: ' . $file;
+        die();
+    }
 }
 ?>

@@ -1,9 +1,10 @@
 <?php
-class Clansuite_Thumbnail extends Clansuite_Image {
-
-	protected $obejct;
+class Clansuite_Thumbnail extends Clansuite_Image
+{
+	protected $object;
 	
-	public function __construct($config, Clansuite_Image $object) {
+	public function __construct($config, Clansuite_Image $object)
+	{
 		
 		$this->object = $object;
 		$this->object->thumbName 			= $config['thumb_name'];
@@ -16,14 +17,17 @@ class Clansuite_Thumbnail extends Clansuite_Image {
 
 	}
 
-    public function calcAspectRatio() {
-    	if ($this->object->newWidth != 0) {
+    public function calcAspectRatio()
+    {
+    	if ($this->object->newWidth != 0)
+    	{
     		$ratio = $this->object->originalWidth / $this->object->newWidth;
     		$this->object->newHeight = ((int)round($this->object->originalHeight / $ratio));
     		return $ratio;
     	}
     	
-    	if ($object->newHeight != 0) {
+    	if ($object->newHeight != 0)
+    	{
     		$ratio = $object->originalHeight / $object->newHeight;
     		$object->newWidth((int)round($object->originalWidth / $ratio));
     		return $ratio;

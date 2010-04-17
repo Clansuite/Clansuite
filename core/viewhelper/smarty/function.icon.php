@@ -104,10 +104,10 @@ function smarty_function_icon($params, $smarty)
     # we got no alternative text. let's add a default text with $name;
     if(isset($src) and empty($alt))
     {
-		$file = $src;
+        $file = $src;
 
-		$info = pathinfo($file);
-		$file_name =  basename($file,'.'.$info['extension']);
+        $info = pathinfo($file);
+        $file_name =  basename($file,'.'.$info['extension']);
         $alt = $file_name;
     }
 

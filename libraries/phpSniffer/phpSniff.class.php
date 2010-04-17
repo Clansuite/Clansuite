@@ -776,9 +776,9 @@ class phpSniff
             $cookies = $HTTP_COOKIE_VARS;
         }
         if($this->_check_cookies)
-        {   $fp = @fopen($this->_temp_file_path.$this->property('ip'),'r');
+        {   $fp = fopen($this->_temp_file_path.$this->property('ip'),'r');
             if(!$fp)
-            {   $fp = @fopen($this->_temp_file_path.$this->property('ip'),'a');
+            {   $fp = fopen($this->_temp_file_path.$this->property('ip'),'a');
                 // make sure we have a valid file pointer
                 if($fp) {
                     fclose($fp);

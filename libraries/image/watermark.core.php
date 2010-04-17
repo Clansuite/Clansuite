@@ -1,8 +1,11 @@
 <?php
-class Clansuite_Watermark extends Clansuite_Image {
+class Clansuite_Watermark extends Clansuite_Image
+{
 	
-	public function __construct($function, $config) {
-		if($function == 'image') {
+	public function __construct($function, $config)
+	{
+		if($function == 'image')
+		{
 			$watermark = ImageCreateFromPng($config['file']);
 		
 			imagecopy(	$this->workImage,

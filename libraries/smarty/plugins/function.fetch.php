@@ -35,7 +35,7 @@ function smarty_function_fetch($params, $smarty, $template)
         }
         
         // fetch the file
-        if($fp = @fopen($params['file'],'r')) {
+        if($fp = fopen($params['file'],'r')) {
             while(!feof($fp)) {
                 $content .= fgets ($fp,4096);
             }
@@ -193,7 +193,7 @@ function smarty_function_fetch($params, $smarty, $template)
             }
         } else {
             // ftp fetch
-            if($fp = @fopen($params['file'],'r')) {
+            if($fp = fopen($params['file'],'r')) {
                 while(!feof($fp)) {
                     $content .= fgets ($fp,4096);
                 }

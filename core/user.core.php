@@ -485,13 +485,13 @@ class Clansuite_User
       */
      public function isUserAuthed()
      {
-     	$boolResult = false;
-     	if( isset($_SESSION['user']['authed']) and ($_SESSION['user']['authed'] === 1) )
-     	{
-     		$boolResult = true;
-     	}
+         $boolResult = false;
+         if( isset($_SESSION['user']['authed']) and ($_SESSION['user']['authed'] === 1) )
+         {
+             $boolResult = true;
+         }
 
-     	return $boolResult;
+         return $boolResult;
      }
 
      /**
@@ -501,7 +501,7 @@ class Clansuite_User
       */
      public function getUserIdFromSession()
      {
-     	return $_SESSION['user']['user_id'];
+         return $_SESSION['user']['user_id'];
      }
 }
 

@@ -85,7 +85,7 @@ $cron = new Clansuite_Cronjobs;
  *    sure that any paths in it are relative to pseudo-cron.
  * -  Set up your crontab file with your script
  * -  put an include("pseudo-cron.inc.php"); statement somewhere in your most
- *	  accessed page or call pseudo-cron-image.php from an HTML img tag
+ *      accessed page or call pseudo-cron-image.php from an HTML img tag
  * -  Wait for the next scheduled run :)
  *
  * Note:
@@ -102,11 +102,11 @@ $cron = new Clansuite_Cronjobs;
  * in /index.php and your cronjobs are in /include/cronjobs, then your crontab file
  * looked like this:
  *
- * 10	1	*	*	*	include/cronjobs/dosomething.php	# do something
+ * 10    1    *    *    *    include/cronjobs/dosomething.php    # do something
  *
  * Now you have to change it to
  *
- * 10	1	*	*	*	cronjobs/dosomething.php	        # do something
+ * 10    1    *    *    *    cronjobs/dosomething.php            # do something
  *
  * After you install the new version, each of your cronjobs will be run once,
  * and the .job files will have different names than before.
@@ -119,38 +119,38 @@ $cron = new Clansuite_Cronjobs;
  *  fork:     removed globals, added constant for debugging
  *            added handlers for cronjobs from file and from database
  *
- * v1.3	06-15-2004
- * 	added:	  the number of jobs run during one call of pseudocron
- * 		      can now be limited.
- * 	added:	  additional script to call pseudocron from an HTML img tag
- * 	improved: storage of job run times
- * 	fixed:    bug with jobs marked as run although they did not complete
+ * v1.3    06-15-2004
+ *     added:      the number of jobs run during one call of pseudocron
+ *               can now be limited.
+ *     added:      additional script to call pseudocron from an HTML img tag
+ *     improved: storage of job run times
+ *     fixed:    bug with jobs marked as run although they did not complete
  *
  * v1.2.2 01-17-2004
- * 	added:	  send an email for each completed job
- * 	improved: easier cron job configuration (relative to pseudo-cron, not
- * 		      to calling script. Please read the release notes on this)
+ *     added:      send an email for each completed job
+ *     improved: easier cron job configuration (relative to pseudo-cron, not
+ *               to calling script. Please read the release notes on this)
  *
  * v1.2.1 02-03-2003
- * 	fixed:	 jobs may be run too often under certain conditions
- * 	added:	 global debug switch
- * 	changed: typo in imagecron.php which prevented it from working
+ *     fixed:     jobs may be run too often under certain conditions
+ *     added:     global debug switch
+ *     changed: typo in imagecron.php which prevented it from working
  *
- * v1.2	01-31-2003
- * 	added:   more documentation
- * 	changed: log file should now be easier to use
- * 	changed: log file name
+ * v1.2    01-31-2003
+ *     added:   more documentation
+ *     changed: log file should now be easier to use
+ *     changed: log file name
  *
- * v1.1	01-29-2003
- * 	changed: renamed pseudo-cron.php to pseudo-cron.inc.php
- * 	fixed:   comments at the end of a line don't work
- * 	fixed:   empty lines in crontab file create nonsense jobs
- * 	changed: log file grows big very quickly
- * 	changed: included config file in main file to avoid directory confusion
- * 	added:   day of week abbreviations may now be used (three letters, english)
+ * v1.1    01-29-2003
+ *     changed: renamed pseudo-cron.php to pseudo-cron.inc.php
+ *     fixed:   comments at the end of a line don't work
+ *     fixed:   empty lines in crontab file create nonsense jobs
+ *     changed: log file grows big very quickly
+ *     changed: included config file in main file to avoid directory confusion
+ *     added:   day of week abbreviations may now be used (three letters, english)
  *
- * v1.0	01-17-2003
- * 	initial release
+ * v1.0    01-17-2003
+ *     initial release
  *
  * @category    Clansuite
  * @package     Core
@@ -244,44 +244,44 @@ class Clansuite_Cronjobs
      */
     private function parseElement($element, &$targetArray, $numberOfElements)
     {
-    	$subelements = explode(",",$element);
+        $subelements = explode(",",$element);
 
-    	for ($i=0;$i<$numberOfElements;$i++)
-    	{
-    		$targetArray[$i] = $subelements[0]=="*";
-    	}
+        for ($i=0;$i<$numberOfElements;$i++)
+        {
+            $targetArray[$i] = $subelements[0]=="*";
+        }
 
-    	$nr_subelements = 0;
-    	$nr_subelements = count($subelements);
-    	for ($i=0;$i<$nr_subelements;$i++)
-    	{
-    		if (preg_match("~^(\\*|([0-9]{1,2})(-([0-9]{1,2}))?)(/([0-9]{1,2}))?$~",$subelements[$i],$matches))
-    		{
-    			if($matches[1]=="*")
-    			{
-    				$matches[2] = 0;		            // from
-    				$matches[4] = $numberOfElements;    //to
-    			}
-    			elseif($matches[4]=="")
-    			{
-    				$matches[4] = $matches[2];
-    			}
+        $nr_subelements = 0;
+        $nr_subelements = count($subelements);
+        for ($i=0;$i<$nr_subelements;$i++)
+        {
+            if (preg_match("~^(\\*|([0-9]{1,2})(-([0-9]{1,2}))?)(/([0-9]{1,2}))?$~",$subelements[$i],$matches))
+            {
+                if($matches[1]=="*")
+                {
+                    $matches[2] = 0;                    // from
+                    $matches[4] = $numberOfElements;    //to
+                }
+                elseif($matches[4]=="")
+                {
+                    $matches[4] = $matches[2];
+                }
 
-    			if($matches[5][0]!="/")
-    			{
-    				$matches[6] = 1;		// step
-    			}
+                if($matches[5][0]!="/")
+                {
+                    $matches[6] = 1;        // step
+                }
 
-    			$a = $this->leftTrimZeros($matches[2]);
-    			$b = $this->leftTrimZeros($matches[4]);
-    			$c = $this->leftTrimZeros($matches[6]);
+                $a = $this->leftTrimZeros($matches[2]);
+                $b = $this->leftTrimZeros($matches[4]);
+                $c = $this->leftTrimZeros($matches[6]);
 
-    			for($j=$a; $j<=$b; $j+=$c)
-    			{
-    				$targetArray[$j] = true;
-    			}
-    		}
-    	}
+                for($j=$a; $j<=$b; $j+=$c)
+                {
+                    $targetArray[$j] = true;
+                }
+            }
+        }
     }
 
     /**
@@ -316,70 +316,70 @@ class Clansuite_Cronjobs
      */
     private function leftTrimZeros($number)
     {
-    	while ($number[0] == '0')
-    	{
-    		$number = substr($number,1);
-    	}
-    	return $number;
+        while ($number[0] == '0')
+        {
+            $number = substr($number,1);
+        }
+        return $number;
     }
 
     private function incrementDate(&$dateArr, $amount, $unit)
     {
-    	#if ($debug) echo sprintf("Increasing from %02d.%02d. %02d:%02d by %d %6s ",$dateArr[mday],$dateArr[mon],$dateArr[hours],$dateArr[minutes],$amount,$unit);
+        #if ($debug) echo sprintf("Increasing from %02d.%02d. %02d:%02d by %d %6s ",$dateArr[mday],$dateArr[mon],$dateArr[hours],$dateArr[minutes],$amount,$unit);
 
-    	if ($unit=="mday")
-    	{
-    		$dateArr["hours"] = 0;
-    		$dateArr["minutes"] = 0;
-    		$dateArr["seconds"] = 0;
-    		$dateArr["mday"] += $amount;
-    		$dateArr["wday"] += $amount % 7;
-    		if ($dateArr["wday"]>6)
-    		{
-    			$dateArr["wday"]-=7;
-    		}
+        if ($unit=="mday")
+        {
+            $dateArr["hours"] = 0;
+            $dateArr["minutes"] = 0;
+            $dateArr["seconds"] = 0;
+            $dateArr["mday"] += $amount;
+            $dateArr["wday"] += $amount % 7;
+            if ($dateArr["wday"]>6)
+            {
+                $dateArr["wday"]-=7;
+            }
 
-    		$months28 = Array(2);
-    		$months30 = Array(4,6,9,11);
-    		$months31 = Array(1,3,5,7,8,10,12);
+            $months28 = Array(2);
+            $months30 = Array(4,6,9,11);
+            $months31 = Array(1,3,5,7,8,10,12);
 
-    		if (
-    			(in_array($dateArr["mon"], $months28) && $dateArr["mday"]==28) ||
-    			(in_array($dateArr["mon"], $months30) && $dateArr["mday"]==30) ||
-    			(in_array($dateArr["mon"], $months31) && $dateArr["mday"]==31)
-    		) {
-    			$dateArr["mon"]++;
-    			$dateArr["mday"] = 1;
-    		}
+            if (
+                (in_array($dateArr["mon"], $months28) && $dateArr["mday"]==28) ||
+                (in_array($dateArr["mon"], $months30) && $dateArr["mday"]==30) ||
+                (in_array($dateArr["mon"], $months31) && $dateArr["mday"]==31)
+            ) {
+                $dateArr["mon"]++;
+                $dateArr["mday"] = 1;
+            }
 
-    	}
-    	elseif ($unit=="hour")
-    	{
-    		if ($dateArr["hours"]==23)
-    		{
-    			$this->incrementDate($dateArr, 1, "mday");
-    		}
-    		else
-    		{
-    			$dateArr["minutes"] = 0;
-    			$dateArr["seconds"] = 0;
-    			$dateArr["hours"]++;
-    		}
-    	}
-    	elseif ($unit=="minute")
-    	{
-    		if ($dateArr["minutes"]==59)
-    		{
-    			$this->incrementDate($dateArr, 1, "hour");
-    		}
-    		else
-    		{
-    			$dateArr["seconds"] = 0;
-    			$dateArr["minutes"]++;
-    		}
-    	}
+        }
+        elseif ($unit=="hour")
+        {
+            if ($dateArr["hours"]==23)
+            {
+                $this->incrementDate($dateArr, 1, "mday");
+            }
+            else
+            {
+                $dateArr["minutes"] = 0;
+                $dateArr["seconds"] = 0;
+                $dateArr["hours"]++;
+            }
+        }
+        elseif ($unit=="minute")
+        {
+            if ($dateArr["minutes"]==59)
+            {
+                $this->incrementDate($dateArr, 1, "hour");
+            }
+            else
+            {
+                $dateArr["seconds"] = 0;
+                $dateArr["minutes"]++;
+            }
+        }
 
-    	#if ($debug) echo sprintf("to %02d.%02d. %02d:%02d\n",$dateArr[mday],$dateArr[mon],$dateArr[hours],$dateArr[minutes]);
+        #if ($debug) echo sprintf("to %02d.%02d. %02d:%02d\n",$dateArr[mday],$dateArr[mon],$dateArr[hours],$dateArr[minutes]);
     }
 
     /**
@@ -395,11 +395,11 @@ class Clansuite_Cronjobs
 
         if ($lastScheduled<time())
         {
-            #echo("<br>Running 	".$job[self::const_PC_CRONLINE]);
+            #echo("<br>Running     ".$job[self::const_PC_CRONLINE]);
             #echo("<br> Last run:       ".date("r",$lastActual));
             #echo("<br> Last scheduled: ".date("r",$lastScheduled));
 
-            #logMessage("Running 	".$job[self::const_PC_CRONLINE]);
+            #logMessage("Running     ".$job[self::const_PC_CRONLINE]);
             #logMessage("  Last run:       ".date("r",$lastActual));
             #logMessage("  Last scheduled: ".date("r",$lastScheduled));
 
@@ -424,10 +424,10 @@ class Clansuite_Cronjobs
 
             $this->markLastRun($job[self::const_PC_CMD], $lastScheduled);
 
-            #echo 'Completed	'.$job[self::const_PC_CRONLINE];
+            #echo 'Completed    '.$job[self::const_PC_CRONLINE];
 
             /* @todo log
-            logMessage("Completed	".$job[self::const_PC_CRONLINE]);
+            logMessage("Completed    ".$job[self::const_PC_CRONLINE]);
             if ($sendLogToEmail!="") {
             mail($sendLogToEmail, "[cron] ".$job[self::const_PC_COMMENT], $resultsSummary);
             }
@@ -439,10 +439,10 @@ class Clansuite_Cronjobs
         {
             if ($debug)
             {
-                logMessage("Skipping 	".$job[self::const_PC_CRONLINE]);
+                logMessage("Skipping     ".$job[self::const_PC_CRONLINE]);
                 logMessage("  Last run:       ".date("r",$lastActual));
                 logMessage("  Last scheduled: ".date("r",$lastScheduled));
-                logMessage("Completed	".$job[self::const_PC_CRONLINE]);
+                logMessage("Completed    ".$job[self::const_PC_CRONLINE]);
             }
 
             return false;
@@ -459,106 +459,106 @@ class Clansuite_Cronjobs
     {
         #echo $cronTabFile;
 
-    	# incomming file
-    	$file = file($cronTabFile);
+        # incomming file
+        $file = file($cronTabFile);
 
-    	# init
-    	$job  = array();
-    	$jobs = array();
+        # init
+        $job  = array();
+        $jobs = array();
 
-    	$file_count = count($file);
+        $file_count = count($file);
 
-    	for ($i=0;$i<$file_count;$i++)
-    	{
-    		if ($file[$i][0]!='#')
-    		{
+        for ($i=0;$i<$file_count;$i++)
+        {
+            if ($file[$i][0]!='#')
+            {
                 #old regex, without dow abbreviations:
                 #if (preg_match("~^([-0-9,/*]+)\\s+([-0-9,/*]+)\\s+([-0-9,/*]+)\\s+([-0-9,/*]+)\\s+([-0-7,/*]+|Sun|Mon|Tue|Wen|Thu|Fri|Sat)\\s+([^#]*)(#.*)?$~i",$file[$i],$job)) {
-    			if (preg_match("~^([-0-9,/*]+)\\s+([-0-9,/*]+)\\s+([-0-9,/*]+)\\s+([-0-9,/*]+)\\s+([-0-7,/*]+|(-|/|Sun|Mon|Tue|Wed|Thu|Fri|Sat)+)\\s+([^#]*)\\s*(#.*)?$~i",$file[$i],$job))
-    			{
-    				$jobNumber = count($jobs);
-    				$jobs[$jobNumber] = $job;
-    				if ($jobs[$jobNumber][self::const_PC_DOW][0]!='*' and !is_numeric($jobs[$jobNumber][self::const_PC_DOW]))
-    				{
-    					$jobs[$jobNumber][self::const_PC_DOW] = str_replace(
-    						array("Sun","Mon","Tue","Wed","Thu","Fri","Sat"),
-    						array(0,1,2,3,4,5,6),
-    						$jobs[$jobNumber][self::const_PC_DOW]);
-    				}
-    				$jobs[$jobNumber][self::const_PC_CMD] = trim($job[self::const_PC_CMD]);
-    				$jobs[$jobNumber][self::const_PC_COMMENT] = trim(substr($job[self::const_PC_COMMENT],1));
-    				$jobs[$jobNumber][self::const_PC_CRONLINE] = $file[$i];
-    			}
+                if (preg_match("~^([-0-9,/*]+)\\s+([-0-9,/*]+)\\s+([-0-9,/*]+)\\s+([-0-9,/*]+)\\s+([-0-7,/*]+|(-|/|Sun|Mon|Tue|Wed|Thu|Fri|Sat)+)\\s+([^#]*)\\s*(#.*)?$~i",$file[$i],$job))
+                {
+                    $jobNumber = count($jobs);
+                    $jobs[$jobNumber] = $job;
+                    if ($jobs[$jobNumber][self::const_PC_DOW][0]!='*' and !is_numeric($jobs[$jobNumber][self::const_PC_DOW]))
+                    {
+                        $jobs[$jobNumber][self::const_PC_DOW] = str_replace(
+                            array("Sun","Mon","Tue","Wed","Thu","Fri","Sat"),
+                            array(0,1,2,3,4,5,6),
+                            $jobs[$jobNumber][self::const_PC_DOW]);
+                    }
+                    $jobs[$jobNumber][self::const_PC_CMD] = trim($job[self::const_PC_CMD]);
+                    $jobs[$jobNumber][self::const_PC_COMMENT] = trim(substr($job[self::const_PC_COMMENT],1));
+                    $jobs[$jobNumber][self::const_PC_CRONLINE] = $file[$i];
+                }
 
-    			$jobfile = $this->getJobFileName($jobs[$jobNumber][self::const_PC_CMD]);
+                $jobfile = $this->getJobFileName($jobs[$jobNumber][self::const_PC_CMD]);
 
-    			$jobs[$jobNumber]["lastActual"] = $this->getLastActualRunTime($jobs[$jobNumber][self::const_PC_CMD]);
-    			$jobs[$jobNumber]["lastScheduled"] = $this->getLastScheduledRunTime($jobs[$jobNumber]);
-    		}
-    	}
+                $jobs[$jobNumber]["lastActual"] = $this->getLastActualRunTime($jobs[$jobNumber][self::const_PC_CMD]);
+                $jobs[$jobNumber]["lastScheduled"] = $this->getLastScheduledRunTime($jobs[$jobNumber]);
+            }
+        }
 
-    	$this->multisort($jobs, "lastScheduled");
+        $this->multisort($jobs, "lastScheduled");
 
         # Debug Display
-    	/*if (defined('DEBUG') and DEBUG == true)
-    	{
-    	    var_dump($jobs);
-    	}*/
+        /*if (defined('DEBUG') and DEBUG == true)
+        {
+            var_dump($jobs);
+        }*/
 
-    	return $jobs;
+        return $jobs;
     }
 
     function getLastScheduledRunTime($job)
     {
-    	$extjob = Array();
+        $extjob = Array();
 
-    	$this->parseElement($job[self::const_PC_MINUTE], $extjob[self::const_PC_MINUTE], 60);
-    	$this->parseElement($job[self::const_PC_HOUR], $extjob[self::const_PC_HOUR], 24);
-    	$this->parseElement($job[self::const_PC_DOM], $extjob[self::const_PC_DOM], 31);
-    	$this->parseElement($job[self::const_PC_MONTH], $extjob[self::const_PC_MONTH], 12);
-    	$this->parseElement($job[self::const_PC_DOW], $extjob[self::const_PC_DOW], 7);
+        $this->parseElement($job[self::const_PC_MINUTE], $extjob[self::const_PC_MINUTE], 60);
+        $this->parseElement($job[self::const_PC_HOUR], $extjob[self::const_PC_HOUR], 24);
+        $this->parseElement($job[self::const_PC_DOM], $extjob[self::const_PC_DOM], 31);
+        $this->parseElement($job[self::const_PC_MONTH], $extjob[self::const_PC_MONTH], 12);
+        $this->parseElement($job[self::const_PC_DOW], $extjob[self::const_PC_DOW], 7);
 
-    	$dateArr = getdate($this->getLastActualRunTime($job[self::const_PC_CMD]));
+        $dateArr = getdate($this->getLastActualRunTime($job[self::const_PC_CMD]));
 
-    	$minutesAhead = 0;
-    	while ( $minutesAhead<525600 and
-    		    (!$extjob[self::const_PC_MINUTE][$dateArr["minutes"]] or
-    		    !$extjob[self::const_PC_HOUR][$dateArr["hours"]] or
-    		    (!$extjob[self::const_PC_DOM][$dateArr["mday"]] or !$extjob[self::const_PC_DOW][$dateArr["wday"]]) or
-    		    !$extjob[self::const_PC_MONTH][$dateArr["mon"]])
-    	) {
+        $minutesAhead = 0;
+        while ( $minutesAhead<525600 and
+                (!$extjob[self::const_PC_MINUTE][$dateArr["minutes"]] or
+                !$extjob[self::const_PC_HOUR][$dateArr["hours"]] or
+                (!$extjob[self::const_PC_DOM][$dateArr["mday"]] or !$extjob[self::const_PC_DOW][$dateArr["wday"]]) or
+                !$extjob[self::const_PC_MONTH][$dateArr["mon"]])
+        ) {
 
-    		if (!$extjob[self::const_PC_DOM][$dateArr["mday"]] or !$extjob[self::const_PC_DOW][$dateArr["wday"]])
-    		{
-    			$this->incrementDate($dateArr,1,"mday");
-    			$minutesAhead+=1440;
-    			continue;
-    		}
+            if (!$extjob[self::const_PC_DOM][$dateArr["mday"]] or !$extjob[self::const_PC_DOW][$dateArr["wday"]])
+            {
+                $this->incrementDate($dateArr,1,"mday");
+                $minutesAhead+=1440;
+                continue;
+            }
 
-    		if (!$extjob[self::const_PC_HOUR][$dateArr["hours"]])
-    		{
-    			$this->incrementDate($dateArr,1,"hour");
-    			$minutesAhead+=60;
-    			continue;
-    		}
+            if (!$extjob[self::const_PC_HOUR][$dateArr["hours"]])
+            {
+                $this->incrementDate($dateArr,1,"hour");
+                $minutesAhead+=60;
+                continue;
+            }
 
-    		if (!$extjob[self::const_PC_MINUTE][$dateArr["minutes"]])
-    		{
-    			$this->incrementDate($dateArr,1,"minute");
-    			$minutesAhead++;
-    			continue;
-    		}
-    	}
+            if (!$extjob[self::const_PC_MINUTE][$dateArr["minutes"]])
+            {
+                $this->incrementDate($dateArr,1,"minute");
+                $minutesAhead++;
+                continue;
+            }
+        }
 
-    	//if ($debug) print_r($dateArr);
+        //if ($debug) print_r($dateArr);
 
-    	return mktime($dateArr["hours"],$dateArr["minutes"],0,$dateArr["mon"],$dateArr["mday"],$dateArr["year"]);
+        return mktime($dateArr["hours"],$dateArr["minutes"],0,$dateArr["mon"],$dateArr["mday"],$dateArr["year"]);
     }
 
     private function getJobFileName($jobname)
     {
-    	$jobfile = $this->writeDirectory . urlencode($jobname) . ".job";
-    	return $jobfile;
+        $jobfile = $this->writeDirectory . urlencode($jobname) . ".job";
+        return $jobfile;
     }
 
     private function getLastActualRunTime($jobname)
@@ -573,8 +573,8 @@ class Clansuite_Cronjobs
 
     private function markLastRun($jobname, $lastRun)
     {
-    	$jobfile = $this->getJobFileName($jobname);
-    	touch($jobfile);
+        $jobfile = $this->getJobFileName($jobname);
+        touch($jobfile);
     }
 }
 

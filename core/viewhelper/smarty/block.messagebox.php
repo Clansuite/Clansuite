@@ -14,8 +14,8 @@
  * @license GNU General Public License v2 or any later version
  * @version SVN $Id$
  *
- * Name:     	messagebox
- * Type:     	function
+ * Name:         messagebox
+ * Type:         function
  * Purpose:     This TAG inserts a formatted messagebox (hint, notice, alert).
  *
  * @return string HTML of a messagebox.

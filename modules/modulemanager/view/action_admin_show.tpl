@@ -1,9 +1,3 @@
-{* DEBUG OUTPUT of assigned Arrays:
-   {$smarty.session|@var_dump}
-   <hr>
-   
-   {$modules_summary|@var_dump}
-*}
 {$modules|@var_dump}  
 {modulenavigation}
 <div class="ModuleHeading">{t}Modulemanager{/t}</div>
@@ -25,7 +19,7 @@ There are {$modules_summary.counter} Modules installed.
         <th class="td_header_small">{t}Actions{/t}</th>
     </tr>
     
-    {foreach $modules  as module}
+    {foreach $modules as $module}
     
     <tr>
         <td class="cell1">{$module.dir_id}</td>

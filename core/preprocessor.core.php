@@ -71,8 +71,8 @@ class clansuite_preprocessor
 
         if(is_file(self::$monolith_file)) { unlink(self::$monolith_file); }
 
-    	# directory
-    	$directory = '.';
+        # directory
+        $directory = '.';
 
         foreach( new DirectoryIterator($directory) as $phpfile )
         {
@@ -151,9 +151,9 @@ class clansuite_preprocessor
      */
     public static function strip_empty_lines($string)
     {
-    	$string = preg_replace("/[\r\n]+[\s\t]*[\r\n]+/", "\n", $string);
-    	$string = preg_replace("/^[\s\t]*[\r\n]+/", "", $string);
-    	return $string;
+        $string = preg_replace("/[\r\n]+[\s\t]*[\r\n]+/", "\n", $string);
+        $string = preg_replace("/^[\s\t]*[\r\n]+/", "", $string);
+        return $string;
     }
 
     /**

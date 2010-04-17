@@ -49,30 +49,30 @@ class Clansuite_Logger_Factory
     {
         try
         {
-			$file = ROOT_CORE .'logger'.DS. strtolower($logger_type) .'.logger.php';
-        	if (is_file($file) != 0)
-			{
-	            $class = 'logger_'. $logger_type;
+            $file = ROOT_CORE .'logger'.DS. strtolower($logger_type) .'.logger.php';
+            if (is_file($file) != 0)
+            {
+                $class = 'logger_'. $logger_type;
                 if( !class_exists($class,false) ) { require($file); }
                 
-	            if (class_exists($class,false))
-	            {
-	                # instantiate and return the logger and pass $injector into
-	                $logger = new $class($injector);
-	                # var_dump($logger);
-	                return $logger;
-	            }
-	            else
-	            {
-	            	 throw new LoggerFactoryClassNotFoundException($class);
-	            }
-	        }
-			else
-			{
-				throw new LoggerFactoryFileNotFoundException($file);
-	        }
-	    }
-		catch(Clansuite_Exception $e) {}
+                if (class_exists($class,false))
+                {
+                    # instantiate and return the logger and pass $injector into
+                    $logger = new $class($injector);
+                    # var_dump($logger);
+                    return $logger;
+                }
+                else
+                {
+                     throw new LoggerFactoryClassNotFoundException($class);
+                }
+            }
+            else
+            {
+                throw new LoggerFactoryFileNotFoundException($file);
+            }
+        }
+        catch(Clansuite_Exception $e) {}
     }
 }
 
@@ -85,12 +85,12 @@ class Clansuite_Logger_Factory
  */
 class LoggerFactoryClassNotFoundException extends Exception
 {
-	function __construct($class)
-	{
-		parent::__construct();
-	  	echo 'Logger_Factory -> Class not found: ' . $class;
-	  	die();
-	}
+    function __construct($class)
+    {
+        parent::__construct();
+          echo 'Logger_Factory -> Class not found: ' . $class;
+          die();
+    }
 }
 
 /**
@@ -102,12 +102,12 @@ class LoggerFactoryClassNotFoundException extends Exception
  */
 class LoggerFactoryFileNotFoundException extends Exception
 {
-	function __construct($file)
-	{
-		parent::__construct();
-		echo 'Logger_Factory -> File not found: ' . $file;
-		die();
-	}
+    function __construct($file)
+    {
+        parent::__construct();
+        echo 'Logger_Factory -> File not found: ' . $file;
+        die();
+    }
 }
 
 /**

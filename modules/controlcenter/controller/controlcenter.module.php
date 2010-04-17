@@ -130,7 +130,7 @@ class Clansuite_Module_ControlCenter extends Clansuite_Module_Controller impleme
         }
         else
         {
-            throw new Clansuite_Exception('Feed could not be read. '.$e->getMessage(), 100);
+            throw new Clansuite_Exception('Feed could not be read.', 100);
             #Clansuite_Logger::log('', $e);
             $xml = '';
         }

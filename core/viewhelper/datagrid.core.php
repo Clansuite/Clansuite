@@ -542,29 +542,41 @@ class Clansuite_Datagrid extends Clansuite_Datagrid_Base
     // Getter
     //--------------------
 
-    public function getBatchActions()   { return $this->_batchActions; }
+    public function getBatchActions()
+    { 
+        return $this->_batchActions;
+    }
 
     /**
      * Get a column depending on its alias
      *
      * @param string $sColumnKey Name of the Column
      * @return Clansuite_Datagrid_Column
-    */
-    public function getColumn($sColumnKey)     { return $this->_columns[$sColumnKey]; }
+     */
+    public function getColumn($sColumnKey)
+    {
+        return $this->_columns[$sColumnKey];
+    }
 
     /**
      * Amount of columns in the grid
      *
      * @return integer Amount of columns
      */
-    public function getColumnCount()       { return count($this->getColumns()); }
+    public function getColumnCount()
+    {
+        return count($this->getColumns());
+    }
 
     /**
      * Returns the column objects (Clansuite_Datagrid_Col)
      *
      * @return array
      */
-    public function getColumns()           { return $this->_columns; }
+    public function getColumns()
+    {
+        return $this->_columns;
+    }
 
     /**
      * Get the input parameter depending on the mapping
@@ -586,28 +598,40 @@ class Clansuite_Datagrid extends Clansuite_Datagrid_Base
      *
      * @return Doctrine_Pager_Layout
      */
-    public function getPagerLayout()    { return $this->_doctrinePagerLayout; }
+    public function getPagerLayout()
+    {
+        return $this->_doctrinePagerLayout;
+    }
 
     /**
      * Get the renderer object
      *
      * @return Clansuite_Datagrid_Renderer
      */
-    public function getRenderer()       { return $this->_renderer; }
+    public function getRenderer()
+    {
+        return $this->_renderer;
+    }
 
     /**
      * Get the results per page
      *
      * @return int
      */
-    public function getResultsPerPage() { return $this->_resultsPerPage; }
+    public function getResultsPerPage()
+    {
+        return $this->_resultsPerPage;
+    }
 
     /**
      * Returns the row objects (Clansuite_Datagrid_Row)
      *
      * @return array
      */
-    public function getRows()           { return $this->_rows; }
+    public function getRows()
+    {
+        return $this->_rows;
+    }
 
     /**
      * Get the pendant to DESC/ASC and NATASC/NATDESC
@@ -1349,7 +1373,10 @@ class Clansuite_Datagrid_Cell extends Clansuite_Datagrid_Base
      *
      * @param Clansuite_Datagrid_Column $_columnObject
      */
-    public function setColumnObject($_columnObject)      { $this->_columnObject = $_columnObject; }
+    public function setColumnObject($_columnObject)
+    {
+        $this->_columnObject = $_columnObject;
+    }
 
     /**
      * Set the datagrid object
@@ -1366,21 +1393,30 @@ class Clansuite_Datagrid_Cell extends Clansuite_Datagrid_Base
      *
      * @param Clansuite_Datagrid_Row $_Row
      */
-    public function setRow($_Row)      { $this->_Row = $_Row; }
+    public function setRow($_Row)
+    {
+        $this->_Row = $_Row;
+    }
 
     /**
      * Set the value of the cell
      *
      * @param mixed A single value ($_Value[0])
      */
-    public function setValue($_Value)    { $this->_Values[0] = $_Value; }
+    public function setValue($_Value)
+    {
+        $this->_Values[0] = $_Value;
+    }
 
     /**
      * Set the values of the cell
      *
      * @param array Array of values
      */
-    public function setValues($_Values)    { $this->_Values = $_Values; }
+    public function setValues($_Values)
+    {
+        $this->_Values = $_Values;
+    }
 
     //----------------------
     // Getter
@@ -1391,7 +1427,10 @@ class Clansuite_Datagrid_Cell extends Clansuite_Datagrid_Base
      *
      * @return Clansuite_Datagrid_Column $_columnObject
      */
-    public function getColumn()    { return $this->_columnObject; }
+    public function getColumn()
+    {
+        return $this->_columnObject;
+    }
 
     /**
      * Get the Datagrid object
@@ -1408,7 +1447,10 @@ class Clansuite_Datagrid_Cell extends Clansuite_Datagrid_Base
      *
      * @return Clansuite_Datagrid_Row $_Row
      */
-    public function getRow()    { return $this->_Row; }
+    public function getRow()
+    {
+        return $this->_Row;
+    }
 
 
     /**
@@ -1416,14 +1458,20 @@ class Clansuite_Datagrid_Cell extends Clansuite_Datagrid_Base
      *
      * @return mixed
      */
-    public function getValue()  { return $this->_Values[0]; }
+    public function getValue()
+    {
+        return $this->_Values[0];
+    }
 
     /**
      * Returns the values of this cell
      *
      * @return array
      */
-    public function getValues()  { return $this->_Values; }
+    public function getValues()
+    {
+        return $this->_Values;
+    }
 
     //----------------------
     // Class methods
@@ -1535,35 +1583,50 @@ class Clansuite_Datagrid_Renderer
      *
      * @param int
      */
-    public function setCurrentPage($_Page)                      { $this->_CurrentPage = $_Page; }
+    public function setCurrentPage($_Page)
+    {
+        $this->_CurrentPage = $_Page;
+    }
 
     /**
      * Sets the current results per page
      *
      * @param int
      */
-    public static function setCurrentResultsPerPage($_Value)           { self::$_CurrentResultsPerPage = $_Value; }
+    public static function setCurrentResultsPerPage($_Value)
+    {
+        self::$_CurrentResultsPerPage = $_Value;
+    }
 
     /**
      * Sets the current sortkey
      *
      * @param string
      */
-    public function setCurrentSortKey($_SortKey)                { $this->_CurrentSortKey = $_SortKey; }
+    public function setCurrentSortKey($_SortKey)
+    {
+        $this->_CurrentSortKey = $_SortKey;
+    }
 
     /**
      * Sets the current sortkey
      *
      * @param string
      */
-    public function setCurrentSortValue($_SortValue)            { $this->_CurrentSortValue = $_SortValue; }
+    public function setCurrentSortValue($_SortValue)
+    {
+        $this->_CurrentSortValue = $_SortValue;
+    }
 
     /**
      * Set the datagrid object
      *
      * @param Clansuite_Datagrid $_Datagrid
      */
-    public static function setDatagrid($_Datagrid)              { self::$_Datagrid = $_Datagrid; }
+    public static function setDatagrid($_Datagrid)
+    {
+        self::$_Datagrid = $_Datagrid;
+    }
 
     /**
      * Set the pager layout
@@ -1573,7 +1636,10 @@ class Clansuite_Datagrid_Renderer
      * @example
      *   $oDatagrid->getRenderer()->setPagerLayout('[{%page}]');
      */
-    public function setPagerLayoutString($_PagerLayout)         { $this->_PagerLayout = $_PagerLayout; }
+    public function setPagerLayoutString($_PagerLayout)
+    {
+        $this->_PagerLayout = $_PagerLayout;
+    }
 
     /**
      * Set the pager link layout
@@ -1583,8 +1649,10 @@ class Clansuite_Datagrid_Renderer
      * @example
      *   $oDatagrid->getRenderer()->setPagerLinkLayout('[<a href="{%url}">{%page}</a>]');
      */
-    public function setPagerLinkLayoutString($_PagerLinkLayout) { $this->_PagerLinkLayout = $_PagerLinkLayout; }
-
+    public function setPagerLinkLayoutString($_PagerLinkLayout)
+    {
+        $this->_PagerLinkLayout = $_PagerLinkLayout;
+    }
 
     /**
      * Set the items for the dropdownbox of results per page
@@ -1605,56 +1673,80 @@ class Clansuite_Datagrid_Renderer
      *
      * @return int
      */
-    public function getCurrentPage()                { return $this->_CurrentPage; }
+    public function getCurrentPage()
+    {
+        return $this->_CurrentPage;
+    }
 
     /**
      * Gets the current results per page
      *
      * @return int
      */
-    public static function getCurrentResultsPerPage()      { return self::$_CurrentResultsPerPage; }
+    public static function getCurrentResultsPerPage()
+    {
+        return self::$_CurrentResultsPerPage;
+    }
 
     /**
      * Gets the current sortkey
      *
      * @return string
      */
-    public function getCurrentSortKey()             { return $this->_CurrentSortKey; }
+    public function getCurrentSortKey()
+    {
+        return $this->_CurrentSortKey;
+    }
 
     /**
      * Gets the current sortvalue
      *
      * @return string
      */
-    public function getCurrentSortValue()           { return $this->_CurrentSortValue; }
+    public function getCurrentSortValue()
+    {
+        return $this->_CurrentSortValue;
+    }
 
     /**
      * Get the Datagrid object
      *
      * @return Clansuite_Datagrid $_Datagrid
      */
-    public static function getDatagrid()            { return self::$_Datagrid; }
+    public static function getDatagrid()
+    {
+        return self::$_Datagrid;
+    }
 
     /**
      * Get the pager layout
      *
      * @return string
      */
-    public function getPagerLayoutString()          { return $this->_PagerLayoutString; }
+    public function getPagerLayoutString()
+    {
+        return $this->_PagerLayoutString;
+    }
 
     /**
      * Get the pager link layout
      *
      * @return string
      */
-    public function getPagerLinkLayoutString()      { return $this->_PagerLinkLayoutString; }
+    public function getPagerLinkLayoutString()
+    {
+        return $this->_PagerLinkLayoutString;
+    }
 
     /**
      * Get the items for the dropdownbox of results per page
      *
      * @return string
      */
-    public static function getResultsPerPageItems()        { return self::$_ResultsPerPageItems; }
+    public static function getResultsPerPageItems()
+    {
+        return self::$_ResultsPerPageItems;
+    }
 
     //----------------------
     // Render methods

@@ -154,12 +154,12 @@ class File_Gettext_MO extends File_Gettext
         }
         
         // open MO file
-        if (!is_resource($this->_handle = @fopen($file, 'rb'))) {
+        if (!is_resource($this->_handle = fopen($file, 'rb'))) {
             return parent::raiseError($php_errormsg . ' ' . $file);
         }
         // lock MO file shared
         if (!@flock($this->_handle, LOCK_SH)) {
-            @fclose($this->_handle);
+            fclose($this->_handle);
             return parent::raiseError($php_errormsg . ' ' . $file);
         }
         
@@ -221,7 +221,7 @@ class File_Gettext_MO extends File_Gettext
         
         // done
         @flock($this->_handle, LOCK_UN);
-        @fclose($this->_handle);
+        fclose($this->_handle);
         $this->_handle = null;
         
         // check for meta info
@@ -247,12 +247,12 @@ class File_Gettext_MO extends File_Gettext
         }
         
         // open MO file
-        if (!is_resource($this->_handle = @fopen($file, 'wb'))) {
+        if (!is_resource($this->_handle = fopen($file, 'wb'))) {
             return parent::raiseError($php_errormsg . ' ' . $file);
         }
         // lock MO file exclusively
         if (!@flock($this->_handle, LOCK_EX)) {
-            @fclose($this->_handle);
+            fclose($this->_handle);
             return parent::raiseError($php_errormsg . ' ' . $file);
         }
         
@@ -324,7 +324,7 @@ class File_Gettext_MO extends File_Gettext
         
         // done
         @flock($this->_handle, LOCK_UN);
-        @fclose($this->_handle);
+        fclose($this->_handle);
         return true;
     }
 }

@@ -53,150 +53,150 @@ if (defined('IN_CS') == false){die('Clansuite not loaded. Direct Access forbidde
  */
 class Clansuite_Download
 {
-	/**
-	 * Constructor and convenience/proxy method for sending a file as a download to the browser
-	 *
-	 * @param string $file The filepath as string
-	 * @param int $rate The speedlimit in KB/s
-	 */
-	public function __construct($file, $rate)
-	{
-	    self::send($file, $rate);
-	}
-
-	/**
-	 * Sends a file as a download to the browser
-	 *
-	 * Uses php fileinfo extension to determine the mimetype etc.
-	 *
-	 *
-	 * @param string $filePath The filepath as string
-	 * @param int $rate The speedlimit in KB/s
-	 */
-	private static function sendRated($filePath, $rate = 0)
-	{
-		# Check if file exists
-		if (is_file($filePath) == false)
-		{
-			throw new Clansuite_Exception('File not found.');
-		}
-
-		# get more information about the file
-		$filename = basename($filePath);
-		$size = filesize($filePath);
-		$finfo = finfo_open(FILEINFO_MIME);
-		$mimetype = finfo_file($finfo, realpath($filePath));
-		finfo_close($finfo);
-
-		# Create file handle
-		$fp = fopen($filePath, 'rb');
-
-		$seekStart = 0;
-		$seekEnd = $size;
-
-		/**
-		 * check if only a specific part of the file should be sent
-		 * multipart-download and resume-download
-         */
-		if(isset($_SERVER['HTTP_RANGE']))
-		{
-			# calculate the range to use
-			$range = explode('-', substr($_SERVER['HTTP_RANGE'], 6));
-
-			$seekStart = intval($range[0]);
-
-			if ($range[1] > 0)
-			{
-				$seekEnd = intval($range[1]);
-			}
-
-			# Seek to the start
-			fseek($fp, $seekStart);
-
-			# Set headers including the range info
-			header('HTTP/1.1 206 Partial Content');
-			header(sprintf('Content-Range: bytes %d-%d/%d', $seekStart, $seekEnd, $size));
-		}
-		else
-		{
-			# Set headers for full file
-			header('HTTP/1.1 200 OK');
-		}
-
-		# Output some headers
-		header('Cache-Control: private');
-		header('Content-Type: ' . $mimetype);
-		header('Content-Disposition: attachment; filename="' . $filename . '"');
-		header('Content-Transfer-Encoding: binary');
-		header("Content-Description: File Transfer");
-		header('Content-Length: ' . ($seekEnd - $seekStart));
-		header('Accept-Ranges: bytes');
-		header('Last-Modified: ' . gmdate('D, d M Y H:i:s', filemtime($filePath)) . ' GMT');
-
-		$block = 1024;
-
-		# limit download speed
-		if($rate > 0)
-		{
-			$block *= $rate;
-		}
-
-		# disable timeout before download starts
-		set_time_limit(0);
-
-		# Send file until end is reached
-		while(feof($fp) == false)
-		{
-			$timeStart = microtime(true);
-			echo fread($fp, $block);
-			flush();
-			$wait = (microtime(true) - $timeStart) * 1000000;
-
-			# if speedlimit is defined, make sure to only send specified bytes per second
-			if($rate > 0)
-			{
-				usleep(1000000 - $wait);
-			}
-		}
-
-		# Close handle
-		fclose($fp);
-	}
+    /**
+     * Constructor and convenience/proxy method for sending a file as a download to the browser
+     *
+     * @param string $file The filepath as string
+     * @param int $rate The speedlimit in KB/s
+     */
+    public function __construct($file, $rate)
+    {
+        self::send($file, $rate);
+    }
 
     /**
-	 * Send a file as a download to the browser
-	 *
-	 * @param string $filePath
-	 * @param int $rate speedlimit in KB/s
-	 */
-	public static function send($filePath, $rate = 3)
-	{
-	    try
-	    {
-        	self::sendRated($filePath, $rate);
+     * Sends a file as a download to the browser
+     *
+     * Uses php fileinfo extension to determine the mimetype etc.
+     *
+     *
+     * @param string $filePath The filepath as string
+     * @param int $rate The speedlimit in KB/s
+     */
+    private static function sendRated($filePath, $rate = 0)
+    {
+        # Check if file exists
+        if (is_file($filePath) == false)
+        {
+            throw new Clansuite_Exception('File not found.');
+        }
+
+        # get more information about the file
+        $filename = basename($filePath);
+        $size = filesize($filePath);
+        $finfo = finfo_open(FILEINFO_MIME);
+        $mimetype = finfo_file($finfo, realpath($filePath));
+        finfo_close($finfo);
+
+        # Create file handle
+        $fp = fopen($filePath, 'rb');
+
+        $seekStart = 0;
+        $seekEnd = $size;
+
+        /**
+         * check if only a specific part of the file should be sent
+         * multipart-download and resume-download
+         */
+        if(isset($_SERVER['HTTP_RANGE']))
+        {
+            # calculate the range to use
+            $range = explode('-', substr($_SERVER['HTTP_RANGE'], 6));
+
+            $seekStart = intval($range[0]);
+
+            if ($range[1] > 0)
+            {
+                $seekEnd = intval($range[1]);
+            }
+
+            # Seek to the start
+            fseek($fp, $seekStart);
+
+            # Set headers including the range info
+            header('HTTP/1.1 206 Partial Content');
+            header(sprintf('Content-Range: bytes %d-%d/%d', $seekStart, $seekEnd, $size));
+        }
+        else
+        {
+            # Set headers for full file
+            header('HTTP/1.1 200 OK');
+        }
+
+        # Output some headers
+        header('Cache-Control: private');
+        header('Content-Type: ' . $mimetype);
+        header('Content-Disposition: attachment; filename="' . $filename . '"');
+        header('Content-Transfer-Encoding: binary');
+        header("Content-Description: File Transfer");
+        header('Content-Length: ' . ($seekEnd - $seekStart));
+        header('Accept-Ranges: bytes');
+        header('Last-Modified: ' . gmdate('D, d M Y H:i:s', filemtime($filePath)) . ' GMT');
+
+        $block = 1024;
+
+        # limit download speed
+        if($rate > 0)
+        {
+            $block *= $rate;
+        }
+
+        # disable timeout before download starts
+        set_time_limit(0);
+
+        # Send file until end is reached
+        while(feof($fp) == false)
+        {
+            $timeStart = microtime(true);
+            echo fread($fp, $block);
+            flush();
+            $wait = (microtime(true) - $timeStart) * 1000000;
+
+            # if speedlimit is defined, make sure to only send specified bytes per second
+            if($rate > 0)
+            {
+                usleep(1000000 - $wait);
+            }
+        }
+
+        # Close handle
+        fclose($fp);
+    }
+
+    /**
+     * Send a file as a download to the browser
+     *
+     * @param string $filePath
+     * @param int $rate speedlimit in KB/s
+     */
+    public static function send($filePath, $rate = 3)
+    {
+        try
+        {
+            self::sendRated($filePath, $rate);
         }
         catch (Clansuite_Exception $e)
         {
-        	header('HTTP/1.1 404 File Not Found');
-        	die('Sorry, an error occured.');
+            header('HTTP/1.1 404 File Not Found');
+            die('Sorry, an error occured.');
     }
     
     /**
-	 * Send a file as a download to the browser
-	 *
-	 * @param string $filePath
-	 * @param int $rate speedlimit in KB/s
-	 */
-	public function sendFile($filePath, $rate = 3)
-	{
-	    try
-	    {
-        	self::sendRated($filePath, $rate);
+     * Send a file as a download to the browser
+     *
+     * @param string $filePath
+     * @param int $rate speedlimit in KB/s
+     */
+    public function sendFile($filePath, $rate = 3)
+    {
+        try
+        {
+            self::sendRated($filePath, $rate);
         }
         catch (Clansuite_Exception $e)
         {
-        	header('HTTP/1.1 404 File Not Found');
-        	die('Sorry, an error occured.');
+            header('HTTP/1.1 404 File Not Found');
+            die('Sorry, an error occured.');
     }
 }
 ?>

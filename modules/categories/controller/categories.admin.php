@@ -230,13 +230,21 @@ class Clansuite_Module_Categories_Admin extends Clansuite_Module_Controller impl
         }
     }
 
-    /** Denests the nested arrays within the given array. */
-    function flatten_array(array $a) {
+    /**
+     * Denest a nested arrays within the given array.
+     * @param arraz $array Multi-Dimensional array to flatten.
+     */
+    function flatten_array(array $arraz)
+    {
         $i = 0;
-        while ($i < count($a)) {
-            if (is_array($a[$i])) {
+        while ($i < count($a))
+        {
+            if (is_array($a[$i]))
+            {
                 array_splice($a, $i, 1, $a[$i]);
-            } else {
+            }
+            else
+            {
                 $i++;
             }
         }

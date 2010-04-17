@@ -1,7 +1,7 @@
 <?php
    /**
     * Clansuite - just an eSports CMS
-    * Jens-Andre Koch c 2005 - onwards
+    * Jens-André Koch c 2005 - onwards
     * http://www.clansuite.com/
     *
     * LICENSE:
@@ -22,7 +22,7 @@
     *
     * @license    GNU/GPL v2 or (at your option) any later version, see "/doc/LICENSE".
     *
-    * @author     Jens-Andre Koch <vain@clansuite.com>
+    * @author     Jens-André Koch <vain@clansuite.com>
     * @copyright  Copyleft: All rights reserved. Jens-Andrï¿½ Koch (2005-onwards)
     *
     * @link       http://www.clansuite.com
@@ -268,6 +268,8 @@ class Clansuite_Module_News_Admin extends Clansuite_Module_Controller implements
         $form->addElement('multiselect')->setName('news_form[news_status]')->setLabel(_('Status'))->setOptions($this->_Statusmap)->setDefaultValue($news['news_status']);
         $form->addElement('textarea')->setName('news_form[news_body]')->setID('news_form[news_body]')->setCols('110')->setRows('30')->setLabel(_('Your Article:'))->setValue($news['news_body'])
                 ->setEditor('nicedit');
+
+        $form->addElement('captcha')->setCaptcha('simplecaptcha')->setLabel(_('Captcha'));
 
         # add the buttonbar
         $form->addElement('buttonbar')->getButton('cancelbutton')->cancelURL = 'index.php?mod=news&amp;sub=admin';

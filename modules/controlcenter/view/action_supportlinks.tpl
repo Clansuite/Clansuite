@@ -17,7 +17,7 @@
     <br />
     <a target="_blank" href="http://forum.clansuite.com/index.php/board,4.0.html">Clansuite Forum: Hilfe | Support & Troubleshooting</a>
     <br />
-    <a target="_blank" href="teamspeak://clansuite.com:8000?channel=clansuite%20Admins?subchannel=clansuite%20Support"> Get Clansuite Support via Teamspeak </a>
+    <a target="_blank" href="ts3server://clansuite.com?port=9987"> Get Clansuite Support via Teamspeak </a>
     <br />
        <!-- http://www.LiveZilla.net Chat Button Link Code -->
        <a href="javascript:void(window.open('http://www.clansuite.com/livezilla/livezilla.php?reset=true','','width=600,height=600,left=0,top=0,resizable=yes,menubar=no,location=yes,status=yes,scrollbars=yes'))">
@@ -39,16 +39,15 @@
     <br />
 
     <strong>{t}Documentation{/t}</strong>
-    <br/>
-    <a target="_blank" href="http://trac.clansuite.com/wiki">Clansuite Wiki</a>
     <br />
     <a target="_blank" href="http://www.clansuite.com/documentation/">{t}Documentation{/t}</a>
-    <br />
+    <br/>
+    <a target="_blank" href="http://trac.clansuite.com/wiki">Clansuite Wiki</a>
     <br />
 
     <strong>{t}Development{/t}</strong>
     <br />
-    <a target="_blank" href="http://trac.clansuite.com/">Bugtracker (Trac)</a>
+    <a target="_blank" href="http://trac.clansuite.com/">Bugtracker</a>
     <br />
     <a target="_blank" href="http://trac.clansuite.com/roadmap">Roadmap</a>
     <br />
@@ -56,7 +55,7 @@
 
     <strong>{t}Tools & Addons{/t}</strong>
     <br/>
-    <a target="_blank" href="http://www.clansuite.com/toolbar/clansuite_toolbar.xpi">Toolbar</a>
+    <a target="_blank" href="http://www.clansuite.com/toolbar/">Toolbar</a>
     <br />
     <br />
 

@@ -196,16 +196,29 @@ class Clansuite_Errorhandler
         switch ($errorname)
         {
             # What are the errortypes that can be handled by a user-defined errorhandler?
-            case 'E_WARNING':                 $errorname .= ' [php warning]'; break;
-            case 'E_NOTICE':                  $errorname .= ' [php notice]'; break;
-            case 'E_USER_ERROR':              $errorname .= ' [Clansuite Internal Error]'; break;
-            case 'E_USER_WARNING':            $errorname .= ' [Clansuite Internal Error]'; break;
-            case 'E_USER_NOTICE':             $errorname .= ' [Clansuite Internal Error]'; break;
+            case 'E_WARNING':
+                $errorname .= ' [php warning]';
+                break;
+            case 'E_NOTICE':
+                $errorname .= ' [php notice]';
+                break;
+            case 'E_USER_ERROR':
+                $errorname .= ' [Clansuite Internal Error]';
+                break;
+            case 'E_USER_WARNING':
+                $errorname .= ' [Clansuite Internal Error]';
+                break;
+            case 'E_USER_NOTICE':
+                $errorname .= ' [Clansuite Internal Error]';
+                break;
             #case 'E_ALL':
-            case 'E_STRICT':                  $errorname .= ' [php strict]'; break;
+            case 'E_STRICT':
+                $errorname .= ' [php strict]';
+                break;
             #case 'E_RECOVERABLE_ERROR':
             # when it's not in there, its an unknown errorcode
-            default:                        $errorname .= ' Unknown Errorcode ['. $errornumber .']: ';
+            default:
+                $errorname .= ' Unknown Errorcode ['. $errornumber .']: ';
         }
 
         # if DEBUG is set, display the error
@@ -219,6 +232,7 @@ class Clansuite_Errorhandler
                 echo $this->smarty_error_display( $errornumber, $errorname, $errorstring, $errorfile, $errorline, $errorcontext );
             }
             else # give normal Error Display
+
             {
                 # All Error Informations (except backtraces)
                 echo $this->ysod( $errornumber, $errorname, $errorstring, $errorfile, $errorline, $errorcontext );
