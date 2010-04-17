@@ -44,19 +44,19 @@ $modulenavigation = array(
                             '1' => array(
                                             'action'  => 'show',
                                             'name'    => 'Clansuite Settings',
-										    'url'	  => 'index.php?mod=settings&sub=admin', # &action=show
-										    'icon'    => '',
-										    'tooltip' => ''
-										),
+                                            'url'      => 'index.php?mod=settings&sub=admin', # &action=show
+                                            'icon'    => '',
+                                            'tooltip' => ''
+                                        ),
                            /**
-							'2' => array(
-							                'action'  => 'modulesettings',
-							                'name'    => 'Module Settings',
-										    'url'     => 'index.php?mod=settings&sub=admin&action=modulesettings',
-										    'icon'    => '',
-										    'tooltip' => ''
-										),**/
-						 );
+                            '2' => array(
+                                            'action'  => 'modulesettings',
+                                            'name'    => 'Module Settings',
+                                            'url'     => 'index.php?mod=settings&sub=admin&action=modulesettings',
+                                            'icon'    => '',
+                                            'tooltip' => ''
+                                        ),**/
+                         );
 
 /**
  * Clansuite Adminmenu for Module Settings

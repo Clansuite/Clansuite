@@ -23,7 +23,7 @@ class Teamspeak3_ServerQueryCommand_channellist extends Clansuite_Teamspeak3_Ser
             return false;
         }
         
-		return $this->toArray($this->ServerQueryCommand('channellist'));
+        return $this->toArray($this->ServerQueryCommand('channellist'));
     }
 }
 ?>

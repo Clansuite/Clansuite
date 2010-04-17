@@ -169,7 +169,7 @@ class Clansuite_CMS
         }
 
         # require the configuration handler for ini files
-        require(getcwd() . '/core/config/ini.config.php');
+        includegetcwd() . '/core/config/ini.config.php');
         # 2. load the main clansuite configuration file
         self::$config = Clansuite_Config_IniHandler::readConfig('configuration/clansuite.config.php');
 

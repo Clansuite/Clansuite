@@ -4,21 +4,21 @@ class Teamspeak3_ServerQueryCommand_serveridgetbyport extends Clansuite_Teamspea
     /**
      * getServerIdByPort
      *
-     * @param	integer $port Virutalserver Port
+     * @param    integer $port Virutalserver Port
      * @return integer returns the serverID which has the selected port
      */
     public function serveridgetbyport($port)
     {
-		$ret = $this->getSimpleData("serveridgetbyport virtualserver_port=$port");
+        $ret = $this->getSimpleData("serveridgetbyport virtualserver_port=$port");
 
-		if($ret !== false)
-		{
-			return $ret['server_id'];
-		}
-		else
-		{
-			return false;
-		}
-	}
+        if($ret !== false)
+        {
+            return $ret['server_id'];
+        }
+        else
+        {
+            return false;
+        }
+    }
 }
 ?>

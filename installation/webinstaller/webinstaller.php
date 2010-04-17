@@ -1453,11 +1453,13 @@ function render($renderType, $args=array()) {
                         $disabled = empty($method['isSupported']) ? 'disabled="disabled"' : '';
                         $notSupported = empty($method['isSupported']) ? 'not supported by this platform' : '&nbsp;';
                         $checked = '';
-                        if ($first and !empty($method['isSupported'])) {
-                            $checked = ' checked="checked"'; $first = false;
+                        if ($first and !empty($method['isSupported']))
+                        {
+                            $checked = ' checked="checked"';
+                            $first = false;
                         }
                         printf('<tr><td><input type="radio" name="method" %s value="%s"%s /></td><td>%s</td><td>%s</td></tr>',
-                        $disabled, $method['command'], $checked, $method['name'], $notSupported);
+                                $disabled, $method['command'], $checked, $method['name'], $notSupported);
                     endforeach; ?>
                     </table>
                     <span class="subtitle">Select an archive type:</span>
@@ -1468,11 +1470,13 @@ function render($renderType, $args=array()) {
                         $disabled = empty($supported) ? 'disabled="disabled"' : '';
                         $message = empty($supported) ? 'not supported by this platform' : '&nbsp;';
                         $checked = '';
-                        if ($first and $supported) {
-                            $checked = ' checked="checked"'; $first = false;
+                        if ($first and $supported)
+                        {
+                            $checked = ' checked="checked"';
+                            $first = false;
                         }
                         printf('<tr><td><input type="radio" name="extension" value="%s" %s%s /></td><td>%s</td><td>%s</td></tr>',
-                        $ext, $disabled, $checked, $archiveBaseName . '.' . $ext, $message);
+                                $ext, $disabled, $checked, $archiveBaseName . '.' . $ext, $message);
                     endforeach; ?>
                     </table>
                     <input type="hidden" name="command" value="download" />
@@ -1510,20 +1514,27 @@ function render($renderType, $args=array()) {
                     $first = true;
                     foreach ($args['extractMethods'] as $method):
                         $disabled = 'disabled="disabled"';
-                        if (empty($method['isSupported'])) {
+                        if (empty($method['isSupported']))
+                        {
                             $message = 'not supported by this platform';
-                        } else if (!$method['archiveExists']){
+                        }
+                        elseif (!$method['archiveExists'])
+                        {
                             $message = '<span class="warning">first download the ' . $method['archiveName'] . ' archive</span>';
-                        } else {
+                        }
+                        else
+                        {
                             $message = '<span class="success">ready for extraction!</span>';
                             $disabled = '';
                         }
                         $checked = '';
-                        if ($first and empty($disabled) and !empty($method['isSupported'])) {
-                            $checked = ' checked="checked"'; $first = false;
+                        if ($first and empty($disabled) and !empty($method['isSupported']))
+                        {
+                            $checked = ' checked="checked"';
+                            $first = false;
                         }
                         printf('<tr><td><input type="radio" name="method" %s value="%s" %s /></td><td>%s</td><td>%s</td></tr>',
-                        $disabled, $method['command'], $checked, $method['name'], $message);
+                                $disabled, $method['command'], $checked, $method['name'], $message);
                      endforeach; ?>
                      </table>
                      <br />

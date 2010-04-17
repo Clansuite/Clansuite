@@ -56,7 +56,7 @@ class Clansuite_Module_Downloads_Admin extends Clansuite_Module_Controller imple
         
         $this->prepareOutput();
     }    
-	
+    
     /**
      * Action for displaying the Settings of a Module Downloads
      */

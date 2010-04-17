@@ -103,8 +103,8 @@ class Clansuite_Module_Forum_Admin extends Clansuite_Module_Controller implement
         $this->prepareOutput();
     }
 
-	public function action_admin_settings ()
-	{
+    public function action_admin_settings ()
+    {
         # Set Pagetitle and Breadcrumbs
         Clansuite_Breadcrumb::add( _('Settings'), '/index.php?mod=forum&amp;sub=admin&amp;action=settings');
 
@@ -114,36 +114,36 @@ class Clansuite_Module_Forum_Admin extends Clansuite_Module_Controller implement
                                         'method' => 'POST',
                                         'action' => WWW_ROOT.'/index.php?mod=forum&amp;sub=admin&amp;action=settings_update');
 
-		$settings['forum'][] = array(
-										'id' => 'list_max',
+        $settings['forum'][] = array(
+                                        'id' => 'list_max',
                                         'name' => 'list_max',
                                         'description' => _('list_max'),
                                         'formfieldtype' => 'text',
                                         'value' => $this->getConfigValue('list_max', '30'));
 
-		$settings['forum'][] = array(
-										'id' => 'char_max',
+        $settings['forum'][] = array(
+                                        'id' => 'char_max',
                                         'name' => 'char_max',
                                         'description' => _('Maximum Textcharacter'),
                                         'formfieldtype' => 'text',
                                         'value' => $this->getConfigValue('char_max', '999'));
 
-		$settings['forum'][] = array(
-										'id' => 'allow_bb_code',
+        $settings['forum'][] = array(
+                                        'id' => 'allow_bb_code',
                                         'name' => 'allow_bb_code',
                                         'description' => _('Allow BBCode'),
                                         'formfieldtype' => 'selectyesno',
                                         'value' => array( 'selected' => $this->getConfigValue('allow_bb_code', '1')));
 
-		$settings['forum'][] = array(
-										'id' => 'allow_html',
+        $settings['forum'][] = array(
+                                        'id' => 'allow_html',
                                         'name' => 'allow_html',
                                         'description' => _('Allow HTML'),
                                         'formfieldtype' => 'text',
                                         'value' => $this->getConfigValue('allow_html', '0'));
 
-		$settings['forum'][] = array(
-										'id' => 'allow_geshi_highlight',
+        $settings['forum'][] = array(
+                                        'id' => 'allow_geshi_highlight',
                                         'name' => 'allow_geshi_highlight',
                                         'description' => _('Allow Geshi Highlighting'),
                                         'formfieldtype' => 'text',
@@ -165,7 +165,7 @@ class Clansuite_Module_Forum_Admin extends Clansuite_Module_Controller implement
         $this->getView()->assign('form', $form->render());
 
         $this->prepareOutput();
-	}
+    }
 
     public function action_admin_settings_update()
     {

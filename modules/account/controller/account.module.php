@@ -109,7 +109,7 @@ class Clansuite_Module_Account extends Clansuite_Module_Controller implements Cl
         $password    = $request->getParameterFromPost('password');
         $remember_me = $request->getParameterFromPost('remember_me');
         $submit      = $request->getParameterFromPost('submit');
-        $referer	 = $request->getParameterFromGet('referer');
+        $referer     = $request->getParameterFromGet('referer');
 
         # Init Error Array
         $error = array();
@@ -737,15 +737,15 @@ class Clansuite_Module_Account extends Clansuite_Module_Controller implements Cl
 
 
 
-	/**
+    /**
      * form to edit profiledata
      */
-	public function action_profile_edit ()
-	{
+    public function action_profile_edit ()
+    {
 
-		# get id
+        # get id
         #$user_id = $this->getHttpRequest()->getParameter('id');
-		$user_id = 2;
+        $user_id = 2;
 
         # fetch userdata
         #$data = Doctrine::getTable('CsUsers')->fetchSingleUserData($user_id);
@@ -763,37 +763,37 @@ class Clansuite_Module_Account extends Clansuite_Module_Controller implements Cl
         #$form->addElement('hidden')->setName('userdata_form[user_id]')->setValue($data['user_id']);
 
         # Assign some formlements
-		#$form->addDecorator('fieldset')->setLegend('General Data');
-		#$form->addGroup('general');
+        #$form->addDecorator('fieldset')->setLegend('General Data');
+        #$form->addGroup('general');
         $form->addElement('text')->setName('userdata_form[firstname]')->setLabel(_('First Name'));
-		$form->addElement('text')->setName('userdata_form[name]')->setLabel(_('Name'));
-		$form->addElement('text')->setName('userdata_form[nickname]')->setLabel(_('Nickname'));
-		$form->addElement('password')->setName('userdata_form[password]')->setLabel(_('Password'));
-		$form->addElement('text')->setName('userdata_form[country]')->setLabel(_('Country'));
-		$form->addElement('textarea')->setName('userdata_form[signature]')->setID('userdata_form[signature]')->setCols('10')->setRows('10')->setLabel(_('Your Signature:'));
+        $form->addElement('text')->setName('userdata_form[name]')->setLabel(_('Name'));
+        $form->addElement('text')->setName('userdata_form[nickname]')->setLabel(_('Nickname'));
+        $form->addElement('password')->setName('userdata_form[password]')->setLabel(_('Password'));
+        $form->addElement('text')->setName('userdata_form[country]')->setLabel(_('Country'));
+        $form->addElement('textarea')->setName('userdata_form[signature]')->setID('userdata_form[signature]')->setCols('10')->setRows('10')->setLabel(_('Your Signature:'));
 
-		#$form->addDecorator('fieldset')->setLegend('Special Data');
-		#$form->addGroup('special');
+        #$form->addDecorator('fieldset')->setLegend('Special Data');
+        #$form->addGroup('special');
 
-		$form->addElement('text')->setName('userdata_form[city]')->setLabel(_('City'));
-		$form->addElement('textarea')->setName('userdata_form[address]')->setID('userdata_form[address]')->setCols('110')->setRows('30')->setLabel(_('Your Address:'));
-		$form->addElement('text')->setName('userdata_form[mailaddress]')->setLabel(_('Mailaddress'));
-		$form->addElement('text')->setName('userdata_form[phonenumber]')->setLabel(_('Phonenumber'));
-		$form->addElement('text')->setName('userdata_form[handynumber]')->setLabel(_('Handynumber'));
+        $form->addElement('text')->setName('userdata_form[city]')->setLabel(_('City'));
+        $form->addElement('textarea')->setName('userdata_form[address]')->setID('userdata_form[address]')->setCols('110')->setRows('30')->setLabel(_('Your Address:'));
+        $form->addElement('text')->setName('userdata_form[mailaddress]')->setLabel(_('Mailaddress'));
+        $form->addElement('text')->setName('userdata_form[phonenumber]')->setLabel(_('Phonenumber'));
+        $form->addElement('text')->setName('userdata_form[handynumber]')->setLabel(_('Handynumber'));
 
-		#$form->addDecorator('fieldset')->setLegend('Contact Data');
-		#$form->addGroup('contact');
+        #$form->addDecorator('fieldset')->setLegend('Contact Data');
+        #$form->addGroup('contact');
 
-		$form->addElement('text')->setName('userdata_form[icq]')->setLabel(_('ICQ'));
-		$form->addElement('text')->setName('userdata_form[msn]')->setLabel(_('MSN'));
-		$form->addElement('text')->setName('userdata_form[xfire]')->setLabel(_('XFire'));
-		$form->addElement('text')->setName('userdata_form[steam]')->setLabel(_('Steam'));
-		$form->addElement('text')->setName('userdata_form[skype]')->setLabel(_('Skype'));
-		$form->addElement('text')->setName('userdata_form[jabber]')->setLabel(_('Jabber'));
+        $form->addElement('text')->setName('userdata_form[icq]')->setLabel(_('ICQ'));
+        $form->addElement('text')->setName('userdata_form[msn]')->setLabel(_('MSN'));
+        $form->addElement('text')->setName('userdata_form[xfire]')->setLabel(_('XFire'));
+        $form->addElement('text')->setName('userdata_form[steam]')->setLabel(_('Steam'));
+        $form->addElement('text')->setName('userdata_form[skype]')->setLabel(_('Skype'));
+        $form->addElement('text')->setName('userdata_form[jabber]')->setLabel(_('Jabber'));
 
-		$form->addElement('submitbutton')->setValue('Submit');
+        $form->addElement('submitbutton')->setValue('Submit');
         $form->addElement('resetbutton')->setValue('Reset');
-		$form->addElement('cancelbutton');
+        $form->addElement('cancelbutton');
 
         # Debugging Form Object
         #clansuite_xdebug::printR($form);
@@ -805,17 +805,17 @@ class Clansuite_Module_Account extends Clansuite_Module_Controller implements Cl
         $this->getView()->assign('form', $form->render());
 
         $this->prepareOutput();
-	}
+    }
 
-	/**
+    /**
      * form to edit avatar
      */
-	public function action_profile_edit_avatar ()
-	{
+    public function action_profile_edit_avatar ()
+    {
 
-		# get id
+        # get id
         #$user_id = $this->getHttpRequest()->getParameter('id');
-		$user_id = 2;
+        $user_id = 2;
 
         # fetch userdata
         $data = Doctrine::getTable('CsUsers')->fetchSingleUserData($user_id);
@@ -833,14 +833,14 @@ class Clansuite_Module_Account extends Clansuite_Module_Controller implements Cl
         $form->addElement('hidden')->setName('useravatar_form[user_id]')->setValue($data['user_id']);
 
         # Assign some formlements
-		$form->addDecorator('fieldset')->setLegend('Edit your User-Avatar');
-		$form->addGroup('avatar');
-		$form->addElement('jqselectimage')->addToGroup('avatar')->setName('useravatar_form[avatar]')->setLabel(_('Choose your Avatar:'));
-		$form->addElement('jquploadify')->addToGroup('avatar')->setName('useravatar_form[avatar]')->setLabel(_('Upload your Avatar:'))->setDescription('max. 100x100px and max 500kb');
+        $form->addDecorator('fieldset')->setLegend('Edit your User-Avatar');
+        $form->addGroup('avatar');
+        $form->addElement('jqselectimage')->addToGroup('avatar')->setName('useravatar_form[avatar]')->setLabel(_('Choose your Avatar:'));
+        $form->addElement('jquploadify')->addToGroup('avatar')->setName('useravatar_form[avatar]')->setLabel(_('Upload your Avatar:'))->setDescription('max. 100x100px and max 500kb');
 
-		$form->addElement('submitbutton')->setValue('Submit');
+        $form->addElement('submitbutton')->setValue('Submit');
         $form->addElement('resetbutton')->setValue('Reset');
-		$form->addElement('cancelbutton');
+        $form->addElement('cancelbutton');
 
         # Debugging Form Object
         #clansuite_xdebug::printR($form);
@@ -852,17 +852,17 @@ class Clansuite_Module_Account extends Clansuite_Module_Controller implements Cl
         $this->getView()->assign('form', $form->render());
 
         $this->prepareOutput();
-	}
+    }
 
-	/**
+    /**
      *  form to edit userpic
      */
-	public function action_profile_edit_userpic ()
-	{
+    public function action_profile_edit_userpic ()
+    {
 
-		# get id
+        # get id
         #$user_id = $this->getHttpRequest()->getParameter('id');
-		$user_id = 2;
+        $user_id = 2;
 
         # fetch userdata
         $data = Doctrine::getTable('CsUsers')->fetchSingleUserData($user_id);
@@ -880,13 +880,13 @@ class Clansuite_Module_Account extends Clansuite_Module_Controller implements Cl
         $form->addElement('hidden')->setName('userpic_form[user_id]')->setValue($data['user_id']);
 
         # Assign some formlements
-		$form->addDecorator('fieldset')->setLegend('Edit your User-Picture');
-		$form->addGroup('userpic');
-		$form->addElement('jquploadify')->addToGroup('userpic')->setName('userpic_form[userpic]')->setLabel(_('Upload your User-Picture:'))->setDescription('max. 150x150px and max 1Mb');
+        $form->addDecorator('fieldset')->setLegend('Edit your User-Picture');
+        $form->addGroup('userpic');
+        $form->addElement('jquploadify')->addToGroup('userpic')->setName('userpic_form[userpic]')->setLabel(_('Upload your User-Picture:'))->setDescription('max. 150x150px and max 1Mb');
 
-		$form->addElement('submitbutton')->setValue('Submit');
+        $form->addElement('submitbutton')->setValue('Submit');
         $form->addElement('resetbutton')->setValue('Reset');
-		$form->addElement('cancelbutton');
+        $form->addElement('cancelbutton');
 
         # Debugging Form Object
         #clansuite_xdebug::printR($form);
@@ -898,22 +898,22 @@ class Clansuite_Module_Account extends Clansuite_Module_Controller implements Cl
         $this->getView()->assign('form', $form->render());
 
         $this->prepareOutput();
-	}
+    }
 
-	/**
+    /**
      *  form to update profiledata
      */
-	public function action_profile_update()
-	{
+    public function action_profile_update()
+    {
         $this->prepareOutput();
-	}
+    }
 
-	/**
+    /**
      * form to save profiledata
      */
-	public function action_profile_save ()
-	{
+    public function action_profile_save ()
+    {
         $this->prepareOutput();
-	}
+    }
 }
 ?>

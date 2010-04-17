@@ -61,18 +61,18 @@ class Clansuite_Module_Rssreader extends Clansuite_Module_Controller implements 
         # mute all errors, because simplepie.inc is a mess
         error_reporting(0);
 
-		# get clansuite feed component
-		$cs_feed = new Clansuite_Feed();
+        # get clansuite feed component
+        $cs_feed = new Clansuite_Feed();
 
-		# fetch the google group clansuite for latest news
-		$feeditems = $cs_feed->fetchRSS('http://groups.google.com/group/clansuite/feed/rss_v2_0_topics.xml');
+        # fetch the google group clansuite for latest news
+        $feeditems = $cs_feed->fetchRSS('http://groups.google.com/group/clansuite/feed/rss_v2_0_topics.xml');
 
         $this->getModuleConfig('rssreader');
 
         # assign to smarty
         $view = $this->getView();
         $view->assign('items_newswidget', $this->getConfigValue('items_newswidget', '3'));
-		$view->assign('feed', $feeditems);
+        $view->assign('feed', $feeditems);
     }
 }
 ?>

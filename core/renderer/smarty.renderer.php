@@ -91,7 +91,7 @@ class Clansuite_Renderer_Smarty extends Clansuite_Renderer_Base
             # check if Smarty library exists - eat like a bird, poop like an elefant!
             if ( is_file(ROOT_LIBRARIES . 'smarty/Smarty.class.php') )
             {
-                require(ROOT_LIBRARIES . 'smarty/Smarty.class.php');
+                includeROOT_LIBRARIES . 'smarty/Smarty.class.php');
                 $this->renderer = new Smarty();
             }
             else // throw error in case smarty library is missing

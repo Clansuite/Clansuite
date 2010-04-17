@@ -121,7 +121,7 @@ class Clansuite_Module_News extends Clansuite_Module_Controller implements Clans
 
         $news = Doctrine::getTable('CsNews')->fetchSingleNews($news_id);
 
-		# Debugging SQL Request
+        # Debugging SQL Request
         #clansuite_xdebug::printR($news);
 
         # if a news was found
@@ -175,7 +175,7 @@ class Clansuite_Module_News extends Clansuite_Module_Controller implements Clans
     public function action_getFeed()
     {
         # Require Feedcreator Class
-        if(!class_exists('UniversalFeedCreator'))
+        if(false === class_exists('UniversalFeedCreator'))
         {
             require ROOT_LIBRARIES . 'feedcreator/feedcreator.class.php';
         }
@@ -364,7 +364,7 @@ class Clansuite_Module_News extends Clansuite_Module_Controller implements Clans
         $currentPage = (int) $this->getHttpRequest()->getParameter('page');
 
         # SmartyColumnSort -- Easy sorting of html table columns.
-        require( ROOT_LIBRARIES . '/smarty/libs/SmartyColumnSort.class.php');
+        include ROOT_LIBRARIES . '/smarty/libs/SmartyColumnSort.class.php');
         # A list of database columns to use in the table.
         $columns = array( 'n.created_at', 'n.news_title', 'c.cat_id', 'u.user_id', 'nr_news_comments');
         # Create the columnsort object

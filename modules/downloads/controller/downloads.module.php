@@ -66,7 +66,7 @@ class Clansuite_Module_Downloads extends Clansuite_Module_Controller implements 
         $this->prepareOutput();
     }
 
-	/**
+    /**
      * Widget LatestFiles
      *
      * @param integer $number Number of Files to fetch
@@ -76,12 +76,12 @@ class Clansuite_Module_Downloads extends Clansuite_Module_Controller implements 
         $this->getView()->assign('widget_latestfiles', Doctrine::getTable('CsDownloads')->fetchLatestFiles($number));
     }
 
-	/**
+    /**
      * Widget TopFiles
      *
      * @param integer $number Number of Files to fetch
      */
-	public function widget_topfiles($number)
+    public function widget_topfiles($number)
     {
         $this->getView()->assign('widget_topfiles', Doctrine::getTable('CsDownloads')->fetchTopFiles($number));
     }

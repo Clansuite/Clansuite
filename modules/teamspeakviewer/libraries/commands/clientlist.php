@@ -7,10 +7,10 @@ class Teamspeak3_ServerQueryCommand_clientinfo extends Clansuite_Teamspeak3_Serv
      * Array
      * {
      *    [clid]
-     *	  [cid]
-     *	  [client_database_id]
-     *	  [client_nickname]
-     *	  [client_type]
+     *      [cid]
+     *      [client_database_id]
+     *      [client_nickname]
+     *      [client_type]
      * )
      *
      * @return returns all online clients on the selected virtual server

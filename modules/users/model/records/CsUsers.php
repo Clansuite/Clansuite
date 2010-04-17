@@ -6,11 +6,11 @@
 class CsUsers extends BaseCsUsers
 {
     /**
- 	 * Returns an user in array form by ID
- 	 *
- 	 * @param   integer $id
- 	 * @return  array
- 	 */
+      * Returns an user in array form by ID
+      *
+      * @param   integer $id
+      * @return  array
+      */
     public static function getUser($id)
     {
         $user_array =  Doctrine_Query::create()
@@ -25,11 +25,11 @@ class CsUsers extends BaseCsUsers
     }
 
     /**
- 	 * Returns an user in array form by EMAIL
- 	 *
- 	 * @param   string $email
- 	 * @return  array
- 	 */
+      * Returns an user in array form by EMAIL
+      *
+      * @param   string $email
+      * @return  array
+      */
     public static function getUserByEmail($email)
     {
         $user_array = Doctrine_Query::create()

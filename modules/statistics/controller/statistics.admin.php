@@ -67,19 +67,19 @@ class Clansuite_Module_Statistics_Admin extends Clansuite_Module_Controller impl
                                         'method' => 'POST',
                                         'action' => WWW_ROOT.'/index.php?mod=statistics&amp;sub=admin&amp;action=settings_update');
 
-        $settings['statistics'][] = array(    	'id' => 'deleteTimeWho',
-                                        	  	'name' => 'deleteTimeWho',
-                                        		'label' => 'delete Time',
-                                        		'description' => _('Delete time of old database entries for the WhoIsOnline table. Value in days. After x days delete old entries !'),
-		                                        'formfieldtype' => 'text',
-        		                                'value' => $this->getConfigValue('deleteTimeWho', '1'));
+        $settings['statistics'][] = array(        'id' => 'deleteTimeWho',
+                                                  'name' => 'deleteTimeWho',
+                                                'label' => 'delete Time',
+                                                'description' => _('Delete time of old database entries for the WhoIsOnline table. Value in days. After x days delete old entries !'),
+                                                'formfieldtype' => 'text',
+                                                'value' => $this->getConfigValue('deleteTimeWho', '1'));
 
-        $settings['statistics'][] = array(    	'id' => 'timoutWho',
-                		                        'name' => 'timoutWho',
-                        		                'label' => 'Online Timeout',
-                                		        'description' => _('Defines the timeout for a user or guest. Value in minutes.'),
-                                        		'formfieldtype' => 'text',
-                                        		'value' => $this->getConfigValue('timoutWho', '5'));
+        $settings['statistics'][] = array(        'id' => 'timoutWho',
+                                                'name' => 'timoutWho',
+                                                'label' => 'Online Timeout',
+                                                'description' => _('Defines the timeout for a user or guest. Value in minutes.'),
+                                                'formfieldtype' => 'text',
+                                                'value' => $this->getConfigValue('timoutWho', '5'));
 
 
         # fetch the formgenerator

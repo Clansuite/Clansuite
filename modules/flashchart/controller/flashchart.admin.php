@@ -53,11 +53,11 @@ class Clansuite_Module_Flashchart_Admin extends Clansuite_Module_Controller impl
 
     public function action_admin_show()
     {
-    	# initialize OFC
-    	require 'ofc/open_flash_chart_object.php';
+        # initialize OFC
+        require 'ofc/open_flash_chart_object.php';
 
-    	# get an OFC Object
-    	$flashchart = open_flash_chart_object_str( 500, 250, 'http://'. $_SERVER['SERVER_NAME'] .'/cache/chart-data.php', false );
+        # get an OFC Object
+        $flashchart = open_flash_chart_object_str( 500, 250, 'http://'. $_SERVER['SERVER_NAME'] .'/cache/chart-data.php', false );
 
         $this->getView()->assign('flashchart', $flashchart);
         unset($flashchart);

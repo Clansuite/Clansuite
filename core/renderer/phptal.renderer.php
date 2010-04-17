@@ -78,12 +78,12 @@ class Clansuite_Renderer_Phptal extends Clansuite_Renderer_Base
     public function initializeEngine()
     {
         # prevent redeclaration
-        if (!class_exists('PHPTAL',false))
+        if (false === class_exists('PHPTAL',false))
         {
             # check if library exists
             if ( is_file(ROOT_LIBRARIES . 'phptal/PHPTAL.php') )
             {
-                require(ROOT_LIBRARIES . 'phptal/PHPTAL.php');
+                includeROOT_LIBRARIES . 'phptal/PHPTAL.php');
                 $this->renderer = new PHPTAL();
             }
             else // throw error in case PHPTAL library is missing

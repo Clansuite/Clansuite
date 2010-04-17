@@ -48,7 +48,7 @@
  *
  * index.php:
  *
- * require('Smarty.class.php');
+ * include'Smarty.class.php');
  * $smarty = new Smarty;
  * $line0=array("name"=>"Régis", "phone"=> "00000000", "age" =>"63");
  * $line1=array("name"=>"Léopoldine", "phone"=> "987654312", "age" =>"27");

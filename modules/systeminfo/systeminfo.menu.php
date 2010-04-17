@@ -44,19 +44,19 @@ $modulenavigation = array(
                             '1' => array(
                                             'action'  => 'show',
                                             'name'    => 'Systeminfo',
-										    'url'	  => 'index.php?mod=systeminfo&sub=admin', # &action=show
-										    'icon'    => '',
-										    'tooltip' => ''
-										),
+                                            'url'      => 'index.php?mod=systeminfo&sub=admin', # &action=show
+                                            'icon'    => '',
+                                            'tooltip' => ''
+                                        ),
 
-							'2' => array(
-							                'action'  => 'show_apc',
-							                'name'    => 'Alternative PHP Cache',
-										    'url'     => 'index.php?mod=systeminfo&sub=admin&action=show_apc',
-										    'icon'    => '',
-										    'tooltip' => ''
-										),						    
-						 );
+                            '2' => array(
+                                            'action'  => 'show_apc',
+                                            'name'    => 'Alternative PHP Cache',
+                                            'url'     => 'index.php?mod=systeminfo&sub=admin&action=show_apc',
+                                            'icon'    => '',
+                                            'tooltip' => ''
+                                        ),                            
+                         );
 
 /**
  * Clansuite Adminmenu for Module Systeminfo

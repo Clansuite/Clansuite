@@ -44,19 +44,19 @@ $modulenavigation = array(
                             '1' => array(
                                             'action'  => 'show',
                                             'name'    => 'Overview',
-										    'url'	  => 'index.php?mod=shockvoiceviewer&sub=admin', # &action=show
-										    'icon'    => '',
-										    'tooltip' => ''
-										),
+                                            'url'      => 'index.php?mod=shockvoiceviewer&sub=admin', # &action=show
+                                            'icon'    => '',
+                                            'tooltip' => ''
+                                        ),
 
-							'2' => array(
-							                'action'  => 'settings',
-							                'name'    => 'Settings',
-										    'url'     => 'index.php?mod=shockvoiceviewer&sub=admin&action=settings',
-										    'icon'    => '',
-										    'tooltip' => ''
-										),
-						 );
+                            '2' => array(
+                                            'action'  => 'settings',
+                                            'name'    => 'Settings',
+                                            'url'     => 'index.php?mod=shockvoiceviewer&sub=admin&action=settings',
+                                            'icon'    => '',
+                                            'tooltip' => ''
+                                        ),
+                         );
 
 /**
  * Clansuite Adminmenu for Module Shockvoiceviewer

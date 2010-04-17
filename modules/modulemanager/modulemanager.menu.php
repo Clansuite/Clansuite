@@ -44,51 +44,51 @@ $modulenavigation = array(
                             '1' => array(
                                             'action'  => 'show',
                                             'name'    => 'Overview',
-										    'url'	  => 'index.php?mod=modulemanager&sub=admin', # &action=show
-										    'icon'    => '',
-										    'tooltip' => ''
-										),
+                                            'url'      => 'index.php?mod=modulemanager&sub=admin', # &action=show
+                                            'icon'    => '',
+                                            'tooltip' => ''
+                                        ),
 
-							'2' => array(
-							                'action'  => 'builder',
-							                'name'    => 'Create with Modulebuilder',
-										    'url'     => 'index.php?mod=modulemanager&sub=admin&action=builder',
-										    'icon'    => '',
-										    'tooltip' => ''
-										),
+                            '2' => array(
+                                            'action'  => 'builder',
+                                            'name'    => 'Create with Modulebuilder',
+                                            'url'     => 'index.php?mod=modulemanager&sub=admin&action=builder',
+                                            'icon'    => '',
+                                            'tooltip' => ''
+                                        ),
                                         
                             '3' => array(
-							                'action'  => 'install',
-							                'name'    => 'Install',
-										    'url'     => 'index.php?mod=modulemanager&sub=admin&action=install',
-										    'icon'    => '',
-										    'tooltip' => ''
-										),
+                                            'action'  => 'install',
+                                            'name'    => 'Install',
+                                            'url'     => 'index.php?mod=modulemanager&sub=admin&action=install',
+                                            'icon'    => '',
+                                            'tooltip' => ''
+                                        ),
 
-							'4' => array(
-							                'action'  => 'edit',
-							                'name'    => 'Edit',
-										    'url'     => 'index.php?mod=modulemanager&sub=admin&action=edit',
-										    'icon'    => '',
-										    'tooltip' => ''
-										),
+                            '4' => array(
+                                            'action'  => 'edit',
+                                            'name'    => 'Edit',
+                                            'url'     => 'index.php?mod=modulemanager&sub=admin&action=edit',
+                                            'icon'    => '',
+                                            'tooltip' => ''
+                                        ),
                                         
-							'5' => array(
-							                'action'  => 'export',
-							                'name'    => 'Export',
-										    'url'     => 'index.php?mod=modulemanager&sub=admin&action=export',
-										    'icon'    => '',
-										    'tooltip' => ''
-										),
+                            '5' => array(
+                                            'action'  => 'export',
+                                            'name'    => 'Export',
+                                            'url'     => 'index.php?mod=modulemanager&sub=admin&action=export',
+                                            'icon'    => '',
+                                            'tooltip' => ''
+                                        ),
 
-							'6' => array(
-							                'action'  => 'settings',
-							                'name'    => 'Settings',
-										    'url'     => 'index.php?mod=modulemanager&sub=admin&action=settings',
-										    'icon'    => '',
-										    'tooltip' => ''
-										),
-						 );
+                            '6' => array(
+                                            'action'  => 'settings',
+                                            'name'    => 'Settings',
+                                            'url'     => 'index.php?mod=modulemanager&sub=admin&action=settings',
+                                            'icon'    => '',
+                                            'tooltip' => ''
+                                        ),
+                         );
 
 /**
  * Clansuite Adminmenu for Module Modulemanager

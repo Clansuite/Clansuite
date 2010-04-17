@@ -54,24 +54,24 @@ class Clansuite_Shockvoice_Query
     # array of channels and users
     protected $shockvoice = array();
 
-	/**
-	 * Constructor
-	 *
-	 * @param	string	    $host
-	 * @param	int			$port
-	 * @param	int			$query_port
-	 * @param	int			$server
-	 * @param   string      $encoding
-	 */
-	public function __construct($host = 'localhost', $port = 8040, $query_port = 8010, $server = 1, $encoding = 'UTF-8')
-	{
-		$filename = "http://" . $host. ":" . $port . "/" . $server;
+    /**
+     * Constructor
+     *
+     * @param    string        $host
+     * @param    int            $port
+     * @param    int            $query_port
+     * @param    int            $server
+     * @param   string      $encoding
+     */
+    public function __construct($host = 'localhost', $port = 8040, $query_port = 8010, $server = 1, $encoding = 'UTF-8')
+    {
+        $filename = "http://" . $host. ":" . $port . "/" . $server;
 
         $this->shockvoice['servername'] = $host;
         $this->shockvoice['port']       = $port;
 
         $this->query($filename, $encoding);
-	}
+    }
 
     /**
      * Query the Shockvoice Server via CURL
@@ -124,14 +124,14 @@ class Clansuite_Shockvoice_Query
         }
     }
 
-	/**
+    /**
      * Getter Method for the Shockvoice Data Array
      *
-	 * @return	array	array with keys 'channels' and 'users'
-	 */
-	public function getShockvoice()
-	{
-	    if(!empty($this->shockvoice['users']))
+     * @return    array    array with keys 'channels' and 'users'
+     */
+    public function getShockvoice()
+    {
+        if(!empty($this->shockvoice['users']))
         {
             $this->shockvoice['num_clients']  = count($this->shockvoice['users']);
         }
@@ -144,7 +144,7 @@ class Clansuite_Shockvoice_Query
         $this->shockvoice['request_ok']       = true;
 
         return $this->shockvoice;
-	}
+    }
 
     /**
      * startElement is a callback of xml_set_element_handler()
@@ -164,7 +164,7 @@ class Clansuite_Shockvoice_Query
                 'parentid' => '0'
         );
 
-		if (count($attributes))
+        if (count($attributes))
         {
             foreach ($attributes as $key => $value)
             {
@@ -193,7 +193,7 @@ class Clansuite_Shockvoice_Query
             }
         }
 
-		if ($name == 'CHANNEL')
+        if ($name == 'CHANNEL')
         {
             $this->current_channel = $element['id'];
 
@@ -247,11 +247,11 @@ class Clansuite_Shockvoice_Query
     {
         /*if($name == 'CHANNEL')
         {
-			if ($this->current_channel != 0)
-			{
-				$this->current_channel = $this->shockvoice['channels'][$this->current_channel]['parentid'];
-		    }
-		}*/
+            if ($this->current_channel != 0)
+            {
+                $this->current_channel = $this->shockvoice['channels'][$this->current_channel]['parentid'];
+            }
+        }*/
     }
 
     /**
@@ -301,21 +301,21 @@ class Clansuite_Shockvoice_Query
         $img = '';
         switch ((int) $status)
         {
-            case 0: $img = "online";
+            case 0: $img = 'online';
                 break;
-            case 1: $img = "away";
+            case 1: $img = 'away';
                 break;
-            case 2: $img = "notavailable";
+            case 2: $img = 'notavailable';
                 break;
-            case 3: $img = "occupied";
+            case 3: $img = 'occupied';
                 break;
-            case 4: $img = "donotdisturb";
+            case 4: $img = 'donotdisturb';
                 break;
-            case 5: $img = "freeforchat";
+            case 5: $img = 'freeforchat';
                 break;
-            case 6: $img = "onthephone";
+            case 6: $img = 'onthephone';
                 break;
-            case 7: $img = "outtolunch";
+            case 7: $img = 'outtolunch';
                 break;
         }
 

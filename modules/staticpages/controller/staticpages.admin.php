@@ -45,7 +45,7 @@ class Clansuite_Module_Staticpages_Admin extends Clansuite_Module_Controller imp
 {
     public function initializeModule(Clansuite_HttpRequest $request, Clansuite_HttpResponse $response)
     {
-		parent::initModel('staticpages');
+        parent::initModel('staticpages');
     }
 
     /**
