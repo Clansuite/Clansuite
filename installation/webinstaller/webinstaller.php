@@ -59,7 +59,7 @@
     * @version    SVN: $Id$
     */
 
-if(ini_get("safe_mode") == true && ini_get("open_basedir") == true)
+if(ini_get("safe_mode") == true and ini_get("open_basedir") == true)
 {
    die('<i>ERROR</i> : <b>Clansuite Webinstaller is not able to perform a curl/wget/fopen/fsockopen command, <br> because \'Safe Mode\' and \'Open_BaseDir Restriction\' are enabled! <br> Shutting Down!</b>');
 }
@@ -195,7 +195,7 @@ class WebInstaller {
                         if (empty($_POST['target_path'])) $target_path = '';
                         else $method = trim($_POST['target_path']);
 
-                        if (isset($_POST['remove_path']) && $_POST['remove_path'] == 'clansuite/')
+                        if (isset($_POST['remove_path']) and $_POST['remove_path'] == 'clansuite/')
                         {
                             $remove_path = 'clansuite/';
                         }
@@ -329,7 +329,7 @@ class WebInstaller {
                 }
                 $folderName = dirname(__FILE__) . '/' .  $folderName;
                 $oldFolderName = $this->findclansuiteFolder();
-                if (empty($oldFolderName) || !is_file(dirname(__FILE__) . DIRECTORY_SEPARATOR . $oldFolderName)) {
+                if (empty($oldFolderName) or !is_file(dirname(__FILE__) . DIRECTORY_SEPARATOR . $oldFolderName)) {
                     render('results', array('failure' => "No Clansuite folder found in  the current working directory."));
                     exit;
                 }
@@ -390,23 +390,27 @@ class WebInstaller {
         $extensions = array();
         $anyExtensionSupported = 0;
         $anyArchiveExists = 0;
-        foreach    ($this->_extractMethods as $method) {
+        foreach    ($this->_extractMethods as $method)
+        {
             $archiveName = $archiveBaseName . '.' . $method->getSupportedExtension();
             $archiveExists = is_file(dirname(__FILE__) . '/' . $archiveName);
             $isSupported = $method->isSupported();
             $extractMethods[] = array('isSupported' => $isSupported,
-                          'name' => $method->getName(),
-                          'command' => strtolower(get_class($method)),
-                          'archiveExists' => $archiveExists,
-                          'archiveName' => $archiveName);
-            if (empty($extensions[$method->getSupportedExtension()])) {
-            $extensions[$method->getSupportedExtension()] = (int)$isSupported;
+                    'name' => $method->getName(),
+                    'command' => strtolower(get_class($method)),
+                    'archiveExists' => $archiveExists,
+                    'archiveName' => $archiveName);
+            if (empty($extensions[$method->getSupportedExtension()]))
+            {
+                $extensions[$method->getSupportedExtension()] = (int) $isSupported;
             }
-            if ($isSupported) {
-            $anyExtensionSupported = 1;
+            if ($isSupported)
+            {
+                $anyExtensionSupported = 1;
             }
-            if ($archiveExists) {
-            $anyArchiveExists = 1;
+            if ($archiveExists)
+            {
+                $anyArchiveExists = 1;
             }
         }
         $capabilities['extractMethods'] = $extractMethods;
@@ -415,10 +419,11 @@ class WebInstaller {
         $capabilities['anyArchiveExists'] = $anyArchiveExists;
 
         $downloadMethods = array();
-        foreach    ($this->_downloadMethods as $method) {
+        foreach    ($this->_downloadMethods as $method)
+        {
             $downloadMethods[] = array('isSupported' => $method->isSupported(),
-                           'name' => $method->getName(),
-                           'command' => strtolower(get_class($method)));
+                    'name' => $method->getName(),
+                    'command' => strtolower(get_class($method)));
         }
         $capabilities['downloadMethods'] = $downloadMethods;
 
@@ -431,18 +436,18 @@ class WebInstaller {
         $basePath = dirname(__FILE__) . '/';
 
         # installtion in "clansuite/" directory
-        if (is_file($basePath . 'clansuite') &&
+        if (is_file($basePath . 'clansuite') and
             is_file($basePath . 'clansuite/installation/index.php')) {
             return 'clansuite';
         }
 
         # installation without "clansuite/" directory
-        if (is_file($basePath . 'index.php') &&
+        if (is_file($basePath . 'index.php') and
             is_file($basePath . '/installation/index.php')) {
             return 'clansuite';
         }
 
-        if (!Platform::isPhpFunctionSupported('opendir') ||
+        if (!Platform::isPhpFunctionSupported('opendir') or
             !Platform::isPhpFunctionSupported('readdir')) {
             return false;
         }
@@ -452,7 +457,7 @@ class WebInstaller {
             return false;
         }
         while (($fileName = readdir($handle)) !== false) {
-            if ($fileName == '.' || $fileName == '..') {
+            if ($fileName == '.' or $fileName == '..') {
             continue;
             }
             if (is_file($basePath . $fileName . '/installation/index.php')) {
@@ -498,8 +503,8 @@ class WebInstaller {
          * Fetch the version information from a remote server and if we already have it,
          * update it if it's older than an hour
          */
-        if (!is_file($tempFile) || !(($stat = @stat($tempFile)) &&
-            isset($stat['mtime']) && $stat['mtime'] > time() - 3600)) {
+        if (!is_file($tempFile) or !(($stat = @stat($tempFile)) and
+            isset($stat['mtime']) and $stat['mtime'] > time() - 3600)) {
             $downloader->download($versionCheckUrl, $tempFile);
         }
         /* Parse the fetched version information file */
@@ -544,7 +549,7 @@ class Platform
     /* Check if a specific php function is available */
     function isPhpFunctionSupported($functionName)
     {
-        if (in_array($functionName, split(',\s*', ini_get('disable_functions'))) || !function_exists($functionName))
+        if (in_array($functionName, split(',\s*', ini_get('disable_functions'))) or !function_exists($functionName))
         {
             return false;
         } else
@@ -571,7 +576,7 @@ class Platform
         /* First try 'which' */
         $ret = array();
         exec('which ' . $binaryName, $ret);
-        if (strpos(join(' ',$ret), $binaryName) !== false && is_executable(join('',$ret))) {
+        if (strpos(join(' ',$ret), $binaryName) !== false and is_executable(join('',$ret))) {
             return $binaryName; // it's in the path
         }
 
@@ -613,7 +618,7 @@ class Platform
         /* error silenced, because of open_basedir restriction */
         foreach ($paths as $path) {
             $execPath = $path . $binaryName . $extension;
-            if (@is_file($execPath) && is_executable($execPath)) {
+            if (@is_file($execPath) and is_executable($execPath)) {
             /* We have a winner */
             return $execPath;
             }
@@ -733,7 +738,7 @@ class FopenDownloader extends DownloadMethod
         }
 
         $failed = $results = false;
-        while (!feof($fh) && !$failed) {
+        while (!feof($fh) and !$failed) {
             $buf = fread($fh, 4096);
             if (!$buf) {
             $results = 'Error during download';
@@ -762,7 +767,7 @@ class FopenDownloader extends DownloadMethod
     function isSupported()
     {
         $actual = ini_get('allow_url_fopen');
-        if (in_array($actual, array(1, 'On', 'on')) && Platform::isPhpFunctionSupported('fopen'))
+        if (in_array($actual, array(1, 'On', 'on')) and Platform::isPhpFunctionSupported('fopen'))
         {
             return true;
         }
@@ -851,7 +856,7 @@ class FsockopenDownloader extends DownloadMethod
         if ($ofd) {
             /* Read the body */
             $failed = false;
-            while (!feof($fd) && !$failed) {
+            while (!feof($fd) and !$failed) {
             $buf = fread($fd, 4096);
             if (fwrite($ofd, $buf) != strlen($buf)) {
                 $failed = true;
@@ -1121,7 +1126,7 @@ class PhpUnzipExtractor extends ExtractMethod
                 $zip_name = zip_entry_name($zip_entry);
 
                 # cut off the subdirectory "/clansuite"
-                if (isset($remove_path) && ($remove_path == 'clansuite/'))
+                if (isset($remove_path) and ($remove_path == 'clansuite/'))
                 {
                     $complete_path = $baseFolder . DIRECTORY_SEPARATOR . substr($zip_path, 10);
                     $complete_name = $baseFolder . DIRECTORY_SEPARATOR . substr($zip_name, 10);
@@ -1422,7 +1427,7 @@ function render($renderType, $args=array()) {
             <!-- DOWNLOAD SECTION -->
             <div id="page-1-download" style="margin: 0 15px">
                 <h2 class="headerstyle">Download of Clansuite Archive</h2>
-                <?php if (!empty($args['downloadMethods']) && !empty($args['anyExtensionSupported'])): ?>
+                <?php if (!empty($args['downloadMethods']) and !empty($args['anyExtensionSupported'])): ?>
                 <form id="downloadForm" action="" method="post">
                     <span class="subtitle">Select the Clansuite version:</span>
                     <table class="choice">
@@ -1448,7 +1453,7 @@ function render($renderType, $args=array()) {
                         $disabled = empty($method['isSupported']) ? 'disabled="disabled"' : '';
                         $notSupported = empty($method['isSupported']) ? 'not supported by this platform' : '&nbsp;';
                         $checked = '';
-                        if ($first && !empty($method['isSupported'])) {
+                        if ($first and !empty($method['isSupported'])) {
                             $checked = ' checked="checked"'; $first = false;
                         }
                         printf('<tr><td><input type="radio" name="method" %s value="%s"%s /></td><td>%s</td><td>%s</td></tr>',
@@ -1463,7 +1468,7 @@ function render($renderType, $args=array()) {
                         $disabled = empty($supported) ? 'disabled="disabled"' : '';
                         $message = empty($supported) ? 'not supported by this platform' : '&nbsp;';
                         $checked = '';
-                        if ($first && $supported) {
+                        if ($first and $supported) {
                             $checked = ' checked="checked"'; $first = false;
                         }
                         printf('<tr><td><input type="radio" name="extension" value="%s" %s%s /></td><td>%s</td><td>%s</td></tr>',
@@ -1514,7 +1519,7 @@ function render($renderType, $args=array()) {
                             $disabled = '';
                         }
                         $checked = '';
-                        if ($first && empty($disabled) && !empty($method['isSupported'])) {
+                        if ($first and empty($disabled) and !empty($method['isSupported'])) {
                             $checked = ' checked="checked"'; $first = false;
                         }
                         printf('<tr><td><input type="radio" name="method" %s value="%s" %s /></td><td>%s</td><td>%s</td></tr>',
@@ -1748,7 +1753,7 @@ function compatiblityFunctions() {
          * If stat doesn't work for some reason, assume it's executable.
          * 0000100 is the is_executable bit. Windows returns true for .exe files.
          */
-        return empty($stats['mode']) || $stats['mode'] & 0000100;
+        return empty($stats['mode']) or $stats['mode'] & 0000100;
     }
     }
 }
@@ -1830,7 +1835,7 @@ function printNavigationButtons($back_cmd, $forward_cmd)
     $v_result=1;
 
     // ----- Extract the tar format from the extension
-    if (($p_mode == "") || (($p_mode!="tar") && ($p_mode!="tgz")))
+    if (($p_mode == "") or (($p_mode!="tar") and ($p_mode!="tgz")))
     {
       if (($p_mode = PclTarHandleExtension($p_tarname)) == "")
       {
@@ -1884,7 +1889,7 @@ function printNavigationButtons($back_cmd, $forward_cmd)
 
     // ----- Check the path
     /*
-    if (($p_path == "") || ((substr($p_path, 0, 1) != "/") && (substr($p_path, 0, 3) != "../")))
+    if (($p_path == "") or ((substr($p_path, 0, 1) != "/") and (substr($p_path, 0, 3) != "../")))
       $p_path = "./".$p_path;
     */
 
@@ -1892,11 +1897,11 @@ function printNavigationButtons($back_cmd, $forward_cmd)
 
     if(!$isWin)
     {
-        if (($p_path == "") || ((substr($p_path, 0, 1) != "/") && (substr($p_path, 0, 3) != "../")))
+        if (($p_path == "") or ((substr($p_path, 0, 1) != "/") and (substr($p_path, 0, 3) != "../")))
       $p_path = "./".$p_path;
     }
     // ----- Look for path to remove format (should end by /)
-    if (($p_remove_path != "") && (substr($p_remove_path, -1) != '/'))
+    if (($p_remove_path != "") and (substr($p_remove_path, -1) != '/'))
     {
       $p_remove_path .= '/';
     }
@@ -1983,19 +1988,20 @@ function printNavigationButtons($back_cmd, $forward_cmd)
       }
 
       // ----- Look for partial extract
-      if ((!$v_extract_all) && (is_array($p_file_list)))
+      if ((!$v_extract_all) and (is_array($p_file_list)))
       {
     // ----- By default no unzip if the file is not found
     $v_extract_file = false;
 
     // ----- Look into the file list
-    for ($i=0; $i<sizeof($p_file_list); $i++)
+    $size = sizeof($p_file_list);
+    for ($i=0; $i<$size; $i++)
     {
       // ----- Look if it is a directory
       if (substr($p_file_list[$i], -1) == "/")
       {
         // ----- Look if the directory is in the filename path
-        if ((strlen($v_header["filename"]) > strlen($p_file_list[$i])) && (substr($v_header["filename"], 0, strlen($p_file_list[$i])) == $p_file_list[$i]))
+        if ((strlen($v_header["filename"]) > strlen($p_file_list[$i])) and (substr($v_header["filename"], 0, strlen($p_file_list[$i])) == $p_file_list[$i]))
         {
           // ----- The file is in the directory, so extract it
           $v_extract_file = true;
@@ -2028,18 +2034,18 @@ function printNavigationButtons($back_cmd, $forward_cmd)
       }
 
       // ----- Look if this file need to be extracted
-      if (($v_extract_file) && (!$v_listing))
+      if (($v_extract_file) and (!$v_listing))
       {
     // ----- Look for path to remove
     if (($p_remove_path != "")
-        && (substr($v_header["filename"], 0, $p_remove_path_size) == $p_remove_path))
+        and (substr($v_header["filename"], 0, $p_remove_path_size) == $p_remove_path))
     {
       // ----- Remove the path
       $v_header["filename"] = substr($v_header["filename"], $p_remove_path_size);
     }
 
     // ----- Add the path to the file
-    if (($p_path != "./") && ($p_path != "/"))
+    if (($p_path != "./") and ($p_path != "/"))
     {
       // ----- Look for the path end '/'
       while (substr($p_path, -1) == "/")
@@ -2111,7 +2117,7 @@ function printNavigationButtons($back_cmd, $forward_cmd)
     }
 
     // ----- Do the extraction
-    if (($v_extract_file) && ($v_header["typeflag"]!="5"))
+    if (($v_extract_file) and ($v_header["typeflag"]!="5"))
     {
       // ----- Open the destination file in write mode
       if (($v_dest_file = fopen($v_header["filename"], "wb")) == 0)
@@ -2195,12 +2201,12 @@ function printNavigationButtons($back_cmd, $forward_cmd)
     $v_end_of_file = gzeof($v_tar);
 
       // ----- File name and properties are logged if listing mode or file is extracted
-      if ($v_listing || $v_extract_file || $v_extraction_stopped)
+      if ($v_listing or $v_extract_file or $v_extraction_stopped)
       {
     // ----- Log extracted files
     if (($v_file_dir = dirname($v_header["filename"])) == $v_header["filename"])
       $v_file_dir = "";
-    if ((substr($v_header["filename"], 0, 1) == "/") && ($v_file_dir == ""))
+    if ((substr($v_header["filename"], 0, 1) == "/") and ($v_file_dir == ""))
       $v_file_dir = "/";
 
     // ----- Add the array describing the file into the list
@@ -2288,7 +2294,7 @@ function printNavigationButtons($back_cmd, $forward_cmd)
       $v_header["status"] = "invalid_header";
 
       // ----- Look for last block (empty block)
-      if (($v_checksum == 256) && ($v_header["checksum"] == 0))
+      if (($v_checksum == 256) and ($v_header["checksum"] == 0))
       {
     $v_header["status"] = "empty";
     // ----- Return
@@ -2350,7 +2356,7 @@ function printNavigationButtons($back_cmd, $forward_cmd)
     $v_result = 1;
 
     // ----- Check the directory availability
-    if ((is_dir($p_dir)) || ($p_dir == ""))
+    if ((is_dir($p_dir)) or ($p_dir == ""))
     {
       return 1;
     }
@@ -2401,7 +2407,7 @@ function printNavigationButtons($back_cmd, $forward_cmd)
   function PclTarHandleExtension($p_tarname)
   {
     // ----- Look for file extension
-    if ((substr($p_tarname, -7) == ".tar.gz") || (substr($p_tarname, -4) == ".tgz"))
+    if ((substr($p_tarname, -7) == ".tar.gz") or (substr($p_tarname, -4) == ".tgz"))
     {
       $v_tar_mode = "tgz";
     }

@@ -63,7 +63,7 @@ class Clansuite_HTML /* extends DOMDocument */
     public static function a($url, $text, $attributes = array())
     {
         $html_attributes = '';
-        $html_attributes .= Clansuite_HTML::renderAttributes($attributes);
+        $html_attributes .= self::renderAttributes($attributes);
 
         return '<a href="'.$url.'" '.$html_attributes.'>'.$text.'</a>';
     }
@@ -79,7 +79,7 @@ class Clansuite_HTML /* extends DOMDocument */
     public static function span($text, $attributes = array())
     {
         $html_attributes = '';
-        $html_attributes .= Clansuite_HTML::renderAttributes($attributes);
+        $html_attributes .= self::renderAttributes($attributes);
 
         return '<span'.$html_attributes.'>'.$text.'</div>';
     }
@@ -95,7 +95,7 @@ class Clansuite_HTML /* extends DOMDocument */
     public static function div($text, $attributes = array())
     {
         $html_attributes = '';
-        $html_attributes .= Clansuite_HTML::renderAttributes($attributes);
+        $html_attributes .= self::renderAttributes($attributes);
 
         return '<div'.$html_attributes.'>'.$text.'</div>';
     }
@@ -111,7 +111,7 @@ class Clansuite_HTML /* extends DOMDocument */
     public static function p($text, $attributes = array())
     {
         $html_attributes = '';
-        $html_attributes .= Clansuite_HTML::renderAttributes($attributes);
+        $html_attributes .= self::renderAttributes($attributes);
 
         return '<p'.$html_attributes.'>'.$text.'</p>';
     }
@@ -128,7 +128,7 @@ class Clansuite_HTML /* extends DOMDocument */
     public static function image($link_to_image, $attributes = array())
     {
         $html_attributes = '';
-        $html_attributes .= Clansuite_HTML::renderAttributes($attributes);
+        $html_attributes .= self::renderAttributes($attributes);
 
         return '<img'.$html_attributes.' src="$link_to_image" />';
     }
@@ -143,7 +143,7 @@ class Clansuite_HTML /* extends DOMDocument */
      *                     'UL-Heading-1',
      *                  array('LI-Element-1','LI-Element-2')
      *                    );
-     * Clansuite_HTML::list($attributes);
+     * self::list($attributes);
      *
      * @param $attributes array of attributes
      *
@@ -159,7 +159,7 @@ class Clansuite_HTML /* extends DOMDocument */
             if (is_array($attribute))
             {
                 # watch out! recursion
-                $html .= Clansuite_HTML::liste($attribute);
+                $html .= self::liste($attribute);
             }
             else
             {
@@ -235,7 +235,7 @@ class Clansuite_HTML /* extends DOMDocument */
      * Render an HTML Element
      *
      * @example
-     * echo Clansuite_HTML::renderElement('tagname', array('attribute_name'=>'attribut_value'), 'text');
+     * echo self::renderElement('tagname', array('attribute_name'=>'attribut_value'), 'text');
      *
      * @param $tagname Name of the tag to render
      * @param $text string
@@ -252,24 +252,24 @@ class Clansuite_HTML /* extends DOMDocument */
                 $link = $attributes['src'];
                 unset($attributes['src']);
 
-                return Clansuite_HTML::$tagname($link, $text, $attributes);
+                return self::$tagname($link, $text, $attributes);
             }
             elseif(isset($attributes['href']))
             {
                 $link = $attributes['href'];
                 unset($attributes['href']);
 
-                return Clansuite_HTML::$tagname($link, $text, $attributes);
+                return self::$tagname($link, $text, $attributes);
             }
             else
             {
-                return Clansuite_HTML::$tagname($text, $attributes);
+                return self::$tagname($text, $attributes);
             }
         }
         else
         {
             $html = "<$tagname";
-            $html .= Clansuite_HTML::renderAttributes($attributes);
+            $html .= self::renderAttributes($attributes);
 
             # close tag with slash, if we got no text to append
             if ($text === null)

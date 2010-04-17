@@ -510,7 +510,7 @@ function generate_salt($length)
     $salt = '';
 
     # seed the randoms generator with microseconds since last "whole" second
-    mt_srand((double)microtime()*1000000);
+    mt_srand((double) microtime()*1000000);
 
     # set up the random chars to choose from
     $chars = "./0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
@@ -796,10 +796,12 @@ function deleteInstallationFolder()
  **/
 function removeDirectory($dir)
 {
-
     # get files
     $files = array_merge(glob( $dir . '/*' ), glob( $dir . '/.*' ));
-    if( strpos($dir, 'installation') === false ) { die('ERROR!' . var_dump($dir)); };
+    if( strpos($dir, 'installation') === false )
+    {
+        die('ERROR!' . var_dump($dir));
+    }
 
     foreach( $files as $file )
     {
@@ -816,14 +818,14 @@ function removeDirectory($dir)
         }
         else
         {
-            @chmod($file, 0777);
-            @unlink( $file );
+            chmod($file, 0777);
+            unlink( $file );
             echo '.'; #[Deleting File] '.$file.'.</br>';
         }
     }
 
     # try to apply delete permissiosn
-    if(@chmod($dir, 0777) === false)
+    if(chmod($dir, 0777) === false)
     {
         echo "[Deleting Directory] Setting the permission to delete the directory on directory $dir failed!<br/>";
     }
@@ -833,7 +835,7 @@ function removeDirectory($dir)
     }
 
     # try to remove directory
-    if(@rmdir($dir) === false)
+    if(rmdir($dir) === false)
     {
         echo "[Deleting Directory] Removing of directory $dir failed! Please remove it manually.<br/>";
     }

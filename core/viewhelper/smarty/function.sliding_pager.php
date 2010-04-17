@@ -112,48 +112,66 @@ function smarty_function_sliding_pager($params, $smarty)
     /* Build link bar */
     $retval = '';
     $css_class = $css_class ? 'class="'.$css_class.'"' : '';
-    if ($curpage > 1) {
+    if ($curpage > 1)
+    {
         $retval .= '<a href="'.$baseurl.'1'.$url_append.'" '.$css_class.'>'.$txt_first.'</a>';
         $retval .= $separator;
         $retval .= '<a href="'.$baseurl.($curpage - 1).$url_append.'" '.$css_class.'>'.$txt_prev.'</a>';
         $retval .= $separator;
     }
-    if ($links[0] != 1) {
+
+    if ($links[0] != 1)
+    {
         $retval .= '<a href="'.$baseurl.'1'.$url_append.'" '.$css_class.'>1</a>';
-        if ($links[0] == 2) {
+        if ($links[0] == 2)
+        {
             $retval .= $separator;
-        } else {
+        }
+        else
+        {
             $retval .= $txt_skip;
         }
     }
-    for($i = 0; $i < sizeof($links); $i++) {
-        if ($links[$i] != $curpage or $link_current) {
+
+    $size = sizeof($links);
+    for($i = 0; $i < $size; $i++)
+    {
+        if ($links[$i] != $curpage or $link_current)
+        {
             $retval .= '<a href="'.$baseurl.$links[$i].$url_append.'" '.$css_class.'>'.$links[$i].'</a>';
-        } else {
+        }
+        else
+        {
             $retval .= $links[$i];
         }
-        if ($i < sizeof($links) - 1) {
+
+        if ($i < sizeof($links) - 1)
+        {
             $retval .= $separator;
         }
     }
-    if ($links[sizeof($links) - 1] != $pagecount) {
-        if ($links[sizeof($links) - 2] != $pagecount - 1) {
+
+    if ($links[sizeof($links) - 1] != $pagecount)
+    {
+        if ($links[sizeof($links) - 2] != $pagecount - 1)
+        {
             $retval .= $txt_skip;
-        } else {
+        }
+        else
+        {
             $retval .= $separator;
         }
         $retval .= '<a href="'.$baseurl.$pagecount.$url_append.'" '.$css_class.'>'.$pagecount.'</a>';
     }
-    if ($curpage != $pagecount) {
+
+    if ($curpage != $pagecount)
+    {
         $retval .= $separator;
         $retval .= '<a href="'.$baseurl.($curpage + 1).$url_append.'" '.$css_class.'>'.$txt_next.'</a>';
         $retval .= $separator;
         $retval .= '<a href="'.$baseurl.$pagecount.$url_append.'" '.$css_class.'>'.$txt_last.'</a>';
     }
+
     return $retval;
 }
-
-/* vim: set expandtab: */
-/* vim: set ts=4: */
-
 ?>

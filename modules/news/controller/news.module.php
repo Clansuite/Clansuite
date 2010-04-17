@@ -221,7 +221,7 @@ class Clansuite_Module_News extends Clansuite_Module_Controller implements Clans
         $rss->descriptionHtmlSyndicated = true;
 
         $rss->link = "http://www.clanswebsite.net/news";
-        $rss->syndicationURL = "http://www.clanwebsite.net/".$_SERVER["PHP_SELF"];
+        $rss->syndicationURL = "http://www.clanwebsite.net/".$_SERVER['PHP_SELF'];
 
         /**
          * Create Feed Image Object

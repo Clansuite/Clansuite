@@ -78,7 +78,7 @@ class Clansuite_Cache_File implements Clansuite_Cache_Interface
         if((is_file($filepath)) and fopen($filepath, 'r'))
         {
              # get the expiration time stamp
-             $expires = (int)fread($file, 10);
+             $expires = (int) fread($file, 10);
              # if expiration time exceeds the current time, return the cache
             if (!$expires || $expires > time())
             {

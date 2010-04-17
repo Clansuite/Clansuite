@@ -55,7 +55,16 @@ set_time_limit(0);
  * so we use E_ALL when DEBUGING. This is just an installer btw :)
  */
 $boolean = true;
-if(DEBUG == false) { $boolean = false; } else { $boolean = true; }
+
+if(DEBUG == false)
+{ 
+    $boolean = false;
+}
+else
+{ 
+    $boolean = true;
+}
+
 ini_set('display_startup_errors', $boolean);
 ini_set('display_errors', $boolean);
 error_reporting($boolean);
@@ -66,7 +75,10 @@ define ('CONVERTER_ROOT', getcwd() . DS);
 define ('ROOT', dirname(dirname(getcwd())) . DS);
 
 echo 'P,G,R,S';
-var_dump($_POST); var_dump($_GET); var_dump($_REQUEST); var_dump($_SESSION);
+#var_dump($_POST);
+#var_dump($_GET);
+#var_dump($_REQUEST);
+#var_dump($_SESSION);
 
 /**
  *  ================================================
@@ -118,11 +130,23 @@ $_SESSION = array_merge_rec($_SESSION, $_POST);
 if(isset($_SESSION['step']))
 {
     $step = (int) intval($_SESSION['step']);
-    if(isset($_POST['step_forward']))  { $step++; }
-    if(isset($_POST['step_backward'])) { $step--; }
-    if($step >= $total_steps) { $step = $total_steps; }
+    if(isset($_POST['step_forward']))
+    {
+        $step++;
+    }
+    if(isset($_POST['step_backward']))
+    {
+        $step--;
+    }
+    if($step >= $total_steps)
+    {
+        $step = $total_steps;
+    }
 }
-else { $step = 1; }
+else
+{ 
+    $step = 1;
+}
 
 # Calculate Progress
 $_SESSION['progress'] = (float) calc_progress($step, $total_steps);
@@ -337,7 +361,7 @@ function generate_salt($length)
     $salt = '';
 
     # seed the randoms generator with microseconds since last "whole" second
-    mt_srand((double)microtime()*1000000);
+    mt_srand((double) microtime()*1000000);
 
     # set up the random chars to choose from
     $chars = "./0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";

@@ -50,33 +50,33 @@ if (defined('IN_CS') == false){ die('Clansuite not loaded. Direct Access forbidd
  */
 class Clansuite_Filter_statistics implements Clansuite_Filter_Interface
 {
-    private $m_config = null;
-    private $m_UserCore = null;
-    private $m_curTimestamp = null;
-    private $m_curDate = null;
-    private $m_statsWhoDeleteTime = null;
-    private $m_statsWhoTimeout = null;
+    private $config = null;
+    private $user = null;
+    private $curTimestamp = null;
+    private $curDate = null;
+    private $statsWhoDeleteTime = null;
+    private $statsWhoTimeout = null;
     
     function __construct(Clansuite_Config $config, Clansuite_User $user)
     {
-        $this->m_config = $config;
-        $this->m_curTimestamp = time();
-        $this->m_curDate = date("d.m.Y", $this->m_curTimestamp);
-        $this->m_UserCore = $user;
+        $this->config = $config;
+        $this->curTimestamp = time();
+        $this->curDate = date("d.m.Y", $this->curTimestamp);
+        $this->user = $user;
         
         # Load Models
         $models_path = ROOT_MOD . 'statistics/model/records';
         Doctrine::loadModels($models_path);
         
         $cfg = $config->readConfigForModule('statistics');
-        $this->m_statsWhoDeleteTime = $cfg['statistics']['deleteTimeWho'];
-        $this->m_stasWhoTimeout = $cfg['statistics']['timoutWho'];   
+        $this->statsWhoDeleteTime = $cfg['statistics']['deleteTimeWho'];
+        $this->statsWhoTimeout = $cfg['statistics']['timoutWho'];
     }
 
     public function executeFilter(Clansuite_HttpRequest $request, Clansuite_HttpResponse $response)
     {
         # take the initiative or pass through (do nothing)
-        if (isset ($this->m_config['statistics']['enabled']) and $this->m_config['statistics']['enabled'] == 1) {
+        if (isset ($this->config['statistics']['enabled']) and $this->config['statistics']['enabled'] == 1) {
             #######################
             # at the moment we do not need to use this libary !!!
             #######################
@@ -91,12 +91,12 @@ class Clansuite_Filter_statistics implements Clansuite_Filter_Interface
             # load library
             #require_once ROOT_LIBRARIES . '/phpSniffer/phpSniff.class.php';
             # instantiate phpsniff
-            #$phpSniff = new phpSniff($_SERVER["HTTP_USER_AGENT"]);
+            #$phpSniff = new phpSniff($_SERVER['HTTP_USER_AGENT']);
 
             /**
              *The Who logics, must be processed in a seperate filter
              */
-            Doctrine :: getTable('CsStatistic')->deleteWhoEntriesOlderThen($this->m_statsWhoDeleteTime);
+            Doctrine::getTable('CsStatistic')->deleteWhoEntriesOlderThen($this->statsWhoDeleteTime);
             $this->updateStatistics($request->getRemoteAddress());
             $this->updateWhoTables($request->getRemoteAddress(), $request->getRequestURI());
         }
@@ -111,9 +111,9 @@ class Clansuite_Filter_statistics implements Clansuite_Filter_Interface
     private function updateWhoTables($visitorIp, $targetSite)
     {
         #Original if statement CHECK if user is an admin
-        if ($this->m_UserCore->isUserAuthed())
+        if ($this->user->isUserAuthed())
         {
-            $this->updateWhoIs($visitorIp, $targetSite, $this->m_UserCore->getUserIdFromSession());
+            $this->updateWhoIs($visitorIp, $targetSite, $this->user->getUserIdFromSession());
         }
         else
         {
@@ -130,7 +130,7 @@ class Clansuite_Filter_statistics implements Clansuite_Filter_Interface
      */
     private function updateWhoIs($ip, $targetSite, $userID = null)
     {
-        $curTimestamp = $this->m_curTimestamp;
+        $curTimestamp = $this->curTimestamp;
 
         $result = Doctrine::getTable('CsStatistic')->updateWhoIsOnline($ip, $targetSite, $curTimestamp, $userID);
 
@@ -154,7 +154,7 @@ class Clansuite_Filter_statistics implements Clansuite_Filter_Interface
             $this->updateStatisticStats();
         }        
 
-        $userOnline = Doctrine::getTable('CsStatistic')->countVisitorsOnline($this->m_stasWhoTimeout);
+        $userOnline = Doctrine::getTable('CsStatistic')->countVisitorsOnline($this->statsWhoTimeout);
 
         Doctrine::getTable('CsStatistic')->updateStatisticMaxUsers($userOnline);
     }
@@ -164,9 +164,9 @@ class Clansuite_Filter_statistics implements Clansuite_Filter_Interface
      */
     private function updateStatisticStats()
     {
-        if (Doctrine::getTable('CsStatistic')->existsStatsEntryWithDate($this->m_curDate))
+        if (Doctrine::getTable('CsStatistic')->existsStatsEntryWithDate($this->curDate))
         {
-            Doctrine::getTable('CsStatistic')->incrementStatsWithDateByOne($this->m_curDate);
+            Doctrine::getTable('CsStatistic')->incrementStatsWithDateByOne($this->curDate);
         }
         else
         {

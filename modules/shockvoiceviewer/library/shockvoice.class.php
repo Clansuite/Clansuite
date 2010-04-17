@@ -194,46 +194,47 @@ class Clansuite_Shockvoice_Query
         }
 
 		if ($name == 'CHANNEL')
-	    {
-   			$this->current_channel = $element['id'];
+        {
+            $this->current_channel = $element['id'];
 
             # add current channel as a subchannel (of a parentchannel)
             if($element['parentid'] != 0)
             {
                 $this->shockvoice['channels'][$element['parentid']]['subchannels'][$element['id']] = array(
-    				'id' => $element['id'],
-    				'parentid' => $element['parentid'],
-    				'name' => $element['name'],
-    				'password' => $element['password'],
-    				'type' => $element['type'],
-    				'image' => $this->getChannelImage($element['type'], $element['password'])
-    				);
+                        'id' => $element['id'],
+                        'parentid' => $element['parentid'],
+                        'name' => $element['name'],
+                        'password' => $element['password'],
+                        'type' => $element['type'],
+                        'image' => $this->getChannelImage($element['type'], $element['password'])
+                );
             }
             else # it's a channel directly below root (parentchannel = 0)
+
             {
-    			$this->shockvoice['channels'][$element['id']] = array(
-        				'id' => $element['id'],
-        				'parentid' => $element['parentid'],
-        				'name' => $element['name'],
-        				'password' => $element['password'],
-        				'type' => $element['type'],
-        				'image' => $this->getChannelImage($element['type'], $element['password'])
-        				);
+                $this->shockvoice['channels'][$element['id']] = array(
+                        'id' => $element['id'],
+                        'parentid' => $element['parentid'],
+                        'name' => $element['name'],
+                        'password' => $element['password'],
+                        'type' => $element['type'],
+                        'image' => $this->getChannelImage($element['type'], $element['password'])
+                );
             }
-    		#clansuite_xdebug::printr($this->shockvoice['channels']);
-	    }
-	    elseif ($name == 'USER')
-	    {
+            #clansuite_xdebug::printr($this->shockvoice['channels']);
+        }
+        elseif ($name == 'USER')
+        {
             $this->shockvoice['users'][$element['id']] = array(
-    				'channelid' => $this->current_channel,
-    				'id' => $element['id'],
-    				'name' => $element['name'],
-    				'password' => $element['password'],
-    				'status' => $element['status'],
-    				'image' => $this->getUserImage($element['status'])
-    				);
-    	    #clansuite_xdebug::printr($this->shockvoice['users']);
-	    }
+                    'channelid' => $this->current_channel,
+                    'id' => $element['id'],
+                    'name' => $element['name'],
+                    'password' => $element['password'],
+                    'status' => $element['status'],
+                    'image' => $this->getUserImage($element['status'])
+            );
+            #clansuite_xdebug::printr($this->shockvoice['users']);
+        }
     }
 
     /**
@@ -298,7 +299,7 @@ class Clansuite_Shockvoice_Query
     public function getUserImage($status)
     {
         $img = '';
-        switch ((int)$status)
+        switch ((int) $status)
         {
             case 0: $img = "online";
                 break;

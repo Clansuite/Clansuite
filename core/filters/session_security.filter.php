@@ -92,9 +92,9 @@ class Clansuite_Filter_session_security implements Clansuite_Filter_Interface
         {
             if ( !isset($_SESSION['client_browser']) )
             {
-                $_SESSION['client_browser'] = $_SERVER["HTTP_USER_AGENT"];
+                $_SESSION['client_browser'] = $_SERVER['HTTP_USER_AGENT'];
             }
-            elseif ( $_SERVER["HTTP_USER_AGENT"] != $_SESSION['client_browser'] )
+            elseif ( $_SERVER['HTTP_USER_AGENT'] != $_SESSION['client_browser'] )
             {
                 session_unset();
                 session_destroy();
@@ -111,9 +111,9 @@ class Clansuite_Filter_session_security implements Clansuite_Filter_Interface
         {
             if( !isset( $_SESSION['client_host'] ) )
             {
-                $_SESSION['client_host'] = gethostbyaddr($_SERVER["REMOTE_ADDR"]);
+                $_SESSION['client_host'] = gethostbyaddr($_SERVER['REMOTE_ADDR']);
             }
-            else if ( gethostbyaddr($_SERVER["REMOTE_ADDR"]) != $_SESSION['client_host'] )
+            else if ( gethostbyaddr($_SERVER['REMOTE_ADDR']) != $_SESSION['client_host'] )
             {
                 session_unset();
                 session_destroy();

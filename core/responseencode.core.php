@@ -48,21 +48,21 @@ if (defined('IN_CS') == false) { die('Clansuite not loaded. Direct Access forbid
  * Usage:
  * 1. Include/require/autoload the class file (Clansuite_ResponseEncode).
  * 2. Start Output buffering by calling
- *    Clansuite_ResponseEncode::start_outputbuffering();
+ *    self::start_outputbuffering();
  * 3. At the very end of your script you have to end the outputbuffering by calling
- *    Clansuite_ResponseEncode::end_outputbuffering();
+ *    self::end_outputbuffering();
  *
  * Example:
  *  ------------Start of file----------
  *  |<?php
  *  | require 'responseencode.core.php'; # or autoload
- *  | Clansuite_ResponseEncode::start_outputbuffering();
+ *  | self::start_outputbuffering();
  *  |?>
  *  |<html>
  *  |... Content of Page ...
  *  |</html>
  *  |<?php
- *  | Clansuite_ResponseEncode::end_outputbuffering();
+ *  | self::end_outputbuffering();
  *  |?>
  *  -------------End of file-----------
  *
@@ -219,7 +219,7 @@ class Clansuite_ResponseEncode
         /* this determines the compression level based on current server load
         if (isset(self::$compression_level))
         {
-            $level = Clansuite_ResponseEncode::get_compression_level();
+            $level = self::get_compression_level();
         }*/
         $level = self::$compression_level;
 
@@ -309,7 +309,7 @@ class Clansuite_ResponseEncode
      * Purpose: test headers for Accept-Encoding: gzip/x-gzip
      *
      * Usage to test if output will be zipped:
-     * if (Clansuite_ResponseEncode::gzip_accepted()) { echo "Page will be gziped"; }
+     * if (self::gzip_accepted()) { echo "Page will be gziped"; }
      *
      * @return mixed (string|boolean) $encoding Returns 'gzip' or 'x-gzip' if Accept-Encoding Header is found. False otherwise.
      */
@@ -384,7 +384,7 @@ class Clansuite_ResponseEncode
      * get_compression_level() - The level of compression we should use.
      *
      * Usage to determine the compression level, before compressing output:
-     * $compression_level = Clansuite_ResponseEncode::get_complevel();
+     * $compression_level = self::get_complevel();
      *
      * @return integer $level Returns an int between 0 and 9.
      */
@@ -395,12 +395,12 @@ class Clansuite_ResponseEncode
         switch ($uname['sysname'])
         {
             case 'Linux':
-                $cl = (1 - Clansuite_ResponseEncode::linux_loadavg()) * 10;
-                $level = (int)max(min(9, $cl), 0);
+                $cl = (1 - self::linux_loadavg()) * 10;
+                $level = (int) max(min(9, $cl), 0);
                 break;
             case 'FreeBSD':
-                $cl = (1 - Clansuite_ResponseEncode::freebsd_loadavg()) * 10;
-                $level = (int)max(min(9, $cl), 0);
+                $cl = (1 - self::freebsd_loadavg()) * 10;
+                $level = (int) max(min(9, $cl), 0);
                 break;
             default:
                 $level = 3;
@@ -427,7 +427,7 @@ class Clansuite_ResponseEncode
             fclose($f);
         }
         $load = explode(' ', $buffer);
-        return max((float)$load[0], (float)$load[1], (float)$load[2]);
+        return max((float) $load[0], (float) $load[1], (float) $load[2]);
     }
 
     /*
@@ -443,7 +443,7 @@ class Clansuite_ResponseEncode
         $buffer= `uptime`;
         ereg("averag(es|e): ([0-9][.][0-9][0-9]), ([0-9][.][0-9][0-9]), ([0-9][.][0-9][0-9]*)", $buffer, $load);
 
-        return max((float)$load[2], (float)$load[3], (float)$load[4]);
+        return max((float) $load[2], (float) $load[3], (float) $load[4]);
     }
 }
 ?>

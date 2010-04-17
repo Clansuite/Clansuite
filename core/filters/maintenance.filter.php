@@ -49,11 +49,11 @@ if (defined('IN_CS') == false){ die('Clansuite not loaded. Direct Access forbidd
  */
 class Clansuite_Filter_maintenance implements Clansuite_Filter_Interface
 {
-    private $config     = null;     # holds instance of config
+    private $config = null;     # holds instance of config
 
-public function __construct(Clansuite_Config $config)
+    public function __construct(Clansuite_Config $config)
     {
-        $this->config    = $config;      # set instance of config to class
+        $this->config = $config;      # set instance of config to class
     }
 
     public function executeFilter(Clansuite_HttpRequest $request, Clansuite_HttpResponse $response)

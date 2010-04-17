@@ -542,13 +542,13 @@ class Platform
 
     /* Check if a specific command line tool is available */
     function isBinaryAvailable($binaryName) {
-    $binaryPath = Platform::getBinaryPath($binaryName);
+    $binaryPath = self::getBinaryPath($binaryName);
     return !empty($binaryPath);
     }
 
     /* Return the path to a binary or false if it's not available */
     function getBinaryPath($binaryName) {
-    if (!Platform::isPhpFunctionSupported('exec')) {
+    if (!self::isPhpFunctionSupported('exec')) {
         return false;
     }
 
@@ -1991,7 +1991,8 @@ function BlockToggle(objId, togId, text) {
     $v_extract_file = false;
 
     // ----- Look into the file list
-    for ($i=0; $i<sizeof($p_file_list); $i++)
+    $size = sizeof($p_file_list);
+    for ($i=0; $i<$size; $i++)
     {
       // ----- Look if it is a directory
       if (substr($p_file_list[$i], -1) == "/")
