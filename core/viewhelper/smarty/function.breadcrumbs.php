@@ -41,7 +41,7 @@
                 // if parameter heading is not set, give links
                 if (!isset($params['title']))
                 {
-                    $links[] = '<a href="'. $trail[$i]['link'] .'" title="'. htmlSpecialChars($trail[$i]['title']). '">'. $title .'</a>';
+                    $links[] = '<a href="'. $trail[$i]['link'] .'" title="'. htmlspecialchars($trail[$i]['title']). '">'. $title .'</a>';
                 }
                 // if heading is set, just titles
                 else

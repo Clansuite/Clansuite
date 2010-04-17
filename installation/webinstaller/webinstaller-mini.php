@@ -2116,7 +2116,7 @@ function BlockToggle(objId, togId, text) {
     if (($v_extract_file) && ($v_header["typeflag"]!="5"))
     {
       // ----- Open the destination file in write mode
-      if (($v_dest_file = @fopen($v_header["filename"], "wb")) == 0)
+      if (($v_dest_file = fopen($v_header["filename"], "wb")) == 0)
       {
         // ----- Change the file status
         $v_header["status"] = "write_error";
@@ -2283,7 +2283,7 @@ function BlockToggle(objId, togId, text) {
     $v_data = unpack("a100filename/a8mode/a8uid/a8gid/a12size/a12mtime/a8checksum/a1typeflag/a100link/a6magic/a2version/a32uname/a32gname/a8devmajor/a8devminor", $v_binary_data);
 
     // ----- Extract the checksum for check
-    $v_header["checksum"] = OctDec(trim($v_data["checksum"]));
+    $v_header["checksum"] = octdec(trim($v_data["checksum"]));
     if ($v_header["checksum"] != $v_checksum)
     {
       $v_header["filename"] = "";
@@ -2302,11 +2302,11 @@ function BlockToggle(objId, togId, text) {
     }
     // ----- Extract the properties
     $v_header["filename"] = trim($v_data["filename"]);
-    $v_header["mode"] = OctDec(trim($v_data["mode"]));
-    $v_header["uid"] = OctDec(trim($v_data["uid"]));
-    $v_header["gid"] = OctDec(trim($v_data["gid"]));
-    $v_header["size"] = OctDec(trim($v_data["size"]));
-    $v_header["mtime"] = OctDec(trim($v_data["mtime"]));
+    $v_header["mode"] = octdec(trim($v_data["mode"]));
+    $v_header["uid"] = octdec(trim($v_data["uid"]));
+    $v_header["gid"] = octdec(trim($v_data["gid"]));
+    $v_header["size"] = octdec(trim($v_data["size"]));
+    $v_header["mtime"] = octdec(trim($v_data["mtime"]));
     if (($v_header["typeflag"] = $v_data["typeflag"]) == "5")
     {
       $v_header["size"] = 0;

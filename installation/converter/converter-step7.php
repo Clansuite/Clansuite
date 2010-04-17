@@ -41,14 +41,14 @@ if (defined('IN_CS') == false){ die( 'Clansuite not loaded. Direct Access forbid
             <div class="accordion">
                 <h2 class="headerstyle">
                     <img src="../images/64px-Tango_Globe_of_Letters.svg.png" border="0" style="vertical-align:middle" alt="installstep image" />
-                    <?=$language['STEP7_HEADING']?>
+                    <?php echo $language['STEP7_HEADING']; ?>
                 </h2>
-                <p><strong><?=$language['STEP7_CONVERT_FINISHED']?></strong></p>
-                <p><?=$language['STEP1_APPINSTALL_STEPWISE']?></p>
-                <p><?=$language['STEP1_CHOOSELANGUAGE']?></p>
+                <p><strong><?php echo $language['STEP7_CONVERT_FINISHED']; ?></strong></p>
+                <p><?php echo $language['STEP1_APPINSTALL_STEPWISE']; ?></p>
+                <p><?php echo $language['STEP1_CHOOSELANGUAGE']; ?></p>
                 <form action="index.php" name="lang" method="post">
                     <p>
-                        <input type="hidden" name="lang" value="<?=$_SESSION['lang']?>" />
+                        <input type="hidden" name="lang" value="<?php echo $_SESSION['lang']; ?>" />
                         <?php # @todo nur reloaden, wenn eine neue sprache ausgewaehlt ?>
                         <select name="lang" style="width: 160px"
                             onchange="window.location.href='<?php echo $_SERVER['PHP_SELF']; ?>?lang='+this.options[this.selectedIndex].value;" >
@@ -75,15 +75,15 @@ if (defined('IN_CS') == false){ die( 'Clansuite not loaded. Direct Access forbid
                      <div id="content_footer">
                         <div class="navigation">
                             <span style="font-size:10px;">
-                                <?=$language['CLICK_NEXT_TO_PROCEED']?><br />
-                                <?=$language['CLICK_BACK_TO_RETURN']?>
+                                <?php echo $language['CLICK_NEXT_TO_PROCEED']; ?><br />
+                                <?php echo $language['CLICK_BACK_TO_RETURN']; ?>
                             </span>
                             <div class="alignright">
-                                <input type="submit" value="<?=$language['NEXTSTEP']?>" class="ButtonGreen" name="step_forward" />
+                                <input type="submit" value="<?php echo $language['NEXTSTEP']; ?>" class="ButtonGreen" name="step_forward" />
                             </div>
                             <div class="alignleft">
-                                <input type="submit" value="<?=$language['BACKSTEP']?>" class="ButtonRed" name="step_backward" />
-                                <input type="hidden" name="lang" value="<?=$_SESSION['lang']?>" />
+                                <input type="submit" value="<?php echo $language['BACKSTEP']; ?>" class="ButtonRed" name="step_backward" />
+                                <input type="hidden" name="lang" value="<?php echo $_SESSION['lang']; ?>" />
                             </div>
                         </div><!-- div navigation end -->
                     </div> <!-- div content_footer end -->

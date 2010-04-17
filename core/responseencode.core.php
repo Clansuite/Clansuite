@@ -417,7 +417,7 @@ class Clansuite_ResponseEncode
     private static function linux_loadavg()
     {
         $buffer = '0 0 0';
-        $f = @fopen('/proc/loadavg', 'rb');
+        $f = fopen('/proc/loadavg', 'rb');
         if ($f)
         {
             if (!feof($f))

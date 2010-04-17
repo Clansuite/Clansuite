@@ -27,8 +27,7 @@
  */
 function smarty_function_icq($params, $smarty)
 {
-
-    // be sure icq parameter is present
+    # be sure icq parameter is present
     if(empty($params['number']))
     {
         $smarty->trigger_error("icq: missing number as parameter");
@@ -36,7 +35,7 @@ function smarty_function_icq($params, $smarty)
     }
 
     $icq = $params['number'];
-    $title = HTMLSpecialChars($params['title']);
+    $title = htmlspecialchars($params['title']);
 
     $html = '';
     $html .= '<span style="white-space: nowrap;">';
@@ -45,5 +44,4 @@ function smarty_function_icq($params, $smarty)
 
     return $html;
 }
-
 ?>

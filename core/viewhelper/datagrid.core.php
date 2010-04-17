@@ -1672,12 +1672,12 @@ class Clansuite_Datagrid_Renderer
         $table_sprintf .= CR . '%s'  . CR . '</table>'.CR;
 
         $_innerTableContent = '';
-        $_innerTableContent .= Clansuite_Datagrid_Renderer::renderTableCaption();
-        $_innerTableContent .= Clansuite_Datagrid_Renderer::renderTableBody('one');
-        $_innerTableContent .= Clansuite_Datagrid_Renderer::renderTableHeader();      # this isn't a <thead> tag, but <tbody>
-        $_innerTableContent .= Clansuite_Datagrid_Renderer::renderTableBody('two');
-        $_innerTableContent .= Clansuite_Datagrid_Renderer::renderTableBody('three');
-        $_innerTableContent .= Clansuite_Datagrid_Renderer::renderTableFooter();
+        $_innerTableContent .= self::renderTableCaption();
+        $_innerTableContent .= self::renderTableBody('one');
+        $_innerTableContent .= self::renderTableHeader();      # this isn't a <thead> tag, but <tbody>
+        $_innerTableContent .= self::renderTableBody('two');
+        $_innerTableContent .= self::renderTableBody('three');
+        $_innerTableContent .= self::renderTableFooter();
 
         $htmlString = sprintf($table_sprintf, self::getDatagrid()->getAlias(),
                                               self::getDatagrid()->getId(),
@@ -1733,8 +1733,8 @@ class Clansuite_Datagrid_Renderer
         {
             $htmlString .= '<caption>';
             #$htmlString .= self::getDatagrid()->getCaption();
-            $htmlString .= Clansuite_Datagrid_Renderer::renderLabel();
-            $htmlString .= Clansuite_Datagrid_Renderer::renderDescription();
+            $htmlString .= self::renderLabel();
+            $htmlString .= self::renderDescription();
             $htmlString .= '</caption>'.CR;
 
         }
@@ -1791,7 +1791,7 @@ class Clansuite_Datagrid_Renderer
 
         foreach( self::getDatagrid()->getColumns() as $column )
         {
-            $htmlString .= Clansuite_Datagrid_Renderer::renderTableColumn($column);
+            $htmlString .= self::renderTableColumn($column);
         }
 
         return $htmlString;
@@ -1849,9 +1849,9 @@ class Clansuite_Datagrid_Renderer
 
         if($type == 'one')
         {
-            #$htmlString .= Clansuite_Datagrid_Renderer::renderTableActions();
-            $htmlString .= Clansuite_Datagrid_Renderer::renderTableSearch();
-            $htmlString .= Clansuite_Datagrid_Renderer::renderTablePagination();
+            #$htmlString .= self::renderTableActions();
+            $htmlString .= self::renderTableSearch();
+            $htmlString .= self::renderTablePagination();
         }
 
         if($type == 'two' or $type == 'three')
@@ -1860,14 +1860,14 @@ class Clansuite_Datagrid_Renderer
 
             if($type == 'two')
             {
-                #$htmlString .= Clansuite_Datagrid_Renderer::renderTableActions();
-                $htmlString .= Clansuite_Datagrid_Renderer::renderTableRows();
+                #$htmlString .= self::renderTableActions();
+                $htmlString .= self::renderTableRows();
             }
 
             if($type == 'three')
             {
-                $htmlString .= Clansuite_Datagrid_Renderer::renderTableBatchActions();
-                $htmlString .= Clansuite_Datagrid_Renderer::renderTablePagination(false);
+                $htmlString .= self::renderTableBatchActions();
+                $htmlString .= self::renderTablePagination(false);
             }
 
             $htmlString .= '</tbody>';
@@ -1928,7 +1928,7 @@ class Clansuite_Datagrid_Renderer
         {
             $i++;
             # @todo consider removing the css alternating code, in favor of css3 tr:nth-child
-            $htmlString .= Clansuite_Datagrid_Renderer::renderTableRow($row, !($i % 2));
+            $htmlString .= self::renderTableRow($row, !($i % 2));
         }
 
         # render a "no results" row
@@ -1967,7 +1967,7 @@ class Clansuite_Datagrid_Renderer
         $_Cells = $row->getCells();
         foreach( $_Cells as $oCell )
         {
-            $htmlString .= Clansuite_Datagrid_Renderer::renderTableCell($oCell);
+            $htmlString .= self::renderTableCell($oCell);
         }
         $htmlString .= '</tr>';
 
@@ -2099,7 +2099,7 @@ class Clansuite_Datagrid_Renderer
 
             $htmlString .= '<div class="Datagrid ' . self::getDatagrid()->getClass() . '">'.CR;
 
-                $htmlString .= Clansuite_Datagrid_Renderer::renderTable();
+                $htmlString .= self::renderTable();
 
             $htmlString .= '</div>'.CR;
 

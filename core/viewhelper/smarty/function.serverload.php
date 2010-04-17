@@ -16,13 +16,13 @@ function smarty_function_serverload($params, $smarty)
    }
    else
    {
-       // check if exists, else define
-       if( !function_exists('sys_getloadavg') )
+       # check if exists, else define
+       if( false === function_exists('sys_getloadavg') )
        {
             function sys_getloadavg()
             {
-                // get average server load in the last minute. Keep quiet cause virtual hosts can give perm denied
-            	if (@is_readable('/proc/loadavg') && $load = file('/proc/loadavg')) 
+                # get average server load in the last minute. Keep quiet cause virtual hosts can give perm denied
+            	if (is_readable('/proc/loadavg') and $load = file('/proc/loadavg'))
             	{
             		list($server_load) = explode(' ', $load[0]);
             		return $server_load;
@@ -30,7 +30,7 @@ function smarty_function_serverload($params, $smarty)
             }
         }
         
-        // get
+        # get
         $load = sys_getloadavg();
         if(empty($load)) { $load = array(0, 0, 0); }
         echo '1[' .$load[0]. '] 5[' .$load[1]. '] 15[' .$load[2]. ']';
@@ -45,5 +45,4 @@ function smarty_function_serverload($params, $smarty)
         */
      }
 }
-
 ?>

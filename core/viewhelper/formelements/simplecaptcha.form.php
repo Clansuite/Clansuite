@@ -220,7 +220,7 @@ class Clansuite_JustAn_Captcha
             }
 
             # create textcolor from random RGB colors
-            $text_color = imageColorAllocate($captcha, rand(50,240), rand(50,240), rand(0,255));
+            $text_color = imagecolorallocate($captcha, rand(50,240), rand(50,240), rand(0,255));
 
             # add some noise
             for ($i=1; $i<=4; $i++)
@@ -295,11 +295,11 @@ class Clansuite_JustAn_Captcha
         ob_start();
 
         # Finally: Render image and free memory.
-        ImagePNG($captcha);
+        imagepng($captcha);
 
         # Read the output buffer
         $imagesource = ob_get_clean(); # 2 in 1 call ob_get_contents() + ob_end_clean()
-        imageDestroy($captcha);
+        imagedestroy($captcha);
 
         # we apply some html magic here => output the image by send it as inlined data ;)
         return sprintf('<img alt="Embedded Captcha Image" src="data:image/png;base64,%s" />', base64_encode($imagesource));

@@ -56,13 +56,11 @@ class Clansuite_Filter_ajax_request implements Clansuite_Filter_Interface
     public function executeFilter(Clansuite_HttpRequest $request, Clansuite_HttpResponse $response)
     {
         # check if the request is an xmlhttprequest / ajax request
-        if ($request->isXhr())
-        {
+        #if ($request->isXhr())
+        #{
             # set rendering as wrapped, when html return with smarty
-
             # set JSON output
-
-		}
+		#}
     }
 }
 ?>

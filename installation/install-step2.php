@@ -9,13 +9,13 @@ if (defined('IN_CS') == false){ die( 'Clansuite not loaded. Direct Access forbid
             <div class="accordion">
                 <h2 class="headerstyle">
                     <img src="images/64px-Utilities-system-monitor.svg.png" border="0" style="vertical-align:middle" alt="installstep image" />
-                    <?php echo $language['STEP2_SYSTEMCHECK']?>
+                    <?php echo $language['STEP2_SYSTEMCHECK']; ?>
                 </h2>
-                <p><?php echo $language['STEP2_IN_GENERAL']?></p>
-                <p><?php echo $language['STEP2_SYSTEMSETTINGS_REQUIRED']?></p>
-                <p><?php echo $language['STEP2_SYSTEMSETTINGS_RECOMMENDED']?></p>
-                <p><?php echo $language['STEP2_SYSTEMSETTINGS_TAKEACTION']?></p>
-                <p><?php echo $language['STEP2_SYSTEMSETTINGS_CHECK_VALUES']?></p>
+                <p><?php echo $language['STEP2_IN_GENERAL']; ?></p>
+                <p><?php echo $language['STEP2_SYSTEMSETTINGS_REQUIRED']; ?></p>
+                <p><?php echo $language['STEP2_SYSTEMSETTINGS_RECOMMENDED']; ?></p>
+                <p><?php echo $language['STEP2_SYSTEMSETTINGS_TAKEACTION']; ?></p>
+                <p><?php echo $language['STEP2_SYSTEMSETTINGS_CHECK_VALUES']; ?></p>
 
                          <?php
                          /**
@@ -385,13 +385,13 @@ if (defined('IN_CS') == false){ die( 'Clansuite not loaded. Direct Access forbid
                 <table class="settings" border="0">
                     <thead class="tbhead">
                         <tr>
-                            <td class="tdcaption" colspan="4"><?php echo $language['STEP2_SYSTEMSETTING_REQUIRED']?></td>
+                            <td class="tdcaption" colspan="4"><?php echo $language['STEP2_SYSTEMSETTING_REQUIRED']; ?></td>
                         </tr>
                         <tr>
-                            <th><?php echo $language['STEP2_SETTING']?></th>
-                            <th><?php echo $language['STEP2_SETTING_EXPECTED']?></th>
-                            <th><?php echo $language['STEP2_SETTING_ACTUAL']?></th>
-                            <th><?php echo $language['STEP2_SETTING_STATUS']?></th>
+                            <th><?php echo $language['STEP2_SETTING']; ?></th>
+                            <th><?php echo $language['STEP2_SETTING_EXPECTED']; ?></th>
+                            <th><?php echo $language['STEP2_SETTING_ACTUAL']; ?></th>
+                            <th><?php echo $language['STEP2_SETTING_STATUS']; ?></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -402,13 +402,13 @@ if (defined('IN_CS') == false){ die( 'Clansuite not loaded. Direct Access forbid
                 <table class="settings" border="0">
                     <thead class="tbhead">
                         <tr>
-                            <td class="tdcaption" colspan="4"><?php echo $language['STEP2_SYSTEMSETTING_RECOMMENDED']?></td>
+                            <td class="tdcaption" colspan="4"><?php echo $language['STEP2_SYSTEMSETTING_RECOMMENDED']; ?></td>
                         </tr>
                         <tr>
-                            <th><?php echo $language['STEP2_SETTING']?></th>
-                            <th><?php echo $language['STEP2_SETTING_EXPECTED']?></th>
-                            <th><?php echo $language['STEP2_SETTING_ACTUAL']?></th>
-                            <th><?php echo $language['STEP2_SETTING_STATUS']?></th>
+                            <th><?php echo $language['STEP2_SETTING']; ?></th>
+                            <th><?php echo $language['STEP2_SETTING_EXPECTED']; ?></th>
+                            <th><?php echo $language['STEP2_SETTING_ACTUAL']; ?></th>
+                            <th><?php echo $language['STEP2_SETTING_STATUS']; ?></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -425,16 +425,16 @@ if (defined('IN_CS') == false){ die( 'Clansuite not loaded. Direct Access forbid
                 <div id="content_footer">
                     <div class="navigation">
                         <span style="font-size:10px;">
-                            <?php echo $language['CLICK_NEXT_TO_PROCEED']?><br />
-                            <?php echo $language['CLICK_BACK_TO_RETURN']?>
+                            <?php echo $language['CLICK_NEXT_TO_PROCEED']; ?><br />
+                            <?php echo $language['CLICK_BACK_TO_RETURN']; ?>
                         </span>
                         <form action="index.php" method="post">
                             <div class="alignright">
-                                <input type="submit" value="<?php echo $language['NEXTSTEP']?>" class="ButtonGreen" name="step_forward" tabindex="1" />
+                                <input type="submit" value="<?php echo $language['NEXTSTEP']; ?>" class="ButtonGreen" name="step_forward" tabindex="1" />
                             </div>
                             <div class="alignleft">
-                                <input type="submit" value="<?php echo $language['BACKSTEP']?>" class="ButtonRed" name="step_backward" tabindex="3" />
-                                <input type="hidden" name="lang" value="<?php echo $_SESSION['lang']?>" />
+                                <input type="submit" value="<?php echo $language['BACKSTEP']; ?>" class="ButtonRed" name="step_backward" tabindex="3" />
+                                <input type="hidden" name="lang" value="<?php echo $_SESSION['lang']; ?>" />
                             </div>
                         </form>
                     </div><!-- div navigation end -->

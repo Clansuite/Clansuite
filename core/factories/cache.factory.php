@@ -101,7 +101,7 @@ class Clansuite_Cache_Factory
 				throw new CacheFactoryFileNotFoundException($file);
 	        }
 	    }
-		catch(Exception $e) {}
+		catch(Exception $e){}
     }
 }
 

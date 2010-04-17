@@ -204,9 +204,9 @@ class Clansuite_Eventdispatcher
     }
 
     # no construct (singleton)
-    protected function __construct(){}
+    protected function __construct();
     # no clone (singleton)
-    private function __clone(){}
+    private function __clone();
 }
 
 /**

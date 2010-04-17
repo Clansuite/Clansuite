@@ -58,11 +58,11 @@ class Clansuite_Functions
      public static function generateSecureUUID() {
 
         $pr_bits = null;
-        $fp = @fopen('/dev/urandom','rb');
+        $fp = fopen('/dev/urandom','rb');
         if ($fp !== false)
         {
             $pr_bits .= @fread($fp, 16);
-            @fclose($fp);
+            fclose($fp);
         }
         else
         {

@@ -32,19 +32,19 @@ if (defined('IN_CS') == false){ die( 'Clansuite not loaded. Direct Access forbid
                 <ul>
 
                     <!-- Installation Progress BAR -->
-                    <li><h2><?php echo $language['INSTALL_PROGRESS']?></h2></li>
-                    <li><?php echo $language['COMPLETED']?> <b><?php echo $_SESSION['progress']?>%</b>
+                    <li><h2><?php echo $language['INSTALL_PROGRESS']; ?></h2></li>
+                    <li><?php echo $language['COMPLETED']; ?> <b><?php echo $_SESSION['progress']; ?>%</b>
                       <div id="progressbar">
                             <?php
                             #note by vain: this fixes a 2pixel problem while displaying the progress bar at 100percent:P
                             if ($_SESSION['step'] == 7 ) { $_SESSION['progress'] = $_SESSION['progress'] - 2; }
                             ?>
-                            <div style="border: 1px solid white; height: 5px ! important; width: <?php echo $_SESSION['progress']?>px; background-color: rgb(181, 0, 22);"/>
+                            <div style="border: 1px solid white; height: 5px ! important; width: <?php echo $_SESSION['progress']; ?>px; background-color: rgb(181, 0, 22);"/>
                         </div>
                     </li>
 
                     <!-- Change Language -->
-                    <li><h2><?php echo $language['CHANGE_LANGUAGE']?></h2></li>
+                    <li><h2><?php echo $language['CHANGE_LANGUAGE']; ?></h2></li>
                     <li>
                         <?php # pruefen ob es die aktuelle sprache ist, die reloaded werden soll
                               # nur reloaden, wenn neue sprache ausgewaehlt                ?>
@@ -70,7 +70,7 @@ if (defined('IN_CS') == false){ die( 'Clansuite not loaded. Direct Access forbid
                     </li>
 
                     <!-- Live Support (Link and Tracking) -->
-                    <li><h2><?php echo $language['LIVESUPPORT']?></h2></li>
+                    <li><h2><?php echo $language['LIVESUPPORT']; ?></h2></li>
                         <!-- Start Live Support Javascript -->
                         <div style="text-align:center;width:120px;">
                            <a href="javascript:void(window.open('http://www.clansuite.com/livezilla/livezilla.php?code=T2ZmaXppZWxsZSBXZWJzZWl0ZSBjbGFuc3VpdGUuY29t&amp;reset=true','','width=600,height=600,left=0,top=0,resizable=yes,menubar=no,location=yes,status=yes,scrollbars=yes'))">
@@ -98,7 +98,7 @@ if (defined('IN_CS') == false){ die( 'Clansuite not loaded. Direct Access forbid
                     </li>
 
                     <!-- Clansuite Shortcuts -->
-                    <li><h2><?php echo $language['SHORTCUTS']?></h2></li>
+                    <li><h2><?php echo $language['SHORTCUTS']; ?></h2></li>
                     <li><strong><a href="http://www.clansuite.com/">Website</a></strong></li>
                     <li><strong><a href="http://forum.clansuite.com/">Forum</a></strong></li>
                     <li><strong><a href="http://forum.clansuite.com/index.php?board=25">Installsupport</a></strong></li>

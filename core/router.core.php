@@ -158,7 +158,7 @@ class Clansuite_Router
         $this->router->setScriptname('index.php');
 
         # Fire event "onInitializeRoutes" with this object as context, to attach more routes via an event
-        Clansuite_CMS::triggerEvent('onInitializeRoutes', Clansuite_Router::getInstance());
+        Clansuite_CMS::triggerEvent('onInitializeRoutes', self::getInstance());
 
         return $this->routes;
     }
@@ -186,7 +186,7 @@ class Clansuite_Router
         }
 
         # register routing for all activated modules
-        foreach (Clansuite_Router::$modules as $module)
+        foreach (self::$modules as $module)
         {
             $this->router->connect('index.php?module=' . $module, array('module' => $module));
         }
