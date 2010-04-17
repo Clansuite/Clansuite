@@ -36,7 +36,11 @@
 # Security Handler
 if (defined('IN_CS') == false){ die('Clansuite not loaded. Direct Access forbidden.');}
 
-if (!class_exists('Clansuite_Form_Decorator', false)) { require ROOT_CORE . 'viewhelper'.DS.'formdecorator.core.php'; }
+# conditional include of the parent class
+if (false == class_exists('Clansuite_Form_Decorator', false))
+{ 
+    include ROOT_CORE . 'viewhelper/formdecorator.core.php';
+}
 
 class Clansuite_Formdecorator_Errors extends Clansuite_Form_Decorator
 {

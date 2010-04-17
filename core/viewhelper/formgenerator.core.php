@@ -36,7 +36,11 @@
 # Security Handler
 if (defined('IN_CS') == false){ die('Clansuite not loaded. Direct Access forbidden.');}
 
-if (!class_exists('Clansuite_Form',false)) { require dirname(__FILE__) . '/form.core.php'; }
+# conditional include of the parent class
+if (false == class_exists('Clansuite_Form',false))
+{ 
+    include dirname(__FILE__) . '/form.core.php';
+}
 
 /**
  * Clansuite Form Generator via Doctrine Records
@@ -170,7 +174,7 @@ class Clansuite_Array_Formgenerator extends Clansuite_Form
         }
         else
         {
-            die('Ensure that all obligatory formelements are present.');
+           throw new Clansuite_Exception('Ensure that all obligatory formelements are present.');
         }
 
         return $this;
@@ -232,8 +236,7 @@ class Clansuite_Array_Formgenerator extends Clansuite_Form
                 else
                 {
                     # form description arrays are not identical
-                    # @todo throw exception with errorcode, create excpetion tpl with this text
-                    die('Form Array Structure not valid. <br />
+                    throw new Clansuite_Exception('Form Array Structure not valid. <br />
                          The first array shows the obligatory form array elements. <br />
                          The second array shows your form definition. <br />
                          Please add the missing array keys with values. <br />'
@@ -254,7 +257,6 @@ class Clansuite_Array_Formgenerator extends Clansuite_Form
             #clansuite_xdebug::firebug($form_array_elements);
             #clansuite_xdebug::firebug($form_array_section);
 
-            
             foreach($form_array_elements as $form_array_element_number => $form_array_element)
             {
                #clansuite_xdebug::firebug($form_array_element);
@@ -275,7 +277,7 @@ class Clansuite_Array_Formgenerator extends Clansuite_Form
                $formelement->setName($this->getName().'['.$form_array_section.']['.$form_array_element['name'].']');
                $formelement->setDescription($form_array_element['description']);
 
-               # @todo consider this as formdebug display
+               # @todo consider this as formdebug display (sets formname as label)
                #$formelement->setLabel($this->getName().'['.$form_array_element['name'].']');
 
                $formelement->setLabel($form_array_element['label']);
@@ -350,11 +352,11 @@ class Clansuite_XML_Formgenerator extends Clansuite_Form
         $array = array();
         $array = Clansuite_Config($filename);
 
-        Clansuite_Xdebug::firebug($filename);
+        #Clansuite_Xdebug::firebug($filename);
 
         $form = Clansuite_Array_Formgenerator($array);
 
-        Clansuite_Xdebug::firebug($form);
+        #Clansuite_Xdebug::firebug($form);
 
         return $form;
     }

@@ -1,7 +1,7 @@
 <?php
    /**
     * Clansuite - just an eSports CMS
-    * Jens-AndrÃ© Koch Â© 2005 - onwards
+    * Jens-André Koch © 2005 - onwards
     * http://www.clansuite.com/
     *
     * This file is part of "Clansuite - just an eSports CMS".
@@ -24,8 +24,8 @@
     *
     * @license    GNU/GPL v2 or (at your option) any later version, see "/doc/LICENSE".
     *
-    * @author     Jens-AndrÃ© Koch <vain@clansuite.com>
-    * @copyright  Jens-AndrÃ© Koch (2005 - onwards)
+    * @author     Jens-André Koch <vain@clansuite.com>
+    * @copyright  Jens-André Koch (2005 - onwards)
     *
     * @link       http://www.clansuite.com
     * @link       http://gna.org/projects/clansuite
@@ -47,8 +47,8 @@ if( !class_exists('Clansuite_Renderer_Base',false) ) { require dirname(__FILE__)
  * @link http://smarty.php.net/ Official Website of Smarty Template Engine
  * @link http://smarty.incutio.com/ Smarty Wiki
  *
- * @author     Jens-AndrÃ© Koch <vain@clansuite.com>
- * @copyright  Jens-AndrÃ© Koch (2005 - onwards)
+ * @author     Jens-André Koch <vain@clansuite.com>
+ * @copyright  Jens-André Koch (2005 - onwards)
  *
  * @category    Clansuite
  * @package     Core
@@ -64,7 +64,6 @@ class Clansuite_Renderer_Smarty extends Clansuite_Renderer_Base
      * 1) Apply instances of Dependency Injector Phemto and Clansuite_Config to the RenderBase
      * 2) Initialize the RenderEngine via parent class constructor call = self::initializeEngine()
      * 3) Configure the RenderEngine with it's specific settings = self::configureEngine();
-     * 4) Eventlog
      */
     function __construct(Phemto $injector, Clansuite_Config $config)
     {
@@ -72,16 +71,11 @@ class Clansuite_Renderer_Smarty extends Clansuite_Renderer_Base
 
         self::initializeEngine();
         self::configureEngine();
-
-        #Clansuite_Eventlog();
-
     }
 
     /**
      * ==============================================
      * Sets up Smarty Template Engine (Smarty Object)
-     *    by initializing Render_SmartyDoc as
-     *    custom-made Smarty Document Processor
      * ==============================================
      *
      * @return Smarty Object
@@ -89,7 +83,7 @@ class Clansuite_Renderer_Smarty extends Clansuite_Renderer_Base
     public function initializeEngine()
     {
         # prevent redeclaration
-        if (!class_exists('Smarty',false))
+        if (class_exists('Smarty',false) == false)
         {
             # check if Smarty library exists - eat like a bird, poop like an elefant!
             if ( is_file(ROOT_LIBRARIES . 'smarty/Smarty.class.php') )
@@ -219,6 +213,7 @@ class Clansuite_Renderer_Smarty extends Clansuite_Renderer_Base
          * Smarty Template Directories
          *
          * This sets multiple template dirs, with the following detection order:
+         * The user-choosen Theme, before Module, before Core/Default/Admin-Theme.
          *
          * 1) "/themes/theme_of_user_session/"
          * 2) "/themes/theme_of_user_session/modulename/"
@@ -239,7 +234,7 @@ class Clansuite_Renderer_Smarty extends Clansuite_Renderer_Base
             $frontendtheme = $_SESSION['user']['theme'];
         }
 
-        # in case the controlcenter is the requested module
+        # 1) + 2) in case the controlcenter is the requested module
         if(Clansuite_Module_Controller_Resolver::getModuleName() == 'controlcenter' or Clansuite_Module_Controller_Resolver::getSubModuleName() == 'admin')
         {
             # Backend Theme Detections
@@ -259,23 +254,20 @@ class Clansuite_Renderer_Smarty extends Clansuite_Renderer_Base
          * FALLBACKS
          */
 
-        # this sets the "templates" subdirectory under the directory containing the modulecontroller class file
-
-        # FALLBACK to the modules dir
+        # 3) + 4) modules dir
         $this->renderer->template_dir[] = ROOT_MOD;
         $this->renderer->template_dir[] = ROOT_MOD . Clansuite_Module_Controller_Resolver::getModuleName() .DS. 'view' .DS;
 
-        # FALLBACK to the themes dir
-        # CORE/view
+        # 5) themes dir
         $this->renderer->template_dir[] = ROOT_THEMES . 'core'.DS.'view' .DS;
 
-        # THEMES/ADMIN
+        # 6) the admin theme
         if(Clansuite_Module_Controller_Resolver::getModuleName() == 'controlcenter' or Clansuite_Module_Controller_Resolver::getSubModuleName() == 'admin')
         {
             $this->renderer->template_dir[] = ROOT_THEMES . 'admin' .DS;
         }
 
-        # THEMES in general
+        # 7) THEMES in general
         $this->renderer->template_dir[] = ROOT_THEMES;
 
         #clansuite_xdebug::printR($this->renderer->template_dir);
@@ -307,11 +299,7 @@ class Clansuite_Renderer_Smarty extends Clansuite_Renderer_Base
     {
         if($this->renderer)
         {
-            /**
-             * we don't know what happened to the renderer on it's way
-             * so in order to get a clean render object
-             * we remove all prior assigns and configuration settings
-             */
+            # we reset all prior assigns and configuration settings
             $this->renderer->clear_all_assign();
             $this->renderer->clear_config();
         }
@@ -390,8 +378,8 @@ class Clansuite_Renderer_Smarty extends Clansuite_Renderer_Base
    /**
      * Magic Method to set/assign Variable to Smarty
      *
-     * @param string $key der Variablenname
-     * @param mixed $val der Variablenwert
+     * @param string $key Name of the variable
+     * @param mixed $val Value of variable
      */
     public function __set($key, $value)
     {
@@ -406,8 +394,6 @@ class Clansuite_Renderer_Smarty extends Clansuite_Renderer_Base
         # ask the renderer.base.core for the template path
         $template = $this->getTemplatePath($template);
 
-        #echo 'Template in '. __METHOD__ .' : '.$template . '<br>';
-
         return $this->renderer->fetch($template, $data = null);
     }
 
@@ -417,8 +403,6 @@ class Clansuite_Renderer_Smarty extends Clansuite_Renderer_Base
     public function display($template, $data = null)
     {
         $template = $this->getTemplatePath($template);
-
-        #echo 'Template in '. __METHOD__ .' : '.$template . '<br>';
 
         $this->renderer->display($template, $data = null);
     }
@@ -460,13 +444,8 @@ class Clansuite_Renderer_Smarty extends Clansuite_Renderer_Base
 
     public function renderPartial($template)
     {
-        # Debug Display
-        # echo 'Smarty was asked to render template: '.$template;
         $this->setTemplate($template);
-
-        # Assign Constants
         $this->assignConstants();
-
         return $this->fetch($template);
     }
 
@@ -477,17 +456,14 @@ class Clansuite_Renderer_Smarty extends Clansuite_Renderer_Base
      *
      * 1. assign common values and constants
      * 2. fetch the modultemplate and assigns it as $content
-     * 3. return the mainframe tpl
+     * 3. return the wrapper layout tpl
      *
      * @param string $templatename Template Filename
-     * @return mainframe.tpl layout
+     * @return wrapper tpl layout
      */
     public function render($template)
     {
-        # Debug Display
-        #echo '<br /> '. __METHOD__ .' => Smarty was asked to render the template: '.$template .'</br>';
-
-        # Assign Constants
+        # 1. assign common values and constants
         $this->assignConstants();
 
         /**
@@ -504,48 +480,23 @@ class Clansuite_Renderer_Smarty extends Clansuite_Renderer_Base
         # @todo caching
         //$resource_name = ???, $cache_id = ???, $compile_id = ???
 
-        /**
-         * Fetch the Template of the module
-         * and
-         * 1) echo it directly
-         * 2) Assign it to the Layout Template as $content
-         *
-         * Debugging Hint:
-         * Change Fetch to Display to get an echo of the pure ModuleContent
-         * else use the xdebug::printR to display the fetch!
-         */
-
+        # 2. fetch the modultemplate and assigns it as $content
         $modulecontent =  $this->fetch($template);
-
-        #clansuite_xdebug::printR($this->renderer->_tpl_vars);
-
-        # check for existing errors and prepend them
-        #if( errorhandler::hasErrors() == true )
-        #{
-            #$modulecontent = errorhandler::toString() . $modulecontent;
-            #$modulecontent = errorhandler::getErrorStack.$modulecontent;
-        #}
 
         /**
          * Decide on given set RenderMode, if modulecontent should be rendered WRAPPED or STANDALONE
          */
         if( $this->getRenderMode() !== 'WRAPPED' ) # render without wrapper: STANDALONE
         {
-            #echo '<br />Smarty renders the following Template as NON WRAPPED : '.$template;
             return $modulecontent;
         }
-        else # render with wrapper: WRAPPED
+        else # render with wrapper (layout): WRAPPED
         {
-            /**
-             * fire some preRenderChecks to ensure that {$content} variable
-             * and {include for copyright} exists in the layout template
-             */
-            if( true == $this->preRenderChecks())
+            # execute preRenderChecks (to ensure that {$content} and {copyright} exists in the layout template
+            if( true == $this->preRenderChecks() )
             {
-                # then assign the modulecontent to it
-                $this->assign('content',  $modulecontent );
-
-                # echo '<br />Smarty renders the following Template as WRAPPED : '.$template;
+                # assign the modulecontent
+                $this->assign('content', $modulecontent);
 
                 return $this->renderer->fetch($this->getLayoutTemplate());
             }
@@ -557,34 +508,15 @@ class Clansuite_Renderer_Smarty extends Clansuite_Renderer_Base
      */
     public function preRenderChecks()
     {
+        $layout_tpl_name = $this->getLayoutTemplate();
+
         foreach( $this->renderer->template_dir as $dir )
         {
-            $file = $dir . DS . $this->getLayoutTemplate();
-            if (is_file($file) != 0)
+            $filename = $dir . DS . $layout_tpl_name;
+
+            if (is_file($filename) == true)
             {
-                $filecontent = file_get_contents($file);
-
-                $renderChecksArray = array(
-                        '1' => array(
-                                      'string' => '{include file=\'copyright.tpl\'}',
-                                      'exceptionmessage' => "The copyright tag is missing. Please insert {include file='copyright.tpl'} in your layout/wrapper template file: <br /> $file",
-                                      'exceptioncode' => '12'
-                                    ),
-
-                        '2' => array(
-                                      'string' => '{include file=\'clansuite_header_notice.tpl\'}',
-                                      'exceptionmessage' => "The header notice tag is missing. Please insert {include file='clansuite_header_notice.tpl'} in your layout/wrapper template file: <br /> $file",
-                                      'exceptioncode' => '13'
-                                    ),
-
-                        '3' => array(
-                                      'string' => '{$content}',
-                                      'exceptionmessage' => 'The content variable {$content} must be within the wrapper template!',
-                                      'exceptioncode' => '14'
-                                    ),
-                                );
-
-                return self::preRenderCheck_checkForStrings($renderChecksArray, $filecontent);
+                return self::preRenderCheck($filename, file_get_contents($filename));
             }
         }
     }
@@ -598,15 +530,37 @@ class Clansuite_Renderer_Smarty extends Clansuite_Renderer_Base
      * Keep in mind ! that we spend a lot of time and ideas on this project.
      * Do not remove this! Please give something back to the community.
      *
-     * @param $array array with the string to check for.
      * @param $filecontent string The content of the layouttemplate file.
      * @return boolean
      */
-    public static function preRenderCheck_checkForStrings($strings_array, $filecontent)
+    public static function preRenderCheck($filename, $filecontent)
     {
-        foreach($strings_array as $preRenderCheck)
+        $renderChecksArray = array(
+            '1' => array(
+                          'needle' => '{include file=\'copyright.tpl\'}',
+                          'exceptionmessage' => "The copyright tag is missing.
+                            Please insert {include file='copyright.tpl'} in your layout/wrapper template file: <br /> $filename",
+                          'exceptioncode' => '12'
+                        ),
+
+            '2' => array(
+                          'needle' => '{include file=\'clansuite_header_notice.tpl\'}',
+                          'exceptionmessage' => "The header notice tag is missing.
+               Please insert {include file='clansuite_header_notice.tpl'} in your layout/wrapper template file: <br /> $filename",
+                          'exceptioncode' => '13'
+                        ),
+
+            '3' => array(
+                          'needle' => '{$content}',
+                          'exceptionmessage' => 'The content variable {$content} must be within the wrapper template!',
+                          'exceptioncode' => '14'
+                        ),
+        );
+
+
+        foreach($renderChecksArray as $preRenderCheck)
         {
-           if( false != strpos($filecontent, $preRenderCheck['string']) )
+           if( false != strpos($filecontent, $preRenderCheck['needle']) )
            {
                 return true;
            }
@@ -615,78 +569,6 @@ class Clansuite_Renderer_Smarty extends Clansuite_Renderer_Base
                 throw new Clansuite_Exception($preRenderCheck['exceptionmessage'], $preRenderCheck['exceptioncode']);
            }
         }
-    }
-
-    /**
-     * smartyDebugFirePHP()
-     * This take all Smarty Variables and stuffs them in to the Firebug-Console.
-     *
-     * @author SaWeyy
-     * @link http://n2.nabble.com/Smarty-debugging-tc2402750.html#a2428254
-     */
-    function smartyDebugFirePHP()
-    {
-        # get required debug variables
-        $assigned_vars = $this->_tpl_vars;
-        ksort($assigned_vars);
-
-        $config_vars = array();
-        if (is_array($this->_config[0]))
-        {
-            $config_vars = $this->_config[0];
-            ksort($config_vars);
-        }
-
-        $firephp = FirePHP::getInstance(true);
-
-        $firephp->group('Smarty Debug Output');
-
-        # 1) Log template files
-        $firephp->group('included templates & config files (load time in seconds)');
-
-        foreach($this->_smarty_debug_info as $tml)
-        {
-            $msg = str_repeat('--', $tml['depth']);
-            $msg .= ($tml['depth'] != 0) ? '>' : '';
-            $msg .= $tml['filename'] . ' (' . substr($tml['exec_time'], 0, 7) . 's)';
-            $firephp->log($msg);
-        }
-
-        # end group 'included templates &...'
-        $firephp->groupEnd();
-
-        # 2) Log assigned template variables
-        $firephp->group('assigned template variables');
-
-        foreach($assigned_vars as $key => $value)
-        {
-            $firephp->log($value, '{$' . $key . '}');
-        }
-
-        # end group 'assigned template variables'
-        $firephp->groupEnd();//
-
-        # 3) Log assigned config file variables (outer template scope)
-        $firephp->group('assigned config file variables (outer template scope)');
-
-        # Check if there is something in the config
-        if(!empty($config_vars))
-        {
-            foreach($config_vars as $key => $value)
-            {
-                $firephp->log($value, '{#' . $key . '#}');
-            }
-        }
-        else
-        {
-            $firephp->log("No configuration values available");
-        }
-
-        # end group 'assigned config file variables (outer template scope)'
-        $firephp->groupEnd();
-
-        # end group 'Smarty Debug Output'
-        $firephp->groupEnd();
     }
 }
 ?>

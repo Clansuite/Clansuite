@@ -119,6 +119,8 @@ abstract class Clansuite_Module_Controller extends Clansuite_Module_Controller_R
      */
     public static function initModel($modulename = null, $recordname = null)
     {
+        $models_path = '';
+
         /**
          * Load the Records for the current module, if no modulename is specified.
          * This is for lazy usage in the modulecontroller: $this->initModel();
@@ -133,24 +135,21 @@ abstract class Clansuite_Module_Controller extends Clansuite_Module_Controller_R
          */
         if(is_null($recordname))
         {
-            $models_path = ROOT_MOD . strtolower($modulename) . DS . 'model' . DS . 'records';
+            $models_path = ROOT_MOD . strtolower($modulename) . DS . 'model/records';
         }
         /*else
         {
             /**
              * Modulename and Recordname differ! Like "modulemanager" asmodulename and "CsModules" = "modules" as recordname.
              *//*
-            $models_path = ROOT_MOD . strtolower($modulename) . DS . 'model' . DS . 'records';
+            $models_path = ROOT_MOD . strtolower($modulename) . DS . 'model/records';
         }  */
 
         if( is_dir($models_path) )
         {
             Doctrine::loadModels($models_path);
         }
-        else
-        {
-            # Module has no Doctrine Records (Models)
-        }
+        # else Module has no Doctrine Records (Models)
     }
 
     /**
@@ -200,7 +199,7 @@ abstract class Clansuite_Module_Controller extends Clansuite_Module_Controller_R
     {
         if(is_object($this->injector))
         {
-            $this->config = $this->injector->instantiate('Clansuite_Config')->toArray;
+            $this->config = $this->injector->instantiate('Clansuite_Config')->toArray();
         }
         else # deliver config via an static call (for example: from inside a widget)
         {

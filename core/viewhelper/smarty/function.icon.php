@@ -33,10 +33,8 @@
 
 function smarty_function_icon($params, $smarty)
 {
-    #clansuite_xdebug::printR($params);
 
-    extract($params);   
-
+    extract($params);
     
     /**
      * if the src attribute contains a http://SERVER_NAME URL its cutted of
@@ -71,14 +69,16 @@ function smarty_function_icon($params, $smarty)
     # if we got no valid src, set a default image
     if(isset($src) and is_file($src) == false)
     {
-        $src = WWW_ROOT_THEMES_CORE . '/images/noimage.gif';
+        #$src = WWW_ROOT_THEMES_CORE . '/images/noimage.gif';
+        $src = ROOT_THEMES . 'core/images/noimage.gif';
         $name = 'No Image found.'.$src;
     }
 
     # transform name into a valid image src
     if (isset($icondir) and isset($name) and empty($src))
     {
-        $src = WWW_ROOT_THEMES_CORE . '/images/'.$icondir.'/'.$name.'.png';
+        #$src = WWW_ROOT_THEMES_CORE . '/images/'.$icondir.'/'.$name.'.png';
+        $src = ROOT_THEMES . 'core/images/'.$icondir.'/'.$name.'.png';
     }
 
     # we got no height, set it to zero

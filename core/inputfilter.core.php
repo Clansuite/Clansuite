@@ -163,12 +163,9 @@ class Clansuite_Inputfilter
      * @param int $length Check for a specific string length, Default (int) 0
      *
      * @return Returns boolean TRUE or FALSE.
-     * @todo search for globals and replace!
      */
     public function check( $string = '', $types = '', $pattern = '', $length = 0 )
     {
-        #global $error, $cfg;
-
         $r_bool  = false;
         $bools   = array();
         $a_types = array();

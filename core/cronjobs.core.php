@@ -208,10 +208,8 @@ class Clansuite_Cronjobs
         {
             $cronjobs = $this->parseCronFile($this->cronTabFile);
         }
-        else
-        {
-            # get cronjobs from alternative resource: database, etc.
-        }
+        # else { get cronjobs from alternative resource: database, etc. }
+
         return $cronjobs;
     }
 
@@ -279,7 +277,7 @@ class Clansuite_Cronjobs
 
     			for($j=$a; $j<=$b; $j+=$c)
     			{
-    				$targetArray[$j] = TRUE;
+    				$targetArray[$j] = true;
     			}
     		}
     	}
@@ -564,12 +562,12 @@ class Clansuite_Cronjobs
 
     private function getLastActualRunTime($jobname)
     {
-    	$jobfile = $this->getJobFileName($jobname);
-    	if (is_file($jobfile))
-    	{
-    		return filemtime($jobfile);
-    	}
-    	return 0;
+        $jobfile = $this->getJobFileName($jobname);
+        if (is_file($jobfile))
+        {
+            return filemtime($jobfile);
+        }
+        return 0;
     }
 
     private function markLastRun($jobname, $lastRun)

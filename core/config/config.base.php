@@ -53,24 +53,25 @@ abstract class Clansuite_Config_Base
      * @var array
      */
     protected $config = array();
-    
+
     /**
      * Returns $this->config Object as Array
+     * On "unset = true" the array is returned and unset to save memory
+     * and to avoid duplication of the config array.
      *
+     * @param boolean $unset If unset is true, $this->config array will be unset. Defaults to false.
      * @return   config array
      */
-    public function toArray()
+    public function toArray($unset = false)
     {
         $array = array();
         $array = $this->config;
-        
-        /**
-         * when the array is return(moved) to an outer object
-         * we can remove the inner config array to save memory
-         * this avoids duplications of the config array
-         */
-        unset($this->config);
-        
+
+        if($unset == true)
+        {
+            unset($this->config);
+        }
+
         return $array;
     }
 
@@ -78,7 +79,6 @@ abstract class Clansuite_Config_Base
      * Gets a config file item based on keyname
      *
      * @param    string    the config item key
-     *
      * @return   void
      */
     public function __get($configkey)
@@ -96,11 +96,9 @@ abstract class Clansuite_Config_Base
     /**
      * Set a config file item based on key:value
      *
-     * @param    string    the config item key
-     * @param    string    the config item value
-     *
+     * @param string the config item key
+     * @param string the config item value
      * @return   void
-     *
      */
     public function __set($configkey, $configvalue)
     {
@@ -118,7 +116,6 @@ abstract class Clansuite_Config_Base
     public function __unset($key)
     {
         unset($this->config[$key]);
-        #echo 'Variable was unset:'. $key;
     }
 
     /**

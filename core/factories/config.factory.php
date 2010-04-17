@@ -1,7 +1,7 @@
 <?php
    /**
     * Clansuite - just an eSports CMS
-    * Jens-AndrÃ© Koch Â© 2005 - onwards
+    * Jens-André Koch © 2005 - onwards
     * http://www.clansuite.com/
     *
     * LICENSE:
@@ -22,8 +22,8 @@
     *
     * @license    GNU/GPL v2 or (at your option) any later version, see "/doc/LICENSE".
     *
-    * @author     Jens-AndrÃ© Koch <vain@clansuite.com>
-    * @copyright  Jens-AndrÃ© Koch (2005 - onwards)
+    * @author     Jens-André Koch <vain@clansuite.com>
+    * @copyright  Jens-André Koch (2005 - onwards)
     *
     * @link       http://www.clansuite.com
     * @link       http://gna.org/projects/clansuite
@@ -40,8 +40,8 @@ if (defined('IN_CS') == false) { die('Clansuite not loaded. Direct Access forbid
  * The static method getConfiguration() returns the appropiate configuration handler for that file
  * included and instantiated Configuration Engine Object!
  *
- * @author     Jens-AndrÃ© Koch <vain@clansuite.com>
- * @copyright  Jens-AndrÃ© Koch (2005 - onwards)
+ * @author     Jens-André Koch <vain@clansuite.com>
+ * @copyright  Jens-André Koch (2005 - onwards)
  *
  * @category    Clansuite
  * @package     Core

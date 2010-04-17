@@ -93,7 +93,7 @@ class Clansuite_ACM
         {
             $permission = $this->getOption('global_permission');
         }
-        
+
         if ($resource === null)
         {
             $resource = $this->getOption('global_resource');
@@ -148,7 +148,7 @@ class Clansuite_ACM
             $resource = $this->getOption('global_resource');
         }
 
-        $global = ($permission === $this->getOption('global_permission')) ||
+        $global_access = ($permission === $this->getOption('global_permission')) ||
                   ($resource === $this->getOption('global_resource'));
 
         $conn = $record->getTable()->getConnection();
@@ -159,16 +159,16 @@ class Clansuite_ACM
                   ->where('a.resource_name = ? AND a.permission_name = ? AND a.' . $linkField . ' = ?')
                   ->fetchOne(array($resource, $permission, $record->id), Doctrine::HYDRATE_ARRAY);
 
-        if ( ! $access)
+        if ( $access == false)
         {
-            if ( ! $global)
+            if ( $global_access == false)
             {
                 $link = Doctrine_Query::create()
                           #->select('*') #autoadded
                           ->from('Clansuite_Acl_ResourcePermission p')
                           ->where('p.resource = ? AND p.permission = ?')
                           ->fetchOne(array($resource, $permission), Doctrine::HYDRATE_ARRAY);
-                          
+
                 if ( ! $link )
                 {
                     throw new Clansuite_Acl_Exception('Resource ' . $resource . ' does not have link to permission '. $permission);
@@ -264,7 +264,7 @@ class Clansuite_ACM
         		->from('Clansuite_Acl_ResourcePermission p')
         		->where('p.resource = ? AND p.permission = ?')
         		->fetchOne(array($resource, $permission), Doctrine::HYDRATE_ARRAY);
-		
+
         return (bool) $link;
     }
 }
