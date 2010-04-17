@@ -118,12 +118,12 @@ class Clansuite_Doctrine
             # Require compiled or normal Library
             if (is_file($doctrine_compiled))
             {
-                require $doctrine_compiled;
+                include $doctrine_compiled;
             }
             elseif(is_file( ROOT_LIBRARIES . 'doctrine/Doctrine.php'))
             {
                 # require the normal Library
-                require ROOT_LIBRARIES .'doctrine/Doctrine.php';
+                include ROOT_LIBRARIES .'doctrine/Doctrine.php';
             }
             else
             {

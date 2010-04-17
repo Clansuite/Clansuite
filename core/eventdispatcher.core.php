@@ -383,7 +383,7 @@ class Clansuite_Eventloader
     public static function loadCoreEvents()
     {
         $events = array();
-        $events = require ROOT . 'configuration/events.config.php';
+        $events = include ROOT . 'configuration/events.config.php';
         Clansuite_Eventdispatcher::instantiate()->addMultipleEventHandlers($events);
     }
 
@@ -397,7 +397,7 @@ class Clansuite_Eventloader
     public static function loadModuleEvents($modulename)
     {
         $events = array();
-        $events = require ROOT_MOD . $modulename .DS. $modulename.'events.php';
+        $events = include ROOT_MOD . $modulename .DS. $modulename.'events.php';
         Clansuite_Eventdispatcher::instantiate()->addMultipleEventHandlers($events);
     }
 

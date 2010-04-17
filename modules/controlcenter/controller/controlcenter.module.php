@@ -90,7 +90,7 @@ class Clansuite_Module_ControlCenter extends Clansuite_Module_Controller impleme
 
     private function assignSecurityInfos()
     {
-        require ROOT_CORE . 'logger/file.logger.php';
+        include ROOT_CORE . 'logger/file.logger.php';
         $errorlog_entries = null;
         $errorlog_entries = Clansuite_Logger_File::returnEntriesFromLogfile(3);
 
@@ -197,7 +197,7 @@ class Clansuite_Module_ControlCenter extends Clansuite_Module_Controller impleme
                                         'formfieldtype' => 'selectyesno',
                                         'value' => $this->getConfigValue('show_box_extensions', '1'));
 
-        require ROOT_CORE . '/viewhelper/formgenerator.core.php';
+        include ROOT_CORE . 'viewhelper/formgenerator.core.php';
         $form = new Clansuite_Array_Formgenerator($settings);
 
         # display formgenerator object

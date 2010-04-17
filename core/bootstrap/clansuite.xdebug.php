@@ -213,7 +213,7 @@ class Clansuite_Xdebug
         # get firephp instance, if class not existant
         if( class_exists('FirePHP', false) === false )
         {
-            require ROOT_LIBRARIES.'firephp/FirePHP.class.php';
+            include ROOT_LIBRARIES.'firephp/FirePHP.class.php';
         }
 
         $firephp = FirePHP::getInstance(true);

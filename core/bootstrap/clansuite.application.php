@@ -403,7 +403,7 @@ class Clansuite_CMS
         # If XDebug is enabled, load xdebug helpers and start the debug/tracing
         if( XDEBUG == true)
         {
-            require ROOT_CORE . 'bootstrap/clansuite.xdebug.php';
+            include ROOT_CORE . 'bootstrap/clansuite.xdebug.php';
             Clansuite_Xdebug::start_xdebug();
         }
     }
@@ -413,7 +413,7 @@ class Clansuite_CMS
      */
     private static function initialize_Loader()
     {
-        require ROOT_CORE . 'bootstrap/clansuite.loader.php';
+        include ROOT_CORE . 'bootstrap/clansuite.loader.php';
         # instantiate the autoloading handlers by overwriting the spl_autoload handling
         Clansuite_Loader::getInstance();
     }
@@ -426,7 +426,7 @@ class Clansuite_CMS
         if( isset(self::$config['eventsystem']['eventsystem_enabled'])
               and self::$config['eventsystem']['eventsystem_enabled'] === true)
         {
-            require ROOT_CORE . 'eventhandler.core.php';
+            include ROOT_CORE . 'eventhandler.core.php';
             Clansuite_Eventdispatcher::instantiate();
             Clansuite_Eventloader::autoloadEvents();
         }
@@ -452,7 +452,7 @@ class Clansuite_CMS
     private static function initialize_DependecyInjection()
     {
         # Setup Phemto
-        require ROOT_LIBRARIES.'phemto/phemto.php';
+        include ROOT_LIBRARIES.'phemto/phemto.php';
         self::$injector = new Phemto();
     }
 
@@ -623,7 +623,7 @@ class Clansuite_CMS
      */
     private static function initialize_Version()
     {
-        require ROOT_CORE . 'bootstrap/clansuite.version.php';
+        include ROOT_CORE . 'bootstrap/clansuite.version.php';
     }
 
     /**

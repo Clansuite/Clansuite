@@ -579,7 +579,7 @@ function getQueriesFromSQLFile($file)
  */
 function write_config_settings($data_array)
 {
-    require ROOT . 'core/clansuite_config.class.php';
+    include ROOT . 'core/clansuite_config.class.php';
 
     # throw not needed / non-setting vars out
     unset($data_array['step_forward']);

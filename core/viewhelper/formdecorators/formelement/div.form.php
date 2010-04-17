@@ -36,7 +36,10 @@
 # Security Handler
 if (defined('IN_CS') == false){ die('Clansuite not loaded. Direct Access forbidden.');}
 
-if (false == class_exists('Clansuite_Form_Decorator', false)) { require ROOT_CORE . 'viewhelper'.DS.'formdecorator.core.php'; }
+if (false === class_exists('Clansuite_Form_Decorator', false))
+{ 
+    include ROOT_CORE . 'viewhelper/formdecorator.core.php';
+}
 
 class Clansuite_Formelement_Decorator_Div extends Clansuite_Formelement_Decorator
 {

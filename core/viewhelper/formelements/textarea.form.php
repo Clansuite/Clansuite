@@ -191,9 +191,9 @@ class Clansuite_Formelement_Textarea extends Clansuite_Formelement implements Cl
         $classname = 'Clansuite_Formelement_Wysiwyg'. $name;
 
         # load file
-        if (class_exists($classname, false) == false)
+        if (class_exists($classname, false) === false)
         {
-            require ROOT_CORE.'viewhelper/formelements/wysiwyg'.$name.'.form.php';
+            include ROOT_CORE . 'viewhelper/formelements/wysiwyg'.$name.'.form.php';
         }
 
         # instantiate

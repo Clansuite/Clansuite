@@ -50,7 +50,7 @@ if (defined('IN_CS') == false) { die('Clansuite not loaded. Direct Access forbid
  *
  * 2) APC Compile Files
  */
-class clansuite_preprocessor
+class Clansuite_Preprocessor
 {
     protected $monolith_filename = 'clansuite_monolith.php';
 

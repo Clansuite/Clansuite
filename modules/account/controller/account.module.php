@@ -751,7 +751,7 @@ class Clansuite_Module_Account extends Clansuite_Module_Controller implements Cl
         #$data = Doctrine::getTable('CsUsers')->fetchSingleUserData($user_id);
 
         # Load Form Class (@todo autoloader / di)
-        require ROOT_CORE . 'viewhelper/form.core.php';
+        include ROOT_CORE . 'viewhelper/form.core.php';
 
         # Create a new form
         # @todo form object with auto-population of values
@@ -821,7 +821,7 @@ class Clansuite_Module_Account extends Clansuite_Module_Controller implements Cl
         $data = Doctrine::getTable('CsUsers')->fetchSingleUserData($user_id);
 
         # Load Form Class (@todo autoloader / di)
-        require ROOT_CORE . 'viewhelper/form.core.php';
+        include ROOT_CORE . 'viewhelper/form.core.php';
 
         # Create a new form
         # @todo form object with auto-population of values
@@ -868,7 +868,7 @@ class Clansuite_Module_Account extends Clansuite_Module_Controller implements Cl
         $data = Doctrine::getTable('CsUsers')->fetchSingleUserData($user_id);
 
         # Load Form Class (@todo autoloader / di)
-        require ROOT_CORE . 'viewhelper/form.core.php';
+        include ROOT_CORE . 'viewhelper/form.core.php';
 
         # Create a new form
         # @todo form object with auto-population of values

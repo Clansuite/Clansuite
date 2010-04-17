@@ -304,7 +304,7 @@ class WebInstaller {
                 /* Handle the request */
                 global $folderPermissionList;
                 if (in_array($folderPermissions, $folderPermissionList)) {
-                    $folderPermissions = (string)('0' . (int)$folderPermissions);
+                    $folderPermissions = (string) ('0' . (int)$folderPermissions);
                     $success = @chmod($folderName, octdec($folderPermissions));
                     if (!$success) {
                     render('results', array('failure' => "Attempt to change permissions of folder $folderName to $folderPermissions failed!"));
@@ -561,14 +561,14 @@ class Platform
     /* Check if a specific command line tool is available */
     function isBinaryAvailable($binaryName)
     {
-        $binaryPath = Platform::getBinaryPath($binaryName);
+        $binaryPath = self::getBinaryPath($binaryName);
         return !empty($binaryPath);
     }
 
     /* Return the path to a binary or false if it's not available */
     function getBinaryPath($binaryName)
     {
-        if (!Platform::isPhpFunctionSupported('exec'))
+        if (!self::isPhpFunctionSupported('exec'))
         {
             return false;
         }

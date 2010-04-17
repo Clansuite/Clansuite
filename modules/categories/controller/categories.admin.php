@@ -57,7 +57,8 @@ class Clansuite_Module_Categories_Admin extends Clansuite_Module_Controller impl
         // Datagrid configuration
         //--------------------------
 
-        require ROOT_CORE . DS . "viewhelper" . DS . "Datagrid.core.php";
+        include ROOT_CORE . 'viewhelper/Datagrid.core.php';
+        
         $ColumnSets = array();
 
         $ColumnSets[] = array(  'Alias'     => 'Select',
@@ -322,7 +323,7 @@ class Clansuite_Module_Categories_Admin extends Clansuite_Module_Controller impl
                                             'formfieldtype' => 'text',
                                             'value' => $this->getConfigValue('items_resultsPerPage', '25'));
 
-        require ROOT_CORE . '/viewhelper/formgenerator.core.php';
+        include ROOT_CORE . '/viewhelper/formgenerator.core.php';
         $form = new Clansuite_Array_Formgenerator($settings);
 
         # display formgenerator object

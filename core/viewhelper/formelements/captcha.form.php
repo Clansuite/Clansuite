@@ -119,9 +119,9 @@ class Clansuite_Formelement_Captcha extends Clansuite_Formelement implements Cla
         $classname = 'Clansuite_Formelement_'. $name.'Captcha';
 
         # load file
-        if (class_exists($classname, false) == false)
+        if (class_exists($classname, false) === false)
         {
-            require ROOT_CORE.'viewhelper/formelements/'.$name.'captcha.form.php';
+            include ROOT_CORE.'viewhelper/formelements/'.$name.'captcha.form.php';
         }
 
         # instantiate

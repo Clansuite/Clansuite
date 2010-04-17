@@ -177,12 +177,12 @@ class Clansuite_Router
         if($routes_cfg_file == null)
         {
             # load common routes configuration
-            $routes = require ROOT . 'configuration/routes.config.php';
+            $routes = include ROOT . 'configuration/routes.config.php';
         }
         else
         {
             # load specific event config file
-            $routes = require ROOT . $routes_config_file;
+            $routes = include ROOT . $routes_config_file;
         }
 
         # register routing for all activated modules
