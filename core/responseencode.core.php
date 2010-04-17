@@ -128,7 +128,7 @@ class Clansuite_ResponseEncode
         # both methods depend on the zlib extension
         if (extension_loaded('zlib'))
         {
-            if((bool)ini_get('zlib.output_compression') === false
+            if((bool) ini_get('zlib.output_compression') === false
                and (ini_get('output_handler') != 'ob_gzhandler') and ob_get_length() === false)
             {
                 # Method 1: on-the-fly transparent zlib.output_compression
@@ -138,7 +138,7 @@ class Clansuite_ResponseEncode
 
                 # if zlib.output_compression still not enabled
                 # Method 2: compression via this class
-                if( (bool)ini_get('zlib.output_compression') === false)
+                if( (bool) ini_get('zlib.output_compression') === false)
                 {
                     ob_start();
                     ob_implicit_flush(0);
@@ -249,28 +249,28 @@ class Clansuite_ResponseEncode
             default:
             case 'compress':
             case 'gzip':
-                    # gzip header
-                    $gzdata = "\x1f\x8b\x08\x00\x00\x00\x00\x00";
+            # gzip header
+                $gzdata = "\x1f\x8b\x08\x00\x00\x00\x00\x00";
 
-                    # compress
-                    $gzdata .= gzcompress($content, $level);
+                # compress
+                $gzdata .= gzcompress($content, $level);
 
-                    # determine size of compressed content
-                    $compressed_content_size = strlen($gzdata);
+                # determine size of compressed content
+                $compressed_content_size = strlen($gzdata);
 
-                    # fix crc bug
-                    $gzdata = substr($gzdata, 0, $compressed_content_size - 4);
+                # fix crc bug
+                $gzdata = substr($gzdata, 0, $compressed_content_size - 4);
 
-                    # add pack infos
-                    $gzdata .= pack("V", crc32($content)) . pack("V", $original_content_size);
+                # add pack infos
+                $gzdata .= pack("V", crc32($content)) . pack("V", $original_content_size);
 
-                    break;
+                break;
             case 'x-gzip':
-                    $gzdata = gzencode($content, $level);
-                    break;
+                $gzdata = gzencode($content, $level);
+                break;
             case 'deflate':
-                    $gzdata = gzdeflate($content, $level);
-                    break;
+                $gzdata = gzdeflate($content, $level);
+                break;
         }
 
         # delete output-buffer and deactivate buffering
@@ -279,7 +279,7 @@ class Clansuite_ResponseEncode
         # send Headers
         header('Content-Encoding: ' . $encoding);
         header('Vary: Accept-Encoding');
-        header('Content-Length: ' . (int)strlen($gzdata));
+        header('Content-Length: ' . (int) strlen($gzdata));
         header('X-Content-Encoded-By: Clansuite_ResponseEncode v' . self::$version);
 
         /**
@@ -397,14 +397,14 @@ class Clansuite_ResponseEncode
             case 'Linux':
                 $cl = (1 - Clansuite_ResponseEncode::linux_loadavg()) * 10;
                 $level = (int)max(min(9, $cl), 0);
-            break;
+                break;
             case 'FreeBSD':
                 $cl = (1 - Clansuite_ResponseEncode::freebsd_loadavg()) * 10;
                 $level = (int)max(min(9, $cl), 0);
-            break;
+                break;
             default:
                 $level = 3;
-            break;
+                break;
         }
         return $level;
     }

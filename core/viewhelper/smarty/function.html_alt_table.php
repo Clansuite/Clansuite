@@ -9,7 +9,7 @@
  * Purpose:  make an html table from an array of arrays
  * Input:
  *         - loop = array to loop through
- *         - header = wether or not display the header line (using array keys of the first line) 
+ *         - header = wether or not display the header line (using array keys of the first line)
  *         - table_id = provide a specific css id for the table ( default is "table")
  *
  *
@@ -19,7 +19,7 @@
  * {table loop=$data header=true table_id='my_smarty_table'}
  * </pre>
  *
- * Install: Drop into the plugin directory 
+ * Install: Drop into the plugin directory
  *
  * Changes:
  *    2004-11-29 created
@@ -36,15 +36,15 @@
  * Additional Notes :
  *
  * html_alt_table is designed to display eadily 2-D arrays , i.e. arrays containing arrays,
- * 
+ *
  * the function is easy to use as it only needs $loop to be an array of array
- * although there are two major limitations : 
+ * although there are two major limitations :
  *     1/ to define the table appearence, you MUST use CSS
  *     2/ $loops must be an array of rows and each row must be an array of cell
- * 
+ *
  * -------------------------------------------------------------
  *
- * Practical Example: 
+ * Practical Example:
  *
  * index.php:
  *
@@ -95,16 +95,15 @@
 
 function smarty_function_html_alt_table($params, $smarty)
 {
-
     // default values
     //
     // loop is mandatory
-    //-----------------------------------
 
     $table_id= 'table';
     $header=true;
 
-    if (!isset($params['loop'])) {
+    if (!isset($params['loop']))
+    {
         $smarty->trigger_error("html_alt_table: missing 'loop' parameter");
         return;
     }
@@ -113,26 +112,24 @@ function smarty_function_html_alt_table($params, $smarty)
     //
     // this part is based on the original
     // html_table function
-    //--------------------------------
-
-    foreach ($params as $_key=>$_value) {
-        switch ($_key) {
+    foreach ($params as $_key=>$_value)
+    {
+        switch ($_key)
+        {
             case 'loop':
-                $$_key = (array)$_value;
+                $$_key = (array) $_value;
                 break;
 
             case 'table_id':
-                $$_key = (string)$_value;
+                $$_key = (string) $_value;
                 break;
             case 'header':
-                $$_key = (boolean)$_value; 
+                $$_key = (boolean) $_value;
                 break;
         }
     }
 
-    // init
-    //
-    //-------------------------------------       
+    # init
     $rows_count=count($loop);
 
     // if the array is empty, there's no need to go further
@@ -140,34 +137,34 @@ function smarty_function_html_alt_table($params, $smarty)
 
     $first_line=$loop[0];
     $cols_count=count($first_line);
-    
+
     $row_class=$table_id."_row";
     $row_class_odd=$row_class."_odd";
     $row_class_even=$row_class."_even";
 
     $col_class=$table_id."_col";
-    
+
     // starting table
     //
     // This table will not contain style informations.
-    // If you want to define your own  style , you *must* 
-    // defines a CSS styleheet using the correct id and 
+    // If you want to define your own  style , you *must*
+    // defines a CSS styleheet using the correct id and
     // class names
-    //----------------------------------
     $output = "<table id='$table_id'>\n";
-    
+
 
     // table headers
     //
     // We assume that the keys of the first array
-    // are relevant as column names... 
-    //-----------------------------------
-    if ($header){
+    // are relevant as column names...
+    if ($header)
+    {
         $headers=array_keys($first_line);
         $css_id=$row_class."_header";
         $css_class=$row_class_odd;
         $output .= "<tr class='$css_class' id='$css_id' >\n";
-        for ($h=0; $h<$cols_count; $h++) {
+        for ($h=0; $h<$cols_count; $h++)
+        {
             $css_class=$col_class;
             $css_id=$col_class."_$headers[$h]";
             $output.="<td class='$css_class' id='$css_id'>";
@@ -180,30 +177,30 @@ function smarty_function_html_alt_table($params, $smarty)
     // table content
     //
     // each row is identified by an unique css id
-    // and its class name indicates if it's an odd or 
+    // and its class name indicates if it's an odd or
     // even line
-    //----------------------------------------------------
-    for ($r=0; $r<$rows_count; $r++) {
+    for ($r=0; $r<$rows_count; $r++)
+    {
         $css_class=($r%2 == 0)?$row_class_even:$row_class_odd;
-        $css_id=$row_class."_$r";    
+        $css_id=$row_class."_$r";
         $output .= "<tr class='$css_class' id='$css_id'>\n";
 
         $row=array_values($loop[$r]);
-        
+
         // we assume that every row has the same number of columns that the first one
-        // if it's not the case, you might want to uncomment the line above 
+        // if it's not the case, you might want to uncomment the line above
         //
         //$cols_count=count($row);
-       
-       
+
+
         // display a line
         //
         // each <td> tag is identified by a css id
-        //----------------------------------------
         $css_class=$col_class;
-    for ($c=0; $c<$cols_count; $c++) {
+        for ($c=0; $c<$cols_count; $c++)
+        {
             $css_id=$col_class."_$headers[$c]";
-            
+
             $output.="<td class='$css_class' id='$css_id'>";
             $output.="$row[$c]";
             $output.="</td>\n";
@@ -211,7 +208,7 @@ function smarty_function_html_alt_table($params, $smarty)
         $output .= "</tr>\n";
     }
     $output .= "</table>\n";
-    
+
     return $output;
 }
 ?>

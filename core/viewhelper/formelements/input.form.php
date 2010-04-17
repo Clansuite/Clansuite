@@ -145,15 +145,15 @@ class Clansuite_Formelement_Input extends Clansuite_Formelement implements Clans
     {
         $html  = null;
         $html .= '<input type="'.$this->type.'" name="'.$this->name.'"';
-        $html .= (bool)$this->id ? ' id="'.$this->id.'"' : null;
-        $html .= (bool)$this->value ? ' value="'.$this->value.'"' : null;
-        $html .= (bool)$this->size ? ' size="'.$this->size.'"' : null;
-        $html .= (bool)$this->maxlength ? ' maxlength= "'.$this->maxlength.'"' : null;
-        $html .= (bool)$this->class ? ' class="'.$this->class.'"' : null;
+        $html .= (bool) $this->id ? ' id="'.$this->id.'"' : null;
+        $html .= (bool) $this->value ? ' value="'.$this->value.'"' : null;
+        $html .= (bool) $this->size ? ' size="'.$this->size.'"' : null;
+        $html .= (bool) $this->maxlength ? ' maxlength= "'.$this->maxlength.'"' : null;
+        $html .= (bool) $this->class ? ' class="'.$this->class.'"' : null;
         $html .= ($this->type == 'image') ? ' source="'.$this->source.'"' : null;
-        $html .= ($this->type == 'image' && (bool)$this->width && (bool)$this->height) ? '  style="width:'.$this->width.'px; height:'.$this->height.'px;"' : null;
-        $html .= (bool)$this->checked ? ' checked="checked"' : null;
-        $html .= (bool)$this->additionals ? $this->additionals : null;
+        $html .= ($this->type == 'image' and (bool) $this->width and (bool) $this->height) ? '  style="width:'.$this->width.'px; height:'.$this->height.'px;"' : null;
+        $html .= (bool) $this->checked ? ' checked="checked"' : null;
+        $html .= (bool) $this->additionals ? $this->additionals : null;
         $html .= ' />' . CR;
 
         return $html;

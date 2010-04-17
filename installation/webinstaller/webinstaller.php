@@ -125,24 +125,26 @@ $webInstaller->main();
  */
 class WebInstaller {
 
-    function main() {
+    function main()
+    {
 
         /* Register all extract / download methods */
         $this->_extractMethods =  array(new UnzipExtractor(),
-                                        new PhpUnzipExtractor(),
-                                        new TarGzExtractor(),
-                                        new PhpTarGzExtractor());
+                new PhpUnzipExtractor(),
+                new TarGzExtractor(),
+                new PhpTarGzExtractor());
 
         $this->_downloadMethods = array(new CurlDownloader(),
-                                        new WgetDownloader(),
-                                        new FopenDownloader(),
-                                        new FsockopenDownloader());
+                new WgetDownloader(),
+                new FopenDownloader(),
+                new FsockopenDownloader());
 
         /* Make sure we can write to the current working directory */
-        if (!Platform::isDirectoryWritable()) {
+        if (!Platform::isDirectoryWritable())
+        {
             render('results', array('failure' => 'Local working directory' . dirname(__FILE__) .
-                        ' is not writeable!',
-                        'fix' => 'ftp> chmod 777 ' . basename(dirname(__FILE__))));
+                            ' is not writeable!',
+                    'fix' => 'ftp> chmod 777 ' . basename(dirname(__FILE__))));
             exit;
         }
 
@@ -150,10 +152,10 @@ class WebInstaller {
          * Handle the delete request
          */
         if (isset($_GET['delete_webinstaller']))
-    	{
-    	    unlink(__FILE__);
-    	    header("Location:../index.php");
-    	}
+        {
+            unlink(__FILE__);
+            header("Location:../index.php");
+        }
 
         /* Handle the request */
         if (empty($_POST['command']))
@@ -379,7 +381,8 @@ class WebInstaller {
         }
     }
 
-    function discoverCapabilities() {
+    function discoverCapabilities()
+    {
         global $archiveBaseName;
         $capabilities = array();
 
@@ -422,7 +425,8 @@ class WebInstaller {
         return $capabilities;
     }
 
-    function findClansuiteFolder() {
+    function findClansuiteFolder()
+    {
         /* Search in the current folder for a clansuite folder */
         $basePath = dirname(__FILE__) . '/';
 
@@ -460,12 +464,14 @@ class WebInstaller {
         return false;
     }
 
-    function integrityCheck() {
+    function integrityCheck()
+    {
         /* TODO, check for the existence of modules, lib, themes, main.php */
         return true;
     }
 
-    function getDownloadUrl($version, $extension, $downloader) {
+    function getDownloadUrl($version, $extension, $downloader)
+    {
         global $downloadUrls;
 
         /* Default to the last known good version */
@@ -482,7 +488,8 @@ class WebInstaller {
         return $url;
     }
 
-    function getLatestVersions($downloader) {
+    function getLatestVersions($downloader)
+    {
         global $versionCheckUrl, $availableVersions;
 
         $tempFile = dirname(__FILE__) . '/availableVersions.txt';
@@ -514,12 +521,12 @@ class WebInstaller {
         return $currentVersions;
     }
 
-    function shouldShowRcVersion($downloader) {
+    function shouldShowRcVersion($downloader)
+    {
         /*
          * Only show the rc version (along with the stable and nightly) if we're in a
          * release candidate stage
          */
-
         $currentDownloadUrls = $this->getLatestVersions($downloader);
         return isset($currentDownloadUrls['rc']);
     }
@@ -535,23 +542,29 @@ class WebInstaller {
 class Platform
 {
     /* Check if a specific php function is available */
-    function isPhpFunctionSupported($functionName) {
-        if (in_array($functionName, split(',\s*', ini_get('disable_functions'))) || !function_exists($functionName)) {
+    function isPhpFunctionSupported($functionName)
+    {
+        if (in_array($functionName, split(',\s*', ini_get('disable_functions'))) || !function_exists($functionName))
+        {
             return false;
-        } else {
+        } else
+        {
             return true;
         }
     }
 
     /* Check if a specific command line tool is available */
-    function isBinaryAvailable($binaryName) {
+    function isBinaryAvailable($binaryName)
+    {
         $binaryPath = Platform::getBinaryPath($binaryName);
         return !empty($binaryPath);
-        }
+    }
 
-        /* Return the path to a binary or false if it's not available */
-        function getBinaryPath($binaryName) {
-        if (!Platform::isPhpFunctionSupported('exec')) {
+    /* Return the path to a binary or false if it's not available */
+    function getBinaryPath($binaryName)
+    {
+        if (!Platform::isPhpFunctionSupported('exec'))
+        {
             return false;
         }
 
@@ -564,14 +577,17 @@ class Platform
 
         /* Try a bunch of likely seeming paths to see if any of them work. */
         $paths = array();
-        if (!strncasecmp(PHP_OS, 'win', 3)) {
+        if (!strncasecmp(PHP_OS, 'win', 3))
+        {
             $separator = ';';
             $slash = "\\";
             $extension = '.exe';
             $paths[] = "C:\\Program Files\\$binaryName\\";
             $paths[] = "C:\\apps\$binaryName\\";
             $paths[] = "C:\\$binaryName\\";
-        } else {
+        }
+        else
+        {
             $separator = ':';
             $slash = "/";
             $extension = '';
@@ -607,12 +623,15 @@ class Platform
     }
 
     /* Check if we can write to this directory (download, extract) */
-    function isDirectoryWritable() {
+    function isDirectoryWritable()
+    {
         return is_writable(dirname(__FILE__));
     }
 
-    function extendTimeLimit() {
-        if (function_exists('apache_reset_timeout')) {
+    function extendTimeLimit()
+    {
+        if (function_exists('apache_reset_timeout'))
+        {
             @apache_reset_timeout();
         }
         @set_time_limit(600);
@@ -655,12 +674,14 @@ class DownloadMethod
 
 class WgetDownloader extends DownloadMethod
 {
-    function download($url, $outputFile) {
+    function download($url, $outputFile)
+    {
         $status = 0;
         $output = array();
         $wget = Platform::getBinaryPath('wget');
         exec("$wget -O$outputFile $url ", $output, $status);
-        if ($status) {
+        if ($status)
+        {
             $msg = 'exec returned an error status ';
             $msg .= is_array($output) ? implode('<br>', $output) : '';
             return $msg;
@@ -668,11 +689,13 @@ class WgetDownloader extends DownloadMethod
         return true;
     }
 
-    function isSupported() {
+    function isSupported()
+    {
         return Platform::isBinaryAvailable('wget');
     }
 
-    function getName() {
+    function getName()
+    {
         return 'Download with Wget';
     }
 }
@@ -736,16 +759,19 @@ class FopenDownloader extends DownloadMethod
         return true;
     }
 
-    function isSupported() {
+    function isSupported()
+    {
         $actual = ini_get('allow_url_fopen');
-        if (in_array($actual, array(1, 'On', 'on')) && Platform::isPhpFunctionSupported('fopen')) {
+        if (in_array($actual, array(1, 'On', 'on')) && Platform::isPhpFunctionSupported('fopen'))
+        {
             return true;
         }
 
         return false;
     }
 
-    function getName() {
+    function getName()
+    {
         return 'Download with PHP fopen()';
     }
 }

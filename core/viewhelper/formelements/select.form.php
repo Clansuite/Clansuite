@@ -118,10 +118,10 @@ class Clansuite_Formelement_Select extends Clansuite_Formelement implements Clan
         # open the html select tag
         $html = '';
         $html .= '<select ';
-        $html .= (bool)$this->name ? 'name="'.$this->name.'"' : null;
-        $html .= (bool)$this->id ? 'id="'.$this->id.'"' : null;
-        $html .= (bool)$this->class ? 'class="'.$this->class.'"' : null;
-        $html .= (bool)$this->size ? 'size="'.$this->size.'"' : null;
+        $html .= (bool) $this->name ? 'name="'.$this->name.'"' : null;
+        $html .= (bool) $this->id ? 'id="'.$this->id.'"' : null;
+        $html .= (bool) $this->class ? 'class="'.$this->class.'"' : null;
+        $html .= (bool) $this->size ? 'size="'.$this->size.'"' : null;
         $html .= '>';
         
         /**

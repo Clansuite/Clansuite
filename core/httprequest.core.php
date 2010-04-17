@@ -336,7 +336,7 @@ class Clansuite_HttpRequest implements Clansuite_Request_Interface, ArrayAccess
         /**
          * we use type hinting here to cast the string with array name to boolean
          */
-        if((bool)$parameter_array == true)
+        if((bool) $parameter_array == true)
         {
             # this returns a value from the parameterarray
             return $this->{strtolower($parameter_array).'_parameters'}[$parametername];

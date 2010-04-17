@@ -289,7 +289,7 @@ class Clansuite_Cache_Memcached implements Clansuite_Cache_Interface
 
         if(!is_array($data))
         {
-            $data = (array)$data;
+            $data = (array) $data;
         }
 
         # memcache keynames have a maximal length restriction of 250 chars
@@ -315,7 +315,7 @@ class Clansuite_Cache_Memcached implements Clansuite_Cache_Interface
     {
         if(!is_array($keys))
         {
-            $keys = (array)$keys;
+            $keys = (array) $keys;
         }
 
         $time = (int) $time; // delete delayed
