@@ -60,30 +60,30 @@ class Clansuite_Renderer_Factory
     {
         try
         {
-			$file = ROOT_CORE .'renderer'.DS. strtolower($view_type) .'.renderer.php';
-        	if (is_file($file) != 0)
-			{
-	            $class = 'Clansuite_Renderer_'. $view_type;
+            $file = ROOT_CORE .'renderer'.DS. strtolower($view_type) .'.renderer.php';
+            if (is_file($file) != 0)
+            {
+                $class = 'Clansuite_Renderer_'. $view_type;
                 if( !class_exists($class,false) ) { require($file); }
 
-	            if (class_exists($class,false))
-	            {
-	                # instantiate and return the renderer and pass $injector into
-	                $view = new $class($injector, $injector->instantiate('Clansuite_Config'));
-	                #var_dump($view);
-	                return $view;
-	            }
-	            else
-	            {
-	            	 throw new RendererFactoryClassNotFoundException($class);
-	            }
-	        }
-			else
-			{
-				throw new RendererFactoryFileNotFoundException($file);
-	        }
-	    }
-		catch(Clansuite_Exception $e) {}
+                if (class_exists($class,false))
+                {
+                    # instantiate and return the renderer and pass $injector into
+                    $view = new $class($injector, $injector->instantiate('Clansuite_Config'));
+                    #var_dump($view);
+                    return $view;
+                }
+                else
+                {
+                     throw new RendererFactoryClassNotFoundException($class);
+                }
+            }
+            else
+            {
+                throw new RendererFactoryFileNotFoundException($file);
+            }
+        }
+        catch(Clansuite_Exception $e) {}
     }
 }
 
@@ -96,12 +96,12 @@ class Clansuite_Renderer_Factory
  */
 class RendererFactoryClassNotFoundException extends Exception
 {
-	function __construct($class)
-	{
-		parent::__construct();
-	  	echo 'Renderer_Factory -> Class not found: ' . $class;
-	  	die();
-	}
+    function __construct($class)
+    {
+        parent::__construct();
+          echo 'Renderer_Factory -> Class not found: ' . $class;
+          die();
+    }
 }
 
 /**
@@ -113,11 +113,11 @@ class RendererFactoryClassNotFoundException extends Exception
  */
 class RendererFactoryFileNotFoundException extends Exception
 {
-	function __construct($file)
-	{
-		parent::__construct();
-		echo 'Renderer_Factory -> File not found: ' . $file;
-		die();
-	}
+    function __construct($file)
+    {
+        parent::__construct();
+        echo 'Renderer_Factory -> File not found: ' . $file;
+        die();
+    }
 }
 ?>

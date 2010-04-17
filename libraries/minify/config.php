@@ -12,7 +12,7 @@
  * To allow debugging, set this option to true and add "&debug=1" to 
  * a URI. E.g. /min/?f=script1.js,script2.js&debug=1
  */
-$min_allowDebugFlag = false;
+$min_allowDebugFlag = true;
 
 
 /**
@@ -25,7 +25,7 @@ $min_allowDebugFlag = false;
  *
  * @todo cache system does not have error logging yet.
  */
-$min_errorLogger = false;
+$min_errorLogger = true;
 
 
 /**
@@ -97,7 +97,8 @@ $min_serveOptions['maxAge'] = 1800;
  *
  * // = shortcut for DOCUMENT_ROOT
  */
-//$min_serveOptions['minApp']['allowDirs'] = array('//js', '//css');
+#$min_serveOptions['minApp']['allowDirs'] = array('//themes/core/css', 
+#                                                '//themes/core/javascript');
 
 /**
  * Set to true to disable the "f" GET parameter for specifying files.

@@ -44,7 +44,7 @@ if (defined('IN_CS') == false){die('Clansuite not loaded. Direct Access forbidde
  * @package     Modules
  * @subpackage  Systeminfo
  */
-class  extends Clansuite_Module_Controller implements Clansuite_Module_Interface
+class Clansuite_Module_Systeminfo_Admin extends Clansuite_Module_Controller implements Clansuite_Module_Interface
 {
     public function initializeModule(Clansuite_HttpRequest $request, Clansuite_HttpResponse $response)
     {
@@ -76,6 +76,7 @@ class  extends Clansuite_Module_Controller implements Clansuite_Module_Interface
     private function assembleSystemInfos()
     {
         # get system informations and server variables
+        $sysinfos = array();
 
         # WEBSERVER
         if ( is_callable('apache_get_version') )
@@ -141,6 +142,8 @@ class  extends Clansuite_Module_Controller implements Clansuite_Module_Interface
      */
     private function assembleDatabaseInfos()
     {
+        $sysinfos = array();
+
         # get PDO Object from Doctrine
         $pdo = Doctrine_Manager::connection()->getDbh();
         # fetch PDO::getAttributes and store them in
@@ -185,6 +188,7 @@ class  extends Clansuite_Module_Controller implements Clansuite_Module_Interface
         # var_dump($apc_stats);
 
         # setup the data array
+        $data = array();
         $data[] = $apc_stats['cache_info']['num_hits'];
         $data[] = $apc_stats['cache_info']['num_misses'];
 

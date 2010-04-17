@@ -8,8 +8,8 @@
  * @license GNU Public License (GPL) v2 or any later version
  * @version SVN $Id$
  *
- * Name:     	continue
- * Type:     	compiler
+ * Name:         continue
+ * Type:         compiler
  * Purpose:     this TAG continues foreach loops
  * Alternative: {php} continue; {/php}
  *

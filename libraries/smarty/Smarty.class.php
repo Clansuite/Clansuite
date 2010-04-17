@@ -245,7 +245,7 @@ class Smarty extends Smarty_Internal_Data {
         if (!empty($this->exception_handler))
             set_exception_handler($this->exception_handler); 
         // set default dirs
-        $this->template_dir = array('.' . DS . 'templates' . DS);
+        $this->template_dir = array('.' . DS . 'view' . DS);
         $this->compile_dir = '.' . DS . 'templates_c' . DS;
         $this->plugins_dir = array(SMARTY_PLUGINS_DIR);
         $this->cache_dir = '.' . DS . 'cache' . DS;

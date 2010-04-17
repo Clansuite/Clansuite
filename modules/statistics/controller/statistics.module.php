@@ -45,11 +45,6 @@ if (defined('IN_CS') == false) { die('Clansuite not loaded. Direct Access forbid
  */
 class Clansuite_Module_Statistics extends Clansuite_Module_Controller implements Clansuite_Module_Interface
 {
-	public function initializeModule(Clansuite_HttpRequest $request, Clansuite_HttpResponse $response)
-    {
-        
-	}
-	
 	/**
 	 * This fetches the statistics from db and returns them as array.
 	 *
@@ -63,15 +58,15 @@ class Clansuite_Module_Statistics extends Clansuite_Module_Controller implements
 		 * All visits & max users online counter
 		 */
 
-        $temp_array = Doctrine :: getTable('CsStatistic')->fetchAllImpressionsAndMaxVisitors();
+        $temp_array = Doctrine::getTable('CsStatistic')->fetchAllImpressionsAndMaxVisitors();
 		$stats['all_impressions'] = $temp_array['hits'];
 		$stats['max_visitor'] = $temp_array['maxonline'];
 
-		$temp_array = Doctrine :: getTable('CsStatistic')->fetchTodayAndYesterdayVisitors();
+		$temp_array = Doctrine::getTable('CsStatistic')->fetchTodayAndYesterdayVisitors();
 		$stats['today_impressions'] = $temp_array[1]['count'];
 		$stats['yesterday_impressions'] = $temp_array[0]['count'];
         
-		$temp_array = Doctrine :: getTable('CsStatistic')->sumMonthVisits();
+		$temp_array = Doctrine::getTable('CsStatistic')->sumMonthVisits();
 		$stats['month_impressions'] = $temp_array;
 
         /**
@@ -85,7 +80,7 @@ class Clansuite_Module_Statistics extends Clansuite_Module_Controller implements
 		 * Number of authenticated users (user_id not 0) in session table
 		 */
 		$authed_user_session = 0;
-		$authed_user_session = Doctrine :: getTable('CsStatistic')->countUsersOnline($this->getConfigValue('timoutWho', '5'));
+		$authed_user_session = Doctrine::getTable('CsStatistic')->countUsersOnline($this->getConfigValue('timoutWho', '5'));
 		$stats['authed_users'] = $authed_user_session;
 
         /**

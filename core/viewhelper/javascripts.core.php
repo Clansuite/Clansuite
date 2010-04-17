@@ -186,15 +186,15 @@ class Clansuite_Javascripts extends Clansuite_Layout
      * $filenames['path','filename']
      */
     public static function addMultipleJS($filenames)
-	{
-	    if(is_array($filenames))
-	    {
-	        foreach($filenames as $filename)
-    	    {
-    		    return '<script src="{$www_root_themes_core}'.$filename.'" type="text/javascript"></script>'.CR;
-    		}
-	    }
-	}
+    {
+        if(is_array($filenames))
+        {
+            foreach($filenames as $filename)
+            {
+                return '<script src="{$www_root_themes_core}'.$filename.'" type="text/javascript"></script>'.CR;
+            }
+        }
+    }
 
     /**
      * addJS - Wrapper Method
@@ -202,18 +202,18 @@ class Clansuite_Javascripts extends Clansuite_Layout
      * @params string javascript filename to load
      */
     public static function addJS($filename)
-	{
-	    $javascript = '{$www_root_themes_core}/javascript/'.$filename.'.js';
+    {
+        $javascript = '{$www_root_themes_core}/javascript/'.$filename.'.js';
 
-		if( defined('OB_GZIP') )
-		{
-		    #Clansuite_Javascripts::addToCompressionWhitelist($javascript);
-		    return '<script  src="{$www_root_themes_core}/compress.php?js='.$javascript.'" type="text/javascript"></script>'.CR;
-		}
-		else
-		{
-		    return '<script src="'.$javascript.'" type="text/javascript"></script>'.CR;
-		}
+        if( defined('OB_GZIP') )
+        {
+            #Clansuite_Javascripts::addToCompressionWhitelist($javascript);
+            return '<script  src="{$www_root_themes_core}/compress.php?js='.$javascript.'" type="text/javascript"></script>'.CR;
+        }
+        else
+        {
+            return '<script src="'.$javascript.'" type="text/javascript"></script>'.CR;
+        }
     }
 
     /**
@@ -222,16 +222,16 @@ class Clansuite_Javascripts extends Clansuite_Layout
      * @params string name of the javascript to initialize
      * @params string init-string to initialize the js
      */
-	public static function addJSInit($name, $init)
-	{
-		$addJSInit  = '';
-		$addJSInit .= '<!-- initialize javascript: '.$name.' -->'.CR;
-		$addJSInit .= '<script type="text/javascript">'.CR.'// <![CDATA[';
-		$addJSInit .= $init;
-		$addJSInit .= CR.'// ]]></script>'.CR;
+    public static function addJSInit($name, $init)
+    {
+        $addJSInit  = '';
+        $addJSInit .= '<!-- initialize javascript: '.$name.' -->'.CR;
+        $addJSInit .= '<script type="text/javascript">'.CR.'// <![CDATA[';
+        $addJSInit .= $init;
+        $addJSInit .= CR.'// ]]></script>'.CR;
 
-	    return $addJSInit;
-	}
+        return $addJSInit;
+    }
 
     /**
      * addCSS - Wrapper Method
@@ -239,19 +239,19 @@ class Clansuite_Javascripts extends Clansuite_Layout
      * @params string filename of the cascading style sheet to load
      * @params boolean display the iehack css in case true, default is false
      */
-	public static function addCSS($filename, $iehack = false)
-	{
-	    if($iehack == true)
-	    {
-	        return '<!--[if IE]>';
-	    }
+    public static function addCSS($filename, $iehack = false)
+    {
+        if($iehack == true)
+        {
+            return '<!--[if IE]>';
+        }
 
-	    return "<style type=\"text/css\"> @import \"{$www_root_themes_core}/css/{$filename}.css\"; </style>".CR;
+        return "<style type=\"text/css\"> @import \"{$www_root_themes_core}/css/{$filename}.css\"; </style>".CR;
 
-	    if($iehack == true)
-	    {
-	        return '<![endif]-->';
-	    }
-	}
+        if($iehack == true)
+        {
+            return '<![endif]-->';
+        }
+    }
 }
 ?>

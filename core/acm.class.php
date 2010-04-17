@@ -102,7 +102,7 @@ class Clansuite_ACM
         $rows = Doctrine_Query::delete()
               ->from($accessClass . ' a')
               ->where('a.' . $linkField . ' = ? AND a.resource_name = ? AND a.permission_name = ?')
-			  ->execute(array($record->id, $resource, $permission));
+              ->execute(array($record->id, $resource, $permission));
 
         return (bool) $rows;
     }
@@ -260,10 +260,10 @@ class Clansuite_ACM
     public function hasResourcePermissionLink($resource, $permission)
     {
         $link = Doctrine_Query::create()
-        		#->select()
-        		->from('Clansuite_Acl_ResourcePermission p')
-        		->where('p.resource = ? AND p.permission = ?')
-        		->fetchOne(array($resource, $permission), Doctrine::HYDRATE_ARRAY);
+                #->select()
+                ->from('Clansuite_Acl_ResourcePermission p')
+                ->where('p.resource = ? AND p.permission = ?')
+                ->fetchOne(array($resource, $permission), Doctrine::HYDRATE_ARRAY);
 
         return (bool) $link;
     }

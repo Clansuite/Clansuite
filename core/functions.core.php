@@ -179,15 +179,15 @@ class Clansuite_Functions
      */
     public function array2object($array)
     {
-    	if(is_array($array) == false)
-    	{
-    		return $array;
-    	}
+        if(is_array($array) == false)
+        {
+            return $array;
+        }
 
-    	$object = new stdClass();
+        $object = new stdClass();
 
-    	if (is_array($array) and count($array) > 0)
-    	{
+        if (is_array($array) and count($array) > 0)
+        {
             foreach ($array as $name=>$value)
             {
                 $name = strtolower(trim($name));
@@ -199,7 +199,7 @@ class Clansuite_Functions
             }
 
             return $object;
-    	}
+        }
         else
         {
             return false;

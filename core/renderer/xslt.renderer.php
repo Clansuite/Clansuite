@@ -59,9 +59,9 @@ class Clansuite_Renderer_Xslt extends Clansuite_Renderer_Base
     protected $injector   = null;
 
     /**
-	 * holds instance of XSLT Render Engine (object)
-	 * @var object xslt
-	 */
+     * holds instance of XSLT Render Engine (object)
+     * @var object xslt
+     */
     protected $xslt = null;
 
     /**
@@ -75,7 +75,7 @@ class Clansuite_Renderer_Xslt extends Clansuite_Renderer_Base
       # apply instances to class
       $this->injector = $injector;
 
-	  # get instances from injector
+      # get instances from injector
       $this->config         = $this->injector->instantiate('Clansuite_Config');
       $this->response       = $this->injector->instantiate('Clansuite_HttpResponse');
 

@@ -77,10 +77,10 @@ class Clansuite_Renderer_Phptal extends Clansuite_Renderer_Base
      */
     public function initializeEngine()
     {
-		# prevent redeclaration
+        # prevent redeclaration
         if (!class_exists('PHPTAL',false))
         {
-    		# check if library exists
+            # check if library exists
             if ( is_file(ROOT_LIBRARIES . 'phptal/PHPTAL.php') )
             {
                 require(ROOT_LIBRARIES . 'phptal/PHPTAL.php');
@@ -96,7 +96,7 @@ class Clansuite_Renderer_Phptal extends Clansuite_Renderer_Base
             die('PHPTAL already loaded!');
         }
 
-		return $this->phptal;
+        return $this->phptal;
     }
 
     /**
@@ -130,23 +130,23 @@ class Clansuite_Renderer_Phptal extends Clansuite_Renderer_Base
     {
         if($this->renderer)
         {
-			/**
-			 * we don't know what happened to the renderer on it's way
-			 * so in order to get a clean render object
-			 * we remove all prior assigns and configuration settings
-			 */
-			#$this->renderer->clear_all_assign();
-			#$this->renderer->clear_config();
-		}
-		else
-		{
-		    self::initializeEngine();
-		}
+            /**
+             * we don't know what happened to the renderer on it's way
+             * so in order to get a clean render object
+             * we remove all prior assigns and configuration settings
+             */
+            #$this->renderer->clear_all_assign();
+            #$this->renderer->clear_config();
+        }
+        else
+        {
+            self::initializeEngine();
+        }
 
-		# then we reload the base configuration to have default template paths and debug-settings
-		#self::configureEngine();
+        # then we reload the base configuration to have default template paths and debug-settings
+        #self::configureEngine();
 
-		return $this->renderer;
+        return $this->renderer;
     }
 
     /**

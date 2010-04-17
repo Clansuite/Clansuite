@@ -189,7 +189,7 @@ class Clansuite_Teamspeak3_ServerQueryInterface
      */
     public function closeConnection()
     {
-        @fclose($this->socket);
+        fclose($this->socket);
     }
 
     /**

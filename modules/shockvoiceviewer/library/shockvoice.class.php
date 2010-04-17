@@ -67,10 +67,10 @@ class Clansuite_Shockvoice_Query
 	{
 		$filename = "http://" . $host. ":" . $port . "/" . $server;
 
-		$this->shockvoice['servername'] = $host;
-		$this->shockvoice['port']       = $port;
+        $this->shockvoice['servername'] = $host;
+        $this->shockvoice['port']       = $port;
 
-		$this->query($filename, $encoding);
+        $this->query($filename, $encoding);
 	}
 
     /**
@@ -132,18 +132,18 @@ class Clansuite_Shockvoice_Query
 	public function getShockvoice()
 	{
 	    if(!empty($this->shockvoice['users']))
-	    {
-	        $this->shockvoice['num_clients']  = count($this->shockvoice['users']);
-	    }
+        {
+            $this->shockvoice['num_clients']  = count($this->shockvoice['users']);
+        }
 
-	    if(!empty($this->shockvoice['channels']))
-	    {
-	        $this->shockvoice['num_channels'] = count($this->shockvoice['channels']);
-	    }
+        if(!empty($this->shockvoice['channels']))
+        {
+            $this->shockvoice['num_channels'] = count($this->shockvoice['channels']);
+        }
 
         $this->shockvoice['request_ok']       = true;
 
-		return $this->shockvoice;
+        return $this->shockvoice;
 	}
 
     /**
@@ -156,42 +156,42 @@ class Clansuite_Shockvoice_Query
     private function startElement($parser, $name, $attributes)
     {
         $element = array(
-            			'name' => "?",
-            			'password' => false,
-            			'status' => 'online',
-            			'type' => '1',
-            			'id' => '0',
-            			'parentid' => '0'
-                		);
+                'name' => "?",
+                'password' => false,
+                'status' => 'online',
+                'type' => '1',
+                'id' => '0',
+                'parentid' => '0'
+        );
 
 		if (count($attributes))
-		{
-			foreach ($attributes as $key => $value)
-			{
-				switch ($key)
-    	  		{
-    	  		    case 'NAME':
-    					$element['name'] = $value;
-    					break;
-    				case 'PASSWORD':
-    					$element['password'] = strtolower($value);
-    					break;
-    				case 'STATUS':
-    					$element['status'] = $value;
-    					break;
-    				case 'TYPE':
-    					$element['type'] = $value;
-    					break;
-    				case 'ID':
-    					$element['id'] = $value;
-    					break;
-    				case 'PARENTID':
-    					$element['parentid'] = $value;
-    					break;
-    	  		}
-    	        #clansuite_xdebug::printr($attributes);
-			}
-		}
+        {
+            foreach ($attributes as $key => $value)
+            {
+                switch ($key)
+                {
+                    case 'NAME':
+                        $element['name'] = $value;
+                        break;
+                    case 'PASSWORD':
+                        $element['password'] = strtolower($value);
+                        break;
+                    case 'STATUS':
+                        $element['status'] = $value;
+                        break;
+                    case 'TYPE':
+                        $element['type'] = $value;
+                        break;
+                    case 'ID':
+                        $element['id'] = $value;
+                        break;
+                    case 'PARENTID':
+                        $element['parentid'] = $value;
+                        break;
+                }
+                #clansuite_xdebug::printr($attributes);
+            }
+        }
 
 		if ($name == 'CHANNEL')
 	    {
@@ -265,28 +265,28 @@ class Clansuite_Shockvoice_Query
         $img = 'channel';
 
         if ($type == "0")
-	    {
-		    $img = "temp";
-	    }
-	    elseif ($type == "1")
-	    {
-		    $img = "channel";
-	    }
-	    elseif ($type == "2")
-	    {
-		    $img = "channel_admin";
-	    }
+        {
+            $img = "temp";
+        }
+        elseif ($type == "1")
+        {
+            $img = "channel";
+        }
+        elseif ($type == "2")
+        {
+            $img = "channel_admin";
+        }
 
-	    if ($password == 'true')
-	    {
-		    $img .= "_locked";
-	    }
+        if ($password == 'true')
+        {
+            $img .= "_locked";
+        }
 
-	    $img = sprintf('<img src="%s/channel/%s.png" border="0">',
-	                   WWW_ROOT.'/modules/shockvoiceviewer/images',
-	                   $img);
+        $img = sprintf('<img src="%s/channel/%s.png" border="0">',
+                WWW_ROOT.'/modules/shockvoiceviewer/images',
+                $img);
 
-	    return $img;
+        return $img;
     }
 
     /**
@@ -298,23 +298,31 @@ class Clansuite_Shockvoice_Query
     public function getUserImage($status)
     {
         $img = '';
-	    switch ((int)$status)
-	    {
-		    case 0: $img = "online"; break;
-		    case 1: $img = "away"; break;
-		    case 2: $img = "notavailable"; break;
-		    case 3: $img = "occupied"; break;
-		    case 4: $img = "donotdisturb"; break;
-		    case 5: $img = "freeforchat"; break;
-		    case 6: $img = "onthephone"; break;
-		    case 7: $img = "outtolunch"; break;
-	    }
+        switch ((int)$status)
+        {
+            case 0: $img = "online";
+                break;
+            case 1: $img = "away";
+                break;
+            case 2: $img = "notavailable";
+                break;
+            case 3: $img = "occupied";
+                break;
+            case 4: $img = "donotdisturb";
+                break;
+            case 5: $img = "freeforchat";
+                break;
+            case 6: $img = "onthephone";
+                break;
+            case 7: $img = "outtolunch";
+                break;
+        }
 
-	    $img = sprintf('<img src="%s/status/%s.png" border="0">',
-               WWW_ROOT.'/modules/shockvoiceviewer/images',
-               $img);
+        $img = sprintf('<img src="%s/status/%s.png" border="0">',
+                WWW_ROOT.'/modules/shockvoiceviewer/images',
+                $img);
 
-	    return $img;
+        return $img;
     }
 }
 ?>

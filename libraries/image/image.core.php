@@ -94,7 +94,8 @@ class Clansuite_Image {
 	/**
 	 * Construct of Clansuite_Image Core Class
 	 */
-	public function __construct($source, $target) {
+	public function __construct($source, $target)
+	{
 		$this->imageSource 			= $source;
 		$this->imageName			= basename($source);
 		$this->imageTarget 			= $target;
@@ -105,19 +106,23 @@ class Clansuite_Image {
 
 	}
 	
-	public function newCrop($config) {
+	public function newCrop($config)
+	{
 		Clansuite_Crop::__construct($config);
 	}
 	
-	public function newWatermarkImage($config) {
+	public function newWatermarkImage($config)
+	{
 		Clansuite_Watermark::__construct('image', $config);
 	}
 	
-	public function newWatermarkText($config) {
+	public function newWatermarkText($config)
+	{
 		Clansuite_Watermark::__construct('text', $config);
 	}
 	
-	public function newThumbnail($config) {
+	public function newThumbnail($config)
+	{
 		new Clansuite_Thumbnail($config, $this);
 	}
 	
@@ -126,7 +131,8 @@ class Clansuite_Image {
 	 *
 	 * @param String $name
 	 */
-	public function newName($name) {
+	public function newName($name)
+	{
 		$this->imageName = $name.'.'.strtolower($this->imageExtension);
 	}
 	
@@ -135,14 +141,21 @@ class Clansuite_Image {
 	 *
 	 * @return string
 	 */
-	private function getImageExtension($name) {
-        if (stristr(strtolower($name),'.gif')) {
+	private function getImageExtension($name)
+	{
+        if (stristr(strtolower($name),'.gif')) 
+        {
         	$extension = 'GIF';
-        } elseif (stristr(strtolower($name),'.jpg') || stristr(strtolower($name),'.jpeg')) {
+        } 
+        elseif (stristr(strtolower($name),'.jpg') || stristr(strtolower($name),'.jpeg'))
+        {
         	$extension = 'JPEG';
-        } elseif (stristr(strtolower($name),'.png')) {
+        } 
+        elseif (stristr(strtolower($name),'.png'))
+        {
         	$extension = 'PNG';
         }
+        
         return $extension;
     }
     
@@ -151,24 +164,29 @@ class Clansuite_Image {
      * 
      * @return resource
      */
-    protected function getOriginalImageResource() {
+    protected function getOriginalImageResource()
+    {
         $method = 'createImageFrom'.$this->imageExtension;
         return $this->$method($this->imageSource);
 	}
 	
-	private function createImageFromGIF($source) {
+	private function createImageFromGIF($source)
+	{
 		return ImageCreateFromGif($source);
 	}
 	
-	private function createImageFromJPEG($source) {
+	private function createImageFromJPEG($source)
+	{
 		return ImageCreateFromJpeg($source);
 	}
 	
-	private function createImageFromPNG($source) {
+	private function createImageFromPNG($source)
+	{
 		return ImageCreateFromPng($source);
 	}
     
-    public function getWorkImageResource($width, $height) {
+    public function getWorkImageResource($width, $height)
+    {
     	if(function_exists("ImageCreateTrueColor")) {
 			return ImageCreateTrueColor($width, $height);
 		} else {
@@ -177,7 +195,8 @@ class Clansuite_Image {
     }
     
     
-    public function resample() {
+    public function resample()
+    {
 
 		ImageCopyResampled(
 			$this->workImage,
@@ -201,29 +220,32 @@ class Clansuite_Image {
 		
 	}
 	
-	public function save() {
+	public function save()
+	{
 		$method = 'save'.$this->imageExtension;
 		$this->$method();
 	}
 	
-	private function saveGIF() {
+	private function saveGIF()
+	{
 		ImageGif($this->newImage, $this->thumbName.$this->imageName);
 	}
 	
-	private function saveJPEG() {
+	private function saveJPEG()
+	{
 		ImageJpeg($this->newImage, $this->thumbName.$this->imageName, $this->jpegQuality);
 		
 	}
 	
-	private function savePNG() {
+	private function savePNG()
+	{
 		ImageJpeg($this->newImage, $this->thumbName.$this->imageName);
 	}
 
-    public function __destruct() {
+    public function __destruct()
+    {
         ImageDestroy($this->originalImage);
 
-    }
-    
+    }    
 }
-
 ?>

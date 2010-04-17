@@ -4,7 +4,7 @@
 ;
 
 [thememanager_info]
-author="Jens-Andre Koch"
+author="Jens-André Koch"
 license="GPLv2 or any later"
 link="http://www.clansuite.com"
 name = thememanager

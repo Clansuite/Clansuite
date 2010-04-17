@@ -60,7 +60,7 @@ class Clansuite_Filter_ajax_request implements Clansuite_Filter_Interface
         #{
             # set rendering as wrapped, when html return with smarty
             # set JSON output
-		#}
+        #}
     }
 }
 ?>

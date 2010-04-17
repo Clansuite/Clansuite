@@ -80,8 +80,6 @@ class Clansuite_Module_Modulemanager_Admin extends Clansuite_Module_Controller i
 
         foreach( $module_dirs as $module_path )
         {
-            #clansuite_xdebug::printR($module_glob);
-
             $modulename_by_dirname = str_replace( ROOT . 'modules' . DS ,'', $module_path);
 
             # increase the module counter
@@ -201,6 +199,10 @@ class Clansuite_Module_Modulemanager_Admin extends Clansuite_Module_Controller i
 
         $existing_modules_js = '[';
         $module_dirs = self::getModuleDirsList();
+
+        Clansuite_Xdebug::firebug($module_dirs);
+        exit;
+
         foreach( $module_dirs as $key => $value )
         {
             $existing_modules_js .= '"' . str_replace(strtolower(ROOT_MOD), '', strtolower($value)) . '",';

@@ -182,9 +182,9 @@ class Clansuite_Cache_APC implements Clansuite_Cache_Interface
         $time = time();
         # Request Rate (hits, misses) / cache requests/second
         $apc_sysinfos['system_cache_info']['req_rate']    = sprintf("%.2f",($apc_sysinfos['system_cache_info']['num_hits']+$apc_sysinfos['system_cache_info']['num_misses'])/($time-$apc_sysinfos['system_cache_info']['start_time']));
-    	$apc_sysinfos['system_cache_info']['hit_rate']    = sprintf("%.2f",($apc_sysinfos['system_cache_info']['num_hits'])/($time-$apc_sysinfos['system_cache_info']['start_time']));
-    	$apc_sysinfos['system_cache_info']['miss_rate']   = sprintf("%.2f",($apc_sysinfos['system_cache_info']['num_misses'])/($time-$apc_sysinfos['system_cache_info']['start_time']));
-    	$apc_sysinfos['system_cache_info']['insert_rate'] = sprintf("%.2f",($apc_sysinfos['system_cache_info']['num_inserts'])/($time-$apc_sysinfos['system_cache_info']['start_time']));
+        $apc_sysinfos['system_cache_info']['hit_rate']    = sprintf("%.2f",($apc_sysinfos['system_cache_info']['num_hits'])/($time-$apc_sysinfos['system_cache_info']['start_time']));
+        $apc_sysinfos['system_cache_info']['miss_rate']   = sprintf("%.2f",($apc_sysinfos['system_cache_info']['num_misses'])/($time-$apc_sysinfos['system_cache_info']['start_time']));
+        $apc_sysinfos['system_cache_info']['insert_rate'] = sprintf("%.2f",($apc_sysinfos['system_cache_info']['num_inserts'])/($time-$apc_sysinfos['system_cache_info']['start_time']));
         # size
         $apc_sysinfos['system_cache_info']['size_files']  = Clansuite_Functions::getsize($apc_sysinfos['system_cache_info']['mem_size']);
 

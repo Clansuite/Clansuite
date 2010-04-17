@@ -39,15 +39,22 @@ function smarty_gettext_strarg($str)
 {
     $tr = array();
     $p = 0;
+    $args = 0;
 
-    for ($i=1; $i < func_num_args(); $i++) {
+    $args = func_num_args();
+    for ($i=1; $i < $args; $i++)
+    {
         $arg = func_get_arg($i);
 
-        if (is_array($arg)) {
-            foreach ($arg as $aarg) {
+        if (is_array($arg))
+        {
+            foreach ($arg as $aarg)
+            {
                 $tr['%'.++$p] = $aarg;
             }
-        } else {
+        }
+        else
+        {
             $tr['%'.++$p] = $arg;
         }
     }
@@ -77,46 +84,57 @@ function smarty_block_t($params, $text, $smarty)
     $text = stripslashes($text);
 
     // set escape mode
-    if (isset($params['escape'])) {
+    if (isset($params['escape']))
+    {
         $escape = $params['escape'];
         unset($params['escape']);
     }
 
     // set plural version
-    if (isset($params['plural'])) {
+    if (isset($params['plural']))
+    {
         $plural = $params['plural'];
         unset($params['plural']);
 
         // set count
-        if (isset($params['count'])) {
+        if (isset($params['count']))
+        {
             $count = $params['count'];
             unset($params['count']);
         }
     }
 
     // use plural if required parameters are set
-    if (isset($count) && isset($plural)) {
+    if (isset($count) and isset($plural))
+    {
         $text = T_ngettext($text, $plural, $count); # vain: prefixed "T_" for usage of php-gettext
-    } else { // use normal
+    }
+    else
+    { // use normal
         $text = T_gettext($text);                   # vain: prefixed "T_" for usage of php-gettext
     }
 
     // run strarg if there are parameters
-    if (count($params)) {
+    if (count($params))
+    {
         $text = smarty_gettext_strarg($text, $params);
     }
 
-    if (!isset($escape) || $escape == 'html') { // html escape, default
-       $text = nl2br(htmlspecialchars($text));
-   } elseif (isset($escape)) {
-        switch ($escape) {
+    if (!isset($escape) or $escape == 'html')
+    { // html escape, default
+        $text = nl2br(htmlspecialchars($text));
+    }
+    elseif (isset($escape))
+    {
+        switch ($escape)
+        {
             case 'javascript':
             case 'js':
-                // javascript escape
+            // javascript escape
                 $text = str_replace('\'', '\\\'', stripslashes($text));
                 break;
             case 'url':
-                // url escape
+            // url escape
                 $text = urlencode($text);
                 break;
         }

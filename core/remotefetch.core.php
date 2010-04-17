@@ -59,19 +59,19 @@ class Clansuite_Remotefetch
         if( Clansuite_Loader::loadLibrary('snoopy') )
         {
             $s = new Snoopy();
-            $s->fetch($url);	
+            $s->fetch($url);    
             
             if($s->status == 200) 
             {
-                $remote_content = $s->results;	
+                $remote_content = $s->results;    
             }
         }
         else
         {
-            #$remote_content = ...($url);		    
+            #$remote_content = ...($url);            
         }
         
-        return $remote_content;	
+        return $remote_content;    
     } 
 }
 ?>

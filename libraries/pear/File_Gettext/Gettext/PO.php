@@ -108,12 +108,12 @@ class File_Gettext_PO extends File_Gettext
         }
         
         // open PO file
-        if (!is_resource($fh = @fopen($file, 'w'))) {
+        if (!is_resource($fh = fopen($file, 'w'))) {
             return parent::raiseError($php_errormsg . ' ' . $file);
         }
         // lock PO file exclusively
         if (!@flock($fh, LOCK_EX)) {
-            @fclose($fh);
+            fclose($fh);
             return parent::raiseError($php_errmsg . ' ' . $file);
         }
         
@@ -135,7 +135,7 @@ class File_Gettext_PO extends File_Gettext
         
         //done
         @flock($fh, LOCK_UN);
-        @fclose($fh);
+        fclose($fh);
         return true;
     }
 }

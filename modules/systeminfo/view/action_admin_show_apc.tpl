@@ -1,10 +1,11 @@
 {modulenavigation}
+
 {* {$apc_sysinfos.sma_info|@dump:APC_SYSINFOS_sma_info} *}
 {* {$apc_sysinfos.cache_info|@dump:APC_SYSINFOS_cache_info} *}
 {* {$apc_sysinfos.system_cache_info|@dump:APC_SYSINFOS_system_cache_info} *}
 {* {$apc_sysinfos.settings|@dump:APC_SYSINFOS_settings} *}
 
-<div class="ModuleHeading">{t}Statistics for "Alternative PHP Cache {$apc_sysinfos.version}"{/t}</div>
+<div class="ModuleHeading">{t}Statistics for Alternative PHP Cache {$apc_sysinfos.version}{/t}</div>
 <div class="ModuleHeadingSmall">{t}Current Status and statistics of AP-Cache.{/t}</div>
 
 {if empty($apc_sysinfos.version)}

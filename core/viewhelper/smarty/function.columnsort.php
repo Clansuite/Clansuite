@@ -8,8 +8,8 @@
 /**
 * Smarty {columnsort} function plugin
 *
-* Type:	 function
-* Name:	 columnsort
+* Type:     function
+* Name:     columnsort
 * Purpose:  easy sorting of a html table by columns
 * @param array parameters (cid, html, selected_class, id, asc_image, desc_image)
 * @param Smarty
@@ -63,10 +63,10 @@ function smarty_function_columnsort($params, $smarty)
    }
 
    /*
-	if($params['translate'] != 0)
-	{
-	   $params['html'] = _($params['html']);
-	}*/
+    if($params['translate'] != 0)
+    {
+       $params['html'] = _($params['html']);
+    }*/
    $html = $params['html'];
 
 
@@ -90,13 +90,13 @@ function smarty_function_columnsort($params, $smarty)
    }
 
    /* disabled
-	if(isset($params['asc_image']) && isset($params['desc_image'])) {
-		// Set asc and desc sort images (will be placed after the sorted column)
-		$sort_asc_image = $params['asc_image'];
-		$sort_desc_image = $params['desc_image'];
-	} else if(isset($params['asc_image']) || isset($params['desc_image']))	{
-		$smarty->trigger_error('columnsort: Both "asc_image" and "desc_image" needs to be present, or none of them.');
-	}
+    if(isset($params['asc_image']) && isset($params['desc_image'])) {
+        // Set asc and desc sort images (will be placed after the sorted column)
+        $sort_asc_image = $params['asc_image'];
+        $sort_desc_image = $params['desc_image'];
+    } else if(isset($params['asc_image']) || isset($params['desc_image']))    {
+        $smarty->trigger_error('columnsort: Both "asc_image" and "desc_image" needs to be present, or none of them.');
+    }
    */
 
    // alt for image

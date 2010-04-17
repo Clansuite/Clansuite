@@ -277,161 +277,161 @@
                 <td class="cell2">Create Frontend for the module?</td>
                 <td class="cell1">
                     <div style="padding-bottom: 5px;"><input type="checkbox" name="m[frontend][checked]" id="frontend_module" class="check_below" value="1" /></div>
-                    <div id="frontend_module_display">
-                        <div>
-                            <table cellspacing="0" cellpadding="0" border="0" align="center" width="100%">
-                                <thead>
-                                    <tr>
-                                        <td class="td_header_small" width="90">
-                                            <div style="float: left">{t}Method Names{/t}</div><div style="float: right;"><img src="{$www_root_themes_core}/images/icons/help.png" title="Method names for the current module." /></div>
-                                        </td>
-                                        <td class="td_header_small" width="90">
-                                            <div style="float: left">{t}Method Visibility{/t}</div><div style="float: right;"><img src="{$www_root_themes_core}/images/icons/help.png" title="The scope is the visibility of the function to other classes. When you are unsure what to choose, so take public." /></div>
-                                        </td>
-                                        <td class="td_header_small" width="90">
-                                            <div style="float: left">{t}Snippets{/t}</div><div style="float: right;"><img src="{$www_root_themes_core}/images/icons/help.png" title="Snippets are small ClanSuite code pieces, that always occur when creating modules." /></div>
-                                        </td>
-                                        <td class="td_header_small" width="90">
-                                            <div style="float: left">{t}Doctrine{/t}</div><div style="float: right;"><img src="{$www_root_themes_core}/images/icons/help.png" title="Doctrine is a Database Abstraction Layer upon PDO. Some small examples can be added by this." /></div>
-                                        </td>
-                                        <td class="td_header_small" width="72">
-                                            <div style="float: left">{t}Output?{/t}</div><div style="float: right;"><img src="{$www_root_themes_core}/images/icons/help.png" title="Should the method output the view (e.g. Smarty Output, XML, ...)" /></div>
-                                        </td>
-                                        <td class="td_header_small" width="80">
-                                            <div style="float: left">{t}Template?{/t}</div><div style="float: right;"><img src="{$www_root_themes_core}/images/icons/help.png" title="When you create a method you normally do this by adding a specific template for the method. The standard name convention is to use the same name as the method itself." /></div>
-                                        </td>
-                                        <td class="td_header_small" align="left">
-                                            <img style="cursor: pointer;"  src="{$www_root_themes_core}/images/icons/add.png" id="frontend_module_add" />
-                                        </td>
-                                    </tr>
-                                </thead>
-                                <tbody id="frontend_module_wrapper">
-                                    <tr id="frontend_module_input">
-                                        <td height="20" class="cell2">
-                                            <input class="input_text" size="25" type="text" value="action_" name="m[frontend][frontend_methods][0]" pattern="^[a-zA-Z0-9_]+$" />
-                                        </td>
-                                        <td class="cell2">
-                                            <select name="m[frontend][frontend_scopes][0]" class="input_text">
-                                                <option value="public" selected="selected">Public</option>
-                                                <option value="private">Private</option>
-                                                <option value="protected">Protected</option>
-                                            </select>
-                                        </td>
-                                        <td class="cell1">
-                                            <select multiple="multiple" size="5" name="m[frontend][frontend_snippets][0][]" class="input_text">
 
-                                                <option value="request" title="$request = $this->injector->instantiate('httprequest');">Request Instance $request</option>
-                                                <option value="user">User Instance $user</option>
-                                                <option value="security" title="$security = $this->injector->instantiate('Clansuite_Security');">Security Instance $security</option>
-                                                <option value="mailer">Mailer Instance $mailer</option>
-                                            </select>
-                                        </td>
-                                        <td class="cell2">
-                                            <select multiple="multiple" size="5" name="m[frontend][frontend_doctrines][0][]" class="input_text">
-                                                <option value="select">SELECT Statement - single row</option>
-                                                <option value="create">CREATE Statement - single row</option>
-                                                <option value="update">UPDATE Statement - single row</option>
-                                                <option value="delete">DELETE Statement - single row</option>
-                                                <option value="pager">PAGER - Pagination</option>
-                                            </select>
-                                        </td>
-                                        <td class="cell1">
-                                            <input class="input_text" type="checkbox" value="1" name="m[frontend][frontend_outputs][0]" checked="checked" title="$this->prepareOutput();" />
-                                        </td>
-                                        <td class="cell2">
-                                            <input class="input_text" type="checkbox" value="1" name="m[frontend][frontend_tpls][0]" checked="checked" title="Generates a template file that has the same name as the method itself." />
-                                        </td>
-                                        <td class="cell1" align="left">
-                                            <img src="{$www_root_themes_core}/images/icons/delete.png" id="frontend_module_delete" style="margin-top: 2px; cursor: pointer;" />
-                                        </td>
-                                    </tr>
-                                </tbody>
-                                <tfoot>
-                                    <tr>
-                                        <td class="cell2">
-                                            <div style="float: left"><b>{t}Create widget methods?{/t}</b></div><div style="float: right;"><img src="{$www_root_themes_core}/images/icons/help.png" title="Widgets are methods that can be called from a Smarty template file. For example:<br />{load_module name='news' action='widget_news' items='2'}" /></div>
-                                        </td>
-                                        <td class="cell1" colspan="10">
-                                            <input type="checkbox" name="m[widget][checked]" id="widget_module" class="check_below" value="1" />
-                                        </td>
-                                    </tr>
-                                </tfoot>
-                            </table>
-                        </div>
+                    <div id="frontend_module_display">
+
+                        <table cellspacing="0" cellpadding="0" border="0" align="center" width="100%">
+                        <thead>
+                            <tr>
+                                <td class="td_header_small" width="90">
+                                    <div style="float: left">{t}Method Names{/t}</div><div style="float: right;"><img src="{$www_root_themes_core}/images/icons/help.png" title="Method names for the current module." /></div>
+                                </td>
+                                <td class="td_header_small" width="90">
+                                    <div style="float: left">{t}Method Visibility{/t}</div><div style="float: right;"><img src="{$www_root_themes_core}/images/icons/help.png" title="The scope is the visibility of the function to other classes. When you are unsure what to choose, so take public." /></div>
+                                </td>
+                                <td class="td_header_small" width="90">
+                                    <div style="float: left">{t}Snippets{/t}</div><div style="float: right;"><img src="{$www_root_themes_core}/images/icons/help.png" title="Snippets are small ClanSuite code pieces, that always occur when creating modules." /></div>
+                                </td>
+                                <td class="td_header_small" width="90">
+                                    <div style="float: left">{t}Doctrine{/t}</div><div style="float: right;"><img src="{$www_root_themes_core}/images/icons/help.png" title="Doctrine is a Database Abstraction Layer upon PDO. Some small examples can be added by this." /></div>
+                                </td>
+                                <td class="td_header_small" width="72">
+                                    <div style="float: left">{t}Output?{/t}</div><div style="float: right;"><img src="{$www_root_themes_core}/images/icons/help.png" title="Should the method output the view (e.g. Smarty Output, XML, ...)" /></div>
+                                </td>
+                                <td class="td_header_small" width="80">
+                                    <div style="float: left">{t}Template?{/t}</div><div style="float: right;"><img src="{$www_root_themes_core}/images/icons/help.png" title="When you create a method you normally do this by adding a specific template for the method. The standard name convention is to use the same name as the method itself." /></div>
+                                </td>
+                                <td class="td_header_small" align="left">
+                                    <img style="cursor: pointer;"  src="{$www_root_themes_core}/images/icons/add.png" id="frontend_module_add" />
+                                </td>
+                            </tr>
+                        </thead>
+                        <tbody id="frontend_module_wrapper">
+                            <tr id="frontend_module_input">
+                                <td height="20" class="cell2">
+                                    <input class="input_text" size="25" type="text" value="action_" name="m[frontend][frontend_methods][0]" pattern="^[a-zA-Z0-9_]+$" />
+                                </td>
+                                <td class="cell2">
+                                    <select name="m[frontend][frontend_scopes][0]" class="input_text">
+                                        <option value="public" selected="selected">Public</option>
+                                        <option value="private">Private</option>
+                                        <option value="protected">Protected</option>
+                                    </select>
+                                </td>
+                                <td class="cell1">
+                                    <select multiple="multiple" size="5" name="m[frontend][frontend_snippets][0][]" class="input_text">
+
+                                        <option value="request" title="$request = $this->injector->instantiate('httprequest');">Request Instance $request</option>
+                                        <option value="user">User Instance $user</option>
+                                        <option value="security" title="$security = $this->injector->instantiate('Clansuite_Security');">Security Instance $security</option>
+                                        <option value="mailer">Mailer Instance $mailer</option>
+                                    </select>
+                                </td>
+                                <td class="cell2">
+                                    <select multiple="multiple" size="5" name="m[frontend][frontend_doctrines][0][]" class="input_text">
+                                        <option value="select">SELECT Statement - single row</option>
+                                        <option value="create">CREATE Statement - single row</option>
+                                        <option value="update">UPDATE Statement - single row</option>
+                                        <option value="delete">DELETE Statement - single row</option>
+                                        <option value="pager">PAGER - Pagination</option>
+                                    </select>
+                                </td>
+                                <td class="cell1">
+                                    <input class="input_text" type="checkbox" value="1" name="m[frontend][frontend_outputs][0]" checked="checked" title="$this->prepareOutput();" />
+                                </td>
+                                <td class="cell2">
+                                    <input class="input_text" type="checkbox" value="1" name="m[frontend][frontend_tpls][0]" checked="checked" title="Generates a template file that has the same name as the method itself." />
+                                </td>
+                                <td class="cell1" align="left">
+                                    <img src="{$www_root_themes_core}/images/icons/delete.png" id="frontend_module_delete" style="margin-top: 2px; cursor: pointer;" />
+                                </td>
+                            </tr>
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <td class="cell2">
+                                    <div style="float: left"><b>{t}Create widget methods?{/t}</b></div><div style="float: right;"><img src="{$www_root_themes_core}/images/icons/help.png" title="Widgets are methods that can be called from a Smarty template file. For example:<br />load_module name='news' action='widget_news' items='2'" /></div>
+                                </td>
+                                <td class="cell1" colspan="10">
+                                    <input type="checkbox" name="m[widget][checked]" id="widget_module" class="check_below" value="1" />
+                                </td>
+                            </tr>
+                        </tfoot>
+                        </table>
 
                     </div>
 
                     <div id="widget_module_display">
-                        <div>
-                            <table cellspacing="0" cellpadding="0" border="0" align="center" width="100%">
-                                <thead>
-                                    <tr>
-                                        <td class="td_header_small" width="90">
-                                            <div style="float: left">{t}Method names{/t}</div><div style="float: right;"><img src="{$www_root_themes_core}/images/icons/help.png" title="Method names for the current module." /></div>
-                                        </td>
-                                        <td class="td_header_small" width="90">
-                                            <div style="float: left">{t}Scope{/t}</div><div style="float: right;"><img src="{$www_root_themes_core}/images/icons/help.png" title="The scope is the visibility of the function to other classes. When you are unsure what to choose, so take public." /></div>
-                                        </td>
-                                        <td class="td_header_small" width="90">
-                                            <div style="float: left">{t}Snippets{/t}</div><div style="float: right;"><img src="{$www_root_themes_core}/images/icons/help.png" title="Snippets are small ClanSuite code pieces, that always occur when creating modules." /></div>
-                                        </td>
-                                        <td class="td_header_small" width="90">
-                                            <div style="float: left">{t}Doctrine{/t}</div><div style="float: right;"><img src="{$www_root_themes_core}/images/icons/help.png" title="Doctrine is a Database Abstraction Layer upon PDO. Some small examples can be added by this." /></div>
-                                        </td>
-                                        <td class="td_header_small" width="72">
-                                            <div style="float: left">{t}Output?{/t}</div><div style="float: right;"><img src="{$www_root_themes_core}/images/icons/help.png" title="Should the method output the view (e.g. Smarty Output, XML, ...)" /></div>
-                                        </td>
-                                        <td class="td_header_small" width="80">
-                                            <div style="float: left">{t}Template?{/t}</div><div style="float: right;"><img src="{$www_root_themes_core}/images/icons/help.png" title="When you create a method you normally do this by adding a specific template for the method. The standard name convention is to use the same name as the method itself." /></div>
-                                        </td>
-                                        <td class="td_header_small" align="left">
-                                            <img style="cursor: pointer;"  src="{$www_root_themes_core}/images/icons/add.png" id="widget_module_add" />
-                                        </td>
-                                    </tr>
-                                </thead>
-                                <tbody id="widget_module_wrapper">
-                                    <tr id="widget_module_input">
-                                        <td height="20" class="cell2">
-                                            <input class="input_text" size="25" type="text" value="widget_" name="m[widget][widget_methods][0]" pattern="^[a-zA-Z0-9_]+$" />
-                                        </td>
-                                        <td class="cell2">
-                                            <select name="m[widget][widget_scopes][0]" class="input_text">
-                                                <option value="public" selected="selected">Public</option>
-                                                <option value="private">Private</option>
-                                                <option value="protected">Protected</option>
-                                            </select>
-                                        </td>
-                                        <td class="cell1">
-                                            <select multiple="multiple" size="5" name="m[widget][widget_snippets][0][]" class="input_text">
 
-                                                <option value="request" title="$request = $this->injector->instantiate('httprequest');">Request Instance $request</option>
-                                                <option value="user">User Instance $user</option>
-                                                <option value="security" title="$security = $this->injector->instantiate('Clansuite_Security');">Security Instance $security</option>
-                                                <option value="mailer">Mailer Instance $mailer</option>
-                                            </select>
-                                        </td>
-                                        <td class="cell2">
-                                            <select multiple="multiple" size="5" name="m[widget][widget_doctrines][0][]" class="input_text">
-                                                <option value="select">SELECT Statement - single row</option>
-                                                <option value="create">CREATE Statement - single row</option>
-                                                <option value="update">UPDATE Statement - single row</option>
-                                                <option value="delete">DELETE Statement - single row</option>
-                                                <option value="pager">PAGER - Pagination</option>
-                                            </select>
-                                        </td>
-                                        <td class="cell1">
-                                            <input class="input_text" type="checkbox" value="1" name="m[widget][widget_outputs][0]" checked="checked" title="$this->prepareOutput();" />
-                                        </td>
-                                        <td class="cell2">
-                                            <input class="input_text" type="checkbox" value="1" name="m[widget][widget_tpls][0]" checked="checked" title="Generates a template file that has the same name as the method itself." />
-                                        </td>
-                                        <td class="cell1" align="left">
-                                            <img src="{$www_root_themes_core}/images/icons/delete.png" id="widget_module_delete" style="margin-top: 2px; cursor: pointer;" />
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
+                    <table cellspacing="0" cellpadding="0" border="0" align="center" width="100%">
+                    <thead>
+                        <tr>
+                            <td class="td_header_small" width="90">
+                                <div style="float: left">{t}Method names{/t}</div><div style="float: right;"><img src="{$www_root_themes_core}/images/icons/help.png" title="Method names for the current module." /></div>
+                            </td>
+                            <td class="td_header_small" width="90">
+                                <div style="float: left">{t}Scope{/t}</div><div style="float: right;"><img src="{$www_root_themes_core}/images/icons/help.png" title="The scope is the visibility of the function to other classes. When you are unsure what to choose, so take public." /></div>
+                            </td>
+                            <td class="td_header_small" width="90">
+                                <div style="float: left">{t}Snippets{/t}</div><div style="float: right;"><img src="{$www_root_themes_core}/images/icons/help.png" title="Snippets are small ClanSuite code pieces, that always occur when creating modules." /></div>
+                            </td>
+                            <td class="td_header_small" width="90">
+                                <div style="float: left">{t}Doctrine{/t}</div><div style="float: right;"><img src="{$www_root_themes_core}/images/icons/help.png" title="Doctrine is a Database Abstraction Layer upon PDO. Some small examples can be added by this." /></div>
+                            </td>
+                            <td class="td_header_small" width="72">
+                                <div style="float: left">{t}Output?{/t}</div><div style="float: right;"><img src="{$www_root_themes_core}/images/icons/help.png" title="Should the method output the view (e.g. Smarty Output, XML, ...)" /></div>
+                            </td>
+                            <td class="td_header_small" width="80">
+                                <div style="float: left">{t}Template?{/t}</div><div style="float: right;"><img src="{$www_root_themes_core}/images/icons/help.png" title="When you create a method you normally do this by adding a specific template for the method. The standard name convention is to use the same name as the method itself." /></div>
+                            </td>
+                            <td class="td_header_small" align="left">
+                                <img style="cursor: pointer;"  src="{$www_root_themes_core}/images/icons/add.png" id="widget_module_add" />
+                            </td>
+                        </tr>
+                    </thead>
+                    <tbody id="widget_module_wrapper">
+                        <tr id="widget_module_input">
+                            <td height="20" class="cell2">
+                                <input class="input_text" size="25" type="text" value="widget_" name="m[widget][widget_methods][0]" pattern="^[a-zA-Z0-9_]+$" />
+                            </td>
+                            <td class="cell2">
+                                <select name="m[widget][widget_scopes][0]" class="input_text">
+                                    <option value="public" selected="selected">Public</option>
+                                    <option value="private">Private</option>
+                                    <option value="protected">Protected</option>
+                                </select>
+                            </td>
+                            <td class="cell1">
+                                <select multiple="multiple" size="5" name="m[widget][widget_snippets][0][]" class="input_text">
+
+                                    <option value="request" title="$request = $this->injector->instantiate('httprequest');">Request Instance $request</option>
+                                    <option value="user">User Instance $user</option>
+                                    <option value="security" title="$security = $this->injector->instantiate('Clansuite_Security');">Security Instance $security</option>
+                                    <option value="mailer">Mailer Instance $mailer</option>
+                                </select>
+                            </td>
+                            <td class="cell2">
+                                <select multiple="multiple" size="5" name="m[widget][widget_doctrines][0][]" class="input_text">
+                                    <option value="select">SELECT Statement - single row</option>
+                                    <option value="create">CREATE Statement - single row</option>
+                                    <option value="update">UPDATE Statement - single row</option>
+                                    <option value="delete">DELETE Statement - single row</option>
+                                    <option value="pager">PAGER - Pagination</option>
+                                </select>
+                            </td>
+                            <td class="cell1">
+                                <input class="input_text" type="checkbox" value="1" name="m[widget][widget_outputs][0]" checked="checked" title="$this->prepareOutput();" />
+                            </td>
+                            <td class="cell2">
+                                <input class="input_text" type="checkbox" value="1" name="m[widget][widget_tpls][0]" checked="checked" title="Generates a template file that has the same name as the method itself." />
+                            </td>
+                            <td class="cell1" align="left">
+                                <img src="{$www_root_themes_core}/images/icons/delete.png" id="widget_module_delete" style="margin-top: 2px; cursor: pointer;" />
+                            </td>
+                        </tr>
+                    </tbody>
+                    </table>
+
                     </div>
                 </td>
             </tr>
@@ -439,77 +439,78 @@
                 <td class="cell2">Create Backend for the module?</td>
                 <td class="cell1">
                     <div style="padding-bottom: 5px;"><input type="checkbox" name="m[backend][checked]" id="backend_module" class="check_below" value="1" /></div>
-                    <div id="backend_module_display">
-                        <div>
-                            <table cellspacing="0" cellpadding="0" border="0" align="center" width="100%">
-                                <thead>
-                                    <tr>
-                                        <td class="td_header_small" width="90">
-                                            <div style="float: left">{t}Method names{/t}</div><div style="float: right;"><img src="{$www_root_themes_core}/images/icons/help.png" title="Method names for the current module." /></div>
-                                        </td>
-                                        <td class="td_header_small" width="90">
-                                            <div style="float: left">{t}Scope{/t}</div><div style="float: right;"><img src="{$www_root_themes_core}/images/icons/help.png" title="The scope is the visibility of the function to other classes. When you are unsure what to choose, so take public." /></div>
-                                        </td>
-                                        <td class="td_header_small" width="90">
-                                            <div style="float: left">{t}Snippets{/t}</div><div style="float: right;"><img src="{$www_root_themes_core}/images/icons/help.png" title="Snippets are small ClanSuite code pieces, that always occur when creating modules." /></div>
-                                        </td>
-                                        <td class="td_header_small" width="90">
-                                            <div style="float: left">{t}Doctrine{/t}</div><div style="float: right;"><img src="{$www_root_themes_core}/images/icons/help.png" title="Doctrine is a Database Abstraction Layer upon PDO. Some small examples can be added by this." /></div>
-                                        </td>
-                                        <td class="td_header_small" width="72">
-                                            <div style="float: left">{t}Output?{/t}</div><div style="float: right;"><img src="{$www_root_themes_core}/images/icons/help.png" title="Should the method output the view (e.g. Smarty Output, XML, ...)" /></div>
-                                        </td>
-                                        <td class="td_header_small" width="80">
-                                            <div style="float: left">{t}Template?{/t}</div><div style="float: right;"><img src="{$www_root_themes_core}/images/icons/help.png" title="When you create a method you normally do this by adding a specific template for the method. The standard name convention is to use the same name as the method itself." /></div>
-                                        </td>
-                                        <td class="td_header_small" align="left">
-                                            <img style="cursor: pointer;"  src="{$www_root_themes_core}/images/icons/add.png" id="backend_module_add" />
-                                        </td>
-                                    </tr>
-                                </thead>
-                                <tbody id="backend_module_wrapper">
-                                    <tr id="backend_module_input">
-                                        <td height="20" class="cell2">
-                                            <input class="input_text" size="25" type="text" value="action_admin_" name="m[backend][backend_methods][0]" pattern="^[a-zA-Z0-9_]+$" />
-                                        </td>
-                                        <td class="cell2">
-                                            <select name="m[backend][backend_scopes][0]" class="input_text">
-                                                <option value="public" selected="selected">Public</option>
-                                                <option value="private">Private</option>
-                                                <option value="protected">Protected</option>
-                                            </select>
-                                        </td>
-                                        <td class="cell1">
-                                            <select multiple="multiple" size="5" name="m[backend][backend_snippets][0][]" class="input_text">
 
-                                                <option value="request" title="$request = $this->injector->instantiate('httprequest');">Request Instance $request</option>
-                                                <option value="user">User Instance $user</option>
-                                                <option value="security" title="$security = $this->injector->instantiate('Clansuite_Security');">Security Instance $security</option>
-                                                <option value="mailer">Mailer Instance $mailer</option>
-                                            </select>
-                                        </td>
-                                        <td class="cell2">
-                                            <select multiple="multiple" size="5" name="m[backend][backend_doctrines][0][]" class="input_text">
-                                                <option value="select">SELECT Statement - single row</option>
-                                                <option value="create">CREATE Statement - single row</option>
-                                                <option value="update">UPDATE Statement - single row</option>
-                                                <option value="delete">DELETE Statement - single row</option>
-                                                <option value="pager">PAGER - Pagination</option>
-                                            </select>
-                                        </td>
-                                        <td class="cell1">
-                                            <input class="input_text" type="checkbox" value="1" name="m[backend][backend_outputs][0]" checked="checked" title="$this->prepareOutput();" />
-                                        </td>
-                                        <td class="cell2">
-                                            <input class="input_text" type="checkbox" value="1" name="m[backend][backend_tpls][0]" checked="checked" title="Generates a template file that has the same name as the method itself." />
-                                        </td>
-                                        <td class="cell1" align="left">
-                                            <img src="{$www_root_themes_core}/images/icons/delete.png" id="backend_module_delete" style="margin-top: 2px; cursor: pointer;" />
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
+                    <div id="backend_module_display">
+
+                    <table cellspacing="0" cellpadding="0" border="0" align="center" width="100%">
+                    <thead>
+                        <tr>
+                            <td class="td_header_small" width="90">
+                                <div style="float: left">{t}Method names{/t}</div><div style="float: right;"><img src="{$www_root_themes_core}/images/icons/help.png" title="Method names for the current module." /></div>
+                            </td>
+                            <td class="td_header_small" width="90">
+                                <div style="float: left">{t}Scope{/t}</div><div style="float: right;"><img src="{$www_root_themes_core}/images/icons/help.png" title="The scope is the visibility of the function to other classes. When you are unsure what to choose, so take public." /></div>
+                            </td>
+                            <td class="td_header_small" width="90">
+                                <div style="float: left">{t}Snippets{/t}</div><div style="float: right;"><img src="{$www_root_themes_core}/images/icons/help.png" title="Snippets are small ClanSuite code pieces, that always occur when creating modules." /></div>
+                            </td>
+                            <td class="td_header_small" width="90">
+                                <div style="float: left">{t}Doctrine{/t}</div><div style="float: right;"><img src="{$www_root_themes_core}/images/icons/help.png" title="Doctrine is a Database Abstraction Layer upon PDO. Some small examples can be added by this." /></div>
+                            </td>
+                            <td class="td_header_small" width="72">
+                                <div style="float: left">{t}Output?{/t}</div><div style="float: right;"><img src="{$www_root_themes_core}/images/icons/help.png" title="Should the method output the view (e.g. Smarty Output, XML, ...)" /></div>
+                            </td>
+                            <td class="td_header_small" width="80">
+                                <div style="float: left">{t}Template?{/t}</div><div style="float: right;"><img src="{$www_root_themes_core}/images/icons/help.png" title="When you create a method you normally do this by adding a specific template for the method. The standard name convention is to use the same name as the method itself." /></div>
+                            </td>
+                            <td class="td_header_small" align="left">
+                                <img style="cursor: pointer;"  src="{$www_root_themes_core}/images/icons/add.png" id="backend_module_add" />
+                            </td>
+                        </tr>
+                    </thead>
+                    <tbody id="backend_module_wrapper">
+                    <tr id="backend_module_input">
+                        <td height="20" class="cell2">
+                            <input class="input_text" size="25" type="text" value="action_admin_" name="m[backend][backend_methods][0]" pattern="^[a-zA-Z0-9_]+$" />
+                        </td>
+                        <td class="cell2">
+                            <select name="m[backend][backend_scopes][0]" class="input_text">
+                                <option value="public" selected="selected">Public</option>
+                                <option value="private">Private</option>
+                                <option value="protected">Protected</option>
+                            </select>
+                        </td>
+                        <td class="cell1">
+                            <select multiple="multiple" size="5" name="m[backend][backend_snippets][0][]" class="input_text">
+
+                                <option value="request" title="$request = $this->injector->instantiate('httprequest');">Request Instance $request</option>
+                                <option value="user">User Instance $user</option>
+                                <option value="security" title="$security = $this->injector->instantiate('Clansuite_Security');">Security Instance $security</option>
+                                <option value="mailer">Mailer Instance $mailer</option>
+                            </select>
+                        </td>
+                        <td class="cell2">
+                            <select multiple="multiple" size="5" name="m[backend][backend_doctrines][0][]" class="input_text">
+                                <option value="select">SELECT Statement - single row</option>
+                                <option value="create">CREATE Statement - single row</option>
+                                <option value="update">UPDATE Statement - single row</option>
+                                <option value="delete">DELETE Statement - single row</option>
+                                <option value="pager">PAGER - Pagination</option>
+                            </select>
+                        </td>
+                        <td class="cell1">
+                            <input class="input_text" type="checkbox" value="1" name="m[backend][backend_outputs][0]" checked="checked" title="$this->prepareOutput();" />
+                        </td>
+                        <td class="cell2">
+                            <input class="input_text" type="checkbox" value="1" name="m[backend][backend_tpls][0]" checked="checked" title="Generates a template file that has the same name as the method itself." />
+                        </td>
+                        <td class="cell1" align="left">
+                            <img src="{$www_root_themes_core}/images/icons/delete.png" id="backend_module_delete" style="margin-top: 2px; cursor: pointer;" />
+                        </td>
+                    </tr>
+                    </tbody>
+                    </table>
+
                     </div>
                 </td>
             </tr>
@@ -536,7 +537,8 @@
 
             <tr>
                 <td class="cell1" colspan="2" align="center">
-                    <input id="preview_button" class="ButtonGreen" type="submit" value="{t}Preview the module{/t}" name="submit" /><br />
+                    <input id="preview_button" class="ButtonGreen" type="submit" value="{t}Preview the module{/t}" name="submit" />
+                    <br />
                     <img src="{$www_root_themes_core}/images/ajax/2.gif" id="ajax_loader">
                 </td>
             </tr>

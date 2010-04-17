@@ -261,12 +261,12 @@ class Clansuite_Session implements Clansuite_Session_Interface, ArrayAccess
     }
 
    /**
-	 * Destroy the current session.
-	 *
-	 * This redefines php's session_destroy()
-	 *
-	 * @param  string $session_id
-	 */
+     * Destroy the current session.
+     *
+     * This redefines php's session_destroy()
+     *
+     * @param  string $session_id
+     */
     public function session_destroy( $session_id )
     {
         // Unset all of the session variables.

@@ -97,7 +97,7 @@ class Clansuite_Module_Doctrine_Admin extends Clansuite_Module_Controller implem
                         # PHP Documentor Comment Settings
                         'phpDocPackage'         => 'Doctrine',
                         'phpDocSubpackage'      => 'Records',
-                        'phpDocName'            => 'Jens-Andre Koch',
+                        'phpDocName'            => 'Jens-André Koch',
                         'phpDocEmail'           => 'vain@clansuite.com',
                         # Classnames and Filenames
                         'generateBaseClasses'   => true,                        # generate BaseClasses too

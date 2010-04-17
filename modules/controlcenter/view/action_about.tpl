@@ -1,10 +1,8 @@
 <div class="ModuleHeading">{t}About Clansuite{/t}</div>
-<!-- <div class="ModuleHeadingSmall">{t}About - Credits.{/t}</div> -->
 
 {move_to target="pre_head_close"}
 {* Tabs with jQuery + YAML Accessible Tabs Plugin *}
 <script type="text/javascript" src="{$www_root_themes_core}/javascript/jquery/jquery.tabs.js"></script>
-
 
 <script type="text/javascript">
     $(document).ready(function(){
@@ -81,10 +79,13 @@
                       {t}Send bugreports, fixes, enhancements, t-shirts, money, beer & pizza to ...{/t}</h3>
     <br />
     <br />
-    <h3 align="center"><a href=" http://www.ohloh.net/p/clansuite/contributors">Complete List of Contributors (based on SVN Commits)</a></h3>
 
     <table cellspacing="5" cellpadding="2" border="0" width="100%">
      <tbody>
+        {* Members of the Development Team *}
+        <tr>
+            <td colspan="7" bgcolor="#bbbbbb"><strong>Members of the Development Team</strong></td>
+        </tr>
         <tr>
           <td bgcolor="#dddddd"><strong>Name</strong></td>
           <td bgcolor="#dddddd"><strong>Nickname</strong></td>
@@ -92,18 +93,6 @@
           <td bgcolor="#dddddd"><strong>Position</strong></td>
           <td bgcolor="#dddddd"><strong>Ohloh Stats</strong></td>
           <td bgcolor="#dddddd"><strong>Gifts</strong></td>
-        </tr>
-        <tr class="user_active">
-          <td><b>Pasqual Eusterfeldhaus</b></td>
-          <td valign="top"><b>thunderm00n</b></td>
-          <td valign="top"><b>thundermoon@gna.org</b></td>
-          <td valign="top">Graphics, Forum-Support & Moderation, Beta-Testing</td>
-          <td>
-              <a href='http://www.ohloh.net/accounts/21968?ref=Detailed'>
-                <img alt='Ohloh profile for Thunderm00n' height='35' src='http://www.ohloh.net/accounts/21968/widgets/account_detailed.gif' width='191' />
-              </a>
-          </td>
-          <td/>
         </tr>
         <tr class="user_active">
           <td valign="top"><b>Jens-Andr&#233; Koch</b></td>
@@ -116,7 +105,30 @@
          </td>
           <td><a href="http://www.amazon.de/gp/registry/registry.html?ie=UTF8&type=wishlist&id=2TN4SKVI467SX">{t}Amazon Wishlist{/t}</a></td>
         </tr>
-        <tr class="user_active">
+        <tr class="user_inactive">
+          <td valign="top"><b>Florian Wolf</b></td>
+          <td valign="top"><b>xsign.dll</b></td>
+          <td valign="top"><b>xsign.dll@clansuite.com</b></td>
+          <td valign="top">Developer, Serveradminstrator, Javascripts and AJAX<br /> Developer of Clansuite Core v0.1 and Clansuite_Datagrid</td>
+          <td><a href='http://www.ohloh.net/accounts/21946?ref=Detailed'>
+              <img alt='Ohloh profile for Florian Wolf' height='35' src='http://www.ohloh.net/accounts/21946/widgets/account_detailed.gif' width='191' />
+            </a>
+          </td>
+          <td/>
+        </tr>
+        <tr class="user_inactive">
+          <td><b>Pasqual Eusterfeldhaus</b></td>
+          <td valign="top"><b>thunderm00n</b></td>
+          <td valign="top"><b>thundermoon@gna.org</b></td>
+          <td valign="top">Graphics, Forum-Support & Moderation, Beta-Testing</td>
+          <td>
+              <a href='http://www.ohloh.net/accounts/21968?ref=Detailed'>
+                <img alt='Ohloh profile for Thunderm00n' height='35' src='http://www.ohloh.net/accounts/21968/widgets/account_detailed.gif' width='191' />
+              </a>
+          </td>
+          <td/>
+        </tr>
+        <tr class="user_inactive">
           <td valign="top"><b>Pascal</b></td>
           <td valign="top"><b>raensen</b></td>
           <td valign="top"><b>raensen@gna.org</b></td>
@@ -124,18 +136,6 @@
           <td><a href='http://www.ohloh.net/accounts/65133?ref=Detailed'>
                 <img alt='Ohloh profile for raeNsen' height='35' src='http://www.ohloh.net/accounts/65133/widgets/account_detailed.gif' width='191' />
               </a>
-          </td>
-          <td/>
-        </tr>
-
-        <tr class="user_inactive">
-          <td valign="top"><b>Florian Wolf</b></td>
-          <td valign="top"><b>xsign.dll</b></td>
-          <td valign="top"><b>xsign.dll@clansuite.com</b></td>
-          <td valign="top">Developer, Serveradminstrator, Javascripts and AJAX<br /> Developer of Clansuite Core v0.1</td>
-          <td><a href='http://www.ohloh.net/accounts/21946?ref=Detailed'>
-              <img alt='Ohloh profile for Florian Wolf' height='35' src='http://www.ohloh.net/accounts/21946/widgets/account_detailed.gif' width='191' />
-            </a>
           </td>
           <td/>
         </tr>
@@ -150,7 +150,7 @@
 
         {* Former Members of the Development Team *}
         <tr>
-            <td colspan="7" bgcolor="#dddddd"><strong>Former Members of the Development Team</strong></td>
+            <td colspan="7" bgcolor="#bbbbbb"><strong>Former Members</strong></td>
         </tr>
         <tr>
           <td bgcolor="#dddddd"><strong>Name</strong></td>
@@ -160,28 +160,12 @@
           <td bgcolor="#dddddd"><strong>Ohloh Stats</strong></td>
           <td bgcolor="#dddddd"><strong>Gifts</strong></td>
         </tr>
-         <tr class="user_inactive">
+        <tr class="user_inactive">
           <td valign="top"><b>Daniel Winterfeldt</b></td>
           <td valign="top"><b>rikku</b></td>
           <td valign="top"><b>rikku@gna.org</b></td>
           <a href='http://www.ohloh.net/accounts/21946?ref=Detailed'>
           <td valign="top">Developer (Image-Processing-Library)</td>
-          <td/>
-          <td/>
-        </tr>
-        <tr class="user_inactive">
-          <td valign="top"><b>Niklas Karoly</b></td>
-          <td valign="top"><b>creep7</b></td>
-          <td valign="top"><b>---</b></td>
-          <td valign="top">contributed nothing</td>
-          <td/>
-          <td/>
-        </tr>
-        <tr class="user_inactive">
-          <td valign="top"><b>Ren&#233; Stalder</b></td>
-          <td valign="top"><b>nachtmeister</b></td>
-          <td valign="top"><b>---</b></td>
-          <td valign="top">GFX, contributed 3 logos</td>
           <td/>
           <td/>
         </tr>
@@ -195,97 +179,11 @@
         </tr>
     </tbody>
     </table>
+
+   <br />
+   <h3 align="center"><a href=" http://www.ohloh.net/p/clansuite/contributors">You might visit Ohloh for the complete list of Contributors (based on SVN Commits).</a></h3>
+
    </div>
-
-   {*  /---------------------------------------------------
-       |
-       |     Tab: Components
-       |
-       \--------------------------------------------------- *}
-    <div class="tab-page">
-    <h2 class="tab">Components</h2>
-
-    <h2 align="center">{t}Components{/t}</h2>
-    <br />
-
-    <h2 align="center">Clansuite</h2>
-    <table cellspacing="0" cellpadding="0" border="0" width="100%" align="center">
-     <tbody>
-        <tr>
-          <td bgcolor="#dddddd"><strong>Product</strong></td>
-          <td bgcolor="#dddddd"><strong>Version</strong></td>
-          <td bgcolor="#dddddd"><strong>Entwickler</strong></td>
-          <td bgcolor="#dddddd"><strong>Link</strong></td>
-        </tr>
-        <tr>
-          <td>Clansuite Core</td>
-          <td>0.1</td>
-          <td><a href="mailto:vain@clansuite.com">Jens-Andr&#233; Koch (vain)</a> & <a href="mailto:xsigndll@clansuite.com">Florian Wolf (xsign.dll)</a></td>
-          <td><a target="_blank" href="http://www.clansuite.com/">http://www.clansuite.com</a></td>
-        </tr>
-        <tr>
-          <td>Clansuite Core / Framework</td>
-          <td>0.2</td>
-          <td><a href="mailto:vain@clansuite.com">Jens-Andr&#233; Koch (vain)</a></td>
-          <td></td>
-        </tr>
-        </tbody>
-    </table>
-
-    <br />
-
-    <h2 align="center">Modules</h2>
-    <table cellspacing="0" cellpadding="0" border="0" width="100%" align="center">
-        <tbody><tr>
-          <td bgcolor="#dddddd"><strong>{t}Module{/t}</strong></td>
-          <td bgcolor="#dddddd"><strong>{t}Entwickler{/t}</strong></td>
-          <td bgcolor="#dddddd"><strong>{t}Link to Module-Source{/t}</strong></td>
-          <td bgcolor="#dddddd"><strong>{t}Link to Module-Project{/t}</strong></td>
-        </tr>
-        <tr>
-          <td>News</td>
-          <td>vain, xsign</td>
-          <td><a target="_blank" href="http://trac.clansuite.com/browser/trunk/modules/news">Link</a></td>
-          <td></td>
-        </tr>
-        <tr>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-        </tr>
-        </tbody>
-    </table>
-
-    <br />
-
-    <h2 align="center">{t}Themes{/t}</h2>
-    <table cellspacing="0" cellpadding="0" border="0" width="100%" align="center">
-    <tbody><tr>
-      <td bgcolor="#dddddd" width="26%"><strong>Theme</strong></td>
-      <td bgcolor="#dddddd" width="16%"><strong>Version</strong></td>
-      <td bgcolor="#dddddd" width="52%"><strong>Entwickler</strong></td>
-      <td bgcolor="#dddddd" width="13%"><strong>Link</strong></td>
-    </tr>
-    <tr>
-      <td>Standard</td>
-      <td>1.0</td>
-      <td>vain</td>
-      <td></td>
-      <td/>
-    </tr>
-     <tr>
-      <td>Accessible</td>
-      <td>1.0</td>
-      <td>vyper</td>
-      <td></td>
-      <td/>
-    </tr>
-    </tbody>
-    </table>
-
-    </div>
 
    {*  /---------------------------------------------------
        |
@@ -311,6 +209,9 @@
 
        <table border="0" width="100%">
         <tbody>
+        <tr>
+          <td colspan="4"><h2>{t}Clansuite{/t}</h2></td>
+        </tr>
         <tr>
           <td colspan="4"><h2>{t}PHP{/t}</h2></td>
         </tr>
