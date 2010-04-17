@@ -1,1 +1,0 @@
-screen -d -m /usr/lib/python2.5/site-packages/bitten-slave -v --name ClansuiteBuilder --u=user --p=password --log=/home/clansuite/logs/bitten-build.log -d /home/clansuite/builds/ --keep-files --build-dir /home/clansuite/builds/ http://trac.clansuite.com/builds
