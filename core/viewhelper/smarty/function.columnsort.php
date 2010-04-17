@@ -106,7 +106,7 @@ function smarty_function_columnsort($params, $smarty)
    }
    else
    {
-       $img_alt = "";
+       $img_alt = '';
    }
 
 
@@ -166,7 +166,7 @@ function smarty_function_columnsort($params, $smarty)
 
 function _smarty_columnsort_sort_order($id, $columns, $default_sort, $smarty)
 {
-    if(!isset($columns[$id]) return false;
+    if(!isset($columns[$id])) return false;
 
     if(!is_array($columns[$id])) return $default_sort;
 

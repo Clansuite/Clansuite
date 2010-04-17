@@ -779,7 +779,7 @@ function removeDirectory($dir)
 
     # get files
     $files = array_merge(glob( $dir . '/*' ), glob( $dir . '/.*' ));
-    if( strpos($dir, 'installation') === FALSE ) { die('ERROR!' . var_dump($dir)); };
+    if( strpos($dir, 'installation') === false ) { die('ERROR!' . var_dump($dir)); };
 
     foreach( $files as $file )
     {
@@ -803,7 +803,7 @@ function removeDirectory($dir)
     }
 
     # try to apply delete permissiosn
-    if(@chmod($dir, 0777) === FALSE)
+    if(@chmod($dir, 0777) === false)
     {
         echo "[Deleting Directory] Setting the permission to delete the directory on directory $dir failed!<br/>";
     }
@@ -813,7 +813,7 @@ function removeDirectory($dir)
     }
 
     # try to remove directory
-    if(@rmdir($dir) === FALSE)
+    if(@rmdir($dir) === false)
     {
         echo "[Deleting Directory] Removing of directory $dir failed! Please remove it manually.<br/>";
     }

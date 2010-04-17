@@ -84,7 +84,7 @@ class Clansuite_Config_INIHandler extends Clansuite_Config_Base implements Array
      */
     public static function getInstance()
     {
-    	static $instance;
+        static $instance;
 
         if(isset($instance) == false)
         {

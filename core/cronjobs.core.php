@@ -204,6 +204,8 @@ class Clansuite_Cronjobs
      */
     public function loadCronjobs()
     {
+        $cronjobs = '';
+
         if( $this->loadCronjobsFrom == 'FILE')
         {
             $cronjobs = $this->parseCronFile($this->cronTabFile);
@@ -235,7 +237,6 @@ class Clansuite_Cronjobs
 
     /**
      * parseElement
-     *
      *
      * @param $element
      * @param $targetArray
