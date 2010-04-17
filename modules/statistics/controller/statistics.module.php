@@ -46,6 +46,13 @@ if (defined('IN_CS') == false) { die('Clansuite not loaded. Direct Access forbid
 class Clansuite_Module_Statistics extends Clansuite_Module_Controller implements Clansuite_Module_Interface
 {
     /**
+     * Clansuite_Module_Statistics
+     */
+    public function initializeModule(Clansuite_HttpRequest $request, Clansuite_HttpResponse $response)
+    {
+    }
+
+    /**
      * This fetches the statistics from db and returns them as array.
      *
      * @return stats array

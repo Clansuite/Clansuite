@@ -82,7 +82,11 @@ class Clansuite_Cache_Factory
             if (is_file($file) != 0)
             {
                 $class = 'Clansuite_Cache_'. $cache_type;
-                if( false === class_exists($class,false) ) { include$file); }
+
+                if( false === class_exists($class,false) )
+                {
+                    include $file;
+                }
 
                 if (class_exists($class,false))
                 {

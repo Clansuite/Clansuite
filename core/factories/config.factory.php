@@ -127,7 +127,10 @@ class Clansuite_Config_Factory
             if (is_file($file) != 0)
             {
                 $class = 'Clansuite_Config_'. strtoupper($config_type).'Handler';
-                if( false === class_exists($class,false) ) { include$file); }
+                if( false === class_exists($class,false) )
+                {
+                    include $file;
+                }
 
                 if (class_exists($class,false))
                 {
