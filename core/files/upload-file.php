@@ -9,11 +9,11 @@ if(!empty($_FILES) and isset($_FILES['uploadfile']['tmp_name']) )
 
     if( move_uploaded_file($_FILES['uploadfile']['tmp_name'], $file) )
     {
-        echo "File uploaded.";
+        echo 'File uploaded.';
     }
     else
     {
-        echo "File Upload Error.";
+        echo 'File Upload Error.';
     }
 }
 ?>

@@ -192,10 +192,8 @@ class Clansuite_Cronjobs
      */
     public function __construct()
     {
-                                  #@todo ROOT_CORE .
-        $this->cronTabFile      = dirname(__FILE__) . '/cronjobs/crontab.txt';
-        $this->writeDirectory   = dirname(__FILE__) . '/cronjobs/';
-
+        $this->cronTabFile    = ROOT_CORE . '/cronjobs/crontab.txt';
+        $this->writeDirectory = ROOT_CORE . '/cronjobs/';
         $this->execute();
     }
 
@@ -257,17 +255,17 @@ class Clansuite_Cronjobs
         {
             if (preg_match("~^(\\*|([0-9]{1,2})(-([0-9]{1,2}))?)(/([0-9]{1,2}))?$~",$subelements[$i],$matches))
             {
-                if($matches[1]=="*")
+                if($matches[1] == '*')
                 {
                     $matches[2] = 0;                    // from
                     $matches[4] = $numberOfElements;    //to
                 }
-                elseif($matches[4]=="")
+                elseif($matches[4] == '')
                 {
                     $matches[4] = $matches[2];
                 }
 
-                if($matches[5][0]!="/")
+                if($matches[5][0] != '/')
                 {
                     $matches[6] = 1;        // step
                 }
@@ -325,9 +323,13 @@ class Clansuite_Cronjobs
 
     private function incrementDate(&$dateArr, $amount, $unit)
     {
-        #if ($debug) echo sprintf("Increasing from %02d.%02d. %02d:%02d by %d %6s ",$dateArr[mday],$dateArr[mon],$dateArr[hours],$dateArr[minutes],$amount,$unit);
+        /*if ($debug)
+        {
+            echo sprintf('Increasing from %02d.%02d. %02d:%02d by %d %6s ',
+                   $dateArr[mday],$dateArr[mon],$dateArr[hours],$dateArr[minutes],$amount,$unit);
+        }*/
 
-        if ($unit=="mday")
+        if ($unit == 'mday')
         {
             $dateArr['hours'] = 0;
             $dateArr['minutes'] = 0;
@@ -353,11 +355,11 @@ class Clansuite_Cronjobs
             }
 
         }
-        elseif ($unit=="hour")
+        elseif ($unit == 'hour')
         {
             if ($dateArr['hours']==23)
             {
-                $this->incrementDate($dateArr, 1, "mday");
+                $this->incrementDate($dateArr, 1, 'mday');
             }
             else
             {
@@ -366,11 +368,11 @@ class Clansuite_Cronjobs
                 $dateArr['hours']++;
             }
         }
-        elseif ($unit=="minute")
+        elseif ($unit == 'minute')
         {
             if ($dateArr['minutes']==59)
             {
-                $this->incrementDate($dateArr, 1, "hour");
+                $this->incrementDate($dateArr, 1, 'hour');
             }
             else
             {
@@ -395,13 +397,13 @@ class Clansuite_Cronjobs
 
         if ($lastScheduled < time())
         {
-            #echo("<br>Running     ".$job[self::const_PC_CRONLINE]);
-            #echo("<br> Last run:       ".date("r",$lastActual));
-            #echo("<br> Last scheduled: ".date("r",$lastScheduled));
+            #echo('<br>Running     '.$job[self::const_PC_CRONLINE]);
+            #echo('<br> Last run:       '.date('r',$lastActual));
+            #echo('<br> Last scheduled: '.date('r',$lastScheduled));
 
-            #logMessage("Running     ".$job[self::const_PC_CRONLINE]);
-            #logMessage("  Last run:       ".date("r",$lastActual));
-            #logMessage("  Last scheduled: ".date("r",$lastScheduled));
+            #logMessage('Running     '.$job[self::const_PC_CRONLINE]);
+            #logMessage('  Last run:       '.date('r',$lastActual));
+            #logMessage('  Last scheduled: '.date('r',$lastScheduled));
 
             /*if ($debug)
             {
@@ -428,9 +430,10 @@ class Clansuite_Cronjobs
             #echo 'Completed    '.$job[self::const_PC_CRONLINE];
 
             /* @todo log
-            logMessage("Completed    ".$job[self::const_PC_CRONLINE]);
-            if ($sendLogToEmail!="") {
-            mail($sendLogToEmail, "[cron] ".$job[self::const_PC_COMMENT], $resultsSummary);
+            logMessage('Completed    '.$job[self::const_PC_CRONLINE]);
+            if ($sendLogToEmail != '')
+            {
+                mail($sendLogToEmail, '[cron] '.$job[self::const_PC_COMMENT], $resultsSummary);
             }
             */
 
@@ -441,8 +444,8 @@ class Clansuite_Cronjobs
             if ($debug)
             {
                 logMessage('Skipping     '.$job[self::const_PC_CRONLINE]);
-                logMessage('  Last run:       '.date("r",$lastActual));
-                logMessage('  Last scheduled: '.date("r",$lastScheduled));
+                logMessage('  Last run:       '.date('r',$lastActual));
+                logMessage('  Last scheduled: '.date('r',$lastScheduled));
                 logMessage('Completed    '.$job[self::const_PC_CRONLINE]);
             }
 
@@ -498,7 +501,7 @@ class Clansuite_Cronjobs
             }
         }
 
-        $this->multisort($jobs, "lastScheduled");
+        $this->multisort($jobs, 'lastScheduled');
 
         # Debug Display
         /*if (defined('DEBUG') and DEBUG == true)
@@ -532,21 +535,21 @@ class Clansuite_Cronjobs
 
             if (!$extjob[self::const_PC_DOM][$dateArr['mday']] or !$extjob[self::const_PC_DOW][$dateArr['wday']])
             {
-                $this->incrementDate($dateArr,1,"mday");
+                $this->incrementDate($dateArr,1,'mday');
                 $minutesAhead+=1440;
                 continue;
             }
 
             if (!$extjob[self::const_PC_HOUR][$dateArr['hours']])
             {
-                $this->incrementDate($dateArr,1,"hour");
+                $this->incrementDate($dateArr,1,'hour');
                 $minutesAhead+=60;
                 continue;
             }
 
             if (!$extjob[self::const_PC_MINUTE][$dateArr['minutes']])
             {
-                $this->incrementDate($dateArr,1,"minute");
+                $this->incrementDate($dateArr,1,'minute');
                 $minutesAhead++;
                 continue;
             }
@@ -559,7 +562,7 @@ class Clansuite_Cronjobs
 
     private function getJobFileName($jobname)
     {
-        $jobfile = $this->writeDirectory . urlencode($jobname) . ".job";
+        $jobfile = $this->writeDirectory . urlencode($jobname) . '.job';
         return $jobfile;
     }
 

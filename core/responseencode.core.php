@@ -250,7 +250,7 @@ class Clansuite_ResponseEncode
             case 'compress':
             case 'gzip':
             # gzip header
-                $gzdata = "\x1f\x8b\x08\x00\x00\x00\x00\x00";
+                $gzdata = '\x1f\x8b\x08\x00\x00\x00\x00\x00';
 
                 # compress
                 $gzdata .= gzcompress($content, $level);
@@ -262,7 +262,7 @@ class Clansuite_ResponseEncode
                 $gzdata = substr($gzdata, 0, $compressed_content_size - 4);
 
                 # add pack infos
-                $gzdata .= pack("V", crc32($content)) . pack("V", $original_content_size);
+                $gzdata .= pack('V', crc32($content)) . pack('V', $original_content_size);
 
                 break;
             case 'x-gzip':
@@ -317,7 +317,7 @@ class Clansuite_ResponseEncode
     {
         # init vars
         $encoding = null;
-        $http_accept_encoding = $_SERVER["HTTP_ACCEPT_ENCODING"];
+        $http_accept_encoding = $_SERVER['HTTP_ACCEPT_ENCODING'];
 
         # check Accept-Encoding for x-gzip
         if (strpos($http_accept_encoding, 'x-gzip') !== false)

@@ -415,6 +415,9 @@ abstract class Clansuite_Renderer_Base
     }
 
     # object duplication / cloning is not permitted
-    protected function __clone() {}
+    protected function __clone()
+    {
+        return;
+    }
 }
 ?>

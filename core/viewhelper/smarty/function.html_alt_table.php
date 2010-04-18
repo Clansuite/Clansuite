@@ -95,23 +95,22 @@
 
 function smarty_function_html_alt_table($params, $smarty)
 {
-    // default values
-    //
-    // loop is mandatory
+    # init vars
+    $table_id = 'table';
+    $header = true;
 
-    $table_id= 'table';
-    $header=true;
-
+    # mandatory parameter loop
     if (!isset($params['loop']))
     {
-        $smarty->trigger_error("html_alt_table: missing 'loop' parameter");
+        $smarty->trigger_error('html_alt_table: missing "loop" parameter');
         return;
     }
 
-    // reading input params
-    //
-    // this part is based on the original
-    // html_table function
+    /**
+     * reading input params
+     * this part is based on the original
+     * html_table function
+     */
     foreach ($params as $_key=>$_value)
     {
         switch ($_key)
@@ -132,17 +131,17 @@ function smarty_function_html_alt_table($params, $smarty)
     # init
     $rows_count=count($loop);
 
-    // if the array is empty, there's no need to go further
+    # if the array is empty, there's no need to go further
     if ($rows_count==0) return;
 
     $first_line=$loop[0];
     $cols_count=count($first_line);
 
-    $row_class=$table_id."_row";
-    $row_class_odd=$row_class."_odd";
-    $row_class_even=$row_class."_even";
+    $row_class=$table_id.'_row';
+    $row_class_odd=$row_class.'_odd';
+    $row_class_even=$row_class.'_even';
 
-    $col_class=$table_id."_col";
+    $col_class=$table_id.'_col';
 
     // starting table
     //
@@ -160,7 +159,7 @@ function smarty_function_html_alt_table($params, $smarty)
     if ($header)
     {
         $headers=array_keys($first_line);
-        $css_id=$row_class."_header";
+        $css_id=$row_class.'_header';
         $css_class=$row_class_odd;
         $output .= "<tr class='$css_class' id='$css_id' >\n";
         for ($h=0; $h<$cols_count; $h++)
