@@ -32,8 +32,8 @@ function smarty_function_columnsort($params, $smarty)
    //static $sort_asc_image = null;
    //static $sort_desc_image = null;
 
-   $sort_asc_image  = WWW_ROOT_THEMES_CORE . "/images/icons/asc.png";
-   $sort_desc_image = WWW_ROOT_THEMES_CORE . "/images/icons/desc.png";
+   $sort_asc_image  = WWW_ROOT_THEMES_CORE . '/images/icons/asc.png';
+   $sort_desc_image = WWW_ROOT_THEMES_CORE . '/images/icons/desc.png';
 
    static $SMCS_id = 'default';
 
@@ -58,7 +58,7 @@ function smarty_function_columnsort($params, $smarty)
    // HTML
    if(!isset($params['html']))
    {
-       $smarty->trigger_error("columnsort: missing 'html' parameter.");
+       $smarty->trigger_error('columnsort: missing "html" parameter.');
        return;
    }
 
@@ -158,10 +158,10 @@ function smarty_function_columnsort($params, $smarty)
    }
    else
    {
-       $image = "";
+       $image = '';
    }
 
-   return "<a $class href=\"$url\"><span style=\"width:100%;padding:0px;margin:0px;text-align:center;\">$html $image</span></a>";
+   return '<a '.$class.' href="'.$url.'.><span style="width:100%;padding:0px;margin:0px;text-align:center;">'.$html.' '.$image.'</span></a>';
 }
 
 function _smarty_columnsort_sort_order($id, $columns, $default_sort, $smarty)

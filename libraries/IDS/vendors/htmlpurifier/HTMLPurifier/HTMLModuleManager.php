@@ -156,7 +156,7 @@ class HTMLPurifier_HTMLModuleManager
             }
             if (!$ok) {
                 $module = $original_module;
-                if (!class_exists($module)) {
+                if (false === class_exists($module)) {
                     trigger_error($original_module . ' module does not exist',
                         E_USER_ERROR);
                     return;

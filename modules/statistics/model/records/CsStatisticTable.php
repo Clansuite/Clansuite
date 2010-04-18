@@ -4,8 +4,8 @@ class CsStatisticTable extends Doctrine_Table
     public function fetchAllImpressionsAndMaxVisitors()
     {
         $query = Doctrine_Query::create()
-                ->select("*")
-                ->from("CsStatistic")
+                ->select('*')
+                ->from('CsStatistic')
                 ->setHydrationMode(Doctrine::HYDRATE_ARRAY)
                 ->execute();
 
@@ -21,13 +21,13 @@ class CsStatisticTable extends Doctrine_Table
 
     public function fetchTodayAndYesterdayVisitors()
     {
-        $dateToday = date("d.m.Y");
-        $dateYesterday = date("d.m.Y" ,time()-86400);
+        $dateToday = date('d.m.Y');
+        $dateYesterday = date('d.m.Y' ,time()-86400);
 
         $query = Doctrine_Query::create()
-                ->select("count")
-                ->from("CsStatisticStats")
-                ->where("dates = ? or dates = ?", array($dateToday, $dateYesterday))
+                ->select('count')
+                ->from('CsStatisticStats')
+                ->where('dates = ? or dates = ?', array($dateToday, $dateYesterday))
                 ->setHydrationMode(Doctrine::HYDRATE_ARRAY)
                 ->execute();
         if (isset($query[0]) and count($query) == 1)
@@ -48,8 +48,8 @@ class CsStatisticTable extends Doctrine_Table
         $SecsToSubstract = time()-($days*24*60*60);
         #delete entries older then the $days from WhoIsOnline
         $query = Doctrine_Query::create()
-                ->delete("CsWhoisonline")
-                ->where("time < ?", array($SecsToSubstract))
+                ->delete('CsWhoisonline')
+                ->where('time < ?', array($SecsToSubstract))
                 ->execute();
     }
 
@@ -57,8 +57,8 @@ class CsStatisticTable extends Doctrine_Table
     {
         $SecsToSubstract = time()-($days*24*60*60);
         $query = Doctrine_Query::create()
-                ->delete("CsStatisticIp")
-                ->where("del < ?", array($SecsToSubstract))
+                ->delete('CsStatisticIp')
+                ->where('del < ?', array($SecsToSubstract))
                 ->execute();
     }
 
@@ -75,8 +75,8 @@ class CsStatisticTable extends Doctrine_Table
                     ->set('userID', 'NULL')
                     ->set('ip', '?', $ip)
                     ->set('time', $curTimestamp)
-                    ->set("site", "?", $targetSite)
-                    ->set("date", "?", date("d.m.Y"))
+                    ->set('site', '?', $targetSite)
+                    ->set('date', '?', date('d.m.Y'))
                     ->where('ip = ?', array($ip))
                     ->execute();
         }
@@ -88,7 +88,7 @@ class CsStatisticTable extends Doctrine_Table
                     ->set('ip', '?', $ip)
                     ->set('time', $curTimestamp)
                     ->set('site', '?', $targetSite)
-                    ->set("date", "?", date("d.m.Y"))
+                    ->set('date', '?', date('d.m.Y'))
                     ->where('userID = ? or ip = ?', array($userID, $ip))
                     ->execute();
         }
@@ -108,7 +108,7 @@ class CsStatisticTable extends Doctrine_Table
     {
         $whoIsIns = new CsWhoisonline();
         $whoIsIns->time = $curTimestamp;
-        $whoIsIns->date = date("d.m.Y");
+        $whoIsIns->date = date('d.m.Y');
         $whoIsIns->userID = $userID;
         $whoIsIns->site = $targetSite;
         $whoIsIns->ip = $ip;
@@ -118,7 +118,7 @@ class CsStatisticTable extends Doctrine_Table
     public function insertIp($curTimestamp, $ip)
     {
         $ipListIns = new CsStatisticip();
-        $ipListIns->dates = date("d.m.Y");
+        $ipListIns->dates = date('d.m.Y');
         $ipListIns->del = $curTimestamp;
         $ipListIns->ip = $ip;
         $ipListIns->save();
@@ -127,7 +127,7 @@ class CsStatisticTable extends Doctrine_Table
     public function insertStats()
     {
         $statsIns = new CsStatisticStats();
-        $statsIns->dates = date("d.m.Y");
+        $statsIns->dates = date('d.m.Y');
         $statsIns->count = 1;
         $statsIns->save();
     }
@@ -135,11 +135,11 @@ class CsStatisticTable extends Doctrine_Table
     public function existsIpEntryWithIp($ip)
     {
         $bRes = true;
-        $date = date("d.m.Y");
+        $date = date('d.m.Y');
         $query = Doctrine_Query::create()
-                ->select("count(*) as sum")
-                ->from("CsWhoisonline")
-                ->where("ip = ? and date = ?", array($ip, $date))
+                ->select('count(*) as sum')
+                ->from('CsWhoisonline')
+                ->where('ip = ? and date = ?', array($ip, $date))
                 ->setHydrationMode(Doctrine::HYDRATE_ARRAY)
                 ->execute();
         if($query[0]['sum']==0)
@@ -153,9 +153,9 @@ class CsStatisticTable extends Doctrine_Table
     {
         $bRes = true;
         $query = Doctrine_Query::create()
-                ->select("count(*) as sum")
-                ->from("CsStatisticStats")
-                ->where("dates = ?", array($date))
+                ->select('count(*) as sum')
+                ->from('CsStatisticStats')
+                ->where('dates = ?', array($date))
                 ->setHydrationMode(Doctrine::HYDRATE_ARRAY)
                 ->execute();
         if($query[0]['sum']==0)
@@ -188,9 +188,9 @@ class CsStatisticTable extends Doctrine_Table
     {
         $delTime = time()-(60*$timeoutMinutes);
         $query = Doctrine_Query::create()
-                ->select("count(*) as sum")
-                ->from("CsWhoisonline")
-                ->where("time > ?", array($delTime))
+                ->select('count(*) as sum')
+                ->from('CsWhoisonline')
+                ->where('time > ?', array($delTime))
                 ->execute();
         return $query[0]['sum'];
     }
@@ -199,21 +199,21 @@ class CsStatisticTable extends Doctrine_Table
     {
         $delTime = time()-(60*$timeoutMinutes);
         $query = Doctrine_Query::create()
-                ->select("count(*) as sum")
-                ->from("CsWhoisonline")
-                ->where("time > ? and (userID > 0 or userID is not NULL)", array($delTime))
+                ->select('count(*) as sum')
+                ->from('CsWhoisonline')
+                ->where('time > ? and (userID > 0 or userID is not NULL)', array($delTime))
                 ->execute();
         return $query[0]['sum'];
     }
 
     public function sumMonthVisits()
     {
-        $date = "%";
-        $date .= date(".m.Y");
+        $date = '%';
+        $date .= date('.m.Y');
         $query = Doctrine_Query::create()
-                ->select("sum(count) as sum")
-                ->from("CsStatisticStats")
-                ->where("dates like ?", array($date))
+                ->select('sum(count) as sum')
+                ->from('CsStatisticStats')
+                ->where('dates like ?', array($date))
                 ->setHydrationMode(Doctrine::HYDRATE_ARRAY)
                 ->execute();
         return $query[0]['sum'];

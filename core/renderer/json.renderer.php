@@ -108,7 +108,7 @@ class Clansuite_Renderer_Json extends Clansuite_Renderer_Base
      */
     public function renderByHeader($data)
     {
-        $this->response->addHeader ("X-JSON", '('.$this->jsonEncode($data).')');
+        $this->response->addHeader ('X-JSON', '('.$this->jsonEncode($data).')');
 
         return;
     }
@@ -126,7 +126,7 @@ class Clansuite_Renderer_Json extends Clansuite_Renderer_Base
          * The MIME media type for JSON text is application/json.
          * @see http://www.ietf.org/rfc/rfc4627
          */
-        $this->response->addHeader ("Content-Type' 'application/json; charset={$this->config['language']['outputcharset']}");
+        $this->response->addHeader('Content-Type', 'application/json; charset='.$this->config['language']['outputcharset']);
 
         return $this->jsonEncode($data);
     }

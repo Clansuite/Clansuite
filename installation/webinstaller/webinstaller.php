@@ -238,48 +238,57 @@ class WebInstaller {
 
             case 'download':
 
-                /* Input validation / sanitation */
-                /* The download method */
-                if (empty($_POST['method'])) $method = '';
-                else $method = trim($_POST['method']);
-                if (!preg_match('/^[a-z]+downloader$/', $method)) $method = '';
-                /* ... archive extension */
-                if (empty($_POST['extension'])) $extension = '';
-                else $extension = trim($_POST['extension']);
-                if (!preg_match('/^([a-z]{2,4}\.)?[a-z]{2,4}$/', $extension)) {
-                    render('results', array('failure' => 'Filetype for download not defined, please retry'));
-                    exit;
-                }
-                global $availableExtensions, $availableVersions;
-                if (!in_array($extension, $availableExtensions)) $extension = 'zip';
-                /* Clansuite version (stable, rc, nightly snapshot) */
-                if (empty($_POST['version'])) $version = '';
-                else $version = trim($_POST['version']);
-                if (!in_array($version, $availableVersions)) $version = 'stable';
-                if (class_exists($method)) {
-                    $downloader = new $method;
-                    if ($downloader->isSupported()) {
+        /* Input validation / sanitation */
+        /* The download method */
+            if (empty($_POST['method'])) $method = '';
+            else $method = trim($_POST['method']);
+            if (!preg_match('/^[a-z]+downloader$/', $method)) $method = '';
+            /* ... archive extension */
+            if (empty($_POST['extension'])) $extension = '';
+            else $extension = trim($_POST['extension']);
+            if (!preg_match('/^([a-z]{2,4}\.)?[a-z]{2,4}$/', $extension))
+            {
+                render('results', array('failure' => 'Filetype for download not defined, please retry'));
+                exit;
+            }
+            global $availableExtensions, $availableVersions;
+            if (!in_array($extension, $availableExtensions)) $extension = 'zip';
+            /* Clansuite version (stable, rc, nightly snapshot) */
+            if (empty($_POST['version'])) $version = '';
+            else $version = trim($_POST['version']);
+            if (!in_array($version, $availableVersions)) $version = 'stable';
+            if (class_exists($method))
+            {
+                $downloader = new $method;
+                if ($downloader->isSupported())
+                {
                     global $archiveBaseName;
                     $archiveName = dirname(__FILE__) . '/' . $archiveBaseName . '.' . $extension;
                     /* Assemble the downlod URL */
                     $url = $this->getDownloadUrl($version, $extension, $downloader);
                     $results = $downloader->download($url, $archiveName);
-                    if ($results === true) {
-                        if (is_file($archiveName)) {
-                        @chmod($archiveName, 0777);
-                        render('results', array('success' => 'File successfully downloaded'));
-                        } else {
-                        render('results', array('failure' => "Download failed, local file $archiveName does not exist"));
+                    if ($results === true)
+                    {
+                        if (is_file($archiveName))
+                        {
+                            @chmod($archiveName, 0777);
+                            render('results', array('success' => 'File successfully downloaded'));
+                        } else
+                        {
+                            render('results', array('failure' => "Download failed, local file $archiveName does not exist"));
                         }
-                    } else {
+                    } else
+                    {
                         render('results', array('failure' => $results));
                     }
-                    } else {
+                } else
+                {
                     render('results', array('failure' => "Method $method is not supported by this platform!"));
-                    }
-                } else {
-                    render('results', array('failure' => 'Method is not defined or does not exist!'));
                 }
+            } else
+            {
+                render('results', array('failure' => 'Method is not defined or does not exist!'));
+            }
 
             break;
 
@@ -303,15 +312,19 @@ class WebInstaller {
                 else $folderPermissions= trim($_POST['folderPermissions']);
                 /* Handle the request */
                 global $folderPermissionList;
-                if (in_array($folderPermissions, $folderPermissionList)) {
-                    $folderPermissions = (string) ('0' . (int)$folderPermissions);
+                if (in_array($folderPermissions, $folderPermissionList))
+                {
+                    $folderPermissions = (string) ('0' . (int) $folderPermissions);
                     $success = @chmod($folderName, octdec($folderPermissions));
-                    if (!$success) {
-                    render('results', array('failure' => "Attempt to change permissions of folder $folderName to $folderPermissions failed!"));
-                    } else {
-                    render('results', array('success' => "Successfully changed permissions of $folderName to $folderPermissions"));
+                    if (!$success)
+                    {
+                        render('results', array('failure' => "Attempt to change permissions of folder $folderName to $folderPermissions failed!"));
+                    } else
+                    {
+                        render('results', array('success' => "Successfully changed permissions of $folderName to $folderPermissions"));
                     }
-                } else {
+                } else
+                {
                     render('results', array('failure' => "Invalid permissions $folderPermissions"));
                 }
 
@@ -437,31 +450,38 @@ class WebInstaller {
 
         # installtion in "clansuite/" directory
         if (is_file($basePath . 'clansuite') and
-            is_file($basePath . 'clansuite/installation/index.php')) {
+                is_file($basePath . 'clansuite/installation/index.php'))
+        {
             return 'clansuite';
         }
 
         # installation without "clansuite/" directory
         if (is_file($basePath . 'index.php') and
-            is_file($basePath . '/installation/index.php')) {
+                is_file($basePath . '/installation/index.php'))
+        {
             return 'clansuite';
         }
 
         if (!Platform::isPhpFunctionSupported('opendir') or
-            !Platform::isPhpFunctionSupported('readdir')) {
+                !Platform::isPhpFunctionSupported('readdir'))
+        {
             return false;
         }
 
         $handle = opendir($basePath);
-        if (!$handle) {
+        if (!$handle)
+        {
             return false;
         }
-        while (($fileName = readdir($handle)) !== false) {
-            if ($fileName == '.' or $fileName == '..') {
-            continue;
+        while (($fileName = readdir($handle)) !== false)
+        {
+            if ($fileName == '.' or $fileName == '..')
+            {
+                continue;
             }
-            if (is_file($basePath . $fileName . '/installation/index.php')) {
-            return $fileName;
+            if (is_file($basePath . $fileName . '/installation/index.php'))
+            {
+                return $fileName;
             }
         }
         closedir($handle);
@@ -484,7 +504,8 @@ class WebInstaller {
 
         /* Try to get the latest version string */
         $currentDownloadUrls = $this->getLatestVersions($downloader);
-        if (!empty($currentDownloadUrls[$version])) {
+        if (!empty($currentDownloadUrls[$version]))
+        {
             $url = $currentDownloadUrls[$version];
         }
 
@@ -504,22 +525,27 @@ class WebInstaller {
          * update it if it's older than an hour
          */
         if (!is_file($tempFile) or !(($stat = @stat($tempFile)) and
-            isset($stat['mtime']) and $stat['mtime'] > time() - 3600)) {
-            $downloader->download($versionCheckUrl, $tempFile);
-        }
+                         isset($stat['mtime']) and $stat['mtime'] > time() - 3600))
+         {
+             $downloader->download($versionCheckUrl, $tempFile);
+         }
         /* Parse the fetched version information file */
-        if (is_file($tempFile)) {
+        if (is_file($tempFile))
+        {
             $contents = @file($tempFile);
-            if (is_array($contents)) {
-            foreach ($contents as $line) {
-                /* Each line is of the format key=value */
-                $versionStrings = implode('|', $availableVersions);
-                if (preg_match('/^(' . $versionStrings .
+            if (is_array($contents))
+            {
+                foreach ($contents as $line)
+                {
+                    /* Each line is of the format key=value */
+                    $versionStrings = implode('|', $availableVersions);
+                    if (preg_match('/^(' . $versionStrings .
                     ')=((?:http|ftp):\/(?:\/(?:[A-Za-z0-9-_]+\.?)+)+)\s*/',
-                       $line, $match)) {
-                $currentVersions[$match[1]] = $match[2];
+                    $line, $match))
+                    {
+                        $currentVersions[$match[1]] = $match[2];
+                    }
                 }
-            }
             }
         }
 
@@ -715,8 +741,10 @@ class WgetDownloader extends DownloadMethod
 
 class FopenDownloader extends DownloadMethod
 {
-    function download($url, $outputFile) {
-        if (!Platform::isDirectoryWritable()) {
+    function download($url, $outputFile)
+    {
+        if (!Platform::isDirectoryWritable())
+        {
             return 'Unable to write to current working directory';
         }
 
@@ -728,36 +756,43 @@ class FopenDownloader extends DownloadMethod
         Platform::extendTimeLimit();
 
         $fh = fopen($url, 'rb');
-        if (empty($fh)) {
+        if (empty($fh))
+        {
             return 'Unable to open url';
         }
         $ofh = fopen($outputFile, 'wb');
-        if (!$ofh) {
+        if (!$ofh)
+        {
             fclose($fh);
             return 'Unable to open output file in writing mode';
         }
 
         $failed = $results = false;
-        while (!feof($fh) and !$failed) {
+        while (!feof($fh) and !$failed)
+        {
             $buf = fread($fh, 4096);
-            if (!$buf) {
-            $results = 'Error during download';
-            $failed = true;
-            break;
+            if (!$buf)
+            {
+                $results = 'Error during download';
+                $failed = true;
+                break;
             }
-            if (fwrite($ofh, $buf) != strlen($buf)) {
-            $failed = true;
-            $results = 'Error during writing';
-            break;
+            if (fwrite($ofh, $buf) != strlen($buf))
+            {
+                $failed = true;
+                $results = 'Error during writing';
+                break;
             }
-            if (time() - $start > 55) {
-            Platform::extendTimeLimit();
-            $start = time();
+            if (time() - $start > 55)
+            {
+                Platform::extendTimeLimit();
+                $start = time();
             }
         }
         fclose($ofh);
         fclose($fh);
-        if ($failed) {
+        if ($failed)
+        {
             return $results;
         }
 
@@ -791,10 +826,12 @@ class FopenDownloader extends DownloadMethod
 
 class FsockopenDownloader extends DownloadMethod
 {
-    function download($url, $outputFile, $maxRedirects=10) {
+    function download($url, $outputFile, $maxRedirects=10)
+    {
         /* Code from WebHelper_simple.class */
 
-        if ($maxRedirects < 0) {
+        if ($maxRedirects < 0)
+        {
             return "Error too many redirects. Last URL: $url";
         }
 
@@ -803,12 +840,14 @@ class FsockopenDownloader extends DownloadMethod
 
         $errno = $errstr = null;
         $fd = @fsockopen($components['host'], $port, $errno, $errstr, 2);
-        if (empty($fd)) {
+        if (empty($fd))
+        {
             return "Error $errno: '$errstr' retrieving $url";
         }
 
         $get = $components['path'];
-        if (!empty($components['query'])) {
+        if (!empty($components['query']))
+        {
             $get .= '?' . $components['query'];
         }
 
@@ -816,79 +855,93 @@ class FsockopenDownloader extends DownloadMethod
 
         /* Read the web file into a buffer */
         $ok = fwrite($fd, sprintf("GET %s HTTP/1.0\r\n" .
-                           "Host: %s\r\n" .
-                           "\r\n",
-                           $get,
-                           $components['host']));
-        if (!$ok) {
+                "Host: %s\r\n" .
+                "\r\n",
+                $get,
+                $components['host']));
+        if (!$ok)
+        {
             return 'Download request failed (fwrite)';
         }
         $ok = fflush($fd);
-        if (!$ok) {
+        if (!$ok)
+        {
             return 'Download request failed (fflush)';
         }
 
         /*
          * Read the response code. fgets stops after newlines.
          * The first line contains only the status code (200, 404, etc.).
-         */
+        */
         $headers = array();
         $response = trim(fgets($fd, 4096));
 
         /* Jump over the headers but follow redirects */
-        while (!feof($fd)) {
+        while (!feof($fd))
+        {
             $line = trim(fgets($fd, 4096));
-            if (empty($line)) {
-            break;
+            if (empty($line))
+            {
+                break;
             }
 
             /* Normalize the line endings */
             $line = str_replace("\r", '', $line);
             list ($key, $value) = explode(':', $line, 2);
-            if (trim($key) == 'Location') {
-            fclose($fd);
-            return $this->download(trim($value), $outputFile, --$maxRedirects);
+            if (trim($key) == 'Location')
+            {
+                fclose($fd);
+                return $this->download(trim($value), $outputFile, --$maxRedirects);
             }
         }
 
         $success = false;
         $ofd = fopen($outputFile, 'wb');
-        if ($ofd) {
+        if ($ofd)
+        {
             /* Read the body */
             $failed = false;
-            while (!feof($fd) and !$failed) {
-            $buf = fread($fd, 4096);
-            if (fwrite($ofd, $buf) != strlen($buf)) {
-                $failed = true;
-                break;
-            }
-            if (time() - $start > 55) {
-                Platform::extendTimeLimit();
-                $start = time();
-            }
+            while (!feof($fd) and !$failed)
+            {
+                $buf = fread($fd, 4096);
+                if (fwrite($ofd, $buf) != strlen($buf))
+                {
+                    $failed = true;
+                    break;
+                }
+                if (time() - $start > 55)
+                {
+                    Platform::extendTimeLimit();
+                    $start = time();
+                }
             }
             fclose($ofd);
-            if (!$failed) {
-            $success = true;
+            if (!$failed)
+            {
+                $success = true;
             }
-        } else {
+        } else
+        {
             return "Could not open $outputFile in write mode";
         }
         fclose($fd);
 
         /* if the HTTP response code did not begin with a 2 this request was not successful */
-        if (!preg_match("/^HTTP\/\d+\.\d+\s2\d{2}/", $response)) {
+        if (!preg_match("/^HTTP\/\d+\.\d+\s2\d{2}/", $response))
+        {
             return "Download failed with HTTP status: $response";
         }
 
         return true;
     }
 
-    function isSupported() {
+    function isSupported()
+    {
         return Platform::isPhpFunctionSupported('fsockopen');
     }
 
-    function getName() {
+    function getName()
+    {
         return 'Download with PHP fsockopen()';
     }
 }
@@ -903,10 +956,12 @@ class FsockopenDownloader extends DownloadMethod
 
 class CurlDownloader extends DownloadMethod
 {
-    function download($url, $outputFile) {
+    function download($url, $outputFile)
+    {
         $ch = curl_init();
         $ofh = fopen($outputFile, 'wb');
-        if (!$ofh) {
+        if (!$ofh)
+        {
             fclose($ch);
             return 'Unable to open output file in writing mode';
         }
@@ -926,28 +981,36 @@ class CurlDownloader extends DownloadMethod
         $errorNumber = curl_errno($ch);
         curl_close($ch);
 
-        if ($errorNumber != 0) {
-            if (!empty($errorString)) {
-            return $errorString;
-            } else {
-            return 'CURL download failed';
+        if ($errorNumber != 0)
+        {
+            if (!empty($errorString))
+            {
+                return $errorString;
+            }
+            else
+            {
+                return 'CURL download failed';
             }
         }
 
         return true;
     }
 
-    function isSupported() {
+    function isSupported()
+    {
         foreach (array('curl_init', 'curl_setopt', 'curl_exec', 'curl_close', 'curl_error')
-                as $functionName) {
-            if (!Platform::isPhpFunctionSupported($functionName)) {
-            return false;
+        as $functionName)
+        {
+            if (!Platform::isPhpFunctionSupported($functionName))
+            {
+                return false;
             }
         }
         return true;
     }
 
-    function getName() {
+    function getName()
+    {
         return 'Download with PHP cURL()';
     }
 }
@@ -996,12 +1059,14 @@ class ExtractMethod
 
 class UnzipExtractor extends ExtractMethod
 {
-    function extract($fileName, $target_path, $remove_path) {
+    function extract($fileName, $target_path, $remove_path)
+    {
         $output = array();
         $status = 0;
         $unzip = Platform::getBinaryPath('unzip');
         exec($unzip . ' ' . $fileName, $output, $status);
-        if ($status) {
+        if ($status)
+        {
             $msg = 'exec returned an error status ';
             $msg .= is_array($output) ? implode('<br>', $output) : '';
             return $msg;
@@ -1009,15 +1074,18 @@ class UnzipExtractor extends ExtractMethod
         return true;
     }
 
-    function getSupportedExtension() {
+    function getSupportedExtension()
+    {
         return 'zip';
     }
 
-    function isSupported() {
+    function isSupported()
+    {
         return Platform::isBinaryAvailable('unzip');
     }
 
-    function getName() {
+    function getName()
+    {
         return 'Extract .zip with unzip';
     }
 }
@@ -1032,12 +1100,14 @@ class UnzipExtractor extends ExtractMethod
 
 class TargzExtractor extends ExtractMethod
 {
-    function extract($fileName, $target_path, $remove_path) {
+    function extract($fileName, $target_path, $remove_path)
+    {
         $output = array();
         $status = 0;
         $tar = Platform::getBinaryPath('tar');
         exec($tar . ' -xzf' . $fileName, $output, $status);
-        if ($status) {
+        if ($status)
+        {
             $msg = 'exec returned an error status ';
             $msg .= is_array($output) ? implode('<br>', $output) : '';
             return $msg;
@@ -1045,15 +1115,18 @@ class TargzExtractor extends ExtractMethod
         return true;
     }
 
-    function getSupportedExtension() {
+    function getSupportedExtension()
+    {
         return 'tar.gz';
     }
 
-    function isSupported() {
+    function isSupported()
+    {
         return Platform::isBinaryAvailable('tar');
     }
 
-    function getName() {
+    function getName()
+    {
         return 'Extract .tar.gz with tar';
     }
 }
@@ -1068,25 +1141,31 @@ class TargzExtractor extends ExtractMethod
 
 class PhpTargzExtractor extends ExtractMethod
 {
-    function extract($fileName, $target_path, $remove_path) {
+    function extract($fileName, $target_path, $remove_path)
+    {
         return PclTarExtract($fileName, $target_path, $remove_path);
     }
 
-    function getSupportedExtension() {
+    function getSupportedExtension()
+    {
         return 'tar.gz';
     }
 
-    function isSupported() {
+    function isSupported()
+    {
         foreach (array('gzopen', 'gzclose', 'gzseek', 'gzread',
-                   'touch', 'gzeof') as $functionName) {
-            if (!Platform::isPhpFunctionSupported($functionName)) {
+                'touch', 'gzeof') as $functionName)
+        {
+            if (!Platform::isPhpFunctionSupported($functionName))
+            {
                 return false;
             }
         }
         return true;
     }
 
-    function getName() {
+    function getName()
+    {
         return 'Extract .tar.gz with PHP functions';
     }
 }
@@ -1176,27 +1255,33 @@ class PhpUnzipExtractor extends ExtractMethod
         return true;
     }
 
-    function getSupportedExtension() {
+    function getSupportedExtension()
+    {
         return 'zip';
     }
 
-    function isSupported() {
+    function isSupported()
+    {
         foreach (array('mkdir', 'zip_open', 'zip_entry_name', 'zip_read', 'zip_entry_read',
                 'zip_entry_filesize', 'zip_entry_close', 'zip_close', 'zip_entry_close')
-                as $functionName) {
-            if (!Platform::isPhpFunctionSupported($functionName)) {
-            return false;
+        as $functionName)
+        {
+            if (!Platform::isPhpFunctionSupported($functionName))
+            {
+                return false;
             }
         }
         return true;
     }
 
-    function getName() {
+    function getName()
+    {
         return 'Extract .zip with PHP functions';
     }
 }
 
-function render($renderType, $args=array()) {
+function render($renderType, $args=array())
+{
     global $archiveBaseName, $folderPermissionList, $webinstaller_version;
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
@@ -1755,17 +1840,20 @@ function render($renderType, $args=array()) {
 /**
  * If necessary, define some functions for backwards compatibility.
  */
-function compatiblityFunctions() {
-    /* On MS Windows, function is_executable() was introduced in PHP 5.0.0. */
-    if (!function_exists('is_executable')) {
-    function is_executable($file) {
-        $stats = stat($file);
-        /*
-         * If stat doesn't work for some reason, assume it's executable.
-         * 0000100 is the is_executable bit. Windows returns true for .exe files.
-         */
-        return empty($stats['mode']) or $stats['mode'] & 0000100;
-    }
+function compatiblityFunctions()
+{
+    # On MS Windows, function is_executable() was introduced in PHP 5.0.0.
+    if (!function_exists('is_executable'))
+    {
+        function is_executable($file)
+        {
+            $stats = stat($file);
+            /*
+             * If stat doesn't work for some reason, assume it's executable.
+             * 0000100 is the is_executable bit. Windows returns true for .exe files.
+             */
+            return empty($stats['mode']) or $stats['mode'] & 0000100;
+        }
     }
 }
 
@@ -1818,8 +1906,9 @@ function printNavigationButtons($back_cmd, $forward_cmd)
   // ----- Global variables
   $g_pcltar_version = "1.3";
 
-  // --------------------------------------------------------------------------------
-  // Function : PclTarExtract()
+  /**
+   *
+   * Function : PclTarExtract()
   // Description :
   //   Extract all the files present in the archive $p_tarname, in the directory
   //   $p_path. The relative path of the archived files are keep and become
@@ -1840,31 +1929,30 @@ function printNavigationButtons($back_cmd, $forward_cmd)
   //   $p_mode : 'tar' or 'tgz', if not set, will be determined by $p_tarname extension
   // Return Values :
   //   Same as PclTarList()
-  // --------------------------------------------------------------------------------
+  */
   function PclTarExtract($p_tarname, $p_path="./", $p_remove_path="", $p_mode="")
   {
-    $v_result=1;
-
-    // ----- Extract the tar format from the extension
-    if (($p_mode == "") or (($p_mode!="tar") and ($p_mode!="tgz")))
-    {
-      if (($p_mode = PclTarHandleExtension($p_tarname)) == "")
+      $v_result=1;
+      
+      # Extract the tar format from the extension
+      if (($p_mode == "") or (($p_mode!="tar") and ($p_mode!="tgz")))
       {
-    return 'Extracting tar/gz failed, cannot handle extension';
+          if (($p_mode = PclTarHandleExtension($p_tarname)) == "")
+          {
+              return 'Extracting tar/gz failed, cannot handle extension';
+          }
       }
-    }
 
-    // ----- Call the extracting fct
-    $p_list = array();
-    if (($v_result = PclTarHandleExtract($p_tarname, 0, $p_list, "complete", $p_path, $p_mode, $p_remove_path)) != 1)
-    {
-      return 'Extracting Tar.gz failed';
-    }
+      # Call the extracting fct
+      $p_list = array();
+      if (($v_result = PclTarHandleExtract($p_tarname, 0, $p_list, "complete", $p_path, $p_mode, $p_remove_path)) != 1)
+      {
+          return 'Extracting Tar.gz failed';
+      }
 
-    return true;
+      return true;
   }
-  // --------------------------------------------------------------------------------
-
+  
 // --------------------------------------------------------------------------------
 // ***** UNDER THIS LINE ARE DEFINED PRIVATE INTERNAL FUNCTIONS *****
 // *****                                                        *****
@@ -2237,96 +2325,96 @@ function printNavigationButtons($back_cmd, $forward_cmd)
     // ----- Return
     return $v_result;
   }
-  // --------------------------------------------------------------------------------
 
-  // --------------------------------------------------------------------------------
+  /**
+   *
   // Function : PclTarHandleReadHeader()
   // Description :
   // Parameters :
   // Return Values :
-  // --------------------------------------------------------------------------------
+  */
   function PclTarHandleReadHeader($v_binary_data, &$v_header)
   {
-    $v_result=1;
+      $v_result=1;
 
-    // ----- Read the 512 bytes header
-    /*
+      // ----- Read the 512 bytes header
+      /*
     if ($p_tar_mode == "tar")
       $v_binary_data = fread($p_tar, 512);
     else
       $v_binary_data = gzread($p_tar, 512);
-    */
+      */
 
-    // ----- Look for no more block
-    if (strlen($v_binary_data)==0)
-    {
-      $v_header['filename'] = "";
-      $v_header['status'] = "empty";
-
-      return $v_result;
-    }
-
-    // ----- Look for invalid block size
-    if (strlen($v_binary_data) != 512)
-    {
-      $v_header['filename'] = "";
-      $v_header['status'] = "invalid_header";
-
-      // ----- Return
-      return false;
-    }
-
-    // ----- Calculate the checksum
-    $v_checksum = 0;
-    // ..... First part of the header
-    for ($i=0; $i<148; $i++)
-    {
-      $v_checksum+=ord(substr($v_binary_data,$i,1));
-    }
-    // ..... Ignore the checksum value and replace it by ' ' (space)
-    for ($i=148; $i<156; $i++)
-    {
-      $v_checksum += ord(' ');
-    }
-    // ..... Last part of the header
-    for ($i=156; $i<512; $i++)
-    {
-      $v_checksum+=ord(substr($v_binary_data,$i,1));
-    }
-
-    // ----- Extract the values
-    $v_data = unpack("a100filename/a8mode/a8uid/a8gid/a12size/a12mtime/a8checksum/a1typeflag/a100link/a6magic/a2version/a32uname/a32gname/a8devmajor/a8devminor", $v_binary_data);
-
-    // ----- Extract the checksum for check
-    $v_header["checksum"] = octdec(trim($v_data["checksum"]));
-    if ($v_header["checksum"] != $v_checksum)
-    {
-      $v_header["filename"] = "";
-      $v_header["status"] = "invalid_header";
-
-      // ----- Look for last block (empty block)
-      if (($v_checksum == 256) and ($v_header["checksum"] == 0))
+      // ----- Look for no more block
+      if (strlen($v_binary_data)==0)
       {
-    $v_header["status"] = "empty";
-    // ----- Return
-    return $v_result;
+          $v_header['filename'] = "";
+          $v_header['status'] = "empty";
+
+          return $v_result;
       }
 
-      // ----- Return
-      return false;
-    }
-    // ----- Extract the properties
-    $v_header["filename"] = trim($v_data["filename"]);
-    $v_header["mode"] = octdec(trim($v_data["mode"]));
-    $v_header["uid"] = octdec(trim($v_data["uid"]));
-    $v_header["gid"] = octdec(trim($v_data["gid"]));
-    $v_header["size"] = octdec(trim($v_data["size"]));
-    $v_header["mtime"] = octdec(trim($v_data["mtime"]));
-    if (($v_header["typeflag"] = $v_data["typeflag"]) == "5")
-    {
-      $v_header["size"] = 0;
-    }
-    /* ----- All these fields are removed form the header because they do not carry interesting info
+      // ----- Look for invalid block size
+      if (strlen($v_binary_data) != 512)
+      {
+          $v_header['filename'] = "";
+          $v_header['status'] = "invalid_header";
+
+          // ----- Return
+          return false;
+      }
+
+      // ----- Calculate the checksum
+      $v_checksum = 0;
+      // ..... First part of the header
+      for ($i=0; $i<148; $i++)
+      {
+          $v_checksum+=ord(substr($v_binary_data,$i,1));
+      }
+      // ..... Ignore the checksum value and replace it by ' ' (space)
+      for ($i=148; $i<156; $i++)
+      {
+          $v_checksum += ord(' ');
+      }
+      // ..... Last part of the header
+      for ($i=156; $i<512; $i++)
+      {
+          $v_checksum+=ord(substr($v_binary_data,$i,1));
+      }
+
+      // ----- Extract the values
+      $v_data = unpack("a100filename/a8mode/a8uid/a8gid/a12size/a12mtime/a8checksum/a1typeflag/a100link/a6magic/a2version/a32uname/a32gname/a8devmajor/a8devminor", $v_binary_data);
+
+      // ----- Extract the checksum for check
+      $v_header["checksum"] = octdec(trim($v_data["checksum"]));
+      if ($v_header["checksum"] != $v_checksum)
+      {
+          $v_header["filename"] = "";
+          $v_header["status"] = "invalid_header";
+
+          // ----- Look for last block (empty block)
+          if (($v_checksum == 256) and ($v_header["checksum"] == 0))
+          {
+              $v_header["status"] = "empty";
+              // ----- Return
+              return $v_result;
+          }
+
+          // ----- Return
+          return false;
+      }
+      // ----- Extract the properties
+      $v_header["filename"] = trim($v_data["filename"]);
+      $v_header["mode"] = octdec(trim($v_data["mode"]));
+      $v_header["uid"] = octdec(trim($v_data["uid"]));
+      $v_header["gid"] = octdec(trim($v_data["gid"]));
+      $v_header["size"] = octdec(trim($v_data["size"]));
+      $v_header["mtime"] = octdec(trim($v_data["mtime"]));
+      if (($v_header["typeflag"] = $v_data["typeflag"]) == "5")
+      {
+          $v_header["size"] = 0;
+      }
+      /* ----- All these fields are removed form the header because they do not carry interesting info
     $v_header[link] = trim($v_data[link]);
     TrFctMessage(__FILE__, __LINE__, 2, "Linkname : $v_header[linkname]");
     $v_header[magic] = trim($v_data[magic]);
@@ -2341,17 +2429,17 @@ function printNavigationButtons($back_cmd, $forward_cmd)
     TrFctMessage(__FILE__, __LINE__, 2, "Devmajor : $v_header[devmajor]");
     $v_header[devminor] = trim($v_data[devminor]);
     TrFctMessage(__FILE__, __LINE__, 2, "Devminor : $v_header[devminor]");
-    */
+      */
 
-    // ----- Set the status field
-    $v_header["status"] = "ok";
+      // ----- Set the status field
+      $v_header["status"] = "ok";
 
-    // ----- Return
-    return $v_result;
+      // ----- Return
+      return $v_result;
   }
-  // --------------------------------------------------------------------------------
 
-  // --------------------------------------------------------------------------------
+  /**
+   *
   // Function : PclTarHandlerDirCheck()
   // Description :
   //   Check if a directory exists, if not it creates it and all the parents directory
@@ -2361,79 +2449,75 @@ function printNavigationButtons($back_cmd, $forward_cmd)
   // Return Values :
   //    1 : OK
   //   -1 : Unable to create directory
-  // --------------------------------------------------------------------------------
-  function PclTarHandlerDirCheck($p_dir)
-  {
-    $v_result = 1;
+  */
+ function PclTarHandlerDirCheck($p_dir)
+ {
+     $v_result = 1;
 
-    // ----- Check the directory availability
-    if ((is_dir($p_dir)) or ($p_dir == ""))
-    {
-      return 1;
-    }
+     // ----- Check the directory availability
+     if ((is_dir($p_dir)) or ($p_dir == ""))
+     {
+         return 1;
+     }
 
-    // ----- Look for file alone
-    /*
+     // ----- Look for file alone
+     /*
     if (!strstr("$p_dir", "/"))
     {
       TrFctEnd(__FILE__, __LINE__,  "'$p_dir' is a file with no directory");
       return 1;
     }
-    */
+     */
 
-    // ----- Extract parent directory
-    $p_parent_dir = dirname($p_dir);
+     // ----- Extract parent directory
+     $p_parent_dir = dirname($p_dir);
 
-    // ----- Just a check
-    if ($p_parent_dir != $p_dir)
-    {
-      // ----- Look for parent directory
-      if ($p_parent_dir != "")
-      {
-    if (($v_result = PclTarHandlerDirCheck($p_parent_dir)) != 1)
-    {
-      return $v_result;
-    }
-      }
-    }
+     // ----- Just a check
+     if ($p_parent_dir != $p_dir)
+     {
+         // ----- Look for parent directory
+         if ($p_parent_dir != "")
+         {
+             if (($v_result = PclTarHandlerDirCheck($p_parent_dir)) != 1)
+             {
+                 return $v_result;
+             }
+         }
+     }
 
-    // ----- Create the directory
-    if (!@mkdir($p_dir, 0777))
-    {
-      // ----- Return
-      return false;
-    }
+     // ----- Create the directory
+     if (!@mkdir($p_dir, 0777))
+     {
+         // ----- Return
+         return false;
+     }
 
-    // ----- Return
-    return $v_result;
-  }
-  // --------------------------------------------------------------------------------
+     // ----- Return
+     return $v_result;
+ }
 
-  // --------------------------------------------------------------------------------
-  // Function : PclTarHandleExtension()
-  // Description :
-  // Parameters :
-  // Return Values :
-  // --------------------------------------------------------------------------------
+
+  /**
+   * Function : PclTarHandleExtension()
+   */
   function PclTarHandleExtension($p_tarname)
   {
-    // ----- Look for file extension
-    if ((substr($p_tarname, -7) == ".tar.gz") or (substr($p_tarname, -4) == ".tgz"))
-    {
-      $v_tar_mode = "tgz";
-    }
-    else if (substr($p_tarname, -4) == ".tar")
-    {
-      $v_tar_mode = "tar";
-    }
-    else
-    {
-      $v_tar_mode = "";
-    }
+      // ----- Look for file extension
+      if ((substr($p_tarname, -7) == ".tar.gz") or (substr($p_tarname, -4) == ".tgz"))
+      {
+          $v_tar_mode = "tgz";
+      }
+      elseif (substr($p_tarname, -4) == ".tar")
+      {
+          $v_tar_mode = "tar";
+      }
+      else
+      {
+          $v_tar_mode = "";
+      }
 
-    return $v_tar_mode;
+      return $v_tar_mode;
   }
-  // --------------------------------------------------------------------------------
 
 /* ---------- END 3rd Party code for tar.gz extraction --------------------- */
 ?>

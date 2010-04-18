@@ -69,7 +69,7 @@ class Clansuite_Module_Teamspeakviewer extends Clansuite_Module_Controller imple
 
         $starttime = microtime(true);
         $adv_viewer = new AdvancedTeamSpeak2Viewer();
-        Absurd_TeamSpeak2::connect("tcp://$server_address:$server_tcpport")
+        Absurd_TeamSpeak2::connect('tcp://'.$server_address.':'.$server_tcpport)
                         ->getServerByUdp($server_udpport)
                         ->parseViewer($adv_viewer);
         $time = microtime(true) - $starttime;
@@ -131,7 +131,7 @@ class Clansuite_Module_Teamspeakviewer extends Clansuite_Module_Controller imple
         $guest_nickname  = 'Guest';
 
         # get server object
-        $server = Absurd_TeamSpeak2::connect("tcp://$server_address:$server_tcpport")->getServerByUdp($server_udpport);
+        $server = Absurd_TeamSpeak2::connect('tcp://'.$server_address.':'.$server_tcpport)->getServerByUdp($server_udpport);
         $serverinfo = $server->getNodeInfo();
 
         # unregister the autoloader for performance, because it's only needed (once) here
@@ -313,9 +313,9 @@ class AdvancedTeamSpeak2Viewer #implements Absurd_TeamSpeak2_Viewer
         # fetch Client Info from Absurd_TS2_Object
         $client = $client->getNodeInfo();
 
-        if (array_key_exists("pflags", $client))
+        if (array_key_exists('pflags', $client))
         {
-            $privs = $client["pflags"];
+            $privs = $client['pflags'];
 
             if ($privs == 0 )  { $icon = 'player_normal.png';}             # User default
             if ($privs & 0x01) { $icon = 'player_channelcommander.png';}   # Channel Commander
@@ -338,25 +338,25 @@ class AdvancedTeamSpeak2Viewer #implements Absurd_TeamSpeak2_Viewer
         # fetch Client Info from Absurd_TS2_Object
         $client = $client->getNodeInfo();
 
-        if (array_key_exists("pprivs", $client))
+        if (array_key_exists('pprivs', $client))
         {
-            $privs = $client["pprivs"];
-            #if ($privs & 0x10) $playerPrivs .= "";    # Stickey
-            #if ($privs & 0x08) $playerPrivs .= "";    # Internal Use
-            if ($privs & 0x04) $playerPrivs .= "R ";   # Registered
-            if ($privs & 0x02) $playerPrivs .= "r";    # Allow Registration
-            if ($privs & 0x01) $playerPrivs .= "SA ";  # ServerAdmin
-            if ($privs == 0) $playerPrivs .= "U ";     # User
+            $privs = $client['pprivs'];
+            #if ($privs & 0x10) $playerPrivs .= '';    # Stickey
+            #if ($privs & 0x08) $playerPrivs .= '';    # Internal Use
+            if ($privs & 0x04) $playerPrivs .= 'R ';   # Registered
+            if ($privs & 0x02) $playerPrivs .= 'r';    # Allow Registration
+            if ($privs & 0x01) $playerPrivs .= 'SA ';  # ServerAdmin
+            if ($privs == 0) $playerPrivs .= 'U ';     # User
         }
 
-        if (array_key_exists("cprivs", $client))
+        if (array_key_exists('cprivs', $client))
         {
-            $privs = $client["cprivs"];
-            if ($privs & 0x01) $playerPrivs .= "CA "; # Channel Admin
-            if ($privs & 0x02) $playerPrivs .= "O ";  # Operator
-            if ($privs & 0x04) $playerPrivs .= "V ";  # Voice
-            if ($privs & 0x08) $playerPrivs .= "AO "; # AutoOperator
-            if ($privs & 0x10) $playerPrivs .= "AV "; # AutoVoice
+            $privs = $client['cprivs'];
+            if ($privs & 0x01) $playerPrivs .= 'CA '; # Channel Admin
+            if ($privs & 0x02) $playerPrivs .= 'O ';  # Operator
+            if ($privs & 0x04) $playerPrivs .= 'V ';  # Voice
+            if ($privs & 0x08) $playerPrivs .= 'AO '; # AutoOperator
+            if ($privs & 0x10) $playerPrivs .= 'AV '; # AutoVoice
         }
 
         return $playerPrivs;

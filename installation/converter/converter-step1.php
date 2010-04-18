@@ -59,7 +59,7 @@ if (defined('IN_CS') == false){ die( 'Clansuite not loaded. Direct Access forbid
                         foreach ($dirIterator as $file) {
                            // get each file not starting with dots ('.','..')
                            // or containing ".install.php"
-                           if ((!$file->isDot()) && preg_match("/.gif$/",$file->getFilename()))
+                           if ((!$file->isDot()) and preg_match('/.gif$/',$file->getFilename()))
                            {
                               // the shortest way to show a selected item by vain :D
                               echo '<option style="padding-left: 40px; background-image: url(./languages/' . $file .'); background-position:5px 100%; background-repeat: no-repeat;"';

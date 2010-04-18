@@ -476,7 +476,7 @@ class Clansuite_HttpRequest implements Clansuite_Request_Interface, ArrayAccess
     {
         if ( isset($_SERVER['HTTPS']) == false and $_SERVER['SERVER_PORT'] != 80 or isset($_SERVER['HTTPS']) and $_SERVER['SERVER_PORT'] != 443 )
         {
-            return ":{$_SERVER['SERVER_PORT']}";
+            return ':'.$_SERVER['SERVER_PORT'];
         }
     }
 
@@ -586,7 +586,7 @@ class Clansuite_HttpRequest implements Clansuite_Request_Interface, ArrayAccess
 
         if (array_key_exists('HTTP_X_FORWARDED_FOR', $_SERVER))
         {
-            foreach (explode(",",$_SERVER['HTTP_X_FORWARDED_FOR']) as $ip)
+            foreach (explode(',', $_SERVER['HTTP_X_FORWARDED_FOR']) as $ip)
             {
                 if (self::validateIP(trim($ip)))
                 {
