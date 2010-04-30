@@ -34,7 +34,10 @@
     */
 
 //Security Handler
-if (defined('IN_CS') == false) { die('Clansuite not loaded. Direct Access forbidden.'); }
+if (defined('IN_CS') == false)
+{
+    die('Clansuite not loaded. Direct Access forbidden.');
+}
 
 /**
  * This Clansuite Core Class for Errorhandling
@@ -348,10 +351,22 @@ class Clansuite_Errorhandler
         $errormessage   .= '<body>';
 
         # Fieldset with colours (error_red, error_orange, error_beige)
-        if ($errornumber == 256)        { echo '<fieldset class="error_red">';    }
-        elseif ($errornumber == 512)    { echo '<fieldset class="error_orange">'; }
-        elseif ($errornumber == 1024)   { echo '<fieldset class="error_beige">';  }
-        elseif ($errornumber > 0)       { echo '<fieldset class="error_beige">';  }
+        if ($errornumber == 256)
+        {
+            echo '<fieldset class="error_red">';
+        }
+        elseif ($errornumber == 512)
+        {
+            echo '<fieldset class="error_orange">';
+        }
+        elseif ($errornumber == 1024)
+        {
+            echo '<fieldset class="error_beige">';
+        }
+        elseif ($errornumber > 0)
+        {
+            echo '<fieldset class="error_beige">';
+        }
 
         # Errorlogo
         $errormessage   .= '<div style="float: left; margin: 5px; margin-right: 25px; border:1px inset #bf0000; padding: 20px;">';
@@ -546,11 +561,11 @@ class Clansuite_Errorhandler
                 break;
             case 'string':
                 $args .= '<span>string</span> ';
-                    $backtraceArgument = htmlspecialchars(substr($backtraceArgument, 0, 64));
-                    if((strlen($backtraceArgument) > 64))
-                    {
-                        $backtraceArgument . '...';
-                    }
+                $backtraceArgument = htmlspecialchars(substr($backtraceArgument, 0, 64));
+                if((strlen($backtraceArgument) > 64))
+                {
+                    $backtraceArgument . '...';
+                }
                 $args .= '"'. $backtraceArgument .'"';
                 break;
             case 'array':

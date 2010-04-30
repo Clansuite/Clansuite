@@ -35,7 +35,10 @@
     */
 
 # Security Handler
-if (defined('IN_CS') == false) { die('Clansuite not loaded. Direct Access forbidden.'); }
+if (defined('IN_CS') == false)
+{
+    die('Clansuite not loaded. Direct Access forbidden.');
+}
 
 # Load Clansuite_Config_Base
 require dirname(__FILE__) . '/config.base.php';
@@ -115,41 +118,41 @@ class Clansuite_Config_INIHandler extends Clansuite_Config_Base implements Array
      */
     public static function writeConfig($ini_filename, array $assoc_array)
     {
-       # ensure we got an array
-       if(is_array($assoc_array) === false)
-       {
-           echo ('writeConfig Parameter $assoc_array is not an array.');
-           return false;
-       }
+        # ensure we got an array
+        if(is_array($assoc_array) === false)
+        {
+            echo 'writeConfig Parameter $assoc_array is not an array.';
+            return false;
+        }
 
 
-       # when ini_filename exists, get old config array
-       if(is_file($ini_filename))
-       {
-           $old_config_array = self::readConfig($ini_filename);
-           # array merge: overwrite the array to the left, with the array to the right, when keys identical
-           # array_merge_recursive ??
-           $config_array = self::array_merge_recursive_distinct($old_config_array, $assoc_array);
-       }
-       else
-       {
+        # when ini_filename exists, get old config array
+        if(is_file($ini_filename))
+        {
+            $old_config_array = self::readConfig($ini_filename);
+            # array merge: overwrite the array to the left, with the array to the right, when keys identical
+            # array_merge_recursive ??
+            $config_array = self::array_merge_recursive_distinct($old_config_array, $assoc_array);
+        }
+        else
+        {
 
-           # create file
-           touch($ini_filename);
+            # create file
+            touch($ini_filename);
 
-           # the config array = the incoming assoc_array
-           $config_array = $assoc_array;
-       }
+            # the config array = the incoming assoc_array
+            $config_array = $assoc_array;
+        }
 
-       # attach an security header at the top of the ini file
-       $content = '';
-       $content .= "; <?php die( 'Access forbidden.' ); /* DO NOT MODIFY THIS LINE! ?>\n";
-       $content .= "; \n";
-       $content .= "; Clansuite Configuration File : \n";
-       $content .= "; $ini_filename \n";
-       $content .= "; \n";
-       $content .= "; This file was generated on " . date('d-m-Y H:i') . "\n";
-       $content .= ";\n\n";
+        # attach an security header at the top of the ini file
+        $content = '';
+        $content .= "; <?php die( 'Access forbidden.' ); /* DO NOT MODIFY THIS LINE! ?>\n";
+        $content .= "; \n";
+        $content .= "; Clansuite Configuration File : \n";
+        $content .= "; $ini_filename \n";
+        $content .= "; \n";
+        $content .= "; This file was generated on " . date('d-m-Y H:i') . "\n";
+        $content .= ";\n\n";
 
         # loop over every array element
         foreach($config_array as $key => $item)
@@ -207,8 +210,8 @@ class Clansuite_Config_INIHandler extends Clansuite_Config_Base implements Array
         {
             if (!$filehandle = fopen($ini_filename, 'wb'))
             {
-                 echo "Kann die Datei $ini_filename nicht öffnen";
-                 return false;
+                echo "Kann die Datei $ini_filename nicht öffnen";
+                return false;
             }
 
             if (!fwrite($filehandle, $content))

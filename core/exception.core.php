@@ -68,7 +68,7 @@ class Clansuite_Exception extends Exception implements Clansuite_Exception_Inter
     /**
      * @var string debug backtrace string
      */
-    private   $string;
+    private $string;
 
     /**
      * @var int user-defined exception code
@@ -88,7 +88,7 @@ class Clansuite_Exception extends Exception implements Clansuite_Exception_Inter
     /**
      * @var string trace
      */
-    private   $trace;
+    private $trace;
 
     /**
      * Variables for the content of exception templates

@@ -34,7 +34,10 @@
     */
 
 # Security Handler
-if (defined('IN_CS') == false) { die('Clansuite not loaded. Direct Access forbidden.'); }
+if (defined('IN_CS') == false)
+{
+    die('Clansuite not loaded. Direct Access forbidden.');
+}
 
 /**
  * Interface for the Request Object
@@ -196,11 +199,11 @@ class Clansuite_HttpRequest implements Clansuite_Request_Interface, ArrayAccess
      */
     public function isPost()
     {
-       if($this->requestMethod == 'POST')
-       {
-           return true;
-       }
-       return false;
+        if($this->requestMethod == 'POST')
+        {
+            return true;
+        }
+        return false;
     }
 
     /**
@@ -210,11 +213,11 @@ class Clansuite_HttpRequest implements Clansuite_Request_Interface, ArrayAccess
      */
     public function isPut()
     {
-       if($this->requestMethod == 'PUT')
-       {
-           return true;
-       }
-       return false;
+        if($this->requestMethod == 'PUT')
+        {
+            return true;
+        }
+        return false;
     }
 
     /**
@@ -224,11 +227,11 @@ class Clansuite_HttpRequest implements Clansuite_Request_Interface, ArrayAccess
      */
     public function isDelete()
     {
-       if($this->requestMethod == 'DELETE')
-       {
-           return true;
-       }
-       return false;
+        if($this->requestMethod == 'DELETE')
+        {
+            return true;
+        }
+        return false;
     }
 
     /**
@@ -501,8 +504,9 @@ class Clansuite_HttpRequest implements Clansuite_Request_Interface, ArrayAccess
 
             # 3. Determine Port
             self::$baseURL .= self::getServerPort();
-       }
-       return self::$baseURL;
+        }
+
+        return self::$baseURL;
     }
 
     /**
@@ -646,31 +650,36 @@ class Clansuite_HttpRequest implements Clansuite_Request_Interface, ArrayAccess
      */
     public static function validateIP($ip)
     {
-        if (!empty($ip) and ip2long($ip)!=-1) {
-                // reserved IANA IPv4 addresses
-                // http://www.iana.org/assignments/ipv4-address-space
-                $reserved_ips = array (
-                                array('0.0.0.0','2.255.255.255'),
-                                array('10.0.0.0','10.255.255.255'),
-                                array('127.0.0.0','127.255.255.255'),
-                                array('169.254.0.0','169.254.255.255'),
-                                array('172.16.0.0','172.31.255.255'),
-                                array('192.0.2.0','192.0.2.255'),
-                                array('192.168.0.0','192.168.255.255'),
-                                array('255.255.255.0','255.255.255.255')
-                );
+        if (!empty($ip) and ip2long($ip)!=-1)
+        {
+            // reserved IANA IPv4 addresses
+            // http://www.iana.org/assignments/ipv4-address-space
+            $reserved_ips = array (
+                            array('0.0.0.0','2.255.255.255'),
+                            array('10.0.0.0','10.255.255.255'),
+                            array('127.0.0.0','127.255.255.255'),
+                            array('169.254.0.0','169.254.255.255'),
+                            array('172.16.0.0','172.31.255.255'),
+                            array('192.0.2.0','192.0.2.255'),
+                            array('192.168.0.0','192.168.255.255'),
+                            array('255.255.255.0','255.255.255.255')
+            );
 
-                foreach ($reserved_ips as $r) {
-                        $min = ip2long($r[0]);
-                        $max = ip2long($r[1]);
-                        if ((ip2long($ip) >= $min) and (ip2long($ip) <= $max)) {
-                                return false;
-                        }
+            foreach ($reserved_ips as $r)
+            {
+                $min = ip2long($r[0]);
+                $max = ip2long($r[1]);
+                if ((ip2long($ip) >= $min) and (ip2long($ip) <= $max))
+                {
+                    return false;
                 }
-                return true;
+            }
+
+            return true;
         }
-        else {
-                return false;
+        else
+        {
+            return false;
         }
     }
 
@@ -759,7 +768,7 @@ class Clansuite_HttpRequest implements Clansuite_Request_Interface, ArrayAccess
     {
         if(isset($this->cookie_parameters[$name]) == true)
         {
-           return $this->cookie_parameters($name);
+            return $this->cookie_parameters($name);
         }
     }
 
@@ -771,18 +780,18 @@ class Clansuite_HttpRequest implements Clansuite_Request_Interface, ArrayAccess
      */
     public function isXhr()
     {
-       if(isset($_SERVER['X-Requested-With']) and strtolower($_SERVER['X-Requested-With']) === 'xmlhttprequest')
-       {
-           return true;
-       }
-       elseif(isset($_SERVER['HTTP_X_REQUESTED_WITH']) and strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) === 'xmlhttprequest')
-       {
-           return true;
-       }
-       else
-       {
-           return false;
-       }
+        if(isset($_SERVER['X-Requested-With']) and strtolower($_SERVER['X-Requested-With']) === 'xmlhttprequest')
+        {
+            return true;
+        }
+        elseif(isset($_SERVER['HTTP_X_REQUESTED_WITH']) and strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) === 'xmlhttprequest')
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
     }
 
     /**
@@ -801,8 +810,8 @@ class Clansuite_HttpRequest implements Clansuite_Request_Interface, ArrayAccess
      *
      * This code originally from Richard Heyes and Stefan Esser
      */
-     private function cleanGlobals()
-     {
+    private function cleanGlobals()
+    {
         # Intercept GLOBALS overwrite
         if ( isset($_REQUEST['GLOBALS']) or isset($_FILES['GLOBALS']) )
         {
@@ -811,48 +820,78 @@ class Clansuite_HttpRequest implements Clansuite_Request_Interface, ArrayAccess
 
         # List of Variables which shouldn't be unset
         $list = array(
-                        #'GLOBALS',
-                        '_POST',
-                        '_GET',
-                        '_COOKIE',
-                        '_REQUEST',
-                        '_SERVER',
-                        '_ENV',
-                        '_FILES'
-                      /**
-                       * Notice by vain:
-                       * argc+argv are php commandline (CLI) stuff
-                       * on an webserver-environment they are found in _SERVER.
-                       * CLI is not used, thats why they are commented off.
-                       *
-                       * If you need them, remove commenting.
-                       * and watch out to keep the comma on the start of the next line
-                       */
-                       #,'argc','argv'
-                     );
+                #'GLOBALS',
+                '_POST',
+                '_GET',
+                '_COOKIE',
+                '_REQUEST',
+                '_SERVER',
+                '_ENV',
+                '_FILES'
+                /**
+                 * Notice by vain:
+                 * argc+argv are php commandline (CLI) stuff
+                 * on an webserver-environment they are found in _SERVER.
+                 * CLI is not used, thats why they are commented off.
+                 *
+                 * If you need them, remove commenting.
+                 * and watch out to keep the comma on the start of the next line
+                 */
+                #,'argc','argv'
+        );
 
         // Create a list of all of the keys from the super-global values.
         // Use array_keys() here to preserve key integrity.
         $keys = array_merge(
-                    array_keys($_ENV),
-                    array_keys($_GET),
-                    array_keys($_POST),
-                    array_keys($_COOKIE),
-                    array_keys($_SERVER),
-                    array_keys($_FILES),
-                    // $_SESSION = null if you have not started the session yet.
-                    // This insures that a check is performed regardless.
-                    isset($_SESSION) and is_array($_SESSION) ? array_keys($_SESSION) : array()
-                );
+                array_keys($_ENV),
+                array_keys($_GET),
+                array_keys($_POST),
+                array_keys($_COOKIE),
+                array_keys($_SERVER),
+                array_keys($_FILES),
+                // $_SESSION = null if you have not started the session yet.
+                // This insures that a check is performed regardless.
+                isset($_SESSION) and is_array($_SESSION) ? array_keys($_SESSION) : array()
+        );
 
-         // Unset the globals.
-         foreach ($keys as $key)
-         {
+        // Unset the globals.
+        foreach ($keys as $key)
+        {
             if (isset($GLOBALS[$key]) and in_array($key, $list) == false )
             {
                 unset($GLOBALS[$key]);
             }
-         }
+        }
+    }
+
+    /**
+     * Handles possible Injections and clean up of $_REQUEST
+     */
+    private function sanitizeRequest()
+    {
+        # Filter for Request-Parameter: id
+        if(isset($_REQUEST['id']) and ctype_digit($_REQUEST['id']))
+        {
+            $this->parameters['id'] = (int) $_REQUEST['id'];
+        }
+
+        # Filter for Request-Parameter: items
+        if(isset($_REQUEST['items']) and ctype_digit($_REQUEST['items']))
+        {
+            $this->parameters['items'] = (int) $_REQUEST['items'];
+        }
+
+        # Filter for Request-Parameter: defaultCol (Smarty Paginate Get Variable)
+        if(isset($_REQUEST['defaultCol']) and ctype_digit($_REQUEST['defaultCol']))
+        {
+            $this->parameters['defaultCol'] = (int) $_REQUEST['defaultCol'];
+        }
+
+        # Filter for Request-Parameter: defaultSort (Smarty Paginate Get Variable)
+        if(isset($_REQUEST['defaultSort']) and ctype_alpha($_REQUEST['defaultSort']) and (($_REQUEST['defaultSort'] == 'desc') or ($_REQUEST['defaultSort'] == 'asc')) )
+        {
+            $this->parameters['defaultSort'] = (int) $_REQUEST['defaultSort'];
+        }
     }
 
     /**

@@ -35,7 +35,10 @@
     */
 
 //Security Handler
-if (defined('IN_CS') == false) { die('Clansuite not loaded. Direct Access forbidden.'); }
+if (defined('IN_CS') == false)
+{
+    die('Clansuite not loaded. Direct Access forbidden.');
+}
 
 /**
  * Clansuite Core Class for BBCode Handling (Wrapper) and Syntax Highlighting
@@ -112,10 +115,10 @@ class Clansuite_Bbcode
      */
     public function initializeBBCodesFromDatabase()
     {
-       # Load all BB Code Definition from Database
-       $bbcodes = Doctrine_Query::create()->select('*')->from('CsBbCode')->execute();
+        # Load all BB Code Definition from Database
+        $bbcodes = Doctrine_Query::create()->select('*')->from('CsBbCode')->execute();
 
-       /**
+        /**
          * Add the BBCodes from DB via addCode
          */
         foreach( $bbcodes as $key => $code )
@@ -202,8 +205,12 @@ class Clansuite_Bbcode
             return true;
         }
 
-        // Include & Instantiate GeSHi
-        if( false === class_exists('GeSHi',false) ) { include ROOT_LIBRARIES . '/geshi/geshi.php' ); }
+        # Include & Instantiate GeSHi
+        if( false === class_exists('GeSHi',false) )
+        {
+            include ROOT_LIBRARIES . '/geshi/geshi.php';
+        }
+
         $geshi = new GeSHi($content, $attributes['default']);
 
         return $geshi->parse_code();

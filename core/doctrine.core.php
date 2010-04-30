@@ -34,7 +34,10 @@
     */
 
 # Security Handler
-if (defined('IN_CS') == false){die('Clansuite not loaded. Direct Access forbidden.');}
+if (defined('IN_CS') == false)
+{
+    die('Clansuite not loaded. Direct Access forbidden.');
+}
 
 /**
  * Clansuite Core Class for the Initialization of phpDoctrine
@@ -248,7 +251,7 @@ class Clansuite_Doctrine
 
         # Changing the database naming convention by adding
         # TBLNAME: clansuite.DB_PREFIX_tablename
-        $this->manager->setAttribute(Doctrine_Core::ATTR_TBLNAME_FORMAT, DB_PREFIX ."%s");
+        $this->manager->setAttribute(Doctrine_Core::ATTR_TBLNAME_FORMAT, DB_PREFIX . '%s');
         $this->manager->setAttribute(Doctrine_Core::ATTR_USE_NATIVE_ENUM, true);
 
         # Load Tables (with custom methods) automatically
@@ -452,27 +455,27 @@ class Clansuite_Doctrine
             $time += $event->getElapsedSecs();
 
             echo '<tr>';
-                echo '<td style="text-align: center;">' . $query_counter . '</td>';
-                echo '<td style="text-align: center;">' . $event->getName() . '</td>';
-                echo '<td>' . sprintf ( "%f" , $event->getElapsedSecs() ) . '</td>';
-                echo '<td>' . $event->getQuery() . '</td>';
-                $params = $event->getParams();
-                if ( empty($params) == false)
-                {
-                      echo '<td>';
-                      echo wordwrap(join(', ', $params),150,"\n",true);
-                      echo '</td>';
-                }
-                else
-                {
-                      echo '<td>';
-                      echo '&nbsp;';
-                      echo '</td>';
-                }
+            echo '<td style="text-align: center;">' . $query_counter . '</td>';
+            echo '<td style="text-align: center;">' . $event->getName() . '</td>';
+            echo '<td>' . sprintf('%f', $event->getElapsedSecs() ) . '</td>';
+            echo '<td>' . $event->getQuery() . '</td>';
+            $params = $event->getParams();
+            if ( empty($params) == false)
+            {
+                  echo '<td>';
+                  echo wordwrap(join(', ', $params),150,"\n",true);
+                  echo '</td>';
+            }
+            else
+            {
+                  echo '<td>';
+                  echo '&nbsp;';
+                  echo '</td>';
+            }
             echo '</tr>';
         }
         echo '</table>';
-        echo '<p style="font-weight: bold;">&nbsp; &raquo; &nbsp; '.$query_counter.' statements in ' . sprintf("%2.5f", $time) . ' secs.</p>';
+        echo '<p style="font-weight: bold;">&nbsp; &raquo; &nbsp; '.$query_counter.' statements in ' . sprintf('%2.5f', $time) . ' secs.</p>';
         echo '</fieldset>';
     }
 
