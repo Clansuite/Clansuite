@@ -11,7 +11,8 @@
  * @link       http://pear.php.net/package/PHP_CodeSniffer
  */
 
-if (class_exists('PHP_CodeSniffer_Standards_CodingStandard', true) === false) {
+if (class_exists('PHP_CodeSniffer_Standards_CodingStandard', true) === false)
+{
     throw new PHP_CodeSniffer_Exception('Class PHP_CodeSniffer_Standards_CodingStandard not found');
 }
 
@@ -69,17 +70,15 @@ class PHP_CodeSniffer_Standards_Clansuite_ClansuiteCodingStandard extends PHP_Co
                      'Squiz/Sniffs/Classes/LowercaseClassKeywordsSniff.php',
                      'Squiz/Sniffs/Classes/SelfMemberReferenceSniff.php',
 
-                # Constructor
+              # Constructor
 
                      # enforce PHP 5 constructor syntax "function __construct()"
                      'Generic/Sniffs/NamingConventions/ConstructorNameSniff.php',
 
-
               # PHP
+                     # Usage of @ is not allowed.
                      'Generic/Sniffs/PHP/NoSilencedErrorsSniff.php',
 
-                     # Checks that all uses of true, false and null are lowerrcase.
-                     'Generic/Sniffs/PHP/LowerCaseConstantSniff.php',
                      # Stops the usage of the "global" keyword.
                      'Squiz/Sniffs/PHP/GlobalKeywordSniff.php',
 
@@ -95,10 +94,16 @@ class PHP_CodeSniffer_Standards_Clansuite_ClansuiteCodingStandard extends PHP_Co
                      'Generic/Sniffs/CodeAnalysis/ForLoopWithTestFunctionCallSniff.php',
 
               # WhiteSpace
-                     //'Squiz/Sniffs/WhiteSpace/',
+                     # No Tabs. Just Spaces.
                      'Generic/Sniffs/WhiteSpace/DisallowTabIndentSniff.php',
-                     //'Generic/Sniffs/WhiteSpace/ScopeIndentSniff.php',
-                     //'PEAR/Sniffs/WhiteSpace/ScopeClosingBraceSniff.php',
+                     # Scope Idention - default value: 4
+                     'Generic/Sniffs/WhiteSpace/ScopeIndentSniff.php',
+                     # Alignment of Scope Closing Braces
+                     'PEAR/Sniffs/WhiteSpace/ScopeClosingBraceSniff.php',
+                     # No Space before semicolon
+                     'Squiz/Sniffs/WhiteSpace/SemicolonSpacingSniff.php',
+                     # Spaces before+after Scope Keywords
+                     'Squiz/Sniffs/WhiteSpace/ScopeKeywordSpacingSniff.php',
 
               # ControlStructures
                      //'Generic/Sniffs/ControlStructures/InlineControlStructureSniff.php',
@@ -114,7 +119,8 @@ class PHP_CodeSniffer_Standards_Clansuite_ClansuiteCodingStandard extends PHP_Co
                      //'Squiz/Sniffs/CSS',
 
               # Strings
-                     //'Squiz/Sniffs/Strings/EchoedStringsSniff.php',
+                     # Makes sure that any strings that are "echoed" are not enclosed in brackets like a function call.
+                     'Squiz/Sniffs/Strings/EchoedStringsSniff.php',
 
               # Array
                      //'Squiz/Sniffs/Arrays/ArrayDeclarationSniff.php',
@@ -122,6 +128,10 @@ class PHP_CodeSniffer_Standards_Clansuite_ClansuiteCodingStandard extends PHP_Co
               # Naming Conventions
                     # Ensures class and interface names start with a capital letter and use _ separators.
                     'PEAR/Sniffs/NamingConventions/ValidClassNameSniff.php',
+                    # Ensures all control structure keywords are lowercase.
+                    'Squiz/Sniffs/ControlStructures/LowercaseDeclarationSniff.php',
+                    # Checks that all uses of true, false and null are lowerrcase.
+                     'Generic/Sniffs/PHP/LowerCaseConstantSniff.php',
                    );
 
     }
