@@ -38,7 +38,7 @@ if (defined('IN_CS') == false){ die('Clansuite not loaded. Direct Access forbidd
 
 # conditional include of the parent class
 if (false == class_exists('Clansuite_Formelement',false))
-{ 
+{
     include ROOT_CORE . 'viewhelper/formelement.core.php';
 }
 
@@ -113,7 +113,7 @@ class Clansuite_Formelement_ReCaptcha extends Clansuite_Formelement_Captcha impl
 
         if ($response->is_valid == false)
         {
-            return _("The reCAPTCHA wasn't entered correctly. Go back and try again. (reCAPTCHA said: " . $resp->error . ")");
+            return _('The reCAPTCHA was not entered correctly. Go back and try again. (reCAPTCHA said: ' . $resp->error . ')');
         }
     }
 

@@ -84,7 +84,7 @@ class Clansuite_Formelement_JQSelectDate extends Clansuite_Formelement implement
 
     public function __construct()
     {
-        $this->type = "date";
+        $this->type = 'date';
         $this->name = 'datepicker';
     }
 
@@ -128,7 +128,7 @@ class Clansuite_Formelement_JQSelectDate extends Clansuite_Formelement implement
      */
     public function setAttribute($attribute, $value)
     {
-        $$new_attribute = array();
+        $new_attribute = array();
         $new_attribute[$attribute] = $value;
         $this->setAttributes($new_attribute);
 

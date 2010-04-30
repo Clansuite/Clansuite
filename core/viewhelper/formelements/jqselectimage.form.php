@@ -54,7 +54,7 @@ class Clansuite_Formelement_JQSelectImage extends Clansuite_Formelement_Select i
      */
     function __construct()
     {
-        $this->type = "image";
+        $this->type = 'image';
     }
 
     public function getFiles()

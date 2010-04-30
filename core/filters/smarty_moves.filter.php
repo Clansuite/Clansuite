@@ -66,7 +66,7 @@ class Clansuite_Filter_smarty_moves implements Clansuite_Filter_Interface
             # PRE_HEAD_CLOSE = x</head>
             $matches = array();
             preg_match_all('!@@@SMARTY:PRE_HEAD_CLOSE:BEGIN@@@(.*?)@@@SMARTY:PRE_HEAD_CLOSE:END@@@!is', $tpl_output, $matches);
-            $tpl_output = preg_replace("!@@@SMARTY:PRE_HEAD_CLOSE:BEGIN@@@(.*?)@@@SMARTY:PRE_HEAD_CLOSE:END@@@!is", '', $tpl_output);
+            $tpl_output = preg_replace('!@@@SMARTY:PRE_HEAD_CLOSE:BEGIN@@@(.*?)@@@SMARTY:PRE_HEAD_CLOSE:END@@@!is', '', $tpl_output);
             $matches = array_unique($matches[1]);
             foreach($matches as $value)
             {
@@ -76,7 +76,7 @@ class Clansuite_Filter_smarty_moves implements Clansuite_Filter_Interface
             # POST_BODY_OPEN = <body>x
             $matches = array();
             preg_match_all('!@@@SMARTY:POST_BODY_OPEN:BEGIN@@@(.*?)@@@SMARTY:POST_BODY_OPEN:END@@@!is', $tpl_output, $matches);
-            $tpl_output = preg_replace("!@@@SMARTY:POST_BODY_OPEN:BEGIN@@@(.*?)@@@SMARTY:POST_BODY_OPEN:END@@@!is", '', $tpl_output);
+            $tpl_output = preg_replace('!@@@SMARTY:POST_BODY_OPEN:BEGIN@@@(.*?)@@@SMARTY:POST_BODY_OPEN:END@@@!is', '', $tpl_output);
             $matches = array_unique($matches[1]);
             foreach($matches as $values)
             {
@@ -87,7 +87,7 @@ class Clansuite_Filter_smarty_moves implements Clansuite_Filter_Interface
             # PRE_BODY_CLOSE = x</body>
             $matches = array();
             preg_match_all('!@@@SMARTY:PRE_BODY_CLOSE:BEGIN@@@(.*?)@@@SMARTY:PRE_BODY_CLOSE:END@@@!is', $tpl_output, $matches);
-            $tpl_output = preg_replace("!@@@SMARTY:PRE_BODY_CLOSE:BEGIN@@@(.*?)@@@SMARTY:PRE_BODY_CLOSE:END@@@!is", '', $tpl_output);
+            $tpl_output = preg_replace('!@@@SMARTY:PRE_BODY_CLOSE:BEGIN@@@(.*?)@@@SMARTY:PRE_BODY_CLOSE:END@@@!is', '', $tpl_output);
             $matches = array_unique($matches[1]);
             foreach($matches as $values)
             {

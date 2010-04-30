@@ -278,9 +278,9 @@ class Clansuite_Errorhandler
     {
         # small errorreport
         $errormessage  =  '<h3><font color="#ff0000">&raquo; Smarty Template Error &laquo;</font></h3>';
-        $errormessage .=  "<u>$errorname:</u><br/>";
+        $errormessage .=  '<u>'. $errorname .': </u><br/>';
         $errormessage .=  '<b>'. wordwrap($errorstring,50,"\n") .'</b><br/>';
-        $errormessage .=  "File: $errorfile <br/>Line: $errorline ";
+        $errormessage .=  'File: '. $errorfile. '<br/>Line: ' .$errorline;
         $errormessage .= self::addTemplateEditorLink($errorfile, $errorline, $errorcontext);
         $errormessage .=  '<br/>';
 
@@ -546,8 +546,12 @@ class Clansuite_Errorhandler
                 break;
             case 'string':
                 $args .= '<span>string</span> ';
-                $backtraceArgument = htmlspecialchars(substr($backtraceArgument, 0, 64)).((strlen($backtraceArgument) > 64) ? '...' : '');
-                $args .= "\"$backtraceArgument\"";
+                    $backtraceArgument = htmlspecialchars(substr($backtraceArgument, 0, 64));
+                    if((strlen($backtraceArgument) > 64))
+                    {
+                        $backtraceArgument . '...';
+                    }
+                $args .= '"'. $backtraceArgument .'"';
                 break;
             case 'array':
                 $args .= '<span>array</span> ('.count($backtraceArgument).')';
@@ -629,7 +633,9 @@ class Clansuite_Errorhandler
                 $errorcontext_lines  = '<code>'.implode($result, '<br />');
 
                 # display LINES and ERRORCONTEXT_LINES in a table (prefixed with the hardcoded style)
-                return "<table><tr><td class=\"num\">\n$lines\n</td><td>\n$errorcontext_lines\n</td></tr></table>";
+                $html = '<table><tr><td class="num">'.CR. $lines.CR.'</td><td>'.CR.$errorcontext_lines.CR.'</td></tr></table>';
+
+                return $html;
             }
         }
     }

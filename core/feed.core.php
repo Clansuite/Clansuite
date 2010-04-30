@@ -183,7 +183,7 @@ class Clansuite_Feed
             # ensure that we have rss content
             if(strlen($feedcontent) > 0)
             {
-                $fp=fopen($cachefile, "w");
+                $fp = fopen($cachefile, 'w');
                 fwrite($fp, $feedcontent);
                 fclose($fp);
                 return $feedcontent;

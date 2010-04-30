@@ -111,12 +111,12 @@ class Clansuite_Session implements Clansuite_Session_Interface, ArrayAccess
         ini_set('session.use_only_cookies', $this->config['session']['use_cookies_only'] );
 
         # Setup the custom session handler methods
-        session_set_save_handler(   array($this, "session_open"   ),
-                                    array($this, "session_close"  ),
-                                    array($this, "session_read"   ),
-                                    array($this, "session_write"  ), # this redefines session_write_close()
-                                    array($this, "session_destroy"), # this redefines session_destroy()
-                                    array($this, "session_gc"     )
+        session_set_save_handler(   array($this, 'session_open'   ),
+                                    array($this, 'session_close'  ),
+                                    array($this, 'session_read'   ),
+                                    array($this, 'session_write'  ), # this redefines session_write_close()
+                                    array($this, 'session_destroy'), # this redefines session_destroy()
+                                    array($this, 'session_gc'     )
                                  );
 
         # Create new ID, if session string-lenght corrupted OR not initiated already OR application token missing
@@ -160,7 +160,7 @@ class Clansuite_Session implements Clansuite_Session_Interface, ArrayAccess
         if( true === session_start())
         {
             # Set Cookie + adjust the expiration time upon page load
-            setcookie(self::session_name, session_id() , time() + $time, "/");
+            setcookie(self::session_name, session_id() , time() + $time, '/');
         }
         else
         {

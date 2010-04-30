@@ -58,9 +58,9 @@ class Clansuite_Formelement_JQConfirmSubmitButton extends Clansuite_Formelement_
 
     function __construct()
     {
-        $this->type = "submit";
-        $this->value = _("Confirm & Submit");
-        $this->class = "ButtonGreen";
+        $this->type = 'submit';
+        $this->value = _('Confirm & Submit');
+        $this->class = 'ButtonGreen';
 
         #clansuite_xdebug::printR($this->formid);
 

@@ -77,6 +77,7 @@ if (defined('IN_CS') == false) { die('Clansuite not loaded. Direct Access forbid
  *  That is suboptimal because using zlib.output_compression is preferred over ob_gzhandler().
  *
  * Change Log:
+ *          Removed determining the compression level based on current server load.
  *  0.7:    Nearly complete rewrite and clean-up. Commented.
  *          Changed methods to "private static".
  *          Compression info comment now passed via header.
@@ -216,13 +217,7 @@ class Clansuite_ResponseEncode
              return;
         }
 
-        /* this determines the compression level based on current server load
-        if (isset(self::$compression_level))
-        {
-            $level = self::get_compression_level();
-        }*/
         $level = self::$compression_level;
-
 
         $content = ob_get_contents();
 
@@ -378,72 +373,6 @@ class Clansuite_ResponseEncode
         }
 
         return $encoding;
-    }
-
-    /*
-     * get_compression_level() - The level of compression we should use.
-     *
-     * Usage to determine the compression level, before compressing output:
-     * $compression_level = self::get_complevel();
-     *
-     * @return integer $level Returns an int between 0 and 9.
-     */
-    public static function get_compression_level()
-    {
-        $uname = posix_uname();
-
-        switch ($uname['sysname'])
-        {
-            case 'Linux':
-                $cl = (1 - self::linux_loadavg()) * 10;
-                $level = (int) max(min(9, $cl), 0);
-                break;
-            case 'FreeBSD':
-                $cl = (1 - self::freebsd_loadavg()) * 10;
-                $level = (int) max(min(9, $cl), 0);
-                break;
-            default:
-                $level = 3;
-                break;
-        }
-        return $level;
-    }
-
-    /*
-     * linux_loadavg() - Gets the max() system load average from /proc/loadavg
-     *
-     * The max() Load Average will be returned
-     */
-    private static function linux_loadavg()
-    {
-        $buffer = '0 0 0';
-        $f = fopen('/proc/loadavg', 'rb');
-        if ($f)
-        {
-            if (!feof($f))
-            {
-                $buffer = fgets($f, 1024);
-            }
-            fclose($f);
-        }
-        $load = explode(' ', $buffer);
-        return max((float) $load[0], (float) $load[1], (float) $load[2]);
-    }
-
-    /*
-     * freebsd_loadavg() - Gets the max() system load average from uname(1)
-     *
-     * The max() Load Average will be returned
-     *
-     * I've been told the code below will work on solaris too, anyone wanna
-     * test it?
-     */
-    private static function freebsd_loadavg()
-    {
-        $buffer= `uptime`;
-        ereg("averag(es|e): ([0-9][.][0-9][0-9]), ([0-9][.][0-9][0-9]), ([0-9][.][0-9][0-9]*)", $buffer, $load);
-
-        return max((float) $load[2], (float) $load[3], (float) $load[4]);
     }
 }
 ?>

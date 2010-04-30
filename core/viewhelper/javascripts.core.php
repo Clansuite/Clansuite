@@ -34,7 +34,10 @@
     */
 
 # Security Handler
-if (defined('IN_CS') == false) { die('Clansuite not loaded. Direct Access forbidden.'); }
+if (defined('IN_CS') == false)
+{
+    die('Clansuite not loaded. Direct Access forbidden.');
+}
 
 /**
  * Clansuite_Javascripts is a (View) Helper Library and Service Gateway for all
@@ -134,8 +137,8 @@ class Clansuite_Javascripts extends Clansuite_Layout
         }
         else
         {
-           # load from google.com
-           self::addJS_JQuery_GoogleCDN_Service($version);
+            # load from google.com
+            self::addJS_JQuery_GoogleCDN_Service($version);
         }
     }
 

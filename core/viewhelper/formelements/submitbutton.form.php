@@ -38,7 +38,7 @@ if (defined('IN_CS') == false){ die('Clansuite not loaded. Direct Access forbidd
 
 # conditional include of the parent class
 if (false == class_exists('Clansuite_Formelement_Input',false))
-{ 
+{
     include dirname(__FILE__) . '/input.form.php';
 }
 
@@ -53,12 +53,11 @@ class Clansuite_Formelement_Submitbutton extends Clansuite_Formelement_Input imp
 {
     public function __construct()
     {
-        $this->type = 'submit';
+        $this->type  = 'submit';
         $this->value = _('Submit');
-
-        $this->class    = "SubmitButton";
-        $this->id       = "SubmitButton";
-        $this->name     = "SubmitButton";
+        $this->class = 'SubmitButton';
+        $this->id    = 'SubmitButton';
+        $this->name  = 'SubmitButton';
     }
 }
 ?>
