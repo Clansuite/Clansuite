@@ -38,7 +38,7 @@ if (defined('IN_CS') == false){ die('Clansuite not loaded. Direct Access forbidd
 
 # conditional include of the parent class
 if (false == class_exists('Clansuite_Form',false))
-{ 
+{
     include dirname(__FILE__) . '/form.core.php';
 }
 
@@ -109,7 +109,7 @@ class Clansuite_Doctrine_Formgenerator extends Clansuite_Form
             }
 
             # combine classname and columnname as fieldname
-            $fieldName = $table->getClassnameToReturn()."[$columnName]";
+            $fieldName = $table->getClassnameToReturn() . '[$columnName]';
 
             # if columnname is identifier
             if( $table->isIdentifier($columnName) )

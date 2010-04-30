@@ -37,7 +37,7 @@
 if (defined('IN_CS') == false) { die('Clansuite not loaded. Direct Access forbidden.'); }
 
 if( false === interface_exists('Clansuite_Logger_Interface', false))
-{ 
+{
     include ROOT_CORE . 'logger.core.php';
 }
 
@@ -113,13 +113,13 @@ class Clansuite_Logger_File implements Clansuite_Logger_Interface
     {
         # errorlog filename as set bei ini_set('error_log')
         #$logfilename = ini_get('error_log');
-        
+
         if($logfilename == null)
-        { 
+        {
         # hardcoded errorlog filename
         $logfilename = 'logs/clansuite_errorlog.txt';
         }
-        
+
         # determine size of file
         $logfilesize = filesize($logfilename);
 
@@ -127,7 +127,7 @@ class Clansuite_Logger_File implements Clansuite_Logger_Interface
         if($logfilesize > 0)
         {
             # so open and read till eof
-            $logfile = fopen($logfilename, "r");
+            $logfile = fopen($logfilename, 'r');
             $logfile_content = fread($logfile, $logfilesize);
 
             # @todo: split or explode logfile_content into an array
@@ -164,12 +164,12 @@ class Clansuite_Logger_File implements Clansuite_Logger_Interface
 
         return $filename;
     }
-    
+
     public static function returnEntriesFromLogfile($entriesToFetch = 5, $logfilename = null)
     {
         # setup default logfilename
         if($logfilename == null)
-        { 
+        {
             $logfilename = 'logs/clansuite_errorlog.txt';
         }
 
@@ -179,12 +179,12 @@ class Clansuite_Logger_File implements Clansuite_Logger_Interface
         $i = count($logfile_array)-1;
         # subtract from total number of logfile entries the number to fetch
         $max_entries = max(0, $i - $entriesToFetch);
-        
+
         # define replacements
-        $linebreakers = array("\r","\n");        
+        $linebreakers = array("\r","\n");
         $logEntries = '';
-       
-        # reverse for loop over the logfile_array 
+
+        # reverse for loop over the logfile_array
         for($i;$i>$max_entries;$i--)
         {
             $logEntries .= "<b>Entry $i</b><br />".htmlentities(str_replace($linebreakers, '', $logfile_array[$i])) . '<br />';

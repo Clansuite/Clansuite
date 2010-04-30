@@ -45,17 +45,18 @@ if (defined('IN_CS') == false) { die('Clansuite not loaded. Direct Access forbid
  */
 class Clansuite_Functions
 {
-     /**
-      * @brief Generates a Universally Unique IDentifier, version 4.
-      *
-      * This function generates a truly random UUID.
-      *
-      * @author: sean at seancolombo dot com; 06.01.2009; http://www.php.net/uniqid
-      * @see http://tools.ietf.org/html/rfc4122#section-4.4
-      * @see http://en.wikipedia.org/wiki/UUID
-      * @return string A UUID, made up of 32 hex digits and 4 hyphens.
-      */
-     public static function generateSecureUUID() {
+    /**
+     * @brief Generates a Universally Unique IDentifier, version 4.
+     *
+     * This function generates a truly random UUID.
+     *
+     * @author: sean at seancolombo dot com; 06.01.2009; http://www.php.net/uniqid
+     * @see http://tools.ietf.org/html/rfc4122#section-4.4
+     * @see http://en.wikipedia.org/wiki/UUID
+     * @return string A UUID, made up of 32 hex digits and 4 hyphens.
+     */
+    public static function generateSecureUUID()
+    {
 
         $pr_bits = null;
         $fp = fopen('/dev/urandom','rb');
@@ -67,7 +68,7 @@ class Clansuite_Functions
         else
         {
             # If /dev/urandom isn't available (eg: in non-unix systems), use mt_rand().
-            $pr_bits = "";
+            $pr_bits = '';
             for($cnt=0; $cnt < 16; $cnt++)
             {
                 $pr_bits .= chr(mt_rand(0, 255));
@@ -124,20 +125,24 @@ class Clansuite_Functions
         while(($entry = readdir($dh)) !== false)
         {
             # exclude ./..
-            if($entry == "." or $entry == "..")
+            if($entry == '.' or $entry == '..')
             {
                 continue;
             }
 
-            if(is_dir( $dir . "/" . $entry))
+            $direntry = $dir . '/' . $entry;
+
+            if(is_dir( $direntry))
             {
                 # recursion
-                $size += dirsize($dir . "/" . $entry);
+                $size += dirsize($direntry);
             }
             else
             {
-                $size += filesize($dir . "/" . $entry);
+                $size += filesize($direntry);
             }
+            
+            unset($direntry);
        }
 
        closedir($dh);
@@ -574,11 +579,11 @@ class Clansuite_Functions
         $time = '';
         if(isset($seconds))
         {
-            $time = sprintf("%dD %02d:%02d:%02dh", $seconds/60/60/24, ($seconds/60/60)%24, ($seconds/60)%60, $seconds%60);
+            $time = sprintf('%dD %02d:%02d:%02dh', $seconds/60/60/24, ($seconds/60/60)%24, ($seconds/60)%60, $seconds%60);
         }
         else
         {
-            return "00:00:00";
+            return '00:00:00';
         }
 
         return $time;
@@ -653,7 +658,7 @@ class Clansuite_Functions
      */
     function remove_tpl_comments( $html )
     {
-        return preg_replace("/<!--.*-->/U",'', $html);
+        return preg_replace('/<!--.*-->/U','', $html);
     }
 
     /**
@@ -702,12 +707,12 @@ class Clansuite_Functions
                             }
                         }
 
-                        $old = ini_set("error_reporting", 0);
+                        $old = ini_set('error_reporting', 0);
                         if( copy($source_path, $target_path) == false )
                         {
                             die(_( 'Could not copy the directory. Probably a permission problem.' ));
                         }
-                        ini_set("error_reporting", $old);
+                        ini_set('error_reporting', $old);
                     }
                     elseif (is_dir($source_path))
                     {

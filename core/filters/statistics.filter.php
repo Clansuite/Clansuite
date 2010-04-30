@@ -61,7 +61,7 @@ class Clansuite_Filter_statistics implements Clansuite_Filter_Interface
     {
         $this->config = $config;
         $this->curTimestamp = time();
-        $this->curDate = date("d.m.Y", $this->curTimestamp);
+        $this->curDate = date('d.m.Y', $this->curTimestamp);
         $this->user = $user;
         
         # Load Models

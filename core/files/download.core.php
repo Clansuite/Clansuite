@@ -128,7 +128,7 @@ class Clansuite_Download
         header('Content-Type: ' . $mimetype);
         header('Content-Disposition: attachment; filename="' . $filename . '"');
         header('Content-Transfer-Encoding: binary');
-        header("Content-Description: File Transfer");
+        header('Content-Description: File Transfer');
         header('Content-Length: ' . ($seekEnd - $seekStart));
         header('Accept-Ranges: bytes');
         header('Last-Modified: ' . gmdate('D, d M Y H:i:s', filemtime($filePath)) . ' GMT');
@@ -180,7 +180,7 @@ class Clansuite_Download
             header('HTTP/1.1 404 File Not Found');
             die('Sorry, an error occured.');
     }
-    
+
     /**
      * Send a file as a download to the browser
      *

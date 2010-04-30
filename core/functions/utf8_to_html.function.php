@@ -84,7 +84,7 @@ function UTF8_to_HTML($utf8, $encodeTags = false)
             $unicode = (15 & $ascii)  * 4096 +
                        (63 & $ascii1) * 64 +
                        (63 & $ascii2);
-            $result .= "&#$unicode;";
+            $result .= '&#'.$unicode;
             $i += 2;
         }
         elseif ($ascii < 248)
@@ -97,7 +97,7 @@ function UTF8_to_HTML($utf8, $encodeTags = false)
                        (63 & $ascii1) * 4096 +
                        (63 & $ascii2) * 64 +
                        (63 & $ascii3);
-            $result .= "&#$unicode;";
+            $result .= '&#'.$unicode;
             $i += 3;
         }
     }

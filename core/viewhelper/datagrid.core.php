@@ -38,7 +38,7 @@ if (defined('IN_CS') == false){ die('Clansuite not loaded. Direct Access forbidd
 
 # conditional include of the parent class
 if (false == class_exists('Clansuite_Datagrid_Column',false))
-{ 
+{
     include dirname(__FILE__) . '/datagridcol.core.php';
 }
 
@@ -543,7 +543,7 @@ class Clansuite_Datagrid extends Clansuite_Datagrid_Base
     //--------------------
 
     public function getBatchActions()
-    { 
+    {
         return $this->_batchActions;
     }
 
@@ -1899,7 +1899,7 @@ class Clansuite_Datagrid_Renderer
     {
         $htmlString = '';
         #Clansuite_Xdebug::firebug('Pagination: ' . self::getDatagrid()->getPagerLayout());
-        if( self::getDatagrid()->isEnabled("Pagination") )
+        if( self::getDatagrid()->isEnabled('Pagination') )
         {
             $htmlString .= '<tr><td class="DatagridPagination DatagridPagination-'. self::getDatagrid()->getAlias() .'" colspan="'. self::getDatagrid()->getColumnCount() .'">';
             $htmlString .= '<div class="Pages"><span class="PagerDescription">' . _('Pages: ') . '</span>' . self::getDatagrid()->getPagerLayout() . '</div>';

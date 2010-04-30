@@ -38,7 +38,7 @@ if (defined('IN_CS') == false){ die('Clansuite not loaded. Direct Access forbidd
 
 # conditional include of the parent class
 if (false == class_exists('Clansuite_Formelement_Input',false))
-{ 
+{
     include dirname(__FILE__) . '/input.form.php';
 }
 
@@ -55,9 +55,9 @@ class Clansuite_Formelement_ConfirmSubmitButton extends Clansuite_Formelement_In
 
     function __construct($message = null)
     {
-        $this->type = "submit";
-        $this->value = _("Confirm & Submit");
-        $this->class = "ButtonGreen";
+        $this->type = 'submit';
+        $this->value = _('Confirm & Submit');
+        $this->class = 'ButtonGreen';
 
         # Add the Form Submit Confirmation Javascript. This is a pure Javacript Return Confirm.
         # to add the value of specific form.elements to the message use "+ form.elements['email'].value +"

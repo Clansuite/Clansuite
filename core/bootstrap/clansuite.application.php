@@ -307,7 +307,7 @@ class Clansuite_CMS
         /**
          * @var WWW_ROOT is a complete www-path with servername from SERVER_URL, depending on os-system
          */
-        if (dirname($_SERVER['PHP_SELF']) == "\\" )
+        if (dirname($_SERVER['PHP_SELF']) == '\\' )
         {
             define('WWW_ROOT', SERVER_URL);
         }

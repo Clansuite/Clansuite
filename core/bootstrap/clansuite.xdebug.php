@@ -180,7 +180,7 @@ class Clansuite_Xdebug
         if($var === true)        { echo '<font color=green><b>true</b></font>'; }
         elseif($var === false)   { echo '<font color=red><b>false</b></font>'; }
         elseif($var === null)    { echo '<font color=red><b>null</b></font>'; }
-        elseif($var === 0)       { echo "0"; }
+        elseif($var === 0)       { echo '0'; }
         elseif(is_string($var) and strlen($var) == '0') { echo '<font color=green>*EMPTY STRING*</font>'; }
         elseif(is_string($var))  { echo htmlspecialchars($var); }
         else

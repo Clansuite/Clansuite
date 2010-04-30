@@ -268,7 +268,7 @@ class Clansuite_HTML /* extends DOMDocument */
         }
         else
         {
-            $html = "<$tagname";
+            $html = '<'. $tagname;
             $html .= self::renderAttributes($attributes);
 
             # close tag with slash, if we got no text to append
@@ -280,7 +280,7 @@ class Clansuite_HTML /* extends DOMDocument */
             {
                 $html .= '>';
                 $html .= $text;
-                $html .= "</$tagname>" . CR;
+                $html .= '</'. $tagname .'>' .CR;
             }
 
             return $html;

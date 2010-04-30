@@ -134,14 +134,14 @@ class Clansuite_Config_YAMLHandler extends Clansuite_Config_Base implements Arra
             # open file
             if (!$filehandle = fopen($filename, 'wb'))
             {
-                 throw new Clansuite_Exception("Could not open file $filename.");
+                 throw new Clansuite_Exception('Could not open file '. $filename .'.');
                  return false;
             }
 
             # write YAML content to file
             if (!fwrite($filehandle, $yaml_content))
             {
-                throw new Clansuite_Exception("Could not write to file $filename.");
+                throw new Clansuite_Exception('Could not write to file '. $filename .'.');
                 return false;
 
             }
@@ -152,7 +152,7 @@ class Clansuite_Config_YAMLHandler extends Clansuite_Config_Base implements Arra
         }
         else
         {
-            throw new Clansuite_Exception("Could not write to file $filename, because permissions are wrong. Apply correct file und directory permissions.");
+            throw new Clansuite_Exception('Could not write to file '. $filename .' because permissions are wrong. Apply correct file und directory permissions.');
             return false;
         }
     }

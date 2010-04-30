@@ -70,9 +70,9 @@ class Clansuite_Cache_Memcached implements Clansuite_Cache_Interface
         try
         {
             # Check if eAccelerator extension is loaded and set a define as flag
-            if( !defined('CSID_EXTENSION_LOADED_MEMC') )
+            if( defined('CSID_EXTENSION_LOADED_MEMC') == false )
             {
-                define( 'CSID_EXTENSION_LOADED_MEMC', extension_loaded("memcache") );
+                define( 'CSID_EXTENSION_LOADED_MEMC', extension_loaded('memcache') );
             }
 
             # Check for defined Flag
@@ -97,7 +97,7 @@ class Clansuite_Cache_Memcached implements Clansuite_Cache_Interface
         # we can't use connect/pconnect, but have to addServers
         if($config['cache']['memcached_serverpool'] === true)
         {
-            $this->memcache->addServer('servernode1', 11211);   #@todo
+            $this->memcache->addServer('servernode1', 11211);
             $this->memcache->addServer('servernode2', 11211);
             $this->memcache->addServer('servernode3', 11211);
         }

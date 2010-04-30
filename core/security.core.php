@@ -208,10 +208,10 @@ class Clansuite_Security
         # set salt to empty
         $salt = '';
         # seed the randoms generator with microseconds since last "whole" second
-        # @todo this is considered a week seeding, as of php5.3 with ext/openssl use openssl_random_pseudo_bytes()
+        # Note: this is considered a week seeding, as of php5.3 with ext/openssl use openssl_random_pseudo_bytes()
         mt_srand((double) microtime()*1000000);
         # set up the random chars to choose from
-        $chars = "./0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+        $chars = './0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
         # count the number of random_chars
         $number_of_random_chars = strlen($chars);
         # add a char from the random_chars to the salt, until we got the wanted $length

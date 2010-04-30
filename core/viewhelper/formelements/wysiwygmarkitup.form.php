@@ -38,7 +38,7 @@ if (defined('IN_CS') == false){ die('Clansuite not loaded. Direct Access forbidd
 
 # conditional include of the parent class
 if (false == class_exists('Clansuite_Formelement_Textarea', false))
-{ 
+{
     include dirname(__FILE__) . '/textarea.form.php';
 }
 
@@ -57,7 +57,7 @@ class Clansuite_Formelement_Wysiwygmarkitup extends Clansuite_Formelement_Textar
      * This renders a textarea with the WYSWIWYG editor markItUp! attached.
      */
     public function render()
-    {        
+    {
         # a) loads the markitup javascript files
         #$javascript = '<script type="text/javascript" src="'.WWW_ROOT_THEMES_CORE . '/javascript/jquery/jquery.js"></script>';
         $javascript = '<script type="text/javascript" src="'.WWW_ROOT_THEMES_CORE . '/javascript/markitup/jquery.markitup.js"></script>'.CR;

@@ -246,7 +246,7 @@ class Clansuite_Cronjobs
 
         for ($i=0;$i<$numberOfElements;$i++)
         {
-            $targetArray[$i] = $subelements[0]=="*";
+            $targetArray[$i] = $subelements[0] == '*';
         }
 
         $nr_subelements = 0;
