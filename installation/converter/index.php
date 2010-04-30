@@ -57,11 +57,11 @@ set_time_limit(0);
 $boolean = true;
 
 if(DEBUG == false)
-{ 
+{
     $boolean = false;
 }
 else
-{ 
+{
     $boolean = true;
 }
 
@@ -144,7 +144,7 @@ if(isset($_SESSION['step']))
     }
 }
 else
-{ 
+{
     $step = 1;
 }
 
@@ -160,7 +160,7 @@ $_SESSION['progress'] = (float) calc_progress($step, $total_steps);
 # Get language from GET
 if (isset($_GET['lang']) && !empty($_GET['lang']))
 {
-   $lang =  (string) htmlspecialchars($_GET['lang']);
+   $lang = (string) htmlspecialchars($_GET['lang']);
 }
 else
 {
@@ -309,7 +309,10 @@ function array_merge_rec($arr1, $arr2)
 function get_total_steps()
 {
     if(isset($_SESSION['total_steps'])){return $_SESSION['total_steps'];}
-    for($i=1;function_exists('converterstep_'.$i)==true;$i++){$_SESSION['total_steps']=$i;}
+    for($i=1;function_exists('converterstep_'.$i)==true;$i++)
+    {
+        $_SESSION['total_steps']=$i;
+    }
     return $_SESSION['total_steps'];
 }
 
@@ -441,19 +444,19 @@ function calc_progress($this_is_step,$of_total_steps)
 
 // STEP 1 - Language Selection
 function converterstep_1($language)
-{    
+{
     require 'converter-step1.php' ;
 }
 
 // STEP 2 - System Check
 function converterstep_2($language)
-{    
+{
     require 'converter-step2.php' ;
 }
 
 // STEP 3 - System Check
 function converterstep_3($language)
-{    
+{
     require 'converter-step3.php' ;
 }
 
@@ -472,12 +475,12 @@ function converterstep_4($language, $error)
 }
 
 function converterstep_5($language)
-{    
+{
     require 'converter-step5.php' ;
 }
 
 function converterstep_6($language)
-{    
+{
     require 'converter-step6.php' ;
 }
 

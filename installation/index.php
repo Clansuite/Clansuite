@@ -461,7 +461,10 @@ function array_merge_rec($arr1, $arr2)
 function get_total_steps()
 {
     if(isset($_SESSION['total_steps'])){return $_SESSION['total_steps'];}
-    for($i=1;function_exists('installstep_'.$i)==true;$i++){$_SESSION['total_steps']=$i;}
+    for($i=1;function_exists('installstep_'.$i)==true;$i++)
+    {
+        $_SESSION['total_steps']=$i;
+    }
     return $_SESSION['total_steps'];
 }
 

@@ -34,7 +34,10 @@
     */
 
 # Security Handler
-if (defined('IN_CS') == false){ die('Clansuite not loaded. Direct Access forbidden.');}
+if (defined('IN_CS') == false)
+{ 
+    die('Clansuite not loaded. Direct Access forbidden.');
+}
 
 # conditional include of the parent class
 if (false == class_exists('Clansuite_Formelement',false))
@@ -127,7 +130,7 @@ class Clansuite_JustAn_Captcha
 
     /*
      * @var string The selected font for the captcha
-     */
+    */
     public static $font;
 
 

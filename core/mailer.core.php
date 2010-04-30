@@ -55,7 +55,7 @@ if (defined('IN_CS') == false) { die('Clansuite not loaded. Direct Access forbid
  */
 class Clansuite_Mailer
 {
-    public  $mailer = null;
+    public $mailer = null;
     private $config = null;
 
     /**
@@ -76,7 +76,7 @@ class Clansuite_Mailer
          *  Include the Swiftmailer Class
          */
 
-        include ROOT_LIBRARIES . '/swiftmailer/Swift.php');
+        include ROOT_LIBRARIES . '/swiftmailer/Swift.php';
 
         /**
          * Include the Swiftmailer Connection Class and Set $connection
@@ -84,13 +84,13 @@ class Clansuite_Mailer
 
         if ($this->config['email']['mailmethod'] != 'smtp')
         {
-            include ROOT_LIBRARIES . '/swiftmailer/Swift/Connection/Sendmail.php');
+            include ROOT_LIBRARIES . '/swiftmailer/Swift/Connection/Sendmail.php';
         }
 
         switch ($this->config['email']['mailmethod'])
         {
             case 'smtp':
-                include ROOT_LIBRARIES . '/swiftmailer/Swift/Connection/SMTP.php');
+                include ROOT_LIBRARIES . '/swiftmailer/Swift/Connection/SMTP.php';
                 $connection = new Swift_Connection_SMTP( $this->config['email']['mailerhost'], $this->config['email']['mailerport'], $this->config['email']['mailencryption'] );
                 break;
 

@@ -34,7 +34,12 @@
     */
 
 # Security Handler
-#if (defined('IN_CS') == false){ die('Clansuite not loaded. Direct Access forbidden.'); }
+/**
+if (defined('IN_CS') == false)
+{
+    die('Clansuite not loaded. Direct Access forbidden.');
+}
+*/
 
 $cron = new Clansuite_Cronjobs;
 
@@ -253,7 +258,7 @@ class Clansuite_Cronjobs
         $nr_subelements = count($subelements);
         for ($i=0;$i<$nr_subelements;$i++)
         {
-            if (preg_match("~^(\\*|([0-9]{1,2})(-([0-9]{1,2}))?)(/([0-9]{1,2}))?$~",$subelements[$i],$matches))
+            if (preg_match('~^(\\*|([0-9]{1,2})(-([0-9]{1,2}))?)(/([0-9]{1,2}))?$~',$subelements[$i],$matches))
             {
                 if($matches[1] == '*')
                 {
@@ -289,7 +294,7 @@ class Clansuite_Cronjobs
     {
         foreach($array as $val)
         {
-           $sortarray[] = $val[$sortby];
+            $sortarray[] = $val[$sortby];
         }
 
         $c = $array;
@@ -478,7 +483,7 @@ class Clansuite_Cronjobs
             {
                 #old regex, without dow abbreviations:
                 #if (preg_match("~^([-0-9,/*]+)\\s+([-0-9,/*]+)\\s+([-0-9,/*]+)\\s+([-0-9,/*]+)\\s+([-0-7,/*]+|Sun|Mon|Tue|Wen|Thu|Fri|Sat)\\s+([^#]*)(#.*)?$~i",$file[$i],$job)) {
-                if (preg_match("~^([-0-9,/*]+)\\s+([-0-9,/*]+)\\s+([-0-9,/*]+)\\s+([-0-9,/*]+)\\s+([-0-7,/*]+|(-|/|Sun|Mon|Tue|Wed|Thu|Fri|Sat)+)\\s+([^#]*)\\s*(#.*)?$~i",$file[$i],$job))
+                if (preg_match('~^([-0-9,/*]+)\\s+([-0-9,/*]+)\\s+([-0-9,/*]+)\\s+([-0-9,/*]+)\\s+([-0-7,/*]+|(-|/|Sun|Mon|Tue|Wed|Thu|Fri|Sat)+)\\s+([^#]*)\\s*(#.*)?$~i',$file[$i],$job))
                 {
                     $jobNumber = count($jobs);
                     $jobs[$jobNumber] = $job;

@@ -34,7 +34,10 @@
     */
 
 //Security Handler
-if (defined('IN_CS') == false) { die('Clansuite not loaded. Direct Access forbidden.'); }
+if (defined('IN_CS') == false)
+{
+    die('Clansuite not loaded. Direct Access forbidden.');
+}
 
 /**
  * This is the Clansuite Core Class for Session Handling
@@ -64,8 +67,8 @@ class Clansuite_Session implements Clansuite_Session_Interface, ArrayAccess
     /**
      * @var object
      */
-    private  $config     = null;
-    private  $request    = null;
+    private $config     = null;
+    private $request    = null;
 
     /**
      * This creates the session

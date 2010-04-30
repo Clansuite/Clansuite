@@ -34,20 +34,16 @@ function smarty_function_modulenavigation($params, $smarty)
     if( is_file($modulenavigation_file) )
     {
         # then load
-        require ($modulenavigation_file);
-
+        include $modulenavigation_file;
         # and assing the modulenavigation array as smarty variable
         $smarty->assign('modulenavigation', $modulenavigation);
-
         # load the generic modulenavigation template
         return $smarty->fetch('modulenavigation-generic.tpl');
     }
     else # if no file was found - say so
     {
         $smarty->assign('modulename', Clansuite_Module_Controller_Resolver::getModuleName());
-
         $errormessage = $smarty->fetch('modulenavigation_not_found.tpl');
-
         trigger_error($errormessage);
     }
 }

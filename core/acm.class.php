@@ -76,13 +76,13 @@ class Clansuite_ACM
         # ensure $record is either object of type User or Group
         if ($record instanceof Clansuite_User)
         {
-           $accessClass = 'Clansuite_Acl_UserAccess';
-           $linkField   = 'user_id';
+            $accessClass = 'Clansuite_Acl_UserAccess';
+            $linkField   = 'user_id';
         }
         elseif ($record instanceof Clansuite_Group)
         {
-           $accessClass = 'Clansuite_Acl_GroupAccess';
-           $linkField   = 'group_id';
+            $accessClass = 'Clansuite_Acl_GroupAccess';
+            $linkField   = 'group_id';
         }
         else
         {

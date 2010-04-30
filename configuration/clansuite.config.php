@@ -3,7 +3,7 @@
 ; Clansuite Configuration File : 
 ; D:\xampplite\htdocs\work\clansuite\trunk\configuration\clansuite.config.php 
 ; 
-; This file was generated on 29-03-2010 11:26
+; This file was generated on 02-04-2010 16:26
 ;
 
 
@@ -143,7 +143,7 @@ compression = 0
 ; cache
 ;----------------------------------------
 [cache]
-adapter = apc
+adapter = "apc"
 caching = 0
 cache_lifetime = 90
 
@@ -159,7 +159,7 @@ maintenance = 0
 [meta]
 description = "Clansuite - just an e-sport content management system."
 language = "de"
-author = "Jens-Andre Koch & Clansuite Development Team"
+author = "Jens-André Koch & Clansuite Development Team"
 email = "system@clansuite.com"
 keywords = "Clansuite, open-source, eSport, cms, clan,content management system, portal, online gaming"
 
@@ -211,14 +211,14 @@ eventsystem_enabled = 1
 ; clan
 ;----------------------------------------
 [clan]
-name=clanname
-tag=[clantag]::
+name = "clanname"
+tag = "[clantag]::"
 
 ;----------------------------------------
-; wysiwyg editor
+; editor
 ;----------------------------------------
 [editor]
-type = "ckeditor"
+type = "tinymce"
 
 ;----------------------------------------
 ; htmltidy

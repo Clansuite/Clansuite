@@ -35,7 +35,10 @@
     */
 
 # Security Handler
-if (defined('IN_CS') == false){die('Clansuite not loaded. Direct Access forbidden.');}
+if (defined('IN_CS') == false)
+{
+    die('Clansuite not loaded. Direct Access forbidden.');
+}
 
 /**
  * Clansuite_Download
@@ -179,6 +182,8 @@ class Clansuite_Download
         {
             header('HTTP/1.1 404 File Not Found');
             die('Sorry, an error occured.');
+
+        }
     }
 
     /**
@@ -197,6 +202,7 @@ class Clansuite_Download
         {
             header('HTTP/1.1 404 File Not Found');
             die('Sorry, an error occured.');
+        }
     }
 }
 ?>

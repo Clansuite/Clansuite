@@ -154,15 +154,9 @@ maintenance = 0
 [meta]
 description = "Clansuite - just an e-sport content management system."
 language = "de"
-author = "Jens-Andre Koch & Clansuite Development Team"
+author = "Jens-André Koch & Clansuite Development Team"
 email = "system@clansuite.com"
 keywords = "Clansuite, open-source, eSport, cms, clan,content management system, portal, online gaming"
-
-;----------------------------------------
-; webserver
-;----------------------------------------
-[webserver]
-mod_rewrite = 0
 
 ;----------------------------------------
 ; locale

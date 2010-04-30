@@ -34,7 +34,10 @@
     */
 
 # Security Handler
-if (defined('IN_CS') == false) { die('Clansuite not loaded. Direct Access forbidden.'); }
+if (defined('IN_CS') == false)
+{ 
+    die('Clansuite not loaded. Direct Access forbidden.');
+}
 
 /**
  * Clansuite Core Class for Localization (l10n) & Internationalization (i18n) Handling
@@ -49,7 +52,7 @@ if (defined('IN_CS') == false) { die('Clansuite not loaded. Direct Access forbid
 class Clansuite_Localization
 {
     # Locale Variables
-    public  $locale    = null;
+    public $locale    = null;
 
     /**
      * @var Set Locale Defaults: the textdomain. 'clansuite' => 'clansuite.mo' filename
@@ -99,7 +102,7 @@ class Clansuite_Localization
          */
         if ( function_exists('_get_reader') === false )
         {
-            include ROOT_LIBRARIES . '/php-gettext/gettext.inc' ;
+            include ROOT_LIBRARIES . '/php-gettext/gettext.inc';
         }
 
         # Load Clansuite Domain

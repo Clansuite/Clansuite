@@ -108,10 +108,10 @@ class Clansuite_Filter_php_debug_console implements Clansuite_Filter_Interface
 
                 /**
                  *  Load JS / CSS for PHP Debug Console into the Output Buffer
-                 */   
+                 */
                 $html  = '<script type="text/javascript" src="'.$options['HTML_DIV_js_path'].'/html_div.js"></script>';
                 $html .= '<link rel="stylesheet" type="text/css" media="screen" href="'.$options['HTML_DIV_css_path'].'/html_div.css" />';
-       
+
                 # unset $options
                 unset($options);
 
@@ -133,12 +133,14 @@ class Clansuite_Filter_php_debug_console implements Clansuite_Filter_Interface
  */
 class DebugConsoleResponse_Event # implements Clansuite_Event_Interface
 {
-    public  $name = 'DebugConsoleResponse';
+    public $name = 'DebugConsoleResponse';
     private $debugbarHTML;
+
     public function __construct($debugbarHTML)
     {
         $this->debugbarHTML = $debugbarHTML;
-    }    
+    }
+
     public function execute()
     {
         echo $this->debugbarHTML;
