@@ -34,28 +34,83 @@
     */
 
 # setup simpletest
+require_once 'bootstrap.php';
+#require_once 'simpletest/autorun.php';
 require_once 'simpletest/unit_tester.php';
 require_once 'simpletest/reporter.php';
 
-# create a new group of tests
-$test = new GroupTest('Testsuite Reports of "Clansuite - just an eSports CMS"');
+function scanDirForTests($dir)
+{
+    $ret = array();
+    if(is_dir($dir))
+    {
+        #var_dump($dir);
+        $sourcedir = opendir($dir);
+        while(false !== ( $file = readdir($sourcedir) ))
+        {
+            $source_file = $dir . '/' . $file;
+            $source_file = str_replace('//', '/', $source_file);
+            if(is_dir($source_file))
+            {
+                if($file == '.' || $file == '..' || $file == '.svn')
+                {
+                    continue;
+                }
+                scanDirForTests($source_file);
+            }
+            elseif(eregi('(.*)\.test\.php', $file))
+            {
+                # add file to array
+                $ret[] = $source_file;
+                #echo "<p>File {$source_file} was added to the tests array.</p>\n";
+            }
+        }
+        closedir($sourcedir);
+    }
+    return $ret;
+}
 
-# add testfiles to the group
-$test->addTestFile('tests/ParseTest.php');
+class ClansuiteTestsuite extends TestSuite
+{
+    function __construct()
+    {
+        # add a headline to know where we are ,)
+        $this->TestSuite('Testsuite for "Clansuite - just an eSports CMS"');
+
+        # walk through dir /unittests and grab all tests
+        $tests = scanDirForTests(dirname(__FILE__).'/unittests/');
+
+        # @todo check array structure of $tests an add Grouping by directory
+        # $test = new GroupTest('GroupTest for /core of Clansuite');
+        # $tests = array_merge($tests);
+        # var_dump($tests);
+
+        if(count($tests) > 0)
+        {
+            foreach($tests as $testfile)
+            {
+                $this->addFile($testfile);
+            }
+        }
+    }
+}
+
+# instantiate ClansuiteTestsuite
+$testsuite = new ClansuiteTestsuite;
 
 # determine, if we are in commandline mode, then output pure text
 if (TextReporter::inCli())
 {
-    $success = $test->run(new TextReporter());
+    $success = $testsuite->run(new TextReporter());
 }
 else # else display nice html report
 {
-    $success = $test->run(new HtmlReporter());
+    $success = $testsuite->run(new HtmlReporter());
 }
 
-if (!$success)
+if (false == $success)
 {
-    # exit with error code to make the phing build fail, when test unsuccessfull
+    # Exit with error code to let the build fail, when the test is unsuccessfull.
     exit(1);
 }
 ?>
