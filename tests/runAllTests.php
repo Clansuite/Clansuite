@@ -39,39 +39,9 @@ require_once 'bootstrap.php';
 require_once 'simpletest/unit_tester.php';
 require_once 'simpletest/reporter.php';
 
-function scanDirForTests($dir)
-{
-    $ret = array();
-    if(is_dir($dir))
-    {
-        #var_dump($dir);
-        $sourcedir = opendir($dir);
-        while(false !== ( $file = readdir($sourcedir) ))
-        {
-            $source_file = $dir . '/' . $file;
-            $source_file = str_replace('//', '/', $source_file);
-            if(is_dir($source_file))
-            {
-                if($file == '.' || $file == '..' || $file == '.svn')
-                {
-                    continue;
-                }
-                scanDirForTests($source_file);
-            }
-            elseif(eregi('(.*)\.test\.php', $file))
-            {
-                # add file to array
-                $ret[] = $source_file;
-                #echo "<p>File {$source_file} was added to the tests array.</p>\n";
-            }
-        }
-        closedir($sourcedir);
-    }
-    return $ret;
-}
-
 class ClansuiteTestsuite extends TestSuite
 {
+    private $files;
 
     function __construct()
     {
@@ -79,19 +49,57 @@ class ClansuiteTestsuite extends TestSuite
         $this->TestSuite('Testsuite for "Clansuite - just an eSports CMS"');
 
         # walk through dir /unittests and grab all tests
-        $tests = scanDirForTests(dirname(__FILE__) . '/unittests/');
+        $this->scanDirForTests(dirname(__FILE__) . '/unittests');
 
-        # @todo check array structure of $tests an add Grouping by directory
+        # @todo check array structure of $tests and add Grouping by directory
         # $test = new GroupTest('GroupTest for /core of Clansuite');
-        # $tests = array_merge($tests);
-        # var_dump($tests);
 
-        if(count($tests) > 0)
+        # Debug array with test files
+        # var_export($this->files);
+
+        if(count($this->files) > 0)
         {
-            foreach($tests as $testfile)
+           foreach($this->files as $testfile)
             {
                 $this->addFile($testfile);
             }
+        }
+        else
+        {
+            echo 'No UnitTests found.';
+        }
+    }
+
+    public function scanDirForTests($dir)
+    {
+        $this->files = array();
+        if(is_dir($dir))
+        {
+            $sourcedir = opendir($dir);
+            while(false !== ( $file = readdir($sourcedir) ))
+            {
+                $source_file = $dir . '/' . $file;
+                $source_file = str_replace('//', '/', $source_file);
+
+                if(is_dir($source_file))
+                {
+                    # exlude some dirs
+                    if($file == '.' || $file == '..' || $file == '.svn')
+                    {
+                        continue;
+                    }
+
+                    # WATCH IT ! RECURSION !
+                    $this->scanDirForTests($source_file);
+                }
+                else
+                {
+                    # add file to array
+                    $this->files[] = $source_file;
+                    #echo "<p>File {$source_file} was added to the tests array.</p>\n";
+                }
+            }
+            closedir($sourcedir);
         }
     }
 
