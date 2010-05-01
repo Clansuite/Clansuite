@@ -34,9 +34,12 @@
     */
 
 # Security Handler
-if (defined('IN_CS') == false) { die('Clansuite not loaded. Direct Access forbidden.'); }
+if(defined('IN_CS') == false)
+{ 
+    die('Clansuite not loaded. Direct Access forbidden.');
+}
 
-if( false === interface_exists('Clansuite_Logger_Interface', false))
+if(false === interface_exists('Clansuite_Logger_Interface', false))
 {
     include ROOT_CORE . 'logger.core.php';
 }
@@ -90,7 +93,7 @@ class Clansuite_Logger_File implements Clansuite_Logger_Interface
     public function writeLog($string)
     {
         # append string to file
-        file_put_contents( $this->getErrorLogFilename(), $string, FILE_APPEND & LOCK_EX );
+        file_put_contents($this->getErrorLogFilename(), $string, FILE_APPEND & LOCK_EX);
     }
 
     /**
@@ -154,12 +157,12 @@ class Clansuite_Logger_File implements Clansuite_Logger_Interface
         if($config['log']['rotation'] == true)
         {
             # construct name of the log file ( FILENAME_log_DATE.txt )
-            $filename =  ROOT_LOGS . $logfilename.'_log_' . date('m-d-y') . '.txt';
+            $filename = ROOT_LOGS . $logfilename . '_log_' . date('m-d-y') . '.txt';
         }
         else
         {
             # construct name of the log file ( FILENAME_log.txt )
-            $filename =  ROOT_LOGS . $logfilename.'_log.txt';
+            $filename = ROOT_LOGS . $logfilename . '_log.txt';
         }
 
         return $filename;
@@ -176,18 +179,18 @@ class Clansuite_Logger_File implements Clansuite_Logger_Interface
         # get logfile as array
         $logfile_array = file($logfilename);
         # count array elements = total number of logfile entries
-        $i = count($logfile_array)-1;
+        $i = count($logfile_array) - 1;
         # subtract from total number of logfile entries the number to fetch
         $max_entries = max(0, $i - $entriesToFetch);
 
         # define replacements
-        $linebreakers = array("\r","\n");
+        $linebreakers = array("\r", "\n");
         $logEntries = '';
 
         # reverse for loop over the logfile_array
-        for($i;$i>$max_entries;$i--)
+        for($i; $i > $max_entries; $i--)
         {
-            $logEntries .= "<b>Entry $i</b><br />".htmlentities(str_replace($linebreakers, '', $logfile_array[$i])) . '<br />';
+            $logEntries .= '<b>Entry ' . $i . '</b><br />' . htmlentities(str_replace($linebreakers, '', $logfile_array[$i])) . '<br />';
         }
 
         return $logEntries;

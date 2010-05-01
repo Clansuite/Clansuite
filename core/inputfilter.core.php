@@ -4,11 +4,6 @@
     * Jens-André Koch © 2005 - onwards
     * http://www.clansuite.com/
     *
-    * File:         input.class.php
-    * Requires:     PHP 5.1.4+
-    *
-    * Purpose:      Clansuite Core Class for Input Handling
-    *
     * LICENSE:
     *
     *    This program is free software; you can redistribute it and/or modify
@@ -171,117 +166,114 @@ class Clansuite_Inputfilter
         $a_types = array();
         $a_types = split('[|]' ,$types);
 
-        if (count($a_types) > 1 )
+        if(count($a_types) > 1)
         {
             $reg_exp = '/^[';
 
-            foreach ($a_types as $key => $type)
+            foreach($a_types as $key => $type)
             {
-                switch ($type)
+                switch($type)
                 {
                     // SPECIAL : set reg_exp to specific searchpattern
                     // give-trough
                     // @input : $pattern
                     case 'is_custom':
-                        $incoming = str_split( $pattern );
-                        foreach ( $incoming as $key => $value )
+                        $incoming = str_split($pattern);
+                        foreach($incoming as $key => $value)
                         {
-                            $reg_exp .= '\\'.$value;
+                            $reg_exp .= '\\' . $value;
                         }
                         break;
 
-                        // Normal RegExp Cases
-
-                        // Is integer?
-                        # @todo preg_match("![0-9]+!", $foo); SLOWER THAN ctype_digit($foo);
+                    // Normal RegExp Cases
+                    // Is integer?
+                    # @todo preg_match("![0-9]+!", $foo); SLOWER THAN ctype_digit($foo);
                     case 'is_int':
                         $reg_exp .= '0-9';
                         break;
 
-                        // Is alphabetic?
+                    // Is alphabetic?
                     case 'is_abc':
                         $reg_exp .= 'a-zA-Z';
                         break;
                 }
-
             }
 
-            if ($length == 0 )
+            if($length == 0)
             {
                 $reg_exp .= ']+$/';
             }
             else
             {
-                $reg_exp .= ']{1,'. $length .'}$/';
+                $reg_exp .= ']{1,' . $length . '}$/';
             }
             $r_bool = preg_match($reg_exp, $string) ? true : false;
         }
         else
         {
-            switch ($a_types[0])
+            switch($a_types[0])
             {
                 // Different Checkconditions: Watch out!
                 // Does the password fits the minimum length?
                 case 'is_pass_length':
-                    $reg_exp = '/^.{'. $cfg->min_pass_length .',}$/';
+                    $reg_exp = '/^.{' . $cfg->min_pass_length . ',}$/';
                     break;
 
-                    // SPECIAL : set reg_exp to specific searchpattern
-                    // give-trough
-                    // @input : $pattern
+                // SPECIAL : set reg_exp to specific searchpattern
+                // give-trough
+                // @input : $pattern
                 case 'is_pattern':
                     $reg_exp = $pattern;
                     break;
 
-                    // Normal RegExp Cases
-
-                    // Is integer?
+                // Normal RegExp Cases
+                // Is integer?
                 case 'is_int':
                     $reg_exp = '/^[0-9]+$/';
                     break;
 
-                    // Is alphabetic?
+                // Is alphabetic?
                 case 'is_abc':
                     $reg_exp = '/^[a-zA-Z]+$/';
                     break;
 
-                    // Is ICQ ?
+                // Is ICQ ?
                 case 'is_icq':
                     $reg_exp = '/^[\d-]*$/i';
                     break;
 
-                    // Is Sessionid ?
+                // Is Sessionid ?
                 case 'is_sessionid':
-                    $reg_exp     = '/^[A-Za-z0-9]+$/';
+                    $reg_exp = '/^[A-Za-z0-9]+$/';
                     break;
 
-                    // Is hostname?
+                // Is hostname?
                 case 'is_hostname':
                     $reg_exp = '/^(http:\/\/|https:\/\/|ftp:\/\/|ftps:\/\/)*([a-z]{1,}[\w-.]{0,}).([a-z]{2,6})$/i';
                     break;
 
-                    // Is url?
+                // Is url?
                 case 'is_url':
-                    $reg_exp  = "/^(http:\/\/|https:\/\/|ftp:\/\/|ftps:\/\/)([a-z]{1,}[\w-.]{0,}).([a-z]{2,6})(\/{1}[\w_]{1}[\/\w-&?=_%]{0,}(.{1}[\/\w-&?=_%]{0,})*)*$/i";
+                    $reg_exp = '/^(http:\/\/|https:\/\/|ftp:\/\/|ftps:\/\/)([a-z]{1,}[\w-.]{0,}).([a-z]{2,6})(\/{1}[\w_]{1}[\/\w-&?=_%]{0,}(.{1}[\/\w-&?=_%]{0,})*)*$/i';
                     break;
 
-                    // Is Steam ID ?
+                // Is Steam ID ?
                 case 'is_steam_id':
-                    $reg_exp     = '/^[0-9]+:[0-9]+:[0-9]+$/';
+                    $reg_exp = '/^[0-9]+:[0-9]+:[0-9]+$/';
                     break;
 
-                    // Check if mail is valid ?
+                // Check if mail is valid ?
                 case 'is_email':
                     $reg_exp = '/^.+\@(\[?)[a-zA-Z0-9\-\.]+\.([a-zA-Z]{2,3}|[0-9]{1,3})(\]?)$/';
                     break;
 
-                    // Check if valid ip ?
+                // Check if valid ip ?
                 case 'is_ip':
-                    $num = "(25[0-5]|2[0-4]\d|[01]?\d\d|\d)";
-                    $reg_exp = "/^$num\\.$num\\.$num\\.$num$/";
+                    $num = '(25[0-5]|2[0-4]\d|[01]?\d\d|\d)';
+                    $reg_exp = '/^$num\\.$num\\.$num\\.$num$/';
                     break;
 
-                    // Check for violent code
+                // Check for violent code
                 case 'is_violent':
                     $reg_exp = '/SELECT\s|\x|chr\(|eval\(|password\s|\0|phpinfo\(/i';
                     break;
@@ -289,20 +281,20 @@ class Clansuite_Inputfilter
 
             $r_bool = preg_match($reg_exp, $string) ? true : false;
 
-            if ($length != 0 and strlen($string ) > (int) $length )
+            if($length != 0 and strlen($string) > (int) $length)
             {
                 $r_bool = false;
             }
 
-            if (strlen($string ) == 0 )
+            if(strlen($string) == 0)
             {
                 $r_bool = false;
             }
         }
 
-        if ($r_bool == false and $a_types[0] != 'is_violent')
+        if($r_bool == false and $a_types[0] != 'is_violent')
         {
-            $error->error_log['security']['checked_false'] = _('A variable is checked as "false":').'Type: ' . $a_types[0];
+            $error->error_log['security']['checked_false'] = _('A variable is checked as "false":') . 'Type: ' . $a_types[0];
         }
         return $r_bool;
     }

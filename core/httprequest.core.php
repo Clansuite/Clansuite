@@ -895,36 +895,6 @@ class Clansuite_HttpRequest implements Clansuite_Request_Interface, ArrayAccess
     }
 
     /**
-     * Handles possible Injections and clean up of $_REQUEST
-     */
-    private function sanitizeRequest()
-    {
-        # Filter for Request-Parameter: id
-        if(isset($_REQUEST['id']) and ctype_digit($_REQUEST['id']))
-        {
-            $this->parameters['id'] = (int) $_REQUEST['id'];
-        }
-
-        # Filter for Request-Parameter: items
-        if(isset($_REQUEST['items']) and ctype_digit($_REQUEST['items']))
-        {
-            $this->parameters['items'] = (int) $_REQUEST['items'];
-        }
-
-        # Filter for Request-Parameter: defaultCol (Smarty Paginate Get Variable)
-        if(isset($_REQUEST['defaultCol']) and ctype_digit($_REQUEST['defaultCol']))
-        {
-            $this->parameters['defaultCol'] = (int) $_REQUEST['defaultCol'];
-        }
-
-        # Filter for Request-Parameter: defaultSort (Smarty Paginate Get Variable)
-        if(isset($_REQUEST['defaultSort']) and ctype_alpha($_REQUEST['defaultSort']) and (($_REQUEST['defaultSort'] == 'desc') or ($_REQUEST['defaultSort'] == 'asc')) )
-        {
-            $this->parameters['defaultSort'] = (int) $_REQUEST['defaultSort'];
-        }
-    }
-
-    /**
      * Revert magic_quotes() if still enabled
      * stripslashes + array_deep + non_recursive
      *

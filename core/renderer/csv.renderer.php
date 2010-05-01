@@ -34,7 +34,10 @@
     */
 
 # Security Handler
-if (defined('IN_CS') == false){ die('Clansuite not loaded. Direct Access forbidden.' ); }
+if(defined('IN_CS') == false)
+{
+    die('Clansuite not loaded. Direct Access forbidden.');
+}
 
 # Load Clansuite_Renderer_Base
 require dirname(__FILE__) . '/renderer.base.php';
@@ -94,32 +97,32 @@ class Clansuite_Renderer_CSV extends Clansuite_Renderer_Base
      */
     private function mssafe_csv($filepath, $data, $header = array())
     {
-        if ( $fp = fopen($filepath, 'w') )
+        if($fp = fopen($filepath, 'w'))
         {
             $show_header = true;
 
-            if ( empty($header) )
+            if(empty($header))
             {
                 $show_header = false;
                 reset($data);
                 $line = current($data);
 
-                if ( !empty($line) )
+                if(empty($line) == false)
                 {
                     reset($line);
                     $first = current($line);
 
-                    if ( substr($first, 0, 2) == 'ID' && !preg_match('/["\\s,]/', $first) )
+                    if(substr($first, 0, 2) == 'ID' and preg_match('/["\\s,]/', $first) == false)
                     {
                         array_shift($data);
                         array_shift($line);
-                        if ( empty($line) )
+                        if(empty($line) == true)
                         {
-                            fwrite($fp, "\"{$first}\"\r\n");
+                            fwrite($fp, '"' . $first . '"' . "\r\n");
                         }
                         else
                         {
-                            fwrite($fp, "\"{$first}\",");
+                            fwrite($fp, '"' . $first . '",');
                             fputcsv($fp, $line);
                             fseek($fp, -1, SEEK_CUR);
                             fwrite($fp, "\r\n");
@@ -132,29 +135,30 @@ class Clansuite_Renderer_CSV extends Clansuite_Renderer_Base
                 reset($header);
                 $first = current($header);
 
-                if ( substr($first, 0, 2) == 'ID' && !preg_match('/["\\s,]/', $first) ) {
+                if(substr($first, 0, 2) == 'ID' and preg_match('/["\\s,]/', $first) == false)
+                {
                     array_shift($header);
 
-                    if ( empty($header) )
+                    if(empty($header))
                     {
                         $show_header = false;
-                        fwrite($fp, "\"{$first}\"\r\n");
+                        fwrite($fp, '"' . $first . '"' . "\r\n");
                     }
                     else
                     {
-                        fwrite($fp, "\"{$first}\",");
+                        fwrite($fp, '"' . $first . '",');
                     }
                 }
             }
 
-            if ( $show_header )
+            if($show_header)
             {
                 fputcsv($fp, $header);
                 fseek($fp, -1, SEEK_CUR);
                 fwrite($fp, "\r\n");
             }
 
-            foreach ( $data as $line )
+            foreach($data as $line)
             {
                 fputcsv($fp, $line);
                 fseek($fp, -1, SEEK_CUR);
@@ -168,7 +172,5 @@ class Clansuite_Renderer_CSV extends Clansuite_Renderer_Base
         }
         return true;
     }
-    
-    
 }
 ?>

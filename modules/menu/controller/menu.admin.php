@@ -32,7 +32,10 @@
     */
 
 # Security Handler
-if (defined('IN_CS') == false) { die('Clansuite not loaded. Direct Access forbidden.'); }
+if (defined('IN_CS') == false)
+{
+    die('Clansuite not loaded. Direct Access forbidden.');
+}
 
 /**
  * Clansuite_Module_Menu_Admin
@@ -596,10 +599,10 @@ class Clansuite_Module_Menu_Admin extends Clansuite_Module_Controller implements
      * @param $menu default empty
      * @param int $level Integer Value determining the Nesting Level default empty
      * @param string $module Name of the Module default empty
+     * @todo this is not used. marked as deprecated.
      */
     function get_export_div( $menu = '', $level = '', $module = '' )
     {
-        global $lang, $cfg, $perms;
 
         $result  = '';
         $jscript = '';

@@ -34,7 +34,10 @@
     */
 
 # Security Handler
-if (defined('IN_CS') == false){ die('Clansuite not loaded. Direct Access forbidden.'); }
+if(defined('IN_CS') == false)
+{
+    die('Clansuite not loaded. Direct Access forbidden.');
+}
 
 /**
  * Clansuite_File - Clansuite Core Class for the File Object
@@ -248,7 +251,7 @@ class Clansuite_ImagesOnlyFilterIterator extends FilterIterator
 {
     # whitelist of allowed image filetypes, lowercase
     private $allowed_image_filetypes = array('png', 'gif', 'jpeg', 'jpg');
-    
+
     /*
     public function setup( Clansuite_Config $config )
     {
@@ -260,10 +263,13 @@ class Clansuite_ImagesOnlyFilterIterator extends FilterIterator
     }
     */
 
+    /**
+     * Implements method from FilterIterator (SPL.php)
+     */
     public function accept()
     {
         #$this->setup();
-        
+
         # get the current element from the iterator to examine the fileinfos
         $current = $this->current();
 
@@ -299,24 +305,24 @@ class Clansuite_Directory
 {
     private $filtername = 'ImagesOnly';
     private $directory;
-    
-    /** 
+
+    /**
      * Available Filter types: image
      */
     public function setFilter($filtername)
     {
         $this->filtername = $filtername;
-        
+
         return $this;
     }
-    
+
     public function setDirectory($directory)
     {
         $this->directory = $directory;
-         
+
         return $this;
     }
-    
+
     public function getDirectory()
     {
         if(empty($this->directory) == false)
@@ -325,7 +331,7 @@ class Clansuite_Directory
         }
         else
         {
-            return 'uploads/images/gallery';   
+            return 'uploads/images/gallery';
         }
     }
 
@@ -336,17 +342,16 @@ class Clansuite_Directory
         {
             $this->setDirectory($directory);
         }
-        
+
         # compose the full name of class in variable and then use it
-        $classname = 'Clansuite_'.$this->filtername.'FilterIterator';
-        
+        $classname = 'Clansuite_' . $this->filtername . 'FilterIterator';
+
         # cascade of a filter for a specific file type and the directory iterator
-        $iterator = new $classname(new DirectoryIterator( ROOT . $this->getDirectory()));
+        $iterator = new $classname(new DirectoryIterator(ROOT . $this->getDirectory()));
 
         # return objects
         if($return_as_array == null or $return_as_array == false)
         {
-            
             # create new array to take the SPL FileInfo Objects
             $data = new ArrayObject();
 
@@ -359,27 +364,27 @@ class Clansuite_Directory
                  */
                 $data[$file->getFilename()] = $file->getFileInfo();
             }
-    
+
             $data->ksort();
         }
         else # return array
-        {   
-            # create array         
+        {
+            # create array
             $data = array();
-            
+
             # while iterating
             foreach($iterator as $file)
             {
-                $wwwpath = WWW_ROOT.DS.$this->getDirectory().DS.$file->getFilename();
-                $wwwpath = str_replace("\\",'/',$wwwpath);
+                $wwwpath = WWW_ROOT . DS . $this->getDirectory() . DS . $file->getFilename();
+                $wwwpath = str_replace('//', '/', $wwwpath);
                 $data[$wwwpath] = $file->getFilename();
-            }            
+            }
         }
 
         # return the array with SPL FileInfo Objects
         return $data;
     }
-    
+
     /**
      *
      * @author: Lostindream at atlas dot cz
@@ -388,11 +393,11 @@ class Clansuite_Directory
     function filePath($filePath)
     {
         $fileParts = pathinfo($filePath);
-        
+
         if(!isset($fileParts['filename']))
-        {$fileParts['filename'] = substr($fileParts['basename'], 0, strrpos($fileParts['basename'], '.'));}
-        
+        {$fileParts['filename'] = substr($fileParts['basename'], 0, strrpos($fileParts['basename'], '.'));        }
+
         return $fileParts;
-    }    
+    }
 }
 ?>

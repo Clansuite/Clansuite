@@ -34,7 +34,10 @@
     */
 
 # Security Handler
-if (defined('IN_CS') == false){ die('Clansuite not loaded. Direct Access forbidden.');}
+if(defined('IN_CS') == false)
+{
+    die('Clansuite not loaded. Direct Access forbidden.');
+}
 
 # conditional include of the parent class
 if (false == class_exists('Clansuite_Formelement_Textarea', false))
@@ -70,11 +73,11 @@ class Clansuite_Formelement_Wysiwygmarkitup extends Clansuite_Formelement_Textar
                  <link rel="stylesheet" type="text/css" href="'.WWW_ROOT_THEMES_CORE . '/javascript/markitup/sets/default/style.css" />'.CR;
 
         # d) plug it to an specific textarea by ID
-        $javascript .= "<script type=\"text/javascript\">// <![CDATA[
+        $javascript .= '<script type="text/javascript">// <![CDATA[
                            jQuery(document).ready(function($){
-                              $(\"textarea:visible\").markItUp(mySettings);
+                              $("textarea:visible").markItUp(mySettings);
                            });
-                        // ]]></script>";
+                        // ]]></script>';
 
         return $javascript.$css;
     }

@@ -40,7 +40,7 @@ if (defined('IN_CS') == false){ die('Clansuite not loaded. Direct Access forbidd
  * Clansuite_Loader
  *
  * This Loader overwrites the normal _autoload with our own user defined loading functions.
- * We register the multiple loaders in the constructor.
+ * We register the multiple loaders in the constructor via a call to register_autoloaders().
  * There are several loader-functions, each seperated by the directories they are loading classes from.
  * Autoload will run, if a file is not found.
  *
@@ -93,11 +93,11 @@ class Clansuite_Loader
         }
 
         # finally!
-        $this->register_autoload();
+        $this->register_autoloaders();
     }
 
     /**
-     * clansuite_loader:register_autoload();
+     * clansuite_loader:register_autoloaders();
      *
      * Overwrites Zend Engines __autoload cache with our own loader-functions
      * by registering single file loaders via spl_autoload_register($load_function)
@@ -105,7 +105,7 @@ class Clansuite_Loader
      * PHP Manual: spl_autoload_register
      * @link http://www.php.net/manual/de/function.spl-autoload-register.php
      */
-    public function register_autoload()
+    public function register_autoloaders()
     {
         spl_autoload_register(array ($this,'loadViaMapping'));
         spl_autoload_register(array ($this,'autoload'));
@@ -176,7 +176,7 @@ class Clansuite_Loader
     {
         if (is_file($filename) === true)
         {
-            require $filename;
+            include $filename;
             return true;
         }
         else
@@ -384,7 +384,7 @@ class Clansuite_Loader
          * like: Array ( [0] => clansuite [1] => module [2] => admin [3] => menu )
          * or  : Array ( [0] => clansuite [1] => module [2] => news )
          */
-        $moduleinfos = explode("_", $modulename);
+        $moduleinfos = explode('_', $modulename);
         $classname = '';
 
         $i = 0;
@@ -404,7 +404,7 @@ class Clansuite_Loader
         #Clansuite_Xdebug::firebug($moduleinfos);
 
         $filename = ROOT_MOD;
-        
+
         # if there is a part [3], we have to require a submodule filename
         if(isset($moduleinfos['3']))
         {
@@ -427,7 +427,7 @@ class Clansuite_Loader
             # module filename
             $filename .= $moduleinfos['2'] . DS . 'controller' . DS . $moduleinfos['2'] . '.module.php';
         }
-        
+
         #Clansuite_Xdebug::firebug($filename);
         #Clansuite_Xdebug::firebug($classname);
         return self::requireFile($filename, $classname);

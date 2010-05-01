@@ -8,7 +8,7 @@
     *        (o o)
     +-----oOO-{_}-OOo------------------------------------------------------------------+
     |                                                                                  |
-    | LICENSE:                                                                         |
+    |    LICENSE                                                                       |
     |                                                                                  |
     |    This program is free software; you can redistribute it and/or modify          |
     |    it under the terms of the GNU General Public License as published by          |
@@ -33,11 +33,9 @@
     *
     * @link       http://www.clansuite.com
     * @link       http://gna.org/projects/clansuite
-    * @since      File available since Release 0.2
     *
     * @version    SVN: $Id$
     */
-
 
 # define Clansuite Security Constant
 define('IN_CS', true);
@@ -46,5 +44,5 @@ define('IN_CS', true);
 require_once 'core/bootstrap/clansuite.application.php';
 
 # Take off.
-Clansuite_CMS::run(); 
+Clansuite_CMS::run();
 ?>

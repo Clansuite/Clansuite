@@ -35,7 +35,7 @@
 
 # Security Handler
 if (defined('IN_CS') == false)
-{ 
+{
     die('Clansuite not loaded. Direct Access forbidden.');
 }
 
@@ -161,7 +161,7 @@ class Clansuite_Localization
         }
 
         # Environment Variable LANGUAGE has priority above any local setting
-        putenv("LANGUAGE=$locale");
+        putenv('LANGUAGE='.$locale);
         putenv('LANG='.$locale);
         setlocale(LC_ALL, $locale);
 
