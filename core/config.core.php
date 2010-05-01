@@ -68,12 +68,12 @@ class Clansuite_Config extends Clansuite_Config_Base implements ArrayAccess
     function __construct($configfile = 'configuration/clansuite.config.php')
     {
         $this->confighandler = Clansuite_Config_Factory::getConfiguration($configfile);
-        $this->config = $this->confighandler->toArray();        
+        $this->config = $this->confighandler->toArray();
     }
 
     public function readConfig($configfile)
     {
-        if( ! is_object($this->confighandler))
+        if(!is_object($this->confighandler))
         {
             $this->confighandler = Clansuite_Config_Factory::getConfiguration($configfile);
         }
@@ -96,7 +96,7 @@ class Clansuite_Config extends Clansuite_Config_Base implements ArrayAccess
             $modulename = Clansuite_Module_Controller_Resolver::getModuleName();
         }
         # @todo support for different configtypes
-        $configfile = ROOT_MOD.$modulename.DS.$modulename.'.config.php';
+        $configfile = ROOT_MOD . $modulename . DS . $modulename . '.config.php';
         return $this->confighandler->readConfig($configfile);
     }
 
@@ -113,12 +113,12 @@ class Clansuite_Config extends Clansuite_Config_Base implements ArrayAccess
      */
     public function writeConfigForModule($modulename, $type, $cfg_array)
     {
-        if( ! is_object($this->confighandler))
+        if(!is_object($this->confighandler))
         {
             $this->confighandler = Clansuite_Config_Factory::getConfiguration($configfile);
         }
 
-        $this->confighandler->writeConfig( ROOT_MOD.$modulename.DS.$modulename.'.config.php', $cfg_array);
+        $this->confighandler->writeConfig(ROOT_MOD . $modulename . DS . $modulename . '.config.php', $cfg_array);
     }
 }
 ?>

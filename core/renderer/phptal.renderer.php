@@ -34,7 +34,10 @@
     */
 
 # Security Handler
-if (defined('IN_CS') == false){ die('Clansuite not loaded. Direct Access forbidden.' ); }
+if(defined('IN_CS') == false)
+{
+    die('Clansuite not loaded. Direct Access forbidden.');
+}
 
 # Load Clansuite_Renderer_Base
 require dirname(__FILE__) . '/renderer.base.php';
@@ -81,9 +84,9 @@ class Clansuite_Renderer_Phptal extends Clansuite_Renderer_Base
         if (false === class_exists('PHPTAL',false))
         {
             # check if library exists
-            if ( is_file(ROOT_LIBRARIES . 'phptal/PHPTAL.php') )
+            if(is_file(ROOT_LIBRARIES . 'phptal/PHPTAL.php'))
             {
-                includeROOT_LIBRARIES . 'phptal/PHPTAL.php');
+                include ROOT_LIBRARIES . 'phptal/PHPTAL.php';
                 $this->renderer = new PHPTAL();
             }
             else // throw error in case PHPTAL library is missing

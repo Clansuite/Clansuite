@@ -34,7 +34,10 @@
     */
 
 # Security Handler
-if (defined('IN_CS') == false){ die('Clansuite not loaded. Direct Access forbidden.');}
+if(defined('IN_CS') == false)
+{ 
+    die('Clansuite not loaded. Direct Access forbidden.');
+}
 
 /**
  * Clansuite_HTML
@@ -222,9 +225,9 @@ class Clansuite_HTML /* extends DOMDocument */
         if(is_array($attributes))
         {
             # insert all attributes
-            foreach ($attributes as $key=>$value)
+            foreach($attributes as $key => $value)
             {
-                $html .= " $key=\"$value\"";
+                $html .= ' ' . $key . '"' . $value . '"';
             }
         }
 
@@ -268,11 +271,11 @@ class Clansuite_HTML /* extends DOMDocument */
         }
         else
         {
-            $html = '<'. $tagname;
+            $html = '<' . $tagname;
             $html .= self::renderAttributes($attributes);
 
             # close tag with slash, if we got no text to append
-            if ($text === null)
+            if($text === null)
             {
                 $html .= '/>';
             }
@@ -280,7 +283,7 @@ class Clansuite_HTML /* extends DOMDocument */
             {
                 $html .= '>';
                 $html .= $text;
-                $html .= '</'. $tagname .'>' .CR;
+                $html .= '</' . $tagname . '>' . CR;
             }
 
             return $html;

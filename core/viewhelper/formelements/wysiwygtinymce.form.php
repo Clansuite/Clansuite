@@ -35,13 +35,13 @@
 
 # Security Handler
 if (defined('IN_CS') == false)
-{ 
+{
     die('Clansuite not loaded. Direct Access forbidden.');
 }
 
 # conditional include of the parent class
 if (false == class_exists('Clansuite_Formelement_Textarea',false))
-{ 
+{
     include dirname(__FILE__) . '/textarea.form.php';
 }
 
@@ -67,19 +67,19 @@ class Clansuite_Formelement_Wysiwygtinymce extends Clansuite_Formelement_Textare
         $javascript = '<script src="'.WWW_ROOT_THEMES_CORE . '/javascript/tiny_mce/tiny_mce.js" type="text/javascript"></script>';
 
         # b) handler to attach tinymce to a textarea named "mceSimple" and "mceAdvanced"
-        $javascript .= "<script type=\"text/javascript\">// <![CDATA[
+        $javascript .= '<script type="text/javascript">// <![CDATA[
                             tinyMCE.init({
-                                mode : \"textareas\",
-                                theme : \"simple\",
-                                editor_selector : \"mceSimple\"
+                                mode : "textareas",
+                                theme : "simple",
+                                editor_selector : "mceSimple"
                             });
 
                             tinyMCE.init({
-                                mode : \"textareas\",
-                                theme : \"advanced\",
-                                editor_selector : \"mceAdvanced\"
+                                mode : "textareas",
+                                theme : "advanced",
+                                editor_selector : "mceAdvanced"
                             });
-                        // ]]></script>";
+                        // ]]></script>';
 
         return $javascript;
     }

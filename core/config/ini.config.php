@@ -164,12 +164,13 @@ class Clansuite_Config_INIHandler extends Clansuite_Config_Base implements Array
                 if($key != '')
                 {
                     # write an comment header block
-                    $content .= "\n;----------------------------------------\n";
-                    $content .= "; {$key}\n";
-                    $content .= ";----------------------------------------\n";
+                    $content .= CR;
+                    $content .= ';----------------------------------------' . CR;
+                    $content .= '; ' . $key . CR;
+                    $content .= ';----------------------------------------' . CR;
 
                     # write an parseable [array_header] block
-                    $content .= "[{$key}]\n";
+                    $content .= '[' . $key . ']' . CR;
                 }
 
                 # for every element after that
@@ -178,12 +179,12 @@ class Clansuite_Config_INIHandler extends Clansuite_Config_Base implements Array
                     if(is_numeric($item2) || is_bool($item2))
                     {
                         # write numeric and boolean values without quotes
-                        $content .= "{$key2} = {$item2}\n";
+                        $content .= $key2 . ' = ' . $item2 . CR;
                     }
                     else
                     {
                         # write value with quotes
-                        $content .= "{$key2} = \"{$item2}\"\n";
+                        $content .= $key2 .' = "' . $item2 . '"'.CR;
                     }
                 }
             }
@@ -193,30 +194,30 @@ class Clansuite_Config_INIHandler extends Clansuite_Config_Base implements Array
                 if(is_numeric($item) || is_bool($item))
                 {
                     # write numeric and boolean values without quotes
-                    $content .= "{$key} = {$item}\n";
+                    $content .= $key . ' = ' . $item . CR;;
                 }
                 else
                 {
                     # write value with quotes
-                    $content .= "{$key} = \"{$item}\"\n";
+                    $content .= $key2 .' = "' . $item2 . '"'.CR;
                 }
             }
         }
 
         # add php closing tag
-        $content .= "\n; DO NOT REMOVE THIS LINE */ ?>";
+        $content .= CR . '; DO NOT REMOVE THIS LINE */ ?>';
 
         if (is_writable($ini_filename))
         {
             if (!$filehandle = fopen($ini_filename, 'wb'))
             {
-                echo "Kann die Datei $ini_filename nicht öffnen";
+                echo _('Could not open file: '.$ini_filename);
                 return false;
             }
 
-            if (!fwrite($filehandle, $content))
+            if (fwrite($filehandle, $content) == false)
             {
-                echo "Kann in die Datei $ini_filename nicht schreiben";
+                echo _('Could not write to file: '. $ini_filename);
                 return false;
 
             }
@@ -225,7 +226,7 @@ class Clansuite_Config_INIHandler extends Clansuite_Config_Base implements Array
         }
         else
         {
-            echo "Die Datei $ini_filename ist nicht schreibbar. Datei- und Verzeichnisschreibrechte vergeben!";
+            echo _('File ' . $ini_filename . ' is not writeable. Set correct file and directory permissions.');
             return false;
         }
     }

@@ -34,7 +34,10 @@
     */
 
 # Security Handler
-if (defined('IN_CS') == false){ die('Clansuite not loaded. Direct Access forbidden.'); }
+if(defined('IN_CS') == false)
+{
+    die('Clansuite not loaded. Direct Access forbidden.');
+}
 
 /**
  * Clansuite Cache Handler for APC (Alternative PHP Cache)
@@ -49,25 +52,13 @@ if (defined('IN_CS') == false){ die('Clansuite not loaded. Direct Access forbidd
  */
 class Clansuite_Cache_APC implements Clansuite_Cache_Interface
 {
+
     public function __construct()
     {
-        try
+        # Check if APC extension is loaded and set a define as flag
+        if(extension_loaded('apc') == false);
         {
-            # Check if APC extension is loaded and set a define as flag
-            if( !defined('CSID_EXTENSION_LOADED_APC') )
-            {
-                define( 'CSID_EXTENSION_LOADED_APC', extension_loaded('apc') );
-            }
-
-            # Check for defined flag
-            if( CSID_EXTENSION_LOADED_APC == false)
-            {
-                throw new Exception('The PHP extension APC (Alternative PHP Cache) was not loaded! You should enable it in php.ini!', 300);
-            }
-        }
-        catch (Exception $exception)
-        {
-            new Clansuite_Exception('Clansuite_Cache_APC __construct() failure. APC not loaded.', 300);
+            throw new Clansuite_Exception('The PHP extension APC (Alternative PHP Cache) was not loaded. You may enable it in php.ini.', 300);
         }
     }
 
@@ -114,7 +105,7 @@ class Clansuite_Cache_APC implements Clansuite_Cache_Interface
      */
     public function contains($key)
     {
-        if( true === apc_fetch($key) )
+        if(true === apc_fetch($key))
         {
             return true;
         }
@@ -131,11 +122,6 @@ class Clansuite_Cache_APC implements Clansuite_Cache_Interface
      */
     public function stats()
     {
-        if(CSID_EXTENSION_LOADED_APC == false)
-        {
-            return;
-        }
-
         # Retrieve APC Version
         $apc_sysinfos['version'] = phpversion('apc');
         $apc_sysinfos['phpversion'] = phpversion();
@@ -146,15 +132,14 @@ class Clansuite_Cache_APC implements Clansuite_Cache_Interface
          * ========================================================
          */
         $apc_sysinfos['sma_info'] = apc_sma_info(); # set "false" for details
-
         # Calculate "APC Memory Size" (Number of Segments * Size of Segment)
-        $apc_sysinfos['sma_info']['mem_size'] =  $apc_sysinfos['sma_info']['num_seg'] * $apc_sysinfos['sma_info']['seg_size'];
+        $apc_sysinfos['sma_info']['mem_size'] = $apc_sysinfos['sma_info']['num_seg'] * $apc_sysinfos['sma_info']['seg_size'];
 
         # Calculate "APC Memory Usage" ( mem_size - avail_mem )
-        $apc_sysinfos['sma_info']['mem_used'] =  $apc_sysinfos['sma_info']['mem_size'] - $apc_sysinfos['sma_info']['avail_mem'];
+        $apc_sysinfos['sma_info']['mem_used'] = $apc_sysinfos['sma_info']['mem_size'] - $apc_sysinfos['sma_info']['avail_mem'];
 
         # Calculate "APC Free Memory Percentage" ( mem_size*100/mem_used )
-        $apc_sysinfos['sma_info']['mem_avail_percentage'] = sprintf("(%.1f%%)", $apc_sysinfos['sma_info']['avail_mem']*100/$apc_sysinfos['sma_info']['mem_size']);
+        $apc_sysinfos['sma_info']['mem_avail_percentage'] = sprintf('(%.1f%%)', $apc_sysinfos['sma_info']['avail_mem'] * 100 / $apc_sysinfos['sma_info']['mem_size']);
 
         # Retrieves cached information and meta-data from APC's data store
         $apc_sysinfos['cache_info'] = apc_cache_info();
@@ -167,26 +152,31 @@ class Clansuite_Cache_APC implements Clansuite_Cache_Interface
          * ========================================================
          */
         $apc_sysinfos['system_cache_info'] = apc_cache_info('system', false); # set "false" for details
-
         # Calculate "APC Hit Rate Percentage"
         $total_hits = ($apc_sysinfos['system_cache_info']['num_hits'] + $apc_sysinfos['system_cache_info']['num_misses']);
-        if($total_hits == 0) { $total_hits = 1;} # div by zero fix
+
+         # div by zero fix
+        if($total_hits == 0)
+        {
+            $total_hits = 1;
+        }
+
         $hit_rate = $apc_sysinfos['system_cache_info']['num_hits'] * 100 / $total_hits;
-        $apc_sysinfos['system_cache_info']['hit_rate_percentage'] = sprintf("(%.1f%%)", $hit_rate);
+        $apc_sysinfos['system_cache_info']['hit_rate_percentage'] = sprintf('(%.1f%%)', $hit_rate);
 
         # Calculate "APC Miss Rate Percentage"
-        $apc_sysinfos['system_cache_info']['miss_rate_percentage'] = sprintf("(%.1f%%)", $apc_sysinfos['system_cache_info']['num_misses']*100/$total_hits);
-        $apc_sysinfos['system_cache_info']['files_cached']  = count($apc_sysinfos['system_cache_info']['cache_list']);
+        $apc_sysinfos['system_cache_info']['miss_rate_percentage'] = sprintf('(%.1f%%)', $apc_sysinfos['system_cache_info']['num_misses'] * 100 / $total_hits);
+        $apc_sysinfos['system_cache_info']['files_cached'] = count($apc_sysinfos['system_cache_info']['cache_list']);
         $apc_sysinfos['system_cache_info']['files_deleted'] = count($apc_sysinfos['system_cache_info']['deleted_list']);
 
         $time = time();
         # Request Rate (hits, misses) / cache requests/second
-        $apc_sysinfos['system_cache_info']['req_rate']    = sprintf("%.2f",($apc_sysinfos['system_cache_info']['num_hits']+$apc_sysinfos['system_cache_info']['num_misses'])/($time-$apc_sysinfos['system_cache_info']['start_time']));
-        $apc_sysinfos['system_cache_info']['hit_rate']    = sprintf("%.2f",($apc_sysinfos['system_cache_info']['num_hits'])/($time-$apc_sysinfos['system_cache_info']['start_time']));
-        $apc_sysinfos['system_cache_info']['miss_rate']   = sprintf("%.2f",($apc_sysinfos['system_cache_info']['num_misses'])/($time-$apc_sysinfos['system_cache_info']['start_time']));
-        $apc_sysinfos['system_cache_info']['insert_rate'] = sprintf("%.2f",($apc_sysinfos['system_cache_info']['num_inserts'])/($time-$apc_sysinfos['system_cache_info']['start_time']));
+        $apc_sysinfos['system_cache_info']['req_rate'] = sprintf('%.2f', ($apc_sysinfos['system_cache_info']['num_hits'] + $apc_sysinfos['system_cache_info']['num_misses']) / ($time - $apc_sysinfos['system_cache_info']['start_time']));
+        $apc_sysinfos['system_cache_info']['hit_rate'] = sprintf('%.2f', ($apc_sysinfos['system_cache_info']['num_hits']) / ($time - $apc_sysinfos['system_cache_info']['start_time']));
+        $apc_sysinfos['system_cache_info']['miss_rate'] = sprintf('%.2f', ($apc_sysinfos['system_cache_info']['num_misses']) / ($time - $apc_sysinfos['system_cache_info']['start_time']));
+        $apc_sysinfos['system_cache_info']['insert_rate'] = sprintf('%.2f', ($apc_sysinfos['system_cache_info']['num_inserts']) / ($time - $apc_sysinfos['system_cache_info']['start_time']));
         # size
-        $apc_sysinfos['system_cache_info']['size_files']  = Clansuite_Functions::getsize($apc_sysinfos['system_cache_info']['mem_size']);
+        $apc_sysinfos['system_cache_info']['size_files'] = Clansuite_Functions::getsize($apc_sysinfos['system_cache_info']['mem_size']);
 
         $apc_sysinfos['settings'] = ini_get_all('apc');
 
@@ -194,23 +184,37 @@ class Clansuite_Cache_APC implements Clansuite_Cache_Interface
          * ini_get_all array mod: for each accessvalue
          * add the name of the PHP ACCESS CONSTANTS as 'accessname'
          */
-        foreach( $apc_sysinfos['settings'] as $key => $value )
+        foreach($apc_sysinfos['settings'] as $key => $value)
         {
-           foreach( $value as $key2 => $value2 )
-           {
-               if( $key2 == 'access')
-               {
-                   # accessvalue => constantname
-                   if( $value2 == '1' ){ $name = 'PHP_INI_USER';   }
-                   if( $value2 == '2' ){ $name = 'PHP_INI_PERDIR'; }
-                   if( $value2 == '4' ){ $name = 'PHP_INI_SYSTEM'; }
-                   if( $value2 == '7' ){ $name = 'PHP_INI_ALL';    }
+            foreach($value as $key2 => $value2)
+            {
+                if($key2 == 'access')
+                {
+                    $name = '';
 
-                   # add as accessname to the original array
-                   $apc_sysinfos['settings'][$key]['accessname'] = $name;
-                   unset($name);
-               }
-           }
+                    # accessvalue => constantname
+                    if($value2 == '1')
+                    {
+                        $name = 'PHP_INI_USER';
+                    }
+                    if($value2 == '2')
+                    {
+                        $name = 'PHP_INI_PERDIR';
+                    }
+                    if($value2 == '4')
+                    {
+                        $name = 'PHP_INI_SYSTEM';
+                    }
+                    if($value2 == '7')
+                    {
+                        $name = 'PHP_INI_ALL';
+                    }
+
+                    # add as accessname to the original array
+                    $apc_sysinfos['settings'][$key]['accessname'] = $name;
+                    unset($name);
+                }
+            }
         }
 
         #$apc_sysinfos['sma_info']['size_vars']  = Clansuite_Functions::getsize($cache_user['mem_size']);

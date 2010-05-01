@@ -34,7 +34,10 @@
     */
 
 # Security Handler
-if (defined('IN_CS') == false) { die('Clansuite not loaded. Direct Access forbidden.'); }
+if(defined('IN_CS') == false)
+{
+    die('Clansuite not loaded. Direct Access forbidden.');
+}
 
 /**
  * Clansuite Functions
@@ -45,6 +48,7 @@ if (defined('IN_CS') == false) { die('Clansuite not loaded. Direct Access forbid
  */
 class Clansuite_Functions
 {
+
     /**
      * @brief Generates a Universally Unique IDentifier, version 4.
      *
@@ -59,27 +63,27 @@ class Clansuite_Functions
     {
 
         $pr_bits = null;
-        $fp = fopen('/dev/urandom','rb');
-        if ($fp !== false)
+        $fp = fopen('/dev/urandom', 'rb');
+        if($fp !== false)
         {
-            $pr_bits .= @fread($fp, 16);
+            $pr_bits .= @ fread($fp, 16);
             fclose($fp);
         }
         else
         {
             # If /dev/urandom isn't available (eg: in non-unix systems), use mt_rand().
             $pr_bits = '';
-            for($cnt=0; $cnt < 16; $cnt++)
+            for($cnt = 0; $cnt < 16; $cnt++)
             {
                 $pr_bits .= chr(mt_rand(0, 255));
             }
         }
 
-        $time_low = bin2hex(substr($pr_bits,0, 4));
-        $time_mid = bin2hex(substr($pr_bits,4, 2));
-        $time_hi_and_version = bin2hex(substr($pr_bits,6, 2));
-        $clock_seq_hi_and_reserved = bin2hex(substr($pr_bits,8, 2));
-        $node = bin2hex(substr($pr_bits,10, 6));
+        $time_low = bin2hex(substr($pr_bits, 0, 4));
+        $time_mid = bin2hex(substr($pr_bits, 4, 2));
+        $time_hi_and_version = bin2hex(substr($pr_bits, 6, 2));
+        $clock_seq_hi_and_reserved = bin2hex(substr($pr_bits, 8, 2));
+        $node = bin2hex(substr($pr_bits, 10, 6));
 
         /**
          * Set the four most significant bits (bits 12 through 15) of the
@@ -115,7 +119,7 @@ class Clansuite_Functions
      */
     public static function dirsize($dir)
     {
-        if (is_dir($dir) == false)
+        if(is_dir($dir) == false)
         {
             return false;
         }
@@ -132,7 +136,7 @@ class Clansuite_Functions
 
             $direntry = $dir . '/' . $entry;
 
-            if(is_dir( $direntry))
+            if(is_dir($direntry))
             {
                 # recursion
                 $size += dirsize($direntry);
@@ -141,13 +145,13 @@ class Clansuite_Functions
             {
                 $size += filesize($direntry);
             }
-            
-            unset($direntry);
-       }
 
-       closedir($dh);
-       return $size;
-   }
+            unset($direntry);
+        }
+
+        closedir($dh);
+        return $size;
+    }
 
     /**
      * Converts an Object to an Array
@@ -158,10 +162,10 @@ class Clansuite_Functions
     public static function object2array($object)
     {
         $array = null;
-        if (is_object($object))
+        if(is_object($object))
         {
             $array = array();
-            foreach (get_object_vars($object) as $key => $value)
+            foreach(get_object_vars($object) as $key => $value)
             {
                 if(is_object($value))
                 {
@@ -191,13 +195,13 @@ class Clansuite_Functions
 
         $object = new stdClass();
 
-        if (is_array($array) and count($array) > 0)
+        if(is_array($array) and count($array) > 0)
         {
-            foreach ($array as $name=>$value)
+            foreach($array as $name => $value)
             {
                 $name = strtolower(trim($name));
 
-                if (empty($name) == false)
+                if(empty($name) == false)
                 {
                     $object->$name = arrayToObject($value);
                 }
@@ -229,7 +233,7 @@ class Clansuite_Functions
     {
         $needle_length = strlen($needle);
 
-        if(($i = strpos($haystack,$needle) !== false))
+        if(($i = strpos($haystack, $needle) !== false))
         {
             return substr($haystack, 0, -$needle_length);
         }
@@ -247,11 +251,11 @@ class Clansuite_Functions
     {
         $array = array();
 
-        if ($simplexml)
+        if($simplexml)
         {
-            foreach ($simplexml as $k => $v)
+            foreach($simplexml as $k => $v)
             {
-                if ($simplexml['list'])
+                if($simplexml['list'])
                 {
                     $array[] = self::SimpleXMLToArray($v);
                 }
@@ -262,7 +266,7 @@ class Clansuite_Functions
             }
         }
 
-        if (sizeof($array) > 0)
+        if(sizeof($array) > 0)
         {
             return $array;
         }
@@ -285,15 +289,15 @@ class Clansuite_Functions
         $length = strlen($haystack);
         $pos = 0;
 
-        for ($i=1; $i<=$times; $i++)
+        for($i = 1; $i<=$times; $i++)
         {
-            $pos = strpos($needle,$haystack,$pos);
+            $pos = strpos($needle, $haystack, $pos);
 
             if($pos !== false)
             {
-                $needle  = substr($subject_original, 0, $pos);
+                $needle = substr($subject_original, 0, $pos);
                 $needle .= $replace;
-                $needle .= substr($subject_original, $pos+$length);
+                $needle .= substr($subject_original, $pos + $length);
                 $subject_original = $needle;
             }
             else
@@ -314,14 +318,14 @@ class Clansuite_Functions
     public static function slashfix($path)
     {
         # DS on win is "\"
-        if( DS == '\\')
+        if(DS == '\\')
         {
             # correct slashes
             return str_replace('/', '\\', $path);
         }
     }
 
-   /**
+    /**
      * Takes a needle and multi-dimensional haystack array and does a search on it's values.
      *
      * @param string $needle Needle to find
@@ -333,16 +337,16 @@ class Clansuite_Functions
     static function array_find_element_by_key($needle, $haystack)
     {
         # take a look for the needle
-        if (array_key_exists($needle, $haystack))
+        if(array_key_exists($needle, $haystack))
         {
             # if found, return it
             return $haystack[$needle];
         }
 
         # dig a little bit deeper in the array structure
-        foreach ($haystack as $k => $v)
+        foreach($haystack as $k => $v)
         {
-            if (is_array($v))
+            if(is_array($v))
             {
                 # recursion
                 return self::array_find_element_by_key($needle, $v);
@@ -363,55 +367,57 @@ class Clansuite_Functions
      */
     public static function array_compare($array1, $array2)
     {
-            $diff = false;
+        $diff = false;
 
-            # Left-to-right
-            foreach ($array1 as $key => $value)
+        # Left-to-right
+        foreach($array1 as $key => $value)
+        {
+            if(array_key_exists($key, $array2) == false)
             {
-                if (array_key_exists($key,$array2) == false)
+                $diff[0][$key] = $value;
+            }
+            elseif(is_array($value))
+            {
+                if(is_array($array2[$key]) == false)
                 {
                     $diff[0][$key] = $value;
+                    $diff[1][$key] = $array2[$key];
                 }
-                elseif (is_array($value))
+                else
                 {
-                     if (is_array($array2[$key]) == false)
-                     {
-                            $diff[0][$key] = $value;
-                            $diff[1][$key] = $array2[$key];
-                     }
-                     else
-                     {
-                            $new = self::array_compare($value, $array2[$key]);
+                    $new = self::array_compare($value, $array2[$key]);
 
-                            if ($new !== false)
-                            {
-                                 if (isset($new[0])) $diff[0][$key] = $new[0];
-                                 if (isset($new[1])) $diff[1][$key] = $new[1];
-                            }
-                     }
+                    if($new !== false)
+                    {
+                        if(isset($new[0]))
+                            $diff[0][$key] = $new[0];
+                        if(isset($new[1]))
+                            $diff[1][$key] = $new[1];
+                    }
                 }
-                elseif ($array2[$key] !== $value)
-                {
-                     $diff[0][$key] = $value;
-                     $diff[1][$key] = $array2[$key];
-                }
-         }
+            }
+            elseif($array2[$key] !== $value)
+            {
+                $diff[0][$key] = $value;
+                $diff[1][$key] = $array2[$key];
+            }
+        }
 
-         # Right-to-left
-         foreach ($array2 as $key => $value)
-         {
-                if (array_key_exists($key,$array1) == false)
-                {
-                     $diff[1][$key] = $value;
-                }
+        # Right-to-left
+        foreach($array2 as $key => $value)
+        {
+            if(array_key_exists($key, $array1) == false)
+            {
+                $diff[1][$key] = $value;
+            }
 
-                /**
-                 * No direct comparsion because matching keys were compared in the
-                 * left-to-right loop earlier, recursively.
-                 */
-         }
+            /**
+             * No direct comparsion because matching keys were compared in the
+             * left-to-right loop earlier, recursively.
+             */
+        }
 
-         return $diff;
+        return $diff;
     }
 
     /**
@@ -430,30 +436,43 @@ class Clansuite_Functions
         $distanceInSeconds = round(abs($toTime - $fromTime));
         $distanceInMinutes = round($distanceInSeconds / 60);
 
-        if ( $distanceInMinutes <= 1 )
+        if($distanceInMinutes <= 1)
         {
-            if ( $showLessThanAMinute == false )
+            if($showLessThanAMinute == false)
             {
                 return ($distanceInMinutes == 0) ? 'less than a minute' : '1 minute';
             }
             else
             {
-                if ( $distanceInSeconds < 5  ) { return 'less than 5 seconds';  }
-                if ( $distanceInSeconds < 10 ) { return 'less than 10 seconds'; }
-                if ( $distanceInSeconds < 20 ) { return 'less than 20 seconds'; }
-                if ( $distanceInSeconds < 40 ) { return 'about half a minute';  }
-                if ( $distanceInSeconds < 60 ) { return 'less than a minute';   }
+                if($distanceInSeconds < 5)
+                { return 'less than 5 seconds';                }
+                if($distanceInSeconds < 10)
+                { return 'less than 10 seconds';                }
+                if($distanceInSeconds < 20)
+                { return 'less than 20 seconds';                }
+                if($distanceInSeconds < 40)
+                { return 'about half a minute';                }
+                if($distanceInSeconds < 60)
+                { return 'less than a minute';                }
                 return '1 minute';
             }
         }
-        if ( $distanceInMinutes < 45 )      { return $distanceInMinutes . ' minutes';  }
-        if ( $distanceInMinutes < 90 )      { return 'about 1 hour'; }
-        if ( $distanceInMinutes < 1440 )    { return 'about ' . round(floatval($distanceInMinutes) / 60.0) . ' hours'; }
-        if ( $distanceInMinutes < 2880 )    { return '1 day'; }
-        if ( $distanceInMinutes < 43200 )   { return 'about ' . round(floatval($distanceInMinutes) / 1440) . ' days';  }
-        if ( $distanceInMinutes < 86400 )   { return 'about 1 month';    }
-        if ( $distanceInMinutes < 525600 )  { return round(floatval($distanceInMinutes) / 43200) . ' months';}
-        if ( $distanceInMinutes < 1051199 ) { return 'about 1 year'; }
+        if($distanceInMinutes < 45)
+        { return $distanceInMinutes . ' minutes';        }
+        if($distanceInMinutes < 90)
+        { return 'about 1 hour';        }
+        if($distanceInMinutes < 1440)
+        { return 'about ' . round(floatval($distanceInMinutes) / 60.0) . ' hours';        }
+        if($distanceInMinutes < 2880)
+        { return '1 day';        }
+        if($distanceInMinutes < 43200)
+        { return 'about ' . round(floatval($distanceInMinutes) / 1440) . ' days';        }
+        if($distanceInMinutes < 86400)
+        { return 'about 1 month';        }
+        if($distanceInMinutes < 525600)
+        { return round(floatval($distanceInMinutes) / 43200) . ' months';        }
+        if($distanceInMinutes < 1051199)
+        { return 'about 1 year';        }
 
         return 'over ' . round(floatval($distanceInMinutes) / 525600) . ' years';
     }
@@ -476,13 +495,13 @@ class Clansuite_Functions
 
         $between = $now - $from;
 
-        if ($between < 86400 and idate('d', $from) == idate('d', $now))
+        if($between < 86400 and idate('d', $from) == idate('d', $now))
         {
 
-            if ($between < 3600 and idate('H', $from) == idate('H', $now))
+            if($between < 3600 and idate('H', $from) == idate('H', $now))
             {
 
-                if ($between < 60 and idate('i', $from) == idate('i', $now))
+                if($between < 60 and idate('i', $from) == idate('i', $now))
                 {
                     $second = idate('s', $now) - idate('s', $from);
                     return sprintf(_n('%d', '%d', $second), $second);
@@ -496,18 +515,18 @@ class Clansuite_Functions
             return sprintf(_n('%d', '%d', $hour), $hour);
         }
 
-        if ($between < 172800 and (idate('z', $from) + 1 == idate('z', $now) or idate('z', $from) > 2 + idate('z', $now)))
+        if($between < 172800 and ( idate('z', $from) + 1 == idate('z', $now) or idate('z', $from) > 2 + idate('z', $now)))
         {
             return _t('.. %s', date('H:i', $from));
         }
 
-        if ($between < 604800 and idate('W', $from) == idate('W', $now))
+        if($between < 604800 and idate('W', $from) == idate('W', $now))
         {
             $day = intval($between / (3600 * 24));
             return sprintf(_n('...', '...', $day), $day);
         }
 
-        if ($between < 31622400 and idate('Y', $from) == idate('Y', $now))
+        if($between < 31622400 and idate('Y', $from) == idate('Y', $now))
         {
             return date(_t('...'), $from);
         }
@@ -528,7 +547,7 @@ class Clansuite_Functions
     {
         $si = array('B', 'KB', 'MB', 'GB', 'TB'); #  'PB', 'EB', 'ZB', 'YB');
         $remainder = $i = 0;
-        while ($size >= 1024 && $i < 8)
+        while($size >= 1024 && $i < 8)
         {
             $remainder = (($size & 0x3ff) + $remainder) / 1024;
             $size = $size >> 10;
@@ -553,7 +572,7 @@ class Clansuite_Functions
         }
 
         $old = $var;
-        $var = $new = $prefix.rand().$suffix;
+        $var = $new = $prefix . rand() . $suffix;
         $vname = false;
 
         foreach($values as $key => $val)
@@ -579,7 +598,7 @@ class Clansuite_Functions
         $time = '';
         if(isset($seconds))
         {
-            $time = sprintf('%dD %02d:%02d:%02dh', $seconds/60/60/24, ($seconds/60/60)%24, ($seconds/60)%60, $seconds%60);
+            $time = sprintf('%dD %02d:%02d:%02dh', $seconds / 60 / 60 / 24, ($seconds / 60 / 60) % 24, ($seconds / 60) % 60, $seconds % 60);
         }
         else
         {
@@ -596,48 +615,48 @@ class Clansuite_Functions
      * @param $chmod
      * @param $recursive
      */
-    function chmod( $path = '', $chmod = '755', $recursive = 0 )
+    function chmod($path = '', $chmod = '755', $recursive = 0 )
     {
-        if (is_dir($path) == false)
+        if(is_dir($path) == false)
         {
-            $file_mode = '0'.$chmod;
+            $file_mode = '0' . $chmod;
             $file_mode = octdec($file_mode);
 
-            if( chmod($path, $file_mode ) == false )
+            if(chmod($path, $file_mode) == false)
             {
                 return false;
             }
         }
         else
         {
-            $dir_mode_r = '0'.$chmod;
+            $dir_mode_r = '0' . $chmod;
             $dir_mode_r = octdec($dir_mode_r);
 
-            if ( chmod($path, $dir_mode_r) == false)
+            if(chmod($path, $dir_mode_r) == false)
             {
                 return false;
             }
 
-            if ( $recursive == true )
+            if($recursive == true)
             {
                 $dh = opendir($path);
-                while ($file = readdir($dh))
+                while($file = readdir($dh))
                 {
-                    if (substr($file,0,1) != '.')
+                    if(substr($file, 0, 1) != '.')
                     {
-                        $fullpath = $path.'/'.$file;
+                        $fullpath = $path . '/' . $file;
                         if(!is_dir($fullpath))
                         {
-                            $mode = '0'.$chmod;
+                            $mode = '0' . $chmod;
                             $mode = octdec($mode);
-                            if (chmod($fullpath, $mode) == false)
+                            if(chmod($fullpath, $mode) == false)
                             {
                                 return false;
                             }
                         }
                         else
                         {
-                            if ( $this->chmod($fullpath, $chmod, true) == false)
+                            if($this->chmod($fullpath, $chmod, true) == false)
                             {
                                 return false;
                             }
@@ -656,9 +675,9 @@ class Clansuite_Functions
      * @param $html A String with HTML Comments.
      * @return string $html String without Comments.
      */
-    function remove_tpl_comments( $html )
+    function remove_tpl_comments($html )
     {
-        return preg_replace('/<!--.*-->/U','', $html);
+        return preg_replace('/<!--.*-->/U', '', $html);
     }
 
     /**
@@ -668,20 +687,20 @@ class Clansuite_Functions
      * @param $destination
      * @param $overwrite boolean
      */
-    function dir_copy( $source, $destination, $overwrite = true )
+    function dir_copy($source, $destination, $overwrite = true )
     {
         if($handle = opendir($source))
         {
-            while( false !== ($file = readdir($handle)) )
+            while(false !== ( $file = readdir($handle)))
             {
-                if (substr($file,0,1) != '.')
+                if(substr($file, 0, 1) != '.')
                 {
                     $source_path = $source . $file;
                     $target_path = $destination . $file;
 
                     if(is_file($target_path) == false || $overwrite)
                     {
-                        if(array( strstr($target_path, '.') == true))
+                        if(array(strstr($target_path, '.') == true))
                         {
                             $folder_path = dirname($target_path);
                         }
@@ -691,38 +710,38 @@ class Clansuite_Functions
                         }
 
                         while(is_dir(dirname(end($folder_path)))
-                              and dirname(end($folder_path)) != '/'
-                              and dirname(end($folder_path)) != '.'
-                              and dirname(end($folder_path)) != ''
-                              and !preg_match( '#^[A-Za-z]+\:\\\$#', dirname(end($folder_path)) ) )
+                        and dirname(end($folder_path)) != '/'
+                        and dirname(end($folder_path)) != '.'
+                        and dirname(end($folder_path)) != ''
+                        and ! preg_match('#^[A-Za-z]+\:\\\$#', dirname(end($folder_path))))
                         {
                             array_push($folder_path, dirname(end($folder_path)));
                         }
 
                         while($parent_folder_path = array_pop($folder_path))
                         {
-                            if(is_dir($parent_folder_path) == false and @mkdir($parent_folder_path, fileperms($parent_folder_path)) == false)
+                            if(is_dir($parent_folder_path) == false and @ mkdir($parent_folder_path, fileperms($parent_folder_path)) == false)
                             {
                                 die(_('Could not create the directory that should be copied (destination). Probably a permission problem.'));
                             }
                         }
 
                         $old = ini_set('error_reporting', 0);
-                        if( copy($source_path, $target_path) == false )
+                        if(copy($source_path, $target_path) == false)
                         {
-                            die(_( 'Could not copy the directory. Probably a permission problem.' ));
+                            die(_('Could not copy the directory. Probably a permission problem.'));
                         }
                         ini_set('error_reporting', $old);
                     }
-                    elseif (is_dir($source_path))
+                    elseif(is_dir($source_path))
                     {
                         if(is_dir($target_path) == false)
                         {
-                            if(@mkdir($target_path, fileperms($source_path)) == false);
+                            if(@mkdir($target_path, fileperms($source_path)) == false
+                                );
                         }
                         $this->dir_copy($source_path, $target_path, $overwrite);
                     }
-
                 }
             }
             closedir($handle);
@@ -737,25 +756,25 @@ class Clansuite_Functions
      */
     public static function delete_dir_content($directory, $subdirectory = false)
     {
-        if(substr($directory,-1) == '/')
+        if(substr($directory, -1) == '/')
         {
-            $directory = substr($directory,0,-1);
+            $directory = substr($directory, 0, -1);
         }
 
-        if( (is_file($directory) == false) or (is_dir($directory) == false) )
+        if((is_file($directory) == false) or ( is_dir($directory) == false))
         {
             return false;
         }
-        elseif (is_readable($directory))
+        elseif(is_readable($directory))
         {
             # loop over all elements in that directory
             $handle = opendir($directory);
-            while (false !== ($item = readdir($handle)))
+            while(false !== ( $item = readdir($handle)))
             {
                 if($item != '.' && $item != '..')
                 {
                     # path of that element (dir/file)
-                    $path = $directory.'/'.$item;
+                    $path = $directory . '/' . $item;
 
                     # delete dir
                     if(is_dir($path))
@@ -799,9 +818,8 @@ class Clansuite_Functions
         # Debug message for Method Overloading
         # Making it easier to see which static method is called magically
         # Clansuite_XDebug::fbg('DEBUG (Overloading): Calling static method "'.$method.'" '. implode(', ', $arguments). "\n");
-
         # construct the filename of the command
-        $filename = ROOT_CORE.DS.'functions'.DS.$method.'.function.php';
+        $filename = ROOT_CORE . DS . 'functions' . DS . $method . '.function.php';
 
         # check if name is valid
         if(is_file($filename) and is_readable($filename))
@@ -811,11 +829,11 @@ class Clansuite_Functions
 
             #return call_user_func_array($method, $arguments);
             # @todo benchmark this call please :P
-            return Clansuite_Loader::callMethod( $method, $arguments);
+            return Clansuite_Loader::callMethod($method, $arguments);
         }
         else
         {
-            trigger_error('Clansuite Function not found: "'.$filename.'".');
+            trigger_error('Clansuite Function not found: "' . $filename . '".');
         }
     }
 
@@ -839,9 +857,8 @@ class Clansuite_Functions
         # Debug message for Method Overloading
         # Making it easier to see which method is called magically
         # Clansuite_XDebug::fbg('DEBUG (Overloading): Calling object method "'.$method.'" '. implode(', ', $arguments). "\n");
-
         # construct the filename of the command
-        $filename = ROOT_CORE.DS.'functions'.DS.$method.'.function.php';
+        $filename = ROOT_CORE . DS . 'functions' . DS . $method . '.function.php';
 
         # check if name is valid
         if(is_file($filename) and is_readable($filename))
@@ -849,12 +866,13 @@ class Clansuite_Functions
             # dynamically include the command
             include_once $filename;
 
-            return Clansuite_Loader::callMethod( $method, $arguments);
+            return Clansuite_Loader::callMethod($method, $arguments);
         }
         else
         {
-            trigger_error('Clansuite Function not found: "'.$filename.'".');
+            trigger_error('Clansuite Function not found: "' . $filename . '".');
         }
     }
+
 }
 ?>

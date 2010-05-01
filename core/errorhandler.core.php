@@ -394,13 +394,13 @@ class Clansuite_Errorhandler
         $errormessage   .= '<tr><td colspan="2">&nbsp;</td></tr>';
 
         # Environmental Informations at Errortime ( $errorcontext is not displayed )
-        $errormessage  .= '<tr><td colspan="2"><h3>Server Environment</h3></td></tr>';
-        $errormessage   .= '<tr><td><strong>Date: </strong></td><td>'.date('r').'</td></tr>';
-        $errormessage   .= '<tr><td><strong>Request: </strong></td><td>'.htmlentities($_SERVER['QUERY_STRING'], ENT_QUOTES).'</td></tr>';
-        $errormessage   .= '<tr><td><strong>Server: </strong></td><td>'.$_SERVER['SERVER_SOFTWARE'].'</td></tr>';
-        $errormessage   .= '<tr><td><strong>Remote: </strong></td><td>'.$_SERVER['REMOTE_ADDR'].'</td></tr>';
-        $errormessage   .= '<tr><td><strong>Agent: </strong></td><td>'.$_SERVER['HTTP_USER_AGENT'].'</td></tr>';
-        $errormessage  .= '<tr><td><strong>Clansuite: </strong></td><td>'.CLANSUITE_VERSION.' '.CLANSUITE_VERSION_STATE.' ('.CLANSUITE_VERSION_NAME.') [Revision #'.CLANSUITE_REVISION.']</td></tr>';
+        $errormessage .= '<tr><td colspan="2"><h3>Server Environment</h3></td></tr>';
+        $errormessage .= '<tr><td><strong>Date: </strong></td><td>' . date('r') . '</td></tr>';
+        $errormessage .= '<tr><td><strong>Request: </strong></td><td>' . htmlentities($_SERVER['QUERY_STRING'], ENT_QUOTES) . '</td></tr>';
+        $errormessage .= '<tr><td><strong>Server: </strong></td><td>' . $_SERVER['SERVER_SOFTWARE'] . '</td></tr>';
+        $errormessage .= '<tr><td><strong>Remote: </strong></td><td>' . $_SERVER['REMOTE_ADDR'] . '</td></tr>';
+        $errormessage .= '<tr><td><strong>Agent: </strong></td><td>' . $_SERVER['HTTP_USER_AGENT'] . '</td></tr>';
+        $errormessage .= '<tr><td><strong>Clansuite: </strong></td><td>' . CLANSUITE_VERSION . ' ' . CLANSUITE_VERSION_STATE . ' (' . CLANSUITE_VERSION_NAME . ') [Revision #' . CLANSUITE_REVISION . ']</td></tr>';
 
         # HR Split
         $errormessage   .= '<tr><td colspan="2">&nbsp;</td></tr>';

@@ -1,7 +1,7 @@
 <?php
    /**
     * Clansuite - just an eSports CMS
-    * Jens-AndrçŸ‹och Â© 2005 - onwards
+    * Jens-André Koch © 2005 - onwards
     * http://www.clansuite.com/
     *
     * This file is part of "Clansuite - just an eSports CMS".
@@ -24,8 +24,8 @@
     *
     * @license    GNU/GPL v2 or (at your option) any later version, see "/doc/LICENSE".
     *
-    * @author     Jens-AndrçŸ‹och <vain@clansuite.com>
-    * @copyright  Jens-AndrçŸ‹och (2005 - onwards)
+    * @author     Jens-André Koch <vain@clansuite.com>
+    * @copyright  Jens-André Koch (2005 - onwards)
     *
     * @link       http://www.clansuite.com
     * @link       http://gna.org/projects/clansuite
@@ -212,7 +212,7 @@ class Clansuite_HttpResponse implements Clansuite_Response_Interface
         #$this->addHeader('Content-Type', 'text/html; charset=UTF-8');
 
         // Send user specificed headers from $this->headers array
-        if(!headers_sent())
+        if(false === headers_sent())
         {
             foreach ($this->headers as $name => $value)
             {
@@ -224,7 +224,7 @@ class Clansuite_HttpResponse implements Clansuite_Response_Interface
         // exclude javascript && logical operator
         // @todo find preg_match for & replacing that does not grab && AND remove double str_replace
         $this->body = str_replace('&&','CS+AND+CS', $this->body);
-        $this->body = preg_replace('/&(?![#]?[a-z0-9]{1,7};)/i', "&amp;$1", $this->body);
+        $this->body = preg_replace('/&(?![#]?[a-z0-9]{1,7};)/i', '&amp;$1', $this->body);
         $this->body = str_replace('CS+AND+CS','&&', $this->body);
 
         // make it possible to attach HTML content to the body directly before flushing the response

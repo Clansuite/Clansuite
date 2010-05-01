@@ -1,46 +1,45 @@
 <?php
-   /**
-    * Clansuite - just an eSports CMS
-    * Jens-André Koch © 2005 - onwards
-    * http://www.clansuite.com/
-    *
-    * This file is part of "Clansuite - just an eSports CMS".
-    *
-    * LICENSE:
-    *
-    *    This program is free software; you can redistribute it and/or modify
-    *    it under the terms of the GNU General Public License as published by
-    *    the Free Software Foundation; either version 2 of the License, or
-    *    (at your option) any later version.
-    *
-    *    This program is distributed in the hope that it will be useful,
-    *    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    *    GNU General Public License for more details.
-    *
-    *    You should have received a copy of the GNU General Public License
-    *    along with this program; if not, write to the Free Software
-    *    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
-    *
-    * @license    GNU/GPL v2 or (at your option) any later version, see "/doc/LICENSE".
-    *
-    * @author     Jens-André Koch <vain@clansuite.com>
-    * @copyright  Jens-André Koch (2005 - onwards)
-    *
-    * @link       http://www.clansuite.com
-    * @link       http://gna.org/projects/clansuite
-´   *
-    * @version    SVN: $Id$
-    */
+    /**
+     * Clansuite - just an eSports CMS
+     * Jens-André Koch © 2005 - onwards
+     * http://www.clansuite.com/
+     *
+     * This file is part of "Clansuite - just an eSports CMS".
+     *
+     * LICENSE:
+     *
+     *    This program is free software; you can redistribute it and/or modify
+     *    it under the terms of the GNU General Public License as published by
+     *    the Free Software Foundation; either version 2 of the License, or
+     *    (at your option) any later version.
+     *
+     *    This program is distributed in the hope that it will be useful,
+     *    but WITHOUT ANY WARRANTY; without even the implied warranty of
+     *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+     *    GNU General Public License for more details.
+     *
+     *    You should have received a copy of the GNU General Public License
+     *    along with this program; if not, write to the Free Software
+     *    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+     *
+     * @license    GNU/GPL v2 or (at your option) any later version, see "/doc/LICENSE".
+     *
+     * @author     Jens-André Koch <vain@clansuite.com>
+     * @copyright  Jens-André Koch (2005 - onwards)
+     *
+     * @link       http://www.clansuite.com
+     * @link       http://gna.org/projects/clansuite
+     ´   *
+     * @version    SVN: $Id$
+     */
 
 # Security Handler
 /**
-if (defined('IN_CS') == false)
-{
-    die('Clansuite not loaded. Direct Access forbidden.');
-}
-*/
-
+ * f (defined('IN_CS') == false)
+ {
+ * ie('Clansuite not loaded. Direct Access forbidden.');
+ }
+ */
 $cron = new Clansuite_Cronjobs;
 
 /**
@@ -164,16 +163,17 @@ $cron = new Clansuite_Cronjobs;
 class Clansuite_Cronjobs
 {
     # Setting: How to load cronjobs from FILE or DB
+
     private $loadCronjobsFrom = 'FILE';
 
     # Constants
-    const const_PC_MINUTE   = '1';
-    const const_PC_HOUR     = '2';
-    const const_PC_DOM      = '3';
-    const const_PC_MONTH    = '4';
-    const const_PC_DOW      = '5';
-    const const_PC_CMD      = '7';
-    const const_PC_COMMENT  = '8';
+    const const_PC_MINUTE = '1';
+    const const_PC_HOUR = '2';
+    const const_PC_DOM = '3';
+    const const_PC_MONTH = '4';
+    const const_PC_DOW = '5';
+    const const_PC_CMD = '7';
+    const const_PC_COMMENT = '8';
     const const_PC_CRONLINE = '20';
 
     /**
@@ -189,7 +189,6 @@ class Clansuite_Cronjobs
      * include trailing slash
      */
     private $writeDirectory = '';
-
     private $runMaximalJobs = 0;
 
     /**
@@ -197,7 +196,7 @@ class Clansuite_Cronjobs
      */
     public function __construct()
     {
-        $this->cronTabFile    = ROOT_CORE . '/cronjobs/crontab.txt';
+        $this->cronTabFile = ROOT_CORE . '/cronjobs/crontab.txt';
         $this->writeDirectory = ROOT_CORE . '/cronjobs/';
         $this->execute();
     }
@@ -209,7 +208,7 @@ class Clansuite_Cronjobs
     {
         $cronjobs = '';
 
-        if( $this->loadCronjobsFrom == 'FILE')
+        if($this->loadCronjobsFrom == 'FILE')
         {
             $cronjobs = $this->parseCronFile($this->cronTabFile);
         }
@@ -229,7 +228,7 @@ class Clansuite_Cronjobs
         $jobsRun = 0;
         foreach($cronjobs as $cronjob)
         {
-            if ($this->runMaximalJobs == 0 or $jobsRun < $this->runMaximalJobs)
+            if($this->runMaximalJobs == 0 or $jobsRun < $this->runMaximalJobs)
             {
                 #echo "Executing $cronjob";
                 $this->runJob($cronjob);
@@ -247,23 +246,23 @@ class Clansuite_Cronjobs
      */
     private function parseElement($element, &$targetArray, $numberOfElements)
     {
-        $subelements = explode(',',$element);
+        $subelements = explode(',', $element);
 
-        for ($i=0;$i<$numberOfElements;$i++)
+        for($i = 0; $i < $numberOfElements; $i++)
         {
             $targetArray[$i] = $subelements[0] == '*';
         }
 
         $nr_subelements = 0;
         $nr_subelements = count($subelements);
-        for ($i=0;$i<$nr_subelements;$i++)
+        for($i = 0; $i < $nr_subelements; $i++)
         {
-            if (preg_match('~^(\\*|([0-9]{1,2})(-([0-9]{1,2}))?)(/([0-9]{1,2}))?$~',$subelements[$i],$matches))
+            if(preg_match('~^(\\*|([0-9]{1,2})(-([0-9]{1,2}))?)(/([0-9]{1,2}))?$~', $subelements[$i], $matches))
             {
                 if($matches[1] == '*')
                 {
-                    $matches[2] = 0;                    // from
-                    $matches[4] = $numberOfElements;    //to
+                    $matches[2] = 0;                    # from
+                    $matches[4] = $numberOfElements;    #to
                 }
                 elseif($matches[4] == '')
                 {
@@ -272,14 +271,14 @@ class Clansuite_Cronjobs
 
                 if($matches[5][0] != '/')
                 {
-                    $matches[6] = 1;        // step
+                    $matches[6] = 1;        # step
                 }
 
                 $a = $this->leftTrimZeros($matches[2]);
                 $b = $this->leftTrimZeros($matches[4]);
                 $c = $this->leftTrimZeros($matches[6]);
 
-                for($j=$a; $j<=$b; $j+=$c)
+                for($j = $a; $j<=$b; $j+=$c)
                 {
                     $targetArray[$j] = true;
                 }
@@ -319,50 +318,50 @@ class Clansuite_Cronjobs
      */
     private function leftTrimZeros($number)
     {
-        while ($number[0] == '0')
+        while($number[0] == '0')
         {
-            $number = substr($number,1);
+            $number = substr($number, 1);
         }
         return $number;
     }
 
     private function incrementDate(&$dateArr, $amount, $unit)
     {
-        /*if ($debug)
-        {
-            echo sprintf('Increasing from %02d.%02d. %02d:%02d by %d %6s ',
-                   $dateArr[mday],$dateArr[mon],$dateArr[hours],$dateArr[minutes],$amount,$unit);
-        }*/
+        /* if ($debug)
+         {
+         * cho sprintf('Increasing from %02d.%02d. %02d:%02d by %d %6s ',
+         * dateArr[mday],$dateArr[mon],$dateArr[hours],$dateArr[minutes],$amount,$unit);
+         } */
 
-        if ($unit == 'mday')
+        if($unit == 'mday')
         {
             $dateArr['hours'] = 0;
             $dateArr['minutes'] = 0;
             $dateArr['seconds'] = 0;
             $dateArr['mday'] += $amount;
             $dateArr['wday'] += $amount % 7;
-            if ($dateArr['wday']>6)
+            if($dateArr['wday'] > 6)
             {
                 $dateArr['wday']-=7;
             }
 
             $months28 = Array(2);
-            $months30 = Array(4,6,9,11);
-            $months31 = Array(1,3,5,7,8,10,12);
+            $months30 = Array(4, 6, 9, 11);
+            $months31 = Array(1, 3, 5, 7, 8, 10, 12);
 
-            if (
-                (in_array($dateArr['mon'], $months28) && $dateArr['mday']==28) ||
-                (in_array($dateArr['mon'], $months30) && $dateArr['mday']==30) ||
-                (in_array($dateArr['mon'], $months31) && $dateArr['mday']==31)
-            ) {
+            if(
+                    (in_array($dateArr['mon'], $months28) && $dateArr['mday']==28) ||
+                    ( in_array($dateArr['mon'], $months30) && $dateArr['mday']==30) ||
+                    ( in_array($dateArr['mon'], $months31) && $dateArr['mday']==31)
+            )
+            {
                 $dateArr['mon']++;
                 $dateArr['mday'] = 1;
             }
-
         }
-        elseif ($unit == 'hour')
+        elseif($unit == 'hour')
         {
-            if ($dateArr['hours']==23)
+            if($dateArr['hours']==23)
             {
                 $this->incrementDate($dateArr, 1, 'mday');
             }
@@ -373,9 +372,9 @@ class Clansuite_Cronjobs
                 $dateArr['hours']++;
             }
         }
-        elseif ($unit == 'minute')
+        elseif($unit == 'minute')
         {
-            if ($dateArr['minutes']==59)
+            if($dateArr['minutes']==59)
             {
                 $this->incrementDate($dateArr, 1, 'hour');
             }
@@ -386,7 +385,7 @@ class Clansuite_Cronjobs
             }
         }
 
-        #if ($debug) echo sprintf("to %02d.%02d. %02d:%02d\n",$dateArr[mday],$dateArr[mon],$dateArr[hours],$dateArr[minutes]);
+        #if ($debug) echo sprintf('to %02d.%02d. %02d:%02d',$dateArr[mday],$dateArr[mon],$dateArr[hours],$dateArr[minutes]).CR;
     }
 
     /**
@@ -400,58 +399,57 @@ class Clansuite_Cronjobs
         $lastActual = $job['lastActual'];
         $lastScheduled = $job['lastScheduled'];
 
-        if ($lastScheduled < time())
+        if($lastScheduled < time())
         {
             #echo('<br>Running     '.$job[self::const_PC_CRONLINE]);
             #echo('<br> Last run:       '.date('r',$lastActual));
             #echo('<br> Last scheduled: '.date('r',$lastScheduled));
-
             #logMessage('Running     '.$job[self::const_PC_CRONLINE]);
             #logMessage('  Last run:       '.date('r',$lastActual));
             #logMessage('  Last scheduled: '.date('r',$lastScheduled));
 
-            /*if ($debug)
-            {
-            */
-                include dirname(__FILE__).'/'.$job[self::const_PC_CMD];
+            /* if ($debug)
+             {
+             */
+            include dirname(__FILE__) . '/' . $job[self::const_PC_CMD];
 
-                $jobname = substr($job[self::const_PC_CMD], 9, -12);
+            $jobname = substr($job[self::const_PC_CMD], 9, -12);
 
-                # instantiate job
-                $classname = 'Clansuite_Cronjob_'.ucfirst($jobname);
-                $job_object = new $classname;
-                # execute
-                $job_object->execute();
+            # instantiate job
+            $classname = 'Clansuite_Cronjob_' . ucfirst($jobname);
+            $job_object = new $classname;
+            # execute
+            $job_object->execute();
 
 
-            /*}
-            else
-            {
-                include($job[self::const_PC_CMD]);
-            }*/
+            /* }
+             * lse
+             {
+             * nclude($job[self::const_PC_CMD]);
+             } */
 
             $this->markLastRun($job[self::const_PC_CMD], $lastScheduled);
 
             #echo 'Completed    '.$job[self::const_PC_CRONLINE];
 
             /* @todo log
-            logMessage('Completed    '.$job[self::const_PC_CRONLINE]);
-            if ($sendLogToEmail != '')
-            {
-                mail($sendLogToEmail, '[cron] '.$job[self::const_PC_COMMENT], $resultsSummary);
-            }
-            */
+             * ogMessage('Completed    '.$job[self::const_PC_CRONLINE]);
+             * f ($sendLogToEmail != '')
+             {
+             * ail($sendLogToEmail, '[cron] '.$job[self::const_PC_COMMENT], $resultsSummary);
+             }
+             */
 
             return true;
         }
         else
         {
-            if ($debug)
+            if($debug)
             {
-                logMessage('Skipping     '.$job[self::const_PC_CRONLINE]);
-                logMessage('  Last run:       '.date('r',$lastActual));
-                logMessage('  Last scheduled: '.date('r',$lastScheduled));
-                logMessage('Completed    '.$job[self::const_PC_CRONLINE]);
+                logMessage('Skipping     ' . $job[self::const_PC_CRONLINE]);
+                logMessage('  Last run:       ' . date('r', $lastActual));
+                logMessage('  Last scheduled: ' . date('r', $lastScheduled));
+                logMessage('Completed    ' . $job[self::const_PC_CRONLINE]);
             }
 
             return false;
@@ -467,35 +465,34 @@ class Clansuite_Cronjobs
     private function parseCronFile($cronTabFile)
     {
         #echo $cronTabFile;
-
         # incomming file
         $file = file($cronTabFile);
 
         # init
-        $job  = array();
+        $job = array();
         $jobs = array();
 
         $file_count = count($file);
 
-        for ($i=0;$i<$file_count;$i++)
+        for($i = 0; $i < $file_count; $i++)
         {
-            if ($file[$i][0]!='#')
+            if($file[$i][0]!='#')
             {
                 #old regex, without dow abbreviations:
                 #if (preg_match("~^([-0-9,/*]+)\\s+([-0-9,/*]+)\\s+([-0-9,/*]+)\\s+([-0-9,/*]+)\\s+([-0-7,/*]+|Sun|Mon|Tue|Wen|Thu|Fri|Sat)\\s+([^#]*)(#.*)?$~i",$file[$i],$job)) {
-                if (preg_match('~^([-0-9,/*]+)\\s+([-0-9,/*]+)\\s+([-0-9,/*]+)\\s+([-0-9,/*]+)\\s+([-0-7,/*]+|(-|/|Sun|Mon|Tue|Wed|Thu|Fri|Sat)+)\\s+([^#]*)\\s*(#.*)?$~i',$file[$i],$job))
+                if(preg_match('~^([-0-9,/*]+)\\s+([-0-9,/*]+)\\s+([-0-9,/*]+)\\s+([-0-9,/*]+)\\s+([-0-7,/*]+|(-|/|Sun|Mon|Tue|Wed|Thu|Fri|Sat)+)\\s+([^#]*)\\s*(#.*)?$~i', $file[$i], $job))
                 {
                     $jobNumber = count($jobs);
                     $jobs[$jobNumber] = $job;
-                    if ($jobs[$jobNumber][self::const_PC_DOW][0]!='*' and !is_numeric($jobs[$jobNumber][self::const_PC_DOW]))
+                    if($jobs[$jobNumber][self::const_PC_DOW][0]!='*' and ! is_numeric($jobs[$jobNumber][self::const_PC_DOW]))
                     {
                         $jobs[$jobNumber][self::const_PC_DOW] = str_replace(
-                            array('Sun','Mon','Tue','Wed','Thu','Fri','Sat'),
-                            array(0,1,2,3,4,5,6),
-                            $jobs[$jobNumber][self::const_PC_DOW]);
+                                        array('Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'),
+                                        array(0, 1, 2, 3, 4, 5, 6),
+                                        $jobs[$jobNumber][self::const_PC_DOW]);
                     }
                     $jobs[$jobNumber][self::const_PC_CMD] = trim($job[self::const_PC_CMD]);
-                    $jobs[$jobNumber][self::const_PC_COMMENT] = trim(substr($job[self::const_PC_COMMENT],1));
+                    $jobs[$jobNumber][self::const_PC_COMMENT] = trim(substr($job[self::const_PC_COMMENT], 1));
                     $jobs[$jobNumber][self::const_PC_CRONLINE] = $file[$i];
                 }
 
@@ -509,10 +506,10 @@ class Clansuite_Cronjobs
         $this->multisort($jobs, 'lastScheduled');
 
         # Debug Display
-        /*if (defined('DEBUG') and DEBUG == true)
-        {
-            var_dump($jobs);
-        }*/
+        /* if (defined('DEBUG') and DEBUG == true)
+         {
+         * ar_dump($jobs);
+         } */
 
         return $jobs;
     }
@@ -530,31 +527,31 @@ class Clansuite_Cronjobs
         $dateArr = getdate($this->getLastActualRunTime($job[self::const_PC_CMD]));
 
         $minutesAhead = 0;
-        while ( $minutesAhead<525600 and
-                (!$extjob[self::const_PC_MINUTE][$dateArr['minutes']] or
-                        !$extjob[self::const_PC_HOUR][$dateArr['hours']] or
-                        (!$extjob[self::const_PC_DOM][$dateArr['mday']] or !$extjob[self::const_PC_DOW][$dateArr['wday']]) or
-                        !$extjob[self::const_PC_MONTH][$dateArr['mon']])
+        while($minutesAhead < 525600 and
+        ( !$extjob[self::const_PC_MINUTE][$dateArr['minutes']] or
+        ! $extjob[self::const_PC_HOUR][$dateArr['hours']] or
+        ( !$extjob[self::const_PC_DOM][$dateArr['mday']] or ! $extjob[self::const_PC_DOW][$dateArr['wday']]) or
+        ! $extjob[self::const_PC_MONTH][$dateArr['mon']])
         )
         {
 
-            if (!$extjob[self::const_PC_DOM][$dateArr['mday']] or !$extjob[self::const_PC_DOW][$dateArr['wday']])
+            if(!$extjob[self::const_PC_DOM][$dateArr['mday']] or ! $extjob[self::const_PC_DOW][$dateArr['wday']])
             {
-                $this->incrementDate($dateArr,1,'mday');
+                $this->incrementDate($dateArr, 1, 'mday');
                 $minutesAhead+=1440;
                 continue;
             }
 
-            if (!$extjob[self::const_PC_HOUR][$dateArr['hours']])
+            if(!$extjob[self::const_PC_HOUR][$dateArr['hours']])
             {
-                $this->incrementDate($dateArr,1,'hour');
+                $this->incrementDate($dateArr, 1, 'hour');
                 $minutesAhead+=60;
                 continue;
             }
 
-            if (!$extjob[self::const_PC_MINUTE][$dateArr['minutes']])
+            if(!$extjob[self::const_PC_MINUTE][$dateArr['minutes']])
             {
-                $this->incrementDate($dateArr,1,'minute');
+                $this->incrementDate($dateArr, 1, 'minute');
                 $minutesAhead++;
                 continue;
             }
@@ -562,7 +559,7 @@ class Clansuite_Cronjobs
 
         //if ($debug) print_r($dateArr);
 
-        return mktime($dateArr['hours'],$dateArr['minutes'],0,$dateArr['mon'],$dateArr['mday'],$dateArr['year']);
+        return mktime($dateArr['hours'], $dateArr['minutes'], 0, $dateArr['mon'], $dateArr['mday'], $dateArr['year']);
     }
 
     private function getJobFileName($jobname)
@@ -574,7 +571,7 @@ class Clansuite_Cronjobs
     private function getLastActualRunTime($jobname)
     {
         $jobfile = $this->getJobFileName($jobname);
-        if (is_file($jobfile))
+        if(is_file($jobfile))
         {
             return filemtime($jobfile);
         }
@@ -586,6 +583,7 @@ class Clansuite_Cronjobs
         $jobfile = $this->getJobFileName($jobname);
         touch($jobfile);
     }
+
 }
 
 /**
