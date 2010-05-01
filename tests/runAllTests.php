@@ -72,13 +72,14 @@ function scanDirForTests($dir)
 
 class ClansuiteTestsuite extends TestSuite
 {
+
     function __construct()
     {
         # add a headline to know where we are ,)
         $this->TestSuite('Testsuite for "Clansuite - just an eSports CMS"');
 
         # walk through dir /unittests and grab all tests
-        $tests = scanDirForTests(dirname(__FILE__).'/unittests/');
+        $tests = scanDirForTests(dirname(__FILE__) . '/unittests/');
 
         # @todo check array structure of $tests an add Grouping by directory
         # $test = new GroupTest('GroupTest for /core of Clansuite');
@@ -93,13 +94,14 @@ class ClansuiteTestsuite extends TestSuite
             }
         }
     }
+
 }
 
 # instantiate ClansuiteTestsuite
 $testsuite = new ClansuiteTestsuite;
 
 # determine, if we are in commandline mode, then output pure text
-if (TextReporter::inCli())
+if(TextReporter::inCli())
 {
     $success = $testsuite->run(new TextReporter());
 }
@@ -108,7 +110,7 @@ else # else display nice html report
     $success = $testsuite->run(new HtmlReporter());
 }
 
-if (false == $success)
+if(false == $success)
 {
     # Exit with error code to let the build fail, when the test is unsuccessfull.
     exit(1);
