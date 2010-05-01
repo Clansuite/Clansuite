@@ -139,7 +139,7 @@
     <property name="checksumpath" value="${archivedir}/${package}-checksums" />
     <property name="patchdir" value="${builddir}/patch" />
     <property name="tmpdir" value="${builddir}/tmp" />
-    <property name="ignorepaths" value="libraries/*, tests/*" />
+    <property name="ignorepaths" value="libraries/*, */tests/*" />
 
     <!-- Define the Properties for Section 2) Subversion -->
     <property name="svn.local.export.directory"  value="${base.directory}svn-export/" />     <!-- Local SVN Export Directory (todir) -->
@@ -364,7 +364,7 @@
         <echo msg="PHP_MD generates a Mess Detection Report." />
         <exec command="phpmd ${sourcedir} xml codesize --reportfile ${builddir}/logs/pmd.xml --ignore ${ignorepaths}" escape="false" />
     </target>
-    
+
     <target name="pdepend" description="Creates Dependency Metrics">
         <echo msg="PHP_Depend creates dependency metrics." />
         <exec command="pdepend --jdepend-xml=${builddir}/logs/jdepend.xml
@@ -537,6 +537,6 @@
                 outputDir= "${basedir}/PHPUML/html"
                 verbose="true"
                 />
-	</target>
+    </target>
 
 </project>
