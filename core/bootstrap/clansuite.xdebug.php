@@ -80,7 +80,7 @@ class Clansuite_Xdebug
         # Start XDEBUG Tracing and Coverage
         if (self::is_xdebug_active())
         {
-            ini_set('xdebug.auto_trace', 'On');
+            #ini_set('xdebug.auto_trace', 'On');
             ini_set('xdebug.trace_output_dir', getcwd() . '/logs/');
             ini_set('xdebug.trace_output_name', 'clansuite_trace%u');
             ini_set('xdebug.show_mem_delta', 'On');
@@ -92,17 +92,17 @@ class Clansuite_Xdebug
             ini_set('xdebug.dump.POST', '*' );
             ini_set('xdebug.dump.COOKIE', '*' );
             ini_set('xdebug.dump.SESSION', '*' );
-            ini_set('xdebug.profiler_enable', 1);
-            ini_set('xdebug.profiler_output_name', 'cachegrind.out.tmp');
+            #ini_set('xdebug.profiler_enable', 1);
+            #ini_set('xdebug.profiler_output_name', 'cachegrind.out.tmp');
 
-            self::$_xdebug_memory_before = 'Memory Usage (before): ' . self::roundMB(xdebug_memory_usage()) . ' MB.<hr />';
+            self::$_xdebug_memory_before = self::roundMB(xdebug_memory_usage());
 
             #xdebug_start_trace(getcwd() . '/logs/clansuite_trace', XDEBUG_TRACE_HTML);
 
-            xdebug_start_code_coverage(XDEBUG_CC_DEAD_CODE | XDEBUG_CC_UNUSED);
+            #xdebug_start_code_coverage(XDEBUG_CC_DEAD_CODE | XDEBUG_CC_UNUSED);
             #var_dump(xdebug_get_code_coverage());
             #var_dump(xdebug_get_function_count());
-            xdebug_get_code_coverage();
+            #xdebug_get_code_coverage();
         }
 
         # stop tracing and display infos
@@ -118,19 +118,65 @@ class Clansuite_Xdebug
         # Start XDEBUG Tracing and Coverage
         if (self::is_xdebug_active())
         {
-            # get page parsing time from xdebug
-            echo '<div id="xdebug"><center>';
+            echo '<!-- Disable XDebug Mode to remove this!-->
+              <style type="text/css">
+              /*<![CDATA[*/
+                table.xdebug-console, table.xdebug-superglobals {
+                    background: none repeat scroll 0 0 #FFFFCC;
+                    border-width: 1px;
+                    border-style: outset;
+                    border-color: #BF0000;
+                    border-collapse: collapse;
+                    font-size: 11px;
+                    color: #222;
+                 }
+                table.xdebug-console th, table.xdebug-superglobals th {
+                    border:1px inset #BF0000;
+                    padding: 3px;
+                    padding-bottom: 3px;
+                    font-weight: bold;
+                    background: #E03937;
+                }
+                table.xdebug-console td {
+                    border:1px inset grey;
+                    padding: 2px;
+                }
+                table.xdebug-console tr:hover {
+                    background: #ffff88;
+                }
+                fieldset.xdebug-console legend {
+                    background:#fff;
+                    border:1px solid #333;
+                    font-weight:700;
+                    padding:2px 15px;
+                }
+                /*]]>*/
+                </style>';
 
-            self::$_xdebug_memory_before .= 'Time to execute: '. round(xdebug_time_index(),4) . ' seconds';
-            self::$_xdebug_memory_before .= '<br />Memory Usage by Clansuite ' . self::roundMB(xdebug_memory_usage()) . ' MB';
-            self::$_xdebug_memory_before .= '<br />Memory Peak of ' . self::roundMB(xdebug_peak_memory_usage()) . ' MB';
-            self::$_xdebug_memory_before .= '<br />Debug Trace is saved: '. xdebug_stop_trace();
-            echo self::$_xdebug_memory_before;
-
+            echo '<p>&nbsp;</p><fieldset class="xdebug-console"><legend>XDebug Console</legend>';
+            echo '<br/>' . xdebug_dump_superglobals() . '</br>';
+            echo '<table class="xdebug-console" width="95%">';
+            echo '<tr><th>Name</th><th>Value</th></tr>';
+            echo '<tr>';
+            echo '<td style="text-align: center;">Time to execute</td>';
+            echo '<td>' . round(xdebug_time_index(), 4) . ' seconds</td>';
+            echo '</tr><tr>';
+            echo '<td style="text-align: center;">Memory Usage (before)</td>';
+            echo '<td>' . self::$_xdebug_memory_before . ' MB</td>';
+            echo '</tr><tr>';
+            echo '<td style="text-align: center;">Memory Usage by Clansuite</td>';
+            echo '<td>' . self::roundMB(xdebug_memory_usage()) . ' MB</td>';
+            echo '</tr><tr>';
+            echo '<td style="text-align: center;">Memory Peak</td>';
+            echo '<td>' . self::roundMB(xdebug_peak_memory_usage()) . ' MB</td>';
+            echo '</tr><tr>';
+            #echo '<td style="text-align: center;">XDebug Trace was stopped and saved.</td>';
+            #echo '<td>' . xdebug_stop_trace() . '</td>';
+            echo '</tr>';
             # stop tracings and var_dump
-            xdebug_dump_superglobals();
-            echo '</center></div>';
-            # var_dump(xdebug_get_code_coverage());
+            #var_dump(xdebug_get_code_coverage());
+            echo '</table>';
+            echo '</fieldset>';
         }
     }
 
