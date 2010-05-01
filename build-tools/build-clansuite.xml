@@ -139,7 +139,7 @@
     <property name="checksumpath" value="${archivedir}/${package}-checksums" />
     <property name="patchdir" value="${builddir}/patch" />
     <property name="tmpdir" value="${builddir}/tmp" />
-    <property name="ignorepaths" value="libraries/*, */tests/*" />
+    <property name="ignorepaths" value="libraries,tests" />
 
     <!-- Define the Properties for Section 2) Subversion -->
     <property name="svn.local.export.directory"  value="${base.directory}svn-export/" />     <!-- Local SVN Export Directory (todir) -->
