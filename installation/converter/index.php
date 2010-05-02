@@ -70,9 +70,9 @@ ini_set('display_errors', $boolean);
 error_reporting($boolean);
 
 // Define: DS; ROOT; BASE_ROOT
-define ('DS', DIRECTORY_SEPARATOR);
-define ('CONVERTER_ROOT', getcwd() . DS);
-define ('ROOT', dirname(dirname(getcwd())) . DS);
+define('DS', DIRECTORY_SEPARATOR);
+define('CONVERTER_ROOT', getcwd() . DS);
+define('ROOT', dirname(dirname(getcwd())) . DS);
 
 echo 'P,G,R,S';
 #var_dump($_POST);
@@ -87,7 +87,7 @@ echo 'P,G,R,S';
  */
 # PHP Version Check
 define('REQUIRED_PHP_VERSION', '5.2');
-if (version_compare(PHP_VERSION, REQUIRED_PHP_VERSION, '<') == true)
+if(version_compare(PHP_VERSION, REQUIRED_PHP_VERSION, '<') == true)
 {
     $e = new Clansuite_Converter_Exception('Your PHP Version: <b>' . PHP_VERSION . '</b>! |
                                                     Clansuite requires PHP <b>' . REQUIRED_PHP_VERSION . '</b> .', 1);
@@ -95,7 +95,7 @@ if (version_compare(PHP_VERSION, REQUIRED_PHP_VERSION, '<') == true)
 }
 
 # Check for Configuration File
-if(false == is_file( ROOT . '/configuration/clansuite.config.php'))
+if(false == is_file(ROOT . '/configuration/clansuite.config.php'))
 {
     $e = new Clansuite_Converter_Exception("<i>Configuration file not found!</i> | Ensure that Clansuite is installed properly and clansuite.config.php resides in maindirectory! The file is needed for Database Access!", 2);
     exit($e);
@@ -103,7 +103,7 @@ if(false == is_file( ROOT . '/configuration/clansuite.config.php'))
 
 
 // The Clansuite version this script installs
-include ROOT . '/core/clansuite.version.php');
+include ROOT . '/core/clansuite.version.php';
 define('CONVERTER_VERSION', '0.1');
 
 // Define $error
@@ -114,12 +114,14 @@ $error = '';
 #      SELF DELETION
 #========================
 
-if(isset($_GET['delete_converter'])) { rm_recursive(getcwd()); }
+if(isset($_GET['delete_converter']))
+{
+    rm_recursive(getcwd());
+}
 
 #================================
 #    STEP HANDLING + PROGRESS
 #================================
-
 # Get Total Steps and if we are at max_steps, set step to max
 $total_steps = get_total_steps();
 
@@ -156,11 +158,10 @@ $_SESSION['progress'] = (float) calc_progress($step, $total_steps);
  *    Language Handling
  * ===========================
  */
-
 # Get language from GET
-if (isset($_GET['lang']) && !empty($_GET['lang']))
+if(isset($_GET['lang']) && ! empty($_GET['lang']))
 {
-   $lang = (string) htmlspecialchars($_GET['lang']);
+    $lang = (string) htmlspecialchars($_GET['lang']);
 }
 else
 {
@@ -171,7 +172,7 @@ else
     }
 
     # SET DEFAULT LANGUAGE VAR
-    if ($step == 1 OR empty( $_SESSION['lang']))
+    if($step == 1 OR empty($_SESSION['lang']))
     {
         $lang = 'german';
     }
@@ -184,8 +185,8 @@ else
  */
 try
 {
-    $file = ROOT . 'languages'. DS . $lang .'.converter.php';
-    if (is_file ($file))
+    $file = ROOT . 'languages' . DS . $lang . '.converter.php';
+    if(is_file($file))
     {
         require_once $file;
         $language = new language;
@@ -196,7 +197,7 @@ try
         throw new Clansuite_Converter_Exception('<span style="color:red">Language file missing: <strong>' . $file . '</strong></span>');
     }
 }
-catch (Exception $e)
+catch(Exception $e)
 {
     exit($e);
 }
@@ -204,7 +205,6 @@ catch (Exception $e)
 #=======================
 #      START OUTPUT
 #=======================
-
 # INCLUDE THE HEADER!
 include 'converter_header.php';
 
@@ -225,11 +225,8 @@ include 'converter_menu.php';
  *      Handling of Converter STEPS
  * ===================================================
  */
-
 # Handling of Step 1 = None Language is set to Session
-
 # Handling of Step 2
-
 # Handling of Step 3
 # Handling of Step 4
 # Handling of Step 5
@@ -242,9 +239,8 @@ include 'converter_menu.php';
  *      SWITCH to Intallation-functions based on "STEPS"
  * =========================================================
  */
-
 # add step to function name
-$converterfunction  = "converterstep_$step";
+$converterfunction = "converterstep_$step";
 
 # check if this functionname exists
 if(function_exists($converterfunction))
@@ -252,20 +248,18 @@ if(function_exists($converterfunction))
     # set this step to the session
     $_SESSION['step'] = $step;
     # lets rock! :P
-    $converterfunction($language,$error);
+    $converterfunction($language, $error);
 }
 
 #=======================
 #      END OUTPUT
 #=======================
-
 # INCLUDE THE FOOTER !
 require 'converter_footer.php';
 
 #=======================================
 #           PAGE IS DISPLAYED
 #=======================================
-
 # --------------  EOF  -----------------
 
 /**
@@ -283,17 +277,17 @@ require 'converter_footer.php';
  */
 function array_merge_rec($arr1, $arr2)
 {
-    foreach($arr2 as $k=>$v)
+    foreach($arr2 as $k => $v)
     {
-        if (!array_key_exists($k, $arr1))
+        if(!array_key_exists($k, $arr1))
         {
-            $arr1[$k]=$v;
+            $arr1[$k] = $v;
         }
         else
         {
-            if (is_array($v))
+            if(is_array($v))
             {
-                $arr1[$k]=array_merge_rec($arr1[$k], $arr2[$k]);
+                $arr1[$k] = array_merge_rec($arr1[$k], $arr2[$k]);
             }
         }
     }
@@ -308,10 +302,11 @@ function array_merge_rec($arr1, $arr2)
  */
 function get_total_steps()
 {
-    if(isset($_SESSION['total_steps'])){return $_SESSION['total_steps'];}
-    for($i=1;function_exists('converterstep_'.$i)==true;$i++)
+    if(isset($_SESSION['total_steps']))
+    {return $_SESSION['total_steps'];    }
+    for($i = 1; function_exists('converterstep_' . $i)==true; $i++)
     {
-        $_SESSION['total_steps']=$i;
+        $_SESSION['total_steps'] = $i;
     }
     return $_SESSION['total_steps'];
 }
@@ -333,14 +328,14 @@ function get_total_steps()
  *
  * @return $hash is an array, containing ['salt'] and ['hash']
  */
-function build_salted_hash( $string = '', $hash_algo = '')
+function build_salted_hash($string = '', $hash_algo = '')
 {
     # set up the array
     $salted_hash_array = array();
     # generate the salt with fixed length 6 and place it into the array
     $salted_hash_array['salt'] = generate_salt(6);
     # combine salt and string
-    $salted_string =  $salted_hash_array['salt'] . $string;
+    $salted_string = $salted_hash_array['salt'] . $string;
     # generate hash from "salt+string" and place it into the array
     $salted_hash_array['hash'] = generate_hash($hash_algo, $salted_string);
     # return array with elements ['salt'], ['hash']
@@ -364,7 +359,7 @@ function generate_salt($length)
     $salt = '';
 
     # seed the randoms generator with microseconds since last "whole" second
-    mt_srand((double) microtime()*1000000);
+    mt_srand((double) microtime() * 1000000);
 
     # set up the random chars to choose from
     $chars = "./0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
@@ -373,10 +368,10 @@ function generate_salt($length)
     $number_of_random_chars = strlen($chars);
 
     # add a char from the random_chars to the salt, until we got the wanted $length
-    for ($i=0; $i<$length; ++$i)
+    for($i = 0; $i < $length; ++$i)
     {
         # get a random char of $chars
-        $char_to_add = $chars[mt_rand(0,$number_of_random_chars)];
+        $char_to_add = $chars[mt_rand(0, $number_of_random_chars)];
 
         # ensure that a random_char is not used twice in the salt
         if(!strstr($salt, $char_to_add))
@@ -410,19 +405,19 @@ function generate_hash($hash_algo = null, $string = '')
     }
 
     # check, if we can use hash()
-    if (function_exists('hash'))
+    if(function_exists('hash'))
     {
-        return hash($hash_algo,$string);
+        return hash($hash_algo, $string);
     }
     else
     {   # when hash() not available, do hashing the old way
         switch($hash_algo)
         {
-            case 'MD5':     return md5($string);
-                            break;
+            case 'MD5': return md5($string);
+                break;
             default:
-            case 'SHA1':    return sha1($string);
-                            break;
+            case 'SHA1': return sha1($string);
+                break;
         }
     }
 }
@@ -436,52 +431,52 @@ function generate_hash($hash_algo = null, $string = '')
  *
  * @return float progress-value
  */
-function calc_progress($this_is_step,$of_total_steps)
+function calc_progress($this_is_step, $of_total_steps)
 {
-   $this_is_step--;
-   return round(100/($of_total_steps-1)*$this_is_step, 0);
+    $this_is_step--;
+    return round(100 / ($of_total_steps - 1) * $this_is_step, 0);
 }
 
 // STEP 1 - Language Selection
 function converterstep_1($language)
 {
-    require 'converter-step1.php' ;
+    require 'converter-step1.php';
 }
 
 // STEP 2 - System Check
 function converterstep_2($language)
 {
-    require 'converter-step2.php' ;
+    require 'converter-step2.php';
 }
 
 // STEP 3 - System Check
 function converterstep_3($language)
 {
-    require 'converter-step3.php' ;
+    require 'converter-step3.php';
 }
 
 // STEP 4 - System Check
 function converterstep_4($language, $error)
 {
-    $values['db_host']      = isset($_SESSION['db_host']) ? $_SESSION['db_host'] : 'localhost';
-    $values['db_type']      = isset($_SESSION['db_type']) ? $_SESSION['db_type'] : 'mysql';
-    $values['db_name']      = isset($_SESSION['db_name']) ? $_SESSION['db_name'] : 'clansuite';
-    $values['db_create_database']    = isset($_SESSION['db_create_database']) ? $_SESSION['db_create_database'] : '0';
-    $values['db_username']  = isset($_SESSION['db_user']) ? $_SESSION['db_user'] : '';
-    $values['db_password']  = isset($_SESSION['db_pass']) ? $_SESSION['db_pass'] : '';
-    $values['db_prefix']    = isset($_SESSION['db_prefix']) ? $_SESSION['db_prefix'] : 'cs_';
+    $values['db_host'] = isset($_SESSION['db_host']) ? $_SESSION['db_host'] : 'localhost';
+    $values['db_type'] = isset($_SESSION['db_type']) ? $_SESSION['db_type'] : 'mysql';
+    $values['db_name'] = isset($_SESSION['db_name']) ? $_SESSION['db_name'] : 'clansuite';
+    $values['db_create_database'] = isset($_SESSION['db_create_database']) ? $_SESSION['db_create_database'] : '0';
+    $values['db_username'] = isset($_SESSION['db_user']) ? $_SESSION['db_user'] : '';
+    $values['db_password'] = isset($_SESSION['db_pass']) ? $_SESSION['db_pass'] : '';
+    $values['db_prefix'] = isset($_SESSION['db_prefix']) ? $_SESSION['db_prefix'] : 'cs_';
 
-    require 'converter-step4.php' ;
+    require 'converter-step4.php';
 }
 
 function converterstep_5($language)
 {
-    require 'converter-step5.php' ;
+    require 'converter-step5.php';
 }
 
 function converterstep_6($language)
 {
-    require 'converter-step6.php' ;
+    require 'converter-step6.php';
 }
 
 /**
@@ -498,23 +493,26 @@ function converterstep_6($language)
 function loadSQL($sqlfile, $hostname, $database, $username, $password)
 {
     #print "Loading SQL";
-    if ($connection = @ mysql_pconnect($hostname, $username, $password))
+    if($connection = @ mysql_pconnect($hostname, $username, $password))
     {
         # select database
-        mysql_select_db($database,$connection);
+        mysql_select_db($database, $connection);
         # ensure database entries are written as UTF8
         mysql_query("SET NAMES 'utf8'");
 
-        if (!is_readable($sqlfile)) {
-          die("$sqlfile does not exist or is not readable");
+        if(!is_readable($sqlfile))
+        {
+            die($sqlfile . 'does not exist or is not readable');
         }
         $queries = getQueriesFromSQLFile($sqlfile);
-        for ($i = 0, $ix = count($queries); $i < $ix; ++$i) {
-          $sql = $queries[$i];
+        for($i = 0, $ix = count($queries); $i < $ix; ++$i)
+        {
+            $sql = $queries[$i];
 
-          if (!mysql_query($sql, $connection)) {
-            die(sprintf("error while executing mysql query #%u: %s<br />\nerror: %s", $i + 1, $sql, mysql_error()));
-          }
+            if(!mysql_query($sql, $connection))
+            {
+                die(sprintf("error while executing mysql query #%u: %s<br />\nerror: %s", $i + 1, $sql, mysql_error()));
+            }
         }
         #print "$ix queries imported";
         return true; //"SQL file loaded correctly";
@@ -541,17 +539,17 @@ function getQueriesFromSQLFile($file)
     # import file line by line
     # and filter (remove) those lines, beginning with an sql comment token
     $file = array_filter(file($file),
-                         create_function('$line',
-                                         'return strpos(ltrim($line), "--") !== 0;'));
+                    create_function('$line',
+                            'return strpos(ltrim($line), "--") !== 0;'));
 
     # and filter (remove) those lines, beginning with an sql notes token
     $file = array_filter($file,
-                         create_function('$line',
-                                         'return strpos(ltrim($line), "/*") !== 0;'));
+                    create_function('$line',
+                            'return strpos(ltrim($line), "/*") !== 0;'));
 
     # this is a whitelist of SQL commands, which are allowed to follow a semicolon
     $keywords = array('ALTER', 'CREATE', 'DELETE', 'DROP', 'INSERT', 'REPLACE', 'SELECT', 'SET',
-                      'TRUNCATE', 'UPDATE', 'USE');
+        'TRUNCATE', 'UPDATE', 'USE');
 
     # create the regular expression
     $regexp = sprintf('/\s*;\s*(?=(%s)\b)/s', implode('|', $keywords));
@@ -561,8 +559,8 @@ function getQueriesFromSQLFile($file)
 
     # remove trailing semicolon or whitespaces
     $splitter = array_map(create_function('$line',
-                                          'return preg_replace("/[\s;]*$/", "", $line);'),
-                          $splitter);
+                            'return preg_replace("/[\s;]*$/", "", $line);'),
+                    $splitter);
 
     # replace the database prefix
     $table_prefix = $_POST['config']['database']['db_prefix'];
@@ -589,20 +587,17 @@ function write_config_settings($data_array)
     unset($data_array['lang']);
 
     #var_dump($data_array);
-
     # read skeleton settings = minimum settings for initial startup
     # (not asked from user during installation, but required paths/defaultactions etc)
-    $installer_config = Clansuite_Config::readConfig( CONVERTER_ROOT . 'clansuite.config.converter');
+    $installer_config = Clansuite_Config::readConfig(CONVERTER_ROOT . 'clansuite.config.converter');
 
     #var_dump($installer_config);
-
     # array merge: overwrite the array to the left, with the array to the right, when keys identical
     $data_array = array_merge_recursive($data_array, $installer_config);
     #var_dump($data_array);
-
     # Write Config File to ROOT Directory
     #print ROOT . 'clansuite.config.php';
-    if ( !Clansuite_Config::writeConfig( ROOT . 'clansuite.config.php', $data_array) )
+    if(!Clansuite_Config::writeConfig(ROOT . 'clansuite.config.php', $data_array))
     {
         return false;
     }
@@ -618,36 +613,36 @@ function write_config_settings($data_array)
  */
 function rm_recursive($filepath)
 {
-    echo "<p>[Deleting Installation Directory] Starting at $filepath </p>";
+    echo '<p>[Deleting Installation Directory] Starting at ' . $filepath . '</p>';
 
-    if (is_dir($filepath) && !is_link($filepath))
+    if(is_dir($filepath) && ! is_link($filepath))
     {
-        if ($dh = opendir($filepath))
+        if($dh = opendir($filepath))
         {
-            while (($sf = readdir($dh)) !== false)
+            while(($sf = readdir($dh)) !== false)
             {
                 # handle . and ..
-                if ($sf == '.' || $sf == '..')
+                if($sf == '.' || $sf == '..')
                 {
                     continue;
                 }
                 else
                 {
                     # handle files
-                    if(unlink($filepath.DS.$sf))
+                    if(unlink($filepath . DS . $sf))
                     {
-                        echo 'File '.$filepath.DS.$sf.' deleted successfully.<br />';
+                        echo 'File ' . $filepath . DS . $sf . ' deleted successfully.<br />';
                     }
                     else
                     {
-                        echo 'Unable to delete file '.$filepath.DS.$sf.'.<br />';
+                        echo 'Unable to delete file ' . $filepath . DS . $sf . '.<br />';
                     }
                 }
 
                 # handle dirs recursivly
-                if (!rm_recursive($filepath.DS.$sf))
+                if(!rm_recursive($filepath . DS . $sf))
                 {
-                    throw new Exception($filepath.DS.$sf.' could not be deleted.');
+                    throw new Exception($filepath . DS . $sf . ' could not be deleted.');
                 }
             }
             closedir($dh);
@@ -656,7 +651,6 @@ function rm_recursive($filepath)
     }
     return unlink($filepath);
 }
-
 // Save+Close the Session
 session_write_close();
 
@@ -669,6 +663,7 @@ session_write_close();
  */
 class Clansuite_Converter_Exception extends Exception
 {
+
     /**
      *    Define Exceptionmessage && Code via constructor
      */
@@ -684,41 +679,41 @@ class Clansuite_Converter_Exception extends Exception
     public function __toString()
     {
         # Header
-        $errormessage    = '<p><html><head>';
-        $errormessage   .= '<title>Clansuite Converter - Error</title>';
-        $errormessage   .= '<body>';
-        $errormessage   .= '<link rel="stylesheet" href="../themes/core/css/error.css" type="text/css" />';
-        $errormessage   .= '</head>';
+        $errormessage = '<p><html><head>';
+        $errormessage .= '<title>Clansuite Converter - Error</title>';
+        $errormessage .= '<body>';
+        $errormessage .= '<link rel="stylesheet" href="../themes/core/css/error.css" type="text/css" />';
+        $errormessage .= '</head>';
         # Body
-        $errormessage   .= '<body>';
+        $errormessage .= '<body>';
         # Fieldset with colours (error_red, error_orange, error_beige)
-        $errormessage   .= '<fieldset class="error_red">';
-        $errormessage   .= '<div style="float: left; margin: 5px; margin-right: 25px; border:1px inset #bf0000; padding: 20px;">';
-        $errormessage   .= '<img src="../images/Clansuite-Toolbar-Icon-64-error.png" style="border: 2px groove #000000;"/></div>';
+        $errormessage .= '<fieldset class="error_red">';
+        $errormessage .= '<div style="float: left; margin: 5px; margin-right: 25px; border:1px inset #bf0000; padding: 20px;">';
+        $errormessage .= '<img src="../images/Clansuite-Toolbar-Icon-64-error.png" style="border: 2px groove #000000;"/></div>';
         # Fieldset Legend for ERRORBOX
-        $errormessage   .= '<legend>Clansuite Converter - Error</legend>';
+        $errormessage .= '<legend>Clansuite Converter - Error</legend>';
         # Error String (passed Error Description)
-        $errormessage   .= '<p><strong>'.$this->message.'</strong>';
+        $errormessage .= '<p><strong>' . $this->message . '</strong>';
         # Error Messages from the ErrorObject
-        $errormessage   .= '<hr><table>';
-        $errormessage   .= '<tr><td><strong>Errorcode:</strong></td><td>'.$this->getCode().'</td></tr>';
+        $errormessage .= '<hr><table>';
+        $errormessage .= '<tr><td><strong>Errorcode:</strong></td><td>' . $this->getCode() . '</td></tr>';
         # More Error Messages from the ErrorObj only on Debug
         if(DEBUG != false)
         {
-            $errormessage   .= '<tr><td><strong>Message:</strong></td><td>'.$this->getMessage().'</td></tr>';
-            $errormessage   .= '<tr><td><strong>Pfad :</strong></td><td>'. dirname($this->getFile()).'</td></tr>';
-            $errormessage   .= '<tr><td><strong>Datei :</strong></td><td>'. basename($this->getFile()).'</td></tr>';
-            $errormessage   .= '<tr><td><strong>Zeile :</strong></td><td>'.$this->getLine().'</td></tr>';
+            $errormessage .= '<tr><td><strong>Message:</strong></td><td>' . $this->getMessage() . '</td></tr>';
+            $errormessage .= '<tr><td><strong>Pfad :</strong></td><td>' . dirname($this->getFile()) . '</td></tr>';
+            $errormessage .= '<tr><td><strong>Datei :</strong></td><td>' . basename($this->getFile()) . '</td></tr>';
+            $errormessage .= '<tr><td><strong>Zeile :</strong></td><td>' . $this->getLine() . '</td></tr>';
         }
-        $errormessage   .= '</table>';
-        $errormessage   .= '</fieldset><br />';
+        $errormessage .= '</table>';
+        $errormessage .= '</fieldset><br />';
         # Fieldset Legend for HELPBOX
-        $errormessage   .= '<fieldset class="error_beige">';
-        $errormessage   .= '<legend>Help</legend>';
-        $errormessage   .= "If you can't solve the error yourself, feel free to contact us at our website's <a href=\"http://forum.clansuite.com/index.php?board=26.0\">Converter - Support Forum</a>.<br/>";
-        $errormessage   .= '</fieldset>';
+        $errormessage .= '<fieldset class="error_beige">';
+        $errormessage .= '<legend>Help</legend>';
+        $errormessage .= "If you can't solve the error yourself, feel free to contact us at our website's <a href=\"http://forum.clansuite.com/index.php?board=26.0\">Converter - Support Forum</a>.<br/>";
+        $errormessage .= '</fieldset>';
         # FOOTER
-        $errormessage   .= '</body></html>';
+        $errormessage .= '</body></html>';
 
         #return __CLASS__ . " {$errormessage}";
         return $errormessage;

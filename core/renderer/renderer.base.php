@@ -33,8 +33,11 @@
     * @version    SVN: $Id$
     */
 
-//Security Handler
-if (defined('IN_CS') == false) { die('Clansuite not loaded. Direct Access forbidden.'); }
+# Security Handler
+if(defined('IN_CS') == false)
+{
+    die('Clansuite not loaded. Direct Access forbidden.');
+}
 
 /**
  * A abstract base class for all our view rendering engines.
@@ -52,7 +55,7 @@ abstract class Clansuite_Renderer_Base
      * @var Object
      */
     public $renderer = null;
-    
+
     public $layoutTemplate = null;
     public $template = null;
 
@@ -82,7 +85,7 @@ abstract class Clansuite_Renderer_Base
         # set injector and config
         $this->injector = $injector;
         $this->config   = $config;
-     }
+    }
 
     /**
      * Returns the render engine object
@@ -173,7 +176,10 @@ abstract class Clansuite_Renderer_Base
     public function getTemplatePath($template)
     {
         # if template is a qualified path and template filename
-        if(is_file($template)) { return $template; }
+        if(is_file($template))
+        {
+            return $template;
+        }
 
         # fetch the template via looking through Theme Template Paths
         $theme_template = $this->getThemeTemplatePath($template);
@@ -185,6 +191,7 @@ abstract class Clansuite_Renderer_Base
             return $theme_template;
         }
         else # try a lookup in the Module Template Path
+
         {
             # fetch the template via looking through Module Template Paths
             #$module_template = $this->getModuleTemplatePath($template);
@@ -227,6 +234,7 @@ abstract class Clansuite_Renderer_Base
             }
         }
         else # 2. it's a FRONTEND theme
+
         {
             # (a) USER FRONTENDTHEME - check, if template exists in current session user THEME
             if(isset($_SESSION['user']['theme']) and is_file( ROOT_THEMES . $_SESSION['user']['theme'] .DS. $template))
@@ -258,8 +266,8 @@ abstract class Clansuite_Renderer_Base
         $module = Clansuite_Module_Controller_Resolver::getModuleName();
 
         $paths = array( ROOT_MOD . $template,
-                        ROOT_MOD . $module . DS . $template,
-                        ROOT_MOD . $module . DS . 'view' . DS . $template
+                ROOT_MOD . $module . DS . $template,
+                ROOT_MOD . $module . DS . 'view' . DS . $template
         );
 
         # check if template exists in one of the defined paths

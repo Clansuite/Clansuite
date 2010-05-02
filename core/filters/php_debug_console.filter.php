@@ -34,7 +34,10 @@
     */
 
 # Security Handler
-if (defined('IN_CS') == false){ die('Clansuite not loaded. Direct Access forbidden.' ); }
+if (defined('IN_CS') == false)
+{ 
+    die('Clansuite not loaded. Direct Access forbidden.' );
+}
 
 /**
  * Clansuite PHP_Debug Debugging Console
@@ -50,7 +53,7 @@ class Clansuite_Filter_php_debug_console implements Clansuite_Filter_Interface
 
     public function __construct(Clansuite_Config $config)
     {
-       $this->config    = $config;
+        $this->config    = $config;
     }
 
     public function executeFilter(Clansuite_HttpRequest $request, Clansuite_HttpResponse $response)
@@ -78,24 +81,24 @@ class Clansuite_Filter_php_debug_console implements Clansuite_Filter_Interface
 
                 # Setup Options for the PHPDebug Object
                 $options = array(
-                    # General Options
-                    'render_type'          => 'HTML',    # Renderer type
-                    'render_mode'          => 'div',     # Renderer mode
-                    'restrict_access'      => false,     # Restrict access of debug
-                    'allow_url_access'     => true,      # Allow url access
-                    'url_key'              => 'key',     # Url key
-                    'url_pass'             => 'nounou',  # Url pass
-                    'enable_watch'         => true,      # Enable wath of vars
-                    'replace_errorhandler' => true,      # Replace the php error handler
-                    'lang'                 => 'EN',      # Lang
+                        # General Options
+                        'render_type'          => 'HTML',    # Renderer type
+                        'render_mode'          => 'div',     # Renderer mode
+                        'restrict_access'      => false,     # Restrict access of debug
+                        'allow_url_access'     => true,      # Allow url access
+                        'url_key'              => 'key',     # Url key
+                        'url_pass'             => 'nounou',  # Url pass
+                        'enable_watch'         => true,      # Enable wath of vars
+                        'replace_errorhandler' => true,      # Replace the php error handler
+                        'lang'                 => 'EN',      # Lang
 
-                    # Renderer specific
-                    'HTML_DIV_view_source_script_name' => ROOT . '/libraries/phpdebug/PHP_Debug_ShowSource.php',
-                    'HTML_DIV_images_path' =>  WWW_ROOT . '/libraries/phpdebug/images',
-                    'HTML_DIV_css_path' =>  WWW_ROOT . '/libraries/phpdebug/css',
-                    'HTML_DIV_js_path' =>  WWW_ROOT . '/libraries/phpdebug/js',
-                    'HTML_DIV_remove_templates_pattern' => true,
-                    #'HTML_DIV_templates_pattern' => array('/var/www-protected/php-debug.com' => '/var/www/php-debug')
+                        # Renderer specific
+                        'HTML_DIV_view_source_script_name' => ROOT . '/libraries/phpdebug/PHP_Debug_ShowSource.php',
+                        'HTML_DIV_images_path' =>  WWW_ROOT . '/libraries/phpdebug/images',
+                        'HTML_DIV_css_path' =>  WWW_ROOT . '/libraries/phpdebug/css',
+                        'HTML_DIV_js_path' =>  WWW_ROOT . '/libraries/phpdebug/js',
+                        'HTML_DIV_remove_templates_pattern' => true,
+                        #'HTML_DIV_templates_pattern' => array('/var/www-protected/php-debug.com' => '/var/www/php-debug')
                 );
 
                 #Clansuite_Xdebug::printR($options);
@@ -132,6 +135,7 @@ class Clansuite_Filter_php_debug_console implements Clansuite_Filter_Interface
  * Helper Object for echoing the HTML content
  */
 class DebugConsoleResponse_Event # implements Clansuite_Event_Interface
+
 {
     public $name = 'DebugConsoleResponse';
     private $debugbarHTML;

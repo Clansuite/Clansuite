@@ -90,11 +90,13 @@ class Clansuite_Renderer_Phptal extends Clansuite_Renderer_Base
                 $this->renderer = new PHPTAL();
             }
             else // throw error in case PHPTAL library is missing
+
             {
                 die('PHPTAL Template Library missing!');
             }
         }
         else // throw error in case engine was already loaded
+
         {
             die('PHPTAL already loaded!');
         }
@@ -222,7 +224,7 @@ class Clansuite_Renderer_Phptal extends Clansuite_Renderer_Base
         }
         catch (Clansuite_Exception $e)
         {
-                throw new Clansuite_Exception($e);
+            throw new Clansuite_Exception($e);
         }
     }
 }

@@ -34,7 +34,10 @@
     */
 
 # Security Handler
-if (defined('IN_CS') == false) { die('Clansuite not loaded. Direct Access forbidden.'); }
+if(defined('IN_CS') == false)
+{
+    die('Clansuite not loaded. Direct Access forbidden.');
+}
 
 /**
  * Clansuite Core Class for Access Control Management
@@ -74,35 +77,35 @@ class Clansuite_ACM
     public function removeAccess(Doctrine_Record $record, $resource = null, $permission = null)
     {
         # ensure $record is either object of type User or Group
-        if ($record instanceof Clansuite_User)
+        if($record instanceof Clansuite_User)
         {
             $accessClass = 'Clansuite_Acl_UserAccess';
-            $linkField   = 'user_id';
+            $linkField = 'user_id';
         }
-        elseif ($record instanceof Clansuite_Group)
+        elseif($record instanceof Clansuite_Group)
         {
             $accessClass = 'Clansuite_Acl_GroupAccess';
-            $linkField   = 'group_id';
+            $linkField = 'group_id';
         }
         else
         {
-           throw new Clansuite_Exception('Unknown object given to ACM.');
+            throw new Clansuite_Exception('Unknown object given to ACM.');
         }
 
-        if ($permission === null)
+        if($permission === null)
         {
             $permission = $this->getOption('global_permission');
         }
 
-        if ($resource === null)
+        if($resource === null)
         {
             $resource = $this->getOption('global_resource');
         }
 
         $rows = Doctrine_Query::delete()
-              ->from($accessClass . ' a')
-              ->where('a.' . $linkField . ' = ? AND a.resource_name = ? AND a.permission_name = ?')
-              ->execute(array($record->id, $resource, $permission));
+                ->from($accessClass . ' a')
+                ->where('a.' . $linkField . ' = ? AND a.resource_name = ? AND a.permission_name = ?')
+                ->execute(array($record->id, $resource, $permission));
 
         return (bool) $rows;
     }
@@ -124,54 +127,54 @@ class Clansuite_ACM
      */
     public function setAccess(Doctrine_Record $record, $resource = null, $permission = null, $allow)
     {
-        if ($record instanceof Clansuite_User)
+        if($record instanceof Clansuite_User)
         {
             $accessClass = 'Clansuite_Acl_UserAccess';
-            $linkField   = 'user_id';
+            $linkField = 'user_id';
         }
-        elseif ($record instanceof Clansuite_Group)
+        elseif($record instanceof Clansuite_Group)
         {
             $accessClass = 'Clansuite_Acl_GroupAccess';
-            $linkField   = 'group_id';
+            $linkField = 'group_id';
         }
         else
         {
             throw new Clansuite_Acl_Exception('Unknown object given.');
         }
 
-        if ($permission === null)
+        if($permission === null)
         {
             $permission = $this->getOption('global_permission');
         }
-        if ($resource === null)
+        if($resource === null)
         {
             $resource = $this->getOption('global_resource');
         }
 
         $global_access = ($permission === $this->getOption('global_permission')) ||
-                  ($resource === $this->getOption('global_resource'));
+                ( $resource === $this->getOption('global_resource'));
 
         $conn = $record->getTable()->getConnection();
 
         $access = Doctrine_Query::create()
-                  #->select('')
-                  ->from($accessClass . ' a')
-                  ->where('a.resource_name = ? AND a.permission_name = ? AND a.' . $linkField . ' = ?')
-                  ->fetchOne(array($resource, $permission, $record->id), Doctrine::HYDRATE_ARRAY);
+                #->select('')
+                ->from($accessClass . ' a')
+                ->where('a.resource_name = ? AND a.permission_name = ? AND a.' . $linkField . ' = ?')
+                ->fetchOne(array($resource, $permission, $record->id), Doctrine::HYDRATE_ARRAY);
 
-        if ( $access == false)
+        if($access == false)
         {
-            if ( $global_access == false)
+            if($global_access == false)
             {
                 $link = Doctrine_Query::create()
-                          #->select('*') #autoadded
-                          ->from('Clansuite_Acl_ResourcePermission p')
-                          ->where('p.resource = ? AND p.permission = ?')
-                          ->fetchOne(array($resource, $permission), Doctrine::HYDRATE_ARRAY);
+                        #->select('*') #autoadded
+                        ->from('Clansuite_Acl_ResourcePermission p')
+                        ->where('p.resource = ? AND p.permission = ?')
+                        ->fetchOne(array($resource, $permission), Doctrine::HYDRATE_ARRAY);
 
-                if ( ! $link )
+                if(!$link)
                 {
-                    throw new Clansuite_Acl_Exception('Resource ' . $resource . ' does not have link to permission '. $permission);
+                    throw new Clansuite_Acl_Exception('Resource ' . $resource . ' does not have link to permission ' . $permission);
                 }
             }
 
@@ -200,48 +203,48 @@ class Clansuite_ACM
      */
     public function hasAccess(Doctrine_Record $record, $resource = null, $permission = null)
     {
-        if ( ! $record instanceof Clansuite_User &&
-             ! $record instanceof Clansuite_Group)
+        if(!$record instanceof Clansuite_User &&
+                ! $record instanceof Clansuite_Group)
         {
             throw new Clansuite_Acl_Exception('Unknown object given.');
         }
 
         $defPerm = $this->getOption('global_permission');
-        $defRes  = $this->getOption('global_resource');
+        $defRes = $this->getOption('global_resource');
 
-        $accessType = array('resource'   => null,
-                            'permission' => null,
-                            'global'     => null);
+        $accessType = array('resource' => null,
+            'permission' => null,
+            'global' => null);
 
-        foreach ($record['Access'] as $access)
+        foreach($record['Access'] as $access)
         {
-            if ($access['resource_name'] === $resource)
+            if($access['resource_name'] === $resource)
             {
-                if ($access['permission_name'] === $permission)
+                if($access['permission_name'] === $permission)
                 {
                     return $access['allow'];
                 }
-                elseif ($access['permission_name'] === $defPerm)
+                elseif($access['permission_name'] === $defPerm)
                 {
                     $accessType['resource'] = $access->allow;
                 }
             }
-            elseif ($access['resource_name'] === $defRes)
+            elseif($access['resource_name'] === $defRes)
             {
-                if ($access['permission_name'] === $permission)
+                if($access['permission_name'] === $permission)
                 {
                     $accessType['permission'] = $access->allow;
                 }
-                elseif ($access['permission_name'] === $defPerm)
+                elseif($access['permission_name'] === $defPerm)
                 {
                     $accessType['global'] = $access->allow;
                 }
             }
         }
 
-        foreach ($accessType as $k => $v)
+        foreach($accessType as $k => $v)
         {
-            if ($v !== null)
+            if($v !== null)
             {
                 return $v;
             }

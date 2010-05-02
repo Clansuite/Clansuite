@@ -34,7 +34,10 @@
     */
 
 # Security Handler
-if (defined('IN_CS') == false) { die('Clansuite not loaded. Direct Access forbidden.'); }
+if(defined('IN_CS') == false)
+{
+    die('Clansuite not loaded. Direct Access forbidden.');
+}
 
 /**
  * Clansuite_Exception
@@ -255,24 +258,24 @@ class Clansuite_Exception extends Exception implements Clansuite_Exception_Inter
      *
      * @param $exception PHP Exception Objects are valid (Type Hint).
      */
-    public function clansuite_exception_handler( Exception $exception )
+    public function clansuite_exception_handler(Exception $exception )
     {
-            # Assigning variables from an uncatched exception to this exception object
-            $this->message = $exception->getMessage();
-            $this->string  = $exception->getTraceAsString();
-            $this->code    = $exception->getCode();
-            $this->file    = $exception->getFile();
-            $this->line    = $exception->getLine();
-            $this->trace   = $exception->getTrace();
+        # Assigning variables from an uncatched exception to this exception object
+        $this->message = $exception->getMessage();
+        $this->string = $exception->getTraceAsString();
+        $this->code = $exception->getCode();
+        $this->file = $exception->getFile();
+        $this->line = $exception->getLine();
+        $this->trace = $exception->getTrace();
 
-            # if no errorcode is set, say that it's an rethrow
-            if($this->code == '0')
-            {
-                $this->code = '0 (This exception is uncatched and rethrown.)';
-            }
+        # if no errorcode is set, say that it's an rethrow
+        if($this->code == '0')
+        {
+            $this->code = '0 (This exception is uncatched and rethrown.)';
+        }
 
-            # output this object as string via __toString and calling yellowScreenOfDeath()
-            echo $this;
+        # output this object as string via __toString and calling yellowScreenOfDeath()
+        echo $this;
     }
 
     /**

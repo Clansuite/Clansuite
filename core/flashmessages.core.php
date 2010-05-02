@@ -34,7 +34,10 @@
     */
 
 # Security Handler
-if (defined('IN_CS') == false){ die('Clansuite not loaded. Direct Access forbidden.'); }
+if(defined('IN_CS') == false)
+{
+    die('Clansuite not loaded. Direct Access forbidden.');
+}
 
 /**
  * Clansuite Flashmessages
@@ -62,18 +65,16 @@ if (defined('IN_CS') == false){ die('Clansuite not loaded. Direct Access forbidd
  * @package     Core
  * @subpackage  Flashmessages
  */
-class Clansuite_Flashmessages /*extends Clansuite_Session*/ implements ArrayAccess
+class Clansuite_Flashmessages /* extends Clansuite_Session */ implements ArrayAccess
 {
     /**
      * @var contains $session array of $flashmessages
      */
     private $flashmessages = array();
-
     /**
      * @var array types of flashmessages (whitelist)
      */
-    private static $flashmessagetypes = array( 'error', 'warning', 'notice', 'success', 'debug');
-
+    private static $flashmessagetypes = array('error', 'warning', 'notice', 'success', 'debug');
     function __construct()
     {
         self::getMessagesFromSession();
@@ -109,8 +110,8 @@ class Clansuite_Flashmessages /*extends Clansuite_Session*/ implements ArrayAcce
     {
         if(in_array($type, self::$flashmessagetypes) == true)
         {
-           # set message the session in flashmessages array container
-           $this->flashmessages[$type][] = $message;
+            # set message the session in flashmessages array container
+            $this->flashmessages[$type][] = $message;
         }
     }
 
@@ -138,7 +139,7 @@ class Clansuite_Flashmessages /*extends Clansuite_Session*/ implements ArrayAcce
      */
     private static function getMessagesFromSession()
     {
-        if (array_key_exists('flashmessages', $_SESSION))
+        if(array_key_exists('flashmessages', $_SESSION))
         {
             $this->flashmessages = $_SESSION['flashmessages'];
             unset($_SESSION['flashmessages']);
@@ -161,8 +162,8 @@ class Clansuite_Flashmessages /*extends Clansuite_Session*/ implements ArrayAcce
      */
     public function delMessage($type, $id)
     {
-         # @todo message_id as identifier
-         $this->flashmessages[$type][$id] = array();
+        # @todo message_id as identifier
+        $this->flashmessages[$type][$id] = array();
     }
 
     /**
@@ -199,14 +200,14 @@ class Clansuite_Flashmessages /*extends Clansuite_Session*/ implements ArrayAcce
 
         foreach($flashmessages as $flashmessage)
         {
-             # extract flashmessages in case its an array of $flashmessage[$type]
-             if(is_array($flashmessage) )
-             {
-                 extract($flashmessage);
-             }
+            # extract flashmessages in case its an array of $flashmessage[$type]
+            if(is_array($flashmessage))
+            {
+                extract($flashmessage);
+            }
 
-             $html = '';
-             $html .= '<div id="flashmessage" class="flashmessage '.$type.'">'.$flashmessage.'</div>';
+            $html = '';
+            $html .= '<div id="flashmessage" class="flashmessage ' . $type . '">' . $flashmessage . '</div>';
         }
 
         # reset the messages array

@@ -34,7 +34,10 @@
     */
 
 # Security Handler
-if (defined('IN_CS') == false) { die('Clansuite not loaded. Direct Access forbidden.'); }
+if(defined('IN_CS') == false)
+{
+    die('Clansuite not loaded. Direct Access forbidden.');
+}
 
 /**
  * Interface for all modules
@@ -141,7 +144,7 @@ abstract class Clansuite_Module_Controller extends Clansuite_Module_Controller_R
         {
             /**
              * Modulename and Recordname differ! Like "modulemanager" asmodulename and "CsModules" = "modules" as recordname.
-             *//*
+        *//*
             $models_path = ROOT_MOD . strtolower($modulename) . DS . 'model/records';
         }  */
 
@@ -202,6 +205,7 @@ abstract class Clansuite_Module_Controller extends Clansuite_Module_Controller_R
             $this->config = $this->injector->instantiate('Clansuite_Config')->toArray();
         }
         else # deliver config via an static call (for example: from inside a widget)
+
         {
             $this->config = self::getInjector()->instantiate('Clansuite_Config')->toArray();
         }
@@ -365,7 +369,7 @@ abstract class Clansuite_Module_Controller extends Clansuite_Module_Controller_R
         if (false == in_array($template_extension, $allowed_extensions))
         {
             trigger_error('Template Extension invalid <strong>'.$template_extension.'</strong> on <strong>'.$template.'</strong>',
-                          E_USER_NOTICE);
+                    E_USER_NOTICE);
         }
     }
 

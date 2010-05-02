@@ -114,45 +114,42 @@ class Clansuite_Doctrine
     private function doctrine_initialize()
     {
         # prevent redeclaration
-        if (false === class_exists('Doctrine',false))
+        if(false === class_exists('Doctrine_Core', false))
         {
-            $doctrine_compiled = ROOT_LIBRARIES . 'doctrine'.DS.'Doctrine.compiled.php';
+            $doctrine_compiled = ROOT_LIBRARIES . 'doctrine' . DS . 'Doctrine.compiled.php';
 
             # Require compiled or normal Library
-            if (is_file($doctrine_compiled))
+            if(is_file($doctrine_compiled))
             {
-                include $doctrine_compiled;
+                include_once $doctrine_compiled;
             }
-            elseif(is_file( ROOT_LIBRARIES . 'doctrine/Doctrine.php'))
+            elseif(is_file(ROOT_LIBRARIES . 'doctrine/Doctrine.php'))
             {
                 # require the normal Library
-                include ROOT_LIBRARIES .'doctrine/Doctrine.php';
+                include_once ROOT_LIBRARIES . 'doctrine/Doctrine.php';
             }
             else
             {
                 throw new Clansuite_Exception('Doctrine could not be loaded. Check Libraries Folder.', 100);
             }
 
+            # Register the Doctrine autoloader, ensure it's not already registered
+            if(false === in_array(array('Doctrine_Core', 'autoload'), spl_autoload_functions()))
+            {
+                spl_autoload_register(array('Doctrine_Core', 'autoload'));
+                spl_autoload_register(array('Doctrine_Core', 'modelsAutoload'));
+            }
+
             /**
              * automatically compile doctrine to one file, but only compile with the mysql driver
              * so that the next time Doctrine.compiled.php is found
-             * @link compile but only use only compile the mysql driver
-             * @todo add the dbtype from config as the driver to compile
              */
-            if (is_file($doctrine_compiled) == false)
+            if(is_file($doctrine_compiled) == false)
             {
-                # @todo Doctrine_Core::compile seems to be broken
-                #Doctrine_Core::compile($doctrine_compiled, array('mysql'));
+                Doctrine::compile($doctrine_compiled, array('mysql'));
             }
 
             unset($doctrine_compiled);
-        }
-
-        # Register the Doctrine autoloader, ensure it's not already registered
-        if( false == in_array(array('Doctrine_Core', 'autoload'), spl_autoload_functions()) )
-        {
-            spl_autoload_register(array('Doctrine_Core', 'autoload'));
-            spl_autoload_register(array('Doctrine_Core', 'modelsAutoload'));
         }
     }
 

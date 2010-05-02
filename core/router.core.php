@@ -34,7 +34,10 @@
     */
 
 # Security Handler
-if (defined('IN_CS') == false) { die('Clansuite not loaded. Direct Access forbidden.'); }
+if(defined('IN_CS') == false)
+{
+    die('Clansuite not loaded. Direct Access forbidden.');
+}
 
 /**
  * Clansuite_Route
@@ -42,7 +45,7 @@ if (defined('IN_CS') == false) { die('Clansuite not loaded. Direct Access forbid
  * Purpose:
  * Clansuite_Route does URL Formating and internal Rewriting.
  * It's a wrapper around PEAR Net_URL_Mapper.
- * 
+ *
  * The URL is segmented and restructured to fit the internal route to a controller.
  * The internal routes are described in a central routing configuration file.
  * This central config is updated on installation and deinstallation of modules and plugins.
@@ -83,7 +86,7 @@ class Clansuite_Router
      * @var object Clansuite_Configuration
      */
     private $config;
-    
+
     /**
      * Route(s)
      */
@@ -132,7 +135,7 @@ class Clansuite_Router
      * @param Clansuite_Config $config
      */
     public function __construct(Clansuite_HttpRequest $request, Clansuite_Config $config)
-    {       
+    {
         $this->request = $request;
         $this->config  = $config;
 
@@ -240,7 +243,7 @@ class Clansuite_Router
 
         $url = $this->routes->generate($args, $params, $fragment);
 
-       
+
         return $url;
     }
 

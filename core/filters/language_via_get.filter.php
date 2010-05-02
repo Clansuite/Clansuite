@@ -34,7 +34,10 @@
     */
 
 # Security Handler
-if (defined('IN_CS') == false){ die('Clansuite not loaded. Direct Access forbidden.' ); }
+if (defined('IN_CS') == false)
+{ 
+    die('Clansuite not loaded. Direct Access forbidden.' );
+}
 
 /**
  * Clansuite Filter - Language via URL
@@ -65,21 +68,21 @@ class Clansuite_Filter_language_via_get implements Clansuite_Filter_Interface
 
     public function __construct(Clansuite_Config $config)
     {
-       $this->config    = $config;      # set instance of config to class
+        $this->config    = $config;      # set instance of config to class
     }
 
     public function executeFilter(Clansuite_HttpRequest $request, Clansuite_HttpResponse $response)
     {
         /**
-               * take the initiative of filtering, if language switching is enabled in CONFIG
-               * or pass through (do nothing) if disabled
-               */
+         * take the initiative of filtering, if language switching is enabled in CONFIG
+         * or pass through (do nothing) if disabled
+         */
         if($this->config['switches']['languageswitch_via_url'] == 1)
         {
             if(isset($request['lang']) && !empty($request['lang']) && (strlen($request['lang']) == 2))
             {
-               $_SESSION['user']['language']           = strtolower($request['lang']).'_'.strtoupper($request['lang']);
-               $_SESSION['user']['language_via_url']   = 1;
+                $_SESSION['user']['language']           = strtolower($request['lang']).'_'.strtoupper($request['lang']);
+                $_SESSION['user']['language_via_url']   = 1;
             }
         }
     }

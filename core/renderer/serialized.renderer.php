@@ -34,7 +34,10 @@
     */
 
 # Security Handler
-if (defined('IN_CS') == false) { die('Clansuite not loaded. Direct Access forbidden.'); }
+if(defined('IN_CS') == false)
+{
+    die('Clansuite not loaded. Direct Access forbidden.');
+}
 
 # Load Clansuite_Renderer_Base
 require dirname(__FILE__) . '/renderer.base.php';
@@ -61,7 +64,7 @@ class Clansuite_Renderer_Serialized extends Clansuite_Renderer_Base
 
     /**
      * Render serialized PHP data
-     */ 
+     */
     public function render($data)
     {
         return serialize($this->data);

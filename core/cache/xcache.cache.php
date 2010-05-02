@@ -62,7 +62,7 @@ class Clansuite_Cache_Xcache implements Clansuite_Cache_Interface
      */
     public function contains($key)
     {
-       return xcache_isset($key);
+        return xcache_isset($key);
     }
 
     /**
@@ -86,7 +86,7 @@ class Clansuite_Cache_Xcache implements Clansuite_Cache_Interface
      */
     public function store($key, $data, $cache_lifetime)
     {
-         return xcache_set($key, $data, $cache_lifetime);
+        return xcache_set($key, $data, $cache_lifetime);
     }
 
     /**

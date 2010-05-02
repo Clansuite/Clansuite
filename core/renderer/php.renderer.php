@@ -32,7 +32,10 @@
     */
 
 # Security Handler
-if (defined('IN_CS') == false) { die('Clansuite not loaded. Direct Access forbidden.'); }
+if(defined('IN_CS') == false)
+{
+    die('Clansuite not loaded. Direct Access forbidden.');
+}
 
 # Load Clansuite_Renderer_Base
 require dirname(__FILE__) . '/renderer.base.php';
@@ -60,10 +63,10 @@ class Clansuite_Renderer_Php extends Clansuite_Renderer_Base
     {
         $this->file = $file;
         $this->data = $data;
-        
+
         return $this;
     }
-    
+
     public function fetch($filename = null, $directory = null)
     {
         if(is_null($filename))
@@ -72,7 +75,7 @@ class Clansuite_Renderer_Php extends Clansuite_Renderer_Base
         }
         else
         {
-            $file = $this->file;   
+            $file = $this->file;
         }
 
         if (is_file($file))
@@ -118,7 +121,7 @@ class Clansuite_Renderer_Php extends Clansuite_Renderer_Base
         {
             $this->data[$key] = $value;
         }
-        
+
         return $this;
     }
 

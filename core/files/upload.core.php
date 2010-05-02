@@ -34,7 +34,10 @@
     */
 
 # Security Handler
-if (defined('IN_CS') == false){die('Clansuite not loaded. Direct Access forbidden.');}
+if (defined('IN_CS') == false)
+{
+    die('Clansuite not loaded. Direct Access forbidden.');
+}
 
 /**
  * Clansuite_Upload - Clansuite Core Class for Upload Handling
@@ -70,22 +73,22 @@ class Clansuite_Upload implements ArrayAccess, IteratorAggregate, Countable
                 for ($i = 0; $i < $filecounter; $i++)
                 {
                     $this->files[$formId][$i] = new Clansuite_File(
-                        $fileInfo['name'][$i],
-                        $fileInfo['type'][$i],
-                        $fileInfo['size'][$i],
-                        $fileInfo['tmp_name'][$i],
-                        $fileInfo['error'][$i]
+                            $fileInfo['name'][$i],
+                            $fileInfo['type'][$i],
+                            $fileInfo['size'][$i],
+                            $fileInfo['tmp_name'][$i],
+                            $fileInfo['error'][$i]
                     );
                 }
             }
             else
             {
                 $this->files[$formId] = new Clansuite_File(
-                    $fileInfo['name'],
-                    $fileInfo['type'],
-                    $fileInfo['size'],
-                    $fileInfo['tmp_name'],
-                    $fileInfo['error']
+                        $fileInfo['name'],
+                        $fileInfo['type'],
+                        $fileInfo['size'],
+                        $fileInfo['tmp_name'],
+                        $fileInfo['error']
                 );
             }
         }
@@ -110,7 +113,8 @@ class Clansuite_Upload implements ArrayAccess, IteratorAggregate, Countable
      */
     public function offsetGet($offset)
     {
-        if ($this->offsetExists($offset)) {
+        if ($this->offsetExists($offset))
+        {
             return $this->files[$offset];
         }
     }
@@ -132,8 +136,8 @@ class Clansuite_Upload implements ArrayAccess, IteratorAggregate, Countable
      */
     public function offsetUnset($offset)
     {
-         throw new Clansuite_Upload_Exception('Array access is read only.');
-   }
+        throw new Clansuite_Upload_Exception('Array access is read only.');
+    }
 
     /**
      * Returns an iterator for uploaded files.

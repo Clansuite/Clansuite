@@ -32,7 +32,10 @@
     */
 
 # Security Handler
-if (defined('IN_CS') == false) { die('Clansuite not loaded. Direct Access forbidden.'); }
+if(defined('IN_CS') == false)
+{
+    die('Clansuite not loaded. Direct Access forbidden.');
+}
 
 /**
  * Renderer Factory
@@ -58,35 +61,31 @@ class Clansuite_Renderer_Factory
      */
     public static function getRenderer($view_type, Phemto $injector)
     {
-        try
+        $file = ROOT_CORE .'renderer'.DS. strtolower($view_type) .'.renderer.php';
+        if (is_file($file) != 0)
         {
-            $file = ROOT_CORE .'renderer'.DS. strtolower($view_type) .'.renderer.php';
-            if (is_file($file) != 0)
+            $class = 'Clansuite_Renderer_'. $view_type;
+            if( false === class_exists($class,false))
             {
-                $class = 'Clansuite_Renderer_'. $view_type;
-                if( false === class_exists($class,false))
-                {
-                    include $file;
-                }
+                include $file;
+            }
 
-                if (class_exists($class,false))
-                {
-                    # instantiate and return the renderer and pass $injector into
-                    $view = new $class($injector, $injector->instantiate('Clansuite_Config'));
-                    #var_dump($view);
-                    return $view;
-                }
-                else
-                {
-                     throw new RendererFactoryClassNotFoundException($class);
-                }
+            if (class_exists($class,false))
+            {
+                # instantiate and return the renderer and pass $injector into
+                $view = new $class($injector, $injector->instantiate('Clansuite_Config'));
+                #var_dump($view);
+                return $view;
             }
             else
             {
-                throw new RendererFactoryFileNotFoundException($file);
+                throw new RendererFactoryClassNotFoundException($class);
             }
         }
-        catch(Clansuite_Exception $e) {}
+        else
+        {
+            throw new RendererFactoryFileNotFoundException($file);
+        }
     }
 }
 
@@ -102,8 +101,8 @@ class RendererFactoryClassNotFoundException extends Exception
     function __construct($class)
     {
         parent::__construct();
-          echo 'Renderer_Factory -> Class not found: ' . $class;
-          die();
+        echo 'Renderer_Factory -> Class not found: ' . $class;
+        die();
     }
 }
 

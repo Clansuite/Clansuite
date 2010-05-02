@@ -34,7 +34,10 @@
     */
 
 # Security Handler
-if (defined('IN_CS') == false) { die('Clansuite not loaded. Direct Access forbidden.'); }
+if(defined('IN_CS') == false)
+{
+    die('Clansuite not loaded. Direct Access forbidden.');
+}
 
 /**
  * Clansuite Core File - Clansuite_Logger_Firebug
@@ -100,27 +103,27 @@ class Clansuite_Logger_Firebug extends Clansuite_Logger implements Clansuite_Log
         switch ($level)
         {
             case LOG:
-                    return FirePHP::LOG;
+                return FirePHP::LOG;
             case INFO:
-                    return FirePHP::INFO;
+                return FirePHP::INFO;
             case WARNING:
-                    return FirePHP::WARN;
+                return FirePHP::WARN;
             case ERROR:
-                    return FirePHP::ERROR;
+                return FirePHP::ERROR;
             case NOTICE:
-                    return FirePHP::NOTICE;
+                return FirePHP::NOTICE;
             case DEBUG:
-                    return FirePHP::DEBUG;
+                return FirePHP::DEBUG;
             case TABLE:
-                    return FirePHP::TABLE;
+                return FirePHP::TABLE;
             # backtracing
             case TRACE:
-                    return FirePHP::TRACE;
+                return FirePHP::TRACE;
             # variable dumps
             case DUMP:
-                    return FirePHP::DUMP;
+                return FirePHP::DUMP;
             default:
-                    return FirePHP::ERROR;
+                return FirePHP::ERROR;
         }
     }
 

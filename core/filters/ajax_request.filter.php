@@ -34,7 +34,10 @@
     */
 
 # Security Handler
-if (defined('IN_CS') == false){ die('Clansuite not loaded. Direct Access forbidden.' ); }
+if (defined('IN_CS') == false)
+{ 
+    die('Clansuite not loaded. Direct Access forbidden.' );
+}
 
 /**
  * Clansuite Filter - Ajax Request Filter
@@ -58,8 +61,8 @@ class Clansuite_Filter_ajax_request implements Clansuite_Filter_Interface
         # check if the request is an xmlhttprequest / ajax request
         #if ($request->isXhr())
         #{
-            # set rendering as wrapped, when html return with smarty
-            # set JSON output
+        # set rendering as wrapped, when html return with smarty
+        # set JSON output
         #}
     }
 }

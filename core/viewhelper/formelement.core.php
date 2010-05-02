@@ -34,7 +34,10 @@
     */
 
 # Security Handler
-if (defined('IN_CS') == false){ die('Clansuite not loaded. Direct Access forbidden.');}
+if (defined('IN_CS') == false)
+{
+    die('Clansuite not loaded. Direct Access forbidden.');
+}
 
 /**
  * Clansuite_Formelement
@@ -80,7 +83,7 @@ class Clansuite_Formelement /* extends Clansuite_HTML */ implements Clansuite_Fo
     {
         $this->id = $id;
 
-         return $this;
+        return $this;
     }
 
     /**
@@ -103,7 +106,7 @@ class Clansuite_Formelement /* extends Clansuite_HTML */ implements Clansuite_Fo
     {
         $this->type = $type;
 
-         return $this;
+        return $this;
     }
 
     /**
@@ -153,11 +156,11 @@ class Clansuite_Formelement /* extends Clansuite_HTML */ implements Clansuite_Fo
         }
         else # remove brackets
         {
-           $name = $this->name;
-           # replace left
-           $name = str_replace('[', '_', $name);
-           # replace right with nothing (strip right)
-           $name = str_replace(']', '', $name);
+            $name = $this->name;
+            # replace left
+            $name = str_replace('[', '_', $name);
+            # replace right with nothing (strip right)
+            $name = str_replace(']', '', $name);
         }
 
         return $name;
@@ -219,21 +222,21 @@ class Clansuite_Formelement /* extends Clansuite_HTML */ implements Clansuite_Fo
         return $this;
     }
 
-   /**
-    * Return the value (escaped)
-    *
-    * @return string Escaped string
-    */
+    /**
+     * Return the value (escaped)
+     *
+     * @return string Escaped string
+     */
     public function getValue()
     {
         return htmlspecialchars($this->value);
     }
 
     /**
-    * Returns the value (unescaped)
-    *
-    * @return string Unescaped string
-    */
+     * Returns the value (unescaped)
+     *
+     * @return string Unescaped string
+     */
     public function getRawValue()
     {
         return $this->value;
@@ -446,13 +449,13 @@ class Clansuite_Formelement /* extends Clansuite_HTML */ implements Clansuite_Fo
 
         if($formmethod == 'post' and $request->isPost())
         {
-             return $request->getParameter($this->getName(), 'post');
+            return $request->getParameter($this->getName(), 'post');
 
         }
 
         if($formmethod == 'get' and $request->isGet())
         {
-             return $request->getParameter($this->getName(), 'get');
+            return $request->getParameter($this->getName(), 'get');
         }
     }
 

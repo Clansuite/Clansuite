@@ -34,7 +34,10 @@
     */
 
 # Security Handler
-if (defined('IN_CS') == false) { die('Clansuite not loaded. Direct Access forbidden.'); }
+if(defined('IN_CS') == false)
+{
+    die('Clansuite not loaded. Direct Access forbidden.');
+}
 
 /**
  * Clansuite_XDEBUG
@@ -220,15 +223,42 @@ class Clansuite_Xdebug
         echo "<div style='background: #f5f5f5; padding: 0.2em 0em;'>".htmlspecialchars($file[$trace['line']-1])."</div>\r\n";
         echo '<b>Type</b>: '.gettype($var)."\r\n"; # uhhh.. gettype is slow like hell
 
-        if (is_string($var)) { echo '<b>Length</b>: '.strlen($var)."\r\n"; }
-        if (is_array($var))  { echo '<b>Length</b>: '.count($var)."\r\n";  }
+        if (is_string($var))
+        {
+            echo '<b>Length</b>: '.strlen($var)."\r\n";
+        }
+
+        if (is_array($var))
+        {
+            echo '<b>Length</b>: '.count($var)."\r\n";
+        }
+
         echo '<b>Value</b>: ';
-        if($var === true)        { echo '<font color=green><b>true</b></font>'; }
-        elseif($var === false)   { echo '<font color=red><b>false</b></font>'; }
-        elseif($var === null)    { echo '<font color=red><b>null</b></font>'; }
-        elseif($var === 0)       { echo '0'; }
-        elseif(is_string($var) and strlen($var) == '0') { echo '<font color=green>*EMPTY STRING*</font>'; }
-        elseif(is_string($var))  { echo htmlspecialchars($var); }
+
+        if($var === true)
+        {
+            echo '<font color=green><b>true</b></font>';
+        }
+        elseif($var === false)
+        {
+            echo '<font color=red><b>false</b></font>';
+        }
+        elseif($var === null)
+        {
+            echo '<font color=red><b>null</b></font>';
+        }
+        elseif($var === 0)
+        {
+            echo '0';
+        }
+        elseif(is_string($var) and strlen($var) == '0')
+        {
+            echo '<font color=green>*EMPTY STRING*</font>';
+        }
+        elseif(is_string($var))
+        {
+            echo htmlspecialchars($var);
+        }
         else
         {
             $print_r = print_r($var, true);
@@ -239,6 +269,7 @@ class Clansuite_Xdebug
             }
             echo $print_r;
         }
+
         echo '</pre>';
 
         # save session before exit
@@ -280,8 +311,8 @@ class Clansuite_Xdebug
         }
 
         $infomsg = sprintf('You are debugging like fire in %s->%s() on line "%s" in file "%s".',
-                            $classname, $backtrace_array[1]['function'],
-                            $backtrace_array[0]['line'], $backtrace_array[0]['file']);
+                $classname, $backtrace_array[1]['function'],
+                $backtrace_array[0]['line'], $backtrace_array[0]['file']);
 
         $firephp->info($infomsg);
 
