@@ -34,7 +34,10 @@
     */
 
 # Security Handler
-if (defined('IN_CS') == false) { die('Clansuite not loaded. Direct Access forbidden.'); }
+if(defined('IN_CS') == false)
+{
+    die('Clansuite not loaded. Direct Access forbidden.');
+}
 
 /**
  * Clansuite Core File - Clansuite_Logger_Email
@@ -94,7 +97,7 @@ class Clansuite_Logger_Email extends Clansuite_Logger implements Clansuite_Logge
         $to_address   = $this->config['mail']['to_sysadmin'];
         $from_address = $this->config['mail']['from'];
         # append date/time to msg
-        $subject      = '[' . date(DATE_FORMAT, mktime()) . '] ' . $data['label']; 
+        $subject      = '[' . date(DATE_FORMAT, mktime()) . '] ' . $data['label'];
         $body         = var_export($data);
 
         $this->sendmail($to_address, $from_address, $subject, $body);

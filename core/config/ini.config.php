@@ -146,12 +146,12 @@ class Clansuite_Config_INIHandler extends Clansuite_Config_Base implements Array
 
         # attach an security header at the top of the ini file
         $content = '';
-        $content .= "; <?php die( 'Access forbidden.' ); /* DO NOT MODIFY THIS LINE! ?>\n";
+        $content .= "; <?php die('Access forbidden.'); /* DO NOT MODIFY THIS LINE! ?>\n";
         $content .= "; \n";
         $content .= "; Clansuite Configuration File : \n";
-        $content .= "; $ini_filename \n";
+        $content .= '; ' . $ini_filename . "\n";
         $content .= "; \n";
-        $content .= "; This file was generated on " . date('d-m-Y H:i') . "\n";
+        $content .= '; This file was generated on ' . date('d-m-Y H:i') . "\n";
         $content .= ";\n\n";
 
         # loop over every array element
@@ -194,7 +194,7 @@ class Clansuite_Config_INIHandler extends Clansuite_Config_Base implements Array
                 if(is_numeric($item) || is_bool($item))
                 {
                     # write numeric and boolean values without quotes
-                    $content .= $key . ' = ' . $item . CR;;
+                    $content .= $key . ' = ' . $item . CR;
                 }
                 else
                 {
@@ -272,7 +272,7 @@ class Clansuite_Config_INIHandler extends Clansuite_Config_Base implements Array
      */
     public static function array_merge_recursive_distinct(array $array1, array $array2)
     {
-       $merged = $array1;
+        $merged = $array1;
 
         foreach($array2 as $key => $value)
         {

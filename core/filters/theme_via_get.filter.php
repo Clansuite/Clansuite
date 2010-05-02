@@ -34,7 +34,10 @@
     */
 
 # Security Handler
-if (defined('IN_CS') == false) { die('Clansuite not loaded. Direct Access forbidden.'); }
+if(defined('IN_CS') == false)
+{
+    die('Clansuite not loaded. Direct Access forbidden.');
+}
 
 /**
  * Clansuite Filter - Theme via URL
@@ -55,8 +58,8 @@ class Clansuite_Filter_theme_via_get implements Clansuite_Filter_Interface
 
     public function __construct(Clansuite_Config $config, Clansuite_Inputfilter $input)
     {
-       $this->config    = $config;
-       $this->input     = $input;
+        $this->config    = $config;
+        $this->input     = $input;
     }
 
     public function executeFilter(Clansuite_HttpRequest $request, Clansuite_HttpResponse $response)

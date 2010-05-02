@@ -395,7 +395,9 @@ class Clansuite_Directory
         $fileParts = pathinfo($filePath);
 
         if(!isset($fileParts['filename']))
-        {$fileParts['filename'] = substr($fileParts['basename'], 0, strrpos($fileParts['basename'], '.'));        }
+        {
+            $fileParts['filename'] = substr($fileParts['basename'], 0, strrpos($fileParts['basename'], '.'));
+        }
 
         return $fileParts;
     }

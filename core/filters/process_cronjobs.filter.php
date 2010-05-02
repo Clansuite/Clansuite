@@ -34,7 +34,10 @@
     */
 
 # Security Handler
-if (defined('IN_CS') == false){ die('Clansuite not loaded. Direct Access forbidden.' ); }
+if (defined('IN_CS') == false)
+{ 
+    die('Clansuite not loaded. Direct Access forbidden.' );
+}
 
 /**
  * Clansuite Filter - Process Cronjobs
@@ -53,8 +56,8 @@ class Clansuite_Filter_process_cronjobs implements Clansuite_Filter_Interface
 
     public function __construct(Clansuite_Config $config, Clansuite_Cronjobs $cronjobs)
     {
-       $this->config   = $config;
-       $this->cronjobs = $cronjobs;
+        $this->config   = $config;
+        $this->cronjobs = $cronjobs;
     }
 
     public function executeFilter(Clansuite_HttpRequest $request, Clansuite_HttpResponse $response)

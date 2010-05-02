@@ -34,7 +34,10 @@
     */
 
 # Security Handler
-if (defined('IN_CS') == false) { die('Clansuite not loaded. Direct Access forbidden.'); }
+if(defined('IN_CS') == false)
+{
+    die('Clansuite not loaded. Direct Access forbidden.');
+}
 
 class Clansuite_Logger_Factory
 {
@@ -47,32 +50,31 @@ class Clansuite_Logger_Factory
      */
     public static function getLogger($logger_type, Phemto $injector)
     {
-        try
+        $file = ROOT_CORE . 'logger' . DS . strtolower($logger_type) . '.logger.php';
+        if(is_file($file) != 0)
         {
-            $file = ROOT_CORE .'logger'.DS. strtolower($logger_type) .'.logger.php';
-            if (is_file($file) != 0)
+            $class = 'logger_' . $logger_type;
+            if(false === class_exists($class, false))
             {
-                $class = 'logger_'. $logger_type;
-                if( false === class_exists($class,false) ) { include$file); }
-                
-                if (class_exists($class,false))
-                {
-                    # instantiate and return the logger and pass $injector into
-                    $logger = new $class($injector);
-                    # var_dump($logger);
-                    return $logger;
-                }
-                else
-                {
-                     throw new LoggerFactoryClassNotFoundException($class);
-                }
+                include $file;
+            }
+
+            if(class_exists($class, false))
+            {
+                # instantiate and return the logger and pass $injector into
+                $logger = new $class($injector);
+                # var_dump($logger);
+                return $logger;
             }
             else
             {
-                throw new LoggerFactoryFileNotFoundException($file);
+                throw new LoggerFactoryClassNotFoundException($class);
             }
         }
-        catch(Clansuite_Exception $e) {}
+        else
+        {
+            throw new LoggerFactoryFileNotFoundException($file);
+        }
     }
 }
 
@@ -88,8 +90,8 @@ class LoggerFactoryClassNotFoundException extends Exception
     function __construct($class)
     {
         parent::__construct();
-          echo 'Logger_Factory -> Class not found: ' . $class;
-          die();
+        echo 'Logger_Factory -> Class not found: ' . $class;
+        die();
     }
 }
 

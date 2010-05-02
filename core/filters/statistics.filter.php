@@ -34,7 +34,10 @@
     */
 
 # Security Handler
-if (defined('IN_CS') == false){ die('Clansuite not loaded. Direct Access forbidden.' ); }
+if (defined('IN_CS') == false)
+{ 
+    die('Clansuite not loaded. Direct Access forbidden.' );
+}
 
 /**
  * Clansuite Filter - Update Visitor Statistics
@@ -56,18 +59,18 @@ class Clansuite_Filter_statistics implements Clansuite_Filter_Interface
     private $curDate = null;
     private $statsWhoDeleteTime = null;
     private $statsWhoTimeout = null;
-    
+
     function __construct(Clansuite_Config $config, Clansuite_User $user)
     {
         $this->config = $config;
         $this->curTimestamp = time();
         $this->curDate = date('d.m.Y', $this->curTimestamp);
         $this->user = $user;
-        
+
         # Load Models
         $models_path = ROOT_MOD . 'statistics/model/records';
         Doctrine::loadModels($models_path);
-        
+
         $cfg = $config->readConfigForModule('statistics');
         $this->statsWhoDeleteTime = $cfg['statistics']['deleteTimeWho'];
         $this->statsWhoTimeout = $cfg['statistics']['timoutWho'];
@@ -76,7 +79,8 @@ class Clansuite_Filter_statistics implements Clansuite_Filter_Interface
     public function executeFilter(Clansuite_HttpRequest $request, Clansuite_HttpResponse $response)
     {
         # take the initiative or pass through (do nothing)
-        if (isset ($this->config['statistics']['enabled']) and $this->config['statistics']['enabled'] == 1) {
+        if (isset ($this->config['statistics']['enabled']) and $this->config['statistics']['enabled'] == 1)
+        {
             #######################
             # at the moment we do not need to use this libary !!!
             #######################
@@ -152,7 +156,7 @@ class Clansuite_Filter_statistics implements Clansuite_Filter_Interface
         {
             Doctrine::getTable('CsStatistic')->incrementHitsByOne();
             $this->updateStatisticStats();
-        }        
+        }
 
         $userOnline = Doctrine::getTable('CsStatistic')->countVisitorsOnline($this->statsWhoTimeout);
 

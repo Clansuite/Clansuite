@@ -34,7 +34,10 @@
     */
 
 # Security Handler
-if (defined('IN_CS') == false){ die('Clansuite not loaded. Direct Access forbidden.' ); }
+if (defined('IN_CS') == false)
+{ 
+    die('Clansuite not loaded. Direct Access forbidden.' );
+}
 
 /**
  * Clansuite Filter - Startup Checks
@@ -70,6 +73,7 @@ class Clansuite_Filter_startup_checks implements Clansuite_Filter_Interface
                 throw new Clansuite_Exception('Smarty Template Directories not existant.', 9);
             }
             else # Log-Entry: "Created Directory Cache/Cache."
+
             {
 
             }

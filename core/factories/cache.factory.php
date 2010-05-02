@@ -76,36 +76,32 @@ class Clansuite_Cache_Factory
      */
     public static function getCache($cache_type, Phemto $injector)
     {
-        try
+        $file = ROOT_CORE .'/cache/'. strtolower($cache_type) .'.cache.php';
+        if (is_file($file) != 0)
         {
-            $file = ROOT_CORE .'/cache/'. strtolower($cache_type) .'.cache.php';
-            if (is_file($file) != 0)
+            $class = 'Clansuite_Cache_'. $cache_type;
+
+            if( false === class_exists($class,false) )
             {
-                $class = 'Clansuite_Cache_'. $cache_type;
+                include $file;
+            }
 
-                if( false === class_exists($class,false) )
-                {
-                    include $file;
-                }
-
-                if (class_exists($class,false))
-                {
-                    # instantiate and return the renderer and pass $injector into
-                    $cache = new $class($injector);
-                    # var_dump($Cache);
-                    return $cache;
-                }
-                else
-                {
-                     throw new CacheFactoryClassNotFoundException($class);
-                }
+            if (class_exists($class,false))
+            {
+                # instantiate and return the renderer and pass $injector into
+                $cache = new $class($injector);
+                # var_dump($Cache);
+                return $cache;
             }
             else
             {
-                throw new CacheFactoryFileNotFoundException($file);
+                throw new CacheFactoryClassNotFoundException($class);
             }
         }
-        catch(Exception $e){}
+        else
+        {
+            throw new CacheFactoryFileNotFoundException($file);
+        }
     }
 }
 
@@ -121,8 +117,8 @@ class CacheFactoryClassNotFoundException extends Exception
     function __construct($class)
     {
         parent::__construct();
-          echo 'Cache_Factory -> Class not found: ' . $class;
-          die();
+        echo 'Cache_Factory -> Class not found: ' . $class;
+        die();
     }
 }
 

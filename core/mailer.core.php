@@ -38,7 +38,10 @@
     */
 
 //Security Handler
-if (defined('IN_CS') == false) { die('Clansuite not loaded. Direct Access forbidden.'); }
+if(defined('IN_CS') == false)
+{
+    die('Clansuite not loaded. Direct Access forbidden.');
+}
 
 /**
  * Clansuite_Mailer - Clansuite Core Class for Mail Handling with SwiftMailer

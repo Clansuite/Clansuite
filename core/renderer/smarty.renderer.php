@@ -143,11 +143,11 @@ class Clansuite_Renderer_Smarty extends Clansuite_Renderer_Base
             $autoload_filters = array( 'pre'    => array('inserttplnames') );
         }
         $this->renderer->autoload_filters    = $autoload_filters;
-                                                #array(       # indicates which filters will be auto-loaded
-                                                     #'pre'    => array('inserttplnames'),
-                                                     #'post'   => array(),
-                                                     #'output' => array('trimwhitespaces')
-                                                   #);
+        #array(       # indicates which filters will be auto-loaded
+        #'pre'    => array('inserttplnames'),
+        #'post'   => array(),
+        #'output' => array('trimwhitespaces')
+        #);
 
         #### COMPILER OPTIONS
         # $this->renderer->compiler_class   = "Smarty_Compiler";     # defines the compiler class for Smarty ... ONLY FOR ADVANCED USERS
@@ -159,13 +159,13 @@ class Clansuite_Renderer_Smarty extends Clansuite_Renderer_Base
          */
         if ( $this->renderer->debugging == true )
         {
-             $this->renderer->compile_check      = true;             # if a template was changed it would be recompiled, if set to false nothing will be compiled (changes take no effect)
-             $this->renderer->force_compile      = true;             # if true compiles each template everytime, overwrites $compile_check
+            $this->renderer->compile_check      = true;             # if a template was changed it would be recompiled, if set to false nothing will be compiled (changes take no effect)
+            $this->renderer->force_compile      = true;             # if true compiles each template everytime, overwrites $compile_check
         }
         else
         {
-             $this->renderer->compile_check      = true;             # if a template was changed it would be recompiled, if set to false nothing will be compiled (changes take no effect)
-             $this->renderer->force_compile      = false;            # if true compiles each template everytime, overwrites $compile_check
+            $this->renderer->compile_check      = true;             # if a template was changed it would be recompiled, if set to false nothing will be compiled (changes take no effect)
+            $this->renderer->force_compile      = false;            # if true compiles each template everytime, overwrites $compile_check
         }
 
         #### CACHING OPTIONS (set these options if caching is enabled)
@@ -296,7 +296,7 @@ class Clansuite_Renderer_Smarty extends Clansuite_Renderer_Base
         # array which modifiers used for all variables, to exclude a var from this use: {$var|nodefaults}
         # $this->renderer->default_modifiers = array('escape:"htmlall"');
         # $this->renderer->register_modifier('timemarker',  array('benchmark', 'timemarker'));
-     }
+    }
 
     /**
      * Returns a clean Smarty Object
@@ -372,7 +372,7 @@ class Clansuite_Renderer_Smarty extends Clansuite_Renderer_Base
         $this->renderer->assign($tpl_parameter, $value);
     }
 
-     /**
+    /**
      * Magic Method to get a already set/assigned Variable from Smarty
      *
      * @param string $key Name of Variable
@@ -383,7 +383,7 @@ class Clansuite_Renderer_Smarty extends Clansuite_Renderer_Base
         return $this->renderer->getTemplateVars($key);
     }
 
-   /**
+    /**
      * Magic Method to set/assign Variable to Smarty
      *
      * @param string $key Name of the variable
@@ -544,38 +544,38 @@ class Clansuite_Renderer_Smarty extends Clansuite_Renderer_Base
     public static function preRenderCheck($filename, $filecontent)
     {
         $renderChecksArray = array(
-            '1' => array(
-                          'needle' => '{include file=\'copyright.tpl\'}',
-                          'exceptionmessage' => 'The copyright tag is missing.
+                '1' => array(
+                        'needle' => '{include file=\'copyright.tpl\'}',
+                        'exceptionmessage' => 'The copyright tag is missing.
                             Please insert {include file=\'copyright.tpl\'} in your layout/wrapper template file: <br /> '.$filename,
-                          'exceptioncode' => '12'
-                        ),
+                        'exceptioncode' => '12'
+                ),
 
-            '2' => array(
-                          'needle' => '{include file=\'clansuite_header_notice.tpl\'}',
-                          'exceptionmessage' => 'The header notice tag is missing.
+                '2' => array(
+                        'needle' => '{include file=\'clansuite_header_notice.tpl\'}',
+                        'exceptionmessage' => 'The header notice tag is missing.
                Please insert {include file=\'clansuite_header_notice.tpl\'} in your layout/wrapper template file: <br /> '.$filename,
-                          'exceptioncode' => '13'
-                        ),
+                        'exceptioncode' => '13'
+                ),
 
-            '3' => array(
-                          'needle' => '{$content}',
-                          'exceptionmessage' => 'The content variable {$content} must be within the wrapper template!',
-                          'exceptioncode' => '14'
-                        ),
+                '3' => array(
+                        'needle' => '{$content}',
+                        'exceptionmessage' => 'The content variable {$content} must be within the wrapper template!',
+                        'exceptioncode' => '14'
+                ),
         );
 
 
         foreach($renderChecksArray as $preRenderCheck)
         {
-           if( false != strpos($filecontent, $preRenderCheck['needle']) )
-           {
+            if( false != strpos($filecontent, $preRenderCheck['needle']) )
+            {
                 return true;
-           }
-           else
-           {
+            }
+            else
+            {
                 throw new Clansuite_Exception($preRenderCheck['exceptionmessage'], $preRenderCheck['exceptioncode']);
-           }
+            }
         }
     }
 }

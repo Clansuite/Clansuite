@@ -34,7 +34,10 @@
     */
 
 # Security Handler
-if (defined('IN_CS') == false) { die('Clansuite not loaded. Direct Access forbidden.'); }
+if(defined('IN_CS') == false)
+{
+    die('Clansuite not loaded. Direct Access forbidden.');
+}
 
 #clansuite_preprocessor::build_monolith();
 #clansuite_preprocessor::empower_monolith();
@@ -70,7 +73,9 @@ class Clansuite_Preprocessor
         echo 'Guess what? Building a huge monolith! Ok, lets go...<br/>';
 
         if(is_file(self::$monolith_file))
-        { unlink(self::$monolith_file);        }
+        {
+            unlink(self::$monolith_file);
+        }
 
         # directory
         $directory = '.';
@@ -95,7 +100,7 @@ class Clansuite_Preprocessor
                 file_put_contents(self::$monolith_file, $new_content, FILE_APPEND);
             }
         }
-        
+
         echo 'Monolith successfully build!';
     }
 
@@ -183,7 +188,7 @@ class Clansuite_Preprocessor
     /**
      * Compile Files for APC ( Performance Strategy : File Priming)
      * The function runs through each directory and compiles each *.php file through apc_compile_file
-     * 
+     *
      * @param string $dir start directory
      */
     public static function apc_compile_files($dir)
@@ -195,7 +200,7 @@ class Clansuite_Preprocessor
         }
 
         $dirs = glob($dir . DIRECTORY_SEPARATOR . '*', GLOB_ONLYDIR);
-        
+
         if(is_array($dirs) && count($dirs) > 0)
         {
             while(list(, $v) = each($dirs))

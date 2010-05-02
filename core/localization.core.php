@@ -69,22 +69,22 @@ class Clansuite_Localization
 
     public function __construct(Clansuite_Config $config)
     {
-       # Set Reference to Config
-       $this->config = $config;
+        # Set Reference to Config
+        $this->config = $config;
 
-       # Set Locale Defaults
-       $this->domain = 'clansuite';
-       $this->encoding = $config['language']['outputcharset'];
+        # Set Locale Defaults
+        $this->domain = 'clansuite';
+        $this->encoding = $config['language']['outputcharset'];
 
-       # Get Locale
-       $locale = $this->getLocale();
+        # Get Locale
+        $locale = $this->getLocale();
 
-       /**
-        * Important Notice:
-        *
-        * List new available languages in the method head of getLanguage( $supported=array( 'en', 'de' ))
-        * to make them a valid target for a browser detected language!
-        */
+        /**
+         * Important Notice:
+         *
+         * List new available languages in the method head of getLanguage( $supported=array( 'en', 'de' ))
+         * to make them a valid target for a browser detected language!
+         */
 
         /**
          * Require PHP-gettext's emulative functions, if PHP gettext extension is off
@@ -125,11 +125,13 @@ class Clansuite_Localization
             $this->locale = $_SESSION['user']['language'];
         }
         else # 2) get language from the browser AND set it to session
+
         {
             $this->locale = $this->getLanguage();
             $_SESSION['user']['language'] = $this->locale;
 
             if(empty($this->locale)) # 3) get the default language from config as fallback
+
             {
                 $this->locale = $this->config['language']['language'];
             }

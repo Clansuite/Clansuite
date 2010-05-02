@@ -32,7 +32,10 @@
     */
 
 # Security Handler
-if (defined('IN_CS') == false) { die('Clansuite not loaded. Direct Access forbidden.'); }
+if(defined('IN_CS') == false)
+{
+    die('Clansuite not loaded. Direct Access forbidden.');
+}
 
 /**
  * Configuration Factory
@@ -121,35 +124,31 @@ class Clansuite_Config_Factory
     {
         $config_type = self::determineConfigurationHandlerTypeBy($configfile);
 
-        try
+        $file = ROOT_CORE .'config'.DS. strtolower($config_type) .'.config.php';
+        if (is_file($file) != 0)
         {
-            $file = ROOT_CORE .'config'.DS. strtolower($config_type) .'.config.php';
-            if (is_file($file) != 0)
+            $class = 'Clansuite_Config_'. strtoupper($config_type).'Handler';
+            if( false === class_exists($class,false) )
             {
-                $class = 'Clansuite_Config_'. strtoupper($config_type).'Handler';
-                if( false === class_exists($class,false) )
-                {
-                    include $file;
-                }
+                include $file;
+            }
 
-                if (class_exists($class,false))
-                {
-                    # instantiate and return the specific confighandler with the $configfile to read
-                    $config = new $class($configfile);
-                    #var_dump($config);
-                    return $config;
-                }
-                else
-                {
-                     throw new ConfigFactoryClassNotFoundException($class);
-                }
+            if (class_exists($class,false))
+            {
+                # instantiate and return the specific confighandler with the $configfile to read
+                $config = new $class($configfile);
+                #var_dump($config);
+                return $config;
             }
             else
             {
-                throw new ConfigFactoryFileNotFoundException($file);
+                throw new ConfigFactoryClassNotFoundException($class);
             }
         }
-        catch(Clansuite_Exception $e) {}
+        else
+        {
+            throw new ConfigFactoryFileNotFoundException($file);
+        }
     }
 }
 
@@ -165,8 +164,8 @@ class ConfigFactoryClassNotFoundException extends Exception
     function __construct($class)
     {
         parent::__construct();
-          echo 'Cache_Factory -> Class not found: ' . $class;
-          die();
+        echo 'Cache_Factory -> Class not found: ' . $class;
+        die();
     }
 }
 

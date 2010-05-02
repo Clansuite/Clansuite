@@ -34,7 +34,10 @@
     */
 
 # Security Handler
-if (defined('IN_CS') == false){ die('Clansuite not loaded. Direct Access forbidden.' ); }
+if (defined('IN_CS') == false)
+{ 
+    die('Clansuite not loaded. Direct Access forbidden.' );
+}
 
 /**
  * Clansuite Filter - Smarty Moves
@@ -52,7 +55,7 @@ class Clansuite_Filter_smarty_moves implements Clansuite_Filter_Interface
 
     function __construct(Clansuite_Config $config)
     {
-       $this->config     = $config;
+        $this->config     = $config;
     }
 
     public function executeFilter(Clansuite_HttpRequest $request, Clansuite_HttpResponse $response)
@@ -60,42 +63,42 @@ class Clansuite_Filter_smarty_moves implements Clansuite_Filter_Interface
         // take the initiative or pass through (do nothing)
         #if( #@todo renderengine is smarty)
         #{
-            # get output from response
-            $tpl_output = $response->getContent();
+        # get output from response
+        $tpl_output = $response->getContent();
 
-            # PRE_HEAD_CLOSE = x</head>
-            $matches = array();
-            preg_match_all('!@@@SMARTY:PRE_HEAD_CLOSE:BEGIN@@@(.*?)@@@SMARTY:PRE_HEAD_CLOSE:END@@@!is', $tpl_output, $matches);
-            $tpl_output = preg_replace('!@@@SMARTY:PRE_HEAD_CLOSE:BEGIN@@@(.*?)@@@SMARTY:PRE_HEAD_CLOSE:END@@@!is', '', $tpl_output);
-            $matches = array_unique($matches[1]);
-            foreach($matches as $value)
-            {
-                $tpl_output = str_replace('</head>', $value."\n".'</head>', $tpl_output);
-            }
+        # PRE_HEAD_CLOSE = x</head>
+        $matches = array();
+        preg_match_all('!@@@SMARTY:PRE_HEAD_CLOSE:BEGIN@@@(.*?)@@@SMARTY:PRE_HEAD_CLOSE:END@@@!is', $tpl_output, $matches);
+        $tpl_output = preg_replace('!@@@SMARTY:PRE_HEAD_CLOSE:BEGIN@@@(.*?)@@@SMARTY:PRE_HEAD_CLOSE:END@@@!is', '', $tpl_output);
+        $matches = array_unique($matches[1]);
+        foreach($matches as $value)
+        {
+            $tpl_output = str_replace('</head>', $value."\n".'</head>', $tpl_output);
+        }
 
-            # POST_BODY_OPEN = <body>x
-            $matches = array();
-            preg_match_all('!@@@SMARTY:POST_BODY_OPEN:BEGIN@@@(.*?)@@@SMARTY:POST_BODY_OPEN:END@@@!is', $tpl_output, $matches);
-            $tpl_output = preg_replace('!@@@SMARTY:POST_BODY_OPEN:BEGIN@@@(.*?)@@@SMARTY:POST_BODY_OPEN:END@@@!is', '', $tpl_output);
-            $matches = array_unique($matches[1]);
-            foreach($matches as $values)
-            {
+        # POST_BODY_OPEN = <body>x
+        $matches = array();
+        preg_match_all('!@@@SMARTY:POST_BODY_OPEN:BEGIN@@@(.*?)@@@SMARTY:POST_BODY_OPEN:END@@@!is', $tpl_output, $matches);
+        $tpl_output = preg_replace('!@@@SMARTY:POST_BODY_OPEN:BEGIN@@@(.*?)@@@SMARTY:POST_BODY_OPEN:END@@@!is', '', $tpl_output);
+        $matches = array_unique($matches[1]);
+        foreach($matches as $values)
+        {
 
-                $tpl_output = str_replace('<body>', '<body>'."\n".$value, $tpl_output);
-            }
+            $tpl_output = str_replace('<body>', '<body>'."\n".$value, $tpl_output);
+        }
 
-            # PRE_BODY_CLOSE = x</body>
-            $matches = array();
-            preg_match_all('!@@@SMARTY:PRE_BODY_CLOSE:BEGIN@@@(.*?)@@@SMARTY:PRE_BODY_CLOSE:END@@@!is', $tpl_output, $matches);
-            $tpl_output = preg_replace('!@@@SMARTY:PRE_BODY_CLOSE:BEGIN@@@(.*?)@@@SMARTY:PRE_BODY_CLOSE:END@@@!is', '', $tpl_output);
-            $matches = array_unique($matches[1]);
-            foreach($matches as $values)
-            {
-                $tpl_output = str_replace('</body>', $value."\n".'</body>', $tpl_output);
-            }
+        # PRE_BODY_CLOSE = x</body>
+        $matches = array();
+        preg_match_all('!@@@SMARTY:PRE_BODY_CLOSE:BEGIN@@@(.*?)@@@SMARTY:PRE_BODY_CLOSE:END@@@!is', $tpl_output, $matches);
+        $tpl_output = preg_replace('!@@@SMARTY:PRE_BODY_CLOSE:BEGIN@@@(.*?)@@@SMARTY:PRE_BODY_CLOSE:END@@@!is', '', $tpl_output);
+        $matches = array_unique($matches[1]);
+        foreach($matches as $values)
+        {
+            $tpl_output = str_replace('</body>', $value."\n".'</body>', $tpl_output);
+        }
 
-            # set output to response
-            $response->setContent($tpl_output, true);
+        # set output to response
+        $response->setContent($tpl_output, true);
 
         #}// else => bypass
     }

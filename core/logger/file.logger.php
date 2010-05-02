@@ -119,8 +119,8 @@ class Clansuite_Logger_File implements Clansuite_Logger_Interface
 
         if($logfilename == null)
         {
-        # hardcoded errorlog filename
-        $logfilename = 'logs/clansuite_errorlog.txt';
+            # hardcoded errorlog filename
+            $logfilename = 'logs/clansuite_errorlog.txt';
         }
 
         # determine size of file

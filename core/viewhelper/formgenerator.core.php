@@ -34,7 +34,10 @@
     */
 
 # Security Handler
-if (defined('IN_CS') == false){ die('Clansuite not loaded. Direct Access forbidden.');}
+if (defined('IN_CS') == false)
+{
+    die('Clansuite not loaded. Direct Access forbidden.');
+}
 
 # conditional include of the parent class
 if (false == class_exists('Clansuite_Form',false))
@@ -58,22 +61,22 @@ class Clansuite_Doctrine_Formgenerator extends Clansuite_Form
      * @var array
      */
     protected $typeMap = array(
-                               'boolean'    => 'checkbox',
-                               'integer'    => 'text',
-                               'float'      => 'text',
-                               'decimal'    => 'string',
-                               'string'     => 'text',
-                               'text'       => 'textarea',
-                               'enum'       => 'select',
-                               'array'      => null,
-                               'object'     => null,
-                               'blob'       => null,
-                               'clob'       => null,
-                               'time'       => 'text',
-                               'timestamp'  => 'text',
-                               'date'       => 'text',
-                               'gzip'       => null
-                               );
+            'boolean'    => 'checkbox',
+            'integer'    => 'text',
+            'float'      => 'text',
+            'decimal'    => 'string',
+            'string'     => 'text',
+            'text'       => 'textarea',
+            'enum'       => 'select',
+            'array'      => null,
+            'object'     => null,
+            'blob'       => null,
+            'clob'       => null,
+            'time'       => 'text',
+            'timestamp'  => 'text',
+            'date'       => 'text',
+            'gzip'       => null
+    );
 
     /**
      * Database columns which should not appear in the form.
@@ -100,6 +103,7 @@ class Clansuite_Doctrine_Formgenerator extends Clansuite_Form
 
         # loop over all columns
         foreach ( $tableColumns as $columnName) # => $columnType
+
         {
             # and check wheather the $columnName is to exclude
             if(in_array($columnName, $this->excludeColumns))
@@ -157,8 +161,8 @@ class Clansuite_Array_Formgenerator extends Clansuite_Form
     {
         # init parent Clansuite_Form with name, method and action
         parent::__construct( $form_array['form']['name'],
-                             $form_array['form']['method'],
-                             $form_array['form']['action'] );
+                $form_array['form']['method'],
+                $form_array['form']['action'] );
 
         # unset the key form inside form_array, because the "form" description is no longer needed, parent Clansuite_Form is already informed
         unset($form_array['form']);
@@ -174,7 +178,7 @@ class Clansuite_Array_Formgenerator extends Clansuite_Form
         }
         else
         {
-           throw new Clansuite_Exception('Ensure that all obligatory formelements are present.');
+            throw new Clansuite_Exception('Ensure that all obligatory formelements are present.');
         }
 
         return $this;
@@ -240,7 +244,7 @@ class Clansuite_Array_Formgenerator extends Clansuite_Form
                          The first array shows the obligatory form array elements. <br />
                          The second array shows your form definition. <br />
                          Please add the missing array keys with values. <br />'
-                         .var_dump($report_differences_or_true));
+                            .var_dump($report_differences_or_true));
                 }
             }
         }
@@ -259,68 +263,68 @@ class Clansuite_Array_Formgenerator extends Clansuite_Form
 
             foreach($form_array_elements as $form_array_element_number => $form_array_element)
             {
-               #clansuite_xdebug::firebug($form_array_element);
+                #clansuite_xdebug::firebug($form_array_element);
 
-               # @todo ensure these elements exist !!!
+                # @todo ensure these elements exist !!!
 
-               # add a new element to this form, position it by it's number in the array
-               $this->addElement( $form_array_element['formfieldtype'], $form_array_element_number );
+                # add a new element to this form, position it by it's number in the array
+                $this->addElement( $form_array_element['formfieldtype'], $form_array_element_number );
 
-               # fetch the new formelement object
-               $formelement = $this->getElementByPosition($form_array_element_number);
+                # fetch the new formelement object
+                $formelement = $this->getElementByPosition($form_array_element_number);
 
-               # and apply the settings (id, name, description, value) to it
-               $formelement->setID($form_array_element['id']);
+                # and apply the settings (id, name, description, value) to it
+                $formelement->setID($form_array_element['id']);
 
-               # provide array access to the form data (in $_POST) by prefixing it with the formulars name
-               # @todo if you group formelements, add the name of the group here
-               $formelement->setName($this->getName().'['.$form_array_section.']['.$form_array_element['name'].']');
-               $formelement->setDescription($form_array_element['description']);
+                # provide array access to the form data (in $_POST) by prefixing it with the formulars name
+                # @todo if you group formelements, add the name of the group here
+                $formelement->setName($this->getName().'['.$form_array_section.']['.$form_array_element['name'].']');
+                $formelement->setDescription($form_array_element['description']);
 
-               # @todo consider this as formdebug display (sets formname as label)
-               #$formelement->setLabel($this->getName().'['.$form_array_element['name'].']');
+                # @todo consider this as formdebug display (sets formname as label)
+                #$formelement->setLabel($this->getName().'['.$form_array_element['name'].']');
 
-               $formelement->setLabel($form_array_element['label']);
+                $formelement->setLabel($form_array_element['label']);
 
-               # set the options['selected'] value as default value
-               if(isset($form_array_element['options']['selected']))
-               {
-                   $formelement->setDefault($form_array_element['options']['selected']);
-                   unset($form_array_element['options']['selected']);
-               }
+                # set the options['selected'] value as default value
+                if(isset($form_array_element['options']['selected']))
+                {
+                    $formelement->setDefault($form_array_element['options']['selected']);
+                    unset($form_array_element['options']['selected']);
+                }
 
-               /**
-                * check if $form_array_element['value'] is of type array or single value
-                * array indicates, that we have a request for
-                * something like a multiselect formfield with several options
-                */
-               if(is_array($form_array_element['value']) == false)
-               {
-                   $formelement->setValue($form_array_element['value']);
-               }
-               else
-               {
-                   $formelement->setOptions($form_array_element['value']);
-               }
+                /**
+                 * check if $form_array_element['value'] is of type array or single value
+                 * array indicates, that we have a request for
+                 * something like a multiselect formfield with several options
+                 */
+                if(is_array($form_array_element['value']) == false)
+                {
+                    $formelement->setValue($form_array_element['value']);
+                }
+                else
+                {
+                    $formelement->setOptions($form_array_element['value']);
+                }
 
-               /**
-                * OPTIONAL ELEMENTS
-                */
+                /**
+                 * OPTIONAL ELEMENTS
+                 */
 
-               # if we have a class attribute defined, then add it (optional)
-               if(isset($form_array_element['class']))
-               {
-                   $formelement->setClass($form_array_element['class']);
-               }
+                # if we have a class attribute defined, then add it (optional)
+                if(isset($form_array_element['class']))
+                {
+                    $formelement->setClass($form_array_element['class']);
+                }
 
-               /**
-                * set a decorator for the formelement
-                * why is this optional, because: if you do not define a decorator, the default one will be active
-                */
-               if(isset($form_array_element['decorator']))
-               {
-                   $formelement->setDecorator($form_array_element['decorator']);
-               }
+                /**
+                 * set a decorator for the formelement
+                 * why is this optional, because: if you do not define a decorator, the default one will be active
+                 */
+                if(isset($form_array_element['decorator']))
+                {
+                    $formelement->setDecorator($form_array_element['decorator']);
+                }
             }
         }
 

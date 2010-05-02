@@ -33,8 +33,11 @@
     * @version    SVN: $Id: downloads.module.php 2753 2009-01-21 22:54:47Z vain $
     */
 
-//Security Handler
-if (defined('IN_CS') == false) { die('Clansuite not loaded. Direct Access forbidden.'); }
+# Security Handler
+if(defined('IN_CS') == false)
+{
+    die('Clansuite not loaded. Direct Access forbidden.');
+}
 
 /**
  * Clansuite_Module_Downloads

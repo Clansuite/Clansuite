@@ -34,7 +34,10 @@
     */
 
 # Security Handler
-if (defined('IN_CS') == false){ die('Clansuite not loaded. Direct Access forbidden.' ); }
+if (defined('IN_CS') == false)
+{
+    die('Clansuite not loaded. Direct Access forbidden.' );
+}
 
 /**
  * Clansuite Filter - HTML Tidy
@@ -55,7 +58,7 @@ class Clansuite_Filter_html_tidy implements Clansuite_Filter_Interface
 
     function __construct(Clansuite_Config $config)
     {
-       $this->config     = $config;
+        $this->config     = $config;
     }
 
     public function executeFilter(Clansuite_HttpRequest $request, Clansuite_HttpResponse $response)
@@ -70,33 +73,34 @@ class Clansuite_Filter_html_tidy implements Clansuite_Filter_Interface
             $tidy = new tidy;
 
             /*
-            $tidyoptions = array( 'indent-spaces'    => 4,
-                                  'wrap'             => 120,
-                                  'indent'           =>  auto,
-                                  'tidy-mark'        => true,
-                                  'show-body-only'   => true,
-                                  'force-output'     => true,
-                                  'output-xhtml'     => true,
-                                  'clean'            => true,
-                                  'hide-comments'    => false,
-                                  'join-classes'     => false,
-                                  'join-styles'      => false,
-                                  'doctype'          => 'strict',
-                                  'lower-literals'   => true,
-                                  'quote-ampersand'  => true,
-                                  'wrap'             => 0,
-                                  'drop-font-tags'   => true,
-                                  'drop-empty-paras' => true,
-                                  'drop-proprietary-attributes' => true);
-             */
+                $tidyoptions = array( 'indent-spaces'    => 4,
+                                      'wrap'             => 120,
+                                      'indent'           =>  auto,
+                                      'tidy-mark'        => true,
+                                      'show-body-only'   => true,
+                                      'force-output'     => true,
+                                      'output-xhtml'     => true,
+                                      'clean'            => true,
+                                      'hide-comments'    => false,
+                                      'join-classes'     => false,
+                                      'join-styles'      => false,
+                                      'doctype'          => 'strict',
+                                      'lower-literals'   => true,
+                                      'quote-ampersand'  => true,
+                                      'wrap'             => 0,
+                                      'drop-font-tags'   => true,
+                                      'drop-empty-paras' => true,
+                                      'drop-proprietary-attributes' => true);
+            */
 
-            $tidyoptions = array( 'clean' => true,
-                                  'output-xhtml' => true,
-                                  'drop-proprietary-attributes' => true,
-                                  'show-body-only' => true,
-                                  'indent-spaces' => 4,
-                                  'wrap' => 130,
-                                  'indent' => auto);
+            $tidyoptions = array(
+                    'clean' => true,
+                    'output-xhtml' => true,
+                    'drop-proprietary-attributes' => true,
+                    'show-body-only' => true,
+                    'indent-spaces' => 4,
+                    'wrap' => 130,
+                    'indent' => auto);
 
             # tidy the output
             $tidy->parseString($content, $config, 'utf8');

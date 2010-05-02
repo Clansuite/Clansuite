@@ -254,7 +254,7 @@ class Clansuite_Loader
         switch($type)
         {
             case 'filters':
-            #Clansuite_Xdebug::firebug($classname);
+                #Clansuite_Xdebug::firebug($classname);
                 $classname = substr($classname, 7);
                 #Clansuite_Xdebug::firebug($classname);
                 return $classname;
@@ -271,7 +271,7 @@ class Clansuite_Loader
                 break;
 
             default:
-            # replace the classname "renderer_factory" with "renderer.factory" for the correct filename
+                # replace the classname "renderer_factory" with "renderer.factory" for the correct filename
                 $classname = str_replace('_','.',$classname);
         }
 

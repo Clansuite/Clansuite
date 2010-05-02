@@ -34,7 +34,10 @@
     */
 
 # Security Handler
-if (defined('IN_CS') == false) { die('Clansuite not loaded. Direct Access forbidden.'); }
+if(defined('IN_CS') == false)
+{
+    die('Clansuite not loaded. Direct Access forbidden.');
+}
 
 /**
  * Clansuite Filter - Set Module Language
@@ -52,7 +55,7 @@ class Clansuite_Filter_set_module_language implements Clansuite_Filter_Interface
 
     public function __construct(Clansuite_Localization $locale)
     {
-       $this->locale    = $locale;      # set instance of localization to class
+        $this->locale    = $locale;      # set instance of localization to class
     }
 
     public function executeFilter(Clansuite_HttpRequest $request, Clansuite_HttpResponse $response)
