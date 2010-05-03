@@ -61,7 +61,7 @@ class Clansuite_Module_Categories_Admin extends Clansuite_Module_Controller impl
         //--------------------------
 
         include ROOT_CORE . 'viewhelper/Datagrid.core.php';
-        
+
         $ColumnSets = array();
 
         $ColumnSets[] = array(  'Alias'     => 'Select',
@@ -119,25 +119,25 @@ class Clansuite_Module_Categories_Admin extends Clansuite_Module_Controller impl
 
 
         # Instantiate the datagrid
-        $oDatagrid = new Clansuite_Datagrid( array(
+        $datagrid = new Clansuite_Datagrid( array(
                 'Datatable'     => Doctrine::getTable('CsCategories'),
                 'NamedQuery'    => 'fetchAllCategories',
                 'ColumnSets'    => $ColumnSets,
                 'BaseURL'       => 'index.php?mod=categories&sub=admin'
         ) );
 
-        $oDatagrid->setBatchActions( $BatchActions );
+        $datagrid->setBatchActions( $BatchActions );
 
-        $oDatagrid->disableFeature('Label');
-        $oDatagrid->disableFeature('Caption');
-        $oDatagrid->disableFeature('Description');
-        $oDatagrid->getCol('Select')->disableFeature('Search');
+        $datagrid->disableFeature('Label');
+        $datagrid->disableFeature('Caption');
+        $datagrid->disableFeature('Description');
+        $datagrid->getColumn('Select')->disableFeature('Search');
 
-        $oDatagrid->getCol('Name')->getRenderer()->linkFormat  = '&action=edit&id=%{id}';
-        $oDatagrid->getCol('Name')->getRenderer()->linkTitle   = _('Edit this category');
+        $datagrid->getColumn('Name')->getRenderer()->linkFormat = '&action=edit&id=%{id}';
+        $datagrid->getColumn('Name')->getRenderer()->linkTitle  = _('Edit this category');
 
         # Assign to tpl
-        $this->getView()->assign('datagrid', $oDatagrid->render());
+        $this->getView()->assign('datagrid', $datagrid->render());
 
         # Set Layout Template
         $this->getView()->setLayoutTemplate('index.tpl');
@@ -148,7 +148,7 @@ class Clansuite_Module_Categories_Admin extends Clansuite_Module_Controller impl
     public function action_admin_create()
     {
         # Load Form Class (@todo autoloader / di)
-        require ROOT_CORE . 'viewhelper/form.core.php';
+        include ROOT_CORE . 'viewhelper/form.core.php';
 
         /**
          * Create a new form
@@ -186,7 +186,7 @@ class Clansuite_Module_Categories_Admin extends Clansuite_Module_Controller impl
         $cat = Doctrine::getTable('CsCategories')->fetchSingleCategory($cat_id);
 
         # Load Form Class (@todo autoloader / di)
-        require ROOT_CORE . 'viewhelper/form.core.php';
+        include ROOT_CORE . 'viewhelper/form.core.php';
 
         # Create a new form
         # @todo form object with auto-population of values

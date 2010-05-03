@@ -199,7 +199,7 @@ class Clansuite_Module_Systeminfo_Admin extends Clansuite_Module_Controller impl
         /**
          * (2) initialize Open Flash Chart
          */
-        require 'libraries/open-flash-chart/php-ofc-library/open-flash-chart.php';
+        include 'libraries/open-flash-chart/php-ofc-library/open-flash-chart.php';
         $g = new graph();
 
         /**

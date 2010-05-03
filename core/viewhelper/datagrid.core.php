@@ -1637,7 +1637,7 @@ class Clansuite_Datagrid_Renderer
      * @see $_PagerLayoutString
      * @param string
      * @example
-     *   $oDatagrid->getRenderer()->setPagerLayout('[{%page}]');
+     *   $datagrid->getRenderer()->setPagerLayout('[{%page}]');
      */
     public function setPagerLayoutString($_PagerLayout)
     {
@@ -1650,7 +1650,7 @@ class Clansuite_Datagrid_Renderer
      * @see $_PagerLinkLayoutString
      * @param string
      * @example
-     *   $oDatagrid->getRenderer()->setPagerLinkLayout('[<a href="{%url}">{%page}</a>]');
+     *   $datagrid->getRenderer()->setPagerLinkLayout('[<a href="{%url}">{%page}</a>]');
      */
     public function setPagerLinkLayoutString($_PagerLinkLayout)
     {

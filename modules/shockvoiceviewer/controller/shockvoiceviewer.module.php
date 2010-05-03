@@ -74,7 +74,7 @@ class Clansuite_Module_Shockvoiceviewer extends Clansuite_Module_Controller impl
             $server     = $this->getConfigValue('serverid', '1');
 
             # load Shockvoice Viewer Class
-            require_once dirname(__FILE__) . '/library/shockvoice.class.php';
+            include dirname(__FILE__) . '/library/shockvoice.class.php';
 
             # instantiate with connection data from config
             $SVQ = new Clansuite_Shockvoice_Query($host , $port , '8010', $server, 'UTF-8');
