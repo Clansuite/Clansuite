@@ -35,7 +35,7 @@
 
 # Security Handler
 if (defined('IN_CS') == false)
-{ 
+{
     die('Clansuite not loaded. Direct Access forbidden.');
 }
 
@@ -119,6 +119,31 @@ class Clansuite_Config extends Clansuite_Config_Base implements ArrayAccess
         }
 
         $this->confighandler->writeConfig(ROOT_MOD . $modulename . DS . $modulename . '.config.php', $cfg_array);
+    }
+
+    /**
+     * Magic Method __call()
+     *
+     * When a method call to the config is not defined, it is catched by __call().
+     * So the purpose of this method is to delegate method calls to the confighandler,
+     * which might implement them. We test if the method exists there before execution.
+     * This result is, that you have the full combination of methods of this class and the instantiated
+     * confighandler, without losing methods. And without using a method-call construct like
+     * $config->confighandler->writeConfig();
+     *
+     * Several Performance-Issues:
+     * 1) costs for calling __call
+     * 2) costs for calling call_user_func_array()
+     *    All we can do is to use our semi-micro optimization: Clansuite_Loader::callMethod().
+     * 3) the nested call stack itself: the bigger the stack, the slower it becomes.
+     */
+    public function __call($method, $args)
+    {
+        if(method_exists($this->confighandler, $method) === true)
+        {
+            # use optimized callMethod() to call method with it's arguments on that modulecontroller
+            return Clansuite_Loader::callMethod($this->confighandler, $method, $args);
+        }
     }
 }
 ?>
