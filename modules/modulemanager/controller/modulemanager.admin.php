@@ -121,16 +121,16 @@ class Clansuite_Module_Modulemanager_Admin extends Clansuite_Module_Controller i
         # Fetch view and assign vars
         $view = $this->getView();
 
-        $view->assign('modules', $modules);        
-       
+        $view->assign('modules', $modules);
+
         $view->assign('modules_summary', $modules_summary);
 
         $this->prepareOutput();
     }
-    
+
     public function action_admin_edit()
     {
-    
+
         $this->prepareOutput();
     }
 
@@ -247,7 +247,10 @@ class Clansuite_Module_Modulemanager_Admin extends Clansuite_Module_Controller i
          * Include & Instantiate GeSHi
          * for the formatting of the sourcecode with geshi_highlight()
          */
-        require_once( ROOT_LIBRARIES . 'geshi/geshi.php' );
+        if(class_exists('GeSHi', false) == false)
+        {
+            include ROOT_LIBRARIES . 'geshi/geshi.php';
+        }
 
         /**
          * Frontend = class Clansuite_Module_Modulename
@@ -431,11 +434,11 @@ class Clansuite_Module_Modulemanager_Admin extends Clansuite_Module_Controller i
 
         $this->prepareOutput();
     }
-    
+
     public function action_admin_createconfig()
     {
         $view = $this->getView();
-    
+
         $this->prepareOutput();
     }
 
@@ -457,7 +460,7 @@ class Clansuite_Module_Modulemanager_Admin extends Clansuite_Module_Controller i
         # save to file
         file_put_contents( ROOT_MOD . $modulename . DS . $modulename . '.config.php' , $config);
      }
-     
+
      /**
       * This Method creates the Menu (modulenavigation)  for the Module
       *
@@ -587,7 +590,7 @@ class Clansuite_Module_Modulemanager_Admin extends Clansuite_Module_Controller i
         if( is_file( ROOT_MOD .  $module . DS . $module . '.menu.asc') == false )
         {
             # get some moduleinfos from module_info.xml
-            
+
             # one menu entry
             /*array = ( '1' => array(
                                     'action'  => 'show',
@@ -610,7 +613,7 @@ class Clansuite_Module_Modulemanager_Admin extends Clansuite_Module_Controller i
     {
         print str_replace( array("\n"," "), array("<br>","&nbsp;"), var_export($array, true))."<br>";
     }
-    
+
     public static function recursive_print ($varname, $varval)
     {
         if (is_array($varval) == false)
