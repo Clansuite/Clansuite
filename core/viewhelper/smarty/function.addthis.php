@@ -1,8 +1,10 @@
 <?php
 /**
- * Smarty plugin
+ * Clansuite Smarty Viewhelper
+ *
+ * @category Clansuite
  * @package Smarty
- * @subpackage plugins
+ * @subpackage Viewhelper
  */
 
 /**
@@ -18,12 +20,13 @@
  * @link http://www.addthis.com
  *
  * @example
- * {browserupdate}
+ * {addthis}
+ *
  * @return string
  */
 function smarty_function_addthis()
 {
-$str = <<<EOD
+    $str = <<<EOD
 <!--
      AddThis - Social Bookmarks  http://www.addthis.com/
 -->
@@ -39,6 +42,6 @@ $str = <<<EOD
 <!-- AddThis Button END -->
 EOD;
 
-return $str;
+    return $str;
 }
 ?>

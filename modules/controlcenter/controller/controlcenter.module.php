@@ -34,7 +34,10 @@
     */
 
 # Security Handler
-if (defined('IN_CS') == false){die('Clansuite not loaded. Direct Access forbidden.');}
+if (defined('IN_CS') == false)
+{
+    die('Clansuite not loaded. Direct Access forbidden.');
+}
 
 /**
  * Clansuite_Module_ControlCenter
@@ -54,7 +57,7 @@ class Clansuite_Module_ControlCenter extends Clansuite_Module_Controller impleme
     {
         # Get Render Engine
         $view = $this->getView();
-        
+
         $images = '';
 
         $view->assign( 'shortcuts', $images );
@@ -166,36 +169,36 @@ class Clansuite_Module_ControlCenter extends Clansuite_Module_Controller impleme
         $settings = array();
 
         $settings['form']   = array(    'name' => 'controlcenter_settings',
-                                        'method' => 'POST',
-                                        'action' => WWW_ROOT.'/index.php?mod=controlcenter&amp;action=settings_update');
+                'method' => 'POST',
+                'action' => WWW_ROOT.'/index.php?mod=controlcenter&amp;action=settings_update');
 
         $settings['controlcenter'][] = array(
-                                        'id' => 'show_box_shortcuts',
-                                        'name' => 'show_box_shortcuts',
-                                        'description' => _('Show Shortcuts'),
-                                        'formfieldtype' => 'selectyesno',
-                                        'value' => $this->getConfigValue('show_box_shortcuts', '1'));
+                'id' => 'show_box_shortcuts',
+                'name' => 'show_box_shortcuts',
+                'description' => _('Show Shortcuts'),
+                'formfieldtype' => 'selectyesno',
+                'value' => $this->getConfigValue('show_box_shortcuts', '1'));
 
         $settings['controlcenter'][] = array(
-                                        'id' => 'show_box_news',
-                                        'name' => 'show_box_news',
-                                        'description' => _('Show News'),
-                                        'formfieldtype' => 'selectyesno',
-                                        'value' => $this->getConfigValue('show_box_news', '1'));
+                'id' => 'show_box_news',
+                'name' => 'show_box_news',
+                'description' => _('Show News'),
+                'formfieldtype' => 'selectyesno',
+                'value' => $this->getConfigValue('show_box_news', '1'));
 
         $settings['controlcenter'][] = array(
-                                        'id' => 'show_box_security',
-                                        'name' => 'show_box_security',
-                                        'description' => _('Show Security'),
-                                        'formfieldtype' => 'selectyesno',
-                                        'value' => $this->getConfigValue('show_box_security', '1'));
+                'id' => 'show_box_security',
+                'name' => 'show_box_security',
+                'description' => _('Show Security'),
+                'formfieldtype' => 'selectyesno',
+                'value' => $this->getConfigValue('show_box_security', '1'));
 
         $settings['controlcenter'][] = array(
-                                        'id' => 'show_box_extensions',
-                                        'name' => 'show_box_extensions',
-                                        'description' => _('Show Extensions'),
-                                        'formfieldtype' => 'selectyesno',
-                                        'value' => $this->getConfigValue('show_box_extensions', '1'));
+                'id' => 'show_box_extensions',
+                'name' => 'show_box_extensions',
+                'description' => _('Show Extensions'),
+                'formfieldtype' => 'selectyesno',
+                'value' => $this->getConfigValue('show_box_extensions', '1'));
 
         include ROOT_CORE . 'viewhelper/formgenerator.core.php';
         $form = new Clansuite_Array_Formgenerator($settings);

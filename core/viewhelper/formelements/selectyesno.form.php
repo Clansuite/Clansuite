@@ -66,8 +66,8 @@ class Clansuite_Formelement_Selectyesno extends Clansuite_Formelement_Select imp
         # check if we have options
         if($this->options == null)
         {
-           # if we don't have options, we set only 'yes' and 'no'
-           $this->setOptions($this->getYesNo());
+            # if we don't have options, we set only 'yes' and 'no'
+            $this->setOptions($this->getYesNo());
         }
         else
         {

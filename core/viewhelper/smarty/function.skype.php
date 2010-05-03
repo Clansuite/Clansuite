@@ -48,21 +48,21 @@ function smarty_function_skype($params, &$smarty)
     switch ($status_code)
     {
         case 0:
-            return "unknown";
+            return 'unknown';
         case 1:
-            return "offline";
+            return 'offline';
         case 2:
-            return "online";
+            return 'online';
         case 3:
-            return "away";
+            return 'away';
         case 4:
-            return "not_available";
+            return 'not_available';
         case 5:
-            return "do_not_disturb";
+            return 'do_not_disturb';
         case 6:
-            return "offline";
+            return 'offline';
         case 7:
-            return "skype_me";
+            return 'skype_me';
     }
 }
 ?>

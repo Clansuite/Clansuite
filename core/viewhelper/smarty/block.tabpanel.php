@@ -1,8 +1,10 @@
 <?php
 /**
- * Smarty plugin
+ * Clansuite Smarty Viewhelper
+ *
+ * @category Clansuite
  * @package Smarty
- * @subpackage plugins
+ * @subpackage Viewhelper
  */
 
 /**
@@ -33,7 +35,7 @@ function smarty_block_tabpanel($params, $content, $smarty, &$repeat)
     $start_tabpane .= '<script type="text/javascript" src="'.WWW_ROOT_THEMES_CORE.'/javascript/jquery/jquery.tabs.js"></script>';
     $start_tabpane .= "\n";
 
-$html = <<< EOF
+    $html = <<< EOF
 <script type="text/javascript">
     $(document).ready(function(){
         $(".tabs").accessibleTabs({

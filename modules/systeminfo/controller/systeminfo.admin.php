@@ -35,7 +35,10 @@
     */
 
 # Security Handler
-if (defined('IN_CS') == false){die('Clansuite not loaded. Direct Access forbidden.');}
+if (defined('IN_CS') == false)
+{
+    die('Clansuite not loaded. Direct Access forbidden.');
+}
 
 /**
  * Clansuite_Module_Systeminfo_Admin
@@ -60,7 +63,7 @@ class Clansuite_Module_Systeminfo_Admin extends Clansuite_Module_Controller impl
         $this->getView()->setLayoutTemplate('index.tpl');
 
         $sysinfo = array_merge($this->assembleSystemInfos(),
-                               $this->assembleDatabaseInfos());
+                $this->assembleDatabaseInfos());
 
         $this->getView()->assign('sysinfos', $sysinfo);
         unset($sysinfo);
@@ -96,6 +99,7 @@ class Clansuite_Module_Systeminfo_Admin extends Clansuite_Module_Controller impl
 
         # Is the SERVER-API an CGI (until PHP 5.3) or CGI_FCGI?
         if ( substr($sysinfos['php_sapi_name'], 0, 3) == 'cgi') # this will take care of 'cgi' and 'cgi-fcgi'
+
         {
             $sysinfos['php_sapi_cgi'] = true;
         }

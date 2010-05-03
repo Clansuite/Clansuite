@@ -72,6 +72,7 @@ function UTF8_to_HTML($utf8, $encodeTags = false)
         elseif ($ascii < 192)
         {
             # non-utf8 character or not a start byte
+            $result .= ''; # leave this. would else be an empty elseif statement.
         }
         elseif ($ascii < 224)
         {

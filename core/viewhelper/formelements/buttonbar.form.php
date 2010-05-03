@@ -102,9 +102,9 @@ class Clansuite_Formelement_Buttonbar extends Clansuite_Formelement implements C
             }
             else
             {
-               $this->addButton($buttonname);
+                $this->addButton($buttonname);
 
-               return $this->_buttons[$buttonname];
+                return $this->_buttons[$buttonname];
             }
         }
         catch(Exception $e)

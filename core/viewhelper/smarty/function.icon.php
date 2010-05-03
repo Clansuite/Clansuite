@@ -33,16 +33,22 @@
 
 function smarty_function_icon($params, $smarty)
 {
+    $src = '';
+    $height = '';
+    $alt = '';
+    $name = '';
+    $width = '';
+    $extra = '';
 
     extract($params);
-    
+
     /**
      * if the src attribute contains a http://SERVER_NAME URL its cutted of
      */
     if(isset($src) and empty($src) == false)
     {
         $needle = 'http://'.$_SERVER['SERVER_NAME'].'/';
-        $pos = strpos($src, $needle);    
+        $pos = strpos($src, $needle);
         if(isset($src) and is_int($pos))
         {
             #clansuite_xdebug::printR($pos);
@@ -50,18 +56,20 @@ function smarty_function_icon($params, $smarty)
             $name = basename($src);
         }
     }
-    
+
     # we have two alternatives :
     # a) src => user has set src, defining the path to the image and imagename
-    # b) icondir, name => user has defined the icons dir (relative to core/images folder) and the name of a png file    
-    
+    # b) icondir, name => user has defined the icons dir (relative to core/images folder) and the name of a png file
+
     # check if it is a valid one
     $icondir_whitelist = array( 'icons', 'lullacons' );
     if(isset($icondir) and in_array($icondir, $icondir_whitelist))
     {
         # valid
+        $icondir .= ''; # leave this. would else be an empty if statement
     }
     else # fallback to a valid default
+
     {
         $icondir = 'icons';
     }

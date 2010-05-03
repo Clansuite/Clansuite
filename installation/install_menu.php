@@ -1,6 +1,9 @@
 <?php
 # Security Handler
-if (defined('IN_CS') == false){ die( 'Clansuite not loaded. Direct Access forbidden.' );}
+if (defined('IN_CS') == false)
+{ 
+    die( 'Clansuite not loaded. Direct Access forbidden.' );
+}
 ?>
 
 <div id="sidebar">
@@ -10,7 +13,7 @@ if (defined('IN_CS') == false){ die( 'Clansuite not loaded. Direct Access forbid
 for($i = 1; $i <= $total_steps; $i++)
 {
     if($i < $step )
-    { 
+    {
         $classValue = 'step-pass';
     }
     elseif($i == $step )

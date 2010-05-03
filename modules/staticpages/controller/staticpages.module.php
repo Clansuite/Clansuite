@@ -35,7 +35,10 @@
     */
 
 # Security Handler
-if (defined('IN_CS') == false){die('Clansuite not loaded. Direct Access forbidden.');}
+if (defined('IN_CS') == false)
+{
+    die('Clansuite not loaded. Direct Access forbidden.');
+}
 
 /**
  * Clansuite Module - Static Pages
@@ -62,7 +65,10 @@ class Clansuite_Module_Staticpages extends Clansuite_Module_Controller implement
         $page = (string) $this->injector->instantiate('Clansuite_HttpRequest')->getParameter('page');
 
         // if no page is requested, show overview
-        if(empty($page)) { return $this->action_overview(); }
+        if(empty($page))
+        {
+            return $this->action_overview();
+        }
 
         // Set Pagetitle and Breadcrumbs
         Clansuite_Breadcrumb::add( _('Show ' . $page), '/index.php?mod=staticpages&amp;action=show&page='. $page);
@@ -74,10 +80,10 @@ class Clansuite_Module_Staticpages extends Clansuite_Module_Controller implement
         if ( !empty($page)  )
         {
             $result = Doctrine_Query::create()
-                                    ->select('*')
-                                    ->from('CsStaticPages')
-                                    ->where('title = ?')
-                                    ->execute( array( $page ), Doctrine::HYDRATE_ARRAY);
+                    ->select('*')
+                    ->from('CsStaticPages')
+                    ->where('title = ?')
+                    ->execute( array( $page ), Doctrine::HYDRATE_ARRAY);
 
             #var_dump($result);
 
@@ -112,6 +118,7 @@ class Clansuite_Module_Staticpages extends Clansuite_Module_Controller implement
             }
         }
         else // page was not set or not sanitized
+
         {
             #$this->redirect('index.php?mod=staticpages&action=overview');
         }
@@ -130,10 +137,10 @@ class Clansuite_Module_Staticpages extends Clansuite_Module_Controller implement
 
         // get all static pages without page content
         $result = Doctrine_Query::create()
-                              ->select('id,title,description')
-                              ->from('CsStaticPages')
-                              ->setHydrationMode(Doctrine::HYDRATE_ARRAY)
-                              ->execute();
+                ->select('id,title,description')
+                ->from('CsStaticPages')
+                ->setHydrationMode(Doctrine::HYDRATE_ARRAY)
+                ->execute();
 
         if ( is_array($result) )
         {

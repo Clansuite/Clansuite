@@ -69,6 +69,8 @@ class Clansuite_Renderer_Php extends Clansuite_Renderer_Base
 
     public function fetch($filename = null, $directory = null)
     {
+        $file = '';
+
         if(is_null($filename))
         {
             $file = $directory . DS . $filename . '.tpl';
@@ -88,7 +90,8 @@ class Clansuite_Renderer_Php extends Clansuite_Renderer_Base
             extract($this->data, EXTR_REFS | EXTR_PREFIX_INVALID, 'invalid_');
 
             ob_start();
-            require $file;
+            #require $file;
+            include $file;
             $content = ob_get_contents();
             ob_end_clean();
 

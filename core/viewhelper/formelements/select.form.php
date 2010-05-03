@@ -41,12 +41,11 @@ if (defined('IN_CS') == false)
 
 # conditional include of the parent class
 if (false == class_exists('Clansuite_Formelement',false))
-{ 
+{
     include ROOT_CORE.'viewhelper/formelement.core.php';
 }
 
 /**
- *
  *  Clansuite_Form
  *  |
  *  \- Clansuite_Formelement_Select
@@ -98,13 +97,6 @@ class Clansuite_Formelement_Select extends Clansuite_Formelement implements Clan
         return $this;
     }
 
-   /* public function setLabel($label)
-    {
-        $this->label = $label;
-
-        return $this;
-    }   */
-
     /**
      * This sets the default value.
      * Value is used to mark that option as "selected"
@@ -126,7 +118,7 @@ class Clansuite_Formelement_Select extends Clansuite_Formelement implements Clan
         $html .= (bool) $this->class ? 'class="'.$this->class.'"' : null;
         $html .= (bool) $this->size ? 'size="'.$this->size.'"' : null;
         $html .= '>';
-        
+
         /**
          * this handles the deflaut value setting via the options array, parameter "selected"
          * it grabs the first element in the options array, which keyname should be 'selected'
@@ -141,8 +133,8 @@ class Clansuite_Formelement_Select extends Clansuite_Formelement implements Clan
          */
         if(isset($this->options['selected']) and empty($this->default))
         {
-           $this->default = $this->options['selected'];
-           unset($this->options['selected']);
+            $this->default = $this->options['selected'];
+            unset($this->options['selected']);
         }
 
         if(empty($this->options) == false)
@@ -159,6 +151,7 @@ class Clansuite_Formelement_Select extends Clansuite_Formelement implements Clan
                     $html .= '<option value="'.$key.'" selected>'.$value.'</option>';
                 }
                 else # a normal select element is rendered
+
                 {
                     $html .= '<option value="'.$key.'">'.$value.'</option>';
                 }
@@ -166,7 +159,7 @@ class Clansuite_Formelement_Select extends Clansuite_Formelement implements Clan
         }
         else
         {
-             $html .= '<option value="0">No Files found.</option>';
+            $html .= '<option value="0">No Files found.</option>';
         }
 
         # close the html select tag

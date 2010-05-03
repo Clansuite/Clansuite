@@ -35,7 +35,10 @@
     */
 
 # Security Handler
-if (defined('IN_CS') == false){die('Clansuite not loaded. Direct Access forbidden.');}
+if (defined('IN_CS') == false)
+{
+    die('Clansuite not loaded. Direct Access forbidden.');
+}
 
 /**
  * Clansuite_Module_Gallery
@@ -47,7 +50,7 @@ if (defined('IN_CS') == false){die('Clansuite not loaded. Direct Access forbidde
 class Clansuite_Module_Gallery extends Clansuite_Module_Controller implements Clansuite_Module_Interface
 {
     public function initializeModule(Clansuite_HttpRequest $request, Clansuite_HttpResponse $response)
-    {       
+    {
         $this->getModuleConfig();
     }
 
@@ -61,12 +64,12 @@ class Clansuite_Module_Gallery extends Clansuite_Module_Controller implements Cl
 
     public function widget_gallery($item)
     {
-    
+
     }
 
     public function widget_random_image($item)
     {
-        
+
     }
 }
 ?>

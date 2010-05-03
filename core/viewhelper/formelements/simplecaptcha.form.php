@@ -167,9 +167,9 @@ class Clansuite_JustAn_Captcha
 
             # not the excluded chars and only special chars segments
             if (in_array($random, $excludeChars) == false and
-            ( ($random >= 50 && $random <= 57)   # ASCII 48->57:  numbers   0-9
-            | ($random >= 65 && $random <= 90))  # ASCII 65->90:  uppercase A-Z
-            | ($random >= 97 && $random <= 122)  # ASCII 97->122: lowercase a-z
+                    ( ($random >= 50 && $random <= 57)   # ASCII 48->57:  numbers   0-9
+                            | ($random >= 65 && $random <= 90))  # ASCII 65->90:  uppercase A-Z
+                    | ($random >= 97 && $random <= 122)  # ASCII 97->122: lowercase a-z
             )
             {
                 # adds a random char to the string
@@ -196,85 +196,86 @@ class Clansuite_JustAn_Captcha
 
         # switch between captcha types
         switch (1)# rand(1,2))
+
         {
             case 1: # captcha with some effects
 
-                # create backgroundcolor from random RGB colors
+            # create backgroundcolor from random RGB colors
                 $background_color = imagecolorallocate($captcha, rand(100, 255), rand(100, 255), rand(0, 255));
 
-            /**
-             * Background Fill Effects
-             */
-            switch (rand(1,2))
-            {
-                case 1: # Solid Fill
-
-                    imagefill($captcha, 0, 0, $background_color );
-                    break;
-
-                case 2: # Gradient Fill
-
-                    for ($i = 0, $rd = rand(0, 100), $gr = rand(0, 100), $bl= rand(0, 100); $i <= $this->image_height; $i++)
-                    {
-                        $g = imagecolorallocate($captcha, $rd+=2, $gr+=2, $bl+=2);
-                        imageline($captcha, 0, $i, $this->image_width, $i, $g);
-                    }
-                    break;
-            }
-
-            # create textcolor from random RGB colors
-            $text_color = imagecolorallocate($captcha, rand(50,240), rand(50,240), rand(0,255));
-
-            # add some noise
-            for ($i=1; $i<=4; $i++)
-            {
-                imageellipse($captcha,rand(1,200),rand(1,50),rand(50,100),rand(12,25), $text_color);
-            }
-
-            for ($i=1; $i<=4; $i++)
-            {
-                imageellipse($captcha,rand(1,200),rand(1,50),rand(50,100),rand(12,25), $background_color);
-            }
-
-            Clansuite_Xdebug::firebug($string_length);
-
-            # loop charwise through $captcha_string and apply a random font-effect
-            for ($i=0; $i < $string_length; $i++)
-            {
                 /**
-                 * Font Rotation Effect
+                 * Background Fill Effects
                  */
                 switch (rand(1,2))
                 {
-                    case 1: # Clock-Rotation (->)
-                        $rotangle = rand(0,15);
+                    case 1: # Solid Fill
+
+                        imagefill($captcha, 0, 0, $background_color );
                         break;
-                    case 2: # Counter-Rotation (<-)
-                        $rotangle = rand(345,360);
+
+                    case 2: # Gradient Fill
+
+                        for ($i = 0, $rd = rand(0, 100), $gr = rand(0, 100), $bl= rand(0, 100); $i <= $this->image_height; $i++)
+                        {
+                            $g = imagecolorallocate($captcha, $rd+=2, $gr+=2, $bl+=2);
+                            imageline($captcha, 0, $i, $this->image_width, $i, $g);
+                        }
                         break;
                 }
 
-                # add string to image
-                #imagettftext ($image, $size, $angle, $x, $y, $color, $fontfile, $text)
+                # create textcolor from random RGB colors
+                $text_color = imagecolorallocate($captcha, rand(50,240), rand(50,240), rand(0,255));
 
-                imagettftext($captcha, rand(16,30), $rotangle,
-                             25+($i*25), 30, 10+($i*27), self::$font, $captcha_string[$i]);
-            }
+                # add some noise
+                for ($i=1; $i<=4; $i++)
+                {
+                    imageellipse($captcha,rand(1,200),rand(1,50),rand(50,100),rand(12,25), $text_color);
+                }
 
-            # add interlacing
-            # $this->interlace($captcha);
+                for ($i=1; $i<=4; $i++)
+                {
+                    imageellipse($captcha,rand(1,200),rand(1,50),rand(50,100),rand(12,25), $background_color);
+                }
 
-            # add rotation
-            /**
-            if(function_exists('imagerotate'))
-            {
-                #$im2 = imagerotate($captcha,rand(-20,30),$background_color);
-                # imagedestroy($captcha);
-                # $captcha = $im2;
-            }
-            */
+                Clansuite_Xdebug::firebug($string_length);
 
-            break;
+                # loop charwise through $captcha_string and apply a random font-effect
+                for ($i=0; $i < $string_length; $i++)
+                {
+                    /**
+                     * Font Rotation Effect
+                     */
+                    switch (rand(1,2))
+                    {
+                        case 1: # Clock-Rotation (->)
+                            $rotangle = rand(0,15);
+                            break;
+                        case 2: # Counter-Rotation (<-)
+                            $rotangle = rand(345,360);
+                            break;
+                    }
+
+                    # add string to image
+                    #imagettftext ($image, $size, $angle, $x, $y, $color, $fontfile, $text)
+
+                    imagettftext($captcha, rand(16,30), $rotangle,
+                            25+($i*25), 30, 10+($i*27), self::$font, $captcha_string[$i]);
+                }
+
+                # add interlacing
+                # $this->interlace($captcha);
+
+                # add rotation
+                /**
+                 if(function_exists('imagerotate'))
+                 {
+                 #$im2 = imagerotate($captcha,rand(-20,30),$background_color);
+                 # imagedestroy($captcha);
+                 # $captcha = $im2;
+                 }
+                 */
+
+                break;
 
             /*case '2': # a very simple captcha
 

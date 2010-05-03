@@ -68,17 +68,17 @@ class Clansuite_Formelement_Uploadapc extends Clansuite_Formelement_File impleme
      */
     public function render()
     {
-            # APC RFC1867 File Upload Progress Hook check
-            if(ini_get('apc.rfc1867') == false)
-            {
-                echo 'No Upload with APC possible.';
-            }
+        # APC RFC1867 File Upload Progress Hook check
+        if(ini_get('apc.rfc1867') == false)
+        {
+            echo 'No Upload with APC possible.';
+        }
 
-            /**
-             * This javascript handler for fetching the json results array from apc_fetch method.
-             * @see get-progress.php
-             */
-            $javascript = "<script type=\"text/javascript\"> //<![CDATA[
+        /**
+         * This javascript handler for fetching the json results array from apc_fetch method.
+         * @see get-progress.php
+         */
+        $javascript = "<script type=\"text/javascript\"> //<![CDATA[
 
                             $(document).ready(function()
                             {
@@ -136,12 +136,12 @@ class Clansuite_Formelement_Uploadapc extends Clansuite_Formelement_File impleme
                             }
                             //]]></script>";
 
-            # add an iframe, so that the upload happens in there and is not blocking the website
-            $html = '<!-- Hidden iframe for performing the Upload -->'.CR.'
+        # add an iframe, so that the upload happens in there and is not blocking the website
+        $html = '<!-- Hidden iframe for performing the Upload -->'.CR.'
                      <iframe style="display:none" name="hidden_upload" src="'.WWW_ROOT.'/upload-file.php"></iframe>';
 
-            # add ajax status (upload_status, uploadFile, uploadSize, progressBar)
-            $html .= '<!-- Ajax Upload Status -->
+        # add ajax status (upload_status, uploadFile, uploadSize, progressBar)
+        $html .= '<!-- Ajax Upload Status -->
                       <div id="progressbar"></div>
                       <div id="upload_status" style="display:none;">
                         Currently uploading <strong id="uploadFile"></strong><br>
@@ -152,29 +152,35 @@ class Clansuite_Formelement_Uploadapc extends Clansuite_Formelement_File impleme
                       </div>
                     ';
 
-            /**
-             * APC needs a hidden element
-             * a) with a certain name
-             * b) with a unique tracking id for the file
-             * c) placed before the input file element.
-             */
-            if (false == class_exists('Clansuite_Formelement_Hidden',false)) { include dirname(__FILE__) . '/hidden.form.php'; }
-            $uniqueID = md5(uniqid(mt_rand(), true));
-            $hidden = new Clansuite_Formelement_Hidden();
-            $hidden->setName('APC_UPLOAD_PROGRESS')->setID('upload_status')->setValue($uniqueID);
-            $html .= $hidden;
+        /**
+         * APC needs a hidden element
+         * a) with a certain name
+         * b) with a unique tracking id for the file
+         * c) placed before the input file element.
+         */
+        if (false == class_exists('Clansuite_Formelement_Hidden',false))
+        {
+            include dirname(__FILE__) . '/hidden.form.php';
+        }
+        $uniqueID = md5(uniqid(mt_rand(), true));
+        $hidden = new Clansuite_Formelement_Hidden();
+        $hidden->setName('APC_UPLOAD_PROGRESS')->setID('upload_status')->setValue($uniqueID);
+        $html .= $hidden;
 
-            # add the input element
-            $html .= '<input name="uploadfile" size="30" type="file">';
+        # add the input element
+        $html .= '<input name="uploadfile" size="30" type="file">';
 
-            # add a submit button
-            if (false == class_exists('Clansuite_Formelement_Submitbutton',false)) { include dirname(__FILE__) . '/submitbutton.form.php'; }
-            $submit = new Clansuite_Formelement_Submitbutton();
-            $submit->setValue(_('Upload File'));
-            $submit->setAdditionals("onclick=\"this.disabled=true; setInterval('getUploadProgress(\''+this.form.APC_UPLOAD_PROGRESS.value+'\')', 750); \" ");
-            $html .= $submit;
+        # add a submit button
+        if (false == class_exists('Clansuite_Formelement_Submitbutton',false))
+        {
+            include dirname(__FILE__) . '/submitbutton.form.php';
+        }
+        $submit = new Clansuite_Formelement_Submitbutton();
+        $submit->setValue(_('Upload File'));
+        $submit->setAdditionals("onclick=\"this.disabled=true; setInterval('getUploadProgress(\''+this.form.APC_UPLOAD_PROGRESS.value+'\')', 750); \" ");
+        $html .= $submit;
 
-            return $javascript.$html;
+        return $javascript.$html;
     }
 
     public function __toString()

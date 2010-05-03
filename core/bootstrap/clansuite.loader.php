@@ -34,7 +34,10 @@
     */
 
 # Security Handler
-if (defined('IN_CS') == false){ die('Clansuite not loaded. Direct Access forbidden.'); }
+if (defined('IN_CS') == false)
+{
+    die('Clansuite not loaded. Direct Access forbidden.');
+}
 
 /**
  * Clansuite_Loader
@@ -344,7 +347,7 @@ class Clansuite_Loader
         }
     }
 
-   /**
+    /**
      * loadModul
      *
      * - constructs classname
@@ -367,15 +370,17 @@ class Clansuite_Loader
         $modulename = strtolower($modulename);
 
         # check for prefix 'clansuite_module_'
-        $spos=strpos($modulename, 'clansuite_module_');
+        $spos = strpos($modulename, 'clansuite_module_');
         if (is_int($spos) and ($spos==0))
         {
             # ok, 'clansuite_module_' is prefixed, do nothing
+            unset($spos);
         }
         else
         {
             # add the prefix
             $modulename = 'clansuite_module_'. $modulename;
+            unset($spos);
         }
 
         /**

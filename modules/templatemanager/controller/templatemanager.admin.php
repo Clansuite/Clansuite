@@ -34,7 +34,10 @@
     */
 
 # Security Handler
-if (defined('IN_CS') == false){die('Clansuite not loaded. Direct Access forbidden.');}
+if (defined('IN_CS') == false)
+{
+    die('Clansuite not loaded. Direct Access forbidden.');
+}
 
 /**
  * Clansuite_Module_Templatemanager_Admin
@@ -53,7 +56,7 @@ class Clansuite_Module_Templatemanager_Admin extends Clansuite_Module_Controller
     public function action_admin_show()
     {
         $this->prepareOutput();
-    }   
+    }
 
     /**
      * Show all templates for a certain module
@@ -171,6 +174,7 @@ class Clansuite_Module_Templatemanager_Admin extends Clansuite_Module_Controller
             $templateeditor_newfile = false;
         }
         else # template does not exist
+
         {
             # fetch a template for rapidly setting up the new template :)
             $templateText =  $view->fetch('create_new_template.tpl');

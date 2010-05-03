@@ -1,8 +1,9 @@
 <?php
-/**
- * Security Handler
- */
-if (defined('IN_CS') == false){ die( 'Clansuite not loaded. Direct Access forbidden.' );}
+# Security Handler
+if (defined('IN_CS') == false)
+{ 
+    die( 'Clansuite not loaded. Direct Access forbidden.' );
+}
 ?>
 
     <!-- Fusszeile -->
