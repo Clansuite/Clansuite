@@ -34,7 +34,10 @@
     */
 
 # Security Handler
-if (defined('IN_CS') == false){die('Clansuite not loaded. Direct Access forbidden.');}
+if (defined('IN_CS') == false)
+{
+    die('Clansuite not loaded. Direct Access forbidden.');
+}
 
 /**
  * Clansuite_Module_Thememanager_Admin
@@ -119,6 +122,7 @@ class Clansuite_Module_Thememanager_Admin extends Clansuite_Module_Controller im
                     $theme_info[$i]['preview_thumbnail'] = $preview_image[1];  # path to [1]preview_thumb
                 }
                 else # show only nopreview.gif as thumbnail
+
                 {
                     $theme_info[$i]['preview_thumbnail'] = WWW_ROOT_THEMES.'/core/images/nopreview.jpg';
                 }

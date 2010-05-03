@@ -35,7 +35,7 @@ function smarty_function_triggerevent($params, $smarty)
     }
 
     # @todo consider passing smarty or more template infos as context to the event
-    $context = array()
+    $context = array();
     $context['params'] = $params;
 
     # pass the modulename as info

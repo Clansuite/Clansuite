@@ -134,21 +134,21 @@ class WebInstaller
 
         /* Register all extract / download methods */
         $this->_extractMethods = array(new UnzipExtractor(),
-            new PhpUnzipExtractor(),
-            new TarGzExtractor(),
-            new PhpTarGzExtractor());
+                new PhpUnzipExtractor(),
+                new TarGzExtractor(),
+                new PhpTarGzExtractor());
 
         $this->_downloadMethods = array(new CurlDownloader(),
-            new WgetDownloader(),
-            new FopenDownloader(),
-            new FsockopenDownloader());
+                new WgetDownloader(),
+                new FopenDownloader(),
+                new FsockopenDownloader());
 
         /* Make sure we can write to the current working directory */
         if(!Platform::isDirectoryWritable())
         {
             render('results', array('failure' => 'Local working directory' . dirname(__FILE__) .
-                ' is not writeable!',
-                'fix' => 'ftp> chmod 777 ' . basename(dirname(__FILE__))));
+                            ' is not writeable!',
+                    'fix' => 'ftp> chmod 777 ' . basename(dirname(__FILE__))));
             exit;
         }
 
@@ -174,7 +174,7 @@ class WebInstaller
 
             case 'extract':
 
-                /* Input validation / sanitation */
+            /* Input validation / sanitation */
                 if(empty($_POST['method']))
                     $method = '';
                 else
@@ -207,7 +207,7 @@ class WebInstaller
                                     /*
                                      * Set the permissions in the clansuite dir may be such that
                                      * the user can modify login.txt
-                                     */
+                                    */
                                     @chmod(dirname(__FILE__) . '/clansuite', 0777);
                                 }
                             }
@@ -235,8 +235,8 @@ class WebInstaller
 
             case 'download':
 
-                /* Input validation / sanitation */
-                /* The download method */
+            /* Input validation / sanitation */
+            /* The download method */
                 if(empty($_POST['method']))
                     $method = '';
                 else
@@ -304,7 +304,7 @@ class WebInstaller
 
             case 'chmod':
 
-                /* Input validation / sanitation */
+            /* Input validation / sanitation */
                 if(empty($_POST['folderName']))
                     $folderName = '';
                 else
@@ -383,7 +383,7 @@ class WebInstaller
 
             default:
 
-                /* Discover the capabilities of this PHP installation / platform */
+            /* Discover the capabilities of this PHP installation / platform */
                 $capabilities = $this->discoverCapabilities();
 
                 $capabilities['clansuiteFolderName'] = $this->findClansuiteFolder();
@@ -479,10 +479,10 @@ class WebInstaller
             $archiveExists = is_file(dirname(__FILE__) . '/' . $archiveName);
             $isSupported = $method->isSupported();
             $extractMethods[] = array('isSupported' => $isSupported,
-                'name' => $method->getName(),
-                'command' => strtolower(get_class($method)),
-                'archiveExists' => $archiveExists,
-                'archiveName' => $archiveName);
+                    'name' => $method->getName(),
+                    'command' => strtolower(get_class($method)),
+                    'archiveExists' => $archiveExists,
+                    'archiveName' => $archiveName);
             if(empty($extensions[$method->getSupportedExtension()]))
             {
                 $extensions[$method->getSupportedExtension()] = (int) $isSupported;
@@ -505,8 +505,8 @@ class WebInstaller
         foreach($this->_downloadMethods as $method)
         {
             $downloadMethods[] = array('isSupported' => $method->isSupported(),
-                'name' => $method->getName(),
-                'command' => strtolower(get_class($method)));
+                    'name' => $method->getName(),
+                    'command' => strtolower(get_class($method)));
         }
         $capabilities['downloadMethods'] = $downloadMethods;
 
@@ -584,9 +584,9 @@ class WebInstaller
         /*
          * Fetch the version information from a remote server and if we already have it,
          * update it if it's older than an hour
-         */
+        */
         if(!is_file($tempFile) || ! (($stat = @stat($tempFile)) &&
-                isset($stat['mtime']) && $stat['mtime'] > time() - 3600))
+                        isset($stat['mtime']) && $stat['mtime'] > time() - 3600))
         {
             $downloader->download($versionCheckUrl, $tempFile);
         }
@@ -601,8 +601,8 @@ class WebInstaller
                     /* Each line is of the format key=value */
                     $versionStrings = implode('|', $availableVersions);
                     if(preg_match('/^(' . $versionStrings .
-                                    ')=((?:http|ftp):\/(?:\/(?:[A-Za-z0-9-_]+\.?)+)+)\s*/',
-                                    $line, $match))
+                    ')=((?:http|ftp):\/(?:\/(?:[A-Za-z0-9-_]+\.?)+)+)\s*/',
+                    $line, $match))
                     {
                         $currentVersions[$match[1]] = $match[2];
                     }
@@ -929,10 +929,10 @@ class FsockopenDownloader extends DownloadMethod
 
         /* Read the web file into a buffer */
         $ok = fwrite($fd, sprintf("GET %s HTTP/1.0\r\n" .
-                                "Host: %s\r\n" .
-                                "\r\n",
-                                $get,
-                                $components['host']));
+                "Host: %s\r\n" .
+                "\r\n",
+                $get,
+                $components['host']));
         if(!$ok)
         {
             return 'Download request failed (fwrite)';
@@ -946,7 +946,7 @@ class FsockopenDownloader extends DownloadMethod
         /*
          * Read the response code. fgets stops after newlines.
          * The first line contains only the status code (200, 404, etc.).
-         */
+        */
         $headers = array();
         $response = trim(fgets($fd, 4096));
 
@@ -1234,7 +1234,7 @@ class PhpTargzExtractor extends ExtractMethod
     function isSupported()
     {
         foreach(array('gzopen', 'gzclose', 'gzseek', 'gzread',
-    'touch', 'gzeof') as $functionName)
+                'touch', 'gzeof') as $functionName)
         {
             if(!Platform::isPhpFunctionSupported($functionName))
             {
@@ -1326,7 +1326,7 @@ class PhpUnzipExtractor extends ExtractMethod
     function isSupported()
     {
         foreach(array('mkdir', 'zip_open', 'zip_entry_name', 'zip_read', 'zip_entry_read',
-    'zip_entry_filesize', 'zip_entry_close', 'zip_close', 'zip_entry_close')
+                'zip_entry_filesize', 'zip_entry_close', 'zip_close', 'zip_entry_close')
         as $functionName)
         {
             if(!Platform::isPhpFunctionSupported($functionName))
@@ -1348,674 +1348,678 @@ function render($renderType, $args=array())
 {
     global $archiveBaseName, $folderPermissionList, $webinstaller_version;
     $self = basename(__FILE__);
-?>
-<?php print '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" ' .
-        '"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">'; ?>
+    ?>
+    <?php print '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" ' .
+            '"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">'; ?>
 <html>
     <head>
         <title>Clansuite :: Webinstaller</title>
-        <?php printHtmlStyle(); ?>
-        <?php printJs(); ?>
-            </head>
-            <body>
+            <?php printHtmlStyle(); ?>
+            <?php printJs(); ?>
+    </head>
+    <body>
+        <div>
+            <b class="rounded_header">
+                <b class="rounded_header1"><b></b></b>
+                <b class="rounded_header2"><b></b></b>
+                <b class="rounded_header3"></b>
+                <b class="rounded_header4"></b>
+                <b class="rounded_header5"></b></b>
+
+            <div class="rounded_headerfg">
                 <div>
-                    <b class="rounded_header">
-                        <b class="rounded_header1"><b></b></b>
-                        <b class="rounded_header2"><b></b></b>
-                        <b class="rounded_header3"></b>
-                        <b class="rounded_header4"></b>
-                        <b class="rounded_header5"></b></b>
-
-                    <div class="rounded_headerfg">
-                        <div>
-                            <img style="float:right; margin-right: 8px; margin-bottom: 3px;" src="http://home.gna.org/clansuite/Clansuite-Toolbar-Icon-64-white-webinstall.png" alt="Webinstaller Logo" />
-                            <h1 style="margin-right: 80px; margin-top: 2px;"> Clansuite Webinstaller </h1>
-                            <small><?php echo $webinstaller_version; ?></small>
-                        </div>
-                    </div>
-
-                    <b style="clear:both;" class="rounded_header">
-                        <b class="rounded_header5"></b>
-                        <b class="rounded_header4"></b>
-                        <b class="rounded_header3"></b>
-                        <b class="rounded_header2"><b></b></b>
-                        <b class="rounded_header1"><b></b></b></b>
+                    <img style="float:right; margin-right: 8px; margin-bottom: 3px;" src="http://home.gna.org/clansuite/Clansuite-Toolbar-Icon-64-white-webinstall.png" alt="Webinstaller Logo" />
+                    <h1 style="margin-right: 80px; margin-top: 2px;"> Clansuite Webinstaller </h1>
+                    <small><?php echo $webinstaller_version; ?></small>
                 </div>
+            </div>
 
-                <div>
-                    <p>
-                        <fieldset style="border-color: red; background:lightsalmon;">
-                            <legend>
-                                <strong style='border: 1px solid #000000; background: white; -moz-opacity:0.75;
-                                        filter:alpha(opacity=75);'>&nbsp;Security Advise&nbsp;</strong>
-                            </legend>
-                            <label>
+            <b style="clear:both;" class="rounded_header">
+                <b class="rounded_header5"></b>
+                <b class="rounded_header4"></b>
+                <b class="rounded_header3"></b>
+                <b class="rounded_header2"><b></b></b>
+                <b class="rounded_header1"><b></b></b></b>
+        </div>
 
-                                <strong></strong> <i>Delete the file (<?php print $self; ?>) when you are done!</i><br>
+        <div>
+            <p>
+                <fieldset style="border-color: red; background: #ffa07a;">
+                    <legend>
+                        <strong style='border: 1px solid #000000; background: white; -moz-opacity:0.75;
+                                filter:alpha(opacity=75);'>&nbsp;Security Advise&nbsp;</strong>
+                    </legend>
+                    <label>
 
-                            </label>
-                        </fieldset>
-                    </p>
+                        <strong></strong> <i>Delete the file (<?php print $self; ?>) when you are done!</i><br>
+
+                    </label>
+                </fieldset>
+            </p>
+        </div>
+
+
+        <div class="box">
+            <h2>Instructions</h2>
+            <span id="instructions-toggle" class="blockToggle"
+                  onclick="BlockToggle('instructions', 'instructions-toggle', 'instructions')">
+                Show instructions
+            </span>
+            <div id="instructions" style="display: none;">
+
+                <p>
+                    <b>This webinstaller gets the Clansuite web application on your server.</b>
+                    <br>It's an alternative to the common, but time consuming way of uploading all
+                        files via FTP or uploading and extract the archive via ssh terminal access to install a certain application. We hope
+                        this will ease the process of installation, take work out of your hands and finally safe you some time!
+                </p>
+
+                <p>
+                    <b>Installation Steps in Detail:</b>
+                </p>
+
+                <ol>
+                    <li>
+                        <b>Download of the latest Clansuite Archive</b>
+                        <br>The latest archive of clansuite is fetched from the official
+                            download server directly to your webserver.
+                            <br>After this step you will find a [.tar.gz] or [.zip] package on your server.
+                                </li>
+
+                                <li>
+                        <b>Extraction of Clansuite Archive</b>
+                        <br>All files and folders are extracted from this archive.
+                            <br>After this step you will find all files and folders of clansuite on your server.
+                                </li>
+
+                                <li>
+                                    <b>Installation</b>
+                                    <br>Follow the link to the Clansuite installation wizard.
+                                        <br>It will guide you through the final installation steps to get
+                                            Clansuite running on this server.
+                                            </li>
+                                            </ol>
+
+                                            <h1></h1>
+
+                                            <p>
+                                                <b>Permission Drawback</b>
+                                                <br><br>One possible Problem which arises by running this webinstaller is:
+                                                        because it runs as a process of the webserver, all files it creates
+                                                        are owned by the webserver process. So if you want to modify those
+                                                        files yourself, you need to get the webserver to change the permissions
+                                                        on them so that you have access.
+                                                        <br><br>Use the following functions to achive this:
+                                                                </p>
+
+                                                                <ul>
+                                                                    <li>
+                                                                        <b>Change permissions</b>
+                                                                        <br>Clansuite files have been extracted by the webserver
+                                                                            and not by yourself,  so files and folders are not owned by you. That means for example, that you
+                                                                            are not allowed to access files and folders or rename the folders manually,
+                                                                            unless you change the permissions.
+                                                                    </li>
+                                                                    <li>
+                                                                        <b>Rename the Clansuite folder</b>
+                                                                        <br>The default folder is  &quot;clansuite/&quot;. If you want it to be rather &quot;cs/&quot; or
+                                                                            &quot;somethingelse/&quot; use this function to rename it.
+                                                                    </li>
+                                                                    <li>
+                                                                        <b>Deleting Clansuite</b>
+                                                                        <br>If you want to delete a Clansuite installation that was extracted by this script, use the Uninstaller Tool which can be found at:
+                                                                            <a href="http://www.clansuite.com/">Clansuite Uninstaller</a>
+                                                                    </li>
+
+
+                                                                </ul>
+
+                                                                </div>
+                                                                </div>
+
+        <?php if(!empty($args['statusMessage'])): ?>
+        <div class="box"><b>Status:</b> <?php print $args['statusMessage']; ?></div>
+        <?php endif; ?>
+
+
+        <?php if($renderType == 'missingPassword' || $renderType == 'passwordForm'): ?>
+        <h2>
+            You are attempting to access a secure section.  You can't
+            proceed until you pass the security check.
+        </h2>
+        <?php endif; ?>
+
+        <?php if($renderType == 'missingPassword'): ?>
+        <div class="error">
+            You must enter a setup password in your <?php print $self; ?> file in order
+            to be able to access this script.
+        </div>
+        <?php elseif($renderType == 'passwordTooShort'): ?>
+        <div class="error">
+            The setup password in your <?php print $self; ?> file is too short. It must be at least
+            6 characters long.
+        </div>
+        <?php elseif($renderType == 'passwordForm'): ?>
+        <div class="password_form">
+            <div class="box">
+                <span class="message">
+                    In order to verify you, we require you to enter your pre-install setup password.  This is
+                    the password that is stored in the config section at the top of this script.
+                </span>
+                <form id="loginForm" method="post">
+                    Password:
+                    <input type="password" name="cs_password"/>
+                    <script type="text/javascript">document.getElementById('loginForm')['cs_password'].focus();</script>
+                    <input type="submit" value="Verify Me" onclick="this.disabled=true;this.form.submit();"/>
+                </form>
+                    <?php if(!empty($args['incorrectPassword'])): ?>
+                <div class="error">
+                    Password incorrect!
                 </div>
+                    <?php endif; ?>
+            </div>
+        </div>
 
+        <?php elseif($renderType == 'options'): ?>
+        <!-- Show available and unavailable options -->
+            <?php if(empty($args['anyExtensionSupported'])): ?>
+        <div class="error">
+            <h2>This platform has not the ability to extract any of our archive types!</h2>
+            <span>
+                        <?php $first = true;
+                        foreach($args['extensions'] as $ext => $supported): ?>
+                            <?php if(!$supported): ?><span class="disabled"><?php endif; ?>
+                                <?php
+                                if(!$first)
+                                    print ', '; else
+                                    $first = false; ?>
+                                <?php print $ext; ?>
+                                <?php if(!$supported): ?></span><?php endif; ?>
+                        <?php endforeach; ?>
+            </span>
+        </div>
+            <?php endif; ?>
 
-                <div class="box">
-                    <h2>Instructions</h2>
-                    <span id="instructions-toggle" class="blockToggle"
-                          onclick="BlockToggle('instructions', 'instructions-toggle', 'instructions')">
-                        Show instructions
-                    </span>
-                    <div id="instructions" style="display: none;">
+        <!-- DOWNLOAD SECTION -->
+            <?php
+            $label = empty($args['anyArchiveExists']) && empty($args['clansuiteFolderName']) ? 'Hide ' : 'Show ';
+            $display = empty($args['anyArchiveExists']) && empty($args['clansuiteFolderName']) ? '' : 'style="display: none;"';
+            ?>
+        <div class="box">
+            <h2>[1] Download the Clansuite Archive</h2>
+            <span id="download-toggle" class="blockToggle"
+                  onclick="BlockToggle('download', 'download-toggle', 'download methods')">
+                          <?php print $label . 'download methods'; ?>
+            </span>
+            <div id="download" <?php print $display; ?>>
+                <br/>
+                    <?php if(!empty($args['downloadMethods']) && ! empty($args['anyExtensionSupported'])): ?>
+                <form id="downloadForm" method="post">
+                    <span class="subtitle">Select the Clansuite version:</span>
+                    <table class="choice">
+                        <tr><td><select name="version">
+                                            <?php /*
+                                                                                             * option value="stable" selected="selected">Latest stable version (recommended)</option>
+                                                                                             * ?php if (!empty($args['showRcVersion'])): ?>
+                                                                                             * option value="rc">Latest release candidate for the next stable version</option>
+                                                                                             * ?php endif; ?>
+                                                                                             * option value="nightly">Latest daily SVN snapshot (bleeding edge and dev)</option>
+                                            */ ?>
+                                    <option value="dev">Development Version 0.2-alpha1</option>
+                                </select></td></tr>
+                    </table>
+                    <span class="subtitle">Select a download method:</span>
+                    <table class="choice">
+                                <?php
+                                $first = true;
+                                foreach($args['downloadMethods'] as $method):
+                                    $disabled = empty($method['isSupported']) ? 'disabled="true"' : '';
+                                    $notSupported = empty($method['isSupported']) ? 'not supported by this platform' : '&nbsp;';
+                                    $checked = '';
+                                    if($first and empty($method['isSupported']) == false)
+                                    {
+                                        $checked = 'checked';
+                                        $first = false;
+                                    }
+                                    printf('<tr><td><input type="radio" name="method" %s value="%s" %s/></td><td>%s</td><td>%s</td></tr>',
+                                            $disabled, $method['command'], $checked, $method['name'], $notSupported);
+                                endforeach;
+                                ?>
+                    </table>
+                    <span class="subtitle">Select an archive type:</span>
+                    <table class="choice">
+                                <?php
+                                $first = true;
+                                foreach($args['extensions'] as $ext => $supported):
+                                    $disabled = empty($supported) ? 'disabled="true"' : '';
+                                    $message = empty($supported) ? 'not supported by this platform' : '&nbsp;';
+                                    $checked = '';
+                                    if($first && $supported)
+                                    {
+                                        $checked = 'checked';
+                                        $first = false;
+                                    }
+                                    printf('<tr><td><input type="radio" name="extension" value="%s" %s %s/></td><td>%s</td><td>%s</td></tr>',
+                                            $ext, $disabled, $checked, $archiveBaseName . '.' . $ext, $message);
+                                endforeach;
+                                ?>
+                    </table>
+                    <input type="hidden" name="command" value="download"/>
+                    <input type="submit" value="Download"
+                           onclick="this.disabled=true;this.form.submit();"/>
+                </form>
+                    <?php
+                    elseif(!empty($args['anyExtensionSupported'])): ?>
+                <div class="warning">
+                    This platform does not support any of our download / transfer methods. You can upload
+                    the clansuite archiv as [.tar.gz] or [.zip] via FTP and extract it then with this tool.
+                </div>
+                    <?php elseif(!empty($args['downloadMethods'])): ?>
+                <div class="warning">
+                    This platform cannot extract archives, therefore downloading is also disabled.
+                </div>
+                    <?php else: ?>
+                <div class="warning">
+                    This platform does not support any of our download methods.
+                </div>
+                    <?php endif; ?>
+            </div>
+        </div>
 
-                        <p>
-                            <b>This webinstaller gets the Clansuite web application on your server.</b>
-                            <br>It's an alternative to the common, but time consuming way of uploading all
-                                files via FTP or uploading and extract the archive via ssh terminal access to install a certain application. We hope
-                                this will ease the process of installation, take work out of your hands and finally safe you some time!
-                        </p>
+        <!-- EXTRACTION METHODS -->
+            <?php
+            $label = !empty($args['anyArchiveExists']) && empty($args['clansuiteFolderName']) ? 'Hide ' : 'Show ';
+            $display = !empty($args['anyArchiveExists']) && empty($args['clansuiteFolderName']) ? '' : 'style="display: none;"';
+            ?>
+        <div class="box">
+            <h2>[2] Extraction</h2>
+            <span id="extract-toggle" class="blockToggle"
+                  onclick="BlockToggle('extract', 'extract-toggle', 'extraction methods')">
+                          <?php print $label . 'extraction methods'; ?>
+            </span>
+            <div id="extract" <?php print $display; ?>>
+                    <?php if(!empty($args['anyExtensionSupported'])): ?>
+                <form id="extractForm" method="post">
+                    <table class="choice">
+                                <?php
+                                $first = true;
+                                foreach($args['extractMethods'] as $method):
+                                    $disabled = 'disabled="true"';
+                                    if(empty($method['isSupported']))
+                                    {
+                                        $message = 'not supported by this platform';
+                                    }
+                                    else if(!$method['archiveExists'])
+                                    {
+                                        $message = '<span class="warning">first download the ' . $method['archiveName'] .
+                                                ' archive</span>';
+                                    }
+                                    else
+                                    {
+                                        $message = '<span class="success">ready for extraction!</span>';
+                                        $disabled = '';
+                                    }
+                                    $checked = '';
+                                    if($first and empty($disabled) and empty($method['isSupported']) == false)
+                                    {
+                                        $checked = 'checked';
+                                        $first = false;
+                                    }
+                                    printf('<tr><td><input type="radio" name="method" %s value="%s" %s/></td><td>%s</td><td>%s</td></tr>',
+                                            $disabled, $method['command'], $checked, $method['name'], $message);
+                                endforeach;
+                                ?>
+                    </table>
+                    <input type="hidden" name="command" value="extract"/>
+                    <input type="submit" value="Extract"
+                           onclick="this.disabled=true;this.form.submit();"/>
+                </form>
+                    <?php else: ?>
+                <div class="warning">
+                    Oops! - This platform cannot extract archives.
+                    <br>Steps:
+                        <br>a. Do it the old way - download archive, extract files and upload them manually!
+                            <br>b. Ask your webhoster to extract the archive for you.
+                                <br>c. Ask on Clansuite Board for installation help.
+                                    </div>
+                                        <?php endif; ?>
+                                    </div>
+                                    </div>
 
-                        <p>
-                            <b>Installation Steps in Detail:</b>
-                        </p>
+                                    <!-- LINK TO INSTALLER -->
+                                        <?php
+                                        $label = !empty($args['clansuiteFolderName']) ? 'Hide ' : 'Show ';
+                                        $display = !empty($args['clansuiteFolderName']) ? '' : 'style="display: none;"';
+                                        ?>
+                                    <div class="box">
+                                        <h2>[3] Installation of Clansuite!</h2>
+                                        <span id="install-toggle" class="blockToggle"
+                                              onclick="BlockToggle('install', 'install-toggle', 'link to installation wizard')">
+                                                      <?php print $label . 'link to installation wizard'; ?>
+                                        </span>
+                                        <div id="install" <?php print $display; ?>>
 
-                        <ol>
-                            <li>
-                                <b>Download of the latest Clansuite Archive</b>
-                                <br>The latest archive of clansuite is fetched from the official
-                                    download server directly to your webserver.
-                                    <br>After this step you will find a [.tar.gz] or [.zip] package on your server.
-                                        </li>
+                                            <!-- PATH TO CLANSUITE INSTALLER -->
+                                                <?php if(!empty($args['clansuiteFolderName'])): ?>
+                                            <span style="font-size: 14px; font-weight:bold; color:green;">
+                                                <br />
+                                                Follow this link to start the
+                                                <a href="<?php print $args['clansuiteFolderName'] . '/installation/index.php'; ?>">
+                                                    Clansuite Installation Wizard</a>!
+                                            </span>
 
-                                        <li>
-                                            <b>Extraction of Clansuite Archive</b>
-                                            <br>All files and folders are extracted from this archive.
-                                                <br>After this step you will find all files and folders of clansuite on your server.
-                                                    </li>
+                                            <!-- CHANGE PERMISSIONS -->
+                                                    <?php
+                                                    $label = !empty($args['clansuiteFolderName']) ? 'Hide ' : 'Show ';
+                                                    $display = !empty($args['clansuiteFolderName']) ? '' : 'style="display: none;"';
+                                                    $folderName = empty($args['clansuiteFolderName']) ? 'clansuite' : $args['clansuiteFolderName'];
+                                                    ?>
+                                            <div class="box">
+                                                <h2>Change the permissions of your Clansuite Folder</h2>
+                                                <span id="chmod-toggle" class="blockToggle"
+                                                      onclick="BlockToggle('chmod', 'chmod-toggle', 'change permissions form')">
+                                                                  <?php print $label . 'change permissions form'; ?>
+                                                </span>
+                                                <div id="chmod" <?php print $display; ?>>
+                                                            <?php if(!empty($args['clansuiteFolderName'])): ?>
+                                                    <p>
+                                                        777 makes the folder writeable for everybody. That is needed such that you can move
+                                                        clansuite or rename the directory with an FTP program. 555 makes it readable for
+                                                        everybody, which is required to have an operational Clansuite installation.
+                                                    </p><p>
+                                                        For <b>security</b> purposes, it is recommended that you change the folder permissions
+                                                        back to <b>555</b> once Clansuite is running. Only if you are running PHP-CGI, clansuite
+                                                        might already owned by your user and no permission changes are required.
+                                                    </p>
+                                                    <form id="chmodForm" method="post">
+                                                        Folder name: <input type="text" name="folderName" size="20" value="<?php print $folderName; ?>"/>
+                                                        Permissions:
+                                                        <select name="folderPermissions">
+                                                            <?php foreach($folderPermissionList as $perm): ?>
+                                                                <option value="<?php print $perm; ?>">
+                                                                    <?php print $perm; ?>
+                                                                </option>
+                                                            <?php endforeach; ?>
+                                                        </select>
+                                                        <input type="hidden" name="command" value="chmod"/>
+                                                        <input type="submit" value="Change Permissions"
+                                                               onclick="this.disabled=true;this.form.submit();"/>
+                                                    </form>
+                                                            <?php else: ?>
+                                                    <div class="warning">
+                                                        There is no Clansuite folder in the current working directory.
+                                                    </div>
+                                                            <?php endif; ?>
+                                                </div>
+                                            </div>
 
-                                                    <li>
-                                                        <b>Installation</b>
-                                                        <br>Follow the link to the Clansuite installation wizard.
-                                                            <br>It will guide you through the final installation steps to get
-                                                                Clansuite running on this server.
-                                                                </li>
-                                                                </ol>
+                                            <!-- RENAME FOLDER-->
+                                            <div class="box">
+                                                <h2>Rename the Clansuite folder</h2>
+                                                <span id="rename-toggle" class="blockToggle"
+                                                      onclick="BlockToggle('rename', 'rename-toggle', 'rename folder form')">
+                                                                  <?php print $label . 'rename folder form'; ?>
+                                                </span>
+                                                <div id="rename" <?php print $display; ?>>
+                                                            <?php if(!empty($args['clansuiteFolderName'])): ?>
+                                                    <p>
+                                                        Quickly rename the clansuite folder. You can do that with your FTP program as well.
+                                                    </p>
+                                                    <form id="renameForm" method="post">
+                                                        Rename folder to: <input type="text" name="folderName" size="20" value="<?php print $folderName; ?>"/>
+                                                        <input type="hidden" name="command" value="rename"/>
+                                                        <input type="submit" value="Rename Folder"
+                                                               onclick="this.disabled=true;this.form.submit();"/>
+                                                    </form>
+                                                            <?php else: ?>
+                                                    <div class="warning">
+                                                        There is no Clansuite folder in the current working directory.
+                                                    </div>
+                                                            <?php endif; ?>
+                                                </div>
+                                            </div>
 
-                                                                <h1></h1>
+                                        </div>
 
-                                                                <p>
-                                                                    <b>Permission Drawback</b>
-                                                                    <br><br>One possible Problem which arises by running this webinstaller is:
-                                                                            because it runs as a process of the webserver, all files it creates
-                                                                            are owned by the webserver process. So if you want to modify those
-                                                                            files yourself, you need to get the webserver to change the permissions
-                                                                            on them so that you have access.
-                                                                            <br><br>Use the following functions to achive this:
-                                                                                    </p>
+                                            <?php else: ?>
+                                        <div class="warning">
+                                            <b>Installer was not found!</b>
+                                            <br>Please perform steps 1 and 2 to get an extracted Clansuite archive.
+                                        </div>
+                                            <?php endif; ?>
+                                    </div>
 
-                                                                                    <ul>
-                                                                                        <li>
-                                                                                            <b>Change permissions</b>
-                                                                                            <br>Clansuite files have been extracted by the webserver
-                                                                                                and not by yourself,  so files and folders are not owned by you. That means for example, that you
-                                                                                                are not allowed to access files and folders or rename the folders manually,
-                                                                                                unless you change the permissions.
-                                                                                        </li>
-                                                                                        <li>
-                                                                                            <b>Rename the Clansuite folder</b>
-                                                                                            <br>The default folder is  &quot;clansuite/&quot;. If you want it to be rather &quot;cs/&quot; or
-                                                                                                &quot;somethingelse/&quot; use this function to rename it.
-                                                                                        </li>
-                                                                                        <li>
-                                                                                            <b>Deleting Clansuite</b>
-                                                                                            <br>If you want to delete a Clansuite installation that was extracted by this script, use the Uninstaller Tool which can be found at:
-                                                                                                <a href="http://www.clansuite.com/">Clansuite Uninstaller</a>
-                                                                                        </li>
+                                    <?php elseif($renderType == 'results'): ?>
+                                    <h2> Results </h2>
+                                        <?php if(!empty($args['failure'])): ?>
+                                    <div class="error">
+                                                <?php print $args['failure']; ?>
+                                                <?php if(!empty($args['fix'])): ?>
+                                        <div class="suggested_fix">
+                                            <h2> Suggested fix: </h2>
+                                                        <?php print $args['fix']; ?>
+                                        </div>
+                                    </div>
+                                            <?php endif; ?>
+                                        <?php endif; ?>
+                                        <?php if(!empty($args['success'])): ?>
+                                    <div class="success">
+                                                <?php print $args['success']; ?>
+                                    </div>
+                                        <?php endif; ?>
+                                    <div>
+                                        <a href="<?php print $self; ?>">Next Step!</a>
+                                    </div>
+                                    <?php endif; ?>
 
+                                    </body>
+                                    </html>
+                                    <?php
+                                }
 
-                                                                                    </ul>
+        function printHtmlStyle()
+        {
+            ?>
+            <style type="text/css">
+                html {
+                    font-family: "Lucida Grande", Verdana, Arial, sans-serif;
+                    font-size: 62.5%;
+                }
 
-                                                                                    </div>
-                                                                                    </div>
+                body {
+                    font-size: 1.2em;
+                    margin: 16px 16px 0px 16px;
+                    background: white;
+                }
 
-                                                                            <?php if(!empty($args['statusMessage'])): ?>
-                                                                                                                                                        <div class="box"><b>Status:</b> <?php print $args['statusMessage']; ?></div>
-                                                                            <?php endif; ?>
+                h1, h2 {
+                    font-family: "Gill Sans", Verdana, Arial, sans-serif;
+                    color: #333;
+                    margin: 0;
+                    padding: 1.0em 0 0.15em 0;
+                }
 
+                h1 { font-size: 1.5em; border-bottom: 1px solid #ddd; }
+                h2 { font-size: 1.3em; padding: 2px;}
 
-                                                                            <?php if($renderType == 'missingPassword' || $renderType == 'passwordForm'): ?>
-                                                                                                                                                        <h2>
-                                                                                                                                                            You are attempting to access a secure section.  You can't
-                                                                                                                                                            proceed until you pass the security check.
-                                                                                                                                                        </h2>
-                                                                            <?php endif; ?>
+                span.subtext {
+                    font-size: 0.9em;
+                }
 
-                                                                            <?php if($renderType == 'missingPassword'): ?>
-                                                                                                                                                        <div class="error">
-                                                                                                                                                            You must enter a setup password in your <?php print $self; ?> file in order
-                                                                                                                                                            to be able to access this script.
-                                                                                                                                                        </div>
-                                                                            <?php elseif($renderType == 'passwordTooShort'): ?>
-                                                                                                                                                        <div class="error">
-                                                                                                                                                            The setup password in your <?php print $self; ?> file is too short. It must be at least
-                                                                                                                                                            6 characters long.
-                                                                                                                                                        </div>
-                                                                            <?php elseif($renderType == 'passwordForm'): ?>
-                                                                                                                                                        <div class="password_form">
-                                                                                                                                                            <div class="box">
-                                                                                                                                                                <span class="message">
-                                                                                                                                                                    In order to verify you, we require you to enter your pre-install setup password.  This is
-                                                                                                                                                                    the password that is stored in the config section at the top of this script.
-                                                                                                                                                                </span>
-                                                                                                                                                                <form id="loginForm" method="post">
-                                                                                                                                                                    Password:
-                                                                                                                                                                    <input type="password" name="cs_password"/>
-                                                                                                                                                                    <script type="text/javascript">document.getElementById('loginForm')['cs_password'].focus();</script>
-                                                                                                                                                                    <input type="submit" value="Verify Me" onclick="this.disabled=true;this.form.submit();"/>
-                                                                                                                                                                </form>
-                                                                                    <?php if(!empty($args['incorrectPassword'])): ?>
-                                                                                                                                                                        <div class="error">
-                                                                                                                                                                            Password incorrect!
-                                                                                                                                                                        </div>
-                                                                                    <?php endif; ?>
-                                                                                                                                                                    </div>
-                                                                                                                                                                </div>
+                span.disabled, td.disabled {
+                    color: #ddd;
+                }
 
-                                                                            <?php elseif($renderType == 'options'): ?>
-                                                                                                                                                        <!-- Show available and unavailable options -->
-                                                                            <?php if(empty($args['anyExtensionSupported'])): ?>
-                                                                                                                                                        <div class="error">
-                                                                                                                                                            <h2>This platform has not the ability to extract any of our archive types!</h2>
-                                                                                                                                                            <span>
-                                                                                    <?php $first = true; foreach($args['extensions'] as $ext => $supported): ?>
-                                                                                    <?php if(!$supported): ?><span class="disabled"><?php endif; ?>
-                                                                                    <?php
-                                                                                    if(!$first)
-                                                                                        print ', '; else
-                                                                                        $first = false; ?>
-                                                                                        <?php print $ext; ?>
-                                                                                    <?php if(!$supported): ?></span><?php endif; ?>
-<?php endforeach; ?>
-                                                                                </span>
-                                                                            </div>
-<?php endif; ?>
+                span.subtitle {
+                    font-size: 1.2em;
+                }
 
-                                                                            <!-- DOWNLOAD SECTION -->
-                                                                            <?php
-                                                                            $label = empty($args['anyArchiveExists']) && empty($args['clansuiteFolderName']) ? 'Hide ' : 'Show ';
-                                                                            $display = empty($args['anyArchiveExists']) && empty($args['clansuiteFolderName']) ? '' : 'style="display: none;"';
-                                                                            ?>
-                                                                                                                                                        <div class="box">
-                                                                                                                                                            <h2>[1] Download the Clansuite Archive</h2>
-                                                                                                                                                            <span id="download-toggle" class="blockToggle"
-                                                                                                                                                                  onclick="BlockToggle('download', 'download-toggle', 'download methods')">
-<?php print $label . 'download methods'; ?>
-                                                                                </span>
-                                                                                <div id="download" <?php print $display; ?>>
-                                                                                    <br/>
-<?php if(!empty($args['downloadMethods']) && ! empty($args['anyExtensionSupported'])): ?>
-                                                                                        <form id="downloadForm" method="post">
-                                                                                            <span class="subtitle">Select the Clansuite version:</span>
-                                                                                            <table class="choice">
-                                                                                                <tr><td><select name="version">
-                                                                                                        <?php /*
-                                                                                                         * option value="stable" selected="selected">Latest stable version (recommended)</option>
-                                                                                                         * ?php if (!empty($args['showRcVersion'])): ?>
-                                                                                                         * option value="rc">Latest release candidate for the next stable version</option>
-                                                                                                         * ?php endif; ?>
-                                                                                                         * option value="nightly">Latest daily SVN snapshot (bleeding edge and dev)</option>
-                                                                                                         */ ?>
-                                                                                                                                                                                                                <option value="dev">Development Version 0.2-alpha1</option>
-                                                                                                                                                                                                            </select></td></tr>
-                                                                                                                                                                                                </table>
-                                                                                                                                                                                                <span class="subtitle">Select a download method:</span>
-                                                                                                                                                                                                <table class="choice">
-                                                                                            <?php
-                                                                                            $first = true;
-                                                                                            foreach($args['downloadMethods'] as $method):
-                                                                                                $disabled = empty($method['isSupported']) ? 'disabled="true"' : '';
-                                                                                                $notSupported = empty($method['isSupported']) ? 'not supported by this platform' : '&nbsp;';
-                                                                                                $checked = '';
-                                                                                                if($first && ! empty($method['isSupported']))
-                                                                                                {
-                                                                                                    $checked = 'checked'; $first = false;
-                                                                                                }
-                                                                                                printf('<tr><td><input type="radio" name="method" %s value="%s" %s/></td><td>%s</td><td>%s</td></tr>',
-                                                                                                        $disabled, $method['command'], $checked, $method['name'], $notSupported);
-                                                                                            endforeach;
-                                                                                            ?>
-                                                                                                                                                                                    </table>
-                                                                                                                                                                                    <span class="subtitle">Select an archive type:</span>
-                                                                                                                                                                                    <table class="choice">
-                                                                                            <?php
-                                                                                            $first = true; foreach($args['extensions'] as $ext => $supported):
-                                                                                                $disabled = empty($supported) ? 'disabled="true"' : '';
-                                                                                                $message = empty($supported) ? 'not supported by this platform' : '&nbsp;';
-                                                                                                $checked = '';
-                                                                                                if($first && $supported)
-                                                                                                {
-                                                                                                    $checked = 'checked'; $first = false;
-                                                                                                }
-                                                                                                printf('<tr><td><input type="radio" name="extension" value="%s" %s %s/></td><td>%s</td><td>%s</td></tr>',
-                                                                                                        $ext, $disabled, $checked, $archiveBaseName . '.' . $ext, $message);
-                                                                                            endforeach;
-                                                                                            ?>
-                                                                                                                                                                                    </table>
-                                                                                                                                                                                    <input type="hidden" name="command" value="download"/>
-                                                                                                                                                                                    <input type="submit" value="Download"
-                                                                                                                                                                                           onclick="this.disabled=true;this.form.submit();"/>
-                                                                                                                                                                                </form>
-                                                                                    <?php
-                                                                                    elseif(!empty($args['anyExtensionSupported'])): ?>
-                                                                                                                                                                            <div class="warning">
-                                                                                                                                                                                This platform does not support any of our download / transfer methods. You can upload
-                                                                                                                                                                                the clansuite archiv as [.tar.gz] or [.zip] via FTP and extract it then with this tool.
-                                                                                                                                                                            </div>
-<?php elseif(!empty($args['downloadMethods'])): ?>
-                                                                                        <div class="warning">
-                                                                                            This platform cannot extract archives, therefore downloading is also disabled.
-                                                                                        </div>
-<?php else: ?>
-                                                                                        <div class="warning">
-                                                                                            This platform does not support any of our download methods.
-                                                                                        </div>
-<?php endif; ?>
-                                                                                </div>
-                                                                            </div>
+                div.error {
+                    border: solid red 1px;
+                    margin: 20px;
+                    padding: 10px;
+                }
 
-                                                                            <!-- EXTRACTION METHODS -->
-                                                                            <?php
-                                                                            $label = !empty($args['anyArchiveExists']) && empty($args['clansuiteFolderName']) ? 'Hide ' : 'Show ';
-                                                                            $display = !empty($args['anyArchiveExists']) && empty($args['clansuiteFolderName']) ? '' : 'style="display: none;"';
-                                                                            ?>
-                                                                                                                                                        <div class="box">
-                                                                                                                                                            <h2>[2] Extraction</h2>
-                                                                                                                                                            <span id="extract-toggle" class="blockToggle"
-                                                                                                                                                                  onclick="BlockToggle('extract', 'extract-toggle', 'extraction methods')">
-<?php print $label . 'extraction methods'; ?>
-                                                                                </span>
-                                                                                <div id="extract" <?php print $display; ?>>
-<?php if(!empty($args['anyExtensionSupported'])): ?>
-                                                                                        <form id="extractForm" method="post">
-                                                                                            <table class="choice">
-                                                                                            <?php
-                                                                                            $first = true; foreach($args['extractMethods'] as $method):
-                                                                                                $disabled = 'disabled="true"';
-                                                                                                if(empty($method['isSupported']))
-                                                                                                {
-                                                                                                    $message = 'not supported by this platform';
-                                                                                                }
-                                                                                                else if(!$method['archiveExists'])
-                                                                                                {
-                                                                                                    $message = '<span class="warning">first download the ' . $method['archiveName'] .
-                                                                                                            ' archive</span>';
-                                                                                                }
-                                                                                                else
-                                                                                                {
-                                                                                                    $message = '<span class="success">ready for extraction!</span>';
-                                                                                                    $disabled = '';
-                                                                                                }
-                                                                                                $checked = '';
-                                                                                                if($first && empty($disabled) && ! empty($method['isSupported']))
-                                                                                                {
-                                                                                                    $checked = 'checked'; $first = false;
-                                                                                                }
-                                                                                                printf('<tr><td><input type="radio" name="method" %s value="%s" %s/></td><td>%s</td><td>%s</td></tr>',
-                                                                                                        $disabled, $method['command'], $checked, $method['name'], $message);
-                                                                                            endforeach;
-                                                                                            ?>
-                                                                                                                                                                                    </table>
-                                                                                                                                                                                    <input type="hidden" name="command" value="extract"/>
-                                                                                                                                                                                    <input type="submit" value="Extract"
-                                                                                                                                                                                           onclick="this.disabled=true;this.form.submit();"/>
-                                                                                                                                                                                </form>
-<?php else: ?>
-                                                                                        <div class="warning">
-                                                                                            Oops! - This platform cannot extract archives.
-                                                                                            <br>Steps:
-                                                                                                <br>a. Do it the old way - download archive, extract files and upload them manually!
-                                                                                                    <br>b. Ask your webhoster to extract the archive for you.
-                                                                                                        <br>c. Ask on Clansuite Board for installation help.
-                                                                                                            </div>
-<?php endif; ?>
-                                                                                                        </div>
-                                                                                                        </div>
+                div.suggested_fix {
+                    background: #eee;
+                    margin: 20px;
+                    padding: 10px;
+                }
 
-                                                                                                        <!-- LINK TO INSTALLER -->
-                                                                                                        <?php
-                                                                                                        $label = !empty($args['clansuiteFolderName']) ? 'Hide ' : 'Show ';
-                                                                                                        $display = !empty($args['clansuiteFolderName']) ? '' : 'style="display: none;"';
-                                                                                                        ?>
-                                                                                                                                                                                                                <div class="box">
-                                                                                                                                                                                                                    <h2>[3] Installation of Clansuite!</h2>
-                                                                                                                                                                                                                    <span id="install-toggle" class="blockToggle"
-                                                                                                                                                                                                                          onclick="BlockToggle('install', 'install-toggle', 'link to installation wizard')">
-<?php print $label . 'link to installation wizard'; ?>
-                                                                                                            </span>
-                                                                                                            <div id="install" <?php print $display; ?>>
+                div.success {
+                    border: solid green 1px;
+                    margin: 20px;
+                    padding: 10px;
+                }
 
-                                                                                                                <!-- PATH TO CLANSUITE INSTALLER -->
-<?php if(!empty($args['clansuiteFolderName'])): ?>
-                                                                                                                    <span style="font-size: 14px; font-weight:bold; color:green;">
-                                                                                                                        <br />
-                                                                                                                        Follow this link to start the
-                                                                                                                        <a href="<?php print $args['clansuiteFolderName'] . '/installation/index.php'; ?>">
-                                                                                                                            Clansuite Installation Wizard</a>!
-                                                                                                                    </span>
+                div.warning {
+                    border: solid orange 1px;
+                    margin: 20px;
+                    padding: 10px;
+                }
 
-                                                                                                                    <!-- CHANGE PERMISSIONS -->
-                                                                                                                <?php
-                                                                                                                $label = !empty($args['clansuiteFolderName']) ? 'Hide ' : 'Show ';
-                                                                                                                $display = !empty($args['clansuiteFolderName']) ? '' : 'style="display: none;"';
-                                                                                                                $folderName = empty($args['clansuiteFolderName']) ? 'clansuite' : $args['clansuiteFolderName'];
-                                                                                                                ?>
-                                                                                                                                                                                                                                <div class="box">
-                                                                                                                                                                                                                                    <h2>Change the permissions of your Clansuite Folder</h2>
-                                                                                                                                                                                                                                    <span id="chmod-toggle" class="blockToggle"
-                                                                                                                                                                                                                                          onclick="BlockToggle('chmod', 'chmod-toggle', 'change permissions form')">
-<?php print $label . 'change permissions form'; ?>
-                                                                                                                    </span>
-                                                                                                                    <div id="chmod" <?php print $display; ?>>
-<?php if(!empty($args['clansuiteFolderName'])): ?>
-                                                                                                                            <p>
-                                                                                                                                777 makes the folder writeable for everybody. That is needed such that you can move
-                                                                                                                                clansuite or rename the directory with an FTP program. 555 makes it readable for
-                                                                                                                                everybody, which is required to have an operational Clansuite installation.
-                                                                                                                            </p><p>
-                                                                                                                                For <b>security</b> purposes, it is recommended that you change the folder permissions
-                                                                                                                                back to <b>555</b> once Clansuite is running. Only if you are running PHP-CGI, clansuite
-                                                                                                                                might already owned by your user and no permission changes are required.
-                                                                                                                            </p>
-                                                                                                                            <form id="chmodForm" method="post">
-                                                                                                                                Folder name: <input type="text" name="folderName" size="20" value="<?php print $folderName; ?>"/>
-                                                                                                                                Permissions:
-                                                                                                                                <select name="folderPermissions">
-<?php foreach($folderPermissionList as $perm): ?>
-                                                                                                                                    <option value="<?php print $perm; ?>"><?php print $perm; ?></option>
-<?php endforeach; ?>
-                                                                                                                            </select>
-                                                                                                                            <input type="hidden" name="command" value="chmod"/>
-                                                                                                                            <input type="submit" value="Change Permissions"
-                                                                                                                                   onclick="this.disabled=true;this.form.submit();"/>
-                                                                                                                        </form>
-<?php else: ?>
-                                                                                                                            <div class="warning">
-                                                                                                                                There is no Clansuite folder in the current working directory.
-                                                                                                                            </div>
-<?php endif; ?>
-                                                                                                                    </div>
-                                                                                                                </div>
+                .blockToggle {
+                    padding: 0 0.4em 0.1em;
+                    background-color: #eee;
+                    border-width: 1px;
+                    border: 1px solid #888;
+                    line-height: 2;
+                }
 
-                                                                                                                <!-- RENAME FOLDER-->
-                                                                                                                <div class="box">
-                                                                                                                    <h2>Rename the Clansuite folder</h2>
-                                                                                                                    <span id="rename-toggle" class="blockToggle"
-                                                                                                                          onclick="BlockToggle('rename', 'rename-toggle', 'rename folder form')">
-<?php print $label . 'rename folder form'; ?>
-                                                                                                                    </span>
-                                                                                                                    <div id="rename" <?php print $display; ?>>
-<?php if(!empty($args['clansuiteFolderName'])): ?>
-                                                                                                                            <p>
-                                                                                                                                Quickly rename the clansuite folder. You can do that with your FTP program as well.
-                                                                                                                            </p>
-                                                                                                                            <form id="renameForm" method="post">
-                                                                                                                                Rename folder to: <input type="text" name="folderName" size="20" value="<?php print $folderName; ?>"/>
-                                                                                                                                <input type="hidden" name="command" value="rename"/>
-                                                                                                                                <input type="submit" value="Rename Folder"
-                                                                                                                                       onclick="this.disabled=true;this.form.submit();"/>
-                                                                                                                            </form>
-<?php else: ?>
-                                                                                                                            <div class="warning">
-                                                                                                                                There is no Clansuite folder in the current working directory.
-                                                                                                                            </div>
-<?php endif; ?>
-                                                                                                                    </div>
-                                                                                                                </div>
+                .blockToggle:hover {
+                    cursor: pointer;
+                }
 
-                                                                                                            </div>
+                span.warning {
+                    color: orange;
+                }
 
-<?php else: ?>
-                                                                                                                <div class="warning">
-                                                                                                                    <b>Installer was not found!</b>
-                                                                                                                    <br>Please perform steps 1 and 2 to get an extracted Clansuite archive.
-                                                                                                                </div>
-<?php endif; ?>
-                                                                                                        </div>
+                span.success {
+                    color: green;
+                }
 
-<?php elseif($renderType == 'results'): ?>
-                                                                                                            <h2> Results </h2>
-<?php if(!empty($args['failure'])): ?>
-                                                                                                            <div class="error">
-                                                                                                            <?php print $args['failure']; ?>
-<?php if(!empty($args['fix'])): ?>
-                                                                                                                <div class="suggested_fix">
-                                                                                                                    <h2> Suggested fix: </h2>
-<?php print $args['fix']; ?>
-                                                                                                            </div>
-                                                                                                        </div>
-                                                                                                        <?php endif; ?>
-                                                                                                        <?php endif; ?>
-<?php if(!empty($args['success'])): ?>
-                                                                                                            <div class="success">
-<?php print $args['success']; ?>
-                                                                                                        </div>
-<?php endif; ?>
-                                                                                                        <div>
-                                                                                                            <a href="<?php print $self; ?>">Next Step!</a>
-                                                                                                        </div>
-<?php endif; ?>
+                div.box {
+                    border: solid #ddd 1px;
+                    margin: 15px;
+                    padding: 10px;
+                }
 
-                                                                                                        </body>
-                                                                                                        </html>
-                                                                                                        <?php
-                                                                                                    }
+                div.important {
+                    background: #fdc;
+                }
 
-                                                                                                    function printHtmlStyle()
-                                                                                                    {
-                                                                                                        ?>
-                                                                                                                                                                                                                <style type="text/css">
-                                                                                                                                                                                                                    html {
-                                                                                                                                                                                                                        font-family: "Lucida Grande", Verdana, Arial, sans-serif;
-                                                                                                                                                                                                                        font-size: 62.5%;
-                                                                                                                                                                                                                    }
+                div.status {
+                    border: solid #d8d 1px;
+                    margin: 20px;
+                    padding: 10px;
+                }
 
-                                                                                                                                                                                                                    body {
-                                                                                                                                                                                                                        font-size: 1.2em;
-                                                                                                                                                                                                                        margin: 16px 16px 0px 16px;
-                                                                                                                                                                                                                        background: white;
-                                                                                                                                                                                                                    }
+                div.status span.line_error {
+                    display: block;
+                    color: #C00;
+                }
 
-                                                                                                                                                                                                                    h1, h2 {
-                                                                                                                                                                                                                        font-family: "Gill Sans", Verdana, Arial, sans-serif;
-                                                                                                                                                                                                                        color: #333;
-                                                                                                                                                                                                                        margin: 0;
-                                                                                                                                                                                                                        padding: 1.0em 0 0.15em 0;
-                                                                                                                                                                                                                    }
+                div.status span.line_info {
+                    display: block;
+                    color: #0C0;
+                }
 
-                                                                                                                                                                                                                    h1 { font-size: 1.5em; border-bottom: 1px solid #ddd; }
-                                                                                                                                                                                                                    h2 { font-size: 1.3em; padding: 2px;}
+                table.choice {
+                    position: relative;
+                    left: 20px;
+                }
 
-                                                                                                                                                                                                                    span.subtext {
-                                                                                                                                                                                                                        font-size: 0.9em;
-                                                                                                                                                                                                                    }
+                pre {
+                    font-size: 1.2em;
+                }
+                .rounded_header {
+                    display:block
+                }
+                .rounded_header *{
+                    display:block;
+                    height:0.5px;
+                    overflow:hidden;
+                    font-size:.01em;
+                    background:#00
 
-                                                                                                                                                                                                                    span.disabled, td.disabled {
-                                                                                                                                                                                                                        color: #ddd;
-                                                                                                                                                                                                                    }
+                }
+                .rounded_header1 {
+                    margin-left:2px;
+                    margin-right:2px;
+                    padding-left:1px;
+                    padding-right:1px;
+                    border-left:1px solid #f00800;
+                    border-right:1px solid #f00800;
+                    background:#000300
+                }
+                .rounded_header2 {
+                    margin-left:1px;
+                    margin-right:1px;
+                    padding-right:1px;
+                    padding-left:1px;
+                    border-left:1px solid #000d00;
+                    border-right:1px solid #000d00;
+                    background:#000200
+                }
+                .rounded_header3 {
+                    margin-left:1px;
+                    margin-right:1px;
+                    border-left:1px solid #000200;
+                    border-right:1px solid #000200;}
+                .rounded_header4 {
+                    border-left:1px solid #000800;
+                    border-right:1px solid #000800
+                }
+                .rounded_header5 {
+                    border-left:1px solid #000300;
+                    border-right:1px solid #000300
+                }
+                .rounded_headerfg {
+                    margin-left: 1px;
+                    background:#fff
+                }
+            </style>
+            <?php
+        }
 
-                                                                                                                                                                                                                    span.subtitle {
-                                                                                                                                                                                                                        font-size: 1.2em;
-                                                                                                                                                                                                                    }
+        /**
+         * If necessary, define some functions for backwards compatibility.
+         */
+        function compatiblityFunctions()
+        {
+            /* On MS Windows, function is_executable() was introduced in PHP 5.0.0. */
+            if(!function_exists('is_executable'))
+            {
 
-                                                                                                                                                                                                                    div.error {
-                                                                                                                                                                                                                        border: solid red 1px;
-                                                                                                                                                                                                                        margin: 20px;
-                                                                                                                                                                                                                        padding: 10px;
-                                                                                                                                                                                                                    }
+                function is_executable($file)
+                {
+                    $stats = stat($file);
+                    /*
+                                     * If stat doesn't work for some reason, assume it's executable.
+                                     * 0000100 is the is_executable bit. Windows returns true for .exe files.
+                    */
+                    return empty($stats['mode']) || $stats['mode'] & 0000100;
+                }
+            }
+        }
 
-                                                                                                                                                                                                                    div.suggested_fix {
-                                                                                                                                                                                                                        background: #eee;
-                                                                                                                                                                                                                        margin: 20px;
-                                                                                                                                                                                                                        padding: 10px;
-                                                                                                                                                                                                                    }
-
-                                                                                                                                                                                                                    div.success {
-                                                                                                                                                                                                                        border: solid green 1px;
-                                                                                                                                                                                                                        margin: 20px;
-                                                                                                                                                                                                                        padding: 10px;
-                                                                                                                                                                                                                    }
-
-                                                                                                                                                                                                                    div.warning {
-                                                                                                                                                                                                                        border: solid orange 1px;
-                                                                                                                                                                                                                        margin: 20px;
-                                                                                                                                                                                                                        padding: 10px;
-                                                                                                                                                                                                                    }
-
-                                                                                                                                                                                                                    .blockToggle {
-                                                                                                                                                                                                                        padding: 0 0.4em 0.1em;
-                                                                                                                                                                                                                        background-color: #eee;
-                                                                                                                                                                                                                        border-width: 1px;
-                                                                                                                                                                                                                        border: 1px solid #888;
-                                                                                                                                                                                                                        line-height: 2;
-                                                                                                                                                                                                                    }
-
-                                                                                                                                                                                                                    .blockToggle:hover {
-                                                                                                                                                                                                                        cursor: pointer;
-                                                                                                                                                                                                                    }
-
-                                                                                                                                                                                                                    span.warning {
-                                                                                                                                                                                                                        color: orange;
-                                                                                                                                                                                                                    }
-
-                                                                                                                                                                                                                    span.success {
-                                                                                                                                                                                                                        color: green;
-                                                                                                                                                                                                                    }
-
-                                                                                                                                                                                                                    div.box {
-                                                                                                                                                                                                                        border: solid #ddd 1px;
-                                                                                                                                                                                                                        margin: 15px;
-                                                                                                                                                                                                                        padding: 10px;
-                                                                                                                                                                                                                    }
-
-                                                                                                                                                                                                                    div.important {
-                                                                                                                                                                                                                        background: #fdc;
-                                                                                                                                                                                                                    }
-
-                                                                                                                                                                                                                    div.status {
-                                                                                                                                                                                                                        border: solid #d8d 1px;
-                                                                                                                                                                                                                        margin: 20px;
-                                                                                                                                                                                                                        padding: 10px;
-                                                                                                                                                                                                                    }
-
-                                                                                                                                                                                                                    div.status span.line_error {
-                                                                                                                                                                                                                        display: block;
-                                                                                                                                                                                                                        color: #C00;
-                                                                                                                                                                                                                    }
-
-                                                                                                                                                                                                                    div.status span.line_info {
-                                                                                                                                                                                                                        display: block;
-                                                                                                                                                                                                                        color: #0C0;
-                                                                                                                                                                                                                    }
-
-                                                                                                                                                                                                                    table.choice {
-                                                                                                                                                                                                                        position: relative;
-                                                                                                                                                                                                                        left: 20px;
-                                                                                                                                                                                                                    }
-
-                                                                                                                                                                                                                    pre {
-                                                                                                                                                                                                                        font-size: 1.2em;
-                                                                                                                                                                                                                    }
-                                                                                                                                                                                                                    .rounded_header {
-                                                                                                                                                                                                                        display:block
-                                                                                                                                                                                                                    }
-                                                                                                                                                                                                                    .rounded_header *{
-                                                                                                                                                                                                                        display:block;
-                                                                                                                                                                                                                        height:0.5px;
-                                                                                                                                                                                                                        overflow:hidden;
-                                                                                                                                                                                                                        font-size:.01em;
-                                                                                                                                                                                                                        background:#00
-
-                                                                                                                                                                                                                    }
-                                                                                                                                                                                                                    .rounded_header1 {
-                                                                                                                                                                                                                        margin-left:2px;
-                                                                                                                                                                                                                        margin-right:2px;
-                                                                                                                                                                                                                        padding-left:1px;
-                                                                                                                                                                                                                        padding-right:1px;
-                                                                                                                                                                                                                        border-left:1px solid #f00800;
-                                                                                                                                                                                                                        border-right:1px solid #f00800;
-                                                                                                                                                                                                                        background:#000300
-                                                                                                                                                                                                                    }
-                                                                                                                                                                                                                    .rounded_header2 {
-                                                                                                                                                                                                                        margin-left:1px;
-                                                                                                                                                                                                                        margin-right:1px;
-                                                                                                                                                                                                                        padding-right:1px;
-                                                                                                                                                                                                                        padding-left:1px;
-                                                                                                                                                                                                                        border-left:1px solid #000d00;
-                                                                                                                                                                                                                        border-right:1px solid #000d00;
-                                                                                                                                                                                                                        background:#000200
-                                                                                                                                                                                                                    }
-                                                                                                                                                                                                                    .rounded_header3 {
-                                                                                                                                                                                                                        margin-left:1px;
-                                                                                                                                                                                                                        margin-right:1px;
-                                                                                                                                                                                                                        border-left:1px solid #000200;
-                                                                                                                                                                                                                        border-right:1px solid #000200;}
-                                                                                                                                                                                                                    .rounded_header4 {
-                                                                                                                                                                                                                        border-left:1px solid #000800;
-                                                                                                                                                                                                                        border-right:1px solid #000800
-                                                                                                                                                                                                                    }
-                                                                                                                                                                                                                    .rounded_header5 {
-                                                                                                                                                                                                                        border-left:1px solid #000300;
-                                                                                                                                                                                                                        border-right:1px solid #000300
-                                                                                                                                                                                                                    }
-                                                                                                                                                                                                                    .rounded_headerfg {
-                                                                                                                                                                                                                        margin-left: 1px;
-                                                                                                                                                                                                                        background:#fff
-                                                                                                                                                                                                                    }
-                                                                                                                                                                                                                </style>
-                                                                                                        <?php
-                                                                                                    }
-
-                                                                                                    /**
-                                                                                                     * If necessary, define some functions for backwards compatibility.
-                                                                                                     */
-                                                                                                    function compatiblityFunctions()
-                                                                                                    {
-                                                                                                        /* On MS Windows, function is_executable() was introduced in PHP 5.0.0. */
-                                                                                                        if(!function_exists('is_executable'))
-                                                                                                        {
-
-                                                                                                            function is_executable($file)
-                                                                                                            {
-                                                                                                                $stats = stat($file);
-                                                                                                                /*
-                                                                                                                 * If stat doesn't work for some reason, assume it's executable.
-                                                                                                                 * 0000100 is the is_executable bit. Windows returns true for .exe files.
-                                                                                                                 */
-                                                                                                                return empty($stats['mode']) || $stats['mode'] & 0000100;
-                                                                                                            }
-                                                                                                        }
-                                                                                                    }
-
-                                                                                                    function printJs()
-                                                                                                    {
-                                                                                                        ?>
-                                                                                                                                                                                                                <script type="text/javascript">
-                                                                                                                                                                                                                    function BlockToggle(objId, togId, text) {
-                                                                                                                                                                                                                        var o = document.getElementById(objId), t = document.getElementById(togId);
-                                                                                                                                                                                                                        if (o.style.display == 'none') {
-                                                                                                                                                                                                                            o.style.display = 'block';
-                                                                                                                                                                                                                            t.innerHTML = 'Hide ' + text;
-                                                                                                                                                                                                                        } else {
-                                                                                                                                                                                                                            o.style.display = 'none';
-                                                                                                                                                                                                                            t.innerHTML = 'Show ' + text;
-                                                                                                                                                                                                                        }
-                                                                                                                                                                                                                    }
-                                                                                                                                                                                                                </script>
-                                                                                                        <?php
-                                                                                                    }
-                                                                                                    /* --------------------------------------------------------------------
-                                                                                                     * ot all servers include the php service of tar handling,
-                                                                                                     * o we serve a shortened 3rd party code only for tar.gz extraction.
-                                                                                                     * --------------------------------------------------------------------- */
+        function printJs()
+        {
+            ?>
+            <script type="text/javascript">
+                function BlockToggle(objId, togId, text) {
+                    var o = document.getElementById(objId), t = document.getElementById(togId);
+                    if (o.style.display == 'none') {
+                        o.style.display = 'block';
+                        t.innerHTML = 'Hide ' + text;
+                    } else {
+                        o.style.display = 'none';
+                        t.innerHTML = 'Show ' + text;
+                    }
+                }
+            </script>
+            <?php
+        }
 
 // --------------------------------------------------------------------------------
 // PhpConcept Library - Tar Module 1.3
@@ -2028,627 +2032,620 @@ function render($renderType, $args=array())
 //    the code in this script. Code to create new archives has been removed,
 //    we only need to extract archives. Date: 2006/02/03
 // --------------------------------------------------------------------------------
-                                                                                                    // ----- Global variables
-                                                                                                    $g_pcltar_version = "1.3";
+// ----- Global variables
+$g_pcltar_version = "1.3";
 
-                                                                                                    // --------------------------------------------------------------------------------
-                                                                                                    // Function : PclTarExtract()
-                                                                                                    // Description :
-                                                                                                    //   Extract all the files present in the archive $p_tarname, in the directory
-                                                                                                    //   $p_path. The relative path of the archived files are keep and become
-                                                                                                    //   relative to $p_path.
-                                                                                                    //   If a file with the same name already exists it will be replaced.
-                                                                                                    //   If the path to the file does not exist, it will be created.
-                                                                                                    //   Depending on the $p_tarname extension (.tar, .tar.gz or .tgz) the
-                                                                                                    //   function will determine the type of the archive.
-                                                                                                    // Parameters :
-                                                                                                    //   $p_tarname : Name of an existing tar file.
-                                                                                                    //   $p_path : Path where the files will be extracted. The files will use
-                                                                                                    //             their memorized path from $p_path.
-                                                                                                    //             If $p_path is "", files will be extracted in "./".
-                                                                                                    //   $p_remove_path : Path to remove (from the file memorized path) while writing the
-                                                                                                    //                    extracted files. If the path does not match the file path,
-                                                                                                    //                    the file is extracted with its memorized path.
-                                                                                                    //                    $p_path and $p_remove_path are commulative.
-                                                                                                    //   $p_mode : 'tar' or 'tgz', if not set, will be determined by $p_tarname extension
-                                                                                                    // Return Values :
-                                                                                                    //   Same as PclTarList()
-                                                                                                    // --------------------------------------------------------------------------------
-                                                                                                    function PclTarExtract($p_tarname, $p_path="./", $p_remove_path="", $p_mode="")
-                                                                                                    {
-                                                                                                        $v_result = 1;
+// --------------------------------------------------------------------------------
+// Function : PclTarExtract()
+// Description :
+//   Extract all the files present in the archive $p_tarname, in the directory
+//   $p_path. The relative path of the archived files are keep and become
+//   relative to $p_path.
+//   If a file with the same name already exists it will be replaced.
+//   If the path to the file does not exist, it will be created.
+//   Depending on the $p_tarname extension (.tar, .tar.gz or .tgz) the
+//   function will determine the type of the archive.
+// Parameters :
+//   $p_tarname : Name of an existing tar file.
+//   $p_path : Path where the files will be extracted. The files will use
+//             their memorized path from $p_path.
+//             If $p_path is "", files will be extracted in "./".
+//   $p_remove_path : Path to remove (from the file memorized path) while writing the
+//                    extracted files. If the path does not match the file path,
+//                    the file is extracted with its memorized path.
+//                    $p_path and $p_remove_path are commulative.
+//   $p_mode : 'tar' or 'tgz', if not set, will be determined by $p_tarname extension
+// Return Values :
+//   Same as PclTarList()
+// --------------------------------------------------------------------------------
+function PclTarExtract($p_tarname, $p_path="./", $p_remove_path="", $p_mode="")
+{
+    $v_result = 1;
 
-                                                                                                        // ----- Extract the tar format from the extension
-                                                                                                        if(($p_mode == "") || ( ($p_mode!="tar") && ( $p_mode!="tgz")))
-                                                                                                        {
-                                                                                                            if(($p_mode = PclTarHandleExtension($p_tarname)) == "")
-                                                                                                            {
-                                                                                                                return 'Extracting tar/gz failed, cannot handle extension';
-                                                                                                            }
-                                                                                                        }
+    // ----- Extract the tar format from the extension
+    if(($p_mode == "") || ( ($p_mode!="tar") && ( $p_mode!="tgz")))
+    {
+        if(($p_mode = PclTarHandleExtension($p_tarname)) == "")
+        {
+            return 'Extracting tar/gz failed, cannot handle extension';
+        }
+    }
 
-                                                                                                        // ----- Call the extracting fct
-                                                                                                        $p_list = array();
-                                                                                                        if(($v_result = PclTarHandleExtract($p_tarname, 0, $p_list, "complete", $p_path, $p_mode, $p_remove_path)) != 1)
-                                                                                                        {
-                                                                                                            return 'Extracting Tar.gz failed';
-                                                                                                        }
+    // ----- Call the extracting fct
+    $p_list = array();
+    if(($v_result = PclTarHandleExtract($p_tarname, 0, $p_list, "complete", $p_path, $p_mode, $p_remove_path)) != 1)
+    {
+        return 'Extracting Tar.gz failed';
+    }
 
-                                                                                                        return true;
-                                                                                                    }
+    return true;
+}
 
-                                                                                                    // --------------------------------------------------------------------------------
+// --------------------------------------------------------------------------------
 // --------------------------------------------------------------------------------
 // ***** UNDER THIS LINE ARE DEFINED PRIVATE INTERNAL FUNCTIONS *****
 // *****                                                        *****
 // *****       THESES FUNCTIONS MUST NOT BE USED DIRECTLY       *****
 // --------------------------------------------------------------------------------
-                                                                                                    // --------------------------------------------------------------------------------
-                                                                                                    // Function : PclTarHandleExtract()
-                                                                                                    // Description :
-                                                                                                    // Parameters :
-                                                                                                    //   $p_tarname : Filename of the tar (or tgz) archive
-                                                                                                    //   $p_file_list : An array which contains the list of files to extract, this
-                                                                                                    //                  array may be empty when $p_mode is 'complete'
-                                                                                                    //   $p_list_detail : An array where will be placed the properties of  each extracted/listed file
-                                                                                                    //   $p_mode : 'complete' will extract all files from the archive,
-                                                                                                    //             'partial' will look for files in $p_file_list
-                                                                                                    //             'list' will only list the files from the archive without any extract
-                                                                                                    //   $p_path : Path to add while writing the extracted files
-                                                                                                    //   $p_tar_mode : 'tar' for GNU TAR archive, 'tgz' for compressed archive
-                                                                                                    //   $p_remove_path : Path to remove (from the file memorized path) while writing the
-                                                                                                    //                    extracted files. If the path does not match the file path,
-                                                                                                    //                    the file is extracted with its memorized path.
-                                                                                                    //                    $p_remove_path does not apply to 'list' mode.
-                                                                                                    //                    $p_path and $p_remove_path are commulative.
-                                                                                                    // Return Values :
-                                                                                                    // --------------------------------------------------------------------------------
-                                                                                                    function PclTarHandleExtract($p_tarname, $p_file_list, &$p_list_detail, $p_mode, $p_path, $p_tar_mode, $p_remove_path)
-                                                                                                    {
-                                                                                                        $v_result = 1;
-                                                                                                        $v_nb = 0;
-                                                                                                        $v_extract_all = true;
-                                                                                                        $v_listing = false;
-
-                                                                                                        // ----- Check the path
-                                                                                                        /*
-                                                                                                         * f (($p_path == "") || ((substr($p_path, 0, 1) != "/") && (substr($p_path, 0, 3) != "../")))
-                                                                                                         * p_path = "./".$p_path;
-                                                                                                         */
-
-                                                                                                        $isWin = (substr(PHP_OS, 0, 3) == 'WIN');
-
-                                                                                                        if(!$isWin)
-                                                                                                        {
-                                                                                                            if(($p_path == "") || ( (substr($p_path, 0, 1) != "/") && ( substr($p_path, 0, 3) != "../")))
-                                                                                                                $p_path = "./" . $p_path;
-                                                                                                        }
-                                                                                                        // ----- Look for path to remove format (should end by /)
-                                                                                                        if(($p_remove_path != "") && ( substr($p_remove_path, -1) != '/'))
-                                                                                                        {
-                                                                                                            $p_remove_path .= '/';
-                                                                                                        }
-                                                                                                        $p_remove_path_size = strlen($p_remove_path);
-
-                                                                                                        // ----- Study the mode
-                                                                                                        switch($p_mode)
-                                                                                                        {
-                                                                                                            case "complete" :
-                                                                                                                // ----- Flag extract of all files
-                                                                                                                $v_extract_all = true;
-                                                                                                                $v_listing = false;
-                                                                                                                break;
-                                                                                                            case "partial" :
-                                                                                                                // ----- Flag extract of specific files
-                                                                                                                $v_extract_all = false;
-                                                                                                                $v_listing = false;
-                                                                                                                break;
-                                                                                                            case "list" :
-                                                                                                                // ----- Flag list of all files
-                                                                                                                $v_extract_all = false;
-                                                                                                                $v_listing = true;
-                                                                                                                break;
-                                                                                                            default :
-                                                                                                                return false;
-                                                                                                        }
-
-                                                                                                        // ----- Open the tar file
-                                                                                                        if($p_tar_mode == "tar")
-                                                                                                        {
-                                                                                                            $v_tar = fopen($p_tarname, "rb");
-                                                                                                        }
-                                                                                                        else
-                                                                                                        {
-                                                                                                            $v_tar = @gzopen($p_tarname, "rb");
-                                                                                                        }
-
-                                                                                                        // ----- Check that the archive is open
-                                                                                                        if($v_tar == 0)
-                                                                                                        {
-                                                                                                            return false;
-                                                                                                        }
-
-                                                                                                        $start = time();
-
-                                                                                                        // ----- Read the blocks
-                                                                                                        while(!($v_end_of_file = ($p_tar_mode == "tar" ? feof($v_tar) : gzeof($v_tar))))
-                                                                                                        {
-                                                                                                            // ----- Clear cache of file infos
-                                                                                                            clearstatcache();
-
-                                                                                                            if(time() - $start > 55)
-                                                                                                            {
-                                                                                                                Platform::extendTimeLimit();
-                                                                                                                $start = time();
-                                                                                                            }
-
-                                                                                                            // ----- Reset extract tag
-                                                                                                            $v_extract_file = false;
-                                                                                                            $v_extraction_stopped = 0;
-
-                                                                                                            // ----- Read the 512 bytes header
-                                                                                                            if($p_tar_mode == "tar")
-                                                                                                                $v_binary_data = fread($v_tar, 512);
-                                                                                                            else
-                                                                                                                $v_binary_data = gzread($v_tar, 512);
-
-                                                                                                            // ----- Read the header properties
-                                                                                                            $v_header = array();
-                                                                                                            if(($v_result = PclTarHandleReadHeader($v_binary_data, $v_header)) != 1)
-                                                                                                            {
-                                                                                                                // ----- Close the archive file
-                                                                                                                if($p_tar_mode == "tar")
-                                                                                                                    fclose($v_tar);
-                                                                                                                else
-                                                                                                                    gzclose($v_tar);
-
-                                                                                                                // ----- Return
-                                                                                                                return $v_result;
-                                                                                                            }
-
-                                                                                                            // ----- Look for empty blocks to skip
-                                                                                                            if($v_header["filename"] == "")
-                                                                                                            {
-                                                                                                                continue;
-                                                                                                            }
-
-                                                                                                            // ----- Look for partial extract
-                                                                                                            if((!$v_extract_all) && ( is_array($p_file_list)))
-                                                                                                            {
-                                                                                                                // ----- By default no unzip if the file is not found
-                                                                                                                $v_extract_file = false;
-
-                                                                                                                // ----- Look into the file list
-                                                                                                                $size = sizeof($p_file_list);
-                                                                                                                for($i = 0; $i < $size; $i++)
-                                                                                                                {
-                                                                                                                    // ----- Look if it is a directory
-                                                                                                                    if(substr($p_file_list[$i], -1) == "/")
-                                                                                                                    {
-                                                                                                                        // ----- Look if the directory is in the filename path
-                                                                                                                        if((strlen($v_header["filename"]) > strlen($p_file_list[$i])) && ( substr($v_header["filename"], 0, strlen($p_file_list[$i])) == $p_file_list[$i]))
-                                                                                                                        {
-                                                                                                                            // ----- The file is in the directory, so extract it
-                                                                                                                            $v_extract_file = true;
-
-                                                                                                                            // ----- End of loop
-                                                                                                                            break;
-                                                                                                                        }
-                                                                                                                    }
-
-                                                                                                                    // ----- It is a file, so compare the file names
-                                                                                                                    else if($p_file_list[$i] == $v_header["filename"])
-                                                                                                                    {
-                                                                                                                        // ----- File found
-                                                                                                                        $v_extract_file = true;
-
-                                                                                                                        // ----- End of loop
-                                                                                                                        break;
-                                                                                                                    }
-                                                                                                                }
-
-                                                                                                                // ----- Trace
-                                                                                                                if(!$v_extract_file)
-                                                                                                                {
-                                                                                                                    
-                                                                                                                }
-                                                                                                            }
-                                                                                                            else
-                                                                                                            {
-                                                                                                                // ----- All files need to be extracted
-                                                                                                                $v_extract_file = true;
-                                                                                                            }
-
-                                                                                                            // ----- Look if this file need to be extracted
-                                                                                                            if(($v_extract_file) && ( !$v_listing))
-                                                                                                            {
-                                                                                                                // ----- Look for path to remove
-                                                                                                                if(($p_remove_path != "")
-                                                                                                                        && ( substr($v_header["filename"], 0, $p_remove_path_size) == $p_remove_path))
-                                                                                                                {
-                                                                                                                    // ----- Remove the path
-                                                                                                                    $v_header["filename"] = substr($v_header["filename"], $p_remove_path_size);
-                                                                                                                }
-
-                                                                                                                // ----- Add the path to the file
-                                                                                                                if(($p_path != "./") && ( $p_path != "/"))
-                                                                                                                {
-                                                                                                                    // ----- Look for the path end '/'
-                                                                                                                    while(substr($p_path, -1) == "/")
-                                                                                                                    {
-                                                                                                                        $p_path = substr($p_path, 0, strlen($p_path) - 1);
-                                                                                                                    }
-
-                                                                                                                    // ----- Add the path
-                                                                                                                    if(substr($v_header["filename"], 0, 1) == "/")
-                                                                                                                        $v_header["filename"] = $p_path . $v_header["filename"];
-                                                                                                                    else
-                                                                                                                        $v_header["filename"] = $p_path . "/" . $v_header["filename"];
-                                                                                                                }
-
-                                                                                                                // ----- Check that the file does not exists
-                                                                                                                if(is_file($v_header["filename"]))
-                                                                                                                {
-                                                                                                                    // ----- Look if file is a directory
-                                                                                                                    if(is_dir($v_header["filename"]))
-                                                                                                                    {
-                                                                                                                        // ----- Change the file status
-                                                                                                                        $v_header["status"] = "already_a_directory";
-
-                                                                                                                        // ----- Skip the extract
-                                                                                                                        $v_extraction_stopped = 1;
-                                                                                                                        $v_extract_file = 0;
-                                                                                                                    }
-                                                                                                                    // ----- Look if file is write protected
-                                                                                                                    else if(!is_writeable($v_header["filename"]))
-                                                                                                                    {
-                                                                                                                        // ----- Change the file status
-                                                                                                                        $v_header["status"] = "write_protected";
-
-                                                                                                                        // ----- Skip the extract
-                                                                                                                        $v_extraction_stopped = 1;
-                                                                                                                        $v_extract_file = 0;
-                                                                                                                    }
-                                                                                                                    // ----- Look if the extracted file is older
-                                                                                                                    else if(filemtime($v_header["filename"]) > $v_header["mtime"])
-                                                                                                                    {
-                                                                                                                        // ----- Change the file status
-                                                                                                                        $v_header["status"] = "newer_exist";
-
-                                                                                                                        // ----- Skip the extract
-                                                                                                                        $v_extraction_stopped = 1;
-                                                                                                                        $v_extract_file = 0;
-                                                                                                                    }
-                                                                                                                }
-
-                                                                                                                // ----- Check the directory availability and create it if necessary
-                                                                                                                else
-                                                                                                                {
-                                                                                                                    if($v_header["typeflag"]=="5")
-                                                                                                                        $v_dir_to_check = $v_header["filename"];
-                                                                                                                    else if(!strstr($v_header["filename"], "/"))
-                                                                                                                        $v_dir_to_check = "";
-                                                                                                                    else
-                                                                                                                        $v_dir_to_check = dirname($v_header["filename"]);
-
-                                                                                                                    if(($v_result = PclTarHandlerDirCheck($v_dir_to_check)) != 1)
-                                                                                                                    {
-                                                                                                                        // ----- Change the file status
-                                                                                                                        $v_header["status"] = "path_creation_fail";
-
-                                                                                                                        // ----- Skip the extract
-                                                                                                                        $v_extraction_stopped = 1;
-                                                                                                                        $v_extract_file = 0;
-                                                                                                                    }
-                                                                                                                }
-
-                                                                                                                // ----- Do the extraction
-                                                                                                                if(($v_extract_file) && ( $v_header["typeflag"]!="5"))
-                                                                                                                {
-                                                                                                                    // ----- Open the destination file in write mode
-                                                                                                                    if(($v_dest_file = fopen($v_header["filename"], "wb")) == 0)
-                                                                                                                    {
-                                                                                                                        // ----- Change the file status
-                                                                                                                        $v_header["status"] = "write_error";
-
-                                                                                                                        // ----- Jump to next file
-                                                                                                                        if($p_tar_mode == "tar")
-                                                                                                                            fseek($v_tar, ftell($v_tar) + (ceil(($v_header['size'] / 512)) * 512));
-                                                                                                                        else
-                                                                                                                            gzseek($v_tar, gztell($v_tar) + (ceil(($v_header['size'] / 512)) * 512));
-                                                                                                                    }
-                                                                                                                    else
-                                                                                                                    {
-                                                                                                                        // ----- Read data
-                                                                                                                        $n = floor($v_header["size"] / 512);
-                                                                                                                        for($i = 0; $i < $n; $i++)
-                                                                                                                        {
-                                                                                                                            if($p_tar_mode == "tar")
-                                                                                                                                $v_content = fread($v_tar, 512);
-                                                                                                                            else
-                                                                                                                                $v_content = gzread($v_tar, 512);
-                                                                                                                            fwrite($v_dest_file, $v_content, 512);
-                                                                                                                        }
-                                                                                                                        if(($v_header["size"] % 512) != 0)
-                                                                                                                        {
-                                                                                                                            if($p_tar_mode == "tar")
-                                                                                                                                $v_content = fread($v_tar, 512);
-                                                                                                                            else
-                                                                                                                                $v_content = gzread($v_tar, 512);
-                                                                                                                            fwrite($v_dest_file, $v_content, ($v_header["size"] % 512));
-                                                                                                                        }
-
-                                                                                                                        // ----- Close the destination file
-                                                                                                                        fclose($v_dest_file);
-
-                                                                                                                        // ----- Change the file mode, mtime
-                                                                                                                        @touch($v_header["filename"], $v_header["mtime"]);
-                                                                                                                        //chmod($v_header[filename], DecOct($v_header[mode]));
-                                                                                                                    }
-
-                                                                                                                    // ----- Check the file size
-                                                                                                                    clearstatcache();
-                                                                                                                    if(filesize($v_header["filename"]) != $v_header["size"])
-                                                                                                                    {
-                                                                                                                        // ----- Close the archive file
-                                                                                                                        if($p_tar_mode == "tar")
-                                                                                                                            fclose($v_tar);
-                                                                                                                        else
-                                                                                                                            gzclose($v_tar);
-
-                                                                                                                        // ----- Return
-                                                                                                                        return false;
-                                                                                                                    }
-                                                                                                                }
-
-                                                                                                                else
-                                                                                                                {
-                                                                                                                    // ----- Jump to next file
-                                                                                                                    if($p_tar_mode == "tar")
-                                                                                                                        fseek($v_tar, ftell($v_tar) + (ceil(($v_header["size"] / 512)) * 512));
-                                                                                                                    else
-                                                                                                                        gzseek($v_tar, gztell($v_tar) + (ceil(($v_header["size"] / 512)) * 512));
-                                                                                                                }
-                                                                                                            }
-
-                                                                                                            // ----- Look for file that is not to be unzipped
-                                                                                                            else
-                                                                                                            {
-                                                                                                                // ----- Jump to next file
-                                                                                                                if($p_tar_mode == "tar")
-                                                                                                                    fseek($v_tar, ($p_tar_mode=="tar" ? ftell($v_tar) : gztell($v_tar)) + (ceil(($v_header[size] / 512)) * 512));
-                                                                                                                else
-                                                                                                                    gzseek($v_tar, gztell($v_tar) + (ceil(($v_header[size] / 512)) * 512));
-                                                                                                            }
-
-                                                                                                            if($p_tar_mode == "tar")
-                                                                                                                $v_end_of_file = feof($v_tar);
-                                                                                                            else
-                                                                                                                $v_end_of_file = gzeof($v_tar);
-
-                                                                                                            // ----- File name and properties are logged if listing mode or file is extracted
-                                                                                                            if($v_listing || $v_extract_file || $v_extraction_stopped)
-                                                                                                            {
-                                                                                                                // ----- Log extracted files
-                                                                                                                if(($v_file_dir = dirname($v_header["filename"])) == $v_header["filename"])
-                                                                                                                    $v_file_dir = "";
-                                                                                                                if((substr($v_header["filename"], 0, 1) == "/") && ( $v_file_dir == ""))
-                                                                                                                    $v_file_dir = "/";
-
-                                                                                                                // ----- Add the array describing the file into the list
-                                                                                                                $p_list_detail[$v_nb] = $v_header;
-
-                                                                                                                // ----- Increment
-                                                                                                                $v_nb++;
-                                                                                                            }
-                                                                                                        }
-
-                                                                                                        // ----- Close the tarfile
-                                                                                                        if($p_tar_mode == "tar")
-                                                                                                            fclose($v_tar);
-                                                                                                        else
-                                                                                                            gzclose($v_tar);
-
-                                                                                                        // ----- Return
-                                                                                                        return $v_result;
-                                                                                                    }
-
-                                                                                                    // --------------------------------------------------------------------------------
-                                                                                                    // --------------------------------------------------------------------------------
-                                                                                                    // Function : PclTarHandleReadHeader()
-                                                                                                    // Description :
-                                                                                                    // Parameters :
-                                                                                                    // Return Values :
-                                                                                                    // --------------------------------------------------------------------------------
-                                                                                                    function PclTarHandleReadHeader($v_binary_data, &$v_header)
-                                                                                                    {
-                                                                                                        $v_result = 1;
-
-                                                                                                        // ----- Read the 512 bytes header
-                                                                                                        /*
-                                                                                                         * f ($p_tar_mode == "tar")
-                                                                                                         * v_binary_data = fread($p_tar, 512);
-                                                                                                         * lse
-                                                                                                         * v_binary_data = gzread($p_tar, 512);
-                                                                                                         */
-
-                                                                                                        // ----- Look for no more block
-                                                                                                        if(strlen($v_binary_data)==0)
-                                                                                                        {
-                                                                                                            $v_header['filename'] = "";
-                                                                                                            $v_header['status'] = "empty";
-
-                                                                                                            return $v_result;
-                                                                                                        }
-
-                                                                                                        // ----- Look for invalid block size
-                                                                                                        if(strlen($v_binary_data) != 512)
-                                                                                                        {
-                                                                                                            $v_header['filename'] = "";
-                                                                                                            $v_header['status'] = "invalid_header";
-
-                                                                                                            // ----- Return
-                                                                                                            return false;
-                                                                                                        }
-
-                                                                                                        // ----- Calculate the checksum
-                                                                                                        $v_checksum = 0;
-                                                                                                        // ..... First part of the header
-                                                                                                        for($i = 0; $i < 148; $i++)
-                                                                                                        {
-                                                                                                            $v_checksum+=ord(substr($v_binary_data, $i, 1));
-                                                                                                        }
-                                                                                                        // ..... Ignore the checksum value and replace it by ' ' (space)
-                                                                                                        for($i = 148; $i < 156; $i++)
-                                                                                                        {
-                                                                                                            $v_checksum += ord(' ');
-                                                                                                        }
-                                                                                                        // ..... Last part of the header
-                                                                                                        for($i = 156; $i < 512; $i++)
-                                                                                                        {
-                                                                                                            $v_checksum+=ord(substr($v_binary_data, $i, 1));
-                                                                                                        }
-
-                                                                                                        // ----- Extract the values
-                                                                                                        $v_data = unpack("a100filename/a8mode/a8uid/a8gid/a12size/a12mtime/a8checksum/a1typeflag/a100link/a6magic/a2version/a32uname/a32gname/a8devmajor/a8devminor", $v_binary_data);
-
-                                                                                                        // ----- Extract the checksum for check
-                                                                                                        $v_header["checksum"] = octdec(trim($v_data["checksum"]));
-                                                                                                        if($v_header["checksum"] != $v_checksum)
-                                                                                                        {
-                                                                                                            $v_header["filename"] = "";
-                                                                                                            $v_header["status"] = "invalid_header";
-
-                                                                                                            // ----- Look for last block (empty block)
-                                                                                                            if(($v_checksum == 256) && ( $v_header["checksum"] == 0))
-                                                                                                            {
-                                                                                                                $v_header["status"] = "empty";
-                                                                                                                // ----- Return
-                                                                                                                return $v_result;
-                                                                                                            }
-
-                                                                                                            // ----- Return
-                                                                                                            return false;
-                                                                                                        }
-                                                                                                        // ----- Extract the properties
-                                                                                                        $v_header["filename"] = trim($v_data["filename"]);
-                                                                                                        $v_header["mode"] = octdec(trim($v_data["mode"]));
-                                                                                                        $v_header["uid"] = octdec(trim($v_data["uid"]));
-                                                                                                        $v_header["gid"] = octdec(trim($v_data["gid"]));
-                                                                                                        $v_header["size"] = octdec(trim($v_data["size"]));
-                                                                                                        $v_header["mtime"] = octdec(trim($v_data["mtime"]));
-                                                                                                        if(($v_header["typeflag"] = $v_data["typeflag"]) == "5")
-                                                                                                        {
-                                                                                                            $v_header["size"] = 0;
-                                                                                                        }
-                                                                                                        /* ----- All these fields are removed form the header because they do not carry interesting info
-                                                                                                         * v_header[link] = trim($v_data[link]);
-                                                                                                         * rFctMessage(__FILE__, __LINE__, 2, "Linkname : $v_header[linkname]");
-                                                                                                         * v_header[magic] = trim($v_data[magic]);
-                                                                                                         * rFctMessage(__FILE__, __LINE__, 2, "Magic : $v_header[magic]");
-                                                                                                         * v_header[version] = trim($v_data[version]);
-                                                                                                         * rFctMessage(__FILE__, __LINE__, 2, "Version : $v_header[version]");
-                                                                                                         * v_header[uname] = trim($v_data[uname]);
-                                                                                                         * rFctMessage(__FILE__, __LINE__, 2, "Uname : $v_header[uname]");
-                                                                                                         * v_header[gname] = trim($v_data[gname]);
-                                                                                                         * rFctMessage(__FILE__, __LINE__, 2, "Gname : $v_header[gname]");
-                                                                                                         * v_header[devmajor] = trim($v_data[devmajor]);
-                                                                                                         * rFctMessage(__FILE__, __LINE__, 2, "Devmajor : $v_header[devmajor]");
-                                                                                                         * v_header[devminor] = trim($v_data[devminor]);
-                                                                                                         * rFctMessage(__FILE__, __LINE__, 2, "Devminor : $v_header[devminor]");
-                                                                                                         */
-
-                                                                                                        // ----- Set the status field
-                                                                                                        $v_header["status"] = "ok";
-
-                                                                                                        // ----- Return
-                                                                                                        return $v_result;
-                                                                                                    }
-
-                                                                                                    // --------------------------------------------------------------------------------
-                                                                                                    // --------------------------------------------------------------------------------
-                                                                                                    // Function : PclTarHandlerDirCheck()
-                                                                                                    // Description :
-                                                                                                    //   Check if a directory exists, if not it creates it and all the parents directory
-                                                                                                    //   which may be useful.
-                                                                                                    // Parameters :
-                                                                                                    //   $p_dir : Directory path to check (without / at the end).
-                                                                                                    // Return Values :
-                                                                                                    //    1 : OK
-                                                                                                    //   -1 : Unable to create directory
-                                                                                                    // --------------------------------------------------------------------------------
-                                                                                                    function PclTarHandlerDirCheck($p_dir)
-                                                                                                    {
-                                                                                                        $v_result = 1;
-
-                                                                                                        // ----- Check the directory availability
-                                                                                                        if((is_dir($p_dir)) || ( $p_dir == ""))
-                                                                                                        {
-                                                                                                            return 1;
-                                                                                                        }
-
-                                                                                                        // ----- Look for file alone
-                                                                                                        /*
-                                                                                                         * f (!strstr("$p_dir", "/"))
-                                                                                                         {
-                                                                                                         * rFctEnd(__FILE__, __LINE__,  "'$p_dir' is a file with no directory");
-                                                                                                         * eturn 1;
-                                                                                                         }
-                                                                                                         */
-
-                                                                                                        // ----- Extract parent directory
-                                                                                                        $p_parent_dir = dirname($p_dir);
-
-                                                                                                        // ----- Just a check
-                                                                                                        if($p_parent_dir != $p_dir)
-                                                                                                        {
-                                                                                                            // ----- Look for parent directory
-                                                                                                            if($p_parent_dir != "")
-                                                                                                            {
-                                                                                                                if(($v_result = PclTarHandlerDirCheck($p_parent_dir)) != 1)
-                                                                                                                {
-                                                                                                                    return $v_result;
-                                                                                                                }
-                                                                                                            }
-                                                                                                        }
-
-                                                                                                        // ----- Create the directory
-                                                                                                        if(!@mkdir($p_dir, 0777))
-                                                                                                        {
-                                                                                                            // ----- Return
-                                                                                                            return false;
-                                                                                                        }
-
-                                                                                                        // ----- Return
-                                                                                                        return $v_result;
-                                                                                                    }
-
-                                                                                                    // --------------------------------------------------------------------------------
-                                                                                                    // --------------------------------------------------------------------------------
-                                                                                                    // Function : PclTarHandleExtension()
-                                                                                                    // Description :
-                                                                                                    // Parameters :
-                                                                                                    // Return Values :
-                                                                                                    // --------------------------------------------------------------------------------
-                                                                                                    function PclTarHandleExtension($p_tarname)
-                                                                                                    {
-                                                                                                        // ----- Look for file extension
-                                                                                                        if((substr($p_tarname, -7) == ".tar.gz") || ( substr($p_tarname, -4) == ".tgz"))
-                                                                                                        {
-                                                                                                            $v_tar_mode = "tgz";
-                                                                                                        }
-                                                                                                        else if(substr($p_tarname, -4) == ".tar")
-                                                                                                        {
-                                                                                                            $v_tar_mode = "tar";
-                                                                                                        }
-                                                                                                        else
-                                                                                                        {
-                                                                                                            $v_tar_mode = "";
-                                                                                                        }
-
-                                                                                                        return $v_tar_mode;
-                                                                                                    }
-                                                                                                    // --------------------------------------------------------------------------------
-
-                                                                                                    /* ---------- END 3rd Party code for tar.gz extraction --------------------- */
-                                                                                                        ?>
+// --------------------------------------------------------------------------------
+// Function : PclTarHandleExtract()
+// Description :
+// Parameters :
+//   $p_tarname : Filename of the tar (or tgz) archive
+//   $p_file_list : An array which contains the list of files to extract, this
+//                  array may be empty when $p_mode is 'complete'
+//   $p_list_detail : An array where will be placed the properties of  each extracted/listed file
+//   $p_mode : 'complete' will extract all files from the archive,
+//             'partial' will look for files in $p_file_list
+//             'list' will only list the files from the archive without any extract
+//   $p_path : Path to add while writing the extracted files
+//   $p_tar_mode : 'tar' for GNU TAR archive, 'tgz' for compressed archive
+//   $p_remove_path : Path to remove (from the file memorized path) while writing the
+//                    extracted files. If the path does not match the file path,
+//                    the file is extracted with its memorized path.
+//                    $p_remove_path does not apply to 'list' mode.
+//                    $p_path and $p_remove_path are commulative.
+// Return Values :
+// --------------------------------------------------------------------------------
+function PclTarHandleExtract($p_tarname, $p_file_list, &$p_list_detail, $p_mode, $p_path, $p_tar_mode, $p_remove_path)
+{
+    $v_result = 1;
+    $v_nb = 0;
+    $v_extract_all = true;
+    $v_listing = false;
+
+    // ----- Check the path
+    /*
+                     * f (($p_path == "") || ((substr($p_path, 0, 1) != "/") && (substr($p_path, 0, 3) != "../")))
+                     * p_path = "./".$p_path;
+    */
+
+    $isWin = (substr(PHP_OS, 0, 3) == 'WIN');
+
+    if(!$isWin)
+    {
+        if(($p_path == "") || ( (substr($p_path, 0, 1) != "/") && ( substr($p_path, 0, 3) != "../")))
+            $p_path = "./" . $p_path;
+    }
+    // ----- Look for path to remove format (should end by /)
+    if(($p_remove_path != "") && ( substr($p_remove_path, -1) != '/'))
+    {
+        $p_remove_path .= '/';
+    }
+    $p_remove_path_size = strlen($p_remove_path);
+
+    // ----- Study the mode
+    switch($p_mode)
+    {
+        case "complete" :
+        // ----- Flag extract of all files
+            $v_extract_all = true;
+            $v_listing = false;
+            break;
+        case "partial" :
+        // ----- Flag extract of specific files
+            $v_extract_all = false;
+            $v_listing = false;
+            break;
+        case "list" :
+        // ----- Flag list of all files
+            $v_extract_all = false;
+            $v_listing = true;
+            break;
+        default :
+            return false;
+    }
+
+    // ----- Open the tar file
+    if($p_tar_mode == "tar")
+    {
+        $v_tar = fopen($p_tarname, "rb");
+    }
+    else
+    {
+        $v_tar = @gzopen($p_tarname, "rb");
+    }
+
+    // ----- Check that the archive is open
+    if($v_tar == 0)
+    {
+        return false;
+    }
+
+    $start = time();
+
+    // ----- Read the blocks
+    while(!($v_end_of_file = ($p_tar_mode == "tar" ? feof($v_tar) : gzeof($v_tar))))
+    {
+        // ----- Clear cache of file infos
+        clearstatcache();
+
+        if(time() - $start > 55)
+        {
+            Platform::extendTimeLimit();
+            $start = time();
+        }
+
+        // ----- Reset extract tag
+        $v_extract_file = false;
+        $v_extraction_stopped = 0;
+
+        // ----- Read the 512 bytes header
+        if($p_tar_mode == "tar")
+            $v_binary_data = fread($v_tar, 512);
+        else
+            $v_binary_data = gzread($v_tar, 512);
+
+        // ----- Read the header properties
+        $v_header = array();
+        if(($v_result = PclTarHandleReadHeader($v_binary_data, $v_header)) != 1)
+        {
+            // ----- Close the archive file
+            if($p_tar_mode == "tar")
+                fclose($v_tar);
+            else
+                gzclose($v_tar);
+
+            // ----- Return
+            return $v_result;
+        }
+
+        // ----- Look for empty blocks to skip
+        if($v_header["filename"] == "")
+        {
+            continue;
+        }
+
+        // ----- Look for partial extract
+        if((!$v_extract_all) && ( is_array($p_file_list)))
+        {
+            // ----- By default no unzip if the file is not found
+            $v_extract_file = false;
+
+            // ----- Look into the file list
+            $size = sizeof($p_file_list);
+            for($i = 0; $i < $size; $i++)
+            {
+                // ----- Look if it is a directory
+                if(substr($p_file_list[$i], -1) == "/")
+                {
+                    // ----- Look if the directory is in the filename path
+                    if((strlen($v_header["filename"]) > strlen($p_file_list[$i])) && ( substr($v_header["filename"], 0, strlen($p_file_list[$i])) == $p_file_list[$i]))
+                    {
+                        // ----- The file is in the directory, so extract it
+                        $v_extract_file = true;
+
+                        // ----- End of loop
+                        break;
+                    }
+                }
+
+                // ----- It is a file, so compare the file names
+                else if($p_file_list[$i] == $v_header["filename"])
+                {
+                    // ----- File found
+                    $v_extract_file = true;
+
+                    // ----- End of loop
+                    break;
+                }
+            }
+
+            // ----- Trace
+            if(!$v_extract_file)
+            {
+
+            }
+        }
+        else
+        {
+            // ----- All files need to be extracted
+            $v_extract_file = true;
+        }
+
+        // ----- Look if this file need to be extracted
+        if(($v_extract_file) && ( !$v_listing))
+        {
+            // ----- Look for path to remove
+            if(($p_remove_path != "")
+                    && ( substr($v_header["filename"], 0, $p_remove_path_size) == $p_remove_path))
+            {
+                // ----- Remove the path
+                $v_header["filename"] = substr($v_header["filename"], $p_remove_path_size);
+            }
+
+            // ----- Add the path to the file
+            if(($p_path != "./") && ( $p_path != "/"))
+            {
+                // ----- Look for the path end '/'
+                while(substr($p_path, -1) == "/")
+                {
+                    $p_path = substr($p_path, 0, strlen($p_path) - 1);
+                }
+
+                // ----- Add the path
+                if(substr($v_header["filename"], 0, 1) == "/")
+                    $v_header["filename"] = $p_path . $v_header["filename"];
+                else
+                    $v_header["filename"] = $p_path . "/" . $v_header["filename"];
+            }
+
+            // ----- Check that the file does not exists
+            if(is_file($v_header["filename"]))
+            {
+                // ----- Look if file is a directory
+                if(is_dir($v_header["filename"]))
+                {
+                    // ----- Change the file status
+                    $v_header["status"] = "already_a_directory";
+
+                    // ----- Skip the extract
+                    $v_extraction_stopped = 1;
+                    $v_extract_file = 0;
+                }
+                // ----- Look if file is write protected
+                else if(!is_writeable($v_header["filename"]))
+                {
+                    // ----- Change the file status
+                    $v_header["status"] = "write_protected";
+
+                    // ----- Skip the extract
+                    $v_extraction_stopped = 1;
+                    $v_extract_file = 0;
+                }
+                // ----- Look if the extracted file is older
+                else if(filemtime($v_header["filename"]) > $v_header["mtime"])
+                {
+                    // ----- Change the file status
+                    $v_header["status"] = "newer_exist";
+
+                    // ----- Skip the extract
+                    $v_extraction_stopped = 1;
+                    $v_extract_file = 0;
+                }
+            }
+
+            // ----- Check the directory availability and create it if necessary
+            else
+            {
+                if($v_header["typeflag"]=="5")
+                    $v_dir_to_check = $v_header["filename"];
+                else if(!strstr($v_header["filename"], "/"))
+                    $v_dir_to_check = "";
+                else
+                    $v_dir_to_check = dirname($v_header["filename"]);
+
+                if(($v_result = PclTarHandlerDirCheck($v_dir_to_check)) != 1)
+                {
+                    // ----- Change the file status
+                    $v_header["status"] = "path_creation_fail";
+
+                    // ----- Skip the extract
+                    $v_extraction_stopped = 1;
+                    $v_extract_file = 0;
+                }
+            }
+
+            // ----- Do the extraction
+            if(($v_extract_file) && ( $v_header["typeflag"]!="5"))
+            {
+                // ----- Open the destination file in write mode
+                if(($v_dest_file = fopen($v_header["filename"], "wb")) == 0)
+                {
+                    // ----- Change the file status
+                    $v_header["status"] = "write_error";
+
+                    // ----- Jump to next file
+                    if($p_tar_mode == "tar")
+                        fseek($v_tar, ftell($v_tar) + (ceil(($v_header['size'] / 512)) * 512));
+                    else
+                        gzseek($v_tar, gztell($v_tar) + (ceil(($v_header['size'] / 512)) * 512));
+                }
+                else
+                {
+                    // ----- Read data
+                    $n = floor($v_header["size"] / 512);
+                    for($i = 0; $i < $n; $i++)
+                    {
+                        if($p_tar_mode == "tar")
+                            $v_content = fread($v_tar, 512);
+                        else
+                            $v_content = gzread($v_tar, 512);
+                        fwrite($v_dest_file, $v_content, 512);
+                    }
+                    if(($v_header["size"] % 512) != 0)
+                    {
+                        if($p_tar_mode == "tar")
+                            $v_content = fread($v_tar, 512);
+                        else
+                            $v_content = gzread($v_tar, 512);
+                        fwrite($v_dest_file, $v_content, ($v_header["size"] % 512));
+                    }
+
+                    // ----- Close the destination file
+                    fclose($v_dest_file);
+
+                    // ----- Change the file mode, mtime
+                    @touch($v_header["filename"], $v_header["mtime"]);
+                    //chmod($v_header[filename], DecOct($v_header[mode]));
+                }
+
+                // ----- Check the file size
+                clearstatcache();
+                if(filesize($v_header["filename"]) != $v_header["size"])
+                {
+                    // ----- Close the archive file
+                    if($p_tar_mode == "tar")
+                        fclose($v_tar);
+                    else
+                        gzclose($v_tar);
+
+                    // ----- Return
+                    return false;
+                }
+            }
+
+            else
+            {
+                // ----- Jump to next file
+                if($p_tar_mode == "tar")
+                    fseek($v_tar, ftell($v_tar) + (ceil(($v_header["size"] / 512)) * 512));
+                else
+                    gzseek($v_tar, gztell($v_tar) + (ceil(($v_header["size"] / 512)) * 512));
+            }
+        }
+
+        // ----- Look for file that is not to be unzipped
+        else
+        {
+            // ----- Jump to next file
+            if($p_tar_mode == "tar")
+                fseek($v_tar, ($p_tar_mode=="tar" ? ftell($v_tar) : gztell($v_tar)) + (ceil(($v_header[size] / 512)) * 512));
+            else
+                gzseek($v_tar, gztell($v_tar) + (ceil(($v_header[size] / 512)) * 512));
+        }
+
+        if($p_tar_mode == "tar")
+            $v_end_of_file = feof($v_tar);
+        else
+            $v_end_of_file = gzeof($v_tar);
+
+        // ----- File name and properties are logged if listing mode or file is extracted
+        if($v_listing || $v_extract_file || $v_extraction_stopped)
+        {
+            // ----- Log extracted files
+            if(($v_file_dir = dirname($v_header["filename"])) == $v_header["filename"])
+                $v_file_dir = "";
+            if((substr($v_header["filename"], 0, 1) == "/") && ( $v_file_dir == ""))
+                $v_file_dir = "/";
+
+            // ----- Add the array describing the file into the list
+            $p_list_detail[$v_nb] = $v_header;
+
+            // ----- Increment
+            $v_nb++;
+        }
+    }
+
+    // ----- Close the tarfile
+    if($p_tar_mode == "tar")
+        fclose($v_tar);
+    else
+        gzclose($v_tar);
+
+    // ----- Return
+    return $v_result;
+}
+
+// --------------------------------------------------------------------------------
+// --------------------------------------------------------------------------------
+// Function : PclTarHandleReadHeader()
+// Description :
+// Parameters :
+// Return Values :
+// --------------------------------------------------------------------------------
+function PclTarHandleReadHeader($v_binary_data, &$v_header)
+{
+    $v_result = 1;
+
+    // ----- Read the 512 bytes header
+    /*
+                     * f ($p_tar_mode == "tar")
+                     * v_binary_data = fread($p_tar, 512);
+                     * lse
+                     * v_binary_data = gzread($p_tar, 512);
+    */
+
+    // ----- Look for no more block
+    if(strlen($v_binary_data)==0)
+    {
+        $v_header['filename'] = "";
+        $v_header['status'] = "empty";
+
+        return $v_result;
+    }
+
+    // ----- Look for invalid block size
+    if(strlen($v_binary_data) != 512)
+    {
+        $v_header['filename'] = "";
+        $v_header['status'] = "invalid_header";
+
+        // ----- Return
+        return false;
+    }
+
+    // ----- Calculate the checksum
+    $v_checksum = 0;
+    // ..... First part of the header
+    for($i = 0; $i < 148; $i++)
+    {
+        $v_checksum+=ord(substr($v_binary_data, $i, 1));
+    }
+    // ..... Ignore the checksum value and replace it by ' ' (space)
+    for($i = 148; $i < 156; $i++)
+    {
+        $v_checksum += ord(' ');
+    }
+    // ..... Last part of the header
+    for($i = 156; $i < 512; $i++)
+    {
+        $v_checksum+=ord(substr($v_binary_data, $i, 1));
+    }
+
+    // ----- Extract the values
+    $v_data = unpack("a100filename/a8mode/a8uid/a8gid/a12size/a12mtime/a8checksum/a1typeflag/a100link/a6magic/a2version/a32uname/a32gname/a8devmajor/a8devminor", $v_binary_data);
+
+    // ----- Extract the checksum for check
+    $v_header["checksum"] = octdec(trim($v_data["checksum"]));
+    if($v_header["checksum"] != $v_checksum)
+    {
+        $v_header["filename"] = "";
+        $v_header["status"] = "invalid_header";
+
+        // ----- Look for last block (empty block)
+        if(($v_checksum == 256) && ( $v_header["checksum"] == 0))
+        {
+            $v_header["status"] = "empty";
+            // ----- Return
+            return $v_result;
+        }
+
+        // ----- Return
+        return false;
+    }
+    // ----- Extract the properties
+    $v_header["filename"] = trim($v_data["filename"]);
+    $v_header["mode"] = octdec(trim($v_data["mode"]));
+    $v_header["uid"] = octdec(trim($v_data["uid"]));
+    $v_header["gid"] = octdec(trim($v_data["gid"]));
+    $v_header["size"] = octdec(trim($v_data["size"]));
+    $v_header["mtime"] = octdec(trim($v_data["mtime"]));
+    if(($v_header["typeflag"] = $v_data["typeflag"]) == "5")
+    {
+        $v_header["size"] = 0;
+    }
+    /* ----- All these fields are removed form the header because they do not carry interesting info
+                     * v_header[link] = trim($v_data[link]);
+                     * rFctMessage(__FILE__, __LINE__, 2, "Linkname : $v_header[linkname]");
+                     * v_header[magic] = trim($v_data[magic]);
+                     * rFctMessage(__FILE__, __LINE__, 2, "Magic : $v_header[magic]");
+                     * v_header[version] = trim($v_data[version]);
+                     * rFctMessage(__FILE__, __LINE__, 2, "Version : $v_header[version]");
+                     * v_header[uname] = trim($v_data[uname]);
+                     * rFctMessage(__FILE__, __LINE__, 2, "Uname : $v_header[uname]");
+                     * v_header[gname] = trim($v_data[gname]);
+                     * rFctMessage(__FILE__, __LINE__, 2, "Gname : $v_header[gname]");
+                     * v_header[devmajor] = trim($v_data[devmajor]);
+                     * rFctMessage(__FILE__, __LINE__, 2, "Devmajor : $v_header[devmajor]");
+                     * v_header[devminor] = trim($v_data[devminor]);
+                     * rFctMessage(__FILE__, __LINE__, 2, "Devminor : $v_header[devminor]");
+    */
+
+    // ----- Set the status field
+    $v_header["status"] = "ok";
+
+    // ----- Return
+    return $v_result;
+}
+
+// --------------------------------------------------------------------------------
+// --------------------------------------------------------------------------------
+// Function : PclTarHandlerDirCheck()
+// Description :
+//   Check if a directory exists, if not it creates it and all the parents directory
+//   which may be useful.
+// Parameters :
+//   $p_dir : Directory path to check (without / at the end).
+// Return Values :
+//    1 : OK
+//   -1 : Unable to create directory
+// --------------------------------------------------------------------------------
+function PclTarHandlerDirCheck($p_dir)
+{
+    $v_result = 1;
+
+    // ----- Check the directory availability
+    if((is_dir($p_dir)) || ( $p_dir == ""))
+    {
+        return 1;
+    }
+
+    // ----- Look for file alone
+    /*
+                     * f (!strstr("$p_dir", "/"))
+                     {
+                     * rFctEnd(__FILE__, __LINE__,  "'$p_dir' is a file with no directory");
+                     * eturn 1;
+                     }
+    */
+
+    // ----- Extract parent directory
+    $p_parent_dir = dirname($p_dir);
+
+    // ----- Just a check
+    if($p_parent_dir != $p_dir)
+    {
+        // ----- Look for parent directory
+        if($p_parent_dir != "")
+        {
+            if(($v_result = PclTarHandlerDirCheck($p_parent_dir)) != 1)
+            {
+                return $v_result;
+            }
+        }
+    }
+
+    // ----- Create the directory
+    if(!@mkdir($p_dir, 0777))
+    {
+        // ----- Return
+        return false;
+    }
+
+    // ----- Return
+    return $v_result;
+}
+
+/**
+* PclTarHandleExtension()
+*/
+function PclTarHandleExtension($p_tarname)
+{
+   # Look for file extension
+   if((substr($p_tarname, -7) == ".tar.gz") || ( substr($p_tarname, -4) == ".tgz"))
+   {
+       $v_tar_mode = "tgz";
+   }
+   else if(substr($p_tarname, -4) == ".tar")
+   {
+       $v_tar_mode = "tar";
+   }
+   else
+   {
+       $v_tar_mode = "";
+   }
+
+   return $v_tar_mode;
+}
+?>

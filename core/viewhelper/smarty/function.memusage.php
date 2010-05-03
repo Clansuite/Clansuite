@@ -10,7 +10,7 @@
  */
 function smarty_function_memusage($params, $smarty)
 {
-   /*
+    /*
    if( !function_exists('memory_get_usage') )
    {
         function memory_get_usage()
@@ -46,31 +46,35 @@ function smarty_function_memusage($params, $smarty)
     $memusage=memory_get_usage();
     */
 
-    if (function_exists('memory_get_usage')) {
-      $memusage = memory_get_usage();
-    } else {
-      return $memusage = 'n/a';
+    if (function_exists('memory_get_usage'))
+    {
+        $memusage = memory_get_usage();
+    }
+    else
+    {
+        return $memusage = 'n/a';
     }
 
 
-    if ($memusage>0) {
-      $memunit="B";
-      if ($memusage>1024) {
-        $memusage=$memusage/1024;
-        $memunit="kB";
-      }
-      if ($memusage>1024) {
-        $memusage=$memusage/1024;
-        $memunit="MB";
-      }
-      if ($memusage>1024) {
-        $memusage=$memusage/1024;
-        $memunit="GB";
-      }
-      print(number_format($memusage,2).$memunit) . ' / ' . ini_get('memory_limit') .'B'; # append the missing B of MB :)
+    if ($memusage>0)
+    {
+        $memunit='B';
+        if ($memusage>1024)
+        {
+            $memusage=$memusage/1024;
+            $memunit='kB';
+        }
+        if ($memusage>1024)
+        {
+            $memusage=$memusage/1024;
+            $memunit='MB';
+        }
+        if ($memusage>1024)
+        {
+            $memusage=$memusage/1024;
+            $memunit='GB';
+        }
+        print(number_format($memusage,2).$memunit) . ' / ' . ini_get('memory_limit') .'B'; # append the missing B of MB :)
     }
 }
-
-/* vim: set expandtab: */
-
 ?>

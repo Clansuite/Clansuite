@@ -1,8 +1,10 @@
 <?php
 /**
- * Smarty plugin
+ * Clansuite Smarty Viewhelper
+ *
+ * @category Clansuite
  * @package Smarty
- * @subpackage plugins
+ * @subpackage Viewhelper
  */
 
 /**
@@ -84,6 +86,8 @@ function smarty_function_load_module($params, $smarty)
         # exceptional handling of parameters and output for adminmenu
         if ( $module_classname == 'clansuite_module_menu_admin' )
         {
+            $parameters = array();
+
             # Build a Parameter Array from Parameter String like: param|param|etc
             if( empty($params['params']) )
             {
@@ -126,12 +130,12 @@ function smarty_function_load_module($params, $smarty)
         }
         else
         {
-            return $smarty->trigger_error("Error! Failed to load Widget-Template for <br /> $module_classname -> $action($items)");
+            return $smarty->trigger_error('Error! Failed to load Widget-Template for <br /> '.$module_classname.' -> '.$action.'('.$items.')');
         }
     }
     else
     {
-        return $smarty->trigger_error("Error! Failed to load Widget: <br /> $module_classname -> $action($items)");
+        return $smarty->trigger_error('Error! Failed to load Widget: <br /> '.$module_classname.' -> '.$action.'('.$items.')');
     }
 }
 ?>

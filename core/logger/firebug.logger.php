@@ -116,25 +116,22 @@ class Clansuite_Logger_Firebug extends Clansuite_Logger implements Clansuite_Log
                 return FirePHP::DEBUG;
             case TABLE:
                 return FirePHP::TABLE;
-            # backtracing
             case TRACE:
-                return FirePHP::TRACE;
-            # variable dumps
+                return FirePHP::TRACE; # backtracing
             case DUMP:
-                return FirePHP::DUMP;
+                return FirePHP::DUMP; # variable dumps
             default:
                 return FirePHP::ERROR;
         }
     }
 
     /**
-     * writeLog
-     * writes a log to the firephp/firebug console
+     * This writes a log to the Firephp or Firebug console.
      *
-     * this method utilizes the firephp's procedural api
+     * It utilizes firephp's procedural API.
      * fb($var, 'Label', FirePHP::*)
      *
-     * @param $data
+     * @param $data array date['message'], data['label'], data['level']
      */
     public function writeLog($data)
     {

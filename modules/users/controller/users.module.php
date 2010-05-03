@@ -34,7 +34,10 @@
     */
 
 # Security Handler
-if (defined('IN_CS') == false){die('Clansuite not loaded. Direct Access forbidden.');}
+if (defined('IN_CS') == false)
+{
+    die('Clansuite not loaded. Direct Access forbidden.');
+}
 
 /**
  * Clansuite_Module_Users
@@ -70,24 +73,24 @@ class Clansuite_Module_Users extends Clansuite_Module_Controller implements Clan
         /* @todo news with status: draft, published, private, private+protected*/
         // Creating Pager Object with a Query Object inside
         $pager_layout = new Doctrine_Pager_Layout(
-                        new Doctrine_Pager(
-                            Doctrine_Query::create()
-                                    ->select('u.user_id, u.nick, u.email, u.joined, g.name, g.color, p.icq')
-                                    ->from('CsUsers u')
-                                    #->leftJoin('u.CsRelUserGroup ug')
-                                    ->leftJoin('u.CsGroups g')
-                                    ->leftJoin('u.CsProfiles p')
-                                   #->setHydrationMode(Doctrine::HYDRATE_NONE)
-                                   ->orderby('u.user_id ASC'),
-                                 # The following is Limit  ?,? =
-                                 $currentPage, // Current page of request
-                                 $resultsPerPage // (Optional) Number of results per page Default is 25
-                             ),
-                             new Doctrine_Pager_Range_Sliding(array(
-                                 'chunk' => 5
-                             )),
-                             '?mod=news&action=show&page={%page}'
-                             );
+                new Doctrine_Pager(
+                Doctrine_Query::create()
+                ->select('u.user_id, u.nick, u.email, u.joined, g.name, g.color, p.icq')
+                ->from('CsUsers u')
+                #->leftJoin('u.CsRelUserGroup ug')
+                ->leftJoin('u.CsGroups g')
+                ->leftJoin('u.CsProfiles p')
+                #->setHydrationMode(Doctrine::HYDRATE_NONE)
+                ->orderby('u.user_id ASC'),
+                # The following is Limit  ?,? =
+                $currentPage, // Current page of request
+                $resultsPerPage // (Optional) Number of results per page Default is 25
+                ),
+                new Doctrine_Pager_Range_Sliding(array(
+                        'chunk' => 5
+                )),
+                '?mod=news&action=show&page={%page}'
+        );
 
         // Assigning templates for page links creation
         $pager_layout->setTemplate('[<a href="{%url}">{%page}</a>]');
@@ -131,27 +134,27 @@ class Clansuite_Module_Users extends Clansuite_Module_Controller implements Clan
      */
     public function widget_lastregisteredusers($numberUsers)
     {
-        # set cfg value, or set the the incomming value or the default value for the number of user to display 
+        # set cfg value, or set the the incomming value or the default value for the number of user to display
         $numberUsers = $this->getConfigValue('items_lastregisteredusers', $numberUsers, '5');
-        
+
         # get smarty as the view
         $view = $this->getView();
-        
+
         # fetch specified num of last registered users
         $last_registered_users = Doctrine_Query::create()
-                                 ->select('u.user_id, u.email, u.nick, u.country, u.joined')
-                                 ->from('CsUsers u')
-                                 ->setHydrationMode(Doctrine::HYDRATE_ARRAY)
-                                 ->orderby('u.joined DESC')
-                                 ->where('u.activated = 1')
-                                 ->limit($numberUsers)
-                                 ->execute();
+                ->select('u.user_id, u.email, u.nick, u.country, u.joined')
+                ->from('CsUsers u')
+                ->setHydrationMode(Doctrine::HYDRATE_ARRAY)
+                ->orderby('u.joined DESC')
+                ->where('u.activated = 1')
+                ->limit($numberUsers)
+                ->execute();
 
         # assign
         $view->assign('last_registered_users', $last_registered_users);
     }
 
-   /**
+    /**
      * widget_useronline
      *
      * Displayes the specified number of news in the news_widget.tpl.
@@ -165,7 +168,7 @@ class Clansuite_Module_Users extends Clansuite_Module_Controller implements Clan
     public function widget_usersonline()
     {
         $view = $this->getView();
-        
+
         /*
         $usersonline = Doctrine_Query::create()
                           ->select('')
@@ -176,7 +179,7 @@ class Clansuite_Module_Users extends Clansuite_Module_Controller implements Clan
                           ->orderby('')
                           #->limit()
                           ->execute( array());*/
-        
+
         $usersonline = '@todo Query';
 
         $view->assign('usersonline', $usersonline);
@@ -199,13 +202,13 @@ class Clansuite_Module_Users extends Clansuite_Module_Controller implements Clan
         $view = $this->getView();
 
         $random_user = Doctrine_Query::create()
-                 ->select('u.nick, u.email, u.country, u.joined, RANDOM() rand')
-                 ->from('CsUsers u')
-                 ->orderby('rand')
-                 ->limit(1)
-                 ->execute()
-                 ->getFirst()
-                 ->toArray();
+                ->select('u.nick, u.email, u.country, u.joined, RANDOM() rand')
+                ->from('CsUsers u')
+                ->orderby('rand')
+                ->limit(1)
+                ->execute()
+                ->getFirst()
+                ->toArray();
 
         $view->assign('random_user', $random_user);
     }

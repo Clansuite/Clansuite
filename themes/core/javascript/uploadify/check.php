@@ -24,12 +24,15 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 */
 $fileArray = array();
-foreach ($_POST as $key => $value) {
-	if ($key != 'folder') {
-		if (file_exists($_SERVER['DOCUMENT_ROOT'] . $_POST['folder'] . '/' . $value)) {
-			$fileArray[$key] = $value;
-		}
-	}
+foreach ($_POST as $key => $value)
+{
+    if ($key != 'folder')
+    {
+        if (file_exists($_SERVER['DOCUMENT_ROOT'] . $_POST['folder'] . '/' . $value))
+        {
+            $fileArray[$key] = $value;
+        }
+    }
 }
 echo json_encode($fileArray);
 ?>

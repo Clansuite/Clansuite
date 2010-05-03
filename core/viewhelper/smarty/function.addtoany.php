@@ -1,20 +1,32 @@
 <?php
 /**
- * Smarty plugin
+ * Clansuite Smarty Viewhelper
+ *
+ * @category Clansuite
  * @package Smarty
- * @subpackage plugins
+ * @subpackage Viewhelper
  */
 
-
 /**
-
- * @param array $params icq and title parameters required
- * @param Smarty $smarty
+ * This smarty function is part of "Clansuite - just an eSports CMS"
+ * @link http://www.clansuite.com
+ *
+ * @author Jens-André Koch <jakoch@web.de>
+ * @copyright Copyright (C) 2009 Jens-André Koch
+ * @license GNU General Public License v2 or any later version
+ * @version SVN $Id$
+ *
+ * Smarty Function to output the addtoany social bookmark/sharing button.
+ * @link http://www.addtoany.com
+ *
+ * @example
+ * {addtonany}
+ *
  * @return string
  */
 function smarty_function_addtoany($params, $smarty)
 {
-$str = <<<EOD
+    $str = <<<EOD
 <!--
      AddToAny - Social Bookmarks  http://www.addtoany.com/buttons/customize/
 -->
@@ -36,6 +48,6 @@ $str = <<<EOD
 </div>
 EOD;
 
-return $str;
+    return $str;
 }
 ?>

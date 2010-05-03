@@ -1,8 +1,10 @@
 <?php
 /**
- * Smarty plugin
+ * Clansuite Smarty Viewhelper
+ *
+ * @category Clansuite
  * @package Smarty
- * @subpackage plugins
+ * @subpackage Viewhelper
  */
 
 /**
@@ -22,7 +24,10 @@
 function smarty_block_tabpage($params, $content, $smarty, &$repeat)
 {
     # check for name
-    if(isset($params['name'])) { $name = _($params['name']); }
+    if(isset($params['name']))
+    {
+        $name = _($params['name']);
+    }
     else
     {
         $smarty->trigger_error("Tabpage Name not set! Please add Parameter 'name=tabpagename'!");

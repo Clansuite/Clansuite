@@ -34,7 +34,10 @@
     */
 
 # Security Handler
-if (defined('IN_CS') == false){die('Clansuite not loaded. Direct Access forbidden.');}
+if (defined('IN_CS') == false)
+{
+    die('Clansuite not loaded. Direct Access forbidden.');
+}
 
 /**
  * Clansuite Event - Authentication Logging
@@ -50,7 +53,7 @@ if (defined('IN_CS') == false){die('Clansuite not loaded. Direct Access forbidde
 class AuthenticationLogging implements Clansuite_Event
 {
     protected $logger;
-        
+
     public function __construct($logger)
     {
         # set request object
@@ -62,14 +65,14 @@ class AuthenticationLogging implements Clansuite_Event
     public function execute(Event $event)
     {
         $authdata = $event->getInfo();
-        
-        $logdata = array( 
-                          date(),                              # date
-                          $this->request->getRemoteAddress(),  # remote adress
-                          $event->getName(),                   # onLogin etc.
-                          $authdata['username']                # username
-                        );
-        
+
+        $logdata = array(
+                date(),                              # date
+                $this->request->getRemoteAddress(),  # remote adress
+                $event->getName(),                   # onLogin etc.
+                $authdata['username']                # username
+        );
+
         $this->logger->log($logdata);
     }
 }

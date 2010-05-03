@@ -1,5 +1,13 @@
 <?php
 /**
+ * Clansuite Smarty Viewhelper
+ *
+ * @category Clansuite
+ * @package Smarty
+ * @subpackage Viewhelper
+ */
+
+/**
  * block.t.php - Smarty gettext block plugin
  *
  * ------------------------------------------------------------------------- *
@@ -18,9 +26,6 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA *
  * ------------------------------------------------------------------------- *
  *
- * Installation: simply copy this file to the smarty plugins directory.
- *
- * @package smarty-gettext
  * @version $Id$
  * @link    http://smarty-gettext.sourceforge.net/
  * @author  Sagi Bashari <sagi@boom.org.il>

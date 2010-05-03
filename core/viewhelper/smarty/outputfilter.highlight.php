@@ -3,7 +3,7 @@
 //this script may only be included - so its better to die if called directly.
 if (strpos($_SERVER['SCRIPT_NAME'],basename(__FILE__)) !== false)
 {
-    header("location: index.php");
+    header('location: index.php');
     exit;
 }
 
@@ -31,11 +31,10 @@ if (strpos($_SERVER['SCRIPT_NAME'],basename(__FILE__)) !== false)
 */
 function smarty_outputfilter_highlight($source, $smarty)
 {
-    global $feature_referer_highlight;
-
     $highlight = $_REQUEST['highlight'];
+    $feature_referer_highlight = $GLOBALS['feature_referer_highlight']; # @todo remove globals
 
-    if(isset($feature_referer_highlight) && $feature_referer_highlight == 'y')
+    if(isset($feature_referer_highlight) && $$feature_referer_highlight == 'y')
     {
         $refererhi = _refererhi();
         if(isset($refererhi) && !empty($refererhi))

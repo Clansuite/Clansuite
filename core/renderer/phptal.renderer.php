@@ -89,19 +89,19 @@ class Clansuite_Renderer_Phptal extends Clansuite_Renderer_Base
                 include ROOT_LIBRARIES . 'phptal/PHPTAL.php';
                 $this->renderer = new PHPTAL();
             }
-            else // throw error in case PHPTAL library is missing
+            else # throw error in case PHPTAL library is missing
 
             {
                 die('PHPTAL Template Library missing!');
             }
         }
-        else // throw error in case engine was already loaded
+        else # throw error in case engine was already loaded
 
         {
             die('PHPTAL already loaded!');
         }
 
-        return $this->phptal;
+        return $this->renderer;
     }
 
     /**
@@ -120,9 +120,9 @@ class Clansuite_Renderer_Phptal extends Clansuite_Renderer_Base
      */
     public function setEngine(PHPTAL $phptal)
     {
-        $this->phptal = $phptal;
+        $this->renderer = $phptal;
         # @todo check, if $this should be injected into phptal?
-        $this->phptal->set('this', $this);
+        $this->renderer->set('this', $this);
         return $this;
     }
 
@@ -133,24 +133,6 @@ class Clansuite_Renderer_Phptal extends Clansuite_Renderer_Base
      */
     public function getEngine()
     {
-        if($this->renderer)
-        {
-            /**
-             * we don't know what happened to the renderer on it's way
-             * so in order to get a clean render object
-             * we remove all prior assigns and configuration settings
-             */
-            #$this->renderer->clear_all_assign();
-            #$this->renderer->clear_config();
-        }
-        else
-        {
-            self::initializeEngine();
-        }
-
-        # then we reload the base configuration to have default template paths and debug-settings
-        #self::configureEngine();
-
         return $this->renderer;
     }
 
@@ -162,7 +144,7 @@ class Clansuite_Renderer_Phptal extends Clansuite_Renderer_Base
      */
     public function __set($key, $value)
     {
-        $this->phptal->set($key, $value);
+        $this->renderer->set($key, $value);
     }
 
     /**
@@ -173,7 +155,7 @@ class Clansuite_Renderer_Phptal extends Clansuite_Renderer_Base
      */
     public function __get($key)
     {
-        return $this->phptal->$key;
+        return $this->renderer->$key;
     }
 
     /**
@@ -183,7 +165,7 @@ class Clansuite_Renderer_Phptal extends Clansuite_Renderer_Base
      */
     public function __isset($key)
     {
-        return isset($this->phptal->$key);
+        return isset($this->renderer->$key);
     }
 
     /**
@@ -193,9 +175,9 @@ class Clansuite_Renderer_Phptal extends Clansuite_Renderer_Base
      */
     public function __unset($key)
     {
-        if (isset($this->phptal->$key))
+        if (isset($this->renderer->$key))
         {
-            unset($this->phptal->$key);
+            unset($this->renderer->$key);
         }
     }
 
@@ -216,11 +198,11 @@ class Clansuite_Renderer_Phptal extends Clansuite_Renderer_Base
      */
     protected function render($template)
     {
-        $this->phptal->setTemplate($template);
+        $this->renderer->setTemplate($template);
 
         try
         {
-            echo $this->phptal->execute();
+            echo $this->renderer->execute();
         }
         catch (Clansuite_Exception $e)
         {

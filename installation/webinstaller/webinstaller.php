@@ -1824,7 +1824,9 @@ $folderName = empty($args['clansuiteFolderName']) ? 'clansuite' : $args['clansui
                 Permissions:
                 <select name="folderPermissions">
 <?php foreach($folderPermissionList as $perm): ?>
-                    <option value="<?php print $perm; ?>"><?php print $perm; ?></option>
+                    <option value="<?php print $perm; ?>">
+                        <?php print $perm; ?>
+                    </option>
 <?php endforeach; ?>
             </select>
             <input type="hidden" name="command" value="chmod" />

@@ -92,25 +92,33 @@ class Clansuite_Formelement_File extends Clansuite_Formelement_Input implements 
         {
             default:
             case 'ajaxupload':
-                    if (false == class_exists('Clansuite_Formelement_Uploadajax',false)) { include 'uploadajax.form.php'; }
-                    return new Clansuite_Formelement_Uploadajax();
+                if (false == class_exists('Clansuite_Formelement_Uploadajax',false))
+                {
+                    include 'uploadajax.form.php';
+                }
+                return new Clansuite_Formelement_Uploadajax();
                 break;
             case 'apc':
-                    if (false == class_exists('Clansuite_Formelement_Uploadapc',false)) { include 'uploadapc.form.php'; }
-                    return new Clansuite_Formelement_Uploadapc();
-
+                if (false == class_exists('Clansuite_Formelement_Uploadapc',false))
+                {
+                    include 'uploadapc.form.php';
+                }
+                return new Clansuite_Formelement_Uploadapc();
                 break;
             case 'uploadify':
-                    if (false == class_exists('Clansuite_Formelement_Uploadify',false)) { include'uploadify.form.php'; }
-                    return new Clansuite_Formelement_Uploadify();
+                if (false == class_exists('Clansuite_Formelement_Uploadify',false))
+                {
+                    include 'uploadify.form.php';
+                }
+                return new Clansuite_Formelement_Uploadify();
                 break;
             case 'html':
-                    /**
-                     * Fallback to normal <input type="file"> upload
-                     * Currently not using the render method of the parent class
-                     * return parent::render();
-                     */
-                    return '<input name="uploadfile" type="file">';
+            /**
+             * Fallback to normal <input type="file"> upload
+             * Currently not using the render method of the parent class
+             * return parent::render();
+             */
+                return '<input name="uploadfile" type="file">';
                 break;
         }
     }
