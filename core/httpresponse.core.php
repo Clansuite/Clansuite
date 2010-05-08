@@ -426,6 +426,9 @@ class Clansuite_HttpResponse implements Clansuite_Response_Interface
      */
     public function redirect($url, $time = 0, $statusCode = 302, $text = '', $mode = null )
     {
+        $linenum = '';
+        $redirect_html = '';
+
         # redirect only, if headers are NOT already send
         if (headers_sent($filename, $linenum) == false)
         {

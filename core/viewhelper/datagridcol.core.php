@@ -148,7 +148,7 @@ class Clansuite_Datagrid_Column extends Clansuite_Datagrid_Base
         }
         else
         {
-            $this->_renderer = $this->_loadRenderer($_Renderer);
+            $this->_renderer = $this->loadRenderer($_Renderer);
         }
     }
 
@@ -297,7 +297,7 @@ class Clansuite_Datagrid_Column extends Clansuite_Datagrid_Base
      *
      * @param string $rendererName The renderer name
      */
-    private function _loadRenderer($rendererName = 'string')
+    private function loadRenderer($rendererName = 'string')
     {
         $rendererName = strtolower($rendererName);
         

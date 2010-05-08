@@ -682,20 +682,20 @@ class Clansuite_Datagrid extends Clansuite_Datagrid_Base
         $this->_queryName = $options['NamedQuery'];
 
         # construct url by appending to the baseURL
-        $this->setBaseUrl($options['ModuleActionURL']);
+        $this->setBaseUrl($options['url']);
 
         # disable some features
         # @todo css for these elements
         $this->disableFeatures(array('Label', 'Caption', 'Description'));
 
         # generate default datasets that can be overwritten
-        $this->_initDatagrid();
+        $this->initializeDatagrid();
     }
 
     /**
      * Initialize the datagrid
      */
-    private function _initDatagrid()
+    private function initializeDatagrid()
     {
         # set scalar values
         $this->setAlias($this->getDoctrineTable()->getClassnameToReturn());
@@ -715,7 +715,7 @@ class Clansuite_Datagrid extends Clansuite_Datagrid_Base
         $this->setDescription(_('This is the datagrid of ') . $this->getAlias());
 
         # generate the columns
-        $this->_generateCols();
+        $this->generateColumns();
 
         # update the query
         #$this->_generateQuery();
@@ -926,7 +926,7 @@ class Clansuite_Datagrid extends Clansuite_Datagrid_Base
     /**
      * Generates all col objects
      */
-    private function _generateCols()
+    private function generateColumns()
     {
         $colSet = null;
 

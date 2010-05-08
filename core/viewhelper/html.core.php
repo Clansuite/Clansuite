@@ -133,7 +133,18 @@ class Clansuite_HTML /* extends DOMDocument */
         $html_attributes = '';
         $html_attributes .= self::renderAttributes($attributes);
 
-        return '<img'.$html_attributes.' src="$link_to_image" />';
+        return '<img' . $html_attributes . ' src="' . $link_to_image . '" />';
+    }
+
+    /**
+     * Convenience/Proxy Method for self::image()
+     *
+     * @param string $link_to_image
+     * @param array $attributes
+     */
+    public static function img($link_to_image, $attributes = array())
+    {
+        return self::image($link_to_image, $attributes = array());
     }
 
     /**

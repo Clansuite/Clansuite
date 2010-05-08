@@ -149,7 +149,7 @@ class Clansuite_Module_News_Admin extends Clansuite_Module_Controller implements
                 'Datatable'         => Doctrine::getTable('CsNews'),
                 'NamedQuery'        => 'fetchAllNews',
                 'ColumnSets'        => $ColumnSets,
-                'ModuleActionURL'   => '?mod=news&sub=admin'
+                'url'   => '?mod=news&sub=admin'
         ) );
 
         $datagrid->setBatchActions( $BatchActions );

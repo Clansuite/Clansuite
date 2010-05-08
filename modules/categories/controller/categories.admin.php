@@ -94,12 +94,12 @@ class Clansuite_Module_Categories_Admin extends Clansuite_Module_Controller impl
         $ColumnSets[] = array(  'Alias'     => 'Image',
                                 'ResultSet' => 'image',
                                 'Name'      => _('Image'),
-                                'Type'      => 'String' );
+                                'Type'      => 'Image' );
 
         $ColumnSets[] = array(  'Alias'     => 'Icon',
                                 'ResultSet' => 'icon',
                                 'Name'      => _('Icon'),
-                                'Type'      => 'String' );
+                                'Type'      => 'Image' );
 
         $ColumnSets[] = array(  'Alias'     => 'Color',
                                 'ResultSet' => 'color',
@@ -120,10 +120,10 @@ class Clansuite_Module_Categories_Admin extends Clansuite_Module_Controller impl
 
         # Instantiate the datagrid
         $datagrid = new Clansuite_Datagrid( array(
-                'Datatable'     => Doctrine::getTable('CsCategories'),
-                'NamedQuery'    => 'fetchAllCategories',
-                'ColumnSets'    => $ColumnSets,
-                'BaseURL'       => 'index.php?mod=categories&sub=admin'
+                'Datatable'  => Doctrine::getTable('CsCategories'),
+                'NamedQuery' => 'fetchAllCategories',
+                'ColumnSets' => $ColumnSets,
+                'url'        => 'index.php?mod=categories&sub=admin'
         ) );
 
         $datagrid->setBatchActions( $BatchActions );
@@ -163,7 +163,7 @@ class Clansuite_Module_Categories_Admin extends Clansuite_Module_Controller impl
         $form->addElement('multiselect')->setName('cat_form[module_id]')->setLabel(_('Module'))->setOptions($modules)
         ->setDescription(_('Select the module to create the category for.'));
 
-        $form->addElement('textarea')->setName('cat_form[description]')->setID('cat_form[description]')->setCols('60')->setRows('5')->setLabel(_('Description'))->setEditorType('ckeditor');
+        $form->addElement('textarea')->setName('cat_form[description]')->setID('cat_form[description]')->setCols('60')->setRows('5')->setLabel(_('Description'))->setEditor('tinymce');
         $form->addElement('jqselectcolor')->setName('cat_form[color]')->setLabel(_('Select Color'))->setDescription(_('Click Inputfield to toggle Colorwheel.'));
         $form->addElement('jqselectimage')->setName('cat_form[image]')->setLabel(_('Select Image'));
         $form->addElement('jqselectimage')->setName('cat_form[icon]')->setLabel(_('Select Icon'));
@@ -322,6 +322,7 @@ class Clansuite_Module_Categories_Admin extends Clansuite_Module_Controller impl
 
         $settings['categories'][] = array(  'id' => 'items_resultsPerPage',
                                             'name' => 'items_resultsPerPage',
+                                            'label' => _('Categories per Page'),
                                             'description' => _('Categories per Page'),
                                             'formfieldtype' => 'text',
                                             'value' => $this->getConfigValue('items_resultsPerPage', '25'));
