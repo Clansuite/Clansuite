@@ -35,55 +35,59 @@
 
 # Security Handler
 if (defined('IN_CS') == false)
-{ 
+{
     die('Clansuite not loaded. Direct Access forbidden.' );
 }
 
 /**
- * Clansuite Filter - Language via URL
+ * Clansuite Filter - Startup Checks
  *
- * I10N/I18N Localization and Internationalization
- * Purpose: Set Language via URL by appendix $_GET['lang']
- *
- * 1) Default Language
- *    At system startup the default language is defined by the config.
- *    Up to this point this language is used for any output, like system and error messages.
- *
- * 2) When languageswitch_via_url is enabled in config, the user is able to
- *    override the default language (by adding the URL appendix 'lang').
- *    When request parameter 'lang' is set, the user session value for language will be updated.
- *    Example: index.php?lang=langname
- *
- * Note: The check if a certain language exists is not important,
- *       because there are 1) english hardcoded values and 2) the default language as fallback.
+ * Purpose: Perform Various Startup Check before running a Clansuite Module.
  *
  * @category    Clansuite
  * @package     Core
  * @subpackage  Filters
  * @implements  Clansuite_Filter_Interface
  */
-class Clansuite_Filter_language_via_get implements Clansuite_Filter_Interface
+class Clansuite_Filter_StartupChecks implements Clansuite_Filter_Interface
 {
-    private $config     = null;     # holds instance of config
-
-    public function __construct(Clansuite_Config $config)
-    {
-        $this->config    = $config;      # set instance of config to class
-    }
-
     public function executeFilter(Clansuite_HttpRequest $request, Clansuite_HttpResponse $response)
     {
-        /**
-         * take the initiative of filtering, if language switching is enabled in CONFIG
-         * or pass through (do nothing) if disabled
-         */
-        if($this->config['switches']['languageswitch_via_url'] == 1)
+        # Check if Smarty Output Dirs do EXIST
+        if (!is_dir( ROOT . 'cache/templates_c'))
         {
-            if(isset($request['lang']) && !empty($request['lang']) && (strlen($request['lang']) == 2))
+            # try to create the missing directories, throw exception if it fails
+            if( (false == mkdir(ROOT . 'cache' .DS. 'templates_c', 0755, true)) )
             {
-                $_SESSION['user']['language']           = strtolower($request['lang']).'_'.strtoupper($request['lang']);
-                $_SESSION['user']['language_via_url']   = 1;
+                throw new Clansuite_Exception('Smarty Template Directories not existant.', 9);
             }
+            # else # Log-Entry: "Created Directories Cache/Templates_C."
+        }
+
+        # Check if Smarty Output Dirs do EXIST
+        if (!is_dir( ROOT . 'cache/cache' ))
+        {
+            # try to create the missing directories, throw exception if it fails
+            if( (false == mkdir(ROOT . 'cache' .DS. 'cache', 0755, true)) )
+            {
+                throw new Clansuite_Exception('Smarty Template Directories not existant.', 9);
+            }
+            else # Log-Entry: "Created Directory Cache/Cache."
+
+            {
+
+            }
+        }
+
+        # Check if Smarty Output Dirs are WRITEABLE
+        if (!is_writable( ROOT . 'cache/templates_c') or !is_writable( ROOT . 'cache/cache' ))
+        {
+            # try to set permissions on the folders, throw exception if it fails
+            if( (false == chmod (ROOT . 'cache/templates_c', 0755)) and (false == chmod (ROOT . 'cache/cache', 0755)) )
+            {
+                throw new Clansuite_Exception('Smarty Template Directories not writable.', 10);
+            }
+            # else # Log-Entry: "CHMOD 0755 applied on /cache and /templates_c."
         }
     }
 }

@@ -51,7 +51,7 @@ if(defined('IN_CS') == false)
  * @subpackage  Filters
  * @implements  Clansuite_Filter_Interface
  */
-class Clansuite_Filter_theme_via_get implements Clansuite_Filter_Interface
+class Clansuite_Filter_ThemeViaGet implements Clansuite_Filter_Interface
 {
     private $config     = null;
     private $input      = null;

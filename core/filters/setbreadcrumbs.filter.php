@@ -49,7 +49,7 @@ if(defined('IN_CS') == false)
  * @subpackage  Filters
  * @implements  Clansuite_Filter_Interface
  */
-class Clansuite_Filter_set_breadcrumbs implements Clansuite_Filter_Interface
+class Clansuite_Filter_SetBreadcrumbs implements Clansuite_Filter_Interface
 {
     public function executeFilter(Clansuite_HttpRequest $request, Clansuite_HttpResponse $response)
     {

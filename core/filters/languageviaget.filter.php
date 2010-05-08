@@ -40,28 +40,51 @@ if (defined('IN_CS') == false)
 }
 
 /**
- * Clansuite Filter - Get User
+ * Clansuite Filter - Language via URL
  *
- * Purpose: Setup the user object
+ * I10N/I18N Localization and Internationalization
+ * Purpose: Set Language via URL by appendix $_GET['lang']
+ *
+ * 1) Default Language
+ *    At system startup the default language is defined by the config.
+ *    Up to this point this language is used for any output, like system and error messages.
+ *
+ * 2) When languageswitch_via_url is enabled in config, the user is able to
+ *    override the default language (by adding the URL appendix 'lang').
+ *    When request parameter 'lang' is set, the user session value for language will be updated.
+ *    Example: index.php?lang=langname
+ *
+ * Note: The check if a certain language exists is not important,
+ *       because there are 1) english hardcoded values and 2) the default language as fallback.
  *
  * @category    Clansuite
  * @package     Core
  * @subpackage  Filters
  * @implements  Clansuite_Filter_Interface
  */
-class Clansuite_Filter_get_user implements Clansuite_Filter_Interface
+class Clansuite_Filter_LanguageViaGet implements Clansuite_Filter_Interface
 {
-    private $user    = null;
+    private $config     = null;     # holds instance of config
 
-    public function __construct(Clansuite_User $user)
+    public function __construct(Clansuite_Config $config)
     {
-        $this->user = $user;
+        $this->config    = $config;      # set instance of config to class
     }
 
     public function executeFilter(Clansuite_HttpRequest $request, Clansuite_HttpResponse $response)
     {
-        $this->user->createUserSession();    # Create a user (Guest)
-        $this->user->checkLoginCookie();     # Check for login cookie (Guest/Member)
+        /**
+         * take the initiative of filtering, if language switching is enabled in CONFIG
+         * or pass through (do nothing) if disabled
+         */
+        if($this->config['switches']['languageswitch_via_url'] == 1)
+        {
+            if(isset($request['lang']) && !empty($request['lang']) && (strlen($request['lang']) == 2))
+            {
+                $_SESSION['user']['language']           = strtolower($request['lang']).'_'.strtoupper($request['lang']);
+                $_SESSION['user']['language_via_url']   = 1;
+            }
+        }
     }
 }
 ?>

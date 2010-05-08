@@ -49,7 +49,7 @@ if(defined('IN_CS') == false)
  * @subpackage  Filters
  * @implements  Clansuite_Filter_Interface
  */
-class Clansuite_Filter_set_module_language implements Clansuite_Filter_Interface
+class Clansuite_Filter_SetModuleLanguage implements Clansuite_Filter_Interface
 {
     private $locale     = null;     # holds instance of localization
 

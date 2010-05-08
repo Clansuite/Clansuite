@@ -47,7 +47,7 @@ if (defined('IN_CS') == false)
  * @subpackage  Filters
  * @implements  Clansuite_Filter_Interface
  */
-class Clansuite_Filter_php_debug_console implements Clansuite_Filter_Interface
+class Clansuite_Filter_PhpDebugConsole implements Clansuite_Filter_Interface
 {
     private $config     = null;
 

@@ -49,7 +49,7 @@ if (defined('IN_CS') == false)
  * @subpackage  Filters
  * @implements  Clansuite_Filter_Interface
  */
-class Clansuite_Filter_ajax_request implements Clansuite_Filter_Interface
+class Clansuite_Filter_AjaxRequest implements Clansuite_Filter_Interface
 {
     public function __construct()
     {
