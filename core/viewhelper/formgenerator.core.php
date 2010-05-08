@@ -240,10 +240,8 @@ class Clansuite_Array_Formgenerator extends Clansuite_Form
                 else
                 {
                     # form description arrays are not identical
-                    throw new Clansuite_Exception('Form Array Structure not valid. <br />
-                         The first array shows the obligatory form array elements. <br />
-                         The second array shows your form definition. <br />
-                         Please add the missing array keys with values. <br />'
+                    throw new Clansuite_Exception('Form Array Structure not valid. The first array shows the obligatory form array elements.
+                         The second array shows your form definition. Please add the missing array keys with values.'
                             .var_dump($report_differences_or_true));
                 }
             }
@@ -319,7 +317,7 @@ class Clansuite_Array_Formgenerator extends Clansuite_Form
 
                 /**
                  * set a decorator for the formelement
-                 * why is this optional, because: if you do not define a decorator, the default one will be active
+                 * optional because: the default decorator would be active
                  */
                 if(isset($form_array_element['decorator']))
                 {
@@ -354,11 +352,11 @@ class Clansuite_XML_Formgenerator extends Clansuite_Form
     {
         # XML -> toArray -> Clansuite_Array_Formgenerator->generate($array)
         $array = array();
-        $array = Clansuite_Config($filename);
+        $array = new Clansuite_Config($filename);
 
         #Clansuite_Xdebug::firebug($filename);
-
-        $form = Clansuite_Array_Formgenerator($array);
+        $form = '';
+        $form = new Clansuite_Array_Formgenerator($array);
 
         #Clansuite_Xdebug::firebug($form);
 

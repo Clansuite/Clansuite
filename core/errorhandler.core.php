@@ -148,8 +148,8 @@ class Clansuite_Errorhandler
      */
     public function clansuite_error_handler( $errornumber, $errorstring, $errorfile, $errorline, $errorcontext )
     {
-        # do just return, if silenced (in case of @ operator) or DEBUG mode active
-        if((error_reporting() == 0))
+        #  do just return, if the error is suppressed - cases: (silenced with @ operator or DEBUG mode active)
+        if(error_reporting() == 0)
         {
             return;
         }
@@ -228,14 +228,14 @@ class Clansuite_Errorhandler
         if ( defined('DEBUG') and DEBUG == 1 )
         {
             # SMARTY ERRORS are thrown by trigger_error() - so they bubble up as E_USER_ERROR
-            # so we need to detect if an E_USER_ERROR is incoming from SMARTY or from a template_c file (extension tpl.php)
+            # so in order to handle smarty errors with a seperated error display
+            # we need to detect, if an E_USER_ERROR is incoming from SMARTY or from a template_c file (extension tpl.php)
             if( (strpos(strtolower($errorfile),'smarty') == true) or (strpos(strtolower($errorfile),'tpl.php') == true) )
             {
                 # ok it's an Smarty Template Error - show the error via smarty_error_display inside the template
                 echo $this->smarty_error_display( $errornumber, $errorname, $errorstring, $errorfile, $errorline, $errorcontext );
             }
             else # give normal Error Display
-
             {
                 # All Error Informations (except backtraces)
                 echo $this->ysod( $errornumber, $errorname, $errorstring, $errorfile, $errorline, $errorcontext );

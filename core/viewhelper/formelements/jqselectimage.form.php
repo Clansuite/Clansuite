@@ -64,7 +64,7 @@ class Clansuite_Formelement_JQSelectImage extends Clansuite_Formelement_Select i
     {
         if (false === class_exists('Clansuite_Directory',false))
         {
-            include ROOT_CORE . 'file.core.php';
+            include ROOT_CORE . 'files/file.core.php';
         }
 
         $dir = new Clansuite_Directory();
