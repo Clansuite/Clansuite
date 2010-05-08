@@ -77,9 +77,6 @@ class Clansuite_Errorhandler
 
         # register own error handler
         set_error_handler(array(&$this,'clansuite_error_handler'));
-
-        # register own shutdown function
-        # register_shutdown_function(array(&$this,'shutdown_and_exit'));
     }
 
     /**
@@ -458,18 +455,18 @@ class Clansuite_Errorhandler
         }
 
         # get php's backtrace output
-        $debug_backtrace = debug_backtrace();
+        $backtrace = debug_backtrace();
 
         /**
-         * now we get rid of several last calls in the backtrace stack
-         * to get nearer to the relevant position for the error in the stack
+         * Now we get rid of several last calls in the backtrace stack
+         * to get nearer to the relevant position for the error in the stack.
+         *
+         * What exactly happens is: we shift-off / slice the calls to
+         * a) getDebugBacktrace() [this method]
+         * b) ysod() [our display method]
+         * c) trigger_error() [php core function call]
          */
-        # a) shift-off the call to getDebugBacktrace() [this method]
-        array_shift($debug_backtrace);
-        # b) shift-off the call to ysod() [our display method]
-        array_shift($debug_backtrace);
-        # c) shift-off the call to trigger_error() [php core function call]
-        array_shift($debug_backtrace);
+        $backtrace = array_slice($backtrace, 3);
 
         # prepare a new backtrace_string
         $backtrace_string = '';
@@ -477,35 +474,35 @@ class Clansuite_Errorhandler
         $backtrace_string .= '<tr><td><strong>Callstack</strong></td><td>(Recent function calls last)</td>';
 
         # restructure the debug_backtrace
-        $backtrace_counter_i = count($debug_backtrace) - 1;
+        $backtrace_counter_i = count($backtrace) - 1;
         for($i = 0; $i <= $backtrace_counter_i; $i++)
         {
             $backtrace_string .= '<tr><td><br />Call #'.($backtrace_counter_i-$i+1).'</td></tr>';
 
-            if(isset($debug_backtrace[$i]['file']) == false)
+            if(isset($backtrace[$i]['file']) == false)
             {
                 $backtrace_string .= '<tr><td><strong>[PHP Core Function called]</strong></td>';
             }
             else
             {
-                $backtrace_string .= '<tr><td><strong>File: </strong></td><td>' . $debug_backtrace[$i]['file'] . '</td>';
+                $backtrace_string .= '<tr><td><strong>File: </strong></td><td>' . $backtrace[$i]['file'] . '</td>';
             }
 
-            if(isset($debug_backtrace[$i]['line']))
+            if(isset($backtrace[$i]['line']))
             {
                 $backtrace_string .= '</tr>';
-                $backtrace_string .= '<tr><td><strong>Line: </strong></td><td>' . $debug_backtrace[$i]['line'] . '</td></tr>';
-                $backtrace_string .= '<tr><td><strong>Function: </strong></td><td>' . $debug_backtrace[$i]['function'] . '</td></tr>';
+                $backtrace_string .= '<tr><td><strong>Line: </strong></td><td>' . $backtrace[$i]['line'] . '</td></tr>';
+                $backtrace_string .= '<tr><td><strong>Function: </strong></td><td>' . $backtrace[$i]['function'] . '</td></tr>';
             }
 
-            if(isset($debug_backtrace[$i]['args']))
+            if(isset($backtrace[$i]['args']))
             {
                 $backtrace_string .= '<tr><td><strong>Arguments: </strong></td><td>';
 
-                $backtrace_counter_j = count($debug_backtrace[$i]['args']) - 1;
+                $backtrace_counter_j = count($backtrace[$i]['args']) - 1;
                 for($j = 0; $j <= $backtrace_counter_j; $j++)
                 {
-                    $backtrace_string .= self::formatBacktraceArgument($debug_backtrace[$i]['args'][$j]);
+                    $backtrace_string .= self::formatBacktraceArgument($backtrace[$i]['args'][$j]);
 
                     # if we have several arguments to loop over
                     if($j != $backtrace_counter_j)
@@ -653,14 +650,6 @@ class Clansuite_Errorhandler
                 return $html;
             }
         }
-    }
-
-    /**
-     * shutdown_and_exit() is the callback function for register_shutdown_function()
-     */
-    public function shutdown_and_exit()
-    {
-        echo '<p><b>Clansuite Error. Execution stopped.</b></p>';
     }
 }
 ?>
