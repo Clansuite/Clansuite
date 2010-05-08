@@ -44,7 +44,7 @@ require_once 'IDS/Log/Interface.php';
  * @author    Christian Matthies <ch0012@gmail.com>
  * @author    Mario Heiderich <mario.heiderich@gmail.com>
  * @author    Lars Strojny <lars@strojny.net>
- * @copyright 2007 The PHPIDS Group
+ * @copyright 2007-2009 The PHPIDS Group
  * @license   http://www.gnu.org/licenses/lgpl.html LGPL 
  * @version   Release: $Id:Composite.php 517 2007-09-15 15:04:13Z mario $
  * @link      http://php-ids.org/
@@ -68,6 +68,19 @@ class IDS_Log_Composite
      */
     public function execute(IDS_Report $data) 
     {
+    	// make sure request uri is set right on IIS
+        if (!isset($_SERVER['REQUEST_URI'])) {
+            $_SERVER['REQUEST_URI'] = substr($_SERVER['PHP_SELF'], 1);
+            if (isset($_SERVER['QUERY_STRING']) && $_SERVER['QUERY_STRING']) { 
+                $_SERVER['REQUEST_URI'] .= '?' . $_SERVER['QUERY_STRING']; 
+            } 
+        } 
+        
+        // make sure server address is set right on IIS
+        if (isset($_SERVER['LOCAL_ADDR'])) {
+            $_SERVER['SERVER_ADDR'] = $_SERVER['LOCAL_ADDR'];
+        } 
+    	
         foreach ($this->loggers as $logger) {
             $logger->execute($data);
         }
@@ -114,9 +127,10 @@ class IDS_Log_Composite
     }
 }
 
-/*
+/**
  * Local variables:
  * tab-width: 4
  * c-basic-offset: 4
  * End:
+ * vim600: sw=4 ts=4 expandtab
  */

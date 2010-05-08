@@ -43,7 +43,7 @@
  * @author    Christian Matthies <ch0012@gmail.com>
  * @author    Mario Heiderich <mario.heiderich@gmail.com>
  * @author    Lars Strojny <lars@strojny.net>
- * @copyright 2007 The PHPIDS Group
+ * @copyright 2007-2009 The PHPIDS Group
  * @license   http://www.gnu.org/licenses/lgpl.html LGPL
  * @version   Release: $Id:Converter.php 517 2007-09-15 15:04:13Z mario $
  * @link      http://php-ids.org/
@@ -76,6 +76,26 @@ class IDS_Converter
     }
 
     /**
+     * Make sure the value to normalize and monitor doesn't contain 
+     * possibilities for a regex DoS.
+     * 
+     * @param string $value the value to pre-sanitize
+     *
+     * @static
+     * @return string
+     */
+    public static function convertFromRepetition($value) 
+    {
+    	// remove obvios repetition patterns
+        $value = preg_replace(
+            '/(?:(.{2,})\1{32,})|(?:[+=|\-@\s]{128,})/', 
+            'x', 
+            $value
+        );
+        return $value;
+    }
+
+    /**
      * Check for comments and erases them if available
      *
      * @param string $value the value to convert
@@ -98,6 +118,7 @@ class IDS_Converter
             $converted = preg_replace($pattern, ';', $value);
             $value    .= "\n" . $converted;
         }
+        
         //make sure inline comments are detected and converted correctly
         $value = preg_replace('/(<\w+)\/+(\w+=?)/m', '$1/$2', $value);
         $value = preg_replace('/[^\\\:]\/\/(.*)$/m', '/**/$1', $value);
@@ -213,7 +234,7 @@ class IDS_Converter
      */
     public static function convertJSRegexModifiers($value)
     {
-        $value = preg_replace('/\/[gim]/', '/', $value);
+        $value = preg_replace('/\/[gim]+/', '/', $value);
 
         return $value;
     }
@@ -229,6 +250,10 @@ class IDS_Converter
     public static function convertEntities($value)
     {
         $converted = null;
+        
+        //deal with double encoded payload 
+        $value = preg_replace('/&amp;/', '&', $value);     
+        
         if (preg_match('/&#x?[\w]+/ms', $value)) {
             $converted = preg_replace('/(&#x?[\w]{2}\d?);?/ms', '$1;', $value);
             $converted = html_entity_decode($converted, ENT_QUOTES, 'UTF-8');
@@ -252,6 +277,9 @@ class IDS_Converter
         $pattern = array('\'', '`', '´', '’', '‘');
         $value   = str_replace($pattern, '"', $value);
 
+        //make sure harmless quoted strings don't generate false alerts
+        $value = preg_replace('/^"([^"=\\!><~]+)"$/', '$1', $value);
+
         return $value;
     }
 
@@ -266,7 +294,7 @@ class IDS_Converter
     public static function convertFromSQLHex($value)
     {
         $matches = array();
-        if(preg_match_all('/(?:0x[a-f\d]{2,}[a-f\d\s]*)+/im', $value, $matches)) {
+        if(preg_match_all('/(?:0x[a-f\d]{2,}[a-f\d]*)+/im', $value, $matches)) {
             foreach($matches[0] as $match) {
                 $converted = '';
                 foreach(str_split($match, 2) as $hex_index) {
@@ -277,6 +305,9 @@ class IDS_Converter
                 $value = str_replace($match, $converted, $value);
             }
         }
+        // take care of hex encoded ctrl chars
+        $value = preg_replace('/0x\d+/m', 1, $value);
+        
         return $value;
     }
 
@@ -293,9 +324,13 @@ class IDS_Converter
         $pattern = array('/(?:IS\s+null)|(LIKE\s+null)|' .
             '(?:(?:^|\W)IN[+\s]*\([\s\d"]+[^()]*\))/ims');
         $value   = preg_replace($pattern, '"=0', $value);
-        $value   = preg_replace('/null,/ims', ',0', $value);
+        $value   = preg_replace('/\W+\s+like\s+\W+/', ' 1 like 1 ', $value);
+        $value   = preg_replace('/null[,\s]/ims', ',0', $value);
         $value   = preg_replace('/,null/ims', ',0', $value);
-        $pattern = array('/[^\w,]NULL|\\\N|TRUE|FALSE|UTC_TIME|' .
+        $value   = preg_replace('/(?:between|mod)/ims', 'or', $value);
+        $value   = preg_replace('/(?:and\s+\d+\.?\d*)/ims', '', $value);
+        $value   = preg_replace('/(?:\s+and\s+)/ims', ' or ', $value);
+        $pattern = array('/[^\w,(]NULL|\\\N|TRUE|FALSE|UTC_TIME|' .
                          'LOCALTIME(?:STAMP)?|CURRENT_\w+|BINARY|' .
                          '(?:(?:ASCII|SOUNDEX|' .
                          'MD5|R?LIKE)[+\s]*\([^()]+\))|(?:-+\d)/ims');
@@ -306,6 +341,7 @@ class IDS_Converter
                          '(?:SOUNDS\s+LIKE)/ims');
         $value   = preg_replace($pattern, '!', $value);
         $value   = preg_replace('/"\s+\d/', '"', $value);
+        $value   = preg_replace('/\/(?:\d+|null)/', null, $value);
 
         return $value;
     }
@@ -321,28 +357,45 @@ class IDS_Converter
     public static function convertFromControlChars($value)
     {
         // critical ctrl values
-        $search     = array(chr(0), chr(1), chr(2),
-                            chr(3), chr(4), chr(5),
-                            chr(6), chr(7), chr(8),
-                            chr(11), chr(12), chr(14),
-                            chr(15), chr(16), chr(17),
-                            chr(18), chr(19));
-        $value      = str_replace($search, '%00', $value);
+        $search = array(
+            chr(0), chr(1), chr(2), chr(3), chr(4), chr(5),
+            chr(6), chr(7), chr(8), chr(11), chr(12), chr(14),
+            chr(15), chr(16), chr(17), chr(18), chr(19),
+            chr(192), chr(193), chr(238), chr(255)
+        );
+        
+        $value = str_replace($search, '%00', $value);
         $urlencoded = urlencode($value);
 
         //take care for malicious unicode characters
         $value = urldecode(preg_replace('/(?:%E(?:2|3)%8(?:0|1)%(?:A|8|9)' .
             '\w|%EF%BB%BF|%EF%BF%BD)|(?:&#(?:65|8)\d{3};?)/i', null,
-                $urlencoded));
+                urlencode($value)));
+        $value = urldecode(
+            preg_replace('/(?:%F0%80%BE)/i', '>', urlencode($value)));
+        $value = urldecode(
+            preg_replace('/(?:%F0%80%BC)/i', '<', urlencode($value)));
+        $value = urldecode(
+            preg_replace('/(?:%F0%80%A2)/i', '"', urlencode($value)));
+        $value = urldecode(
+            preg_replace('/(?:%F0%80%A7)/i', '\'', urlencode($value)));		
 
-        $value = preg_replace('/(?:&[#x]*(200|820|200|820|zwn?j|lrm|rlm)\w?;?)/i', null,
-                $value);
-
+        $value = preg_replace('/(?:%ff1c)/', '<', $value);
+        $value = preg_replace(
+            '/(?:&[#x]*(200|820|200|820|zwn?j|lrm|rlm)\w?;?)/i', null,$value
+        );
         $value = preg_replace('/(?:&#(?:65|8)\d{3};?)|' .
                 '(?:&#(?:56|7)3\d{2};?)|' .
                 '(?:&#x(?:fe|20)\w{2};?)|' .
                 '(?:&#x(?:d[c-f])\w{2};?)/i', null,
                 $value);
+                
+        $value = str_replace(
+            array('«', '〈', '＜', '‹', '〈', '⟨'), '<', $value
+        );
+        $value = str_replace(
+            array('»', '〉', '＞', '›', '〉', '⟩'), '>', $value
+        );
 
         return $value;
     }
@@ -365,7 +418,8 @@ class IDS_Converter
 
         foreach ($matches[1] as $item) {
             if (isset($item) && !preg_match('/[a-f0-9]{32}/i', $item)) {
-                $value = str_replace($item, base64_decode($item), $value);
+            	$base64_item = base64_decode($item);
+                $value = str_replace($item, $base64_item, $value);
             }
         }
 
@@ -427,9 +481,8 @@ class IDS_Converter
 
         if (!empty($matches[0])) {
             foreach ($matches[0] as $match) {
-                $value = str_replace($match,
-                    chr(hexdec(substr($match, 2, 4))),
-                    $value);
+            	$chr = chr(hexdec(substr($match, 2, 4))); 
+                $value = str_replace($match, $chr, $value);
             }
             $value .= "\n\u0001";
         }
@@ -451,13 +504,13 @@ class IDS_Converter
         if(preg_match('/\+A\w+-/m', $value)) {
             if (function_exists('mb_convert_encoding')) {
                 if(version_compare(PHP_VERSION, '5.2.8', '<')) {
-                	$tmp_chars = str_split($value);
-                	$value = '';
-                	foreach($tmp_chars as $char) {
-                		if(ord($char) <= 127) {
-                			$value .= $char;	
-                		}
-                	}    
+                    $tmp_chars = str_split($value);
+                    $value = '';
+                    foreach($tmp_chars as $char) {
+                        if(ord($char) <= 127) {
+                            $value .= $char;	
+                        }
+                    }     
                 }
                 $value .= "\n" . mb_convert_encoding($value, 'UTF-8', 'UTF-7');
             } else {
@@ -503,7 +556,7 @@ class IDS_Converter
      * @static
      * @return string
      */
-    public static function convertConcatenations($value)
+    public static function convertFromConcatenated($value)
     {
         //normalize remaining backslashes
         if ($value != preg_replace('/(\w)\\\/', "$1", $value)) {
@@ -511,7 +564,7 @@ class IDS_Converter
         }
 
         $compare = stripslashes($value);
-
+        
         $pattern = array('/(?:<\/\w+>\+<\w+>)/s',
             '/(?:":\d+[^"[]+")/s',
             '/(?:"?"\+\w+\+")/s',
@@ -524,10 +577,12 @@ class IDS_Converter
             '/(?:"[|&;]+\s*[^|&\n]*[|&]+\s*"?)/s',
             '/(?:";\s*\w+\W+\w*\s*[|&]*")/s',
             '/(?:"\s*"\s*\.)/s',
-            '/(?:\s*new\s+\w+\s*[+"])/',
+            '/(?:\s*new\s+\w+\s*[+",])/',
             '/(?:(?:^|\s+)(?:do|else)\s+)/',
-            '/(?:\{\s*new\s+\w+\s*\})/',
-            '/(?:(this|self).)/');
+            '/(?:[{(]\s*new\s+\w+\s*[)}])/',
+            '/(?:(this|self)\.)/',
+            '/(?:undefined)/',
+            '/(?:in\s+)/');
 
         // strip out concatenations
         $converted = preg_replace($pattern, null, $compare);
@@ -535,9 +590,12 @@ class IDS_Converter
         //strip object traversal
         $converted = preg_replace('/\w(\.\w\()/', "$1", $converted);
 
+        // normalize obfuscated method calls
+        $converted = preg_replace('/\)\s*\+/', ")", $converted);
+
         //convert JS special numbers
         $converted = preg_replace('/(?:\(*[.\d]e[+-]*[^a-z\W]+\)*)' .
-            '|(?:NaN|Infinity)\W/ms', 1, $converted);
+            '|(?:NaN|Infinity)\W/ims', 1, $converted);
 
         if ($converted && ($compare != $converted)) {
             $value .= "\n" . $converted;
@@ -574,20 +632,29 @@ class IDS_Converter
 
         //strip emoticons
         $value = preg_replace(
-            '/(?:[:;]-[()\/PD]+)|(?:\s;[()PD]+)|(?::[()PD]+)|-\.-|\^\^/m',
+            '/(?:\s[:;]-[)\/PD]+)|(?:\s;[)PD]+)|(?:\s:[)PD]+)|-\.-|\^\^/m',
             null,
             $value
         );
         
-        // normalize separation char repetion
-        $value = preg_replace('/([.+~=*_\-])\1{2,}/m', '$1', $value);
+        //normalize separation char repetion
+        $value = preg_replace('/([.+~=*_\-;])\1{2,}/m', '$1', $value);
 
-        //remove parenthesis inside sentences
-        $value = preg_replace('/(\w\s)\(([&\w]+)\)(\s\w|$)/', '$1$2$3', $value);
+        //normalize multiple single quotes
+        $value = preg_replace('/"{2,}/m', '"', $value);
+        
+        //normalize quoted numerical values and asterisks
+        $value = preg_replace('/"(\d+)"/m', '$1', $value);
+
+        //normalize pipe separated request parameters
+        $value = preg_replace('/\|(\w+=\w+)/m', '&$1', $value);
 
         //normalize ampersand listings
         $value = preg_replace('/(\w\s)&\s(\w)/', '$1$2', $value);
-
+        
+        //normalize JS backspace linebreaks
+        $value = preg_replace('/^\/|\/$|,\/\n|\/,|[\\\]+\s{4}/', null, $value);
+        
         return $value;
     }
 
@@ -604,21 +671,26 @@ class IDS_Converter
     {
         $threshold = 3.49;
 
-        $unserialized = false;
-        if(preg_match('/^\w:\d+:\{/', $value)) {
-            $unserialized = @unserialize($value);
-        }
-
-        if (strlen($value) > 25 && !$unserialized) {
+        if (strlen($value) > 25) {
+            
+            //strip padding
+            $tmp_value = preg_replace('/\s{4}|==$/m', null, $value);
+            $tmp_value = preg_replace(
+                '/\s{4}|[\p{L}\d\+\-,.%()]{8,}/m', 
+                'aaa', 
+                $tmp_value
+            );
+            
             // Check for the attack char ratio
-            $tmp_value = $value;
             $tmp_value = preg_replace('/([*.!?+-])\1{1,}/m', '$1', $tmp_value);
             $tmp_value = preg_replace('/"[\p{L}\d\s]+"/m', null, $tmp_value);
 
-            $stripped_length = strlen(preg_replace('/[\d\s\p{L}.:,%\/><-]+/m',
+            $stripped_length = strlen(preg_replace('/[\d\s\p{L}\.:,%&\/><\-)!]+/m',
                 null, $tmp_value));
-            $overall_length  = strlen(preg_replace('/([\d\s\p{L}]{3,})+/m', 'aaa',
-                preg_replace('/\s{2,}/m', null, $tmp_value)));
+            $overall_length  = strlen(
+                preg_replace('/([\d\s\p{L}:,\.]{3,})+/m', 'aaa',
+                preg_replace('/\s{2,}/m', null, $tmp_value))
+            );
 
             if ($stripped_length != 0
                 && $overall_length/$stripped_length <= $threshold) {
@@ -634,7 +706,7 @@ class IDS_Converter
 
         if (strlen($value) > 40) {
             // Replace all non-special chars
-            $converted =  preg_replace('/[\w\s\p{L},.!]/', null, $value);
+            $converted =  preg_replace('/[\w\s\p{L},.:!]/', null, $value);
 
             // Split string into an array, unify and sort
             $array = str_split($converted);
@@ -653,8 +725,12 @@ class IDS_Converter
             );
 
             $converted = implode($array);
-            $converted = str_replace(array_keys($schemes),
-                array_values($schemes), $converted);
+            
+            $_keys = array_keys($schemes);
+            $_values = array_values($schemes);
+            
+            $converted = str_replace($_keys, $_values, $converted);
+            
             $converted = preg_replace('/[+-]\s*\d+/', '+', $converted);
             $converted = preg_replace('/[()[\]{}]/', '(', $converted);
             $converted = preg_replace('/[!?:=]/', ':', $converted);
@@ -679,9 +755,10 @@ class IDS_Converter
     }
 }
 
-/*
+/**
  * Local variables:
  * tab-width: 4
  * c-basic-offset: 4
  * End:
+ * vim600: sw=4 ts=4 expandtab
  */

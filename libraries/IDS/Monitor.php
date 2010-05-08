@@ -43,7 +43,7 @@
  * @author    Christian Matthies <ch0012@gmail.com>
  * @author    Mario Heiderich <mario.heiderich@gmail.com>
  * @author    Lars Strojny <lars@strojny.net>
- * @copyright 2007 The PHPIDS Group
+ * @copyright 2007-2009 The PHPIDS Group
  * @license   http://www.gnu.org/licenses/lgpl.html LGPL
  * @version   Release: $Id:Monitor.php 949 2008-06-28 01:26:03Z christ1an $
  * @link      http://php-ids.org/
@@ -203,10 +203,12 @@ class IDS_Monitor
 
             if(isset($init->config['General']['HTML_Purifier_Path'])
                 && isset($init->config['General']['HTML_Purifier_Cache'])) {
-                $this->pathToHTMLPurifier =
+                
+                $this->pathToHTMLPurifier = 
                     $init->config['General']['HTML_Purifier_Path'];
-                $this->HTMLPurifierCache  =
-                    $init->config['General']['HTML_Purifier_Cache'];
+                
+                $this->HTMLPurifierCache  = $init->getBasePath()
+                    . $init->config['General']['HTML_Purifier_Cache'];
             }
 
         }
@@ -284,11 +286,20 @@ class IDS_Monitor
      */
     private function _detect($key, $value)
     {
-
+        
+        // define the pre-filter
+        $prefilter = '/[^\w\s\/@!?\.]+|(?:\.\/)|(?:@@\w+)/';
+        
         // to increase performance, only start detection if value
         // isn't alphanumeric
-        if (!$value || !preg_match('/[^\w\s\/@!?,]+/', $value)) {
+        if (!$this->scanKeys 
+            && (!$value || !preg_match($prefilter, $value))) {
             return false;
+        } elseif($this->scanKeys) {
+            if((!$key || !preg_match($prefilter, $key)) 
+                && (!$value || !preg_match($prefilter, $value))) {
+                return false;
+            }
         }
 
         // check if this field is part of the exceptions
@@ -363,7 +374,14 @@ class IDS_Monitor
      *
      * @return array
      */
-    private function _purifyValues($key, $value) {
+    private function _purifyValues($key, $value) 
+    {
+        /*
+         * Perform a pre-check if string is valid for purification
+         */
+        if(!$this->_purifierPreCheck($key, $value)) {
+            return array($key, $value);
+        }
 
         include_once $this->pathToHTMLPurifier;
 
@@ -374,9 +392,9 @@ class IDS_Monitor
 
         if (class_exists('HTMLPurifier')) {
             $config = HTMLPurifier_Config::createDefault();
-            $config->set('Attr', 'EnableID', true);
-            $config->set('Cache', 'SerializerPath', $this->HTMLPurifierCache);
-            $config->set('Output', 'Newline', "\n");
+            $config->set('Attr.EnableID', true);
+            $config->set('Cache.SerializerPath', $this->HTMLPurifierCache);
+            $config->set('Output.Newline', "\n");
             $this->htmlpurifier = new HTMLPurifier($config);
         } else {
             throw new Exception(
@@ -405,6 +423,37 @@ class IDS_Monitor
 
         return array($key, $value);
     }
+    
+    /**
+     * This method makes sure no dangerous markup can be smuggled in 
+     * attributes when HTML mode is switched on. 
+     * 
+     * If the precheck considers the string too dangerous for 
+     * purification false is being returned.
+     * 
+     * @param  mixed $key
+     * @param  mixed $value
+     * @since  0.6
+     *
+     * @return boolean
+     */
+    private function _purifierPreCheck($key = '', $value = '') 
+    {
+        /*
+         * Remove control chars before pre-check
+         */
+        $tmp_value = preg_replace('/\p{C}/', null, $value);
+        $tmp_key = preg_replace('/\p{C}/', null, $key);
+        
+        $precheck = '/<(script|iframe|applet|object)\W/i';
+        if(preg_match($precheck, $tmp_key) 
+            || preg_match($precheck, $tmp_value)) {
+            
+            return false;
+        }
+        return true;
+    }
+    
 
     /**
      * This method calculates the difference between the original
@@ -487,11 +536,15 @@ class IDS_Monitor
         if($tmp_value && is_array($tmp_value) || is_object($tmp_value)) {
             array_walk_recursive($tmp_value, array($this, '_jsonConcatContents'));
             $value = $this->tmpJsonString;
+        } else {
+        	$this->tmpJsonString .=  " " . $tmp_value . "\n";
         }
 
         if($tmp_key && is_array($tmp_key) || is_object($tmp_key)) {
             array_walk_recursive($tmp_key, array($this, '_jsonConcatContents'));
             $key = $this->tmpJsonString;
+        } else {
+        	$this->tmpJsonString .=  " " . $tmp_key . "\n";
         }
 
         return array($key, $value);
@@ -509,7 +562,13 @@ class IDS_Monitor
      */
     private function _jsonConcatContents($key, $value) {
 
-        $this->tmpJsonString .=  $key . " " . $value . "\n";
+        if(is_string($key) && is_string($value)) {
+            $this->tmpJsonString .=  $key . " " . $value . "\n";
+        } else {
+        	$this->_jsonDecodeValues(
+        		json_encode($key), json_encode($value)
+        	);
+        }
     }
 
     /**
@@ -672,9 +731,10 @@ class IDS_Monitor
 
 }
 
-/*
+/**
  * Local variables:
  * tab-width: 4
  * c-basic-offset: 4
  * End:
+ * vim600: sw=4 ts=4 expandtab
  */

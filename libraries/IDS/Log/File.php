@@ -44,7 +44,7 @@ require_once 'IDS/Log/Interface.php';
  * @author    Christian Matthies <ch0012@gmail.com>
  * @author    Mario Heiderich <mario.heiderich@gmail.com>
  * @author    Lars Strojny <lars@strojny.net>
- * @copyright 2007 The PHPIDS Group
+ * @copyright 2007-2009 The PHPIDS Group
  * @license   http://www.gnu.org/licenses/lgpl.html LGPL
  * @version   Release: $Id:File.php 517 2007-09-15 15:04:13Z mario $
  * @link      http://php-ids.org/
@@ -104,10 +104,11 @@ class IDS_Log_File implements IDS_Log_Interface
      * instance for each file can be initiated.
      *
      * @param mixed $config IDS_Init or path to a file
+     * @param string the class name to use
      * 
      * @return object $this
      */
-    public static function getInstance($config) 
+    public static function getInstance($config, $classname = 'IDS_Log_File') 
     {
         if ($config instanceof IDS_Init) {
             $logfile = $config->getBasePath() . $config->config['Logging']['path'];
@@ -116,7 +117,7 @@ class IDS_Log_File implements IDS_Log_Interface
         }
         
         if (!isset(self::$instances[$logfile])) {
-            self::$instances[$logfile] = new IDS_Log_File($logfile);
+            self::$instances[$logfile] = new $classname($logfile);
         }
 
         return self::$instances[$logfile];
@@ -154,17 +155,10 @@ class IDS_Log_File implements IDS_Log_Interface
                 rawurlencode($event->getValue()) . ' ';
         }
 
-        if (!isset($_SERVER['REQUEST_URI'])) {
-            $_SERVER['REQUEST_URI'] = substr($_SERVER['PHP_SELF'], 1);
-            if (isset($_SERVER['QUERY_STRING']) && $_SERVER['QUERY_STRING']) { 
-                $_SERVER['REQUEST_URI'] .= '?' . $_SERVER['QUERY_STRING']; 
-            } 
-        } 
-
         $dataString = sprintf($format,
                               $this->ip,
                               date('c'),
-                              $data->getImpact(),
+                              $event->getImpact(),
                               join(' ', $data->getTags()),
                               trim($attackedParameters),
                               urlencode($_SERVER['REQUEST_URI']),
@@ -227,9 +221,10 @@ class IDS_Log_File implements IDS_Log_Interface
     }
 }
 
-/*
+/**
  * Local variables:
  * tab-width: 4
  * c-basic-offset: 4
  * End:
+ * vim600: sw=4 ts=4 expandtab
  */

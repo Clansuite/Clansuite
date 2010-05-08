@@ -44,7 +44,7 @@ require_once 'IDS/Log/Interface.php';
  * @author    Christian Matthies <ch0012@gmail.com>
  * @author    Mario Heiderich <mario.heiderich@gmail.com>
  * @author    Lars Strojny <lars@strojny.net>
- * @copyright 2007 The PHPIDS Group
+ * @copyright 2007-2009 The PHPIDS Group
  * @license   http://www.gnu.org/licenses/lgpl.html LGPL
  * @version   Release: $Id:Email.php 517 2007-09-15 15:04:13Z mario $
  * @link      http://php-ids.org/
@@ -57,21 +57,21 @@ class IDS_Log_Email implements IDS_Log_Interface
      *
      * @var array
      */
-    private $recipients    = array();
+    protected $recipients    = array();
 
     /**
      * Mail subject
      *
      * @var string
      */
-    private $subject = null;
+    protected $subject = null;
 
     /**
      * Additional mail headers
      *
      * @var string
      */
-    private $headers = null;
+    protected $headers = null;
 
     /**
      * Safemode switch
@@ -81,7 +81,7 @@ class IDS_Log_Email implements IDS_Log_Interface
      *
      * @var boolean
      */
-    private $safemode = true;
+    protected $safemode = true;
 
     /**
      * Urlencode for result strings
@@ -92,7 +92,7 @@ class IDS_Log_Email implements IDS_Log_Interface
      *
      * @var boolean
      */
-    private $urlencode = true;
+    protected $urlencode = true;
 
     /**
      * Send rate
@@ -103,7 +103,7 @@ class IDS_Log_Email implements IDS_Log_Interface
      *
      * @var integer
      */
-    private $allowed_rate = 15;
+    protected $allowed_rate = 15;
 
     /**
      * PHPIDS temp directory
@@ -113,28 +113,28 @@ class IDS_Log_Email implements IDS_Log_Interface
      *
      * @var string
      */
-    private $tmp_path = 'IDS/tmp/';
+    protected $tmp_path = 'IDS/tmp/';
 
     /**
      * File prefix for tmp files
      *
      * @var string
      */
-    private $file_prefix = 'PHPIDS_Log_Email_';
+    protected $file_prefix = 'PHPIDS_Log_Email_';
 
     /**
      * Holds current remote address
      *
      * @var string
      */
-    private $ip = 'local/unknown';
+    protected $ip = 'local/unknown';
 
     /**
      * Instance container
      *
      * @var array
      */
-    private static $instance = array();
+    protected static $instance = array();
 
     /**
      * Constructor
@@ -175,14 +175,15 @@ class IDS_Log_Email implements IDS_Log_Interface
      * This method allows the passed argument to be either an instance of
      * IDS_Init or an array.
      *
-     * @param mixed $config IDS_Init | array
+     * @param mixed  $config IDS_Init | array
+     * @param string the class name to use
      *
      * @return object $this
      */
-    public static function getInstance($config)
+    public static function getInstance($config, $classname = 'IDS_Log_Email')
     {
         if (!self::$instance) {
-            self::$instance = new IDS_Log_Email($config);
+            self::$instance = new $classname($config);
         }
 
         return self::$instance;
@@ -288,17 +289,10 @@ class IDS_Log_Email implements IDS_Log_Interface
         $format .= "Request URI: %s \n";
         $format .= "Origin: %s \n";
 
-        if (!isset($_SERVER['REQUEST_URI'])) {
-            $_SERVER['REQUEST_URI'] = substr($_SERVER['PHP_SELF'], 1);
-            if (isset($_SERVER['QUERY_STRING']) && $_SERVER['QUERY_STRING']) { 
-                $_SERVER['REQUEST_URI'] .= '?' . $_SERVER['QUERY_STRING']; 
-            } 
-        } 
-
         return sprintf($format,
                        $this->ip,
                        date('c'),
-                       $data->getImpact(),
+                       $event->getImpact(),
                        join(' ', $data->getTags()),
                        trim($attackedParameters),
                        urlencode($_SERVER['REQUEST_URI']),
@@ -399,9 +393,10 @@ class IDS_Log_Email implements IDS_Log_Interface
     }
 }
 
-/*
+/**
  * Local variables:
  * tab-width: 4
  * c-basic-offset: 4
  * End:
+ * vim600: sw=4 ts=4 expandtab
  */
