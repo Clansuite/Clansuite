@@ -160,18 +160,14 @@ class Clansuite_Config_INIHandler extends Clansuite_Config_Base implements Array
             # checking if it's an array
             if(is_array($item))
             {
-                # if key not empty .. hmm? does this case occur?
-                if($key != '')
-                {
-                    # write an comment header block
-                    $content .= CR;
-                    $content .= ';----------------------------------------' . CR;
-                    $content .= '; ' . $key . CR;
-                    $content .= ';----------------------------------------' . CR;
+                # write an comment header block
+                $content .= CR;
+                $content .= ';----------------------------------------' . CR;
+                $content .= '; ' . $key . CR;
+                $content .= ';----------------------------------------' . CR;
 
-                    # write an parseable [array_header] block
-                    $content .= '[' . $key . ']' . CR;
-                }
+                # write an parseable [array_header] block
+                $content .= '[' . $key . ']' . CR;
 
                 # for every element after that
                 foreach ($item as $key2 => $item2)
