@@ -56,7 +56,7 @@ if (defined('IN_CS') == false)
  * @subpackage  Filters
  * @implements  Clansuite_Filter_Interface
  */
-class Clansuite_Filter_session_security implements Clansuite_Filter_Interface
+class Clansuite_Filter_SessionSecurity implements Clansuite_Filter_Interface
 {
     private $config     = null;
 

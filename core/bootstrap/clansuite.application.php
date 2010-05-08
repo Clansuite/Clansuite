@@ -45,7 +45,7 @@
 
 # Security Handler
 if ( !defined('IN_CS') )
-{ 
+{
     die('Clansuite not loaded. Direct Access forbidden.');
 }
 
@@ -67,7 +67,7 @@ class Clansuite_CMS
     private static $prefilter_classes;
 
     /**
-     * @var array Static Array with all postfilterclassnames
+     * @var array Static Array with all postfilter classnames
      */
     private static $postfilter_classes;
 
@@ -106,7 +106,7 @@ class Clansuite_CMS
 
         self::execute_Frontcontroller();
 
-        self::shutdown_and_exit();
+        self::shutdown();
     }
 
     /**
@@ -173,7 +173,7 @@ class Clansuite_CMS
 
         # require the configuration handler for ini files
         include getcwd() . '/core/config/ini.config.php';
-        
+
         # 2. load the main clansuite configuration file
         self::$config = Clansuite_Config_IniHandler::readConfig('configuration/clansuite.config.php');
 
@@ -185,7 +185,7 @@ class Clansuite_CMS
         ini_set('short_open_tag'                , 'off');
         ini_set('arg_separator.input'           , '&amp;');
         ini_set('arg_separator.output'          , '&amp;');
-        ini_set('memory_limit'                  , '30M' );
+        ini_set('memory_limit'                  , '32M' );
     }
 
     /**
@@ -491,16 +491,16 @@ class Clansuite_CMS
     {
         # define prefilters to load
         self::$prefilter_classes = array(
-                                         'Clansuite_Filter_php_debug_console', # let the debug console be first
-                                         'Clansuite_Filter_maintenance',
-                                         'Clansuite_Filter_get_user',
-                                         #'Clansuite_Filter_session_security',
-                                         'Clansuite_Filter_language_via_get',
-                                         'Clansuite_Filter_theme_via_get',
-                                         'Clansuite_Filter_set_module_language',
-                                         'Clansuite_Filter_set_breadcrumbs',
-                                         'Clansuite_Filter_startup_checks',
-                                         'Clansuite_Filter_statistics'
+                                         'Clansuite_Filter_PhpDebugConsole', # let the debug console be first
+                                         'Clansuite_Filter_Maintenance',
+                                         'Clansuite_Filter_GetUser',
+                                         #'Clansuite_Filter_Session_Security',
+                                         'Clansuite_Filter_LanguageViaGet',
+                                         'Clansuite_Filter_ThemeViaGet',
+                                         'Clansuite_Filter_SetModuleLanguage',
+                                         'Clansuite_Filter_SetBreadcrumbs',
+                                         'Clansuite_Filter_StartupChecks',
+                                         'Clansuite_Filter_Statistics'
                                         );
 
         # register the prefilters at the DI
@@ -512,8 +512,8 @@ class Clansuite_CMS
         # define postfilters to load
         self::$postfilter_classes = array(
                                           #empty-at-this-time
-                                          'Clansuite_Filter_html_tidy',
-                                          'Clansuite_Filter_smarty_moves'
+                                          'Clansuite_Filter_HtmlTidy',
+                                          'Clansuite_Filter_SmartyMoves'
                                           );
 
         # register the postfilters at the DI
@@ -657,10 +657,10 @@ class Clansuite_CMS
 
     /**
      * ==================================================
-     *     Perform a proper Shutdown and Exit
+     *    Perform a proper Shutdown of the Application
      * ==================================================
      */
-    public static function shutdown_and_exit()
+    public static function shutdown()
     {
         self::triggerEvent('onApplicationShutdown');
 

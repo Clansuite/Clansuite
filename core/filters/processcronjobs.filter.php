@@ -49,7 +49,7 @@ if (defined('IN_CS') == false)
  * @subpackage  Filters
  * @implements  Clansuite_Filter_Interface
  */
-class Clansuite_Filter_process_cronjobs implements Clansuite_Filter_Interface
+class Clansuite_Filter_ProcessCronjobs implements Clansuite_Filter_Interface
 {
     private $config     = null;
     private $cronjobs    = null;

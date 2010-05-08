@@ -40,42 +40,28 @@ if (defined('IN_CS') == false)
 }
 
 /**
- * Clansuite Filter - Maintenace Mode
+ * Clansuite Filter - Get User
  *
- * Purpose: Display Maintenace Template
- * When config parameter 'maintenance' is set, the maintenance template will be displayed
+ * Purpose: Setup the user object
  *
  * @category    Clansuite
  * @package     Core
  * @subpackage  Filters
  * @implements  Clansuite_Filter_Interface
  */
-class Clansuite_Filter_Maintenance implements Clansuite_Filter_Interface
+class Clansuite_Filter_GetUser implements Clansuite_Filter_Interface
 {
-    private $config = null;     # holds instance of config
+    private $user    = null;
 
-    public function __construct(Clansuite_Config $config)
+    public function __construct(Clansuite_User $user)
     {
-        $this->config = $config;      # set instance of config to class
+        $this->user = $user;
     }
 
     public function executeFilter(Clansuite_HttpRequest $request, Clansuite_HttpResponse $response)
     {
-        /**
-         * take the initiative,
-         * if maintenance is enabled in CONFIG
-         * or pass through (do nothing)
-         */
-        if($this->config['maintenance']['maintenance'] == 1)
-        {
-            # @todo b) create override of maintenance mode, in case it's an admin user?
-            $smarty =  Clansuite_Renderer_Factory::getRenderer('smarty', Clansuite_CMS::getInjector());
-            $html = $smarty->fetch( ROOT_THEMES . 'core/templates/maintenance.tpl', true);
-
-            $response->setContent($html);
-            $response->flush();
-            exit();
-        }
-    } // else => bypass
+        $this->user->createUserSession();    # Create a user (Guest)
+        $this->user->checkLoginCookie();     # Check for login cookie (Guest/Member)
+    }
 }
 ?>

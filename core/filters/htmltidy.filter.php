@@ -52,7 +52,7 @@ if (defined('IN_CS') == false)
  * @subpackage  Filters
  * @implements  Clansuite_Filter_Interface
  */
-class Clansuite_Filter_html_tidy implements Clansuite_Filter_Interface
+class Clansuite_Filter_HtmlTidy implements Clansuite_Filter_Interface
 {
     private $config     = null;
 
