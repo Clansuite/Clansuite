@@ -43,7 +43,7 @@ require_once 'IDS/Caching/Interface.php';
  * @author    Christian Matthies <ch0012@gmail.com>
  * @author    Mario Heiderich <mario.heiderich@gmail.com>
  * @author    Lars Strojny <lars@strojny.net>
- * @copyright 2007 The PHPIDS Groupoup
+ * @copyright 2007-2009 The PHPIDS Groupoup
  * @license   http://www.gnu.org/licenses/lgpl.html LGPL
  * @version   Release: $Id:Memcached.php 517 2007-09-15 15:04:13Z mario $
  * @link      http://php-ids.org/
@@ -67,12 +67,12 @@ class IDS_Caching_Memcached implements IDS_Caching_Interface
     private $config = null;
 
     /**
-     * Path to memcache timestamp file
-     *
-     * @var string
-     */
-    private $path = null;
-
+     * Flag if the filter storage has been found in memcached 
+     * 
+     * @var boolean 
+     */ 
+    private $isCached = false; 
+    
     /**
      * Memcache object
      *
@@ -102,15 +102,8 @@ class IDS_Caching_Memcached implements IDS_Caching_Interface
 
         $this->type   = $type;
         $this->config = $init->config['Caching'];
-        $this->path   = $init->getBasePath() . $this->config['path'];        
         
         $this->_connect();
-
-        if (file_exists($this->path) && !is_writable($this->path)) {
-            throw new Exception('Make sure all files in ' . 
-            htmlspecialchars($this->path, ENT_QUOTES, 'UTF-8') .
-                ' are writeable!');
-        }
     }
 
     /**
@@ -142,20 +135,11 @@ class IDS_Caching_Memcached implements IDS_Caching_Interface
     public function setCache(array $data) 
     {
 
-        if (!file_exists($this->path)) {
-            $handle = fopen($this->path, 'w');
-            fclose($handle);
-        }
-
-        if (!is_writable($this->path)) {
-            throw new Exception('Make sure all files in ' . 
-            htmlspecialchars($this->path, ENT_QUOTES, 'UTF-8') . 
-                ' are writeable!');
-        }
-
-        if ((time()-filectime($this->path))>$this->config['expiration_time']) {
-            $this->memcache->set($this->config['key_prefix'] . '.storage',
-                                 $data);
+        if(!$this->isCached) { 
+            $this->memcache->set(
+                $this->config['key_prefix'] . '.storage',
+                $data, false, $this->config['expiration_time']
+            ); 
         }
 
         return $this;
@@ -171,15 +155,14 @@ class IDS_Caching_Memcached implements IDS_Caching_Interface
      */
     public function getCache() 
     {
-
-        // make sure filters are parsed again if cache expired
-        if ((time()-filectime($this->path))<$this->config['expiration_time']) {
-            $data = $this->memcache->get($this->config['key_prefix'] . 
-                '.storage');
-            return $data;
-        }
-
-        return false;
+        
+        $data = $this->memcache->get(
+            $this->config['key_prefix'] .  
+            '.storage'
+        ); 
+        $this->isCached = !empty($data); 
+        
+        return $data;
     }
 
     /**
@@ -194,26 +177,21 @@ class IDS_Caching_Memcached implements IDS_Caching_Interface
         if ($this->config['host'] && $this->config['port']) {
             // establish the memcache connection
             $this->memcache = new Memcache;
-            $this->memcache->pconnect($this->config['host'], 
-                $this->config['port']);
-            $this->path = $this->config['tmp_path'];
-            
-            if(isset($init->config['General']['base_path']) 
-                && $init->config['General']['base_path'] 
-                && isset($init->config['General']['use_base_path']) 
-                && $init->config['General']['use_base_path']) {
-                $this->source = $init->config['General']['base_path'] . $this->path;
-            }            
-            
+            $this->memcache->pconnect(
+            	$this->config['host'], 
+                $this->config['port']
+            );
+
         } else {
             throw new Exception('Insufficient connection parameters');
         }
     }
 }
 
-/*
+/**
  * Local variables:
  * tab-width: 4
  * c-basic-offset: 4
  * End:
+ * vim600: sw=4 ts=4 expandtab
  */

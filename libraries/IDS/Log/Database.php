@@ -67,7 +67,7 @@ require_once 'IDS/Log/Interface.php';
  * @author    Christian Matthies <ch0012@gmail.com>
  * @author    Mario Heiderich <mario.heiderich@gmail.com>
  * @author    Lars Strojny <lars@strojny.net>
- * @copyright 2007 The PHPIDS Group
+ * @copyright 2007-2009 The PHPIDS Group
  * @license   http://www.gnu.org/licenses/lgpl.html LGPL
  * @version   Release: $Id:Database.php 517 2007-09-15 15:04:13Z mario $
  * @link      http://php-ids.org/
@@ -206,10 +206,11 @@ class IDS_Log_Database implements IDS_Log_Interface
      * an array.
      *
      * @param mixed $config IDS_Init | array
+     * @param string the class name to use
      * 
      * @return object $this
      */
-    public static function getInstance($config)
+    public static function getInstance($config, $classname = 'IDS_Log_Database')
     {
         if ($config instanceof IDS_Init) {
             $wrapper = $config->config['Logging']['wrapper'];
@@ -218,7 +219,7 @@ class IDS_Log_Database implements IDS_Log_Interface
         }
 
         if (!isset(self::$instances[$wrapper])) {
-            self::$instances[$wrapper] = new IDS_Log_Database($config);
+            self::$instances[$wrapper] = new $classname($config);
         }
 
         return self::$instances[$wrapper];
@@ -255,12 +256,16 @@ class IDS_Log_Database implements IDS_Log_Interface
         foreach ($data as $event) {
             $page = isset($_SERVER['REQUEST_URI']) ? $_SERVER['REQUEST_URI'] : '';
             $ip   = $this->ip;
+            
+            $name   = $event->getName();
+            $value  = $event->getValue();
+            $impact = $event->getImpact();
 
-            $this->statement->bindParam('name', $event->getName());
-            $this->statement->bindParam('value', $event->getValue());
+            $this->statement->bindParam('name', $name);
+            $this->statement->bindParam('value', $value);
             $this->statement->bindParam('page', $page);
             $this->statement->bindParam('ip', $ip);
-            $this->statement->bindParam('impact', $data->getImpact());
+            $this->statement->bindParam('impact', $impact);
             $this->statement->bindParam('origin', $_SERVER['SERVER_ADDR']);
 
             if (!$this->statement->execute()) {
@@ -276,9 +281,10 @@ class IDS_Log_Database implements IDS_Log_Interface
     }
 }
 
-/*
+/**
  * Local variables:
  * tab-width: 4
  * c-basic-offset: 4
  * End:
+ * vim600: sw=4 ts=4 expandtab
  */

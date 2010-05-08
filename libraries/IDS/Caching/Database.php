@@ -63,7 +63,7 @@ require_once 'IDS/Caching/Interface.php';
  * @author    Christian Matthies <ch0012@gmail.com>
  * @author    Mario Heiderich <mario.heiderich@gmail.com>
  * @author    Lars Strojny <lars@strojny.net>
- * @copyright 2007 The PHPIDS Groupup
+ * @copyright 2007-2009 The PHPIDS Groupup
  * @license   http://www.gnu.org/licenses/lgpl.html LGPL
  * @version   Release: $Id:Database.php 517 2007-09-15 15:04:13Z mario $
  * @link      http://php-ids.org/
@@ -149,7 +149,7 @@ class IDS_Caching_Database implements IDS_Caching_Interface
         $handle = $this->handle;
         
         $rows = $handle->query('SELECT created FROM `' . 
-            $handle->quote($this->config['table']).'`');
+            $this->config['table'].'`');
             
         if (!$rows || $rows->rowCount() === 0) {
         
@@ -183,9 +183,9 @@ class IDS_Caching_Database implements IDS_Caching_Interface
 
         try{
             $handle = $this->handle;
-            $result = $handle->prepare('SELECT * FROM ' . 
-                $handle->quote($this->config['table']) . 
-                ' where type=?');
+            $result = $handle->prepare('SELECT * FROM `' . 
+                $this->config['table'] . 
+                '` where type=?');
             $result->execute(array($this->type));
 
             foreach ($result as $row) {
@@ -224,6 +224,9 @@ class IDS_Caching_Database implements IDS_Caching_Interface
                 $this->config['wrapper'],
                 $this->config['user'],
                 $this->config['password']
+            );
+            $handle->setAttribute(
+            	PDO::MYSQL_ATTR_USE_BUFFERED_QUERY, true
             );
 
         } catch (PDOException $e) {
@@ -277,9 +280,10 @@ class IDS_Caching_Database implements IDS_Caching_Interface
     }
 }
 
-/*
+/**
  * Local variables:
  * tab-width: 4
  * c-basic-offset: 4
  * End:
+ * vim600: sw=4 ts=4 expandtab
  */
