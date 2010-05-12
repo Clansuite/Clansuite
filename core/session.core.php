@@ -209,16 +209,25 @@ class Clansuite_Session implements Clansuite_Session_Interface, ArrayAccess
         # Debug Display
         #echo 'Session ID is: '. $id .' AND Session NAME is:'. self::session_name;
 
-        $result = Doctrine_Query::create()
-                         ->select('session_data, session_starttime')
-                         ->from('CsSession')
-                         ->where('session_name = ? AND session_id = ?')
-                         ->fetchOne(array(self::session_name, $id ), Doctrine::HYDRATE_ARRAY);
-
-        if( $result )
+        try
         {
-            return (string) $result['session_data'];  # unserialize($result['session_data']);
+            $result = Doctrine_Query::create()
+                             ->select('session_data, session_starttime')
+                             ->from('CsSession')
+                             ->where('session_name = ? AND session_id = ?')
+                             ->fetchOne(array(self::session_name, $id ), Doctrine::HYDRATE_ARRAY);
+
+            if( $result )
+            {
+                return (string) $result['session_data'];  # unserialize($result['session_data']);
+            }
         }
+        catch(Exception $e)
+        {
+            echo get_class($e).' thrown within the exception handler. Message: '.$e->getMessage().' on line '.$e->getLine();
+            exit;
+        }
+
         return '';
     }
 
