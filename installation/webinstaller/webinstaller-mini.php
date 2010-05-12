@@ -67,7 +67,7 @@ error_reporting(E_ALL);
 set_time_limit(900);
 ini_set("open_basedir", ".:..:/usr/bin/");
 ini_set("allow_url_fopen", 1);
-ini_set("memory_limit", "64M");
+#ini_set("memory_limit", "64M");
 ini_set("upload_max_filesize", "64M");
 # ini_set for php.ini only
 #ini_set("safe_mode_exec_dir","/usr/bin/");

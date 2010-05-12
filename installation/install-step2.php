@@ -1,7 +1,7 @@
 <?php
 # Security Handler
 if (defined('IN_CS') == false)
-{ 
+{
     die( 'Clansuite not loaded. Direct Access forbidden.' );
 }
 ?>
@@ -125,9 +125,9 @@ if (defined('IN_CS') == false)
 
                          # Setting: PHP-Version
                          $php_version    = phpversion();
-                         $compare_result = version_compare($php_version,'5.2.9','>=');
+                         $compare_result = version_compare($php_version, '5.2.3','>=');
                          $required['php_version']['text']       = $language['PHP_VERSION'];
-                         $required['php_version']['expected']   = '>= 5.2.9';
+                         $required['php_version']['expected']   = '>= 5.2.3';
                          $required['php_version']['actual']     = $php_version;
                          $required['php_version']['status']     = empty($compare_result) ? SETTING_FALSE : SETTING_TRUE;
 
@@ -206,10 +206,11 @@ if (defined('IN_CS') == false)
 
                          # Setting: PHP memory limit
                          $memory_limit = ini_get('memory_limit');
+                         $recommended_memory_limit = 16;
                          $recommended['php_memory_limit']['text']       = $language['PHP_MEMORY_LIMIT'];
-                         $recommended['php_memory_limit']['expected']   = 'min 16MB';
+                         $recommended['php_memory_limit']['expected']   = 'min '. $recommended_memory_limit .'MB';
                          $recommended['php_memory_limit']['actual']     = '('. $memory_limit .')';
-                         $recommended['php_memory_limit']['status']     = ($memory_limit >= 16 ) ? SETTING_TRUE : SETTING_FALSE;
+                         $recommended['php_memory_limit']['status']     = ($memory_limit >= $recommended_memory_limit ) ? SETTING_TRUE : SETTING_FALSE;
 
                          # Checking file uploads
                          $recommended['file_uploads']['text']       = $language['FILE_UPLOADS'];
