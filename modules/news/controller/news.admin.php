@@ -204,9 +204,9 @@ class Clansuite_Module_News_Admin extends Clansuite_Module_Controller implements
     }
 
     /**
-     * action_admin_add
+     * action_admin_create
      */
-    public function action_admin_add()
+    public function action_admin_create()
     {
         # Load Form Class
         include ROOT_CORE . 'viewhelper/form.core.php';

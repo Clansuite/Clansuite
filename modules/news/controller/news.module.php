@@ -133,7 +133,7 @@ class Clansuite_Module_News extends Clansuite_Module_Controller implements Clans
             # Set Pagetitle and Breadcrumbs
             Clansuite_Breadcrumb::add( _('Viewing Single News: ') . $news['news_title'] , '/index.php?mod=news&amp;action=show');
 
-            Clansuite_Xdebug::firebug($news);
+            #Clansuite_Xdebug::firebug($news);
 
             # UTF8 to HTML
             $news['news_title'] = Clansuite_Functions::UTF8_to_HTML($news['news_title']);
