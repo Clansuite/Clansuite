@@ -48,7 +48,6 @@ if(defined('IN_CS') == false)
  */
 class Clansuite_Functions
 {
-
     /**
      * @brief Generates a Universally Unique IDentifier, version 4.
      *
@@ -828,6 +827,76 @@ class Clansuite_Functions
         return true;
     }
 
+	/**
+     * Converts a UTF8-string into HTML entities
+     *
+     * When using UTF-8 as a charset you want to convert multi-byte characters.
+     * This function takes multi-byte characters up to level 4 into account.
+     * Htmlentities will only convert 1-byte and 2-byte characters.
+     * Use this function if you want to convert 3-byte and 4-byte characters also.
+     *
+     * @author silverbeat gmx  at
+     * @link http://www.php.net/manual/de/function.htmlentities.php#96648
+     *
+     * @param $utf8 string The UTF8-string to convert
+     * @param $encodeTags booloean TRUE will convert "<" to "&lt;", Default = false
+     * @return returns the converted HTML-string
+     */
+    public static function UTF8_to_HTML($utf8, $encodeTags = false)
+    {
+        $result = '';
+        $utf8_strlen = strlen($utf8);
+
+        for ($i = 0; $i < $utf8_strlen; $i++)
+        {
+            $char = $utf8[$i];
+            $ascii = ord($char);
+
+            if ($ascii < 128)
+            {
+                # one-byte character
+                $result .= ($encodeTags) ? htmlentities($char) : $char;
+            }
+            elseif ($ascii < 192)
+            {
+                # non-utf8 character or not a start byte
+                $result .= ''; # leave this. would else be an empty elseif statement.
+            }
+            elseif ($ascii < 224)
+            {
+                # two-byte character
+                $result .= htmlentities(substr($utf8, $i, 2), ENT_QUOTES, 'UTF-8');
+                $i++;
+            }
+            elseif ($ascii < 240)
+            {
+                # three-byte character
+                $ascii1 = ord($utf8[$i+1]);
+                $ascii2 = ord($utf8[$i+2]);
+                $unicode = (15 & $ascii)  * 4096 +
+                           (63 & $ascii1) * 64 +
+                           (63 & $ascii2);
+                $result .= '&#'.$unicode;
+                $i += 2;
+            }
+            elseif ($ascii < 248)
+            {
+                # four-byte character
+                $ascii1 = ord($utf8[$i+1]);
+                $ascii2 = ord($utf8[$i+2]);
+                $ascii3 = ord($utf8[$i+3]);
+                $unicode = (15 & $ascii)  * 262144 +
+                           (63 & $ascii1) * 4096 +
+                           (63 & $ascii2) * 64 +
+                           (63 & $ascii3);
+                $result .= '&#'.$unicode;
+                $i += 3;
+            }
+        }
+
+        return $result;
+    }
+
     /**
      * The Magic Call __callStatic() is triggered when invoking inaccessible methods in a static context.
      * Method overloading.
@@ -843,7 +912,7 @@ class Clansuite_Functions
 
         # Debug message for Method Overloading
         # Making it easier to see which static method is called magically
-        Clansuite_XDebug::fbg('DEBUG (Overloading): Calling static method "'.$method.'" '. implode(', ', $arguments). "\n");
+        #Clansuite_XDebug::fbg('DEBUG (Overloading): Calling static method "'.$method.'" '. implode(', ', $arguments). "\n");
         # construct the filename of the command
         $filename = ROOT_CORE . 'functions' . DS . $method . '.function.php';
 
