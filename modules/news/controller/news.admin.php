@@ -76,8 +76,9 @@ class Clansuite_Module_News_Admin extends Clansuite_Module_Controller implements
         // Datagrid configuration
         //--------------------------
 
-        include ROOT_CORE . DS . "viewhelper" . DS . "Datagrid.core.php";
-        
+        # @todo datagrid via autoload / register viewhelper path at autoloader
+        include ROOT_CORE . 'viewhelper/datagrid.core.php';
+
         $ColumnSets = array();
 
         $ColumnSets[] = array(  'Alias'     => 'Select',
