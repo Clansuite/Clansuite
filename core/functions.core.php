@@ -843,9 +843,9 @@ class Clansuite_Functions
 
         # Debug message for Method Overloading
         # Making it easier to see which static method is called magically
-        # Clansuite_XDebug::fbg('DEBUG (Overloading): Calling static method "'.$method.'" '. implode(', ', $arguments). "\n");
+        Clansuite_XDebug::fbg('DEBUG (Overloading): Calling static method "'.$method.'" '. implode(', ', $arguments). "\n");
         # construct the filename of the command
-        $filename = ROOT_CORE . DS . 'functions' . DS . $method . '.function.php';
+        $filename = ROOT_CORE . 'functions' . DS . $method . '.function.php';
 
         # check if name is valid
         if(is_file($filename) and is_readable($filename))
@@ -884,7 +884,7 @@ class Clansuite_Functions
         # Making it easier to see which method is called magically
         # Clansuite_XDebug::fbg('DEBUG (Overloading): Calling object method "'.$method.'" '. implode(', ', $arguments). "\n");
         # construct the filename of the command
-        $filename = ROOT_CORE . DS . 'functions' . DS . $method . '.function.php';
+        $filename = ROOT_CORE . 'functions' . DS . $method . '.function.php';
 
         # check if name is valid
         if(is_file($filename) and is_readable($filename))
