@@ -48,7 +48,7 @@ class Language implements ArrayAccess
         $this->language['STEP2_SETTING_STATUS'] = 'Status';
 
         # REQUIRED SETTINGS (in order)
-        $this->language['PHP_VERSION'] = 'PHP Version 5.2+';
+        $this->language['PHP_VERSION'] = 'PHP Version';
         $this->language['SESSION_FUNCTIONS'] = 'Session Funktionen';
         $this->language['PDO_LIBRARY'] = 'PDO - Bibliothek';
         $this->language['PDO_MYSQL_LIBRARY'] = 'PDO - MySQL - Bibliothek';

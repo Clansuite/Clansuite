@@ -120,7 +120,7 @@ class Clansuite_CMS
         #if ( is_file( 'installation/install.php') === true ) { header( 'Location: installation/check_security.php'); exit; }
 
         # PHP Version Check
-        $REQUIRED_PHP_VERSION = '5.2';
+        $REQUIRED_PHP_VERSION = '5.2.3';
         if ( version_compare(PHP_VERSION, $REQUIRED_PHP_VERSION, '<') === true )
         {
             die('Your PHP Version is <b><font color="#FF0000">' . PHP_VERSION . '</font></b>! Clansuite requires PHP Version <b><font color="#4CC417">'. $REQUIRED_PHP_VERSION .'</font></b>!');
@@ -185,7 +185,12 @@ class Clansuite_CMS
         ini_set('short_open_tag'                , 'off');
         ini_set('arg_separator.input'           , '&amp;');
         ini_set('arg_separator.output'          , '&amp;');
-        ini_set('memory_limit'                  , '32M' );
+
+        # in general the memory limit is determined by php.ini, it's only raised if lower 16MB
+        if(intval(ini_get('memory_limit')) < 16)
+        {
+            ini_set('memory_limit'              , '16M' );
+        }
     }
 
     /**
