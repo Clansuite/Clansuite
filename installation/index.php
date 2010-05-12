@@ -746,23 +746,22 @@ function getQueriesFromSQLFile($file)
 function write_config_settings($data_array)
 {
     # Read/Write Handler for Configfiles
-    require ROOT . 'core/config/ini.config.php';
+    include ROOT . 'core/config/ini.config.php';
+
+    define('CR', "\n");
 
     # throw not needed / non-setting vars out
     unset($data_array['step_forward']);
     unset($data_array['lang']);
 
-    #var_dump($data_array);
     # read skeleton settings = minimum settings for initial startup
     # (not asked from user during installation, but required paths/defaultactions etc)
     $installer_config = Clansuite_Config_INIHandler::readConfig(INSTALLATION_ROOT . 'clansuite.config.installer');
 
-    #var_dump($installer_config);
     # array merge: overwrite the array to the left, with the array to the right, when keys identical
     $data_array = array_merge_recursive($data_array, $installer_config);
-    #var_dump($data_array);
+
     # Write Config File to ROOT Directory
-    #print ROOT . 'clansuite.config.php';
     if(!Clansuite_Config_INIHandler::writeConfig(ROOT . '/configuration/clansuite.config.php', $data_array))
     {
         return false;
