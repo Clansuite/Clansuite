@@ -3,7 +3,7 @@
 
     {* display cache time as comment *}
 
-    <!-- This Page was cached on {$smarty.now|dateformat}. -->
+    <!-- This Page was cached on {$smarty.now|date_format:"%Y-%m-%d %H:%M:%S"}. -->
 
     <!-- jQuery -->
     <script type="text/javascript" src="{$www_root_themes_core}/javascript/jquery/jquery.js"></script>
@@ -18,6 +18,7 @@
 
     {* Metatags *}
 
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
     <meta http-equiv="expires" content="Fri, Jan 01 1900 00:00:00 GMT" />
     <meta http-equiv="pragma" content="no-cache" />
     <meta http-equiv="cache-control" content="no-cache" />
@@ -35,7 +36,7 @@
     {* Clansuite Cascading Style Sheets *}
 
     <link rel="stylesheet" type="text/css" href="{$www_root_themes}/admin/admin.css" />
-<script type="text/javascript" src="{$www_root_themes_core}/javascript/admin.js"></script>
+    <script type="text/javascript" src="{$www_root_themes}/admin/admin.js"></script>
 
     {* Clansuite Javascripts *}
 
