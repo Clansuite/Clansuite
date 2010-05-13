@@ -271,8 +271,8 @@ class Clansuite_Doctrine
         /**
          * Sets Charset and Collation globally on Doctrine_Manager instance
          */
-        $this->manager->setCollate('utf8_unicode_ci');
-        $this->manager->setCharset('utf8');
+        $this->connection->setCollate('utf8_unicode_ci');
+        $this->connection->setCharset('utf8');
 
         /**
          * Load Models (automatic + lazy loading)
