@@ -1,10 +1,10 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">  
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="{$meta.language|default:'en'}" lang="{$meta.language|default:'en'}">
 <head>
 
     {* display cache time as comment *}
-    <!-- This Page was cached on {$smarty.now|dateformat}. -->
+    <!-- This Page was cached on {$smarty.now|date_format:"%Y-%m-%d %H:%M:%S"}. -->
 
     {* Include the Clansuite Header Notice *}
     {include file='clansuite_header_notice.tpl'}
@@ -97,13 +97,13 @@
         <div class="widget" id="widget_latestnews">{load_module name="news" action="widget_latestnews"}</div>
         <div class="widget" id="widget_newscategories_list">{load_module name="news" action="widget_newscategories_list"}</div>
         <div class="widget" id="widget_newscategories_dropdown">{load_module name="news" action="widget_newscategories_dropdown"}</div>
-        <div class="widget" id="widget_newsfeeds">{load_module name="news" action="widget_newsfeeds"}</div>
+        {load_module name="news" action="widget_newsfeeds"}
         <div class="widget" id="widget_newsarchive">{load_module name="news" action="widget_archive"}</div>
         <div class="widget" id="widget_gallery">{load_module name="gallery" action="widget_gallery"}</div>
         {* <div class="widget" id="widget_nextmatches">{load_module name="matches" action="widget_nextmatches" items="3"}</div> *}
         {* <div class="widget" id="widget_latestmatches">{load_module name="matches" action="widget_latestmatches" items="3"}</div> *}
         {* <div class="widget" id="widget_topmatch">{load_module name="matches" action="widget_topmatch"}</div> *}
-        <div class="widget" id="widget_shoutbox">{load_module name="shoutbox" action="widget_shoutbox"}</div>
+       {load_module name="shoutbox" action="widget_shoutbox"}
     </td>
 
     <!-- Middle + Center = Main Content -->
