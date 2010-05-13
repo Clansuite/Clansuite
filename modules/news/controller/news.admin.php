@@ -200,7 +200,6 @@ class Clansuite_Module_News_Admin extends Clansuite_Module_Controller implements
         {
             $_ArrayReference['news_preview'] = $_ArrayReference['news_body'];
         }
-
     }
 
     /**
@@ -265,6 +264,9 @@ class Clansuite_Module_News_Admin extends Clansuite_Module_Controller implements
         $UserIdElement = $form->addElement('hidden');
         $UserIdElement->setDecorator('none');
         $UserIdElement->setName('news_form[user_id]')->setValue($news['user_id']);
+
+        $news['news_title'] = mb_convert_encoding( $news['news_title'] , 'UTF-8', 'HTML-ENTITIES');
+        $news['news_body'] = mb_convert_encoding( $news['news_body'] , 'UTF-8', 'HTML-ENTITIES');
 
         # Assign some formlements
         $form->addElement('text')->setName('news_form[news_title]')->setLabel(_('Title'))->setValue($news['news_title']);

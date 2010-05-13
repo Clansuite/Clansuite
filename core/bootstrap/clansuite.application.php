@@ -613,9 +613,10 @@ class Clansuite_CMS
      */
     private static function start_Session()
     {
+        # Initialize Doctrine before session start, because session is written to database
         new Clansuite_Doctrine(new Clansuite_Config());
 
-        # Initialize Session, then register the session-depending User-Object manually
+        # Initialize Session,then register the session-depending User-Object manually
         new Clansuite_Session(new Clansuite_Config, self::$injector->instantiate('Clansuite_HttpRequest'));
 
         # instantiate the Locale
