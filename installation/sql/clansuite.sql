@@ -18,30 +18,25 @@
 --
 -- Current Database: `clansuite`
 --
-
-CREATE DATABASE /*!32312 IF NOT EXISTS*/ `clansuite` /*!40100 DEFAULT CHARACTER SET utf8 */;
-
-USE `clansuite`;
+CREATE DATABASE /*!32312 IF NOT EXISTS*/ `clansuite` /*!40100 DEFAULT CHARACTER SET utf8 */; USE `clansuite`;
 
 --
 -- Table structure for table `cs_adminmenu`
 --
-
 DROP TABLE IF EXISTS `cs_adminmenu`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `cs_adminmenu` (
-  `id` tinyint(3) unsigned NOT NULL DEFAULT '0',
-  `parent` tinyint(3) unsigned NOT NULL DEFAULT '0',
-  `type` varchar(255) NOT NULL,
-  `text` varchar(255) NOT NULL,
-  `href` varchar(255) NOT NULL,
-  `title` varchar(255) NOT NULL,
-  `target` varchar(255) NOT NULL,
-  `sortorder` tinyint(4) NOT NULL,
-  `icon` varchar(255) NOT NULL,
-  `permission` varchar(255) NOT NULL,
-  PRIMARY KEY (`id`,`parent`)
+ `id` TINYINT(3) unsigned NOT NULL DEFAULT '0',
+ `parent` TINYINT(3) unsigned NOT NULL DEFAULT '0',
+ `type` VARCHAR(255) NOT NULL,
+ `text` VARCHAR(255) NOT NULL,
+ `href` VARCHAR(255) NOT NULL,
+ `title` VARCHAR(255) NOT NULL,
+ `target` VARCHAR(255) NOT NULL,
+ `sortorder` TINYINT(4) NOT NULL,
+ `icon` VARCHAR(255) NOT NULL,
+ `permission` VARCHAR(255) NOT NULL, PRIMARY KEY (`id`,`parent`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -56,22 +51,20 @@ INSERT INTO `cs_adminmenu` VALUES (1,0,'folder','Control Center','?mod=controlce
 --
 -- Table structure for table `cs_adminmenu_backup`
 --
-
 DROP TABLE IF EXISTS `cs_adminmenu_backup`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `cs_adminmenu_backup` (
-  `id` tinyint(3) unsigned NOT NULL DEFAULT '0',
-  `parent` tinyint(3) unsigned NOT NULL DEFAULT '0',
-  `type` varchar(255) NOT NULL,
-  `text` varchar(255) NOT NULL,
-  `href` varchar(255) NOT NULL,
-  `title` varchar(255) NOT NULL,
-  `target` varchar(255) NOT NULL,
-  `sortorder` tinyint(4) NOT NULL,
-  `icon` varchar(255) NOT NULL,
-  `permission` varchar(255) NOT NULL,
-  PRIMARY KEY (`id`,`parent`)
+ `id` TINYINT(3) unsigned NOT NULL DEFAULT '0',
+ `parent` TINYINT(3) unsigned NOT NULL DEFAULT '0',
+ `type` VARCHAR(255) NOT NULL,
+ `text` VARCHAR(255) NOT NULL,
+ `href` VARCHAR(255) NOT NULL,
+ `title` VARCHAR(255) NOT NULL,
+ `target` VARCHAR(255) NOT NULL,
+ `sortorder` TINYINT(4) NOT NULL,
+ `icon` VARCHAR(255) NOT NULL,
+ `permission` VARCHAR(255) NOT NULL, PRIMARY KEY (`id`,`parent`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -86,18 +79,16 @@ INSERT INTO `cs_adminmenu_backup` VALUES (1,0,'folder','Control Center','?mod=co
 --
 -- Table structure for table `cs_adminmenu_shortcuts`
 --
-
 DROP TABLE IF EXISTS `cs_adminmenu_shortcuts`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `cs_adminmenu_shortcuts` (
-  `id` tinyint(4) NOT NULL AUTO_INCREMENT,
-  `title` varchar(255) NOT NULL,
-  `href` varchar(255) NOT NULL,
-  `file_name` varchar(255) NOT NULL,
-  `order` tinyint(4) NOT NULL DEFAULT '30',
-  `cat` varchar(255) NOT NULL,
-  PRIMARY KEY (`id`)
+ `id` TINYINT(4) NOT NULL AUTO_INCREMENT,
+ `title` VARCHAR(255) NOT NULL,
+ `href` VARCHAR(255) NOT NULL,
+ `file_name` VARCHAR(255) NOT NULL,
+ `order` TINYINT(4) NOT NULL DEFAULT '30',
+ `cat` VARCHAR(255) NOT NULL, PRIMARY KEY (`id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=21 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -112,15 +103,13 @@ INSERT INTO `cs_adminmenu_shortcuts` VALUES (1,'Console','index.php?mod=admin&am
 --
 -- Table structure for table `cs_areas`
 --
-
 DROP TABLE IF EXISTS `cs_areas`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `cs_areas` (
-  `area_id` int(11) NOT NULL AUTO_INCREMENT,
-  `name` varchar(255) NOT NULL DEFAULT 'New Area',
-  `description` varchar(255) NOT NULL,
-  PRIMARY KEY (`area_id`)
+ `area_id` INT(11) NOT NULL AUTO_INCREMENT,
+ `name` VARCHAR(255) NOT NULL DEFAULT 'New Area',
+ `description` VARCHAR(255) NOT NULL, PRIMARY KEY (`area_id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=21 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -135,20 +124,17 @@ INSERT INTO `cs_areas` VALUES (5,'Shoutbox','Rights for the shoutbox'),(4,'Contr
 --
 -- Table structure for table `cs_bb_code`
 --
-
 DROP TABLE IF EXISTS `cs_bb_code`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `cs_bb_code` (
-  `bb_code_id` int(11) NOT NULL AUTO_INCREMENT,
-  `name` varchar(255) NOT NULL,
-  `start_tag` varchar(255) NOT NULL,
-  `end_tag` varchar(255) NOT NULL,
-  `content_type` varchar(255) NOT NULL,
-  `allowed_in` varchar(255) NOT NULL,
-  `not_allowed_in` varchar(255) NOT NULL,
-  PRIMARY KEY (`bb_code_id`),
-  UNIQUE KEY `name` (`name`)
+ `bb_code_id` INT(11) NOT NULL AUTO_INCREMENT,
+ `name` VARCHAR(255) NOT NULL,
+ `start_tag` VARCHAR(255) NOT NULL,
+ `end_tag` VARCHAR(255) NOT NULL,
+ `content_type` VARCHAR(255) NOT NULL,
+ `allowed_in` VARCHAR(255) NOT NULL,
+ `not_allowed_in` VARCHAR(255) NOT NULL, PRIMARY KEY (`bb_code_id`), UNIQUE KEY `name` (`name`)
 ) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -163,25 +149,23 @@ INSERT INTO `cs_bb_code` VALUES (1,'b','<b>','</b>','block','listitem,block,inli
 --
 -- Table structure for table `cs_board_forums`
 --
-
 DROP TABLE IF EXISTS `cs_board_forums`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `cs_board_forums` (
-  `forumid` int(11) NOT NULL AUTO_INCREMENT,
-  `forumparent` int(11) NOT NULL DEFAULT '0',
-  `name` varchar(128) DEFAULT NULL,
-  `description` text,
-  `displayorder` smallint(6) NOT NULL DEFAULT '0',
-  `moderator` int(11) DEFAULT NULL,
-  `posts` int(11) NOT NULL,
-  `threads` int(11) NOT NULL,
-  `permissions` int(11) DEFAULT NULL,
-  `password` varchar(32) DEFAULT NULL,
-  `lastpost` varchar(54) NOT NULL,
-  `status` varchar(15) NOT NULL,
-  `type` varchar(15) NOT NULL,
-  PRIMARY KEY (`forumid`,`forumparent`,`displayorder`,`status`,`type`)
+ `forumid` INT(11) NOT NULL AUTO_INCREMENT,
+ `forumparent` INT(11) NOT NULL DEFAULT '0',
+ `name` VARCHAR(128) DEFAULT NULL,
+ `description` TEXT,
+ `displayorder` SMALLINT(6) NOT NULL DEFAULT '0',
+ `moderator` INT(11) DEFAULT NULL,
+ `posts` INT(11) NOT NULL,
+ `threads` INT(11) NOT NULL,
+ `permissions` INT(11) DEFAULT NULL,
+ `password` VARCHAR(32) DEFAULT NULL,
+ `lastpost` VARCHAR(54) NOT NULL,
+ `status` VARCHAR(15) NOT NULL,
+ `type` VARCHAR(15) NOT NULL, PRIMARY KEY (`forumid`,`forumparent`,`displayorder`,`status`,`type`)
 ) ENGINE=MyISAM AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -190,35 +174,29 @@ CREATE TABLE `cs_board_forums` (
 --
 
 /*!40000 ALTER TABLE `cs_board_forums` DISABLE KEYS */;
-INSERT INTO `cs_board_forums` VALUES (1,0,'Apfel-Forum','Apfel',1,NULL,0,0,NULL,NULL,'','on','forum'),(2,0,'Birnen-Forum','Birne',3,NULL,0,0,NULL,NULL,'','on','forum'),(3,1,'Kirschen-Forum is a Child of Apfel-Forum','Kirsche',2,NULL,0,0,NULL,NULL,'','on','sub'),(4,3,'SahneKirschen-Forum is a Child of Kirschen-Forum','Sahnekirschen',4,NULL,0,0,NULL,NULL,'','on','sub'),(5,2,'Nashi-Birnen Forum','Nashi-Birnen',5,NULL,0,0,0,NULL,'','on','sub'),(6,0,'Orangen-Forum','Orangen',2,NULL,0,0,0,NULL,'','on','forum');
+INSERT INTO `cs_board_forums` VALUES (1,0,'Apfel-Forum','Apfel',1, NULL,0,0, NULL, NULL,'','on','forum'),(2,0,'Birnen-Forum','Birne',3, NULL,0,0, NULL, NULL,'','on','forum'),(3,1,'Kirschen-Forum is a Child of Apfel-Forum','Kirsche',2, NULL,0,0, NULL, NULL,'','on','sub'),(4,3,'SahneKirschen-Forum is a Child of Kirschen-Forum','Sahnekirschen',4, NULL,0,0, NULL, NULL,'','on','sub'),(5,2,'Nashi-Birnen Forum','Nashi-Birnen',5, NULL,0,0,0, NULL,'','on','sub'),(6,0,'Orangen-Forum','Orangen',2, NULL,0,0,0, NULL,'','on','forum');
 /*!40000 ALTER TABLE `cs_board_forums` ENABLE KEYS */;
 
 --
 -- Table structure for table `cs_board_posts`
 --
-
 DROP TABLE IF EXISTS `cs_board_posts`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `cs_board_posts` (
-  `forumid` int(11) NOT NULL DEFAULT '0',
-  `threadid` int(11) NOT NULL DEFAULT '0',
-  `postid` int(11) NOT NULL AUTO_INCREMENT,
-  `author` varchar(32) NOT NULL,
-  `message` text NOT NULL,
-  `subject` tinytext NOT NULL,
-  `date` int(10) NOT NULL DEFAULT '0',
-  `icon` varchar(50) DEFAULT NULL,
-  `signatur` varchar(15) NOT NULL,
-  `ip` varchar(15) NOT NULL,
-  `bbcodeoff` varchar(15) NOT NULL,
-  `smileyoff` varchar(15) NOT NULL,
-  `edited_by` text,
-  PRIMARY KEY (`postid`),
-  KEY `fid` (`forumid`),
-  KEY `tid` (`threadid`),
-  KEY `dateline` (`date`),
-  KEY `author` (`author`(8))
+ `forumid` INT(11) NOT NULL DEFAULT '0',
+ `threadid` INT(11) NOT NULL DEFAULT '0',
+ `postid` INT(11) NOT NULL AUTO_INCREMENT,
+ `author` VARCHAR(32) NOT NULL,
+ `message` TEXT NOT NULL,
+ `subject` TINYTEXT NOT NULL,
+ `date` INT(10) NOT NULL DEFAULT '0',
+ `icon` VARCHAR(50) DEFAULT NULL,
+ `signatur` VARCHAR(15) NOT NULL,
+ `ip` VARCHAR(15) NOT NULL,
+ `bbcodeoff` VARCHAR(15) NOT NULL,
+ `smileyoff` VARCHAR(15) NOT NULL,
+ `edited_by` TEXT, PRIMARY KEY (`postid`), KEY `fid` (`forumid`), KEY `tid` (`threadid`), KEY `dateline` (`date`), KEY `author` (`author`(8))
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -232,28 +210,21 @@ CREATE TABLE `cs_board_posts` (
 --
 -- Table structure for table `cs_board_threads`
 --
-
 DROP TABLE IF EXISTS `cs_board_threads`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `cs_board_threads` (
-  `threadid` int(11) NOT NULL AUTO_INCREMENT,
-  `forumid` int(11) NOT NULL DEFAULT '0',
-  `subject` varchar(128) NOT NULL,
-  `icon` varchar(75) NOT NULL,
-  `lastpost` varchar(54) NOT NULL,
-  `views` bigint(32) NOT NULL DEFAULT '0',
-  `replies` int(10) NOT NULL DEFAULT '0',
-  `author` varchar(32) NOT NULL,
-  `closed` varchar(15) NOT NULL,
-  `stickified` tinyint(1) NOT NULL DEFAULT '0',
-  `poll` text NOT NULL,
-  PRIMARY KEY (`forumid`),
-  KEY `fid` (`forumid`),
-  KEY `tid` (`threadid`),
-  KEY `lastpost` (`lastpost`),
-  KEY `author` (`author`(8)),
-  KEY `closed` (`closed`)
+ `threadid` INT(11) NOT NULL AUTO_INCREMENT,
+ `forumid` INT(11) NOT NULL DEFAULT '0',
+ `subject` VARCHAR(128) NOT NULL,
+ `icon` VARCHAR(75) NOT NULL,
+ `lastpost` VARCHAR(54) NOT NULL,
+ `views` BIGINT(32) NOT NULL DEFAULT '0',
+ `replies` INT(10) NOT NULL DEFAULT '0',
+ `author` VARCHAR(32) NOT NULL,
+ `closed` VARCHAR(15) NOT NULL,
+ `stickified` TINYINT(1) NOT NULL DEFAULT '0',
+ `poll` TEXT NOT NULL, PRIMARY KEY (`forumid`), KEY `fid` (`forumid`), KEY `tid` (`threadid`), KEY `lastpost` (`lastpost`), KEY `author` (`author`(8)), KEY `closed` (`closed`)
 ) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -268,20 +239,18 @@ INSERT INTO `cs_board_threads` VALUES (1,1,'Apfelernte','','',0,0,'','',0,'');
 --
 -- Table structure for table `cs_calendar`
 --
-
 DROP TABLE IF EXISTS `cs_calendar`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `cs_calendar` (
-  `event_id` int(11) NOT NULL AUTO_INCREMENT,
-  `cat_id` smallint(2) NOT NULL,
-  `day` varchar(2) NOT NULL,
-  `month` varchar(2) NOT NULL,
-  `year` varchar(4) NOT NULL,
-  `eventname` varchar(255) NOT NULL,
-  `link` varchar(255) NOT NULL,
-  `description` text NOT NULL,
-  PRIMARY KEY (`event_id`,`cat_id`)
+ `event_id` INT(11) NOT NULL AUTO_INCREMENT,
+ `cat_id` SMALLINT(2) NOT NULL,
+ `day` VARCHAR(2) NOT NULL,
+ `month` VARCHAR(2) NOT NULL,
+ `year` VARCHAR(4) NOT NULL,
+ `eventname` VARCHAR(255) NOT NULL,
+ `link` VARCHAR(255) NOT NULL,
+ `description` TEXT NOT NULL, PRIMARY KEY (`event_id`,`cat_id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -296,22 +265,18 @@ INSERT INTO `cs_calendar` VALUES (1,1,'19','4','2007','badday','badday','lalal')
 --
 -- Table structure for table `cs_categories`
 --
-
 DROP TABLE IF EXISTS `cs_categories`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `cs_categories` (
-  `cat_id` tinyint(4) NOT NULL AUTO_INCREMENT,
-  `module_id` tinyint(4) DEFAULT NULL,
-  `sortorder` tinyint(4) DEFAULT '0',
-  `name` varchar(200) DEFAULT 'New Category',
-  `description` text,
-  `image` varchar(255) DEFAULT NULL,
-  `icon` varchar(255) DEFAULT NULL,
-  `color` varchar(7) DEFAULT NULL,
-  PRIMARY KEY (`cat_id`),
-  UNIQUE KEY `cat_id` (`cat_id`),
-  KEY `modul_id` (`module_id`)
+ `cat_id` TINYINT(4) NOT NULL AUTO_INCREMENT,
+ `module_id` TINYINT(4) DEFAULT NULL,
+ `sortorder` TINYINT(4) DEFAULT '0',
+ `name` VARCHAR(200) DEFAULT 'New Category',
+ `description` TEXT,
+ `image` VARCHAR(255) DEFAULT NULL,
+ `icon` VARCHAR(255) DEFAULT NULL,
+ `color` VARCHAR(7) DEFAULT NULL, PRIMARY KEY (`cat_id`), UNIQUE KEY `cat_id` (`cat_id`), KEY `modul_id` (`module_id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=14 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -326,20 +291,18 @@ INSERT INTO `cs_categories` VALUES (1,7,1,'-keine-','Diese News sind keiner Kate
 --
 -- Table structure for table `cs_comments`
 --
-
 DROP TABLE IF EXISTS `cs_comments`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `cs_comments` (
-  `comment_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `user_id` int(11) unsigned NOT NULL DEFAULT '0',
-  `email` varchar(200) NOT NULL,
-  `body` text NOT NULL,
-  `added` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
-  `pseudo` varchar(25) DEFAULT NULL,
-  `ip` varchar(15) NOT NULL,
-  `host` varchar(255) NOT NULL,
-  PRIMARY KEY (`comment_id`)
+ `comment_id` INT(10) unsigned NOT NULL AUTO_INCREMENT,
+ `user_id` INT(11) unsigned NOT NULL DEFAULT '0',
+ `email` VARCHAR(200) NOT NULL,
+ `body` TEXT NOT NULL,
+ `added` DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00',
+ `pseudo` VARCHAR(25) DEFAULT NULL,
+ `ip` VARCHAR(15) NOT NULL,
+ `host` VARCHAR(255) NOT NULL, PRIMARY KEY (`comment_id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -354,19 +317,18 @@ INSERT INTO `cs_comments` VALUES (1,1,'','123','2005-07-29 13:04:07','','127.0.0
 --
 -- Table structure for table `cs_cs_news_index`
 --
-
 DROP TABLE IF EXISTS `cs_cs_news_index`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `cs_cs_news_index` (
-  `user_id` int(11) NOT NULL,
-  `cat_id` int(11) NOT NULL,
-  `news_id` int(11) NOT NULL,
-  `news_title` text NOT NULL,
-  `news_body` text NOT NULL,
-  `keyword` text NOT NULL,
-  `position` int(11) NOT NULL,
-  `field` text NOT NULL
+ `user_id` INT(11) NOT NULL,
+ `cat_id` INT(11) NOT NULL,
+ `news_id` INT(11) NOT NULL,
+ `news_title` TEXT NOT NULL,
+ `news_body` TEXT NOT NULL,
+ `keyword` TEXT NOT NULL,
+ `position` INT(11) NOT NULL,
+ `field` TEXT NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -381,19 +343,16 @@ INSERT INTO `cs_cs_news_index` VALUES (0,7,0,'','','666',0,'news_title'),(0,7,0,
 --
 -- Table structure for table `cs_downloads`
 --
-
 DROP TABLE IF EXISTS `cs_downloads`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `cs_downloads` (
-  `download_id` int(20) NOT NULL AUTO_INCREMENT,
-  `name` text NOT NULL,
-  `filename` text NOT NULL,
-  `description` text NOT NULL,
-  `filepath` text NOT NULL,
-  `added_date` datetime NOT NULL,
-  PRIMARY KEY (`download_id`),
-  UNIQUE KEY `download_id` (`download_id`)
+ `download_id` INT(20) NOT NULL AUTO_INCREMENT,
+ `name` TEXT NOT NULL,
+ `filename` TEXT NOT NULL,
+ `description` TEXT NOT NULL,
+ `filepath` TEXT NOT NULL,
+ `added_date` DATETIME NOT NULL, PRIMARY KEY (`download_id`), UNIQUE KEY `download_id` (`download_id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -408,17 +367,15 @@ INSERT INTO `cs_downloads` VALUES (1,'test','testfile1','this is a testdescripti
 --
 -- Table structure for table `cs_forum_boards`
 --
-
 DROP TABLE IF EXISTS `cs_forum_boards`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `cs_forum_boards` (
-  `id` bigint(20) NOT NULL AUTO_INCREMENT,
-  `board_id` bigint(20) DEFAULT NULL,
-  `category_id` bigint(20) DEFAULT NULL,
-  `name` varchar(100) DEFAULT NULL,
-  `description` text,
-  PRIMARY KEY (`id`)
+ `id` BIGINT(20) NOT NULL AUTO_INCREMENT,
+ `board_id` BIGINT(20) DEFAULT NULL,
+ `category_id` BIGINT(20) DEFAULT NULL,
+ `name` VARCHAR(100) DEFAULT NULL,
+ `description` TEXT, PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -432,18 +389,15 @@ CREATE TABLE `cs_forum_boards` (
 --
 -- Table structure for table `cs_forum_category`
 --
-
 DROP TABLE IF EXISTS `cs_forum_category`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `cs_forum_category` (
-  `id` bigint(20) NOT NULL AUTO_INCREMENT,
-  `root_category_id` bigint(20) DEFAULT NULL,
-  `parent_category_id` bigint(20) DEFAULT NULL,
-  `name` varchar(50) DEFAULT NULL,
-  `description` text,
-  PRIMARY KEY (`id`),
-  KEY `root_category_id_idx` (`root_category_id`)
+ `id` BIGINT(20) NOT NULL AUTO_INCREMENT,
+ `root_category_id` BIGINT(20) DEFAULT NULL,
+ `parent_category_id` BIGINT(20) DEFAULT NULL,
+ `name` VARCHAR(50) DEFAULT NULL,
+ `description` TEXT, PRIMARY KEY (`id`), KEY `root_category_id_idx` (`root_category_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -457,24 +411,20 @@ CREATE TABLE `cs_forum_category` (
 --
 -- Table structure for table `cs_forum_entry`
 --
-
 DROP TABLE IF EXISTS `cs_forum_entry`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `cs_forum_entry` (
-  `entry_id` bigint(20) NOT NULL DEFAULT '0',
-  `thread_id` bigint(20) DEFAULT NULL,
-  `parent_entry_id` bigint(20) DEFAULT NULL,
-  `author` varchar(50) DEFAULT NULL,
-  `topic` varchar(100) DEFAULT NULL,
-  `message` text,
-  `date` bigint(20) DEFAULT NULL,
-  `smileyoff` tinyint(1) DEFAULT NULL,
-  `bbcodeoff` tinyint(1) DEFAULT NULL,
-  `edited_by` varchar(50) DEFAULT NULL,
-  PRIMARY KEY (`entry_id`),
-  KEY `parent_entry_id_idx` (`parent_entry_id`),
-  KEY `thread_id_idx` (`thread_id`)
+ `entry_id` BIGINT(20) NOT NULL DEFAULT '0',
+ `thread_id` BIGINT(20) DEFAULT NULL,
+ `parent_entry_id` BIGINT(20) DEFAULT NULL,
+ `author` VARCHAR(50) DEFAULT NULL,
+ `topic` VARCHAR(100) DEFAULT NULL,
+ `message` TEXT,
+ `date` BIGINT(20) DEFAULT NULL,
+ `smileyoff` TINYINT(1) DEFAULT NULL,
+ `bbcodeoff` TINYINT(1) DEFAULT NULL,
+ `edited_by` VARCHAR(50) DEFAULT NULL, PRIMARY KEY (`entry_id`), KEY `parent_entry_id_idx` (`parent_entry_id`), KEY `thread_id_idx` (`thread_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -488,25 +438,22 @@ CREATE TABLE `cs_forum_entry` (
 --
 -- Table structure for table `cs_forum_threads`
 --
-
 DROP TABLE IF EXISTS `cs_forum_threads`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `cs_forum_threads` (
-  `id` bigint(20) NOT NULL AUTO_INCREMENT,
-  `thread_id` bigint(20) DEFAULT NULL,
-  `board_id` bigint(20) DEFAULT NULL,
-  `title` varchar(200) DEFAULT NULL,
-  `updated` bigint(20) DEFAULT NULL,
-  `closed` tinyint(4) DEFAULT NULL,
-  `author` varchar(32) DEFAULT NULL,
-  `icon` varchar(75) DEFAULT NULL,
-  `lastpost` varchar(54) DEFAULT NULL,
-  `views` bigint(20) DEFAULT NULL,
-  `replies` int(11) DEFAULT NULL,
-  `stickified` tinyint(4) DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `board_id_idx` (`board_id`)
+ `id` BIGINT(20) NOT NULL AUTO_INCREMENT,
+ `thread_id` BIGINT(20) DEFAULT NULL,
+ `board_id` BIGINT(20) DEFAULT NULL,
+ `title` VARCHAR(200) DEFAULT NULL,
+ `updated` BIGINT(20) DEFAULT NULL,
+ `closed` TINYINT(4) DEFAULT NULL,
+ `author` VARCHAR(32) DEFAULT NULL,
+ `icon` VARCHAR(75) DEFAULT NULL,
+ `lastpost` VARCHAR(54) DEFAULT NULL,
+ `views` BIGINT(20) DEFAULT NULL,
+ `replies` INT(11) DEFAULT NULL,
+ `stickified` TINYINT(4) DEFAULT NULL, PRIMARY KEY (`id`), KEY `board_id_idx` (`board_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -520,17 +467,15 @@ CREATE TABLE `cs_forum_threads` (
 --
 -- Table structure for table `cs_gallery_album`
 --
-
 DROP TABLE IF EXISTS `cs_gallery_album`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `cs_gallery_album` (
-  `id` int(4) unsigned NOT NULL AUTO_INCREMENT,
-  `name` varchar(255) NOT NULL,
-  `description` varchar(255) NOT NULL,
-  `position` int(4) unsigned NOT NULL,
-  `thumb` varchar(255) NOT NULL,
-  PRIMARY KEY (`id`)
+ `id` INT(4) unsigned NOT NULL AUTO_INCREMENT,
+ `name` VARCHAR(255) NOT NULL,
+ `description` VARCHAR(255) NOT NULL,
+ `position` INT(4) unsigned NOT NULL,
+ `thumb` VARCHAR(255) NOT NULL, PRIMARY KEY (`id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -545,16 +490,15 @@ INSERT INTO `cs_gallery_album` VALUES (1,'Erstes Album','Mein erstes Album',1,'/
 --
 -- Table structure for table `cs_games`
 --
-
 DROP TABLE IF EXISTS `cs_games`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `cs_games` (
-  `games_id` int(3) NOT NULL,
-  `name` varchar(200) NOT NULL,
-  `description` text NOT NULL,
-  `image` text NOT NULL,
-  `icon` text NOT NULL
+ `games_id` INT(3) NOT NULL,
+ `name` VARCHAR(200) NOT NULL,
+ `description` TEXT NOT NULL,
+ `image` TEXT NOT NULL,
+ `icon` TEXT NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -569,14 +513,12 @@ INSERT INTO `cs_games` VALUES (1,'Counter-Strike','Ein 10 Jahre alter Ego-Shoote
 --
 -- Table structure for table `cs_group_rights`
 --
-
 DROP TABLE IF EXISTS `cs_group_rights`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `cs_group_rights` (
-  `group_id` int(11) NOT NULL DEFAULT '0',
-  `right_id` int(11) NOT NULL DEFAULT '0',
-  PRIMARY KEY (`group_id`,`right_id`)
+ `group_id` INT(11) NOT NULL DEFAULT '0',
+ `right_id` INT(11) NOT NULL DEFAULT '0', PRIMARY KEY (`group_id`,`right_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -591,19 +533,17 @@ INSERT INTO `cs_group_rights` VALUES (1,20),(3,10),(3,11),(3,12),(3,13),(3,14),(
 --
 -- Table structure for table `cs_groups`
 --
-
 DROP TABLE IF EXISTS `cs_groups`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `cs_groups` (
-  `group_id` int(5) unsigned NOT NULL AUTO_INCREMENT,
-  `sortorder` int(4) unsigned NOT NULL DEFAULT '0',
-  `name` varchar(80) NOT NULL,
-  `description` varchar(255) NOT NULL,
-  `icon` varchar(255) DEFAULT NULL,
-  `image` varchar(255) DEFAULT NULL,
-  `color` varchar(7) DEFAULT NULL,
-  PRIMARY KEY (`group_id`)
+ `group_id` INT(5) unsigned NOT NULL AUTO_INCREMENT,
+ `sortorder` INT(4) unsigned NOT NULL DEFAULT '0',
+ `name` VARCHAR(80) NOT NULL,
+ `description` VARCHAR(255) NOT NULL,
+ `icon` VARCHAR(255) DEFAULT NULL,
+ `image` VARCHAR(255) DEFAULT NULL,
+ `color` VARCHAR(7) DEFAULT NULL, PRIMARY KEY (`group_id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -618,24 +558,22 @@ INSERT INTO `cs_groups` VALUES (1,1,'Guest','The non-registered users.','','','#
 --
 -- Table structure for table `cs_guestbook`
 --
-
 DROP TABLE IF EXISTS `cs_guestbook`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `cs_guestbook` (
-  `gb_id` int(11) NOT NULL AUTO_INCREMENT,
-  `user_id` int(11) NOT NULL DEFAULT '0',
-  `gb_added` int(12) DEFAULT NULL,
-  `gb_nick` varchar(25) DEFAULT NULL,
-  `gb_email` varchar(35) DEFAULT NULL,
-  `gb_icq` varchar(15) DEFAULT NULL,
-  `gb_website` varchar(35) DEFAULT NULL,
-  `gb_town` varchar(25) DEFAULT NULL,
-  `gb_text` text,
-  `gb_ip` varchar(15) DEFAULT NULL,
-  `gb_comment` text,
-  `image_id` int(11) NOT NULL DEFAULT '0',
-  PRIMARY KEY (`gb_id`)
+ `gb_id` INT(11) NOT NULL AUTO_INCREMENT,
+ `user_id` INT(11) NOT NULL DEFAULT '0',
+ `gb_added` INT(12) DEFAULT NULL,
+ `gb_nick` VARCHAR(25) DEFAULT NULL,
+ `gb_email` VARCHAR(35) DEFAULT NULL,
+ `gb_icq` VARCHAR(15) DEFAULT NULL,
+ `gb_website` VARCHAR(35) DEFAULT NULL,
+ `gb_town` VARCHAR(25) DEFAULT NULL,
+ `gb_text` TEXT,
+ `gb_ip` VARCHAR(15) DEFAULT NULL,
+ `gb_comment` TEXT,
+ `image_id` INT(11) NOT NULL DEFAULT '0', PRIMARY KEY (`gb_id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -644,25 +582,22 @@ CREATE TABLE `cs_guestbook` (
 --
 
 /*!40000 ALTER TABLE `cs_guestbook` DISABLE KEYS */;
-INSERT INTO `cs_guestbook` VALUES (1,0,1003200322,'nick','jakoch@web.de','123124','www.skdjf.de','sdfsfas','sadfasdfasdfasdfasdf','1231231231','mir nur ganz alleine :) [b]fu[/b] asdfasdf asdfffffffffffffffffasd asdfsadfsafsafsadf asdfsadfsfsafsafddddddddddddddddddddddddddddd  asdfsfsdfsdfsdfddddddddddddddddddddddddd dddddasdfsdfsdfsdfsaf assadfsaf ',3),(2,0,1175392043,'nick1','vain@clansuite.com','123','','123','123','0','',0),(3,0,1175919684,'nester tester','vain@clansuite.com','1234567','http://www.test.de','blablubb','asafsdfd [b]test[/b]','127.0.0.1',NULL,0),(4,0,1175924624,'nickname','email@email.de','32452345','faffa','fafafa','faafaffaaf','127.0.0.1',NULL,3),(5,0,1175928797,'name','email@email.de','sdfasdf','sdfasdf','1234234','21efsdfasdfasdf','127.0.0.1',NULL,0);
+INSERT INTO `cs_guestbook` VALUES (1,0,1003200322,'nick','jakoch@web.de','123124','www.skdjf.de','sdfsfas','sadfasdfasdfasdfasdf','1231231231','mir nur ganz alleine :) [b]fu[/b] asdfasdf asdfffffffffffffffffasd asdfsadfsafsafsadf asdfsadfsfsafsafddddddddddddddddddddddddddddd  asdfsfsdfsdfsdfddddddddddddddddddddddddd dddddasdfsdfsdfsdfsaf assadfsaf ',3),(2,0,1175392043,'nick1','vain@clansuite.com','123','','123','123','0','',0),(3,0,1175919684,'nester tester','vain@clansuite.com','1234567','http://www.test.de','blablubb','asafsdfd [b]test[/b]','127.0.0.1', NULL,0),(4,0,1175924624,'nickname','email@email.de','32452345','faffa','fafafa','faafaffaaf','127.0.0.1', NULL,3),(5,0,1175928797,'name','email@email.de','sdfasdf','sdfasdf','1234234','21efsdfasdfasdf','127.0.0.1', NULL,0);
 /*!40000 ALTER TABLE `cs_guestbook` ENABLE KEYS */;
 
 --
 -- Table structure for table `cs_help`
 --
-
 DROP TABLE IF EXISTS `cs_help`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `cs_help` (
-  `help_id` int(11) NOT NULL AUTO_INCREMENT,
-  `mod` varchar(255) NOT NULL,
-  `sub` varchar(255) NOT NULL,
-  `action` varchar(255) NOT NULL,
-  `helptext` text NOT NULL,
-  `related_links` text NOT NULL,
-  PRIMARY KEY (`help_id`),
-  UNIQUE KEY `help_id` (`help_id`)
+ `help_id` INT(11) NOT NULL AUTO_INCREMENT,
+ `mod` VARCHAR(255) NOT NULL,
+ `sub` VARCHAR(255) NOT NULL,
+ `action` VARCHAR(255) NOT NULL,
+ `helptext` TEXT NOT NULL,
+ `related_links` TEXT NOT NULL, PRIMARY KEY (`help_id`), UNIQUE KEY `help_id` (`help_id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=15 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -677,17 +612,14 @@ INSERT INTO `cs_help` VALUES (1,'admin','','show','[b]BOLD: admin show helptext[
 --
 -- Table structure for table `cs_images`
 --
-
 DROP TABLE IF EXISTS `cs_images`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `cs_images` (
-  `image_id` int(11) NOT NULL AUTO_INCREMENT,
-  `user_id` int(11) NOT NULL,
-  `type` varchar(255) NOT NULL,
-  `location` varchar(255) NOT NULL,
-  PRIMARY KEY (`image_id`),
-  KEY `user_id` (`user_id`)
+ `image_id` INT(11) NOT NULL AUTO_INCREMENT,
+ `user_id` INT(11) NOT NULL,
+ `type` VARCHAR(255) NOT NULL,
+ `location` VARCHAR(255) NOT NULL, PRIMARY KEY (`image_id`), KEY `user_id` (`user_id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -702,37 +634,35 @@ INSERT INTO `cs_images` VALUES (3,1,'upload','images/avatars/1.jpg');
 --
 -- Table structure for table `cs_matches`
 --
-
 DROP TABLE IF EXISTS `cs_matches`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `cs_matches` (
-  `id` bigint(20) NOT NULL AUTO_INCREMENT,
-  `match_id` int(11) NOT NULL,
-  `group_id` int(11) NOT NULL,
-  `server_id` int(11) NOT NULL,
-  `team1_id` int(11) NOT NULL,
-  `team2_id` int(11) NOT NULL,
-  `comment_id` int(11) NOT NULL,
-  `matchcategory_id` int(11) NOT NULL,
-  `matchdate` bigint(20) NOT NULL,
-  `matchstatus` tinyint(4) NOT NULL,
-  `team1score` int(11) NOT NULL,
-  `team2score` int(11) NOT NULL,
-  `team1map1score` int(11) NOT NULL,
-  `team1map2score` int(11) NOT NULL,
-  `team2map1score` int(11) NOT NULL,
-  `team2map2score` int(11) NOT NULL,
-  `team1players` int(11) NOT NULL,
-  `team2players` int(11) NOT NULL,
-  `matchreport` int(11) NOT NULL,
-  `matchmedia_screenshots` text NOT NULL,
-  `matchmedia_replays` text NOT NULL,
-  `team1statement` text NOT NULL,
-  `team2statement` text NOT NULL,
-  `mapname1` int(11) NOT NULL,
-  `mapname2` int(11) NOT NULL,
-  PRIMARY KEY (`id`)
+ `id` BIGINT(20) NOT NULL AUTO_INCREMENT,
+ `match_id` INT(11) NOT NULL,
+ `group_id` INT(11) NOT NULL,
+ `server_id` INT(11) NOT NULL,
+ `team1_id` INT(11) NOT NULL,
+ `team2_id` INT(11) NOT NULL,
+ `comment_id` INT(11) NOT NULL,
+ `matchcategory_id` INT(11) NOT NULL,
+ `matchdate` BIGINT(20) NOT NULL,
+ `matchstatus` TINYINT(4) NOT NULL,
+ `team1score` INT(11) NOT NULL,
+ `team2score` INT(11) NOT NULL,
+ `team1map1score` INT(11) NOT NULL,
+ `team1map2score` INT(11) NOT NULL,
+ `team2map1score` INT(11) NOT NULL,
+ `team2map2score` INT(11) NOT NULL,
+ `team1players` INT(11) NOT NULL,
+ `team2players` INT(11) NOT NULL,
+ `matchreport` INT(11) NOT NULL,
+ `matchmedia_screenshots` TEXT NOT NULL,
+ `matchmedia_replays` TEXT NOT NULL,
+ `team1statement` TEXT NOT NULL,
+ `team2statement` TEXT NOT NULL,
+ `mapname1` INT(11) NOT NULL,
+ `mapname2` INT(11) NOT NULL, PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -747,20 +677,17 @@ INSERT INTO `cs_matches` VALUES (1,1,1,1,1,2,1,1,1234567890,1,24,24,12,12,12,12,
 --
 -- Table structure for table `cs_messages`
 --
-
 DROP TABLE IF EXISTS `cs_messages`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `cs_messages` (
-  `message_id` int(11) NOT NULL AUTO_INCREMENT,
-  `from` int(11) NOT NULL,
-  `to` int(11) NOT NULL,
-  `headline` varchar(255) NOT NULL,
-  `message` text NOT NULL,
-  `timestamp` int(11) NOT NULL,
-  `read` int(1) NOT NULL,
-  PRIMARY KEY (`message_id`),
-  KEY `from` (`from`,`to`)
+ `message_id` INT(11) NOT NULL AUTO_INCREMENT,
+ `from` INT(11) NOT NULL,
+ `to` INT(11) NOT NULL,
+ `headline` VARCHAR(255) NOT NULL,
+ `message` TEXT NOT NULL,
+ `timestamp` INT(11) NOT NULL,
+ `read` INT(1) NOT NULL, PRIMARY KEY (`message_id`), KEY `from` (`from`,`to`)
 ) ENGINE=MyISAM AUTO_INCREMENT=13 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -775,14 +702,12 @@ INSERT INTO `cs_messages` VALUES (10,1,1,'uschi','furuzzz',1171204602,1),(11,1,1
 --
 -- Table structure for table `cs_mod_rel_sub`
 --
-
 DROP TABLE IF EXISTS `cs_mod_rel_sub`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `cs_mod_rel_sub` (
-  `module_id` int(11) NOT NULL,
-  `submodule_id` int(11) NOT NULL,
-  PRIMARY KEY (`module_id`,`submodule_id`)
+ `module_id` INT(11) NOT NULL,
+ `submodule_id` INT(11) NOT NULL, PRIMARY KEY (`module_id`,`submodule_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -797,29 +722,26 @@ INSERT INTO `cs_mod_rel_sub` VALUES (1,70),(1,124),(1,125),(1,126),(2,1),(2,2),(
 --
 -- Table structure for table `cs_modules`
 --
-
 DROP TABLE IF EXISTS `cs_modules`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `cs_modules` (
-  `module_id` int(11) NOT NULL AUTO_INCREMENT,
-  `name` varchar(255) NOT NULL,
-  `author` varchar(255) NOT NULL,
-  `homepage` varchar(255) NOT NULL,
-  `license` varchar(255) NOT NULL,
-  `copyright` varchar(255) NOT NULL,
-  `title` varchar(255) NOT NULL,
-  `description` text NOT NULL,
-  `class_name` varchar(255) NOT NULL,
-  `file_name` varchar(255) NOT NULL,
-  `folder_name` varchar(255) NOT NULL,
-  `enabled` tinyint(1) NOT NULL,
-  `image_name` varchar(255) NOT NULL,
-  `module_version` float NOT NULL,
-  `clansuite_version` float NOT NULL,
-  `core` tinyint(4) NOT NULL DEFAULT '0',
-  PRIMARY KEY (`module_id`),
-  UNIQUE KEY `name` (`name`)
+ `module_id` INT(11) NOT NULL AUTO_INCREMENT,
+ `name` VARCHAR(255) NOT NULL,
+ `author` VARCHAR(255) NOT NULL,
+ `homepage` VARCHAR(255) NOT NULL,
+ `license` VARCHAR(255) NOT NULL,
+ `copyright` VARCHAR(255) NOT NULL,
+ `title` VARCHAR(255) NOT NULL,
+ `description` TEXT NOT NULL,
+ `class_name` VARCHAR(255) NOT NULL,
+ `file_name` VARCHAR(255) NOT NULL,
+ `folder_name` VARCHAR(255) NOT NULL,
+ `enabled` TINYINT(1) NOT NULL,
+ `image_name` VARCHAR(255) NOT NULL,
+ `module_version` FLOAT NOT NULL,
+ `clansuite_version` FLOAT NOT NULL,
+ `core` TINYINT(4) NOT NULL DEFAULT '0', PRIMARY KEY (`module_id`), UNIQUE KEY `name` (`name`)
 ) ENGINE=MyISAM AUTO_INCREMENT=31 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -828,26 +750,25 @@ CREATE TABLE `cs_modules` (
 --
 
 /*!40000 ALTER TABLE `cs_modules` DISABLE KEYS */;
-INSERT INTO `cs_modules` VALUES (1,'account','Jens-AndrÃ© Koch, Florian Wolf','http://www.clansuite.com','GPL v2','Clansuite Group','Account Administration','This module handles all necessary account stuff - like login/logout etc.','module_account','account.module.php','account',1,'module_account.jpg',0.1,0,1),(3,'captcha','Jens-AndrÃ© Koch, Florian Wolf','http://www.clansuite.com','GPL v2','Clansuite Group','Captcha Module','The captcha module presents a image only humanoids can read.','module_captcha','captcha.module.php','captcha',1,'module_captcha.jpg',0.1,0,1),(4,'index','Jens-AndrÃ© Koch, Florian Wolf','http://www.clansuite.com','GPL v2','Clansuite Group','Index Module','This is the main site.','module_index','index.module.php','index',1,'module_index.jpg',0.1,0,1),(2,'admin','Jens-AndrÃ© Koch, Florian Wolf','http://www.clansuite.com','GPL v2','Clansuite Group','Admin Interface','This is the Admin Control Panel','module_admin','admin.module.php','admin',1,'module_admin.jpg',0.1,0,1),(15,'matches','Florian Wolf, Jens-AndrÃ© Koch','http://www.clansuite.com','GPL v2','ClanSuite Group','Matches','The matches system of clansuite','module_matches','matches.module.php','matches',1,'module_matches.jpg',0.1,0.1,0),(6,'shoutbox','BjÃ¶rn Spiegel, Florian Wolf','http://www.clansuite.com','GPL v2','Clansuite Group','Shoutbox Modul','This module displays a shoutbox. You can do entries and administrate it ...','module_shoutbox','shoutbox.module.php','shoutbox',1,'module_shoutbox.jpg',0.1,0,0),(7,'news','Jens-AndrÃ© Koch, Florian Wolf','http://www.clansuite.com','GPL v2','Clansuite Group','News','News module','module_news','news.module.php','news',1,'module_news.jpg',0.1,0,0),(8,'filebrowser','Florian Wolf, Jens-AndrÃ© Koch','http://www.clansuite.com','GPL v2','clansuite group','Filebrowser','The filebrowser of clansuite','module_filebrowser','filebrowser.module.php','filebrowser',1,'module_filebrowser.jpg',0.1,0,0),(9,'serverlist','Jens-AndrÃ© Koch','http://www.clansuite.com','BSD','Clansuite Group','Serverlist','List Gameservers','module_serverlist','serverlist.module.php','serverlist',1,'module_serverlist.jpg',0.1,0,0),(13,'guestbook','Florian Wolf, Jens-AndrÃ© Koch','http://www.clansuite.com','GPL v2','ClanSuite Group','Guestbook','The guestbook for visitors','module_guestbook','guestbook.module.php','guestbook',1,'module_guestbook.jpg',0.1,0.1,0),(14,'forum','Florian Wolf, Jens-AndrÃ© Koch','http://www.clansuite.com','GPL v2','ClanSuite Group','Forum','The forum where people meet','module_forum','forum.module.php','forum',1,'module_forum.jpg',0.1,0.1,0),(18,'gallery','Florian Wolf, Jens-AndrÃ© Koch','http://www.clansuite.com','GPL v2','ClanSuite Group','Gallery','The gallery module of clansuite','module_gallery','gallery.module.php','gallery',1,'module_gallery.jpg',0.1,0.1,0),(19,'replays','Florian Wolf, Jens-AndrÃ© Koch','http://www.clansuite.com','GPL v2','ClanSuite Group','Replays','The replays area of clansuite','module_replays','replays.module.php','replays',1,'module_replays.jpg',0.1,0.1,0),(20,'messaging','Florian Wolf, Jens-AndrÃ© Koch','http://www.clansuite.com','GPL v2','ClanSuite Group','Messaging','The messaging module of clansuite','module_messaging','messaging.module.php','messaging',1,'module_messaging.jpg',0.1,0.1,0),(22,'staticpages','Jens-Andr? Koch, Florian Wolf','http://www.clansuite.com','GPL v2','Clansuite Group','Static Pages','Static Pages store HTML content','module_staticpages','staticpages.module.php','staticpages',1,'module_staticpages.jpg',0.1,0.1,0),(25,'board','JAK  FW','http://www.clansuite.com','LGPL','2007 JAK  FW','Board','The Clansuite Board','module_board','board.module.php','board',1,'module_board.jpg',0,0.1,0),(28,'userslist','jak','','gpl','jak2007','userslist','userslist','module_userslist','userslist.module.php','userslist',1,'module_userslist.jpg',0.1,0.1,0),(29,'userlist','Jens Andre Koch','http://www.clansuite.com','GPL','Jens Andre Koch 2007','userlist','Lists all Users','module_userlist','userlist.module.php','userlist',1,'module_userlist.jpg',0,0.1,0),(30,'calendar','Jens Andre Koch','http://www.clansuite.com','lgpl','jak','Calendar','Calendar with Eventmanagement','module_calendar','calendar.module.php','calendar',1,'module_calendar.jpg',0.1,0.1,0);
+INSERT INTO `cs_modules` VALUES (1,'account','Jens-AndrÃƒÂ© Koch, Florian Wolf','http://www.clansuite.com','GPL v2','Clansuite Group','Account Administration','This module handles all necessary account stuff - like login/logout etc.','module_account','account.module.php','account',1,'module_account.jpg',0.1,0,1),(3,'captcha','Jens-AndrÃƒÂ© Koch, Florian Wolf','http://www.clansuite.com','GPL v2','Clansuite Group','Captcha Module','The captcha module presents a image only humanoids can read.','module_captcha','captcha.module.php','captcha',1,'module_captcha.jpg',0.1,0,1),(4,'index','Jens-AndrÃƒÂ© Koch, Florian Wolf','http://www.clansuite.com','GPL v2','Clansuite Group','Index Module','This is the main site.','module_index','index.module.php','index',1,'module_index.jpg',0.1,0,1),(2,'admin','Jens-AndrÃƒÂ© Koch, Florian Wolf','http://www.clansuite.com','GPL v2','Clansuite Group','Admin Interface','This is the Admin Control Panel','module_admin','admin.module.php','admin',1,'module_admin.jpg',0.1,0,1),(15,'matches','Florian Wolf, Jens-AndrÃƒÂ© Koch','http://www.clansuite.com','GPL v2','ClanSuite Group','Matches','The matches system of clansuite','module_matches','matches.module.php','matches',1,'module_matches.jpg',0.1,0.1,0),(6,'shoutbox','BjÃƒÂ¶rn Spiegel, Florian Wolf','http://www.clansuite.com','GPL v2','Clansuite Group','Shoutbox Modul','This module displays a shoutbox. You can do entries and administrate it ...','module_shoutbox','shoutbox.module.php','shoutbox',1,'module_shoutbox.jpg',0.1,0,0),(7,'news','Jens-AndrÃƒÂ© Koch, Florian Wolf','http://www.clansuite.com','GPL v2','Clansuite Group','News','News module','module_news','news.module.php','news',1,'module_news.jpg',0.1,0,0),(8,'filebrowser','Florian Wolf, Jens-AndrÃƒÂ© Koch','http://www.clansuite.com','GPL v2','clansuite group','Filebrowser','The filebrowser of clansuite','module_filebrowser','filebrowser.module.php','filebrowser',1,'module_filebrowser.jpg',0.1,0,0),(9,'serverlist','Jens-AndrÃƒÂ© Koch','http://www.clansuite.com','BSD','Clansuite Group','Serverlist','List Gameservers','module_serverlist','serverlist.module.php','serverlist',1,'module_serverlist.jpg',0.1,0,0),(13,'guestbook','Florian Wolf, Jens-AndrÃƒÂ© Koch','http://www.clansuite.com','GPL v2','ClanSuite Group','Guestbook','The guestbook for visitors','module_guestbook','guestbook.module.php','guestbook',1,'module_guestbook.jpg',0.1,0.1,0),(14,'forum','Florian Wolf, Jens-AndrÃƒÂ© Koch','http://www.clansuite.com','GPL v2','ClanSuite Group','Forum','The forum where people meet','module_forum','forum.module.php','forum',1,'module_forum.jpg',0.1,0.1,0),(18,'gallery','Florian Wolf, Jens-AndrÃƒÂ© Koch','http://www.clansuite.com','GPL v2','ClanSuite Group','Gallery','The gallery module of clansuite','module_gallery','gallery.module.php','gallery',1,'module_gallery.jpg',0.1,0.1,0),(19,'replays','Florian Wolf, Jens-AndrÃƒÂ© Koch','http://www.clansuite.com','GPL v2','ClanSuite Group','Replays','The replays area of clansuite','module_replays','replays.module.php','replays',1,'module_replays.jpg',0.1,0.1,0),(20,'messaging','Florian Wolf, Jens-AndrÃƒÂ© Koch','http://www.clansuite.com','GPL v2','ClanSuite Group','Messaging','The messaging module of clansuite','module_messaging','messaging.module.php','messaging',1,'module_messaging.jpg',0.1,0.1,0),(22,'staticpages','Jens-Andr? Koch, Florian Wolf','http://www.clansuite.com','GPL v2','Clansuite Group','Static Pages','Static Pages store HTML content','module_staticpages','staticpages.module.php','staticpages',1,'module_staticpages.jpg',0.1,0.1,0),(25,'board','JAK  FW','http://www.clansuite.com','LGPL','2007 JAK  FW','Board','The Clansuite Board','module_board','board.module.php','board',1,'module_board.jpg',0,0.1,0),(28,'userslist','jak','','gpl','jak2007','userslist','userslist','module_userslist','userslist.module.php','userslist',1,'module_userslist.jpg',0.1,0.1,0),(29,'userlist','Jens Andre Koch','http://www.clansuite.com','GPL','Jens Andre Koch 2007','userlist','Lists all Users','module_userlist','userlist.module.php','userlist',1,'module_userlist.jpg',0,0.1,0),(30,'calendar','Jens Andre Koch','http://www.clansuite.com','lgpl','jak','Calendar','Calendar with Eventmanagement','module_calendar','calendar.module.php','calendar',1,'module_calendar.jpg',0.1,0.1,0);
 /*!40000 ALTER TABLE `cs_modules` ENABLE KEYS */;
 
 --
 -- Table structure for table `cs_news`
 --
-
 DROP TABLE IF EXISTS `cs_news`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `cs_news` (
-  `news_id` int(11) NOT NULL AUTO_INCREMENT,
-  `news_title` varchar(255) NOT NULL,
-  `news_body` text NOT NULL,
-  `cat_id` tinyint(4) NOT NULL DEFAULT '0',
-  `user_id` int(11) unsigned NOT NULL DEFAULT '0',
-  `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
-  `news_status` int(11) NOT NULL,
-  PRIMARY KEY (`news_id`,`cat_id`,`user_id`)
+ `news_id` INT(11) NOT NULL AUTO_INCREMENT,
+ `news_title` VARCHAR(255) NOT NULL,
+ `news_body` TEXT NOT NULL,
+ `cat_id` TINYINT(4) NOT NULL DEFAULT '0',
+ `user_id` INT(11) unsigned NOT NULL DEFAULT '0',
+ `created_at` TIMESTAMP NULL DEFAULT NULL,
+ `updated_at` TIMESTAMP NULL DEFAULT NULL ON
+UPDATE CURRENT_TIMESTAMP,
+ `news_status` INT(11) NOT NULL, PRIMARY KEY (`news_id`,`cat_id`,`user_id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=98 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -856,25 +777,24 @@ CREATE TABLE `cs_news` (
 --
 
 /*!40000 ALTER TABLE `cs_news` DISABLE KEYS */;
-INSERT INTO `cs_news` VALUES (22,'archiviert2','Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam sed vestibulum nulla. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; In ut felis scelerisque nibh rutrum dapibus eu et felis. Pellentesque eget nulla risus, at blandit lectus. Praesent venenatis tortor non neque molestie quis congue neque ullamcorper. Quisque at tellus sapien, molestie tempor lacus. Proin non lacus id justo dapibus feugiat ut sed nisi. Cras in purus tincidunt orci tincidunt dignissim sagittis non justo. Integer felis urna, sodales nec pharetra ac, tristique sit amet felis. Nam eget augue felis, sed sodales mauris. Aliquam molestie odio nec eros elementum quis lobortis felis fringilla. In semper sem id tellus pharetra id congue erat aliquet.\r\n',1,2,'2009-10-01 22:00:24','2009-10-02 11:33:35',4),(23,'archiviert3','Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque imperdiet tristique justo ac pretium. Fusce odio nisl, dictum sed vestibulum in, tristique malesuada lacus. Suspendisse potenti. Proin bibendum placerat neque ut placerat. Nunc felis ligula, ullamcorper sed congue ut, pulvinar ut sapien. Nullam sem purus, adipiscing ut consectetur at, ornare eget magna. Vivamus ut eros vitae neque aliquam vulputate et molestie arcu. Etiam et metus id risus pulvinar pretium? Sed vulputate venenatis consectetur. Mauris id odio risus. Maecenas lacinia iaculis nisi vel egestas. Suspendisse potenti. Quisque vel dui in lectus ultrices vehicula. Donec convallis tortor et leo vehicula non placerat mi varius. Morbi ac pharetra lorem. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Fusce cursus pulvinar nisl. Nunc a nisi vel purus sagittis bibendum!\r\n',2,2,'2009-10-01 22:00:24','2009-10-02 11:33:35',4),(24,'archiviert4','Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque imperdiet tristique justo ac pretium. Fusce odio nisl, dictum sed vestibulum in, tristique malesuada lacus. Suspendisse potenti. Proin bibendum placerat neque ut placerat. Nunc felis ligula, ullamcorper sed congue ut, pulvinar ut sapien. Nullam sem purus, adipiscing ut consectetur at, ornare eget magna. Vivamus ut eros vitae neque aliquam vulputate et molestie arcu. Etiam et metus id risus pulvinar pretium? Sed vulputate venenatis consectetur. Mauris id odio risus. Maecenas lacinia iaculis nisi vel egestas. Suspendisse potenti. Quisque vel dui in lectus ultrices vehicula. Donec convallis tortor et leo vehicula non placerat mi varius. Morbi ac pharetra lorem. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Fusce cursus pulvinar nisl. Nunc a nisi vel purus sagittis bibendum!<br><br>patze<br>',2,2,'2009-10-01 22:00:24','2009-11-02 13:16:39',4),(71,'Willkommen auf Ihrer neuen Clansuite-Website!','Bitte folgen Sie diesen Schritten um mit Ihrer Website zu beginnen:\r\n\r\n   1. Konfigurieren Sie Ihre Website Wenn Sie angemeldet sind, besuchen Sie den Administrationsbereich, in dem Sie alle Aspekte Ihrer Website anpassen und konfigurieren kÃ¶nnen.\r\n   2. Aktivieren Sie zusÃ¤tzliche Funktionen Als nÃ¤chstes kÃ¶nnen Sie in der ModulÃ¼bersicht die Funktionen aktivieren, die Ihren speziellen Anforderungen entsprechen. Sie finden zusÃ¤tzliche Module im Downloadbereich fÃ¼r Clansuite-Module.\r\n   3. Passen Sie das Design Ihrer Website an Um das Aussehen Ihrer Website zu verÃ¤ndern, besuchen Sie den Theme-Bereich. Sie kÃ¶nnen aus den mitgelieferten Themes auswÃ¤hlen oder zusÃ¤tzliche Themes aus dem Downloadbereich fÃ¼r Clansuite-Themes herunterladen.\r\n   4. Beginnen Sie, Inhalte zu schreiben SchlieÃŸlich kÃ¶nnen Sie fÃ¼r Ihre Website Inhalte erstellen. Dieser Informationstext verschwindet, sobald der erste Beitrag erscheint.\r\n\r\nNÃ¤here Informationen finden sich im Hilfe-Bereich oder online in den Clansuite-HandbÃ¼chern. Sie kÃ¶nnen auch einen Beitrag im Clansuite-Forum schreiben oder aus den vielfÃ¤ltigen anderen verfÃ¼gbaren Support-Angeboten auswÃ¤hlen.',2,0,'2009-12-02 23:00:24','2009-12-09 12:17:19',0),(1,'testeintrag1','testbody1\r\n1\r\n2\r\n3\r\n4\r\n5\r\n6\r\n7\r\n8\r\n9\r\n10\r\ntestbody11',2,1,'2009-10-01 22:00:24','2009-10-02 11:34:12',0),(2,'testeintrag2','testeintrag2body',1,1,'2009-09-01 22:00:24','2009-10-02 11:33:35',0),(3,'testeintrag3','testeintrag3body',1,1,'2009-10-01 22:00:24','2009-10-02 11:33:35',0),(7,'testeintrag7','testeintrag7body',2,1,'2009-10-01 22:00:24','2009-10-02 11:33:35',0),(16,'Lore ipsum','<a href=\"index.html\">Nunc eget pretium</a> diam.\r\n                \r\n                <p>Praesent nisi sem, bibendum in, ultrices sit amet, euismod sit amet, dui. Fusce nibh. Curabitur pellentesque, lectus at <a href=\"index.html\">volutpat interdum</a>. Pellentesque a nibh quis nunc volutpat aliquam</p>\r\n                            \r\n            <blockquote><p>Sed sodales nisl sit amet augue. Donec ultrices, augue ullamcorper posuere laoreet, turpis massa tristique justo, sed egestas metus magna sed purus.</p></blockquote>\r\n            \r\n                            <code>margin-bottom: 12px;\r\n                font-size: 1.1em;\r\n                background: url(images/quote.gif);\r\n                padding-left: 28px;\r\n                color: #555;</code>\r\n\r\n                <ul>\r\n                    <li>Tristique</li>\r\n                              <li>Aenean</li>\r\n               <li>Pretium</li>\r\n                            </ul>\r\n\r\n        <p>Eget feugiat est leo tempor quam. Ut quis neque convallis magna consequat molestie.</p>',1,1,'2009-10-01 22:00:24','2009-10-02 11:33:35',4),(21,'archiviert1','Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam sed vestibulum nulla. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; In ut felis scelerisque nibh rutrum dapibus eu et felis. Pellentesque eget nulla risus, at blandit lectus. Praesent venenatis tortor non neque molestie quis congue neque ullamcorper. Quisque at tellus sapien, molestie tempor lacus. Proin non lacus id justo dapibus feugiat ut sed nisi. Cras in purus tincidunt orci tincidunt dignissim sagittis non justo. Integer felis urna, sodales nec pharetra ac, tristique sit amet felis. Nam eget augue felis, sed sodales mauris. Aliquam molestie odio nec eros elementum quis lobortis felis fringilla. In semper sem id tellus pharetra id congue erat aliquet.\r\n',1,2,'2009-10-01 22:00:24','2009-10-02 11:33:35',4),(72,'testeintrag1','testbody1\r\n1\r\n2\r\n3\r\n4\r\n5\r\n6\r\n7\r\n8\r\n9\r\n10\r\ntestbody11',2,1,'2009-10-01 22:00:24','2009-10-02 11:34:12',0),(73,'testeintrag2','testeintrag2body',1,1,'2009-09-01 22:00:24','2009-10-02 11:33:35',0),(74,'testeintrag3','testeintrag3body',1,1,'2009-10-01 22:00:24','2009-10-02 11:33:35',0),(75,'testeintrag7','testeintrag7body',2,1,'2009-10-01 22:00:24','2009-10-02 11:33:35',0),(76,'Lore ipsum','<a href=\"index.html\">Nunc eget pretium</a> diam.\r\n                \r\n                <p>Praesent nisi sem, bibendum in, ultrices sit amet, euismod sit amet, dui. Fusce nibh. Curabitur pellentesque, lectus at <a href=\"index.html\">volutpat interdum</a>. Pellentesque a nibh quis nunc volutpat aliquam</p>\r\n                            \r\n            <blockquote><p>Sed sodales nisl sit amet augue. Donec ultrices, augue ullamcorper posuere laoreet, turpis massa tristique justo, sed egestas metus magna sed purus.</p></blockquote>\r\n            \r\n                            <code>margin-bottom: 12px;\r\n                font-size: 1.1em;\r\n                background: url(images/quote.gif);\r\n                padding-left: 28px;\r\n                color: #555;</code>\r\n\r\n                <ul>\r\n                    <li>Tristique</li>\r\n                              <li>Aenean</li>\r\n               <li>Pretium</li>\r\n                            </ul>\r\n\r\n        <p>Eget feugiat est leo tempor quam. Ut quis neque convallis magna consequat molestie.</p>',1,1,'2009-10-01 22:00:24','2009-10-02 11:33:35',4),(77,'archiviert1','Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam sed vestibulum nulla. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; In ut felis scelerisque nibh rutrum dapibus eu et felis. Pellentesque eget nulla risus, at blandit lectus. Praesent venenatis tortor non neque molestie quis congue neque ullamcorper. Quisque at tellus sapien, molestie tempor lacus. Proin non lacus id justo dapibus feugiat ut sed nisi. Cras in purus tincidunt orci tincidunt dignissim sagittis non justo. Integer felis urna, sodales nec pharetra ac, tristique sit amet felis. Nam eget augue felis, sed sodales mauris. Aliquam molestie odio nec eros elementum quis lobortis felis fringilla. In semper sem id tellus pharetra id congue erat aliquet.\r\n',1,2,'2009-10-01 22:00:24','2009-10-02 11:33:35',4),(78,'archiviert2','Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam sed vestibulum nulla. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; In ut felis scelerisque nibh rutrum dapibus eu et felis. Pellentesque eget nulla risus, at blandit lectus. Praesent venenatis tortor non neque molestie quis congue neque ullamcorper. Quisque at tellus sapien, molestie tempor lacus. Proin non lacus id justo dapibus feugiat ut sed nisi. Cras in purus tincidunt orci tincidunt dignissim sagittis non justo. Integer felis urna, sodales nec pharetra ac, tristique sit amet felis. Nam eget augue felis, sed sodales mauris. Aliquam molestie odio nec eros elementum quis lobortis felis fringilla. In semper sem id tellus pharetra id congue erat aliquet.\r\n',1,2,'2009-10-01 22:00:24','2009-10-02 11:33:35',4),(79,'archiviert3','Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque imperdiet tristique justo ac pretium. Fusce odio nisl, dictum sed vestibulum in, tristique malesuada lacus. Suspendisse potenti. Proin bibendum placerat neque ut placerat. Nunc felis ligula, ullamcorper sed congue ut, pulvinar ut sapien. Nullam sem purus, adipiscing ut consectetur at, ornare eget magna. Vivamus ut eros vitae neque aliquam vulputate et molestie arcu. Etiam et metus id risus pulvinar pretium? Sed vulputate venenatis consectetur. Mauris id odio risus. Maecenas lacinia iaculis nisi vel egestas. Suspendisse potenti. Quisque vel dui in lectus ultrices vehicula. Donec convallis tortor et leo vehicula non placerat mi varius. Morbi ac pharetra lorem. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Fusce cursus pulvinar nisl. Nunc a nisi vel purus sagittis bibendum!\r\n',2,2,'2009-10-01 22:00:24','2009-10-02 11:33:35',4),(80,'archiviert4','Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque imperdiet tristique justo ac pretium. Fusce odio nisl, dictum sed vestibulum in, tristique malesuada lacus. Suspendisse potenti. Proin bibendum placerat neque ut placerat. Nunc felis ligula, ullamcorper sed congue ut, pulvinar ut sapien. Nullam sem purus, adipiscing ut consectetur at, ornare eget magna. Vivamus ut eros vitae neque aliquam vulputate et molestie arcu. Etiam et metus id risus pulvinar pretium? Sed vulputate venenatis consectetur. Mauris id odio risus. Maecenas lacinia iaculis nisi vel egestas. Suspendisse potenti. Quisque vel dui in lectus ultrices vehicula. Donec convallis tortor et leo vehicula non placerat mi varius. Morbi ac pharetra lorem. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Fusce cursus pulvinar nisl. Nunc a nisi vel purus sagittis bibendum!<br><br>patze<br>',2,2,'2009-10-01 22:00:24','2009-11-02 13:16:39',4),(81,'Willkommen auf Ihrer neuen Clansuite-Website!','Bitte folgen Sie diesen Schritten um mit Ihrer Website zu beginnen:\r\n\r\n   1. Konfigurieren Sie Ihre Website Wenn Sie angemeldet sind, besuchen Sie den Administrationsbereich, in dem Sie alle Aspekte Ihrer Website anpassen und konfigurieren kÃ¶nnen.\r\n   2. Aktivieren Sie zusÃ¤tzliche Funktionen Als nÃ¤chstes kÃ¶nnen Sie in der ModulÃ¼bersicht die Funktionen aktivieren, die Ihren speziellen Anforderungen entsprechen. Sie finden zusÃ¤tzliche Module im Downloadbereich fÃ¼r Clansuite-Module.\r\n   3. Passen Sie das Design Ihrer Website an Um das Aussehen Ihrer Website zu verÃ¤ndern, besuchen Sie den Theme-Bereich. Sie kÃ¶nnen aus den mitgelieferten Themes auswÃ¤hlen oder zusÃ¤tzliche Themes aus dem Downloadbereich fÃ¼r Clansuite-Themes herunterladen.\r\n   4. Beginnen Sie, Inhalte zu schreiben SchlieÃŸlich kÃ¶nnen Sie fÃ¼r Ihre Website Inhalte erstellen. Dieser Informationstext verschwindet, sobald der erste Beitrag erscheint.\r\n\r\nNÃ¤here Informationen finden sich im Hilfe-Bereich oder online in den Clansuite-HandbÃ¼chern. Sie kÃ¶nnen auch einen Beitrag im Clansuite-Forum schreiben oder aus den vielfÃ¤ltigen anderen verfÃ¼gbaren Support-Angeboten auswÃ¤hlen.',2,0,'2009-12-02 23:00:24','2009-12-09 12:17:19',0),(82,'testeintrag1','testbody1\r\n1\r\n2\r\n3\r\n4\r\n5\r\n6\r\n7\r\n8\r\n9\r\n10\r\ntestbody11',2,1,'2009-10-01 22:00:24','2009-10-02 11:34:12',0),(83,'testeintrag2','testeintrag2body',1,1,'2009-09-01 22:00:24','2009-10-02 11:33:35',0),(84,'testeintrag3','testeintrag3body',1,1,'2009-10-01 22:00:24','2009-10-02 11:33:35',0),(85,'testeintrag7','testeintrag7body',2,1,'2009-10-01 22:00:24','2009-10-02 11:33:35',0),(86,'Lore ipsum','<a href=\"index.html\">Nunc eget pretium</a> diam.\r\n                \r\n                <p>Praesent nisi sem, bibendum in, ultrices sit amet, euismod sit amet, dui. Fusce nibh. Curabitur pellentesque, lectus at <a href=\"index.html\">volutpat interdum</a>. Pellentesque a nibh quis nunc volutpat aliquam</p>\r\n                            \r\n            <blockquote><p>Sed sodales nisl sit amet augue. Donec ultrices, augue ullamcorper posuere laoreet, turpis massa tristique justo, sed egestas metus magna sed purus.</p></blockquote>\r\n            \r\n                            <code>margin-bottom: 12px;\r\n                font-size: 1.1em;\r\n                background: url(images/quote.gif);\r\n                padding-left: 28px;\r\n                color: #555;</code>\r\n\r\n                <ul>\r\n                    <li>Tristique</li>\r\n                              <li>Aenean</li>\r\n               <li>Pretium</li>\r\n                            </ul>\r\n\r\n        <p>Eget feugiat est leo tempor quam. Ut quis neque convallis magna consequat molestie.</p>',1,1,'2009-10-01 22:00:24','2009-10-02 11:33:35',4),(87,'archiviert1','Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam sed vestibulum nulla. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; In ut felis scelerisque nibh rutrum dapibus eu et felis. Pellentesque eget nulla risus, at blandit lectus. Praesent venenatis tortor non neque molestie quis congue neque ullamcorper. Quisque at tellus sapien, molestie tempor lacus. Proin non lacus id justo dapibus feugiat ut sed nisi. Cras in purus tincidunt orci tincidunt dignissim sagittis non justo. Integer felis urna, sodales nec pharetra ac, tristique sit amet felis. Nam eget augue felis, sed sodales mauris. Aliquam molestie odio nec eros elementum quis lobortis felis fringilla. In semper sem id tellus pharetra id congue erat aliquet.\r\n',1,2,'2009-10-01 22:00:24','2009-10-02 11:33:35',4),(88,'archiviert2','Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam sed vestibulum nulla. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; In ut felis scelerisque nibh rutrum dapibus eu et felis. Pellentesque eget nulla risus, at blandit lectus. Praesent venenatis tortor non neque molestie quis congue neque ullamcorper. Quisque at tellus sapien, molestie tempor lacus. Proin non lacus id justo dapibus feugiat ut sed nisi. Cras in purus tincidunt orci tincidunt dignissim sagittis non justo. Integer felis urna, sodales nec pharetra ac, tristique sit amet felis. Nam eget augue felis, sed sodales mauris. Aliquam molestie odio nec eros elementum quis lobortis felis fringilla. In semper sem id tellus pharetra id congue erat aliquet.\r\n',1,2,'2009-10-01 22:00:24','2009-10-02 11:33:35',4),(89,'archiviert3','Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque imperdiet tristique justo ac pretium. Fusce odio nisl, dictum sed vestibulum in, tristique malesuada lacus. Suspendisse potenti. Proin bibendum placerat neque ut placerat. Nunc felis ligula, ullamcorper sed congue ut, pulvinar ut sapien. Nullam sem purus, adipiscing ut consectetur at, ornare eget magna. Vivamus ut eros vitae neque aliquam vulputate et molestie arcu. Etiam et metus id risus pulvinar pretium? Sed vulputate venenatis consectetur. Mauris id odio risus. Maecenas lacinia iaculis nisi vel egestas. Suspendisse potenti. Quisque vel dui in lectus ultrices vehicula. Donec convallis tortor et leo vehicula non placerat mi varius. Morbi ac pharetra lorem. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Fusce cursus pulvinar nisl. Nunc a nisi vel purus sagittis bibendum!\r\n',2,2,'2009-10-01 22:00:24','2009-10-02 11:33:35',4),(90,'archiviert4','Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque imperdiet tristique justo ac pretium. Fusce odio nisl, dictum sed vestibulum in, tristique malesuada lacus. Suspendisse potenti. Proin bibendum placerat neque ut placerat. Nunc felis ligula, ullamcorper sed congue ut, pulvinar ut sapien. Nullam sem purus, adipiscing ut consectetur at, ornare eget magna. Vivamus ut eros vitae neque aliquam vulputate et molestie arcu. Etiam et metus id risus pulvinar pretium? Sed vulputate venenatis consectetur. Mauris id odio risus. Maecenas lacinia iaculis nisi vel egestas. Suspendisse potenti. Quisque vel dui in lectus ultrices vehicula. Donec convallis tortor et leo vehicula non placerat mi varius. Morbi ac pharetra lorem. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Fusce cursus pulvinar nisl. Nunc a nisi vel purus sagittis bibendum!<br><br>patze<br>',2,2,'2009-10-01 22:00:24','2009-11-02 13:16:39',4),(91,'Willkommen auf Ihrer neuen Clansuite-Website!','<span style=\"font-weight: bold;\">Bitte folgen Sie diesen Schritten um mit Ihrer Website zu beginnen:\r\n\r\n   </span><br><br><span style=\"font-weight: bold;\">1. Konfigurieren Sie Ihre Website </span><br><br>Wenn Sie angemeldet sind, besuchen Sie den Administrationsbereich, in dem Sie alle Aspekte Ihrer Website anpassen und konfigurieren können.\r\n   <br><br><span style=\"font-weight: bold;\">2. Aktivieren Sie zusätzliche Funktionen </span><br><br>Als nächstes können Sie in der Modulübersicht die Funktionen aktivieren, die Ihren speziellen Anforderungen entsprechen. Sie finden zusätzliche Module im Downloadbereich für Clansuite-Module.\r\n<br><br><span style=\"font-weight: bold;\">3. Passen Sie das Design Ihrer Website an </span><br><br>Um das Aussehen Ihrer Website zu verändern, besuchen Sie den Theme-Bereich. Sie können aus den mitgelieferten Themes auswählen oder zusätzliche Themes aus dem Downloadbereich für Clansuite-Themes herunterladen.\r\n   <br><br><span style=\"font-weight: bold;\">4. Beginnen Sie, Inhalte zu schreiben </span><br><br>Schließlich können Sie für Ihre Website Inhalte erstellen. Dieser Informationstext verschwindet, sobald der erste Beitrag erscheint.\r\n\r\nNähere Informationen finden sich im Hilfe-Bereich oder online in den Clansuite-Handbüchern. Sie können auch einen Beitrag im Clansuite-Forum schreiben oder aus den vielfältigen anderen verfügbaren Support-Angeboten auswählen.',2,0,'2009-12-02 23:00:24','2010-03-19 02:39:56',0);
+INSERT INTO `cs_news` VALUES (22,'archiviert2','Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam sed vestibulum nulla. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; In ut felis scelerisque nibh rutrum dapibus eu et felis. Pellentesque eget nulla risus, at blandit lectus. Praesent venenatis tortor non neque molestie quis congue neque ullamcorper. Quisque at tellus sapien, molestie tempor lacus. Proin non lacus id justo dapibus feugiat ut sed nisi. Cras in purus tincidunt orci tincidunt dignissim sagittis non justo. Integer felis urna, sodales nec pharetra ac, tristique sit amet felis. Nam eget augue felis, sed sodales mauris. Aliquam molestie odio nec eros elementum quis lobortis felis fringilla. In semper sem id tellus pharetra id congue erat aliquet.\r\n',1,2,'2009-10-01 22:00:24','2009-10-02 11:33:35',4),(23,'archiviert3','Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque imperdiet tristique justo ac pretium. Fusce odio nisl, dictum sed vestibulum in, tristique malesuada lacus. Suspendisse potenti. Proin bibendum placerat neque ut placerat. Nunc felis ligula, ullamcorper sed congue ut, pulvinar ut sapien. Nullam sem purus, adipiscing ut consectetur at, ornare eget magna. Vivamus ut eros vitae neque aliquam vulputate et molestie arcu. Etiam et metus id risus pulvinar pretium? Sed vulputate venenatis consectetur. Mauris id odio risus. Maecenas lacinia iaculis nisi vel egestas. Suspendisse potenti. Quisque vel dui in lectus ultrices vehicula. Donec convallis tortor et leo vehicula non placerat mi varius. Morbi ac pharetra lorem. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Fusce cursus pulvinar nisl. Nunc a nisi vel purus sagittis bibendum!\r\n',2,2,'2009-10-01 22:00:24','2009-10-02 11:33:35',4),(24,'archiviert4','Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque imperdiet tristique justo ac pretium. Fusce odio nisl, dictum sed vestibulum in, tristique malesuada lacus. Suspendisse potenti. Proin bibendum placerat neque ut placerat. Nunc felis ligula, ullamcorper sed congue ut, pulvinar ut sapien. Nullam sem purus, adipiscing ut consectetur at, ornare eget magna. Vivamus ut eros vitae neque aliquam vulputate et molestie arcu. Etiam et metus id risus pulvinar pretium? Sed vulputate venenatis consectetur. Mauris id odio risus. Maecenas lacinia iaculis nisi vel egestas. Suspendisse potenti. Quisque vel dui in lectus ultrices vehicula. Donec convallis tortor et leo vehicula non placerat mi varius. Morbi ac pharetra lorem. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Fusce cursus pulvinar nisl. Nunc a nisi vel purus sagittis bibendum!<br><br>patze<br>',2,2,'2009-10-01 22:00:24','2009-11-02 13:16:39',4),(71,'Willkommen auf Ihrer neuen Clansuite-Website!','Bitte folgen Sie diesen Schritten um mit Ihrer Website zu beginnen:\r\n\r\n   1. Konfigurieren Sie Ihre Website Wenn Sie angemeldet sind, besuchen Sie den Administrationsbereich, in dem Sie alle Aspekte Ihrer Website anpassen und konfigurieren kÃƒÂ¶nnen.\r\n   2. Aktivieren Sie zusÃƒÂ¤tzliche Funktionen Als nÃƒÂ¤chstes kÃƒÂ¶nnen Sie in der ModulÃƒÂ¼bersicht die Funktionen aktivieren, die Ihren speziellen Anforderungen entsprechen. Sie finden zusÃƒÂ¤tzliche Module im Downloadbereich fÃƒÂ¼r Clansuite-Module.\r\n   3. Passen Sie das Design Ihrer Website an Um das Aussehen Ihrer Website zu verÃƒÂ¤ndern, besuchen Sie den Theme-Bereich. Sie kÃƒÂ¶nnen aus den mitgelieferten Themes auswÃƒÂ¤hlen oder zusÃƒÂ¤tzliche Themes aus dem Downloadbereich fÃƒÂ¼r Clansuite-Themes herunterladen.\r\n   4. Beginnen Sie, Inhalte zu schreiben SchlieÃƒÅ¸lich kÃƒÂ¶nnen Sie fÃƒÂ¼r Ihre Website Inhalte erstellen. Dieser Informationstext verschwindet, sobald der erste Beitrag erscheint.\r\n\r\nNÃƒÂ¤here Informationen finden sich im Hilfe-Bereich oder online in den Clansuite-HandbÃƒÂ¼chern. Sie kÃƒÂ¶nnen auch einen Beitrag im Clansuite-Forum schreiben oder aus den vielfÃƒÂ¤ltigen anderen verfÃƒÂ¼gbaren Support-Angeboten auswÃƒÂ¤hlen.',2,0,'2009-12-02 23:00:24','2009-12-09 12:17:19',0),(1,'testeintrag1','testbody1\r\n1\r\n2\r\n3\r\n4\r\n5\r\n6\r\n7\r\n8\r\n9\r\n10\r\ntestbody11',2,1,'2009-10-01 22:00:24','2009-10-02 11:34:12',0),(2,'testeintrag2','testeintrag2body',1,1,'2009-09-01 22:00:24','2009-10-02 11:33:35',0),(3,'testeintrag3','testeintrag3body',1,1,'2009-10-01 22:00:24','2009-10-02 11:33:35',0),(7,'testeintrag7','testeintrag7body',2,1,'2009-10-01 22:00:24','2009-10-02 11:33:35',0),(16,'Lore ipsum','<a href=\" INDEX.html\">Nunc eget pretium</a> diam.\r\n                \r\n                <p>Praesent nisi sem, bibendum in, ultrices sit amet, euismod sit amet, dui. Fusce nibh. Curabitur pellentesque, lectus at <a href=\" INDEX.html\">volutpat interdum</a>. Pellentesque a nibh quis nunc volutpat aliquam</p>\r\n                            \r\n            <blockquote><p>Sed sodales nisl sit amet augue. Donec ultrices, augue ullamcorper posuere laoreet, turpis massa tristique justo, sed egestas metus magna sed purus.</p></blockquote>\r\n            \r\n                            <code>margin-bottom: 12px;\r\n                font-size: 1.1em;\r\n                background: url(images/quote.gif);\r\n                padding-left: 28px;\r\n                color: #555;</code>\r\n\r\n                <ul>\r\n                    <li>Tristique</li>\r\n                              <li>Aenean</li>\r\n               <li>Pretium</li>\r\n                            </ul>\r\n\r\n        <p>Eget feugiat est leo tempor quam. Ut quis neque convallis magna consequat molestie.</p>',1,1,'2009-10-01 22:00:24','2009-10-02 11:33:35',4),(21,'archiviert1','Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam sed vestibulum nulla. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; In ut felis scelerisque nibh rutrum dapibus eu et felis. Pellentesque eget nulla risus, at blandit lectus. Praesent venenatis tortor non neque molestie quis congue neque ullamcorper. Quisque at tellus sapien, molestie tempor lacus. Proin non lacus id justo dapibus feugiat ut sed nisi. Cras in purus tincidunt orci tincidunt dignissim sagittis non justo. Integer felis urna, sodales nec pharetra ac, tristique sit amet felis. Nam eget augue felis, sed sodales mauris. Aliquam molestie odio nec eros elementum quis lobortis felis fringilla. In semper sem id tellus pharetra id congue erat aliquet.\r\n',1,2,'2009-10-01 22:00:24','2009-10-02 11:33:35',4),(72,'testeintrag1','testbody1\r\n1\r\n2\r\n3\r\n4\r\n5\r\n6\r\n7\r\n8\r\n9\r\n10\r\ntestbody11',2,1,'2009-10-01 22:00:24','2009-10-02 11:34:12',0),(73,'testeintrag2','testeintrag2body',1,1,'2009-09-01 22:00:24','2009-10-02 11:33:35',0),(74,'testeintrag3','testeintrag3body',1,1,'2009-10-01 22:00:24','2009-10-02 11:33:35',0),(75,'testeintrag7','testeintrag7body',2,1,'2009-10-01 22:00:24','2009-10-02 11:33:35',0),(76,'Lore ipsum','<a href=\"index.html\">Nunc eget pretium</a> diam.\r\n                \r\n                <p>Praesent nisi sem, bibendum in, ultrices sit amet, euismod sit amet, dui. Fusce nibh. Curabitur pellentesque, lectus at <a href=\"index.html\">volutpat interdum</a>. Pellentesque a nibh quis nunc volutpat aliquam</p>\r\n                            \r\n            <blockquote><p>Sed sodales nisl sit amet augue. Donec ultrices, augue ullamcorper posuere laoreet, turpis massa tristique justo, sed egestas metus magna sed purus.</p></blockquote>\r\n            \r\n                            <code>margin-bottom: 12px;\r\n                font-size: 1.1em;\r\n                background: url(images/quote.gif);\r\n                padding-left: 28px;\r\n                color: #555;</code>\r\n\r\n                <ul>\r\n                    <li>Tristique</li>\r\n                              <li>Aenean</li>\r\n               <li>Pretium</li>\r\n                            </ul>\r\n\r\n        <p>Eget feugiat est leo tempor quam. Ut quis neque convallis magna consequat molestie.</p>',1,1,'2009-10-01 22:00:24','2009-10-02 11:33:35',4),(77,'archiviert1','Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam sed vestibulum nulla. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; In ut felis scelerisque nibh rutrum dapibus eu et felis. Pellentesque eget nulla risus, at blandit lectus. Praesent venenatis tortor non neque molestie quis congue neque ullamcorper. Quisque at tellus sapien, molestie tempor lacus. Proin non lacus id justo dapibus feugiat ut sed nisi. Cras in purus tincidunt orci tincidunt dignissim sagittis non justo. Integer felis urna, sodales nec pharetra ac, tristique sit amet felis. Nam eget augue felis, sed sodales mauris. Aliquam molestie odio nec eros elementum quis lobortis felis fringilla. In semper sem id tellus pharetra id congue erat aliquet.\r\n',1,2,'2009-10-01 22:00:24','2009-10-02 11:33:35',4),(78,'archiviert2','Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam sed vestibulum nulla. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; In ut felis scelerisque nibh rutrum dapibus eu et felis. Pellentesque eget nulla risus, at blandit lectus. Praesent venenatis tortor non neque molestie quis congue neque ullamcorper. Quisque at tellus sapien, molestie tempor lacus. Proin non lacus id justo dapibus feugiat ut sed nisi. Cras in purus tincidunt orci tincidunt dignissim sagittis non justo. Integer felis urna, sodales nec pharetra ac, tristique sit amet felis. Nam eget augue felis, sed sodales mauris. Aliquam molestie odio nec eros elementum quis lobortis felis fringilla. In semper sem id tellus pharetra id congue erat aliquet.\r\n',1,2,'2009-10-01 22:00:24','2009-10-02 11:33:35',4),(79,'archiviert3','Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque imperdiet tristique justo ac pretium. Fusce odio nisl, dictum sed vestibulum in, tristique malesuada lacus. Suspendisse potenti. Proin bibendum placerat neque ut placerat. Nunc felis ligula, ullamcorper sed congue ut, pulvinar ut sapien. Nullam sem purus, adipiscing ut consectetur at, ornare eget magna. Vivamus ut eros vitae neque aliquam vulputate et molestie arcu. Etiam et metus id risus pulvinar pretium? Sed vulputate venenatis consectetur. Mauris id odio risus. Maecenas lacinia iaculis nisi vel egestas. Suspendisse potenti. Quisque vel dui in lectus ultrices vehicula. Donec convallis tortor et leo vehicula non placerat mi varius. Morbi ac pharetra lorem. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Fusce cursus pulvinar nisl. Nunc a nisi vel purus sagittis bibendum!\r\n',2,2,'2009-10-01 22:00:24','2009-10-02 11:33:35',4),(80,'archiviert4','Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque imperdiet tristique justo ac pretium. Fusce odio nisl, dictum sed vestibulum in, tristique malesuada lacus. Suspendisse potenti. Proin bibendum placerat neque ut placerat. Nunc felis ligula, ullamcorper sed congue ut, pulvinar ut sapien. Nullam sem purus, adipiscing ut consectetur at, ornare eget magna. Vivamus ut eros vitae neque aliquam vulputate et molestie arcu. Etiam et metus id risus pulvinar pretium? Sed vulputate venenatis consectetur. Mauris id odio risus. Maecenas lacinia iaculis nisi vel egestas. Suspendisse potenti. Quisque vel dui in lectus ultrices vehicula. Donec convallis tortor et leo vehicula non placerat mi varius. Morbi ac pharetra lorem. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Fusce cursus pulvinar nisl. Nunc a nisi vel purus sagittis bibendum!<br><br>patze<br>',2,2,'2009-10-01 22:00:24','2009-11-02 13:16:39',4),(81,'Willkommen auf Ihrer neuen Clansuite-Website!','Bitte folgen Sie diesen Schritten um mit Ihrer Website zu beginnen:\r\n\r\n   1. Konfigurieren Sie Ihre Website Wenn Sie angemeldet sind, besuchen Sie den Administrationsbereich, in dem Sie alle Aspekte Ihrer Website anpassen und konfigurieren kÃƒÂ¶nnen.\r\n   2. Aktivieren Sie zusÃƒÂ¤tzliche Funktionen Als nÃƒÂ¤chstes kÃƒÂ¶nnen Sie in der ModulÃƒÂ¼bersicht die Funktionen aktivieren, die Ihren speziellen Anforderungen entsprechen. Sie finden zusÃƒÂ¤tzliche Module im Downloadbereich fÃƒÂ¼r Clansuite-Module.\r\n   3. Passen Sie das Design Ihrer Website an Um das Aussehen Ihrer Website zu verÃƒÂ¤ndern, besuchen Sie den Theme-Bereich. Sie kÃƒÂ¶nnen aus den mitgelieferten Themes auswÃƒÂ¤hlen oder zusÃƒÂ¤tzliche Themes aus dem Downloadbereich fÃƒÂ¼r Clansuite-Themes herunterladen.\r\n   4. Beginnen Sie, Inhalte zu schreiben SchlieÃƒÅ¸lich kÃƒÂ¶nnen Sie fÃƒÂ¼r Ihre Website Inhalte erstellen. Dieser Informationstext verschwindet, sobald der erste Beitrag erscheint.\r\n\r\nNÃƒÂ¤here Informationen finden sich im Hilfe-Bereich oder online in den Clansuite-HandbÃƒÂ¼chern. Sie kÃƒÂ¶nnen auch einen Beitrag im Clansuite-Forum schreiben oder aus den vielfÃƒÂ¤ltigen anderen verfÃƒÂ¼gbaren Support-Angeboten auswÃƒÂ¤hlen.',2,0,'2009-12-02 23:00:24','2009-12-09 12:17:19',0),(82,'testeintrag1','testbody1\r\n1\r\n2\r\n3\r\n4\r\n5\r\n6\r\n7\r\n8\r\n9\r\n10\r\ntestbody11',2,1,'2009-10-01 22:00:24','2009-10-02 11:34:12',0),(83,'testeintrag2','testeintrag2body',1,1,'2009-09-01 22:00:24','2009-10-02 11:33:35',0),(84,'testeintrag3','testeintrag3body',1,1,'2009-10-01 22:00:24','2009-10-02 11:33:35',0),(85,'testeintrag7','testeintrag7body',2,1,'2009-10-01 22:00:24','2009-10-02 11:33:35',0),(86,'Lore ipsum','<a href=\"index.html\">Nunc eget pretium</a> diam.\r\n                \r\n                <p>Praesent nisi sem, bibendum in, ultrices sit amet, euismod sit amet, dui. Fusce nibh. Curabitur pellentesque, lectus at <a href=\"index.html\">volutpat interdum</a>. Pellentesque a nibh quis nunc volutpat aliquam</p>\r\n                            \r\n            <blockquote><p>Sed sodales nisl sit amet augue. Donec ultrices, augue ullamcorper posuere laoreet, turpis massa tristique justo, sed egestas metus magna sed purus.</p></blockquote>\r\n            \r\n                            <code>margin-bottom: 12px;\r\n                font-size: 1.1em;\r\n                background: url(images/quote.gif);\r\n                padding-left: 28px;\r\n                color: #555;</code>\r\n\r\n                <ul>\r\n                    <li>Tristique</li>\r\n                              <li>Aenean</li>\r\n               <li>Pretium</li>\r\n                            </ul>\r\n\r\n        <p>Eget feugiat est leo tempor quam. Ut quis neque convallis magna consequat molestie.</p>',1,1,'2009-10-01 22:00:24','2009-10-02 11:33:35',4),(87,'archiviert1','Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam sed vestibulum nulla. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; In ut felis scelerisque nibh rutrum dapibus eu et felis. Pellentesque eget nulla risus, at blandit lectus. Praesent venenatis tortor non neque molestie quis congue neque ullamcorper. Quisque at tellus sapien, molestie tempor lacus. Proin non lacus id justo dapibus feugiat ut sed nisi. Cras in purus tincidunt orci tincidunt dignissim sagittis non justo. Integer felis urna, sodales nec pharetra ac, tristique sit amet felis. Nam eget augue felis, sed sodales mauris. Aliquam molestie odio nec eros elementum quis lobortis felis fringilla. In semper sem id tellus pharetra id congue erat aliquet.\r\n',1,2,'2009-10-01 22:00:24','2009-10-02 11:33:35',4),(88,'archiviert2','Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam sed vestibulum nulla. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; In ut felis scelerisque nibh rutrum dapibus eu et felis. Pellentesque eget nulla risus, at blandit lectus. Praesent venenatis tortor non neque molestie quis congue neque ullamcorper. Quisque at tellus sapien, molestie tempor lacus. Proin non lacus id justo dapibus feugiat ut sed nisi. Cras in purus tincidunt orci tincidunt dignissim sagittis non justo. Integer felis urna, sodales nec pharetra ac, tristique sit amet felis. Nam eget augue felis, sed sodales mauris. Aliquam molestie odio nec eros elementum quis lobortis felis fringilla. In semper sem id tellus pharetra id congue erat aliquet.\r\n',1,2,'2009-10-01 22:00:24','2009-10-02 11:33:35',4),(89,'archiviert3','Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque imperdiet tristique justo ac pretium. Fusce odio nisl, dictum sed vestibulum in, tristique malesuada lacus. Suspendisse potenti. Proin bibendum placerat neque ut placerat. Nunc felis ligula, ullamcorper sed congue ut, pulvinar ut sapien. Nullam sem purus, adipiscing ut consectetur at, ornare eget magna. Vivamus ut eros vitae neque aliquam vulputate et molestie arcu. Etiam et metus id risus pulvinar pretium? Sed vulputate venenatis consectetur. Mauris id odio risus. Maecenas lacinia iaculis nisi vel egestas. Suspendisse potenti. Quisque vel dui in lectus ultrices vehicula. Donec convallis tortor et leo vehicula non placerat mi varius. Morbi ac pharetra lorem. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Fusce cursus pulvinar nisl. Nunc a nisi vel purus sagittis bibendum!\r\n',2,2,'2009-10-01 22:00:24','2009-10-02 11:33:35',4),(90,'archiviert4','Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque imperdiet tristique justo ac pretium. Fusce odio nisl, dictum sed vestibulum in, tristique malesuada lacus. Suspendisse potenti. Proin bibendum placerat neque ut placerat. Nunc felis ligula, ullamcorper sed congue ut, pulvinar ut sapien. Nullam sem purus, adipiscing ut consectetur at, ornare eget magna. Vivamus ut eros vitae neque aliquam vulputate et molestie arcu. Etiam et metus id risus pulvinar pretium? Sed vulputate venenatis consectetur. Mauris id odio risus. Maecenas lacinia iaculis nisi vel egestas. Suspendisse potenti. Quisque vel dui in lectus ultrices vehicula. Donec convallis tortor et leo vehicula non placerat mi varius. Morbi ac pharetra lorem. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Fusce cursus pulvinar nisl. Nunc a nisi vel purus sagittis bibendum!<br><br>patze<br>',2,2,'2009-10-01 22:00:24','2009-11-02 13:16:39',4),(91,'Willkommen auf Ihrer neuen Clansuite-Website!','<span style=\"font-weight: bold;\">Bitte folgen Sie diesen Schritten um mit Ihrer Website zu beginnen:\r\n\r\n   </span><br><br><span style=\"font-weight: bold;\">1. Konfigurieren Sie Ihre Website </span><br><br>Wenn Sie angemeldet sind, besuchen Sie den Administrationsbereich, in dem Sie alle Aspekte Ihrer Website anpassen und konfigurieren kÃ¶nnen.\r\n   <br><br><span style=\"font-weight: bold;\">2. Aktivieren Sie zusÃ¤tzliche Funktionen </span><br><br>Als nÃ¤chstes kÃ¶nnen Sie in der ModulÃ¼bersicht die Funktionen aktivieren, die Ihren speziellen Anforderungen entsprechen. Sie finden zusÃ¤tzliche Module im Downloadbereich fÃ¼r Clansuite-Module.\r\n<br><br><span style=\"font-weight: bold;\">3. Passen Sie das Design Ihrer Website an </span><br><br>Um das Aussehen Ihrer Website zu verÃ¤ndern, besuchen Sie den Theme-Bereich. Sie kÃ¶nnen aus den mitgelieferten Themes auswÃ¤hlen oder zusÃ¤tzliche Themes aus dem Downloadbereich fÃ¼r Clansuite-Themes herunterladen.\r\n   <br><br><span style=\"font-weight: bold;\">4. Beginnen Sie, Inhalte zu schreiben </span><br><br>SchlieÃŸlich kÃ¶nnen Sie fÃ¼r Ihre Website Inhalte erstellen. Dieser Informationstext verschwindet, sobald der erste Beitrag erscheint.\r\n\r\nNÃ¤here Informationen finden sich im Hilfe-Bereich oder online in den Clansuite-HandbÃ¼chern. Sie kÃ¶nnen auch einen Beitrag im Clansuite-Forum schreiben oder aus den vielfÃ¤ltigen anderen verfÃ¼gbaren Support-Angeboten auswÃ¤hlen.',2,0,'2009-12-02 23:00:24','2010-03-19 02:39:56',0);
 /*!40000 ALTER TABLE `cs_news` ENABLE KEYS */;
 
 --
 -- Table structure for table `cs_news_index`
 --
-
 DROP TABLE IF EXISTS `cs_news_index`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `cs_news_index` (
-  `user_id` int(11) NOT NULL,
-  `cat_id` int(11) NOT NULL,
-  `news_id` int(11) NOT NULL,
-  `news_title` text NOT NULL,
-  `news_body` text NOT NULL,
-  `keyword` text NOT NULL,
-  `position` int(11) NOT NULL,
-  `field` text NOT NULL
+ `user_id` INT(11) NOT NULL,
+ `cat_id` INT(11) NOT NULL,
+ `news_id` INT(11) NOT NULL,
+ `news_title` TEXT NOT NULL,
+ `news_body` TEXT NOT NULL,
+ `keyword` TEXT NOT NULL,
+ `position` INT(11) NOT NULL,
+ `field` TEXT NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -889,18 +809,17 @@ INSERT INTO `cs_news_index` VALUES (0,7,0,'','','666',0,'news_title'),(0,7,0,'',
 --
 -- Table structure for table `cs_opponents`
 --
-
 DROP TABLE IF EXISTS `cs_opponents`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `cs_opponents` (
-  `opponent_id` int(3) NOT NULL,
-  `name` varchar(200) NOT NULL,
-  `clantag` varchar(10) NOT NULL,
-  `country` varchar(2) NOT NULL,
-  `websiteurl` varchar(200) NOT NULL,
-  `ircchannel` varchar(100) NOT NULL,
-  `image_id` tinyint(4) NOT NULL
+ `opponent_id` INT(3) NOT NULL,
+ `name` VARCHAR(200) NOT NULL,
+ `clantag` VARCHAR(10) NOT NULL,
+ `country` VARCHAR(2) NOT NULL,
+ `websiteurl` VARCHAR(200) NOT NULL,
+ `ircchannel` VARCHAR(100) NOT NULL,
+ `image_id` TINYINT(4) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -914,15 +833,13 @@ CREATE TABLE `cs_opponents` (
 --
 -- Table structure for table `cs_options`
 --
-
 DROP TABLE IF EXISTS `cs_options`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `cs_options` (
-  `option_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `name_id` int(10) unsigned NOT NULL,
-  `value` varchar(255) NOT NULL,
-  PRIMARY KEY (`option_id`,`name_id`)
+ `option_id` INT(10) unsigned NOT NULL AUTO_INCREMENT,
+ `name_id` INT(10) unsigned NOT NULL,
+ `value` VARCHAR(255) NOT NULL, PRIMARY KEY (`option_id`,`name_id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -937,32 +854,29 @@ INSERT INTO `cs_options` VALUES (1,1,'drahtgitter'),(2,2,'en');
 --
 -- Table structure for table `cs_profiles`
 --
-
 DROP TABLE IF EXISTS `cs_profiles`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `cs_profiles` (
-  `profile_id` int(11) NOT NULL AUTO_INCREMENT,
-  `user_id` int(11) NOT NULL,
-  `timestamp` int(11) NOT NULL,
-  `first_name` varchar(255) NOT NULL,
-  `last_name` varchar(255) NOT NULL,
-  `birthday` int(11) NOT NULL,
-  `gender` varchar(255) NOT NULL DEFAULT '-',
-  `height` int(11) NOT NULL,
-  `address` varchar(255) NOT NULL DEFAULT '-',
-  `zipcode` varchar(255) NOT NULL DEFAULT '-',
-  `city` varchar(255) NOT NULL DEFAULT '-',
-  `country` varchar(255) NOT NULL DEFAULT '-',
-  `homepage` varchar(255) NOT NULL DEFAULT '-',
-  `icq` varchar(255) NOT NULL DEFAULT '-',
-  `msn` varchar(255) NOT NULL DEFAULT '-',
-  `skype` varchar(255) NOT NULL DEFAULT '-',
-  `phone` varchar(255) NOT NULL DEFAULT '-',
-  `mobile` varchar(255) NOT NULL DEFAULT '-',
-  `custom_text` text NOT NULL,
-  PRIMARY KEY (`profile_id`),
-  KEY `user_id` (`user_id`)
+ `profile_id` INT(11) NOT NULL AUTO_INCREMENT,
+ `user_id` INT(11) NOT NULL,
+ `timestamp` INT(11) NOT NULL,
+ `first_name` VARCHAR(255) NOT NULL,
+ `last_name` VARCHAR(255) NOT NULL,
+ `birthday` INT(11) NOT NULL,
+ `gender` VARCHAR(255) NOT NULL DEFAULT '-',
+ `height` INT(11) NOT NULL,
+ `address` VARCHAR(255) NOT NULL DEFAULT '-',
+ `zipcode` VARCHAR(255) NOT NULL DEFAULT '-',
+ `city` VARCHAR(255) NOT NULL DEFAULT '-',
+ `country` VARCHAR(255) NOT NULL DEFAULT '-',
+ `homepage` VARCHAR(255) NOT NULL DEFAULT '-',
+ `icq` VARCHAR(255) NOT NULL DEFAULT '-',
+ `msn` VARCHAR(255) NOT NULL DEFAULT '-',
+ `skype` VARCHAR(255) NOT NULL DEFAULT '-',
+ `phone` VARCHAR(255) NOT NULL DEFAULT '-',
+ `mobile` VARCHAR(255) NOT NULL DEFAULT '-',
+ `custom_text` TEXT NOT NULL, PRIMARY KEY (`profile_id`), KEY `user_id` (`user_id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -971,34 +885,31 @@ CREATE TABLE `cs_profiles` (
 --
 
 /*!40000 ALTER TABLE `cs_profiles` DISABLE KEYS */;
-INSERT INTO `cs_profiles` VALUES (1,1,1175369474,'Florian','Wolf',496274400,'male',178,'Mühlenstr. 65','78126','Jena','DE','http://www.clansuite.com','163164530','-','-','-','-','[b]bla[/b]'),(2,3,1172510321,'','',0,'-',0,'-','-','-','-','-','-','-','-','-','-','');
+INSERT INTO `cs_profiles` VALUES (1,1,1175369474,'Florian','Wolf',496274400,'male',178,'MÃ¼hlenstr. 65','78126','Jena','DE','http://www.clansuite.com','163164530','-','-','-','-','[b]bla[/b]'),(2,3,1172510321,'','',0,'-',0,'-','-','-','-','-','-','-','-','-','-','');
 /*!40000 ALTER TABLE `cs_profiles` ENABLE KEYS */;
 
 --
 -- Table structure for table `cs_profiles_computer`
 --
-
 DROP TABLE IF EXISTS `cs_profiles_computer`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `cs_profiles_computer` (
-  `computer_id` int(11) NOT NULL,
-  `user_id` int(11) NOT NULL,
-  `added` int(11) NOT NULL,
-  `name` varchar(255) NOT NULL,
-  `cpu` text NOT NULL,
-  `ram` text NOT NULL,
-  `gpu` text NOT NULL,
-  `sound` text NOT NULL,
-  `hdd` text NOT NULL,
-  `cdrom` text NOT NULL,
-  `monitor` text NOT NULL,
-  `devices` text NOT NULL,
-  `network` text NOT NULL,
-  `other` text NOT NULL,
-  `image_id` int(11) NOT NULL,
-  PRIMARY KEY (`computer_id`),
-  KEY `user_id` (`user_id`)
+ `computer_id` INT(11) NOT NULL,
+ `user_id` INT(11) NOT NULL,
+ `added` INT(11) NOT NULL,
+ `name` VARCHAR(255) NOT NULL,
+ `cpu` TEXT NOT NULL,
+ `ram` TEXT NOT NULL,
+ `gpu` TEXT NOT NULL,
+ `sound` TEXT NOT NULL,
+ `hdd` TEXT NOT NULL,
+ `cdrom` TEXT NOT NULL,
+ `monitor` TEXT NOT NULL,
+ `devices` TEXT NOT NULL,
+ `network` TEXT NOT NULL,
+ `other` TEXT NOT NULL,
+ `image_id` INT(11) NOT NULL, PRIMARY KEY (`computer_id`), KEY `user_id` (`user_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -1012,34 +923,31 @@ CREATE TABLE `cs_profiles_computer` (
 --
 -- Table structure for table `cs_profiles_general`
 --
-
 DROP TABLE IF EXISTS `cs_profiles_general`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `cs_profiles_general` (
-  `general_id` int(11) NOT NULL AUTO_INCREMENT,
-  `user_id` int(11) NOT NULL,
-  `timestamp` int(11) NOT NULL,
-  `first_name` varchar(255) NOT NULL,
-  `last_name` varchar(255) NOT NULL,
-  `birthday` int(11) NOT NULL,
-  `gender` varchar(255) NOT NULL DEFAULT '-',
-  `height` int(11) NOT NULL,
-  `address` varchar(255) NOT NULL DEFAULT '-',
-  `zipcode` varchar(255) NOT NULL DEFAULT '-',
-  `city` varchar(255) NOT NULL DEFAULT '-',
-  `state` varchar(255) NOT NULL,
-  `country` varchar(255) NOT NULL DEFAULT '-',
-  `homepage` varchar(255) NOT NULL DEFAULT '-',
-  `icq` varchar(255) NOT NULL DEFAULT '-',
-  `msn` varchar(255) NOT NULL DEFAULT '-',
-  `skype` varchar(255) NOT NULL DEFAULT '-',
-  `phone` varchar(255) NOT NULL DEFAULT '-',
-  `mobile` varchar(255) NOT NULL DEFAULT '-',
-  `custom_text` text NOT NULL,
-  `image_id` int(11) NOT NULL,
-  PRIMARY KEY (`general_id`),
-  KEY `user_id` (`user_id`)
+ `general_id` INT(11) NOT NULL AUTO_INCREMENT,
+ `user_id` INT(11) NOT NULL,
+ `timestamp` INT(11) NOT NULL,
+ `first_name` VARCHAR(255) NOT NULL,
+ `last_name` VARCHAR(255) NOT NULL,
+ `birthday` INT(11) NOT NULL,
+ `gender` VARCHAR(255) NOT NULL DEFAULT '-',
+ `height` INT(11) NOT NULL,
+ `address` VARCHAR(255) NOT NULL DEFAULT '-',
+ `zipcode` VARCHAR(255) NOT NULL DEFAULT '-',
+ `city` VARCHAR(255) NOT NULL DEFAULT '-',
+ `state` VARCHAR(255) NOT NULL,
+ `country` VARCHAR(255) NOT NULL DEFAULT '-',
+ `homepage` VARCHAR(255) NOT NULL DEFAULT '-',
+ `icq` VARCHAR(255) NOT NULL DEFAULT '-',
+ `msn` VARCHAR(255) NOT NULL DEFAULT '-',
+ `skype` VARCHAR(255) NOT NULL DEFAULT '-',
+ `phone` VARCHAR(255) NOT NULL DEFAULT '-',
+ `mobile` VARCHAR(255) NOT NULL DEFAULT '-',
+ `custom_text` TEXT NOT NULL,
+ `image_id` INT(11) NOT NULL, PRIMARY KEY (`general_id`), KEY `user_id` (`user_id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -1048,31 +956,29 @@ CREATE TABLE `cs_profiles_general` (
 --
 
 /*!40000 ALTER TABLE `cs_profiles_general` DISABLE KEYS */;
-INSERT INTO `cs_profiles_general` VALUES (1,1,1175292000,'Florian','Wolf',496274400,'',178,'Mühlenstr. 65','78126','Jena','DDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD','','http://www.clansuite.com','163164530','','','','','[b]bla[/b]',3),(2,3,1172510321,'','',0,'-',0,'-','-','-','','-','-','-','-','-','-','-','',0),(3,2,1175635148,'','',0,'-',0,'-','-','-','','-','-','-','-','-','-','-','',0);
+INSERT INTO `cs_profiles_general` VALUES (1,1,1175292000,'Florian','Wolf',496274400,'',178,'MÃ¼hlenstr. 65','78126','Jena','DDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD','','http://www.clansuite.com','163164530','','','','','[b]bla[/b]',3),(2,3,1172510321,'','',0,'-',0,'-','-','-','','-','-','-','-','-','-','-','',0),(3,2,1175635148,'','',0,'-',0,'-','-','-','','-','-','-','-','-','-','-','',0);
 /*!40000 ALTER TABLE `cs_profiles_general` ENABLE KEYS */;
 
 --
 -- Table structure for table `cs_profiles_guestbook`
 --
-
 DROP TABLE IF EXISTS `cs_profiles_guestbook`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `cs_profiles_guestbook` (
-  `gb_id` int(11) NOT NULL AUTO_INCREMENT,
-  `from` int(11) NOT NULL DEFAULT '0',
-  `to` int(11) NOT NULL,
-  `gb_added` int(12) DEFAULT NULL,
-  `gb_nick` varchar(25) DEFAULT NULL,
-  `gb_email` varchar(35) DEFAULT NULL,
-  `gb_icq` varchar(15) DEFAULT NULL,
-  `gb_website` varchar(35) DEFAULT NULL,
-  `gb_town` varchar(25) DEFAULT NULL,
-  `gb_text` text,
-  `gb_ip` varchar(15) DEFAULT NULL,
-  `gb_comment` text,
-  `image_id` int(11) NOT NULL DEFAULT '0',
-  PRIMARY KEY (`gb_id`)
+ `gb_id` INT(11) NOT NULL AUTO_INCREMENT,
+ `from` INT(11) NOT NULL DEFAULT '0',
+ `to` INT(11) NOT NULL,
+ `gb_added` INT(12) DEFAULT NULL,
+ `gb_nick` VARCHAR(25) DEFAULT NULL,
+ `gb_email` VARCHAR(35) DEFAULT NULL,
+ `gb_icq` VARCHAR(15) DEFAULT NULL,
+ `gb_website` VARCHAR(35) DEFAULT NULL,
+ `gb_town` VARCHAR(25) DEFAULT NULL,
+ `gb_text` TEXT,
+ `gb_ip` VARCHAR(15) DEFAULT NULL,
+ `gb_comment` TEXT,
+ `image_id` INT(11) NOT NULL DEFAULT '0', PRIMARY KEY (`gb_id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -1087,16 +993,14 @@ INSERT INTO `cs_profiles_guestbook` VALUES (1,0,0,1003200322,'nick','email','123
 --
 -- Table structure for table `cs_quotes`
 --
-
 DROP TABLE IF EXISTS `cs_quotes`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `cs_quotes` (
-  `quote_id` tinyint(4) NOT NULL AUTO_INCREMENT,
-  `quote_body` text NOT NULL,
-  `quote_author` varchar(40) NOT NULL,
-  `quote_source` text NOT NULL,
-  PRIMARY KEY (`quote_id`)
+ `quote_id` TINYINT(4) NOT NULL AUTO_INCREMENT,
+ `quote_body` TEXT NOT NULL,
+ `quote_author` VARCHAR(40) NOT NULL,
+ `quote_source` TEXT NOT NULL, PRIMARY KEY (`quote_id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -1111,14 +1015,12 @@ INSERT INTO `cs_quotes` VALUES (1,'The turning point came when the mechanics of 
 --
 -- Table structure for table `cs_rel_category_module`
 --
-
 DROP TABLE IF EXISTS `cs_rel_category_module`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `cs_rel_category_module` (
-  `category_id` int(10) unsigned NOT NULL,
-  `module_id` int(10) unsigned NOT NULL,
-  PRIMARY KEY (`category_id`,`module_id`)
+ `category_id` INT(10) unsigned NOT NULL,
+ `module_id` INT(10) unsigned NOT NULL, PRIMARY KEY (`category_id`,`module_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -1132,14 +1034,12 @@ CREATE TABLE `cs_rel_category_module` (
 --
 -- Table structure for table `cs_rel_category_name`
 --
-
 DROP TABLE IF EXISTS `cs_rel_category_name`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `cs_rel_category_name` (
-  `category_id` int(10) unsigned NOT NULL,
-  `name_id` int(10) unsigned NOT NULL,
-  PRIMARY KEY (`category_id`,`name_id`)
+ `category_id` INT(10) unsigned NOT NULL,
+ `name_id` INT(10) unsigned NOT NULL, PRIMARY KEY (`category_id`,`name_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -1153,14 +1053,12 @@ CREATE TABLE `cs_rel_category_name` (
 --
 -- Table structure for table `cs_rel_group_rights`
 --
-
 DROP TABLE IF EXISTS `cs_rel_group_rights`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `cs_rel_group_rights` (
-  `group_id` int(11) NOT NULL DEFAULT '0',
-  `right_id` int(11) NOT NULL DEFAULT '0',
-  PRIMARY KEY (`group_id`,`right_id`)
+ `group_id` INT(11) NOT NULL DEFAULT '0',
+ `right_id` INT(11) NOT NULL DEFAULT '0', PRIMARY KEY (`group_id`,`right_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -1175,14 +1073,12 @@ INSERT INTO `cs_rel_group_rights` VALUES (1,20),(3,10),(3,11),(3,12),(3,13),(3,1
 --
 -- Table structure for table `cs_rel_news_comments`
 --
-
 DROP TABLE IF EXISTS `cs_rel_news_comments`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `cs_rel_news_comments` (
-  `news_id` int(10) unsigned NOT NULL,
-  `comment_id` int(10) unsigned NOT NULL,
-  PRIMARY KEY (`news_id`,`comment_id`)
+ `news_id` INT(10) unsigned NOT NULL,
+ `comment_id` INT(10) unsigned NOT NULL, PRIMARY KEY (`news_id`,`comment_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -1197,14 +1093,12 @@ INSERT INTO `cs_rel_news_comments` VALUES (16,2),(91,1);
 --
 -- Table structure for table `cs_rel_option_name`
 --
-
 DROP TABLE IF EXISTS `cs_rel_option_name`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `cs_rel_option_name` (
-  `option_id` int(10) unsigned NOT NULL,
-  `name_id` int(10) unsigned NOT NULL,
-  PRIMARY KEY (`option_id`,`name_id`)
+ `option_id` INT(10) unsigned NOT NULL,
+ `name_id` INT(10) unsigned NOT NULL, PRIMARY KEY (`option_id`,`name_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -1218,14 +1112,12 @@ CREATE TABLE `cs_rel_option_name` (
 --
 -- Table structure for table `cs_rel_user_groups`
 --
-
 DROP TABLE IF EXISTS `cs_rel_user_groups`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `cs_rel_user_groups` (
-  `user_id` int(10) unsigned NOT NULL DEFAULT '0',
-  `group_id` int(5) unsigned NOT NULL DEFAULT '0',
-  PRIMARY KEY (`user_id`,`group_id`)
+ `user_id` INT(10) unsigned NOT NULL DEFAULT '0',
+ `group_id` INT(5) unsigned NOT NULL DEFAULT '0', PRIMARY KEY (`user_id`,`group_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -1240,14 +1132,12 @@ INSERT INTO `cs_rel_user_groups` VALUES (1,3),(8,3);
 --
 -- Table structure for table `cs_rel_user_options`
 --
-
 DROP TABLE IF EXISTS `cs_rel_user_options`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `cs_rel_user_options` (
-  `option_id` int(11) unsigned NOT NULL,
-  `user_id` int(11) unsigned NOT NULL,
-  PRIMARY KEY (`option_id`,`user_id`)
+ `option_id` INT(11) unsigned NOT NULL,
+ `user_id` INT(11) unsigned NOT NULL, PRIMARY KEY (`option_id`,`user_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -1262,14 +1152,12 @@ INSERT INTO `cs_rel_user_options` VALUES (1,1),(2,1);
 --
 -- Table structure for table `cs_rel_user_profile`
 --
-
 DROP TABLE IF EXISTS `cs_rel_user_profile`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `cs_rel_user_profile` (
-  `user_id` int(10) unsigned NOT NULL,
-  `profile_id` int(10) unsigned NOT NULL,
-  PRIMARY KEY (`user_id`,`profile_id`)
+ `user_id` INT(10) unsigned NOT NULL,
+ `profile_id` INT(10) unsigned NOT NULL, PRIMARY KEY (`user_id`,`profile_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -1283,14 +1171,12 @@ CREATE TABLE `cs_rel_user_profile` (
 --
 -- Table structure for table `cs_rel_user_rights`
 --
-
 DROP TABLE IF EXISTS `cs_rel_user_rights`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `cs_rel_user_rights` (
-  `user_id` int(10) unsigned NOT NULL DEFAULT '0',
-  `right_id` int(5) unsigned NOT NULL DEFAULT '0',
-  PRIMARY KEY (`user_id`,`right_id`)
+ `user_id` INT(10) unsigned NOT NULL DEFAULT '0',
+ `right_id` INT(5) unsigned NOT NULL DEFAULT '0', PRIMARY KEY (`user_id`,`right_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 ROW_FORMAT=FIXED;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -1304,16 +1190,14 @@ CREATE TABLE `cs_rel_user_rights` (
 --
 -- Table structure for table `cs_rights`
 --
-
 DROP TABLE IF EXISTS `cs_rights`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `cs_rights` (
-  `right_id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `area_id` int(11) NOT NULL DEFAULT '0',
-  `name` varchar(150) NOT NULL,
-  `description` varchar(255) NOT NULL,
-  PRIMARY KEY (`right_id`,`area_id`)
+ `right_id` INT(11) unsigned NOT NULL AUTO_INCREMENT,
+ `area_id` INT(11) NOT NULL DEFAULT '0',
+ `name` VARCHAR(150) NOT NULL,
+ `description` VARCHAR(255) NOT NULL, PRIMARY KEY (`right_id`,`area_id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=30 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -1328,20 +1212,18 @@ INSERT INTO `cs_rights` VALUES (11,5,'shoutbox_post','The right to post into the
 --
 -- Table structure for table `cs_serverviewer`
 --
-
 DROP TABLE IF EXISTS `cs_serverviewer`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `cs_serverviewer` (
-  `server_id` int(5) NOT NULL AUTO_INCREMENT,
-  `ip` varchar(15) DEFAULT NULL,
-  `port` varchar(5) DEFAULT NULL,
-  `password` varchar(20) NOT NULL,
-  `name` varchar(250) DEFAULT NULL,
-  `csquery_engine` varchar(60) DEFAULT NULL,
-  `gametype` varchar(60) DEFAULT NULL,
-  `image_country` varchar(20) DEFAULT NULL,
-  PRIMARY KEY (`server_id`)
+ `server_id` INT(5) NOT NULL AUTO_INCREMENT,
+ `ip` VARCHAR(15) DEFAULT NULL,
+ `port` VARCHAR(5) DEFAULT NULL,
+ `password` VARCHAR(20) NOT NULL,
+ `name` VARCHAR(250) DEFAULT NULL,
+ `csquery_engine` VARCHAR(60) DEFAULT NULL,
+ `gametype` VARCHAR(60) DEFAULT NULL,
+ `image_country` VARCHAR(20) DEFAULT NULL, PRIMARY KEY (`server_id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -1356,20 +1238,17 @@ INSERT INTO `cs_serverviewer` VALUES (1,'team-n1.com','27339','','knd-squad DEAT
 --
 -- Table structure for table `cs_session`
 --
-
 DROP TABLE IF EXISTS `cs_session`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `cs_session` (
-  `user_id` int(11) NOT NULL DEFAULT '0',
-  `session_id` varchar(32) NOT NULL,
-  `session_data` text NOT NULL,
-  `session_name` text NOT NULL,
-  `session_starttime` int(11) NOT NULL DEFAULT '0',
-  `session_visibility` tinyint(4) NOT NULL DEFAULT '0',
-  `session_where` text NOT NULL,
-  UNIQUE KEY `session_id` (`session_id`),
-  KEY `user_id` (`user_id`)
+ `user_id` INT(11) NOT NULL DEFAULT '0',
+ `session_id` VARCHAR(32) NOT NULL,
+ `session_data` TEXT NOT NULL,
+ `session_name` TEXT NOT NULL,
+ `session_starttime` INT(11) NOT NULL DEFAULT '0',
+ `session_visibility` TINYINT(4) NOT NULL DEFAULT '0',
+ `session_where` TEXT NOT NULL, UNIQUE KEY `session_id` (`session_id`), KEY `user_id` (`user_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -1378,21 +1257,19 @@ CREATE TABLE `cs_session` (
 --
 
 /*!40000 ALTER TABLE `cs_session` DISABLE KEYS */;
-INSERT INTO `cs_session` VALUES (0,'shhq8ugc6cg6q7g9569bcvme50','user|a:12:{s:8:\"language\";s:2:\"de\";s:6:\"authed\";i:0;s:7:\"user_id\";i:0;s:4:\"nick\";s:5:\"Guest\";s:12:\"passwordhash\";s:0:\"\";s:5:\"email\";s:0:\"\";s:8:\"disabled\";i:0;s:9:\"activated\";i:0;s:5:\"theme\";s:8:\"standard\";s:6:\"groups\";a:1:{i:0;i:1;}s:6:\"rights\";a:1:{i:0;i:1;}s:12:\"backendtheme\";s:5:\"admin\";}','suiteSID',1269880674,1,'controlcenter');
+INSERT INTO `cs_session` VALUES (0,'shhq8ugc6cg6q7g9569bcvme50','user|a:12:{s:8:\" LANGUAGE\";s:2:\"de\";s:6:\"authed\";i:0;s:7:\"user_id\";i:0;s:4:\"nick\";s:5:\"Guest\";s:12:\"passwordhash\";s:0:\"\";s:5:\"email\";s:0:\"\";s:8:\"disabled\";i:0;s:9:\"activated\";i:0;s:5:\"theme\";s:8:\"standard\";s:6:\"groups\";a:1:{i:0;i:1;}s:6:\"rights\";a:1:{i:0;i:1;}s:12:\"backendtheme\";s:5:\"admin\";}','suiteSID',1269880674,1,'controlcenter');
 /*!40000 ALTER TABLE `cs_session` ENABLE KEYS */;
 
 --
 -- Table structure for table `cs_settings`
 --
-
 DROP TABLE IF EXISTS `cs_settings`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `cs_settings` (
-  `option_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `name_id` int(10) unsigned NOT NULL,
-  `value` varchar(255) NOT NULL,
-  PRIMARY KEY (`option_id`,`name_id`)
+ `option_id` INT(10) unsigned NOT NULL AUTO_INCREMENT,
+ `name_id` INT(10) unsigned NOT NULL,
+ `value` VARCHAR(255) NOT NULL, PRIMARY KEY (`option_id`,`name_id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -1407,18 +1284,16 @@ INSERT INTO `cs_settings` VALUES (1,1,'drahtgitter'),(2,2,'en');
 --
 -- Table structure for table `cs_shoutbox`
 --
-
 DROP TABLE IF EXISTS `cs_shoutbox`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `cs_shoutbox` (
-  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `name` varchar(100) NOT NULL,
-  `mail` varchar(100) NOT NULL,
-  `msg` tinytext NOT NULL,
-  `time` int(10) unsigned NOT NULL,
-  `ip` varchar(15) NOT NULL,
-  UNIQUE KEY `id` (`id`)
+ `id` INT(11) unsigned NOT NULL AUTO_INCREMENT,
+ `name` VARCHAR(100) NOT NULL,
+ `mail` VARCHAR(100) NOT NULL,
+ `msg` TINYTEXT NOT NULL,
+ `time` INT(10) unsigned NOT NULL,
+ `ip` VARCHAR(15) NOT NULL, UNIQUE KEY `id` (`id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=22 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -1433,19 +1308,17 @@ INSERT INTO `cs_shoutbox` VALUES (1,'12345','123test@test.com','texttext',115589
 --
 -- Table structure for table `cs_static_pages`
 --
-
 DROP TABLE IF EXISTS `cs_static_pages`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `cs_static_pages` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `title` varchar(255) NOT NULL,
-  `description` varchar(255) NOT NULL,
-  `url` varchar(255) NOT NULL,
-  `html` text NOT NULL,
-  `iframe` tinyint(1) NOT NULL DEFAULT '0',
-  `iframe_height` int(11) NOT NULL DEFAULT '300',
-  PRIMARY KEY (`id`)
+ `id` INT(11) NOT NULL AUTO_INCREMENT,
+ `title` VARCHAR(255) NOT NULL,
+ `description` VARCHAR(255) NOT NULL,
+ `url` VARCHAR(255) NOT NULL,
+ `html` TEXT NOT NULL,
+ `iframe` TINYINT(1) NOT NULL DEFAULT '0',
+ `iframe_height` INT(11) NOT NULL DEFAULT '300', PRIMARY KEY (`id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -1454,7 +1327,7 @@ CREATE TABLE `cs_static_pages` (
 --
 
 /*!40000 ALTER TABLE `cs_static_pages` DISABLE KEYS */;
-INSERT INTO `cs_static_pages` VALUES (1,'Credits','Without their brains Clansuite would not be - Thanks alot!','','<u><strong>Clansuite - Credits </strong></u>\r\n<br />\r\n<br />\r\n<br />\r\n<table width=\"691\" height=\"393\" cellspacing=\"1\" cellpadding=\"1\" border=\"1\" align=\"\" summary=\"\">\r\n    <tbody>\r\n        <tr>\r\n            <td align=\"center\">Class</td>\r\n            <td align=\"center\">Author<br />\r\n            </td>\r\n            <td align=\"center\">&nbsp;Licence</td>\r\n        </tr>\r\n        <tr>\r\n            <td>tar.class.php</td>\r\n            <td>Vincent Blavet &lt;vincent@phpconcept.net&gt;<br />\r\n            Copyright (c) 1997-2003 The PHP Group <br />\r\n            </td>\r\n            <td>PHP license v3</td>\r\n        </tr>\r\n        <tr>\r\n            <td>PEAR, the PHP Extension and Application Repository</td>\r\n            <td>Sterling Hughes &lt;sterling@php.net&gt;<br />\r\n            Stig Bakken &lt;ssb@php.net&gt;<br />\r\n            Tomas V.V.Cox &lt;cox@idecnet.com&gt;<br />\r\n            Greg Beaver &lt;cellog@php.net&gt;<br />\r\n            &nbsp;Copyright&nbsp; 1997-2006 The PHP Group</td>\r\n            <td>PHP license v3</td>\r\n        </tr>\r\n        <tr>\r\n            <td>Swift Mailer: A Flexible PHP Mailer Class</td>\r\n            <td>&quot;Chris Corbyn&quot; &lt;chris@w3style.co.uk&gt;<br />\r\n            Copyright 2006 Chris Corbyn</td>\r\n            <td>LGPL</td>\r\n        </tr>\r\n        <tr>\r\n            <td valign=\"top\">Smarty: the PHP compiling template engine</td>\r\n            <td valign=\"top\">Monte Ohrt &lt;monte at ohrt dot com&gt;<br />\r\n            Andrei Zmievski &lt;andrei@php.net&gt;<br />\r\n            Copyright 2001-2005 New Digital Group, Inc.</td>\r\n            <td valign=\"top\">LGPL</td>\r\n        </tr>\r\n        <tr>\r\n            <td valign=\"top\">Sajax : cross-platform, cross-browser web scripting toolkit</td>\r\n            <td valign=\"top\">Copyright 2005-2006 modernmethod</td>\r\n            <td valign=\"top\">BSD</td>\r\n        </tr>\r\n        <tr>\r\n            <td valign=\"top\">Imagemanger</td>\r\n            <td valign=\"top\">Xiang Wei ZHUO &lt;wei@zhuo.org&gt;</td>\r\n            <td valign=\"top\">&nbsp;</td>\r\n        </tr>\r\n        <tr>\r\n            <td valign=\"top\">DHTML Calendar Javascript</td>\r\n            <td valign=\"top\">Copyright Mihai Bazon, 2002-2005</td>\r\n            <td valign=\"top\">LGPL</td>\r\n        </tr>\r\n        <tr>\r\n            <td valign=\"top\">Tab Pane Javascript</td>\r\n            <td valign=\"top\">Copyright (c) 2002, 2003, 2006 Erik Arvidsson</td>\r\n            <td valign=\"top\">Apache License v2</td>\r\n        </tr>\r\n        <tr>\r\n            <td valign=\"top\"><a href=\"http://www.fckeditor.net/\">FCKEditor</a>- WYSIWYG</td>\r\n            <td valign=\"top\">&nbsp;</td>\r\n            <td valign=\"top\">&nbsp;</td>\r\n        </tr>\r\n        <tr>\r\n            <td valign=\"top\">Icons by <a href=\"http://www.famfamfam.com/lab/icons/\">famfamfam</a></td>\r\n            <td valign=\"top\">&nbsp;</td>\r\n            <td valign=\"top\">&nbsp;</td>\r\n        </tr>\r\n        <tr>\r\n            <td valign=\"top\">mygosumenu\'s</td>\r\n            <td valign=\"top\">Copyright 2003,2004 Cezary Tomczak</td>\r\n            <td valign=\"top\">BSD</td>\r\n        </tr>\r\n        <tr>\r\n            <td valign=\"top\">Bitstream Vera Fonts </td>\r\n            <td valign=\"top\">Copyright (c) 2003 by Bitstream, Inc.</td>\r\n            <td valign=\"top\">own</td>\r\n        </tr>\r\n        <tr>\r\n            <td valign=\"top\">&nbsp;</td>\r\n            <td valign=\"top\">&nbsp;</td>\r\n            <td valign=\"top\">&nbsp;</td>\r\n        </tr>\r\n    </tbody>\r\n</table>\r\n<br />\r\n<br />\r\n<br />\r\n<br />\r\n<br />\r\n<br />\r\n<br />',1,300),(2,'Google','Google','http://www.google.de','',1,500),(3,'Help','The help for ClanSuite','','<strong><font size=\"4\">Help</font><br />\r\n<br />\r\n</strong><strong> - gogo<br />\r\n- gogogogo<br />\r\n- gogogogogogo</strong>',1,300),(4,'Manual','The Manual','','<font size=\"4\">Manual</font><br />\r\n<br />\r\n- some content',1,300),(5,'About','About ClanSuite','','<font size=\"4\">About</font><br />\r\n<br />\r\n- some content',1,300);
+INSERT INTO `cs_static_pages` VALUES (1,'Credits','Without their brains Clansuite would not be - Thanks alot!','','<u><strong>Clansuite - Credits </strong></u>\r\n<br />\r\n<br />\r\n<br />\r\n<table width=\"691\" height=\"393\" cellspacing=\"1\" cellpadding=\"1\" border=\"1\" align=\"\" summary=\"\">\r\n    <tbody>\r\n        <tr>\r\n            <td align=\"center\">Class</td>\r\n            <td align=\"center\">Author<br />\r\n            </td>\r\n            <td align=\"center\">&nbsp;Licence</td>\r\n        </tr>\r\n        <tr>\r\n            <td>tar.class.php</td>\r\n            <td>Vincent Blavet &lt;vincent@phpconcept.net&gt;<br />\r\n            Copyright (c) 1997-2003 The PHP Group <br />\r\n            </td>\r\n            <td>PHP license v3</td>\r\n        </tr>\r\n        <tr>\r\n            <td>PEAR, the PHP Extension and Application Repository</td>\r\n            <td>Sterling Hughes &lt;sterling@php.net&gt;<br />\r\n            Stig Bakken &lt;ssb@php.net&gt;<br />\r\n            Tomas V.V.Cox &lt;cox@idecnet.com&gt;<br />\r\n            Greg Beaver &lt;cellog@php.net&gt;<br />\r\n            &nbsp;Copyright&nbsp; 1997-2006 The PHP Group</td>\r\n            <td>PHP license v3</td>\r\n        </tr>\r\n        <tr>\r\n            <td>Swift Mailer: A Flexible PHP Mailer Class</td>\r\n            <td>&quot;Chris Corbyn&quot; &lt;chris@w3style.co.uk&gt;<br />\r\n            Copyright 2006 Chris Corbyn</td>\r\n            <td>LGPL</td>\r\n        </tr>\r\n        <tr>\r\n            <td valign=\"top\">Smarty: the PHP compiling template engine</td>\r\n            <td valign=\"top\">Monte Ohrt &lt;monte at ohrt dot com&gt;<br />\r\n            Andrei Zmievski &lt;andrei@php.net&gt;<br />\r\n            Copyright 2001-2005 New Digital Group, Inc.</td>\r\n            <td valign=\"top\">LGPL</td>\r\n        </tr>\r\n        <tr>\r\n            <td valign=\"top\">Sajax : cross-platform, cross-browser web scripting toolkit</td>\r\n            <td valign=\"top\">Copyright 2005-2006 modernmethod</td>\r\n            <td valign=\"top\">BSD</td>\r\n        </tr>\r\n        <tr>\r\n            <td valign=\"top\">Imagemanger</td>\r\n            <td valign=\"top\">Xiang Wei ZHUO &lt;wei@zhuo.org&gt;</td>\r\n            <td valign=\"top\">&nbsp;</td>\r\n        </tr>\r\n        <tr>\r\n            <td valign=\"top\">DHTML Calendar Javascript</td>\r\n            <td valign=\"top\">Copyright Mihai Bazon, 2002-2005</td>\r\n            <td valign=\"top\">LGPL</td>\r\n        </tr>\r\n        <tr>\r\n            <td valign=\"top\">Tab Pane Javascript</td>\r\n            <td valign=\"top\">Copyright (c) 2002, 2003, 2006 Erik Arvidsson</td>\r\n            <td valign=\"top\">Apache License v2</td>\r\n        </tr>\r\n        <tr>\r\n            <td valign=\"top\"><a href=\"http://www.fckeditor.net/\">FCKEditor</a>- WYSIWYG</td>\r\n            <td valign=\"top\">&nbsp;</td>\r\n            <td valign=\"top\">&nbsp;</td>\r\n        </tr>\r\n        <tr>\r\n            <td valign=\"top\">Icons by <a href=\"http://www.famfamfam.com/lab/icons/\">famfamfam</a></td>\r\n            <td valign=\"top\">&nbsp;</td>\r\n            <td valign=\"top\">&nbsp;</td>\r\n        </tr>\r\n        <tr>\r\n            <td valign=\"top\">mygosumenu\'s</td>\r\n <td valign=\"top\">Copyright 2003,2004 Cezary Tomczak</td>\r\n <td valign=\"top\">BSD</td>\r\n </tr>\r\n <tr>\r\n <td valign=\"top\">Bitstream Vera Fonts </td>\r\n <td valign=\"top\">Copyright (c) 2003 BY Bitstream, Inc.</td>\r\n <td valign=\"top\">own</td>\r\n </tr>\r\n <tr>\r\n <td valign=\"top\">&nbsp;</td>\r\n <td valign=\"top\">&nbsp;</td>\r\n <td valign=\"top\">&nbsp;</td>\r\n </tr>\r\n </tbody>\r\n</ TABLE>\r\n<br />\r\n<br />\r\n<br />\r\n<br />\r\n<br />\r\n<br />\r\n<br />',1,300),(2,'Google','Google','http://www.google.de','',1,500),(3,' HELP','The HELP FOR ClanSuite','','<strong><font size=\"4\"> HELP</font><br />\r\n<br />\r\n</strong><strong> - gogo<br />\r\n- gogogogo<br />\r\n- gogogogogogo</strong>',1,300),(4,'Manual','The Manual','','<font size=\"4\">Manual</font><br />\r\n<br />\r\n- SOME content',1,300),(5,'About','About ClanSuite','','<font size=\"4\">About</font><br />\r\n<br />\r\n- SOME content',1,300);
 /*!40000 ALTER TABLE `cs_static_pages` ENABLE KEYS */;
 
 --
@@ -1481,22 +1354,25 @@ CREATE TABLE `cs_staticpages` (
 --
 
 /*!40000 ALTER TABLE `cs_staticpages` DISABLE KEYS */;
-INSERT INTO `cs_staticpages` VALUES (1,'Credits','Without their brains Clansuite would not be - Thanks alot!','','<u><strong>Clansuite - Credits </strong></u>\r\n<br />\r\n<br />\r\n<br />\r\n<table width=\"691\" height=\"393\" cellspacing=\"1\" cellpadding=\"1\" border=\"1\" align=\"\" summary=\"\">\r\n    <tbody>\r\n        <tr>\r\n            <td align=\"center\">Class</td>\r\n            <td align=\"center\">Author<br />\r\n            </td>\r\n            <td align=\"center\">&nbsp;Licence</td>\r\n        </tr>\r\n        <tr>\r\n            <td>tar.class.php</td>\r\n            <td>Vincent Blavet &lt;vincent@phpconcept.net&gt;<br />\r\n            Copyright (c) 1997-2003 The PHP Group <br />\r\n            </td>\r\n            <td>PHP license v3</td>\r\n        </tr>\r\n        <tr>\r\n            <td>PEAR, the PHP Extension and Application Repository</td>\r\n            <td>Sterling Hughes &lt;sterling@php.net&gt;<br />\r\n            Stig Bakken &lt;ssb@php.net&gt;<br />\r\n            Tomas V.V.Cox &lt;cox@idecnet.com&gt;<br />\r\n            Greg Beaver &lt;cellog@php.net&gt;<br />\r\n            &nbsp;Copyright&nbsp; 1997-2006 The PHP Group</td>\r\n            <td>PHP license v3</td>\r\n        </tr>\r\n        <tr>\r\n            <td>Swift Mailer: A Flexible PHP Mailer Class</td>\r\n            <td>&quot;Chris Corbyn&quot; &lt;chris@w3style.co.uk&gt;<br />\r\n            Copyright 2006 Chris Corbyn</td>\r\n            <td>LGPL</td>\r\n        </tr>\r\n        <tr>\r\n            <td valign=\"top\">Smarty: the PHP compiling template engine</td>\r\n            <td valign=\"top\">Monte Ohrt &lt;monte at ohrt dot com&gt;<br />\r\n            Andrei Zmievski &lt;andrei@php.net&gt;<br />\r\n            Copyright 2001-2005 New Digital Group, Inc.</td>\r\n            <td valign=\"top\">LGPL</td>\r\n        </tr>\r\n        <tr>\r\n            <td valign=\"top\">Sajax : cross-platform, cross-browser web scripting toolkit</td>\r\n            <td valign=\"top\">Copyright 2005-2006 modernmethod</td>\r\n            <td valign=\"top\">BSD</td>\r\n        </tr>\r\n        <tr>\r\n            <td valign=\"top\">Imagemanger</td>\r\n            <td valign=\"top\">Xiang Wei ZHUO &lt;wei@zhuo.org&gt;</td>\r\n            <td valign=\"top\">&nbsp;</td>\r\n        </tr>\r\n        <tr>\r\n            <td valign=\"top\">DHTML Calendar Javascript</td>\r\n            <td valign=\"top\">Copyright Mihai Bazon, 2002-2005</td>\r\n            <td valign=\"top\">LGPL</td>\r\n        </tr>\r\n        <tr>\r\n            <td valign=\"top\">Tab Pane Javascript</td>\r\n            <td valign=\"top\">Copyright (c) 2002, 2003, 2006 Erik Arvidsson</td>\r\n            <td valign=\"top\">Apache License v2</td>\r\n        </tr>\r\n        <tr>\r\n            <td valign=\"top\"><a href=\"http://www.fckeditor.net/\">FCKEditor</a>- WYSIWYG</td>\r\n            <td valign=\"top\">&nbsp;</td>\r\n            <td valign=\"top\">&nbsp;</td>\r\n        </tr>\r\n        <tr>\r\n            <td valign=\"top\">Icons by <a href=\"http://www.famfamfam.com/lab/icons/\">famfamfam</a></td>\r\n            <td valign=\"top\">&nbsp;</td>\r\n            <td valign=\"top\">&nbsp;</td>\r\n        </tr>\r\n        <tr>\r\n            <td valign=\"top\">mygosumenu\'s</td>\r\n            <td valign=\"top\">Copyright 2003,2004 Cezary Tomczak</td>\r\n            <td valign=\"top\">BSD</td>\r\n        </tr>\r\n        <tr>\r\n            <td valign=\"top\">Bitstream Vera Fonts </td>\r\n            <td valign=\"top\">Copyright (c) 2003 by Bitstream, Inc.</td>\r\n            <td valign=\"top\">own</td>\r\n        </tr>\r\n        <tr>\r\n            <td valign=\"top\">&nbsp;</td>\r\n            <td valign=\"top\">&nbsp;</td>\r\n            <td valign=\"top\">&nbsp;</td>\r\n        </tr>\r\n    </tbody>\r\n</table>\r\n<br />\r\n<br />\r\n<br />\r\n<br />\r\n<br />\r\n<br />\r\n<br />',1,300),(2,'Google','Google','http://www.google.de','',1,500),(3,'Help','The help for ClanSuite','','<strong><font size=\"4\">Help</font><br />\r\n<br />\r\n</strong><strong> - gogo<br />\r\n- gogogogo<br />\r\n- gogogogogogo</strong>',1,300),(4,'Manual','The Manual','','<font size=\"4\">Manual</font><br />\r\n<br />\r\n- some content',1,300),(5,'About','About ClanSuite','','<font size=\"4\">About</font><br />\r\n<br />\r\n- some content',1,300);
+INSERT INTO `cs_staticpages` VALUES (1,'Credits','Without their brains Clansuite would
+NOT be - Thanks alot!','','<u><strong>Clansuite - Credits </strong></u>\r\n<br />\r\n<br />\r\n<br />\r\n< TABLE width=\"691\" height=\"393\" cellspacing=\"1\" cellpadding=\"1\" border=\"1\" align=\"\" summary=\"\">\r\n <tbody>\r\n <tr>\r\n <td align=\"center\">Class</td>\r\n <td align=\"center\">Author<br />\r\n </td>\r\n <td align=\"center\">&nbsp;Licence</td>\r\n </tr>\r\n <tr>\r\n <td>tar.class.php</td>\r\n <td>Vincent Blavet &lt;vincent@phpconcept.net&gt;<br />\r\n Copyright (c) 1997-2003 The PHP
+GROUP <br />\r\n </td>\r\n <td>PHP license v3</td>\r\n </tr>\r\n <tr>\r\n <td>PEAR, the PHP Extension AND Application Repository</td>\r\n <td>Sterling Hughes &lt;sterling@php.net&gt;<br />\r\n Stig Bakken &lt;ssb@php.net&gt;<br />\r\n Tomas V.V.Cox &lt;cox@idecnet.com&gt;<br />\r\n Greg Beaver &lt;cellog@php.net&gt;<br />\r\n &nbsp;Copyright&nbsp; 1997-2006 The PHP
+GROUP</td>\r\n <td>PHP license v3</td>\r\n </tr>\r\n <tr>\r\n <td>Swift Mailer: A Flexible PHP Mailer Class</td>\r\n <td>&quot;Chris Corbyn&quot; &lt;chris@w3style.co.uk&gt;<br />\r\n Copyright 2006 Chris Corbyn</td>\r\n <td>LGPL</td>\r\n </tr>\r\n <tr>\r\n <td valign=\"top\">Smarty: the PHP compiling template ENGINE</td>\r\n <td valign=\"top\">Monte Ohrt &lt;monte AT ohrt dot com&gt;<br />\r\n Andrei Zmievski &lt;andrei@php.net&gt;<br />\r\n Copyright 2001-2005 NEW Digital
+GROUP, Inc.</td>\r\n <td valign=\"top\">LGPL</td>\r\n </tr>\r\n <tr>\r\n <td valign=\"top\">Sajax : CROSS-platform, CROSS-browser web scripting toolkit</td>\r\n <td valign=\"top\">Copyright 2005-2006 modernmethod</td>\r\n <td valign=\"top\">BSD</td>\r\n </tr>\r\n <tr>\r\n <td valign=\"top\">Imagemanger</td>\r\n <td valign=\"top\">Xiang Wei ZHUO &lt;wei@zhuo.org&gt;</td>\r\n <td valign=\"top\">&nbsp;</td>\r\n </tr>\r\n <tr>\r\n <td valign=\"top\">DHTML Calendar Javascript</td>\r\n <td valign=\"top\">Copyright Mihai Bazon, 2002-2005</td>\r\n <td valign=\"top\">LGPL</td>\r\n </tr>\r\n <tr>\r\n <td valign=\"top\">Tab Pane Javascript</td>\r\n <td valign=\"top\">Copyright (c) 2002, 2003, 2006 Erik Arvidsson</td>\r\n <td valign=\"top\">Apache License v2</td>\r\n </tr>\r\n <tr>\r\n <td valign=\"top\"><a href=\"http://www.fckeditor.net/\">FCKEditor</a>- WYSIWYG</td>\r\n <td valign=\"top\">&nbsp;</td>\r\n <td valign=\"top\">&nbsp;</td>\r\n </tr>\r\n <tr>\r\n <td valign=\"top\">Icons BY <a href=\"http://www.famfamfam.com/lab/icons/\">famfamfam</a></td>\r\n <td valign=\"top\">&nbsp;</td>\r\n <td valign=\"top\">&nbsp;</td>\r\n </tr>\r\n <tr>\r\n <td valign=\"top\">mygosumenu\'s</td>\r\n            <td valign=\"top\">Copyright 2003,2004 Cezary Tomczak</td>\r\n            <td valign=\"top\">BSD</td>\r\n        </tr>\r\n        <tr>\r\n            <td valign=\"top\">Bitstream Vera Fonts </td>\r\n            <td valign=\"top\">Copyright (c) 2003 by Bitstream, Inc.</td>\r\n            <td valign=\"top\">own</td>\r\n        </tr>\r\n        <tr>\r\n            <td valign=\"top\">&nbsp;</td>\r\n            <td valign=\"top\">&nbsp;</td>\r\n            <td valign=\"top\">&nbsp;</td>\r\n        </tr>\r\n    </tbody>\r\n</table>\r\n<br />\r\n<br />\r\n<br />\r\n<br />\r\n<br />\r\n<br />\r\n<br />',1,300),(2,'Google','Google','http://www.google.de','',1,500),(3,'Help','The help for ClanSuite','','<strong><font size=\"4\">Help</font><br />\r\n<br />\r\n</strong><strong> - gogo<br />\r\n- gogogogo<br />\r\n- gogogogogogo</strong>',1,300),(4,'Manual','The Manual','','<font size=\"4\">Manual</font><br />\r\n<br />\r\n- some content',1,300),(5,'About','About ClanSuite','','<font size=\"4\">About</font><br />\r\n<br />\r\n- some content',1,300);
 /*!40000 ALTER TABLE `cs_staticpages` ENABLE KEYS */;
 
 --
 -- Table structure for table `cs_statistic`
 --
-
 DROP TABLE IF EXISTS `cs_statistic`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `cs_statistic` (
-  `id` int(11) NOT NULL,
-  `hits` int(20) NOT NULL DEFAULT '0',
-  `views` int(50) NOT NULL DEFAULT '0',
-  `online` int(14) NOT NULL DEFAULT '0',
-  `maxonline` int(11) NOT NULL
+ `id` INT(11) NOT NULL,
+ `hits` INT(20) NOT NULL DEFAULT '0',
+ `views` INT(50) NOT NULL DEFAULT '0',
+ `online` INT(14) NOT NULL DEFAULT '0',
+ `maxonline` INT(11) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -1510,15 +1386,14 @@ CREATE TABLE `cs_statistic` (
 --
 -- Table structure for table `cs_statistic_ip`
 --
-
 DROP TABLE IF EXISTS `cs_statistic_ip`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `cs_statistic_ip` (
-  `id` int(11) NOT NULL,
-  `dates` int(11) NOT NULL,
-  `del` int(11) NOT NULL,
-  `ip` text NOT NULL
+ `id` INT(11) NOT NULL,
+ `dates` INT(11) NOT NULL,
+ `del` INT(11) NOT NULL,
+ `ip` TEXT NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -1532,15 +1407,13 @@ CREATE TABLE `cs_statistic_ip` (
 --
 -- Table structure for table `cs_statistic_stats`
 --
-
 DROP TABLE IF EXISTS `cs_statistic_stats`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `cs_statistic_stats` (
-  `id` int(15) NOT NULL AUTO_INCREMENT,
-  `dates` varchar(255) NOT NULL DEFAULT '',
-  `count` int(20) NOT NULL DEFAULT '0',
-  PRIMARY KEY (`id`)
+ `id` INT(15) NOT NULL AUTO_INCREMENT,
+ `dates` VARCHAR(255) NOT NULL DEFAULT '',
+ `count` INT(20) NOT NULL DEFAULT '0', PRIMARY KEY (`id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=47 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -1555,16 +1428,14 @@ INSERT INTO `cs_statistic_stats` VALUES (1,'10.12.2009',1),(2,'11.12.2009',1),(3
 --
 -- Table structure for table `cs_submodules`
 --
-
 DROP TABLE IF EXISTS `cs_submodules`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `cs_submodules` (
-  `submodule_id` int(11) NOT NULL AUTO_INCREMENT,
-  `name` varchar(255) NOT NULL,
-  `file_name` varchar(255) NOT NULL,
-  `class_name` varchar(255) NOT NULL,
-  PRIMARY KEY (`submodule_id`)
+ `submodule_id` INT(11) NOT NULL AUTO_INCREMENT,
+ `name` VARCHAR(255) NOT NULL,
+ `file_name` VARCHAR(255) NOT NULL,
+ `class_name` VARCHAR(255) NOT NULL, PRIMARY KEY (`submodule_id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=132 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -1579,14 +1450,12 @@ INSERT INTO `cs_submodules` VALUES (1,'admin','filebrowser.admin.php','module_fi
 --
 -- Table structure for table `cs_user_groups`
 --
-
 DROP TABLE IF EXISTS `cs_user_groups`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `cs_user_groups` (
-  `user_id` int(10) unsigned NOT NULL DEFAULT '0',
-  `group_id` int(5) unsigned NOT NULL DEFAULT '0',
-  PRIMARY KEY (`user_id`,`group_id`)
+ `user_id` INT(10) unsigned NOT NULL DEFAULT '0',
+ `group_id` INT(5) unsigned NOT NULL DEFAULT '0', PRIMARY KEY (`user_id`,`group_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -1601,17 +1470,14 @@ INSERT INTO `cs_user_groups` VALUES (1,3);
 --
 -- Table structure for table `cs_user_options`
 --
-
 DROP TABLE IF EXISTS `cs_user_options`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `cs_user_options` (
-  `option_id` int(11) NOT NULL,
-  `user_id` int(11) NOT NULL,
-  `language` varchar(255) NOT NULL,
-  `theme` varchar(255) NOT NULL,
-  PRIMARY KEY (`option_id`),
-  KEY `user_id` (`user_id`)
+ `option_id` INT(11) NOT NULL,
+ `user_id` INT(11) NOT NULL,
+ `language` VARCHAR(255) NOT NULL,
+ `theme` VARCHAR(255) NOT NULL, PRIMARY KEY (`option_id`), KEY `user_id` (`user_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -1626,14 +1492,12 @@ INSERT INTO `cs_user_options` VALUES (0,1,'en','accessible');
 --
 -- Table structure for table `cs_user_rights`
 --
-
 DROP TABLE IF EXISTS `cs_user_rights`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `cs_user_rights` (
-  `user_id` int(10) unsigned NOT NULL DEFAULT '0',
-  `right_id` int(5) unsigned NOT NULL DEFAULT '0',
-  PRIMARY KEY (`user_id`,`right_id`)
+ `user_id` INT(10) unsigned NOT NULL DEFAULT '0',
+ `right_id` INT(5) unsigned NOT NULL DEFAULT '0', PRIMARY KEY (`user_id`,`right_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 ROW_FORMAT=FIXED;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -1647,31 +1511,27 @@ CREATE TABLE `cs_user_rights` (
 --
 -- Table structure for table `cs_users`
 --
-
 DROP TABLE IF EXISTS `cs_users`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `cs_users` (
-  `user_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `email` varchar(150) DEFAULT NULL,
-  `nick` varchar(25) NOT NULL,
-  `passwordhash` varchar(40) NOT NULL,
-  `new_passwordhash` varchar(40) NOT NULL,
-  `salt` varchar(20) NOT NULL,
-  `new_salt` varchar(40) NOT NULL,
-  `activation_code` varchar(255) NOT NULL,
-  `joined` int(11) NOT NULL DEFAULT '0',
-  `timestamp` int(11) NOT NULL DEFAULT '0',
-  `disabled` tinyint(1) NOT NULL DEFAULT '0',
-  `activated` tinyint(1) NOT NULL DEFAULT '0',
-  `status` tinyint(4) NOT NULL DEFAULT '0',
-  `country` varchar(5) NOT NULL,
-  `language` varchar(12) NOT NULL,
-  `timezone` varchar(8) DEFAULT NULL,
-  `theme` varchar(255) NOT NULL,
-  PRIMARY KEY (`user_id`),
-  KEY `email` (`email`),
-  KEY `nick` (`nick`)
+ `user_id` INT(10) unsigned NOT NULL AUTO_INCREMENT,
+ `email` VARCHAR(150) DEFAULT NULL,
+ `nick` VARCHAR(25) NOT NULL,
+ `passwordhash` VARCHAR(40) NOT NULL,
+ `new_passwordhash` VARCHAR(40) NOT NULL,
+ `salt` VARCHAR(20) NOT NULL,
+ `new_salt` VARCHAR(40) NOT NULL,
+ `activation_code` VARCHAR(255) NOT NULL,
+ `joined` INT(11) NOT NULL DEFAULT '0',
+ `timestamp` INT(11) NOT NULL DEFAULT '0',
+ `disabled` TINYINT(1) NOT NULL DEFAULT '0',
+ `activated` TINYINT(1) NOT NULL DEFAULT '0',
+ `status` TINYINT(4) NOT NULL DEFAULT '0',
+ `country` VARCHAR(5) NOT NULL,
+ `language` VARCHAR(12) NOT NULL,
+ `timezone` VARCHAR(8) DEFAULT NULL,
+ `theme` VARCHAR(255) NOT NULL, PRIMARY KEY (`user_id`), KEY `email` (`email`), KEY `nick` (`nick`)
 ) ENGINE=MyISAM AUTO_INCREMENT=14 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -1680,24 +1540,22 @@ CREATE TABLE `cs_users` (
 --
 
 /*!40000 ALTER TABLE `cs_users` DISABLE KEYS */;
-INSERT INTO `cs_users` VALUES (1,'jakoch@web.de','user1','d033e22ae348aeb5660fc2140aec35850c4da997','','','','',1215754325,0,0,1,0,'de','de_DE','UTC1','standard'),(2,'user2@clansuite.com','user2','d1ca11799e222d429424d47b424047002ea72d44','','','','',1215763325,0,0,1,0,'de','de_DE','UTC1','standard'),(8,'user3@clansuite.com','user3','e5292e82b58ec55069d178b092ad25ee97f1917d','','G1vmXy','','',1215764325,0,0,1,0,'','',NULL,''),(9,'user4@clansuite.com','user4','90b525e43d877ee890e3cd800584fbddd7cd6668','','eVH0Jx','','',1215768110,0,0,1,0,'','',NULL,''),(10,'user5@clansuite.com','user5','ff4e167734b0cc1c61fb9ca064a18d85045aea80','','AxOD.2','','',1215984499,0,0,1,0,'','',NULL,''),(11,'admin@email.com','admin','3979339f2a534fea635cc6df254eb2a616490653','','CPEr2Z','','',1229294500,0,0,1,0,'','german',NULL,''),(12,'admin@email.com','admin','06dc00bbadde6fee4c3c0e15ba1358bcb6542c64','','z36ZGW','','',1231801464,0,0,1,0,'','english',NULL,''),(13,'admin@email.com','admin','7f0ce5783e1aeb2ae60b697c8311f784f83e0f81','','y7UQ0','','',1258237342,0,0,1,0,'','german',NULL,'');
+INSERT INTO `cs_users` VALUES (1,'jakoch@web.de','user1','d033e22ae348aeb5660fc2140aec35850c4da997','','','','',1215754325,0,0,1,0,'de','de_DE','UTC1','standard'),(2,'user2@clansuite.com','user2','d1ca11799e222d429424d47b424047002ea72d44','','','','',1215763325,0,0,1,0,'de','de_DE','UTC1','standard'),(8,'user3@clansuite.com','user3','e5292e82b58ec55069d178b092ad25ee97f1917d','','G1vmXy','','',1215764325,0,0,1,0,'','', NULL,''),(9,'user4@clansuite.com','user4','90b525e43d877ee890e3cd800584fbddd7cd6668','','eVH0Jx','','',1215768110,0,0,1,0,'','', NULL,''),(10,'user5@clansuite.com','user5','ff4e167734b0cc1c61fb9ca064a18d85045aea80','','AxOD.2','','',1215984499,0,0,1,0,'','', NULL,''),(11,'admin@email.com','admin','3979339f2a534fea635cc6df254eb2a616490653','','CPEr2Z','','',1229294500,0,0,1,0,'','german', NULL,''),(12,'admin@email.com','admin','06dc00bbadde6fee4c3c0e15ba1358bcb6542c64','','z36ZGW','','',1231801464,0,0,1,0,'','english', NULL,''),(13,'admin@email.com','admin','7f0ce5783e1aeb2ae60b697c8311f784f83e0f81','','y7UQ0','','',1258237342,0,0,1,0,'','german', NULL,'');
 /*!40000 ALTER TABLE `cs_users` ENABLE KEYS */;
 
 --
 -- Table structure for table `cs_whoisonline`
 --
-
 DROP TABLE IF EXISTS `cs_whoisonline`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `cs_whoisonline` (
-  `id` int(15) NOT NULL AUTO_INCREMENT,
-  `time` int(14) NOT NULL DEFAULT '0',
-  `ip` varchar(20) NOT NULL DEFAULT '',
-  `userID` int(11) DEFAULT '0',
-  `site` varchar(255) NOT NULL DEFAULT '',
-  `date` varchar(255) NOT NULL,
-  PRIMARY KEY (`id`)
+ `id` INT(15) NOT NULL AUTO_INCREMENT,
+ `time` INT(14) NOT NULL DEFAULT '0',
+ `ip` VARCHAR(20) NOT NULL DEFAULT '',
+ `userID` INT(11) DEFAULT '0',
+ `site` VARCHAR(255) NOT NULL DEFAULT '',
+ `date` VARCHAR(255) NOT NULL, PRIMARY KEY (`id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=72 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -1706,22 +1564,21 @@ CREATE TABLE `cs_whoisonline` (
 --
 
 /*!40000 ALTER TABLE `cs_whoisonline` DISABLE KEYS */;
-INSERT INTO `cs_whoisonline` VALUES (71,1269880673,'127.0.0.1',NULL,'/index.php?mod=controlcenter','29.03.2010');
+INSERT INTO `cs_whoisonline` VALUES (71,1269880673,'127.0.0.1', NULL,'/index.php?mod=controlcenter','29.03.2010');
 /*!40000 ALTER TABLE `cs_whoisonline` ENABLE KEYS */;
 
 --
 -- Table structure for table `cs_whowasonline`
 --
-
 DROP TABLE IF EXISTS `cs_whowasonline`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `cs_whowasonline` (
-  `id` int(11) NOT NULL,
-  `time` int(11) NOT NULL,
-  `ip` text NOT NULL,
-  `userid` int(11) NOT NULL,
-  `site` text NOT NULL
+ `id` INT(11) NOT NULL,
+ `time` INT(11) NOT NULL,
+ `ip` TEXT NOT NULL,
+ `userid` INT(11) NOT NULL,
+ `site` TEXT NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
