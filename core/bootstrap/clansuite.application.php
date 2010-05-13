@@ -182,14 +182,26 @@ class Clansuite_CMS
          *          3. Alter php.ini settings
          *  ================================================
          */
-        ini_set('short_open_tag'                , 'off');
-        ini_set('arg_separator.input'           , '&amp;');
-        ini_set('arg_separator.output'          , '&amp;');
+        ini_set('short_open_tag',               'off');
+        ini_set('arg_separator.input',          '&amp;');
+        ini_set('arg_separator.output',         '&amp;');
+
+        if (extension_loaded('mbstring') == true)
+        {
+            if ( ini_get('mbstring.func_overload') & MB_OVERLOAD_STRING )
+            {
+                trigger_error('The string functions are overloaded by mbstring. Please stop that.
+                               Check php.ini - setting: mbstring.func_overload.', E_USER_ERROR);
+            }
+
+            #ini_set('mbstring.internal_encoding',   'UTF-8');
+            mb_internal_encoding('UTF-8');
+        }
 
         # in general the memory limit is determined by php.ini, it's only raised if lower 16MB
         if(intval(ini_get('memory_limit')) < 16)
         {
-            ini_set('memory_limit'              , '16M' );
+            ini_set('memory_limit',             '16M' );
         }
     }
 
