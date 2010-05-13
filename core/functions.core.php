@@ -49,6 +49,11 @@ if(defined('IN_CS') == false)
 class Clansuite_Functions
 {
     /**
+     * @var array This array contains the names of the loaded functions from directory /core/functions.
+     */
+    static $already_loaded = array();
+
+    /**
      * @brief Generates a Universally Unique IDentifier, version 4.
      *
      * This function generates a truly random UUID.
@@ -844,57 +849,18 @@ class Clansuite_Functions
      */
     public static function UTF8_to_HTML($utf8, $encodeTags = false)
     {
-        $result = '';
-        $utf8_strlen = strlen($utf8);
-
-        for ($i = 0; $i < $utf8_strlen; $i++)
+        # check if this function was aleady loaded
+        if ( isset(self::$already_loaded[__FUNCTION__]) === false)
         {
-            $char = $utf8[$i];
-            $ascii = ord($char);
+            # if not, load function
+            require ROOT_CORE .'functions'.DS.strtolower(__FUNCTION__).'.function.php';
 
-            if ($ascii < 128)
-            {
-                # one-byte character
-                $result .= ($encodeTags) ? htmlentities($char) : $char;
-            }
-            elseif ($ascii < 192)
-            {
-                # non-utf8 character or not a start byte
-                $result .= ''; # leave this. would else be an empty elseif statement.
-            }
-            elseif ($ascii < 224)
-            {
-                # two-byte character
-                $result .= htmlentities(substr($utf8, $i, 2), ENT_QUOTES, 'UTF-8');
-                $i++;
-            }
-            elseif ($ascii < 240)
-            {
-                # three-byte character
-                $ascii1 = ord($utf8[$i+1]);
-                $ascii2 = ord($utf8[$i+2]);
-                $unicode = (15 & $ascii)  * 4096 +
-                           (63 & $ascii1) * 64 +
-                           (63 & $ascii2);
-                $result .= '&#'.$unicode;
-                $i += 2;
-            }
-            elseif ($ascii < 248)
-            {
-                # four-byte character
-                $ascii1 = ord($utf8[$i+1]);
-                $ascii2 = ord($utf8[$i+2]);
-                $ascii3 = ord($utf8[$i+3]);
-                $unicode = (15 & $ascii)  * 262144 +
-                           (63 & $ascii1) * 4096 +
-                           (63 & $ascii2) * 64 +
-                           (63 & $ascii3);
-                $result .= '&#'.$unicode;
-                $i += 3;
-            }
+            # function loaded successfully
+            self::$already_loaded[__FUNCTION__] = true;
         }
 
-        return $result;
+        # calling the loaded function
+        return UTF8_to_HTML($utf8, $encodeTags);
     }
 
     /**
