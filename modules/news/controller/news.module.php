@@ -100,6 +100,14 @@ class Clansuite_Module_News extends Clansuite_Module_Controller implements Clans
         # Get Render Engine
         $view = $this->getView();
 
+        # UTF8 to HTML
+        $nr_news = count($news);
+        for($i = 0; $i < $nr_news; $i++)
+        {
+            $news[$i]['news_title'] = mb_convert_encoding( $news[$i]['news_title'] , 'UTF-8', 'HTML-ENTITIES');
+            $news[$i]['news_body'] = mb_convert_encoding( $news[$i]['news_body'] , 'UTF-8', 'HTML-ENTITIES');
+        }
+
         # Assign $news array and pager objects to smarty to Smarty for template output
         $view->assign('news', $news);
         $view->assign('pager', $pager);
@@ -133,11 +141,11 @@ class Clansuite_Module_News extends Clansuite_Module_Controller implements Clans
             # Set Pagetitle and Breadcrumbs
             Clansuite_Breadcrumb::add( _('Viewing Single News: ') . $news['news_title'] , '/index.php?mod=news&amp;action=show');
 
-            #Clansuite_Xdebug::firebug($news);
+            Clansuite_Xdebug::firebug($news);
 
             # UTF8 to HTML
-            $news['news_title'] = Clansuite_Functions::UTF8_to_HTML($news['news_title']);
-            $news['news_body'] = Clansuite_Functions::UTF8_to_HTML($news['news_body']);
+            $news[$i]['news_title'] = mb_convert_encoding( $news[$i]['news_title'] , 'UTF-8', 'HTML-ENTITIES');
+            $news[$i]['news_body'] = mb_convert_encoding( $news[$i]['news_body'] , 'UTF-8', 'HTML-ENTITIES');
 
             # Assign News
             $view->assign('news', $news);

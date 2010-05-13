@@ -226,9 +226,9 @@ class Clansuite_HttpResponse implements Clansuite_Response_Interface
         // unheroic approach to silence all html validators by fixing the ampersand problem ( turns & to &amp;)
         // exclude javascript && logical operator
         // @todo find preg_match for & replacing that does not grab && AND remove double str_replace
-        $this->body = str_replace('&&','CS+AND+CS', $this->body);
-        $this->body = preg_replace('/&(?![#]?[a-z0-9]{1,7};)/i', '&amp;$1', $this->body);
-        $this->body = str_replace('CS+AND+CS','&&', $this->body);
+        #$this->body = str_replace('&&','CS+AND+CS', $this->body);
+        #$this->body = preg_replace('/&(?![#]?[a-z0-9]{1,7};)/i', '&amp;$1', $this->body);
+        #$this->body = str_replace('CS+AND+CS','&&', $this->body);
 
         // make it possible to attach HTML content to the body directly before flushing the response
         Clansuite_CMS::triggerEvent('onBeforeResponse', array('body' => $this->body));
