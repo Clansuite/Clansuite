@@ -37,7 +37,7 @@ javascript      = "standard.js"
 ; Controller Resolver : Module and Action
 ;----------------------------------------
 [defaults]
-module = "index"
+module = "news"
 action = "show"
 
 ;----------------------------------------
