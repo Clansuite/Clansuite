@@ -152,6 +152,13 @@ class Clansuite_Form /*extends Clansuite_HTML*/ implements Clansuite_Form_Interf
     protected $encoding;
 
     /**
+     * Contains accept-charset of the form.
+     *
+     * @var string
+     */
+    protected $charset;
+
+    /**
      * Contains description of the form.
      *
      * @var string
@@ -307,6 +314,34 @@ class Clansuite_Form /*extends Clansuite_HTML*/ implements Clansuite_Form_Interf
     public function getName()
     {
         return $this->name;
+    }
+
+    /**
+     * Set accept-charset of this form.
+     *
+     * @param string $charset Name of this form.
+     * @return Clansuite_Form
+     */
+    public function setCharset($charset)
+    {
+        $this->charset = $charset;
+
+        return $this;
+    }
+
+    /**
+     * Returns accept-charset of this form.
+     *
+     * @return string Accept-charset of this form. Defaults to UTF-8.
+     */
+    public function getCharset()
+    {
+        if(empty($this->charset))
+        {
+            $this->setCharset('utf-8');
+        }
+        
+        return $this->charset;
     }
 
     /**

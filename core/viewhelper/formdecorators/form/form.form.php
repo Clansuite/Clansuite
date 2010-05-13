@@ -101,6 +101,11 @@ class Clansuite_Form_Decorator_Form extends Clansuite_Form_Decorator
              $html_form .= 'name="'.$this->getName().'" ';
         }
 
+        if( strlen($this->getCharset()) > 0 )
+        {
+             $html_form .= 'accept-charset="'.$this->getCharset().'" ';
+        }
+
         $html_form .= 'class="form '.$this->getClass().'"';
 
         # return the attributes inside the opening form tag
