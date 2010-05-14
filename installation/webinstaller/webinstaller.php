@@ -56,24 +56,20 @@
  * @subpackage  Webinstaller
  *
  * HTML Written = Version 0.2 - 06 June 2007
- * HTML Document begins near Line #1000
+ * HTML Document begins near Line #1360
  * @version    SVN: $Id$
  */
 
-if(ini_get("safe_mode") == true and ini_get("open_basedir") == true)
+if(ini_get("safe_mode") == true or ini_get("open_basedir") == true)
 {
     die('<i>ERROR</i> : <b>Clansuite Webinstaller is not able to perform a curl/wget/fopen/fsockopen command, <br> because \'Safe Mode\' and \'Open_BaseDir Restriction\' are enabled! <br> Shutting Down!</b>');
+    exit;
 }
 error_reporting(E_ALL);
-# will have to effect if safemode on
 set_time_limit(900);
-ini_set("open_basedir", ".:..:/usr/bin/");
+#ini_set("open_basedir", ".:..:/usr/bin/");
 ini_set("allow_url_fopen", 1);
-ini_set("memory_limit", "64M");
 ini_set("upload_max_filesize", "64M");
-# ini_set for php.ini only
-#ini_set("safe_mode_exec_dir","/usr/bin/");
-#ini_set("safe_mode", "off");
 
 $webinstaller_version = 'Version : 0.3 - ' . date("l, jS F Y", filemtime($_SERVER['SCRIPT_FILENAME']));
 

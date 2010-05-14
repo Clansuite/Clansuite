@@ -165,7 +165,7 @@ class Clansuite_Localization
         # Environment Variable LANGUAGE has priority above any local setting
         putenv('LANGUAGE='.$locale);
         putenv('LANG='.$locale);
-        setlocale(LC_ALL, $locale);
+        setlocale(LC_ALL, $locale-'.UTF-8');
 
         # workaround for php on windows, to set LC_MESSAGES
         if ( defined('LC_MESSAGES') == false)

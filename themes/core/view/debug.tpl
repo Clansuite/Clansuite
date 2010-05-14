@@ -47,56 +47,26 @@
 
 <div class="debug_one" onclick="clip('element_2');">2. Included templates & config files and their load time in seconds</div>
 <div class="debug_inline" style="display:none;" id="element_2">
-    <dl class="debug_dl">
-       {section name=templates loop=$_debug_tpls}
-            <dt class="debug_initial">
-                        {section name=indent loop=$_debug_tpls[templates].depth}&nbsp;&nbsp;&nbsp;{/section}
-                        <font color="{if $_debug_tpls[templates].type eq "template"}#a52a2a
-                                    {elseif $_debug_tpls[templates].type eq "insert"}black
-                                    {else}green{/if}">
-                        {$_debug_tpls[templates].filename|escape:html}
-                        </font>
-
-                         {strip}
-                         <!-- Loadtime -->
-                         {if isset($_debug_tpls[templates].exec_time)}
-                         <em>({$_debug_tpls[templates].exec_time|string_format:"%.5f"})
-                            {if %templates.index% eq 0} (total){/if}</em>
-                         {/if}{/strip}
-            </dt>
-        {sectionelse}
-            <dt class="debug_initial">
-                        No templates included.
-            </dt>
-        {/section}
-    </dl>
+{foreach $template_data as $template}
+  <font color=brown>{$template.name}</font>
+  <span class="exectime">
+   (compile {$template['compile_time']|string_format:"%.5f"}) (render {$template['render_time']|string_format:"%.5f"}) (cache {$template['cache_time']|string_format:"%.5f"})
+  </span>
+  <br>
+{/foreach}
 </div>
 
 
 <div class="debug_one" onclick="clip('element_3');">3. Assigned template variables ($tpl->assign)</div>
 <div class="debug_inline" style="display:none;" id="element_3">
     <dl class="debug_dl">
-        {section name=vars loop=$_debug_keys}
-            {* excluded arrays *}
-            {if ($_debug_keys[vars] == "debug")                 or
-                ($_debug_keys[vars] == "debug_db")              or
-                ($_debug_keys[vars] == "debug_globals")         or
-                ($_debug_keys[vars] == "content")               or
-                ($_debug_keys[vars] == "copyright")             }
-            {* do nothing *}
-            {else}
-        	    <dt class="debug_second">
-                    <font color="blue">{ldelim}${$_debug_keys[vars]}{rdelim}</font>
-           		</dt>
-        		<dt class="debug_initial">
-                    <font color="green">{$_debug_vals[vars]|@debug_print_var}</font>
-                </dt>
-        	{/if}
-        {sectionelse}
-        	<dt class="debug_initial">
-                No template variables assigned.
-        	</dt>
-        {/section}
+        <table id="table_config_vars">
+        {foreach $config_vars as $vars}
+           <tr class="{if $vars@iteration % 2 eq 0}odd{else}even{/if}">
+           <th>{$vars@key|escape:'html'}</th>
+           <td>{$vars|debug_print_var}</td></tr>
+        {/foreach}    
+        </table>          
     </dl>
 </div>
 
@@ -226,4 +196,3 @@
     	_csuite_console.document.close();
     </script>
 {/if}
-{include file='firebug_active_warning.tpl'}

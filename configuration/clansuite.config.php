@@ -1,9 +1,9 @@
-; <?php die( 'Access forbidden.' ); /* DO NOT MODIFY THIS LINE! ?>
+; <?php die('Access forbidden.'); /* DO NOT MODIFY THIS LINE! ?>
 ; 
 ; Clansuite Configuration File : 
-; D:\xampplite\htdocs\work\clansuite\trunk\configuration\clansuite.config.php 
+; D:\xampplite\htdocs\work\clansuite\trunk\configuration\clansuite.config.php
 ; 
-; This file was generated on 02-04-2010 16:26
+; This file was generated on 12-05-2010 23:55
 ;
 
 
@@ -138,14 +138,7 @@ webdebug = 0
 debug_popup = 0
 help_edit_mode = 0
 compression = 0
-
-;----------------------------------------
-; cache
-;----------------------------------------
-[cache]
-adapter = "apc"
-caching = 0
-cache_lifetime = 90
+suppress_errors = 0
 
 ;----------------------------------------
 ; maintenance
@@ -169,6 +162,7 @@ keywords = "Clansuite, open-source, eSport, cms, clan,content management system,
 [locale]
 dateformat = "%A, %B %e, %Y"
 timezone = 0
+locale = 3600
 
 ;----------------------------------------
 ; statistics

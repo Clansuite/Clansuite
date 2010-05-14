@@ -60,6 +60,7 @@
 {include file="menu/view/adminmenu.tpl"}
 
 {include file="firebug_active_warning.tpl"}
+{flashmessages}
 
 {* Main Table *}
 

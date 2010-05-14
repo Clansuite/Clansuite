@@ -122,7 +122,7 @@ class Clansuite_Renderer_Smarty extends Clansuite_Renderer_Base
 
         #### SMARTY DEBUGGING
         $this->renderer->debugging           = DEBUG ? true : false;             # set smarty debugging, when debug on
-        #$this->renderer->debug_tpl          = ROOT_THEMES . 'core/templates/debug.tpl';   # set debugging template for smarty
+        #$this->renderer->debug_tpl          = ROOT_THEMES . 'core/view/debug.tpl';   # set debugging template for smarty
         $this->renderer->debug_tpl           = ROOT_LIBRARIES . 'smarty/debug.tpl';   # set debugging template for smarty
         if ( $this->renderer->debugging == true )
         {
@@ -450,10 +450,14 @@ class Clansuite_Renderer_Smarty extends Clansuite_Renderer_Base
         return $this->renderMode;
     }
 
+    /**
+     * Returns the content of the template
+     *
+     * @param string $template The template to fetch.
+     * @return string representation of the template
+     */
     public function renderPartial($template)
     {
-        $this->setTemplate($template);
-        $this->assignConstants();
         return $this->fetch($template);
     }
 
@@ -488,15 +492,12 @@ class Clansuite_Renderer_Smarty extends Clansuite_Renderer_Base
         # @todo caching
         //$resource_name = ???, $cache_id = ???, $compile_id = ???
 
-        # 2. fetch the modultemplate and assigns it as $content
-        $modulecontent =  $this->fetch($template);
-
         /**
-         * Decide on given set RenderMode, if modulecontent should be rendered WRAPPED or STANDALONE
+         * Decide on given RenderMode, if modulecontent should be rendered WRAPPED or STANDALONE
          */
         if( $this->getRenderMode() !== 'WRAPPED' ) # render without wrapper: STANDALONE
         {
-            return $modulecontent;
+            return $this->renderPartial($template);
         }
         else # render with wrapper (layout): WRAPPED
         {
@@ -504,7 +505,7 @@ class Clansuite_Renderer_Smarty extends Clansuite_Renderer_Base
             if( true == $this->preRenderChecks() )
             {
                 # assign the modulecontent
-                $this->assign('content', $modulecontent);
+                $this->assign('content', $this->renderPartial($template));
 
                 return $this->renderer->fetch($this->getLayoutTemplate());
             }
