@@ -312,11 +312,13 @@ abstract class Clansuite_Module_Controller extends Clansuite_Module_Controller_R
         {
             $this->setRenderEngine('json');
         }
+
         # use smarty as default, if renderEngine is not set and it's not an ajax request
-        elseif(empty($this->renderEngineName))
+        if(empty($this->renderEngineName))
         {
             $this->setRenderEngine('smarty');
         }
+
         return $this->renderEngineName;
     }
 
