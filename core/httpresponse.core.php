@@ -49,14 +49,14 @@ if(defined('IN_CS') == false)
 interface Clansuite_Response_Interface
 {
     # Output Methods
-    public function setStatusCode($statusCode);
-    public function addHeader($name, $value);
-    public function setContent($content, $replace = false);
-    public function flush();
+    public static function setStatusCode($statusCode);
+    public static function addHeader($name, $value);
+    public static function setContent($content, $replace = false);
+    public static function flush();
 
     # Cookie Methods
-    public function createCookie($name, $value='', $maxage = 0, $path='', $domain='', $secure = false, $HTTPOnly = false);
-    public function deleteCookie($name, $path = '/', $domain = '', $secure = false, $httponly = null);
+    public static function createCookie($name, $value='', $maxage = 0, $path='', $domain='', $secure = false, $HTTPOnly = false);
+    public static function deleteCookie($name, $path = '/', $domain = '', $secure = false, $httponly = null);
 }
 
 /**
@@ -78,28 +78,26 @@ class Clansuite_HttpResponse implements Clansuite_Response_Interface
      *
      * @var       integer
      */
-    protected $statusCode = '200';
+    protected static $statusCode = '200';
 
     /**
-     * Array holding the response headers.
-     *
-     * @var       array
+     * @var array Array holding the response headers.
      */
-    protected $headers = array();
+    protected static $headers = array();
 
     /**
-     * String holding the response body.
-     *
-     * @var       string
+     * @var string String holding the response body.
      */
-    protected $body = null;
+    protected static $body = null;
 
-    # holds instance of Clansuite_Config
+    /**
+     * @var object Holds instance of Clansuite_Config.
+     */
     protected $config;
 
     public function __construct(Clansuite_Config $config)
     {
-        $this->config = $config; # set instance
+        $this->config = $config; 
     }
 
     /**
@@ -109,9 +107,9 @@ class Clansuite_HttpResponse implements Clansuite_Response_Interface
      *
      * @param  integer $statusCode The status code to set
      */
-    public function setStatusCode($statusCode)
+    public static function setStatusCode($statusCode)
     {
-        $this->statusCode = (string) $statusCode;
+        self::$statusCode = (string) $statusCode;
     }
 
     /**
@@ -121,7 +119,7 @@ class Clansuite_HttpResponse implements Clansuite_Response_Interface
      * @see $this->flush()
      * @link http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html
      */
-    public function getStatusCodeDescription($statusCode)
+    public static function getStatusCodeDescription($statusCode)
     {
         /**
          * Array holding some often occuring status descriptions.
@@ -155,9 +153,9 @@ class Clansuite_HttpResponse implements Clansuite_Response_Interface
       * @param  string $name the name of the header
       * @param  string $value the value of the header
       */
-    public function addHeader($name, $value)
+    public static function addHeader($name, $value)
     {
-        $this->headers[$name] = $value;
+        self::$headers[$name] = $value;
     }
 
     /**
@@ -168,33 +166,33 @@ class Clansuite_HttpResponse implements Clansuite_Response_Interface
      * @param string $content Content to store in the buffer
      * @param boolean $replace toggles append or replace content
      */
-    public function setContent($content, $replace = false)
+    public static function setContent($content, $replace = false)
     {
         # check, if the content should be replaced
         if($replace == false)
         {
             # no, replace is false, we append the content
-            $this->body .= $content;
+            self::$body .= $content;
         }
         else
         {
             # yes, replace the body with the content
-            $this->body = $content;
+            self::$body = $content;
         }
     }
 
     /**
      * get content retunrs the response body
      */
-    public function getContent()
+    public static function getContent()
     {
-        return $this->body;
+        return self::$body;
     }
 
     /**
      * This flushes the headers and bodydata to the client.
      */
-    public function flush()
+    public static function flush()
     {
         // Guess what?
         session_write_close();
@@ -206,35 +204,35 @@ class Clansuite_HttpResponse implements Clansuite_Response_Interface
         }
 
         // Send the status line
-        $this->addheader('HTTP/1.1', $this->statusCode.' '.$this->getStatusCodeDescription($this->statusCode));
+        self::addheader('HTTP/1.1', self::$statusCode.' '.self::getStatusCodeDescription(self::$statusCode));
 
         // Set X-Powered-By Header to Clansuite Signature
-        $this->addheader('X-Powered-By', '[ Clansuite - just an eSport CMS ][ Version : '. CLANSUITE_VERSION .' ][ www.clansuite.com ]');
+        self::addheader('X-Powered-By', '[ Clansuite - just an eSport CMS ][ Version : '. CLANSUITE_VERSION .' ][ www.clansuite.com ]');
 
         // Send our Content-Type with UTF-8 encoding
-        #$this->addHeader('Content-Type', 'text/html; charset=UTF-8');
+        self::addHeader('Content-Type', 'text/html; charset=UTF-8');
 
-        // Send user specificed headers from $this->headers array
+        // Send user specificed headers from self::$headers array
         if(false === headers_sent())
         {
-            foreach ($this->headers as $name => $value)
+            foreach (self::$headers as $name => $value)
             {
                 header("{$name}: {$value}", false);
             }
         }
-        
+
         // unheroic approach to silence all html validators by fixing the ampersand problem ( turns & to &amp;)
         // exclude javascript && logical operator
         // @todo find preg_match for & replacing that does not grab && AND remove double str_replace
-        #$this->body = str_replace('&&','CS+AND+CS', $this->body);
-        #$this->body = preg_replace('/&(?![#]?[a-z0-9]{1,7};)/i', '&amp;$1', $this->body);
-        #$this->body = str_replace('CS+AND+CS','&&', $this->body);
+        #self::$body = str_replace('&&','CS+AND+CS', self::$body);
+        #self::$body = preg_replace('/&(?![#]?[a-z0-9]{1,7};)/i', '&amp;$1', self::$body);
+        #self::$body = str_replace('CS+AND+CS','&&', self::$body);
 
         // make it possible to attach HTML content to the body directly before flushing the response
-        Clansuite_CMS::triggerEvent('onBeforeResponse', array('body' => $this->body));
-   
+        Clansuite_CMS::triggerEvent('onBeforeResponse', array('body' => self::$body));
+
         // Finally PRINT the response body
-        print $this->body;
+        print self::getContent();
 
         // Flush Compressed Buffer
         if( XDEBUG === false and DEBUG === false)
@@ -243,61 +241,16 @@ class Clansuite_HttpResponse implements Clansuite_Response_Interface
         }
 
         // OK, Reset -> Package delivered! Return to Base!
-        $this->clearHeaders();
-    }
-
-    /**
-     *  ================================================
-     *     Unicode & Charset Settings
-     *  ================================================
-     * @link    http://www.php.net/manual/en/ref.unicode.php
-     */
-    public function applyOutputCharset()
-    {
-        #declare(encoding=$config['language']['outputcharset']);
-        /**
-        #ini_set('unicode.output_encoding', 'utf-8');
-        #ini_set('unicode.stream_encoding', 'utf-8');
-        #ini_set('unicode.runtime_encoding', 'utf-8');
-        unicode.fallback_encoding       =
-        unicode.from_error_mode         = U_INVALID_SUBSTITUTE;         # replace invalid characters
-        unicode.from_error_subst_char   =
-        unicode.http_input_encoding     = $config['language']['outputcharset'];
-        unicode.output_encoding         = $config['language']['outputcharset'];
-        unicode.runtime_encoding        =
-        unicode.script_encoding         = $config['language']['outputcharset'];
-        # this is PHP_INI_PERDIR and can only set via php.ini or .htaccess "php_flag unicode.semantics 1"
-        #unicode.semantics               = 1
-        */
-
-        // Set Charset and Character Encoding
-        if(function_exists('mb_http_output'))
-        {
-            mb_http_output($this->config['language']['outputcharset']);
-            mb_internal_encoding($this->config['language']['outputcharset']);
-            mb_regex_encoding('UTF-8');
-            mb_language('uni');
-            # replace mail(), str*(), ereg*() by mbstring functions
-            ini_set('mbstring.func_overload','7');
-        }
-
-        /*
-        // iconv
-        if (function_exists('iconv')
-        {
-            iconv_set_encoding('input_encoding',   $config['language']['outputcharset']);
-            iconv_set_encoding('internal_encoding',$config['language']['outputcharset']);
-            iconv_set_encoding('output_encoding',  $config['language']['outputcharset']);
-        }*/
-    }
+        self::clearHeaders();
+    }   
 
     /**
      * Resets the Headers and the Data
      */
-    public function clearHeaders()
+    public static function clearHeaders()
     {
-        $this->headers  = array();
-        $this->body     = null;
+        self::$headers  = array();
+        self::$body     = null;
     }
     /**
      * A better alternative (RFC 2109 compatible) to the php setcookie() function
@@ -316,7 +269,7 @@ class Clansuite_HttpResponse implements Clansuite_Response_Interface
      * Note: until php6 namespaces, the methodname can not be setCookie()
      *       because this would conflict with the php function name.
      */
-    public function createCookie($name, $value='', $maxage = 0, $path='', $domain='', $secure = false, $HTTPOnly = false)
+    public static function createCookie($name, $value='', $maxage = 0, $path='', $domain='', $secure = false, $HTTPOnly = false)
     {
         $ob = ini_get('output_buffering');
 
@@ -367,7 +320,7 @@ class Clansuite_HttpResponse implements Clansuite_Response_Interface
      * @param bool Secure mode?
      * @param bool Only allow HTTP usage? (PHP 5.2)
      */
-    public function deleteCookie($name, $path = '/', $domain = '', $secure = false, $httponly = null)
+    public static function deleteCookie($name, $path = '/', $domain = '', $secure = false, $httponly = null)
     {
         # expire = 324993600 = 1980-04-19
         setcookie($name, '', 324993600, $path, $domain, $secure, $httponly);
@@ -379,21 +332,20 @@ class Clansuite_HttpResponse implements Clansuite_Response_Interface
     public function setNoCacheHeader()
     {
         # reset pragma header
-        $this->addHeader('Pragma',        'no-cache');
+        self::addHeader('Pragma',        'no-cache');
         # reset cache-control
-        $this->addHeader('Cache-Control', 'no-store, no-cache, must-revalidate');
+        self::addHeader('Cache-Control', 'no-store, no-cache, must-revalidate');
         # append cache-control
-        $this->addHeader('Cache-Control', 'post-check=0, pre-check=0');
+        self::addHeader('Cache-Control', 'post-check=0, pre-check=0');
         # force immediate expiration
-        $this->addHeader('Expires',       '1');
+        self::addHeader('Expires',       '1');
     }
 
     /**
      * Redirect
      *
      * Redirects to another action after disabling the caching.
-     * This avoids the typicals reposting after an POST is send,
-     * by disabling the cache.
+     * This avoids the typical reposting after an POST is send by disabling the cache.
      * This enables the POST-Redirect-GET Workflow.
      *
      * @param string Redirect to this URL
@@ -401,10 +353,10 @@ class Clansuite_HttpResponse implements Clansuite_Response_Interface
      * @param int    http status code, default: '302' => 'Not Found'
      * @param text   text of redirect message
      */
-    public function redirectNoCache($url, $time = 0, $statusCode = 302, $text = '')
+    public static function redirectNoCache($url, $time = 0, $statusCode = 302, $text = '')
     {
-        $this->setNoCacheHeader();
-        $this->redirect($url, $time, $statusCode, $text);
+        self::setNoCacheHeader();
+        self::redirect($url, $time, $statusCode, $text);
     }
 
     /**
@@ -436,12 +388,12 @@ class Clansuite_HttpResponse implements Clansuite_Response_Interface
             while(@ob_end_clean());
 
             # redirect to ...
-            $this->setStatusCode($statusCode);
+            self::setStatusCode($statusCode);
 
             switch($mode)
             {
                 case 'LOCATION':
-                    $this->addheader('LOCATION', $url);
+                    self::addHeader('LOCATION', $url);
                     break;
                 case 'REFRESH':
                     header("Refresh: 0; URL=\"$url\"");
@@ -460,12 +412,12 @@ class Clansuite_HttpResponse implements Clansuite_Response_Interface
 
             if($mode == 'JS' or $mode == 'HTML')
             {
-                # $this->addHeader('Location', $url);
-                $this->setContent($redirect_html, $time, htmlspecialchars($url, ENT_QUOTES, 'UTF-8'));
+                # self::addHeader('Location', $url);
+                self::setContent($redirect_html, $time, htmlspecialchars($url, ENT_QUOTES, 'UTF-8'));
             }
 
             # Flush the content on the normal way!
-            $this->flush();
+            self::flush();
         }
         else # headers already send!
         {

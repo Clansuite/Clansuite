@@ -67,13 +67,13 @@ class Clansuite_Renderer_Smarty extends Clansuite_Renderer_Base
      * RenderEngineConstructor
      *
      * parent::__construct does the following:
-     * 1) Apply instances of Dependency Injector Phemto and Clansuite_Config to the RenderBase
+     * 1) Apply instances of Clansuite_Config to the RenderBase
      * 2) Initialize the RenderEngine via parent class constructor call = self::initializeEngine()
      * 3) Configure the RenderEngine with it's specific settings = self::configureEngine();
      */
-    function __construct(Phemto $injector, Clansuite_Config $config)
+    function __construct(Clansuite_Config $config, Clansuite_HttpResponse $response)
     {
-        parent::__construct($injector, $config);
+        parent::__construct($config, $response);
 
         self::initializeEngine();
         self::configureEngine();

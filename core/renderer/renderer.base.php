@@ -50,9 +50,7 @@ if(defined('IN_CS') == false)
 abstract class Clansuite_Renderer_Base
 {
     /**
-     * Holds instance of the Rendering Engine Object
-     *
-     * @var Object
+     * @var Object Holds instance of the Rendering Engine Object
      */
     public $renderer = null;
 
@@ -60,31 +58,29 @@ abstract class Clansuite_Renderer_Base
     public $template = null;
 
     /**
-     * Variable for the RenderMode (available: WRAPPED)
-     *
-     * @var string
+     * @var string Variable for the RenderMode (available: WRAPPED)
      */
     public $renderMode = null;
 
     /**
-     * Instances of Dependency Injector Phemto and Clansuite_Config
-     *
-     * @var object
+     * @var object Clansuite_Config
      */
-    protected $injector = null;
     protected $config = null;
+
+    /**
+     * @var object Clansuite_HttpResponse
+     */
+    protected $response = null;
 
     /**
      * Construct Renderer
      *
-     * @param Phemto $injector Dependency Injector
      * @param Clansuite_Config Object
      */
-    public function __construct(Phemto $injector, Clansuite_Config $config)
+    public function __construct(Clansuite_Config $config, Clansuite_HttpResponse $response)
     {
-        # set injector and config
-        $this->injector = $injector;
         $this->config   = $config;
+        $this->response = $response;
     }
 
     /**

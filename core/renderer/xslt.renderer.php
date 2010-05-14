@@ -57,11 +57,6 @@ require dirname(__FILE__) . '/renderer.base.php';
 class Clansuite_Renderer_Xslt extends Clansuite_Renderer_Base
 {
     /**
-     * holds instance of Dependency Injector Phemto
-     */
-    protected $injector   = null;
-
-    /**
      * holds instance of XSLT Render Engine (object)
      * @var object xslt
      */
@@ -75,17 +70,11 @@ class Clansuite_Renderer_Xslt extends Clansuite_Renderer_Base
 
     public function __construct(Phemto $injector = null)
     {
-        # apply instances to class
+        # apply instances to class (parent class)
         $this->injector = $injector;
-
-        # get instances from injector
-        $this->config         = $this->injector->instantiate('Clansuite_Config');
-        $this->response       = $this->injector->instantiate('Clansuite_HttpResponse');
 
         # instantiate the render engine
         $this->xslt = new XSLTProcessor;
-
-        # eventlog initalization
     }
 
     /**

@@ -35,7 +35,7 @@
 
 # Security Handler
 if (defined('IN_CS') == false)
-{ 
+{
     die('Clansuite not loaded. Direct Access forbidden.' );
 }
 
@@ -74,12 +74,9 @@ class Clansuite_Renderer_Json extends Clansuite_Renderer_Base
      * 2) Initialize the RenderEngine via parent class constructor call = self::initializeEngine()
      * 3) Configure the RenderEngine with it's specific settings = self::configureEngine();
      */
-    function __construct(Phemto $injector = null, Clansuite_Config $config)
+    function __construct(Clansuite_Config $config, Clansuite_HttpResponse $response)
     {
-        parent::__construct();
-
-        # we need the response object for direct rendering
-        $this->response = $this->injector->instantiate('Clansuite_HttpResponse');
+        parent::__construct($config, $response);
     }
 
     public function initializeEngine()

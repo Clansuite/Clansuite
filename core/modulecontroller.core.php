@@ -83,20 +83,19 @@ abstract class Clansuite_Module_Controller extends Clansuite_Module_Controller_R
     public $template = null;
 
     /**
-     * @var object Dependecy Injector (dynamic)
-     */
-    public $injector = null;
-
-    /**
      * @var object Dependecy Injector (static)
      */
-    static $static_injector = null;
+    public static $static_injector = null;
 
     /**
-     *
      * @var object The Configuration Object
      */
     public $config = null;
+
+    /**
+     * @var object The Http_Response Object
+     */
+    public $response = null;
 
     /**
      * @var array The Module Configuration Array
@@ -111,7 +110,7 @@ abstract class Clansuite_Module_Controller extends Clansuite_Module_Controller_R
         $this->setInjector(Clansuite_CMS::getInjector());
 
         # fetch config from dependency injector
-        $this->config = $this->injector->instantiate('Clansuite_Config');
+        $this->config = self::getInjector()->instantiate('Clansuite_Config');
     }
 
     /**
@@ -157,8 +156,7 @@ abstract class Clansuite_Module_Controller extends Clansuite_Module_Controller_R
 
     /**
      * Set dependency injector (SetterInjection)
-     * a) as a static var self::$injector
-     * b) as a dynamic var $this->injector
+     * as a static var self::$injector
      * Type Hint set to only accept Phemto
      *
      * @param object $injector Dependency Injector (Phemto)
@@ -166,7 +164,7 @@ abstract class Clansuite_Module_Controller extends Clansuite_Module_Controller_R
      */
     public function setInjector(Phemto $injector)
     {
-        self::$static_injector = $this->injector = $injector;
+        self::$static_injector = $injector;
     }
 
     /**
@@ -200,17 +198,7 @@ abstract class Clansuite_Module_Controller extends Clansuite_Module_Controller_R
      */
     public function getClansuiteConfig()
     {
-        if(is_object($this->injector))
-        {
-            $this->config = $this->injector->instantiate('Clansuite_Config')->toArray();
-        }
-        else # deliver config via an static call (for example: from inside a widget)
-
-        {
-            $this->config = self::getInjector()->instantiate('Clansuite_Config')->toArray();
-        }
-
-        return $this->config;
+        return self::getInjector()->instantiate('Clansuite_Config')->toArray();
     }
 
     /**
@@ -320,7 +308,7 @@ abstract class Clansuite_Module_Controller extends Clansuite_Module_Controller_R
     public function getRenderEngineName()
     {
         # check if the requesttype is xmlhttprequest (ajax) is incomming, then we will return data in json format
-        if($this->injector->instantiate('Clansuite_HttpRequest')->isxhr() === true)
+        if(self::getHttpRequest()->isxhr() === true)
         {
             $this->setRenderEngine('json');
         }
@@ -335,15 +323,11 @@ abstract class Clansuite_Module_Controller extends Clansuite_Module_Controller_R
     /**
      * Returns the Rendering Engine Object via view_factory
      *
-     * renderer_factory::getRenderer() has following parameters:
-     * param1 getRenderEngineName looks up the Renderer-Name
-     * param2 pass injector to renderer
-     *
      * @return renderengine object
      */
     public function getRenderEngine()
     {
-        return Clansuite_Renderer_Factory::getRenderer($this->getRenderEngineName(), $this->injector);
+        return Clansuite_Renderer_Factory::getRenderer($this->getRenderEngineName(), self::getInjector());
     }
 
     /**
@@ -380,8 +364,6 @@ abstract class Clansuite_Module_Controller extends Clansuite_Module_Controller_R
      */
     public function getTemplateName()
     {
-        #clansuite_xdebug::printR($this->template);
-
         # if the templateName was not set manually, we construct it from module/action infos
         if(empty($this->template))
         {
@@ -445,7 +427,7 @@ abstract class Clansuite_Module_Controller extends Clansuite_Module_Controller_R
     public function prepareOutput()
     {
         # 1) get the Response Object
-        $response = $this->injector->instantiate('Clansuite_HttpResponse');
+        $response = self::getInjector()->instantiate('Clansuite_HttpResponse');
 
         # 2) get the view
         $view = $this->getView();
@@ -486,9 +468,6 @@ abstract class Clansuite_Module_Controller extends Clansuite_Module_Controller_R
     {
         # pass variables to errorhandler
         Clansuite_Errorhandler::addError($errormessage, $errorcode);
-
-        # event log
-        #$this->addEvent('logErrormessage');
     }
 
     /**
@@ -504,9 +483,6 @@ abstract class Clansuite_Module_Controller extends Clansuite_Module_Controller_R
     {
         # forward another controller-name + controller-action
         Clansuite_Loader::callMethod($class, $method, $arguments);
-
-        # event log
-        #$this->addEvent('logErrormessage');
     }
 
     /**
@@ -519,7 +495,7 @@ abstract class Clansuite_Module_Controller extends Clansuite_Module_Controller_R
      */
     public function redirect($url, $time = 0, $statusCode = 302, $text = '')
     {
-        $this->injector->instantiate('Clansuite_HttpResponse')->redirect($url, $time, $statusCode, $text);
+        self::getHttpResponse()->redirect($url, $time, $statusCode, $text);
     }
 
     /**
@@ -528,7 +504,7 @@ abstract class Clansuite_Module_Controller extends Clansuite_Module_Controller_R
     public function redirectToReferer()
     {
         $referer = '';
-        $referer = $this->injector->instantiate('Clansuite_HttpRequest')->getReferer();
+        $referer = self::getHttpRequest()->getReferer();
 
         if(empty($referer) == false)
         {
@@ -593,7 +569,7 @@ abstract class Clansuite_Module_Controller extends Clansuite_Module_Controller_R
      */
     public function getHttpRequest()
     {
-        return $this->injector->instantiate('Clansuite_HttpRequest');
+        return self::getInjector()->instantiate('Clansuite_HttpRequest');
     }
 
     /**
@@ -603,7 +579,7 @@ abstract class Clansuite_Module_Controller extends Clansuite_Module_Controller_R
      */
     public function getHttpResponse()
     {
-        return $this->injector->instantiate('Clansuite_HttpResponse');
+        return self::getInjector()->instantiate('Clansuite_HttpResponse');
     }
 }
 ?>
