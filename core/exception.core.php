@@ -260,7 +260,7 @@ class Clansuite_Exception extends Exception implements Clansuite_Exception_Inter
      */
     public function clansuite_exception_handler(Exception $exception )
     {
-        # Assigning variables from an uncatched exception to this exception object
+        # re/assign variables from an uncatched exception to this exception object
         $this->message = $exception->getMessage();
         $this->string = $exception->getTraceAsString();
         $this->code = $exception->getCode();

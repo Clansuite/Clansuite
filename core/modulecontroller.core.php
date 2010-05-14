@@ -581,7 +581,7 @@ abstract class Clansuite_Module_Controller extends Clansuite_Module_Controller_R
      * @param $type string error, warning, notice, success, debug
      * @param $message string A textmessage.
      */
-    public function flashmessage($type, $message)
+    public function setFlashmessage($type, $message)
     {
         Clansuite_Flashmessages::setMessage($type, $message);
     }
