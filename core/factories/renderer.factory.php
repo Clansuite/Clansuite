@@ -56,10 +56,9 @@ class Clansuite_Renderer_Factory
      * getRenderer
      *
      * @param $view_type String (A Renderer Name like "smarty", "phptal", "native")
-     * @param $injector Dependency Injector Phemto
      * @return Renderer Object
      */
-    public static function getRenderer($view_type, Phemto $injector)
+    public static function getRenderer($view_type, $injector)
     {
         $file = ROOT_CORE .'renderer'.DS. strtolower($view_type) .'.renderer.php';
         if (is_file($file) != 0)
@@ -72,9 +71,10 @@ class Clansuite_Renderer_Factory
 
             if (class_exists($class,false))
             {
-                # instantiate and return the renderer and pass $injector into
-                $view = new $class($injector, $injector->instantiate('Clansuite_Config'));
-                #var_dump($view);
+                # instantiate and return the renderer and pass Config and Response objects to it
+                $view = new $class($injector->instantiate('Clansuite_Config'),
+                                   $injector->instantiate('Clansuite_HttpResponse')
+                                  );
                 return $view;
             }
             else
