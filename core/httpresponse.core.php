@@ -97,7 +97,7 @@ class Clansuite_HttpResponse implements Clansuite_Response_Interface
 
     public function __construct(Clansuite_Config $config)
     {
-        $this->config = $config; 
+        $this->config = $config;
     }
 
     /**
@@ -242,7 +242,7 @@ class Clansuite_HttpResponse implements Clansuite_Response_Interface
 
         // OK, Reset -> Package delivered! Return to Base!
         self::clearHeaders();
-    }   
+    }
 
     /**
      * Resets the Headers and the Data
@@ -329,7 +329,7 @@ class Clansuite_HttpResponse implements Clansuite_Response_Interface
     /**
      * Sets NoCache Header Values
      */
-    public function setNoCacheHeader()
+    public static function setNoCacheHeader()
     {
         # reset pragma header
         self::addHeader('Pragma',        'no-cache');
@@ -376,7 +376,7 @@ class Clansuite_HttpResponse implements Clansuite_Response_Interface
      * @param text   text of redirect message
      * @param string redirect mode LOCATION, REFRESH, JS, HTML
      */
-    public function redirect($url, $time = 0, $statusCode = 302, $text = '', $mode = null )
+    public static function redirect($url, $time = 0, $statusCode = 302, $text = '', $mode = null )
     {
         $linenum = '';
         $redirect_html = '';
