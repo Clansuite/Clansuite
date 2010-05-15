@@ -53,29 +53,30 @@ if (false == class_exists('Clansuite_Formelement',false))
 class Clansuite_Formelement_Select extends Clansuite_Formelement implements Clansuite_Formelement_Interface
 {
     /**
-     * array with options for the dropdown
-     *
-     * @var array
+     * @var array array with options for the dropdown
      */
     public $options;
 
     /**
-     * default option of the select dropdown
-     *
-     * @var string
+     * @var string name of the default option of the select dropdown (pre-selection)
      */
     public $default;
 
+    /**
+     * @var string description
+     */
     public $description;
 
     /**
-     * number of displayed items
      * 0 = pure dropdown with 1 field
      * 3 = 3 elements shown, rest available via scrollbar
+     * @var int number of displayed items
      */
     public $size;
 
-    # string
+    /**
+     * @var string Label
+     */
     #public $label ='Select an item from this pull-down menu.';
 
     public function __construct()
@@ -142,16 +143,12 @@ class Clansuite_Formelement_Select extends Clansuite_Formelement implements Clan
             # loop over all selectfield options
             foreach ($this->options as $key => $value)
             {
-                /**
-                 * check if the value is the default one
-                 * in case it is, add html "selected"
-                 */
+                # check if the value is the default one and in case it is, add html "selected"
                 if ($key == $this->default)
                 {
-                    $html .= '<option value="'.$key.'" selected>'.$value.'</option>';
+                    $html .= '<option value="'.$key.'" selected="selected">'.$value.'</option>';
                 }
                 else # a normal select element is rendered
-
                 {
                     $html .= '<option value="'.$key.'">'.$value.'</option>';
                 }
@@ -159,7 +156,7 @@ class Clansuite_Formelement_Select extends Clansuite_Formelement implements Clan
         }
         else
         {
-            $html .= '<option value="0">No Files found.</option>';
+            $html .= '<option value="0">No Options given.</option>';
         }
 
         # close the html select tag
