@@ -41,7 +41,7 @@ if (defined('IN_CS') == false)
 
 # conditional include of the parent class
 if (false == class_exists('Clansuite_Formelement',false))
-{ 
+{
     include ROOT_CORE . 'viewhelper/formelement.core.php';
 }
 
@@ -70,6 +70,12 @@ class Clansuite_Formelement_Captcha extends Clansuite_Formelement implements Cla
         return $this;
     }
 
+    /**
+     * Set the name of the captcha
+     *
+     * @param <type> $captcha
+     * @return object Clansuite_Formelement_Captcha (THIS is not Clansuite_Formelement_Captcha_$captcha )
+     */
     public function setCaptcha($captcha = null)
     {
         # if no captcha is given, take the one definied in configuration
@@ -85,12 +91,20 @@ class Clansuite_Formelement_Captcha extends Clansuite_Formelement implements Cla
         return $this;
     }
 
+
+    /**
+     * @return string Name of the Captcha (without the captcha part) (like re, simple)
+     */
     public function getCaptcha()
     {
         # cut "captcha" (last 7 chars)
         return substr($this->captcha, 0, -7);
     }
 
+    /**
+     * @param Clansuite_Formelement_Interface $captchaObject
+     * @return object Clansuite_Formelement_Captcha
+     */
     public function setCaptchaFormelement(Clansuite_Formelement_Interface $captchaObject)
     {
         $this->captchaObject = $captchaObject;
@@ -98,6 +112,11 @@ class Clansuite_Formelement_Captcha extends Clansuite_Formelement implements Cla
         return $this;
     }
 
+    /**
+     * Getter for the captchaObject
+     *
+     * @return object Clansuite_Formelement_XYNAMECaptcha
+     */
     public function getCaptchaFormelement()
     {
         if(empty($this->captchaObject))
@@ -116,15 +135,14 @@ class Clansuite_Formelement_Captcha extends Clansuite_Formelement implements Cla
     private function captchaFactory()
     {
         $name = $this->getCaptcha();
-        #Clansuite_Xdebug::firebug($name);
 
         # construct classname
-        $classname = 'Clansuite_Formelement_'. $name.'Captcha';
+        $classname = 'Clansuite_Formelement_'. $name .'Captcha';
 
         # load file
         if (class_exists($classname, false) === false)
         {
-            include ROOT_CORE.'viewhelper/formelements/'.$name.'captcha.form.php';
+            include ROOT_CORE .'viewhelper/formelements/'. $name .'captcha.form.php';
         }
 
         # instantiate
@@ -150,10 +168,19 @@ class Clansuite_Formelement_Captcha extends Clansuite_Formelement implements Cla
         $formelement->setName($this->name);
         $formelement->setValue($this->value);
 
+        # a) attach an decorator of type formelement (chain returns the decorator)
+        $formelement->addDecorator('formelement')
+        # b) create a new formelement inside this decorator (chain returns the formelement)
+                    ->newFormelement('input')
+        # c) and attach some properties, like the required captcha value for later validation
+                    ->setLabel($this->label)
+                    ->setName($this->name);
+                    #->setRequired()
+                    #->setValidation();
+
         # return the formelement, to call e.g. render() on it
         return $formelement;
     }
-
 
     /**
      * Renders the captcha representation of the specific captcha formelement.
@@ -163,11 +190,22 @@ class Clansuite_Formelement_Captcha extends Clansuite_Formelement implements Cla
     public function render()
     {
         $html = '';
+        $html = $this->getCaptchaFormelement()->transferPropertiesToCaptcha()->render();
 
-        if(empty($this->captcha) == false)
+        /**
+         * at this point we have $_SESSION['user']['simple_captcha_string']
+         * it's needed as string for the validation rule to the captcha formelement
+         */
+        # @todo validation object
+        #$this->getCaptchaFormelement()->setRequired()->setValidator($validator);
+
+        # renders the decorators of the captcha formelement
+        foreach ($this->getCaptchaFormelement()->formelementdecorators as $formelementdecorator)
         {
-            $html .= $this->getCaptchaFormelement()->transferPropertiesToCaptcha()->render();
+            $html = $formelementdecorator->render($html);
         }
+
+        #Clansuite_Xdebug::firebug($html);
 
         return $html;
     }

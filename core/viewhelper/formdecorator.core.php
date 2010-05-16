@@ -154,7 +154,7 @@ abstract class Clansuite_Formelement_Decorator #implements Clansuite_Form_Interf
     # instance of formelement, which is to decorate
     protected $formelement;
 
-    private $_class;
+    private $class;
 
     /**
     * Set class=""
@@ -163,7 +163,7 @@ abstract class Clansuite_Formelement_Decorator #implements Clansuite_Form_Interf
     */
     public function setClass($classname)
     {
-        $this->_class = $classname;
+        $this->class = $classname;
 
         return $this->formelement;
     }
@@ -175,7 +175,7 @@ abstract class Clansuite_Formelement_Decorator #implements Clansuite_Form_Interf
     */
     public function getClass()
     {
-        return $this->_class;
+        return $this->class;
     }
 
     /**
@@ -236,6 +236,8 @@ abstract class Clansuite_Formelement_Decorator #implements Clansuite_Form_Interf
     {
         # performance killer
         # return call_user_func_array(array($this->formelement, $method), $parameters);
+        
+        #return hasMethod($method, $parameters);
 
         return Clansuite_Loader::callClassMethod($this->formelement, $method, $parameters);
     }
