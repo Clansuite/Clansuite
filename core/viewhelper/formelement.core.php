@@ -308,6 +308,7 @@ class Clansuite_Formelement /* extends Clansuite_HTML */ implements Clansuite_Fo
 
     /**
      * Returns boolean true if this formelement is required.
+     * Use this in conditionals.
      *
      * @return boolean True if formelement is required, false if not.
      */
@@ -336,12 +337,19 @@ class Clansuite_Formelement /* extends Clansuite_HTML */ implements Clansuite_Fo
     /**
      * Set required status for this formelement.
      *
-     * @param string $label Label of this formelement.
+     * @param boolean $required Set required status. Defaults to true.
      * @return Clansuite_Formelement
      */
-    public function setRequired($required)
+    public function setRequired($required = null)
     {
-        $this->required = $required;
+        if(is_null($required))
+        {
+            $this->required = true;
+        }
+        else
+        {
+            $this->required = (bool) $required;
+        }
 
         return $this;
     }
@@ -388,13 +396,29 @@ class Clansuite_Formelement /* extends Clansuite_HTML */ implements Clansuite_Fo
     }
 
     /**
+     * Setter method for Attributes
+     *
+     * @param array $attributes Array with one or several attributename => value relationships.
+     */
+    public function setAttributes($attributes)
+    {
+        if(is_array($attributes))
+        {
+            foreach($attributes as $attribute => $value)
+            {
+                $this->{$attribute} = $value;
+            }
+        }
+    }
+
+    /**
      * Setter method for a validator
      * validators are stored into an array (multiple validators for one formelement).
      *
      * @param Clansuite_Validator $validator Accepts a Clansuite_Validator Object that has to implement Clansuite_Validator_Interface.
      * @return Clansuite_Formelement
      */
-    public function setValidator(Clansuite_Validator_Interface $validator)
+    public function setValidator(Clansuite_Form_Validation_Interface $validator)
     {
         $this->validators[] = $validator;
 
@@ -498,9 +522,7 @@ class Clansuite_Formelement /* extends Clansuite_HTML */ implements Clansuite_Fo
     }
 
     /**
-     * addDecorator
-     *
-     * Adds a decorator to the form
+     * Adds a decorator to the formelement
      *
      * Usage:
      * $form->addDecorator('fieldset')->setLegend('legendname');
@@ -531,6 +553,8 @@ class Clansuite_Formelement /* extends Clansuite_HTML */ implements Clansuite_Fo
                     # turn it into an decorator object
                     $decorator = $this->decoratorFactory($decorator);
                     $decoratorname = $decorator->name;
+
+                    # WATCH IT! RECURSION!
                     $this->addDecorator($decorator);
                 }
             }
@@ -550,26 +574,40 @@ class Clansuite_Formelement /* extends Clansuite_HTML */ implements Clansuite_Fo
         }
 
         # now check if this decorator is not already set (prevent decorator duplications)
-        if(in_array($decorator, $this->formelementdecorators) == false)
+        if(in_array($decoratorname, $this->formelementdecorators) == false)
         {
             # set this decorator object under its name into the array
             $this->formelementdecorators[$decoratorname] = $decorator;
         }
 
         # WATCH IT! THIS BREAKS THE CHAINING IN REGARD TO THE FORM
-        # We dont return $this here, because $this would be the FORM.
+        # We dont return $this here, because $this would be the formelement.
         # Insted the decorator is returned, to apply some properties.
         # @return decorator object
         #clansuite_xdebug::printR($this->formelementdecorators[$decoratorname]);
+        #Clansuite_Xdebug::printR($this->name);
 
+        #Clansuite_Xdebug::firebug($this);
+        #Clansuite_Xdebug::firebug($this->formelementdecorators);
+        
         return $this->formelementdecorators[$decoratorname];
     }
 
     /**
-     * Getter Method for the formdecorators
-     * Array of Clansuite_Formelement_Decorator
+     * Getter Method for a decorators of this formelement by it's name..
      *
-     * @return array with registered formdecorators
+     * @param string $decoratorname The formelement decorator to look for in the stack of decorators.
+     * @return array Returns the object Clansuite_Formelement_Decorator_$decoratorname if registered.
+     */
+    public function getDecoratorByName($decoratorname)
+    {
+        return $this->formelementdecorators[$decoratorname];
+    }
+
+    /**
+     * Getter Method for the decorators of this formelement.
+     *
+     * @return array Returns the array of Clansuite_Formelement_Decorators registered to this formelement.
      */
     public function getDecorators()
     {

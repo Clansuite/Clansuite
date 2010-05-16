@@ -54,7 +54,7 @@ class Clansuite_Formelement_Decorator_Label extends Clansuite_Formelement_Decora
      * @todo if required form field add (*)
      */
     public function render($html_formelement)
-    {  
+    {
         # add label
         if ( $this->formelement->hasLabel() == true)
         {

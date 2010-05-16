@@ -340,7 +340,7 @@ class Clansuite_Form /*extends Clansuite_HTML*/ implements Clansuite_Form_Interf
         {
             $this->setCharset('utf-8');
         }
-        
+
         return $this->charset;
     }
 
@@ -541,9 +541,9 @@ class Clansuite_Form /*extends Clansuite_HTML*/ implements Clansuite_Form_Interf
     */
     public function applyDefaultFormelementDecorators($formelement_position)
     {
-        $this->setFormelementDecorator('label', $formelement_position);
-        $this->setFormelementDecorator('description', $formelement_position);
-        $this->setFormelementDecorator('div', $formelement_position)->setClass('formline');
+        $this->addFormelementDecorator('label', $formelement_position);
+        $this->addFormelementDecorator('description', $formelement_position);
+        $this->addFormelementDecorator('div', $formelement_position)->setClass('formline');
     }
 
     /**
@@ -825,14 +825,26 @@ class Clansuite_Form /*extends Clansuite_HTML*/ implements Clansuite_Form_Interf
     }
 
     /**
-     * addFormelementDecorator
+     * Adds a decorator to a formelement.
      *
-     * Adds a decorator to the formelement
+     * The first parameter accepts the formelement decorator.
+     * You might specify a decorater
+     * (a) by its name or
+     * (b) multiple decorators as an array or
+     * (c) a instantied decorator object might me handed to this method.
+     * @see addDecorator()
      *
-     * Usage:
+     * The second parameter specifies the formelement_position.
+     * If no position is given, it defaults to the last formelement in the stack of formelements.
+     *
+     * <strong>WATCH IT! THIS BREAKS THE CHAINING IN REGARD TO THE FORM</strong>
+     *
+     * @example
      * $form->addFormelementDecorator('fieldset')->setLegend('legendname');
+     * This would attach the decorator fieldset to the last formelement of $form.
      *
-     * WATCH IT! THIS BREAKS THE CHAINING IN REGARD TO THE FORM
+     * @param string|array|object $decorator The formelement decorator(s) to apply to the formelement.
+     * @param int $formelement_position Position in the formelement stack.
      * @return Clansuite_Formdecorator object
      */
     public function addFormelementDecorator($decorator, $formelement_position = null)
@@ -854,12 +866,11 @@ class Clansuite_Form /*extends Clansuite_HTML*/ implements Clansuite_Form_Interf
     }
 
     /**
-     * setDecorator
-     *
      * Is a shortcut/proxy/convenience method for addDecorator()
+     * <strong>WATCH IT! THIS BREAKS THE CHAINING IN REGARD TO THE FORM</strong>
+     *
      * @see $this->addDecorator()
      *
-     * WATCH IT! THIS BREAKS THE CHAINING IN REGARD TO THE FORM
      * @return Clansuite_Formdecorator object
      */
     public function setDecorator($decorators)
@@ -868,14 +879,12 @@ class Clansuite_Form /*extends Clansuite_HTML*/ implements Clansuite_Form_Interf
     }
 
     /**
-     * addDecorator
-     *
      * Adds a decorator to the form
+     * <strong>WATCH IT! THIS BREAKS THE CHAINING IN REGARD TO THE FORM</strong>
      *
-     * Usage:
+     * @example
      * $form->addDecorator('fieldset')->setLegend('legendname');
      *
-     * WATCH IT! THIS BREAKS THE CHAINING IN REGARD TO THE FORM
      * @return Clansuite_Formdecorator object
      */
     public function addDecorator($decorators)

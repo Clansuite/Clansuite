@@ -35,13 +35,13 @@
 
 # Security Handler
 if (defined('IN_CS') == false)
-{ 
+{
     die('Clansuite not loaded. Direct Access forbidden.');
 }
 
 # conditional include of the parent class
 if (false == class_exists('Clansuite_Formelement',false))
-{ 
+{
     include ROOT_CORE . 'viewhelper/formelement.core.php';
 }
 
@@ -54,11 +54,8 @@ if (false == class_exists('Clansuite_Formelement',false))
  */
 class Clansuite_Formelement_SimpleCaptcha extends Clansuite_Formelement_Captcha implements Clansuite_Formelement_Interface
 {
-    public function __construct()
-    {
-        # Load Recaptcha Library
-        # include_once ROOT_LIBRARIES . 'xz.php' ;
-    }
+    public $name = 'simplecaptcha';
+    public $type = 'captcha';
 
     /**
      * display captcha
@@ -66,6 +63,7 @@ class Clansuite_Formelement_SimpleCaptcha extends Clansuite_Formelement_Captcha 
     public function render()
     {
         $captcha = new Clansuite_JustAn_Captcha();
+        #Clansuite_Xdebug::firebug('Last Captcha String = '.$_SESSION['user']['simple_captcha_string']);
         return $captcha->generateCaptchaImage();
     }
 
@@ -77,7 +75,7 @@ class Clansuite_Formelement_SimpleCaptcha extends Clansuite_Formelement_Captcha 
     public function validate()
     {
         # @todo comparision of form input with session string
-        # $_SESSION['simple_captcha_string']
+        # $_SESSION['user']['simple_captcha_string']
     }
 }
 
@@ -237,7 +235,7 @@ class Clansuite_JustAn_Captcha
                     imageellipse($captcha,rand(1,200),rand(1,50),rand(50,100),rand(12,25), $background_color);
                 }
 
-                Clansuite_Xdebug::firebug($string_length);
+                #Clansuite_Xdebug::firebug($string_length);
 
                 # loop charwise through $captcha_string and apply a random font-effect
                 for ($i=0; $i < $string_length; $i++)

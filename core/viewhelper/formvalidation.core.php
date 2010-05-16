@@ -50,7 +50,7 @@ interface Clansuite_Form_Validation_Interface
     public function getRules();
 
     # main method of this class
-    public function validate(Clansuite_Formelement_Interface $formelement);
+    public function validates(Clansuite_Formelement_Interface $formelement);
 
     # set/get/is validation errors
     public function setError();
@@ -168,11 +168,21 @@ class Clansuite_Form_Validation implements Clansuite_Form_Validation_Interface
     }
 
     /**
+     * Proxy method for isValid.
+     *
+     * @return boolean True if the data is valid, otherwise false
+     */
+    public function validates()
+    {
+        return $this->isValid();
+    }
+
+    /**
      * This method fetches the submitted form data and checks if valid.
      * Getter for "isValid" Flag-Variable.
      *
      * @todo abstract $_SERVER $_POST $_GET
-     * @return true if the data is valid, otherwise false
+     * @return boolean True if the data is valid, otherwise false
      */
     public function isValid()
     {
@@ -180,13 +190,14 @@ class Clansuite_Form_Validation implements Clansuite_Form_Validation_Interface
         {
             if ('POST' == $_SERVER['REQUEST_METHOD'])
             {
-                list($this->isValid, $_POST) = $this->validateForm($_POST);
+                list($this->isValid, $_POST) = $this->validate($_POST);
             }
             elseif('GET' == $_SERVER['REQUEST_METHOD'])
             {
-                list($this->isValid, $_GET) = $this->validateForm($_GET);
+                list($this->isValid, $_GET) = $this->validate($_GET);
             }
         }
+
         return $this->isValid;
     }
 
@@ -194,10 +205,11 @@ class Clansuite_Form_Validation implements Clansuite_Form_Validation_Interface
      * valdate is the main method of this class
      * the data for a formelement is validated against the validation rules.
      * in case the the data is not matching the rule, it's invalid and a validation error is set.
+     * @param array $incomming_formdata Array with formdata via POST/GET
      */
-    public function validateForm(Clansuite_Form_Interface $form)
+    public function validate($incomming_formdata) #(Clansuite_Form_Interface $form)
     {
-
+        # @todo
     } 
 }
 ?>

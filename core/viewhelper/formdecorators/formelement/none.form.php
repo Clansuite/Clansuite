@@ -40,8 +40,8 @@ if (defined('IN_CS') == false)
 }
 
 if (false === class_exists('Clansuite_Form_Decorator', false))
-{ 
-    include ROOT_CORE . 'viewhelper'.DS.'formdecorator.core.php';
+{
+    include ROOT_CORE . 'viewhelper'. DS .'formdecorator.core.php';
 }
 
 class Clansuite_Formelement_Decorator_None extends Clansuite_Formelement_Decorator
@@ -50,7 +50,7 @@ class Clansuite_Formelement_Decorator_None extends Clansuite_Formelement_Decorat
 
     public function render($html_form_content)
     {
-        return CR . $html_form_content .CR;
+        return CR . $html_form_content . CR;
     }
 }
 ?>
