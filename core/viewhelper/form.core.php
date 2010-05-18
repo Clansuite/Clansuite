@@ -203,14 +203,24 @@ class Clansuite_Form /*extends Clansuite_HTML*/ implements Clansuite_Form_Interf
     /**
      * Construct
      *
-     * @param string $name Set the name of the form.
-     * @param string $name Set the method of the form. Valid are get/post.
-     * @param string $name Set the action of the form.
+     * @param mixed|array|string $name_or_attributes Set the name of the form OR and array with attributes.
+     * @param string $method Set the method of the form. Valid are get/post.
+     * @param string $action Set the action of the form.
      *
      */
-    public function __construct($name, $method, $action)
+    public function __construct($name_or_attributes, $method, $action)
     {
-         $this->setName($name);
+         # case 1: $name is a string, the name of the form
+         if(is_string($name_or_attributes))
+         {
+            $this->setName($name_or_attributes);
+         }
+         # case 2: $name is an array with several attribute => value relationships
+         elseif(is_array($name_or_attributes))
+         {
+            $this->setAttributes($name_or_attributes);
+         }
+
          $this->setMethod($method);
          $this->setAction($action);
     }
@@ -268,6 +278,40 @@ class Clansuite_Form /*extends Clansuite_HTML*/ implements Clansuite_Form_Interf
     public function getAction()
     {
         return $this->action;
+    }
+
+    /**
+     * Returns the requested attribute if existing else null.
+     *
+     * @param $parametername
+     * @return mixed null or value of the attribute
+     */
+    public function getAttribute($attributename)
+    {
+        if(isset($this->{$attributename}))
+        {
+            return $this->{$attributename};
+        }
+        else
+        {
+            return null;
+        }
+    }
+
+    /**
+     * Setter method for Attributes
+     *
+     * @param array $attributes Array with one or several attributename => value relationships.
+     */
+    public function setAttributes($attributes)
+    {
+        if(is_array($attributes))
+        {
+            foreach($attributes as $attribute => $value)
+            {
+                $this->{$attribute} = $value;
+            }
+        }
     }
 
     /**
