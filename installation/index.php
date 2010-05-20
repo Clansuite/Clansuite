@@ -5,7 +5,6 @@
     * http://www.clansuite.com/
     *
     * Clansuite Installer
-    * v0.3dev 22-oktober-2007 by vain
     *
     * LICENSE:
     *
@@ -181,7 +180,7 @@ try
     $file = INSTALLATION_ROOT . 'languages' . DS . $lang . '.install.php';
     if(is_file($file))
     {
-        require_once $file;
+        include_once $file;
         $language = new language;
         $_SESSION['lang'] = $lang;
     }
@@ -198,11 +197,9 @@ catch(Exception $e)
 #=======================
 #      START OUTPUT
 #=======================
-# INCLUDE THE HEADER!
-include 'install_header.php';
-
-# INCLUDE THE MENU!
-include 'install_menu.php';
+# load header and menu
+require 'install_header.php';
+require 'install_menu.php';
 
 /***
  * ===============================================
@@ -406,7 +403,7 @@ if(function_exists($installfunction))
 #      END OUTPUT
 #=======================
 # INCLUDE THE FOOTER !
-require INSTALLATION_ROOT . 'install_footer.php';
+include INSTALLATION_ROOT . 'install_footer.php';
 
 #===========================
 #      PAGE IS DISPLAYED
@@ -590,19 +587,19 @@ function calc_progress($this_is_step, $of_total_steps)
 // STEP 1 - Language Selection
 function installstep_1($language)
 {
-    require INSTALLATION_ROOT . 'install-step1.php';
+    include INSTALLATION_ROOT . 'install-step1.php';
 }
 
 // STEP 2 - System Check
 function installstep_2($language)
 {
-    require INSTALLATION_ROOT . 'install-step2.php';
+    include INSTALLATION_ROOT . 'install-step2.php';
 }
 
 // STEP 3 - System Check
 function installstep_3($language)
 {
-    require INSTALLATION_ROOT . 'install-step3.php';
+    include INSTALLATION_ROOT . 'install-step3.php';
 }
 
 // STEP 4 - System Check
@@ -616,7 +613,7 @@ function installstep_4($language, $error)
     $values['password'] = isset($_SESSION['pass']) ? $_SESSION['pass'] : '';
     $values['prefix'] = isset($_SESSION['prefix']) ? $_SESSION['prefix'] : 'cs_';
 
-    require INSTALLATION_ROOT . 'install-step4.php';
+    include INSTALLATION_ROOT . 'install-step4.php';
 }
 
 // STEP 5 - System Check
@@ -627,7 +624,7 @@ function installstep_5($language)
     $values['timezone'] = isset($_SESSION['timezone']) ? $_SESSION['timezone'] : '0';
     $values['encryption'] = isset($_SESSION['encryption']) ? $_SESSION['encryption'] : 'SHA1';
 
-    require INSTALLATION_ROOT . 'install-step5.php';
+    include INSTALLATION_ROOT . 'install-step5.php';
 }
 
 // STEP 6 - System Check
@@ -644,7 +641,7 @@ function installstep_6($language)
 // STEP 7 - System Check
 function installstep_7($language)
 {
-    require INSTALLATION_ROOT . 'install-step7.php';
+    include INSTALLATION_ROOT . 'install-step7.php';
 }
 
 /**
