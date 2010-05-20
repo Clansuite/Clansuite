@@ -103,7 +103,7 @@ if(false == is_file(ROOT . '/configuration/clansuite.config.php'))
 
 
 // The Clansuite version this script installs
-include ROOT . '/core/clansuite.version.php';
+require ROOT . '/core/clansuite.version.php';
 define('CONVERTER_VERSION', '0.1');
 
 // Define $error
@@ -440,19 +440,19 @@ function calc_progress($this_is_step, $of_total_steps)
 // STEP 1 - Language Selection
 function converterstep_1($language)
 {
-    require 'converter-step1.php';
+    include 'converter-step1.php';
 }
 
 // STEP 2 - System Check
 function converterstep_2($language)
 {
-    require 'converter-step2.php';
+    include 'converter-step2.php';
 }
 
 // STEP 3 - System Check
 function converterstep_3($language)
 {
-    require 'converter-step3.php';
+    include 'converter-step3.php';
 }
 
 // STEP 4 - System Check
@@ -466,17 +466,17 @@ function converterstep_4($language, $error)
     $values['db_password'] = isset($_SESSION['db_pass']) ? $_SESSION['db_pass'] : '';
     $values['db_prefix'] = isset($_SESSION['db_prefix']) ? $_SESSION['db_prefix'] : 'cs_';
 
-    require 'converter-step4.php';
+    include 'converter-step4.php';
 }
 
 function converterstep_5($language)
 {
-    require 'converter-step5.php';
+    include 'converter-step5.php';
 }
 
 function converterstep_6($language)
 {
-    require 'converter-step6.php';
+    include 'converter-step6.php';
 }
 
 /**
