@@ -22,13 +22,10 @@ window.onload = function ()
 {messagebox level="alert"}
     It appears that <strong>you have firebug enabled</strong>.
     <br/>
-    Using firebug with Clansuite will cause a <strong>significant performance degradation</strong>    
+    Using firebug with Clansuite will cause a <strong>significant performance degradation</strong>.
+    <br/>
+    <input type="button" class="ui-button ui-widget ui-state-default ui-corner-all"
+           value="Uhm, yes - i want it this way...Shut up!"
+           onclick="$('#firebug-warning').toggle();">
 {/messagebox}
 </div>
-
-<input value="Custom Styled Notice" onclick="$.pnotify({
-	pnotify_title: 'Custom Styled Notice',
-	pnotify_text: 'I have an additional class that\'s used to give me special styling. I always wanted to be pretty.',
-	pnotify_addclass: 'custom',
-	pnotify_notice_icon: 'icon picon_32x32_emotes_face-monkey'
-});" type="button" class="ui-state-default ui-corner-all" />
