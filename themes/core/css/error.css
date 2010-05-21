@@ -37,7 +37,8 @@
 
 .messagebox {
     padding:5px;
-    width:40%;
+    width:50%;
+    margin: auto;
 }
 
 .alert {
