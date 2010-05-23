@@ -81,16 +81,11 @@ class Clansuite_Config_Factory
 
         $extension = substr($configfile, -11);
 
-        /**
-         * deprecated, because unsecure!
-         * @todo change this to .config.ini.php
-        if ($extension == '.config.ini')
+        /*if ($extension == '.config.ini.php')
         {
             $type = 'ini';
-        }
-        else
-        */
-
+        }*/
+        
         # the fileextensions .config.php means it's an .ini file
         # the content of the file IS NOT a php-array as you might think
         if($extension == '.config.php')
@@ -116,18 +111,32 @@ class Clansuite_Config_Factory
     /**
      * getConfiguration
      *
-     * @param $cache_type String (a configuration filename type like "php", "xml", "yaml", "ini")
-     * @param $configfile Configfile to load
-     * @return ConfigObject
+     * The configuration handler type is determined automatically by configfile extension.
+     * This type is used to get the right handler and return the object.
+     *
+     * @param $configfile Configuration file to load
+     * @return Configuration Handler Object with confighandler and array of configfile.
      */
     public static function getConfiguration($configfile)
     {
-        $config_type = self::determineConfigurationHandlerTypeBy($configfile);
+        return self::getConfigurationHandler(self::determineConfigurationHandlerTypeBy($configfile), $configfile);
+    }
 
-        $file = ROOT_CORE .'config'.DS. strtolower($config_type) .'.config.php';
+    /**
+     * getConfiguration
+     *
+     * @param string $type a configuration filename type like "php", "xml", "yaml", "ini"
+     * @param string $configfile Configuration file to load. Defaults to null.
+     * @return Configuration Handler Object with confighandler and array of configfile.
+     */
+    public static function getConfigurationHandler($type, $configfile = null)
+    {
+        # path to configuration handler classes
+        $file = ROOT_CORE .'config'.DS. strtolower($type) .'.config.php';
+
         if (is_file($file) != 0)
         {
-            $class = 'Clansuite_Config_'. strtoupper($config_type).'Handler';
+            $class = 'Clansuite_Config_'. strtoupper($type).'Handler';
             if( false === class_exists($class,false) )
             {
                 include $file;
@@ -136,9 +145,7 @@ class Clansuite_Config_Factory
             if (class_exists($class,false))
             {
                 # instantiate and return the specific confighandler with the $configfile to read
-                $config = new $class($configfile);
-                #var_dump($config);
-                return $config;
+                return  new $class($configfile);
             }
             else
             {
