@@ -44,12 +44,22 @@ if (false === class_exists('Clansuite_Form_Decorator', false))
     include ROOT_CORE . 'viewhelper'. DS .'formdecorator.core.php';
 }
 
+/**
+ * Clansuite_Formelement_Decorator_None
+ *
+ * None - this hardly decorates anything at all. Wraps linebreaks around the html formelemnet content.
+ *
+ * @category Clansuite
+ * @package Clansuite_Form
+ * @subpackage Clansuite_Form_Decorator
+ */
 class Clansuite_Formelement_Decorator_None extends Clansuite_Formelement_Decorator
 {
     public $name = 'none';
 
     public function render($html_form_content)
     {
+        # return $html_form_content;
         return CR . $html_form_content . CR;
     }
 }

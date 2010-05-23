@@ -49,6 +49,10 @@ if (defined('IN_CS') == false)
  * From inside formelement (A) you can't reach the form to add another formelement (B).
  * But you can reach the addDecorator() method. And at this point this class comes in.
  * It utilizes Clansuite_Form::formelementFactory to get the formelement (B).
+ *
+ * @category Clansuite
+ * @package Clansuite_Form
+ * @subpackage Clansuite_Form_Decorator
  */
 class Clansuite_Formelement_Decorator_Formelement extends Clansuite_Formelement_Decorator
 {

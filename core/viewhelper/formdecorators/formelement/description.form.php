@@ -39,6 +39,15 @@ if (defined('IN_CS') == false)
     die('Clansuite not loaded. Direct Access forbidden.');
 }
 
+/**
+ * Clansuite_Formelement_Decorator_Description
+ *
+ * Adds a <span> element containing the formelement description after html_fromelement_content.
+ *
+ * @category Clansuite
+ * @package Clansuite_Form
+ * @subpackage Clansuite_Form_Decorator
+ */
 class Clansuite_Formelement_Decorator_Description extends Clansuite_Formelement_Decorator
 {
     /**
