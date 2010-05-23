@@ -1,7 +1,4 @@
-{* DEBUG OUTPUT of assigned Arrays:
-   <hr>
-   {$modulenavigation|@var_dump}
-*}
+{* {$modulenavigation|@var_dump} *}
 
 {* <link rel="stylesheet" href="{$www_root_themes_core}/css/tab.css" type="text/css" /> *}
 
@@ -10,6 +7,7 @@
     Menu Tabs B
     --------------------------- */ *}
 
+{move_to target="pre_head_close"}
 <style type="text/css">
 #tabsB
 {
@@ -75,15 +73,14 @@
  background-position:100% -42px;
 }
 </style>
+{/move_to}
 
 <div id="tabsB">
     <ul>
-        {foreach key=navkey item=navitem from=$modulenavigation}
-
-        <li>
-            <a href="{$navitem.url}" title="Systeminfo"> <span>{$navitem.name}</span> </a>
-        </li>
-
-        {/foreach}
+    {foreach $modulenavigation as $item}
+    <li>
+        <a href="{$item.url}" title="{$item.title}"> <span>{$item.name}</span> </a>
+    </li>
+    {/foreach}
     </ul>
 </div>

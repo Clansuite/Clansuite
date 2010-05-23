@@ -35,33 +35,29 @@
 
 # Security Handler
 if(defined('IN_CS') == false)
-{ 
+{
     die('Clansuite not loaded. Direct Access forbidden.');
 }
 
 /**
  * Clansuite_HTML
  *
- * Clansuite_HTML provides helper methods to output html-tag elements.
- *
- * @author     Jens-André Koch   <vain@clansuite.com>
- * @copyright  Jens-André Koch (2005-onwards)
+ * The class provides helper methods to output html-tag elements.
  *
  * @category    Clansuite
  * @package     Viewhelper
  * @subpackage  HTML
  */
-
 class Clansuite_HTML /* extends DOMDocument */
 {
     /**
      * Renders the HTML Tag <a href=""></a>
      *
-     * @param $url
-     * @param $attributes
-     * @param $text string
+     * @param string $url The URL (href).
+     * @param string $text The text linking to the URL.
+     * @param array $attributes Additional HTML Attribute as string.
      *
-     * @return HTML String
+     * @return string html
      */
     public static function a($url, $text, $attributes = array())
     {
@@ -74,10 +70,10 @@ class Clansuite_HTML /* extends DOMDocument */
     /**
      * Renders the HTML Tag <span></span>
      *
-     * @param $text string
-     * @param $attributes array of attributes
+     * @param string $text
+     * @param array $attributes array of attributes
      *
-     * @return HTML String
+     * @return string html
      */
     public static function span($text, $attributes = array())
     {
@@ -90,10 +86,10 @@ class Clansuite_HTML /* extends DOMDocument */
     /**
      * Renders the HTML Tag <div></div>
      *
-     * @param $text string
-     * @param $attributes array of attributes
+     * @param string $text string
+     * @param array $attributes array of attributes
      *
-     * @return HTML String
+     * @return string html
      */
     public static function div($text, $attributes = array())
     {
@@ -106,10 +102,10 @@ class Clansuite_HTML /* extends DOMDocument */
     /**
      * Renders the HTML Tag <p></p>
      *
-     * @param $text string
-     * @param $attributes array of attributes
+     * @param string $text string
+     * @param array $attributes array of attributes
      *
-     * @return HTML String
+     * @return string html
      */
     public static function p($text, $attributes = array())
     {
@@ -122,11 +118,10 @@ class Clansuite_HTML /* extends DOMDocument */
     /**
      * Renders the HTML Tag <img></img>
      *
-     * @param $attributes
-     * @param $tagname
-     * @param $text string
+     * @param string $link_to_image
+     * @param array $attributes
      *
-     * @return HTML String
+     * @return string html
      */
     public static function image($link_to_image, $attributes = array())
     {
@@ -159,9 +154,9 @@ class Clansuite_HTML /* extends DOMDocument */
      *                    );
      * self::list($attributes);
      *
-     * @param $attributes array of attributes
+     * @param array $attributes array of attributes
      *
-     * @return HTML String
+     * @return string html
      */
     public static function liste($attributes = array())
     {
@@ -189,9 +184,9 @@ class Clansuite_HTML /* extends DOMDocument */
     /**
      * HTML Tag <h1>
      *
-     * @param $text string
+     * @param string $text string
      *
-     * @return HTML String
+     * @return string html
      */
     public static function h1($text)
     {
@@ -203,7 +198,7 @@ class Clansuite_HTML /* extends DOMDocument */
      *
      * @param $text string
      *
-     * @return HTML String
+     * @return string html
      */
     public static function h2($text)
     {
@@ -213,9 +208,9 @@ class Clansuite_HTML /* extends DOMDocument */
     /**
      * HTML Tag <h3>
      *
-     * @param $text string
+     * @param string $text string
      *
-     * @return HTML String
+     * @return string html
      */
     public static function h3($text)
     {
@@ -225,7 +220,7 @@ class Clansuite_HTML /* extends DOMDocument */
     /**
      * Render the attributes for usage in an tag element
      *
-     * @param $attributes array of attributes
+     * @param array $attributes array of attributes
      *
      * @return Render the HTML String of Attributes
      */
@@ -251,11 +246,11 @@ class Clansuite_HTML /* extends DOMDocument */
      * @example
      * echo self::renderElement('tagname', array('attribute_name'=>'attribut_value'), 'text');
      *
-     * @param $tagname Name of the tag to render
-     * @param $text string
-     * @param $attributes array of attributes
+     * @param string $tagname Name of the tag to render
+     * @param string $text string
+     * @param array $attributes array of attributes
      *
-     * @return HTML String with Attributes
+     * @return string html with Attributes
      */
     public static function renderElement($tagname, $text = null, $attributes = array())
     {

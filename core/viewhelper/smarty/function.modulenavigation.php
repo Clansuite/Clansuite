@@ -26,23 +26,20 @@
  */
 function smarty_function_modulenavigation($params, $smarty)
 {
-    # determine the path of the modulenavigation description file
-    $modulenavigation_file = ROOT_MOD. Clansuite_Module_Controller_Resolver::getModuleName() . DS .
-                                       Clansuite_Module_Controller_Resolver::getModuleName() . '.menu.php';
+    $modulename = Clansuite_Module_Controller_Resolver::getModuleName();
+    $modulenavigation_file = ROOT_MOD. $modulename . DS . $modulename . '.menu.php';
 
-    # check if file exists
     if( is_file($modulenavigation_file) )
     {
-        # then load
         include $modulenavigation_file;
-        # and assing the modulenavigation array as smarty variable
         $smarty->assign('modulenavigation', $modulenavigation);
-        # load the generic modulenavigation template
+        # The file is located in clansuite/themes/core/view/modulenavigation-generic.tpl
         return $smarty->fetch('modulenavigation-generic.tpl');
+
     }
-    else # if no file was found - say so
+    else
     {
-        $smarty->assign('modulename', Clansuite_Module_Controller_Resolver::getModuleName());
+        $smarty->assign('modulename', $modulename);
         $errormessage = $smarty->fetch('modulenavigation_not_found.tpl');
         trigger_error($errormessage);
     }

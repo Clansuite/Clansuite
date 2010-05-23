@@ -127,7 +127,7 @@ class Clansuite_Loader
             include $filename;
 
             # if classname is given, its a mapping request
-            if(false === is_null($classname) and class_exists($classname, false) === true)
+            if(null === $classname and class_exists($classname, false) === true)
             {
                 # add class and filename to the mapping array
                 $this->addToMapping($filename, $classname);
@@ -180,7 +180,7 @@ class Clansuite_Loader
         {
             include $filename;
 
-            if(false === is_null($classname) and class_exists($classname, false) === true)
+            if(null === $classname and class_exists($classname, false) === true)
             {
                 throw new Clansuite_Exception('Class '. $classname .' could not be found.');
             }

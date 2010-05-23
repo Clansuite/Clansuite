@@ -1,4 +1,4 @@
-
+{move_to target="pre_head_close"}
 <style type="text/css">
 /* this defines the look of the red error box, for example: when an template is missing */
 .error {
@@ -20,7 +20,7 @@
     padding:15px 20px 15px 50px;
 }
 </style>
-
+{/move_to}
 
 <div class="error">
 {t}You are using the Smarty command{/t}: "modulenavigation", {t} but the description file for the modulenavigation is missing:{/t} "{$modulename}.menu.php" !
