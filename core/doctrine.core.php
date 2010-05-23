@@ -258,15 +258,7 @@ class Clansuite_Doctrine
         $this->manager->setAttribute(Doctrine_Core::ATTR_AUTO_ACCESSOR_OVERRIDE, true);
 
         # Enables the auto freeing of query objects after execution
-        $this->manager->setAttribute('auto_free_query_objects', true);
-
-        /**
-         * Set default added auto-id
-         * This changes the column identifier from 'id' to 'tablename_id',
-         * where %s stands for tablename. table news, column "id" becomes "news_id".
-         */
-        #$this->manager->setAttribute(Doctrine_Core::ATTR_DEFAULT_IDENTIFIER_OPTIONS,
-        #array('name' => '%s_id', 'type' => 'string', 'length' => 30));
+        $this->manager->setAttribute(Doctrine_Core::ATTR_AUTO_FREE_QUERY_OBJECTS, true);
 
         /**
          * Sets Charset and Collation globally on Doctrine_Manager instance
@@ -291,7 +283,6 @@ class Clansuite_Doctrine
          * Quote from Johnatan Wage on http://groups.google.com/group/doctrine-user
          */
         $this->manager->setAttribute(Doctrine_Core::ATTR_MODEL_LOADING, Doctrine_Core::MODEL_LOADING_CONSERVATIVE);
-
         #$this->manager->setAttribute(Doctrine_Core::ATTR_MODEL_LOADING, Doctrine_Core::MODEL_LOADING_PEAR);
 
         /**
@@ -319,7 +310,7 @@ class Clansuite_Doctrine
         # $manager->setAttribute(Doctrine_Core::ATTR_PORTABILITY, Doctrine_Core::PORTABILITY_ALL);
 
         # Validate All
-        #$this->manager->setAttribute(Doctrine_Core::ATTR_VALIDATE, Doctrine_Core::VALIDATE_ALL);
+        $this->manager->setAttribute(Doctrine_Core::ATTR_VALIDATE, Doctrine_Core::VALIDATE_ALL);
 
         # Export All
         $this->manager->setAttribute(Doctrine_Core::ATTR_EXPORT, Doctrine_Core::EXPORT_ALL);
@@ -333,6 +324,11 @@ class Clansuite_Doctrine
         # Set default primary key name for tables as 'id' being an integer with length of 4 bytes
         $this->manager->setAttribute(Doctrine_Core::ATTR_DEFAULT_IDENTIFIER_OPTIONS,
             array('name' => 'id', 'type' => 'integer', 'length' => 4));
+        /**
+         * This changes the column identifier from 'id' to 'tablename_id',
+         * where %s stands for tablename. table news, column "id" becomes "news_id".
+         */
+        #array('name' => '%s_id', 'type' => 'string', 'length' => 30));
 
         # Set Connection Listener for Profiling if we are in DEBUG MODE
         if(DEBUG == 1)
