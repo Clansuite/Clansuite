@@ -7,120 +7,116 @@
     Version    : SVN: $Id$
 
     Syntax recommendation http://www.w3.org/TR/REC-CSS2
-
+    CSSTidy 1.3: Sat, 22 May 2010 16:05:09 -0700
 */
-.error_red, .error_orange, .error_beige {
-    border:1px solid #666;
-    margin:0 auto;
-    padding:12px;
-    width:90%;
-}
-
-.error_red legend, .error_orange legend, .error_beige legend {
-    background:#fff;
-    border:1px solid #333;
-    font-weight:700;
-    padding:2px 15px;
-}
-
-.error_red {
-    background:#af0000;
-}
-
-.error_orange {
-    background:#f90;
-}
-
-.error_beige {
-    background:#ffc;
-}
-
-.messagebox {
-    padding:5px;
-    width:50%;
-    margin: auto;
-}
 
 .alert {
-	background: #fff6bf url(http://www.clansuite-dev.com/themes/core/images/icons/error.png) center no-repeat;
-	background-position: 15px 50%; /* x-pos y-pos */
-	text-align: left;
-	padding: 5px 20px 5px 45px;
-	border-top: 2px solid #ffd324;
-	border-bottom: 2px solid #ffd324;
+background:url(http://www.clansuite-dev.com/themes/core/images/icons/error.png) no-repeat 15px 50% #fff6bf;
+border-bottom:2px solid #ffd324;
+border-top:2px solid #ffd324;
+padding:5px 20px 5px 45px;
+text-align:left
 }
 
-.info {
-    background: url(http://www.clansuite-dev.com/themes/core/images/icons/information.png) no-repeat scroll 15px 50% #F8FAFC;
-    border-bottom:2px solid #B5D4FE;
-    border-top:2px solid #B5D4FE;
-    padding:5px 20px 5px 45px;
+.create_helpbox {
+background:url(http://www.clansuite-dev.com/themes/core/images/icons/page_edit.png) no-repeat 15px 50% #DFD;
+border:1px solid #BFB;
+color:#0B0;
+font-weight:700;
+margin:.5em 15px 1em -20px;
+padding:15px 20px 15px 50px
 }
 
 .error {
-    background:#FFDDDD url(http://www.clansuite-dev.com/themes/core/images/icons/error.png) no-repeat scroll 15px 12px;
-    background-position: 15px 50%; /* x-pos y-pos */
-    border:1px solid #FFBBBB;
-    color:#BB0000;
-    margin:0.5em 15px 1em 0px;
-    padding:15px 20px 15px 50px;
+background:url(http://www.clansuite-dev.com/themes/core/images/icons/error.png) no-repeat 15px 50% #FDD;
+border:1px solid #FBB;
+color:#B00;
+margin:.5em 15px 1em 0;
+padding:15px 20px 15px 50px
 }
 
-/* this defines the look of the red error box, for example: when an template is missing */
+.error_beige {
+background:#ffc
+}
+
 .error_helpbox {
-    background:#FFDDDD url(http://www.clansuite-dev.com/themes/core/images/icons/error.png) no-repeat scroll 15px 12px;
-    background-position: 15px 50%; /* x-pos y-pos */
-    border:1px solid #FFBBBB;
-    color:#BB0000;
-    font-weight:bold;
-    margin:0.5em 15px 1em -20px;
-    padding:15px 20px 15px 50px;
+background:url(http://www.clansuite-dev.com/themes/core/images/icons/error.png) no-repeat 15px 50% #FDD;
+border:1px solid #FBB;
+color:#B00;
+font-weight:700;
+margin:.5em 15px 1em -20px;
+padding:15px 20px 15px 50px
 }
 
-/* this defines the look of box, providing the link to the editor, if an template is missing */
-.create_helpbox {
-    background:#DDFFDD url(http://www.clansuite-dev.com/themes/core/images/icons/page_edit.png) no-repeat scroll 15px 12px;
-    background-position: 15px 50%; /* x-pos y-pos */
-    border:1px solid #BBFFBB;
-    color:#00BB00;
-    font-weight:bold;
-    margin:0.5em 15px 1em -20px;
-    padding:15px 20px 15px 50px;
+.error_orange {
+background:#f90
 }
 
-/*body {
-    -moz-border-radius: 12px;
-    border-radius: 12px
-    background: #fff;
-    color: #333;
-    font: 11px arial, verdana, tahoma, sans-serif;
-    width: 1280px;
-    margin: 2em auto 0 auto;
-    padding: 1em 2em;
-}*/
+.error_red {
+background:#af0000
+}
 
-A:link {text-decoration: none}
-A:visited {text-decoration: none}
-A:active {text-decoration: none}
-A:hover {text-decoration: underline; color: #FF0000; }
+.error_red legend,.error_orange legend,.error_beige legend {
+background:#fff;
+border:1px solid #333;
+font-weight:700;
+padding:2px 15px
+}
 
+.error_red,.error_orange,.error_beige {
+border:1px solid #666;
+margin:0 auto;
+padding:12px;
+width:90%
+}
 
-/* used by errorhandler.core.php->getErrorContext() */
+.info {
+background:url(http://www.clansuite-dev.com/themes/core/images/icons/information.png) no-repeat 15px 50% #F8FAFC;
+border-bottom:2px solid #B5D4FE;
+border-top:2px solid #B5D4FE;
+padding:5px 20px 5px 45px
+}
+
+.messagebox {
+margin:auto;
+width:50%
+}
+
 .num {
-  float: left;
-  color: gray;
-  font-size: 13px;
-  font-family: monospace;
-  text-align: right;
-  margin-right: 6pt;
-  padding-right: 6pt;
-  border-right: 1px solid gray;
+border-right:1px solid gray;
+color:gray;
+float:left;
+font-family:monospace;
+font-size:13px;
+margin-right:6pt;
+padding-right:6pt;
+text-align:right
 }
 
-td {
-  vertical-align: top;
+a:hover {
+color:red;
+text-decoration:underline
+}
+
+a:link,a:visited,a:active {
+text-decoration:none
 }
 
 code {
-  white-space: nowrap;
+white-space:nowrap
+}
+
+pre {
+margin:3px;
+width:62%
+}
+
+pre h3:before,pre h3 {
+background:#FF8;
+content:"»";
+padding:5px
+}
+
+td {
+vertical-align:top
 }

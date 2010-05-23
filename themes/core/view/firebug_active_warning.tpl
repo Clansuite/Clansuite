@@ -9,10 +9,7 @@ window.onload = function ()
     var firebug = document.getElementById('firebug-warning');
     firebug.style.display = 'block';
   }
-  /*else
-  {
-    alert('Firebug is not installed or de-activated.');
-  }*/
+  /* else { alert('Firebug is not installed or de-activated.'); } */
 }
 // ]]>
 </script>
@@ -24,8 +21,9 @@ window.onload = function ()
     <br/>
     Using firebug with Clansuite will cause a <strong>significant performance degradation</strong>.
     <br/>
+    <br />
     <input type="button" class="ui-button ui-widget ui-state-default ui-corner-all"
-           value="Uhm, yes - i want it this way...Shut up!"
-           onclick="$('#firebug-warning').toggle();">
+           value="Uhm, yes - i'm debugging something - so shut up!"
+           onclick="$('#firebug-warning').toggle();" />
 {/messagebox}
 </div>

@@ -25,14 +25,15 @@
  */
 function smarty_modifier_firebug($var)
 {
-    # formerly
-    # Clansuite_Xdebug::firebug($var);
+    # formerly using the Clansuite Framework
+    Clansuite_Xdebug::firebug($var);
 
-    if(false === class_exists('FirePHP', false))
+    # using firebug directly
+    /*if(false === class_exists('FirePHP', false))
     {
         include ROOT_LIBRARIES.'firephp/FirePHP.class.php';
     }
     $firephp = FirePHP::getInstance(true);
-    $firephp->log($var);   
+    $firephp->log($var); */
 }
 ?>
