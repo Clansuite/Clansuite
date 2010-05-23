@@ -208,7 +208,7 @@ class Clansuite_Form /*extends Clansuite_HTML*/ implements Clansuite_Form_Interf
      * @param string $action Set the action of the form.
      *
      */
-    public function __construct($name_or_attributes, $method, $action)
+    public function __construct($name_or_attributes, $method = null, $action = null)
     {
          # case 1: $name is a string, the name of the form
          if(is_string($name_or_attributes))
@@ -221,8 +221,11 @@ class Clansuite_Form /*extends Clansuite_HTML*/ implements Clansuite_Form_Interf
             $this->setAttributes($name_or_attributes);
          }
 
-         $this->setMethod($method);
-         $this->setAction($action);
+         if($method != null and $action != null)
+         {
+            $this->setMethod($method);
+            $this->setAction($action);
+         }
     }
 
     /**
@@ -363,7 +366,7 @@ class Clansuite_Form /*extends Clansuite_HTML*/ implements Clansuite_Form_Interf
     /**
      * Set accept-charset of this form.
      *
-     * @param string $charset Name of this form.
+     * @param string $charset Charset of this form.
      * @return Clansuite_Form
      */
     public function setCharset($charset)
@@ -391,7 +394,7 @@ class Clansuite_Form /*extends Clansuite_HTML*/ implements Clansuite_Form_Interf
     /**
      * Set class of this form.
      *
-     * @param string $class Name of this form.
+     * @param string $class Css Classname of this form.
      * @return Clansuite_Form
      */
     public function setClass($class)
@@ -402,9 +405,9 @@ class Clansuite_Form /*extends Clansuite_HTML*/ implements Clansuite_Form_Interf
     }
 
     /**
-     * Returns class of this form.
+     * Returns css classname of this form.
      *
-     * @return string Name of this form.
+     * @return string Css Classname of this form.
      */
     public function getClass()
     {
@@ -412,9 +415,9 @@ class Clansuite_Form /*extends Clansuite_HTML*/ implements Clansuite_Form_Interf
     }
 
     /**
-     * Set class of this form.
+     * Set description of this form.
      *
-     * @param string $description Name of this form.
+     * @param string $description Description of this form.
      * @return Clansuite_Form
      */
     public function setDescription($description)
@@ -427,7 +430,7 @@ class Clansuite_Form /*extends Clansuite_HTML*/ implements Clansuite_Form_Interf
     /**
      * Returns class of this form.
      *
-     * @return string Name of this form.
+     * @return string Description of this form.
      */
     public function getDescription()
     {
@@ -437,7 +440,7 @@ class Clansuite_Form /*extends Clansuite_HTML*/ implements Clansuite_Form_Interf
     /**
      * Set heading of this form.
      *
-     * @param string $heading Name of this form.
+     * @param string $heading Heading of this form.
      * @return Clansuite_Form
      */
     public function setHeading($heading)
@@ -450,7 +453,7 @@ class Clansuite_Form /*extends Clansuite_HTML*/ implements Clansuite_Form_Interf
     /**
      * Returns heading of this form.
      *
-     * @return string Name of this form.
+     * @return string Heading of this form.
      */
     public function getHeading()
     {
@@ -701,8 +704,13 @@ class Clansuite_Form /*extends Clansuite_HTML*/ implements Clansuite_Form_Interf
     /**
      * Adds a formelement to the form
      *
-     * @param $formelement Clansuite_Formelement Object implementing the Clansuite_Form_Interface
-     * @param $position integer The position number of this formelement (ordering).
+     * You don't know the formelements available? Then take a look at
+     * a) the directory core\viewhelper\formelements\*
+     * b) the manual
+     * @link http://www.clansuite.com/documentation/developer/manual/de/#_clansuite_form
+     *
+     * @param $formelement string|object Name of formelement or Object implementing the Clansuite_Form_Interface
+     * @param $position integer The position number of this formelement (ordering) in the formelements stack.
      * @return Clansuite_Form $this Form Object
      */
     public function addElement($formelement, $position = null)
@@ -806,18 +814,16 @@ class Clansuite_Form /*extends Clansuite_HTML*/ implements Clansuite_Form_Interf
         # if not already loaded, require forelement file
         if (false == class_exists('Clansuite_Formelement_'.$formelement,false))
         {
-            #if(is_file(ROOT_CORE . 'viewhelper/formelements/'.$formelement.'.form.php'))
-            #{
+            if(is_file(ROOT_CORE . 'viewhelper/formelements/'.$formelement.'.form.php'))
+            {
                 include ROOT_CORE . 'viewhelper/formelements/'.$formelement.'.form.php';
-            #}
+            }
         }
 
         # construct Clansuite_Formelement_Name
         $formelement_classname = 'Clansuite_Formelement_'.ucfirst($formelement);
-        # instantiate the new formelement
-        $formelement = new $formelement_classname;
-
-        return $formelement;
+        # instantiate the new formelement and return
+        return new $formelement_classname;
     }
 
     /**
@@ -1013,10 +1019,8 @@ class Clansuite_Form /*extends Clansuite_HTML*/ implements Clansuite_Form_Interf
 
         # construct Clansuite_Formdecorator_Name
         $formdecorator_classname = 'Clansuite_Form_Decorator_'.ucfirst($formdecorator);
-        # instantiate the new $formdecorator
-        $formdecorator = new $formdecorator_classname();
-
-        return $formdecorator;
+        # instantiate the new $formdecorator and return
+        return new $formdecorator_classname();
     }
 
     /**

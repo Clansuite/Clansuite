@@ -53,7 +53,7 @@ if (defined('IN_CS') == false)
 
 class Clansuite_Formelement /* extends Clansuite_HTML */ implements Clansuite_Formelement_Interface
 {
-    protected $name, $id, $type, $class, $size, $disabled, $maxlength, $style;
+    protected $name, $id, $type, $class, $size, $disabled, $maxlength, $style, $onclick;
 
     protected $label, $value, $position, $required;
 
@@ -378,6 +378,29 @@ class Clansuite_Formelement /* extends Clansuite_HTML */ implements Clansuite_Fo
     }
 
     /**
+     * Set onclick text of this formelement.
+     *
+     * @param string $onclick Onclick text of this formelement.
+     * @return Clansuite_Formelement
+     */
+    public function setOnclick($onklick)
+    {
+        $this->onklick = $onclick;
+
+        return $this;
+    }
+
+    /**
+     * Returns onclick text of this formelement.
+     *
+     * @return string Onclick text of this formelement.
+     */
+    public function getOnclick()
+    {
+        return $this->onclick;
+    }
+
+    /**
      * Returns the requested attribute if existing else null.
      *
      * @param $parametername
@@ -589,7 +612,7 @@ class Clansuite_Formelement /* extends Clansuite_HTML */ implements Clansuite_Fo
 
         #Clansuite_Xdebug::firebug($this);
         #Clansuite_Xdebug::firebug($this->formelementdecorators);
-        
+
         return $this->formelementdecorators[$decoratorname];
     }
 

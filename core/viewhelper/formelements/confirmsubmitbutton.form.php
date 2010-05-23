@@ -64,7 +64,7 @@ class Clansuite_Formelement_ConfirmSubmitButton extends Clansuite_Formelement_In
 
         # Add the Form Submit Confirmation Javascript. This is a pure Javacript Return Confirm.
         # to add the value of specific form.elements to the message use "+ form.elements['email'].value +"
-        $this->setAdditionals("onclick=\"if (confirm('Are you sure you want to submit this form?\\n\\nClick OK to submit or Cancel to abort.')) { submit(); } else { return false; } \" value=\"Submit\"");
+        $this->setAdditionalAttributeText("onclick=\"if (confirm('Are you sure you want to submit this form?\\n\\nClick OK to submit or Cancel to abort.')) { submit(); } else { return false; } \" value=\"Submit\"");
     }
 
     public function setMessage($message)

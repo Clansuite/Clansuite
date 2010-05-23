@@ -39,36 +39,24 @@ if (defined('IN_CS') == false)
     die('Clansuite not loaded. Direct Access forbidden.');
 }
 
+# conditional include of the parent class
+if (false == class_exists('Clansuite_Formelement_Input',false))
+{
+    include dirname(__FILE__) . '/input.form.php';
+}
+
 /**
  *  Clansuite_Formelement
  *  |
  *  \- Clansuite_Formelement_Input
  *     |
- *     \- Clansuite_Formelement_Cancelbutton
+ *     \- Clansuite_Formelement_Button
  */
-class Clansuite_Formelement_Cancelbutton extends Clansuite_Formelement_Input implements Clansuite_Formelement_Interface
+class Clansuite_Formelement_Button extends Clansuite_Formelement_Input implements Clansuite_Formelement_Interface
 {
-    /**
-     * Holds the url when canceling
-     *
-     * @var string
-     */
-    public $cancelURL = 'index.php';
-
     public function __construct()
     {
-        $this->type  = 'button';
-        $this->value = _('Cancel');
-
-        $this->class = 'CancelButton';
-        $this->id    = 'CancelButton';
-        $this->name  = 'CancelButton';
-    }
-
-    public function render()
-    {
-        $this->setAdditionalAttributeText(' onclick="window.location.href=\''.$this->cancelURL.'\'"');
-        return parent::render();
-    }
+        $this->type = 'button';
+    }    
 }
 ?>

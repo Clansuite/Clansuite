@@ -121,15 +121,16 @@ class Clansuite_Formelement_Select extends Clansuite_Formelement implements Clan
         $html .= '>';
 
         /**
-         * this handles the deflaut value setting via the options array, parameter "selected"
-         * it grabs the first element in the options array, which keyname should be 'selected'
+         * This handles the defaultt value setting via the options array key "selected".
+         * It grabs the first element in the options array, which keyname should be 'selected'
          * and then removes it, setting its value to $this->default.
          *
-         * the check for empty($this->default) is important, because the default value might already be set via setDefaultValue().
-         * such a scenario is given, when the form is generated via array.
-         * the array would contain options['selected'] with an default value, but the actual default value is incomming via setDefaultValue().
+         * The check for empty($this->default) is important, because the default value might already
+         * be set via setDefaultValue(). Such a scenario is given, when the form is generated via array.
+         * The array would contain options['selected'] with an default value, but the actual default
+         * value is incomming via setDefaultValue().
          *
-         * note: if the options array is incomming via a formgenerator, the formgenerator has already performed this step
+         * Note: If the options array is incomming via a formgenerator: the generator has already performed this step!
          * $this->setDefault(options['selected']);
          */
         if(isset($this->options['selected']) and empty($this->default))

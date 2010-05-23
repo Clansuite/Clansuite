@@ -121,7 +121,7 @@ class Clansuite_Formelement_Input extends Clansuite_Formelement implements Clans
      *
      * @var $string;
      */
-    public $additionals;
+    public $additional_attr_text;
 
     /**
      * description
@@ -131,13 +131,17 @@ class Clansuite_Formelement_Input extends Clansuite_Formelement implements Clans
     public $description;
 
     /**
-     * Set Additionals to t formelement.
+     * Set Additional Attributes as Text to formelement.
      *
-     * @param $additionals of this formelement.
+     * @example
+     * Setting the onclick attribute.
+     * $this->setAdditionalAttributeText(' onclick="window.location.href=\''.$this->cancelURL.'\'"');
+     *
+     * @param $additional_attr_text of this formelement.
      */
-    public function setAdditionals($additionals)
+    public function setAdditionalAttributeText($additional_attr_text)
     {
-        $this->additionals = $additionals;
+        $this->additional_attr_text = $additional_attr_text;
         return $this;
     }
 
@@ -156,7 +160,7 @@ class Clansuite_Formelement_Input extends Clansuite_Formelement implements Clans
         $html .= ($this->type == 'image') ? ' source="'.$this->source.'"' : null;
         $html .= ($this->type == 'image' and (bool) $this->width and (bool) $this->height) ? '  style="width:'.$this->width.'px; height:'.$this->height.'px;"' : null;
         $html .= (bool) $this->checked ? ' checked="checked"' : null;
-        $html .= (bool) $this->additionals ? $this->additionals : null;
+        $html .= (bool) $this->additional_attr_text ? $this->additional_attr_text : null;
         $html .= ' />' . CR;
 
         return $html;
