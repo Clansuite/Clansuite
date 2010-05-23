@@ -49,7 +49,7 @@ $modulenavigation = array(
                                             'name'    => 'Overview',
                                             'url'     => 'index.php?mod=menu&sub=admin', # &action=show
                                             'icon'    => '',
-                                            'tooltip' => ''
+                                            'title' => ''
                                         ),
                                         
                             '2' => array(
@@ -57,7 +57,7 @@ $modulenavigation = array(
                                             'name'    => 'Menueditor II',
                                             'url'     => 'index.php?mod=menu&sub=admin&action=menueditor2', # &action=show
                                             'icon'    => '',
-                                            'tooltip' => ''
+                                            'title' => ''
                                         ),
 
                             '3' => array(
@@ -65,7 +65,7 @@ $modulenavigation = array(
                                             'name'    => 'Import &amp; Export',
                                             'url'     => 'index.php?mod=menu&sub=admin&action=imexport',
                                             'icon'    => '',
-                                            'tooltip' => ''
+                                            'title' => ''
                                         ),
 
                             '4' => array(
@@ -73,7 +73,7 @@ $modulenavigation = array(
                                             'name'    => 'Backup',
                                             'url'     => 'index.php?mod=menu&sub=admin&action=backup',
                                             'icon'    => '',
-                                            'tooltip' => ''
+                                            'title' => ''
                                         ),
                          );
 
