@@ -178,7 +178,7 @@ class Clansuite_Array_Formgenerator extends Clansuite_Form
         }
         else
         {
-            throw new Clansuite_Exception('Ensure that all obligatory formelements are present.');
+            throw new Clansuite_Exception('Obligatory formelements not present.', 30);
         }
 
         return $this;
@@ -339,12 +339,19 @@ class Clansuite_Array_Formgenerator extends Clansuite_Form
     {
         $this->generateFormByArray($array);
     }
+
+    public function generateArrayByForm()
+    {
+        # serialize an save the array
+    }
 }
 
 /**
  * Clansuite Form Generator via XML
  *
- * Purpose: automatic form generation from an xml description file.
+ * Purpose:
+ * 1) form generation (html representation) from an xml description file (xml->form(html))
+ * 2) xml generation from an array description of the form (form(array)->xml).
  */
 class Clansuite_XML_Formgenerator extends Clansuite_Form
 {
@@ -355,6 +362,7 @@ class Clansuite_XML_Formgenerator extends Clansuite_Form
         $array = new Clansuite_Config($filename);
 
         #Clansuite_Xdebug::firebug($filename);
+        #Clansuite_Xdebug::firebug($array);
         $form = '';
         $form = new Clansuite_Array_Formgenerator($array);
 
@@ -369,6 +377,21 @@ class Clansuite_XML_Formgenerator extends Clansuite_Form
     public function generate($array)
     {
         $this->generateFormByXML($array);
+    }
+
+    /**
+     * Generates a XML Form Description File from an form describing array
+     *
+     * @param $array
+     */
+    public function generateXMLByArray($array)
+    {
+        /*$filename = ROOT_MODULES . $array['modulename'] . DS . 'forms/';
+        $filename .= $array['actionname'] . 'form.xml.php';
+
+        $xml = Clansuite_Config_XMLHandler::getInstance();
+        $xml::writeConfig($filename, $array);
+		*/
     }
 }
 ?>

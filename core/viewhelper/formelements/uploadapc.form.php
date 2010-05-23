@@ -177,7 +177,7 @@ class Clansuite_Formelement_Uploadapc extends Clansuite_Formelement_File impleme
         }
         $submit = new Clansuite_Formelement_Submitbutton();
         $submit->setValue(_('Upload File'));
-        $submit->setAdditionals("onclick=\"this.disabled=true; setInterval('getUploadProgress(\''+this.form.APC_UPLOAD_PROGRESS.value+'\')', 750); \" ");
+        $submit->setAdditionalAttributeText("onclick=\"this.disabled=true; setInterval('getUploadProgress(\''+this.form.APC_UPLOAD_PROGRESS.value+'\')', 750); \" ");
         $html .= $submit;
 
         return $javascript.$html;
