@@ -44,6 +44,15 @@ if (false === class_exists('Clansuite_Form_Decorator', false))
     include ROOT_CORE . 'viewhelper/formdecorator.core.php';
 }
 
+/**
+ * Clansuite_Formelement_Decorator_Div
+ *
+ * Wraps a <div> element around the html_fromelement_content.
+ *
+ * @category Clansuite
+ * @package Clansuite_Form
+ * @subpackage Clansuite_Form_Decorator
+ */
 class Clansuite_Formelement_Decorator_Div extends Clansuite_Formelement_Decorator
 {
     public $name = 'div';

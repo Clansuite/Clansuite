@@ -39,15 +39,24 @@ if (defined('IN_CS') == false)
     die('Clansuite not loaded. Direct Access forbidden.');
 }
 
+/**
+ * Clansuite_Formelement_Decorator_Label
+ *
+ * Adds a <label> element containing the formelement label in-front of html_fromelement_content.
+ *
+ * @category Clansuite
+ * @package Clansuite_Form
+ * @subpackage Clansuite_Form_Decorator
+ */
 class Clansuite_Formelement_Decorator_Label extends Clansuite_Formelement_Decorator
-{   
+{
     /**
      * Name of this decorator
      *
      * @var string
      */
     public $name = 'label';
-    
+
     /**
      * renders label BEFORE formelement
      *
@@ -59,8 +68,8 @@ class Clansuite_Formelement_Decorator_Label extends Clansuite_Formelement_Decora
         if ( $this->formelement->hasLabel() == true)
         {
             $html_formelement = CR . '<label>' . $this->formelement->getLabel() . '</label>'. CR . $html_formelement;
-        }    
-        
+        }
+
         return $html_formelement;
     }
 }
