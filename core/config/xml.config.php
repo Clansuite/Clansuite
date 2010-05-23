@@ -102,9 +102,6 @@ class Clansuite_Config_XMLHandler extends Clansuite_Config_Base implements Array
      */
     public static function writeConfig($filename, $assoc_array)
     {
-        # Log
-        # Clansuite_Logger::notice( __CLASS__ . ": Writing Array to XML-File $filename." );
-
         # transform assoc_array to xml
         $xml = $this->arrayToXML($assoc_array);
 
@@ -174,9 +171,6 @@ class Clansuite_Config_XMLHandler extends Clansuite_Config_Base implements Array
      */
     public static function readConfig($filename)
     {
-        # Log
-        # Clansuite_Logger::notice( __CLASS__ . ": Loading XML from $filename." );
-
         # read file
         # formerly $xml = file_get_contents($filename);
         $xml = simplexml_load_file($filename);
