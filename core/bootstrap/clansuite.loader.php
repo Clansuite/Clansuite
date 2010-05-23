@@ -115,29 +115,28 @@ class Clansuite_Loader
     }
 
     /**
-     * Require File
-     * if file found
+     * Require File (and register it to the autoloading map file)
      *
      * @param string $filename The file to be required
-     * @return bool
+     * @return bool True on success of require, false otherwise.
      */
-    private function requireFileAndMap($filename, $classname = null)
+    public function requireFileAndMap($filename, $classname = null)
     {
         if (is_file($filename) === true)
         {
             include $filename;
 
-            # log for the autoloaded files
-            if(DEBUG == true)
-            {
-                self::logHit($filename);
-            }
-
             # if classname is given, its a mapping request
-            if(false === is_null($classname))
+            if(false === is_null($classname) and class_exists($classname, false) === true)
             {
                 # add class and filename to the mapping array
                 $this->addToMapping($filename, $classname);
+
+                # log for the autoloaded files
+                if(DEBUG == true)
+                {
+                    self::logHit($filename);
+                }
             }
 
             return true;
@@ -172,15 +171,23 @@ class Clansuite_Loader
      * Require File if file found
      *
      * @param string $filename The file to be required
-     * @param string $classname The classname (hopefully) inside this file
+     * @param string $classname The classname (hopefully) inside this file.
      * @return bool
      */
-    private static function requireFile($filename)
+    public static function requireFile($filename, $classname = null)
     {
         if (is_file($filename) === true)
         {
             include $filename;
-            return true;
+
+            if(false === is_null($classname) and class_exists($classname, false) === true)
+            {
+                throw new Clansuite_Exception('Class '. $classname .' could not be found.');
+            }
+            else
+            {
+                return true;
+            }
         }
         else
         {
