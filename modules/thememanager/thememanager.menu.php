@@ -49,7 +49,7 @@ $modulenavigation = array(
                                             'name'    => 'Frontend',
                                             'url'      => 'index.php?mod=thememanager&sub=admin', # &action=show_frontend
                                             'icon'    => '',
-                                            'tooltip' => ''
+                                            'title' => ''
                                         ),
 
                             '2' => array(
@@ -57,7 +57,7 @@ $modulenavigation = array(
                                             'name'    => 'Backend',
                                             'url'     => 'index.php?mod=thememanager&sub=admin&action=show_backend',
                                             'icon'    => '',
-                                            'tooltip' => ''
+                                            'title' => ''
                                         ),
 
                          );

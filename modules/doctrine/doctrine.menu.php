@@ -40,37 +40,61 @@ if(defined('IN_CS') == false)
 }
 
 /**
- * Clansuite Modulenavigation for Module Shoutbox
+ * Clansuite Modulenavigation for Module Doctrine
  */
 
 $modulenavigation = array(
                             '1' => array(
                                             'action'  => 'show',
                                             'name'    => 'Overview',
-                                            'url'      => 'index.php?mod=shoutbox&sub=admin', # &action=show
+                                            'url'     => 'index.php?mod=doctrine&sub=admin', # = &action=show
                                             'icon'    => '',
                                             'title' => ''
                                         ),
 
                             '2' => array(
-                                            'action'  => 'create',
-                                            'name'    => 'Create new',
-                                            'url'     => 'index.php?mod=shoutbox&sub=admin&action=create',
+                                            'action'  => 'db2models',
+                                            'name'    => 'DB &raquo; Models',
+                                            'url'     => 'index.php?mod=doctrine&sub=admin&action=db2models',
                                             'icon'    => '',
                                             'title' => ''
                                         ),
 
                             '3' => array(
-                                            'action'  => 'settings',
-                                            'name'    => 'Settings',
-                                            'url'     => 'index.php?mod=shoutbox&sub=admin&action=settings',
+                                            'action'  => 'db2yaml',
+                                            'name'    => 'DB &raquo; YAML',
+                                            'url'     => 'index.php?mod=doctrine&sub=admin&action=db2yaml',
+                                            'icon'    => '',
+                                            'title' => ''
+                                        ),
+
+                            '4' => array(
+                                            'action'  => 'models2sql',
+                                            'name'    => 'Models &raquo; SQL',
+                                            'url'     => 'index.php?mod=doctrine&sub=admin&action=models2sql',
+                                            'icon'    => '',
+                                            'title' => ''
+                                        ),
+
+                            '5' => array(
+                                            'action'  => 'models2yaml',
+                                            'name'    => 'Models &raquo; YAML',
+                                            'url'     => 'index.php?mod=doctrine&sub=admin&action=models2yaml',
+                                            'icon'    => '',
+                                            'title' => ''
+                                        ),
+
+                             '6' => array(
+                                            'action'  => 'yaml2models',
+                                            'name'    => 'YAML &raquo; Models',
+                                            'url'     => 'index.php?mod=doctrine&sub=admin&action=yaml2models',
                                             'icon'    => '',
                                             'title' => ''
                                         ),
                          );
 
 /**
- * Clansuite Adminmenu for Module Shoutbox
+ * Clansuite Adminmenu for Module Doctrine
  */
 
 $adminmenu        = array(

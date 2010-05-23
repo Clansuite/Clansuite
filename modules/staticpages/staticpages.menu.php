@@ -49,7 +49,7 @@ $modulenavigation = array(
                                             'name'    => 'Overview',
                                             'url'      => 'index.php?mod=staticpages&sub=admin', # &action=show
                                             'icon'    => '',
-                                            'tooltip' => ''
+                                            'title' => ''
                                         ),
 
                             '2' => array(
@@ -57,7 +57,7 @@ $modulenavigation = array(
                                             'name'    => 'Create new',
                                             'url'     => 'index.php?mod=staticpages&sub=admin&action=create',
                                             'icon'    => '',
-                                            'tooltip' => ''
+                                            'title' => ''
                                         ),
 
                             '3' => array(
@@ -65,7 +65,7 @@ $modulenavigation = array(
                                             'name'    => 'Settings',
                                             'url'     => 'index.php?mod=staticpages&sub=admin&action=settings',
                                             'icon'    => '',
-                                            'tooltip' => ''
+                                            'title' => ''
                                         ),
                          );
 

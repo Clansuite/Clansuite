@@ -49,7 +49,7 @@ $modulenavigation = array(
                                             'name'    => 'Clansuite Settings',
                                             'url'      => 'index.php?mod=settings&sub=admin', # &action=show
                                             'icon'    => '',
-                                            'tooltip' => ''
+                                            'title' => ''
                                         ),
                            /**
                             '2' => array(
@@ -57,7 +57,7 @@ $modulenavigation = array(
                                             'name'    => 'Module Settings',
                                             'url'     => 'index.php?mod=settings&sub=admin&action=modulesettings',
                                             'icon'    => '',
-                                            'tooltip' => ''
+                                            'title' => ''
                                         ),**/
                          );
 

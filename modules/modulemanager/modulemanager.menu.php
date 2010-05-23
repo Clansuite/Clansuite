@@ -49,7 +49,7 @@ $modulenavigation = array(
                                             'name'    => 'Overview',
                                             'url'      => 'index.php?mod=modulemanager&sub=admin', # &action=show
                                             'icon'    => '',
-                                            'tooltip' => ''
+                                            'title' => ''
                                         ),
 
                             '2' => array(
@@ -57,7 +57,7 @@ $modulenavigation = array(
                                             'name'    => 'Create with Modulebuilder',
                                             'url'     => 'index.php?mod=modulemanager&sub=admin&action=builder',
                                             'icon'    => '',
-                                            'tooltip' => ''
+                                            'title' => ''
                                         ),
                                         
                             '3' => array(
@@ -65,7 +65,7 @@ $modulenavigation = array(
                                             'name'    => 'Install',
                                             'url'     => 'index.php?mod=modulemanager&sub=admin&action=install',
                                             'icon'    => '',
-                                            'tooltip' => ''
+                                            'title' => ''
                                         ),
 
                             '4' => array(
@@ -73,7 +73,7 @@ $modulenavigation = array(
                                             'name'    => 'Edit',
                                             'url'     => 'index.php?mod=modulemanager&sub=admin&action=edit',
                                             'icon'    => '',
-                                            'tooltip' => ''
+                                            'title' => ''
                                         ),
                                         
                             '5' => array(
@@ -81,7 +81,7 @@ $modulenavigation = array(
                                             'name'    => 'Export',
                                             'url'     => 'index.php?mod=modulemanager&sub=admin&action=export',
                                             'icon'    => '',
-                                            'tooltip' => ''
+                                            'title' => ''
                                         ),
 
                             '6' => array(
@@ -89,7 +89,7 @@ $modulenavigation = array(
                                             'name'    => 'Settings',
                                             'url'     => 'index.php?mod=modulemanager&sub=admin&action=settings',
                                             'icon'    => '',
-                                            'tooltip' => ''
+                                            'title' => ''
                                         ),
                          );
 

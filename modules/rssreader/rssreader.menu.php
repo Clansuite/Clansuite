@@ -49,7 +49,7 @@ $modulenavigation = array(
                                             'name'    => 'Overview',
                                             'url'      => 'index.php?mod=rssreader&sub=admin', # &action=show
                                             'icon'    => '',
-                                            'tooltip' => ''
+                                            'title' => ''
                                         ),
 
                             '2' => array(
@@ -57,7 +57,7 @@ $modulenavigation = array(
                                             'name'    => 'Settings',
                                             'url'     => 'index.php?mod=rssreader&sub=admin&action=settings',
                                             'icon'    => '',
-                                            'tooltip' => ''
+                                            'title' => ''
                                         ),
                          );
 
