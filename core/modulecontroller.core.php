@@ -289,6 +289,18 @@ abstract class Clansuite_Module_Controller extends Clansuite_Module_Controller_R
     }
 
     /**
+     * Proxy/convenience method for getView()
+     *
+     * @example
+     * old: $view = $this->getView(); $view->assign(....);
+     * new: $this->view()->assign(...);
+     */
+    public function view()
+    {
+        return $this->getView();
+    }
+
+    /**
      * sets the Rendering Engine
      *
      * @param string $renderEngineName Name of the RenderEngine
@@ -495,9 +507,9 @@ abstract class Clansuite_Module_Controller extends Clansuite_Module_Controller_R
      * @param int    http status code, default: '302' => 'Not Found'
      * @param string redirect text
      */
-    public function redirect($url, $time = 0, $statusCode = 302, $text = '')
+    public function redirect($url, $time = 0, $statusCode = 302, $message = '')
     {
-        self::getHttpResponse()->redirect($url, $time, $statusCode, $text);
+        self::getHttpResponse()->redirect($url, $time, $statusCode, $message);
     }
 
     /**
