@@ -104,7 +104,7 @@ class Language implements ArrayAccess
         // STEP 4 - Database
         $this->language['STEP4_DATABASE'] = 'Schritt [4] Datenbank';
 
-        $this->language['STEP4_SENTENCE1'] = 'In Schritt [4] geben Sie Ihre MySQL-Datenbank Verbindungsdaten an und wir werden bei erfolgreicher Verbindung mit der Datenbank einige grundlegende Tabellen und Inhalte für Clansuite darin abzulegen.';
+        $this->language['STEP4_SENTENCE1'] = 'In Schritt [4] geben Sie Ihre MySQL-Datenbank Verbindungsdaten an und wir werden bei erfolgreicher Verbindung mit der Datenbank einige grundlegende Tabellen und Inhalte für Clansuite darin ablegen.';
         $this->language['STEP4_SENTENCE2'] = 'Diese Verbindungsdaten, insbesondere Ihren Nutzernamen und das dazugehörige Passwort, erhalten Sie von Ihrem Provider. Wenn Sie für Ihren Server selbst verantwortlich sind, dann registrieren Sie einen neuen MySQL Nutzer.';
 
         $this->language['STEP4_SENTENCE3'] = 'Wenn der Nutzer die Berechtigung zum Erstellen einer neuen Tabelle besitzt, so kann eine neue Tabelle mit dem gewünschten Namen automatisch angelegt werden - andernfalls, ist eine bereits existierende Datenbanktabelle anzugeben.';
