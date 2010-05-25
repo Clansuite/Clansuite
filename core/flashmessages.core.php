@@ -111,11 +111,10 @@ class Clansuite_Flashmessages /* extends Clansuite_Session */
     {
         if(in_array($type, self::$flashmessagetypes) == true)
         {
-            # set message the session in flashmessages array container
-            self::$flashmessages[$type][] = $message;
+            self::$flashmessages[][$type] = $message;
         }
 
-        self::saveFlashMessagesToSession();
+        $_SESSION['user']['flashmessages'] = self::$flashmessages;
     }
 
     /**
@@ -167,7 +166,7 @@ class Clansuite_Flashmessages /* extends Clansuite_Session */
     public static function delMessage($type, $id)
     {
         # @todo message_id as identifier
-        self::$flashmessages[$type][$id] = array();
+        #self::$flashmessages[$type][$id] = array();
     }
 
     /**
@@ -179,28 +178,28 @@ class Clansuite_Flashmessages /* extends Clansuite_Session */
     }
 
     /**
-     * Save the flashmessages of this object to the session
-     */
-    private static function saveFlashMessagesToSession()
-    {
-        $_SESSION['user']['flashmessages'] = self::$flashmessages;
-    }
-
-    /**
      * Render the flashmessages
      *
      * @param $type string Type of flashmessage, will render only messages of this type.
      */
     public static function render($type = null)
     {
+        if(isset($_SESSION['user']['flashmessages']))
+        {
+            Clansuite_Xdebug::firebug($_SESSION['user']['flashmessages']);
+        }
+
         #$flashmessages = self::getMessages($type);
-        $flashmessages = self::getMessagesFromSessionAndUnset();
-        if(isset($flashmessages))
+        $flashmessages_index = self::getMessagesFromSessionAndUnset();
+        if(isset($flashmessages_index))
         {
             $html = '';
-            foreach($flashmessages as $type => $flashmessage)
+            foreach($flashmessages_index as $flashmessage)
             {
-                $html .= '<div id="flashmessage" class="flashmessage ' . $type . '">' . $flashmessage[0] . '</div>';
+                foreach($flashmessage as $type => $flashmessage)
+                {
+                    $html .= '<div id="flashmessage" class="flashmessage ' . $type . '">' . $flashmessage . '</div>';
+                }
             }
             return $html;
         }
