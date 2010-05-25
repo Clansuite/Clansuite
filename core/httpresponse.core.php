@@ -376,7 +376,7 @@ class Clansuite_HttpResponse implements Clansuite_Response_Interface
      * @param text   text of redirect message
      * @param string redirect mode LOCATION, REFRESH, JS, HTML
      */
-    public static function redirect($url, $time = 0, $statusCode = 302, $message = '', $mode = null )
+    public static function redirect($url, $time = 0, $statusCode = 302, $message = null, $mode = null )
     {
         $linenum = '';
         $redirect_html = '';
@@ -410,7 +410,7 @@ class Clansuite_HttpResponse implements Clansuite_Response_Interface
                     break;
             }
 
-            if($mode == 'JS' or $mode == 'HTML')
+            if(empty($redirect_html) === false)
             {
                 # self::addHeader('Location', $url);
                 self::setContent($redirect_html, $time, htmlspecialchars($url, ENT_QUOTES, 'UTF-8'));
@@ -419,7 +419,7 @@ class Clansuite_HttpResponse implements Clansuite_Response_Interface
             /**
              * Set flashmessage on redirect
              */
-            if(isset($message))
+            if(empty($message) === false )
             {
                 # @todo handle type when $message is "type:message text"
                 #$array = explode(':', $message);
