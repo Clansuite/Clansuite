@@ -391,6 +391,33 @@ class Clansuite_CMS
             ini_set('display_startup_errors', true);
             ini_set('display_errors', true);    # display errors in the browser
             error_reporting(E_ALL | E_STRICT);  # all errors and strict standard optimizations
+
+            /**
+             * Toggle for Rapid Application Development
+             * @var Development-Mode is set via config setting ['error']['development']
+             */
+            define('DEVELOPMENT', self::$config['error']['development']);
+
+            /**
+             * Setup Debugging Helpers
+             *
+             * If Clansuite is in DEBUG Mode an additional class is loaded, providing some
+             * helper methods for profiling, tracing and enhancing the debug displays.
+             * @see clansuite_debug:printR() and clansuite_debug:firebug()
+             */
+            include ROOT_CORE . 'debug/debug.core.php';
+
+            /**
+             * @var XDebug and set it's value via the config setting ['error']['xdebug']
+             */
+            define('XDEBUG', self::$config['error']['xdebug']);
+
+            # If XDebug is enabled, load xdebug helpers and start the debug/tracing
+            if( XDEBUG == true)
+            {
+                include ROOT_CORE . 'debug/xdebug.core.php';
+                Clansuite_XDebug::start_Xdebug();
+            }
         }
         else # application is in live/production mode. errors are not shown, but logged to file!
         {
@@ -399,32 +426,6 @@ class Clansuite_CMS
             error_reporting(E_COMPILE_ERROR | E_RECOVERABLE_ERROR | E_ERROR | E_CORE_ERROR);
             #error_reporting(0);                 # do not report errors
             ini_set('error_log', ROOT_LOGS . 'clansuite_errorlog.txt'); # write to errorlog
-        }
-
-        /**
-         * Toggle for Rapid Application Development
-         * @var Development-Mode is set via config setting ['error']['development']
-         */
-        define('DEVELOPMENT', self::$config['error']['development']);
-
-        /**
-         * Setup XDebug
-         *
-         * If Clansuite is in XDEBUG Mode an additional class is loaded, providing some
-         * helper methods for profiling, tracing and enhancing the debug displays.
-         * @see clansuite_xdebug:printR()
-         */
-
-        /**
-         * @var XDebug and set it's value via the config setting ['error']['xdebug']
-         */
-        define('XDEBUG', self::$config['error']['xdebug']);
-
-        # If XDebug is enabled, load xdebug helpers and start the debug/tracing
-        if( XDEBUG == true)
-        {
-            include ROOT_CORE . 'bootstrap/clansuite.xdebug.php';
-            Clansuite_Xdebug::start_xdebug();
         }
     }
 
