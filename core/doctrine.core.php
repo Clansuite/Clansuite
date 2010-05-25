@@ -71,11 +71,6 @@ class Clansuite_Doctrine
     protected $manager;
 
     /**
-     * @var Doctrine_Locator instance
-     */
-    protected $locator;
-
-    /**
      * @var Doctrine_Connection instance
      */
     protected $connection;
@@ -190,18 +185,17 @@ class Clansuite_Doctrine
 
         if (count($this->manager) === 0)
         {
-            #$this->connection = $this->manager->openConnection(new PDO('sqlite::memory:'));
-            #Doctrine_Manager::getInstance()->connection($dsn, $this->config['database']['name']);
             $this->connection = $this->manager->connection($dsn, $this->config['database']['name']);
         }
         else
         {
-            #Doctrine_Manager::getInstance()->getCurrentConnection();
             $this->connection = $this->manager->getCurrentConnection();
         }
 
         /**
          * test connection
+         *
+         * @todo Problem: testing the database connection destroys the lazy-connect mode of doctrine.
          */
         try
         {
@@ -216,22 +210,12 @@ class Clansuite_Doctrine
             throw new Clansuite_Exception($exception_message, 1);
         }
 
-        # Get Doctrine Locator and set ClassPrefix
-        #$this->locator = Doctrine_Locator::instance();
-        #$this->locator->setClassPrefix('Clansuite_');
-
         /**
-         * Set Cache Driver
+         * Set Cache Driver for Doctrine - but not when we are debugging
          */
-        # if we have APC available and are not in debug mode, then try to cache doctrine queries
-        if(extension_loaded('apc') and (defined('DEBUG') == false) and
-           isset($this->config['database']['cache']) and ('APC' == $this->config['database']['cache']))
+        if(defined('DEBUG') == false)
         {
-            $cachedriver = new Doctrine_Cache_Apc();
-            $this->manager->setAttribute(Doctrine_Core::ATTR_RESULT_CACHE, $cachedriver);
-
-            # set the lifespan as one hour (60 seconds * 60 minutes = 1 hour = 3600 secs)
-            $this->manager->setAttribute(Doctrine_Core::ATTR_RESULT_CACHE_LIFESPAN, 3600);
+            $this->initDoctrineCacheDriver();
         }
 
         /**
@@ -330,11 +314,51 @@ class Clansuite_Doctrine
          */
         #array('name' => '%s_id', 'type' => 'string', 'length' => 30));
 
-        # Set Connection Listener for Profiling if we are in DEBUG MODE
+        # Set Connection Listener for Profiling - in case we are debugging
         if(DEBUG == 1)
         {
-            $this->attachProfiler();
-            register_shutdown_function(array($this,'shutdown'));
+            $this->initDoctrineProfiler();
+        }
+    }
+
+    /**
+     * This initializes the Doctrine Profiler
+     */
+    public function initDoctrineProfiler()
+    {
+        include ROOT_CORE . 'debug/doctrineprofiler.core.php';
+        $profiler = new Clansuite_Doctrine_Profiler($this->connection);
+        $profiler->attachProfiler();
+    }
+
+    /**
+     * This initializes the Doctrine Cache Driver by setting the correct attribute.
+     * The cachedriver attribute depends on the main configuration setting.
+     * @see $this->config['database']['cache']
+     */
+    public function initDoctrineCacheDriver()
+    {
+        $cacheDriver = '';
+        # consider setting lifespan by config later, for now hardcoded
+        # as one hour (60 seconds * 60 minutes = 1 hour = 3600 secs)
+        $cacheLifespan = '3600';
+
+        if(isset($this->config['database']['cache']))
+        {
+            if(('APC' == $this->config['database']['cache']) and extension_loaded('apc'))
+            {
+                $cacheDriver = new Doctrine_Cache_Apc();
+            }
+
+            /**
+             * @todo conditionals for other drivers: memcached, etc.
+             */
+
+            /**
+             * Set Doctrine Attributes
+             */
+            $this->manager->setAttribute(Doctrine_Core::ATTR_RESULT_CACHE, $cacheDriver);
+            $this->manager->setAttribute(Doctrine_Core::ATTR_RESULT_CACHE_LIFESPAN, $cacheLifespan);
         }
     }
 
@@ -344,144 +368,6 @@ class Clansuite_Doctrine
     public static function getConnection()
     {
         return $this->connection;
-    }
-
-    /**
-     * Returns Doctrine's connection profiler
-     *
-     * @return Doctrine_Connection_Profiler
-     */
-    public function getProfiler()
-    {
-        return $this->connection->getListener();
-    }
-
-    /**
-     * Attached the Doctrine Profiler as Listener to the connection
-     */
-    public function attachProfiler()
-    {
-        # instantiate Profiler and attach to doctrine connection
-        $this->connection->setListener(new Doctrine_Connection_Profiler);
-    }
-
-    /**
-     * Displayes all Doctrine Querys with profiling Informations
-     *
-     * Because this is debug output, it's ok that direct output breaks the abstraction.
-     * @return Direct HTML Output
-     */
-    public function displayProfilingHTML()
-    {
-        /**
-         * @var int total number of database queries performed
-         */
-        $query_counter = 0;
-        /**
-         * @var int time in seconds, counting the elapsed time for all queries
-         */
-        $time = 0;
-
-
-        echo '<!-- Disable Debug Mode to remove this!-->
-              <style type="text/css">
-              /*<![CDATA[*/
-                table.doctrine-profiler {
-                    background: none repeat scroll 0 0 #FFFFCC;
-                    border-width: 1px;
-                    border-style: outset;
-                    border-color: #BF0000;
-                    border-collapse: collapse;
-                    font-size: 11px;
-                    color: #222;
-                 }
-                table.doctrine-profiler th {
-                    border:1px inset #BF0000;
-                    padding: 3px;
-                    padding-bottom: 3px;
-                    font-weight: bold;
-                    background: #E03937;
-                }
-                table.doctrine-profiler td {
-                    border:1px inset grey;
-                    padding: 2px;
-                }
-                table.doctrine-profiler tr:hover {
-                    background: #ffff88;
-                }
-                fieldset.doctrine-profiler legend {
-                    background:#fff;
-                    border:1px solid #333;
-                    font-weight:700;
-                    padding:2px 15px;
-                }
-                /*]]>*/
-                </style>';
-
-        echo '<p>&nbsp;</p><fieldset class="doctrine-profiler"><legend>Debug Console for Doctrine Queries</legend>';
-        echo '<table class="doctrine-profiler" width="95%">';
-        echo '<tr>
-                <th>Query Counter</th>
-                <th>Command</th>
-                <th>Time</th>
-                <th>Query with placeholder (?) for parameters</th>
-                <th>Parameters</th>
-              </tr>';
-
-        foreach ( $this->getProfiler() as $event )
-        {
-            /**
-             * By activiating the following lines, only the "execute" queries are shown.
-             * It's usefull for debugging a certain type of database statement.
-             */
-            /*
-            if ($event->getName() != 'execute')
-            {
-                continue;
-            }
-            */
-
-            # increase query counter
-            $query_counter++;
-
-            # increase time
-            $time += $event->getElapsedSecs();
-
-            echo '<tr>';
-            echo '<td style="text-align: center;">' . $query_counter . '</td>';
-            echo '<td style="text-align: center;">' . $event->getName() . '</td>';
-            echo '<td>' . sprintf('%f', $event->getElapsedSecs() ) . '</td>';
-            echo '<td>' . $event->getQuery() . '</td>';
-            $params = $event->getParams();
-            if ( empty($params) == false)
-            {
-                  echo '<td>';
-                  echo wordwrap(join(', ', $params),150,"\n",true);
-                  echo '</td>';
-            }
-            else
-            {
-                  echo '<td>';
-                  echo '&nbsp;';
-                  echo '</td>';
-            }
-            echo '</tr>';
-        }
-        echo '</table>';
-        echo '<p style="font-weight: bold;">&nbsp; &raquo; &nbsp; '.$query_counter.' statements in ' . sprintf('%2.5f', $time) . ' secs.</p>';
-        echo '</fieldset>';
-    }
-
-    /**
-     * shutdown function for register_shutdown_function
-     */
-    public function shutdown()
-    {
-        # append Doctrine's SQL-Profiling Report
-        $this->displayProfilingHTML();
-
-        # save session before exit
-        session_write_close();
     }
 }
 ?>
