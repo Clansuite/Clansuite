@@ -534,13 +534,13 @@ class Clansuite_HttpRequest implements Clansuite_Request_Interface, ArrayAccess
         # MS-IIS and ISAPI Rewrite Filter
         if ($_SERVER['HTTP_X_REWRITE_URL'])
         {
-                return $_SERVER['HTTP_X_REWRITE_URL'];
+            return $_SERVER['HTTP_X_REWRITE_URL'];
         }
 
         $p = $_SERVER['SCRIPT_NAME'];
         if ($_SERVER['QUERY_STRING'])
         {
-                $p .= '?'.$_SERVER['QUERY_STRING'];
+            $p .= '?'.$_SERVER['QUERY_STRING'];
         }
 
         return $p;

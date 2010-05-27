@@ -205,7 +205,7 @@ class Clansuite_Formelement_Captcha extends Clansuite_Formelement implements Cla
             $html = $formelementdecorator->render($html);
         }
 
-        #Clansuite_Xdebug::firebug($html);
+        #Clansuite_Debug::firebug($html);
 
         return $html;
     }

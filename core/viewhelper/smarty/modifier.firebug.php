@@ -26,7 +26,7 @@
 function smarty_modifier_firebug($var)
 {
     # formerly using the Clansuite Framework
-    Clansuite_Xdebug::firebug($var);
+    Clansuite_Debug::firebug($var);
 
     # using firebug directly
     /*if(false === class_exists('FirePHP', false))

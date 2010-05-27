@@ -101,7 +101,7 @@ class Clansuite_Filter_PhpDebugConsole implements Clansuite_Filter_Interface
                         #'HTML_DIV_templates_pattern' => array('/var/www-protected/php-debug.com' => '/var/www/php-debug')
                 );
 
-                #Clansuite_Xdebug::printR($options);
+                #Clansuite_Debug::printR($options);
 
                 # Initialiaze Object
                 $debug = new PHP_Debug($options);
