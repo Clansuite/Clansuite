@@ -361,12 +361,12 @@ class Clansuite_XML_Formgenerator extends Clansuite_Form
         $array = array();
         $array = new Clansuite_Config($filename);
 
-        #Clansuite_Xdebug::firebug($filename);
-        #Clansuite_Xdebug::firebug($array);
+        #Clansuite_Debug::firebug($filename);
+        #Clansuite_Debug::firebug($array);
         $form = '';
         $form = new Clansuite_Array_Formgenerator($array);
 
-        #Clansuite_Xdebug::firebug($form);
+        #Clansuite_Debug::firebug($form);
 
         return $form;
     }

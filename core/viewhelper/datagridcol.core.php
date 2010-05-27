@@ -322,7 +322,7 @@ class Clansuite_Datagrid_Column extends Clansuite_Datagrid_Base
             }
         }
 
-        #Clansuite_Xdebug::firebug('Loaded Column Renderer: ' . $className);
+        #Clansuite_Debug::firebug('Loaded Column Renderer: ' . $className);
         return new $className($this);
     }
 

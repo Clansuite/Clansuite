@@ -65,7 +65,7 @@ class Clansuite_Datagrid_Column_Renderer_Email extends Clansuite_Datagrid_Column
     public function renderCell($oCell)
     {
         $_Values = $oCell->getValues();
-        #Clansuite_Xdebug::firebug($_Values);
+        #Clansuite_Debug::firebug($_Values);
         if( isset($_Values[0]) AND isset($_Values[1]) )
         {
             return sprintf('<a href="mailto:%s">%s</a>', $_Values[0], $_Values[1] );

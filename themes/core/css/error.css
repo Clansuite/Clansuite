@@ -24,7 +24,17 @@ border:1px solid #BFB;
 color:#0B0;
 font-weight:700;
 margin:.5em 15px 1em -20px;
-padding:15px 20px 15px 50px
+padding:15px 20px 15px 50px;
+}
+
+.success {
+background:url(http://www.clansuite-dev.com/themes/core/images/icons/page_edit.png) no-repeat 15px 50% #DFD;
+border:1px solid #BFB;
+color:#0B0;
+font-weight:700;
+margin:.5em 15px 1em 0px;
+padding:15px 20px 15px 50px;
+font-variant: small-caps;
 }
 
 .error {
@@ -32,7 +42,8 @@ background:url(http://www.clansuite-dev.com/themes/core/images/icons/error.png) 
 border:1px solid #FBB;
 color:#B00;
 margin:.5em 15px 1em 0;
-padding:15px 20px 15px 50px
+padding:15px 20px 15px 50px;
+
 }
 
 .error_beige {

@@ -214,9 +214,9 @@ abstract class Clansuite_Module_Controller extends Clansuite_Module_Controller_R
      * Gets the value for the key items_newswidget from the moduleconfig or sets the value
      * incomming via GET, if nothing is incomming, sets the default value of 8.
      *
-     * @param $keyname The keyname to find in the array.
-     * @param $default_one A default value, which is returned, if the keyname was not found.
-     * @param $default_two A default value, which is returned, if the keyname was not found and default_one is null.
+     * @param string $keyname The keyname to find in the array.
+     * @param mixed $default_one A default value, which is returned, if the keyname was not found.
+     * @param mixed $default_two A default value, which is returned, if the keyname was not found and default_one is null.
      */
     public function getConfigValue($keyname, $default_one = null, $default_two = null)
     {
@@ -355,6 +355,11 @@ abstract class Clansuite_Module_Controller extends Clansuite_Module_Controller_R
         $this->template = $template;
     }
 
+    /**
+     * Ensures the template extension is correct.
+     *
+     * @param string $template The template filename.
+     */
     public static function checkTemplateExtension($template)
     {
         # get extension of template
@@ -401,9 +406,7 @@ abstract class Clansuite_Module_Controller extends Clansuite_Module_Controller_R
     /**
      * Sets the Render Mode
      *
-     * Available Modes: WRAPPED,...
-     *
-     * @param $mode RenderMode
+     * @param string $mode RenderMode Available Modes: WRAPPED, STANDALONE
      */
     public function setRenderMode($mode)
     {
@@ -412,7 +415,6 @@ abstract class Clansuite_Module_Controller extends Clansuite_Module_Controller_R
 
     /**
      * Get the Render Mode
-     *
      */
     public function getRenderMode()
     {
@@ -473,10 +475,12 @@ abstract class Clansuite_Module_Controller extends Clansuite_Module_Controller_R
     }
 
     /**
-     * ModuleController->addError();
-     * is a call for errorhandler::addError
-     *
+     * ModuleController->addError(); is a call for errorhandler::addError()
      * This passes the errormessage and errorcode to the errorhandler.
+     * @see Clansuite_Errorhandler::addError()
+     *
+     * @param string $errormessage The error message.
+     * @param int $errorcode The errorcode.
      */
     public function addError($errormessage, $errorcode)
     {
@@ -485,27 +489,71 @@ abstract class Clansuite_Module_Controller extends Clansuite_Module_Controller_R
     }
 
     /**
-     * ModuleController->forward();
-     * is as substitute for getAction
+     * This loads and initializes a formular from the module directory.
      *
-     * This forwards from one controller function to
-     * another function of the same controller
-     * or to functions of an different controller.
+     * @param string $formname The name of the formular.
+     * @param string $controller The name of the module.
+     * @param string $module The name of the action.
+     * @param boolean $assign_to_view If true, the form is directly assigned as formname to the view
+     */
+    public function loadForm($formname = null, $module = null, $action = null, $assign_to_view = false)
+    {
+        if(null === $module)
+        {
+            $module = Clansuite_Module_Controller_Resolver::getModuleName();
+        }
+
+        if(null === $action)
+        {
+            $action = Clansuite_Action_Controller_Resolver::getActionName();
+        }
+
+        if(null === $formname)
+        {
+            # construct formname like "news"_"action_admin_show"
+            $formname  = ucfirst($module) . '_' . ucfirst($action);
+        }
+
+        # construct formname, classname, filename, load file, instantiate the form
+        $classname = 'Clansuite_Form_' . $formname;
+        $filename  = strtolower($formname) . '.form.php';
+        $directory = ROOT_MOD . strtolower($module) . DS . '/form/';
+        Clansuite_Loader::requireFile( $directory . $filename, $classname );
+        $form = new $classname;
+
+        # assign form object directly to the view or return to work with it
+        if($assign_to_view)
+        {
+            $this->view()->assign($formname, $form->render());
+        }
+        else
+        {
+            return $form;
+        }
+    }
+
+    /**
+     * ModuleController->forward(); is as substitute for getAction
      *
+     * This forwards from one controller function to another function
+     * of the same controller or to functions of an different controller.
+     *
+     * @param mixed|string|object $class Object or Classname to call the method upon.
+     * @param string $method Method to call.
+     * @param array $arguments Arguments to pass to the method.
      */
     public function forward($class, $method, array $arguments = array())
     {
-        # forward another controller-name + controller-action
-        Clansuite_Loader::callMethod($class, $method, $arguments);
+        Clansuite_Loader::callClassMethod($class, $method, $arguments);
     }
 
     /**
      * Redirect (shortcut for usage in modules)
      *
-     * @param string Redirect to this URL
-     * @param int    seconds before redirecting (for the html tag "meta refresh")
-     * @param int    http status code, default: '302' => 'Not Found'
-     * @param string redirect text
+     * @param string $url Redirect to this URL
+     * @param int    $time seconds before redirecting (for the html tag "meta refresh")
+     * @param int    $statusCode http status code, default: '302' => 'Not Found'
+     * @param string $message redirect text
      */
     public function redirect($url, $time = 0, $statusCode = 302, $message = '')
     {
@@ -533,8 +581,8 @@ abstract class Clansuite_Module_Controller extends Clansuite_Module_Controller_R
     /**
      * Shortcut for Redirect with an 404 Response Code
      *
-     * @param string Redirect to this URL
-     * @param int    seconds before redirecting (for the html tag "meta refresh")
+     * @param string $url Redirect to this URL
+     * @param int    $time seconds before redirecting (for the html tag "meta refresh")
      */
     public function redirect404($url, $time = 5)
     {
@@ -555,9 +603,9 @@ abstract class Clansuite_Module_Controller extends Clansuite_Module_Controller_R
     /**
      * triggerEvent is shortcut/convenience method for Clansuite_Eventdispatcher->triggerEvent
      *
-     * @param $event mixed (string|object) Name of Event or Event object to trigger.
-     * @param $context object Context of the event triggering, often the object from where we are calling ($this). Default Null.
-     * @param $info string Some pieces of information. Default Null.
+     * @param mixed (string|object) $event Name of Event or Event object to trigger.
+     * @param object $context Context of the event triggering, often the object from where we are calling ($this). Default Null.
+     * @param string $info Some pieces of information. Default Null.
      */
     public function triggerEvent($event, $context = null, $info = null)
     {
@@ -568,8 +616,8 @@ abstract class Clansuite_Module_Controller extends Clansuite_Module_Controller_R
      * Shortcut to set a Flashmessage
      *
      * @see Clansuite_Flashmessages::setMessage()
-     * @param $type string error, warning, notice, success, debug
-     * @param $message string A textmessage.
+     * @param string $type string error, warning, notice, success, debug
+     * @param string $message string A textmessage.
      */
     public function setFlashmessage($type, $message)
     {

@@ -30,7 +30,7 @@
                         <tr>
                             <td>
                                 <div align="right">
-                                    <a target="blank" href="http://www.clansuite.com/index.php?page=news"><b>Security Report »</b></a>
+                                    <a target="blank" href="http://www.clansuite.com/index.php?page=news"><b>Full Report &raquo;</b></a>
                                 </div>
                             </td>
                         </tr>

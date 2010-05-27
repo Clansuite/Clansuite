@@ -63,7 +63,7 @@ class Clansuite_Formelement_SimpleCaptcha extends Clansuite_Formelement_Captcha 
     public function render()
     {
         $captcha = new Clansuite_JustAn_Captcha();
-        #Clansuite_Xdebug::firebug('Last Captcha String = '.$_SESSION['user']['simple_captcha_string']);
+        #Clansuite_Debug::firebug('Last Captcha String = '.$_SESSION['user']['simple_captcha_string']);
         return $captcha->generateCaptchaImage();
     }
 
@@ -235,7 +235,7 @@ class Clansuite_JustAn_Captcha
                     imageellipse($captcha,rand(1,200),rand(1,50),rand(50,100),rand(12,25), $background_color);
                 }
 
-                #Clansuite_Xdebug::firebug($string_length);
+                #Clansuite_Debug::firebug($string_length);
 
                 # loop charwise through $captcha_string and apply a random font-effect
                 for ($i=0; $i < $string_length; $i++)

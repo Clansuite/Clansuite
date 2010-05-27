@@ -733,7 +733,7 @@ class Clansuite_Datagrid extends Clansuite_Datagrid_Base
         $this->datasets = $this->getPagerLayout()->getPager()->execute();
 
         # Debug
-        #Clansuite_Xdebug::firebug($this->_Datasets);
+        #Clansuite_Debug::firebug($this->_Datasets);
 
         # update the current page
         $this->getRenderer()->setCurrentPage($this->getPagerLayout()->getPager()->getPage());
@@ -870,11 +870,11 @@ class Clansuite_Datagrid extends Clansuite_Datagrid_Base
      */
     private function _setColumnSets($_columnSets = array())
     {
-        #Clansuite_Xdebug::firebug($_columnSets);
+        #Clansuite_Debug::firebug($_columnSets);
 
         foreach( $_columnSets as $key => $columnSet )
         {
-            #Clansuite_Xdebug::firebug($key);
+            #Clansuite_Debug::firebug($key);
             # No alias given
             self::checkColumnKeyExist($columnSet, 'Alias');
              # No resultset given
@@ -974,7 +974,7 @@ class Clansuite_Datagrid extends Clansuite_Datagrid_Base
             # Hook
             if( isset($this->_ResultSetHook) )
             {
-                #Clansuite_Xdebug::firebug($dataSet);
+                #Clansuite_Debug::firebug($dataSet);
                 $this->_Caller->{$this->_ResultSetHook}($dataSet);
             }
 
@@ -1053,7 +1053,7 @@ class Clansuite_Datagrid extends Clansuite_Datagrid_Base
             {
                 if( !is_array($_TmpArrayHandler) or !isset($_TmpArrayHandler[$_LevelKey]) )
                 {
-                    #Clansuite_Xdebug::firebug('ResultSet not found in Dataset: ' . $ResultValue, 'warn');
+                    #Clansuite_Debug::firebug('ResultSet not found in Dataset: ' . $ResultValue, 'warn');
                     $_TmpArrayHandler = '';
                     break;
                 }
@@ -1201,7 +1201,7 @@ class Clansuite_Datagrid extends Clansuite_Datagrid_Base
 
         if( isset($_REQUEST[$this->_inputMapping['ResultsPerPage']]) )
         {
-            #Clansuite_Xdebug::firebug('ResultsPerPage:' . $_ResultsPerPage);
+            #Clansuite_Debug::firebug('ResultsPerPage:' . $_ResultsPerPage);
             $resultsPerPage = (int) $_REQUEST[$this->_inputMapping['ResultsPerPage']];
             $_SESSION['Datagrid_' . $this->getAlias()]['ResultsPerPage'] = $resultsPerPage;
         }
@@ -1901,7 +1901,7 @@ class Clansuite_Datagrid_Renderer
     private static function renderTablePagination($_ShowResultsPerPage = true)
     {
         $htmlString = '';
-        #Clansuite_Xdebug::firebug('Pagination: ' . self::getDatagrid()->getPagerLayout());
+        #Clansuite_Debug::firebug('Pagination: ' . self::getDatagrid()->getPagerLayout());
         if( self::getDatagrid()->isEnabled('Pagination') )
         {
             $htmlString .= '<tr><td class="DatagridPagination DatagridPagination-'. self::getDatagrid()->getAlias() .'" colspan="'. self::getDatagrid()->getColumnCount() .'">';

@@ -608,10 +608,10 @@ class Clansuite_Formelement /* extends Clansuite_HTML */ implements Clansuite_Fo
         # Insted the decorator is returned, to apply some properties.
         # @return decorator object
         #clansuite_xdebug::printR($this->formelementdecorators[$decoratorname]);
-        #Clansuite_Xdebug::printR($this->name);
+        #Clansuite_Debug::printR($this->name);
 
-        #Clansuite_Xdebug::firebug($this);
-        #Clansuite_Xdebug::firebug($this->formelementdecorators);
+        #Clansuite_Debug::firebug($this);
+        #Clansuite_Debug::firebug($this->formelementdecorators);
 
         return $this->formelementdecorators[$decoratorname];
     }

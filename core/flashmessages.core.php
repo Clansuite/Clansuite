@@ -186,7 +186,7 @@ class Clansuite_Flashmessages /* extends Clansuite_Session */
     {
         if(isset($_SESSION['user']['flashmessages']))
         {
-            Clansuite_Xdebug::firebug($_SESSION['user']['flashmessages']);
+            Clansuite_Debug::firebug($_SESSION['user']['flashmessages']);
         }
 
         #$flashmessages = self::getMessages($type);
