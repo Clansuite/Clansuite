@@ -72,9 +72,9 @@ interface Clansuite_Event_Interface
 class Clansuite_Eventdispatcher
 {
     /**
-     * @var object Instance of Clansuite_Eventdispatcher (Its a singleton)
+     * @var object Instance of Clansuite_Eventdispatcher (singleton)
      */
-    static private $instance;
+    private static $instance = null;
 
     /**
      * @var array All registered Eventhandlers
@@ -86,9 +86,9 @@ class Clansuite_Eventdispatcher
      */
     public static function instantiate()
     {
-        if (self::$instance === null)
+        if(self::$instance === null)
         {
-            self::$instance = new Clansuite_Eventdispatcher();
+            self::$instance = new Clansuite_Eventdispatcher;
         }
 
         return self::$instance;
@@ -103,7 +103,7 @@ class Clansuite_Eventdispatcher
      */
     public function getEventHandlersForEvent($eventName)
     {
-        if (isset($this->eventhandlers[$eventName]) == false)
+        if(isset($this->eventhandlers[$eventName]) == false)
         {
             return array();
         }
@@ -114,13 +114,33 @@ class Clansuite_Eventdispatcher
     /**
      * Adds an Event to the Eventhandlers Array
      *
+     * Usage
+     * <code>
+     * function handler1() {
+     * echo "A";
+     * }
+     * function handler2() {
+     * echo "B";
+     * }
+     * function handler3() {
+     * echo "C";
+     * }
+     * $event = Clansuite_Eventdispatcher::instantiate();
+     * $event->addEventHandler('event_name1', 'handler1');
+     * $event->triggerEvent('event_name1'); # Output: A
+     * $event->addEventHandler('event_name2', 'handler2');
+     * $event->triggerEvent('event_name2'); # Output: B
+     * $event->addEventHandler('event_name1', 'handler3');
+     * $event->triggerEvent('event_name1'); # Output: AC
+     * </code>
+     *
      * @param $eventName    Name of the Event
      * @param $eventobject  Instance of Clansuite_Event
      */
     public function addEventHandler($eventName, Clansuite_Event $event)
     {
         # if eventhandler is not set already, initialize as array
-        if (isset($this->eventhandlers[$eventName]) == false)
+        if(isset($this->eventhandlers[$eventName]) == false)
         {
             $this->eventhandlers[$eventName] = array();
         }
@@ -137,7 +157,7 @@ class Clansuite_Eventdispatcher
      */
     public function addMultipleEventHandlers($events, Clansuite_Event $object)
     {
-        if ( empty($events) or is_array($events) == false )
+        if(empty($events) or is_array($events) == false)
         {
             return;
         }
@@ -148,20 +168,61 @@ class Clansuite_Eventdispatcher
         }
     }
 
-    public function removeEventHandlers($eventName)
+    /**
+     * Removes an Event
+     *
+     * Usage
+     * <code>
+     * function handler1() {
+     * echo "A";
+     * }
+     * $event = Clansuite_Eventdispatcher::instantiate();
+     * $event->addEventHandler('event_name', 'handler1');
+     * $event->triggerEvent('event_name'); # Output: A
+     * $event->removeEventHandler('event_name', 'handler1');
+     * $event->triggerEvent('event_name'); # No Output
+     * </code>
+     *
+     * @param string event name
+     * @param mixed event handler
+     */
+    public function removeEventHandler($eventName, Clansuite_Event $event = null)
     {
         # if eventhandler is not added, we have nothing to remove
-        if ( isset($this->eventhandlers[$eventName]) == false)
+        if(isset($this->eventhandlers[$eventName]) == false)
         {
             return false;
         }
 
-        # unset all eventhandlers for this event
-        unset($this->eventhandlers[$eventName]);
+        if($event === null)
+        {
+            # unset all eventhandlers for this eventName
+            unset($this->eventhandlers[$eventName]);
+        }
+        else # unset a specific eventhandler
+        {
+            foreach($this->eventhandlers[$eventName] as $key => $registered_event)
+            {
+                if($registered_event == $event)
+                {
+                    unset($this->$this->eventhandlers[$eventName][$key]);
+                }
+            }
+        }
     }
 
     /**
      * triggerEvent
+     *
+     * Usage
+     * <code>
+     * function handler1() {
+     * echo "A";
+     * }
+     * $event = Clansuite_Eventdispatcher::instantiate();
+     * $event->addEventHandler('event_name', 'handler1');
+     * $event->triggerEvent('event_name'); # Output: A
+     * </code>
      *
      * @param $event Name of Event or Event object to trigger.
      * @param $context default null The context of the event triggering, often the object from where we are calling.
@@ -171,7 +232,7 @@ class Clansuite_Eventdispatcher
     public function triggerEvent($event, $context = null, $info = null)
     {
         /**
-         * init Event Class with constructor settings
+         * init a new event object with constructor settings
          * if $event is not an instance of Clansuite_Event.
          * $event string will be the $name inside $event object,
          * accessible with $event->getName();
@@ -185,19 +246,19 @@ class Clansuite_Eventdispatcher
         $eventName = '';
         $eventName = $event->getName();
 
-        if (isset($this->eventhandlers[$eventName]) == false)
+        if(isset($this->eventhandlers[$eventName]) == false)
         {
             return $event;
         }
 
         # loop over all eventhandlers and look for that eventname
-        foreach ($this->eventhandlers[$eventName] as $eventhandler)
+        foreach($this->eventhandlers[$eventName] as $eventhandler)
         {
             # handle the event !!
             $eventhandler->execute($event);
 
             # break, on cancelled
-            if( method_exists($event, 'isCancelled') and $event->isCancelled() == true)
+            if(method_exists($event, 'isCancelled') and $event->isCancelled() == true)
             {
                 break;
             }
@@ -207,9 +268,16 @@ class Clansuite_Eventdispatcher
     }
 
     # no construct (singleton)
-    protected function __construct();
+    protected function __construct()
+    {
+        return;
+    }
+
     # no clone (singleton)
-    private function __clone();
+    private function __clone()
+    {
+        return;
+    }
 }
 
 /**
@@ -328,7 +396,7 @@ class Clansuite_Event implements ArrayAccess
      */
     public function offsetGet($name)
     {
-        if ( false == array_key_exists($name, $this->context) )
+        if(false == array_key_exists($name, $this->context))
         {
             throw new Clansuite_Exception(sprintf(_('The event "%s" has no context parameter "%s" .'), $this->eventname, $name));
         }
@@ -400,7 +468,7 @@ class Clansuite_Eventloader
     public static function loadModuleEvents($modulename)
     {
         $events = array();
-        $events = include ROOT_MOD . $modulename .DS. $modulename.'events.php';
+        $events = include ROOT_MOD . $modulename . DS . $modulename . 'events.php';
         Clansuite_Eventdispatcher::instantiate()->addMultipleEventHandlers($events);
     }
 
