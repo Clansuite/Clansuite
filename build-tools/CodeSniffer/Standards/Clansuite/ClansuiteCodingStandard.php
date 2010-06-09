@@ -35,16 +35,6 @@ if (class_exists('PHP_CodeSniffer_Standards_CodingStandard', true) === false)
  */
 class PHP_CodeSniffer_Standards_Clansuite_ClansuiteCodingStandard extends PHP_CodeSniffer_Standards_CodingStandard
 {
-    public static function setIncludePath()
-    {
-        $paths = array(
-                        dirname(dirname(__FILE__))
-                      );
-
-        set_include_path( implode( $paths, PATH_SEPARATOR ) . PATH_SEPARATOR . get_include_path() ); # attach original include paths
-        unset($paths);    
-    }
-    
     /**
      * Return a list of external sniffs to include with this standard.
      *
@@ -52,8 +42,6 @@ class PHP_CodeSniffer_Standards_Clansuite_ClansuiteCodingStandard extends PHP_Co
      */
     public function getIncludedSniffs()
     {
-        self::setIncludePath();
-        
         return array(
               # Files
                      #'Generic/Sniffs/Files/LineEndingsSniff.php',
