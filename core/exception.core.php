@@ -42,6 +42,9 @@ if(defined('IN_CS') == false)
 /**
  * Clansuite_Exception
  *
+ * Sets up a custom Exceptionhandler.
+ * @see Clansuite_CMS::initialize_Errorhandling()
+ *
  * Developer Notice:
  * The "Fatal error: Exception thrown without a stack frame in Unknown on line 0"
  * is of PHP dying when an exception is thrown when running INSIDE an error or exception handler.
@@ -127,18 +130,6 @@ class Clansuite_Exception extends Exception implements Clansuite_Exception_Inter
     }
 
     /**
-     * Registers the exception handler
-     *
-     * @see http://www.php.net/manual/en/function.set-exception-handler.php
-     * @see Clansuite_Exception::clansuite_excpetion_handler
-     */
-    public static function setExceptionHandler()
-    {
-        # Set Exception Handler
-        set_exception_handler(array(new Clansuite_Exception, 'clansuite_exception_handler'));
-    }
-
-    /**
      * Fetches the normal and rapid development templates for exceptions and sets them to class.
      * Callable via self::getExceptionTemplate() and self::getExceptionDevelopmentTemplate($placeholders).
      *
@@ -155,11 +146,18 @@ class Clansuite_Exception extends Exception implements Clansuite_Exception_Inter
     }
 
     /**
-     * Fetches an ErrorTemplate from File and sets it to the object
-     * Filename has to be "exception-ID.html", where ID is the exception id.
-     * Example with ID 20: throw new Clansuite_Exception('My Exception Message: ', 20);
+     * Fetches a Helper Template for this exception by it's exception code.
      *
-     * @param int $code Exception Code
+     * You find the Exception Template in the folder: /themes/core/exceptions/
+     * The filename has to be "exception-ID.html", where ID is the exception id.
+     *
+     * @example
+     * <code>
+     * throw new Clansuite_Exception('My Exception Message: ', 20);
+     * </code>
+     * The file "exception-20.html" will be retrieved.
+     *
+     * @param $code The exception code.
      */
     private static function fetchExceptionTemplate($code)
     {
@@ -167,38 +165,24 @@ class Clansuite_Exception extends Exception implements Clansuite_Exception_Inter
         $exception_template_file = ROOT . 'themes/core/exceptions/exception-'.$code.'.html';
 
         # ensure file is there, load it and set it to classvariable
-        if(is_file($exception_template_file))
+        if(is_file($exception_template_file) === true)
         {
-            $content = file_get_contents($exception_template_file);
-            self::setExceptionTemplate($content);
+            self::$exception_template_content = file_get_contents($exception_template_file);
         }
     }
 
     /**
-     * Setter Method for the Content of the ErrorTemplate
+     * Fetches a Helper Template for this exception by it's exception code.
+     * This is for rapid development purposes.
      *
-     * @param string $content Content of the ErrorTemplate
-     */
-    private static function setExceptionTemplate($content)
-    {
-        self::$exception_template_content = $content;
-    }
-
-    /**
-     * Getter Method for the exception_template_content
+     * You find the Exception Development Template in the folder: /themes/core/exceptions/
+     * The filename has to be "exception-dev-ID.html", where ID is the exception id.
      *
-     * @return Content of $exception_template_content
-     */
-    private static function getExceptionTemplate()
-    {
-        return self::$exception_template_content;
-    }
-
-    /**
-     * Fetches an ErrorTemplate for rapid development purposes from file and sets it to the object
-     * Place filename with exception id into the folder: /themes/core/exceptions/
-     * Filename has to be "exception-dev-ID.html", where ID is the exception id.
-     * Example with ID 20: throw new Clansuite_Exception('My Exception Message: ', 20);
+     * @example
+     * <code>
+     * throw new Clansuite_Exception('My Exception Message: ', 20);
+     * </code>
+     * The file "exception-dev-20.html" will be retrieved.
      *
      * @param $code The exception code.
      */
@@ -207,7 +191,7 @@ class Clansuite_Exception extends Exception implements Clansuite_Exception_Inter
         # construct filename with code
         $exception_template_file = ROOT . 'themes/core/exceptions/exception-dev-'.$code.'.html';
 
-        if(is_file($exception_template_file))
+        if(is_file($exception_template_file) === true)
         {
             $content = file_get_contents($exception_template_file);
             self::setExceptionDevelopmentTemplate($content);
@@ -269,13 +253,12 @@ class Clansuite_Exception extends Exception implements Clansuite_Exception_Inter
         $this->trace = $exception->getTrace();
 
         # if no errorcode is set, say that it's an rethrow
-        if($this->code == '0')
+        if($this->code === '0')
         {
             $this->code = '0 (This exception is uncatched and rethrown.)';
         }
 
-        # output this object as string via __toString and calling yellowScreenOfDeath()
-        echo $this;
+        echo $this->yellowScreenOfDeath();
     }
 
     /**
@@ -293,7 +276,7 @@ class Clansuite_Exception extends Exception implements Clansuite_Exception_Inter
     }
 
     /**
-     * The Exception Presentation: Yellow Screen of Death (YSOD)
+     * Yellow Screen of Death (YSOD) is used to display a Clansuite Exception
      */
     public function yellowScreenOfDeath()
     {
@@ -301,7 +284,7 @@ class Clansuite_Exception extends Exception implements Clansuite_Exception_Inter
         $errormessage    = '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">';
         $errormessage   .= '<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">';
         $errormessage   .= '<head>';
-        $errormessage   .= '<title>Clansuite Exception : [ '.get_class($this).'][ '. $this->getMessage() .' | Exceptioncode: '. self::getCode() .' ] </title>';
+        $errormessage   .= '<title>Clansuite Exception : [ '.get_class($this).' ][ '. $this->getMessage() .' | Exceptioncode: '. self::getCode() .' ] </title>';
         $errormessage   .= '<link rel="stylesheet" href="'. WWW_ROOT_THEMES_CORE .'/css/error.css" type="text/css" />';
         $errormessage   .= '</head>';
 
@@ -321,12 +304,21 @@ class Clansuite_Exception extends Exception implements Clansuite_Exception_Inter
         # Error Messages from Object (table)
         # HEADING <Exception Object>
         $errormessage   .= '<table>';
-        $errormessage   .= '<tr><td colspan="2"><h3>Exception</h3></td></tr>';
-        $errormessage   .= '<tr><td width="15%"><strong>Code: </strong></td><td>'.$this->code.'</td></tr>';
-        $errormessage   .= '<tr><td><strong>Message: </strong></td><td>'.$this->message.'</td></tr>';
-        $errormessage   .= '<tr><td><strong>Pfad: </strong></td><td>'.dirname($this->file).'</td></tr>';
-        $errormessage   .= '<tr><td><strong>Datei: </strong></td><td>'.basename($this->file).'</td></tr>';
-        $errormessage   .= '<tr><td><strong>Zeile: </strong></td><td>'.$this->line.'</td></tr>';
+
+        # @todo add link
+        if ($this->code > 0)
+        {
+            $code = '(# '.$this->code.')';
+        }
+        else
+        {
+            $code = '';
+        }
+
+        $errormessage   .= '<tr><td colspan="2"><h3>Exception '.$code.'</h3><h4>'.$this->message.'</h4></td></tr>';
+        $errormessage   .= '<tr><td><strong>Path: </strong></td><td>'.dirname($this->file).'</td></tr>';
+        $errormessage   .= '<tr><td><strong>File: </strong></td><td>'.basename($this->file).'</td></tr>';
+        $errormessage   .= '<tr><td><strong>Line: </strong></td><td>'.$this->line.'</td></tr>';
 
         # Split
         $errormessage   .= '<tr><td colspan="2">&nbsp;</td></tr>';
@@ -347,8 +339,8 @@ class Clansuite_Exception extends Exception implements Clansuite_Exception_Inter
             # HEADING <Server Environment>
             $errormessage  .= '<tr><td colspan="2"><h3>Server Environment</h3></td></tr>';
             $errormessage   .= '<tr><td><strong>Date: </strong></td><td>'.date('r').'</td></tr>';
-            $errormessage   .= '<tr><td><strong>Request: </strong></td><td>index.php?'.htmlentities($_SERVER['QUERY_STRING']).'</td></tr>';
             $errormessage   .= '<tr><td><strong>Remote: </strong></td><td>'.$_SERVER['REMOTE_ADDR'].'</td></tr>';
+            $errormessage   .= '<tr><td><strong>Request: </strong></td><td>index.php?'.htmlentities($_SERVER['QUERY_STRING']).'</td></tr>';
             $errormessage   .= '<tr><td><strong>Server: </strong></td><td>'.$_SERVER['SERVER_SOFTWARE'].'</td></tr>';
             $errormessage   .= '<tr><td><strong>Agent: </strong></td><td>'.$_SERVER['HTTP_USER_AGENT'].'</td></tr>';
             $errormessage   .= '<tr><td><strong>Clansuite: </strong></td><td>'.CLANSUITE_VERSION.' '.CLANSUITE_VERSION_STATE.' ('.CLANSUITE_VERSION_NAME.') [Revision #'.CLANSUITE_REVISION.']</td></tr>';
@@ -358,10 +350,10 @@ class Clansuite_Exception extends Exception implements Clansuite_Exception_Inter
         }
 
         # HEADING <Additional Information>
-        if(self::getExceptionTemplate() != '')
+        if(empty(self::$exception_template_content) === false)
         {
             $errormessage  .= '<tr><td colspan="2"><h3>Additional Information & Solution Suggestion</h3></td></tr>';
-            $errormessage  .= '<tr><td colspan="2">'.self::getExceptionTemplate().'</td></tr>';
+            $errormessage  .= '<tr><td colspan="2">'.self::$exception_template_content.'</td></tr>';
 
             # Split
             $errormessage  .= '<tr><td colspan="2">&nbsp;</td></tr>';
@@ -440,8 +432,10 @@ class Clansuite_Exception extends Exception implements Clansuite_Exception_Inter
     {
         $search  = array('#', '):');
         $replace = array('<br/><br/>Call #',')<br/>');
-
-        return str_replace($search, $replace, $string);
+        $string  = str_replace($search, $replace, $string);
+        $string  = ltrim($string, '<br/>');
+        unset($search, $replace);
+        return $string;
     }
 
     /**

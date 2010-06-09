@@ -40,10 +40,17 @@ if (defined('IN_CS') == false)
 }
 
 /**
- * This Clansuite Core Class for Errorhandling
+ * Clansuite Core Class for Errorhandling
  *
- * @author     Jens-André Koch <vain@clansuite.com>
- * @copyright  Jens-André Koch (2005 - onwards)
+ * Sets up a custom Errorhandler.
+ * @see Clansuite_CMS::initialize_Errorhandling() 
+ *
+ * @example
+ * <code>
+ * 1) trigger_error('Errormessage', E_ERROR_TYPE);
+ *    E_ERROR_TYPE as string or int
+ * 2) trigger_error('Errorhandler Test - This should trigger a E_USER_NOTICE!', E_USER_NOTICE);
+ * </code>
  *
  * @category    Clansuite
  * @package     Core
@@ -51,83 +58,6 @@ if (defined('IN_CS') == false)
  */
 class Clansuite_Errorhandler
 {
-    /**
-     * @var object configuration instance
-     */
-    private $config;
-
-    /**
-     * @var array errorstack elements
-     */
-    private static $errorstack = array();
-
-    /**
-     * Errorhandler Constructor
-     *
-     * Sets up the ErrorHandler
-     *
-     * @example
-     * 1) trigger_error('Errormessage', E_ERROR_TYPE);
-     *    E_ERROR_TYPE as string or int
-     * 2) trigger_error('Errorhandler Test - This should trigger a E_USER_NOTICE!', E_USER_NOTICE);
-     */
-    function __construct(Clansuite_Config $config)
-    {
-        $this->config   = $config; # set instance of configuration
-
-        # register own error handler
-        set_error_handler(array(&$this,'clansuite_error_handler'));
-    }
-
-    /**
-     * Add an Error to the ErrorStack
-     *
-     * @param string $errormessage
-     * @param int $errorcode
-     */
-    public static function addError($errormessage, $errorcode)
-    {
-        self::$errorstack[] = array('message' => $errormessage, 'code' => $errorcode);
-    }
-
-    /**
-     * toString Magic Method to display the Errorstack
-     */
-    public static function toString()
-    {
-        $output = '';
-
-        foreach(self::$errorstack as $error)
-        {
-            $output .= '<font color="#DF2F3D"> Error: '. $error['message'] .' Code: ' .$error['code'] . "</font><br /> \n\n";
-        }
-        return $output;
-    }
-
-    /**
-     * Method to check if any errors were set
-     *
-     * @return boolean true, if errors were set
-     */
-    public static function hasErrors()
-    {
-        if(!empty (self::$errorstack))
-        {
-            return true;
-        }
-        return false;
-    }
-
-    /**
-     * Get Method for fetching the whole Errorstack
-     *
-     * @return errorhandler:$errorstack
-     */
-    public static function getErrorStack()
-    {
-        return self::$errorstack;
-    }
-
     /**
      * Clansuite Error callback.
      *
@@ -154,8 +84,9 @@ class Clansuite_Errorhandler
         /**
          * Assemble the error informations
          */
+
         # set the error time
-        $errortime = date($this->config['date_format'].' '.$this->config['time_format']);
+        $errortime = date(DATE_FORMAT);
 
         /**
          * Definition of PHP Errortypes Array - with names for all the php error codes
@@ -173,13 +104,13 @@ class Clansuite_Errorhandler
                                  256    => 'E_USER_ERROR',          # trigger_error() / user_error() reports user-defined error
                                  512    => 'E_USER_WARNING',        # trigger_error() / user_error() reports user-defined warning
                                  1024   => 'E_USER_NOTICE',         # trigger_error() / user_error() reports user-defined notice
-                                #2047   => 'E_ALL 2047 PHP <5.2.x', # all errors and warnings + old value of E_ALL of PHP Version below 5.2.x
+                                 2047   => 'E_ALL 2047 PHP <5.2.x', # all errors and warnings + old value of E_ALL of PHP Version below 5.2.x
                                  2048   => 'E_STRICT',              # PHP suggests codechanges to ensure interoperability / forwad compat
                                  4096   => 'E_RECOVERABLE_ERROR',   # catchable fatal error, if not catched it's an e_error (since PHP 5.2.0)
                                  6143   => 'E_ALL 6143 PHP5.2.x',   # all errors and warnings + old value of E_ALL of PHP Version 5.2.x
-                                #8191   => 'E_ALL 8191'             # PHP 6 -> 8191
-                                #8192   => 'E_DEPRECATED',          # notice marker for 'in future' deprecated php-functions (since PHP 5.3.0)
-                                #16384  => 'E_USER_DEPRECATED',     # trigger_error() / user_error() reports user-defined deprecated functions
+                                 8191   => 'E_ALL 8191',            # PHP 6 -> 8191
+                                 8192   => 'E_DEPRECATED',          # notice marker for 'in future' deprecated php-functions (since PHP 5.3.0)
+                                 16384  => 'E_USER_DEPRECATED',     # trigger_error() / user_error() reports user-defined deprecated functions
                                 #30719  => 'E_ALL 30719 PHP5.3.x',  # all errors and warnings - E_ALL of PHP Version 5.3.x
                                 #32767  => 'E_ALL 32767 PHP6'       # all errors and warnings - E_ALL of PHP Version 6
                                  );
@@ -215,7 +146,9 @@ class Clansuite_Errorhandler
             case 'E_STRICT':
                 $errorname .= ' [php strict]';
                 break;
-            #case 'E_RECOVERABLE_ERROR':
+            case 'E_RECOVERABLE_ERROR':
+                $errorname .= ' [php not-unstable]';
+                break;
             # when it's not in there, its an unknown errorcode
             default:
                 $errorname .= ' Unknown Errorcode ['. $errornumber .']: ';
@@ -235,17 +168,9 @@ class Clansuite_Errorhandler
             else # give normal Error Display
             {
                 # All Error Informations (except backtraces)
-                echo $this->ysod( $errornumber, $errorname, $errorstring, $errorfile, $errorline, $errorcontext );
+                echo $this->yellowScreenOfDeath($errornumber, $errorname, $errorstring, $errorfile, $errorline, $errorcontext );
             }
         }
-
-        /*
-        # if config setting log_errors is true, log the errormessage also to file
-        if($this->config['errors']['log_to_file'] == true)
-        {
-            Clansuite_Logger::log();
-        }
-        */
 
         # Skip PHP internal error handler
         return true;
@@ -327,6 +252,32 @@ class Clansuite_Errorhandler
     }
 
     /**
+     * Returns colorname for errornumber
+     *
+     * @param int $errornumber the errornumber to get the colorname for
+     * @return string
+     */
+    private function getColornameForErrornumber($errornumber)
+    {
+        $c = 'beige';
+
+        if($errornumber == 256)
+        {
+            $c = 'red';
+        }
+        elseif($errornumber == 512)
+        {
+            $c = 'orange';
+        }
+        elseif($errornumber == 1024)
+        {
+            $c = 'beige';
+        }
+
+        return $c;
+    }
+
+    /**
      * Yellow Screen of Death (YSOD) is used to display a Clansuite Error
      *
      * @param int $errornumber
@@ -336,84 +287,79 @@ class Clansuite_Errorhandler
      * @param int $errorline
      * @param string $errorcontext
      */
-    private function ysod( $errornumber, $errorname, $errorstring, $errorfile, $errorline, $errorcontext )
+    private function yellowScreenOfDeath($errornumber, $errorname, $errorstring, $errorfile, $errorline, $errorcontext )
     {
-        # Header
-        $errormessage    = '<html><head>';
-        $errormessage   .= '<title>Clansuite Error : [ '. wordwrap($errorstring,40,"\n") .' | Code: '. $errornumber .' ] </title>';
-        $errormessage   .= '<body>';
-        $errormessage   .= '<link rel="stylesheet" href="'. WWW_ROOT_THEMES_CORE .'/css/error.css" type="text/css" />';
-        $errormessage   .= '</head>';
-        # Body
-        $errormessage   .= '<body>';
+        if(strlen($errorstring) > 60)
+        {
+            $trimed_errorstring = substr($errorstring,0,strpos($errorstring,' ',60));
+        }
+        else
+        {
+            $trimed_errorstring = $errorstring;
+        }
 
-        # Fieldset with colours (error_red, error_orange, error_beige)
-        if ($errornumber == 256)
-        {
-            echo '<fieldset class="error_red">';
-        }
-        elseif ($errornumber == 512)
-        {
-            echo '<fieldset class="error_orange">';
-        }
-        elseif ($errornumber == 1024)
-        {
-            echo '<fieldset class="error_beige">';
-        }
-        elseif ($errornumber > 0)
-        {
-            echo '<fieldset class="error_beige">';
-        }
+        # Header
+        $errormessage = '<html><head>';
+        $errormessage .= '<title>Clansuite Error : [ ' . $trimed_errorstring . ' ... | Code: ' . $errornumber . ' ] </title>';
+        $errormessage .= '<body>';
+        $errormessage .= '<link rel="stylesheet" href="' . WWW_ROOT_THEMES_CORE . '/css/error.css" type="text/css" />';
+        $errormessage .= '</head>';
+
+        # Body
+        $errormessage .= '<body>';
+
+        # Fieldset colored (error_red, error_orange, error_beige)
+        $errormessage .= '<fieldset class="error_' . $this->getColornameForErrornumber($errornumber) . '">';
 
         # Errorlogo
-        $errormessage   .= '<div style="float: left; margin: 5px; margin-right: 25px; border:1px inset #bf0000; padding: 20px;">';
-        $errormessage   .= '<img src="'. WWW_ROOT_THEMES_CORE .'/images/Clansuite-Toolbar-Icon-64-error.png" style="border: 2px groove #000000;"/></div>';
+        $errormessage .= '<div style="float: left; margin: 5px; margin-right: 25px; border:1px inset #bf0000; padding: 20px;">';
+        $errormessage .= '<img src="' . WWW_ROOT_THEMES_CORE . '/images/Clansuite-Toolbar-Icon-64-error.png" style="border: 2px groove #000000;"/></div>';
+
         # Fieldset Legend
-        $errormessage   .= '<legend>Clansuite Error : [ '. wordwrap($errorstring,50,"\n") .' ] </legend>';
+        $errormessage .= '<legend>Clansuite Error : [ ' . $trimed_errorstring . ' ... ] </legend>';
 
         # Error Messages
-        $errormessage   .= '<table>';
-        $errormessage   .= '<tr><td colspan="2"><h3>'. wordwrap($errorstring,50,"\n") .'</h3></td></tr>';
-        $errormessage   .= '<tr><td width=15%><strong>Errorcode: </strong></td><td>'.$errorname.' ('.$errornumber.')</td></tr>';
-        $errormessage   .= '<tr><td><strong>Message: </strong></td><td>'.$errorstring.'</td></tr>';
-        $errormessage   .= '<tr><td><strong>Path: </strong></td><td>'. dirname($errorfile).'</td></tr>';
-        $errormessage   .= '<tr><td><strong>File: </strong></td><td>'. basename($errorfile).'</td></tr>';
-        $errormessage   .= '<tr><td><strong>Line: </strong></td><td>'.$errorline.'</td></tr>';
+        $errormessage .= '<table>';
+        $errormessage .= '<tr><td colspan="2"><h3> Error - <small>'.$errorname.'</small></h3><h4>'.$errorstring.'</h4></td></tr>';
+        #$errormessage .= '<tr><td width=15%><strong>Code: </strong></td><td>'. $errornumber . '</td></tr>';
+        $errormessage .= '<tr><td><strong>Path: </strong></td><td>' . dirname($errorfile) . '</td></tr>';
+        $errormessage .= '<tr><td><strong>File: </strong></td><td>' . basename($errorfile) . '</td></tr>';
+        $errormessage .= '<tr><td><strong>Line: </strong></td><td>' . $errorline . '</td></tr>';
 
         # HR Split
-        $errormessage   .= '<tr><td colspan="2">&nbsp;</td></tr>';
+        $errormessage .= '<tr><td colspan="2">&nbsp;</td></tr>';
 
         # Error Context
-        $errormessage  .= '<tr><td colspan="2"><h3>Context</h3></td></tr>';
-        $errormessage  .= '<tr><td colspan="2">'.self::getErrorContext($errorfile, $errorline, 8).'</td></tr>';
+        $errormessage .= '<tr><td colspan="2"><h3>Context</h3></td></tr>';
+        $errormessage .= '<tr><td colspan="2">' . self::getErrorContext($errorfile, $errorline, 8) . '</td></tr>';
 
         # HR Split
-        $errormessage   .= '<tr><td colspan="2">&nbsp;</td></tr>';
+        $errormessage .= '<tr><td colspan="2">&nbsp;</td></tr>';
+
+        # Add Debug Backtracing
+        $errormessage .= '<tr><td>' . self::getDebugBacktrace() . '</td></tr>';
+
+          # HR Split
+        $errormessage .= '<tr><td colspan="2">&nbsp;</td></tr>';
 
         # Environmental Informations at Errortime ( $errorcontext is not displayed )
         $errormessage .= '<tr><td colspan="2"><h3>Server Environment</h3></td></tr>';
         $errormessage .= '<tr><td><strong>Date: </strong></td><td>' . date('r') . '</td></tr>';
+        $errormessage .= '<tr><td><strong>Remote: </strong></td><td>' . $_SERVER['REMOTE_ADDR'] . '</td></tr>';
         $errormessage .= '<tr><td><strong>Request: </strong></td><td>' . htmlentities($_SERVER['QUERY_STRING'], ENT_QUOTES) . '</td></tr>';
         $errormessage .= '<tr><td><strong>Server: </strong></td><td>' . $_SERVER['SERVER_SOFTWARE'] . '</td></tr>';
-        $errormessage .= '<tr><td><strong>Remote: </strong></td><td>' . $_SERVER['REMOTE_ADDR'] . '</td></tr>';
         $errormessage .= '<tr><td><strong>Agent: </strong></td><td>' . $_SERVER['HTTP_USER_AGENT'] . '</td></tr>';
         $errormessage .= '<tr><td><strong>Clansuite: </strong></td><td>' . CLANSUITE_VERSION . ' ' . CLANSUITE_VERSION_STATE . ' (' . CLANSUITE_VERSION_NAME . ') [Revision #' . CLANSUITE_REVISION . ']</td></tr>';
 
         # HR Split
-        $errormessage   .= '<tr><td colspan="2">&nbsp;</td></tr>';
+        $errormessage .= '<tr><td colspan="2">&nbsp;</td></tr>';
 
-        # Add Debug Backtracing
-        $errormessage   .= '<tr><td>' . self::getDebugBacktrace() . '</td></tr>';
-
-        # HR Split
-        $errormessage   .= '<tr><td colspan="2">&nbsp;</td></tr>';
-
-        # close all html elements: table, fieldset, body+page
-        $errormessage   .= '</table>';
+        # close html elements: table
+        $errormessage .= '</table>';
 
         # Footer with Support-Backlinks
-        $errormessage  .= '<div style="float:right;">';
-        $errormessage  .= '<strong><!-- Live Support JavaScript -->
+        $errormessage .= '<div style="float:right;">';
+        $errormessage .= '<strong><!-- Live Support JavaScript -->
                            <script type="text/javascript"
                               src="http://www.clansuite.com/livezilla/image.php?v=PGEgaHJlZj1cImphdmFzY3JpcHQ6dm9pZCh3aW5kb3cub3BlbignaHR0cDovL3d3dy5jbGFuc3VpdGUuY29tL2xpdmV6aWxsYS9saXZlemlsbGEucGhwP2NvZGU9UlhoalpYQjBhVzl1TDBWeWNtOXkmYW1wO3Jlc2V0PXRydWUnLCcnLCd3aWR0aD02MDAsaGVpZ2h0PTYwMCxsZWZ0PTAsdG9wPTAscmVzaXphYmxlPXllcyxtZW51YmFyPW5vLGxvY2F0aW9uPXllcyxzdGF0dXM9eWVzLHNjcm9sbGJhcnM9eWVzJykpXCIgPCEtLWNsYXNzLS0-PjwhLS10ZXh0LS0-PC9hPjwhPkxpdmUgSGVscCAoQ2hhdCBzdGFydGVuKTwhPkxpdmUgSGVscCAoTmFjaHJpY2h0IGhpbnRlcmxhc3Nlbik8IT4_">
                            </script>
@@ -421,15 +367,15 @@ class Clansuite_Errorhandler
                               <div><a href="http://www.clansuite.com/livezilla/livezilla.php?code=RXhjZXB0aW9uL0Vycm9y&amp;reset=true" target="_blank">Contact Support (Start Chat)</a></div>
                            </noscript>
                            <!-- Live Support JavaScript --></strong> | ';
-        $errormessage  .= '<strong><a href="http://trac.clansuite.com/newticket/">Bug-Report</a></strong> |
+        $errormessage .= '<strong><a href="http://trac.clansuite.com/newticket/">Bug-Report</a></strong> |
                            <strong><a href="http://forum.clansuite.com/">Support-Forum</a></strong> |
                            <strong><a href="http://docs.clansuite.com/">Manuals</a></strong> |
                            <strong><a href="http://www.clansuite.com/">visit clansuite.com</a></strong>
                            </div>';
 
         # close all html elements: fieldset, body+page
-        $errormessage   .= '</fieldset><br /><br />';
-        $errormessage   .= '</body></html>';
+        $errormessage .= '</fieldset><br /><br />';
+        $errormessage .= '</body></html>';
 
         # save session
         session_write_close();
@@ -454,17 +400,16 @@ class Clansuite_Errorhandler
             return;
         }
 
-        # get php's backtrace output
         $backtrace = debug_backtrace();
 
         /**
          * Now we get rid of several last calls in the backtrace stack
          * to get nearer to the relevant position for the error in the stack.
          *
-         * What exactly happens is: we shift-off / slice the calls to
-         * a) getDebugBacktrace() [this method]
-         * b) ysod() [our display method]
-         * c) trigger_error() [php core function call]
+         * What exactly happens is: we shift-off the calls to
+         * 1) getDebugBacktrace()   [this method]
+         * 2) yellowScreenOfDeath() [our exception and error display method]
+         * 3) trigger_error()       [php core function call]
          */
         $backtrace = array_slice($backtrace, 3);
 
@@ -485,20 +430,12 @@ class Clansuite_Errorhandler
             }
             else
             {
-                $backtrace_string .= '<tr><td><strong>File: </strong></td><td>' . $backtrace[$i]['file'] . '</td>';
+                $backtrace_string .= '<tr><td><strong>Called: </strong></td><td>' . $backtrace[$i]['class'] . '::';
+                $backtrace_string .= $backtrace[$i]['function'] . '(';
             }
 
-            if(isset($backtrace[$i]['line']))
+            if(isset($backtrace[$i]['args']) and empty($backtrace[$i]['args']) == false)
             {
-                $backtrace_string .= '</tr>';
-                $backtrace_string .= '<tr><td><strong>Line: </strong></td><td>' . $backtrace[$i]['line'] . '</td></tr>';
-                $backtrace_string .= '<tr><td><strong>Function: </strong></td><td>' . $backtrace[$i]['function'] . '</td></tr>';
-            }
-
-            if(isset($backtrace[$i]['args']))
-            {
-                $backtrace_string .= '<tr><td><strong>Arguments: </strong></td><td>';
-
                 $backtrace_counter_j = count($backtrace[$i]['args']) - 1;
                 for($j = 0; $j <= $backtrace_counter_j; $j++)
                 {
@@ -512,6 +449,10 @@ class Clansuite_Errorhandler
                     }
                 }
             }
+
+            $backtrace_string .= ')</td></tr>';
+            $backtrace_string .= '<tr><td><strong>File: </strong></td><td>' . $backtrace[$i]['file'] . '</td></tr>';
+            $backtrace_string .= '<tr><td><strong>Line: </strong></td><td>' . $backtrace[$i]['line'] . '</td></tr>';
 
             # spacer
             $backtrace_string .= '</td></tr>';
@@ -606,48 +547,41 @@ class Clansuite_Errorhandler
                 $surrounding_lines          = round($scope/2);
                 $errorcontext_starting_line = $line - $surrounding_lines;
                 $errorcontext_ending_line   = $line + $surrounding_lines;
-                $linenumber                 = $scope-$surrounding_lines-1;
 
-                # get linenumbers array
-                $lines_array = range($errorcontext_starting_line+1, $errorcontext_ending_line);
+                # create linenumbers array
+                $lines_array = range($errorcontext_starting_line, $errorcontext_ending_line);
 
-                # now colourize the errorous linenumber
-                $lines_array[$linenumber] = '<span style="color: white; background-color:#BF0000;">'.$lines_array[$linenumber].'</span>';
+                # colourize the errorous linenumber red
+                $lines_array[$surrounding_lines] = '<span style="color: white; background-color:#BF0000;">'.$lines_array[$surrounding_lines].'</span>';
 
                 # transform linenumbers array to string for later display
-                $lines  = implode($lines_array, '<br />');
+                $lines_html = implode($lines_array, '<br />');
 
                 # get ALL LINES syntax highlighted source-code of the file and explode it into an array
                 $array_content = explode('<br />', highlight_file($file, true));
 
                 # get the ERROR SURROUNDING LINES from ALL LINES
-                $array_content_sliced = array_slice($array_content, $errorcontext_starting_line, $scope, true);
+                $array_content_sliced = array_slice($array_content, $errorcontext_starting_line-1, $scope, true);
 
-                /**
-                 * reindexig the array,
-                 * we need the first element’s index being [1], because linenumbers don't start with [0]
-                 * @todo use ksort() / rsort()?
-                 */
-                $result = array();
-                foreach ( $array_content_sliced as $key => $val )
-                {
-                    $result[ $key+1 ] = $val;
-                }
+                $result = array_values($array_content_sliced);
 
                 # now colourize the background of the errorous line RED
-                # $result[$line] = '<span style="background-color:#BF0000;">'. $result[$line] .'</span>';
+                #$result[$surrounding_lines] = '<span style="background-color:#BF0000;">'. $result[$surrounding_lines] .'</span>';
 
                 /**
-                 * transform the array into a string again
-                 * (1) we have to re-add <code> , because it got lost somewhere...
-                 * (2) enhance readablility by imploding the array with linebreaks
+                 * transform the array into html string
+                 * enhance readablility by imploding the array with linebreaks (CR)
                  */
-                $errorcontext_lines  = '<code>'.implode($result, '<br />');
+                $errorcontext_lines  = implode($result, '<br />');
 
-                # display LINES and ERRORCONTEXT_LINES in a table (prefixed with the hardcoded style)
-                $html = '<table><tr><td class="num">'.CR. $lines.CR.'</td><td>'.CR.$errorcontext_lines.CR.'</td></tr></table>';
+                $sprintf_html = '<table>
+                                    <tr>
+                                        <td class="num">'.CR.'%s'.CR.'</td>
+                                        <td><code>'.CR.'%s'.CR.'</code></td>
+                                    </tr>
+                                </table>';
 
-                return $html;
+                return sprintf($sprintf_html, $lines_html, $errorcontext_lines);
             }
         }
     }
