@@ -45,7 +45,7 @@ class Clansuite_Sniffs_ForbiddenFunctions extends Generic_Sniffs_PHP_ForbiddenFu
              'var_dump'         => 'null',
             #'error_log'        => 'null',
 
-              # 4) Discourages the use of normale string functions, thereby enforces the usage of mbstring functions
+              # 4) Discourages the use of normal string functions, thereby enforces the usage of mbstring functions
              'split'           => 'mb_split',        # Split multibyte string using regular expression
              'strcut'          => 'mb_strcut',       # Get part of string
              'trimwidth'       => 'mb_strimwidth',   # Get truncated string with specified width

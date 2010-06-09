@@ -70,7 +70,7 @@ class PHP_CodeSniffer_Standards_Clansuite_ClansuiteCodingStandard extends PHP_Co
                      'Generic/Sniffs/CodeAnalysis/JumbledIncrementerSniff.php',
 
                      # discourage several functions in clansuite and ensure consistent usage of functions
-                     dirname(__FILE__) . '/Sniffs/ForbiddenFunctions',
+                     dirname(__FILE__) . '/Sniffs/ForbiddenFunctions.php',
 
               # Classes
                      'Squiz/Sniffs/Classes/LowercaseClassKeywordsSniff.php',
