@@ -46,22 +46,22 @@ class Clansuite_Sniffs_ForbiddenFunctions extends Generic_Sniffs_PHP_ForbiddenFu
             #'error_log'        => 'null',
 
               # 4) Discourages the use of normale string functions, thereby enforces the usage of mbstring functions
-             'split'           => 'mb_split',       # Split multibyte string using regular expression
-             'strcut'          => 'mb_strcut'       # Get part of string
-             'trimwidth'       => 'mb_strimwidth'   # Get truncated string with specified width
-             'stripos'         => 'mb_stripos'      # Finds position of first occurrence of a string within another, case insensitive
-             'stristr'         => 'mb_stristr'      # Finds first occurrence of a string within another, case insensitive
-             'strlen'          => 'mb_strlen'       # Get string length
-             'strpos'          => 'mb_strpos'       # Find position of first occurrence of string in a string
-             'strrchr'         => 'mb_strrichr'     # Finds the last occurrence of a character in a string within another, case insensitive
-             'strripos'        => 'mb_strripos'     # Finds position of last occurrence of a string within another, case insensitive
-             'strrpos'         => 'mb_strrpos'      # Find position of last occurrence of a string in a string
-             'strstr'          => 'mb_strstr'       # Finds first occurrence of a string within another
-             'strtolower'      => 'mb_strtolower'   # Make a string lowercase
-             'strtoupper'      => 'mb_strtoupper'   # Make a string uppercase
-             'strwidth'        => 'mb_strwidth'     # Return width of string
-             'substr_count'    => 'mb_substr_count' # Count the number of substring occurrences
-             'substr'          => 'mb_substr'       # Get part of string
+             'split'           => 'mb_split',        # Split multibyte string using regular expression
+             'strcut'          => 'mb_strcut',       # Get part of string
+             'trimwidth'       => 'mb_strimwidth',   # Get truncated string with specified width
+             'stripos'         => 'mb_stripos',      # Finds position of first occurrence of a string within another, case insensitive
+             'stristr'         => 'mb_stristr',      # Finds first occurrence of a string within another, case insensitive
+             'strlen'          => 'mb_strlen',       # Get string length
+             'strpos'          => 'mb_strpos',       # Find position of first occurrence of string in a string
+             'strrchr'         => 'mb_strrichr',     # Finds the last occurrence of a character in a string within another, case insensitive
+             'strripos'        => 'mb_strripos',     # Finds position of last occurrence of a string within another, case insensitive
+             'strrpos'         => 'mb_strrpos',      # Find position of last occurrence of a string in a string
+             'strstr'          => 'mb_strstr',       # Finds first occurrence of a string within another
+             'strtolower'      => 'mb_strtolower',   # Make a string lowercase
+             'strtoupper'      => 'mb_strtoupper',   # Make a string uppercase
+             'strwidth'        => 'mb_strwidth',     # Return width of string
+             'substr_count'    => 'mb_substr_count', # Count the number of substring occurrences
+             'substr'          => 'mb_substr',       # Get part of string
 
              # 5) Discourages the use of ereg-functions in general = no ereg*() and no mb_ereg_*()
              'ereg'              => 'null',
