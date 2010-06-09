@@ -52,74 +52,41 @@ if(defined('IN_CS') == false)
  */
 class Clansuite_Renderer_Factory
 {
+
     /**
      * getRenderer
      *
-     * @param $view_type String (A Renderer Name like "smarty", "phptal", "native")
+     * @param $adapter String (A Renderer Name like "smarty", "phptal", "native")
      * @return Renderer Object
      */
-    public static function getRenderer($view_type, $injector)
+    public static function getRenderer($adapter, $injector)
     {
-        $file = ROOT_CORE .'renderer'.DS. strtolower($view_type) .'.renderer.php';
-        if (is_file($file) != 0)
+        $file = ROOT_CORE . 'renderer' . DS . strtolower($adapter) . '.renderer.php';
+
+        if(is_file($file) === true)
         {
-            $class = 'Clansuite_Renderer_'. $view_type;
-            if( false === class_exists($class,false))
+            $class = 'Clansuite_Renderer_' . $adapter;
+            if(false === class_exists($class, false))
             {
                 include $file;
             }
 
-            if (class_exists($class,false))
+            if(class_exists($class, false))
             {
                 # instantiate and return the renderer and pass Config and Response objects to it
                 $view = new $class($injector->instantiate('Clansuite_Config'),
-                                   $injector->instantiate('Clansuite_HttpResponse')
-                                  );
+                                $injector->instantiate('Clansuite_HttpResponse'));
                 return $view;
             }
             else
             {
-                throw new RendererFactoryClassNotFoundException($class);
+                throw new Clansuite_Exception('Renderer_Factory -> Class not found: ' . $class, 61);
             }
         }
         else
         {
-            throw new RendererFactoryFileNotFoundException($file);
+            throw new Clansuite_Exception('Renderer_Factory -> File not found: ' . $class, 61);
         }
-    }
-}
-
-/**
- * Clansuit Exception - RendererFactoryClassNotFoundException
- *
- * @category    Clansuite
- * @package     Core
- * @subpackage  Renderer
- */
-class RendererFactoryClassNotFoundException extends Exception
-{
-    function __construct($class)
-    {
-        parent::__construct();
-        echo 'Renderer_Factory -> Class not found: ' . $class;
-        die();
-    }
-}
-
-/**
- * Clansuit Exception - RendererFactoryFileNotFoundException
- *
- * @category    Clansuite
- * @package     Core
- * @subpackage  Renderer
- */
-class RendererFactoryFileNotFoundException extends Exception
-{
-    function __construct($file)
-    {
-        parent::__construct();
-        echo 'Renderer_Factory -> File not found: ' . $file;
-        die();
     }
 }
 ?>
