@@ -27,6 +27,12 @@ php_value output_handler        ob_gzhandler
 # php_admin_value disable_functions "exec, system, passthru, shell_exec, suexec, dbmopen, popen, proc_open, escapeshellcmd, escapeshellarg"
 </IfModule>
 
+# Exlude .svn files (in case you are fetching directly from svn to the webserver)
+<Files .htaccess, .svn>
+    Order allow, deny
+    Deny from all
+</Files>
+
 # (6) Apache2 with "LoadModule mod_deflate"
 #     for output compression of the following specific file-content-types:
 
@@ -55,12 +61,13 @@ php_value output_handler        ob_gzhandler
         #RewriteBase /
 
 #  (7c) Rewrite Rules
-
+        
+        # if it's not a file AND it's not a directory
+        RewriteCond %{REQUEST_FILENAME} !-f
+        RewriteCond %{REQUEST_FILENAME} !-d
+        
         # disable rewrite for css, images, javascript, archives and pdf,txt
-        RewriteCond %{REQUEST_FILENAME} !\.(?:png|gif|jpeg|jpg|pdf|php|js|ico|txt|css|rar|zip|tar\.gz)$
-
-        #RewriteCond %{REQUEST_FILENAME} !-f
-        #RewriteCond %{REQUEST_FILENAME} !-d
+        #RewriteCond %{REQUEST_FILENAME} !\.(?:png|gif|jpeg|jpg|pdf|php|js|ico|txt|css|rar|zip|tar\.gz)$
 
         # route all non-ressource/file/dir requests to index.php
         #RewriteRule ^(.*).(.*)? index.php?mod=$1&action=$2
@@ -116,3 +123,4 @@ php_value output_handler        ob_gzhandler
 #  php_value max_execution_time 0
 #  php_value error_reporting 5
 #</IfModule>
+
