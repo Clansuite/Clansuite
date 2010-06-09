@@ -58,8 +58,8 @@ class Clansuite_Filter_ThemeViaGet implements Clansuite_Filter_Interface
 
     public function __construct(Clansuite_Config $config, Clansuite_Inputfilter $input)
     {
-        $this->config    = $config;
-        $this->input     = $input;
+        $this->config = $config;
+        $this->input  = $input;
     }
 
     public function executeFilter(Clansuite_HttpRequest $request, Clansuite_HttpResponse $response)

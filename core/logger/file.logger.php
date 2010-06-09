@@ -35,7 +35,7 @@
 
 # Security Handler
 if(defined('IN_CS') == false)
-{ 
+{
     die('Clansuite not loaded. Direct Access forbidden.');
 }
 
@@ -168,6 +168,13 @@ class Clansuite_Logger_File implements Clansuite_Logger_Interface
         return $filename;
     }
 
+    /**
+     * Returns a specific number of logfile entries (last ones first)
+     *
+     * @param int $entriesToFetch
+     * @param string $logfilename
+     * @return string HTML representation of logfile entries
+     */
     public static function returnEntriesFromLogfile($entriesToFetch = 5, $logfilename = null)
     {
         # setup default logfilename
@@ -183,15 +190,19 @@ class Clansuite_Logger_File implements Clansuite_Logger_Interface
         # subtract from total number of logfile entries the number to fetch
         $max_entries = max(0, $i - $entriesToFetch);
 
-        # define replacements
-        $linebreakers = array("\r", "\n");
-        $logEntries = '';
-
         # reverse for loop over the logfile_array
+        $logEntries = '';
         for($i; $i > $max_entries; $i--)
         {
-            $logEntries .= '<b>Entry ' . $i . '</b><br />' . htmlentities(str_replace($linebreakers, '', $logfile_array[$i])) . '<br />';
+            # remove linebreaks
+            $entry = str_replace(array('\r', '\n'), '', $logfile_array[$i]);
+
+            $logEntries .= '<b>Entry ' . $i . '</b>';
+            $logEntries .= '<br />' . htmlentities($entry) . '<br />';
         }
+
+        # cleanup
+        unset($logfilename, $logfile_array, $i, $max_entries, $entry);
 
         return $logEntries;
     }
