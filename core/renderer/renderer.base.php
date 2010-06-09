@@ -54,7 +54,14 @@ abstract class Clansuite_Renderer_Base
      */
     public $renderer = null;
 
+    /**
+     * @var string The layout template
+     */
     public $layoutTemplate = null;
+
+    /**
+     * @var string The "content" template
+     */
     public $template = null;
 
     /**
@@ -145,7 +152,7 @@ abstract class Clansuite_Renderer_Base
     /**
      * Set the template name
      *
-     * @param string $template Name of the Template with full Path
+     * @param string $template Name of the Template (full path)
      */
     public function setTemplate($template)
     {
@@ -163,47 +170,46 @@ abstract class Clansuite_Renderer_Base
     /**
      * Returns the Template Path
      *
-     * Path Priority
-     * 1) Themes
-     * 2) modulename/view
+     * Fetches the template by searching in the
+     * 1) Theme Template Paths
+     * 2) Modules Template Paths
+     * Note the Path Priority: Themes before Modules.
      *
      * @return $templatepath
      */
     public function getTemplatePath($template)
     {
-        # if template is a qualified path and template filename
-        if(is_file($template))
+        # done: if template is a qualified path and template filename
+        if(is_file($template) === true)
         {
             return $template;
         }
 
-        # fetch the template via looking through Theme Template Paths
+        # fetch the template by searching in the Theme Template Paths
         $theme_template = $this->getThemeTemplatePath($template);
 
         # check if template was found there, else it's null
         if($theme_template != null)
         {
-            #echo '<br>'. __METHOD__ .' via THEME = '. $theme_template . '<br>';
+            #Clansuite_Debug::firebug(__METHOD__ .' tries fetching template ("'. $theme_template . '") from THEME directory.');
             return $theme_template;
         }
-        else # try a lookup in the Module Template Path
-
+        else # fetch the template by searching in the Module Template Path
         {
-            # fetch the template via looking through Module Template Paths
-            #$module_template = $this->getModuleTemplatePath($template);
-            #echo '<br>'. __METHOD__ .'<br> is now trying to fetch the template from the MODULE directory via method getModuleTemplatePath("'. $template . '")<br>';
+            #Clansuite_Debug::firebug(__METHOD__ .' tries fetching template ("'. $template . '") from MODULE directory.');
             return $this->getModuleTemplatePath($template);
         }
     }
 
     /**
-     * Return the Themes Template-Path
+     * Returns the fullpath to Template by searching in the Theme Template Paths
+     *
+     * Note: For the implementation of module specific renderers and their related templates two ways exist:
+     * a) add either a directory named after the "renderer/", like modules/modulename/view/renderer/actioname.tpl
+     * b) name fileextension of the templates after the renderer (.xtpl, .phptpl, .tal).
      *
      * @param string $template Template Filename
      * @return string
-     *
-     * @todo for renderer related templates we have to add "renderer/", like
-     *        modules/modulename/view/renderer/actioname.tpl
      */
     public function getThemeTemplatePath($template)
     {
@@ -224,13 +230,12 @@ abstract class Clansuite_Renderer_Base
                 return ROOT_THEMES . $_SESSION['user']['backendtheme'] .DS. $module .DS. $template;
             }
             # (b) BACKEND FALLBACK - check the fallback dir: themes/admin
-            elseif(is_file( ROOT_THEMES . 'admin' .DS. $template))
+            elseif(is_file( ROOT_THEMES . 'admin' .DS. $template) === true)
             {
                 return ROOT_THEMES . 'admin' .DS. $template;
             }
         }
         else # 2. it's a FRONTEND theme
-
         {
             # (a) USER FRONTENDTHEME - check, if template exists in current session user THEME
             if(isset($_SESSION['user']['theme']) and is_file( ROOT_THEMES . $_SESSION['user']['theme'] .DS. $template))
@@ -238,12 +243,12 @@ abstract class Clansuite_Renderer_Base
                 return ROOT_THEMES . $_SESSION['user']['theme'] .DS. $template;
             }
             # (b) FRONTEND FALLBACK - check, if template exists in usertheme/modulename/tpl
-            elseif(is_file( ROOT_THEMES . $_SESSION['user']['theme'] .DS. $module .DS. $template ))
+            elseif(is_file( ROOT_THEMES . $_SESSION['user']['theme'] .DS. $module .DS. $template ) === true)
             {
                 return ROOT_THEMES . $_SESSION['user']['theme'] .DS. $module .DS.  $template;
             }
             # (c) FRONTEND FALLBACK - check, if template exists in standard theme
-            elseif(is_file( ROOT_THEMES .DS. 'standard' .DS. $template))
+            elseif(is_file( ROOT_THEMES .DS. 'standard' .DS. $template) === true)
             {
                 return ROOT_THEMES .DS. 'standard' .DS. $template;
             }
@@ -251,7 +256,7 @@ abstract class Clansuite_Renderer_Base
     }
 
     /**
-     * Return the Modules Template-Path
+     * Returns the fullpath to Template by searching in the Module Template Path
      *
      * @param string $template Template Filename
      * @return string
@@ -261,23 +266,23 @@ abstract class Clansuite_Renderer_Base
         # fetch modulename for template path construction
         $module = Clansuite_Module_Controller_Resolver::getModuleName();
 
-        $paths = array( ROOT_MOD . $template,
-                ROOT_MOD . $module . DS . $template,
-                ROOT_MOD . $module . DS . 'view' . DS . $template
+        # compose two templates paths in the module dir
+        $paths = array(
+            ROOT_MOD . $module . DS . $template,
+            ROOT_MOD . $module . DS . 'view' . DS . $template
         );
 
         # check if template exists in one of the defined paths
         foreach($paths as $path)
         {
-            # on true, return that path
-            if(is_file($path) == true)
+            if(is_file($path) === true)
             {
                 return $path;
             }
         }
 
-        # the template with that name is not found on our default paths, show template_not_found
-        return ROOT_THEMES . 'core'.DS.'view'.DS.'template_not_found.tpl';
+        # the template with that name is not found on our default paths
+        return ROOT_THEMES . 'core' . DS . 'view' . DS . 'template_not_found.tpl';
     }
 
     /**
@@ -297,9 +302,7 @@ abstract class Clansuite_Renderer_Base
         /**
          * a) Assign Web Paths
          *
-         * Watch it! These Paths are relative (based on WWW_ROOT), not absolute!
-         *
-         * @see config.class
+         *    Watch it! These Paths are relative (based on WWW_ROOT), not absolute!
          */
         $template_constants['www_root']             = WWW_ROOT;
         $template_constants['www_root_upload']      = WWW_ROOT .'/'. $this->config['paths']['upload_folder'];
@@ -308,14 +311,15 @@ abstract class Clansuite_Renderer_Base
         $template_constants['www_root_themes']      = WWW_ROOT_THEMES;
         $template_constants['www_root_themes_core'] = WWW_ROOT_THEMES_CORE;
 
-        # b) Meta Informations
+        /**
+         * b) Meta Informations
+         */
         $template_constants['meta'] = $this->config['meta'];
 
         /**
          * c) Clansuite Version
          *
-         *    Note:
-         *    This is doubled functionality.
+         *    Note: This is doubled functionality.
          *    You can use $smarty.const.CLANSUITE_VERSION or $clansuite_version in a template.
          */
         $template_constants['clansuite_version']       = CLANSUITE_VERSION;

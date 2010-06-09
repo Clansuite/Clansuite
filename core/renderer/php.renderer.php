@@ -59,14 +59,18 @@ class Clansuite_Renderer_Php extends Clansuite_Renderer_Base
     #private $template;
     private $data = array();
 
-    public function __construct($file, $data)
+    public function __construct(Clansuite_Config $config, Clansuite_HttpResponse $response)
     {
-        $this->file = $file;
-        $this->data = $data;
-
-        return $this;
+        parent::__construct($config, $response);
     }
 
+    /**
+     * @param string $filename
+     * @param string $directory
+     * @return Content of php template
+     *
+     * @todo
+     */
     public function fetch($filename = null, $directory = null)
     {
         $file = '';
@@ -80,17 +84,16 @@ class Clansuite_Renderer_Php extends Clansuite_Renderer_Base
             $file = $this->file;
         }
 
-        if (is_file($file))
+        if(is_file($file) === true)
         {
             /**
              * extract all templatevariables
-             * and do not overwrite an existing variable, if there is a collision
-             * just prefix them with invalid_
+             * but do not overwrite an existing variable
+             * if there is a collision just prefix them with invalid_
              */
             extract($this->data, EXTR_REFS | EXTR_PREFIX_INVALID, 'invalid_');
 
             ob_start();
-            #require $file;
             include $file;
             $content = ob_get_contents();
             ob_end_clean();
@@ -99,7 +102,7 @@ class Clansuite_Renderer_Php extends Clansuite_Renderer_Base
         }
         else
         {
-            exit('Error: Template ' . $file . ' not found!');
+            throw new Clansuite_Excpetion('PHP Renderer Error: Template ' . $file . ' not found!', 99);
         }
     }
 
@@ -112,11 +115,11 @@ class Clansuite_Renderer_Php extends Clansuite_Renderer_Base
      */
     public function assign($key, $value=null)
     {
-        if ( is_object($key))
+        if(is_object($key))
         {
             $this->data[$key] = $value->fetch();
         }
-        elseif (is_array($key))
+        elseif(is_array($key))
         {
             array_merge($this->data, $key);
         }

@@ -68,10 +68,9 @@ class Clansuite_Renderer_Xslt extends Clansuite_Renderer_Base
      */
     protected $xslfile = null;
 
-    public function __construct(Phemto $injector = null)
+    public function __construct(Clansuite_Config $config, Clansuite_HttpResponse $response)
     {
-        # apply instances to class (parent class)
-        $this->injector = $injector;
+        parent::__construct($config, $response);
 
         # instantiate the render engine
         $this->xslt = new XSLTProcessor;

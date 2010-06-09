@@ -35,7 +35,7 @@
 
 # Security Handler
 if (defined('IN_CS') == false)
-{ 
+{
     die('Clansuite not loaded. Direct Access forbidden.' );
 }
 
@@ -68,9 +68,9 @@ class Clansuite_Renderer_PDF extends Clansuite_Renderer_Base
      * 3) Configure the RenderEngine with it's specific settings = self::configureEngine();
      * 4) Eventlog
      */
-    function __construct(Phemto $injector = null, Clansuite_Config $config)
+    public function __construct(Clansuite_Config $config, Clansuite_HttpResponse $response)
     {
-        parent::__construct();
+        parent::__construct($config, $response);
     }
 
     public function initializeEngine()

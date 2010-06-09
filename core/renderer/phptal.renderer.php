@@ -68,9 +68,10 @@ class Clansuite_Renderer_Phptal extends Clansuite_Renderer_Base
      * 3) Configure the RenderEngine with it's specific settings = self::configureEngine();
      * 4) Eventlog
      */
-    function __construct(Phemto $injector = null, Clansuite_Config $config)
+    public function __construct(Clansuite_Config $config, Clansuite_HttpResponse $response)
     {
-        parent::__construct();
+        parent::__construct($config, $response);
+        $this->initializeEngine();
     }
 
     /**
@@ -81,27 +82,21 @@ class Clansuite_Renderer_Phptal extends Clansuite_Renderer_Base
     public function initializeEngine()
     {
         # prevent redeclaration
-        if (false === class_exists('PHPTAL',false))
+        if(class_exists('PHPTAL', false) == false)
         {
-            # check if library exists
-            if(is_file(ROOT_LIBRARIES . 'phptal/PHPTAL.php'))
+            # check if Smarty library exists
+            if(is_file(ROOT_LIBRARIES . 'phptal/PHPTAL.php') === true)
             {
                 include ROOT_LIBRARIES . 'phptal/PHPTAL.php';
-                $this->renderer = new PHPTAL();
             }
-            else # throw error in case PHPTAL library is missing
-
+            else
             {
-                die('PHPTAL Template Library missing!');
+                throw new Exception('PHPTal Library missing!');
             }
         }
-        else # throw error in case engine was already loaded
 
-        {
-            die('PHPTAL already loaded!');
-        }
-
-        return $this->renderer;
+        # Do it with phptal style > eat like a bird, poop like an elefant!
+        $this->renderer = new PHPTAL();
     }
 
     /**
