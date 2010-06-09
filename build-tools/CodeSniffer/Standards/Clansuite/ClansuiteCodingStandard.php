@@ -63,8 +63,14 @@ class PHP_CodeSniffer_Standards_Clansuite_ClansuiteCodingStandard extends PHP_Co
                      # One Line - one statement
                      'Generic/Sniffs/Formatting/DisallowMultipleStatementsSniff.php',
 
-                     # Detects unnecessary overriden methods that simply call their parent.
+                     # CA/PMD: Detects unnecessary overriden methods that simply call their parent.
                      'Generic/Sniffs/CodeAnalysis/UselessOverridingMethodSniff.php',
+
+                     # CA/PMD: Detect double usage of incrementation variables (in inner and outer loops)
+                     'Generic/Sniffs/CodeAnalysis/JumbledIncrementerSniff.php',
+
+                     # discourage several functions in clansuite and ensure consistent usage of functions
+                     dirname(__FILE__) . '/Sniffs/ForbiddenFunctions',
 
               # Classes
                      'Squiz/Sniffs/Classes/LowercaseClassKeywordsSniff.php',
@@ -131,7 +137,7 @@ class PHP_CodeSniffer_Standards_Clansuite_ClansuiteCodingStandard extends PHP_Co
                     # Ensures all control structure keywords are lowercase.
                     'Squiz/Sniffs/ControlStructures/LowercaseDeclarationSniff.php',
                     # Checks that all uses of true, false and null are lowerrcase.
-                     'Generic/Sniffs/PHP/LowerCaseConstantSniff.php',
+                    'Generic/Sniffs/PHP/LowerCaseConstantSniff.php',
                    );
 
     }
