@@ -52,7 +52,7 @@ interface Clansuite_Response_Interface
     public static function setStatusCode($statusCode);
     public static function addHeader($name, $value);
     public static function setContent($content, $replace = false);
-    public static function flush();
+    public static function sendResponse();
 
     # Cookie Methods
     public static function createCookie($name, $value='', $maxage = 0, $path='', $domain='', $secure = false, $HTTPOnly = false);
@@ -192,7 +192,7 @@ class Clansuite_HttpResponse implements Clansuite_Response_Interface
     /**
      * This flushes the headers and bodydata to the client.
      */
-    public static function flush()
+    public static function sendResponse()
     {
         // Guess what?
         session_write_close();
