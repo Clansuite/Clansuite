@@ -127,7 +127,7 @@ abstract class Clansuite_Module_Controller extends Clansuite_Module_Controller_R
          * Load the Records for the current module, if no modulename is specified.
          * This is for lazy usage in the modulecontroller: $this->initModel();
          */
-        if(is_null($modulename))
+        if($modulename === null)
         {
             $modulename = Clansuite_Module_Controller_Resolver::getModuleName();
         }
@@ -135,16 +135,16 @@ abstract class Clansuite_Module_Controller extends Clansuite_Module_Controller_R
         /**
          * If no recordname is given, the path to records stored in the modulefolder is set.
          */
-        if(is_null($recordname))
+        if($recordname === null)
         {
-            $models_path = ROOT_MOD . strtolower($modulename) . DS . 'model/records';
+            $models_path = ROOT_MOD . mb_strtolower($modulename) . DS . 'model/records';
         }
         /*else
         {
             /**
              * Modulename and Recordname differ! Like "modulemanager" asmodulename and "CsModules" = "modules" as recordname.
         *//*
-            $models_path = ROOT_MOD . strtolower($modulename) . DS . 'model/records';
+            $models_path = ROOT_MOD . mb_strtolower($modulename) . DS . 'model/records';
         }  */
 
         if( is_dir($models_path) )
@@ -363,7 +363,7 @@ abstract class Clansuite_Module_Controller extends Clansuite_Module_Controller_R
     public static function checkTemplateExtension($template)
     {
         # get extension of template
-        $template_extension = strtolower(pathinfo($template, PATHINFO_EXTENSION));
+        $template_extension = mb_strtolower(pathinfo($template, PATHINFO_EXTENSION));
 
         # whitelist definition for listing all allowed template filetypes
         $allowed_extensions = array('html','php','tpl');
@@ -516,8 +516,8 @@ abstract class Clansuite_Module_Controller extends Clansuite_Module_Controller_R
 
         # construct formname, classname, filename, load file, instantiate the form
         $classname = 'Clansuite_Form_' . $formname;
-        $filename  = strtolower($formname) . '.form.php';
-        $directory = ROOT_MOD . strtolower($module) . DS . '/form/';
+        $filename  = mb_strtolower($formname) . '.form.php';
+        $directory = ROOT_MOD . mb_strtolower($module) . DS . '/form/';
         Clansuite_Loader::requireFile( $directory . $filename, $classname );
         $form = new $classname;
 

@@ -59,11 +59,6 @@ class Clansuite_Renderer_Php extends Clansuite_Renderer_Base
     #private $template;
     private $data = array();
 
-    public function __construct(Clansuite_Config $config, Clansuite_HttpResponse $response)
-    {
-        parent::__construct($config, $response);
-    }
-
     /**
      * @param string $filename
      * @param string $directory
@@ -75,7 +70,7 @@ class Clansuite_Renderer_Php extends Clansuite_Renderer_Base
     {
         $file = '';
 
-        if(is_null($filename))
+        if($filename === null)
         {
             $file = $directory . DS . $filename . '.tpl';
         }

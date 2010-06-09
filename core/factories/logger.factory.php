@@ -50,7 +50,7 @@ class Clansuite_Logger_Factory
      */
     public static function getLogger($adapter)
     {
-        $file = ROOT_CORE . 'logger' . DS . strtolower($adapter) . '.logger.php';
+        $file = ROOT_CORE . 'logger' . DS . mb_strtolower($adapter) . '.logger.php';
 
         if(is_file($file) === true)
         {

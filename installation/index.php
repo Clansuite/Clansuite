@@ -46,7 +46,7 @@ define('DEBUG', true);
 
 /**
  * Suppress Errors and use E_STRICT when Debugging
- * E_STRICT forbids the shortage of "<?php print $language->XY ?>" to "<?php echo $language->XY ?>"
+ * E_STRICT forbids the shortage of "<?php echo$language->XY ?>" to "<?php echo $language->XY ?>"
  * so we use E_ALL when DEBUGING. This is just an installer btw :)
  */
 ini_set('display_startup_errors', true);
@@ -513,7 +513,7 @@ function generate_salt($length)
     $chars = "./0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
 
     # count the number of random_chars
-    $number_of_random_chars = strlen($chars);
+    $number_of_random_chars = mb_strlen($chars);
 
     # add a char from the random_chars to the salt, until we got the wanted $length
     for($i = 0; $i < $length; ++$i)
@@ -656,7 +656,7 @@ function installstep_7($language)
  */
 function loadSQL($sqlfile, $hostname, $database, $username, $password)
 {
-    #print "Loading SQL";
+    #echo"Loading SQL";
     if($connection = @mysql_pconnect($hostname, $username, $password))
     {
         # select database
@@ -678,7 +678,7 @@ function loadSQL($sqlfile, $hostname, $database, $username, $password)
                 die(sprintf("error while executing mysql query #%u: %s<br />\nerror: %s", $i + 1, $sql, mysql_error()));
             }
         }
-        #print "$ix queries imported";
+        #echo"$ix queries imported";
         return true; //"SQL file loaded correctly";
     }
     else

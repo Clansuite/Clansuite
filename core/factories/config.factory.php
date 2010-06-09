@@ -76,7 +76,7 @@ class Clansuite_Config_Factory
         # init var
         $adapter = '';
 
-        $extension = substr($configfile, -11);
+        $extension = mb_substr($configfile, -11);
 
         /* if ($extension == '.config.ini.php')
          {
@@ -129,11 +129,11 @@ class Clansuite_Config_Factory
     public static function getConfigurationHandler($adapter, $configfile = null)
     {
         # path to configuration handler classes
-        $file = ROOT_CORE . 'config' . DS . strtolower($adapter) . '.config.php';
+        $file = ROOT_CORE . 'config' . DS . mb_strtolower($adapter) . '.config.php';
 
         if(is_file($file) === true)
         {
-            $class = 'Clansuite_Config_' . strtoupper($adapter) . 'Handler';
+            $class = 'Clansuite_Config_' . mb_strtoupper($adapter) . 'Handler';
             if(false === class_exists($class, false))
             {
                 include $file;

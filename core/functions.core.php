@@ -203,7 +203,7 @@ class Clansuite_Functions
         {
             foreach($array as $name => $value)
             {
-                $name = strtolower(trim($name));
+                $name = mb_strtolower(trim($name));
 
                 if(empty($name) == false)
                 {
@@ -235,11 +235,11 @@ class Clansuite_Functions
      */
     public static function cut_string_backwards($haystack, $needle)
     {
-        $needle_length = strlen($needle);
+        $needle_length = mb_strlen($needle);
 
         if(($i = strpos($haystack, $needle) !== false))
         {
-            return substr($haystack, 0, -$needle_length);
+            return mb_substr($haystack, 0, -$needle_length);
         }
         return $haystack;
     }
@@ -270,7 +270,7 @@ class Clansuite_Functions
             }
         }
 
-        if(sizeof($array) > 0)
+        if(count($array) > 0)
         {
             return $array;
         }
@@ -290,7 +290,7 @@ class Clansuite_Functions
     public static function str_replace_count($haystack, $replace, $needle, $times)
     {
         $subject_original = $needle;
-        $length = strlen($haystack);
+        $length = mb_strlen($haystack);
         $pos = 0;
 
         for($i = 1; $i<=$times; $i++)
@@ -299,9 +299,9 @@ class Clansuite_Functions
 
             if($pos !== false)
             {
-                $needle = substr($subject_original, 0, $pos);
+                $needle = mb_substr($subject_original, 0, $pos);
                 $needle .= $replace;
-                $needle .= substr($subject_original, $pos + $length);
+                $needle .= mb_substr($subject_original, $pos + $length);
                 $subject_original = $needle;
             }
             else
@@ -518,7 +518,7 @@ class Clansuite_Functions
      */
     public static function dateToWord($from, $now = null)
     {
-        if(is_null($now))
+        if($now === null)
         {
             $now = time();
         }
@@ -672,7 +672,7 @@ class Clansuite_Functions
                 $dh = opendir($path);
                 while($file = readdir($dh))
                 {
-                    if(substr($file, 0, 1) != '.')
+                    if(mb_substr($file, 0, 1) != '.')
                     {
                         $fullpath = $path . '/' . $file;
                         if(!is_dir($fullpath))
@@ -723,7 +723,7 @@ class Clansuite_Functions
         {
             while(false !== ( $file = readdir($handle)))
             {
-                if(substr($file, 0, 1) != '.')
+                if(mb_substr($file, 0, 1) != '.')
                 {
                     $source_path = $source . $file;
                     $target_path = $destination . $file;
@@ -786,9 +786,9 @@ class Clansuite_Functions
      */
     public static function delete_dir_content($directory, $subdirectory = false)
     {
-        if(substr($directory, -1) == '/')
+        if(mb_substr($directory, -1) == '/')
         {
-            $directory = substr($directory, 0, -1);
+            $directory = mb_substr($directory, 0, -1);
         }
 
         if((is_file($directory) == false) or ( is_dir($directory) == false))
@@ -853,7 +853,7 @@ class Clansuite_Functions
         if ( isset(self::$already_loaded[__FUNCTION__]) === false)
         {
             # if not, load function
-            require ROOT_CORE .'functions'.DS.strtolower(__FUNCTION__).'.function.php';
+            require ROOT_CORE .'functions'.DS.mb_strtolower(__FUNCTION__).'.function.php';
 
             # function loaded successfully
             self::$already_loaded[__FUNCTION__] = true;
@@ -874,7 +874,7 @@ class Clansuite_Functions
     public static function __callStatic($method, $arguments)
     {
         # Because value of $name is case sensitive, its forced to be lowercase.
-        $method = strtolower($method);
+        $method = mb_strtolower($method);
 
         # Debug message for Method Overloading
         # Making it easier to see which static method is called magically
@@ -913,7 +913,7 @@ class Clansuite_Functions
     public function __call($method, $arguments)
     {
         # Because value of $name is case sensitive, its forced to be lowercase.
-        $method = strtolower($method);
+        $method = mb_strtolower($method);
 
         # Debug message for Method Overloading
         # Making it easier to see which method is called magically

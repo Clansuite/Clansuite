@@ -184,7 +184,7 @@ class Clansuite_Feed
             $feedcontent = file_get_contents($feed_url, FILE_TEXT);
 
             # ensure that we have rss content
-            if(strlen($feedcontent) > 0)
+            if(mb_strlen($feedcontent) > 0)
             {
                 $fp = fopen($cachefile, 'w');
                 fwrite($fp, $feedcontent);

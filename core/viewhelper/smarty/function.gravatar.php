@@ -41,7 +41,7 @@ function smarty_function_gravatar($params, $smarty)
     # check for email adress
     if(isset($params['email']))
     {
-        $email = trim(strtolower($params['email']));
+        $email = trim(mb_strtolower($params['email']));
     }
     else
     {

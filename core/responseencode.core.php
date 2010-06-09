@@ -231,7 +231,7 @@ class Clansuite_ResponseEncode
         }
 
         # determine the content size
-        $original_content_size = strlen($content);
+        $original_content_size = mb_strlen($content);
 
         # if size of content is small, do not waste resources in compressing very little data, exit
         if ($original_content_size < 2048)
@@ -254,10 +254,10 @@ class Clansuite_ResponseEncode
                 $gzdata .= gzcompress($content, $level);
 
                 # determine size of compressed content
-                $compressed_content_size = strlen($gzdata);
+                $compressed_content_size = mb_strlen($gzdata);
 
                 # fix crc bug
-                $gzdata = substr($gzdata, 0, $compressed_content_size - 4);
+                $gzdata = mb_substr($gzdata, 0, $compressed_content_size - 4);
 
                 # add pack infos
                 $gzdata .= pack('V', crc32($content)) . pack('V', $original_content_size);
@@ -277,7 +277,7 @@ class Clansuite_ResponseEncode
         # send Headers
         header('Content-Encoding: ' . $encoding);
         header('Vary: Accept-Encoding');
-        header('Content-Length: ' . (int) strlen($gzdata));
+        header('Content-Length: ' . (int) mb_strlen($gzdata));
         header('X-Content-Encoded-By: Clansuite_ResponseEncode v' . self::$version);
 
         /**
@@ -342,34 +342,34 @@ class Clansuite_ResponseEncode
         /**
          * Determine file type by checking the first bytes of the content buffer.
          */
-        $magic = substr(ob_get_contents(),0,4);
-        if (substr($magic,0,2) === '^_')
+        $magic = mb_substr(ob_get_contents(),0,4);
+        if (mb_substr($magic,0,2) === '^_')
         {
             # gzip data
             $encoding = false;
         }
-        else if (substr($magic,0,3) === 'GIF')
+        else if (mb_substr($magic,0,3) === 'GIF')
         {
             # gif images
             $encoding = false;
         }
-        else if (substr($magic,0,2) === "\xFF\xD8")
+        else if (mb_substr($magic,0,2) === "\xFF\xD8")
         {
             # jpeg images
             $encoding = false;
         }
-        else if (substr($magic,0,4) === "\x89PNG")
+        else if (mb_substr($magic,0,4) === "\x89PNG")
         {
             # png images
             $encoding = false;
         }
-        else if (substr($magic,0,3) === 'FWS')
+        else if (mb_substr($magic,0,3) === 'FWS')
         {
             # Don't gzip Shockwave Flash files.
             # Flash on windows incorrectly claims it accepts gzip'd content.
             $encoding = false;
         }
-        else if (substr($magic,0,2) === 'PK')
+        else if (mb_substr($magic,0,2) === 'PK')
         {
             # pk zip file
             $encoding = false;

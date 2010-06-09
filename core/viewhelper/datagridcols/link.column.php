@@ -83,9 +83,9 @@ implements Clansuite_Datagrid_Column_Renderer_Interface
         }
         else
         {
-            if( strlen($values['name']) > $this->nameWrapLength )
+            if( mb_strlen($values['name']) > $this->nameWrapLength )
             {
-                $values['name'] = substr($values['name'], 0, $this->nameWrapLength-3) . '...';
+                $values['name'] = mb_substr($values['name'], 0, $this->nameWrapLength-3) . '...';
             }
         }
 

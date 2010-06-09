@@ -458,7 +458,7 @@ class WebInstaller
             $isSupported = $method->isSupported();
             $extractMethods[] = array('isSupported' => $isSupported,
                 'name' => $method->getName(),
-                'command' => strtolower(get_class($method)),
+                'command' => mb_strtolower(get_class($method)),
                 'archiveExists' => $archiveExists,
                 'archiveName' => $archiveName);
             if(empty($extensions[$method->getSupportedExtension()]))
@@ -484,7 +484,7 @@ class WebInstaller
         {
             $downloadMethods[] = array('isSupported' => $method->isSupported(),
                 'name' => $method->getName(),
-                'command' => strtolower(get_class($method)));
+                'command' => mb_strtolower(get_class($method)));
         }
         $capabilities['downloadMethods'] = $downloadMethods;
 
@@ -688,7 +688,7 @@ class Platform
             {
                 continue;
             }
-            if($path{strlen($path) - 1} != $slash)
+            if($path{mb_strlen($path) - 1} != $slash)
             {
                 $path .= $slash;
             }
@@ -837,7 +837,7 @@ class FopenDownloader extends DownloadMethod
                 $failed = true;
                 break;
             }
-            if(fwrite($ofh, $buf) != strlen($buf))
+            if(fwrite($ofh, $buf) != mb_strlen($buf))
             {
                 $failed = true;
                 $results = 'Error during writing';
@@ -965,7 +965,7 @@ class FsockopenDownloader extends DownloadMethod
             while(!feof($fd) and ! $failed)
             {
                 $buf = fread($fd, 4096);
-                if(fwrite($ofd, $buf) != strlen($buf))
+                if(fwrite($ofd, $buf) != mb_strlen($buf))
                 {
                     $failed = true;
                     break;
@@ -1275,8 +1275,8 @@ class PhpUnzipExtractor extends ExtractMethod
                 # cut off the subdirectory "/clansuite"
                 if(isset($remove_path) and ( $remove_path == 'clansuite/'))
                 {
-                    $complete_path = $baseFolder . DIRECTORY_SEPARATOR . substr($zip_path, 10);
-                    $complete_name = $baseFolder . DIRECTORY_SEPARATOR . substr($zip_name, 10);
+                    $complete_path = $baseFolder . DIRECTORY_SEPARATOR . mb_substr($zip_path, 10);
+                    $complete_name = $baseFolder . DIRECTORY_SEPARATOR . mb_substr($zip_name, 10);
                 }
                 else
                 {
@@ -1441,21 +1441,21 @@ if(!empty($args['clansuiteFolderName']) AND ! empty($args['anyArchiveExists']))
                                                 <p>Webinstallation</p>
 <?php #echo 'Debug Step: '.$step_cmd;  ?>
                         <div class="step-<?php if($step_cmd == 'intro' OR $step_cmd == '')
-{ print $on;}
+{ echo$on;}
 else
-{ print $off;} ?>Welcome</div>
+{ echo$off;} ?>Welcome</div>
                              <div class="step-<?php if($step_cmd == 'before-download')
-{ print $on;}
+{ echo$on;}
 else
-{ print $off;} ?>Download</div>
+{ echo$off;} ?>Download</div>
                         <div class="step-<?php if($step_cmd == 'download')
-{ print $on;}
+{ echo$on;}
 else
-{ print $off;} ?>Extract</div>
+{ echo$off;} ?>Extract</div>
                              <div class="step-<?php if($step_cmd == 'extract' OR $step_cmd == 'installation')
-{ print $on;}
+{ echo$on;}
 else
-{ print $off;} ?>Installation</div>
+{ echo$off;} ?>Installation</div>
                     </div>
                 </div>
 <?php #echo 'Arguments: ' . var_dump($args); /** DEBUG */ ?>
@@ -1465,7 +1465,7 @@ else
                         <!-- WARNING MESSAGE -->
                         <fieldset class="error_red">
                             <legend>Security Warning</legend>
-                            <p><b>Delete the file (<?php print basename(__FILE__) ?>) when you are done!</b></p>
+                            <p><b>Delete the file (<?php echobasename(__FILE__) ?>) when you are done!</b></p>
                         </fieldset>
 
 <?php /* *------------------------------------------------- */ ?>
@@ -1475,7 +1475,7 @@ else
                             <br />
                             <fieldset class="error_beige">
                                 <legend>Status</legend>
-                                <div class="box"><?php print $args['statusMessage']; ?></div>
+                                <div class="box"><?php echo$args['statusMessage']; ?></div>
                             </fieldset>
 <?php endif; ?>
 
@@ -1487,18 +1487,18 @@ else
                                 <h2 class="headerstyle">Result</h2>
 <?php if(!empty($args['failure'])): ?>
                                 <div class="error">
-<?php print $args['failure']; ?>
+<?php echo$args['failure']; ?>
 <?php if(!empty($args['fix'])): ?>
                                     <div class="suggested_fix">
                                         <h2> Suggested fix: </h2>
-<?php print $args['fix']; ?>
+<?php echo$args['fix']; ?>
                                 </div>
 <?php endif; ?>
                             </div>
 <?php endif; ?>
 <?php if(!empty($args['success'])): ?>
                                 <span class="success">
-<?php print $args['success']; ?>
+<?php echo$args['success']; ?>
                             </span>
 <?php endif; ?>
                         </div>
@@ -1515,8 +1515,8 @@ else
                          * span>
                          * ?php $first = true; foreach ($args['extensions'] as $ext => $supported): ?>
                          * ?php if (!$supported): ?><span class="disabled"><?php endif; ?>
-                         * ?php if (!$first) print ', '; else $first = false; ?>
-                         * ?php print $ext; ?>
+                         * ?php if (!$first) echo', '; else $first = false; ?>
+                         * ?php echo$ext; ?>
                          * ?php if (!$supported): ?></span><?php endif; ?>
                          * ?php endforeach; ?>
                          * /span>
@@ -1787,7 +1787,7 @@ $with_pathname = str_replace("\\", "/", $with_pathname);
             The Webinstaller has successfully extracted the archive.
             <br /><br />
             Please proceed to the
-            <a href="<?php print $args['clansuiteFolderName'] . '/installation/index.php'; ?>">
+            <a href="<?php echo$args['clansuiteFolderName'] . '/installation/index.php'; ?>">
                 Clansuite Installation Wizard</a>!
         </span>
     </p>
@@ -1801,7 +1801,7 @@ $folderName = empty($args['clansuiteFolderName']) ? 'clansuite' : $args['clansui
 
     <h2 id="chmod-toggler" class="headerstyle" style="cursor: pointer"
         onclick="BlockToggle('chmod-toggle', 'chmod-toggler', 'Change folder permissions')">Change folder permissions <div style="margin-right: 5px; margin-top: -25px; float:right;"><img src="http://www.clansuite.com/website/images/dn.gif" alt="DOWN" align="top" /></div></h2>
-    <div id="chmod-toggle" <?php print $display; ?>>
+    <div id="chmod-toggle" <?php echo$display; ?>>
 
 <?php if(!empty($args['clansuiteFolderName'])): ?>
             <p>
@@ -1816,12 +1816,12 @@ $folderName = empty($args['clansuiteFolderName']) ? 'clansuite' : $args['clansui
             </p>
             <form id="chmodForm" action="" method="post">
                 Folder name:
-                <input type="text" name="folderName" size="20" value="<?php print $folderName; ?>" />
+                <input type="text" name="folderName" size="20" value="<?php echo$folderName; ?>" />
                 Permissions:
                 <select name="folderPermissions">
 <?php foreach($folderPermissionList as $perm): ?>
-                    <option value="<?php print $perm; ?>">
-                        <?php print $perm; ?>
+                    <option value="<?php echo$perm; ?>">
+                        <?php echo$perm; ?>
                     </option>
 <?php endforeach; ?>
             </select>
@@ -1838,7 +1838,7 @@ $folderName = empty($args['clansuiteFolderName']) ? 'clansuite' : $args['clansui
         <!-- RENAME FOLDER-->
         <h2 id="rename-toggler" class="headerstyle" style="cursor: pointer"
             onclick="BlockToggle('rename-toggle', 'rename-toggler', 'Rename folder')">Rename folder <div style="margin-right: 5px; margin-top: -25px; float:right;"><img src="http://www.clansuite.com/website/images/dn.gif" alt="DOWN" align="top" /></div></h2>
-        <div id="rename-toggle" <?php print $display; ?>>
+        <div id="rename-toggle" <?php echo$display; ?>>
 
     <?php if(!empty($args['clansuiteFolderName'])): ?>
             <p>
@@ -1846,7 +1846,7 @@ $folderName = empty($args['clansuiteFolderName']) ? 'clansuite' : $args['clansui
             </p>
             <form id="renameForm" action="" method="post">
                 Rename folder to:
-                <input type="text" name="folderName" size="20" value="<?php print $folderName; ?>" />
+                <input type="text" name="folderName" size="20" value="<?php echo$folderName; ?>" />
                 <input type="hidden" name="command" value="rename" />
                 <input type="submit" value="Rename Folder" onclick="this.disabled=true;this.form.submit();" />
             </form>
@@ -1962,17 +1962,17 @@ $folderName = empty($args['clansuiteFolderName']) ? 'clansuite' : $args['clansui
 
                                                                     <div class="alignright">
             <?php if($back_cmd == 'intro'): ?>
-                                                                        <form action="<?php print basename(__FILE__); ?>" method="post">
+                                                                        <form action="<?php echobasename(__FILE__); ?>" method="post">
             <?php endif; ?>
                                                                             <input type="submit" value="Next" class="ButtonGreen" name="step_forward" />
-                                                                            <input type="hidden" name="command" value="<?php print $forward_cmd; ?>" />
+                                                                            <input type="hidden" name="command" value="<?php echo$forward_cmd; ?>" />
                                                                         </form>
                                                                     </div>
 
                                                                     <div class="alignleft">
-                                                                        <form action="<?php print basename(__FILE__); ?>" method="post">
+                                                                        <form action="<?php echobasename(__FILE__); ?>" method="post">
                                                                             <input type="submit" value="Back" class="ButtonRed" name="step_backward" />
-                                                                            <input type="hidden" name="command" value="<?php print $back_cmd; ?>" />
+                                                                            <input type="hidden" name="command" value="<?php echo$back_cmd; ?>" />
                                                                         </form>
                                                                     </div>
                                                                 </div><!-- div navigation end -->
@@ -2078,23 +2078,23 @@ function PclTarHandleExtract($p_tarname, $p_file_list, &$p_list_detail, $p_mode,
 
     // ----- Check the path
     /*
-     * f (($p_path == "") or ((substr($p_path, 0, 1) != "/") and (substr($p_path, 0, 3) != "../")))
+     * f (($p_path == "") or ((mb_substr($p_path, 0, 1) != "/") and (mb_substr($p_path, 0, 3) != "../")))
      * p_path = "./".$p_path;
      */
 
-    $isWin = (substr(PHP_OS, 0, 3) == 'WIN');
+    $isWin = (mb_substr(PHP_OS, 0, 3) == 'WIN');
 
     if(!$isWin)
     {
-        if(($p_path == "") or ( (substr($p_path, 0, 1) != "/") and ( substr($p_path, 0, 3) != "../")))
+        if(($p_path == "") or ( (mb_substr($p_path, 0, 1) != "/") and ( mb_substr($p_path, 0, 3) != "../")))
             $p_path = "./" . $p_path;
     }
     // ----- Look for path to remove format (should end by /)
-    if(($p_remove_path != "") and ( substr($p_remove_path, -1) != '/'))
+    if(($p_remove_path != "") and ( mb_substr($p_remove_path, -1) != '/'))
     {
         $p_remove_path .= '/';
     }
-    $p_remove_path_size = strlen($p_remove_path);
+    $p_remove_path_size = mb_strlen($p_remove_path);
 
     // ----- Study the mode
     switch($p_mode)
@@ -2185,14 +2185,14 @@ function PclTarHandleExtract($p_tarname, $p_file_list, &$p_list_detail, $p_mode,
             $v_extract_file = false;
 
             // ----- Look into the file list
-            $size = sizeof($p_file_list);
+            $size = count($p_file_list);
             for($i = 0; $i < $size; $i++)
             {
                 // ----- Look if it is a directory
-                if(substr($p_file_list[$i], -1) == "/")
+                if(mb_substr($p_file_list[$i], -1) == "/")
                 {
                     // ----- Look if the directory is in the filename path
-                    if((strlen($v_header["filename"]) > strlen($p_file_list[$i])) and ( substr($v_header["filename"], 0, strlen($p_file_list[$i])) == $p_file_list[$i]))
+                    if((mb_strlen($v_header["filename"]) > mb_strlen($p_file_list[$i])) and ( mb_substr($v_header["filename"], 0, mb_strlen($p_file_list[$i])) == $p_file_list[$i]))
                     {
                         // ----- The file is in the directory, so extract it
                         $v_extract_file = true;
@@ -2230,23 +2230,23 @@ function PclTarHandleExtract($p_tarname, $p_file_list, &$p_list_detail, $p_mode,
         {
             // ----- Look for path to remove
             if(($p_remove_path != "")
-                    and ( substr($v_header["filename"], 0, $p_remove_path_size) == $p_remove_path))
+                    and ( mb_substr($v_header["filename"], 0, $p_remove_path_size) == $p_remove_path))
             {
                 // ----- Remove the path
-                $v_header["filename"] = substr($v_header["filename"], $p_remove_path_size);
+                $v_header["filename"] = mb_substr($v_header["filename"], $p_remove_path_size);
             }
 
             // ----- Add the path to the file
             if(($p_path != "./") and ( $p_path != "/"))
             {
                 // ----- Look for the path end '/'
-                while(substr($p_path, -1) == "/")
+                while(mb_substr($p_path, -1) == "/")
                 {
-                    $p_path = substr($p_path, 0, strlen($p_path) - 1);
+                    $p_path = mb_substr($p_path, 0, mb_strlen($p_path) - 1);
                 }
 
                 // ----- Add the path
-                if(substr($v_header["filename"], 0, 1) == "/")
+                if(mb_substr($v_header["filename"], 0, 1) == "/")
                     $v_header["filename"] = $p_path . $v_header["filename"];
                 else
                     $v_header["filename"] = $p_path . "/" . $v_header["filename"];
@@ -2398,7 +2398,7 @@ function PclTarHandleExtract($p_tarname, $p_file_list, &$p_list_detail, $p_mode,
             // ----- Log extracted files
             if(($v_file_dir = dirname($v_header["filename"])) == $v_header["filename"])
                 $v_file_dir = "";
-            if((substr($v_header["filename"], 0, 1) == "/") and ( $v_file_dir == ""))
+            if((mb_substr($v_header["filename"], 0, 1) == "/") and ( $v_file_dir == ""))
                 $v_file_dir = "/";
 
             // ----- Add the array describing the file into the list
@@ -2439,7 +2439,7 @@ function PclTarHandleReadHeader($v_binary_data, &$v_header)
      */
 
     // ----- Look for no more block
-    if(strlen($v_binary_data)==0)
+    if(mb_strlen($v_binary_data)==0)
     {
         $v_header['filename'] = "";
         $v_header['status'] = "empty";
@@ -2448,7 +2448,7 @@ function PclTarHandleReadHeader($v_binary_data, &$v_header)
     }
 
     // ----- Look for invalid block size
-    if(strlen($v_binary_data) != 512)
+    if(mb_strlen($v_binary_data) != 512)
     {
         $v_header['filename'] = "";
         $v_header['status'] = "invalid_header";
@@ -2462,7 +2462,7 @@ function PclTarHandleReadHeader($v_binary_data, &$v_header)
     // ..... First part of the header
     for($i = 0; $i < 148; $i++)
     {
-        $v_checksum+=ord(substr($v_binary_data, $i, 1));
+        $v_checksum+=ord(mb_substr($v_binary_data, $i, 1));
     }
     // ..... Ignore the checksum value and replace it by ' ' (space)
     for($i = 148; $i < 156; $i++)
@@ -2472,7 +2472,7 @@ function PclTarHandleReadHeader($v_binary_data, &$v_header)
     // ..... Last part of the header
     for($i = 156; $i < 512; $i++)
     {
-        $v_checksum+=ord(substr($v_binary_data, $i, 1));
+        $v_checksum+=ord(mb_substr($v_binary_data, $i, 1));
     }
 
     // ----- Extract the values
@@ -2595,11 +2595,11 @@ function PclTarHandlerDirCheck($p_dir)
 function PclTarHandleExtension($p_tarname)
 {
     // ----- Look for file extension
-    if((substr($p_tarname, -7) == ".tar.gz") or ( substr($p_tarname, -4) == ".tgz"))
+    if((mb_substr($p_tarname, -7) == ".tar.gz") or ( mb_substr($p_tarname, -4) == ".tgz"))
     {
         $v_tar_mode = "tgz";
     }
-    elseif(substr($p_tarname, -4) == ".tar")
+    elseif(mb_substr($p_tarname, -4) == ".tar")
     {
         $v_tar_mode = "tar";
     }

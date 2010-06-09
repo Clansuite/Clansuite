@@ -236,7 +236,7 @@ class Clansuite_Form /*extends Clansuite_HTML*/ implements Clansuite_Form_Interf
      */
     public function setMethod($method)
     {
-        $method = strtolower($method);
+        $method = mb_strtolower($method);
 
         if($method == 'post' or $method == 'get')
         {
@@ -901,7 +901,7 @@ class Clansuite_Form /*extends Clansuite_HTML*/ implements Clansuite_Form_Interf
     {
         # if no position is incomming we return the last formelement item
         # this would be the normal call to this method, when manually chaining
-        if(is_null($formelement_position))
+        if($formelement_position === null)
         {
             # count formelements, -1 because starting with 0 not with 1
             $position = count($this->formelements)-1;

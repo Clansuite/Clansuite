@@ -29,7 +29,7 @@ function smarty_function_breadcrumbs($params, $smarty)
 
         if ($length > 0)
         {
-            $title = substr($trail[$i]['title'], 0, $length);
+            $title = mb_substr($trail[$i]['title'], 0, $length);
         }
         else
         {

@@ -114,7 +114,7 @@ class Clansuite_Datagrid_Base
      */
     public function setBaseURL($baseURL)
     {
-        if(is_null(self::$_baseURL))
+        if(self::$_baseURL === null)
         {
             self::$_baseURL = Clansuite_HttpRequest::getRequestURI();
         }

@@ -407,7 +407,7 @@ abstract class Clansuite_Renderer_Base
      */
     public function __call($method, $arguments)
     {
-        #print 'Magic used for Loading Method = '. $method . ' with Arguments = '. var_dump($arguments);
+        #echo'Magic used for Loading Method = '. $method . ' with Arguments = '. var_dump($arguments);
         if(method_exists($this->renderer, $method))
         {
             # this should be faster then call_user_func_array

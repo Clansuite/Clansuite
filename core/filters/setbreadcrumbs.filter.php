@@ -61,18 +61,18 @@ class Clansuite_Filter_SetBreadcrumbs implements Clansuite_Filter_Interface
          *  This adds the FIRST PART of the TRAIL.
          *  We have 3 cases.
          */
-        if(strlen($moduleName) >= 0 and ($moduleName != 'controlcenter') and ($submoduleName != 'admin'))
+        if(mb_strlen($moduleName) >= 0 and ($moduleName != 'controlcenter') and ($submoduleName != 'admin'))
         {
             Clansuite_Breadcrumb::addHomeTrail();
         }
 
-        if(strlen($moduleName) > 0 and ($moduleName == 'controlcenter'))
+        if(mb_strlen($moduleName) > 0 and ($moduleName == 'controlcenter'))
         {
             # Set Pagetitle "Control Center" and Breadcrumb-Link = '/index.php?mod=controlcenter'
             Clansuite_Breadcrumb::addControlCenterTrail();
         }
 
-        if(strlen($submoduleName) > 0 and ($submoduleName == 'admin'))
+        if(mb_strlen($submoduleName) > 0 and ($submoduleName == 'admin'))
         {
             # Set Pagetitle "Control Center"" and Breadcrumb-Link = '/index.php?mod=controlcenter'
             Clansuite_Breadcrumb::addControlCenterTrail();
@@ -81,7 +81,7 @@ class Clansuite_Filter_SetBreadcrumbs implements Clansuite_Filter_Interface
         /**
          * This adds the SECCOND PART of the TRAIL.
          */
-        if(strlen($moduleName) > 0  and ($moduleName != 'controlcenter'))
+        if(mb_strlen($moduleName) > 0  and ($moduleName != 'controlcenter'))
         {
             # Construct URL
             # BASE URL
@@ -89,13 +89,13 @@ class Clansuite_Filter_SetBreadcrumbs implements Clansuite_Filter_Interface
             $trailName = $moduleName;
 
             # Add action Part only, if not no submodule following
-            if( (strlen($actionName) > 0) and (strlen($submoduleName) == 0))
+            if( (mb_strlen($actionName) > 0) and (mb_strlen($submoduleName) == 0))
             {
                 $url .= '&amp;action=' . $actionName;
             }
 
             # if this is an request to an submodule admin, we append that to the URL
-            if( (strlen($submoduleName) > 0)  and ($submoduleName == 'admin'))
+            if( (mb_strlen($submoduleName) > 0)  and ($submoduleName == 'admin'))
             {
                 $url .= '&amp;sub=admin';
             }
@@ -105,14 +105,14 @@ class Clansuite_Filter_SetBreadcrumbs implements Clansuite_Filter_Interface
         }
 
         # add submodule part
-        if(strlen($submoduleName) > 0 and ($submoduleName != 'admin'))
+        if(mb_strlen($submoduleName) > 0 and ($submoduleName != 'admin'))
         {
             # Construct URL
             $url .= '&amp;sub=' . $submoduleName;
             $trailName = $submoduleName;
 
             # Add action Part now
-            if(strlen($actionName) > 0)
+            if(mb_strlen($actionName) > 0)
             {
                 $url .= '&amp;action=' . $actionName;
             }

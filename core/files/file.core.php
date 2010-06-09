@@ -133,7 +133,7 @@ class Clansuite_File
      */
     public function getExtension()
     {
-        return substr($this->name, strrpos($this->name, '.'));
+        return mb_substr($this->name, strrpos($this->name, '.'));
     }
 
     /**
@@ -289,7 +289,7 @@ class Clansuite_ImagesOnlyFilterIterator extends FilterIterator
             return false;
         }
         # ensure that the extension is in the $allowed_image_filetypes whitelist
-        elseif (in_array(strtolower($fileInfo['extension']), $this->allowed_image_filetypes))
+        elseif (in_array(mb_strtolower($fileInfo['extension']), $this->allowed_image_filetypes))
         {
             return true;
         }
@@ -396,7 +396,7 @@ class Clansuite_Directory
 
         if(!isset($fileParts['filename']))
         {
-            $fileParts['filename'] = substr($fileParts['basename'], 0, strrpos($fileParts['basename'], '.'));
+            $fileParts['filename'] = mb_substr($fileParts['basename'], 0, strrpos($fileParts['basename'], '.'));
         }
 
         return $fileParts;

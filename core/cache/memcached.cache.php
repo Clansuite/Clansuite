@@ -235,7 +235,7 @@ class Clansuite_Cache_Memcached implements Clansuite_Cache_Interface
         }
 
         # memcache keynames have a maximal length restriction of 250 chars
-        if(strlen($key) > 250)
+        if(mb_strlen($key) > 250)
         {
             $key = md5($key); # md5 = 32 chars
         }
@@ -282,7 +282,7 @@ class Clansuite_Cache_Memcached implements Clansuite_Cache_Interface
     {
         $compression = $this->config['cache']['memcached_autocompression'];
 
-        if(is_null($cache_lifetime))
+        if($cache_lifetime === null)
         {
             $cache_lifetime = $this->config['cache']['memcached_lifetime'];
         }
@@ -293,7 +293,7 @@ class Clansuite_Cache_Memcached implements Clansuite_Cache_Interface
         }
 
         # memcache keynames have a maximal length restriction of 250 chars
-        if(strlen($key) > 250)
+        if(mb_strlen($key) > 250)
         {
             $key = md5($key); # md5 = 32 chars
         }

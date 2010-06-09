@@ -23,7 +23,7 @@ function smarty_function_sliding_pager($params, $smarty)
     @param  string  url_append          - text to append to url after pagenumber, e.g. "html" (default: "")
     @param  string  txt_first           - text for link to first page (default: "&&")
     @param  string  txt_prev            - text for link to previous page (default: "&")
-    @param  string  separator           - text to print between page numbers (default: "&|&")
+    @param  string  separator           - text to echobetween page numbers (default: "&|&")
     @param  string  txt_next            - text for link to next page (default: "&")
     @param  string  txt_last            - text for link to last page (default: "&&")
     @param  string  txt_skip            - text shown when page s are skipped (not shown) (default: "&...&")
@@ -47,7 +47,7 @@ function smarty_function_sliding_pager($params, $smarty)
     extract($params);
 
     /* Convert page count if array */
-    if (is_array($pagecount)) $pagecount = sizeof($pagecount);
+    if (is_array($pagecount)) $pagecount = count($pagecount);
 
     /* Define additional required vars */
     $delta_l = 0;
@@ -133,7 +133,7 @@ function smarty_function_sliding_pager($params, $smarty)
         }
     }
 
-    $size = sizeof($links);
+    $size = count($links);
     for($i = 0; $i < $size; $i++)
     {
         if ($links[$i] != $curpage or $link_current)
@@ -145,15 +145,15 @@ function smarty_function_sliding_pager($params, $smarty)
             $retval .= $links[$i];
         }
 
-        if ($i < sizeof($links) - 1)
+        if ($i < count($links) - 1)
         {
             $retval .= $separator;
         }
     }
 
-    if ($links[sizeof($links) - 1] != $pagecount)
+    if ($links[count($links) - 1] != $pagecount)
     {
-        if ($links[sizeof($links) - 2] != $pagecount - 1)
+        if ($links[count($links) - 2] != $pagecount - 1)
         {
             $retval .= $txt_skip;
         }

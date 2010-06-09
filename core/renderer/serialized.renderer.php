@@ -57,11 +57,6 @@ require dirname(__FILE__) . '/renderer.base.php';
 
 class Clansuite_Renderer_Serialized extends Clansuite_Renderer_Base
 {
-    public function __construct(Clansuite_Config $config, Clansuite_HttpResponse $response)
-    {
-        parent::__construct($config, $response);
-    }
-
     /**
      * Render serialized PHP data
      */

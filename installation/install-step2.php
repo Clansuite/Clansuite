@@ -20,7 +20,7 @@ if (defined('IN_CS') == false)
 
                          <?php
                          /**
-                          * Print alternating Table-Rows
+                          * echoalternating Table-Rows
                           * Settings array = $array['settingname']['status']
                           */
                          function setting_rows($settings_array)

@@ -199,7 +199,7 @@ class Clansuite_Xdebug
      */
     public static function xd_varDump($var = null)
     {
-        if(is_null($var))
+        if($var === null)
         {
             throw new Clansuite_Exception('clansuite_xdebug::xd_varDump() expects the variable you want to display as parameter.');
         }

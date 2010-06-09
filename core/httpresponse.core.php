@@ -231,8 +231,8 @@ class Clansuite_HttpResponse implements Clansuite_Response_Interface
         // make it possible to attach HTML content to the body directly before flushing the response
         Clansuite_CMS::triggerEvent('onBeforeResponse', array('body' => self::$body));
 
-        // Finally PRINT the response body
-        print self::getContent();
+        // Finally echo the response body
+        echo self::getContent();
 
         // Flush Compressed Buffer
         if( XDEBUG === false and DEBUG === false)
@@ -274,7 +274,7 @@ class Clansuite_HttpResponse implements Clansuite_Response_Interface
         $ob = ini_get('output_buffering');
 
         # Abort the method if headers have already been sent, except when output buffering has been enabled
-        if ( headers_sent() and (bool) $ob === false or strtolower($ob) == 'off' )
+        if ( headers_sent() and (bool) $ob === false or mb_strtolower($ob) == 'off' )
         {
             return false;
         }
@@ -282,13 +282,13 @@ class Clansuite_HttpResponse implements Clansuite_Response_Interface
         if ( !empty($domain) )
         {
             # Fix the domain to accept domains with and without 'www.'.
-            if ( strtolower( substr($domain, 0, 4) ) == 'www.' )
+            if ( mb_strtolower( mb_substr($domain, 0, 4) ) == 'www.' )
             {
-                $domain = substr($domain, 4);
+                $domain = mb_substr($domain, 4);
             }
 
             # Add the dot prefix to ensure compatibility with subdomains
-            if ( substr($domain, 0, 1) != '.' )
+            if ( mb_substr($domain, 0, 1) != '.' )
             {
                 $domain = '.'.$domain;
             }
@@ -298,7 +298,7 @@ class Clansuite_HttpResponse implements Clansuite_Response_Interface
 
             if ( $port !== false )
             {
-                $domain = substr($domain, 0, $port);
+                $domain = mb_substr($domain, 0, $port);
             }
         }
 

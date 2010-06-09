@@ -71,37 +71,37 @@ class Clansuite_Form_Decorator_Form extends Clansuite_Form_Decorator
         # init var
         $html_form = '';
 
-        if( strlen($this->getID()) > 0 )
+        if( mb_strlen($this->getID()) > 0 )
         {
             $html_form .= 'id="'.$this->getID().'" ';
         }
 
-        if( strlen($this->getAction()) > 0 )
+        if( mb_strlen($this->getAction()) > 0 )
         {
             $html_form .= 'action="'.$this->getAction().'" ';
         }
 
-        if( strlen($this->getMethod()) > 0 )
+        if( mb_strlen($this->getMethod()) > 0 )
         {
             $html_form .= 'method="'.$this->getMethod().'" ';
         }
 
-        if( strlen($this->getEncoding()) > 0 )
+        if( mb_strlen($this->getEncoding()) > 0 )
         {
             $html_form .= 'enctype="'.$this->getEncoding().'" ';
         }
 
-        if( strlen($this->getTarget()) > 0 )
+        if( mb_strlen($this->getTarget()) > 0 )
         {
             $html_form .= 'target="'.$this->getTarget().'" ';
         }
 
-        if( strlen($this->getName()) > 0 )
+        if( mb_strlen($this->getName()) > 0 )
         {
              $html_form .= 'name="'.$this->getName().'" ';
         }
 
-        if( strlen($this->getCharset()) > 0 )
+        if( mb_strlen($this->getCharset()) > 0 )
         {
              $html_form .= 'accept-charset="'.$this->getCharset().'" ';
         }
@@ -123,7 +123,7 @@ class Clansuite_Form_Decorator_Form extends Clansuite_Form_Decorator
         $html_form = '';
 
         # add heading
-        if( strlen($this->getHeading()) > 0 )
+        if( mb_strlen($this->getHeading()) > 0 )
         {
              $html_form = '<h2>'.$this->getHeading().'</h2>' . CR;
         }
@@ -136,7 +136,7 @@ class Clansuite_Form_Decorator_Form extends Clansuite_Form_Decorator
          $html_form = '';
 
         # add description
-        if( strlen($this->getDescription()) > 0 )
+        if( mb_strlen($this->getDescription()) > 0 )
         {
              $html_form = '<p>'.$this->getDescription().'</p>' . CR;
         }

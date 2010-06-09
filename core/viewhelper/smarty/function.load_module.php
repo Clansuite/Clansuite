@@ -40,8 +40,8 @@ function smarty_function_load_module($params, $smarty)
     }*/
 
     # Init incomming Variables
-    $module    = isset( $params['name'] ) ? (string) strtolower($params['name']) : '';
-    $submodule    = isset( $params['sub'] ) ? (string) strtolower($params['sub'])  : '';
+    $module    = isset( $params['name'] ) ? (string) mb_strtolower($params['name']) : '';
+    $submodule    = isset( $params['sub'] ) ? (string) mb_strtolower($params['sub'])  : '';
     $action = isset( $params['action'] ) ? (string) $params['action'] : '';
     $items  = isset( $params['items'] )  ? (int) $params['items']  : null;
 
@@ -50,7 +50,7 @@ function smarty_function_load_module($params, $smarty)
 
     $module_classname = 'clansuite_module_';
     # Construct the variable module_name
-    if (isset($submodule) and strlen($submodule) > 0)
+    if (isset($submodule) and mb_strlen($submodule) > 0)
     {
         # like "clansuite_module_admin_menu"
         $module_classname .= $module . '_'. $submodule;

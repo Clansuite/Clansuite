@@ -67,14 +67,18 @@ class Clansuite_Session implements Clansuite_Session_Interface, ArrayAccess
     /**
      * @var object
      */
-    private $config     = null;
     private $request    = null;
+
+    /**
+     * @var array
+     */
+    private $config     = array();
 
     /**
      * This creates the session
      *
      * Injections:
-     * Clansuite_Configuration is needed for the configuration of session variables.
+     * Clansuite Main Configuration is needed for the configuration of session variables.
      * Clansuite_HttpRequest is needed to determine the current location of the user on the website.
      *
      * Overwrite php.ini settings
@@ -82,7 +86,7 @@ class Clansuite_Session implements Clansuite_Session_Interface, ArrayAccess
      * @param object $injector Contains the Dependency Injector Phemto.
      */
 
-    function __construct(Clansuite_Config $config, Clansuite_HttpRequest $request)
+    function __construct($config, Clansuite_HttpRequest $request)
     {
         $this->config   = $config;
         $this->request  = $request;
@@ -123,7 +127,7 @@ class Clansuite_Session implements Clansuite_Session_Interface, ArrayAccess
                                  );
 
         # Create new ID, if session string-lenght corrupted OR not initiated already OR application token missing
-        if (  strlen(session_id()) != 32 or !isset($_SESSION['initiated']) or ((string) $_SESSION['application'] != 'CS-'.CLANSUITE_REVISION))
+        if (  mb_strlen(session_id()) != 32 or !isset($_SESSION['initiated']) or ((string) $_SESSION['application'] != 'CS-'.CLANSUITE_REVISION))
         {
             # Make a new session_id and destroy old session
             # from PHP 5.1 on , if set to true, it will force the session extension to remove the old session on an id change

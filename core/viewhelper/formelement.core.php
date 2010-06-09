@@ -342,7 +342,7 @@ class Clansuite_Formelement /* extends Clansuite_HTML */ implements Clansuite_Fo
      */
     public function setRequired($required = null)
     {
-        if(is_null($required))
+        if($required === null)
         {
             $this->required = true;
         }
@@ -490,7 +490,7 @@ class Clansuite_Formelement /* extends Clansuite_HTML */ implements Clansuite_Fo
 
         # better use this -> $formmethod = $request->getMethod();
 
-        $formmethod = strtolower($formmethod);
+        $formmethod = mb_strtolower($formmethod);
 
         # @todo tunneling detection
 

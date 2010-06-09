@@ -31,7 +31,7 @@ function smarty_modifier_dateformat($string)
     }
     
     # it's a unix timestamp?
-    if(strlen($string) == 11) 
+    if(mb_strlen($string) == 11) 
     {
        return date(DATE_FORMAT,$string); 
     }

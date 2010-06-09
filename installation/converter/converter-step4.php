@@ -65,7 +65,7 @@ if (defined('IN_CS') == false)
                            {
                               // the shortest way to show a selected item by vain :D
                               echo '<option style="padding-left: 40px; background-image: url(./languages/' . $file .'); background-position:5px 100%; background-repeat: no-repeat;"';
-                              $file = substr($file->getFilename(), 0, -4);
+                              $file = mb_substr($file->getFilename(), 0, -4);
                               if ($_SESSION['lang'] == $file) { echo ' selected="selected"'; }
                               echo '>';
                               echo $file;

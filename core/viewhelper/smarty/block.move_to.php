@@ -48,7 +48,7 @@ function smarty_block_move_to($params, $content, $smarty, &$repeat)
 
     if( isset($params['target']) )
     {
-        $target = strtoupper($params['target']);
+        $target = mb_strtoupper($params['target']);
     }
     else
     {

@@ -58,12 +58,7 @@ require dirname(__FILE__) . '/renderer.base.php';
 class Clansuite_Renderer_CSV extends Clansuite_Renderer_Base
 {
     private $data = array();
-    private $header = array();
-
-    public function __construct(Clansuite_Config $config, Clansuite_HttpResponse $response)
-    {
-        parent::__construct($config, $response);
-    }
+    private $header = array();   
 
     public function initializeEngine()
     {
@@ -127,7 +122,7 @@ class Clansuite_Renderer_CSV extends Clansuite_Renderer_Base
                     reset($line);
                     $first = current($line);
 
-                    if(substr($first, 0, 2) == 'ID' and preg_match('/["\\s,]/', $first) == false)
+                    if(mb_substr($first, 0, 2) == 'ID' and preg_match('/["\\s,]/', $first) == false)
                     {
                         array_shift($data);
                         array_shift($line);
@@ -150,7 +145,7 @@ class Clansuite_Renderer_CSV extends Clansuite_Renderer_Base
                 reset($header);
                 $first = current($header);
 
-                if(substr($first, 0, 2) == 'ID' and preg_match('/["\\s,]/', $first) == false)
+                if(mb_substr($first, 0, 2) == 'ID' and preg_match('/["\\s,]/', $first) == false)
                 {
                     array_shift($header);
 

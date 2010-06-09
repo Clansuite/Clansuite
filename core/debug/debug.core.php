@@ -83,7 +83,7 @@ class Clansuite_Debug
 
         if (is_string($var))
         {
-            echo '<b>Length</b>: '.strlen($var)."\r\n";
+            echo '<b>Length</b>: '.mb_strlen($var)."\r\n";
         }
 
         if (is_array($var))
@@ -109,7 +109,7 @@ class Clansuite_Debug
         {
             echo '0';
         }
-        elseif(is_string($var) and strlen($var) == '0')
+        elseif(is_string($var) and mb_strlen($var) == '0')
         {
             echo '<font color=green>*EMPTY STRING*</font>';
         }

@@ -320,7 +320,7 @@ class Clansuite_Cronjobs
     {
         while($number[0] == '0')
         {
-            $number = substr($number, 1);
+            $number = mb_substr($number, 1);
         }
         return $number;
     }
@@ -401,9 +401,9 @@ class Clansuite_Cronjobs
 
         if($lastScheduled < time())
         {
-            #echo('<br>Running     '.$job[self::const_PC_CRONLINE]);
-            #echo('<br> Last run:       '.date('r',$lastActual));
-            #echo('<br> Last scheduled: '.date('r',$lastScheduled));
+            #echo '<br>Running     '.$job[self::const_PC_CRONLINE];
+            #echo '<br> Last run:       '.date('r',$lastActual);
+            #echo '<br> Last scheduled: '.date('r',$lastScheduled);
             #logMessage('Running     '.$job[self::const_PC_CRONLINE]);
             #logMessage('  Last run:       '.date('r',$lastActual));
             #logMessage('  Last scheduled: '.date('r',$lastScheduled));
@@ -413,7 +413,7 @@ class Clansuite_Cronjobs
              */
             include dirname(__FILE__) . '/' . $job[self::const_PC_CMD];
 
-            $jobname = substr($job[self::const_PC_CMD], 9, -12);
+            $jobname = mb_substr($job[self::const_PC_CMD], 9, -12);
 
             # instantiate job
             $classname = 'Clansuite_Cronjob_' . ucfirst($jobname);
@@ -492,7 +492,7 @@ class Clansuite_Cronjobs
                                         $jobs[$jobNumber][self::const_PC_DOW]);
                     }
                     $jobs[$jobNumber][self::const_PC_CMD] = trim($job[self::const_PC_CMD]);
-                    $jobs[$jobNumber][self::const_PC_COMMENT] = trim(substr($job[self::const_PC_COMMENT], 1));
+                    $jobs[$jobNumber][self::const_PC_COMMENT] = trim(mb_substr($job[self::const_PC_COMMENT], 1));
                     $jobs[$jobNumber][self::const_PC_CRONLINE] = $file[$i];
                 }
 

@@ -40,6 +40,12 @@ function smarty_function_icon($params, $smarty)
     $width = '';
     $extra = '';
 
+    /*if(empty($params['name']) and empty($params['src']))
+    {
+        trigger_error('Provide "name" or "src".', E_USER_ERROR);
+        return;   
+    }*/
+
     extract($params);
 
     /**
@@ -47,12 +53,12 @@ function smarty_function_icon($params, $smarty)
      */
     if(isset($src) and empty($src) == false)
     {
-        $needle = 'http://'.$_SERVER['SERVER_NAME'].'/';
+        $needle = 'http://'.$_SERVER['SERVER_NAME'].DS;
         $pos = strpos($src, $needle);
         if(isset($src) and is_int($pos))
         {
             #clansuite_xdebug::printR($pos);
-            $src = substr($src, $pos + strlen($needle));
+            $src = mb_substr($src, $pos + mb_strlen($needle));
             $name = basename($src);
         }
     }
@@ -73,6 +79,10 @@ function smarty_function_icon($params, $smarty)
     {
         $icondir = 'icons';
     }
+    
+    # transform name into a valid image src
+    $src = ROOT_THEMES . 'core/images/'.$icondir.DS.$name.'.png';
+    $src = Clansuite_Functions::slashfix($src);
 
     # if we got no valid src, set a default image
     if(isset($src) and is_file($src) == false)
@@ -81,14 +91,7 @@ function smarty_function_icon($params, $smarty)
         $src = ROOT_THEMES . 'core/images/noimage.gif';
         $name = 'No Image found.'.$src;
     }
-
-    # transform name into a valid image src
-    if (isset($icondir) and isset($name) and empty($src))
-    {
-        #$src = WWW_ROOT_THEMES_CORE . '/images/'.$icondir.'/'.$name.'.png';
-        $src = ROOT_THEMES . 'core/images/'.$icondir.'/'.$name.'.png';
-    }
-
+  
     # we got no height, set it to zero
     if (empty($height))
     {

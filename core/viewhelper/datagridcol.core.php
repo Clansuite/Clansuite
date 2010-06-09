@@ -299,7 +299,7 @@ class Clansuite_Datagrid_Column extends Clansuite_Datagrid_Base
      */
     private function loadRenderer($rendererName = 'string')
     {
-        $rendererName = strtolower($rendererName);
+        $rendererName = mb_strtolower($rendererName);
         
         $className = 'Clansuite_Datagrid_Column_Renderer_' . ucfirst($rendererName);
 

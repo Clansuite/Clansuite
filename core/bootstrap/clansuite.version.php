@@ -109,10 +109,10 @@ final class Clansuite_Version
         $svnrevision = '$Rev$';
 
         # cut left:  "$Rev: "
-        $svnrevision = substr($svnrevision, 6);
+        $svnrevision = mb_substr($svnrevision, 6);
 
         # cut right: " $"
-        $svnrevision = substr($svnrevision , 0, -2);
+        $svnrevision = mb_substr($svnrevision , 0, -2);
 
         return $svnrevision;
     }

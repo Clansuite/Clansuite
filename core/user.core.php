@@ -308,7 +308,7 @@ class Clansuite_User
         $security = Clansuite_CMS::getInjector()->instantiate('Clansuite_Security');
 
         # if user was found, check if passwords match each other
-        if( is_null($user) == false and $security->check_salted_hash( $passwordhash, $user['passwordhash'], $user['salt'] ))
+        if( (bool) $user == false and $security->check_salted_hash($passwordhash, $user['passwordhash'], $user['salt']) === null)
         {
             # ok, the user with nick or email exists and the passwords matched, then return the user_id
             return $user['user_id'];
