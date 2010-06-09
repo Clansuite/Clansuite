@@ -52,13 +52,11 @@ if(defined('IN_CS') == false)
  */
 class Clansuite_Cache_APC implements Clansuite_Cache_Interface
 {
-
     public function __construct()
     {
-        # Check if APC extension is loaded and set a define as flag
-        if(extension_loaded('apc') == false);
+        if(extension_loaded('apc') === false);
         {
-            throw new Clansuite_Exception('The PHP extension APC (Alternative PHP Cache) was not loaded. You may enable it in php.ini.', 300);
+            throw new Clansuite_Exception('The PHP extension APC (Alternative PHP Cache) is not loaded. You may enable it in "php.ini"!', 300);
         }
     }
 
@@ -183,6 +181,7 @@ class Clansuite_Cache_APC implements Clansuite_Cache_Interface
         /**
          * ini_get_all array mod: for each accessvalue
          * add the name of the PHP ACCESS CONSTANTS as 'accessname'
+         * @todo: cleanup?
          */
         foreach($apc_sysinfos['settings'] as $key => $value)
         {
@@ -210,7 +209,7 @@ class Clansuite_Cache_APC implements Clansuite_Cache_Interface
                         $name = 'PHP_INI_ALL';
                     }
 
-                    # add as accessname to the original array
+                    # add accessname to the original array
                     $apc_sysinfos['settings'][$key]['accessname'] = $name;
                     unset($name);
                 }

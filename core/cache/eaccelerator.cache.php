@@ -35,7 +35,7 @@
 
 # Security Handler
 if (defined('IN_CS') == false)
-{ 
+{
     die('Clansuite not loaded. Direct Access forbidden.');
 }
 
@@ -57,27 +57,13 @@ if (defined('IN_CS') == false)
 class Clansuite_Cache_Eaccelerator implements Clansuite_Cache_Interface
 {
     /**
-     *
+     * Constructor.
      */
     public function __construct()
     {
-        try
+        if( extension_loaded('eaccelerator') === false)
         {
-            # Check if eAccelerator extension is loaded and set a define as flag
-            if( !defined('CSID_EXTENSION_LOADED_EAC') )
-            {
-                define( 'CSID_EXTENSION_LOADED_EAC', extension_loaded('eaccelerator') );
-            }
-
-            # Check for defined Flag
-            if( CSID_EXTENSION_LOADED_EAC == false)
-            {
-                throw new Exception('The PHP extension eAccelerator (PHP Cache) was not loaded! You should enable it in php.ini!', 300);
-            }
-        }
-        catch (Exception $exception)
-        {
-            new Clansuite_Exception('Clansuite_Cache_Eaccelerator __construct() failure. EAC not loaded.', 300);
+            throw new Exception('The PHP extension eAccelerator (cache) is not loaded! You may enable it in "php.ini!"', 300);
         }
     }
 

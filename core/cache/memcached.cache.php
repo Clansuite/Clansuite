@@ -34,7 +34,10 @@
     */
 
 # Security Handler
-if (defined('IN_CS') == false){ die('Clansuite not loaded. Direct Access forbidden.'); }
+if(defined('IN_CS') == false)
+{ 
+    die('Clansuite not loaded. Direct Access forbidden.');
+}
 
 /**
  * Clansuite Cache Handler for Memcached
@@ -58,43 +61,40 @@ if (defined('IN_CS') == false){ die('Clansuite not loaded. Direct Access forbidd
  */
 class Clansuite_Cache_Memcached implements Clansuite_Cache_Interface
 {
+    /**
+     * @var object PHP Memcache instance
+     */
     public $memcache = null;
 
+    /**
+     * @var array Array with one or multiple Memcached Servers.
+     */
     private $memcached_servers = array();
 
     /**
+     * Constructor.
+     *
      * Instantiate and connect to Memcache Server
      */
     function __construct()
     {
-        try
+        if(extension_loaded('memcache') === false)
         {
-            # Check if eAccelerator extension is loaded and set a define as flag
-            if( defined('CSID_EXTENSION_LOADED_MEMC') == false )
-            {
-                define( 'CSID_EXTENSION_LOADED_MEMC', extension_loaded('memcache') );
-            }
-
-            # Check for defined Flag
-            if( CSID_EXTENSION_LOADED_MEMC == false)
-            {
-                throw new Exception('The PHP extension memcached (PHP Cache) was not loaded! You should enable it in php.ini!', 300);
-            }
-        }
-        catch (Exception $exception)
-        {
-            new Clansuite_Exception('Clansuite_Cache_Memached __construct() failure. memcached not loaded.', 300);
+            throw new Exception('The PHP extension memcached (cache) is not loaded! You may enable it in "php.ini"!', 300);
         }
 
         # instantiate object und set to class
         $this->memcache = new Memcache;
 
-        # fetch configuration and connection data
-        # @todo  one server / multiple servers
-        $config = clansuite_registry::getConfigurationStatic();
+        # @todo fetch configuration and connection data
+        # @todo one server / multiple servers
 
-        # if memcache server pooling should be used
-        # we can't use connect/pconnect, but have to addServers
+        /**
+         * Memcache Serverpool
+         *
+         * if memcache server pooling should be used
+         * it impossible to use connect/pconnect, but have to addServers
+         */
         if($config['cache']['memcached_serverpool'] === true)
         {
             $this->memcache->addServer('servernode1', 11211);
@@ -343,10 +343,9 @@ class Clansuite_Cache_Memcached implements Clansuite_Cache_Interface
      */
     public function stats()
     {
-        # ensure memcache is loaded
-        if(CSID_EXTENSION_LOADED_MEMC == false)
+        if(extension_loaded('memcache') === false)
         {
-            return; # extension Memcache not loaded
+            return;
         }
 
         # get Extended Stats and Version
