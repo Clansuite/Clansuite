@@ -66,13 +66,6 @@ require dirname(__FILE__) . '/config.base.php';
 class Clansuite_Config_INIHandler extends Clansuite_Config_Base implements ArrayAccess
 {
     /**
-     * Can either be INI_SCANNER_NORMAL (default) or INI_SCANNER_RAW.
-     *
-     * @var string
-     */
-    private static $scanner_mode;
-
-    /**
      * CONSTRUCTOR
      */
     public function __construct($filename = 'configuration/clansuite.config.php')
@@ -88,24 +81,11 @@ class Clansuite_Config_INIHandler extends Clansuite_Config_Base implements Array
     public static function getInstance()
     {
         static $instance;
-
-        if(isset($instance) == false)
+        if(isset($instance) === null)
         {
             $instance = new Clansuite_Config_INIHandler();
         }
-
         return $instance;
-    }
-
-    /**
-     * Set ScannerMode for parse_ini_file
-     *
-     * @param $scanner_mode string INI_SCANNER_NORMAL (default) or INI_SCANNER_RAW.
-     * @return this
-     */
-    public static function setScannerMode($scanner_mode)
-    {
-        self::$scannerMode = $scanner_mode;
     }
 
     /**
@@ -127,7 +107,7 @@ class Clansuite_Config_INIHandler extends Clansuite_Config_Base implements Array
 
 
         # when ini_filename exists, get old config array
-        if(is_file($ini_filename))
+        if(is_file($ini_filename) === true)
         {
             $old_config_array = self::readConfig($ini_filename);
             # array merge: overwrite the array to the left, with the array to the right, when keys identical
@@ -236,28 +216,11 @@ class Clansuite_Config_INIHandler extends Clansuite_Config_Base implements Array
     public static function readConfig($filename)
     {
         # check ini_filename exists
-        if(is_file($filename) == false)
+        if(is_file($filename) === false)
         {
             throw new Clansuite_Exception('File not found: '.$filename, 4);
         }
-
-        /**
-         * check if we have a scannermode set
-         */
-        if(is_null(self::$scanner_mode))
-        {
-            /**
-             * egro the default mode INI_SCANNER_NORMAL is active
-             * we don't need to set the third param
-             */
-            return parse_ini_file($filename, true);
-        }
-        else # ok, we have a scanner_mode, set it
-        {
-            return parse_ini_file($filename, true, self::$scanner_mode);
-        }
-
-        return false;
+        return parse_ini_file($filename, true);
     }
 
     /**
