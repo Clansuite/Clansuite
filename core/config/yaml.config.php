@@ -172,7 +172,7 @@ class Clansuite_Config_YAMLHandler extends Clansuite_Config_Base implements Arra
         $yaml_content = '';
 
         # check if the filename exists
-        if(is_file($filename))
+        if(is_file($filename) === true)
         {
             # read the yaml content of the file
             $yaml_content = file_get_contents($filename);
@@ -192,7 +192,7 @@ class Clansuite_Config_YAMLHandler extends Clansuite_Config_Base implements Arra
             $php_datastructure = syck_load($yaml_content);
         }
         # else check if we habe spyc as a library
-        elseif(is_file(ROOT_LIBRARIES.'/spyc/Spyc.class.php'))
+        elseif(is_file(ROOT_LIBRARIES.'/spyc/Spyc.class.php') === true)
         {
             # ok, load spyc
             if( false === class_exists('Spyc',false) )
