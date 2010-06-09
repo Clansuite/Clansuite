@@ -528,13 +528,13 @@ class Clansuite_HttpRequest implements Clansuite_Request_Interface, ArrayAccess
     {
         if (isset($_SERVER['REQUEST_URI']))
         {
-            return $_SERVER['REQUEST_URI'];
+            return urldecode(mb_strtolower($_SERVER['REQUEST_URI']));
         }
 
         # MS-IIS and ISAPI Rewrite Filter
         if ($_SERVER['HTTP_X_REWRITE_URL'])
         {
-            return $_SERVER['HTTP_X_REWRITE_URL'];
+            return urldecode(mb_strtolower($_SERVER['HTTP_X_REWRITE_URL']));
         }
 
         $p = $_SERVER['SCRIPT_NAME'];
@@ -543,7 +543,7 @@ class Clansuite_HttpRequest implements Clansuite_Request_Interface, ArrayAccess
             $p .= '?'.$_SERVER['QUERY_STRING'];
         }
 
-        return $p;
+        return urldecode(mb_strtolower($p));
     }
 
     /**
