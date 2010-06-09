@@ -41,19 +41,20 @@ if(defined('IN_CS') == false)
 
 class Clansuite_Logger_Factory
 {
+
     /**
      * getLogger
      *
-     * @param $logger_type String (A Logger Name like "file", "db")
-     * @param $injector Dependency Injector Phemto
+     * @param $adapter String (A Logger Name like "file", "db")
      * @return Logger Object
      */
-    public static function getLogger($logger_type, Phemto $injector)
+    public static function getLogger($adapter)
     {
-        $file = ROOT_CORE . 'logger' . DS . strtolower($logger_type) . '.logger.php';
-        if(is_file($file) != 0)
+        $file = ROOT_CORE . 'logger' . DS . strtolower($adapter) . '.logger.php';
+
+        if(is_file($file) === true)
         {
-            $class = 'logger_' . $logger_type;
+            $class = 'logger_' . $adapter;
             if(false === class_exists($class, false))
             {
                 include $file;
@@ -61,54 +62,18 @@ class Clansuite_Logger_Factory
 
             if(class_exists($class, false))
             {
-                # instantiate and return the logger and pass $injector into
-                $logger = new $class($injector);
-                # var_dump($logger);
+                $logger = new $class();
                 return $logger;
             }
             else
             {
-                throw new LoggerFactoryClassNotFoundException($class);
+                throw new Clansuite_Exception('Logger_Factory -> Class not found: ' . $class, 50);
             }
         }
         else
         {
-            throw new LoggerFactoryFileNotFoundException($file);
+            throw new Clansuite_Exception('Logger_Factory -> File not found: ' . $file, 51);
         }
-    }
-}
-
-/**
- * Clansuit Exception - LoggerFactoryClassNotFoundException
- *
- * @category    Clansuite
- * @package     Core
- * @subpackage  Logger
- */
-class LoggerFactoryClassNotFoundException extends Exception
-{
-    function __construct($class)
-    {
-        parent::__construct();
-        echo 'Logger_Factory -> Class not found: ' . $class;
-        die();
-    }
-}
-
-/**
- * Clansuit Exception - LoggerFactoryFileNotFoundException
- *
- * @category    Clansuite
- * @package     Core
- * @subpackage  Logger
- */
-class LoggerFactoryFileNotFoundException extends Exception
-{
-    function __construct($file)
-    {
-        parent::__construct();
-        echo 'Logger_Factory -> File not found: ' . $file;
-        die();
     }
 }
 

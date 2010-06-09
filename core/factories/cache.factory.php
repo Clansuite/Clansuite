@@ -58,11 +58,7 @@ interface Clansuite_Cache_Interface
 /**
  * Cache Factory
  *
- * The static method getCache() returns the included and instantiated
- * Cache Engine Object!
- *
- * @author     Jens-André Koch <vain@clansuite.com>
- * @copyright  Jens-André Koch (2005 - onwards)
+ * The static method getCache() returns the included and instantiated Cache Engine Object!
  *
  * @category    Clansuite
  * @package     Core
@@ -71,74 +67,38 @@ interface Clansuite_Cache_Interface
 class Clansuite_Cache_Factory
 {
     /**
-     * getCache
+     * Returns the instance of the requested cache_adapter
      *
-     * @param $cache_type String (A Cache Engine Name like "apc", "xcache", "memcache" or "file")
-     * @param $injector Dependency Injector Phemto
-     * @return Cache Engine Object
+     * @param string $adapter A Cache Engine Name like "apc", "xcache", "memcache" or "file"
+     * @return object Cache_Engine
      */
-    public static function getCache($cache_type, Phemto $injector)
+    public static function getCache($adapter)
     {
-        $file = ROOT_CORE .'/cache/'. strtolower($cache_type) .'.cache.php';
-        if (is_file($file) != 0)
-        {
-            $class = 'Clansuite_Cache_'. $cache_type;
+        $file = ROOT_CORE . '/cache/' . strtolower($adapter) . '.cache.php';
 
-            if( false === class_exists($class,false) )
+        if(is_file($file) === true)
+        {
+            $class = 'Clansuite_Cache_' . $adapter;
+
+            if(false === class_exists($class, false))
             {
                 include $file;
             }
 
-            if (class_exists($class,false))
+            if(class_exists($class, false))
             {
-                # instantiate and return the renderer and pass $injector into
-                $cache = new $class($injector);
-                # var_dump($Cache);
+                $cache = new $class();
                 return $cache;
             }
             else
             {
-                throw new CacheFactoryClassNotFoundException($class);
+                throw new Clansuite_Exception('Cache_Factory -> Class not found: ' . $class, 30);
             }
         }
         else
         {
-            throw new CacheFactoryFileNotFoundException($file);
+            throw new Clansuite_Exception('Cache_Factory -> File not found: ' . $file, 31);
         }
-    }
-}
-
-/**
- * Clansuit Exception - CacheFactoryClassNotFoundException
- *
- * @category    Clansuite
- * @package     Core
- * @subpackage  Cache
- */
-class CacheFactoryClassNotFoundException extends Exception
-{
-    function __construct($class)
-    {
-        parent::__construct();
-        echo 'Cache_Factory -> Class not found: ' . $class;
-        die();
-    }
-}
-
-/**
- * Clansuit Exception - CacheFactoryFileNotFoundException
- *
- * @category    Clansuite
- * @package     Core
- * @subpackage  Cache
- */
-class CacheFactoryFileNotFoundException extends Exception
-{
-    function __construct($file)
-    {
-        parent::__construct();
-        echo 'Cache_Factory -> File not found: ' . $file;
-        die();
     }
 }
 ?>

@@ -40,11 +40,8 @@ if(defined('IN_CS') == false)
 /**
  * Configuration Factory
  *
- * The static method getConfiguration() returns the appropiate configuration handler for that file
- * included and instantiated Configuration Engine Object!
- *
- * @author     Jens-André Koch <vain@clansuite.com>
- * @copyright  Jens-André Koch (2005 - onwards)
+ * The static method getConfiguration() includes and instantiates a Configuration Engine Object
+ * and injects the configfile.
  *
  * @category    Clansuite
  * @package     Core
@@ -53,7 +50,7 @@ if(defined('IN_CS') == false)
 class Clansuite_Config_Factory
 {
     /**
-     * Shortcut to @method getConfiguration via Constructor Call
+     * Shortcut to @method getConfiguration() via Constructor Call
      *
      * Example Usage:
      * $config = Clansuite_Config_Factory('modulename.config.php');
@@ -77,35 +74,35 @@ class Clansuite_Config_Factory
     public static function determineConfigurationHandlerTypeBy($configfile)
     {
         # init var
-        $type = '';
+        $adapter = '';
 
         $extension = substr($configfile, -11);
 
-        /*if ($extension == '.config.ini.php')
-        {
-            $type = 'ini';
-        }*/
-        
+        /* if ($extension == '.config.ini.php')
+         {
+         * type = 'ini';
+         } */
+
         # the fileextensions .config.php means it's an .ini file
         # the content of the file IS NOT a php-array as you might think
         if($extension == '.config.php')
         {
-            $type = 'ini'; # @todo change this to 'php' (read/write of php-array)
+            $adapter = 'ini'; # @todo change this to 'php' (read/write of php-array)
         }
         elseif($extension == '.config.xml')
         {
-            $type = 'xml';
+            $adapter = 'xml';
         }
         elseif($extension == '.config.yaml')
         {
-            $type = 'yaml';
+            $adapter = 'yaml';
         }
         else
         {
             exit('No handler for that type of configuration file found.');
         }
 
-        return $type;
+        return $adapter;
     }
 
     /**
@@ -125,71 +122,37 @@ class Clansuite_Config_Factory
     /**
      * getConfiguration
      *
-     * @param string $type a configuration filename type like "php", "xml", "yaml", "ini"
+     * @param string $adapter a configuration filename type like "php", "xml", "yaml", "ini"
      * @param string $configfile Configuration file to load. Defaults to null.
      * @return Configuration Handler Object with confighandler and array of configfile.
      */
-    public static function getConfigurationHandler($type, $configfile = null)
+    public static function getConfigurationHandler($adapter, $configfile = null)
     {
         # path to configuration handler classes
-        $file = ROOT_CORE .'config'.DS. strtolower($type) .'.config.php';
+        $file = ROOT_CORE . 'config' . DS . strtolower($adapter) . '.config.php';
 
-        if (is_file($file) != 0)
+        if(is_file($file) === true)
         {
-            $class = 'Clansuite_Config_'. strtoupper($type).'Handler';
-            if( false === class_exists($class,false) )
+            $class = 'Clansuite_Config_' . strtoupper($adapter) . 'Handler';
+            if(false === class_exists($class, false))
             {
                 include $file;
             }
 
-            if (class_exists($class,false))
+            if(class_exists($class, false))
             {
                 # instantiate and return the specific confighandler with the $configfile to read
-                return  new $class($configfile);
+                return new $class($configfile);
             }
             else
             {
-                throw new ConfigFactoryClassNotFoundException($class);
+                throw new Clansuite_Exception('Config_Factory -> Class not found: ' . $class, 40);
             }
         }
         else
         {
-            throw new ConfigFactoryFileNotFoundException($file);
+            throw new Clansuite_Exception('Config_Factory -> File not found: ' . $class, 41);
         }
-    }
-}
-
-/**
- * Clansuite Exception - CacheFactoryClassNotFoundException
- *
- * @category    Clansuite
- * @package     Core
- * @subpackage  Config
- */
-class ConfigFactoryClassNotFoundException extends Exception
-{
-    function __construct($class)
-    {
-        parent::__construct();
-        echo 'Cache_Factory -> Class not found: ' . $class;
-        die();
-    }
-}
-
-/**
- * Clansuite Exception - CacheFactoryFileNotFoundException
- *
- * @category    Clansuite
- * @package     Core
- * @subpackage  Config
- */
-class ConfigFactoryFileNotFoundException extends Exception
-{
-    function __construct($file)
-    {
-        parent::__construct();
-        echo 'Cache_Factory -> File not found: ' . $file;
-        die();
     }
 }
 ?>
