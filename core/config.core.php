@@ -68,6 +68,8 @@ class Clansuite_Config extends Clansuite_Config_Base implements ArrayAccess
     function __construct($configfile = 'configuration/clansuite.config.php')
     {
         $this->confighandler = Clansuite_Config_Factory::getConfiguration($configfile);
+
+        # @todo remove config array from instance
         $this->config = $this->confighandler->toArray();
     }
 
@@ -90,7 +92,7 @@ class Clansuite_Config extends Clansuite_Config_Base implements ArrayAccess
      * @param $modulename Name of Module
      * @return array Module Configuration Array
      */
-    public function readConfigForModule($modulename = null)
+    public function readModuleConfig($modulename = null)
     {
         # if no modulename is set, determine the name of the current module
         if(is_null($modulename))
@@ -111,7 +113,7 @@ class Clansuite_Config extends Clansuite_Config_Base implements ArrayAccess
      * @param $modulename
      * @param $array the configuration array to write
      */
-    public function writeConfigForModule($modulename, $cfg_array)
+    public function writeModuleConfig($modulename, $cfg_array)
     {
         if(!is_object($this->confighandler))
         {
@@ -165,8 +167,7 @@ class Clansuite_Config extends Clansuite_Config_Base implements ArrayAccess
     {
         if(method_exists($this->confighandler, $method) === true)
         {
-            # use optimized callMethod() to call method with it's arguments on that modulecontroller
-            return Clansuite_Loader::callMethod($this->confighandler, $method, $args);
+            return Clansuite_Loader::callClassMethod($this->confighandler, $method, $args);
         }
     }
 }

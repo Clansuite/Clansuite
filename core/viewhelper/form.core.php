@@ -814,7 +814,7 @@ class Clansuite_Form /*extends Clansuite_HTML*/ implements Clansuite_Form_Interf
         # if not already loaded, require forelement file
         if (false == class_exists('Clansuite_Formelement_'.$formelement,false))
         {
-            if(is_file(ROOT_CORE . 'viewhelper/formelements/'.$formelement.'.form.php'))
+            if(is_file(ROOT_CORE . 'viewhelper/formelements/'.$formelement.'.form.php') === true)
             {
                 include ROOT_CORE . 'viewhelper/formelements/'.$formelement.'.form.php';
             }

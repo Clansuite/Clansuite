@@ -1940,7 +1940,7 @@ function render($renderType, $args=array())
                     height:0.5px;
                     overflow:hidden;
                     font-size:.01em;
-                    background:#00
+                    background:#000300;
 
                 }
                 .rounded_header1 {
@@ -1950,7 +1950,7 @@ function render($renderType, $args=array())
                     padding-right:1px;
                     border-left:1px solid #f00800;
                     border-right:1px solid #f00800;
-                    background:#000300
+                    background:#000300;
                 }
                 .rounded_header2 {
                     margin-left:1px;
@@ -1968,11 +1968,11 @@ function render($renderType, $args=array())
                     border-right:1px solid #000200;}
                 .rounded_header4 {
                     border-left:1px solid #000800;
-                    border-right:1px solid #000800
+                    border-right:1px solid #000800;
                 }
                 .rounded_header5 {
                     border-left:1px solid #000300;
-                    border-right:1px solid #000300
+                    border-right:1px solid #000300:
                 }
                 .rounded_headerfg {
                     margin-left: 1px;

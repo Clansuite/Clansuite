@@ -72,7 +72,7 @@ class Clansuite_Preprocessor
     {
         echo 'Guess what? Building a huge monolith! Ok, lets go...<br/>';
 
-        if(is_file(self::$monolith_file))
+        if(is_file(self::$monolith_file) === true)
         {
             unlink(self::$monolith_file);
         }

@@ -186,7 +186,7 @@ else
 try
 {
     $file = ROOT . 'languages' . DS . $lang . '.converter.php';
-    if(is_file($file))
+    if(is_file($file) === true)
     {
         require_once $file;
         $language = new language;

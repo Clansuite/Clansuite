@@ -53,9 +53,7 @@ interface Clansuite_Logger_Interface
 }
 
 /**
- * Clansuite_Logger $logger
- *
- * Purpose:  Clansuite Core Class for Logger Handling
+ * Clansuite_Logger
  *
  * This class represents a compositum for all loggers.
  * A new logger object is added with addLogger(), removed with removeLogger().
@@ -68,9 +66,7 @@ interface Clansuite_Logger_Interface
 class Clansuite_Logger implements Clansuite_Logger_Interface
 {
     /**
-     * Composition of all loggers
-     *
-     * @var array
+     * @var array Array constains a object composition of all loggers
      */
     public $loggers = array();
 

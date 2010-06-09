@@ -178,7 +178,7 @@ else
 try
 {
     $file = INSTALLATION_ROOT . 'languages' . DS . $lang . '.install.php';
-    if(is_file($file))
+    if(is_file($file) === true)
     {
         include_once $file;
         $language = new language;
