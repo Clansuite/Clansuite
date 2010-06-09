@@ -11,7 +11,7 @@
 function smarty_function_serverload($params, $smarty)
 {
 
-    if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN')
+    if (mb_strtoupper(mb_substr(PHP_OS, 0, 3)) === 'WIN')
     {
         echo 'not available on windows';
     }

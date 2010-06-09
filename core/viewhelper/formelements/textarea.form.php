@@ -101,7 +101,7 @@ class Clansuite_Formelement_Textarea extends Clansuite_Formelement implements Cl
             unset($config);
         }
 
-        $this->editor = strtolower($editor);
+        $this->editor = mb_strtolower($editor);
 
         return $this;
     }

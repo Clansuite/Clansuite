@@ -127,7 +127,7 @@ function smarty_function_columnsort($params, $smarty)
 
         // Reverse sort order for the output.
         if($columnsort['current_sort'])
-            $sort_order = strtolower($columnsort['current_sort']) == 'asc' ? 'desc' : 'asc';
+            $sort_order = mb_strtolower($columnsort['current_sort']) == 'asc' ? 'desc' : 'asc';
     }
     else if($columnsort['current_column'] === null and $id == $columnsort['default_column'])
     {

@@ -113,7 +113,7 @@ class Clansuite_Preprocessor
     public static function remove_comments_from_string($sourcecode)
     {
         # check if sourcecode is set
-        if(is_null($sourcecode))
+        if($sourcecode === null)
         {
             return null;
         }
@@ -171,8 +171,8 @@ class Clansuite_Preprocessor
     public static function strip_php_tags($string)
     {
         # remove php opening and closing tag from beginning and end
-        $string = substr($string, strlen('<?php' . PHP_EOL));
-        $string = substr($string, 0, -strlen('?>' . PHP_EOL));
+        $string = mb_substr($string, mb_strlen('<?php' . PHP_EOL));
+        $string = mb_substr($string, 0, -mb_strlen('?>' . PHP_EOL));
 
         # remove clansuite security line from whole string
         # @todo remove 4 lines when "if (defined('IN_CS')" is found

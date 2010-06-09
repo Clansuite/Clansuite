@@ -159,7 +159,7 @@ class Clansuite_Localization
         # if, $locale string is not over 3 -> $locale = "en", build "en_EN"
         if( isset($locale{3}) == false )
         {
-            $locale = strtolower($locale) . '_' . strtoupper($locale);
+            $locale = mb_strtolower($locale) . '_' . mb_strtoupper($locale);
         }
 
         # Environment Variable LANGUAGE has priority above any local setting
@@ -266,14 +266,14 @@ class Clansuite_Localization
         $browserLanguages = explode( ',', $_SERVER['HTTP_ACCEPT_LANGUAGE'] );
 
         # convert the headers string to an array
-        $browserLanguagesSize = sizeof( $browserLanguages );
+        $browserLanguagesSize = count( $browserLanguages );
 
         for ( $i = 0; $i < $browserLanguagesSize; $i++ )
         {
             # explode string at ;
             $browserLanguage = explode( ';', $browserLanguages[$i] );
             # cut string and place into array
-            $browserLanguages[$i] = substr( $browserLanguage[0], 0, 2 );
+            $browserLanguages[$i] = mb_substr( $browserLanguage[0], 0, 2 );
         }
 
         # remove the duplicates and return the browser languages

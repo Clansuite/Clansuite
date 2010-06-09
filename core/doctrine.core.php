@@ -61,7 +61,7 @@ if (defined('IN_CS') == false)
 class Clansuite_Doctrine
 {
     /**
-     * @var Clansuite_Config instance.
+     * @var Array of Clansuite Main Config.
      */
     private $config;
 
@@ -80,7 +80,7 @@ class Clansuite_Doctrine
      */
     public $profiler;
 
-    function __construct(Clansuite_Config $config)
+    function __construct(array $config)
     {
         # set config instance
         $this->config = $config;
@@ -114,11 +114,11 @@ class Clansuite_Doctrine
             $doctrine_compiled = ROOT_LIBRARIES . 'doctrine' . DS . 'Doctrine.compiled.php';
 
             # Require compiled or normal Library
-            if(is_file($doctrine_compiled))
+            if(is_file($doctrine_compiled) === true)
             {
                 include_once $doctrine_compiled;
             }
-            elseif(is_file(ROOT_LIBRARIES . 'doctrine/Doctrine.php'))
+            elseif(is_file(ROOT_LIBRARIES . 'doctrine/Doctrine.php') === true)
             {
                 # require the normal Library
                 include_once ROOT_LIBRARIES . 'doctrine/Doctrine.php';
@@ -139,7 +139,7 @@ class Clansuite_Doctrine
              * automatically compile doctrine to one file, but only compile with the mysql driver
              * so that the next time Doctrine.compiled.php is found
              */
-            if(is_file($doctrine_compiled) == false)
+            if(is_file($doctrine_compiled) === false)
             {
                 Doctrine::compile($doctrine_compiled, array('mysql'));
             }

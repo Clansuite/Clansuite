@@ -131,7 +131,7 @@ class Clansuite_HttpRequest implements Clansuite_Request_Interface, ArrayAccess
         # 2) Filter Globals and Request
 
         # Reverse the effect of register_globals
-        if ((bool) ini_get('register_globals') and strtolower(ini_get('register_globals')) != 'off')
+        if ((bool) ini_get('register_globals') and mb_strtolower(ini_get('register_globals')) != 'off')
         {
             $this->cleanGlobals();
         }
@@ -243,11 +243,11 @@ class Clansuite_HttpRequest implements Clansuite_Request_Interface, ArrayAccess
      */
     public function getParameterNames($parameterArrayName = 'REQUEST')
     {
-        $parameterArrayName = strtoupper($parameterArrayName);
+        $parameterArrayName = mb_strtoupper($parameterArrayName);
 
-        if(in_array($parameterArrayName, $this->{strtolower($parameterArrayName).'_arraynames'}))
+        if(in_array($parameterArrayName, $this->{mb_strtolower($parameterArrayName).'_arraynames'}))
         {
-            return array_keys($this->{strtolower($parameterArrayName).'_parameters'});
+            return array_keys($this->{mb_strtolower($parameterArrayName).'_parameters'});
         }
         else
         {
@@ -265,7 +265,7 @@ class Clansuite_HttpRequest implements Clansuite_Request_Interface, ArrayAccess
      */
     public function issetParameter($parametername, $parameterArrayName = 'REQUEST', $where = false)
     {
-        $parameterArrayName = strtoupper($parameterArrayName);
+        $parameterArrayName = mb_strtoupper($parameterArrayName);
 
         if(in_array($parameterArrayName, array ('R', 'REQUEST')) and isset($this->request_parameters[$parametername]))
         {
@@ -342,7 +342,7 @@ class Clansuite_HttpRequest implements Clansuite_Request_Interface, ArrayAccess
         if((bool) $parameter_array == true)
         {
             # this returns a value from the parameterarray
-            return $this->{strtolower($parameter_array).'_parameters'}[$parametername];
+            return $this->{mb_strtolower($parameter_array).'_parameters'}[$parametername];
         }
         elseif($default !== null)
         {
@@ -366,7 +366,7 @@ class Clansuite_HttpRequest implements Clansuite_Request_Interface, ArrayAccess
     {
         if(true == $this->issetParameter($parametername, $parameterArrayName))
         {
-            return $this->{strtolower($parameterArrayName).'_parameters'}[$parametername];
+            return $this->{mb_strtolower($parameterArrayName).'_parameters'}[$parametername];
         }
         else
         {
@@ -423,7 +423,7 @@ class Clansuite_HttpRequest implements Clansuite_Request_Interface, ArrayAccess
      */
     public static function getHeader($name)
     {
-        $name = 'HTTP_' . strtoupper(str_replace('-','_', $name));
+        $name = 'HTTP_' . mb_strtoupper(str_replace('-','_', $name));
         if (isset($_SERVER[$name]))
         {
             return $_SERVER[$name];
@@ -460,7 +460,7 @@ class Clansuite_HttpRequest implements Clansuite_Request_Interface, ArrayAccess
      */
     public static function isSecure()
     {
-        if(isset($_SERVER['HTTPS']) and (strtolower($_SERVER['HTTPS']) === 'on' or $_SERVER['HTTPS'] == '1') )
+        if(isset($_SERVER['HTTPS']) and (mb_strtolower($_SERVER['HTTPS']) === 'on' or $_SERVER['HTTPS'] == '1') )
         {
             return true;
         }
@@ -699,7 +699,7 @@ class Clansuite_HttpRequest implements Clansuite_Request_Interface, ArrayAccess
         if ($_SERVER['REQUEST_METHOD'] == 'POST' and isset($_GET['method']))
         {
             # check for allowed rest commands
-            if (in_array(strtoupper($_GET['method']), $REST_MethodNames))
+            if (in_array(mb_strtoupper($_GET['method']), $REST_MethodNames))
             {
                 # set the internal (tunneled) method as new REQUEST_METHOD
                 $this->setRequestMethod($_GET['method']);
@@ -755,7 +755,7 @@ class Clansuite_HttpRequest implements Clansuite_Request_Interface, ArrayAccess
      */
     public function setRequestMethod($method)
     {
-        $this->request_method = strtoupper($method);
+        $this->request_method = mb_strtoupper($method);
     }
 
     /**
@@ -780,11 +780,11 @@ class Clansuite_HttpRequest implements Clansuite_Request_Interface, ArrayAccess
      */
     public function isXhr()
     {
-        if(isset($_SERVER['X-Requested-With']) and strtolower($_SERVER['X-Requested-With']) === 'xmlhttprequest')
+        if(isset($_SERVER['X-Requested-With']) and mb_strtolower($_SERVER['X-Requested-With']) === 'xmlhttprequest')
         {
             return true;
         }
-        elseif(isset($_SERVER['HTTP_X_REQUESTED_WITH']) and strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) === 'xmlhttprequest')
+        elseif(isset($_SERVER['HTTP_X_REQUESTED_WITH']) and mb_strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) === 'xmlhttprequest')
         {
             return true;
         }

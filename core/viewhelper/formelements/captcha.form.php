@@ -86,7 +86,7 @@ class Clansuite_Formelement_Captcha extends Clansuite_Formelement implements Cla
             unset($config);
         }
 
-        $this->captcha = strtolower($captcha);
+        $this->captcha = mb_strtolower($captcha);
 
         return $this;
     }
@@ -98,7 +98,7 @@ class Clansuite_Formelement_Captcha extends Clansuite_Formelement implements Cla
     public function getCaptcha()
     {
         # cut "captcha" (last 7 chars)
-        return substr($this->captcha, 0, -7);
+        return mb_substr($this->captcha, 0, -7);
     }
 
     /**

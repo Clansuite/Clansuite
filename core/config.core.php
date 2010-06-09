@@ -95,7 +95,7 @@ class Clansuite_Config extends Clansuite_Config_Base implements ArrayAccess
     public function readModuleConfig($modulename = null)
     {
         # if no modulename is set, determine the name of the current module
-        if(is_null($modulename))
+        if($modulename === null)
         {
             $modulename = Clansuite_Module_Controller_Resolver::getModuleName();
         }

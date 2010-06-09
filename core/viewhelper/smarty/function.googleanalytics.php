@@ -66,7 +66,7 @@ function smarty_function_googleanalytics($params, &$smarty)
             // <![CDATA[
             <!-- asynchronous push -->
             var _gaq = _gaq || [];
-            _gaq.push([\'_setAccount\', \''.$google_id.'\']);
+            _gaq.push([\'_setAccount\', \'' . $google_id . '\']);
             _gaq.push([\'_trackPageview\']);
             <!-- ga object call by inserting it into the page -->
             (function() {
@@ -79,12 +79,12 @@ function smarty_function_googleanalytics($params, &$smarty)
             })();
             // ]]>
             </script>';
-      }
+    }
 
-      if('jquery' == $params['type'])
-      {
-          # asynchronous and cached loading via jquery ajax
-          $return = '
+    if('jquery' == $params['type'])
+    {
+        # asynchronous and cached loading via jquery ajax
+        $return = '
               <script type="text/javascript">
               // <![CDATA[
               $(document).ready(function(){$.ajax({
@@ -93,15 +93,16 @@ function smarty_function_googleanalytics($params, &$smarty)
                       dataType: \'script\',
                       cache: true,
                       success: function() {
-                          var pageTracker = _gat._getTracker(\''.$google_id.'\');
+                          var pageTracker = _gat._getTracker(\'' . $google_id . '\');
                           pageTracker._trackPageview();
                         }
                     });
             });
             // ]]>
             </script>';
-      }
+    }
 
-      return $return;
+    return $return;
 }
+
 ?>

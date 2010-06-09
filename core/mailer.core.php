@@ -161,7 +161,7 @@ class Clansuite_Mailer
      */
     public function getMailer()
     {
-        if(is_null($this->mailer))
+        if($this->mailer === null)
         {
             $this->loadMailer();
         }

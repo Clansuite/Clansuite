@@ -158,7 +158,7 @@ class Clansuite_JustAn_Captcha
 
         $string = '';
 
-        while (strlen($string) < $length)
+        while (mb_strlen($string) < $length)
         {
             # a random char between 48 and 122
             $random = rand(48,122);

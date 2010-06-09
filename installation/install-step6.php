@@ -53,7 +53,7 @@ if (defined('IN_CS') == false)
                                    if ((!$file->isDot()) && preg_match("/.gif$/",$file->getFilename()))
                                    {
                                       echo '<option style="padding-left: 30px; background-image: url(./languages/' . $file .'); background-position:5px 100%; background-repeat: no-repeat;"';
-                                      $file = substr($file->getFilename(), 0, -4);
+                                      $file = mb_substr($file->getFilename(), 0, -4);
 
                                       # filename conversion to shorthand
                                       if($file == 'german' ) { $language_shorthand = 'de_DE'; }

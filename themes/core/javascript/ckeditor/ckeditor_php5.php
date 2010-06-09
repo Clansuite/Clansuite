@@ -150,7 +150,7 @@ class CKEditor
 		$out .= $this->script($js);
 
 		if (!$this->returnOutput) {
-			print $out;
+			echo$out;
 			$out = "";
 		}
 
@@ -189,7 +189,7 @@ class CKEditor
 		$out .= $this->script($js);
 
 		if (!$this->returnOutput) {
-			print $out;
+			echo$out;
 			$out = "";
 		}
 
@@ -247,7 +247,7 @@ class CKEditor
 		$out .= $this->script($js);
 
 		if (!$this->returnOutput) {
-			print $out;
+			echo$out;
 			$out = "";
 		}
 
@@ -508,8 +508,8 @@ class CKEditor
 			return "/ckeditor/";
 		}
 
-		$documentRoot = substr($realPath, 0, strlen($realPath) - strlen($selfPath));
-		$fileUrl = substr($file, strlen($documentRoot));
+		$documentRoot = mb_substr($realPath, 0, mb_strlen($realPath) - mb_strlen($selfPath));
+		$fileUrl = mb_substr($file, mb_strlen($documentRoot));
 		$ckeditorUrl = str_replace("ckeditor_php5.php", "", $fileUrl);
 
 		return $ckeditorUrl;
@@ -543,7 +543,7 @@ class CKEditor
 
 			// Use @@ to not use quotes when outputting string value
 			if (strpos($val, '@@') === 0) {
-				return substr($val, 2);
+				return mb_substr($val, 2);
 			}
 			else {
 				// All scalars are converted to strings to avoid indeterminism.

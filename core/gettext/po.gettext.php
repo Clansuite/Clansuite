@@ -13,7 +13,7 @@ class Gettext_PO_File
         {
             if ($x[0] == '"')
             {
-                $x= substr($x, 1, -1);
+                $x= mb_substr($x, 1, -1);
             }
             
             $x = str_replace("\"\n\"", '', $x);
@@ -80,7 +80,7 @@ class Gettext_PO_File
                 case '#|': # msgid previous-untranslated-string
 
                     # start a new entry
-                    if (sizeof($temp) && array_key_exists('msgid', $temp) && array_key_exists('msgstr', $temp))
+                    if (count($temp) && array_key_exists('msgid', $temp) && array_key_exists('msgstr', $temp))
                     {
                         if (!$fuzzy)
                         {
@@ -133,7 +133,7 @@ class Gettext_PO_File
 
                             case 'msgstr':
 
-                                $temp[$state][sizeof($temp[$state]) - 1] .= "\n" . $line;
+                                $temp[$state][count($temp[$state]) - 1] .= "\n" . $line;
                                 break;
 
                             default :

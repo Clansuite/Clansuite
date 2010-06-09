@@ -432,7 +432,7 @@ class WebInstaller
             render('missingPassword');
             exit;
         }
-        else if(strlen($passPhrase) < 6)
+        else if(mb_strlen($passPhrase) < 6)
         {
             render('passwordTooShort');
             exit;
@@ -480,7 +480,7 @@ class WebInstaller
             $isSupported = $method->isSupported();
             $extractMethods[] = array('isSupported' => $isSupported,
                     'name' => $method->getName(),
-                    'command' => strtolower(get_class($method)),
+                    'command' => mb_strtolower(get_class($method)),
                     'archiveExists' => $archiveExists,
                     'archiveName' => $archiveName);
             if(empty($extensions[$method->getSupportedExtension()]))
@@ -506,7 +506,7 @@ class WebInstaller
         {
             $downloadMethods[] = array('isSupported' => $method->isSupported(),
                     'name' => $method->getName(),
-                    'command' => strtolower(get_class($method)));
+                    'command' => mb_strtolower(get_class($method)));
         }
         $capabilities['downloadMethods'] = $downloadMethods;
 
@@ -701,7 +701,7 @@ class Platform
             {
                 continue;
             }
-            if($path{strlen($path) - 1} != $slash)
+            if($path{mb_strlen($path) - 1} != $slash)
             {
                 $path .= $slash;
             }
@@ -850,7 +850,7 @@ class FopenDownloader extends DownloadMethod
                 $failed = true;
                 break;
             }
-            if(fwrite($ofh, $buf) != strlen($buf))
+            if(fwrite($ofh, $buf) != mb_strlen($buf))
             {
                 $failed = true;
                 $results = 'Error during writing';
@@ -978,7 +978,7 @@ class FsockopenDownloader extends DownloadMethod
             while(!feof($fd) && ! $failed)
             {
                 $buf = fread($fd, 4096);
-                if(fwrite($ofd, $buf) != strlen($buf))
+                if(fwrite($ofd, $buf) != mb_strlen($buf))
                 {
                     $failed = true;
                     break;
@@ -1349,7 +1349,7 @@ function render($renderType, $args=array())
     global $archiveBaseName, $folderPermissionList, $webinstaller_version;
     $self = basename(__FILE__);
     ?>
-    <?php print '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" ' .
+    <?php echo'<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" ' .
             '"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">'; ?>
 <html>
     <head>
@@ -1391,7 +1391,7 @@ function render($renderType, $args=array())
                     </legend>
                     <label>
 
-                        <strong></strong> <i>Delete the file (<?php print $self; ?>) when you are done!</i><br>
+                        <strong></strong> <i>Delete the file (<?php echo$self; ?>) when you are done!</i><br>
 
                     </label>
                 </fieldset>
@@ -1478,7 +1478,7 @@ function render($renderType, $args=array())
                                                                 </div>
 
         <?php if(!empty($args['statusMessage'])): ?>
-        <div class="box"><b>Status:</b> <?php print $args['statusMessage']; ?></div>
+        <div class="box"><b>Status:</b> <?php echo$args['statusMessage']; ?></div>
         <?php endif; ?>
 
 
@@ -1491,12 +1491,12 @@ function render($renderType, $args=array())
 
         <?php if($renderType == 'missingPassword'): ?>
         <div class="error">
-            You must enter a setup password in your <?php print $self; ?> file in order
+            You must enter a setup password in your <?php echo$self; ?> file in order
             to be able to access this script.
         </div>
         <?php elseif($renderType == 'passwordTooShort'): ?>
         <div class="error">
-            The setup password in your <?php print $self; ?> file is too short. It must be at least
+            The setup password in your <?php echo$self; ?> file is too short. It must be at least
             6 characters long.
         </div>
         <?php elseif($renderType == 'passwordForm'): ?>
@@ -1531,9 +1531,9 @@ function render($renderType, $args=array())
                             <?php if(!$supported): ?><span class="disabled"><?php endif; ?>
                                 <?php
                                 if(!$first)
-                                    print ', '; else
+                                    echo', '; else
                                     $first = false; ?>
-                                <?php print $ext; ?>
+                                <?php echo$ext; ?>
                                 <?php if(!$supported): ?></span><?php endif; ?>
                         <?php endforeach; ?>
             </span>
@@ -1549,9 +1549,9 @@ function render($renderType, $args=array())
             <h2>[1] Download the Clansuite Archive</h2>
             <span id="download-toggle" class="blockToggle"
                   onclick="BlockToggle('download', 'download-toggle', 'download methods')">
-                          <?php print $label . 'download methods'; ?>
+                          <?php echo$label . 'download methods'; ?>
             </span>
-            <div id="download" <?php print $display; ?>>
+            <div id="download" <?php echo$display; ?>>
                 <br/>
                     <?php if(!empty($args['downloadMethods']) && ! empty($args['anyExtensionSupported'])): ?>
                 <form id="downloadForm" method="post">
@@ -1635,9 +1635,9 @@ function render($renderType, $args=array())
             <h2>[2] Extraction</h2>
             <span id="extract-toggle" class="blockToggle"
                   onclick="BlockToggle('extract', 'extract-toggle', 'extraction methods')">
-                          <?php print $label . 'extraction methods'; ?>
+                          <?php echo$label . 'extraction methods'; ?>
             </span>
-            <div id="extract" <?php print $display; ?>>
+            <div id="extract" <?php echo$display; ?>>
                     <?php if(!empty($args['anyExtensionSupported'])): ?>
                 <form id="extractForm" method="post">
                     <table class="choice">
@@ -1695,16 +1695,16 @@ function render($renderType, $args=array())
                                         <h2>[3] Installation of Clansuite!</h2>
                                         <span id="install-toggle" class="blockToggle"
                                               onclick="BlockToggle('install', 'install-toggle', 'link to installation wizard')">
-                                                      <?php print $label . 'link to installation wizard'; ?>
+                                                      <?php echo$label . 'link to installation wizard'; ?>
                                         </span>
-                                        <div id="install" <?php print $display; ?>>
+                                        <div id="install" <?php echo$display; ?>>
 
                                             <!-- PATH TO CLANSUITE INSTALLER -->
                                                 <?php if(!empty($args['clansuiteFolderName'])): ?>
                                             <span style="font-size: 14px; font-weight:bold; color:green;">
                                                 <br />
                                                 Follow this link to start the
-                                                <a href="<?php print $args['clansuiteFolderName'] . '/installation/index.php'; ?>">
+                                                <a href="<?php echo$args['clansuiteFolderName'] . '/installation/index.php'; ?>">
                                                     Clansuite Installation Wizard</a>!
                                             </span>
 
@@ -1718,9 +1718,9 @@ function render($renderType, $args=array())
                                                 <h2>Change the permissions of your Clansuite Folder</h2>
                                                 <span id="chmod-toggle" class="blockToggle"
                                                       onclick="BlockToggle('chmod', 'chmod-toggle', 'change permissions form')">
-                                                                  <?php print $label . 'change permissions form'; ?>
+                                                                  <?php echo$label . 'change permissions form'; ?>
                                                 </span>
-                                                <div id="chmod" <?php print $display; ?>>
+                                                <div id="chmod" <?php echo$display; ?>>
                                                             <?php if(!empty($args['clansuiteFolderName'])): ?>
                                                     <p>
                                                         777 makes the folder writeable for everybody. That is needed such that you can move
@@ -1732,12 +1732,12 @@ function render($renderType, $args=array())
                                                         might already owned by your user and no permission changes are required.
                                                     </p>
                                                     <form id="chmodForm" method="post">
-                                                        Folder name: <input type="text" name="folderName" size="20" value="<?php print $folderName; ?>"/>
+                                                        Folder name: <input type="text" name="folderName" size="20" value="<?php echo$folderName; ?>"/>
                                                         Permissions:
                                                         <select name="folderPermissions">
                                                             <?php foreach($folderPermissionList as $perm): ?>
-                                                                <option value="<?php print $perm; ?>">
-                                                                    <?php print $perm; ?>
+                                                                <option value="<?php echo$perm; ?>">
+                                                                    <?php echo$perm; ?>
                                                                 </option>
                                                             <?php endforeach; ?>
                                                         </select>
@@ -1758,15 +1758,15 @@ function render($renderType, $args=array())
                                                 <h2>Rename the Clansuite folder</h2>
                                                 <span id="rename-toggle" class="blockToggle"
                                                       onclick="BlockToggle('rename', 'rename-toggle', 'rename folder form')">
-                                                                  <?php print $label . 'rename folder form'; ?>
+                                                                  <?php echo$label . 'rename folder form'; ?>
                                                 </span>
-                                                <div id="rename" <?php print $display; ?>>
+                                                <div id="rename" <?php echo$display; ?>>
                                                             <?php if(!empty($args['clansuiteFolderName'])): ?>
                                                     <p>
                                                         Quickly rename the clansuite folder. You can do that with your FTP program as well.
                                                     </p>
                                                     <form id="renameForm" method="post">
-                                                        Rename folder to: <input type="text" name="folderName" size="20" value="<?php print $folderName; ?>"/>
+                                                        Rename folder to: <input type="text" name="folderName" size="20" value="<?php echo$folderName; ?>"/>
                                                         <input type="hidden" name="command" value="rename"/>
                                                         <input type="submit" value="Rename Folder"
                                                                onclick="this.disabled=true;this.form.submit();"/>
@@ -1793,22 +1793,22 @@ function render($renderType, $args=array())
                                     <h2> Results </h2>
                                         <?php if(!empty($args['failure'])): ?>
                                     <div class="error">
-                                                <?php print $args['failure']; ?>
+                                                <?php echo$args['failure']; ?>
                                                 <?php if(!empty($args['fix'])): ?>
                                         <div class="suggested_fix">
                                             <h2> Suggested fix: </h2>
-                                                        <?php print $args['fix']; ?>
+                                                        <?php echo$args['fix']; ?>
                                         </div>
                                     </div>
                                             <?php endif; ?>
                                         <?php endif; ?>
                                         <?php if(!empty($args['success'])): ?>
                                     <div class="success">
-                                                <?php print $args['success']; ?>
+                                                <?php echo$args['success']; ?>
                                     </div>
                                         <?php endif; ?>
                                     <div>
-                                        <a href="<?php print $self; ?>">Next Step!</a>
+                                        <a href="<?php echo$self; ?>">Next Step!</a>
                                     </div>
                                     <?php endif; ?>
 
@@ -2116,23 +2116,23 @@ function PclTarHandleExtract($p_tarname, $p_file_list, &$p_list_detail, $p_mode,
 
     // ----- Check the path
     /*
-                     * f (($p_path == "") || ((substr($p_path, 0, 1) != "/") && (substr($p_path, 0, 3) != "../")))
+                     * f (($p_path == "") || ((mb_substr($p_path, 0, 1) != "/") && (mb_substr($p_path, 0, 3) != "../")))
                      * p_path = "./".$p_path;
     */
 
-    $isWin = (substr(PHP_OS, 0, 3) == 'WIN');
+    $isWin = (mb_substr(PHP_OS, 0, 3) == 'WIN');
 
     if(!$isWin)
     {
-        if(($p_path == "") || ( (substr($p_path, 0, 1) != "/") && ( substr($p_path, 0, 3) != "../")))
+        if(($p_path == "") || ( (mb_substr($p_path, 0, 1) != "/") && ( mb_substr($p_path, 0, 3) != "../")))
             $p_path = "./" . $p_path;
     }
     // ----- Look for path to remove format (should end by /)
-    if(($p_remove_path != "") && ( substr($p_remove_path, -1) != '/'))
+    if(($p_remove_path != "") && ( mb_substr($p_remove_path, -1) != '/'))
     {
         $p_remove_path .= '/';
     }
-    $p_remove_path_size = strlen($p_remove_path);
+    $p_remove_path_size = mb_strlen($p_remove_path);
 
     // ----- Study the mode
     switch($p_mode)
@@ -2223,14 +2223,14 @@ function PclTarHandleExtract($p_tarname, $p_file_list, &$p_list_detail, $p_mode,
             $v_extract_file = false;
 
             // ----- Look into the file list
-            $size = sizeof($p_file_list);
+            $size = count($p_file_list);
             for($i = 0; $i < $size; $i++)
             {
                 // ----- Look if it is a directory
-                if(substr($p_file_list[$i], -1) == "/")
+                if(mb_substr($p_file_list[$i], -1) == "/")
                 {
                     // ----- Look if the directory is in the filename path
-                    if((strlen($v_header["filename"]) > strlen($p_file_list[$i])) && ( substr($v_header["filename"], 0, strlen($p_file_list[$i])) == $p_file_list[$i]))
+                    if((mb_strlen($v_header["filename"]) > mb_strlen($p_file_list[$i])) && ( mb_substr($v_header["filename"], 0, mb_strlen($p_file_list[$i])) == $p_file_list[$i]))
                     {
                         // ----- The file is in the directory, so extract it
                         $v_extract_file = true;
@@ -2268,23 +2268,23 @@ function PclTarHandleExtract($p_tarname, $p_file_list, &$p_list_detail, $p_mode,
         {
             // ----- Look for path to remove
             if(($p_remove_path != "")
-                    && ( substr($v_header["filename"], 0, $p_remove_path_size) == $p_remove_path))
+                    && ( mb_substr($v_header["filename"], 0, $p_remove_path_size) == $p_remove_path))
             {
                 // ----- Remove the path
-                $v_header["filename"] = substr($v_header["filename"], $p_remove_path_size);
+                $v_header["filename"] = mb_substr($v_header["filename"], $p_remove_path_size);
             }
 
             // ----- Add the path to the file
             if(($p_path != "./") && ( $p_path != "/"))
             {
                 // ----- Look for the path end '/'
-                while(substr($p_path, -1) == "/")
+                while(mb_substr($p_path, -1) == "/")
                 {
-                    $p_path = substr($p_path, 0, strlen($p_path) - 1);
+                    $p_path = mb_substr($p_path, 0, mb_strlen($p_path) - 1);
                 }
 
                 // ----- Add the path
-                if(substr($v_header["filename"], 0, 1) == "/")
+                if(mb_substr($v_header["filename"], 0, 1) == "/")
                     $v_header["filename"] = $p_path . $v_header["filename"];
                 else
                     $v_header["filename"] = $p_path . "/" . $v_header["filename"];
@@ -2436,7 +2436,7 @@ function PclTarHandleExtract($p_tarname, $p_file_list, &$p_list_detail, $p_mode,
             // ----- Log extracted files
             if(($v_file_dir = dirname($v_header["filename"])) == $v_header["filename"])
                 $v_file_dir = "";
-            if((substr($v_header["filename"], 0, 1) == "/") && ( $v_file_dir == ""))
+            if((mb_substr($v_header["filename"], 0, 1) == "/") && ( $v_file_dir == ""))
                 $v_file_dir = "/";
 
             // ----- Add the array describing the file into the list
@@ -2477,7 +2477,7 @@ function PclTarHandleReadHeader($v_binary_data, &$v_header)
     */
 
     // ----- Look for no more block
-    if(strlen($v_binary_data)==0)
+    if(mb_strlen($v_binary_data)==0)
     {
         $v_header['filename'] = "";
         $v_header['status'] = "empty";
@@ -2486,7 +2486,7 @@ function PclTarHandleReadHeader($v_binary_data, &$v_header)
     }
 
     // ----- Look for invalid block size
-    if(strlen($v_binary_data) != 512)
+    if(mb_strlen($v_binary_data) != 512)
     {
         $v_header['filename'] = "";
         $v_header['status'] = "invalid_header";
@@ -2500,7 +2500,7 @@ function PclTarHandleReadHeader($v_binary_data, &$v_header)
     // ..... First part of the header
     for($i = 0; $i < 148; $i++)
     {
-        $v_checksum+=ord(substr($v_binary_data, $i, 1));
+        $v_checksum+=ord(mb_substr($v_binary_data, $i, 1));
     }
     // ..... Ignore the checksum value and replace it by ' ' (space)
     for($i = 148; $i < 156; $i++)
@@ -2510,7 +2510,7 @@ function PclTarHandleReadHeader($v_binary_data, &$v_header)
     // ..... Last part of the header
     for($i = 156; $i < 512; $i++)
     {
-        $v_checksum+=ord(substr($v_binary_data, $i, 1));
+        $v_checksum+=ord(mb_substr($v_binary_data, $i, 1));
     }
 
     // ----- Extract the values
@@ -2633,11 +2633,11 @@ function PclTarHandlerDirCheck($p_dir)
 function PclTarHandleExtension($p_tarname)
 {
    # Look for file extension
-   if((substr($p_tarname, -7) == ".tar.gz") || ( substr($p_tarname, -4) == ".tgz"))
+   if((mb_substr($p_tarname, -7) == ".tar.gz") || ( mb_substr($p_tarname, -4) == ".tgz"))
    {
        $v_tar_mode = "tgz";
    }
-   else if(substr($p_tarname, -4) == ".tar")
+   else if(mb_substr($p_tarname, -4) == ".tar")
    {
        $v_tar_mode = "tar";
    }

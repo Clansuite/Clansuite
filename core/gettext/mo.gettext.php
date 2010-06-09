@@ -41,7 +41,7 @@ class Gettext_MO_File
             $str= implode("\x00", $entry['msgstr']);
 
             # keep track of offsets
-            $offsets[]= array ( strlen($ids), strlen($id), strlen($strings), strlen($str));
+            $offsets[]= array ( mb_strlen($ids), mb_strlen($id), mb_strlen($strings), mb_strlen($str));
 
             # plural msgids are not stored (?)
             $ids .= $id . "\x00";
@@ -50,10 +50,10 @@ class Gettext_MO_File
         }
 
         # keys start after the header (7 words) + index tables ($#hash * 4 words)
-        $key_start= 7 * 4 + sizeof($hash) * 4 * 4;
+        $key_start= 7 * 4 + count($hash) * 4 * 4;
 
         # values start right after the keys
-        $value_start= $key_start +strlen($ids);
+        $value_start= $key_start +mb_strlen($ids);
 
         # first all key offsets, then all value offsets
         $key_offsets= array ();
@@ -75,9 +75,9 @@ class Gettext_MO_File
         # write header
         $mo .= pack('Iiiiiii', 0x950412de,          # magic number
                     0,                              # version
-                    sizeof($hash),                  # number of entries in the catalog
+                    count($hash),                   # number of entries in the catalog
                     7 * 4,                          # key index offset
-                    7 * 4 + sizeof($hash) * 8,      # value index offset,
+                    7 * 4 + count($hash) * 8,       # value index offset,
                     0,                              # hashtable size (unused, thus 0)
                     $key_start                      # hashtable offset
         );

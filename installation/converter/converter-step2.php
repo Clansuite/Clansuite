@@ -56,7 +56,7 @@ foreach ($dirIterator as $cms)
         $array_matrix_systems[] = $cms->getFilename();
 
         # setup iterator for /impot/xy-system/ (version) directory
-        $dirIterator2 = new DirectoryIterator('./import/'.strtolower($cms).'/');
+        $dirIterator2 = new DirectoryIterator('./import/'.mb_strtolower($cms).'/');
         foreach ($dirIterator2 as $version)
         {
             # each directory element but not (.,..)

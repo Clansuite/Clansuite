@@ -284,12 +284,12 @@ class Clansuite_Inputfilter
 
             $r_bool = preg_match($reg_exp, $string) ? true : false;
 
-            if($length != 0 and strlen($string) > (int) $length)
+            if($length != 0 and mb_strlen($string) > (int) $length)
             {
                 $r_bool = false;
             }
 
-            if(strlen($string) == 0)
+            if(mb_strlen($string) == 0)
             {
                 $r_bool = false;
             }

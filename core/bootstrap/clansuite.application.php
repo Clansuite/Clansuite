@@ -44,7 +44,7 @@
     */
 
 # Security Handler
-if ( !defined('IN_CS') )
+if (defined('IN_CS') == false)
 {
     die('Clansuite not loaded. Direct Access forbidden.');
 }
@@ -78,19 +78,19 @@ class Clansuite_CMS
          */
         define('STARTTIME', microtime(1));
 
+        self::initialize_Loader();
+
         self::initialize_Config();
 
-        self::perform_startup_checks();
-
         self::initialize_Paths();
+
+        self::perform_startup_checks();
 
         self::initialize_Debug();
 
         self::initialize_Version();
 
         self::initialize_Locale();
-
-        self::initialize_Loader();
 
         self::initialize_Eventdispatcher();
 
@@ -135,7 +135,7 @@ class Clansuite_CMS
 
         # PDO mysql driver Check
         # @todo the type of db-driver for pdo is set on installtion + available via config
-        if ( !in_array('mysql', PDO::getAvailableDrivers()) )
+        if (in_array('mysql', PDO::getAvailableDrivers()) === false)
         {
             die('<i>php_pdo_mysql</i> driver not enabled.');
         }
@@ -171,7 +171,7 @@ class Clansuite_CMS
             exit;
         }
 
-        # require the configuration handler for ini files
+        # in order to read the main config, the configuration handler for ini files is needed
         include getcwd() . '/core/config/ini.config.php';
 
         # 2. load the main clansuite configuration file
@@ -194,7 +194,6 @@ class Clansuite_CMS
                                Check php.ini - setting: mbstring.func_overload.', E_USER_ERROR);
             }
 
-            #ini_set('mbstring.internal_encoding',   'UTF-8');
             mb_internal_encoding('UTF-8');
         }
 
@@ -309,7 +308,7 @@ class Clansuite_CMS
         /**
          * @var Determine Type of Protocol for Webpaths (http/https)
          */
-        if(isset($_SERVER['HTTPS']) and strtolower($_SERVER['HTTPS']) == 'on')
+        if(isset($_SERVER['HTTPS']) and mb_strtolower($_SERVER['HTTPS']) == 'on')
         {
             define('PROTOCOL','https://');
         }
@@ -386,7 +385,7 @@ class Clansuite_CMS
         define('DEBUG', self::$config['error']['debug']);
 
         # If Debug is enabled, set FULL error_reporting, else DISABLE it completely
-        if ( defined('DEBUG') and DEBUG == true )
+        if ( DEBUG == true )
         {
             ini_set('display_startup_errors', true);
             ini_set('display_errors', true);    # display errors in the browser
@@ -434,7 +433,7 @@ class Clansuite_CMS
      */
     private static function initialize_Loader()
     {
-        include ROOT_CORE . 'bootstrap/clansuite.loader.php';
+        include getcwd() . '/core/bootstrap/clansuite.loader.php';
         # instantiate the autoloading handlers by overwriting the spl_autoload handling
         Clansuite_Loader::getInstance();
     }
@@ -444,8 +443,8 @@ class Clansuite_CMS
      */
     private static function initialize_Eventdispatcher()
     {
-        if( isset(self::$config['eventsystem']['eventsystem_enabled'])
-              and self::$config['eventsystem']['eventsystem_enabled'] === true)
+        if( isset(self::$config['eventsystem']['enabled'])
+              and self::$config['eventsystem']['enabled'] === true)
         {
             include ROOT_CORE . 'eventhandler.core.php';
             Clansuite_Eventdispatcher::instantiate();
@@ -458,11 +457,8 @@ class Clansuite_CMS
      */
     private static function initialize_Errorhandling()
     {
-        # Set Exception Handler
-        Clansuite_Exception::setExceptionHandler();
-
-        # Set Error Handler
-        new Clansuite_Errorhandler(new Clansuite_Config);
+        set_exception_handler(array(new Clansuite_Exception, 'clansuite_exception_handler'));
+        set_error_handler(array(new Clansuite_Errorhandler, 'clansuite_error_handler'));
     }
 
     /**
@@ -553,14 +549,9 @@ class Clansuite_CMS
         $response = self::$injector->instantiate('Clansuite_HttpResponse');
 
         /**
-         * Setup Frontcontroller
-         *
-         * pass Controller_Resolvers for Module and Action with their defaults as fallback
-         * start passing the dependency $injector around
+         * Setup Frontcontroller and pass Request and Response
          */
-        $clansuite = new Clansuite_Front_Controller(
-                         new Clansuite_Module_Controller_Resolver(self::$config['defaults']['module']),
-                         new Clansuite_Action_Controller_Resolver(self::$config['defaults']['action']));
+        $clansuite = new Clansuite_Front_Controller($request, $response);
 
         /**
          * Add the Prefilters and Postfilters to the Frontcontroller
@@ -580,8 +571,11 @@ class Clansuite_CMS
             $clansuite->addPostfilter(self::$injector->instantiate($class));
         }
 
+        # Router
+        $router = new Clansuite_Router($request::getRequestURI(), self::$config['defaults']);
+
         # Take off.
-        $clansuite->processRequest($request, $response);
+        $clansuite->processRequest($router);
     }
 
     /**
@@ -600,7 +594,7 @@ class Clansuite_CMS
     private static function initialize_Locale()
     {
         # apply timezone defensivly
-        if(empty(self::$config['language']['timezone']) == false)
+        if(isset(self::$config['language']['timezone']))
         {
             ini_set('date.timezone', self::$config['language']['timezone']);
 
@@ -614,10 +608,10 @@ class Clansuite_CMS
             }
         }
 
-        if(empty(self::$config['defaults']['dateformat']) == false)
+        if(isset(self::$config['locale']['dateformat']))
         {
             # set date formating via config
-            define('DATE_FORMAT', self::$config['defaults']['dateformat']);
+            define('DATE_FORMAT', self::$config['locale']['dateformat']);
         }
     }
 
@@ -627,14 +621,15 @@ class Clansuite_CMS
     private static function start_Session()
     {
         # Initialize Doctrine before session start, because session is written to database
-        new Clansuite_Doctrine(new Clansuite_Config());
+        new Clansuite_Doctrine(self::$config);
 
-        # Initialize Session,then register the session-depending User-Object manually
-        new Clansuite_Session(new Clansuite_Config, self::$injector->instantiate('Clansuite_HttpRequest'));
+        # Initialize Session
+        new Clansuite_Session(self::$config, self::$injector->instantiate('Clansuite_HttpRequest'));
 
         # instantiate the Locale
         self::$injector->instantiate('Clansuite_Localization');
 
+        # register the session-depending User-Object manually
         self::$injector->instantiate('Clansuite_User');
     }
 

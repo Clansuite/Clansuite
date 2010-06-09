@@ -85,7 +85,7 @@ function _enlightColor($matches)
                 continue;
             $seaword .= $seasep.preg_quote($word, '~');
             $seasep ='|';
-            $colword[strtolower($word)] = $colorArr[$i%5];
+            $colword[mb_strtolower($word)] = $colorArr[$i%5];
             $i++;
         }
         return $seaword;
@@ -94,7 +94,7 @@ function _enlightColor($matches)
     if (isset($matches[1]))
     {
         return '<span style="color:black; background-color:'
-                . $colword[strtolower($matches[1])] . ';">' . $matches[1] . '</span>';
+                . $colword[mb_strtolower($matches[1])] . ';">' . $matches[1] . '</span>';
     }
     return $matches[0];
 }
