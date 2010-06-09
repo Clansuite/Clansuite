@@ -74,7 +74,7 @@ class Clansuite_Renderer_Json extends Clansuite_Renderer_Base
      * 2) Initialize the RenderEngine via parent class constructor call = self::initializeEngine()
      * 3) Configure the RenderEngine with it's specific settings = self::configureEngine();
      */
-    function __construct(Clansuite_Config $config, Clansuite_HttpResponse $response)
+    public function __construct(Clansuite_Config $config, Clansuite_HttpResponse $response)
     {
         parent::__construct($config, $response);
     }

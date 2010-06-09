@@ -58,42 +58,57 @@ require dirname(__FILE__) . '/renderer.base.php';
 class Clansuite_Renderer_CSV extends Clansuite_Renderer_Base
 {
     private $data = array();
+    private $header = array();
 
-    function __construct(Phemto $injector = null, Clansuite_Config $config)
+    public function __construct(Clansuite_Config $config, Clansuite_HttpResponse $response)
     {
-        parent::__construct();
+        parent::__construct($config, $response);
     }
 
     public function initializeEngine()
     {
-
+        return;
     }
 
     public function configureEngine()
     {
-
+        return;
     }
 
-    public function render($filepath, $data = null, $header = array())
+    /**
+     * @param string $filepath location of where the csv file should be saved
+     */
+    public function render($filepath)
     {
-        if($data === null)
-        {
-            $data = $this->data;
-        }
 
-        $this->mssafe_csv($filepath, $data, $header = array());
+        $this->mssafe_csv($filepath, $this->data, $this->header);
     }
 
-    public function assign($data)
+    /**
+     * @param array $data the array with the data to write as csv
+     * @param array $header additional array with column headings (first row of the data)
+     */
+    public function assign($data, $header = array())
     {
         $this->data = $data;
+        $this->headers = $headers;
     }
 
     /**
      * mssafe_csv() builds csv files readable by ms-excel/access.
      *
+     * Note:
+     * 1) For MS Applications the line-endings have to be \r\n not only \n
+     * 2) The first value of CSV files are disallowed to be uppercase chars.
+     *    If uppercase the csv is mis-interpreted as sylk-format file
+     *    @see http://support.microsoft.com/kb/323626
+     *
      * @author soapergem[at]gmail[dot]com
      * @link http://de.php.net/manual/de/function.fputcsv.php#90883
+     *
+     * @param string $filepath location of where the csv file should be saved
+     * @param array $data the array with the data to write as csv
+     * @param array $header additional array with column headings (first row of the data)
      */
     private function mssafe_csv($filepath, $data, $header = array())
     {
@@ -118,12 +133,12 @@ class Clansuite_Renderer_CSV extends Clansuite_Renderer_Base
                         array_shift($line);
                         if(empty($line) == true)
                         {
-                            fwrite($fp, '"' . $first . '"' . "\r\n");
+                            fwrite($fp, '"' . $first . '"' . '\r\n');
                         }
                         else
                         {
                             fwrite($fp, '"' . $first . '",');
-                            fputcsv($fp, $line);
+                            fputcsv($fp, split(',', $line));
                             fseek($fp, -1, SEEK_CUR);
                             fwrite($fp, "\r\n");
                         }
@@ -142,7 +157,7 @@ class Clansuite_Renderer_CSV extends Clansuite_Renderer_Base
                     if(empty($header))
                     {
                         $show_header = false;
-                        fwrite($fp, '"' . $first . '"' . "\r\n");
+                        fwrite($fp, '"' . $first . '"' . '\r\n');
                     }
                     else
                     {
@@ -155,14 +170,14 @@ class Clansuite_Renderer_CSV extends Clansuite_Renderer_Base
             {
                 fputcsv($fp, $header);
                 fseek($fp, -1, SEEK_CUR);
-                fwrite($fp, "\r\n");
+                fwrite($fp, '\r\n');
             }
 
             foreach($data as $line)
             {
                 fputcsv($fp, $line);
                 fseek($fp, -1, SEEK_CUR);
-                fwrite($fp, "\r\n");
+                fwrite($fp, '\r\n');
             }
             fclose($fp);
         }

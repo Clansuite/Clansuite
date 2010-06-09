@@ -35,7 +35,7 @@
 
 # Security Handler
 if (defined('IN_CS') == false)
-{ 
+{
     die('Clansuite not loaded. Direct Access forbidden.' );
 }
 
@@ -59,14 +59,30 @@ require dirname(__FILE__) . '/renderer.base.php';
  */
 class Clansuite_Renderer_Xtemplate extends Clansuite_Renderer_Base
 {
-    function __construct(Phemto $injector = null, Clansuite_Config $config)
+    public function __construct(Clansuite_Config $config, Clansuite_HttpResponse $response)
     {
-        parent::__construct();
+        parent::__construct($config, $response);
+        $this->initializeEngine();
     }
 
     public function initializeEngine()
     {
+        # prevent redeclaration
+        if(class_exists('XTemplate', false) == false)
+        {
+            # check if Smarty library exists
+            if(is_file(ROOT_LIBRARIES . 'xtemplate/xtemplate.class.php') === true)
+            {
+                include ROOT_LIBRARIES . 'xtemplate/xtemplate.class.php';
+            }
+            else
+            {
+                throw new Exception('XTemplate Library missing!');
+            }
+        }
 
+        # Do it with XTemplate style > eat like a bird, poop like an elefant!
+        return $this->renderer = new XTemplate();
     }
 
     public function configureEngine()
@@ -76,12 +92,12 @@ class Clansuite_Renderer_Xtemplate extends Clansuite_Renderer_Base
 
     public function render()
     {
-
+        $this->renderer->out();
     }
 
-    public function assign()
+    public function assign($key, $value)
     {
-
+        $this->renderer->assign($key, $value);
     }
 }
 ?>
