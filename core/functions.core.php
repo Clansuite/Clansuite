@@ -728,7 +728,7 @@ class Clansuite_Functions
                     $source_path = $source . $file;
                     $target_path = $destination . $file;
 
-                    if(is_file($target_path) == false || $overwrite)
+                    if(is_file($target_path) === false or $overwrite)
                     {
                         if(array(strstr($target_path, '.') == true))
                         {
@@ -883,7 +883,7 @@ class Clansuite_Functions
         $filename = ROOT_CORE . 'functions' . DS . $method . '.function.php';
 
         # check if name is valid
-        if(is_file($filename) and is_readable($filename))
+        if(is_file($filename) === true and is_readable($filename))
         {
             # dynamically include the command
             include_once $filename;
@@ -922,7 +922,7 @@ class Clansuite_Functions
         $filename = ROOT_CORE . 'functions' . DS . $method . '.function.php';
 
         # check if name is valid
-        if(is_file($filename) and is_readable($filename))
+        if(is_file($filename) === true and is_readable($filename))
         {
             # dynamically include the command
             include_once $filename;

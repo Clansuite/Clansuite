@@ -571,7 +571,7 @@ class Clansuite_Cronjobs
     private function getLastActualRunTime($jobname)
     {
         $jobfile = $this->getJobFileName($jobname);
-        if(is_file($jobfile))
+        if(is_file($jobfile) === true)
         {
             return filemtime($jobfile);
         }
