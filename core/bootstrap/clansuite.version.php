@@ -65,7 +65,7 @@ final class Clansuite_Version
         if (!defined('CLANSUITE_REVISION'))
         {
             # File used: "root/.svn/entries"
-            if (file_exists(ROOT . '.svn' . DS . 'entries'))
+            if (is_file(ROOT . '.svn' . DS . 'entries'))
             {
                 define ('CLANSUITE_REVISION', self::getRevisionNumberFromFile());
             }
