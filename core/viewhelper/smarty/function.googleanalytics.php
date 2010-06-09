@@ -14,7 +14,7 @@
  *
  * Examples:
  * <pre>
- * {googleanalytics code=UA-xxxxxx-x type=jquery-load}
+ * {googleanalytics code=UA-xxxxxx-x type=jquery}
  * </pre>
  *
  * @link http://code.google.com/intl/de-DE/apis/analytics/docs/tracking/asyncMigrationExamples.html
@@ -49,12 +49,12 @@ function smarty_function_googleanalytics($params, &$smarty)
 
     /**
      * Determine the type of script to include
-     * a) asynchronous script snippet
-     * b) jquery cache snippet
+     * a) async = asynchronous script snippet
+     * b) jquery = jquery loaded and cached snippet
      */
     if(empty($params['type']))
     {
-        $smarty->trigger_error("google_analytics: the parameter 'type' is missing. please specifiy your 'async-load' or 'jquery-load'.");
+        $smarty->trigger_error("google_analytics: the parameter 'type' is missing. please specifiy your 'async' or 'jquery'.");
         return;
     }
 
@@ -81,7 +81,7 @@ function smarty_function_googleanalytics($params, &$smarty)
             </script>';
       }
 
-      if('jquery-load' == $params['type'])
+      if('jquery' == $params['type'])
       {
           # asynchronous and cached loading via jquery ajax
           $return = '
