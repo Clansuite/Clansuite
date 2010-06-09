@@ -38,7 +38,7 @@ class PHP_CodeSniffer_Standards_Clansuite_ClansuiteCodingStandard extends PHP_Co
     public static function setIncludePath()
     {
         $paths = array(
-                        dirname(dirname(__FILE__));
+                        dirname(dirname(__FILE__))
                       );
 
         set_include_path( implode( $paths, PATH_SEPARATOR ) . PATH_SEPARATOR . get_include_path() ); # attach original include paths
