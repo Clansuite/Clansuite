@@ -72,6 +72,9 @@ class PHP_CodeSniffer_Standards_Clansuite_ClansuiteCodingStandard extends PHP_Co
                      # discourage several functions in clansuite and ensure consistent usage of functions
                      dirname(__FILE__) . '/Sniffs/ForbiddenFunctionsSniff.php',
 
+                     # The use of eval() is discouraged.
+                     'Squiz/Sniffs/PHP/EvalSniff.php',
+
               # Classes
                      'Squiz/Sniffs/Classes/LowercaseClassKeywordsSniff.php',
                      'Squiz/Sniffs/Classes/SelfMemberReferenceSniff.php',
@@ -87,9 +90,6 @@ class PHP_CodeSniffer_Standards_Clansuite_ClansuiteCodingStandard extends PHP_Co
 
                      # Stops the usage of the "global" keyword.
                      'Squiz/Sniffs/PHP/GlobalKeywordSniff.php',
-
-                     # The use of eval() is discouraged.
-                     'Squiz/Sniffs/PHP/EvalSniff.php',
 
                      # Makes sure that shorthand PHP open tags are not used.
                      'Generic/Sniffs/PHP/DisallowShortOpenTagSniff.php',
