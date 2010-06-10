@@ -279,7 +279,7 @@ class Clansuite_Loader
             return true;
         }
 
-        self::autoloadExclusions($classname);
+        return self::autoloadExclusions($classname);
 
         /**
          * Start Classname to Filename Mapping
@@ -287,7 +287,7 @@ class Clansuite_Loader
         $filename = mb_strtolower($classname);
 
         # strip 'clansuite_' from beginning of the string
-        if(false !== strpos($filename, 'clansuite_'))
+        if(false !== mb_strpos($filename, 'clansuite_'))
         {
             $filename = mb_substr($filename, 10);
         }
@@ -326,10 +326,14 @@ class Clansuite_Loader
      */
     public static function autoloadExclusions($classname)
     {
-        if (false !== strpos($classname, 'Doctrine') and
-            false !== strpos($classname, 'Smarty') and
-            false === strpos($classname, 'Clansuite_Smarty') and
-            false === strpos($classname, 'Clansuite_Doctrine'))
+        # this means if 'Doctrine" is found, but not 'Clansuite_Doctrine', exclude from our autoloading
+        if (false !== mb_strpos($classname, 'Doctrine') and false === mb_strpos($classname, 'Clansuite_Doctrine'))
+        {
+            return false;
+        }
+
+        # this means if 'Smarty" is found, but not 'Clansuite_Smarty', exclude from our autoloading
+        if (false !== mb_strpos($classname, 'Smarty') and false === mb_strpos($classname, 'Clansuite_Smarty'))
         {
             return false;
         }
@@ -358,7 +362,7 @@ class Clansuite_Loader
         $modulename = mb_strtolower($modulename);
 
         # check for prefix 'clansuite_module_'
-        $spos = strpos($modulename, 'clansuite_module_');
+        $spos = mb_strpos($modulename, 'clansuite_module_');
         if (is_int($spos) and ($spos==0))
         {
             # ok, 'clansuite_module_' is prefixed, do nothing
