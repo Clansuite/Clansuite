@@ -20,8 +20,6 @@
 
     Phing               http://phing.info
     Subversion          http://subversion.tigris.org/
-    phpDocumentor       http://www.phpdoc.org/
-    phpXref             http://phpxref.sourceforge.net/
     Doxygen             http://www.stack.nl/~dimitri/doxygen/
     phpLint             http://www.icosaedro.it/phplint/
     phpCodeSniffer      http://pear.php.net/package/PHP_CodeSniffer
@@ -95,8 +93,6 @@
         "basedir"                     : ${base.directory}
         "build.base.directory"        : ${build.base.directory}
         "archive.directory"           : ${archive.directory}
-        "phpdoc.directory"            : ${phpdoc.directory}
-        "phpxref.directory"           : ${phpxref.directory}
         "doxygen.directory"           : ${doxygen.directory}
         "env.WORKSPACE"               : ${env.WORKSPACE}
 
@@ -150,9 +146,8 @@
 
     <!-- Define the Properties for Section 5) Documentation -->
     <property name="documentations.directory" value="${webbase.directory}documentation/developer/" override="true" />
-    <property name="phpdoc.directory" value="${documentations.directory}phpdoc/" override="true" />
+
     <property name="doxygen.directory" value="${documentations.directory}doxygen/" override="true" />
-    <property name="phpxref.directory" value="${documentations.directory}phpxref/" override="true" />
 
     <!-- Define the Properties for Section 6) Building Archives -->
     <property name="archive.directory" value="${build.base.directory}archives" override="true" />
@@ -403,51 +398,13 @@
         <echo>-----------------------------------</echo>
         <echo>|   Creating ALL Documentations   |</echo>
         <echo>-----------------------------------</echo>
-        <phingcall target="doc-phpdoc" />
-        <phingcall target="doc-doxygen" />
-        <phingcall target="doc-phpxref" />
         <phingcall target="doc-asciidoc" />
-    </target>
-
-    <!-- Hudson Task -->
-    <target name="phpdoc" description="Generates the API Documentation using PHPDocumentor">
-         <echo>Generates the API documentation using PHPDocumentor</echo>
-        <exec command="phpdoc --directory ${sourcedir} --ignore libraries/* --target ${builddir}/docs" escape="false" />
-    </target>
-
-    <target name="doc-phpdoc" description="Generates the API Documentation using PHPDocumentor">
-        <echo>Generates the API documentation using PHPDocumentor</echo>
-        <delete dir="${phpdoc.directory}" />
-
-        <phpdoc title="Clansuite - just an eSport CMS | Framework API Documentation"
-                destdir="${phpdoc.directory}"
-                quiet="true"
-                sourcecode="yes"
-                output="HTML:frames:phpedit"
-                defaultpackagename="Clansuite"
-                undocumentedelements="true">
-
-           <fileset refid="clansuite.projectfiles.docs"/>
-
-           <projdocfileset dir="${svn.local.export.directory}/doc">
-              <include name="README.EN.TXT" />
-              <include name="AUTHORS.txt" />
-              <include name="LICENSE.txt" />
-              <include name="THIRD-PARTY-LIBRARIES.txt" />
-           </projdocfileset>
-
-        </phpdoc>
+        <phingcall target="doc-doxygen" />
     </target>
 
     <target name="doc-doxygen" description="Generates the API documentation using Doxygen">
         <echo>Generates the API documentation using Doxygen</echo>
         <exec command="doxygen" dir="." logoutput="true"/>
-    </target>
-
-    <target name="doc-phpxref" description="Generates the API documentation using PHP Cross Reference">
-        <echo>Generates the API documentation using PHP Cross Reference</echo>
-        <exec command="/home/clansuite/build-tools/phpxref-0.7/phpxref.pl -c /home/clansuite/build-tools/clansuite-phpxref-linux.cfg > $CLANSUITE_LOGDIR/phpxref.log"
-              dir="."/>
     </target>
 
     <target name="doc-asciidoc" description="Generates the documentation using Asciidoc">
