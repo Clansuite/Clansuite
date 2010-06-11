@@ -194,30 +194,30 @@ class Clansuite_HttpResponse implements Clansuite_Response_Interface
      */
     public static function sendResponse()
     {
-        // Guess what?
+        # Guess what?
         session_write_close();
 
-        // activateOutputCompression when not in debugging mode
+        # activateOutputCompression when not in debugging mode
         if( XDEBUG === false and DEBUG === false)
         {
             Clansuite_ResponseEncode::start_outputbuffering('7');
         }
 
-        // Send the status line
+        # Send the status line
         self::addheader('HTTP/1.1', self::$statusCode.' '.self::getStatusCodeDescription(self::$statusCode));
 
-        // Set X-Powered-By Header to Clansuite Signature
+        # Set X-Powered-By Header to Clansuite Signature
         self::addheader('X-Powered-By', '[ Clansuite - just an eSport CMS ][ Version : '. CLANSUITE_VERSION .' ][ www.clansuite.com ]');
 
-        // Send our Content-Type with UTF-8 encoding
+        # Send our Content-Type with UTF-8 encoding
         self::addHeader('Content-Type', 'text/html; charset=UTF-8');
 
-        // Send user specificed headers from self::$headers array
+        # Send user specificed headers from self::$headers array
         if(false === headers_sent())
         {
-            foreach (self::$headers as $name => $value)
+            foreach(self::$headers as $name => $value)
             {
-                header("{$name}: {$value}", false);
+                header($name . ': ' . $value, false);
             }
         }
 
@@ -228,10 +228,10 @@ class Clansuite_HttpResponse implements Clansuite_Response_Interface
         #self::$body = preg_replace('/&(?![#]?[a-z0-9]{1,7};)/i', '&amp;$1', self::$body);
         #self::$body = str_replace('CS+AND+CS','&&', self::$body);
 
-        // make it possible to attach HTML content to the body directly before flushing the response
+        # make it possible to attach HTML content to the body directly before flushing the response
         Clansuite_CMS::triggerEvent('onBeforeResponse', array('body' => self::$body));
 
-        // Finally echo the response body
+        # Finally echo the response body
         echo self::getContent();
 
         // Flush Compressed Buffer
@@ -240,7 +240,7 @@ class Clansuite_HttpResponse implements Clansuite_Response_Interface
             Clansuite_ResponseEncode::end_outputbuffering();
         }
 
-        // OK, Reset -> Package delivered! Return to Base!
+        # OK, Reset -> Package delivered! Return to Base!
         self::clearHeaders();
     }
 

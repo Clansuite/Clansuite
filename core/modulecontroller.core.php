@@ -139,13 +139,15 @@ abstract class Clansuite_Module_Controller extends Clansuite_Module_Controller_R
         {
             $models_path = ROOT_MOD . mb_strtolower($modulename) . DS . 'model/records';
         }
-        /*else
-        {
+        #else
+        #{
             /**
-             * Modulename and Recordname differ! Like "modulemanager" asmodulename and "CsModules" = "modules" as recordname.
-        *//*
-            $models_path = ROOT_MOD . mb_strtolower($modulename) . DS . 'model/records';
-        }  */
+             * Modulename and Recordname differ!
+             * Like "modulemanager" as modulename and "CsModules" = "modules" as recordname.
+             */
+
+            #$models_path = ROOT_MOD . mb_strtolower($modulename) . DS . 'model/records';
+        #}
 
         if( is_dir($models_path) )
         {

@@ -386,12 +386,13 @@ class Clansuite_XML_Formgenerator extends Clansuite_Form
      */
     public function generateXMLByArray($array)
     {
-        /*$filename = ROOT_MODULES . $array['modulename'] . DS . 'forms/';
-        $filename .= $array['actionname'] . 'form.xml.php';
+        /* $filename = ROOT_MODULES . $array['modulename'] . DS . 'forms/';
+          $filename .= $array['actionname'] . 'form.xml.php';
 
-        $xml = Clansuite_Config_XMLHandler::getInstance();
-        $xml::writeConfig($filename, $array);
-		*/
+          $xml = Clansuite_Config_XMLHandler::getInstance();
+          $xml::writeConfig($filename, $array);
+         */
     }
+
 }
 ?>

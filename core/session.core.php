@@ -248,7 +248,8 @@ class Clansuite_Session implements Clansuite_Session_Interface, ArrayAccess
     public function session_write($id, $data)
     {
         /**
-         * Determine the current location of a user by checking request['mod']
+         * @todo wrong place. move either to statistics or whoisonline
+         * determine the current location of a user by checking request['mod']
          */
         if(isset($request['mod']) == false and empty($this->request['mod']))
         {
@@ -258,7 +259,6 @@ class Clansuite_Session implements Clansuite_Session_Interface, ArrayAccess
         {
             $userlocation = $this->request['mod'];
         }
-        #echo 'location '.$userlocation;
 
         /**
          * Try to INSERT Session Data or REPLACE Session Data in case session_id already exists
@@ -276,32 +276,32 @@ class Clansuite_Session implements Clansuite_Session_Interface, ArrayAccess
         return true;
     }
 
-   /**
+    /**
      * Destroy the current session.
      *
      * This redefines php's session_destroy()
      *
      * @param  string $session_id
      */
-    public function session_destroy( $session_id )
+    public function session_destroy($session_id)
     {
         // Unset all of the session variables.
         $_SESSION = array();
 
         //  Unset Cookie Vars
-        if (isset($_COOKIE[self::session_name]))
+        if(isset($_COOKIE[self::session_name]))
         {
-            setcookie(self::session_name, false );
+            setcookie(self::session_name, false);
         }
 
         /**
          * Delete session from DB
          */
         $rows = Doctrine_Query::create()
-                                 ->delete('CsSession')
-                                 ->from('CsSession')
-                                 ->where('session_name = ? AND session_id = ?')
-                                 ->execute(array( self::session_name, $session_id ));
+                        ->delete('CsSession')
+                        ->from('CsSession')
+                        ->where('session_name = ? AND session_id = ?')
+                        ->execute(array(self::session_name, $session_id));
     }
 
      /**

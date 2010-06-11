@@ -180,7 +180,7 @@ class Clansuite_Datagrid_Base
 
     public static function getBaseURL()
     {
-       return self::$_baseURL;
+        return self::$_baseURL;
     }
 
     public function getName()
@@ -1902,20 +1902,20 @@ class Clansuite_Datagrid_Renderer
     {
         $htmlString = '';
         #Clansuite_Debug::firebug('Pagination: ' . self::getDatagrid()->getPagerLayout());
-        if( self::getDatagrid()->isEnabled('Pagination') )
+        if(self::getDatagrid()->isEnabled('Pagination'))
         {
-            $htmlString .= '<tr><td class="DatagridPagination DatagridPagination-'. self::getDatagrid()->getAlias() .'" colspan="'. self::getDatagrid()->getColumnCount() .'">';
+            $htmlString .= '<tr><td class="DatagridPagination DatagridPagination-' . self::getDatagrid()->getAlias() . '" colspan="' . self::getDatagrid()->getColumnCount() . '">';
             $htmlString .= '<div class="Pages"><span class="PagerDescription">' . _('Pages: ') . '</span>' . self::getDatagrid()->getPagerLayout() . '</div>';
 
-            if( $_ShowResultsPerPage )
+            if($_ShowResultsPerPage)
             {
                 $htmlString .= '<div class="ResultsPerPage">';
                 $htmlString .= '<select name="' . self::getDatagrid()->getInputParameterName('ResultsPerPage') . '" onchange="this.form.submit();">';
-                    $_ResultsPerPageItems = self::getResultsPerPageItems();
-                    foreach( $_ResultsPerPageItems as $ItemCount )
-                    {
-                        $htmlString .= '<option value="'.$ItemCount.'" ' . ((self::getCurrentResultsPerPage()==$ItemCount) ? 'selected="selected"' : '') . '>'.$ItemCount.'</option>';
-                    }
+                $_ResultsPerPageItems = self::getResultsPerPageItems();
+                foreach($_ResultsPerPageItems as $ItemCount)
+                {
+                    $htmlString .= '<option value="' . $ItemCount . '" ' . ((self::getCurrentResultsPerPage() == $ItemCount) ? 'selected="selected"' : '') . '>' . $ItemCount . '</option>';
+                }
                 $htmlString .= '</select>';
                 $htmlString .= '</div>';
             }

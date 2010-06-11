@@ -60,7 +60,7 @@ class Clansuite_Inputfilter
     public function modify($string='', $modificators='' )
     {
         $mods = array();
-        $mods = split('[|]' ,$modificators);
+        $mods = mb_split('[|]' ,$modificators);
 
         foreach ($mods as $key => $value)
         {

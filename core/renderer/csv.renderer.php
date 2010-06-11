@@ -133,7 +133,7 @@ class Clansuite_Renderer_CSV extends Clansuite_Renderer_Base
                         else
                         {
                             fwrite($fp, '"' . $first . '",');
-                            fputcsv($fp, split(',', $line));
+                            fputcsv($fp, mb_split(',', $line));
                             fseek($fp, -1, SEEK_CUR);
                             fwrite($fp, "\r\n");
                         }

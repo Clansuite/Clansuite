@@ -4,10 +4,7 @@
     * Jens-André Koch © 2005-2008
     * http://www.clansuite.com/
     *
-    * File:         mail.class.php
-    * Requires:     PHP 5.1.4+
-    *
-    * Purpose:      Clansuite Core Class for Mail Handling (Wrapper for SwiftMailer)
+    * This file is part of "Clansuite - just an eSports CMS".
     *
     * LICENSE:
     *
@@ -27,9 +24,8 @@
     *
     * @license    GNU/GPL v2 or (at your option) any later version, see "/doc/LICENSE".
     *
-    * @author     Jens-André Koch   <vain@clansuite.com>
-    * @author     Florian Wolf      <xsign.dll@clansuite.com>
-    * @copyright  Jens-André Koch (2005-$LastChangedDate$), Florian Wolf (2006-2007)
+    * @author     Jens-André Koch <vain@clansuite.com>
+    * @copyright  Jens-André Koch (2005 - onwards)
     *
     * @link       http://www.clansuite.com
     * @link       http://gna.org/projects/clansuite
@@ -44,13 +40,16 @@ if(defined('IN_CS') == false)
 }
 
 /**
- * Clansuite_Mailer - Clansuite Core Class for Mail Handling with SwiftMailer
+ * Clansuite_Mailer
+ *
+ * Clansuite Core Class for Mail Handling with SwiftMailer
  *
  * This is a simple wrapper for SwiftMailer.
  * @link http://swiftmailer.org/
  *
  * @author     Jens-André Koch  <vain@clansuite.com>
- * @copyright  Jens-André Koch  (2005-onwards)
+ * @author     Florian Wolf     <xsign.dll@clansuite.com>
+ * @copyright  Jens-André Koch  (2005-onwards), Florian Wolf (2006-2007)
  *
  * @category    Clansuite
  * @package     Core
@@ -62,7 +61,7 @@ class Clansuite_Mailer
     private $config = null;
 
     /**
-     * CONSTRUCTOR
+     * Constructor.
      */
     function __construct( Clansuite_Config $config )
     {
@@ -75,26 +74,22 @@ class Clansuite_Mailer
      */
     private function loadMailer()
     {
-        /**
-         *  Include the Swiftmailer Class
-         */
-
+        # Include the Swiftmailer Class
         include ROOT_LIBRARIES . '/swiftmailer/Swift.php';
 
         /**
          * Include the Swiftmailer Connection Class and Set $connection
          */
-
-        if ($this->config['email']['mailmethod'] != 'smtp')
+        if($this->config['email']['mailmethod'] != 'smtp')
         {
             include ROOT_LIBRARIES . '/swiftmailer/Swift/Connection/Sendmail.php';
         }
 
-        switch ($this->config['email']['mailmethod'])
+        switch($this->config['email']['mailmethod'])
         {
             case 'smtp':
                 include ROOT_LIBRARIES . '/swiftmailer/Swift/Connection/SMTP.php';
-                $connection = new Swift_Connection_SMTP( $this->config['email']['mailerhost'], $this->config['email']['mailerport'], $this->config['email']['mailencryption'] );
+                $connection = new Swift_Connection_SMTP($this->config['email']['mailerhost'], $this->config['email']['mailerport'], $this->config['email']['mailencryption']);
                 break;
 
             case 'sendmail':
@@ -117,9 +112,7 @@ class Clansuite_Mailer
                 $connection = new Swift_Connection_Sendmail;
         }
 
-        /**
-         * This globalizes $this->mailer and initialize the class
-         */
+        #  This globalizes $this->mailer and initialize the class
         $this->mailer = new Swift($connection, $this->config['email']['mailerhost']);
     }
 
@@ -135,7 +128,7 @@ class Clansuite_Mailer
      */
     public function sendmail($to_address, $from_address, $subject, $body)
     {
-        if ($this->mailer->isConnected())
+        if($this->mailer->isConnected())
         {
             # sends a simple email via the instantiated mailer
             $this->mailer->send($to_address, $from_address, $subject, $body);
@@ -148,8 +141,8 @@ class Clansuite_Mailer
         else
         {
             trigger_error('The mailer failed to connect.
-                           Errors: <br/>' .'<pre>' . print_r($this->mailer->errors, 1) . '</pre>' . '
-                           Log: <pre>' . print_r($this->mailer->transactions, 1) .'</pre>' );
+                           Errors: <br/>' . '<pre>' . print_r($this->mailer->errors, 1) . '</pre>' . '
+                           Log: <pre>' . print_r($this->mailer->transactions, 1) . '</pre>', E_USER_NOTICE);
             return false;
         }
     }
