@@ -61,7 +61,7 @@ class Clansuite_Filter_StartupChecks implements Clansuite_Filter_Interface
             {
                 throw new Clansuite_Exception('Smarty Template Directories not existant.', 9);
             }
-            # else # Log-Entry: "Created Directories Cache/Templates_C."
+            # @todo else # Log-Entry: "Created Directories Cache/Templates_C."
         }
 
         # Check if Smarty Output Dirs do EXIST
@@ -72,11 +72,7 @@ class Clansuite_Filter_StartupChecks implements Clansuite_Filter_Interface
             {
                 throw new Clansuite_Exception('Smarty Template Directories not existant.', 9);
             }
-            else # Log-Entry: "Created Directory Cache/Cache."
-
-            {
-
-            }
+            # @todo else Log-Entry: "Created Directory Cache/Cache."
         }
 
         # Check if Smarty Output Dirs are WRITEABLE
@@ -87,7 +83,7 @@ class Clansuite_Filter_StartupChecks implements Clansuite_Filter_Interface
             {
                 throw new Clansuite_Exception('Smarty Template Directories not writable.', 10);
             }
-            # else # Log-Entry: "CHMOD 0755 applied on /cache and /templates_c."
+            # @todo else # Log-Entry: "CHMOD 0755 applied on /cache and /templates_c."
         }
     }
 }

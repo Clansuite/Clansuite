@@ -57,28 +57,12 @@ require dirname(__FILE__) . '/renderer.base.php';
  * 1) The method renderByHeader() wraps the json directly in the header.
  * 2) The method render() returns the json data for later rendering (as body).
  *
- * @author     Jens-Andr� Koch <vain@clansuite.com>
- * @copyright  Jens-Andr� Koch (2005-onwards)
- *
  * @category    Clansuite
  * @package     Core
  * @subpackage  View
  */
 class Clansuite_Renderer_Json extends Clansuite_Renderer_Base
 {
-    /**
-     * RenderEngineConstructor
-     *
-     * parent::__construct does the following:
-     * 1) Apply instances of Dependency Injector Phemto and Clansuite_Config to the RenderBase
-     * 2) Initialize the RenderEngine via parent class constructor call = self::initializeEngine()
-     * 3) Configure the RenderEngine with it's specific settings = self::configureEngine();
-     */
-    public function __construct(Clansuite_Config $config, Clansuite_HttpResponse $response)
-    {
-        parent::__construct($config, $response);
-    }
-
     public function initializeEngine()
     {
     }

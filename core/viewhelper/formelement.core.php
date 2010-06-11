@@ -148,7 +148,7 @@ class Clansuite_Formelement /* extends Clansuite_HTML */ implements Clansuite_Fo
      */
     public function getNameWithoutBrackets()
     {
-        $name = strrpos($this->name, '[');
+        $name = mb_strrpos($this->name, '[');
 
         if ($name === false)
         {

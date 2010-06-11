@@ -133,7 +133,7 @@ class Clansuite_File
      */
     public function getExtension()
     {
-        return mb_substr($this->name, strrpos($this->name, '.'));
+        return mb_substr($this->name, mb_strrpos($this->name, '.'));
     }
 
     /**
@@ -396,7 +396,7 @@ class Clansuite_Directory
 
         if(!isset($fileParts['filename']))
         {
-            $fileParts['filename'] = mb_substr($fileParts['basename'], 0, strrpos($fileParts['basename'], '.'));
+            $fileParts['filename'] = mb_substr($fileParts['basename'], 0, mb_strrpos($fileParts['basename'], '.'));
         }
 
         return $fileParts;
