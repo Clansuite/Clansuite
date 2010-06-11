@@ -37,35 +37,201 @@ if(defined('IN_CS') == false)
     die('Clansuite not loaded. Direct Access forbidden.');
 }
 
+/**
+ * Clansuite_ModuleInfoController
+ *
+ * Class for ModuleManagement
+ *
+ * @todo
+ * A. ModuleInfoScanner
+ * B. ModuleInfoReader
+ */
 class Clansuite_ModuleInfoController
 {
     /**
      * @var array contains the moduleinformations
      */
-    private $moduleinformations = false;
+    private static $modulesinfo = false;
 
-    public function __construct($modulename = null)
+    /**
+     * @var array contains the system-wide module registry
+     */
+    private static $modulesregistry  = false;
+
+    /**
+     * Checks if a modulename belongs to the core modules.
+     *
+     * @param string $modulename The modulename
+     * @return boolean True if modulename is a core module, false otherwise.
+     */
+    public static function isCoreModule($modulename)
     {
-        $this->config = new Clansuite_Config;
-
-        $this->loadModuleInformations($modulename);
+        static $core_modules = array( 'account', 'categories', 'controlcenter', 'doctrine', 'menu', 'modulemanager',
+                                       'users', 'settings', 'systeminfo', 'thememanager', 'templatemanager');
+        return in_array($modulename, $core_modules);
     }
 
-    public function getModuleInformations()
+    /**
+     * Get a list of all the module directories
+     *
+     * @return array
+     */
+    private static function getModuleDirectories()
     {
-        return $this->moduleinformations;
+        return glob( ROOT_MOD . '[a-zA-Z]*', GLOB_ONLYDIR);
     }
 
-    public function setModuleInformations($module_infos_array)
+    /**
+     * Gather Module Informations from Manifest Files
+     *
+     * @staticvar array $modules
+     * @staticvar array $modules_summary
+     * @param mixed array|string $module array with modulenames or one modulename
+     * @return moduleinformations
+     */
+    private static function scanModuleInformations($module = null)
     {
-        $this->moduleinformations = $module_infos_array;
+        # Init vars
+        $module_directories = array();
+        $number_of_modules = 0;
 
-        return $this;
+        if($module == null)
+        {
+            $module_directories = self::getModuleDirectories();
+        }
+        else
+        {
+            $module_directories = $module; # $module is either an array or an string
+        }
+
+        foreach( $module_directories as $modulepath )
+        {
+            # get the modulename, so strip the path info
+            $modulename = str_replace( ROOT_MOD, '', $modulepath);
+
+            # create array with pieces of information about a module
+            self::$modulesinfo[$modulename]['name']   = $modulename;
+            self::$modulesinfo[$modulename]['id']     = $number_of_modules;
+            self::$modulesinfo[$modulename]['path']   = $modulepath;
+            self::$modulesinfo[$modulename]['core']   = self::isCoreModule($modulename);
+            # active - based on /configuration/modules.config.php
+            self::$modulesinfo[$modulename]['active'] = self::isActive($modulename);
+            # hasMenu / ModuleNavigation
+            self::$modulesinfo[$modulename]['menu']   = is_file($modulepath . DS . $modulename .'.menu.php');
+
+            # hasInfo
+            if(is_file($modulepath . DS . $modulename.'.info.php') === true)
+            {
+                self::$modulesinfo[$modulename]['info'] = Clansuite_CMS::getInjector()->instantiate('Clansuite_Config')
+                                                          ->readConfig( $modulepath . DS . $modulename.'.info.php' );
+            }
+            else # if the info file for a module does not exists yet, create it
+            {
+                Clansuite_CMS::getInjector()->instantiate('Clansuite_Config')
+                ->writeConfig( $modulepath . DS . $modulename.'.info.php' );
+            }
+
+            # hasRoutes
+
+            # hasConfig
+            $config = self::loadModuleInformations($modulename);
+            if(isset($config[$modulename]))
+            {
+                self::$modulesinfo[$modulename]['config'] = $config[$modulename];
+            }
+            /*else
+            {
+                $modules[$modulename]['config'] = $config;
+            }*/
+
+            # take some stats: increase the module counter
+            self::$modulesinfo['yy_summary']['counter'] = ++$number_of_modules;
+        }
+        ksort(self::$modulesinfo);
+        #Clansuite_Debug::printR(self::$modulesinfos);
+        return self::$modulesinfo;
     }
 
-    public function loadModuleInformations($modulename = null)
+    public static function getModuleInformations($module = null)
     {
-        $this->setModuleInformations( $this->config->readConfigForModule($modulename) );
+         # check if the infos of this specific module were catched before
+        if($module === false and isset(self::$modulesinfo[$module]) === null)
+        {
+            Clansuite_Debug::printR(self::$modulesinfo);
+            return self::$modulesinfo[$module];
+        }
+        # fetch infos for all modules
+        elseif(empty(self::$modulesinfo) and $module === null)
+        {
+            #Clansuite_Debug::printR(self::$modulesinfos);
+            return self::scanModuleInformations();
+        }
+        # fetch infos for the requested $module
+        else
+        {
+            return self::scanModuleInformations($module);
+        }
+    }
+
+    public static function setModuleInformations($module_infos_array)
+    {
+        self::$modulesinfo = $module_infos_array;
+    }
+
+    public static function loadModuleInformations($modulename)
+    {
+        return Clansuite_CMS::getInjector()->instantiate('Clansuite_Config')->readConfigForModule($modulename);
+    }
+
+    /**
+     * Check if a module is active or deactived.
+     *
+     * @param boolean $module True if module activated, false otherwise.
+     */
+    public static function isActive($module)
+    {
+        if(empty(self::$modulesregistry[$module]))
+        {
+            self::$modulesregistry = self::readModuleRegistry();
+        }
+
+        if(isset(self::$modulesregistry[$module]['active']) and self::$modulesregistry[$module]['active'] == true)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    /**
+     * Reads the CMS Module Registry
+     * This is the right method if you want to know if
+     * a module is installed and active or deactivated.
+     *
+     * @return array Module Registry Array
+     */
+    public static function readModuleRegistry()
+    {
+        return Clansuite_CMS::getInjector()->instantiate('Clansuite_Config')
+                ->readConfig( ROOT . 'configuration' . DS . 'modules.config.php' );
+    }
+
+    /**
+     * Writes the Module Registry
+     *
+     * @param array $array The Module Registry Array to write.
+     */
+    public static function writeModuleRegistry($array)
+    {
+
+    }
+
+    public function createModuleInfoFile($modulename)
+    {
+        return Clansuite_CMS::getInjector()->instantiate('Clansuite_Config')
+                ->writeConfig( ROOT . 'configuration' . DS . 'modules.config.php' );
     }
 }
 ?>

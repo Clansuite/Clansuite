@@ -54,7 +54,7 @@ function smarty_function_icon($params, $smarty)
     if(isset($src) and empty($src) == false)
     {
         $needle = 'http://'.$_SERVER['SERVER_NAME'].DS;
-        $pos = strpos($src, $needle);
+        $pos = mb_strpos($src, $needle);
         if(isset($src) and is_int($pos))
         {
             #clansuite_xdebug::printR($pos);

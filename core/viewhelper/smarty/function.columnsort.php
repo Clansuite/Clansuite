@@ -141,7 +141,7 @@ function smarty_function_columnsort($params, $smarty)
         $selected = false;
     }
 
-    $columnsort['target_page'] .= (strpos($columnsort['target_page'], '?') !== false ? '&' : '?');
+    $columnsort['target_page'] .= (mb_strpos($columnsort['target_page'], '?') !== false ? '&' : '?');
 
     $url = $columnsort['target_page'] . $columnsort['column_var'] . "=$id&" . $columnsort['sort_var'] . "=$sort_order";
 

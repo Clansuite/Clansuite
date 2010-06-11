@@ -363,13 +363,13 @@ class Clansuite_Exception extends Exception implements Clansuite_Exception_Inter
 
         $placeholders = array();
         # assign placeholders for replacements in the html
-        if(strpos(self::getMessage(), 'action_'))
+        if(mb_strpos(self::getMessage(), 'action_'))
         {
-            $placeholders['actionname']  = mb_substr($this->message,strpos($this->message,'action_'));
+            $placeholders['actionname']  = mb_substr($this->message,mb_strpos($this->message,'action_'));
         }
-        elseif(strpos(self::getMessage(), 'module_'))
+        elseif(mb_strpos(self::getMessage(), 'module_'))
         {
-            $placeholders['classname']  = mb_substr($this->message,strpos($this->message,'module_'));
+            $placeholders['classname']  = mb_substr($this->message,mb_strpos($this->message,'module_'));
         }
 
         if(empty($_GET['mod']) == false)

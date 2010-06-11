@@ -227,7 +227,7 @@ class Clansuite_Functions
      * result = abc
      *
      * In PHP6
-     * abc = $string = strstr('abc_def', '_def');
+     * abc = $string = mb_strstr('abc_def', '_def');
      *
      * @param $haystack string
      * @param $needle string
@@ -237,7 +237,7 @@ class Clansuite_Functions
     {
         $needle_length = mb_strlen($needle);
 
-        if(($i = strpos($haystack, $needle) !== false))
+        if(($i = mb_strpos($haystack, $needle) !== false))
         {
             return mb_substr($haystack, 0, -$needle_length);
         }
@@ -295,7 +295,7 @@ class Clansuite_Functions
 
         for($i = 1; $i<=$times; $i++)
         {
-            $pos = strpos($needle, $haystack, $pos);
+            $pos = mb_strpos($needle, $haystack, $pos);
 
             if($pos !== false)
             {
@@ -730,7 +730,7 @@ class Clansuite_Functions
 
                     if(is_file($target_path) === false or $overwrite)
                     {
-                        if(array(strstr($target_path, '.') == true))
+                        if(array(mb_strstr($target_path, '.') == true))
                         {
                             $folder_path = dirname($target_path);
                         }
@@ -850,10 +850,10 @@ class Clansuite_Functions
     public static function UTF8_to_HTML($utf8, $encodeTags = false)
     {
         # check if this function was aleady loaded
-        if ( isset(self::$already_loaded[__FUNCTION__]) === false)
+        if(isset(self::$already_loaded[__FUNCTION__]) === false)
         {
             # if not, load function
-            require ROOT_CORE .'functions'.DS.mb_strtolower(__FUNCTION__).'.function.php';
+            require ROOT_CORE . 'functions' . DS . mb_strtolower(__FUNCTION__) . '.function.php';
 
             # function loaded successfully
             self::$already_loaded[__FUNCTION__] = true;

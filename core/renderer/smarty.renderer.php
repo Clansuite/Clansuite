@@ -579,7 +579,7 @@ class Clansuite_Renderer_Smarty extends Clansuite_Renderer_Base
 
         foreach($renderChecksArray as $preRenderCheck)
         {
-            if(false != strpos($filecontent, $preRenderCheck['needle']))
+            if(false != mb_strpos($filecontent, $preRenderCheck['needle']))
             {
                 return true;
             }

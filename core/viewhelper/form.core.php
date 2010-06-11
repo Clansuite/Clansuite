@@ -210,22 +210,22 @@ class Clansuite_Form /*extends Clansuite_HTML*/ implements Clansuite_Form_Interf
      */
     public function __construct($name_or_attributes, $method = null, $action = null)
     {
-         # case 1: $name is a string, the name of the form
-         if(is_string($name_or_attributes))
-         {
+        # case 1: $name is a string, the name of the form
+        if(is_string($name_or_attributes))
+        {
             $this->setName($name_or_attributes);
-         }
-         # case 2: $name is an array with several attribute => value relationships
-         elseif(is_array($name_or_attributes))
-         {
+        }
+        # case 2: $name is an array with several attribute => value relationships
+        elseif(is_array($name_or_attributes))
+        {
             $this->setAttributes($name_or_attributes);
-         }
+        }
 
-         if($method != null and $action != null)
-         {
+        if($method != null and $action != null)
+        {
             $this->setMethod($method);
             $this->setAction($action);
-         }
+        }
     }
 
     /**
