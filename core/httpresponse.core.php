@@ -294,7 +294,7 @@ class Clansuite_HttpResponse implements Clansuite_Response_Interface
             }
 
             # Remove port information.
-            $port = strpos($domain, ':');
+            $port = mb_strpos($domain, ':');
 
             if ( $port !== false )
             {
@@ -396,7 +396,7 @@ class Clansuite_HttpResponse implements Clansuite_Response_Interface
                     self::addHeader('LOCATION', $url);
                     break;
                 case 'REFRESH':
-                    header("Refresh: 0; URL=\"$url\"");
+                    header('Refresh: 0; URL="'.$url.'"');
                     break;
                 case 'JS':
                     $redirect_html = '<script type="text/javascript">window.location.href='.$url.';</script>';

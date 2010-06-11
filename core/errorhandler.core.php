@@ -160,7 +160,7 @@ class Clansuite_Errorhandler
             # SMARTY ERRORS are thrown by trigger_error() - so they bubble up as E_USER_ERROR
             # so in order to handle smarty errors with a seperated error display
             # we need to detect, if an E_USER_ERROR is incoming from SMARTY or from a template_c file (extension tpl.php)
-            if( (strpos(mb_strtolower($errorfile),'smarty') == true) or (strpos(mb_strtolower($errorfile),'tpl.php') == true) )
+            if( (mb_strpos(mb_strtolower($errorfile),'smarty') == true) or (mb_strpos(mb_strtolower($errorfile),'tpl.php') == true) )
             {
                 # ok it's an Smarty Template Error - show the error via smarty_error_display inside the template
                 echo $this->smarty_error_display( $errornumber, $errorname, $errorstring, $errorfile, $errorline, $errorcontext );
@@ -226,7 +226,7 @@ class Clansuite_Errorhandler
     {
         # display the link to the templateeditor, if we are in DEVELOPMENT MODE
         # and more essential if the error relates to a template file
-        if(defined('DEVELOPMENT') and DEVELOPMENT === 1 and (strpos(mb_strtolower($errorfile),'.tpl') == true))
+        if(defined('DEVELOPMENT') and DEVELOPMENT === 1 and (mb_strpos(mb_strtolower($errorfile),'.tpl') == true))
         {
             # ok, it's a template, so we have a template context to determine the templatename
             $tpl_vars = $errorcontext['this']->getTemplateVars();
@@ -291,7 +291,7 @@ class Clansuite_Errorhandler
     {
         if(mb_strlen($errorstring) > 60)
         {
-            $trimed_errorstring = mb_substr($errorstring,0,strpos($errorstring,' ',60));
+            $trimed_errorstring = mb_substr($errorstring,0,mb_strpos($errorstring,' ',60));
         }
         else
         {
@@ -513,7 +513,7 @@ class Clansuite_Errorhandler
                 $args .= '<span>object</span> ('.get_class($backtraceArgument).')';
                 break;
             case 'resource':
-                $args .= '<span>resource</span> ('.strstr($backtraceArgument, '#').' - '. get_resource_type($backtraceArgument) .')';
+                $args .= '<span>resource</span> ('.mb_strstr($backtraceArgument, '#').' - '. get_resource_type($backtraceArgument) .')';
                 break;
             case 'NULL':
                 $args .= '<span>null</span> ';

@@ -121,7 +121,7 @@ class Clansuite_Debug
         {
             $print_r = print_r($var, true);
             # str_contains < or >
-            if ((strstr($print_r, '<') !== false) or (strstr($print_r, '>') !== false))
+            if ((mb_strstr($print_r, '<') !== false) or (mb_strstr($print_r, '>') !== false))
             {
                 $print_r = htmlspecialchars($print_r);
             }

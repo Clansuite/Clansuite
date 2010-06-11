@@ -163,7 +163,7 @@ class Clansuite_Security
         }
         else
         {
-            $hash_algo = strtolower($hash_algo);
+            $hash_algo = mb_strtolower($hash_algo);
         }
 
         /**
@@ -222,7 +222,7 @@ class Clansuite_Security
             # get a random char of $chars
             $char_to_add = $chars[mt_rand(0,$number_of_random_chars)];
             # ensure that a random_char is not used twice in the salt
-            if(!strstr($salt, $char_to_add))
+            if(!mb_strstr($salt, $char_to_add))
             {
                 # finally => add char to salt
                 $salt .= $char_to_add;

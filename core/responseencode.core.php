@@ -203,21 +203,21 @@ class Clansuite_ResponseEncode
      */
     public static function gzip_encode()
     {
-        if (headers_sent())
+        if(headers_sent())
         {
             return;
         }
 
-        if (connection_status() !== 0)
+        if(connection_status() !== 0)
         {
             return;
         }
 
         $encoding = self::gzip_accepted();
 
-        if ($encoding == false)
+        if($encoding == false)
         {
-             return;
+            return;
         }
 
         $level = self::$compression_level;
@@ -225,7 +225,7 @@ class Clansuite_ResponseEncode
         $content = ob_get_contents();
 
         # if no content is given, exit
-        if ($content === false)
+        if($content === false)
         {
             return;
         }
@@ -234,7 +234,7 @@ class Clansuite_ResponseEncode
         $original_content_size = mb_strlen($content);
 
         # if size of content is small, do not waste resources in compressing very little data, exit
-        if ($original_content_size < 2048)
+        if($original_content_size < 2048)
         {
             return;
         }
@@ -242,12 +242,12 @@ class Clansuite_ResponseEncode
         /**
          * The Content Compression
          */
-        switch ($encoding)
+        switch($encoding)
         {
             default:
             case 'compress':
             case 'gzip':
-            # gzip header
+                # gzip header
                 $gzdata = '\x1f\x8b\x08\x00\x00\x00\x00\x00';
 
                 # compress
@@ -288,12 +288,11 @@ class Clansuite_ResponseEncode
          * One time to determine the compressed_content_size and a second time for the compression of the content (gzdata).
          * This gets rid of the double gzcompression usage. The compression info message is now passed via header to the client.
          */
-
         # calculate compression ratio
-        $compression_ratio = round((100/$original_content_size) * $compressed_content_size);
+        $compression_ratio = round((100 / $original_content_size) * $compressed_content_size);
 
         # construct Content Compression Info Comment
-        $msg = 'Compression Level '.$level.'. Ratio '.$compression_ratio.'%. Original size was '.$original_content_size.' bytes. New size is '.$compressed_content_size.' bytes.';
+        $msg = 'Compression Level ' . $level . '. Ratio ' . $compression_ratio . '%. Original size was ' . $original_content_size . ' bytes. New size is ' . $compressed_content_size . ' bytes.';
 
         # set compression-info header
         header('X-Content-Compression-Info: ' . $msg);
@@ -318,20 +317,20 @@ class Clansuite_ResponseEncode
         $http_accept_encoding = $_SERVER['HTTP_ACCEPT_ENCODING'];
 
         # check Accept-Encoding for x-gzip
-        if (strpos($http_accept_encoding, 'x-gzip') !== false)
+        if (mb_strpos($http_accept_encoding, 'x-gzip') !== false)
         {
             $encoding = 'x-gzip';
         }
 
         # check Accept-Encoding for gzip
-        if (strpos($http_accept_encoding, 'gzip') !== false)
+        if (mb_strpos($http_accept_encoding, 'gzip') !== false)
         {
             $encoding = 'gzip';
         }
 
         # Perform a "qvalue" check. The Accept-Encoding "gzip;q=0" means that gzip is NOT accepted.
         # preg_matches only, if first condition is true.
-        if( (strpos($http_accept_encoding, 'gzip;q=') !== false)
+        if( (mb_strpos($http_accept_encoding, 'gzip;q=') !== false)
             and
             (preg_match('/(^|,\s*)(x-)?gzip(;q=(\d(\.\d+)?))?(,|$)/i', $http_accept_encoding, $match) and ($match[4] === '' or $match[4] > 0))
           )

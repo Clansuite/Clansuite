@@ -26,19 +26,19 @@
 
 function smarty_function_ajax_call($params, $smarty)
 {
-  $function = isset($params['function']) ? $params['function'] : '';
-  $url = isset($params['url']) ? $params['url'] : $_SERVER['PHP_SELF'];
-  $method = isset($params['method']) ? $params['method'] : 'get';
-  $parameters = isset($params['params']) ? $params['params'] : '';
-  $callback = isset($params['callback']) ? $params['callback'] : 'undefined';
-  $params_func = isset($params['params_func']) ? $params['params_func'] : 'undefined';
+    $function = isset($params['function']) ? $params['function'] : '';
+    $url = isset($params['url']) ? $params['url'] : $_SERVER['PHP_SELF'];
+    $method = isset($params['method']) ? $params['method'] : 'get';
+    $parameters = isset($params['params']) ? $params['params'] : '';
+    $callback = isset($params['callback']) ? $params['callback'] : 'undefined';
+    $params_func = isset($params['params_func']) ? $params['params_func'] : 'undefined';
 
-  if ($parameters !== '') $parameters .= '&';
-  $parameters .= 'f=' . $function;
+    if($parameters !== '')
+        $parameters .= '&';
+    $parameters .= 'f=' . $function;
 
-  return 'SmartyAjax.call(\'' . $url . '\', \'' . $method .
+    return 'SmartyAjax.call(\'' . $url . '\', \'' . $method .
     '\', \'' . $parameters . '\', ' . $callback . ', ' .
     $params_func . '); return false;';
 }
-
 ?>
