@@ -40,284 +40,169 @@ if(defined('IN_CS') == false)
 }
 
 /**
- * Clansuite_Route
+ * Clansuite_Router
  *
- * Purpose:
- * Clansuite_Route does URL Formating and internal Rewriting.
- * It's a wrapper around PEAR Net_URL_Mapper.
- *
+ * Clansuite_Router does URL Formatting and internal Rewriting.
  * The URL is segmented and restructured to fit the internal route to a controller.
  * The internal routes are described in a central routing configuration file.
  * This central config is updated on installation and deinstallation of modules and plugins.
- * On Installation new routes are added via the method add_url_route().
- * On Deinstallation the routes are removed via method del_url_route().
+ * @see Clansuite_Routes_Manager
+ *
+ * Normally all requests made map to a specific physical resource rather than a logical name.
+ * With Routing you are able to map a logical name to a specific physical name.
+ * Example: map a logical URL (a mod_rewritten one) to a Controller/Method/Parameter
+ * Map a FileRequest via logical URL (a mod_rewritten one) to a DownloadController/Method/Parameter
  *
  * There are two different URL Formatings allowed:
  * 1. Slashes as Segment Dividers-Style, like so: /mod/sub/action/id
  * 2. Fake HTML File Request or SMF-Style, like so: /mod.sub.action.id.html
  *
+ * SPL Iterator and ArrayAccess are used for fast iteration and easier access to the stored routes.
+ *
  * @category    Clansuite
  * @package     Core
  * @subpackage  Router
  */
+class Clansuite_Router implements Iterator, ArrayAccess, Clansuite_Router_Interface
+{
+    public function addRoute($name, array $route)
+    {
 
-class Clansuite_Router
+    }
+
+    public function addRoutes(array $routes)
+    {
+
+    }
+
+    public function getRoutes()
+    {
+
+    }
+
+    public function delRoute($name)
+    {
+
+    }
+
+    public function generateURL($action, $args = null, $params = null, $fragment = null)
+    {
+
+    }
+
+    public function route()
+    {
+
+    }
+
+    /**
+     * Implementation of SPL Iterator
+     */
+
+    /**
+     * Rewind is ONLY called at the start of the Iteration.
+     * Sets the iterator to the first element on the $routes array.
+     */
+    public function rewind()
+    {
+        return reset($this->routes);
+    }
+
+    /**
+     * Ensures a valid element exists after a call to rewind() and next().
+     */
+    public function valid()
+    {
+
+    }
+
+    /**
+     * @return array Returns the next array element of $routes.
+     */
+    public function next()
+    {
+        return next($this->routes);
+    }
+
+    /**
+     * @return array Returns the current array element value of $routes.
+     */
+    public function current()
+    {
+        return current($this->routes);
+    }
+
+    /**
+     * @return array Returns the key of the current element of $routes..
+     */
+    public function key()
+    {
+        return key($this->routes);
+    }
+
+    /**
+     * Implementation of SPL ArrayAccess
+     */
+
+    /**
+     * Instead of working with $router->addRoute(name,map);
+     * you may now access the routing table as an array $router[$route] = $map;
+     */
+    final public function offsetSet($route, $target)
+    {
+        $this->addRoute($route, $target);
+    }
+
+    final public function offsetGet($name)
+    {
+        if(array_key_exists($name, $this->routes) === true)
+        {
+            return $this->routes[$name];
+        }
+        else
+        {
+            return NULL;
+        }
+    }
+
+    final public function offsetExists($name)
+    {
+        return array_key_exists($name, $this->routes);
+    }
+
+    final public function offsetUnset($name)
+    {
+        unset($this->routes[$name]);
+    }
+}
+
+/**
+ * Interface for Clansuite_Router(s)
+ *
+ * A router has to implement the following methods to resolve the Request to a Module and the Action/Command.
+ *
+ * @category    Clansuite
+ * @package     Core
+ * @subpackage  Router
+ */
+interface Clansuite_Router_Interface
 {
     /**
-     * Objects
+     * Getter and Setter for $routes
      */
+    function addRoute($name, array $route);
+    function addRoutes(array $routes);
+    function getRoutes();
+    function delRoute($name);
 
     /**
-     * @var object Clansuite_Router is a singleton instance.
+     * CALL/MAP -> URL
      */
-    private static $instance = null;
+    function generateURL($action, $args = null, $params = null, $fragment = null);
 
     /**
-     * @var object Instance of Net_URL_Mapper
+     * URI -> MAP MATCHING -> CALL
      */
-    private static $router = null;
-
-    /**
-     * @var object Clansuite_HttpRequest
-     */
-    private $request;
-
-    /**
-     * @var object Clansuite_Configuration
-     */
-    private $config;
-
-    /**
-     * Route(s)
-     */
-
-    /**
-     * @var string The current route.
-     */
-    private $route;
-
-    /**
-     * @var array The general routing table.
-     */
-    private $routes;
-
-    /**
-     * URI Segments
-     */
-    private $module;
-    private $sub;
-    private $action;
-    private $id;
-
-    /**
-     * @var string The base URL
-     */
-    private static $baseURL = 'index.php/';
-
-    /**
-     * Returns an instance of Clansuite_Router (singleton).
-     *
-     * @return an instance of the Clansuite_Router
-     */
-    public static function getInstance()
-    {
-        if (self::$instance == 0)
-        {
-            self::$instance = new Clansuite_Router();
-        }
-        return self::$instance;
-    }
-
-    /**
-     * Constructor of Clansuite_Router
-     *
-     * @param Clansuite_HttpRequest $request
-     * @param Clansuite_Config $config
-     */
-    public function __construct(Clansuite_HttpRequest $request, Clansuite_Config $config)
-    {
-        $this->request = $request;
-        $this->config  = $config;
-
-        # load Pear Net_URL_Mapper
-        if(class_exists('Net_URL_Mapper', false))
-        {
-            require '/Net/URL/Mapper.php';
-        }
-
-        # and attach a named instance to this object
-        if ($this->router == false)
-        {
-            $this->router = Net_URL_Mapper::getInstance('Clansuite_Default_Router');
-        }
-    }
-
-    public function initializeRoutes()
-    {
-        # load Routes Table from routes.config.php
-        # $this->routes = $this->loadRoutesFromConfig();
-
-        # set index.php as base scriptname for the routing
-        $this->router->setScriptname('index.php');
-
-        # Fire event "onInitializeRoutes" with this object as context, to attach more routes via an event
-        Clansuite_CMS::triggerEvent('onInitializeRoutes', self::getInstance());
-
-        return $this->routes;
-    }
-
-
-
-    static function loadModuleRoutes($modulename)
-    {
-        return  $routes = ROOT_MOD . '/'.$modulename.'/$modulename.routes.php';
-    }
-
-    public function loadRoutesFromConfig($routes_config_file = null)
-    {
-        $routes = array();
-
-        if($routes_cfg_file == null)
-        {
-            # load common routes configuration
-            $routes = include ROOT . 'configuration/routes.config.php';
-        }
-        else
-        {
-            # load specific event config file
-            $routes = include ROOT . $routes_config_file;
-        }
-
-        # register routing for all activated modules
-        foreach (self::$modules as $module)
-        {
-            $this->router->connect('index.php?module=' . $module, array('module' => $module));
-        }
-
-        return $routes;
-    }
-
-    /**
-     * match()
-     *
-     * @param $path A path like "/news/id/77"
-     * @return $match Returns the route found for the given path, like "?mod=news&action=action_show&id=77"
-     */
-    public function match($path)
-    {
-        try
-        {
-            $match = $this->routes->match($path);
-        }
-        catch (Net_URL_Mapper_InvalidException $e)
-        {
-            # The Route is wrong anyhow...
-            Clansuite_Logger( "The route for $path is wrong :" . $e->getMessage());
-
-            # @todo hmm? redirect 404 or default module
-        }
-
-        return $match;
-    }
-
-    /**
-     * Wrapper for Net_Url_Mapper->generate()
-     *
-     * @param $action
-     * @param $args
-     * @param $fragment
-     * @return $url
-     */
-    public function generate($action, $args = null, $params = null, $fragment = null)
-    {
-        $action_arg = array( 'action' => $action );
-
-        if ($args)
-        {
-            $args = array_merge($action_arg, $args);
-        }
-        else
-        {
-            $args = $action_arg;
-        }
-
-        $url = $this->routes->generate($args, $params, $fragment);
-
-
-        return $url;
-    }
-
-    /**
-     * Returns the current Route
-     *
-     * @return
-     */
-    public function getRoute()
-    {
-        return $this->route;
-    }
-
-    /**
-     * Adds and retruns an url-string segment (&x=y) to the baseurl
-     * If Package pecl_http is present it is used.
-     *
-     * @param string $appendString the URL parameter string to append to the url
-     * @param string $url the url to append to
-     * @example
-     *   $sUrl = $this->addQueryToUrl("par1=value1&par2=value2...");
-     */
-    public static function addQueryToUrl($appendString, $url = null)
-    {
-        #Clansuite_Xdebug::firebug( http_build_url(self::$baseURL, array( "query"  => $appendString  ), HTTP_URL_JOIN_QUERY ) );
-        if (extension_loaded('http'))
-        {
-            # add additional query parameter to the url
-            return http_build_url(self::$baseURL, array( "query"  => $appendString  ), HTTP_URL_JOIN_QUERY );
-        }
-        else
-        {
-            if(is_null($url))
-            {
-                $url = self::$baseURL;
-            }
-
-            if( (is_int(strpos($url, "?"))) )
-            {
-                $url = $url . "&" . $appendString;
-            }
-            else
-            {
-                $url = $url . "?" . $appendString;
-            }
-
-            return $url;
-        }
-    }
-
-    /**
-     * Add an path-string segment to the baseurl or exchange the path
-     * Note: If Package pecl_http is present it is used.
-     *
-     * @param string $path The path to append to an existing path or the new path.
-     * @param boolean $exchange If exchange is true, the path is exchanged. Otherwise the path is appended.
-     */
-    public static function addPathToUrl($path, $exchange)
-    {
-        if (extension_loaded('http'))
-        {
-            if($exchange === true)
-            {
-                return http_build_url(self::$baseURL, array( "path"  => $path  ));
-            }
-            else # append path
-            {
-                return http_build_url(self::$baseURL, array( "path"  => $path ), HTTP_URL_JOIN_PATH );
-            }
-        }
-        else
-        {
-            # @todo
-        }
-    }
+    function route();
 }
 ?>
