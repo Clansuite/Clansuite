@@ -214,8 +214,8 @@ abstract class Clansuite_Renderer_Base
     public function getThemeTemplatePath($template)
     {
         # get module and submodule names
-        $module    = Clansuite_Module_Controller_Resolver::getModuleName();
-        $submodule = Clansuite_Module_Controller_Resolver::getSubModuleName();
+        $module    = Clansuite_Dispatcher::getModuleName();
+        $submodule = Clansuite_Dispatcher::getSubModuleName();
 
         # 1. because controlcenter or admin is requested, it has to be a BACKEND theme
         if($module == 'controlcenter' or $submodule == 'admin')
@@ -264,7 +264,7 @@ abstract class Clansuite_Renderer_Base
     public function getModuleTemplatePath($template)
     {
         # fetch modulename for template path construction
-        $module = Clansuite_Module_Controller_Resolver::getModuleName();
+        $module = Clansuite_Dispatcher::getModuleName();
 
         # compose two templates paths in the module dir
         $paths = array(
@@ -306,7 +306,7 @@ abstract class Clansuite_Renderer_Base
          */
         $template_constants['www_root']             = WWW_ROOT;
         $template_constants['www_root_upload']      = WWW_ROOT .'/'. $this->config['paths']['upload_folder'];
-        $template_constants['www_root_mod']         = WWW_ROOT .'/modules/' . Clansuite_Module_Controller_Resolver::getModuleName();
+        $template_constants['www_root_mod']         = WWW_ROOT .'/modules/' . Clansuite_Dispatcher::getModuleName();
         $template_constants['www_root_theme']       = WWW_ROOT_THEMES .'/'. $_SESSION['user']['theme'];
         $template_constants['www_root_themes']      = WWW_ROOT_THEMES;
         $template_constants['www_root_themes_core'] = WWW_ROOT_THEMES_CORE;
