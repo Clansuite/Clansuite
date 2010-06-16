@@ -77,7 +77,7 @@ class Clansuite_Loader
     public function __construct()
     {
         # reset autoload logs
-        if (DEBUG == true)
+        if(defined('DEBUG') and DEBUG == true)
         {
             @unlink(ROOT_LOGS . 'autoload_hits.log');
             @unlink(ROOT_LOGS . 'autoload_misses.log');
@@ -88,8 +88,9 @@ class Clansuite_Loader
         if(is_file($file) === false)
         {
             # file not existant, create it
-            fopen($file, 'a', false);
-            fclose($file);
+            $file_resource = fopen($file, 'a', false);
+            fclose($file_resource);
+            unset($file_resource);
         }
         else # load it
         {
@@ -238,7 +239,7 @@ class Clansuite_Loader
     private function addToMapping($filename, $classname)
     {
         $filename = str_replace('//','\\', $filename);
-        $this->autoloader_map = array_merge($this->autoloader_map, array( $classname => $filename ));
+        $this->autoloader_map = array_merge((array) $this->autoloader_map, array( $classname => $filename ));
     }
 
     function __destruct()
@@ -279,11 +280,12 @@ class Clansuite_Loader
             return true;
         }
 
-        return self::autoloadExclusions($classname);
+        self::autoloadExclusions($classname);
 
         /**
          * Start Classname to Filename Mapping
          */
+
         $filename = mb_strtolower($classname);
 
         # strip 'clansuite_' from beginning of the string
@@ -313,7 +315,7 @@ class Clansuite_Loader
 
         foreach($filenames as $filename)
         {
-            if($this->requireFileAndMap($filename, $classname) == true)
+            if($this->requireFileAndMap($filename, $classname) === true)
             {
                 return true;
             }

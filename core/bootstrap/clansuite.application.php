@@ -79,33 +79,19 @@ class Clansuite_CMS
         define('STARTTIME', microtime(1));
 
         self::initialize_Loader();
-
         self::initialize_Config();
-
         self::initialize_Paths();
-
         self::perform_startup_checks();
-
         self::initialize_Debug();
-
         self::initialize_Version();
-
         self::initialize_Locale();
-
         self::initialize_Eventdispatcher();
-
         self::initialize_Errorhandling();
-
         self::initialize_DependecyInjection();
-
         self::register_DI_Core();
-
         self::register_DI_Filters();
-
         self::start_Session();
-
         self::execute_Frontcontroller();
-
         self::shutdown();
     }
 
@@ -121,21 +107,21 @@ class Clansuite_CMS
 
         # PHP Version Check
         $REQUIRED_PHP_VERSION = '5.2.3';
-        if ( version_compare(PHP_VERSION, $REQUIRED_PHP_VERSION, '<') === true )
+        if(version_compare(PHP_VERSION, $REQUIRED_PHP_VERSION, '<') === true)
         {
-            die('Your PHP Version is <b><font color="#FF0000">' . PHP_VERSION . '</font></b>! Clansuite requires PHP Version <b><font color="#4CC417">'. $REQUIRED_PHP_VERSION .'</font></b>!');
+            die('Your PHP Version is <b><font color="#FF0000">' . PHP_VERSION . '</font></b>! Clansuite requires PHP Version <b><font color="#4CC417">' . $REQUIRED_PHP_VERSION . '</font></b>!');
         }
         unset($REQUIRED_PHP_VERSION);
 
         # PDO Check
-        if ( class_exists('pdo',false) === false )
+        if(class_exists('pdo', false) === false)
         {
             die('<i>php_pdo</i> not enabled!');
         }
 
         # PDO mysql driver Check
         # @todo the type of db-driver for pdo is set on installtion + available via config
-        if (in_array('mysql', PDO::getAvailableDrivers()) === false)
+        if(in_array('mysql', PDO::getAvailableDrivers()) === false)
         {
             die('<i>php_pdo_mysql</i> driver not enabled.');
         }
@@ -165,9 +151,9 @@ class Clansuite_CMS
     private static function initialize_Config()
     {
         # 1. Check if clansuite.config.php is found, else we are not installed at all, so redirect to installation page
-        if ( is_file('configuration/clansuite.config.php' ) === false )
+        if(is_file('configuration/clansuite.config.php') === false)
         {
-            header( 'Location: installation/index.php' );
+            header('Location: installation/index.php');
             exit;
         }
 
@@ -186,9 +172,9 @@ class Clansuite_CMS
         ini_set('arg_separator.input',          '&amp;');
         ini_set('arg_separator.output',         '&amp;');
 
-        if (extension_loaded('mbstring') == true)
+        if(extension_loaded('mbstring') == true)
         {
-            if ( ini_get('mbstring.func_overload') & MB_OVERLOAD_STRING )
+            if(ini_get('mbstring.func_overload') & MB_OVERLOAD_STRING)
             {
                 trigger_error('The string functions are overloaded by mbstring. Please stop that.
                                Check php.ini - setting: mbstring.func_overload.', E_USER_ERROR);
@@ -263,59 +249,59 @@ class Clansuite_CMS
         /**
          * @var ROOT_MOD Root path of the modules directory (with trailing slash)
          */
-        define('ROOT_MOD'      , ROOT . self::$config['paths']['mod_folder'].DS);
+        define('ROOT_MOD', ROOT . self::$config['paths']['mod_folder'] . DS);
 
         /**
-        * @var Root path of the themes directory (with trailing slash)
-        */
-        define('ROOT_THEMES'   , ROOT . self::$config['paths']['themes_folder'].DS);
+         * @var Root path of the themes directory (with trailing slash)
+         */
+        define('ROOT_THEMES', ROOT . self::$config['paths']['themes_folder'] . DS);
 
         /**
          * @var Root path of the languages directory (with trailing slash)
          */
-        define('ROOT_LANGUAGES', ROOT . self::$config['paths']['language_folder'].DS);
+        define('ROOT_LANGUAGES', ROOT . self::$config['paths']['language_folder'] . DS);
 
         /**
          * @var Root path of the core directory (with trailing slash)
          */
-        define('ROOT_CORE'     , ROOT . self::$config['paths']['core_folder'].DS);
+        define('ROOT_CORE', ROOT . self::$config['paths']['core_folder'] . DS);
 
         /**
          * @var Root path of the libraries directory (with trailing slash)
          */
-        define('ROOT_LIBRARIES', ROOT . self::$config['paths']['libraries_folder'].DS);
+        define('ROOT_LIBRARIES', ROOT . self::$config['paths']['libraries_folder'] . DS);
 
         /**
          * @var Root path of the upload directory (with trailing slash)
          */
-        define('ROOT_UPLOAD'   , ROOT . self::$config['paths']['upload_folder'].DS);
+        define('ROOT_UPLOAD', ROOT . self::$config['paths']['upload_folder'] . DS);
 
         /**
          * @var Root path of the logs directory (with trailing slash)
          */
-        define('ROOT_LOGS'     , ROOT . self::$config['paths']['logfiles_folder'].DS);
+        define('ROOT_LOGS', ROOT . self::$config['paths']['logfiles_folder'] . DS);
 
         /**
          * @var Root path of the cache directory (with trailing slash)
          */
-        define('ROOT_CACHE'    , ROOT . 'cache'.DS);
+        define('ROOT_CACHE', ROOT . 'cache' . DS);
 
         /**
          * @var Root path of the config directory (with trailing slash)
          */
-        define('ROOT_CONFIG'        , ROOT . 'configuration'.DS);
+        define('ROOT_CONFIG', ROOT . 'configuration' . DS);
 
         /**
          * @var Determine Type of Protocol for Webpaths (http/https)
          */
         if(isset($_SERVER['HTTPS']) and mb_strtolower($_SERVER['HTTPS']) == 'on')
         {
-            define('PROTOCOL','https://');
+            define('PROTOCOL', 'https://');
         }
         else
         {
 
-            define('PROTOCOL','http://');
+            define('PROTOCOL', 'http://');
         }
 
         /**
@@ -326,13 +312,13 @@ class Clansuite_CMS
         /**
          * @var WWW_ROOT is a complete www-path with servername from SERVER_URL, depending on os-system
          */
-        if (dirname($_SERVER['PHP_SELF']) == '\\' )
+        if(dirname($_SERVER['PHP_SELF']) == '\\')
         {
             define('WWW_ROOT', SERVER_URL);
         }
         else
         {
-            define('WWW_ROOT', SERVER_URL . dirname($_SERVER['PHP_SELF']) );
+            define('WWW_ROOT', SERVER_URL . dirname($_SERVER['PHP_SELF']));
         }
 
         /**
@@ -343,7 +329,7 @@ class Clansuite_CMS
         /**
          * @var WWW_ROOT_THEMES defines the themes/core folder
          */
-        define('WWW_ROOT_THEMES_CORE', WWW_ROOT . '/' . self::$config['paths']['themes_folder'] .  '/core');
+        define('WWW_ROOT_THEMES_CORE', WWW_ROOT . '/' . self::$config['paths']['themes_folder'] . '/core');
 
         /**
          * SET INCLUDE PATHS
@@ -354,12 +340,11 @@ class Clansuite_CMS
          * Note, that for set_include_path the path order is important   <first path to look>:<second path>:<etc>:
          */
         $paths = array(
-                        ROOT,
-                        ROOT_LIBRARIES,                     # /libraries/
-                        ROOT_LIBRARIES . 'PEAR' . DS        # /libraries/PEAR
-                      );
-
-        set_include_path( implode( $paths, PATH_SEPARATOR ) . PATH_SEPARATOR . get_include_path() ); # attach original include paths
+            ROOT,
+            ROOT_LIBRARIES,
+            ROOT_LIBRARIES . 'PEAR' . DS
+        );
+        set_include_path(implode($paths, PATH_SEPARATOR) . PATH_SEPARATOR . get_include_path()); # attach original include paths
         unset($paths);
     }
 
@@ -382,10 +367,10 @@ class Clansuite_CMS
         /**
          * @var Debug-Mode Constant is set via config setting ['error']['debug']
          */
-        define('DEBUG', self::$config['error']['debug']);
+        define('DEBUG', (bool) self::$config['error']['debug']);
 
         # If Debug is enabled, set FULL error_reporting, else DISABLE it completely
-        if ( DEBUG == true )
+        if(DEBUG == true)
         {
             ini_set('display_startup_errors', true);
             ini_set('display_errors', true);    # display errors in the browser
@@ -395,7 +380,7 @@ class Clansuite_CMS
              * Toggle for Rapid Application Development
              * @var Development-Mode is set via config setting ['error']['development']
              */
-            define('DEVELOPMENT', self::$config['error']['development']);
+            define('DEVELOPMENT', (bool) self::$config['error']['development']);
 
             /**
              * Setup Debugging Helpers
@@ -409,10 +394,10 @@ class Clansuite_CMS
             /**
              * @var XDebug and set it's value via the config setting ['error']['xdebug']
              */
-            define('XDEBUG', self::$config['error']['xdebug']);
+            define('XDEBUG', (bool) self::$config['error']['xdebug']);
 
             # If XDebug is enabled, load xdebug helpers and start the debug/tracing
-            if( XDEBUG == true)
+            if(XDEBUG == true)
             {
                 include ROOT_CORE . 'debug/xdebug.core.php';
                 Clansuite_XDebug::start_Xdebug();
@@ -421,7 +406,7 @@ class Clansuite_CMS
         else # application is in live/production mode. errors are not shown, but logged to file!
         {
             ini_set('log_errors', true);        # enable error_logging
-            ini_set('display_errors',   false); # do not display errors in the browser
+            ini_set('display_errors', false); # do not display errors in the browser
             error_reporting(E_COMPILE_ERROR | E_RECOVERABLE_ERROR | E_ERROR | E_CORE_ERROR);
             #error_reporting(0);                 # do not report errors
             ini_set('error_log', ROOT_LOGS . 'clansuite_errorlog.txt'); # write to errorlog
