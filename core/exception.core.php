@@ -51,6 +51,7 @@ if(defined('IN_CS') == false)
  * Avoid stacking Exceptions, e.g. try/catch Exception($e) and then throwing a Clansuite_Exception().
  *
  * @see http://php.net/manual/de/class.exception.php
+ * @see http://php.net/manual/de/function.set-exception-handler.php
  *
  * @author     Jens-André Koch <vain@clansuite.com>
  * @copyright  Jens-André Koch (2005 - onwards)
@@ -79,7 +80,7 @@ class Clansuite_Exception extends Exception implements Clansuite_Exception_Inter
     /**
      * @var int user-defined exception code
      */
-    protected $code    = 0;
+    protected $code = 0;
 
     /**
      * @var string source filename of exception
@@ -111,25 +112,6 @@ class Clansuite_Exception extends Exception implements Clansuite_Exception_Inter
     private static $exception_development_template_content = '';
 
     /**
-     * Constructor redeclares the exception
-     *
-     * @param string $message Exception Message
-     * @param int $code Exception Code
-     */
-    public function __construct($message = null, $code = 0)
-    {
-        # assign to parent
-        parent::__construct($message, $code);
-
-        # fetch exceptionTemplates, but not for $code = 0
-        if( $code > 0 )
-        {
-            self::fetchExceptionTemplates($code);
-
-        }
-    }
-
-    /**
      * Fetches the normal and rapid development templates for exceptions and sets them to class.
      * Callable via self::getExceptionTemplate() and self::getExceptionDevelopmentTemplate($placeholders).
      *
@@ -137,8 +119,10 @@ class Clansuite_Exception extends Exception implements Clansuite_Exception_Inter
      */
     private static function fetchExceptionTemplates($code)
     {
+        # normal exception template
         self::fetchExceptionTemplate($code);
 
+        # development template
         if( defined('DEBUG') and DEBUG == 1 and defined('DEVELOPMENT') and DEVELOPMENT == 1)
         {
             self::fetchExceptionDevelopmentTemplate($code);
@@ -240,6 +224,7 @@ class Clansuite_Exception extends Exception implements Clansuite_Exception_Inter
      * Exception Handler Callback
      * Rethrows uncatched Exceptions in our presentation style.
      *
+     * @see http://php.net/manual/de/function.set-exception-handler.php
      * @param $exception PHP Exception Objects are valid (Type Hint).
      */
     public function clansuite_exception_handler(Exception $exception )
@@ -256,6 +241,12 @@ class Clansuite_Exception extends Exception implements Clansuite_Exception_Inter
         if($this->code === '0')
         {
             $this->code = '0 (This exception is uncatched and rethrown.)';
+        }
+
+        # fetch exceptionTemplates, but not for $code = 0
+        if( $this->code > 0 )
+        {
+            self::fetchExceptionTemplates($this->code);
         }
 
         echo $this->yellowScreenOfDeath();
