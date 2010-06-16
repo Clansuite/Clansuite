@@ -53,9 +53,9 @@ class Clansuite_Filter_SetBreadcrumbs implements Clansuite_Filter_Interface
 {
     public function executeFilter(Clansuite_HttpRequest $request, Clansuite_HttpResponse $response)
     {
-        $moduleName     = Clansuite_Module_Controller_Resolver::getModuleName();
-        $submoduleName  = Clansuite_Module_Controller_Resolver::getSubModuleName();
-        $actionName     = Clansuite_Action_Controller_Resolver::getActionName();
+        $moduleName     = Clansuite_Dispatcher::getModuleName();
+        $submoduleName  = Clansuite_Dispatcher::getSubModuleName();
+        $actionName     = Clansuite_Dispatcher::getActionName();
 
         /**
          *  This adds the FIRST PART of the TRAIL.
