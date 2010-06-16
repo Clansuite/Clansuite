@@ -180,7 +180,7 @@ class Clansuite_Logger_File implements Clansuite_Logger_Interface
         # setup default logfilename
         if($logfilename == null)
         {
-            $logfilename = 'logs/clansuite_errorlog.txt';
+            $logfilename = 'logs/clansuite_errorlog.txt.php';
         }
 
         # get logfile as array
@@ -192,6 +192,8 @@ class Clansuite_Logger_File implements Clansuite_Logger_Interface
 
         # reverse for loop over the logfile_array
         $logEntries = '';
+        $logEntries .= '; <?php die(\'Access forbidden.\'); /* DO NOT MODIFY THIS LINE! ?>' . "/n";
+        $logEntries .= ';'. "/n";
         for($i; $i > $max_entries; $i--)
         {
             # remove linebreaks
