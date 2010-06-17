@@ -374,7 +374,7 @@
     <target name="phpcs" description="Runs the PHP-Codesniffer task and reports coding standard violations">
         <echo msg="PHP_CodeSniffer runs CodeSniffs and reports coding standard violations." />
         <exec command="phpcs --extensions=php --report=checkstyle
-                             --standard=${sourcedir}/build-tools/CodeSniffer/Standards/Clansuite/.
+                             --standard=${sourcedir}/build-tools/CodeSniffer/Standards/Clansuite/
                              --ignore=${ignorepaths} ${sourcedir} > ${builddir}/logs/phpcs.xml" escape="false" />
     </target>
 
