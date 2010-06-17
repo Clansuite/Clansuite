@@ -126,7 +126,7 @@ if (defined('IN_CS') == false)
 
             <!-- Link Us -->
             <li><h2>Link us</h2></li>
-            <li><a href="http://www.clansuite.com/banner/" target="_blank"><img src="http://www.clansuite.com/website/images/banners/clansuite-crown-banner-80x31.png" alt="Clansuite 80x31 LOGO" /></a></li>
+            <li><a href="http://www.clansuite.com/banner/" target="_blank"><img src="http://www.clansuite.com/website/images/banners/clansuite-crown-banner-88x31.png" alt="Clansuite 80x31 LOGO" /></a></li>
 
        </ul>
     </div><!-- rightinner ENDE -->

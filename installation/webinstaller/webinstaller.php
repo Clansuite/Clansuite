@@ -1904,7 +1904,7 @@ $folderName = empty($args['clansuiteFolderName']) ? 'clansuite' : $args['clansui
                     <a href='http://www.pledgie.com/campaigns/6324'><img alt='Click here to lend your support to: Unterstützt Clansuite! and make a donation at www.pledgie.com !' src='http://www.pledgie.com/campaigns/6324.png?skin_name=eight_bit' border='0' /></a>
                 </li>
                 <li><h2>Link us</h2></li>
-                <li><a href="http://www.clansuite.com/banner/" target="_blank"><img src="http://www.clansuite.com/website/images/banners/clansuite-crown-banner-80x31.png" alt="Clansuite 80x31 LOGO" /></a></li>
+                <li><a href="http://www.clansuite.com/banner/" target="_blank"><img src="http://www.clansuite.com/website/images/banners/clansuite-crown-banner-88x31.png" alt="Clansuite 80x31 LOGO" /></a></li>
             </ul>
         </div>
         <hr />
