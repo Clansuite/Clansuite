@@ -97,7 +97,7 @@ class Clansuite_Module_Guestbook_Admin extends Clansuite_Module_Controller imple
         $view->assign('pager', $pager);
         $view->assign('pager_layout', $pager_layout);
 
-        $this->prepareOutput();
+        $this->display();
     }
 
     public function action_admin_testformgenerator()
@@ -164,7 +164,7 @@ class Clansuite_Module_Guestbook_Admin extends Clansuite_Module_Controller imple
         # assign the html of the form to the view
         $this->getView()->assign('form', $form->render());
 
-        $this->prepareOutput();
+        $this->display();
     }
 
     public function save_comment()
@@ -255,7 +255,7 @@ class Clansuite_Module_Guestbook_Admin extends Clansuite_Module_Controller imple
             $this->flashmessage('error', _('You do not have sufficient rights.'));
         }
 
-        $this->prepareOutput();
+        $this->display();
     }
 
     public function action_admin_delete()
@@ -327,7 +327,7 @@ class Clansuite_Module_Guestbook_Admin extends Clansuite_Module_Controller imple
         $view->assign( 'front', $front);
         $view->fetch('guestbook/create.tpl');
 
-        $this->prepareOutput();
+        $this->display();
     }
 
     public function action_admin_show_single()
@@ -349,7 +349,7 @@ class Clansuite_Module_Guestbook_Admin extends Clansuite_Module_Controller imple
             $lang->t('You are not allowed to view single news.');
         }
 
-        $this->prepareOutput();
+        $this->display();
     }
 
     /**
@@ -388,7 +388,7 @@ class Clansuite_Module_Guestbook_Admin extends Clansuite_Module_Controller imple
         # assign the html of the form to the view
         $this->getView()->assign('form', $form->render());
 
-        $this->prepareOutput();
+        $this->display();
     }
 
     public function action_admin_settings_update()

@@ -65,7 +65,7 @@ class Clansuite_Module_Matches extends Clansuite_Module_Controller implements Cl
         $view = $this->getView();
         $view->assign('matches', $matches);
 
-        $this->prepareOutput();
+        $this->display();
     }
 
     /**

@@ -143,7 +143,7 @@ class Clansuite_Module_Categories_Admin extends Clansuite_Module_Controller impl
         # Set Layout Template
         $this->getView()->setLayoutTemplate('index.tpl');
 
-        $this->prepareOutput();
+        $this->display();
     }
 
     public function action_admin_create()
@@ -175,7 +175,7 @@ class Clansuite_Module_Categories_Admin extends Clansuite_Module_Controller impl
         # assign the html of the form to the view
         $this->getView()->assign('form', $form->render());
 
-        $this->prepareOutput();
+        $this->display();
     }
 
     public function action_admin_edit()
@@ -216,7 +216,7 @@ class Clansuite_Module_Categories_Admin extends Clansuite_Module_Controller impl
         # assign the html of the form to the view
         $this->getView()->assign('form', $form->render());
 
-        $this->prepareOutput();
+        $this->display();
     }
 
     public function action_admin_delete()
@@ -343,7 +343,7 @@ class Clansuite_Module_Categories_Admin extends Clansuite_Module_Controller impl
         # assign the html of the form to the view
         $this->getView()->assign('form', $form->render());
 
-        $this->prepareOutput();
+        $this->display();
     }
 
     public function action_admin_settings_update()

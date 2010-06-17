@@ -82,7 +82,7 @@ class Clansuite_Module_Gallery_Admin extends Clansuite_Module_Controller impleme
         # specifiy the template manually
         #$this->setTemplate('news/admin_show.tpl');
 
-        $this->prepareOutput();
+        $this->display();
     }
 
     public function action_admin_create_album()
@@ -114,7 +114,7 @@ class Clansuite_Module_Gallery_Admin extends Clansuite_Module_Controller impleme
         # specifiy the template manually
         $this->setTemplate('admin_create_album.tpl');
 
-        $this->prepareOutput();
+        $this->display();
     }
     
     public function action_admin_update_album()
@@ -140,7 +140,7 @@ class Clansuite_Module_Gallery_Admin extends Clansuite_Module_Controller impleme
         # specifiy the template manually
         $this->setTemplate('admin_update_album.tpl');
 
-        $this->prepareOutput();
+        $this->display();
     }
 }
 ?>

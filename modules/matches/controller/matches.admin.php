@@ -80,7 +80,7 @@ class Clansuite_Module_Matches_Admin extends Clansuite_Module_Controller impleme
         # specifiy the template manually
         #$this->setTemplate('news/admin_show.tpl');
 
-        $this->prepareOutput();
+        $this->display();
        
     }
     
@@ -122,7 +122,7 @@ class Clansuite_Module_Matches_Admin extends Clansuite_Module_Controller impleme
         # assign the html of the form to the view
         $this->getView()->assign('form', $form->render());
 
-        $this->prepareOutput();       
+        $this->display();       
     }
     
     public function action_admin_settings_update()

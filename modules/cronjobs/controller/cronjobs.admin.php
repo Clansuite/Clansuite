@@ -61,7 +61,7 @@ class Clansuite_Module_Cronjobs_Admin extends Clansuite_Module_Controller implem
 
         $this->getView()->assign('cronjobs', $cronjobs);
 
-        $this->prepareOutput();
+        $this->display();
     }
 }
 ?>

@@ -76,7 +76,7 @@ class Clansuite_Module_Settings_Admin extends Clansuite_Module_Controller implem
         # Specifiy the template manually
         $this->setTemplate('settings.tpl');
 
-        $this->prepareOutput();
+        $this->display();
     }
 
     /**
@@ -100,7 +100,7 @@ class Clansuite_Module_Settings_Admin extends Clansuite_Module_Controller implem
         # Assign Config to Smarty
         $view->assign('config', $config);
 
-        $this->prepareOutput();
+        $this->display();
     }
 
     /**

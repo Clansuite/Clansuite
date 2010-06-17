@@ -68,7 +68,7 @@ class Clansuite_Module_Staticpages_Admin extends Clansuite_Module_Controller imp
         $view = $this->getView();
         $view->assign( 'staticpages', $staticpages);
         $view->setLayoutTemplate('index.tpl');
-        $this->prepareOutput();
+        $this->display();
     }
 
     function create_staticpages()
@@ -144,7 +144,7 @@ class Clansuite_Module_Staticpages_Admin extends Clansuite_Module_Controller imp
         # specifiy the template manually
         #$this->setTemplate('staticpages/create.tpl');
 
-        $this->prepareOutput();
+        $this->display();
     }
 
     function edit_staticpages()
@@ -214,7 +214,7 @@ class Clansuite_Module_Staticpages_Admin extends Clansuite_Module_Controller imp
         $view->assign('info', $info);
         $view->setLayoutTemplate('index.tpl');
         
-        $this->prepareOutput();
+        $this->display();
     }
 
     /**
@@ -252,7 +252,7 @@ class Clansuite_Module_Staticpages_Admin extends Clansuite_Module_Controller imp
         # assign the html of the form to the view
         $this->getView()->assign('form', $form->render());
 
-        $this->prepareOutput();
+        $this->display();
     }
 
     public function action_admin_settings_update()

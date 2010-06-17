@@ -37,7 +37,7 @@ class Clansuite_Module_Forum_Admin extends Clansuite_Module_Controller implement
         # Set Layout Template
         $this->getView()->setLayoutTemplate('index.tpl');
 
-        $this->prepareOutput();
+        $this->display();
     }
 
     public function action_admin_create_category()
@@ -48,7 +48,7 @@ class Clansuite_Module_Forum_Admin extends Clansuite_Module_Controller implement
         // Set Layout Template
         $this->getView()->setLayoutTemplate('index.tpl');
 
-        $this->prepareOutput();
+        $this->display();
     }
 
     public function action_admin_create_board()
@@ -59,7 +59,7 @@ class Clansuite_Module_Forum_Admin extends Clansuite_Module_Controller implement
         // Set Layout Template
         $this->getView()->setLayoutTemplate('index.tpl');
 
-        $this->prepareOutput();
+        $this->display();
     }
 
     public function action_admin_edit_category()
@@ -70,7 +70,7 @@ class Clansuite_Module_Forum_Admin extends Clansuite_Module_Controller implement
         // Set Layout Template
         $this->getView()->setLayoutTemplate('index.tpl');
 
-        $this->prepareOutput();
+        $this->display();
     }
 
     public function action_admin_edit_board()
@@ -81,7 +81,7 @@ class Clansuite_Module_Forum_Admin extends Clansuite_Module_Controller implement
         // Set Layout Template
         $this->getView()->setLayoutTemplate('index.tpl');
 
-        $this->prepareOutput();
+        $this->display();
     }
 
     public function action_admin_delete_category()
@@ -92,7 +92,7 @@ class Clansuite_Module_Forum_Admin extends Clansuite_Module_Controller implement
         // Set Layout Template
         $this->getView()->setLayoutTemplate('index.tpl');
 
-        $this->prepareOutput();
+        $this->display();
     }
 
     public function action_admin_delete_board()
@@ -103,7 +103,7 @@ class Clansuite_Module_Forum_Admin extends Clansuite_Module_Controller implement
         // Set Layout Template
         $this->getView()->setLayoutTemplate('index.tpl');
 
-        $this->prepareOutput();
+        $this->display();
     }
 
     public function action_admin_settings ()
@@ -167,7 +167,7 @@ class Clansuite_Module_Forum_Admin extends Clansuite_Module_Controller implement
         # assign the html of the form to the view
         $this->getView()->assign('form', $form->render());
 
-        $this->prepareOutput();
+        $this->display();
     }
 
     public function action_admin_settings_update()

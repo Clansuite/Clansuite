@@ -93,7 +93,7 @@ class Clansuite_Module_Menu_Admin extends Clansuite_Module_Controller implements
         $this->setTemplate('menueditor.tpl');
 
         // Prepare the Output
-        $this->prepareOutput();
+        $this->display();
     }
 
     private function getTree($model, $rootId = null)
@@ -211,7 +211,7 @@ class Clansuite_Module_Menu_Admin extends Clansuite_Module_Controller implements
         # assign the html of the tree to the view
         $this->getView()->assign('tree', $html);
 
-        $this->prepareOutput();
+        $this->display();
     }
 
     /**

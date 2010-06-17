@@ -65,7 +65,7 @@ class Clansuite_Module_Flashchart_Admin extends Clansuite_Module_Controller impl
         $this->getView()->assign('flashchart', $flashchart);
         unset($flashchart);
 
-        $this->prepareOutput();
+        $this->display();
     }
 }
 ?>

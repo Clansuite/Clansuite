@@ -56,7 +56,7 @@ class Clansuite_Module_Rssreader extends Clansuite_Module_Controller implements 
     {
         $view = $this->getView();
 
-        $this->prepareOutput();
+        $this->display();
     }
 
     public function widget_rssreader()

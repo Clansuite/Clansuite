@@ -110,7 +110,7 @@ class Clansuite_Module_Index extends Clansuite_Module_Controller implements Clan
         # Set Errormessage
         $this->addError('Errormessage', 100);
 
-        $this->prepareOutput();
+        $this->display();
     }
 
     /**
@@ -126,7 +126,7 @@ class Clansuite_Module_Index extends Clansuite_Module_Controller implements Clan
         $view->addRawContent($smarty->fetch('action_edit.tpl'));
 
 
-        $this->prepareOutput();
+        $this->display();
     }
 }
 ?>

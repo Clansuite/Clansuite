@@ -118,7 +118,7 @@ class Clansuite_Module_Users extends Clansuite_Module_Controller implements Clan
         # specifiy the template manually
         #$this->setTemplate('userslist/view/show.tpl');
 
-        $this->prepareOutput();
+        $this->display();
     }
 
     /**

@@ -125,13 +125,13 @@ class Clansuite_Module_Modulemanager_Admin extends Clansuite_Module_Controller i
 
         $view->assign('modules_summary', $modules_summary);
 
-        $this->prepareOutput();
+        $this->display();
     }
 
     public function action_admin_edit()
     {
 
-        $this->prepareOutput();
+        $this->display();
     }
 
     /**
@@ -149,7 +149,7 @@ class Clansuite_Module_Modulemanager_Admin extends Clansuite_Module_Controller i
         $this->getView()->setLayoutTemplate('index.tpl');
 
         // Prepare the Output
-        $this->prepareOutput();
+        $this->display();
     }
 
     /**
@@ -167,7 +167,7 @@ class Clansuite_Module_Modulemanager_Admin extends Clansuite_Module_Controller i
         $this->getView()->setLayoutTemplate('index.tpl');
 
         // Prepare the Output
-        $this->prepareOutput();
+        $this->display();
     }
 
     /**
@@ -182,7 +182,7 @@ class Clansuite_Module_Modulemanager_Admin extends Clansuite_Module_Controller i
         $this->getView()->setLayoutTemplate('index.tpl');
 
         // Prepare the Output
-        $this->prepareOutput();
+        $this->display();
     }
 
     //
@@ -215,7 +215,7 @@ class Clansuite_Module_Modulemanager_Admin extends Clansuite_Module_Controller i
         $view = $this->getView();
         $view->assign('existing_modules_js', $existing_modules_js);
 
-        $this->prepareOutput();
+        $this->display();
     }
 
     /**
@@ -320,7 +320,7 @@ class Clansuite_Module_Modulemanager_Admin extends Clansuite_Module_Controller i
         }
 
         $this->getView()->setRenderMode('NOT_WRAPPED');
-        $this->prepareOutput();
+        $this->display();
     }
 
     /**
@@ -432,14 +432,14 @@ class Clansuite_Module_Modulemanager_Admin extends Clansuite_Module_Controller i
             $view->assign( 'mod', $mod );
         }
 
-        $this->prepareOutput();
+        $this->display();
     }
 
     public function action_admin_createconfig()
     {
         $view = $this->getView();
 
-        $this->prepareOutput();
+        $this->display();
     }
 
      /**

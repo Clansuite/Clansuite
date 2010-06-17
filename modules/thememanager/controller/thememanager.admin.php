@@ -57,7 +57,7 @@ class Clansuite_Module_Thememanager_Admin extends Clansuite_Module_Controller im
         $view = $this->getView();
         $view->assign('themes', $this->getThemesList());
         #$view->setLayoutTemplate('index.tpl'); #wird hier nicht hardgecodet gebraucht
-        $this->prepareOutput();
+        $this->display();
     }
 
     /**

@@ -64,7 +64,7 @@ class Clansuite_Module_ControlCenter extends Clansuite_Module_Controller impleme
         $view->assign( 'newsfeed', $this->assignFeedContent());
         $view->assign( 'security', $this->assignSecurityInfos());
 
-        $this->prepareOutput();
+        $this->display();
     }
 
     public function action_bugs()
@@ -72,7 +72,7 @@ class Clansuite_Module_ControlCenter extends Clansuite_Module_Controller impleme
         # Set Pagetitle and Breadcrumbs
         Clansuite_Breadcrumb::add( _('Report Bugs &amp; Issues'), '/index.php??mod=controlcenter&amp;action=bugs');
 
-        $this->prepareOutput();
+        $this->display();
     }
 
     public function action_about()
@@ -80,7 +80,7 @@ class Clansuite_Module_ControlCenter extends Clansuite_Module_Controller impleme
         # Set Pagetitle and Breadcrumbs
         Clansuite_Breadcrumb::add( _('About Clansuite'), '/index.php?mod=controlcenter&amp;action=about');
 
-        $this->prepareOutput();
+        $this->display();
     }
 
     public function action_supportlinks()
@@ -88,7 +88,7 @@ class Clansuite_Module_ControlCenter extends Clansuite_Module_Controller impleme
         # Set Pagetitle and Breadcrumbs
         Clansuite_Breadcrumb::add( _('Links for Help & Support'), '/index.php?mod=help&amp;sub=admin&amp;action=supportlinks');
 
-        $this->prepareOutput();
+        $this->display();
     }
 
     private function assignSecurityInfos()
@@ -215,7 +215,7 @@ class Clansuite_Module_ControlCenter extends Clansuite_Module_Controller impleme
         # assign the html of the form to the view
         $this->getView()->assign('form', $form->render());
 
-        $this->prepareOutput();
+        $this->display();
     }
 
     public function action_settings_update()
