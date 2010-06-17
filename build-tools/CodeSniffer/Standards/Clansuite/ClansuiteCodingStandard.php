@@ -57,6 +57,9 @@ class PHP_CodeSniffer_Standards_Clansuite_ClansuiteCodingStandard extends PHP_Co
                      'Generic/Sniffs/Functions/OpeningFunctionBraceBsdAllmanSniff.php',
                      //'PEAR/Sniffs/Functions/ValidDefaultValueSniff.php',
 
+                     # Ensure function declaration does not contain duplicated arguments
+                     'Squiz/Sniffs/Functions/FunctionDuplicateArgumentSniff.php',
+
                      # lowercased function names
                      'Squiz/Sniffs/PHP/LowercasePHPFunctionsSniff.php',
 
@@ -70,7 +73,7 @@ class PHP_CodeSniffer_Standards_Clansuite_ClansuiteCodingStandard extends PHP_Co
                      'Generic/Sniffs/CodeAnalysis/JumbledIncrementerSniff.php',
 
                      # discourage several functions in clansuite and ensure consistent usage of functions
-                     dirname(__FILE__) . '/Sniffs/ForbiddenFunctionsSniff.php',
+                     dirname(__FILE__) . '/Sniffs/Functions/ForbiddenFunctionsSniff.php',
 
                      # The use of eval() is discouraged.
                      'Squiz/Sniffs/PHP/EvalSniff.php',
@@ -110,6 +113,10 @@ class PHP_CodeSniffer_Standards_Clansuite_ClansuiteCodingStandard extends PHP_Co
                      'Squiz/Sniffs/WhiteSpace/SemicolonSpacingSniff.php',
                      # Spaces before+after Scope Keywords
                      'Squiz/Sniffs/WhiteSpace/ScopeKeywordSpacingSniff.php',
+                     # Checks that no whitespace proceeds the first content of the file, 
+                     # exists after the last content of the file, resides after content on any line, or are two empty lines in functions.
+                     'Squiz/Sniffs/WhiteSpace/SuperfluousWhitespaceSniff.php',
+
 
               # ControlStructures
                      //'Generic/Sniffs/ControlStructures/InlineControlStructureSniff.php',
@@ -119,7 +126,8 @@ class PHP_CodeSniffer_Standards_Clansuite_ClansuiteCodingStandard extends PHP_Co
                      //'Squiz/Sniffs/ControlStructures/SwitchDeclarationSniff.php',
 
               # VersionControl -> SVN
-                     //'Generic/Sniffs/VersionControl/SubversionPropertiesSniff.php',
+                     # Tests that the correct Subversion properties are set.
+                     'Generic/Sniffs/VersionControl/SubversionPropertiesSniff.php',
 
               # CSS
                      //'Squiz/Sniffs/CSS',
@@ -138,6 +146,18 @@ class PHP_CodeSniffer_Standards_Clansuite_ClansuiteCodingStandard extends PHP_Co
                     'Squiz/Sniffs/ControlStructures/LowercaseDeclarationSniff.php',
                     # Checks that all uses of true, false and null are lowerrcase.
                     'Generic/Sniffs/PHP/LowerCaseConstantSniff.php',
+
+              # Operators
+                    # enforce the use of IDENTICAL (===) type operators rather than EQUAL (==) operator
+                    # enforce the use of "=== false" instead of "!"
+                    'Squiz/Sniffs/Operators/ComparisonOperatorUsageSniff.php',
+
+                    # Discourages the use of '&&' '||' '^' as representation for logical operators.
+                    # Ensures that 'and' 'or' 'xor' are used as logical operators.
+                    # dirname(__FILE__) . '/Sniffs/Operators/ValidLogicalOperatorsSniff.php',
+
+              # Comments
+                    'Squiz/Sniffs/Commenting/FunctionCommentSniff.php',
                    );
 
     }
@@ -149,9 +169,7 @@ class PHP_CodeSniffer_Standards_Clansuite_ClansuiteCodingStandard extends PHP_Co
      */
     public function getExcludedSniffs()
     {
-        return array(
-                    );
-
+        return array();
     }
 }
 ?>
