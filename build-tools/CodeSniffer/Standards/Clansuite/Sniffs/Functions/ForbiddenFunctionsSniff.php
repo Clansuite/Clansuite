@@ -19,7 +19,7 @@
  * @package    PHP_CodeSniffer
  * @subpackage Clansuite_Sniffs
  */
-class Clansuite_Sniffs_ForbiddenFunctionsSniff extends Generic_Sniffs_PHP_ForbiddenFunctionsSniff
+class Clansuite_Sniffs_Functions_ForbiddenFunctionsSniff extends Generic_Sniffs_PHP_ForbiddenFunctionsSniff
 {
     /**
      * A list of forbidden functions with their alternatives.
