@@ -97,13 +97,11 @@ class Clansuite_Module_ControllerDecorator implements Clansuite_Module_Interface
      * Several Performance-Issues:
      * 1) costs for calling __call
      * 2) costs for calling call_user_func_array()
-     *    All we can do is to use our semi-micro optimization: Clansuite_Loader::callMethod().
      * 3) the nested call stack itself: the bigger the stack, the slower it becomes.
      */
     public function __call($method, $args)
     {
-        # use optimized callMethod() to call method with it's arguments on that modulecontroller
-        return Clansuite_Loader::callMethod($this->_moduleController, $method, $args);
+        return call_user_func_array($method, $arguments);
     }
 }
 ?>

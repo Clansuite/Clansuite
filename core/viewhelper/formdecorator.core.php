@@ -131,10 +131,7 @@ abstract class Clansuite_Form_Decorator #implements Clansuite_Form_Interface
      */
     public function __call($method, $parameters)
     {
-        # performance killer
-        # return call_user_func_array( array($this->form, $method), $parameters);
-
-        return Clansuite_Loader::callClassMethod($this->form, $method, $parameters);
+        return call_user_func_array( array($this->form, $method), $parameters);
     }
 }
 
@@ -234,12 +231,7 @@ abstract class Clansuite_Formelement_Decorator #implements Clansuite_Form_Interf
      */
     public function __call($method, $parameters)
     {
-        # performance killer
-        # return call_user_func_array(array($this->formelement, $method), $parameters);
-        
-        #return hasMethod($method, $parameters);
-
-        return Clansuite_Loader::callClassMethod($this->formelement, $method, $parameters);
+        return call_user_func_array(array($this->formelement, $method), $parameters);
     }
 }
 ?>

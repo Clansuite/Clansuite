@@ -160,14 +160,13 @@ class Clansuite_Config extends Clansuite_Config_Base implements ArrayAccess
      * Several Performance-Issues:
      * 1) costs for calling __call
      * 2) costs for calling call_user_func_array()
-     *    All we can do is to use our semi-micro optimization: Clansuite_Loader::callMethod().
      * 3) the nested call stack itself: the bigger the stack, the slower it becomes.
      */
     public function __call($method, $args)
     {
         if(method_exists($this->confighandler, $method) === true)
         {
-            return Clansuite_Loader::callClassMethod($this->confighandler, $method, $args);
+            return call_user_func_array( array($this->confighandler, $method), $args);
         }
     }
 }
