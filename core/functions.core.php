@@ -888,9 +888,7 @@ class Clansuite_Functions
             # dynamically include the command
             include_once $filename;
 
-            #return call_user_func_array($method, $arguments);
-            # @todo benchmark this call please :P
-            return Clansuite_Loader::callMethod($method, $arguments);
+            return call_user_func_array($method, $arguments);
         }
         else
         {
@@ -927,7 +925,7 @@ class Clansuite_Functions
             # dynamically include the command
             include_once $filename;
 
-            return Clansuite_Loader::callMethod($method, $arguments);
+            return call_user_func_array($method, $arguments);
         }
         else
         {

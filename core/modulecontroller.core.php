@@ -532,21 +532,6 @@ abstract class Clansuite_Module_Controller extends Clansuite_Module_Controller_R
     }
 
     /**
-     * ModuleController->forward(); is as substitute for getAction
-     *
-     * This forwards from one controller function to another function
-     * of the same controller or to functions of an different controller.
-     *
-     * @param mixed|string|object $class Object or Classname to call the method upon.
-     * @param string $method Method to call.
-     * @param array $arguments Arguments to pass to the method.
-     */
-    public function forward($class, $method, array $arguments = array())
-    {
-        Clansuite_Loader::callClassMethod($class, $method, $arguments);
-    }
-
-    /**
      * Redirect (shortcut for usage in modules)
      *
      * @param string $url Redirect to this URL

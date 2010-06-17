@@ -410,11 +410,7 @@ abstract class Clansuite_Renderer_Base
         #echo'Magic used for Loading Method = '. $method . ' with Arguments = '. var_dump($arguments);
         if(method_exists($this->renderer, $method))
         {
-            # this should be faster then call_user_func_array
-            return clansuite_loader::callMethod($this->renderer, $method, $arguments);
-
-            # leave this for clarification
-            # return call_user_func_array(array($this->renderer, $method), $arguments);
+            return call_user_func_array(array($this->renderer, $method), $arguments);
         }
         else
         {
