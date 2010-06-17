@@ -190,7 +190,7 @@ class Clansuite_Module_Account extends Clansuite_Module_Controller implements Cl
             $view->assign('error', $error);
             # $view->assign('referer', $referer);
 
-            $this->prepareOutput();
+            $this->display();
         }
         else
         {
@@ -220,7 +220,7 @@ class Clansuite_Module_Account extends Clansuite_Module_Controller implements Cl
         }
         else
         {
-            $this->prepareOutput();
+            $this->display();
         }
     }
 
@@ -377,7 +377,7 @@ class Clansuite_Module_Account extends Clansuite_Module_Controller implements Cl
         #$view->assign( 'captcha_url',  WWW_ROOT . '/index.php?mod=captcha&' . session_name() . '=' . session_id() );
 
         // Output
-        $this->prepareOutput();
+        $this->display();
     }
 
     /**
@@ -467,7 +467,7 @@ class Clansuite_Module_Account extends Clansuite_Module_Controller implements Cl
 
         // Output
         #$this->setTemplate('activation_email.tpl');
-        $this->prepareOutput();
+        $this->display();
     }
 
     /**
@@ -613,7 +613,7 @@ class Clansuite_Module_Account extends Clansuite_Module_Controller implements Cl
         $view->assign('err', $error);
 
         #$this->setTemplate('forgot_password.tpl');
-        $this->prepareOutput();
+        $this->display();
     }
 
     /**
@@ -807,7 +807,7 @@ class Clansuite_Module_Account extends Clansuite_Module_Controller implements Cl
         # assign the html of the form to the view
         $this->getView()->assign('form', $form->render());
 
-        $this->prepareOutput();
+        $this->display();
     }
 
     /**
@@ -854,7 +854,7 @@ class Clansuite_Module_Account extends Clansuite_Module_Controller implements Cl
         # assign the html of the form to the view
         $this->getView()->assign('form', $form->render());
 
-        $this->prepareOutput();
+        $this->display();
     }
 
     /**
@@ -900,7 +900,7 @@ class Clansuite_Module_Account extends Clansuite_Module_Controller implements Cl
         # assign the html of the form to the view
         $this->getView()->assign('form', $form->render());
 
-        $this->prepareOutput();
+        $this->display();
     }
 
     /**
@@ -908,7 +908,7 @@ class Clansuite_Module_Account extends Clansuite_Module_Controller implements Cl
      */
     public function action_profile_update()
     {
-        $this->prepareOutput();
+        $this->display();
     }
 
     /**
@@ -916,7 +916,7 @@ class Clansuite_Module_Account extends Clansuite_Module_Controller implements Cl
      */
     public function action_profile_save ()
     {
-        $this->prepareOutput();
+        $this->display();
     }
 }
 ?>

@@ -75,7 +75,7 @@ class Clansuite_Module_Account_Admin extends Clansuite_Module_Controller impleme
 
         $view->assign('avatar_image', $avatar_image);
 
-        $this->prepareOutput();
+        $this->display();
     }
 
     public function action_admin_avatar_delete()
@@ -115,7 +115,7 @@ class Clansuite_Module_Account_Admin extends Clansuite_Module_Controller impleme
         # Set Admin Layout Template
         $view->setLayoutTemplate('index.tpl');
 
-        $this->prepareOutput();
+        $this->display();
     }
 
     public function action_admin_usercenter_edit()
@@ -160,7 +160,7 @@ class Clansuite_Module_Account_Admin extends Clansuite_Module_Controller impleme
         # assign the html of the form to the view
         $this->getView()->assign('form', $form->render());
 
-        $this->prepareOutput();
+        $this->display();
     }
 
     public function action_admin_settings_update()

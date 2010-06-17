@@ -134,7 +134,7 @@ class Clansuite_Module_Users_Admin extends Clansuite_Module_Controller implement
         # Specifiy the template manually
         #$this->setTemplate('admin/show.tpl');
 
-        $this->prepareOutput();
+        $this->display();
     }
 
     /**
@@ -153,14 +153,14 @@ class Clansuite_Module_Users_Admin extends Clansuite_Module_Controller implement
         $this->getView()->setLayoutTemplate('index.tpl');
 
         // Prepare the Output
-        $this->prepareOutput();
+        $this->display();
     }
 
     public function action_admin_edit_standard()
     {
         $view = $this->getView();
 
-        $this->prepareOutput();
+        $this->display();
     }
 
     /**
@@ -174,7 +174,7 @@ class Clansuite_Module_Users_Admin extends Clansuite_Module_Controller implement
 
         $view = $this->getView();
 
-        $this->prepareOutput();
+        $this->display();
     }
 
     public function action_admin_delete()
@@ -229,7 +229,7 @@ class Clansuite_Module_Users_Admin extends Clansuite_Module_Controller implement
         # assign the html of the form to the view
         $this->getView()->assign('form', $form->render());
 
-        $this->prepareOutput();       
+        $this->display();       
     }
     
     public function action_admin_settings_update()

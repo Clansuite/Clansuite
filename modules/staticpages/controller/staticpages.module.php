@@ -123,7 +123,7 @@ class Clansuite_Module_Staticpages extends Clansuite_Module_Controller implement
             #$this->redirect('index.php?mod=staticpages&action=overview');
         }
 
-        $this->prepareOutput();
+        $this->display();
     }
 
     /**
@@ -153,7 +153,7 @@ class Clansuite_Module_Staticpages extends Clansuite_Module_Controller implement
             echo _('No static pages found.');
         }
 
-        $this->prepareOutput();
+        $this->display();
     }
 }
 ?>

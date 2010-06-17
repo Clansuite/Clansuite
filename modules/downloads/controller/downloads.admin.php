@@ -57,7 +57,7 @@ class Clansuite_Module_Downloads_Admin extends Clansuite_Module_Controller imple
         # Set Layout Template
         $this->getView()->setLayoutTemplate('index.tpl');
         
-        $this->prepareOutput();
+        $this->display();
     }    
     
     /**
@@ -107,7 +107,7 @@ class Clansuite_Module_Downloads_Admin extends Clansuite_Module_Controller imple
         # assign the html of the form to the view
         $this->getView()->assign('form', $form->render());
 
-        $this->prepareOutput();       
+        $this->display();       
     }
     
     public function action_admin_settings_update()

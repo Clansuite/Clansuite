@@ -83,7 +83,7 @@ class Clansuite_Module_Teamspeakviewer extends Clansuite_Module_Controller imple
         $view->assign('server', $server);
         $view->assign('time', $time);
 
-        $this->prepareOutput();
+        $this->display();
     }
 
     public function widget_ts3ministatus($params)

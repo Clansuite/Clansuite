@@ -36,7 +36,7 @@ class Clansuite_Module_Forum extends Clansuite_Module_Controller implements Clan
 
         
         # Prepare the Output
-        $this->prepareOutput();
+        $this->display();
     }
 
     public function action_show_thread()
@@ -44,7 +44,7 @@ class Clansuite_Module_Forum extends Clansuite_Module_Controller implements Clan
         # Set Pagetitle and Breadcrumbs
         Clansuite_Breadcrumb::add( _('Show Thread'), '/index.php?mod=forum&amp;action=show_thread');
 
-        $this->prepareOutput();
+        $this->display();
     }
 
     public function action_show_post()
@@ -54,7 +54,7 @@ class Clansuite_Module_Forum extends Clansuite_Module_Controller implements Clan
 
         
         # Prepare the Output
-        $this->prepareOutput();
+        $this->display();
     }
 
     public function action_create_post()
@@ -64,7 +64,7 @@ class Clansuite_Module_Forum extends Clansuite_Module_Controller implements Clan
 
         
         # Prepare the Output
-        $this->prepareOutput();
+        $this->display();
     }
 
     public function action_create_thread()
@@ -72,7 +72,7 @@ class Clansuite_Module_Forum extends Clansuite_Module_Controller implements Clan
         # Set Pagetitle and Breadcrumbs
         Clansuite_Breadcrumb::add( _('Create Thread'), '/index.php?mod=forum&amp;action=create_thread');
 
-        $this->prepareOutput();
+        $this->display();
     }
 
     public function action_delete_post()
@@ -80,7 +80,7 @@ class Clansuite_Module_Forum extends Clansuite_Module_Controller implements Clan
         # Set Pagetitle and Breadcrumbs
         Clansuite_Breadcrumb::add( _('Delete Post'), '/index.php?mod=forum&amp;action=delete_post');
         
-        $this->prepareOutput();
+        $this->display();
     }
 
     public function action_delete_thread()
@@ -88,7 +88,7 @@ class Clansuite_Module_Forum extends Clansuite_Module_Controller implements Clan
         # Set Pagetitle and Breadcrumbs
         Clansuite_Breadcrumb::add( _('Delete Thread'), '/index.php?mod=forum&amp;action=delete_thread');
 
-        $this->prepareOutput();
+        $this->display();
     }
 
     public function action_edit_post()
@@ -96,7 +96,7 @@ class Clansuite_Module_Forum extends Clansuite_Module_Controller implements Clan
         # Set Pagetitle and Breadcrumbs
         Clansuite_Breadcrumb::add( _('Edit Post'), '/index.php?mod=forum&amp;action=edit_post');
 
-        $this->prepareOutput();
+        $this->display();
     }
 
     public function action_edit_thread()
@@ -104,7 +104,7 @@ class Clansuite_Module_Forum extends Clansuite_Module_Controller implements Clan
         # Set Pagetitle and Breadcrumbs
         Clansuite_Breadcrumb::add( _('Edit Thread'), '/index.php?mod=forum&amp;action=edit_thread');
 
-        $this->prepareOutput();
+        $this->display();
     }
 
     public function action_show_category()
@@ -112,7 +112,7 @@ class Clansuite_Module_Forum extends Clansuite_Module_Controller implements Clan
         # Set Pagetitle and Breadcrumbs
         Clansuite_Breadcrumb::add( _('Show Category'), '/index.php?mod=forum&amp;action=show_category');
 
-        $this->prepareOutput();
+        $this->display();
     }
 
     public function action_show_board()
@@ -120,7 +120,7 @@ class Clansuite_Module_Forum extends Clansuite_Module_Controller implements Clan
         # Set Pagetitle and Breadcrumbs
         Clansuite_Breadcrumb::add( _('Show Board'), '/index.php?mod=forum&amp;action=show_board');
 
-        $this->prepareOutput();
+        $this->display();
     }
 
     public function widget_forum($item, &$smarty)

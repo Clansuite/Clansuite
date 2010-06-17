@@ -113,7 +113,7 @@ class Clansuite_Module_News extends Clansuite_Module_Controller implements Clans
         $view->assign('pager', $pager);
         $view->assign('pager_layout', $pager_layout);
 
-        $this->prepareOutput();
+        $this->display();
     }
 
     /**
@@ -175,7 +175,7 @@ class Clansuite_Module_News extends Clansuite_Module_Controller implements Clans
         }
 
         # Prepare Output
-        $this->prepareOutput();
+        $this->display();
      }
 
     /**
@@ -350,7 +350,7 @@ class Clansuite_Module_News extends Clansuite_Module_Controller implements Clans
         $view->assign('pager', $pager);
         $view->assign('pager_layout', $pager_layout);
 
-        $this->prepareOutput();
+        $this->display();
     }
 
     /**
@@ -408,7 +408,7 @@ class Clansuite_Module_News extends Clansuite_Module_Controller implements Clans
         $view->assign('pager', $pager);
         $view->assign('pager_layout', $pager_layout);
 
-        $this->prepareOutput();
+        $this->display();
     }
 
     /**

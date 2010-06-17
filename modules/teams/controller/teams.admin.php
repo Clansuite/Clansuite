@@ -57,7 +57,7 @@ class Clansuite_Module_Teams_Admin extends Clansuite_Module_Controller implement
         # Set Layout Template
         $this->getView()->setLayoutTemplate('index.tpl');
         
-        $this->prepareOutput();
+        $this->display();
     }    
 }
 ?>

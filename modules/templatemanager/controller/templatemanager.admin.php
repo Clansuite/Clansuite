@@ -55,7 +55,7 @@ class Clansuite_Module_Templatemanager_Admin extends Clansuite_Module_Controller
 
     public function action_admin_show()
     {
-        $this->prepareOutput();
+        $this->display();
     }
 
     /**
@@ -82,7 +82,7 @@ class Clansuite_Module_Templatemanager_Admin extends Clansuite_Module_Controller
 
         $view->assign('view', $templates);
 
-        $this->prepareOutput();
+        $this->display();
     }
 
     public function getTemplatesOfModule($tplmod)
@@ -185,7 +185,7 @@ class Clansuite_Module_Templatemanager_Admin extends Clansuite_Module_Controller
         $view->assign('templateeditor_textarea',    htmlentities($templateText));
         $view->assign('templateeditor_newfile',     $templateeditor_newfile);
 
-        $this->prepareOutput();
+        $this->display();
     }
 
     public function action_admin_save()
@@ -205,7 +205,7 @@ class Clansuite_Module_Templatemanager_Admin extends Clansuite_Module_Controller
         $view = $this->getView();
         $view->assign('templateeditor_absolute_filename', htmlentities($tplfilename));
 
-        $this->prepareOutput();
+        $this->display();
     }
 
     public function action_admin_settings()
@@ -213,7 +213,7 @@ class Clansuite_Module_Templatemanager_Admin extends Clansuite_Module_Controller
         # Set Pagetitle and Breadcrumbs
         Clansuite_Breadcrumb::add( _('Settings'), '/index.php?mod=templatemanager&amp;sub=admin&amp;action=settings');
 
-        $this->prepareOutput();
+        $this->display();
     }
 }
 ?>

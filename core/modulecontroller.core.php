@@ -428,7 +428,7 @@ abstract class Clansuite_Module_Controller extends Clansuite_Module_Controller_R
     }
 
     /**
-     * modulecontroller->prepareOutput();
+     * modulecontroller->display();
      *
      * All Output is done via the Response Object.
      * ModelData -> View -> Response Object
@@ -441,38 +441,35 @@ abstract class Clansuite_Module_Controller extends Clansuite_Module_Controller_R
      * 4. assign model data to that view object (a,b,c)
      * 5. set data to response object
      *
+     * @param $templates array with keys 'layout' / 'content' and templates as values
      */
-    public function prepareOutput()
+    public function display(array $templates = null)
     {
+        # set layout and content template by parameter array
+        if(is_array($templates))
+        {
+            if(isset($templates['layout']))
+            {
+                $this->setLayoutTemplate($templates['layout']);
+            }
+
+            if(isset($templates['content']))
+            {
+                $this->setTemplate($templates['content']);
+            }
+        }
+
         # 1) get the Response Object
         $response = self::getInjector()->instantiate('Clansuite_HttpResponse');
 
         # 2) get the view
         $view = $this->getView();
 
+        # Debug - Layout Template and Content Template
+        # Clansuite_Debug::firebug('Layout/Wrapper Template: ' . $view->getLayoutTemplate() . '<br />');
+        # Clansuite_Debug::firebug('Template Name: ' .$this->getTemplateName() . '<br />');
 
-        # 3) get the layout (like admin/index.tpl)
-        #echo 'Layout/Wrapper Template: ' . $view->getLayoutTemplate() . '<br />';
-
-        # Debug
-        #echo 'Template Name: ' .$this->getTemplateName() . '<br />';
-
-        /**
-         * 4+5) Set Content on the Response Object
-         *
-         * Content comes from:
-         *
-         * a) directly assigned output via string-variable $this->output
-         * b) Render Engine -> method fetch() which returns a fetch template (without layout/mainframe)
-         * c) Render Engine -> method render() which returns a complete layout (rendered mainframe)
-         */
-        # a)$response->setContent($this->output);
-
-        #var_dump( $view->render($this->getTemplateName()) );
-
-        # b)
-        # $response->setContent($view->fetch($this->getTemplateName()));
-        # c)
+        #  Set Content on the Response Object
         $response->setContent($view->render($this->getTemplateName()));
     }
 

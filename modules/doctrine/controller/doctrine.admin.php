@@ -122,7 +122,7 @@ class Clansuite_Module_Doctrine_Admin extends Clansuite_Module_Controller implem
 
     public function action_admin_show()
     {
-        $this->prepareOutput();
+        $this->display();
     }
 }
 ?>

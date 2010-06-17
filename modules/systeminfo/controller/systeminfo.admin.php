@@ -68,7 +68,7 @@ class Clansuite_Module_Systeminfo_Admin extends Clansuite_Module_Controller impl
         $this->getView()->assign('sysinfos', $sysinfo);
         unset($sysinfo);
 
-        $this->prepareOutput();
+        $this->display();
     }
 
     /**
@@ -252,7 +252,7 @@ class Clansuite_Module_Systeminfo_Admin extends Clansuite_Module_Controller impl
         # Set Layout Template
         $this->getView()->setLayoutTemplate('index.tpl');
 
-        $this->prepareOutput();
+        $this->display();
     }
 
     public function action_admin_show_logfiles()
@@ -269,7 +269,7 @@ class Clansuite_Module_Systeminfo_Admin extends Clansuite_Module_Controller impl
         # Set Layout Template
         $this->getView()->setLayoutTemplate('index.tpl');
 
-        $this->prepareOutput();
+        $this->display();
     }
 }
 ?>

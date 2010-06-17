@@ -59,7 +59,7 @@ class Clansuite_Module_Gallery extends Clansuite_Module_Controller implements Cl
         # Set Pagetitle and Breadcrumbs
         Clansuite_Breadcrumb::add( _('show'), '/index.php?mod=gallery&amp;action=show');
 
-        $this->prepareOutput();
+        $this->display();
     }
 
     public function widget_gallery($item)

@@ -159,7 +159,7 @@ class Clansuite_Module_Guestbook extends Clansuite_Module_Controller implements 
         $form = new Clansuite_Form('eingabe','post',$_SERVER['PHP_SELF']);
         $view->assign('form', $form);
 
-        $this->prepareOutput();
+        $this->display();
     }
 }
 ?>

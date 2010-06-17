@@ -62,7 +62,7 @@ class Clansuite_Module_Games_Admin extends Clansuite_Module_Controller implement
         # Set Layout Template
         $this->getView()->setLayoutTemplate('index.tpl');
 
-        $this->prepareOutput();
+        $this->display();
     }
     
     public function action_admin_settings()
@@ -97,7 +97,7 @@ class Clansuite_Module_Games_Admin extends Clansuite_Module_Controller implement
         # assign the html of the form to the view
         $this->getView()->assign('form', $form->render());
 
-        $this->prepareOutput();       
+        $this->display();       
     }
     
     public function action_admin_settings_update()

@@ -66,7 +66,7 @@ class Clansuite_Module_Downloads extends Clansuite_Module_Controller implements 
         $view = $this->getView();
         $view->assign('downloads', $downloads);
 
-        $this->prepareOutput();
+        $this->display();
     }
 
     /**

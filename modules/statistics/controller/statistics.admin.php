@@ -56,7 +56,7 @@ class Clansuite_Module_Statistics_Admin extends Clansuite_Module_Controller impl
 
         $view->assign('stuff', '123');
 
-        $this->prepareOutput();
+        $this->display();
     }
 
     public function action_admin_settings()
@@ -97,7 +97,7 @@ class Clansuite_Module_Statistics_Admin extends Clansuite_Module_Controller impl
         # assign the html of the form to the view
         $this->getView()->assign('form', $form->render());
 
-        $this->prepareOutput();
+        $this->display();
     }
 
     public function action_admin_settings_update()

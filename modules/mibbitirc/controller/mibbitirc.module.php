@@ -72,7 +72,7 @@ class Clansuite_Module_Mibbitirc extends Clansuite_Module_Controller implements 
         $this->getView()->assign('mibbit_options', $mibbit_options);
 
         # Output
-        $this->prepareOutput();
+        $this->display();
     }
 }
 ?>
