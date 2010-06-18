@@ -62,73 +62,6 @@ class Clansuite_Dispatcher
     private static $modulename;
     private static $submodulename;
 
-    /**
-     * The dispatcher forwards to the pagecontroller = modulecontroller + moduleaction
-     */
-    public function forward()
-    {
-        $route = $this->getFoundRoute();
-
-        if($route === null)
-        {
-            throw new Clansuite_Exception('The dispatcher is unable to forward. No route object given.', 99);
-        }
-
-        $filename    = $route->getFilename();
-        $classname   = $route->getClassname();
-        $method      = $route->getAction();
-        $parameters  = $route->getParameters();
-
-        unset($route);
-
-        if(false === is_file($filename) )
-        {
-            throw new Exception('File not found ' . $filename);
-        }
-        else
-        {
-            include $filename;
-        }
-
-        if(true === class_exists($classname, false))
-        {
-            $controllerInstance = new $classname();
-        }
-        else
-        {
-            throw new Exception('There was no controller named ' . $classname);
-        }
-
-        /**
-         * Handle Method
-         *
-         * 1) check if method exists in module -> CALL
-         * 2) check if method exists in module/actions path -> CALL
-         * 3) if not found display error -> ERROR
-         */
-        if(true === method_exists($controllerInstance, $action))
-        {
-            # set the used action name
-            $this->setAction($methodname);
-
-            # call the method on module!
-            $controllerInstance->$action($parameters);
-        }
-        /*
-        elseif(is_file(ROOT_MOD . $modulename.'/controller/commands/'.$methodname.'.php') === true)
-        {
-            # command controller factory ,)
-            # create command (by including the file of the actioncontroller)
-            # example: 'modulename/controller/commands/action_show.php'
-            return ROOT_MOD . $modulename.'/controller/commands/'.$methodname.'.php';
-        }*/
-        else # error
-        {
-            throw new Clansuite_Exception('There was no action named ' . $action, 2);
-        }
-
-        #Clansuite_Loader::callClassMethod($class, $method, $parameters);
-    }
 
     /**
      * Sets the matching route object to the dispatcher
@@ -151,6 +84,76 @@ class Clansuite_Dispatcher
     public function getFoundRoute()
     {
         return self::$found_route;
+    }
+
+    /**
+     * The dispatcher forwards to the pagecontroller = modulecontroller + moduleaction
+     */
+    public function forward()
+    {
+        $route = $this->getFoundRoute();
+
+
+        if($route === null)
+        {
+            throw new Clansuite_Exception('The dispatcher is unable to forward. No route object given.', 99);
+        }
+
+        $filename     = $route->getFilename();
+        $classname    = $route->getClassname();
+        $method       = $route->getAction();
+        $parameters   = $route->getParameters();
+        $renderengine = $route->getRenderEngine();
+
+        unset($route);
+
+        if(false === is_file($filename) )
+        {
+            throw new Clansuite_Exception('File not found ' . $filename);
+        }
+        else
+        {
+            include $filename;
+        }
+
+        if(true === class_exists($classname, false))
+        {
+            $controllerInstance = new $classname();
+        }
+        else
+        {
+            throw new Clansuite_Exception('There was no controller named ' . $classname);
+        }
+
+        /**
+         * Handle Method
+         *
+         * 1) check if method exists in module -> CALL
+         * 2) check if method exists in module/actions path -> CALL
+         * 3) if not found display error -> ERROR
+         */
+        if(true === method_exists($controllerInstance, $action))
+        {
+            # set the used action name
+            $this->setAction($methodname);
+
+            # call the method on module!
+            $controllerInstance->$action($parameters);
+        }
+        /*
+        elseif(is_file(ROOT_MOD . $modulename.'/controller/commands/'.$methodname.'.php') === true)
+        {
+            # command controller factory
+            # create command (by including the file of the actioncontroller)
+            # example: 'modulename/controller/commands/action_show.php'
+            return ROOT_MOD . $modulename.'/controller/commands/'.$methodname.'.php';
+        }*/
+        else # error
+        {
+            throw new Clansuite_Exception('There was no action named ' . $action, 2);
+        }
+
+        #Clansuite_Loader::callClassMethod($class, $method, $parameters);
     }
 
     /**

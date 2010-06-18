@@ -143,7 +143,7 @@ class Clansuite_Front_Controller implements Clansuite_Front_Controller_Interface
         $this->dispatcher->setFoundRoute($route)->forward();
         $event->triggerEvent('onAfterDispatcherForward');
         $this->post_filtermanager->processFilters($this->request, $this->response);
-        $response->sendResponse();
+        $this->response->sendResponse();
     }
 }
 ?>
