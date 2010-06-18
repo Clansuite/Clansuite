@@ -157,7 +157,6 @@ class PHP_CodeSniffer_Standards_Clansuite_ClansuiteCodingStandard extends PHP_Co
                     # dirname(__FILE__) . '/Sniffs/Operators/ValidLogicalOperatorsSniff.php',
 
               # Comments
-                    'Squiz/Sniffs/Commenting/FunctionCommentSniff.php',
                    );
 
     }
