@@ -599,6 +599,12 @@ class Clansuite_HttpRequest implements Clansuite_Request_Interface, ArrayAccess
             }
         }
 
+        # NGINX - with natural russian config passes the IP as REAL_IP ;)
+        if (array_key_exists('HTTP_X_REAL_IP', $_SERVER) and self::validateIP($_SERVER['HTTP_X_REAL_IP']))
+        {
+            return $_SERVER['HTTP_X_REAL_IP'];
+        }
+
         if (array_key_exists('HTTP_FORWARDED_FOR', $_SERVER) and self::validateIP($_SERVER['HTTP_FORWARDED_FOR']))
         {
             return $_SERVER['HTTP_FORWARDED_FOR'];
