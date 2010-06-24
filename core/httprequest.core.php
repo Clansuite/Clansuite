@@ -646,46 +646,22 @@ class Clansuite_HttpRequest implements Clansuite_Request_Interface, ArrayAccess
     }
 
     /**
-     * Validates a given IP and takes care of reserved IANA IPv4 addresses
+     * Validates a given IP
      *
-     * @author <admin@webbsense.com>
-     * @link http://algorytmy.pl/doc/php/function.getenv.php
      * @see getRemoteAddress()
-     * @param $ip
+     * @param string $ip The IP address to validate.
+     * @param boolen $ipv6 Boolean true, activates ipv6 checking.
      * @return boolean True, if IP is valid. False, otherwise.
      */
-    public static function validateIP($ip)
+    public static function validateIP($ip, $ipv6 = false)
     {
-        if (!empty($ip) and ip2long($ip)!=-1)
+        if (true === $ipv6)
         {
-            // reserved IANA IPv4 addresses
-            // http://www.iana.org/assignments/ipv4-address-space
-            $reserved_ips = array (
-                            array('0.0.0.0','2.255.255.255'),
-                            array('10.0.0.0','10.255.255.255'),
-                            array('127.0.0.0','127.255.255.255'),
-                            array('169.254.0.0','169.254.255.255'),
-                            array('172.16.0.0','172.31.255.255'),
-                            array('192.0.2.0','192.0.2.255'),
-                            array('192.168.0.0','192.168.255.255'),
-                            array('255.255.255.0','255.255.255.255')
-            );
-
-            foreach ($reserved_ips as $r)
-            {
-                $min = ip2long($r[0]);
-                $max = ip2long($r[1]);
-                if ((ip2long($ip) >= $min) and (ip2long($ip) <= $max))
-                {
-                    return false;
-                }
-            }
-
-            return true;
+            return (bool) filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE);
         }
         else
         {
-            return false;
+            return (bool) filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE | FILTER_FLAG_IPV4);
         }
     }
 
