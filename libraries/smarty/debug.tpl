@@ -33,12 +33,12 @@ h2 {
 }
 
 body {
-    background: black;
+    background: black; 
 }
 
 p, table, div {
     background: #f0ead8;
-}
+} 
 
 p {
     margin: 0;
@@ -104,7 +104,7 @@ td {
 
 <table id="table_assigned_vars">
     {foreach $assigned_vars as $vars}
-       <tr class="{if $vars@iteration % 2 eq 0}odd{else}even{/if}">
+       <tr class="{if $vars@iteration % 2 eq 0}odd{else}even{/if}">   
        <th>${$vars@key|escape:'html'}</th>
        <td>{$vars|debug_print_var}</td></tr>
     {/foreach}
@@ -114,7 +114,7 @@ td {
 
 <table id="table_config_vars">
     {foreach $config_vars as $vars}
-       <tr class="{if $vars@iteration % 2 eq 0}odd{else}even{/if}">
+       <tr class="{if $vars@iteration % 2 eq 0}odd{else}even{/if}">   
        <th>{$vars@key|escape:'html'}</th>
        <td>{$vars|debug_print_var}</td></tr>
     {/foreach}
@@ -124,15 +124,13 @@ td {
 </html>
 {/capture}
 <script type="text/javascript">
-/*<![CDATA[*/
 {literal}    if ( self.name == '' ) {
        var title = 'Console';
       }
     else {
        var title = 'Console_' + self.name;
       }{/literal}
-    _smarty_console = window.open("",title.value,"width=960,height=600,resizable,scrollbars=yes");
+    _smarty_console = window.open("",title.value,"width=680,height=600,resizable,scrollbars=yes");
     _smarty_console.document.write("{$debug_output|escape:'javascript'}");
     _smarty_console.document.close();
-/*]]>*/
 </script>
