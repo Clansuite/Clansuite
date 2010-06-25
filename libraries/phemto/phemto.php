@@ -19,6 +19,10 @@ class Phemto {
     function willUse($preference) {
         $this->top->willUse($preference);
     }
+    
+    function register($preference) {
+        $this->top->willUse($preference);
+    }
 
     function forVariable($name) {
         return $this->top->forVariable($name);
@@ -44,6 +48,16 @@ class Phemto {
     }
 
     function create() {
+        $values = func_get_args();
+        $type = array_shift($values);
+        $this->unnamed_parameters = array_merge($this->unnamed_parameters, $values);
+        $this->repository = new ClassRepository();
+        $object = $this->top->create($type);
+        $this->named_parameters = array();
+        return $object;
+    }
+    
+    function instantiate() {
         $values = func_get_args();
         $type = array_shift($values);
         $this->unnamed_parameters = array_merge($this->unnamed_parameters, $values);
