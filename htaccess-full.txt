@@ -21,10 +21,6 @@ php_value magic_quotes_gpc      "0"
 php_value register_globals      "Off"
 php_value output_buffering      "1"
 php_value output_handler        ob_gzhandler
-
-# (5) For safety reasons you should disable the following php functions:
-
-# php_admin_value disable_functions "exec, system, passthru, shell_exec, suexec, dbmopen, popen, proc_open, escapeshellcmd, escapeshellarg"
 </IfModule>
 
 # Exlude .svn files (in case you are fetching directly from svn to the webserver)
