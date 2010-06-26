@@ -19,7 +19,6 @@ SetEnv TZ Europe/Berlin
     php_value register_globals      "Off"
     php_value output_buffering      "1"
     php_value output_handler        ob_gzhandler
-    php_admin_value disable_functions "exec, system, passthru, shell_exec, suexec, dbmopen, popen, proc_open, escapeshellcmd, escapeshellarg"
 </IfModule>
 
 <IfModule mod_deflate.c>
