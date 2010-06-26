@@ -1,6 +1,5 @@
 # This is a ".htaccess" template for Clansuite
 # SVN: $Id$
-# Usage: rename this file to ".htaccess". If you need furhter infos read the comments in "htaccess-full.txt".
 
 DirectoryIndex index.php
 Options +FollowSymLinks
