@@ -2,6 +2,12 @@
                             C  L  A  N  S  U  I  T  E
 
 
+  Project Shortcuts
+  -----------------
+
+  Website 	http://clansuite.com/
+  Bugtracker	http://trac.clansuite.com/
+  Forum		http://forum.clansuite.com/	
 
   What is it?
   -----------
@@ -21,55 +27,11 @@
     You can find more information about Clansuite and the latest sources on the official website
     http://clansuite.com/.
 
-  Why?
-  ----
-
-    Why another clanscript when there are already bxcp, clansphere, webspell, triggertg,
-    cmpro and others? Because all those scripts have limitations that the clansuite
-    development team could not live with when building a clan-website:
-
-      As webmaster and orga of an e-sports team named "knd-squad" i used various cms over
-    the years, most of them heavily modified by myself to fit our administrative needs and
-    to take some work out of our hands.
-
-      Long time ago, I contributed some of my ideas and useful (imo) features to different
-    clan-related cms communities, but found them only little organized, focused on un-
-    needed things while being unable to help in development of important features or
-    realize basic user-requests.
-
-    As I began to implement add-on's on my own, i found myself always working on the
-    frame-level, reaching the borders of those cms. Too often they were lacking essential
-    features while featuring essential design flaws to build upon. While PHP's language
-    features and web-techniques evolved, these scripts did not. Some of my idea's couldn't
-    be implemented easily, other ones ended too often on my sketchpad.
-
-    In the end i decided to start a e-sport dedicated cms from scratch. Clansuite was born.
-
-      We hope that Clansuite is different. It's developed as a framework-oriented CMS, but
-    still not being a framework at all.
-
-      Clansuite is modular. This means that you can easily extend features by adding new
-    modules. You can add them "manually via ftp" or use the Admin Control Panel to install
-    "over the web" from the Clansuite HQ-Server.
-
-      My objective is to develop a community surrounded, open-source cms/portal-system,
-    focused on essential administrative needs for both, e-sports and real-life sports teams,
-    while keeping simplicity and maintainabilty in mind.
-
-
   The Latest Version
   ------------------
 
     Details of the latest version can be found on the Clansuite homepage
     <http://clansuite.com/>.
-
-
-  Installation
-  ------------
-
-    For fetching the system to your webserver you could use our webinstaller.
-    For installing it, point your browser to the /installation directory in the Clansuite root.
-    Read INSTALL for more details.
 
 
   Documentation
@@ -119,7 +81,7 @@
 
     If you find any bugs, please do one of the following things:
     1 ) visit the websites support-forum to report them
-    2 ) or submit them to the bugtracker at http://trac.clansuite.com/ .
+    2 ) or submit them to the bugtracker at http://bugtracker.clansuite.com/ .
     3 ) or mail them on the developer-mailinglist.
     More information can be found on the official website.
 
