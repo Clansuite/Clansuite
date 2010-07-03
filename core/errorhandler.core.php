@@ -43,7 +43,7 @@ if (defined('IN_CS') == false)
  * Clansuite Core Class for Errorhandling
  *
  * Sets up a custom Errorhandler.
- * @see Clansuite_CMS::initialize_Errorhandling() 
+ * @see Clansuite_CMS::initialize_Errorhandling()
  *
  * @example
  * <code>
@@ -76,7 +76,7 @@ class Clansuite_Errorhandler
     public function clansuite_error_handler( $errornumber, $errorstring, $errorfile, $errorline, $errorcontext )
     {
         #  do just return, if the error is suppressed - cases: (silenced with @ operator or DEBUG mode active)
-        if(error_reporting() == 0)
+        if(error_reporting() === 0)
         {
             return;
         }
@@ -91,7 +91,6 @@ class Clansuite_Errorhandler
         /**
          * Definition of PHP Errortypes Array - with names for all the php error codes
          * @link http://php.oss.eznetsols.org/manual/de/errorfunc.constants.php
-         * @todo return correct errorcodes for the actual php version (array is for 5.2.x)
          */
         $errorTypes = array (    1      => 'E_ERROR',               # fatal run-time errors, like php is failing memory allocation
                                  2      => 'E_WARNING',             # Run-time warnings (non-fatal errors)
@@ -117,7 +116,7 @@ class Clansuite_Errorhandler
 
 
         # check if the error number exists in the errortypes array
-        if (array_key_exists($errornumber, $errorTypes))
+        if(isset($errorTypes[$errornumber]))
         {
             # get the errorname from the array via $errornumber
             $errorname = $errorTypes[$errornumber];
@@ -291,7 +290,7 @@ class Clansuite_Errorhandler
     {
         if(mb_strlen($errorstring) > 60)
         {
-            $trimed_errorstring = mb_substr($errorstring,0,mb_strpos($errorstring,' ',60));
+            $trimed_errorstring = mb_substr($errorstring, 0, mb_strpos($errorstring, ' ', 60));
         }
         else
         {
@@ -300,7 +299,7 @@ class Clansuite_Errorhandler
 
         # Header
         $errormessage = '<html><head>';
-        $errormessage .= '<title>Clansuite Error : [ ' . $trimed_errorstring . ' ... | Code: ' . $errornumber . ' ] </title>';
+        $errormessage .= '<title>Clansuite Error | ' . $trimed_errorstring . ' ... | Code: ' . $errornumber . '</title>';
         $errormessage .= '<body>';
         $errormessage .= '<link rel="stylesheet" href="' . WWW_ROOT_THEMES_CORE . '/css/error.css" type="text/css" />';
         $errormessage .= '</head>';
@@ -320,8 +319,9 @@ class Clansuite_Errorhandler
 
         # Error Messages
         $errormessage .= '<table>';
-        $errormessage .= '<tr><td colspan="2"><h3> Error - <small>'.$errorname.'</small></h3><h4>'.$errorstring.'</h4></td></tr>';
-        #$errormessage .= '<tr><td width=15%><strong>Code: </strong></td><td>'. $errornumber . '</td></tr>';
+        $errormessage .= '<tr><td colspan="2"><h3> Error</td></tr>';
+        $errormessage .= '<tr><td colspan="2"><h4>'.$errorstring.'</h4></td></tr>';
+        $errormessage .= '<tr><td width=15%><strong>Type: </strong></td><td>' .$errorname . ' '. $errornumber . '</td></tr>';
         $errormessage .= '<tr><td><strong>Path: </strong></td><td>' . dirname($errorfile) . '</td></tr>';
         $errormessage .= '<tr><td><strong>File: </strong></td><td>' . basename($errorfile) . '</td></tr>';
         $errormessage .= '<tr><td><strong>Line: </strong></td><td>' . $errorline . '</td></tr>';
@@ -428,7 +428,8 @@ class Clansuite_Errorhandler
             {
                 $backtrace_string .= '<tr><td><strong>[PHP Core Function called]</strong></td>';
             }
-            else
+
+             if(isset($backtrace[$i]['class']))
             {
                 $backtrace_string .= '<tr><td><strong>Called: </strong></td><td>' . $backtrace[$i]['class'] . '::';
                 $backtrace_string .= $backtrace[$i]['function'] . '(';
