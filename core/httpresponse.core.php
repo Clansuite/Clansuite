@@ -1,7 +1,7 @@
 <?php
    /**
     * Clansuite - just an eSports CMS
-    * Jens-AndrÈ Koch © 2005 - onwards
+    * Jens-Andr√© Koch ¬© 2005 - onwards
     * http://www.clansuite.com/
     *
     * This file is part of "Clansuite - just an eSports CMS".
@@ -24,8 +24,8 @@
     *
     * @license    GNU/GPL v2 or (at your option) any later version, see "/doc/LICENSE".
     *
-    * @author     Jens-AndrÈ Koch <vain@clansuite.com>
-    * @copyright  Jens-AndrÈ Koch (2005 - onwards)
+    * @author     Jens-Andr√© Koch <vain@clansuite.com>
+    * @copyright  Jens-Andr√© Koch (2005 - onwards)
     *
     * @link       http://www.clansuite.com
     * @link       http://gna.org/projects/clansuite
@@ -204,10 +204,13 @@ class Clansuite_HttpResponse implements Clansuite_Response_Interface
         }
 
         # Send the status line
-        self::addheader('HTTP/1.1', self::$statusCode.' '.self::getStatusCodeDescription(self::$statusCode));
+        self::addHeader('HTTP/1.1', self::$statusCode.' '.self::getStatusCodeDescription(self::$statusCode));
 
         # Set X-Powered-By Header to Clansuite Signature
-        self::addheader('X-Powered-By', '[ Clansuite - just an eSport CMS ][ Version : '. CLANSUITE_VERSION .' ][ www.clansuite.com ]');
+        self::addHeader('X-Powered-By', '[ Clansuite - just an eSport CMS ][ Version : '. CLANSUITE_VERSION .' ][ www.clansuite.com ]');
+
+        # Suppress Framesets
+        self::addHeader('X-Frame-Options', 'deny'); # not SAMEORIGIN
 
         # Send our Content-Type with UTF-8 encoding
         self::addHeader('Content-Type', 'text/html; charset=UTF-8');
