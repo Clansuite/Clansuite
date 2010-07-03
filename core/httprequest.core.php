@@ -56,8 +56,8 @@ interface Clansuite_Request_Interface
     public function getCookie($name);
 
     # Request Method
-    public function getRequestMethod();
-    public function setRequestMethod($method);
+    public static function getRequestMethod();
+    public static function setRequestMethod($method);
 
     # $_SERVER Stuff
     public static function getServerProtocol();
@@ -101,7 +101,7 @@ class Clansuite_HttpRequest implements Clansuite_Request_Interface, ArrayAccess
     /**
      * @var The requestmethod. Possible values are GET, POST, PUT, DELETE.
      */
-    protected $request_method;
+    protected static $request_method;
 
     /**
      * @var string the base URL (protocol://server:port)
@@ -526,21 +526,21 @@ class Clansuite_HttpRequest implements Clansuite_Request_Interface, ArrayAccess
      */
     public static function getRequestURI()
     {
-        if (isset($_SERVER['REQUEST_URI']))
+        if(isset($_SERVER['REQUEST_URI']))
         {
             return urldecode(mb_strtolower($_SERVER['REQUEST_URI']));
         }
 
         # MS-IIS and ISAPI Rewrite Filter
-        if ($_SERVER['HTTP_X_REWRITE_URL'])
+        if(isset($_SERVER['HTTP_X_REWRITE_URL']))
         {
             return urldecode(mb_strtolower($_SERVER['HTTP_X_REWRITE_URL']));
         }
 
         $p = $_SERVER['SCRIPT_NAME'];
-        if ($_SERVER['QUERY_STRING'])
+        if(isset($_SERVER['QUERY_STRING']))
         {
-            $p .= '?'.$_SERVER['QUERY_STRING'];
+            $p .= '?' . $_SERVER['QUERY_STRING'];
         }
 
         return urldecode(mb_strtolower($p));
@@ -667,21 +667,25 @@ class Clansuite_HttpRequest implements Clansuite_Request_Interface, ArrayAccess
 
 
     /**
+     * REST Tunneling Detection
+     *
      * This method takes care for REST (Representational State Transfer) by tunneling PUT, DELETE through POST (principal of least power).
      * Ok, this is faked or spoofed REST, but lowers the power of POST and it's short and nice in html forms.
+     * @todo allow 'GET' through POST?
+     *
      * @see https://wiki.nbic.nl/index.php/REST.inc
      * @see http://www.w3.org/Protocols/rfc2616/rfc2616-sec9.html
      */
     public function detectRESTTunneling()
     {
         # this will allow DELETE and PUT
-        $REST_MethodNames = array('DELETE', 'PUT');  # @todo allow 'GET' through POST?
+        $rest_methodnames = array('DELETE', 'PUT');
 
         # request_method has to be POST AND GET has to to have the method GET
         if ($_SERVER['REQUEST_METHOD'] == 'POST' and isset($_GET['method']))
         {
             # check for allowed rest commands
-            if (in_array(mb_strtoupper($_GET['method']), $REST_MethodNames))
+            if (in_array(mb_strtoupper($_GET['method']), $rest_methodnames))
             {
                 # set the internal (tunneled) method as new REQUEST_METHOD
                 $this->setRequestMethod($_GET['method']);
@@ -719,12 +723,12 @@ class Clansuite_HttpRequest implements Clansuite_Request_Interface, ArrayAccess
      *
      * @return string request method
      */
-    public function getRequestMethod()
+    public static function getRequestMethod()
     {
         # first get the internally set request_method (PUT or DELETE) because we might have a REST-tunneling
-        if(isset($this->request_method))
+        if(isset(self::$request_method))
         {
-            return $this->request_method;
+            return self::$request_method;
         }
         else # this will be POST or GET
         {
@@ -735,9 +739,9 @@ class Clansuite_HttpRequest implements Clansuite_Request_Interface, ArrayAccess
     /**
      * Set the REQUEST_METHOD
      */
-    public function setRequestMethod($method)
+    public static function setRequestMethod($method)
     {
-        $this->request_method = mb_strtoupper($method);
+        self::$request_method = mb_strtoupper($method);
     }
 
     /**
