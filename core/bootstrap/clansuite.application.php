@@ -477,9 +477,9 @@ class Clansuite_CMS
                              );
 
         # register them to the DI as singletons
-        foreach( $core_classes as $class )
+        foreach($core_classes as $class)
         {
-            self::$injector->register( new Singleton( $class ) );
+            self::$injector->register($class);
         }
     }
 
@@ -497,15 +497,15 @@ class Clansuite_CMS
                                          'Clansuite_Filter_LanguageViaGet',
                                          'Clansuite_Filter_ThemeViaGet',
                                          'Clansuite_Filter_SetModuleLanguage',
-                                         'Clansuite_Filter_SetBreadcrumbs',
+                                         #'Clansuite_Filter_SetBreadcrumbs',
                                          'Clansuite_Filter_StartupChecks',
                                          'Clansuite_Filter_Statistics'
                                         );
 
         # register the prefilters at the DI
-        foreach( self::$prefilter_classes as $class )
+        foreach(self::$prefilter_classes as $class)
         {
-            self::$injector->register( $class );
+            self::$injector->register($class);
         }
 
         # define postfilters to load
@@ -516,9 +516,9 @@ class Clansuite_CMS
                                           );
 
         # register the postfilters at the DI
-        foreach( self::$postfilter_classes as $class )
+        foreach(self::$postfilter_classes as $class)
         {
-            self::$injector->register( $class );
+            self::$injector->register($class);
         }
     }
 
