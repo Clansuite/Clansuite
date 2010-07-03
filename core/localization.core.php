@@ -165,16 +165,10 @@ class Clansuite_Localization
         setlocale(LC_ALL, $locale . '.UTF-8');
         T_setlocale(LC_ALL, $locale . '.UTF8', $locale);
 
-        # workaround for php on windows, to set LC_MESSAGES
-        if(defined('LC_MESSAGES') == false)
-        {
-            define('LC_MESSAGES', 5);
-        }
-
         /**
          * Set the domain_directory (where look for MO files named $domain.po)
          */
-        if($module == null)
+        if($module === null)
         {
             # for domain 'clansuite', it's the ROOT_LANGUAGES directory
             $domain_directory = ROOT_LANGUAGES;
