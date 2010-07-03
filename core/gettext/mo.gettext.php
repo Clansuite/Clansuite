@@ -1,12 +1,60 @@
-class Gettext_MO_File
+<?php
+   /**
+    * Clansuite - just an E-Sport CMS
+    * Jens-André Koch © 2005 - onwards
+    * http://www.clansuite.com/
+    *
+    * This file is part of "Clansuite - just an eSports CMS".
+    *
+    * LICENSE:
+    *
+    *    This program is free software; you can redistribute it and/or modify
+    *    it under the terms of the GNU General Public License as published by
+    *    the Free Software Foundation; either version 2 of the License, or
+    *    (at your option) any later version.
+    *
+    *    This program is distributed in the hope that it will be useful,
+    *    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    *    GNU General Public License for more details.
+    *
+    *    You should have received a copy of the GNU General Public License
+    *    along with this program; if not, write to the Free Software
+    *    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+    *
+    * @license    GNU/GPL v2 or (at your option) any later version, see "/doc/LICENSE".
+    *
+    * @author     Jens-André Koch   <vain@clansuite.com>
+    * @copyright  Jens-André Koch (2005 - onwards)
+    *
+    * @link       http://www.clansuite.com
+    * @link       http://gna.org/projects/clansuite
+    *
+    * @version    SVN: $Id$
+    */
+
+# Security Handler
+if(defined('IN_CS') === false)
+{
+    die('Clansuite not loaded. Direct Access forbidden.');
+}
+
+/**
+ * Clansuite_Gettext_MOFile
+ *
+ * Handling for Gettext "Machine Object" (.mo) Files.
+ *
+ * @category    Clansuite
+ * @package     Core
+ * @subpackage  Gettext
+ */
+class Clansuite_Gettext_MOFile
 {
     /**
      * Writes a GNU gettext style machine object (mo-file).
-     *
-     * @copyright 2007 Matthias Bauer
+     *   
      * @author Matthias Bauer
-     * @license http://opensource.org/licenses/lgpl-license.php GNU Lesser General Public License 2.1
-     *
+     * 
      * @link http://www.gnu.org/software/gettext/manual/gettext.html#MO-Files
      */
     function write($hash, $out)
@@ -60,7 +108,6 @@ class Gettext_MO_File
         $value_offsets= array ();
 
         # calculate
-
         foreach ($offsets as $v)
         {
             list ($o1, $l1, $o2, $l2)= $v;
@@ -97,3 +144,4 @@ class Gettext_MO_File
         file_put_contents($out, $mo);
     }
 }
+?>
