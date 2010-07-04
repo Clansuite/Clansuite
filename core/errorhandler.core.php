@@ -288,9 +288,9 @@ class Clansuite_Errorhandler
      */
     private function yellowScreenOfDeath($errornumber, $errorname, $errorstring, $errorfile, $errorline, $errorcontext )
     {
-        if(mb_strlen($errorstring) > 60)
+        if(mb_strlen($errorstring) > 70)
         {
-            $trimed_errorstring = mb_substr($errorstring, 0, mb_strpos($errorstring, ' ', 60));
+            $trimed_errorstring = mb_substr($errorstring, 0, mb_strpos($errorstring, ' ', 70)) . ' ...';
         }
         else
         {
@@ -299,7 +299,7 @@ class Clansuite_Errorhandler
 
         # Header
         $errormessage = '<html><head>';
-        $errormessage .= '<title>Clansuite Error | ' . $trimed_errorstring . ' ... | Code: ' . $errornumber . '</title>';
+        $errormessage .= '<title>Clansuite Error | ' . $trimed_errorstring . ' | Code: ' . $errornumber . '</title>';
         $errormessage .= '<body>';
         $errormessage .= '<link rel="stylesheet" href="' . WWW_ROOT_THEMES_CORE . '/css/error.css" type="text/css" />';
         $errormessage .= '</head>';
@@ -315,13 +315,13 @@ class Clansuite_Errorhandler
         $errormessage .= '<img src="' . WWW_ROOT_THEMES_CORE . '/images/Clansuite-Toolbar-Icon-64-error.png" style="border: 2px groove #000000;"/></div>';
 
         # Fieldset Legend
-        $errormessage .= '<legend>Clansuite Error : [ ' . $trimed_errorstring . ' ... ] </legend>';
+        $errormessage .= '<legend>Clansuite Error : [ ' . $trimed_errorstring . ' ] </legend>';
 
         # Error Messages
         $errormessage .= '<table>';
         $errormessage .= '<tr><td colspan="2"><h3> Error</td></tr>';
-        $errormessage .= '<tr><td colspan="2"><h4>'.$errorstring.'</h4></td></tr>';
-        $errormessage .= '<tr><td width=15%><strong>Type: </strong></td><td>' .$errorname . ' '. $errornumber . '</td></tr>';
+        $errormessage .= '<tr><td colspan="2"><h4>' . $trimed_errorstring . '</h4></td></tr>';
+        $errormessage .= '<tr><td width=15%><strong>Type: </strong></td><td>' . $errorname . ' '. $errornumber . '</td></tr>';
         $errormessage .= '<tr><td><strong>Path: </strong></td><td>' . dirname($errorfile) . '</td></tr>';
         $errormessage .= '<tr><td><strong>File: </strong></td><td>' . basename($errorfile) . '</td></tr>';
         $errormessage .= '<tr><td><strong>Line: </strong></td><td>' . $errorline . '</td></tr>';
@@ -339,7 +339,7 @@ class Clansuite_Errorhandler
         # Add Debug Backtracing
         $errormessage .= '<tr><td>' . self::getDebugBacktrace() . '</td></tr>';
 
-          # HR Split
+        # HR Split
         $errormessage .= '<tr><td colspan="2">&nbsp;</td></tr>';
 
         # Environmental Informations at Errortime ( $errorcontext is not displayed )
@@ -418,40 +418,40 @@ class Clansuite_Errorhandler
         $backtrace_string .= '<tr><td><h3>Backtrace</h3></td></tr>';
         $backtrace_string .= '<tr><td><strong>Callstack</strong></td><td>(Recent function calls last)</td>';
 
-        # restructure the debug_backtrace
-        $backtrace_counter_i = count($backtrace) - 1;
-        for($i = 0; $i <= $backtrace_counter_i; $i++)
+        $backtraces_count = count($backtrace)-1;
+        for($i = 0; $i <= $backtraces_count; $i++)
         {
-            $backtrace_string .= '<tr><td><br />Call #'.($backtrace_counter_i-$i+1).'</td></tr>';
+            $backtrace_string .= '<tr><td><br />Call #'.(($backtraces_count-$i)+1).'</td></tr>';
 
-            if(isset($backtrace[$i]['file']) == false)
+            $backtrace_string .= '<tr><td><strong>Called: </strong></td>';
+
+            if(isset($backtrace[$i]['class']) == false)
             {
-                $backtrace_string .= '<tr><td><strong>[PHP Core Function called]</strong></td>';
+                $backtrace_string .= '<td>[PHP Core Function called]</strong></td>';
             }
-
-             if(isset($backtrace[$i]['class']))
+            else
             {
-                $backtrace_string .= '<tr><td><strong>Called: </strong></td><td>' . $backtrace[$i]['class'] . '::';
-                $backtrace_string .= $backtrace[$i]['function'] . '(';
-            }
+                $backtrace_string .= '<td>' . $backtrace[$i]['class'] . '::' . $backtrace[$i]['function'] . '(';
 
-            if(isset($backtrace[$i]['args']) and empty($backtrace[$i]['args']) == false)
-            {
-                $backtrace_counter_j = count($backtrace[$i]['args']) - 1;
-                for($j = 0; $j <= $backtrace_counter_j; $j++)
+                if(isset($backtrace[$i]['args']) and empty($backtrace[$i]['args']) == false)
                 {
-                    $backtrace_string .= self::formatBacktraceArgument($backtrace[$i]['args'][$j]);
-
-                    # if we have several arguments to loop over
-                    if($j != $backtrace_counter_j)
+                    $backtrace_counter_j = count($backtrace[$i]['args']) - 1;
+                    for($j = 0; $j <= $backtrace_counter_j; $j++)
                     {
-                        # we split them by comma
-                        $backtrace_string .= ', ';
+                        $backtrace_string .= self::formatBacktraceArgument($backtrace[$i]['args'][$j]);
+
+                        # if we have several arguments to loop over
+                        if($j != $backtrace_counter_j)
+                        {
+                            # we split them by comma
+                            $backtrace_string .= ', ';
+                        }
                     }
                 }
+
+                $backtrace_string .= ')</td></tr>';
             }
 
-            $backtrace_string .= ')</td></tr>';
             $backtrace_string .= '<tr><td><strong>File: </strong></td><td>' . $backtrace[$i]['file'] . '</td></tr>';
             $backtrace_string .= '<tr><td><strong>Line: </strong></td><td>' . $backtrace[$i]['line'] . '</td></tr>';
 
