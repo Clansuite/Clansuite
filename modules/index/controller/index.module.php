@@ -107,9 +107,6 @@ class Clansuite_Module_Index extends Clansuite_Module_Controller implements Clan
         # Applying a Layout Template
         #$view = $this->getView()->setLayoutTemplate('admin/index.tpl');
 
-        # Set Errormessage
-        $this->addError('Errormessage', 100);
-
         $this->display();
     }
 
@@ -124,7 +121,6 @@ class Clansuite_Module_Index extends Clansuite_Module_Controller implements Clan
         $this->setTemplate( 'show.tpl' );
         $view = $this->getView();
         $view->addRawContent($smarty->fetch('action_edit.tpl'));
-
 
         $this->display();
     }
