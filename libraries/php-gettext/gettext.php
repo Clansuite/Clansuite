@@ -99,7 +99,6 @@ class gettext_reader {
    * @param boolean enable_cache Enable or disable caching of strings (default on)
    */
   function gettext_reader($Reader, $enable_cache = true) {
-    // If there isn't a StreamReader, turn on short circuit mode.
     if (! $Reader || isset($Reader->error) ) {
       $this->short_circuit = true;
       return;
@@ -134,7 +133,7 @@ class gettext_reader {
    * Loads the translation tables from the MO file into the cache
    * If caching is enabled, also loads all strings into a cache
    * to speed up translation lookups
-   * 
+   *
    * @access private
    */
   function load_tables() {
@@ -144,10 +143,14 @@ class gettext_reader {
       return;
 
     /* get original and translations tables */
-    $this->STREAM->seekto($this->originals);
-    $this->table_originals = $this->readintarray($this->total * 2);
-    $this->STREAM->seekto($this->translations);
-    $this->table_translations = $this->readintarray($this->total * 2);
+    if (!is_array($this->table_originals)) {
+      $this->STREAM->seekto($this->originals);
+      $this->table_originals = $this->readintarray($this->total * 2);
+    }
+    if (!is_array($this->table_translations)) {
+      $this->STREAM->seekto($this->translations);
+      $this->table_translations = $this->readintarray($this->total * 2);
+    }
 
     if ($this->enable_cache) {
       $this->cache_translations = array ();
@@ -380,7 +383,7 @@ class gettext_reader {
     $select = $this->select_string($number);
 
     // this should contains all strings separated by NULLs
-    $key = $single.chr(0).$plural;
+    $key = $single . chr(0) . $plural;
 
 
     if ($this->enable_cache) {
@@ -403,6 +406,15 @@ class gettext_reader {
     }
   }
 
+  function pgettext($context, $msgid) {
+    $key = $context . chr(4) . $msgid;
+    return $this->translate($key);
+  }
+
+  function npgettext($context, $singular, $plural, $number) {
+    $singular = $context . chr(4) . $singular;
+    return $this->ngettext($singular, $plural, $number);
+  }
 }
 
 ?>
