@@ -34,13 +34,13 @@
     */
 
 # Security Handler
-if (defined('IN_CS') == false)
+if(defined('IN_CS') == false)
 {
     die('Clansuite not loaded. Direct Access forbidden.');
 }
 
 # Load Clansuite_Renderer_Base
-if(false === class_exists('Clansuite_Renderer_Base',false) )
+if(false === class_exists('Clansuite_Renderer_Base', false))
 {
     include dirname(__FILE__) . '/renderer.base.php';
 }
@@ -60,9 +60,9 @@ if(false === class_exists('Clansuite_Renderer_Base',false) )
  * @package     Core
  * @subpackage  Renderer
  */
-
 class Clansuite_Renderer_Smarty extends Clansuite_Renderer_Base
 {
+
     /**
      * RenderEngineConstructor
      *
@@ -71,9 +71,9 @@ class Clansuite_Renderer_Smarty extends Clansuite_Renderer_Base
      * 2) Initialize the RenderEngine via parent class constructor call = self::initializeEngine()
      * 3) Configure the RenderEngine with it's specific settings = self::configureEngine();
      */
-    function __construct(Clansuite_Config $config, Clansuite_HttpResponse $response)
+    function __construct(Clansuite_Config $config)
     {
-        parent::__construct($config, $response);
+        parent::__construct($config);
         $this->initializeEngine();
         $this->configureEngine();
     }
@@ -110,19 +110,17 @@ class Clansuite_Renderer_Smarty extends Clansuite_Renderer_Base
         /**
          * Directories
          */
-
-        $this->renderer->compile_dir = ROOT . 'cache/templates_c/';           # directory for compiled files
-        $this->renderer->config_dir  = ROOT_LIBRARIES . 'smarty/configs/';    # directory for config files (example.conf)
-        $this->renderer->cache_dir   = ROOT . 'cache/cache/';                 # directory for cached files
+        $this->renderer->compile_dir = ROOT . 'cache/templates_c/';        # directory for compiled files
+        $this->renderer->config_dir = ROOT_LIBRARIES . 'smarty/configs/';  # directory for config files (example.conf)
+        $this->renderer->cache_dir = ROOT . 'cache/cache/';                # directory for cached files
 
         /**
          * Debugging
          */
-
-        $this->renderer->debugging           = DEBUG ? true : false;             # set smarty debugging, when debug on
-        #$this->renderer->debug_tpl          = ROOT_THEMES . 'core/view/debug.tpl';   # set debugging template for smarty
-        $this->renderer->debug_tpl           = ROOT_LIBRARIES . 'smarty/debug.tpl';   # set debugging template for smarty
-        if ( $this->renderer->debugging == true )
+        $this->renderer->debugging = DEBUG ? true : false; # set smarty debugging, when debug on
+        #$this->renderer->debug_tpl = ROOT_THEMES . 'core/view/debug.tpl';   # set debugging template for smarty
+        $this->renderer->debug_tpl  = ROOT_LIBRARIES . 'smarty/debug.tpl';   # set debugging template for smarty
+        if($this->renderer->debugging == true)
         {
             $this->renderer->utility->clearCompiledTemplate(); # clear compiled tpls in case of debug
             $this->renderer->cache->clearAll();                # clear cache
@@ -132,18 +130,17 @@ class Clansuite_Renderer_Smarty extends Clansuite_Renderer_Base
         # $this->renderer->global_assign    = "";       # list of vars assign to all template files
         # $this->renderer->undefined        = null;     # defines value of undefined variables
 
-        $this->renderer->auto_literal       = true;     # auto delimiter of javascript/css (The literal tag of Smarty v2.x)
+        $this->renderer->auto_literal = true;     # auto delimiter of javascript/css (The literal tag of Smarty v2.x)
 
         /**
          * SMARTY FILTERS
          */
-
         $autoload_filters = array();
-        if( $this->config['error']['debug'] )
+        if($this->config['error']['debug'])
         {
-            $autoload_filters = array( 'pre'    => array('inserttplnames') );
+            $autoload_filters = array('pre' => array('inserttplnames'));
         }
-        $this->renderer->autoload_filters    = $autoload_filters;
+        $this->renderer->autoload_filters = $autoload_filters;
         #array(       # indicates which filters will be auto-loaded
         #'pre'    => array('inserttplnames'),
         #'post'   => array(),
@@ -153,7 +150,6 @@ class Clansuite_Renderer_Smarty extends Clansuite_Renderer_Base
         /**
          * COMPILER OPTIONS
          */
-
         # $this->renderer->compiler_class   = "Smarty_Compiler";     # defines the compiler class for Smarty ... ONLY FOR ADVANCED USERS
         # $this->renderer->compile_id       = 0;                     # set individual compile_id instead of assign compile_ids to function-calls (useful with prefilter for different languages)
 
@@ -161,24 +157,23 @@ class Clansuite_Renderer_Smarty extends Clansuite_Renderer_Base
          * recompile/rewrite templates only in debug mode
          * @see http://www.smarty.net/manual/de/variable.compile.check.php
          */
-        if ( $this->renderer->debugging == true )
+        if($this->renderer->debugging == true)
         {
-            $this->renderer->compile_check      = true;             # if a template was changed it would be recompiled, if set to false nothing will be compiled (changes take no effect)
-            $this->renderer->force_compile      = true;             # if true compiles each template everytime, overwrites $compile_check
+            $this->renderer->compile_check = true;             # if a template was changed it would be recompiled, if set to false nothing will be compiled (changes take no effect)
+            $this->renderer->force_compile = true;             # if true compiles each template everytime, overwrites $compile_check
         }
         else
         {
-            $this->renderer->compile_check      = true;             # if a template was changed it would be recompiled, if set to false nothing will be compiled (changes take no effect)
-            $this->renderer->force_compile      = false;            # if true compiles each template everytime, overwrites $compile_check
+            $this->renderer->compile_check = true;             # if a template was changed it would be recompiled, if set to false nothing will be compiled (changes take no effect)
+            $this->renderer->force_compile = false;            # if true compiles each template everytime, overwrites $compile_check
         }
 
         /**
          * CACHING OPTIONS (set these options if caching is enabled)
          */
-
         #clansuite_xdebug::printr($this->config['cache']);
         # var_dump($this->config['cache']);
-        if ( $this->renderer->debugging == true )
+        if($this->renderer->debugging == true)
         {
             $this->renderer->caching                = 0;
             $this->renderer->cache_lifetime         = $this->config['cache']['cache_lifetime']; # -1 ... dont expire, 0 ... refresh everytime
@@ -187,8 +182,8 @@ class Clansuite_Renderer_Smarty extends Clansuite_Renderer_Base
         }
         else
         {
-            $this->renderer->caching                = (bool) $this->config['cache']['caching'];
-            $this->renderer->cache_lifetime         = $this->config['cache']['cache_lifetime']; # -1 ... dont expire, 0 ... refresh everytime
+            $this->renderer->caching = (bool) $this->config['cache']['caching'];
+            $this->renderer->cache_lifetime = $this->config['cache']['cache_lifetime']; # -1 ... dont expire, 0 ... refresh everytime
             # $this->renderer->cache_handler_func   = "";      # Specify your own cache_handler function
             $this->renderer->cache_modified_check   = 1;       # set to 1 to activate
         }
@@ -196,7 +191,6 @@ class Clansuite_Renderer_Smarty extends Clansuite_Renderer_Base
         /**
          * DEFAULT TEMPLATE HANDLER FUNCTION
          */
-
         # $this->renderer->default_template_handler_func = "";
 
         /**
@@ -208,7 +202,6 @@ class Clansuite_Renderer_Smarty extends Clansuite_Renderer_Base
          * SMARTY_PHP_REMOVE   = php tags are removed
          * SMARTY_PHP_ALLOW    = php tags are allowed and executed in templates
          */
-
         $this->renderer->php_handling = SMARTY_PHP_PASSTHRU;
 
         /**
@@ -226,7 +219,6 @@ class Clansuite_Renderer_Smarty extends Clansuite_Renderer_Base
         /**
          *  ENGINE SETTINGS
          */
-
         # $this->renderer->left_delimiter           = "{";    # default : {
         # $this->renderer->right_delimiter          = "}";    # default : }
         $this->renderer->show_info_header           = false;  # if true : Smarty Version and Compiler Date are displayed as comment in template files
@@ -249,8 +241,7 @@ class Clansuite_Renderer_Smarty extends Clansuite_Renderer_Base
          * 6) "/themes/admin/"
          * 7) "/themes/"
          */
-
-        $this->renderer->template_dir   = array();
+        $this->renderer->template_dir = array();
 
         if(empty($_SESSION['user']['theme']))
         {
@@ -267,31 +258,29 @@ class Clansuite_Renderer_Smarty extends Clansuite_Renderer_Base
             # Backend Theme Detections
             $_SESSION['user']['backendtheme'] = 'admin';
             $this->renderer->template_dir[] = ROOT_THEMES . $_SESSION['user']['backendtheme'];
-            $this->renderer->template_dir[] = ROOT_THEMES . $_SESSION['user']['backendtheme'] .DS. Clansuite_Dispatcher::getModuleName() .DS;
-
+            $this->renderer->template_dir[] = ROOT_THEMES . $_SESSION['user']['backendtheme'] . DS . Clansuite_Dispatcher::getModuleName() . DS;
         }
         else
         {
             # Frontend Theme Detections
             $this->renderer->template_dir[] = ROOT_THEMES . $frontendtheme;
-            $this->renderer->template_dir[] = ROOT_THEMES . $frontendtheme .DS. Clansuite_Dispatcher::getModuleName() .DS;
+            $this->renderer->template_dir[] = ROOT_THEMES . $frontendtheme . DS . Clansuite_Dispatcher::getModuleName() . DS;
         }
 
         /**
          * FALLBACKS for Smarty Template Directories
          */
-
         # 3) + 4) modules dir
         $this->renderer->template_dir[] = ROOT_MOD;
-        $this->renderer->template_dir[] = ROOT_MOD . Clansuite_Dispatcher::getModuleName() .DS. 'view' .DS;
+        $this->renderer->template_dir[] = ROOT_MOD . Clansuite_Dispatcher::getModuleName() . DS . 'view' . DS;
 
         # 5) themes dir
-        $this->renderer->template_dir[] = ROOT_THEMES . 'core'.DS.'view' .DS;
+        $this->renderer->template_dir[] = ROOT_THEMES . 'core' . DS . 'view' . DS;
 
         # 6) the admin theme
         if(Clansuite_Dispatcher::getModuleName() == 'controlcenter' or Clansuite_Dispatcher::getSubModuleName() == 'admin')
         {
-            $this->renderer->template_dir[] = ROOT_THEMES . 'admin' .DS;
+            $this->renderer->template_dir[] = ROOT_THEMES . 'admin' . DS;
         }
 
         # 7) THEMES in general
@@ -307,17 +296,15 @@ class Clansuite_Renderer_Smarty extends Clansuite_Renderer_Base
          * 2) clansuite core/common smarty plugins
          * 3) clansuite module smarty plugins
          */
-
-        $this->renderer->plugins_dir[]  = ROOT_LIBRARIES .'smarty/plugins/';
-        $this->renderer->plugins_dir[]  = ROOT_CORE .'viewhelper/smarty/';
-        $this->renderer->plugins_dir[]  = ROOT_MOD . Clansuite_Dispatcher::getModuleName() . '/viewhelper/smarty/';
+        $this->renderer->plugins_dir[] = ROOT_LIBRARIES . 'smarty/plugins/';
+        $this->renderer->plugins_dir[] = ROOT_CORE . 'viewhelper/smarty/';
+        $this->renderer->plugins_dir[] = ROOT_MOD . Clansuite_Dispatcher::getModuleName() . '/viewhelper/smarty/';
 
         #clansuite_xdebug::printR($this->renderer->plugins_dir);
 
         /**
          * Smarty Modifiers
          */
-
         # array which modifiers used for all variables, to exclude a var from this use: {$var|nodefaults}
         # $this->renderer->default_modifiers = array('escape:"htmlall"');
         # $this->renderer->register_modifier('timemarker',  array('benchmark', 'timemarker'));
@@ -524,6 +511,11 @@ class Clansuite_Renderer_Smarty extends Clansuite_Renderer_Base
         }
     }
 
+    public function renderPartial($template)
+    {
+        return $this->renderer->fetch($template);
+    }
+
     /**
      * preRenderChecks
      */
@@ -589,5 +581,6 @@ class Clansuite_Renderer_Smarty extends Clansuite_Renderer_Base
             }
         }
     }
+
 }
 ?>

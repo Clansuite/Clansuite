@@ -174,8 +174,7 @@ class Clansuite_Debug
 
         $firephp->info($infomsg);
 
-        unset($infomsg);
-        unset($backtrace_array);
+        unset($infomsg, $backtrace_array);
 
         # debug the var
         $firephp->{$firebugmethod}($var);

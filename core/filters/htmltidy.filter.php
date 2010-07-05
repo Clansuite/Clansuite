@@ -64,10 +64,10 @@ class Clansuite_Filter_HtmlTidy implements Clansuite_Filter_Interface
     public function executeFilter(Clansuite_HttpRequest $request, Clansuite_HttpResponse $response)
     {
         // take the initiative or pass through (do nothing)
-        if( $this->config['htmltidy']['enabled'] == 1 && extension_loaded('tidy'))
+        if( $this->config['htmltidy']['enabled'] == 1 and extension_loaded('tidy'))
         {
             # get output from response
-            $content = $this->response->getContent();
+            $content = $response->getContent();
 
             # init tidy
             $tidy = new tidy;
@@ -75,7 +75,7 @@ class Clansuite_Filter_HtmlTidy implements Clansuite_Filter_Interface
             /*
                 $tidyoptions = array( 'indent-spaces'    => 4,
                                       'wrap'             => 120,
-                                      'indent'           =>  auto,
+                                      'indent'           => auto,
                                       'tidy-mark'        => true,
                                       'show-body-only'   => true,
                                       'force-output'     => true,
@@ -93,23 +93,28 @@ class Clansuite_Filter_HtmlTidy implements Clansuite_Filter_Interface
                                       'drop-proprietary-attributes' => true);
             */
 
-            $tidyoptions = array(
-                    'clean' => true,
-                    'output-xhtml' => true,
-                    'drop-proprietary-attributes' => true,
-                    'show-body-only' => true,
-                    'indent-spaces' => 4,
-                    'wrap' => 130,
-                    'indent' => auto);
+           $tidyoptions = array(
+                'clean' => true,
+                #'doctype' => 'strict',
+                'doctype' => 'transitional',
+                'output-xhtml' => true,
+                'drop-proprietary-attributes' => true,
+                'lower-literals' => true,
+                #'quote-ampersand' => true,
+                'show-body-only' => false,
+                'indent-spaces' => 4,
+                'wrap' => 130,
+                'indent' => 'auto'
+            );
 
             # tidy the output
-            $tidy->parseString($content, $config, 'utf8');
+            $tidy->parseString($content, $tidyoptions, 'utf8');
             $tidy->cleanRepair();
 
             # @todo diagnose? errorreport?
 
             # set output to response
-            $this->response->setContent(tidy_get_output($tidy), true);
+            $response->setContent(tidy_get_output($tidy), true);
 
         }// else => bypass
     }

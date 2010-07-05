@@ -65,7 +65,7 @@ interface Clansuite_Module_Interface
  * @package     Core
  * @subpackage  Modulecontroller
  */
-abstract class Clansuite_Module_Controller extends Clansuite_Module_Controller_Resolver
+abstract class Clansuite_Module_Controller
 {
     /**
      * @var object The rendering engine / view object
@@ -81,11 +81,6 @@ abstract class Clansuite_Module_Controller extends Clansuite_Module_Controller_R
      * @var string The name of the template to render
      */
     public $template = null;
-
-    /**
-     * @var object Dependecy Injector (static)
-     */
-    public static $static_injector = null;
 
     /**
      * @var object The Configuration Object
@@ -107,8 +102,6 @@ abstract class Clansuite_Module_Controller extends Clansuite_Module_Controller_R
      */
     public function __construct()
     {
-        $this->setInjector(Clansuite_CMS::getInjector());
-
         # fetch config from dependency injector
         $this->config = self::getInjector()->instantiate('Clansuite_Config');
     }
@@ -175,17 +168,15 @@ abstract class Clansuite_Module_Controller extends Clansuite_Module_Controller_R
      * Reads the config for the requested module as default
      * or the config file specified by $filename.
      *
-     * @example
-     * Its an replacement function for the following call in an action controller:
-     * $this->moduleconfig = $this->config->readConfig( ROOT_MOD . 'mod/mod.config.php');
-     * var_dump($this->moduleconfig);
-     *
-     * @param string $filename configuration ini-filename to read
+     * @param string $filename Filename for config.ini OR just Modulename.
      * @return array moduleconfig['modulename'] configuration array of module
      */
     public function getModuleConfig($filename = null)
     {
-        return self::getInjector()->instantiate('Clansuite_Config')->readConfigForModule($filename);
+        $inj = self::getInjector()->instantiate('Clansuite_Config');
+        $res = $inj->readModuleConfig($filename);
+        return $res;
+
     }
 
     /**
@@ -223,7 +214,7 @@ abstract class Clansuite_Module_Controller extends Clansuite_Module_Controller_R
     public function getConfigValue($keyname, $default_one = null, $default_two = null)
     {
         # if we don't have a moduleconfig array yet, get it
-        if($this->moduleconfig == null)
+        if($this->moduleconfig === null)
         {
             $this->moduleconfig = $this->getModuleConfig();
         }
@@ -257,7 +248,7 @@ abstract class Clansuite_Module_Controller extends Clansuite_Module_Controller_R
      */
     public static function getInjector()
     {
-        return self::$static_injector;
+        return Clansuite_CMS::getInjector();
     }
 
     /**
@@ -373,8 +364,8 @@ abstract class Clansuite_Module_Controller extends Clansuite_Module_Controller_R
         # check if extension is one of the allowed ones
         if (false == in_array($template_extension, $allowed_extensions))
         {
-            trigger_error('Template Extension invalid <strong>'.$template_extension.'</strong> on <strong>'.$template.'</strong>',
-                    E_USER_NOTICE);
+            $message = 'Template Extension invalid <strong>'.$template_extension.'</strong> on <strong>'.$template.'</strong>';
+            trigger_error($message, E_USER_NOTICE);
         }
     }
 
@@ -401,7 +392,7 @@ abstract class Clansuite_Module_Controller extends Clansuite_Module_Controller_R
      */
     private function constructTemplateName()
     {
-        $template = Clansuite_Action_Controller_Resolver::getActionName() . '.tpl';
+        $template = Clansuite_Dispatcher::getActionName() . '.tpl';
         $this->setTemplate($template);
     }
 
@@ -422,7 +413,7 @@ abstract class Clansuite_Module_Controller extends Clansuite_Module_Controller_R
     {
         if(empty($this->getView()->renderMode))
         {
-            $this->getView()->renderMode = 'WRAPPED';
+            $this->getView()->renderMode = 'LAYOUT';
         }
         return $this->getView()->renderMode;
     }
@@ -459,10 +450,8 @@ abstract class Clansuite_Module_Controller extends Clansuite_Module_Controller_R
             }
         }
 
-        # 1) get the Response Object
         $response = self::getInjector()->instantiate('Clansuite_HttpResponse');
 
-        # 2) get the view
         $view = $this->getView();
 
         # Debug - Layout Template and Content Template
@@ -471,20 +460,6 @@ abstract class Clansuite_Module_Controller extends Clansuite_Module_Controller_R
 
         #  Set Content on the Response Object
         $response->setContent($view->render($this->getTemplateName()));
-    }
-
-    /**
-     * ModuleController->addError(); is a call for errorhandler::addError()
-     * This passes the errormessage and errorcode to the errorhandler.
-     * @see Clansuite_Errorhandler::addError()
-     *
-     * @param string $errormessage The error message.
-     * @param int $errorcode The errorcode.
-     */
-    public function addError($errormessage, $errorcode)
-    {
-        # pass variables to errorhandler
-        Clansuite_Errorhandler::addError($errormessage, $errorcode);
     }
 
     /**

@@ -75,19 +75,13 @@ abstract class Clansuite_Renderer_Base
     protected $config = null;
 
     /**
-     * @var object Clansuite_HttpResponse
-     */
-    protected $response = null;
-
-    /**
      * Construct Renderer
      *
      * @param Clansuite_Config Object
      */
-    public function __construct(Clansuite_Config $config, Clansuite_HttpResponse $response)
+    public function __construct(Clansuite_Config $config)
     {
         $this->config   = $config;
-        $this->response = $response;
     }
 
     /**

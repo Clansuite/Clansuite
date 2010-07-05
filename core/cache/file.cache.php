@@ -111,6 +111,7 @@ class Clansuite_Cache_File implements Clansuite_Cache_Interface
      * @param string $key Identifier for the data
      * @param mixed $data Data to be cached
      * @param integer $cache_lifetime How long to cache the data, in seconds
+     *
      * @return boolean True if the data was successfully cached, false on failure
      */
     public function store($key, $data, $cache_lifetime)
@@ -134,6 +135,7 @@ class Clansuite_Cache_File implements Clansuite_Cache_Interface
      * Delete data by key from cache
      *
      * @param string $key Identifier for the data
+     *
      * @return boolean True if the data was successfully removed, false on failure
      */
     public function delete($key)
@@ -148,13 +150,20 @@ class Clansuite_Cache_File implements Clansuite_Cache_Interface
 
     /**
      * Get stats and usage Informations for display
-     *
-     * @todo implement statistics for file cache usage
      */
     public function stats()
     {
+        # @todo implement statistics for file cache usage
+        return;
     }
 
+    /**
+     * Generates a filesystem cache key based on a given key.
+     *
+     * @param string $key The key to build the filesystem cache key from.
+     *
+     * @return string A filesystem cache key.
+     */
     protected function filesystemKey($key)
     {
         return ROOT_CACHE . md5($key);

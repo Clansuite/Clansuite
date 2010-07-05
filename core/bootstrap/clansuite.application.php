@@ -510,8 +510,7 @@ class Clansuite_CMS
 
         # define postfilters to load
         self::$postfilter_classes = array(
-                                          #empty-at-this-time
-                                          'Clansuite_Filter_HtmlTidy',
+                                          #'Clansuite_Filter_HtmlTidy',
                                           'Clansuite_Filter_SmartyMoves'
                                           );
 

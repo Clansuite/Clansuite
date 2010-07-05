@@ -60,8 +60,8 @@ class Clansuite_Filter_SetModuleLanguage implements Clansuite_Filter_Interface
 
     public function executeFilter(Clansuite_HttpRequest $request, Clansuite_HttpResponse $response)
     {
-        $modulename = Clansuite_Dispatcher::getModuleName();
-        $this->locale->loadTextDomain('LC_ALL', $modulename, $this->locale->getLocale(), $modulename);
+        #$modulename = Clansuite_Dispatcher::getModuleName();
+        #$this->locale->loadTextDomain('LC_ALL', $modulename, $this->locale->getLocale(), $modulename);
     }
 }
 ?>

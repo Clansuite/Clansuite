@@ -68,9 +68,9 @@ class Clansuite_Renderer_Xslt extends Clansuite_Renderer_Base
      */
     protected $xslfile = null;
 
-    public function __construct(Clansuite_Config $config, Clansuite_HttpResponse $response)
+    public function __construct(Clansuite_Config $config)
     {
-        parent::__construct($config, $response);
+        parent::__construct($config);
 
         # instantiate the render engine
         $this->xslt = new XSLTProcessor;
