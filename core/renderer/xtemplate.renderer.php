@@ -59,9 +59,9 @@ require dirname(__FILE__) . '/renderer.base.php';
  */
 class Clansuite_Renderer_Xtemplate extends Clansuite_Renderer_Base
 {
-    public function __construct(Clansuite_Config $config, Clansuite_HttpResponse $response)
+    public function __construct(Clansuite_Config $config)
     {
-        parent::__construct($config, $response);
+        parent::__construct($config);
         $this->initializeEngine();
     }
 

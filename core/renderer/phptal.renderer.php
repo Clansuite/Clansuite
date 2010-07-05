@@ -68,9 +68,9 @@ class Clansuite_Renderer_Phptal extends Clansuite_Renderer_Base
      * 3) Configure the RenderEngine with it's specific settings = self::configureEngine();
      * 4) Eventlog
      */
-    public function __construct(Clansuite_Config $config, Clansuite_HttpResponse $response)
+    public function __construct(Clansuite_Config $config)
     {
-        parent::__construct($config, $response);
+        parent::__construct($config);
         $this->initializeEngine();
     }
 
