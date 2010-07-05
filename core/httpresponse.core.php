@@ -91,16 +91,6 @@ class Clansuite_HttpResponse implements Clansuite_Response_Interface
     protected static $body = null;
 
     /**
-     * @var object Holds instance of Clansuite_Config.
-     */
-    protected $config;
-
-    public function __construct(Clansuite_Config $config)
-    {
-        $this->config = $config;
-    }
-
-    /**
      * Sets the HTTP Status Code for this response.
      * This method is also used to set the return status code when there
      * is no error (for example for the status codes 200 (OK) or 301 (Moved permanently) ).
