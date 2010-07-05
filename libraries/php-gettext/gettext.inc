@@ -39,15 +39,9 @@ if (!defined('LC_MESSAGES')) {
   define('LC_MESSAGES',	5);
 }
 
-if (!class_exists('CachedFileReader', false))
-{
-    require('streams.php');
-}
+require('streams.php');
+require('gettext.php');
 
-if (!class_exists('gettext_reader', false))
-{
-    require('gettext.php');
-}
 
 // Variables
 
@@ -161,8 +155,10 @@ function locale_emulation() {
 /**
  * Checks if the current locale is supported on this system.
  */
-function _check_locale() {
+function _check_locale_and_function($function=false) {
     global $EMULATEGETTEXT;
+    if ($function and !function_exists($function))
+        return false;
     return !$EMULATEGETTEXT;
 }
 
@@ -177,12 +173,6 @@ function _get_codeset($domain=null) {
 
 /**
  * Convert the given string to the encoding set by bind_textdomain_codeset.
- *
- * Note:
- * If the mbstring extension for PHP is not enabled, mb_detect_encoding and mb_convert_encoding
- * are not available.  If you are having problems with character encodings not working on your
- * translation, please check with your webhost about how to enable mbstring for your PHP instance.
- * See http://www.php.net/mbstring for more information.
  */
 function _encode($text) {
     $source_encoding = mb_detect_encoding($text);
@@ -194,8 +184,6 @@ function _encode($text) {
         return $text;
     }
 }
-
-
 
 
 // Custom implementation of the standard gettext related functions
@@ -287,21 +275,21 @@ function _textdomain($domain) {
  */
 function _gettext($msgid) {
     $l10n = _get_reader();
-    //return $l10n->translate($msgid);
     return _encode($l10n->translate($msgid));
 }
+
 /**
  * Alias for gettext.
  */
 function __($msgid) {
     return _gettext($msgid);
 }
+
 /**
  * Plural version of gettext.
  */
 function _ngettext($single, $plural, $number) {
     $l10n = _get_reader();
-    //return $l10n->ngettext($single, $plural, $number);
     return _encode($l10n->ngettext($single, $plural, $number));
 }
 
@@ -310,15 +298,14 @@ function _ngettext($single, $plural, $number) {
  */
 function _dgettext($domain, $msgid) {
     $l10n = _get_reader($domain);
-    //return $l10n->translate($msgid);
     return _encode($l10n->translate($msgid));
 }
+
 /**
  * Plural version of dgettext.
  */
 function _dngettext($domain, $single, $plural, $number) {
     $l10n = _get_reader($domain);
-    //return $l10n->ngettext($single, $plural, $number);
     return _encode($l10n->ngettext($single, $plural, $number));
 }
 
@@ -327,7 +314,6 @@ function _dngettext($domain, $single, $plural, $number) {
  */
 function _dcgettext($domain, $msgid, $category) {
     $l10n = _get_reader($domain, $category);
-    //return $l10n->translate($msgid);
     return _encode($l10n->translate($msgid));
 }
 /**
@@ -335,59 +321,157 @@ function _dcgettext($domain, $msgid, $category) {
  */
 function _dcngettext($domain, $single, $plural, $number, $category) {
     $l10n = _get_reader($domain, $category);
-    //return $l10n->ngettext($single, $plural, $number);
     return _encode($l10n->ngettext($single, $plural, $number));
+}
+
+/**
+ * Context version of gettext.
+ */
+function _pgettext($context, $msgid) {
+    $l10n = _get_reader();
+    return _encode($l10n->pgettext($context, $msgid));
+}
+
+/**
+ * Override the current domain in a context gettext call.
+ */
+function _dpgettext($domain, $context, $msgid) {
+    $l10n = _get_reader($domain);
+    return _encode($l10n->pgettext($context, $msgid));
+}
+
+/**
+ * Overrides the domain and category for a single context-based lookup.
+ */
+function _dcpgettext($domain, $context, $msgid, $category) {
+    $l10n = _get_reader($domain, $category);
+    return _encode($l10n->pgettext($context, $msgid));
+}
+
+/**
+ * Context version of ngettext.
+ */
+function _npgettext($context, $singular, $plural) {
+    $l10n = _get_reader();
+    return _encode($l10n->npgettext($context, $singular, $plural));
+}
+
+/**
+ * Override the current domain in a context ngettext call.
+ */
+function _dnpgettext($domain, $context, $singular, $plural) {
+    $l10n = _get_reader($domain);
+    return _encode($l10n->npgettext($context, $singular, $plural));
+}
+
+/**
+ * Overrides the domain and category for a plural context-based lookup.
+ */
+function _dcnpgettext($domain, $context, $singular, $plural, $category) {
+    $l10n = _get_reader($domain, $category);
+    return _encode($l10n->npgettext($context, $singular, $plural));
 }
 
 
 
-// Wrappers to use if the standard gettext functions are available, but the current locale is not supported by the system.
-// Use the standard impl if the current locale is supported, use the custom impl otherwise.
+// Wrappers to use if the standard gettext functions are available,
+// but the current locale is not supported by the system.
+// Use the standard impl if the current locale is supported, use the
+// custom impl otherwise.
 
 function T_setlocale($category, $locale) {
     return _setlocale($category, $locale);
 }
 
 function T_bindtextdomain($domain, $path) {
-    if (_check_locale()) return bindtextdomain($domain, $path);
+    if (_check_locale_and_function()) return bindtextdomain($domain, $path);
     else return _bindtextdomain($domain, $path);
 }
 function T_bind_textdomain_codeset($domain, $codeset) {
     // bind_textdomain_codeset is available only in PHP 4.2.0+
-    if (_check_locale() and function_exists('bind_textdomain_codeset')) return bind_textdomain_codeset($domain, $codeset);
+    if (_check_locale_and_function('bind_textdomain_codeset'))
+        return bind_textdomain_codeset($domain, $codeset);
     else return _bind_textdomain_codeset($domain, $codeset);
 }
 function T_textdomain($domain) {
-    if (_check_locale()) return textdomain($domain);
+    if (_check_locale_and_function()) return textdomain($domain);
     else return _textdomain($domain);
 }
 function T_gettext($msgid) {
-    if (_check_locale()) return gettext($msgid);
+    if (_check_locale_and_function()) return gettext($msgid);
     else return _gettext($msgid);
 }
 function T_($msgid) {
-    if (_check_locale()) return _($msgid);
+    if (_check_locale_and_function()) return _($msgid);
     return __($msgid);
 }
 function T_ngettext($single, $plural, $number) {
-    if (_check_locale()) return ngettext($single, $plural, $number);
+    if (_check_locale_and_function())
+        return ngettext($single, $plural, $number);
     else return _ngettext($single, $plural, $number);
 }
 function T_dgettext($domain, $msgid) {
-    if (_check_locale()) return dgettext($domain, $msgid);
+    if (_check_locale_and_function()) return dgettext($domain, $msgid);
     else return _dgettext($domain, $msgid);
 }
 function T_dngettext($domain, $single, $plural, $number) {
-    if (_check_locale()) return dngettext($domain, $single, $plural, $number);
+    if (_check_locale_and_function())
+        return dngettext($domain, $single, $plural, $number);
     else return _dngettext($domain, $single, $plural, $number);
 }
 function T_dcgettext($domain, $msgid, $category) {
-    if (_check_locale()) return dcgettext($domain, $msgid, $category);
+    if (_check_locale_and_function())
+        return dcgettext($domain, $msgid, $category);
     else return _dcgettext($domain, $msgid, $category);
 }
 function T_dcngettext($domain, $single, $plural, $number, $category) {
-    if (_check_locale()) return dcngettext($domain, $single, $plural, $number, $category);
+    if (_check_locale_and_function())
+      return dcngettext($domain, $single, $plural, $number, $category);
     else return _dcngettext($domain, $single, $plural, $number, $category);
+}
+
+function T_pgettext($context, $msgid) {
+  if (_check_locale_and_function('pgettext'))
+      return pgettext($context, $msgid);
+  else
+      return _pgettext($context, $msgid);
+}
+
+function T_dpgettext($domain, $context, $msgid) {
+  if (_check_locale_and_function('dpgettext'))
+      return dpgettext($domain, $context, $msgid);
+  else
+      return _dpgettext($domain, $context, $msgid);
+}
+
+function T_dcpgettext($domain, $context, $msgid, $category) {
+  if (_check_locale_and_function('dcpgettext'))
+      return dcpgettext($domain, $context, $msgid, $category);
+  else
+      return _dcpgettext($domain, $context, $msgid, $category);
+}
+
+function T_npgettext($context, $singular, $plural) {
+    if (_check_locale_and_function('npgettext'))
+        return npgettext($context, $single, $plural, $number);
+    else
+        return _npgettext($context, $single, $plural, $number);
+}
+
+function T_dnpgettext($domain, $context, $singular, $plural) {
+  if (_check_locale_and_function('dnpgettext'))
+      return dnpgettext($domain, $context, $single, $plural, $number);
+  else
+      return _dnpgettext($domain, $context, $single, $plural, $number);
+}
+
+function T_dcnpgettext($domain, $context, $singular, $plural, $category) {
+    if (_check_locale_and_function('dcnpgettext'))
+        return dcnpgettext($domain, $context, $single,
+                           $plural, $number, $category);
+    else
+        return _dcnpgettext($domain, $context, $single,
+                            $plural, $number, $category);
 }
 
 
@@ -424,6 +508,26 @@ if (!function_exists('gettext')) {
     }
     function dcngettext($domain, $single, $plural, $number, $category) {
         return _dcngettext($domain, $single, $plural, $number, $category);
+    }
+    function pgettext($context, $msgid) {
+        return _pgettext($context, $msgid);
+    }
+    function npgettext($context, $single, $plural, $number) {
+        return _npgettext($context, $single, $plural, $number);
+    }
+    function dpgettext($domain, $context, $msgid) {
+        return _dpgettext($domain, $context, $msgid);
+    }
+    function dnpgettext($domain, $context, $single, $plural, $number) {
+        return _dnpgettext($domain, $context, $single, $plural, $number);
+    }
+    function dcpgettext($domain, $context, $msgid, $category) {
+        return _dcpgettext($domain, $context, $msgid, $category);
+    }
+    function dcnpgettext($domain, $context, $single, $plural,
+                         $number, $category) {
+      return _dcnpgettext($domain, $context, $single, $plural,
+                          $number, $category);
     }
 }
 
