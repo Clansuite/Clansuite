@@ -70,14 +70,6 @@ require dirname(__FILE__) . '/config.base.php';
  */
 class Clansuite_Config_YAMLHandler extends Clansuite_Config_Base implements ArrayAccess
 {
-     /**
-     * Configuration Array
-     * protected-> only visible to childs
-     *
-     * @var array
-     */
-    protected $config = array();
-
     # holds SPYC instance
     private $spyc = null;
 
@@ -85,10 +77,12 @@ class Clansuite_Config_YAMLHandler extends Clansuite_Config_Base implements Arra
      * CONSTRUCTOR
      * sets up all variables
      */
-    public function __construct($filename)
+    public function __construct($filename = null)
     {
-        # read config file, set to array
-        $this->config = self::readConfig($filename);
+        if(isset($filename))
+        {
+            return self::readConfig($filename);
+        }
     }
 
     /**
@@ -97,11 +91,11 @@ class Clansuite_Config_YAMLHandler extends Clansuite_Config_Base implements Arra
      * @param string $filename Filename
      * @return instance of Config_YAMLHandler class
      */
-    public static function getInstance($filename)
+    public static function getInstance($filename = null)
     {
         static $instance;
 
-        if ( ! isset($instance))
+        if(isset($instance) === false)
         {
             $instance = new Clansuite_Config_YAMLHandler($filename);
         }

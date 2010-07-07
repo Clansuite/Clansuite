@@ -47,11 +47,11 @@ if(defined('IN_CS') == false)
  * @package     Core
  * @subpackage  Configuration
  */
-abstract class Clansuite_Config_Base
+abstract class Clansuite_Config_Base implements ArrayAccess
 {
     /**
      * Configuration Array
-     * protected-> only visible to childs
+     * protected = only visible to childs
      *
      * @var array
      */
@@ -70,7 +70,7 @@ abstract class Clansuite_Config_Base
         $array = array();
         $array = $this->config;
 
-        if($unset == true)
+        if($unset === true)
         {
             unset($this->config);
         }
@@ -86,7 +86,7 @@ abstract class Clansuite_Config_Base
      */
     public function __get($configkey)
     {
-        if ( isset($this->config[$configkey]) )
+        if(isset($this->config[$configkey]))
         {
             return $this->config[$configkey];
         }
@@ -103,19 +103,28 @@ abstract class Clansuite_Config_Base
      * @param string the config item value
      * @return   void
      */
-    public function __set($configkey, $configvalue)
+    public function __set($key, $value)
     {
-        $this->config[$configkey] = $configvalue;
+        $this->config[$key] = $value;
         return true;
     }
 
-    // method that will allow 'isset' to work on these variables
+     /**
+     * Method allows 'isset' to work on $this->data
+     *
+     * @param string $name Name of Variable Key $this->data[$name]
+     * @return return mixed
+     */
     public function __isset($name)
     {
-        return isset($this->data[$name]);
+        return isset($this->config[$name]);
     }
 
-    // method to allow 'unset' calls to work on these variables
+    /**
+     * Method allows 'unset' calls to work on $this->data
+     *
+     * @param string $key
+     */
     public function __unset($key)
     {
         unset($this->config[$key]);

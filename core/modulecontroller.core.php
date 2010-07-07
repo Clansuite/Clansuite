@@ -83,11 +83,6 @@ abstract class Clansuite_Module_Controller
     public $template = null;
 
     /**
-     * @var object The Configuration Object
-     */
-    public $config = null;
-
-    /**
      * @var object The Http_Response Object
      */
     public $response = null;
@@ -96,15 +91,6 @@ abstract class Clansuite_Module_Controller
      * @var array The Module Configuration Array
      */
     public $moduleconfig = null;
-
-    /**
-     * Constructor
-     */
-    public function __construct()
-    {
-        # fetch config from dependency injector
-        $this->config = self::getInjector()->instantiate('Clansuite_Config');
-    }
 
     /**
      * Initalize the records of the module
@@ -150,19 +136,6 @@ abstract class Clansuite_Module_Controller
     }
 
     /**
-     * Set dependency injector (SetterInjection)
-     * as a static var self::$injector
-     * Type Hint set to only accept Phemto
-     *
-     * @param object $injector Dependency Injector (Phemto)
-     * @todo move config injection somewhere else
-     */
-    public function setInjector(Phemto $injector)
-    {
-        self::$static_injector = $injector;
-    }
-
-    /**
      * Gets the Module Config
      *
      * Reads the config for the requested module as default
@@ -176,22 +149,16 @@ abstract class Clansuite_Module_Controller
         $inj = self::getInjector()->instantiate('Clansuite_Config');
         $res = $inj->readModuleConfig($filename);
         return $res;
-
     }
 
     /**
      * Returns the Clansuite Configuration as Array
      *
-     * We are fetching the Clansuite Configuration Object from the injector.
-     * So we have to determine first, if it is called from an static background
-     * or if the injector is available as an object. For instance from inside a module widget,
-     * the injector would only be available via static call.
-     *
      * @return $array Clansuite Main Configuration (/configuration/clansuite.config.php)
      */
     public function getClansuiteConfig()
     {
-        return self::getInjector()->instantiate('Clansuite_Config')->toArray();
+        return Clansuite_CMS::getClansuiteConfig();
     }
 
     /**
@@ -450,7 +417,7 @@ abstract class Clansuite_Module_Controller
             }
         }
 
-        $response = self::getInjector()->instantiate('Clansuite_HttpResponse');
+        $response = $this->getHttpResponse();
 
         $view = $this->getView();
 
