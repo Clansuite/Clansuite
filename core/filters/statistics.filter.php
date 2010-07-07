@@ -71,7 +71,7 @@ class Clansuite_Filter_Statistics implements Clansuite_Filter_Interface
         $models_path = ROOT_MOD . 'statistics/model/records';
         Doctrine::loadModels($models_path);
 
-        $cfg = $config->readConfigForModule('statistics');
+        $cfg = $config->readModuleConfig('statistics');
         $this->statsWhoDeleteTime = $cfg['statistics']['deleteTimeWho'];
         $this->statsWhoTimeout = $cfg['statistics']['timoutWho'];
     }

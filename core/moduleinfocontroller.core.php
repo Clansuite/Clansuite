@@ -180,7 +180,7 @@ class Clansuite_ModuleInfoController
 
     public static function loadModuleInformations($modulename)
     {
-        return Clansuite_CMS::getInjector()->instantiate('Clansuite_Config')->readConfigForModule($modulename);
+        return Clansuite_CMS::getInjector()->instantiate('Clansuite_Config')->readModuleConfig($modulename);
     }
 
     /**
