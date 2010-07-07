@@ -51,26 +51,18 @@ require dirname(__FILE__) . '/config.base.php';
  */
 class Clansuite_Config_XMLHandler extends Clansuite_Config_Base implements ArrayAccess
 {
-     /**
-     * Configuration Array
-     * protected-> only visible to childs
-     *
-     * @var array
-     */
-    protected $config = array();
-
     /**
      * CONSTRUCTOR
      * sets up all variables
      */
-    public function __construct($filename)
+    public function __construct($filename = null)
     {
-        if( is_file($filename) == false or is_readable($filename) == false)
+        if(is_file($filename) == false or is_readable($filename) == false)
         {
             throw new Clansuite_Exception('XML File not existing or not readable.');
         }
 
-        $this->config = self::readConfig($filename);
+        return self::readConfig($filename);
     }
 
     /**
@@ -80,11 +72,11 @@ class Clansuite_Config_XMLHandler extends Clansuite_Config_Base implements Array
      *
      * @return instance of Config_XMLHandler class
      */
-    public static function getInstance($filename)
+    public static function getInstance($filename = null)
     {
         static $instance;
 
-        if ( isset($instance) == false)
+        if(isset($instance) === false)
         {
             $instance = new Clansuite_Config_XMLHandler($filename);
         }

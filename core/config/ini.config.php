@@ -66,7 +66,7 @@ require dirname(__FILE__) . '/config.base.php';
 class Clansuite_Config_INIHandler extends Clansuite_Config_Base implements ArrayAccess
 {
     /**
-     * CONSTRUCTOR
+     * Constructor
      */
     public function __construct($filename = 'configuration/clansuite.config.php')
     {
@@ -81,7 +81,7 @@ class Clansuite_Config_INIHandler extends Clansuite_Config_Base implements Array
     public static function getInstance()
     {
         static $instance;
-        if(isset($instance) === null)
+        if(isset($instance) == null)
         {
             $instance = new Clansuite_Config_INIHandler();
         }

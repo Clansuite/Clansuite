@@ -52,21 +52,16 @@ require dirname(__FILE__) . '/config.base.php';
  */
 class Clansuite_Config_DatabaseHandler extends Clansuite_Config_Base implements ArrayAccess
 {
-     /**
-     * Configuration Array
-     * protected-> only visible to childs
-     *
-     * @var array
-     */
-    protected $config = array();
-
     /**
      * CONSTRUCTOR
      * sets up all variables
      */
-    public function __construct($filename)
+    public function __construct($filename = null)
     {
-        $this->config = self::readConfig($filename);
+        if(isset($filename))
+        {
+            return self::readConfig($filename);
+        }
     }
 
     /**

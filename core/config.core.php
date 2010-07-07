@@ -42,52 +42,29 @@ if (defined('IN_CS') == false)
 /**
  * Clansuite_Config
  *
- * Class hierarchy
- *
- * Clansuite_Config_Base (generic access methods => magic set/get + arrayaccess implementation)
- * |
- * \-- Clansuite_Config
- *     |
- *     \-- Clansuite_Factory
- *         |
- *         \-- Clansuite_Config_xyHandler
- *
- *
  * @category    Clansuite
  * @package     Core
  * @subpackage  Config
  */
-class Clansuite_Config extends Clansuite_Config_Base implements ArrayAccess
+class Clansuite_Config extends Clansuite_Config_Base
 {
-    # object
-    public $confighandler;
-
-    # array
-    public $config;
-
     function __construct($configfile = 'configuration/clansuite.config.php')
     {
-        $this->confighandler = Clansuite_Config_Factory::getConfiguration($configfile);
-
-        # @todo remove config array from instance
-        $this->config = $this->confighandler->toArray();
+        $this->config = $this->readConfig($configfile);
     }
 
     public function readConfig($configfile)
     {
-        if(!is_object($this->confighandler))
+        if(false === is_object($this->config))
         {
-            $this->confighandler = Clansuite_Config_Factory::getConfiguration($configfile);
+            $this->config = Clansuite_Config_Factory::getConfiguration($configfile);
         }
 
-        return $this->confighandler->readConfig($configfile);
+        return $this->config;
     }
 
     /**
-     * Reads a configuration file of a module
-     *
-     * Handles different configuration filetypes - just pass the modulename
-     * @sse Clansuite_Config->determineConfigurationHandlerTypeBy()
+     * Reads a configuration file of a module ($modulename . '.config.php')
      *
      * @param $modulename Name of Module
      * @return array Module Configuration Array
@@ -101,21 +78,26 @@ class Clansuite_Config extends Clansuite_Config_Base implements ArrayAccess
         }
 
         $configfile = ROOT_MOD . $modulename . DS . $modulename . '.config.php';
-        return $this->confighandler->readConfig($configfile);
+
+        return Clansuite_Config_Factory::getConfiguration($configfile);
     }
 
     /**
      * Write module configuration file
      *
-     * @example To write a module cfg for module news:
+     * @example
+     * $this->writeModuleConfig('news', $data);
+     * This method works as a shortcut to writeConfig(). Normally you would write
      * $config->confighandler->writeConfig( ROOT_MOD . 'news'.DS.'news.config.php', $data);
+     *
+     * @see writeConfig()
      *
      * @param $modulename
      * @param $array the configuration array to write
      */
     public function writeModuleConfig($modulename, $cfg_array)
     {
-        if(!is_object($this->confighandler))
+        if(false === is_object($this->confighandler))
         {
             $this->confighandler = Clansuite_Config_Factory::getConfiguration($configfile);
         }
@@ -127,47 +109,24 @@ class Clansuite_Config extends Clansuite_Config_Base implements ArrayAccess
      * Write a config file
      *
      * @example To write a module cfg for module news:
-     * $config->confighandler->writeConfig( ROOT.'configuration/my.config.php', $data);
+     * $config->confighandler->writeConfig( ROOT_MOD . 'news'.DS.'news.config.php', $data);
      *
      * @param $file path and the filename you want to write
      * @param $array the configuration array to write. Defaults to null = empty array.
      */
     public function writeConfig($filename, $array = null)
     {
-        if($array == null)
+        if($array === null)
         {
             $array = array();
         }
 
-        if(!is_object($this->confighandler))
+        if(false === is_object($this->confighandler))
         {
             $this->confighandler = Clansuite_Config_Factory::getConfiguration($filename);
         }
 
         $this->confighandler->writeConfig($filename, $array);
-    }
-
-    /**
-     * Magic Method __call()
-     *
-     * When a method call to the config is not defined, it is catched by __call().
-     * So the purpose of this method is to delegate method calls to the confighandler,
-     * which might implement them. We test if the method exists there before execution.
-     * This result is, that you have the full combination of methods of this class and the instantiated
-     * confighandler, without losing methods. And without using a method-call construct like
-     * $config->confighandler->writeConfig();
-     *
-     * Several Performance-Issues:
-     * 1) costs for calling __call
-     * 2) costs for calling call_user_func_array()
-     * 3) the nested call stack itself: the bigger the stack, the slower it becomes.
-     */
-    public function __call($method, $args)
-    {
-        if(method_exists($this->confighandler, $method) === true)
-        {
-            return call_user_func_array( array($this->confighandler, $method), $args);
-        }
     }
 }
 ?>
