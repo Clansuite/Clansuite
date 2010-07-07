@@ -50,17 +50,6 @@ if(defined('IN_CS') == false)
 class Clansuite_Config_Factory
 {
     /**
-     * Shortcut to @method getConfiguration() via Constructor Call
-     *
-     * Example Usage:
-     * $config = Clansuite_Config_Factory('modulename.config.php');
-     */
-    function __construct($configfile)
-    {
-        return self::getConfiguration($configfile);
-    }
-
-    /**
      * Instantiates the correct subclass determined by the fileextension
      *
      * Possible Extensions of the Configuration Files
@@ -99,7 +88,7 @@ class Clansuite_Config_Factory
         }
         else
         {
-            exit('No handler for that type of configuration file found.');
+            throw new Clansuite_Exception('No handler for that type of configuration file found.');
         }
 
         return $adapter;
@@ -108,25 +97,26 @@ class Clansuite_Config_Factory
     /**
      * getConfiguration
      *
-     * The configuration handler type is determined automatically by configfile extension.
-     * This type is used to get the right handler and return the object.
+     * Two in one method: determines the configuration handler automatically for a configfile.
+     * Used the confighandler to load the configfile and return the object.
      *
      * @param $configfile Configuration file to load
      * @return Configuration Handler Object with confighandler and array of configfile.
      */
     public static function getConfiguration($configfile)
     {
-        return self::getConfigurationHandler(self::determineConfigurationHandlerTypeBy($configfile), $configfile);
+        $type = self::determineConfigurationHandlerTypeBy($configfile);
+        $handler = self::getConfigurationHandler($type);
+        return $handler::readConfig($configfile);
     }
 
     /**
      * getConfiguration
      *
      * @param string $adapter a configuration filename type like "php", "xml", "yaml", "ini"
-     * @param string $configfile Configuration file to load. Defaults to null.
      * @return Configuration Handler Object with confighandler and array of configfile.
      */
-    public static function getConfigurationHandler($adapter, $configfile = null)
+    public static function getConfigurationHandler($adapter)
     {
         # path to configuration handler classes
         $file = ROOT_CORE . 'config' . DS . mb_strtolower($adapter) . '.config.php';
@@ -139,10 +129,10 @@ class Clansuite_Config_Factory
                 include $file;
             }
 
-            if(class_exists($class, false))
+            if(true === class_exists($class, false))
             {
                 # instantiate and return the specific confighandler with the $configfile to read
-                return new $class($configfile);
+                return new $class();
             }
             else
             {
