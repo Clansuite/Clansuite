@@ -50,8 +50,8 @@ interface Clansuite_Request_Interface
 {
     # Parameters
     public function getParameterNames();
-    public function issetParameter($parametername, $parameterArrayName = 'REQUEST', $where = false);
-    public function getParameter($parametername, $parameterArrayName = 'REQUEST');
+    public function issetParameter($parametername, $parameterArrayName = 'POST', $where = false);
+    public function getParameter($parametername, $parameterArrayName = 'POST');
     public static function getHeader($name);
     public function getCookie($name);
 
@@ -78,11 +78,6 @@ interface Clansuite_Request_Interface
  */
 class Clansuite_HttpRequest implements Clansuite_Request_Interface, ArrayAccess
 {
-    /**
-     * @var array Contains the cleaned $_REQUEST Parameters
-     */
-    private $request_parameters;
-
     /**
      * @var array Contains the cleaned $_POST Parameters
      */
@@ -158,7 +153,6 @@ class Clansuite_HttpRequest implements Clansuite_Request_Interface, ArrayAccess
          */
 
         # Clear Parameters Array
-        $this->request_parameters   = array();
         $this->get_parameters       = array();
         $this->post_parameters      = array();
         $this->cookie_parameters    = array();
@@ -167,7 +161,6 @@ class Clansuite_HttpRequest implements Clansuite_Request_Interface, ArrayAccess
         $this->sanitizeRequest();
 
         # Assign the GLOBALS $_REQUEST, $_GET, $_POST, $_COOKIE
-        $this->request_parameters = $_REQUEST;
         $this->get_parameters     = $_GET;
         $this->post_parameters    = $_POST;
         $this->cookie_parameters  = $_COOKIE;
@@ -259,25 +252,13 @@ class Clansuite_HttpRequest implements Clansuite_Request_Interface, ArrayAccess
      * isset, checks if a certain parameter exists in the parameters array
      *
      * @param string $parametername Name of the Parameter
-     * @param string $parameterArrayName R, G, P, C
+     * @param string $parameterArrayName G, P, C. Default = POST.
      * @param boolean $where If set to true, method will return the name of the array the parameter was found in.
      * @return mixed | boolean true|false | string arrayname
      */
-    public function issetParameter($parametername, $parameterArrayName = 'REQUEST', $where = false)
+    public function issetParameter($parametername, $parameterArrayName = 'POST', $where = false)
     {
         $parameterArrayName = mb_strtoupper($parameterArrayName);
-
-        if(in_array($parameterArrayName, array ('R', 'REQUEST')) and isset($this->request_parameters[$parametername]))
-        {
-            if($where == false)
-            {
-                return true;
-            }
-            else
-            {
-                return 'request';
-            }
-        }
 
         if(in_array($parameterArrayName, array ('P', 'POST')) and isset($this->post_parameters[$parametername]))
         {
@@ -322,12 +303,12 @@ class Clansuite_HttpRequest implements Clansuite_Request_Interface, ArrayAccess
      * get, returns a certain parameter if existing
      *
      * @param string $parametername Name of the Parameter
-     * @param string $parameterArrayName R, G, P, C
+     * @param string $parameterArrayName G, P, C. Default = POST.
      * @param string $default You can set a default value. It's returned if parametername was not found.
      *
      * @return mixed data | null
      */
-    public function getParameter($parametername, $parameterArrayName = 'REQUEST', $default = null)
+    public function getParameter($parametername, $parameterArrayName = 'POST', $default = null)
     {
         /**
          * check if the parameter exists in $parameterArrayName
@@ -359,10 +340,10 @@ class Clansuite_HttpRequest implements Clansuite_Request_Interface, ArrayAccess
      * set, returns a certain parameter if existing
      *
      * @param string $parametername Name of the Parameter
-     * @param string $parameterArrayName R, G, P, C
+     * @param string $parameterArrayName G, P, C. Default = POST.
      * @return mixed data | null
      */
-    public function setParameter($parametername, $parameterArrayName = 'REQUEST')
+    public function setParameter($parametername, $parameterArrayName = 'POST')
     {
         if(true == $this->issetParameter($parametername, $parameterArrayName))
         {
@@ -417,7 +398,6 @@ class Clansuite_HttpRequest implements Clansuite_Request_Interface, ArrayAccess
     /**
      * Get Value of a specific http-header
      *
-     * @todo docblock
      * @param string $name Name of the Parameter
      * @return string
      */
@@ -688,7 +668,7 @@ class Clansuite_HttpRequest implements Clansuite_Request_Interface, ArrayAccess
             if (in_array(mb_strtoupper($_GET['method']), $rest_methodnames))
             {
                 # set the internal (tunneled) method as new REQUEST_METHOD
-                $this->setRequestMethod($_GET['method']);
+                self::setRequestMethod($_GET['method']);
 
                 # unset the tunneled method
                 unset($_GET['method']);
@@ -843,7 +823,7 @@ class Clansuite_HttpRequest implements Clansuite_Request_Interface, ArrayAccess
         // Unset the globals.
         foreach ($keys as $key)
         {
-            if (isset($GLOBALS[$key]) and in_array($key, $list) == false )
+            if (isset($GLOBALS[$key]) and in_array($key, $list) === false )
             {
                 unset($GLOBALS[$key]);
             }
@@ -899,7 +879,7 @@ class Clansuite_HttpRequest implements Clansuite_Request_Interface, ArrayAccess
         }
 
         // if no var is specified, fix all affected superglobals
-        if ( isset($input) == false )
+        if ( isset($input) === false )
         {
             $input = array($_ENV, $_REQUEST, $_GET, $_POST, $_COOKIE, $_SERVER);
         }
@@ -911,7 +891,7 @@ class Clansuite_HttpRequest implements Clansuite_Request_Interface, ArrayAccess
         {
             foreach ($v as $key => $val)
             {
-                if (is_array($val) == false)
+                if (is_array($val) === false)
                 {
                     $input[$k][$key] = stripslashes($val);
 
