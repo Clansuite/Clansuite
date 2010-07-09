@@ -39,6 +39,7 @@ if (defined('IN_CS') == false)
     die('Clansuite not loaded. Direct Access forbidden.');
 }
 
+/*
 /**
  * Interface for Clansuite_Event
  *
@@ -47,12 +48,12 @@ if (defined('IN_CS') == false)
  * @category    Clansuite
  * @package     Core
  * @subpackage  Event
- */
+ *//*
 interface Clansuite_Event_Interface
 {
     # methods gets an Event Object
     public function execute(Clansuite_Event $event);
-}
+}*/
 
 /**
  * Clansuite_Eventdispatcher
@@ -137,7 +138,7 @@ class Clansuite_Eventdispatcher
      * @param $eventName    Name of the Event
      * @param $eventobject  Instance of Clansuite_Event
      */
-    public function addEventHandler($eventName, Clansuite_Event $event)
+    public function addEventHandler($eventName, Clansuite_Event_Interface $event)
     {
         # if eventhandler is not set already, initialize as array
         if(isset($this->eventhandlers[$eventName]) == false)
@@ -155,7 +156,7 @@ class Clansuite_Eventdispatcher
      * @param  $events array    Events to register (only names)
      * @params $event object int|string object id, owner of events
      */
-    public function addMultipleEventHandlers($events, Clansuite_Event $object)
+    public function addMultipleEventHandlers($events, Clansuite_Event_Interface $object)
     {
         if(empty($events) or is_array($events) == false)
         {
@@ -186,7 +187,7 @@ class Clansuite_Eventdispatcher
      * @param string event name
      * @param mixed event handler
      */
-    public function removeEventHandler($eventName, Clansuite_Event $event = null)
+    public function removeEventHandler($eventName, Clansuite_Event_Interface $event = null)
     {
         # if eventhandler is not added, we have nothing to remove
         if(isset($this->eventhandlers[$eventName]) == false)
@@ -319,7 +320,7 @@ class Clansuite_Event implements ArrayAccess
     public function __construct($name, $context = null, $info = null)
     {
         $this->eventname = $name;
-        $this->content = $context;
+        $this->context = $context;
         $this->info = $info;
     }
 

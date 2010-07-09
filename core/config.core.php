@@ -53,6 +53,12 @@ class Clansuite_Config extends Clansuite_Config_Base
         $this->config = $this->readConfig($configfile);
     }
 
+    /**
+     * Reads a configuration file
+     *
+     * @param string $configfile
+     * @return object $this->config
+     */
     public function readConfig($configfile)
     {
         if(false === is_object($this->config))

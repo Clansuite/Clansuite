@@ -49,9 +49,9 @@ if (defined('IN_CS') == false)
  */
 class Clansuite_Doctrine_Profiler
 {
-    public function __construct($connection)
+    public function __construct()
     {
-        $this->connection = $connection;
+        $this->connection = Doctrine_Manager::connection();
     }
     
     /**

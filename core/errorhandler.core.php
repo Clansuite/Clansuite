@@ -320,7 +320,7 @@ class Clansuite_Errorhandler
         # Error Messages
         $errormessage .= '<table>';
         $errormessage .= '<tr><td colspan="2"><h3> Error</td></tr>';
-        $errormessage .= '<tr><td colspan="2"><h4>' . $trimed_errorstring . '</h4></td></tr>';
+        $errormessage .= '<tr><td colspan="2"><h4>' . $errorstring . '</h4></td></tr>';
         $errormessage .= '<tr><td width=15%><strong>Type: </strong></td><td>' . $errorname . ' '. $errornumber . '</td></tr>';
         $errormessage .= '<tr><td><strong>Path: </strong></td><td>' . dirname($errorfile) . '</td></tr>';
         $errormessage .= '<tr><td><strong>File: </strong></td><td>' . basename($errorfile) . '</td></tr>';
@@ -337,7 +337,13 @@ class Clansuite_Errorhandler
         $errormessage .= '<tr><td colspan="2">&nbsp;</td></tr>';
 
         # Add Debug Backtracing
-        $errormessage .= '<tr><td>' . self::getDebugBacktrace() . '</td></tr>';
+        $errormessage .= '<tr><td>' . self::getDebugBacktrace($trimed_errorstring) . '</td></tr>';
+
+        # HR Split
+        # $errormessage .= '<tr><td colspan="2">&nbsp;</td></tr>';
+
+        #
+        # $errormessage .= '<tr><td>' . self::getBugtrackerSearch() . '</td></tr>';
 
         # HR Split
         $errormessage .= '<tr><td colspan="2">&nbsp;</td></tr>';
@@ -585,6 +591,24 @@ class Clansuite_Errorhandler
                 return sprintf($sprintf_html, $lines_html, $errorcontext_lines);
             }
         }
+    }
+
+    public static function getBugtrackerMessage($errorstring)
+    {
+        $message1 = _('<h3>Found a bug in Clansuite?</h3>');
+        $message2 = _('If you think this should work and you can reproduce the problem, please consider creating a bug report.');
+        $message3 = _('Before creating a new bug report, please first try searching for similar issues, as it is quite likely that this problem has been reported before.');
+        $message4 = _('Otherwise, please create a new bug report describing the problem and explain how to reproduce it.');
+
+        $bugtracker_search_link = '<a href="http://trac.clansuite.com/search?q=' . $errorstring . '&noquickjump=1&ticket=on">';
+        $bugtracker_search_link .= _('Search for similar issue');
+        $bugtracker_search_link .= '</a>';
+
+        $bugtracker_newticket_link = '<a href="http://trac.clansuite.com/newticket/">';
+        $bugtracker_newticket_link .= _('Create new ticket');
+        $bugtracker_newticket_link .= '</a>';
+
+        return $message1 . $message2 . $message3 . $message4 . $bugtracker_search_link . $bugtracker_newticket_link;
     }
 }
 ?>
