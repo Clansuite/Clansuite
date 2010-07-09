@@ -56,28 +56,29 @@ if (defined('IN_CS') == false)
  */
 class Clansuite_Loader
 {
-    private static $instance = null;
-
-    private $autoloader_map = array();
+    private static $autoloader_map = array();
 
     /**
-     * returns an instance / singleton
+     * clansuite_loader:register_autoloaders();
      *
-     * @return an instance of the loader
+     * Overwrites Zend Engines __autoload cache with our own loader-functions
+     * by registering single file loaders via spl_autoload_register($load_function)
+     *
+     * PHP Manual: spl_autoload_register
+     * @link http://www.php.net/manual/de/function.spl-autoload-register.php
      */
-    public static function getInstance()
+    public static function register_autoloaders()
     {
-        if (self::$instance === null)
-        {
-            self::$instance = new Clansuite_Loader();
-        }
-        return self::$instance;
+        self::setupAutoloader();
+
+        spl_autoload_register( 'Clansuite_Loader::loadViaMapping' );
+        spl_autoload_register( 'Clansuite_Loader::autoload' );
     }
 
-    public function __construct()
+    public static function setupAutoloader()
     {
         # reset autoload logs
-        if(defined('DEBUG') and DEBUG == true)
+        if(defined('DEBUG') and DEBUG === true)
         {
             @unlink(ROOT_LOGS . 'autoload_hits.log');
             @unlink(ROOT_LOGS . 'autoload_misses.log');
@@ -94,26 +95,8 @@ class Clansuite_Loader
         }
         else # load it
         {
-            $this->autoloader_map = $this->readAutoloadingMap();
+            self::$autoloader_map = self::readAutoloadingMap();
         }
-
-        # finally!
-        $this->register_autoloaders();
-    }
-
-    /**
-     * clansuite_loader:register_autoloaders();
-     *
-     * Overwrites Zend Engines __autoload cache with our own loader-functions
-     * by registering single file loaders via spl_autoload_register($load_function)
-     *
-     * PHP Manual: spl_autoload_register
-     * @link http://www.php.net/manual/de/function.spl-autoload-register.php
-     */
-    public function register_autoloaders()
-    {
-        spl_autoload_register(array ($this,'loadViaMapping'));
-        spl_autoload_register(array ($this,'autoload'));
     }
 
     /**
@@ -122,7 +105,7 @@ class Clansuite_Loader
      * @param string $filename The file to be required
      * @return bool True on success of require, false otherwise.
      */
-    public function requireFileAndMap($filename, $classname = null)
+    public static function requireFileAndMap($filename, $classname = null)
     {
         if (is_file($filename) === true)
         {
@@ -236,15 +219,12 @@ class Clansuite_Loader
      * @param $filename  Filename is the file to load.
      * @param $classname Classname is the lookup key for $filename.
      */
-    private function addToMapping($filename, $classname)
+    private static function addToMapping($filename, $classname)
     {
         $filename = str_replace('//','\\', $filename);
-        $this->autoloader_map = array_merge((array) $this->autoloader_map, array( $classname => $filename ));
-    }
+        self::$autoloader_map = array_merge( (array) self::$autoloader_map, array( $classname => $filename ));
 
-    function __destruct()
-    {
-        self::writeAutoloadingMap($this->autoloader_map);
+        self::writeAutoloadingMap(self::$autoloader_map);
     }
 
     /**
@@ -253,16 +233,16 @@ class Clansuite_Loader
      * @param $classname The classname to look for in the autoloading map.
      * @return boolean True on file load, otherwise false.
      */
-    public function loadViaMapping($classname)
+    public static function loadViaMapping($classname)
     {
         if (class_exists($classname, false) or interface_exists($classname, false))
         {
             return true;
         }
 
-        if(isset($this->autoloader_map[$classname]))
+        if(isset(self::$autoloader_map[$classname]))
         {
-            return self::requireFile($this->autoloader_map[$classname]);
+            return self::requireFile(self::$autoloader_map[$classname]);
         }
     }
 
@@ -272,7 +252,7 @@ class Clansuite_Loader
      * @param string $classname The name of the factories class
      * @return boolean
      */
-    public function autoload($classname)
+    public static function autoload($classname)
     {
         # check if class was already loaded
         if (class_exists($classname, false) or interface_exists($classname, false))
@@ -315,7 +295,7 @@ class Clansuite_Loader
 
         foreach($filenames as $filename)
         {
-            if($this->requireFileAndMap($filename, $classname) === true)
+            if(self::requireFileAndMap($filename, $classname) === true)
             {
                 return true;
             }
