@@ -177,20 +177,8 @@ class Clansuite_Doctrine
                        $this->config['database']['name']
         );
 
-
-        /**
-         * Setup phpDoctrine ConnectionObject for LATER Connection
-         */
-        $this->manager = Doctrine_Manager::getInstance();
-
-        if (count($this->manager) === 0)
-        {
-            $this->connection = $this->manager->connection($dsn, $this->config['database']['name']);
-        }
-        else
-        {
-            $this->connection = $this->manager->getCurrentConnection();
-        }
+        # Setup Doctrine Connection
+        $this->manager = Doctrine_Manager::connection($dsn, $this->config['database']['name']);
 
         /**
          * test connection
@@ -199,7 +187,7 @@ class Clansuite_Doctrine
          */
         try
         {
-            $this->connection->connect();
+            $this->manager->connect();
         }
         catch(Doctrine_Connection_Exception $e)
         {
@@ -247,8 +235,8 @@ class Clansuite_Doctrine
         /**
          * Sets Charset and Collation globally on Doctrine_Manager instance
          */
-        $this->connection->setCollate('utf8_unicode_ci');
-        $this->connection->setCharset('utf8');
+        $this->manager->setCollate('utf8_unicode_ci');
+        $this->manager->setCharset('utf8');
 
         /**
          * Load Models (automatic + lazy loading)
@@ -280,8 +268,8 @@ class Clansuite_Doctrine
         # Doctrine_Core::setModelsDirectory(ROOT . 'records');
         # Doctrine_Core::setModelsDirectory(ROOT_MOD); # somewhere beneath modules folder, rest via autoload
 
-        #Doctrine_Core::loadModels(ROOT . '/myrecords/generated');
-        Doctrine_Core::loadModels( ROOT . '/myrecords/' );
+        #Doctrine_Core::loadModels(ROOT . '/myrecords/generated', Doctrine_Core::MODEL_LOADING_CONSERVATIVE );
+        Doctrine_Core::loadModels(ROOT . '/myrecords/', Doctrine_Core::MODEL_LOADING_CONSERVATIVE );
 
         # Debug Listing of all loaded Doctrine Models
         #$models = Doctrine_Core::getLoadedModels();
@@ -327,7 +315,7 @@ class Clansuite_Doctrine
     public function initDoctrineProfiler()
     {
         include ROOT_CORE . 'debug/doctrineprofiler.core.php';
-        $profiler = new Clansuite_Doctrine_Profiler($this->connection);
+        $profiler = new Clansuite_Doctrine_Profiler();
         $profiler->attachProfiler();
     }
 

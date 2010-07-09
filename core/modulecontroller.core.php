@@ -130,7 +130,8 @@ abstract class Clansuite_Module_Controller
 
         if( is_dir($models_path) )
         {
-            Doctrine::loadModels($models_path);
+            Doctrine::loadModels( $models_path . '/generated/' );
+            Doctrine::loadModels( $models_path );
         }
         # else Module has no Doctrine Records (Models)
     }

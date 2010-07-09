@@ -55,7 +55,7 @@ class Clansuite_Debug
     /**
      * This is an replacement for the native php function print_r() with an upgraded display
      *
-     * @author  Cagret @ pl.gosu.php/debug/printR.php
+     * @author  cagret@gosu.pl
      * @version created 2005-06-18 modified 2006-06-04
      * @param   mixed/array/object $var Array or Object as Variable to display
      *
@@ -63,10 +63,10 @@ class Clansuite_Debug
      */
     public static function printR($var)
     {
-        while (ob_get_level())
+        /*while(ob_get_level())
         {
             ob_end_clean();
-        }
+        }*/
 
         if (func_num_args() > 1)
         {

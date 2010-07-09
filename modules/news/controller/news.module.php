@@ -101,12 +101,12 @@ class Clansuite_Module_News extends Clansuite_Module_Controller implements Clans
         $view = $this->getView();
 
         # UTF8 to HTML
-        $nr_news = count($news);
+        /*$nr_news = count($news);
         for($i = 0; $i < $nr_news; $i++)
         {
             $news[$i]['news_title'] = mb_convert_encoding( $news[$i]['news_title'] , 'UTF-8', 'HTML-ENTITIES');
             $news[$i]['news_body'] = mb_convert_encoding( $news[$i]['news_body'] , 'UTF-8', 'HTML-ENTITIES');
-        }
+        }*/
 
         # Assign $news array and pager objects to smarty to Smarty for template output
         $view->assign('news', $news);
