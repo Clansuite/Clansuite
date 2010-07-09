@@ -420,7 +420,7 @@ class Clansuite_CMS
     {
         include getcwd() . '/core/bootstrap/clansuite.loader.php';
         # instantiate the autoloading handlers by overwriting the spl_autoload handling
-        Clansuite_Loader::getInstance();
+        Clansuite_Loader::register_autoloaders();
     }
 
     /**
@@ -532,6 +532,7 @@ class Clansuite_CMS
         $request  = self::$injector->instantiate('Clansuite_HttpRequest');
         $response = self::$injector->instantiate('Clansuite_HttpResponse');
 
+
         /**
          * Setup Frontcontroller and pass Request and Response
          */
@@ -633,6 +634,14 @@ class Clansuite_CMS
     public static function getInjector()
     {
         return self::$injector;
+    }
+
+    /**
+     * @return Returns the Clansuite Main Config
+     */
+    public static function getClansuiteConfig()
+    {
+        return self::$config;
     }
 
     /**
