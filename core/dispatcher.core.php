@@ -62,14 +62,13 @@ class Clansuite_Dispatcher
     private static $modulename;
     private static $submodulename;
 
-
     /**
      * Sets the matching route object to the dispatcher
      *
      * @param object $route Route Object implementing Clansuite_Route_Interface
      * @return object Clansuite_Dispatcher
      */
-    public function setFoundRoute(Clansuite_Route_Interface $route)
+    public function setFoundRoute($route) # (Clansuite_Route_Interface $route)
     {
         self::$found_route = $route;
 
@@ -93,6 +92,10 @@ class Clansuite_Dispatcher
     {
         $route = $this->getFoundRoute();
 
+        #$event = Clansuite_EventDispatcher::instantiate();
+        #$event->addEventHandler('onBeforeControllerMethodCall', new Clansuite_Event_InitializeModule());
+
+        #Clansuite_Debug::firebug($route);
 
         if($route === null)
         {
@@ -101,44 +104,56 @@ class Clansuite_Dispatcher
 
         $filename     = $route->getFilename();
         $classname    = $route->getClassname();
-        $method       = $route->getAction();
+        $method       = $route->getMethod();
         $parameters   = $route->getParameters();
+        $request_meth = Clansuite_HttpRequest::getRequestMethod();
         $renderengine = $route->getRenderEngine();
 
-        unset($route);
+        #Clansuite_Debug::firebug($route);
+        #unset($route);
 
+        /**
+         * The file we want to call has to exists
+         */
         if(false === is_file($filename) )
         {
-            throw new Clansuite_Exception('File not found ' . $filename);
+            throw new Clansuite_Exception('File not found "' . $filename .'".');
         }
         else
         {
             include $filename;
         }
 
+        /**
+         * Inside this file, the correct class has to exist
+         */
         if(true === class_exists($classname, false))
         {
             $controllerInstance = new $classname();
         }
         else
         {
-            throw new Clansuite_Exception('There was no controller named ' . $classname);
+            throw new Clansuite_Exception('There was no controller named "' . $classname . '".');
         }
+
+        /**
+         * Initialize the Module
+         */
+        $controllerInstance->initializeModule(
+                Clansuite_CMS::getInjector()->instantiate('Clansuite_HttpRequest'),
+                Clansuite_CMS::getInjector()->instantiate('Clansuite_HttpResponse')
+        );
 
         /**
          * Handle Method
          *
-         * 1) check if method exists in module -> CALL
-         * 2) check if method exists in module/actions path -> CALL
+         * 1) check if method exists in class (meaning the module file) -> CALL
+         * 2) check if method exists in module/actions path (command factory) -> CALL
          * 3) if not found display error -> ERROR
          */
-        if(true === method_exists($controllerInstance, $action))
+        if(true === method_exists($controllerInstance, $method))
         {
-            # set the used action name
-            $this->setAction($methodname);
-
-            # call the method on module!
-            $controllerInstance->$action($parameters);
+            $controllerInstance->$method($parameters);
         }
         /*
         elseif(is_file(ROOT_MOD . $modulename.'/controller/commands/'.$methodname.'.php') === true)
@@ -150,40 +165,74 @@ class Clansuite_Dispatcher
         }*/
         else # error
         {
-            throw new Clansuite_Exception('There was no action named ' . $action, 2);
+            throw new Clansuite_Exception('There was no action named "' . $method . '".', 2);
         }
 
         #Clansuite_Loader::callClassMethod($class, $method, $parameters);
     }
 
     /**
-     * Getter for Controller/Modulename
+     * Method to set the Action
+     */
+    public static function setActionName($actionName)
+    {
+        self::$actionName = (string) $actionName;
+    }
+
+    /**
+     * Method to get the Action
+     *
+     * @return $string
+     */
+    public static function getActionName()
+    {
+        return self::$found_route->getMethod();
+    }
+
+    /**
+     * Method to get the DefaultAction
+     *
+     * @return $string
+     */
+    public static function getDefaultActionName()
+    {
+        return self::$_defaultAction;
+    }
+
+    /**
+     * Method to set the ModuleName
+     */
+    public static function setModuleName($moduleName)
+    {
+        self::$_modulename = (string) $moduleName;
+    }
+
+    /**
+     * Method to get the ModuleName
      *
      * @return $string
      */
     public static function getModuleName()
     {
-        return self::$modulename;
+        return self::$found_route->getController();
     }
 
     /**
-     * Getter for SubModulename
+     * Method to set the SubModuleName
+     */
+    private static function setSubModuleName($SubModuleName)
+    {
+        self::$submodulename = (string) $SubModuleName;
+    }
+
+    /**
+     * Method to get the SubModuleName
      *
      * @return $string
      */
     public static function getSubModuleName()
     {
         return self::$submodulename;
-    }
-
-    /**
-     * Getter for ActioName
-     *
-     * @return $string
-     */
-    public static function getActionName()
-    {
-        return self::$modulename;
     }
 }
 ?>
