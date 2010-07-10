@@ -65,6 +65,24 @@ if(defined('IN_CS') === false)
  */
 class Clansuite_Router implements Iterator, ArrayAccess, Clansuite_Router_Interface
 {
+    private static $use_cache = false;
+
+    private $uri = '';
+    private $uri_segments = array();
+    private $extension = '';
+
+    /**
+      * @var boolean Status of rewrite Engine: true=on, false=off.
+     */
+    private static $rewriteEngineOn = false;
+
+    /**
+     * Routing Table
+     *
+     * @var array Routes Array
+     */
+    private $routes = array();
+    
     /**
      * Constructor.
      *
@@ -72,32 +90,77 @@ class Clansuite_Router implements Iterator, ArrayAccess, Clansuite_Router_Interf
      */
     public function __construct($request_uri)
     {
+        # clean the incomming uri
         $this->uri = self::prepareRequestURI($request_uri);
+
+        # check if routes caching is activated in config, maybe we can load routes from cache
+        if(isset($config['routing']['cache_routes']) and true === $config['routing']['cache_routes'])
+        {
+            self::$use_cache = true;
+        }
+        else
+        {
+            self::$use_cache = false;
+        }
     }
 
-    public function addRoute($name, array $route)
+    /**
+     * Add route
+     *
+     * @param string $url_pattern
+     * @param array $route_options
+     */
+    public function addRoute($url_pattern, array $route_options)
     {
-
+        $this->connect($url_pattern, $route_options);
     }
 
+    /**
+     * Add multiple route
+     *
+     * @param array $routes Array with multiple routes.
+     */
     public function addRoutes(array $routes)
     {
-
+        foreach ($routes as $route => $options)
+        {
+            $this->addRoute( (string) $route, (array) $options);
+        }
     }
 
+    /**
+     * Method returns all loaded routes.
+     *
+     * @return array Returns array with all loaded Routes.
+     */
     public function getRoutes()
     {
         return $this->routes;
     }
-
-    public function delRoute($name)
+    
+    /**
+     * Delete a route by its url pattern
+     *
+     * @param string $url_pattern
+     */
+    public function delRoute($url_pattern)
     {
-        unset($this->routes[$name]);
+        unset($this->routes[$url_pattern]);
     }
 
-    public function generateURL($action, $args = null, $params = null, $fragment = null)
+    /**
+     * Generates a URL by parameters.
+     *
+     * @param string $url_pattern The URL Pattern of the route
+     * @param array  $params An array of parameters
+     * @param string $fragment
+     * @param bool   $absolute Whether to generate an absolute URL
+     *
+     * @return string The generated (relative or absolute) URL.
+     */
+    public function generateURL($url_pattern, array $params = null, $fragment = null, $absolute = false)
     {
-
+        
     }
 
     /**
@@ -114,21 +177,36 @@ class Clansuite_Router implements Iterator, ArrayAccess, Clansuite_Router_Interf
     public function route()
     {
         # detects if RewriteEngine is active and calls the proper URLParser for extraction of uri segments
-        if(true == $this->isRewriteEngineOn())
+        if(true === $this->isRewriteEngineOn())
         {
-            $this->uriParser_Rewrite($this->uri);
+            $this->UrlParser_Rewrite($this->uri);
         }
         else # default
         {
-            $this->uriParser_NoRewrite($this->uri);
+            $this->UrlParser_NoRewrite($this->uri);
+            return $this->NoRewriteRoute();
+        }
+
+        /**
+         * if there are no uri segments, loading routes and matching is pointless
+         * return the default route
+         */
+        if(empty($this->uri) or $this->uri === '/')
+        {
+            $route = new Clansuite_TargetRoute();
+            $route->setController('news');
+            $route->setAction('show');
+            return $route;
         }
 
         # attach more routes to this object via the event "onInitializeRoutes"
         Clansuite_CMS::triggerEvent('onInitializeRoutes', $this);
 
         # initalize Routes
-        $this->initDefaultRoutes();
-        #$this->initModuleRoutes();
+        #$this->loadDefaultRoutes();
+
+        # first filter: drop all routes with more segments then uri_segments
+        #self::removeRoutesBySegmentCount();
 
         # map match uri
 
@@ -136,19 +214,16 @@ class Clansuite_Router implements Iterator, ArrayAccess, Clansuite_Router_Interf
 
     /**
      * Ensures Apache "RewriteEngine on" by performing two checks
-     * a) check if Apache Modules "mod_rewrite" is loaded/enabled
-     * b) check if Rewrite Engine is enabled in .htaccess"
-     *
-     * In case both checks are true, a modrewrite flag file is written.
-     * This reduces read operations on the ".htaccess" file.
-     * The next time this function is called, only the a flag-file-check is performed.
+     * a) check if ModRewrite is activated in config to avoid overhead
+     * b) check if Apache Modules "mod_rewrite" is loaded/enabled
+     * c) check if Rewrite Engine is enabled in .htaccess"
      *
      * @return bool True, if "RewriteEngine On". False otherwise.
      */
     public static function isRewriteEngineOn()
     {
-        # maybe, a "modrewrite on" flag file exists, so we don't read htaccess every time
-        if(is_file(ROOT . 'configuration/modrewrite_active.flag') === true)
+        # maybe, we have a modrewrite config setting, this avoids overhead
+        if(isset($config['routing']['modrewrite']) and true === $config['routing']['modrewrite'])
         {
             return true;
         }
@@ -158,13 +233,10 @@ class Clansuite_Router implements Iterator, ArrayAccess, Clansuite_Router_Interf
         {
             # load htacces and check if RewriteEngine is enabled
             $htaccess_content = @file_get_contents(ROOT . '.htaccess');
-            $rewriteEngineOn = preg_match('/.*[^#][\t ]+RewriteEngine[\t ]+On/i', $htaccess_content);
+            self::$rewriteEngineOn = preg_match('/.*[^#][\t ]+RewriteEngine[\t ]+On/i', $htaccess_content);
 
-            if($rewriteEngineOn == 1)
+            if(self::$rewriteEngineOn == 1)
             {
-                # because this setup will hardly change often, we write a flag file
-                @file_put_contents(ROOT . 'configuration/modrewrite_active.flag', $rewriteEngineOn);
-
                 return true;
             }
             else # RewriteEngine not set or commented off in htaccess
@@ -194,9 +266,54 @@ class Clansuite_Router implements Iterator, ArrayAccess, Clansuite_Router_Interf
     {
         $this->uri = '/' . trim($request_uri, '/');
 
-        Clansuite_Debug::firebug('The initial Server Request URI is "' . $this->uri . '"');
+        #Clansuite_Debug::firebug('The initial Server Request URI is "' . $this->uri . '"');
 
         return $this->uri;
+    }
+
+    /**
+     * NoRewriteRouting
+     *
+     * URL Examples
+     * a) index.php?mod=news=action=archive
+     * b) index.php?mod=news&sub=admin&action=edit&id=77
+     *
+     * mod      => controller => clansuite_module_mod (".module.php")
+     * sub      => file type  => ".admin.php"
+     * action   => method     => action_method
+     * *id*     => additional call params for the method
+     */
+    public function NoRewriteRoute()
+    {
+        $route = new Clansuite_TargetRoute();
+
+        if(isset($this->uri_segments['mod']))
+        {
+            $route->setController($this->uri_segments['mod']);
+            unset($this->uri_segments['mod']);
+        }
+
+        if(isset($this->uri_segments['sub']))
+        {
+            $route->setSubController($this->uri_segments['sub']);
+            unset($this->uri_segments['sub']);
+        }
+
+        if(isset($this->uri_segments['action']))
+        {
+            $route->setAction($this->uri_segments['action']);
+            unset($this->uri_segments['action']);
+        }
+
+        # the rest of the uri_segments are just params for the method
+
+        if(count($this->uri_segments) > 0)
+        {
+            $route->setParameters($this->uri_segments);
+            unset($this->uri_segments);
+        }
+
+        return $route;
     }
 
     /**
@@ -221,15 +338,19 @@ class Clansuite_Router implements Iterator, ArrayAccess, Clansuite_Router_Interf
         /**
          * The equals sign (=)
          *
-         * This addresses the pair relationship between parameter name and (=) value.
+         * This addresses the pair relationship between parameter name and value, like "id=77".
          */
         $parameters = array();
-        foreach($uri_query_array as $query_pair)
+        if(count($uri_query_array) > 0)
         {
-            list($key, $value) = explode('=', $query_pair);
-            $parameters[$key] = $value;
+            foreach($uri_query_array as $query_pair)
+            {
+                list($key, $value) = explode('=', $query_pair);
+                $parameters[$key] = $value;
+            }
         }
-        unset($uri_query_string, $uri_query_array);
+
+        unset($uri_query_string, $uri_query_array, $query_pair, $key, $value);
 
         /**
          * Finished!
@@ -249,13 +370,12 @@ class Clansuite_Router implements Iterator, ArrayAccess, Clansuite_Router_Interf
      *
      * @param string $url The Request URL
      */
-    public function UrlParser_Rewrite($uri)
+    private function UrlParser_Rewrite($uri)
     {
         /**
          * The query string up to the question mark (?)
          *
-         * Checks if url string contains "?" and removes everything before the "?".
-         * Example: when you have "index.php?...", this strips of "index.php?"
+         * Removes everything after a "?".
          * Note: with correct rewrite rules in htaccess, this conditon is not needed.
          */
         $pos = mb_strpos($uri, '?');
@@ -278,7 +398,7 @@ class Clansuite_Router implements Iterator, ArrayAccess, Clansuite_Router_Interf
         {
             $uri_dot_array = array();
             # Segmentize the url into an array
-            $uri_dot_array = explode('.', $url);
+            $uri_dot_array = explode('.', $uri);
             # chop off the last piece as the extension
             $this->extension = array_pop($uri_dot_array);
             # there might be multiple dots in the url
@@ -294,7 +414,6 @@ class Clansuite_Router implements Iterator, ArrayAccess, Clansuite_Router_Interf
          * The slashes (/) and empty segments
          */
         $url_split = preg_split('#/#', $uri, -1, PREG_SPLIT_NO_EMPTY);
-
         unset($uri);
 
         /**
@@ -305,48 +424,76 @@ class Clansuite_Router implements Iterator, ArrayAccess, Clansuite_Router_Interf
     }
 
     /**
-     * Implementation of SPL Iterator
+     * Replaces the placeholders in a route, like alpha, num, word
+     * with their regular expressions for later preg_matching.
+     * This is used while adding a new Route.
+     *
+     * @param string $route_with_placeholder A Route with a placeholder like alpha or num.
      */
-
-    /**
-     * Rewind is ONLY called at the start of the Iteration.
-     * Sets the iterator to the first element on the $routes array.
-     */
-    public function rewind()
+    public static function placeholdersToRegexp($route_with_placeholders)
     {
-        return reset($this->routes);
+        $placeholders = array('(:id)', '(:num)', '(:alpha)', '(:alphanum)', '(:any)', '(:word)',
+                              '(:year)', '(:month)', '(:day)');
+
+        $replacements = array('([0-9]+)', '([0-9]+)', '([a-zA-Z]+)', '([a-zA-Z0-9]+)', '(.*)', '(\w+)',
+                              '([12][0-9]{3})', '(0[1-9]|1[012])', '(0[1-9]|1[012])');
+
+        return str_replace($placeholders, $replacements, $route_with_placeholders);
     }
 
     /**
-     * Ensures a valid element exists after a call to rewind() and next().
+     * This unsets all Routes of Routing Table ($this->routes)
+     * which have more segments then the request uri.
      */
-    public function valid()
+    public function removeRoutesBySegmentCount()
     {
-
+        foreach($this->routes as $route_pattern => $route_values)
+        {
+            if($route_values['number_of_segments'] === count($this->uri_segments))
+            {
+                continue;
+            }
+            else
+            {
+                unset($this->routes[$route_pattern]);
+            }
+        }
     }
 
     /**
-     * @return array Returns the next array element of $routes.
+     * Register the default routes.
      */
-    public function next()
+    public function loadDefaultRoutes()
     {
-        return next($this->routes);
-    }
+        # check cache for routes
+        if(true === self::$use_cache and empty($this->routes) and Clansuite_Cache::contains('clansuite.routes'))
+        {
+            $this->addRoutes(Clansuite_Cache::read('clansuite.routes'));
+        }
 
-    /**
-     * @return array Returns the current array element value of $routes.
-     */
-    public function current()
-    {
-        return current($this->routes);
-    }
+        if(empty($this->routes)) # load routes table from routes.config.php
+        {
+            $this->addRoutes( Clansuite_Routes_Manager::loadRoutesFromConfig());
 
-    /**
-     * @return array Returns the key of the current element of $routes..
-     */
-    public function key()
-    {
-        return key($this->routes);
+            # and save these routes to cache
+            if(true === self::$use_cache)
+            {
+                Clansuite_Cache::store('clansuite.routes', $this->getRoutes());
+            }
+        }
+
+        /**
+         * Connect some default fallback Routes
+         *
+         * With ArrayAccess: $r['/:controller'];
+         */
+        if(empty($this->routes))
+        {
+            $this->connect('/:controller');
+            $this->connect('/:controller/:action');
+            $this->connect('/:controller/:action/:id');
+            $this->connect('/:controller/:action/:id/:format');
+        }
     }
 
     /**
@@ -370,7 +517,7 @@ class Clansuite_Router implements Iterator, ArrayAccess, Clansuite_Router_Interf
         }
         else
         {
-            return NULL;
+            return null;
         }
     }
 
@@ -386,6 +533,369 @@ class Clansuite_Router implements Iterator, ArrayAccess, Clansuite_Router_Interf
 }
 
 /**
+ * Clansuite_Mapper
+ *
+ * @category    Clansuite
+ * @package     Core
+ * @subpackage  Mapper
+ */
+class Clansuite_Mapper
+{
+    const MODULE_CLASS_PREFIX = 'Clansuite_Module';
+    const METHOD_PREFIX = 'action';
+
+    /**
+     * @var string Name of the Default Module
+     */
+    private static $defaultModule = 'news';
+
+    /**
+     * @var string Name of the Default Action
+     */
+    private static $defaultAction = 'show';
+
+    /**
+     * Maps the controller and subcontroller (optional) to filename
+     *
+     * * @param string $controller Name of Controller
+     * @param string $subcontroller Name of SubController (optional)
+     * @return string filename
+     */
+    public static function mapControllerToFilename($module_path, $controller, $subcontroller = null)
+    {
+        $filename = '';
+
+        # construct the module_path, like "/clansuite/modules/news/" + "controller/"
+        $module_path = $module_path . 'controller' . DS;
+
+        # subcontroller
+        if('admin' == $subcontroller)
+        {
+            $filename_postfix = '.admin.php';
+        }
+        else
+        {
+            $filename_postfix = '.module.php';
+        }
+
+        $filename = $module_path . $controller . $filename_postfix;
+
+        return $filename;
+    }
+
+    /**
+     * Maps Controller and SubController (optional)
+     *
+     * @param string $controller Name of Controller
+     * @param string $subcontroller Name of SubController (optional)
+     *
+     * @return string classname
+     */
+    public static function mapControllerToClassname($controller, $subcontroller = null)
+    {
+        $classname = '';
+
+        # attach controller
+        $classname .= '_' . ucfirst($controller);
+
+        # attach subcontroller to classname
+        if($subcontroller !== null)
+        {
+            $classname .= '_' . ucfirst($subcontroller);
+        }
+
+        return self::MODULE_CLASS_PREFIX . $classname;
+    }
+
+    /**
+     * Maps the action to an method name.
+     * The pseudo-namesspace prefix 'action_' is used for all actions.
+     * Example: action_show()
+     * This is also a way to ensure some kind of whitelisting via namespacing.
+     *
+     * The use of submodules like News_Admin is also supported.
+     * In this case the actionname is action_admin_show().
+     *
+     * @param  string  the action
+     * @param  string  the submodule
+     * @return string  the mapped method name
+     */
+    public static function mapActionToActioname($action, $submodule = null)
+    {
+        # action not set by URL, so we set action from config/this class
+        if(false === isset($action))
+        {
+            # set the method name
+            $action = self::$defaultAction;
+        }
+
+        # if $submodule is set, use it as a prefix on $action
+        if(isset($submodule) and ($submodule !== null))
+        {
+            $action = $submodule . '_' . $action;
+        }
+
+        # all clansuite actions are prefixed with 'action_'
+        return 'action_' . $action;
+    }
+}
+
+class Clansuite_TargetRoute extends Clansuite_Mapper
+{
+    private static $parameters = array(
+        'filename'      => null,
+        'classname'     => null,
+        'controller'    => 'index',
+        'subcontroller' => null,
+        'action'        => 'show',
+        'method'        => null,
+        'params'        => null,
+        'format'        => 'html',
+        'language'      => 'en',
+        'request'       => 'get',
+        'layout'        => true,
+        'ajax'          => false,
+        'renderer'      => 'smarty',
+        'modrewrite'    => false
+    );
+
+    public static function setFilename($filename)
+    {
+        self::$parameters['filename'] = $filename;
+    }
+
+    public static function getFilename()
+    {
+        if(empty(self::$parameters['filename']))
+        {
+            self::setFilename(self::mapControllerToFilename(self::getModulePath(), self::getController(), self::getSubController()));
+        }
+
+        return self::$parameters['filename'];
+    }
+
+    public static function setClassname($classname)
+    {
+        self::$parameters['classname'] = $classname;
+    }
+
+    public static function getClassname()
+    {
+        if(empty(self::$parameters['classname']))
+        {
+            self::setClassname(self::mapControllerToClassname(self::getController(), self::getSubController()));
+        }
+
+        return self::$parameters['classname'];
+    }
+
+    public static function setController($controller)
+    {
+        self::$parameters['controller'] = $controller;
+    }
+
+    public static function getController()
+    {
+        return self::$parameters['controller'];
+    }
+
+    public static function setSubController($subcontroller)
+    {
+        self::$parameters['subcontroller'] = $subcontroller;
+    }
+
+    public static function getSubController()
+    {
+        return self::$parameters['subcontroller'];
+    }
+
+    public static function setAction($action)
+    {
+        self::$parameters['action'] = $action;
+    }
+
+    public static function getAction()
+    {
+        return self::$parameters['action'];
+    }
+
+    public static function setMethod($method)
+    {
+        self::$parameters['method'] = $method;
+    }
+
+    public static function getMethod()
+    {
+        # check if method is correctly prefixed with 'action_'
+        if (isset(self::$parameters['method']) and mb_strpos(self::$parameters['method'], 'action_'))
+        {
+            return self::$parameters['method'];
+        }
+        else # add method prefix
+        {
+            $method = 'action_' . self::$parameters['action'];
+
+            # action + prefix = method, set it
+            self::setMethod($method);
+        }
+
+        return self::$parameters['method'];
+    }
+
+    public static function setParameters($params)
+    {
+        self::$parameters['params'] = $params;
+    }
+
+    public static function getParameters()
+    {
+        return self::$parameters['params'];
+    }
+
+    public static function getFormat()
+    {
+        return self::$parameters['format'];
+    }
+
+    public static function setRequestMethod()
+    {
+        self::$parameters['request'];
+    }
+
+    public static function getRequestMethod()
+    {
+        return Clansuite_HttpRequest::getRequestMethod();
+    }
+
+    public static function getLayoutMode()
+    {
+        return (bool) self::$parameters['layout'];
+    }
+
+    public static function getAjaxMode()
+    {
+        return (bool) self::$parameters['ajax'];
+    }
+
+    public static function getRenderEngine()
+    {
+        return self::$parameters['renderer'];
+    }
+
+    public static function getModRewriteStatus()
+    {
+        return (bool) self::$parameters['modrewrite'];
+    }
+
+    public static function getModulePath()
+    {
+        return ROOT_MOD . self::getController() . DS;
+    }
+}
+
+/**
+ * Clansuite Routes Management
+ *
+ * On Installation new routes are added via the method addRoutesOfModule($modulename).
+ * On Deinstallation the routes are removed via method delRoutesOfModlee($modulename).
+ */
+class Clansuite_Routes_Manager
+{
+    public static function addRoutesOfModule($modulename)
+    {
+        self:updateApplicationRoutes($modulename);
+    }
+
+    public static function delRoutesOfModule($modulename)
+    {
+        $module_routes_file = ROOT_MOD . '/' . $modulename . '/' . $modulename . '.routes.php';
+        $module_routes = $this->loadRoutesFromConfig($module_routes_file);
+
+        # load main routes file
+        $application_routes = $this->loadRoutesFromConfig();
+
+        # subtract the $module_routes from $application_routes array
+        $this->deleteRoute($route_name);
+
+        # update / write merged content to application config
+
+    }
+
+    public function deleteRoute($route_name)
+    {
+        $routes_count = count($this->routes);
+        for($i == 0; $i < $routes_count; $i++)
+        {
+            if($this->routes[$i]['name'] == $route_name)
+            {
+                array_splice($this->routes, $i, 1);
+                break;
+            }
+        }
+        return $this->routes;;
+    }
+
+    /**
+     * Registers routing for all activated modules
+     *
+     * @param string $modulename Name of module
+     */
+    public static function updateApplicationRoutes($modulename = null)
+    {
+        $activated_modules = array();
+
+        if($modulename === null)
+        {
+            $activated_modules[] = array($modulename);
+        }
+        else # get all activated modules
+        {
+            # $activated_modules =
+        }
+
+        foreach($activated_modules as $modulename)
+        {
+            # load module routing file
+            $module_routes_file = ROOT_MOD . '/' . $modulename . '/' . $modulename . '.routes.php';
+            $module_routes = $this->loadRoutesFromConfig($module_routes_file);
+
+            # load main routes file
+            $application_routes = $this->loadRoutesFromConfig();
+
+            # merge the content of modules into application
+            # @todo: consider using array_merge_recursive_distinct /unique ?
+            $combined_routes = array_merge_recursive($module_routes, $application_routes);
+
+            # update / write merged content to application config
+        }
+    }
+
+    /**
+     * Load Routes from Configuration File
+     *
+     * @param string Path to a (module) Routing Configuration File.
+     * @return array Array of Routes.
+     */
+    public static function loadRoutesFromConfig($routes_config_file = null)
+    {
+        $routes = array();
+
+        if($routes_config_file === null)
+        {
+            # load common routes configuration
+            $routes = include ROOT . 'configuration/routes.config.php';
+        }
+        else
+        {
+            # load specific routes config file
+            $routes = include ROOT . $routes_config_file;
+        }
+
+        return (array) $routes;
+    }
+}
+
+/**
  * Interface for Clansuite_Router(s)
  *
  * A router has to implement the following methods to resolve the Request to a Module and the Action/Command.
@@ -396,22 +906,11 @@ class Clansuite_Router implements Iterator, ArrayAccess, Clansuite_Router_Interf
  */
 interface Clansuite_Router_Interface
 {
-    /**
-     * Getter and Setter for $routes
-     */
     function addRoute($name, array $route);
     function addRoutes(array $routes);
     function getRoutes();
     function delRoute($name);
-
-    /**
-     * CALL/MAP -> URL
-     */
-    function generateURL($action, $args = null, $params = null, $fragment = null);
-
-    /**
-     * URI -> MAP MATCHING -> CALL
-     */
+    function generateURL($url_pattern, array $params = null, $fragment = null, $absolute = false);
     function route();
 }
 ?>

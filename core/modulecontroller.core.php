@@ -108,7 +108,7 @@ abstract class Clansuite_Module_Controller
          */
         if($modulename === null)
         {
-            $modulename = Clansuite_Module_Controller_Resolver::getModuleName();
+            $modulename = Clansuite_Dispatcher::getModuleName();
         }
 
         /**
@@ -153,7 +153,7 @@ abstract class Clansuite_Module_Controller
     }
 
     /**
-     * Returns the Clansuite Configuration as Array
+     * Proxy/convenience method: returns the Clansuite Configuration as array
      *
      * @return $array Clansuite Main Configuration (/configuration/clansuite.config.php)
      */
@@ -418,16 +418,14 @@ abstract class Clansuite_Module_Controller
             }
         }
 
-        $response = $this->getHttpResponse();
-
-        $view = $this->getView();
+        $response = $this->getHttpResponse();        
 
         # Debug - Layout Template and Content Template
         # Clansuite_Debug::firebug('Layout/Wrapper Template: ' . $view->getLayoutTemplate() . '<br />');
         # Clansuite_Debug::firebug('Template Name: ' .$this->getTemplateName() . '<br />');
 
         #  Set Content on the Response Object
-        $response->setContent($view->render($this->getTemplateName()));
+        $response->setContent($this->getView()->render($this->getTemplateName()));
     }
 
     /**
@@ -546,7 +544,7 @@ abstract class Clansuite_Module_Controller
      * @param string $type string error, warning, notice, success, debug
      * @param string $message string A textmessage.
      */
-    public function setFlashmessage($type, $message)
+    public static function setFlashmessage($type, $message)
     {
         Clansuite_Flashmessages::setMessage($type, $message);
     }

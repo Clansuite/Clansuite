@@ -387,7 +387,7 @@ class Clansuite_CMS
              *
              * If Clansuite is in DEBUG Mode an additional class is loaded, providing some
              * helper methods for profiling, tracing and enhancing the debug displays.
-             * @see clansuite_debug:printR() and clansuite_debug:firebug()
+             * @see clansuite_debug::printR() and clansuite_debug::firebug()
              */
             include ROOT_CORE . 'debug/debug.core.php';
 

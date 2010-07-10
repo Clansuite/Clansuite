@@ -164,7 +164,7 @@ class Clansuite_Renderer_Smarty extends Clansuite_Renderer_Base
         }
         else
         {
-            $this->renderer->compile_check = true;             # if a template was changed it would be recompiled, if set to false nothing will be compiled (changes take no effect)
+            $this->renderer->compile_check = false;             # if a template was changed it would be recompiled, if set to false nothing will be compiled (changes take no effect)
             $this->renderer->force_compile = false;            # if true compiles each template everytime, overwrites $compile_check
         }
 
