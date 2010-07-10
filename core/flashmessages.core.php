@@ -71,32 +71,11 @@ class Clansuite_Flashmessages /* extends Clansuite_Session */
      * @var contains $session array of $flashmessages
      */
     private static $flashmessages = array();
+
     /**
      * @var array types of flashmessages (whitelist)
      */
     private static $flashmessagetypes = array('error', 'warning', 'notice', 'success', 'debug');
-
-    function __construct()
-    {
-        self::getMessagesFromSession();
-    }
-
-    /**
-     * Clansuite_Flashmessages is a Singleton
-     *
-     * @param object $injector DependencyInjector
-     *
-     * @return instance of flashmessage class
-     */
-    public static function getInstance($injector)
-    {
-        static $instance;
-        if(isset($instance) == false)
-        {
-            $instance = new Clansuite_Flashmessages();
-        }
-        return $instance;
-    }
 
     /**
      * Sets a message to the session
@@ -150,26 +129,6 @@ class Clansuite_Flashmessages /* extends Clansuite_Session */
     }
 
     /**
-     * Checks if a certain messagetype is set as flashmessage
-     *
-     * @param   $type    string type of the message, usable for formatting.
-     * @return  boolean  true|false
-     */
-    public static function hasMessageType($type)
-    {
-        return array_key_exists($type, self::$flashmessages);
-    }
-
-    /**
-     * Removes a specific message from the session
-     */
-    public static function delMessage($type, $id)
-    {
-        # @todo message_id as identifier
-        #self::$flashmessages[$type][$id] = array();
-    }
-
-    /**
      * resets the whole flashmessage array
      */
     public static function delMessages()
@@ -184,21 +143,16 @@ class Clansuite_Flashmessages /* extends Clansuite_Session */
      */
     public static function render($type = null)
     {
-        if(isset($_SESSION['user']['flashmessages']))
-        {
-            Clansuite_Debug::firebug($_SESSION['user']['flashmessages']);
-        }
-
-        #$flashmessages = self::getMessages($type);
         $flashmessages_index = self::getMessagesFromSessionAndUnset();
+
         if(isset($flashmessages_index))
         {
             $html = '';
             foreach($flashmessages_index as $flashmessage)
             {
-                foreach($flashmessage as $type => $flashmessage)
+                foreach($flashmessage as $type => $message)
                 {
-                    $html .= '<div id="flashmessage" class="flashmessage ' . $type . '">' . $flashmessage . '</div>';
+                    $html .= '<div id="flashmessage" class="flashmessage ' . $type . '">' . $message . '</div>';
                 }
             }
             return $html;
