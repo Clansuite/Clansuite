@@ -606,7 +606,7 @@ class Clansuite_CMS
     private static function start_Session()
     {
         # Initialize Doctrine before session start, because session is written to database
-        new Clansuite_Doctrine(self::$config);
+        new Clansuite_Doctrine(self::$config['database']);
 
         # Initialize Session
         new Clansuite_Session(self::$config, self::$injector->instantiate('Clansuite_HttpRequest'));
