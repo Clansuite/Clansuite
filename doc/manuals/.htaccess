@@ -1,0 +1,49 @@
+DirectoryIndex index.html
+Options -Indexes
+
+<IfModule mod_deflate.c>
+    AddOutputFilterByType DEFLATE text/html text/plain text/xml text/css text/javascript application/x-javascript text/x-js
+    # exclude uncompressible content via file type
+    SetEnvIfNoCase Request_URI \.(?:gif|jpe?g|png)$ no-gzip dont-vary
+    SetEnvIfNoCase Request_URI \.(?:exe|t?gz|zip|bz2|sit|rar)$ no-gzip dont-vary
+</IfModule>
+
+<IfModule mod_gzip.c>
+    mod_gzip_on Yes
+    mod_gzip_dechunk Yes
+    mod_gzip_item_include file \.(html?|txt|css|js|php|pl|png|jpe?g|gif)$
+    mod_gzip_item_include handler ^cgi-script$
+    mod_gzip_item_include mime ^text/.*
+    mod_gzip_item_include mime ^application/x-javascript.*
+    mod_gzip_item_include mime ^text/x-js.*
+    mod_gzip_item_exclude mime ^image/.*
+    mod_gzip_item_exclude rspheader ^Content-Encoding:.*gzip.*
+</IfModule>
+
+<IfModule mod_expires.c>
+    ExpiresActive On
+    ExpiresByType image/x-icon "access plus 5184000 seconds"
+    ExpiresByType image/gif "access plus 5184000 seconds"
+    ExpiresByType image/jpg "access plus 5184000 seconds"
+    ExpiresByType image/png "access plus 5184000 seconds"
+    ExpiresByType text/css "access plus 5184000 seconds"
+    ExpiresByType text/javascript "access plus 5184000 seconds"
+    ExpiresByType application/javascript "access plus 5184000 seconds"
+    ExpiresByType application/x-javascript "access plus 5184000 seconds"
+</IfModule>
+
+<ifmodule mod_headers.c>
+    <filesmatch "\\.(ico|jpe?g|png|gif|swf)$">
+        Header set Cache-Control "max-age=5184000, public"
+    </filesmatch>
+    <filesmatch "\\.(css)$">
+        Header set Cache-Control "max-age=5184000, private"
+    </filesmatch>
+    <filesmatch "\\.(js)$">
+        Header set Cache-Control "max-age=216000, private"
+    </filesmatch>
+</ifmodule>
+
+<ifmodule mod_headers.c>
+    Header unset ETag
+</ifmodule>
