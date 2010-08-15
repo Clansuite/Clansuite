@@ -10,7 +10,7 @@ SetEnv TZ Europe/Berlin
     RewriteEngine on
     RewriteCond %{REQUEST_FILENAME} !-f
     RewriteCond %{REQUEST_FILENAME} !-d
-    RewriteRule ^(.*)$ index.php [QSA,L]
+    RewriteRule !\.(js|ico|gif|jpg|png|css)$ /index.php [QSA,L]
 </IfModule>
 
 <IfModule mod_php5.c>
