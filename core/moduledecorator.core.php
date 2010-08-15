@@ -23,12 +23,9 @@
     *    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
     *
     * @license    GNU/GPL v2 or (at your option) any later version, see "/doc/LICENSE".
-    *
     * @author     Jens-André Koch <vain@clansuite.com>
     * @copyright  Jens-André Koch (2005 - onwards)
-    *
     * @link       http://www.clansuite.com
-    * @link       http://gna.org/projects/clansuite
     *
     * @version    SVN: $Id$
     */
@@ -49,7 +46,7 @@ if(defined('IN_CS') == false)
  * @copyright  Jens-André Koch (2005 - onwards)
  * @version    0.1
  */
-class Clansuite_Module_ControllerDecorator implements Clansuite_Module_Interface
+class Clansuite_Module_ControllerDecorator
 {
     # the moduleController to decorate
     protected $_moduleController;

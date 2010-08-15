@@ -28,7 +28,7 @@
     * @copyright  Jens-André Koch (2005 - onwards)
     *
     * @link       http://www.clansuite.com
-    * @link       http://gna.org/projects/clansuite
+    * 
     *
     * @version    SVN: $Id$
     */

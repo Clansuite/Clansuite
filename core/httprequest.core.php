@@ -23,13 +23,10 @@
     *    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
     *
     * @license    GNU/GPL v2 or (at your option) any later version, see "/doc/LICENSE".
-    *
     * @author     Jens-André Koch <vain@clansuite.com>
-    * @copyright  Jens-André Koch (2005 - onwards)
-    *
+    * @copyright  Copyleft: All rights reserved. Jens-André Koch (2005 - onwards)
     * @link       http://www.clansuite.com
-    * @link       http://gna.org/projects/clansuite
-    *
+    * 
     * @version    SVN: $Id$
     */
 
@@ -50,14 +47,24 @@ interface Clansuite_Request_Interface
 {
     # Parameters
     public function getParameterNames();
-    public function issetParameter($parametername, $parameterArrayName = 'POST', $where = false);
-    public function getParameter($parametername, $parameterArrayName = 'POST');
+    public function issetParameter($name, $arrayname = 'POST', $where = false);
+    public function getParameter($name, $arrayname = 'POST');
     public static function getHeader($name);
-    public function getCookie($name);
+
+    # Direct Access to individual Parameters Arrays
+    public function getParameterFromCookie($name);
+    public function getParameterFromGet($name);
+    public function getParameterFromPost($name);
+    public function getParameterFromServer($name);
 
     # Request Method
     public static function getRequestMethod();
     public static function setRequestMethod($method);
+    public static function isAjax();
+    public static function isPost();
+    public static function isGet();
+    public static function isPut();
+    public static function isDelete();
 
     # $_SERVER Stuff
     public static function getServerProtocol();
@@ -79,17 +86,17 @@ interface Clansuite_Request_Interface
 class Clansuite_HttpRequest implements Clansuite_Request_Interface, ArrayAccess
 {
     /**
-     * @var array Contains the cleaned $_POST Parameters
+     * @var array Contains the cleaned $_POST Parameters.
      */
     private $post_parameters;
 
     /**
-     * @var array Contains the cleaned $_GET Parameters
+     * @var array Contains the cleaned $_GET Parameters.
      */
     private $get_parameters;
 
     /**
-     * @var array Contains the cleaned $_COOKIE Parameters
+     * @var array Contains the cleaned $_COOKIE Parameters.
      */
     private $cookie_parameters;
 
@@ -106,7 +113,12 @@ class Clansuite_HttpRequest implements Clansuite_Request_Interface, ArrayAccess
     /**
      * @var boolean for magic_quotes_gpc
      */
-    private $magic_quotes_gpc;
+    private static $magic_quotes_gpc;
+
+    /**
+     * @var object Object with pieces of informations about the target route.
+     */
+    private static $route;
 
     /**
      * Construct the Request Object
@@ -128,7 +140,7 @@ class Clansuite_HttpRequest implements Clansuite_Request_Interface, ArrayAccess
         # Reverse the effect of register_globals
         if ((bool) ini_get('register_globals') and mb_strtolower(ini_get('register_globals')) != 'off')
         {
-            $this->cleanGlobals();
+            self::cleanGlobals();
         }
 
         # disable magic_quotes_runtime
@@ -137,19 +149,22 @@ class Clansuite_HttpRequest implements Clansuite_Request_Interface, ArrayAccess
         # if magic quotes gpc is on, stripslash them
         if ( 1 == get_magic_quotes_gpc() )
         {
-            $this->magic_quotes_gpc = true;
-            $this->fix_magic_quotes();
+            self::$magic_quotes_gpc = true;
+            self::fix_magic_quotes();
             ini_set('magic_quotes_gpc', 0);
         }
 
         /**
          *  3) Additional Security Checks
          */
-        # Block Proxies
-        Clansuite_DoorKeeper::blockProxies();
+        # Clansuite_DoorKeeper::blockProxies();
+
+        # block XSS
+        $_SERVER['PHP_SELF'] = htmlspecialchars($_SERVER['PHP_SELF']);
+        $_SERVER['QUERY_STRING'] = htmlspecialchars($_SERVER['QUERY_STRING']);
 
         /**
-         *  4) Clear Array, Filter and Assign the $_REQUEST Global to it
+         *  4) Init Parameter Arrays and Assign the GLOBALS
          */
 
         # Clear Parameters Array
@@ -157,10 +172,7 @@ class Clansuite_HttpRequest implements Clansuite_Request_Interface, ArrayAccess
         $this->post_parameters      = array();
         $this->cookie_parameters    = array();
 
-        # Sanitize
-        $this->sanitizeRequest();
-
-        # Assign the GLOBALS $_REQUEST, $_GET, $_POST, $_COOKIE
+        # Assign the GLOBALS $_GET, $_POST, $_COOKIE
         $this->get_parameters     = $_GET;
         $this->post_parameters    = $_POST;
         $this->cookie_parameters  = $_COOKIE;
@@ -176,9 +188,9 @@ class Clansuite_HttpRequest implements Clansuite_Request_Interface, ArrayAccess
      *
      * @return boolean true | false
      */
-    public function isGet()
+    public static function isGet()
     {
-        if($this->requestMethod == 'GET')
+        if(self::$requestMethod == 'GET')
         {
             return true;
         }
@@ -190,9 +202,9 @@ class Clansuite_HttpRequest implements Clansuite_Request_Interface, ArrayAccess
      *
      * @return boolean true | false
      */
-    public function isPost()
+    public static function isPost()
     {
-        if($this->requestMethod == 'POST')
+        if(self::$requestMethod == 'POST')
         {
             return true;
         }
@@ -204,9 +216,9 @@ class Clansuite_HttpRequest implements Clansuite_Request_Interface, ArrayAccess
      *
      * @return boolean true | false
      */
-    public function isPut()
+    public static function isPut()
     {
-        if($this->requestMethod == 'PUT')
+        if(self::$requestMethod == 'PUT')
         {
             return true;
         }
@@ -218,9 +230,9 @@ class Clansuite_HttpRequest implements Clansuite_Request_Interface, ArrayAccess
      *
      * @return boolean true | false
      */
-    public function isDelete()
+    public static function isDelete()
     {
-        if($this->requestMethod == 'DELETE')
+        if(self::$requestMethod == 'DELETE')
         {
             return true;
         }
@@ -231,16 +243,16 @@ class Clansuite_HttpRequest implements Clansuite_Request_Interface, ArrayAccess
      * Lists all parameters in the specific parameters array
      * Defaults to Request parameters array
      *
-     * @param string $parameterArrayName R, G, P, C (REQUEST, GET, POST, COOKIE)
+     * @param string $arrayname GET, POST, COOKIE
      * @return array
      */
-    public function getParameterNames($parameterArrayName = 'REQUEST')
+    public function getParameterNames($arrayname = 'GET')
     {
-        $parameterArrayName = mb_strtoupper($parameterArrayName);
+        $arrayname = mb_strtoupper($arrayname);
 
-        if(in_array($parameterArrayName, $this->{mb_strtolower($parameterArrayName).'_arraynames'}))
+        if(in_array($arrayname, $this->{mb_strtolower($arrayname).'_arraynames'}))
         {
-            return array_keys($this->{mb_strtolower($parameterArrayName).'_parameters'});
+            return array_keys($this->{mb_strtolower($arrayname).'_parameters'});
         }
         else
         {
@@ -251,16 +263,16 @@ class Clansuite_HttpRequest implements Clansuite_Request_Interface, ArrayAccess
     /**
      * isset, checks if a certain parameter exists in the parameters array
      *
-     * @param string $parametername Name of the Parameter
-     * @param string $parameterArrayName G, P, C. Default = POST.
+     * @param string $name Name of the Parameter
+     * @param string $arrayname G, P, C. Default = POST.
      * @param boolean $where If set to true, method will return the name of the array the parameter was found in.
      * @return mixed | boolean true|false | string arrayname
      */
-    public function issetParameter($parametername, $parameterArrayName = 'POST', $where = false)
+    public function issetParameter($name, $arrayname = 'POST', $where = false)
     {
-        $parameterArrayName = mb_strtoupper($parameterArrayName);
+        $arrayname = mb_strtoupper($arrayname);
 
-        if(in_array($parameterArrayName, array ('P', 'POST')) and isset($this->post_parameters[$parametername]))
+        if(in_array($arrayname, array ('P', 'POST')) and isset($this->post_parameters[$name]))
         {
             if($where == false)
             {
@@ -272,7 +284,7 @@ class Clansuite_HttpRequest implements Clansuite_Request_Interface, ArrayAccess
             }
         }
 
-        if(in_array($parameterArrayName, array ('G', 'GET')) and isset($this->get_parameters[$parametername]))
+        if(in_array($arrayname, array ('G', 'GET')) and isset($this->get_parameters[$name]))
         {
             if($where == false)
             {
@@ -284,7 +296,7 @@ class Clansuite_HttpRequest implements Clansuite_Request_Interface, ArrayAccess
             }
         }
 
-        if(in_array($parameterArrayName, array ('C', 'COOKIE')) and isset($this->cookie_parameters[$parametername]))
+        if(in_array($arrayname, array ('C', 'COOKIE')) and isset($this->cookie_parameters[$name]))
         {
             if($where == false)
             {
@@ -302,20 +314,20 @@ class Clansuite_HttpRequest implements Clansuite_Request_Interface, ArrayAccess
     /**
      * get, returns a certain parameter if existing
      *
-     * @param string $parametername Name of the Parameter
-     * @param string $parameterArrayName G, P, C. Default = POST.
+     * @param string $name Name of the Parameter
+     * @param string $arrayname G, P, C. Default = POST.
      * @param string $default You can set a default value. It's returned if parametername was not found.
      *
      * @return mixed data | null
      */
-    public function getParameter($parametername, $parameterArrayName = 'POST', $default = null)
+    public function getParameter($name, $arrayname = 'POST', $default = null)
     {
         /**
-         * check if the parameter exists in $parameterArrayName
+         * check if the parameter exists in $arrayname
          * the third property of issetParameter is set to true, so that we get the full and correct array name back
-         * even if shortcut like R, G, P or C ($parameterArrayName) was used.
+         * even if shortcut like G, P or C ($arrayname) was used.
          */
-        $parameter_array = $this->issetParameter($parametername, $parameterArrayName, true);
+        $parameter_array = $this->issetParameter($name, $arrayname, true);
 
         /**
          * we use type hinting here to cast the string with array name to boolean
@@ -323,7 +335,7 @@ class Clansuite_HttpRequest implements Clansuite_Request_Interface, ArrayAccess
         if((bool) $parameter_array === true)
         {
             # this returns a value from the parameterarray
-            return $this->{mb_strtolower($parameter_array).'_parameters'}[$parametername];
+            return $this->{mb_strtolower($parameter_array).'_parameters'}[$name];
         }
         elseif($default !== null)
         {
@@ -339,15 +351,15 @@ class Clansuite_HttpRequest implements Clansuite_Request_Interface, ArrayAccess
     /**
      * set, returns a certain parameter if existing
      *
-     * @param string $parametername Name of the Parameter
-     * @param string $parameterArrayName G, P, C. Default = POST.
+     * @param string $name Name of the Parameter
+     * @param string $arrayname G, P, C. Default = POST.
      * @return mixed data | null
      */
-    public function setParameter($parametername, $parameterArrayName = 'POST')
+    public function setParameter($name, $arrayname = 'POST')
     {
-        if(true == $this->issetParameter($parametername, $parameterArrayName))
+        if(true == $this->issetParameter($name, $arrayname))
         {
-            return $this->{mb_strtolower($parameterArrayName).'_parameters'}[$parametername];
+            return $this->{mb_strtolower($arrayname).'_parameters'}[$name];
         }
         else
         {
@@ -358,40 +370,54 @@ class Clansuite_HttpRequest implements Clansuite_Request_Interface, ArrayAccess
     /**
      * Shortcut to get a Parameter from $_POST
      *
-     * @param string $parametername Name of the Parameter
+     * @param string $name Name of the Parameter
      * @return mixed data | null
      */
-    public function getParameterFromPost($parametername)
+    public function getParameterFromPost($name)
     {
-        return $this->getParameter($parametername, 'POST');
+        return $this->getParameter($name, 'POST');
     }
 
     /**
      * Shortcut to get a Parameter from $_GET
      *
-     * @param string $parametername Name of the Parameter
+     * @param string $name Name of the Parameter
      * @return mixed data | null
      */
-    public function getParameterFromGet($parametername)
+    public function getParameterFromGet($name)
     {
-        return $this->getParameter($parametername, 'GET');
+        return $this->getParameter($name, 'GET');
     }
 
     /**
      * Shortcut to get a Parameter from $_SERVER
      *
-     * @param string $parametername Name of the Parameter
+     * @param string $name Name of the Parameter
      * @return mixed data | null
      */
-    public function getParameterFromServer($parametername)
+    public function getParameterFromServer($name)
     {
-        if (in_array($parametername, array_keys($_SERVER)))
+        if (in_array($name, array_keys($_SERVER)))
         {
-            return $_SERVER[$parametername];
+            return $_SERVER[$name];
         }
         else
         {
             return null;
+        }
+    }
+
+    /**
+     * Get previously set cookies.
+     *
+     * @param string $name Name of the Cookie
+     * @return Returns an associative array containing any previously set cookies.
+     */
+    public function getParameterFromCookie($name)
+    {
+        if(isset($this->cookie_parameters[$name]) == true)
+        {
+            return $this->cookie_parameters($name);
         }
     }
 
@@ -404,10 +430,12 @@ class Clansuite_HttpRequest implements Clansuite_Request_Interface, ArrayAccess
     public static function getHeader($name)
     {
         $name = 'HTTP_' . mb_strtoupper(str_replace('-','_', $name));
+
         if (isset($_SERVER[$name]))
         {
             return $_SERVER[$name];
         }
+
         return null;
     }
 
@@ -416,11 +444,13 @@ class Clansuite_HttpRequest implements Clansuite_Request_Interface, ArrayAccess
      * Get for $_SERVER['HTTPS']
      *
      * @todo check $_SERVER['SSL_PROTOCOL'] + $_SERVER['HTTP_X_FORWARD_PROTO']?
+     * @todo check -> or $_SERVER['SSL_PROTOCOL']
+     *
      * @return string
      */
     public static function getServerProtocol()
     {
-        if(self::isSecure()) # @todo check -> or $_SERVER['SSL_PROTOCOL']
+        if(self::isSecure())
         {
              return 'https://';
         }
@@ -645,6 +675,25 @@ class Clansuite_HttpRequest implements Clansuite_Request_Interface, ArrayAccess
         }
     }
 
+    /**
+     * Get Route
+     *
+     * @return TargetRoute Container
+     */
+    public static function getRoute()
+    {
+        return self::$route;
+    }
+
+    /**
+     * Set Route
+     *
+     * @param $route The route container.
+     */
+    public static function setRoute($route)
+    {
+        self::$route = $route;
+    }
 
     /**
      * REST Tunneling Detection
@@ -725,26 +774,12 @@ class Clansuite_HttpRequest implements Clansuite_Request_Interface, ArrayAccess
     }
 
     /**
-     * Get previously set cookies.
-     *
-     * @param string $name Name of the Cookie
-     * @return Returns an associative array containing any previously set cookies.
-     */
-    public function getCookie($name)
-    {
-        if(isset($this->cookie_parameters[$name]) == true)
-        {
-            return $this->cookie_parameters($name);
-        }
-    }
-
-    /**
-     * Checks if a ajax-request is given, by checking
-     * X-Requested-With Header for xmlhttprequest.
+     * Checks if a ajax(xhr)-request is given,
+     * by checking X-Requested-With Header for xmlhttprequest.
      *
      * @return bool
      */
-    public function isXhr()
+    public static function isAjax()
     {
         if(isset($_SERVER['X-Requested-With']) and mb_strtolower($_SERVER['X-Requested-With']) === 'xmlhttprequest')
         {
@@ -761,22 +796,12 @@ class Clansuite_HttpRequest implements Clansuite_Request_Interface, ArrayAccess
     }
 
     /**
-     * Shorthand for isXhr()
-     *
-     * @return boolean
-     */
-    public function isAjax()
-    {
-        return $this->isXhr();
-    }
-
-    /**
      * Cleans the global scope of all variables that are found
      * in other super-globals.
      *
      * This code originally from Richard Heyes and Stefan Esser
      */
-    private function cleanGlobals()
+    private static function cleanGlobals()
     {
         # Intercept GLOBALS overwrite
         if ( isset($_REQUEST['GLOBALS']) or isset($_FILES['GLOBALS']) )
@@ -831,36 +856,6 @@ class Clansuite_HttpRequest implements Clansuite_Request_Interface, ArrayAccess
     }
 
     /**
-     * Handles possible Injections and clean up of $_REQUEST
-     */
-    private function sanitizeRequest()
-    {
-        # Filter for Request-Parameter: id
-        if(isset($_REQUEST['id']) and ctype_digit($_REQUEST['id']))
-        {
-            $this->parameters['id'] = (int) $_REQUEST['id'];
-        }
-
-        # Filter for Request-Parameter: items
-        if(isset($_REQUEST['items']) and ctype_digit($_REQUEST['items']))
-        {
-            $this->parameters['items'] = (int) $_REQUEST['items'];
-        }
-
-        # Filter for Request-Parameter: defaultCol (Smarty Paginate Get Variable)
-        if(isset($_REQUEST['defaultCol']) and ctype_digit($_REQUEST['defaultCol']))
-        {
-            $this->parameters['defaultCol'] = (int) $_REQUEST['defaultCol'];
-        }
-
-        # Filter for Request-Parameter: defaultSort (Smarty Paginate Get Variable)
-        if(isset($_REQUEST['defaultSort']) and ctype_alpha($_REQUEST['defaultSort']) and (($_REQUEST['defaultSort'] == 'desc') or ($_REQUEST['defaultSort'] == 'asc')) )
-        {
-            $this->parameters['defaultSort'] = (int) $_REQUEST['defaultSort'];
-        }
-    }
-
-    /**
      * Revert magic_quotes() if still enabled
      * stripslashes + array_deep + non_recursive
      *
@@ -871,9 +866,9 @@ class Clansuite_HttpRequest implements Clansuite_Request_Interface, ArrayAccess
      * @param array $var Array to apply the magic quotes fix on
      * @return Returns the magic quotes fixed $var
      */
-    private function fix_magic_quotes($input = null)
+    private static function fix_magic_quotes($input = null)
     {
-        if($this->magic_quotes_gpc == false)
+        if(self::$magic_quotes_gpc == false)
         {
             return $input;
         }

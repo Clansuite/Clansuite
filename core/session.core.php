@@ -23,12 +23,9 @@
     *    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
     *
     * @license    GNU/GPL v2 or (at your option) any later version, see "/doc/LICENSE".
-    *
     * @author     Jens-André Koch <vain@clansuite.com>
     * @copyright  Jens-André Koch (2005 - onwards)
-    *
     * @link       http://www.clansuite.com
-    * @link       http://gna.org/projects/clansuite
     *
     * @version    SVN: $Id$
     */
@@ -86,7 +83,7 @@ class Clansuite_Session implements Clansuite_Session_Interface, ArrayAccess
      * @param object $injector Contains the Dependency Injector Phemto.
      */
 
-    function __construct($config, Clansuite_HttpRequest $request)
+    function __construct(Clansuite_Config $config, Clansuite_HttpRequest $request)
     {
         $this->config   = $config;
         $this->request  = $request;
@@ -114,6 +111,7 @@ class Clansuite_Session implements Clansuite_Session_Interface, ArrayAccess
         #ini_set('url_rewriter.tags'         , "a=href,area=href,frame=src,form=,formfieldset=");
 
         # use a cookie to store the session id
+        # @todo force session cookies?
         ini_set('session.use_cookies', $this->config['session']['use_cookies'] );
         ini_set('session.use_only_cookies', $this->config['session']['use_cookies_only'] );
 

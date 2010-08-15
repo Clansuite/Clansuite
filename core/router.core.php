@@ -23,14 +23,11 @@
     *    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
     *
     * @license    GNU/GPL v2 or (at your option) any later version, see "/doc/LICENSE".
-    *
     * @author     Jens-André Koch <vain@clansuite.com>
     * @copyright  Jens-André Koch (2005 - onwards)
-    *
     * @link       http://www.clansuite.com
-    * @link       http://gna.org/projects/clansuite
     *
-    * @version    SVN: $Id$response.class.php 2580 2008-11-20 20:38:03Z vain $
+    * @version    SVN: $Id$
     */
 
 # Security Handler
@@ -50,26 +47,24 @@ if(defined('IN_CS') === false)
  *
  * Normally all requests made map to a specific physical resource rather than a logical name.
  * With Routing you are able to map a logical name to a specific physical name.
- * Example: map a logical URL (a mod_rewritten one) to a Controller/Method/Parameter
- * Map a FileRequest via logical URL (a mod_rewritten one) to a DownloadController/Method/Parameter
+ * Examples: map a logical URL (a mod_rewritten one) to a Controller/Method/Parameter
+ * or map a FileRequest via logical URL (a mod_rewritten one) to a DownloadController/Method/Parameters
  *
  * There are two different URL Formatings allowed:
  * 1. Slashes as Segment Dividers-Style, like so: /mod/sub/action/id
  * 2. Fake HTML File Request or SMF-Style, like so: /mod.sub.action.id.html
  *
- * SPL Iterator and ArrayAccess are used for fast iteration and easier access to the stored routes.
- *
  * @category    Clansuite
  * @package     Core
  * @subpackage  Router
  */
-class Clansuite_Router implements Iterator, ArrayAccess, Clansuite_Router_Interface
+class Clansuite_Router implements ArrayAccess, Clansuite_Router_Interface
 {
     private static $use_cache = false;
 
     private $uri = '';
     private $uri_segments = array();
-    private $extension = '';
+    private static $extension = '';
 
     /**
       * @var boolean Status of rewrite Engine: true=on, false=off.
@@ -82,26 +77,16 @@ class Clansuite_Router implements Iterator, ArrayAccess, Clansuite_Router_Interf
      * @var array Routes Array
      */
     private $routes = array();
-    
+
     /**
      * Constructor.
-     *
-     * @param string $request_url The Request URL incomming via Clansuite_HttpRequest::getRequestURI()
      */
-    public function __construct($request_uri)
+    public function __construct(Clansuite_HttpRequest $request)
     {
+        $request_uri = $request::getRequestURI();
+
         # clean the incomming uri
         $this->uri = self::prepareRequestURI($request_uri);
-
-        # check if routes caching is activated in config, maybe we can load routes from cache
-        if(isset($config['routing']['cache_routes']) and true === $config['routing']['cache_routes'])
-        {
-            self::$use_cache = true;
-        }
-        else
-        {
-            self::$use_cache = false;
-        }
     }
 
     /**
@@ -110,9 +95,72 @@ class Clansuite_Router implements Iterator, ArrayAccess, Clansuite_Router_Interf
      * @param string $url_pattern
      * @param array $route_options
      */
-    public function addRoute($url_pattern, array $route_options)
+    public function addRoute($url_pattern, array $route_options = null)
     {
-        $this->connect($url_pattern, $route_options);
+        /**
+         * 1) Preprocess the route
+         */
+        # split the pattern describing the URL target into uri segments
+        $url_pattern = ltrim($url_pattern, '/');
+        $segments = explode('/', $url_pattern);
+
+        # because the incomming route might have placeholders lile (:num) or (:id)
+        $url_pattern = self::placeholdersToRegexp($url_pattern);
+
+        $regexp = '';
+        $regexp = $this->processSegmentsRegExp($segments, $route_options);
+        $number_of_segments = count($segments);
+        $options = array('regexp' => $regexp,
+                         'number_of_segments' => $number_of_segments);
+
+
+        /**
+         * 2) Finally add the *now preprocessed* Route.
+         */
+        $this->routes[$url_pattern] = $options;
+    }
+
+    public function processSegmentsRegExp(array $segments, array $requirements = null)
+    {
+        # start regular expression
+        $regexp = '/^';
+
+        # process all segments
+        foreach($segments as $segment)
+        {
+            /**
+             * process static named parameter => ":contoller"
+             */
+            if (preg_match('/^:([a-zA-Z_]+)$/', $segment, $match))
+            {
+                $name = $match[1]; #controller
+
+                # is there a requirement for this param?
+                if(isset($requirements[$name]))
+                {
+                    # add it to the regex
+                    $regexp .= '\/(?P<' . $name . '>' . $requirements[$name] . ')';
+                    # and remove the requirement
+                    unset($requirement[$name]);
+                }
+                else # no requirement
+                {
+                    $regexp .= '(?P<' . $name . '>[a-z0-9_-]+)';
+                }
+            }
+            else # process static parameter = string => "/index" or "/news"
+            {
+                $regexp .= '\\/' . $segment;
+            }
+
+            # regexp between segments
+            $regexp .= '\/?';
+        }
+
+        # finish regular expression
+        $regexp .= '$/';
+
+        return $regexp;
     }
 
     /**
@@ -137,7 +185,7 @@ class Clansuite_Router implements Iterator, ArrayAccess, Clansuite_Router_Interf
     {
         return $this->routes;
     }
-    
+
     /**
      * Delete a route by its url pattern
      *
@@ -160,7 +208,7 @@ class Clansuite_Router implements Iterator, ArrayAccess, Clansuite_Router_Interf
      */
     public function generateURL($url_pattern, array $params = null, $fragment = null, $absolute = false)
     {
-        
+
     }
 
     /**
@@ -193,23 +241,97 @@ class Clansuite_Router implements Iterator, ArrayAccess, Clansuite_Router_Interf
          */
         if(empty($this->uri) or $this->uri === '/')
         {
-            $route = new Clansuite_TargetRoute();
-            $route->setController('news');
-            $route->setAction('show');
-            return $route;
+            Clansuite_TargetRoute::setController('news');
+            Clansuite_TargetRoute::setAction('show');
+
+            return Clansuite_TargetRoute::getInstance();
         }
 
         # attach more routes to this object via the event "onInitializeRoutes"
-        Clansuite_CMS::triggerEvent('onInitializeRoutes', $this);
+        #Clansuite_CMS::triggerEvent('onInitializeRoutes', $this);
 
         # initalize Routes
-        #$this->loadDefaultRoutes();
+        $this->loadDefaultRoutes();
 
         # first filter: drop all routes with more segments then uri_segments
-        #self::removeRoutesBySegmentCount();
+        self::removeRoutesBySegmentCount();
 
         # map match uri
+        return $this->mapMatchURI();
+    }
 
+    /**
+     * Matches the URI against the Routes Table
+     * takes static, dynamic and regexp routings into account
+     *
+     * @return object Clansuite_TargetRoute
+     */
+    public function mapMatchURI()
+    {
+        Clansuite_Debug::firebug($this->uri);
+
+        /**
+         * Do we have a direct match ?
+         * URI = '/index/show' => Routes['/index/show']
+         */
+        if(isset($this->routes[$this->uri])) # does this check work?
+        {
+            $found_route = $this->routes[$this->uri];
+        }
+        else # no, there wasn't a 1:1 match. now we have to check the uri segments
+        {
+            # loop over the remaining routes and try to map match the uri_segments
+            foreach($this->routes as $route_pattern => $route_values)
+            {
+                # @todo $this->uri might be enough here
+                $uri = implode('/', $this->uri_segments);
+
+                Clansuite_Debug::firebug($route_values);
+
+                /**
+                 * process static named parameter
+                 * like ":controller" or ":subcontroller" or ":action" or ":id"
+                 * $route_pattern
+                 */
+                if (1 === preg_match('/^:([a-zA-Z_]+)$/', $uri, $match))
+                {
+                    Clansuite_Debug::firebug($match);
+                    $name = $match[1]; #setController($match[1]);
+                    $found_route = $name;
+                }
+
+                # dynamic regexp segment?
+                elseif(1 === preg_match( $route_values['regexp'], $uri, $matches))
+                {
+                    Clansuite_Debug::firebug($matches);
+
+                    # parameters found by regular expression have priority
+                    if(isset($matches['controller']))
+                    {
+                        Clansuite_TargetRoute::setController($matches['controller']);
+                    }
+
+                    if(isset($matches['action']))
+                    {
+                       Clansuite_TargetRoute::setAction($matches['action']);
+                    }
+
+                    if(isset($matches['id']))
+                    {
+                       Clansuite_TargetRoute::setId($matches['id']);
+                    }
+                }
+
+                # route found
+                break;
+            }
+        }
+
+        #Clansuite_TargetRoute::setController($found_route);
+        #Clansuite_TargetRoute::setAction('show');
+
+        return Clansuite_TargetRoute::getInstance();
+        # Clansuite_CMS::triggerEvent('onAfterInitializeRoutes', $this);
     }
 
     /**
@@ -220,7 +342,7 @@ class Clansuite_Router implements Iterator, ArrayAccess, Clansuite_Router_Interf
      *
      * @return bool True, if "RewriteEngine On". False otherwise.
      */
-    public static function isRewriteEngineOn()
+    public function isRewriteEngineOn()
     {
         # maybe, we have a modrewrite config setting, this avoids overhead
         if(isset($config['routing']['modrewrite']) and true === $config['routing']['modrewrite'])
@@ -231,9 +353,12 @@ class Clansuite_Router implements Iterator, ArrayAccess, Clansuite_Router_Interf
         # ensure apache has module mod_rewrite active
         if(function_exists('apache_get_modules') and in_array('mod_rewrite', apache_get_modules()))
         {
-            # load htacces and check if RewriteEngine is enabled
-            $htaccess_content = @file_get_contents(ROOT . '.htaccess');
-            self::$rewriteEngineOn = preg_match('/.*[^#][\t ]+RewriteEngine[\t ]+On/i', $htaccess_content);
+            # load htaccess and check if RewriteEngine is enabled
+            if(true === is_file(ROOT . '.htaccess'))
+            {
+                $htaccess_content = file_get_contents(ROOT . '.htaccess');
+                self::$rewriteEngineOn = preg_match('/.*[^#][\t ]+RewriteEngine[\t ]+On/i', $htaccess_content);
+            }
 
             if(self::$rewriteEngineOn == 1)
             {
@@ -287,26 +412,28 @@ class Clansuite_Router implements Iterator, ArrayAccess, Clansuite_Router_Interf
     {
         $route = new Clansuite_TargetRoute();
 
+        # Controller
         if(isset($this->uri_segments['mod']))
         {
             $route->setController($this->uri_segments['mod']);
             unset($this->uri_segments['mod']);
         }
 
+        # SubController
         if(isset($this->uri_segments['sub']))
         {
             $route->setSubController($this->uri_segments['sub']);
             unset($this->uri_segments['sub']);
         }
 
+        # Action
         if(isset($this->uri_segments['action']))
         {
             $route->setAction($this->uri_segments['action']);
             unset($this->uri_segments['action']);
         }
 
-        # the rest of the uri_segments are just params for the method
-
+        # Parameters
         if(count($this->uri_segments) > 0)
         {
             $route->setParameters($this->uri_segments);
@@ -320,12 +447,12 @@ class Clansuite_Router implements Iterator, ArrayAccess, Clansuite_Router_Interf
      * URLParser for NoRewrite URL/URIs
      *
      * This URLParser has to extract mod, sub, action, id/parameters from the URI.
+     * This is the Standard_Request_Resolver.
      *
      * @param string $url The Request URL
      */
-    private function UrlParser_NoRewrite($uri) # Standard_Request_Resolver
+    private function UrlParser_NoRewrite($uri)
     {
-
         # use some parse_url magic to get the url_query part from the uri
         $uri_query_string = parse_url($uri, PHP_URL_QUERY);
         unset($uri);
@@ -345,11 +472,13 @@ class Clansuite_Router implements Iterator, ArrayAccess, Clansuite_Router_Interf
         {
             foreach($uri_query_array as $query_pair)
             {
-                list($key, $value) = explode('=', $query_pair);
-                $parameters[$key] = $value;
+                if( false !== strpos($query_pair, '='))
+                {
+                    list($key, $value) = explode('=', $query_pair);
+                    $parameters[$key] = $value;
+                }
             }
         }
-
         unset($uri_query_string, $uri_query_array, $query_pair, $key, $value);
 
         /**
@@ -383,7 +512,6 @@ class Clansuite_Router implements Iterator, ArrayAccess, Clansuite_Router_Interf
         {
             $uri = mb_substr($uri, 0, $pos);
         }
-        unset($pos);
 
         /**
          * The last dot (.)
@@ -400,14 +528,14 @@ class Clansuite_Router implements Iterator, ArrayAccess, Clansuite_Router_Interf
             # Segmentize the url into an array
             $uri_dot_array = explode('.', $uri);
             # chop off the last piece as the extension
-            $this->extension = array_pop($uri_dot_array);
+            self::$extension = array_pop($uri_dot_array);
             # there might be multiple dots in the url
             # thats why implode is used to reassemble the segmentized array to a string again
             # but note the different glue string: the dots are now replaced by slashes ,)
             # = ini_get('arg_separator.output')
             $uri = implode('/', $uri_dot_array);
+            unset($uri_dot_array);
         }
-        unset($uri_dot_array);
         unset($pos);
 
         /**
@@ -421,6 +549,7 @@ class Clansuite_Router implements Iterator, ArrayAccess, Clansuite_Router_Interf
          */
         #Clansuite_Debug::firebug($uri_split);
         $this->uri_segments = $url_split;
+        unset($url_split);
     }
 
     /**
@@ -460,18 +589,34 @@ class Clansuite_Router implements Iterator, ArrayAccess, Clansuite_Router_Interf
         }
     }
 
+    public static function checkRouteCachingActive()
+    {
+        # check if routes caching is activated in config, maybe we can load routes from cache
+        if(isset($config['routing']['cache_routes']) and true === $config['routing']['cache_routes'])
+        {
+            self::$use_cache = true;
+        }
+        else
+        {
+            self::$use_cache = false;
+        }
+    }
+
     /**
      * Register the default routes.
      */
     public function loadDefaultRoutes()
     {
-        # check cache for routes
+        self::checkRouteCachingActive();
+
+        # Load Routes from Cache
         if(true === self::$use_cache and empty($this->routes) and Clansuite_Cache::contains('clansuite.routes'))
         {
             $this->addRoutes(Clansuite_Cache::read('clansuite.routes'));
         }
 
-        if(empty($this->routes)) # load routes table from routes.config.php
+        # Load Routes from routes.config.php
+        if(empty($this->routes))
         {
             $this->addRoutes( Clansuite_Routes_Manager::loadRoutesFromConfig());
 
@@ -489,10 +634,16 @@ class Clansuite_Router implements Iterator, ArrayAccess, Clansuite_Router_Interf
          */
         if(empty($this->routes))
         {
-            $this->connect('/:controller');
-            $this->connect('/:controller/:action');
-            $this->connect('/:controller/:action/:id');
-            $this->connect('/:controller/:action/:id/:format');
+            $this->addRoute('/:controller');
+            $this->addRoute('/:controller/:action');
+            $this->addRoute('/:controller/:action/:id');
+            $this->addRoute('/:controller/:action/:id/:format');
+            /*
+            $this->addRoute('/:controller/:subcontroller');
+            $this->addRoute('/:controller/:subcontroller/:action');
+            $this->addRoute('/:controller/:subcontroller/:action/:id');
+            $this->addRoute('/:controller/:subcontroller/:action/:id/:format');
+            */
         }
     }
 
@@ -534,6 +685,10 @@ class Clansuite_Router implements Iterator, ArrayAccess, Clansuite_Router_Interf
 
 /**
  * Clansuite_Mapper
+ *
+ * Provides helper methods to transform (map)
+ * (a) the controller name into the specific application classname and filename
+ * (b) the action name into the specific application actioname.
  *
  * @category    Clansuite
  * @package     Core
@@ -599,7 +754,7 @@ class Clansuite_Mapper
         $classname .= '_' . ucfirst($controller);
 
         # attach subcontroller to classname
-        if($subcontroller !== null)
+        if(isset($subcontroller))
         {
             $classname .= '_' . ucfirst($subcontroller);
         }
@@ -608,48 +763,55 @@ class Clansuite_Mapper
     }
 
     /**
-     * Maps the action to an method name.
-     * The pseudo-namesspace prefix 'action_' is used for all actions.
-     * Example: action_show()
+     * Maps the action to it's method name.
+     * The prefix 'action_' (pseudo-namesspace) is used for all actions.
+     * Example: A action named "show" will be mapped to "action_show()"
      * This is also a way to ensure some kind of whitelisting via namespacing.
      *
      * The use of submodules like News_Admin is also supported.
      * In this case the actionname is action_admin_show().
      *
-     * @param  string  the action
-     * @param  string  the submodule
-     * @return string  the mapped method name
+     * @param  string $action the action
+     * @param  string $submodule the submodule
+     * @return string the mapped method name
      */
     public static function mapActionToActioname($action, $submodule = null)
     {
-        # action not set by URL, so we set action from config/this class
+        # set default value for action, when not set by URL
         if(false === isset($action))
         {
-            # set the method name
             $action = self::$defaultAction;
         }
 
-        # if $submodule is set, use it as a prefix on $action
-        if(isset($submodule) and ($submodule !== null))
+        # if a $submodule is set, use it as a PREFIX on $action
+        if(isset($submodule))
         {
             $action = $submodule . '_' . $action;
         }
 
+        #Clansuite_Debug::firebug($action);
+
         # all clansuite actions are prefixed with 'action_'
-        return 'action_' . $action;
+        return self::METHOD_PREFIX . '_' . $action;
     }
 }
 
+/**
+ * Clansuite_TargetRoute (processed RequestObject)
+ */
 class Clansuite_TargetRoute extends Clansuite_Mapper
 {
-    private static $parameters = array(
+    public static $parameters = array(
+        # File
         'filename'      => null,
         'classname'     => null,
+        # Call
         'controller'    => 'index',
         'subcontroller' => null,
         'action'        => 'show',
         'method'        => null,
         'params'        => null,
+        # Output
         'format'        => 'html',
         'language'      => 'en',
         'request'       => 'get',
@@ -658,6 +820,21 @@ class Clansuite_TargetRoute extends Clansuite_Mapper
         'renderer'      => 'smarty',
         'modrewrite'    => false
     );
+
+    /**
+     * Clansuite_TargetRoute is a Singleton
+     *
+     * @return instance of Clansuite_TargetRoute class
+     */
+    public static function getInstance()
+    {
+        static $instance;
+        if(isset($instance) == null)
+        {
+            $instance = new Clansuite_TargetRoute();
+        }
+        return $instance;
+    }
 
     public static function setFilename($filename)
     {
@@ -694,7 +871,22 @@ class Clansuite_TargetRoute extends Clansuite_Mapper
         self::$parameters['controller'] = $controller;
     }
 
+    /**
+     * Returns Name of the Controller
+     *
+     * @return string Controller/Modulename
+     */
     public static function getController()
+    {
+        return self::$parameters['controller'];
+    }
+
+    /**
+     * Convenience/shorthand Method for getController()
+     *
+     * @return string Controller/Modulename
+     */
+    public static function getModuleName()
     {
         return self::$parameters['controller'];
     }
@@ -709,6 +901,16 @@ class Clansuite_TargetRoute extends Clansuite_Mapper
         return self::$parameters['subcontroller'];
     }
 
+    /**
+     * Method to get the SubModuleName
+     *
+     * @return $string
+     */
+    public static function getSubModuleName()
+    {
+        return self::$parameters['subcontroller'];
+    }
+
     public static function setAction($action)
     {
         self::$parameters['action'] = $action;
@@ -717,6 +919,26 @@ class Clansuite_TargetRoute extends Clansuite_Mapper
     public static function getAction()
     {
         return self::$parameters['action'];
+    }
+
+    public static function setId($id)
+    {
+        self::$parameters['params']['id'] = $id;
+    }
+
+    public static function getId()
+    {
+        return self::$parameters['params']['id'];
+    }
+
+    /**
+     * Method to get the Action with Prefix
+     *
+     * @return $string
+     */
+    public static function getActionName()
+    {
+        return self::$parameters['method'];
     }
 
     public static function setMethod($method)
@@ -731,12 +953,12 @@ class Clansuite_TargetRoute extends Clansuite_Mapper
         {
             return self::$parameters['method'];
         }
-        else # add method prefix
+        else # add method prefix (action_) and subcontroller prefix (admin_)
         {
-            $method = 'action_' . self::$parameters['action'];
-
-            # action + prefix = method, set it
-            self::setMethod($method);
+            #if(empty(self::$parameters['method']))
+            #{
+                self::setMethod(self::mapActionToActioname(self::getAction(), self::getSubController()));
+            #}
         }
 
         return self::$parameters['method'];
@@ -791,6 +1013,17 @@ class Clansuite_TargetRoute extends Clansuite_Mapper
     {
         return ROOT_MOD . self::getController() . DS;
     }
+
+    public static function debug()
+    {
+        $string = (string) implode(",", self::$parameters);
+        Clansuite_Debug::firebug($string);
+    }
+
+    public static function getRoute()
+    {
+        return self::$parameters;
+    }
 }
 
 /**
@@ -801,12 +1034,12 @@ class Clansuite_TargetRoute extends Clansuite_Mapper
  */
 class Clansuite_Routes_Manager
 {
-    public static function addRoutesOfModule($modulename)
+    public function addRoutesOfModule($modulename)
     {
         self:updateApplicationRoutes($modulename);
     }
 
-    public static function delRoutesOfModule($modulename)
+    public function delRoutesOfModule($modulename)
     {
         $module_routes_file = ROOT_MOD . '/' . $modulename . '/' . $modulename . '.routes.php';
         $module_routes = $this->loadRoutesFromConfig($module_routes_file);
@@ -824,14 +1057,19 @@ class Clansuite_Routes_Manager
     public function deleteRoute($route_name)
     {
         $routes_count = count($this->routes);
+
+        # loop over all routes
         for($i == 0; $i < $routes_count; $i++)
         {
+            # check if there is a route with the given name
             if($this->routes[$i]['name'] == $route_name)
             {
+                # got one? then remove it from the routes array and stop
                 array_splice($this->routes, $i, 1);
                 break;
             }
         }
+
         return $this->routes;;
     }
 
@@ -840,7 +1078,7 @@ class Clansuite_Routes_Manager
      *
      * @param string $modulename Name of module
      */
-    public static function updateApplicationRoutes($modulename = null)
+    public function updateApplicationRoutes($modulename = null)
     {
         $activated_modules = array();
 
@@ -883,12 +1121,13 @@ class Clansuite_Routes_Manager
         if($routes_config_file === null)
         {
             # load common routes configuration
-            $routes = include ROOT . 'configuration/routes.config.php';
+            # includes array $routes
+            include ROOT . 'configuration/routes.config.php';
         }
         else
         {
             # load specific routes config file
-            $routes = include ROOT . $routes_config_file;
+            include ROOT . $routes_config_file;
         }
 
         return (array) $routes;

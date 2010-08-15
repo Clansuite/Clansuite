@@ -23,12 +23,9 @@
     *    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
     *
     * @license    GNU/GPL v2 or (at your option) any later version, see "/doc/LICENSE".
-    *
     * @author     Jens-André Koch <vain@clansuite.com>
     * @copyright  Jens-André Koch (2005 - onwards)
-    *
     * @link       http://www.clansuite.com
-    * @link       http://gna.org/projects/clansuite
     *
     * @version    SVN: $Id$
     */
@@ -51,7 +48,7 @@ if(defined('IN_CS') == false)
 interface Clansuite_Front_Controller_Interface
 {
     public function __construct(Clansuite_Request_Interface $request, Clansuite_Response_Interface $response);
-    public function processRequest(Clansuite_Router_Interface $router);
+    public function processRequest();
     public function addPreFilter(Clansuite_Filter_Interface $filter);
     public function addPostFilter(Clansuite_Filter_Interface $filter);
 }
@@ -104,14 +101,17 @@ class Clansuite_Front_Controller implements Clansuite_Front_Controller_Interface
     {
            $this->request            = $request;
            $this->response           = $response;
-           $this->dispatcher         = new Clansuite_Dispatcher();
+           $this->dispatcher         = new Clansuite_Dispatcher($request);
            $this->pre_filtermanager  = new Clansuite_Filtermanager();
            $this->post_filtermanager = new Clansuite_Filtermanager();
     }
 
     /**
-     * Method to add a Prefilter
-     * Filter is processed before Controller->Action is executed
+     * Add a Prefilter
+     *
+     * This filter is processed *before* the Controller->Action is executed.
+     *
+     * @param object $filter Object implementing the Clansuite_Filter_Interface.
      */
     public function addPreFilter(Clansuite_Filter_Interface $filter)
     {
@@ -119,8 +119,11 @@ class Clansuite_Front_Controller implements Clansuite_Front_Controller_Interface
     }
 
     /**
-     * Method to add a Postfilter
-     * Filter is processed after Controller->Action was executed
+     * Add a Postfilter
+     *
+     * This filter is processed *after* Controller->Action was executed.
+     *
+     * @param object $filter Object implementing the Clansuite_Filter_Interface.
      */
     public function addPostFilter(Clansuite_Filter_Interface $filter)
     {
@@ -134,15 +137,19 @@ class Clansuite_Front_Controller implements Clansuite_Front_Controller_Interface
      * The C in MVC. It handles the dispatching of the request.
      * Calls/executes the apropriate controller and returns a response.
      */
-    public function processRequest(Clansuite_Router_Interface $router)
+    public function processRequest()
     {
-        $route = $router->route();
         $this->pre_filtermanager->processFilters($this->request, $this->response);
+
         $event = Clansuite_EventDispatcher::instantiate();
         $event->triggerEvent('onBeforeDispatcherForward');
-        $this->dispatcher->setFoundRoute($route)->forward();
+
+        $this->dispatcher->forward();
+
         $event->triggerEvent('onAfterDispatcherForward');
+
         $this->post_filtermanager->processFilters($this->request, $this->response);
+
         $this->response->sendResponse();
     }
 }

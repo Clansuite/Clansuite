@@ -1,9 +1,24 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html><head>
+    <title>{if isset($pagetitle)}{$pagetitle} - {/if}{breadcrumbs title="1" trail=$trail separator=" &raquo; " length=30}</title>
 
-    {* display cache time as comment *}
+    {* Metatags *}
 
-    <!-- This Page was cached on {$smarty.now|date_format:"%Y-%m-%d %H:%M:%S"}. -->
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <meta http-equiv="expires" content="Fri, Jan 01 1900 00:00:00 GMT" />
+    <meta http-equiv="pragma" content="no-cache" />
+    <meta http-equiv="cache-control" content="no-cache" />
+    <meta http-equiv="content-language" content="{$meta.language}" />
+    <meta http-equiv="reply-to" content="{$meta.email}" />
+    <meta name="author" content="{$meta.author}" />
+    <meta name="description" content="{$meta.description}" />
+
+    {* Favicon *}
+
+    <link rel="shortcut icon" href="{$www_root_themes_core}/images/clansuite_logos/Clansuite-Favicon-16.ico" />
+    <link rel="icon" href="{$www_root_themes_core}/images/clansuite_logos/Clansuite-Favicon-16.ico" type="image/gif" />
+
+    <!-- This Page was processed on {$smarty.now|date_format:"%Y-%m-%d %H:%M:%S"}. -->
 
     <!-- jQuery -->
     <script type="text/javascript" src="{$www_root_themes_core}/javascript/jquery/jquery.js"></script>
@@ -16,23 +31,6 @@
     <script type="text/javascript" src="{$www_root_themes_core}/javascript/jquery/jquery.pnotify.js"></script>
     <link rel="stylesheet" type="text/css" href="{$www_root_themes}/core/css/jquery.pnotify.default.css" />
 
-    {* Metatags *}
-
-    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
-    <meta http-equiv="expires" content="Fri, Jan 01 1900 00:00:00 GMT" />
-    <meta http-equiv="pragma" content="no-cache" />
-    <meta http-equiv="cache-control" content="no-cache" />
-    <meta http-equiv="content-language" content="{$meta.language}" />
-    <meta http-equiv="reply-to" content="{$meta.email}" />
-
-    <meta name="author" content="{$meta.author}" />
-    <meta name="description" content="{$meta.description}" />
-
-    {* Favicon *}
-
-    <link rel="shortcut icon" href="{$www_root_themes_core}/images/clansuite_logos/Clansuite-Favicon-16.ico" />
-    <link rel="icon" href="{$www_root_themes_core}/images/clansuite_logos/Clansuite-Favicon-16.ico" type="image/gif" />
-
     {* Clansuite Cascading Style Sheets *}
 
     <link rel="stylesheet" type="text/css" href="{$www_root_themes}/admin/admin.css" />
@@ -41,10 +39,6 @@
     {* Clansuite Javascripts *}
 
     <script src="{$www_root_themes_core}/javascript/clip.js" type="text/javascript"></script>
-
-    {* Pagetitle *}
-
-    <title>{if isset($pagetitle)}{$pagetitle} - {/if}{breadcrumbs title="1" trail=$trail separator=" &raquo; " length=30}</title>
 
 </head>
 <body class="{$modulename} {$actionname}">
@@ -60,6 +54,7 @@
 {include file="menu/view/adminmenu.tpl"}
 
 {include file="firebug_active_warning.tpl"}
+
 {flashmessages}
 
 {* Main Table *}
@@ -71,7 +66,9 @@
     <thead>
         <tr>
             <td class="admin_header">
+
                 {include file='breadcrumbs.tpl'}
+
                 {include file='help_button.tpl'}
 
                 {*

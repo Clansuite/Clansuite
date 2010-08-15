@@ -27,13 +27,10 @@
     +----------------------------------------------------------------------------------+
     *
     * @license    GNU/GPL v2 or (at your option) any later version, see "/doc/LICENSE".
-    *
     * @author     Jens-André Koch <vain@clansuite.com>
     * @copyright  Copyleft: All rights reserved. Jens-André Koch (2005 - onwards)
-    *
     * @link       http://www.clansuite.com
-    * @link       http://gna.org/projects/clansuite
-    *
+    * 
     * @version    SVN: $Id$
     */
 
@@ -76,7 +73,7 @@ class Clansuite_CMS
         /**
          * @var STARTTIME shows Application Starttime
          */
-        define('STARTTIME', microtime(1));
+        define('STARTTIME', microtime(1), false);
 
         self::initialize_Loader();
         self::initialize_Config();
@@ -84,7 +81,7 @@ class Clansuite_CMS
         self::perform_startup_checks();
         self::initialize_Debug();
         self::initialize_Version();
-        self::initialize_Locale();
+        self::initialize_Timezone();
         self::initialize_Eventdispatcher();
         self::initialize_Errorhandling();
         self::initialize_DependecyInjection();
@@ -109,7 +106,8 @@ class Clansuite_CMS
         $REQUIRED_PHP_VERSION = '5.2.3';
         if(version_compare(PHP_VERSION, $REQUIRED_PHP_VERSION, '<') === true)
         {
-            die('Your PHP Version is <b><font color="#FF0000">' . PHP_VERSION . '</font></b>! Clansuite requires PHP Version <b><font color="#4CC417">' . $REQUIRED_PHP_VERSION . '</font></b>!');
+            die('Your PHP Version is <b><font color="#FF0000">' . PHP_VERSION . '</font></b>!
+                 Clansuite requires PHP Version <b><font color="#4CC417">' . $REQUIRED_PHP_VERSION . '</font></b>!');
         }
         unset($REQUIRED_PHP_VERSION);
 
@@ -168,9 +166,9 @@ class Clansuite_CMS
          *          3. Alter php.ini settings
          *  ================================================
          */
-        ini_set('short_open_tag',               'off');
-        ini_set('arg_separator.input',          '&amp;');
-        ini_set('arg_separator.output',         '&amp;');
+        ini_set('short_open_tag', 'off');
+        ini_set('arg_separator.input', '&amp;');
+        ini_set('arg_separator.output', '&amp;');
 
         if(extension_loaded('mbstring') == true)
         {
@@ -186,7 +184,7 @@ class Clansuite_CMS
         # in general the memory limit is determined by php.ini, it's only raised if lower 16MB
         if(intval(ini_get('memory_limit')) < 16)
         {
-            ini_set('memory_limit',             '16M' );
+            ini_set('memory_limit', '16M');
         }
     }
 
@@ -212,27 +210,27 @@ class Clansuite_CMS
         /**
          * @var DS is a shorthand for DIRECTORY_SEPARATOR
          */
-        define('DS', DIRECTORY_SEPARATOR);
+        define('DS', DIRECTORY_SEPARATOR, false);
 
         /**
          * @var PS is a shorthand for PATH_SEPARATOR
          */
-        define('PS', PATH_SEPARATOR);
+        define('PS', PATH_SEPARATOR, false);
 
         /**
          * @var HTML Break + Carriage Return "<br />\r\n"
          */
-        define('NL', "<br />\r\n");
+        define('NL', "<br />\r\n", false);
 
         /**
          * @var Carriage Return "\n"
          */
-        define('CR', "\n");
+        define('CR', "\n", false);
 
         /**
          * @var Carriage Return and Tabulator "\n\t"
          */
-        define('CRT', "\n\t");
+        define('CRT', "\n\t", false);
 
         /**
          * 2) Path Assignments
@@ -243,93 +241,93 @@ class Clansuite_CMS
          * ROOT is the APPLICATION PATH
          * @var Purpose of ROOT is to provide the absolute path to the current working dir of clansuite
          */
-        define('ROOT', getcwd() . DS);
+        define('ROOT', getcwd() . DS, false);
         #define('ROOT',  realpath('../'));
 
         /**
          * @var ROOT_MOD Root path of the modules directory (with trailing slash)
          */
-        define('ROOT_MOD', ROOT . self::$config['paths']['mod_folder'] . DS);
+        define('ROOT_MOD', ROOT . self::$config['paths']['mod_folder'] . DS, false);
 
         /**
          * @var Root path of the themes directory (with trailing slash)
          */
-        define('ROOT_THEMES', ROOT . self::$config['paths']['themes_folder'] . DS);
+        define('ROOT_THEMES', ROOT . self::$config['paths']['themes_folder'] . DS, false);
 
         /**
          * @var Root path of the languages directory (with trailing slash)
          */
-        define('ROOT_LANGUAGES', ROOT . self::$config['paths']['language_folder'] . DS);
+        define('ROOT_LANGUAGES', ROOT . self::$config['paths']['language_folder'] . DS, false);
 
         /**
          * @var Root path of the core directory (with trailing slash)
          */
-        define('ROOT_CORE', ROOT . self::$config['paths']['core_folder'] . DS);
+        define('ROOT_CORE', ROOT . self::$config['paths']['core_folder'] . DS, false);
 
         /**
          * @var Root path of the libraries directory (with trailing slash)
          */
-        define('ROOT_LIBRARIES', ROOT . self::$config['paths']['libraries_folder'] . DS);
+        define('ROOT_LIBRARIES', ROOT . self::$config['paths']['libraries_folder'] . DS, false);
 
         /**
          * @var Root path of the upload directory (with trailing slash)
          */
-        define('ROOT_UPLOAD', ROOT . self::$config['paths']['upload_folder'] . DS);
+        define('ROOT_UPLOAD', ROOT . self::$config['paths']['upload_folder'] . DS, false);
 
         /**
          * @var Root path of the logs directory (with trailing slash)
          */
-        define('ROOT_LOGS', ROOT . self::$config['paths']['logfiles_folder'] . DS);
+        define('ROOT_LOGS', ROOT . self::$config['paths']['logfiles_folder'] . DS, false);
 
         /**
          * @var Root path of the cache directory (with trailing slash)
          */
-        define('ROOT_CACHE', ROOT . 'cache' . DS);
+        define('ROOT_CACHE', ROOT . 'cache' . DS, false);
 
         /**
          * @var Root path of the config directory (with trailing slash)
          */
-        define('ROOT_CONFIG', ROOT . 'configuration' . DS);
+        define('ROOT_CONFIG', ROOT . 'configuration' . DS, false);
 
         /**
          * @var Determine Type of Protocol for Webpaths (http/https)
          */
         if(isset($_SERVER['HTTPS']) and mb_strtolower($_SERVER['HTTPS']) == 'on')
         {
-            define('PROTOCOL', 'https://');
+            define('PROTOCOL', 'https://', false);
         }
         else
         {
 
-            define('PROTOCOL', 'http://');
+            define('PROTOCOL', 'http://', false);
         }
 
         /**
          * @var SERVER_URL
          */
-        define('SERVER_URL', PROTOCOL . $_SERVER['SERVER_NAME']);
+        define('SERVER_URL', PROTOCOL . $_SERVER['SERVER_NAME'], false);
 
         /**
          * @var WWW_ROOT is a complete www-path with servername from SERVER_URL, depending on os-system
          */
         if(dirname($_SERVER['PHP_SELF']) == '\\')
         {
-            define('WWW_ROOT', SERVER_URL);
+            define('WWW_ROOT', SERVER_URL, false);
         }
         else
         {
-            define('WWW_ROOT', SERVER_URL . dirname($_SERVER['PHP_SELF']));
+            define('WWW_ROOT', SERVER_URL . dirname($_SERVER['PHP_SELF']), false);
         }
 
         /**
          * @var WWW_ROOT_THEMES defines the themes folder
          */
-        define('WWW_ROOT_THEMES', WWW_ROOT . '/' . self::$config['paths']['themes_folder']);
+        define('WWW_ROOT_THEMES', WWW_ROOT . '/' . self::$config['paths']['themes_folder'], false);
 
         /**
          * @var WWW_ROOT_THEMES defines the themes/core folder
          */
-        define('WWW_ROOT_THEMES_CORE', WWW_ROOT . '/' . self::$config['paths']['themes_folder'] . '/core');
+        define('WWW_ROOT_THEMES_CORE', WWW_ROOT . '/' . self::$config['paths']['themes_folder'] . '/core', false);
 
         /**
          * SET INCLUDE PATHS
@@ -344,7 +342,9 @@ class Clansuite_CMS
             ROOT_LIBRARIES,
             ROOT_LIBRARIES . 'PEAR' . DS
         );
-        set_include_path(implode($paths, PATH_SEPARATOR) . PATH_SEPARATOR . get_include_path()); # attach original include paths
+
+        # attach original include paths
+        set_include_path(implode($paths, PS) . PS . get_include_path());
         unset($paths);
     }
 
@@ -367,7 +367,7 @@ class Clansuite_CMS
         /**
          * @var Debug-Mode Constant is set via config setting ['error']['debug']
          */
-        define('DEBUG', (bool) self::$config['error']['debug']);
+        define('DEBUG', (bool) self::$config['error']['debug'], false);
 
         # If Debug is enabled, set FULL error_reporting, else DISABLE it completely
         if(DEBUG == true)
@@ -380,7 +380,7 @@ class Clansuite_CMS
              * Toggle for Rapid Application Development
              * @var Development-Mode is set via config setting ['error']['development']
              */
-            define('DEVELOPMENT', (bool) self::$config['error']['development']);
+            define('DEVELOPMENT', (bool) self::$config['error']['development'], false);
 
             /**
              * Setup Debugging Helpers
@@ -394,22 +394,28 @@ class Clansuite_CMS
             /**
              * @var XDebug and set it's value via the config setting ['error']['xdebug']
              */
-            define('XDEBUG', (bool) self::$config['error']['xdebug']);
+            define('XDEBUG', (bool) self::$config['error']['xdebug'], false);
 
             # If XDebug is enabled, load xdebug helpers and start the debug/tracing
             if(XDEBUG == true)
             {
                 include ROOT_CORE . 'debug/xdebug.core.php';
-                Clansuite_XDebug::start_Xdebug();
+                Clansuite_XDebug::start_xdebug();
             }
         }
         else # application is in live/production mode. errors are not shown, but logged to file!
         {
-            ini_set('log_errors', true);        # enable error_logging
-            ini_set('display_errors', false); # do not display errors in the browser
+            # enable error_logging
+            ini_set('log_errors', true);
+            # do not display errors in the browser
+            ini_set('display_errors', false);
+            # log only certain errors
             error_reporting(E_COMPILE_ERROR | E_RECOVERABLE_ERROR | E_ERROR | E_CORE_ERROR);
-            #error_reporting(0);                 # do not report errors
-            ini_set('error_log', ROOT_LOGS . 'clansuite_errorlog.txt'); # write to errorlog
+            # do not report any errors
+            #error_reporting(0);
+            # write to errorlog
+            ini_set('error_log', ROOT_LOGS . 'clansuite_errorlog.txt');
+            # @todo use logger instead of error_log()
         }
     }
 
@@ -453,8 +459,7 @@ class Clansuite_CMS
      */
     private static function initialize_DependecyInjection()
     {
-        # Setup Phemto
-        include ROOT_LIBRARIES.'phemto/phemto.php';
+        include ROOT_LIBRARIES . 'phemto/phemto.php';
         self::$injector = new Phemto();
     }
 
@@ -473,7 +478,9 @@ class Clansuite_CMS
                               'Clansuite_Security',
                               'Clansuite_Inputfilter',
                               'Clansuite_Localization',
-                              'Clansuite_User'
+                              'Clansuite_User',
+                              'Clansuite_Session',
+                              'Clansuite_Router',
                              );
 
         # register them to the DI as singletons
@@ -490,14 +497,15 @@ class Clansuite_CMS
     {
         # define prefilters to load
         self::$prefilter_classes = array(
-                                         'Clansuite_Filter_PhpDebugConsole', # let the debug console be first
+                                         # let the debug console always be first
+                                         'Clansuite_Filter_PhpDebugConsole',
                                          'Clansuite_Filter_Maintenance',
                                          'Clansuite_Filter_GetUser',
                                          #'Clansuite_Filter_Session_Security',
+                                         'Clansuite_Filter_Routing',
                                          'Clansuite_Filter_LanguageViaGet',
                                          'Clansuite_Filter_ThemeViaGet',
                                          'Clansuite_Filter_SetModuleLanguage',
-                                         #'Clansuite_Filter_SetBreadcrumbs',
                                          'Clansuite_Filter_StartupChecks',
                                          'Clansuite_Filter_Statistics'
                                         );
@@ -556,11 +564,34 @@ class Clansuite_CMS
             $clansuite->addPostfilter(self::$injector->instantiate($class));
         }
 
-        # Router
-        $router = new Clansuite_Router($request::getRequestURI(), self::$config['defaults']);
-
         # Take off.
-        $clansuite->processRequest($router);
+        $clansuite->processRequest();
+    }
+
+    /**
+     * Starts a new Session and Userobject
+     */
+    private static function start_Session()
+    {
+        # Initialize Doctrine before session start, because session is written to database
+        new Clansuite_Doctrine(self::$config['database']);
+
+        # Initialize Session
+        self::$injector->create('Clansuite_Session');
+
+        # register the session-depending User-Object manually
+        self::$injector->instantiate('Clansuite_User');
+    }
+
+    /**
+     *  ================================================
+     *     Clansuite Version Information
+     *  ================================================
+     */
+    private static function initialize_Version()
+    {
+        include ROOT_CORE . 'bootstrap/clansuite.version.php';
+        Clansuite_Version::setVersionInformation();
     }
 
     /**
@@ -571,12 +602,11 @@ class Clansuite_CMS
      *      (2) date_default_timezone_set()
      *      (3) putenv(TZ=)
      *
-     * PHP 5.1 strftime() and date-calculation bugfix by setting the timezone
      * For a lot more timezones look in the Appendix H of the PHP Manual
      * @link http://php.net/manual/en/timezones.php
      * @todo make $timezone configurable by user (small dropdown) or autodetected from user
      */
-    private static function initialize_Locale()
+    private static function initialize_Timezone()
     {
         # apply timezone defensivly
         if(isset(self::$config['language']['timezone']))
@@ -596,36 +626,8 @@ class Clansuite_CMS
         if(isset(self::$config['locale']['dateformat']))
         {
             # set date formating via config
-            define('DATE_FORMAT', self::$config['locale']['dateformat']);
+            define('DATE_FORMAT', self::$config['locale']['dateformat'], false);
         }
-    }
-
-    /**
-     * Starts a new Session and Userobject
-     */
-    private static function start_Session()
-    {
-        # Initialize Doctrine before session start, because session is written to database
-        new Clansuite_Doctrine(self::$config['database']);
-
-        # Initialize Session
-        new Clansuite_Session(self::$config, self::$injector->instantiate('Clansuite_HttpRequest'));
-
-        # instantiate the Locale
-        self::$injector->instantiate('Clansuite_Localization');
-
-        # register the session-depending User-Object manually
-        self::$injector->instantiate('Clansuite_User');
-    }
-
-    /**
-     *  ================================================
-     *     Clansuite Version Information
-     *  ================================================
-     */
-    private static function initialize_Version()
-    {
-        include ROOT_CORE . 'bootstrap/clansuite.version.php';
     }
 
     /**

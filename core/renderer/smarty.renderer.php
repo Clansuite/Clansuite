@@ -23,12 +23,9 @@
     *    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
     *
     * @license    GNU/GPL v2 or (at your option) any later version, see "/doc/LICENSE".
-    *
     * @author     Jens-André Koch <vain@clansuite.com>
     * @copyright  Jens-André Koch (2005 - onwards)
-    *
     * @link       http://www.clansuite.com
-    * @link       http://gna.org/projects/clansuite
     *
     * @version    SVN: $Id$
     */
@@ -171,7 +168,7 @@ class Clansuite_Renderer_Smarty extends Clansuite_Renderer_Base
         /**
          * CACHING OPTIONS (set these options if caching is enabled)
          */
-        #clansuite_xdebug::printr($this->config['cache']);
+        #Clansuite_Debug::printr($this->config['cache']);
         # var_dump($this->config['cache']);
         if($this->renderer->debugging == true)
         {
@@ -253,18 +250,18 @@ class Clansuite_Renderer_Smarty extends Clansuite_Renderer_Base
         }
 
         # 1) + 2) in case the controlcenter is the requested module
-        if(Clansuite_Dispatcher::getModuleName() == 'controlcenter' or Clansuite_Dispatcher::getSubModuleName() == 'admin')
+        if(Clansuite_TargetRoute::getModuleName() == 'controlcenter' or Clansuite_TargetRoute::getSubModuleName() == 'admin')
         {
             # Backend Theme Detections
             $_SESSION['user']['backendtheme'] = 'admin';
             $this->renderer->template_dir[] = ROOT_THEMES . $_SESSION['user']['backendtheme'];
-            $this->renderer->template_dir[] = ROOT_THEMES . $_SESSION['user']['backendtheme'] . DS . Clansuite_Dispatcher::getModuleName() . DS;
+            $this->renderer->template_dir[] = ROOT_THEMES . $_SESSION['user']['backendtheme'] . DS . Clansuite_TargetRoute::getModuleName() . DS;
         }
         else
         {
             # Frontend Theme Detections
             $this->renderer->template_dir[] = ROOT_THEMES . $frontendtheme;
-            $this->renderer->template_dir[] = ROOT_THEMES . $frontendtheme . DS . Clansuite_Dispatcher::getModuleName() . DS;
+            $this->renderer->template_dir[] = ROOT_THEMES . $frontendtheme . DS . Clansuite_TargetRoute::getModuleName() . DS;
         }
 
         /**
@@ -272,13 +269,13 @@ class Clansuite_Renderer_Smarty extends Clansuite_Renderer_Base
          */
         # 3) + 4) modules dir
         $this->renderer->template_dir[] = ROOT_MOD;
-        $this->renderer->template_dir[] = ROOT_MOD . Clansuite_Dispatcher::getModuleName() . DS . 'view' . DS;
+        $this->renderer->template_dir[] = ROOT_MOD . Clansuite_TargetRoute::getModuleName() . DS . 'view' . DS;
 
         # 5) themes dir
         $this->renderer->template_dir[] = ROOT_THEMES . 'core' . DS . 'view' . DS;
 
         # 6) the admin theme
-        if(Clansuite_Dispatcher::getModuleName() == 'controlcenter' or Clansuite_Dispatcher::getSubModuleName() == 'admin')
+        if(Clansuite_TargetRoute::getModuleName() == 'controlcenter' or Clansuite_TargetRoute::getSubModuleName() == 'admin')
         {
             $this->renderer->template_dir[] = ROOT_THEMES . 'admin' . DS;
         }
@@ -286,7 +283,7 @@ class Clansuite_Renderer_Smarty extends Clansuite_Renderer_Base
         # 7) THEMES in general
         $this->renderer->template_dir[] = ROOT_THEMES;
 
-        #clansuite_xdebug::printR($this->renderer->template_dir);
+        #Clansuite_Debug::printR($this->renderer->template_dir);
 
         /**
          * Smarty Plugins
@@ -298,9 +295,9 @@ class Clansuite_Renderer_Smarty extends Clansuite_Renderer_Base
          */
         $this->renderer->plugins_dir[] = ROOT_LIBRARIES . 'smarty/plugins/';
         $this->renderer->plugins_dir[] = ROOT_CORE . 'viewhelper/smarty/';
-        $this->renderer->plugins_dir[] = ROOT_MOD . Clansuite_Dispatcher::getModuleName() . '/viewhelper/smarty/';
+        $this->renderer->plugins_dir[] = ROOT_MOD . Clansuite_TargetRoute::getModuleName() . '/viewhelper/smarty/';
 
-        #clansuite_xdebug::printR($this->renderer->plugins_dir);
+        #Clansuite_Debug::printR($this->renderer->plugins_dir);
 
         /**
          * Smarty Modifiers
@@ -480,8 +477,8 @@ class Clansuite_Renderer_Smarty extends Clansuite_Renderer_Base
          * Assign the original template name and the requested module
          * This is used in template_not_found.tpl to provide a link to the templateeditor
          */
-        $this->renderer->assign('modulename', Clansuite_Dispatcher::getModuleName());
-        $this->renderer->assign('actionname', Clansuite_Dispatcher::getActionName());
+        $this->renderer->assign('modulename', Clansuite_TargetRoute::getModuleName());
+        $this->renderer->assign('actionname', Clansuite_TargetRoute::getActionName());
         $this->renderer->assign('templatename', $template);
         $this->renderer->assign('template_to_render', $template);
 

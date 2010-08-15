@@ -23,13 +23,10 @@
     *    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
     *
     * @license    GNU/GPL v2 or (at your option) any later version, see "/doc/LICENSE".
-    *
     * @author     Jens-André Koch <vain@clansuite.com>
     * @copyright  Jens-André Koch (2005 - onwards)
-    *
     * @link       http://www.clansuite.com
-    * @link       http://gna.org/projects/clansuite
-    *
+    * 
     * @version    SVN: $Id$
     */
 
@@ -42,7 +39,7 @@ if(defined('IN_CS') == false)
 /**
  * Clansuite Filter - Set Module Language
  *
- * Purpose: Sets Text Domain for the requested Module
+ * Purpose: Sets the TextDomain for the requested Module
  *
  * @category    Clansuite
  * @package     Core
@@ -51,17 +48,18 @@ if(defined('IN_CS') == false)
  */
 class Clansuite_Filter_SetModuleLanguage implements Clansuite_Filter_Interface
 {
-    private $locale     = null;     # holds instance of localization
+    private $locale = null;     # holds instance of localization
 
     public function __construct(Clansuite_Localization $locale)
     {
-        $this->locale    = $locale;      # set instance of localization to class
+        $this->locale = $locale;      # set instance of localization to class
     }
 
     public function executeFilter(Clansuite_HttpRequest $request, Clansuite_HttpResponse $response)
     {
-        #$modulename = Clansuite_Dispatcher::getModuleName();
-        #$this->locale->loadTextDomain('LC_ALL', $modulename, $this->locale->getLocale(), $modulename);
+        #$route = Clansuite_HttpRequest::getRoute();
+        $modulename = Clansuite_TargetRoute::getController();
+        $this->locale->loadTextDomain('LC_ALL', $modulename, $this->locale->getLocale(), $modulename);
     }
 }
 ?>

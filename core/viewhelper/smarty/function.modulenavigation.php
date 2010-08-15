@@ -26,7 +26,7 @@
  */
 function smarty_function_modulenavigation($params, $smarty)
 {
-    $modulename = Clansuite_Module_Controller_Resolver::getModuleName();
+    $modulename = Clansuite_HttpRequest::getRoute()->getModuleName();
     $modulenavigation_file = ROOT_MOD. $modulename . DS . $modulename . '.menu.php';
 
     if( is_file($modulenavigation_file) )
@@ -35,7 +35,6 @@ function smarty_function_modulenavigation($params, $smarty)
         $smarty->assign('modulenavigation', $modulenavigation);
         # The file is located in clansuite/themes/core/view/modulenavigation-generic.tpl
         return $smarty->fetch('modulenavigation-generic.tpl');
-
     }
     else
     {

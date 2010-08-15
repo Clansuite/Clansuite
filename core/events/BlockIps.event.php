@@ -23,12 +23,9 @@
     *    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
     *
     * @license    GNU/GPL v2 or (at your option) any later version, see "/doc/LICENSE".
-    *
     * @author     Jens-André Koch <vain@clansuite.com>
     * @copyright  Jens-André Koch (2005 - onwards)
-    *
     * @link       http://www.clansuite.com
-    * @link       http://gna.org/projects/clansuite
     *
     * @version    SVN: $Id$
     */
@@ -44,12 +41,12 @@ if (defined('IN_CS') == false)
  *
  * @author     Jens-André Koch <vain@clansuite.com>
  * @copyright  Jens-André Koch (2005 - onwards)
- * 
+ *
  * Usage:
  * $blockip = new BlockIps(array('127.0.0.1'));
  * $dispatcher->addEventHandler('onLogin', $blockip);
  * if($event->isCancelled()) { }
- * 
+ *
  */
 class BlockIps implements Clansuite_Event
 {
