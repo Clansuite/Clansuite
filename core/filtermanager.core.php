@@ -23,13 +23,10 @@
     *    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
     *
     * @license    GNU/GPL v2 or (at your option) any later version, see "/doc/LICENSE".
-    *
     * @author     Jens-André Koch <vain@clansuite.com>
     * @copyright  Jens-André Koch (2005 - onwards)
-    *
     * @link       http://www.clansuite.com
-    * @link       http://gna.org/projects/clansuite
-    *
+    * 
     * @version    SVN: $Id$
     */
 
@@ -40,7 +37,7 @@ if(defined('IN_CS') == false)
 }
 
 /**
- * interface FilterInterface
+ * Interface Clansuite_Filter_Interface
  *
  * @category    Clansuite
  * @package     Core
@@ -52,11 +49,13 @@ interface Clansuite_Filter_Interface
 }
 
 /**
- * FilterManager
- * - is a Intercepting-Filter / FilterChain
+ * Clansuite_FilterManager
  *
- * - $filters is an array containing the filters to be processed
- * - addFilter method, adds them to the array
+ * Is a Intercepting-Filter (FilterChain).
+ * The var $filters is an array containing the filters to be processed.
+ * The method addFilter() adds filters to the array.
+ * A filter has to implement the Clansuite_Filter_Interface,
+ * it has to provide the executeFilter() method.
  *
  * @category    Clansuite
  * @package     Core

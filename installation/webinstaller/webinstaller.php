@@ -48,7 +48,7 @@
  * @author     Bharat Mediratta and Andy Staudacher <ast@gmx.ch>
  * @copyright  2007 Clansuite Group
  * @license    see COPYING.txt
- * @link       http://gna.org/projects/clansuite
+ * 
  * @since      File available since Release 0.1
  *
  * @category    Clansuite

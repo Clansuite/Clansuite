@@ -23,12 +23,9 @@
     *    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
     *
     * @license    GNU/GPL v2 or (at your option) any later version, see "/doc/LICENSE".
-    *
-    * @author     Jens-André Koch   <vain@clansuite.com>
-    * @copyright  Copyleft: All rights reserved. Jens-André Koch (2005-onwards)
-    *
+    * @author     Jens-André Koch <vain@clansuite.com>
+    * @copyright  Jens-André Koch (2005-onwards)
     * @link       http://www.clansuite.com
-    * @link       http://gna.org/projects/clansuite
     *
     * @version    SVN: $Id$
     */
@@ -607,7 +604,7 @@ class Clansuite_Form /*extends Clansuite_HTML*/ implements Clansuite_Form_Interf
         # fetch all formelements
         $formelements = $this->getFormelements();
 
-        #clansuite_xdebug::printR($formelements);
+        #Clansuite_Debug::printR($formelements);
 
         # sort formelements by index
         ksort($formelements);
@@ -630,10 +627,10 @@ class Clansuite_Form /*extends Clansuite_HTML*/ implements Clansuite_Form_Interf
 
             /*if($formelement_position == 1)
             {
-                clansuite_xdebug::printR($formelements);
+                Clansuite_Debug::printR($formelements);
             }*/
 
-            #clansuite_xdebug::printR($formelement);
+            #Clansuite_Debug::printR($formelement);
 
             # then render this formelement (pure)
             $html_formelement = $formelement->render();
@@ -652,7 +649,7 @@ class Clansuite_Form /*extends Clansuite_HTML*/ implements Clansuite_Form_Interf
             $html_form .= $html_formelement;
         }
 
-        #clansuite_xdebug::printR($html_form);
+        #Clansuite_Debug::printR($html_form);
         return $html_form;
     }
 
@@ -940,7 +937,7 @@ class Clansuite_Form /*extends Clansuite_HTML*/ implements Clansuite_Form_Interf
     public function addDecorator($decorators)
     {
         # Debug of incomming decorators
-        #clansuite_xdebug::printR($decorators);
+        #Clansuite_Debug::printR($decorators);
 
         # check if multiple decorators are incomming at once
         if(is_array($decorators))
@@ -970,7 +967,7 @@ class Clansuite_Form /*extends Clansuite_HTML*/ implements Clansuite_Form_Interf
             # turn it into an decorator object
             $decorator = $this->decoratorFactory($decorators);
             $decoratorname = $decorator->name;
-            #clansuite_xdebug::printR($decorator);
+            #Clansuite_Debug::printR($decorator);
         }
 
         # now check if this decorator is not already set (prevent decorator duplications)

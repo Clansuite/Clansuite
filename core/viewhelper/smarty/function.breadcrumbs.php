@@ -1,6 +1,7 @@
 <?php
 function smarty_function_breadcrumbs($params, $smarty)
 {
+    # handle trail params set directly to the smarty function call in the template
     if (isset($params['trail']) && is_array($params['trail']))
     {
         $trail = $params['trail'];
@@ -10,11 +11,14 @@ function smarty_function_breadcrumbs($params, $smarty)
         $trail = array();
     }
 
+    Clansuite_Debug::firebug($trail);
+
+    # is the seperator element set via the smarty function call?
     if (isset($params['separator']))
     {
         $separator = $params['separator'];
     }
-    else
+    else # no, take default seperator
     {
         $separator = ' &gt; ';
     }
@@ -38,12 +42,12 @@ function smarty_function_breadcrumbs($params, $smarty)
 
         if (isset($trail[$i]['link']) && $i < $trailSize - 1)
         {
-            // if parameter heading is not set, give links
+            # if parameter heading is not set, give links
             if (!isset($params['title']))
             {
                 $links[] = '<a href="'. $trail[$i]['link'] .'" title="'. htmlspecialchars($trail[$i]['title']). '">'. $title .'</a>';
             }
-            // if heading is set, just titles
+            # if heading is set, just titles
             else
             {
                 $links[] = $title;
@@ -55,7 +59,6 @@ function smarty_function_breadcrumbs($params, $smarty)
         }
     }
 
-    #$breadcrumb_string = join($separator . "\n", $links);
     $breadcrumb_string = join($separator . ' ', $links);
 
     if (isset($params['assign']))

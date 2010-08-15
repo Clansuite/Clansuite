@@ -23,12 +23,9 @@
     *    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
     *
     * @license    GNU/GPL v2 or (at your option) any later version, see "/doc/LICENSE".
-    *
     * @author     Jens-André Koch <vain@clansuite.com>
     * @copyright  Jens-André Koch (2005 - onwards)
-    *
     * @link       http://www.clansuite.com
-    * @link       http://gna.org/projects/clansuite
     *
     * @version    SVN: $Id$
     */
@@ -41,14 +38,14 @@ if (defined('IN_CS') == false)
 
 /**
  * Clansuite Event - Authentication Logging
- * 
+ *
  * @author     Jens-André Koch <vain@clansuite.com>
- * @copyright  Jens-André Koch (2005 - onwards) 
+ * @copyright  Jens-André Koch (2005 - onwards)
  *
  * Usage:
  * $logger = new Clansuite_Logger('auth.log');
  * $eventhandler->addEventHandler('onInvalidLogin', $logger);
- * $eventhandler->addEventHandler('onLogin', $logger); 
+ * $eventhandler->addEventHandler('onLogin', $logger);
  */
 class AuthenticationLogging implements Clansuite_Event
 {
@@ -61,7 +58,7 @@ class AuthenticationLogging implements Clansuite_Event
         # set logger object
         $this->logger = $logger;
     }
-    
+
     public function execute(Event $event)
     {
         $authdata = $event->getInfo();

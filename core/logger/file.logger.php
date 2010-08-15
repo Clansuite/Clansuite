@@ -23,13 +23,10 @@
     *    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
     *
     * @license    GNU/GPL v2 or (at your option) any later version, see "/doc/LICENSE".
-    *
     * @author     Jens-André Koch <vain@clansuite.com>
     * @copyright  Jens-André Koch (2005 - onwards)
-    *
     * @link       http://www.clansuite.com
-    * @link       http://gna.org/projects/clansuite
-    *
+   *
     * @version    SVN: $Id$
     */
 
@@ -180,31 +177,39 @@ class Clansuite_Logger_File implements Clansuite_Logger_Interface
         # setup default logfilename
         if($logfilename == null)
         {
-            $logfilename = 'logs/clansuite_errorlog.txt.php';
+            $logfilename = ROOT . 'logs/clansuite_errorlog.txt.php';
         }
 
         # get logfile as array
         $logfile_array = file($logfilename);
-        # count array elements = total number of logfile entries
-        $i = count($logfile_array) - 1;
-        # subtract from total number of logfile entries the number to fetch
-        $max_entries = max(0, $i - $entriesToFetch);
+        $logfile_cnt = count($logfile_array);
 
-        # reverse for loop over the logfile_array
-        $logEntries = '';
-        $logEntries .= '; <?php die(\'Access forbidden.\'); /* DO NOT MODIFY THIS LINE! ?>' . "/n";
-        $logEntries .= ';'. "/n";
-        for($i; $i > $max_entries; $i--)
+        if($logfile_cnt > 0)
         {
-            # remove linebreaks
-            $entry = str_replace(array('\r', '\n'), '', $logfile_array[$i]);
+            # count array elements = total number of logfile entries
+            $i = $logfile_cnt - 1;
 
-            $logEntries .= '<b>Entry ' . $i . '</b>';
-            $logEntries .= '<br />' . htmlentities($entry) . '<br />';
+            # subtract from total number of logfile entries the number to fetch
+            $max_entries = max(0, $i - $entriesToFetch);
+
+            # reverse for loop over the logfile_array
+            $logEntries = '';
+            for($i; $i > $max_entries; $i--)
+            {
+                # remove linebreaks
+                $entry = str_replace(array('\r', '\n'), '', $logfile_array[$i]);
+
+                $logEntries .= '<b>Entry ' . $i . '</b>';
+                $logEntries .= '<br />' . htmlentities($entry) . '<br />';
+            }
+
+            # cleanup
+            unset($logfilename, $logfile_array, $i, $max_entries, $entry);
         }
-
-        # cleanup
-        unset($logfilename, $logfile_array, $i, $max_entries, $entry);
+        else
+        {
+            $logEntries .= '<b>No Entries</b>';
+        }
 
         return $logEntries;
     }

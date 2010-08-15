@@ -88,20 +88,20 @@ function smarty_block_t($params, $text, $smarty)
 {
     $text = stripslashes($text);
 
-    // set escape mode
+    # set escape mode
     if (isset($params['escape']))
     {
         $escape = $params['escape'];
         unset($params['escape']);
     }
 
-    // set plural version
+    # set plural version
     if (isset($params['plural']))
     {
         $plural = $params['plural'];
         unset($params['plural']);
 
-        // set count
+        # set count
         if (isset($params['count']))
         {
             $count = $params['count'];
@@ -109,24 +109,25 @@ function smarty_block_t($params, $text, $smarty)
         }
     }
 
-    // use plural if required parameters are set
+    # use plural if required parameters are set
     if (isset($count) and isset($plural))
     {
         $text = T_ngettext($text, $plural, $count); # vain: prefixed "T_" for usage of php-gettext
     }
     else
-    { // use normal
+    {   # use normal
         $text = T_gettext($text);                   # vain: prefixed "T_" for usage of php-gettext
     }
 
-    // run strarg if there are parameters
+    # run strarg if there are parameters
     if (count($params))
     {
         $text = smarty_gettext_strarg($text, $params);
     }
 
-    if (!isset($escape) or $escape == 'html')
-    { // html escape, default
+    if (false === isset($escape) or $escape == 'html')
+    {   
+        # html escape, default
         $text = nl2br(htmlspecialchars($text));
     }
     elseif (isset($escape))
@@ -135,11 +136,11 @@ function smarty_block_t($params, $text, $smarty)
         {
             case 'javascript':
             case 'js':
-            // javascript escape
+                # javascript escape
                 $text = str_replace('\'', '\\\'', stripslashes($text));
                 break;
             case 'url':
-            // url escape
+                # url escape
                 $text = urlencode($text);
                 break;
         }

@@ -23,13 +23,10 @@
     *    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
     *
     * @license    GNU/GPL v2 or (at your option) any later version, see "/doc/LICENSE".
-    *
-    * @author     Jens-André Koch   <vain@clansuite.com>
-    * @author     Florian Wolf      <xsign.dll@clansuite.com>
-    * @copyright  Copyleft: All rights reserved. Jens-André Koch (2005-onwards)
-    *
+    * @author     Jens-André Koch <vain@clansuite.com>
+    * @copyright  Jens-André Koch (2005 - onwards)
     * @link       http://www.clansuite.com
-    * @link       http://gna.org/projects/clansuite
+    * 
     *
     * @version    SVN: $Id$
     */
@@ -41,15 +38,7 @@ if (defined('IN_CS') == false)
 }
 
 /**
- *  Clansuite Core Class for Breadcrumb Handling
- *
- * - Headings: Entrance >> News
- * - You are here : Entrance >> News (with links)
- *
- * @author     Quentin Zervaas
- * @author     Jens-André Koch   <vain@clansuite.com>
- * @author     Florian Wolf      <xsign.dll@clansuite.com>
- * @copyright  Jens-André Koch (2005-onwards), Florian Wolf (2006-2007)
+ * Clansuite Core Class for Breadcrumb Handling
  *
  * @category    Clansuite
  * @package     Core
@@ -63,49 +52,13 @@ class Clansuite_Breadcrumb
     private static $path = array();
 
     /**
-     * Assigns a trailstep "Home >>"
+     * Adds a breadcrumb new level
      *
-     * @param string $homeLabel contains the Home-Name shown at the trail, standard is Home
-     * @param string $homeLink contains the link as url, standard is '/' refering to base_url
-     */
-    public static function addHomeTrail($homeLabel = 'Home', $homeLink = '/')
-    {
-        # check if it's the first trail step, then let it be >> HOME
-        if(count(self::$path) == 0)
-        {
-            self::$path[] = array(  'title' => $homeLabel,
-                                    'link'  => WWW_ROOT . $homeLink);
-        }
-    }
-
-    /**
-     * Assigns a trailstep "Control Center >>"
-     *
-     * @param string $homeLabel contains the Home-Name shown at the trail, standard is Home
-     * @param string $homeLink contains the link as url, standard is '/' refering to base_url
-     */
-    public static function addControlCenterTrail($homeLabel = 'Control Center', $homeLink = '/index.php?mod=controlcenter')
-    {
-        # check if it's the first trail step, then let it be >> HOME
-        if(count(self::$path) == 0)
-        {
-            self::$path[] = array(  'title' => $homeLabel,
-                                    'link'  => WWW_ROOT . $homeLink);
-        }
-    }
-
-    /**
-     * addBreadcrumb
-     * This adds a step or level to the trail-path / pagetitle
-     *
-     * @param string $title contains the Name shown at the trail
-     * @param string $link contains the link as url
+     * @param string $title Name of the trail element
+     * @param string $link Link of the trail element
      */
     public static function add($title, $link = '')
     {
-        # let the first Trail, be "HOME >>"
-        #self::addHomeTrail();
-
         $item = array('title' => $title);
 
         if(isset($link))
@@ -117,11 +70,81 @@ class Clansuite_Breadcrumb
     }
 
     /**
-     * Get Method for the Trail
+     * Getter for the breadcrumbs/trail array
      */
     public static function getTrail()
     {
         return self::$path;
+    }
+
+    public static function initBreadcrumbs()
+    {
+        $moduleName     = Clansuite_TargetRoute::getModuleName();
+        $submoduleName  = Clansuite_TargetRoute::getSubModuleName();
+        $actionName     = Clansuite_TargetRoute::getActionName();
+
+        /**
+         *  FIRST PART of the TRAIL
+         */
+
+        # Home (Frontend)
+        if(($moduleName != 'controlcenter') and ($submoduleName != 'admin'))
+        {
+            Clansuite_Breadcrumb::add('Home', '/');
+        }
+
+        # ControlCenter (Backend)
+        if($moduleName == 'controlcenter' or $submoduleName == 'admin')
+        {
+            # Set Pagetitle "Control Center" and Breadcrumb-Link = '/index.php?mod=controlcenter'
+            Clansuite_Breadcrumb::add('Control Center', '/index.php?mod=controlcenter');
+        }
+
+        /**
+         * This adds the SECCOND PART of the TRAIL.
+         */
+        if($moduleName != 'controlcenter')
+        {
+            # Construct URL
+            # BASE URL
+            $url  = '/index.php?mod=' . $moduleName;
+            $trailName = $moduleName;
+
+            # Add action Part only, if not no submodule following
+            if( (mb_strlen($actionName) > 0) and (mb_strlen($submoduleName) == 0))
+            {
+                $url .= '&amp;action=' . $actionName;
+            }
+
+            # if this is an request to an submodule admin, we append that to the URL
+            if( (mb_strlen($submoduleName) > 0)  and ($submoduleName == 'admin'))
+            {
+                $url .= '&amp;sub=admin';
+            }
+
+            # Set Pagetitle and Breadcrumbs for that Module
+            Clansuite_Breadcrumb::add( T_( ucfirst($trailName) ), $url );
+        }
+
+        # add submodule part
+        if(mb_strlen($submoduleName) > 0 and ($submoduleName != 'admin'))
+        {
+            # Construct URL
+            $url .= '&amp;sub=' . $submoduleName;
+            $trailName = $submoduleName;
+
+            # Add action Part now
+            if(mb_strlen($actionName) > 0)
+            {
+                $url .= '&amp;action=' . $actionName;
+            }
+
+            # Set Pagetitle and Breadcrumbs for that SubModule
+            Clansuite_Breadcrumb::add( T_( ucfirst($trailName) ), $url );
+        }
+
+        # Debug Display for Breadcumbs
+        # Clansuite_Debug::firebug(Clansuite_Breadcrumb::getTrail());
     }
 }
 ?>

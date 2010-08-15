@@ -23,13 +23,10 @@
     *    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
     *
     * @license    GNU/GPL v2 or (at your option) any later version, see "/doc/LICENSE".
-    *
     * @author     Jens-André Koch <vain@clansuite.com>
     * @copyright  Jens-André Koch (2005 - onwards)
-    *
     * @link       http://www.clansuite.com
-    * @link       http://gna.org/projects/clansuite
-´   *
+    * 
     * @version    SVN: $Id$
     */
 
@@ -80,7 +77,7 @@ class Clansuite_Config extends Clansuite_Config_Base
         # if no modulename is set, determine the name of the current module
         if($modulename === null)
         {
-            $modulename = Clansuite_Dispatcher::getModuleName();
+            $modulename = Clansuite_TargetRoute::getModuleName();
         }
 
         $configfile = ROOT_MOD . $modulename . DS . $modulename . '.config.php';

@@ -23,12 +23,9 @@
     *    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
     *
     * @license    GNU/GPL v2 or (at your option) any later version, see "/doc/LICENSE".
-    *
     * @author     Jens-André Koch <vain@clansuite.com>
     * @copyright  Jens-André Koch (2005 - onwards)
-    *
     * @link       http://www.clansuite.com
-    * @link       http://gna.org/projects/clansuite
     *
     * @version    SVN: $Id$
     */
@@ -878,7 +875,7 @@ class Clansuite_Functions
 
         # Debug message for Method Overloading
         # Making it easier to see which static method is called magically
-        #Clansuite_XDebug::fbg('DEBUG (Overloading): Calling static method "'.$method.'" '. implode(', ', $arguments). "\n");
+        #Clansuite_Debug::fbg('DEBUG (Overloading): Calling static method "'.$method.'" '. implode(', ', $arguments). "\n");
         # construct the filename of the command
         $filename = ROOT_CORE . 'functions' . DS . $method . '.function.php';
 
@@ -915,7 +912,7 @@ class Clansuite_Functions
 
         # Debug message for Method Overloading
         # Making it easier to see which method is called magically
-        # Clansuite_XDebug::fbg('DEBUG (Overloading): Calling object method "'.$method.'" '. implode(', ', $arguments). "\n");
+        # Clansuite_Debug::fbg('DEBUG (Overloading): Calling object method "'.$method.'" '. implode(', ', $arguments). "\n");
         # construct the filename of the command
         $filename = ROOT_CORE . 'functions' . DS . $method . '.function.php';
 

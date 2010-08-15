@@ -6,7 +6,6 @@
 ; This file was generated on 12-05-2010 23:55
 ;
 
-
 ;----------------------------------------
 ; database
 ;----------------------------------------
@@ -132,7 +131,7 @@ check_ip = 0
 ;----------------------------------------
 [error]
 development = 1
-debug = 1
+debug =1
 xdebug = 1
 webdebug = 0
 debug_popup = 0

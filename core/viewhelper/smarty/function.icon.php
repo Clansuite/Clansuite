@@ -57,7 +57,7 @@ function smarty_function_icon($params, $smarty)
         $pos = mb_strpos($src, $needle);
         if(isset($src) and is_int($pos))
         {
-            #clansuite_xdebug::printR($pos);
+            #Clansuite_Debug::printR($pos);
             $src = mb_substr($src, $pos + mb_strlen($needle));
             $name = basename($src);
         }

@@ -23,12 +23,9 @@
     *    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
     *
     * @license    GNU/GPL v2 or (at your option) any later version, see "/doc/LICENSE".
-    *
     * @author     Jens-André Koch <vain@clansuite.com>
     * @copyright  Jens-André Koch (2005 - onwards)
-    *
     * @link       http://www.clansuite.com
-    * @link       http://gna.org/projects/clansuite
     *
     * @version    SVN: $Id$
     */
@@ -157,7 +154,7 @@ class Clansuite_Errorhandler
         if ( defined('DEBUG') and DEBUG == 1 )
         {
             # SMARTY ERRORS are thrown by trigger_error() - so they bubble up as E_USER_ERROR
-            # so in order to handle smarty errors with a seperated error display
+            # and in order to handle smarty errors with a seperated error display
             # we need to detect, if an E_USER_ERROR is incoming from SMARTY or from a template_c file (extension tpl.php)
             if( (mb_strpos(mb_strtolower($errorfile),'smarty') == true) or (mb_strpos(mb_strtolower($errorfile),'tpl.php') == true) )
             {
@@ -458,8 +455,11 @@ class Clansuite_Errorhandler
                 $backtrace_string .= ')</td></tr>';
             }
 
-            $backtrace_string .= '<tr><td><strong>File: </strong></td><td>' . $backtrace[$i]['file'] . '</td></tr>';
-            $backtrace_string .= '<tr><td><strong>Line: </strong></td><td>' . $backtrace[$i]['line'] . '</td></tr>';
+            if(isset($backtrace[$i]['file']))
+            {
+                $backtrace_string .= '<tr><td><strong>File: </strong></td><td>' . $backtrace[$i]['file'] . '</td></tr>';
+                $backtrace_string .= '<tr><td><strong>Line: </strong></td><td>' . $backtrace[$i]['line'] . '</td></tr>';
+            }
 
             # spacer
             $backtrace_string .= '</td></tr>';
@@ -472,7 +472,7 @@ class Clansuite_Errorhandler
     /**
      * formatBacktraceArgument
      *
-     * performs a type check on an backtrace argument and formats it nicely
+     * Performs a type check on the backtrace argument and beautifies it.
      *
      * This formater is based on comments for debug-backtrace in the php manual
      * @link http://de2.php.net/manual/en/function.debug-backtrace.php#30296
@@ -506,9 +506,9 @@ class Clansuite_Errorhandler
                 break;
             case 'string':
                 $args .= '<span>string</span> ';
-                $backtraceArgument = htmlspecialchars(mb_substr($backtraceArgument, 0, 64));
                 if((mb_strlen($backtraceArgument) > 64))
                 {
+                    $backtraceArgument = htmlspecialchars(mb_substr($backtraceArgument, 0, 64));
                     $backtraceArgument . '...';
                 }
                 $args .= '"'. $backtraceArgument .'"';

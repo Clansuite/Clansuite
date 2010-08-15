@@ -23,12 +23,9 @@
     *    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
     *
     * @license    GNU/GPL v2 or (at your option) any later version, see "/doc/LICENSE".
-    *
-    * @author     Jens-André Koch   <vain@clansuite.com>
-    * @copyright  Copyleft: All rights reserved. Jens-André Koch (2005-onwards)
-    *
+    * @author     Jens-André Koch <vain@clansuite.com>
+    * @copyright  Jens-André Koch (2005-onwards)
     * @link       http://www.clansuite.com
-    * @link       http://gna.org/projects/
     *
     * @version    SVN: $Id$
     */
@@ -96,7 +93,7 @@ class Clansuite_Formelement_Radiolist extends Clansuite_Formelement_Radio implem
             # assign it as output
             $html .= $radio;
             
-            #clansuite_xdebug::printR($html);
+            #Clansuite_Debug::printR($html);
 
             # if we have more options comming up, add a seperator
             if (++$i!=count($this->options))

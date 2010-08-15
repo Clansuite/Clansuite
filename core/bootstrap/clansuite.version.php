@@ -23,12 +23,9 @@
     *    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
     *
     * @license    GNU/GPL v2 or (at your option) any later version, see "/doc/LICENSE".
-    *
     * @author     Jens-André Koch <vain@clansuite.com>
     * @copyright  Jens-André Koch (2005 - onwards)
-    *
     * @link       http://www.clansuite.com
-    * @link       http://gna.org/projects/clansuite
     *
     * @version    SVN: $Id$
     */
@@ -47,7 +44,6 @@ if(defined('IN_CS') == false)
 
 /**
  * Clansuite_Version
- *
  */
 final class Clansuite_Version
 {
@@ -61,18 +57,17 @@ final class Clansuite_Version
         define('CLANSUITE_VERSION_STATE',   'alpha-dev');
         define('CLANSUITE_URL',             'http://www.clansuite.com');
 
-        # Define Clansuite SVN Revision
-        if (!defined('CLANSUITE_REVISION'))
+        /**
+         * Define Clansuite SVN Revision
+         */
+        # File used: "root/.svn/entries"
+        if (is_file(ROOT . '.svn' . DS . 'entries'))
         {
-            # File used: "root/.svn/entries"
-            if (is_file(ROOT . '.svn' . DS . 'entries'))
-            {
-                define ('CLANSUITE_REVISION', self::getRevisionNumberFromFile());
-            }
-            else # get revision number from the Subversion Rev-property, if no SVN data available
-            {
-                define ('CLANSUITE_REVISION', self::getRevisionNumber());
-            }
+            define ('CLANSUITE_REVISION', self::getRevisionNumberFromFile());
+        }
+        else # get revision number from the Subversion Rev-property, if no SVN data available
+        {
+            define ('CLANSUITE_REVISION', self::getRevisionNumber());
         }
     }
 
@@ -117,6 +112,4 @@ final class Clansuite_Version
         return $svnrevision;
     }
 }
-
-Clansuite_Version:: setVersionInformation();
 ?>

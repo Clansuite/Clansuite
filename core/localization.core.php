@@ -23,13 +23,10 @@
     *    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
     *
     * @license    GNU/GPL v2 or (at your option) any later version, see "/doc/LICENSE".
-    *
     * @author     Jens-André Koch <vain@clansuite.com>
     * @copyright  Jens-André Koch (2005 - onwards)
-    *
     * @link       http://www.clansuite.com
-    * @link       http://gna.org/projects/clansuite
-    *
+    * 
     * @version    SVN: $Id$
     */
 
@@ -41,9 +38,6 @@ if (defined('IN_CS') == false)
 
 /**
  * Clansuite Core Class for Localization (l10n) & Internationalization (i18n) Handling
- *
- * @author     Jens-André Koch   <vain@clansuite.com>
- * @copyright  Jens-André Koch (2005 - onwards)
  *
  * @category    Clansuite
  * @package     Core
@@ -65,16 +59,16 @@ class Clansuite_Localization
     private $encoding  = null;
 
     # References
-    private $config    = null;
+    private static $config    = null;
 
     public function __construct(Clansuite_Config $config)
     {
         # Set Reference to Config
-        $this->config = $config;
+        self::$config = $config;
 
         # Set Locale Defaults
         $this->domain = 'clansuite';
-        $this->encoding = $config['language']['outputcharset'];
+        $this->encoding = self::$config['language']['outputcharset'];
 
         # Get Locale
         $locale = $this->getLocale();
@@ -100,7 +94,7 @@ class Clansuite_Localization
          * @link https://savannah.nongnu.org/projects/php-gettext PHP-GETTEXT Library
          * @link http://www.gnu.org/software/gettext/manual/gettext.html GNU Gettext
          */
-        if ( function_exists('_get_reader') === false )
+        if(function_exists('_get_reader') === false)
         {
             include ROOT_LIBRARIES . '/php-gettext/gettext.inc';
         }
@@ -130,7 +124,7 @@ class Clansuite_Localization
 
             if(empty($this->locale)) # 3) get the default language from config as fallback
             {
-                $this->locale = $this->config['language']['language'];
+                $this->locale = self::$config['language']['language'];
             }
         }
 
@@ -153,7 +147,9 @@ class Clansuite_Localization
      */
     public function loadTextDomain($category, $domain, $locale, $module = null)
     {
-        # if, $locale string is not over 3 -> $locale = "en", build "en_EN"
+        #Clansuite_Debug::firebug($module);
+
+        # if, $locale string is not over 3 chars long -> $locale = "en", build "en_EN"
         if(isset($locale{3}) == false)
         {
             $locale = mb_strtolower($locale) . '_' . mb_strtoupper($locale);
@@ -173,9 +169,8 @@ class Clansuite_Localization
             # for domain 'clansuite', it's the ROOT_LANGUAGES directory
             $domain_directory = ROOT_LANGUAGES;
         }
-        else # tp a specific module directory
+        else # set a specific module directory
         {
-
             $domain_directory = ROOT_MOD . $module . DS . 'languages' . DS;
         }
 
@@ -184,7 +179,7 @@ class Clansuite_Localization
         T_bind_textdomain_codeset($domain, $this->encoding);
         T_textdomain($domain);
 
-        #Clansuite_Debug::firebug('<p>Textdomain "' .$domain .'" loaded from path "'. $domain_directory .'"</p>');
+        #Clansuite_Debug::firebug('<p>Textdomain "' .$domain .'" loaded from path "'. $domain_directory .'" for "'. $module .'"</p>');
         return true;
     }
 

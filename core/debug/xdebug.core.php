@@ -23,12 +23,9 @@
     *    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
     *
     * @license    GNU/GPL v2 or (at your option) any later version, see "/doc/LICENSE".
-    *
     * @author     Jens-André Koch <vain@clansuite.com>
     * @copyright  Jens-André Koch (2005 - onwards)
-    *
     * @link       http://www.clansuite.com
-    * @link       http://gna.org/projects/clansuite
     *
     * @version    SVN: $Id$
     */
@@ -107,7 +104,7 @@ class Clansuite_Xdebug
             #var_dump(xdebug_get_function_count());
             #xdebug_get_code_coverage();
 
-             # stop tracing and display infos
+            # stop tracing and display infos
             register_shutdown_function('clansuite_xdebug::shutdown');
         }
     }
@@ -197,13 +194,8 @@ class Clansuite_Xdebug
     /**
      * @param mixed $variable The variable to debug display.
      */
-    public static function xd_varDump($var = null)
+    public static function xd_varDump($var)
     {
-        if($var === null)
-        {
-            throw new Clansuite_Exception('clansuite_xdebug::xd_varDump() expects the variable you want to display as parameter.');
-        }
-
         echo xdebug_var_dump($var);
     }
 

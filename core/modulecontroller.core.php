@@ -23,12 +23,9 @@
     *    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
     *
     * @license    GNU/GPL v2 or (at your option) any later version, see "/doc/LICENSE".
-    *
     * @author     Jens-André Koch <vain@clansuite.com>
     * @copyright  Jens-André Koch (2005 - onwards)
-    *
     * @link       http://www.clansuite.com
-    * @link       http://gna.org/projects/clansuite
     *
     * @version    SVN: $Id$
     */
@@ -37,21 +34,6 @@
 if(defined('IN_CS') == false)
 {
     die('Clansuite not loaded. Direct Access forbidden.');
-}
-
-/**
- * Interface for all modules
- *
- * Force classes implementing the interface to define this (must have) methods!
- *
- * @category    Clansuite
- * @package     Core
- * @subpackage  Module
- */
-interface Clansuite_Module_Interface
-{
-    # always needed is the main initializeModule() method
-    function initializeModule(Clansuite_HttpRequest $request, Clansuite_HttpResponse $response);
 }
 
 /**
@@ -88,9 +70,20 @@ abstract class Clansuite_Module_Controller
     public $response = null;
 
     /**
+     * @var object The Http_Request Object
+     */
+    public $request = null;
+
+    /**
      * @var array The Module Configuration Array
      */
     public $moduleconfig = null;
+
+    public function __construct(Clansuite_HttpRequest $request, Clansuite_HttpResponse $response)
+    {
+        $this->request = $request;
+        $this->response = $response;
+    }
 
     /**
      * Initalize the records of the module
@@ -108,7 +101,7 @@ abstract class Clansuite_Module_Controller
          */
         if($modulename === null)
         {
-            $modulename = Clansuite_Dispatcher::getModuleName();
+            $modulename = Clansuite_HttpRequest::getRoute()->getModuleName();
         }
 
         /**
@@ -281,7 +274,7 @@ abstract class Clansuite_Module_Controller
     public function getRenderEngineName()
     {
         # check if the requesttype is xmlhttprequest (ajax) is incomming, then we will return data in json format
-        if(self::getHttpRequest()->isxhr() === true)
+        if(self::getHttpRequest()->isAjax() === true)
         {
             $this->setRenderEngine('json');
         }
@@ -360,7 +353,7 @@ abstract class Clansuite_Module_Controller
      */
     private function constructTemplateName()
     {
-        $template = Clansuite_Dispatcher::getActionName() . '.tpl';
+        $template = Clansuite_TargetRoute::getActionName() . '.tpl';
         $this->setTemplate($template);
     }
 
@@ -418,14 +411,23 @@ abstract class Clansuite_Module_Controller
             }
         }
 
-        $response = $this->getHttpResponse();        
+        # get the templatename
+        $templatename = $this->getTemplateName();
 
-        # Debug - Layout Template and Content Template
-        # Clansuite_Debug::firebug('Layout/Wrapper Template: ' . $view->getLayoutTemplate() . '<br />');
-        # Clansuite_Debug::firebug('Template Name: ' .$this->getTemplateName() . '<br />');
+        # get the view
+        $this->view = $this->getView();
 
-        #  Set Content on the Response Object
-        $response->setContent($this->getView()->render($this->getTemplateName()));
+        # Debug display of Layout Template and Content Template
+        Clansuite_Debug::firebug('Layout/Wrapper Template: ' . $this->view->getLayoutTemplate() . '<br />');
+        Clansuite_Debug::firebug('Template Name: ' . $templatename . '<br />');
+
+        # render the content / template
+        $content = $this->view->render($templatename);
+
+        # push content to the response object
+        $this->response->setContent($content);
+
+        unset($content, $templatename);
     }
 
     /**
@@ -493,13 +495,13 @@ abstract class Clansuite_Module_Controller
         $referer = '';
         $referer = self::getHttpRequest()->getReferer();
 
-        if(empty($referer) == false)
+        if(empty($referer) === false)
         {
             $this->redirect($referer);
         }
         else
         {
-            $this->redirect( WWW_ROOT . Clansuite_Module_Controller_Resolver::getModuleName() );
+            $this->redirect( WWW_ROOT . Clansuite_HttpRequest::getRoute()->getModuleName() );
         }
     }
 
@@ -556,7 +558,7 @@ abstract class Clansuite_Module_Controller
      */
     public function getHttpRequest()
     {
-        return self::getInjector()->instantiate('Clansuite_HttpRequest');
+        return $this->request;
     }
 
     /**
@@ -566,7 +568,7 @@ abstract class Clansuite_Module_Controller
      */
     public function getHttpResponse()
     {
-        return self::getInjector()->instantiate('Clansuite_HttpResponse');
+        return $this->response;
     }
 }
 ?>

@@ -23,12 +23,9 @@
     *    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
     *
     * @license    GNU/GPL v2 or (at your option) any later version, see "/doc/LICENSE".
-    *
-    * @author     Jens-André Koch   <vain@clansuite.com>
-    * @copyright  Copyleft: All rights reserved. Jens-André Koch (2005-onwards)
-    *
+    * @author     Jens-André Koch <vain@clansuite.com>
+    * @copyright  Jens-André Koch (2005-onwards)
     * @link       http://www.clansuite.com
-    * @link       http://gna.org/projects/clansuite
     *
     * @version    SVN: $Id$
     */
@@ -220,13 +217,13 @@ class Clansuite_Array_Formgenerator extends Clansuite_Form
         # loop over all elements of the form description array
         foreach($form_array as $form_array_section => $form_array_elements)
         {
-            #clansuite_xdebug::firebug($form_array_elements);
-            #clansuite_xdebug::firebug($form_array_section);
+            #Clansuite_Debug::firebug($form_array_elements);
+            #Clansuite_Debug::firebug($form_array_section);
 
             foreach($form_array_elements as $form_array_element_number => $form_array_element)
             {
-                #clansuite_xdebug::firebug(array_keys($form_array_element));
-                #clansuite_xdebug::firebug($obligatory_form_array_elements);
+                #Clansuite_Debug::firebug(array_keys($form_array_element));
+                #Clansuite_Debug::firebug($obligatory_form_array_elements);
 
                 # this does the validation. it ensures that required keys are present
                 $report_differences_or_true = Clansuite_Functions::array_compare($obligatory_form_array_elements, array_keys($form_array_element));
@@ -251,17 +248,17 @@ class Clansuite_Array_Formgenerator extends Clansuite_Form
     public function generateFormByArray()
     {
         # debug display incomming form description array
-        #clansuite_xdebug::firebug($this->array);
+        #Clansuite_Debug::firebug($this->array);
 
         # loop over all elements of the form description array
         foreach($this->form_array as $form_array_section => $form_array_elements)
         {
-            #clansuite_xdebug::firebug($form_array_elements);
-            #clansuite_xdebug::firebug($form_array_section);
+            #Clansuite_Debug::firebug($form_array_elements);
+            #Clansuite_Debug::firebug($form_array_section);
 
             foreach($form_array_elements as $form_array_element_number => $form_array_element)
             {
-                #clansuite_xdebug::firebug($form_array_element);
+                #Clansuite_Debug::firebug($form_array_element);
 
                 # @todo ensure these elements exist !!!
 

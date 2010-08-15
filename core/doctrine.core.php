@@ -23,12 +23,9 @@
     *    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
     *
     * @license    GNU/GPL v2 or (at your option) any later version, see "/doc/LICENSE".
-    *
     * @author     Jens-André Koch <vain@clansuite.com>
     * @copyright  Jens-André Koch (2005 - onwards)
-    *
     * @link       http://www.clansuite.com
-    * @link       http://gna.org/projects/clansuite
     *
     * @version    SVN: $Id$
     */
@@ -92,7 +89,7 @@ class Clansuite_Doctrine
         $this->prepareDbConnection();
 
         # if Clansuite Debug Mode enabled
-        if ( defined('DEBUG') )
+        if ( defined('DEBUG') and DEBUG === true)
         {
             # activate Doctrine Debug also
             Doctrine_Core::debug(true);
