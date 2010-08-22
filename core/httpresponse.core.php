@@ -26,7 +26,7 @@
     * @author     Jens-André Koch <vain@clansuite.com>
     * @copyright  Copyleft: All rights reserved. Jens-André Koch (2005 - onwards)
     * @link       http://www.clansuite.com
-    * 
+    *
     * @version    SVN: $Id$
     */
 
@@ -100,10 +100,8 @@ class Clansuite_HttpResponse implements Clansuite_Response_Interface
     }
 
     /**
-     * Get-Method for HTTP 1.1 status code and its meaning.
+     * Get HTTP 1.1 status code description by status code.
      *
-     * used in (@link $this->flush )
-     * @see $this->flush()
      * @link http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html
      */
     public static function getStatusCodeDescription($statusCode)
@@ -128,7 +126,8 @@ class Clansuite_HttpResponse implements Clansuite_Response_Interface
                                        '403'    => 'Forbidden',
                                        '404'    => 'Not Found',
                                        # Server Error
-                                       '500'    => 'Internal Server Error'
+                                       '500'    => 'Internal Server Error',
+                                       '503'    => 'Service Temporarily Unavailable'
                                       );
 
         return $statusCodeDescription[$statusCode];
