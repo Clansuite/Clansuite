@@ -30,7 +30,7 @@
     * @author     Jens-André Koch <vain@clansuite.com>
     * @copyright  Copyleft: All rights reserved. Jens-André Koch (2005 - onwards)
     * @link       http://www.clansuite.com
-    * 
+    *
     * @version    SVN: $Id$
     */
 
@@ -41,7 +41,7 @@
     */
 
 # Security Handler
-if (defined('IN_CS') == false)
+if (defined('IN_CS') === false)
 {
     die('Clansuite not loaded. Direct Access forbidden.');
 }
@@ -539,7 +539,6 @@ class Clansuite_CMS
         # Get request and response objects for Filters and RequestProcessing
         $request  = self::$injector->instantiate('Clansuite_HttpRequest');
         $response = self::$injector->instantiate('Clansuite_HttpResponse');
-
 
         /**
          * Setup Frontcontroller and pass Request and Response

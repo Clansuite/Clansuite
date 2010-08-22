@@ -1053,27 +1053,20 @@ class Clansuite_TargetRoute extends Clansuite_Mapper
              */
             if(class_exists($classname, false))
             {
-                # WATCH IT! method_exists works on objects, is_callable on classes! ,)
-                if(is_callable($classname, $method))
+                # WATCH IT!
+                # method_exists works on objects? i just have a classname
+                # is_callable on classes ?!
+                # @todo how to get the object back for a classname?
+                if(true === in_array($method, get_class_methods($classname)))
                 {
-                      Clansuite_Debug::firebug('(OK) Route is dispatchable: '. $filename .' '. $classname .'->'. $method);
+                      #Clansuite_Debug::firebug('(OK) Route is dispatchable: '. $filename .' '. $classname .'->'. $method);
                       return true;
                 }
-                else
-                {
-                    return false;
-                }
-            }
-            else
-            {
-                return false;
             }
         }
-        else
-        {
-            Clansuite_Debug::firebug('(ERROR) Route not dispatchable: '. $filename .' '. $classname .'->'. $method);
-            return false;
-        }
+
+        #Clansuite_Debug::firebug('(ERROR) Route not dispatchable: '. $filename .' '. $classname .'->'. $method);
+        return false;
     }
 
     public static function reset()
