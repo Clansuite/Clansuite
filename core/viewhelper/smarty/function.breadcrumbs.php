@@ -1,4 +1,24 @@
 <?php
+/**
+ * Smarty plugin
+ * @package Smarty
+ * @subpackage plugins
+ */
+
+/**
+ * This smarty function is part of "Clansuite - just an eSports CMS"
+ * @link http://www.clansuite.com
+ *
+ * @author    Jens-André Koch <vain@clansuite.com>
+ * @copyright Jens-André Koch (2005 - onwards)
+ * @license   GNU General Public License v2 or any later version
+ * @version   SVN $Id$
+ *
+ * @example
+ * {breadcrumbs}
+ *
+ * @return string
+ */
 function smarty_function_breadcrumbs($params, $smarty)
 {
     # handle trail params set directly to the smarty function call in the template
@@ -11,7 +31,7 @@ function smarty_function_breadcrumbs($params, $smarty)
         $trail = array();
     }
 
-    Clansuite_Debug::firebug($trail);
+    #Clansuite_Debug::firebug($trail);
 
     # is the seperator element set via the smarty function call?
     if (isset($params['separator']))

@@ -26,7 +26,7 @@
     * @author     Jens-André Koch <vain@clansuite.com>
     * @copyright  Jens-André Koch (2005-onwards)
     * @link       http://www.clansuite.com
-    * 
+    *
     * @version    SVN: $Id$
     */
 
@@ -60,7 +60,7 @@ class Clansuite_Dispatcher
     {
         $route = Clansuite_HttpRequest::getRoute();
 
-         #$event = Clansuite_EventDispatcher::instantiate();
+        #$event = Clansuite_EventDispatcher::instantiate();
         #$event->addEventHandler('onBeforeControllerMethodCall', new Clansuite_Event_InitializeModule());
 
         if($route === null)
@@ -68,77 +68,32 @@ class Clansuite_Dispatcher
             throw new Clansuite_Exception('The dispatcher is unable to forward. No route object given.', 99);
         }
 
-        $filename     = $route->getFilename();
         $classname    = $route->getClassname();
         $method       = $route->getMethod();
         $parameters   = $route->getParameters();
-        $request_meth = Clansuite_HttpRequest::getRequestMethod();
-        $renderengine = $route->getRenderEngine();
+        #$request_meth = Clansuite_HttpRequest::getRequestMethod();
+        #$renderengine = $route->getRenderEngine();
 
         Clansuite_Debug::firebug($route);
         #unset($route);
 
-        /**
-         * The file we want to call has to exists
-         */
-        if(false === is_file($filename) )
-        {
-            throw new Clansuite_Exception('File not found "' . $filename .'".');
-        }
-        else
-        {
-            include $filename;
-        }
+        $controllerInstance = new $classname(
+                        Clansuite_CMS::getInjector()->instantiate('Clansuite_HttpRequest'),
+                        Clansuite_CMS::getInjector()->instantiate('Clansuite_HttpResponse')
+        );
 
-        /**
-         * Inside this file, the correct class has to exist
-         */
-        if(true === class_exists($classname, false))
-        {
-            # instantiate the module controller and pass request and response object to it
-            $controllerInstance = new $classname(
-                Clansuite_CMS::getInjector()->instantiate('Clansuite_HttpRequest'),
-                Clansuite_CMS::getInjector()->instantiate('Clansuite_HttpResponse')
-            );
-        }
-        else
-        {
-            throw new Clansuite_Exception('There was no controller named "' . $classname . '".');
-        }
-
-        /**
-         * Initialize the Module
-         */
+        # Initialize the Module
         if(true === method_exists($controllerInstance, 'initializeModule'))
         {
             $controllerInstance->initializeModule();
         }
 
-        # @todo fix wrong position
         Clansuite_Breadcrumb::initBreadcrumbs();
 
-        /**
-         * Handle Method
-         *
-         * 1) check if method exists in class (meaning the module file) -> CALL
-         * 2) check if method exists in module/actions path (command factory) -> CALL
-         * 3) if not found display error -> ERROR
-         */
+        # Finally: dispatch to the requested controller method
         if(true === method_exists($controllerInstance, $method))
         {
             $controllerInstance->$method($parameters);
-        }
-        /*
-        elseif(is_file(ROOT_MOD . $modulename.'/controller/commands/'.$methodname.'.php') === true)
-        {
-            # command controller factory
-            # create command (by including the file of the actioncontroller)
-            # example: 'modulename/controller/commands/action_show.php'
-            return ROOT_MOD . $modulename.'/controller/commands/'.$methodname.'.php';
-        }*/
-        else # error
-        {
-            throw new Clansuite_Exception('There was no action named "' . $method . '".', 2);
         }
     }
 }

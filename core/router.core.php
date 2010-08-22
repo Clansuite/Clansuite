@@ -236,15 +236,18 @@ class Clansuite_Router implements ArrayAccess, Clansuite_Router_Interface
         }
 
         /**
-         * if there are no uri segments, loading routes and matching is pointless
-         * return the default route
+         * If there are no uri segments, loading routes and matching is pointless.
+         * Dispatch to the default route!
          */
         if(empty($this->uri) or $this->uri === '/')
         {
             Clansuite_TargetRoute::setController('news');
             Clansuite_TargetRoute::setAction('show');
 
-            return Clansuite_TargetRoute::getInstance();
+            if(Clansuite_TargetRoute::dispatchable() === true)
+            {
+                return Clansuite_TargetRoute::getInstance();
+            }
         }
 
         # attach more routes to this object via the event "onInitializeRoutes"
@@ -268,7 +271,7 @@ class Clansuite_Router implements ArrayAccess, Clansuite_Router_Interface
      */
     public function mapMatchURI()
     {
-        Clansuite_Debug::firebug($this->uri);
+        #Clansuite_Debug::firebug($this->uri);
 
         /**
          * Do we have a direct match ?
@@ -286,7 +289,7 @@ class Clansuite_Router implements ArrayAccess, Clansuite_Router_Interface
                 # @todo $this->uri might be enough here
                 $uri = implode('/', $this->uri_segments);
 
-                Clansuite_Debug::firebug($route_values);
+                #Clansuite_Debug::firebug($route_values);
 
                 /**
                  * process static named parameter
@@ -295,7 +298,7 @@ class Clansuite_Router implements ArrayAccess, Clansuite_Router_Interface
                  */
                 if (1 === preg_match('/^:([a-zA-Z_]+)$/', $uri, $match))
                 {
-                    Clansuite_Debug::firebug($match);
+                    #Clansuite_Debug::firebug($match);
                     $name = $match[1]; #setController($match[1]);
                     $found_route = $name;
                 }
@@ -303,12 +306,17 @@ class Clansuite_Router implements ArrayAccess, Clansuite_Router_Interface
                 # dynamic regexp segment?
                 elseif(1 === preg_match( $route_values['regexp'], $uri, $matches))
                 {
-                    Clansuite_Debug::firebug($matches);
+                    #Clansuite_Debug::firebug($matches);
 
                     # parameters found by regular expression have priority
                     if(isset($matches['controller']))
                     {
                         Clansuite_TargetRoute::setController($matches['controller']);
+                    }
+
+                    if(isset($matches['subcontroller']))
+                    {
+                        Clansuite_TargetRoute::setSubController($matches['subcontroller']);
                     }
 
                     if(isset($matches['action']))
@@ -322,8 +330,15 @@ class Clansuite_Router implements ArrayAccess, Clansuite_Router_Interface
                     }
                 }
 
-                # route found
-                break;
+                if(Clansuite_TargetRoute::dispatchable() === true)
+                {
+                    # route found
+                    break;
+                }
+                else
+                {
+                    Clansuite_TargetRoute::reset();
+                }
             }
         }
 
@@ -638,12 +653,11 @@ class Clansuite_Router implements ArrayAccess, Clansuite_Router_Interface
             $this->addRoute('/:controller/:action');
             $this->addRoute('/:controller/:action/:id');
             $this->addRoute('/:controller/:action/:id/:format');
-            /*
+
             $this->addRoute('/:controller/:subcontroller');
             $this->addRoute('/:controller/:subcontroller/:action');
             $this->addRoute('/:controller/:subcontroller/:action/:id');
             $this->addRoute('/:controller/:subcontroller/:action/:id/:format');
-            */
         }
     }
 
@@ -724,11 +738,15 @@ class Clansuite_Mapper
         $module_path = $module_path . 'controller' . DS;
 
         # subcontroller
-        if('admin' == $subcontroller)
+        if(isset($subcontroller) and 'admin' == $subcontroller)
         {
             $filename_postfix = '.admin.php';
         }
-        else
+        elseif(isset($subcontroller) and $subcontroller != 'admin') # any subcontroller name as postfix
+        {
+            $filename_postifx = '.'.$subcontroller.'.php';
+        }
+        else # apply standard postfix
         {
             $filename_postfix = '.module.php';
         }
@@ -789,8 +807,6 @@ class Clansuite_Mapper
             $action = $submodule . '_' . $action;
         }
 
-        #Clansuite_Debug::firebug($action);
-
         # all clansuite actions are prefixed with 'action_'
         return self::METHOD_PREFIX . '_' . $action;
     }
@@ -843,10 +859,10 @@ class Clansuite_TargetRoute extends Clansuite_Mapper
 
     public static function getFilename()
     {
-        if(empty(self::$parameters['filename']))
-        {
+        #if(empty(self::$parameters['filename']))
+        #{
             self::setFilename(self::mapControllerToFilename(self::getModulePath(), self::getController(), self::getSubController()));
-        }
+        #}
 
         return self::$parameters['filename'];
     }
@@ -953,12 +969,11 @@ class Clansuite_TargetRoute extends Clansuite_Mapper
         {
             return self::$parameters['method'];
         }
-        else # add method prefix (action_) and subcontroller prefix (admin_)
+        # add method prefix (action_) and subcontroller prefix (admin_)
+        else
         {
-            #if(empty(self::$parameters['method']))
-            #{
-                self::setMethod(self::mapActionToActioname(self::getAction(), self::getSubController()));
-            #}
+            self::setMethod(self::mapActionToActioname(self::getAction(), self::getSubController()));
+
         }
 
         return self::$parameters['method'];
@@ -1018,6 +1033,64 @@ class Clansuite_TargetRoute extends Clansuite_Mapper
     {
         $string = (string) implode(",", self::$parameters);
         Clansuite_Debug::firebug($string);
+    }
+
+    public static function dispatchable()
+    {
+        $filename  = self::getFilename();
+        $classname = self::getClassname();
+        $method    = self::getMethod();
+
+        /**
+         * The file we want to call has to exists
+         */
+        if(is_file($filename))
+        {
+            include $filename;
+
+            /**
+             * Inside this file, the correct class has to exist
+             */
+            if(class_exists($classname, false))
+            {
+                # WATCH IT! method_exists works on objects, is_callable on classes! ,)
+                if(is_callable($classname, $method))
+                {
+                      Clansuite_Debug::firebug('(OK) Route is dispatchable: '. $filename .' '. $classname .'->'. $method);
+                      return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            else
+            {
+                return false;
+            }
+        }
+        else
+        {
+            Clansuite_Debug::firebug('(ERROR) Route not dispatchable: '. $filename .' '. $classname .'->'. $method);
+            return false;
+        }
+    }
+
+    public static function reset()
+    {
+        $reset_params = array(
+            # File
+            'filename' => null,
+            'classname' => null,
+            # Call
+            'controller' => null,
+            'subcontroller' => null,
+            'action' => 'show',
+            'method' => null,
+            'params' => null
+        );
+
+        self::$parameters = array_merge(self::$parameters, $reset_params);
     }
 
     public static function getRoute()
