@@ -26,15 +26,13 @@
     *
     * @author     Jens-André Koch <vain@clansuite.com>
     * @copyright  Jens-André Koch (2005 - onwards)
-    *
     * @link       http://www.clansuite.com
-    * @link       http://gna.org/projects/
     *
     * @version    SVN: $Id: index.module.php 2873 2009-03-27 01:50:12Z vain $
     */
 
 # Security Handler
-if (defined('IN_CS') == false)
+if (defined('IN_CS') === false)
 {
     die('Clansuite not loaded. Direct Access forbidden.');
 }
@@ -46,9 +44,9 @@ if (defined('IN_CS') == false)
  * @package     Modules
  * @subpackage  Cronjobs
  */
-class Clansuite_Module_Cronjobs_Admin extends Clansuite_Module_Controller implements Clansuite_Module_Interface
+class Clansuite_Module_Cronjobs_Admin extends Clansuite_Module_Controller
 {
-    public function initializeModule(Clansuite_HttpRequest $request, Clansuite_HttpResponse $response)
+    public function initializeModule()
     {
 
     }

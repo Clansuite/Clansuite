@@ -23,18 +23,15 @@
     *    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
     *
     * @license    GNU/GPL v2 or (at your option) any later version, see "/doc/LICENSE".
-    *
     * @author     Jens-André Koch <vain@clansuite.com>
     * @copyright  Jens-André Koch (2005 - onwards)
-    *
     * @link       http://www.clansuite.com
-    * @link       http://gna.org/projects/clansuite
     *
     * @version    SVN: $Id$
     */
 
 # Security Handler
-if(defined('IN_CS') == false)
+if(defined('IN_CS') === false)
 {
     die('Clansuite not loaded. Direct Access forbidden.');
 }
@@ -46,9 +43,9 @@ if(defined('IN_CS') == false)
  * @package     Modules
  * @subpackage  Guestbook
  */
-class Clansuite_Module_Guestbook_Admin extends Clansuite_Module_Controller implements Clansuite_Module_Interface
+class Clansuite_Module_Guestbook_Admin extends Clansuite_Module_Controller
 {
-    public function initializeModule(Clansuite_HttpRequest $request, Clansuite_HttpResponse $response)
+    public function initializeModule()
     {
         parent::initModel('guestbook');
     }
@@ -60,7 +57,7 @@ class Clansuite_Module_Guestbook_Admin extends Clansuite_Module_Controller imple
         $resultsPerPage = (int) $this->getConfigValue('resultsPerPage_adminshow', '10');
 
         // SmartyColumnSort -- Easy sorting of html table columns.
-        include ROOT_LIBRARIES . '/smarty/libs/SmartyColumnSort.class.php');
+        include ROOT_LIBRARIES . '/smarty/libs/SmartyColumnSort.class.php';
         // A list of database columns to use in the table.
         $columns = array( 'gb_id', 'gb_added', 'gb_nick', 'gb_email', 'gb_icq', 'gb_website', 'gb_town', 'gb_text', 'gb_admincomment', 'gb_ip');
         // Create the columnsort object
@@ -78,7 +75,7 @@ class Clansuite_Module_Guestbook_Admin extends Clansuite_Module_Controller imple
         unset($guestbookQuery);
 
         # fetch the BBCode formatter object
-        $bbcode = new Clansuite_Bbcode($this->injector);
+        $bbcode = new Clansuite_Bbcode($this->getInjector());
 
         # Transform RAW text from DB to BB-formatted Text
         foreach( $guestbook_entries as $key => $value )
@@ -146,7 +143,7 @@ class Clansuite_Module_Guestbook_Admin extends Clansuite_Module_Controller imple
         $form->setElementDecorator('div')->setClass('Forminside');
         $form->setElementDecorator('div')->setClass('Formline');
         #$form->setElementDecorator('description');
-        #clansuite_xdebug::printR($form->getFormelements());
+        #Clansuite_Debug::printR($form->getFormelements());
 
         $form->addElement('textarea')->setCols('70')->setLabel('textarea label');
 
@@ -156,10 +153,10 @@ class Clansuite_Module_Guestbook_Admin extends Clansuite_Module_Controller imple
         $form->addElement('imagebutton')->setValue('Reset')->setLabel('Image Button'); # setSource
 */
         # Debugging Form Object
-        #clansuite_xdebug::printR($form);
+        #Clansuite_Debug::printR($form);
 
         # Debugging Form HTML Output
-        #clansuite_xdebug::printR($form->render());
+        #Clansuite_Debug::printR($form->render());
 
         # assign the html of the form to the view
         $this->getView()->assign('form', $form->render());
@@ -377,13 +374,13 @@ class Clansuite_Module_Guestbook_Admin extends Clansuite_Module_Controller imple
         $form = new Clansuite_Array_Formgenerator($settings);
 
         # display formgenerator object
-        #clansuite_xdebug::printR($form);
+        #Clansuite_Debug::printR($form);
 
         $form->addElement('submitbutton')->setName('Save');
         $form->addElement('resetbutton');
 
         # display form html
-        #clansuite_xdebug::printR($form->render());
+        #Clansuite_Debug::printR($form->render());
 
         # assign the html of the form to the view
         $this->getView()->assign('form', $form->render());

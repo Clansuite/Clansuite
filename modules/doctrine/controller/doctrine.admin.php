@@ -23,18 +23,15 @@
     *    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
     *
     * @license    GNU/GPL v2 or (at your option) any later version, see "/doc/LICENSE".
-    *
     * @author     Jens-André Koch <vain@clansuite.com>
     * @copyright  Jens-André Koch (2005 - onwards)
-    *
     * @link       http://www.clansuite.com
-    * @link       http://gna.org/projects/clansuite
     *
     * @version    SVN: $Id$
     */
 
 //Security Handler
-if(defined('IN_CS') == false)
+if(defined('IN_CS') === false)
 {
     die('Clansuite not loaded. Direct Access forbidden.');
 }
@@ -69,7 +66,7 @@ if(defined('IN_CS') == false)
  * @package     Doctrine
  * @subpackage  Administration
  */
-class Clansuite_Module_Doctrine_Admin extends Clansuite_Module_Controller implements Clansuite_Module_Interface
+class Clansuite_Module_Doctrine_Admin extends Clansuite_Module_Controller
 {
     /**
      * @var array Doctrine Paths to models, yaml, sql, fixtures, migration data
@@ -79,17 +76,17 @@ class Clansuite_Module_Doctrine_Admin extends Clansuite_Module_Controller implem
     /**
      * Module_Doctrine_Admin -> Execute
      */
-    public function initializeModule(Clansuite_HttpRequest $request, Clansuite_HttpResponse $response)
+    public function initializeModule()
     {
         Doctrine_Core::setPath( ROOT_LIBRARIES . 'doctrine/' );
 
         /**
          * Setup Paths depending on a specific module or the core
          */
-        $bool = $request->issetParameter('modulename');
+        $bool = $this->request->issetParameter('modulename');
         if(isset($bool))
         {
-            self::$options = self::setupDoctrinePaths($request->getParameterFromGet('modulename'));
+            self::$options = self::setupDoctrinePaths($this->request->getParameterFromGet('modulename'));
         }
         else
         {
@@ -181,7 +178,7 @@ class Clansuite_Module_Doctrine_Admin extends Clansuite_Module_Controller implem
 
     public function action_admin_show()
     {
-        $this->prepareOutput();
+        $this->display();
     }
 
     /**

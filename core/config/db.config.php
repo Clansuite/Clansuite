@@ -32,7 +32,7 @@
     */
 
 # Security Handler
-if(defined('IN_CS') == false)
+if(defined('IN_CS') === false)
 {
     die('Clansuite not loaded. Direct Access forbidden.');
 }

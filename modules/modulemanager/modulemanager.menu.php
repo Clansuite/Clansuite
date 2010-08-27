@@ -28,13 +28,13 @@
     * @copyright  Jens-André Koch (2005 - onwards)
     *
     * @link       http://www.clansuite.com
-    * @link       http://gna.org/projects/clansuite
+    * 
     *
     * @version    SVN: $Id: news.module.php 2753 2009-01-21 22:54:47Z vain $
     */
 
 //Security Handler
-if(defined('IN_CS') == false)
+if(defined('IN_CS') === false)
 {
     die('Clansuite not loaded. Direct Access forbidden.');
 }

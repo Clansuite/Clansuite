@@ -22,10 +22,10 @@ There are {$modules_summary.counter} Modules installed.
     {foreach $modules as $module}
     
     <tr>
-        <td class="cell1">{$module.dir_id}</td>
+        <td class="cell1">{$module.id}</td>
         <td class="cell1" width="150" align="center">{* {image url="`$module.icon`"} *} {$module.name|capitalize}</td>
-        <td class="cell2">{if isset($module.info.version)} {$module.info.version} {else} Add {/if}</td>
-        <td class="cell1">{if isset($module.info.description) and empty($module.info.description) == false} {$module.info.description} {else} Add {/if}</td>
+        <td class="cell2">{if isset($module.info.version)} {$module.info.version} {else} -- {/if}</td>
+        <td class="cell1">{if isset($module.info.description) and empty($module.info.description) == false} {$module.info.description} {else} -- {/if}</td>
         <td class="cell2">
         
             {* Add User Actions *}

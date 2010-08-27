@@ -23,18 +23,15 @@
     *    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
     *
     * @license    GNU/GPL v2 or (at your option) any later version, see "/doc/LICENSE".
-    *
     * @author     Jens-André Koch <vain@clansuite.com>
     * @copyright  Jens-André Koch (2005 - onwards)
-    *
     * @link       http://www.clansuite.com
-    * @link       http://gna.org/projects/clansuite
-    *
+    * 
     * @version    SVN: $Id$
     */
 
 //Security Handler
-if(defined('IN_CS') == false)
+if(defined('IN_CS') === false)
 {
     die('Clansuite not loaded. Direct Access forbidden.');
 }
@@ -46,12 +43,12 @@ if(defined('IN_CS') == false)
  * @package     Modules
  * @subpackage  News
  */
-class Clansuite_Module_News extends Clansuite_Module_Controller implements Clansuite_Module_Interface
+class Clansuite_Module_News extends Clansuite_Module_Controller
 {
     /**
      * Module_News -> Execute
      */
-    public function initializeModule(Clansuite_HttpRequest $request, Clansuite_HttpResponse $response)
+    public function initializeModule()
     {
         # read module config
         $this->getModuleConfig();
@@ -80,8 +77,8 @@ class Clansuite_Module_News extends Clansuite_Module_Controller implements Clans
         $resultsPerPage = $this->getConfigValue('resultsPerPage_show', '3');
 
         # Defining initial variables
-        $currentPage = (int) $this->getHttpRequest()->getParameter('page');
-        $category    = (int) $this->getHttpRequest()->getParameter('cat');
+        $currentPage = (int) $this->request->getParameterFromGet('page');
+        $category    = (int) $this->request->getParameterFromGet('cat');
 
         # if cat is no set, we need a query to show all news regardless which category,
         if(empty($category))
@@ -122,18 +119,20 @@ class Clansuite_Module_News extends Clansuite_Module_Controller implements Clans
       * Show one single news with comments
       *
       */
-     public function action_showone()
+     public function action_showone($params)
      {
         # Get Render Engine
         $view = $this->getView();
 
-        $news_id = (int) $this->getHttpRequest()->getParameter('id');
-        if($news_id == null) { $news_id = 1;  }
+        Clansuite_Debug::firebug($params);
+
+        $news_id = (int) $params['id']; #(int) $this->request->getParameterFromGet('id');
+        if($news_id === null) { $news_id = 1;  }
 
         $news = Doctrine::getTable('CsNews')->fetchSingleNews($news_id);
 
         # Debugging SQL Request
-        #clansuite_xdebug::printR($news);
+        #Clansuite_Debug::printR($news);
 
         # if a news was found
         if(!empty($news) && is_array($news))
@@ -141,11 +140,11 @@ class Clansuite_Module_News extends Clansuite_Module_Controller implements Clans
             # Set Pagetitle and Breadcrumbs
             Clansuite_Breadcrumb::add( _('Viewing Single News: ') . $news['news_title'] , '/index.php?mod=news&amp;action=show');
 
-            Clansuite_Xdebug::firebug($news);
+            #Clansuite_Debug::firebug($news);
 
             # UTF8 to HTML
-            $news[$i]['news_title'] = mb_convert_encoding( $news[$i]['news_title'] , 'UTF-8', 'HTML-ENTITIES');
-            $news[$i]['news_body'] = mb_convert_encoding( $news[$i]['news_body'] , 'UTF-8', 'HTML-ENTITIES');
+            #$news[$i]['news_title'] = mb_convert_encoding( $news[$i]['news_title'] , 'UTF-8', 'HTML-ENTITIES');
+            #$news[$i]['news_body'] = mb_convert_encoding( $news[$i]['news_body'] , 'UTF-8', 'HTML-ENTITIES');
 
             # Assign News
             $view->assign('news', $news);
@@ -156,7 +155,7 @@ class Clansuite_Module_News extends Clansuite_Module_Controller implements Clans
              * Notice: if unset is not commented, the comments array is doubled:
              * you could also access the values via {$news.} in the tpl.
              */
-            if ( !empty($news['CsComments']) )
+            if(false === empty($news['CsComments']))
             {
                 # Assign News
                 $view->assign('news_comments', $news['CsComments']);

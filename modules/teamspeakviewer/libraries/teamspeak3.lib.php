@@ -21,12 +21,9 @@
     *    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
     *
     * @license    GNU/GPL v2 or (at your option) any later version, see "/doc/LICENSE".
-    *
     * @author     Jens-André Koch <vain@clansuite.com>
     * @copyright  Copyleft: All rights reserved. Jens-André Koch (2005-onwards)
-    *
     * @link       http://www.clansuite.com
-    * @link       http://gna.org/projects/clansuite
     *
     * @version    SVN: $Id$
     */
@@ -387,7 +384,7 @@ class Clansuite_Teamspeak3_ServerQueryInterface
             }
             while(strpos($data, 'msg=') === false);
 
-            #clansuite_xdebug::printR($data);
+            #Clansuite_Debug::printR($data);
 
             # now check if the server response data contains an error
             if(strpos($data, 'error id=0') === false)
@@ -511,7 +508,7 @@ class Clansuite_Teamspeak3_ServerQueryInterface
         $response .= $this->ServerQueryCommand('serverinfo');
         $response .= $this->ServerQueryCommand('channellist -topic -flags -voice -limits');
         $response .= $this->ServerQueryCommand('clientlist -uid -away -voice -groups');
-        #clansuite_xdebug::printR($this->toArray($response));
+        #Clansuite_Debug::printR($this->toArray($response));
 
         return $response;
      }
@@ -526,7 +523,7 @@ class Clansuite_Teamspeak3_ServerQueryInterface
         $response = '';
         $response .= $this->ServerQueryCommand('use sid='.$this->getVirtualServerID());
         $response .= $this->ServerQueryCommand('serverlist -all');
-        #clansuite_xdebug::printR($this->toArray($response));
+        #Clansuite_Debug::printR($this->toArray($response));
 
         return $response;
      }

@@ -21,18 +21,15 @@
     *    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
     *
     * @license    GNU/GPL v2 or (at your option) any later version, see "/doc/LICENSE".
-    *
     * @author     Jens-André Koch <vain@clansuite.com>
     * @copyright  Copyleft: All rights reserved. Jens-André Koch (2005-onwards)
-    *
     * @link       http://www.clansuite.com
-    * @link       http://gna.org/projects/clansuite
     *
     * @version    SVN: $Id: menueditor.module.php 2095 2008-06-11 23:44:20Z vain $
     */
 
 //Security Handler
-if(defined('IN_CS') == false)
+if(defined('IN_CS') === false)
 {
     die('Clansuite not loaded. Direct Access forbidden.');
 }
@@ -44,9 +41,9 @@ if(defined('IN_CS') == false)
  * @package     Modules
  * @subpackage  Users
 */
-class Clansuite_Module_Users_Admin extends Clansuite_Module_Controller implements Clansuite_Module_Interface
+class Clansuite_Module_Users_Admin extends Clansuite_Module_Controller
 {
-    public function initializeModule(Clansuite_HttpRequest $request, Clansuite_HttpResponse $response)
+    public function initializeModule()
     {
         parent::initModel('users');
     }
@@ -74,7 +71,7 @@ class Clansuite_Module_Users_Admin extends Clansuite_Module_Controller implement
         $searchletter = $this->getHttpRequest()->getParameter('searchletter');
 
         // SmartyColumnSort -- Easy sorting of html table columns.
-        include ROOT_LIBRARIES . '/smarty/libs/SmartyColumnSort.class.php');
+        include ROOT_LIBRARIES . '/smarty/libs/SmartyColumnSort.class.php';
         // A list of database columns to use in the table.
         $columns = array( 'u.user_id', 'u.nick', 'u.email', 'u.timestamp', 'u.joined');
         // Create the columnsort object
@@ -198,7 +195,7 @@ class Clansuite_Module_Users_Admin extends Clansuite_Module_Controller implement
 
         $this->redirect( 'index.php?mod=users&sub=admin&action=show_all', 3, _( 'The selected user(s) were deleted.' ));
     }
-    
+
     /**
      * Action for displaying the Settings of a Module Users
      */
@@ -206,34 +203,34 @@ class Clansuite_Module_Users_Admin extends Clansuite_Module_Controller implement
     {
         # Set Pagetitle and Breadcrumbs
         Clansuite_Breadcrumb::add( _('Settings'), '/index.php?mod=users&amp;sub=admin&amp;action=settings');
-        
+
         $settings = array();
-        
+
         $settings['form']   = array(    'name' => 'users_settings',
                                         'method' => 'POST',
                                         'action' => WWW_ROOT.'/index.php?mod=users&amp;sub=admin&amp;action=settings_update');
-                                        
+
         $settings['users'][] = array(   'id' => 'items_lastregisteredusers',
                                         'name' => 'items_lastregisteredusers',
                                         'label' => 'Label',
                                         'description' => _('How many Last Users'),
                                         'formfieldtype' => 'text',
                                         'value' => $this->getConfigValue('items_lastregisteredusers', '4'));
-       
+
         include ROOT_CORE . '/viewhelper/formgenerator.core.php';
         $form = new Clansuite_Array_Formgenerator($settings);
-        
+
         $form->addElement('submitbutton')->setName('Save');
         $form->addElement('resetbutton');
-        
+
         # assign the html of the form to the view
         $this->getView()->assign('form', $form->render());
 
-        $this->display();       
+        $this->display();
     }
-    
+
     public function action_admin_settings_update()
-    { 
+    {
         # Set Pagetitle and Breadcrumbs
         Clansuite_Breadcrumb::add( _('Update'), '/index.php?mod=users&amp;sub=settings&amp;action=update');
 
@@ -241,8 +238,8 @@ class Clansuite_Module_Users_Admin extends Clansuite_Module_Controller implement
         $data = $this->getHttpRequest()->getParameter('users_settings');
 
         # Get Configuration from Injector
-        $config = $this->injector->instantiate('Clansuite_Config');
-        
+        $config = $this->getInjector()->instantiate('Clansuite_Config');
+
         # write config
         $config->confighandler->writeConfig( ROOT_MOD . 'users/users.config.php', $data);
 

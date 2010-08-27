@@ -23,18 +23,15 @@
     *    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
     *
     * @license    GNU/GPL v2 or (at your option) any later version, see "/doc/LICENSE".
-    *
     * @author     Jens-André Koch <vain@clansuite.com>
     * @copyright  Jens-André Koch (2005 - onwards)
-    *
     * @link       http://www.clansuite.com
-    * @link       http://gna.org/projects/clansuite
     *
     * @version    SVN: $Id: renderer.base.core.php 2614 2008-12-05 21:18:45Z vain $
     */
 
 # Security Handler
-if (defined('IN_CS') == false)
+if (defined('IN_CS') === false)
 {
     die('Clansuite not loaded. Direct Access forbidden.');
 }
@@ -46,9 +43,9 @@ if (defined('IN_CS') == false)
  * @package     Modules
  * @subpackage  Settings
  */
-class Clansuite_Module_Settings_Admin extends Clansuite_Module_Controller implements Clansuite_Module_Interface
+class Clansuite_Module_Settings_Admin extends Clansuite_Module_Controller
 {
-    public function initializeModule(Clansuite_HttpRequest $request, Clansuite_HttpResponse $response)
+    public function initializeModule()
     {
     }
 
@@ -116,9 +113,9 @@ class Clansuite_Module_Settings_Admin extends Clansuite_Module_Controller implem
         $data = $_POST['config'];
 
         # Get Configuration from Injector
-        $config = $this->injector->instantiate('Clansuite_Config');
+        $config = $this->getInjector()->instantiate('Clansuite_Config');
 
-        #clansuite_xdebug::printr($config->confighandler);
+        #Clansuite_Debug::printr($config->confighandler);
 
         $config->confighandler->writeConfig( ROOT_CONFIG . 'clansuite.config.php', $data);
 

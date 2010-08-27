@@ -21,18 +21,15 @@
     *    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
     *
     * @license    GNU/GPL v2 or (at your option) any later version, see "/doc/LICENSE".
-    *
     * @author     Jens-André Koch <vain@clansuite.com>
     * @copyright  Copyleft: All rights reserved. Jens-André Koch (2005-onwards)
-    *
     * @link       http://www.clansuite.com
-    * @link       http://gna.org/projects/
     *
     * @version    SVN: $Id: news.admin.php 3747 2009-11-20 14:59:46Z vain $
     */
 
 # Security Handler
-if(defined('IN_CS') == false)
+if(defined('IN_CS') === false)
 {
     die('Clansuite not loaded. Direct Access forbidden.');
 }
@@ -45,22 +42,11 @@ if(defined('IN_CS') == false)
  * @subpackage  Modulemanager
  */
 
-class Clansuite_Module_Modulemanager_Admin extends Clansuite_Module_Controller implements Clansuite_Module_Interface
+class Clansuite_Module_Modulemanager_Admin extends Clansuite_Module_Controller
 {
-    public function initializeModule(Clansuite_HttpRequest $request, Clansuite_HttpResponse $response)
+    public function initializeModule()
     {
         $this->getModuleConfig();
-    }
-
-    /**
-     * Get a list of all the module directories
-     *
-     * @todo figure out, if SPL recursivedirectoryiterator is faster
-     * @return array
-     */
-    private static function getModuleDirsList()
-    {
-        return glob( ROOT_MOD . '[a-zA-Z]*', GLOB_ONLYDIR);
     }
 
     /**
@@ -74,56 +60,16 @@ class Clansuite_Module_Modulemanager_Admin extends Clansuite_Module_Controller i
         # Set Pagetitle and Breadcrumbs
         Clansuite_Breadcrumb::add( _('Show'), '/index.php?mod=modulemanager&amp;sub=admin&amp;action=show');
 
-        # Init vars
-        $modules = array();
-        $number_of_modules = 0;
-
-        # Scan all modules
-        $module_dirs = self::getModuleDirsList();
-
-        foreach( $module_dirs as $module_path )
-        {
-            $modulename_by_dirname = str_replace( ROOT . 'modules' . DS ,'', $module_path);
-
-            # increase the module counter
-            $modules_summary['counter'] = ++$number_of_modules;
-
-            # use the module counter to create an numerical indexed array for the module informations
-            $modules[$number_of_modules]['dir_id']  = $number_of_modules;           # assign dir_id, identifier relative to the modules directory
-            $modules[$number_of_modules]['name']    = $modulename_by_dirname;
-            $modules[$number_of_modules]['path']    = $module_path;
-
-            # hasConfig
-            # hasInfo
-            # hasMenu
-            # hasRoutes
-
-            $moduleinfo = new Clansuite_ModuleInfoController($modulename_by_dirname);
-            $moduleinfo_array = $moduleinfo->getModuleInformations();
-            #Clansuite_Xdebug::printR($moduleinfo);
-            #Clansuite_Xdebug::printR($moduleinfo_array);
-
-            $arrayname = $modulename_by_dirname.'_info';
-
-            if($arrayname == 'core')
-            #clansuite_xdebug::printR($moduleinfo_array);
-
-            if(is_array($moduleinfo_array) and isset($moduleinfo_array[$arrayname]))
-            {
-                $modules[$number_of_modules]['info'] = $moduleinfo_array[$arrayname];
-            }
-            elseif(is_bool($moduleinfo_array))
-            {
-                $modules[$number_of_modules]['info'] = $moduleinfo_array;
-            }
-        }
+        $moduleinfo = new Clansuite_ModuleInfoController($modulename_by_dirname);
+        $modules_info_array = $moduleinfo->getModuleInformations();
+        $modules_summary = $modules_info_array['yy_summary'];
+        array_pop($modules_info_array);
 
         # Fetch view and assign vars
         $view = $this->getView();
 
-        $view->assign('modules', $modules);
-
         $view->assign('modules_summary', $modules_summary);
+        $view->assign('modules', $modules_info_array);
 
         $this->display();
     }
@@ -203,7 +149,7 @@ class Clansuite_Module_Modulemanager_Admin extends Clansuite_Module_Controller i
         $existing_modules_js = '[';
         $module_dirs = self::getModuleDirsList();
 
-        Clansuite_Xdebug::firebug($module_dirs);
+        Clansuite_Debug::firebug($module_dirs);
         exit;
 
         foreach( $module_dirs as $key => $value )
@@ -228,9 +174,9 @@ class Clansuite_Module_Modulemanager_Admin extends Clansuite_Module_Controller i
         $view = $this->getView();
 
         # request init
-        $request = $this->injector->instantiate('Clansuite_HttpRequest');
+        $request = $this->getHttpRequest();
         # get parameter for module data
-        $mod = $request->getParameter('m');
+        $mod = $this->request->getParameter('m');
         var_dump($mod);
 
         # serialize the module data
@@ -336,8 +282,8 @@ class Clansuite_Module_Modulemanager_Admin extends Clansuite_Module_Controller i
         # Set Pagetitle and Breadcrumbs
         Clansuite_Breadcrumb::add( _('Create'), '/index.php?mod=modulemanager&amp;sub=admin&amp;action=create');
 
-        $request = $this->injector->instantiate('Clansuite_HttpRequest');
-        $mod = $request->getParameter('mod_data');
+        $request = $this->getHttpRequest();
+        $mod = $this->request->getParameter('mod_data');
 
         if($mod)
         {
@@ -427,8 +373,8 @@ class Clansuite_Module_Modulemanager_Admin extends Clansuite_Module_Controller i
         {
             $view = $this->getView();
             $mod = array();
-            $mod['modulename'] = $request->getParameter('modulename');
-            $mod['classname']  = $request->getParameter('classname');
+            $mod['modulename'] = $this->request->getParameter('modulename');
+            $mod['classname']  = $this->request->getParameter('classname');
             $view->assign( 'mod', $mod );
         }
 

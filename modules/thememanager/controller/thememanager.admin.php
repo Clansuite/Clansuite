@@ -23,18 +23,15 @@
     *    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
     *
     * @license    GNU/GPL v2 or (at your option) any later version, see "/doc/LICENSE".
-    *
     * @author     Jens-André Koch <vain@clansuite.com>
     * @copyright  Jens-André Koch (2005 - onwards)
-    *
     * @link       http://www.clansuite.com
-    * @link       http://gna.org/projects/
     *
     * @version    SVN: $Id: users.module.php 2634 2008-12-12 22:07:48Z vain $
     */
 
 # Security Handler
-if (defined('IN_CS') == false)
+if (defined('IN_CS') === false)
 {
     die('Clansuite not loaded. Direct Access forbidden.');
 }
@@ -46,10 +43,11 @@ if (defined('IN_CS') == false)
  * @package     Modules
  * @subpackage  Thememanager
  */
-class Clansuite_Module_Thememanager_Admin extends Clansuite_Module_Controller implements Clansuite_Module_Interface
+class Clansuite_Module_Thememanager_Admin extends Clansuite_Module_Controller
 {
-    public function initializeModule(Clansuite_HttpRequest $request, Clansuite_HttpResponse $response)
+    public function initializeModule()
     {
+        $this->getModuleConfig();
     }
 
     public function action_admin_show()
@@ -74,63 +72,62 @@ class Clansuite_Module_Thememanager_Admin extends Clansuite_Module_Controller im
 
         # loop through ROOT_THEMES dir
         $dirs = new DirectoryIterator(ROOT_THEMES);
-        foreach ($dirs as $dir)
+        foreach($dirs as $dir)
         {
             $i++;
 
             # exclude .svn and core dir, take only dirs with theme_info.xml in it
-            if( (!$dir->isDot()) and ($dir != '.svn') and ($dir != 'core') and (is_file($dir->getPathName().DS.'theme_info.xml')) )
+            if((!$dir->isDot()) and ($dir != '.svn') and ($dir != 'core') and (is_file($dir->getPathName() . DS . 'theme_info.xml')))
             {
                 # add xml infos from file
-                $theme_info[$i]               = self::parseThemeInformations($dir);
+                $theme_info[$i] = self::parseThemeInformations($dir);
 
                 # add fullpath
-                $theme_info[$i]['fullpath' ]  = $dir->getPathName();
+                $theme_info[$i]['fullpath'] = $dir->getPathName();
 
                 # add templatefilename
                 if(isset($theme_info[$i]['layoutfiles']['layoutfile']['@attributes']['tpl']))
                 {
                     $theme_info[$i]['layouttpl'] = $theme_info[$i]['layoutfiles']['layoutfile']['@attributes']['tpl'];
-                    $theme_info[$i]['layoutpath'] = $theme_info[$i]['fullpath'].DS.$theme_info[$i]['layouttpl'];
+                    $theme_info[$i]['layoutpath'] = $theme_info[$i]['fullpath'] . DS . $theme_info[$i]['layouttpl'];
                 }
 
                 # add dirname
-                $theme_info[$i]['dirname']    = (string) $dir;
+                $theme_info[$i]['dirname'] = (string) $dir;
 
                 # is this theme activated?
-                if( $this->config['template']['theme'] == $dir )
+                if($this->moduleconfig['template']['theme'] == $dir)
                 {
-                    $theme_info[$i]['activated']  = true;
+                    $theme_info[$i]['activated'] = true;
                 }
                 else
                 {
-                    $theme_info[$i]['activated']  = false;
+                    $theme_info[$i]['activated'] = false;
                 }
 
                 # add preview image (preview_image should contain 2 files: [0]preview.img and [1]preview_thumb.img)
-                $preview_image = glob( ROOT_THEMES. $dir . DS . 'preview*.{jpg,png,gif,jpeg,JPG,PNG,GIF,JPEG}', GLOB_BRACE);
+                $preview_image = glob(ROOT_THEMES . $dir . DS . 'preview*.{jpg,png,gif,jpeg,JPG,PNG,GIF,JPEG}', GLOB_BRACE);
 
                 # turn ROOT_THEMES path into WWW_ROOT
-                $preview_image = str_replace(ROOT_THEMES, WWW_ROOT_THEMES.'/', $preview_image);
+                $preview_image = str_replace(ROOT_THEMES, WWW_ROOT_THEMES . '/', $preview_image);
 
                 # fix slashes
-                $preview_image = str_replace('\\','/', $preview_image);
+                $preview_image = str_replace('\\', '/', $preview_image);
 
-                if ( is_array($preview_image) and (empty($preview_image) == false))
+                if(is_array($preview_image) and (empty($preview_image) == false))
                 {
-                    $theme_info[$i]['preview_image']     = $preview_image[0];  # path to [0]preview
+                    $theme_info[$i]['preview_image'] = $preview_image[0];  # path to [0]preview
                     $theme_info[$i]['preview_thumbnail'] = $preview_image[1];  # path to [1]preview_thumb
                 }
                 else # show only nopreview.gif as thumbnail
-
                 {
-                    $theme_info[$i]['preview_thumbnail'] = WWW_ROOT_THEMES.'/core/images/nopreview.jpg';
+                    $theme_info[$i]['preview_thumbnail'] = WWW_ROOT_THEMES . '/core/images/nopreview.jpg';
                 }
             }
         }
 
         # sort and return
-        asort ($theme_info);
+        asort($theme_info);
         return $theme_info;
     }
 
@@ -145,7 +142,7 @@ class Clansuite_Module_Thememanager_Admin extends Clansuite_Module_Controller im
         $theme_info_file = ROOT_THEMES . $themedir . DS . 'theme_info.xml';
 
         # ensure we have simplexml available
-        if (false == function_exists('simplexml_load_file') )
+        if(false == function_exists('simplexml_load_file'))
         {
             throw new Clansuite_Exception('Missing simplexml_load_file() function');
         }
@@ -155,9 +152,9 @@ class Clansuite_Module_Thememanager_Admin extends Clansuite_Module_Controller im
         $themeinfos_XML_obj = @simplexml_load_file($theme_info_file);
 
         # die in case we fetched no object
-        if (false === $themeinfos_XML_obj)
+        if(false === $themeinfos_XML_obj)
         {
-            throw new Clansuite_Exception('The Description File ('.$theme_info_file.') of the "'.$themedir.'" Theme is corrupted! Check it\'s XML Syntax and Structure.');
+            throw new Clansuite_Exception('The Description File (' . $theme_info_file . ') of the "' . $themedir . '" Theme is corrupted! Check it\'s XML Syntax and Structure.');
         }
 
         # structure object to array

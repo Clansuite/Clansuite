@@ -21,18 +21,15 @@
     *    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
     *
     * @license    GNU/GPL v2 or (at your option) any later version, see "/doc/LICENSE".
-    *
     * @author     Jens-André Koch <vain@clansuite.com>
-    * @copyright  Copyleft: All rights reserved. Jens-André Koch (2005-onwards)
-    *
+    * @copyright  Jens-André Koch (2005 - onwards)
     * @link       http://www.clansuite.com
-    * @link       http://gna.org/projects/
     *
     * @version    SVN: $Id: news.module.php 2345 2008-08-02 04:35:23Z vain $
     */
 
 # Security Handler
-if(defined('IN_CS') == false)
+if(defined('IN_CS') === false)
 {
     die('Clansuite not loaded. Direct Access forbidden.');
 }
@@ -44,12 +41,12 @@ if(defined('IN_CS') == false)
  * @package     Modules
  * @subpackage  TeamspeakViewer
  */
-class Clansuite_Module_Teamspeakviewer extends Clansuite_Module_Controller implements Clansuite_Module_Interface
+class Clansuite_Module_Teamspeakviewer extends Clansuite_Module_Controller
 {
     /**
      * Module_Teamspeakviewer -> Execute
      */
-    public function initializeModule(Clansuite_HttpRequest $request, Clansuite_HttpResponse $response)
+    public function initializeModule()
     {
         # load library / init libacts2
         include ROOT_LIBRARIES . 'libacts2/Absurd.php';
@@ -101,14 +98,14 @@ class Clansuite_Module_Teamspeakviewer extends Clansuite_Module_Controller imple
 
         $ts3 = new Clansuite_Teamspeak3_ServerQueryInterface($server_ip, $server_queryport, $vserver_id);
         $ts3->selectVirtualServer(1);
-        #clansuite_xdebug::printR($ts3->serverViewer());
-        #clansuite_xdebug::printR($ts3->version()); # ok
-        #clansuite_xdebug::printR($ts3->channellist());
-        #clansuite_xdebug::printR($ts3->instanceinfo()); # ok
-        #clansuite_xdebug::printR($ts3->serverinfo()); # ??? what is wrong here?? no return values
+        #Clansuite_Debug::printR($ts3->serverViewer());
+        #Clansuite_Debug::printR($ts3->version()); # ok
+        #Clansuite_Debug::printR($ts3->channellist());
+        #Clansuite_Debug::printR($ts3->instanceinfo()); # ok
+        #Clansuite_Debug::printR($ts3->serverinfo()); # ??? what is wrong here?? no return values
         #$ts3->close();
 
-        #clansuite_xdebug::printR($serverinfo);
+        #Clansuite_Debug::printR($serverinfo);
 
         $view->assign('serverinfo', $serverinfo);
     }

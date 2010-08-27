@@ -7,7 +7,8 @@
 
 /**
  * Smarty Currentmodule
- * Displays they name of the current module
+ *
+ * Displays the name of the current module
  *
  * Examples:
  * <pre>
@@ -25,6 +26,6 @@
  */
 function smarty_function_currentmodule($params, $smarty)
 {
-    return Clansuite_Module_Controller_Resolver::getModuleName();
+    return Clansuite_TargetRoute::getModuleName();
 }
 ?>

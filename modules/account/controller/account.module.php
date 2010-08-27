@@ -23,18 +23,15 @@
     *    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
     *
     * @license    GNU/GPL v2 or (at your option) any later version, see "/doc/LICENSE".
-    *
     * @author     Jens-André Koch <vain@clansuite.com>
     * @copyright  Jens-André Koch (2005 - onwards)
-    *
     * @link       http://www.clansuite.com
-    * @link       http://gna.org/projects/clansuite
     *
     * @version    SVN: $Id$
     */
 
 # Security Handler
-if(defined('IN_CS') == false)
+if(defined('IN_CS') === false)
 {
     die('Clansuite not loaded. Direct Access forbidden.');
 }
@@ -46,12 +43,12 @@ if(defined('IN_CS') == false)
  * @package     Modules
  * @subpackage  Account
  */
-class Clansuite_Module_Account extends Clansuite_Module_Controller implements Clansuite_Module_Interface
+class Clansuite_Module_Account extends Clansuite_Module_Controller
 {
     /**
      * Module_Admin -> Execute
      */
-    public function initializeModule(Clansuite_HttpRequest $request, Clansuite_HttpResponse $response)
+    public function initializeModule()
     {
         # read module config
         $this->getModuleConfig();
@@ -102,17 +99,16 @@ class Clansuite_Module_Account extends Clansuite_Module_Controller implements Cl
         Clansuite_Breadcrumb::add( _('Login'), '/index.php?mod=account&amp;action=login');
 
         # Get Objects
-        $request = $this->injector->instantiate('Clansuite_HttpRequest');
-        $config = $this->injector->instantiate('Clansuite_Config');
-        $user = $this->injector->instantiate('Clansuite_User');
+        $config = $this->getClansuiteConfig();
+        $user = $this->getInjector()->instantiate('Clansuite_User');
 
         # Get Input Variables
-        $nick        = $request->getParameterFromPost('nickname');
-        $email       = $request->getParameterFromPost('email');
-        $password    = $request->getParameterFromPost('password');
-        $remember_me = $request->getParameterFromPost('remember_me');
-        $submit      = $request->getParameterFromPost('submit');
-        $referer     = $request->getParameterFromGet('referer');
+        $nick        = $this->request->getParameterFromPost('nickname');
+        $email       = $this->request->getParameterFromPost('email');
+        $password    = $this->request->getParameterFromPost('password');
+        $remember_me = $this->request->getParameterFromPost('remember_me');
+        $submit      = $this->request->getParameterFromPost('submit');
+        $referer     = $this->request->getParameterFromGet('referer');
 
         # Init Error Array
         $error = array();
@@ -213,7 +209,7 @@ class Clansuite_Module_Account extends Clansuite_Module_Controller implements Cl
         if( $confirm == true )
         {
             # log the user OUT
-            $this->injector->instantiate('Clansuite_User')->logoutUser();
+            $this->getInjector()->instantiate('Clansuite_User')->logoutUser();
             $this->flashmessage('success', _('Logout successfull. Have a nice day. Goodbye.'));
             $this->redirect(WWW_ROOT, 3, 200);
             exit();
@@ -230,21 +226,21 @@ class Clansuite_Module_Account extends Clansuite_Module_Controller implements Cl
     public function action_register()
     {
         # Request Controller
-        $request = $this->injector->instantiate('Clansuite_HttpRequest');
-        $security = $this->injector->instantiate('Clansuite_Security');
-        $config = $this->injector->instantiate('Clansuite_Config');
+        $request = $this->getHttpRequest();
+        $security = $this->getInjector()->instantiate('Clansuite_Security');
+        $config = $this->getInjector()->instantiate('Clansuite_Config');
         $view = $this->getView();
 
-        $user = $this->injector->instantiate('Clansuite_User');
+        $user = $this->getInjector()->instantiate('Clansuite_User');
 
         # Get Inputvariables from $_POST
-        $nick       = $request->getParameter('nick');
-        $email      = $request->getParameter('email');
-        $email2     = $request->getParameter('email2');
-        $pass       = $request->getParameter('password');
-        $pass2      = $request->getParameter('password2');
-        $submit     = $request->getParameter('submit');
-        $captcha    = $request->getParameter('captcha');
+        $nick       = $this->request->getParameter('nick');
+        $email      = $this->request->getParameter('email');
+        $email2     = $this->request->getParameter('email2');
+        $pass       = $this->request->getParameter('password');
+        $pass2      = $this->request->getParameter('password2');
+        $submit     = $this->request->getParameter('submit');
+        $captcha    = $this->request->getParameter('captcha');
 
         # Set Error Array
         $error = array();
@@ -388,14 +384,14 @@ class Clansuite_Module_Account extends Clansuite_Module_Controller implements Cl
         $err = array();
 
         // Request Controller
-        $request = $this->injector->instantiate('Clansuite_HttpRequest');
+        $request = $this->getHttpRequest();
 
         // Input validation
-        $input = $this->injector->instantiate('input');
+        $input = $this->getInjector()->instantiate('input');
 
         // Get Inputvariables from $_POST
-        $email  = $request->getParameter('email');
-        $submit = $request->getParameter('submit');
+        $email  = $this->request->getParameter('email');
+        $submit = $this->request->getParameter('submit');
 
         // Perform checks on Inputvariables & Form filled?
         if ( empty($email) )
@@ -482,7 +478,7 @@ class Clansuite_Module_Account extends Clansuite_Module_Controller implements Cl
     public function action_activate_account()
     {
         # Request Controller
-        $request = $this->injector->instantiate('Clansuite_HttpRequest');
+        $request = $this->getHttpRequest();
 
         # Inputvariables
         $user_id = (int) $request->getParameterFromGet('user_id');
@@ -531,15 +527,15 @@ class Clansuite_Module_Account extends Clansuite_Module_Controller implements Cl
     public function action_forgot_password()
     {
         // Request Controller
-        $request = $this->injector->instantiate('Clansuite_HttpRequest');
-        #$validation = $this->injector->instantiate('Clansuite_Validation');
-        $config = $this->injector->instantiate('Clansuite_Config');
-        $security = $this->injector->instantiate('Clansuite_Security');
+        $request = $this->getHttpRequest();
+        #$validation = $this->getInjector()->instantiate('Clansuite_Validation');
+        $config = $this->getInjector()->instantiate('Clansuite_Config');
+        $security = $this->getInjector()->instantiate('Clansuite_Security');
         $error = array();
 
-        $email = $request->getParameter('email');
-        $pass = $request->getParameter('password');
-        $submit = $request->getParameter('submit');
+        $email = $this->request->getParameter('email');
+        $pass = $this->request->getParameter('password');
+        $submit = $this->request->getParameter('submit');
         if( !empty($submit) )
         {
             if( empty($email) || empty($pass) )
@@ -622,8 +618,8 @@ class Clansuite_Module_Account extends Clansuite_Module_Controller implements Cl
     public function action_activate_password()
     {
         // Request Controller
-        $request = $this->injector->instantiate('Clansuite_HttpRequest');
-        $input = $this->injector->instantiate('input');
+        $request = $this->getHttpRequest();
+        $input = $this->getInjector()->instantiate('input');
 
         $user_id = (int) $request->getParameter('user_id');
         $code    = $input->check($request->getParameter('code'), 'is_int|is_abc') ? $request->getParameter('code') : false;
@@ -676,9 +672,9 @@ class Clansuite_Module_Account extends Clansuite_Module_Controller implements Cl
      */
     private function _send_activation_email($email, $nick, $user_id, $code)
     {
-        $config = $this->injector->instantiate('Clansuite_Config');
-        $this->injector->register('Clansuite_Mailer');
-        $mailer = $this->injector->instantiate('Clansuite_Mailer');
+        $config = $this->getInjector()->instantiate('Clansuite_Config');
+        $this->getInjector()->register('Clansuite_Mailer');
+        $mailer = $this->getInjector()->instantiate('Clansuite_Mailer');
 
         $to_address     = '"' . $nick . '" <' . $email . '>';
         $from_address   = '"' . $config['email']['fromname'] . '" <' . $config['email']['from'] . '>';
@@ -709,10 +705,10 @@ class Clansuite_Module_Account extends Clansuite_Module_Controller implements Cl
      */
     private function _send_password_email($email, $nick, $user_id, $code)
     {
-        $config = $this->injector->instantiate('Clansuite_Config');
-        $this->injector->register('Clansuite_Mailer');
+        $config = $this->getInjector()->instantiate('Clansuite_Config');
+        $this->getInjector()->register('Clansuite_Mailer');
         return true;
-        $mailer = $this->injector->instantiate('Clansuite_Mailer');
+        $mailer = $this->getInjector()->instantiate('Clansuite_Mailer');
 
         $to_address     = '"' . $nick . '" <' . $email . '>';
         $from_address   = '"' . $config['email']['fromname'] . '" <' . $config['email']['from'] . '>';
@@ -799,10 +795,10 @@ class Clansuite_Module_Account extends Clansuite_Module_Controller implements Cl
         $form->addElement('cancelbutton');
 
         # Debugging Form Object
-        #clansuite_xdebug::printR($form);
+        #Clansuite_Debug::printR($form);
 
         # Debugging Form HTML Output
-        #clansuite_xdebug::printR($form->render());
+        #Clansuite_Debug::printR($form->render());
 
         # assign the html of the form to the view
         $this->getView()->assign('form', $form->render());
@@ -846,10 +842,10 @@ class Clansuite_Module_Account extends Clansuite_Module_Controller implements Cl
         $form->addElement('cancelbutton');
 
         # Debugging Form Object
-        #clansuite_xdebug::printR($form);
+        #Clansuite_Debug::printR($form);
 
         # Debugging Form HTML Output
-        #clansuite_xdebug::printR($form->render());
+        #Clansuite_Debug::printR($form->render());
 
         # assign the html of the form to the view
         $this->getView()->assign('form', $form->render());
@@ -892,10 +888,10 @@ class Clansuite_Module_Account extends Clansuite_Module_Controller implements Cl
         $form->addElement('cancelbutton');
 
         # Debugging Form Object
-        #clansuite_xdebug::printR($form);
+        #Clansuite_Debug::printR($form);
 
         # Debugging Form HTML Output
-        #clansuite_xdebug::printR($form->render());
+        #Clansuite_Debug::printR($form->render());
 
         # assign the html of the form to the view
         $this->getView()->assign('form', $form->render());

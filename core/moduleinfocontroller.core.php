@@ -29,7 +29,7 @@
     */
 
 # Security Handler
-if(defined('IN_CS') == false)
+if(defined('IN_CS') === false)
 {
     die('Clansuite not loaded. Direct Access forbidden.');
 }
@@ -105,6 +105,7 @@ class Clansuite_ModuleInfoController
         {
             # get the modulename, so strip the path info
             $modulename = str_replace( ROOT_MOD, '', $modulepath);
+            # $modulename_by_dirname = str_replace( ROOT . 'modules' . DS ,'', $module_path);
 
             # create array with pieces of information about a module
             self::$modulesinfo[$modulename]['name']   = $modulename;
@@ -117,15 +118,18 @@ class Clansuite_ModuleInfoController
             self::$modulesinfo[$modulename]['menu']   = is_file($modulepath . DS . $modulename .'.menu.php');
 
             # hasInfo
-            if(is_file($modulepath . DS . $modulename.'.info.php') === true)
+            $module_infofile = $modulepath . DS . $modulename . '.info.php';
+            $config_object = Clansuite_CMS::getInjector()->instantiate('Clansuite_Config');
+            if(is_file($module_infofile) === true)
             {
-                self::$modulesinfo[$modulename]['info'] = Clansuite_CMS::getInjector()->instantiate('Clansuite_Config')
-                                                          ->readConfig( $modulepath . DS . $modulename.'.info.php' );
+                #Clansuite_Debug::firebug($module_infofile);
+
+                self::$modulesinfo[$modulename]['info'] = $config_object->readConfig($module_infofile);
             }
-            else # if the info file for a module does not exists yet, create it
+            else # create file in DEV MODE
             {
-                Clansuite_CMS::getInjector()->instantiate('Clansuite_Config')
-                ->writeConfig( $modulepath . DS . $modulename.'.info.php' );
+                # if the info file for a module does not exists yet, create it
+                $config_object->writeConfig($module_infofile);
             }
 
             # hasRoutes
@@ -145,16 +149,15 @@ class Clansuite_ModuleInfoController
             self::$modulesinfo['yy_summary']['counter'] = ++$number_of_modules;
         }
         ksort(self::$modulesinfo);
-        #Clansuite_Debug::printR(self::$modulesinfos);
+
         return self::$modulesinfo;
     }
 
     public static function getModuleInformations($module = null)
     {
-         # check if the infos of this specific module were catched before
+        # check if the infos of this specific module were catched before
         if($module === false and isset(self::$modulesinfo[$module]) === null)
         {
-            Clansuite_Debug::printR(self::$modulesinfo);
             return self::$modulesinfo[$module];
         }
         # fetch infos for all modules
@@ -163,8 +166,7 @@ class Clansuite_ModuleInfoController
             #Clansuite_Debug::printR(self::$modulesinfos);
             return self::scanModuleInformations();
         }
-        # fetch infos for the requested $module
-        else
+        else # fetch infos for the requested $module
         {
             return self::scanModuleInformations($module);
         }
@@ -212,7 +214,7 @@ class Clansuite_ModuleInfoController
     public static function readModuleRegistry()
     {
         return Clansuite_CMS::getInjector()->instantiate('Clansuite_Config')
-                ->readConfig( ROOT . 'configuration' . DS . 'modules.config.php' );
+                ->readConfig(ROOT . 'configuration' . DS . 'modules.config.php');
     }
 
     /**

@@ -23,18 +23,15 @@
     *    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
     *
     * @license    GNU/GPL v2 or (at your option) any later version, see "/doc/LICENSE".
-    *
     * @author     Jens-André Koch <vain@clansuite.com>
     * @copyright  Jens-André Koch (2005 - onwards)
-    *
     * @link       http://www.clansuite.com
-    * @link       http://gna.org/projects/clansuite
     *
     * @version    SVN: $Id$
     */
 
 # Security Handler
-if(defined('IN_CS') == false)
+if(defined('IN_CS') === false)
 {
     die('Clansuite not loaded. Direct Access forbidden.');
 }
@@ -46,9 +43,9 @@ if(defined('IN_CS') == false)
  * @package     Modules
  * @subpackage  Categories
  */
-class Clansuite_Module_Categories_Admin extends Clansuite_Module_Controller implements Clansuite_Module_Interface
+class Clansuite_Module_Categories_Admin extends Clansuite_Module_Controller
 {
-    public function initializeModule(Clansuite_HttpRequest $request, Clansuite_HttpResponse $response)
+    public function initializeModule()
     {
         parent::initModel('categories');
         parent::initModel('modulemanager');
@@ -222,7 +219,7 @@ class Clansuite_Module_Categories_Admin extends Clansuite_Module_Controller impl
     public function action_admin_delete()
     {
         $request = $this->getHttpRequest();
-        $delete  = $request->getParameter('delete', 'P');
+        $delete  = $this->request->getParameter('delete', 'P');
 
         if(isset($delete))
         {
@@ -332,13 +329,13 @@ class Clansuite_Module_Categories_Admin extends Clansuite_Module_Controller impl
         $form = new Clansuite_Array_Formgenerator($settings);
 
         # display formgenerator object
-        #clansuite_xdebug::printR($form);
+        #Clansuite_Debug::printR($form);
 
         $form->addElement('submitbutton')->setName('Save');
         $form->addElement('resetbutton');
 
         # display form html
-        #clansuite_xdebug::printR($form->render());
+        #Clansuite_Debug::printR($form->render());
 
         # assign the html of the form to the view
         $this->getView()->assign('form', $form->render());
@@ -353,7 +350,7 @@ class Clansuite_Module_Categories_Admin extends Clansuite_Module_Controller impl
         $data = $this->getHttpRequest()->getParameter('categories_settings');
 
         # Get Configuration from Injector
-        $config = $this->injector->instantiate('Clansuite_Config');
+        $config = $this->getInjector()->instantiate('Clansuite_Config');
 
         # write config
         $config->confighandler->writeConfig( ROOT_MOD . 'categories/categories.config.php', $data);

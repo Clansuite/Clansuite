@@ -31,7 +31,7 @@
     */
 
 # Security Handler
-if(defined('IN_CS') == false)
+if(defined('IN_CS') === false)
 {
     die('Clansuite not loaded. Direct Access forbidden.');
 }
@@ -173,8 +173,8 @@ class Clansuite_Preprocessor
 
         # remove clansuite security line from whole string
         # @todo remove 4 lines when "if (defined('IN_CS')" is found
-        $string = str_replace("if (defined('IN_CS') == false){ die('Clansuite not loaded. Direct Access forbidden.'); }" . PHP_EOL, "", $string);
-        $string = str_replace("if (defined('IN_CS') == false) { die('Clansuite not loaded. Direct Access forbidden.'); }", '', $string);
+        $string = str_replace("if (defined('IN_CS') === false){ die('Clansuite not loaded. Direct Access forbidden.'); }" . PHP_EOL, "", $string);
+        $string = str_replace("if (defined('IN_CS') === false) { die('Clansuite not loaded. Direct Access forbidden.'); }", '', $string);
 
         # remove php opening tag from whole string
         $string = str_replace('<?php', '', $string);

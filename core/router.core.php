@@ -225,7 +225,7 @@ class Clansuite_Router implements ArrayAccess, Clansuite_Router_Interface
     public function route()
     {
         # detects if RewriteEngine is active and calls the proper URLParser for extraction of uri segments
-        if(true === $this->isRewriteEngineOn())
+        if(true === $this->isRewriteEngineOn() and !isset($_GET['mod']) and !isset($_GET['sub']))
         {
             $this->UrlParser_Rewrite($this->uri);
         }
@@ -425,37 +425,38 @@ class Clansuite_Router implements ArrayAccess, Clansuite_Router_Interface
      */
     public function NoRewriteRoute()
     {
-        $route = new Clansuite_TargetRoute();
-
         # Controller
         if(isset($this->uri_segments['mod']))
         {
-            $route->setController($this->uri_segments['mod']);
+            Clansuite_TargetRoute::setController($this->uri_segments['mod']);
             unset($this->uri_segments['mod']);
         }
 
         # SubController
         if(isset($this->uri_segments['sub']))
         {
-            $route->setSubController($this->uri_segments['sub']);
+            Clansuite_TargetRoute::setSubController($this->uri_segments['sub']);
             unset($this->uri_segments['sub']);
         }
 
         # Action
         if(isset($this->uri_segments['action']))
         {
-            $route->setAction($this->uri_segments['action']);
+            Clansuite_TargetRoute::setAction($this->uri_segments['action']);
             unset($this->uri_segments['action']);
         }
 
         # Parameters
         if(count($this->uri_segments) > 0)
         {
-            $route->setParameters($this->uri_segments);
+            Clansuite_TargetRoute::setParameters($this->uri_segments);
             unset($this->uri_segments);
         }
 
-        return $route;
+        if(Clansuite_TargetRoute::dispatchable() === true)
+        {
+            return Clansuite_TargetRoute::getInstance();
+        }
     }
 
     /**

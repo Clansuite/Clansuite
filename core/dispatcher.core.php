@@ -74,7 +74,7 @@ class Clansuite_Dispatcher
         #$request_meth = Clansuite_HttpRequest::getRequestMethod();
         #$renderengine = $route->getRenderEngine();
 
-        Clansuite_Debug::firebug($route);
+        #Clansuite_Debug::firebug($route);
         #unset($route);
 
         $controllerInstance = new $classname(
