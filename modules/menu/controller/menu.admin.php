@@ -21,18 +21,15 @@
     *    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
     *
     * @license    GNU/GPL v2 or (at your option) any later version, see "/doc/LICENSE".
-    *
     * @author     Jens-André Koch <vain@clansuite.com>
-    * @copyright  Copyleft: All rights reserved. Jens-André Koch (2005-onwards)
-    *
+    * @copyright  Jens-André Koch (2005 - onwards)
     * @link       http://www.clansuite.com
-    * @link       http://gna.org/projects/
     *
     * @version    SVN: $Id: menueditor.module.php 2248 2008-07-12 01:48:54Z vain $
     */
 
 # Security Handler
-if (defined('IN_CS') == false)
+if (defined('IN_CS') === false)
 {
     die('Clansuite not loaded. Direct Access forbidden.');
 }
@@ -44,9 +41,9 @@ if (defined('IN_CS') == false)
  * @package     Modules
  * @subpackage  Menu
  */
-class Clansuite_Module_Menu_Admin extends Clansuite_Module_Controller implements Clansuite_Module_Interface
+class Clansuite_Module_Menu_Admin extends Clansuite_Module_Controller
 {
-    public function initializeModule(Clansuite_HttpRequest $request, Clansuite_HttpResponse $response)
+    public function initializeModule()
     {
         parent::initModel('menu');
     }
@@ -125,7 +122,7 @@ class Clansuite_Module_Menu_Admin extends Clansuite_Module_Controller implements
         # Set Pagetitle and Breadcrumbs
         Clansuite_Breadcrumb::add( _('About Clansuite'), '/index.php?mod=menu&amp;sub=admin&amp;action=menueditor2');
 
-        #clansuite_xdebug::printR($treeObject);
+        #Clansuite_Debug::printR($treeObject);
 
 
         /**
@@ -158,7 +155,7 @@ class Clansuite_Module_Menu_Admin extends Clansuite_Module_Controller implements
          */                  #fetchTree()
         #$tree = $treeObject->fetchRoots();
 
-        Clansuite_Xdebug::firebug($this->getTree('CsAdminmenuShortcuts'));
+        Clansuite_Debug::firebug($this->getTree('CsAdminmenuShortcuts'));
 
         $treeObject = Doctrine::getTable('CsAdminmenuShortcuts')->getTree();
         $rootColumnName = $treeObject->getAttribute('rootColumnName');
@@ -175,7 +172,7 @@ class Clansuite_Module_Menu_Admin extends Clansuite_Module_Controller implements
             # Iterating tree from a current root
             foreach($treeObject->fetchTree($options) as $node)
             {
-                Clansuite_Xdebug::firebug($node->toArray());
+                Clansuite_Debug::firebug($node->toArray());
 
                 # If we are on the item of the same level, closing <li> tag before printing item
                if (($node ['level'] == $lastLevel) and ($lastLevel > 0))
@@ -206,7 +203,7 @@ class Clansuite_Module_Menu_Admin extends Clansuite_Module_Controller implements
         # close unordered list tag
         $html .= "</ul>";
 
-        Clansuite_Xdebug::firebug($html);
+        Clansuite_Debug::firebug($html);
 
         # assign the html of the tree to the view
         $this->getView()->assign('tree', $html);
@@ -228,9 +225,9 @@ class Clansuite_Module_Menu_Admin extends Clansuite_Module_Controller implements
          * Incoming Variables
          */
         # initalize request
-        $request = $this->injector->instantiate('Clansuite_HttpRequest');
+        $request = $this->getHttpRequest();
         # fetch the container variable from post
-        $menu    = $request->getParameter('container','POST');
+        $menu    = $this->request->getParameter('container','POST');
 
         # Check if we have some $menu values to insert
         if(count($menu) == 0)
@@ -269,7 +266,7 @@ class Clansuite_Module_Menu_Admin extends Clansuite_Module_Controller implements
         # now loop over all menu values and prepare the temporary array to insert later
         foreach ( $menu as $key => $value )
         {
-            #clansuite_xdebug::printR($value);
+            #Clansuite_Debug::printR($value);
 
             # fetch activerecord of the adminmenu
             $adminmenu = new CsAdminmenu();
@@ -742,7 +739,7 @@ class Clansuite_Module_Menu_Admin extends Clansuite_Module_Controller implements
                                     ->orderby('m.sortorder ASC, m.parent ASC')
                                     ->execute();
 
-            #clansuite_xdebug::printR($result);
+            #Clansuite_Debug::printR($result);
         }
 
         # initialize the output array

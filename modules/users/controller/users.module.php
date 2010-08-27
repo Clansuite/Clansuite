@@ -23,18 +23,15 @@
     *    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
     *
     * @license    GNU/GPL v2 or (at your option) any later version, see "/doc/LICENSE".
-    *
     * @author     Jens-André Koch <vain@clansuite.com>
     * @copyright  Jens-André Koch (2005 - onwards)
-    *
     * @link       http://www.clansuite.com
-    * @link       http://gna.org/projects/clansuite
     *
     * @version    SVN: $Id$
     */
 
 # Security Handler
-if (defined('IN_CS') == false)
+if (defined('IN_CS') === false)
 {
     die('Clansuite not loaded. Direct Access forbidden.');
 }
@@ -46,9 +43,9 @@ if (defined('IN_CS') == false)
  * @package     Modules
  * @subpackage  Users
  */
-class Clansuite_Module_Users extends Clansuite_Module_Controller implements Clansuite_Module_Interface
+class Clansuite_Module_Users extends Clansuite_Module_Controller
 {
-    public function initializeModule(Clansuite_HttpRequest $request, Clansuite_HttpResponse $response)
+    public function initializeModule()
     {
         $this->getModuleConfig();
     }
@@ -67,7 +64,7 @@ class Clansuite_Module_Users extends Clansuite_Module_Controller implements Clan
         Clansuite_Breadcrumb::add( _('Show'), '/index.php?mod=users&amp;action=show');
 
         // Defining initial variables
-        $currentPage = $this->injector->instantiate('Clansuite_HttpRequest')->getParameter('page');
+        $currentPage = $this->getHttpRequest()->getParameter('page');
         $resultsPerPage = 25;
 
         /* @todo news with status: draft, published, private, private+protected*/

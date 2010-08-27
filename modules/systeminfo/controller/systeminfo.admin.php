@@ -23,19 +23,15 @@
     *    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
     *
     * @license    GNU/GPL v2 or (at your option) any later version, see "/doc/LICENSE".
-    *
     * @author     Jens-André Koch <vain@clansuite.com>
     * @copyright  Jens-André Koch (2005 - onwards)
-    *
     * @link       http://www.clansuite.com
-    * @link       http://gna.org/projects/clansuite
-
     *
     * @version    SVN: $Id: index.module.php 2625 2008-12-09 00:04:43Z vain $
     */
 
 # Security Handler
-if (defined('IN_CS') == false)
+if (defined('IN_CS') === false)
 {
     die('Clansuite not loaded. Direct Access forbidden.');
 }
@@ -47,9 +43,9 @@ if (defined('IN_CS') == false)
  * @package     Modules
  * @subpackage  Systeminfo
  */
-class Clansuite_Module_Systeminfo_Admin extends Clansuite_Module_Controller implements Clansuite_Module_Interface
+class Clansuite_Module_Systeminfo_Admin extends Clansuite_Module_Controller
 {
-    public function initializeModule(Clansuite_HttpRequest $request, Clansuite_HttpResponse $response)
+    public function initializeModule()
     {
         $this->getModuleConfig();
     }
@@ -62,8 +58,7 @@ class Clansuite_Module_Systeminfo_Admin extends Clansuite_Module_Controller impl
         // Set Layout Template
         $this->getView()->setLayoutTemplate('index.tpl');
 
-        $sysinfo = array_merge($this->assembleSystemInfos(),
-                $this->assembleDatabaseInfos());
+        $sysinfo = array_merge($this->assembleSystemInfos(), $this->assembleDatabaseInfos());
 
         $this->getView()->assign('sysinfos', $sysinfo);
         unset($sysinfo);
@@ -244,7 +239,7 @@ class Clansuite_Module_Systeminfo_Admin extends Clansuite_Module_Controller impl
         Clansuite_Breadcrumb::add( _('Alternative PHP Cache'), '/index.php?mod=sysinfo&amp;action=showapc');
 
         # Get APC Cache
-        $cache_apc = Clansuite_Cache_Factory::getCache('apc', $this->getInjector());
+        $cache_apc = Clansuite_Cache_Factory::getCache('apc');
 
         # Assign Data to the View
         $this->getView()->assign('apc_sysinfos', $cache_apc->stats());

@@ -13,6 +13,12 @@ SetEnv TZ Europe/Berlin
     RewriteRule !\.(js|ico|gif|jpg|png|css)$ /index.php [QSA,L]
 </IfModule>
 
+# disable direct access to text, log and template files
+<FilesMatch "(\.txt|\.log$|\.tpl$)">
+order allow,deny
+deny from all
+</FilesMatch>
+
 <IfModule mod_php5.c>
     php_value magic_quotes_runtime  "0"
     php_value magic_quotes_gpc      "0"

@@ -31,7 +31,7 @@
     */
 
 # Security Handler
-if(defined('IN_CS') == false)
+if(defined('IN_CS') === false)
 {
     die('Clansuite not loaded. Direct Access forbidden.');
 }
@@ -140,9 +140,9 @@ abstract class Clansuite_Module_Controller
      */
     public function getModuleConfig($filename = null)
     {
-        $inj = self::getInjector()->instantiate('Clansuite_Config');
-        $res = $inj->readModuleConfig($filename);
-        return $res;
+        $config = self::getInjector()->instantiate('Clansuite_Config');
+        $moduleconfig = $config->readModuleConfig($filename);
+        return $moduleconfig;
     }
 
     /**

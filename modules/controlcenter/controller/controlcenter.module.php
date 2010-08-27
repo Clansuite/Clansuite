@@ -23,18 +23,15 @@
     *    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
     *
     * @license    GNU/GPL v2 or (at your option) any later version, see "/doc/LICENSE".
-    *
     * @author     Jens-Andr� Koch <vain@clansuite.com>
     * @copyright  Jens-Andr� Koch (2005 - onwards)
-    *
     * @link       http://www.clansuite.com
-    * @link       http://gna.org/projects/
     *
     * @version    SVN: $Id$
     */
 
 # Security Handler
-if (defined('IN_CS') == false)
+if (defined('IN_CS') === false)
 {
     die('Clansuite not loaded. Direct Access forbidden.');
 }
@@ -46,9 +43,9 @@ if (defined('IN_CS') == false)
  * @package     Modules
  * @subpackage  ControlCenter
  */
-class Clansuite_Module_ControlCenter extends Clansuite_Module_Controller implements Clansuite_Module_Interface
+class Clansuite_Module_ControlCenter extends Clansuite_Module_Controller
 {
-    public function initializeModule(Clansuite_HttpRequest $request, Clansuite_HttpResponse $response)
+    public function initializeModule()
     {
         parent::initModel('menu');
     }
@@ -62,7 +59,7 @@ class Clansuite_Module_ControlCenter extends Clansuite_Module_Controller impleme
 
         $view->assign( 'shortcuts', $images );
         $view->assign( 'newsfeed', $this->assignFeedContent());
-        $view->assign( 'security', $this->assignSecurityInfos());
+        $view->assign( 'errorlog', $this->assignErrorlogInfos());
 
         $this->display();
     }
@@ -70,7 +67,7 @@ class Clansuite_Module_ControlCenter extends Clansuite_Module_Controller impleme
     public function action_bugs()
     {
         # Set Pagetitle and Breadcrumbs
-        Clansuite_Breadcrumb::add( _('Report Bugs &amp; Issues'), '/index.php??mod=controlcenter&amp;action=bugs');
+        Clansuite_Breadcrumb::add( _('Report Bugs &amp; Issues'), '/index.php?mod=controlcenter&amp;action=bugs');
 
         $this->display();
     }
@@ -91,7 +88,7 @@ class Clansuite_Module_ControlCenter extends Clansuite_Module_Controller impleme
         $this->display();
     }
 
-    private function assignSecurityInfos()
+    private function assignErrorlogInfos()
     {
         include ROOT_CORE . 'logger/file.logger.php';
         $errorlog_entries = null;
@@ -204,13 +201,13 @@ class Clansuite_Module_ControlCenter extends Clansuite_Module_Controller impleme
         $form = new Clansuite_Array_Formgenerator($settings);
 
         # display formgenerator object
-        #clansuite_xdebug::printR($form);
+        #Clansuite_Debug::printR($form);
 
         $form->addElement('submitbutton')->setName('Save');
         $form->addElement('resetbutton');
 
         # display form html
-        #clansuite_xdebug::printR($form->render());
+        #Clansuite_Debug::printR($form->render());
 
         # assign the html of the form to the view
         $this->getView()->assign('form', $form->render());
@@ -225,7 +222,7 @@ class Clansuite_Module_ControlCenter extends Clansuite_Module_Controller impleme
         $data = $this->getHttpRequest()->getParameter('controlcenter_settings');
 
         # Get Configuration from Injector
-        $config = $this->injector->instantiate('Clansuite_Config');
+        $config = $this->getInjector()->instantiate('Clansuite_Config');
 
         # write config
         $config->confighandler->writeConfig( ROOT_MOD . 'controlcenter/controlcenter.config.php', $data);

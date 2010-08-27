@@ -32,7 +32,7 @@
 
 # Security Handler
 /**
- * f (defined('IN_CS') == false)
+ * f (defined('IN_CS') === false)
  {
  * ie('Clansuite not loaded. Direct Access forbidden.');
  }

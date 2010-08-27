@@ -23,18 +23,15 @@
     *    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
     *
     * @license    GNU/GPL v2 or (at your option) any later version, see "/doc/LICENSE".
-    *
     * @author     Jens-André Koch <vain@clansuite.com>
     * @copyright  Jens-André Koch (2005 - onwards)
-    *
     * @link       http://www.clansuite.com
-    * @link       http://gna.org/projects/
     *
     * @version    SVN: $Id$
     */
 
 # Security Handler
-if (defined('IN_CS') == false)
+if (defined('IN_CS') === false)
 {
     die('Clansuite not loaded. Direct Access forbidden.');
 }
@@ -46,9 +43,9 @@ if (defined('IN_CS') == false)
  * @package     Modules
  * @subpackage  Templatemanager
  */
-class Clansuite_Module_Templatemanager_Admin extends Clansuite_Module_Controller implements Clansuite_Module_Interface
+class Clansuite_Module_Templatemanager_Admin extends Clansuite_Module_Controller
 {
-    public function initializeModule(Clansuite_HttpRequest $request, Clansuite_HttpResponse $response)
+    public function initializeModule()
     {
         $this->getModuleConfig();
     }
@@ -76,7 +73,7 @@ class Clansuite_Module_Templatemanager_Admin extends Clansuite_Module_Controller
 
         $view->assign('templateeditor_modulename',  $tplmod);
 
-        clansuite_xdebug::firebug( ROOT_MOD . $tplmod . DS. 'view' .DS . '*.tpl' );
+        Clansuite_Debug::firebug( ROOT_MOD . $tplmod . DS. 'view' .DS . '*.tpl' );
 
         $templates = $this->getTemplatesOfModule($tplmod);
 
@@ -120,20 +117,20 @@ class Clansuite_Module_Templatemanager_Admin extends Clansuite_Module_Controller
         $tpltheme = $this->getHttpRequest()->getParameter('tpltheme', 'G');
         $file     = $this->getHttpRequest()->getParameter('file', 'G');
 
-        Clansuite_Xdebug::firebug($file);
+        Clansuite_Debug::firebug($file);
 
         # check if we edit a module template or a theme template
         if(isset($tplmod) )
         {
             $tplmod = ucfirst(stripslashes($tplmod));
             $view->assign('templateeditor_modulename',  $tplmod);
-            Clansuite_Xdebug::firebug($tplmod);
+            Clansuite_Debug::firebug($tplmod);
         }
         elseif(isset($tpltheme))
         {
             $tpltheme = stripslashes($tpltheme);
             $view->assign('templateeditor_themename',   $tpltheme);
-            Clansuite_Xdebug::firebug($tpltheme);
+            Clansuite_Debug::firebug($tpltheme);
         }
 
         if(isset($file))
@@ -190,7 +187,7 @@ class Clansuite_Module_Templatemanager_Admin extends Clansuite_Module_Controller
 
     public function action_admin_save()
     {
-        #Clansuite_Xdebug::printR($this->getHttpRequest());
+        #Clansuite_Debug::printR($this->getHttpRequest());
 
         $tplfilename    = (string) $this->getHttpRequest()->getParameter('templateeditor_absolute_filename');
         $tplmodulename  = (string) $this->getHttpRequest()->getParameter('templateeditor_modulename');

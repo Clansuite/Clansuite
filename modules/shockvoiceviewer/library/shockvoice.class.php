@@ -28,7 +28,7 @@
     * @copyright  Jens-André Koch (2005 - onwards)
     *
     * @link       http://www.clansuite.com
-    * @link       http://gna.org/projects/
+
     *
     * @version    SVN: $Id$
     */
@@ -92,7 +92,7 @@ class Clansuite_Shockvoice_Query
         # hmm, append missing close-tag
         $xmldata .= '</sv>';
 
-        #clansuite_xdebug::printr($xmldata);
+        #Clansuite_Debug::printr($xmldata);
 
         # parse XML
         $this->parser = xml_parser_create($encoding);
@@ -109,7 +109,7 @@ class Clansuite_Shockvoice_Query
         # unset some data
         xml_parser_free($this->parser);
 
-        #clansuite_xdebug::printr($this->shockvoice);
+        #Clansuite_Debug::printr($this->shockvoice);
 
         # if there is nothing to output
         if (empty($this->shockvoice))
@@ -189,7 +189,7 @@ class Clansuite_Shockvoice_Query
                         $element['parentid'] = $value;
                         break;
                 }
-                #clansuite_xdebug::printr($attributes);
+                #Clansuite_Debug::printr($attributes);
             }
         }
 
@@ -221,7 +221,7 @@ class Clansuite_Shockvoice_Query
                         'image' => $this->getChannelImage($element['type'], $element['password'])
                 );
             }
-            #clansuite_xdebug::printr($this->shockvoice['channels']);
+            #Clansuite_Debug::printr($this->shockvoice['channels']);
         }
         elseif ($name == 'USER')
         {
@@ -233,7 +233,7 @@ class Clansuite_Shockvoice_Query
                     'status' => $element['status'],
                     'image' => $this->getUserImage($element['status'])
             );
-            #clansuite_xdebug::printr($this->shockvoice['users']);
+            #Clansuite_Debug::printr($this->shockvoice['users']);
         }
     }
 

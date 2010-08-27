@@ -29,7 +29,7 @@
     */
 
 # Security Handler
-if(defined('IN_CS') == false)
+if(defined('IN_CS') === false)
 {
     die('Clansuite not loaded. Direct Access forbidden.');
 }
@@ -53,6 +53,7 @@ class Clansuite_Config_Factory
      *  .config.php
      *  .config.xml
      *  .config.yaml
+     *  .info.php
      *
      * @param $configfile string path to configuration file
      * @return Cache Engine Object reads the configfile -> access to values via $config
@@ -62,16 +63,14 @@ class Clansuite_Config_Factory
         # init var
         $adapter = '';
 
-        $extension = mb_substr($configfile, -11);
-
-        /* if ($extension == '.config.ini.php')
-         {
-         * type = 'ini';
-         } */
+        # use the filename only to detect adapter
+        $configfile = basename($configfile);
+        preg_match('^(.config.php|.config.xml|.config.yaml|.info.php)$^', $configfile, $extension);
+        $extension = $extension[0];
 
         # the fileextensions .config.php means it's an .ini file
         # the content of the file IS NOT a php-array as you might think
-        if($extension == '.config.php')
+        if($extension == '.config.php' or $extension == '.info.php')
         {
             $adapter = 'ini'; # @todo change this to 'php' (read/write of php-array)
         }
@@ -85,7 +84,7 @@ class Clansuite_Config_Factory
         }
         else
         {
-            throw new Clansuite_Exception('No handler for that type of configuration file found.');
+            throw new Clansuite_Exception('No handler for that type of configuration file found (' . $extension .')');
         }
 
         return $adapter;
@@ -102,9 +101,15 @@ class Clansuite_Config_Factory
      */
     public static function getConfiguration($configfile)
     {
+        $handler = self::getHandler($configfile);
+        return $handler::readConfig($configfile);
+    }
+
+    public static function getHandler($configfile)
+    {
         $type = self::determineConfigurationHandlerTypeBy($configfile);
         $handler = self::getConfigurationHandler($type);
-        return $handler::readConfig($configfile);
+        return $handler;
     }
 
     /**
@@ -129,7 +134,8 @@ class Clansuite_Config_Factory
             if(true === class_exists($class, false))
             {
                 # instantiate and return the specific confighandler with the $configfile to read
-                return new $class();
+                #return new $class();
+                return $class::getInstance();
             }
             else
             {

@@ -1,16 +1,37 @@
 <?php
-/**
- * ClanSuite Forum Admin Module (Backend)
- * (forum)
- *
- * @license    GPL
- * @author     Florian Wolf
- * @link       http://www.clansuite.com
- * @version    SVN: $Id: $
- */
+   /**
+    * Clansuite - just an eSports CMS
+    * Jens-André Koch © 2005 - onwards
+    * http://www.clansuite.com/
+    *
+    * This file is part of "Clansuite - just an eSports CMS".
+    *
+    * LICENSE:
+    *
+    *    This program is free software; you can redistribute it and/or modify
+    *    it under the terms of the GNU General Public License as published by
+    *    the Free Software Foundation; either version 2 of the License, or
+    *    (at your option) any later version.
+    *
+    *    This program is distributed in the hope that it will be useful,
+    *    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    *    GNU General Public License for more details.
+    *
+    *    You should have received a copy of the GNU General Public License
+    *    along with this program; if not, write to the Free Software
+    *    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+    *
+    * @license    GNU/GPL v2 or (at your option) any later version, see "/doc/LICENSE".
+    * @author     Jens-André Koch <vain@clansuite.com>
+    * @copyright  Jens-André Koch (2005 - onwards)
+    * @link       http://www.clansuite.com
+    *
+    * @version    SVN: $Id: news.module.php 2753 2009-01-21 22:54:47Z vain $
+    */
 
 # Security Handler
-if(defined('IN_CS') == false)
+if(defined('IN_CS') === false)
 {
     die('Clansuite not loaded. Direct Access forbidden.');
 }
@@ -22,9 +43,9 @@ if(defined('IN_CS') == false)
  * @package     Modules
  * @subpackage  Forum
  */
-class Clansuite_Module_Forum_Admin extends Clansuite_Module_Controller implements Clansuite_Module_Interface
+class Clansuite_Module_Forum_Admin extends Clansuite_Module_Controller
 {
-    public function initializeModule(Clansuite_HttpRequest $request, Clansuite_HttpResponse $response)
+    public function initializeModule()
     {
         $this->getModuleConfig();
     }
@@ -156,13 +177,13 @@ class Clansuite_Module_Forum_Admin extends Clansuite_Module_Controller implement
         $form = new Clansuite_Array_Formgenerator($settings);
 
         # display formgenerator object
-        #clansuite_xdebug::printR($form);
+        #Clansuite_Debug::printR($form);
 
         $form->addElement('submitbutton')->setName('Save');
         $form->addElement('resetbutton');
 
         # display form html
-        #clansuite_xdebug::printR($form->render());
+        #Clansuite_Debug::printR($form->render());
 
         # assign the html of the form to the view
         $this->getView()->assign('form', $form->render());
@@ -177,7 +198,7 @@ class Clansuite_Module_Forum_Admin extends Clansuite_Module_Controller implement
         $data = $this->getHttpRequest()->getParameter('forum_settings');
 
         # Get Configuration from Injector
-        $config = $this->injector->instantiate('Clansuite_Config');
+        $config = $this->getInjector()->instantiate('Clansuite_Config');
 
         # write config
         $config->confighandler->writeConfig( ROOT_MOD . 'forum'.DS.'forum.config.php', $data);

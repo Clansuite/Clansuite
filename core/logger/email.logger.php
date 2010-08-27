@@ -31,7 +31,7 @@
     */
 
 # Security Handler
-if(defined('IN_CS') == false)
+if(defined('IN_CS') === false)
 {
     die('Clansuite not loaded. Direct Access forbidden.');
 }
@@ -50,7 +50,7 @@ if(defined('IN_CS') == false)
  * @package     Core
  * @subpackage  Logger
  */
-class Clansuite_Logger_Email extends Clansuite_Logger implements Clansuite_Logger_Interface
+class Clansuite_Logger_Email implements Clansuite_Logger_Interface
 {
     private $config;
 

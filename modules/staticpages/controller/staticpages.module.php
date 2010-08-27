@@ -23,19 +23,15 @@
     *    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
     *
     * @license    GNU/GPL v2 or (at your option) any later version, see "/doc/LICENSE".
-    *
     * @author     Jens-André Koch <vain@clansuite.com>
     * @copyright  Jens-André Koch (2005 - onwards)
-    *
     * @link       http://www.clansuite.com
-    * @link       http://gna.org/projects/clansuite
-
     *
     * @version    SVN: $Id: index.module.php 2625 2008-12-09 00:04:43Z vain $
     */
 
 # Security Handler
-if (defined('IN_CS') == false)
+if (defined('IN_CS') === false)
 {
     die('Clansuite not loaded. Direct Access forbidden.');
 }
@@ -44,12 +40,12 @@ if (defined('IN_CS') == false)
  * Clansuite Module - Static Pages
  *
  */
-class Clansuite_Module_Staticpages extends Clansuite_Module_Controller implements Clansuite_Module_Interface
+class Clansuite_Module_Staticpages extends Clansuite_Module_Controller
 {
     /**
      * Module_Staticpages -> Execute
      */
-    public function initializeModule(Clansuite_HttpRequest $request, Clansuite_HttpResponse $response)
+    public function initializeModule()
     {
         # read module config
         $this->getModuleConfig();
@@ -62,7 +58,9 @@ class Clansuite_Module_Staticpages extends Clansuite_Module_Controller implement
 
     public function action_show()
     {
-        $page = (string) $this->injector->instantiate('Clansuite_HttpRequest')->getParameter('page');
+        $page = (string) $this->request->getParameterFromGet('page');
+
+        var_dump($page);
 
         // if no page is requested, show overview
         if(empty($page))
@@ -74,7 +72,7 @@ class Clansuite_Module_Staticpages extends Clansuite_Module_Controller implement
         Clansuite_Breadcrumb::add( _('Show ' . $page), '/index.php?mod=staticpages&amp;action=show&page='. $page);
 
         // get inputfilter class
-        #$input = $this->injector->instantiate('Clansuite_Inputfilter');
+        #$input = $this->getInjector()->instantiate('Clansuite_Inputfilter');
 
         // check if page was set and is sanitized # and $input->check( $page, 'is_abc|is_int|is_custom', '_\s' )
         if ( !empty($page)  )

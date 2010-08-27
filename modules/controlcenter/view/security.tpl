@@ -5,7 +5,7 @@
 <tbody>
     <tr style="height: 15px;">
         <td style="min-width: 120px; color: black; background-color: #CC1717;" width="33%" valign="bottom">
-            <b>&nbsp;&raquo; Clansuite Security</b>
+            <b>&nbsp;&raquo; Clansuite Errorlog</b>
         </td>
         <td nowrap="nowrap" style="background-image:url('{$www_root}/modules/controlcenter/images/red-triangle.gif'); background-repeat: no-repeat;">
         </td>
@@ -23,8 +23,8 @@
                     <tbody>
                         <tr valign="top">
                             <td>
-                                <!-- Assign Data of Clansuite Security -->
-                                {$security}
+                                <!-- Assign Data of Clansuite Errorlog -->
+                                {$errorlog}
                             </td>
                         </tr>
                         <tr>

@@ -31,7 +31,7 @@
     */
 
 # Security Handler
-if (defined('IN_CS') == false)
+if (defined('IN_CS') === false)
 {
     die('Clansuite not loaded. Direct Access forbidden.');
 }
@@ -126,7 +126,7 @@ class Clansuite_Config extends Clansuite_Config_Base
 
         if(false === is_object($this->confighandler))
         {
-            $this->confighandler = Clansuite_Config_Factory::getConfiguration($filename);
+             $this->confighandler = Clansuite_Config_Factory::getHandler($filename);
         }
 
         $this->confighandler->writeConfig($filename, $array);
