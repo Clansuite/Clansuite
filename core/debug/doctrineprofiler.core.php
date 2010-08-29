@@ -46,30 +46,25 @@ if (defined('IN_CS') === false)
  */
 class Clansuite_Doctrine_Profiler
 {
-    public function __construct()
-    {
-        $this->connection = Doctrine_Manager::connection();
-    }
-    
     /**
      * Returns Doctrine's connection profiler
      *
      * @return Doctrine_Connection_Profiler
      */
-    public function getProfiler()
+    public static function getProfiler()
     {
-        return $this->connection->getListener();
+        return Doctrine_Manager::connection()->getListener();
     }
 
     /**
      * Attached the Doctrine Profiler as Listener to the connection
      */
-    public function attachProfiler()
+    public static function attachProfiler()
     {
         # instantiate Profiler and attach to doctrine connection
-        $this->connection->setListener(new Doctrine_Connection_Profiler);
-        
-        register_shutdown_function(array($this,'shutdown'));  
+        Doctrine_Manager::connection()->setListener(new Doctrine_Connection_Profiler);
+
+        register_shutdown_function('Clansuite_Doctrine_Profiler::shutdown');
     }
 
     /**
@@ -78,19 +73,20 @@ class Clansuite_Doctrine_Profiler
      * Because this is debug output, it's ok that direct output breaks the abstraction.
      * @return Direct HTML Output
      */
-    public function displayProfilingHTML()
+    public static function displayProfilingHTML()
     {
         /**
          * @var int total number of database queries performed
          */
         $query_counter = 0;
+
         /**
          * @var int time in seconds, counting the elapsed time for all queries
          */
         $time = 0;
 
-
-        echo '<!-- Disable Debug Mode to remove this!-->
+        $html = '';
+        $html .= '<!-- Disable Debug Mode to remove this!-->
               <style type="text/css">
               /*<![CDATA[*/
                 table.doctrine-profiler {
@@ -125,9 +121,9 @@ class Clansuite_Doctrine_Profiler
                 /*]]>*/
                 </style>';
 
-        echo '<p>&nbsp;</p><fieldset class="doctrine-profiler"><legend>Debug Console for Doctrine Queries</legend>';
-        echo '<table class="doctrine-profiler" width="95%">';
-        echo '<tr>
+        $html .= '<p>&nbsp;</p><fieldset class="doctrine-profiler"><legend>Debug Console for Doctrine Queries</legend>';
+        $html .= '<table class="doctrine-profiler" width="95%">';
+        $html .= '<tr>
                 <th>Query Counter</th>
                 <th>Command</th>
                 <th>Time</th>
@@ -135,7 +131,7 @@ class Clansuite_Doctrine_Profiler
                 <th>Parameters</th>
               </tr>';
 
-        foreach ( $this->getProfiler() as $event )
+        foreach(self::getProfiler() as $event)
         {
             /**
              * By activiating the following lines, only the "execute" queries are shown.
@@ -154,38 +150,43 @@ class Clansuite_Doctrine_Profiler
             # increase time
             $time += $event->getElapsedSecs();
 
-            echo '<tr>';
-            echo '<td style="text-align: center;">' . $query_counter . '</td>';
-            echo '<td style="text-align: center;">' . $event->getName() . '</td>';
-            echo '<td>' . sprintf('%f', $event->getElapsedSecs() ) . '</td>';
-            echo '<td>' . $event->getQuery() . '</td>';
+            $html .= '<tr>';
+            $html .= '<td style="text-align: center;">' . $query_counter . '</td>';
+            $html .= '<td style="text-align: center;">' . $event->getName() . '</td>';
+            $html .= '<td>' . sprintf('%f', $event->getElapsedSecs()) . '</td>';
+            $html .= '<td>' . $event->getQuery() . '</td>';
+
             $params = $event->getParams();
-            if ( empty($params) == false)
+            if(empty($params) == false)
             {
-                  echo '<td>';
-                  echo wordwrap(join(', ', $params),150,"\n",true);
-                  echo '</td>';
+                $html .= '<td>';
+                $html .= wordwrap(join(', ', $params), 150, "\n", true);
+                $html .= '</td>';
             }
             else
             {
-                  echo '<td>';
-                  echo '&nbsp;';
-                  echo '</td>';
+                $html .= '<td>';
+                $html .= '&nbsp;';
+                $html .= '</td>';
             }
-            echo '</tr>';
+
+            $html .= '</tr>';
         }
-        echo '</table>';
-        echo '<p style="font-weight: bold;">&nbsp; &raquo; &nbsp; '.$query_counter.' statements in ' . sprintf('%2.5f', $time) . ' secs.</p>';
-        echo '</fieldset>';
+
+        $html .= '</table>';
+        $html .= '<p style="font-weight: bold;">&nbsp; &raquo; &nbsp; '.$query_counter.' statements in ' . sprintf('%2.5f', $time) . ' secs.</p>';
+        $html .= '</fieldset>';
+
+        echo $html;
     }
 
     /**
      * shutdown function for register_shutdown_function
      */
-    public function shutdown()
+    public static function shutdown()
     {
         # append Doctrine's SQL-Profiling Report
-        $this->displayProfilingHTML();
+        self::displayProfilingHTML();
 
         # save session before exit
         session_write_close();
