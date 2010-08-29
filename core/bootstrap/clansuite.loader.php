@@ -158,17 +158,21 @@ class Clansuite_Loader
      */
     public static function requireFile($filename, $classname = null)
     {
-        if (is_file($filename) === true)
+        if(is_file($filename) === true)
         {
             include $filename;
 
-            if(null === $classname and class_exists($classname, false) === true)
+            if(null === $classname) # just file included
             {
-                throw new Clansuite_Exception('Class '. $classname .' could not be found.');
+                return true;
+            }
+            if(isset($classname) and class_exists($classname, false) === true)
+            {
+                return true;
             }
             else
             {
-                return true;
+                return false;
             }
         }
         else
