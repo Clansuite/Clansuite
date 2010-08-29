@@ -364,23 +364,10 @@ class Clansuite_Loader
          * like: Array ( [0] => clansuite [1] => module [2] => admin [3] => menu )
          * or  : Array ( [0] => clansuite [1] => module [2] => news )
          */
+
+        $classname = self::toUnderscoredUpperCamelCase($modulename);
+
         $moduleinfos = explode('_', $modulename);
-        $classname = '';
-
-        $i = 0;
-        foreach ($moduleinfos as $moduleinfo)
-        {
-            if($i == 0)
-            {
-                $classname .= ucfirst($moduleinfo);
-                ++$i;
-            }
-            else
-            {
-                $classname .= '_'.ucfirst($moduleinfo);
-            }
-        }
-
         $filename = ROOT_MOD;
 
         # if there is a part [3], we have to require a submodule filename
@@ -391,8 +378,6 @@ class Clansuite_Loader
             {
                 # admin submodule filename, like news.admin.php
                 $filename .= $moduleinfos['2'] . DS . 'controller' . DS . $moduleinfos['2'] . '.admin.php';
-
-                $classname .= 'Admin';
             }
             else
             {
@@ -407,6 +392,18 @@ class Clansuite_Loader
         }
 
         return self::requireFile($filename, $classname);
+    }
+
+    /**
+     * Transforms a string from underscored_lower_case to Underscored_Upper_Camel_Case.
+     *
+     * @param string $string String in underscored_lower_case format.
+     * @return $string String in Upper_Camel_Case.
+     */
+    public static function toUnderscoredUpperCamelCase($string)
+    {
+        $upperCamelCase = str_replace(' ', '_', ucwords(str_replace('_', ' ', strtolower($string))));
+        return $upperCamelCase;
     }
 }
 ?>
