@@ -622,10 +622,14 @@ class Clansuite_CMS
             }
         }
 
+        # set date formating via config
         if(isset(self::$config['locale']['dateformat']))
         {
-            # set date formating via config
             define('DATE_FORMAT', self::$config['locale']['dateformat'], false);
+        }
+        else # set default value
+        {
+            define('DATE_FORMAT', 'd.m.Y H:i');
         }
     }
 
