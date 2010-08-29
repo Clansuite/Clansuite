@@ -144,7 +144,7 @@ class Clansuite_Front_Controller implements Clansuite_Front_Controller_Interface
         $event = Clansuite_EventDispatcher::instantiate();
         $event->triggerEvent('onBeforeDispatcherForward');
 
-        $this->dispatcher->forward();
+        $this->dispatcher->forward($this->request, $this->response);
 
         $event->triggerEvent('onAfterDispatcherForward');
 
