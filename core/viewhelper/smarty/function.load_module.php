@@ -64,10 +64,10 @@ function smarty_function_load_module($params, $smarty)
     #Clansuite_Debug::firebug($module_classname);
 
     # Load class, if not already loaded
-    if(class_exists($module_classname, false) == false)
+    if(class_exists($module_classname, false) === false)
     {
         # Check if class was loaded
-        if(Clansuite_Loader::loadModul($module_classname) == false)
+        if(Clansuite_Loader::loadModul($module_classname) === false)
         {
             return '<br/>Module missing or misspelled: <strong>' . $module_classname . '</strong>';
         }
