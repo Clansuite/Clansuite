@@ -18,18 +18,12 @@
  *
  * Example:  {$timestamp|date}
 
- * @version  1.0
  * @author   Jens-André Koch <jakoch@web.de>
  * @param string = has to be a unix timestamp
  * @return string
  */
 function smarty_modifier_dateformat($string)
 {
-    if (!defined('DATE_FORMAT'))
-    {
-        define('DATE_FORMAT', "d.m.Y H:i");
-    }
-    
     # it's a unix timestamp?
     if(mb_strlen($string) == 11) 
     {
