@@ -232,7 +232,8 @@ class Clansuite_Doctrine
         /**
          * Sets Charset and Collation globally on Doctrine_Manager instance
          */
-        $this->manager->setCollate('utf8_unicode_ci');
+        # the following cmd is more direct and just a substitute for setCollate()
+        $this->manager->setAttribute(Doctrine_Core::ATTR_DEFAULT_TABLE_COLLATE, 'utf8_unicode_ci');
         $this->manager->setCharset('utf8');
 
         /**
@@ -312,8 +313,7 @@ class Clansuite_Doctrine
     public function initDoctrineProfiler()
     {
         include ROOT_CORE . 'debug/doctrineprofiler.core.php';
-        $profiler = new Clansuite_Doctrine_Profiler();
-        $profiler->attachProfiler();
+        Clansuite_Doctrine_Profiler::attachProfiler();
     }
 
     /**
