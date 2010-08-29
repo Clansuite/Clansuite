@@ -56,7 +56,7 @@ class Clansuite_Dispatcher
     /**
      * The dispatcher forwards to the pagecontroller = modulecontroller + moduleaction
      */
-    public static function forward()
+    public static function forward($request, $response)
     {
         $route = Clansuite_HttpRequest::getRoute();
 
@@ -77,10 +77,7 @@ class Clansuite_Dispatcher
         #Clansuite_Debug::firebug($route);
         #unset($route);
 
-        $controllerInstance = new $classname(
-                        Clansuite_CMS::getInjector()->instantiate('Clansuite_HttpRequest'),
-                        Clansuite_CMS::getInjector()->instantiate('Clansuite_HttpResponse')
-        );
+        $controllerInstance = new $classname($request, $response);
 
         # Initialize the Module
         if(true === method_exists($controllerInstance, 'initializeModule'))
