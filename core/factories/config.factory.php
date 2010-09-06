@@ -102,7 +102,7 @@ class Clansuite_Config_Factory
     public static function getConfiguration($configfile)
     {
         $handler = self::getHandler($configfile);
-        return $handler::readConfig($configfile);
+        return $handler->readConfig($configfile);
     }
 
     public static function getHandler($configfile)
@@ -134,8 +134,9 @@ class Clansuite_Config_Factory
             if(true === class_exists($class, false))
             {
                 # instantiate and return the specific confighandler with the $configfile to read
-                #return new $class();
-                return $class::getInstance();
+                #return $class::getInstance();
+                #call_user_func($class.'::getInstance');
+                return new $class();
             }
             else
             {

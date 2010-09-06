@@ -69,8 +69,8 @@ class Clansuite_Filter_Maintenance implements Clansuite_Filter_Interface
             $smarty =  Clansuite_Renderer_Factory::getRenderer('smarty', Clansuite_CMS::getInjector());
             $html = $smarty->fetch( ROOT_THEMES . 'core/templates/maintenance.tpl', true);
 
-            $response::setContent($html);
-            $response::flush();
+            $response->setContent($html);
+            $response->flush();
             exit();
         }
     } // else => bypass
