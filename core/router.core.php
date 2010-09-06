@@ -83,7 +83,7 @@ class Clansuite_Router implements ArrayAccess, Clansuite_Router_Interface
      */
     public function __construct(Clansuite_HttpRequest $request)
     {
-        $request_uri = $request::getRequestURI();
+        $request_uri = $request->getRequestURI();
 
         # clean the incomming uri
         $this->uri = self::prepareRequestURI($request_uri);
@@ -1103,7 +1103,7 @@ class Clansuite_Routes_Manager
 {
     public function addRoutesOfModule($modulename)
     {
-        self:updateApplicationRoutes($modulename);
+        self::updateApplicationRoutes($modulename);
     }
 
     public function delRoutesOfModule($modulename)
@@ -1212,7 +1212,7 @@ class Clansuite_Routes_Manager
  */
 interface Clansuite_Router_Interface
 {
-    function addRoute($name, array $route);
+    function addRoute($url_pattern, array $route_options = null);
     function addRoutes(array $routes);
     function getRoutes();
     function delRoute($name);

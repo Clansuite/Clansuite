@@ -103,7 +103,6 @@ class Clansuite_Config_INIHandler extends Clansuite_Config_Base implements Array
             return false;
         }
 
-
         # when ini_filename exists, get old config array
         if(is_file($ini_filename) === true)
         {
@@ -114,7 +113,6 @@ class Clansuite_Config_INIHandler extends Clansuite_Config_Base implements Array
         }
         else
         {
-
             # create file
             touch($ini_filename);
 
@@ -214,7 +212,7 @@ class Clansuite_Config_INIHandler extends Clansuite_Config_Base implements Array
     public static function readConfig($filename)
     {
         # check ini_filename exists
-        if(is_file($filename) === false)
+        if(is_file($filename) === false or is_readable($filename) === false)
         {
             throw new Clansuite_Exception('File not found: '.$filename, 4);
         }
