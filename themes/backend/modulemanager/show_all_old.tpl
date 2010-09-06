@@ -160,7 +160,7 @@
     
     <tr id="{$wert.module_id}_sub_{$item.submodule_id}_tr1">
         <td width="40" height="20">
-            <a name="{$wert.module_id}_{$key}">
+            <a id="{$wert.module_id}_{$key}">
             <strong>{t}Name:{/t}</strong>
         </td>
         <td width="165">
