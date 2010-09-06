@@ -76,20 +76,47 @@ class Clansuite_Cache_APC implements Clansuite_Cache_Interface
      * @param integer $cache_lifetime How long to cache the data, in seconds
      * @return boolean True if the data was successfully cached, false on failure
      */
-    public function store($key, $data, $cache_lifetime)
+    public function store($key, $data, $cache_lifetime, $overwrite = false)
     {
-        return apc_store($key, $data, $cache_lifetime);
+        if($key === null)
+        {
+            return false;
+        }
+        elseif($overwrite == false)
+        {
+            return apc_add($key, $data, $cache_lifetime);
+        }
+        else # overwrite
+        {
+            return apc_store($key, $data, $cache_lifetime);
+        }
     }
 
     /**
      * Delete data by key from cache
      *
      * @param string $key Identifier for the data
-     * @return boolean True if the data was successfully removed, false on failure
+     * @return int Number of keys deleted.
      */
     public function delete($key)
     {
-        return apc_delete($key);
+        $key = (array) $key;
+        $keys_deleted = 0;
+
+        foreach($key as $cacheKey)
+        {
+            return if(true === apc_delete($key))
+            {
+                $keys_deleted++;
+            }
+        }
+
+        return $keys_deleted;
+    }
+
+    public function clear()
+    {
+        return apc_clear_cache();
     }
 
     /**
