@@ -17,7 +17,7 @@ Posts in Threadname of Forum {$board_navigation.parent_forum} (posts.tpl)
  {*   {foreach item=post from=$posts} *}
          <tr>
             <td rowspan="2">
-            <a name="postid" />
+            <a id="postid" />
             <a href='index.php?mod=users&amp;id={$thread.userid_of_last_post}'>{$post.username} Author of Last Post</a>
             <br />
             -avatarimage
