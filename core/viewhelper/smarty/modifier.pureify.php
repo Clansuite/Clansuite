@@ -33,7 +33,7 @@ function smarty_modifier_purify($string)
     
     if (isset($purifier) == false or class_exists('HTMLPurifier', false) === false)
     {
-        include ROOT_LIBRARIES . '/IDS/vendors/htmlpurifier/HTMLPurifier.php';
+        include ROOT_LIBRARIES . 'IDS/vendors/htmlpurifier/HTMLPurifier.php';
         
         $config = HTMLPurifier_Config::createDefault();        
         $config->set('Core.Encoding', 'ISO-8859-1');

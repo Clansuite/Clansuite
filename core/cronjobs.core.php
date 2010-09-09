@@ -193,8 +193,8 @@ class Clansuite_Cronjobs
      */
     public function __construct()
     {
-        $this->cronTabFile = ROOT_CORE . '/cronjobs/crontab.txt';
-        $this->writeDirectory = ROOT_CORE . '/cronjobs/';
+        $this->cronTabFile = ROOT_CORE . 'cronjobs/crontab.txt';
+        $this->writeDirectory = ROOT_CORE . 'cronjobs/';
         $this->execute();
     }
 

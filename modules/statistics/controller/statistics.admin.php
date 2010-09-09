@@ -83,7 +83,7 @@ class Clansuite_Module_Statistics_Admin extends Clansuite_Module_Controller
 
 
         # fetch the formgenerator
-        include ROOT_CORE . '/viewhelper/formgenerator.core.php';
+        include ROOT_CORE . 'viewhelper/formgenerator.core.php';
 
         # fill the settings array into the formgenerator
         $form = new Clansuite_Array_Formgenerator($settings);

@@ -31,7 +31,7 @@
  */
 function smarty_function_openflashchart($params, $smarty)
 {
-    include ROOT_LIBRARIES . '/open-flash-chart/php-ofc-library/open_flash_chart_object.php';
+    include ROOT_LIBRARIES . 'open-flash-chart/php-ofc-library/open_flash_chart_object.php';
 
     # auto-prefix url with www_root if http is not in the url string
     $params['url'] = WWW_ROOT .'/'. $params['url'];

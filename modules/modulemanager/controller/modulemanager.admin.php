@@ -60,7 +60,7 @@ class Clansuite_Module_Modulemanager_Admin extends Clansuite_Module_Controller
         # Set Pagetitle and Breadcrumbs
         Clansuite_Breadcrumb::add( _('Show'), '/index.php?mod=modulemanager&amp;sub=admin&amp;action=show');
 
-        $moduleinfo = new Clansuite_ModuleInfoController($modulename_by_dirname);
+        $moduleinfo = new Clansuite_ModuleInfoController();
         $modules_info_array = $moduleinfo->getModuleInformations();
         $modules_summary = $modules_info_array['yy_summary'];
         array_pop($modules_info_array);
@@ -76,6 +76,19 @@ class Clansuite_Module_Modulemanager_Admin extends Clansuite_Module_Controller
 
     public function action_admin_edit()
     {
+        $this->display();
+    }
+
+    public function action_admin_edit_info()
+    {
+         # Set Pagetitle and Breadcrumbs
+        Clansuite_Breadcrumb::add( _('Edit Info'), '/index.php?mod=modulemanager&amp;sub=admin&amp;action=edit_info');
+
+        $modulename = $this->getHttpRequest()->getParameterFromGet('modulename');
+
+        $moduleinfo = new Clansuite_ModuleInfoController();
+        $modules_info_array = $moduleinfo->getModuleInformations($modulename);
+        print_r($modules_info_array);
 
         $this->display();
     }
@@ -85,9 +98,6 @@ class Clansuite_Module_Modulemanager_Admin extends Clansuite_Module_Controller
      */
     public function action_admin_install()
     {
-        # Permission check
-        #$perms::check('cc_show_menueditor');
-
         # Set Pagetitle and Breadcrumbs
         Clansuite_Breadcrumb::add( _('Show'), '/index.php?mod=modulemanager&amp;sub=admin&amp;action=install_new');
 
@@ -103,9 +113,6 @@ class Clansuite_Module_Modulemanager_Admin extends Clansuite_Module_Controller
      */
     public function action_admin_export()
     {
-        # Permission check
-        #$perms::check('cc_show_menueditor');
-
         # Set Pagetitle and Breadcrumbs
         Clansuite_Breadcrumb::add( _('Export'), '/index.php?mod=modulemanager&amp;sub=admin&amp;action=export');
 
@@ -140,9 +147,6 @@ class Clansuite_Module_Modulemanager_Admin extends Clansuite_Module_Controller
      */
     public function action_admin_builder()
     {
-        # Permission check
-        #$perms::check('cc_show_menueditor');
-
         # Set Pagetitle and Breadcrumbs
         Clansuite_Breadcrumb::add( _('Builder'), '/index.php?mod=modulemanager&amp;sub=admin&amp;action=builder');
 
@@ -607,7 +611,7 @@ class Clansuite_Module_Modulemanager_Admin extends Clansuite_Module_Controller
 
         if( in_array($module->module, $disallowed_to_delete) == false )
         {
-            throw new Clansuite_Exception('You cannot delete the login, modules or accesslevels module.');
+            throw new Clansuite_Exception('You cannot delete this essential core module : '.$module->module.'.');
         }
         else
         {

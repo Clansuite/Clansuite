@@ -96,7 +96,7 @@ class Clansuite_Localization
          */
         if(function_exists('_get_reader') === false)
         {
-            include ROOT_LIBRARIES . '/php-gettext/gettext.inc';
+            include ROOT_LIBRARIES . 'php-gettext/gettext.inc';
         }
 
         # Load Clansuite Domain

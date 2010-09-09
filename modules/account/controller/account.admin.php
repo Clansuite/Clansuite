@@ -142,7 +142,7 @@ class Clansuite_Module_Account_Admin extends Clansuite_Module_Controller
         #                                'formfieldtype' => 'text',
         #                                'value' => $this->getConfigValue('resultsPerPage_show', '3'));
 
-        include ROOT_CORE . '/viewhelper/formgenerator.core.php';
+        include ROOT_CORE . 'viewhelper/formgenerator.core.php';
         $form = new Clansuite_Array_Formgenerator($settings);
 
         # display formgenerator object

@@ -80,7 +80,7 @@ function smarty_function_gravatar($params, $smarty)
     # initialize gravatar library
     if (false === class_exists('clansuite_gravatar',false))
     {
-        include ROOT_LIBRARIES . '/gravatar/clansuite_gravatar.class.php';
+        include ROOT_LIBRARIES . 'gravatar/clansuite_gravatar.class.php';
     }
 
     $gravatar = new clansuite_gravatar($email, $rating, $size, $defaultImage);
