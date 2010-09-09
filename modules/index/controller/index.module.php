@@ -92,7 +92,7 @@ class Clansuite_Module_Index extends Clansuite_Module_Controller
         #$this->setTemplate('index/show.tpl');
         # OR
         # b) directly call template in module path
-        #$this->setTemplate( ROOT_MOD . '/index/view/show.tpl' );
+        #$this->setTemplate( ROOT_MOD . 'index/view/show.tpl' );
 
         # Starting the View
         #$this->setView($this->getRenderEngine());

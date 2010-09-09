@@ -71,7 +71,7 @@ class Clansuite_Cache_Factory
      */
     public static function getCache($adapter)
     {
-        $file = ROOT_CORE . '/cache/' . mb_strtolower($adapter) . '.cache.php';
+        $file = ROOT_CORE . 'cache/' . mb_strtolower($adapter) . '.cache.php';
 
         if(is_file($file) === true)
         {
@@ -81,8 +81,8 @@ class Clansuite_Cache_Factory
             {
                 include $file;
             }
-
-            if(class_exists($class, false))
+            
+            if(true === class_exists($class, false))
             {
                 $cache = new $class();
                 return $cache;

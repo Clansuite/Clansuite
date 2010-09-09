@@ -80,7 +80,7 @@ class Clansuite_DoorKeeper
             define( 'IDS_FILTER_PATH',  ROOT_LIBRARIES . 'IDS/default_filter.xml');
             define( 'IDS_TMP_PATH',     ROOT_CACHE);
             define( 'IDS_LOG_PATH',     ROOT . 'logs/phpids_log.txt');
-            define( 'IDS_CACHE_PATH',   ROOT_CACHE . '/default_filter.cache');
+            define( 'IDS_CACHE_PATH',   ROOT_CACHE . 'default_filter.cache');
 
             # Initialize the System with the configuration values
             $init = IDS_Init::init( ROOT_CONFIG . 'phpids_config.ini');

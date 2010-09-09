@@ -26,7 +26,7 @@
     </td>
     <td class="cell1" style="padding: 3px">
         <small>{t}Name your clan:{/t}</small><br />
-        <input class="input_text" type="text" value="{$config.clan.name}" name="config[clan][name]" />
+        <input class="input_text" type="text" value="{if isset($config.clan.name)}{$config.clan.name}{/if}" name="config[clan][name]" />
     </td>
 </tr>
 <tr>
@@ -35,7 +35,7 @@
     </td>
     <td class="cell1" style="padding: 3px">
         <small>{t}Set the tag of your clan:{/t}</small><br />
-        <input class="input_text" type="text" value="{$config.clan.tag}" name="config[clan][tag]" />
+        <input class="input_text" type="text" value="{if isset($config.clan.tag)}{$config.clan.tag}{/if}" name="config[clan][tag]" />
     </td>
 </tr>
 <tr>

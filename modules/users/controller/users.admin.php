@@ -71,7 +71,7 @@ class Clansuite_Module_Users_Admin extends Clansuite_Module_Controller
         $searchletter = $this->getHttpRequest()->getParameter('searchletter');
 
         // SmartyColumnSort -- Easy sorting of html table columns.
-        include ROOT_LIBRARIES . '/smarty/libs/SmartyColumnSort.class.php';
+        include ROOT_LIBRARIES . 'smarty/libs/SmartyColumnSort.class.php';
         // A list of database columns to use in the table.
         $columns = array( 'u.user_id', 'u.nick', 'u.email', 'u.timestamp', 'u.joined');
         // Create the columnsort object
@@ -217,7 +217,7 @@ class Clansuite_Module_Users_Admin extends Clansuite_Module_Controller
                                         'formfieldtype' => 'text',
                                         'value' => $this->getConfigValue('items_lastregisteredusers', '4'));
 
-        include ROOT_CORE . '/viewhelper/formgenerator.core.php';
+        include ROOT_CORE . 'viewhelper/formgenerator.core.php';
         $form = new Clansuite_Array_Formgenerator($settings);
 
         $form->addElement('submitbutton')->setName('Save');

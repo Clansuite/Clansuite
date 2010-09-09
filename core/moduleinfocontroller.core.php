@@ -98,7 +98,7 @@ class Clansuite_ModuleInfoController
         }
         else
         {
-            $module_directories = $module; # $module is either an array or an string
+            $module_directories = array ($module); # $module is either an array or an string
         }
 
         foreach( $module_directories as $modulepath )

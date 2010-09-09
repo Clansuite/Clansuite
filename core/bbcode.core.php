@@ -63,7 +63,7 @@ class Clansuite_Bbcode
         # Include Stringpaser_bbcode Class
         if(false === class_exists('StringParser_BBCode', false))
         {
-            include ROOT_LIBRARIES . '/bbcode/stringparser_bbcode.class.php';
+            include ROOT_LIBRARIES . 'bbcode/stringparser_bbcode.class.php';
         }
 
         # Instantiate the object
@@ -204,7 +204,7 @@ class Clansuite_Bbcode
         # Include & Instantiate GeSHi
         if( false === class_exists('GeSHi',false) )
         {
-            include ROOT_LIBRARIES . '/geshi/geshi.php';
+            include ROOT_LIBRARIES . 'geshi/geshi.php';
         }
 
         $geshi = new GeSHi($content, $attributes['default']);

@@ -225,7 +225,7 @@ class Clansuite_Router implements ArrayAccess, Clansuite_Router_Interface
     public function route()
     {
         # detects if RewriteEngine is active and calls the proper URLParser for extraction of uri segments
-        if(true === $this->isRewriteEngineOn() and !isset($_GET['mod']) and !isset($_GET['sub']))
+        if(true === $this->isRewriteEngineOn() and empty($_GET['mod']) and empty($_GET['sub']))
         {
             $this->UrlParser_Rewrite($this->uri);
         }
@@ -241,6 +241,8 @@ class Clansuite_Router implements ArrayAccess, Clansuite_Router_Interface
          */
         if(empty($this->uri) or $this->uri === '/')
         {
+            #Clansuite_TargetRoute::dispatchToDefaultRoute();
+
             Clansuite_TargetRoute::setController('news');
             Clansuite_TargetRoute::setAction('show');
 
@@ -271,7 +273,7 @@ class Clansuite_Router implements ArrayAccess, Clansuite_Router_Interface
      */
     public function mapMatchURI()
     {
-        #Clansuite_Debug::firebug($this->uri);
+        Clansuite_Debug::firebug($this->uri);
 
         /**
          * Do we have a direct match ?
@@ -605,9 +607,14 @@ class Clansuite_Router implements ArrayAccess, Clansuite_Router_Interface
         }
     }
 
+    /**
+     * Method checks if routes caching is activated in config,
+     * maybe we can load routes from cache.
+     *
+     * @return bool True if route caching active.
+     */
     public static function checkRouteCachingActive()
     {
-        # check if routes caching is activated in config, maybe we can load routes from cache
         if(isset($config['routing']['cache_routes']) and true === $config['routing']['cache_routes'])
         {
             self::$use_cache = true;
@@ -634,7 +641,7 @@ class Clansuite_Router implements ArrayAccess, Clansuite_Router_Interface
         # Load Routes from routes.config.php
         if(empty($this->routes))
         {
-            $this->addRoutes( Clansuite_Routes_Manager::loadRoutesFromConfig());
+            $this->addRoutes(Clansuite_Routes_Manager::loadRoutesFromConfig());
 
             # and save these routes to cache
             if(true === self::$use_cache)
@@ -734,6 +741,7 @@ class Clansuite_Mapper
     public static function mapControllerToFilename($module_path, $controller, $subcontroller = null)
     {
         $filename = '';
+        $filename_postfix = '';
 
         # construct the module_path, like "/clansuite/modules/news/" + "controller/"
         $module_path = $module_path . 'controller' . DS;
@@ -745,7 +753,7 @@ class Clansuite_Mapper
         }
         elseif(isset($subcontroller) and $subcontroller != 'admin') # any subcontroller name as postfix
         {
-            $filename_postifx = '.'.$subcontroller.'.php';
+            $filename_postfix = '.'.$subcontroller.'.php';
         }
         else # apply standard postfix
         {
@@ -846,10 +854,12 @@ class Clansuite_TargetRoute extends Clansuite_Mapper
     public static function getInstance()
     {
         static $instance;
+
         if(isset($instance) == null)
         {
             $instance = new Clansuite_TargetRoute();
         }
+
         return $instance;
     }
 
@@ -970,11 +980,9 @@ class Clansuite_TargetRoute extends Clansuite_Mapper
         {
             return self::$parameters['method'];
         }
-        # add method prefix (action_) and subcontroller prefix (admin_)
-        else
+        else # add method prefix (action_) and subcontroller prefix (admin_)
         {
             self::setMethod(self::mapActionToActioname(self::getAction(), self::getSubController()));
-
         }
 
         return self::$parameters['method'];
@@ -1036,6 +1044,11 @@ class Clansuite_TargetRoute extends Clansuite_Mapper
         Clansuite_Debug::firebug($string);
     }
 
+    /**
+     * Method to check if the TargetRoute relates to correct file, controller and action.
+     *
+     * @return boolean True if TargetRoute is dispatchable, false otherwise.
+     */
     public static function dispatchable()
     {
         $filename  = self::getFilename();
@@ -1060,28 +1073,48 @@ class Clansuite_TargetRoute extends Clansuite_Mapper
                 # @todo how to get the object back for a classname?
                 if(true === in_array($method, get_class_methods($classname)))
                 {
-                      #Clansuite_Debug::firebug('(OK) Route is dispatchable: '. $filename .' '. $classname .'->'. $method);
+                      Clansuite_Debug::firebug('(OK) Route is dispatchable: '. $filename .' '. $classname .'->'. $method);
                       return true;
                 }
             }
         }
 
-        #Clansuite_Debug::firebug('(ERROR) Route not dispatchable: '. $filename .' '. $classname .'->'. $method);
+        Clansuite_Debug::firebug('(ERROR) Route not dispatchable: '. $filename .' '. $classname .'->'. $method);
         return false;
     }
 
     public static function reset()
     {
+        /* $reset_params = array(
+          # File
+          'filename' => null,
+          'classname' => null,
+          # Call
+          'controller' => null,
+          'subcontroller' => null,
+          'action' => 'show',
+          'method' => null,
+          'params' => null
+          ); */
+
         $reset_params = array(
             # File
             'filename' => null,
             'classname' => null,
             # Call
-            'controller' => null,
+            'controller' => 'index',
             'subcontroller' => null,
             'action' => 'show',
             'method' => null,
-            'params' => null
+            'params' => null,
+            # Output
+            'format' => 'html',
+            'language' => 'en',
+            'request' => 'get',
+            'layout' => true,
+            'ajax' => false,
+            'renderer' => 'smarty',
+            'modrewrite' => false
         );
 
         self::$parameters = array_merge(self::$parameters, $reset_params);
@@ -1108,7 +1141,7 @@ class Clansuite_Routes_Manager
 
     public function delRoutesOfModule($modulename)
     {
-        $module_routes_file = ROOT_MOD . '/' . $modulename . '/' . $modulename . '.routes.php';
+        $module_routes_file = ROOT_MOD . $modulename . '/' . $modulename . '.routes.php';
         $module_routes = $this->loadRoutesFromConfig($module_routes_file);
 
         # load main routes file
@@ -1161,7 +1194,7 @@ class Clansuite_Routes_Manager
         foreach($activated_modules as $modulename)
         {
             # load module routing file
-            $module_routes_file = ROOT_MOD . '/' . $modulename . '/' . $modulename . '.routes.php';
+            $module_routes_file = ROOT_MOD . $modulename . '/' . $modulename . '.routes.php';
             $module_routes = $this->loadRoutesFromConfig($module_routes_file);
 
             # load main routes file

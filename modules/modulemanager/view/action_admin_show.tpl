@@ -39,13 +39,17 @@ There are {$modules_summary.counter} Modules installed.
             {if $smarty.const.DEVELOPER == true}
             
             &nbsp;
-            <a href="/index.php?mod={$module.name}&sub=admin&action=settings" type="button" class="delete" title="Edit Settings ({$module.name}.config.php)">Edit Settings</a>
+            <a href="/index.php?mod={$module.name}&sub=admin&action=settings"
+               type="button" class="delete" title="Edit Settings ({$module.name}.config.php)">Edit Settings</a>
             &nbsp;
-            <a href="/" type="button" class="delete" title="Edit Informations ({$module.name}.info.php)">Edit Informations</a>
+            <a href="/index.php?mod=modulemanager&sub=admin&action=edit_info&modulename={$module.name}"
+               type="button" class="delete" title="Edit Informations ({$module.name}.info.php)">Edit Informations</a>
             &nbsp;
-            <a href="/" type="button" class="delete" title="Edit Menu ({$module.name}.menu.php)">Edit Menu</a>
+            <a href="/"
+               type="button" class="delete" title="Edit Menu ({$module.name}.menu.php)">Edit Menu</a>
             &nbsp;
-            <a href="/" type="button" class="delete" title="Edit Routes ({$module.name}.routes.php)">Edit Routes</a>
+            <a href="/"
+               type="button" class="delete" title="Edit Routes ({$module.name}.routes.php)">Edit Routes</a>
             &nbsp;
             {*
             

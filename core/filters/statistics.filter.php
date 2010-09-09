@@ -90,7 +90,7 @@ class Clansuite_Filter_Statistics implements Clansuite_Filter_Interface
              * @link http://phpsniff.sourceforge.net/docs/
              */
             # load library
-            #require_once ROOT_LIBRARIES . '/phpSniffer/phpSniff.class.php';
+            #require_once ROOT_LIBRARIES . 'phpSniffer/phpSniff.class.php';
             # instantiate phpsniff
             #$phpSniff = new phpSniff($_SERVER['HTTP_USER_AGENT']);
 

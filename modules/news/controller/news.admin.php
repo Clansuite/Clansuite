@@ -434,7 +434,7 @@ class Clansuite_Module_News_Admin extends Clansuite_Module_Controller
                                         'value' => $this->getConfigValue('feed_items', '10'));
 
         # fetch the formgenerator
-        include ROOT_CORE . '/viewhelper/formgenerator.core.php';
+        include ROOT_CORE . 'viewhelper/formgenerator.core.php';
 
         # fill the settings array into the formgenerator
         $form = new Clansuite_Array_Formgenerator($settings);

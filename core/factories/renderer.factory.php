@@ -40,16 +40,12 @@ if(defined('IN_CS') === false)
  * The static method getRenderer() returns the included and instantiated
  * Rendering Engine Object - which is the View in MVC!
  *
- * @author     Jens-André Koch <vain@clansuite.com>
- * @copyright  Jens-André Koch (2005 - onwards)
- *
  * @category    Clansuite
  * @package     Core
  * @subpackage  Renderer
  */
 class Clansuite_Renderer_Factory
 {
-
     /**
      * getRenderer
      *

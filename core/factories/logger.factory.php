@@ -36,6 +36,15 @@ if(defined('IN_CS') === false)
     die('Clansuite not loaded. Direct Access forbidden.');
 }
 
+/**
+ * Logger Factory
+ *
+ * The static method getLogger() returns the included and instantiated Logger Engine Object!
+ *
+ * @category    Clansuite
+ * @package     Core
+ * @subpackage  Cache
+ */
 class Clansuite_Logger_Factory
 {
 
@@ -57,7 +66,7 @@ class Clansuite_Logger_Factory
                 include $file;
             }
 
-            if(class_exists($class, false))
+            if(true === class_exists($class, false))
             {
                 $logger = new $class();
                 return $logger;

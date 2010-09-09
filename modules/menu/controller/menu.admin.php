@@ -372,9 +372,12 @@ class Clansuite_Module_Menu_Admin extends Clansuite_Module_Controller
     public function get_html_div($menu = '')
     {
         # $result is relevant to the recursion
-        $result = !isset( $result ) ? '' : $result;
+        if(false === isset($result))
+        {
+            $result = '';
+        }
 
-        if ( $menu == '' )
+        if($menu == '')
         {
             $menu = $this->fetch_adminmenu(true);
         }
