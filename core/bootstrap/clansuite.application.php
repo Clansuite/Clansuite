@@ -312,22 +312,22 @@ class Clansuite_CMS
          */
         if(dirname($_SERVER['PHP_SELF']) == '\\')
         {
-            define('WWW_ROOT', SERVER_URL, false);
+            define('WWW_ROOT', SERVER_URL . DS , false);
         }
         else
         {
-            define('WWW_ROOT', SERVER_URL . dirname($_SERVER['PHP_SELF']), false);
+            define('WWW_ROOT', SERVER_URL . dirname($_SERVER['PHP_SELF']) . DS, false);
         }
 
         /**
          * @var WWW_ROOT_THEMES defines the themes folder
          */
-        define('WWW_ROOT_THEMES', WWW_ROOT . '/' . self::$config['paths']['themes_folder'], false);
+        define('WWW_ROOT_THEMES', WWW_ROOT . self::$config['paths']['themes_folder'] . DS, false);
 
         /**
          * @var WWW_ROOT_THEMES defines the themes/core folder
          */
-        define('WWW_ROOT_THEMES_CORE', WWW_ROOT . '/' . self::$config['paths']['themes_folder'] . '/core', false);
+        define('WWW_ROOT_THEMES_CORE', WWW_ROOT_THEMES . 'core' . DS, false);
 
         /**
          * SET INCLUDE PATHS

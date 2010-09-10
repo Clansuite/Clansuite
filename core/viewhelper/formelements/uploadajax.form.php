@@ -57,7 +57,7 @@ class Clansuite_Formelement_Uploadajax extends Clansuite_Formelement_File implem
     public function render()
     {
         # a) loads the ajaxupload javascript file
-        $javascript = '<script src="'.WWW_ROOT_THEMES_CORE . '/javascript/jquery/ajaxupload.js'. '" type="text/javascript"></script>';
+        $javascript = '<script src="'.WWW_ROOT_THEMES_CORE . 'javascript/jquery/ajaxupload.js'. '" type="text/javascript"></script>';
 
         # b) handler for the ajaxupload
         $javascript .= "

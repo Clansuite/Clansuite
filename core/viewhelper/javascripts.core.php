@@ -208,7 +208,7 @@ class Clansuite_Javascripts extends Clansuite_Layout
         if( defined('OB_GZIP') )
         {
             #self::addToCompressionWhitelist($javascript);
-            return '<script src="' . WWW_ROOT_THEMES_CORE . '/compress.php?js=' . $javascript . '" type="text/javascript"></script>' . CR;
+            return '<script src="' . WWW_ROOT_THEMES_CORE . 'compress.php?js=' . $javascript . '" type="text/javascript"></script>' . CR;
         }
         else
         {
@@ -246,7 +246,7 @@ class Clansuite_Javascripts extends Clansuite_Layout
             return '<!--[if IE]>';
         }
 
-        return '<style type="text/css"> @import "' . WWW_ROOT_THEMES_CORE . '/css/' . $filename . '.css"; </style>' . CR;
+        return '<style type="text/css"> @import "' . WWW_ROOT_THEMES_CORE . 'css/' . $filename . '.css"; </style>' . CR;
 
         if($iehack == true)
         {

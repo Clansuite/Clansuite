@@ -60,7 +60,7 @@ class Clansuite_Formelement_Wysiwygnicedit extends Clansuite_Formelement_Textare
     public function render()
     {  
         # a) loads the nicedit javascript file
-        $javascript = '<script src="'.WWW_ROOT_THEMES_CORE . '/javascript/nicedit/nicedit.js'. '" type="text/javascript"></script>';
+        $javascript = '<script src="'.WWW_ROOT_THEMES_CORE . 'javascript/nicedit/nicedit.js'. '" type="text/javascript"></script>';
 
         # watch it! the online version has some icons changes
         #$javascript = '<script type="text/javascript" src="http://js.nicedit.com/nicEdit-latest.js"></script>';

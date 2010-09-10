@@ -1,6 +1,6 @@
 {* {$modulenavigation|@var_dump} *}
 
-{* <link rel="stylesheet" href="{$www_root_themes_core}/css/tab.css" type="text/css" /> *}
+{* <link rel="stylesheet" href="{$www_root_themes_core}css/tab.css" type="text/css" /> *}
 
 {* /*- CSS Menus by exploding-boy
     Website: http://exploding-boy.com/images/cssmenus/menus.html

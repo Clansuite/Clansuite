@@ -11,7 +11,7 @@
         <ul>
         {foreach item=newscategory from=$widget_newscategories_list}
         <li>
-            <a href="{$www_root}/index.php?mod=news&action=show&page=1&cat={$newscategory.cat_id}"> {$newscategory.CsCategories.name} ({$newscategory.sum_news})</a>
+            <a href="{$www_root}index.php?mod=news&action=show&page=1&cat={$newscategory.cat_id}"> {$newscategory.CsCategories.name} ({$newscategory.sum_news})</a>
         </li>
         {/foreach}
         </ul>

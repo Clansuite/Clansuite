@@ -1,7 +1,7 @@
 <!-- Start Pagination -->
 <div id="pagination">
         <!-- Pagination Icon -->
-        <img src="{$www_root_themes_core}/images/icons/page_edit.png" alt="" />
+        <img src="{$www_root_themes_core}images/icons/page_edit.png" alt="" />
 
         {assign var=resultsInPage value=$pager->getResultsInPage()}
 

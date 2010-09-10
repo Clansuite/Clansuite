@@ -2,10 +2,10 @@
 {* Debugausgabe des Arrays: {$guestbook|@var_dump} {html_alt_table loop=$guestbook} *}
 
 {move_to target="pre_head_close"}
-    <script src="{$www_root_themes_core}/javascript/prototype/prototype.js" type="text/javascript"></script>
-  	<script type="text/javascript" src="{$www_root_themes_core}/javascript/scriptaculous/effects.js"> </script>
-  	<script type="text/javascript" src="{$www_root_themes_core}/javascript/xilinus/window.js"> </script>
-  	<script type="text/javascript" src="{$www_root_themes_core}/javascript/xilinus/window_effects.js"> </script>
+    <script src="{$www_root_themes_core}javascript/prototype/prototype.js" type="text/javascript"></script>
+  	<script type="text/javascript" src="{$www_root_themes_core}javascript/scriptaculous/effects.js"> </script>
+  	<script type="text/javascript" src="{$www_root_themes_core}javascript/xilinus/window.js"> </script>
+  	<script type="text/javascript" src="{$www_root_themes_core}javascript/xilinus/window_effects.js"> </script>
 {/move_to}
 
 <div class="guestbook">
@@ -30,7 +30,7 @@
             {elseif $entry.CsImage.type == 'upload'}
             <a href="index.php?mod=account&amp;sub=profile&amp;action=show&amp;id={$entry.user_id.1}"><img src="index.php?mod=guestbook&amp;action=show_avatar&amp;id={$entry.gb_id}" alt="{$entry.gb_nick}"  class="the_pic" /></a>
             {else}
-            <img src="{$www_root_theme}/images/no_avatar_small.jpg" alt="{t}No avatar{/t}: {$entry.gb_nick}"  class="the_pic" />
+            <img src="{$www_root_theme}images/no_avatar_small.jpg" alt="{t}No avatar{/t}: {$entry.gb_nick}"  class="the_pic" />
             {/if}
             <br />
             <span>{t}Date{/t}</span>: {t}{$entry.gb_added|date_format:"%A"}{/t}, {t}{$entry.gb_added|date_format:"%B"}{/t}{$entry.gb_added|date_format:" %e, %Y"}<br />

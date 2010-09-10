@@ -92,7 +92,7 @@ if(version_compare(PHP_VERSION, REQUIRED_PHP_VERSION, '<') == true)
 }
 
 # Check for Configuration File
-if(false == is_file(ROOT . '/configuration/clansuite.config.php'))
+if(false == is_file(ROOT . 'configuration/clansuite.config.php'))
 {
     $e = new Clansuite_Converter_Exception("<i>Configuration file not found!</i> | Ensure that Clansuite is installed properly and clansuite.config.php resides in maindirectory! The file is needed for Database Access!", 2);
     exit($e);
@@ -100,7 +100,7 @@ if(false == is_file(ROOT . '/configuration/clansuite.config.php'))
 
 
 // The Clansuite version this script installs
-require ROOT . '/core/clansuite.version.php';
+require ROOT . 'core/clansuite.version.php';
 define('CONVERTER_VERSION', '0.1');
 
 // Define $error

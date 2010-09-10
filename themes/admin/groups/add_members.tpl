@@ -7,7 +7,7 @@
 
 
 {move_to target="pre_head_close"}
-<script src="{$www_root_themes_core}/javascript/picklist.js" type="text/javascript"></script>
+<script src="{$www_root_themes_core}javascript/picklist.js" type="text/javascript"></script>
 {/move_to}
 
 <form action="index.php?mod=controlcenter&amp;sub=groups&amp;action=add_members&amp;id={$info.group_id}" method="post" accept-charset="UTF-8" onsubmit="return selIt();">

@@ -1,6 +1,6 @@
 {move_to target="pre_head_close"}
-<link rel="stylesheet" type="text/css" href="{$www_root}/modules/menu/css/menu.css" />
-<script type="text/javascript" src="{$www_root}/modules/menu/javascript/XulMenu.js"></script>
+<link rel="stylesheet" type="text/css" href="{$www_root}modules/menu/css/menu.css" />
+<script type="text/javascript" src="{$www_root}modules/menu/javascript/XulMenu.js"></script>
 {/move_to}
 
 <!-- Start: Adminmenu (Modules->Menu)-->
@@ -8,9 +8,9 @@
 <script type="text/javscript">
 /* preload images */
 var arrow1 = new Image(4, 7);
-arrow1.src =  "{$www_root}/modules/menu/images/arrow1.gif";
+arrow1.src =  "{$www_root}modules/menu/images/arrow1.gif";
 var arrow2 = new Image(4, 7);
-arrow2.src =  "{$www_root}/modules/menu/images/arrow2.gif";
+arrow2.src =  "{$www_root}modules/menu/images/arrow2.gif";
 </script>
 
 <div class="menugradient">
@@ -27,8 +27,8 @@ arrow2.src =  "{$www_root}/modules/menu/images/arrow2.gif";
 
         <script type="text/javascript">
             var Adminmenu = new XulMenu("Adminmenu");
-            Adminmenu.arrow1 = "{$www_root}/modules/menu/images/arrow1.gif";
-            Adminmenu.arrow2 = "{$www_root}/modules/menu/images/arrow2.gif";
+            Adminmenu.arrow1 = "{$www_root}modules/menu/images/arrow1.gif";
+            Adminmenu.arrow2 = "{$www_root}modules/menu/images/arrow2.gif";
             Adminmenu.init();
         </script>
 
@@ -37,21 +37,21 @@ arrow2.src =  "{$www_root}/modules/menu/images/arrow2.gif";
     <div class="adminmenu-rightside">
 
         <a class="itembtn" href="index.php?mod=account&amp;sub=admin&amp;action=usercenter">
-            <img style="position:relative; top: 4px" src="{$www_root_themes_core}/images/icons/user_suit.png" border="0" alt="user-image" width="16" height="16" />
+            <img style="position:relative; top: 4px" src="{$www_root_themes_core}images/icons/user_suit.png" border="0" alt="user-image" width="16" height="16" />
             &nbsp;{$smarty.session.user.nick}
         </a>
 
         &nbsp;
 
         <a href="index.php" class="itembtn">
-            <img style="position:relative; top: 4px" src="{$www_root_themes_core}/images/icons/layout_header.png" border="0" alt="logout-image" width="16" height="16" />
+            <img style="position:relative; top: 4px" src="{$www_root_themes_core}images/icons/layout_header.png" border="0" alt="logout-image" width="16" height="16" />
             &nbsp;{t}Show Frontpage{/t}
         </a>
 
         &nbsp;
 
         <a href="index.php?mod=account&amp;action=logout" class="itembtn">
-            <img style="position:relative; top: 4px" src="{$www_root_themes_core}/images/tango/16/System-log-out.png" border="0" alt="logout-image" width="16" height="16" />
+            <img style="position:relative; top: 4px" src="{$www_root_themes_core}images/tango/16/System-log-out.png" border="0" alt="logout-image" width="16" height="16" />
             &nbsp;{t}Logout{/t}
         </a>
 

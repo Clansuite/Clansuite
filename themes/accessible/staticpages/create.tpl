@@ -1,5 +1,5 @@
 {move_to target="pre_head_close"}
-	<script type="text/javascript" src="{$www_root}/core/fckeditor/fckeditor.js"></script>
+	<script type="text/javascript" src="{$www_root}core/fckeditor/fckeditor.js"></script>
 {/move_to}
 
 {if $err.no_special_chars == 1}
@@ -77,7 +77,7 @@
         <td colspan="2" class="cell3">
         	<script type="text/javascript">
 
-            var sBasePath = "{$www_root}/core/fckeditor/";
+            var sBasePath = "{$www_root}core/fckeditor/";
 
             var oFCKeditor = new FCKeditor( 'html' );
             oFCKeditor.BasePath	= sBasePath;

@@ -15,11 +15,11 @@
       <option>- {t}Choose{/t} -</option>
 
       {* Second is all Cats (normal news display) *}
-      <option value="{$www_root}/index.php?mod=news&action=show">- {t}All{/t} -</option>
+      <option value="{$www_root}index.php?mod=news&action=show">- {t}All{/t} -</option>
 
       {foreach item=widget_newscategories_dropdown from=$widget_newscategories_dropdown}
 
-        <option value="{$www_root}/index.php?mod=news&action=show&cat={$widget_newscategories_dropdown.cat_id}">
+        <option value="{$www_root}index.php?mod=news&action=show&cat={$widget_newscategories_dropdown.cat_id}">
             {$widget_newscategories_dropdown.CsCategories.name} ({$widget_newscategories_dropdown.sum})
         </option>
       {/foreach}

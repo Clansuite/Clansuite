@@ -1,11 +1,11 @@
 {move_to target="pre_head_close"}
     {* StyleSheets *}
-    <link rel="stylesheet" type="text/css" href="{$www_root_themes_core}/admin/js_color_picker_v2.css" />
-    <link rel="stylesheet" type="text/css" href="{$www_root_themes_core}/admin/fieldset.css" />
+    <link rel="stylesheet" type="text/css" href="{$www_root_themes_core}admin/js_color_picker_v2.css" />
+    <link rel="stylesheet" type="text/css" href="{$www_root_themes_core}admin/fieldset.css" />
 
     {* JavaScripts *}
-	<script type="text/javascript" src="{$www_root_themes_core}/javascript/color_functions.js"></script>
-	<script type="text/javascript" src="{$www_root_themes_core}/javascript/js_color_picker_v2.js"></script>
+	<script type="text/javascript" src="{$www_root_themes_core}javascript/color_functions.js"></script>
+	<script type="text/javascript" src="{$www_root_themes_core}javascript/js_color_picker_v2.js"></script>
     
     <script type="text/javascript">
     function clip_area(id)
@@ -86,19 +86,19 @@
                 {t}Icon{/t}
             </td>
             <td width="1">
-               <select class="input_text" name="info[icon]" onchange="document.getElementById('insert_icon').src='{$www_root_themes_core}/images/groups/icons/'+document.getElementById('icon').options[document.getElementById('icon').options.selectedIndex].text" id="icon">
+               <select class="input_text" name="info[icon]" onchange="document.getElementById('insert_icon').src='{$www_root_themes_core}images/groups/icons/'+document.getElementById('icon').options[document.getElementById('icon').options.selectedIndex].text" id="icon">
                     <option value=""></option>
                     {foreach key=key item=item from=$icons}
-                        <option {if $info.icon|escape:"html"==$item}selected="selected"{/if} style="background-image:url('{$www_root_themes_core}/images/groups/icons/{$item}');background-repeat:no-repeat; padding-left:20px; height:16px; width: 135px; line-height:16px;" id="{$item}" value="{$item}">{$item}</option> );
+                        <option {if $info.icon|escape:"html"==$item}selected="selected"{/if} style="background-image:url('{$www_root_themes_core}images/groups/icons/{$item}');background-repeat:no-repeat; padding-left:20px; height:16px; width: 135px; line-height:16px;" id="{$item}" value="{$item}">{$item}</option> );
                     {/foreach}
                 </select>
 
             </td>
             <td>
                 {if $info.icon==''}
-                    <img src="{$www_root_themes_core}/images/empty.png" id="insert_icon" alt="" class="border3d" />
+                    <img src="{$www_root_themes_core}images/empty.png" id="insert_icon" alt="" class="border3d" />
                 {else}
-                    <img src="{$www_root_themes_core}/images/groups/icons/{$info.icon|escape:"html"}" id="insert_icon" alt="" class="border3d" />
+                    <img src="{$www_root_themes_core}images/groups/icons/{$info.icon|escape:"html"}" id="insert_icon" alt="" class="border3d" />
                 {/if}
             </td>
         </tr>
@@ -107,18 +107,18 @@
                 {t}Image{/t}
             </td>
             <td width="1">
-               <select class="input_text" name="info[image]" onchange="document.getElementById('insert_image').src='{$www_root_themes_core}/images/groups/images/'+document.getElementById('image').options[document.getElementById('image').options.selectedIndex].text" id="image">
+               <select class="input_text" name="info[image]" onchange="document.getElementById('insert_image').src='{$www_root_themes_core}images/groups/images/'+document.getElementById('image').options[document.getElementById('image').options.selectedIndex].text" id="image">
                     <option value=""></option>
                     {foreach key=key item=item from=$images}
-                        <option {if $info.image|escape:"html"==$item}selected="selected"{/if} style="background-image:url('{$www_root_themes_core}/images/groups/images/{$item}');background-repeat:no-repeat;padding-left:55px; padding-top: 10px; height:48px; width: 100px; line-height:48px;" id="{$item}" value="{$item}">{$item}</option> );
+                        <option {if $info.image|escape:"html"==$item}selected="selected"{/if} style="background-image:url('{$www_root_themes_core}images/groups/images/{$item}');background-repeat:no-repeat;padding-left:55px; padding-top: 10px; height:48px; width: 100px; line-height:48px;" id="{$item}" value="{$item}">{$item}</option> );
                     {/foreach}
                 </select>
             </td>
             <td>
                 {if $info.image==''}
-                    <img src="{$www_root_themes_core}/images/empty.png" id="insert_image" alt="" class="border3d" />
+                    <img src="{$www_root_themes_core}images/empty.png" id="insert_image" alt="" class="border3d" />
                 {else}
-                    <img src="{$www_root_themes_core}/images/groups/images/{$info.image|escape:"html"}" id="insert_image" alt="" class="border3d" />
+                    <img src="{$www_root_themes_core}images/groups/images/{$info.image|escape:"html"}" id="insert_image" alt="" class="border3d" />
                 {/if}
             </td>
         </tr>

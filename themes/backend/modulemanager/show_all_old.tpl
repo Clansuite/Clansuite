@@ -1,8 +1,8 @@
 {move_to target="pre_head_close"}
-    <link rel="stylesheet" type="text/css" href="{$www_root_themes_core}/admin/adminmenu/DynamicTree.css" />
+    <link rel="stylesheet" type="text/css" href="{$www_root_themes_core}admin/adminmenu/DynamicTree.css" />
 
-    <link rel="stylesheet" type="text/css" href="{$www_root_themes_core}/admin/luna.css" />
-    <script type="text/javascript" src="{$www_root_themes_core}/javascript/tabpane.js"></script>
+    <link rel="stylesheet" type="text/css" href="{$www_root_themes_core}admin/luna.css" />
+    <script type="text/javascript" src="{$www_root_themes_core}javascript/tabpane.js"></script>
     
     <script type="text/javascript">
 
@@ -294,7 +294,7 @@
     <input type="hidden" name="ids[]" value="{$wert.module_id}">
     <td class="cell1" align="center">
         <strong>{$wert.title} </strong> (#{$wert.module_id})<br />
-        <img width="100px" height="100px" src="{$www_root_themes_core}/images/modules/{$wert.image_name}">
+        <img width="100px" height="100px" src="{$www_root_themes_core}images/modules/{$wert.image_name}">
     </td>
     
     <td class="cell2">
@@ -464,7 +464,7 @@
     <input type="hidden" name="ids[]" value="{$wert.module_id}">
     <td class="cell1" align="center">
         <strong>{$wert.title} </strong> (#{$wert.module_id})<br />
-        <img width="100px" height="100px" src="{$www_root_themes_core}/images/{$wert.image_name}">
+        <img width="100px" height="100px" src="{$www_root_themes_core}images/{$wert.image_name}">
     </td>
     
     <td class="cell2">

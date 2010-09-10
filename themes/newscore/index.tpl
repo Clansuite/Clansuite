@@ -36,18 +36,18 @@
 
     {* Favicon *}
 
-    <link rel="shortcut icon" href="{$www_root_themes_core}/images/clansuite_logos/Clansuite-Favicon-16.ico" />
-    <link rel="icon" href="{$www_root_themes_core}/images/clansuite_logos/Clansuite-Favicon-16.ico" type="image/gif" />
+    <link rel="shortcut icon" href="{$www_root_themes_core}images/clansuite_logos/Clansuite-Favicon-16.ico" />
+    <link rel="icon" href="{$www_root_themes_core}images/clansuite_logos/Clansuite-Favicon-16.ico" type="image/gif" />
 
     {* Clip *}
 
-    <script src="{$www_root_themes_core}/javascript/clip.js" type="text/javascript"></script>
+    <script src="{$www_root_themes_core}javascript/clip.js" type="text/javascript"></script>
 
 
     {* Cascading Style Sheets *}
 
     <link rel="stylesheet" type="text/css" href="{$css}" />
-    <link rel="alternate"  type="application/rss+xml" href="{$www_root}/cache/photo.rss" title="" id="gallery" />
+    <link rel="alternate"  type="application/rss+xml" href="{$www_root}cache/photo.rss" title="" id="gallery" />
 
 </head>
 
@@ -55,15 +55,15 @@
 
 	<div id="header">
     	<div id="logowrapp">
-        	<img class="logo" src="{$www_root_theme}/images/cs_logo.gif" />
+        	<img class="logo" src="{$www_root_theme}images/cs_logo.gif" />
         </div>
 	</div>
     <div id="navigation">
     	<div class="center">
     	<ul>
-        	<li><a class="navlink" href="{$www_root}/index.php">Home</a></li>
-        	<li><a class="navlink" href="{$www_root}/index.php?mod=news">News</a></li>
-            <li><a class="navlink" href="{$www_root}/index.php?mod=news&action=fullarchive">Newsarchiv</a></li>
+        	<li><a class="navlink" href="{$www_root}index.php">Home</a></li>
+        	<li><a class="navlink" href="{$www_root}index.php?mod=news">News</a></li>
+            <li><a class="navlink" href="{$www_root}index.php?mod=news&action=fullarchive">Newsarchiv</a></li>
 		</ul>
     	</div>
     </div>

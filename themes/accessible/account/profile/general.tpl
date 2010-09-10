@@ -1,10 +1,10 @@
 {*
 {move_to target="pre_head_close"}
-    <script src="{$www_root_themes_core}/javascript/prototype/prototype.js" type="text/javascript"></script>
-    <script src="{$www_root_themes_core}/javascript/scriptaculous/scriptaculous.js" type="text/javascript"></script>
-    <script src="{$www_root_themes_core}/javascript/smarty_ajax.js" type="text/javascript"></script>
-    <script type="text/javascript" src="{$www_root_themes_core}/javascript/tablegrid.js"></script>
-    <link rel="stylesheet" type="text/css" href="{$www_root_themes_core}/css/tablegrid.css" />
+    <script src="{$www_root_themes_core}javascript/prototype/prototype.js" type="text/javascript"></script>
+    <script src="{$www_root_themes_core}javascript/scriptaculous/scriptaculous.js" type="text/javascript"></script>
+    <script src="{$www_root_themes_core}javascript/smarty_ajax.js" type="text/javascript"></script>
+    <script type="text/javascript" src="{$www_root_themes_core}javascript/tablegrid.js"></script>
+    <link rel="stylesheet" type="text/css" href="{$www_root_themes_core}css/tablegrid.css" />
 {/move_to}
 *}
 <div class="general">
@@ -16,7 +16,7 @@
             {elseif $info.type == upload}
                 <img src="index.php?mod=account&sub=general&action=show_avatar&id={$info.user_id.0}" alt="{$info.nick}"  class="the_pic"/>
             {else}
-                <img src="{$www_root_theme}/images/no_avatar.jpg" alt="{t}No avatar{/t}: {$info.nick}"  class="the_pic"/>
+                <img src="{$www_root_theme}images/no_avatar.jpg" alt="{t}No avatar{/t}: {$info.nick}"  class="the_pic"/>
             {/if}
         </div>
     </div>
@@ -43,7 +43,7 @@
                     {if $info.country == 'not_specified'}
                         <span class="not_specified">{t}not specified{/t}</span>
                     {else}
-                        <img src="{$www_root_themes_core}/images/countries/{$info.country|strtolower}.png" alt="{$info.country}" class="country_picture"/>
+                        <img src="{$www_root_themes_core}images/countries/{$info.country|strtolower}.png" alt="{$info.country}" class="country_picture"/>
                         &nbsp;{$info.country}
                     {/if}
                 </dd>

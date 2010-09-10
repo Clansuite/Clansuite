@@ -15,20 +15,20 @@
 
     {* Favicon *}
 
-    <link rel="shortcut icon" href="{$www_root_themes_core}/images/clansuite_logos/Clansuite-Favicon-16.ico" />
-    <link rel="icon" href="{$www_root_themes_core}/images/clansuite_logos/Clansuite-Favicon-16.ico" type="image/gif" />
+    <link rel="shortcut icon" href="{$www_root_themes_core}images/clansuite_logos/Clansuite-Favicon-16.ico" />
+    <link rel="icon" href="{$www_root_themes_core}images/clansuite_logos/Clansuite-Favicon-16.ico" type="image/gif" />
 
     <!-- This Page was processed on {$smarty.now|date_format:"%Y-%m-%d %H:%M:%S"}. -->
 
     <!-- jQuery -->
-    <script type="text/javascript" src="{$www_root_themes_core}/javascript/jquery/jquery.js"></script>
+    <script type="text/javascript" src="{$www_root_themes_core}javascript/jquery/jquery.js"></script>
 
     <!-- jQuery UI -->
-    <script type="text/javascript" src="{$www_root_themes_core}/javascript/jquery/jquery.ui.js"></script>
+    <script type="text/javascript" src="{$www_root_themes_core}javascript/jquery/jquery.ui.js"></script>
     <link rel="stylesheet" type="text/css" href="{$www_root_themes}/core/css/jquery-ui-peppergrinder/jquery-ui-1.7.2.custom.css" />
 
     <!-- jQuery Pines Notify -->
-    <script type="text/javascript" src="{$www_root_themes_core}/javascript/jquery/jquery.pnotify.js"></script>
+    <script type="text/javascript" src="{$www_root_themes_core}javascript/jquery/jquery.pnotify.js"></script>
     <link rel="stylesheet" type="text/css" href="{$www_root_themes}/core/css/jquery.pnotify.default.css" />
 
     {* Clansuite Cascading Style Sheets *}
@@ -38,7 +38,7 @@
 
     {* Clansuite Javascripts *}
 
-    <script src="{$www_root_themes_core}/javascript/clip.js" type="text/javascript"></script>
+    <script src="{$www_root_themes_core}javascript/clip.js" type="text/javascript"></script>
 
 </head>
 <body class="{$modulename} {$actionname}">
@@ -46,7 +46,7 @@
 {* Header with Logo *}
 
 <div class="header">
-    <a href="index.php?mod=controlcenter"><img alt="Clansuite CMS Minilogo - 80x15px" style="margin-bottom: -3px;" src="{$www_root_themes_core}/images/clansuite_logos/clansuite-80x15.png" border="0" /></a> - Control Center
+    <a href="index.php?mod=controlcenter"><img alt="Clansuite CMS Minilogo - 80x15px" style="margin-bottom: -3px;" src="{$www_root_themes_core}images/clansuite_logos/clansuite-80x15.png" border="0" /></a> - Control Center
     <span>{$smarty.now|date_format:"%e %B %Y - %A | %H:%M"}</span>
 </div>
 
@@ -74,7 +74,7 @@
                 {*
                 <!-- Update Icon -->
                 <div id="update-toggler" style="float: right; font-family: tahoma,verdana,arial,sans-serif; font-size: 11px; cursor: pointer; margin-right: 5px;">
-                    <img style="margin-bottom: -3px;" src="{$www_root_themes_core}/images/icons/warning.png" alt="{t}Show Updates{/t}" />
+                    <img style="margin-bottom: -3px;" src="{$www_root_themes_core}images/icons/warning.png" alt="{t}Show Updates{/t}" />
                     {t}Update{/t}
                 </div>
                 *}
@@ -82,7 +82,7 @@
                 {*
                 <!-- Bugreport Icon -->
                 <div id="bugreport-toggler" style="float: right; font-family: tahoma,verdana,arial,sans-serif; font-size: 11px; cursor: pointer; margin-right: 5px;">
-                    <img style="margin-bottom: -3px;" src="{$www_root_themes_core}/images/icons/error.png" alt="{t}Report Bug{/t}" />
+                    <img style="margin-bottom: -3px;" src="{$www_root_themes_core}images/icons/error.png" alt="{t}Report Bug{/t}" />
                     {t}Bugreport{/t}
                 </div>
                 *}
@@ -90,7 +90,7 @@
                 <!-- Debug Mode Icon -->
                 {if $smarty.const.DEBUG == true}
                 <div id="debug-toggler" style="float: right; font-family: tahoma,verdana,arial,sans-serif; font-size: 11px; cursor: pointer; margin-right: 5px;">
-                    <img style="margin-bottom: -3px;" src="{$www_root_themes_core}/images/icons/error.png" alt="DEBUG" title="Clansuite is in DEBUG MODE" />
+                    <img style="margin-bottom: -3px;" src="{$www_root_themes_core}images/icons/error.png" alt="DEBUG" title="Clansuite is in DEBUG MODE" />
                     DEBUG
                 </div>
                 {/if}
@@ -98,7 +98,7 @@
                 <!-- Development Mode Icon -->
                 {if $smarty.const.DEVELOPMENT == true}
                 <div id="development-toggler" style="float: right; font-family: tahoma,verdana,arial,sans-serif; font-size: 11px; cursor: pointer; margin-right: 5px;">
-                    <img style="margin-bottom: -3px;" src="{$www_root_themes_core}/images/icons/error.png" alt="DEVELOPMENT MODE ACTIVE" title="Clansuite is in DEVELOPMENT MODE (RAD)" />
+                    <img style="margin-bottom: -3px;" src="{$www_root_themes_core}images/icons/error.png" alt="DEVELOPMENT MODE ACTIVE" title="Clansuite is in DEVELOPMENT MODE (RAD)" />
                     DEVELOPMENT
                 </div>
                 {/if}
@@ -141,7 +141,7 @@
 
 {* Ajax Notification *}
 <div id="notification" style="vertical-align:middle;display:none;z-index:99;">
-    <img src="{$www_root_themes_core}/images/ajax/2.gif" alt="Ajax Notification Toggle" />
+    <img src="{$www_root_themes_core}images/ajax/2.gif" alt="Ajax Notification Toggle" />
     &nbsp; Wait - while processing your request...
 </div>
 

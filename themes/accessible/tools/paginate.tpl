@@ -54,7 +54,7 @@ $pager->getQuery();
 *}
 <div class="paginate">
     <div class="description">
-            <img class="img" src="{$www_root_themes_core}/images/icons/page_edit.png" alt="" />
+            <img class="img" src="{$www_root_themes_core}images/icons/page_edit.png" alt="" />
             {$pager_layout->display('',true)} - Seite {$pager->getPage()}/{$pager->getLastPage()}.
 
             {assign var=resultsInPage value=$pager->getResultsInPage()}

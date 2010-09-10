@@ -6,7 +6,7 @@
         <td style="min-width: 120px; background-color: #ACD943; text-align: bottom;" width="33%" valign="bottom">
             <b>&nbsp;&raquo; Shortcuts</b>
         </td>
-        <td nowrap="nowrap" style="background-image:url('{$www_root}/modules/controlcenter/images/green-triangle.gif'); background-repeat: no-repeat; width: 100%;" />
+        <td nowrap="nowrap" style="background-image:url('{$www_root}modules/controlcenter/images/green-triangle.gif'); background-repeat: no-repeat; width: 100%;" />
     </tr>
     <tr>
         <td height="3" bgcolor="#ACD943" colspan="2"/>
@@ -42,11 +42,11 @@
 
                                     <!-- the left sidebar with five categories -->
                                     <ul>
-                                        <li><a href="#fragment-1"><span><img alt="Modules Shortcut Icon" src="{$www_root_themes_core}/images/symbols/modules.png" /><br />Modules</span></a></li>
-                                        <li><a href="#fragment-2"><span><img alt="Admin Shortcut Icon" src="{$www_root_themes_core}/images/symbols/settings.png" /><br />Administration</span></a></li>
-                                        <li><a href="#fragment-3"><span><img alt="Settings Shortcut Icon" src="{$www_root_themes_core}/images/symbols/system.png" /><br />System</span></a></li>
-                                        <li><a href="#fragment-4"><span><img alt="User Shortcut Icon" src="{$www_root_themes_core}/images/symbols/groups.png" /><br />Benutzer</span></a></li>
-                                        <li><a href="#fragment-5"><span><img alt="Layout Shortcut Icon" src="{$www_root_themes_core}/images/symbols/templates.png" /><br />Layout</span></a></li>
+                                        <li><a href="#fragment-1"><span><img alt="Modules Shortcut Icon" src="{$www_root_themes_core}images/symbols/modules.png" /><br />Modules</span></a></li>
+                                        <li><a href="#fragment-2"><span><img alt="Admin Shortcut Icon" src="{$www_root_themes_core}images/symbols/settings.png" /><br />Administration</span></a></li>
+                                        <li><a href="#fragment-3"><span><img alt="Settings Shortcut Icon" src="{$www_root_themes_core}images/symbols/system.png" /><br />System</span></a></li>
+                                        <li><a href="#fragment-4"><span><img alt="User Shortcut Icon" src="{$www_root_themes_core}images/symbols/groups.png" /><br />Benutzer</span></a></li>
+                                        <li><a href="#fragment-5"><span><img alt="Layout Shortcut Icon" src="{$www_root_themes_core}images/symbols/templates.png" /><br />Layout</span></a></li>
                                     </ul>
 
                                     <div id="fragment-1"> I
@@ -63,7 +63,7 @@
                                                 {foreach key=col item=data from=$image}
                                                     <td align="center" style="width:65px; padding: 10px;">
                                                         <a href="{$data.href}">
-                                                            <img alt="Shortcut Icon" src="{$www_root_themes_core}/images/symbols/{$data.file_name}" />
+                                                            <img alt="Shortcut Icon" src="{$www_root_themes_core}images/symbols/{$data.file_name}" />
                                                             <br />
                                                             <span style="margin-top: 10px; display: block">{t}{$data.title}{/t}</span>
                                                         </a>

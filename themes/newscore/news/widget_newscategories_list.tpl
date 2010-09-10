@@ -8,7 +8,7 @@
 <ul>
 	{foreach item=widget_newscategories_list from=$widget_newscategories_list}
 	<li>
-		<a href="{$www_root}/index.php?mod=news&action=show&page=1&cat={$widget_newscategories_list.cat_id}"> {$widget_newscategories_list.CsCategories.name} ({$widget_newscategories_list.sum})</a>
+		<a href="{$www_root}index.php?mod=news&action=show&page=1&cat={$widget_newscategories_list.cat_id}"> {$widget_newscategories_list.CsCategories.name} ({$widget_newscategories_list.sum})</a>
 	</li>
 	{/foreach}
 </ul>

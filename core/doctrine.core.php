@@ -266,8 +266,8 @@ class Clansuite_Doctrine
         # Doctrine_Core::setModelsDirectory(ROOT . 'records');
         # Doctrine_Core::setModelsDirectory(ROOT_MOD); # somewhere beneath modules folder, rest via autoload
 
-        #Doctrine_Core::loadModels(ROOT . '/myrecords/generated', Doctrine_Core::MODEL_LOADING_CONSERVATIVE );
-        Doctrine_Core::loadModels(ROOT . '/myrecords/', Doctrine_Core::MODEL_LOADING_CONSERVATIVE );
+        #Doctrine_Core::loadModels(ROOT . 'myrecords/generated', Doctrine_Core::MODEL_LOADING_CONSERVATIVE );
+        Doctrine_Core::loadModels(ROOT . 'myrecords/', Doctrine_Core::MODEL_LOADING_CONSERVATIVE );
 
         # Debug Listing of all loaded Doctrine Models
         #$models = Doctrine_Core::getLoadedModels();

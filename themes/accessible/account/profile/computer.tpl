@@ -1,10 +1,10 @@
 {*
 {move_to target="pre_head_close"}
-    <script src="{$www_root_themes_core}/javascript/prototype/prototype.js" type="text/javascript"></script>
-    <script src="{$www_root_themes_core}/javascript/scriptaculous/scriptaculous.js" type="text/javascript"></script>
-    <script src="{$www_root_themes_core}/javascript/smarty_ajax.js" type="text/javascript"></script>
-    <script type="text/javascript" src="{$www_root_themes_core}/javascript/tablegrid.js"></script>
-    <link rel="stylesheet" type="text/css" href="{$www_root_themes_core}/css/tablegrid.css" />
+    <script src="{$www_root_themes_core}javascript/prototype/prototype.js" type="text/javascript"></script>
+    <script src="{$www_root_themes_core}javascript/scriptaculous/scriptaculous.js" type="text/javascript"></script>
+    <script src="{$www_root_themes_core}javascript/smarty_ajax.js" type="text/javascript"></script>
+    <script type="text/javascript" src="{$www_root_themes_core}javascript/tablegrid.js"></script>
+    <link rel="stylesheet" type="text/css" href="{$www_root_themes_core}css/tablegrid.css" />
 {/move_to}
 *}
 
@@ -22,7 +22,7 @@
     </tr>
     <tr>
         <td class="cell2">
-            <div class="profile_icon"><img src="{$www_root_theme}/images/icons/page_edit.png" border="0" width="16" height="16" /></div>
+            <div class="profile_icon"><img src="{$www_root_theme}images/icons/page_edit.png" border="0" width="16" height="16" /></div>
         </td>
         <td class="cell2">
             {t}First name{/t}
@@ -33,7 +33,7 @@
     </tr>
     <tr>
         <td class="cell2">
-            <div class="profile_icon"><img src="{$www_root_theme}/images/icons/page_edit.png" border="0" width="16" height="16" /></div>
+            <div class="profile_icon"><img src="{$www_root_theme}images/icons/page_edit.png" border="0" width="16" height="16" /></div>
         </td>
         <td class="cell2">
             {t}Last name{/t}
@@ -44,7 +44,7 @@
     </tr>
     <tr>
         <td class="cell2">
-            <div class="profile_icon"><img src="{$www_root_theme}/images/icons/cake.png" border="0" width="16" height="16" /></div>
+            <div class="profile_icon"><img src="{$www_root_theme}images/icons/cake.png" border="0" width="16" height="16" /></div>
         </td>
         <td class="cell2">
             {t}Birthday{/t}
@@ -55,7 +55,7 @@
     </tr>
     <tr>
         <td class="cell2">
-            <div class="profile_icon"><img src="{$www_root_theme}/images/icons/male.png" border="0" width="16" height="16" /></div>
+            <div class="profile_icon"><img src="{$www_root_theme}images/icons/male.png" border="0" width="16" height="16" /></div>
         </td>
         <td class="cell2">
             {t}Gender{/t}
@@ -66,7 +66,7 @@
     </tr>
     <tr>
         <td class="cell2">
-            <div class="profile_icon"><img src="{$www_root_theme}/images/icons/text_linespacing.png" border="0" width="16" height="16" /></div>
+            <div class="profile_icon"><img src="{$www_root_theme}images/icons/text_linespacing.png" border="0" width="16" height="16" /></div>
         </td>
         <td class="cell2">
             {t}Height{/t}
@@ -77,7 +77,7 @@
     </tr>
     <tr>
         <td class="cell2">
-            <div class="profile_icon"><img src="{$www_root_theme}/images/icons/book.png" border="0" width="16" height="16" /></div>
+            <div class="profile_icon"><img src="{$www_root_theme}images/icons/book.png" border="0" width="16" height="16" /></div>
         </td>
         <td class="cell2">
             {t}Address{/t}
@@ -88,7 +88,7 @@
     </tr>
     <tr>
         <td class="cell2">
-            <div class="profile_icon"><img src="{$www_root_theme}/images/icons/vcard.png" border="0" width="16" height="16" /></div>
+            <div class="profile_icon"><img src="{$www_root_theme}images/icons/vcard.png" border="0" width="16" height="16" /></div>
         </td>
         <td class="cell2">
             {t}ZIP code{/t}
@@ -99,7 +99,7 @@
     </tr>
     <tr>
         <td class="cell2">
-            <div class="profile_icon"><img src="{$www_root_theme}/images/icons/house.png" border="0" width="16" height="16" /></div>
+            <div class="profile_icon"><img src="{$www_root_theme}images/icons/house.png" border="0" width="16" height="16" /></div>
         </td>
         <td class="cell2">
             {t}City{/t}
@@ -110,7 +110,7 @@
     </tr>
     <tr>
         <td class="cell2">
-            <div class="profile_icon"><img src="{$www_root_theme}/images/icons/world.png" border="0" width="16" height="16" /></div>
+            <div class="profile_icon"><img src="{$www_root_theme}images/icons/world.png" border="0" width="16" height="16" /></div>
         </td>
         <td class="cell2">
             {t}Country{/t}
@@ -121,7 +121,7 @@
     </tr>
     <tr>
         <td class="cell2">
-            <div class="profile_icon"><img src="{$www_root_theme}/images/icons/html.png" border="0" width="16" height="16" /></div>
+            <div class="profile_icon"><img src="{$www_root_theme}images/icons/html.png" border="0" width="16" height="16" /></div>
         </td>
         <td class="cell2">
             {t}Homepage{/t}
@@ -132,7 +132,7 @@
     </tr>
     <tr>
         <td class="cell2">
-            <div class="profile_icon"><img src="{$www_root_theme}/images/icons/icq.png" border="0" width="16" height="16" /></div>
+            <div class="profile_icon"><img src="{$www_root_theme}images/icons/icq.png" border="0" width="16" height="16" /></div>
         </td>
         <td class="cell2">
             {t}ICQ{/t}
@@ -143,7 +143,7 @@
     </tr>
     <tr>
         <td class="cell2">
-            <div class="profile_icon"><img src="{$www_root_theme}/images/icons/msn.png" border="0" width="16" height="16" /></div>
+            <div class="profile_icon"><img src="{$www_root_theme}images/icons/msn.png" border="0" width="16" height="16" /></div>
         </td>
         <td class="cell2">
             {t}MSN{/t}
@@ -154,7 +154,7 @@
     </tr>
     <tr>
         <td class="cell2">
-            <div class="profile_icon"><img src="{$www_root_theme}/images/icons/skype.png" border="0" width="16" height="16" /></div>
+            <div class="profile_icon"><img src="{$www_root_theme}images/icons/skype.png" border="0" width="16" height="16" /></div>
         </td>
         <td class="cell2">
             {t}Skype{/t}
@@ -165,7 +165,7 @@
     </tr>
     <tr>
         <td class="cell2">
-            <div class="profile_icon"><img src="{$www_root_theme}/images/icons/telephone.png" border="0" width="16" height="16" /></div>
+            <div class="profile_icon"><img src="{$www_root_theme}images/icons/telephone.png" border="0" width="16" height="16" /></div>
         </td>
         <td class="cell2">
             {t}Phone{/t}
@@ -176,7 +176,7 @@
     </tr>
     <tr>
         <td class="cell2">
-            <div class="profile_icon"><img src="{$www_root_theme}/images/icons/phone.png" border="0" width="16" height="16" /></div>
+            <div class="profile_icon"><img src="{$www_root_theme}images/icons/phone.png" border="0" width="16" height="16" /></div>
         </td>
         <td class="cell2">
             {t}Mobile{/t}
@@ -187,7 +187,7 @@
     </tr>
     <tr>
         <td class="cell2">
-            <div class="profile_icon"><img src="{$www_root_theme}/images/icons/application_view_list.png" border="0" width="16" height="16" /></div>
+            <div class="profile_icon"><img src="{$www_root_theme}images/icons/application_view_list.png" border="0" width="16" height="16" /></div>
         </td>
         <td class="cell2">
             {t}Custom Text{/t}

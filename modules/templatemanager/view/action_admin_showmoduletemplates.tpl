@@ -1,7 +1,7 @@
 {move_to target="pre_head_close"}
-    <script src="{$www_root_themes_core}/javascript/jquery/jquery.js" type="text/javascript"></script>
-    <script src="{$www_root_themes_core}/javascript/jquery/jquery.tree.js" type="text/javascript"></script>
-    <script type="text/javascript" src="{$www_root_themes_core}/javascript/jquery/jquery.cookie.js"></script>	
+    <script src="{$www_root_themes_core}javascript/jquery/jquery.js" type="text/javascript"></script>
+    <script src="{$www_root_themes_core}javascript/jquery/jquery.tree.js" type="text/javascript"></script>
+    <script type="text/javascript" src="{$www_root_themes_core}javascript/jquery/jquery.cookie.js"></script>	
 {/move_to}
 
 {modulenavigation}
@@ -23,7 +23,7 @@ $(function () {
         ui : {
             // set theme path
             theme_name : ["classic"],
-            theme_path : ["{$www_root_themes_core}/css/jquery-jstree-themes/"]
+            theme_path : ["{$www_root_themes_core}css/jquery-jstree-themes/"]
         },
 		types : {
 			// all node types inherit the "default" node type
@@ -38,7 +38,7 @@ $(function () {
 			"folder" : {
 				valid_children : [ "file" ],
                 icon : { 
-					image : "{$www_root_themes_core}/images/icons/file.png"
+					image : "{$www_root_themes_core}images/icons/file.png"
 				} 
 			},
 			"file" : {
@@ -47,7 +47,7 @@ $(function () {
 				max_children : 0,
 				max_depth :0,
                 icon : { 
-					image : "{$www_root_themes_core}/images/lullacons/doc-option-edit.png"
+					image : "{$www_root_themes_core}images/lullacons/doc-option-edit.png"
 				}                				
 			}
 		}
@@ -65,7 +65,7 @@ $(function () {
             {foreach from=$templates item=template name=tpls}
                 
                 <li id="file-{$smarty.foreach.tpls.iteration}" rel="file"><ins>&nbsp;</ins>
-                    [{$smarty.foreach.tpls.iteration}] <a href="{$www_root}/index.php?mod=templatemanager&amp;sub=admin&amp;action=edit&amp;file={$templateeditor_modulename}/view/{$template.filename}">
+                    [{$smarty.foreach.tpls.iteration}] <a href="{$www_root}index.php?mod=templatemanager&amp;sub=admin&amp;action=edit&amp;file={$templateeditor_modulename}/view/{$template.filename}">
                     <ins>&nbsp;</ins>
                     {$template.filename} 
                     </a>

@@ -25,16 +25,16 @@
             <td style="color: {$categories.color}; font-weight: bold;" align="center">{$categories.module_name}</td>
             <td align="center">
             {if $categories.icon==''}
-                <img src="{$www_root_themes_core}/images/empty.png" alt="" class="border3d" />
+                <img src="{$www_root_themes_core}images/empty.png" alt="" class="border3d" />
             {else}
-                <img src="{$www_root_themes_core}/images/categories/icons/{$categories.icon}" alt="" class="border3d" />
+                <img src="{$www_root_themes_core}images/categories/icons/{$categories.icon}" alt="" class="border3d" />
             {/if}
             </td>
             <td align="center">
             {if $categories.image==''}
-                <img src="{$www_root_themes_core}/images/empty.png" class="border3d" alt="48x48" />
+                <img src="{$www_root_themes_core}images/empty.png" class="border3d" alt="48x48" />
             {else}
-                <img src="{$www_root_themes_core}/images/categories/images/{$categories.image}" class="border3d" alt="48x48" />
+                <img src="{$www_root_themes_core}images/categories/images/{$categories.image}" class="border3d" alt="48x48" />
             {/if}
             </td>
             <td>{$category.description}</td>

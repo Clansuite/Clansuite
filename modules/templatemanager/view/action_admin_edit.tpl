@@ -1,9 +1,9 @@
 {* Template: /modules/templatemanager/action_admin_editor.tpl *}
 
 {move_to target="pre_head_close"}
-<script type="text/javascript" src="{$www_root}/libraries/codemirror/js/codemirror.js"></script>
-<script type="text/javascript" src="{$www_root}/libraries/codemirror/js/mirrorframe.js"></script>
-<script type="text/javascript" src="{$www_root_themes_core}/javascript/codemirror_config.js"></script>
+<script type="text/javascript" src="{$www_root}libraries/codemirror/js/codemirror.js"></script>
+<script type="text/javascript" src="{$www_root}libraries/codemirror/js/mirrorframe.js"></script>
+<script type="text/javascript" src="{$www_root_themes_core}javascript/codemirror_config.js"></script>
 
 
 <!-- Line Numbers for CodeMirror : crappy solution, because it depends on the correct line heigth -->

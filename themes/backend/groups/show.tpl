@@ -21,16 +21,16 @@
             <td>{$group.sortorder}</td>
             <td>
                 {if $group.icon==''}
-                <img src="{$www_root_themes_core}/images/empty.png" alt="" class="border3d" />
+                <img src="{$www_root_themes_core}images/empty.png" alt="" class="border3d" />
                 {else}
-                <img src="{$www_root_themes_core}/images/groups/icons/{$group.icon}" alt="" class="border3d" />
+                <img src="{$www_root_themes_core}images/groups/icons/{$group.icon}" alt="" class="border3d" />
                 {/if}
             </td>
             <td>
                 {if $group.image==''}
-                <img src="{$www_root_themes_core}/images/empty.png" alt="" class="border3d" />
+                <img src="{$www_root_themes_core}images/empty.png" alt="" class="border3d" />
                 {else}
-                <img src="{$www_root_themes_core}/images/groups/images/{$group.image}" alt="" class="border3d" />
+                <img src="{$www_root_themes_core}images/groups/images/{$group.image}" alt="" class="border3d" />
                 {/if}
             </td>
             <td>{$group.description}</td>

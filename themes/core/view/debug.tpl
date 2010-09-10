@@ -18,7 +18,7 @@
  
   {/move_to}
 
-<script src="{$www_root_themes_core}/javascript/clip.js" type="text/javascript"></script>
+<script src="{$www_root_themes_core}javascript/clip.js" type="text/javascript"></script>
 
 <br />
 <h2 class="debug_heading">Clansuite - Smarty Debug Console</h2>
@@ -189,7 +189,7 @@
     	_csuite_console.document.write('<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">');
         _csuite_console.document.write('<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">');
         _csuite_console.document.write('<head><title>Clansuite - Smarty Debug Console</title>');
-    	_csuite_console.document.write('<link rel="stylesheet" type="text/css" href="{$www_root_themes_core}/css/debug.css" />');
+    	_csuite_console.document.write('<link rel="stylesheet" type="text/css" href="{$www_root_themes_core}css/debug.css" />');
         _csuite_console.document.write('</head><body>');
     	_csuite_console.document.write('{$debug_output|escape:'javascript'}');
     	_csuite_console.document.write('</body></html>');

@@ -262,7 +262,7 @@ class Clansuite_Module_News extends Clansuite_Module_Controller
              */
             $item = new FeedItem();
             $item->title = $news['news_title'];
-            $item->link =  WWW_ROOT . '/index.php?mod=news&action=showone&id='.$news['news_id'];
+            $item->link =  WWW_ROOT . 'index.php?mod=news&action=showone&id='.$news['news_id'];
             $item->description = $news['news_body'];
 
             # optional

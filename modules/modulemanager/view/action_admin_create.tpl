@@ -13,9 +13,9 @@ You created the Module: {$mod.modulename} successfully.
 The following Files were written:
 
 {if isset($mod.frontend.checked)}
-You can call the <a href="{$www_root}/index.php&mod={$mod.modulename}">Module Frontend</a>
+You can call the <a href="{$www_root}index.php&mod={$mod.modulename}">Module Frontend</a>
 {/if}
 
 {if isset($mod.backend.checked)}
-You can call the <a href="{$www_root}/index.php&mod={$mod.modulename}&usb=admin">Module Backend</a>.
+You can call the <a href="{$www_root}index.php&mod={$mod.modulename}&usb=admin">Module Backend</a>.
 {/if}

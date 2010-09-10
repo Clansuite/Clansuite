@@ -1,6 +1,6 @@
 {move_to target="pre_head_close"}
     {* StyleSheets *}
-    <link rel="stylesheet" type="text/css" href="{$www_root_themes_core}/admin/fieldset.css" />
+    <link rel="stylesheet" type="text/css" href="{$www_root_themes_core}admin/fieldset.css" />
 {/move_to}
 
 {if $err.no_special_chars == 1} {error title="Special Chars"}       No special chars except '_' and whitespaces are allowed.{/error}    {/if}
@@ -28,10 +28,10 @@
         <tr class="tr_row1">
             <td>{t}Area{/t}</td>
             <td colspan="2"> {* BUG CHECK THIS: name, id and vars*}
-                <select name="info[area_id]" onchange="document.getElementById('insert_icon').src='{$www_root_themes_core}/images/categories/icons/'+document.getElementById('icon').options[document.getElementById('icon').options.selectedIndex].text" class="input_text" id="icon">
+                <select name="info[area_id]" onchange="document.getElementById('insert_icon').src='{$www_root_themes_core}images/categories/icons/'+document.getElementById('icon').options[document.getElementById('icon').options.selectedIndex].text" class="input_text" id="icon">
                     <option value=""></option>
                     {foreach name=outer item=area from=$areas}
-                    <option {if $info.area_id|escape:"html"==$area.area_id}selected="selected"{/if} style="background-image:url('{$www_root_themes_core}/images/categories/icons/{$area.area_id}');background-repeat:no-repeat; padding-left:20px; height:16px; width: 135px; line-height:16px;" id="{$area.area_id}" value="{$area.area_id}">{$area.area_id} - {$area.name}</option>
+                    <option {if $info.area_id|escape:"html"==$area.area_id}selected="selected"{/if} style="background-image:url('{$www_root_themes_core}images/categories/icons/{$area.area_id}');background-repeat:no-repeat; padding-left:20px; height:16px; width: 135px; line-height:16px;" id="{$area.area_id}" value="{$area.area_id}">{$area.area_id} - {$area.name}</option>
                     {/foreach}
                 </select>
             </td>
@@ -55,36 +55,36 @@
         <tr class="tr_row1">
             <td>{t}Icon{/t}</td>
             <td width="1">
-                <select name="info[icon]" onchange="document.getElementById('insert_icon').src='{$www_root_themes_core}/images/categories/icons/'+document.getElementById('icon').options[document.getElementById('icon').options.selectedIndex].text" class="input_text" id="icon">
+                <select name="info[icon]" onchange="document.getElementById('insert_icon').src='{$www_root_themes_core}images/categories/icons/'+document.getElementById('icon').options[document.getElementById('icon').options.selectedIndex].text" class="input_text" id="icon">
                     <option value=""></option>
                     {foreach key=key item=item from=$icons}
-                    <option {if $smarty.post.info.icon|escape:"html"==$item}selected="selected"{/if} style="background-image:url('{$www_root_themes_core}/images/categories/icons/{$item}');background-repeat:no-repeat; padding-left:20px; height:16px; width: 135px; line-height:16px;" id="{$item}" value="{$item}">{$item}</option> );
+                    <option {if $smarty.post.info.icon|escape:"html"==$item}selected="selected"{/if} style="background-image:url('{$www_root_themes_core}images/categories/icons/{$item}');background-repeat:no-repeat; padding-left:20px; height:16px; width: 135px; line-height:16px;" id="{$item}" value="{$item}">{$item}</option> );
                     {/foreach}
                 </select>
             </td>
             <td align="center">
                 {if $smarty.post.info.icon==''}
-                    <img src="{$www_root_themes_core}/images/empty.png" id="insert_icon" alt="" class="border3d" />
+                    <img src="{$www_root_themes_core}images/empty.png" id="insert_icon" alt="" class="border3d" />
                 {else}
-                    <img src="{$www_root_themes_core}/images/categories/icons/{$smarty.post.info.icon|escape:"html"}" id="insert_icon" alt="" class="border3d" />
+                    <img src="{$www_root_themes_core}images/categories/icons/{$smarty.post.info.icon|escape:"html"}" id="insert_icon" alt="" class="border3d" />
                 {/if}
             </td>
         </tr>
         <tr class="tr_row2">
             <td>{t}Image{/t}</td>
             <td width="1">
-                <select name="info[image]" onchange="document.getElementById('insert_image').src='{$www_root_themes_core}/images/categories/images/'+document.getElementById('image').options[document.getElementById('image').options.selectedIndex].text" class="input_text" id="image">
+                <select name="info[image]" onchange="document.getElementById('insert_image').src='{$www_root_themes_core}images/categories/images/'+document.getElementById('image').options[document.getElementById('image').options.selectedIndex].text" class="input_text" id="image">
                     <option value=""></option>
                     {foreach key=key item=item from=$images}
-                    <option {if $smarty.post.info.image|escape:"html"==$item}selected="selected"{/if} style="background-image:url('{$www_root_themes_core}/images/categories/images/{$item}');background-repeat:no-repeat;padding-left:55px; padding-top: 10px; height:48px; width: 100px; line-height:48px;" id="{$item}" value="{$item}">{$item}</option> );
+                    <option {if $smarty.post.info.image|escape:"html"==$item}selected="selected"{/if} style="background-image:url('{$www_root_themes_core}images/categories/images/{$item}');background-repeat:no-repeat;padding-left:55px; padding-top: 10px; height:48px; width: 100px; line-height:48px;" id="{$item}" value="{$item}">{$item}</option> );
                     {/foreach}
                 </select>
             </td>
             <td align="center">
                 {if $smarty.post.info.image==''}
-                    <img src="{$www_root_themes_core}/images/empty.png" id="insert_image" alt="" class="border3d" />
+                    <img src="{$www_root_themes_core}images/empty.png" id="insert_image" alt="" class="border3d" />
                 {else}
-                    <img src="{$www_root_themes_core}/images/categories/images/{$smarty.post.info.image|escape:"html"}" id="insert_image" alt="" class="border3d" />
+                    <img src="{$www_root_themes_core}images/categories/images/{$smarty.post.info.image|escape:"html"}" id="insert_image" alt="" class="border3d" />
                 {/if}
             </td>
         </tr>

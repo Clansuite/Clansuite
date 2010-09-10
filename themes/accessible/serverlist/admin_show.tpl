@@ -1,7 +1,7 @@
 {move_to target="pre_head_close"}
-<script src="{$www_root_themes_core}/javascript/prototype.js" type="text/javascript"></script>
-<script src="{$www_root_themes_core}/javascript/scriptaculous.js" type="text/javascript"></script>
-<script src="{$www_root_themes_core}/javascript/smarty_ajax.js" type="text/javascript"></script>
+<script src="{$www_root_themes_core}javascript/prototype.js" type="text/javascript"></script>
+<script src="{$www_root_themes_core}javascript/scriptaculous.js" type="text/javascript"></script>
+<script src="{$www_root_themes_core}javascript/smarty_ajax.js" type="text/javascript"></script>
 {/move_to}
 
 <script type="text/javascript">
@@ -45,9 +45,9 @@ var Serverform = {
                     <td align="center">{$server.gametype}</td>
                     <td align="center">
                         {if $server.image_country==''}
-                            <img src="{$www_root_themes_core}/images/empty.png" width="16" height="16" class="border3d">
+                            <img src="{$www_root_themes_core}images/empty.png" width="16" height="16" class="border3d">
                         {else}
-                            <img src="{$www_root_themes_core}/images/countries/{$server.image_country}" class="border3d">
+                            <img src="{$www_root_themes_core}images/countries/{$server.image_country}" class="border3d">
                         {/if}
                     </td>
                     <td align="center"><input onclick="self.location.href='index.php?mod=serverlist&sub=admin&action=edit&id={$server.server_id}'" type="button" value="{t}Edit{/t}" class="ButtonGreen" /></td>

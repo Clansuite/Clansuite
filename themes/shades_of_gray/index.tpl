@@ -36,17 +36,17 @@
 
     {* Favicon *}
 
-    <link rel="shortcut icon" href="{$www_root_themes_core}/images/clansuite_logos/Clansuite-Favicon-16.ico" />
-    <link rel="icon" href="{$www_root_themes_core}/images/clansuite_logos/Clansuite-Favicon-16.ico" type="image/gif" />
+    <link rel="shortcut icon" href="{$www_root_themes_core}images/clansuite_logos/Clansuite-Favicon-16.ico" />
+    <link rel="icon" href="{$www_root_themes_core}images/clansuite_logos/Clansuite-Favicon-16.ico" type="image/gif" />
 
     {* Clip *}
 
-    <script src="{$www_root_themes_core}/javascript/clip.js" type="text/javascript"></script>
+    <script src="{$www_root_themes_core}javascript/clip.js" type="text/javascript"></script>
 
     {* Cascading Style Sheets *}
 
     <link rel="stylesheet" type="text/css" href="{$css}" />
-    <link rel="alternate"  type="application/rss+xml" href="{$www_root}/cache/photo.rss" title="" id="gallery" />
+    <link rel="alternate"  type="application/rss+xml" href="{$www_root}cache/photo.rss" title="" id="gallery" />
 
 </head>
 
@@ -96,11 +96,11 @@
                 <dl>
                     <dd><a href="index.php">Home</a></dd>
                     <dt>Modules</dt>
-                    <dd><a href="index.php?mod=news"><img class="pic" src="{$www_root_themes_core}/images/icons/news.png" border="0" width="16" height="16" alt=""/>News</a></dd>
-                    <dd><a href="index.php?mod=news&amp;action=archiv"><img class="pic" src="{$www_root_themes_core}/images/icons/news.png" border="0" width="16" height="16" alt=""/>Newsarchiv</a></dd>
-                    <dd><a href="index.php?mod=serverlist"><img class="pic" src="{$www_root_themes_core}/images/icons/serverlist.png" border="0" width="16" height="16" alt=""/>Serverlist</a></dd>
-                    <dd><a href="index.php?mod=staticpages&amp;page=credits"><img class="pic" src="{$www_root_themes_core}/images/icons/news.png" border="0" width="16" height="16" alt=""/>Credits</a></dd>
-                    <dd><a href="index.php?mod=staticpages&amp;action=overview"><img class="pic" src="{$www_root_themes_core}/images/icons/news.png" border="0" width="16" height="16" alt="" />Static Pages Overview</a></dd>
+                    <dd><a href="index.php?mod=news"><img class="pic" src="{$www_root_themes_core}images/icons/news.png" border="0" width="16" height="16" alt=""/>News</a></dd>
+                    <dd><a href="index.php?mod=news&amp;action=archiv"><img class="pic" src="{$www_root_themes_core}images/icons/news.png" border="0" width="16" height="16" alt=""/>Newsarchiv</a></dd>
+                    <dd><a href="index.php?mod=serverlist"><img class="pic" src="{$www_root_themes_core}images/icons/serverlist.png" border="0" width="16" height="16" alt=""/>Serverlist</a></dd>
+                    <dd><a href="index.php?mod=staticpages&amp;page=credits"><img class="pic" src="{$www_root_themes_core}images/icons/news.png" border="0" width="16" height="16" alt=""/>Credits</a></dd>
+                    <dd><a href="index.php?mod=staticpages&amp;action=overview"><img class="pic" src="{$www_root_themes_core}images/icons/news.png" border="0" width="16" height="16" alt="" />Static Pages Overview</a></dd>
                     <dt>Users</dt>
                     <dd><a class="item" href="index.php?mod=account">Login</a></dd>
                     <dd><a class="item" href="index.php?mod=account"><img class="pic" src="{$www_root_themes}/images/icons/logout.png" border="0" width="16" height="16" alt=""/>Logout</a></dd>

@@ -28,15 +28,15 @@
     <meta name="keywords" content="{$meta.keywords}" />
 
     {* Favicon Include *}
-    <link rel="shortcut icon" href="{$www_root_theme}/images/favicon.ico" />
-    <link rel="icon" href="{$www_root_theme}/images/animated_favicon.gif" type="image/gif" />
+    <link rel="shortcut icon" href="{$www_root_theme}images/favicon.ico" />
+    <link rel="icon" href="{$www_root_theme}images/animated_favicon.gif" type="image/gif" />
 
     {* Inserts from index.php *}
-    <link rel="stylesheet" type="text/css" href="{$www_root_theme}/scripts/accessible.css" />
-    <link rel="stylesheet" type="text/css" href="{$www_root_theme}/scripts/ui.datepicker.css" />
-    <script type="text/javascript" src="{$www_root_themes_core}/javascript/jquery/jquery.js"></script>
-    <script type="text/javascript" src="{$www_root_themes_core}/javascript/jquery/jquery.ui.js"></script>
-    {* @todo <script type="text/javascript" src="{$www_root_theme}/scripts/accessible.js"></script> *}
+    <link rel="stylesheet" type="text/css" href="{$www_root_theme}scripts/accessible.css" />
+    <link rel="stylesheet" type="text/css" href="{$www_root_theme}scripts/ui.datepicker.css" />
+    <script type="text/javascript" src="{$www_root_themes_core}javascript/jquery/jquery.js"></script>
+    <script type="text/javascript" src="{$www_root_themes_core}javascript/jquery/jquery.ui.js"></script>
+    {* @todo <script type="text/javascript" src="{$www_root_theme}scripts/accessible.js"></script> *}
 
     {* set title - and apply -breadcrumb title="1"- to it *}
     <title>{$pagetitle} - {breadcrumbs title="1" trail=$trail separator=" &raquo; " length=30}</title>
@@ -116,7 +116,7 @@
 </div>
 {* Ajax Notification *}
 <div id="ajax-bar">
-    <img src="{$www_root_themes_core}/images/ajax/2.gif" alt="Ajax Notification Image" />
+    <img src="{$www_root_themes_core}images/ajax/2.gif" alt="Ajax Notification Image" />
     &nbsp; Wait - while processing your request...
 </div>
 

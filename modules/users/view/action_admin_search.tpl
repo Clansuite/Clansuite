@@ -1,8 +1,8 @@
 <h2>User :: Search</h2>
 
 {move_to target="pre_head_close"}
-<link rel="stylesheet" type="text/css" href="{$www_root_themes_core}/admin/datatable.css" />
-<script type="text/javascript" src="{$www_root_themes_core}/admin/datatable.js"></script>
+<link rel="stylesheet" type="text/css" href="{$www_root_themes_core}admin/datatable.css" />
+<script type="text/javascript" src="{$www_root_themes_core}admin/datatable.js"></script>
 {/move_to}
 
 {* Debugoutput {$users|@var_dump}*}

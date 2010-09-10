@@ -114,7 +114,7 @@ class Clansuite_Module_Statistics_Admin extends Clansuite_Module_Controller
         #$this->getView()->utility->clearCompiledTemplate();
 
         # Redirect
-        $this->getHttpResponse()->redirectNoCache(WWW_ROOT . '/index.php?mod=statistics&amp;sub=admin&amp;action=settings', 2, 302, 'The config file has been succesfully updated.');
+        $this->getHttpResponse()->redirectNoCache(WWW_ROOT . 'index.php?mod=statistics&amp;sub=admin&amp;action=settings', 2, 302, 'The config file has been succesfully updated.');
     }
 }
 ?>

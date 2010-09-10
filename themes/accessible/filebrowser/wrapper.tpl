@@ -1,5 +1,5 @@
 {move_to target="pre_head_close"}
-        <link rel="stylesheet" type="text/css" href="{$www_root_themes_core}/admin/adminmenu/DynamicTree.css" />
+        <link rel="stylesheet" type="text/css" href="{$www_root_themes_core}admin/adminmenu/DynamicTree.css" />
 {/move_to}
 <div class="DynamicTree">
     <div class="wrap1">

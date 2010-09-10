@@ -7,12 +7,12 @@
 
     {* jQuery *}
 
-    <script type="text/javascript" src="{$www_root_themes_core}/javascript/jquery/jquery.js"></script>
-    <script type="text/javascript" src="{$www_root_themes_core}/javascript/jquery/jquery.ui.js"></script>
+    <script type="text/javascript" src="{$www_root_themes_core}javascript/jquery/jquery.js"></script>
+    <script type="text/javascript" src="{$www_root_themes_core}javascript/jquery/jquery.ui.js"></script>
 
     {* Clip *}
 
-    <script src="{$www_root_themes_core}/javascript/clip.js" type="text/javascript"></script>
+    <script src="{$www_root_themes_core}javascript/clip.js" type="text/javascript"></script>
 
     {* Metatags *}
 
@@ -27,8 +27,8 @@
 
     {* Favicon *}
 
-    <link rel="shortcut icon" href="{$www_root_themes_core}/images/clansuite_logos/Clansuite-Favicon-16.ico" />
-    <link rel="icon" href="{$www_root_themes_core}/images/clansuite_logos/Clansuite-Favicon-16.ico" type="image/gif" />
+    <link rel="shortcut icon" href="{$www_root_themes_core}images/clansuite_logos/Clansuite-Favicon-16.ico" />
+    <link rel="icon" href="{$www_root_themes_core}images/clansuite_logos/Clansuite-Favicon-16.ico" type="image/gif" />
 
     {* Cascading Style Sheets *}
 
