@@ -2,7 +2,7 @@
 
 {move_to target="pre_head_close"}
 {* Tabs with jQuery + YAML Accessible Tabs Plugin *}
-<script type="text/javascript" src="{$www_root_themes_core}/javascript/jquery/jquery.tabs.js"></script>
+<script type="text/javascript" src="{$www_root_themes_core}javascript/jquery/jquery.tabs.js"></script>
 
 <script type="text/javascript">
     $(document).ready(function(){
@@ -18,7 +18,7 @@
 </script>
 
 
-<link rel="stylesheet" type="text/css" href="{$www_root_themes_core}/css/tabs.css" />
+<link rel="stylesheet" type="text/css" href="{$www_root_themes_core}css/tabs.css" />
 {/move_to}
 
 <div class="tabs">
@@ -32,7 +32,7 @@
    <div class="tab-page">
    <h2 class="tab">Clansuite</h2>
 
-    <img style="float:left; margin: 10px 0px 15px 1%;" src="{$www_root_themes_core}/images/clansuite_logos/clansuite_clown_mini.png">
+    <img style="float:left; margin: 10px 0px 15px 1%;" src="{$www_root_themes_core}images/clansuite_logos/clansuite_clown_mini.png">
 
     <img style="float:right; margin: 10px 0px 15px;" src="{$www_root_mod}/images/osi-certified-72x60-t.png">
 

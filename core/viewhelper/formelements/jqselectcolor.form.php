@@ -64,8 +64,8 @@ class Clansuite_Formelement_JQSelectColor extends Clansuite_Formelement implemen
     public function render()
     {
         # add the javascripts to the queue of the page (@todo queue, duplication check)
-        $javascript = '<script type="text/javascript" src="'.WWW_ROOT_THEMES_CORE . '/javascript/jquery/jquery.farbtastic.js"></script>
-                             <link rel="stylesheet" href="'.WWW_ROOT_THEMES_CORE . '/css/farbtastic.css" type="text/css" />';
+        $javascript = '<script type="text/javascript" src="'.WWW_ROOT_THEMES_CORE . 'javascript/jquery/jquery.farbtastic.js"></script>
+                             <link rel="stylesheet" href="'.WWW_ROOT_THEMES_CORE . 'css/farbtastic.css" type="text/css" />';
 
         # Add the jQuery UI Date Select Dialog.
         # Watch out, that the div dialog is present in the dom, before you assign js function to it via $('#datepicker')
@@ -79,7 +79,7 @@ class Clansuite_Formelement_JQSelectColor extends Clansuite_Formelement implemen
                                           });
                                         </script>";
 
-        $html = '<input type="text" id="color" name="'.$this->getName().'" value="'.$this->getValue().'" /><img src="'.WWW_ROOT_THEMES_CORE . '/images/icons/colors.png" align="top" style="margin-top:1px; margin-left:3px;" id="color"></img><div id="colorpicker"></div>';
+        $html = '<input type="text" id="color" name="'.$this->getName().'" value="'.$this->getValue().'" /><img src="'.WWW_ROOT_THEMES_CORE . 'images/icons/colors.png" align="top" style="margin-top:1px; margin-left:3px;" id="color"></img><div id="colorpicker"></div>';
 
         return $javascript.$datepicker_js.$html;
     }

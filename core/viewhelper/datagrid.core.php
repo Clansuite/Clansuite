@@ -2175,8 +2175,8 @@ class Clansuite_Datagrid_Renderer
         # Build htmlcode
         $htmlString = '';
 
-        $htmlString .= '<link rel="stylesheet" type="text/css" href="'. WWW_ROOT_THEMES_CORE . '/css/datagrid.css" />'.CR;
-        $htmlString .= '<script src="'. WWW_ROOT_THEMES_CORE . '/javascript/datagrid.js" type="text/javascript"></script>'.CR;
+        $htmlString .= '<link rel="stylesheet" type="text/css" href="'. WWW_ROOT_THEMES_CORE . 'css/datagrid.css" />'.CR;
+        $htmlString .= '<script src="'. WWW_ROOT_THEMES_CORE . 'javascript/datagrid.js" type="text/javascript"></script>'.CR;
 
         $htmlString .= '<form action="' . self::getDatagrid()->getBaseURL() . '" method="post" name="Datagrid-' . self::getDatagrid()->getAlias() . '" id="Datagrid-' . self::getDatagrid()->getAlias() . '">'.CRT;
 

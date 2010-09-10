@@ -18,7 +18,7 @@
                     {t}Value{/t}
                 </td>
                 <td class="td_header_small" align="left">
-                    <img style="cursor: pointer;"  src="{$www_root_themes_core}/images/icons/add.png" id="config_add" />
+                    <img style="cursor: pointer;"  src="{$www_root_themes_core}images/icons/add.png" id="config_add" />
                 </td>
             </tr>
         </thead>
@@ -32,7 +32,7 @@
                     <input class="input_text" type="text" value="" name="m[config][config_values][0]" pattern="^[a-zA-Z0-9_]+$" />
                 </td>
                 <td class="cell2" align="left" width="99%">
-                    <img src="{$www_root_themes_core}/images/icons/delete.png" id="config_delete" style="margin-top: 2px; cursor: pointer;" />
+                    <img src="{$www_root_themes_core}images/icons/delete.png" id="config_delete" style="margin-top: 2px; cursor: pointer;" />
                 </td>
             </tr>
         </tbody>

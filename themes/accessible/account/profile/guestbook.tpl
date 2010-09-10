@@ -2,14 +2,14 @@
 {* Debugausgabe des Arrays: {$guestbook|@var_dump} {html_alt_table loop=$guestbook} *}
 
 {move_to target="pre_head_close"}
-    <script src="{$www_root_themes_core}/javascript/prototype/prototype.js" type="text/javascript"></script>
-    <script src="{$www_root_themes_core}/javascript/lightbox/lightbox.js" type="text/javascript"></script>
-  	<script type="text/javascript" src="{$www_root_themes_core}/javascript/scriptaculous/effects.js"> </script>
-  	<script type="text/javascript" src="{$www_root_themes_core}/javascript/xilinus/window.js"> </script>
-  	<script type="text/javascript" src="{$www_root_themes_core}/javascript/xilinus/window_effects.js"> </script>
-  	<link rel="stylesheet" type="text/css" href="{$www_root_themes_core}/javascript/xilinus/themes/alphacube.css" />
-  	<link rel="stylesheet" type="text/css" href="{$www_root_themes_core}/javascript/xilinus/themes/alert.css" />
-  	<link rel="stylesheet" type="text/css" href="{$www_root_themes_core}/javascript/xilinus/themes/default.css" />
+    <script src="{$www_root_themes_core}javascript/prototype/prototype.js" type="text/javascript"></script>
+    <script src="{$www_root_themes_core}javascript/lightbox/lightbox.js" type="text/javascript"></script>
+  	<script type="text/javascript" src="{$www_root_themes_core}javascript/scriptaculous/effects.js"> </script>
+  	<script type="text/javascript" src="{$www_root_themes_core}javascript/xilinus/window.js"> </script>
+  	<script type="text/javascript" src="{$www_root_themes_core}javascript/xilinus/window_effects.js"> </script>
+  	<link rel="stylesheet" type="text/css" href="{$www_root_themes_core}javascript/xilinus/themes/alphacube.css" />
+  	<link rel="stylesheet" type="text/css" href="{$www_root_themes_core}javascript/xilinus/themes/alert.css" />
+  	<link rel="stylesheet" type="text/css" href="{$www_root_themes_core}javascript/xilinus/themes/default.css" />
 {/move_to}
 
 <div class="user_gb">
@@ -36,7 +36,7 @@
                     {elseif $entry.type == upload}
                         <a href="index.php?mod=account&sub=profile&action=show&id={$entry.user_id.1}"><img src="index.php?mod=guestbook&action=show_avatar&id={$entry.gb_id}" alt="{$entry.nick}"  class="the_pic" /></a>
                     {else}
-                        <img src="{$www_root_theme}/images/no_avatar_small.jpg" alt="{t}No avatar{/t}: {$entry.nick}"  class="the_pic" />
+                        <img src="{$www_root_theme}images/no_avatar_small.jpg" alt="{t}No avatar{/t}: {$entry.nick}"  class="the_pic" />
                     {/if}
                 </div>
             </div>

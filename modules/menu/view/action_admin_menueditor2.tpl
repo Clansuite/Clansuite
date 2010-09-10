@@ -1,8 +1,8 @@
 {move_to target="pre_head_close"}
-<script type="text/javascript" src="{$www_root_themes_core}/javascript/jquery/jquery.tree.js"></script>
-<script type="text/javascript" src="{$www_root_themes_core}/javascript/jquery/jquery.cookie.js"></script>
+<script type="text/javascript" src="{$www_root_themes_core}javascript/jquery/jquery.tree.js"></script>
+<script type="text/javascript" src="{$www_root_themes_core}javascript/jquery/jquery.cookie.js"></script>
 	
-<link rel="stylesheet" type="text/css" href="{$www_root_themes_core}/css/jquery-jstree-themes/default/style.css" />
+<link rel="stylesheet" type="text/css" href="{$www_root_themes_core}css/jquery-jstree-themes/default/style.css" />
 {/move_to}
 
 {modulenavigation}

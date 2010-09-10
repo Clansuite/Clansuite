@@ -3,10 +3,10 @@
 {move_to target="pre_head_close"}
 {* everything in doc_raw is moved "as is" to header *}
 <!-- Clip -->
-<script src="{$www_root_themes_core}/javascript/clip.js" type="application/javascript"></script>
+<script src="{$www_root_themes_core}javascript/clip.js" type="application/javascript"></script>
 <!-- Favicon -->
-<link rel="shortcut icon" href="{$www_root_theme}/images/Clansuite-Favicon-16.ico" />
-<link rel="icon" href="{$www_root_theme}/images/Clansuite-Favicon-16.ico" type="image/gif" />
+<link rel="shortcut icon" href="{$www_root_theme}images/Clansuite-Favicon-16.ico" />
+<link rel="icon" href="{$www_root_theme}images/Clansuite-Favicon-16.ico" type="image/gif" />
 <title>{$pagetitle} - {breadcrumbs title="1" trail=$trail separator=" &raquo; " length=30}</title>
 <!-- page cached on {$smarty.now|date_format:"%Y-%m-%d %H:%M:%S"}  -->
 {/move_to}
@@ -74,6 +74,6 @@
 
 {* Ajax Notification *}
 <div id="notification" style="display: none;">
-    <img src="{$www_root_themes_core}/images/ajax/2.gif" style="vertical-align: middle;" alt="Ajax Notification Image"/>
+    <img src="{$www_root_themes_core}images/ajax/2.gif" style="vertical-align: middle;" alt="Ajax Notification Image"/>
     &nbsp; Wait - while processing your request...
 </div>

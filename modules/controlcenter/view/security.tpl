@@ -7,7 +7,7 @@
         <td style="min-width: 120px; color: black; background-color: #CC1717;" width="33%" valign="bottom">
             <b>&nbsp;&raquo; Clansuite Errorlog</b>
         </td>
-        <td nowrap="nowrap" style="background-image:url('{$www_root}/modules/controlcenter/images/red-triangle.gif'); background-repeat: no-repeat;">
+        <td nowrap="nowrap" style="background-image:url('{$www_root}modules/controlcenter/images/red-triangle.gif'); background-repeat: no-repeat;">
         </td>
     </tr>
     <tr>

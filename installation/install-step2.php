@@ -180,21 +180,21 @@ if (defined('IN_CS') === false)
                          /* commented out, because system is able to create these folders if missing, no check needed
                          $required['is_writable_smarty_templates_c']['text']     = $language['IS_WRITEABLE_SMARTY_TEMPLATES_C'];
                          $required['is_writable_smarty_templates_c']['expected'] = 'w';
-                         $required['is_writable_smarty_templates_c']['actual']   = is_writeable(ROOT . '/cache/templates_c') ? 'w' : '---';
-                         $required['is_writable_smarty_templates_c']['status']   = is_writeable(ROOT . '/cache/templates_c') ? SETTING_TRUE : SETTING_FALSE;
+                         $required['is_writable_smarty_templates_c']['actual']   = is_writeable(ROOT . 'cache/templates_c') ? 'w' : '---';
+                         $required['is_writable_smarty_templates_c']['status']   = is_writeable(ROOT . 'cache/templates_c') ? SETTING_TRUE : SETTING_FALSE;
 
                          # Permissions Check: write on \smarty\cache
                          $required['is_writable_smarty_cache']['text']     = $language['IS_WRITEABLE_SMARYT_CACHE'];
                          $required['is_writable_smarty_cache']['expected'] = 'w';
-                         $required['is_writable_smarty_cache']['actual']   = is_writeable(ROOT . '/cache') ? 'w' : '---';
-                         $required['is_writable_smarty_cache']['status']   = is_writeable(ROOT . '/cache') ? SETTING_TRUE : SETTING_FALSE;
+                         $required['is_writable_smarty_cache']['actual']   = is_writeable(ROOT . 'cache') ? 'w' : '---';
+                         $required['is_writable_smarty_cache']['status']   = is_writeable(ROOT . 'cache') ? SETTING_TRUE : SETTING_FALSE;
                          */
 
                          # Permissions Check: write on uploads folder
                          $required['is_writable_uploads']['text']     = $language['IS_WRITEABLE_UPLOADS'];
                          $required['is_writable_uploads']['expected'] = 'w';
-                         $required['is_writable_uploads']['actual']   = is_writeable(ROOT . '/uploads') ? 'w' : '---';
-                         $required['is_writable_uploads']['status']   = is_writeable(ROOT . '/uploads') ? SETTING_TRUE : SETTING_FALSE;
+                         $required['is_writable_uploads']['actual']   = is_writeable(ROOT . 'uploads') ? 'w' : '---';
+                         $required['is_writable_uploads']['status']   = is_writeable(ROOT . 'uploads') ? SETTING_TRUE : SETTING_FALSE;
 
                          # Permissions Check: read on Configuration Template File
                          $required['is_readable_config_template']['text']     = $language['IS_READABLE_CONFIG_TEMPLATE'];

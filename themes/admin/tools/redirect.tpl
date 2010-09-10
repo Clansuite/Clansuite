@@ -10,7 +10,7 @@
     <p>
         {$heading}
         <br /> 
-        <img src="{$www_root_themes_core}/images/symbols/redirect.png">
+        <img src="{$www_root_themes_core}images/symbols/redirect.png">
     </p>
     <div class="redirect_message">
         <p>{$message}</p>

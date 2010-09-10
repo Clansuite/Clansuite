@@ -109,7 +109,7 @@ class Clansuite_Module_Thememanager_Admin extends Clansuite_Module_Controller
                 $preview_image = glob(ROOT_THEMES . $dir . DS . 'preview*.{jpg,png,gif,jpeg,JPG,PNG,GIF,JPEG}', GLOB_BRACE);
 
                 # turn ROOT_THEMES path into WWW_ROOT
-                $preview_image = str_replace(ROOT_THEMES, WWW_ROOT_THEMES . '/', $preview_image);
+                $preview_image = str_replace(ROOT_THEMES, WWW_ROOT_THEMES . '', $preview_image);
 
                 # fix slashes
                 $preview_image = str_replace('\\', '/', $preview_image);
@@ -121,7 +121,7 @@ class Clansuite_Module_Thememanager_Admin extends Clansuite_Module_Controller
                 }
                 else # show only nopreview.gif as thumbnail
                 {
-                    $theme_info[$i]['preview_thumbnail'] = WWW_ROOT_THEMES . '/core/images/nopreview.jpg';
+                    $theme_info[$i]['preview_thumbnail'] = WWW_ROOT_THEMES . 'core/images/nopreview.jpg';
                 }
             }
         }

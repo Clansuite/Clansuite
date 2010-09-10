@@ -59,8 +59,8 @@ class Clansuite_Formelement_Uploadify extends Clansuite_Formelement_File impleme
         # load the required scripts and styles
         $javascript =  '<link href="'. WWW_ROOT_THEMES_CORE .'/cssc/uploadifye/default.css" rel="stylesheet" type="text/css" />
                         <link href="'. WWW_ROOT_THEMES_CORE .'/css/uploadify/uploadify.css" rel="stylesheet" type="text/css" />
-                        <script type="text/javascript" src="'.WWW_ROOT_THEMES_CORE . '/javascript/uploadify/swfobject.js"></script>
-                        <script type="text/javascript" src="'.WWW_ROOT_THEMES_CORE . '/javascript/jquery/jquery.uploadify.v2.1.0.min.js"></script>';
+                        <script type="text/javascript" src="'.WWW_ROOT_THEMES_CORE . 'javascript/uploadify/swfobject.js"></script>
+                        <script type="text/javascript" src="'.WWW_ROOT_THEMES_CORE . 'javascript/jquery/jquery.uploadify.v2.1.0.min.js"></script>';
 
         # attach the uploadify handler and apply some configuration
         $javascript .= "<script type=\"text/javascript\">// <![CDATA[

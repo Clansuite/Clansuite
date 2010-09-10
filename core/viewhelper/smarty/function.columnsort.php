@@ -32,8 +32,8 @@ function smarty_function_columnsort($params, $smarty)
     //static $sort_asc_image = null;
     //static $sort_desc_image = null;
 
-    $sort_asc_image  = WWW_ROOT_THEMES_CORE . '/images/icons/asc.png';
-    $sort_desc_image = WWW_ROOT_THEMES_CORE . '/images/icons/desc.png';
+    $sort_asc_image  = WWW_ROOT_THEMES_CORE . 'images/icons/asc.png';
+    $sort_desc_image = WWW_ROOT_THEMES_CORE . 'images/icons/desc.png';
 
     static $SMCS_id = 'default';
 

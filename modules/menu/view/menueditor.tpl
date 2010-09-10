@@ -125,13 +125,13 @@
                         <tr>
                             <td class="label">{t}Icon{/t}</td>
                             <td>
-                                <select onchange="document.getElementById('insert_icon').src='{$www_root_themes_core}/images/icons/'+document.getElementById('tree-insert-custom_icon').options[document.getElementById('tree-insert-custom_icon').options.selectedIndex].text"
+                                <select onchange="document.getElementById('insert_icon').src='{$www_root_themes_core}images/icons/'+document.getElementById('tree-insert-custom_icon').options[document.getElementById('tree-insert-custom_icon').options.selectedIndex].text"
                                         class="input" id="tree-insert-custom_icon">
                                     <option value="">{t}No icon{/t}</option>
 
                                     {foreach item=icon from=$icons}
 
-                                        <option style="background-image:url({$www_root_themes_core}/images/icons/{$icon});
+                                        <option style="background-image:url({$www_root_themes_core}images/icons/{$icon});
                                                        background-repeat:no-repeat;padding-left:20px;
                                                        height:20px;
                                                        line-height:20px;"
@@ -185,13 +185,13 @@
                         <tr>
                             <td class="label">{t}Icon{/t}</td>
                             <td>
-                                <select onchange="document.getElementById('update_icon').src='{$www_root_themes_core}/images/icons/'+document.getElementById('tree-info-custom_icon').options[document.getElementById('tree-info-custom_icon').options.selectedIndex].text"
+                                <select onchange="document.getElementById('update_icon').src='{$www_root_themes_core}images/icons/'+document.getElementById('tree-info-custom_icon').options[document.getElementById('tree-info-custom_icon').options.selectedIndex].text"
                                         class="input_text" id="tree-info-custom_icon">
                                     <option value="">{t}No icon{/t}</option>
 
                                     {foreach item=icon from=$icons}
 
-                                        <option style="background-image:url({$www_root_themes_core}/images/icons/{$icon});
+                                        <option style="background-image:url({$www_root_themes_core}images/icons/{$icon});
                                                        background-repeat:no-repeat;
                                                        padding-left:20px;
                                                        height:20px;
@@ -247,7 +247,7 @@
     </table>
 
     <script type="text/javascript">
-        var tree = new DynamicTreeBuilder("tree", "{$www_root}/modules/menu/images/", "{$www_root_themes_core}/images/icons/");
+        var tree = new DynamicTreeBuilder("tree", "{$www_root}modules/menu/images/", "{$www_root_themes_core}images/icons/");
         tree.init();
         DynamicTreePlugins.call(tree);
     </script>

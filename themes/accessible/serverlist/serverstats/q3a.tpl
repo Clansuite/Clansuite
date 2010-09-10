@@ -1,6 +1,6 @@
 {* DEBUG   {$serverdata|@var_dump} *}
 
-<div style="float: right"><img src="{$www_root_theme}/images/serverlist/up.gif" 
+<div style="float: right"><img src="{$www_root_theme}images/serverlist/up.gif" 
 onclick="Effect.SlideUp('serverdata_{$serverdata.server_id}')"; /></div>
 
 <span>
@@ -24,11 +24,11 @@ onclick="Effect.SlideUp('serverdata_{$serverdata.server_id}')"; /></div>
                                 <br />
                                 
                                 {if $serverdata.mapfile == 'unknown_map.png' }
-                            	<img src='{$www_root_theme}/images/serverlist/maps/{$serverdata.mapfile}';
+                            	<img src='{$www_root_theme}images/serverlist/maps/{$serverdata.mapfile}';
                             	alt="No Picture for {$serverdata.mapname}" style="border: 1px solid #000000;">
                                 {else}
                             	
-                            	<img src="{$www_root_theme}/images/serverlist/maps/{$serverdata.mapfile}" 
+                            	<img src="{$www_root_theme}images/serverlist/maps/{$serverdata.mapfile}" 
                             	alt="Picture for {$serverdata.mapname}" style="border: 1px solid #000000;">
                             	{/if}
                             	</div>

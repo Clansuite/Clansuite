@@ -37,17 +37,17 @@
 
     {* Favicon *}
 
-    <link rel="shortcut icon" href="{$www_root_themes_core}/images/clansuite_logos/Clansuite-Favicon-16.ico" />
-    <link rel="icon" href="{$www_root_themes_core}/images/clansuite_logos/Clansuite-Favicon-16.ico" type="image/gif" />
+    <link rel="shortcut icon" href="{$www_root_themes_core}images/clansuite_logos/Clansuite-Favicon-16.ico" />
+    <link rel="icon" href="{$www_root_themes_core}images/clansuite_logos/Clansuite-Favicon-16.ico" type="image/gif" />
 
     {* Clip *}
 
-    <script src="{$www_root_themes_core}/javascript/clip.js" type="text/javascript"></script>
+    <script src="{$www_root_themes_core}javascript/clip.js" type="text/javascript"></script>
 
     {* Cascading Style Sheets *}
 
     <link rel="stylesheet" type="text/css" href="{$css}" />
-    <link rel="alternate"  type="application/rss+xml" href="{$www_root}/cache/photo.rss" title="" id="gallery" />
+    <link rel="alternate"  type="application/rss+xml" href="{$www_root}cache/photo.rss" title="" id="gallery" />
 
 </head><body>
 
@@ -66,7 +66,7 @@
 
 {* Ajax Notification *}
 <div id="notification" style="display: none;">
-    <img src="{$www_root_themes_core}/images/ajax/2.gif" style="vertical-align: middle;" alt="Ajax Notification Image"/>
+    <img src="{$www_root_themes_core}images/ajax/2.gif" style="vertical-align: middle;" alt="Ajax Notification Image"/>
     &nbsp; Wait - while processing your request...
 </div>
 
@@ -76,7 +76,7 @@
 <table cellspacing="0" cellpadding="0" width="100%">
 <tr>
     <td height="180" align="center">
-        <img alt="Clansuite Header" src="{$www_root_themes_core}/images/clansuite-header.png" width="760" height="175" />
+        <img alt="Clansuite Header" src="{$www_root_themes_core}images/clansuite-header.png" width="760" height="175" />
     </td>
 </tr>
 </table>

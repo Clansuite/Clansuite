@@ -41,7 +41,7 @@ function smarty_function_openflashchart($params, $smarty)
                         'height'        => 200,
                         'url'           => WWW_ROOT .'/'. $params['url'],
                         'swfobject'     => false,
-                        'baseurl'       => WWW_ROOT . '/libraries/open-flash-chart/', # path to open-flash-chart.swf
+                        'baseurl'       => WWW_ROOT . 'libraries/open-flash-chart/', # path to open-flash-chart.swf
     );
 
     open_flash_chart_object($params['width'], $params['height'], $params['url'], $params['swfobject'], $params['baseurl']);

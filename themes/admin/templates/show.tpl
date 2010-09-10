@@ -1,9 +1,9 @@
 {move_to target="pre_head_close"}
-<link rel="stylesheet" type="text/css" href="{$www_root_themes_core}/admin/adminmenu/DynamicTree.css" />
+<link rel="stylesheet" type="text/css" href="{$www_root_themes_core}admin/adminmenu/DynamicTree.css" />
 {* Prototype + Scriptaculous + Smarty_Ajax *}
-<script type="text/javascript" src="{$www_root_themes_core}/javascript/prototype/prototype.js" ></script>
-<script type="text/javascript" src="{$www_root_themes_core}/javascript/scriptaculous/scriptaculous.js"></script>
-<script type="text/javascript" src="{$www_root_themes_core}/javascript/smarty_ajax.js"></script>
+<script type="text/javascript" src="{$www_root_themes_core}javascript/prototype/prototype.js" ></script>
+<script type="text/javascript" src="{$www_root_themes_core}javascript/scriptaculous/scriptaculous.js"></script>
+<script type="text/javascript" src="{$www_root_themes_core}javascript/smarty_ajax.js"></script>
 
     
         <style type="text/css">
@@ -26,12 +26,12 @@
             if( document.getElementById('section-' + id).style.display == 'none' )
             {
                 document.getElementById('section-' + id).style.display = 'block';
-                document.getElementById('node-' + id).src = '{$www_root_themes_core}/admin/adminmenu/images/tree-node-open.gif';
+                document.getElementById('node-' + id).src = '{$www_root_themes_core}admin/adminmenu/images/tree-node-open.gif';
             }
             else
             {
                 document.getElementById('section-' + id).style.display = 'none';
-                document.getElementById('node-' + id).src = '{$www_root_themes_core}/admin/adminmenu/images/tree-node.gif';
+                document.getElementById('node-' + id).src = '{$www_root_themes_core}admin/adminmenu/images/tree-node.gif';
             }
         }   
        

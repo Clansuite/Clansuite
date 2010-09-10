@@ -755,7 +755,7 @@ function write_config_settings($data_array)
     $data_array = array_merge_recursive($data_array, $installer_config);
 
     # Write Config File to ROOT Directory
-    if(!Clansuite_Config_INIHandler::writeConfig(ROOT . '/configuration/clansuite.config.php', $data_array))
+    if(!Clansuite_Config_INIHandler::writeConfig(ROOT . 'configuration/clansuite.config.php', $data_array))
     {
         return false;
     }

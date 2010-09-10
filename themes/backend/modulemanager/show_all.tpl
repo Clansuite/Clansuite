@@ -1,15 +1,15 @@
 {move_to target="pre_head_close"}
     {* Dynamic Tree *}
-    <link rel="stylesheet" type="text/css" href="{$www_root_themes_core}/admin/adminmenu/DynamicTree.css" />
+    <link rel="stylesheet" type="text/css" href="{$www_root_themes_core}admin/adminmenu/DynamicTree.css" />
     {* Tabs *}
-    <link rel="stylesheet" type="text/css" href="{$www_root_themes_core}/admin/luna.css" />
-    <script type="text/javascript" src="{$www_root_themes_core}/javascript/tabpane.js"></script>
+    <link rel="stylesheet" type="text/css" href="{$www_root_themes_core}admin/luna.css" />
+    <script type="text/javascript" src="{$www_root_themes_core}javascript/tabpane.js"></script>
     {* Prototype + Scriptaculous + Smarty_Ajax *}
-    <script src="{$www_root_themes_core}/javascript/prototype/prototype.js" type="text/javascript"></script>
-    <script src="{$www_root_themes_core}/javascript/scriptaculous/scriptaculous.js" type="text/javascript"></script>
-    <script src="{$www_root_themes_core}/javascript/smarty_ajax.js" type="text/javascript"></script>
+    <script src="{$www_root_themes_core}javascript/prototype/prototype.js" type="text/javascript"></script>
+    <script src="{$www_root_themes_core}javascript/scriptaculous/scriptaculous.js" type="text/javascript"></script>
+    <script src="{$www_root_themes_core}javascript/smarty_ajax.js" type="text/javascript"></script>
     {* Tablegrid Extension *}
-    <script type="text/javascript" src="{$www_root_themes_core}/javascript/tablegrid.js"></script>
+    <script type="text/javascript" src="{$www_root_themes_core}javascript/tablegrid.js"></script>
     
         <script type="text/javascript">
         function toggle(x,id)
@@ -78,11 +78,11 @@
         <tr>
             <td class="cell1" style="text-align:center">
                 <input type="hidden" name="ids[]" value="{$wert.module_id}" />
-                <img src="{$www_root_themes_core}/images/modules/{if $wert.enabled == 1}module-active.gif{else}module-inactive.gif{/if}" id="modul_onoff_image_{$wert.module_id}" alt="" />
+                <img src="{$www_root_themes_core}images/modules/{if $wert.enabled == 1}module-active.gif{else}module-inactive.gif{/if}" id="modul_onoff_image_{$wert.module_id}" alt="" />
             </td>
             <td class="cell2" style="text-align:center">
                 <strong>{$wert.title} </strong> (#{$wert.module_id})<br />
-                <img src="{$www_root_themes_core}/images/modules/{$wert.image_name}" id="modul_onoff_image_{$wert.module_id}" alt="" />
+                <img src="{$www_root_themes_core}images/modules/{$wert.image_name}" id="modul_onoff_image_{$wert.module_id}" alt="" />
                 <small>Version: xy</small>
             </td>
             <td class="cell1">
@@ -207,11 +207,11 @@
         <tr>
             <td class="cell1" style="text-align:center">
                 <input type="hidden" name="ids[]" value="{$wert.module_id}" />
-                <img src="{$www_root_themes_core}/images/modules/{if $wert.enabled == 1}module-active.gif{else}module-inactive.gif{/if}" id="modul_onoff_image_{$wert.module_id}" alt="" />
+                <img src="{$www_root_themes_core}images/modules/{if $wert.enabled == 1}module-active.gif{else}module-inactive.gif{/if}" id="modul_onoff_image_{$wert.module_id}" alt="" />
             </td>
             <td class="cell2" style="text-align:center">
                 <strong>{$wert.title}</strong> (#{$wert.module_id})<br />
-                <img src="{$www_root_themes_core}/images/modules/{$wert.image_name}" alt=""/>
+                <img src="{$www_root_themes_core}images/modules/{$wert.image_name}" alt=""/>
                 <small>Version: xy</small>
             </td>
             <td class="cell1">

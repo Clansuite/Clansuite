@@ -17,7 +17,7 @@ Anzahl Elemente max: {$paginate_maxperpage}
     <tr class="tr_header_small">
         <td>
         <div style="float:left;">
-            <img class="img" src="{$www_root_themes_core}/images/icons/page_edit.png" alt="" />            
+            <img class="img" src="{$www_root_themes_core}images/icons/page_edit.png" alt="" />            
 
             {if $paginate_currentpage eq $paginate_lastpage}
              {assign var=itemsOnPage value=$paginate_totalitems}

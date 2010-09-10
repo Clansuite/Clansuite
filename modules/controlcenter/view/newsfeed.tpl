@@ -5,7 +5,7 @@
         <td style="min-width: 120px; background-color: #FF924F;" width="33%" valign="bottom">
             <b>&nbsp;&raquo; Clansuite News</b>
         </td>
-        <td nowrap="nowrap" style="background-image:url('{$www_root}/modules/controlcenter/images/orange-triangle.gif'); background-repeat: no-repeat;">
+        <td nowrap="nowrap" style="background-image:url('{$www_root}modules/controlcenter/images/orange-triangle.gif'); background-repeat: no-repeat;">
             <div align="right">Last Updated: {$smarty.now|date_format:"%d-%m-%Y"} </div>
         </td>
     </tr>

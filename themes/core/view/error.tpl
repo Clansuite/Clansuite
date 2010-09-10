@@ -4,13 +4,13 @@
 {if $error_type == 1}
 <html>
 <head>
-<link rel="stylesheet" href="{$www_root_themes_core}/css/error.css" type="text/css" />
+<link rel="stylesheet" href="{$www_root_themes_core}css/error.css" type="text/css" />
 {$redirect}
 <title>{$error_head} - errortype {$error_type}</title>
 </head>
 <body>
 {else}
-<link rel="stylesheet" href="{$www_root_themes_core}/css/error.css" type="text/css" />
+<link rel="stylesheet" href="{$www_root_themes_core}css/error.css" type="text/css" />
 {/if}
 
 

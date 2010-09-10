@@ -368,9 +368,9 @@ class Clansuite_Module_Account extends Clansuite_Module_Controller
         $view->assign( 'config', $moduleconfig );
         $view->assign( 'min_length', $moduleconfig['login']['min_pass_length'] );
         $view->assign( 'err', $error );
-        #$view->assign( 'captcha_url',  WWW_ROOT . '/index.php?mod=captcha&' . session_name() . '=' . session_id() );
+        #$view->assign( 'captcha_url',  WWW_ROOT . 'index.php?mod=captcha&' . session_name() . '=' . session_id() );
 
-        #$view->assign( 'captcha_url',  WWW_ROOT . '/index.php?mod=captcha&' . session_name() . '=' . session_id() );
+        #$view->assign( 'captcha_url',  WWW_ROOT . 'index.php?mod=captcha&' . session_name() . '=' . session_id() );
 
         // Output
         $this->display();

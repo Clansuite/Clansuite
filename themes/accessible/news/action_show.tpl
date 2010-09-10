@@ -4,13 +4,13 @@
 	{$news|@var_dump}
 	{$paginate|@var_dump}
 *}
-    <script type="text/javascript" src="{$www_root}/core/fckeditor/fckeditor.js"></script>
+    <script type="text/javascript" src="{$www_root}core/fckeditor/fckeditor.js"></script>
 {move_to target="pre_head_close"}
-    <script src="{$www_root_themes_core}/javascript/prototype/prototype.js" type="text/javascript"></script>
-    <script src="{$www_root_themes_core}/javascript/lightbox/lightbox.js" type="text/javascript"></script>
-  	<script type="text/javascript" src="{$www_root_themes_core}/javascript/scriptaculous/effects.js"> </script>
-  	<script type="text/javascript" src="{$www_root_themes_core}/javascript/xilinus/window.js"> </script>
-  	<script type="text/javascript" src="{$www_root_themes_core}/javascript/xilinus/window_effects.js"> </script>
+    <script src="{$www_root_themes_core}javascript/prototype/prototype.js" type="text/javascript"></script>
+    <script src="{$www_root_themes_core}javascript/lightbox/lightbox.js" type="text/javascript"></script>
+  	<script type="text/javascript" src="{$www_root_themes_core}javascript/scriptaculous/effects.js"> </script>
+  	<script type="text/javascript" src="{$www_root_themes_core}javascript/xilinus/window.js"> </script>
+  	<script type="text/javascript" src="{$www_root_themes_core}javascript/xilinus/window_effects.js"> </script>
 {/move_to}
 
 {if !empty($news)}

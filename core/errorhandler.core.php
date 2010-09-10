@@ -298,7 +298,7 @@ class Clansuite_Errorhandler
         $errormessage = '<html><head>';
         $errormessage .= '<title>Clansuite Error | ' . $trimed_errorstring . ' | Code: ' . $errornumber . '</title>';
         $errormessage .= '<body>';
-        $errormessage .= '<link rel="stylesheet" href="' . WWW_ROOT_THEMES_CORE . '/css/error.css" type="text/css" />';
+        $errormessage .= '<link rel="stylesheet" href="' . WWW_ROOT_THEMES_CORE . 'css/error.css" type="text/css" />';
         $errormessage .= '</head>';
 
         # Body
@@ -309,7 +309,7 @@ class Clansuite_Errorhandler
 
         # Errorlogo
         $errormessage .= '<div style="float: left; margin: 5px; margin-right: 25px; border:1px inset #bf0000; padding: 20px;">';
-        $errormessage .= '<img src="' . WWW_ROOT_THEMES_CORE . '/images/Clansuite-Toolbar-Icon-64-error.png" style="border: 2px groove #000000;"/></div>';
+        $errormessage .= '<img src="' . WWW_ROOT_THEMES_CORE . 'images/Clansuite-Toolbar-Icon-64-error.png" style="border: 2px groove #000000;"/></div>';
 
         # Fieldset Legend
         $errormessage .= '<legend>Clansuite Error : [ ' . $trimed_errorstring . ' ] </legend>';

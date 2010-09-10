@@ -1,8 +1,8 @@
 {$chmod_tpl}
 {move_to target="pre_head_close"}
-    <link rel="stylesheet" type="text/css" href="{$www_root_themes_core}/admin/luna.css" />
-    <script type="text/javascript" src="{$www_root_themes_core}/javascript/tabpane.js"></script>
-    <link rel="stylesheet" type="text/css" href="{$www_root_themes_core}/admin/adminmenu/DynamicTree.css" />
+    <link rel="stylesheet" type="text/css" href="{$www_root_themes_core}admin/luna.css" />
+    <script type="text/javascript" src="{$www_root_themes_core}javascript/tabpane.js"></script>
+    <link rel="stylesheet" type="text/css" href="{$www_root_themes_core}admin/adminmenu/DynamicTree.css" />
     
         <style type="text/css">
         body { background: #F1EFE2; }
@@ -23,12 +23,12 @@
         if( document.getElementById('section-' + id).style.display == 'none' )
         {
             document.getElementById('section-' + id).style.display = 'block';
-            document.getElementById('node-' + id).src = '{$www_root_themes_core}/admin/adminmenu/images/tree-node-open.gif';
+            document.getElementById('node-' + id).src = '{$www_root_themes_core}admin/adminmenu/images/tree-node-open.gif';
         }
         else
         {
             document.getElementById('section-' + id).style.display = 'none';
-            document.getElementById('node-' + id).src = '{$www_root_themes_core}/admin/adminmenu/images/tree-node.gif';
+            document.getElementById('node-' + id).src = '{$www_root_themes_core}admin/adminmenu/images/tree-node.gif';
         }
     }
 
@@ -108,7 +108,7 @@ Loading...
 
     <td class="cell1" align="center"  width="120px">
     <strong>{$wert.title}</strong><br />
-    <img width="100px" height="100px" src="{$www_root_themes_core}/images/modules/{$wert.image_name}">
+    <img width="100px" height="100px" src="{$www_root_themes_core}images/modules/{$wert.image_name}">
     </td>
 
     <td class="cell2" width="65%">
@@ -159,9 +159,9 @@ Loading...
                         <div class="wrap2" id="tree">
                             {foreach key=key item=item from=$sql_tables}
                                 <div class='doc'>
-                                    <img src="{$www_root_themes_core}/admin/adminmenu/images/tree-leaf.gif" width="18" height="18" border="0">
+                                    <img src="{$www_root_themes_core}admin/adminmenu/images/tree-leaf.gif" width="18" height="18" border="0">
                                     <input type="checkbox" name="tables[{$wert.name}][]" value="{$item}" />
-                                    <img src="{$www_root_themes_core}/admin/adminmenu/images/tree-doc.gif" width="18" height="18" border="0">
+                                    <img src="{$www_root_themes_core}admin/adminmenu/images/tree-doc.gif" width="18" height="18" border="0">
                                     {$item}
                                 </div>
                             {/foreach}

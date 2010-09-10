@@ -6,12 +6,12 @@
 
     {* jQuery *}
 
-    <script type="text/javascript" src="{$www_root_themes_core}/javascript/jquery/jquery.js"></script>
-    <script type="text/javascript" src="{$www_root_themes_core}/javascript/jquery/jquery.ui.js"></script>
+    <script type="text/javascript" src="{$www_root_themes_core}javascript/jquery/jquery.js"></script>
+    <script type="text/javascript" src="{$www_root_themes_core}javascript/jquery/jquery.ui.js"></script>
 
     {* Clip *}
 
-    <script src="{$www_root_themes_core}/javascript/clip.js" type="text/javascript"></script>
+    <script src="{$www_root_themes_core}javascript/clip.js" type="text/javascript"></script>
 
     {* Dublin Core Metatags *}
 
@@ -40,14 +40,14 @@
 
     {* Favicon *}
 
-    <link rel="shortcut icon" href="{$www_root_themes_core}/images/clansuite_logos/Clansuite-Favicon-16.ico" />
-    <link rel="icon" href="{$www_root_themes_core}/images/clansuite_logos/Clansuite-Favicon-16.ico" type="image/gif" />
+    <link rel="shortcut icon" href="{$www_root_themes_core}images/clansuite_logos/Clansuite-Favicon-16.ico" />
+    <link rel="icon" href="{$www_root_themes_core}images/clansuite_logos/Clansuite-Favicon-16.ico" type="image/gif" />
 
     {* Cascading Style Sheets *}
 
-    <link href="{$www_root_themes_core}/css/core.css" rel="stylesheet" type="text/css" media="screen" />
+    <link href="{$www_root_themes_core}css/core.css" rel="stylesheet" type="text/css" media="screen" />
 	<link href="{$www_root_themes}/darky/darky.css" rel="stylesheet" type="text/css" media="screen" />
-    <link rel="stylesheet" type="text/css" href="{$www_root_themes_core}/css/jquery-ui-lightness/jquery-ui-1.7.2.custom.css" />    
+    <link rel="stylesheet" type="text/css" href="{$www_root_themes_core}css/jquery-ui-lightness/jquery-ui-1.7.2.custom.css" />    
 
     {* Pagetitle *}
 
