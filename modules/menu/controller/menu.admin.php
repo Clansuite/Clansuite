@@ -441,7 +441,7 @@ class Clansuite_Module_Menu_Admin extends Clansuite_Module_Controller
                      /**
                       * Image
                       */
-                     $result .= '<img alt="Image of Folder" class="pic" src="' . WWW_ROOT_THEMES_CORE .'/images/icons/' . $entry['icon'] . '" border="0" width="16" height="16" />';
+                     $result .= '<img alt="Image of Folder" class="pic" src="' . WWW_ROOT_THEMES_CORE .'images/icons/' . $entry['icon'] . '" border="0" width="16" height="16" />';
 
                      # if the icon empty is used, we do not need to put the name in an html span element
                      # @todo because of what, we have to do this? is this an IE FIX with span element?
@@ -477,7 +477,7 @@ class Clansuite_Module_Menu_Admin extends Clansuite_Module_Controller
                  {
                      $result .= '<a class="item" href="'.$entry['href'];
                      $result .= '" title="'.htmlspecialchars($entry['title']) . '" target="'.htmlspecialchars($entry['target']) . '">';
-                     $result .= '<img alt="icon" class="pic" src="' . WWW_ROOT_THEMES_CORE .'/images/icons/' . $entry['icon'] . '" border="0" width="16" height="16" />';
+                     $result .= '<img alt="icon" class="pic" src="' . WWW_ROOT_THEMES_CORE .'images/icons/' . $entry['icon'] . '" border="0" width="16" height="16" />';
                      $result .= htmlspecialchars(_($entry['name']));
                      $result .= '<img alt="arrow" class="arrow" src="' . WWW_ROOT . 'modules/menu/images/arrow1.gif" width="4" height="7" />';
                      $result .= '</a>';
@@ -489,7 +489,7 @@ class Clansuite_Module_Menu_Admin extends Clansuite_Module_Controller
                 $result .= "\n\t";
                 $result .= '<a class="item" href="'.$entry['href'];
                 $result .= '" title="'.htmlspecialchars($entry['title']) . '" target="' . htmlspecialchars($entry['target']) . '">';
-                $result .= '<img alt="Item" class="pic" src="' . WWW_ROOT_THEMES_CORE .'/images/icons/' . $entry['icon'] . '" border="0" width="16" height="16" />';
+                $result .= '<img alt="Item" class="pic" src="' . WWW_ROOT_THEMES_CORE .'images/icons/' . $entry['icon'] . '" border="0" width="16" height="16" />';
                 $result .= htmlspecialchars(_($entry['name']));
                 $result .= '</a>';
             }

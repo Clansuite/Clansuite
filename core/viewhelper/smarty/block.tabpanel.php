@@ -30,9 +30,9 @@ function smarty_block_tabpanel($params, $content, $smarty, &$repeat)
     # @todo addCss('once', $css);
     $start_tabpane  = "<!-- Tabs with jQuery + YAML Accessible Tabs Plugin -->\n ";
     $start_tabpane .= "\n";
-    $start_tabpane .= '<link rel="stylesheet" type="text/css" href="'.WWW_ROOT_THEMES_CORE.'/css/tabs.css" />';
+    $start_tabpane .= '<link rel="stylesheet" type="text/css" href="' . WWW_ROOT_THEMES_CORE . 'css/tabs.css" />';
     $start_tabpane .= "\n";
-    $start_tabpane .= '<script type="text/javascript" src="'.WWW_ROOT_THEMES_CORE.'/javascript/jquery/jquery.tabs.js"></script>';
+    $start_tabpane .= '<script type="text/javascript" src="' . WWW_ROOT_THEMES_CORE . 'javascript/jquery/jquery.tabs.js"></script>';
     $start_tabpane .= "\n";
 
     $html = <<< EOF

@@ -273,7 +273,7 @@ class Clansuite_Exception extends Exception implements Clansuite_Exception_Inter
         $errormessage   .= '<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">';
         $errormessage   .= '<head>';
         $errormessage   .= '<title>Clansuite Exception : [ '. $this->getMessage() .' | Exceptioncode: '. self::getCode() .' ] </title>';
-        $errormessage   .= '<link rel="stylesheet" href="'. WWW_ROOT_THEMES_CORE .'/css/error.css" type="text/css" />';
+        $errormessage   .= '<link rel="stylesheet" href="'. WWW_ROOT_THEMES_CORE .'css/error.css" type="text/css" />';
         $errormessage   .= '</head>';
 
         # Body
@@ -284,7 +284,7 @@ class Clansuite_Exception extends Exception implements Clansuite_Exception_Inter
 
         # Errorlogo
         $errormessage   .= '<div style="float: left; margin: 5px; margin-right: 25px; border:1px inset #bf0000; padding: 20px;">';
-        $errormessage   .= '<img src="'. WWW_ROOT_THEMES_CORE .'/images/Clansuite-Toolbar-Icon-64-exception.png" style="border: 2px groove #000000;" alt="Clansuite Exception Icon" /></div>';
+        $errormessage   .= '<img src="'. WWW_ROOT_THEMES_CORE .'images/Clansuite-Toolbar-Icon-64-exception.png" style="border: 2px groove #000000;" alt="Clansuite Exception Icon" /></div>';
 
         # Fieldset Legend
         $errormessage   .= '<legend>Clansuite Exception : [ '. self::getMessage() .' ]</legend>';
