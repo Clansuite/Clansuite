@@ -301,11 +301,33 @@ class Clansuite_Loader
     }
 
     /**
-     * Exlude Doctrine, Smarty from autoloading, because they have their own autoloading handler
-     * Include our own wrapper classes for these libraries
+     * Excludes a certain classname from the autoloading.
+     *
+     * @param string $classname Classname to check for exclusion.
+     * @return false (if classname is to exclude)
      */
     public static function autoloadExclusions($classname)
     {
+        /**
+         * Classname Exclusions
+         */
+        
+        $classnames_to_exclude = array('Cs', 'Smarty_Internal');
+
+        foreach($classnames_to_exclude as $classname_to_exclude)
+        {
+            if (false !== mb_strpos($classname, $classname_to_exclude))
+            {
+                #Clansuite_Debug::firebug('Class exluded: '.$classname.'. Found '.$classname_to_exclude.' in classname.');
+                return false;
+            }
+        }
+
+        /**
+         * Exlude Doctrine, Smarty libraries from autoloading. They have their own autoloading handlers.
+         * But include our own wrapper classes for both libraries.
+         */
+
         # this means if 'Doctrine" is found, but not 'Clansuite_Doctrine', exclude from our autoloading
         if (false !== mb_strpos($classname, 'Doctrine') and false === mb_strpos($classname, 'Clansuite_Doctrine'))
         {
