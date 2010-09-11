@@ -75,9 +75,9 @@ class Clansuite_CMS
          */
         define('STARTTIME', microtime(1), false);
 
+        self::initialize_Paths();
         self::initialize_Loader();
         self::initialize_Config();
-        self::initialize_Paths();
         self::perform_startup_checks();
         self::initialize_Debug();
         self::initialize_Version();
@@ -156,7 +156,7 @@ class Clansuite_CMS
         }
 
         # in order to read the main config, the configuration handler for ini files is needed
-        include getcwd() . '/core/config/ini.config.php';
+        include ROOT_CORE . 'config/ini.config.php';
 
         # 2. load the main clansuite configuration file
         self::$config = Clansuite_Config_IniHandler::readConfig('configuration/clansuite.config.php');
@@ -245,41 +245,6 @@ class Clansuite_CMS
         #define('ROOT',  realpath('../'));
 
         /**
-         * @var ROOT_MOD Root path of the modules directory (with trailing slash)
-         */
-        define('ROOT_MOD', ROOT . 'modules' . DS, false);
-
-        /**
-         * @var Root path of the themes directory (with trailing slash)
-         */
-        define('ROOT_THEMES', ROOT . 'themes' . DS, false);
-
-        /**
-         * @var Root path of the languages directory (with trailing slash)
-         */
-        define('ROOT_LANGUAGES', ROOT . 'languages' . DS, false);
-
-        /**
-         * @var Root path of the core directory (with trailing slash)
-         */
-        define('ROOT_CORE', ROOT . 'core' . DS, false);
-
-        /**
-         * @var Root path of the libraries directory (with trailing slash)
-         */
-        define('ROOT_LIBRARIES', ROOT . 'libraries' . DS, false);
-
-        /**
-         * @var Root path of the upload directory (with trailing slash)
-         */
-        define('ROOT_UPLOAD', ROOT . 'uploads' . DS, false);
-
-        /**
-         * @var Root path of the logs directory (with trailing slash)
-         */
-        define('ROOT_LOGS', ROOT . 'logs' . DS, false);
-
-        /**
          * @var Root path of the cache directory (with trailing slash)
          */
         define('ROOT_CACHE', ROOT . 'cache' . DS, false);
@@ -290,6 +255,41 @@ class Clansuite_CMS
         define('ROOT_CONFIG', ROOT . 'configuration' . DS, false);
 
         /**
+         * @var Root path of the core directory (with trailing slash)
+         */
+        define('ROOT_CORE', ROOT . 'core' . DS, false); 
+
+        /**
+         * @var Root path of the languages directory (with trailing slash)
+         */
+        define('ROOT_LANGUAGES', ROOT . 'languages' . DS, false);
+
+        /**
+         * @var Root path of the libraries directory (with trailing slash)
+         */
+        define('ROOT_LIBRARIES', ROOT . 'libraries' . DS, false);
+
+        /**
+         * @var Root path of the logs directory (with trailing slash)
+         */
+        define('ROOT_LOGS', ROOT . 'logs' . DS, false);
+
+        /**
+         * @var ROOT_MOD Root path of the modules directory (with trailing slash)
+         */
+        define('ROOT_MOD', ROOT . 'modules' . DS, false);
+
+        /**
+         * @var Root path of the themes directory (with trailing slash)
+         */
+        define('ROOT_THEMES', ROOT . 'themes' . DS, false);
+
+        /**
+         * @var Root path of the upload directory (with trailing slash)
+         */
+        define('ROOT_UPLOAD', ROOT . 'uploads' . DS, false);
+
+        /**
          * @var Determine Type of Protocol for Webpaths (http/https)
          */
         if(isset($_SERVER['HTTPS']) and mb_strtolower($_SERVER['HTTPS']) == 'on')
@@ -298,7 +298,6 @@ class Clansuite_CMS
         }
         else
         {
-
             define('PROTOCOL', 'http://', false);
         }
 
@@ -325,7 +324,7 @@ class Clansuite_CMS
         define('WWW_ROOT_THEMES', WWW_ROOT . 'themes' . '/', false);
 
         /**
-         * @var WWW_ROOT_THEMES defines the themes/core folder
+         * @var WWW_ROOT_THEMES_CORE defines the themes/core folder
          */
         define('WWW_ROOT_THEMES_CORE', WWW_ROOT_THEMES . 'core' . '/', false);
 
@@ -424,7 +423,7 @@ class Clansuite_CMS
      */
     private static function initialize_Loader()
     {
-        include getcwd() . '/core/bootstrap/clansuite.loader.php';
+        include ROOT . 'core/bootstrap/clansuite.loader.php';
         # instantiate the autoloading handlers by overwriting the spl_autoload handling
         Clansuite_Loader::register_autoloaders();
     }
