@@ -81,7 +81,7 @@ class Clansuite_Xdebug
         if (self::is_xdebug_active())
         {
             #ini_set('xdebug.auto_trace', 'On');
-            ini_set('xdebug.trace_output_dir', getcwd() . '/logs/');
+            ini_set('xdebug.trace_output_dir', ROOT_LOGS);
             ini_set('xdebug.trace_output_name', 'clansuite_trace%u');
             ini_set('xdebug.show_mem_delta', 'On');
             ini_set('xdebug_start_code_coverage', 'XDEBUG_CC_UNUSED');
@@ -97,7 +97,7 @@ class Clansuite_Xdebug
 
             self::$_xdebug_memory_before = self::roundMB(xdebug_memory_usage());
 
-            #xdebug_start_trace(getcwd() . '/logs/clansuite_trace', XDEBUG_TRACE_HTML);
+            #xdebug_start_trace(ROOT_LOGS . 'clansuite_trace', XDEBUG_TRACE_HTML);
 
             #xdebug_start_code_coverage(XDEBUG_CC_DEAD_CODE | XDEBUG_CC_UNUSED);
             #var_dump(xdebug_get_code_coverage());
