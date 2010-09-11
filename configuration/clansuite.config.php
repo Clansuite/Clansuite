@@ -19,18 +19,6 @@ name = "clansuite"
 prefix = "cs_"
 
 ;----------------------------------------
-; paths
-;----------------------------------------
-[paths]
-core_folder = "core"
-libraries_folder = "libraries"
-language_folder = "languages"
-themes_folder = "themes"
-mod_folder = "modules"
-upload_folder = "uploads"
-logfiles_folder = "logs"
-
-;----------------------------------------
 ; template
 ;----------------------------------------
 [template]

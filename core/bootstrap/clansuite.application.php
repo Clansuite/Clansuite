@@ -247,37 +247,37 @@ class Clansuite_CMS
         /**
          * @var ROOT_MOD Root path of the modules directory (with trailing slash)
          */
-        define('ROOT_MOD', ROOT . self::$config['paths']['mod_folder'] . DS, false);
+        define('ROOT_MOD', ROOT . 'modules' . DS, false);
 
         /**
          * @var Root path of the themes directory (with trailing slash)
          */
-        define('ROOT_THEMES', ROOT . self::$config['paths']['themes_folder'] . DS, false);
+        define('ROOT_THEMES', ROOT . 'themes' . DS, false);
 
         /**
          * @var Root path of the languages directory (with trailing slash)
          */
-        define('ROOT_LANGUAGES', ROOT . self::$config['paths']['language_folder'] . DS, false);
+        define('ROOT_LANGUAGES', ROOT . 'languages' . DS, false);
 
         /**
          * @var Root path of the core directory (with trailing slash)
          */
-        define('ROOT_CORE', ROOT . self::$config['paths']['core_folder'] . DS, false);
+        define('ROOT_CORE', ROOT . 'core' . DS, false);
 
         /**
          * @var Root path of the libraries directory (with trailing slash)
          */
-        define('ROOT_LIBRARIES', ROOT . self::$config['paths']['libraries_folder'] . DS, false);
+        define('ROOT_LIBRARIES', ROOT . 'libraries' . DS, false);
 
         /**
          * @var Root path of the upload directory (with trailing slash)
          */
-        define('ROOT_UPLOAD', ROOT . self::$config['paths']['upload_folder'] . DS, false);
+        define('ROOT_UPLOAD', ROOT . 'uploads' . DS, false);
 
         /**
          * @var Root path of the logs directory (with trailing slash)
          */
-        define('ROOT_LOGS', ROOT . self::$config['paths']['logfiles_folder'] . DS, false);
+        define('ROOT_LOGS', ROOT . 'logs' . DS, false);
 
         /**
          * @var Root path of the cache directory (with trailing slash)
@@ -322,7 +322,7 @@ class Clansuite_CMS
         /**
          * @var WWW_ROOT_THEMES defines the themes folder
          */
-        define('WWW_ROOT_THEMES', WWW_ROOT . self::$config['paths']['themes_folder'] . '/', false);
+        define('WWW_ROOT_THEMES', WWW_ROOT . 'themes' . '/', false);
 
         /**
          * @var WWW_ROOT_THEMES defines the themes/core folder
