@@ -1,5 +1,5 @@
 <?php
-class Teamspeak3_ServerQueryCommand_servercreate extends Clansuite_Teamspeak3_ServerQueryInterface
+class Teamspeak3_ServerQueryCommand_serverdelete extends Clansuite_Teamspeak3_ServerQueryInterface
 {
     /**
      * serverDelete: deletes a server on the selected instance<br>
