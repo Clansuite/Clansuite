@@ -274,7 +274,7 @@ class Clansuite_Loader
 
         $filenames = array (
             # Core Class
-            # clansuite/core/class_name.class.php
+            # clansuite/core/class_name.core.php
             ROOT_CORE . str_replace('_','',$filename) . '.core.php',
             # Factories
             # clansuite/core/factories/classname.factory.php

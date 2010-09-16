@@ -207,12 +207,15 @@ abstract class Clansuite_Renderer_Base
         # get module and submodule names
         $module    = Clansuite_HttpRequest::getRoute()->getModuleName();
         $submodule = Clansuite_HttpRequest::getRoute()->getSubModuleName();
+        $renderer  = Clansuite_HttpRequest::getRoute()->getRenderEngine();
+        
+        #Clansuite_Debug::firebug($renderer);
 
         # 1. because controlcenter or admin is requested, it has to be a BACKEND theme
         if($module == 'controlcenter' or $submodule == 'admin')
         {
             # (a) USER BACKENDTHEME - check in the active session backendtheme
-            $backend_theme = ROOT_THEMES . $_SESSION['user']['backendtheme'];
+            $backend_theme = ROOT_THEMES_BACKEND . $_SESSION['user']['backendtheme'];
             if(isset($_SESSION['user']['backendtheme']) and is_file($backend_theme . DS . $template))
             {
                 return $backend_theme . DS . $template;
@@ -222,15 +225,15 @@ abstract class Clansuite_Renderer_Base
                 return $backend_theme . DS . $module . DS . $template;
             }
             # (b) BACKEND FALLBACK - check the fallback dir: themes/admin
-            elseif(is_file(ROOT_THEMES . 'admin' . DS . $template) === true)
+            elseif(is_file(ROOT_THEMES_BACKEND . 'admin' . DS . $template) === true)
             {
-                return ROOT_THEMES . 'admin' . DS . $template;
+                return ROOT_THEMES_BACKEND . 'admin' . DS . $template;
             }
         }
         else # 2. it's a FRONTEND theme
         {
             # (a) USER FRONTENDTHEME - check, if template exists in current session user THEME
-            $session_theme = ROOT_THEMES . $_SESSION['user']['theme'];
+            $session_theme = ROOT_THEMES_FRONTEND . $_SESSION['user']['theme'];
             if(isset($_SESSION['user']['theme']) and is_file($session_theme . DS . $template))
             {
                 return $session_theme . DS . $template;
@@ -241,9 +244,9 @@ abstract class Clansuite_Renderer_Base
                 return $session_theme . DS . $module . DS . $template;
             }
             # (c) FRONTEND FALLBACK - check, if template exists in standard theme
-            elseif(is_file(ROOT_THEMES . DS . 'standard' . DS . $template) === true)
+            elseif(is_file(ROOT_THEMES_FRONTEND . DS . 'standard' . DS . $template) === true)
             {
-                return ROOT_THEMES . DS . 'standard' . DS . $template;
+                return ROOT_THEMES_FRONTEND . DS . 'standard' . DS . $template;
             }
         }
     }
@@ -302,8 +305,10 @@ abstract class Clansuite_Renderer_Base
         $template_constants['www_root_mod']         = WWW_ROOT . '/modules/' . Clansuite_HttpRequest::getRoute()->getModuleName();
         $template_constants['www_root_theme']       = WWW_ROOT_THEMES .'/'. $_SESSION['user']['theme'];
         $template_constants['www_root_themes']      = WWW_ROOT_THEMES;
-        $template_constants['www_root_themes_core'] = WWW_ROOT_THEMES_CORE;
-
+        $template_constants['www_root_themes_core'] = WWW_ROOT_THEMES_CORE;        
+        $template_constants['www_root_themes_backend']  = WWW_ROOT_THEMES_BACKEND;
+        $template_constants['www_root_themes_frontend'] = WWW_ROOT_THEMES_FRONTEND;
+        
         /**
          * b) Meta Informations
          */
@@ -329,6 +334,7 @@ abstract class Clansuite_Renderer_Base
         $template_constants['pagetitle'] = $this->config['template']['pagetitle'];
 
         # Normal CSS (global)
+        # @todo the selected $_SESSION['user']['theme'] decides on the theme type => frontend/backend 
         $template_constants['css'] = WWW_ROOT_THEMES .'/'. $_SESSION['user']['theme'] .'/'. $this->config['template']['css'];
 
         # Minifed Stylesheets of a certain group (?g=) of css files

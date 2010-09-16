@@ -254,14 +254,14 @@ class Clansuite_Renderer_Smarty extends Clansuite_Renderer_Base
         {
             # Backend Theme Detections
             $_SESSION['user']['backendtheme'] = 'admin';
-            $this->renderer->template_dir[] = ROOT_THEMES . $_SESSION['user']['backendtheme'];
-            $this->renderer->template_dir[] = ROOT_THEMES . $_SESSION['user']['backendtheme'] . DS . Clansuite_TargetRoute::getModuleName() . DS;
+            $this->renderer->template_dir[] = ROOT_THEMES_BACKEND . $_SESSION['user']['backendtheme'];
+            $this->renderer->template_dir[] = ROOT_THEMES_BACKEND . $_SESSION['user']['backendtheme'] . DS . Clansuite_TargetRoute::getModuleName() . DS;
         }
         else
         {
             # Frontend Theme Detections
-            $this->renderer->template_dir[] = ROOT_THEMES . $frontendtheme;
-            $this->renderer->template_dir[] = ROOT_THEMES . $frontendtheme . DS . Clansuite_TargetRoute::getModuleName() . DS;
+            $this->renderer->template_dir[] = ROOT_THEMES_FRONTEND . $frontendtheme;
+            $this->renderer->template_dir[] = ROOT_THEMES_FRONTEND . $frontendtheme . DS . Clansuite_TargetRoute::getModuleName() . DS;
         }
 
         /**
@@ -277,7 +277,7 @@ class Clansuite_Renderer_Smarty extends Clansuite_Renderer_Base
         # 6) the admin theme
         if(Clansuite_TargetRoute::getModuleName() == 'controlcenter' or Clansuite_TargetRoute::getSubModuleName() == 'admin')
         {
-            $this->renderer->template_dir[] = ROOT_THEMES . 'admin' . DS;
+            $this->renderer->template_dir[] = ROOT_THEMES_BACKEND . 'admin' . DS;
         }
 
         # 7) THEMES in general
