@@ -67,7 +67,5 @@ webdebug = 0
 ;----------------------------------------
 [email]
 from = "system@website.com"
-from = "system@website.com"
-from = "system@website.com"
 
 ; DO NOT REMOVE THIS LINE */ ?>
