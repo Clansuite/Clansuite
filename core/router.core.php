@@ -406,9 +406,16 @@ class Clansuite_Router implements ArrayAccess, Clansuite_Router_Interface
      */
     private function prepareRequestURI($request_uri)
     {
+        #Clansuite_Debug::firebug('The unprepared Server Request URI is "' . $request_uri . '"');
+
+        # add slash in front + remove slash at the end
         $this->uri = '/' . trim($request_uri, '/');
 
-        #Clansuite_Debug::firebug('The initial Server Request URI is "' . $this->uri . '"');
+        # path subtraction (get length of dirname of php_self and subtract from uri)
+        $url_directory_prefix_length = strlen(dirname($_SERVER['PHP_SELF']));
+        $this->uri = substr($this->uri, $url_directory_prefix_length);
+
+        #Clansuite_Debug::firebug('The prepared Server Request URI is "' . $this->uri . '"');
 
         return $this->uri;
     }
