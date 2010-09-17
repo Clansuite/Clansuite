@@ -145,9 +145,6 @@ class Clansuite_Module_Categories_Admin extends Clansuite_Module_Controller
 
     public function action_admin_create()
     {
-        # Load Form Class (@todo autoloader / di)
-        include ROOT_CORE . 'viewhelper/form.core.php';
-
         /**
          * Create a new form
          */
@@ -182,9 +179,6 @@ class Clansuite_Module_Categories_Admin extends Clansuite_Module_Controller
 
         # fetch category
         $cat = Doctrine::getTable('CsCategories')->fetchSingleCategory($cat_id);
-
-        # Load Form Class (@todo autoloader / di)
-        include ROOT_CORE . 'viewhelper/form.core.php';
 
         # Create a new form
         # @todo form object with auto-population of values
@@ -325,7 +319,6 @@ class Clansuite_Module_Categories_Admin extends Clansuite_Module_Controller
                                             'formfieldtype' => 'text',
                                             'value' => $this->getConfigValue('items_resultsPerPage', '25'));
 
-        include ROOT_CORE . 'viewhelper/formgenerator.core.php';
         $form = new Clansuite_Array_Formgenerator($settings);
 
         # display formgenerator object

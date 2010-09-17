@@ -89,7 +89,6 @@ class Clansuite_Module_Downloads_Admin extends Clansuite_Module_Controller
                                         'formfieldtype' => 'text',
                                         'value' => $this->getConfigValue('items_resultsPerPage', '25'));
         
-        include ROOT_CORE . 'viewhelper/formgenerator.core.php';
         $form = new Clansuite_Array_Formgenerator($settings);
 
         # display formgenerator object

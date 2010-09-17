@@ -42,15 +42,10 @@ if (false === class_exists('Clansuite_Formelement_Imagebutton', false))
 }
 
 /**
-* Clansuite Datagrid Col Renderer
-*
-* Email
-*
-* Purpose:
-* Render email cells
-*
-* @author Florian Wolf <xsign.dll@clansuite.com>
-*/
+ * Clansuite Datagrid Col Renderer for EditButton Cells
+ *
+ * @author Florian Wolf <xsign.dll@clansuite.com>
+ */
 class Clansuite_Datagrid_Column_Renderer_Editbutton extends Clansuite_Datagrid_Column_Renderer_Base implements Clansuite_Datagrid_Column_Renderer_Interface
 {
     /**

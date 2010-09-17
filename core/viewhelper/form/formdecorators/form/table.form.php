@@ -36,11 +36,6 @@ if (defined('IN_CS') === false)
     die('Clansuite not loaded. Direct Access forbidden.');
 }
 
-if (false === class_exists('Clansuite_Form_Decorator', false))
-{ 
-    include ROOT_CORE . 'viewhelper'.DS.'formdecorator.core.php';
-}
-
 class Clansuite_Formdecorator_Table extends Clansuite_Form_Decorator
 {
     public function render()

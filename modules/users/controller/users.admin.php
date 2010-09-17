@@ -217,7 +217,6 @@ class Clansuite_Module_Users_Admin extends Clansuite_Module_Controller
                                         'formfieldtype' => 'text',
                                         'value' => $this->getConfigValue('items_lastregisteredusers', '4'));
 
-        include ROOT_CORE . 'viewhelper/formgenerator.core.php';
         $form = new Clansuite_Array_Formgenerator($settings);
 
         $form->addElement('submitbutton')->setName('Save');

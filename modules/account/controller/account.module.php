@@ -749,9 +749,6 @@ class Clansuite_Module_Account extends Clansuite_Module_Controller
         # fetch userdata
         #$data = Doctrine::getTable('CsUsers')->fetchSingleUserData($user_id);
 
-        # Load Form Class (@todo autoloader / di)
-        include ROOT_CORE . 'viewhelper/form.core.php';
-
         # Create a new form
         # @todo form object with auto-population of values
         $form = new Clansuite_Form('userdata_form', 'post', 'index.php?mod=account&sub=profile&action=update&type=editprofile');
@@ -819,9 +816,6 @@ class Clansuite_Module_Account extends Clansuite_Module_Controller
         # fetch userdata
         $data = Doctrine::getTable('CsUsers')->fetchSingleUserData($user_id);
 
-        # Load Form Class (@todo autoloader / di)
-        include ROOT_CORE . 'viewhelper/form.core.php';
-
         # Create a new form
         # @todo form object with auto-population of values
         $form = new Clansuite_Form('useravatar_form', 'post', 'index.php?mod=account&sub=profile&action=update&type=edituseravatar');
@@ -865,9 +859,6 @@ class Clansuite_Module_Account extends Clansuite_Module_Controller
 
         # fetch userdata
         $data = Doctrine::getTable('CsUsers')->fetchSingleUserData($user_id);
-
-        # Load Form Class (@todo autoloader / di)
-        include ROOT_CORE . 'viewhelper/form.core.php';
 
         # Create a new form
         # @todo form object with auto-population of values

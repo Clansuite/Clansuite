@@ -75,7 +75,6 @@ class Clansuite_Module_Shoutbox_Admin extends Clansuite_Module_Controller
                                         'formfieldtype' => 'text',
                                         'value' => $this->getConfigValue('widget_shoutbox', '12'));
 
-        include ROOT_CORE . 'viewhelper/formgenerator.core.php';
         $form = new Clansuite_Array_Formgenerator($settings);
 
         # display formgenerator object

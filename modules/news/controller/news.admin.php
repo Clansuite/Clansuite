@@ -74,7 +74,7 @@ class Clansuite_Module_News_Admin extends Clansuite_Module_Controller
         //--------------------------
 
         # @todo datagrid via autoload / register viewhelper path at autoloader
-        include ROOT_CORE . 'viewhelper/datagrid.core.php';
+        #include ROOT_CORE . 'viewhelper/datagrid.core.php';
 
         $ColumnSets = array();
 
@@ -204,9 +204,6 @@ class Clansuite_Module_News_Admin extends Clansuite_Module_Controller
      */
     public function action_admin_create()
     {
-        # Load Form Class
-        include ROOT_CORE . 'viewhelper/form.core.php';
-
         # Create a new form
         $form = new Clansuite_Form('news_form', 'post', 'index.php?mod=news&sub=admin&action=update&type=create');
         $form->setClass('News');
@@ -245,9 +242,6 @@ class Clansuite_Module_News_Admin extends Clansuite_Module_Controller
 
         # fetch news
         $news = Doctrine::getTable('CsNews')->fetchSingleNews($news_id);
-
-        # Load Form Class
-        include ROOT_CORE . 'viewhelper/form.core.php';
 
         # Create a new form
         $form = new Clansuite_Form('news_form', 'post', 'index.php?mod=news&sub=admin&action=update&type=edit');
@@ -432,9 +426,6 @@ class Clansuite_Module_News_Admin extends Clansuite_Module_Controller
                                         'description' => _('Sets the default number of feed items.'),
                                         'formfieldtype' => 'text',
                                         'value' => $this->getConfigValue('feed_items', '10'));
-
-        # fetch the formgenerator
-        include ROOT_CORE . 'viewhelper/formgenerator.core.php';
 
         # fill the settings array into the formgenerator
         $form = new Clansuite_Array_Formgenerator($settings);

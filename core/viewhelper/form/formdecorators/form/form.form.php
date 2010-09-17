@@ -36,12 +36,6 @@ if (defined('IN_CS') === false)
     die('Clansuite not loaded. Direct Access forbidden.');
 }
 
-# conditional include of the parent class
-if (false == class_exists('Clansuite_Form_Decorator', false))
-{
-    include ROOT_CORE . 'viewhelper/formdecorator.core.php';
-}
-
 class Clansuite_Form_Decorator_Form extends Clansuite_Form_Decorator
 {
     public $name = 'form';
