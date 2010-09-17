@@ -230,32 +230,33 @@ class Clansuite_Renderer_Smarty extends Clansuite_Renderer_Base
          * This sets multiple template dirs, with the following detection order:
          * The user-choosen Theme, before Module, before Core/Default/Admin-Theme.
          *
-         * 1) "/themes/theme_of_user_session/"
-         * 2) "/themes/theme_of_user_session/modulename/"
+         * 1) "/themes/[frontend|backend]/theme_of_user_session/"
+         * 2) "/themes/[frontend|backend]/theme_of_user_session/modulename/"
          * 3) "/modules/"
          * 4) "/modules/modulename/view/"
          * 5) "/themes/core/view/"
-         * 6) "/themes/admin/"
-         * 7) "/themes/"
+         * 6) "/themes/[backend]/admin/"
+         * #7) "/themes/"
          */
         $this->renderer->template_dir = array();
 
-        if(empty($_SESSION['user']['theme']))
+        if(empty($_SESSION['user']['frontend_theme']))
         {
             $frontendtheme = 'standard';
         }
         else
         {
-            $frontendtheme = $_SESSION['user']['theme'];
+            $frontendtheme = $_SESSION['user']['frontend_theme'];
         }
 
         # 1) + 2) in case the controlcenter is the requested module
         if(Clansuite_TargetRoute::getModuleName() == 'controlcenter' or Clansuite_TargetRoute::getSubModuleName() == 'admin')
         {
             # Backend Theme Detections
-            $_SESSION['user']['backendtheme'] = 'admin';
-            $this->renderer->template_dir[] = ROOT_THEMES_BACKEND . $_SESSION['user']['backendtheme'];
-            $this->renderer->template_dir[] = ROOT_THEMES_BACKEND . $_SESSION['user']['backendtheme'] . DS . Clansuite_TargetRoute::getModuleName() . DS;
+            # @todo make backend theme choseable by user
+            $_SESSION['user']['backend_theme'] = 'admin';
+            $this->renderer->template_dir[] = ROOT_THEMES_BACKEND . $_SESSION['user']['backend_theme'];
+            $this->renderer->template_dir[] = ROOT_THEMES_BACKEND . $_SESSION['user']['backend_theme'] . DS . Clansuite_TargetRoute::getModuleName() . DS;
         }
         else
         {
@@ -281,7 +282,7 @@ class Clansuite_Renderer_Smarty extends Clansuite_Renderer_Base
         }
 
         # 7) THEMES in general
-        $this->renderer->template_dir[] = ROOT_THEMES;
+        #$this->renderer->template_dir[] = ROOT_THEMES;
 
         #Clansuite_Debug::printR($this->renderer->template_dir);
 

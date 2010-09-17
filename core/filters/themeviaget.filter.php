@@ -78,10 +78,10 @@ class Clansuite_Filter_ThemeViaGet implements Clansuite_Filter_Interface
                     $this->input->display_intrusion_warning();
                 }
 
-                // If $_GET['theme'] dir exists, set it as session-user-theme
-                if(is_dir(ROOT_THEMES . '/' . $request['theme'] . '/'))
+                # If $_GET['theme'] dir exists, set it as session-user-theme
+                if(is_dir(ROOT_THEMES_FRONTEND . $request['theme'] . DS))
                 {
-                    $_SESSION['user']['theme']          = $request['theme'];
+                    $_SESSION['user']['frontend_theme'] = $request['theme'];
                     $_SESSION['user']['theme_via_url']  = 1;
                 }
                 else

@@ -25,7 +25,7 @@
             <br />
             Creation Date: {if isset($theme.date)}{$theme.date}{/if}
             <br />
-            Render Engine: {if isset($theme.renderengine)}{$theme.renderengine}{/if}
+            Render Engine: {if isset($theme.renderengine)}{$theme.renderengine|ucfirst}{/if}
             {*
             {$theme.fullpath}
             {$theme.dirname}
