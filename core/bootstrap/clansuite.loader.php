@@ -316,12 +316,16 @@ class Clansuite_Loader
 
         # autoloading map
         $map = array(
-        'Clansuite_Datagrid'              => $datagrid_dir . 'datagrid.core.php',
-        'Clansuite_Datagrid_Column'       => $datagrid_dir . 'datagridcol.core.php',
-        'Clansuite_Form'                  => $form_dir . 'form.core.php',
-        'Clansuite_Formelement'           => $form_dir . 'formelement.core.php',
-        'Clansuite_Form_Decorator'        => $form_dir . 'formdecorator.core.php',
-        'Clansuite_Formelement_Decorator' => $form_dir . 'formdecorator.core.php',
+        # datagrid mappings
+        'Clansuite_Datagrid'                  => $datagrid_dir . 'datagrid.core.php',
+        'Clansuite_Datagrid_Column'           => $datagrid_dir . 'datagridcol.core.php',
+        # form mappings
+        'Clansuite_Form'                      => $form_dir . 'form.core.php',
+        'Clansuite_Formelement'               => $form_dir . 'formelement.core.php',
+        'Clansuite_Form_Decorator'            => $form_dir . 'formdecorator.core.php',
+        'Clansuite_Formelement_Decorator'     => $form_dir . 'formdecorator.core.php',
+        'Clansuite_Formelement_Formgenerator' => $form_dir . 'formgenerator.core.php',
+        'Clansuite_Array_Formgenerator'       => $form_dir . 'formgenerator.core.php',
         );
 
         # check if classname is in autoloading map

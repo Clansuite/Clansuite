@@ -36,11 +36,6 @@ if (defined('IN_CS') === false)
     die('Clansuite not loaded. Direct Access forbidden.');
 }
 
-if(false === class_exists('Clansuite_Datagrid_Column', false))
-{
-    include ROOT_CORE . 'viewhelper/datagrid/datagridcol.core.php';
-}
-
 if(false === class_exists('Clansuite_Formelement_Checkbox', false))
 {
     include ROOT_CORE . 'viewhelper/form/formelements/checkbox.form.php';
@@ -49,7 +44,7 @@ if(false === class_exists('Clansuite_Formelement_Checkbox', false))
 /**
 * Clansuite Datagrid Column Renderer Checkbox
 *
-* Purpose: Renders a checkbox
+* Purpose: Render cell with a checkbox
 *
 * @author Florian Wolf <xsign.dll@clansuite.com>
 */

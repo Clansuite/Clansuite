@@ -36,21 +36,13 @@ if (defined('IN_CS') === false)
     die('Clansuite not loaded. Direct Access forbidden.');
 }
 
-if (false === class_exists('Clansuite_Datagrid_Column', false))
-{ 
-    include ROOT_CORE.'viewhelper/datagridcol.core.php';
-}
-
 /**
-* Clansuite Datagrid Col Renderer
-*
-* Date
-*
-* Purpose:
-* Render date cells
-*
-* @author Florian Wolf <xsign.dll@clansuite.com>
-*/
+ * Clansuite Datagrid Col Renderer Date
+ *
+ * Purpose: Render date cells
+ *
+ * @author Florian Wolf <xsign.dll@clansuite.com>
+ */
 class Clansuite_Datagrid_Column_Renderer_Date extends Clansuite_Datagrid_Column_Renderer_Base implements Clansuite_Datagrid_Column_Renderer_Interface
 {
     /**

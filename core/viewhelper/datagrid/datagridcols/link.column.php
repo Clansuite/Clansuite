@@ -36,19 +36,13 @@ if (defined('IN_CS') === false)
     die('Clansuite not loaded. Direct Access forbidden.');
 }
 
-if (false === class_exists('Clansuite_Datagrid_Column', false))
-{ 
-    include ROOT_CORE . 'viewhelper/datagridcol.core.php';
-}
-
 /**
-* Clansuite Datagrid Column Renderer Link
-*
-* Purpose:
-* Render a cell with a link
-*
-* @author Florian Wolf <xsign.dll@clansuite.com>
-*/
+ * Clansuite Datagrid Column Renderer Link
+ * 
+ * Purpose: Render cells with a link
+ *
+ * @author Florian Wolf <xsign.dll@clansuite.com>
+ */
 class Clansuite_Datagrid_Column_Renderer_Link extends Clansuite_Datagrid_Column_Renderer_Base
 implements Clansuite_Datagrid_Column_Renderer_Interface
 {

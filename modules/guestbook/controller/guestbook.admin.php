@@ -99,9 +99,6 @@ class Clansuite_Module_Guestbook_Admin extends Clansuite_Module_Controller
 
     public function action_admin_testformgenerator()
     {
-        # Load Form Class
-        include ROOT_CORE . 'viewhelper/form.core.php';
-
         # Create a new form
         $form = new Clansuite_Form('news_create_form', 'POST', 'upload-file.php');
         $form->setId('news_create_form')
@@ -370,7 +367,6 @@ class Clansuite_Module_Guestbook_Admin extends Clansuite_Module_Controller
                                         'formfieldtype' => 'text',
                                         'value' => $this->getConfigValue('guestbook_resultsPerPage', '12'));
 
-        include ROOT_CORE . 'viewhelper/formgenerator.core.php';
         $form = new Clansuite_Array_Formgenerator($settings);
 
         # display formgenerator object
