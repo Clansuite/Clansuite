@@ -144,7 +144,7 @@
 
 <!-- Footer with Copyright and Theme-Copyright -->
 <p style="float:left; text-align:left;">
-    <br/> Theme: {$smarty.session.user.theme} by {* {$theme_copyright} *}
+    <br/> Theme: {$smarty.session.user.frontend_theme} by {* {$theme_copyright} *}
 </p>
 
 <p style="text-align:right;">

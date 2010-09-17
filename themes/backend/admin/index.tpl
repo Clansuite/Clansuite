@@ -123,9 +123,9 @@
     {include file='breadcrumbs.tpl'}
     <div style="font-size: 10px; text-align: center;">
     <br/>
-    Frontend-Theme: {$smarty.session.user.theme} {* by {$theme_copyright} *}
+    Frontend-Theme: {$smarty.session.user.frontend_theme} {* by {$theme_copyright} *}
     <br/>
-    Backend-Theme: {$smarty.session.user.backendtheme} {* by {$theme_copyright} *}
+    Backend-Theme: {$smarty.session.user.backend_theme} {* by {$theme_copyright} *}
     <br/>
     {include file='server_stats.tpl'}
     </div>

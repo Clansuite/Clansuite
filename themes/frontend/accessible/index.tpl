@@ -109,7 +109,7 @@
 	</div>
 	<div id="footer">
 		<!-- Footer with Copyright, Theme-Copyright, tpl-timeing and db-querycount // -->
-		Theme: {$smarty.session.user.theme} by {* {$theme_copyright} *}
+		Theme: {$smarty.session.user.frontend_theme} by {* {$theme_copyright} *}
 		<br/>
 		{include file='server_stats.tpl'}
 	</div>
