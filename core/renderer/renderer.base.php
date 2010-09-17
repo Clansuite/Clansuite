@@ -301,8 +301,8 @@ abstract class Clansuite_Renderer_Base
          *    Watch it! These Paths are relative (based on WWW_ROOT), not absolute!
          */
         $template_constants['www_root']             = WWW_ROOT;
-        $template_constants['www_root_upload']      = WWW_ROOT . '/uploads/';
-        $template_constants['www_root_mod']         = WWW_ROOT . '/modules/' . Clansuite_HttpRequest::getRoute()->getModuleName();
+        $template_constants['www_root_upload']      = WWW_ROOT . 'uploads/';
+        $template_constants['www_root_mod']         = WWW_ROOT . 'modules/' . Clansuite_HttpRequest::getRoute()->getModuleName();
         $template_constants['www_root_theme']       = WWW_ROOT_THEMES .'/'. $_SESSION['user']['frontend_theme'];
         $template_constants['www_root_themes']      = WWW_ROOT_THEMES;
         $template_constants['www_root_themes_core'] = WWW_ROOT_THEMES_CORE;        
