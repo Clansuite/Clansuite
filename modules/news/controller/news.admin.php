@@ -238,7 +238,7 @@ class Clansuite_Module_News_Admin extends Clansuite_Module_Controller
     public function action_admin_edit()
     {
         # get id
-        $news_id = $this->getHttpRequest()->getParameter('id');
+        $news_id = $this->request->getParameter('id');
 
         # fetch news
         $news = Doctrine::getTable('CsNews')->fetchSingleNews($news_id);
@@ -286,8 +286,8 @@ class Clansuite_Module_News_Admin extends Clansuite_Module_Controller
     public function action_admin_update()
     {
         # get incoming data
-        $data = $this->getHttpRequest()->getParameter('news_form');
-        $type = $this->getHttpRequest()->getParameter('type', 'G');
+        $data = $this->request->getParameter('news_form');
+        $type = $this->request->getParameter('type', 'G');
 
         if(isset($type) and $type == 'create')
         {
@@ -338,7 +338,6 @@ class Clansuite_Module_News_Admin extends Clansuite_Module_Controller
      */
     public function action_admin_delete()
     {
-        $request = $this->getHttpRequest();
         $aDelete  = $this->request->getParameter('Checkbox');
 
         if(isset($aDelete) && is_array($aDelete))
@@ -443,7 +442,7 @@ class Clansuite_Module_News_Admin extends Clansuite_Module_Controller
 
     public function action_admin_settings_update()
     {
-        $data = $this->getHttpRequest()->getParameter('news_settings');
+        $data = $this->request->getParameter('news_settings');
 
         $this->getClansuiteConfig()->confighandler->writeConfig( ROOT_MOD . 'news'.DS.'news.config.php', $data);
 

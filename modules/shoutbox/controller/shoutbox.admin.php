@@ -99,7 +99,7 @@ class Clansuite_Module_Shoutbox_Admin extends Clansuite_Module_Controller
 
         # Incomming Data
         # @todo get post via request object, sanitize
-        $data = $this->getHttpRequest()->getParameter('shoutbox_settings');
+        $data = $this->request->getParameter('shoutbox_settings');
 
         # Get Configuration from Injector
         $config = $this->getInjector()->instantiate('Clansuite_Config');

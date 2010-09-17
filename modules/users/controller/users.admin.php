@@ -65,10 +65,10 @@ class Clansuite_Module_Users_Admin extends Clansuite_Module_Controller
         # Get Render Engine
         $view = $this->getView();
 
-        $currentPage = $this->getHttpRequest()->getParameterFromGet('page');
+        $currentPage = $this->request->getParameterFromGet('page');
         $resultsPerPage = 25;
 
-        $searchletter = $this->getHttpRequest()->getParameter('searchletter');
+        $searchletter = $this->request->getParameter('searchletter');
 
         // SmartyColumnSort -- Easy sorting of html table columns.
         include ROOT_LIBRARIES . 'smarty/libs/SmartyColumnSort.class.php';
@@ -234,7 +234,7 @@ class Clansuite_Module_Users_Admin extends Clansuite_Module_Controller
         Clansuite_Breadcrumb::add( _('Update'), '/index.php?mod=users&amp;sub=settings&amp;action=update');
 
         # Incomming Data
-        $data = $this->getHttpRequest()->getParameter('users_settings');
+        $data = $this->request->getParameter('users_settings');
 
         # Get Configuration from Injector
         $config = $this->getInjector()->instantiate('Clansuite_Config');

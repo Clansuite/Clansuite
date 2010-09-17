@@ -193,7 +193,7 @@ class Clansuite_Module_News extends Clansuite_Module_Controller
         /**
          * Get Number of Feed Items to create
          */
-        $feed_items = (int) $this->getHttpRequest()->getParameter('items');
+        $feed_items = (int) $this->request->getParameter('items');
 
         # Set Number of Items Range 0<15 || MAX 30
         if($feed_items == null or $feed_items < 15)
@@ -211,7 +211,7 @@ class Clansuite_Module_News extends Clansuite_Module_Controller
         # white list for valid feed format strings
         $feed_format_array = array('RSS0.91', 'RSS1.0', 'RSS2.0', 'MBOX', 'OPML', 'ATOM', 'ATOM0.3', 'HTML', 'JS');
         # get format from request
-        $feed_format = (string) $this->getHttpRequest()->getParameter('format');
+        $feed_format = (string) $this->request->getParameter('format');
         # check its a valid string or set default
         if(in_array($feed_format, $feed_format_array) == false or $feed_format === null)
         {
@@ -305,8 +305,8 @@ class Clansuite_Module_News extends Clansuite_Module_Controller
         Clansuite_Breadcrumb::add( _('Archive'), '/index.php?mod=news&amp;action=archive');
 
         # Defining initial variables
-        $currentPage = (int) $this->getHttpRequest()->getParameter('page');
-        $date        = $this->getHttpRequest()->getParameter('date');
+        $currentPage = (int) $this->request->getParameter('page');
+        $date        = $this->request->getParameter('date');
 
         # if date is an string
         if($date != null)
@@ -371,7 +371,7 @@ class Clansuite_Module_News extends Clansuite_Module_Controller
         Clansuite_Breadcrumb::add( _('Archiv'), '/index.php?mod=news&amp;action=fullarchive');
 
         # Defining initial variables
-        $currentPage = (int) $this->getHttpRequest()->getParameter('page');
+        $currentPage = (int) $this->request->getParameter('page');
 
         # SmartyColumnSort -- Easy sorting of html table columns.
         include ROOT_LIBRARIES . 'smarty/libs/SmartyColumnSort.class.php';

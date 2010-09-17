@@ -68,7 +68,7 @@ class Clansuite_Module_Templatemanager_Admin extends Clansuite_Module_Controller
         # Incomming Variables
 
         # GET: tplmod (module of the template)
-        $tplmod = $this->getHttpRequest()->getParameter('tplmod', 'G');
+        $tplmod = $this->request->getParameter('tplmod', 'G');
         $tplmod = ucfirst(stripslashes($tplmod));
 
         $view->assign('templateeditor_modulename',  $tplmod);
@@ -113,9 +113,9 @@ class Clansuite_Module_Templatemanager_Admin extends Clansuite_Module_Controller
 
         # Incomming Variables
 
-        $tplmod   = $this->getHttpRequest()->getParameter('tplmod', 'G');
-        $tpltheme = $this->getHttpRequest()->getParameter('tpltheme', 'G');
-        $file     = $this->getHttpRequest()->getParameter('file', 'G');
+        $tplmod   = $this->request->getParameter('tplmod', 'G');
+        $tpltheme = $this->request->getParameter('tpltheme', 'G');
+        $file     = $this->request->getParameter('file', 'G');
 
         Clansuite_Debug::firebug($file);
 
@@ -189,10 +189,10 @@ class Clansuite_Module_Templatemanager_Admin extends Clansuite_Module_Controller
     {
         #Clansuite_Debug::printR($this->getHttpRequest());
 
-        $tplfilename    = (string) $this->getHttpRequest()->getParameter('templateeditor_absolute_filename');
-        $tplmodulename  = (string) $this->getHttpRequest()->getParameter('templateeditor_modulename');
-        $tplthemename   = (string) $this->getHttpRequest()->getParameter('templateeditor_themename');
-        $tpltextarea    = (string) $this->getHttpRequest()->getParameter('templateeditor_textarea');
+        $tplfilename    = (string) $this->request->getParameter('templateeditor_absolute_filename');
+        $tplmodulename  = (string) $this->request->getParameter('templateeditor_modulename');
+        $tplthemename   = (string) $this->request->getParameter('templateeditor_themename');
+        $tpltextarea    = (string) $this->request->getParameter('templateeditor_textarea');
 
         if(empty($tplfilename) == false and isset($tpltextarea))
         {

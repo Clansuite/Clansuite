@@ -64,7 +64,7 @@ class Clansuite_Module_Users extends Clansuite_Module_Controller
         Clansuite_Breadcrumb::add( _('Show'), '/index.php?mod=users&amp;action=show');
 
         // Defining initial variables
-        $currentPage = $this->getHttpRequest()->getParameter('page');
+        $currentPage = $this->request->getParameter('page');
         $resultsPerPage = 25;
 
         /* @todo news with status: draft, published, private, private+protected*/

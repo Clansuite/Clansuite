@@ -127,7 +127,7 @@ class Clansuite_Module_Matches_Admin extends Clansuite_Module_Controller
     { 
         # Incomming Data
         # @todo get post via request object, sanitize
-        $data = $this->getHttpRequest()->getParameter('matches_settings');
+        $data = $this->request->getParameter('matches_settings');
 
         # Get Configuration from Injector
         $config = $this->getInjector()->instantiate('Clansuite_Config');

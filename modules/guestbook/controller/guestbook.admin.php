@@ -53,7 +53,7 @@ class Clansuite_Module_Guestbook_Admin extends Clansuite_Module_Controller
     public function action_admin_show()
     {
         # Incoming Variables
-        $currentPage    = (int) $this->getHttpRequest()->getParameter('page');
+        $currentPage    = (int) $this->request->getParameter('page');
         $resultsPerPage = (int) $this->getConfigValue('resultsPerPage_adminshow', '10');
 
         // SmartyColumnSort -- Easy sorting of html table columns.
@@ -163,8 +163,8 @@ class Clansuite_Module_Guestbook_Admin extends Clansuite_Module_Controller
 
     public function save_comment()
     {
-        $gb_id      = $this->getHttpRequest()->getParameterFromGet('gb_id');
-        $comment    = $this->getHttpRequest()->getParameterFromPost('value');
+        $gb_id      = $this->request->getParameterFromGet('gb_id');
+        $comment    = $this->request->getParameterFromPost('value');
 
         # Add/Modify comment
         Doctrine_Query::create()
@@ -182,7 +182,7 @@ class Clansuite_Module_Guestbook_Admin extends Clansuite_Module_Controller
 
     public function get_comment()
     {
-        $gb_id = $this->getHttpRequest()->getParameterFromGet('gb_id');
+        $gb_id = $this->request->getParameterFromGet('gb_id');
 
         $result = Doctrine_Query::create()
                                 ->select('gb_comment')
@@ -254,12 +254,12 @@ class Clansuite_Module_Guestbook_Admin extends Clansuite_Module_Controller
 
     public function action_admin_delete()
     {
-        $submit     = $this->getHttpRequest()->getParameterFromPOST('submit');
-        $confirm    = $this->getHttpRequest()->getParameterFromPOST('confirm');
-        $abort      = $this->getHttpRequest()->getParameterFromPOST('abort');
-        $ids        = $this->getHttpRequest()->getParameterFromPOST('ids', array());
+        $submit     = $this->request->getParameterFromPOST('submit');
+        $confirm    = $this->request->getParameterFromPOST('confirm');
+        $abort      = $this->request->getParameterFromPOST('abort');
+        $ids        = $this->request->getParameterFromPOST('ids', array());
         #$ids        = isset($_POST['confirm'])  ? unserialize(urldecode($_GET['ids'])) : $ids;
-        $delete     = $this->getHttpRequest()->getParameterFromPOST('delete', array());
+        $delete     = $this->request->getParameterFromPOST('delete', array());
         #$delete     = isset($_POST['confirm'])  ? unserialize(urldecode($_GET['delete'])) : $delete;
      }
 
@@ -326,7 +326,7 @@ class Clansuite_Module_Guestbook_Admin extends Clansuite_Module_Controller
 
     public function action_admin_show_single()
     {
-        $id = $this->getHttpRequest()->getParameterFromGet('id');
+        $id = $this->request->getParameterFromGet('id');
 
         if( $perms->check('cc_view_gb', 'no_redirect') == true )
         {
@@ -388,7 +388,7 @@ class Clansuite_Module_Guestbook_Admin extends Clansuite_Module_Controller
     {
         # Incomming Data
         # @todo get post via request object, sanitize
-        $data = $this->getHttpRequest()->getParameter('guestbook_settings');
+        $data = $this->request->getParameter('guestbook_settings');
 
         # Get Configuration, then handler and write config
         $this->getClansuiteConfig()->confighandler->writeConfig( ROOT_MOD . 'guestbook/guestbook.config.php', $data);

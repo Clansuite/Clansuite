@@ -58,10 +58,8 @@ class Clansuite_Module_Gallery_Admin extends Clansuite_Module_Controller
 
         $album = CsGalleryAlbum::getGalleryAlbums();
 
-
         # Get Render Engine
         $view = $this->getView();
-
 
         #$view->assign('', $news->toArray());
         $view->assign('album', $album);
@@ -74,11 +72,6 @@ class Clansuite_Module_Gallery_Admin extends Clansuite_Module_Controller
         #$view->assign('pager', $pager);
         #$view->assign('pager_layout', $pager_layout);
 
-        # Set Layout Template
-        $this->getView()->setLayoutTemplate('index.tpl');
-        # specifiy the template manually
-        #$this->setTemplate('news/admin_show.tpl');
-
         $this->display();
     }
 
@@ -90,30 +83,21 @@ class Clansuite_Module_Gallery_Admin extends Clansuite_Module_Controller
         # Get Render Engine
         $view = $this->getView();
 
-           # instantiate Clansuite_HttpRequest object
-        $request = $this->getHttpRequest();
-
         # get valid $_POST params
-        $album['name']             = $this->request->getParameter('album_name');
-        $album['description']    = $this->request->getParameter('album_description');
-        $album['position']         = $this->request->getParameter('album_position');
-        $album['thumb']            = $this->request->getParameter('album_thumb');
+        $album['name']         = $this->request->getParameter('album_name');
+        $album['description']  = $this->request->getParameter('album_description');
+        $album['position']     = $this->request->getParameter('album_position');
+        $album['thumb']        = $this->request->getParameter('album_thumb');
 
         # create new gallery album - return int
         $id = CsGalleryAlbum::createNewAlbum($album);
 
         # assign result to smarty
-           $view->assign('id', $id);
-
-        # Set Layout Template
-        $this->getView()->setLayoutTemplate('index.tpl');
-
-        # specifiy the template manually
-        $this->setTemplate('admin_create_album.tpl');
+        $view->assign('id', $id);
 
         $this->display();
     }
-    
+
     public function action_admin_update_album()
     {
         # set pagetitle and breadcrumbs
@@ -123,19 +107,13 @@ class Clansuite_Module_Gallery_Admin extends Clansuite_Module_Controller
         $view = $this->getView();
 
         # instantiate Clansuite_HttpRequest object
-        $id = $this->getHttpRequest()->getParameterFromGet('id');
+        $id = $this->request->getParameterFromGet('id');
 
         # get all album fields of given $id - return array
         $album = CsGalleryAlbum::getAlbumById($id);
 
         # assign result to smarty
-           $view->assign('album', $album);
-
-        # set layout template
-        $this->getView()->setLayoutTemplate('index.tpl');
-
-        # specifiy the template manually
-        $this->setTemplate('admin_update_album.tpl');
+        $view->assign('album', $album);
 
         $this->display();
     }

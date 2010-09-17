@@ -110,7 +110,7 @@ class Clansuite_Module_Downloads_Admin extends Clansuite_Module_Controller
     { 
         # Incomming Data
         # @todo get post via request object, sanitize
-        $data = $this->getHttpRequest()->getParameter('downloads_settings');
+        $data = $this->request->getParameter('downloads_settings');
 
         # Get Configuration from Injector
         $config = $this->getInjector()->instantiate('Clansuite_Config');

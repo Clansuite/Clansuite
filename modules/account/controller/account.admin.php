@@ -163,7 +163,7 @@ class Clansuite_Module_Account_Admin extends Clansuite_Module_Controller
     {
         # Incomming Data
         # @todo get post via request object, sanitize
-        $data = $this->getHttpRequest()->getParameter('account_settings');
+        $data = $this->request->getParameter('account_settings');
 
         # get configuration object and write config
         $this->getClansuiteConfig()->confighandler->writeConfig( ROOT_MOD . 'account/account.config.php', $data);

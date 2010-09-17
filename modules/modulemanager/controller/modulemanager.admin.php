@@ -84,7 +84,7 @@ class Clansuite_Module_Modulemanager_Admin extends Clansuite_Module_Controller
          # Set Pagetitle and Breadcrumbs
         Clansuite_Breadcrumb::add( _('Edit Info'), '/index.php?mod=modulemanager&amp;sub=admin&amp;action=edit_info');
 
-        $modulename = $this->getHttpRequest()->getParameterFromGet('modulename');
+        $modulename = $this->request->getParameterFromGet('modulename');
 
         $moduleinfo = new Clansuite_ModuleInfoController();
         $modules_info_array = $moduleinfo->getModuleInformations($modulename);
@@ -177,8 +177,6 @@ class Clansuite_Module_Modulemanager_Admin extends Clansuite_Module_Controller
     {
         $view = $this->getView();
 
-        # request init
-        $request = $this->getHttpRequest();
         # get parameter for module data
         $mod = $this->request->getParameter('m');
         var_dump($mod);
@@ -286,7 +284,6 @@ class Clansuite_Module_Modulemanager_Admin extends Clansuite_Module_Controller
         # Set Pagetitle and Breadcrumbs
         Clansuite_Breadcrumb::add( _('Create'), '/index.php?mod=modulemanager&amp;sub=admin&amp;action=create');
 
-        $request = $this->getHttpRequest();
         $mod = $this->request->getParameter('mod_data');
 
         if($mod)
