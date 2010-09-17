@@ -65,7 +65,7 @@ class Clansuite_Module_Statistics_Admin extends Clansuite_Module_Controller
 
         $settings['form']   = array(    'name' => 'statistic_settings',
                                         'method' => 'POST',
-                                        'action' => WWW_ROOT.'/index.php?mod=statistics&amp;sub=admin&amp;action=settings_update');
+                                        'action' => WWW_ROOT . 'index.php?mod=statistics&amp;sub=admin&amp;action=settings_update');
 
         $settings['statistics'][] = array(        'id' => 'deleteTimeWho',
                                                   'name' => 'deleteTimeWho',
@@ -82,7 +82,7 @@ class Clansuite_Module_Statistics_Admin extends Clansuite_Module_Controller
                                                 'value' => $this->getConfigValue('timoutWho', '5'));
 
         # fill the settings array into the formgenerator
-        $form = new Clansuite_Array_Formgenerator($settings);
+        $form = new Clansuite_Form($settings);
         # add additional buttons to the form
         $form->addElement('submitbutton')->setName('Save');
         $form->addElement('resetbutton');

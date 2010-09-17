@@ -32,8 +32,8 @@
 
     {* Cascading Style Sheets *}
 
-    <link rel="stylesheet" type="text/css" href="{$www_root_themes}/backend/backend.css" />
-    <link rel="stylesheet" type="text/css" href="{$www_root_themes}/backend/css/custom/jquery-ui-1.7.2.custom.css" />
+    <link rel="stylesheet" type="text/css" href="{$www_root_themes}backend/backend.css" />
+    <link rel="stylesheet" type="text/css" href="{$www_root_themes}backend/css/custom/jquery-ui-1.7.2.custom.css" />
 
     {* Pagetitle *}
 
@@ -44,7 +44,7 @@
 <div id="header">
 	<div class="inside">
 
-		<div class="logo"><img class="logo" src="{$www_root_themes}/backend/images/logo_backend.gif" width="197px" height="91px" alt="backend_logo" /></div>
+		<div class="logo"><img class="logo" src="{$www_root_themes}backend/images/logo_backend.gif" width="197px" height="91px" alt="backend_logo" /></div>
 
 	</div>
 </div>
@@ -76,7 +76,7 @@
     	<div class="inside">
 			<div id="rss-news">													<!-- Start rss-news -->
             	<div class="box-head">
-                	<img class="leftcorner" src="{$www_root_themes}/backend/images/title_leftcorner.jpg" />
+                	<img class="leftcorner" src="{$www_root_themes}backend/images/title_leftcorner.jpg" />
 					<div class="box-heading">Aktuelle ClanSuite News</div>
                 </div>
                 <div class="box-content">
@@ -85,7 +85,7 @@
             </div>																<!-- Ende rss-news -->
 			<div id="content">													<!-- Start Content -->
             	<div class="box-head">
-                	<img class="leftcorner" src="{$www_root_themes}/backend/images/title_leftcorner.jpg" />
+                	<img class="leftcorner" src="{$www_root_themes}backend/images/title_leftcorner.jpg" />
 					<div id="breadcrumb">{include file='breadcrumbs.tpl'}</div>
                     <div id="helpbutton">{include file='help/help_button.tpl'}</div>
                 </div>
@@ -103,7 +103,7 @@
             	<div class="inside">
                     <div id="taskbar_widget_Aufgaben">
 						<div class="box-head">
-                        	<img class="leftcorner" src="{$www_root_themes}/backend/images/title_leftcorner.jpg" />
+                        	<img class="leftcorner" src="{$www_root_themes}backend/images/title_leftcorner.jpg" />
 							<div class="box-heading">Aufgaben</div>
     	                </div>
                         <div class="box-content">

@@ -103,7 +103,7 @@
                     <dd><a href="index.php?mod=staticpages&amp;action=overview"><img class="pic" src="{$www_root_themes_core}images/icons/news.png" border="0" width="16" height="16" alt="" />Static Pages Overview</a></dd>
                     <dt>Users</dt>
                     <dd><a class="item" href="index.php?mod=account">Login</a></dd>
-                    <dd><a class="item" href="index.php?mod=account"><img class="pic" src="{$www_root_themes}/images/icons/logout.png" border="0" width="16" height="16" alt=""/>Logout</a></dd>
+                    <dd><a class="item" href="index.php?mod=account"><img class="pic" src="{$www_root_themes}images/icons/logout.png" border="0" width="16" height="16" alt=""/>Logout</a></dd>
                     <dt>ACP</dt>
                     <dd><a class="button" href="index.php?mod=controlcenter">Controlcenter</a></dd>
                 </dl>

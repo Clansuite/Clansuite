@@ -136,7 +136,7 @@ class Clansuite_Module_Forum_Admin extends Clansuite_Module_Controller
 
         $settings['form']   = array(    'name' => 'forum_settings',
                                         'method' => 'POST',
-                                        'action' => WWW_ROOT.'/index.php?mod=forum&amp;sub=admin&amp;action=settings_update');
+                                        'action' => WWW_ROOT . 'index.php?mod=forum&amp;sub=admin&amp;action=settings_update');
 
         $settings['forum'][] = array(
                                         'id' => 'list_max',
@@ -173,7 +173,7 @@ class Clansuite_Module_Forum_Admin extends Clansuite_Module_Controller
                                         'formfieldtype' => 'text',
                                         'value' => $this->getConfigValue('allow_geshi_highlight', '1'));
 
-        $form = new Clansuite_Array_Formgenerator($settings);
+        $form = new Clansuite_Form($settings);
 
         # display formgenerator object
         #Clansuite_Debug::printR($form);

@@ -217,7 +217,7 @@ class AdvancedTeamSpeak2Viewer #implements Absurd_TeamSpeak2_Viewer
         # define image path constant
         if(!defined('TSVIEWER_IMAGES'))
         {
-            define('TSVIEWER_IMAGES', WWW_ROOT.'/modules/teamspeakviewer/images/');
+            define('TSVIEWER_IMAGES', WWW_ROOT . 'modules/teamspeakviewer/images/');
         }
 
         # Image A = |

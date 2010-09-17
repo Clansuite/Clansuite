@@ -284,7 +284,7 @@ class Clansuite_Shockvoice_Query
         }
 
         $img = sprintf('<img src="%s/channel/%s.png" border="0">',
-                WWW_ROOT.'/modules/shockvoiceviewer/images',
+                WWW_ROOT . 'modules/shockvoiceviewer/images',
                 $img);
 
         return $img;
@@ -320,7 +320,7 @@ class Clansuite_Shockvoice_Query
         }
 
         $img = sprintf('<img src="%s/status/%s.png" border="0">',
-                WWW_ROOT.'/modules/shockvoiceviewer/images',
+                WWW_ROOT . 'modules/shockvoiceviewer/images',
                 $img);
 
         return $img;

@@ -367,7 +367,7 @@ class Clansuite_Module_News_Admin extends Clansuite_Module_Controller
 
         $settings['form']   = array(    'name' => 'news_settings',
                                         'method' => 'POST',
-                                        'action' => WWW_ROOT.'/index.php?mod=news&amp;sub=admin&amp;action=settings_update');
+                                        'action' => WWW_ROOT . 'index.php?mod=news&amp;sub=admin&amp;action=settings_update');
 
         $settings['news'][] = array(    'id' => 'resultsPerPage_show',
                                         'name' => 'resultsPerPage_show',
@@ -427,7 +427,7 @@ class Clansuite_Module_News_Admin extends Clansuite_Module_Controller
                                         'value' => $this->getConfigValue('feed_items', '10'));
 
         # fill the settings array into the formgenerator
-        $form = new Clansuite_Array_Formgenerator($settings);
+        $form = new Clansuite_Form($settings);
         $form->setClass('News');
 
         # add the buttonbar
