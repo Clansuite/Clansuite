@@ -146,7 +146,7 @@
                     	<li>middle</li>
 					</ul>
                 </div>
-            <div class="copyright clearfix">{include file='copyright.tpl'}<br />Theme: {$smarty.session.user.theme} by {* {$theme_copyright} *}<br />{include file='server_stats.tpl'}</div>
+            <div class="copyright clearfix">{include file='copyright.tpl'}<br />Theme: {$smarty.session.user.frontend_theme} by {* {$theme_copyright} *}<br />{include file='server_stats.tpl'}</div>
         </div>
         
     </div>
