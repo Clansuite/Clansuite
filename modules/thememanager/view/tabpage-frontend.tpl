@@ -3,7 +3,7 @@
 
     {foreach item=theme from=$themes}
     
-{if $theme.adminlayout == false}
+{if $theme.backendtheme == false}
     <tr>
 
         <td width="30%">

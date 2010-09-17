@@ -54,16 +54,10 @@ class Clansuite_Module_Thememanager_Admin extends Clansuite_Module_Controller
     {
         $view = $this->getView();
         $view->assign('themes', $this->getThemesList());
-        #$view->setLayoutTemplate('index.tpl'); #wird hier nicht hardgecodet gebraucht
         $this->display();
     }
 
-    /**
-     * Get all avaiable Frontend-Themes (Skins) by parsing the dirs in ROOT_THEMES
-     *
-     * @return array
-     */
-    public function getThemesList()
+    public function getThemes($themes_directory)
     {
         # init themes array
         $themes = array();
@@ -71,16 +65,15 @@ class Clansuite_Module_Thememanager_Admin extends Clansuite_Module_Controller
         $i = 1;
 
         # loop through ROOT_THEMES dir
-        $dirs = new DirectoryIterator(ROOT_THEMES);
+        $dirs = new DirectoryIterator($themes_directory);
         foreach($dirs as $dir)
         {
             $i++;
-
             # exclude .svn and core dir, take only dirs with theme_info.xml in it
             if((!$dir->isDot()) and ($dir != '.svn') and ($dir != 'core') and (is_file($dir->getPathName() . DS . 'theme_info.xml')))
             {
                 # add xml infos from file
-                $theme_info[$i] = self::parseThemeInformations($dir);
+                $theme_info[$i] = self::parseThemeInformations($themes_directory . $dir);
 
                 # add fullpath
                 $theme_info[$i]['fullpath'] = $dir->getPathName();
@@ -106,10 +99,17 @@ class Clansuite_Module_Thememanager_Admin extends Clansuite_Module_Controller
                 }
 
                 # add preview image (preview_image should contain 2 files: [0]preview.img and [1]preview_thumb.img)
-                $preview_image = glob(ROOT_THEMES . $dir . DS . 'preview*.{jpg,png,gif,jpeg,JPG,PNG,GIF,JPEG}', GLOB_BRACE);
+                $preview_image = glob($themes_directory . $dir . DS . 'preview*.{jpg,png,gif,jpeg,JPG,PNG,GIF,JPEG}', GLOB_BRACE);
 
                 # turn ROOT_THEMES path into WWW_ROOT
-                $preview_image = str_replace(ROOT_THEMES, WWW_ROOT_THEMES . '', $preview_image);
+                if(strpos(strtolower($themes_directory), 'frontend'))
+                {
+                    $preview_image = str_replace(ROOT_THEMES_FRONTEND, WWW_ROOT_THEMES_FRONTEND . '', $preview_image);
+                }
+                else
+                {
+                    $preview_image = str_replace(ROOT_THEMES_BACKEND, WWW_ROOT_THEMES_BACKEND . '', $preview_image);
+                }
 
                 # fix slashes
                 $preview_image = str_replace('\\', '/', $preview_image);
@@ -132,6 +132,19 @@ class Clansuite_Module_Thememanager_Admin extends Clansuite_Module_Controller
     }
 
     /**
+     * Get array with pieces of information about all the avaiable Themes (Skins)
+     *
+     * @return array
+     */
+    public function getThemesList()
+    {
+        $frontend_theme_infos = $this->getThemes(ROOT_THEMES_FRONTEND);
+        $backend_theme_infos  = $this->getThemes(ROOT_THEMES_BACKEND);
+        $theme_infos = array_merge($frontend_theme_infos, $backend_theme_infos);
+        return $theme_infos;
+    }
+
+    /**
      * Fetches Theme Informations from the theme.xml of specified directory
      *
      * @param $themedirectory the directory of the theme
@@ -139,7 +152,7 @@ class Clansuite_Module_Thememanager_Admin extends Clansuite_Module_Controller
      */
     public static function parseThemeInformations($themedir)
     {
-        $theme_info_file = ROOT_THEMES . $themedir . DS . 'theme_info.xml';
+        $theme_info_file = $themedir . DS . 'theme_info.xml';
 
         # ensure we have simplexml available
         if(false == function_exists('simplexml_load_file'))
@@ -147,9 +160,16 @@ class Clansuite_Module_Thememanager_Admin extends Clansuite_Module_Controller
             throw new Clansuite_Exception('Missing simplexml_load_file() function');
         }
 
-        # get simple xml dataobject by loading theme.xml file
-        # @todo i wonder if there is a way to get rid of the error-supression, without adding to much overhead
-        $themeinfos_XML_obj = @simplexml_load_file($theme_info_file);
+        if(is_file($theme_info_file) and is_readable($theme_info_file))
+        {
+            # get simple xml dataobject by loading theme.xml file
+            # @todo i wonder if there is a way to get rid of the error-supression, without adding to much overhead
+            $themeinfos_XML_obj = @simplexml_load_file($theme_info_file);
+        }
+        else
+        {
+            throw new Clansuite_Exception('The Theme Description File (' . $theme_info_file . ') is missing or not readable.');
+        }
 
         # die in case we fetched no object
         if(false === $themeinfos_XML_obj)
