@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE theme SYSTEM "http://schemas.clansuite.com/dtd/theme_info.dtd">
+<theme>
+    <name>Clansuite phpXtemplate Test Theme</name>
+    <author>Jens-André Koch</author>
+    <theme_version>0.1</theme_version>
+    <required_clansuite_version>0.1</required_clansuite_version>
+    <date>September 2010</date>
+    <layoutfiles>
+        <layoutfile tpl="index.xtpl"/>
+    </layoutfiles>
+    <cssfiles>
+        <stylename name="Clansuite Xtemplate CSS">
+            <cssfile css="xtemplate.css"/>
+        </stylename>
+    </cssfiles>
+    <renderengine>xtemplate</renderengine>
+    <backendtheme>0</backendtheme>
+</theme>
