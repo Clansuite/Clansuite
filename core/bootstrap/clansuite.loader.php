@@ -260,6 +260,8 @@ class Clansuite_Loader
 
         self::autoloadExclusions($classname);
 
+        self::autoloadInclusions($classname);
+
         /**
          * Start Classname to Filename Mapping
          */
@@ -297,6 +299,43 @@ class Clansuite_Loader
             {
                 return true;
             }
+        }
+    }
+
+    /**
+     * Includes a certain classname by using a manually maintained autoloading map.
+     *
+     * @param string $classname Classname to check for inclusion.
+     * @return true if classname was included
+     */
+    public static function autoloadInclusions($classname)
+    {
+        # define component directories
+        $datagrid_dir = ROOT_CORE . 'viewhelper' . DS . 'datagrid' . DS;
+        $form_dir     = ROOT_CORE . 'viewhelper' . DS . 'form' . DS;
+
+        # autoloading map
+        $map = array(
+        'Clansuite_Datagrid'              => $datagrid_dir . 'datagrid.core.php',
+        'Clansuite_Datagrid_Column'       => $datagrid_dir . 'datagridcol.core.php',
+        'Clansuite_Form'                  => $form_dir . 'form.core.php',
+        'Clansuite_Formelement'           => $form_dir . 'formelement.core.php',
+        'Clansuite_Form_Decorator'        => $form_dir . 'formdecorator.core.php',
+        'Clansuite_Formelement_Decorator' => $form_dir . 'formdecorator.core.php',
+        );
+
+        # check if classname is in autoloading map
+        if(isset($map[$classname]))
+        {
+            # get filename for that classname
+            $filename = $map[$classname];
+
+            # and include that one
+            if(self::requireFileAndMap($filename, $classname) === true)
+            {
+                return true;
+            } 
+            unset($filename);
         }
     }
 
