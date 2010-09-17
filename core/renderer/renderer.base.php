@@ -215,12 +215,12 @@ abstract class Clansuite_Renderer_Base
         if($module == 'controlcenter' or $submodule == 'admin')
         {
             # (a) USER BACKENDTHEME - check in the active session backendtheme
-            $backend_theme = ROOT_THEMES_BACKEND . $_SESSION['user']['backendtheme'];
-            if(isset($_SESSION['user']['backendtheme']) and is_file($backend_theme . DS . $template))
+            $backend_theme = ROOT_THEMES_BACKEND . $_SESSION['user']['backend_theme'];
+            if(isset($_SESSION['user']['backend_theme']) and is_file($backend_theme . DS . $template))
             {
                 return $backend_theme . DS . $template;
             }
-            elseif(isset($_SESSION['user']['backendtheme']) and is_file($backend_theme . DS . $module . DS . $template))
+            elseif(isset($_SESSION['user']['backend_theme']) and is_file($backend_theme . DS . $module . DS . $template))
             {
                 return $backend_theme . DS . $module . DS . $template;
             }
@@ -233,8 +233,8 @@ abstract class Clansuite_Renderer_Base
         else # 2. it's a FRONTEND theme
         {
             # (a) USER FRONTENDTHEME - check, if template exists in current session user THEME
-            $session_theme = ROOT_THEMES_FRONTEND . $_SESSION['user']['theme'];
-            if(isset($_SESSION['user']['theme']) and is_file($session_theme . DS . $template))
+            $session_theme = ROOT_THEMES_FRONTEND . $_SESSION['user']['frontend_theme'];
+            if(isset($_SESSION['user']['frontend_theme']) and is_file($session_theme . DS . $template))
             {
                 return $session_theme . DS . $template;
             }
@@ -303,7 +303,7 @@ abstract class Clansuite_Renderer_Base
         $template_constants['www_root']             = WWW_ROOT;
         $template_constants['www_root_upload']      = WWW_ROOT . '/uploads/';
         $template_constants['www_root_mod']         = WWW_ROOT . '/modules/' . Clansuite_HttpRequest::getRoute()->getModuleName();
-        $template_constants['www_root_theme']       = WWW_ROOT_THEMES .'/'. $_SESSION['user']['theme'];
+        $template_constants['www_root_theme']       = WWW_ROOT_THEMES .'/'. $_SESSION['user']['frontend_theme'];
         $template_constants['www_root_themes']      = WWW_ROOT_THEMES;
         $template_constants['www_root_themes_core'] = WWW_ROOT_THEMES_CORE;        
         $template_constants['www_root_themes_backend']  = WWW_ROOT_THEMES_BACKEND;
@@ -334,17 +334,17 @@ abstract class Clansuite_Renderer_Base
         $template_constants['pagetitle'] = $this->config['template']['pagetitle'];
 
         # Normal CSS (global)
-        # @todo the selected $_SESSION['user']['theme'] decides on the theme type => frontend/backend 
-        $template_constants['css'] = WWW_ROOT_THEMES .'/'. $_SESSION['user']['theme'] .'/'. $this->config['template']['css'];
+        # @todo the selected $_SESSION['user']['frontend_theme'] decides on the theme type => frontend/backend 
+        $template_constants['css'] = WWW_ROOT_THEMES .'/'. $_SESSION['user']['frontend_theme'] .'/'. $this->config['template']['css'];
 
         # Minifed Stylesheets of a certain group (?g=) of css files
-        $template_constants['minfied_css'] = ROOT_LIBRARIES . 'minify/?g=css&amp;' . $_SESSION['user']['theme'];
+        $template_constants['minfied_css'] = ROOT_LIBRARIES . 'minify/?g=css&amp;' . $_SESSION['user']['frontend_theme'];
 
         # Normal Javascript (global)
-        $template_constants['javascript'] = WWW_ROOT_THEMES .'/'. $_SESSION['user']['theme'] .'/'. $this->config['template']['javascript'];
+        $template_constants['javascript'] = WWW_ROOT_THEMES .'/'. $_SESSION['user']['frontend_theme'] .'/'. $this->config['template']['javascript'];
 
         # Minifed Javascripts of a certain group (?g=) of js files
-        $template_constants['minfied_javascript'] =  ROOT_LIBRARIES . 'minify/?g=js&amp;' . $_SESSION['user']['theme'];
+        $template_constants['minfied_javascript'] =  ROOT_LIBRARIES . 'minify/?g=js&amp;' . $_SESSION['user']['frontend_theme'];
 
         # Breadcrumb
         $template_constants['trail'] = Clansuite_Breadcrumb::getTrail();

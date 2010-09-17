@@ -211,19 +211,19 @@ class Clansuite_User
              */
             if ( isset($_REQUEST['theme']) == false )
             {
-                $_SESSION['user']['theme'] = (!empty($this->user['theme']) ? $this->user['theme'] : $this->config['template']['theme']);
+                $_SESSION['user']['frontend_theme'] = (!empty($this->user['frontend_theme']) ? $this->user['frontend_theme'] : $this->config['template']['frontend_theme']);
             }
 
             /**
              * Backend-Theme
              */
-            if(empty($this->user['backendtheme']) == false)
+            if(empty($this->user['backend_theme']) == false)
             {
-                $_SESSION['user']['backendtheme'] = $this->user['backendtheme'];
+                $_SESSION['user']['backend_theme'] = $this->user['backend_theme'];
             }
             else
             {
-                $_SESSION['user']['backendtheme'] = $this->config['template']['backend_theme'];
+                $_SESSION['user']['backend_theme'] = $this->config['template']['backend_theme'];
             }
 
             /**
@@ -568,11 +568,11 @@ class Clansuite_GuestUser
          * Theme for Guests
          *
          * Sets the Default Theme for all Guest Visitors, if not already set via a GET request.
-         * Theme for Guest Users as defined by config['template']['theme']
+         * Theme for Guest Users as defined by config['template']['frontend_theme']
          */
-        if (empty($_SESSION['user']['theme']))
+        if (empty($_SESSION['user']['frontend_theme']))
         {
-            $_SESSION['user']['theme']      = $this->config['template']['theme'];
+            $_SESSION['user']['frontend_theme']      = $this->config['template']['frontend_theme'];
         }
 
         /**

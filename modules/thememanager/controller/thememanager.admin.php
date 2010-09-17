@@ -89,7 +89,7 @@ class Clansuite_Module_Thememanager_Admin extends Clansuite_Module_Controller
                 $theme_info[$i]['dirname'] = (string) $dir;
 
                 # is this theme activated?
-                if($this->moduleconfig['template']['theme'] == $dir)
+                if($this->moduleconfig['template']['frontend_theme'] == $dir)
                 {
                     $theme_info[$i]['activated'] = true;
                 }

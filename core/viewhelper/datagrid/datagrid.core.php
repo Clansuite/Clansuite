@@ -2096,7 +2096,7 @@ class Clansuite_Datagrid_Renderer
         if( $columnObject->isEnabled('Sorting') )
         {
             $htmlString .= '&nbsp;<a href="' . self::_getSortString($columnObject->getAlias(), self::getDatagrid()->getSortReverseDefinition($columnObject->getSortMode())) . '">';
-            #$htmlString .= '<img src="' . WWW_ROOT_THEMES .'/'. $_SESSION['user']['theme'] .'/" />';
+            #$htmlString .= '<img src="' . WWW_ROOT_THEMES .'/'. $_SESSION['user']['frontend_theme'] .'/" />';
             $htmlString .= _($columnObject->getSortMode());
             $htmlString .= '</a>';
         }

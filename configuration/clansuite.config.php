@@ -1,8 +1,8 @@
 ; <?php die('Access forbidden.'); /* DO NOT MODIFY THIS LINE! ?>
-; 
-; Clansuite Configuration File : 
+;
+; Clansuite Configuration File :
 ; D:\xampplite\htdocs\work\clansuite\trunk\/configuration/clansuite.config.php
-; 
+;
 ; This file was generated on 29-08-2010 13:26
 ;
 
@@ -22,7 +22,7 @@ prefix = "cs_"
 ; template
 ;----------------------------------------
 [template]
-theme = "standard"
+frontend_theme = "standard"
 backend_theme = "admin"
 layout = "index.tpl"
 css = "standard.css"
