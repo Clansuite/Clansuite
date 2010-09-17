@@ -218,7 +218,7 @@ class Clansuite_Module_ControlCenter extends Clansuite_Module_Controller
     {
         # Incomming Data
         # @todo get post via request object, sanitize
-        $data = $this->getHttpRequest()->getParameter('controlcenter_settings');
+        $data = $this->request->getParameter('controlcenter_settings');
 
         # Get Configuration from Injector
         $config = $this->getInjector()->instantiate('Clansuite_Config');

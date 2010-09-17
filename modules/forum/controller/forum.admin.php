@@ -194,7 +194,7 @@ class Clansuite_Module_Forum_Admin extends Clansuite_Module_Controller
     {
         # Incomming Data
         # @todo get post via request object, sanitize
-        $data = $this->getHttpRequest()->getParameter('forum_settings');
+        $data = $this->request->getParameter('forum_settings');
 
         # Get Configuration from Injector
         $config = $this->getInjector()->instantiate('Clansuite_Config');

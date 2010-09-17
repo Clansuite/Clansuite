@@ -254,7 +254,7 @@ class Clansuite_Module_Staticpages_Admin extends Clansuite_Module_Controller
     public function action_admin_settings_update()
     {
         # Incomming Data
-        $data = $this->getHttpRequest()->getParameter('staticpages_settings');
+        $data = $this->request->getParameter('staticpages_settings');
 
         # Get Configuration, get handler and write config
         $this->getClansuiteConfig()->confighandler->writeConfig( ROOT_MOD . 'staticpages/staticpages.config.php', $data);

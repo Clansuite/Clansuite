@@ -63,7 +63,7 @@ class Clansuite_Module_Guestbook extends Clansuite_Module_Controller
 
         # Defining initial variables
         # Pager Chapter in Doctrine Manual  -> http://www.phpdoctrine.org/documentation/manual/0_10?one-page#utilities
-        $currentPage = $this->getHttpRequest()->getParameter('page');
+        $currentPage = $this->request->getParameter('page');
         $resultsPerPage = 3;
 
         // Creating Pager Object with a Query Object inside

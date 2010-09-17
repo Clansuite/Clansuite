@@ -26,11 +26,11 @@
     <table>
     <tr>
         <td>{t}Email:{/t}</td>
-        <td><input type="text" name="email" value="{$smarty.post.email|default|escape:"html"}"></td>
+        <td><input type="text" name="email" value="{if isset($smarty.post.email)}{$smarty.post.email|default|escape:"html"}{/if}"></td>
     </tr>
     <tr>
         <td>{t}New password:{/t}</td>
-        <td><input id="forgot_password" type="password" name="password" value="{$smarty.post.email|default|escape:"html"}"></td>
+        <td><input id="forgot_password" type="password" name="password" value="{if isset($smarty.post.email)}{$smarty.post.email|default|escape:"html"}{/if}"></td>
     </tr>
     <tr>
         <td colspan="2">

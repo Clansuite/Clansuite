@@ -102,7 +102,7 @@ class Clansuite_Module_Games_Admin extends Clansuite_Module_Controller
     { 
         # Incomming Data
         # @todo get post via request object, sanitize
-        $data = $this->getHttpRequest()->getParameter('games_settings');
+        $data = $this->request->getParameter('games_settings');
 
         # Get Configuration from Injector
         $config = $this->getInjector()->instantiate('Clansuite_Config');

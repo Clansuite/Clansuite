@@ -221,13 +221,8 @@ class Clansuite_Module_Menu_Admin extends Clansuite_Module_Controller
      */
     public function action_admin_update()
     {
-        /**
-         * Incoming Variables
-         */
-        # initalize request
-        $request = $this->getHttpRequest();
         # fetch the container variable from post
-        $menu    = $this->request->getParameter('container','POST');
+        $menu = $this->request->getParameter('container','POST');
 
         # Check if we have some $menu values to insert
         if(count($menu) == 0)

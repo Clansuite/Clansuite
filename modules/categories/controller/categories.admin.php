@@ -175,7 +175,7 @@ class Clansuite_Module_Categories_Admin extends Clansuite_Module_Controller
     public function action_admin_edit()
     {
         # get id
-        $cat_id = $this->getHttpRequest()->getParameter('id');
+        $cat_id = $this->request->getParameter('id');
 
         # fetch category
         $cat = Doctrine::getTable('CsCategories')->fetchSingleCategory($cat_id);
@@ -212,7 +212,6 @@ class Clansuite_Module_Categories_Admin extends Clansuite_Module_Controller
 
     public function action_admin_delete()
     {
-        $request = $this->getHttpRequest();
         $delete  = $this->request->getParameter('delete', 'P');
 
         if(isset($delete))
@@ -250,8 +249,8 @@ class Clansuite_Module_Categories_Admin extends Clansuite_Module_Controller
     public function action_admin_update()
     {
         # get incoming data
-        $data = $this->getHttpRequest()->getParameter('cat_form');
-        $type = $this->getHttpRequest()->getParameter('type', 'G');
+        $data = $this->request->getParameter('cat_form');
+        $type = $this->request->getParameter('type', 'G');
 
         if(isset($type) and $type == 'create')
         {
@@ -340,7 +339,7 @@ class Clansuite_Module_Categories_Admin extends Clansuite_Module_Controller
     {
         # Incomming Data
         # @todo get post via request object, sanitize
-        $data = $this->getHttpRequest()->getParameter('categories_settings');
+        $data = $this->request->getParameter('categories_settings');
 
         # Get Configuration from Injector
         $config = $this->getInjector()->instantiate('Clansuite_Config');

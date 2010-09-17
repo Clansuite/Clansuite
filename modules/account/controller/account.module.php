@@ -82,7 +82,7 @@ class Clansuite_Module_Account extends Clansuite_Module_Controller
              and $_SESSION['login_attempts'] >= $this->moduleconfig['login']['max_login_attempts'] )
         {
             # @todo ban action
-            
+
             $this->redirect( WWW_ROOT, 3, '200',
             _('You are temporarily banned. Please come back in <b>' .$this->moduleconfig['login']['login_ban_minutes'].'</b> minutes.'));
 
@@ -186,7 +186,7 @@ class Clansuite_Module_Account extends Clansuite_Module_Controller
             $view->assign('error', $error);
             # $view->assign('referer', $referer);
 
-            $this->display();
+            $this->display(array('content_template' => 'action_login.tpl'));
         }
         else
         {
@@ -204,7 +204,7 @@ class Clansuite_Module_Account extends Clansuite_Module_Controller
         // Set Pagetitle and Breadcrumbs
         Clansuite_Breadcrumb::add( _('Logout'), '/index.php?mod=account&amp;action=logout');
 
-        $confirm = (bool) $request->getParameterFromPost('confirm');
+        $confirm = (bool) $this->request->getParameterFromPost('confirm');
 
         if( $confirm == true )
         {
@@ -226,7 +226,6 @@ class Clansuite_Module_Account extends Clansuite_Module_Controller
     public function action_register()
     {
         # Request Controller
-        $request = $this->getHttpRequest();
         $security = $this->getInjector()->instantiate('Clansuite_Security');
         $config = $this->getInjector()->instantiate('Clansuite_Config');
         $view = $this->getView();
@@ -361,7 +360,7 @@ class Clansuite_Module_Account extends Clansuite_Module_Controller
             }
         }
 
-        $view = $this->getView();        
+        $view = $this->getView();
         # Assign vars
         $view->assign( 'config', $this->moduleconfig );
         $view->assign( 'min_length', $this->moduleconfig['login']['min_pass_length'] );
@@ -377,13 +376,10 @@ class Clansuite_Module_Account extends Clansuite_Module_Controller
      */
     public function action_activation_email()
     {
-        $err = array();
-
-        // Request Controller
-        $request = $this->getHttpRequest();
+        $error = array();
 
         // Input validation
-        $input = $this->getInjector()->instantiate('input');
+        #$input = $this->getInjector()->instantiate('input');
 
         // Get Inputvariables from $_POST
         $email  = $this->request->getParameter('email');
@@ -394,7 +390,7 @@ class Clansuite_Module_Account extends Clansuite_Module_Controller
         {
             if ( !empty ( $submit ) )
             {
-                $err['form_not_filled'] = 1;
+                $error['form_not_filled'] = 1;
             }
         }
         else
@@ -402,11 +398,11 @@ class Clansuite_Module_Account extends Clansuite_Module_Controller
 
             if ( !$input->check( $email, 'is_email' ) )
             {
-                $err['email_wrong'] = 1;
+                $error['email_wrong'] = 1;
             }
 
             // No Input-Errors
-            if ( count($err) == 0 )
+            if ( count($error) == 0 )
             {
                 // Select WHERE email
                 $result = Doctrine_Query::create()
@@ -418,18 +414,18 @@ class Clansuite_Module_Account extends Clansuite_Module_Controller
                 // Email was not found
                 if ( !$result )
                 {
-                    $err['no_such_mail'] = 1;
+                    $error['no_such_mail'] = 1;
                 }
                 else
                 {
                     // Email already activated
                     if ( $result->activated == 1 )
                     {
-                        $err['already_activated'];
+                        $error['already_activated'];
                     }
 
                     // Email was found & is not active
-                    if ( count($err) == 0 )
+                    if ( count($error) == 0 )
                     {
                         // Prepare user_id, nick, and activation code
                         $code    = md5 ( microtime() );
@@ -455,7 +451,7 @@ class Clansuite_Module_Account extends Clansuite_Module_Controller
         $view = $this->getView();
 
         // Assign tpl vars
-        $view->assign( 'err', $err );
+        $view->assign( 'err', $error );
 
         // Output
         #$this->setTemplate('activation_email.tpl');
@@ -473,12 +469,9 @@ class Clansuite_Module_Account extends Clansuite_Module_Controller
      */
     public function action_activate_account()
     {
-        # Request Controller
-        $request = $this->getHttpRequest();
-
         # Inputvariables
-        $user_id = (int) $request->getParameterFromGet('user_id');
-        $code    = $input->check($request->getParameter('code'), 'is_int|is_abc') ? $request->getParameter('code') : false;
+        $user_id = (int) $this->request->getParameterFromGet('user_id');
+        $code    = $input->check($this->request->getParameter('code'), 'is_int|is_abc') ? $this->request->getParameter('code') : false;
 
         # Activation code is wrong
         if ( !$code )
@@ -510,7 +503,7 @@ class Clansuite_Module_Account extends Clansuite_Module_Controller
             }
         }
         else
-        {   
+        {
             # Activation Code not matching user_id
             $this->flashmessage('error', _('The activation code does not match to the given user id'));
             $this->redirectToReferer();
@@ -522,10 +515,8 @@ class Clansuite_Module_Account extends Clansuite_Module_Controller
      */
     public function action_forgot_password()
     {
-        // Request Controller
-        $request = $this->getHttpRequest();
         #$validation = $this->getInjector()->instantiate('Clansuite_Validation');
-        $config = $this->getInjector()->instantiate('Clansuite_Config');
+        
         $security = $this->getInjector()->instantiate('Clansuite_Security');
         $error = array();
 
@@ -614,18 +605,17 @@ class Clansuite_Module_Account extends Clansuite_Module_Controller
     public function action_activate_password()
     {
         // Request Controller
-        $request = $this->getHttpRequest();
         $input = $this->getInjector()->instantiate('input');
 
-        $user_id = (int) $request->getParameter('user_id');
-        $code    = $input->check($request->getParameter('code'), 'is_int|is_abc') ? $request->getParameter('code') : false;
+        $user_id = (int) $this->request->getParameter('user_id');
+        $code    = $input->check($this->request->getParameter('code'), 'is_int|is_abc') ? $this->request->getParameter('code') : false;
 
         if ( !$code )
         {
             $this->error( _( 'Code Failure: The given activation code is wrong. Please make sure you copied the whole activation URL into your browser.') );
             return;
         }
-        
+
         # Select a DB Row
         $result = Doctrine_Query::create()
                         ->select('user_id, activated, new_passwordhash, activation_code, new_salt')
@@ -668,7 +658,8 @@ class Clansuite_Module_Account extends Clansuite_Module_Controller
      */
     private function _send_activation_email($email, $nick, $user_id, $code)
     {
-        $config = $this->getInjector()->instantiate('Clansuite_Config');
+        $config = $this->getClansuiteConfig();
+        
         $this->getInjector()->register('Clansuite_Mailer');
         $mailer = $this->getInjector()->instantiate('Clansuite_Mailer');
 
@@ -700,10 +691,10 @@ class Clansuite_Module_Account extends Clansuite_Module_Controller
      * Send a link to validate new password
      */
     private function _send_password_email($email, $nick, $user_id, $code)
-    {
-        $config = $this->getInjector()->instantiate('Clansuite_Config');
+    {   
+        $config = $this->getClansuiteConfig();
+        
         $this->getInjector()->register('Clansuite_Mailer');
-        return true;
         $mailer = $this->getInjector()->instantiate('Clansuite_Mailer');
 
         $to_address     = '"' . $nick . '" <' . $email . '>';
@@ -711,7 +702,7 @@ class Clansuite_Module_Account extends Clansuite_Module_Controller
         $subject        = _('Account activation');
 
         $body  = _("To reset your password, click the link below:\r\n");
-        $body .= WWW_ROOT."/index.php?mod=account&action=activate_password&user_id=%s&code=%s\r\n";
+        $body .= WWW_ROOT . "index.php?mod=account&action=activate_password&user_id=%s&code=%s\r\n";
         $body .= "----------------------------------------------------------------------------------------------------------\r\n";
         $body .= _('Username').": %s\r\n";
         $body .= _('Password').": *"._('hidden')."*";
@@ -739,7 +730,7 @@ class Clansuite_Module_Account extends Clansuite_Module_Controller
     {
 
         # get id
-        #$user_id = $this->getHttpRequest()->getParameter('id');
+        #$user_id = $this->request->getParameter('id');
         $user_id = 2;
 
         # fetch userdata
@@ -804,9 +795,8 @@ class Clansuite_Module_Account extends Clansuite_Module_Controller
      */
     public function action_profile_edit_avatar ()
     {
-
         # get id
-        #$user_id = $this->getHttpRequest()->getParameter('id');
+        #$user_id = $this->request->getParameter('id');
         $user_id = 2;
 
         # fetch userdata
@@ -848,11 +838,10 @@ class Clansuite_Module_Account extends Clansuite_Module_Controller
      */
     public function action_profile_edit_userpic ()
     {
-
         # get id
-        #$user_id = $this->getHttpRequest()->getParameter('id');
+        #$user_id = $this->request->getParameter('id');
         $user_id = 2;
-
+        
         # fetch userdata
         $data = Doctrine::getTable('CsUsers')->fetchSingleUserData($user_id);
 

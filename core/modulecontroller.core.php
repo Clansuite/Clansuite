@@ -400,14 +400,14 @@ abstract class Clansuite_Module_Controller
         # set layout and content template by parameter array
         if(is_array($templates))
         {
-            if(isset($templates['layout']))
+            if(isset($templates['layout_template']))
             {
-                $this->setLayoutTemplate($templates['layout']);
+                $this->setLayoutTemplate($templates['layout_template']);
             }
 
-            if(isset($templates['content']))
+            if(isset($templates['content_template']))
             {
-                $this->setTemplate($templates['content']);
+                $this->setTemplate($templates['content_template']);
             }
         }
 
