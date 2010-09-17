@@ -132,19 +132,19 @@ class Clansuite_Module_Account_Admin extends Clansuite_Module_Controller
 
         $settings = array();
 
-        $settings['form']   = array(    'name' => 'account_settings',
-                                        'method' => 'POST',
-                                        'action' => WWW_ROOT.'/index.php?mod=account&amp;sub=admin&amp;action=settings_update');
+        $settings['form'] = array('name'   => 'account_settings',
+                                  'method' => 'POST',
+                                  'action' => WWW_ROOT . 'index.php?mod=account&amp;sub=admin&amp;action=settings_update');
 
-        #$settings['account'][] = array( 'id' => 'resultsPerPage_show',
-        #                                'name' => 'resultsPerPage_show',
-        #                                'description' => _('Newsitems to show in Newsmodule'),
-        #                                'formfieldtype' => 'text',
-        #                                'value' => $this->getConfigValue('resultsPerPage_show', '3'));
+        $settings['account'][] = array( 'id' => 'resultsPerPage_show',
+                                        'name' => 'resultsPerPage_show',
+                                        'label' => 'Newsitems',
+                                        'description' => _('Newsitems to show in Newsmodule'),
+                                        'formfieldtype' => 'text',
+                                        'value' => $this->getConfigValue('resultsPerPage_show', '3'));
 
-        $form = new Clansuite_Array_Formgenerator($settings);
-
-        # display formgenerator object
+        $form = new Clansuite_Form($settings);
+        
         #Clansuite_Debug::printR($form);
 
         $form->addElement('submitbutton')->setName('Save');

@@ -66,7 +66,7 @@ class Clansuite_Module_Shoutbox_Admin extends Clansuite_Module_Controller
 
         $settings['form']   = array(    'name' => 'shoutbox_settings',
                                         'method' => 'POST',
-                                        'action' => WWW_ROOT.'/index.php?mod=shoutbox&amp;sub=admin&amp;action=settings_update');
+                                        'action' => WWW_ROOT . 'index.php?mod=shoutbox&amp;sub=admin&amp;action=settings_update');
 
         $settings['shoutbox'][] = array(
                                         'id' => 'widget_shoutbox',
@@ -75,7 +75,7 @@ class Clansuite_Module_Shoutbox_Admin extends Clansuite_Module_Controller
                                         'formfieldtype' => 'text',
                                         'value' => $this->getConfigValue('widget_shoutbox', '12'));
 
-        $form = new Clansuite_Array_Formgenerator($settings);
+        $form = new Clansuite_Form($settings);
 
         # display formgenerator object
         #Clansuite_Debug::printR($form);

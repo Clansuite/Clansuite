@@ -54,7 +54,7 @@
     <td class="cell1" style="padding: 3px">
         <small>{t}You may provide an favicon for our website:{/t}</small><br />
         <input class="input_text" type="text" value="{if isset($config.template.favicon)}{$config.template.favicon}{/if}" name="config[template][favicon]" />
-        <br /> <strong>todo: Upload and Chooser</strong> <small>{$www_root_themes}/images/</small>
+        <br /> <strong>todo: Upload and Chooser</strong> <small>{$www_root_themes}images/</small>
     </td>
 </tr>
 
@@ -75,7 +75,7 @@
     </td>
     <td class="cell1" style="padding: 3px">
         <small>{t}Select the default Theme to load, when a guest is visiting your site the first time.{/t}</small><br />
-        <input class="input_text" type="text" value="{$config.template.theme}" name="config[template][theme]" />
+        <input class="input_text" type="text" value="{$config.template.frontend_theme}" name="config[template][frontend_theme]" />
     </td>
 </tr>
 <tr>

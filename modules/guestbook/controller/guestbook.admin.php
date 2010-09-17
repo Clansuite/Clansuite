@@ -54,7 +54,7 @@ class Clansuite_Module_Guestbook_Admin extends Clansuite_Module_Controller
     {
         # Incoming Variables
         $currentPage    = (int) $this->request->getParameter('page');
-        $resultsPerPage = (int) $this->getConfigValue('resultsPerPage_adminshow', '10');
+        $resultsPerPage = (int) $this->getConfigValue('resultsPerPage', '10');
 
         // SmartyColumnSort -- Easy sorting of html table columns.
         include ROOT_LIBRARIES . 'smarty/libs/SmartyColumnSort.class.php';
@@ -106,8 +106,6 @@ class Clansuite_Module_Guestbook_Admin extends Clansuite_Module_Controller
              ->setHeading('News Create Form')
              ->setEncoding('multipart/form-data')
              ->setDescription('My news create form...');
-
-
 
         # Assign some Formlements
         /*$form->addElement('captcha')->setLabel('captcha label');
@@ -358,7 +356,7 @@ class Clansuite_Module_Guestbook_Admin extends Clansuite_Module_Controller
 
         $settings['form']   = array(    'name' => 'guestbook_settings',
                                         'method' => 'POST',
-                                        'action' => WWW_ROOT.'/index.php?mod=guestbook&amp;sub=admin&amp;action=settings_update');
+                                        'action' => WWW_ROOT . 'index.php?mod=guestbook&amp;sub=admin&amp;action=settings_update');
 
         $settings['guestbook'][] = array(
                                         'id' => 'guestbook_resultsPerPage',
@@ -367,7 +365,7 @@ class Clansuite_Module_Guestbook_Admin extends Clansuite_Module_Controller
                                         'formfieldtype' => 'text',
                                         'value' => $this->getConfigValue('guestbook_resultsPerPage', '12'));
 
-        $form = new Clansuite_Array_Formgenerator($settings);
+        $form = new Clansuite_Form($settings);
 
         # display formgenerator object
         #Clansuite_Debug::printR($form);

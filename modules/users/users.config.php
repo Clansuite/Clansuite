@@ -4,5 +4,6 @@
 ;
 [users]
 items_lastregisteredusers = 4
+resultsPerPage = 25
 
 ; DO NOT REMOVE THIS LINE */ ?>

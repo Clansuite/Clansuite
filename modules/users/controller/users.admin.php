@@ -45,7 +45,7 @@ class Clansuite_Module_Users_Admin extends Clansuite_Module_Controller
 {
     public function initializeModule()
     {
-        parent::initModel('users');
+        parent::initModel();
     }
 
     public function action_admin_banuser()
@@ -65,8 +65,8 @@ class Clansuite_Module_Users_Admin extends Clansuite_Module_Controller
         # Get Render Engine
         $view = $this->getView();
 
-        $currentPage = $this->request->getParameterFromGet('page');
-        $resultsPerPage = 25;
+        $currentPage    = (int) $this->request->getParameterFromGet('page');
+        $resultsPerPage = (int) $this->getConfigValue('resultsPerPage', '25');
 
         $searchletter = $this->request->getParameter('searchletter');
 
@@ -208,7 +208,7 @@ class Clansuite_Module_Users_Admin extends Clansuite_Module_Controller
 
         $settings['form']   = array(    'name' => 'users_settings',
                                         'method' => 'POST',
-                                        'action' => WWW_ROOT.'/index.php?mod=users&amp;sub=admin&amp;action=settings_update');
+                                        'action' => WWW_ROOT . 'index.php?mod=users&amp;sub=admin&amp;action=settings_update');
 
         $settings['users'][] = array(   'id' => 'items_lastregisteredusers',
                                         'name' => 'items_lastregisteredusers',
@@ -217,7 +217,7 @@ class Clansuite_Module_Users_Admin extends Clansuite_Module_Controller
                                         'formfieldtype' => 'text',
                                         'value' => $this->getConfigValue('items_lastregisteredusers', '4'));
 
-        $form = new Clansuite_Array_Formgenerator($settings);
+        $form = new Clansuite_Form($settings);
 
         $form->addElement('submitbutton')->setName('Save');
         $form->addElement('resetbutton');

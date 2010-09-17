@@ -167,7 +167,7 @@ class Clansuite_Module_ControlCenter extends Clansuite_Module_Controller
 
         $settings['form']   = array(    'name' => 'controlcenter_settings',
                 'method' => 'POST',
-                'action' => WWW_ROOT.'/index.php?mod=controlcenter&amp;action=settings_update');
+                'action' => WWW_ROOT . 'index.php?mod=controlcenter&amp;action=settings_update');
 
         $settings['controlcenter'][] = array(
                 'id' => 'show_box_shortcuts',
@@ -197,7 +197,7 @@ class Clansuite_Module_ControlCenter extends Clansuite_Module_Controller
                 'formfieldtype' => 'selectyesno',
                 'value' => $this->getConfigValue('show_box_extensions', '1'));
 
-        $form = new Clansuite_Array_Formgenerator($settings);
+        $form = new Clansuite_Form($settings);
 
         # display formgenerator object
         #Clansuite_Debug::printR($form);

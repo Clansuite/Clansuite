@@ -69,7 +69,7 @@ class Clansuite_Module_Downloads_Admin extends Clansuite_Module_Controller
         
         $settings['form']   = array(    'name' => 'downloads_settings',
                                         'method' => 'POST',
-                                        'action' => WWW_ROOT.'/index.php?mod=downloads&amp;sub=admin&amp;action=settings_update');
+                                        'action' => WWW_ROOT . 'index.php?mod=downloads&amp;sub=admin&amp;action=settings_update');
                                         
         $settings['downloads'][] = array(    'id' => 'widget_latestdownloads',
                                         'name' => 'widget_latestdownloads',
@@ -89,7 +89,7 @@ class Clansuite_Module_Downloads_Admin extends Clansuite_Module_Controller
                                         'formfieldtype' => 'text',
                                         'value' => $this->getConfigValue('items_resultsPerPage', '25'));
         
-        $form = new Clansuite_Array_Formgenerator($settings);
+        $form = new Clansuite_Form($settings);
 
         # display formgenerator object
         #Clansuite_Debug::printR($form); 

@@ -92,7 +92,7 @@ class Clansuite_Module_Matches_Admin extends Clansuite_Module_Controller
         
         $settings['form']   = array(    'name' => 'matches_settings',
                                         'method' => 'POST',
-                                        'action' => WWW_ROOT.'/index.php?mod=matches&amp;sub=admin&amp;action=settings_update');
+                                        'action' => WWW_ROOT . 'index.php?mod=matches&amp;sub=admin&amp;action=settings_update');
                                         
         $settings['matches'][] = array(    'id' => 'widget_latestmatches',
                                         'name' => 'widget_latestmatches',
@@ -106,7 +106,7 @@ class Clansuite_Module_Matches_Admin extends Clansuite_Module_Controller
                                         'formfieldtype' => 'text',
                                         'value' => $this->getConfigValue('widget_nextmatches', '5'));
         
-        $form = new Clansuite_Array_Formgenerator($settings);
+        $form = new Clansuite_Form($settings);
 
         # display formgenerator object
         #Clansuite_Debug::printR($form); 

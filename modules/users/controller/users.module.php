@@ -48,15 +48,12 @@ class Clansuite_Module_Users extends Clansuite_Module_Controller
     public function initializeModule()
     {
         $this->getModuleConfig();
+
+        parent::initModel('users');
     }
 
     /**
-     * Action -> Show
      * Displayes Overview of all registered Users
-     *
-     * URL = /index.php?mod=userslist&action=show
-     *
-     * @access public
      */
     public function action_show()
     {
@@ -64,8 +61,8 @@ class Clansuite_Module_Users extends Clansuite_Module_Controller
         Clansuite_Breadcrumb::add( _('Show'), '/index.php?mod=users&amp;action=show');
 
         // Defining initial variables
-        $currentPage = $this->request->getParameter('page');
-        $resultsPerPage = 25;
+        $currentPage    = (int) $this->request->getParameter('page');
+        $resultsPerPage = (int) $this->getConfigValue('resultsPerPage', '10');
 
         /* @todo news with status: draft, published, private, private+protected*/
         // Creating Pager Object with a Query Object inside

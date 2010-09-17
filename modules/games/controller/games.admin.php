@@ -73,7 +73,7 @@ class Clansuite_Module_Games_Admin extends Clansuite_Module_Controller
         
         $settings['form']   = array(    'name' => 'games_settings',
                                         'method' => 'POST',
-                                        'action' => WWW_ROOT.'/index.php?mod=games&amp;sub=admin&amp;action=settings_update');
+                                        'action' => WWW_ROOT . 'index.php?mod=games&amp;sub=admin&amp;action=settings_update');
                                                                                                                      
         $settings['games'][] = array(    'id' => 'games_resultsPerPage',
                                         'name' => 'games_resultsPerPage',
@@ -81,7 +81,7 @@ class Clansuite_Module_Games_Admin extends Clansuite_Module_Controller
                                         'formfieldtype' => 'text',
                                         'value' => $this->getConfigValue('games_resultsPerPage', '25'));
         
-        $form = new Clansuite_Array_Formgenerator($settings);
+        $form = new Clansuite_Form($settings);
 
         # display formgenerator object
         #Clansuite_Debug::printR($form); 
