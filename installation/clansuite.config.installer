@@ -15,8 +15,8 @@ type  = "mysql"
 ; Template
 ;----------------------------------------
 [template]
-theme           = "standard"
-backend_theme    = "admin"
+frontend_theme  = "standard"
+backend_theme   = "admin"
 layout          = "index.tpl"
 css             = "standard.css"
 javascript      = "standard.js"
