@@ -307,9 +307,50 @@ class Clansuite_Form /*extends Clansuite_HTML*/ implements Clansuite_Form_Interf
     {
         if(is_array($attributes))
         {
-            foreach($attributes as $attribute => $value)
+            /**
+             * Array is a form description array for the formgenerator
+             */
+            if(isset($attributes['form']))
             {
-                $this->{$attribute} = $value;
+                # generate a form with the formgenerator by passing the attributes array in
+                $form = new Clansuite_Array_Formgenerator($attributes);
+                # and copy all properties of the inner form object to ($this) outer form object =)
+                $this->copyObjectProperties($form, $this);
+                # unset inner form
+                unset($form);
+            }
+            else
+            {
+                /**
+                 * Just normal <form attribute(s)=value></form>
+                 */
+                foreach($attributes as $attribute => $value)
+                {
+                    $this->{$attribute} = $value;
+                }
+            }
+        }
+    }
+
+    /**
+     * Copy properties from object A to object B.
+     * *BadAssMethodWarning*
+     *
+     * @param object $object_to_copy The Object to copy the properties from.
+     * @param object $target The Object to copy the properties to. Defaults to $this.
+     */
+    public function copyObjectProperties($object_to_copy, $target = null)
+    {
+        $varArray = get_object_vars($object_to_copy);
+        foreach($varArray as $key => $value)
+        {
+            if($target == null)
+            {
+                $this->$key = $value;
+            }
+            else
+            {
+                $target->$key = $value;
             }
         }
     }
@@ -654,9 +695,8 @@ class Clansuite_Form /*extends Clansuite_HTML*/ implements Clansuite_Form_Interf
     }
 
     /**
-    * Set default form decorators (form)
-    *
-    */
+     * Set default form decorators (form)
+     */
     public function applyDefaultFormDecorators()
     {
         $this->addDecorator('form');
@@ -669,15 +709,22 @@ class Clansuite_Form /*extends Clansuite_HTML*/ implements Clansuite_Form_Interf
     */
     public function render()
     {
-        $this->applyDefaultFormDecorators();
-
+        # the content of the form are the formelements
         $html_form = $this->renderAllFormelements();
 
+        # set a common style the form by registering one or more decorators
+        $this->applyDefaultFormDecorators();
+
+        # iterate over all decorators
         foreach ($this->getDecorators() as $decorator)
         {
+            # thereby sticking this form in each decorator
             $decorator->decorateWith($this);
+
+            # then rendering it
             $html_form = $decorator->render($html_form);
         }
+
         return $html_form;
     }
 

@@ -147,38 +147,41 @@ class Clansuite_Doctrine_Formgenerator extends Clansuite_Form
  */
 class Clansuite_Array_Formgenerator extends Clansuite_Form
 {
-    /**
-     * The variable form_array contains the formdescription.
-     *
-     * @var array
-     */
-    protected $form_array;
-
-    public function __construct(array $form_array)
+    public function __construct(array $form_array = null, $form_object = null)
     {
-        # init parent Clansuite_Form with name, method and action
-        parent::__construct( $form_array['form']['name'],
-                $form_array['form']['method'],
-                $form_array['form']['action'] );
+        if(null != $form_array)
+        {
+            if(null == $form_object)
+            {
+                # init parent Clansuite_Form with name, method and action
+                parent::__construct($form_array['form']['name'], $form_array['form']['method'], $form_array['form']['action']);
+            }
+            else
+            {
+                $form_object::__construct($form_array['form']['name'], $form_array['form']['method'], $form_array['form']['action']);
+            }
 
-        # unset the key form inside form_array, because the "form" description is no longer needed, parent Clansuite_Form is already informed
-        unset($form_array['form']);
+            # unset the key form inside form_array, because the "form" description is no longer needed, parent Clansuite_Form is already informed
+            unset($form_array['form']);
 
-        # now assign the form description array to work with it
-        $this->form_array = $form_array;
+            $this->validateArray_generateForm($form_array);
 
+            return $this;
+        }
+    }
+
+    public function validateArray_generateForm($form_array)
+    {
         # first we ensure, that the formdescription meets certain requirements
-        if($this->validateFormArrayStructure($this->form_array))
+        if(self::validateFormArrayStructure($form_array))
         {
             # now that the form description is valid, we generate the form
-            $this->generateFormByArray();
+            $this->generateFormByArray($form_array);
         }
-        else
+        else # the formdescription is invalid
         {
             throw new Clansuite_Exception('Obligatory formelements not present.', 30);
         }
-
-        return $this;
     }
 
     /**
@@ -209,7 +212,7 @@ class Clansuite_Array_Formgenerator extends Clansuite_Form
      * @param $form_array the form array
      * @return boolean true/false
      */
-    public function validateFormArrayStructure($form_array)
+    public static function validateFormArrayStructure($form_array)
     {
         $obligatory_form_array_elements = array('id', 'name', 'label', 'description', 'formfieldtype', 'value');
         $optional_form_array_elements   = array('class', 'decorator');
@@ -245,28 +248,30 @@ class Clansuite_Array_Formgenerator extends Clansuite_Form
         }
     }
 
-    public function generateFormByArray()
+    public function generateFormByArray($form_array)
     {
         # debug display incomming form description array
-        #Clansuite_Debug::firebug($this->array);
+        Clansuite_Debug::firebug($form_array);
 
         # loop over all elements of the form description array
-        foreach($this->form_array as $form_array_section => $form_array_elements)
+        foreach($form_array as $form_array_section => $form_array_elements)
         {
             #Clansuite_Debug::firebug($form_array_elements);
             #Clansuite_Debug::firebug($form_array_section);
 
             foreach($form_array_elements as $form_array_element_number => $form_array_element)
             {
-                #Clansuite_Debug::firebug($form_array_element);
+                Clansuite_Debug::firebug($form_array_element);
 
                 # @todo ensure these elements exist !!!
 
                 # add a new element to this form, position it by it's number in the array
                 $this->addElement( $form_array_element['formfieldtype'], $form_array_element_number );
 
-                # fetch the new formelement object
+                # fetch the new formelement object by its positional number
                 $formelement = $this->getElementByPosition($form_array_element_number);
+
+                #Clansuite_Debug::firebug($formelement);
 
                 # and apply the settings (id, name, description, value) to it
                 $formelement->setID($form_array_element['id']);
@@ -324,7 +329,7 @@ class Clansuite_Array_Formgenerator extends Clansuite_Form
         }
 
         # unset the form description array, because we are done with it
-        unset($this->form_array);
+        unset($form_array);
 
         return $this->render();
     }
