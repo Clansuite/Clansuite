@@ -366,7 +366,7 @@ class Clansuite_User
     private function setRememberMeCookie($user_id, $passwordhash)
     {
         # calculate cookie lifetime
-        $cookie_lifetime = time() + round($this->config['login']['remember_me_time']*24*60*60);
+        $cookie_lifetime = time() + round($this->moduleconfig['login']['remember_me_time']*24*60*60);
 
         setcookie('cs_cookie_user_id', $user_id, $cookie_lifetime);
         setcookie('cs_cookie_password', $passwordhash, $cookie_lifetimee);

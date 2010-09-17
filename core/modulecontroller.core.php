@@ -141,8 +141,8 @@ abstract class Clansuite_Module_Controller
     public function getModuleConfig($filename = null)
     {
         $config = self::getInjector()->instantiate('Clansuite_Config');
-        $moduleconfig = $config->readModuleConfig($filename);
-        return $moduleconfig;
+        $this->moduleconfig = $config->readModuleConfig($filename);
+        return $this->moduleconfig;
     }
 
     /**

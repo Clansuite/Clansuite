@@ -56,7 +56,7 @@ if (defined('IN_CS') === false)
  */
 class Clansuite_Security
 {
-    private $config = null;
+    private $moduleconfig = null;
 
     /**
      * Init Class
@@ -65,7 +65,7 @@ class Clansuite_Security
      */
     function __construct( Clansuite_Config $config )
     {
-        $this->config = $config;
+        $this->moduleconfig = $config->readModuleConfig('account');
     }
 
     /**
@@ -84,7 +84,7 @@ class Clansuite_Security
         $salted_string =  $salt . $passwordhash;
 
         # get hash_algo from config and generate hash from $salted_string
-        $hash = $this->generate_hash($this->config['login']['hash_algorithm'], $salted_string);
+        $hash = $this->generate_hash($this->moduleconfig['login']['hash_algorithm'], $salted_string);
 
         # then compare
         return $databasehash === $hash;
@@ -156,7 +156,7 @@ class Clansuite_Security
         # Get Config Value for Hash-Algo/Encryption
         if($hash_algo == null)
         {
-            $hash_algo = $this->config['login']['hash_algorithm'];
+            $hash_algo = $this->moduleconfig['login']['hash_algorithm'];
         }
         else
         {
