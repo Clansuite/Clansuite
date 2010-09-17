@@ -702,7 +702,7 @@ class Clansuite_Form /*extends Clansuite_HTML*/ implements Clansuite_Form_Interf
      * Adds a formelement to the form
      *
      * You don't know the formelements available? Then take a look at
-     * a) the directory core\viewhelper\formelements\*
+     * a) the directory core\viewhelper\form\formelements\*
      * b) the manual
      * @link http://www.clansuite.com/documentation/developer/manual/de/#_clansuite_form
      *
@@ -811,9 +811,9 @@ class Clansuite_Form /*extends Clansuite_HTML*/ implements Clansuite_Form_Interf
         # if not already loaded, require forelement file
         if (false == class_exists('Clansuite_Formelement_'.$formelement,false))
         {
-            if(is_file(ROOT_CORE . 'viewhelper/formelements/'.$formelement.'.form.php') === true)
+            if(is_file(ROOT_CORE . 'viewhelper/form/formelements/'.$formelement.'.form.php') === true)
             {
-                include ROOT_CORE . 'viewhelper/formelements/'.$formelement.'.form.php';
+                include ROOT_CORE . 'viewhelper/form/formelements/'.$formelement.'.form.php';
             }
         }
 
@@ -1010,7 +1010,7 @@ class Clansuite_Form /*extends Clansuite_HTML*/ implements Clansuite_Form_Interf
         {
             #if(is_file(ROOT_CORE . 'viewhelper/formdecorators/form/'.$formdecorator.'.form.php'))
             #{
-                include ROOT_CORE . 'viewhelper/formdecorators/form/'.$formdecorator.'.form.php';
+                include ROOT_CORE . 'viewhelper/form/formdecorators/form/'.$formdecorator.'.form.php';
             #}
         }
 

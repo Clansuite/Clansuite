@@ -45,7 +45,7 @@ if (false == class_exists('Clansuite_Datagrid_Base', false))
 # conditional include of the parent class
 if (false ==  class_exists('Clansuite_HTML', false))
 { 
-    include dirname(__FILE__) . '/html.core.php';
+    include dirname(dirname(__FILE__)) . '/html.core.php';
 }
 
 /**
@@ -302,7 +302,7 @@ class Clansuite_Datagrid_Column extends Clansuite_Datagrid_Base
 
         if(false == class_exists($className, false))
         {
-            $file = ROOT_CORE . 'viewhelper/datagridcols/' . $rendererName . '.column.php';
+            $file = ROOT_CORE . 'viewhelper/datagrid/datagridcols/' . $rendererName . '.column.php';
 
             if( is_file($file) )
             {
