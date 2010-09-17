@@ -236,7 +236,7 @@ class Clansuite_Renderer_Smarty extends Clansuite_Renderer_Base
          * 4) "/modules/modulename/view/"
          * 5) "/themes/core/view/"
          * 6) "/themes/[backend]/admin/"
-         * #7) "/themes/"
+         * 7) "/themes/"
          */
         $this->renderer->template_dir = array();
 
@@ -282,7 +282,7 @@ class Clansuite_Renderer_Smarty extends Clansuite_Renderer_Base
         }
 
         # 7) THEMES in general
-        #$this->renderer->template_dir[] = ROOT_THEMES;
+        $this->renderer->template_dir[] = ROOT_THEMES;
 
         #Clansuite_Debug::printR($this->renderer->template_dir);
 
