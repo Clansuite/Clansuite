@@ -46,7 +46,8 @@
 
     {* Cascading Style Sheets *}
 
-    <link rel="stylesheet" type="text/css" href="{$css}" />
+    {* dynamic include is not working. <link rel="stylesheet" type="text/css" href="{$css}" /> *}
+    <link rel="stylesheet" type="text/css" href="{$www_root_themes_frontend}standard/standard.css" />
     <link rel="alternate"  type="application/rss+xml" href="{$www_root}cache/photo.rss" title="" id="gallery" />
 
 </head><body>

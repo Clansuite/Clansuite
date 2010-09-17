@@ -15,5 +15,5 @@
         </stylename>
     </cssfiles>
     <renderengine>smarty</renderengine>
-    <adminlayout>0</adminlayout>
+    <backendtheme>0</backendtheme>
 </theme>
