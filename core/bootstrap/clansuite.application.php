@@ -283,8 +283,8 @@ class Clansuite_CMS
          * @var Root path of the themes directory (with trailing slash)
          */
         define('ROOT_THEMES', ROOT . 'themes' . DS, false);
-        define('ROOT_THEMES_BACKEND', ROOT . 'themes/backend' . DS, false);
-        define('ROOT_THEMES_FRONTEND', ROOT . 'themes/frontend' . DS, false);
+        define('ROOT_THEMES_BACKEND', ROOT . 'themes' . DS . 'backend' . DS, false);
+        define('ROOT_THEMES_FRONTEND', ROOT . 'themes' . DS . 'frontend' . DS, false);
 
         /**
          * @var Root path of the upload directory (with trailing slash)

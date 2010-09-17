@@ -11,7 +11,7 @@
 */
 
 .alert {
-background:url(http://www.clansuite-dev.com/themes/core/images/icons/error.png) no-repeat 15px 50% #fff6bf;
+background:url(../images/icons/error.png) no-repeat 15px 50% #fff6bf;
 border-bottom:2px solid #ffd324;
 border-top:2px solid #ffd324;
 padding:5px 20px 5px 45px;
@@ -19,7 +19,7 @@ text-align:left
 }
 
 .create_helpbox {
-background:url(http://www.clansuite-dev.com/themes/core/images/icons/page_edit.png) no-repeat 15px 50% #DFD;
+background:url(../images/icons/page_edit.png) no-repeat 15px 50% #DFD;
 border:1px solid #BFB;
 color:#0B0;
 font-weight:700;
@@ -28,7 +28,7 @@ padding:15px 20px 15px 50px;
 }
 
 .success {
-background:url(http://www.clansuite-dev.com/themes/core/images/icons/page_edit.png) no-repeat 15px 50% #DFD;
+background:url(../images/icons/page_edit.png) no-repeat 15px 50% #DFD;
 border:1px solid #BFB;
 color:#0B0;
 font-weight:700;
@@ -38,7 +38,7 @@ font-variant: small-caps;
 }
 
 .error {
-background:url(http://www.clansuite-dev.com/themes/core/images/icons/error.png) no-repeat 15px 50% #FDD;
+background:url(../images/icons/error.png) no-repeat 15px 50% #FDD;
 border:1px solid #FBB;
 color:#B00;
 margin:.5em 15px 1em 0;
@@ -51,7 +51,7 @@ background:#ffc
 }
 
 .error_helpbox {
-background:url(http://www.clansuite-dev.com/themes/core/images/icons/error.png) no-repeat 15px 50% #FDD;
+background:url(../images/icons/error.png) no-repeat 15px 50% #FDD;
 border:1px solid #FBB;
 color:#B00;
 font-weight:700;
@@ -82,7 +82,7 @@ width:90%
 }
 
 .info {
-background:url(http://www.clansuite-dev.com/themes/core/images/icons/information.png) no-repeat 15px 50% #F8FAFC;
+background:url(../images/icons/information.png) no-repeat 15px 50% #F8FAFC;
 border-bottom:2px solid #B5D4FE;
 border-top:2px solid #B5D4FE;
 padding:5px 20px 5px 45px
