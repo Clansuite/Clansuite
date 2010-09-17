@@ -251,7 +251,7 @@ class Clansuite_Array_Formgenerator extends Clansuite_Form
     public function generateFormByArray($form_array)
     {
         # debug display incomming form description array
-        Clansuite_Debug::firebug($form_array);
+        #Clansuite_Debug::firebug($form_array);
 
         # loop over all elements of the form description array
         foreach($form_array as $form_array_section => $form_array_elements)
@@ -261,7 +261,7 @@ class Clansuite_Array_Formgenerator extends Clansuite_Form
 
             foreach($form_array_elements as $form_array_element_number => $form_array_element)
             {
-                Clansuite_Debug::firebug($form_array_element);
+                #Clansuite_Debug::firebug($form_array_element);
 
                 # @todo ensure these elements exist !!!
 
