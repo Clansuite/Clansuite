@@ -30,7 +30,7 @@
                                 
 
                                 {move_to target="pre_head_close"}
-                                <link rel="stylesheet" type="text/css" href="{$www_root_themes}/admin/vertical-tabs.css" />
+                                <link rel="stylesheet" type="text/css" href="{$www_root_themes_backend}admin/vertical-tabs.css" />
                                 {/move_to}
 
                                 {* jQuery used for Vertical Tabs *}

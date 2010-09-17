@@ -25,16 +25,16 @@
 
     <!-- jQuery UI -->
     <script type="text/javascript" src="{$www_root_themes_core}javascript/jquery/jquery.ui.js"></script>
-    <link rel="stylesheet" type="text/css" href="{$www_root_themes}/core/css/jquery-ui-peppergrinder/jquery-ui-1.7.2.custom.css" />
+    <link rel="stylesheet" type="text/css" href="{$www_root_themes}core/css/jquery-ui-peppergrinder/jquery-ui-1.7.2.custom.css" />
 
     <!-- jQuery Pines Notify -->
     <script type="text/javascript" src="{$www_root_themes_core}javascript/jquery/jquery.pnotify.js"></script>
-    <link rel="stylesheet" type="text/css" href="{$www_root_themes}/core/css/jquery.pnotify.default.css" />
+    <link rel="stylesheet" type="text/css" href="{$www_root_themes}core/css/jquery.pnotify.default.css" />
 
     {* Clansuite Cascading Style Sheets *}
 
-    <link rel="stylesheet" type="text/css" href="{$www_root_themes}/admin/admin.css" />
-    <script type="text/javascript" src="{$www_root_themes}/admin/admin.js"></script>
+    <link rel="stylesheet" type="text/css" href="{$www_root_themes_backend}admin/admin.css" />
+    {* <script type="text/javascript" src="{$www_root_themes_backend}admin/admin.js"></script> *}
 
     {* Clansuite Javascripts *}
 

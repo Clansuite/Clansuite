@@ -115,10 +115,10 @@ class Clansuite_Loader
                 self::addToMapping($filename, $classname);
 
                 # log for the autoloaded files
-                if(DEBUG == true)
+                /*if(DEBUG == true)
                 {
                     self::logHit($filename);
-                }
+                }*/
             }
 
             return true;
@@ -311,7 +311,7 @@ class Clansuite_Loader
         /**
          * Classname Exclusions
          */
-        
+
         $classnames_to_exclude = array('Cs', 'Smarty_Internal');
 
         foreach($classnames_to_exclude as $classname_to_exclude)
