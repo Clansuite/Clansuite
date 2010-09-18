@@ -12,7 +12,7 @@
     {foreach item=singlenews from=$news}
 
     <!-- Anker-Sprungmarke für {$singlenews.news_id}-->
-    <a name="news-{$singlenews.news_id}"></a>
+    <a id="news-{$singlenews.news_id}"></a>
 
     <!-- News Wrap -->
     <table border="1" cellspacing="1" cellpadding="3" style="width:99%">

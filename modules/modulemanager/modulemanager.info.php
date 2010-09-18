@@ -7,7 +7,7 @@
 author="Florian Wolf, Jens-André Koch"
 license="GPL v2 or any later"
 link="http://www.clansuite.com"
-name = Modulemanagaaaaer
+name = Modulemanager
 description = Modulemanager helps to create, edit, import, export and package modules
 dependencies =
 package = Development

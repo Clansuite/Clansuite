@@ -1,10 +1,12 @@
-; <?php die('Access forbidden.'); /* DO NOT MODIFY THIS LINE! ?>
-; 
-; Clansuite Configuration File : 
-; D:\xampplite\htdocs\work\clansuite\trunk\modules\doctrine\doctrine.info.php
-; 
-; This file was generated on 22-05-2010 02:40
+; <?php die( 'Access forbidden.' ); /* DO NOT MODIFY THIS LINE! ?>
+;
+; doctrine Info
 ;
 
+[doctrine_package]
+version = 0.2-0.x-dev
+project = doctrine
+datestamp =
+uniqueid =
 
 ; DO NOT REMOVE THIS LINE */ ?>

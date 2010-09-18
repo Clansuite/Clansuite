@@ -22,7 +22,7 @@
 
         {foreach item=singlenews from=$news}
         <!-- Anker-Sprungmarke für {$singlenews.news_id}-->
-        <a name="news-{$singlenews.news_id}"></a>
+        <a id="news-{$singlenews.news_id}"></a>
         <tr>
             <td>{$singlenews.created_at|date_format:"%d.%m.%Y"}</td>
             <td><a href='index.php?mod=news&action=showone&id={$singlenews.news_title}'>{$singlenews.news_title}</a></td>
