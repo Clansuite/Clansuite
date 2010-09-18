@@ -57,9 +57,6 @@ class Clansuite_Module_Categories_Admin extends Clansuite_Module_Controller
         // Datagrid configuration
         //--------------------------
 
-        # @todo datagrid via autoload / register viewhelper path at autoloader
-        include ROOT_CORE . 'viewhelper/datagrid.core.php';
-
         $ColumnSets = array();
 
         $ColumnSets[] = array(  'Alias'     => 'Select',
@@ -136,9 +133,6 @@ class Clansuite_Module_Categories_Admin extends Clansuite_Module_Controller
 
         # Assign to tpl
         $this->getView()->assign('datagrid', $datagrid->render());
-
-        # Set Layout Template
-        $this->getView()->setLayoutTemplate('index.tpl');
 
         $this->display();
     }
@@ -217,11 +211,11 @@ class Clansuite_Module_Categories_Admin extends Clansuite_Module_Controller
         if(isset($delete))
         {
             $numDeleted = Doctrine_Query::create()->delete('CsCategories')->whereIn('cat_id', $delete)->execute();
-            $this->getHttpResponse()->redirectNoCache('index.php?mod=categories&amp;sub=admin', 2, 302, $numDeleted . _(' Categories deleted.'));
+            $this->response->redirectNoCache('index.php?mod=categories&amp;sub=admin', 2, 302, $numDeleted . _(' Categories deleted.'));
         }
         else
         {
-           $this->getHttpResponse()->redirectNoCache('index.php?mod=categories&amp;sub=admin');
+           $this->response->redirectNoCache('index.php?mod=categories&amp;sub=admin');
         }
     }
 
@@ -264,7 +258,7 @@ class Clansuite_Module_Categories_Admin extends Clansuite_Module_Controller
             $cats->save();
 
             # redirect
-            $this->getHttpResponse()->redirectNoCache('index.php?mod=categories&amp;sub=admin', 2, 302, _('The category has been created.'));
+            $this->response->redirectNoCache('index.php?mod=categories&amp;sub=admin', 2, 302, _('The category has been created.'));
         }
         elseif(isset($type) and $type == 'edit')
         {
@@ -291,12 +285,12 @@ class Clansuite_Module_Categories_Admin extends Clansuite_Module_Controller
             }
 
             # redirect
-            $this->getHttpResponse()->redirectNoCache('index.php?mod=categories&amp;sub=admin', 2, 302, _('The category has been edited.'));
+            $this->response->redirectNoCache('index.php?mod=categories&amp;sub=admin', 2, 302, _('The category has been edited.'));
         }
         else
         {
             # redirect
-            $this->getHttpResponse()->redirectNoCache('index.php?mod=categories&amp;sub=admin', 2, 302, _('Unknown Formaction.'));
+            $this->response->redirectNoCache('index.php?mod=categories&amp;sub=admin', 2, 302, _('Unknown Formaction.'));
         }
     }
 
@@ -341,8 +335,8 @@ class Clansuite_Module_Categories_Admin extends Clansuite_Module_Controller
         # @todo get post via request object, sanitize
         $data = $this->request->getParameter('categories_settings');
 
-        # Get Configuration from Injector
-        $config = $this->getInjector()->instantiate('Clansuite_Config');
+        # Get Configuration
+        $config = $this->getClansuiteConfig();
 
         # write config
         $config->confighandler->writeConfig( ROOT_MOD . 'categories/categories.config.php', $data);
@@ -352,7 +346,7 @@ class Clansuite_Module_Categories_Admin extends Clansuite_Module_Controller
         $this->getView()->utility->clearCompiledTemplate();
 
         # Redirect
-        $this->getHttpResponse()->redirectNoCache('index.php?mod=categories&amp;sub=admin', 2, 302, 'The config file has been succesfully updated.');
+        $this->response->redirectNoCache('index.php?mod=categories&amp;sub=admin', 2, 302, 'The config file has been succesfully updated.');
     }
 }
 ?>

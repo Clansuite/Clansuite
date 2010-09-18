@@ -73,9 +73,6 @@ class Clansuite_Module_News_Admin extends Clansuite_Module_Controller
         // Datagrid configuration
         //--------------------------
 
-        # @todo datagrid via autoload / register viewhelper path at autoloader
-        #include ROOT_CORE . 'viewhelper/datagrid.core.php';
-
         $ColumnSets = array();
 
         $ColumnSets[] = array(  'Alias'     => 'Select',
@@ -300,7 +297,7 @@ class Clansuite_Module_News_Admin extends Clansuite_Module_Controller
             $news->save();
 
             # redirect
-            $this->getHttpResponse()->redirectNoCache('index.php?mod=news&amp;sub=admin', 2, 302, _('The news has been created.'));
+            $this->response->redirectNoCache('index.php?mod=news&amp;sub=admin', 2, 302, _('The news has been created.'));
         }
         elseif(isset($type) and $type == 'edit')
         {
@@ -320,16 +317,16 @@ class Clansuite_Module_News_Admin extends Clansuite_Module_Controller
             else
             {
                 # redirect
-                $this->getHttpResponse()->redirectNoCache('index.php?mod=news&amp;sub=admin', 2, 302, _('The news doesn\'t exist anymore.'));
+                $this->response->redirectNoCache('index.php?mod=news&amp;sub=admin', 2, 302, _('The news doesn\'t exist anymore.'));
             }
 
             # redirect
-            $this->getHttpResponse()->redirectNoCache('index.php?mod=news&amp;sub=admin', 2, 302, _('The news has been edited.'));
+            $this->response->redirectNoCache('index.php?mod=news&amp;sub=admin', 2, 302, _('The news has been edited.'));
         }
         else
         {
             # redirect
-            $this->getHttpResponse()->redirectNoCache('index.php?mod=news&amp;sub=admin', 2, 302, _('Unknown Formaction.'));
+            $this->response->redirectNoCache('index.php?mod=news&amp;sub=admin', 2, 302, _('Unknown Formaction.'));
         }
     }
 
@@ -347,11 +344,11 @@ class Clansuite_Module_News_Admin extends Clansuite_Module_Controller
             {
                 $numDeleted += Doctrine_Query::create()->delete('CsNews')->whereIn('news_id', $id)->execute();
             }
-            $this->getHttpResponse()->redirectNoCache('index.php?mod=news&amp;sub=admin', 2, 302, $numDeleted . _(' News deleted.'));
+            $this->response->redirectNoCache('index.php?mod=news&amp;sub=admin', 2, 302, $numDeleted . _(' News deleted.'));
         }
         else
         {
-           $this->getHttpResponse()->redirectNoCache('index.php?mod=news&amp;sub=admin');
+           $this->response->redirectNoCache('index.php?mod=news&amp;sub=admin');
         }
     }
 
@@ -452,7 +449,7 @@ class Clansuite_Module_News_Admin extends Clansuite_Module_Controller
 
         # Redirect
         $this->
-        $this->getHttpResponse()->redirectNoCache('index.php?mod=news&amp;sub=admin', 2, 302, 'The config file has been succesfully updated.');
+        $this->response->redirectNoCache('index.php?mod=news&amp;sub=admin', 2, 302, 'The config file has been succesfully updated.');
     }
 }
 ?>

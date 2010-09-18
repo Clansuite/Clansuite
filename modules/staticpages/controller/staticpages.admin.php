@@ -265,7 +265,7 @@ class Clansuite_Module_Staticpages_Admin extends Clansuite_Module_Controller
 
         $this->flashmessage('success', _('The config file has been succesfully updated.'));
         # Redirect
-        $this->getHttpResponse()->redirectNoCache('index.php?mod=staticpages&amp;sub=admin');
+        $this->response->redirectNoCache('index.php?mod=staticpages&amp;sub=admin');
     }
 }
 ?>
