@@ -25,7 +25,7 @@
 
 {foreach item=singlenews from=$news}
 
-<!-- Anker-Sprungmarke der News-ID {$singlenews.news_id}--> <a name="news-{$singlenews.news_id}"></a>
+<!-- Anker-Sprungmarke der News-ID {$singlenews.news_id}--> <a id="news-{$singlenews.news_id}"></a>
 <table border="1" cellspacing="1" cellpadding="3" style="width:99%">
     <tr>
         <td height="20" ><b>{$singlenews.news_title} {icon name="category"} {$singlenews.CsCategories.name} {icon name="tag"} No Tags applied yet!</b></td>

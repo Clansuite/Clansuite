@@ -1,10 +1,12 @@
-; <?php die('Access forbidden.'); /* DO NOT MODIFY THIS LINE! ?>
-; 
-; Clansuite Configuration File : 
-; D:\xampplite\htdocs\work\clansuite\trunk\modules\flashchart\flashchart.info.php
-; 
-; This file was generated on 27-08-2010 19:16
+; <?php die( 'Access forbidden.' ); /* DO NOT MODIFY THIS LINE! ?>
+;
+; flashchart Info
 ;
 
+[flashchart_package]
+version = 0.2-0.x-dev
+project = flashchart
+datestamp =
+uniqueid =
 
 ; DO NOT REMOVE THIS LINE */ ?>

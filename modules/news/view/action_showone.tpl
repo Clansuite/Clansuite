@@ -2,7 +2,7 @@
 
 {* Debugoutput of News Array: {$news|@var_dump} *}
 
-<a name="news_top" id="news_top"></a>
+<a id="news_top" id="news_top"></a>
 
 <h2>News : {$news.news_title} </h2>
 
@@ -51,7 +51,7 @@
 
 {* Debugoutput of Comments Array: {$news_comments|@var_dump} *}
 
-<a name="comments" id="comments"></a>
+<a id="comments" id="comments"></a>
 
 {if isset($news_comments) && isset($news_comments.0) && is_array($news_comments.0) && count($news_comments.0) > 1}
 
