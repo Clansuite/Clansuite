@@ -123,7 +123,7 @@ class Clansuite_Module_Downloads_Admin extends Clansuite_Module_Controller
         $this->getView()->utility->clearCompiledTemplate();
 
         # Redirect
-        $this->getHttpResponse()->redirectNoCache('index.php?mod=downloads&amp;sub=admin', 2, 302, 'The config file has been succesfully updated.');
+        $this->response->redirectNoCache('index.php?mod=downloads&amp;sub=admin', 2, 302, 'The config file has been succesfully updated.');
     }
 }
 ?>
