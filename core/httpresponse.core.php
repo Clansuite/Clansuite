@@ -344,8 +344,9 @@ class Clansuite_HttpResponse implements Clansuite_Response_Interface
      * @param int    seconds before redirecting (for the html tag "meta refresh")
      * @param int    http status code, default: '302' => 'Not Found'
      * @param text   text of redirect message
+     * @param string redirect mode LOCATION, REFRESH, JS, HTML
      */
-    public static function redirectNoCache($url, $time = 0, $statusCode = 302, $text = '')
+    public static function redirectNoCache($url, $time = 0, $statusCode = 302, $text = '', $mode = null)
     {
         self::setNoCacheHeader();
         self::redirect($url, $time, $statusCode, $text);
@@ -381,9 +382,30 @@ class Clansuite_HttpResponse implements Clansuite_Response_Interface
 
             # redirect to ...
             self::setStatusCode($statusCode);
+            
+            /**
+             * Set flashmessage on redirect
+             */
+            if(isset($message) and strpos('#', $message))
+            {
+                /**
+                 * detect flashmessage tunneling ($message is "flashmessagetype#message text")
+                 * array[0] = type ; array[1] = message
+                 */
+                $array = explode('#', $message);
+
+                # ensure type is a valid flashmessagetype
+                if(in_array($array[0], Clansuite_Flashmessages::getFlashMessageTypes()))
+                {
+                    Clansuite_Flashmessages::setMessage($array[0], $array[1]);
+                }
+                
+                unset($message);
+            }
 
             switch($mode)
             {
+                default:
                 case 'LOCATION':
                     self::addHeader('LOCATION', $url);
                     break;
@@ -393,7 +415,6 @@ class Clansuite_HttpResponse implements Clansuite_Response_Interface
                 case 'JS':
                     $redirect_html = '<script type="text/javascript">window.location.href=' . $url . ';</script>';
                     break;
-                default:
                 case 'HTML':
                     # redirect html content
                     $redirect_html = '<html><head>';
@@ -406,24 +427,6 @@ class Clansuite_HttpResponse implements Clansuite_Response_Interface
             {
                 #self::addHeader('Location', $url);
                 self::setContent($redirect_html, $time, htmlspecialchars($url, ENT_QUOTES, 'UTF-8'));
-            }
-
-            /**
-             * Set flashmessage on redirect
-             */
-            if(isset($message) and strpos('#', message))
-            {
-                /**
-                 * detect flashmessage tunneling ($message is "flashmessagetype#message text")
-                 * array[0] = type ; array[1] = message
-                 */
-                $array = explode('#', $message);
-
-                # ensure type is a valid flashmessagetype
-                in_array($array[0], Clansuite_Flashmessages::getFlashMessageTypes())
-                {
-                    Clansuite_Flashmessages::setMessage($array[0], $array[1]);
-                }
             }
 
             # Flush the content on the normal way!
