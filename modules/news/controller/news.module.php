@@ -137,7 +137,8 @@ class Clansuite_Module_News extends Clansuite_Module_Controller
         # if a news was found
         if(!empty($news) && is_array($news))
         {
-            # Set Pagetitle and Breadcrumbs
+            # Set Pagetitle and Breadcrumbs            
+            Clansuite_Breadcrumb::replace( _('Show News'), 'index.php?mod=news&amp;action=show', 1);
             Clansuite_Breadcrumb::add( _('Viewing Single News: ') . $news['news_title'] , '/index.php?mod=news&amp;action=show');
 
             #Clansuite_Debug::firebug($news);
