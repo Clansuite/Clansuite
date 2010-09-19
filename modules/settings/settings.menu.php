@@ -43,19 +43,19 @@ if(defined('IN_CS') === false)
 $modulenavigation = array(
                             '1' => array(
                                             'action'  => 'show',
-                                            'name'    => 'Clansuite Settings',
+                                            'name'    => 'Tabs',
                                             'url'      => 'index.php?mod=settings&sub=admin', # &action=show
                                             'icon'    => '',
                                             'title' => ''
                                         ),
-                           /**
+                           
                             '2' => array(
-                                            'action'  => 'modulesettings',
-                                            'name'    => 'Module Settings',
-                                            'url'     => 'index.php?mod=settings&sub=admin&action=modulesettings',
+                                            'action'  => 'easylist',
+                                            'name'    => 'List',
+                                            'url'     => 'index.php?mod=settings&sub=admin&action=easylist',
                                             'icon'    => '',
                                             'title' => ''
-                                        ),**/
+                                        ),
                          );
 
 /**

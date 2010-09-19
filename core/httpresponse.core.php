@@ -320,6 +320,9 @@ class Clansuite_HttpResponse implements Clansuite_Response_Interface
      */
     public static function setNoCacheHeader()
     {
+        # set nocache via session
+        session_cache_limiter('nocache');
+
         # reset pragma header
         self::addHeader('Pragma',        'no-cache');
         # reset cache-control
@@ -374,7 +377,7 @@ class Clansuite_HttpResponse implements Clansuite_Response_Interface
         if (headers_sent($filename, $linenum) == false)
         {
             # clear all output buffers
-            while(@ob_end_clean());
+            #while(@ob_end_clean());
 
             # redirect to ...
             self::setStatusCode($statusCode);
@@ -385,15 +388,15 @@ class Clansuite_HttpResponse implements Clansuite_Response_Interface
                     self::addHeader('LOCATION', $url);
                     break;
                 case 'REFRESH':
-                    header('Refresh: 0; URL="'.$url.'"');
+                    header('Refresh: 0; URL="' . $url . '"');
                     break;
                 case 'JS':
-                    $redirect_html = '<script type="text/javascript">window.location.href='.$url.';</script>';
+                    $redirect_html = '<script type="text/javascript">window.location.href=' . $url . ';</script>';
                     break;
                 default:
                 case 'HTML':
                     # redirect html content
-                    $redirect_html  = '<html><head>';
+                    $redirect_html = '<html><head>';
                     $redirect_html .= '<meta http-equiv="refresh" content="' . $time . '; URL=' . $url . '" />';
                     $redirect_html .= '</head><body>' . $message . '</body></html>';
                     break;
@@ -401,7 +404,7 @@ class Clansuite_HttpResponse implements Clansuite_Response_Interface
 
             if(empty($redirect_html) === false)
             {
-                # self::addHeader('Location', $url);
+                #self::addHeader('Location', $url);
                 self::setContent($redirect_html, $time, htmlspecialchars($url, ENT_QUOTES, 'UTF-8'));
             }
 
@@ -410,6 +413,7 @@ class Clansuite_HttpResponse implements Clansuite_Response_Interface
              */
             if(empty($message) === false )
             {
+                $flashtypes = Clansuite_Flashmessages::getFlashMessageTypes();
                 # @todo handle type when $message is "type:message text"
                 #$array = explode(':', $message);
                 #Clansuite_Flashmessages::setMessage($array[0], $array[1]);
@@ -419,7 +423,7 @@ class Clansuite_HttpResponse implements Clansuite_Response_Interface
             }
 
             # Flush the content on the normal way!
-            self::flush();
+            self::sendResponse();
         }
         else # headers already send!
         {

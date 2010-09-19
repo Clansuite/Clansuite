@@ -165,13 +165,12 @@ class Clansuite_Module_Account_Admin extends Clansuite_Module_Controller
         # @todo get post via request object, sanitize
         $data = $this->request->getParameter('account_settings');
 
-        # get configuration object and write config
-        $this->getClansuiteConfig()->confighandler->writeConfig( ROOT_MOD . 'account/account.config.php', $data);
+        # Get Configuration from Injector and write Config
+        $this->getInjector()->instantiate('Clansuite_Config')->writeModuleConfig($data);
 
         # clear the cache / compiled tpls
-        # $this->getView()->clear_all_cache();
-        $this->getView()->utility->clearCompiledTemplate();
-
+        $this->getView()->clearCache();
+        
         # Redirect
         $this->response->redirectNoCache('index.php?mod=account&amp;sub=admin', 2, 302, 'The config file has been succesfully updated.');
     }

@@ -99,15 +99,11 @@ class Clansuite_Module_Statistics_Admin extends Clansuite_Module_Controller
         # @todo get post via request object, sanitize
         $data = $this->request->getParameter('statistic_settings');
 
-        # Get Configuration from Injector
-        $config = $this->getInjector()->instantiate('Clansuite_Config');
-
-        # write config
-        $config->confighandler->writeConfig( ROOT_MOD . 'statistics'.DS.'statistics.config.php', $data);
+        # Get Configuration from Injector and write Config
+        $this->getInjector()->instantiate('Clansuite_Config')->writeModuleConfig($data);
 
         # clear the cache / compiled tpls
-        # $this->getView()->clear_all_cache();
-        #$this->getView()->utility->clearCompiledTemplate();
+        $this->getView()->clearCache();
 
         # Redirect
         $this->response->redirectNoCache(WWW_ROOT . 'index.php?mod=statistics&amp;sub=admin&amp;action=settings', 2, 302, 'The config file has been succesfully updated.');

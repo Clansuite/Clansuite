@@ -425,6 +425,23 @@ class Clansuite_Renderer_Smarty extends Clansuite_Renderer_Base
     }
 
     /**
+     * Clears all assigned Variables
+     */
+    public function clearVars()
+    {
+        $this->renderer->cache->clearAll();
+    }
+
+    /**
+     * Clears the Smarty Cache and removes compiled Templates
+     */
+    public function clearCache()
+    {
+        $this->renderer->cache->clearAll();
+        $this->renderer->utility->clearCompiledTemplate();
+    }
+
+    /**
      * Assign the common template values and Clansuite constants as Smarty Template Variables.
      * @see Clansuite_Renderer_Base->getConstants()
      */

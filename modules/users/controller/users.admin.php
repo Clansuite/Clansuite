@@ -230,21 +230,14 @@ class Clansuite_Module_Users_Admin extends Clansuite_Module_Controller
 
     public function action_admin_settings_update()
     {
-        # Set Pagetitle and Breadcrumbs
-        Clansuite_Breadcrumb::add( _('Update'), '/index.php?mod=users&amp;sub=settings&amp;action=update');
-
         # Incomming Data
         $data = $this->request->getParameter('users_settings');
 
-        # Get Configuration from Injector
-        $config = $this->getInjector()->instantiate('Clansuite_Config');
-
-        # write config
-        $config->confighandler->writeConfig( ROOT_MOD . 'users/users.config.php', $data);
+        # Get Configuration from Injector and write Config
+        $this->getInjector()->instantiate('Clansuite_Config')->writeModuleConfig($data);
 
         # clear the cache / compiled tpls
-        # $this->getView()->clear_all_cache();
-        $this->getView()->utility->clearCompiledTemplate();
+        $this->getView()->clearCache();
 
         # Redirect
         $this->response->redirectNoCache('index.php?mod=users&amp;sub=admin', 2, 302, 'The config file has been succesfully updated.');

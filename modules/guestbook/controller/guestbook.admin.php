@@ -388,12 +388,11 @@ class Clansuite_Module_Guestbook_Admin extends Clansuite_Module_Controller
         # @todo get post via request object, sanitize
         $data = $this->request->getParameter('guestbook_settings');
 
-        # Get Configuration, then handler and write config
-        $this->getClansuiteConfig()->confighandler->writeConfig( ROOT_MOD . 'guestbook/guestbook.config.php', $data);
+        # Get Configuration from Injector and write Config
+        $this->getInjector()->instantiate('Clansuite_Config')->writeModuleConfig($data);
 
         # clear the cache / compiled tpls
-        # $this->getView()->clear_all_cache();
-        $this->getView()->utility->clearCompiledTemplate();
+        $this->getView()->clearCache();
 
         # Redirect
         $this->response->redirectNoCache('index.php?mod=guestbook&amp;sub=admin', 2, 302, _('The config file has been succesfully updated.'));

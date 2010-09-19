@@ -588,7 +588,7 @@ class Clansuite_Datagrid extends Clansuite_Datagrid_Base
     {
         if( !isset($this->_inputMapping[$_internalKey]) )
         {
-            throw new Clansuite_Exception(_('This internal key is not know to private array $_InputMapping: ') . $_internalKey);
+            throw new Clansuite_Exception(_('This internal key is not known to private array $_InputMapping: ') . $_internalKey);
         }
         return $this->_inputMapping[$_internalKey];
     }

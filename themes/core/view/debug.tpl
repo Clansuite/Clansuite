@@ -21,7 +21,7 @@
 <script src="{$www_root_themes_core}javascript/clip.js" type="text/javascript"></script>
 
 <br />
-<h2 class="debug_heading">Clansuite - Smarty Debug Console</h2>
+<h2 class="debug_heading">Clansuite - Smarty Debug Console -  Total Time {$execution_time|string_format:"%.5f"}</h2>
 <div class="debug_wrapper">
 
 <div class="debug_one" onclick="clip('element_1');">1. Error Log</div>
@@ -47,8 +47,8 @@
 
 <div class="debug_one" onclick="clip('element_2');">2. Included templates & config files and their load time in seconds</div>
 <div class="debug_inline" style="display:none;" id="element_2">
-{foreach $template_data as $template}
-  <font color=brown>{$template.name}</font>
+{foreach from=$template_data item=template name=templatef}
+  <font color=brown>{$smarty.foreach.templatef.iteration} - {$template.name}</font>
   <span class="exectime">
    (compile {$template['compile_time']|string_format:"%.5f"}) (render {$template['render_time']|string_format:"%.5f"}) (cache {$template['cache_time']|string_format:"%.5f"})
   </span>
@@ -174,7 +174,9 @@
 
 {if $debug.debug_popup == 0}
     {* Captures Content from above is in $debug_output and moved with doc_raw to body_post *}
-    {move_to target="pre_head_close"}   {$debug_output}    {/move_to}
+     
+    {$debug_output}    
+    
 {else}
     <script type="text/javascript">
     	if ( self.name == '' )

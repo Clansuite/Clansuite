@@ -26,7 +26,7 @@
     * @author     Jens-André Koch <vain@clansuite.com>
     * @copyright  Jens-André Koch (2005 - onwards)
     * @link       http://www.clansuite.com
-    * 
+    *
     * @version    SVN: $Id$
     */
 
@@ -90,22 +90,19 @@ class Clansuite_Config extends Clansuite_Config_Base
      *
      * @example
      * $this->writeModuleConfig('news', $data);
-     * This method works as a shortcut to writeConfig(). Normally you would write
-     * $config->confighandler->writeConfig( ROOT_MOD . 'news'.DS.'news.config.php', $data);
      *
      * @see writeConfig()
      *
-     * @param $modulename
      * @param $array the configuration array to write
+     * @param $modulename The Modulename   
      */
-    public function writeModuleConfig($modulename, $cfg_array)
+    public function writeModuleConfig($array, $modulename = null)
     {
-        if(false === is_object($this->confighandler))
+        if(null == $modulename)
         {
-            $this->confighandler = Clansuite_Config_Factory::getConfiguration($configfile);
+            $modulename = Clansuite_TargetRoute::getModuleName();
         }
-
-        $this->confighandler->writeConfig(ROOT_MOD . $modulename . DS . $modulename . '.config.php', $array);
+        $this->writeConfig(ROOT_MOD . $modulename . DS . $modulename . '.config.php', $array);
     }
 
     /**

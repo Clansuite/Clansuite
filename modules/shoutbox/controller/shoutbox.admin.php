@@ -101,15 +101,11 @@ class Clansuite_Module_Shoutbox_Admin extends Clansuite_Module_Controller
         # @todo get post via request object, sanitize
         $data = $this->request->getParameter('shoutbox_settings');
 
-        # Get Configuration from Injector
-        $config = $this->getInjector()->instantiate('Clansuite_Config');
-
-        # write config
-        $config->confighandler->writeConfig( ROOT_MOD . 'shoutboxs/shoutbox.config.php', $data);
+        # Get Configuration from Injector and write Config
+        $this->getInjector()->instantiate('Clansuite_Config')->writeModuleConfig($data);
 
         # clear the cache / compiled tpls
-        # $this->getView()->clear_all_cache();
-        $this->getView()->utility->clearCompiledTemplate();
+        $this->getView()->clearCache();
 
         # Redirect
         $this->response->redirectNoCache('index.php?mod=shoutbox&amp;sub=admin', 2, 302, 'The config file has been succesfully updated.');
