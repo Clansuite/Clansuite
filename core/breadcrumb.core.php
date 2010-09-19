@@ -26,7 +26,7 @@
     * @author     Jens-André Koch <vain@clansuite.com>
     * @copyright  Jens-André Koch (2005 - onwards)
     * @link       http://www.clansuite.com
-    * 
+    *
     *
     * @version    SVN: $Id$
     */
@@ -90,14 +90,14 @@ class Clansuite_Breadcrumb
         # Home (Frontend)
         if(($moduleName != 'controlcenter') and ($submoduleName != 'admin'))
         {
-            Clansuite_Breadcrumb::add('Home', '/');
+            Clansuite_Breadcrumb::add('Home', '');
         }
 
         # ControlCenter (Backend)
         if($moduleName == 'controlcenter' or $submoduleName == 'admin')
         {
             # Set Pagetitle "Control Center" and Breadcrumb-Link = '/index.php?mod=controlcenter'
-            Clansuite_Breadcrumb::add('Control Center', '/index.php?mod=controlcenter');
+            Clansuite_Breadcrumb::add('Control Center', 'index.php?mod=controlcenter');
         }
 
         /**
@@ -107,7 +107,7 @@ class Clansuite_Breadcrumb
         {
             # Construct URL
             # BASE URL
-            $url  = '/index.php?mod=' . $moduleName;
+            $url  = 'index.php?mod=' . $moduleName;
             $trailName = $moduleName;
 
             # Add action Part only, if not no submodule following
