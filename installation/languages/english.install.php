@@ -56,6 +56,7 @@ class Language implements ArrayAccess
         $this->language['EXTENSION_SPL'] = 'Standard PHP Library (SPL)';
         $this->language['IS_WRITEABLE_TEMP_DIR'] = 'Useable: Temporary Directory';
         $this->language['IS_WRITEABLE_CLANSUITE_ROOT'] = 'Can write: /clansuite';
+        $this->language['IS_WRITEABLE_CACHE_DIR'] = 'Can write: /clansuite/cache';        
         $this->language['IS_WRITEABLE_SMARTY_TEMPLATES_C'] = 'Can write: /templates_c';
         $this->language['IS_WRITEABLE_SMARYT_CACHE'] = 'Can write: /cache';
         $this->language['IS_WRITEABLE_UPLOADS'] = 'Can write: /uploads';
