@@ -176,6 +176,12 @@ if (defined('IN_CS') === false)
                          $required['is_writable_clansuite_root']['actual']   = is_writeable(ROOT) ? 'w' : '---';
                          $required['is_writable_clansuite_root']['status']   = is_writeable(ROOT) ? SETTING_TRUE : SETTING_FALSE;
 
+                         # Permissions Check: write on \clansuite\cache
+                         $required['is_writable_clansuite_cache']['text']     = $language['IS_WRITEABLE_CACHE_DIR'];
+                         $required['is_writable_clansuite_cache']['expected'] = 'w';
+                         $required['is_writable_clansuite_cache']['actual']   = is_writeable(ROOT_CACHE) ? 'w' : '---';
+                         $required['is_writable_clansuite_cache']['status']   = is_writeable(ROOT_CACHE) ? SETTING_TRUE : SETTING_FALSE;
+
                          # Permissions Check: write on \smarty\templates_c
                          /* commented out, because system is able to create these folders if missing, no check needed
                          $required['is_writable_smarty_templates_c']['text']     = $language['IS_WRITEABLE_SMARTY_TEMPLATES_C'];

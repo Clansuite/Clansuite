@@ -89,6 +89,7 @@ catch(Exception $e)
 define('DS', DIRECTORY_SEPARATOR);
 define('INSTALLATION_ROOT', getcwd() . DS);
 define('ROOT', dirname(getcwd()) . DS);
+define('ROOT_CACHE', ROOT . 'cache' . DS);
 
 // The Clansuite version this script installs
 require ROOT . 'core/bootstrap/clansuite.version.php';
