@@ -441,14 +441,13 @@ class Clansuite_Module_News_Admin extends Clansuite_Module_Controller
     {
         $data = $this->request->getParameter('news_settings');
 
-        $this->getClansuiteConfig()->confighandler->writeConfig( ROOT_MOD . 'news'.DS.'news.config.php', $data);
+        # Get Configuration from Injector and write Config
+        $this->getInjector()->instantiate('Clansuite_Config')->writeModuleConfig($data);
 
         # clear the cache / compiled tpls
-        # $this->getView()->clear_all_cache();
-        # $this->getView()->utility->clearCompiledTemplate();
+        $this->getView()->clearCache();
 
         # Redirect
-        $this->
         $this->response->redirectNoCache('index.php?mod=news&amp;sub=admin', 2, 302, 'The config file has been succesfully updated.');
     }
 }

@@ -139,6 +139,16 @@ abstract class Clansuite_Renderer_Base
      * @return string
      */
     abstract public function display($template, $data = null);
+    
+    /**
+     * Clear all assigned Variables
+     */
+    abstract public function clearVars();
+    
+    /**
+     * Reset the Cache of the Renderer
+     */
+    abstract public function clearCache();
 
     /**
      * Set the template name

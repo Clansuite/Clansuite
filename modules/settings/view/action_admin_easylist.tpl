@@ -1,4 +1,4 @@
-{* {modulenavigation} *}
+{modulenavigation}
 <div class="ModuleHeading">{t}Clansuite Settings{/t}</div>
 <div class="ModuleHeadingSmall">{t}Konfiguration des Systems.{/t}</div>
 

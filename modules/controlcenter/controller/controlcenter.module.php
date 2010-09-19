@@ -227,8 +227,7 @@ class Clansuite_Module_ControlCenter extends Clansuite_Module_Controller
         $config->confighandler->writeConfig( ROOT_MOD . 'controlcenter/controlcenter.config.php', $data);
 
         # clear the cache / compiled tpls
-        # $this->getView()->clear_all_cache();
-        $this->getView()->utility->clearCompiledTemplate();
+        $this->getView()->clearCache();
 
         # Redirect
         $this->response->redirectNoCache('index.php?mod=controlcenter', 2, 302, 'The config file has been succesfully updated.');

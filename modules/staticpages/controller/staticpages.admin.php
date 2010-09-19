@@ -256,14 +256,12 @@ class Clansuite_Module_Staticpages_Admin extends Clansuite_Module_Controller
         # Incomming Data
         $data = $this->request->getParameter('staticpages_settings');
 
-        # Get Configuration, get handler and write config
-        $this->getClansuiteConfig()->confighandler->writeConfig( ROOT_MOD . 'staticpages/staticpages.config.php', $data);
+        # Get Configuration from Injector and write Config
+        $this->getInjector()->instantiate('Clansuite_Config')->writeModuleConfig($data);
 
         # clear the cache / compiled tpls
-        # $this->getView()->clear_all_cache();
-        $this->getView()->utility->clearCompiledTemplate();
+        $this->getView()->clearCache();
 
-        $this->flashmessage('success', _('The config file has been succesfully updated.'));
         # Redirect
         $this->response->redirectNoCache('index.php?mod=staticpages&amp;sub=admin');
     }

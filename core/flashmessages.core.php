@@ -74,6 +74,11 @@ class Clansuite_Flashmessages /* extends Clansuite_Session */
      */
     private static $flashmessagetypes = array('error', 'warning', 'notice', 'success', 'debug');
 
+    public static function getFlashMessageTypes()
+    {
+        return self::$flashmessagetypes;
+    }
+
     /**
      * Sets a message to the session
      *
