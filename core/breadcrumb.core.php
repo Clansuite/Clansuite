@@ -56,8 +56,9 @@ class Clansuite_Breadcrumb
      *
      * @param string $title Name of the trail element
      * @param string $link Link of the trail element
+     * @param string $replace_array_position Position in the array to replace with name/trail. Start = 0.
      */
-    public static function add($title, $link = '')
+    public static function add($title, $link = '', $replace_array_position = null)
     {
         $item = array('title' => $title);
 
@@ -66,11 +67,33 @@ class Clansuite_Breadcrumb
             $item['link'] = WWW_ROOT . $link;
         }
 
-        self::$path[] = $item;
+        # replace
+        if(isset($replace_array_position))
+        {
+            self::$path[$replace_array_position] = $item;
+        }
+        else # no, just add
+        {
+            self::$path[] = $item;
+        }
+    }
+
+    /**
+     * Replace is a convenience method for add - it can
+     * Remembering you that you might want to replace existing breadcrumbs.
+     *
+     * @param string $title Name of the trail element
+     * @param string $link Link of the trail element
+     * @param string $replace_array_position Position in the array to replace with name/trail. Start = 0.
+     */
+    public static function replace($title, $link = '', $replace_array_position = null)
+    {
+        self::add($title, $link = '', $replace_array_position);
     }
 
     /**
      * Getter for the breadcrumbs/trail array
+     *
      */
     public static function getTrail()
     {
@@ -90,7 +113,7 @@ class Clansuite_Breadcrumb
         # Home (Frontend)
         if(($moduleName != 'controlcenter') and ($submoduleName != 'admin'))
         {
-            Clansuite_Breadcrumb::add('Home', '');
+            Clansuite_Breadcrumb::add('Home');
         }
 
         # ControlCenter (Backend)
