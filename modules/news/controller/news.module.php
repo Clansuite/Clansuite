@@ -182,7 +182,7 @@ class Clansuite_Module_News extends Clansuite_Module_Controller
      *
      * URL-Parameters: ?items=15 or 30
      */
-    public function action_getFeed()
+    public function action_getfeed()
     {
         # Load Feedcreator Class
         if(false === class_exists('UniversalFeedCreator', false))
