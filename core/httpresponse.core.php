@@ -411,15 +411,19 @@ class Clansuite_HttpResponse implements Clansuite_Response_Interface
             /**
              * Set flashmessage on redirect
              */
-            if(empty($message) === false )
+            if(isset($message) and strpos('#', message))
             {
-                $flashtypes = Clansuite_Flashmessages::getFlashMessageTypes();
-                # @todo handle type when $message is "type:message text"
-                #$array = explode(':', $message);
-                #Clansuite_Flashmessages::setMessage($array[0], $array[1]);
+                /**
+                 * detect flashmessage tunneling ($message is "flashmessagetype#message text")
+                 * array[0] = type ; array[1] = message
+                 */
+                $array = explode('#', $message);
 
-                # for now type is notice
-                Clansuite_Flashmessages::setMessage('notice', $message);
+                # ensure type is a valid flashmessagetype
+                in_array($array[0], Clansuite_Flashmessages::getFlashMessageTypes())
+                {
+                    Clansuite_Flashmessages::setMessage($array[0], $array[1]);
+                }
             }
 
             # Flush the content on the normal way!
