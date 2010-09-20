@@ -235,54 +235,20 @@ class Clansuite_Renderer_Smarty extends Clansuite_Renderer_Base
          * 3) "/modules/"
          * 4) "/modules/modulename/view/"
          * 5) "/themes/core/view/"
-         * 6) "/themes/[backend]/admin/"
-         * 7) "/themes/"
          */
         $this->renderer->template_dir = array();
 
-        if(empty($_SESSION['user']['frontend_theme']))
-        {
-            $frontendtheme = 'standard';
-        }
-        else
-        {
-            $frontendtheme = $_SESSION['user']['frontend_theme'];
-        }
+        # 1) + 2)
+        $this->renderer->template_dir[] = $this->getThemeTemplatePaths();
 
-        # 1) + 2) in case the controlcenter is the requested module
-        if(Clansuite_TargetRoute::getModuleName() == 'controlcenter' or Clansuite_TargetRoute::getSubModuleName() == 'admin')
-        {
-            # Backend Theme Detections
-            # @todo make backend theme choseable by user
-            $_SESSION['user']['backend_theme'] = 'admin';
-            $this->renderer->template_dir[] = ROOT_THEMES_BACKEND . $_SESSION['user']['backend_theme'];
-            $this->renderer->template_dir[] = ROOT_THEMES_BACKEND . $_SESSION['user']['backend_theme'] . DS . Clansuite_TargetRoute::getModuleName() . DS;
-        }
-        else
-        {
-            # Frontend Theme Detections
-            $this->renderer->template_dir[] = ROOT_THEMES_FRONTEND . $frontendtheme;
-            $this->renderer->template_dir[] = ROOT_THEMES_FRONTEND . $frontendtheme . DS . Clansuite_TargetRoute::getModuleName() . DS;
-        }
-
-        /**
-         * FALLBACKS for Smarty Template Directories
-         */
-        # 3) + 4) modules dir
-        $this->renderer->template_dir[] = ROOT_MOD;
-        $this->renderer->template_dir[] = ROOT_MOD . Clansuite_TargetRoute::getModuleName() . DS . 'view' . DS;
+        # 3) + 4)
+        $this->renderer->template_dir[] = $this->getModuleTemplatePaths();
 
         # 5) themes dir
-        $this->renderer->template_dir[] = ROOT_THEMES . 'core' . DS . 'view' . DS;
+        $this->renderer->template_dir[] = ROOT_THEMES . 'core' . DS . 'view' . DS . 'smarty';
 
-        # 6) the admin theme
-        if(Clansuite_TargetRoute::getModuleName() == 'controlcenter' or Clansuite_TargetRoute::getSubModuleName() == 'admin')
-        {
-            $this->renderer->template_dir[] = ROOT_THEMES_BACKEND . 'admin' . DS;
-        }
-
-        # 7) THEMES in general
-        $this->renderer->template_dir[] = ROOT_THEMES;
+        # flatten that thing
+        $this->renderer->template_dir = Clansuite_Functions::array_flatten($this->renderer->template_dir);
 
         #Clansuite_Debug::printR($this->renderer->template_dir);
 
@@ -290,13 +256,12 @@ class Clansuite_Renderer_Smarty extends Clansuite_Renderer_Base
          * Smarty Plugins
          *
          * Configure Smarty Viewhelper Directories
-         * 1) original smarty plugins
-         * 2) clansuite core/common smarty plugins
-         * 3) clansuite module smarty plugins
+         * 1) original smarty plugins               => libraries\smarty\plugins\
+         * 2) clansuite core/common smarty plugins  => core\viewhelper\smarty\
+         * 3) clansuite module smarty plugins       => modules\module_name\viewhelper\smarty\
          */
-        $this->renderer->plugins_dir[] = ROOT_LIBRARIES . 'smarty/plugins/';
-        $this->renderer->plugins_dir[] = ROOT_CORE . 'viewhelper/smarty/';
-        $this->renderer->plugins_dir[] = ROOT_MOD . Clansuite_TargetRoute::getModuleName() . '/viewhelper/smarty/';
+        $this->renderer->plugins_dir[] = ROOT_CORE . 'viewhelper' . DS. 'smarty' . DS;
+        $this->renderer->plugins_dir[] = ROOT_MOD . Clansuite_TargetRoute::getModuleName() . DS . 'viewhelper' . DS. 'smarty' . DS;
 
         #Clansuite_Debug::printR($this->renderer->plugins_dir);
 
@@ -537,6 +502,8 @@ class Clansuite_Renderer_Smarty extends Clansuite_Renderer_Base
     public function preRenderChecks()
     {
         $layout_tpl_name = $this->getLayoutTemplate();
+
+        $this->renderer->template_dir = Clansuite_Functions::array_flatten($this->renderer->template_dir);
 
         foreach($this->renderer->template_dir as $dir)
         {

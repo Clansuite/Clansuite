@@ -139,12 +139,12 @@ abstract class Clansuite_Renderer_Base
      * @return string
      */
     abstract public function display($template, $data = null);
-    
+
     /**
      * Clear all assigned Variables
      */
     abstract public function clearVars();
-    
+
     /**
      * Reset the Cache of the Renderer
      */
@@ -192,14 +192,62 @@ abstract class Clansuite_Renderer_Base
         # check if template was found there, else it's null
         if($theme_template != null)
         {
-            #Clansuite_Debug::firebug(__METHOD__ .' tries fetching template ("'. $theme_template . '") from THEME directory.');
+            Clansuite_Debug::firebug(__METHOD__ .' tries fetching template ("'. $theme_template . '") from THEME directory.');
             return $theme_template;
         }
         else # fetch the template by searching in the Module Template Path
         {
-            #Clansuite_Debug::firebug(__METHOD__ .' tries fetching template ("'. $template . '") from MODULE directory.');
+            Clansuite_Debug::firebug(__METHOD__ .' tries fetching template ("'. $template . '") from MODULE directory.');
             return $this->getModuleTemplatePath($template);
         }
+    }
+
+    /**
+     * Return Theme Template Paths
+     *
+     * @return array Theme Template Paths
+     */
+    public static function getThemeTemplatePaths()
+    {
+        # get module, submodule, renderer names
+        $module    = Clansuite_HttpRequest::getRoute()->getModuleName();
+        $submodule = Clansuite_HttpRequest::getRoute()->getSubModuleName();
+        $renderer  = Clansuite_HttpRequest::getRoute()->getRenderEngine();
+
+        # get frontend and backend theme from session for path construction
+        $frontendtheme = (isset($_SESSION['user']['frontend_theme'])) ? $_SESSION['user']['frontend_theme'] : 'standard';
+        $backendtheme  = (isset($_SESSION['user']['backend_theme']))  ? $_SESSION['user']['frontend_theme'] : 'admin';
+
+        $theme_paths = array();
+
+        /**
+         * 1. BACKEND THEME
+         * when controlcenter or admin is requested, it has to be a BACKEND theme
+         */
+        if($module == 'controlcenter' or $submodule == 'admin')
+        {
+            # (a) USER BACKENDTHEME - check in the active session backendtheme
+            # e.g. /themes/backend/ + admin/template_name.tpl
+            $theme_paths[] = ROOT_THEMES_BACKEND . $backendtheme . DS;
+            # e.g. /themes/backend/ + admin/modules/template_name.tpl
+            $theme_paths[] = ROOT_THEMES_BACKEND . $backendtheme . DS . 'modules' . DS . $module . DS;
+            # (b) BACKEND FALLBACK - check the fallback dir: themes/admin
+            $theme_paths[] = ROOT_THEMES_BACKEND . 'admin' . DS;
+        }
+        /**
+         * 2. FRONTEND THEME
+         */
+        else
+        {
+            # (a) USER FRONTENDTHEME - check, if template exists in current session user THEME
+            $theme_paths[] = ROOT_THEMES_FRONTEND . $frontendtheme . DS;
+            # (b) FRONTEND FALLBACK - check, if template exists in usertheme/modulename/tpl
+            $theme_paths[] = ROOT_THEMES_FRONTEND . $frontendtheme . DS . 'modules' . DS . $module . DS;
+            # (c) FRONTEND FALLBACK - check, if template exists in standard theme
+            $theme_paths[] = ROOT_THEMES_FRONTEND . 'standard' . DS;
+        }
+
+        return $theme_paths;
     }
 
     /**
@@ -214,51 +262,33 @@ abstract class Clansuite_Renderer_Base
      */
     public function getThemeTemplatePath($template)
     {
-        # get module and submodule names
-        $module    = Clansuite_HttpRequest::getRoute()->getModuleName();
-        $submodule = Clansuite_HttpRequest::getRoute()->getSubModuleName();
-        $renderer  = Clansuite_HttpRequest::getRoute()->getRenderEngine();
-        
-        #Clansuite_Debug::firebug($renderer);
+        $paths = self::getThemeTemplatePaths();
 
-        # 1. because controlcenter or admin is requested, it has to be a BACKEND theme
-        if($module == 'controlcenter' or $submodule == 'admin')
-        {
-            # (a) USER BACKENDTHEME - check in the active session backendtheme
-            $backend_theme = ROOT_THEMES_BACKEND . $_SESSION['user']['backend_theme'];
-            if(isset($_SESSION['user']['backend_theme']) and is_file($backend_theme . DS . $template))
-            {
-                return $backend_theme . DS . $template;
-            }
-            elseif(isset($_SESSION['user']['backend_theme']) and is_file($backend_theme . DS . $module . DS . $template))
-            {
-                return $backend_theme . DS . $module . DS . $template;
-            }
-            # (b) BACKEND FALLBACK - check the fallback dir: themes/admin
-            elseif(is_file(ROOT_THEMES_BACKEND . 'admin' . DS . $template) === true)
-            {
-                return ROOT_THEMES_BACKEND . 'admin' . DS . $template;
-            }
-        }
-        else # 2. it's a FRONTEND theme
-        {
-            # (a) USER FRONTENDTHEME - check, if template exists in current session user THEME
-            $session_theme = ROOT_THEMES_FRONTEND . $_SESSION['user']['frontend_theme'];
-            if(isset($_SESSION['user']['frontend_theme']) and is_file($session_theme . DS . $template))
-            {
-                return $session_theme . DS . $template;
-            }
-            # (b) FRONTEND FALLBACK - check, if template exists in usertheme/modulename/tpl
-            elseif(is_file($session_theme . DS . $module . DS . $template) === true)
-            {
-                return $session_theme . DS . $module . DS . $template;
-            }
-            # (c) FRONTEND FALLBACK - check, if template exists in standard theme
-            elseif(is_file(ROOT_THEMES_FRONTEND . DS . 'standard' . DS . $template) === true)
-            {
-                return ROOT_THEMES_FRONTEND . DS . 'standard' . DS . $template;
-            }
-        }
+        self::findTemplateInPaths($paths, $template);
+    }
+
+    /**
+     * Returns Module Template Paths
+     *
+     * @return array Module Template Paths
+     */
+    public static function getModuleTemplatePaths()
+    {
+        # fetch modulename for template path construction
+        $module = Clansuite_TargetRoute::getModuleName();
+
+        # fetch renderer name for template path construction
+        $renderer = Clansuite_HttpRequest::getRoute()->getRenderEngine();
+
+        # compose two templates paths in the module dir
+        $module_paths = array(
+            ROOT_MOD,
+            ROOT_MOD . $module . DS,
+            ROOT_MOD . $module . DS . 'view' . DS,
+            ROOT_MOD . $module . DS . 'view' . DS . $renderer . DS
+        );
+
+        return $module_paths;
     }
 
     /**
@@ -269,26 +299,37 @@ abstract class Clansuite_Renderer_Base
      */
     public function getModuleTemplatePath($template)
     {
-        # fetch modulename for template path construction
-        $module = Clansuite_Dispatcher::getModuleName();
+        $paths = self::getModuleTemplatePaths();
 
-        # compose two templates paths in the module dir
-        $paths = array(
-            ROOT_MOD . $module . DS . $template,
-            ROOT_MOD . $module . DS . 'view' . DS . $template
-        );
+        # check if template exists in one of the defined paths
+        self::findTemplateInPaths($paths, $template);
 
+        # fetch renderer name for template path construction
+        $renderer = Clansuite_HttpRequest::getRoute()->getRenderEngine();
+
+        # the template with that name is not found on our default paths
+        return ROOT_THEMES_CORE . 'view' . DS . $renderer . DS . 'template_not_found.tpl';
+    }
+
+    /**
+     * Checks all paths of the array for the template
+     *
+     * @param array $paths Paths to check
+     * @param strig $template template name
+     * @return string
+     */
+    public static function findTemplateInPaths($paths, $template)
+    {
         # check if template exists in one of the defined paths
         foreach($paths as $path)
         {
-            if(is_file($path) === true)
+            $find_template = $path . $template;
+
+            if(is_file($find_template) === true)
             {
-                return $path;
+                return $find_template;
             }
         }
-
-        # the template with that name is not found on our default paths
-        return ROOT_THEMES . 'core' . DS . 'view' . DS . 'template_not_found.tpl';
     }
 
     /**
@@ -303,6 +344,8 @@ abstract class Clansuite_Renderer_Base
      */
     public function getConstants()
     {
+        $modulename = Clansuite_HttpRequest::getRoute()->getModuleName();
+        
         $template_constants = array();
 
         /**
@@ -312,13 +355,13 @@ abstract class Clansuite_Renderer_Base
          */
         $template_constants['www_root']             = WWW_ROOT;
         $template_constants['www_root_upload']      = WWW_ROOT . 'uploads/';
-        $template_constants['www_root_mod']         = WWW_ROOT . 'modules/' . Clansuite_HttpRequest::getRoute()->getModuleName();
-        $template_constants['www_root_theme']       = WWW_ROOT_THEMES .'/'. $_SESSION['user']['frontend_theme'];
+        $template_constants['www_root_mod']         = WWW_ROOT . 'modules/' . $modulename . DS;
+        $template_constants['www_root_theme']       = WWW_ROOT_THEMES_FRONTEND . $_SESSION['user']['frontend_theme'] . '/';
         $template_constants['www_root_themes']      = WWW_ROOT_THEMES;
-        $template_constants['www_root_themes_core'] = WWW_ROOT_THEMES_CORE;        
+        $template_constants['www_root_themes_core'] = WWW_ROOT_THEMES_CORE;
         $template_constants['www_root_themes_backend']  = WWW_ROOT_THEMES_BACKEND;
         $template_constants['www_root_themes_frontend'] = WWW_ROOT_THEMES_FRONTEND;
-        
+
         /**
          * b) Meta Informations
          */
@@ -344,17 +387,17 @@ abstract class Clansuite_Renderer_Base
         $template_constants['pagetitle'] = $this->config['template']['pagetitle'];
 
         # Normal CSS (global)
-        # @todo the selected $_SESSION['user']['frontend_theme'] decides on the theme type => frontend/backend 
-        $template_constants['css'] = WWW_ROOT_THEMES .'/'. $_SESSION['user']['frontend_theme'] .'/'. $this->config['template']['css'];
+        # @todo the selected $_SESSION['user']['frontend_theme'] decides on the theme type => frontend/backend
+        $template_constants['css'] = $template_constants['www_root_theme'] . 'css/' . $this->config['template']['css'];
 
         # Minifed Stylesheets of a certain group (?g=) of css files
         $template_constants['minfied_css'] = ROOT_LIBRARIES . 'minify/?g=css&amp;' . $_SESSION['user']['frontend_theme'];
 
         # Normal Javascript (global)
-        $template_constants['javascript'] = WWW_ROOT_THEMES .'/'. $_SESSION['user']['frontend_theme'] .'/'. $this->config['template']['javascript'];
+        $template_constants['javascript'] = $template_constants['www_root_theme'] . 'javascript/' . $this->config['template']['javascript'];
 
         # Minifed Javascripts of a certain group (?g=) of js files
-        $template_constants['minfied_javascript'] =  ROOT_LIBRARIES . 'minify/?g=js&amp;' . $_SESSION['user']['frontend_theme'];
+        $template_constants['minfied_javascript'] =  WWW_ROOT . 'libraries/minify/?g=js&amp;' . $_SESSION['user']['frontend_theme'];
 
         # Breadcrumb
         $template_constants['trail'] = Clansuite_Breadcrumb::getTrail();

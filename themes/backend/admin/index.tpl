@@ -51,7 +51,7 @@
 </div>
 
 {* Adminmenu Navigation *}
-{include file="menu/view/adminmenu.tpl"}
+{include file="menu/view/smarty/adminmenu.tpl"}
 
 {include file="firebug_active_warning.tpl"}
 
