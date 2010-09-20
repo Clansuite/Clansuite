@@ -273,7 +273,7 @@ class Clansuite_Router implements ArrayAccess, Clansuite_Router_Interface
      */
     public function mapMatchURI()
     {
-        Clansuite_Debug::firebug($this->uri);
+        #Clansuite_Debug::firebug($this->uri);
 
         /**
          * Do we have a direct match ?

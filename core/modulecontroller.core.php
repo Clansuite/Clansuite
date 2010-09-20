@@ -118,7 +118,7 @@ abstract class Clansuite_Module_Controller
              * Like "modulemanager" as modulename and "CsModules" = "modules" as recordname.
              */
 
-            #$models_path = ROOT_MOD . mb_strtolower($modulename) . DS . 'model/records';
+            #$models_path = ROOT_MOD . mb_strtolower($modulename) . DS . 'model' . DS . 'records';
         #}
 
         if( is_dir($models_path) )
