@@ -417,8 +417,8 @@ abstract class Clansuite_Module_Controller
         $this->view = $this->getView();
 
         # Debug display of Layout Template and Content Template
-        Clansuite_Debug::firebug('Layout/Wrapper Template: ' . $this->view->getLayoutTemplate() . '<br />');
-        Clansuite_Debug::firebug('Template Name: ' . $templatename . '<br />');
+        #Clansuite_Debug::firebug('Layout/Wrapper Template: ' . $this->view->getLayoutTemplate() . '<br />');
+        #Clansuite_Debug::firebug('Template Name: ' . $templatename . '<br />');
 
         # render the content / template
         $content = $this->view->render($templatename);
