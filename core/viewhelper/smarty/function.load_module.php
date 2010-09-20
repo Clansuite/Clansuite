@@ -123,11 +123,16 @@ function smarty_function_load_module($params, $smarty)
             # $smarty->template_dir[s]..\news\widget_news.tpl
             return $smarty->fetch($module . DS . $action . '.tpl');
         }
-        elseif($smarty->templateExists($module . DS . 'view' . DS . $action . '.tpl'))
+        elseif($smarty->templateExists($module . DS . 'view' . DS . $action . '.tpl'))  # @todo to be removed !
         {
             # $smarty->template_dir[s]..\news\view\widget_news.tpl
             return $smarty->fetch($module . DS . 'view' . DS . $action . '.tpl');
         }
+	    elseif($smarty->templateExists($module . DS . 'view' . DS . 'smarty' . DS . $action . '.tpl'))
+	    {
+	        # $smarty->template_dir[s]..\news\view\smarty\widget_news.tpl
+		    return $smarty->fetch($module . DS . 'view' . DS . 'smarty' . DS . $action . '.tpl');
+	    }
         else
         {
             return $smarty->trigger_error('Error! Failed to load Widget-Template for <br /> ' . $module_classname . ' -> ' . $action . '(' . $items . ')');

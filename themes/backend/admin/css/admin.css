@@ -114,27 +114,27 @@ a:hover
 .Button,
 .ButtonGrey
 {
-    background: url(images/background_form_element_grey.gif) repeat-x;
+    background: url(../images/background_form_element_grey.gif) repeat-x;
 }
 
 .ButtonYellow
 {
-    background: url(images/background_form_element_yellow.gif) repeat-x;
+    background: url(../images/background_form_element_yellow.gif) repeat-x;
 }
 
 .ButtonOrange
 {
-    background: url(images/background_form_element_orange.gif) repeat-x;
+    background: url(../images/background_form_element_orange.gif) repeat-x;
 }
 
 .ButtonRed
 {
-    background: url(images/background_form_element_red.gif) repeat-x;
+    background: url(../images/background_form_element_red.gif) repeat-x;
 }
 
 .ButtonGreen
 {
-    background: url(images/background_form_element_green.gif) repeat-x;
+    background: url(../images/background_form_element_green.gif) repeat-x;
 }
 
 .Button:active,
@@ -359,7 +359,7 @@ table.admintable tr#cell3
     cursor: default;
     font-size: 12px;
     font-weight: bold;
-    background: transparent url(images/thback.gif) repeat-x scroll 0 0;
+    background: transparent url(../../images/thback.gif) repeat-x scroll 0 0;
 }
 
 .tr_header td,
@@ -372,7 +372,7 @@ table.admintable tr#cell3
     cursor: default;
     font-size: 12px;
     font-weight: bold;
-    background: transparent url(images/thback.gif) repeat-x scroll 0 0;
+    background: transparent url(../images/thback.gif) repeat-x scroll 0 0;
 }
 
 .tr_header_small td
@@ -545,7 +545,7 @@ table.admintable tr#cell3
 */
 .admin_header
 {
-    background: url(images/thback.gif) repeat-x scroll 0 0;
+    background: url(../images/thback.gif) repeat-x scroll 0 0;
     border-color: #ffffff #ACA899 #ACA899 #ffffff;
     border-width: 1px;
     border-style: solid;

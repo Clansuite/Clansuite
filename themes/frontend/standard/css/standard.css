@@ -188,27 +188,27 @@ a[href^="http:"]:not([href^="http://*.clansuite.com","http://*.jens-andre-koch.d
 .Button,
 .ButtonGrey
 {
-    background: url(images/background_form_element_grey.gif) repeat-x;
+    background: url(../images/background_form_element_grey.gif) repeat-x;
 }
 
 .ButtonYellow
 {
-    background: url(images/background_form_element_yellow.gif) repeat-x;
+    background: url(../images/background_form_element_yellow.gif) repeat-x;
 }
 
 .ButtonOrange
 {
-    background: url(images/background_form_element_orange.gif) repeat-x;
+    background: url(../images/background_form_element_orange.gif) repeat-x;
 }
 
 .ButtonRed
 {
-    background: url(images/background_form_element_red.gif) repeat-x;
+    background: url(../images/background_form_element_red.gif) repeat-x;
 }
 
 .ButtonGreen
 {
-    background: url(images/background_form_element_green.gif) repeat-x;
+    background: url(../images/background_form_element_green.gif) repeat-x;
 }
 
 .Button:active,
@@ -453,7 +453,7 @@ table.admintable tr#cell3
     cursor: default;
     font-size: 12px;
     font-weight: bold;
-    background: url(images/thback.gif) repeat-x;
+    background: url(../images/thback.gif) repeat-x;
 }
 
 .tr_header td
@@ -465,7 +465,7 @@ table.admintable tr#cell3
     cursor: default;
     font-size: 12px;
     font-weight: bold;
-    background: url(images/thback.gif) repeat-x;
+    background: url(../images/thback.gif) repeat-x;
 }
 
 .tr_header_small td
