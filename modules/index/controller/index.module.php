@@ -48,7 +48,7 @@ class Clansuite_Module_Index extends Clansuite_Module_Controller
     public function action_show()
     {
         # Set Pagetitle and Breadcrumbs
-        Clansuite_Breadcrumb::add( _('Show'), '/index.php?mod=index&amp;action=show');
+        Clansuite_Breadcrumb::add( _('Show'), 'index.php?mod=index&amp;action=show');
 
         /***
          * You can set a Render Engine:
@@ -109,7 +109,7 @@ class Clansuite_Module_Index extends Clansuite_Module_Controller
     public function action_edit()
     {
         # Set Pagetitle and Breadcrumbs
-        Clansuite_Breadcrumb::add( _('Show'), '/index.php?mod=index&amp;action=show');
+        Clansuite_Breadcrumb::add( _('Show'), 'index.php?mod=index&amp;action=show');
 
         $this->setTemplate( 'show.tpl' );
         $view = $this->getView();

@@ -62,7 +62,7 @@ class Clansuite_Module_Menu_Admin extends Clansuite_Module_Controller
     public function action_admin_menueditor()
     {
         # Set Pagetitle and Breadcrumbs
-        # Clansuite_Breadcrumb::add( _('Show'), '/index.php?mod=menu&amp;sub=admin&amp;action=show');
+        # Clansuite_Breadcrumb::add( _('Show'), 'index.php?mod=menu&amp;sub=admin&amp;action=show');
 
         // Setup Icons Array
         $icons = array();
@@ -120,7 +120,7 @@ class Clansuite_Module_Menu_Admin extends Clansuite_Module_Controller
     public function action_admin_menueditor2()
     {
         # Set Pagetitle and Breadcrumbs
-        Clansuite_Breadcrumb::add( _('About Clansuite'), '/index.php?mod=menu&amp;sub=admin&amp;action=menueditor2');
+        Clansuite_Breadcrumb::add( _('About Clansuite'), 'index.php?mod=menu&amp;sub=admin&amp;action=menueditor2');
 
         #Clansuite_Debug::printR($treeObject);
 

@@ -297,7 +297,7 @@ class Clansuite_Module_Categories_Admin extends Clansuite_Module_Controller
     public function action_admin_settings()
     {
         # Set Pagetitle and Breadcrumbs
-        Clansuite_Breadcrumb::add( _('Settings'), '/index.php?mod=categories&amp;sub=admin&amp;action=settings');
+        Clansuite_Breadcrumb::add( _('Settings'), 'index.php?mod=categories&amp;sub=admin&amp;action=settings');
 
         $settings = array();
 

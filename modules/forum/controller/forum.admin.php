@@ -53,7 +53,7 @@ class Clansuite_Module_Forum_Admin extends Clansuite_Module_Controller
     public function action_admin_show()
     {
         # Set Pagetitle and Breadcrumbs
-        Clansuite_Breadcrumb::add( _('Show'), '/index.php?mod=forum&amp;action=show');
+        Clansuite_Breadcrumb::add( _('Show'), 'index.php?mod=forum&amp;action=show');
 
         # Set Layout Template
         $this->getView()->setLayoutTemplate('index.tpl');
@@ -64,7 +64,7 @@ class Clansuite_Module_Forum_Admin extends Clansuite_Module_Controller
     public function action_admin_create_category()
     {
         # Set Pagetitle and Breadcrumbs
-        Clansuite_Breadcrumb::add( _('Create Category'), '/index.php?mod=forum&amp;action=create_category');
+        Clansuite_Breadcrumb::add( _('Create Category'), 'index.php?mod=forum&amp;action=create_category');
 
         // Set Layout Template
         $this->getView()->setLayoutTemplate('index.tpl');
@@ -75,7 +75,7 @@ class Clansuite_Module_Forum_Admin extends Clansuite_Module_Controller
     public function action_admin_create_board()
     {
         # Set Pagetitle and Breadcrumbs
-        Clansuite_Breadcrumb::add( _('Create Board'), '/index.php?mod=forum&amp;action=create_board');
+        Clansuite_Breadcrumb::add( _('Create Board'), 'index.php?mod=forum&amp;action=create_board');
 
         // Set Layout Template
         $this->getView()->setLayoutTemplate('index.tpl');
@@ -86,7 +86,7 @@ class Clansuite_Module_Forum_Admin extends Clansuite_Module_Controller
     public function action_admin_edit_category()
     {
         # Set Pagetitle and Breadcrumbs
-        Clansuite_Breadcrumb::add( _('Edit Category'), '/index.php?mod=forum&amp;action=edit_category');
+        Clansuite_Breadcrumb::add( _('Edit Category'), 'index.php?mod=forum&amp;action=edit_category');
 
         // Set Layout Template
         $this->getView()->setLayoutTemplate('index.tpl');
@@ -97,7 +97,7 @@ class Clansuite_Module_Forum_Admin extends Clansuite_Module_Controller
     public function action_admin_edit_board()
     {
         # Set Pagetitle and Breadcrumbs
-        Clansuite_Breadcrumb::add( _('Edit Board'), '/index.php?mod=forum&amp;action=edit_board');
+        Clansuite_Breadcrumb::add( _('Edit Board'), 'index.php?mod=forum&amp;action=edit_board');
 
         // Set Layout Template
         $this->getView()->setLayoutTemplate('index.tpl');
@@ -108,7 +108,7 @@ class Clansuite_Module_Forum_Admin extends Clansuite_Module_Controller
     public function action_admin_delete_category()
     {
         # Set Pagetitle and Breadcrumbs
-        Clansuite_Breadcrumb::add( _('Delete Category'), '/index.php?mod=forum&amp;action=delete_category');
+        Clansuite_Breadcrumb::add( _('Delete Category'), 'index.php?mod=forum&amp;action=delete_category');
 
         // Set Layout Template
         $this->getView()->setLayoutTemplate('index.tpl');
@@ -119,7 +119,7 @@ class Clansuite_Module_Forum_Admin extends Clansuite_Module_Controller
     public function action_admin_delete_board()
     {
         # Set Pagetitle and Breadcrumbs
-        Clansuite_Breadcrumb::add( _('Delete Board'), '/index.php?mod=forum&amp;action=delete_board');
+        Clansuite_Breadcrumb::add( _('Delete Board'), 'index.php?mod=forum&amp;action=delete_board');
 
         // Set Layout Template
         $this->getView()->setLayoutTemplate('index.tpl');
@@ -130,7 +130,7 @@ class Clansuite_Module_Forum_Admin extends Clansuite_Module_Controller
     public function action_admin_settings ()
     {
         # Set Pagetitle and Breadcrumbs
-        Clansuite_Breadcrumb::add( _('Settings'), '/index.php?mod=forum&amp;sub=admin&amp;action=settings');
+        Clansuite_Breadcrumb::add( _('Settings'), 'index.php?mod=forum&amp;sub=admin&amp;action=settings');
 
         $settings = array();
 

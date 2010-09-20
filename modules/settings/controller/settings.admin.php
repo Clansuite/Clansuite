@@ -106,7 +106,7 @@ class Clansuite_Module_Settings_Admin extends Clansuite_Module_Controller
     public function action_admin_update()
     {
         # Set Pagetitle and Breadcrumbs
-        Clansuite_Breadcrumb::add( _('Update'), '/index.php?mod=controlcenter&amp;sub=settings&amp;action=update');
+        Clansuite_Breadcrumb::add( _('Update'), 'index.php?mod=controlcenter&amp;sub=settings&amp;action=update');
 
         # Incomming Data
         # @todo get post via request object, sanitize

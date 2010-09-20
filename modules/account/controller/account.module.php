@@ -96,7 +96,7 @@ class Clansuite_Module_Account extends Clansuite_Module_Controller
     public function action_login()
     {
         # Set Pagetitle and Breadcrumbs
-        Clansuite_Breadcrumb::add( _('Login'), '/index.php?mod=account&amp;action=login');
+        Clansuite_Breadcrumb::add( _('Login'), 'index.php?mod=account&amp;action=login');
 
         # Get Objects
         $config = $this->getClansuiteConfig();
@@ -202,7 +202,7 @@ class Clansuite_Module_Account extends Clansuite_Module_Controller
     public function action_logout()
     {
         // Set Pagetitle and Breadcrumbs
-        Clansuite_Breadcrumb::add( _('Logout'), '/index.php?mod=account&amp;action=logout');
+        Clansuite_Breadcrumb::add( _('Logout'), 'index.php?mod=account&amp;action=logout');
 
         $confirm = (bool) $this->request->getParameterFromPost('confirm');
 

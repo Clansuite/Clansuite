@@ -60,7 +60,7 @@ class Clansuite_Module_Menu extends Clansuite_Module_Controller
     public function action_show()
     {
         // Set Pagetitle and Breadcrumbs
-        Clansuite_Breadcrumb::add( _('Show'), '/index.php?mod=menu&amp;action=show');
+        Clansuite_Breadcrumb::add( _('Show'), 'index.php?mod=menu&amp;action=show');
 
         $this->display();
     }

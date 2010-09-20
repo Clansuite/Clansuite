@@ -358,7 +358,7 @@ class Clansuite_Module_News_Admin extends Clansuite_Module_Controller
     public function action_admin_settings()
     {
         # Set Pagetitle and Breadcrumbs
-        Clansuite_Breadcrumb::add( _('Settings'), '/index.php?mod=news&amp;sub=admin&amp;action=settings');
+        Clansuite_Breadcrumb::add( _('Settings'), 'index.php?mod=news&amp;sub=admin&amp;action=settings');
 
         $settings = array();
 
@@ -448,7 +448,7 @@ class Clansuite_Module_News_Admin extends Clansuite_Module_Controller
         $this->getView()->clearCache();
 
         # Redirect
-        $this->response->redirectNoCache('index.php?mod=news&amp;sub=admin', 2, 302, _('The config file has been succesfully updated.'));
+        $this->response->redirectNoCache('index.php?mod=news&sub=admin', 2, 302, _('success#The config file has been succesfully updated.'));
     }
 }
 ?>

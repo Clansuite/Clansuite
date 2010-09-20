@@ -53,7 +53,7 @@ class Clansuite_Module_Downloads extends Clansuite_Module_Controller
     public function action_show()
     {
         // Set Pagetitle and Breadcrumbs
-        Clansuite_Breadcrumb::add( _('Show'), '/index.php?mod=downloads&amp;action=show');
+        Clansuite_Breadcrumb::add( _('Show'), 'index.php?mod=downloads&amp;action=show');
 
         # fetch nextmatches
         $downloads = Doctrine::getTable('CsDownloads')->findAll()->toArray();

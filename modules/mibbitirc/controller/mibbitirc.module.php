@@ -53,7 +53,7 @@ class Clansuite_Module_Mibbitirc extends Clansuite_Module_Controller
     public function action_show()
     {
         # Set Pagetitle and Breadcrumbs
-        Clansuite_Breadcrumb::add( _('Show'), '/index.php?mod=mibbitirc&amp;action=show');
+        Clansuite_Breadcrumb::add( _('Show'), 'index.php?mod=mibbitirc&amp;action=show');
 
         # Try to get Mibbit Options from config or set default ones
         $mibbit_options['nick']        = preg_replace('/ /', '_', $_SESSION['user']['nick']);

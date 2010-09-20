@@ -53,7 +53,7 @@ class Clansuite_Module_Gallery extends Clansuite_Module_Controller
     public function action_show()
     {
         # Set Pagetitle and Breadcrumbs
-        Clansuite_Breadcrumb::add( _('show'), '/index.php?mod=gallery&amp;action=show');
+        Clansuite_Breadcrumb::add( _('show'), 'index.php?mod=gallery&amp;action=show');
 
         $this->display();
     }
