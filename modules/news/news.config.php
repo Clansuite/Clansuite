@@ -3,7 +3,7 @@
 ; Clansuite Configuration File : 
 ; D:\xampplite\htdocs\work\clansuite\trunk\modules\news\news.config.php
 ; 
-; This file was generated on 19-09-2010 19:43
+; This file was generated on 20-09-2010 00:10
 ;
 
 
@@ -11,7 +11,7 @@
 ; news
 ;----------------------------------------
 [news]
-resultsPerPage_show = 6
+resultsPerPage_show = 20
 items_newswidget = 5
 resultsPerPage_fullarchive = 3
 resultsPerPage_archive = 3

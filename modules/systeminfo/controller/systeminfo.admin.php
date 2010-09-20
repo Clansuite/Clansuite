@@ -53,7 +53,7 @@ class Clansuite_Module_Systeminfo_Admin extends Clansuite_Module_Controller
     public function action_admin_show()
     {
         # Set Pagetitle and Breadcrumbs - not needed
-        # Clansuite_Breadcrumb::add( _('Show'), '/index.php?mod=sysinfo&amp;action=show');
+        # Clansuite_Breadcrumb::add( _('Show'), 'index.php?mod=sysinfo&amp;action=show');
 
         // Set Layout Template
         $this->getView()->setLayoutTemplate('index.tpl');
@@ -236,7 +236,7 @@ class Clansuite_Module_Systeminfo_Admin extends Clansuite_Module_Controller
     public function action_admin_show_apc()
     {
         # Set Pagetitle and Breadcrumbs
-        Clansuite_Breadcrumb::add( _('Alternative PHP Cache'), '/index.php?mod=sysinfo&amp;action=showapc');
+        Clansuite_Breadcrumb::add( _('Alternative PHP Cache'), 'index.php?mod=sysinfo&amp;action=showapc');
 
         # Get APC Cache
         $cache_apc = Clansuite_Cache_Factory::getCache('apc');
@@ -253,7 +253,7 @@ class Clansuite_Module_Systeminfo_Admin extends Clansuite_Module_Controller
     public function action_admin_show_logfiles()
     {
         # Set Pagetitle and Breadcrumbs
-        Clansuite_Breadcrumb::add( _('Show'), '/index.php?mod=sysinfo&amp;action=showapc');
+        Clansuite_Breadcrumb::add( _('Show'), 'index.php?mod=sysinfo&amp;action=showapc');
 
         # Get APC Cache
         $cache_apc = Clansuite_Cache_Factory::getCache('apc', $this->getInjector());

@@ -60,7 +60,7 @@ class Clansuite_Module_Users_Admin extends Clansuite_Module_Controller
     public function action_admin_show()
     {
         # Set Pagetitle and Breadcrumbs
-        Clansuite_Breadcrumb::add( _('Show'), '/index.php?mod=users&amp;sub=admin&amp;action=show');
+        Clansuite_Breadcrumb::add( _('Show'), 'index.php?mod=users&amp;sub=admin&amp;action=show');
 
         # Get Render Engine
         $view = $this->getView();
@@ -141,7 +141,7 @@ class Clansuite_Module_Users_Admin extends Clansuite_Module_Controller
     public function action_admin_create()
     {
         # Set Pagetitle and Breadcrumbs
-        Clansuite_Breadcrumb::add( _('Create New Useraccount'), '/index.php?mod=users&amp;sub=admin&amp;action=create');
+        Clansuite_Breadcrumb::add( _('Create New Useraccount'), 'index.php?mod=users&amp;sub=admin&amp;action=create');
 
         // specifiy the template manually
         $this->setTemplate('admin_create.tpl');
@@ -167,7 +167,7 @@ class Clansuite_Module_Users_Admin extends Clansuite_Module_Controller
     public function action_admin_search()
     {
         # Set Pagetitle and Breadcrumbs
-        Clansuite_Breadcrumb::add( _('Search'), '/index.php?mod=users&amp;sub=admin&amp;action=search');
+        Clansuite_Breadcrumb::add( _('Search'), 'index.php?mod=users&amp;sub=admin&amp;action=search');
 
         $view = $this->getView();
 
@@ -202,7 +202,7 @@ class Clansuite_Module_Users_Admin extends Clansuite_Module_Controller
     public function action_admin_settings()
     {
         # Set Pagetitle and Breadcrumbs
-        Clansuite_Breadcrumb::add( _('Settings'), '/index.php?mod=users&amp;sub=admin&amp;action=settings');
+        Clansuite_Breadcrumb::add( _('Settings'), 'index.php?mod=users&amp;sub=admin&amp;action=settings');
 
         $settings = array();
 

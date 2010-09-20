@@ -58,7 +58,7 @@ class Clansuite_Module_Modulemanager_Admin extends Clansuite_Module_Controller
         #$perms::check('cc_show_menueditor');
 
         # Set Pagetitle and Breadcrumbs
-        Clansuite_Breadcrumb::add( _('Show'), '/index.php?mod=modulemanager&amp;sub=admin&amp;action=show');
+        Clansuite_Breadcrumb::add( _('Show'), 'index.php?mod=modulemanager&amp;sub=admin&amp;action=show');
 
         $moduleinfo = new Clansuite_ModuleInfoController();
         $modules_info_array = $moduleinfo->getModuleInformations();
@@ -82,7 +82,7 @@ class Clansuite_Module_Modulemanager_Admin extends Clansuite_Module_Controller
     public function action_admin_edit_info()
     {
          # Set Pagetitle and Breadcrumbs
-        Clansuite_Breadcrumb::add( _('Edit Info'), '/index.php?mod=modulemanager&amp;sub=admin&amp;action=edit_info');
+        Clansuite_Breadcrumb::add( _('Edit Info'), 'index.php?mod=modulemanager&amp;sub=admin&amp;action=edit_info');
 
         $modulename = $this->request->getParameterFromGet('modulename');
 
@@ -99,7 +99,7 @@ class Clansuite_Module_Modulemanager_Admin extends Clansuite_Module_Controller
     public function action_admin_install()
     {
         # Set Pagetitle and Breadcrumbs
-        Clansuite_Breadcrumb::add( _('Show'), '/index.php?mod=modulemanager&amp;sub=admin&amp;action=install_new');
+        Clansuite_Breadcrumb::add( _('Show'), 'index.php?mod=modulemanager&amp;sub=admin&amp;action=install_new');
 
         // Set Layout Template
         $this->getView()->setLayoutTemplate('index.tpl');
@@ -114,7 +114,7 @@ class Clansuite_Module_Modulemanager_Admin extends Clansuite_Module_Controller
     public function action_admin_export()
     {
         # Set Pagetitle and Breadcrumbs
-        Clansuite_Breadcrumb::add( _('Export'), '/index.php?mod=modulemanager&amp;sub=admin&amp;action=export');
+        Clansuite_Breadcrumb::add( _('Export'), 'index.php?mod=modulemanager&amp;sub=admin&amp;action=export');
 
         // Set Layout Template
         $this->getView()->setLayoutTemplate('index.tpl');
@@ -129,7 +129,7 @@ class Clansuite_Module_Modulemanager_Admin extends Clansuite_Module_Controller
     public function action_admin_imexport()
     {
         # Set Pagetitle and Breadcrumbs
-        Clansuite_Breadcrumb::add( _('Import & Export'), '/index.php?mod=modulemanager&amp;sub=admin&amp;action=imexport');
+        Clansuite_Breadcrumb::add( _('Import & Export'), 'index.php?mod=modulemanager&amp;sub=admin&amp;action=imexport');
 
         // Set Layout Template
         $this->getView()->setLayoutTemplate('index.tpl');
@@ -148,7 +148,7 @@ class Clansuite_Module_Modulemanager_Admin extends Clansuite_Module_Controller
     public function action_admin_builder()
     {
         # Set Pagetitle and Breadcrumbs
-        Clansuite_Breadcrumb::add( _('Builder'), '/index.php?mod=modulemanager&amp;sub=admin&amp;action=builder');
+        Clansuite_Breadcrumb::add( _('Builder'), 'index.php?mod=modulemanager&amp;sub=admin&amp;action=builder');
 
         $existing_modules_js = '[';
         $module_dirs = self::getModuleDirsList();
@@ -282,7 +282,7 @@ class Clansuite_Module_Modulemanager_Admin extends Clansuite_Module_Controller
         #$perms::check('cc_update_menueditor');
 
         # Set Pagetitle and Breadcrumbs
-        Clansuite_Breadcrumb::add( _('Create'), '/index.php?mod=modulemanager&amp;sub=admin&amp;action=create');
+        Clansuite_Breadcrumb::add( _('Create'), 'index.php?mod=modulemanager&amp;sub=admin&amp;action=create');
 
         $mod = $this->request->getParameter('mod_data');
 

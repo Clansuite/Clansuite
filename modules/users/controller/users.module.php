@@ -58,7 +58,7 @@ class Clansuite_Module_Users extends Clansuite_Module_Controller
     public function action_show()
     {
         // Set Pagetitle and Breadcrumbs
-        Clansuite_Breadcrumb::add( _('Show'), '/index.php?mod=users&amp;action=show');
+        Clansuite_Breadcrumb::add( _('Show'), 'index.php?mod=users&amp;action=show');
 
         // Defining initial variables
         $currentPage    = (int) $this->request->getParameter('page');

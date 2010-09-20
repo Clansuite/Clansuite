@@ -54,7 +54,7 @@ class Clansuite_Module_Staticpages_Admin extends Clansuite_Module_Controller
     public function action_admin_show()
     {
         # Set Pagetitle and Breadcrumbs
-        Clansuite_Breadcrumb::add( _('Overview'), '/index.php?mod=staticpages&amp;sub=admin&amp;action=show');
+        Clansuite_Breadcrumb::add( _('Overview'), 'index.php?mod=staticpages&amp;sub=admin&amp;action=show');
 
         $staticpages = Doctrine_Query::create()
                               ->select('*')
@@ -71,7 +71,7 @@ class Clansuite_Module_Staticpages_Admin extends Clansuite_Module_Controller
     function create_staticpages()
     {
         # Set Pagetitle and Breadcrumbs
-        Clansuite_Breadcrumb::add( _('Create'), '/index.php?mod=staticpages&amp;sub=admin&amp;action=create');
+        Clansuite_Breadcrumb::add( _('Create'), 'index.php?mod=staticpages&amp;sub=admin&amp;action=create');
 
         # @todo define form array 
         $html           = $_POST['html'];
@@ -147,7 +147,7 @@ class Clansuite_Module_Staticpages_Admin extends Clansuite_Module_Controller
     function edit_staticpages()
     {
         # Set Pagetitle and Breadcrumbs
-        Clansuite_Breadcrumb::add( _('Edit'), '/index.php?mod=staticpages&amp;sub=admin&amp;action=edit');
+        Clansuite_Breadcrumb::add( _('Edit'), 'index.php?mod=staticpages&amp;sub=admin&amp;action=edit');
 
         $info['html']           = $_POST['html'];
         $info['description']    = $_POST['description'];
@@ -220,7 +220,7 @@ class Clansuite_Module_Staticpages_Admin extends Clansuite_Module_Controller
     public function action_admin_settings()
     {
         # Set Pagetitle and Breadcrumbs
-        Clansuite_Breadcrumb::add( _('Settings'), '/index.php?mod=staticpages&amp;sub=admin&amp;action=settings');
+        Clansuite_Breadcrumb::add( _('Settings'), 'index.php?mod=staticpages&amp;sub=admin&amp;action=settings');
 
         $settings = array();
 

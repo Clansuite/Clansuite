@@ -71,7 +71,7 @@ class Clansuite_Module_News extends Clansuite_Module_Controller
     public function action_show()
     {
         # Set Pagetitle and Breadcrumbs
-        Clansuite_Breadcrumb::add( _('Show'), '/index.php?mod=news&amp;action=show');
+        Clansuite_Breadcrumb::add( _('Show'), 'index.php?mod=news&amp;action=show');
 
         # get resultsPerPage from ModuleConfig
         $resultsPerPage = $this->getConfigValue('resultsPerPage_show', '3');
@@ -303,7 +303,7 @@ class Clansuite_Module_News extends Clansuite_Module_Controller
     public function action_archive()
     {
         # Set Pagetitle and Breadcrumbs
-        Clansuite_Breadcrumb::add( _('Archive'), '/index.php?mod=news&amp;action=archive');
+        Clansuite_Breadcrumb::add( _('Archive'), 'index.php?mod=news&amp;action=archive');
 
         # Defining initial variables
         $currentPage = (int) $this->request->getParameter('page');
@@ -369,7 +369,7 @@ class Clansuite_Module_News extends Clansuite_Module_Controller
     public function action_fullarchive()
     {
         # Set Pagetitle and Breadcrumbs
-        Clansuite_Breadcrumb::add( _('Archiv'), '/index.php?mod=news&amp;action=fullarchive');
+        Clansuite_Breadcrumb::add( _('Archiv'), 'index.php?mod=news&amp;action=fullarchive');
 
         # Defining initial variables
         $currentPage = (int) $this->request->getParameter('page');

@@ -63,7 +63,7 @@ class Clansuite_Module_Templatemanager_Admin extends Clansuite_Module_Controller
         $view = $this->getView();
 
         # Set Pagetitle and Breadcrumbs
-        Clansuite_Breadcrumb::add( _('Editor'), '/index.php?mod=templatemanager&amp;sub=admin&amp;action=showmoduletemplates');
+        Clansuite_Breadcrumb::add( _('Editor'), 'index.php?mod=templatemanager&amp;sub=admin&amp;action=showmoduletemplates');
 
         # Incomming Variables
 
@@ -107,7 +107,7 @@ class Clansuite_Module_Templatemanager_Admin extends Clansuite_Module_Controller
     public function action_admin_edit()
     {
         # Set Pagetitle and Breadcrumbs
-        Clansuite_Breadcrumb::add( _('Edit'), '/index.php?mod=templatemanager&amp;sub=admin&amp;action=edit');
+        Clansuite_Breadcrumb::add( _('Edit'), 'index.php?mod=templatemanager&amp;sub=admin&amp;action=edit');
 
         $view = $this->getView();
 
@@ -208,7 +208,7 @@ class Clansuite_Module_Templatemanager_Admin extends Clansuite_Module_Controller
     public function action_admin_settings()
     {
         # Set Pagetitle and Breadcrumbs
-        Clansuite_Breadcrumb::add( _('Settings'), '/index.php?mod=templatemanager&amp;sub=admin&amp;action=settings');
+        Clansuite_Breadcrumb::add( _('Settings'), 'index.php?mod=templatemanager&amp;sub=admin&amp;action=settings');
 
         $this->display();
     }

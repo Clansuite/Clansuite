@@ -54,7 +54,7 @@ class Clansuite_Module_Gallery_Admin extends Clansuite_Module_Controller
     {
 
         # Set Pagetitle and Breadcrumbs
-        Clansuite_Breadcrumb::add( _('Show'), '/index.php?mod=gallery&amp;sub=admin&amp;action=show');
+        Clansuite_Breadcrumb::add( _('Show'), 'index.php?mod=gallery&amp;sub=admin&amp;action=show');
 
         $album = CsGalleryAlbum::getGalleryAlbums();
 
@@ -78,7 +78,7 @@ class Clansuite_Module_Gallery_Admin extends Clansuite_Module_Controller
     public function action_admin_create_album()
     {
         # Set Pagetitle and Breadcrumbs
-        Clansuite_Breadcrumb::add( _('Create Album'), '/index.php?mod=gallery&amp;sub=admin&amp;action=create_album');
+        Clansuite_Breadcrumb::add( _('Create Album'), 'index.php?mod=gallery&amp;sub=admin&amp;action=create_album');
 
         # Get Render Engine
         $view = $this->getView();
@@ -101,7 +101,7 @@ class Clansuite_Module_Gallery_Admin extends Clansuite_Module_Controller
     public function action_admin_update_album()
     {
         # set pagetitle and breadcrumbs
-        Clansuite_Breadcrumb::add( _('Update Album'), '/index.php?mod=gallery&amp;sub=admin&amp;action=update_album');
+        Clansuite_Breadcrumb::add( _('Update Album'), 'index.php?mod=gallery&amp;sub=admin&amp;action=update_album');
 
         # get render engine
         $view = $this->getView();

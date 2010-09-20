@@ -53,7 +53,7 @@ class Clansuite_Module_Forum extends Clansuite_Module_Controller
     public function action_show()
     {
         # Set Pagetitle and Breadcrumbs
-        Clansuite_Breadcrumb::add( _('Show'), '/index.php?mod=forum&amp;action=show');
+        Clansuite_Breadcrumb::add( _('Show'), 'index.php?mod=forum&amp;action=show');
 
         
         # Prepare the Output
@@ -63,7 +63,7 @@ class Clansuite_Module_Forum extends Clansuite_Module_Controller
     public function action_show_thread()
     {
         # Set Pagetitle and Breadcrumbs
-        Clansuite_Breadcrumb::add( _('Show Thread'), '/index.php?mod=forum&amp;action=show_thread');
+        Clansuite_Breadcrumb::add( _('Show Thread'), 'index.php?mod=forum&amp;action=show_thread');
 
         $this->display();
     }
@@ -71,7 +71,7 @@ class Clansuite_Module_Forum extends Clansuite_Module_Controller
     public function action_show_post()
     {
         # Set Pagetitle and Breadcrumbs
-        Clansuite_Breadcrumb::add( _('Show Post'), '/index.php?mod=forum&amp;action=show_post');
+        Clansuite_Breadcrumb::add( _('Show Post'), 'index.php?mod=forum&amp;action=show_post');
 
         
         # Prepare the Output
@@ -81,7 +81,7 @@ class Clansuite_Module_Forum extends Clansuite_Module_Controller
     public function action_create_post()
     {
         # Set Pagetitle and Breadcrumbs
-        Clansuite_Breadcrumb::add( _('Create Post'), '/index.php?mod=forum&amp;action=create_post');
+        Clansuite_Breadcrumb::add( _('Create Post'), 'index.php?mod=forum&amp;action=create_post');
 
         
         # Prepare the Output
@@ -91,7 +91,7 @@ class Clansuite_Module_Forum extends Clansuite_Module_Controller
     public function action_create_thread()
     {
         # Set Pagetitle and Breadcrumbs
-        Clansuite_Breadcrumb::add( _('Create Thread'), '/index.php?mod=forum&amp;action=create_thread');
+        Clansuite_Breadcrumb::add( _('Create Thread'), 'index.php?mod=forum&amp;action=create_thread');
 
         $this->display();
     }
@@ -99,7 +99,7 @@ class Clansuite_Module_Forum extends Clansuite_Module_Controller
     public function action_delete_post()
     {
         # Set Pagetitle and Breadcrumbs
-        Clansuite_Breadcrumb::add( _('Delete Post'), '/index.php?mod=forum&amp;action=delete_post');
+        Clansuite_Breadcrumb::add( _('Delete Post'), 'index.php?mod=forum&amp;action=delete_post');
         
         $this->display();
     }
@@ -107,7 +107,7 @@ class Clansuite_Module_Forum extends Clansuite_Module_Controller
     public function action_delete_thread()
     {
         # Set Pagetitle and Breadcrumbs
-        Clansuite_Breadcrumb::add( _('Delete Thread'), '/index.php?mod=forum&amp;action=delete_thread');
+        Clansuite_Breadcrumb::add( _('Delete Thread'), 'index.php?mod=forum&amp;action=delete_thread');
 
         $this->display();
     }
@@ -115,7 +115,7 @@ class Clansuite_Module_Forum extends Clansuite_Module_Controller
     public function action_edit_post()
     {
         # Set Pagetitle and Breadcrumbs
-        Clansuite_Breadcrumb::add( _('Edit Post'), '/index.php?mod=forum&amp;action=edit_post');
+        Clansuite_Breadcrumb::add( _('Edit Post'), 'index.php?mod=forum&amp;action=edit_post');
 
         $this->display();
     }
@@ -123,7 +123,7 @@ class Clansuite_Module_Forum extends Clansuite_Module_Controller
     public function action_edit_thread()
     {
         # Set Pagetitle and Breadcrumbs
-        Clansuite_Breadcrumb::add( _('Edit Thread'), '/index.php?mod=forum&amp;action=edit_thread');
+        Clansuite_Breadcrumb::add( _('Edit Thread'), 'index.php?mod=forum&amp;action=edit_thread');
 
         $this->display();
     }
@@ -131,7 +131,7 @@ class Clansuite_Module_Forum extends Clansuite_Module_Controller
     public function action_show_category()
     {
         # Set Pagetitle and Breadcrumbs
-        Clansuite_Breadcrumb::add( _('Show Category'), '/index.php?mod=forum&amp;action=show_category');
+        Clansuite_Breadcrumb::add( _('Show Category'), 'index.php?mod=forum&amp;action=show_category');
 
         $this->display();
     }
@@ -139,7 +139,7 @@ class Clansuite_Module_Forum extends Clansuite_Module_Controller
     public function action_show_board()
     {
         # Set Pagetitle and Breadcrumbs
-        Clansuite_Breadcrumb::add( _('Show Board'), '/index.php?mod=forum&amp;action=show_board');
+        Clansuite_Breadcrumb::add( _('Show Board'), 'index.php?mod=forum&amp;action=show_board');
 
         $this->display();
     }

@@ -59,7 +59,7 @@ class Clansuite_Module_Guestbook extends Clansuite_Module_Controller
     public function action_show()
     {
         # Set Pagetitle and Breadcrumbs
-        Clansuite_Breadcrumb::add( _('Show'), '/index.php?mod=guestbook&amp;action=show');
+        Clansuite_Breadcrumb::add( _('Show'), 'index.php?mod=guestbook&amp;action=show');
 
         # Defining initial variables
         # Pager Chapter in Doctrine Manual  -> http://www.phpdoctrine.org/documentation/manual/0_10?one-page#utilities

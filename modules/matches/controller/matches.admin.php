@@ -56,7 +56,7 @@ class Clansuite_Module_Matches_Admin extends Clansuite_Module_Controller
         #$perms::check('cc_view_matches');
         
         # Set Pagetitle and Breadcrumbs
-        Clansuite_Breadcrumb::add( _('Show'), '/index.php?mod=gallery&amp;sub=admin&amp;action=show');
+        Clansuite_Breadcrumb::add( _('Show'), 'index.php?mod=gallery&amp;sub=admin&amp;action=show');
         
         #
         
@@ -86,7 +86,7 @@ class Clansuite_Module_Matches_Admin extends Clansuite_Module_Controller
     public function action_admin_settings()
     {
         # Set Pagetitle and Breadcrumbs
-        Clansuite_Breadcrumb::add( _('Settings'), '/index.php?mod=matches&amp;sub=admin&amp;action=settings');
+        Clansuite_Breadcrumb::add( _('Settings'), 'index.php?mod=matches&amp;sub=admin&amp;action=settings');
         
         $settings = array();
         
