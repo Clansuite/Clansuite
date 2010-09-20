@@ -257,7 +257,7 @@ class Clansuite_CMS
         /**
          * @var Root path of the core directory (with trailing slash)
          */
-        define('ROOT_CORE', ROOT . 'core' . DS, false); 
+        define('ROOT_CORE', ROOT . 'core' . DS, false);
 
         /**
          * @var Root path of the languages directory (with trailing slash)
@@ -283,8 +283,9 @@ class Clansuite_CMS
          * @var Root path of the themes directory (with trailing slash)
          */
         define('ROOT_THEMES', ROOT . 'themes' . DS, false);
-        define('ROOT_THEMES_BACKEND', ROOT . 'themes' . DS . 'backend' . DS, false);
-        define('ROOT_THEMES_FRONTEND', ROOT . 'themes' . DS . 'frontend' . DS, false);
+        define('ROOT_THEMES_BACKEND', ROOT_THEMES . 'backend' . DS, false);
+        define('ROOT_THEMES_FRONTEND', ROOT_THEMES . 'frontend' . DS, false);
+        define('ROOT_THEMES_CORE', ROOT_THEMES . 'core' . DS, false);
 
         /**
          * @var Root path of the upload directory (with trailing slash)
@@ -324,20 +325,8 @@ class Clansuite_CMS
          * @var WWW_ROOT_THEMES defines the themes folder
          */
         define('WWW_ROOT_THEMES', WWW_ROOT . 'themes' . '/', false);
-
-        /**
-         * @var WWW_ROOT_THEMES_BACKEND defines the themes folder
-         */
-        define('WWW_ROOT_THEMES_BACKEND', WWW_ROOT . 'themes/backend' . '/', false);
-
-        /**
-         * @var WWW_ROOT_THEMES_FRONTEND defines the themes folder
-         */
-        define('WWW_ROOT_THEMES_FRONTEND', WWW_ROOT . 'themes/frontend' . '/', false);
-
-        /**
-         * @var WWW_ROOT_THEMES_CORE defines the themes/core folder
-         */
+        define('WWW_ROOT_THEMES_BACKEND', WWW_ROOT_THEMES . 'backend' . '/', false);
+        define('WWW_ROOT_THEMES_FRONTEND', WWW_ROOT_THEMES . 'frontend' . '/', false);
         define('WWW_ROOT_THEMES_CORE', WWW_ROOT_THEMES . 'core' . '/', false);
 
         /**
