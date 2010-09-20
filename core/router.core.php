@@ -1080,13 +1080,13 @@ class Clansuite_TargetRoute extends Clansuite_Mapper
                 # @todo how to get the object back for a classname?
                 if(true === in_array($method, get_class_methods($classname)))
                 {
-                      Clansuite_Debug::firebug('(OK) Route is dispatchable: '. $filename .' '. $classname .'->'. $method);
+                      #Clansuite_Debug::firebug('(OK) Route is dispatchable: '. $filename .' '. $classname .'->'. $method);
                       return true;
                 }
             }
         }
 
-        Clansuite_Debug::firebug('(ERROR) Route not dispatchable: '. $filename .' '. $classname .'->'. $method);
+        #Clansuite_Debug::firebug('(ERROR) Route not dispatchable: '. $filename .' '. $classname .'->'. $method);
         return false;
     }
 
