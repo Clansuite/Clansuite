@@ -47,7 +47,7 @@
 
     <link rel="stylesheet" type="text/css" href="{$css}" />
     <link rel="alternate"  type="application/rss+xml" href="{$www_root}cache/photo.rss" title="" id="gallery" />
-    <link rel="stylesheet" type="text/css" href="{$www_root_themes}andreas01/print.css" media="print" />
+    <link rel="stylesheet" type="text/css" href="{$www_root_themes}andreas01/css/print.css" media="print" />
 
 </head><body>
 
