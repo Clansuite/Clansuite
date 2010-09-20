@@ -321,7 +321,7 @@ class Clansuite_HttpResponse implements Clansuite_Response_Interface
     public static function setNoCacheHeader()
     {
         # set nocache via session
-        session_cache_limiter('nocache');
+        #session_cache_limiter('nocache');
 
         # reset pragma header
         self::addHeader('Pragma',        'no-cache');
@@ -382,11 +382,11 @@ class Clansuite_HttpResponse implements Clansuite_Response_Interface
 
             # redirect to ...
             self::setStatusCode($statusCode);
-            
+
             /**
              * Set flashmessage on redirect
              */
-            if(isset($message) and strpos('#', $message))
+            if(isset($message) and strpos($message, '#'))
             {
                 /**
                  * detect flashmessage tunneling ($message is "flashmessagetype#message text")
@@ -399,7 +399,7 @@ class Clansuite_HttpResponse implements Clansuite_Response_Interface
                 {
                     Clansuite_Flashmessages::setMessage($array[0], $array[1]);
                 }
-                
+
                 unset($message);
             }
 

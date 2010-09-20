@@ -74,6 +74,11 @@ class Clansuite_Flashmessages /* extends Clansuite_Session */
      */
     private static $flashmessagetypes = array('error', 'warning', 'notice', 'success', 'debug');
 
+    /**
+     * Returns all flashmessages types
+     *
+     * @return array types of flashmessages (whitelist)
+     */
     public static function getFlashMessageTypes()
     {
         return self::$flashmessagetypes;
@@ -92,7 +97,7 @@ class Clansuite_Flashmessages /* extends Clansuite_Session */
     {
         if(in_array($type, self::$flashmessagetypes) == true)
         {
-            self::$flashmessages[][$type] = $message;
+            self::$flashmessages[] = array($type => $message);
         }
 
         $_SESSION['user']['flashmessages'] = self::$flashmessages;
@@ -125,7 +130,7 @@ class Clansuite_Flashmessages /* extends Clansuite_Session */
         if(array_key_exists('flashmessages', $_SESSION['user']))
         {
             self::$flashmessages = $_SESSION['user']['flashmessages'];
-            unset($_SESSION['user']['flashmessages']);
+            #unset($_SESSION['user']['flashmessages']);
             return self::$flashmessages;
         }
     }
@@ -145,18 +150,19 @@ class Clansuite_Flashmessages /* extends Clansuite_Session */
      */
     public static function render($type = null)
     {
-        $flashmessages_index = self::getMessagesFromSessionAndUnset();
+        $flashmessages = self::getMessagesFromSessionAndUnset();
 
-        if(isset($flashmessages_index))
+        if(isset($flashmessages))
         {
             $html = '';
-            foreach($flashmessages_index as $flashmessage)
+            foreach($flashmessages as $flashmessage)
             {
                 foreach($flashmessage as $type => $message)
                 {
                     $html .= '<div id="flashmessage" class="flashmessage ' . $type . '">' . $message . '</div>';
                 }
             }
+
             return $html;
         }
     }
