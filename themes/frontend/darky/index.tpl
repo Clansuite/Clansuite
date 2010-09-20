@@ -46,7 +46,7 @@
     {* Cascading Style Sheets *}
 
     <link href="{$www_root_themes_core}css/core.css" rel="stylesheet" type="text/css" media="screen" />
-	<link href="{$www_root_themes}darky/darky.css" rel="stylesheet" type="text/css" media="screen" />
+	<link href="{$www_root_themes}darky/css/darky.css" rel="stylesheet" type="text/css" media="screen" />
     <link rel="stylesheet" type="text/css" href="{$www_root_themes_core}css/jquery-ui-lightness/jquery-ui-1.7.2.custom.css" />    
 
     {* Pagetitle *}
