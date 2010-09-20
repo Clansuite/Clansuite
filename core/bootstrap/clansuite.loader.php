@@ -430,6 +430,7 @@ class Clansuite_Loader
         $classname = self::toUnderscoredUpperCamelCase($modulename);
 
         $moduleinfos = explode('_', $modulename);
+        unset($modulename);
         $filename = ROOT_MOD;
 
         # if there is a part [3], we have to require a submodule filename
