@@ -216,7 +216,7 @@ abstract class Clansuite_Renderer_Base
 
         # get frontend and backend theme from session for path construction
         $frontendtheme = (isset($_SESSION['user']['frontend_theme'])) ? $_SESSION['user']['frontend_theme'] : 'standard';
-        $backendtheme  = (isset($_SESSION['user']['backend_theme']))  ? $_SESSION['user']['frontend_theme'] : 'admin';
+        $backendtheme  = (isset($_SESSION['user']['backend_theme']))  ? $_SESSION['user']['backend_theme'] : 'admin';
 
         $theme_paths = array();
 
