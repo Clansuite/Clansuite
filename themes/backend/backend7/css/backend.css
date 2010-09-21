@@ -1,9 +1,9 @@
 @charset "utf-8";
-/* CSS Document */
 
-@import url("../core/css/form.css") all;
-@import url("../core/css/ui_buttons.css") all;
+/* ###################   CSS Imports   ################### */
 
+@import url("../../core/css/form.css") all;
+@import url("../../core/css/ui_buttons.css") all;
 
 html, body {
 background-color:#d7d6d6;
