@@ -32,7 +32,7 @@
 
 # Security Handler
 if(defined('IN_CS') === false)
-{ 
+{
     die('Clansuite not loaded. Direct Access forbidden.');
 }
 
@@ -59,21 +59,6 @@ if(defined('IN_CS') === false)
  */
 class Clansuite_Feed
 {
-    private function instantiateSimplePie()
-    {
-        # try to load SimplePie library
-        if( clansuite_loader::loadLibrary('simplepie/simplepie.inc') == true)
-        {
-            # create a new instance of SimplePie
-            return new SimplePie();
-        }
-        else
-        {
-            trigger_error('Error: No Library SimplePie available!', E_USER_NOTICE);
-            exit(0);
-        }
-    }
-
     /**
      * fetches a feed_url and caches it via SimplePie.
      *
@@ -83,8 +68,14 @@ class Clansuite_Feed
      */
     public function fetchRSS($feed_url, $number_of_items = null, $cache_duration = null, $cache_location = null)
     {
+        # SimplePie is a bunch of crap, so set error_reporting(0)
+        error_reporting(0);
+
         # load simplepie
-        $simplepie = $this->instantiateSimplePie();
+        include ROOT_LIBRARIES . 'simplepie/simplepie.inc';
+
+        # instantiate simplepie
+        $simplepie = new SimplePie();
 
         # if cache_location was not specified manually
         if ( $cache_location == null)
