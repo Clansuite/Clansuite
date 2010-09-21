@@ -35,7 +35,7 @@
             </div>
 
             {* Limit to 5 Entries *}
-            {if $smarty.foreach.csRSSForeach.iteration == $items_newswidget } {break} {/if}
+            {if $smarty.foreach.csRSSForeach.iteration==$items_newswidget} {break} {/if}
 
         {/foreach}
     </div>
