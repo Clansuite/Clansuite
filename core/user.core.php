@@ -32,7 +32,7 @@
 
 # Security Handler
 if (defined('IN_CS') === false)
-{ 
+{
     die('Clansuite not loaded. Direct Access forbidden.');
 }
 
@@ -169,9 +169,8 @@ class Clansuite_User
             $this->logoutUser();
 
             # redirect
-            Clansuite_CMS::getInjector()
-                    ->instantiate('Clansuite_HttpResponse')
-                    ->redirect( 'index.php?mod=account&action=activation_email', 5, 403, _('Your account is not yet activated.'));
+            Clansuite_CMS::getInjector()->instantiate('Clansuite_HttpResponse')
+            ->redirect( 'index.php?mod=account&action=activation_email', 5, 403, _('Your account is not yet activated.'));
         }
 
         /**
@@ -182,8 +181,9 @@ class Clansuite_User
             /**
              * User infos
              */
-            //var_dump($_SESSION);
-            //var_dump($this->config);
+            #Clansuite_Debug::firebug($_SESSION);
+            #Clansuite_Debug::firebug($this->config);
+
             $_SESSION['user']['authed']         = 1;
             $_SESSION['user']['user_id']        = $this->user['user_id'];
 
@@ -252,11 +252,15 @@ class Clansuite_User
 
                 }
             }
+
+            #Clansuite_Debug::firebug($_SESSION);
         }
         else
         {
             # this resets the $_SESSION['user'] array
             Clansuite_GuestUser::getInstance();
+
+            #Clansuite_Debug::firebug($_SESSION);
         }
     }
 
@@ -559,9 +563,9 @@ class Clansuite_GuestUser
          * Sets the Default Language for all Guest Visitors as defined by configuration value,
          * if not already set via a GET request, like "index.php?lang=fr".
          */
-        if ( isset($_SESSION['user']['language_via_url']) == false )
+        if(empty($_SESSION['user']['language_via_url']))
         {
-            $_SESSION['user']['language']   = $this->config['language']['language'];
+            $_SESSION['user']['language'] = $this->config['language']['language'];
         }
 
         /**
@@ -570,9 +574,14 @@ class Clansuite_GuestUser
          * Sets the Default Theme for all Guest Visitors, if not already set via a GET request.
          * Theme for Guest Users as defined by config['template']['frontend_theme']
          */
-        if (empty($_SESSION['user']['frontend_theme']))
+        if(empty($_SESSION['user']['frontend_theme']))
         {
-            $_SESSION['user']['frontend_theme']      = $this->config['template']['frontend_theme'];
+            $_SESSION['user']['frontend_theme'] = $this->config['template']['frontend_theme'];
+        }
+
+        if(empty($_SESSION['user']['backend_theme']))
+        {
+            $_SESSION['user']['backend_theme'] = $this->config['template']['backend_theme'];
         }
 
         /**
