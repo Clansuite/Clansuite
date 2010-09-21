@@ -45,9 +45,14 @@ if (defined('IN_CS') === false)
  */
 class Clansuite_Config extends Clansuite_Config_Base
 {
-    function __construct($configfile = 'configuration/clansuite.config.php')
+    function __construct()
     {
-        $this->config = $this->readConfig($configfile);
+        # if empty get from Clansuite_CMS
+        if(empty($this->config))
+        {
+            $this->config = Clansuite_CMS::getClansuiteConfig();
+            #$this->config = $this->readConfig(ROOT . configuration/clansuite.config.php);
+        }
     }
 
     /**
@@ -94,7 +99,7 @@ class Clansuite_Config extends Clansuite_Config_Base
      * @see writeConfig()
      *
      * @param $array the configuration array to write
-     * @param $modulename The Modulename   
+     * @param $modulename The Modulename
      */
     public function writeModuleConfig($array, $modulename = null)
     {
