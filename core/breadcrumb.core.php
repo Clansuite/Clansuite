@@ -107,16 +107,14 @@ class Clansuite_Breadcrumb
         if((mb_strlen($submoduleName) > 0))
         {
             $url .= '&amp;sub=' . $submoduleName;
+            self::add(_($submoduleName), $url);
         }
 
-        self::add(_($submoduleName), $url);
-
-        if((mb_strlen($actionName) > 0))
+        if((mb_strlen($actionName) > 0) and $actionName != 'action_show')
         {
             $url .= '&amp;action=' . $actionName;
+            self::add(_($actionName), $url);
         }
-
-        self::add(_($actionName), $url);
     }
 
     /**
@@ -124,6 +122,7 @@ class Clansuite_Breadcrumb
      */
     public static function getTrail()
     {
+
         # if we got only one breadcrumb element, then only Home was set before
         if(count(self::$path) == 1)
         {
