@@ -769,6 +769,8 @@ class Clansuite_Mapper
 
         $filename = $module_path . $controller . $filename_postfix;
 
+        unset($filename_postfix, $module_path);
+
         return $filename;
     }
 

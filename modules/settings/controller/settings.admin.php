@@ -45,10 +45,6 @@ if (defined('IN_CS') === false)
  */
 class Clansuite_Module_Settings_Admin extends Clansuite_Module_Controller
 {
-    public function initializeModule()
-    {
-    }
-
     /**
      * action_settings_show
      */
@@ -102,24 +98,24 @@ class Clansuite_Module_Settings_Admin extends Clansuite_Module_Controller
 
     /**
      * action_settings_update
+     *
+
      */
     public function action_admin_update()
     {
-        # Set Pagetitle and Breadcrumbs
-        Clansuite_Breadcrumb::add( _('Update'), 'index.php?mod=controlcenter&amp;sub=settings&amp;action=update');
-
         # Incomming Data
         # @todo get post via request object, sanitize
         $data = $_POST['config'];
 
-        # Get Configuration from Injector and write Config
-        $this->getInjector()->instantiate('Clansuite_Config')->writeModuleConfig($data);
+        # Get Configuration from Injector and main clansuite configuration file
+        $config = $this->getInjector()->instantiate('Clansuite_Config');
+        $config->writeConfig(ROOT . 'configuration/clansuite.config.php', $data);
 
         # clear the cache / compiled tpls
         $this->getView()->clearCache();
 
         # Redirect
-        $this->response->redirectNoCache('index.php?mod=settings&amp;sub=admin', 2, 302, 'The config file has been succesfully updated.');
+        $this->response->redirectNoCache('index.php?mod=settings&sub=admin', 2, 302, 'The config file has been succesfully updated.');
     }
 }
 ?>
