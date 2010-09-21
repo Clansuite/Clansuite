@@ -345,7 +345,7 @@ abstract class Clansuite_Renderer_Base
     public function getConstants()
     {
         $modulename = Clansuite_HttpRequest::getRoute()->getModuleName();
-        
+
         $template_constants = array();
 
         /**
@@ -403,7 +403,7 @@ abstract class Clansuite_Renderer_Base
         $template_constants['trail'] = Clansuite_Breadcrumb::getTrail();
 
         # Templatename itself
-        $template_constants['template_to_render'] = $this->getTemplate();
+        $template_constants['templatename'] = $this->getTemplate();
 
         # Assign Benchmarks
         #$template_constants['db_exectime'] = benchmark::returnDbexectime() );

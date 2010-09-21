@@ -64,14 +64,6 @@ require dirname(__FILE__) . '/config.base.php';
 class Clansuite_Config_INIHandler extends Clansuite_Config_Base implements ArrayAccess
 {
     /**
-     * Constructor
-     */
-    public function __construct($filename = 'configuration/clansuite.config.php')
-    {
-        $this->config = self::readConfig($filename);
-    }
-
-    /**
      * Clansuite_Config_INIHandler is a Singleton
      *
      * @return instance of Config_INIHandler class
@@ -99,8 +91,12 @@ class Clansuite_Config_INIHandler extends Clansuite_Config_Base implements Array
         # ensure we got an array
         if(is_array($assoc_array) === false)
         {
-            echo 'writeConfig Parameter $assoc_array is not an array.';
-            return false;
+            throw new Clansuite_Exception('writeConfig Parameter $assoc_array is not an array.');
+        }
+        
+        if(empty($ini_filename))
+        {
+            throw new Clansuite_Exception('writeConfig Parameter $ini_filename is not given.');
         }
 
         # when ini_filename exists, get old config array

@@ -488,7 +488,6 @@ class Clansuite_Renderer_Smarty extends Clansuite_Renderer_Base
         $this->renderer->assign('modulename', Clansuite_TargetRoute::getModuleName());
         $this->renderer->assign('actionname', Clansuite_TargetRoute::getActionName());
         $this->renderer->assign('templatename', $template);
-        $this->renderer->assign('template_to_render', $template);
 
         # @todo caching
         //$resource_name = ???, $cache_id = ???, $compile_id = ???
