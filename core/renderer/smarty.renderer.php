@@ -86,7 +86,7 @@ class Clansuite_Renderer_Smarty extends Clansuite_Renderer_Base
             # check if Smarty library exists
             if(is_file(ROOT_LIBRARIES . 'smarty/Smarty.class.php') === true)
             {
-                include ROOT_LIBRARIES . 'smarty/Smarty.class.php';
+                include ROOT_LIBRARIES . 'smarty/Smarty.class.php';                
             }
             else
             {
@@ -173,14 +173,15 @@ class Clansuite_Renderer_Smarty extends Clansuite_Renderer_Base
         if($this->renderer->debugging == true)
         {
             $this->renderer->caching                = 0;
-            $this->renderer->cache_lifetime         = $this->config['cache']['cache_lifetime']; # -1 ... dont expire, 0 ... refresh everytime
+            $this->renderer->cache_lifetime         = 0;       # refresh templates on every load
             # $this->renderer->cache_handler_func   = "";      # Specify your own cache_handler function
             $this->renderer->cache_modified_check   = 0;       # set to 1 to activate
         }
         else
         {
             $this->renderer->caching = (bool) $this->config['cache']['caching'];
-            $this->renderer->cache_lifetime = $this->config['cache']['cache_lifetime']; # -1 ... dont expire, 0 ... refresh everytime
+            # -1 ... dont expire, 0 ... refresh everytime
+            $this->renderer->cache_lifetime = isset($this->config['cache']['cache_lifetime']) ? $this->config['cache']['cache_lifetime'] : 0;
             # $this->renderer->cache_handler_func   = "";      # Specify your own cache_handler function
             $this->renderer->cache_modified_check   = 1;       # set to 1 to activate
         }
