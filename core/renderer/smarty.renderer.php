@@ -133,7 +133,7 @@ class Clansuite_Renderer_Smarty extends Clansuite_Renderer_Base
          * SMARTY FILTERS
          */
         $autoload_filters = array();
-        if($this->config['error']['debug'])
+        if($this->renderer->debugging == true)
         {
             $autoload_filters = array('pre' => array('inserttplnames'));
         }
@@ -236,6 +236,7 @@ class Clansuite_Renderer_Smarty extends Clansuite_Renderer_Base
          * 3) "/modules/"
          * 4) "/modules/modulename/view/"
          * 5) "/themes/core/view/"
+         * 6) "/themes/"
          */
         $this->renderer->template_dir = array();
 
@@ -245,8 +246,9 @@ class Clansuite_Renderer_Smarty extends Clansuite_Renderer_Base
         # 3) + 4)
         $this->renderer->template_dir[] = $this->getModuleTemplatePaths();
 
-        # 5) themes dir
+        # 5) +6) themes dir
         $this->renderer->template_dir[] = ROOT_THEMES . 'core' . DS . 'view' . DS . 'smarty';
+        $this->renderer->template_dir[] = ROOT_THEMES;
 
         # flatten that thing
         $this->renderer->template_dir = Clansuite_Functions::array_flatten($this->renderer->template_dir);
@@ -368,6 +370,28 @@ class Clansuite_Renderer_Smarty extends Clansuite_Renderer_Base
         $this->assign($key, $value);
     }
 
+     /**
+      * Magic Method to testing with empty() and isset() for Smarty Template Variables
+      *
+      * @param string $key
+      * @return boolean
+      */
+     public function __isset($key)
+     {
+         return (null !== $this->renderer->get_template_vars($key));
+     }
+
+     /**
+      * Magic Method to unset() Smarty Template Variables
+      *
+      * @param string $key
+      * @return void
+      */
+     public function __unset($key)
+    {
+         $this->renderer->clear_assign($key);
+     }
+
     /**
      * Executes the template fetching and returns the result.
      */
@@ -395,7 +419,7 @@ class Clansuite_Renderer_Smarty extends Clansuite_Renderer_Base
      */
     public function clearVars()
     {
-        $this->renderer->cache->clearAll();
+        $this->renderer->clear_all_assign();
     }
 
     /**
