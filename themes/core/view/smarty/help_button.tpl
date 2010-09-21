@@ -15,4 +15,4 @@
 </div>
 
 <!-- Display the Helptext from Core -->
-{include file="help.tpl"}
+{include file="themes/core/view/smarty/help.tpl"}
