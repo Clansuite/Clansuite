@@ -422,6 +422,41 @@ class Clansuite_Functions
     }
 
     /**
+     * Combines two arrays by using $keyArray as key providing array
+     * an $valueArray as value providing array.
+     * In case the valueArray is greater than the keyArray,
+     * the keyArray determines the maximum number of values returned.
+     * In case the valueArray is smaller than the keyArray,
+     * those keys are returned for which values exist.
+     *
+     * @example
+     * $keys = array('mod', 'sub', 'action', 'id');
+     * $values = array('news', 'admin');
+     * $combined = self::array_unequal_combine($keys, $values);
+     * Results in: array('mod'=>'news', 'sub'=>'admin');
+     *
+     * @param array $keyArray
+     * @param array $valueArray
+     * @return array Combined Array
+     */
+    public static function array_unequal_combine($keyArray, $valueArray)
+    {
+        $returnArray = array();
+        $key = '';
+        $i = 0;
+
+        foreach($keyArray as $key)
+        {
+            if(isset($valueArray[$i]))
+            {
+                $returnArray[$key] = $valueArray[$i++];
+            }
+        }
+
+        return $returnArray;
+    }
+
+    /**
      * flatten multi-dimensional array
      *
      * @param array $array
