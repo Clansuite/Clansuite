@@ -93,7 +93,7 @@ class Clansuite_Config_INIHandler extends Clansuite_Config_Base implements Array
         {
             throw new Clansuite_Exception('writeConfig Parameter $assoc_array is not an array.');
         }
-        
+
         if(empty($ini_filename))
         {
             throw new Clansuite_Exception('writeConfig Parameter $ini_filename is not given.');
