@@ -122,12 +122,8 @@ class Clansuite_Module_Categories_Admin extends Clansuite_Module_Controller
         ) );
 
         $datagrid->setBatchActions( $BatchActions );
-
-        $datagrid->disableFeature('Label');
-        $datagrid->disableFeature('Caption');
-        $datagrid->disableFeature('Description');
+        $datagrid->disableFeature(array('Label','Caption','Description'));
         $datagrid->getColumn('Select')->disableFeature('Search');
-
         $datagrid->getColumn('Name')->getRenderer()->linkFormat = '&action=edit&id=%{id}';
         $datagrid->getColumn('Name')->getRenderer()->linkTitle  = _('Edit this category');
 

@@ -355,7 +355,7 @@ abstract class Clansuite_Renderer_Base
          */
         $template_constants['www_root']             = WWW_ROOT;
         $template_constants['www_root_upload']      = WWW_ROOT . 'uploads/';
-        $template_constants['www_root_mod']         = WWW_ROOT . 'modules/' . $modulename . DS;
+        $template_constants['www_root_mod']         = WWW_ROOT . 'modules/' . $modulename . '/';
         $template_constants['www_root_theme']       = WWW_ROOT_THEMES_FRONTEND . $_SESSION['user']['frontend_theme'] . '/';
         $template_constants['www_root_themes']      = WWW_ROOT_THEMES;
         $template_constants['www_root_themes_core'] = WWW_ROOT_THEMES_CORE;

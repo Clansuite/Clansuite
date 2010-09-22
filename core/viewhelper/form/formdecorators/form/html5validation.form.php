@@ -54,14 +54,14 @@ class Clansuite_Form_Decorator_Html5validation extends Clansuite_Form_Decorator
 
         # add html5 validation support for FF,O,IE
         $html_form .= '<script type="text/javascript" src="' . WWW_ROOT_THEMES_CORE . 'javascript/jquery/jquery.html5form-min.js">';
-        
+
         $ident_form = '[Error] Form has no id or name!';
         # to identify the form use the name or id
         if( mb_strlen($this->getName()) > 0 )
         {
              $ident_form .= $this->getName();
         }
-        
+
         if( mb_strlen($this->getId()) > 0 )
         {
              $ident_form .= $this->getId();
@@ -88,7 +88,7 @@ class Clansuite_Form_Decorator_Html5validation extends Clansuite_Form_Decorator
         {
             $message = '[ERROR] HTML5 Validation Support not available. File missing : <br/>'.
             ROOT_THEMES_CORE . 'javascript/jquery/jquery.html5form-min.js';
-            
+
             return  $message . $html_form_content;
         }
     }
