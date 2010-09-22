@@ -115,13 +115,11 @@ abstract class Clansuite_Form_Decorator #implements Clansuite_Form_Interface
             return false;
         }
     }
-
+    
     /**
      * __call Magic Method
      *
      * In general this calls a certain method with parameters on the object which is to decorate ($form).
-     *
-     * @toto use Clansuite_Loader here to speed it up?
      *
      * @param $method
      * @param $parameters

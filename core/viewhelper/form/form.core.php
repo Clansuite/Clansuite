@@ -72,6 +72,8 @@ if (defined('IN_CS') === false)
  *    c) Client-side formular validation methods
  *
  * 3) The generated form is ready for getting embedded into the template/document providing the formular.
+ *    The form element represents a collection of form-associated elements, some of which can represent
+ *    editable values that can be submitted to a server for processing.
  *
  * Form Workflow
  *
@@ -107,11 +109,26 @@ class Clansuite_Form /*extends Clansuite_HTML*/ implements Clansuite_Form_Interf
     protected $formelements = array();
 
     /**
+     * Form attributes:
+     *
+     * accept-charset, action, autocomplete, enctype, method, name, novalidate, target
+     *
+     * @link http://dev.w3.org/html5/html-author/#forms
+     */
+
+    /**
      * Contains action of the form.
      *
      * @var string
      */
     protected $action;
+
+    /**
+     * Contains autocomplete state of the form.
+     *
+     * @var boolean
+     */
+    protected $autocomplete;
 
     /**
      * Contains action of the form.
@@ -153,7 +170,7 @@ class Clansuite_Form /*extends Clansuite_HTML*/ implements Clansuite_Form_Interf
      *
      * @var string
      */
-    protected $charset;
+    protected $acceptcharset;
 
     /**
      * Contains description of the form.
@@ -278,6 +295,53 @@ class Clansuite_Form /*extends Clansuite_HTML*/ implements Clansuite_Form_Interf
     public function getAction()
     {
         return $this->action;
+    }
+
+    /**
+     * Returns autocompletion state of this form.
+     *
+     * @return boolean Returns autocompletion state of this form.
+     */
+    public function getAutocomplete()
+    {
+        return $this->autocomplete;
+    }
+
+    /**
+     * Set action of this form.
+     *
+     * @param $bool boolean state to set for autocomplete.
+     * @return Clansuite_Form
+     */
+    public function setAutocomplete($bool)
+    {
+        $this->autocomplete = (bool) $bool;
+
+        return $this;
+    }
+
+    /**
+     * Returns novalidation state of this form.
+     *
+     * @return boolean Returns novalidation state of this form.
+     */
+    public function getNoValidation()
+    {
+        return $this->novalidation;
+    }
+
+    /**
+     * Set novalidation state of this form.
+     *
+     * @link http://dev.w3.org/html5/spec-author-view/association-of-controls-and-forms.html#attr-fs-novalidate
+     * @param $bool boolean state to set for novalidation.
+     * @return Clansuite_Form
+     */
+    public function setNoValidation($bool)
+    {
+        $this->novalidation = (bool) $bool;
+
+        return $this;
     }
 
     /**
@@ -407,9 +471,9 @@ class Clansuite_Form /*extends Clansuite_HTML*/ implements Clansuite_Form_Interf
      * @param string $charset Charset of this form.
      * @return Clansuite_Form
      */
-    public function setCharset($charset)
+    public function setAcceptCharset($charset)
     {
-        $this->charset = $charset;
+        $this->acceptcharset = $charset;
 
         return $this;
     }
@@ -419,14 +483,14 @@ class Clansuite_Form /*extends Clansuite_HTML*/ implements Clansuite_Form_Interf
      *
      * @return string Accept-charset of this form. Defaults to UTF-8.
      */
-    public function getCharset()
+    public function getAcceptCharset()
     {
-        if(empty($this->charset))
+        if(empty($this->acceptcharset))
         {
-            $this->setCharset('utf-8');
+            $this->setAcceptCharset('utf-8');
         }
 
-        return $this->charset;
+        return $this->acceptcharset;
     }
 
     /**
@@ -699,7 +763,8 @@ class Clansuite_Form /*extends Clansuite_HTML*/ implements Clansuite_Form_Interf
      */
     public function applyDefaultFormDecorators()
     {
-        $this->addDecorator('form');
+        $this->addDecorator('html5validation');
+        $this->addDecorator('form');        
     }
 
     /**
