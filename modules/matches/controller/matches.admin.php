@@ -136,7 +136,7 @@ class Clansuite_Module_Matches_Admin extends Clansuite_Module_Controller
         $this->getView()->clearCache();
 
         # Redirect
-        $this->response->redirectNoCache('index.php?mod=matches&amp;sub=admin', 2, 302, 'The config file has been succesfully updated.');
+        $this->response->redirectNoCache('/matches/admin', 2, 302, 'The config file has been succesfully updated.');
     }
 }
 ?>

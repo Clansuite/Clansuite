@@ -371,6 +371,9 @@ class Clansuite_HttpResponse implements Clansuite_Response_Interface
      */
     public static function redirect($url, $time = 0, $statusCode = 302, $message = null, $mode = null )
     {
+        # convert from internal slashed format to URL
+        $url = Clansuite_Router::buildURL($url);
+
         $linenum = '';
         $redirect_html = '';
 

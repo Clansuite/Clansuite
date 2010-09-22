@@ -230,7 +230,7 @@ class Clansuite_Module_ControlCenter extends Clansuite_Module_Controller
         $this->getView()->clearCache();
 
         # Redirect
-        $this->response->redirectNoCache('index.php?mod=controlcenter', 2, 302, 'The config file has been succesfully updated.');
+        $this->response->redirectNoCache('/controlcenter', 2, 302, 'The config file has been succesfully updated.');
     }
 }
 ?>

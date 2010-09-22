@@ -108,7 +108,7 @@ class Clansuite_Module_Shoutbox_Admin extends Clansuite_Module_Controller
         $this->getView()->clearCache();
 
         # Redirect
-        $this->response->redirectNoCache('index.php?mod=shoutbox&amp;sub=admin', 2, 302, 'The config file has been succesfully updated.');
+        $this->response->redirectNoCache('/shoutbox/admin', 2, 302, 'The config file has been succesfully updated.');
     }
 }
 ?>

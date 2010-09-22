@@ -395,7 +395,7 @@ class Clansuite_Module_Guestbook_Admin extends Clansuite_Module_Controller
         $this->getView()->clearCache();
 
         # Redirect
-        $this->response->redirectNoCache('index.php?mod=guestbook&amp;sub=admin', 2, 302, _('The config file has been succesfully updated.'));
+        $this->response->redirectNoCache('/guestbook/admin', 2, 302, _('The config file has been succesfully updated.'));
     }
 }
 ?>

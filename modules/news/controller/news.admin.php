@@ -297,7 +297,7 @@ class Clansuite_Module_News_Admin extends Clansuite_Module_Controller
             $news->save();
 
             # redirect
-            $this->response->redirectNoCache('index.php?mod=news&amp;sub=admin', 2, 302, _('The news has been created.'));
+            $this->response->redirectNoCache('/news/admin', 2, 302, _('The news has been created.'));
         }
         elseif(isset($type) and $type == 'edit')
         {
@@ -317,16 +317,16 @@ class Clansuite_Module_News_Admin extends Clansuite_Module_Controller
             else
             {
                 # redirect
-                $this->response->redirectNoCache('index.php?mod=news&amp;sub=admin', 2, 302, _('The news doesn\'t exist anymore.'));
+                $this->response->redirectNoCache('/news/admin', 2, 302, _('The news doesn\'t exist anymore.'));
             }
 
             # redirect
-            $this->response->redirectNoCache('index.php?mod=news&amp;sub=admin', 2, 302, _('The news has been edited.'));
+            $this->response->redirectNoCache('/news/admin', 2, 302, _('The news has been edited.'));
         }
         else
         {
             # redirect
-            $this->response->redirectNoCache('index.php?mod=news&amp;sub=admin', 2, 302, _('Unknown Formaction.'));
+            $this->response->redirectNoCache('/news/admin', 2, 302, _('Unknown Formaction.'));
         }
     }
 
@@ -344,11 +344,11 @@ class Clansuite_Module_News_Admin extends Clansuite_Module_Controller
             {
                 $numDeleted += Doctrine_Query::create()->delete('CsNews')->whereIn('news_id', $id)->execute();
             }
-            $this->response->redirectNoCache('index.php?mod=news&amp;sub=admin', 2, 302, $numDeleted . _(' News deleted.'));
+            $this->response->redirectNoCache('/news/admin', 2, 302, $numDeleted . _(' News deleted.'));
         }
         else
         {
-           $this->response->redirectNoCache('index.php?mod=news&amp;sub=admin');
+           $this->response->redirectNoCache('/news&amp;sub=admin');
         }
     }
 
@@ -448,7 +448,7 @@ class Clansuite_Module_News_Admin extends Clansuite_Module_Controller
         $this->getView()->clearCache();
 
         # Redirect
-        $this->response->redirectNoCache('index.php?mod=news&sub=admin', 2, 302, _('success#The config file has been succesfully updated.'));
+        $this->response->redirectNoCache('/news&sub=admin', 2, 302, _('success#The config file has been succesfully updated.'));
     }
 }
 ?>

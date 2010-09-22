@@ -263,7 +263,7 @@ class Clansuite_Module_Staticpages_Admin extends Clansuite_Module_Controller
         $this->getView()->clearCache();
 
         # Redirect
-        $this->response->redirectNoCache('index.php?mod=staticpages&amp;sub=admin');
+        $this->response->redirectNoCache('/staticpages&amp;sub=admin');
     }
 }
 ?>

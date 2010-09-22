@@ -172,7 +172,7 @@ class Clansuite_Module_Account_Admin extends Clansuite_Module_Controller
         $this->getView()->clearCache();
         
         # Redirect
-        $this->response->redirectNoCache('index.php?mod=account&amp;sub=admin', 2, 302, 'The config file has been succesfully updated.');
+        $this->response->redirectNoCache('/account/admin', 2, 302, 'The config file has been succesfully updated.');
     }
 }
 ?>
