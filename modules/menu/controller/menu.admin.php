@@ -264,8 +264,8 @@ class Clansuite_Module_Menu_Admin extends Clansuite_Module_Controller
             $adminmenu = new CsAdminmenu();
 
             # setup the new menuelement
-            $adminmenu['id']            = (string) str_replace( 'tree-', '', $key );
-            $adminmenu['parent']        = (string) str_replace( 'tree-', '', $value['parent'] );
+            $adminmenu['id']            = (int) str_replace( 'tree-', '', $key );
+            $adminmenu['parent']        = (int) str_replace( 'tree-', '', $value['parent'] );
             $adminmenu['type']          = $value['type'];
             $adminmenu['text']          = html_entity_decode($value['text']);
             $adminmenu['href']          = preg_replace("/&(?!amp;)/","&amp;", $value['href']);
@@ -282,7 +282,8 @@ class Clansuite_Module_Menu_Admin extends Clansuite_Module_Controller
         # message the user
 
         # redirect back to the menu manager
-        $this->redirect('index.php?mod=menu&amp;sub=admin', 1, 202, _('Menu successfully updated.'));
+        #$this->redirect('index.php?mod=menu/admin', 1, 202, _('success#Menu successfully updated.'));
+        $this->redirect('/menu/admin', 1, 202, _('success#Menu successfully updated.'));
     }
 
     /**

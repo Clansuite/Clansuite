@@ -203,7 +203,7 @@ class Clansuite_Module_Forum_Admin extends Clansuite_Module_Controller
         $this->getView()->clearCache();
 
         # Redirect
-        $this->response->redirectNoCache('index.php?mod=forum&amp;sub=admin', 2, 302, 'The config file has been succesfully updated.');
+        $this->response->redirectNoCache('/forum/admin', 2, 302, 'The config file has been succesfully updated.');
     }
 }
 ?>

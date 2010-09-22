@@ -207,11 +207,11 @@ class Clansuite_Module_Categories_Admin extends Clansuite_Module_Controller
         if(isset($delete))
         {
             $numDeleted = Doctrine_Query::create()->delete('CsCategories')->whereIn('cat_id', $delete)->execute();
-            $this->response->redirectNoCache('index.php?mod=categories&amp;sub=admin', 2, 302, $numDeleted . _(' Categories deleted.'));
+            $this->response->redirectNoCache('/categories/admin', 2, 302, $numDeleted . _(' Categories deleted.'));
         }
         else
         {
-           $this->response->redirectNoCache('index.php?mod=categories&amp;sub=admin');
+           $this->response->redirectNoCache('/categories/admin');
         }
     }
 
@@ -254,7 +254,7 @@ class Clansuite_Module_Categories_Admin extends Clansuite_Module_Controller
             $cats->save();
 
             # redirect
-            $this->response->redirectNoCache('index.php?mod=categories&amp;sub=admin', 2, 302, _('The category has been created.'));
+            $this->response->redirectNoCache('/categories/admin', 2, 302, _('The category has been created.'));
         }
         elseif(isset($type) and $type == 'edit')
         {
@@ -281,12 +281,12 @@ class Clansuite_Module_Categories_Admin extends Clansuite_Module_Controller
             }
 
             # redirect
-            $this->response->redirectNoCache('index.php?mod=categories&amp;sub=admin', 2, 302, _('The category has been edited.'));
+            $this->response->redirectNoCache('/categories/admin', 2, 302, _('The category has been edited.'));
         }
         else
         {
             # redirect
-            $this->response->redirectNoCache('index.php?mod=categories&amp;sub=admin', 2, 302, _('Unknown Formaction.'));
+            $this->response->redirectNoCache('/categories/admin', 2, 302, _('Unknown Formaction.'));
         }
     }
 
@@ -338,7 +338,7 @@ class Clansuite_Module_Categories_Admin extends Clansuite_Module_Controller
         $this->getView()->clearCache();
 
         # Redirect
-        $this->response->redirectNoCache('index.php?mod=categories&amp;sub=admin', 2, 302, 'The config file has been succesfully updated.');
+        $this->response->redirectNoCache('/categories/admin', 2, 302, 'The config file has been succesfully updated.');
     }
 }
 ?>

@@ -201,14 +201,34 @@ class Clansuite_Router implements ArrayAccess, Clansuite_Router_Interface
      *
      * @param string $url_pattern The URL Pattern of the route
      * @param array  $params An array of parameters
-     * @param string $fragment
      * @param bool   $absolute Whether to generate an absolute URL
      *
      * @return string The generated (relative or absolute) URL.
      */
-    public function generateURL($url_pattern, array $params = null, $fragment = null, $absolute = false)
+    public function generateURL($url_pattern, array $params = null, $absolute = false)
     {
+        # @todo merge with buildURL + routing rules + parameters
+    }
 
+    /**
+     * Builds a url string
+     * 
+     * @param $urlstring String to build the url from (e.g. '/news/admin/show')
+     */
+    public static function buildURL($urlstring)
+    {
+        if(REWRITE_ENGINE_ON == false) # ROOT/index.php?mod=xy&sub=xy&etc...
+        {
+            $url_values = explode('/', ltrim($urlstring, '/'));
+            $url_keys = array('mod', 'sub', 'action', 'id');
+            $url_data = Clansuite_Functions::array_unequal_combine($url_keys, $url_values);
+            $url = http_build_query($url_data, '', '&amp;');
+            Clansuite_Debug::firebug(WWW_ROOT . 'index.php?' . $url);
+        }
+        else # e.g. ROOT/news/admin
+        {
+            return WWW_ROOT . ltrim($urlstring, '/');
+        }
     }
 
     /**
@@ -288,9 +308,6 @@ class Clansuite_Router implements ArrayAccess, Clansuite_Router_Interface
             # loop over the remaining routes and try to map match the uri_segments
             foreach($this->routes as $route_pattern => $route_values)
             {
-                # @todo $this->uri might be enough here
-                $uri = implode('/', $this->uri_segments);
-
                 #Clansuite_Debug::firebug($route_values);
 
                 /**
@@ -298,15 +315,15 @@ class Clansuite_Router implements ArrayAccess, Clansuite_Router_Interface
                  * like ":controller" or ":subcontroller" or ":action" or ":id"
                  * $route_pattern
                  */
-                if (1 === preg_match('/^:([a-zA-Z_]+)$/', $uri, $match))
+                if (1 === preg_match('/^:([a-zA-Z_]+)$/', $this->uri, $match))
                 {
-                    #Clansuite_Debug::firebug($match);
+                    Clansuite_Debug::firebug($match);
                     $name = $match[1]; #setController($match[1]);
                     $found_route = $name;
                 }
 
                 # dynamic regexp segment?
-                elseif(1 === preg_match( $route_values['regexp'], $uri, $matches))
+                elseif(1 === preg_match( $route_values['regexp'], $this->uri, $matches))
                 {
                     #Clansuite_Debug::firebug($matches);
 
@@ -379,6 +396,7 @@ class Clansuite_Router implements ArrayAccess, Clansuite_Router_Interface
 
             if(self::$rewriteEngineOn == 1)
             {
+                define('REWRITE_ENGINE_ON', true);
                 return true;
             }
             else # RewriteEngine not set or commented off in htaccess
@@ -1258,7 +1276,7 @@ interface Clansuite_Router_Interface
     function addRoutes(array $routes);
     function getRoutes();
     function delRoute($name);
-    function generateURL($url_pattern, array $params = null, $fragment = null, $absolute = false);
+    function generateURL($url_pattern, array $params = null, $absolute = false);
     function route();
 }
 ?>

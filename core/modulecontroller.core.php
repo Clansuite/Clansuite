@@ -484,7 +484,6 @@ abstract class Clansuite_Module_Controller
     public function redirect($url, $time = 0, $statusCode = 302, $message = '')
     {
         # build url
-        #self::->buildURL($url);
         self::getHttpResponse()->redirect($url, $time, $statusCode, $message);
     }
 
