@@ -683,7 +683,7 @@ class Clansuite_Datagrid extends Clansuite_Datagrid_Base
 
         # disable some features
         # @todo css for these elements
-        $this->disableFeatures(array('Label', 'Caption', 'Description'));
+        $this->disableFeature(array('Label', 'Caption', 'Description'));
 
         # generate default datasets that can be overwritten
         $this->initializeDatagrid();
@@ -759,73 +759,40 @@ class Clansuite_Datagrid extends Clansuite_Datagrid_Base
     }
 
     /**
-     * Enables a datagrid feature and returns true on success, false otherwise
-     *
-     * @see $this->_features
-     * @param string $feature
-     * @return boolean
-     */
-    public function enableFeature($feature)
-    {
-        if( isset($this->_features[$feature]) == false)
-        {
-            return false;
-        }
-        else
-        {
-            $this->_features[$feature] = true;
-            return true;
-        }
-    }
-
-    /**
-     * Enables several datagrid features
+     * Enables one or several datagrid feature(s)
      * Return true on success, false otherwise
      *
      * @see $this->_features
-     * @param array $features
+     * @param mixed(string|array) $features
      */
-    public function enableFeatures(array $features)
+    public function enableFeature($features)
     {
-        foreach ($features as $feature)
+        # if $feature is only one feature; then it's just a string, so we typecast
+        $features = (array) $features;
+
+        foreach($features as $feature)
         {
-            $this->enableFeature($feature);
+            $this->_features[$feature] = true;
         }
     }
 
     /**
-     * Disables a datagrid feature
+     * Disables one or more datagrid feature(s)
      * Returns true on success, false otherwise
      *
      * @see $this->_features
-     * @param mixed $feature
+     * @param mixed(string|array) $features
      * @return boolean
      */
-    public function disableFeature($feature)
+    public function disableFeature($features)
     {
-        if( isset($this->_features[$feature]) == false)
-        {
-            return false;
-        }
-        else
+        # if $feature is only one feature; then it's just a string, so we typecast
+        $features = (array) $features;
+
+        # disable several datagrid features
+        foreach($features as $feature)
         {
             $this->_features[$feature] = false;
-            return true;
-        }
-    }
-
-    /**
-     * Disable several datagrid features
-     * Return true on success, false otherwise
-     *
-     * @see $this->_features
-     * @param array $features
-     */
-    public function disableFeatures(array $features)
-    {
-        foreach ($features as $feature)
-        {
-            $this->disableFeature($feature);
         }
     }
 
