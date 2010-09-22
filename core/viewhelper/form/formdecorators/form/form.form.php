@@ -92,9 +92,19 @@ class Clansuite_Form_Decorator_Form extends Clansuite_Form_Decorator
              $html_form .= 'name="'.$this->getName().'" ';
         }
 
-        if( mb_strlen($this->getCharset()) > 0 )
+        if( mb_strlen($this->getAcceptCharset()) > 0 )
         {
-             $html_form .= 'accept-charset="'.$this->getCharset().'" ';
+             $html_form .= 'accept-charset="'.$this->getAcceptCharset().'" ';
+        }
+
+        if( $this->getAcceptCharset() === true )
+        {
+             $html_form .= ' autocomplete ';
+        }
+        
+        if( $this->getNoValidation() === true )
+        {
+             $html_form .= ' novalidation ';
         }
 
         $html_form .= 'class="form '.$this->getClass().'"';

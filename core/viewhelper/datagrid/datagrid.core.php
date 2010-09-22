@@ -761,7 +761,7 @@ class Clansuite_Datagrid extends Clansuite_Datagrid_Base
     /**
      * Enables one or several datagrid feature(s)
      * Return true on success, false otherwise
-     *
+     * 
      * @see $this->_features
      * @param mixed(string|array) $features
      */
