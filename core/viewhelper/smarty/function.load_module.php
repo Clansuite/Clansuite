@@ -118,15 +118,11 @@ function smarty_function_load_module($params, $smarty)
          * the order of detection is also determined by that array.
          * @see $smarty->template_dir, Clansuite_Debug::printr($smarty->template_dir);
          */
-        if($smarty->templateExists($module . DS . $action . '.tpl'))
+        # search the module folder first
+        if($smarty->templateExists('modules' . DS . $module . DS . 'view' . DS . 'smarty' . DS . $action . '.tpl'))
         {
-            # $smarty->template_dir[s]..\news\widget_news.tpl
-            return $smarty->fetch($module . DS . $action . '.tpl');
-        }
-        elseif($smarty->templateExists($module . DS . 'view' . DS . $action . '.tpl'))  # @todo to be removed !
-        {
-            # $smarty->template_dir[s]..\news\view\widget_news.tpl
-            return $smarty->fetch($module . DS . 'view' . DS . $action . '.tpl');
+            # $smarty->template_dir[s]..modules\news\view\widget_news.tpl
+            return $smarty->fetch('modules' . DS . $module . DS . 'view' . DS . 'smarty' . DS . $action . '.tpl');
         }
 	    elseif($smarty->templateExists($module . DS . 'view' . DS . 'smarty' . DS . $action . '.tpl'))
 	    {
