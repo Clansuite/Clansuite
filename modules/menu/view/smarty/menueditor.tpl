@@ -1,9 +1,9 @@
 {modulenavigation}
 
 {move_to target="pre_head_close"}
-<link rel="stylesheet" type="text/css" href="{$www_root_mod}/css/DynamicTree.css" />
-<script type="text/javascript" src="{$www_root_mod}/javascript/DynamicTreeBuilder.js"></script>
-<script type="text/javascript" src="{$www_root_mod}/javascript/plugins.js"></script>
+<link rel="stylesheet" type="text/css" href="{$www_root_mod}css/DynamicTree.css" />
+<script type="text/javascript" src="{$www_root_mod}javascript/DynamicTreeBuilder.js"></script>
+<script type="text/javascript" src="{$www_root_mod}javascript/plugins.js"></script>
 
 
     <style type="text/css">
@@ -45,37 +45,37 @@
 
                     <!-- Up -->
                     <a id="tree-moveUp" class="moveUp" href="javascript:void(0)">
-                        <img src="{$www_root_mod}/images/moveUp.gif" width="20" height="20" alt="Menueditor - MoveUp Icon" />
+                        <img src="{$www_root_mod}images/moveUp.gif" width="20" height="20" alt="Menueditor - MoveUp Icon" />
                     </a>
 
                     <!-- Down -->
                     <a id="tree-moveDown" class="moveDown" href="javascript:void(0)">
-                        <img src="{$www_root_mod}/images/moveDown.gif" width="20" height="20" alt="Menueditor - MoveDown Icon" />
+                        <img src="{$www_root_mod}images/moveDown.gif" width="20" height="20" alt="Menueditor - MoveDown Icon" />
                     </a>
 
                     <!-- Left -->
                     <a id="tree-moveLeft" class="moveLeft" href="javascript:void(0)">
-                        <img src="{$www_root_mod}/images/moveLeft.gif" width="20" height="20" alt="Menueditor - MoveLeft Icon" />
+                        <img src="{$www_root_mod}images/moveLeft.gif" width="20" height="20" alt="Menueditor - MoveLeft Icon" />
                     </a>
 
                     <!-- Right -->
                     <a id="tree-moveRight" class="moveRight" href="javascript:void(0)">
-                        <img src="{$www_root_mod}/images/moveRight.gif" width="20" height="20" alt="Menueditor - MoveRight Icon" />
+                        <img src="{$www_root_mod}images/moveRight.gif" width="20" height="20" alt="Menueditor - MoveRight Icon" />
                     </a>
 
                      <!-- Insert / Add new Element -->
                     <a id="tree-insert" class="insert" href="javascript:void(0)">
-                        <img src="{$www_root_mod}/images/insert.gif" width="20" height="20" alt="Menueditor - Insert Icon" />
+                        <img src="{$www_root_mod}images/insert.gif" width="20" height="20" alt="Menueditor - Insert Icon" />
                     </a>
 
                      <!-- Info / Edit Element -->
                     <a id="tree-info" class="info" href="javascript:void(0)">
-                        <img src="{$www_root_mod}/images/info.gif" width="20" height="20" alt="Menueditor - Info Icon" />
+                        <img src="{$www_root_mod}images/info.gif" width="20" height="20" alt="Menueditor - Info Icon" />
                     </a>
 
                     <!-- Delete Element -->
                     <a id="tree-remove" class="remove" href="javascript:void(0)">
-                        <img src="{$www_root_mod}/images/delete.gif" width="20" height="20" alt="Menueditor - Delete Icon" />
+                        <img src="{$www_root_mod}images/delete.gif" width="20" height="20" alt="Menueditor - Delete Icon" />
                     </a>
 
                     <!-- Action Tooltip -->
@@ -251,4 +251,4 @@
         tree.init();
         DynamicTreePlugins.call(tree);
     </script>
-    <script type="text/javascript" src="{$www_root_mod}/javascript/actions.js"></script>
+    <script type="text/javascript" src="{$www_root_mod}javascript/actions.js"></script>

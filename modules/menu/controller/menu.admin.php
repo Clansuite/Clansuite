@@ -68,7 +68,7 @@ class Clansuite_Module_Menu_Admin extends Clansuite_Module_Controller
         $icons = array();
 
         // Get Icons from Directory
-        $dir_handler = opendir( ROOT_THEMES . 'core/images/icons/' );
+        $dir_handler = opendir( ROOT_THEMES_CORE . 'images/icons/' );
 
         while( false !== ($file = readdir($dir_handler)) )
         {
@@ -82,9 +82,6 @@ class Clansuite_Module_Menu_Admin extends Clansuite_Module_Controller
 
         // Assign ICONS to View
         $this->getView()->assign('icons', $icons );
-
-        // Set Layout Template
-        $this->getView()->setLayoutTemplate('index.tpl');
 
         // specifiy the template manually
         $this->setTemplate('menueditor.tpl');
@@ -285,7 +282,7 @@ class Clansuite_Module_Menu_Admin extends Clansuite_Module_Controller
         # message the user
 
         # redirect back to the menu manager
-        $this->redirect('/index.php?mod=menu&amp;sub=admin', 1, 202, _('Menu successfully updated.'));
+        $this->redirect('index.php?mod=menu&amp;sub=admin', 1, 202, _('Menu successfully updated.'));
     }
 
     /**

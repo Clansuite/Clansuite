@@ -34,7 +34,7 @@
 
     <img style="float:left; margin: 10px 0px 15px 1%;" src="{$www_root_themes_core}images/clansuite_logos/clansuite_clown_mini.png">
 
-    <img style="float:right; margin: 10px 0px 15px;" src="{$www_root_mod}/images/osi-certified-72x60-t.png">
+    <img style="float:right; margin: 10px 0px 15px;" src="{$www_root_mod}images/osi-certified-72x60-t.png">
 
 
     <h2 align="center">
