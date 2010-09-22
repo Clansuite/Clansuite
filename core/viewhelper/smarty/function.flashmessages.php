@@ -8,13 +8,14 @@
  */
 
 function smarty_function_flashmessages($params, $smarty)
-{    
+{
+    # rener only a certain type-set of flashmessages
     if(isset($params['type']))
-    {       
+    {
         return Clansuite_Flashmessages::render($params['type']);
     }
-    else
-    { 
+    else # render all
+    {
         return Clansuite_Flashmessages::render();
     }
 }
