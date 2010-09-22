@@ -1,7 +1,7 @@
 <div id="footer">
 <hr/>
       <a id="poweredby" href="http://www.clansuite.com">
-        <img src="http://www.clansuite.com/website/images/banners/powered_by_clansuite.png" alt="Crown Banner 80x31" align="middle" />
+        <img src="http://www.clansuite.com/banner/powered_by_clansuite.png" alt="Crown Banner 80x31" align="middle" />
      </a>
 
       <p class="left">
