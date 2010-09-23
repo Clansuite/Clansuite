@@ -73,7 +73,7 @@ class Clansuite_Module_Games_Admin extends Clansuite_Module_Controller
         
         $settings['form']   = array(    'name' => 'games_settings',
                                         'method' => 'POST',
-                                        'action' => WWW_ROOT . 'index.php?mod=games/admin/settings_update');
+                                        'action' => '/games/admin/settings_update');
                                                                                                                      
         $settings['games'][] = array(    'id' => 'games_resultsPerPage',
                                         'name' => 'games_resultsPerPage',

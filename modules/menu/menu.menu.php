@@ -30,7 +30,7 @@
     * @version    SVN: $Id: news.module.php 2753 2009-01-21 22:54:47Z vain $
     */
 
-//Security Handler
+   //Security Handler
 if(defined('IN_CS') === false)
 {
     die('Clansuite not loaded. Direct Access forbidden.');
@@ -39,53 +39,48 @@ if(defined('IN_CS') === false)
 /**
  * Clansuite Modulenavigation for Module Menu
  */
-
 $modulenavigation = array(
-                            '1' => array(
-                                            'action'  => 'show',
-                                            'name'    => 'Overview',
-                                            'url'     => '/menu/admin', # &action=show
-                                            'icon'    => '',
-                                            'title' => ''
-                                        ),
-
-                            '2' => array(
-                                            'action'  => 'menueditor2',
-                                            'name'    => 'Menueditor II',
-                                            'url'     => '/menu/admin/menueditor2', # &action=show
-                                            'icon'    => '',
-                                            'title' => ''
-                                        ),
-
-                            '3' => array(
-                                            'action'  => 'imexport',
-                                            'name'    => 'Import &amp; Export',
-                                            'url'     => '/menu/admin/imexport',
-                                            'icon'    => '',
-                                            'title' => ''
-                                        ),
-
-                            '4' => array(
-                                            'action'  => 'backup',
-                                            'name'    => 'Backup',
-                                            'url'     => '/menu/admin/backup',
-                                            'icon'    => '',
-                                            'title' => ''
-                                        ),
-                         );
+    '1' => array(
+        'action' => 'show',
+        'name' => 'Overview',
+        'url' => '/menu/admin', # &action=show
+        'icon' => '',
+        'title' => ''
+    ),
+    '2' => array(
+        'action' => 'menueditor2',
+        'name' => 'Menueditor II',
+        'url' => '/menu/admin/menueditor2', # &action=show
+        'icon' => '',
+        'title' => ''
+    ),
+    '3' => array(
+        'action' => 'imexport',
+        'name' => 'Import &amp; Export',
+        'url' => '/menu/admin/imexport',
+        'icon' => '',
+        'title' => ''
+    ),
+    '4' => array(
+        'action' => 'backup',
+        'name' => 'Backup',
+        'url' => '/menu/admin/backup',
+        'icon' => '',
+        'title' => ''
+    ),
+);
 
 /**
  * Clansuite Adminmenu for Module Menu
  */
-
-$adminmenu        = array(
-                             '1' => array(
-                                            'name'       => '',
-                                            'url'        => '',
-                                            'tooltip'    => '',
-                                            'target'     => '',
-                                            'permission' => '',
-                                            'icon'       => ''
-                                         ),
-                         );
+$adminmenu = array(
+    '1' => array(
+        'name' => '',
+        'url' => '',
+        'tooltip' => '',
+        'target' => '',
+        'permission' => '',
+        'icon' => ''
+    ),
+);
 ?>

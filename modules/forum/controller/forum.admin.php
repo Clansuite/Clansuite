@@ -136,7 +136,7 @@ class Clansuite_Module_Forum_Admin extends Clansuite_Module_Controller
 
         $settings['form']   = array(    'name' => 'forum_settings',
                                         'method' => 'POST',
-                                        'action' => WWW_ROOT . 'index.php?mod=forum/admin/settings_update');
+                                        'action' => '/forum/admin/settings_update');
 
         $settings['forum'][] = array(
                                         'id' => 'list_max',

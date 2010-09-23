@@ -299,7 +299,7 @@ class Clansuite_Module_Categories_Admin extends Clansuite_Module_Controller
 
         $settings['form']   = array(    'name' => 'categories_settings',
                                         'method' => 'POST',
-                                        'action' => WWW_ROOT . 'index.php?mod=categories/admin/settings_update');
+                                        'action' => '/categories/admin/settings_update');
 
         $settings['categories'][] = array(  'id' => 'items_resultsPerPage',
                                             'name' => 'items_resultsPerPage',

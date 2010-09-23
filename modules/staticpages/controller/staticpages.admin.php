@@ -198,7 +198,7 @@ class Clansuite_Module_Staticpages_Admin extends Clansuite_Module_Controller
                 $page->save();
      
                 $this->flashmessage('success', _( 'The page was successfully modified.' ));
-                $this->redirect( 'index.php?mod=controlcenter/staticpages&action=show');
+                $this->redirect('/controlcenter/staticpages&action=show');
             }
         }
         else
@@ -226,7 +226,7 @@ class Clansuite_Module_Staticpages_Admin extends Clansuite_Module_Controller
 
         $settings['form']   = array(    'name' => 'staticpages_settings',
                                         'method' => 'POST',
-                                        'action' => WWW_ROOT . 'index.php?mod=staticpages/admin/settings_update');
+                                        'action' => '/staticpages/admin/settings_update');
 
         $settings['staticpages'][] = array(    'id' => 'items_resultsPerPage',
                                         'name' => 'items_resultsPerPage',

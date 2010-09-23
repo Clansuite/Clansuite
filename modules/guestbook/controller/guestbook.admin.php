@@ -223,12 +223,12 @@ class Clansuite_Module_Guestbook_Admin extends Clansuite_Module_Controller
                 if( $infos['front'] == 1 )
                 {
                     // Redirect on finish
-                    $functions->redirect( 'index.php?mod=guestbook&action=show', 'metatag|newsite', 3, $lang->t( 'The guestbook entry has been edited.' ) );
+                    $functions->redirect('/guestbook&action=show', 'metatag|newsite', 3, $lang->t( 'The guestbook entry has been edited.' ) );
                 }
                 else
                 {
                     // Redirect on finish
-                    $functions->redirect( 'index.php?mod=guestbook/admin/show', 'metatag|newsite', 3, $lang->t( 'The guestbook entry has been edited.' ), 'admin' );
+                    $functions->redirect('/guestbook/admin/show', 'metatag|newsite', 3, $lang->t( 'The guestbook entry has been edited.' ), 'admin' );
                 }
 
             }
@@ -356,7 +356,7 @@ class Clansuite_Module_Guestbook_Admin extends Clansuite_Module_Controller
 
         $settings['form']   = array(    'name' => 'guestbook_settings',
                                         'method' => 'POST',
-                                        'action' => WWW_ROOT . 'index.php?mod=guestbook/admin/settings_update');
+                                        'action' => '/guestbook/admin/settings_update');
 
         $settings['guestbook'][] = array(
                                         'id' => 'guestbook_resultsPerPage',

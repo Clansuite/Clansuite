@@ -42,69 +42,62 @@ if(defined('IN_CS') === false)
 /**
  * Clansuite Modulenavigation for Module Modulemanager
  */
-
 $modulenavigation = array(
-                            '1' => array(
-                                            'action'  => 'show',
-                                            'name'    => 'Overview',
-                                            'url'      => '/modulemanager/admin', # &action=show
-                                            'icon'    => '',
-                                            'title' => ''
-                                        ),
-
-                            '2' => array(
-                                            'action'  => 'builder',
-                                            'name'    => 'Create with Modulebuilder',
-                                            'url'     => '/modulemanager/admin/builder',
-                                            'icon'    => '',
-                                            'title' => ''
-                                        ),
-                                        
-                            '3' => array(
-                                            'action'  => 'install',
-                                            'name'    => 'Install',
-                                            'url'     => '/modulemanager/admin/install',
-                                            'icon'    => '',
-                                            'title' => ''
-                                        ),
-
-                            '4' => array(
-                                            'action'  => 'edit',
-                                            'name'    => 'Edit',
-                                            'url'     => '/modulemanager/admin/edit',
-                                            'icon'    => '',
-                                            'title' => ''
-                                        ),
-                                        
-                            '5' => array(
-                                            'action'  => 'export',
-                                            'name'    => 'Export',
-                                            'url'     => '/modulemanager/admin/export',
-                                            'icon'    => '',
-                                            'title' => ''
-                                        ),
-
-                            '6' => array(
-                                            'action'  => 'settings',
-                                            'name'    => 'Settings',
-                                            'url'     => '/modulemanager/admin/settings',
-                                            'icon'    => '',
-                                            'title' => ''
-                                        ),
-                         );
+    '1' => array(
+        'action' => 'show',
+        'name' => 'Overview',
+        'url' => '/modulemanager/admin', # &action=show
+        'icon' => '',
+        'title' => ''
+    ),
+    '2' => array(
+        'action' => 'builder',
+        'name' => 'Create with Modulebuilder',
+        'url' => '/modulemanager/admin/builder',
+        'icon' => '',
+        'title' => ''
+    ),
+    '3' => array(
+        'action' => 'install',
+        'name' => 'Install',
+        'url' => '/modulemanager/admin/install',
+        'icon' => '',
+        'title' => ''
+    ),
+    '4' => array(
+        'action' => 'edit',
+        'name' => 'Edit',
+        'url' => '/modulemanager/admin/edit',
+        'icon' => '',
+        'title' => ''
+    ),
+    '5' => array(
+        'action' => 'export',
+        'name' => 'Export',
+        'url' => '/modulemanager/admin/export',
+        'icon' => '',
+        'title' => ''
+    ),
+    '6' => array(
+        'action' => 'settings',
+        'name' => 'Settings',
+        'url' => '/modulemanager/admin/settings',
+        'icon' => '',
+        'title' => ''
+    ),
+);
 
 /**
  * Clansuite Adminmenu for Module Modulemanager
  */
-
-$adminmenu        = array(
-                             '1' => array(
-                                            'name'       => '',
-                                            'url'        => '',
-                                            'tooltip'    => '',
-                                            'target'     => '',
-                                            'permission' => '',
-                                            'icon'       => ''
-                                         ),
-                         );
+$adminmenu = array(
+    '1' => array(
+        'name' => '',
+        'url' => '',
+        'tooltip' => '',
+        'target' => '',
+        'permission' => '',
+        'icon' => ''
+    ),
+);
 ?>

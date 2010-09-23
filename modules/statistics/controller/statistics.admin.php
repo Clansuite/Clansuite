@@ -65,7 +65,7 @@ class Clansuite_Module_Statistics_Admin extends Clansuite_Module_Controller
 
         $settings['form']   = array(    'name' => 'statistic_settings',
                                         'method' => 'POST',
-                                        'action' => WWW_ROOT . 'index.php?mod=statistics/admin/settings_update');
+                                        'action' => '/statistics/admin/settings_update');
 
         $settings['statistics'][] = array(        'id' => 'deleteTimeWho',
                                                   'name' => 'deleteTimeWho',
@@ -106,7 +106,7 @@ class Clansuite_Module_Statistics_Admin extends Clansuite_Module_Controller
         $this->getView()->clearCache();
 
         # Redirect
-        $this->response->redirectNoCache(WWW_ROOT . 'index.php?mod=statistics/admin/settings', 2, 302, 'The config file has been succesfully updated.');
+        $this->response->redirectNoCache(WWW_ROOT . '/statistics/admin/settings', 2, 302, 'The config file has been succesfully updated.');
     }
 }
 ?>

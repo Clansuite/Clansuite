@@ -364,7 +364,7 @@ class Clansuite_Module_News_Admin extends Clansuite_Module_Controller
 
         $settings['form']   = array(    'name' => 'news_settings',
                                         'method' => 'POST',
-                                        'action' => WWW_ROOT . 'index.php?mod=news/admin/settings_update');
+                                        'action' => '/news/admin/settings_update');
 
         $settings['news'][] = array(    'id' => 'resultsPerPage_show',
                                         'name' => 'resultsPerPage_show',

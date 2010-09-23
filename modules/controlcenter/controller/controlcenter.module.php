@@ -167,7 +167,7 @@ class Clansuite_Module_ControlCenter extends Clansuite_Module_Controller
 
         $settings['form']   = array(    'name' => 'controlcenter_settings',
                 'method' => 'POST',
-                'action' => WWW_ROOT . 'index.php?mod=controlcenter/settings_update');
+                'action' => '/controlcenter/settings_update');
 
         $settings['controlcenter'][] = array(
                 'id' => 'show_box_shortcuts',

@@ -92,7 +92,7 @@ class Clansuite_Module_Matches_Admin extends Clansuite_Module_Controller
         
         $settings['form']   = array(    'name' => 'matches_settings',
                                         'method' => 'POST',
-                                        'action' => WWW_ROOT . 'index.php?mod=matches/admin/settings_update');
+                                        'action' => '/matches/admin/settings_update');
                                         
         $settings['matches'][] = array(    'id' => 'widget_latestmatches',
                                         'name' => 'widget_latestmatches',

@@ -69,7 +69,7 @@ class Clansuite_Module_Downloads_Admin extends Clansuite_Module_Controller
         
         $settings['form']   = array(    'name' => 'downloads_settings',
                                         'method' => 'POST',
-                                        'action' => WWW_ROOT . 'index.php?mod=downloads/admin/settings_update');
+                                        'action' => '/downloads/admin/settings_update');
                                         
         $settings['downloads'][] = array(    'id' => 'widget_latestdownloads',
                                         'name' => 'widget_latestdownloads',

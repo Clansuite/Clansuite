@@ -134,7 +134,7 @@ class Clansuite_Module_Account_Admin extends Clansuite_Module_Controller
 
         $settings['form'] = array('name'   => 'account_settings',
                                   'method' => 'POST',
-                                  'action' => WWW_ROOT . 'index.php?mod=account/admin/settings_update');
+                                  'action' => '/account/admin/settings_update');
 
         $settings['account'][] = array( 'id' => 'resultsPerPage_show',
                                         'name' => 'resultsPerPage_show',
@@ -144,7 +144,7 @@ class Clansuite_Module_Account_Admin extends Clansuite_Module_Controller
                                         'value' => $this->getConfigValue('resultsPerPage_show', '3'));
 
         $form = new Clansuite_Form($settings);
-        
+
         #Clansuite_Debug::printR($form);
 
         $form->addElement('submitbutton')->setName('Save');
@@ -170,7 +170,7 @@ class Clansuite_Module_Account_Admin extends Clansuite_Module_Controller
 
         # clear the cache / compiled tpls
         $this->getView()->clearCache();
-        
+
         # Redirect
         $this->response->redirectNoCache('/account/admin', 2, 302, 'The config file has been succesfully updated.');
     }
