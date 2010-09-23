@@ -282,6 +282,15 @@ class Clansuite_Form /*extends Clansuite_HTML*/ implements Clansuite_Form_Interf
      */
     public function setAction($action)
     {
+        /**
+         * Build correct URLs from $action strings like "/news/admin/settings_update"
+         * Checks if action does not contain ?mod= / &param=xy, then rebuilds action url
+         */
+        if(false === strpos('?', $action) or false === strpos('&', $action))
+        {
+            $action = Clansuite_Router::buildURL($action);
+        }
+
         $this->action = $action;
 
         return $this;
@@ -764,7 +773,7 @@ class Clansuite_Form /*extends Clansuite_HTML*/ implements Clansuite_Form_Interf
     public function applyDefaultFormDecorators()
     {
         $this->addDecorator('html5validation');
-        $this->addDecorator('form');        
+        $this->addDecorator('form');
     }
 
     /**

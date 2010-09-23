@@ -39,37 +39,34 @@ if(defined('IN_CS') === false)
 /**
  * Clansuite Modulenavigation for Module Shockvoiceviewer
  */
-
 $modulenavigation = array(
-                            '1' => array(
-                                            'action'  => 'show',
-                                            'name'    => 'Overview',
-                                            'url'      => '/shockvoiceviewer/admin', # &action=show
-                                            'icon'    => '',
-                                            'title' => ''
-                                        ),
-
-                            '2' => array(
-                                            'action'  => 'settings',
-                                            'name'    => 'Settings',
-                                            'url'     => '/shockvoiceviewer/admin/settings',
-                                            'icon'    => '',
-                                            'title' => ''
-                                        ),
-                         );
+    '1' => array(
+        'action' => 'show',
+        'name' => 'Overview',
+        'url' => '/shockvoiceviewer/admin', # &action=show
+        'icon' => '',
+        'title' => ''
+    ),
+    '2' => array(
+        'action' => 'settings',
+        'name' => 'Settings',
+        'url' => '/shockvoiceviewer/admin/settings',
+        'icon' => '',
+        'title' => ''
+    ),
+);
 
 /**
  * Clansuite Adminmenu for Module Shockvoiceviewer
  */
-
-$adminmenu        = array(
-                             '1' => array(
-                                            'name'       => '',
-                                            'url'        => '',
-                                            'tooltip'    => '',
-                                            'target'     => '',
-                                            'permission' => '',
-                                            'icon'       => ''
-                                         ),
-                         );
+$adminmenu = array(
+    '1' => array(
+        'name' => '',
+        'url' => '',
+        'tooltip' => '',
+        'target' => '',
+        'permission' => '',
+        'icon' => ''
+    ),
+);
 ?>

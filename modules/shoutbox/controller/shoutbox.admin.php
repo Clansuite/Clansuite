@@ -66,7 +66,7 @@ class Clansuite_Module_Shoutbox_Admin extends Clansuite_Module_Controller
 
         $settings['form']   = array(    'name' => 'shoutbox_settings',
                                         'method' => 'POST',
-                                        'action' => WWW_ROOT . 'index.php?mod=shoutbox/admin/settings_update');
+                                        'action' => '/shoutbox/admin/settings_update');
 
         $settings['shoutbox'][] = array(
                                         'id' => 'widget_shoutbox',

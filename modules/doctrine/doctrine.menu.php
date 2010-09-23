@@ -39,69 +39,62 @@ if(defined('IN_CS') === false)
 /**
  * Clansuite Modulenavigation for Module Doctrine
  */
-
 $modulenavigation = array(
-                            '1' => array(
-                                            'action'  => 'show',
-                                            'name'    => 'Overview',
-                                            'url'     => '/doctrine/admin', # = &action=show
-                                            'icon'    => '',
-                                            'title' => ''
-                                        ),
-
-                            '2' => array(
-                                            'action'  => 'db2models',
-                                            'name'    => 'DB &raquo; Models',
-                                            'url'     => '/doctrine/admin/db2models',
-                                            'icon'    => '',
-                                            'title' => ''
-                                        ),
-
-                            '3' => array(
-                                            'action'  => 'db2yaml',
-                                            'name'    => 'DB &raquo; YAML',
-                                            'url'     => '/doctrine/admin/db2yaml',
-                                            'icon'    => '',
-                                            'title' => ''
-                                        ),
-
-                            '4' => array(
-                                            'action'  => 'models2sql',
-                                            'name'    => 'Models &raquo; SQL',
-                                            'url'     => '/doctrine/admin/models2sql',
-                                            'icon'    => '',
-                                            'title' => ''
-                                        ),
-
-                            '5' => array(
-                                            'action'  => 'models2yaml',
-                                            'name'    => 'Models &raquo; YAML',
-                                            'url'     => '/doctrine/admin/models2yaml',
-                                            'icon'    => '',
-                                            'title' => ''
-                                        ),
-
-                             '6' => array(
-                                            'action'  => 'yaml2models',
-                                            'name'    => 'YAML &raquo; Models',
-                                            'url'     => '/doctrine/admin/yaml2models',
-                                            'icon'    => '',
-                                            'title' => ''
-                                        ),
-                         );
+    '1' => array(
+        'action' => 'show',
+        'name' => 'Overview',
+        'url' => '/doctrine/admin', # = &action=show
+        'icon' => '',
+        'title' => ''
+    ),
+    '2' => array(
+        'action' => 'db2models',
+        'name' => 'DB &raquo; Models',
+        'url' => '/doctrine/admin/db2models',
+        'icon' => '',
+        'title' => ''
+    ),
+    '3' => array(
+        'action' => 'db2yaml',
+        'name' => 'DB &raquo; YAML',
+        'url' => '/doctrine/admin/db2yaml',
+        'icon' => '',
+        'title' => ''
+    ),
+    '4' => array(
+        'action' => 'models2sql',
+        'name' => 'Models &raquo; SQL',
+        'url' => '/doctrine/admin/models2sql',
+        'icon' => '',
+        'title' => ''
+    ),
+    '5' => array(
+        'action' => 'models2yaml',
+        'name' => 'Models &raquo; YAML',
+        'url' => '/doctrine/admin/models2yaml',
+        'icon' => '',
+        'title' => ''
+    ),
+    '6' => array(
+        'action' => 'yaml2models',
+        'name' => 'YAML &raquo; Models',
+        'url' => '/doctrine/admin/yaml2models',
+        'icon' => '',
+        'title' => ''
+    ),
+);
 
 /**
  * Clansuite Adminmenu for Module Doctrine
  */
-
-$adminmenu        = array(
-                             '1' => array(
-                                            'name'       => '',
-                                            'url'        => '',
-                                            'tooltip'    => '',
-                                            'target'     => '',
-                                            'permission' => '',
-                                            'icon'       => ''
-                                         ),
-                         );
+$adminmenu = array(
+    '1' => array(
+        'name' => '',
+        'url' => '',
+        'tooltip' => '',
+        'target' => '',
+        'permission' => '',
+        'icon' => ''
+    ),
+);
 ?>

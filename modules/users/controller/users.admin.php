@@ -179,7 +179,7 @@ class Clansuite_Module_Users_Admin extends Clansuite_Module_Controller
 
         if ( count($delete) < 1 )
         {
-            $this->redirect( 'index.php?mod=users/admin', 3, _( 'No users selected to delete! Aborted... ' ));
+            $this->redirect('/users/admin', 3, _( 'No users selected to delete! Aborted... ' ));
         }
 
         /**
@@ -187,13 +187,13 @@ class Clansuite_Module_Users_Admin extends Clansuite_Module_Controller
          */
         if ( empty( $abort ) == false )
         {
-            $this->redirect( 'index.php?mod=users/admin' );
+            $this->redirect('/users/admin' );
         }
 
 
         # Delete User Query
 
-        $this->redirect( 'index.php?mod=users/admin/show_all', 3, _( 'The selected user(s) were deleted.' ));
+        $this->redirect('/users/admin/show_all', 3, _( 'The selected user(s) were deleted.' ));
     }
 
     /**
@@ -208,7 +208,7 @@ class Clansuite_Module_Users_Admin extends Clansuite_Module_Controller
 
         $settings['form']   = array(    'name' => 'users_settings',
                                         'method' => 'POST',
-                                        'action' => WWW_ROOT . 'index.php?mod=users/admin/settings_update');
+                                        'action' => '/users/admin/settings_update');
 
         $settings['users'][] = array(   'id' => 'items_lastregisteredusers',
                                         'name' => 'items_lastregisteredusers',

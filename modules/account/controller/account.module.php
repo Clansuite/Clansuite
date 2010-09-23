@@ -642,7 +642,7 @@ class Clansuite_Module_Account extends Clansuite_Module_Controller
                 setcookie('cs_cookie_user_id', false);
                 setcookie('cs_cookie_password', false);
 
-                $this->redirect( 'index.php?mod=account&action=login', 3, 200, _('Your new password has been successfully activated. Please login...') );
+                $this->redirect('/account&action=login', 3, 200, _('Your new password has been successfully activated. Please login...') );
                 die();
             }
         }

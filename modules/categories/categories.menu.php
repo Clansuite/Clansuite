@@ -41,43 +41,41 @@ if(defined('IN_CS') === false)
  */
 
 $modulenavigation = array(
-                            '1' => array(
-                                            'action'  => 'show',
-                                            'name'    => 'Overview',
-                                            'url'      => '/categories/admin', # &action=show
-                                            'icon'    => '',
-                                            'title' => ''
-                                        ),
-
-                            '2' => array(
-                                            'action'  => 'create',
-                                            'name'    => 'Create new',
-                                            'url'     => '/categories/admin/create',
-                                            'icon'    => '',
-                                            'title' => ''
-                                        ),
-                            /*
-                            '3' => array(
-                                            'action'  => 'settings',
-                                            'name'    => 'Settings',
-                                            'url'     => '/categories/admin/settings',
-                                            'icon'    => '',
-                                            'title' => ''
-                                        ),*/
-                         );
+    '1' => array(
+        'action' => 'show',
+        'name' => 'Overview',
+        'url' => '/categories/admin', # &action=show
+        'icon' => '',
+        'title' => ''
+    ),
+    '2' => array(
+        'action' => 'create',
+        'name' => 'Create new',
+        'url' => '/categories/admin/create',
+        'icon' => '',
+        'title' => ''
+    ),
+        /*
+          '3' => array(
+          'action'  => 'settings',
+          'name'    => 'Settings',
+          'url'     => '/categories/admin/settings',
+          'icon'    => '',
+          'title' => ''
+          ), */
+);
 
 /**
  * Clansuite Adminmenu for Module Categories
  */
-
-$adminmenu        = array(
-                             '1' => array(
-                                            'name'       => '',
-                                            'url'        => '',
-                                            'tooltip'    => '',
-                                            'target'     => '',
-                                            'permission' => '',
-                                            'icon'       => ''
-                                         ),
-                         );
+$adminmenu = array(
+    '1' => array(
+        'name' => '',
+        'url' => '',
+        'tooltip' => '',
+        'target' => '',
+        'permission' => '',
+        'icon' => ''
+    ),
+);
 ?>

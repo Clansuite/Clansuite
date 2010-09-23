@@ -39,45 +39,41 @@ if(defined('IN_CS') === false)
 /**
  * Clansuite Modulenavigation for Module Forum
  */
-
 $modulenavigation = array(
-                            '1' => array(
-                                            'action'  => 'show',
-                                            'name'    => 'Overview',
-                                            'url'      => '/forum/admin', # &action=show
-                                            'icon'    => '',
-                                            'title' => ''
-                                        ),
-
-                            '2' => array(
-                                            'action'  => 'create',
-                                            'name'    => 'Create new',
-                                            'url'     => '/forum/admin/create',
-                                            'icon'    => '',
-                                            'title' => ''
-                                        ),
-
-                            '3' => array(
-                                            'action'  => 'settings',
-                                            'name'    => 'Settings',
-                                            'url'     => '/forum/admin/settings',
-                                            'icon'    => '',
-                                            'title' => ''
-                                        ),
-                         );
+    '1' => array(
+        'action' => 'show',
+        'name' => 'Overview',
+        'url' => '/forum/admin', # &action=show
+        'icon' => '',
+        'title' => ''
+    ),
+    '2' => array(
+        'action' => 'create',
+        'name' => 'Create new',
+        'url' => '/forum/admin/create',
+        'icon' => '',
+        'title' => ''
+    ),
+    '3' => array(
+        'action' => 'settings',
+        'name' => 'Settings',
+        'url' => '/forum/admin/settings',
+        'icon' => '',
+        'title' => ''
+    ),
+);
 
 /**
  * Clansuite Adminmenu for Module Forum
  */
-
-$adminmenu        = array(
-                             '1' => array(
-                                            'name'       => '',
-                                            'url'        => '',
-                                            'tooltip'    => '',
-                                            'target'     => '',
-                                            'permission' => '',
-                                            'icon'       => ''
-                                         ),
-                         );
+$adminmenu = array(
+    '1' => array(
+        'name' => '',
+        'url' => '',
+        'tooltip' => '',
+        'target' => '',
+        'permission' => '',
+        'icon' => ''
+    ),
+);
 ?>

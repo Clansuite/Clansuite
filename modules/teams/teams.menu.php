@@ -39,45 +39,41 @@ if(defined('IN_CS') === false)
 /**
  * Clansuite Modulenavigation for Module Teams
  */
-
 $modulenavigation = array(
-                            '1' => array(
-                                            'action'  => 'show',
-                                            'name'    => 'Overview',
-                                            'url'      => '/teams/admin', # &action=show
-                                            'icon'    => '',
-                                            'tooltip' => ''
-                                        ),
-
-                            '2' => array(
-                                            'action'  => 'create',
-                                            'name'    => 'Create new',
-                                            'url'     => '/teams/admin/create',
-                                            'icon'    => '',
-                                            'tooltip' => ''
-                                        ),
-
-                            '3' => array(
-                                            'action'  => 'settings',
-                                            'name'    => 'Settings',
-                                            'url'     => '/teams/admin/settings',
-                                            'icon'    => '',
-                                            'tooltip' => ''
-                                        ),
-                         );
+    '1' => array(
+        'action' => 'show',
+        'name' => 'Overview',
+        'url' => '/teams/admin', # &action=show
+        'icon' => '',
+        'tooltip' => ''
+    ),
+    '2' => array(
+        'action' => 'create',
+        'name' => 'Create new',
+        'url' => '/teams/admin/create',
+        'icon' => '',
+        'tooltip' => ''
+    ),
+    '3' => array(
+        'action' => 'settings',
+        'name' => 'Settings',
+        'url' => '/teams/admin/settings',
+        'icon' => '',
+        'tooltip' => ''
+    ),
+);
 
 /**
  * Clansuite Adminmenu for Module Teams
  */
-
-$adminmenu        = array(
-                             '1' => array(
-                                            'name'       => '',
-                                            'url'        => '',
-                                            'tooltip'    => '',
-                                            'target'     => '',
-                                            'permission' => '',
-                                            'icon'       => ''
-                                         ),
-                         );
+$adminmenu = array(
+    '1' => array(
+        'name' => '',
+        'url' => '',
+        'tooltip' => '',
+        'target' => '',
+        'permission' => '',
+        'icon' => ''
+    ),
+);
 ?>

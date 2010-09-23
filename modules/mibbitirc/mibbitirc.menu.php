@@ -39,45 +39,41 @@ if(defined('IN_CS') === false)
 /**
  * Clansuite Modulenavigation for Module mibbitirc
  */
-
 $modulenavigation = array(
-                            '1' => array(
-                                            'action'  => 'show',
-                                            'name'    => 'Overview',
-                                            'url'      => '/mibbitirc/admin', # &action=show
-                                            'icon'    => '',
-                                            'title' => ''
-                                        ),
-
-                            '2' => array(
-                                            'action'  => 'create',
-                                            'name'    => 'Create new',
-                                            'url'     => '/mibbitirc/admin/create',
-                                            'icon'    => '',
-                                            'title' => ''
-                                        ),
-
-                            '3' => array(
-                                            'action'  => 'settings',
-                                            'name'    => 'Settings',
-                                            'url'     => '/mibbitirc/admin/settings',
-                                            'icon'    => '',
-                                            'title' => ''
-                                        ),
-                         );
+    '1' => array(
+        'action' => 'show',
+        'name' => 'Overview',
+        'url' => '/mibbitirc/admin', # &action=show
+        'icon' => '',
+        'title' => ''
+    ),
+    '2' => array(
+        'action' => 'create',
+        'name' => 'Create new',
+        'url' => '/mibbitirc/admin/create',
+        'icon' => '',
+        'title' => ''
+    ),
+    '3' => array(
+        'action' => 'settings',
+        'name' => 'Settings',
+        'url' => '/mibbitirc/admin/settings',
+        'icon' => '',
+        'title' => ''
+    ),
+);
 
 /**
  * Clansuite Adminmenu for Module mibbitirc
  */
-
-$adminmenu        = array(
-                             '1' => array(
-                                            'name'       => '',
-                                            'url'        => '',
-                                            'tooltip'    => '',
-                                            'target'     => '',
-                                            'permission' => '',
-                                            'icon'       => ''
-                                         ),
-                         );
+$adminmenu = array(
+    '1' => array(
+        'name' => '',
+        'url' => '',
+        'tooltip' => '',
+        'target' => '',
+        'permission' => '',
+        'icon' => ''
+    ),
+);
 ?>

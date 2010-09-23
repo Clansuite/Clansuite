@@ -170,7 +170,7 @@ class Clansuite_User
 
             # redirect
             Clansuite_CMS::getInjector()->instantiate('Clansuite_HttpResponse')
-            ->redirect( 'index.php?mod=account&action=activation_email', 5, 403, _('Your account is not yet activated.'));
+            ->redirect('/account/activation_email', 5, 403, _('Your account is not yet activated.'));
         }
 
         /**
