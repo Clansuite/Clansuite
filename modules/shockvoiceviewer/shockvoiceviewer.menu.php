@@ -44,7 +44,7 @@ $modulenavigation = array(
                             '1' => array(
                                             'action'  => 'show',
                                             'name'    => 'Overview',
-                                            'url'      => 'index.php?mod=shockvoiceviewer&sub=admin', # &action=show
+                                            'url'      => '/shockvoiceviewer/admin', # &action=show
                                             'icon'    => '',
                                             'title' => ''
                                         ),
@@ -52,7 +52,7 @@ $modulenavigation = array(
                             '2' => array(
                                             'action'  => 'settings',
                                             'name'    => 'Settings',
-                                            'url'     => 'index.php?mod=shockvoiceviewer&sub=admin&action=settings',
+                                            'url'     => '/shockvoiceviewer/admin/settings',
                                             'icon'    => '',
                                             'title' => ''
                                         ),

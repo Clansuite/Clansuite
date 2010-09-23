@@ -54,7 +54,7 @@ class Clansuite_Module_Staticpages_Admin extends Clansuite_Module_Controller
     public function action_admin_show()
     {
         # Set Pagetitle and Breadcrumbs
-        Clansuite_Breadcrumb::add( _('Overview'), 'index.php?mod=staticpages&amp;sub=admin&amp;action=show');
+        Clansuite_Breadcrumb::add( _('Overview'), '/staticpages/admin/show');
 
         $staticpages = Doctrine_Query::create()
                               ->select('*')
@@ -71,7 +71,7 @@ class Clansuite_Module_Staticpages_Admin extends Clansuite_Module_Controller
     function create_staticpages()
     {
         # Set Pagetitle and Breadcrumbs
-        Clansuite_Breadcrumb::add( _('Create'), 'index.php?mod=staticpages&amp;sub=admin&amp;action=create');
+        Clansuite_Breadcrumb::add( _('Create'), '/staticpages/admin/create');
 
         # @todo define form array 
         $html           = $_POST['html'];
@@ -147,7 +147,7 @@ class Clansuite_Module_Staticpages_Admin extends Clansuite_Module_Controller
     function edit_staticpages()
     {
         # Set Pagetitle and Breadcrumbs
-        Clansuite_Breadcrumb::add( _('Edit'), 'index.php?mod=staticpages&amp;sub=admin&amp;action=edit');
+        Clansuite_Breadcrumb::add( _('Edit'), '/staticpages/admin/edit');
 
         $info['html']           = $_POST['html'];
         $info['description']    = $_POST['description'];
@@ -198,7 +198,7 @@ class Clansuite_Module_Staticpages_Admin extends Clansuite_Module_Controller
                 $page->save();
      
                 $this->flashmessage('success', _( 'The page was successfully modified.' ));
-                $this->redirect( 'index.php?mod=controlcenter&sub=staticpages&action=show');
+                $this->redirect( 'index.php?mod=controlcenter/staticpages&action=show');
             }
         }
         else
@@ -220,13 +220,13 @@ class Clansuite_Module_Staticpages_Admin extends Clansuite_Module_Controller
     public function action_admin_settings()
     {
         # Set Pagetitle and Breadcrumbs
-        Clansuite_Breadcrumb::add( _('Settings'), 'index.php?mod=staticpages&amp;sub=admin&amp;action=settings');
+        Clansuite_Breadcrumb::add( _('Settings'), '/staticpages/admin/settings');
 
         $settings = array();
 
         $settings['form']   = array(    'name' => 'staticpages_settings',
                                         'method' => 'POST',
-                                        'action' => WWW_ROOT . 'index.php?mod=staticpages&amp;sub=admin&amp;action=settings_update');
+                                        'action' => WWW_ROOT . 'index.php?mod=staticpages/admin/settings_update');
 
         $settings['staticpages'][] = array(    'id' => 'items_resultsPerPage',
                                         'name' => 'items_resultsPerPage',
@@ -263,7 +263,7 @@ class Clansuite_Module_Staticpages_Admin extends Clansuite_Module_Controller
         $this->getView()->clearCache();
 
         # Redirect
-        $this->response->redirectNoCache('/staticpages&amp;sub=admin');
+        $this->response->redirectNoCache('/staticpages/admin');
     }
 }
 ?>

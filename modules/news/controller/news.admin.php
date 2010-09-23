@@ -202,7 +202,7 @@ class Clansuite_Module_News_Admin extends Clansuite_Module_Controller
     public function action_admin_create()
     {
         # Create a new form
-        $form = new Clansuite_Form('news_form', 'post', 'index.php?mod=news&sub=admin&action=update&type=create');
+        $form = new Clansuite_Form('news_form', 'post', '/news/admin/update&type=create');
         $form->setClass('News');
 
         # Assign some formlements
@@ -219,7 +219,7 @@ class Clansuite_Module_News_Admin extends Clansuite_Module_Controller
         ->setEditor();
 
         # add the buttonbar
-        $form->addElement('buttonbar')->getButton('cancelbutton')->cancelURL = 'index.php?mod=news&amp;sub=admin';
+        $form->addElement('buttonbar')->getButton('cancelbutton')->cancelURL = 'index.php?mod=news/admin';
 
         # Assign the html of the form to the view
         $this->getView()->assign('form', $form->render());
@@ -241,7 +241,7 @@ class Clansuite_Module_News_Admin extends Clansuite_Module_Controller
         $news = Doctrine::getTable('CsNews')->fetchSingleNews($news_id);
 
         # Create a new form
-        $form = new Clansuite_Form('news_form', 'post', 'index.php?mod=news&sub=admin&action=update&type=edit');
+        $form = new Clansuite_Form('news_form', 'post', '/news/admin/update&type=edit');
 
         # news_id as hidden field
         $IdElement = $form->addElement('hidden');
@@ -267,7 +267,7 @@ class Clansuite_Module_News_Admin extends Clansuite_Module_Controller
         $form->addElement('captcha')->setCaptcha('simplecaptcha')->setLabel(_('Captcha'));
 
         # add the buttonbar
-        $form->addElement('buttonbar')->getButton('cancelbutton')->cancelURL = 'index.php?mod=news&amp;sub=admin';
+        $form->addElement('buttonbar')->getButton('cancelbutton')->cancelURL = 'index.php?mod=news/admin';
 
         # assign the html of the form to the view
         $this->getView()->assign('form', $form->render());
@@ -348,7 +348,7 @@ class Clansuite_Module_News_Admin extends Clansuite_Module_Controller
         }
         else
         {
-           $this->response->redirectNoCache('/news&amp;sub=admin');
+           $this->response->redirectNoCache('/news/admin');
         }
     }
 
@@ -358,13 +358,13 @@ class Clansuite_Module_News_Admin extends Clansuite_Module_Controller
     public function action_admin_settings()
     {
         # Set Pagetitle and Breadcrumbs
-        Clansuite_Breadcrumb::add( _('Settings'), 'index.php?mod=news&amp;sub=admin&amp;action=settings');
+        Clansuite_Breadcrumb::add( _('Settings'), '/news/admin/settings');
 
         $settings = array();
 
         $settings['form']   = array(    'name' => 'news_settings',
                                         'method' => 'POST',
-                                        'action' => WWW_ROOT . 'index.php?mod=news&amp;sub=admin&amp;action=settings_update');
+                                        'action' => WWW_ROOT . 'index.php?mod=news/admin/settings_update');
 
         $settings['news'][] = array(    'id' => 'resultsPerPage_show',
                                         'name' => 'resultsPerPage_show',
@@ -428,7 +428,7 @@ class Clansuite_Module_News_Admin extends Clansuite_Module_Controller
         $form->setClass('News');
 
         # add the buttonbar
-        $form->addElement('buttonbar')->getButton('cancelbutton')->cancelURL = 'index.php?mod=news&amp;sub=admin';
+        $form->addElement('buttonbar')->getButton('cancelbutton')->cancelURL = 'index.php?mod=news/admin';
         $form->addDecorator('fieldset')->setLegend(_('News Settings'));
 
         # assign the html of the form to the view
@@ -448,7 +448,7 @@ class Clansuite_Module_News_Admin extends Clansuite_Module_Controller
         $this->getView()->clearCache();
 
         # Redirect
-        $this->response->redirectNoCache('/news&sub=admin', 2, 302, _('success#The config file has been succesfully updated.'));
+        $this->response->redirectNoCache('/news/admin', 2, 302, _('success#The config file has been succesfully updated.'));
     }
 }
 ?>

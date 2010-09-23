@@ -31,9 +31,14 @@ function smarty_function_modulenavigation($params, $smarty)
 
     if( is_file($modulenavigation_file) )
     {
+        # this includes the file, which contains a php array name $modulenavigation
         include $modulenavigation_file;
+
+        # convert URLs by callback
+        $modulenavigation = array_map("convertURLs", $modulenavigation);
+
         $smarty->assign('modulenavigation', $modulenavigation);
-        # The file is located in clansuite/themes/core/view/modulenavigation-generic.tpl
+        # The file is located in clansuite/themes/core/view/smarty/modulenavigation-generic.tpl
         return $smarty->fetch('modulenavigation-generic.tpl');
     }
     else
@@ -42,5 +47,16 @@ function smarty_function_modulenavigation($params, $smarty)
         $errormessage = $smarty->fetch('modulenavigation_not_found.tpl');
         trigger_error($errormessage);
     }
+}
+
+/**
+ * array_map callback function to replace the values of the 'url' key
+ *
+ * @param array $array
+ */
+function convertURLs($array)
+{
+    $array['url'] = Clansuite_Router::buildURL($array['url']);
+    return $array;
 }
 ?>

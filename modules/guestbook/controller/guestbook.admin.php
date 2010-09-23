@@ -228,7 +228,7 @@ class Clansuite_Module_Guestbook_Admin extends Clansuite_Module_Controller
                 else
                 {
                     // Redirect on finish
-                    $functions->redirect( 'index.php?mod=guestbook&sub=admin&action=show', 'metatag|newsite', 3, $lang->t( 'The guestbook entry has been edited.' ), 'admin' );
+                    $functions->redirect( 'index.php?mod=guestbook/admin/show', 'metatag|newsite', 3, $lang->t( 'The guestbook entry has been edited.' ), 'admin' );
                 }
 
             }
@@ -350,13 +350,13 @@ class Clansuite_Module_Guestbook_Admin extends Clansuite_Module_Controller
     public function action_admin_settings()
     {
         # Set Pagetitle and Breadcrumbs
-        Clansuite_Breadcrumb::add( _('Settings'), 'index.php?mod=guestbook&amp;sub=admin&amp;action=settings');
+        Clansuite_Breadcrumb::add( _('Settings'), '/guestbook/admin/settings');
 
         $settings = array();
 
         $settings['form']   = array(    'name' => 'guestbook_settings',
                                         'method' => 'POST',
-                                        'action' => WWW_ROOT . 'index.php?mod=guestbook&amp;sub=admin&amp;action=settings_update');
+                                        'action' => WWW_ROOT . 'index.php?mod=guestbook/admin/settings_update');
 
         $settings['guestbook'][] = array(
                                         'id' => 'guestbook_resultsPerPage',

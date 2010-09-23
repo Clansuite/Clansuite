@@ -60,7 +60,7 @@ class Clansuite_Module_Users_Admin extends Clansuite_Module_Controller
     public function action_admin_show()
     {
         # Set Pagetitle and Breadcrumbs
-        Clansuite_Breadcrumb::add( _('Show'), 'index.php?mod=users&amp;sub=admin&amp;action=show');
+        Clansuite_Breadcrumb::add( _('Show'), '/users/admin/show');
 
         # Get Render Engine
         $view = $this->getView();
@@ -96,7 +96,7 @@ class Clansuite_Module_Users_Admin extends Clansuite_Module_Controller
                              new Doctrine_Pager_Range_Sliding(array(
                                  'chunk' => 5  // Displays: [1][2][3][4][5]
                              )),
-                             '?mod=users&sub=admin&action=show&page={%page}'
+                             '?mod=users/admin/show&page={%page}'
                              );
 
         // Assigning templates for page links creation
@@ -141,7 +141,7 @@ class Clansuite_Module_Users_Admin extends Clansuite_Module_Controller
     public function action_admin_create()
     {
         # Set Pagetitle and Breadcrumbs
-        Clansuite_Breadcrumb::add( _('Create New Useraccount'), 'index.php?mod=users&amp;sub=admin&amp;action=create');
+        Clansuite_Breadcrumb::add( _('Create New Useraccount'), '/users/admin/create');
 
         // specifiy the template manually
         $this->setTemplate('admin_create.tpl');
@@ -167,7 +167,7 @@ class Clansuite_Module_Users_Admin extends Clansuite_Module_Controller
     public function action_admin_search()
     {
         # Set Pagetitle and Breadcrumbs
-        Clansuite_Breadcrumb::add( _('Search'), 'index.php?mod=users&amp;sub=admin&amp;action=search');
+        Clansuite_Breadcrumb::add( _('Search'), '/users/admin/search');
 
         $view = $this->getView();
 
@@ -179,7 +179,7 @@ class Clansuite_Module_Users_Admin extends Clansuite_Module_Controller
 
         if ( count($delete) < 1 )
         {
-            $this->redirect( 'index.php?mod=users&sub=admin', 3, _( 'No users selected to delete! Aborted... ' ));
+            $this->redirect( 'index.php?mod=users/admin', 3, _( 'No users selected to delete! Aborted... ' ));
         }
 
         /**
@@ -187,13 +187,13 @@ class Clansuite_Module_Users_Admin extends Clansuite_Module_Controller
          */
         if ( empty( $abort ) == false )
         {
-            $this->redirect( 'index.php?mod=users&sub=admin' );
+            $this->redirect( 'index.php?mod=users/admin' );
         }
 
 
         # Delete User Query
 
-        $this->redirect( 'index.php?mod=users&sub=admin&action=show_all', 3, _( 'The selected user(s) were deleted.' ));
+        $this->redirect( 'index.php?mod=users/admin/show_all', 3, _( 'The selected user(s) were deleted.' ));
     }
 
     /**
@@ -202,13 +202,13 @@ class Clansuite_Module_Users_Admin extends Clansuite_Module_Controller
     public function action_admin_settings()
     {
         # Set Pagetitle and Breadcrumbs
-        Clansuite_Breadcrumb::add( _('Settings'), 'index.php?mod=users&amp;sub=admin&amp;action=settings');
+        Clansuite_Breadcrumb::add( _('Settings'), '/users/admin/settings');
 
         $settings = array();
 
         $settings['form']   = array(    'name' => 'users_settings',
                                         'method' => 'POST',
-                                        'action' => WWW_ROOT . 'index.php?mod=users&amp;sub=admin&amp;action=settings_update');
+                                        'action' => WWW_ROOT . 'index.php?mod=users/admin/settings_update');
 
         $settings['users'][] = array(   'id' => 'items_lastregisteredusers',
                                         'name' => 'items_lastregisteredusers',

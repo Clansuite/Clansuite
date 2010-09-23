@@ -51,7 +51,7 @@ class Clansuite_Module_Matches extends Clansuite_Module_Controller
     public function action_show()
     {
         // Set Pagetitle and Breadcrumbs
-        Clansuite_Breadcrumb::add( _('Show'), 'index.php?mod=matches&amp;action=show');
+        Clansuite_Breadcrumb::add( _('Show'), '/matches/show');
 
         # fetch nextmatches
         $matches = Doctrine::getTable('CsMatches')->findAll()->toArray();
