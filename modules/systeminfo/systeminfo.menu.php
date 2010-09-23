@@ -44,7 +44,7 @@ $modulenavigation = array(
                             '1' => array(
                                             'action'  => 'show',
                                             'name'    => 'Systeminfo',
-                                            'url'      => 'index.php?mod=systeminfo&sub=admin', # &action=show
+                                            'url'      => '/systeminfo/admin', # &action=show
                                             'icon'    => '',
                                             'title' => ''
                                         ),
@@ -52,7 +52,7 @@ $modulenavigation = array(
                             '2' => array(
                                             'action'  => 'show_apc',
                                             'name'    => 'Alternative PHP Cache',
-                                            'url'     => 'index.php?mod=systeminfo&sub=admin&action=show_apc',
+                                            'url'     => '/systeminfo/admin/show_apc',
                                             'icon'    => '',
                                             'title' => ''
                                         ),                            

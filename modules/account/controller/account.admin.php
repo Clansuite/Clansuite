@@ -53,7 +53,7 @@ class Clansuite_Module_Account_Admin extends Clansuite_Module_Controller
     public function action_admin_avatar_edit()
     {
         # Set Pagetitle and Breadcrumbs
-        Clansuite_Breadcrumb::add( _('Add Avatar'), 'index.php?mod=users&sub=admin&action=addavatar');
+        Clansuite_Breadcrumb::add( _('Add Avatar'), '/users/admin/addavatar');
 
         # Get Render Engine
         $view = $this->getView();
@@ -98,7 +98,7 @@ class Clansuite_Module_Account_Admin extends Clansuite_Module_Controller
     public function action_admin_usercenter()
     {
         # Set Pagetitle and Breadcrumbs
-        Clansuite_Breadcrumb::add( _('Usercenter'), 'index.php?mod=users&amp;sub=admin&amp;action=usercenter');
+        Clansuite_Breadcrumb::add( _('Usercenter'), '/users/admin/usercenter');
 
         # Get Render Engine
         $view = $this->getView();
@@ -128,13 +128,13 @@ class Clansuite_Module_Account_Admin extends Clansuite_Module_Controller
     public function action_admin_settings()
     {
         # Set Pagetitle and Breadcrumbs
-        Clansuite_Breadcrumb::add( _('Settings'), 'index.php?mod=account&amp;sub=admin&amp;action=settings');
+        Clansuite_Breadcrumb::add( _('Settings'), '/account/admin/settings');
 
         $settings = array();
 
         $settings['form'] = array('name'   => 'account_settings',
                                   'method' => 'POST',
-                                  'action' => WWW_ROOT . 'index.php?mod=account&amp;sub=admin&amp;action=settings_update');
+                                  'action' => WWW_ROOT . 'index.php?mod=account/admin/settings_update');
 
         $settings['account'][] = array( 'id' => 'resultsPerPage_show',
                                         'name' => 'resultsPerPage_show',

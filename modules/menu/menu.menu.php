@@ -44,15 +44,15 @@ $modulenavigation = array(
                             '1' => array(
                                             'action'  => 'show',
                                             'name'    => 'Overview',
-                                            'url'     => 'index.php?mod=menu&sub=admin', # &action=show
+                                            'url'     => '/menu/admin', # &action=show
                                             'icon'    => '',
                                             'title' => ''
                                         ),
-                                        
+
                             '2' => array(
                                             'action'  => 'menueditor2',
                                             'name'    => 'Menueditor II',
-                                            'url'     => 'index.php?mod=menu&sub=admin&action=menueditor2', # &action=show
+                                            'url'     => '/menu/admin/menueditor2', # &action=show
                                             'icon'    => '',
                                             'title' => ''
                                         ),
@@ -60,7 +60,7 @@ $modulenavigation = array(
                             '3' => array(
                                             'action'  => 'imexport',
                                             'name'    => 'Import &amp; Export',
-                                            'url'     => 'index.php?mod=menu&sub=admin&action=imexport',
+                                            'url'     => '/menu/admin/imexport',
                                             'icon'    => '',
                                             'title' => ''
                                         ),
@@ -68,7 +68,7 @@ $modulenavigation = array(
                             '4' => array(
                                             'action'  => 'backup',
                                             'name'    => 'Backup',
-                                            'url'     => 'index.php?mod=menu&sub=admin&action=backup',
+                                            'url'     => '/menu/admin/backup',
                                             'icon'    => '',
                                             'title' => ''
                                         ),

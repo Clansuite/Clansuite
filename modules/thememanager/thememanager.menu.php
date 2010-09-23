@@ -44,7 +44,7 @@ $modulenavigation = array(
                             '1' => array(
                                             'action'  => 'show_frontend',
                                             'name'    => 'Frontend',
-                                            'url'      => 'index.php?mod=thememanager&sub=admin', # &action=show_frontend
+                                            'url'      => '/thememanager/admin', # &action=show_frontend
                                             'icon'    => '',
                                             'title' => ''
                                         ),
@@ -52,7 +52,7 @@ $modulenavigation = array(
                             '2' => array(
                                             'action'  => 'show_backend',
                                             'name'    => 'Backend',
-                                            'url'     => 'index.php?mod=thememanager&sub=admin&action=show_backend',
+                                            'url'     => '/thememanager/admin/show_backend',
                                             'icon'    => '',
                                             'title' => ''
                                         ),

@@ -53,7 +53,7 @@ class Clansuite_Module_Games_Admin extends Clansuite_Module_Controller
     public function action_admin_show()
     {
         # Set Pagetitle and Breadcrumbs
-        Clansuite_Breadcrumb::add( _('Show'), 'index.php?mod=games&amp;sub=admin&amp;action=show');
+        Clansuite_Breadcrumb::add( _('Show'), '/games/admin/show');
         
         # Fetch Data and Assign to View
         $this->getView()->assign('games', Doctrine::getTable('CsGames')->fetchAll());
@@ -67,13 +67,13 @@ class Clansuite_Module_Games_Admin extends Clansuite_Module_Controller
     public function action_admin_settings()
     {
         # Set Pagetitle and Breadcrumbs
-        Clansuite_Breadcrumb::add( _('Settings'), 'index.php?mod=games&amp;sub=admin&amp;action=settings');
+        Clansuite_Breadcrumb::add( _('Settings'), '/games/admin/settings');
         
         $settings = array();
         
         $settings['form']   = array(    'name' => 'games_settings',
                                         'method' => 'POST',
-                                        'action' => WWW_ROOT . 'index.php?mod=games&amp;sub=admin&amp;action=settings_update');
+                                        'action' => WWW_ROOT . 'index.php?mod=games/admin/settings_update');
                                                                                                                      
         $settings['games'][] = array(    'id' => 'games_resultsPerPage',
                                         'name' => 'games_resultsPerPage',

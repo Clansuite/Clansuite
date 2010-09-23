@@ -60,6 +60,9 @@ class Clansuite_Breadcrumb
      */
     public static function add($title, $link = '', $replace_array_position = null)
     {
+        # remove slash
+        $link = ltrim($link, '/');
+
         $item = array('title' => ucfirst($title) );
 
         if(isset($link))
@@ -153,7 +156,7 @@ class Clansuite_Breadcrumb
         if($moduleName == 'controlcenter' or $submoduleName == 'admin')
         {
             # Set Pagetitle "Control Center" and Breadcrumb-Link = '/index.php?mod=controlcenter'
-            Clansuite_Breadcrumb::add('Control Center', 'index.php?mod=controlcenter');
+            Clansuite_Breadcrumb::add('Control Center', '/controlcenter');
         }
 
         /**

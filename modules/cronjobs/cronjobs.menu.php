@@ -47,7 +47,7 @@ $modulenavigation = array(
                             '1' => array(
                                             'action'  => 'show',
                                             'name'    => 'Overview',
-                                            'url'      => 'index.php?mod=cronjobs&sub=admin', # &action=show
+                                            'url'      => '/cronjobs/admin', # &action=show
                                             'icon'    => '',
                                             'title' => ''
                                         ),
@@ -55,7 +55,7 @@ $modulenavigation = array(
                             '2' => array(
                                             'action'  => 'create',
                                             'name'    => 'Create new',
-                                            'url'     => 'index.php?mod=cronjobssub=admin&action=create',
+                                            'url'     => '/cronjobssub=admin&action=create',
                                             'icon'    => '',
                                             'title' => ''
                                         ),
@@ -63,7 +63,7 @@ $modulenavigation = array(
                             '3' => array(
                                             'action'  => 'settings',
                                             'name'    => 'Settings',
-                                            'url'     => 'index.php?mod=cronjobs&sub=admin&action=settings',
+                                            'url'     => '/cronjobs/admin/settings',
                                             'icon'    => '',
                                             'title' => ''
                                         ),

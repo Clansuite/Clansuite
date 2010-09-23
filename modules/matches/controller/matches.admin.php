@@ -56,7 +56,7 @@ class Clansuite_Module_Matches_Admin extends Clansuite_Module_Controller
         #$perms::check('cc_view_matches');
         
         # Set Pagetitle and Breadcrumbs
-        Clansuite_Breadcrumb::add( _('Show'), 'index.php?mod=gallery&amp;sub=admin&amp;action=show');
+        Clansuite_Breadcrumb::add( _('Show'), '/gallery/admin/show');
         
         #
         
@@ -86,13 +86,13 @@ class Clansuite_Module_Matches_Admin extends Clansuite_Module_Controller
     public function action_admin_settings()
     {
         # Set Pagetitle and Breadcrumbs
-        Clansuite_Breadcrumb::add( _('Settings'), 'index.php?mod=matches&amp;sub=admin&amp;action=settings');
+        Clansuite_Breadcrumb::add( _('Settings'), '/matches/admin/settings');
         
         $settings = array();
         
         $settings['form']   = array(    'name' => 'matches_settings',
                                         'method' => 'POST',
-                                        'action' => WWW_ROOT . 'index.php?mod=matches&amp;sub=admin&amp;action=settings_update');
+                                        'action' => WWW_ROOT . 'index.php?mod=matches/admin/settings_update');
                                         
         $settings['matches'][] = array(    'id' => 'widget_latestmatches',
                                         'name' => 'widget_latestmatches',

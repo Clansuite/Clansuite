@@ -44,7 +44,7 @@ $modulenavigation = array(
                             '1' => array(
                                             'action'  => 'show',
                                             'name'    => 'Overview',
-                                            'url'      => 'index.php?mod=matches&sub=admin', # &action=show
+                                            'url'      => '/matches/admin', # &action=show
                                             'icon'    => '',
                                             'title' => ''
                                         ),
@@ -52,7 +52,7 @@ $modulenavigation = array(
                             '2' => array(
                                             'action'  => 'create',
                                             'name'    => 'Create new',
-                                            'url'     => 'index.php?mod=matches&sub=admin&action=create',
+                                            'url'     => '/matches/admin/create',
                                             'icon'    => '',
                                             'title' => ''
                                         ),
@@ -60,7 +60,7 @@ $modulenavigation = array(
                             '3' => array(
                                             'action'  => 'settings',
                                             'name'    => 'Settings',
-                                            'url'     => 'index.php?mod=matches&sub=admin&action=settings',
+                                            'url'     => '/matches/admin/settings',
                                             'icon'    => '',
                                             'title' => ''
                                         ),

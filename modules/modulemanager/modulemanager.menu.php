@@ -47,7 +47,7 @@ $modulenavigation = array(
                             '1' => array(
                                             'action'  => 'show',
                                             'name'    => 'Overview',
-                                            'url'      => 'index.php?mod=modulemanager&sub=admin', # &action=show
+                                            'url'      => '/modulemanager/admin', # &action=show
                                             'icon'    => '',
                                             'title' => ''
                                         ),
@@ -55,7 +55,7 @@ $modulenavigation = array(
                             '2' => array(
                                             'action'  => 'builder',
                                             'name'    => 'Create with Modulebuilder',
-                                            'url'     => 'index.php?mod=modulemanager&sub=admin&action=builder',
+                                            'url'     => '/modulemanager/admin/builder',
                                             'icon'    => '',
                                             'title' => ''
                                         ),
@@ -63,7 +63,7 @@ $modulenavigation = array(
                             '3' => array(
                                             'action'  => 'install',
                                             'name'    => 'Install',
-                                            'url'     => 'index.php?mod=modulemanager&sub=admin&action=install',
+                                            'url'     => '/modulemanager/admin/install',
                                             'icon'    => '',
                                             'title' => ''
                                         ),
@@ -71,7 +71,7 @@ $modulenavigation = array(
                             '4' => array(
                                             'action'  => 'edit',
                                             'name'    => 'Edit',
-                                            'url'     => 'index.php?mod=modulemanager&sub=admin&action=edit',
+                                            'url'     => '/modulemanager/admin/edit',
                                             'icon'    => '',
                                             'title' => ''
                                         ),
@@ -79,7 +79,7 @@ $modulenavigation = array(
                             '5' => array(
                                             'action'  => 'export',
                                             'name'    => 'Export',
-                                            'url'     => 'index.php?mod=modulemanager&sub=admin&action=export',
+                                            'url'     => '/modulemanager/admin/export',
                                             'icon'    => '',
                                             'title' => ''
                                         ),
@@ -87,7 +87,7 @@ $modulenavigation = array(
                             '6' => array(
                                             'action'  => 'settings',
                                             'name'    => 'Settings',
-                                            'url'     => 'index.php?mod=modulemanager&sub=admin&action=settings',
+                                            'url'     => '/modulemanager/admin/settings',
                                             'icon'    => '',
                                             'title' => ''
                                         ),

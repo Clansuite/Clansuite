@@ -44,7 +44,7 @@ $modulenavigation = array(
                             '1' => array(
                                             'action'  => 'show',
                                             'name'    => 'Overview',
-                                            'url'      => 'index.php?mod=downloads&sub=admin', # &action=show
+                                            'url'      => '/downloads/admin', # &action=show
                                             'icon'    => '',
                                             'tooltip' => ''
                                         ),
@@ -52,7 +52,7 @@ $modulenavigation = array(
                             '2' => array(
                                             'action'  => 'create',
                                             'name'    => 'Create new',
-                                            'url'     => 'index.php?mod=downloads&sub=admin&action=create',
+                                            'url'     => '/downloads/admin/create',
                                             'icon'    => '',
                                             'tooltip' => ''
                                         ),
@@ -60,7 +60,7 @@ $modulenavigation = array(
                             '3' => array(
                                             'action'  => 'settings',
                                             'name'    => 'Settings',
-                                            'url'     => 'index.php?mod=downloads&sub=admin&action=settings',
+                                            'url'     => '/downloads/admin/settings',
                                             'icon'    => '',
                                             'tooltip' => ''
                                         ),

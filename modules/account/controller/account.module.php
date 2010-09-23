@@ -96,7 +96,7 @@ class Clansuite_Module_Account extends Clansuite_Module_Controller
     public function action_login()
     {
         # Set Pagetitle and Breadcrumbs
-        Clansuite_Breadcrumb::add( _('Login'), 'index.php?mod=account&amp;action=login');
+        Clansuite_Breadcrumb::add( _('Login'), '/account/login');
 
         # Get Objects
         $config = $this->getClansuiteConfig();
@@ -202,7 +202,7 @@ class Clansuite_Module_Account extends Clansuite_Module_Controller
     public function action_logout()
     {
         // Set Pagetitle and Breadcrumbs
-        Clansuite_Breadcrumb::add( _('Logout'), 'index.php?mod=account&amp;action=logout');
+        Clansuite_Breadcrumb::add( _('Logout'), '/account/logout');
 
         $confirm = (bool) $this->request->getParameterFromPost('confirm');
 
@@ -738,7 +738,7 @@ class Clansuite_Module_Account extends Clansuite_Module_Controller
 
         # Create a new form
         # @todo form object with auto-population of values
-        $form = new Clansuite_Form('userdata_form', 'post', 'index.php?mod=account&sub=profile&action=update&type=editprofile');
+        $form = new Clansuite_Form('userdata_form', 'post', '/account&sub=profile&action=update&type=editprofile');
 
         /**
          * user_id as hidden field
@@ -804,7 +804,7 @@ class Clansuite_Module_Account extends Clansuite_Module_Controller
 
         # Create a new form
         # @todo form object with auto-population of values
-        $form = new Clansuite_Form('useravatar_form', 'post', 'index.php?mod=account&sub=profile&action=update&type=edituseravatar');
+        $form = new Clansuite_Form('useravatar_form', 'post', '/account&sub=profile&action=update&type=edituseravatar');
 
         /**
          * user_id as hidden field
@@ -847,7 +847,7 @@ class Clansuite_Module_Account extends Clansuite_Module_Controller
 
         # Create a new form
         # @todo form object with auto-population of values
-        $form = new Clansuite_Form('userpic_form', 'post', 'index.php?mod=account&sub=profile&action=update&type=edituserpic');
+        $form = new Clansuite_Form('userpic_form', 'post', '/account&sub=profile&action=update&type=edituserpic');
 
         /**
          * user_id as hidden field

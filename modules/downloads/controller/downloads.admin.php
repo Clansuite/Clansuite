@@ -63,13 +63,13 @@ class Clansuite_Module_Downloads_Admin extends Clansuite_Module_Controller
     public function action_admin_settings()
     {
         # Set Pagetitle and Breadcrumbs
-        Clansuite_Breadcrumb::add( _('Settings'), 'index.php?mod=downloads&amp;sub=admin&amp;action=settings');
+        Clansuite_Breadcrumb::add( _('Settings'), '/downloads/admin/settings');
         
         $settings = array();
         
         $settings['form']   = array(    'name' => 'downloads_settings',
                                         'method' => 'POST',
-                                        'action' => WWW_ROOT . 'index.php?mod=downloads&amp;sub=admin&amp;action=settings_update');
+                                        'action' => WWW_ROOT . 'index.php?mod=downloads/admin/settings_update');
                                         
         $settings['downloads'][] = array(    'id' => 'widget_latestdownloads',
                                         'name' => 'widget_latestdownloads',

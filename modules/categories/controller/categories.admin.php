@@ -138,7 +138,7 @@ class Clansuite_Module_Categories_Admin extends Clansuite_Module_Controller
         /**
          * Create a new form
          */
-        $form = new Clansuite_Form('category_form', 'post', 'index.php?mod=categories&sub=admin&action=update&type=create');
+        $form = new Clansuite_Form('category_form', 'post', '/categories/admin/update&type=create');
 
         /**
          * Assign some Formlements
@@ -154,7 +154,7 @@ class Clansuite_Module_Categories_Admin extends Clansuite_Module_Controller
         $form->addElement('jqselectimage')->setName('cat_form[icon]')->setLabel(_('Select Icon'));
         # @todo category image upload + db insert
 
-        $form->addElement('buttonbar')->getButton('cancelbutton')->cancelURL = 'index.php?mod=categories&amp;sub=admin';
+        $form->addElement('buttonbar')->getButton('cancelbutton')->cancelURL = 'index.php?mod=categories/admin';
 
         # assign the html of the form to the view
         $this->getView()->assign('form', $form->render());
@@ -173,7 +173,7 @@ class Clansuite_Module_Categories_Admin extends Clansuite_Module_Controller
         # Create a new form
         # @todo form object with auto-population of values
 
-        $form = new Clansuite_Form('cat_form', 'post', 'index.php?mod=categories&sub=admin&action=update&type=edit');
+        $form = new Clansuite_Form('cat_form', 'post', '/categories/admin/update&type=edit');
 
         /**
          * cat_id as hidden field
@@ -192,7 +192,7 @@ class Clansuite_Module_Categories_Admin extends Clansuite_Module_Controller
         #$form->addElement('uploadajax')->setName('Upload Image')->setLabel(_('Upload Image'));
         $form->addElement('jqselectimage')->setName('cat_form[icon]')->setLabel(_('Select Icon'))->setDefaultValue($cat['icon']);
         #$form->addElement('uploadajax')->setName('Upload Icon')->setLabel(_('Upload Icon'));
-        $form->addElement('buttonbar')->getButton('cancelbutton')->cancelURL = 'index.php?mod=categories&amp;sub=admin';
+        $form->addElement('buttonbar')->getButton('cancelbutton')->cancelURL = 'index.php?mod=categories/admin';
 
         # assign the html of the form to the view
         $this->getView()->assign('form', $form->render());
@@ -293,13 +293,13 @@ class Clansuite_Module_Categories_Admin extends Clansuite_Module_Controller
     public function action_admin_settings()
     {
         # Set Pagetitle and Breadcrumbs
-        Clansuite_Breadcrumb::add( _('Settings'), 'index.php?mod=categories&amp;sub=admin&amp;action=settings');
+        Clansuite_Breadcrumb::add( _('Settings'), '/categories/admin/settings');
 
         $settings = array();
 
         $settings['form']   = array(    'name' => 'categories_settings',
                                         'method' => 'POST',
-                                        'action' => WWW_ROOT . 'index.php?mod=categories&amp;sub=admin&amp;action=settings_update');
+                                        'action' => WWW_ROOT . 'index.php?mod=categories/admin/settings_update');
 
         $settings['categories'][] = array(  'id' => 'items_resultsPerPage',
                                             'name' => 'items_resultsPerPage',

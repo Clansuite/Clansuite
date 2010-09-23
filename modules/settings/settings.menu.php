@@ -39,37 +39,42 @@ if(defined('IN_CS') === false)
 /**
  * Clansuite Modulenavigation for Module Settings
  */
-
+/*
+$modulenavigation[1]['action'] = 
+$modulenavigation[1]['name'] = 
+$modulenavigation[1]['url'] = 
+$modulenavigation[1]['icon'] = 
+$modulenavigation[1]['title'] = 
+*/
 $modulenavigation = array(
-                            '1' => array(
-                                            'action'  => 'show',
-                                            'name'    => 'Tabs',
-                                            'url'      => 'index.php?mod=settings&sub=admin', # &action=show
-                                            'icon'    => '',
-                                            'title' => ''
-                                        ),
-                           
-                            '2' => array(
-                                            'action'  => 'easylist',
-                                            'name'    => 'List',
-                                            'url'     => 'index.php?mod=settings&sub=admin&action=easylist',
-                                            'icon'    => '',
-                                            'title' => ''
-                                        ),
-                         );
+    '1' => array(
+        'action' => 'show',
+        'name' => 'Tabs',
+        'url' => '/settings/admin', # &action=show
+        'icon' => '',
+        'title' => ''
+    ),
+    '2' => array(
+        'action' => 'easylist',
+        'name' => 'List',
+        'url' => '/settings/admin/easylist',
+        'icon' => '',
+        'title' => ''
+    ),
+);
 
 /**
  * Clansuite Adminmenu for Module Settings
  */
 
-$adminmenu        = array(
-                             '1' => array(
-                                            'name'       => '',
-                                            'url'        => '',
-                                            'tooltip'    => '',
-                                            'target'     => '',
-                                            'permission' => '',
-                                            'icon'       => ''
-                                         ),
-                         );
+$adminmenu = array(
+    '1' => array(
+        'name' => '',
+        'url' => '',
+        'tooltip' => '',
+        'target' => '',
+        'permission' => '',
+        'icon' => ''
+    ),
+);
 ?>

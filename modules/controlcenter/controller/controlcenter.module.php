@@ -67,7 +67,7 @@ class Clansuite_Module_ControlCenter extends Clansuite_Module_Controller
     public function action_bugs()
     {
         # Set Pagetitle and Breadcrumbs
-        Clansuite_Breadcrumb::add( _('Report Bugs &amp; Issues'), 'index.php?mod=controlcenter&amp;action=bugs');
+        Clansuite_Breadcrumb::add( _('Report Bugs &amp; Issues'), '/controlcenter/bugs');
 
         $this->display();
     }
@@ -75,7 +75,7 @@ class Clansuite_Module_ControlCenter extends Clansuite_Module_Controller
     public function action_about()
     {
         # Set Pagetitle and Breadcrumbs
-        Clansuite_Breadcrumb::add( _('About Clansuite'), 'index.php?mod=controlcenter&amp;action=about');
+        Clansuite_Breadcrumb::add( _('About Clansuite'), '/controlcenter/about');
 
         $this->display();
     }
@@ -83,7 +83,7 @@ class Clansuite_Module_ControlCenter extends Clansuite_Module_Controller
     public function action_supportlinks()
     {
         # Set Pagetitle and Breadcrumbs
-        Clansuite_Breadcrumb::add( _('Links for Help & Support'), 'index.php?mod=help&amp;sub=admin&amp;action=supportlinks');
+        Clansuite_Breadcrumb::add( _('Links for Help & Support'), '/help/admin/supportlinks');
 
         $this->display();
     }
@@ -161,13 +161,13 @@ class Clansuite_Module_ControlCenter extends Clansuite_Module_Controller
     public function action_settings()
     {
         # Set Pagetitle and Breadcrumbs
-        Clansuite_Breadcrumb::add( _('Settings'), 'index.php?mod=controlcenter&amp;sub=admin&amp;action=settings');
+        Clansuite_Breadcrumb::add( _('Settings'), '/controlcenter/admin/settings');
 
         $settings = array();
 
         $settings['form']   = array(    'name' => 'controlcenter_settings',
                 'method' => 'POST',
-                'action' => WWW_ROOT . 'index.php?mod=controlcenter&amp;action=settings_update');
+                'action' => WWW_ROOT . 'index.php?mod=controlcenter/settings_update');
 
         $settings['controlcenter'][] = array(
                 'id' => 'show_box_shortcuts',

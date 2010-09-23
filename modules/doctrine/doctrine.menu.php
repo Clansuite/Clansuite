@@ -44,7 +44,7 @@ $modulenavigation = array(
                             '1' => array(
                                             'action'  => 'show',
                                             'name'    => 'Overview',
-                                            'url'     => 'index.php?mod=doctrine&sub=admin', # = &action=show
+                                            'url'     => '/doctrine/admin', # = &action=show
                                             'icon'    => '',
                                             'title' => ''
                                         ),
@@ -52,7 +52,7 @@ $modulenavigation = array(
                             '2' => array(
                                             'action'  => 'db2models',
                                             'name'    => 'DB &raquo; Models',
-                                            'url'     => 'index.php?mod=doctrine&sub=admin&action=db2models',
+                                            'url'     => '/doctrine/admin/db2models',
                                             'icon'    => '',
                                             'title' => ''
                                         ),
@@ -60,7 +60,7 @@ $modulenavigation = array(
                             '3' => array(
                                             'action'  => 'db2yaml',
                                             'name'    => 'DB &raquo; YAML',
-                                            'url'     => 'index.php?mod=doctrine&sub=admin&action=db2yaml',
+                                            'url'     => '/doctrine/admin/db2yaml',
                                             'icon'    => '',
                                             'title' => ''
                                         ),
@@ -68,7 +68,7 @@ $modulenavigation = array(
                             '4' => array(
                                             'action'  => 'models2sql',
                                             'name'    => 'Models &raquo; SQL',
-                                            'url'     => 'index.php?mod=doctrine&sub=admin&action=models2sql',
+                                            'url'     => '/doctrine/admin/models2sql',
                                             'icon'    => '',
                                             'title' => ''
                                         ),
@@ -76,7 +76,7 @@ $modulenavigation = array(
                             '5' => array(
                                             'action'  => 'models2yaml',
                                             'name'    => 'Models &raquo; YAML',
-                                            'url'     => 'index.php?mod=doctrine&sub=admin&action=models2yaml',
+                                            'url'     => '/doctrine/admin/models2yaml',
                                             'icon'    => '',
                                             'title' => ''
                                         ),
@@ -84,7 +84,7 @@ $modulenavigation = array(
                              '6' => array(
                                             'action'  => 'yaml2models',
                                             'name'    => 'YAML &raquo; Models',
-                                            'url'     => 'index.php?mod=doctrine&sub=admin&action=yaml2models',
+                                            'url'     => '/doctrine/admin/yaml2models',
                                             'icon'    => '',
                                             'title' => ''
                                         ),
