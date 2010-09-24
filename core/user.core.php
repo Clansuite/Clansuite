@@ -529,7 +529,7 @@ class Clansuite_GuestUser
     /**
      * @return This object is a singleton.
      */
-    static public function getInstance()
+    public static function getInstance()
     {
         if (null === self::$instance)
         {

@@ -90,7 +90,6 @@ date_default_timezone_set('Europe/Berlin');
                     <li><strong><a href="http://forum.clansuite.com/">Forum</a></strong></li>
                     <li><strong><a href="http://forum.clansuite.com/index.php?board=26">Convertersupport</a></strong></li>
                     <li><strong><a href="http://trac.clansuite.com/">Bugtracker</a></strong></li>
-                    <li><strong><a href="teamspeak://clansuite.com:8000?channel=Clansuite%20Admins?subchannel=Clansuite%20Support">Teamspeak</a></strong></li>
                     <li><strong><a href="http://www.clansuite.com/toolbar/">Toolbar</a></strong></li>
 
                     <!-- Donate -->
@@ -110,7 +109,7 @@ date_default_timezone_set('Europe/Berlin');
 
                     <!-- Link Us -->
                     <li><h2>Link us</h2></li>
-                    <li><a href="http://www.clansuite.com/banner/" target="_blank"><img src="http://www.clansuite.com/website/images/banners/clansuite-crown-banner-88x31.png" alt="Clansuite 80x31 LOGO" /></a></li>
+                    <li><a href="http://cdn.clansuite.com/banners/" target="_blank"><img src="http://cdn.clansuite.com/banners/clansuite-crown-banner-88x31.png" alt="Clansuite 80x31 LOGO" /></a></li>
 
                </ul>
         </div>

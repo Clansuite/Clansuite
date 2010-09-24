@@ -25,7 +25,7 @@ if (defined('IN_CS') === false)
                               </b>
                       <br /><br />                      
                       <?php echo $language['STEP7_SENTENCE8']; ?>
-                      <a href="http://www.clansuite.com/documentation/user/manual"><?php echo $language['STEP7_SENTENCE9']; ?></a>.
+                      <a href="http://docs.clansuite.com/user/manual"><?php echo $language['STEP7_SENTENCE9']; ?></a>.
                       <br/>
                    </p>
                    <br />

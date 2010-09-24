@@ -75,11 +75,11 @@ if (defined('IN_CS') === false)
             <li>
                 <!-- Start Live Support Javascript -->
                 <div style="text-align:center;width:120px;">
-                   <a href="javascript:void(window.open('http://www.clansuite.com/livezilla/livezilla.php?code=T2ZmaXppZWxsZSBXZWJzZWl0ZSBjbGFuc3VpdGUuY29t&amp;reset=true','','width=600,height=600,left=0,top=0,resizable=yes,menubar=no,location=yes,status=yes,scrollbars=yes'))">
-                    <img src="http://www.clansuite.com/livezilla/image.php?id=05" width="120" height="30" border="0" alt="LiveZilla Live Help" /></a>
+                   <a href="javascript:void(window.open('http://support.clansuite.com/livezilla.php?code=T2ZmaXppZWxsZSBXZWJzZWl0ZSBjbGFuc3VpdGUuY29t&amp;reset=true','','width=600,height=600,left=0,top=0,resizable=yes,menubar=no,location=yes,status=yes,scrollbars=yes'))">
+                    <img src="http://support.clansuite.com/image.php?id=05" width="120" height="30" border="0" alt="LiveZilla Live Help" /></a>
                     <noscript>
                         <div>
-                         <a href="http://www.clansuite.com/livezilla/livezilla.php?code=T2ZmaXppZWxsZSBXZWJzZWl0ZSBjbGFuc3VpdGUuY29t&amp;reset=true" target="_blank">Start Live Help Chat</a>
+                         <a href="http://support.clansuite.com/livezilla.php?code=T2ZmaXppZWxsZSBXZWJzZWl0ZSBjbGFuc3VpdGUuY29t&amp;reset=true" target="_blank">Start Live Help Chat</a>
                         </div>
                    </noscript>
                 </div>
@@ -91,7 +91,7 @@ if (defined('IN_CS') === false)
                     <!--
                      var script = document.createElement("script");
                          script.type="text/javascript";
-                     var src = "http://www.clansuite.com/livezilla/server.php?request=track&output=jcrpt&code=SW5zdGFsbGF0aW9u&reset=true&nse="+Math.random();
+                     var src = "http://support.clansuite.com/server.php?request=track&output=jcrpt&code=SW5zdGFsbGF0aW9u&reset=true&nse="+Math.random();
                                 setTimeout("script.src=src;document.getElementById('livezilla_tracking').appendChild(script)",1);
                     -->
                 </script>
