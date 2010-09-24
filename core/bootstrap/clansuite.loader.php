@@ -316,6 +316,8 @@ class Clansuite_Loader
 
         # autoloading map
         $map = array(
+        # config
+        'Clansuite_Config_Base'               => ROOT_CORE . 'config/config.base.php',
         # datagrid mappings
         'Clansuite_Datagrid'                  => $datagrid_dir . 'datagrid.core.php',
         'Clansuite_Datagrid_Column'           => $datagrid_dir . 'datagridcol.core.php',
