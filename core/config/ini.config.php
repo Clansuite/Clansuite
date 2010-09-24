@@ -38,9 +38,6 @@ if (defined('IN_CS') === false)
     die('Clansuite not loaded. Direct Access forbidden.');
 }
 
-# Load Clansuite_Config_Base
-require dirname(__FILE__) . '/config.base.php';
-
 /**
  * Clansuite Core File - Config Handler for INI Format
  *
