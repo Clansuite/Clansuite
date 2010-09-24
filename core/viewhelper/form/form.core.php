@@ -825,7 +825,7 @@ class Clansuite_Form /*extends Clansuite_HTML*/ implements Clansuite_Form_Interf
      * You don't know the formelements available? Then take a look at
      * a) the directory core\viewhelper\form\formelements\*
      * b) the manual
-     * @link http://www.clansuite.com/documentation/developer/manual/de/#_clansuite_form
+     * @link http://docs.clansuite.com/developer/manual/de/#_clansuite_form
      *
      * @param $formelement string|object Name of formelement or Object implementing the Clansuite_Form_Interface
      * @param $position integer The position number of this formelement (ordering) in the formelements stack.

@@ -20,12 +20,12 @@
     <a target="_blank" href="ts3server://clansuite.com?port=9987"> Get Clansuite Support via Teamspeak </a>
     <br />
        <!-- http://www.LiveZilla.net Chat Button Link Code -->
-       <a href="javascript:void(window.open('http://www.clansuite.com/livezilla/livezilla.php?reset=true','','width=600,height=600,left=0,top=0,resizable=yes,menubar=no,location=yes,status=yes,scrollbars=yes'))">
+       <a href="javascript:void(window.open('http://support.clansuite.com/livezilla.php?reset=true','','width=600,height=600,left=0,top=0,resizable=yes,menubar=no,location=yes,status=yes,scrollbars=yes'))">
            Get Clansuite Live Support (Start Live Help Chat)
        </a>
        <noscript>
            <div>
-           <a href="http://www.clansuite.com/livezilla/livezilla.php?reset=true" target="_blank">(Get Clansuite Live Support - Start Live Help Chat)</a>
+           <a href="http://support.clansuite.com/livezilla.php?reset=true" target="_blank">(Get Clansuite Live Support - Start Live Help Chat)</a>
            </div>
        </noscript>
 
@@ -33,14 +33,14 @@
 
        <!-- http://www.LiveZilla.net Tracking Code -->
        <div id="livezilla_tracking" style="display:none"></div>
-       <script type="text/javascript">var script = document.createElement("script");script.type="text/javascript";var src = "http://www.clansuite.com/livezilla/server.php?request=track&output=jcrpt&reset=true&nse="+Math.random();setTimeout("script.src=src;document.getElementById('livezilla_tracking').appendChild(script)",1);</script>
+       <script type="text/javascript">var script = document.createElement("script");script.type="text/javascript";var src = "http://support.clansuite.com/server.php?request=track&output=jcrpt&reset=true&nse="+Math.random();setTimeout("script.src=src;document.getElementById('livezilla_tracking').appendChild(script)",1);</script>
        <!-- http://www.LiveZilla.net Tracking Code -->
     <br />
     <br />
 
     <strong>{t}Documentation{/t}</strong>
     <br />
-    <a target="_blank" href="http://www.clansuite.com/documentation/">{t}Documentation{/t}</a>
+    <a target="_blank" href="http://docs.clansuite.com/">{t}Documentation{/t}</a>
     <br/>
     <a target="_blank" href="http://trac.clansuite.com/wiki">Clansuite Wiki</a>
     <br />

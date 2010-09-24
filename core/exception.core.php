@@ -387,7 +387,7 @@ class Clansuite_Exception extends Exception implements Clansuite_Exception_Inter
         # Footer with Support-Backlinks
         $errormessage  .= '<div style="float:right;">';
         $errormessage  .= '<strong><!-- Live Support JavaScript -->
-                           <a href="http://www.clansuite.com/livezilla/chat.php" target="_blank">Contact Support (Start Chat)</a>
+                           <a href="http://support.clansuite.com/chat.php" target="_blank">Contact Support (Start Chat)</a>
                            <!-- Live Support JavaScript --></strong> | ';
         $errormessage  .= '<strong><a href="http://trac.clansuite.com/newticket/">Bug-Report</a></strong> |
                            <strong><a href="http://forum.clansuite.com/">Support-Forum</a></strong> |

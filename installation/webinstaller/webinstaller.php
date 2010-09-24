@@ -1361,9 +1361,9 @@ function render($renderType, $args=array())
         <head>
             <title>Clansuite :: Webinstaller</title>
             <link rel="shortcut icon" href="http://www.clansuite.com/favicon.ico" />
-            <link rel="stylesheet" type="text/css" href="http://www.clansuite.com/website/css/installation.css" />
-            <link rel="stylesheet" type="text/css" href="http://www.clansuite.com/website/css/standard.css" />
-            <link rel="stylesheet" type="text/css" href="http://www.clansuite.com/website/css/kubrick.css" />
+            <link rel="stylesheet" type="text/css" href="http://cdn.clansuite.com/css/installation.css" />
+            <link rel="stylesheet" type="text/css" href="http://cdn.clansuite.com/css/standard.css" />
+            <link rel="stylesheet" type="text/css" href="http://cdn.clansuite.com/css/kubrick.css" />
             <style type="text/css">
                 div.error, div.warning {
                     margin: 20px 10px 0;
@@ -1388,10 +1388,10 @@ function render($renderType, $args=array())
                     var o = document.getElementById(objId), t = document.getElementById(togId);
                     if (o.style.display == 'none') {
                         o.style.display = 'block';
-                        t.innerHTML = text + "<div style=\"margin-right: 5px; margin-top: -25px; float:right;\"><img src='http://www.clansuite.com/website/images/up.gif' alt='UP' align='top' /></div>";
+                        t.innerHTML = text + "<div style=\"margin-right: 5px; margin-top: -25px; float:right;\"><img src='http://cdn.clansuite.com/images/up.gif' alt='UP' align='top' /></div>";
                     } else {
                         o.style.display = 'none';
-                        t.innerHTML = text + "<div style=\"margin-right: 5px; margin-top: -25px; float:right;\"><img src='http://www.clansuite.com/website/images/dn.gif' alt='DOWN' align='top' /></div>";
+                        t.innerHTML = text + "<div style=\"margin-right: 5px; margin-top: -25px; float:right;\"><img src='http://cdn.clansuite.com/images/dn.gif' alt='DOWN' align='top' /></div>";
                     }
                 }
             </script>
@@ -1400,9 +1400,9 @@ function render($renderType, $args=array())
             <center>
                 <div id="page"> <!-- Page START -->
                     <div id="header">                                                                          <!--  HeaderRotDunkel.jpg -->
-                        <div id="headerimg" style="background-image: url('http://www.clansuite.com/website/images/kubrickheader-installation.png');">
+                        <div id="headerimg" style="background-image: url('http://cdn.clansuite.com/images/kubrickheader-installation.png');">
                             <span>
-                                <img style="margin: 46px 38px 0pt; position:relative;" src="http://www.clansuite.com/website/images/clansuite-joker.gif"  alt="Clansuite Joker Logo" />
+                                <img style="margin: 46px 38px 0pt; position:relative;" src="http://cdn.clansuite.com/images/clansuite-joker.gif"  alt="Clansuite Joker Logo" />
                             </span>
                             <div class="description" style="font-size: 20px; margin-left: 190px; margin-top: -95px;">Webinstallation</div>
                         </div>
@@ -1529,7 +1529,7 @@ else
 <?php if($step_cmd == 'intro' OR $step_cmd == ''): ?>
 <!-- WELCOME AND INSTRUCTIONS -->
 <div id="page-instructions" style="margin: 0 15px">
-    <h2 id="toggler" class="headerstyle" style="cursor: pointer" onclick="BlockToggle('toggle-instructions', 'toggler', 'Instructions')">Instructions <div style="margin-right: 5px; margin-top: -25px; float:right;"><img src="http://www.clansuite.com/website/images/dn.gif" alt="DOWN" align="top" /></div></h2>
+    <h2 id="toggler" class="headerstyle" style="cursor: pointer" onclick="BlockToggle('toggle-instructions', 'toggler', 'Instructions')">Instructions <div style="margin-right: 5px; margin-top: -25px; float:right;"><img src="http://cdn.clansuite.com/images/dn.gif" alt="DOWN" align="top" /></div></h2>
     <div id="toggle-instructions" style="display: none">
         <h3>This webinstaller gets the Clansuite web application on your server.</h3>
         <p>
@@ -1800,7 +1800,7 @@ $folderName = empty($args['clansuiteFolderName']) ? 'clansuite' : $args['clansui
     <!-- <div class="box"> -->
 
     <h2 id="chmod-toggler" class="headerstyle" style="cursor: pointer"
-        onclick="BlockToggle('chmod-toggle', 'chmod-toggler', 'Change folder permissions')">Change folder permissions <div style="margin-right: 5px; margin-top: -25px; float:right;"><img src="http://www.clansuite.com/website/images/dn.gif" alt="DOWN" align="top" /></div></h2>
+        onclick="BlockToggle('chmod-toggle', 'chmod-toggler', 'Change folder permissions')">Change folder permissions <div style="margin-right: 5px; margin-top: -25px; float:right;"><img src="http://cdn.clansuite.com/images/dn.gif" alt="DOWN" align="top" /></div></h2>
     <div id="chmod-toggle" <?php echo$display; ?>>
 
 <?php if(!empty($args['clansuiteFolderName'])): ?>
@@ -1837,7 +1837,7 @@ $folderName = empty($args['clansuiteFolderName']) ? 'clansuite' : $args['clansui
 
         <!-- RENAME FOLDER-->
         <h2 id="rename-toggler" class="headerstyle" style="cursor: pointer"
-            onclick="BlockToggle('rename-toggle', 'rename-toggler', 'Rename folder')">Rename folder <div style="margin-right: 5px; margin-top: -25px; float:right;"><img src="http://www.clansuite.com/website/images/dn.gif" alt="DOWN" align="top" /></div></h2>
+            onclick="BlockToggle('rename-toggle', 'rename-toggler', 'Rename folder')">Rename folder <div style="margin-right: 5px; margin-top: -25px; float:right;"><img src="http://cdn.clansuite.com/images/dn.gif" alt="DOWN" align="top" /></div></h2>
         <div id="rename-toggle" <?php echo$display; ?>>
 
     <?php if(!empty($args['clansuiteFolderName'])): ?>
@@ -1904,7 +1904,7 @@ $folderName = empty($args['clansuiteFolderName']) ? 'clansuite' : $args['clansui
                     <a href='http://www.pledgie.com/campaigns/6324'><img alt='Click here to lend your support to: Unterstützt Clansuite! and make a donation at www.pledgie.com !' src='http://www.pledgie.com/campaigns/6324.png?skin_name=eight_bit' border='0' /></a>
                 </li>
                 <li><h2>Link us</h2></li>
-                <li><a href="http://www.clansuite.com/banner/" target="_blank"><img src="http://www.clansuite.com/website/images/banners/clansuite-crown-banner-88x31.png" alt="Clansuite 80x31 LOGO" /></a></li>
+                <li><a href="http://www.clansuite.com/banner/" target="_blank"><img src="http://cdn.clansuite.com/banners/clansuite-crown-banner-88x31.png" alt="Clansuite 80x31 LOGO" /></a></li>
             </ul>
         </div>
         <hr />
