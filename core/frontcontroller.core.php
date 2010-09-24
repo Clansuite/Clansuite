@@ -75,24 +75,40 @@ interface Clansuite_Front_Controller_Interface
  */
 class Clansuite_Front_Controller implements Clansuite_Front_Controller_Interface
 {
-     /**
+    /**
      * @var object Clansuite_Router
      */
     private $router;
+
+    /**
+     * @var object Clansuite_HttpRequest
+     */
+    private $request;
+
+    /**
+     * @var object Clansuite_HttpResponse
+     */
+    private $response;
+
     /**
      * @var object Clansuite_Dispatcher
      */
     private $dispatcher;
 
     /**
-     * @var object FilterManager for Prefilters
+     * @var object Clansuite_FilterManager for Prefilters
      */
     private $pre_filtermanager;
 
     /**
-     * @var object FilterManager for Postfilters
+     * @var object Clansuite_FilterManager for Postfilters
      */
     private $post_filtermanager;
+
+    /**
+     * @var object Clansuite_EventDispatcher
+     */
+    private $event_dispatcher;
 
     /**
      * Constructor
@@ -104,6 +120,7 @@ class Clansuite_Front_Controller implements Clansuite_Front_Controller_Interface
            $this->dispatcher         = new Clansuite_Dispatcher($request);
            $this->pre_filtermanager  = new Clansuite_Filtermanager();
            $this->post_filtermanager = new Clansuite_Filtermanager();
+           $this->event_dispatcher   = Clansuite_EventDispatcher::instantiate();
     }
 
     /**
@@ -141,12 +158,11 @@ class Clansuite_Front_Controller implements Clansuite_Front_Controller_Interface
     {
         $this->pre_filtermanager->processFilters($this->request, $this->response);
 
-        $event = Clansuite_EventDispatcher::instantiate();
-        $event->triggerEvent('onBeforeDispatcherForward');
+        $this->event_dispatcher->triggerEvent('onBeforeDispatcherForward');
 
         $this->dispatcher->forward($this->request, $this->response);
 
-        $event->triggerEvent('onAfterDispatcherForward');
+        $this->event_dispatcher->triggerEvent('onAfterDispatcherForward');
 
         $this->post_filtermanager->processFilters($this->request, $this->response);
 
