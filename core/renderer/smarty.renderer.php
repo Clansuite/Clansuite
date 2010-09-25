@@ -51,7 +51,7 @@ if(defined('IN_CS') === false)
  * @package     Core
  * @subpackage  Renderer
  */
-class Clansuite_Renderer_Smarty extends Clansuite_Renderer_Base
+class Clansuite_Renderer_Smarty extends Clansuite_Renderer_Base implements ArrayAccess
 {
 
     /**
@@ -75,12 +75,12 @@ class Clansuite_Renderer_Smarty extends Clansuite_Renderer_Base
     public function initializeEngine()
     {
         # prevent redeclaration
-        if(class_exists('Smarty', false) == false)
+        if(class_exists('Smarty', false) === false)
         {
             # check if Smarty library exists
             if(is_file(ROOT_LIBRARIES . 'smarty/Smarty.class.php') === true)
             {
-                include ROOT_LIBRARIES . 'smarty/Smarty.class.php';                
+                include ROOT_LIBRARIES . 'smarty/Smarty.class.php';
             }
             else
             {
@@ -109,15 +109,15 @@ class Clansuite_Renderer_Smarty extends Clansuite_Renderer_Base
          * Debugging
          */
         $this->renderer->debugging = DEBUG ? true : false; # set smarty debugging, when debug on
-        #$this->renderer->debug_tpl = ROOT_THEMES . 'core/view/debug.tpl';   # set debugging template for smarty
-        $this->renderer->debug_tpl  = ROOT_LIBRARIES . 'smarty/debug.tpl';   # set debugging template for smarty
         if($this->renderer->debugging == true)
         {
+            #$this->renderer->debug_tpl = ROOT_THEMES . 'core/view/debug.tpl';   # set debugging template for smarty
+            $this->renderer->debug_tpl  = ROOT_LIBRARIES . 'smarty/debug.tpl';   # set debugging template for smarty
             $this->renderer->utility->clearCompiledTemplate(); # clear compiled tpls in case of debug
             $this->renderer->cache->clearAll();                # clear cache
         }
-
-        # $this->renderer->debug_ctrl       = "NONE";   # NONE ... not active, URL ... activates debugging if SMARTY_DEBUG found in query string
+$this->renderer->utility->clearCompiledTemplate();
+        # $this->renderer->debug_ctrl       = "NONE";   # NONE (not active), URL (activates debugging if SMARTY_DEBUG found in query string)
         # $this->renderer->global_assign    = "";       # list of vars assign to all template files
         # $this->renderer->undefined        = null;     # defines value of undefined variables
 
@@ -141,8 +141,10 @@ class Clansuite_Renderer_Smarty extends Clansuite_Renderer_Base
         /**
          * COMPILER OPTIONS
          */
-        # $this->renderer->compiler_class   = "Smarty_Compiler";     # defines the compiler class for Smarty ... ONLY FOR ADVANCED USERS
-        # $this->renderer->compile_id       = 0;                     # set individual compile_id instead of assign compile_ids to function-calls (useful with prefilter for different languages)
+        # defines the compiler class for Smarty ... ONLY FOR ADVANCED USERS
+        # $this->renderer->compiler_class   = "Smarty_Compiler";
+        # set individual compile_id instead of assign compile_ids to function-calls (useful with prefilter for different languages)
+        # $this->renderer->compile_id       = 0;
 
         /**
          * recompile/rewrite templates only in debug mode
@@ -150,13 +152,15 @@ class Clansuite_Renderer_Smarty extends Clansuite_Renderer_Base
          */
         if($this->renderer->debugging == true)
         {
-            $this->renderer->compile_check = true;             # if a template was changed it would be recompiled, if set to false nothing will be compiled (changes take no effect)
-            $this->renderer->force_compile = true;             # if true compiles each template everytime, overwrites $compile_check
+            # if a template was changed it would be recompiled, if set to false nothing will be compiled (changes take no effect)
+            $this->renderer->compile_check = true;
+            # if true compiles each template everytime, overwrites $compile_check
+            $this->renderer->force_compile = true;
         }
         else
         {
-            $this->renderer->compile_check = false;             # if a template was changed it would be recompiled, if set to false nothing will be compiled (changes take no effect)
-            $this->renderer->force_compile = false;            # if true compiles each template everytime, overwrites $compile_check
+            $this->renderer->compile_check = false;
+            $this->renderer->force_compile = false;
         }
 
         /**

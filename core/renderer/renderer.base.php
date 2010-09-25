@@ -44,7 +44,7 @@ if(defined('IN_CS') === false)
  * @package     Core
  * @subpackage  Renderer
  */
-abstract class Clansuite_Renderer_Base
+abstract class Clansuite_Renderer_Base implements ArrayAccess
 {
     /**
      * @var Object Holds instance of the Rendering Engine Object
@@ -474,6 +474,82 @@ abstract class Clansuite_Renderer_Base
     protected function __clone()
     {
         return;
+    }
+
+    /**
+     * Gets a config file item based on keyname
+     *
+     * @param    string    the config item key
+     * @return   void
+     */
+    public function __get($configkey)
+    {
+        if(isset($this->renderer[$configkey]))
+        {
+            return $this->renderer[$configkey];
+        }
+        else
+        {
+            return null;
+        }
+    }
+
+    /**
+     * Set a config file item based on key:value
+     *
+     * @param string the config item key
+     * @param string the config item value
+     * @return   void
+     */
+    public function __set($key, $value)
+    {
+        $this->renderer[$key] = $value;
+        return true;
+    }
+
+    /**
+     * Method allows 'isset' to work on $this->data
+     *
+     * @param string $name Name of Variable Key $this->data[$name]
+     * @return return mixed
+     */
+    public function __isset($name)
+    {
+        return isset($this->renderer[$name]);
+    }
+
+    /**
+     * Method allows 'unset' calls to work on $this->data
+     *
+     * @param string $key
+     */
+    public function __unset($key)
+    {
+        unset($this->renderer[$key]);
+    }
+
+    /**
+     * Implementation of SPL ArrayAccess
+     */
+    public function offsetExists($offset)
+    {
+        return isset($this->renderer[$offset]);
+    }
+
+    public function offsetGet($offset)
+    {
+        return $this->__get($offset);
+    }
+
+    public function offsetSet($offset, $value)
+    {
+        $this->__set($offset, $value);
+    }
+
+    public function offsetUnset($offset)
+    {
+        unset($this->renderer[$offset]);
+        return true;
     }
 }
 ?>
