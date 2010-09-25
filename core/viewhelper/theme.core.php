@@ -60,7 +60,7 @@ class Clansuite_Theme implements ArrayAccess
 
         return $this;
     }
-
+    
     /**
      * Returns Theme Infos as array.
      *
@@ -139,6 +139,11 @@ class Clansuite_Theme implements ArrayAccess
     public function isBackendTheme()
     {
         return (bool) $this->theme_info_array['backendtheme'];
+    }
+    
+    public static function isFrontendTheme()
+    {
+        return (bool) $this->theme_info_array['backendtheme'] === true ? false : true;
     }
 
     public function getArray()

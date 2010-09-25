@@ -72,28 +72,31 @@ class Clansuite_User
     }
 
     /**
-     * getUser
+     * getUser by user_id
      *
-     * @param integer $user_id The ID of the User. Default is user_id from session.
+     * @param integer $user_id The ID of the User. Defaults to the user_id from session.
      * @return array $userdata (Dataset of CsUsers + CsProfile)
      */
-    public function getUser( $user_id = null)
+    public function getUser($user_id = null)
     {
+        # init user_id
         if($user_id == null)
         {
+            # incomming via session
             $user_id = $_SESSION['user']['user_id'];
         }
         else
         {
+            # incomming via method parameter
             $user_id = (int) $user_id;
         }
 
         $userdata = Doctrine_Query::create()
-                ->select($fields)
-                ->from('CsUsers')
-                ->leftJoin('CsProfile')
-                ->where('CsUsers.user_id = ?')
-                ->fetchOne(array($user_id), Doctrine::HYDRATE_ARRAY);
+                        ->select($fields)
+                        ->from('CsUsers')
+                        ->leftJoin('CsProfile')
+                        ->where('CsUsers.user_id = ?')
+                        ->fetchOne(array($user_id), Doctrine::HYDRATE_ARRAY);
 
         if(is_array($userdata))
         {

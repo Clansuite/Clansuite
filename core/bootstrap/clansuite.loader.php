@@ -281,16 +281,16 @@ class Clansuite_Loader
             # Factories
             # clansuite/core/factories/classname.factory.php
             # don't add factory is already in the classname
-            ROOT_CORE . 'factories/' . str_replace('_','.',$filename) . '.php',
+            ROOT_CORE . 'factories' . DS . str_replace('_','.',$filename) . '.php',
             # Filter
             # clansuite/core/filters/classname.filter.php
-            ROOT_CORE . 'filters/' . mb_substr($filename, 7) . '.filter.php',
+            ROOT_CORE . 'filters' . DS . mb_substr($filename, 7) . '.filter.php',
             # Event
             # clansuite/core/events/classname.class.php
-            ROOT_CORE . 'events/' . $classname . '.class.php',
+            ROOT_CORE . 'events' . DS . $classname . '.class.php',
             # Viewhelper
             # clansuite/core/viewhelper/classname.core.php
-            ROOT_CORE . 'viewhelper/' . str_replace('_','.',$filename) . '.core.php',
+            ROOT_CORE . 'viewhelper' . DS . str_replace('_','.',$filename) . '.core.php',
         );
 
         foreach($filenames as $filename)
@@ -316,8 +316,12 @@ class Clansuite_Loader
 
         # autoloading map
         $map = array(
-        # config
+        # bases - config, render
         'Clansuite_Config_Base'               => ROOT_CORE . 'config/config.base.php',
+        'Clansuite_Renderer_Base'             => ROOT_CORE . 'renderer/renderer.base.php',
+        # filter
+        'Clansuite_Filter_Interface'          => ROOT_CORE . 'filtermanager.core.php',
+        
         # datagrid mappings
         'Clansuite_Datagrid'                  => $datagrid_dir . 'datagrid.core.php',
         'Clansuite_Datagrid_Column'           => $datagrid_dir . 'datagridcol.core.php',
@@ -340,7 +344,7 @@ class Clansuite_Loader
             if(self::requireFileAndMap($filename, $classname) === true)
             {
                 return true;
-            } 
+            }
             unset($filename);
         }
     }
