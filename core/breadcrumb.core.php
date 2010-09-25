@@ -115,8 +115,9 @@ class Clansuite_Breadcrumb
 
         if((mb_strlen($actionName) > 0) and $actionName != 'action_show')
         {
-            $url .= '&amp;action=' . $actionName;
-            self::add(_($actionName), $url);
+            $action = substr($actionName, 7);
+            $url .= '&amp;action=' . $action;
+            self::add(_(ucfirst($action)), $url);
         }
     }
 
@@ -125,7 +126,6 @@ class Clansuite_Breadcrumb
      */
     public static function getTrail()
     {
-
         # if we got only one breadcrumb element, then only Home was set before
         if(count(self::$path) == 1)
         {
@@ -171,7 +171,7 @@ class Clansuite_Breadcrumb
             # Add action Part only, if not no submodule following
             if( (mb_strlen($actionName) > 0) and (mb_strlen($submoduleName) == 0))
             {
-                $url .= '&amp;action=' . $actionName;
+                $url .= '&amp;action=' . substr($actionName, 7);
             }
 
             # if this is an request to an submodule admin, we append that to the URL
@@ -194,7 +194,7 @@ class Clansuite_Breadcrumb
             # Add action Part now
             if(mb_strlen($actionName) > 0)
             {
-                $url .= '&amp;action=' . $actionName;
+                $url .= '&amp;action=' . substr($actionName, 7);
             }
 
             # Set Pagetitle and Breadcrumbs for that SubModule
