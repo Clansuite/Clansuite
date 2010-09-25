@@ -434,10 +434,8 @@ class Clansuite_CMS
      */
     private static function initialize_Eventdispatcher()
     {
-        if( isset(self::$config['eventsystem']['enabled'])
-              and self::$config['eventsystem']['enabled'] === true)
+        if( isset(self::$config['eventsystem']['enabled']) and self::$config['eventsystem']['enabled'] === true)
         {
-            include ROOT_CORE . 'eventhandler.core.php';
             Clansuite_Eventdispatcher::instantiate();
             Clansuite_Eventloader::autoloadEvents();
         }
@@ -611,15 +609,11 @@ class Clansuite_CMS
         if(isset(self::$config['language']['timezone']))
         {
             ini_set('date.timezone', self::$config['language']['timezone']);
-
-            if(function_exists('date_default_timezone_set'))
-            {
-                date_default_timezone_set(self::$config['language']['timezone']);
-            }
-            else
-            {
-                putenv('TZ=' . self::$config['language']['timezone']);
-            }
+            date_default_timezone_set(self::$config['language']['timezone']);
+        }
+        else
+        {
+            date_default_timezone_set('Europe/Berlin');
         }
 
         # set date formating via config

@@ -212,7 +212,7 @@ class Clansuite_Router implements ArrayAccess, Clansuite_Router_Interface
 
     /**
      * Builds a url string
-     * 
+     *
      * @param $urlstring String to build the url from (e.g. '/news/admin/show')
      */
     public static function buildURL($urlstring)
@@ -317,7 +317,9 @@ class Clansuite_Router implements ArrayAccess, Clansuite_Router_Interface
                  */
                 if (1 === preg_match('/^:([a-zA-Z_]+)$/', $this->uri, $match))
                 {
-                    Clansuite_Debug::firebug($match);
+                    # @todo Clansuite_TargetRoute::set*
+                    
+                    #Clansuite_Debug::firebug($match);
                     $name = $match[1]; #setController($match[1]);
                     $found_route = $name;
                 }
@@ -1112,18 +1114,6 @@ class Clansuite_TargetRoute extends Clansuite_Mapper
 
     public static function reset()
     {
-        /* $reset_params = array(
-          # File
-          'filename' => null,
-          'classname' => null,
-          # Call
-          'controller' => null,
-          'subcontroller' => null,
-          'action' => 'show',
-          'method' => null,
-          'params' => null
-          ); */
-
         $reset_params = array(
             # File
             'filename' => null,

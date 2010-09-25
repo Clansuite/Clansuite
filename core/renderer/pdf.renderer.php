@@ -36,9 +36,6 @@ if (defined('IN_CS') === false)
     die('Clansuite not loaded. Direct Access forbidden.' );
 }
 
-# Load Clansuite_Renderer_Base
-require dirname(__FILE__) . '/renderer.base.php';
-
 /**
  * Clansuite View Class - View for Smarty Templates
  *
