@@ -60,6 +60,11 @@ if(defined('IN_CS') === false)
  */
 class Clansuite_Router implements ArrayAccess, Clansuite_Router_Interface
 {
+    /**
+     * @var object Clansuite_Config
+     */
+    private static $config;
+
     private static $use_cache = false;
 
     private $uri = '';
@@ -81,11 +86,15 @@ class Clansuite_Router implements ArrayAccess, Clansuite_Router_Interface
     /**
      * Constructor.
      */
-    public function __construct(Clansuite_HttpRequest $request)
+    public function __construct(Clansuite_HttpRequest $request, Clansuite_Config $config)
     {
+        # set config object to the router for later access to config variables
+        $this->config = $config;
+
+        # fetch the (unmodified) Request URI from HttpRequest Object
         $request_uri = $request->getRequestURI();
 
-        # clean the incomming uri
+        # clean the incomming uri and set to class
         $this->uri = self::prepareRequestURI($request_uri);
     }
 
@@ -223,7 +232,7 @@ class Clansuite_Router implements ArrayAccess, Clansuite_Router_Interface
             $url_keys = array('mod', 'sub', 'action', 'id');
             $url_data = Clansuite_Functions::array_unequal_combine($url_keys, $url_values);
             $url = http_build_query($url_data, '', '&amp;');
-            Clansuite_Debug::firebug(WWW_ROOT . 'index.php?' . $url);
+            #Clansuite_Debug::firebug(WWW_ROOT . 'index.php?' . $url);
         }
         else # e.g. ROOT/news/admin
         {
@@ -261,10 +270,8 @@ class Clansuite_Router implements ArrayAccess, Clansuite_Router_Interface
          */
         if(empty($this->uri) or $this->uri === '/')
         {
-            #Clansuite_TargetRoute::dispatchToDefaultRoute();
-
-            Clansuite_TargetRoute::setController('news');
-            Clansuite_TargetRoute::setAction('show');
+            Clansuite_TargetRoute::setController($this->config['defaults']['module']);
+            Clansuite_TargetRoute::setAction($this->config['defaults']['action']);
 
             if(Clansuite_TargetRoute::dispatchable() === true)
             {
@@ -318,7 +325,7 @@ class Clansuite_Router implements ArrayAccess, Clansuite_Router_Interface
                 if (1 === preg_match('/^:([a-zA-Z_]+)$/', $this->uri, $match))
                 {
                     # @todo Clansuite_TargetRoute::set*
-                    
+
                     #Clansuite_Debug::firebug($match);
                     $name = $match[1]; #setController($match[1]);
                     $found_route = $name;
@@ -374,15 +381,16 @@ class Clansuite_Router implements ArrayAccess, Clansuite_Router_Interface
      * Ensures Apache "RewriteEngine on" by performing two checks
      * a) check if ModRewrite is activated in config to avoid overhead
      * b) check if Apache Modules "mod_rewrite" is loaded/enabled
-     * c) check if Rewrite Engine is enabled in .htaccess"
+     *    and Rewrite Engine is enabled in .htaccess"
      *
      * @return bool True, if "RewriteEngine On". False otherwise.
      */
     public function isRewriteEngineOn()
     {
         # maybe, we have a modrewrite config setting, this avoids overhead
-        if(isset($config['routing']['modrewrite']) and true === $config['routing']['modrewrite'])
+        if(isset($this->config['routing']['modrewrite']) and true === $this->config['routing']['modrewrite'])
         {
+            define('REWRITE_ENGINE_ON', true);
             return true;
         }
 
@@ -513,6 +521,10 @@ class Clansuite_Router implements ArrayAccess, Clansuite_Router_Interface
          * This addresses the pair relationship between parameter name and value, like "id=77".
          */
         $parameters = array();
+        $key = '';
+        $value = '';
+        $query_pair = '';
+
         if(count($uri_query_array) > 0)
         {
             foreach($uri_query_array as $query_pair)
@@ -621,6 +633,9 @@ class Clansuite_Router implements ArrayAccess, Clansuite_Router_Interface
      */
     public function removeRoutesBySegmentCount()
     {
+        $route_pattern = '';
+        $route_values = '';
+
         foreach($this->routes as $route_pattern => $route_values)
         {
             if($route_values['number_of_segments'] === count($this->uri_segments))
@@ -640,9 +655,9 @@ class Clansuite_Router implements ArrayAccess, Clansuite_Router_Interface
      *
      * @return bool True if route caching active.
      */
-    public static function checkRouteCachingActive()
+    public function checkRouteCachingActive()
     {
-        if(isset($config['routing']['cache_routes']) and true === $config['routing']['cache_routes'])
+        if(isset($this->config['routing']['cache_routes']) and true === $this->config['routing']['cache_routes'])
         {
             self::$use_cache = true;
         }
@@ -657,7 +672,7 @@ class Clansuite_Router implements ArrayAccess, Clansuite_Router_Interface
      */
     public function loadDefaultRoutes()
     {
-        self::checkRouteCachingActive();
+        $this->checkRouteCachingActive();
 
         # Load Routes from Cache
         if(true === self::$use_cache and empty($this->routes) and Clansuite_Cache::contains('clansuite.routes'))
@@ -1158,6 +1173,7 @@ class Clansuite_Routes_Manager
 
     public function delRoutesOfModule($modulename)
     {
+        # @todo
         $module_routes_file = ROOT_MOD . $modulename . '/' . $modulename . '.routes.php';
         $module_routes = $this->loadRoutesFromConfig($module_routes_file);
 

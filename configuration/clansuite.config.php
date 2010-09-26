@@ -111,10 +111,11 @@ email = "webmaster@domain.com"
 keywords = "Keyword, Keyword"
 
 ;----------------------------------------
-; webserver
+; routing
 ;----------------------------------------
-[webserver]
+[routing]
 mod_rewrite = 0
+cache_routes = 0
 
 ;----------------------------------------
 ; login
