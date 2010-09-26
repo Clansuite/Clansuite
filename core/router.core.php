@@ -63,7 +63,7 @@ class Clansuite_Router implements ArrayAccess, Clansuite_Router_Interface
     /**
      * @var object Clansuite_Config
      */
-    private static $config;
+    private $config;
 
     private static $use_cache = false;
 
