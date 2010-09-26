@@ -192,12 +192,12 @@ abstract class Clansuite_Renderer_Base implements ArrayAccess
         # check if template was found there, else it's null
         if($theme_template != null)
         {
-            Clansuite_Debug::firebug(__METHOD__ .' tries fetching template ("'. $theme_template . '") from THEME directory.');
+            #Clansuite_Debug::firebug(__METHOD__ .' tries fetching template ("'. $theme_template . '") from THEME directory.');
             return $theme_template;
         }
         else # fetch the template by searching in the Module Template Path
         {
-            Clansuite_Debug::firebug(__METHOD__ .' tries fetching template ("'. $template . '") from MODULE directory.');
+            #Clansuite_Debug::firebug(__METHOD__ .' tries fetching template ("'. $template . '") from MODULE directory.');
             return $this->getModuleTemplatePath($template);
         }
     }

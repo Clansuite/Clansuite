@@ -317,11 +317,11 @@ class Clansuite_Loader
         # autoloading map
         $map = array(
         # bases - config, render
-        'Clansuite_Config_Base'               => ROOT_CORE . 'config/config.base.php',
-        'Clansuite_Renderer_Base'             => ROOT_CORE . 'renderer/renderer.base.php',
+        'Clansuite_Config_Base'               => ROOT_CORE . 'config' . DS . 'config.base.php',
+        'Clansuite_Renderer_Base'             => ROOT_CORE . 'renderer' . DS . 'renderer.base.php',
         # filter
         'Clansuite_Filter_Interface'          => ROOT_CORE . 'filtermanager.core.php',
-        
+
         # datagrid mappings
         'Clansuite_Datagrid'                  => $datagrid_dir . 'datagrid.core.php',
         'Clansuite_Datagrid_Column'           => $datagrid_dir . 'datagridcol.core.php',

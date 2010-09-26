@@ -46,7 +46,8 @@ if(defined('IN_CS') === false)
 class Clansuite_Module_About extends Clansuite_Module_Controller
 {
     public function action_show()
-    {     
+    {   
+        $this->setRenderMode('NOLAYOUT');
         $this->display();
     }
     
