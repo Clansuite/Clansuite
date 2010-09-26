@@ -130,18 +130,15 @@ abstract class Clansuite_Module_Controller
     }
 
     /**
-     * Gets the Module Config
+     * Gets a Module Config
      *
-     * Reads the config for the requested module as default
-     * or the config file specified by $filename.
-     *
-     * @param string $filename Filename for config.ini OR just Modulename.
-     * @return array moduleconfig['modulename'] configuration array of module
+     * @param string $modulename Modulename.
+     * @return array configuration array of module
      */
-    public function getModuleConfig($filename = null)
+    public function getModuleConfig($modulename = null)
     {
         $config = self::getInjector()->instantiate('Clansuite_Config');
-        return $this->moduleconfig = $config->readModuleConfig($filename);
+        return $this->moduleconfig = $config->readModuleConfig($modulename);
     }
 
     /**
@@ -359,7 +356,7 @@ abstract class Clansuite_Module_Controller
     /**
      * Sets the Render Mode
      *
-     * @param string $mode RenderMode Available Modes: WRAPPED, STANDALONE
+     * @param string $mode The RenderModes are LAYOUT or NOLAYOUT.
      */
     public function setRenderMode($mode)
     {
@@ -417,8 +414,11 @@ abstract class Clansuite_Module_Controller
         $this->view = $this->getView();
 
         # Debug display of Layout Template and Content Template
-        #Clansuite_Debug::firebug('Layout/Wrapper Template: ' . $this->view->getLayoutTemplate() . '<br />');
-        #Clansuite_Debug::firebug('Template Name: ' . $templatename . '<br />');
+        if(DEBUG == true)
+        {
+            Clansuite_Debug::firebug('Layout/Wrapper Template: ' . $this->view->getLayoutTemplate() . '<br />');
+            Clansuite_Debug::firebug('Template Name: ' . $templatename . '<br />');
+        }
 
         # render the content / template
         $content = $this->view->render($templatename);

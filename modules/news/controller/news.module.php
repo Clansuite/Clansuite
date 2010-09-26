@@ -26,7 +26,7 @@
     * @author     Jens-André Koch <vain@clansuite.com>
     * @copyright  Jens-André Koch (2005 - onwards)
     * @link       http://www.clansuite.com
-    * 
+    *
     * @version    SVN: $Id$
     */
 
@@ -124,7 +124,7 @@ class Clansuite_Module_News extends Clansuite_Module_Controller
         # Get Render Engine
         $view = $this->getView();
 
-        Clansuite_Debug::firebug($params);
+        #Clansuite_Debug::firebug($params);
 
         $news_id = (int) $params['id']; #(int) $this->request->getParameterFromGet('id');
         if($news_id === null) { $news_id = 1;  }
@@ -137,7 +137,7 @@ class Clansuite_Module_News extends Clansuite_Module_Controller
         # if a news was found
         if(!empty($news) && is_array($news))
         {
-            # Set Pagetitle and Breadcrumbs            
+            # Set Pagetitle and Breadcrumbs
             Clansuite_Breadcrumb::replace( _('Show News'), '/news/show', 1);
             Clansuite_Breadcrumb::add( _('Viewing Single News: ') . $news['news_title'] , '/index.php?mod=news/show');
 

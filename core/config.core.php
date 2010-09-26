@@ -87,7 +87,14 @@ class Clansuite_Config extends Clansuite_Config_Base
 
         $configfile = ROOT_MOD . $modulename . DS . $modulename . '.config.php';
 
-        return Clansuite_Config_Factory::getConfiguration($configfile);
+        if(is_file($configfile))
+        {
+            return Clansuite_Config_Factory::getConfiguration($configfile);
+        }
+        else # module has no configuration file
+        {
+            return array();
+        }
     }
 
     /**

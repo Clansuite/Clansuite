@@ -105,7 +105,7 @@ abstract class Clansuite_Config_Base implements ArrayAccess
         return true;
     }
 
-     /**
+    /**
      * Method allows 'isset' to work on $this->data
      *
      * @param string $name Name of Variable Key $this->data[$name]
