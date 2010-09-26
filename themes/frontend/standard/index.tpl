@@ -103,7 +103,7 @@
         {* <div class="widget" id="widget_nextmatches">{load_module name="matches" action="widget_nextmatches" items="3"}</div> *}
         {* <div class="widget" id="widget_latestmatches">{load_module name="matches" action="widget_latestmatches" items="3"}</div> *}
         {* <div class="widget" id="widget_topmatch">{load_module name="matches" action="widget_topmatch"}</div> *}
-       {load_module name="shoutbox" action="widget_shoutbox"}
+       {load_module name="shoutbox" action="widget_shoutbox"}       
     </td>
 
     <!-- Middle + Center = Main Content -->
@@ -127,6 +127,7 @@
         <div class="widget" id="widget_ts3ministatus">{load_module name="teamspeakviewer" action="widget_ts3ministatus"}</div>
         <div class="widget" id="widget_shockvoiceviewer">{load_module name="shockvoiceviewer" action="widget_shockvoiceviewer"}</div>
         *}
+        <div class="widget" id="widget_about">{load_module name="about" action="widget_about"}</div>
     </td>
 </tr>
 <tr>
@@ -152,7 +153,7 @@
 
 {include file='copyright.tpl'}
 
-{* debug *}
+{* Display Smarty Debug Console *}
 {if $smarty.const.DEBUG == true}
 {debug}
 {/if}

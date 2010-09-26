@@ -3,7 +3,6 @@
 {move_to target="pre_head_close"}
 {* Tabs with jQuery + YAML Accessible Tabs Plugin *}
 <script type="text/javascript" src="{$www_root_themes_core}javascript/jquery/jquery.tabs.js"></script>
-
 <script type="text/javascript">
     $(document).ready(function(){
         $(".tabs").accessibleTabs({
@@ -16,8 +15,6 @@
                                   });
     });
 </script>
-
-
 <link rel="stylesheet" type="text/css" href="{$www_root_themes_core}css/tabs.css" />
 {/move_to}
 
@@ -84,9 +81,10 @@
      <tbody>
         {* Members of the Development Team *}
         <tr>
-            <td colspan="7" bgcolor="#bbbbbb"><strong>Members of the Development Team</strong></td>
+            <td colspan="8" bgcolor="#bbbbbb"><strong>Members of the Development Team</strong></td>
         </tr>
         <tr>
+          <td bgcolor="#dddddd"><strong>Status</strong></td>
           <td bgcolor="#dddddd"><strong>Name</strong></td>
           <td bgcolor="#dddddd"><strong>Nickname</strong></td>
           <td bgcolor="#dddddd"><strong>Email</strong></td>
@@ -94,29 +92,32 @@
           <td bgcolor="#dddddd"><strong>Ohloh Stats</strong></td>
           <td bgcolor="#dddddd"><strong>Gifts</strong></td>
         </tr>
-        <tr class="user_active">
+        <tr>
+          <td><img src="{$www_root_themes_core}images/lullacons/user-plain-green.png" alt="The User is active."></td>
           <td valign="top"><b>Jens-Andr&#233; Koch</b></td>
           <td valign="top"><b>vain</b></td>
           <td valign="top"><b>vain@clansuite.com</b></td>
-          <td valign="top">Clansuite Project Founder & Maintainer, Benevolent Dictator for Life <br /> Developer, Website, Toolbar</td>
+          <td valign="top">Clansuite Project Founder & Maintainer, Benevolent Dictator for Life <br /> Developer, Website, Toolbar, Serveradministration, Serverpack, 42.</td>
           <td><a href='http://www.ohloh.net/accounts/3958?ref=Detailed'>
                <img alt='Ohloh profile for Jens-André Koch' height='35' src='http://www.ohloh.net/accounts/3958/widgets/account_detailed.gif' width='191' />
               </a>
          </td>
           <td><a href="http://www.amazon.de/gp/registry/registry.html?ie=UTF8&type=wishlist&id=2TN4SKVI467SX">{t}Amazon Wishlist{/t}</a></td>
         </tr>
-        <tr class="user_inactive">
+        <tr>
+          <td><img src="{$www_root_themes_core}images/lullacons/user-plain-red.png" alt="The User is inactive."></td>
           <td valign="top"><b>Florian Wolf</b></td>
           <td valign="top"><b>xsign.dll</b></td>
           <td valign="top"><b>xsign.dll@clansuite.com</b></td>
-          <td valign="top">Developer, Serveradminstrator, Javascripts and AJAX<br /> Developer of Clansuite Core v0.1 and Clansuite_Datagrid</td>
+          <td valign="top">Developer, Serveradminstrator, Javascripts and AJAX<br /> Developer of Clansuite Core v0.1, Clansuite_Datagrid, Serverpack-win32-v1.7.3.</td>
           <td><a href='http://www.ohloh.net/accounts/21946?ref=Detailed'>
               <img alt='Ohloh profile for Florian Wolf' height='35' src='http://www.ohloh.net/accounts/21946/widgets/account_detailed.gif' width='191' />
             </a>
           </td>
           <td/>
         </tr>
-        <tr class="user_inactive">
+        <tr>
+           <td><img src="{$www_root_themes_core}images/lullacons/user-plain-red.png" alt="The User is inactive."></td>
           <td><b>Pasqual Eusterfeldhaus</b></td>
           <td valign="top"><b>thunderm00n</b></td>
           <td valign="top"><b>thundermoon@gna.org</b></td>
@@ -128,24 +129,17 @@
           </td>
           <td/>
         </tr>
-        <tr class="user_inactive">
+        <tr>
+           <td><img src="{$www_root_themes_core}images/lullacons/user-plain-red.png" alt="The User is inactive."></td>
           <td valign="top"><b>Pascal</b></td>
           <td valign="top"><b>raensen</b></td>
           <td valign="top"><b>raensen@gna.org</b></td>
-          <td valign="top"></td>
+          <td valign="top">Developer of Statistics Module</td>
           <td><a href='http://www.ohloh.net/accounts/65133?ref=Detailed'>
                 <img alt='Ohloh profile for raeNsen' height='35' src='http://www.ohloh.net/accounts/65133/widgets/account_detailed.gif' width='191' />
               </a>
           </td>
           <td/>
-        </tr>
-        <tr class="user_inactive">
-          <td valign="top"><b>Tino Goratsch</b></td>
-           <td valign="top"><b>Vyper</b></td>
-           <td valign="top"><b>vyper@gna.org</b></td>
-           <td valign="top">Developer, Website, Themes (especially Accessible-Theme)</td>
-           <td/>
-           <td/>
         </tr>
 
         {* Former Members of the Development Team *}
@@ -153,6 +147,7 @@
             <td colspan="7" bgcolor="#bbbbbb"><strong>Former Members</strong></td>
         </tr>
         <tr>
+          <td bgcolor="#dddddd"><strong>Status</strong></td>
           <td bgcolor="#dddddd"><strong>Name</strong></td>
           <td bgcolor="#dddddd"><strong>Nickname</strong></td>
           <td bgcolor="#dddddd"><strong>Email</strong></td>
@@ -160,22 +155,32 @@
           <td bgcolor="#dddddd"><strong>Ohloh Stats</strong></td>
           <td bgcolor="#dddddd"><strong>Gifts</strong></td>
         </tr>
-        <tr class="user_inactive">
+        <tr>
+          <td>R</td>
           <td valign="top"><b>Daniel Winterfeldt</b></td>
           <td valign="top"><b>rikku</b></td>
           <td valign="top"><b>rikku@gna.org</b></td>
-          <a href='http://www.ohloh.net/accounts/21946?ref=Detailed'>
           <td valign="top">Developer (Image-Processing-Library)</td>
           <td/>
           <td/>
         </tr>
-        <tr class="user_inactive">
-          <td valign="top"><b>Björn Sp.</b></td>
+        <tr>
+          <td>R</td>
+          <td valign="top"><b>Bj&ouml;rn Spiegel</b></td>
           <td valign="top"><b>freq77</b></td>
           <td valign="top"><b>---</b></td>
           <td valign="top">Developer (Shoutbox)</td>
           <td/>
           <td/>
+        </tr>
+        <tr>
+           <td>R</td>
+           <td valign="top"><b>Tino Goratsch</b></td>
+           <td valign="top"><b>Vyper</b></td>
+           <td valign="top"><b>vyper@gna.org</b></td>
+           <td valign="top">Developer, Website, Themes (especially Accessible-Theme)</td>
+           <td/>
+           <td/>
         </tr>
     </tbody>
     </table>
@@ -288,7 +293,7 @@
             <td><h2>{t}Thanks for your support!{/t}</h2></td><td><h2>{t}Current Donation Campaign{/t}</h2></td>
         </tr>
         <tr>
-            <td>{t}We are passionate open-source programmers, but passion alone doesnï¿½t make software.{/t}
+            <td>{t}We are passionate open-source programmers, but passion alone doesn't make software.{/t}
                 <br />
                 {t}All donations are appreciated, no matter if they are big or small, and thanks for your support.{/t}
             </td>
