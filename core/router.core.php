@@ -229,6 +229,7 @@ class Clansuite_Router implements ArrayAccess, Clansuite_Router_Interface
         # e.g. ROOT/news/admin
         if(REWRITE_ENGINE_ON === true)
         {
+            #Clansuite_Debug::firebug(WWW_ROOT . ltrim($urlstring, '/'));
             return WWW_ROOT . ltrim($urlstring, '/');
         }
         else # ROOT/index.php?mod=xy&sub=xy&etc...
@@ -237,7 +238,9 @@ class Clansuite_Router implements ArrayAccess, Clansuite_Router_Interface
             $url_keys = array('mod', 'sub', 'action', 'id');
             $url_data = Clansuite_Functions::array_unequal_combine($url_keys, $url_values);
             $url = http_build_query($url_data, '', '&amp;');
+
             #Clansuite_Debug::firebug(WWW_ROOT . 'index.php?' . $url);
+            return WWW_ROOT . 'index.php?' . $url;
         }
     }
 
