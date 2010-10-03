@@ -226,17 +226,18 @@ class Clansuite_Router implements ArrayAccess, Clansuite_Router_Interface
      */
     public static function buildURL($urlstring)
     {
-        if(REWRITE_ENGINE_ON == false) # ROOT/index.php?mod=xy&sub=xy&etc...
+        # e.g. ROOT/news/admin
+        if(REWRITE_ENGINE_ON === true)
+        {
+            return WWW_ROOT . ltrim($urlstring, '/');
+        }
+        else # ROOT/index.php?mod=xy&sub=xy&etc...
         {
             $url_values = explode('/', ltrim($urlstring, '/'));
             $url_keys = array('mod', 'sub', 'action', 'id');
             $url_data = Clansuite_Functions::array_unequal_combine($url_keys, $url_values);
             $url = http_build_query($url_data, '', '&amp;');
             #Clansuite_Debug::firebug(WWW_ROOT . 'index.php?' . $url);
-        }
-        else # e.g. ROOT/news/admin
-        {
-            return WWW_ROOT . ltrim($urlstring, '/');
         }
     }
 
@@ -411,11 +412,13 @@ class Clansuite_Router implements ArrayAccess, Clansuite_Router_Interface
             }
             else # RewriteEngine not set or commented off in htaccess
             {
+                define('REWRITE_ENGINE_ON', false);
                 return false;
             }
         }
         else # Apache Mod_Rewrite not available
         {
+            define('REWRITE_ENGINE_ON', false);
             return false;
         }
     }
