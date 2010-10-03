@@ -149,7 +149,7 @@ class Clansuite_Session implements Clansuite_Session_Interface, ArrayAccess
         }
 
         # Start Session
-        $this->startSession(3600);
+        $this->startSession($this->config['session']['session_expire_time']);
     }
 
     /**
