@@ -363,10 +363,11 @@ if(false === function_exists('utf8_strtolower'))
     function utf8_strtolower($string)
     {
         if(UTF8_MBSTRING)
+        {
             return mb_strtolower($string, 'utf-8');
+        }
 
-        global $UTF8_UPPER_TO_LOWER;
-        return strtr($string, $UTF8_UPPER_TO_LOWER);
+        return strtr($string, Clansuite_UTF8_Character_Table::uppercase_to_lowercase());
     }
 
 }
@@ -386,10 +387,11 @@ if(false === function_exists('utf8_strtoupper'))
     function utf8_strtoupper($string)
     {
         if(UTF8_MBSTRING)
+        {
             return mb_strtoupper($string, 'utf-8');
+        }
 
-        global $UTF8_LOWER_TO_UPPER;
-        return strtr($string, $UTF8_LOWER_TO_UPPER);
+        return strtr($string, Clansuite_UTF8_Character_Table::lower_to_upper());
     }
 
 }
@@ -478,14 +480,15 @@ if(false === function_exists('utf8_deaccent'))
     {
         if($case <= 0)
         {
-            global $UTF8_LOWER_ACCENTS;
-            $string = strtr($string, $UTF8_LOWER_ACCENTS);
+
+            $string = strtr($string, Clansuite_UTF8_Character_Table::lowercaseaccents());
         }
+
         if($case >= 0)
         {
-            global $UTF8_UPPER_ACCENTS;
-            $string = strtr($string, $UTF8_UPPER_ACCENTS);
+            $string = strtr($string, Clansuite_UTF8_Character_Table::uppercaseaccents());
         }
+
         return $string;
     }
 
@@ -502,10 +505,11 @@ if(false === function_exists('utf8_romanize'))
     function utf8_romanize($string)
     {
         if(utf8_isASCII($string))
-            return $string; //nothing to do
+        {
+            return $string; # nothing to do
+        }
 
-            global $UTF8_ROMANIZATION;
-        return strtr($string, $UTF8_ROMANIZATION);
+        return strtr($string, Clansuite_UTF8_Character_Table::romanize());
     }
 
 }
@@ -526,14 +530,12 @@ if(false === function_exists('utf8_stripspecials'))
      */
     function utf8_stripspecials($string, $repl='', $additional='')
     {
-        global $UTF8_SPECIAL_CHARS;
-        global $UTF8_SPECIAL_CHARS2;
-
         static $specials = null;
+
         if(is_null($specials))
         {
-            #$specials = preg_quote(unicode_to_utf8($UTF8_SPECIAL_CHARS), '/');
-            $specials = preg_quote($UTF8_SPECIAL_CHARS2, '/');
+            #$specials = preg_quote(unicode_to_utf8(Clansuite_UTF8_Character_Table::specialchars()), '/');
+            $specials = preg_quote(Clansuite_UTF8_Character_Table::specialchars2(), '/');
         }
 
         return preg_replace('/[' . $additional . '\x00-\x19' . $specials . ']/u', $repl, $string);
@@ -1118,3 +1120,4 @@ if(false === function_exists('utf8_correctIdx'))
         return $i;
     }
 }
+?>
