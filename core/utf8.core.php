@@ -44,7 +44,7 @@ if (defined('IN_CS') === false)
  * It loads functional replacements for the mbstring methods.
  * UTF8 functions and lookup tables are based on the Dokuwiki UTF-8 library written by Andreas Gohr.
  * @link http://github.com/splitbrain/dokuwiki/raw/master/inc/utf8.php
- * 
+ *
  * @author     Paul Brand
  * @author     Jens-André Koch
  */
@@ -72,13 +72,13 @@ class Clansuite_UTF8
         else # mbstring extension is NOT loaded
         {
             # load functional replacements for mbstring functions
-            include dirname(__FILE__) . '/utf8/mbstring.wrapper.php';
-            
+            include ROOT_CORE . 'utf8/mbstring.wrapper.php';
+
             # load utf-8 character tables for lookups
-            include dirname(__FILE__) . '/utf8/utf8tables.php';
-            
+            include ROOT_CORE . 'utf8/utf8tables.php';
+
             # load utf8 functions
-            include dirname(__FILE__) . '/utf8/utf8.php';
+            include ROOT_CORE . 'utf8/utf8.php';
         }
     }
 }
