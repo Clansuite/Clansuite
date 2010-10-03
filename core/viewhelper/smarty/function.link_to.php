@@ -9,7 +9,7 @@
  * URL Generator for Smarty Templates
  *
  * Examples:
- * {a href="/news/show"}
+ * {link_to href="/news/show"}
  *
  * Type:     function<br>
  * Name:     a<br>
@@ -21,12 +21,12 @@
  * @param Smarty $smarty
  * @return string
  */
-function smarty_function_a($params, $smarty)
+function smarty_function_link_to($params, $smarty)
 {
     # method parameter "href"
     if(empty($params['href']))
     {
-        $errormessage  = 'You are using the <font color="#FF0033">{a}</font> command, but the <font color="#FF0033">Parameter "href" is missing.</font>';
+        $errormessage  = 'You are using the <font color="#FF0033">{link_to}</font> command, but the <font color="#FF0033">Parameter "href" is missing.</font>';
         $errormessage .= ' Try to append the parameter in the following way: <font color="#66CC00">href="/news/show"</font>.';
         $smarty->trigger_error($errormessage);
         return;
