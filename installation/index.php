@@ -97,15 +97,6 @@ require ROOT . 'core/bootstrap/clansuite.version.php';
 // Define $error
 $error = '';
 
-// in case clansuite.config.php exists, exit -> can be configured from backend then
-/* if (is_file( ROOT . 'configuration/clansuite.config.php' ))
- {
- * xit('The file <strong>/configuration/clansuite.config.php</strong> already exists! This indicates that
- * strong>Clansuite '. $cs_version . ' '. $clansuite_version_state .' ('.$clansuite_version_name .')</strong> is already installed.
- * br /> You should visit your Websites <a href="../index.php">Frontend</a>
- * r it\'s  <a href="../index.php?mod=controlcenter">Controlcenter (CC)</a> instead.');
- } */
-
 #========================
 #      SELF DELETION
 #========================
@@ -114,7 +105,6 @@ if(isset($_GET['delete_installation']))
 {
     deleteInstallationFolder();
 }
-
 
 #================================
 #    STEP HANDLING + PROGRESS
@@ -147,8 +137,9 @@ $_SESSION['progress'] = (float) calc_progress($step, $total_steps);
  *    Language Handling
  * ===========================
  */
+date_default_timezone_set('Europe/Berlin');
 # Get language from GET
-if(isset($_GET['lang']) && ! empty($_GET['lang']))
+if(isset($_GET['lang']) and empty($_GET['lang']) === false)
 {
     $lang = (string) htmlspecialchars($_GET['lang']);
 }
@@ -161,7 +152,7 @@ else
     }
 
     # SET DEFAULT LANGUAGE VAR
-    if($step == 1 OR empty($_SESSION['lang']))
+    if($step == 1 or empty($_SESSION['lang']))
     {
         $lang = 'german';
     }
@@ -244,8 +235,8 @@ if(isset($_POST['step_forward']) && $step == 5)
          * http://dev.mysql.com/doc/refman/5.0/en/charset-unicode-sets.html
          * so for german language there are "utf8_general_ci" or "utf8_unicode_ci"
          */
-        if(isset($_POST['config']['database']['create_database']) &&
-                $_POST['config']['database']['create_database'] == 'on')
+        if(isset($_POST['config']['database']['create_database']) and
+                 $_POST['config']['database']['create_database'] == 'on')
         {
             if(!@mysql_query('CREATE DATABASE ' . $_POST['config']['database']['name'] . ' DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci', $db_connection))
             {
@@ -747,6 +738,12 @@ function write_config_settings($data_array)
     # throw not needed / non-setting vars out
     unset($data_array['step_forward']);
     unset($data_array['lang']);
+
+    # base class is needed for Clansuite_Config_INIHandler
+    if(false === class_exists('Clansuite_Config_Base'))
+    {
+        require dirname(__FILE__) . DS . 'config.base.php';
+    }
 
     # read skeleton settings = minimum settings for initial startup
     # (not asked from user during installation, but required paths/defaultactions etc)
