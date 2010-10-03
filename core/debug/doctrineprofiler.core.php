@@ -187,9 +187,6 @@ class Clansuite_Doctrine_Profiler
     {
         # append Doctrine's SQL-Profiling Report
         self::displayProfilingHTML();
-
-        # save session before exit
-        session_write_close();
     }
 }
 ?>
