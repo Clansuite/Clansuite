@@ -76,7 +76,7 @@
 <table cellspacing="0" cellpadding="0" width="100%">
 <tr>
     <td height="180" align="center">
-        <img alt="Clansuite Header" src="{$www_root_themes_core}images/clansuite-header.png" width="760" height="175" />
+        <img alt="Clansuite Header" src="{$www_root_themes_frontend}standard/images/clansuite-header.png" width="760" height="175" />
     </td>
 </tr>
 </table>
@@ -141,15 +141,6 @@
     </td>
 </tr>
 </table>
-
-<!-- Footer with Copyright and Theme-Copyright -->
-<p style="float:left; text-align:left;">
-    <br/> Theme: {$smarty.session.user.frontend_theme} by {* {$theme_copyright} *}
-</p>
-
-<p style="text-align:right;">
-    <br /> {include file='server_stats.tpl'}
-</p>
 
 {include file='copyright.tpl'}
 
