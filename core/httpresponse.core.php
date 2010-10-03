@@ -334,6 +334,27 @@ class Clansuite_HttpResponse implements Clansuite_Response_Interface
     }
 
     /**
+     * Detects a flashmessage tunneling via the redirect messagetext
+     *
+     * @param string $message Redirect Message ("flashmessagetype#message text")
+     */
+    public static function detectTypeAndSetFlashmessage($message)
+    {
+        # detect if a flashmessage is tunneled
+        if(isset($message) and strpos($message, '#'))
+        {
+            #  split at tunneling separator (results in: array[0] = type ; array[1] = message)
+            $array = explode('#', $message);
+
+            # ensure type is a valid flashmessagetype
+            if(in_array($array[0], Clansuite_Flashmessages::getFlashMessageTypes()))
+            {
+                Clansuite_Flashmessages::setMessage($array[0], $array[1]);
+            }
+        }
+    }
+
+    /**
      * Redirect
      *
      * Redirects to another action after disabling the caching.
@@ -386,25 +407,8 @@ class Clansuite_HttpResponse implements Clansuite_Response_Interface
             # redirect to ...
             self::setStatusCode($statusCode);
 
-            /**
-             * Set flashmessage on redirect
-             */
-            if(isset($message) and strpos($message, '#'))
-            {
-                /**
-                 * detect flashmessage tunneling ($message is "flashmessagetype#message text")
-                 * array[0] = type ; array[1] = message
-                 */
-                $array = explode('#', $message);
-
-                # ensure type is a valid flashmessagetype
-                if(in_array($array[0], Clansuite_Flashmessages::getFlashMessageTypes()))
-                {
-                    Clansuite_Flashmessages::setMessage($array[0], $array[1]);
-                }
-
-                unset($message);
-            }
+            # detect if redirect message is a flashmessage
+            self::detectTypeAndSetFlashmessage($message);
 
             switch($mode)
             {
