@@ -78,6 +78,7 @@ class Clansuite_CMS
         self::initialize_Paths();
         self::initialize_Loader();
         self::initialize_Config();
+        self::initialize_UTF8();
         self::perform_startup_checks();
         self::initialize_Debug();
         self::initialize_Version();
@@ -170,22 +171,21 @@ class Clansuite_CMS
         ini_set('arg_separator.input', '&amp;');
         ini_set('arg_separator.output', '&amp;');
 
-        if(extension_loaded('mbstring') == true)
-        {
-            if(ini_get('mbstring.func_overload') & MB_OVERLOAD_STRING)
-            {
-                trigger_error('The string functions are overloaded by mbstring. Please stop that.
-                               Check php.ini - setting: mbstring.func_overload.', E_USER_ERROR);
-            }
-
-            mb_internal_encoding('UTF-8');
-        }
-
         # in general the memory limit is determined by php.ini, it's only raised if lower 16MB
         if(intval(ini_get('memory_limit')) < 16)
         {
             ini_set('memory_limit', '16M');
         }
+    }
+
+    /**
+     *  ================================================
+     *     Initialize UTF8 via mbstring or fallback
+     *  ================================================
+     */
+    private static function initialize_UTF8()
+    {
+        Clansuite_UTF8::initialize();
     }
 
     /**
@@ -434,7 +434,7 @@ class Clansuite_CMS
      */
     private static function initialize_Eventdispatcher()
     {
-        if( isset(self::$config['eventsystem']['enabled']) and self::$config['eventsystem']['enabled'] === true)
+        if(isset(self::$config['eventsystem']['enabled']) and self::$config['eventsystem']['enabled'] === true)
         {
             Clansuite_Eventdispatcher::instantiate();
             Clansuite_Eventloader::autoloadEvents();
