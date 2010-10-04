@@ -121,12 +121,16 @@ class Clansuite_Gettext_Extractor_Template implements Clansuite_Gettext_Extracto
         $placeholders = join('|', $array_keys);
         unset($array_keys);
         $pattern = str_replace('__PLACEHOLDER__', $placeholders, self::REGEX);
+        
+        Clansuite_Debug::firebug($pattern);
 
         # parse file by lines
         foreach($filecontent as $line => $line_content)
         {
             # match all {t ... } or {_ ... } tags if prefixes are "t" and "_"
             preg_match_all($pattern, $line_content, $matches);
+            
+            Clansuite_Debug::firebug($matches);
 
             if(empty($matches))
             {

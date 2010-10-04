@@ -55,11 +55,7 @@ class Clansuite_Gettext_Extractor_PHP implements Clansuite_Gettext_Extractor_Int
      *
      * @var array
      */
-    protected $functions = array(
-        'translate' => 1,
-        't' => 1,
-        '_' => 1
-    );
+    protected $functions = array('translate', 't', '_');
 
     /**
      * Includes a function to parse gettext phrases from
@@ -111,53 +107,33 @@ class Clansuite_Gettext_Extractor_PHP implements Clansuite_Gettext_Extractor_Int
      */
     public function extract($file)
     {
-        $pathinfo = pathinfo($file);
+        $pInfo = pathinfo($file);
         $data = array();
-
-        # get filecontent and tokenize it
-        $filecontent = file_get_contents($file);
-        $tokens = token_get_all($filecontent);
-        unset($filecontent);
-
+        $tokens = token_get_all(file_get_contents($file));
         $next = false;
-
         foreach($tokens as $c)
         {
             if(is_array($c))
             {
-                if($c[0] != T_STRING and $c[0] != T_CONSTANT_ENCAPSED_STRING)
+                if($c[0] != T_STRING && $c[0] != T_CONSTANT_ENCAPSED_STRING)
+                    continue;
+                if($c[0] == T_STRING && in_array($c[1], $this->keywords))
                 {
+                    $next = true;
                     continue;
                 }
-
-                if($c[0] == T_STRING and isset($this->functions[$c[1]]))
+                if($c[0] == T_CONSTANT_ENCAPSED_STRING && $next == true)
                 {
-                    $next = $this->functions[$c[1]];
-                    continue;
-                }
-
-                if($c[0] == T_CONSTANT_ENCAPSED_STRING and $next == 1)
-                {
-                    $c_arrayname = substr($c[1], 1, -1);
-                    $data[$c_arrayname][] = $pathinfo['basename'] . ':' . $c[2];
-                    unset($c_arrayname);
+                    $data[substr($c[1], 1, -1)][] = $pInfo['basename'] . ':' . $c[2];
                     $next = false;
                 }
             }
             else
             {
                 if($c == ')')
-                {
                     $next = false;
-                }
-
-                if($c == ',' and $next != false)
-                {
-                    $next -= 1;
-                }
             }
         }
-
         return $data;
     }
 }

@@ -85,7 +85,34 @@ class Clansuite_Gettext_Extractor extends Clansuite_Gettext_Extractor_Tool
         $this->getExtractor('PHP')->addFunction('translate')->addFunction('t')->addFunction('_');
 
         # register the placeholder to extract
-        $this->getExtractor('Template')->addPrefix('_')->addPrefix('t');
+        $this->getExtractor('Template')->addPlaceholder('_')->addPlaceholder('t');
+    }
+
+    /**
+     * Scans given files or directories and extracts gettext keys from the content
+     *
+     * @param string|array $resource
+     *
+     * @return Clansuite_Gettext_Extractor
+     */
+    public function multiScan($resource)
+    {
+        $this->inputFiles = array();
+
+        if(false == is_array($resource))
+        {
+            $resource = array($resource);
+        }
+
+        foreach($resource as $item)
+        {
+            $this->log('Scanning '.$item);
+            $this->scan($item);
+        }
+
+        $this->extract($this->inputFiles);
+
+        return $this;
     }
 }
 
@@ -111,17 +138,17 @@ class Clansuite_Gettext_Extractor_Tool
     /**
      * @var resource
      */
-    protected $logHandler;
+    public $logHandler;
 
     /**
      * @var array
      */
-    protected $inputFiles = array();
+    public $inputFiles = array();
 
     /**
      * @var array
      */
-    protected $extractors = array(
+    public $extractors = array(
         'php' => array('PHP'),
         'tpl' => array('PHP', 'Template')
     );
@@ -129,22 +156,7 @@ class Clansuite_Gettext_Extractor_Tool
     /**
      * @var array
      */
-    protected $comments = array(
-        'Gettext keys exported by Clansuite_Gettext_Extractor'
-    );
-
-    /**
-     * @var array
-     */
-    protected $meta = array(
-        'Content-Type' => 'text/plain; charset=UTF-8',
-        'Plural-Forms' => 'nplurals=2; plural=(n != 1);'
-    );
-
-    /**
-     * @var array
-     */
-    protected $data = array();
+    public $data = array();
 
     /**
      *  @var array
@@ -158,7 +170,7 @@ class Clansuite_Gettext_Extractor_Tool
     public function __construct($logToFile = false)
     {
         # default log file
-        if(false === $logToFile)
+        if(false == $logToFile)
         {
             $this->logHandler = fopen(ROOT_LOGS . 'gettext-extractor.log', "w");
         }
@@ -169,7 +181,7 @@ class Clansuite_Gettext_Extractor_Tool
     }
 
     /**
-     * Close the log hangdler if needed
+     * Close the log handler if needed
      */
     public function __destruct()
     {
@@ -216,33 +228,6 @@ class Clansuite_Gettext_Extractor_Tool
     }
 
     /**
-     * Scans given files or directories and extracts gettext keys from the content
-     *
-     * @param string|array $resource
-     *
-     * @return Clansuite_Gettext_Extractor
-     */
-    public function scan($resource)
-    {
-        $this->inputFiles = array();
-
-        if(false == is_array($resource))
-        {
-            $resource = array($resource);
-        }
-
-        foreach($resource as $item)
-        {
-            $this->log('Scanning '.$item);
-            $this->scan($item);
-        }
-
-        $this->extract($this->inputFiles);
-
-        return $this;
-    }
-
-    /**
      * Scans given files or directories (recursively) and stores extracted gettext keys in a buffer
      * @param string $resource File or directory
      */
@@ -275,7 +260,7 @@ class Clansuite_Gettext_Extractor_Tool
 
         while(false !== ($entry = $iterator->read()))
         {
-            if($entry == '.' || $entry == '..')
+            if($entry == '.' or $entry == '..')
             {
                 continue;
             }
@@ -318,8 +303,6 @@ class Clansuite_Gettext_Extractor_Tool
      */
     protected function extract($inputFiles)
     {
-        $inputFiles = array_unique($inputFiles);
-
         foreach($inputFiles as $inputFile)
         {
             if(false === file_exists($inputFile))
@@ -346,10 +329,12 @@ class Clansuite_Gettext_Extractor_Tool
 
                 $this->log('Processing file ' . $inputFile);
 
-                foreach($extractors as $extractorName)
+                foreach($extractor as $extractorName)
                 {
                     $extractor = $this->getExtractor($extractorName);
                     $extractorData = $extractor->extract($inputFile);
+
+                    Clansuite_Debug::firebug($extractorData);
 
                     $this->log(' Extractor ' . $extractorName . ' applied.');
 
@@ -357,6 +342,8 @@ class Clansuite_Gettext_Extractor_Tool
                 }
             }
         }
+
+        $this->log('Data exported successfully');
 
         return $this->data;
     }
@@ -366,7 +353,7 @@ class Clansuite_Gettext_Extractor_Tool
      *
      * @param string $extractor
      *
-     * @return object implementing the Clansuite_Gettext_Extractor_Interface
+     * @return object Extractor Object implementing Clansuite_Gettext_Extractor_Interface
      */
     public function getExtractor($extractor)
     {
@@ -379,10 +366,12 @@ class Clansuite_Gettext_Extractor_Tool
 
         if(false === class_exists($extractor_classname, false))
         {
+
+            # = /core/gettext/extractors/*NAME*.gettext.php
+            $extractor_file = ROOT_CORE . 'gettext/extractors/' . $extractor . '.gettext.php';
+
             if(is_file($extractor_file))
             {
-                # = /core/gettext/extractors/*NAME*.gettext.php
-                $extractor_file = dirname(__FILE__) . '/extractors/' . $extractor . '.gettext.php';
                 require_once $extractor_file;
             }
             else
@@ -437,52 +426,6 @@ class Clansuite_Gettext_Extractor_Tool
     }
 
     /**
-     * Adds a comment to the top of the output file
-     *
-     * @param string $value
-     *
-     * @return Clansuite_Gettext_Extractor
-     */
-    public function addComment($value)
-    {
-        $this->comments[] = $value;
-
-        return $this;
-    }
-
-    /**
-     * Gets a value of a meta key
-     *
-     * @param string $key
-     */
-    public function getMeta($key)
-    {
-        if(isset($this->meta[$key]))
-        {
-            return $this->meta[$key];
-        }
-        else
-        {
-            return null;
-        }
-    }
-
-    /**
-     * Sets a value of a meta key
-     *
-     * @param string $key
-     * @param string $value
-     *
-     * @return Clansuite_Gettext_Extractor
-     */
-    public function setMeta($key, $value)
-    {
-        $this->meta[$key] = $value;
-
-        return $this;
-    }
-
-    /**
      * Saves extracted data into gettext file
      *
      * @param string $outputFile
@@ -503,10 +446,9 @@ class Clansuite_Gettext_Extractor_Tool
             $this->throwException('ERROR: Output file is not writable!');
         }
 
+        # write data formatted to file
         $handle = fopen($outputFile, "w");
-
         fwrite($handle, $this->formatData($data));
-
         fclose($handle);
 
         $this->log('Output file '.$outputFile.' created.');
@@ -523,22 +465,14 @@ class Clansuite_Gettext_Extractor_Tool
      */
     protected function formatData($data)
     {
+        $pluralMatchRexexp = '#\%([0-9]+\$)*d#';
+
         $output = array();
-
-        foreach($this->comments as $comment)
-        {
-            $output[] = '# ' . $comment;
-        }
-
-        $output[] = '# Created: ' . date('c');
+        $output[] = '# Gettext Keys exported by Clansuite_Gettext_Extractor';
         $output[] = 'msgid ""';
         $output[] = 'msgstr ""';
-
-        foreach($this->meta as $key => $value)
-        {
-            $output[] = '"' . $key . ': ' . $value . '\n"';
-        }
-
+        $output[] = '"Content-Type: text/plain; charset=UTF-8\n"';
+        $output[] = '"Plural-Forms: nplurals=2; plural=(n != 1);\n"';
         $output[] = '';
 
         ksort($data);
@@ -547,27 +481,26 @@ class Clansuite_Gettext_Extractor_Tool
         {
             ksort($files);
 
-            foreach ($files as $file)
+            foreach($files as $file)
             {
                 $output[] = '# ' . $file;
-                $output[] = 'msgid "' . $this->addSlashes($key) . '"';
-                $output[] = 'msgstr "' . $this->addSlashes($key) . '"';
-                $output[] = '';
-
-                /* TODO: really export plurals?
-                if(preg_match($this->pluralMatchRegexp, $key, $matches))
-                {
-                    $output[] = 'msgid_plural "' . addslashes($key) . '"';
-                    # $output[] = 'msgid_plural ""';
-                    $output[] = 'msgstr[0] "' . addslashes($key) . '"';
-                    $output[] = 'msgstr[1] "' . addslashes($key) . '"';
-                }
-                else
-                {
-                    $output[] = 'msgstr "' . addslashes($key) . '"';
-                }
-                */
             }
+
+            $output[] = 'msgid "' . addslashes($key) . '"';
+
+            if(preg_match($pluralMatchRegexp, $key, $matches))
+            {
+                $output[] = 'msgid_plural "' . addslashes($key) . '"';
+                #$output[] = 'msgid_plural ""';
+                $output[] = 'msgstr[0] "' . addslashes($key) . '"';
+                $output[] = 'msgstr[1] "' . addslashes($key) . '"';
+            }
+            else
+            {
+                $output[] = 'msgstr "' . addslashes($key) . '"';
+            }
+
+            $output[] = '';
         }
 
         return join("\n", $output);
@@ -591,6 +524,6 @@ class Clansuite_Gettext_Extractor_Tool
  */
 interface Clansuite_Gettext_Extractor_Interface
 {
-    public function extract();
+    public function extract($file);
 }
 ?>
