@@ -26,7 +26,7 @@
     * @author     Jens-André Koch <vain@clansuite.com>
     * @copyright  Copyleft: All rights reserved. Jens-André Koch (2005 - onwards)
     * @link       http://www.clansuite.com
-    * 
+    *
     * @version    SVN: $Id$
     */
 
@@ -160,7 +160,7 @@ class Clansuite_Gettext_Extractor_Tool
         # default log file
         if(false === $logToFile)
         {
-            $this->logHandler = fopen(dirname(__FILE__) . '/extractor.log', "w");
+            $this->logHandler = fopen(ROOT_LOGS . 'gettext-extractor.log', "w");
         }
         else # custom log file
         {
@@ -362,7 +362,7 @@ class Clansuite_Gettext_Extractor_Tool
     }
 
     /**
-     * Gets an instance of a Clansuite_Gettext_Extractor
+     * Factory Method - Gets an instance of a Clansuite_Gettext_Extractor
      *
      * @param string $extractor
      *
