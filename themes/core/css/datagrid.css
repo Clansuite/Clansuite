@@ -78,7 +78,7 @@
 
 .Datagrid .ColHeader
 {
-  background:url("../../images/thback.gif") repeat-x scroll 0 0 transparent;
+  background:url("../images/thback.gif") repeat-x scroll 0 0 transparent;
   border-color:#FFFFFF #ACA899 #ACA899 #FFFFFF;
   border-style:solid;
   border-width:1px;
