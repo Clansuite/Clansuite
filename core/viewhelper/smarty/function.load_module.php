@@ -108,27 +108,26 @@ function smarty_function_load_module($params, $smarty)
         $controller->$action($items);
 
         /**
-         * Outputs the template of a widget
+         * Output the template of a widget
          *
          * The template is fetched from the module or from the various theme folders!
-         * You can also set an alternative widgettemplate inside the widget itself.
+         * You can also set an alternative widgettemplate inside the widget itself
+         * via setTemplate() method.
          *
-         * the templatepath checked is relative to the common smarty templatepaths array,
-         * wich is defined by $smarty->template_dir.
-         * the order of detection is also determined by that array.
-         * @see $smarty->template_dir, Clansuite_Debug::printr($smarty->template_dir);
+         * The order of template detection is determined by the $smarty->template_dir array.
+         * @see $smarty->template_dir
          */
-        # search the module folder first
-        if($smarty->templateExists('modules' . DS . $module . DS . 'view' . DS . 'smarty' . DS . $action . '.tpl'))
+        # build template name
+        $template = $action . '.tpl';
+
+        # for a look at the detection order uncomment the next line
+        #Clansuite_Debug::printR($smarty->template_dir);
+
+        # template path = $smarty->template_dir[xy] + $template
+        if($smarty->templateExists($template))
         {
-            # $smarty->template_dir[s]..modules\news\view\widget_news.tpl
-            return $smarty->fetch('modules' . DS . $module . DS . 'view' . DS . 'smarty' . DS . $action . '.tpl');
+            return $smarty->fetch($template);
         }
-	    elseif($smarty->templateExists($module . DS . 'view' . DS . 'smarty' . DS . $action . '.tpl'))
-	    {
-	        # $smarty->template_dir[s]..\news\view\smarty\widget_news.tpl
-		    return $smarty->fetch($module . DS . 'view' . DS . 'smarty' . DS . $action . '.tpl');
-	    }
         else
         {
             return $smarty->trigger_error('Error! Failed to load Widget-Template for <br /> ' . $module_classname . ' -> ' . $action . '(' . $items . ')');
