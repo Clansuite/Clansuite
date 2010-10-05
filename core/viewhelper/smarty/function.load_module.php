@@ -123,11 +123,26 @@ function smarty_function_load_module($params, $smarty)
         # for a look at the detection order uncomment the next line
         #Clansuite_Debug::printR($smarty->template_dir);
 
-        # template path = $smarty->template_dir[xy] + $template
-        if($smarty->templateExists($template))
+        if ($smarty->templateExists('modules' . DS . $module . DS . $action . '.tpl'))
         {
-            return $smarty->fetch($template);
+            # $smarty->template_dir[s]..modules\news\widget_news.tpl
+            return $smarty->fetch('modules' . DS . $module . DS . $action . '.tpl');
+        }  
+        elseif ($smarty->templateExists('modules' . DS . $module . DS . 'view' . DS . 'smarty' . DS . $action . '.tpl'))
+        {
+            # $smarty->template_dir[s]..modules\news\view\widget_news.tpl
+            return $smarty->fetch('modules' . DS . $module . DS . 'view' . DS . 'smarty' . DS . $action . '.tpl');
         }
+        elseif ($smarty->templateExists($module . DS . 'view' . DS . 'smarty' . DS . $action . '.tpl'))
+        {
+            # $smarty->template_dir[s]..\news\view\smarty\widget_news.tpl
+            return $smarty->fetch($module . DS . 'view' . DS . 'smarty' . DS . $action . '.tpl');
+        }
+        elseif($smarty->templateExists($template))
+        {   
+            # $smarty->template_dir[s].. $template
+            return $smarty->fetch($template);
+        }	    
         else
         {
             return $smarty->trigger_error('Error! Failed to load Widget-Template for <br /> ' . $module_classname . ' -> ' . $action . '(' . $items . ')');
