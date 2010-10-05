@@ -75,17 +75,17 @@ class Clansuite_Gettext_Extractor extends Clansuite_Gettext_Extractor_Tool
     public function __construct($logToFile = false)
     {
         # clean up
-        $this->removeAllFilters();
+        $this->removeAllExtractors();
 
         # set basic filters for php and smarty template files
         $this->setExtractor('php', 'PHP')
              ->setExtractor('tpl', 'Template');
 
         # register the functions to extract
-        $this->getExtractor('PHP')->addFunction('translate')->addFunction('t')->addFunction('_');
+        $this->getExtractor('PHP')->addTags(array('translate', 't', '_'));
 
         # register the placeholder to extract
-        $this->getExtractor('Template')->addPlaceholder('_')->addPlaceholder('t');
+        $this->getExtractor('Template')->addTags(array('_', 't'));
     }
 
     /**
@@ -317,11 +317,11 @@ class Clansuite_Gettext_Extractor_Tool
 
             $this->log('Extracting data from file ' . $inputFile);
 
+            # Check file extension
+            $info = pathinfo($inputFile);
+
             foreach($this->extractors as $extension => $extractor)
             {
-                # Check file extension
-                $info = pathinfo($inputFile);
-
                 if($info['extension'] !== $extension)
                 {
                     continue;
@@ -366,8 +366,7 @@ class Clansuite_Gettext_Extractor_Tool
 
         if(false === class_exists($extractor_classname, false))
         {
-
-            # = /core/gettext/extractors/*NAME*.gettext.php
+            # /core/gettext/extractors/*NAME*.gettext.php
             $extractor_file = ROOT_CORE . 'gettext/extractors/' . $extractor . '.gettext.php';
 
             if(is_file($extractor_file))
@@ -394,7 +393,7 @@ class Clansuite_Gettext_Extractor_Tool
     }
 
     /**
-     * Assigns a filter to an extension
+     * Assigns an extractor to an extension
      *
      * @param string $extension
      * @param string $extractor
@@ -414,11 +413,11 @@ class Clansuite_Gettext_Extractor_Tool
     }
 
     /**
-     * Removes all filter settings in case we want to define a brand new one
+     * Removes all extractor settings
      *
      * @return Clansuite_Gettext_Extractor
      */
-    public function removeAllFilters()
+    public function removeAllExtractors()
     {
         $this->extractor = array();
 
@@ -516,6 +515,71 @@ class Clansuite_Gettext_Extractor_Tool
     public function addSlashes($string)
     {
         return addcslashes($string, '"');
+    }
+}
+
+/**
+ * Base Class of all Gettext Extractors
+ */
+class Clansuite_Gettext_Extractor_Base
+{
+    /**
+     * @var array Definition of all the tags to scan.
+     */
+    protected $tags_to_scan;
+
+    /**
+     * Add a tag (placeholder/function) to scan for
+     *
+     * @param mixed|array|string $tag String or Array of Tags.
+     *
+     * @return Object Clansuite_Gettext_Extractor
+     */
+    public function addTags($tags)
+    {
+        # multiple tags to add
+        if(is_array($tags) === true)
+        {
+            foreach($tags as $tag)
+            {
+                if(false === array_key_exists($tag, array_flip($this->tags_to_scan)))
+                {
+                    $this->tags_to_scan[] = $tag;
+                }
+            }
+        }
+        else # just one element (string)
+        {
+            $this->tags_to_scan[] = $tags;
+        }
+
+        return $this;
+    }
+
+    /**
+     * Excludes a tag from scanning
+     *
+     * @param string $tag
+     *
+     * @return Object Clansuite_Gettext_Extractor
+     */
+    public function removeTag($tag)
+    {
+        unset($this->tags_to_scan[$tag]);
+
+        return $this;
+    }
+
+    /**
+     * Removes all tags
+     *
+     * @return object Clansuite_Gettext_Extractor
+     */
+    public function removeAllTags()
+    {
+        $this->tags_to_scan = array();
+
+        return $this;
     }
 }
 
