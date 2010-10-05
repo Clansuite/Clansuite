@@ -48,55 +48,15 @@ if(defined('IN_CS') === false)
  * @package     Core
  * @subpackage  Gettext
  */
-class Clansuite_Gettext_Extractor_PHP implements Clansuite_Gettext_Extractor_Interface
+class Clansuite_Gettext_Extractor_PHP extends Clansuite_Gettext_Extractor_Base
+implements Clansuite_Gettext_Extractor_Interface
 {
     /**
-     * The functions to extract translation strings from
+     * The function tags to extract translation strings from
      *
      * @var array
      */
-    protected $functions = array('translate', 't', '_');
-
-    /**
-     * Includes a function to parse gettext phrases from
-     *
-     * @param $functionName
-     * @param $argumentPosition
-     *
-     * @return object Clansuite_Gettext_Extractor_PHP
-     */
-    public function addFunction($functionName, $argumentPosition = 1)
-    {
-        $this->functions[$functionName] = ceil((int) $argumentPosition);
-
-        return $this;
-    }
-
-    /**
-     * Excludes a function from the function list
-     *
-     * @param $functionName
-     *
-     * @return object Clansuite_Gettext_Extractor_PHP
-     */
-    public function removeFunction($functionName)
-    {
-        unset($this->functions[$functionName]);
-
-        return $this;
-    }
-
-    /**
-     * Excludes all functions from the function list
-     *
-     * @return object Clansuite_Gettext_Extractor_PHP
-     */
-    public function removeAllFunctions()
-    {
-        $this->functions = array();
-
-        return $this;
-    }
+    protected $tags_to_scan = array('translate', 't', '_');
 
     /**
      * Parses given file and returns found gettext phrases
@@ -111,13 +71,14 @@ class Clansuite_Gettext_Extractor_PHP implements Clansuite_Gettext_Extractor_Int
         $data = array();
         $tokens = token_get_all(file_get_contents($file));
         $next = false;
+
         foreach($tokens as $c)
         {
             if(is_array($c))
             {
                 if($c[0] != T_STRING && $c[0] != T_CONSTANT_ENCAPSED_STRING)
                     continue;
-                if($c[0] == T_STRING && in_array($c[1], $this->keywords))
+                if($c[0] == T_STRING && in_array($c[1], $this->tags_to_scan))
                 {
                     $next = true;
                     continue;

@@ -48,54 +48,21 @@ if(defined('IN_CS') === false)
  * @package     Core
  * @subpackage  Gettext
  */
-class Clansuite_Gettext_Extractor_Template implements Clansuite_Gettext_Extractor_Interface
+class Clansuite_Gettext_Extractor_Template extends Clansuite_Gettext_Extractor_Base implements Clansuite_Gettext_Extractor_Interface
 {
     /**
      * @const regex to match the curly bracket syntax
      */
-    const REGEX = '#{(__PLACEHOLDER__)("[^"\\\\]*(?:\\\\.[^"\\\\]*)*"|\'[^\'\\\\]*(?:\\\\.[^\'\\\\]*)*\')+(\|[a-z]+(:[a-z0-9]+)*)*}#u';
+    #const REGEX = '#{(__PLACEHOLDERS__)("[^"\\\\]*(?:\\\\.[^"\\\\]*)*"|\'[^\'\\\\]*(?:\\\\.[^\'\\\\]*)*\')+(\|[a-z]+(:[a-z0-9]+)*)*}#u';
+    const REGEX = '#{(__PLACEHOLDERS__)(.*?)+(\|[a-z]+(:[a-z0-9]+)*)*}#u';
+
 
     /**
+     * The function tags to extract translation strings from
+     *
      * @var array
      */
-    protected $placeholders = array('t', '_');
-
-    /**
-     * Constructor.
-     */
-    public function __construct()
-    {
-        # Flips the array so we can use it more effectively
-        $this->placeholders = array_flip($this->placeholders);
-    }
-
-    /**
-     * Includes a placeholder to match in { }
-     *
-     * @param string $placeholder
-     *
-     * @return Clansuite_Gettext_Extractor_Template
-     */
-    public function addPlaceholder($placeholder)
-    {
-        $this->placeholders[$placeholder] = TRUE;
-
-        return $this;
-    }
-
-    /**
-     * Excludes a placeholder from { }
-     *
-     * @param string $placeholder
-     *
-     * @return Clansuite_Gettext_Extractor_Template
-     */
-    public function removePlaceholder($placeholder)
-    {
-        unset($this->placeholders[$placeholder]);
-
-        return $this;
-    }
+    protected $tags_to_scan = array('t', '_');
 
     /**
      * Parses given file and returns found gettext phrases
@@ -108,7 +75,7 @@ class Clansuite_Gettext_Extractor_Template implements Clansuite_Gettext_Extracto
     {
         $pathinfo = pathinfo($file);
 
-        if(false === count($this->placeholders))
+        if(false === count($this->tags_to_scan))
         {
             return;
         }
@@ -116,12 +83,10 @@ class Clansuite_Gettext_Extractor_Template implements Clansuite_Gettext_Extracto
         $data = array();
         $filecontent = file($file);
 
-        # initialize the regexp search pattern
-        $array_keys = array_keys($this->placeholders);
-        $placeholders = join('|', $array_keys);
-        unset($array_keys);
-        $pattern = str_replace('__PLACEHOLDER__', $placeholders, self::REGEX);
-        
+        # construct the regular expression pattern
+        $placeholders = join('|', $this->tags_to_scan);
+        $pattern = str_replace('__PLACEHOLDERS__', $placeholders, self::REGEX);
+
         Clansuite_Debug::firebug($pattern);
 
         # parse file by lines
@@ -129,7 +94,8 @@ class Clansuite_Gettext_Extractor_Template implements Clansuite_Gettext_Extracto
         {
             # match all {t ... } or {_ ... } tags if prefixes are "t" and "_"
             preg_match_all($pattern, $line_content, $matches);
-            
+
+            Clansuite_Debug::firebug($line_content);
             Clansuite_Debug::firebug($matches);
 
             if(empty($matches))

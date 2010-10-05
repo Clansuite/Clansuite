@@ -317,7 +317,8 @@ class Clansuite_Loader
         'Clansuite_Renderer_Base'             => ROOT_CORE . 'renderer' . DS . 'renderer.base.php',
         # filter
         'Clansuite_Filter_Interface'          => ROOT_CORE . 'filtermanager.core.php',
-
+        # gettext
+        'Clansuite_Gettext_Extractor'         => ROOT_CORE . 'gettext.core.php',
         # datagrid mappings
         'Clansuite_Datagrid'                  => $datagrid_dir . 'datagrid.core.php',
         'Clansuite_Datagrid_Column'           => $datagrid_dir . 'datagridcol.core.php',
