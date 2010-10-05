@@ -390,7 +390,7 @@ class Clansuite_HttpResponse implements Clansuite_Response_Interface
      * @param text   text of redirect message
      * @param string redirect mode LOCATION, REFRESH, JS, HTML
      */
-    public static function redirect($url, $time = 0, $statusCode = 302, $message = null, $mode = null )
+    public static function redirect($url, $time = 0, $statusCode = 302, $message = null, $mode = null)
     {
         # convert from internal slashed format to URL
         $url = Clansuite_Router::buildURL($url);
