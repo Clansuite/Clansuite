@@ -483,7 +483,6 @@ abstract class Clansuite_Module_Controller
      */
     public function redirect($url, $time = 0, $statusCode = 302, $message = '')
     {
-        # build url
         self::getHttpResponse()->redirect($url, $time, $statusCode, $message);
     }
 
@@ -499,9 +498,24 @@ abstract class Clansuite_Module_Controller
         {
             $this->redirect($referer);
         }
-        else
+        else # build referer on base of the current module
         {
-            $this->redirect( WWW_ROOT . Clansuite_HttpRequest::getRoute()->getModuleName() );
+            #Clansuite_Debug::printR($referer);
+
+            $redirect_to = '/';
+
+            $route = Clansuite_HttpRequest::getRoute();
+            $modulename = $route->getModuleName();
+
+            $redirect_to .= $modulename;
+
+            $submodule  = $route->getSubModuleName();
+            if(empty($submodule) === false)
+            {
+                $redirect_to .= '/'. $submodule;
+            }
+
+            $this->redirect($redirect_to);
         }
     }
 

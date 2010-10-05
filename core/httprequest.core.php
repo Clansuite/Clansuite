@@ -26,7 +26,7 @@
     * @author     Jens-André Koch <vain@clansuite.com>
     * @copyright  Copyleft: All rights reserved. Jens-André Koch (2005 - onwards)
     * @link       http://www.clansuite.com
-    * 
+    *
     * @version    SVN: $Id$
     */
 

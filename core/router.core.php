@@ -226,8 +226,14 @@ class Clansuite_Router implements ArrayAccess, Clansuite_Router_Interface
      */
     public static function buildURL($urlstring)
     {
+        # if urlstring is already a qualified url
+        if(false !== strpos($urlstring, WWW_ROOT . 'index.php?mod='))
+        {
+            # there is no need to rebuild it, just return
+            return $urlstring;
+        }
         # e.g. ROOT/news/admin
-        if(REWRITE_ENGINE_ON === true)
+        elseif(REWRITE_ENGINE_ON === true)
         {
             #Clansuite_Debug::firebug(WWW_ROOT . ltrim($urlstring, '/'));
             return WWW_ROOT . ltrim($urlstring, '/');
