@@ -54,7 +54,7 @@ class Clansuite_Formelement_ReCaptcha extends Clansuite_Formelement_Captcha impl
     /**
      * @var string The ReCaptcha API PrivateKey.
      */
-    private $publicKey;
+    private $privateKey;
 
     /**
      * @var string The ReCaptcha Error String.

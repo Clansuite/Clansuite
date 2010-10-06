@@ -50,9 +50,9 @@ if (defined('IN_CS') === false)
 
 class Clansuite_Formelement /* extends Clansuite_HTML */ implements Clansuite_Formelement_Interface
 {
-    protected $name, $id, $type, $class, $size, $disabled, $maxlength, $style, $onclick;
+    public $name, $id, $type, $class, $size, $disabled, $maxlength, $style, $onclick;
 
-    protected $label, $value, $position, $required;
+    public $label, $value, $position, $required;
 
     protected $formelementdecorators = array();
 

@@ -140,7 +140,7 @@ class Clansuite_Functions
             if(is_dir($direntry))
             {
                 # recursion
-                $size += dirsize($direntry);
+                $size += self::dirsize($direntry);
             }
             else
             {
@@ -204,7 +204,8 @@ class Clansuite_Functions
 
                 if(empty($name) == false)
                 {
-                    $object->$name = arrayToObject($value);
+                    # WATCH OUT ! Recursion.
+                    $object->$name = array2Object($value);
                 }
             }
 

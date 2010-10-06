@@ -82,6 +82,7 @@ class Clansuite_Cache_Memcached implements Clansuite_Cache_Interface
 
         # instantiate object und set to class
         $this->memcache = new Memcache;
+        $config = Clansuite_CMS::getClansuiteConfig();
 
         # @todo fetch configuration and connection data
         # @todo one server / multiple servers
@@ -170,11 +171,14 @@ class Clansuite_Cache_Memcached implements Clansuite_Cache_Interface
 
         if(is_array($servers))
         {
-            $this->addservers($servers);
+            foreach($servers as $server)
+            {
+                $this->memcache->addservers($servers['host'], $servers['port'], $servers['weight']);
+            }
         }
         else
         {
-            $this->addserver($host, $port, $weigth);
+            $this->memcache->addserver($host, $port, $weigth);
         }
     }
 

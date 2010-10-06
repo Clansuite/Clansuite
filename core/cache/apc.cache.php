@@ -105,7 +105,7 @@ class Clansuite_Cache_APC implements Clansuite_Cache_Interface
 
         foreach($key as $cacheKey)
         {
-            return if(true === apc_delete($key))
+            if(true === apc_delete($key))
             {
                 $keys_deleted++;
             }

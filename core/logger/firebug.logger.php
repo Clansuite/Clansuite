@@ -132,7 +132,7 @@ class Clansuite_Logger_Firebug implements Clansuite_Logger_Interface
      */
     public function writeLog($data)
     {
-        $firephp->fb($data['message'], $data['label'], $this->getFirePHPLoglevel($data['level']) );
+        self::$instance->fb($data['message'], $data['label'], $this->getFirePHPLoglevel($data['level']) );
     }
 }
 ?>

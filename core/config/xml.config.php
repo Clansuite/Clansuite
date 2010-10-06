@@ -133,7 +133,7 @@ class Clansuite_Config_XMLHandler extends Clansuite_Config_Base implements Array
      */
     public static function writeArray(XMLWriter $xml, $array)
     {
-        foreach($data as $key => $value)
+        foreach($array as $key => $value)
         {
             if(is_array($value))
             {

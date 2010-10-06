@@ -51,7 +51,7 @@ class AuthenticationLogging implements Clansuite_Event
 {
     protected $logger;
 
-    public function __construct($logger)
+    public function __construct(Clansuite_Logger $logger, Clansuite_HttpRequest $request)
     {
         # set request object
         $this->request = $request;

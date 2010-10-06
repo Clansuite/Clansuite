@@ -101,9 +101,9 @@ class Clansuite_Security
      * @return boolean               true if the incomming hashed password matches the hashed+salted in db,
      *                               false otherwise
      */
-    public function checkPassword()
+    public function checkPassword( $passwordhash, $databasehash, $salt )
     {
-        return check_salted_hash( $passwordhash, $databasehash, $salt );
+        return self::check_salted_hash( $passwordhash, $databasehash, $salt );
     }
 
     /**

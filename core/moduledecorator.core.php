@@ -96,7 +96,7 @@ class Clansuite_Module_ControllerDecorator
      * 2) costs for calling call_user_func_array()
      * 3) the nested call stack itself: the bigger the stack, the slower it becomes.
      */
-    public function __call($method, $args)
+    public function __call($method, $arguments)
     {
         return call_user_func_array($method, $arguments);
     }

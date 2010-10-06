@@ -441,12 +441,12 @@ abstract class Clansuite_Module_Controller
     {
         if(null === $module)
         {
-            $module = Clansuite_Module_Controller_Resolver::getModuleName();
-        }
+            $module = Clansuite_HttpRequest::getRoute()->getModuleName();
+         }
 
         if(null === $action)
         {
-            $action = Clansuite_Action_Controller_Resolver::getActionName();
+            $action = Clansuite_HttpRequest::getRoute()->getActionName();
         }
 
         if(null === $formname)
