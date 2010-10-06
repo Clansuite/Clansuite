@@ -380,9 +380,9 @@ class Clansuite_Formelement /* extends Clansuite_HTML */ implements Clansuite_Fo
      * @param string $onclick Onclick text of this formelement.
      * @return Clansuite_Formelement
      */
-    public function setOnclick($onklick)
+    public function setOnclick($onclick)
     {
-        $this->onklick = $onclick;
+        $this->onclick = $onclick;
 
         return $this;
     }
