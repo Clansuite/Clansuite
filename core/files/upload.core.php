@@ -50,15 +50,15 @@ class Clansuite_Upload implements ArrayAccess, IteratorAggregate, Countable
     /**
      * Constructor.
      */
-    public function __construct()
+    public function __construct($files)
     {
-        $this->parseFiles();
+        $this->parseFiles($files);
     }
 
     /**
      * Parses $files variable to Clansuite_Upload_File objects.
      */
-    protected function parseFiles()
+    protected function parseFiles($files)
     {
         foreach ($files as $formId => $fileInfo)
         {
@@ -66,7 +66,7 @@ class Clansuite_Upload implements ArrayAccess, IteratorAggregate, Countable
             {
                 $this->files[$formId] = array();
 
-                #$filecounter = count($fileInfo['name']);
+                $filecounter = count($files);
                 for ($i = 0; $i < $filecounter; $i++)
                 {
                     $this->files[$formId][$i] = new Clansuite_File(
@@ -123,7 +123,7 @@ class Clansuite_Upload implements ArrayAccess, IteratorAggregate, Countable
      */
     public function offsetSet($offset, $value)
     {
-        throw new Clansuite_Upload_Exception('Array access is read only.');
+        throw new Clansuite_Exception('Array access is read only.');
     }
 
     /**
@@ -133,7 +133,7 @@ class Clansuite_Upload implements ArrayAccess, IteratorAggregate, Countable
      */
     public function offsetUnset($offset)
     {
-        throw new Clansuite_Upload_Exception('Array access is read only.');
+        throw new Clansuite_Exception('Array access is read only.');
     }
 
     /**

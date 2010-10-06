@@ -46,7 +46,7 @@ if (defined('IN_CS') === false)
  * @package     Core
  * @subpackage  Layout
  */
-class Clansuite_BlockContainer extends Clansuite_Layout
+class Clansuite_BlockContainer extends Clansuite_View_Layout
 {
     # var $_blocks contains all block elements as Separate Objects
     private $_blockObjects = array();

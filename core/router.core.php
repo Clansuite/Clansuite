@@ -150,7 +150,7 @@ class Clansuite_Router implements ArrayAccess, Clansuite_Router_Interface
                     # add it to the regex
                     $regexp .= '\/(?P<' . $name . '>' . $requirements[$name] . ')';
                     # and remove the requirement
-                    unset($requirement[$name]);
+                    unset($requirements[$name]);
                 }
                 else # no requirement
                 {

@@ -59,7 +59,7 @@ class BlockIps implements Clansuite_Event
 
     public function execute(Event $event)
     {
-        $request = getRequest();
+        $request = Clansuite_CMS::getInjector()->instantiate('Clansuite_HttpRequest');
         $ip = $request->getRemoteAddress();
 
         if(in_array($ip,$this->blockedIps))

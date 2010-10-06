@@ -229,4 +229,9 @@ abstract class Clansuite_Formelement_Decorator #implements Clansuite_Form_Interf
         return call_user_func_array(array($this->formelement, $method), $parameters);
     }
 }
+
+interface Clansuite_Formelement_Decorator_Interface
+{
+    public function decorateWith($formelement);
+}
 ?>

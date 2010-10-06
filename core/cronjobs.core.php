@@ -401,9 +401,9 @@ class Clansuite_Cronjobs
             #echo '<br>Running     '.$job[self::const_PC_CRONLINE];
             #echo '<br> Last run:       '.date('r',$lastActual);
             #echo '<br> Last scheduled: '.date('r',$lastScheduled);
-            #logMessage('Running     '.$job[self::const_PC_CRONLINE]);
-            #logMessage('  Last run:       '.date('r',$lastActual));
-            #logMessage('  Last scheduled: '.date('r',$lastScheduled));
+            #Clansuite_Logger::writeLog('Running     '.$job[self::const_PC_CRONLINE]);
+            #Clansuite_Logger::writeLog('  Last run:       '.date('r',$lastActual));
+            #Clansuite_Logger::writeLog('  Last scheduled: '.date('r',$lastScheduled));
 
             /* if ($debug)
              {
@@ -443,10 +443,10 @@ class Clansuite_Cronjobs
         {
             if($debug)
             {
-                logMessage('Skipping     ' . $job[self::const_PC_CRONLINE]);
-                logMessage('  Last run:       ' . date('r', $lastActual));
-                logMessage('  Last scheduled: ' . date('r', $lastScheduled));
-                logMessage('Completed    ' . $job[self::const_PC_CRONLINE]);
+                Clansuite_Logger::writeLog('Skipping     ' . $job[self::const_PC_CRONLINE]);
+                Clansuite_Logger::writeLog('  Last run:       ' . date('r', $lastActual));
+                Clansuite_Logger::writeLog('  Last scheduled: ' . date('r', $lastScheduled));
+                Clansuite_Logger::writeLog('Completed    ' . $job[self::const_PC_CRONLINE]);
             }
 
             return false;

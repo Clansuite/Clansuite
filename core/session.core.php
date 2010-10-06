@@ -249,7 +249,7 @@ class Clansuite_Session implements Clansuite_Session_Interface, ArrayAccess
          * @todo wrong place. move either to statistics or whoisonline
          * determine the current location of a user by checking request['mod']
          */
-        if(isset($request['mod']) == false and empty($this->request['mod']))
+        if(isset($this->request['mod']) == false and empty($this->request['mod']))
         {
             $userlocation = 'sessionstart';
         }

@@ -151,7 +151,7 @@ class Clansuite_Logger_File implements Clansuite_Logger_Interface
         $logfilename = 'error';
 
         # if rotation is active we add a date to the filename
-        if($config['log']['rotation'] == true)
+        if($this->config['log']['rotation'] == true)
         {
             # construct name of the log file ( FILENAME_log_DATE.txt )
             $filename = ROOT_LOGS . $logfilename . '_log_' . date('m-d-y') . '.txt';

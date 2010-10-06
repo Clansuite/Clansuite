@@ -958,8 +958,10 @@ class Clansuite_Form /*extends Clansuite_HTML*/ implements Clansuite_Form_Interf
      */
     public function processForm()
     {
+        # @todo processing, validation
+        
         # check if form has been submitted properly
-        if ($this->validateForm() == false)
+        /*if ($this->validateForm() == false)
         {
             # if not, redisplay the form (decorate with errors + render)
             $form->errors();
@@ -970,6 +972,7 @@ class Clansuite_Form /*extends Clansuite_HTML*/ implements Clansuite_Form_Interf
             # success!!
             $form->success();
         }
+        */
     }
 
     /**

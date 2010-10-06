@@ -54,6 +54,7 @@ class Clansuite_Filter_Permissions implements Clansuite_Filter_Interface
     public function __construct(Clansuite_User $user)
     {
         $this->user = $user;
+        # @todo RBACL class
         $rbacl = Clansuite_RBACL::getInstance();
     }
 

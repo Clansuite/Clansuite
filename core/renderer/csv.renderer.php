@@ -77,7 +77,7 @@ class Clansuite_Renderer_CSV extends Clansuite_Renderer_Base
      * @param array $data the array with the data to write as csv
      * @param array $header additional array with column headings (first row of the data)
      */
-    public function assign($data, $header = array())
+    public function assign($data, $headers = array())
     {
         $this->data = $data;
         $this->headers = $headers;

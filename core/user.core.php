@@ -92,7 +92,6 @@ class Clansuite_User
         }
 
         $userdata = Doctrine_Query::create()
-                        ->select($fields)
                         ->from('CsUsers')
                         ->leftJoin('CsProfile')
                         ->where('CsUsers.user_id = ?')
@@ -376,7 +375,7 @@ class Clansuite_User
         $cookie_lifetime = time() + round($this->moduleconfig['login']['remember_me_time']*24*60*60);
 
         setcookie('cs_cookie_user_id', $user_id, $cookie_lifetime);
-        setcookie('cs_cookie_password', $passwordhash, $cookie_lifetimee);
+        setcookie('cs_cookie_password', $passwordhash, $cookie_lifetime);
 
         unset($cookie_lifetime);
     }
