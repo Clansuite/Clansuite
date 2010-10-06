@@ -62,18 +62,4 @@ $modulenavigation = array(
         'title' => ''
     ),
 );
-
-/**
- * Clansuite Adminmenu for Module Forum
- */
-$adminmenu = array(
-    '1' => array(
-        'name' => '',
-        'url' => '',
-        'tooltip' => '',
-        'target' => '',
-        'permission' => '',
-        'icon' => ''
-    ),
-);
 ?>

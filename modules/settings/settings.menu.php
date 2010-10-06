@@ -39,13 +39,6 @@ if(defined('IN_CS') === false)
 /**
  * Clansuite Modulenavigation for Module Settings
  */
-/*
-$modulenavigation[1]['action'] = 
-$modulenavigation[1]['name'] = 
-$modulenavigation[1]['url'] = 
-$modulenavigation[1]['icon'] = 
-$modulenavigation[1]['title'] = 
-*/
 $modulenavigation = array(
     '1' => array(
         'action' => 'show',
@@ -60,21 +53,6 @@ $modulenavigation = array(
         'url' => '/settings/admin/easylist',
         'icon' => '',
         'title' => ''
-    ),
-);
-
-/**
- * Clansuite Adminmenu for Module Settings
- */
-
-$adminmenu = array(
-    '1' => array(
-        'name' => '',
-        'url' => '',
-        'tooltip' => '',
-        'target' => '',
-        'permission' => '',
-        'icon' => ''
     ),
 );
 ?>
