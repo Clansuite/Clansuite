@@ -39,45 +39,27 @@ if(defined('IN_CS') === false)
 /**
  * Clansuite Modulenavigation for Module News
  */
-
 $modulenavigation = array(
-                            '1' => array(
-                                            'action'  => 'show',
-                                            'name'    => 'Overview',
-                                            'url'      => '/news/admin', # &action=show
-                                            'icon'    => '',
-                                            'title' => ''
-                                        ),
-
-                            '2' => array(
-                                            'action'  => 'create',
-                                            'name'    => 'Create new',
-                                            'url'     => '/news/admin/create',
-                                            'icon'    => '',
-                                            'title' => ''
-                                        ),
-
-                            '3' => array(
-                                            'action'  => 'settings',
-                                            'name'    => 'Settings',
-                                            'url'     => '/news/admin/settings',
-                                            'icon'    => '',
-                                            'title' => ''
-                                        ),
-                         );
-
-/**
- * Clansuite Adminmenu for Module News
- */
-
-$adminmenu        = array(
-                             '1' => array(
-                                            'name'       => '',
-                                            'url'        => '',
-                                            'tooltip'    => '',
-                                            'target'     => '',
-                                            'permission' => '',
-                                            'icon'       => ''
-                                         ),
-                         );
+    '1' => array(
+        'action' => 'show',
+        'name' => 'Overview',
+        'url' => '/news/admin', # &action=show
+        'icon' => '',
+        'title' => ''
+    ),
+    '2' => array(
+        'action' => 'create',
+        'name' => 'Create new',
+        'url' => '/news/admin/create',
+        'icon' => '',
+        'title' => ''
+    ),
+    '3' => array(
+        'action' => 'settings',
+        'name' => 'Settings',
+        'url' => '/news/admin/settings',
+        'icon' => '',
+        'title' => ''
+    ),
+);
 ?>

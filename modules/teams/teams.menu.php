@@ -62,18 +62,4 @@ $modulenavigation = array(
         'tooltip' => ''
     ),
 );
-
-/**
- * Clansuite Adminmenu for Module Teams
- */
-$adminmenu = array(
-    '1' => array(
-        'name' => '',
-        'url' => '',
-        'tooltip' => '',
-        'target' => '',
-        'permission' => '',
-        'icon' => ''
-    ),
-);
 ?>

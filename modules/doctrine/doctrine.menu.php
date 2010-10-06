@@ -83,18 +83,4 @@ $modulenavigation = array(
         'title' => ''
     ),
 );
-
-/**
- * Clansuite Adminmenu for Module Doctrine
- */
-$adminmenu = array(
-    '1' => array(
-        'name' => '',
-        'url' => '',
-        'tooltip' => '',
-        'target' => '',
-        'permission' => '',
-        'icon' => ''
-    ),
-);
 ?>
