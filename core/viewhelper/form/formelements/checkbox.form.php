@@ -52,15 +52,25 @@ if (false == class_exists('Clansuite_Formelement_Input',false))
 class Clansuite_Formelement_Checkbox extends Clansuite_Formelement_Input implements Clansuite_Formelement_Interface
 {
     /**
-     * label next to element
+     * Label next to element
      *
      * @var string
      */
-    protected $label;
+    public $label;
 
-    protected $default;
+    /**
+     * Default option 
+     * 
+     * @var string 
+     */
+    public $default;
 
-    protected $options;
+    /**
+     * Options
+     * 
+     * @var array 
+     */
+    public $options;
 
     public $description;
 
