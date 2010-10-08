@@ -46,7 +46,7 @@
 {* Header with Logo *}
 
 <div class="header">
-    <a href="index.php?mod=controlcenter"><img alt="Clansuite CMS Minilogo - 80x15px" style="margin-bottom: -3px;" src="{$www_root_themes_core}images/clansuite_logos/clansuite-80x15.png" border="0" /></a> - Control Center
+    <a href="{link_to href="controlcenter"}"><img alt="Clansuite CMS Minilogo - 80x15px" style="margin-bottom: -3px;" src="{$www_root_themes_core}images/clansuite_logos/clansuite-80x15.png" border="0" /></a> - Control Center
     <span>{$smarty.now|date_format:"%e %B %Y - %A | %H:%M"}</span>
 </div>
 
@@ -74,21 +74,26 @@
                 {*
                 <!-- Update Icon -->
                 <div id="update-toggler" style="float: right; font-family: tahoma,verdana,arial,sans-serif; font-size: 11px; cursor: pointer; margin-right: 5px;">
-                    <img style="margin-bottom: -3px;" src="{$www_root_themes_core}images/icons/warning.png" alt="{t}Show Updates{/t}" />
+                    <img style="margin-bottom: -3px;" src="{$www_root_themes_core}images/icons/system-software-update.png" alt="{t}Show Updates{/t}" />
                     {t}Update{/t}
                 </div>
                 *}
-
                 {*
+                <!-- Tracking Icon -->
+                <div id="tracking-toggler" style="float: right; font-family: tahoma,verdana,arial,sans-serif; font-size: 11px; cursor: pointer; margin-right: 5px;">
+                    <img style="margin-bottom: -3px;" src="{$www_root_themes_core}images/icons/warning.png" alt="{t}The Support Tracking is active.{/t}" />
+                    {t}Tracking{/t}
+                </div>
+
                 <!-- Bugreport Icon -->
                 <div id="bugreport-toggler" style="float: right; font-family: tahoma,verdana,arial,sans-serif; font-size: 11px; cursor: pointer; margin-right: 5px;">
-                    <img style="margin-bottom: -3px;" src="{$www_root_themes_core}images/icons/error.png" alt="{t}Report Bug{/t}" />
+                    <img style="margin-bottom: -3px;" src="{$www_root_themes_core}images/icons/bug.png" alt="{t}Report Bug{/t}" />
                     {t}Bugreport{/t}
                 </div>
                 *}
 
                 <!-- Debug Mode Icon -->
-                {if $smarty.const.DEBUG == true}
+                {if $smarty.const.DEBUG}
                 <div id="debug-toggler" style="float: right; font-family: tahoma,verdana,arial,sans-serif; font-size: 11px; cursor: pointer; margin-right: 5px;">
                     <img style="margin-bottom: -3px;" src="{$www_root_themes_core}images/icons/error.png" alt="DEBUG" title="Clansuite is in DEBUG MODE" />
                     DEBUG
@@ -96,7 +101,7 @@
                 {/if}
 
                 <!-- Development Mode Icon -->
-                {if $smarty.const.DEVELOPMENT == true}
+                {if $smarty.const.DEVELOPMENT}
                 <div id="development-toggler" style="float: right; font-family: tahoma,verdana,arial,sans-serif; font-size: 11px; cursor: pointer; margin-right: 5px;">
                     <img style="margin-bottom: -3px;" src="{$www_root_themes_core}images/icons/error.png" alt="DEVELOPMENT MODE ACTIVE" title="Clansuite is in DEVELOPMENT MODE (RAD)" />
                     DEVELOPMENT
