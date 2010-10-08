@@ -76,11 +76,6 @@ interface Clansuite_Front_Controller_Interface
 class Clansuite_Front_Controller implements Clansuite_Front_Controller_Interface
 {
     /**
-     * @var object Clansuite_Router
-     */
-    private $router;
-
-    /**
      * @var object Clansuite_HttpRequest
      */
     private $request;
@@ -91,9 +86,9 @@ class Clansuite_Front_Controller implements Clansuite_Front_Controller_Interface
     private $response;
 
     /**
-     * @var object Clansuite_Dispatcher
+     * @var object Clansuite_TargetRoute
      */
-    private $dispatcher;
+    private $route;
 
     /**
      * @var object Clansuite_FilterManager for Prefilters
@@ -117,7 +112,6 @@ class Clansuite_Front_Controller implements Clansuite_Front_Controller_Interface
     {
            $this->request            = $request;
            $this->response           = $response;
-           $this->dispatcher         = new Clansuite_Dispatcher($request);
            $this->pre_filtermanager  = new Clansuite_Filtermanager();
            $this->post_filtermanager = new Clansuite_Filtermanager();
            $this->event_dispatcher   = Clansuite_EventDispatcher::instantiate();
@@ -168,7 +162,7 @@ class Clansuite_Front_Controller implements Clansuite_Front_Controller_Interface
 
         $this->response->sendResponse();
     }
-    
+
     /**
      * The dispatcher accepts the found route from the router/mapper and
      * invokes the correct controller and method.
@@ -177,15 +171,12 @@ class Clansuite_Front_Controller implements Clansuite_Front_Controller_Interface
      * 1. inject Route Object
      * 2. extract infos about correct controller, correct method with correct parameters
      * 3. finally call controller->method(parms)!
-     * 
+     *
      * The dispatcher forwards to the pagecontroller = modulecontroller + moduleaction
      */
-    public static function forward($request, $response)
+    public function forward($request, $response)
     {
         $route = Clansuite_HttpRequest::getRoute();
-
-        #$event = Clansuite_EventDispatcher::instantiate();
-        #$event->addEventHandler('onBeforeControllerMethodCall', new Clansuite_Event_InitializeModule());
 
         if($route === null)
         {
@@ -200,6 +191,8 @@ class Clansuite_Front_Controller implements Clansuite_Front_Controller_Interface
 
         #Clansuite_Debug::firebug($route);
         #unset($route);
+
+        #$this->event_dispatcher->addEventHandler('onBeforeControllerMethodCall', new Clansuite_Event_InitializeModule());
 
         $controllerInstance = new $classname($request, $response);
 
