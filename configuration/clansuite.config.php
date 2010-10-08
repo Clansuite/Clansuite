@@ -1,9 +1,9 @@
 ; <?php die('Access forbidden.'); /* DO NOT MODIFY THIS LINE! ?>
 ; 
 ; Clansuite Configuration File : 
-; D:\xampplite\htdocs\work\clansuite\trunk\configuration/clansuite.config.php
+; C:\Programme\Zend\Apache2\htdocs\clansuite\trunk\configuration/clansuite.config.php
 ; 
-; This file was generated on 24-09-2010 ;)
+; This file was generated on 08-10-2010 01:22
 ;
 
 
@@ -58,7 +58,7 @@ timezone = 0
 ; error
 ;----------------------------------------
 [error]
-debug = 1
+debug = 0
 xdebug = 0
 development = 0
 suppress_errors = 0
@@ -133,21 +133,13 @@ registration_term = ""
 ; session
 ;----------------------------------------
 [session]
-use_cookies = 0
+use_cookies = 1
 use_cookies_only = 0
 session_expire_time = 30
 session_name = "CSuite"
 check_browser = 0
 check_host = 0
 check_ip = 0
-
-;----------------------------------------
-; cache
-;----------------------------------------
-[cache]
-adapter = 0
-caching = 0
-cache_lifetime = 0
 
 ;----------------------------------------
 ; updater
