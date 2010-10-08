@@ -160,13 +160,62 @@ class Clansuite_Front_Controller implements Clansuite_Front_Controller_Interface
 
         $this->event_dispatcher->triggerEvent('onBeforeDispatcherForward');
 
-        $this->dispatcher->forward($this->request, $this->response);
+        $this->forward($this->request, $this->response);
 
         $this->event_dispatcher->triggerEvent('onAfterDispatcherForward');
 
         $this->post_filtermanager->processFilters($this->request, $this->response);
 
         $this->response->sendResponse();
+    }
+    
+    /**
+     * The dispatcher accepts the found route from the router/mapper and
+     * invokes the correct controller and method.
+     *
+     * Workflow
+     * 1. inject Route Object
+     * 2. extract infos about correct controller, correct method with correct parameters
+     * 3. finally call controller->method(parms)!
+     * 
+     * The dispatcher forwards to the pagecontroller = modulecontroller + moduleaction
+     */
+    public static function forward($request, $response)
+    {
+        $route = Clansuite_HttpRequest::getRoute();
+
+        #$event = Clansuite_EventDispatcher::instantiate();
+        #$event->addEventHandler('onBeforeControllerMethodCall', new Clansuite_Event_InitializeModule());
+
+        if($route === null)
+        {
+            throw new Clansuite_Exception('The dispatcher is unable to forward. No route object given.', 99);
+        }
+
+        $classname    = $route->getClassname();
+        $method       = $route->getMethod();
+        $parameters   = $route->getParameters();
+        #$request_meth = Clansuite_HttpRequest::getRequestMethod();
+        #$renderengine = $route->getRenderEngine();
+
+        #Clansuite_Debug::firebug($route);
+        #unset($route);
+
+        $controllerInstance = new $classname($request, $response);
+
+        # Initialize the Module
+        if(true === method_exists($controllerInstance, 'initializeModule'))
+        {
+            $controllerInstance->initializeModule();
+        }
+
+        Clansuite_Breadcrumb::initBreadcrumbs();
+
+        # Finally: dispatch to the requested controller method
+        if(true === method_exists($controllerInstance, $method))
+        {
+            $controllerInstance->$method($parameters);
+        }
     }
 }
 ?>
