@@ -104,22 +104,13 @@ class Clansuite_Flashmessages /* extends Clansuite_Session */
     }
 
     /**
-     * Returns the whole array of flashmessages, if $type is not specified/null.
-     * Or the subarray of flashmessages with key $type.
+     * Returns the whole array of flashmessages.
      *
-     * @param $type string type of the message, usable for formatting.
-     * @return array If $type is null, returns whole flashmessages array. Otherwise, subarray with key $type.
+     * @return array Flashmessages array
      */
     public static function getMessages($type = null)
     {
-        if($type === null)
-        {
-            return self::$flashmessages;
-        }
-        elseif(isset($type) and $this->hasMessageType($type))
-        {
-            return self::$flashmessages[$type];
-        }
+        return self::$flashmessages;        
     }
 
     /**
@@ -130,15 +121,15 @@ class Clansuite_Flashmessages /* extends Clansuite_Session */
         if(array_key_exists('flashmessages', $_SESSION['user']))
         {
             self::$flashmessages = $_SESSION['user']['flashmessages'];
-            #unset($_SESSION['user']['flashmessages']);
+            unset($_SESSION['user']['flashmessages']);
             return self::$flashmessages;
         }
     }
 
     /**
-     * resets the whole flashmessage array
+     * Resets the whole flashmessage array
      */
-    public static function delMessages()
+    public static function reset()
     {
         self::$flashmessages = array();
     }
@@ -162,6 +153,8 @@ class Clansuite_Flashmessages /* extends Clansuite_Session */
                     $html .= '<div id="flashmessage" class="flashmessage ' . $type . '">' . $message . '</div>';
                 }
             }
+
+            self::reset();
 
             return $html;
         }
