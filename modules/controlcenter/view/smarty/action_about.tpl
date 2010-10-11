@@ -81,7 +81,7 @@
      <tbody>
         {* Members of the Development Team *}
         <tr>
-            <td colspan="8" bgcolor="#bbbbbb"><strong>Members of the Development Team</strong></td>
+            <td colspan="7" bgcolor="#bbbbbb"><strong>Members of the Development Team</strong></td>
         </tr>
         <tr>
           <td bgcolor="#dddddd"><strong>Status</strong></td>
@@ -114,10 +114,10 @@
               <img alt='Ohloh profile for Florian Wolf' height='35' src='http://www.ohloh.net/accounts/21946/widgets/account_detailed.gif' width='191' />
             </a>
           </td>
-          <td/>
+          <td></td>
         </tr>
         <tr>
-           <td><img src="{$www_root_themes_core}images/lullacons/user-plain-red.png" alt="The User is inactive."></td>
+          <td><img src="{$www_root_themes_core}images/lullacons/user-plain-red.png" alt="The User is inactive."></td>
           <td><b>Pasqual Eusterfeldhaus</b></td>
           <td valign="top"><b>thunderm00n</b></td>
           <td valign="top"><b>thundermoon@gna.org</b></td>
@@ -127,10 +127,10 @@
                 <img alt='Ohloh profile for Thunderm00n' height='35' src='http://www.ohloh.net/accounts/21968/widgets/account_detailed.gif' width='191' />
               </a>
           </td>
-          <td/>
+          <td></td>
         </tr>
         <tr>
-           <td><img src="{$www_root_themes_core}images/lullacons/user-plain-red.png" alt="The User is inactive."></td>
+          <td><img src="{$www_root_themes_core}images/lullacons/user-plain-red.png" alt="The User is inactive."></td>
           <td valign="top"><b>Pascal</b></td>
           <td valign="top"><b>raensen</b></td>
           <td valign="top"><b>raensen@gna.org</b></td>
@@ -139,7 +139,7 @@
                 <img alt='Ohloh profile for raeNsen' height='35' src='http://www.ohloh.net/accounts/65133/widgets/account_detailed.gif' width='191' />
               </a>
           </td>
-          <td/>
+          <td></td>
         </tr>
 
         {* Former Members of the Development Team *}
@@ -161,8 +161,9 @@
           <td valign="top"><b>rikku</b></td>
           <td valign="top"><b>rikku@gna.org</b></td>
           <td valign="top">Developer (Image-Processing-Library)</td>
-          <td/>
-          <td/>
+          <td></td>
+          <td></td>
+          <td></td>
         </tr>
         <tr>
           <td>R</td>
@@ -170,6 +171,9 @@
           <td valign="top"><b>freq77</b></td>
           <td valign="top"><b>---</b></td>
           <td valign="top">Developer (Shoutbox)</td>
+          <td></td>
+          <td></td>
+          <td></td>
           <td/>
           <td/>
         </tr>
@@ -179,8 +183,8 @@
            <td valign="top"><b>Vyper</b></td>
            <td valign="top"><b>vyper@gna.org</b></td>
            <td valign="top">Developer, Website, Themes (especially Accessible-Theme)</td>
-           <td/>
-           <td/>
+          <td></td>
+          <td></td>
         </tr>
     </tbody>
     </table>
@@ -215,10 +219,10 @@
        <table border="0" width="100%">
         <tbody>
         <tr>
-          <td colspan="4"><h2>{t}Clansuite{/t}</h2></td>
+          <td colspan="5"><h2>{t}Clansuite{/t}</h2></td>
         </tr>
         <tr>
-          <td colspan="4"><h2>{t}PHP{/t}</h2></td>
+          <td colspan="5"><h2>{t}PHP{/t}</h2></td>
         </tr>
         <tr>
           <td bgcolor="#dddddd" width="14%"><strong>Library</strong></td>
@@ -236,7 +240,7 @@
         </tr>
 
         <tr>
-          <td colspan="4"><h2>{t}Javascript{/t}</h2></td>
+          <td colspan="5"><h2>{t}Javascript{/t}</h2></td>
         </tr>
         <tr>
           <td bgcolor="#dddddd" width="14%"><strong>Library</strong></td>
@@ -250,7 +254,7 @@
         </tr>
 
          <tr>
-          <td colspan="4"><h2>{t}Images and Icon Packs{/t}</h2></td>
+          <td colspan="5"><h2>{t}Images and Icon Packs{/t}</h2></td>
         </tr>
         <tr>
           <td bgcolor="#dddddd" width="14%"><strong>Name</strong></td>
@@ -262,14 +266,14 @@
         <tr>
           <td>Crystal Project Icon Theme</td>
           <td><a href="http://www.everaldo.com/">Everaldo</a></td>
-          <td/>
-          <td/>
+          <td></td>
+          <td></td>
           <td></td>
         </tr>
         <tr>
           <td>Country Icons</td>
           <td><a href="http://www.famfamfam.com/">FAMFAMFAM</a></td>
-          <td/>
+          <td></td>
           <td></td>
           <td></td>
         </tr>
