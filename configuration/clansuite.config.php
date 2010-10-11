@@ -14,7 +14,7 @@
 host = "localhost"
 type = "mysql"
 username = "root"
-password = ""
+password = "toop"
 name = "clansuite"
 prefix = "cs_"
 
@@ -58,8 +58,8 @@ timezone = 0
 ; error
 ;----------------------------------------
 [error]
-debug = 0
-xdebug = 0
+debug = 1
+xdebug = 1
 development = 0
 suppress_errors = 0
 debug_popup = 0
@@ -133,8 +133,6 @@ registration_term = ""
 ; session
 ;----------------------------------------
 [session]
-use_cookies = 1
-use_cookies_only = 0
 session_expire_time = 30
 session_name = "CSuite"
 check_browser = 0

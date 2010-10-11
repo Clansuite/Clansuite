@@ -91,8 +91,6 @@ max_upload_filesize = 1048576
 ; session
 ;----------------------------------------
 [session]
-use_cookies = 1
-use_cookies_only = 0
 session_expire_time = 30
 session_name = ""
 check_browser = 1
