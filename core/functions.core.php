@@ -205,7 +205,7 @@ class Clansuite_Functions
                 if(empty($name) == false)
                 {
                     # WATCH OUT ! Recursion.
-                    $object->$name = array2Object($value);
+                    $object->$name = self::array2Object($value);
                 }
             }
 
