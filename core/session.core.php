@@ -111,9 +111,9 @@ class Clansuite_Session implements Clansuite_Session_Interface, ArrayAccess
         #ini_set('url_rewriter.tags'         , "a=href,area=href,frame=src,form=,formfieldset=");
 
         # use a cookie to store the session id
-        # @todo force session cookies?
-        ini_set('session.use_cookies', $this->config['session']['use_cookies'] );
-        ini_set('session.use_only_cookies', $this->config['session']['use_cookies_only'] );
+        # session cookies are forced!
+        ini_set('session.use_cookies', 1 );
+        ini_set('session.use_only_cookies', 1 );
 
         # Setup the custom session handler methods
         session_set_save_handler(   array($this, 'session_open'   ),
