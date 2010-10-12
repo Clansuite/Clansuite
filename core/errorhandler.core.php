@@ -150,6 +150,12 @@ class Clansuite_Errorhandler
                 $errorname .= ' Unknown Errorcode ['. $errornumber .']: ';
         }
 
+        # make the errorstring more useful by linking it to the php manual
+        $errorstring = preg_replace("/<a href='(.*)'>(.*)<\/a>/", '<a href="http://php.net/$1" target="_blank">?</a>', $errorstring);
+
+        # shorten errorfile string by removing the root path
+        $errorfile = str_replace(ROOT, '', $errorfile);
+
         # if DEBUG is set, display the error
         if ( defined('DEBUG') and DEBUG == 1 )
         {
@@ -297,7 +303,6 @@ class Clansuite_Errorhandler
         # Header
         $errormessage = '<html><head>';
         $errormessage .= '<title>Clansuite Error | ' . $trimed_errorstring . ' | Code: ' . $errornumber . '</title>';
-        $errormessage .= '<body>';
         $errormessage .= '<link rel="stylesheet" href="' . WWW_ROOT_THEMES_CORE . 'css/error.css" type="text/css" />';
         $errormessage .= '</head>';
 
@@ -316,7 +321,7 @@ class Clansuite_Errorhandler
 
         # Error Messages
         $errormessage .= '<table>';
-        $errormessage .= '<tr><td colspan="2"><h3> Error</td></tr>';
+        $errormessage .= '<tr><td colspan="2"><h3>Error</td></tr>';
         $errormessage .= '<tr><td colspan="2"><h4>' . $errorstring . '</h4></td></tr>';
         $errormessage .= '<tr><td width=15%><strong>Type: </strong></td><td>' . $errorname . ' '. $errornumber . '</td></tr>';
         $errormessage .= '<tr><td><strong>Path: </strong></td><td>' . dirname($errorfile) . '</td></tr>';
