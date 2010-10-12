@@ -44,14 +44,14 @@ arrow2.src =  "{$www_root}modules/menu/images/arrow2.gif";
         &nbsp;
 
         <a href="index.php" class="itembtn">
-            <img style="position:relative; top: 4px" src="{$www_root_themes_core}images/icons/layout_header.png" border="0" alt="logout-image" width="16" height="16" />
+            <img style="position:relative; top: 4px" src="{$www_root_themes_core}images/icons/layout_header.png" border="0" alt="layout-image" width="16" height="16" />
             &nbsp;{t}Show Frontpage{/t}
         </a>
 
         &nbsp;
 
         <a href="index.php?mod=account&amp;action=logout" class="itembtn">
-            <img style="position:relative; top: 4px" src="{$www_root_themes_core}images/tango/16/System-log-out.png" border="0" alt="logout-image" width="16" height="16" />
+            <img style="position:relative; top: 4px" src="{$www_root_themes_core}images/icons/system-log-out.png" border="0" alt="logout-image" width="16" height="16" />
             &nbsp;{t}Logout{/t}
         </a>
 
