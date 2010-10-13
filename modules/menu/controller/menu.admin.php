@@ -53,41 +53,47 @@ class Clansuite_Module_Menu_Admin extends Clansuite_Module_Controller
      */
     public function action_admin_show()
     {
-        $this->action_admin_menueditor();
+        # Assign Icon Filenames to View
+        $this->getView()->assign('icons', self::fetchIcons());
+        
+        $this->display(array('content_template' => 'action_admin_menueditor.tpl'));
     }
 
     /**
-     * Shows the Admin Menu Editor
+     * Shows the Editor for the Adminmenu
      */
     public function action_admin_menueditor()
     {
-        # Set Pagetitle and Breadcrumbs
-        # Clansuite_Breadcrumb::add( _('Show'), '/menu/admin/show');
+        # Assign Icon Filenames to View
+        $this->getView()->assign('icons', self::fetchIcons());
 
-        // Setup Icons Array
+        $this->display();
+    }
+
+    /**
+     * Fetches all icon filenames.
+     *
+     * @return array Array with Icon filenames
+     */
+    private static function fetchIcons()
+    {
+        # Setup Icons Array
         $icons = array();
 
-        // Get Icons from Directory
+        # Get Icons from Directory
         $dir_handler = opendir( ROOT_THEMES_CORE . 'images/icons/' );
 
-        while( false !== ($file = readdir($dir_handler)) )
+        while( false !== ($filename = readdir($dir_handler)) )
         {
-            if (substr($file,0,1) != '.')
+            if (is_file($filename) && $filename != '.' && $filename != '..')
             {
-                $icons[] = $file;
+                $icons[] = $filename;
             }
         }
 
         closedir($dir_handler);
 
-        // Assign ICONS to View
-        $this->getView()->assign('icons', $icons );
-
-        // specifiy the template manually
-        $this->setTemplate('menueditor.tpl');
-
-        // Prepare the Output
-        $this->display();
+        return $icons;
     }
 
     private function getTree($model, $rootId = null)
@@ -117,23 +123,20 @@ class Clansuite_Module_Menu_Admin extends Clansuite_Module_Controller
     public function action_admin_menueditor2()
     {
         # Set Pagetitle and Breadcrumbs
-        Clansuite_Breadcrumb::add( _('About Clansuite'), '/menu/admin/menueditor2');
-
-        #Clansuite_Debug::printR($treeObject);
-
+        Clansuite_Breadcrumb::add( _('Menueditor II'), '/menu/admin/menueditor2');
 
         /**
          * Creating a Root Node
          */
-   /*
-        $category = new CsAdminmenuShortcuts();
+
+        /*$category = new CsAdminmenuShortcuts();
         $category->name = 'Root Category 3';
         $category->save();
 
-        /*
         $treeObject = Doctrine::getTable('CsAdminmenuShortcuts')->getTree();
         $treeObject->createRoot($category);
-        */
+        Clansuite_Debug::printR($treeObject);*
+
         /**
          * Inserting a Node
          */
@@ -711,8 +714,8 @@ class Clansuite_Module_Menu_Admin extends Clansuite_Module_Controller
     /**
      * Read the Menu from the Database
      *
-     * @param $perm_check = true
-     * @param  &$result = ''
+     * @param  $perm_check = true
+     * @param  $result = ''
      * @param  $parent = 0
      * @param  $level = 0
      * @access public
@@ -721,7 +724,7 @@ class Clansuite_Module_Menu_Admin extends Clansuite_Module_Controller
      *
      * @todo Permissions
      */
-    public function fetch_adminmenu( $perm_check = true, &$result = '', $parent = 0, $level = 0 )
+    public function fetch_adminmenu( $perm_check = true, $result = '', $parent = 0, $level = 0 )
     {
        # this is a recursive funtion, if this is the first call to it, fetch the menu
        if ( empty($result) )
@@ -776,16 +779,6 @@ class Clansuite_Module_Menu_Admin extends Clansuite_Module_Controller
             }
         }
         return array_values($output);
-    }
-
-    public function writeSQLBackup()
-    {
-        # count backupfiles and check the setting on how many backups to keep
-    }
-
-    public function detectSQLBackupFiles()
-    {
-
-    }
+    }   
 }
 ?>
