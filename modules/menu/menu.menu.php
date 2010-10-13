@@ -41,9 +41,9 @@ if(defined('IN_CS') === false)
  */
 $modulenavigation = array(
     '1' => array(
-        'action' => 'show',
-        'name' => 'Overview',
-        'url' => '/menu/admin', # &action=show
+        'action' => 'menueditor',
+        'name' => 'Menueditor',
+        'url' => '/menu/admin/menueditor', # &action=show
         'icon' => '',
         'title' => ''
     ),
@@ -51,20 +51,6 @@ $modulenavigation = array(
         'action' => 'menueditor2',
         'name' => 'Menueditor II',
         'url' => '/menu/admin/menueditor2', # &action=show
-        'icon' => '',
-        'title' => ''
-    ),
-    '3' => array(
-        'action' => 'imexport',
-        'name' => 'Import &amp; Export',
-        'url' => '/menu/admin/imexport',
-        'icon' => '',
-        'title' => ''
-    ),
-    '4' => array(
-        'action' => 'backup',
-        'name' => 'Backup',
-        'url' => '/menu/admin/backup',
         'icon' => '',
         'title' => ''
     ),

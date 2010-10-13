@@ -19,8 +19,9 @@
 
 {/move_to}
 
-<div class="ModuleHeading">{t}Adminmenü - Verwaltung{/t}</div>
-<div class="ModuleHeadingSmall">{t}Mit dem Menüeditor können Sie die Menüpunkte des Adminmenüs verändern oder neue hinzufügen, sowie alte entfernen.{/t}</div>
+
+<div class="ModuleHeading">{t}Adminmenu - Administration{/t}</div>
+<div class="ModuleHeadingSmall">{t}With the Menueditor you may modify the menu entries. You can also add new ones or modify or delete existing ones.{/t}</div>
 
 <table cellspacing="0" cellpadding="10" style="margin-top: 1em;">
     <tr>
