@@ -65,28 +65,20 @@ class Clansuite_Filter_ThemeViaGet implements Clansuite_Filter_Interface
         // or pass through (do nothing)
         if($this->config['switches']['themeswitch_via_url'] == 1)
         {
-            if(isset($request['theme']) && !empty($request['theme']))
+            if(isset($request['theme']) and false === empty($request['theme']))
             {
-                #@todo debug traceing message
-                #echo 'processing themefilter';
-
-                # Security Handler for $_GET['theme']
-                // Allowed Chars: abc, 0-9, underscore
-                if( !$this->input->check( $request['theme'], 'is_abc|is_int|is_custom', '_' ) )
+                # Inputfilter for $_GET['theme'] (Allowed Chars: abc, 0-9, underscore)
+                if(false === $this->input->check( $request['theme'], 'is_abc|is_int|is_custom', '_' ) )
                 {
-                    // @todo umstellen auf thrown Exception
-                    $this->input->display_intrusion_warning();
+                    throw new Clansuite_Exception('Please provide a proper theme name.');
                 }
 
-                # If $_GET['theme'] dir exists, set it as session-user-theme
-                if(is_dir(ROOT_THEMES_FRONTEND . $request['theme'] . DS))
+                $themedir = ROOT_THEMES_FRONTEND . $request['theme'] . DS;
+
+                # theme exists, set it as session-user-theme
+                if(is_dir($themedir) and is_file($themedir . 'theme_info.xml'))
                 {
                     $_SESSION['user']['frontend_theme'] = $request['theme'];
-                    $_SESSION['user']['theme_via_url']  = 1;
-                }
-                else
-                {
-                    $_SESSION['user']['theme_via_url']  = 0;
                 }
             }// else => no "?theme=xy" appendix => bypass
         }// else => bypass
