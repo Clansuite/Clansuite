@@ -235,7 +235,7 @@ class Clansuite_Eventdispatcher
          * $event string will be the $name inside $event object,
          * accessible with $event->getName();
          */
-        if(!$event instanceof Clansuite_Event)
+        if(false === ($event instanceof Clansuite_Event))
         {
             $event = new Clansuite_Event($event, $context, $info);
         }
@@ -244,7 +244,7 @@ class Clansuite_Eventdispatcher
         $eventName = '';
         $eventName = $event->getName();
 
-        if(isset($this->eventhandlers[$eventName]) == false)
+        if(isset($this->eventhandlers[$eventName]) === false)
         {
             return $event;
         }
