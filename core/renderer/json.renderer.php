@@ -68,13 +68,20 @@ class Clansuite_Renderer_Json extends Clansuite_Renderer_Base
     /**
      * jsonEncode
      *
-     * @param mixed $data the data which should json encoded.
-     * return $json_encoded_data
+     * @param mixed|array $data Data to be json encoded.
+     * @return $json_encoded_data
      */
     public function jsonEncode($data)
     {
-        # take php's json encode
-        return json_encode($data);
+        if(empty($data))
+        {
+            return '[]';
+        }
+        else
+        {
+            # use php's json encode to modifiy data representation
+            return json_encode($data);
+        }
     }
 
     /**
