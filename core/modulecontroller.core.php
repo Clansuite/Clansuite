@@ -389,7 +389,7 @@ abstract class Clansuite_Module_Controller
      * 4. assign model data to that view object (a,b,c)
      * 5. set data to response object
      *
-     * @param $templates array with keys 'layout' / 'content' and templates as values
+     * @param $templates array with keys 'layout_template' / 'content_template' and templates as values
      */
     public function display(array $templates = null)
     {
@@ -494,22 +494,19 @@ abstract class Clansuite_Module_Controller
         $referer = '';
         $referer = self::getHttpRequest()->getReferer();
 
+        # we have a referer in the environment
         if(empty($referer) === false)
         {
             $this->redirect($referer);
         }
         else # build referer on base of the current module
         {
-            #Clansuite_Debug::printR($referer);
+            $route = Clansuite_HttpRequest::getRoute();
 
             $redirect_to = '/';
+            $redirect_to .= $route->getModuleName();
 
-            $route = Clansuite_HttpRequest::getRoute();
-            $modulename = $route->getModuleName();
-
-            $redirect_to .= $modulename;
-
-            $submodule  = $route->getSubModuleName();
+            $submodule = $route->getSubModuleName();
             if(empty($submodule) === false)
             {
                 $redirect_to .= '/'. $submodule;
