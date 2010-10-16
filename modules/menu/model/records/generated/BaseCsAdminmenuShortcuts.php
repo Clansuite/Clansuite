@@ -14,11 +14,11 @@ abstract class BaseCsAdminmenuShortcuts extends Doctrine_Record
         $this->hasColumn('url', 'string', 255);
         $this->hasColumn('icon', 'string', 255);
     }
-    
+
     public function setUp()
     {
         parent::setUp();
-        
+
         $options = array(
             'hasManyRoots'     => true,
             'rootColumnName'   => 'root_id'
