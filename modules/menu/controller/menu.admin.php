@@ -132,8 +132,6 @@ class Clansuite_Module_Menu_Admin extends Clansuite_Module_Controller
         $lastLevel = 0;
         $html = '';
 
-        # open nested set div
-        #$html = '<div id="'.strtolower($model).'-nested-set">';
         # open unordered list tag
         $html .= "\n\t<ul>\n";
 
