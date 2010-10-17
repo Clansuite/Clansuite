@@ -116,7 +116,7 @@ class Clansuite_Renderer_Smarty extends Clansuite_Renderer_Base implements Array
             $this->renderer->utility->clearCompiledTemplate(); # clear compiled tpls in case of debug
             $this->renderer->cache->clearAll();                # clear cache
         }
-$this->renderer->utility->clearCompiledTemplate();
+        $this->renderer->utility->clearCompiledTemplate();
         # $this->renderer->debug_ctrl       = "NONE";   # NONE (not active), URL (activates debugging if SMARTY_DEBUG found in query string)
         # $this->renderer->global_assign    = "";       # list of vars assign to all template files
         # $this->renderer->undefined        = null;     # defines value of undefined variables
@@ -220,7 +220,6 @@ $this->renderer->utility->clearCompiledTemplate();
         $this->renderer->show_info_header           = false;  # if true : Smarty Version and Compiler Date are displayed as comment in template files
         $this->renderer->show_info_include          = false;  # if true : adds an HTML comment at start and end of template files
         # $this->renderer->request_vars_order       = "";     # order in which the request variables were set, same as 'variables_order' in php.ini
-        $this->renderer->request_use_auto_globals   = true;   # for templates using $smarty.get.*, $smarty.request.*, etc...
         $this->renderer->use_sub_dirs               = true;   # set to false if creating subdirs is not allowed, but subdirs are more efficiant
 
         /**

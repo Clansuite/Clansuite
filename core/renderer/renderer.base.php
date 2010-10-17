@@ -264,7 +264,7 @@ abstract class Clansuite_Renderer_Base implements ArrayAccess
     {
         $paths = self::getThemeTemplatePaths();
 
-        self::findTemplateInPaths($paths, $template);
+        return self::findTemplateInPaths($paths, $template);
     }
 
     /**
