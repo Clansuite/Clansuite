@@ -1,0 +1,11 @@
+@charset "UTF-8";
+
+/* Core einbinden */
+@import url(../../../core/css/csf/base.css);
+
+/* Screen-Layouts einbinden */
+@import url(screen/template.css);
+@import url(screen/content.css);
+
+/* Plugin-Layouts einbinden */
+

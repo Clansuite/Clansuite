@@ -1,0 +1,122 @@
+@charset "UTF-8";
+
+@media all
+{
+
+    body
+    {
+        background: #232323;
+        color: #c0c0c0;
+        font: 10pt "Lucida Grande", Verdana, Helvetica, Arial, sans-serif;
+        margin: 0 5px 0 0;
+        padding: 0 5px 0 0;
+        background-image: url('../../images/site/bodybg.gif');
+    }
+
+    html { padding: 0 0 25px 0;  /* create area for ajax notification area */}
+
+    a:link, body_alink
+    {
+        color: #F48021;
+        text-decoration: none;
+    }
+    a:visited, body_avisited
+    {
+        color: #F48021;
+        text-decoration: none;
+    }
+    a:hover, a:active, body_ahover
+    {
+        color: #c0c0c0;
+        text-decoration: underline;
+    }
+
+
+    td, th, p, li
+    {
+        font-family: "Lucida Grande", Verdana, Helvetica, Arial, sans-serif;
+    }
+
+    .input_text
+    {
+        border: 1px solid black;
+        height: 13px;
+        font-family: tahoma, verdana, arial, sans-serif;
+        font-size: 11px;
+    }
+
+    /** 
+     * -----------------------------------------------------------------------------------------------
+     * Wysiwyg
+     * -----------------------------------------------------------------------------------------------
+     */
+    .wysiwyg
+    {
+        background: #333333;
+        color: #999999;
+        font: 10pt "Lucida Grande", Verdana, Helvetica, Arial, sans-serif;
+        margin: 5px 10px 10px 10px;
+        padding: 0px;
+    }
+    .wysiwyg a:link, .wysiwyg_alink
+    {
+        color: #444444;
+    }
+    .wysiwyg a:visited, .wysiwyg_avisited
+    {
+        color: #444444;
+    }
+    .wysiwyg a:hover, .wysiwyg a:active, .wysiwyg_ahover
+    {
+        color: #444444;
+    }
+
+    /** 
+     * -----------------------------------------------------------------------------------------------
+     * Widgets
+     * -----------------------------------------------------------------------------------------------
+     */
+    .widget
+    {
+        width: 95%;
+        display: inline-block;
+        vertical-align: top;
+        text-align: left;
+        padding-bottom: 5px;
+    }
+
+    #all_widgets
+    {
+        width: 80px;
+        height: 16px;
+        background-color: #666;
+        border: 1px solid black;
+        position: fixed;
+        top: 0;
+        left: 0;
+        padding: 5px;
+        padding-left: 10px;
+        overflow: hidden;
+    }
+
+    #all_widgets_handle
+    {
+        color: white;
+        cursor: pointer;
+    }
+
+    #widget_save_bar
+    {
+        width: 100%;
+        height: 25px;
+        background-color: #666;
+        border: 1px solid black;
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        overflow: hidden;
+        text-align: center;
+    }
+
+
+}
