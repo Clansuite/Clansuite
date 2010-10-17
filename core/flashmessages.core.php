@@ -110,7 +110,7 @@ class Clansuite_Flashmessages /* extends Clansuite_Session */
      */
     public static function getMessages($type = null)
     {
-        return self::$flashmessages;        
+        return self::$flashmessages;
     }
 
     /**
@@ -150,6 +150,8 @@ class Clansuite_Flashmessages /* extends Clansuite_Session */
             {
                 foreach($flashmessage as $type => $message)
                 {
+                    # @todo this is somehow odd...removed hardcoded css?
+                    $html .= '<link rel="stylesheet" type="text/css" href="'. WWW_ROOT_THEMES_CORE .  'css/error.css" />';
                     $html .= '<div id="flashmessage" class="flashmessage ' . $type . '">' . $message . '</div>';
                 }
             }
