@@ -91,8 +91,6 @@ class Clansuite_Module_Templatemanager_Admin extends Clansuite_Module_Controller
             $templates[$i]['fullpath'] = $filename;
         }
 
-        Clansuite_Debug::firebug($templates);
-
         return $templates;
     }
 
@@ -114,20 +112,20 @@ class Clansuite_Module_Templatemanager_Admin extends Clansuite_Module_Controller
         $tpltheme = $this->request->getParameter('tpltheme', 'G');
         $file     = $this->request->getParameter('file', 'G');
 
-        Clansuite_Debug::firebug($file);
+        #Clansuite_Debug::firebug($file);
 
         # check if we edit a module template or a theme template
         if(isset($tplmod) )
         {
             $tplmod = ucfirst(stripslashes($tplmod));
             $view->assign('templateeditor_modulename',  $tplmod);
-            Clansuite_Debug::firebug($tplmod);
+            #Clansuite_Debug::firebug($tplmod);
         }
         elseif(isset($tpltheme))
         {
             $tpltheme = stripslashes($tpltheme);
             $view->assign('templateeditor_themename',   $tpltheme);
-            Clansuite_Debug::firebug($tpltheme);
+            #Clansuite_Debug::firebug($tpltheme);
         }
 
         if(isset($file))
@@ -149,6 +147,7 @@ class Clansuite_Module_Templatemanager_Admin extends Clansuite_Module_Controller
             }
 
             $view->assign('templateeditor_relative_filename', $relative_file);
+
             $file = Clansuite_Functions::slashfix(ROOT_MOD . $file);
             $view->assign('templateeditor_absolute_filename', $file);
             $view->assign('templateeditor_filename', $file);
@@ -193,13 +192,12 @@ class Clansuite_Module_Templatemanager_Admin extends Clansuite_Module_Controller
 
         if(empty($tplfilename) == false and isset($tpltextarea))
         {
-            Clansuite_Functions::force_file_put_contents($tplfilename, stripslashes($tpltextarea));
+            #Clansuite_Functions::force_file_put_contents($tplfilename, stripslashes($tpltextarea));
+            file_put_contents($tplfilename, stripslashes($tpltextarea));
         }
 
-        $view = $this->getView();
-        $view->assign('templateeditor_absolute_filename', htmlentities($tplfilename));
-
-        $this->display();
+        $message = 'Template "' . htmlentities($tplfilename) . '"saved.';
+        $this->redirect('/templatemanager/admin', 0, 201, 'success#' . $message);
     }
 
     public function action_admin_settings()

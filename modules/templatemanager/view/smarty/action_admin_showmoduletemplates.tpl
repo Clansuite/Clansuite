@@ -9,7 +9,7 @@
 <div class="ModuleHeading">{t}Template - Administration{/t}</div>
 <div class="ModuleHeadingSmall">{t}You can write, edit and delete them by using the Templateeditor.{/t}</div>
 
-{t}You have selected the templates of module:{/t} <font color="red" size="2"> {$templateeditor_modulename} </font>
+{t}You have selected the templates of module:{/t} <font color="red" size="2"> {$templateeditor_modulename|ucfirst} </font>
 
 <br /><br />
 
@@ -34,7 +34,7 @@ $(function () {
             {foreach from=$templates item=template name=tpls}
 
                 <li id="file-{$smarty.foreach.tpls.iteration}" rel="file"><ins>&nbsp;</ins>
-                    [{$smarty.foreach.tpls.iteration}] <a href="{$www_root}index.php?mod=templatemanager&amp;sub=admin&amp;action=edit&amp;file={$templateeditor_modulename}/view/{$template.filename}">
+                    [{$smarty.foreach.tpls.iteration}] <a href="{$www_root}index.php?mod=templatemanager&amp;sub=admin&amp;action=edit&amp;file={$templateeditor_modulename}/view/smarty/{$template.filename}">
                     <ins>&nbsp;</ins>
                     {$template.filename}
                     </a>
