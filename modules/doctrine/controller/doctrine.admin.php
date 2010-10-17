@@ -78,6 +78,7 @@ class Clansuite_Module_Doctrine_Admin extends Clansuite_Module_Controller
      */
     public function initializeModule()
     {
+        # Path to Doctrine Library
         Doctrine_Core::setPath( ROOT_LIBRARIES . 'doctrine/' );
 
         /**
@@ -110,11 +111,11 @@ class Clansuite_Module_Doctrine_Admin extends Clansuite_Module_Controller
      */
     public static function setupDoctrinePaths($modulename = null)
     {
-        # core = default path
+        # default path for models of the core
         $path = ROOT . 'doctrine' . DS;
 
-        # module
-        if($modulename != null)
+        # path to models of a module
+        if(isset($modulename))
         {
             $path = ROOT_MOD . $modulename . DS . 'model' . DS;
         }
@@ -191,9 +192,11 @@ class Clansuite_Module_Doctrine_Admin extends Clansuite_Module_Controller
     public function action_admin_db2models()
     {
         Doctrine_Core::generateModelsFromDb( DOCTRINE_MODELS_PATH , array(), self::$options);
+
         $message  = '<b>The MODEL files have been generated from DATABASE.</b>';
         $message .= '<br /><br />Destination Folder: '. DOCTRINE_MODELS_PATH;
-        $this->setFlashmessage('success', $message);
+        self::setFlashmessage('success', $message);
+
         $this->redirectToReferer();
     }
 
@@ -205,7 +208,7 @@ class Clansuite_Module_Doctrine_Admin extends Clansuite_Module_Controller
     public function action_admin_db2yaml()
     {
         # load sfYAML (it's somehow not loaded by doctrine autoload)
-        require_once ROOT_LIBRARIES .'doctrine/Doctrine/Parser/sfYaml/SfYaml.php';
+        include ROOT_LIBRARIES .'doctrine/Doctrine/Parser/sfYaml/SfYaml.php';
         Doctrine_Core::generateYamlFromDb( DOCTRINE_YAML_SCHEMA_PATH . 'schema.yml', array(), self::$options);
         $message  = '<b>The YAML schema file has been successfully generated from DATABASE.</b>';
         $message .= '<br /><br />Destination File: ' . DOCTRINE_YAML_SCHEMA_PATH . 'schema.yml';
@@ -243,7 +246,7 @@ class Clansuite_Module_Doctrine_Admin extends Clansuite_Module_Controller
     public function action_admin_models2yaml()
     {
         # load sfYAML (it's somehow not loaded by doctrine autoload)
-        require_once ROOT_LIBRARIES .'doctrine/Doctrine/Parser/sfYaml/SfYaml.php';
+        include ROOT_LIBRARIES .'doctrine/Doctrine/Parser/sfYaml/SfYaml.php';
         #Doctrine_Core::dropDatabases();
         #Doctrine_Core::createDatabases();
         Doctrine_Core::generateYamlFromModels( DOCTRINE_YAML_SCHEMA_PATH . DS . 'schema.yml', DOCTRINE_MODELS_PATH );
@@ -266,7 +269,7 @@ class Clansuite_Module_Doctrine_Admin extends Clansuite_Module_Controller
     public function action_admin_yaml2models()
     {
         # load sfYAML (it's somehow not loaded by doctrine autoload)
-        require_once ROOT_LIBRARIES .'doctrine/Doctrine/Parser/sfYaml/SfYaml.php';
+        include ROOT_LIBRARIES .'doctrine/Doctrine/Parser/sfYaml/SfYaml.php';
         #Doctrine_Core::dropDatabases();
         #Doctrine_Core::createDatabases();
         Doctrine_Core::generateModelsFromYaml( DOCTRINE_YAML_SCHEMA_PATH . DS . 'schema.yml', DOCTRINE_MODELS_PATH, self::$options );
