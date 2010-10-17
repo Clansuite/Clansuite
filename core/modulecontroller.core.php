@@ -478,7 +478,7 @@ abstract class Clansuite_Module_Controller
      *
      * @param string $url Redirect to this URL
      * @param int    $time seconds before redirecting (for the html tag "meta refresh")
-     * @param int    $statusCode http status code, default: '302' => 'Not Found'
+     * @param int    $statusCode http status code, default: '302' => 'Found'
      * @param string $message redirect text
      */
     public function redirect($url, $time = 0, $statusCode = 302, $message = '')

@@ -223,8 +223,9 @@ class Clansuite_Router implements ArrayAccess, Clansuite_Router_Interface
      * Builds a url string
      *
      * @param $urlstring String to build the url from (e.g. '/news/admin/show')
+     * @param $internal_url bool True (default) defines ampersand type as "amp"; False as "&".
      */
-    public static function buildURL($urlstring)
+    public static function buildURL($urlstring, $internal_url = true)
     {
         # if urlstring is already a qualified url
         if(false !== strpos($urlstring, WWW_ROOT . 'index.php?mod='))
@@ -243,7 +244,16 @@ class Clansuite_Router implements ArrayAccess, Clansuite_Router_Interface
             $url_values = explode('/', ltrim($urlstring, '/'));
             $url_keys = array('mod', 'sub', 'action', 'id');
             $url_data = Clansuite_Functions::array_unequal_combine($url_keys, $url_values);
-            $url = http_build_query($url_data, '', '&amp;');
+
+            # Defaults to &amp; for internal usage in html documents.
+            if($internal_url === true)
+            {
+                $url = http_build_query($url_data, '', '&amp;');
+            }
+            elseif($internal_url === false) # external link / redirect etc.
+            {
+                $url = http_build_query($url_data, '', '&');
+            }
 
             #Clansuite_Debug::firebug(WWW_ROOT . 'index.php?' . $url);
             return WWW_ROOT . 'index.php?' . $url;
