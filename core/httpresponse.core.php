@@ -392,17 +392,17 @@ class Clansuite_HttpResponse implements Clansuite_Response_Interface
      */
     public static function redirect($url, $time = 0, $statusCode = 302, $message = null, $mode = null)
     {
-        # convert from internal slashed format to URL
-        $url = Clansuite_Router::buildURL($url);
+        # convert from internal slashed format to external URL
+        $url = Clansuite_Router::buildURL($url, false);
 
         $linenum = '';
         $redirect_html = '';
 
         # redirect only, if headers are NOT already send
-        if (headers_sent($filename, $linenum) == false)
+        if (headers_sent($filename, $linenum) === false)
         {
             # clear all output buffers
-            #while(@ob_end_clean());
+            while(@ob_end_clean());
 
             # redirect to ...
             self::setStatusCode($statusCode);
@@ -414,7 +414,8 @@ class Clansuite_HttpResponse implements Clansuite_Response_Interface
             {
                 default:
                 case 'LOCATION':
-                    self::addHeader('LOCATION', $url);
+                    header('LOCATION: '. $url);
+                    exit();
                     break;
                 case 'REFRESH':
                     header('Refresh: 0; URL="' . $url . '"');
