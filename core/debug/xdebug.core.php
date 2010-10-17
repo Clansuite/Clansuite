@@ -68,24 +68,17 @@ class Clansuite_Xdebug
 
     public static function configure()
     {
-        # loop over all settings and set them
-        foreach(static::$initSettings as $key => $value)
+        if(static::$initialized === false)
         {
-            ini_set("xdebug.{$key}", $value);
+            # loop over all settings and set them
+            foreach(static::$initSettings as $key => $value)
+            {
+                ini_set("xdebug.{$key}", $value);
+            }
         }
 
         # set initialized status flag
         static::$initialized = true;
-    }
-
-    public static function enable()
-    {
-        xdebug_enable();
-    }
-
-    public static function disable()
-    {
-        xdebug_disable();
     }
 
     /**
@@ -137,9 +130,9 @@ class Clansuite_Xdebug
     }
 
     /**
-     * Shutdown XDEBUG and give some Debugging Reports
+     * Rendering function on Shutdown of XDEBUG
      */
-    public static function end_xdebug()
+    public static function render()
     {
         # Start XDEBUG Tracing and Coverage
         if (self::is_xdebug_active())
@@ -247,7 +240,7 @@ class Clansuite_Xdebug
     public static function shutdown()
     {
         # Stop the tracing and show debugging infos.
-        clansuite_xdebug::end_xdebug();
+        clansuite_xdebug::render();
     }
 }
 ?>
