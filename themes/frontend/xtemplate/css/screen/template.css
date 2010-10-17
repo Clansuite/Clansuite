@@ -1,0 +1,410 @@
+@charset "UTF-8";
+
+@media all
+{
+
+    /** 
+     * -----------------------------------------------------------------------------------------------
+     * Core Elemente Basis Container
+     * -----------------------------------------------------------------------------------------------
+     * ce = core elemente (namespace)
+     */
+    #cePagePane 
+    { 
+        margin: 0 10px 0 0;
+        width: 99%; 
+        vertical-align: left; 
+    }
+
+    #cePageAera 
+    { 
+        color: #c0c0c0; 
+        margin:10px;
+    }
+
+    /*  Container: Header  */
+    #ceHeader
+    {
+        margin-bottom:8px; 
+    }
+
+    /*  Container: Top Navigation  */
+    #ceTopNav
+    {
+        
+    }
+
+    /*  Container: Main  */
+    #ceMain
+    {
+        width: auto; 
+        background: transparent;
+        margin:0px;
+    }
+
+    /*  Container: Bottom Navigation  */
+    #ceBottomNav
+    {
+        
+    }
+
+    /*  Container: Footer  */
+    #ceFooter
+    {
+        margin:10px;
+    }
+
+
+    /** 
+     * -----------------------------------------------------------------------------------------------
+     * Core Block Container
+     * -----------------------------------------------------------------------------------------------
+     * cb = core block elemente (namespace)
+     * 
+     *   +-----------------------------------------------------
+     *   |        cbHeader
+     *   +-----------------------------------------------------
+     *   |  cbRow1
+     *   |     cbCell1 | cbCell2 | cbCell3 
+     *   |  cbRow2
+     *   |     cbCell1 | cbCell2 | cbCell3 
+     *   +-----------------------------------------------------
+     *   |        cbFooter
+     *   +-----------------------------------------------------
+     * 
+     */
+
+     /** ----- Container ----- */
+    .cbBorder {
+        background: #444444;
+        color: #c0c0c0;
+    }
+
+     /** ----- Container Titel ----- */
+    .cbHeader
+    {
+        background: #141414;
+        color: #c0c0c0;
+        font: normal 10px "Lucida Grande", Verdana, Helvetica, Arial, sans-serif;
+    }
+    .cbHeader a:link, .cbHeader_alink
+    {
+        color: #F48021;
+        text-decoration: none;
+    }
+    .cbHeader a:visited, .cbHeader_avisited
+    {
+        color: #F48021;
+        text-decoration: none;
+    }
+    .cbHeader a:hover, .cbHeader a:active, .cbHeader_ahover
+    {
+        color: #c0c0c0;
+        text-decoration: none;
+    }
+
+     /** ----- Container Row1 ----- */
+    .cbRow1
+    {
+    }
+     /** ----- Container Row2 ----- */
+    .cbRow2
+    {
+    }
+
+     /** ----- Container Col1 ----- */
+    .cbCell1
+    .cbCell1Active
+    {
+        background: #232323;
+        color: #cbcbcb;
+        background-image: none;
+        background-repeat: repeat;
+        background-attachment: scroll;
+        background-position: 0% 0%;
+        font-size:9pp;
+    }
+    .cbCell1 a:link,
+    .cbCell1_alink,
+    .cbCell1Active a:link,
+    .cbCell1Active_alink
+    {
+        color: #F48021;
+        text-decoration: none;
+    }
+    .cbCell1 a:visited,
+    .cbCell1_avisited,
+    .cbCell1Active a:visited,
+    .cbCell1Active_avisited
+    {
+        color: #F48021;
+        text-decoration: none;
+    }
+    .cbCell1 a:hover, 
+    .cbCell1 a:active, 
+    .cbCell1_ahover,
+    .cbCell1Active a:hover,
+    .cbCell1Active a:active,
+    .cbCell1Active_ahover
+    {
+        color: #c0c0c0;
+        text-decoration: underline;
+    }
+
+     /** ----- Container Col2 ----- */
+    .cbCell2
+    .cbCell2Active
+    {
+        background: #141414;
+        color: #cbcbcb;
+        background-image: none;
+        background-repeat: repeat;
+        background-attachment: scroll;
+        background-position: 0% 0%;
+        font-size:12px;
+    }
+    .cbCell2 a:link,
+    .cbCell2_alink,
+    .cbCell2Active a:link,
+    .cbCell2Active_alink
+    {
+        color: #F48021;
+        text-decoration: none;
+    }
+    .cbCell2 a:visited,
+    .cbCell2_avisited,
+    .cbCell2Active a:visited,
+    .cbCell2Active_avisited
+    {
+        color: #F48021;
+        text-decoration: none;
+    }
+    .cbCell2 a:hover, 
+    .cbCell2 a:active, 
+    .cbCell2_ahover,
+    .cbCell2Active a:hover,
+    .cbCell2Active a:active,
+    .cbCell2Active_ahover
+    {
+        color: #c0c0c0;
+        text-decoration: underline;
+    }
+
+     /** ----- Container Col3 ----- */
+    .cbCell3
+    {
+    }
+
+
+     /** ----- Container Footer ----- */
+    .cbFooter
+    {
+        background: #141414;
+        color: #c0c0c0;
+        font: 10px "Lucida Grande", Verdana, Helvetica, Arial, sans-serif;
+    }
+    .cbFooter a:link, .cbFooter_alink
+    {
+        color: #F48021;
+        text-decoration: none;
+    }
+    .cbFooter a:visited, .cbFooter_avisited
+    {
+        color: #F48021;
+        text-decoration: none;
+    }
+    .cbFooter a:hover, .cbFooter a:active, .cbFooter_ahover
+    {
+        color: #c0c0c0;
+        text-decoration: none;
+    }
+
+
+    /** 
+     * -----------------------------------------------------------------------------------------------
+     * Core Message Container (Boxen)
+     * -----------------------------------------------------------------------------------------------
+     * cm = core message elemente  (namespace)
+     */
+    .cmInfobox,
+    .cmWarning,
+    .cmError,
+    .cmSuccess
+    {
+        padding:6px 10px 5px;
+        display: block;
+        height: auto;
+        margin: -0.3em 0 0.5em;
+    }
+
+    .cmInfobox
+    {
+        background: #d1ecf7 url(../../images/16x16/info.png) no-repeat 5px 4px;
+        border-color:#bcdfef;
+        color:#11689e;
+    }
+
+    .cmWarning
+    {
+        background: #fff6bf url(../../images/16x16/warning.png) no-repeat 5px 4px;
+        border-color:#fceb77;
+        color:#957210;
+    }
+
+    .cmError
+    {
+        background: #fad0d0 url(../../images/16x16/error.png) no-repeat 5px 4px;
+        border-color:#f6abab;
+        color:#b01717;
+    }
+
+    .cmSuccess
+    {
+        background: #e5f8ce url(../../images/16x16/success.png) no-repeat 5px 4px;
+        border-color:#d0f1a6;
+        color:#62b548;
+    }
+
+
+    /** 
+     * -----------------------------------------------------------------------------------------------
+     * Navigation -Breadcrumbs
+     * -----------------------------------------------------------------------------------------------
+     */
+    #breadcrumbs
+    {
+        width: 100%;
+        border: 1px solid #444444;
+        font: 10pt "Lucida Grande", Verdana, Helvetica, Arial, sans-serif;
+        padding: 4px 10px 4px 10px;
+        margin-bottom: 10px;
+        background: #090909;
+    }
+
+
+    /** 
+     * -----------------------------------------------------------------------------------------------
+     * Form
+     * -----------------------------------------------------------------------------------------------
+     */
+    .form
+    {
+        margin:0;
+        padding:0;
+        list-style: none;
+        border: none;
+        font-size: 100%;
+    }
+
+    .form fieldset
+    {
+        position: relative;
+        height: 100%
+    }
+
+    .form legend 
+    {
+        font-size:1.7em;
+        padding: 10px 10px 15px;
+        margin-bottom: 10px;
+        background:#000;
+        margin-left:1.04%;
+        color:#fff;
+    }
+
+    .form input
+    {
+        vertical-align: middle;
+        line-height: 1em;
+    }
+
+    .form label
+    {
+        vertical-align: middle;
+        line-height: 1em;
+    }
+
+    .form img
+    {
+        vertical-align: middle;
+    }
+
+    .form select,
+    .form textarea
+    {
+        width: 100%;
+        padding: 5px;
+        border: 1px solid #999;
+        box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        -ms-box-sizing: border-box;
+        -webkit-box-sizing: border-box;
+        -khtml-box-sizing: border-box;
+    }
+
+    .form select
+    {
+        vertical-align: middle;
+        line-height: 1em;
+        padding: 4px;
+    }
+
+    .form textarea,
+    .form select 
+    {
+        border-color:#235485;
+        background: #fff;
+        color:#333;
+        font: normal 12px/1em arial, Verdana, "Trebuchet MS", Helvetica, sans-serif;
+    }
+
+    .form textarea:hover,
+    .form select:hover 
+    {
+        border-color:#235485;
+        background: #fafafa;
+        color:#333;
+    }
+
+    .form textarea:focus,
+    .form select:focus 
+    {
+        border-color:#103b66;
+        background: #f4fcff;
+        color:#235485;
+    }
+
+    .field-clear {
+        clear:both;
+    }
+
+    /** 
+     * -----------------------------------------------------------------------------------------------
+     * Formelements
+     * -----------------------------------------------------------------------------------------------
+     * fo = formelement (namespace)
+     */
+
+    /* input with readonly attribute */
+    .fo-readonly, input[readonly] {
+        border:none; 
+        font-weight: normal;
+        padding-left:0;
+    }
+
+    .fo-lbl 
+    {
+        font-size:1em;
+        font-weight: bolder;
+    }
+
+
+    /** 
+     * -----------------------------------------------------------------------------------------------
+     * Datagrids
+     * -----------------------------------------------------------------------------------------------
+     * dg = datagrid (namespace)
+     */
+
+
+}

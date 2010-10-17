@@ -1,0 +1,84 @@
+
+/* Erzwingen vertikaler Scrollbalken im IE nicht benötigt (nur im Firefox/Netscape/Safari) */
+html { height: auto; margin-bottom:0; }
+
+/* Korrigiert das fehlerhafte overflow-Verhalten von textarea und input-Elementen */
+* html textarea { overflow:scroll; overflow-x: hidden; }
+* html input { overflow: hidden; }
+
+/* Stabilitätsverbesserungen durch 'position:relative' */
+body { position:relative; }					/* Essential in IE7 for correct layout scaling ... */
+* html body { position:static; }			/* ... but not for IE5.x and IE6 */
+#main { position: relative; }				/* helpful for several problems in older IE versions*/
+
+/* Clearfix-Anpassung für diverse IE-Versionen */
+.clearfix { display: inline-block; }		/* ... especial for IE7 */
+.clearfix { display: block; }				/* ... für IE5,IE6,IE7 */
+* html .clearfix { height: 1%; }			/* ... für IE5 + IE6/Win | hasLayout aktivieren */
+
+/* Anpassung der .floatbox-Klasse für IE */
+.floatbox { width:100%; }
+
+/* Vermeidung verschiedenster Bugs durch Erzwingen von "hasLayout" */
+body { height: 1%; }
+#page, .page, #header, #nav, #main, #footer { zoom:1; }                                            /* IE6 & IE7    */
+#page, .page { height: 1%; }                                                                                    /* IE 5.x       */
+* html #header, * html #nav, * html #main, * html #footer { width: 100%; }                   /* IE 5.x & IE6 */
+* html #header, * html #nav, * html #main, * html #footer { wid\th: auto; }                    /* IE 6         */
+
+/* Disappearing List-Background Bug */
+* html ul, * html ol, * html dl { position: relative; }
+
+/* List-Numbering Bug */
+body ol li { display:list-item; }
+
+/* Form related bugfixes */
+fieldset, legend { position:relative; }
+
+/**
+* Workaround für 'kollabierenden Margin an #col3' bei Verwendung der CSS-Eigenschaft clear
+* Der linke Margin von #col3 kollabiert bei der Verwendung von clear:both im 1-3-2 (oder 2-3-1) Layout
+* wenn gleichzeitig die rechte Spalte die kürzeste und die rechte die Längste ist.
+*/
+html #ie_clearing {
+    position:static;
+    display:block;
+
+    /* Kein Fix im IE5.x möglich, daher normales Clearing */
+    \clear:both;
+
+    /* IE-Clearing mit 100%-DIV für IE6 bzw. übergroßem Container im IE7 */
+    width: 100%;
+    font-size:0px;
+    margin: -2px 0 -1em 1px;
+}
+
+* html #ie_clearing { margin: -2px 0 -1em 0; }
+#col3_content {margin-bottom:-2px; }
+
+/* Vermeidung horizontaler Scrollbalken bei randabfallenden Layouts im IE7 */
+html { margin-right: 1px; }
+* html { margin-right: 0 }
+
+/* Bugfix: Notwendig im IE7 */
+#col3 { position:relative; }
+
+/*------------------------------------------------------------------------------------------------------*/
+/* 
+* IE z-index-Fix ( brings #col1 and #col2 in front of #col3 )
+*/
+*+html #col3 { z-index: -1; }
+* html #col1, * html #col2 { z-index: 1; }
+* html #col3  { z-index:auto; }
+
+/* IE/Win Guillotine Bug */
+* html body a, * html body a:hover { background-color: transparent; }
+
+/*------------------------------------------------------------------------------------------------------*/
+/* IE-Anpassung für Spaltencontainer und Subtemplates */
+#col1,  #col2 { display:inline; }
+
+/* Internet Explorer and the Expanding Box Problem */
+* html #col1_content,
+* html #col2_content,
+* html #col3_content { word-wrap: break-word; }
