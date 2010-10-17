@@ -69,25 +69,20 @@ class Clansuite_Module_Templatemanager_Admin extends Clansuite_Module_Controller
 
         # GET: tplmod (module of the template)
         $tplmod = $this->request->getParameter('tplmod', 'G');
-        $tplmod = ucfirst(stripslashes($tplmod));
+        $tplmod = strtolower(stripslashes($tplmod));
 
-        $view->assign('templateeditor_modulename',  $tplmod);
-
-        Clansuite_Debug::firebug( ROOT_MOD . $tplmod . DS. 'view' .DS . '*.tpl' );
-
-        $templates = $this->getTemplatesOfModule($tplmod);
-
-        $view->assign('view', $templates);
+        $view->assign('templateeditor_modulename', $tplmod);
+        $view->assign('templates', $this->getTemplatesOfModule($tplmod));
 
         $this->display();
     }
 
-    public function getTemplatesOfModule($tplmod)
+    public function getTemplatesOfModule($module)
     {
         $templates = array();
         $i = 0;
 
-        $tpls = glob( ROOT_MOD . $tplmod . DS. 'view' .DS . '*.tpl' );
+        $tpls = glob(ROOT_MOD . $module . DS . 'view' . DS . 'smarty' . DS . '*.tpl');
 
         foreach ( $tpls as $filename )
         {
@@ -95,6 +90,8 @@ class Clansuite_Module_Templatemanager_Admin extends Clansuite_Module_Controller
             $templates[$i]['filename'] = basename($filename);
             $templates[$i]['fullpath'] = $filename;
         }
+
+        Clansuite_Debug::firebug($templates);
 
         return $templates;
     }
