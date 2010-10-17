@@ -48,7 +48,35 @@ if(defined('IN_CS') === false)
  */
 class Clansuite_Xdebug
 {
-    public static $_xdebug_memory_before = '';
+    public static $xdebug_memory_before = '';
+
+    protected static $initialized = false;
+
+    protected static $initSettings = array(
+        'var_display_max_children' => 128,
+        'var_display_max_data' => 512,
+        'var_display_max_depth' => 10,
+        'collect_params' => 2,
+        'dump_globals' => 'on',
+        'dump.GET' => '*',
+        'dump.PST' => '*',
+        'dump.COOKIE' => '*',
+        'dump.SESSION' => '*',
+        'show_local_vars' => 'on',
+        'show_mem_delta' => 'on',
+    );
+
+    public static function configure()
+    {
+        # loop over all settings and set them
+        foreach(static::$initSettings as $key => $value)
+        {
+            ini_set("xdebug.{$key}", $value);
+        }
+
+        # set initialized status flag
+        static::$initialized = true;
+    }
 
     public static function enable()
     {
@@ -80,22 +108,21 @@ class Clansuite_Xdebug
         # Start XDEBUG Tracing and Coverage
         if (self::is_xdebug_active())
         {
+            # do some xdebug configuration
+            self::configure();
+
+            # set some more values manually
+
+            # tracing
             #ini_set('xdebug.auto_trace', 'On');
-            ini_set('xdebug.trace_output_dir', ROOT_LOGS);
-            ini_set('xdebug.trace_output_name', 'clansuite_trace%u');
-            ini_set('xdebug.show_mem_delta', 'On');
-            ini_set('xdebug_start_code_coverage', 'XDEBUG_CC_UNUSED');
-            ini_set('xdebug.xdebug.collect_return', 'On');
-            ini_set('xdebug.var_display_max_children', 100 );
-            ini_set('xdebug.var_display_max_depth', 10 );
-            ini_set('xdebug.dump.GET', '*' );
-            ini_set('xdebug.dump.POST', '*' );
-            ini_set('xdebug.dump.COOKIE', '*' );
-            ini_set('xdebug.dump.SESSION', '*' );
+            #ini_set('xdebug.trace_output_dir', ROOT_LOGS);
+            #ini_set('xdebug.trace_output_name', 'clansuite_trace%u');
+
+            # profiling
             #ini_set('xdebug.profiler_enable', 1);
             #ini_set('xdebug.profiler_output_name', 'cachegrind.out.tmp');
 
-            self::$_xdebug_memory_before = self::roundMB(xdebug_memory_usage());
+            self::$xdebug_memory_before = self::roundMB(xdebug_memory_usage());
 
             #xdebug_start_trace(ROOT_LOGS . 'clansuite_trace', XDEBUG_TRACE_HTML);
 
@@ -161,7 +188,7 @@ class Clansuite_Xdebug
             echo '<td>' . round(xdebug_time_index(), 4) . ' seconds</td>';
             echo '</tr><tr>';
             echo '<td style="text-align: center;">Memory Usage (before)</td>';
-            echo '<td>' . self::$_xdebug_memory_before . ' MB</td>';
+            echo '<td>' . self::$xdebug_memory_before . ' MB</td>';
             echo '</tr><tr>';
             echo '<td style="text-align: center;">Memory Usage by Clansuite</td>';
             echo '<td>' . self::roundMB(xdebug_memory_usage()) . ' MB</td>';
