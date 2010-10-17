@@ -56,6 +56,7 @@ class Clansuite_Xdebug
         'var_display_max_children' => 128,
         'var_display_max_data' => 512,
         'var_display_max_depth' => 10,
+        'overload_var_dump' => 'on',
         'collect_params' => 2,
         'dump_globals' => 'on',
         'dump.GET' => '*',
@@ -188,6 +189,9 @@ class Clansuite_Xdebug
             echo '</tr><tr>';
             echo '<td style="text-align: center;">Memory Peak</td>';
             echo '<td>' . self::roundMB(xdebug_peak_memory_usage()) . ' MB</td>';
+            echo '</tr><tr>';
+            echo '<td style="text-align: center;">Headers</td>';
+            echo '<td>' . xdebug_get_headers() . '</td>';
             echo '</tr><tr>';
             #echo '<td style="text-align: center;">XDebug Trace was stopped and saved.</td>';
             #echo '<td>' . xdebug_stop_trace() . '</td>';
