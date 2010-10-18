@@ -1,8 +1,8 @@
 ; <?php die('Access forbidden.'); /* DO NOT MODIFY THIS LINE! ?>
-; 
-; Clansuite Configuration File : 
+;
+; Clansuite Configuration File :
 ; C:\Programme\Zend\Apache2\htdocs\clansuite\trunk\configuration/clansuite.config.php
-; 
+;
 ; This file was generated on 08-10-2010 01:22
 ;
 
@@ -24,11 +24,8 @@ prefix = "cs_"
 [template]
 frontend_theme = "standard"
 backend_theme = "admin"
-layout = "index.tpl"
-css = "standard.css"
-javascript = "standard.js"
 pagetitle = "Team Clansuite"
-favicon = ""
+
 
 ;----------------------------------------
 ; defaults
@@ -60,7 +57,7 @@ timezone = 0
 [error]
 debug = 1
 xdebug = 1
-development = 0
+development = 1
 suppress_errors = 0
 debug_popup = 0
 webdebug = 0
