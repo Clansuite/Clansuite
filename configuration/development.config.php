@@ -43,12 +43,8 @@ from_name = "Clansuite CMS - HAL 9000"
 ;----------------------------------------
 [template]
 pagetitle = "Team Clansuite"
-favicon = ""
 theme = "standard"
 backend_theme = "admin"
-layout = "index.tpl"
-css = "standard.css"
-javascript = "standard.js"
 
 ;----------------------------------------
 ; switches
