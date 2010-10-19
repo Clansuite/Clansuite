@@ -43,8 +43,8 @@ if (defined('IN_CS') === false)
  */
 class Clansuite_Theme implements ArrayAccess
 {
-    var $theme;
-    var $theme_info_array;
+    public $theme;
+    public $theme_info_array;
 
     /**
      * Constructor, or what ;)
@@ -54,13 +54,61 @@ class Clansuite_Theme implements ArrayAccess
      */
     public function __construct($theme)
     {
-        $this->theme = $theme;
+        $this->setThemename($theme);
 
         $this->getThemeInfos($theme);
 
         return $this;
     }
-    
+
+    public function setThemename($theme)
+    {
+        # set theme
+        if(isset($theme))
+        {
+            $this->theme = $theme;
+        }
+        else
+        {
+            throw new Clansuite_Exception('No Themename given.', '100');
+        }
+    }
+
+    public function getCurrentThemeInfoFile()
+    {
+        # get array for frontend or backend theme
+        $themepaths = Clansuite_Renderer_Base::getThemeTemplatePaths();
+
+        foreach($themepaths as $themepath)
+        {
+            $theme_info_file = $themepath . DS . 'theme_info.xml';
+
+            if(is_file($theme_info_file_path))
+            {
+                return $theme_info_file;
+            }
+        }
+    }
+
+    public function findThemePathAndInfoFile($theme)
+    {
+        # figure out, if it is a frontend or backend theme
+        if(is_file(ROOT_THEMES_FRONTEND . $theme ))
+        {
+            $theme_info_file = ROOT_THEMES_FRONTEND . $theme . DS . 'theme_info.xml';
+        }
+        elseif(is_file(ROOT_THEMES_BACKEND . $theme . DS . 'theme_info.xml'))
+        {
+            $theme_info_file = ROOT_THEMES_BACKEND . $theme . DS . 'theme_info.xml';
+        }
+        else
+        {
+            throw new Clansuite_Exception('Theme not found: '. $theme, '100');
+        }
+
+        return $theme_info_file;
+    }
+
     /**
      * Returns Theme Infos as array.
      *
@@ -69,32 +117,23 @@ class Clansuite_Theme implements ArrayAccess
      */
     public function getThemeInfos($theme = null)
     {
-        # set theme
-        if(isset($theme))
-        {
-            $this->theme = $theme;
-        }
-
-        # figure out, if it is a frontend or backend theme
-        if(is_file(ROOT_THEMES_FRONTEND . $this->theme . DS . 'theme_info.xml'))
-        {
-            $theme_info_file = ROOT_THEMES_FRONTEND . $this->theme . DS . 'theme_info.xml';
-        }
-        elseif(is_file(ROOT_THEMES_BACKEND . $this->theme . DS . 'theme_info.xml'))
-        {
-            $theme_info_file = ROOT_THEMES_BACKEND . $this->theme . DS . 'theme_info.xml';
-        }
-        else
-        {
-            throw new Clansuite_Exception('Theme not found: '. $this->theme, '100');
-        }
+        $theme_info_file = $this->findThemePathAndInfoFile($theme);
 
         # fetch the xml handler
-        include ROOT_CORE . '/config/xml.config.php';
+        if(false === class_exists('Clansuite_Config_XMLHandler', false))
+        {
+            include ROOT_CORE . '/config/xml.config.php';
+        }
 
         # read theme info xml file into array
         return $this->theme_info_array = Clansuite_Config_XMLHandler::readConfig($theme_info_file);
     }
+
+    /**
+     * --------------------------------------------------------------------------------------------
+     *  GETTERS
+     * --------------------------------------------------------------------------------------------
+     */
 
     public function getName()
     {
@@ -103,7 +142,7 @@ class Clansuite_Theme implements ArrayAccess
 
     public function getAuthor()
     {
-        return $this->theme_info_array['name'];
+        return $this->theme_info_array['authors'];
     }
 
     public function getVersion()
@@ -140,7 +179,7 @@ class Clansuite_Theme implements ArrayAccess
     {
         return (bool) $this->theme_info_array['backendtheme'];
     }
-    
+
     public static function isFrontendTheme()
     {
         return (bool) $this->theme_info_array['backendtheme'] === true ? false : true;
@@ -150,7 +189,13 @@ class Clansuite_Theme implements ArrayAccess
     {
         return $this->theme_info_array;
     }
-    
+
+    /**
+     * ---------------------------------------------------------------
+     * Magic Methods / Array Access
+     * ---------------------------------------------------------------
+     */
+
     /**
      * Gets item based on keyname
      *

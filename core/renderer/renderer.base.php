@@ -212,11 +212,7 @@ abstract class Clansuite_Renderer_Base implements ArrayAccess
         # get module, submodule, renderer names
         $module    = Clansuite_HttpRequest::getRoute()->getModuleName();
         $submodule = Clansuite_HttpRequest::getRoute()->getSubModuleName();
-        $renderer  = Clansuite_HttpRequest::getRoute()->getRenderEngine();
-
-        # get frontend and backend theme from session for path construction
-        $frontendtheme = (isset($_SESSION['user']['frontend_theme'])) ? $_SESSION['user']['frontend_theme'] : 'standard';
-        $backendtheme  = (isset($_SESSION['user']['backend_theme']))  ? $_SESSION['user']['backend_theme'] : 'admin';
+        #$renderer  = Clansuite_HttpRequest::getRoute()->getRenderEngine();
 
         $theme_paths = array();
 
@@ -226,6 +222,9 @@ abstract class Clansuite_Renderer_Base implements ArrayAccess
          */
         if($module == 'controlcenter' or $submodule == 'admin')
         {
+            # get backend theme from session for path construction
+            $backendtheme  = Clansuite_HttpRequest::getRoute()->getBackendTheme();
+
             # (a) USER BACKENDTHEME - check in the active session backendtheme
             # e.g. /themes/backend/ + admin/template_name.tpl
             $theme_paths[] = ROOT_THEMES_BACKEND . $backendtheme . DS;
@@ -239,6 +238,9 @@ abstract class Clansuite_Renderer_Base implements ArrayAccess
          */
         else
         {
+            # get frontend theme from session for path construction
+            $frontendtheme = Clansuite_HttpRequest::getRoute()->getFrontendTheme();
+
             # (a) USER FRONTENDTHEME - check, if template exists in current session user THEME
             $theme_paths[] = ROOT_THEMES_FRONTEND . $frontendtheme . DS;
             # (b) FRONTEND FALLBACK - check, if template exists in usertheme/modulename/tpl
@@ -264,7 +266,7 @@ abstract class Clansuite_Renderer_Base implements ArrayAccess
     {
         $paths = self::getThemeTemplatePaths();
 
-        return self::findTemplateInPaths($paths, $template);
+        return self::findFileInPaths($paths, $template);
     }
 
     /**
@@ -280,7 +282,7 @@ abstract class Clansuite_Renderer_Base implements ArrayAccess
         # fetch renderer name for template path construction
         $renderer = Clansuite_HttpRequest::getRoute()->getRenderEngine();
 
-        # compose two templates paths in the module dir
+        # compose templates paths in the module dir
         $module_paths = array(
             ROOT_MOD,
             ROOT_MOD . $module . DS,
@@ -302,7 +304,7 @@ abstract class Clansuite_Renderer_Base implements ArrayAccess
         $paths = self::getModuleTemplatePaths();
 
         # check if template exists in one of the defined paths
-        self::findTemplateInPaths($paths, $template);
+        return self::findFileInPaths($paths, $template);
 
         # fetch renderer name for template path construction
         $renderer = Clansuite_HttpRequest::getRoute()->getRenderEngine();
@@ -312,24 +314,28 @@ abstract class Clansuite_Renderer_Base implements ArrayAccess
     }
 
     /**
-     * Checks all paths of the array for the template
+     * Checks all paths of the array for the filename
      *
      * @param array $paths Paths to check
-     * @param strig $template template name
-     * @return string
+     * @param strig $filename template name
+     * @return string Filepath.
      */
-    public static function findTemplateInPaths($paths, $template)
+    public static function findFileInPaths($paths, $filename)
     {
-        # check if template exists in one of the defined paths
+        # check if file exists in one of the defined paths
         foreach($paths as $path)
         {
-            $find_template = $path . $template;
+            $file = $path . $filename;
 
-            if(is_file($find_template) === true)
+            if(is_file($file) === true)
             {
-                return $find_template;
+                # file found
+                return $file;
             }
         }
+
+        # file not found
+        return false;
     }
 
     /**
@@ -388,13 +394,13 @@ abstract class Clansuite_Renderer_Base implements ArrayAccess
 
         # Normal CSS (global)
         # @todo the selected $_SESSION['user']['frontend_theme'] decides on the theme type => frontend/backend
-        $template_constants['css'] = $template_constants['www_root_theme'] . 'css/' . $this->config['template']['css'];
+        #$template_constants['css'] = $template_constants['www_root_theme'] . 'css/' . $this->config['template']['css'];
 
         # Minifed Stylesheets of a certain group (?g=) of css files
         $template_constants['minfied_css'] = ROOT_LIBRARIES . 'minify/?g=css&amp;' . $_SESSION['user']['frontend_theme'];
 
         # Normal Javascript (global)
-        $template_constants['javascript'] = $template_constants['www_root_theme'] . 'javascript/' . $this->config['template']['javascript'];
+        #$template_constants['javascript'] = $template_constants['www_root_theme'] . 'javascript/' . $this->config['template']['javascript'];
 
         # Minifed Javascripts of a certain group (?g=) of js files
         $template_constants['minfied_javascript'] =  WWW_ROOT . 'libraries/minify/?g=js&amp;' . $_SESSION['user']['frontend_theme'];
@@ -438,10 +444,24 @@ abstract class Clansuite_Renderer_Base implements ArrayAccess
     {
         if ($this->layoutTemplate == null)
         {
-            $this->setLayoutTemplate($this->config['template']['layout']);
+            $themeconfig = $this->getThemeConfig();
+
+            $this->setLayoutTemplate($themeconfig['layoutfiles']['layoutfile']);
         }
 
         return $this->layoutTemplate;
+    }
+
+    public function getThemeConfig()
+    {
+        $themename = Clansuite_HttpRequest::getRoute()->getThemeName();
+
+        if(false === class_exists('Clansuite_Theme', false))
+        {
+            include ROOT_CORE . 'viewhelper' . DS . 'theme.core.php';
+        }
+
+        return new Clansuite_Theme($themename);
     }
 
     /**
