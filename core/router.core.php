@@ -909,6 +909,7 @@ class Clansuite_TargetRoute extends Clansuite_Mapper
         'layout'        => true,
         'ajax'          => false,
         'renderer'      => 'smarty',
+        'themename'     => null,
         'modrewrite'    => false
     );
 
@@ -1094,6 +1095,38 @@ class Clansuite_TargetRoute extends Clansuite_Mapper
         return self::$parameters['renderer'];
     }
 
+    public static function getBackendTheme()
+    {
+        return (isset($_SESSION['user']['backend_theme'])) ? $_SESSION['user']['backend_theme'] : 'admin';
+    }
+
+    public static function getFrontendTheme()
+    {
+        return (isset($_SESSION['user']['frontend_theme'])) ? $_SESSION['user']['frontend_theme'] : 'standard';
+    }
+
+    public static function getThemeName()
+    {
+        if(empty(self::$parameters['themename']))
+        {
+            if(self::getModuleName() == 'controlcenter' or self::getSubModuleName() == 'admin')
+            {
+                self::setThemeName(self::getBackendTheme());
+            }
+            else
+            {
+                self::setThemeName(self::getFrontendTheme());
+            }
+        }
+
+        return self::$parameters['themename'];
+    }
+
+    public static function setThemeName($themename)
+    {
+        self::$parameters['themename'] = $themename;
+    }
+
     public static function getModRewriteStatus()
     {
         return (bool) self::$parameters['modrewrite'];
@@ -1168,6 +1201,7 @@ class Clansuite_TargetRoute extends Clansuite_Mapper
             'layout' => true,
             'ajax' => false,
             'renderer' => 'smarty',
+            'themename' => null,
             'modrewrite' => false
         );
 
