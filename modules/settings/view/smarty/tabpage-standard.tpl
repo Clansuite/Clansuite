@@ -87,31 +87,6 @@
         <input class="input_text" type="text" value="{$config.template.backend_theme}" name="config[template][backend_theme]" />
     </td>
 </tr>
-<tr>
-    <td class="cell2" width="15%">
-        {t}Default Layout Filename{/t}
-    </td>
-    <td class="cell1" style="padding: 3px">
-        <small>{t}Select the default Layout to load.{/t}</small><br />
-        <input class="input_text" type="text" value="{$config.template.layout}" name="config[template][layout]" />
-    </td>
-</tr>
-  <tr>
-    <td class="cell2" width="15%">
-        {t}Standard CSS File{/t}
-    </td>
-    <td class="cell1" style="padding: 3px">
-        <input class="input_text" type="text" value="{$config.template.css}" name="config[template][css]" />
-    </td>
-</tr>
-<tr>
-    <td class="cell2" width="15%">
-        {t}Standard JS File{/t}
-    </td>
-    <td class="cell1" style="padding: 3px">
-        <input class="input_text" type="text" value="{$config.template.javascript}" name="config[template][javascript]" />
-    </td>
-</tr>
 
 {* /---------------------------------------------------
    |
