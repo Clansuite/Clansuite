@@ -264,7 +264,7 @@ class Clansuite_Theme implements ArrayAccess
         }
         else # no main layout found !
         {
-            throw new Clansuite_Exception('No Layout File defined. Check ThemeInfo File of '. $this->getName(), 9090);
+            throw new Clansuite_Exception('No Layout File defined. Check ThemeInfo File of ' . $this->getName(), 9090);
         }
     }
 
@@ -277,7 +277,7 @@ class Clansuite_Theme implements ArrayAccess
         elseif(false === isset($this->theme_info['javascript']['mainfile']))
         {
             # maybe we have a main javascript file named after the theme
-            $js_file = $this->getWWWPath() . 'javascript/' .$this->getName . '.js';
+            $js_file = $this->getWWWPath() . 'javascript/' . $this->getName() . '.js';
 
             if(is_file($js_file))
             {
