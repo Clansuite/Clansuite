@@ -145,7 +145,8 @@ class Clansuite_CMS
      *
      * 1. Check if clansuite.config.php is found, else redirect
      * 2. Load clansuite.config.php
-     * 3. Alter php.ini settings
+     * 3. Load specific staging configuration (overloading clansuite.config.php)
+     * 4. Alter php.ini settings
      */
     private static function initialize_Config()
     {
@@ -162,9 +163,17 @@ class Clansuite_CMS
         # 2. load the main clansuite configuration file
         self::$config = Clansuite_Config_IniHandler::readConfig('configuration/clansuite.config.php');
 
+        # 3. load staging configuration (overloading clansuite.config.php)
+        if(self::$config['config']['staging'] == true)
+        {
+            include ROOT_CORE . 'staging.core.php';
+            $staging = new Clansuite_Staging();
+            $staging->loadStagingConfig();
+        }
+
         /**
          *  ================================================
-         *          3. Alter php.ini settings
+         *          4. Alter php.ini settings
          *  ================================================
          */
         ini_set('short_open_tag', 'off');
