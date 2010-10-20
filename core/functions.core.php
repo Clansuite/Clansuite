@@ -249,7 +249,7 @@ class Clansuite_Functions
      * @param string $xml SimpleXML String
      * @return Array
      */
-    public static function SimpleXMLToArray($simplexml)
+    public static function simpleXMLToArrayLight($simplexml)
     {
         $array = array();
 
@@ -259,11 +259,11 @@ class Clansuite_Functions
             {
                 if($simplexml['list'])
                 {
-                    $array[] = self::SimpleXMLToArray($v);
+                    $array[] = self::SimpleXMLToArrayLight($v);
                 }
                 else
                 {
-                    $array[$k] = self::SimpleXMLToArray($v);
+                    $array[$k] = self::SimpleXMLToArrayLight($v);
                 }
             }
         }
@@ -274,8 +274,26 @@ class Clansuite_Functions
         }
         else
         {
+            # WARNING! Type Conversion drops childs and attributes.
             return (string) $simplexml;
         }
+    }
+
+    /**
+     * Converts a SimpleXML String recursivly to an Array
+     * preserving Attributes
+     *
+     * @param string $xml SimpleXML String
+     * @return Array
+     */
+    public static function simpleXMLToArray($simplexml, $recursionDepth=0)
+    {
+        return Clansuite_XML2JSON::simpleXMLToArray($simplexml, $recursionDepth);
+    }
+
+    public static function xmlToJson($xml)
+    {
+        return Clansuite_XML2JSON::xmlToJson($xml);
     }
 
     /**
