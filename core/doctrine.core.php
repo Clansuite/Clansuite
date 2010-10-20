@@ -330,14 +330,24 @@ class Clansuite_Doctrine
 
         if(isset($this->config['cache']))
         {
-            if(('APC' == $this->config['cache']) and extension_loaded('apc'))
+            $cache_driver_name = strtolower($this->config['cache']);
+
+            if($cache_driver_name == 'apc')
             {
                 $cacheDriver = new Doctrine_Cache_Apc();
             }
 
-            /**
-             * @todo conditionals for other drivers: memcached, etc.
-             */
+            if($cache_driver_name == 'memcache')
+            {
+                $cacheDriver = new Doctrine_Cache_Memcache();
+            }
+
+            if($cache_driver_name == 'xcache')
+            {
+                $cacheDriver = new Doctrine_Cache_Xcache();
+            }
+            unset($cache_driver_name);
+
 
             /**
              * Set Doctrine Attributes
