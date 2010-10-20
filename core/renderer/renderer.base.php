@@ -52,6 +52,11 @@ abstract class Clansuite_Renderer_Base implements ArrayAccess
     public $renderer = null;
 
     /**
+     * @var Object Holds instance of the Theme Object
+     */
+    public $theme = null;
+
+    /**
      * @var string The layout template
      */
     public $layoutTemplate = null;
@@ -362,7 +367,7 @@ abstract class Clansuite_Renderer_Base implements ArrayAccess
         $template_constants['www_root']             = WWW_ROOT;
         $template_constants['www_root_upload']      = WWW_ROOT . 'uploads/';
         $template_constants['www_root_mod']         = WWW_ROOT . 'modules/' . $modulename . '/';
-        $template_constants['www_root_theme']       = WWW_ROOT_THEMES_FRONTEND . $_SESSION['user']['frontend_theme'] . '/';
+        $template_constants['www_root_theme']       = $this->getTheme()->getWWWPath();
         $template_constants['www_root_themes']      = WWW_ROOT_THEMES;
         $template_constants['www_root_themes_core'] = WWW_ROOT_THEMES_CORE;
         $template_constants['www_root_themes_backend']  = WWW_ROOT_THEMES_BACKEND;
@@ -392,18 +397,11 @@ abstract class Clansuite_Renderer_Base implements ArrayAccess
         # Page Title
         $template_constants['pagetitle'] = $this->config['template']['pagetitle'];
 
-        # Normal CSS (global)
-        # @todo the selected $_SESSION['user']['frontend_theme'] decides on the theme type => frontend/backend
-        #$template_constants['css'] = $template_constants['www_root_theme'] . 'css/' . $this->config['template']['css'];
+        # Normal CSS (mainfile)
+        $template_constants['css'] = $this->getTheme()->getCSSFile();
 
-        # Minifed Stylesheets of a certain group (?g=) of css files
-        $template_constants['minfied_css'] = ROOT_LIBRARIES . 'minify/?g=css&amp;' . $_SESSION['user']['frontend_theme'];
-
-        # Normal Javascript (global)
-        #$template_constants['javascript'] = $template_constants['www_root_theme'] . 'javascript/' . $this->config['template']['javascript'];
-
-        # Minifed Javascripts of a certain group (?g=) of js files
-        $template_constants['minfied_javascript'] =  WWW_ROOT . 'libraries/minify/?g=js&amp;' . $_SESSION['user']['frontend_theme'];
+        # Normal Javascript (mainfile)
+        $template_constants['javascript'] = $this->getTheme()->getJSFile();
 
         # Breadcrumb
         $template_constants['trail'] = Clansuite_Breadcrumb::getTrail();
@@ -411,13 +409,22 @@ abstract class Clansuite_Renderer_Base implements ArrayAccess
         # Templatename itself
         $template_constants['templatename'] = $this->getTemplate();
 
-        # Assign Benchmarks
-        #$template_constants['db_exectime'] = benchmark::returnDbexectime() );
-
         # Help Tracking
         $template_constants['helptracking'] = $this->config['help']['tracking'];
 
-        # Debug Display
+        /**
+         * e) Minify Compression related
+         */
+
+        # Minifed Javascripts of a certain group (?g=) of js files
+        $template_constants['minfied_javascript'] = WWW_ROOT . 'libraries/minify/?g=js&' . $_SESSION['user']['frontend_theme'];
+
+        # Minifed Stylesheets of a certain group (?g=) of css files
+        $template_constants['minfied_css'] = WWW_ROOT . 'libraries/minify/?g=css&' . $_SESSION['user']['frontend_theme'];
+
+        /**
+         * Debug Display
+         */
         #Clansuite_Debug::printR($template_constants);
 
         return $template_constants;
@@ -444,24 +451,32 @@ abstract class Clansuite_Renderer_Base implements ArrayAccess
     {
         if ($this->layoutTemplate == null)
         {
-            $themeconfig = $this->getThemeConfig();
-
-            $this->setLayoutTemplate($themeconfig['layoutfiles']['layoutfile']);
+            $this->setLayoutTemplate($this->getTheme()->getLayoutFile());
         }
 
         return $this->layoutTemplate;
     }
 
-    public function getThemeConfig()
+    /**
+     * Returns the object Clansuite_Theme for accessing Configuration Values
+     *
+     * @return object Clansuite_Theme
+     */
+    public function getTheme()
     {
-        $themename = Clansuite_HttpRequest::getRoute()->getThemeName();
-
-        if(false === class_exists('Clansuite_Theme', false))
+        if($this->theme == null)
         {
-            include ROOT_CORE . 'viewhelper' . DS . 'theme.core.php';
+            if(false === class_exists('Clansuite_Theme', false))
+            {
+                include ROOT_CORE . 'viewhelper' . DS . 'theme.core.php';
+            }
+
+            $themename = Clansuite_HttpRequest::getRoute()->getThemeName();
+
+            $this->theme = new Clansuite_Theme($themename);
         }
 
-        return new Clansuite_Theme($themename);
+        return $this->theme;
     }
 
     /**

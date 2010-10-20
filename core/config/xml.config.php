@@ -162,7 +162,7 @@ class Clansuite_Config_XMLHandler extends Clansuite_Config_Base implements Array
         $xml = simplexml_load_file($filename);
 
         # transform XML to PHP Array
-        $array = Clansuite_Functions::SimpleXMLToArray($xml);
+        $array = Clansuite_Functions::simpleXMLToArray($xml);
 
         return $array;
     }

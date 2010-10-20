@@ -595,7 +595,7 @@ class Clansuite_Errorhandler
 
     public static function getBugtrackerMessage($errorstring)
     {
-        $message1 = _('<h3>Found a bug in Clansuite?</h3>');
+        $message1 = '<h3>' . _('Found a bug in Clansuite?') . '</h3>';
         $message2 = _('If you think this should work and you can reproduce the problem, please consider creating a bug report.');
         $message3 = _('Before creating a new bug report, please first try searching for similar issues, as it is quite likely that this problem has been reported before.');
         $message4 = _('Otherwise, please create a new bug report describing the problem and explain how to reproduce it.');

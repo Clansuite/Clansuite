@@ -43,8 +43,8 @@ if (defined('IN_CS') === false)
  */
 class Clansuite_Theme implements ArrayAccess
 {
-    public $theme;
-    public $theme_info_array;
+    public $theme = '';
+    public $theme_info = array();
 
     /**
      * Constructor, or what ;)
@@ -56,7 +56,7 @@ class Clansuite_Theme implements ArrayAccess
     {
         $this->setThemename($theme);
 
-        $this->getThemeInfos($theme);
+        $this->getInfoArray($theme);
 
         return $this;
     }
@@ -90,20 +90,55 @@ class Clansuite_Theme implements ArrayAccess
         }
     }
 
-    public function findThemePathAndInfoFile($theme)
+    public function getPath($theme = null)
     {
-        # figure out, if it is a frontend or backend theme
-        if(is_file(ROOT_THEMES_FRONTEND . $theme ))
+        if($theme == null)
         {
-            $theme_info_file = ROOT_THEMES_FRONTEND . $theme . DS . 'theme_info.xml';
+            $theme = $this->getName();
         }
-        elseif(is_file(ROOT_THEMES_BACKEND . $theme . DS . 'theme_info.xml'))
+
+        if(is_dir(ROOT_THEMES_FRONTEND . $theme . DS))
         {
-            $theme_info_file = ROOT_THEMES_BACKEND . $theme . DS . 'theme_info.xml';
+            return ROOT_THEMES_FRONTEND . $theme . DS;
+        }
+
+        if(is_dir(ROOT_THEMES_BACKEND . $theme . DS))
+        {
+            return ROOT_THEMES_BACKEND . $theme . DS;
+        }
+    }
+
+    public function getWWWPath($theme = null)
+    {
+        if($theme == null)
+        {
+            $theme = $this->getName();
+        }
+
+        # check absolute, return www
+        if(is_dir(ROOT_THEMES_FRONTEND . $theme ))
+        {
+             return WWW_ROOT_THEMES_FRONTEND . $theme . '/';
+        }
+
+        # check absolute, return www
+        if(is_dir(ROOT_THEMES_BACKEND . $theme))
+        {
+            return WWW_ROOT_THEMES_BACKEND . $theme . '/';
+        }
+    }
+
+    public function getInfoFile($theme)
+    {
+        $theme_info_file = $this->getPath($theme) . 'theme_info.xml';
+
+        if(is_file($theme_info_file))
+        {
+            return $theme_info_file;
         }
         else
         {
-            throw new Clansuite_Exception('Theme not found: '. $theme, '100');
+            throw new Clansuite_Exception('The Themeinfo file was not found on Theme: '. $theme, '100');
         }
 
         return $theme_info_file;
@@ -115,9 +150,9 @@ class Clansuite_Theme implements ArrayAccess
      * @param string $theme Name of the Theme.
      * @return array Theme_Info.xml as Array.
      */
-    public function getThemeInfos($theme = null)
+    public function getInfoArray($theme = null)
     {
-        $theme_info_file = $this->findThemePathAndInfoFile($theme);
+        $theme_info_file = $this->getInfoFile($theme);
 
         # fetch the xml handler
         if(false === class_exists('Clansuite_Config_XMLHandler', false))
@@ -126,7 +161,14 @@ class Clansuite_Theme implements ArrayAccess
         }
 
         # read theme info xml file into array
-        return $this->theme_info_array = Clansuite_Config_XMLHandler::readConfig($theme_info_file);
+        $theme_info_array = Clansuite_Config_XMLHandler::readConfig($theme_info_file);
+
+        #Clansuite_Debug::printR($theme_info_array);
+
+        # when setting array as object property remove the inner theme array
+        $this->theme_info = $theme_info_array['theme'];
+
+        return $this->theme_info;
     }
 
     /**
@@ -135,59 +177,137 @@ class Clansuite_Theme implements ArrayAccess
      * --------------------------------------------------------------------------------------------
      */
 
+    /**
+     * Gets shortname or folder name.
+     *
+     * @return string short name / folder name.
+     */
     public function getName()
     {
-        return $this->theme_info_array['name'];
+        return $this->theme;
+    }
+
+    public function getFullName()
+    {
+        return $this->theme_info['name'];
     }
 
     public function getAuthor()
     {
-        return $this->theme_info_array['authors'];
+        return $this->theme_info['authors'];
     }
 
     public function getVersion()
     {
-        return $this->theme_info_array['theme_version'];
+        return $this->theme_info['theme_version'];
     }
 
     public function getRequiredClansuiteVersion()
     {
-        return $this->theme_info_array['required_clansuite_version'];
+        return $this->theme_info['required_clansuite_version'];
     }
 
     public function getDate()
     {
-        return $this->theme_info_array['date'];
+        return $this->theme_info['date'];
     }
 
-    public function getLayoutFiles()
+    public function getLayout()
     {
-        return $this->theme_info_array['layoutfiles'];
+        return $this->theme_info['layout'];
     }
 
-    public function getCssFiles()
+    public function getCss()
     {
-        return $this->theme_info_array['cssfiles'];
+        return $this->theme_info['css'];
+    }
+
+    public function getCSSFile()
+    {
+        if(isset($this->theme_info['css']['mainfile']))
+        {
+            return $this->getWWWPath() . 'css/' . $this->theme_info['css']['mainfile'];
+        }
+        elseif(false === isset($this->theme_info['css']['mainfile']))
+        {
+            # maybe we have a theme css file named after the theme
+            $css_file = $this->getWWWPath() . 'css/' . $this->getName() . '.css';
+
+            if(is_file($css_file))
+            {
+                return $css_file;
+            }
+        }
+        else # css is hopefully hardcoded or missing !
+        {
+            return null;
+        }
+    }
+
+    public function getLayoutFile()
+    {
+        if(isset($this->theme_info['layout']['mainfile']))
+        {
+            #return $this->getPath() . $this->theme_info['layout']['mainfile'];
+            return $this->theme_info['layout']['mainfile'];
+        }
+        elseif(false === isset($this->theme_info['layout']['mainfile']))
+        {
+            # maybe we have a main template css file named after the theme
+            # $layout_file = $this->getPath() . $this->getName() . '.tpl';
+            $layout_file = $this->getName() . '.tpl';
+
+            if(is_file($layout_file))
+            {
+                return $layout_file;
+            }
+        }
+        else # no main layout found !
+        {
+            throw new Clansuite_Exception('No Layout File defined. Check ThemeInfo File of '. $this->getName(), 9090);
+        }
+    }
+
+    public function getJSFile()
+    {
+        if(isset($this->theme_info['javascript']['mainfile']))
+        {
+            return $this->getWWWPath() . 'javascript/' . $this->theme_info['javascript']['mainfile'];
+        }
+        elseif(false === isset($this->theme_info['javascript']['mainfile']))
+        {
+            # maybe we have a main javascript file named after the theme
+            $js_file = $this->getWWWPath() . 'javascript/' .$this->getName . '.js';
+
+            if(is_file($js_file))
+            {
+                return $js_file;
+            }
+        }
+        else # no main javascript file found !
+        {
+            return null;
+        }
     }
 
     public function getRenderEngine()
     {
-        return $this->theme_info_array['renderengine'];
+        return $this->theme_info['renderengine'];
     }
 
     public function isBackendTheme()
     {
-        return (bool) $this->theme_info_array['backendtheme'];
+        return (bool) $this->theme_info['backendtheme'];
     }
 
-    public static function isFrontendTheme()
+    public function isFrontendTheme()
     {
-        return (bool) $this->theme_info_array['backendtheme'] === true ? false : true;
+        return (bool) $this->theme_info['backendtheme'] === true ? false : true;
     }
 
     public function getArray()
     {
-        return $this->theme_info_array;
+        return $this->theme_info;
     }
 
     /**
@@ -204,9 +324,9 @@ class Clansuite_Theme implements ArrayAccess
      */
     public function __get($configkey)
     {
-        if(isset($this->theme_info_array[$configkey]))
+        if(isset($this->theme_info[$configkey]))
         {
-            return $this->theme_info_array[$configkey];
+            return $this->theme_info[$configkey];
         }
         else
         {
@@ -223,7 +343,7 @@ class Clansuite_Theme implements ArrayAccess
      */
     public function __set($key, $value)
     {
-        $this->theme_info_array[$key] = $value;
+        $this->theme_info[$key] = $value;
         return true;
     }
 
@@ -235,7 +355,7 @@ class Clansuite_Theme implements ArrayAccess
      */
     public function __isset($name)
     {
-        return isset($this->theme_info_array[$name]);
+        return isset($this->theme_info[$name]);
     }
 
     /**
@@ -245,7 +365,7 @@ class Clansuite_Theme implements ArrayAccess
      */
     public function __unset($key)
     {
-        unset($this->theme_info_array[$key]);
+        unset($this->theme_info[$key]);
     }
 
     /**
@@ -253,7 +373,7 @@ class Clansuite_Theme implements ArrayAccess
      */
     public function offsetExists($offset)
     {
-        return isset($this->theme_info_array[$offset]);
+        return isset($this->theme_info[$offset]);
     }
 
     public function offsetGet($offset)
@@ -268,7 +388,7 @@ class Clansuite_Theme implements ArrayAccess
 
     public function offsetUnset($offset)
     {
-        unset($this->theme_info_array[$offset]);
+        unset($this->theme_info[$offset]);
         return true;
     }
 }
