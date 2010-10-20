@@ -169,7 +169,7 @@ class Clansuite_Security
          * therefore the php extension "skein" has to be installed.
          * website: http://www.skein-hash.info/downloads
          */
-        if (extension_loaded('skein') and ($hash_algo == 'skein')) # function_exists('skein_hash')
+        if (extension_loaded('skein') and ($hash_algo == 'skein'))
         {
             # get the binary 512-bits hash of string
             return skein_hash($string, 512);

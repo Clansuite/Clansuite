@@ -101,9 +101,9 @@ class Clansuite_Renderer_Smarty extends Clansuite_Renderer_Base implements Array
         /**
          * Directories
          */
-        $this->renderer->compile_dir = ROOT . 'cache/templates_c/';        # directory for compiled files
-        $this->renderer->config_dir = ROOT_LIBRARIES . 'smarty/configs/';  # directory for config files (example.conf)
-        $this->renderer->cache_dir = ROOT . 'cache/cache/';                # directory for cached files
+        $this->renderer->compile_dir = ROOT . 'cache' . DS . 'templates_c' . DS;        # directory for compiled files
+        $this->renderer->config_dir = ROOT_LIBRARIES . 'smarty' . DS . 'configs' . DS;  # directory for config files (example.conf)
+        $this->renderer->cache_dir = ROOT . 'cache' . DS . 'cache' . DS;                # directory for cached files
 
         /**
          * Debugging
@@ -116,7 +116,7 @@ class Clansuite_Renderer_Smarty extends Clansuite_Renderer_Base implements Array
             $this->renderer->utility->clearCompiledTemplate(); # clear compiled tpls in case of debug
             $this->renderer->cache->clearAll();                # clear cache
         }
-        $this->renderer->utility->clearCompiledTemplate();
+
         # $this->renderer->debug_ctrl       = "NONE";   # NONE (not active), URL (activates debugging if SMARTY_DEBUG found in query string)
         # $this->renderer->global_assign    = "";       # list of vars assign to all template files
         # $this->renderer->undefined        = null;     # defines value of undefined variables
@@ -429,15 +429,6 @@ class Clansuite_Renderer_Smarty extends Clansuite_Renderer_Base implements Array
     }
 
     /**
-     * Assign the common template values and Clansuite constants as Smarty Template Variables.
-     * @see Clansuite_Renderer_Base->getConstants()
-     */
-    protected function assignConstants()
-    {
-        $this->renderer->assign($this->getConstants());
-    }
-
-    /**
      * Setter for RenderMode
      *
      * @param string $mode Set the renderMode (LAYOUT, NOLAYOUT)
@@ -475,8 +466,8 @@ class Clansuite_Renderer_Smarty extends Clansuite_Renderer_Base implements Array
      */
     public function render($template)
     {
-        # 1. assign common values and constants
-        $this->assignConstants();
+        # 1. assign common template values and Clansuite constants as Smarty Template Variables.
+        $this->renderer->assign($this->getConstants());
 
         /**
          * Assign the original template name and the requested module
@@ -502,7 +493,7 @@ class Clansuite_Renderer_Smarty extends Clansuite_Renderer_Base implements Array
         if($this->getRenderMode() == 'LAYOUT')
         {
             # ensure that smarty tags {$content} and {copyright} are present in the layout template
-            if(true == $this->preRenderChecks())
+            if(true === $this->preRenderChecks())
             {
                 # assign the modulecontent
                 $this->assign('content', $this->renderer->fetch($template));
@@ -528,7 +519,7 @@ class Clansuite_Renderer_Smarty extends Clansuite_Renderer_Base implements Array
 
         foreach($this->renderer->template_dir as $dir)
         {
-            $filename = $dir . DS . $layout_tpl_name;
+            $filename = $dir . $layout_tpl_name;
 
             if(is_file($filename) === true)
             {
