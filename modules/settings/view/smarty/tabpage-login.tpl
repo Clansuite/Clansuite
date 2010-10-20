@@ -76,11 +76,11 @@
         </td>
         <td class="cell1" style="padding: 3px">
             <small>{t}Select the password encryption method: md5 or sha1.{/t}</small><br />
-            <select name="config[login][hash_algorithm]" class="input_text">                
+            <select name="config[login][hash_algorithm]" class="input_text">
                 <option value="sha1" {if $config.login.hash_algorithm == 'sha1' or empty($config.login.hash_algorithm)}selected="selected"{/if}>{t}SHA1 (more secure){/t}</option>
             </select>
         </td>
-    </tr>   
+    </tr>
 
     {* /---------------------------------------------------
        |
@@ -91,40 +91,6 @@
     <tr>
         <td class="td_header_small"  colspan="2">
             {t}Session Parameters{/t}
-        </td>
-    </tr>
-    <tr>
-        <td class="cell2" width="15%">
-            {t}Use cookies{/t}
-        </td>
-        <td class="cell1" style="padding: 3px">
-            
-            <label for="use_cookies_1">
-                <input id="use_cookies_1" type="radio" value="1" name="config[session][use_cookies]" {if isset($config.session.use_cookies) and $config.session.use_cookies == 1}checked="checked"{/if} />
-                {t}yes{/t}
-            </label>
-            
-            <label for="use_cookies_0">
-                <input id="use_cookies_0" type="radio" value="0" name="config[session][use_cookies]" {if empty($config.session.use_cookies) or  $config.session.use_cookies == 0}checked="checked"{/if} />
-                {t}no{/t}
-            </label>
-        </td>
-    </tr>
-    <tr>
-        <td class="cell2" width="15%">
-            {t}Use only cookies{/t}
-        </td>
-        <td class="cell1" style="padding: 3px">
-            
-            <label for="use_cookies_only_1">
-                <input type="radio" value="1" name="config[session][use_cookies_only]" {if isset($config.session.use_cookies_only) and $config.session.use_cookies_only == 1}checked="checked"{/if} />
-                {t}yes{/t}
-            </label>
-            
-            <label for="use_cookies_only_0">
-                <input type="radio" value="0" name="config[session][use_cookies_only]" {if empty($config.session.use_cookies_only) or  $config.session.use_cookies_only == 0}checked="checked"{/if} />
-                {t}no{/t}
-            </label>
         </td>
     </tr>
     <tr>
@@ -173,9 +139,9 @@
        |     Tab: Login >> OpenID
        |
        \--------------------------------------------------- *}
-    
+
     {*
-    
+
     <tr>
         <td class="td_header_small"  colspan="2">
             {t}OpenID{/t}
@@ -209,7 +175,7 @@
             <input type="radio" value="0" name="config[openid][openid_showcommentsbox]" {if isset($config.openid.showcommentsbox) && $config.openid.showcommentsbox == 0} checked="checked"{/if} /> {t}no{/t}
         </td>
     </tr>
-    
+
     *}
 
     {* /---------------------------------------------------
