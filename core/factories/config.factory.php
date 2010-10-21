@@ -91,10 +91,11 @@ class Clansuite_Config_Factory
     }
 
     /**
-     * getConfiguration
+     * Get Configuration
      *
      * Two in one method: determines the configuration handler automatically for a configfile.
-     * Used the confighandler to load the configfile and return the object.
+     * Uses the confighandler to load the configfile and return the object.
+     * The returned object contains the confighandler and the config array.
      *
      * @param $configfile Configuration file to load
      * @return Configuration Handler Object with confighandler and array of configfile.
@@ -102,13 +103,22 @@ class Clansuite_Config_Factory
     public static function getConfiguration($configfile)
     {
         $handler = self::getHandler($configfile);
+
         return $handler->readConfig($configfile);
     }
 
+    /**
+     * Get Configuration Handler
+     *
+     * @param string $configfile
+     * @return object Configuration Handler Object
+     */
     public static function getHandler($configfile)
     {
         $type = self::determineConfigurationHandlerTypeBy($configfile);
+
         $handler = self::getConfigurationHandler($type);
+
         return $handler;
     }
 
@@ -125,7 +135,7 @@ class Clansuite_Config_Factory
 
         if(is_file($file) === true)
         {
-            $class = 'Clansuite_Config_' . mb_strtoupper($adapter) . 'Handler';
+            $class = 'Clansuite_Config_' . mb_strtoupper($adapter);
             if(false === class_exists($class, false))
             {
                 include $file;
@@ -134,9 +144,9 @@ class Clansuite_Config_Factory
             if(true === class_exists($class, false))
             {
                 # instantiate and return the specific confighandler with the $configfile to read
-                #return $class::getInstance();
+                return $class::getInstance();
                 #call_user_func($class.'::getInstance');
-                return new $class();
+                #return new $class();
             }
             else
             {

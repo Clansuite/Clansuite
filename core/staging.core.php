@@ -43,18 +43,21 @@ if (defined('IN_CS') === false)
  * @package     Core
  * @subpackage  Config
  */
-class Clansuite_Staging extends Clansuite_Config
+class Clansuite_Staging
 {
     /**
-     * Loads a staging configuration file and overloads the main configuration array ($this->config)
+     * Loads a staging configuration file and overloads the given array
+     *
+     * @param array the array to overload
+     * @return array Merged configuration.
      */
-    public function loadStagingConfig()
+    public static function overloadWithStagingConfig($array_to_overload)
     {
-        # load staging cfg
-        $staged_config_array = Clansuite_Config_INIHandler::readConfig(self::getFilename());
+        # load staging config
+        $staging_config = Clansuite_Config_INI::readConfig(self::getFilename());
 
-        # overload the existing array from clansuite.config.php ($this->config)
-        $this->config += $staged_config_array;
+        # combine arrays 
+        return $array_to_overload += $staging_config;
     }
 
     /**

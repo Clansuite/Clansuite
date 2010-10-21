@@ -538,9 +538,11 @@ class Clansuite_Errorhandler
      * @author dynamicflurry [at] gmail dot com
      * @link http://us3.php.net/manual/en/function.highlight-file.php#92697
      *
+     * @param string $file file with the error in it
      * @param int $scope the context scope (defining how many lines surrounding the error are displayed)
      * @param int $line the line with the error in it
-     * @param string $file file with the error in it
+     *
+     * @return string sourcecode of file
      */
     public static function getErrorContext($file, $line, $scope)
     {
@@ -593,6 +595,12 @@ class Clansuite_Errorhandler
         }
     }
 
+    /**
+     * Add backlinks to our bugtracker to the errormessage
+     *
+     * @param string $errorstring the errormessage
+     * @return string html-representation of the bugtracker links
+     */
     public static function getBugtrackerMessage($errorstring)
     {
         $message1 = '<h3>' . _('Found a bug in Clansuite?') . '</h3>';

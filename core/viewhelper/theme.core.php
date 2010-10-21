@@ -154,14 +154,8 @@ class Clansuite_Theme implements ArrayAccess
     {
         $theme_info_file = $this->getInfoFile($theme);
 
-        # fetch the xml handler
-        if(false === class_exists('Clansuite_Config_XMLHandler', false))
-        {
-            include ROOT_CORE . '/config/xml.config.php';
-        }
-
         # read theme info xml file into array
-        $theme_info_array = Clansuite_Config_XMLHandler::readConfig($theme_info_file);
+        $theme_info_array = Clansuite_Config_XML::readConfig($theme_info_file);
 
         #Clansuite_Debug::printR($theme_info_array);
 

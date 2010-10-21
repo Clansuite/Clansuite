@@ -313,7 +313,10 @@ class Clansuite_Loader
         # autoloading map
         $map = array(
         # bases - config, render
-        'Clansuite_Config_Base'               => ROOT_CORE . 'config' . DS . 'config.base.php',
+        'Clansuite_Config_Base'               => ROOT_CORE . 'config'. DS . 'config.base.php',
+        'Clansuite_Config_INI'                => ROOT_CORE . 'config'. DS . 'ini.config.php',
+        'Clansuite_Config_XML'                => ROOT_CORE . 'config'. DS . 'xml.config.php',
+        'Clansuite_Config_YAML'               => ROOT_CORE . 'config'. DS . 'yaml.config.php',
         'Clansuite_Renderer_Base'             => ROOT_CORE . 'renderer' . DS . 'renderer.base.php',
         # filter
         'Clansuite_Filter_Interface'          => ROOT_CORE . 'filtermanager.core.php',

@@ -39,19 +39,43 @@ if (defined('IN_CS') === false)
 /**
  * Clansuite_Config
  *
+ * This is the Config class of Clansuite.
+ * And it's build around the $config array, which is a storage container for settings.
+ *
+ * We use some php magic in here:
+ * The array access implementation makes it seem that $config is an array,
+ * even though it's an object! Why we do that? Because less to type!
+ * The __set, __get, __isset, __unset are overloading functions to work with that array.
+ *
+ * Usage :
+ * get data : $cfg->['name'] = 'john';
+ * get data, using get() : echo $cfg->get ('name');
+ * get data, using array access: echo $cfg['name'];
+ *
  * @category    Clansuite
  * @package     Core
  * @subpackage  Config
  */
-class Clansuite_Config extends Clansuite_Config_Base
+class Clansuite_Config extends Clansuite_Config_Base # implements ArrayAccess
 {
+    /**
+     * A configuration handler
+     *
+     * @var object
+     */
+    public $confighandler;
+
+    /**
+     * This object is injected via DI.
+     * The depending object needs a version of the Clansuite Config.
+     * We fetch it from Clansuite_CMS.
+     */
     function __construct()
     {
         # if empty get from Clansuite_CMS
         if(empty($this->config))
         {
             $this->config = Clansuite_CMS::getClansuiteConfig();
-            #$this->config = $this->readConfig(ROOT . configuration/clansuite.config.php);
         }
     }
 
