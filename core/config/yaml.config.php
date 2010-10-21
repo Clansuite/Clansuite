@@ -62,7 +62,7 @@ if(defined('IN_CS') === false)
  * @package     Core
  * @subpackage  Configuration
  */
-class Clansuite_Config_YAMLHandler extends Clansuite_Config_Base implements ArrayAccess
+class Clansuite_Config_YAML
 {
     # holds SPYC instance
     private $spyc = null;
@@ -80,7 +80,7 @@ class Clansuite_Config_YAMLHandler extends Clansuite_Config_Base implements Arra
     }
 
     /**
-     * Clansuite_Config_INIHandler is a Singleton
+     * Clansuite_Config_INI is a Singleton
      *
      * @param string $filename Filename
      * @return instance of Config_YAMLHandler class

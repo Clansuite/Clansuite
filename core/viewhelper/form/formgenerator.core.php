@@ -391,8 +391,7 @@ class Clansuite_XML_Formgenerator extends Clansuite_Form
         /* $filename = ROOT_MODULES . $array['modulename'] . DS . 'forms/';
           $filename .= $array['actionname'] . 'form.xml.php';
 
-          $xml = Clansuite_Config_XMLHandler::getInstance();
-          $xml::writeConfig($filename, $array);
+          Clansuite_Config_XML::writeConfig($filename, $array);
          */
     }
 

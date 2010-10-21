@@ -157,18 +157,13 @@ class Clansuite_CMS
             exit;
         }
 
-        # in order to read the main config, the configuration handler for ini files is needed
-        include ROOT_CORE . 'config/ini.config.php';
-
         # 2. load the main clansuite configuration file
-        self::$config = Clansuite_Config_IniHandler::readConfig('configuration/clansuite.config.php');
+        self::$config = Clansuite_Config_INI::readConfig(ROOT . 'configuration/clansuite.config.php');
 
         # 3. load staging configuration (overloading clansuite.config.php)
         if(self::$config['config']['staging'] == true)
         {
-            include ROOT_CORE . 'staging.core.php';
-            $staging = new Clansuite_Staging();
-            $staging->loadStagingConfig();
+            self::$config = Clansuite_Staging::overloadWithStagingConfig(self::$config);
         }
 
         /**

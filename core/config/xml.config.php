@@ -43,7 +43,7 @@ if(defined('IN_CS') === false)
  * @package     Core
  * @subpackage  Configuration
  */
-class Clansuite_Config_XMLHandler extends Clansuite_Config_Base implements ArrayAccess
+class Clansuite_Config_XML
 {
     /**
      * CONSTRUCTOR
@@ -60,7 +60,7 @@ class Clansuite_Config_XMLHandler extends Clansuite_Config_Base implements Array
     }
 
     /**
-     * Clansuite_Config_XMLHandler is a Singleton
+     * Clansuite_Config_XML is a Singleton
      *
      * @param object $filename Filename
      *
@@ -72,7 +72,7 @@ class Clansuite_Config_XMLHandler extends Clansuite_Config_Base implements Array
 
         if(isset($instance) === false)
         {
-            $instance = new Clansuite_Config_XMLHandler($filename);
+            $instance = new Clansuite_Config_XML($filename);
         }
 
         return $instance;

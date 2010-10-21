@@ -41,27 +41,14 @@ if (defined('IN_CS') === false)
 /**
  * Clansuite Core File - Config Handler for INI Format
  *
- * This is the Config class of Clansuite. And it's build around the $config array,
- * which is a storage container for settings.
- *
- * We use some php magic in here:
- * The array access implementation makes it seem that $config is an array,
- * even though it's an object! Why we do that? Because less to type!
- * The __set, __get, __isset, __unset are overloading functions to work with that array.
- *
- * Usage :
- * get data : $cfg->['name'] = 'john';
- * get data, using get() : echo $cfg->get ('name');
- * get data, using array access: echo $cfg['name'];
- *
  * @category    Clansuite
  * @package     Core
  * @subpackage  Configuration
  */
-class Clansuite_Config_INIHandler extends Clansuite_Config_Base implements ArrayAccess
+class Clansuite_Config_INI
 {
     /**
-     * Clansuite_Config_INIHandler is a Singleton
+     * Clansuite_Config_INI is a Singleton
      *
      * @return instance of Config_INIHandler class
      */
@@ -70,7 +57,7 @@ class Clansuite_Config_INIHandler extends Clansuite_Config_Base implements Array
         static $instance;
         if(isset($instance) == null)
         {
-            $instance = new Clansuite_Config_INIHandler();
+            $instance = new Clansuite_Config_INI();
         }
         return $instance;
     }
