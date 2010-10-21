@@ -74,13 +74,6 @@ class Clansuite_Loader
 
     public static function setupAutoloader()
     {
-        # reset autoload logs
-        if(defined('DEBUG') and DEBUG === true)
-        {
-            @unlink(ROOT_LOGS . 'autoload_hits.log');
-            @unlink(ROOT_LOGS . 'autoload_misses.log');
-        }
-
         # check if file for the autoloading map exists
         $file = ROOT_CONFIG . 'autoloader.config.php';
         if(is_file($file) === false)
@@ -113,40 +106,14 @@ class Clansuite_Loader
             {
                 # add class and filename to the mapping array
                 self::addToMapping($filename, $classname);
-
-                # log for the autoloaded files
-                /*if(DEBUG == true)
-                {
-                    self::logHit($filename);
-                }*/
             }
 
             return true;
         }
         else
         {
-            # log missed autoloads
-            if(DEBUG == true)
-            {
-                self::logMiss($filename);
-            }
-
             return false;
         }
-    }
-
-    private static function logHit($filename)
-    {
-        $log = fopen( ROOT_LOGS . 'autoload_hits.log', 'a', false);
-        fwrite($log, 'Autoload Hit: ' . str_replace('_', '/', $filename) . PHP_EOL);
-        fclose($log);
-    }
-
-    private static function logMiss($filename)
-    {
-        $log = fopen( ROOT_LOGS . 'autoload_misses.log', 'a', false);
-        fwrite($log, 'Autoload Miss: ' . str_replace('_', '/', $filename) . PHP_EOL);
-        fclose($log);
     }
 
     /**
