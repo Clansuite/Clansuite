@@ -111,24 +111,14 @@ class Clansuite_Gettext_Extractor_Template extends Clansuite_Gettext_Extractor_B
         # replace tags and delimiters in regexp pattern
         $pattern = str_replace($search, $replace, self::REGEXP);
 
-        # debug display pattern
-        # Clansuite_Debug::firebug($pattern);
-
         # parse file by lines
         foreach($filecontent as $line => $line_content)
         {
-            # match all {t ... } or {_ ... } tags if prefixes are "t" and "_"
+            # grab the prefixed tags
             preg_match_all($pattern, $line_content, $matches);
 
-            #Clansuite_Debug::firebug($line_content);
-            #Clansuite_Debug::firebug($matches);
-
+            # no match
             if(empty($matches))
-            {
-                continue;
-            }
-
-            if(empty($matches[2]))
             {
                 continue;
             }
@@ -136,14 +126,15 @@ class Clansuite_Gettext_Extractor_Template extends Clansuite_Gettext_Extractor_B
             # correct line number, because file[line1] = array[0]
             $calc_line = 1 + $line;
 
-            foreach($matches[2] as $match)
+            foreach($matches[3] as $match)
             {
-                $match_arrayname = substr($match, 1, -1);
+                /**
+                 *  $data array has the following structure
+                 *  array('language-string') => array([0] => 'file:line')
+                 */
+                 $data[$match][] = $pathinfo['basename'] . ':' . $calc_line;
 
-                # strips trailing apostrophes or double quotes
-                $data[$match_arrayname][] = $pathinfo['basename'] . ':' . $calc_line;
-
-                unset($match_arrayname);
+                unset($match);
             }
         }
         unset($filecontent);

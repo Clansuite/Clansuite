@@ -334,8 +334,6 @@ class Clansuite_Gettext_Extractor_Tool
                     $extractor = $this->getExtractor($extractorName);
                     $extractorData = $extractor->extract($inputFile);
 
-                    Clansuite_Debug::firebug($extractorData);
-
                     $this->log(' Extractor ' . $extractorName . ' applied.');
 
                     $this->data = array_merge_recursive($this->data, $extractorData);
@@ -464,10 +462,12 @@ class Clansuite_Gettext_Extractor_Tool
      */
     protected function formatData($data)
     {
-        $pluralMatchRexexp = '#\%([0-9]+\$)*d#';
+        $pluralMatchRegexp = '#\%([0-9]+\$)*d#';
 
         $output = array();
         $output[] = '# Gettext Keys exported by Clansuite_Gettext_Extractor';
+        $output[] = '# Copyright (c) '. date('Y') . ' Clansuite - just an eSports CMS';
+        $output[] = '#';
         $output[] = 'msgid ""';
         $output[] = 'msgstr ""';
         $output[] = '"Content-Type: text/plain; charset=UTF-8\n"';
@@ -482,19 +482,19 @@ class Clansuite_Gettext_Extractor_Tool
 
             foreach($files as $file)
             {
-                $output[] = '# ' . $file;
+                $output[] = '#: ' . $file; # = reference
             }
 
             $output[] = 'msgid "' . addslashes($key) . '"';
 
+            # check for plural
             if(preg_match($pluralMatchRegexp, $key, $matches))
             {
                 $output[] = 'msgid_plural "' . addslashes($key) . '"';
-                #$output[] = 'msgid_plural ""';
                 $output[] = 'msgstr[0] "' . addslashes($key) . '"';
                 $output[] = 'msgstr[1] "' . addslashes($key) . '"';
             }
-            else
+            else # no plural
             {
                 $output[] = 'msgstr "' . addslashes($key) . '"';
             }
