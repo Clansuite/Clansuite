@@ -95,21 +95,14 @@ class Clansuite_Loader
      * @param string $filename The file to be required
      * @return bool True on success of require, false otherwise.
      */
-    public static function requireFileAndMap($filename, $classname)
+    public static function includeFileAndMap($filename, $classname)
     {
-        if (is_file($filename) === true)
-        {
-            include $filename;
+        include $filename;
 
-            # add class and filename to the mapping array
-            self::addToMapping($filename, $classname);
+        # add class and filename to the mapping array
+        self::addToMapping($filename, $classname);
 
-            return true;
-        }
-        else
-        {
-            return false;
-        }
+        return true;
     }
 
     /**
@@ -233,28 +226,45 @@ class Clansuite_Loader
             $filename = mb_substr($filename, 10);
         }
 
-        $filenames = array (
-            # Core Class
-            # clansuite/core/class_name.core.php
-            ROOT_CORE . str_replace('_','',$filename) . '.core.php',
-            # Factories
-            # clansuite/core/factories/classname.factory.php
-            # don't add factory is already in the classname
-            ROOT_CORE . 'factories' . DS . str_replace('_','.',$filename) . '.php',
-            # Filter
-            # clansuite/core/filters/classname.filter.php
-            ROOT_CORE . 'filters' . DS . mb_substr($filename, 7) . '.filter.php',
-            # Event
-            # clansuite/core/events/classname.class.php
-            ROOT_CORE . 'events' . DS . $classname . '.class.php',
-            # Viewhelper
-            # clansuite/core/viewhelper/classname.core.php
-            ROOT_CORE . 'viewhelper' . DS . str_replace('_','.',$filename) . '.core.php',
-        );
-
-        foreach($filenames as $filename)
+        # Core Class
+        # clansuite/core/class_name.core.php
+        $filename = ROOT_CORE . str_replace('_','',$filename) . '.core.php';
+        if(is_file($filename))
         {
-            return self::requireFileAndMap($filename, $classname);
+            return self::includeFileAndMap($filename, $classname);
+        }
+
+        # Factories
+        # clansuite/core/factories/classname.factory.php
+        # don't add factory is already in the classname
+        $filename = ROOT_CORE . 'factories' . DS . str_replace('_','.',$filename) . '.php';
+        if(is_file($filename))
+        {
+            return self::includeFileAndMap($filename, $classname);
+        }
+
+        # Event
+        # clansuite/core/events/classname.class.php
+        $filename = ROOT_CORE . 'events' . DS . $classname . '.class.php';
+        if(is_file($filename))
+        {
+            return self::includeFileAndMap($filename, $classname);
+        }
+
+        # Filter
+        # clansuite/core/filters/classname.filter.php
+        $filename = ROOT_CORE . 'filters' . DS . mb_substr($filename, 7) . '.filter.php';
+        if(is_file($filename))
+        {
+            return self::includeFileAndMap($filename, $classname);
+        }
+
+        # Viewhelper
+        # clansuite/core/viewhelper/classname.core.php
+        $filename = ROOT_CORE . 'viewhelper' . DS . str_replace('_','.',$filename) . '.core.php';
+        if(is_file($filename))
+        {
+            return self::includeFileAndMap($filename, $classname);
         }
     }
 
