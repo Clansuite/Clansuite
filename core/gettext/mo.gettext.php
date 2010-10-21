@@ -1,6 +1,6 @@
 <?php
    /**
-    * Clansuite - just an E-Sport CMS
+    * Clansuite - just an eSports CMS
     * Jens-André Koch © 2005 - onwards
     * http://www.clansuite.com/
     *
@@ -49,9 +49,9 @@ class Clansuite_Gettext_MOFile
 {
     /**
      * Writes a GNU gettext style machine object (mo-file).
-     *   
+     *
      * @author Matthias Bauer
-     * 
+     *
      * @link http://www.gnu.org/software/gettext/manual/gettext.html#MO-Files
      */
     function write($hash, $out)

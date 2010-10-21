@@ -204,7 +204,7 @@ class Clansuite_Gettext_Extractor_Tool
         }
         else
         {
-            echo $message . "\n";
+            echo $message . "\n <br/>";
         }
     }
 
@@ -233,7 +233,7 @@ class Clansuite_Gettext_Extractor_Tool
      */
     protected function scan($resource)
     {
-        if(false == is_dir($resource) and false == is_file($resource))
+        if(false === is_dir($resource) and false === is_file($resource))
         {
             $this->throwException('Resource ' . $resource . ' is not a directory or file.');
         }
@@ -260,25 +260,25 @@ class Clansuite_Gettext_Extractor_Tool
 
         while(false !== ($entry = $iterator->read()))
         {
-            if($entry == '.' or $entry == '..')
+            if($entry == '.' or $entry == '..' or  $entry == '.svn')
             {
                 continue;
             }
 
-            $path = $resource . '/' . $entry;
+            $path = $resource . DS . $entry;
 
             if(false === is_readable($path))
             {
                 continue;
             }
 
-            if(is_dir($path))
+            if(true === is_dir($path))
             {
                 $this->scan($path);
                 continue;
             }
 
-            if(is_file($path))
+            if(true === is_file($path))
             {
                 $info = pathinfo($path);
 
@@ -336,7 +336,11 @@ class Clansuite_Gettext_Extractor_Tool
 
                     $this->log(' Extractor ' . $extractorName . ' applied.');
 
-                    $this->data = array_merge_recursive($this->data, $extractorData);
+                    # do not merge if incomming array is empty
+                    if(false === empty($extractorData))
+                    {
+                        $this->data = array_merge_recursive($this->data, $extractorData);
+                    }
                 }
             }
         }
