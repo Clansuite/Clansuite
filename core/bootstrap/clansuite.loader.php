@@ -101,12 +101,8 @@ class Clansuite_Loader
         {
             include $filename;
 
-            # if classname is given, its a mapping request
-            if(isset($classname) and class_exists($classname, false) == true)
-            {
-                # add class and filename to the mapping array
-                self::addToMapping($filename, $classname);
-            }
+            # add class and filename to the mapping array
+            self::addToMapping($filename, $classname);
 
             return true;
         }
@@ -216,14 +212,14 @@ class Clansuite_Loader
     public static function autoload($classname)
     {
         # check if class was already loaded
-        if (class_exists($classname, false) or interface_exists($classname, false))
+        if (class_exists($classname, false)) # or interface_exists($classname, false))
         {
             return true;
         }
 
-        self::autoloadExclusions($classname);
+        return self::autoloadExclusions($classname);
 
-        self::autoloadInclusions($classname);
+        return self::autoloadInclusions($classname);
 
         /**
          * Start Classname to Filename Mapping
@@ -258,10 +254,7 @@ class Clansuite_Loader
 
         foreach($filenames as $filename)
         {
-            if(self::requireFileAndMap($filename, $classname) === true)
-            {
-                return true;
-            }
+            return self::requireFileAndMap($filename, $classname);
         }
     }
 
@@ -308,11 +301,7 @@ class Clansuite_Loader
             $filename = $map[$classname];
 
             # and include that one
-            if(self::requireFileAndMap($filename, $classname) === true)
-            {
-                return true;
-            }
-            unset($filename);
+            return self::requireFile($filename, $classname);
         }
     }
 
@@ -324,17 +313,14 @@ class Clansuite_Loader
      */
     public static function autoloadExclusions($classname)
     {
-        /**
-         * Classname Exclusions
-         */
-
+        # define parts of classnames for exclusion
         $classnames_to_exclude = array('Cs', 'Smarty_Internal');
 
         foreach($classnames_to_exclude as $classname_to_exclude)
         {
             if (false !== mb_strpos($classname, $classname_to_exclude))
             {
-                #Clansuite_Debug::firebug('Class exluded: '.$classname.'. Found '.$classname_to_exclude.' in classname.');
+                # Clansuite_Debug::firebug('Class exluded: '.$classname.'. Found '.$classname_to_exclude.' in classname.');
                 return false;
             }
         }
