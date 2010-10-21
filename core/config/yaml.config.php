@@ -64,19 +64,12 @@ if(defined('IN_CS') === false)
  */
 class Clansuite_Config_YAML
 {
-    # holds SPYC instance
-    private $spyc = null;
-
     /**
-     * CONSTRUCTOR
-     * sets up all variables
+     * Constructor
      */
     public function __construct($filename = null)
     {
-        if(isset($filename))
-        {
-            return self::readConfig($filename);
-        }
+        return self::readConfig($filename);
     }
 
     /**
@@ -105,46 +98,50 @@ class Clansuite_Config_YAML
      * @todo use file_put_contents()
      * @todo fix this return true/false thingy
      */
-    public static function writeConfig($filename, $assoc_array)
+    public static function writeConfig($filename, array $array)
     {
-        # transform PHP Array into YAML Format
-        if( extension_loaded('syck') ) # take the faster one first
+        /**
+         * transform PHP Array into YAML Format
+         */
+
+        # take syck, as the faster one first
+        if( extension_loaded('syck') )
         {
             # convert to YAML via SYCK
-            $yaml_content = syck_dump($data);
+            $yaml = syck_dump($data);
         }
-        else
+        # else check, if we have spyc as library
+        elseif(is_file(ROOT_LIBRARIES . '/spyc/Spyc.class.php') === true)
         {
+            # ok, load spyc
+            if(false === class_exists('Spyc', false))
+            {
+                include ROOT_LIBRARIES . '/spyc/Spyc.class.php';
+            }
+
+            $spyc = new Spyc();
+
             # convert to YAML via SPYC
-            $yaml_content = $this->spyc->dump($assoc_array);
+            $yaml = $spyc->dump($array);
+        }
+        else # we have no YAML Parser - too bad :(
+        {
+            throw new Clansuite_Exception('No YAML Parser available. Get Spyc or Syck!');
         }
 
-        # ensure file is writable
-        if (is_writable($filename))
+        /**
+         * write array
+         */
+
+        # ensure we have a filename
+        if (empty($filename) === false)
         {
-            # open file
-            if (!$filehandle = fopen($filename, 'wb'))
-            {
-                 throw new Clansuite_Exception('Could not open file '. $filename .'.');
-                 return false;
-            }
-
             # write YAML content to file
-            if (!fwrite($filehandle, $yaml_content))
-            {
-                throw new Clansuite_Exception('Could not write to file '. $filename .'.');
-                return false;
-
-            }
-
-            # close file
-            fclose($filehandle);
-            return true;
+            file_put_contents($yaml, $filename);
         }
         else
         {
             throw new Clansuite_Exception('Could not write to file '. $filename .' because permissions are wrong. Apply correct file und directory permissions.');
-            return false;
         }
     }
 
@@ -156,54 +153,53 @@ class Clansuite_Config_YAML
      */
     public static function readConfig($filename)
     {
-        $php_datastructure = '';
+        # check if the filename exists
+        if(is_file($filename) === false or is_readable($filename) === false)
+        {
+            throw new Clansuite_Exception('YAML File ' . $filename . ' not existing or not readable.');
+        }
+
+        # init
+        $array = '';
         $yaml_content = '';
 
-        # check if the filename exists
-        if(is_file($filename) === true)
-        {
-            # read the yaml content of the file
-            $yaml_content = file_get_contents($filename);
-        }
-        else
-        {
-            throw new Clansuite_Exception('Die Datei '.$filename.' existiert nicht. Kann YAML Config nicht lesen!');
-        }
+        # read the yaml content of the file
+        $yaml_content = file_get_contents($filename);
 
         /**
          * check if the php extension SYCK is available as parser
          * SYCK is written in C, so it's implementation is faster then SPYC, which is pure PHP.
          */
-        if( extension_loaded('syck') ) # take the faster one first
+        if(extension_loaded('syck')) # take the faster one first
         {
             # syck_load accepts a YAML string as input and converts it into a PHP data structure
-            $php_datastructure = syck_load($yaml_content);
+            $array = syck_load($yaml_content);
         }
         # else check if we habe spyc as a library
-        elseif(is_file(ROOT_LIBRARIES.'/spyc/Spyc.class.php') === true)
+        elseif(is_file(ROOT_LIBRARIES . '/spyc/Spyc.class.php') === true)
         {
             # ok, load spyc
-            if( false === class_exists('Spyc',false) )
+            if(false === class_exists('Spyc', false))
             {
-                include  ROOT_LIBRARIES.'/spyc/Spyc.class.php';
+                include ROOT_LIBRARIES . '/spyc/Spyc.class.php';
             }
 
             # instantiate
             $spyc = new Spyc();
 
             # parse the yaml content with spyc
-            $php_datastructure = $spyc->load($yaml_content);
+            $array = $spyc->load($yaml_content);
         }
         else # we have no YAML Parser - too bad :(
         {
             throw new Clansuite_Exception('No YAML Parser available. Get Spyc or Syck!');
         }
 
-        # check if the php_datastructire is an filled array
-        if (is_array($php_datastructure) and (empty($php_datastructure) == false))
+        # check if the php_datastructire is filled array
+        if(is_array($array) and (empty($array) === false))
         {
             # then return it
-            return $php_datastructure;
+            return $array;
         }
         else # return an empty array
         {

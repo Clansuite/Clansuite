@@ -51,11 +51,6 @@ class Clansuite_Config_XML
      */
     public function __construct($filename = null)
     {
-        if(is_file($filename) == false or is_readable($filename) == false)
-        {
-            throw new Clansuite_Exception('XML File not existing or not readable.');
-        }
-
         return self::readConfig($filename);
     }
 
@@ -86,10 +81,10 @@ class Clansuite_Config_XML
      *
      * @return  mixed array | boolean false
      */
-    public static function writeConfig($filename, $assoc_array)
+    public static function writeConfig($filename, $array)
     {
         # transform assoc_array to xml
-        $xml = $this->arrayToXML($assoc_array);
+        $xml = $this->arrayToXML($array);
 
         # write xml into the file
         file_put_contents($filename, $xml);
@@ -131,7 +126,7 @@ class Clansuite_Config_XML
      * @param $xml XMLWriter Object
      * @param $array PHP Array
      */
-    public static function writeArray(XMLWriter $xml, $array)
+    public static function writeArray(XMLWriter $xml, array $array)
     {
         foreach($array as $key => $value)
         {
@@ -157,8 +152,12 @@ class Clansuite_Config_XML
      */
     public static function readConfig($filename)
     {
+        if(is_file($filename) === false or is_readable($filename) === false)
+        {
+            throw new Clansuite_Exception('XML File not existing or not readable.');
+        }
+
         # read file
-        # formerly $xml = file_get_contents($filename);
         $xml = simplexml_load_file($filename);
 
         # transform XML to PHP Array
