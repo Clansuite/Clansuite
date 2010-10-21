@@ -58,13 +58,16 @@ class Clansuite_Xdebug
         'var_display_max_depth' => 10,
         'overload_var_dump' => 'on',
         'collect_params' => 2,
-        'dump_globals' => 'on',
+        'collect_vars' => true,
+        'dump_globals' => true,
         'dump.GET' => '*',
-        'dump.PST' => '*',
+        'dump.POST' => '*',
         'dump.COOKIE' => '*',
         'dump.SESSION' => '*',
-        'show_local_vars' => 'on',
-        'show_mem_delta' => 'on',
+        'show_local_vars' => true,
+        'show_mem_delta' => true,
+        'show_exception_trace' => true,
+        'auto_trace' => false,
     );
 
     public static function configure()
@@ -111,10 +114,6 @@ class Clansuite_Xdebug
             #ini_set('xdebug.auto_trace', 'On');
             #ini_set('xdebug.trace_output_dir', ROOT_LOGS);
             #ini_set('xdebug.trace_output_name', 'clansuite_trace%u');
-
-            # profiling
-            #ini_set('xdebug.profiler_enable', 1);
-            #ini_set('xdebug.profiler_output_name', 'cachegrind.out.tmp');
 
             self::$xdebug_memory_before = self::roundMB(xdebug_memory_usage());
 
@@ -189,8 +188,6 @@ class Clansuite_Xdebug
             echo '</tr><tr>';
             echo '<td style="text-align: center;">Memory Peak</td>';
             echo '<td>' . self::roundMB(xdebug_peak_memory_usage()) . ' MB</td>';
-            #echo '<td style="text-align: center;">XDebug Trace was stopped and saved.</td>';
-            #echo '<td>' . xdebug_stop_trace() . '</td>';
             echo '</tr>';
             # stop tracings and var_dump
             #var_dump(xdebug_get_code_coverage());
