@@ -68,7 +68,7 @@ if (defined('IN_CS') === false)
 class Clansuite_Gettext_Extractor extends Clansuite_Gettext_Extractor_Tool
 {
     /**
-     * Setup mandatory filters
+     * Setup mandatory extractors
      *
      * @param string|bool $logToFile
      */
@@ -77,14 +77,14 @@ class Clansuite_Gettext_Extractor extends Clansuite_Gettext_Extractor_Tool
         # clean up
         $this->removeAllExtractors();
 
-        # set basic filters for php and smarty template files
+        # set basic extractors for php and smarty template files
         $this->setExtractor('php', 'PHP')
              ->setExtractor('tpl', 'Template');
 
-        # register the functions to extract
+        # register the tags/functions to extract
         $this->getExtractor('PHP')->addTags(array('translate', 't', '_'));
 
-        # register the placeholder to extract
+        # register the tags/placeholders to extract
         $this->getExtractor('Template')->addTags(array('_', 't'));
     }
 
@@ -377,7 +377,7 @@ class Clansuite_Gettext_Extractor_Tool
             }
             else
             {
-                $this->throwException('Filter file ' . $extractor_file . ' not found.');
+                $this->throwException('Extractor file ' . $extractor_file . ' not found.');
             }
 
             if(false === class_exists($extractor_classname))
@@ -386,10 +386,9 @@ class Clansuite_Gettext_Extractor_Tool
             }
         }
 
-
         $this->extractors[$extractor] = new $extractor_classname;
 
-        $this->log('Filter ' . $extractor . ' loaded.');
+        $this->log('Extractor ' . $extractor . ' loaded.');
 
         return $this->extractors[$extractor];
     }
