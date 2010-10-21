@@ -24,7 +24,7 @@
     * @author     Jens-André Koch <vain@clansuite.com>
     * @copyright  Jens-André Koch (2005 - onwards)
     * @link       http://www.clansuite.com
-    * 
+    *
     * @version    SVN: $Id$
     */
 
@@ -62,9 +62,6 @@ class Clansuite_DoorKeeper
         // prevent redeclaration
         if (false === class_exists('IDS_Monitor',false))
         {
-            # Additional ini path for PHPDEBUG
-            set_include_path(ROOT_LIBRARIES . PATH_SEPARATOR. get_include_path());
-
             # load ids init
             include ROOT_LIBRARIES . 'IDS/Init.php';
 
