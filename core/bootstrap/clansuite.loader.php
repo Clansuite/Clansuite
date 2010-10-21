@@ -95,7 +95,7 @@ class Clansuite_Loader
      * @param string $filename The file to be required
      * @return bool True on success of require, false otherwise.
      */
-    public static function requireFileAndMap($filename, $classname = null)
+    public static function requireFileAndMap($filename, $classname)
     {
         if (is_file($filename) === true)
         {
