@@ -66,38 +66,38 @@ class Clansuite_Config_INI
      * Writes a .ini Configfile
      * This method writes the configuration values specified to the filename.
      *
-     * @param string $ini_filename Filename of .ini to write
-     * @param array $assoc_array Associative Array with Ini-Values
+     * @param string $filename Filename of .ini to write
+     * @param array $array Associative Array with Ini-Values
      * @return mixed/boolean Returns the amount of bytes written to the file, or FALSE on failure.
      */
-    public static function writeConfig($ini_filename, array $assoc_array)
+    public static function writeConfig($filename, array $array)
     {
         # ensure we got an array
-        if(is_array($assoc_array) === false)
+        if(is_array($array) === false)
         {
-            throw new Clansuite_Exception('writeConfig Parameter $assoc_array is not an array.');
+            throw new Clansuite_Exception('writeConfig Parameter $array is not an array.');
         }
 
-        if(empty($ini_filename))
+        if(empty($filename))
         {
-            throw new Clansuite_Exception('writeConfig Parameter $ini_filename is not given.');
+            throw new Clansuite_Exception('writeConfig Parameter $filename is not given.');
         }
 
         # when ini_filename exists, get old config array
-        if(is_file($ini_filename) === true)
+        if(is_file($filename) === true)
         {
-            $old_config_array = self::readConfig($ini_filename);
+            $old_config_array = self::readConfig($filename);
             # array merge: overwrite the array to the left, with the array to the right, when keys identical
             # array_merge_recursive ??
-            $config_array = self::array_merge_recursive_distinct($old_config_array, $assoc_array);
+            $config_array = self::array_merge_recursive_distinct($old_config_array, $array);
         }
         else
         {
             # create file
-            touch($ini_filename);
+            touch($filename);
 
             # the config array = the incoming assoc_array
-            $config_array = $assoc_array;
+            $config_array = $array;
         }
 
         # attach an security header at the top of the ini file
@@ -105,7 +105,7 @@ class Clansuite_Config_INI
         $content .= "; <?php die('Access forbidden.'); /* DO NOT MODIFY THIS LINE! ?>\n";
         $content .= "; \n";
         $content .= "; Clansuite Configuration File : \n";
-        $content .= '; ' . $ini_filename . "\n";
+        $content .= '; ' . $filename . "\n";
         $content .= "; \n";
         $content .= '; This file was generated on ' . date('d-m-Y H:i') . "\n";
         $content .= ";\n\n";
@@ -159,17 +159,17 @@ class Clansuite_Config_INI
         # add php closing tag
         $content .= CR . '; DO NOT REMOVE THIS LINE */ ?>';
 
-        if (is_writable($ini_filename))
+        if (is_writable($filename))
         {
-            if (!$filehandle = fopen($ini_filename, 'wb'))
+            if (!$filehandle = fopen($filename, 'wb'))
             {
-                echo _('Could not open file: '.$ini_filename);
+                echo _('Could not open file: '.$filename);
                 return false;
             }
 
             if (fwrite($filehandle, $content) == false)
             {
-                echo _('Could not write to file: '. $ini_filename);
+                echo _('Could not write to file: '. $filename);
                 return false;
 
             }
@@ -178,7 +178,7 @@ class Clansuite_Config_INI
         }
         else
         {
-            echo _('File ' . $ini_filename . ' is not writeable. Set correct file and directory permissions.');
+            echo _('File ' . $filename . ' is not writeable. Set correct file and directory permissions.');
             return false;
         }
     }
