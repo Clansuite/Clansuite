@@ -64,9 +64,9 @@ class Clansuite_Xdebug
         'dump.POST' => '*',
         'dump.COOKIE' => '*',
         'dump.SESSION' => '*',
-        'show_local_vars' => true,
+        'show_local_vars' => false,
         'show_mem_delta' => true,
-        'show_exception_trace' => true,
+        'show_exception_trace' => false,
         'auto_trace' => false,
     );
 
