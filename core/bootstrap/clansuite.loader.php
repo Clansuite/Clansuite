@@ -210,9 +210,15 @@ class Clansuite_Loader
             return true;
         }
 
-        return self::autoloadExclusions($classname);
+        if(true === self::autoloadExclusions($classname))
+        {
+            return false;
+        }
 
-        return self::autoloadInclusions($classname);
+        if(true === self::autoloadInclusions($classname))
+        {
+            return true;
+        }
 
         /**
          * Start Classname to Filename Mapping
@@ -228,43 +234,43 @@ class Clansuite_Loader
 
         # Core Class
         # clansuite/core/class_name.core.php
-        $filename = ROOT_CORE . str_replace('_','',$filename) . '.core.php';
-        if(is_file($filename))
+        $file = ROOT_CORE . str_replace('_','',$filename) . '.core.php';
+        if(is_file($file))
         {
-            return self::includeFileAndMap($filename, $classname);
+            return self::includeFileAndMap($file, $classname);
         }
 
         # Factories
         # clansuite/core/factories/classname.factory.php
         # don't add factory is already in the classname
-        $filename = ROOT_CORE . 'factories' . DS . str_replace('_','.',$filename) . '.php';
-        if(is_file($filename))
+        $file = ROOT_CORE . 'factories' . DS . str_replace('_','.',$filename) . '.php';
+        if(is_file($file))
         {
-            return self::includeFileAndMap($filename, $classname);
+            return self::includeFileAndMap($file, $classname);
         }
 
         # Event
         # clansuite/core/events/classname.class.php
-        $filename = ROOT_CORE . 'events' . DS . $classname . '.class.php';
-        if(is_file($filename))
+        $file = ROOT_CORE . 'events' . DS . $classname . '.class.php';
+        if(is_file($file))
         {
-            return self::includeFileAndMap($filename, $classname);
+            return self::includeFileAndMap($file, $classname);
         }
 
         # Filter
         # clansuite/core/filters/classname.filter.php
-        $filename = ROOT_CORE . 'filters' . DS . mb_substr($filename, 7) . '.filter.php';
-        if(is_file($filename))
+        $file = ROOT_CORE . 'filters' . DS . mb_substr($filename, 7) . '.filter.php';
+        if(is_file($file))
         {
-            return self::includeFileAndMap($filename, $classname);
+            return self::includeFileAndMap($file, $classname);
         }
 
         # Viewhelper
         # clansuite/core/viewhelper/classname.core.php
-        $filename = ROOT_CORE . 'viewhelper' . DS . str_replace('_','.',$filename) . '.core.php';
-        if(is_file($filename))
+        $file = ROOT_CORE . 'viewhelper' . DS . str_replace('_','.',$filename) . '.core.php';
+        if(is_file($file))
         {
-            return self::includeFileAndMap($filename, $classname);
+            return self::includeFileAndMap($file, $classname);
         }
 
         return false;
