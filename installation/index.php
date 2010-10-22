@@ -739,7 +739,7 @@ function write_config_settings($data_array)
     unset($data_array['step_forward']);
     unset($data_array['lang']);
 
-    # base class is needed for Clansuite_Config_INIHandler
+    # base class is needed for Clansuite_Config_INI
     if(false === class_exists('Clansuite_Config_Base'))
     {
         require dirname(__FILE__) . DS . 'config.base.php';
@@ -747,13 +747,13 @@ function write_config_settings($data_array)
 
     # read skeleton settings = minimum settings for initial startup
     # (not asked from user during installation, but required paths/defaultactions etc)
-    $installer_config = Clansuite_Config_INIHandler::readConfig(INSTALLATION_ROOT . 'clansuite.config.installer');
+    $installer_config = Clansuite_Config_INI::readConfig(INSTALLATION_ROOT . 'clansuite.config.installer');
 
     # array merge: overwrite the array to the left, with the array to the right, when keys identical
     $data_array = array_merge_recursive($data_array, $installer_config);
 
     # Write Config File to ROOT Directory
-    if(!Clansuite_Config_INIHandler::writeConfig(ROOT . 'configuration/clansuite.config.php', $data_array))
+    if(!Clansuite_Config_INI::writeConfig(ROOT . 'configuration/clansuite.config.php', $data_array))
     {
         return false;
     }
