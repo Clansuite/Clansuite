@@ -39,6 +39,9 @@ if (defined('IN_CS') === false)
 /**
  * Clansuite_Staging
  *
+ * @author     Paul Brand
+ * @author     Jens-André Koch
+ *
  * @category    Clansuite
  * @package     Core
  * @subpackage  Config
@@ -56,7 +59,7 @@ class Clansuite_Staging
         # load staging config
         $staging_config = Clansuite_Config_INI::readConfig(self::getFilename());
 
-        # combine arrays 
+        # combine arrays
         return $array_to_overload += $staging_config;
     }
 
@@ -67,7 +70,7 @@ class Clansuite_Staging
      */
     public static function getFilename()
     {
-        switch($_SERVER['SERVER_NAME']) # @todo use httprequest
+        switch($_SERVER['SERVER_NAME'])
         {
             # development configuration
             case "localhost":
@@ -94,7 +97,7 @@ class Clansuite_Staging
         }
 
         # return full path to the staging config file
-        return ROOT . 'configuration' . DS . $filename;
+        return ROOT . 'configuration' . DS . 'staging' . $filename;
     }
 }
 ?>
