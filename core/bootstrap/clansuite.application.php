@@ -85,7 +85,7 @@ class Clansuite_CMS
         self::initialize_Timezone();
         self::initialize_Eventdispatcher();
         self::initialize_Errorhandling();
-        self::initialize_DependecyInjection();
+        self::initialize_DependencyInjection();
         self::register_DI_Core();
         self::register_DI_Filters();
         self::start_Session();
@@ -459,7 +459,7 @@ class Clansuite_CMS
      *   Initializes the Dependency Injector Phemto
      *  ============================================
      */
-    private static function initialize_DependecyInjection()
+    private static function initialize_DependencyInjection()
     {
         include ROOT_LIBRARIES . 'phemto/phemto.php';
         self::$injector = new Phemto();
@@ -674,11 +674,11 @@ class Clansuite_CMS
     {
         self::triggerEvent('onApplicationShutdown');
 
-        if(DEBUG == true)
-        {
+        #if(DEBUG == true)
+        #{
             # Display the General Application Runtime
             echo 'Application Runtime: '.round(microtime(1) - constant('STARTTIME'), 3).' Seconds';
-        }
+        #}
     }
 }
 ?>

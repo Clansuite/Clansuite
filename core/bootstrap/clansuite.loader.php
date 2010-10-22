@@ -187,7 +187,14 @@ class Clansuite_Loader
 
         if(isset(self::$autoloader_map[$classname]))
         {
-            return self::requireFile(self::$autoloader_map[$classname]);
+            if(true === self::requireFile(self::$autoloader_map[$classname]))
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
     }
 
