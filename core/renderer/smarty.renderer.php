@@ -51,7 +51,7 @@ if(defined('IN_CS') === false)
  * @package     Core
  * @subpackage  Renderer
  */
-class Clansuite_Renderer_Smarty extends Clansuite_Renderer_Base implements ArrayAccess
+class Clansuite_Renderer_Smarty extends Clansuite_Renderer_Base
 {
 
     /**
