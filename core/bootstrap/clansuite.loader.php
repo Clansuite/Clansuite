@@ -277,15 +277,6 @@ class Clansuite_Loader
             return self::includeFileAndMap($file, $classname);
         }
 
-        # Factories
-        # clansuite/core/factories/classname.factory.php
-        # don't add factory is already in the classname
-        $file = ROOT_CORE . 'factories' . DS . str_replace('_','.',$filename) . '.php';
-        if(is_file($file))
-        {
-            return self::includeFileAndMap($file, $classname);
-        }
-
         # Event
         # clansuite/core/events/classname.class.php
         $file = ROOT_CORE . 'events' . DS . $classname . '.class.php';
@@ -325,20 +316,44 @@ class Clansuite_Loader
 
         # autoloading map
         $map = array(
-        # bases - config, render
+        # /core/config
         'Clansuite_Config_Base'               => ROOT_CORE . 'config'. DS . 'config.base.php',
         'Clansuite_Config_INI'                => ROOT_CORE . 'config'. DS . 'ini.config.php',
         'Clansuite_Config_XML'                => ROOT_CORE . 'config'. DS . 'xml.config.php',
         'Clansuite_Config_YAML'               => ROOT_CORE . 'config'. DS . 'yaml.config.php',
         'Clansuite_Renderer_Base'             => ROOT_CORE . 'renderer' . DS . 'renderer.base.php',
-        # filter
+        # /core
+        'Clansuite_Staging'                   => ROOT_CORE . 'staging.core.php',
+        'Clansuite_UTF8'                      => ROOT_CORE . 'utf8.core.php',
+        'Clansuite_Config'                    => ROOT_CORE . 'config.core.php',
+        'Clansuite_HttpRequest'               => ROOT_CORE . 'httprequest.core.php',
+        'Clansuite_HttpResponse'              => ROOT_CORE . 'httpresponse.core.php',
+        'Clansuite_FilterManager'             => ROOT_CORE . 'filtermanager.core.php',
+        'Clansuite_Localization'              => ROOT_CORE . 'localization.core.php',
+        'Clansuite_Inputfilter'               => ROOT_CORE . 'inputfilter.core.php',
+        'Clansuite_User'                      => ROOT_CORE . 'user.core.php',
+        'Clansuite_Router'                    => ROOT_CORE . 'router.core.php',
+        'Clansuite_Security'                  => ROOT_CORE . 'security.core.php',
+        'Clansuite_Session'                   => ROOT_CORE . 'session.core.php',
         'Clansuite_Filter_Interface'          => ROOT_CORE . 'filtermanager.core.php',
-        # gettext
         'Clansuite_Gettext_Extractor'         => ROOT_CORE . 'gettext.core.php',
-        # datagrid mappings
+        'Clansuite_DoorKeeper'                => ROOT_CORE . 'doorkeeper.core.php',
+        'Clansuite_Functions'                 => ROOT_CORE . 'functions.core.php',
+        'Clansuite_XML2JSON'                  => ROOT_CORE . 'xml2json.core.php',
+        'Clansuite_Doctrine'                  => ROOT_CORE . 'doctrine.core.php',
+        'Clansuite_Front_Controller'          => ROOT_CORE . 'frontcontroller.core.php',
+        'Clansuite_Module_Controller'         => ROOT_CORE . 'modulecontroller.core.php',
+        'Clansuite_EventDispatcher'           => ROOT_CORE . 'eventdispatcher.core.php',
+        'Clansuite_Breadcrumb'                => ROOT_CORE . 'breadcrumb.core.php',
+        # /core/factories
+        'Clansuite_Config_Factory'            => ROOT_CORE . 'factories/config.factory.php',
+        'Clansuite_Renderer_Factory'          => ROOT_CORE . 'factories/renderer.factory.php',
+        'Clansuite_Logger_Factory'            => ROOT_CORE . 'factories/logger.factory.php',
+        'Clansuite_Cache_Factory'             => ROOT_CORE . 'factories/cache.factory.php',
+        # /viewhelper/datagrid
         'Clansuite_Datagrid'                  => $datagrid_dir . 'datagrid.core.php',
         'Clansuite_Datagrid_Column'           => $datagrid_dir . 'datagridcol.core.php',
-        # form mappings
+        # /viewhelper/form
         'Clansuite_Form'                      => $form_dir . 'form.core.php',
         'Clansuite_Formelement'               => $form_dir . 'formelement.core.php',
         'Clansuite_Form_Decorator'            => $form_dir . 'formdecorator.core.php',
@@ -354,7 +369,14 @@ class Clansuite_Loader
             $filename = $map[$classname];
 
             # and include that one
-            self::requireFile($filename, $classname);
+            if(true === self::requireFile($filename, $classname))
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
     }
 
