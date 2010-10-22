@@ -212,7 +212,7 @@ if (defined('IN_CS') === false)
 
                          # Setting: PHP memory limit
                          $memory_limit = ini_get('memory_limit');
-                         $recommended_memory_limit = 16;
+                         $recommended_memory_limit = 32;
                          $recommended['php_memory_limit']['text']       = $language['PHP_MEMORY_LIMIT'];
                          $recommended['php_memory_limit']['expected']   = 'min '. $recommended_memory_limit .'MB';
                          $recommended['php_memory_limit']['actual']     = '('. $memory_limit .')';
