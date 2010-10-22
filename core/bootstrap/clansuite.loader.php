@@ -266,6 +266,8 @@ class Clansuite_Loader
         {
             return self::includeFileAndMap($filename, $classname);
         }
+
+        return false;
     }
 
     /**
