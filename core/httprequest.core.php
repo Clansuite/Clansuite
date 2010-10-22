@@ -264,51 +264,30 @@ class Clansuite_HttpRequest implements Clansuite_Request_Interface, ArrayAccess
      * isset, checks if a certain parameter exists in the parameters array
      *
      * @param string $name Name of the Parameter
-     * @param string $arrayname G, P, C. Default = POST.
-     * @param boolean $where If set to true, method will return the name of the array the parameter was found in.
+     * @param string $arrayname G (GET), P (POST), C (COOKIE). Default = P.
      * @return mixed | boolean true|false | string arrayname
      */
-    public function issetParameter($name, $arrayname = 'POST', $where = false)
+    public function issetParameter($name, $arrayname = 'P')
     {
         $arrayname = mb_strtoupper($arrayname);
 
-        if(in_array($arrayname, array ('P', 'POST')) and isset($this->post_parameters[$name]))
+        if($arrayname == 'P' and isset($this->post_parameters[$name]))
         {
-            if($where == false)
-            {
-                return true;
-            }
-            else
-            {
-                return 'post';
-            }
-        }
+            return true;
 
-        if(in_array($arrayname, array ('G', 'GET')) and isset($this->get_parameters[$name]))
+        }
+        elseif($arrayname == 'G' and isset($this->get_parameters[$name]))
         {
-            if($where == false)
-            {
-                return true;
-            }
-            else
-            {
-                return 'get';
-            }
+            return true;
         }
-
-        if(in_array($arrayname, array ('C', 'COOKIE')) and isset($this->cookie_parameters[$name]))
+        elseif($arrayname == 'C' and isset($this->cookie_parameters[$name]))
         {
-            if($where == false)
-            {
-                return true;
-            }
-            else
-            {
-                return 'cookie';
-            }
+            return true;
         }
-
-        return false;
+        else
+        {
+            return false;
+        }
     }
 
     /**
