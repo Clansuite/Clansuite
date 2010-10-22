@@ -210,11 +210,13 @@ class Clansuite_Loader
             return true;
         }
 
-        if(true === self::autoloadExclusions($classname))
+        # autoloadExclusions returns false if classname was found
+        if(false === self::autoloadExclusions($classname))
         {
             return false;
         }
 
+        # autoloadInclusions returns true if classname was included
         if(true === self::autoloadInclusions($classname))
         {
             return true;
