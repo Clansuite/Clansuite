@@ -46,8 +46,7 @@ if (defined('IN_CS') === false)
 interface Clansuite_Request_Interface
 {
     # Parameters
-    public function getParameterNames();
-    public function issetParameter($name, $arrayname = 'POST', $where = false);
+    public function issetParameter($name, $arrayname = 'POST');
     public function getParameter($name, $arrayname = 'POST');
     public static function getHeader($name);
 
@@ -240,47 +239,26 @@ class Clansuite_HttpRequest implements Clansuite_Request_Interface, ArrayAccess
     }
 
     /**
-     * Lists all parameters in the specific parameters array
-     * Defaults to Request parameters array
-     *
-     * @param string $arrayname GET, POST, COOKIE
-     * @return array
-     */
-    public function getParameterNames($arrayname = 'GET')
-    {
-        $arrayname = mb_strtoupper($arrayname);
-
-        if(in_array($arrayname, $this->{mb_strtolower($arrayname).'_arraynames'}))
-        {
-            return array_keys($this->{mb_strtolower($arrayname).'_parameters'});
-        }
-        else
-        {
-            return null;
-        }
-    }
-
-    /**
      * isset, checks if a certain parameter exists in the parameters array
      *
      * @param string $name Name of the Parameter
-     * @param string $arrayname G (GET), P (POST), C (COOKIE). Default = P.
+     * @param string $arrayname GET, POST, COOKIE. Default = POST.
      * @return mixed | boolean true|false | string arrayname
      */
-    public function issetParameter($name, $arrayname = 'P')
+    public function issetParameter($name, $arrayname = 'POST')
     {
         $arrayname = mb_strtoupper($arrayname);
 
-        if($arrayname == 'P' and isset($this->post_parameters[$name]))
+        if($arrayname == 'POST' and isset($this->post_parameters[$name]))
         {
             return true;
 
         }
-        elseif($arrayname == 'G' and isset($this->get_parameters[$name]))
+        elseif($arrayname == 'GET' and isset($this->get_parameters[$name]))
         {
             return true;
         }
-        elseif($arrayname == 'C' and isset($this->cookie_parameters[$name]))
+        elseif($arrayname == 'COOKIE' and isset($this->cookie_parameters[$name]))
         {
             return true;
         }

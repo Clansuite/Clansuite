@@ -66,13 +66,10 @@ class Clansuite_Loader
      */
     public static function register_autoloaders()
     {
-        self::setupAutoloader();
-
-        spl_autoload_register( 'Clansuite_Loader::loadViaMapping' );
         spl_autoload_register( 'Clansuite_Loader::autoload' );
     }
 
-    public static function setupAutoloader()
+    public static function loadMapFile()
     {
         # check if file for the autoloading map exists
         $file = ROOT_CONFIG . 'autoloader.config.php';
@@ -178,17 +175,15 @@ class Clansuite_Loader
     }
 
     /**
-     * Loads a file by classname using the autoloader map.
+     * Loads a file by classname using the autoloader map file
      *
      * @param $classname The classname to look for in the autoloading map.
      * @return boolean True on file load, otherwise false.
      */
-    public static function loadViaMapping($classname)
+    public static function autoloadByMappingFile($classname)
     {
-        if (class_exists($classname, false) or interface_exists($classname, false))
-        {
-            return true;
-        }
+        # load the mapping file
+        self::loadMapFile();
 
         if(isset(self::$autoloader_map[$classname]))
         {
@@ -205,27 +200,67 @@ class Clansuite_Loader
     public static function autoload($classname)
     {
         # check if class was already loaded
-        if (class_exists($classname, false)) # or interface_exists($classname, false))
+        if (true === class_exists($classname, false) or true === interface_exists($classname, false))
         {
             return true;
         }
 
-        # autoloadExclusions returns false if classname was found
+        /**
+         * if the classname is to exclude, then
+         * 1) stop autoloading immediately
+         *
+         * Note: autoloadExclusions returns false if classname was found
+         */
         if(false === self::autoloadExclusions($classname))
         {
             return false;
         }
 
-        # autoloadInclusions returns true if classname was included
+        /**
+         * try to load the file by searching the
+         * 2) hardcoded mapping table
+         *
+         * autoloadInclusions returns true if classname was included
+         */
         if(true === self::autoloadInclusions($classname))
         {
             return true;
         }
 
         /**
-         * Start Classname to Filename Mapping
+         * try to load the file by searching the
+         * 3) automatically created mapping table.
+         *
+         * Note: the mapping table is loaded from file.
          */
+        if(true === self::autoloadByMappingFile($classname))
+        {
+            return true;
+        }
 
+        /**
+         * Try to load the file by searching
+         * 4 ) several paths
+         *
+         * Note: If the file is found, it's added to the mapping file.
+         * The next time the file is requested, it will be loaded
+         * via the method above (3)!
+         */
+        if(true === self::autoloadTryPathsAndMap($classname))
+        {
+            return true;
+        }
+
+        /**
+         * if classname was not found by any of the above methods
+         * 5) Autoloading Fail
+         */
+        return false;
+    }
+
+    public static function autoloadTryPathsAndMap($classname)
+    {
+        # Start Classname to Filename Mapping
         $filename = mb_strtolower($classname);
 
         # strip 'clansuite_' from beginning of the string
@@ -274,8 +309,6 @@ class Clansuite_Loader
         {
             return self::includeFileAndMap($file, $classname);
         }
-
-        return false;
     }
 
     /**
@@ -321,7 +354,7 @@ class Clansuite_Loader
             $filename = $map[$classname];
 
             # and include that one
-            return self::requireFile($filename, $classname);
+            self::requireFile($filename, $classname);
         }
     }
 
@@ -357,7 +390,8 @@ class Clansuite_Loader
         }
 
         # this means if 'Smarty" is found, but not 'Clansuite_Smarty', exclude from our autoloading
-        if (false !== mb_strpos($classname, 'Smarty') and false === mb_strpos($classname, 'Clansuite_Smarty'))
+        if (false !== mb_strpos($classname, 'Smarty') and
+            false === mb_strpos($classname, '_Smarty'))
         {
             return false;
         }
