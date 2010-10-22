@@ -41,7 +41,7 @@ if (defined('IN_CS') === false)
  *
  * This class provides abstracted access to a theme's theme_info.xml file.
  */
-class Clansuite_Theme implements ArrayAccess
+class Clansuite_Theme
 {
     public $theme = '';
     public $theme_info = array();
@@ -302,88 +302,6 @@ class Clansuite_Theme implements ArrayAccess
     public function getArray()
     {
         return $this->theme_info;
-    }
-
-    /**
-     * ---------------------------------------------------------------
-     * Magic Methods / Array Access
-     * ---------------------------------------------------------------
-     */
-
-    /**
-     * Gets item based on keyname
-     *
-     * @param    string    the config item key
-     * @return   void
-     */
-    public function __get($configkey)
-    {
-        if(isset($this->theme_info[$configkey]))
-        {
-            return $this->theme_info[$configkey];
-        }
-        else
-        {
-            return null;
-        }
-    }
-
-    /**
-     * Set item based on key:value
-     *
-     * @param string the item key
-     * @param string the item value
-     * @return   void
-     */
-    public function __set($key, $value)
-    {
-        $this->theme_info[$key] = $value;
-        return true;
-    }
-
-     /**
-     * Method allows 'isset' to work on $this->data
-     *
-     * @param string $name Name of Variable Key $this->data[$name]
-     * @return return mixed
-     */
-    public function __isset($name)
-    {
-        return isset($this->theme_info[$name]);
-    }
-
-    /**
-     * Method allows 'unset' calls to work on $this->data
-     *
-     * @param string $key
-     */
-    public function __unset($key)
-    {
-        unset($this->theme_info[$key]);
-    }
-
-    /**
-     * Implementation of SPL ArrayAccess
-     */
-    public function offsetExists($offset)
-    {
-        return isset($this->theme_info[$offset]);
-    }
-
-    public function offsetGet($offset)
-    {
-        return $this->__get($offset);
-    }
-
-    public function offsetSet($offset, $value)
-    {
-        $this->__set($offset, $value);
-    }
-
-    public function offsetUnset($offset)
-    {
-        unset($this->theme_info[$offset]);
-        return true;
     }
 }
 ?>
