@@ -69,8 +69,9 @@ class Clansuite_Errorhandler
      * @param string $errorstring contains error string info
      * @param string $errorfile contains the filename with occuring error
      * @param string $errorline contains the line of error
+     * @param string $errorcontext
      */
-    public function clansuite_error_handler( $errornumber, $errorstring, $errorfile, $errorline, $errorcontext )
+    public static function errorhandler( $errornumber, $errorstring, $errorfile, $errorline, $errorcontext )
     {
         #  do just return, if the error is suppressed - cases: (silenced with @ operator or DEBUG mode active)
         if(error_reporting() === 0)
@@ -165,12 +166,12 @@ class Clansuite_Errorhandler
             if( (mb_strpos(mb_strtolower($errorfile),'smarty') == true) or (mb_strpos(mb_strtolower($errorfile),'tpl.php') == true) )
             {
                 # ok it's an Smarty Template Error - show the error via smarty_error_display inside the template
-                echo $this->smarty_error_display( $errornumber, $errorname, $errorstring, $errorfile, $errorline, $errorcontext );
+                echo self::smarty_error_display( $errornumber, $errorname, $errorstring, $errorfile, $errorline, $errorcontext );
             }
             else # give normal Error Display
             {
                 # All Error Informations (except backtraces)
-                echo $this->yellowScreenOfDeath($errornumber, $errorname, $errorstring, $errorfile, $errorline, $errorcontext );
+                echo self::yellowScreenOfDeath($errornumber, $errorname, $errorstring, $errorfile, $errorline, $errorcontext );
             }
         }
 
@@ -201,7 +202,7 @@ class Clansuite_Errorhandler
      * @param string $errorline contains the line of error
      * @param $errorcontext $errorline contains context
      */
-    private function smarty_error_display( $errornumber, $errorname, $errorstring, $errorfile, $errorline, $errorcontext )
+    private static function smarty_error_display( $errornumber, $errorname, $errorstring, $errorfile, $errorline, $errorcontext )
     {
         # small errorreport
         $errormessage  =  '<h3><font color="#ff0000">&raquo; Smarty Template Error &laquo;</font></h3>';
@@ -259,7 +260,7 @@ class Clansuite_Errorhandler
      * @param int $errornumber the errornumber to get the colorname for
      * @return string
      */
-    private function getColornameForErrornumber($errornumber)
+    private static function getColornameForErrornumber($errornumber)
     {
         $c = 'beige';
 
@@ -289,7 +290,7 @@ class Clansuite_Errorhandler
      * @param int $errorline
      * @param string $errorcontext
      */
-    private function yellowScreenOfDeath($errornumber, $errorname, $errorstring, $errorfile, $errorline, $errorcontext )
+    private static function yellowScreenOfDeath($errornumber, $errorname, $errorstring, $errorfile, $errorline, $errorcontext )
     {
         if(mb_strlen($errorstring) > 70)
         {
@@ -310,7 +311,7 @@ class Clansuite_Errorhandler
         $errormessage .= '<body>';
 
         # Fieldset colored (error_red, error_orange, error_beige)
-        $errormessage .= '<fieldset class="error_' . $this->getColornameForErrornumber($errornumber) . '">';
+        $errormessage .= '<fieldset class="error_' . self::getColornameForErrornumber($errornumber) . '">';
 
         # Errorlogo
         $errormessage .= '<div style="float: left; margin: 5px; margin-right: 25px; border:1px inset #bf0000; padding: 20px;">';
