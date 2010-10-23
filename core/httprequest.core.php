@@ -60,10 +60,6 @@ interface Clansuite_Request_Interface
     public static function getRequestMethod();
     public static function setRequestMethod($method);
     public static function isAjax();
-    public static function isPost();
-    public static function isGet();
-    public static function isPut();
-    public static function isDelete();
 
     # $_SERVER Stuff
     public static function getServerProtocol();
@@ -183,84 +179,50 @@ class Clansuite_HttpRequest implements Clansuite_Request_Interface, ArrayAccess
     }
 
     /**
-     * Shorthand for boolean check of the requestMethod GET
-     *
-     * @return boolean true | false
-     */
-    public static function isGet()
-    {
-        if(self::$requestMethod == 'GET')
-        {
-            return true;
-        }
-        return false;
-    }
-
-    /**
-     * Shorthand for boolean check of the requestMethod POST
-     *
-     * @return boolean true | false
-     */
-    public static function isPost()
-    {
-        if(self::$requestMethod == 'POST')
-        {
-            return true;
-        }
-        return false;
-    }
-
-    /**
-     * Shorthand for boolean check of the requestMethod PUT
-     *
-     * @return boolean true | false
-     */
-    public static function isPut()
-    {
-        if(self::$requestMethod == 'PUT')
-        {
-            return true;
-        }
-        return false;
-    }
-
-    /**
-     * Shorthand for boolean check of the requestMethod DELETE
-     *
-     * @return boolean true | false
-     */
-    public static function isDelete()
-    {
-        if(self::$requestMethod == 'DELETE')
-        {
-            return true;
-        }
-        return false;
-    }
-
-    /**
      * isset, checks if a certain parameter exists in the parameters array
      *
      * @param string $name Name of the Parameter
      * @param string $arrayname GET, POST, COOKIE. Default = POST.
+     * @param boolean $where If set to true, method will return the name of the array the parameter was found in.
      * @return mixed | boolean true|false | string arrayname
+     *
      */
-    public function issetParameter($name, $arrayname = 'POST')
+    public function issetParameter($name, $arrayname = 'POST', $where = false)
     {
         $arrayname = mb_strtoupper($arrayname);
 
         if($arrayname == 'POST' and isset($this->post_parameters[$name]))
         {
-            return true;
-
+            if($where == false)
+            {
+                return true;
+            }
+            else
+            {
+                return 'post';
+            }
         }
         elseif($arrayname == 'GET' and isset($this->get_parameters[$name]))
         {
-            return true;
+            if($where == false)
+            {
+                return true;
+            }
+            else
+            {
+                return 'get';
+            }
         }
         elseif($arrayname == 'COOKIE' and isset($this->cookie_parameters[$name]))
         {
-            return true;
+            if($where == false)
+            {
+                return true;
+            }
+            else
+            {
+                return 'cookie';
+            }
         }
         else
         {
