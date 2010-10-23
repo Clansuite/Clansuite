@@ -108,6 +108,12 @@ class Clansuite_Exception extends Exception implements Clansuite_Exception_Inter
      */
     private static $exception_development_template_content = '';
 
+    public function __construct($message, $code)
+    {
+        parent::__construct($message, $code);
+        $this->exception_handler($this);
+        exit;
+    }
     /**
      * Exception Handler Callback
      * Rethrows uncatched Exceptions in our presentation style.
@@ -115,7 +121,7 @@ class Clansuite_Exception extends Exception implements Clansuite_Exception_Inter
      * @see http://php.net/manual/de/function.set-exception-handler.php
      * @param $exception PHP Exception Objects are valid (Type Hint).
      */
-    public function __construct(Exception $exception)
+    public function exception_handler(Exception $exception)
     {
         # re/assign variables from an uncatched exception to this exception object
         $this->message = $exception->getMessage();
@@ -273,7 +279,7 @@ class Clansuite_Exception extends Exception implements Clansuite_Exception_Inter
         $errormessage   .= '<img src="'. WWW_ROOT_THEMES_CORE .'images/Clansuite-Toolbar-Icon-64-exception.png" style="border: 2px groove #000000;" alt="Clansuite Exception Icon" /></div>';
 
         # Fieldset Legend
-        $errormessage   .= '<legend>Clansuite Exception : [ '. self::getMessage() .' ]</legend>';
+        $errormessage   .= '<legend>Clansuite Exception : [ '. $this->getMessage() .' ]</legend>';
 
         # Error Messages from Object (table)
         # HEADING <Exception Object>
