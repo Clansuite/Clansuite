@@ -465,9 +465,17 @@ class Clansuite_CMS
      * @param string $message Exception Message
      * @param int $code Exception Code
      */
-    public static function throwException($message = null, $code = null)
+    public static function throwException($exception, $code = null)
     {
-        throw new Clansuite_Exception($message, $code);
+        if($code === null)
+        {
+            $ce = new Clansuite_Exception($exception->getMessage(), $exception->getCode());
+            $ce->exception_handler($exception);
+        }
+        else
+        {
+            new Clansuite_Exception($exception, $code);
+        }
     }
 
     /**
