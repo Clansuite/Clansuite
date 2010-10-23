@@ -39,13 +39,21 @@ if (defined('IN_CS') === false)
 /**
  * Clansuite_Loader
  *
- * This Loader overwrites the normal _autoload with our own user defined loading functions.
- * We register the multiple loaders in the constructor via a call to register_autoloaders().
- * There are several loader-functions, each seperated by the directories they are loading classes from.
+ * This Loader overwrites the Zend Engines_autoload with our own user defined loading functions.
+ * The main function of this class is autoload() it's registered via spl_autoload_register($load_function).
+ * There are several loader-functions, which are used by autoload().
  * Autoload will run, if a file is not found.
+ * The procedure is (1) exclusions, (2) inclusions, (3) mapping file, (4) mapping table.
+ *
+ * Usage:
+ * 1) include this file
+ * 2) spl_autoload_register('Clansuite_Loader::autoload');
  *
  * PHP Manual: __autoload
- * @http://www.php.net/manual/en/language.oop5.autoload.php
+ * @link http://www.php.net/manual/en/language.oop5.autoload.php
+ *
+ * PHP Manual: spl_autoload_register
+ * @link http://www.php.net/manual/de/function.spl-autoload-register.php
  *
  * @category    Clansuite
  * @package     Core
@@ -54,20 +62,6 @@ if (defined('IN_CS') === false)
 class Clansuite_Loader
 {
     private static $autoloader_map = array();
-
-    /**
-     * clansuite_loader:register_autoloaders();
-     *
-     * Overwrites Zend Engines __autoload cache with our own loader-functions
-     * by registering single file loaders via spl_autoload_register($load_function)
-     *
-     * PHP Manual: spl_autoload_register
-     * @link http://www.php.net/manual/de/function.spl-autoload-register.php
-     */
-    public static function register_autoloaders()
-    {
-        spl_autoload_register( 'Clansuite_Loader::autoload' );
-    }
 
     public static function loadMapFile()
     {
