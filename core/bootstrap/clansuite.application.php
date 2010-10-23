@@ -449,8 +449,39 @@ class Clansuite_CMS
      */
     private static function initialize_Errorhandling()
     {
-        set_exception_handler(array(new Clansuite_Exception, 'clansuite_exception_handler'));
-        set_error_handler(array(new Clansuite_Errorhandler, 'clansuite_error_handler'));
+        set_exception_handler('Clansuite_CMS::throwException');
+        set_error_handler('Clansuite_CMS::throwError');
+    }
+
+    /**
+     * Clansuite Exception Callback.
+     *
+     * a) Method for Conditional Usage (Shortcut/Convenience Method)
+     * b) Indirect/Wrapped Exception Throwing
+     *
+     * @example
+     * Usage: someFunction() OR throwException();
+     *
+     * @param string $message Exception Message
+     * @param int $code Exception Code
+     */
+    public static function throwException($message = null, $code = null)
+    {
+        throw new Clansuite_Exception($message, $code);
+    }
+
+    /**
+     * Clansuite Error Callback.
+     *
+     * @param int $errornumber
+     * @param string $errorstring
+     * @param string $errorfile
+     * @param string $errorline
+     * @param string $errorcontext
+     */
+    private static function throwError( $errornumber, $errorstring, $errorfile, $errorline, $errorcontext )
+    {
+        Clansuite_Errorhandler::errorhandler( $errornumber, $errorstring, $errorfile, $errorline, $errorcontext );
     }
 
     /**

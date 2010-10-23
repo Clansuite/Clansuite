@@ -109,6 +109,38 @@ class Clansuite_Exception extends Exception implements Clansuite_Exception_Inter
     private static $exception_development_template_content = '';
 
     /**
+     * Exception Handler Callback
+     * Rethrows uncatched Exceptions in our presentation style.
+     *
+     * @see http://php.net/manual/de/function.set-exception-handler.php
+     * @param $exception PHP Exception Objects are valid (Type Hint).
+     */
+    public function __construct(Exception $exception)
+    {
+        # re/assign variables from an uncatched exception to this exception object
+        $this->message = $exception->getMessage();
+        $this->string = $exception->getTraceAsString();
+        $this->code = $exception->getCode();
+        $this->file = $exception->getFile();
+        $this->line = $exception->getLine();
+        $this->trace = $exception->getTrace();
+
+        # if no errorcode is set, say that it's an rethrow
+        if($this->code === '0')
+        {
+            $this->code = '0 (This exception is uncatched and rethrown.)';
+        }
+
+        # fetch exceptionTemplates, but not for $code = 0
+        if( $this->code > 0 )
+        {
+            self::fetchExceptionTemplates($this->code);
+        }
+
+        echo $this->yellowScreenOfDeath();
+    }
+
+    /**
      * Fetches the normal and rapid development templates for exceptions and sets them to class.
      * Callable via self::getExceptionTemplate() and self::getExceptionDevelopmentTemplate($placeholders).
      *
@@ -215,52 +247,6 @@ class Clansuite_Exception extends Exception implements Clansuite_Exception_Inter
         }
 
         return $replaced_content;
-    }
-
-    /**
-     * Exception Handler Callback
-     * Rethrows uncatched Exceptions in our presentation style.
-     *
-     * @see http://php.net/manual/de/function.set-exception-handler.php
-     * @param $exception PHP Exception Objects are valid (Type Hint).
-     */
-    public function clansuite_exception_handler(Exception $exception)
-    {
-        # re/assign variables from an uncatched exception to this exception object
-        $this->message = $exception->getMessage();
-        $this->string = $exception->getTraceAsString();
-        $this->code = $exception->getCode();
-        $this->file = $exception->getFile();
-        $this->line = $exception->getLine();
-        $this->trace = $exception->getTrace();
-
-        # if no errorcode is set, say that it's an rethrow
-        if($this->code === '0')
-        {
-            $this->code = '0 (This exception is uncatched and rethrown.)';
-        }
-
-        # fetch exceptionTemplates, but not for $code = 0
-        if( $this->code > 0 )
-        {
-            self::fetchExceptionTemplates($this->code);
-        }
-
-        echo $this->yellowScreenOfDeath();
-    }
-
-    /**
-     * Method for Conditional Usage (Shortcut/Convenience Method)
-     *
-     * @example
-     * Usage: someFunction() OR throwException();
-     *
-     * @param string $message Exception Message
-     * @param int $code Exception Code
-     */
-    public function throwException($message = null, $code = null)
-    {
-        throw new Clansuite_Exception($message, $code);
     }
 
     /**
