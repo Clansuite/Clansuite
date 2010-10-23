@@ -479,7 +479,7 @@ class Clansuite_CMS
      * @param string $errorline
      * @param string $errorcontext
      */
-    private static function throwError( $errornumber, $errorstring, $errorfile, $errorline, $errorcontext )
+    public static function throwError( $errornumber, $errorstring, $errorfile, $errorline, $errorcontext )
     {
         Clansuite_Errorhandler::errorhandler( $errornumber, $errorstring, $errorfile, $errorline, $errorcontext );
     }
