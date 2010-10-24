@@ -198,7 +198,7 @@ class Clansuite_Doctrine
         /**
          * Set Cache Driver for Doctrine - but not when we are debugging
          */
-        if(defined('DEBUG') == false)
+        if(DEBUG === false and $this->config['cache']['enabled'] === true)
         {
             $this->initDoctrineCacheDriver();
         }
