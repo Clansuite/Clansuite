@@ -51,6 +51,18 @@ class Clansuite_Functions
     static $already_loaded = array();
 
     /**
+     * Transforms a string from underscored_lower_case to Underscored_Upper_Camel_Case.
+     *
+     * @param string $string String in underscored_lower_case format.
+     * @return $string String in Upper_Camel_Case.
+     */
+    public static function toUnderscoredUpperCamelCase($string)
+    {
+        $upperCamelCase = str_replace(' ', '_', ucwords(str_replace('_', ' ', strtolower($string))));
+        return $upperCamelCase;
+    }
+
+    /**
      * @brief Generates a Universally Unique IDentifier, version 4.
      *
      * This function generates a truly random UUID.
