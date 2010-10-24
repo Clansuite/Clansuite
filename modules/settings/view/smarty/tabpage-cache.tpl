@@ -17,7 +17,7 @@
         </td>
         <td class="cell1" style="padding: 3px">
             <small>Specify one of the following Cache Adapter to use: APC, memcached, xcache, eaccelerator, file-based. </small><br/>
-            {html_options name='config[cache][adapter]' options=$cache_adapters selected=$config.cache.adapter separator='<br />'}
+            {html_options name='config[cache][driver]' options=$cache_adapters selected=$config.cache.adapter separator='<br />'}
         </td>
     </tr>
     <tr>
@@ -25,16 +25,16 @@
             {t}Cache On{/t}
         </td>
         <td class="cell1" style="padding: 3px">
-                   
-            <label for="caching_1">
-                <input id="caching_1" type="radio" value="1" name="config[cache][caching]" {if isset($config.cache.caching) and $config.cache.caching == 1}checked="checked"{/if} />
+
+            <label for="enabled_1">
+                <input id="caching_1" type="radio" value="1" name="config[cache][enabled]" {if isset($config.cache.enabled) and $config.cache.enabled == 1}checked="checked"{/if} />
                 {t}yes{/t}
             </label>
-            
-            <label for="caching_0">
-                <input id="caching_0" type="radio" value="0" name="config[cache][caching]" {if empty($config.cache.caching) or $config.cache.caching == 0}checked="checked"{/if} />
+
+            <label for="enabled_0">
+                <input id="caching_0" type="radio" value="0" name="config[cache][enabled]" {if empty($config.cache.enabled) or $config.cache.enabled == 0}checked="checked"{/if} />
                 {t}no{/t}
-            </label>         
+            </label>
         </td>
     </tr>
     <tr>

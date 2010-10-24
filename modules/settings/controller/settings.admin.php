@@ -56,9 +56,9 @@ class Clansuite_Module_Settings_Admin extends Clansuite_Module_Controller
         # Get Configuration from Injector
         $config = $this->getClansuiteConfig();
 
-        # Assign array with all cache adapters to smarty
-        $cache_adapters = array('apc', 'memcached', 'xcache', 'eaccelerator', 'file-based');
-        $view->assign('cache_adapters', $cache_adapters);
+        # Assign array with all cache driver to smarty
+        $cache_driver = array('apc', 'memcached', 'xcache', 'eaccelerator', 'file-based');
+        $view->assign('cache_driver', $cache_driver);
 
         $timezones = array('Berlin', 'Rio');
         $view->assign('timezones', $timezones);
@@ -83,9 +83,9 @@ class Clansuite_Module_Settings_Admin extends Clansuite_Module_Controller
         # Get Configuration from Injector
         $config = $this->getClansuiteConfig();
 
-        # Assign array with all cache adapters to smarty
-        $cache_adapters = array('apc', 'memcached', 'xcache', 'eaccelerator', 'file-based');
-        $view->assign('cache_adapters', $cache_adapters);
+        # Assign array with all cache driver to smarty
+        $cache_driver = array('apc', 'memcached', 'xcache', 'eaccelerator', 'file-based');
+        $view->assign('cache_driver', $cache_driver);
 
         $timezones = array('Berlin', 'Rio');
         $view->assign('timezones', $timezones);
