@@ -67,7 +67,7 @@ function smarty_function_load_module($params, $smarty)
     if(class_exists($module_classname, false) === false)
     {
         # Check if class was loaded
-        if(Clansuite_Loader::loadModul($module_classname) === false)
+        if(loadModul($module_classname) === false)
         {
             return '<br/>Module missing or misspelled: <strong>' . $module_classname . '</strong>';
         }
@@ -127,7 +127,7 @@ function smarty_function_load_module($params, $smarty)
         {
             # $smarty->template_dir[s]..modules\news\widget_news.tpl
             return $smarty->fetch('modules' . DS . $module . DS . $action . '.tpl');
-        }  
+        }
         elseif ($smarty->templateExists('modules' . DS . $module . DS . 'view' . DS . 'smarty' . DS . $action . '.tpl'))
         {
             # $smarty->template_dir[s]..modules\news\view\widget_news.tpl
@@ -139,10 +139,10 @@ function smarty_function_load_module($params, $smarty)
             return $smarty->fetch($module . DS . 'view' . DS . 'smarty' . DS . $action . '.tpl');
         }
         elseif($smarty->templateExists($template))
-        {   
+        {
             # $smarty->template_dir[s].. $template
             return $smarty->fetch($template);
-        }	    
+        }
         else
         {
             return $smarty->trigger_error('Error! Failed to load Widget-Template for <br /> ' . $module_classname . ' -> ' . $action . '(' . $items . ')');
@@ -152,5 +152,89 @@ function smarty_function_load_module($params, $smarty)
     {
         return $smarty->trigger_error('Error! Failed to load Widget: <br /> ' . $module_classname . ' -> ' . $action . '(' . $items . ')');
     }
+}
+
+/**
+ * loadModul
+ *
+ * - constructs classname
+ * - constructs absolute filename
+ * - hands both to requireFile, returns true if successfull
+ *
+ * The classname for modules is prefixed 'module_' . $modname
+ * The filename is 'clansuite/modules/'. $modname .'.module.php'
+ *
+ * String Variants to consider:
+ * 1) admin
+ * 2) module_admin
+ * 3) module_admin_menueditor
+ *
+ * @param string $modulename The name of the module, which should be loaded.
+ * @return boolean
+ */
+function loadModul($modulename)
+{
+    $modulename = mb_strtolower($modulename);
+
+    # check for prefix 'clansuite_module_'
+    $spos = mb_strpos($modulename, 'clansuite_module_');
+    if(is_int($spos) and ($spos == 0))
+    {
+        # ok, 'clansuite_module_' is prefixed, do nothing
+        unset($spos);
+    }
+    else
+    {
+        # add the prefix
+        $modulename = 'clansuite_module_' . $modulename;
+        unset($spos);
+    }
+
+    /**
+     * now we have a common string like 'clansuite_module_admin_menu' or 'clansuite_module_news'
+     * which we split at underscore, via explode, resulting in an array
+     * like: Array ( [0] => clansuite [1] => module [2] => admin [3] => menu )
+     * or  : Array ( [0] => clansuite [1] => module [2] => news )
+     */
+    $classname = toUnderscoredUpperCamelCase($modulename);
+
+    $moduleinfos = explode('_', $modulename);
+    unset($modulename);
+    $filename = ROOT_MOD;
+
+    # if there is a part [3], we have to require a submodule filename
+    if(isset($moduleinfos['3']))
+    {
+        # and if part [3] is "admin", we have to require a admin submodule filename
+        if($moduleinfos['3'] == 'admin')
+        {
+            # admin submodule filename, like news.admin.php
+            $filename .= $moduleinfos['2'] . DS . 'controller' . DS . $moduleinfos['2'] . '.admin.php';
+        }
+        else
+        {
+            # normal submodule filename, like menueditor.module.php
+            $filename .= $moduleinfos['3'] . DS . 'controller' . DS . $moduleinfos['3'] . '.module.php';
+        }
+    }
+    else
+    {
+        # module filename
+        $filename .= $moduleinfos['2'] . DS . 'controller' . DS . $moduleinfos['2'] . '.module.php';
+    }
+
+    return Clansuite_Loader::requireFile($filename, $classname);
+}
+
+/**
+ * Transforms a string from underscored_lower_case to Underscored_Upper_Camel_Case.
+ *
+ * @param string $string String in underscored_lower_case format.
+ * @return $string String in Upper_Camel_Case.
+ */
+function toUnderscoredUpperCamelCase($string)
+{
+    $upperCamelCase = str_replace(' ', '_', ucwords(str_replace('_', ' ', strtolower($string))));
+    return $upperCamelCase;
 }
 ?>

@@ -193,7 +193,7 @@ class Clansuite_HttpRequest implements Clansuite_Request_Interface, ArrayAccess
 
         if($arrayname == 'POST' and isset($this->post_parameters[$name]))
         {
-            if($where == false)
+            if($where === false)
             {
                 return true;
             }
@@ -204,7 +204,7 @@ class Clansuite_HttpRequest implements Clansuite_Request_Interface, ArrayAccess
         }
         elseif($arrayname == 'GET' and isset($this->get_parameters[$name]))
         {
-            if($where == false)
+            if($where === false)
             {
                 return true;
             }
@@ -215,7 +215,7 @@ class Clansuite_HttpRequest implements Clansuite_Request_Interface, ArrayAccess
         }
         elseif($arrayname == 'COOKIE' and isset($this->cookie_parameters[$name]))
         {
-            if($where == false)
+            if($where === false)
             {
                 return true;
             }
