@@ -167,15 +167,15 @@ class Clansuite_Doctrine
          * echo 'Doctrine DSN: '.$dsn; exit();
          */
         $dsn = sprintf('%s://%s:%s@%s/%s',
-                       $this->config['type'],
-                       $this->config['username'] ,
-                       $this->config['password'],
-                       $this->config['host'],
-                       $this->config['name']
+                       $this->config['database']['type'],
+                       $this->config['database']['username'] ,
+                       $this->config['database']['password'],
+                       $this->config['database']['host'],
+                       $this->config['database']['name']
         );
 
         # Setup Doctrine Connection
-        $this->manager = Doctrine_Manager::connection($dsn, $this->config['name']);
+        $this->manager = Doctrine_Manager::connection($dsn, $this->config['database']['name']);
 
         /**
          * test connection
@@ -210,7 +210,7 @@ class Clansuite_Doctrine
         /**
          * DEFINE -> Database Prefix
          */
-        define('DB_PREFIX', $this->config['prefix'] );
+        define('DB_PREFIX', $this->config['database']['prefix'] );
 
         # Set portability for all rdbms = default
         #$manager->setAttribute('portability', Doctrine_Core::PORTABILITY_ALL);
@@ -318,8 +318,8 @@ class Clansuite_Doctrine
 
     /**
      * This initializes the Doctrine Cache Driver by setting the correct attribute.
-     * The cachedriver attribute depends on the main configuration setting.
-     * @see $this->config['cache']
+     * The cache driver attribute depends on the main configuration setting.
+     * @see $this->config['cache']['driver']
      */
     public function initDoctrineCacheDriver()
     {
@@ -328,9 +328,9 @@ class Clansuite_Doctrine
         # as one hour (60 seconds * 60 minutes = 1 hour = 3600 secs)
         $cacheLifespan = '3600';
 
-        if(isset($this->config['cache']))
+        if(isset($this->config['cache']['driver']))
         {
-            $cache_driver_name = strtolower($this->config['cache']);
+            $cache_driver_name = strtolower($this->config['cache']['driver']);
 
             if($cache_driver_name == 'apc')
             {
