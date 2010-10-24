@@ -166,8 +166,8 @@ class Clansuite_Renderer_Smarty extends Clansuite_Renderer_Base
         /**
          * CACHING OPTIONS (set these options if caching is enabled)
          */
-        #Clansuite_Debug::printr($this->config['cache']);
-        # var_dump($this->config['cache']);
+        #Clansuite_Debug::printr($this->config['smarty']);
+        # var_dump($this->config['smarty']);
         if($this->renderer->debugging == true)
         {
             $this->renderer->caching                = 0;
@@ -177,9 +177,9 @@ class Clansuite_Renderer_Smarty extends Clansuite_Renderer_Base
         }
         else
         {
-            $this->renderer->caching = (bool) $this->config['cache']['caching'];
+            $this->renderer->caching = (bool) $this->config['smarty']['cache'];
             # -1 ... dont expire, 0 ... refresh everytime
-            $this->renderer->cache_lifetime = isset($this->config['cache']['cache_lifetime']) ? $this->config['cache']['cache_lifetime'] : 0;
+            $this->renderer->cache_lifetime = isset($this->config['smarty']['cache_lifetime']) ? $this->config['smarty']['cache_lifetime'] : 0;
             # $this->renderer->cache_handler_func   = "";      # Specify your own cache_handler function
             $this->renderer->cache_modified_check   = 1;       # set to 1 to activate
         }
