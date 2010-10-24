@@ -323,13 +323,10 @@ class Clansuite_Doctrine
      */
     public function initDoctrineCacheDriver()
     {
-        $cacheDriver = '';
-        # consider setting lifespan by config later, for now hardcoded
-        # as one hour (60 seconds * 60 minutes = 1 hour = 3600 secs)
-        $cacheLifespan = '3600';
-
         if(isset($this->config['cache']['driver']))
         {
+            $cacheDriver = '';
+
             $cache_driver_name = strtolower($this->config['cache']['driver']);
 
             if($cache_driver_name == 'apc')
@@ -347,14 +344,22 @@ class Clansuite_Doctrine
                 $cacheDriver = new Doctrine_Cache_Xcache();
             }
             unset($cache_driver_name);
-
-
-            /**
-             * Set Doctrine Attributes
-             */
-            $this->manager->setAttribute(Doctrine_Core::ATTR_RESULT_CACHE, $cacheDriver);
-            $this->manager->setAttribute(Doctrine_Core::ATTR_RESULT_CACHE_LIFESPAN, $cacheLifespan);
         }
+
+        if(isset($this->config['cache']['lifetime']))
+        {
+            $cacheLifespan = $this->config['cache']['lifetime'];
+        }
+        else
+        {
+            $cacheLifespan = '3600'; # = 1 hour (60 seconds * 60 minutes = 1 hour = 3600 secs)
+        }
+
+        /**
+         * Set Doctrine Attributes
+         */
+        $this->manager->setAttribute(Doctrine_Core::ATTR_RESULT_CACHE, $cacheDriver);
+        $this->manager->setAttribute(Doctrine_Core::ATTR_RESULT_CACHE_LIFESPAN, $cacheLifespan);
     }
 
     /**
