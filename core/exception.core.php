@@ -264,7 +264,7 @@ class Clansuite_Exception extends Exception implements Clansuite_Exception_Inter
         $errormessage    = '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">';
         $errormessage   .= '<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">';
         $errormessage   .= '<head>';
-        $errormessage   .= '<title>Clansuite Exception : [ '. $this->getMessage() .' | Exceptioncode: '. $this->getCode() .' ] </title>';
+        $errormessage   .= '<title>Clansuite Exception : [ '. $this->message .' | Exceptioncode: '. $this->code .' ] </title>';
         $errormessage   .= '<link rel="stylesheet" href="'. WWW_ROOT_THEMES_CORE .'css/error.css" type="text/css" />';
         $errormessage   .= '</head>';
 
@@ -279,7 +279,7 @@ class Clansuite_Exception extends Exception implements Clansuite_Exception_Inter
         $errormessage   .= '<img src="'. WWW_ROOT_THEMES_CORE .'images/Clansuite-Toolbar-Icon-64-exception.png" style="border: 2px groove #000000;" alt="Clansuite Exception Icon" /></div>';
 
         # Fieldset Legend
-        $errormessage   .= '<legend>Clansuite Exception : [ '. $this->getMessage() .' ]</legend>';
+        $errormessage   .= '<legend>Clansuite Exception : [ '. $this->message .' ]</legend>';
 
         # Error Messages from Object (table)
         # HEADING <Exception Object>
@@ -343,11 +343,11 @@ class Clansuite_Exception extends Exception implements Clansuite_Exception_Inter
 
         $placeholders = array();
         # assign placeholders for replacements in the html
-        if(mb_strpos($this->getMessage(), 'action_'))
+        if(mb_strpos($this->message, 'action_'))
         {
             $placeholders['actionname'] = mb_substr($this->message, mb_strpos($this->message, 'action_'));
         }
-        elseif(mb_strpos($this->getMessage(), 'module_'))
+        elseif(mb_strpos($this->message, 'module_'))
         {
             $placeholders['classname'] = mb_substr($this->message, mb_strpos($this->message, 'module_'));
         }
