@@ -108,12 +108,6 @@ class Clansuite_Exception extends Exception implements Clansuite_Exception_Inter
      */
     private static $exception_development_template_content = '';
 
-    public function __construct($message, $code)
-    {
-        parent::__construct($message, $code);
-        $this->exception_handler($this);
-        exit;
-    }
     /**
      * Exception Handler Callback
      * Rethrows uncatched Exceptions in our presentation style.
@@ -144,6 +138,20 @@ class Clansuite_Exception extends Exception implements Clansuite_Exception_Inter
         }
 
         echo $this->yellowScreenOfDeath();
+    }
+
+    /**
+     * Method for Conditional Usage (Shortcut/Convenience Method)
+     *
+     * @example
+     * Usage: someFunction() OR throwException();
+     *
+     * @param string $message Exception Message
+     * @param int $code Exception Code
+     */
+    public function throwException($message = null, $code = null)
+    {
+        throw new Clansuite_Exception($message, $code);
     }
 
     /**

@@ -437,11 +437,8 @@ class Clansuite_CMS
      */
     private static function initialize_Eventdispatcher()
     {
-        if(isset(self::$config['eventsystem']['enabled']) and self::$config['eventsystem']['enabled'] === true)
-        {
-            Clansuite_Eventdispatcher::instantiate();
-            Clansuite_Eventloader::autoloadEvents();
-        }
+        Clansuite_Eventdispatcher::instantiate();
+        Clansuite_Eventloader::autoloadEvents();
     }
 
     /**
@@ -449,33 +446,8 @@ class Clansuite_CMS
      */
     private static function initialize_Errorhandling()
     {
-        set_exception_handler('Clansuite_CMS::throwException');
+        set_exception_handler(array(new Clansuite_Exception,'exception_handler'));
         set_error_handler('Clansuite_CMS::throwError');
-    }
-
-    /**
-     * Clansuite Exception Callback.
-     *
-     * a) Method for Conditional Usage (Shortcut/Convenience Method)
-     * b) Indirect/Wrapped Exception Throwing
-     *
-     * @example
-     * Usage: someFunction() OR throwException();
-     *
-     * @param string $message Exception Message
-     * @param int $code Exception Code
-     */
-    public static function throwException($exception, $code = null)
-    {
-        if($code === null)
-        {
-            $ce = new Clansuite_Exception($exception->getMessage(), $exception->getCode());
-            $ce->exception_handler($exception);
-        }
-        else
-        {
-            new Clansuite_Exception($exception, $code);
-        }
     }
 
     /**
