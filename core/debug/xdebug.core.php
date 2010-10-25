@@ -108,21 +108,15 @@ class Clansuite_Xdebug
             # do some xdebug configuration
             self::configure();
 
+            self::$xdebug_memory_before = self::roundMB(xdebug_memory_usage());
+
             # set some more values manually
 
             # tracing
             #ini_set('xdebug.auto_trace', 'On');
             #ini_set('xdebug.trace_output_dir', ROOT_LOGS);
             #ini_set('xdebug.trace_output_name', 'clansuite_trace%u');
-
-            self::$xdebug_memory_before = self::roundMB(xdebug_memory_usage());
-
             #xdebug_start_trace(ROOT_LOGS . 'clansuite_trace', XDEBUG_TRACE_HTML);
-
-            #xdebug_start_code_coverage(XDEBUG_CC_DEAD_CODE | XDEBUG_CC_UNUSED);
-            #var_dump(xdebug_get_code_coverage());
-            #var_dump(xdebug_get_function_count());
-            #xdebug_get_code_coverage();
 
             # stop tracing and display infos
             register_shutdown_function('clansuite_xdebug::shutdown');
@@ -192,20 +186,23 @@ class Clansuite_Xdebug
             # stop tracings and var_dump
             #var_dump(xdebug_get_code_coverage());
             echo '</table>';
-
-            echo '<br/>';
-
-            echo '<table class="xdebug-console" width="95%">';
-            echo '<tr><th>#</th><th>Headers</th></tr>';
-            $headers = xdebug_get_headers();
-            $i = 0;
-            foreach($headers as $header)
-            {
-                echo '<tr><td style="text-align: center;">' . $i++ . '</td><td>' . $header . '</td></tr>';
-            }
-            echo '</table>';
+            #echo '<br/>';
+            #self::displayHeaders();
             echo '</fieldset>';
         }
+    }
+
+    public static function displayHeaders()
+    {
+        echo '<table class="xdebug-console" width="95%">';
+        echo '<tr><th>#</th><th>Headers</th></tr>';
+        $headers = xdebug_get_headers();
+        $i = 0;
+        foreach($headers as $header)
+        {
+            echo '<tr><td style="text-align: center;">' . $i++ . '</td><td>' . $header . '</td></tr>';
+        }
+        echo '</table>';
     }
 
     /**

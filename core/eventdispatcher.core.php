@@ -466,7 +466,7 @@ class Clansuite_Eventloader
     public static function loadModuleEvents($modulename)
     {
         $events = array();
-        $events = include ROOT_MOD . $modulename . DS . $modulename . 'events.php';
+        $events = include ROOT_MOD . $modulename . DS . $modulename . '.events.php';
         Clansuite_Eventdispatcher::instantiate()->addMultipleEventHandlers($events);
     }
 
