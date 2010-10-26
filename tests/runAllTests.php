@@ -32,12 +32,13 @@
 
 # setup simpletest
 require_once 'bootstrap.php';
-#require_once 'simpletest/autorun.php';
+require_once 'simpletest/autorun.php';
 require_once 'simpletest/unit_tester.php';
 require_once 'simpletest/reporter.php';
 
 class ClansuiteTestsuite extends TestSuite
 {
+
     private $files;
 
     function __construct()
@@ -52,12 +53,14 @@ class ClansuiteTestsuite extends TestSuite
         # $test = new GroupTest('GroupTest for /core of Clansuite');
 
         # Debug array with test files
-        # var_export($this->files);
+        #var_export($this->files);
 
         if(count($this->files) > 0)
         {
-           foreach($this->files as $testfile)
+            foreach($this->files as $testfile)
             {
+                #echo '<p>File '. $testfile.' was added to the tests.</p>';
+
                 $this->addFile($testfile);
             }
         }
@@ -70,13 +73,14 @@ class ClansuiteTestsuite extends TestSuite
     public function scanDirForTests($dir)
     {
         $this->files = array();
+
         if(is_dir($dir))
         {
             $sourcedir = opendir($dir);
             while(false !== ( $file = readdir($sourcedir) ))
             {
-                $source_file = $dir . '/' . $file;
-                $source_file = str_replace('//', '/', $source_file);
+                # fix slashes
+                $source_file = strtr($dir . '/' . $file, '\\', '/');
 
                 if(is_dir($source_file))
                 {
@@ -91,13 +95,22 @@ class ClansuiteTestsuite extends TestSuite
                 }
                 else
                 {
-                    # add file to array
-                    $this->files[] = $source_file;
-                    #echo "<p>File {$source_file} was added to the tests array.</p>\n";
+                    if(is_file($source_file) && $this->isPHPfile($file))
+                    {
+                        # add file to array
+                        $this->files[] = $source_file;
+
+                        #echo "<p>File {$source_file} was added to the tests array.</p>\n";
+                    }
                 }
             }
             closedir($sourcedir);
         }
+    }
+
+    protected function isPHPFile($entry)
+    {
+        return preg_match('/\w+\.php$/', $entry);
     }
 
 }

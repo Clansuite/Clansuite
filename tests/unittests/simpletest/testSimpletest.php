@@ -2,7 +2,7 @@
 
 # Simpletest
 require_once 'simpletest/autorun.php';
-require_once 'simpletest/extensions/phpunit_test_case.php';
+#require_once 'simpletest/extensions/phpunit_test_case.php';
 
 # PHPUnit
 #require_once 'PHPUnit/Framework.php';
