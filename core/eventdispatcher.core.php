@@ -468,6 +468,7 @@ class Clansuite_Eventloader
     {
         $events = array();
         $events = include ROOT . 'configuration/events.config.php';
+
         self::loadEventHandlers($events);
     }
 
@@ -482,6 +483,7 @@ class Clansuite_Eventloader
     {
         $events = array();
         $events = include ROOT_MOD . $modulename . DS . $modulename . '.events.php';
+
         self::loadEventHandlers($events);
     }
 
@@ -490,11 +492,13 @@ class Clansuite_Eventloader
      */
     public static function loadAllModuleEvents()
     {
-        #$modules = # @todo fetch all activated modules
+        # fetch all activated modules
+        $modules = Clansuite_ModuleInfoController::getAllActivatedModules();
 
-        foreach($modules as $modulename)
+        # load eventhandlers for each module
+        foreach($modules as $module)
         {
-            self::loadModuleEvents($modulename);
+            self::loadModuleEvents($module);
         }
     }
 }
