@@ -50,6 +50,35 @@ class Clansuite_Functions
      */
     static $already_loaded = array();
 
+
+    /**
+     * Checks a string for a certain prefix or adds it, if missing.
+     *
+     * @param string $string
+     * @param string $prefix
+     * @return string prefixed classname
+     */
+    public static function ensurePrefixedWith($string, $prefix)
+    {
+        $spos = null;
+        # get prefix position in string
+        $spos = mb_strpos($string, $prefix);
+
+        # when prefix starts at string position 0,
+        if(is_int($spos) and ($spos == 0))
+        {
+            # ok, prefixed, do nothing
+            unset($spos);
+            # just return the string
+            return $string;
+        }
+        else # add the prefix
+        {
+            unset($spos);
+            return $prefix . $string;
+        }
+    }
+
     /**
      * Transforms a string from underscored_lower_case to Underscored_Upper_Camel_Case.
      *

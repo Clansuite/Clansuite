@@ -56,23 +56,12 @@ class Clansuite_Widget
      * @param string $modulename The name of the module, which should be loaded.
      * @return boolean
      */
-    function loadModul($modulename)
+    public static function loadModul($modulename)
     {
         $modulename = mb_strtolower($modulename);
 
-        # check for prefix 'clansuite_module_'
-        $spos = mb_strpos($modulename, 'clansuite_module_');
-        if(is_int($spos) and ($spos == 0))
-        {
-            # ok, 'clansuite_module_' is prefixed, do nothing
-            unset($spos);
-        }
-        else
-        {
-            # add the prefix
-            $modulename = 'clansuite_module_' . $modulename;
-            unset($spos);
-        }
+        # apply classname prefix to the modulename
+        $modulename = Clansuite_Functions::ensurePrefixedWith($modulename, 'clansuite_module_');
 
         /**
          * now we have a common string like 'clansuite_module_admin_menu' or 'clansuite_module_news'
