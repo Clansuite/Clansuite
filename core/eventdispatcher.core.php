@@ -40,17 +40,16 @@ if (defined('IN_CS') === false)
 /**
  * Interface for Clansuite_Event
  *
- * The Clansuite_Event has to implement a method handle()
+ * Clansuite_Events have to implement at least a execute() method
  *
  * @category    Clansuite
  * @package     Core
  * @subpackage  Event
- *//*
+ */
 interface Clansuite_Event_Interface
 {
-    # methods gets an Event Object
     public function execute(Clansuite_Event $event);
-}*/
+}
 
 /**
  * Clansuite_Eventdispatcher
@@ -101,7 +100,7 @@ class Clansuite_Eventdispatcher
      */
     public function getEventHandlersForEvent($eventName)
     {
-        if(isset($this->eventhandlers[$eventName]) == false)
+        if(isset($this->eventhandlers[$eventName]) === false)
         {
             return array();
         }
@@ -133,37 +132,18 @@ class Clansuite_Eventdispatcher
      * </code>
      *
      * @param $eventName    Name of the Event
-     * @param $eventobject  Instance of Clansuite_Event
+     * @param $eventobject object|string Instance of Clansuite_Event or filename string
      */
-    public function addEventHandler($eventName, Clansuite_Event_Interface $event)
+    public function addEventHandler($eventName, Clansuite_Event_Interface $event_object)
     {
         # if eventhandler is not set already, initialize as array
-        if(isset($this->eventhandlers[$eventName]) == false)
+        if(isset($this->eventhandlers[$eventName]) === false)
         {
             $this->eventhandlers[$eventName] = array();
         }
 
         # add event to the eventhandler list
-        $this->eventhandlers[$eventName][] = $event;
-    }
-
-    /**
-     * Adds multiple Events at once to the Eventhandlers Array
-     *
-     * @param  $events array    Events to register (only names)
-     * @params $event object int|string object id, owner of events
-     */
-    public function addMultipleEventHandlers($events, Clansuite_Event_Interface $object)
-    {
-        if(empty($events) or is_array($events) == false)
-        {
-            return;
-        }
-
-        foreach($events as $event)
-        {
-            $this->addEventHandler($event, $object);
-        }
+        $this->eventhandlers[$eventName][] = $event_object;
     }
 
     /**
@@ -184,7 +164,7 @@ class Clansuite_Eventdispatcher
      * @param string event name
      * @param mixed event handler
      */
-    public function removeEventHandler($eventName, Clansuite_Event_Interface $event = null)
+    public function removeEventHandler($eventName, Clansuite_Event_Interface $event_object = null)
     {
         # if eventhandler is not added, we have nothing to remove
         if(isset($this->eventhandlers[$eventName]) == false)
@@ -192,7 +172,7 @@ class Clansuite_Eventdispatcher
             return false;
         }
 
-        if($event === null)
+        if($event_object === null)
         {
             # unset all eventhandlers for this eventName
             unset($this->eventhandlers[$eventName]);
@@ -201,7 +181,7 @@ class Clansuite_Eventdispatcher
         {
             foreach($this->eventhandlers[$eventName] as $key => $registered_event)
             {
-                if($registered_event == $event)
+                if($registered_event == $event_object)
                 {
                     unset($this->$this->eventhandlers[$eventName][$key]);
                 }
@@ -446,6 +426,41 @@ class Clansuite_Eventloader
     }
 
     /**
+     * Registers multiple Events by Name
+     *
+     * @param array $events_array eventname => filename
+     * @param array $event_objects eventname => object
+     */
+    public static function loadEventHandlers($events)
+    {
+        if(empty($events) or is_array($events) === false)
+        {
+            return;
+        }
+        else # ok, we got an array with some event names
+        {
+            foreach($events as $event)
+            {
+                # array[0] filename
+                $filename = $array[0];
+
+                # array[1] classname
+                $classname = Clansuite_Functions::ensurePrefixedWith($array[1], 'Clansuite_Event_');
+
+                # load eventhandler
+                Clansuite_Loader::requireFile($filename, $classname);
+
+                # instantiate eventhandler
+                $event_object = new $classname();
+
+                # add the eventhandler to the dispatcher
+                $eventdispatcher = Clansuite_Eventdispatcher::instantiate();
+                $eventdispatcher->addEventHandler($event, $event_object);
+            }
+        }
+    }
+
+    /**
      * Loads and registers the core eventhandlers according to the event configuration file.
      * The event configuration for the core is file is /configuration/events.config.php.
      */
@@ -453,7 +468,7 @@ class Clansuite_Eventloader
     {
         $events = array();
         $events = include ROOT . 'configuration/events.config.php';
-        Clansuite_Eventdispatcher::instantiate()->addMultipleEventHandlers($events);
+        self::loadEventHandlers($events);
     }
 
     /**
@@ -467,7 +482,7 @@ class Clansuite_Eventloader
     {
         $events = array();
         $events = include ROOT_MOD . $modulename . DS . $modulename . '.events.php';
-        Clansuite_Eventdispatcher::instantiate()->addMultipleEventHandlers($events);
+        self::loadEventHandlers($events);
     }
 
     /**
