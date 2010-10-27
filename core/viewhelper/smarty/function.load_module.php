@@ -67,7 +67,10 @@ function smarty_function_load_module($params, $smarty)
     if(class_exists($module_classname, false) === false)
     {
         # include function Clansuite_Widget::loadModul()
-        require ROOT_CORE . 'viewhelper/widget.core.php';
+        if(class_exists('Clansuite_Widget', false) === false)
+        {
+            require ROOT_CORE . 'viewhelper/widget.core.php';
+        }
 
         # Load class, if not already loaded
         if(Clansuite_Widget::loadModul($module_classname) === false)
