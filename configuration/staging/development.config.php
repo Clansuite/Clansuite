@@ -4,6 +4,17 @@
 ; 
 
 ;----------------------------------------
+; database
+;----------------------------------------
+[database]
+host = "localhost"
+type = "mysql"
+username = "root"
+password = "toop"
+name = "clansuite"
+prefix = "cs_"
+
+;----------------------------------------
 ; error
 ;----------------------------------------
 [error]
@@ -12,5 +23,6 @@ debug = 1
 xdebug = 1
 webdebug = 0
 debug_popup = 0
+
 
 ; DO NOT REMOVE THIS LINE */ ?>
