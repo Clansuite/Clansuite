@@ -2,7 +2,7 @@
      "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html>
 <head>
-<link rel="stylesheet" href="/themes/core/css/error.css" type="text/css" />
+<link rel="stylesheet" href="themes/core/css/error.css" type="text/css" />
 <style type="text/css">
 html, body {
     height: 100%;
@@ -12,42 +12,56 @@ html, body {
 }
 
 #centered {
-    border: 0;
+    border: 1px groove #DADADA;
     height: 50%;
     width: 50%;
     position: relative;
     left: 25%;
-    top: 25%;
+    top: 20%;
+	 background: #F8F8F8;
+	 padding: 1em;
 }
 </style>
-<title>{* {$pagetitle} -*}{t}Maintenance Mode{/t}</title>
+
+<!--[if IE]>
+<style>
+fieldset {
+	position: relative;
+	}
+legend {
+	position: absolute;
+	top: -.8em;
+	left: .8em;
+	}
+</style>
+<![endif]-->
+
+<title>{title}</title>
 </head>
 <body>
 
 <div id="centered">
 
+<div style="height: 65px; border-bottom:1px solid #ccc; font-size:24pt;margin-bottom:1.5em;font-weight:bolder;color:#646464;">
+		<div style="float:right;margin-right:3em;margin-top:8px;">Clansuite - just an <font color=red>e</font>Sports CMS</div>
+	<div style="float:left"><img src="themes/core/images/clansuite_logos/clansuite_clown_mini_trans.png" vspace="0" hspace="0" border=0></div>
+</div>
+
+
 <fieldset class="error_beige">
     <legend>
-        <strong>{t}Maintenance Mode{/t}</strong>
+        <strong>{title}</strong>
     </legend>
-    {if isset($maintenance_reason)}
 
-    {$maintenance_reason}
+    <p>&nbsp;</p>
 
-    {else}
+    <p>{reason}</p>
+    <p>{sorry}</p>
+    <p>{back}</p>
 
-    <b> {t}The website is down!{/t}</b>
-    <br />{t}SITE is currently undergoing scheduled maintenance.{/t}
-    <br />{t}Sorry for the inconvenience. Please try back in 60 minutes.{/t}
+    <p>&nbsp;</p>
 
-    {/if}
 </fieldset>
-
-{*
-<div id="centered">
-        {load_module name="account" func="login"}
-</div>
-*}
 
 </div>
 </body>
