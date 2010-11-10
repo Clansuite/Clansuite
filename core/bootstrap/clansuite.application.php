@@ -146,7 +146,8 @@ class Clansuite_CMS
      * 1. Check if clansuite.config.php is found, else redirect
      * 2. Load clansuite.config.php
      * 3. Load specific staging configuration (overloading clansuite.config.php)
-     * 4. Alter php.ini settings
+     * 4. Maintenance check
+     * 5. Alter php.ini settings
      */
     private static function initialize_Config()
     {
@@ -160,7 +161,31 @@ class Clansuite_CMS
         # 2. load the main clansuite configuration file
         self::$config = Clansuite_Config_INI::readConfig(ROOT . 'configuration/clansuite.config.php');
 
-        # 3. load staging configuration (overloading clansuite.config.php)
+        # 3. Maintenance check
+        if( true === (bool)self::$config['maintenance']['maintenance'] )
+        {
+            $token = false;
+            if( isset( $_GET['mnt'] ))
+            {
+                $tokenstring = $_GET['mnt'];
+                $token = Clansuite_Securitytoken::ckeckToken( $tokenstring );
+            }
+
+            if( false === $token )
+            {
+                Clansuite_Maintenance::run(self::$config);
+                exit();
+            } 
+            else 
+            {
+                self::$config['maintenance']['maintenance'] = 0;
+                Clansuite_Config_INI::writeConfig(ROOT . 'configuration/clansuite.config.php', self::$config);
+                // redirect um den Token aus der url zu löschen
+                header( 'Location: ' . SERVER_URL ) ;exit();
+            }
+        }
+
+        # 4. load staging configuration (overloading clansuite.config.php)
         if(self::$config['config']['staging'] == true)
         {
             self::$config = Clansuite_Staging::overloadWithStagingConfig(self::$config);
@@ -168,7 +193,7 @@ class Clansuite_CMS
 
         /**
          *  ================================================
-         *          4. Alter php.ini settings
+         *          5. Alter php.ini settings
          *  ================================================
          */
         ini_set('short_open_tag', 'off');
@@ -511,7 +536,6 @@ class Clansuite_CMS
         self::$prefilter_classes = array(
                                          # let the debug console always be first
                                          'Clansuite_Filter_PhpDebugConsole',
-                                         'Clansuite_Filter_Maintenance',
                                          'Clansuite_Filter_GetUser',
                                          #'Clansuite_Filter_Session_Security',
                                          'Clansuite_Filter_Routing',
