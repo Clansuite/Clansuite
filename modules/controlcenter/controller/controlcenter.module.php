@@ -80,6 +80,14 @@ class Clansuite_Module_ControlCenter extends Clansuite_Module_Controller
         $this->display();
     }
 
+    public function action_about1()
+    {
+        # Set Pagetitle and Breadcrumbs
+        Clansuite_Breadcrumb::add( _('About Clansuite'), '/controlcenter/about');
+
+        $this->display();
+    }
+
     public function action_supportlinks()
     {
         # Set Pagetitle and Breadcrumbs
