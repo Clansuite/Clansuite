@@ -45,20 +45,93 @@ class Clansuite_Module_Languages_Admin extends Clansuite_Module_Controller
 {
     public function initializeModule()
     {
+        # raise time limit for scanning and extraction
+        @set_time_limit(900);
+    }
 
+    public static function createLanguagesDirIfNotExistant($module_name)
+    {
+        if(false == is_dir(ROOT_MOD . $module_name . DS . 'languages'))
+        {
+            mkdir(ROOT_MOD . $module_name . DS . 'languages', 0777, true);
+        }
+    }
+
+    public static function scanModule($module_name)
+    {
+        self::createLanguagesDirIfNotExistant($module_name);
+
+        $gettext_extractor = new Clansuite_Gettext_Extractor();
+        $gettext_extractor->multiScan(ROOT_MOD . $module_name);
+        $gettext_extractor->save(ROOT_MOD . $module_name . DS . 'languages' . DS . $module_name . '.po');
+    }
+
+    public static function scanAllModules()
+    {
+        $module_names = Clansuite_ModuleInfoController::getModuleNames();
+
+        foreach($module_names as $module)
+        {
+            foreach($module as $name => $path)
+            {
+                self::scanModule($name);
+            }
+        }
     }
 
     public function action_admin_show()
     {
         $view = $this->getView();
 
-        $gettext_extractor = new Clansuite_Gettext_Extractor();
-        $gettext_extractor->doScan(ROOT_MOD . 'languages/view/smarty/action_admin_show.tpl');
-        Clansuite_Debug::firebug($gettext_extractor);
-
-        #$view->themes = $themes;
+        self::scanAllModules();
+        exit;
 
         $this->display();
+    }
+
+    public function action_admin_edit()
+    {
+
+    }
+
+    public function action_admin_delete()
+    {
+
+    }
+
+    /**
+     * Fetch translation via Google Translation API
+     *
+     * @link http://code.google.com/intl/de-DE/apis/ajaxlanguage/documentation/reference.html
+     */
+    public function ajax_action_admin_translate_google()
+    {
+        # get the incomming string to translate
+        $message = htmlspecialchars($_POST['message']); # msgid
+
+        # get the incomming target language
+        $targetlanguage = htmlspecialchars($_POST['targetlanguage']);
+
+        # prepare $message string
+        $search = array('\\\\\\\"', '\\\\\"','\\\\n', '\\\\r', '\\\\t', '\\\\$','\\0', "\\'", '\\\\');
+        $replace = array('\"', '"', "\n", "\r", "\\t", "\\$", "\0", "'", "\\");
+	       $message = str_replace( $search, $replace, $message );
+
+        # remote fetch
+        $google_api_url = 'http://ajax.googleapis.com/ajax/services/language/translate?v=1.0&format=html';
+        $translated_string = Clansuite_RemoteFetch::fetch($google_api_url."&q=".urlencode($message)."&langpair=en%7C".$targetlanguage);
+
+        # if google answered, output the translated string in json format
+        if($translated_string)
+        {
+            $this->getView('json')->assign($translated_string);
+            $this->display();
+        }
+        else
+        {
+            $this->setFlashmessage('error', 'The Google Translation Service is not available.');
+            $this->redirectToReferer();
+        }
     }
 }
 ?>

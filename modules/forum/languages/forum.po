@@ -1,0 +1,108 @@
+# Gettext Keys exported by Clansuite_Gettext_Extractor
+# Copyright (c) 2010 Clansuite - just an eSports CMS
+#
+msgid ""
+msgstr ""
+"Content-Type: text/plain; charset=UTF-8\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: forum.admin.php:158
+msgid "Allow BBCode"
+msgstr "Allow BBCode"
+
+#: forum.admin.php:172
+msgid "Allow Geshi Highlighting"
+msgstr "Allow Geshi Highlighting"
+
+#: forum.admin.php:165
+msgid "Allow HTML"
+msgstr "Allow HTML"
+
+#: forum.admin.php:78
+msgid "Create Board"
+msgstr "Create Board"
+
+#: forum.admin.php:67
+msgid "Create Category"
+msgstr "Create Category"
+
+#: forum.module.php:84
+msgid "Create Post"
+msgstr "Create Post"
+
+#: forum.module.php:94
+msgid "Create Thread"
+msgstr "Create Thread"
+
+#: forum.admin.php:122
+msgid "Delete Board"
+msgstr "Delete Board"
+
+#: forum.admin.php:111
+msgid "Delete Category"
+msgstr "Delete Category"
+
+#: forum.module.php:102
+msgid "Delete Post"
+msgstr "Delete Post"
+
+#: forum.module.php:110
+msgid "Delete Thread"
+msgstr "Delete Thread"
+
+#: forum.admin.php:100
+msgid "Edit Board"
+msgstr "Edit Board"
+
+#: forum.admin.php:89
+msgid "Edit Category"
+msgstr "Edit Category"
+
+#: forum.module.php:118
+msgid "Edit Post"
+msgstr "Edit Post"
+
+#: forum.module.php:126
+msgid "Edit Thread"
+msgstr "Edit Thread"
+
+#: action_admin_settings.tpl:4
+msgid "Forum - Settings"
+msgstr "Forum - Settings"
+
+#: forum.admin.php:151
+msgid "Maximum Textcharacter"
+msgstr "Maximum Textcharacter"
+
+#: forum.admin.php:133
+msgid "Settings"
+msgstr "Settings"
+
+#: forum.admin.php:56
+#: forum.module.php:56
+msgid "Show"
+msgstr "Show"
+
+#: forum.module.php:142
+msgid "Show Board"
+msgstr "Show Board"
+
+#: forum.module.php:134
+msgid "Show Category"
+msgstr "Show Category"
+
+#: forum.module.php:74
+msgid "Show Post"
+msgstr "Show Post"
+
+#: forum.module.php:66
+msgid "Show Thread"
+msgstr "Show Thread"
+
+#: action_admin_settings.tpl:5
+msgid "You can control and configure the behaviour of the Forum Module by the settings provided here."
+msgstr "You can control and configure the behaviour of the Forum Module by the settings provided here."
+
+#: forum.admin.php:144
+msgid "list_max"
+msgstr "list_max"

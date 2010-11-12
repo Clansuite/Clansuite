@@ -1,0 +1,11 @@
+# Gettext Keys exported by Clansuite_Gettext_Extractor
+# Copyright (c) 2010 Clansuite - just an eSports CMS
+#
+msgid ""
+msgstr ""
+"Content-Type: text/plain; charset=UTF-8\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: mibbitirc.module.php:56
+msgid "Show"
+msgstr "Show"

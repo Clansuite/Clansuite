@@ -1,0 +1,40 @@
+# Gettext Keys exported by Clansuite_Gettext_Extractor
+# Copyright (c) 2010 Clansuite - just an eSports CMS
+#
+msgid ""
+msgstr ""
+"Content-Type: text/plain; charset=UTF-8\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: action_admin_settings.tpl:4
+msgid "Downloads - Settings"
+msgstr "Downloads - Settings"
+
+#: downloads.admin.php:76
+msgid "Items in Latest Downloads Widget"
+msgstr "Items in Latest Downloads Widget"
+
+#: downloads.admin.php:82
+#: downloads.admin.php:88
+msgid "Items in Top Downloads Widget"
+msgstr "Items in Top Downloads Widget"
+
+#: widget_latestfiles.tpl:7
+msgid "LatestFiles"
+msgstr "LatestFiles"
+
+#: downloads.admin.php:66
+msgid "Settings"
+msgstr "Settings"
+
+#: downloads.module.php:56
+msgid "Show"
+msgstr "Show"
+
+#: widget_topfiles.tpl:7
+msgid "TopFiles"
+msgstr "TopFiles"
+
+#: action_admin_settings.tpl:5
+msgid "You can control and configure the behaviour of the Downloads Module by the settings provided here."
+msgstr "You can control and configure the behaviour of the Downloads Module by the settings provided here."
