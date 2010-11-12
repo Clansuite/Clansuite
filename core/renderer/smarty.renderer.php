@@ -270,6 +270,8 @@ class Clansuite_Renderer_Smarty extends Clansuite_Renderer_Base
         #Clansuite_Debug::printR($this->renderer->plugins_dir);
 
         # $this->renderer->registerPlugin('modifier', 'timemarker',  array('benchmark', 'timemarker'));
+
+        #$this->renderer->registerFilter(Smarty::FILTER_VARIABLE, 'htmlspecialchars');
     }
 
     /**
@@ -466,15 +468,15 @@ class Clansuite_Renderer_Smarty extends Clansuite_Renderer_Base
     public function render($template)
     {
         # 1. assign common template values and Clansuite constants as Smarty Template Variables.
-        $this->renderer->assign($this->getConstants());
+        $this->renderer->assignGlobal($this->getConstants());
 
         /**
          * Assign the original template name and the requested module
          * This is used in template_not_found.tpl to provide a link to the templateeditor
          */
-        $this->renderer->assign('modulename', Clansuite_TargetRoute::getModuleName());
-        $this->renderer->assign('actionname', Clansuite_TargetRoute::getActionName());
-        $this->renderer->assign('templatename', $template);
+        $this->renderer->assignGlobal('modulename', Clansuite_TargetRoute::getModuleName());
+        $this->renderer->assignGlobal('actionname', Clansuite_TargetRoute::getActionName());
+        $this->renderer->assignGlobal('templatename', $template);
 
         # @todo caching
         //$resource_name = ???, $cache_id = ???, $compile_id = ???
