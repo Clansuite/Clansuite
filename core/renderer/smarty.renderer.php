@@ -67,6 +67,9 @@ class Clansuite_Renderer_Smarty extends Clansuite_Renderer_Base
         parent::__construct($config);
         $this->initializeEngine();
         $this->configureEngine();
+
+        # debug display of all smarty related directories
+        #$this->renderer->testInstall();
     }
 
     /**
@@ -113,8 +116,8 @@ class Clansuite_Renderer_Smarty extends Clansuite_Renderer_Base
         {
             #$this->renderer->debug_tpl = ROOT_THEMES . 'core/view/debug.tpl';   # set debugging template for smarty
             $this->renderer->debug_tpl  = ROOT_LIBRARIES . 'smarty/debug.tpl';   # set debugging template for smarty
-            $this->renderer->utility->clearCompiledTemplate(); # clear compiled tpls in case of debug
-            $this->renderer->cache->clearAll();                # clear cache
+            $this->renderer->clearCompiledTemplate(); # clear compiled tpls in case of debug
+            $this->renderer->clearAllCache();         # clear cache
         }
 
         # $this->renderer->debug_ctrl       = "NONE";   # NONE (not active), URL (activates debugging if SMARTY_DEBUG found in query string)
@@ -193,12 +196,13 @@ class Clansuite_Renderer_Smarty extends Clansuite_Renderer_Base
          * PHP Handling in Templates
          *
          * You can use this options for php handling:
-         * SMARTY_PHP_PASSTHRU = php tags are displayed
-         * SMARTY_PHP_QUOTE    = php tags are displayed as HTML-Entities
-         * SMARTY_PHP_REMOVE   = php tags are removed
-         * SMARTY_PHP_ALLOW    = php tags are allowed and executed in templates
+         * PHP_PASSTHRU = php tags are displayed
+         * PHP_QUOTE    = php tags are displayed as HTML-Entities
+         * PHP_REMOVE   = php tags are removed
+         * PHP_ALLOW    = php tags are allowed and executed in templates
          */
-        $this->renderer->php_handling = SMARTY_PHP_PASSTHRU;
+        #$this->renderer->allow_php_tag = true;
+        #$this->renderer->php_handling  = Smarty::PHP_PASSTHRU;
 
         /**
          * SECURITY SETTINGS
@@ -283,8 +287,8 @@ class Clansuite_Renderer_Smarty extends Clansuite_Renderer_Base
         if($this->renderer)
         {
             # reset all prior assigns and configuration settings
-            $this->renderer->clear_all_assign();
-            $this->renderer->clear_config();
+            $this->renderer->clearAllAssign();
+            $this->renderer->clearConfig();
         }
         else
         {
@@ -375,7 +379,7 @@ class Clansuite_Renderer_Smarty extends Clansuite_Renderer_Base
       */
      public function __isset($key)
      {
-         return (null !== $this->renderer->get_template_vars($key));
+         return (null !== $this->renderer->getTemplateVars($key));
      }
 
      /**
@@ -386,7 +390,7 @@ class Clansuite_Renderer_Smarty extends Clansuite_Renderer_Base
       */
      public function __unset($key)
     {
-         $this->renderer->clear_assign($key);
+         $this->renderer->clearAssign($key);
      }
 
     /**
@@ -416,16 +420,16 @@ class Clansuite_Renderer_Smarty extends Clansuite_Renderer_Base
      */
     public function clearVars()
     {
-        $this->renderer->clear_all_assign();
+        $this->renderer->clearAllAssign();
     }
 
     /**
-     * Clears the Smarty Cache and removes compiled Templates
+     * Clears the Smarty Template Cache and removes compiled Templates
      */
     public function clearCache()
     {
-        $this->renderer->cache->clearAll();
-        $this->renderer->utility->clearCompiledTemplate();
+        $this->renderer->clearAllCache();
+        $this->renderer->clearCompiledTemplate();
     }
 
     /**
