@@ -269,12 +269,7 @@ class Clansuite_Renderer_Smarty extends Clansuite_Renderer_Base
 
         #Clansuite_Debug::printR($this->renderer->plugins_dir);
 
-        /**
-         * Smarty Modifiers
-         */
-        # array which modifiers used for all variables, to exclude a var from this use: {$var|nodefaults}
-        # $this->renderer->default_modifiers = array('escape:"htmlall"');
-        # $this->renderer->register_modifier('timemarker',  array('benchmark', 'timemarker'));
+        # $this->renderer->registerPlugin('modifier', 'timemarker',  array('benchmark', 'timemarker'));
     }
 
     /**
