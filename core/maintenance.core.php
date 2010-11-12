@@ -87,6 +87,9 @@ class Clansuite_Maintenance
     {
         self::$language = $config['language']['language'];
 
+        /*
+         * read reason from $config
+         */
         if( $config['mainteance']['reason'] == 0 )
         { 
             self::$reason = 1;
@@ -95,12 +98,15 @@ class Clansuite_Maintenance
             self::$reason    = $config['mainteance']['reason'];
         }
 
-        if( $config['mainteance']['reason'] == 0 )
+        /*
+         * read timeout from $config
+         */
+        if( $config['mainteance']['timeout'] == 0 )
         { 
             self::$timeout   = 60;
         }
         else {
-            self::$reason    = $config['mainteance']['reason'];
+            self::$timeout    = $config['mainteance']['timeout'];
         }
 
         if( $filePath )

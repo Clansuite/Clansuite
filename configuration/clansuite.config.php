@@ -101,6 +101,8 @@ languageswitch_via_url = 0
 ;----------------------------------------
 [maintenance]
 maintenance = 0
+timeout = 60
+reason = 1
 
 ;----------------------------------------
 ; meta
