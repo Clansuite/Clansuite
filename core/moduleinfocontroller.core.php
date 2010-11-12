@@ -267,7 +267,7 @@ class Clansuite_ModuleInfoController
             self::$modulesinfo[$modulename]['name']   = $modulename;
             self::$modulesinfo[$modulename]['id']     = $number_of_modules;
             self::$modulesinfo[$modulename]['path']   = $modulepath;
-            self::$modulesinfo[$modulename]['core']   = self::isCoreModule($modulename);
+            self::$modulesinfo[$modulename]['core']   = self::isACoreModule($modulename);
             # active - based on /configuration/modules.config.php
             self::$modulesinfo[$modulename]['active'] = self::isActive($modulename);
             # hasMenu / ModuleNavigation
@@ -338,7 +338,7 @@ class Clansuite_ModuleInfoController
             self::$modulesinfo[$modulename]['name']   = $modulename;
             self::$modulesinfo[$modulename]['id']     = $number_of_modules;
             self::$modulesinfo[$modulename]['path']   = $modulepath;
-            self::$modulesinfo[$modulename]['core']   = self::isCoreModule($modulename);
+            self::$modulesinfo[$modulename]['core']   = self::isACoreModule($modulename);
             # active - based on /configuration/modules.config.php
             self::$modulesinfo[$modulename]['active'] = self::isActive($modulename);
             # hasMenu / ModuleNavigation
