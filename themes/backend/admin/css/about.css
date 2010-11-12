@@ -1,0 +1,37 @@
+
+.about-version
+{
+   font-size: 7pt;
+   vertical-align: top;
+}
+
+.about-info
+{
+   font-size: 12pt;
+   vertical-align: top;
+}
+
+.about-title
+{
+   font-size: 9pt;
+   background-color: #dddddd;
+   vertical-align: middle;
+}
+
+.about-entry
+{
+   font-size: 8pt;
+   vertical-align: top;
+}
+
+.about-entry-small
+{
+   font-size: 7pt;
+   vertical-align: top;
+}
+
+.about-sponsor
+{
+   font-size: 12pt;
+   text-align: justify;
+}
