@@ -1,0 +1,44 @@
+# Gettext Keys exported by Clansuite_Gettext_Extractor
+# Copyright (c) 2010 Clansuite - just an eSports CMS
+#
+msgid ""
+msgstr ""
+"Content-Type: text/plain; charset=UTF-8\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: matches.admin.php:99
+msgid "Items Latest Matches Widget"
+msgstr "Items Latest Matches Widget"
+
+#: matches.admin.php:105
+msgid "Items Next Matches Widget"
+msgstr "Items Next Matches Widget"
+
+#: widget_latestmatches.tpl:11
+msgid "Latest Matches"
+msgstr "Latest Matches"
+
+#: action_admin_settings.tpl:4
+msgid "Matches - Settings"
+msgstr "Matches - Settings"
+
+#: widget_nextmatches.tpl:23
+msgid "Next Matches"
+msgstr "Next Matches"
+
+#: matches.admin.php:89
+msgid "Settings"
+msgstr "Settings"
+
+#: matches.admin.php:59
+#: matches.module.php:54
+msgid "Show"
+msgstr "Show"
+
+#: widget_topmatch.tpl:11
+msgid "Topmatch"
+msgstr "Topmatch"
+
+#: action_admin_settings.tpl:5
+msgid "You can control and configure the behaviour of the Matches Module by the settings provided here."
+msgstr "You can control and configure the behaviour of the Matches Module by the settings provided here."

@@ -1,0 +1,109 @@
+# Gettext Keys exported by Clansuite_Gettext_Extractor
+# Copyright (c) 2010 Clansuite - just an eSports CMS
+#
+msgid ""
+msgstr ""
+"Content-Type: text/plain; charset=UTF-8\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: action_admin_menueditor.tpl:34
+msgid "Adminmenu"
+msgstr "Adminmenu"
+
+#: action_admin_menueditor.tpl:23
+#: action_admin_menueditor2.tpl:10
+msgid "Adminmenu - Administration"
+msgstr "Adminmenu - Administration"
+
+#: action_admin_menueditor.tpl:236
+msgid "Click the button below, to save the menu into the Database."
+msgstr "Click the button below, to save the menu into the Database."
+
+#: action_admin_menueditor.tpl:160
+msgid "Edit the Menuelement"
+msgstr "Edit the Menuelement"
+
+#: action_admin_menueditor.tpl:227
+msgid "Generate Menu"
+msgstr "Generate Menu"
+
+#: action_admin_menueditor.tpl:127
+#: action_admin_menueditor.tpl:187
+msgid "Icon"
+msgstr "Icon"
+
+#: action_admin_menueditor.tpl:92
+msgid "Insert new Menuelement"
+msgstr "Insert new Menuelement"
+
+#: adminmenu.tpl:55
+msgid "Logout"
+msgstr "Logout"
+
+#: widget_menu.tpl:8
+msgid "Menu"
+msgstr "Menu"
+
+#: menu.admin.php:126
+msgid "Menueditor II"
+msgstr "Menueditor II"
+
+#: action_admin_menueditor.tpl:167
+msgid "Name"
+msgstr "Name"
+
+#: action_admin_menueditor.tpl:131
+#: action_admin_menueditor.tpl:191
+msgid "No icon"
+msgstr "No icon"
+
+#: action_admin_menueditor.tpl:224
+msgid "Restore the last Adminmenu"
+msgstr "Restore the last Adminmenu"
+
+#: adminmenu.tpl:48
+msgid "Show Frontpage"
+msgstr "Show Frontpage"
+
+#: action_admin_menueditor.tpl:179
+msgid "Target"
+msgstr "Target"
+
+#: action_admin_menueditor.tpl:234
+msgid "The menu has been generated."
+msgstr "The menu has been generated."
+
+#: action_admin_menueditor.tpl:175
+msgid "Tooltip Title"
+msgstr "Tooltip Title"
+
+#: action_admin_menueditor.tpl:171
+msgid "URL (href)"
+msgstr "URL (href)"
+
+#: action_admin_menueditor.tpl:238
+msgid "Update the Adminmenu"
+msgstr "Update the Adminmenu"
+
+#: action_admin_menueditor.tpl:123
+#: action_admin_menueditor.tpl:183
+msgid "View Permission"
+msgstr "View Permission"
+
+#: action_admin_menueditor.tpl:24
+#: action_admin_menueditor2.tpl:11
+msgid "With the Menueditor you may modify the menu entries. You can also add new ones or modify or delete existing ones."
+msgstr "With the Menueditor you may modify the menu entries. You can also add new ones or modify or delete existing ones."
+
+#: menu.admin.php:419
+#: menu.admin.php:423
+#: menu.admin.php:450
+#: menu.admin.php:462
+#: menu.admin.php:523
+#: menu.admin.php:544
+msgid "name"
+msgstr "name"
+
+#: menu.admin.php:262
+msgid "success#Menu successfully updated."
+msgstr "success#Menu successfully updated."

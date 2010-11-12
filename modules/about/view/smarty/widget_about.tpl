@@ -10,8 +10,8 @@ function openCenteredPopup(url, windowname)
     href=url.href;
     }
 
-    var width  = 600;
-    var height = 400;
+    var width  = 900;
+    var height = 450;
 
     // center it
     var left   = (screen.width  - width)/2;
@@ -24,7 +24,7 @@ function openCenteredPopup(url, windowname)
     params += ', location=no';
     params += ', menubar=no';
     params += ', resizable=no';
-    params += ', scrollbars=no';
+    params += ', scrollbars=yes';
     params += ', status=no';
     params += ', toolbar=no';
 

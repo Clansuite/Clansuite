@@ -1,0 +1,608 @@
+# Gettext Keys exported by Clansuite_Gettext_Extractor
+# Copyright (c) 2010 Clansuite - just an eSports CMS
+#
+msgid ""
+msgstr ""
+"Content-Type: text/plain; charset=UTF-8\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: tabpage-login.tpl:170
+msgid "Add to Comments"
+msgstr "Add to Comments"
+
+#: tabpage-login.tpl:160
+msgid "Add to Login Box"
+msgstr "Add to Login Box"
+
+#: tabpage-metatags.tpl:32
+msgid "Author"
+msgstr "Author"
+
+#: tabpage-email.tpl:112
+msgid "Bitte geben Sie den vollen Namen des Absenders des Systems bzw. des Systemadministrators ein;"
+msgstr "Bitte geben Sie den vollen Namen des Absenders des Systems bzw. des Systemadministrators ein;"
+
+#: tabpage-email.tpl:103
+msgid "Bitte geben Sie die Emailadresse des Systems bzw. des Systemadministrators ein;"
+msgstr "Bitte geben Sie die Emailadresse des Systems bzw. des Systemadministrators ein;"
+
+#: tabpage-login.tpl:22
+msgid "By eMail"
+msgstr "By eMail"
+
+#: tabpage-login.tpl:21
+msgid "By nickname"
+msgstr "By nickname"
+
+#: tabpage-cache.tpl:16
+msgid "Cache"
+msgstr "Cache"
+
+#: tabpage-cache.tpl:42
+msgid "Cache Lifetime"
+msgstr "Cache Lifetime"
+
+#: tabpage-cache.tpl:25
+msgid "Cache On"
+msgstr "Cache On"
+
+#: tabpage-cache.tpl:11
+msgid "Cache Settings"
+msgstr "Cache Settings"
+
+#: tabpage-language.tpl:25
+msgid "Charset"
+msgstr "Charset"
+
+#: tabpage-updates.tpl:16
+msgid "Check for Updates"
+msgstr "Check for Updates"
+
+#: tabpage-login.tpl:49
+msgid "Choose Number of minutes to ban a certain ip, after too many login attempts."
+msgstr "Choose Number of minutes to ban a certain ip, after too many login attempts."
+
+#: tabpage-login.tpl:19
+msgid "Choose the login method: You may select Login by Nickname or Email."
+msgstr "Choose the login method: You may select Login by Nickname or Email."
+
+#: tabpage-standard.tpl:25
+msgid "Clanname"
+msgstr "Clanname"
+
+#: action_admin_easylist.tpl:2
+#: settings.tpl:3
+msgid "Clansuite Settings"
+msgstr "Clansuite Settings"
+
+#: tabpage-updates.tpl:19
+msgid "Clansuite can check with [clansuite.com] whether you are running the latest version. Results will be shown on the admin control panel with links to download the updated versions."
+msgstr "Clansuite can check with [clansuite.com] whether you are running the latest version. Results will be shown on the admin control panel with links to download the updated versions."
+
+#: tabpage-standard.tpl:34
+msgid "Clantag"
+msgstr "Clantag"
+
+#: tabpage-standard.tpl:43
+msgid "Country"
+msgstr "Country"
+
+#: tabpage-datetime.tpl:11
+msgid "Date & Timezone Settings"
+msgstr "Date & Timezone Settings"
+
+#: tabpage-datetime.tpl:16
+msgid "Dateformat"
+msgstr "Dateformat"
+
+#: tabpage-datetime.tpl:37
+msgid "Daylight Savings Time (Summertime)"
+msgstr "Daylight Savings Time (Summertime)"
+
+#: tabpage-developer.tpl:80
+msgid "Debug Mode"
+msgstr "Debug Mode"
+
+#: tabpage-developer.tpl:135
+msgid "Debugging in a popup"
+msgstr "Debugging in a popup"
+
+#: tabpage-standard.tpl:83
+msgid "Default Backend Theme"
+msgstr "Default Backend Theme"
+
+#: tabpage-standard.tpl:74
+msgid "Default Frontend Theme"
+msgstr "Default Frontend Theme"
+
+#: tabpage-language.tpl:11
+msgid "Default Language / Charset"
+msgstr "Default Language / Charset"
+
+#: tabpage-standard.tpl:99
+msgid "Default Module / Action"
+msgstr "Default Module / Action"
+
+#: tabpage-datetime.tpl:28
+#: tabpage-datetime.tpl:40
+msgid "Default Timezone"
+msgstr "Default Timezone"
+
+#: tabpage-metatags.tpl:64
+msgid "Define Dublin Core Metadata Elements"
+msgstr "Define Dublin Core Metadata Elements"
+
+#: tabpage-metatags.tpl:11
+msgid "Define Meta Tags"
+msgstr "Define Meta Tags"
+
+#: tabpage-metatags.tpl:16
+msgid "Description"
+msgstr "Description"
+
+#: tabpage-developer.tpl:11
+msgid "Developer Settings"
+msgstr "Developer Settings"
+
+#: tabpage-developer.tpl:33
+msgid "Devlopment Mode"
+msgstr "Devlopment Mode"
+
+#: tabpage-email.tpl:95
+msgid "Email sender address"
+msgstr "Email sender address"
+
+#: tabpage-minifier.tpl:19
+msgid "Enable Minfier."
+msgstr "Enable Minfier."
+
+#: tabpage-minifier.tpl:16
+msgid "Enable Minifier"
+msgstr "Enable Minifier"
+
+#: tabpage-developer.tpl:115
+msgid "Enable Webdebug Toolbar"
+msgstr "Enable Webdebug Toolbar"
+
+#: tabpage-login.tpl:75
+msgid "Encryption method"
+msgstr "Encryption method"
+
+#: tabpage-developer.tpl:75
+msgid "Error Reporting"
+msgstr "Error Reporting"
+
+#: tabpage-datetime.tpl:22
+msgid "Example: %A, %B %e, %Y"
+msgstr "Example: %A, %B %e, %Y"
+
+#: tabpage-email.tpl:23
+msgid "Exim"
+msgstr "Exim"
+
+#: tabpage-standard.tpl:52
+msgid "Favicon"
+msgstr "Favicon"
+
+#: tabpage-login.tpl:122
+msgid "Filter: Session Security -  check_host"
+msgstr "Filter: Session Security -  check_host"
+
+#: tabpage-login.tpl:114
+msgid "Filter: Session Security - check_browser"
+msgstr "Filter: Session Security - check_browser"
+
+#: tabpage-login.tpl:130
+msgid "Filter: Session Security - check_ip"
+msgstr "Filter: Session Security - check_ip"
+
+#: tabpage-email.tpl:100
+msgid "From (eMail)"
+msgstr "From (eMail)"
+
+#: tabpage-email.tpl:109
+msgid "From (name)"
+msgstr "From (name)"
+
+#: tabpage-language.tpl:41
+msgid "GMT Offset"
+msgstr "GMT Offset"
+
+#: tabpage-developer.tpl:50
+msgid "GZip Compression"
+msgstr "GZip Compression"
+
+#: tabpage-standard.tpl:11
+msgid "General Settings"
+msgstr "General Settings"
+
+#: tabpage-developer.tpl:16
+msgid "Help Edit Mode"
+msgstr "Help Edit Mode"
+
+#: tabpage-metatags.tpl:48
+msgid "Keywords"
+msgstr "Keywords"
+
+#: action_admin_easylist.tpl:3
+#: settings.tpl:4
+msgid "Konfiguration des Systems."
+msgstr "Konfiguration des Systems."
+
+#: tabpage-metatags.tpl:24
+msgid "Language"
+msgstr "Language"
+
+#: tabpage-language.tpl:19
+msgid "Language Selection is based on browser-detection, but you can specify a default language as fallback."
+msgstr "Language Selection is based on browser-detection, but you can specify a default language as fallback."
+
+#: tabpage-standard.tpl:154
+msgid "Language Switching"
+msgstr "Language Switching"
+
+#: tabpage-login.tpl:11
+msgid "Login"
+msgstr "Login"
+
+#: tabpage-login.tpl:46
+msgid "Login ban minutes"
+msgstr "Login ban minutes"
+
+#: tabpage-login.tpl:16
+msgid "Login method"
+msgstr "Login method"
+
+#: tabpage-email.tpl:11
+msgid "Mail Server Configuration"
+msgstr "Mail Server Configuration"
+
+#: tabpage-email.tpl:47
+msgid "Mail encryption"
+msgstr "Mail encryption"
+
+#: tabpage-email.tpl:16
+msgid "Mail method"
+msgstr "Mail method"
+
+#: tabpage-metatags.tpl:40
+msgid "Mailer"
+msgstr "Mailer"
+
+#: tabpage-email.tpl:31
+msgid "Mailerhost"
+msgstr "Mailerhost"
+
+#: tabpage-email.tpl:39
+msgid "Mailerport"
+msgstr "Mailerport"
+
+#: tabpage-standard.tpl:182
+#: tabpage-standard.tpl:187
+msgid "Maintenance Mode"
+msgstr "Maintenance Mode"
+
+#: tabpage-login.tpl:37
+msgid "Maximum login attempts"
+msgstr "Maximum login attempts"
+
+#: tabpage-minifier.tpl:11
+msgid "Minifier"
+msgstr "Minifier"
+
+#: tabpage-login.tpl:67
+msgid "Minimum password length"
+msgstr "Minimum password length"
+
+#: tabpage-standard.tpl:28
+msgid "Name your clan:"
+msgstr "Name your clan:"
+
+#: tabpage-standard.tpl:19
+msgid "Name your website:"
+msgstr "Name your website:"
+
+#: tabpage-email.tpl:51
+msgid "No encryption"
+msgstr "No encryption"
+
+#: tabpage-email.tpl:20
+msgid "Normal"
+msgstr "Normal"
+
+#: tabpage-cache.tpl:46
+msgid "Note: This is automatically set to \"-1\" (deactiviated) if the \"Developers Mode\" is active."
+msgstr "Note: This is automatically set to \"-1\" (deactiviated) if the \"Developers Mode\" is active."
+
+#: tabpage-login.tpl:147
+msgid "OpenID"
+msgstr "OpenID"
+
+#: tabpage-login.tpl:62
+msgid "Password Settings"
+msgstr "Password Settings"
+
+#: tabpage-email.tpl:25
+msgid "PostFix"
+msgstr "PostFix"
+
+#: tabpage-metatags.tpl:51
+msgid "Provide some comma separated keywords which describe your website. This will help search engines:"
+msgstr "Provide some comma separated keywords which describe your website. This will help search engines:"
+
+#: tabpage-email.tpl:24
+msgid "Qmail"
+msgstr "Qmail"
+
+#: tabpage-email.tpl:131
+msgid "Recipient (email)"
+msgstr "Recipient (email)"
+
+#: tabpage-login.tpl:189
+msgid "Registration"
+msgstr "Registration"
+
+#: tabpage-login.tpl:194
+msgid "Registration & Usage Terms"
+msgstr "Registration & Usage Terms"
+
+#: tabpage-login.tpl:28
+msgid "Remember me time"
+msgstr "Remember me time"
+
+#: tabpage-login.tpl:80
+msgid "SHA1 (more secure)"
+msgstr "SHA1 (more secure)"
+
+#: tabpage-email.tpl:21
+msgid "SMTP"
+msgstr "SMTP"
+
+#: tabpage-email.tpl:67
+msgid "SMTP authentication"
+msgstr "SMTP authentication"
+
+#: tabpage-email.tpl:80
+msgid "SMTP password"
+msgstr "SMTP password"
+
+#: tabpage-email.tpl:72
+msgid "SMTP username"
+msgstr "SMTP username"
+
+#: tabpage-email.tpl:52
+msgid "SSL encryption"
+msgstr "SSL encryption"
+
+#: action_admin_easylist.tpl:119
+#: settings.tpl:25
+msgid "Save Settings"
+msgstr "Save Settings"
+
+#: tabpage-metatags.tpl:76
+msgid "Search Engine Optimization (SEO)"
+msgstr "Search Engine Optimization (SEO)"
+
+#: tabpage-standard.tpl:116
+msgid "Select the default Action to load, when calling \"index.php\" or \"http://yoursite.com\"."
+msgstr "Select the default Action to load, when calling \"index.php\" or \"http://yoursite.com\"."
+
+#: tabpage-standard.tpl:86
+msgid "Select the default Backend-Theme to load. This is defines the wrapper layout for the Control Center.."
+msgstr "Select the default Backend-Theme to load. This is defines the wrapper layout for the Control Center.."
+
+#: tabpage-standard.tpl:107
+msgid "Select the default Module to load, when calling \"index.php\" or \"http://yoursite.com\"."
+msgstr "Select the default Module to load, when calling \"index.php\" or \"http://yoursite.com\"."
+
+#: tabpage-standard.tpl:77
+msgid "Select the default Theme to load, when a guest is visiting your site the first time."
+msgstr "Select the default Theme to load, when a guest is visiting your site the first time."
+
+#: tabpage-datetime.tpl:31
+msgid "Select the default timzone:"
+msgstr "Select the default timzone:"
+
+#: tabpage-login.tpl:78
+msgid "Select the password encryption method: md5 or sha1."
+msgstr "Select the password encryption method: md5 or sha1."
+
+#: tabpage-email.tpl:126
+msgid "Send Test Mail"
+msgstr "Send Test Mail"
+
+#: tabpage-email.tpl:22
+msgid "Sendmail"
+msgstr "Sendmail"
+
+#: tabpage-login.tpl:93
+msgid "Session Parameters"
+msgstr "Session Parameters"
+
+#: tabpage-login.tpl:98
+msgid "Session expire time"
+msgstr "Session expire time"
+
+#: tabpage-login.tpl:106
+msgid "Session name"
+msgstr "Session name"
+
+#: tabpage-login.tpl:31
+msgid "Set the Number of days for your login cookie to be stored on your computer."
+msgstr "Set the Number of days for your login cookie to be stored on your computer."
+
+#: tabpage-login.tpl:40
+msgid "Set the number of Login Attempts. The clients IP will get banned temporarily, when attempted to login in this number of times."
+msgstr "Set the number of Login Attempts. The clients IP will get banned temporarily, when attempted to login in this number of times."
+
+#: tabpage-standard.tpl:37
+msgid "Set the tag of your clan:"
+msgstr "Set the tag of your clan:"
+
+#: tabpage-standard.tpl:46
+msgid "Set your country:"
+msgstr "Set your country:"
+
+#: tabpage-language.tpl:16
+msgid "Standard Language"
+msgstr "Standard Language"
+
+#: tabpage-standard.tpl:69
+msgid "Standard Template with Files"
+msgstr "Standard Template with Files"
+
+#: tabpage-standard.tpl:104
+msgid "Standard module"
+msgstr "Standard module"
+
+#: tabpage-standard.tpl:113
+msgid "Standard module action"
+msgstr "Standard module action"
+
+#: tabpage-standard.tpl:129
+msgid "Switches via URL Parameters"
+msgstr "Switches via URL Parameters"
+
+#: tabpage-email.tpl:53
+msgid "TLS/SSL encryption"
+msgstr "TLS/SSL encryption"
+
+#: tabpage-standard.tpl:134
+msgid "Theme Switching"
+msgstr "Theme Switching"
+
+#: tabpage-language.tpl:33
+msgid "Timezone"
+msgstr "Timezone"
+
+#: tabpage-login.tpl:152
+msgid "Trust Root"
+msgstr "Trust Root"
+
+#: tabpage-updates.tpl:35
+msgid "Update Check Interval"
+msgstr "Update Check Interval"
+
+#: tabpage-updates.tpl:11
+msgid "Updates"
+msgstr "Updates"
+
+#: tabpage-metatags.tpl:81
+msgid "Webserver mod_rewrite URL\'s"
+msgstr "Webserver mod_rewrite URL\'s"
+
+#: tabpage-standard.tpl:16
+msgid "Website Title"
+msgstr "Website Title"
+
+#: tabpage-login.tpl:173
+msgid "When you enable this setting, the OpenID login fields will be displayed in the comments area\'s:"
+msgstr "When you enable this setting, the OpenID login fields will be displayed in the comments area\'s:"
+
+#: tabpage-login.tpl:163
+msgid "When you enable this setting, the OpenID login fields will be displayed in the login box:"
+msgstr "When you enable this setting, the OpenID login fields will be displayed in the login box:"
+
+#: tabpage-updates.tpl:20
+msgid "When you enable this, Clansuite will automagically check for updates to the CMS and Modules?"
+msgstr "When you enable this, Clansuite will automagically check for updates to the CMS and Modules?"
+
+#: tabpage-developer.tpl:83
+msgid "When you turn this setting on, the system will show all errors directly on screen instead of logging them to the errorlog."
+msgstr "When you turn this setting on, the system will show all errors directly on screen instead of logging them to the errorlog."
+
+#: tabpage-developer.tpl:53
+msgid "When you turn this setting on, your pages are served compressed to your clients - making your site quicker:"
+msgstr "When you turn this setting on, your pages are served compressed to your clients - making your site quicker:"
+
+#: tabpage-metatags.tpl:84
+msgid "When your Webserver has Mod Rewrite enabled, then you can turn this setting on to make your URLs more user friendly:"
+msgstr "When your Webserver has Mod Rewrite enabled, then you can turn this setting on to make your URLs more user friendly:"
+
+#: tabpage-developer.tpl:98
+msgid "XDebug"
+msgstr "XDebug"
+
+#: tabpage-updates.tpl:38
+msgid "You can specify an interval (in days) at which your Clansuite Application will perform an Update Check."
+msgstr "You can specify an interval (in days) at which your Clansuite Application will perform an Update Check."
+
+#: tabpage-standard.tpl:55
+msgid "You may provide an favicon for our website:"
+msgstr "You may provide an favicon for our website:"
+
+#: tabpage-login.tpl:197
+msgid "You may provide registration terms, which are displayed to your upcoming members during the registration process:"
+msgstr "You may provide registration terms, which are displayed to your upcoming members during the registration process:"
+
+#: tabpage-datetime.tpl:19
+msgid "You may provide the format in which dates are displayed."
+msgstr "You may provide the format in which dates are displayed."
+
+#: tabpage-standard.tpl:190
+msgid "You may want to turn off your site while performing updates or other types of maintenance."
+msgstr "You may want to turn off your site while performing updates or other types of maintenance."
+
+#: tabpage-standard.tpl:159
+msgid "You may want to turn on language-switching via URL. When this is activated and parameter lang is appended to your URL like \"?lang=de\", the german language (de_DE) will be used."
+msgstr "You may want to turn on language-switching via URL. When this is activated and parameter lang is appended to your URL like \"?lang=de\", the german language (de_DE) will be used."
+
+#: tabpage-developer.tpl:120
+msgid "You may want to turn on the webdebug toolbar. When this is activated a debug toolbar will be displayed in the upper right corner."
+msgstr "You may want to turn on the webdebug toolbar. When this is activated a debug toolbar will be displayed in the upper right corner."
+
+#: tabpage-standard.tpl:139
+msgid "You may want to turn on theme-switching via URL. When this is activated and parameter theme is appended to your URL like \"?theme=xy\", the \"xy\"-theme it will be used for display."
+msgstr "You may want to turn on theme-switching via URL. When this is activated and parameter theme is appended to your URL like \"?theme=xy\", the \"xy\"-theme it will be used for display."
+
+#: tabpage-developer.tpl:124
+#: tabpage-standard.tpl:143
+#: tabpage-standard.tpl:163
+#: tabpage-standard.tpl:194
+msgid "activated"
+msgstr "activated"
+
+#: tabpage-developer.tpl:129
+#: tabpage-standard.tpl:148
+#: tabpage-standard.tpl:168
+#: tabpage-standard.tpl:199
+msgid "deactivated"
+msgstr "deactivated"
+
+#: tabpage-cache.tpl:36
+#: tabpage-developer.tpl:27
+#: tabpage-developer.tpl:44
+#: tabpage-developer.tpl:62
+#: tabpage-developer.tpl:92
+#: tabpage-developer.tpl:109
+#: tabpage-developer.tpl:146
+#: tabpage-login.tpl:165
+#: tabpage-login.tpl:175
+#: tabpage-metatags.tpl:93
+#: tabpage-minifier.tpl:28
+#: tabpage-updates.tpl:29
+msgid "no"
+msgstr "no"
+
+#: tabpage-datetime.tpl:49
+msgid "no [Normal Time = Default Timezone]"
+msgstr "no [Normal Time = Default Timezone]"
+
+#: tabpage-cache.tpl:31
+#: tabpage-developer.tpl:22
+#: tabpage-developer.tpl:39
+#: tabpage-developer.tpl:57
+#: tabpage-developer.tpl:87
+#: tabpage-developer.tpl:104
+#: tabpage-developer.tpl:141
+#: tabpage-login.tpl:164
+#: tabpage-login.tpl:174
+#: tabpage-metatags.tpl:88
+#: tabpage-minifier.tpl:23
+#: tabpage-updates.tpl:24
+msgid "yes"
+msgstr "yes"
+
+#: tabpage-datetime.tpl:44
+msgid "yes [Summertime = Default Timezone + 1 hour]"
+msgstr "yes [Summertime = Default Timezone + 1 hour]"

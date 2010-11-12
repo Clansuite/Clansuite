@@ -1,0 +1,34 @@
+# Gettext Keys exported by Clansuite_Gettext_Extractor
+# Copyright (c) 2010 Clansuite - just an eSports CMS
+#
+msgid ""
+msgstr ""
+"Content-Type: text/plain; charset=UTF-8\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: action_show.tpl:5
+msgid "Hello"
+msgstr "Hello"
+
+#: action_show.tpl:15
+msgid "Hello World"
+msgstr "Hello World"
+
+#: action_show.tpl:9
+#: action_show.tpl:17
+msgid "How are you, %1 ?"
+msgstr "How are you, %1 ?"
+
+#: index.module.php:51
+#: index.module.php:112
+msgid "Show"
+msgstr "Show"
+
+#: action_show.tpl:2
+#: action_show.tpl:19
+msgid "The 1st parameter is %1, the 2nd is %2 and the 3rd %3."
+msgstr "The 1st parameter is %1, the 2nd is %2 and the 3rd %3."
+
+#: action_show.tpl:6
+msgid "Welcome"
+msgstr "Welcome"

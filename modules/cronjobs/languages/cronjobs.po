@@ -1,0 +1,15 @@
+# Gettext Keys exported by Clansuite_Gettext_Extractor
+# Copyright (c) 2010 Clansuite - just an eSports CMS
+#
+msgid ""
+msgstr ""
+"Content-Type: text/plain; charset=UTF-8\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: action_admin_show.tpl:4
+msgid "Administrate the timed tasks. You can add, delete, activate, deactivate tasks."
+msgstr "Administrate the timed tasks. You can add, delete, activate, deactivate tasks."
+
+#: action_admin_show.tpl:3
+msgid "Cronjobs - timed and repetitive Tasks"
+msgstr "Cronjobs - timed and repetitive Tasks"

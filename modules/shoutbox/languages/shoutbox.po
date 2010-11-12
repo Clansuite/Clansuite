@@ -1,0 +1,31 @@
+# Gettext Keys exported by Clansuite_Gettext_Extractor
+# Copyright (c) 2010 Clansuite - just an eSports CMS
+#
+msgid ""
+msgstr ""
+"Content-Type: text/plain; charset=UTF-8\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: shoutbox.admin.php:63
+msgid "Settings"
+msgstr "Settings"
+
+#: widget_shoutbox.tpl:11
+msgid "Shoutbox"
+msgstr "Shoutbox"
+
+#: action_admin_settings.tpl:4
+msgid "Shoutbox - Settings"
+msgstr "Shoutbox - Settings"
+
+#: shoutbox.admin.php:74
+msgid "Shoutbox Items"
+msgstr "Shoutbox Items"
+
+#: shoutbox.admin.php:98
+msgid "Update"
+msgstr "Update"
+
+#: action_admin_settings.tpl:5
+msgid "You can control and configure the behaviour of the Shoutbox Module by the settings provided here."
+msgstr "You can control and configure the behaviour of the Shoutbox Module by the settings provided here."

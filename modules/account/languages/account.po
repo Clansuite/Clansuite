@@ -1,0 +1,473 @@
+# Gettext Keys exported by Clansuite_Gettext_Extractor
+# Copyright (c) 2010 Clansuite - just an eSports CMS
+#
+msgid ""
+msgstr ""
+"Content-Type: text/plain; charset=UTF-8\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: action_activate_account.tpl:3
+msgid "<p class=\"error\">Your account is already activated."
+msgstr "<p class=\"error\">Your account is already activated."
+
+#: action_logout.tpl:11
+msgid "Abort"
+msgstr "Abort"
+
+#: action_admin_settings.tpl:4
+msgid "Account - Settings"
+msgstr "Account - Settings"
+
+#: account.module.php:689
+#: account.module.php:723
+msgid "Account activation"
+msgstr "Account activation"
+
+#: action_activate_account.tpl:5
+msgid "Account activation failed. Check if the code and user id are valid in the URL."
+msgstr "Account activation failed. Check if the code and user id are valid in the URL."
+
+#: action_forgot_password.tpl:19
+msgid "Account with this email has not been activated yet."
+msgstr "Account with this email has not been activated yet."
+
+#: action_activate_account.tpl:1
+msgid "Activate account"
+msgstr "Activate account"
+
+#: action_activation_email.tpl:1
+msgid "Activation Email"
+msgstr "Activation Email"
+
+#: account.module.php:444
+msgid "Activation mail has been resend to your mailbox."
+msgstr "Activation mail has been resend to your mailbox."
+
+#: account.admin.php:56
+msgid "Add Avatar"
+msgstr "Add Avatar"
+
+#: account.module.php:650
+msgid "Already: There has been no password reset requested."
+msgstr "Already: There has been no password reset requested."
+
+#: action_admin_usercenter.tpl:14
+msgid "Avatar"
+msgstr "Avatar"
+
+#: action_admin_usercenter.tpl:18
+msgid "Buddy and Friendslist"
+msgstr "Buddy and Friendslist"
+
+#: action_register.tpl:145
+msgid "Captcha:"
+msgstr "Captcha:"
+
+#: account.module.php:599
+msgid "Check your mailbox to activate your new password."
+msgstr "Check your mailbox to activate your new password."
+
+#: account.module.php:838
+msgid "Choose your Avatar:"
+msgstr "Choose your Avatar:"
+
+#: account.module.php:782
+msgid "City"
+msgstr "City"
+
+#: account.module.php:672
+msgid "Code Failure: The activation code does not match to the given user id"
+msgstr "Code Failure: The activation code does not match to the given user id"
+
+#: account.module.php:634
+msgid "Code Failure: The given activation code is wrong. Please make sure you copied the whole activation URL into your browser."
+msgstr "Code Failure: The given activation code is wrong. Please make sure you copied the whole activation URL into your browser."
+
+#: action_logout.tpl:10
+msgid "Confirm"
+msgstr "Confirm"
+
+#: action_register.tpl:121
+msgid "Confirm Password:"
+msgstr "Confirm Password:"
+
+#: action_register.tpl:95
+msgid "Confirm email:"
+msgstr "Confirm email:"
+
+#: widget_usercenter.tpl:13
+msgid "Control Center"
+msgstr "Control Center"
+
+#: account.module.php:776
+msgid "Country"
+msgstr "Country"
+
+#: action_login.tpl:76
+#: widget_login.tpl:78
+msgid "Did not get an activation email ?"
+msgstr "Did not get an activation email ?"
+
+#: action_logout.tpl:6
+msgid "Do you really want to logout?"
+msgstr "Do you really want to logout?"
+
+#: action_activation_email.tpl:14
+#: action_forgot_password.tpl:28
+#: action_login.tpl:31
+#: action_register.tpl:85
+#: widget_login.tpl:33
+msgid "Email:"
+msgstr "Email:"
+
+#: action_forgot_password.tpl:15
+msgid "Enter your email below and a new password will be generated for your account and sent to you by email."
+msgstr "Enter your email below and a new password will be generated for your account and sent to you by email."
+
+#: action_login.tpl:14
+#: widget_login.tpl:16
+msgid "Failed Attempts:"
+msgstr "Failed Attempts:"
+
+#: account.module.php:772
+msgid "First Name"
+msgstr "First Name"
+
+#: action_forgot_password.tpl:13
+msgid "Forgot Password"
+msgstr "Forgot Password"
+
+#: action_login.tpl:75
+#: widget_login.tpl:77
+msgid "Forgot password ?"
+msgstr "Forgot password ?"
+
+#: action_admin_usercenter.tpl:16
+msgid "Forum Signature"
+msgstr "Forum Signature"
+
+#: account.module.php:786
+msgid "Handynumber"
+msgstr "Handynumber"
+
+#: account.module.php:791
+msgid "ICQ"
+msgstr "ICQ"
+
+#: action_activation_email.tpl:9
+msgid "If you have registered and still haven\'t got an activation email, use the form below to send it again."
+msgstr "If you have registered and still haven\'t got an activation email, use the form below to send it again."
+
+#: account.module.php:796
+msgid "Jabber"
+msgstr "Jabber"
+
+#: account.module.php:99
+#: action_login.tpl:26
+#: action_login.tpl:69
+#: widget_login.tpl:28
+#: widget_login.tpl:71
+msgid "Login"
+msgstr "Login"
+
+#: account.module.php:205
+#: action_admin_usercenter.tpl:24
+#: widget_usercenter.tpl:35
+msgid "Logout"
+msgstr "Logout"
+
+#: account.module.php:213
+msgid "Logout successfull. Have a nice day. Goodbye."
+msgstr "Logout successfull. Have a nice day. Goodbye."
+
+#: account.module.php:792
+msgid "MSN"
+msgstr "MSN"
+
+#: account.module.php:784
+msgid "Mailaddress"
+msgstr "Mailaddress"
+
+#: account.module.php:706
+#: account.module.php:740
+msgid "Mailer Error: There has been an error in the mailing system. Please inform the webmaster."
+msgstr "Mailer Error: There has been an error in the mailing system. Please inform the webmaster."
+
+#: widget_usercenter.tpl:30
+msgid "Messages"
+msgstr "Messages"
+
+#: action_register.tpl:128
+msgid "Minimum: "
+msgstr "Minimum: "
+
+#: account.module.php:773
+msgid "Name"
+msgstr "Name"
+
+#: action_forgot_password.tpl:32
+msgid "New password:"
+msgstr "New password:"
+
+#: account.admin.php:142
+msgid "Newsitems to show in Newsmodule"
+msgstr "Newsitems to show in Newsmodule"
+
+#: action_register.tpl:78
+msgid "Nick:"
+msgstr "Nick:"
+
+#: account.module.php:774
+msgid "Nickname"
+msgstr "Nickname"
+
+#: action_login.tpl:39
+#: action_login.tpl:47
+#: widget_login.tpl:41
+#: widget_login.tpl:49
+msgid "Nickname:"
+msgstr "Nickname:"
+
+#: action_login.tpl:74
+#: widget_login.tpl:76
+msgid "Not yet registered ?"
+msgstr "Not yet registered ?"
+
+#: action_admin_usercenter.tpl:10
+#: widget_usercenter.tpl:19
+msgid "Options"
+msgstr "Options"
+
+#: account.module.php:695
+#: account.module.php:729
+#: account.module.php:775
+msgid "Password"
+msgstr "Password"
+
+#: action_register.tpl:134
+msgid "Password Security:"
+msgstr "Password Security:"
+
+#: action_login.tpl:55
+#: action_register.tpl:105
+#: widget_login.tpl:57
+msgid "Password:"
+msgstr "Password:"
+
+#: account.module.php:785
+msgid "Phonenumber"
+msgstr "Phonenumber"
+
+#: action_admin_usercenter.tpl:12
+msgid "Picture"
+msgstr "Picture"
+
+#: action_register.tpl:64
+msgid "Please enter a valid email!"
+msgstr "Please enter a valid email!"
+
+#: action_login.tpl:12
+#: action_register.tpl:62
+#: widget_login.tpl:14
+msgid "Please fill out all required fields!"
+msgstr "Please fill out all required fields!"
+
+#: action_activation_email.tpl:5
+msgid "Please fill out the form below."
+msgstr "Please fill out the form below."
+
+#: action_forgot_password.tpl:20
+msgid "Please fill the form."
+msgstr "Please fill the form."
+
+#: action_admin_usercenter.tpl:20
+msgid "Private Messages"
+msgstr "Private Messages"
+
+#: action_admin_usercenter.tpl:8
+#: widget_usercenter.tpl:24
+msgid "Profile"
+msgstr "Profile"
+
+#: action_register.tpl:159
+msgid "Register"
+msgstr "Register"
+
+#: action_register.tpl:60
+msgid "Register a new useraccount"
+msgstr "Register a new useraccount"
+
+#: action_login.tpl:64
+#: widget_login.tpl:66
+msgid "Remember me ( Cookie )"
+msgstr "Remember me ( Cookie )"
+
+#: action_activation_email.tpl:19
+msgid "Send activation email"
+msgstr "Send activation email"
+
+#: action_forgot_password.tpl:37
+msgid "Send password activation mail"
+msgstr "Send password activation mail"
+
+#: account.admin.php:131
+msgid "Settings"
+msgstr "Settings"
+
+#: account.module.php:795
+msgid "Skype"
+msgstr "Skype"
+
+#: account.module.php:794
+msgid "Steam"
+msgstr "Steam"
+
+#: account.module.php:523
+msgid "The activation code does not match to the given user id"
+msgstr "The activation code does not match to the given user id"
+
+#: action_register.tpl:69
+msgid "The code you entered is wrong!"
+msgstr "The code you entered is wrong!"
+
+#: action_register.tpl:65
+msgid "The email address already exists in our database!"
+msgstr "The email address already exists in our database!"
+
+#: action_activation_email.tpl:7
+msgid "The email address is wrong!"
+msgstr "The email address is wrong!"
+
+#: action_register.tpl:70
+msgid "The email adresses do not match!"
+msgstr "The email adresses do not match!"
+
+#: account.module.php:494
+msgid "The given activation code is wrong. Please make sure you copied the whole activation URL into your browser."
+msgstr "The given activation code is wrong. Please make sure you copied the whole activation URL into your browser."
+
+#: account.module.php:487
+msgid "The given email is not valid!."
+msgstr "The given email is not valid!."
+
+#: action_forgot_password.tpl:17
+msgid "The mail seems to be not valid."
+msgstr "The mail seems to be not valid."
+
+#: action_register.tpl:66
+msgid "The nickname already exists in our database!"
+msgstr "The nickname already exists in our database!"
+
+#: action_register.tpl:63
+msgid "The nickname contains violating characters!"
+msgstr "The nickname contains violating characters!"
+
+#: action_forgot_password.tpl:21
+#: action_register.tpl:67
+msgid "The password is too short!"
+msgstr "The password is too short!"
+
+#: action_register.tpl:68
+msgid "The passwords aren\'t the same!"
+msgstr "The passwords aren\'t the same!"
+
+#: action_activation_email.tpl:4
+#: action_forgot_password.tpl:18
+msgid "There is no account with such email."
+msgstr "There is no account with such email."
+
+#: action_activation_email.tpl:6
+msgid "There was an error while sending an email. Please, try again later."
+msgstr "There was an error while sending an email. Please, try again later."
+
+#: action_login.tpl:13
+#: widget_login.tpl:15
+msgid "This combination is not stored in our database!"
+msgstr "This combination is not stored in our database!"
+
+#: action_admin_usercenter.tpl:3
+msgid "This is the Administration Area of your Account. Administrate your Profile, Avatar, Picture, Signature, Buddies and Messages."
+msgstr "This is the Administration Area of your Account. Administrate your Profile, Avatar, Picture, Signature, Buddies and Messages."
+
+#: account.module.php:691
+msgid "To activate your account click on the link below:\\r\\n"
+msgstr "To activate your account click on the link below:\\r\\n"
+
+#: account.module.php:725
+msgid "To reset your password, click the link below:\\r\\n"
+msgstr "To reset your password, click the link below:\\r\\n"
+
+#: account.module.php:839
+msgid "Upload your Avatar:"
+msgstr "Upload your Avatar:"
+
+#: account.module.php:881
+msgid "Upload your User-Picture:"
+msgstr "Upload your User-Picture:"
+
+#: widget_usercenter.tpl:3
+msgid "User Panel"
+msgstr "User Panel"
+
+#: account.admin.php:101
+#: action_admin_usercenter.tpl:2
+msgid "Usercenter"
+msgstr "Usercenter"
+
+#: account.module.php:694
+#: account.module.php:728
+msgid "Username"
+msgstr "Username"
+
+#: account.module.php:793
+msgid "XFire"
+msgstr "XFire"
+
+#: account.module.php:87
+msgid "You are temporarily banned. Please come back in <b>"
+msgstr "You are temporarily banned. Please come back in <b>"
+
+#: action_admin_settings.tpl:5
+msgid "You can control and configure the behaviour of the Account Module by the settings provided here."
+msgstr "You can control and configure the behaviour of the Account Module by the settings provided here."
+
+#: account.module.php:342
+msgid "You have sucessfully registered and you are logged in."
+msgstr "You have sucessfully registered and you are logged in."
+
+#: account.module.php:353
+msgid "You have sucessfully registered! Please check your mailbox."
+msgstr "You have sucessfully registered! Please check your mailbox."
+
+#: account.module.php:152
+msgid "You logged in successfully."
+msgstr "You logged in successfully."
+
+#: widget_usercenter.tpl:7
+msgid "You\'re logged in as "
+msgstr "You\'re logged in as "
+
+#: account.module.php:783
+msgid "Your Address:"
+msgstr "Your Address:"
+
+#: account.module.php:777
+msgid "Your Signature:"
+msgstr "Your Signature:"
+
+#: account.module.php:516
+msgid "Your account has been activated successfully. You may now login."
+msgstr "Your account has been activated successfully. You may now login."
+
+#: action_activate_account.tpl:4
+msgid "Your account has been activated."
+msgstr "Your account has been activated."
+
+#: account.module.php:665
+msgid "Your new password has been successfully activated. Please login..."
+msgstr "Your new password has been successfully activated. Please login..."
+
+#: account.module.php:695
+#: account.module.php:729
+msgid "hidden"
+msgstr "hidden"

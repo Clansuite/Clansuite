@@ -1,0 +1,19 @@
+# Gettext Keys exported by Clansuite_Gettext_Extractor
+# Copyright (c) 2010 Clansuite - just an eSports CMS
+#
+msgid ""
+msgstr ""
+"Content-Type: text/plain; charset=UTF-8\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: action_admin_show.tpl:2
+msgid "Doctrine - Overview"
+msgstr "Doctrine - Overview"
+
+#: action_admin_show.tpl:13
+msgid "Tasks"
+msgstr "Tasks"
+
+#: action_admin_show.tpl:3
+msgid "You can execute Doctrine commands to manage (import, export, backup) your records."
+msgstr "You can execute Doctrine commands to manage (import, export, backup) your records."
