@@ -81,11 +81,18 @@ class Clansuite_Module_Languages_Admin extends Clansuite_Module_Controller
 
     public function action_admin_show()
     {
-        $view = $this->getView();
+        $this->display();
+    }
 
+    public function action_admin_scanallmodules()
+    {
+        ob_start();
         self::scanAllModules();
-        exit;
+        $scan_log_content = ob_get_contents();
+        ob_end_clean();
 
+        $view = $this->getView();
+        $view->assign('scan_log', $scan_log_content);
         $this->display();
     }
 

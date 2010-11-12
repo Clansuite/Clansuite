@@ -12,5 +12,3 @@
     {tabpage name="Modules"}  {include file='languages-modules.tpl'}   {/tabpage}
     {tabpage name="Themes"}   {include file='languages-themes.tpl'}   {/tabpage}
 {/tabpanel}
-
-{t}Extraction Test{/t}
