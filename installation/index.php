@@ -742,7 +742,7 @@ function write_config_settings($data_array)
     # base class is needed for Clansuite_Config_INI
     if(false === class_exists('Clansuite_Config_Base'))
     {
-        require dirname(__FILE__) . DS . 'config.base.php';
+        require ROOT . 'core/config/config.base.php';
     }
 
     # read skeleton settings = minimum settings for initial startup
