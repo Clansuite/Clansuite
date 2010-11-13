@@ -20,3 +20,7 @@ nbproject
 # Scriptfiles
 cache/**/*
 *.log
+
+# Subversion
+.svn
+.svn/entries
