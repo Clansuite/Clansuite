@@ -77,6 +77,7 @@ class Clansuite_ModuleInfoController
 
     /**
      * Reads the CMS Module Registry
+     *
      * This is the right method if you want to know if
      * a module is installed and active or deactivated.
      *
@@ -100,6 +101,18 @@ class Clansuite_ModuleInfoController
     }
 
     /**
+     * Returns the module configuration as array
+     *
+     * @param string $modulename
+     * @return array Module Configuration Array
+     */
+    public static function readModuleConfig($modulename)
+    {
+        return Clansuite_CMS::getInjector()->instantiate('Clansuite_Config')
+                ->readModuleConfig($modulename);
+    }
+
+    /**
      * Checks if a modulename belongs to the core modules.
      *
      * @param string $modulename The modulename
@@ -108,7 +121,7 @@ class Clansuite_ModuleInfoController
     public static function isACoreModule($modulename)
     {
         static $core_modules = array( 'account', 'categories', 'controlcenter', 'doctrine', 'menu', 'modulemanager',
-                                       'users', 'settings', 'systeminfo', 'thememanager', 'templatemanager');
+                                      'users', 'settings', 'systeminfo', 'thememanager', 'templatemanager');
 
         return in_array($modulename, $core_modules);
     }
@@ -120,13 +133,13 @@ class Clansuite_ModuleInfoController
      */
     public static function getModuleDirectories()
     {
-        return glob( ROOT_MOD . '[a-zA-Z]*', GLOB_ONLYDIR);
+        return glob( ROOT_MOD . '[a-zA-Z]*', GLOB_ONLYDIR );
     }
 
     /**
      * Get a list of all the module names
      *
-     * @return array
+     * @return array( $modulename => $module_path )
      */
     public static function getModuleNames()
     {
@@ -139,23 +152,12 @@ class Clansuite_ModuleInfoController
             # strip path off
             $modulename = str_replace( ROOT_MOD, '', $module_path);
 
-            $modules[] = array( $modulename => $module_path);
+            $modules[] = array( $modulename => $module_path );
         }
 
         return $modules;
     }
 
-    /**
-     * Returns the module configuration as array
-     *
-     * @param string $modulename
-     * @return array Module Configuration Array
-     */
-    public static function readModuleConfig($modulename)
-    {
-        return Clansuite_CMS::getInjector()->instantiate('Clansuite_Config')
-                ->readModuleConfig($modulename);
-    }
 
     /**
      * Returns all activated modules
@@ -242,10 +244,9 @@ class Clansuite_ModuleInfoController
     /**
      * Gather Module Informations from Manifest Files
      *
-     * @staticvar array $modules
-     * @staticvar array $modules_summary
+     * @staticvar array $modulesinfo
      * @param mixed array|string $module array with modulenames or one modulename
-     * @return moduleinformations
+     * @return moduleinformations (self::$modulesinfo)
      */
     private static function loadModuleInformations($module = null)
     {
@@ -253,7 +254,18 @@ class Clansuite_ModuleInfoController
         $module_directories = array();
         $number_of_modules = 0;
 
-        $module_directories = self::getModuleDirectories();
+        /**
+         * either fetch the module requested via parameter $module
+         * fetch all modules
+         */
+        if($module == null)
+        {
+            $module_directories = self::getModuleDirectories();
+        }
+        else # $module is either an array or an string
+        {
+            $module_directories = array ($module);
+        }
 
         foreach( $module_directories as $modulepath )
         {
@@ -269,7 +281,7 @@ class Clansuite_ModuleInfoController
             self::$modulesinfo[$modulename]['path']   = $modulepath;
             self::$modulesinfo[$modulename]['core']   = self::isACoreModule($modulename);
             # active - based on /configuration/modules.config.php
-            self::$modulesinfo[$modulename]['active'] = self::isActive($modulename);
+            self::$modulesinfo[$modulename]['active'] = self::isModuleActive($modulename);
             # hasMenu / ModuleNavigation
             self::$modulesinfo[$modulename]['menu']   = is_file($modulepath . DS . $modulename .'.menu.php');
 
@@ -309,78 +321,5 @@ class Clansuite_ModuleInfoController
 
         return self::$modulesinfo;
     }
-
-    /**
-     * Gather Module Informations from Manifest Files
-     *
-     * @staticvar array $modules
-     * @staticvar array $modules_summary
-     * @param mixed array|string $module array with modulenames or one modulename
-     * @return moduleinformations
-     */
-    private static function loadAllModuleInformations($module = null)
-    {
-        # Init vars
-        $module_directories = array();
-        $number_of_modules = 0;
-
-        $module_directories = self::getModuleDirectories();
-
-        foreach( $module_directories as $modulepath )
-        {
-            /**
-             * create array with pieces of information about a module
-             */
-
-            # 1) get the modulename, by stripping off the path info
-            $modulename = str_replace( ROOT_MOD, '', $modulepath);
-
-            self::$modulesinfo[$modulename]['name']   = $modulename;
-            self::$modulesinfo[$modulename]['id']     = $number_of_modules;
-            self::$modulesinfo[$modulename]['path']   = $modulepath;
-            self::$modulesinfo[$modulename]['core']   = self::isACoreModule($modulename);
-            # active - based on /configuration/modules.config.php
-            self::$modulesinfo[$modulename]['active'] = self::isActive($modulename);
-            # hasMenu / ModuleNavigation
-            self::$modulesinfo[$modulename]['menu']   = is_file($modulepath . DS . $modulename .'.menu.php');
-
-            # hasInfo
-            $module_infofile = $modulepath . DS . $modulename . '.info.php';
-            $config_object = Clansuite_CMS::getInjector()->instantiate('Clansuite_Config');
-            if(is_file($module_infofile) === true)
-            {
-                #Clansuite_Debug::firebug($module_infofile);
-
-                self::$modulesinfo[$modulename]['info'] = $config_object->readConfig($module_infofile);
-            }
-            else # create file in DEV MODE
-            {
-                # if the info file for a module does not exists yet, create it
-                $config_object->writeConfig($module_infofile);
-            }
-
-            # hasRoutes
-
-            # hasConfig
-            $config = self::loadModuleInformations($modulename);
-            if(isset($config[$modulename]))
-            {
-                self::$modulesinfo[$modulename]['config'] = $config[$modulename];
-            }
-            /*else
-            {
-                $modules[$modulename]['config'] = $config;
-            }*/
-
-            # take some stats: increase the module counter
-            self::$modulesinfo['yy_summary']['counter'] = ++$number_of_modules;
-        }
-
-        # sort array by keys
-        ksort(self::$modulesinfo);
-
-        return self::$modulesinfo;
-    }
-
 }
 ?>
