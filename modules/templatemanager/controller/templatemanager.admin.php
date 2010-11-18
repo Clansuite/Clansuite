@@ -68,11 +68,11 @@ class Clansuite_Module_Templatemanager_Admin extends Clansuite_Module_Controller
         # Incomming Variables
 
         # GET: tplmod (module of the template)
-        $tplmod = $this->request->getParameter('tplmod', 'G');
-        $tplmod = strtolower(stripslashes($tplmod));
+        $modulename = $this->request->getParameter('modulename', 'GET');
+        $modulename = strtolower(stripslashes($modulename));
 
-        $view->assign('templateeditor_modulename', $tplmod);
-        $view->assign('templates', $this->getTemplatesOfModule($tplmod));
+        $view->assign('templateeditor_modulename', $modulename);
+        $view->assign('templates', $this->getTemplatesOfModule($modulename));
 
         $this->display();
     }

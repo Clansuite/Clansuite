@@ -59,7 +59,7 @@ There are {$modules_summary.counter} Modules installed.
             &nbsp;
 
             *}
-            <a href="{$www_root}index.php?mod=templatemanager&sub=admin&action=showmoduletemplates&tplmod={$module.name}"
+            <a href="{$www_root}index.php?mod=templatemanager&sub=admin&action=showmoduletemplates&modulename={$module.name}"
                type="button" class="delete" title="Edit Templates">Edit Templates</a>
 
             {/if}
