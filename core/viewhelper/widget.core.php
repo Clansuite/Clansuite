@@ -63,14 +63,15 @@ class Clansuite_Widget
         # apply classname prefix to the modulename
         $modulename = Clansuite_Functions::ensurePrefixedWith($modulename, 'clansuite_module_');
 
+        # build classname from modulename
+        $classname = Clansuite_Functions::toUnderscoredUpperCamelCase($modulename);
+
         /**
          * now we have a common string like 'clansuite_module_admin_menu' or 'clansuite_module_news'
          * which we split at underscore, via explode, resulting in an array
          * like: Array ( [0] => clansuite [1] => module [2] => admin [3] => menu )
          * or  : Array ( [0] => clansuite [1] => module [2] => news )
          */
-        $classname = Clansuite_Functions::toUnderscoredUpperCamelCase($modulename);
-
         $moduleinfos = explode('_', $modulename);
         unset($modulename);
         $filename = ROOT_MOD;

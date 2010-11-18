@@ -24,7 +24,6 @@ msgstr "How are you, %1 ?"
 msgid "Show"
 msgstr "Show"
 
-#: action_show.tpl:2
 #: action_show.tpl:19
 msgid "The 1st parameter is %1, the 2nd is %2 and the 3rd %3."
 msgstr "The 1st parameter is %1, the 2nd is %2 and the 3rd %3."
