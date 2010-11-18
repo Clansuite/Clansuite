@@ -140,12 +140,12 @@ class Clansuite_Router implements ArrayAccess, Clansuite_Router_Interface
             /**
              * process static named parameter => ":contoller"
              */
-            if (preg_match('/^:([a-zA-Z_]+)$/', $segment, $match))
+            if (true === preg_match('/^:([a-zA-Z_]+)$/', $segment, $match))
             {
                 $name = $match[1]; #controller
 
                 # is there a requirement for this param?
-                if(isset($requirements[$name]))
+                if(true === isset($requirements[$name]))
                 {
                     # add it to the regex
                     $regexp .= '\/(?P<' . $name . '>' . $requirements[$name] . ')';
@@ -342,7 +342,7 @@ class Clansuite_Router implements ArrayAccess, Clansuite_Router_Interface
                  * like ":controller" or ":subcontroller" or ":action" or ":id"
                  * $route_pattern
                  */
-                if (1 === preg_match('/^:([a-zA-Z_]+)$/', $this->uri, $match))
+                if (true === preg_match('/^:([a-zA-Z_]+)$/', $this->uri, $match))
                 {
                     # @todo Clansuite_TargetRoute::set*
 
@@ -352,29 +352,29 @@ class Clansuite_Router implements ArrayAccess, Clansuite_Router_Interface
                 }
 
                 # dynamic regexp segment?
-                elseif(1 === preg_match( $route_values['regexp'], $this->uri, $matches))
+                elseif(true === preg_match( $route_values['regexp'], $this->uri, $matches))
                 {
                     #Clansuite_Debug::firebug($matches);
 
                     # parameters found by regular expression have priority
-                    if(isset($matches['controller']))
+                    if(true === isset($matches['controller']))
                     {
                         Clansuite_TargetRoute::setController($matches['controller']);
                     }
 
-                    if(isset($matches['subcontroller']))
+                    if(true === isset($matches['subcontroller']))
                     {
                         Clansuite_TargetRoute::setSubController($matches['subcontroller']);
                     }
 
-                    if(isset($matches['action']))
+                    if(true === isset($matches['action']))
                     {
-                       Clansuite_TargetRoute::setAction($matches['action']);
+                        Clansuite_TargetRoute::setAction($matches['action']);
                     }
 
-                    if(isset($matches['id']))
+                    if(true === isset($matches['id']))
                     {
-                       Clansuite_TargetRoute::setId($matches['id']);
+                        Clansuite_TargetRoute::setId($matches['id']);
                     }
                 }
 
@@ -408,14 +408,15 @@ class Clansuite_Router implements ArrayAccess, Clansuite_Router_Interface
     public function isRewriteEngineOn()
     {
         # maybe, we have a modrewrite config setting, this avoids overhead
-        if(isset($this->config['routing']['modrewrite']) and true === $this->config['routing']['modrewrite'])
+        if(true === isset($this->config['routing']['modrewrite']) and true === $this->config['routing']['modrewrite'])
         {
             define('REWRITE_ENGINE_ON', true);
             return true;
         }
 
         # ensure apache has module mod_rewrite active
-        if(function_exists('apache_get_modules') and in_array('mod_rewrite', apache_get_modules()))
+        if(true === function_exists('apache_get_modules') and
+           true === in_array('mod_rewrite', apache_get_modules()))
         {
             # load htaccess and check if RewriteEngine is enabled
             if(true === is_file(ROOT . '.htaccess'))
@@ -424,7 +425,7 @@ class Clansuite_Router implements ArrayAccess, Clansuite_Router_Interface
                 self::$rewriteEngineOn = preg_match('/.*[^#][\t ]+RewriteEngine[\t ]+On/i', $htaccess_content);
             }
 
-            if(self::$rewriteEngineOn == 1)
+            if(true === self::$rewriteEngineOn)
             {
                 define('REWRITE_ENGINE_ON', true);
                 return true;
@@ -485,21 +486,21 @@ class Clansuite_Router implements ArrayAccess, Clansuite_Router_Interface
     public function NoRewriteRoute()
     {
         # Controller
-        if(isset($this->uri_segments['mod']))
+        if(true === isset($this->uri_segments['mod']))
         {
             Clansuite_TargetRoute::setController($this->uri_segments['mod']);
             unset($this->uri_segments['mod']);
         }
 
         # SubController
-        if(isset($this->uri_segments['sub']))
+        if(true === isset($this->uri_segments['sub']))
         {
             Clansuite_TargetRoute::setSubController($this->uri_segments['sub']);
             unset($this->uri_segments['sub']);
         }
 
         # Action
-        if(isset($this->uri_segments['action']))
+        if(true === isset($this->uri_segments['action']))
         {
             Clansuite_TargetRoute::setAction($this->uri_segments['action']);
             unset($this->uri_segments['action']);
@@ -679,7 +680,8 @@ class Clansuite_Router implements ArrayAccess, Clansuite_Router_Interface
      */
     public function checkRouteCachingActive()
     {
-        if(isset($this->config['routing']['cache_routes']) and true === $this->config['routing']['cache_routes'])
+        if(true === isset($this->config['routing']['cache_routes']) and
+           true === $this->config['routing']['cache_routes'])
         {
             self::$use_cache = true;
         }
@@ -719,7 +721,7 @@ class Clansuite_Router implements ArrayAccess, Clansuite_Router_Interface
          *
          * With ArrayAccess: $r['/:controller'];
          */
-        if(empty($this->routes))
+        if(true === empty($this->routes))
         {
             $this->addRoute('/:controller');
             $this->addRoute('/:controller/:action');
