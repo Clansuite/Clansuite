@@ -1,37 +1,63 @@
+/*
+ * -----------------------------------------------------------------------------------------------
+ * Clansuite CSS2 Framework (CSFW)
+ * -------------------------------------------------------------------------------------------------
+ * Clansuite - just an eSports CMS
+ * Jens-André Koch © 2005 - onwards
+ * http://www.clansuite.com/
+ * -----------------------------------------------------------------------------------------------
+ * Document   : about.css
+ * Description : CSS for the Clansuite About Layout
+ * Syntax recommendation http://www.w3.org/TR/REC-CSS2
+ * -----------------------------------------------------------------------------------------------
+ * @license    GNU/GPL v2 or (at your option) any later version, see "/doc/LICENSE".
+ * @author     vain@clansuite.com
+ * @created   11.05.2009 17:23
+ * @package      CSS
+ * @subpackage    Themes
+ * @version        SVN: $Id: admin.css 4765 2010-10-05 23:46:48Z vain $
+ * -----------------------------------------------------------------------------------------------
+*/
+@charset "UTF-8";
 
-.about-version
+@media screen
 {
-   font-size: 7pt;
-   vertical-align: top;
-}
 
-.about-info
-{
-   font-size: 12pt;
-   vertical-align: top;
-}
+    .about-version
+    {
+       font-size: 7pt;
+       vertical-align: top;
+    }
 
-.about-title
-{
-   font-size: 9pt;
-   background-color: #dddddd;
-   vertical-align: middle;
-}
+    .about-info
+    {
+       font-size: 12pt;
+       vertical-align: top;
+    }
 
-.about-entry
-{
-   font-size: 8pt;
-   vertical-align: top;
-}
+    .about-title
+    {
+       font-size: 9pt;
+       background-color: #dddddd;
+       vertical-align: middle;
+    }
 
-.about-entry-small
-{
-   font-size: 7pt;
-   vertical-align: top;
-}
+    .about-entry
+    {
+       font-size: 8pt;
+       vertical-align: top;
+    }
 
-.about-sponsor
-{
-   font-size: 12pt;
-   text-align: justify;
+    .about-entry-small
+    {
+       font-size: 7pt;
+       vertical-align: top;
+    }
+
+    .about-sponsor
+    {
+       font-size: 12pt;
+       text-align: justify;
+    }
+
 }
