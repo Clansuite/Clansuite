@@ -108,9 +108,9 @@ class Clansuite_Module_Templatemanager_Admin extends Clansuite_Module_Controller
 
         # Incomming Variables
 
-        $tplmod   = $this->request->getParameter('tplmod', 'G');
-        $tpltheme = $this->request->getParameter('tpltheme', 'G');
-        $file     = $this->request->getParameter('file', 'G');
+        $tplmod   = $this->request->getParameter('tplmod', 'GET');
+        $tpltheme = $this->request->getParameter('tpltheme', 'GET');
+        $file     = $this->request->getParameter('file', 'GET');
 
         #Clansuite_Debug::firebug($file);
 
