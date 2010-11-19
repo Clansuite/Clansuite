@@ -1,7 +1,7 @@
 {* DEBUG OUTPUT of assigned Arrays:
-   {$smarty.session|@var_dump}
+   {$smarty.session|var_dump}
    <hr>
-   {$latestmatches|@var_dump}  
+   {$latestmatches|var_dump}  
 *} 
 
 <!-- Start Widget Nextmatches from Module Matches -->

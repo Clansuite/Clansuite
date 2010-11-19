@@ -1,4 +1,4 @@
-{* {$mibbit_options|@var_dump} *}
+{* {$mibbit_options|var_dump} *}
 
 {include file='mibbit_irc_welcome_message.tpl'}
 

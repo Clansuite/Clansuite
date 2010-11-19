@@ -116,8 +116,10 @@ class Clansuite_Module_Users_Admin extends Clansuite_Module_Controller
         if ( is_array( $users ) )
         {
             $view->assign('users', $users);
-            $view->assign('pager', $pager);
-            $view->assign('pager_layout', $pager_layout);
+
+            # @todo smarty3 bug ? assign/assign global
+            $view->assignGlobal('pager', $pager);
+            $view->assignGlobal('pager_layout', $pager_layout);
         }
         else
         {
@@ -125,18 +127,11 @@ class Clansuite_Module_Users_Admin extends Clansuite_Module_Controller
             $view->assign( 'error', $error );
         }
 
-        # Set Admin Layout Template
-        $view->setLayoutTemplate('index.tpl');
-
-        # Specifiy the template manually
-        #$this->setTemplate('admin/show.tpl');
-
         $this->display();
     }
 
     /**
      * Create a new user
-     *
      */
     public function action_admin_create()
     {
@@ -162,7 +157,6 @@ class Clansuite_Module_Users_Admin extends Clansuite_Module_Controller
 
     /**
      * Advanced User-Search
-     *
      */
     public function action_admin_search()
     {

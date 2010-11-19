@@ -1,8 +1,8 @@
 {* DEBUG OUTPUT of assigned Arrays:
-	{$paginate|@var_dump}
+	{$paginate|var_dump}
 *}
 
-{$subforums|@var_dump}
+{$subforums|var_dump}
 
 Forum {$subforums.0.forumparent} >> Subforumsoverview (Subforums of Parent_Forum {$board_navigation.parent_forum} ) (subforums.tpl)
 

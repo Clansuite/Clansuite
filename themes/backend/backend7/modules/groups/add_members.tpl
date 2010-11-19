@@ -1,8 +1,8 @@
 {* Debug of Array
-                    {$info|@var_dump}
-                    {$info.users_not_in_group|@var_dump}
-                    {$info.users_in_group|@var_dump}
-                    {$info.group|@var_dump}
+                    {$info|var_dump}
+                    {$info.users_not_in_group|var_dump}
+                    {$info.users_in_group|var_dump}
+                    {$info.group|var_dump}
 *}
 
 

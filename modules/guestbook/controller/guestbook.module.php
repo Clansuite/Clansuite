@@ -147,8 +147,8 @@ class Clansuite_Module_Guestbook extends Clansuite_Module_Controller
 
         if(isset($error)){$view->assign( 'error' , $error );}
 
-        $view->assign('pager', $pager);
-        $view->assign('pager_layout', $pager_layout);
+        $view->assignGlobal('pager', $pager);
+        $view->assignGlobal('pager_layout', $pager_layout);
 
         $form = new Clansuite_Form('eingabe','post',$_SERVER['PHP_SELF']);
         $view->assign('form', $form);

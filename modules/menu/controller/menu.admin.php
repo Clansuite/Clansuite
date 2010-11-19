@@ -120,10 +120,62 @@ class Clansuite_Module_Menu_Admin extends Clansuite_Module_Controller
         return $tree->fetchRoots();
     }
 
+    public function action_admin_modulemenu_edit()
+    {
+        # get modulename
+        $modulename = $this->request->getParameter('module');
+
+        $modulenavigation_file = ROOT_MOD. $modulename . DS . $modulename . '.menu.php';
+
+        # read module menu file
+        if( is_file($modulenavigation_file) )
+        {
+            # this includes the file, which contains a php array name $modulenavigation
+            include $modulenavigation_file;
+
+            # convert URLs by callback
+            $modulenavigation = array_map("convertURLs", $modulenavigation);
+
+            $view->assign('modulenavigation', $modulenavigation);
+            # The file is located in clansuite/themes/core/view/smarty/modulenavigation-generic.tpl
+            return $smarty->fetch('modulenavigation-generic.tpl');
+        }
+        else
+        {
+            $smarty->assign('modulename', $modulename);
+            $errormessage = $smarty->fetch('modulenavigation_not_found.tpl');
+            trigger_error($errormessage);
+        }
+
+        # assign the html of the form to the view
+        $this->getView()->assign('form', $form->render());
+
+        # display
+        $this->display();
+    }
+
+    public function action_admin_modulemenueditor()
+    {
+        $modulenames = Clansuite_ModuleInfoController::getModuleNames();
+
+        # create a new form
+        $form = new Clansuite_Form('module_select_dropdown_form', 'post', '/menu/admin/modulemenu_edit');
+
+        # select dropdown
+        $form->addElement('select')
+             ->setName('menu_select_form[modulename]')
+             ->setLabel(_('Module'))
+             ->setOptions($modulenames);
+
+        # assign the html of the form to the view
+        $this->getView()->assign('form', $form->render());
+        $this->display();
+    }
+
     public function action_admin_menueditor2()
     {
         # Set Pagetitle and Breadcrumbs
-        Clansuite_Breadcrumb::add( _('Menueditor II'), '/menu/admin/menueditor2');
+        Clansuite_Breadcrumb::add( _('Adminmenu Editor II'), '/menu/admin/menueditor2');
 
         $model = 'CsAdminmenuShortcuts';
         $treeObject = Doctrine::getTable($model)->getTree();

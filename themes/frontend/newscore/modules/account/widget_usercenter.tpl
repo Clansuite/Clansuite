@@ -26,7 +26,7 @@
     </tr>
     <tr>
         <td align="center">
-       {* {$smarty.session.user.rights|@var_dump} *}
+       {* {$smarty.session.user.rights|var_dump} *}
             <a href="index.php?mod=messaging&amp;action=show">{if isset($smarty.session.user.rights.use_messaging_system) && $smarty.session.user.rights.use_messaging_system == 1}{t}Messages{/t} ( {* {load_module name="messaging" action="get_new_messages_count"} *} ){/if}</a>
         </td>
     </tr>

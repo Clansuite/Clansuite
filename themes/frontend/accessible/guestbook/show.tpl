@@ -1,5 +1,5 @@
 <h1>{t}Guestbook{/t}</h1>
-{* Debugausgabe des Arrays: {$guestbook|@var_dump} {html_alt_table loop=$guestbook} *}
+{* Debugausgabe des Arrays: {$guestbook|var_dump} {html_alt_table loop=$guestbook} *}
 
 {move_to target="pre_head_close"}
     <script src="{$www_root_themes_core}javascript/prototype/prototype.js" type="text/javascript"></script>

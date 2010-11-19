@@ -1,4 +1,4 @@
-{* {$modulenavigation|@var_dump} *}
+{* {$modulenavigation|var_dump} *}
 
 {* <link rel="stylesheet" href="{$www_root_themes_core}css/tab.css" type="text/css" /> *}
 
@@ -36,7 +36,7 @@
 #tabsB a
 {
   float:left;
-  background:url("{$www_root_themes}core/css/tabs/tableftB.gif") no-repeat left top;
+  background:url("{$www_root_themes_core}css/tabs/tableftB.gif") no-repeat left top;
   margin:0;
   padding:0 0 0 4px;
   text-decoration:none;
@@ -46,7 +46,7 @@
 {
   float:left;
   display:block;
-  background:url("{$www_root_themes}core/css/tabs/tabrightB.gif") no-repeat right top;
+  background:url("{$www_root_themes_core}css/tabs/tabrightB.gif") no-repeat right top;
   padding:5px 15px 4px 6px;
   color:#666;
 }

@@ -1,6 +1,6 @@
 <!-- Start News /-->
 
-{* Debugoutput of News Array: {$news|@var_dump} *}
+{* Debugoutput of News Array: {$news|var_dump} *}
 
 <a id="news_top" id="news_top"></a>
 
@@ -49,7 +49,7 @@
 
 <!-- Start Comments /-->
 
-{* Debugoutput of Comments Array: {$news_comments|@var_dump} *}
+{* Debugoutput of Comments Array: {$news_comments|var_dump} *}
 
 <a id="comments" id="comments"></a>
 
@@ -60,7 +60,7 @@
 
 	{foreach item=news_comment from=$news_comments}
 
-	{* Debugoutput of Comments Array: {$news_comment|@var_dump} *}
+	{* Debugoutput of Comments Array: {$news_comment|var_dump} *}
 
 	<div id="news-comment-id{$news_comment.comment_id}" style="width:99%;">
 		<table width="100%" border="1" cellspacing="1" cellpadding="0">

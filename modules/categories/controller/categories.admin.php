@@ -202,7 +202,7 @@ class Clansuite_Module_Categories_Admin extends Clansuite_Module_Controller
 
     public function action_admin_delete()
     {
-        $delete  = $this->request->getParameter('delete', 'P');
+        $delete  = $this->request->getParameter('delete', 'POST');
 
         if(isset($delete))
         {
@@ -219,7 +219,7 @@ class Clansuite_Module_Categories_Admin extends Clansuite_Module_Controller
     {
         # get incoming data
         $data = $this->request->getParameter('cat_form');
-        $type = $this->request->getParameter('type', 'G');
+        $type = $this->request->getParameter('type', 'GET');
 
         if(isset($type) and $type == 'create')
         {

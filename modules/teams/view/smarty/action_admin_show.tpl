@@ -1,11 +1,11 @@
 {* DEBUG OUTPUT of assigned Arrays:
-    {$smarty.session|@var_dump}
+    {$smarty.session|var_dump}
     {if $smarty.const.DEBUG eq "1"} Debug of Teams {html_alt_table loop=$teams}   {/if}
-    {$pagination_links|@var_dump}
+    {$pagination_links|var_dump}
     <hr>
-    {$teams|@var_dump}
+    {$teams|var_dump}
     <hr>
-    {$teamscategories|@var_dump}
+    {$teamscategories|var_dump}
 *}
 {modulenavigation}
 <!-- Module Heading -->

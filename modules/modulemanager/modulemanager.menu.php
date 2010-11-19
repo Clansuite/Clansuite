@@ -28,7 +28,7 @@
     * @copyright  Jens-André Koch (2005 - onwards)
     *
     * @link       http://www.clansuite.com
-    * 
+    *
     *
     * @version    SVN: $Id: news.module.php 2753 2009-01-21 22:54:47Z vain $
     */

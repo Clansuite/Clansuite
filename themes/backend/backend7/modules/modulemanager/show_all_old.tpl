@@ -359,7 +359,7 @@
                     
                     {if is_array($wert.subs)}
                    
-                   {* Debug Subs  *} {$wert.subs|@var_dump}
+                   {* Debug Subs  *} {$wert.subs|var_dump}
                     
                     {foreach key=key item=item from=$wert.subs}
                     <tr id="{$wert.module_id}_sub_{$item.submodule_id}_tr1">

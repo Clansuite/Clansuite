@@ -1,4 +1,4 @@
-{* {$widget_archive|@var_dump} *}
+{* {$widget_archive|var_dump} *}
 
 <!-- Start News Archiv Widget from Theme Newscore /-->
 

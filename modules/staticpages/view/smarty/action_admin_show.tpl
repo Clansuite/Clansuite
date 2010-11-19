@@ -1,4 +1,4 @@
-{* Debugausgabe des Arrays:  {$overview|@var_dump} *}   
+{* Debugausgabe des Arrays:  {$overview|var_dump} *}   
 
 <!-- Module Heading -->
 <div class="ModuleHeading">{t}Static Pages Overview[/t}</div>

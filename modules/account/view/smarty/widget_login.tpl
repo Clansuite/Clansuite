@@ -1,4 +1,4 @@
-{* {$config|@var_dump} *}
+{* {$config|var_dump} *}
 
 {move_to target="pre_head_close"}
 <script src="{$www_root_themes_core}javascript/webtoolkit.sha1.js" type="application/javascript"></script>

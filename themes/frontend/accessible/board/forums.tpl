@@ -1,8 +1,8 @@
 {* DEBUG OUTPUT of assigned Arrays:
-	{$paginate|@var_dump}
+	{$paginate|var_dump}
 *}
 
-{$forums|@var_dump}
+{$forums|var_dump}
 
 <h2>Board - Overview of Forums </h2> (forums.tpl)
 

@@ -52,12 +52,12 @@ function smarty_function_load_module($params, $smarty)
     # Construct the variable module_name
     if(isset($submodule) and mb_strlen($submodule) > 0)
     {
-        # like "clansuite_module_admin_menu"
+        # like "clansuite_module_admin_news"
         $module_classname .= $module . '_' . $submodule;
     }
     else
     {
-        # like "clansuite_module_admin"
+        # like "clansuite_module_news"
         $module_classname .= $module;
     }
 

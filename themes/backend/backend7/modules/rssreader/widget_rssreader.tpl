@@ -1,4 +1,4 @@
-{* {$feed|@var_dump} *}
+{* {$feed|var_dump} *}
 
 <!-- ## Start: Rssreader Widget from Module Rssreader ## -->
 

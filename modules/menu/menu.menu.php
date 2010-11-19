@@ -42,17 +42,27 @@ if(defined('IN_CS') === false)
 $modulenavigation = array(
     '1' => array(
         'action' => 'menueditor',
-        'name' => 'Menueditor',
-        'url' => '/menu/admin/menueditor', # &action=show
+        'name' => 'Adminmenu Editor I',
+        'url' => '/menu/admin/menueditor',
         'icon' => '',
         'title' => ''
     ),
     '2' => array(
         'action' => 'menueditor2',
-        'name' => 'Menueditor II',
-        'url' => '/menu/admin/menueditor2', # &action=show
+        'name' => 'Adminmenu Editor II',
+        'url' => '/menu/admin/menueditor2',
+        'icon' => '',
+        'title' => ''
+    ),
+    '3' => array(
+        'action' => 'modulemenueditor',
+        'name' => 'Modulemenu Editor',
+        'url' => '/menu/admin/modulemenueditor',
         'icon' => '',
         'title' => ''
     ),
 );
+
+array_key_exists($key, $searcharray)
+
 ?>

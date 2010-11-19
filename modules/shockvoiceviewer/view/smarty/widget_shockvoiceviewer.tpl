@@ -1,4 +1,4 @@
-{* {$serverinfos|@var_dump} *}
+{* {$serverinfos|var_dump} *}
 
 <!-- [Start] Widget: Shockvoice Viewer -->
 <div class="td_header">Shockvoice Viewer</div>

@@ -106,8 +106,8 @@ class Clansuite_Module_Users extends Clansuite_Module_Controller
         $view->assign('userslist', $userslist);
 
         // Pagination
-        $view->assign('pager', $pager);
-        $view->assign('pager_layout', $pager_layout);
+        $view->assignGlobal('pager', $pager);
+        $view->assignGlobal('pager_layout', $pager_layout);
 
         # specifiy the template manually
         #$this->setTemplate('userslist/view/show.tpl');

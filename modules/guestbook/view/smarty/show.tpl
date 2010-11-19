@@ -1,5 +1,5 @@
 <h1>{t}Guestbook{/t}</h1>
-{* Debugausgabe des Arrays: {$guestbook|@var_dump} 
+{* Debugausgabe des Arrays: {$guestbook|var_dump} 
 {html_alt_table loop=$guestbook}*}
 
 {*
@@ -13,7 +13,7 @@
         {$entry.gb_town}
         {$entry.gb_text}
         {$entry.gb_ip}
-        {$entry.CsImage|@var_dump}
+        {$entry.CsImage|var_dump}
         {$entry.CsImage.type}
     {/foreach}
 *}

@@ -5,7 +5,7 @@
 <script type="text/javascript" src="{$www_root_themes_core}admin/datatable.js"></script>
 {/move_to}
 
-{* Debugoutput {$users|@var_dump}*}
+{* Debugoutput {$users|var_dump}*}
 
 <br />
 

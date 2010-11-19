@@ -1,6 +1,6 @@
 {* Debug: *}
 
-{$usersonline|@var_dump}
+{$usersonline|var_dump}
 
 <!-- Start: widget_usersonline @ module users // -->
 

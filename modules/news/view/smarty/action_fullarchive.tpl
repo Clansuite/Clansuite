@@ -1,9 +1,9 @@
 {* DEBUG OUTPUT of assigned Arrays:
-   {$smarty.session|@var_dump}
+   {$smarty.session|var_dump}
    <hr>
-   {$news|@var_dump}
+   {$news|var_dump}
    <hr>
-   {$pagination_links|@var_dump}
+   {$pagination_links|var_dump}
 *}
 
 {if !empty($news)}

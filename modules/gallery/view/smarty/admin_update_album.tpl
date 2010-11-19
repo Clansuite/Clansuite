@@ -1,9 +1,9 @@
 
-   {$smarty.session|@var_dump}
+   {$smarty.session|var_dump}
    <hr>
-   {$album|@var_dump}
+   {$album|var_dump}
    <hr>
-   {*{$pagination_links|@var_dump}*}
+   {*{$pagination_links|var_dump}*}
 
 
 

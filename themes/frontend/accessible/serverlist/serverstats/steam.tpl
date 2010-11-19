@@ -1,4 +1,4 @@
-{* DEBUG {$serverdata|@var_dump} *}
+{* DEBUG {$serverdata|var_dump} *}
 
 <div style="float: right"><img src="{$www_root_theme}images/serverlist/up.gif" 
 onclick="Effect.SlideUp('serverdata_{$serverdata.server_id}'); Effect.Appear(ClipDownImage_{$serverdata.server_id})" />
@@ -47,7 +47,7 @@ onclick="Effect.SlideUp('serverdata_{$serverdata.server_id}'); Effect.Appear(Cli
 
 <dl>
     <dd>
-    {* DEBUG {$serverdata.players|@var_dump} *}
+    {* DEBUG {$serverdata.players|var_dump} *}
     <table>
        <tr>
            <td>#</td>
@@ -79,7 +79,7 @@ onclick="Effect.SlideUp('serverdata_{$serverdata.server_id}'); Effect.Appear(Cli
 
 <dl>
     <dd>
-    {* DEBUG {$serverdata.rules|@var_dump} *}
+    {* DEBUG {$serverdata.rules|var_dump} *}
     <table>
         <tr>
             <td>Setting</td>

@@ -1,4 +1,4 @@
- {*  {$widget_nextmatches|@var_dump} *}
+ {*  {$widget_nextmatches|var_dump} *}
 
 <!-- Start Widget Nextmatches from Module Matches -->
 

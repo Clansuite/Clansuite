@@ -1,7 +1,7 @@
 {* DEBUG OUTPUT of assigned Arrays:
-   {$smarty.session|@var_dump}
+   {$smarty.session|var_dump}
    <hr>
-   {$matches|@var_dump}
+   {$matches|var_dump}
 *}
 
 {*
@@ -59,7 +59,7 @@ array
             {foreach name=matches item="match" from=$matches}
             <tr>
 
-                {* Debugaussgabe des einzelnen Matches: {$match|@var_dump} *}
+                {* Debugaussgabe des einzelnen Matches: {$match|var_dump} *}
 
                 <td>{$match.id}</td>
                 {*

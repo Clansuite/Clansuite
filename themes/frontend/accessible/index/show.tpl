@@ -5,7 +5,7 @@ Accessible Theme - Module Index - Show
 <strong>{t}Hello{/t}</strong><br />
 <strong>{t}Welcome{/t}</strong><br />
 <br />
-{* {$smarty|@var_dump} *}
+{* {$smarty|var_dump} *}
 <em> {t 1=$smarty.session.user.nick}How are you, %1 ?{/t}</em>
 
 <p>

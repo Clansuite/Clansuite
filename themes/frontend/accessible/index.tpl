@@ -78,7 +78,7 @@
 		<div id="counter" class="content">
     		<ul>
     			<li>
-    				<strong>Online:</strong>{* {$stats|@var_dump}  *} {$stats.online}
+    				<strong>Online:</strong>{* {$stats|var_dump}  *} {$stats.online}
     				<ul>
     					<li><strong>Users:</strong> {$stats.authed_users}</li>
     					<li><strong>Guests:</strong> {$stats.guest_users}</li>

@@ -1,4 +1,4 @@
-{* {$serverinfo|@var_dump} *}
+{* {$serverinfo|var_dump} *}
 
 <!-- [Start] Widget: Teamspeak Ministatus -->
 <div class="td_header">Teamspeak2 Online Check</div>

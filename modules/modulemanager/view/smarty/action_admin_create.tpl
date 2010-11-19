@@ -1,6 +1,6 @@
 {*  *}
 
-{$mod|@var_dump}
+{$mod|var_dump}
 
 {modulenavigation}
 <div class="ModuleHeading">{t}Modulemanager{/t}</div>

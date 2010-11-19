@@ -48,9 +48,9 @@ $modulenavigation = array(
         'title' => ''
     ),
     '2' => array(
-        'action' => 'scanAllModules',
+        'action' => 'scanallmodules',
         'name' => 'Scan All Modules',
-        'url' => '/languages/admin/scanAllModules',
+        'url' => '/languages/admin/scanallmodules',
         'icon' => '',
         'title' => ''
     ),

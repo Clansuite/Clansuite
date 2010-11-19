@@ -43,7 +43,7 @@ if(defined('IN_CS') === false)
  */
 class Clansuite_Module_News_Admin extends Clansuite_Module_Controller
 {
-    public $_Statusmap = array();
+    public $publishing_status_map = array();
 
     public function initializeModule()
     {
@@ -51,11 +51,13 @@ class Clansuite_Module_News_Admin extends Clansuite_Module_Controller
         parent::initModel('users');
         parent::initModel('categories');
 
-        $this->_Statusmap = array(  "0" => _('Not published'),
-                                    "1" => _('No clue'),
-                                    "2" => _('No clue'),
-                                    "3" => _('No clue'),
-                                    "4" => _('Published') );
+        $this->publishing_status_map = array(
+            '0' => _('Not published'),
+            '1' => _('No clue'),
+            '2' => _('No clue'),
+            '3' => _('No clue'),
+            '4' => _('Published')
+        );
     }
 
     /**
@@ -179,9 +181,9 @@ class Clansuite_Module_News_Admin extends Clansuite_Module_Controller
     public function manipulateValues(&$_ArrayReference)
     {
         #Clansuite_Debug::firebug($_ArrayReference['news_status']);
-        if(isset($this->_Statusmap[$_ArrayReference['news_status']]))
+        if(isset($this->publishing_status_map[$_ArrayReference['news_status']]))
         {
-            $_ArrayReference['news_status'] = $this->_Statusmap[$_ArrayReference['news_status']];
+            $_ArrayReference['news_status'] = $this->publishing_status_map[$_ArrayReference['news_status']];
         }
 
         $wrapLength = 50;
@@ -208,18 +210,16 @@ class Clansuite_Module_News_Admin extends Clansuite_Module_Controller
         # Assign some formlements
         $form->addElement('text')->setName('news_form[news_title]')->setLabel(_('Title'));
         $categories = Doctrine::getTable('CsNews')->fetchAllNewsCategoriesDropDown();
-        $form->addElement('multiselect')->setName('news_form[cat_id]')->setLabel(_('Category'))->setOptions($categories);
-        $form->addElement('multiselect')->setName('news_form[news_status]')->setLabel(_('Status'))->setOptions($this->_Statusmap)->setDefaultValue("0");
-        $form->addElement('textarea')
-        ->setName('news_form[news_body]')
-        ->setID('news_form[news_body]')
-        ->setCols('100')
-        ->setRows('40')
-        ->setLabel(_('Your Article:'))
-        ->setEditor();
+        $form->addElement('multiselect')->setName('news_form[cat_id]')->setLabel(_('Category'))
+                ->setOptions($categories);
+        $form->addElement('multiselect')->setName('news_form[news_status]')->setLabel(_('Status'))
+                ->setOptions($this->publishing_status_map)->setDefaultValue("0");
+        $form->addElement('textarea')->setName('news_form[news_body]')->setID('news_form[news_body]')
+                ->setCols('100')->setRows('40')->setLabel(_('Your Article:'))
+                ->setEditor();
 
         # add the buttonbar
-        $form->addElement('buttonbar')->getButton('cancelbutton')->cancelURL = 'index.php?mod=news/admin';
+        $form->addElement('buttonbar')->getButton('cancelbutton')->cancelURL = 'index.php?mod=news&sub=admin';
 
         # Assign the html of the form to the view
         $this->getView()->assign('form', $form->render());
@@ -260,7 +260,7 @@ class Clansuite_Module_News_Admin extends Clansuite_Module_Controller
         $form->addElement('text')->setName('news_form[news_title]')->setLabel(_('Title'))->setValue($news['news_title']);
         $categories = Doctrine::getTable('CsNews')->fetchAllNewsCategoriesDropDown();
         $form->addElement('multiselect')->setName('news_form[cat_id]')->setLabel(_('Category'))->setOptions($categories)->setDefaultValue($news['cat_id']);
-        $form->addElement('multiselect')->setName('news_form[news_status]')->setLabel(_('Status'))->setOptions($this->_Statusmap)->setDefaultValue($news['news_status']);
+        $form->addElement('multiselect')->setName('news_form[news_status]')->setLabel(_('Status'))->setOptions($this->publishing_status_map)->setDefaultValue($news['news_status']);
         $form->addElement('textarea')->setName('news_form[news_body]')->setID('news_form[news_body]')->setCols('110')->setRows('30')->setLabel(_('Your Article:'))->setValue($news['news_body'])
                 ->setEditor('nicedit');
 
@@ -284,7 +284,7 @@ class Clansuite_Module_News_Admin extends Clansuite_Module_Controller
     {
         # get incoming data
         $data = $this->request->getParameter('news_form');
-        $type = $this->request->getParameter('type', 'G');
+        $type = $this->request->getParameter('type', 'GET');
 
         if(isset($type) and $type == 'create')
         {

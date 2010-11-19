@@ -1,7 +1,7 @@
 {* DEBUG OUTPUT of assigned Arrays:
-   {$smarty.session|@var_dump}
+   {$smarty.session|var_dump}
    <hr>
-   {$shoutbox_widget|@var_dump}
+   {$shoutbox_widget|var_dump}
 *} 
 
 <!-- Start Widget Shoutbox from Module Shoutbox -->
