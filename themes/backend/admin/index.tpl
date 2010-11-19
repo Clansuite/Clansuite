@@ -33,7 +33,7 @@
 
     {* Clansuite Cascading Style Sheets *}
 
-    <link rel="stylesheet" type="text/css" href="{$www_root_themes_backend}admin/css/admin.css" />
+    <link rel="stylesheet" type="text/css" href="{$www_root_themes_backend}admin/css/import.css" />
     {* <script type="text/javascript" src="{$www_root_themes_backend}admin/javascript/admin.js"></script> *}
 
     {* Clansuite Javascripts *}

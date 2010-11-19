@@ -9,22 +9,22 @@
  * @license    GNU/GPL v2 or (at your option) any later version, see "/doc/LICENSE".
  * @author     Jens-André Koch <vain@clansuite.com>
  * @author     Paul Brand <info@isp-tenerife.net>
- * @package      CSFW
- * subpackage    Core
- * @version        1.0
+ * @package    CSFW
+ * @subpackage Core
+ * @version    1.0
  * -----------------------------------------------------------------------------------------------
 */
 
 /** [Imports] */
-@import url('../../../core/css/form.css'');
+@import url('../../../core/css/form.css');
 
 /**
  * -----------------------------------------------------------------------------------------------
- * Framework: Clansuite CSS-Framework
- * Description: Theme CSS-Files for building one compact theme importfile
+ * Framework:    Clansuite CSS-Framework
+ * Description:  Theme CSS-Files for building one compact theme importfile
  * Version:      1.0
- * Author:        Clansuite CSS-Builder
- * Date:           2010/11/05
+ * Author:       Clansuite CSS-Builder
+ * Date:         2010/11/05
  * -------------------------------------------------------------------------------------------------
 */
 /* [admin.css] */

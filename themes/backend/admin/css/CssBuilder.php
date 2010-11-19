@@ -46,20 +46,20 @@ function cssBuilder()
     $_compact .= " * @license    GNU/GPL v2 or (at your option) any later version, see \"/doc/LICENSE\"."."\n";
     $_compact .= " * @author     Jens-André Koch <vain@clansuite.com>"."\n";
     $_compact .= " * @author     Paul Brand <info@isp-tenerife.net>"."\n";
-    $_compact .= " * @package      CSFW"."\n";
-    $_compact .= " * subpackage    Core"."\n";
-    $_compact .= " * @version        1.0"."\n";
+    $_compact .= " * @package    CSFW"."\n";
+    $_compact .= " * @subpackage Core"."\n";
+    $_compact .= " * @version    1.0"."\n";
     $_compact .= " * -----------------------------------------------------------------------------------------------"."\n";
     $_compact .= "*/"."\n";
     $_compact .= "\n";
 
     $theme_compact =  "/**"."\n";
     $theme_compact .= " * -----------------------------------------------------------------------------------------------"."\n";
-    $theme_compact .= " * Framework: " .$themeCssFramework. "\n";
-    $theme_compact .= " * Description: " .$themeCssDescription. "\n";
+    $theme_compact .= " * Framework:    " .$themeCssFramework. "\n";
+    $theme_compact .= " * Description:  " .$themeCssDescription. "\n";
     $theme_compact .= " * Version:      " .$themeCssVersion. "\n";
-    $theme_compact .= " * Author:        " .$themeCssAuthor. "\n";
-    $theme_compact .= " * Date:           " .$themeCssDate. "\n";
+    $theme_compact .= " * Author:       " .$themeCssAuthor. "\n";
+    $theme_compact .= " * Date:         " .$themeCssDate. "\n";
     $theme_compact .= " * -------------------------------------------------------------------------------------------------"."\n";
     $theme_compact .= "*/"."\n";
 
