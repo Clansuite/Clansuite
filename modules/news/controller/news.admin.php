@@ -53,9 +53,9 @@ class Clansuite_Module_News_Admin extends Clansuite_Module_Controller
 
         $this->publishing_status_map = array(
             '0' => _('Not published'),
-            '1' => _('No clue'),
-            '2' => _('No clue'),
-            '3' => _('No clue'),
+            '1' => _('Draft'),
+            '2' => _('Private'),
+            '3' => _('Pending review'),
             '4' => _('Published')
         );
     }
@@ -167,9 +167,6 @@ class Clansuite_Module_News_Admin extends Clansuite_Module_Controller
         # Assing datagrid
         $view->assign('datagrid', $datagrid->render());
 
-        # Set Layout Template
-        $this->getView()->setLayoutTemplate('index.tpl');
-
         $this->display();
     }
 
@@ -263,8 +260,6 @@ class Clansuite_Module_News_Admin extends Clansuite_Module_Controller
         $form->addElement('multiselect')->setName('news_form[news_status]')->setLabel(_('Status'))->setOptions($this->publishing_status_map)->setDefaultValue($news['news_status']);
         $form->addElement('textarea')->setName('news_form[news_body]')->setID('news_form[news_body]')->setCols('110')->setRows('30')->setLabel(_('Your Article:'))->setValue($news['news_body'])
                 ->setEditor('nicedit');
-
-        $form->addElement('captcha')->setCaptcha('simplecaptcha')->setLabel(_('Captcha'));
 
         # add the buttonbar
         $form->addElement('buttonbar')->getButton('cancelbutton')->cancelURL = 'index.php?mod=news/admin';
@@ -375,7 +370,7 @@ class Clansuite_Module_News_Admin extends Clansuite_Module_Controller
 
         $settings['news'][] = array(    'id' => 'items_newswidget',
                                         'name' => 'items_newswidget',
-                                        'label' => 'LatestNews Wdiget Items',
+                                        'label' => 'LatestNews Widget Items',
                                         'description' => _('Newsitems to show in LatestNews Widget'),
                                         'formfieldtype' => 'text',
                                         'value' => $this->getConfigValue('items_newswidget', '5'));
@@ -391,7 +386,7 @@ class Clansuite_Module_News_Admin extends Clansuite_Module_Controller
                                         'name' => 'resultsPerPage_adminshow',
                                         'label' => 'Admin News Items',
                                         'description' => _('Newsitems to show in the administration area.'),
-                                        'formfieldtype' => 'multiselect',
+                                        'formfieldtype' => 'text',
                                         'value' => $this->getConfigValue('resultsPerPage_adminshow', '10'),
                                         'validationrules' => array('int'),
                                         'errormessage' => 'Please use digits!');
