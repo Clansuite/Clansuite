@@ -1,8 +1,8 @@
 {* DEBUG OUTPUT of assigned Arrays:
-    {$smarty.session|@var_dump}
+    {$smarty.session|var_dump}
     {if $smarty.const.DEBUG eq "1"} Debug of Games {html_alt_table loop=$games}   {/if}
     <hr>
-    {$games|@var_dump}
+    {$games|var_dump}
 *}
 
 {modulenavigation}

@@ -1,7 +1,7 @@
 {* 
-    {$feed|@var_dump} 
+    {$feed|var_dump} 
     <br />
-    {$items_newswidget|@var_dump}
+    {$items_newswidget|var_dump}
 *}
 
 <!-- ## Start: Rssreader Widget from Module Rssreader ## -->

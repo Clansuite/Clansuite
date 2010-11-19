@@ -39,7 +39,7 @@
                                      {elseif $key eq "user_notice"}#FFCC00
                                      {elseif $key eq "warning"}#FF3333
                                      {/if};"
-                class="debug_initial">{$item|@debug_print_var}
+                class="debug_initial">{$item|debug_print_var}
             </dt>
         </dl>
     {/foreach}
@@ -79,7 +79,7 @@
                 <font color="maroon">{ldelim}#{$_debug_config_keys[config_vars]}#{rdelim}</font>
             </dt>
             <dt class="debug_initial">
-                <font color="green">{$_debug_config_vals[config_vars]|@debug_print_var}</font>
+                <font color="green">{$_debug_config_vals[config_vars]|debug_print_var}</font>
             </dt>
         {sectionelse}
             <dt class="debug_initial">
@@ -98,7 +98,7 @@
             </dt>
             {foreach key=key item=item from=$debugouter}
             <dt class="debug_initial">
-                <b>{$key}:</b> {$item|@debug_print_var}
+                <b>{$key}:</b> {$item|debug_print_var}
             </dt>
             {/foreach}
         {/foreach}
@@ -113,7 +113,7 @@
         </dt>
         {foreach key=key item=item from=$debug.mods_loaded}
             <dt class="debug_initial">
-                {$item|@debug_print_var}
+                {$item|debug_print_var}
             </dt>
         {/foreach}
         <dt class="debug_second">
@@ -121,7 +121,7 @@
         </dt>
         {foreach key=key item=item from=$debug.lang_loaded}
             <dt class="debug_initial">
-                {$item|@debug_print_var}
+                {$item|debug_print_var}
             </dt>
         {/foreach}
     </dl>
@@ -139,7 +139,7 @@
                 {foreach key=key item=item from=$debugouter}
                     <dt class="debug_initial">
                         {if is_array($debugouter)} <b>{$key}</b> {else} {* nothing *} {/if}
-                        {$item|@debug_print_var}
+                        {$item|debug_print_var}
                     </dt>
                 {/foreach}
             {else}
@@ -161,7 +161,7 @@
             </dt>
             {foreach key=key item=item from=$debugouter}
                 <dt class="debug_initial">
-                    <b>{$key}</b>: {$item|@debug_print_var}
+                    <b>{$key}</b>: {$item|debug_print_var}
                 </dt>
             {/foreach}
         {/foreach}

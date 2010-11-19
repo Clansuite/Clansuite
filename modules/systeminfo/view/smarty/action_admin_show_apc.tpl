@@ -1,9 +1,9 @@
 {modulenavigation}
 
-{* {$apc_sysinfos.sma_info|@dump:APC_SYSINFOS_sma_info} *}
-{* {$apc_sysinfos.cache_info|@dump:APC_SYSINFOS_cache_info} *}
-{* {$apc_sysinfos.system_cache_info|@dump:APC_SYSINFOS_system_cache_info} *}
-{* {$apc_sysinfos.settings|@dump:APC_SYSINFOS_settings} *}
+{* {$apc_sysinfos.sma_info|dump:APC_SYSINFOS_sma_info} *}
+{* {$apc_sysinfos.cache_info|dump:APC_SYSINFOS_cache_info} *}
+{* {$apc_sysinfos.system_cache_info|dump:APC_SYSINFOS_system_cache_info} *}
+{* {$apc_sysinfos.settings|dump:APC_SYSINFOS_settings} *}
 
 <div class="ModuleHeading">{t}Statistics for Alternative PHP Cache {$apc_sysinfos.version}{/t}</div>
 <div class="ModuleHeadingSmall">{t}Current Status and statistics of AP-Cache.{/t}</div>
@@ -67,7 +67,7 @@
 {openflashchart width="220" heigth="110" url="index.php?mod=systeminfo&sub=admin&action=return_ofc_hitrates"}
 
 <h2>Runtime Settings</h2>
-{* Debug {$apc_sysinfos.settings|@dump} *}
+{* Debug {$apc_sysinfos.settings|dump} *}
 
 <table>
 <tr><td>Name</td><td>global_value</td><td>local_value</td><td>access</td><td>accessname</td></tr>

@@ -1,4 +1,4 @@
-{* Debugausgabe des Arrays: {html_alt_table loop=$guestbook} {$guestbook|@var_dump} *}
+{* Debugausgabe des Arrays: {html_alt_table loop=$guestbook} {$guestbook|var_dump} *}
 
 {*
 {foreach item=entry from=$guestbook}

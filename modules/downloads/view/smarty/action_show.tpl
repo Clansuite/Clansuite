@@ -1,7 +1,7 @@
 {* DEBUG OUTPUT of assigned Arrays:
-   {$downloads|@var_dump}
-   {$downloadcategories|@var_dump}
-   {$downloads|@var_dump}
+   {$downloads|var_dump}
+   {$downloadcategories|var_dump}
+   {$downloads|var_dump}
 *}
 
 <div class="content" id="downloads_show">

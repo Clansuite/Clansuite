@@ -1,4 +1,4 @@
-{* {$serverinfo|@var_dump} *}
+{* {$serverinfo|var_dump} *}
 
 <!-- [Start] widget_ts2viewer @ module teamspeakviewer -->
 

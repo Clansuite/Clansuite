@@ -1,8 +1,8 @@
 <!-- themes/accessible/news/show.tpl -->
 <h1>{t}News{/t}</h1>
 {* DEBUG OUTPUT of assigned Arrays:
-	{$news|@var_dump}
-	{$paginate|@var_dump}
+	{$news|var_dump}
+	{$paginate|var_dump}
 *}
     <script type="text/javascript" src="{$www_root}core/fckeditor/fckeditor.js"></script>
 {move_to target="pre_head_close"}

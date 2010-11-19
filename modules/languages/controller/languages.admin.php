@@ -81,16 +81,43 @@ class Clansuite_Module_Languages_Admin extends Clansuite_Module_Controller
 
     public function action_admin_show()
     {
+        # get themes
+        $themes = Clansuite_Theme::getThemeDirectories();
+
+        # get modules
+        $modules = Clansuite_ModuleInfoController::getModuleNames(true);
+
+        $view = $this->getView();
+        $view->assign('themes', $themes);
+        $view->assign('modules', $modules);
+        $this->display();
+    }
+
+    public function action_admin_scanonemodule()
+    {
+        $module_name = $this->request->getParameter('modulename', 'GET');
+
+        # scan modules and buffer the log output
+        ob_start();
+        self::scanModule($module_name);
+        $scan_log_content = ob_get_contents();
+        ob_end_clean();
+
+        # display scanner log
+        $view = $this->getView();
+        $view->assign('scan_log', $scan_log_content);
         $this->display();
     }
 
     public function action_admin_scanallmodules()
     {
+        # scan modules and buffer the log output
         ob_start();
         self::scanAllModules();
         $scan_log_content = ob_get_contents();
         ob_end_clean();
 
+        # display scanner log
         $view = $this->getView();
         $view->assign('scan_log', $scan_log_content);
         $this->display();

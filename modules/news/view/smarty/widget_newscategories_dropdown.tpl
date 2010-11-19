@@ -1,4 +1,4 @@
-{* {$widget_newscategories_dropdown|@var_dump} *}
+{* {$widget_newscategories_dropdown|var_dump} *}
 
 <!-- Start Start Widget NewsCategoriesDropDown from Module News -->
 

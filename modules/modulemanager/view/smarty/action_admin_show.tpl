@@ -1,4 +1,4 @@
-{* {$modules|@var_dump} *}
+{* {$modules|var_dump} *}
 {modulenavigation}
 <div class="ModuleHeading">{t}Modulemanager{/t}</div>
 <div class="ModuleHeadingSmall">{t}Administrate the modules. You can add, delete, activate, deactivate modules.{/t}</div>
@@ -34,6 +34,8 @@ There are {$modules_summary.counter} Modules installed.
             &nbsp;
             <a href="/" type="button" class="delete" title="{$module.name}">Delete</a>
 
+            <br>
+
             {* Add Developer Actions *}
 
             {if $smarty.const.DEVELOPMENT == true}
@@ -61,6 +63,9 @@ There are {$modules_summary.counter} Modules installed.
             *}
             <a href="{$www_root}index.php?mod=templatemanager&sub=admin&action=showmoduletemplates&modulename={$module.name}"
                type="button" class="delete" title="Edit Templates">Edit Templates</a>
+            &nbsp;
+            <a href="{$www_root}index.php?mod=lanaguages&sub=admin&action=edit&modulename={$module.name}"
+               type="button" class="delete" title="Edit Languages">Edit Language</a>
 
             {/if}
         </td>

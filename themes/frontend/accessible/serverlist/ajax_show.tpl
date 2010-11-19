@@ -6,7 +6,7 @@
 <link rel="stylesheet" type="text/css" href="{$www_root_theme}coffee-with-milk.css" />
 {/move_to}
 
-{* Debuganzeige, wenn DEBUG = 1 |   {$servers|@var_dump}
+{* Debuganzeige, wenn DEBUG = 1 |   {$servers|var_dump}
 {if $smarty.const.DEBUG eq "1"} Debugausgabe des Arrays:   {html_alt_table loop=$servers} {/if} *}
 
 <table>
@@ -48,7 +48,7 @@
 			<div style="display: none;" id="serverdata_{$server.server_id}">
 			{* Show ServerStats based an Gametype or noresponse.tpl *}
 				<div id="server_details_{$server.server_id}">
-				{* Before Ajax Serverdata {$server|@var_dump} *}
+				{* Before Ajax Serverdata {$server|var_dump} *}
 				</div>
 			</div>
 		</td>

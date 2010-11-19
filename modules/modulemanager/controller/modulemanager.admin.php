@@ -151,10 +151,7 @@ class Clansuite_Module_Modulemanager_Admin extends Clansuite_Module_Controller
         Clansuite_Breadcrumb::add( _('Builder'), '/modulemanager/admin/builder');
 
         $existing_modules_js = '[';
-        $module_dirs = self::getModuleDirsList();
-
-        Clansuite_Debug::firebug($module_dirs);
-        exit;
+        $module_dirs = Clansuite_ModuleInfoController::getModuleDirectories();
 
         foreach( $module_dirs as $key => $value )
         {
@@ -163,6 +160,7 @@ class Clansuite_Module_Modulemanager_Admin extends Clansuite_Module_Controller
         $existing_modules_js = preg_replace( '#,$#', ']', $existing_modules_js);
 
         $view = $this->getView();
+
         $view->assign('existing_modules_js', $existing_modules_js);
 
         $this->display();

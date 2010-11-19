@@ -1,8 +1,8 @@
 {* DEBUG OUTPUT of assigned Arrays:
-	{$paginate|@var_dump}
+	{$paginate|var_dump}
 *}
 
-{$threads|@var_dump}
+{$threads|var_dump}
 
 
 Threads in Forum {$board_navigation.parent_forum} (threads.tpl)

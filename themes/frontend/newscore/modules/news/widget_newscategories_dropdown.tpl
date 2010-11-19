@@ -1,4 +1,4 @@
-{* {$widget_newscategories_dropdown|@var_dump} *}
+{* {$widget_newscategories_dropdown|var_dump} *}
 
 <!-- Start News-Categories Selection Widget from Theme Newscore /-->
 

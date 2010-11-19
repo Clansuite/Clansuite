@@ -1,4 +1,4 @@
-{$info|@var_dump}
+{$info|var_dump}
 {$info}
 <table border="0" cellspacing="0" cellpadding="0" width="100%">
     <tr>

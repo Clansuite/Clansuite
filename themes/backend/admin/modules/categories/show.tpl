@@ -1,4 +1,4 @@
-{* Debuganzeige, wenn DEBUG = 1 |    {$categories|@var_dump}
+{* Debuganzeige, wenn DEBUG = 1 |    {$categories|var_dump}
 {if $smarty.const.DEBUG eq "1"} Debugausgabe des Arrays:   {html_alt_table loop=$categories} {/if} *}
 
 <form action="index.php?mod=controlcenter&amp;sub=categories&amp;action=delete" method="post" accept-charset="UTF-8">

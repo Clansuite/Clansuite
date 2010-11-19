@@ -1,4 +1,4 @@
-{* {$widget_newscategories_list|@var_dump} *}
+{* {$widget_newscategories_list|var_dump} *}
 
 <!-- Start Widget NewsCategoriesList from Module News -->
 

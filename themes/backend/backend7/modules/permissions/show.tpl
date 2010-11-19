@@ -50,7 +50,7 @@
     </script>
 
 
-{* Debuganzeige, wenn DEBUG = 1 | {$permissions_data|@var_dump}
+{* Debuganzeige, wenn DEBUG = 1 | {$permissions_data|var_dump}
 {if $smarty.const.DEBUG eq "1"} Debugausgabe des Arrays:   {html_alt_table loop=$permissions_data} {/if}*}
 <table align="center" cellpadding="0" cellspacing="0" border="0">
     <tr class="tr_header">

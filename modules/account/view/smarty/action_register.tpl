@@ -138,7 +138,7 @@
         </tr>
         -->
 
-        {$moduleconfig|@dump}
+        {$moduleconfig|dump}
 
         {if $moduleconfig.captchatype == 'recaptcha'}
             <tr>

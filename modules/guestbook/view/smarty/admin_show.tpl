@@ -1,4 +1,4 @@
-{* Debugausgabe des Arrays: {html_alt_table loop=$guestbook} {$guestbook|@var_dump} *}
+{* Debugausgabe des Arrays: {html_alt_table loop=$guestbook} {$guestbook|var_dump} *}
 {modulenavigation}
 <div class="ModuleHeading">{t}Guestbook - Administration{/t}</div>
 <div class="ModuleHeadingSmall">{t}You can manage your Guestbook.{/t}</div>

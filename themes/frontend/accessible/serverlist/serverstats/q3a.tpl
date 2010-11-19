@@ -1,4 +1,4 @@
-{* DEBUG   {$serverdata|@var_dump} *}
+{* DEBUG   {$serverdata|var_dump} *}
 
 <div style="float: right"><img src="{$www_root_theme}images/serverlist/up.gif" 
 onclick="Effect.SlideUp('serverdata_{$serverdata.server_id}')"; /></div>

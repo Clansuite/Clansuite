@@ -69,8 +69,8 @@ class Clansuite_Module_Gallery_Admin extends Clansuite_Module_Controller
         #$view->assign('pagination_needed',$pager->haveToPaginate());
 
         // Pagination
-        #$view->assign('pager', $pager);
-        #$view->assign('pager_layout', $pager_layout);
+        #$view->assignGlobal('pager', $pager);
+        #$view->assignGlobal('pager_layout', $pager_layout);
 
         $this->display();
     }

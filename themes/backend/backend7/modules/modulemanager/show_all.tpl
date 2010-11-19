@@ -126,7 +126,7 @@
                         <td><strong>{t}Submodules:{/t}</strong></td>
                         <td>
                            {if is_array($wert.subs)} {* #### SUBMODULES FOUND #### *}
-                            {* #### Debug of Submodules Array #### {$wert.subs|@var_dump}*}
+                            {* #### Debug of Submodules Array #### {$wert.subs|var_dump}*}
                             {foreach key=key item=item from=$wert.subs}
                             <table class="tableedit" id="submodules_table_{$wert.module_id}_{$item.submodule_id}" cellspacing="0" cellpadding="0" border="0" style="width:100%">
                             <tr>
@@ -255,7 +255,7 @@
                         <td><strong>{t}Submodules:{/t}</strong></td>
                         <td>
                            {if is_array($wert.subs)} {* #### SUBMODULES FOUND #### *}
-                            {* #### Debug of Submodules Array #### {$wert.subs|@var_dump} *}
+                            {* #### Debug of Submodules Array #### {$wert.subs|var_dump} *}
                             {foreach key=key item=item from=$wert.subs}
                             <table class="tableedit" id="submodules_table_{$wert.module_id}_{$item.submodule_id}" cellspacing="0" cellpadding="0" border="0" style="width:100%">
                             <tr>

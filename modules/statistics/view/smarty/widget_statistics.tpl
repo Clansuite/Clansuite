@@ -1,4 +1,4 @@
-{* {$stats|@var_dump} *}
+{* {$stats|var_dump} *}
 
 <table cellpadding="3" cellspacing="0" border="0" width="100%" align="center">
     <tr>

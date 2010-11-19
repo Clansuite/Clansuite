@@ -17,7 +17,7 @@ var Serverform = {
 
 </script>
 
-{* Debuganzeige, wenn DEBUG = 1 |  {$servers|@var_dump}
+{* Debuganzeige, wenn DEBUG = 1 |  {$servers|var_dump}
 {if $smarty.const.DEBUG eq "1"} Debugausgabe des Arrays:   {html_alt_table loop=$servers} {/if} *}
   
   <form action="index.php?mod=serverlist&sub=admin&action=delete" method="post" accept-charset="UTF-8">

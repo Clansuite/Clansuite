@@ -1,6 +1,6 @@
 {* DEBUG OUTPUT of assigned Arrays:
-	{$boards|@var_dump}
-	{$paginate|@var_dump}
+	{$boards|var_dump}
+	{$paginate|var_dump}
 *}
 
 {move_to target="pre_head_close"}

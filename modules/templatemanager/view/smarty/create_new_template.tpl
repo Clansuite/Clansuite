@@ -3,7 +3,7 @@
 {literal}
 {* 
     This is the DEBUG OUTPUT of assigned variables or arrays:
-    {$variablename|@var_dump}
+    {$variablename|var_dump}
 *}
 {/literal}
 

@@ -107,8 +107,8 @@ class Clansuite_Module_News extends Clansuite_Module_Controller
 
         # Assign $news array and pager objects to smarty to Smarty for template output
         $view->assign('news', $news);
-        $view->assign('pager', $pager);
-        $view->assign('pager_layout', $pager_layout);
+        $view->assignGlobal('pager', $pager);
+        $view->assignGlobal('pager_layout', $pager_layout);
 
         $this->display();
     }
@@ -117,7 +117,6 @@ class Clansuite_Module_News extends Clansuite_Module_Controller
       * module news action_showone()
       *
       * Show one single news with comments
-      *
       */
      public function action_showone($params)
      {
@@ -126,7 +125,8 @@ class Clansuite_Module_News extends Clansuite_Module_Controller
 
         #Clansuite_Debug::firebug($params);
 
-        $news_id = (int) $params['id']; #(int) $this->request->getParameterFromGet('id');
+        $news_id = (int) $params['id'];
+        #(int) $this->request->getParameterFromGet('id');
         if($news_id === null) { $news_id = 1;  }
 
         $news = Doctrine::getTable('CsNews')->fetchSingleNews($news_id);
@@ -347,8 +347,8 @@ class Clansuite_Module_News extends Clansuite_Module_Controller
 
         # Assign $news array and pager objects to smarty to Smarty for template output
         $view->assign('news', $news);
-        $view->assign('pager', $pager);
-        $view->assign('pager_layout', $pager_layout);
+        $view->assignGlobal('pager', $pager);
+        $view->assignGlobal('pager_layout', $pager_layout);
 
         $this->display();
     }
@@ -405,8 +405,8 @@ class Clansuite_Module_News extends Clansuite_Module_Controller
         # Assign $news array to Smarty for template output
         # Also pass the complete pager object to smarty (referenced to save memory - no extra vars needed) => assign()
         $view->assign('news', $news);
-        $view->assign('pager', $pager);
-        $view->assign('pager_layout', $pager_layout);
+        $view->assignGlobal('pager', $pager);
+        $view->assignGlobal('pager_layout', $pager_layout);
 
         $this->display();
     }

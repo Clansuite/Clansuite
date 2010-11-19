@@ -1,6 +1,6 @@
 <h1>{t}Userlist{/t}</h1>
 
-{* Debugausgabe des Arrays: {$userslist|@var_dump} {html_alt_table loop=$userslist} *}
+{* Debugausgabe des Arrays: {$userslist|var_dump} {html_alt_table loop=$userslist} *}
 
 {pagination}
 
@@ -22,7 +22,7 @@
     <tr>
     	<td>
     	
-    	{* Debugausgabe des Arrays: {$user.CsUsersGroups|@var_dump} *}
+    	{* Debugausgabe des Arrays: {$user.CsUsersGroups|var_dump} *}
         {foreach item=group from=$user.CsGroups}
         			
         	<span style="color:{$group.color}">

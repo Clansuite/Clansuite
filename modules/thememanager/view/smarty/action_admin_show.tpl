@@ -1,4 +1,4 @@
-{* {$themes|@var_dump} *}
+{* {$themes|var_dump} *}
 
 {*{modulenavigation}*}
 <div class="ModuleHeading">{t}Thememanager{/t}</div>

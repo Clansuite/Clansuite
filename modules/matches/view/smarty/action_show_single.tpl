@@ -1,9 +1,9 @@
 {* DEBUG OUTPUT of assigned Arrays:
-   {$smarty.session|@var_dump}
+   {$smarty.session|var_dump}
    <hr>
 
 *}
-{$matches|@var_dump}
+{$matches|var_dump}
 
 <!--
 matchtitle                      text

@@ -1,4 +1,4 @@
-{* {$security|@var_dump} *}
+{* {$security|var_dump} *}
 
 <!-- Clansuite Security Box -->
 <table cellspacing="0" cellpadding="0">

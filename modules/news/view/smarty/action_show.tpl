@@ -1,7 +1,7 @@
 {* DEBUG OUTPUT of assigned Arrays:
-   {$smarty.session|@var_dump}
+   {$smarty.session|var_dump}
    <hr>
-   {$news|@var_dump}
+   {$news|var_dump}
 *}
 <table border="0" cellspacing="1" cellpadding="3" style="width:99%">
 <tr>

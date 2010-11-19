@@ -91,8 +91,8 @@ class Clansuite_Module_Guestbook_Admin extends Clansuite_Module_Controller
         $view = $this->getView();
         $view->assign('guestbook_counter', $count);
         $view->assign('guestbook', $guestbook_entries);
-        $view->assign('pager', $pager);
-        $view->assign('pager_layout', $pager_layout);
+        $view->assignGlobal('pager', $pager);
+        $view->assignGlobal('pager_layout', $pager_layout);
 
         $this->display();
     }

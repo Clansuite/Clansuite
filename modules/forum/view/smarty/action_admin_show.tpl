@@ -1,6 +1,6 @@
 {* DEBUG OUTPUT of assigned Arrays:
-   {$forums|@var_dump}
-   {$forumcategories|@var_dump}
+   {$forums|var_dump}
+   {$forumcategories|var_dump}
 *}
 {modulenavigation}
 <!-- Module Heading -->

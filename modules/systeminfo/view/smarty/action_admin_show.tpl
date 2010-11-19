@@ -1,4 +1,4 @@
-{* {$sysinfos|@var_dump} *}
+{* {$sysinfos|var_dump} *}
 
 {modulenavigation}
 <div class="ModuleHeading">Systeminformation</div>
@@ -211,7 +211,7 @@
         <br/>
         Database Statistics:
         <ul>
-            {* Debug Array: {$sysinfos.pdo.server_infos|@var_dump} *}
+            {* Debug Array: {$sysinfos.pdo.server_infos|var_dump} *}
             {foreach item=serverinfo from=$sysinfos.pdo.server_infos}
             <li>{$serverinfo}</li>
             {/foreach}

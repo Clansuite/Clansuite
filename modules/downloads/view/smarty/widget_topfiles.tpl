@@ -1,7 +1,7 @@
 {* DEBUG OUTPUT of assigned Arrays:
-   {$smarty.session|@var_dump}
+   {$smarty.session|var_dump}
    <hr>
-   {$widget_topfiles|@var_dump}
+   {$widget_topfiles|var_dump}
 *}
 
 <h2 class="td_header">{t}TopFiles{/t}</h2>

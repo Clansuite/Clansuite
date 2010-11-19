@@ -64,7 +64,7 @@ if (!defined('IN_CS')) {ldelim} die('You are not allowed to view this page.'); {
  */
 
 {if is_array($subs)}
-{* DEBUG will be printed in file :) {$subs|@var_dump} *}
+{* DEBUG will be printed in file :) {$subs|var_dump} *}
 
 $info['subs'] = array( {foreach key=key item=item from=$subs}
                         '{$key}' => array( '{$item.file_name}', '{$item.class_name}' ),
