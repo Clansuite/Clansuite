@@ -52,6 +52,20 @@ class Clansuite_Module_Templatemanager_Admin extends Clansuite_Module_Controller
 
     public function action_admin_show()
     {
+        $modulenames = Clansuite_ModuleInfoController::getModuleNames(false, true);
+
+        # create a new form
+        $form = new Clansuite_Form('module_select_dropdown_form', 'post', '/menu/admin/modulemenu_edit');
+
+        # select dropdown for modules
+        $form->addElement('select')->setName('menu_select_form[modulename]')->setLabel(_('Module'))
+             ->setOptions($modulenames);
+
+        # add the buttonbar
+        $form->addElement('buttonbar')->getButton('cancelbutton')->cancelURL = 'index.php?mod=templatemanager&sub=admin';
+
+        # assign the html of the form to the view
+        $this->getView()->assign('module_select_dropdown_form', $form->render());
         $this->display();
     }
 

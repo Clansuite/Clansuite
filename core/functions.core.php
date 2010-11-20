@@ -891,6 +891,7 @@ class Clansuite_Functions
      *
      * @param $directory directory string Name / Path of the Directory to delete.
      * @param $subdirectory boolean subdirectory
+     * @param $simulate If true, performs a delete simulation. Returning the dirs/files to delete.
      */
     public static function delete_dir_content($directory, $subdirectory = false)
     {
@@ -899,7 +900,7 @@ class Clansuite_Functions
             $directory = mb_substr($directory, 0, -1);
         }
 
-        if((is_file($directory) == false) or ( is_dir($directory) == false))
+        if(is_dir($directory) == false)
         {
             return false;
         }
@@ -909,7 +910,7 @@ class Clansuite_Functions
             $handle = opendir($directory);
             while(false !== ( $item = readdir($handle)))
             {
-                if($item != '.' && $item != '..')
+                if($item != '.' and $item != '..')
                 {
                     # path of that element (dir/file)
                     $path = $directory . '/' . $item;
@@ -918,23 +919,27 @@ class Clansuite_Functions
                     if(is_dir($path))
                     {
                         # remove all subdirectries via recursive call
-                        $this->delete_dir_content($path, true);
+                        self::delete_dir_content($path, true);
                     }
                     else # delete file
                     {
-                        unlink($path);
+                        echo '[Test] Deleting File ' . $path .'<br>'.CR;
+
+                        #unlink($path);
                     }
                 }
             }
             closedir($handle);
 
             # remove that subdir
-            if($subdirectory == true)
+            if($subdirectory === true)
             {
-                if(rmdir($directory) == false)
-                {
-                    return false;
-                }
+                echo '[Test] Deleting Dir ' . $directory .'<br>'.CR;
+
+                #if(rmdir($directory) == false)
+                #{
+                #    return false;
+                #}
             }
         }
         return true;

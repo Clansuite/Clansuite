@@ -1,34 +1,5 @@
-{if $err.no_special_chars == 1}
-    {error title="Special Chars"}
-        No special chars except '_' are allowed.
-    {/error}
-{/if}
-
-{if $err.fill_form == 1}
-    {error title="Fill form"}
-        Please fill all fields.
-    {/error}
-{/if}
-
-{if $err.nick_already == 1}
-    {error title="Nick already stored"}
-        The nick you have entred is already in the database.
-    {/error}
-{/if}
-
-{if $err.email_already == 1}
-    {error title="eMail already stored"}
-        The eMail you have entered is already in the database.
-    {/error}
-{/if}
-
-{if $err.email_wrong == 1}
-   {error title="Mail wrong!"}
-        The email you entered is not valid.
-    {/error}
-{/if}
-
-<form method="post" accept-charset="UTF-8" action="index.php?mod=controlcenter&amp;sub=users&amp;action=create">
+<form method="post" accept-charset="UTF-8"
+      action="index.php?mod=controlcenter&amp;sub=users&amp;action=create">
 
     <table cellpadding="0" cellspacing="0" border="0" align="center" width="350">
         <tr class="tr_header">
@@ -67,7 +38,7 @@
                             <input type="checkbox" value="{$item.group_id}" class="input_text" name="info[groups][]" {if in_array($item.group_id, $smarty.post.info.groups)}checked="checked"{/if}/>
                         </td>
                         <td>
-                            <a href="index.php?mod=controlcenter&sub=groups&action=edit&id={$item.group_id}" target="_blank">{$item.name|escape:"html"}</a>
+                            <a href="index.php?mod=groups&sub=admin&action=edit&id={$item.group_id}" target="_blank">{$item.name|escape:"html"}</a>
                         </td>
                     </tr>
                 {/foreach}

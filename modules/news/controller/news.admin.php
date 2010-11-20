@@ -201,7 +201,7 @@ class Clansuite_Module_News_Admin extends Clansuite_Module_Controller
     public function action_admin_create()
     {
         # Create a new form
-        $form = new Clansuite_Form('news_form', 'post', '/news/admin/update&type=create');
+        $form = new Clansuite_Form('news_form', 'post', 'index.php?mod=news&sub=admin&action=update&type=create');
         $form->setClass('News');
 
         # Assign some formlements
@@ -238,14 +238,14 @@ class Clansuite_Module_News_Admin extends Clansuite_Module_Controller
         $news = Doctrine::getTable('CsNews')->fetchSingleNews($news_id);
 
         # Create a new form
-        $form = new Clansuite_Form('news_form', 'post', '/news/admin/update&type=edit');
+        $form = new Clansuite_Form('news_form', 'post', 'index.php?mod=news&sub=admin&action=update&type=edit');
 
         # news_id as hidden field
         $IdElement = $form->addElement('hidden');
         $IdElement->setDecorator('none');
         $IdElement->setName('news_form[news_id]')->setValue($news['news_id']);
 
-        # iser_id as hidden field
+        # user_id as hidden field
         $UserIdElement = $form->addElement('hidden');
         $UserIdElement->setDecorator('none');
         $UserIdElement->setName('news_form[user_id]')->setValue($news['user_id']);
@@ -253,7 +253,7 @@ class Clansuite_Module_News_Admin extends Clansuite_Module_Controller
         $news['news_title'] = mb_convert_encoding( $news['news_title'] , 'UTF-8', 'HTML-ENTITIES');
         $news['news_body'] = mb_convert_encoding( $news['news_body'] , 'UTF-8', 'HTML-ENTITIES');
 
-        # Assign some formlements
+        # assign some formlements
         $form->addElement('text')->setName('news_form[news_title]')->setLabel(_('Title'))->setValue($news['news_title']);
         $categories = Doctrine::getTable('CsNews')->fetchAllNewsCategoriesDropDown();
         $form->addElement('multiselect')->setName('news_form[cat_id]')->setLabel(_('Category'))->setOptions($categories)->setDefaultValue($news['cat_id']);

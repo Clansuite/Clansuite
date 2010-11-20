@@ -141,7 +141,7 @@ class Clansuite_ModuleInfoController
      *
      * @return array( $modulename => $module_path )
      */
-    public static function getModuleNames($named_array = false)
+    public static function getModuleNames($named_array = false, $only_modulenames = false)
     {
         $modules = array();
 
@@ -152,14 +152,28 @@ class Clansuite_ModuleInfoController
             # strip path off
             $modulename = str_replace( ROOT_MOD, '', $module_path);
 
-            if($named_array === false)
+            if($only_modulenames === true)
             {
-                $modules[] = array( $modulename => $module_path );
+                if($named_array === false)
+                {
+                    $modules[] = $modulename;
+                }
+                else
+                {
+                    $modules[] = array ( 'name' => $modulename);
+                }
             }
             else
             {
-                $modules[] = array ( 'name' => $modulename,
-                                     'path' => $module_path);
+                if($named_array === false)
+                {
+                    $modules[] = array( $modulename => $module_path );
+                }
+                else
+                {
+                    $modules[] = array ( 'name' => $modulename,
+                                         'path' => $module_path);
+                }
             }
         }
 
