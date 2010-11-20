@@ -222,7 +222,8 @@ class Clansuite_Loader
         'Clansuite_Datagrid_Column'           => $datagrid_dir . 'datagridcol.core.php',
         # /viewhelper/form
         'Clansuite_Form'                      => $form_dir . 'form.core.php',
-        'Clansuite_Formelement'               => $form_dir . 'formelement.core.php',
+        'Clansuite_Formelement'               => $form_dir . 'formelement.core.php',        
+        'Clansuite_Formelement_Input'         => $form_dir . 'formelements' . DS . 'input.form.php',
         'Clansuite_Form_Decorator'            => $form_dir . 'formdecorator.core.php',
         'Clansuite_Formelement_Decorator'     => $form_dir . 'formdecorator.core.php',
         'Clansuite_Formelement_Formgenerator' => $form_dir . 'formgenerator.core.php',
