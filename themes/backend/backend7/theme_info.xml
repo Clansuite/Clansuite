@@ -2,7 +2,7 @@
 <!DOCTYPE theme SYSTEM "http://schemas.clansuite.com/dtd/theme_info.dtd">
 <theme>
     <name>Backend7 - Control Center Theme</name>
-    <description><![CDATA[Another Layout for the Clansuite Control Center.]]>/description>
+    <description><![CDATA[Another Layout for the Clansuite Control Center.]]></description>
     <author>Pasqual Eusterfeldhaus</author>
     <theme_version>0.1</theme_version>
     <required_clansuite_version>0.1</required_clansuite_version>
