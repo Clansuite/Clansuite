@@ -138,13 +138,6 @@ class Clansuite_Module_Users_Admin extends Clansuite_Module_Controller
         # Set Pagetitle and Breadcrumbs
         Clansuite_Breadcrumb::add( _('Create New Useraccount'), '/users/admin/create');
 
-        // specifiy the template manually
-        $this->setTemplate('admin_create.tpl');
-
-        // Set Layout Template
-        $this->getView()->setLayoutTemplate('index.tpl');
-
-        // Prepare the Output
         $this->display();
     }
 
@@ -170,24 +163,24 @@ class Clansuite_Module_Users_Admin extends Clansuite_Module_Controller
 
     public function action_admin_delete()
     {
+        $aDelete = (array) $this->request->getParameterFromPost('delete');
 
-        if ( count($delete) < 1 )
+        if(isset($aDelete) and is_array($aDelete))
         {
-            $this->redirect('/users/admin', 3, _( 'No users selected to delete! Aborted... ' ));
-        }
+            $numDeleted = 0;
 
-        /**
-         * Abort
-         */
-        if ( empty( $abort ) == false )
+            foreach( $aDelete as $id )
+            {
+                # Delete User Query
+                $numDeleted += Doctrine_Query::create()->delete('CsUsers')->whereIn('user_id', $id)->execute();
+            }
+
+            $this->redirect('/users/admin', 3, 302, $numDeleted . _( 'success#The selected user(s) were deleted.'));
+        }
+        else
         {
-            $this->redirect('/users/admin' );
+           $this->redirect('/users/admin', 3, 302, _('error#No users selected to delete!'));
         }
-
-
-        # Delete User Query
-
-        $this->redirect('/users/admin/show_all', 3, _( 'The selected user(s) were deleted.' ));
     }
 
     /**

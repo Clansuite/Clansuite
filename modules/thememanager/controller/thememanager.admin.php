@@ -47,7 +47,7 @@ class Clansuite_Module_Thememanager_Admin extends Clansuite_Module_Controller
 {
     public function initializeModule()
     {
-        $this->getModuleConfig();
+        #$this->getModuleConfig();
     }
 
     public function action_admin_show()
@@ -55,6 +55,30 @@ class Clansuite_Module_Thememanager_Admin extends Clansuite_Module_Controller
         $view = $this->getView();
         $view->assign('themes', $this->getThemesList());
         $this->display();
+    }
+
+    public function action_admin_delete()
+    {
+        $theme_to_delete  = (string) $this->request->getParameterFromGet('theme');
+
+        if(isset($theme_to_delete))
+        {
+            $themes = $this->getThemesList();
+
+            foreach ($themes as $theme)
+            {
+                if($theme['dirname'] == $theme_to_delete)
+                {
+                    #Clansuite_Functions::delete_dir_content($theme['fullpath']);
+                }
+            }
+
+            $this->response->redirectNoCache('/thememanager/admin', 2, 302, _('success#Theme deleted: ') . $theme_to_delete);
+        }
+        else
+        {
+           $this->redirect('/thememanager/admin');
+        }
     }
 
     public function getThemes($themes_directory)
@@ -88,14 +112,30 @@ class Clansuite_Module_Thememanager_Admin extends Clansuite_Module_Controller
                 # add dirname
                 $theme_info[$i]['dirname'] = (string) $dir;
 
-                # is this theme activated?
-                if($this->moduleconfig['template']['frontend_theme'] == $dir)
+                /**
+                 * is this theme activated as global fallback ?
+                 * @see clansuite main config
+                 */
+                $this->getClansuiteConfig();
+                if($this->config['template']['frontend_theme'] == $dir or
+                   $this->config['template']['backend_theme']  == $dir)
                 {
-                    $theme_info[$i]['activated'] = true;
+                    $theme_info[$i]['globally_active'] = true;
                 }
                 else
                 {
-                    $theme_info[$i]['activated'] = false;
+                    $theme_info[$i]['globally_active'] = false;
+                }
+
+                # is this theme active for the individual user?
+                if($_SESSION['user']['frontend_theme'] == $dir or
+                   $_SESSION['user']['backend_theme']  == $dir)
+                {
+                    $theme_info[$i]['user_active'] = true;
+                }
+                else
+                {
+                    $theme_info[$i]['user_active'] = false;
                 }
 
                 # add preview image (preview_image should contain 2 files: [0]preview.img and [1]preview_thumb.img)

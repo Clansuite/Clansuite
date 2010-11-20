@@ -62,7 +62,4 @@ $modulenavigation = array(
         'title' => ''
     ),
 );
-
-array_key_exists($key, $searcharray)
-
 ?>

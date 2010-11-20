@@ -5,19 +5,11 @@
     <script type="text/javascript" src="{$www_root_themes_core}javascript/clip.js"></script>
 {/move_to}
 
-{*
-{if $error.no_users == 1}
-   {error title="No users found."}
-        Users with ID not found!
-    {/error}
-{/if}
-*}
-
 {modulenavigation}
 <div class="ModuleHeading">{t}Users - Administration{/t}</div>
 <div class="ModuleHeadingSmall">{t}You can create Users, edit and delete them.{/t}</div>
 
-<form action="index.php?mod=controlcenter&sub=users&amp;action=delete" method="post" accept-charset="UTF-8">
+<form action="index.php?mod=users&sub=admin&action=delete" method="post" accept-charset="UTF-8">
 
     <table cellpadding="0" cellspacing="0" border="0" align="center">
 
@@ -31,7 +23,7 @@
             </tr>
 
             <tr class="tr_header">
-                <td width="1%" align="center">  {columnsort html='#'}           </td>
+                <td width="1%" align="center">  {columnsort html='#'}            </td>
                 <td align="center">             {columnsort html='Nick'}         </td>
                 <td align="center">             {columnsort html='Email'}        </td>
                 <td align="center">             {columnsort html='Last Visit'}   </td>
@@ -64,8 +56,8 @@
 
                     </td>
                     <td align="center" width="1%">
-                        <input type="hidden" name="ids[]" value="{$wert.user_id.0}" />
-                        <input name="delete[]" type="checkbox" value="{$wert.user_id.0}" />
+                        <input type="hidden"   name="ids[]"    value="{$wert.user_id}" />
+                        <input type="checkbox" name="delete[]" value="{$wert.user_id}" />
                     </td>
                 </tr>
 
@@ -75,7 +67,7 @@
                <td height="20" colspan="8" align="right">
 
                     <input class="ButtonGreen" type="button" value="{t}Create new user{/t}" />
-                    <input class="Button" name="reset" type="reset" value="{t}Reset{/t}" />
+                    <input class="Button" type="reset" name="reset" value="{t}Reset{/t}" />
                     <input class="ButtonRed" type="submit" name="delete_text" value="{t}Delete Selected Users{/t}" />
 
                 </td>

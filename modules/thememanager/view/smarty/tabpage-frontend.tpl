@@ -1,8 +1,10 @@
 <table width="100%">
     <tbody>
 
-    {foreach item=theme from=$themes}
-    
+{foreach $themes as $theme}
+
+        {$theme|var_dump}
+
 {if $theme.backendtheme == false}
     <tr>
 
@@ -18,7 +20,7 @@
     padding:10px;
     width:300px;">
             <b>{$theme.name} v{$theme.theme_version}</b>
-            <br />
+            <br /><br />
             Autor: {$theme.author}
             <br />
             Clansuite Version required: {$theme.required_clansuite_version}
@@ -34,29 +36,40 @@
         </td>
         <td>
 
-        {* Select Theme *}
-        {if $theme.activated == false}
-            <form action="http://www.irgendwo.de" method="GET">
-                <input class="ButtonGreen" type="submit" value="Select" />
-            </form>
+        {* Select as Fallback Theme *}
+        {if $theme.globally_active == false}
+            <a href="{$www_root}index.php?mod=thememanager&sub=admin&action=setfrontendthemeglobal&theme={$theme.dirname}"
+               class="ButtonGreen">{t}Select as Default frontend theme{/t}</a>
         {else}
-            This Theme is active!
-            <br />
+            This Theme is the globally active theme!
         {/if}
 
-        <form action="http://www.irgendwo.de" method="GET">
-             {* {if $admin} <input class="ButtonGreen" type="submit"  value="Select as Default Theme" /> {/if} *}
-        </form>
-        
-        {if isset($theme.layoutpath)}
-            <a href="index.php?mod=templatemanager&sub=admin&action=editor&file={$theme.layoutpath}"
-               class="ButtonOrange">{t}Edit{/t}</a>
+        <br /><br />
+
+        {* Select as Individual Theme *}
+        {if $theme.user_active == false}
+            <a href="{$www_root}index.php?mod=thememanager&sub=admin&action=setfrontendthemeglobal&theme={$theme.dirname}"
+               class="ButtonGreen">{t}Select as Your frontend theme{/t}</a>
+        {else}
+            This Theme is your frontend theme!
         {/if}
-        
+
+        <br /><br />
+
+        {* Call Templatemanager to edit the Main Layout Template *}
+        {if isset($theme['layout']['@attributes']['mainfile'])}
+            <a href="{$www_root}index.php?mod=templatemanager&sub=admin&action=editor&file={$theme['layout']['@attributes']['mainfile']}"
+               class="ButtonOrange">{t}Edit Main Template{/t}</a>
+        {/if}
+
+        {* Delete the Theme *}
+        <a href="{$www_root}index.php?mod=thememanager&sub=admin&action=delete&theme={$theme.dirname}"
+           class="ButtonRed">{t}Delete{/t}</a>
+
         </td>
     </tr>
 {/if}
-    {/foreach}
+{/foreach}
 
     </tbody>
 </table>
