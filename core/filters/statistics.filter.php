@@ -78,24 +78,12 @@ class Clansuite_Filter_Statistics implements Clansuite_Filter_Interface
         # take the initiative or pass through (do nothing)
         if (isset ($this->config['statistics']['enabled']) and $this->config['statistics']['enabled'] == 1)
         {
-            #######################
-            # at the moment we do not need to use this libary !!!
-            #######################
-            # aquire pieces of informtion from current visitor
-            /**
-             * Determine the client's browser and system information based on the HTTP
-             * with PHPSniff by Roger Raymond.
-             *
-             * @link http://phpsniff.sourceforge.net/
-             * @link http://phpsniff.sourceforge.net/docs/
-             */
-            # load library
-            #require_once ROOT_LIBRARIES . 'phpSniffer/phpSniff.class.php';
-            # instantiate phpsniff
-            #$phpSniff = new phpSniff($_SERVER['HTTP_USER_AGENT']);
+            # @todo aquire pieces of informtion from current visitor
+            # Determine the client's browser and system information based on
+            # $_SERVER['HTTP_USER_AGENT']
 
             /**
-             *The Who logics, must be processed in a seperate filter
+             * The Who logics, must be processed in a seperate filter
              */
             Doctrine::getTable('CsStatistic')->deleteWhoEntriesOlderThen($this->statsWhoDeleteTime);
             $this->updateStatistics($request->getRemoteAddress());
