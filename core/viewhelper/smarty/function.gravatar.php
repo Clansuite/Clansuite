@@ -1,4 +1,4 @@
- 
+
 <?php
 /**
  * Smarty plugin
@@ -78,13 +78,11 @@ function smarty_function_gravatar($params, $smarty)
     }
 
     # initialize gravatar library
-    if (false === class_exists('clansuite_gravatar',false))
+    if(false === class_exists('clansuite_gravatar', false))
     {
-        include ROOT_LIBRARIES . 'gravatar/clansuite_gravatar.class.php';
+        include ROOT_CORE . 'viewhelper/gravatar.core.php';
     }
 
-    $gravatar = new clansuite_gravatar($email, $rating, $size, $defaultImage);
-    
-    return $gravatar;
+    return new clansuite_gravatar($email, $rating, $size, $defaultImage);
 }
 ?>
