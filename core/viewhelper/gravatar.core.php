@@ -54,13 +54,13 @@
 class clansuite_gravatar
 {
     # Gravatar BASE URL
-    private $GRAVATAR_BASEURL = 'http://www.gravatar.com/avatar/%s?&size=%s&rating=%s&default=%s';
+    private $gravatar_baseurl = 'http://www.gravatar.com/avatar/%s?&size=%s&rating=%s&default=%s';
 
     # Gravatar Ratings
-    private $GRAVATAR_RATINGS = array("g", "pg", "r", "x");
+    private $gravatar_ratings = array("g", "pg", "r", "x");
 
     # Gravatar Properties
-    protected $GRAVATAR_PROPERTIES = array(
+    protected $gravatar_properties = array(
         "gravatar_id"	=> null,      // = md5(email)
         "default"		=> null,      // default avatar
         "size"			=> 80,        // default value = 80
@@ -100,7 +100,7 @@ class clansuite_gravatar
     public function setEmail($email)
     {
         $this->email = (string)strtolower($email);
-        $this->GRAVATAR_PROPERTIES['gravatar_id'] = md5($this->email);
+        $this->gravatar_properties['gravatar_id'] = md5($this->email);
         return $this;
     }
 
@@ -114,13 +114,13 @@ class clansuite_gravatar
      */
     public function setRating($rating = 'g')
     {
-        if (in_array($rating, $this->GRAVATAR_RATINGS))
+        if (in_array($rating, $this->gravatar_ratings))
         {
-            $this->GRAVATAR_PROPERTIES['rating'] = strtolower($rating);
+            $this->gravatar_properties['rating'] = strtolower($rating);
         }
         else
         {
-             $this->GRAVATAR_PROPERTIES['rating'] = 'g';
+             $this->gravatar_properties['rating'] = 'g';
         }
         return $this;
     }
@@ -132,7 +132,7 @@ class clansuite_gravatar
      */
     public function setDefaultAvatar($image_url)
     {
-        $this->GRAVATAR_PROPERTIES['default'] = (string)urlencode($image_url);
+        $this->gravatar_properties['default'] = (string)urlencode($image_url);
         return $this;
     }
 
@@ -168,11 +168,11 @@ class clansuite_gravatar
      */
     public function getGravatarURL()
     {
-        $gravatar_url = (string)sprintf($this->GRAVATAR_BASEURL,
-                                        $this->GRAVATAR_PROPERTIES['gravatar_id'],
-                                        $this->GRAVATAR_PROPERTIES['size'],
-                                        $this->GRAVATAR_PROPERTIES['rating'],
-                                        $this->GRAVATAR_PROPERTIES['default']);
+        $gravatar_url = (string)sprintf($this->gravatar_baseurl,
+                                        $this->gravatar_properties['gravatar_id'],
+                                        $this->gravatar_properties['size'],
+                                        $this->gravatar_properties['rating'],
+                                        $this->gravatar_properties['default']);
         return $gravatar_url;
     }
 
@@ -189,9 +189,9 @@ class clansuite_gravatar
         {
             # initialize cache class
             $cache = new clansuite_gravatar_cache($this->getGravatarURL(),
-                                                  $this->GRAVATAR_PROPERTIES['gravatar_id'],
-                                                  $this->GRAVATAR_PROPERTIES['size'],
-                                                  $this->GRAVATAR_PROPERTIES['rating']);
+                                                  $this->gravatar_properties['gravatar_id'],
+                                                  $this->gravatar_properties['size'],
+                                                  $this->gravatar_properties['rating']);
             # getGravatar URL from cache
             $html .= '<img src="'. $cache->getGravatar() .'"';
         }
@@ -201,10 +201,10 @@ class clansuite_gravatar
             $html .= '<img src="'. $this->getGravatarURL() .'"';
 
             # add additional width and height
-            if(isset($this->GRAVATAR_PROPERTIES['size']))
+            if(isset($this->gravatar_properties['size']))
             {
-                $html .= ' width="'.$this->GRAVATAR_PROPERTIES['size'].'"';
-                $html .= ' height="'.$this->GRAVATAR_PROPERTIES['size'].'"';
+                $html .= ' width="'.$this->gravatar_properties['size'].'"';
+                $html .= ' height="'.$this->gravatar_properties['size'].'"';
             }
         }
 
@@ -366,5 +366,6 @@ class clansuite_gravatar_cache
  */
 class clansuite_gravatar_signup
 {
+    # @todo
 }
 ?>
