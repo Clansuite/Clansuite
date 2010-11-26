@@ -11,8 +11,14 @@
 # Windows crap
 Thumbs.db
 
-# IDE related
+# Netbeans IDE related
 nbproject
+
+# Eclipse IDE related
+.cache*
+.project
+.settings*
+.buildpath
 
 # Webserver
 /.htaccess
