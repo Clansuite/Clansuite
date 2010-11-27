@@ -347,8 +347,9 @@
     </target>
 
     <target name="simpletest" description="Runs simpletest unit-tests and creates report">
+        <echo msg="Running simpletest unit-tests and creating test report." />
         <exec command="php tests/runAllTest.php"
-              dir="${base}" />
+              dir="${sourcedir}" />
     </target>
 
     <target name="phpcpd" description="Detects copy and pasted codesegements.">

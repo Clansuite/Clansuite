@@ -35,6 +35,8 @@ require_once 'bootstrap.php';
 require_once 'simpletest/autorun.php';
 require_once 'simpletest/unit_tester.php';
 require_once 'simpletest/reporter.php';
+require_once 'simpletest/extensions/colortext_reporter.php';
+require_once 'simpletest/extensions/junit_xml_reporter.php';
 
 class ClansuiteTestsuite extends TestSuite
 {
@@ -121,7 +123,14 @@ $testsuite = new ClansuiteTestsuite;
 # determine, if we are in commandline mode, then output pure text
 if(TextReporter::inCli())
 {
-    $success = $testsuite->run(new TextReporter());
+    ob_start();
+    #$success = $testsuite->run(new TextReporter());
+    #$success = $testsuite->run(new ColorTextReporter());
+    $reporter = new JUnit_Xml_Reporter();
+    $result = $testsuite->run($reporter);    
+    file_put_contents('simpletest.xml', ob_get_contents());
+    ob_end_clean();
+    $success = true;
 }
 else # else display nice html report
 {
