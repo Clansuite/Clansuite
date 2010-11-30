@@ -76,11 +76,13 @@ class Clansuite_Filter_LanguageViaGet implements Clansuite_Filter_Interface
          */
         if($this->config['switches']['languageswitch_via_url'] == 1)
         {
-            if(isset($request['lang']) && !empty($request['lang']) && (mb_strlen($request['lang']) == 2))
+            $language = $request->getParameterFromGet('lang');
+            if(isset($language) && false === empty($language) && (mb_strlen($language) == 2) )
             {
-                $_SESSION['user']['language']           = mb_strtolower($request['lang']).'_'.mb_strtoupper($request['lang']);
+                $_SESSION['user']['language']           = mb_strtolower($request->getParameterFromGet('lang'));
                 $_SESSION['user']['language_via_url']   = 1;
             }
+
         }
     }
 }
