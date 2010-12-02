@@ -93,7 +93,7 @@ class Clansuite_User
 
         $userdata = Doctrine_Query::create()
                         ->from('CsUsers')
-                        ->leftJoin('CsProfile')
+                        ->leftJoin('CsProfiles')
                         ->where('CsUsers.user_id = ?')
                         ->fetchOne(array($user_id), Doctrine::HYDRATE_ARRAY);
 
@@ -133,9 +133,9 @@ class Clansuite_User
             $this->user = Doctrine_Query::create()
                     #->select('u.*,g.*,o.*')
                     ->from('CsUsers u')
-                    ->leftJoin('u.CsOption o')
-                    ->leftJoin('u.CsGroup g')
-                    ->leftJoin('g.CsRight r')
+                    ->leftJoin('u.CsOptions o')
+                    ->leftJoin('u.CsGroups g')
+                    ->leftJoin('g.CsRights r')
                     ->where('u.user_id = ?')
                     ->fetchOne(array($user_id), Doctrine::HYDRATE_ARRAY);
         }
@@ -145,9 +145,9 @@ class Clansuite_User
             $this->user = Doctrine_Query::create()
                     #->select('u.*,g.*,o.*')
                     ->from('CsUsers u')
-                    ->leftJoin('u.CsOption o')
-                    ->leftJoin('u.CsGroup g')
-                    ->leftJoin('g.CsRight r')
+                    ->leftJoin('u.CsOptions o')
+                    ->leftJoin('u.CsGroups g')
+                    ->leftJoin('g.CsRights r')
                     ->where('u.email = ?')
                     ->fetchOne(array($email), Doctrine::HYDRATE_ARRAY);
         }
@@ -157,9 +157,9 @@ class Clansuite_User
             $this->user = Doctrine_Query::create()
                     #->select('u.*,g.*,o.*')
                     ->from('CsUsers u')
-                    ->leftJoin('u.CsOption o')
-                    ->leftJoin('u.CsGroup g')
-                    ->leftJoin('g.CsRight r')
+                    ->leftJoin('u.CsOptions o')
+                    ->leftJoin('u.CsGroups g')
+                    ->leftJoin('g.CsRights r')
                     ->where('u.nick = ?')
                     ->fetchOne(array($nick), Doctrine::HYDRATE_ARRAY);
 
@@ -238,13 +238,14 @@ class Clansuite_User
             $_SESSION['user']['groups'] = array();
             $_SESSION['user']['rights'] = array();
 
-            if ( isset($this->user['CsGroup']) && is_array( $this->user['CsGroup'] ) )
+            if ( isset($this->user['CsGroups']) && is_array( $this->user['CsGroups'] ) )
             {
-                foreach( $this->user['CsGroup'] as $key => $group )
+                foreach( $this->user['CsGroups'] as $key => $group )
                 {
                     $_SESSION['user']['groups'][] = $group['group_id'];
+                    $_SESSION['user']['role_id'][] = $group['role_id'];
 
-                    if( isset($group['CsRight']) && is_array( $group['CsRight'] ) )
+                    if( isset($group['CsRights']) && is_array( $group['CsRights'] ) )
                     {
                         foreach( $group['CsRight'] as $key => $values )
                         {
@@ -568,6 +569,11 @@ class Clansuite_GuestUser
         if(empty($_SESSION['user']['language_via_url']))
         {
             $_SESSION['user']['language'] = $this->config['language']['language'];
+
+            if( false !== $this->config['switches']['languageswitch_via_url'] )
+            {
+                $_SESSION['user']['language_via_url'] = 1;
+            }
         }
 
         /**
@@ -593,6 +599,7 @@ class Clansuite_GuestUser
         # Reset Groups
         $_SESSION['user']['groups'] = array();
         $_SESSION['user']['groups'][] = 1;
+        $_SESSION['user']['role_id'] = 3;
 
         # Reset Rights
         $_SESSION['user']['rights'] = array();
