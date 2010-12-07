@@ -359,7 +359,7 @@
 
     <target name="phpmd" description="Generates PHP Mess Detection Report.">
         <echo msg="PHP_MD generates a Mess Detection Report." />
-        <exec command="phpmd ${sourcedir} xml codesize --reportfile ${builddir}/logs/pmd.xml --ignore ${ignorepaths}" escape="false" />
+        <exec command="phpmd ${sourcedir} xml codesize,design,unusedcode,naming --reportfile ${builddir}/logs/pmd.xml --ignore ${ignorepaths}" escape="false" />
     </target>
 
     <target name="pdepend" description="Creates Dependency Metrics">
@@ -384,7 +384,7 @@
         <echo msg="PHPUnit performs unit-tests and coverage analysis." />
         <exec command="phpunit --log-junit ${builddir}/logs/phpunit.xml
                                --coverage-clover ${builddir}/coverage/clover.xml
-                               --coverage-html ${builddir}/coverage/ ${sourcedir}/tests"/>
+                               --coverage-html ${builddir}/coverage/ ${sourcedir}/tests/runAllTests.php" />
     </target>
 
     <target name="phpcb" description="PHP_Codebrowser builds a HTML Representation out of the Code-Violations.">
