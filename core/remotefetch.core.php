@@ -66,11 +66,6 @@ class Clansuite_Remotefetch
                 $remote_content = $s->results;
             }
         }
-        else
-        {
-            return;
-            # @todo $remote_content = ...($url);
-        }
 
         return $remote_content;
     }
