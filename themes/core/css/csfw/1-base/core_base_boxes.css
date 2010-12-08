@@ -1,0 +1,230 @@
+/*
+ * -----------------------------------------------------------------------------------------------
+ * Clansuite CSS2 Framework (CSFW)
+ * -------------------------------------------------------------------------------------------------
+ * Clansuite - just an eSports CMS
+ * Jens-André Koch © 2005 - onwards
+ * http://www.clansuite.com/
+ * -----------------------------------------------------------------------------------------------
+ * Document   : core_base_boxes.css
+ * Description : core boxes definitions
+ * Syntax recommendation http://www.w3.org/TR/REC-CSS2
+ * -----------------------------------------------------------------------------------------------
+ * @license    GNU/GPL v2 or (at your option) any later version, see "/doc/LICENSE".
+ * @author     Paul Brand <info@isp-tenerife.net>
+ * @package      CSFW
+ * subpackage    Core
+ * @version        1.0
+ * -----------------------------------------------------------------------------------------------
+*/
+
+@charset "UTF-8";
+
+@media screen
+{
+
+    /** 
+    * -----------------------------------------------------------------------------------------------
+    * Tabellen Box (tbox)
+    * -----------------------------------------------------------------------------------------------
+    */
+    .tbox {
+    }
+
+    /* ------- Box title ------- */
+    .tbox_title
+    {
+    }
+    .tbox_title a:link,
+    .tbox_title_alink
+    {
+    }
+    .tbox_title a:visited,
+    .tbox_title_avisited
+    {
+    }
+    .tbox_title a:hover,
+    .tbox_title a:active,
+    .tbox_title_ahover
+    {
+    }
+
+    /* ------- Box cell 1 ------- */
+    .tbox_cell1,
+    .tbox_cell1Active
+    {
+        background-image: none;
+        background-repeat: repeat;
+        background-attachment: scroll;
+        background-position: 0% 0%;
+        font-size:9pt;
+    }
+    .tbox_cell1 a:link,
+    .tbox_cell1_alink,
+    .tbox_cell1Active a:link,
+    .tbox_cell1Active_alink
+    {
+    }
+    .tbox_cell1 a:visited,
+    .tbox_cell1_avisited,
+    .tbox_cell1Active a:visited,
+    .tbox_cell1Active_avisited
+    {
+        text-decoration: none;
+    }
+    .tbox_cell1 a:hover, 
+    .tbox_cell1 a:active, 
+    .tbox_cell1_ahover,
+    .tbox_cell1Active a:hover,
+    .tbox_cell1Active a:active,
+    .tbox_cell1Active_ahover
+    {
+        text-decoration: underline;
+    }
+
+    /* ------- Box cell 2 ------- */
+    .tbox_cell2,
+    .tbox_cell2Active
+    {
+        background-image: none;
+        background-repeat: repeat;
+        background-attachment: scroll;
+        background-position: 0% 0%;
+        font-size:12px;
+    }
+    .tbox_cell2 a:link,
+    .tbox_cell2_alink,
+    .tbox_cell2Active a:link,
+    .tbox_cell2Active_alink
+    {
+        text-decoration: none;
+    }
+    .tbox_cell2 a:visited,
+    .tbox_cell2_avisited,
+    .tbox_cell2Active a:visited,
+    .tbox_cell2Active_avisited
+    {
+        text-decoration: none;
+    }
+    .tbox_cell2 a:hover, 
+    .tbox_cell2 a:active, 
+    .tbox_cell2_ahover,
+    .tbox_cell2Active a:hover,
+    .tbox_cell2Active a:active,
+    .tbox_cell2Active_ahover
+    {
+        text-decoration: underline;
+    }
+
+    /* ------- Box cell 3 ------- */
+    .tbox_cell3,
+    .tbox_cell3Active
+    {
+        background-image: none;
+        background-repeat: repeat;
+        background-attachment: scroll;
+        background-position: 0% 0%;
+        font-size:12px;
+    }
+    .tbox_cell3 a:link,
+    .tbox_cell3_alink,
+    .tbox_cell3Active a:link,
+    .tbox_cell3Active_alink
+    {
+        text-decoration: none;
+    }
+    .tbox_cell3 a:visited,
+    .tbox_cell3_avisited,
+    .tbox_cell3Active a:visited,
+    .tbox_cell3Active_avisited
+    {
+        text-decoration: none;
+    }
+    .tbox_cell3 a:hover, 
+    .tbox_cell3 a:active, 
+    .tbox_cell3_ahover,
+    .tbox_cell3Active a:hover,
+    .tbox_cell3Active a:active,
+    .tbox_cell3Active_ahover
+    {
+        text-decoration: underline;
+    }
+
+
+    /** 
+     * -----------------------------------------------------------------------------------------------
+     * Core Message Boxen
+     * -----------------------------------------------------------------------------------------------
+     * cm = core message elemente  (namespace)
+     */
+    .cmInfobox,
+    .cmWarning,
+    .cmError,
+    .cmSuccess
+    {
+        display:block;
+        height: auto;
+        margin: -0.3em 0 0.5em;
+        padding: 6px 10px 5px;
+    }
+
+    .cmInfobox
+    {
+        border: 1px solid #bcdfef;
+        background: #d1ecf7 url('../images/16x16/info.png') no-repeat 5px 4px;
+        color: #11689e;
+    }
+
+    .cmWarning
+    {
+        border: 1px solid #fceb77;
+        background: #fff6bf url('../images/16x16/warning.png') no-repeat 5px 4px;
+        color: #957210;
+    }
+
+    .cmError
+    {
+        border: 1px solid #f6abab;
+        background: #fad0d0 url('../images/16x16/error.png') no-repeat 5px 4px;
+        color: #b01717;
+    }
+
+    .cmSuccess
+    {
+        border: 1px solid #f6abab;
+        background: #e5f8ce url('../images/16x16/success.png') no-repeat 5px 4px;
+        color: #62b548;
+    }
+
+    .cmInfobox .cmBoxTitle,
+    .cmWarning .cmBoxTitle,
+    .cmError .cmBoxTitle,
+    .cmSuccess .cmBoxTitle 
+    {
+        font-size: 10pt;
+        font-weight:bold;
+    }
+    .cmInfobox .cmBoxMessage,
+    .cmWarning .cmBoxMessage,
+    .cmError .cmBoxMessage,
+    .cmSuccess .cmBoxMessage 
+    {
+        font-size: 9pt;
+        padding-top: 5px;
+        text-align: left;
+    }
+
+    .cmInfobox .cmBoxLine,
+    .cmWarning .cmBoxLine,
+    .cmError .cmBoxLine,
+    .cmSuccess .cmBoxLine 
+    {
+        height: 1px;
+        border-bottom: 1px dotted #808080;
+    }
+}
+
+
+@media print
+{
+}

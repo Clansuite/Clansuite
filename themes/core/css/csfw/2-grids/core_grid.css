@@ -1,0 +1,105 @@
+/*
+ * -----------------------------------------------------------------------------------------------
+ * Clansuite CSS2 Framework (CSFW)
+ * -------------------------------------------------------------------------------------------------
+ * Clansuite - just an eSports CMS
+ * Jens-André Koch © 2005 - onwards
+ * http://www.clansuite.com/
+ * -----------------------------------------------------------------------------------------------
+ * Document   : core_grid.css
+ * Description : core grid in % definitions
+ * Syntax recommendation http://www.w3.org/TR/REC-CSS2
+ * -----------------------------------------------------------------------------------------------
+ * @license    GNU/GPL v2 or (at your option) any later version, see "/doc/LICENSE".
+ * @author     Paul Brand <info@isp-tenerife.net>
+ * @package      CSFW
+ * subpackage    Core
+ * @version        1.0
+ * -----------------------------------------------------------------------------------------------
+*/
+
+@charset "UTF-8";
+
+@media all
+{
+
+    /* 
+     * ------------------------------------------------------------------------------------------
+     * Grids in % Angaben
+     * ------------------------------------------------------------------------------------------
+     * Angaben der grids in % um eine flexible breite je nach Bildschirmauflösung zu gewährleisten
+     * Diese lösung finde ich am besten, eine feste pixel angabe wie man sie in den meisten grid-systemen
+     * vorfindet sind meiner meinung nach nicht richtig. Dafür muss die gesamtbreite fixiert werden.
+     * In der heutigen Zeit, zumindest bei der masse der gamer (clans) sind wide-screen monitore standard
+     *
+     * kleinste breite 5%, das ergibt max. 20 grids, dies sollte ausreichend sein.
+     * grids links orientiert = l  (float left)
+     * grids rechts orientiert = r  (float right)
+     * bei mehreren grids ist nur das letzte grid float right, der rest float left
+     */
+
+    /* Grid Basis Conatiner */
+    .gridblock
+    {
+        width:100%;
+        padding:0;
+        margin:0;
+        display:table;
+        table-layout:fixed;
+    }
+
+    /* Grids */
+    .grid05l, .grid10l, .grid15l, .grid20l, .grid25l, .grid30l, .grid33l, .grid35l, .grid40l, .grid45l, .grid50l,
+    .grid55l, .grid60l, .grid65l, .grid66l, .grid70l, .grid75l, .grid80l, .grid85l, .grid90l, .grid95l
+    { 
+        float:left;
+        padding:0;
+        margin:0;
+    }
+
+    .grid05r, .grid10r, .grid15r, .grid20r, .grid25r, .grid30r, .grid33r, .grid35r, .grid40r, .grid45r, .grid50r,
+    .grid55r, .grid60r, .grid65r, .grid66r, .grid70r, .grid75r, .grid80r, .grid85r, .grid90r, .grid95r
+    {
+        float:right;
+        padding:0;
+        margin:0;
+        margin-left:-1px;
+    }
+
+    .grid05l, .grid05r { width:5%; }
+    .grid10l, .grid10r { width:10%; }
+    .grid15l, .grid15r { width:15%; }
+    .grid20l, .grid20r { width:20%; }
+    .grid25l, .grid25r { width:25%; }
+    .grid30l, .grid30r { width:30%; }
+    .grid33l, .grid33r { width:33.333%; }
+    .grid35l, .grid35r { width:35%; }
+    .grid40l, .grid40r { width:40%; }
+    .grid45l, .grid45r { width:45%; }
+    .grid50l, .grid50r { width:50%; }
+    .grid55l, .grid55r { width:55%; }
+    .grid60l, .grid60r { width:60%; }
+    .grid65l, .grid65r { width:65%; }
+    .grid66l, .grid66r { width:66.666%; }
+    .grid70l, .grid70r { width:70%; }
+    .grid75l, .grid75r { width:75%; }
+    .grid80l, .grid80r { width:80%; }
+    .grid85l, .grid85r { width:85%; }
+    .grid90l, .grid90r { width:90%; }
+    .grid95l, .grid95r { width:95%; }
+
+    /* Rahmen um die Grids */
+    .gridborder
+    { 
+        padding: 0 3px;
+        border: 1px solid #666666;
+        background: #F4F4F4;
+    }
+
+    /* Content area */
+    .gridcontent
+    { 
+        padding: 0 0.4em;
+    }
+
+}
