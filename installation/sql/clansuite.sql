@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Erstellungszeit: 08. Dezember 2010 um 18:46
+-- Erstellungszeit: 08. Dezember 2010 um 19:15
 -- Server Version: 5.1.36
 -- PHP-Version: 5.3.0
 
@@ -18,6 +18,8 @@ SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 --
 -- Tabellenstruktur für Tabelle `cs_acl_actions`
 --
+-- Erzeugt am: 20. November 2010 um 12:43
+--
 
 DROP TABLE IF EXISTS `cs_acl_actions`;
 CREATE TABLE `cs_acl_actions` (
@@ -26,17 +28,51 @@ CREATE TABLE `cs_acl_actions` (
   `action` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   PRIMARY KEY (`action_id`),
   KEY `module_name` (`modulname`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Daten für Tabelle `cs_acl_actions`
 --
 
+INSERT INTO `cs_acl_actions` VALUES(1, 'about', 'action_show');
+INSERT INTO `cs_acl_actions` VALUES(2, 'about', 'action_admin_show');
+INSERT INTO `cs_acl_actions` VALUES(3, 'about', 'action_admin_edit_info');
+INSERT INTO `cs_acl_actions` VALUES(4, 'about', 'action_admin_edit_menu');
+INSERT INTO `cs_acl_actions` VALUES(5, 'account', 'action_show');
+INSERT INTO `cs_acl_actions` VALUES(6, 'acl', 'action_admin_show');
+INSERT INTO `cs_acl_actions` VALUES(7, 'acl', 'action_admin_edit_info');
+INSERT INTO `cs_acl_actions` VALUES(8, 'acl', 'action_admin_edit_permissions');
+INSERT INTO `cs_acl_actions` VALUES(9, 'categories', 'action_show');
+INSERT INTO `cs_acl_actions` VALUES(10, 'controlcenter', 'action_show');
+INSERT INTO `cs_acl_actions` VALUES(11, 'cronjobs', 'action_show');
+INSERT INTO `cs_acl_actions` VALUES(12, 'doctrine', 'action_show');
+INSERT INTO `cs_acl_actions` VALUES(13, 'forum', 'action_show');
+INSERT INTO `cs_acl_actions` VALUES(14, 'guestbook', 'action_show');
+INSERT INTO `cs_acl_actions` VALUES(15, 'index', 'action_show');
+INSERT INTO `cs_acl_actions` VALUES(16, 'languages', 'action_show');
+INSERT INTO `cs_acl_actions` VALUES(17, 'menu', 'action_show');
+INSERT INTO `cs_acl_actions` VALUES(18, 'mibbitirc', 'action_show');
+INSERT INTO `cs_acl_actions` VALUES(19, 'modulemanager', 'action_show');
+INSERT INTO `cs_acl_actions` VALUES(20, 'news', 'action_show');
+INSERT INTO `cs_acl_actions` VALUES(21, 'rssreader', 'action_show');
+INSERT INTO `cs_acl_actions` VALUES(22, 'settings', 'action_show');
+INSERT INTO `cs_acl_actions` VALUES(23, 'staticpages', 'action_show');
+INSERT INTO `cs_acl_actions` VALUES(24, 'statistics', 'action_show');
+INSERT INTO `cs_acl_actions` VALUES(25, 'systeminfo', 'action_show');
+INSERT INTO `cs_acl_actions` VALUES(26, 'teamspeakviewer', 'action_show');
+INSERT INTO `cs_acl_actions` VALUES(27, 'templatemanager', 'action_show');
+INSERT INTO `cs_acl_actions` VALUES(28, 'thememanager', 'action_show');
+INSERT INTO `cs_acl_actions` VALUES(29, 'toolbox', 'action_show');
+INSERT INTO `cs_acl_actions` VALUES(30, 'toolbox', 'action_admin_show');
+INSERT INTO `cs_acl_actions` VALUES(31, 'toolbox', 'widget_cssbuilder');
+INSERT INTO `cs_acl_actions` VALUES(32, 'users', 'action_show');
 
 -- --------------------------------------------------------
 
 --
 -- Tabellenstruktur für Tabelle `cs_acl_roles`
+--
+-- Erzeugt am: 20. November 2010 um 12:43
 --
 
 DROP TABLE IF EXISTS `cs_acl_roles`;
@@ -66,6 +102,8 @@ INSERT INTO `cs_acl_roles` VALUES(5, 'admin', 4, 'Administrator', 1);
 --
 -- Tabellenstruktur für Tabelle `cs_acl_rules`
 --
+-- Erzeugt am: 20. November 2010 um 12:43
+--
 
 DROP TABLE IF EXISTS `cs_acl_rules`;
 CREATE TABLE `cs_acl_rules` (
@@ -76,17 +114,152 @@ CREATE TABLE `cs_acl_rules` (
   PRIMARY KEY (`rule_id`),
   KEY `resource_id` (`action_id`),
   KEY `role_id` (`role_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Daten für Tabelle `cs_acl_rules`
 --
 
+INSERT INTO `cs_acl_rules` VALUES(1, 1, 1, 1);
+INSERT INTO `cs_acl_rules` VALUES(2, 2, 1, 1);
+INSERT INTO `cs_acl_rules` VALUES(3, 3, 1, 1);
+INSERT INTO `cs_acl_rules` VALUES(4, 4, 1, 1);
+INSERT INTO `cs_acl_rules` VALUES(5, 5, 1, 1);
+INSERT INTO `cs_acl_rules` VALUES(6, 1, 2, 1);
+INSERT INTO `cs_acl_rules` VALUES(7, 5, 2, 1);
+INSERT INTO `cs_acl_rules` VALUES(8, 1, 3, 1);
+INSERT INTO `cs_acl_rules` VALUES(9, 5, 3, 1);
+INSERT INTO `cs_acl_rules` VALUES(10, 1, 4, 1);
+INSERT INTO `cs_acl_rules` VALUES(11, 5, 4, 1);
+INSERT INTO `cs_acl_rules` VALUES(12, 1, 5, 1);
+INSERT INTO `cs_acl_rules` VALUES(13, 2, 5, 1);
+INSERT INTO `cs_acl_rules` VALUES(14, 3, 5, 1);
+INSERT INTO `cs_acl_rules` VALUES(15, 4, 5, 1);
+INSERT INTO `cs_acl_rules` VALUES(16, 5, 5, 1);
+INSERT INTO `cs_acl_rules` VALUES(17, 1, 6, 1);
+INSERT INTO `cs_acl_rules` VALUES(18, 5, 6, 1);
+INSERT INTO `cs_acl_rules` VALUES(19, 1, 7, 1);
+INSERT INTO `cs_acl_rules` VALUES(20, 5, 7, 1);
+INSERT INTO `cs_acl_rules` VALUES(21, 1, 8, 1);
+INSERT INTO `cs_acl_rules` VALUES(22, 5, 8, 1);
+INSERT INTO `cs_acl_rules` VALUES(23, 1, 9, 1);
+INSERT INTO `cs_acl_rules` VALUES(24, 2, 9, 1);
+INSERT INTO `cs_acl_rules` VALUES(25, 3, 9, 1);
+INSERT INTO `cs_acl_rules` VALUES(26, 4, 9, 1);
+INSERT INTO `cs_acl_rules` VALUES(27, 5, 9, 1);
+INSERT INTO `cs_acl_rules` VALUES(28, 1, 10, 1);
+INSERT INTO `cs_acl_rules` VALUES(29, 2, 10, 1);
+INSERT INTO `cs_acl_rules` VALUES(30, 3, 10, 1);
+INSERT INTO `cs_acl_rules` VALUES(31, 4, 10, 1);
+INSERT INTO `cs_acl_rules` VALUES(32, 5, 10, 1);
+INSERT INTO `cs_acl_rules` VALUES(33, 1, 11, 1);
+INSERT INTO `cs_acl_rules` VALUES(34, 2, 11, 1);
+INSERT INTO `cs_acl_rules` VALUES(35, 3, 11, 1);
+INSERT INTO `cs_acl_rules` VALUES(36, 4, 11, 1);
+INSERT INTO `cs_acl_rules` VALUES(37, 5, 11, 1);
+INSERT INTO `cs_acl_rules` VALUES(38, 1, 12, 1);
+INSERT INTO `cs_acl_rules` VALUES(39, 2, 12, 1);
+INSERT INTO `cs_acl_rules` VALUES(40, 3, 12, 1);
+INSERT INTO `cs_acl_rules` VALUES(41, 4, 12, 1);
+INSERT INTO `cs_acl_rules` VALUES(42, 5, 12, 1);
+INSERT INTO `cs_acl_rules` VALUES(43, 1, 13, 1);
+INSERT INTO `cs_acl_rules` VALUES(44, 2, 13, 1);
+INSERT INTO `cs_acl_rules` VALUES(45, 3, 13, 1);
+INSERT INTO `cs_acl_rules` VALUES(46, 4, 13, 1);
+INSERT INTO `cs_acl_rules` VALUES(47, 5, 13, 1);
+INSERT INTO `cs_acl_rules` VALUES(48, 1, 14, 1);
+INSERT INTO `cs_acl_rules` VALUES(49, 2, 14, 1);
+INSERT INTO `cs_acl_rules` VALUES(50, 3, 14, 1);
+INSERT INTO `cs_acl_rules` VALUES(51, 4, 14, 1);
+INSERT INTO `cs_acl_rules` VALUES(52, 5, 14, 1);
+INSERT INTO `cs_acl_rules` VALUES(53, 1, 15, 1);
+INSERT INTO `cs_acl_rules` VALUES(54, 2, 15, 1);
+INSERT INTO `cs_acl_rules` VALUES(55, 3, 15, 1);
+INSERT INTO `cs_acl_rules` VALUES(56, 4, 15, 1);
+INSERT INTO `cs_acl_rules` VALUES(57, 5, 15, 1);
+INSERT INTO `cs_acl_rules` VALUES(58, 1, 16, 1);
+INSERT INTO `cs_acl_rules` VALUES(59, 2, 16, 1);
+INSERT INTO `cs_acl_rules` VALUES(60, 3, 16, 1);
+INSERT INTO `cs_acl_rules` VALUES(61, 4, 16, 1);
+INSERT INTO `cs_acl_rules` VALUES(62, 5, 16, 1);
+INSERT INTO `cs_acl_rules` VALUES(63, 1, 17, 1);
+INSERT INTO `cs_acl_rules` VALUES(64, 2, 17, 1);
+INSERT INTO `cs_acl_rules` VALUES(65, 3, 17, 1);
+INSERT INTO `cs_acl_rules` VALUES(66, 4, 17, 1);
+INSERT INTO `cs_acl_rules` VALUES(67, 5, 17, 1);
+INSERT INTO `cs_acl_rules` VALUES(68, 1, 18, 1);
+INSERT INTO `cs_acl_rules` VALUES(69, 2, 18, 1);
+INSERT INTO `cs_acl_rules` VALUES(70, 3, 18, 1);
+INSERT INTO `cs_acl_rules` VALUES(71, 4, 18, 1);
+INSERT INTO `cs_acl_rules` VALUES(72, 5, 18, 1);
+INSERT INTO `cs_acl_rules` VALUES(73, 1, 19, 1);
+INSERT INTO `cs_acl_rules` VALUES(74, 2, 19, 1);
+INSERT INTO `cs_acl_rules` VALUES(75, 3, 19, 1);
+INSERT INTO `cs_acl_rules` VALUES(76, 4, 19, 1);
+INSERT INTO `cs_acl_rules` VALUES(77, 5, 19, 1);
+INSERT INTO `cs_acl_rules` VALUES(78, 1, 20, 1);
+INSERT INTO `cs_acl_rules` VALUES(79, 2, 20, 1);
+INSERT INTO `cs_acl_rules` VALUES(80, 3, 20, 1);
+INSERT INTO `cs_acl_rules` VALUES(81, 4, 20, 1);
+INSERT INTO `cs_acl_rules` VALUES(82, 5, 20, 1);
+INSERT INTO `cs_acl_rules` VALUES(83, 1, 21, 1);
+INSERT INTO `cs_acl_rules` VALUES(84, 2, 21, 1);
+INSERT INTO `cs_acl_rules` VALUES(85, 3, 21, 1);
+INSERT INTO `cs_acl_rules` VALUES(86, 4, 21, 1);
+INSERT INTO `cs_acl_rules` VALUES(87, 5, 21, 1);
+INSERT INTO `cs_acl_rules` VALUES(88, 1, 22, 1);
+INSERT INTO `cs_acl_rules` VALUES(89, 2, 22, 1);
+INSERT INTO `cs_acl_rules` VALUES(90, 3, 22, 1);
+INSERT INTO `cs_acl_rules` VALUES(91, 4, 22, 1);
+INSERT INTO `cs_acl_rules` VALUES(92, 5, 22, 1);
+INSERT INTO `cs_acl_rules` VALUES(93, 1, 23, 1);
+INSERT INTO `cs_acl_rules` VALUES(94, 2, 23, 1);
+INSERT INTO `cs_acl_rules` VALUES(95, 3, 23, 1);
+INSERT INTO `cs_acl_rules` VALUES(96, 4, 23, 1);
+INSERT INTO `cs_acl_rules` VALUES(97, 5, 23, 1);
+INSERT INTO `cs_acl_rules` VALUES(98, 1, 24, 1);
+INSERT INTO `cs_acl_rules` VALUES(99, 2, 24, 1);
+INSERT INTO `cs_acl_rules` VALUES(100, 3, 24, 1);
+INSERT INTO `cs_acl_rules` VALUES(101, 4, 24, 1);
+INSERT INTO `cs_acl_rules` VALUES(102, 5, 24, 1);
+INSERT INTO `cs_acl_rules` VALUES(103, 1, 25, 1);
+INSERT INTO `cs_acl_rules` VALUES(104, 2, 25, 1);
+INSERT INTO `cs_acl_rules` VALUES(105, 3, 25, 1);
+INSERT INTO `cs_acl_rules` VALUES(106, 4, 25, 1);
+INSERT INTO `cs_acl_rules` VALUES(107, 5, 25, 1);
+INSERT INTO `cs_acl_rules` VALUES(108, 1, 26, 1);
+INSERT INTO `cs_acl_rules` VALUES(109, 2, 26, 1);
+INSERT INTO `cs_acl_rules` VALUES(110, 3, 26, 1);
+INSERT INTO `cs_acl_rules` VALUES(111, 4, 26, 1);
+INSERT INTO `cs_acl_rules` VALUES(112, 5, 26, 1);
+INSERT INTO `cs_acl_rules` VALUES(113, 1, 27, 1);
+INSERT INTO `cs_acl_rules` VALUES(114, 2, 27, 1);
+INSERT INTO `cs_acl_rules` VALUES(115, 3, 27, 1);
+INSERT INTO `cs_acl_rules` VALUES(116, 4, 27, 1);
+INSERT INTO `cs_acl_rules` VALUES(117, 5, 27, 1);
+INSERT INTO `cs_acl_rules` VALUES(118, 1, 28, 1);
+INSERT INTO `cs_acl_rules` VALUES(119, 2, 28, 1);
+INSERT INTO `cs_acl_rules` VALUES(120, 3, 28, 1);
+INSERT INTO `cs_acl_rules` VALUES(121, 4, 28, 1);
+INSERT INTO `cs_acl_rules` VALUES(122, 5, 28, 1);
+INSERT INTO `cs_acl_rules` VALUES(123, 1, 29, 1);
+INSERT INTO `cs_acl_rules` VALUES(124, 5, 29, 1);
+INSERT INTO `cs_acl_rules` VALUES(125, 1, 30, 1);
+INSERT INTO `cs_acl_rules` VALUES(126, 5, 30, 1);
+INSERT INTO `cs_acl_rules` VALUES(127, 1, 31, 1);
+INSERT INTO `cs_acl_rules` VALUES(128, 5, 31, 1);
+INSERT INTO `cs_acl_rules` VALUES(129, 1, 32, 1);
+INSERT INTO `cs_acl_rules` VALUES(130, 2, 32, 1);
+INSERT INTO `cs_acl_rules` VALUES(131, 3, 32, 1);
+INSERT INTO `cs_acl_rules` VALUES(132, 4, 32, 1);
+INSERT INTO `cs_acl_rules` VALUES(133, 5, 32, 1);
 
 -- --------------------------------------------------------
 
 --
 -- Tabellenstruktur für Tabelle `cs_adminmenu`
+--
+-- Erzeugt am: 20. November 2010 um 12:33
 --
 
 DROP TABLE IF EXISTS `cs_adminmenu`;
@@ -209,6 +382,8 @@ INSERT INTO `cs_adminmenu` VALUES(95, 91, 'item', 'About Clansuite', 'index.php?
 --
 -- Tabellenstruktur für Tabelle `cs_adminmenu_backup`
 --
+-- Erzeugt am: 20. November 2010 um 12:33
+--
 
 DROP TABLE IF EXISTS `cs_adminmenu_backup`;
 CREATE TABLE `cs_adminmenu_backup` (
@@ -330,6 +505,8 @@ INSERT INTO `cs_adminmenu_backup` VALUES(95, 91, 'item', 'About Clansuite', 'ind
 --
 -- Tabellenstruktur für Tabelle `cs_adminmenu_shortcuts`
 --
+-- Erzeugt am: 20. November 2010 um 12:33
+--
 
 DROP TABLE IF EXISTS `cs_adminmenu_shortcuts`;
 CREATE TABLE `cs_adminmenu_shortcuts` (
@@ -372,6 +549,8 @@ INSERT INTO `cs_adminmenu_shortcuts` VALUES(20, 'Search', 'index.php?mod=admin&a
 --
 -- Tabellenstruktur für Tabelle `cs_bb_code`
 --
+-- Erzeugt am: 20. November 2010 um 12:33
+--
 
 DROP TABLE IF EXISTS `cs_bb_code`;
 CREATE TABLE `cs_bb_code` (
@@ -399,6 +578,8 @@ INSERT INTO `cs_bb_code` VALUES(3, 'center', '<center>', '</center>', 'block', '
 --
 -- Tabellenstruktur für Tabelle `cs_calendar`
 --
+-- Erzeugt am: 20. November 2010 um 12:33
+--
 
 DROP TABLE IF EXISTS `cs_calendar`;
 CREATE TABLE `cs_calendar` (
@@ -425,6 +606,8 @@ INSERT INTO `cs_calendar` VALUES(3, 1, '14', '4', '2007', '123', '123', '123');
 
 --
 -- Tabellenstruktur für Tabelle `cs_categories`
+--
+-- Erzeugt am: 20. November 2010 um 12:33
 --
 
 DROP TABLE IF EXISTS `cs_categories`;
@@ -459,6 +642,8 @@ INSERT INTO `cs_categories` VALUES(7, 7, 7, 'Sonstiges', 'Thema Hardware', '', '
 --
 -- Tabellenstruktur für Tabelle `cs_comments`
 --
+-- Erzeugt am: 20. November 2010 um 12:33
+--
 
 DROP TABLE IF EXISTS `cs_comments`;
 CREATE TABLE `cs_comments` (
@@ -485,6 +670,8 @@ INSERT INTO `cs_comments` VALUES(2, 2, '', '1234567', '2005-07-29 16:50:08', 'bl
 --
 -- Tabellenstruktur für Tabelle `cs_downloads`
 --
+-- Erzeugt am: 20. November 2010 um 12:33
+--
 
 DROP TABLE IF EXISTS `cs_downloads`;
 CREATE TABLE `cs_downloads` (
@@ -508,6 +695,8 @@ INSERT INTO `cs_downloads` VALUES(1, 'test', 'testfile1', 'this is a testdescrip
 
 --
 -- Tabellenstruktur für Tabelle `cs_forum_boards`
+--
+-- Erzeugt am: 20. November 2010 um 12:33
 --
 
 DROP TABLE IF EXISTS `cs_forum_boards`;
@@ -557,6 +746,8 @@ INSERT INTO `cs_forum_boards` VALUES(11, 1, 0, 1, 0, 0, 0, '-1,0', 1, ' Termine 
 --
 -- Tabellenstruktur für Tabelle `cs_forum_boards_moderator`
 --
+-- Erzeugt am: 20. November 2010 um 12:33
+--
 
 DROP TABLE IF EXISTS `cs_forum_boards_moderator`;
 CREATE TABLE `cs_forum_boards_moderator` (
@@ -574,6 +765,8 @@ CREATE TABLE `cs_forum_boards_moderator` (
 
 --
 -- Tabellenstruktur für Tabelle `cs_forum_category`
+--
+-- Erzeugt am: 20. November 2010 um 12:33
 --
 
 DROP TABLE IF EXISTS `cs_forum_category`;
@@ -597,6 +790,8 @@ INSERT INTO `cs_forum_category` VALUES(1, NULL, 0, 'Clansuite', 'default kategor
 --
 -- Tabellenstruktur für Tabelle `cs_forum_config`
 --
+-- Erzeugt am: 20. November 2010 um 12:33
+--
 
 DROP TABLE IF EXISTS `cs_forum_config`;
 CREATE TABLE `cs_forum_config` (
@@ -616,6 +811,8 @@ CREATE TABLE `cs_forum_config` (
 
 --
 -- Tabellenstruktur für Tabelle `cs_forum_groups`
+--
+-- Erzeugt am: 20. November 2010 um 12:33
 --
 
 DROP TABLE IF EXISTS `cs_forum_groups`;
@@ -648,6 +845,8 @@ INSERT INTO `cs_forum_groups` VALUES(6, 'Newbie', '', '', 0, 0, '1#star.gif', 0,
 
 --
 -- Tabellenstruktur für Tabelle `cs_forum_icons`
+--
+-- Erzeugt am: 20. November 2010 um 12:33
 --
 
 DROP TABLE IF EXISTS `cs_forum_icons`;
@@ -683,6 +882,8 @@ INSERT INTO `cs_forum_icons` VALUES(12, 'Wink', 'wink', 0, 11);
 --
 -- Tabellenstruktur für Tabelle `cs_forum_permission`
 --
+-- Erzeugt am: 20. November 2010 um 12:33
+--
 
 DROP TABLE IF EXISTS `cs_forum_permission`;
 CREATE TABLE `cs_forum_permission` (
@@ -702,6 +903,8 @@ CREATE TABLE `cs_forum_permission` (
 
 --
 -- Tabellenstruktur für Tabelle `cs_forum_permission_profile`
+--
+-- Erzeugt am: 20. November 2010 um 12:33
 --
 
 DROP TABLE IF EXISTS `cs_forum_permission_profile`;
@@ -724,6 +927,8 @@ INSERT INTO `cs_forum_permission_profile` VALUES(4, 'read_only');
 
 --
 -- Tabellenstruktur für Tabelle `cs_forum_posts`
+--
+-- Erzeugt am: 20. November 2010 um 12:33
 --
 
 DROP TABLE IF EXISTS `cs_forum_posts`;
@@ -768,6 +973,8 @@ CREATE TABLE `cs_forum_posts` (
 --
 -- Tabellenstruktur für Tabelle `cs_forum_profiles`
 --
+-- Erzeugt am: 20. November 2010 um 12:33
+--
 
 DROP TABLE IF EXISTS `cs_forum_profiles`;
 CREATE TABLE `cs_forum_profiles` (
@@ -811,6 +1018,8 @@ CREATE TABLE `cs_forum_profiles` (
 --
 -- Tabellenstruktur für Tabelle `cs_forum_topics`
 --
+-- Erzeugt am: 20. November 2010 um 12:33
+--
 
 DROP TABLE IF EXISTS `cs_forum_topics`;
 CREATE TABLE `cs_forum_topics` (
@@ -851,6 +1060,8 @@ CREATE TABLE `cs_forum_topics` (
 --
 -- Tabellenstruktur für Tabelle `cs_groups`
 --
+-- Erzeugt am: 20. November 2010 um 12:33
+--
 
 DROP TABLE IF EXISTS `cs_groups`;
 CREATE TABLE `cs_groups` (
@@ -879,6 +1090,8 @@ INSERT INTO `cs_groups` VALUES(5, 5, 'root', 'The website superadministrator wit
 
 --
 -- Tabellenstruktur für Tabelle `cs_guestbook`
+--
+-- Erzeugt am: 20. November 2010 um 12:33
 --
 
 DROP TABLE IF EXISTS `cs_guestbook`;
@@ -913,6 +1126,8 @@ INSERT INTO `cs_guestbook` VALUES(5, 0, 1175928797, 'name', 'email@email.de', 's
 --
 -- Tabellenstruktur für Tabelle `cs_help`
 --
+-- Erzeugt am: 20. November 2010 um 12:33
+--
 
 DROP TABLE IF EXISTS `cs_help`;
 CREATE TABLE `cs_help` (
@@ -946,6 +1161,8 @@ INSERT INTO `cs_help` VALUES(14, 'guestbook', 'admin', 'show', '', '');
 --
 -- Tabellenstruktur für Tabelle `cs_images`
 --
+-- Erzeugt am: 20. November 2010 um 12:33
+--
 
 DROP TABLE IF EXISTS `cs_images`;
 CREATE TABLE `cs_images` (
@@ -967,6 +1184,8 @@ INSERT INTO `cs_images` VALUES(3, 1, 'upload', 'images/avatars/1.jpg');
 
 --
 -- Tabellenstruktur für Tabelle `cs_messages`
+--
+-- Erzeugt am: 20. November 2010 um 12:33
 --
 
 DROP TABLE IF EXISTS `cs_messages`;
@@ -994,6 +1213,8 @@ INSERT INTO `cs_messages` VALUES(11, 1, 1, 'uschi', 'furuzzz', 1171204602, 1);
 --
 -- Tabellenstruktur für Tabelle `cs_modules`
 --
+-- Erzeugt am: 20. November 2010 um 12:33
+--
 
 DROP TABLE IF EXISTS `cs_modules`;
 CREATE TABLE `cs_modules` (
@@ -1015,17 +1236,44 @@ CREATE TABLE `cs_modules` (
   PRIMARY KEY (`module_id`),
   UNIQUE KEY `name` (`name`),
   KEY `section_id` (`section_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Daten für Tabelle `cs_modules`
 --
 
+INSERT INTO `cs_modules` VALUES(1, 0, 0, 'about', 'About', '', 1, 0, '0.2-0.x-dev', '0.2', 'GPLv2 or any later', 'Jens-André Koch', 'http://www.clansuite.com', 'Jens-André Koch', 'module_about.jpg');
+INSERT INTO `cs_modules` VALUES(2, 0, 0, 'account', 'Account', '', 1, 1, '0.2-0.x-dev', '0.2', 'GPLv2 or any later', '', 'http://www.clansuite.com', '', 'module_account.jpg');
+INSERT INTO `cs_modules` VALUES(3, 0, 0, 'acl', 'Acl', '', 1, 0, '0.2-0.x-dev', '0.2', 'GPLv2 or any later', 'Paul Brand', 'http://www.clansuite.com', 'Paul Brand', 'module_acl.jpg');
+INSERT INTO `cs_modules` VALUES(4, 0, 0, 'categories', 'Categories', '', 1, 1, '0.2-0.x-dev', '0.2', 'GPLv2 or any later', 'Jens-André Koch', 'http://www.clansuite.com', 'Jens-André Koch', 'module_categories.jpg');
+INSERT INTO `cs_modules` VALUES(5, 0, 0, 'controlcenter', 'Controlcenter', '', 1, 1, '0.2-0.x-dev', '0.2', 'GPLv2 or any later', 'Jens-André Koch', 'http://www.clansuite.com', 'Jens-André Koch', 'module_controlcenter.jpg');
+INSERT INTO `cs_modules` VALUES(6, 0, 0, 'cronjobs', 'Cronjobs', '', 1, 0, '0.2-0.x-dev', '0.2', 'GPLv2 or any later', 'Daniel Winterfeldt, Jens-André Koch', 'http://www.clansuite.com', 'Daniel Winterfeldt, Jens-André Koch', 'module_cronjobs.jpg');
+INSERT INTO `cs_modules` VALUES(7, 0, 0, 'doctrine', 'Doctrine', '', 1, 1, '0.2-0.x-dev', '0.2', 'GPLv2', 'Daniel Winterfeldt, Jens-André Koch', '', 'Daniel Winterfeldt, Jens-André Koch', 'module_doctrine.jpg');
+INSERT INTO `cs_modules` VALUES(8, 0, 0, 'forum', 'Forum', '', 1, 0, '0.2-0.x-dev', '0.2', 'GPLv2 or any later', 'Jens-André Koch', 'http://www.clansuite.com', 'Jens-André Koch', 'module_forum.jpg');
+INSERT INTO `cs_modules` VALUES(9, 0, 0, 'guestbook', 'Guestbook', '', 1, 0, '0.2-0.x-dev', '0.2', 'GPLv2 or any later', 'Jens-André Koch', 'http://www.clansuite.com', 'Jens-André Koch', 'module_guestbook.jpg');
+INSERT INTO `cs_modules` VALUES(10, 0, 0, 'index', 'Index', '', 1, 0, '0.2-0.x-dev', '0.2', 'GPLv2 or any later', 'Jens-André Koch', 'http://www.clansuite.com', 'Jens-André Koch', 'module_index.jpg');
+INSERT INTO `cs_modules` VALUES(11, 0, 0, 'languages', 'Languages', '', 1, 0, '0.2', '0.2', 'GPLv2', 'Jens-André Koch', '', 'Jens-André Koch', 'module_languages.jpg');
+INSERT INTO `cs_modules` VALUES(12, 0, 0, 'menu', 'Menu', '', 1, 1, '0.2-0.x-dev', '0.2', 'GPLv2 or any later', 'Jens-André Koch', 'http://www.clansuite.com', 'Jens-André Koch', 'module_menu.jpg');
+INSERT INTO `cs_modules` VALUES(13, 0, 0, 'mibbitirc', 'Mibbitirc', '', 1, 0, '0.2-0.x-dev', '0.2', 'GPLv2 or any later', 'Jens-André Koch', 'http://www.clansuite.com', 'Jens-André Koch', 'module_mibbitirc.jpg');
+INSERT INTO `cs_modules` VALUES(14, 0, 0, 'modulemanager', 'Modulemanager', '', 1, 1, '0.2-0.x-dev', '0.2', 'GPL v2 or any later', 'Florian Wolf, Jens-André Koch', 'http://www.clansuite.com', 'Florian Wolf, Jens-André Koch', 'module_modulemanager.jpg');
+INSERT INTO `cs_modules` VALUES(15, 0, 0, 'news', 'News', '', 1, 0, '0.2-0.x-dev', '0.2', 'GPLv2 or any later', 'Jens-André Koch', 'http://www.clansuite.com', 'Jens-André Koch', 'module_news.jpg');
+INSERT INTO `cs_modules` VALUES(16, 0, 0, 'rssreader', 'Rssreader', '', 1, 0, '0.2-0.x-dev', '0.2', 'GPLv2 or any later', 'Jens-André Koch', 'http://www.clansuite.com', 'Jens-André Koch', 'module_rssreader.jpg');
+INSERT INTO `cs_modules` VALUES(17, 0, 0, 'settings', 'Settings', '', 1, 1, '0.2-0.x-dev', '0.2', 'GPLv2 or any later', 'Jens-André Koch', 'http://www.clansuite.com', 'Jens-André Koch', 'module_settings.jpg');
+INSERT INTO `cs_modules` VALUES(18, 0, 0, 'staticpages', 'Staticpages', '', 1, 0, '0.2-0.x-dev', '0.2', 'GPLv2 or any later', 'Jens-André Koch', 'http://www.clansuite.com', 'Jens-André Koch', 'module_staticpages.jpg');
+INSERT INTO `cs_modules` VALUES(19, 0, 0, 'statistics', 'Statistics', '', 1, 0, '0.2-0.x-dev', '0.2', 'GPLv2 or any later', 'Jens-André Koch', 'http://www.clansuite.com', 'Jens-André Koch', 'module_statistics.jpg');
+INSERT INTO `cs_modules` VALUES(20, 0, 0, 'systeminfo', 'Systeminfo', '', 1, 1, '0.2-0.x-dev', '0.2', 'GPLv2 or any later', 'Jens-André Koch', 'http://www.clansuite.com', 'Jens-André Koch', 'module_systeminfo.jpg');
+INSERT INTO `cs_modules` VALUES(21, 0, 0, 'teamspeakviewer', 'Teamspeakviewer', '', 1, 0, '0.2-0.x-dev', '0.2', 'GPLv2 or any later', 'Jens-André Koch', 'http://www.clansuite.com', 'Jens-André Koch', 'module_teamspeakviewer.jpg');
+INSERT INTO `cs_modules` VALUES(22, 0, 0, 'templatemanager', 'Templatemanager', '', 1, 1, '0.2-0.x-dev', '0.2', 'GPLv2', 'Jens-André Koch', '', 'Jens-André Koch', 'module_templatemanager.jpg');
+INSERT INTO `cs_modules` VALUES(23, 0, 0, 'thememanager', 'Thememanager', '', 1, 1, '0.2-0.x-dev', '0.2', 'GPLv2 or any later', 'Jens-André Koch', 'http://www.clansuite.com', 'Jens-André Koch', 'module_thememanager.jpg');
+INSERT INTO `cs_modules` VALUES(24, 0, 0, 'toolbox', 'Toolbox', '', 1, 0, '0.2-0.x-dev', '0.2', 'GPLv2 or any later', 'Jens-André Koch', 'http://www.clansuite.com', 'Jens-André Koch', 'module_toolbox.jpg');
+INSERT INTO `cs_modules` VALUES(25, 0, 0, 'users', 'Users', '', 1, 1, '0.2-0.x-dev', '0.2', 'GPLv2 or any later', 'Jens-André Koch', 'http://www.clansuite.com', 'Jens-André Koch', 'module_users.jpg');
 
 -- --------------------------------------------------------
 
 --
 -- Tabellenstruktur für Tabelle `cs_modules_section`
+--
+-- Erzeugt am: 20. November 2010 um 12:33
 --
 
 DROP TABLE IF EXISTS `cs_modules_section`;
@@ -1049,6 +1297,8 @@ INSERT INTO `cs_modules_section` VALUES(4, 'Content', 'Content Modules');
 
 --
 -- Tabellenstruktur für Tabelle `cs_news`
+--
+-- Erzeugt am: 20. November 2010 um 12:33
 --
 
 DROP TABLE IF EXISTS `cs_news`;
@@ -1081,6 +1331,8 @@ INSERT INTO `cs_news` VALUES(100, 'german specialchars', 'ä 	ä\r\nÄ 	Ä\r\nö
 
 --
 -- Tabellenstruktur für Tabelle `cs_news_index`
+--
+-- Erzeugt am: 20. November 2010 um 12:33
 --
 
 DROP TABLE IF EXISTS `cs_news_index`;
@@ -1572,6 +1824,8 @@ INSERT INTO `cs_news_index` VALUES(0, 1, 100, '', '', 'h5', 54, 'news_body');
 --
 -- Tabellenstruktur für Tabelle `cs_opponents`
 --
+-- Erzeugt am: 20. November 2010 um 12:35
+--
 
 DROP TABLE IF EXISTS `cs_opponents`;
 CREATE TABLE `cs_opponents` (
@@ -1594,6 +1848,8 @@ CREATE TABLE `cs_opponents` (
 --
 -- Tabellenstruktur für Tabelle `cs_options`
 --
+-- Erzeugt am: 20. November 2010 um 12:35
+--
 
 DROP TABLE IF EXISTS `cs_options`;
 CREATE TABLE `cs_options` (
@@ -1614,6 +1870,8 @@ INSERT INTO `cs_options` VALUES(2, 2, 'en');
 
 --
 -- Tabellenstruktur für Tabelle `cs_profiles`
+--
+-- Erzeugt am: 20. November 2010 um 12:35
 --
 
 DROP TABLE IF EXISTS `cs_profiles`;
@@ -1653,6 +1911,8 @@ INSERT INTO `cs_profiles` VALUES(2, 3, 1172510321, '', '', 0, '-', 0, '-', '-', 
 --
 -- Tabellenstruktur für Tabelle `cs_profiles_computer`
 --
+-- Erzeugt am: 20. November 2010 um 12:35
+--
 
 DROP TABLE IF EXISTS `cs_profiles_computer`;
 CREATE TABLE `cs_profiles_computer` (
@@ -1684,6 +1944,8 @@ CREATE TABLE `cs_profiles_computer` (
 
 --
 -- Tabellenstruktur für Tabelle `cs_profiles_general`
+--
+-- Erzeugt am: 20. November 2010 um 12:35
 --
 
 DROP TABLE IF EXISTS `cs_profiles_general`;
@@ -1726,6 +1988,8 @@ INSERT INTO `cs_profiles_general` VALUES(3, 2, 1175635148, '', '', 0, '-', 0, '-
 --
 -- Tabellenstruktur für Tabelle `cs_profiles_guestbook`
 --
+-- Erzeugt am: 20. November 2010 um 12:35
+--
 
 DROP TABLE IF EXISTS `cs_profiles_guestbook`;
 CREATE TABLE `cs_profiles_guestbook` (
@@ -1760,6 +2024,8 @@ INSERT INTO `cs_profiles_guestbook` VALUES(5, 0, 0, 1175928797, 'asdfsadf', 'sdf
 --
 -- Tabellenstruktur für Tabelle `cs_rel_news_comments`
 --
+-- Erzeugt am: 20. November 2010 um 12:35
+--
 
 DROP TABLE IF EXISTS `cs_rel_news_comments`;
 CREATE TABLE `cs_rel_news_comments` (
@@ -1780,6 +2046,8 @@ INSERT INTO `cs_rel_news_comments` VALUES(91, 1);
 --
 -- Tabellenstruktur für Tabelle `cs_rel_option_name`
 --
+-- Erzeugt am: 20. November 2010 um 12:35
+--
 
 DROP TABLE IF EXISTS `cs_rel_option_name`;
 CREATE TABLE `cs_rel_option_name` (
@@ -1797,6 +2065,8 @@ CREATE TABLE `cs_rel_option_name` (
 
 --
 -- Tabellenstruktur für Tabelle `cs_rel_user_options`
+--
+-- Erzeugt am: 20. November 2010 um 12:35
 --
 
 DROP TABLE IF EXISTS `cs_rel_user_options`;
@@ -1818,6 +2088,8 @@ INSERT INTO `cs_rel_user_options` VALUES(2, 1);
 --
 -- Tabellenstruktur für Tabelle `cs_rel_user_profile`
 --
+-- Erzeugt am: 20. November 2010 um 12:35
+--
 
 DROP TABLE IF EXISTS `cs_rel_user_profile`;
 CREATE TABLE `cs_rel_user_profile` (
@@ -1835,6 +2107,8 @@ CREATE TABLE `cs_rel_user_profile` (
 
 --
 -- Tabellenstruktur für Tabelle `cs_session`
+--
+-- Erzeugt am: 20. November 2010 um 12:35
 --
 
 DROP TABLE IF EXISTS `cs_session`;
@@ -1854,12 +2128,24 @@ CREATE TABLE `cs_session` (
 -- Daten für Tabelle `cs_session`
 --
 
+INSERT INTO `cs_session` VALUES(0, 'a7t5gi2fomdtnsg5bkkhj9gg26', 'user|a:14:{s:8:"language";s:2:"de";s:6:"authed";i:0;s:7:"user_id";i:0;s:4:"nick";s:5:"Guest";s:12:"passwordhash";s:0:"";s:5:"email";s:0:"";s:8:"disabled";i:0;s:9:"activated";i:0;s:16:"language_via_url";i:1;s:14:"frontend_theme";s:8:"standard";s:13:"backend_theme";s:5:"admin";s:5:"group";i:1;s:4:"role";i:3;s:6:"rights";s:0:"";}', 'suiteSID', 1291835494, 1, 'sessionstart');
+INSERT INTO `cs_session` VALUES(0, 'e81s9j41urd24cnqes6obs5ul3', 'user|a:14:{s:8:"language";s:2:"de";s:6:"authed";i:0;s:7:"user_id";i:0;s:4:"nick";s:5:"Guest";s:12:"passwordhash";s:0:"";s:5:"email";s:0:"";s:8:"disabled";i:0;s:9:"activated";i:0;s:16:"language_via_url";i:1;s:14:"frontend_theme";s:8:"standard";s:13:"backend_theme";s:5:"admin";s:5:"group";i:1;s:4:"role";i:3;s:6:"rights";s:0:"";}', 'suiteSID', 1291834832, 1, 'sessionstart');
+INSERT INTO `cs_session` VALUES(0, 'ebm7j7m9vbent0ess05vnl0hp3', 'user|a:14:{s:8:"language";s:2:"de";s:6:"authed";i:0;s:7:"user_id";i:0;s:4:"nick";s:5:"Guest";s:12:"passwordhash";s:0:"";s:5:"email";s:0:"";s:8:"disabled";i:0;s:9:"activated";i:0;s:16:"language_via_url";i:1;s:14:"frontend_theme";s:8:"standard";s:13:"backend_theme";s:5:"admin";s:5:"group";i:1;s:4:"role";i:3;s:6:"rights";s:0:"";}', 'suiteSID', 1291834587, 1, 'sessionstart');
+INSERT INTO `cs_session` VALUES(0, 'h6n4sdvagtb5ovtfoaofepkf65', 'user|a:14:{s:8:"language";s:2:"de";s:6:"authed";i:0;s:7:"user_id";i:0;s:4:"nick";s:5:"Guest";s:12:"passwordhash";s:0:"";s:5:"email";s:0:"";s:8:"disabled";i:0;s:9:"activated";i:0;s:16:"language_via_url";i:1;s:14:"frontend_theme";s:8:"standard";s:13:"backend_theme";s:5:"admin";s:5:"group";i:1;s:4:"role";i:3;s:6:"rights";s:0:"";}', 'suiteSID', 1291835563, 1, 'sessionstart');
+INSERT INTO `cs_session` VALUES(0, 'igpkm3l4njpgr0h1knrkubvba0', 'user|a:14:{s:8:"language";s:2:"de";s:6:"authed";i:0;s:7:"user_id";i:0;s:4:"nick";s:5:"Guest";s:12:"passwordhash";s:0:"";s:5:"email";s:0:"";s:8:"disabled";i:0;s:9:"activated";i:0;s:16:"language_via_url";i:1;s:14:"frontend_theme";s:8:"standard";s:13:"backend_theme";s:5:"admin";s:5:"group";i:1;s:4:"role";i:3;s:6:"rights";s:0:"";}', 'suiteSID', 1291835326, 1, 'sessionstart');
+INSERT INTO `cs_session` VALUES(0, 'kg7ufplb1tr505fe9igeev7iv5', 'user|a:14:{s:8:"language";s:2:"de";s:6:"authed";i:0;s:7:"user_id";i:0;s:4:"nick";s:5:"Guest";s:12:"passwordhash";s:0:"";s:5:"email";s:0:"";s:8:"disabled";i:0;s:9:"activated";i:0;s:16:"language_via_url";i:1;s:14:"frontend_theme";s:8:"standard";s:13:"backend_theme";s:5:"admin";s:5:"group";i:1;s:4:"role";i:3;s:6:"rights";s:0:"";}', 'suiteSID', 1291835152, 1, 'sessionstart');
 INSERT INTO `cs_session` VALUES(0, 'ng8k038n8aic819nmtc9l9b772', 'user|a:14:{s:8:"language";s:2:"de";s:6:"authed";i:0;s:7:"user_id";i:0;s:4:"nick";s:5:"Guest";s:12:"passwordhash";s:0:"";s:5:"email";s:0:"";s:8:"disabled";i:0;s:9:"activated";i:0;s:16:"language_via_url";i:1;s:14:"frontend_theme";s:8:"standard";s:13:"backend_theme";s:5:"admin";s:5:"group";i:1;s:4:"role";i:3;s:6:"rights";s:0:"";}', 'suiteSID', 1291833724, 1, 'sessionstart');
+INSERT INTO `cs_session` VALUES(0, 'o0hk34n4pslae2u5m0ap34g884', 'user|a:14:{s:8:"language";s:2:"de";s:6:"authed";i:0;s:7:"user_id";i:0;s:4:"nick";s:5:"Guest";s:12:"passwordhash";s:0:"";s:5:"email";s:0:"";s:8:"disabled";i:0;s:9:"activated";i:0;s:16:"language_via_url";i:1;s:14:"frontend_theme";s:8:"standard";s:13:"backend_theme";s:5:"admin";s:5:"group";i:1;s:4:"role";i:3;s:6:"rights";s:0:"";}', 'suiteSID', 1291834945, 1, 'sessionstart');
+INSERT INTO `cs_session` VALUES(0, 'r41prjb94eqh16juqqnga4cvn4', 'user|a:14:{s:8:"language";s:2:"de";s:6:"authed";i:0;s:7:"user_id";i:0;s:4:"nick";s:5:"Guest";s:12:"passwordhash";s:0:"";s:5:"email";s:0:"";s:8:"disabled";i:0;s:9:"activated";i:0;s:16:"language_via_url";i:1;s:14:"frontend_theme";s:8:"standard";s:13:"backend_theme";s:5:"admin";s:5:"group";i:1;s:4:"role";i:3;s:6:"rights";s:0:"";}', 'suiteSID', 1291834759, 1, 'sessionstart');
+INSERT INTO `cs_session` VALUES(0, 'sht387k5uqusf32cstnpamif00', 'user|a:14:{s:8:"language";s:2:"de";s:6:"authed";i:0;s:7:"user_id";i:0;s:4:"nick";s:5:"Guest";s:12:"passwordhash";s:0:"";s:5:"email";s:0:"";s:8:"disabled";i:0;s:9:"activated";i:0;s:16:"language_via_url";i:1;s:14:"frontend_theme";s:8:"standard";s:13:"backend_theme";s:5:"admin";s:5:"group";i:1;s:4:"role";i:3;s:6:"rights";s:0:"";}', 'suiteSID', 1291834659, 1, 'sessionstart');
+INSERT INTO `cs_session` VALUES(0, 'sqspdvvn54c2rvupbpe6p8kfu4', 'user|a:14:{s:8:"language";s:2:"de";s:6:"authed";i:0;s:7:"user_id";i:0;s:4:"nick";s:5:"Guest";s:12:"passwordhash";s:0:"";s:5:"email";s:0:"";s:8:"disabled";i:0;s:9:"activated";i:0;s:16:"language_via_url";i:1;s:14:"frontend_theme";s:8:"standard";s:13:"backend_theme";s:5:"admin";s:5:"group";i:1;s:4:"role";i:3;s:6:"rights";s:0:"";}', 'suiteSID', 1291835120, 1, 'sessionstart');
 
 -- --------------------------------------------------------
 
 --
 -- Tabellenstruktur für Tabelle `cs_settings`
+--
+-- Erzeugt am: 20. November 2010 um 12:35
 --
 
 DROP TABLE IF EXISTS `cs_settings`;
@@ -1881,6 +2167,8 @@ INSERT INTO `cs_settings` VALUES(2, 2, 'en');
 
 --
 -- Tabellenstruktur für Tabelle `cs_static_pages`
+--
+-- Erzeugt am: 20. November 2010 um 12:35
 --
 
 DROP TABLE IF EXISTS `cs_static_pages`;
@@ -1910,6 +2198,8 @@ INSERT INTO `cs_static_pages` VALUES(5, 'About', 'About ClanSuite', '', '<font s
 --
 -- Tabellenstruktur für Tabelle `cs_statistic`
 --
+-- Erzeugt am: 20. November 2010 um 12:35
+--
 
 DROP TABLE IF EXISTS `cs_statistic`;
 CREATE TABLE `cs_statistic` (
@@ -1930,6 +2220,8 @@ CREATE TABLE `cs_statistic` (
 --
 -- Tabellenstruktur für Tabelle `cs_statistic_ip`
 --
+-- Erzeugt am: 20. November 2010 um 12:35
+--
 
 DROP TABLE IF EXISTS `cs_statistic_ip`;
 CREATE TABLE `cs_statistic_ip` (
@@ -1948,6 +2240,8 @@ CREATE TABLE `cs_statistic_ip` (
 
 --
 -- Tabellenstruktur für Tabelle `cs_statistic_stats`
+--
+-- Erzeugt am: 20. November 2010 um 12:35
 --
 
 DROP TABLE IF EXISTS `cs_statistic_stats`;
@@ -2015,6 +2309,8 @@ INSERT INTO `cs_statistic_stats` VALUES(47, '13.05.2010', 1);
 --
 -- Tabellenstruktur für Tabelle `cs_users`
 --
+-- Erzeugt am: 20. November 2010 um 12:35
+--
 
 DROP TABLE IF EXISTS `cs_users`;
 CREATE TABLE `cs_users` (
@@ -2059,6 +2355,8 @@ INSERT INTO `cs_users` VALUES(13, 'admin@email.com', 'admin', '7f0ce5783e1aeb2ae
 --
 -- Tabellenstruktur für Tabelle `cs_users_options`
 --
+-- Erzeugt am: 20. November 2010 um 12:35
+--
 
 DROP TABLE IF EXISTS `cs_users_options`;
 CREATE TABLE `cs_users_options` (
@@ -2080,6 +2378,8 @@ INSERT INTO `cs_users_options` VALUES(0, 1, 'en', 'accessible');
 
 --
 -- Tabellenstruktur für Tabelle `cs_whoisonline`
+--
+-- Erzeugt am: 20. November 2010 um 12:35
 --
 
 DROP TABLE IF EXISTS `cs_whoisonline`;
@@ -2103,6 +2403,8 @@ INSERT INTO `cs_whoisonline` VALUES(72, 1273783967, '127.0.0.1', NULL, '/index.p
 
 --
 -- Tabellenstruktur für Tabelle `cs_whowasonline`
+--
+-- Erzeugt am: 20. November 2010 um 12:35
 --
 
 DROP TABLE IF EXISTS `cs_whowasonline`;
