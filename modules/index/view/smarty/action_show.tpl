@@ -18,3 +18,7 @@ Modul Template - Module Index - Show
 <br />
 {t 1='one' 2='two' 3='three'}The 1st parameter is %1, the 2nd is %2 and the 3rd %3.{/t}
 </p>
+
+<p>&nbsp;</p>
+<p><b>Clansuite Role and User Based Access Control Management:</b></p>
+<p>&nbsp;&nbsp;&nbsp;-&nbsp;{$permtext}</p>
