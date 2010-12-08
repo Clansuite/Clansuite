@@ -370,4 +370,52 @@ class Clansuite_Doctrine
         return $this->connection;
     }
 }
+
+class Clansuite_DoctrineTools
+{
+
+    /*
+     * ------------------------------------------------------------------------------
+     * truncateTables
+     * ------------------------------------------------------------------------------
+     * truncates all tables from the array
+     * e.g.
+     * array(
+     *     'cs_modules',
+     *     'cs_guestbook',
+     *     ....
+     * );
+     */
+    public static function truncateTables( array $tables )
+    {
+        $linkID = Doctrine_Manager::getInstance()->getCurrentConnection()->getDbh();
+
+        for($i=0; $i<count($tables); $i++) {
+            $linkID->query('TRUNCATE TABLE '.$tables[$i] );
+        }
+
+        return true;
+    }
+
+    /*
+     * ------------------------------------------------------------------------------
+     * lastTableInsertId
+     * ------------------------------------------------------------------------------
+     * give's back the last insert id from the table
+     */
+    public static function lastTableInsertId( $table, $field )
+    {
+        $cnt = Doctrine_Query::create()
+                              ->select("c.$field")
+                              ->from("$table c")
+                                ->setHydrationMode(Doctrine::HYDRATE_ARRAY)
+                              ->orderby("c.$field desc")
+                              ->limit(1)
+                              ->execute( array() );
+
+        #Clansuite_Debug::printR( 'Field: ' .$cnt[0][$field] );
+        return $cnt[0][$field];
+    }
+
+}
 ?>
