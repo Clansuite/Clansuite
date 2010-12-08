@@ -1,0 +1,139 @@
+/*
+ * -----------------------------------------------------------------------------------------------
+ * Clansuite CSS2 Framework (CSFW)
+ * -------------------------------------------------------------------------------------------------
+ * Clansuite - just an eSports CMS
+ * Jens-André Koch © 2005 - onwards
+ * http://www.clansuite.com/
+ * -----------------------------------------------------------------------------------------------
+ * Document   : core_form_elements.css
+ * Description : core form elements definitions
+ * Syntax recommendation http://www.w3.org/TR/REC-CSS2
+ * -----------------------------------------------------------------------------------------------
+ * @license    GNU/GPL v2 or (at your option) any later version, see "/doc/LICENSE".
+ * @author     Paul Brand <info@isp-tenerife.net>
+ * @package      CSFW
+ * subpackage    Core
+ * @version        1.0
+ * -----------------------------------------------------------------------------------------------
+*/
+
+/*
+ * Container für Elemente
+ * form-text
+ * form-select
+ * form-check
+*/
+@charset "UTF-8";
+
+@media screen
+{
+
+    .form input,
+    .form textarea,
+    .form select, 
+    .form optgroup
+    {
+        font-family:Arial, Helvetica, sans-serif;
+    }
+
+    .form .form-text input,
+    .form .form-text textarea,
+    .form .form-select select
+    {
+        border:1px solid #ddd;
+    }
+
+    .form div.form-text input:focus,
+    .form div select:focus,
+    .form div textarea:focus
+    {
+        border:1px #a66 solid;
+        background:#fff;
+    }
+
+    .form div.form-text input:hover,
+    .form div select:hover,
+    .form div textarea:hover
+    {
+        border:1px #a66 solid;
+        background:#fff;
+    }
+
+    .form div.form-text input:active,
+    .form div select:active,
+    .form div textarea:active
+    {
+        border:1px #a66 solid;
+        background:#fff;
+    }
+
+    /* Float-Clearing */
+    fieldset:after,
+    .form div.form-text:after,
+    .form div.form-select:after,
+    .form div.form-check:after
+    {
+        clear: both;
+        content: ".";
+        display: block;
+        font-size: 0;
+        height: 0;
+        visibility: hidden;
+    }
+
+    /* Stylish */
+    .form div.form-text,
+    .form div.form-select,
+    .form div.form-check
+    {
+        display:block;
+        margin: 0.5em 0;
+        padding: 3px 0.5em;
+        position: relative;
+        zoom: 1; 
+    }
+
+    /* breitenanpassung */
+    .form .form-text input,
+    .form .form-text textarea
+    {
+        display: block;
+        position: relative;
+        padding: 0.3em 0.3em;
+        width: 58.5%;
+    }
+
+    .form .form-select select
+    {
+        display:block;
+        position:relative;
+        padding:0.3em 2px 0.3em 1px;
+        width:60%;
+        cursor:pointer;
+    }
+    .form .form-select select optgroup
+    {
+        font-style:normal;
+        font-weight:bold;
+    }
+
+
+    .form .form-check input
+    { 
+        cursor:pointer;
+    }
+
+    .form div.form-check input:focus,
+    .form div.form-check input:hover,
+    .form div.form-check input:active
+    { 
+        border:0 none;
+    }
+
+
+}
+
+@media print
+{
+}
