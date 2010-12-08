@@ -135,7 +135,6 @@ class Clansuite_User
                     ->from('CsUsers u')
                     ->leftJoin('u.CsOptions o')
                     ->leftJoin('u.CsGroups g')
-                    ->leftJoin('g.CsRights r')
                     ->where('u.user_id = ?')
                     ->fetchOne(array($user_id), Doctrine::HYDRATE_ARRAY);
         }
@@ -147,7 +146,6 @@ class Clansuite_User
                     ->from('CsUsers u')
                     ->leftJoin('u.CsOptions o')
                     ->leftJoin('u.CsGroups g')
-                    ->leftJoin('g.CsRights r')
                     ->where('u.email = ?')
                     ->fetchOne(array($email), Doctrine::HYDRATE_ARRAY);
         }
@@ -159,7 +157,6 @@ class Clansuite_User
                     ->from('CsUsers u')
                     ->leftJoin('u.CsOptions o')
                     ->leftJoin('u.CsGroups g')
-                    ->leftJoin('g.CsRights r')
                     ->where('u.nick = ?')
                     ->fetchOne(array($nick), Doctrine::HYDRATE_ARRAY);
 
@@ -231,29 +228,21 @@ class Clansuite_User
             /**
              * Permissions
              *
-             * Get Groups & Rights of user_id
+             * Get Group & Rights of user_id
              */
 
             # Initialize User Session Arrays
-            $_SESSION['user']['groups'] = array();
-            $_SESSION['user']['rights'] = array();
+            $_SESSION['user']['group'] = '';
+            $_SESSION['user']['rights'] = '';
 
-            if ( isset($this->user['CsGroups']) && is_array( $this->user['CsGroups'] ) )
+            if ( isset($this->user['CsGroups']) && $this->user['CsGroups'] !== '' )
             {
-                foreach( $this->user['CsGroups'] as $key => $group )
-                {
-                    $_SESSION['user']['groups'][] = $group['group_id'];
-                    $_SESSION['user']['role_id'][] = $group['role_id'];
+                $_SESSION['user']['group'] = $this->user['CsGroups']['group_id'];
+                $_SESSION['user']['role'] = $this->user['CsGroups']['role_id'];
 
-                    if( isset($group['CsRights']) && is_array( $group['CsRights'] ) )
-                    {
-                        foreach( $group['CsRight'] as $key => $values )
-                        {
-                            $_SESSION['user']['rights'][$values['name']] = 1;
-                        }
-                    }
+                $permstring = Clansuite_ACL::createRightSession( $_SESSION['user']['role'], $this->user['user_id'] );
 
-                }
+                $_SESSION['user']['rights'] = $permstring;
             }
 
             #Clansuite_Debug::firebug($_SESSION);
@@ -291,9 +280,9 @@ class Clansuite_User
         {
             # get user_id and passwordhash with the nick
             $user = Doctrine_Query::create()
-                    ->select('user_id, passwordhash, salt')
+                    ->select('u.user_id, u.passwordhash, u.salt')
                     ->from('CsUsers u')
-                    ->where('nick = ?')
+                    ->where('u.nick = ?')
                     ->fetchOne(array($value), Doctrine::HYDRATE_ARRAY);
         }
 
@@ -302,9 +291,9 @@ class Clansuite_User
         {
             # get user_id and passwordhash with the email
             $user = Doctrine_Query::create()
-                    ->select('user_id, passwordhash, salt')
+                    ->select('u.user_id, u.passwordhash, u.salt')
                     ->from('CsUsers u')
-                    ->where('email = ?')
+                    ->where('u.email = ?')
                     ->fetchOne(array($value), Doctrine::HYDRATE_ARRAY);
         }
 
@@ -403,9 +392,9 @@ class Clansuite_User
         if ( isset($_COOKIE['cs_cookie_user_id']) and isset($_COOKIE['cs_cookie_password']) )
         {
             $this->user = Doctrine_Query::create()
-                    ->select('user_id,passwordhash,salt')
-                    ->from('CsUsers')
-                    ->where('user_id = ?')
+                    ->select('u.user_id, u.passwordhash, u.salt')
+                    ->from('CsUsers u')
+                    ->where('u.user_id = ?')
                     ->fetchOne(array((int) $_COOKIE['cs_cookie_user_id']), Doctrine::HYDRATE_ARRAY);
 
             /**
@@ -439,37 +428,42 @@ class Clansuite_User
      */
     public function sessionSetUserId($user_id)
     {
-        /*$result = Doctrine_Query::create()
-                         #->select('*') // automatically set when left out
+        $result = Doctrine_Query::create()
+                         ->select('*') // automatically set when left out
                          ->from('CsSession')
                          ->where('session_id = ?')
                          ->fetchOne(array( session_id() ));
 
+        /**
+         * Update Session, because we know that session_id already exists
+         */
         if ( $result )
         {
-            /**
-             * Update Session, because we know that session_id already exists
-        */   /*
             $result->user_id = $user_id;
             $result->save();
             return true;
         }
-        return false; */
+        return false;
     }
 
     /**
      * Checks a permission
+     *
+     * necesary 2 values ->  modulname and actionname
+     * e.g.
+     * $permission =  'action_show'
+     * $modulname = 'about'
      */
-    public static function hasAccess( $permission = '' )
+    public static function hasAccess( $modulname = '', $permission = '' )
     {
+        if( $modulname == '' )
+            return false;
+
         if( $permission == '' )
             return false;
 
-        if ( isset($_SESSION['user']['rights'][$permission]) && $_SESSION['user']['rights'][$permission] == 1 )
-        {
-            return true;
-        }
-        return false;
+        // returns true or false
+        return Clansuite_ACL::checkPermission( $modulname, $permission );
     }
 
     /**
@@ -597,34 +591,14 @@ class Clansuite_GuestUser
          */
 
         # Reset Groups
-        $_SESSION['user']['groups'] = array();
-        $_SESSION['user']['groups'][] = 1;
-        $_SESSION['user']['role_id'] = 3;
+        $_SESSION['user']['group'] = 1;
+        $_SESSION['user']['role'] = 3;
 
         # Reset Rights
-        $_SESSION['user']['rights'] = array();
-        $_SESSION['user']['rights'][] = 1;
+        $permstring = Clansuite_ACL::createRightSession( $_SESSION['user']['role'] );
+        $_SESSION['user']['rights'] = $permstring;
 
-        # Database Lookup
-        /*$rights = Doctrine_Query::create()
-                     ->select('g.group_id, r.right_id, r.name')
-                     ->from('CsGroups g')
-                     ->leftJoin('g.CsRights r')
-                     ->where('g.group_id = ?')
-                     ->fetchOne(array(1), Doctrine::HYDRATE_ARRAY);*/
-
-        #Clansuite_Debug::firebug($rights);
-
-        /*
-        if( is_array( $rights['CsRight'] ) )
-        {
-            foreach( $rights['CsRight'] as $key => $values )
-            {
-                $_SESSION['user']['rights'][$values['name']] = 1;
-            }
-        }
-        */
-
+        #Clansuite_Debug::printR($_SESSION);
         #Clansuite_Debug::firebug($_SESSION);
     }
 }

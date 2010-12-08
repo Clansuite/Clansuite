@@ -243,9 +243,14 @@ class Clansuite_ModuleInfoController
     public static function getModuleInformations($module = null)
     {
         # check if the infos of this specific module were catched before
-        if(strlen($module) > 0 and isset(self::$modulesinfo[$module]))
+        if(strlen($module) > 0)
         {
-            return self::$modulesinfo[$module];
+            $modulename = strtolower($module);
+            if( isset(self::$modulesinfo[$modulename]))
+            {
+                return self::$modulesinfo[$modulename];
+            }
+            $module = ROOT_MOD.$modulename;
         }
 
         # fetch infos for the requested $module
@@ -289,6 +294,7 @@ class Clansuite_ModuleInfoController
             $module_directories = array ($module);
         }
 
+
         foreach( $module_directories as $modulepath )
         {
             /**
@@ -302,8 +308,10 @@ class Clansuite_ModuleInfoController
             self::$modulesinfo[$modulename]['id']     = $number_of_modules;
             self::$modulesinfo[$modulename]['path']   = $modulepath;
             self::$modulesinfo[$modulename]['core']   = self::isACoreModule($modulename);
+
             # active - based on /configuration/modules.config.php
             self::$modulesinfo[$modulename]['active'] = self::isModuleActive($modulename);
+
             # hasMenu / ModuleNavigation
             self::$modulesinfo[$modulename]['menu']   = is_file($modulepath . DS . $modulename .'.menu.php');
 
@@ -329,6 +337,14 @@ class Clansuite_ModuleInfoController
             if(isset($config[$modulename]))
             {
                 self::$modulesinfo[$modulename]['config'] = $config[$modulename];
+                if( isset($config['properties']))
+                {
+                    self::$modulesinfo[$modulename]['settings'] = $config['properties'];
+                }
+                if( isset($config['properties_acl']))
+                {
+                    self::$modulesinfo[$modulename]['acl'] = $config['properties_acl'];
+                }
             }
             /*else
             {
@@ -340,6 +356,8 @@ class Clansuite_ModuleInfoController
         }
 
         ksort(self::$modulesinfo);
+
+        //Clansuite_Debug::printR( self::$modulesinfo );
 
         return self::$modulesinfo;
     }
