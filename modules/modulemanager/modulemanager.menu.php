@@ -85,5 +85,12 @@ $modulenavigation = array(
         'icon' => '',
         'title' => ''
     ),
+    '7' => array(
+        'action' => 'firsttimeinstall',
+        'name' => 'First time install (all)',
+        'url' => '/modulemanager/admin/firsttimeinstall',
+        'icon' => '',
+        'title' => ''
+    )
 );
 ?>
