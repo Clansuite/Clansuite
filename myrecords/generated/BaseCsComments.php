@@ -103,5 +103,20 @@ abstract class BaseCsComments extends Doctrine_Record
     {
         parent::setUp();
         
+        $this->index('user_id', array (
+                'fields' => 'user_id'
+        ));
+        $this->hasOne('CsUsers', array (
+                'local' => 'user_id',
+                'foreign' => 'user_id'
+                #,
+                #'onDelete' => 'CASCADE')
+
+        ));
+
+        $this->index('comment_id', array (
+                'fields' => 'comment_id'
+        ));
+        
     }
 }
