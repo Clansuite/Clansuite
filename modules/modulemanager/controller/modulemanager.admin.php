@@ -47,6 +47,7 @@ class Clansuite_Module_Modulemanager_Admin extends Clansuite_Module_Controller
     public function initializeModule()
     {
         $this->getModuleConfig();
+        parent::initModel('modulemanager');
     }
 
     /**
@@ -637,22 +638,22 @@ class Clansuite_Module_Modulemanager_Admin extends Clansuite_Module_Controller
      */
     public function action_admin_installmodulefirsttime()
     {
-        Clansuite_Debug::printR( $tables );
-
         $tables = array(
             'cs_acl_actions',
             'cs_acl_rules',
             'cs_modules'
         );
 
-        Clansuite_DoctrineTools::truncateTables( $tables )
+        # tables truncate
+        Clansuite_DoctrineTools::truncateTables( $tables );
+
         $modul = $resource = array();
 
         $moduleinfo = new Clansuite_ModuleInfoController();
         $modules_info_array = $moduleinfo->getModuleInformations();
         array_pop($modules_info_array);
 
-        Clansuite_Debug::printR( $modules_info_array );
+        #Clansuite_Debug::printR( $modules_info_array );
 
         # ----------------------------------------------------------------------
         # Prepare Modules Records for DB Includes
@@ -770,7 +771,7 @@ class Clansuite_Module_Modulemanager_Admin extends Clansuite_Module_Controller
             $modules->save();
             $lastModuleID = Clansuite_DoctrineTools::lastTableInsertId('CsModules', 'module_id');
 
-            Clansuite_Debug::printR( $lastModuleID );
+            #Clansuite_Debug::printR( $lastModuleID );
 
             if( $lastModuleID >0 )
             {
@@ -780,7 +781,7 @@ class Clansuite_Module_Modulemanager_Admin extends Clansuite_Module_Controller
 
                 # *************** Section: acl ***************
 
-                # read modules rights and prepare acl-array for DB includes (table: cs_acl_resources and cs_acl_rules)
+                # read modules rights and prepare acl-array for DB includes (table: cs_acl_actions and cs_acl_rules)
                 if( isset( $modules_info['acl'] ) )
                 {
                     foreach( $modules_info['acl'] as $key=>$val  ) 
@@ -789,12 +790,12 @@ class Clansuite_Module_Modulemanager_Admin extends Clansuite_Module_Controller
                         # ---------------
                         # create and save resources
                         # ---------------
-                        $resour = new CsAclResources();
+                        $resour = new CsAclActions();
                         $resour->modulname = $modul['name'];
                         $resour->action = $key;
                         $resour->save();
                         $resource_id = $lastModuleID;
-                        $lastResourceID = Clansuite_DoctrineTools::lastTableInsertId('CsAclResources', 'resource_id');
+                        $lastResourceID = Clansuite_DoctrineTools::lastTableInsertId('CsAclActions', 'action_id');
 
                         # ---------------
                         # create and save permissions
@@ -810,7 +811,7 @@ class Clansuite_Module_Modulemanager_Admin extends Clansuite_Module_Controller
                             {
                                 $rule = new CsAclRules();
                                 $rule->role_id = $i;
-                                $rule->resource_id = $lastResourceID;
+                                $rule->action_id = $lastResourceID;
                                 $rule->access = 1;
                                 $rule->save();
                             }
@@ -829,7 +830,7 @@ class Clansuite_Module_Modulemanager_Admin extends Clansuite_Module_Controller
                                         case 'g':   $rule->role_id = 3; break;
                                         case 'b':   $rule->role_id = 2; break;
                                     }
-                                    $rule->resource_id = $lastResourceID;
+                                    $rule->action_id = $lastResourceID;
                                     $rule->access = 1;
                                     $rule->save();
                                 }
@@ -844,7 +845,7 @@ class Clansuite_Module_Modulemanager_Admin extends Clansuite_Module_Controller
                                     case 'g':   $rule->role_id = 3; break;
                                     case 'b':   $rule->role_id = 2; break;
                                 }
-                                $rule->resource_id = $lastResourceID;
+                                $rule->action_id = $lastResourceID;
                                 $rule->access = 1;
                                 $rule->save();
                             }
@@ -852,9 +853,6 @@ class Clansuite_Module_Modulemanager_Admin extends Clansuite_Module_Controller
                     }
                 }
             }
-        }
-        else {
-            die( 'Tabellen konnten nicht gecleart werden.' );
         }
     }
     # --------------------- end action_admin_installallmodulefirsttime ----------------------------- #
