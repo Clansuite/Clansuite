@@ -1,0 +1,453 @@
+/*
+ * -----------------------------------------------------------------------------------------------
+ * Clansuite CSS2 Framework (CSFW)
+ * -------------------------------------------------------------------------------------------------
+ * Clansuite - just an eSports CMS
+ * Jens-André Koch © 2005 - onwards
+ * http://www.clansuite.com/
+ * -----------------------------------------------------------------------------------------------
+ * Document   : content.css
+ * Description : content definitions
+ * Syntax recommendation http://www.w3.org/TR/REC-CSS2
+ * -----------------------------------------------------------------------------------------------
+ * @license    GNU/GPL v2 or (at your option) any later version, see "/doc/LICENSE".
+ * @author     Paul Brand <info@isp-tenerife.net>
+ * @package      CSFW
+ * subpackage    Theme
+ * @version        1.0
+ * -----------------------------------------------------------------------------------------------
+*/
+
+@charset "UTF-8";
+
+@media screen
+{
+
+    body
+    {
+        color:#000;
+        background: #E4E0C7;
+        /* background: url(../images/bgr.png); */
+        font-family: tahoma, "Lucida Grande", verdana, arial, sans-serif;
+        font-size: 10pt;
+    }
+
+    html { padding: 0 0 25px 0;  /* create area for ajax notification area */}
+
+    h1,h3 {margin:0 0 1em 0}
+    p {padding:0 5px;margin:.5em 0}
+    h3 {margin:0;padding-top:10px}
+
+    .clearer{
+        height:1px;
+        overflow:hidden;
+        margin-top:-1px;
+        clear:both;
+    }
+
+    .oops
+    {
+        display: none;
+    }
+
+    /* Links */
+
+    a,
+    a:link,
+    a:visited
+    {
+        text-decoration: none;
+        color: blue;
+        font-weight: bold;
+    }
+
+    a:hover
+    {
+        text-decoration: none;
+        color: #FF0000;
+        font-weight: bold;
+    }
+
+    /* External Links */
+
+    a[href^="http:"]:not([href^="http://*.clansuite.com","http://*.jens-andre-koch.de"])::after
+    {
+       padding-left: 0.2em;
+       content:   url(images/remote.png);
+    }
+
+    .float_left 
+    { 
+        float:left;
+        display:inline;
+        margin-right:1em;
+        margin-bottom:0.15em;
+    }
+
+    .float_right
+    { 
+        float:right;
+        display:inline;
+        margin-left:1em;
+        margin-bottom:0.15em;
+    }
+    .center
+    {
+        display:block;
+        text-align:center;
+        margin:0.5em auto;
+    }
+
+    acronym, abbr
+    {
+        border-bottom:1px #aaa dotted;
+        font-variant:small-caps;
+        letter-spacing:.07em;
+        cursor:help;
+    }
+
+    /* Breadcrumb / Trail ( You are here >> )*/
+    #breadcrumbs
+    {
+        font-family: "Lucida Grande", Arial, Verdana, Helvetica, sans-serif;
+        font-size: 10pt;
+        color : #000000;
+        padding-top: 5px;
+        padding-left: 10px;
+        margin-bottom : 5px;
+    }
+    #breadcrumbs a {
+        color : #000000;
+    }
+    #breadcrumbs a:hover {
+        color : #ffffff;
+        color : #FF0000;
+    }
+
+    /* AJAX Progress Indicator */
+    #notification {
+        display: block;
+        position: fixed;
+        width: 100%;
+        margin: 0px;
+        left: 0px;
+        bottom: 0px;
+        /* top: 0px; */
+        height: 20px;
+        background-color: #FFFF99;
+        text-align: center;
+        font-weight: bold;
+        font-size: 1.3em;
+        font-family: Verdana, Arial, Helvetica, sans-serif;
+        padding-top: 5px;
+    }
+
+    /* Colored Buttons */
+
+    .Button,
+    .ButtonYellow,
+    .ButtonRed,
+    .ButtonGreen,
+    .ButtonGrey,
+    .ButtonOrange
+    {
+        background-color: #FFFFFF;
+        border: 1px solid #999999;
+        border-top-color: #CCCCCC;
+        border-left-color: #CCCCCC;
+        color: #333333;
+        font-size: 9px;
+        font-family: tahoma, sans-serif;
+        font-weight: bold;
+        padding: .25em;
+        margin: 3px;
+        white-space: nowrap;
+    }
+
+    .Button,
+    .ButtonGrey
+    {
+        background: url(../images/background_form_element_grey.gif) repeat-x;
+    }
+
+    .ButtonYellow
+    {
+        background: url(../images/background_form_element_yellow.gif) repeat-x;
+    }
+
+    .ButtonOrange
+    {
+        background: url(../images/background_form_element_orange.gif) repeat-x;
+    }
+
+    .ButtonRed
+    {
+        background: url(../images/background_form_element_red.gif) repeat-x;
+    }
+
+    .ButtonGreen
+    {
+        background: url(../images/background_form_element_green.gif) repeat-x;
+    }
+
+    .Button:active,
+    .ButtonYellow:active,
+    .ButtonRed:active,
+    .ButtonGreen:active,
+    .ButtonGrey:active,
+    .ButtonOrange:active
+    {
+        border: 1px solid #CCCCCC;
+        border-top-color: #999999;
+        border-left-color: #999999;
+    }
+
+    .small_grey
+    {
+        margin-top: -5px;
+        margin-left: -3px;
+        color: grey;
+        font-size: 9px;
+        font-family: tahoma, sans-serif;
+    }
+
+    .crudbutton
+    {
+        text-align: center;
+
+        margin-top: 5px;
+        margin-left: 10px;
+        margin-right: 10px;
+
+        padding: 3px;
+        /* width: 30%; */
+        height: 14px;
+
+
+        position:relative;
+        border: 1px solid #F1EFE2;
+        z-index: 5;
+        cursor: default;
+    }
+
+    .crudbutton:hover
+    {
+        background-color: #ffffff;
+        border: 1px solid #ACA899;
+    }
+
+    .redirect
+    {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 200px;
+        height: 50px;
+        margin-top: -25px;
+        margin-left: -100px;
+        padding: 10px;
+        background: #CCCCCC;
+        border: 1px solid #000000;
+        text-align: center;
+    }
+
+    .font_mini
+    {
+        font-size: 10px;
+    }
+
+    .error
+    {
+        color: red;
+        font-weight: bold;
+    }
+
+    .cell1
+    {
+        background: #ECE9D8;
+        border: 1px solid;
+        border-color: #ffffff #ACA899 #ACA899 #ffffff;
+        padding: 5px;
+        cursor: default;
+    }
+
+    .cell2
+    {
+        background: #E4E0C7;
+        border: 1px solid;
+        border-color: #ffffff #ACA899 #ACA899 #ffffff;
+        padding: 5px;
+        cursor: default;
+    }
+
+    .cell3
+    {
+        background: #E4E0C7;
+        border: 1px solid;
+        border-color: #ffffff #ACA899 #ACA899 #ffffff;
+        padding: 0px;
+        cursor: default;
+    }
+
+    .red_cell
+    {
+        background: #FF0000;
+        border: 1px solid;
+        border-color: #ffffff #ACA899 #ACA899 #ffffff;
+        padding: 5px;
+        cursor: default;
+    }
+
+    /* Tablecolumns */
+    #csTableleft
+    {
+        margin:0;
+        padding:0;
+        width: 220px;
+        vertical-align: top;
+    }
+    #csTablecenter
+    {
+        margin:0;
+        padding:0;
+        width: 99%;
+        vertical-align: top;
+    }
+    #csTableright
+    {
+        margin:0;
+        padding:0;
+        width: 220px;
+        vertical-align: top;
+    }
+
+    .csTopNav
+    {
+        width:99%;
+        height: 26px;
+        margin: 0;
+        padding: 0;
+    }
+
+    /* Sidebar Widgets: News, TSViewer etc. */
+    .widget
+    {
+        width: 220px;
+        display: inline-block;
+        vertical-align: top;
+        text-align: left;
+        padding-bottom: 15px;
+    }
+
+    #all_widgets
+    {
+        width: 80px;
+        height: 16px;
+        background-color: #666;
+        border: 1px solid black;
+        position: fixed;
+        top: 0;
+        left: 0;
+        padding: 5px;
+        padding-left: 10px;
+        overflow: hidden;
+    }
+
+    #all_widgets_handle
+    {
+        color: white;
+        cursor: pointer;
+    }
+
+    #widget_save_bar
+    {
+        width: 100%;
+        height: 25px;
+        background-color: #666;
+        border: 1px solid black;
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        overflow: hidden;
+        text-align: center;
+    }
+
+
+    /*menu*/
+    #menu a, #menu h3 {
+        line-height: normal;
+        padding: 4px 6px 4px 6px;
+        margin: 1px;
+        color: #000000;
+        text-decoration: none;
+        cursor: pointer;
+        white-space: nowrap;
+        display: block;
+        position: relative;
+        /*width: 100%;*/
+        border: 1px solid lightgrey;
+        text-align: center;
+    }
+
+    #menu a {
+        color: #595965;
+    }
+
+    #menu a h3
+    {
+        padding: 0px 0px 0px 0px;
+    }
+
+    #menu h3 {
+        font-size: 13px;
+    }
+
+    .menu_header
+    {
+        background: #254161;
+        border: 1px solid;
+        border-color: #ffffff #ACA899 #ACA899 #ffffff;
+        padding: 5px;
+        cursor: default;
+        font-size: 12px;
+        font-weight: bold;
+        background: url(../images/thback.gif) repeat-x;
+    }
+
+    .menu_header_small
+    {
+        background: #D5CCBB;
+        border: 1px solid;
+        border-color: #ffffff #ACA899 #ACA899 #ffffff;
+        padding: 2px;
+        padding-left: 5px;
+        cursor: default;
+        font-size: 12px;
+        font-weight: bold;
+    }
+
+    .size6 { font-size: 6pt; }
+    .size7 { font-size: 7pt; }
+    .size8 { font-size: 8pt; }
+    .size9 { font-size: 9pt; }
+    .size10 { font-size: 10pt; }
+    .size11 { font-size: 11pt; }
+    .size12 { font-size: 12pt; }
+
+    .mt5 { margin-top: 5px; }
+    .mt8 { margin-top: 8px; }
+    .mt10 { margin-top: 10px; }
+
+    .mb5 { margin-bottom: 5px; }
+    .mb8 { margin-bottom: 8px; }
+    .mb10 { margin-bottom: 10px; }
+
+    #debug
+    {
+        width:98%;
+    }
+}
+
+@media print
+{
+}

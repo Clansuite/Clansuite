@@ -1,0 +1,67 @@
+/*
+ * -----------------------------------------------------------------------------------------------
+ * Clansuite CSS2 Framework (CSFW)
+ * -------------------------------------------------------------------------------------------------
+ * Clansuite - just an eSports CMS
+ * Jens-André Koch © 2005 - onwards
+ * http://www.clansuite.com/
+ * -----------------------------------------------------------------------------------------------
+ * Document   : frameset.css
+ * Description : CSS-Frameset
+ * Syntax recommendation http://www.w3.org/TR/REC-CSS2
+ * -----------------------------------------------------------------------------------------------
+ * @license    GNU/GPL v2 or (at your option) any later version, see "/doc/LICENSE".
+ * @author     Jens-André Koch <vain@clansuite.com>
+ * @package      CSFW
+ * subpackage    Plugin
+ * @version        1.0
+ * -----------------------------------------------------------------------------------------------
+*/
+
+@charset "UTF-8";
+
+body{
+    margin:0;
+    padding:43px 0 39px 0;
+    font-family: Arial; "Lucida Grande", Verdana, Helvetica, sans-serif;
+    font-size: 9pt;
+}
+
+div#topframe{
+    position:absolute;
+    top:0;
+    left:0;
+    width:100%;
+    height:43px;
+    background: #FF9900;
+    border-bottom: 2px groove #000000;
+}
+
+div#bottomframe{
+    position:absolute;
+    bottom:0;
+    left:0;
+    width:100%;
+    height:39px;
+    background: #FFFF00;
+    border-top: 2px groove #000000;
+}
+
+@media screen{
+    body>div#topframe{
+        position:fixed;
+    }
+    body>div#bottomframe{
+        position:fixed;
+    }
+}
+
+* html body{
+    overflow:hidden;
+} 
+
+* html div#mainframe{
+    height:100%;
+    overflow:auto;
+}
+
