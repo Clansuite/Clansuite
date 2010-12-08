@@ -44,6 +44,7 @@ if(defined('IN_CS') === false)
 
 class Clansuite_Module_Modulemanager_Admin extends Clansuite_Module_Controller
 {
+
     public function initializeModule()
     {
         $this->getModuleConfig();
@@ -65,6 +66,8 @@ class Clansuite_Module_Modulemanager_Admin extends Clansuite_Module_Controller
         $modules_summary = $modules_info_array['yy_summary'];
         array_pop($modules_info_array);
 
+        #Clansuite_Debug::printR( $modules_info_array );
+
         # Fetch view and assign vars
         $view = $this->getView();
 
@@ -73,6 +76,7 @@ class Clansuite_Module_Modulemanager_Admin extends Clansuite_Module_Controller
 
         $this->display();
     }
+
 
     public function action_admin_edit()
     {
@@ -623,5 +627,250 @@ class Clansuite_Module_Modulemanager_Admin extends Clansuite_Module_Controller
             $this->redirect('index.php?mod=modulemanager/admin');
         }
     }
+
+
+
+    /* -------------------------------------------------------------------------
+     *    MODULE INSTALLATION 
+     * ----------------------------------------------------------------------- */
+
+    public function clearTables( array $tables )
+    {
+        $con = Doctrine_Manager::getInstance()->getCurrentConnection()->getDbh();
+        for($i=0; $i<count($tables); $i++) {
+            $con->query('TRUNCATE TABLE '.$tables[$i] );
+        }
+        unset($con);
+        return true;
+    }
+
+    /*
+     * -----------------------------------------------------------------------------------------------------------
+     * action_admin_installallmodulefirsttime
+     * -----------------------------------------------------------------------------------------------------------
+     * WARNING: Nur verwenden für die erstmalige Erfassung aller Module
+     * hierzu müssen die Tabellen: cs_modules, cs_acl_resources, cs_acl_rules geleert werden
+     */
+    public function action_admin_installallmodulefirsttime()
+    {
+        $tables = array(
+            'cs_acl_resources',
+            'cs_acl_rules',
+            'cs_modules'
+        );
+
+        if( Clansuite_DoctrineTools::truncateTables( $tables ) )
+        {
+            $modul = $resource = array();
+
+            $moduleinfo = new Clansuite_ModuleInfoController();
+            $modules_info_array = $moduleinfo->getModuleInformations();
+            array_pop($modules_info_array);
+
+            //Clansuite_Debug::printR( $modules_info_array );
+
+            # ----------------------------------------------------------------------
+            # Prepare Modules Records for DB Includes
+            # ----------------------------------------------------------------------
+            foreach( $modules_info_array as $modules_info )
+            {
+                // image
+                $modul['image_name'] = 'module_'.$modules_info['name'].'.jpg';
+
+                # *************** global ***************
+
+                $modul['name'] = $modules_info['name'];
+                $modul['title'] = ucfirst($modules_info['name']);
+
+                if(isset($modules_info['description'])) 
+                {
+                    $modul['description'] = $modules_info['description']; 
+                }
+                else {
+                    $modul['description'] = '';
+                }
+
+                # --- core modul ----------
+                $modul['core'] = ($modules_info['core']?1:0);
+
+
+                # *************** Section: Settings ***************
+
+                # --- modul active ----------
+                //$modul['enabled'] = ($modules_info['active']?1:0);
+                if( isset( $modules_info['settings']['active'] ) )
+                {
+                    $modul['enabled'] = $modules_info['settings']['active'];
+                }
+                else {
+                    $modul['enabled'] = false;
+                }
+
+                # --- section ----------
+                if( isset( $modules_info['settings']['section'] ) )
+                {
+                    $modul['section_id'] = $modules_info['settings']['section'];
+                }
+                else {
+                    $modul['section_id'] = null;
+                }
+
+                # *************** Section: Info Info ***************
+
+                # --- author/copyright ----------
+                if( isset( $modules_info['info'][$modules_info['name'].'_info']['author'] ) )
+                {
+                    $modul['author'] = utf8_encode($modules_info['info'][$modules_info['name'].'_info']['author']);
+                    $modul['copyright'] = utf8_encode($modules_info['info'][$modules_info['name'].'_info']['author']);
+                }
+                else {
+                    $modul['module_version'] = '0.2';
+                }
+
+                # --- license ----------
+                if( isset( $modules_info['info'][$modules_info['name'].'_info']['license'] ) )
+                {
+                    $modul['license'] = $modules_info['info'][$modules_info['name'].'_info']['license'];
+                }
+                else {
+                    $modul['license'] = 'GPLv2';
+                }
+
+                # --- link ----------
+                if( isset( $modules_info['info'][$modules_info['name'].'_info']['link'] ) )
+                {
+                    $modul['homepage'] = $modules_info['info'][$modules_info['name'].'_info']['link'];
+                }
+                else {
+                    $modul['homepage'] = '';
+                }
+
+                # *************** Section: Info Package ***************
+
+                # --- version ----------
+                if( isset( $modules_info['info'][$modules_info['name'].'_package']['version'] ) )
+                {
+                    $modul['module_version'] = $modules_info['info'][$modules_info['name'].'_package']['version'];
+                }
+                else {
+                    $modul['module_version'] = '0.2';
+                }
+
+                # --- require_version ----------
+                // require_version
+                if( isset( $modules_info['info'][$modules_info['name'].'_package']['require_version'] ) )
+                {
+                    $modul['clansuite_version'] = $modules_info['info'][$modules_info['name'].'_package']['require_version'];
+                }
+                else {
+                    $modul['clansuite_version'] = '0.2';
+                }
+
+                # save module record (cs_module)
+                $modules = new CsModules();
+                $modules->parent_id = 0;
+                $modules->section_id = $modul['section_id'];
+                $modules->name = $modul['name'];
+                $modules->title = $modul['title'];
+                $modules->description = $modul['description'];
+                $modules->enabled = $modul['enabled'];
+                $modules->core = $modul['core'];
+                $modules->module_version = $modul['module_version'];
+                $modules->clansuite_version = $modul['clansuite_version'];
+                $modules->license = $modul['license'];
+                $modules->author = $modul['author'];
+                $modules->homepage = $modul['homepage'];
+                $modules->copyright = $modul['copyright'];
+                $modules->image_name = $modul['image_name'];
+                $modules->save();
+                $lastModuleID = Clansuite_DoctrineTools::lastTableInsertId('CsModules', 'module_id');
+
+                //Clansuite_Debug::printR( $lastModuleID );
+
+                if( $lastModuleID >0 )
+                {
+                    # write module-Id in config
+                    # @todo
+
+
+                    # *************** Section: acl ***************
+
+                    # read modules rights and prepare acl-array for DB includes (table: cs_acl_resources and cs_acl_rules)
+                    if( isset( $modules_info['acl'] ) )
+                    {
+                        foreach( $modules_info['acl'] as $key=>$val  ) 
+                        {
+                            //$lastid++;
+                            # ---------------
+                            # create and save resources
+                            # ---------------
+                            $resour = new CsAclResources();
+                            $resour->modulname = $modul['name'];
+                            $resour->action = $key;
+                            $resour->save();
+                            $resource_id = $lastModuleID;
+                            $lastResourceID = Clansuite_DoctrineTools::lastTableInsertId('CsAclResources', 'resource_id');
+
+                            # ---------------
+                            # create and save permissions
+                            # role_id 1 = root
+                            # role_id 2 = bot
+                            # role_id 3 = guest
+                            # role_id 4 = member
+                            # role_id 5 = admin
+                            # ---------------
+                            if($val == 'all' )
+                            {
+                                for($i=1; $i<6; $i++)
+                                {
+                                    $rule = new CsAclRules();
+                                    $rule->role_id = $i;
+                                    $rule->resource_id = $lastResourceID;
+                                    $rule->access = 1;
+                                    $rule->save();
+                                }
+                            }
+                            else {
+                                if( false !== mb_strpos( $val , '|' ) )
+                                {
+                                    $perm = explode('|', $val);
+                                    for($i=0; $i<count($perm); $i++)
+                                    {
+                                        $rule = new CsAclRules();
+                                        switch($perm[$i]) {
+                                            case 'r':   $rule->role_id = 1; break;
+                                            case 'a':   $rule->role_id = 5; break;
+                                            case 'm':  $rule->role_id = 4; break;
+                                            case 'g':   $rule->role_id = 3; break;
+                                            case 'b':   $rule->role_id = 2; break;
+                                        }
+                                        $rule->resource_id = $lastResourceID;
+                                        $rule->access = 1;
+                                        $rule->save();
+                                    }
+                                }
+                                else {
+                                    //Clansuite_Debug::printR( $val );
+                                    $rule = new CsAclRules();
+                                    switch($val) {
+                                        case 'r':   $rule->role_id = 1; break;
+                                        case 'a':   $rule->role_id = 5; break;
+                                        case 'm':  $rule->role_id = 4; break;
+                                        case 'g':   $rule->role_id = 3; break;
+                                        case 'b':   $rule->role_id = 2; break;
+                                    }
+                                    $rule->resource_id = $lastResourceID;
+                                    $rule->access = 1;
+                                    $rule->save();
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    # --------------------- end action_admin_installallmodulefirsttime ----------------------------- #
+
 }
 ?>

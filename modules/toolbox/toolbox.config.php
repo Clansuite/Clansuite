@@ -1,18 +1,13 @@
 ; <?php die( 'Access forbidden.' ); /* DO NOT MODIFY THIS LINE! ?>
-;
-; Clansuite Configuration File for Module Controlcenter
-; \trunk\modules\controlcenter\controlcenter.config.php 
+; 
+; Clansuite Configuration File for Module Toolbox
+; \trunk\modules\toolbox\toolbox.config.php 
 ;
 
 ;----------------------------------------
-; controlcenter
+; toolbox
 ;----------------------------------------
-[controlcenter]
-show_box_shortcuts = true
-show_box_news = true
-show_box_security = true
-show_box_extensions = true
-news_rss_items = 5
+[toolbox]
 
 
 ;----------------------------------------
@@ -47,8 +42,11 @@ module_id =
 ; properties_acl
 ;----------------------------------------
 [properties_acl]
-action_show = 'all'
+action_show = 'r|a'
+action_admin_show = 'r|a'
 
+; widgets
+widget_cssbuilder = 'r|a'
 
 
 

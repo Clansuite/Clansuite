@@ -1,11 +1,10 @@
 ; <?php die('Access forbidden.'); /* DO NOT MODIFY THIS LINE! ?>
 ; 
 ; Clansuite Configuration File : 
-; C:\Programme\Zend\Apache2\htdocs\clansuite\trunk\modules\news\news.config.php
+; \trunk\modules\news\news.config.php
 ; 
 ; This file was generated on 23-10-2010 21:31
 ;
-
 
 ;----------------------------------------
 ; news
@@ -24,5 +23,42 @@ feed_image = "/uploads/noimage.png"
 feed_imagetitle = "Logo"
 feed_imagedescription = "Klick mich"
 feed_imageurl = "http://www.clansuite-dev.com"
+
+
+;----------------------------------------
+; properties
+;----------------------------------------
+[properties]
+active = true
+module_section =
+module_id =
+
+
+; -------------------------------------------------------------------------------
+; define here all actions was defined in module and module admin controler
+; who necesary permission to access
+; -------------------------------------------------------------------------------
+;
+; ACL action values are:
+;    all = all groups has access
+;    or
+;    root(r) | admin(a) | member(m) | guest(g) | bot(b)
+;
+;  e.g. acces for: root + admin only
+;        show = r|a
+;  e.g. acces for: root + admin + member only
+;        show = r|a|m
+;  e.g. acces for: root + admin + member + guest only
+;        show = r|a|m|g
+;  e.g. acces for: bots only
+;        show = b
+;
+;----------------------------------------
+; properties_acl
+;----------------------------------------
+[properties_acl]
+action_show = 'all'
+
+
 
 ; DO NOT REMOVE THIS LINE */ ?>
