@@ -4,7 +4,7 @@
 
 <table id="Frontend-Menu-1" cellspacing="0" cellpadding="0" class="XulMenu" width="100%">
 <tr>
-    <td class="td_header">
+    <td class="menu_header">
         {t}Menu{/t}
     </td>
 </tr>
@@ -19,7 +19,7 @@
                   <a class="item" href="index.php?mod=news"><img class="pic" src="{$www_root_themes_core}images/symbols/news.png" border="0" width="16" height="16" alt=""/>News</a>
                   <a class="item" href="index.php?mod=news&amp;action=archive"><img class="pic" src="{$www_root_themes_core}images/symbols/news.png" border="0" width="16" height="16" alt=""/>Newsarchiv</a>
                   <a class="item" href="index.php?mod=guestbook"><img class="pic" src="{$www_root_themes_core}images/symbols/news.png" border="0" width="16" height="16" alt=""/>Guestbook</a>
-                  <a class="item" href="index.php?mod=board"><img class="pic" src="{$www_root_themes_core}images/symbols/news.png" border="0" width="16" height="16" alt=""/>Board</a>
+                  <a class="item" href="index.php?mod=forum"><img class="pic" src="{$www_root_themes_core}images/symbols/news.png" border="0" width="16" height="16" alt=""/>Forum</a>
                   <a class="item" href="index.php?mod=serverlist"><img class="pic" src="{$www_root_themes_core}images/symbols/news.png" border="0" width="16" height="16" alt=""/>Serverlist</a>
                   <a class="item" href="index.php?mod=users">Users</a>
                   <a class="item" href="index.php?mod=staticpages&amp;page=credits"><img class="pic" src="{$www_root_themes_core}images/icons/information.png" border="0" width="16" height="16" alt=""/>Credits</a>
