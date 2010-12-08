@@ -14,7 +14,7 @@ package = Development
 
 [about_package]
 version = 0.2-0.x-dev
-project = index
+project = about
 datestamp =
 uniqueid =
 
