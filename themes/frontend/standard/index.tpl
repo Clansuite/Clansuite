@@ -100,7 +100,7 @@
 
 					<div class="widget size9" id="widget_ts3viewer">{load_module name="teamspeakviewer" action="widget_ts3viewer"}</div>
 					<div class="widget size9" id="widget_about">{load_module name="about" action="widget_about"}</div>
-					<div class="widget size9" id="widget_cssbuilder">{load_module name="toolbox" action="widget_cssbuilder"}</div>
+					<div class="widget size9" id="widget_cssbuilder">{load_module name="toolbox" action="widget_toolbox"}</div>
 				</td>
 			</tr>
 			</table>
