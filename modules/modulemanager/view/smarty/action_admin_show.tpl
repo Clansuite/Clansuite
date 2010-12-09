@@ -29,44 +29,25 @@ There are {$modules_summary.counter} Modules installed.
         <td class="cell2">
 
             {* Add User Actions *}
-
-            <a href="/" type="button" class="delete" title="{$module.name}">Activate</a>
-            &nbsp;
-            <a href="/" type="button" class="delete" title="{$module.name}">Delete</a>
-
-            <br>
+            <a href="/" type="button" class="delete" title="Activate {$module.name}">Activate</a>
+            &nbsp;|&nbsp;
+            <a href="/" type="button" class="delete" title="Delete {$module.name}">Delete</a>
+            &nbsp;|&nbsp;
 
             {* Add Developer Actions *}
 
             {if $smarty.const.DEVELOPMENT == true}
 
-            &nbsp;
-            <a href="{$www_root}{$module.name}/admin/settings"
-               type="button" class="delete" title="Edit Settings ({$module.name}.config.php)">Edit Settings</a>
-            &nbsp;
-            <a href="{$www_root}index.php?mod=modulemanager&sub=admin&action=edit_info&modulename={$module.name}"
-               type="button" class="delete" title="Edit Informations ({$module.name}.info.php)">Edit Informations</a>
-            &nbsp;
-            <a href="{$www_root}index.php?mod=menu&sub=admin&action=modulemenu_edit&modulename={$module.name}"
-               type="button" class="delete" title="Edit Menu ({$module.name}.menu.php)">Edit Menu</a>
-            &nbsp;
-            <a href="{$www_root}index.php?mod=routes&sub=admin&action=edit&modulename={$module.name}"
-               type="button" class="delete" title="Edit Routes ({$module.name}.routes.php)">Edit Routes</a>
-            &nbsp;
+            <a href="{$www_root}index.php?mod=modulesettings&sub=admin&action=show&modulename={$module.name}"
+               type="button" class="delete" title="Edit {$module.name} Settings">Settings</a>
             {*
-
+            &nbsp;|&nbsp;
             <a href="/" type="button" class="delete" title="Create Pear Packages">Create Pear Package</a>
-            &nbsp;
+            &nbsp;|&nbsp;
             <a href="/" type="button" class="delete" title="Create Phar">Create Phar</a>
-            &nbsp;
+            &nbsp;|&nbsp;
 
             *}
-            <a href="{$www_root}index.php?mod=templatemanager&sub=admin&action=showmoduletemplates&modulename={$module.name}"
-               type="button" class="delete" title="Edit Templates">Edit Templates</a>
-            &nbsp;
-            <a href="{$www_root}index.php?mod=lanaguages&sub=admin&action=edit&modulename={$module.name}"
-               type="button" class="delete" title="Edit Languages">Edit Language</a>
-
             {/if}
         </td>
     </tr>
