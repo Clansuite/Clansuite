@@ -13,7 +13,7 @@
  *
  * Examples:
  * <pre>
- * {array name="arrayname" values="1,2,3,4,5" seperator="," explode="true"}
+ * {array name="arrayname" values="1,2,3,4,5" delimiter="," explode="true"}
  * </pre>
  *
  * Type:     function<br>
