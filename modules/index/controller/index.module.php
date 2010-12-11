@@ -100,15 +100,6 @@ class Clansuite_Module_Index extends Clansuite_Module_Controller
         # Applying a Layout Template
         #$view = $this->getView()->setLayoutTemplate('admin/index.tpl');
 
-        if( false !== Clansuite_ACL::checkPermission( 'index.action_show' ) )
-        {
-            $permtext = '<font color=blue>Der User hat das Recht auf: index.action_show</font>';
-        }
-        else {
-            $permtext = '<font color=red>Der User hat <u>kein</u> Recht auf: index.action_show</font>';
-        }
-        $view = $this->getView();
-        $view->assign('permtext', $permtext);
         $this->display();
     }
 
