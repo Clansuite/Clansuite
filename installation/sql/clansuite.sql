@@ -7,6 +7,13 @@
 -- Server Version: 5.1.36
 -- PHP-Version: 5.3.0
 
+-- -------------------------------------------------------------------------
+-- Changes
+-- -------------------------------------------------------------------------
+-- 2010/12/13 (paulbr) update 2010-12-13_upd_permissions_toolbox.sql eingefügt
+-- 
+-- -------------------------------------------------------------------------
+
 SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 
 --
@@ -64,7 +71,7 @@ INSERT INTO `cs_acl_actions` VALUES(27, 'templatemanager', 'action_show');
 INSERT INTO `cs_acl_actions` VALUES(28, 'thememanager', 'action_show');
 INSERT INTO `cs_acl_actions` VALUES(29, 'toolbox', 'action_show');
 INSERT INTO `cs_acl_actions` VALUES(30, 'toolbox', 'action_admin_show');
-INSERT INTO `cs_acl_actions` VALUES(31, 'toolbox', 'widget_cssbuilder');
+INSERT INTO `cs_acl_actions` VALUES(31, 'toolbox', 'widget_toolbox');
 INSERT INTO `cs_acl_actions` VALUES(32, 'users', 'action_show');
 
 -- --------------------------------------------------------
@@ -253,6 +260,9 @@ INSERT INTO `cs_acl_rules` VALUES(130, 2, 32, 1);
 INSERT INTO `cs_acl_rules` VALUES(131, 3, 32, 1);
 INSERT INTO `cs_acl_rules` VALUES(132, 4, 32, 1);
 INSERT INTO `cs_acl_rules` VALUES(133, 5, 32, 1);
+INSERT INTO `cs_acl_rules` VALUES(134, 2, 31, 1);
+INSERT INTO `cs_acl_rules` VALUES(135, 3, 31, 1);
+INSERT INTO `cs_acl_rules` VALUES(136, 4, 31, 1);
 
 -- --------------------------------------------------------
 
