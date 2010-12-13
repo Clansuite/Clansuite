@@ -46,7 +46,7 @@ action_show = 'r|a'
 action_admin_show = 'r|a'
 
 ; widgets
-widget_cssbuilder = 'r|a'
+widget_toolbox = 'r|a'
 
 
 

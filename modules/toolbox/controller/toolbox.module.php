@@ -58,12 +58,6 @@ class Clansuite_Module_Toolbox extends Clansuite_Module_Controller
 
     public function widget_toolbox()
     {
-        #$auth = Clansuite_ACL::checkPermission( 'toolbox.widget_cssbuilder' );
-        $auth = false;
-
-        if( false === $auth )
-            return false;
-
     }
 
 }
