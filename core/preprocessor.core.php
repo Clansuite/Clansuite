@@ -46,7 +46,8 @@ if(defined('IN_CS') === false)
  * Purpose: Assembles all Core files into one monolithic file.
  * Performance Strategy : Include Tuning. Merge Files, for lower number of includes.
  *
- * @todo detect dependencies with get_required_files()
+ * @todo detect dependencies
+ * either with get_required_files() or extension inclued()
  *
  * 2) APC Compile Files
  */
@@ -56,10 +57,8 @@ class Clansuite_Preprocessor
 
     public static function empower_monolith()
     {
-        $content = file_get_contents(self::$monolith_filename);
-        $new_content = '<?php ' . $content;
-        $new_content .= '?>';
-        file_put_contents(self::$monolith_filename, $new_content);
+        $content = '<?php ' . file_get_contents(self::$monolith_filename) . '?>';
+        file_put_contents(self::$monolith_filename, $content);
     }
 
     /**
@@ -180,41 +179,6 @@ class Clansuite_Preprocessor
         $string = str_replace('<?php', '', $string);
 
         return $string;
-    }
-
-    /**
-     * Compile Files for APC ( Performance Strategy : File Priming)
-     * The function runs through each directory and compiles each *.php file through apc_compile_file
-     *
-     * @param string $dir start directory
-     */
-    public static function apc_compile_files($dir)
-    {
-        if(function_exists('apc_compile_file') == false)
-        {
-            trigger_error('ERROR: apc_compile_file does not exist!');
-            exit();
-        }
-
-        $dirs = glob($dir . DIRECTORY_SEPARATOR . '*', GLOB_ONLYDIR);
-
-        if(is_array($dirs) && count($dirs) > 0)
-        {
-            while(list(, $v) = each($dirs))
-            {
-                self::apc_compile_files($v); # ! recursion
-            }
-        }
-
-        $files = glob($dir . DIRECTORY_SEPARATOR . '*.php');
-
-        if(is_array($files) && count($files) > 0)
-        {
-            while(list(, $v) = each($files))
-            {
-                apc_compile_file($v);  # compile file with apc
-            }
-        }
     }
 }
 ?>
