@@ -49,6 +49,7 @@ if(defined('IN_CS') === false)
  */
 class Clansuite_Cache_APC implements Clansuite_Cache_Interface
 {
+
     public function __construct()
     {
         if(extension_loaded('apc') === false)
@@ -74,6 +75,7 @@ class Clansuite_Cache_APC implements Clansuite_Cache_Interface
      * @param string $key Identifier for the data
      * @param mixed $data Data to be cached
      * @param integer $cache_lifetime How long to cache the data, in seconds
+     * @param boolean $overwrite If overwrite true, key will be overwritten.
      * @return boolean True if the data was successfully cached, false on failure
      */
     public function store($key, $data, $cache_lifetime, $overwrite = false)
@@ -93,8 +95,9 @@ class Clansuite_Cache_APC implements Clansuite_Cache_Interface
     }
 
     /**
-     * Delete data by key from cache
+     * Removes a stored variable from the
      *
+     * @link http://php.net/manual/en/function.apc-delete.php
      * @param string $key Identifier for the data
      * @return int Number of keys deleted.
      */
@@ -114,13 +117,22 @@ class Clansuite_Cache_APC implements Clansuite_Cache_Interface
         return $keys_deleted;
     }
 
-    public function clear()
+    /**
+     * Clears the APC cache
+     *
+     * @link http://php.net/manual/en/function.apc-clear-cache.php
+     * @param string $cache_type [optional] <p>
+     * If cache_type is "user", the user cache will be cleared;
+     * otherwise, the system cache (cached files) will be cleared. </p>
+     * @return bool Returns true on success or false on failure.
+     */
+    public function clear($cache_type = null)
     {
-        return apc_clear_cache();
+        return apc_clear_cache($cache_type);
     }
 
     /**
-     * Contains checks if a key exists in the cache
+     * Checks if a key exists in the cache
      *
      * @param string $key Identifier for the data
      * @return boolean true|false
@@ -177,7 +189,7 @@ class Clansuite_Cache_APC implements Clansuite_Cache_Interface
         # Calculate "APC Hit Rate Percentage"
         $total_hits = ($apc_sysinfos['system_cache_info']['num_hits'] + $apc_sysinfos['system_cache_info']['num_misses']);
 
-         # div by zero fix
+        # div by zero fix
         if($total_hits == 0)
         {
             $total_hits = 1;
@@ -243,6 +255,51 @@ class Clansuite_Cache_APC implements Clansuite_Cache_Interface
         #$apc_sysinfos['sma_info']['size_vars']  = Clansuite_Functions::getsize($cache_user['mem_size']);
 
         return $apc_sysinfos;
+    }
+
+    /**
+     * Stores a file in the bytecode cache, bypassing all filters
+     *
+     * @link http://www.php.net/manual/en/function.apc-compile-file.php
+     * @param string $filename
+     * @return bool success
+     */
+    public function compile_file($filename)
+    {
+        return apc_compile_file($filename);
+    }
+
+    /**
+     * Stores a directory in the bytecode cache, bypassing all filters
+     *
+     * @param string $root
+     * @param bool   $recursively
+     * @return bool success
+     */
+    public function compile_dir($root, $recursively = true)
+    {
+        $compiled = true;
+
+        switch($recursively)
+        {
+            # compile files in subdirectories
+            # WATCH OUT ! RECURSION
+            case true:
+                foreach(glob($root . DS . '*', GLOB_ONLYDIR) as $dir)
+                {
+                    $compiled = $compiled && $this->compile_dir($dir, $recursively);
+                }
+
+            # compile files in root directory
+            case false:
+                foreach(glob($root . DS . '*.php') as $filename)
+                {
+                    $compiled = $compiled && $this->compile_file($filename);
+                }
+                break;
+        }
+
+        return $compiled;
     }
 }
 ?>
