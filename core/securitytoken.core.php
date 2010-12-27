@@ -38,7 +38,9 @@ if(defined('IN_CS') === false)
 
 /**
  * Clansuite_Securitytoken
- * managed a temporay secure token
+ *
+ * Manages generation of temporary security tokens.
+ * This is used to disable the maintenance mode.
  *
  * @author Paul Brand <info@isp-tenerife.net>
  *
@@ -48,7 +50,6 @@ if(defined('IN_CS') === false)
  */
 class Clansuite_Securitytoken
 {
-
     /**
      * @var string $_token
      */
@@ -64,34 +65,16 @@ class Clansuite_Securitytoken
      */
     private static $_tokenSavePath = 'cache/secure/';
 
-
-    /*
-     * Constructor
-     */
-    public function __construct()
+    public function generateTestToken()
     {
+        self::generateToken();
+        return self::getToken();
     }
 
-    public function generateTestToken( $generate=false )
-    {
-        if( true === $generate ) 
-        {
-            self::generateToken();
-            return self::getToken();
-        }
-    }
-
-    /*
-     * save the security token as a <token>.dat
-     */
-    public function ckeckToken($token=null)
-    {
-        if( null === $token ) return false;
-        return self::readToken($token);
-    }
-
-    /*
-     * returns the security token
+    /**
+     * Returns the security token.
+     *
+     * @return string Token.
      */
     public function getToken()
     {
@@ -99,46 +82,51 @@ class Clansuite_Securitytoken
     }
 
 
-    /*
-     * overides the token
+    /**
+     * Set a token
+     *
+     * @param string $token the token string.
      */
-    public function setToken( $token=null )
+    public function setToken($token=null)
     {
-        if( null === $token ) return false;
+        if(null === $token)
+        {
+            return false;
+        }
+
         self::$_token = $token;
     }
 
-
-    /*
-     * generates the security token
+    /**
+     * Generate a security token and saves it to file
      */
     protected function generateToken()
     {
-        self::$_token = md5( self::$_secure . time() );
+        self::$_token = md5(self::$_secure . time());
         self::saveToken(self::$_token);
     }
 
-
-    /*
+    /**
      * saved the security token as a <token>.dat
+     *
+     * @param string $token Token String.
      */
-    protected function saveToken( $token )
+    protected function saveToken($token)
     {
-        $filename = $token.'.dat';
+        $filename = $token . '.dat';
 
-        if( !file_exists( ROOT . self::$_tokenSavePath.$filename ) )
+        if(false === file_exists(ROOT . self::$_tokenSavePath . $filename))
         {
-            if (!$filehandle = fopen( ROOT . self::$_tokenSavePath.$filename, 'wb' ))
+            if(!$filehandle = fopen(ROOT . self::$_tokenSavePath . $filename, 'wb'))
             {
-                echo _('Could not open file: '.$filename);
+                echo _('Could not open file: ' . $filename);
                 return false;
             }
 
-            if (fwrite($filehandle, $token ) == false)
+            if(fwrite($filehandle, $token) == false)
             {
-                echo _('Could not write to file: '. $filename);
+                echo _('Could not write to file: ' . $filename);
                 return false;
-
             }
             fclose($filehandle);
         }
@@ -146,21 +134,22 @@ class Clansuite_Securitytoken
         return true;
     }
 
-    /*
-     * save the security token as a <token>.dat
+    /**
+     * Read a security token
+     *
+     * @param string $token
+     * @return boolean
      */
-    protected function readToken( $token=null )
+    protected function readToken($token)
     {
-        if( null === $token ) return false;
-        if( file_exists( ROOT . self::$_tokenSavePath.$token.'.dat' ))
+        if(file_exists(ROOT . self::$_tokenSavePath . $token . '.dat'))
         {
             return true;
         }
-        else {
+        else
+        {
             return false;
         }
     }
-
-
 }
 ?>
