@@ -25,6 +25,10 @@ function smarty_block_tabpanel($params, $content, $smarty, &$repeat)
 {
     $name = isset($params['name']) ? $params['name'] : '1';
 
+    # replace whitespaces with underscore
+    # else javascript selection will not work properly
+    $name = str_replace(' ', '_', $name);
+
     # Initialize
     # @todo addJavascript('header', 'once', $js)
     # @todo addCss('once', $css);
