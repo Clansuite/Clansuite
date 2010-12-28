@@ -113,7 +113,7 @@ class PHP_CodeSniffer_Standards_Clansuite_ClansuiteCodingStandard extends PHP_Co
                      'Squiz/Sniffs/WhiteSpace/SemicolonSpacingSniff.php',
                      # Spaces before+after Scope Keywords
                      'Squiz/Sniffs/WhiteSpace/ScopeKeywordSpacingSniff.php',
-                     # Checks that no whitespace proceeds the first content of the file, 
+                     # Checks that no whitespace proceeds the first content of the file,
                      # exists after the last content of the file, resides after content on any line, or are two empty lines in functions.
                      'Squiz/Sniffs/WhiteSpace/SuperfluousWhitespaceSniff.php',
 
@@ -127,7 +127,7 @@ class PHP_CodeSniffer_Standards_Clansuite_ClansuiteCodingStandard extends PHP_Co
 
               # VersionControl -> SVN
                      # Tests that the correct Subversion properties are set.
-                     'Generic/Sniffs/VersionControl/SubversionPropertiesSniff.php',
+                     #'Generic/Sniffs/VersionControl/SubversionPropertiesSniff.php',
 
               # CSS
                      //'Squiz/Sniffs/CSS',
