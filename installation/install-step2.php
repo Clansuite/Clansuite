@@ -121,13 +121,11 @@ if (defined('IN_CS') === false)
 
                          # REQUIRED CHECKS
 
-
-
                          # Setting: PHP-Version
-                         $php_version    = phpversion();
-                         $compare_result = version_compare($php_version, '5.2.3','>=');
+                         $required_php_version = '5.3';
+                         $compare_result = version_compare(PHP_VERSION, $required_php_version,'>=');
                          $required['php_version']['text']       = $language['PHP_VERSION'];
-                         $required['php_version']['expected']   = '>= 5.2.3';
+                         $required['php_version']['expected']   = '>= ' . $required_php_version;
                          $required['php_version']['actual']     = $php_version;
                          $required['php_version']['status']     = empty($compare_result) ? SETTING_FALSE : SETTING_TRUE;
 
