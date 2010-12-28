@@ -104,7 +104,7 @@ class Clansuite_CMS
         #if ( is_file( 'installation/install.php') === true ) { header( 'Location: installation/check_security.php'); exit; }
 
         # PHP Version Check
-        $REQUIRED_PHP_VERSION = '5.2.3';
+        $REQUIRED_PHP_VERSION = '5.3';
         if(version_compare(PHP_VERSION, $REQUIRED_PHP_VERSION, '<') === true)
         {
             die('Your PHP Version is <b><font color="#FF0000">' . PHP_VERSION . '</font></b>!
