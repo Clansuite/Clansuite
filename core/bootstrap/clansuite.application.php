@@ -427,6 +427,7 @@ class Clansuite_CMS
         # If Debug is enabled, set FULL error_reporting, else DISABLE it completely
         if(DEBUG == true)
         {
+            ini_set('max_execution_time', '300');
             ini_set('display_startup_errors', true);
             ini_set('display_errors', true);    # display errors in the browser
             error_reporting(E_ALL | E_STRICT);  # all errors and strict standard optimizations
