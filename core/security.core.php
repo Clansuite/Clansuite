@@ -54,56 +54,29 @@ if (defined('IN_CS') === false)
  * @package     Core
  * @subpackage  Security
  */
-class Clansuite_Security
+final class Clansuite_Security
 {
-    private $moduleconfig = null;
-
-    /**
-     * Init Class
-     *
-     * @param $config Clansuite_Config Object
-     */
-    function __construct( Clansuite_Config $config )
-    {
-        $this->moduleconfig = $config->readModuleConfig('account');
-    }
-
     /**
      * Checks whether a hashed password matches a stored salted+hashed password.
      *
-     * @param  string $passwordhash  The incomming hashed password. There is never a plain-text password incomming.
-     * @param  string $databasehash  The stored password. It's a salted hash.
-     * @param  string $salt          The salt from db.
+     * @param  string $passwordhash   The incomming hashed password. There is never a plain-text password incomming.
+     * @param  string $databasehash   The stored password. It's a salted hash.
+     * @param  string $salt           The salt from db.
+     * @param  string $hash_algorithm The hashing algorithm to use.
      *
      * @return boolean               true if the incomming hashed password matches the hashed+salted in db,
      *                               false otherwise
      */
-    public function check_salted_hash( $passwordhash, $databasehash, $salt )
+    public static function check_salted_hash( $passwordhash, $databasehash, $salt, $hash_algorithm )
     {
         # combine incomming $salt and $passwordhash (which is already sha1)
         $salted_string =  $salt . $passwordhash;
 
         # get hash_algo from config and generate hash from $salted_string
-        $hash = $this->generate_hash($this->moduleconfig['login']['hash_algorithm'], $salted_string);
+        $hash = self::generate_hash($hash_algorithm, $salted_string);
 
         # then compare
         return $databasehash === $hash;
-    }
-
-    /**
-     * Convenience/Proxy Method for check_salted_hash()
-     * Checks whether a hashed password matches a stored salted+hashed password.
-     *
-     * @param  string $passwordhash  The incomming hashed password.
-     * @param  string $databasehash  The stored password. It's a salted hash.
-     * @param  string $salt          The salt from db.
-     *
-     * @return boolean               true if the incomming hashed password matches the hashed+salted in db,
-     *                               false otherwise
-     */
-    public function checkPassword( $passwordhash, $databasehash, $salt )
-    {
-        return self::check_salted_hash( $passwordhash, $databasehash, $salt );
     }
 
     /**
@@ -120,10 +93,11 @@ class Clansuite_Security
      *    same, the random salt makes the difference while creating the hash.
      *
      * @param string A clear-text string, like a password "JohnDoe$123"
+     * @param string The hash algorithm to use.
      *
-     * @return $hash is an array, containing ['salt'] and ['hash']
+     * @return array $hash Array containing ['salt'] and ['hash']
      */
-    public function build_salted_hash( $string = '', $hash_algo = '')
+    public static function build_salted_hash( $string = '', $hash_algorithm = '')
     {
         # set up the array
         $salted_hash_array = array();
@@ -132,7 +106,7 @@ class Clansuite_Security
         # combine salt and string
         $salted_string =  $salted_hash_array['salt'] . $string;
         # generate hash from "salt+string" and place it into the array
-        $salted_hash_array['hash'] = $this->generate_hash($hash_algo, $salted_string);
+        $salted_hash_array['hash'] = $this->generate_hash($hash_algorithm, $salted_string);
         # return array with elements ['salt'], ['hash']
         return $salted_hash_array;
     }
@@ -149,27 +123,17 @@ class Clansuite_Security
      * @param $string String to build a HASH from
      * @param $hash_type Encoding to use for the HASH (sha1, md5) default = sha1
      *
-     * @return hashed string
+     * @return string The hashed string.
      */
-    public function generate_hash($hash_algo = null, $string = '')
+    public static function generate_hash($hash_algorithm = null, $string = '')
     {
-        # Get Config Value for Hash-Algo/Encryption
-        if($hash_algo == null)
-        {
-            $hash_algo = $this->moduleconfig['login']['hash_algorithm'];
-        }
-        else
-        {
-            $hash_algo = mb_strtolower($hash_algo);
-        }
-
         /**
          * check, if we can use skein_hash()
          *
          * therefore the php extension "skein" has to be installed.
          * website: http://www.skein-hash.info/downloads
          */
-        if (extension_loaded('skein') and ($hash_algo == 'skein'))
+        if (extension_loaded('skein') and ($hash_algorithm == 'skein'))
         {
             # get the binary 512-bits hash of string
             return skein_hash($string, 512);
@@ -178,11 +142,11 @@ class Clansuite_Security
         # check, if we can use hash()
         if (function_exists('hash'))
         {
-            return hash($hash_algo, $string);
+            return hash($hash_algorithm, $string);
         }
         else
         {   # when hash() not available, do hashing the old way
-            switch($hash_algo)
+            switch($hash_algorithm)
             {
                 case 'md5':
                     return md5($string);
@@ -203,7 +167,7 @@ class Clansuite_Security
      *
      * @return string Returns a string with random generated characters and numbers
      */
-    public function generate_salt($length)
+    public static function generate_salt($length)
     {
         # set salt to empty
         $salt = '';
@@ -219,7 +183,7 @@ class Clansuite_Security
             # get a random char of $chars
             $char_to_add = $chars[mt_rand(0,$number_of_random_chars)];
             # ensure that a random_char is not used twice in the salt
-            if(!mb_strstr($salt, $char_to_add))
+            if(mb_strstr($salt, $char_to_add) === false)
             {
                 # finally => add char to salt
                 $salt .= $char_to_add;
