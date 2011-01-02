@@ -224,7 +224,7 @@ class Clansuite_Loader
         'Clansuite_Datagrid_Column'           => $datagrid_dir . 'datagridcol.core.php',
         # /viewhelper/form
         'Clansuite_Form'                      => $form_dir . 'form.core.php',
-        'Clansuite_Formelement'               => $form_dir . 'formelement.core.php',        
+        'Clansuite_Formelement'               => $form_dir . 'formelement.core.php',
         'Clansuite_Formelement_Input'         => $form_dir . 'formelements' . DS . 'input.form.php',
         'Clansuite_Form_Decorator'            => $form_dir . 'formdecorator.core.php',
         'Clansuite_Formelement_Decorator'     => $form_dir . 'formdecorator.core.php',
@@ -259,7 +259,7 @@ class Clansuite_Loader
     public static function autoloadByMappingFile($classname)
     {
         # load the mapping file
-        self::loadMapFile();
+        self::$autoloader_map = self::readAutoloadingMap();
 
         if(isset(self::$autoloader_map[$classname]))
         {
@@ -274,8 +274,12 @@ class Clansuite_Loader
         }
     }
 
-
-
+    /**
+     * Loads a file by trying several paths
+     *
+     * @param $classname The classname to look for in the autoloading map.
+     * @return boolean True on file load, otherwise false.
+     */
     public static function autoloadTryPathsAndMap($classname)
     {
         # Start Classname to Filename Mapping
@@ -320,23 +324,6 @@ class Clansuite_Loader
         }
     }
 
-    public static function loadMapFile()
-    {
-        # check if file for the autoloading map exists
-        $file = ROOT_CONFIG . 'autoloader.config.php';
-        if(is_file($file) === false)
-        {
-            # file not existant, create it
-            $file_resource = fopen($file, 'a', false);
-            fclose($file_resource);
-            unset($file_resource);
-        }
-        else # load it
-        {
-            self::$autoloader_map = self::readAutoloadingMap();
-        }
-    }
-
     /**
      * Require File (and register it to the autoloading map file)
      *
@@ -366,7 +353,7 @@ class Clansuite_Loader
         {
             include $filename;
 
-            if(null === $classname) # just file included
+            if(null === $classname) # just a file include, classname unimportant
             {
                 return true;
             }
@@ -386,7 +373,6 @@ class Clansuite_Loader
     }
 
     /**
-     * writeAutoloadingMap($array)
      * Writes the autoload mapping data (the relation of a classname to a filename) into a file.
      * The target file is ROOT.'configuration/'.self::$autoloader
      * The content to be written is an associative array $array consisting of the old mapping array appended by a new mapping.
@@ -396,7 +382,20 @@ class Clansuite_Loader
      */
     private static function writeAutoloadingMap($array)
     {
-        file_put_contents(ROOT_CONFIG . 'autoloader.config.php', serialize($array));
+        $mapfile = ROOT_CONFIG . 'autoloader.config.php';
+
+        if(is_writable($mapfile))
+        {
+            $bytes_written = file_put_contents($mapfile, serialize($array));
+            if($bytes_written === false)
+            {
+                trigger_error('Autoloader could not write the map cache file: ' . $mapfile, E_USER_ERROR);
+            }
+        }
+        else
+        {
+            trigger_error('Autoload cache file not writable: ' . $mapfile, E_USER_ERROR);
+        }
     }
 
     /**
@@ -406,8 +405,23 @@ class Clansuite_Loader
      */
     private static function readAutoloadingMap()
     {
-        # Note: delete the autoloader.config.php file, if you get an unserialization error like "error at offset xy"
-        return unserialize(file_get_contents(ROOT_CONFIG . 'autoloader.config.php'));
+        # check if file for the autoloading map exists
+        $mapfile = ROOT_CONFIG . 'autoloader.config.php';
+
+        if(is_file($mapfile) === false)
+        {
+            # create file, if not existant
+            $file_resource = fopen($mapfile, 'a', false);
+            fclose($file_resource);
+            unset($file_resource);
+
+            return array();
+        }
+        else # load map from file
+        {
+            # Note: delete the autoloader.config.php file, if you get an unserialization error like "error at offset xy"
+            return unserialize(file_get_contents($mapfile));
+        }
     }
 
     /**
