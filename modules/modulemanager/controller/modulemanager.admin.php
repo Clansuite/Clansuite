@@ -55,9 +55,6 @@ class Clansuite_Module_Modulemanager_Admin extends Clansuite_Module_Controller
      */
     public function action_admin_show()
     {
-        # Permission check
-        #$perms::check('cc_show_menueditor');
-
         # Set Pagetitle and Breadcrumbs
         Clansuite_Breadcrumb::add( _('Show'), '/modulemanager/admin/show');
 
@@ -277,9 +274,6 @@ class Clansuite_Module_Modulemanager_Admin extends Clansuite_Module_Controller
      */
     public function action_admin_create()
     {
-        # Permission check
-        #$perms::check('cc_update_menueditor');
-
         # Set Pagetitle and Breadcrumbs
         Clansuite_Breadcrumb::add( _('Create'), '/modulemanager/admin/create');
 
@@ -583,7 +577,7 @@ class Clansuite_Module_Modulemanager_Admin extends Clansuite_Module_Controller
         $module['active'] = true;
         $module->save();
 
-        $this->flashMessage("Module has been activated. Please check the access levels!");
+        $this->setFlashmessage("Module has been activated. Please check the access levels!");
         $this->redirect('index.php?module=modulemangager');
     }
 
@@ -626,7 +620,7 @@ class Clansuite_Module_Modulemanager_Admin extends Clansuite_Module_Controller
     }
 
     /* -------------------------------------------------------------------------
-     *    MODULE INSTALLATION 
+     *    MODULE INSTALLATION
      * ----------------------------------------------------------------------- */
 
     /*
@@ -690,9 +684,9 @@ class Clansuite_Module_Modulemanager_Admin extends Clansuite_Module_Controller
         $modul['name'] = $modules_info['name'];
         $modul['title'] = ucfirst($modules_info['name']);
 
-        if(isset($modules_info['description'])) 
+        if(isset($modules_info['description']))
         {
-            $modul['description'] = $modules_info['description']; 
+            $modul['description'] = $modules_info['description'];
         }
         else {
             $modul['description'] = '';
@@ -795,21 +789,22 @@ class Clansuite_Module_Modulemanager_Admin extends Clansuite_Module_Controller
         return Clansuite_DoctrineTools::lastTableInsertId('CsModules', 'module_id');
     }
 
-    public function createModulAclFirstTime( $modules_info, $lastModuleID = null )
+    public function createModulAclFirstTime($modules_info, $lastModuleID = null)
     {
-        if( null === $lastModuleID ) return false;
+        if(null === $lastModuleID)
+        {
+            return false;
+        }
 
-        if( null !== $lastModuleID )
+        if(null !== $lastModuleID)
         {
             # write module-Id in config
             # @todo
-
             # *************** Section: acl ***************
-
             # read modules rights and prepare acl-array for DB includes (table: cs_acl_actions and cs_acl_rules)
-            if( isset( $modules_info['acl'] ) )
+            if(isset($modules_info['acl']))
             {
-                foreach( $modules_info['acl'] as $key=>$val  ) 
+                foreach($modules_info['acl'] as $key => $val)
                 {
                     //$lastid++;
                     # ---------------
@@ -819,6 +814,7 @@ class Clansuite_Module_Modulemanager_Admin extends Clansuite_Module_Controller
                     $resour->modulname = $modul['name'];
                     $resour->action = $key;
                     $resour->save();
+
                     $resource_id = $lastModuleID;
                     $lastResourceID = Clansuite_DoctrineTools::lastTableInsertId('CsAclActions', 'action_id');
 
@@ -830,9 +826,9 @@ class Clansuite_Module_Modulemanager_Admin extends Clansuite_Module_Controller
                     # role_id 4 = member
                     # role_id 5 = admin
                     # ---------------
-                    if($val == 'all' )
+                    if($val == 'all')
                     {
-                        for($i=1; $i<6; $i++)
+                        for($i = 1; $i < 6; $i++)
                         {
                             $rule = new CsAclRules();
                             $rule->role_id = $i;
@@ -841,34 +837,52 @@ class Clansuite_Module_Modulemanager_Admin extends Clansuite_Module_Controller
                             $rule->save();
                         }
                     }
-                    else {
-                        if( false !== mb_strpos( $val , '|' ) )
+                    else
+                    {
+                        if(false !== mb_strpos($val, '|'))
                         {
                             $perm = explode('|', $val);
-                            for($i=0; $i<count($perm); $i++)
+                            for($i = 0; $i < count($perm); $i++)
                             {
                                 $rule = new CsAclRules();
-                                switch($perm[$i]) {
-                                    case 'r':   $rule->role_id = 1; break;
-                                    case 'a':   $rule->role_id = 5; break;
-                                    case 'm':  $rule->role_id = 4; break;
-                                    case 'g':   $rule->role_id = 3; break;
-                                    case 'b':   $rule->role_id = 2; break;
+                                switch($perm[$i])
+                                {
+                                    case 'r': $rule->role_id = 1;
+                                        break;
+                                    case 'a': $rule->role_id = 5;
+                                        break;
+                                    case 'm': $rule->role_id = 4;
+                                        break;
+                                    case 'g': $rule->role_id = 3;
+                                        break;
+                                    case 'b': $rule->role_id = 2;
+                                        break;
                                 }
                                 $rule->action_id = $lastResourceID;
                                 $rule->access = 1;
                                 $rule->save();
                             }
                         }
-                        else {
+                        else
+                        {
                             //Clansuite_Debug::printR( $val );
                             $rule = new CsAclRules();
-                            switch($val) {
-                                case 'r':   $rule->role_id = 1; break;
-                                case 'a':   $rule->role_id = 5; break;
-                                case 'm':  $rule->role_id = 4; break;
-                                case 'g':   $rule->role_id = 3; break;
-                                case 'b':   $rule->role_id = 2; break;
+                            switch($val)
+                            {
+                                case 'r': $rule->role_id = 1;
+                                    break;
+                                case 'a':
+                                    $rule->role_id = 5;
+                                    break;
+                                case 'm':
+                                    $rule->role_id = 4;
+                                    break;
+                                case 'g':
+                                    $rule->role_id = 3;
+                                    break;
+                                case 'b':
+                                    $rule->role_id = 2;
+                                    break;
                             }
                             $rule->action_id = $lastResourceID;
                             $rule->access = 1;
@@ -877,18 +891,17 @@ class Clansuite_Module_Modulemanager_Admin extends Clansuite_Module_Controller
                     }
                 }
             }
-            else {
+            else
+            {
                 return false;
             }
         }
-        else {
+        else
+        {
             return false;
         }
 
         return true;
     }
-    # --------------------- end action_admin_installallmodulefirsttime ----------------------------- #
-
-
 }
 ?>

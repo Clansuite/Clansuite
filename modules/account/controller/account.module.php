@@ -138,7 +138,7 @@ class Clansuite_Module_Account extends Clansuite_Module_Controller
             self::checkLoginAttemps();
 
             # check whether user_id + password match
-            $user_id = $user->checkUser($this->moduleconfig['login']['login_method'], $value, $password);
+            $user_id = $user->checkUser( $this->moduleconfig['login']['login_method'], $value, $password );
 
             # proceed if true
             if ($user_id != false)
@@ -147,9 +147,9 @@ class Clansuite_Module_Account extends Clansuite_Module_Controller
                 $user->loginUser( $user_id, $remember_me, $password );
 
                 # register hook for onLogin and pass the user object as context
-                $this->triggerEvent('onLogin', $this->user);
+                #$this->triggerEvent('onLogin', $user);
 
-                $this->flashmessage('success', _('You logged in successfully.'));
+                $this->setFlashmessage('success', _('You logged in successfully.'));
 
                 $this->redirectToReferer();
             }
@@ -210,7 +210,7 @@ class Clansuite_Module_Account extends Clansuite_Module_Controller
         {
             # log the user OUT
             $this->getInjector()->instantiate('Clansuite_User')->logoutUser();
-            $this->flashmessage('success', _('Logout successfull. Have a nice day. Goodbye.'));
+            $this->setFlashmessage('success', _('Logout successfull. Have a nice day. Goodbye.'));
             $this->redirect(WWW_ROOT, 3, 200);
             exit();
         }
@@ -226,7 +226,6 @@ class Clansuite_Module_Account extends Clansuite_Module_Controller
     public function action_register()
     {
         # Request Controller
-        $security = $this->getInjector()->instantiate('Clansuite_Security');
         $config = $this->getInjector()->instantiate('Clansuite_Config');
 
         // Input filter
@@ -322,7 +321,7 @@ class Clansuite_Module_Account extends Clansuite_Module_Controller
             if ( count($error) == 0  )
             {
                 // Generate activation code & salted hash
-                $hashArray = $security->build_salted_hash($pass);
+                $hashArray = Clansuite_Security::build_salted_hash($pass);
                 $hash = $hashArray['hash'];
                 $salt = $hashArray['salt'];
 
@@ -384,7 +383,7 @@ class Clansuite_Module_Account extends Clansuite_Module_Controller
         #$input = $this->getInjector()->instantiate('input');
 
         // Input filter
-        $input = $this->getInjector()->instantiate('Clansuite_Inputfilter'); 
+        $input = $this->getInjector()->instantiate('Clansuite_Inputfilter');
 
         // Get Inputvariables from $_POST
         $email  = $this->request->getParameter('email');
@@ -475,7 +474,7 @@ class Clansuite_Module_Account extends Clansuite_Module_Controller
     public function action_activate_account()
     {
         // Input filter
-        $input = $this->getInjector()->instantiate('Clansuite_Inputfilter'); 
+        $input = $this->getInjector()->instantiate('Clansuite_Inputfilter');
 
         # Inputvariables
         $user_id = (int) $this->request->getParameterFromGet('user_id');
@@ -484,14 +483,14 @@ class Clansuite_Module_Account extends Clansuite_Module_Controller
         $email  = $this->request->getParameterFromGet('email');
         if ( !$input->check( $email, 'is_email' ) )
         {
-            $this->flashmessage( 'error', _('The given email is not valid!.') );
+            $this->setFlashmessage( 'error', _('The given email is not valid!.') );
         }
 
         # Activation code is wrong
         if ( !$code )
         {
             #$error->show( _( 'Code Failure' ), _('The given activation code is wrong. Please make sure you copied the whole activation URL into your browser.'), 2 );
-            $this->flashmessage( 'error', _('The given activation code is wrong. Please make sure you copied the whole activation URL into your browser.') );
+            $this->setFlashmessage( 'error', _('The given activation code is wrong. Please make sure you copied the whole activation URL into your browser.') );
             return;
         }
 
@@ -507,20 +506,20 @@ class Clansuite_Module_Account extends Clansuite_Module_Controller
             # Account already activated
             if ( $result['activated'] == 1 )
             {
-                $this->flashmessage('error', 'This account has been already activated.');
+                $this->setFlashmessage('error', 'This account has been already activated.');
                 $this->redirectToReferer();
             }
             else # activate this account
             {
                 Doctrine_Query::create()->update('CsUsers')->set('activated', 1)->where('user_id', $user_id);
-                $this->flashmessage('success', _('Your account has been activated successfully. You may now login.'));
+                $this->setFlashmessage('success', _('Your account has been activated successfully. You may now login.'));
                 $this->redirectToReferer();
             }
         }
         else
         {
             # Activation Code not matching user_id
-            $this->flashmessage('error', _('The activation code does not match to the given user id'));
+            $this->setFlashmessage('error', _('The activation code does not match to the given user id'));
             $this->redirectToReferer();
         }
     }
@@ -533,9 +532,8 @@ class Clansuite_Module_Account extends Clansuite_Module_Controller
         #$validation = $this->getInjector()->instantiate('Clansuite_Validation');
 
         // Input filter
-        $input = $this->getInjector()->instantiate('Clansuite_Inputfilter'); 
+        $input = $this->getInjector()->instantiate('Clansuite_Inputfilter');
 
-        $security = $this->getInjector()->instantiate('Clansuite_Security');
         $error = array();
 
         $email = $this->request->getParameter('email');
@@ -581,7 +579,7 @@ class Clansuite_Module_Account extends Clansuite_Module_Controller
                         if ( count($error) == 0 )
                         {
                             // Generate activation code & salted hash
-                            $hashArr = $security->build_salted_hash($pass);
+                            $hashArr = Clansuite_Security::build_salted_hash($pass);
                             $hash = $hashArr['hash'];
                             $salt = $hashArr['salt'];
 
@@ -631,7 +629,7 @@ class Clansuite_Module_Account extends Clansuite_Module_Controller
         if ( !$code )
         {
             #$this->error( _( 'Code Failure: The given activation code is wrong. Please make sure you copied the whole activation URL into your browser.') );
-            $this->flashmessage( 'error', _( 'Code Failure: The given activation code is wrong. Please make sure you copied the whole activation URL into your browser.') );
+            $this->setFlashmessage( 'error', _( 'Code Failure: The given activation code is wrong. Please make sure you copied the whole activation URL into your browser.') );
             return;
         }
 
@@ -647,7 +645,7 @@ class Clansuite_Module_Account extends Clansuite_Module_Controller
             if ( empty($result->new_passwordhash) )
             {
                 #$this->error( _( 'Already: There has been no password reset requested.'));
-                $this->flashmessage( 'error', _( 'Already: There has been no password reset requested.') );
+                $this->setFlashmessage( 'error', _( 'Already: There has been no password reset requested.') );
                 return;
             }
             else
@@ -669,7 +667,7 @@ class Clansuite_Module_Account extends Clansuite_Module_Controller
         else
         {
             #$this->error( _( 'Code Failure: The activation code does not match to the given user id') );
-            $this->flashmessage( 'error', _( 'Code Failure: The activation code does not match to the given user id') );
+            $this->setFlashmessage( 'error', _( 'Code Failure: The activation code does not match to the given user id') );
             return;
         }
     }
@@ -680,7 +678,7 @@ class Clansuite_Module_Account extends Clansuite_Module_Controller
     private function _send_activation_email($email, $nick, $user_id, $code)
     {
         $config = $this->getClansuiteConfig();
-        
+
         $this->getInjector()->register('Clansuite_Mailer');
         $mailer = $this->getInjector()->instantiate('Clansuite_Mailer');
 
@@ -712,9 +710,9 @@ class Clansuite_Module_Account extends Clansuite_Module_Controller
      * Send a link to validate new password
      */
     private function _send_password_email($email, $nick, $user_id, $code)
-    {   
+    {
         $config = $this->getClansuiteConfig();
-        
+
         $this->getInjector()->register('Clansuite_Mailer');
         $mailer = $this->getInjector()->instantiate('Clansuite_Mailer');
 
@@ -862,7 +860,7 @@ class Clansuite_Module_Account extends Clansuite_Module_Controller
         # get id
         #$user_id = $this->request->getParameter('id');
         $user_id = 2;
-        
+
         # fetch userdata
         $data = Doctrine::getTable('CsUsers')->fetchSingleUserData($user_id);
 
