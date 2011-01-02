@@ -347,6 +347,23 @@ class Clansuite_Renderer_Smarty extends Clansuite_Renderer_Base
     }
 
     /**
+     * Checks if a template is cached.
+     *
+     * @param string $template the resource handle of the template file or template object
+     * @param mixed $cache_id cache id to be used with this template
+     * @param mixed $compile_id compile id to be used with this template
+     * @return boolean Returns true in case the template is cached, false otherwise.
+     */
+    public function isCached($template, $cache_id = null, $compile_id = null)
+    {
+        if($this->renderer->isCached($template, $cache_id, $compile_id))
+        {
+            return true;
+        }
+        return false;
+    }
+
+    /**
      * Magic Method to get a already set/assigned Variable from Smarty
      *
      * @param string $key Name of Variable
@@ -392,24 +409,54 @@ class Clansuite_Renderer_Smarty extends Clansuite_Renderer_Base
 
     /**
      * Executes the template fetching and returns the result.
+     *
+     * @param string|object $template the resource handle of the template file  or template object
+     * @param mixed $cache_id cache id to be used with this template
+     * @param mixed $compile_id compile id to be used with this template
+     * @param object $parent next higher level of Smarty variables
+     * @param boolean $display Renders the template content on true.
+     * @return Returns the $template content.
      */
-    public function fetch($template, $data = null)
+    public function fetch($template, $cache_id = null, $compile_id = null, $parent = null, $display = false)
     {
         # asks the parent class (renderer.base.core) for the template path
         $template = $this->getTemplatePath($template);
 
-        return $this->renderer->fetch($template, $data = null);
+        # create cache_id
+        if($cache_id === null)
+        {
+            $cache_id = $this->createCacheId();
+        }
+
+        return $this->renderer->fetch($template, $cache_id, $compile_id, $parent, $display);
     }
 
     /**
-     * Executes the template rendering and displays the result
+     * Creates a cache_id.
+     *
+     * @return string Returns md5 string as cache_id.
      */
-    public function display($template, $data = null)
+    protected static function createCacheId()
     {
-        # asks the parent class (renderer.base.core) for the template path
-        $template = $this->getTemplatePath($template);
+        $module    = Clansuite_TargetRoute::getModuleName();
+        $submodule = Clansuite_TargetRoute::getSubModuleName();
+        $action    = Clansuite_TargetRoute::getActionName();
 
-        $this->renderer->display($template, $data = null);
+        return md5(strtolower($module . $submodule . $action));
+    }
+
+    /**
+     * Executes the template rendering and displays the result.
+     *
+     * @param string|object $template the resource handle of the template file  or template object
+     * @param mixed $cache_id cache id to be used with this template
+     * @param mixed $compile_id compile id to be used with this template
+     * @param object $parent next higher level of Smarty variables
+     */
+    public function display($template, $cache_id = null, $compile_id = null, $parent = null)
+    {
+        # redirect to fetch, but set display to true
+        $this->fetch($template, $cache_id, $compile_id, $parent, true);
     }
 
     /**
@@ -478,28 +525,25 @@ class Clansuite_Renderer_Smarty extends Clansuite_Renderer_Base
         $this->renderer->assignGlobal('actionname', Clansuite_TargetRoute::getActionName());
         $this->renderer->assignGlobal('templatename', $template);
 
-        # @todo caching
-        //$resource_name = ???, $cache_id = ???, $compile_id = ???
-
         /**
          * Rendering depends on the RenderMode
          *
          * If the modulecontent should be rendered in a layout (LAYOUT) or without a layout (NOLAYOUT).
          */
-        if($this->getRenderMode() == 'NOLAYOUT')
+        if($this->getRenderMode() === 'NOLAYOUT')
         {
-            return $this->renderer->fetch($template);
+            return $this->fetch($template);
         }
 
-        if($this->getRenderMode() == 'LAYOUT')
+        if($this->getRenderMode() === 'LAYOUT')
         {
             # ensure that smarty tags {$content} and {copyright} are present in the layout template
             if(true === $this->preRenderChecks())
             {
                 # assign the modulecontent
-                $this->assign('content', $this->renderer->fetch($template));
+                $this->assign('content', $this->fetch($template));
 
-                return $this->renderer->fetch($this->getLayoutTemplate());
+                return $this->fetch($this->getLayoutTemplate());
             }
         }
     }
