@@ -53,95 +53,96 @@
 <a name="top"></a>
 
 <div id="csPagepane">
-	<div id="csPageaera">
+    <div id="csPageaera">
 
-			{* Header Table *}
-		<div id="csHeader">
-			<img alt="Clansuite Header" src="{$www_root_themes_frontend}standard/images/clansuite-header.png" width="760" height="175" />
-		</div>
+            {* Header Table *}
+        <div id="csHeader">
+            <img alt="Clansuite Header" src="{$www_root_themes_frontend}standard/images/clansuite-header.png" width="760" height="175" />
+        </div>
 
-		<!-- Main Table -->
-		<div id="csMain">
+        <!-- Main Table -->
+        <div id="csMain">
 
-			<table cellspacing="0" cellpadding="0" width="100%">
+            <table cellspacing="0" cellpadding="0" width="100%">
 
-			{* Breadcrumb *}
-			<tr class="csTopNav">
-				<td colspan="3">{include file='breadcrumbs.tpl'}</td>
-			</tr>
+            {* Breadcrumb *}
+            <tr class="csTopNav">
+                <td colspan="3">{include file='breadcrumbs.tpl'}</td>
+            </tr>
 
-			<tr>
-				<!-- Left Widget Bar -->
-				<td id="csTableleft" class="cell1 size9">
-					<div class="widget size9" id="widget_menu">{load_module name="menu" action="widget_menu"}</div>
-					<div class="widget size9" id="widget_latestnews">{load_module name="news" action="widget_latestnews"}</div>
-					<div class="widget size9" id="widget_newscategories_list">{load_module name="news" action="widget_newscategories_list"}</div>
-					<div class="widget size9" id="widget_newscategories_dropdown">{load_module name="news" action="widget_newscategories_dropdown"}</div>
-					<div class="widget size9" id="widget_newsfeeds">{load_module name="news" action="widget_newsfeeds"}</div>
-					<div class="widget size9" id="widget_newsarchive">{load_module name="news" action="widget_archive"}</div>
-				</td>
+            <tr>
+                <!-- Left Widget Bar -->
+                <td id="csTableleft" class="cell1 size9">
+                    <div class="widget size9" id="widget_menu">{load_module name="menu" action="widget_menu"}</div>
+                    <div class="widget size9" id="widget_latestnews">{load_module name="news" action="widget_latestnews"}</div>
+                    <div class="widget size9" id="widget_newscategories_list">{load_module name="news" action="widget_newscategories_list"}</div>
+                    <div class="widget size9" id="widget_newscategories_dropdown">{load_module name="news" action="widget_newscategories_dropdown"}</div>
+                    <div class="widget size9" id="widget_newsfeeds">{load_module name="news" action="widget_newsfeeds"}</div>
+                    <div class="widget size9" id="widget_newsarchive">{load_module name="news" action="widget_archive"}</div>
+                </td>
 
-				<!-- Middle + Center = Main Content -->
-				<td id="csTablecenter" class="cell1 size10">
-					<div id="csCol3_content">
-						{$content}
-					</div>
-				</td>
+                <!-- Middle + Center = Main Content -->
+                <td id="csTablecenter" class="cell1 size10">
+                    <div id="csCol3_content">
+                        {$content}
+                    </div>
+                </td>
 
-				<!-- Right Widget Bar -->
-				<td id="csTableright" class="cell1 size9">
-					<div class="mt5 mb10" align="center">{addtoany}</div>
+                <!-- Right Widget Bar -->
+                <td id="csTableright" class="cell1 size9">
+                    <div class="mt5 mb10" align="center">{addtoany}</div>
 
-					{if $smarty.session.user.user_id == 0}
-					{* <div class="widget size9" id="widget_usercenter">{load_module name="user" action="widget_usercenter"}</div> *}
-					{else}
-					<div class="widget size9" id="widget_login">{load_module name="account" action="widget_login"}</div>
-					{/if}
+     {* User not 0 (guest) as id and is authed *}
+                    {if $smarty.session.user.user_id != 0 and $smarty.session.user.authed == 1}
+                    <div class="widget size9" id="widget_usercenter">{load_module name="user" action="widget_usercenter"}</div> *}
+                    {else}
+                    <div class="widget size9" id="widget_login">{load_module name="account" action="widget_login"}</div>
+                    {/if}
 
-					<div class="widget size9" id="widget_ts3viewer">{load_module name="teamspeakviewer" action="widget_ts3viewer"}</div>
-					<div class="widget size9" id="widget_about">{load_module name="about" action="widget_about"}</div>
-					{if true == {check_permission name="toolbox.widget_toolbox"}}
-					<div class="widget size9" id="widget_cssbuilder">{load_module name="toolbox" action="widget_toolbox"}</div>
-					{/if}
-				</td>
-			</tr>
-			</table>
-		</div>
+                    <div class="widget size9" id="widget_ts3viewer">{load_module name="teamspeakviewer" action="widget_ts3viewer"}</div>
+                    <div class="widget size9" id="widget_about">{load_module name="about" action="widget_about"}</div>
+                    {if true == {check_permission name="toolbox.widget_toolbox"}}
+                    <div class="widget size9" id="widget_cssbuilder">{load_module name="toolbox" action="widget_toolbox"}</div>
+                    {/if}
+                </td>
+            </tr>
+            </table>
+        </div>
 
-		<!-- Footer -->
-		<div id="csFooter" class="cell1">
-			<div class="gridblock">
-				<div class="grid20l" id="widget_quotes">
-					<div class="gridcontent">&nbsp;</div>
-				</div>
+        <!-- Footer -->
+        <div id="csFooter" class="cell1">
+            <div class="gridblock">
+                <div class="grid20l" id="widget_quotes">
+                    <div class="gridcontent">&nbsp;</div>
+                </div>
 
-				<div class="grid20l " id="widget_lastregistered">
-					<div class="gridcontent">
-						{load_module name="users" action="widget_lastregisteredusers"}
-					</div>
-				</div>
+                <div class="grid20l " id="widget_lastregistered">
+                    <div class="gridcontent">
+                        {load_module name="users" action="widget_lastregisteredusers"}
+                    </div>
+                </div>
 
-				<div class="grid20l" id="widget_randomuser">
-					<div class="gridcontent">
-						{load_module name="users" action="widget_randomuser"}
-					</div>
-				</div>
+                <div class="grid20l" id="widget_randomuser">
+                    <div class="gridcontent">
+                        {load_module name="users" action="widget_randomuser"}
+                    </div>
+                </div>
 
-				<div class="grid20l" id="widget_usersonline">
-					<div class="gridcontent">
-						{load_module name="users" action="widget_usersonline"}
-					</div>
-				</div>
+                <div class="grid20l" id="widget_usersonline">
+                    <div class="gridcontent">
+                        {load_module name="users" action="widget_usersonline"}
+                    </div>
+                </div>
 
-				<div class="grid20r" id="widget_stats">
-					<div class="gridcontent">
-						{load_module name="statistics" action="widget_statistics"}
-					</div>
-				</div>
-			</div>
-		</div>
+                <div class="grid20r" id="widget_stats">
+                    <div class="gridcontent">
+                        {load_module name="statistics" action="widget_statistics"}
+                    </div>
+                </div>
+            </div>
+        </div>
 
-	</div>
+    </div>
 </div>
 
 {include file='copyright.tpl'}
