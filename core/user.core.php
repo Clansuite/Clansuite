@@ -1,5 +1,5 @@
 <?php
-/**
+   /**
     * Clansuite - just an eSports CMS
     * Jens-André Koch © 2005 - onwards
     * http://www.clansuite.com/
@@ -134,7 +134,7 @@ class Clansuite_User
                     #->select('u.*,g.*,o.*')
                     ->from('CsUsers u')
                     ->leftJoin('u.CsOptions o')
-                    ->leftJoin('u.CsGroups g')
+                    #->leftJoin('u.CsGroups g')
                     ->where('u.user_id = ?')
                     ->fetchOne(array($user_id), Doctrine::HYDRATE_ARRAY);
         }
@@ -145,7 +145,7 @@ class Clansuite_User
                     #->select('u.*,g.*,o.*')
                     ->from('CsUsers u')
                     ->leftJoin('u.CsOptions o')
-                    ->leftJoin('u.CsGroups g')
+                    #->leftJoin('u.CsGroups g')
                     ->where('u.email = ?')
                     ->fetchOne(array($email), Doctrine::HYDRATE_ARRAY);
         }
@@ -156,7 +156,7 @@ class Clansuite_User
                     #->select('u.*,g.*,o.*')
                     ->from('CsUsers u')
                     ->leftJoin('u.CsOptions o')
-                    ->leftJoin('u.CsGroups g')
+                    #->leftJoin('u.CsGroups g')
                     ->where('u.nick = ?')
                     ->fetchOne(array($nick), Doctrine::HYDRATE_ARRAY);
 
@@ -235,14 +235,13 @@ class Clansuite_User
             $_SESSION['user']['group'] = '';
             $_SESSION['user']['rights'] = '';
 
-            if ( isset($this->user['CsGroups']) && $this->user['CsGroups'] !== '' )
+            if ( false === empty($this->user['CsGroups']))
             {
-                $_SESSION['user']['group'] = $this->user['CsGroups']['group_id'];
-                $_SESSION['user']['role'] = $this->user['CsGroups']['role_id'];
-
-                $permstring = Clansuite_ACL::createRightSession( $_SESSION['user']['role'], $this->user['user_id'] );
-
-                $_SESSION['user']['rights'] = $permstring;
+                $_SESSION['user']['group']  = $this->user['CsGroups']['group_id'];
+                $_SESSION['user']['role']   = $this->user['CsGroups']['role_id'];
+                $_SESSION['user']['rights'] = Clansuite_ACL::createRightSession(
+                                                $_SESSION['user']['role'],
+                                                $this->user['user_id'] );
             }
 
             #Clansuite_Debug::firebug($_SESSION);
@@ -250,7 +249,7 @@ class Clansuite_User
         else
         {
             # this resets the $_SESSION['user'] array
-            Clansuite_GuestUser::getInstance();
+            Clansuite_GuestUser::instantiate();
 
             #Clansuite_Debug::firebug($_SESSION);
         }
@@ -271,7 +270,7 @@ class Clansuite_User
      *
      * @return int ID of User. If the user is found, the $user_id - otherwise false.
      */
-    public function checkUser($login_method = 'nick', $value, $passwordhash)
+    public function checkUser($login_method = 'nick', $value = null, $passwordhash = null)
     {
         $user = null;
 
@@ -286,6 +285,8 @@ class Clansuite_User
                     ->fetchOne(array($value), Doctrine::HYDRATE_ARRAY);
         }
 
+        #Clansuite_Debug::printR($user);
+
         # check if a given email exists
         if( $login_method == 'email' )
         {
@@ -297,11 +298,13 @@ class Clansuite_User
                     ->fetchOne(array($value), Doctrine::HYDRATE_ARRAY);
         }
 
-        # Fetch Clansuite_Security Helpers
-        $security = Clansuite_CMS::getInjector()->instantiate('Clansuite_Security');
+        $this->moduleconfig = $this->config->readModuleConfig('account');
 
         # if user was found, check if passwords match each other
-        if( (bool) $user == false and $security->check_salted_hash($passwordhash, $user['passwordhash'], $user['salt']) === null)
+        if( true === (bool) $user and
+            true === Clansuite_Security::check_salted_hash(
+            $passwordhash, $user['passwordhash'], $user['salt'],
+            $this->moduleconfig['login']['hash_algorithm']))
         {
             # ok, the user with nick or email exists and the passwords matched, then return the user_id
             return $user['user_id'];
@@ -397,12 +400,17 @@ class Clansuite_User
                     ->where('u.user_id = ?')
                     ->fetchOne(array((int) $_COOKIE['cs_cookie_user_id']), Doctrine::HYDRATE_ARRAY);
 
+            $this->moduleconfig = $this->config->readModuleConfig('account');
+
             /**
              * Proceed if match
              */
-
             if ( is_array($this->user) and
-                    $this->security->check_salted_hash( $_COOKIE['cs_cookie_password'], $this->user['passwordhash'], $this->user['salt'] ) &&
+                    Clansuite_Security::check_salted_hash(
+                            $_COOKIE['cs_cookie_password'],
+                            $this->user['passwordhash'],
+                            $this->user['salt'],
+                            $this->moduleconfig['login']['hash_algorithm']) and
                     $_COOKIE['cs_cookie_user_id'] == $this->user['user_id'] )
             {
                 # Update the cookie
@@ -526,9 +534,9 @@ class Clansuite_GuestUser
     /**
      * @return This object is a singleton.
      */
-    public static function getInstance()
+    public static function instantiate()
     {
-        if (null === self::$instance)
+        if(null === self::$instance)
         {
             self::$instance = new self;
         }
@@ -544,8 +552,8 @@ class Clansuite_GuestUser
          * Fill $_SESSION[user] with Guest-User-infos
          */
 
-        $_SESSION['user']['authed']         = 0;
-        $_SESSION['user']['user_id']        = 0;            # guest have user_id 0
+        $_SESSION['user']['authed']         = 0;  # guests are not authed
+        $_SESSION['user']['user_id']        = 0;  # guests have user_id 0
         $_SESSION['user']['nick']           = _('Guest');
 
         $_SESSION['user']['passwordhash']   = '';
@@ -591,12 +599,11 @@ class Clansuite_GuestUser
          */
 
         # Reset Groups
-        $_SESSION['user']['group'] = 1;
-        $_SESSION['user']['role'] = 3;
+        $_SESSION['user']['group'] = 1; # @todo hardcoded for now
+        $_SESSION['user']['role']  = 3;
 
         # Reset Rights
-        $permstring = Clansuite_ACL::createRightSession( $_SESSION['user']['role'] );
-        $_SESSION['user']['rights'] = $permstring;
+        $_SESSION['user']['rights'] = Clansuite_ACL::createRightSession( $_SESSION['user']['role'] );
 
         #Clansuite_Debug::printR($_SESSION);
         #Clansuite_Debug::firebug($_SESSION);
