@@ -41,7 +41,7 @@ require_once 'simpletest/extensions/junit_xml_reporter.php';
 class ClansuiteTestsuite extends TestSuite
 {
 
-    private $files;
+    private $files = array();
 
     function __construct()
     {
@@ -74,8 +74,6 @@ class ClansuiteTestsuite extends TestSuite
 
     public function scanDirForTests($dir)
     {
-        $this->files = array();
-
         if(is_dir($dir))
         {
             $sourcedir = opendir($dir);
