@@ -124,7 +124,7 @@ class Clansuite_Module_Staticpages_Admin extends Clansuite_Module_Controller
                 $page->iframe_height = $iframe_height;
                 $page-save();
 
-                $this->flashmessage('success', _( 'The Page successfully created.'));
+                $this->setFlashmessage('success', _( 'The Page successfully created.'));
                 $this->redirectToReferer();
             }
         }
@@ -197,7 +197,7 @@ class Clansuite_Module_Staticpages_Admin extends Clansuite_Module_Controller
                 $page->iframe_height = $info['iframe_height'];
                 $page->save();
      
-                $this->flashmessage('success', _( 'The page was successfully modified.' ));
+                $this->setFlashmessage('success', _( 'The page was successfully modified.' ));
                 $this->redirect('/controlcenter/staticpages&action=show');
             }
         }

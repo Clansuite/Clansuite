@@ -244,7 +244,7 @@ class Clansuite_Module_Guestbook_Admin extends Clansuite_Module_Controller
         }
         else
         {
-            $this->flashmessage('error', _('You do not have sufficient rights.'));
+            $this->setFlashmessage('error', _('You do not have sufficient rights.'));
         }
 
         $this->display();
@@ -305,7 +305,7 @@ class Clansuite_Module_Guestbook_Admin extends Clansuite_Module_Controller
             $guestbook->image_id    = $infos['image_id'];
             $guestbook->save();
 
-            $this->flashmessage('success', _( 'Guestbook entry created.'));
+            $this->setFlashmessage('success', _( 'Guestbook entry created.'));
 
             $this->redirectToReferer();
         }
