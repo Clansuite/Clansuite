@@ -4,7 +4,7 @@
 
 <div class="news_widget" id="widget_newscategoriesdropdown">
 
-    <h2 class="td_header"> {t}News Categories{/t}</h2>
+    <h2 class="menu_header"> {t}News Categories{/t}</h2>
     
     <div class="cell1">
     

@@ -164,7 +164,7 @@ class Clansuite_Inputfilter
         $r_bool  = false;
         $bools   = array();
         $a_types = array();
-        $a_types = split('[|]' ,$types);
+        $a_types = mb_split('[|]' ,$types);
 
         if(count($a_types) > 1)
         {

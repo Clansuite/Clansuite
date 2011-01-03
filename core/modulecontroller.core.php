@@ -458,7 +458,7 @@ abstract class Clansuite_Module_Controller
         # construct formname, classname, filename, load file, instantiate the form
         $classname = 'Clansuite_Form_' . $formname;
         $filename  = mb_strtolower($formname) . '.form.php';
-        $directory = ROOT_MOD . mb_strtolower($module) . DS . '/form/';
+        $directory = ROOT_MOD . mb_strtolower($module) . DS . 'form/';
         Clansuite_Loader::requireFile( $directory . $filename, $classname );
         $form = new $classname;
 

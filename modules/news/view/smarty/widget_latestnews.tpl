@@ -4,13 +4,13 @@
 
 <table class="latestnews_widget" width="100%" cellpadding="0" cellspacing="0">
     <tr>
-        <td class="td_header" colspan="2">
+        <td class="menu_header" colspan="2">
             {t}Recent news{/t}
         </td>
     </tr>
     <tr>
-        <td class="td_header_small">Titel</td>
-        <td class="td_header_small" width="70">Datum</td>
+        <td class="menu_header_small">Titel</td>
+        <td class="menu_header_small" width="70">Datum</td>
     </tr>
     {foreach item=news_item from=$widget_latestnews}
     <tr>
