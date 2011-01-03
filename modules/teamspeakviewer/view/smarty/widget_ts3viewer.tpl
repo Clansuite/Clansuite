@@ -2,7 +2,7 @@
 
 <!-- [Start] widget_ts3viewer @ module teamspeakviewer -->
 
-<div class="td_header">Teamspeak3 Viewer</div>
+<div class="menu_header">Teamspeak3 Viewer</div>
 
 <div class="cell1">
     <script type="text/javascript" charset="utf-8"

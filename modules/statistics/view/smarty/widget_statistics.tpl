@@ -2,7 +2,7 @@
 
 <table cellpadding="3" cellspacing="0" border="0" width="100%" align="center">
     <tr>
-        <td class="td_header" colspan="2">{t}Statistics{/t}</td>
+        <td class="menu_header" colspan="2">{t}Statistics{/t}</td>
     </tr>
     <tr>
         <td class="cell1">

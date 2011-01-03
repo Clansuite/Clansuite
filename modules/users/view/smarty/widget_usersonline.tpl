@@ -1,12 +1,12 @@
 {* Debug: *}
 
-{$usersonline|var_dump}
+{* {$usersonline|var_dump} *}
 
 <!-- Start: widget_usersonline @ module users // -->
 
 <table cellpadding="0" cellspacing="0" border="0" width="100%" align="center">
     <tr>
-        <td class="td_header" colspan="2">{t}User Online{/t}</td>
+        <td class="menu_header" colspan="2">{t}User Online{/t}</td>
     </tr>
     <tr>
         <td class="cell1">
