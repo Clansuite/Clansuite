@@ -102,11 +102,11 @@ final class Clansuite_Security
         # set up the array
         $salted_hash_array = array();
         # generate the salt with fixed length 6 and place it into the array
-        $salted_hash_array['salt'] = $this->generate_salt(6);
+        $salted_hash_array['salt'] = self::generate_salt(6);
         # combine salt and string
-        $salted_string =  $salted_hash_array['salt'] . $string;
+        $salted_string = $salted_hash_array['salt'] . $string;
         # generate hash from "salt+string" and place it into the array
-        $salted_hash_array['hash'] = $this->generate_hash($hash_algorithm, $salted_string);
+        $salted_hash_array['hash'] = self::generate_hash($hash_algorithm, $salted_string);
         # return array with elements ['salt'], ['hash']
         return $salted_hash_array;
     }
@@ -177,13 +177,13 @@ final class Clansuite_Security
         # set up the random chars to choose from
         $chars = './0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
         # count the number of random_chars
-        $number_of_random_chars = strlen($chars);
+        $number_of_random_chars = strlen($chars)-1;
         # add a char from the random_chars to the salt, until we got the wanted $length
-        for ($i=0; $i<$length; ++$i)        {
+        while(strlen($salt) < $length) {
             # get a random char of $chars
             $char_to_add = $chars[mt_rand(0,$number_of_random_chars)];
             # ensure that a random_char is not used twice in the salt
-            if(mb_strstr($salt, $char_to_add) === false)
+            if(strstr($salt, $char_to_add) === false)
             {
                 # finally => add char to salt
                 $salt .= $char_to_add;
