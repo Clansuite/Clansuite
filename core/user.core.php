@@ -161,6 +161,16 @@ class Clansuite_User
                     ->fetchOne(array($nick), Doctrine::HYDRATE_ARRAY);
 
         }
+        elseif( empty($nick) == false )
+        {
+            # Get the user from the nick
+            $this->user = Doctrine_Query::create()
+                    ->select('u.*,g.*')
+                    ->from('CsUsers u')
+                    ->leftJoin('u.CsGroups g')
+                    ->where('u.nick = ?')
+                    ->fetchOne(array($nick), Doctrine::HYDRATE_ARRAY);
+        }
 
         # check if this user is activated, else reset cookie, session and redirect
         if ( is_array($this->user) and $this->user['activated'] == 0 )
@@ -231,14 +241,28 @@ class Clansuite_User
              * Get Group & Rights of user_id
              */
 
+            /**
+                User-Datensatz beinhaltet ein CsGroups-Array
+                user => Array (
+                    [user_id] => 1
+                    ...
+                    [CsGroups] => Array (
+                        [0] => Array (
+                                [group_id] => 3
+                                ...
+                                [role_id] => 5
+                        )
+                    )
+                )
+             */
             # Initialize User Session Arrays
             $_SESSION['user']['group'] = '';
             $_SESSION['user']['rights'] = '';
 
             if ( false === empty($this->user['CsGroups']))
             {
-                $_SESSION['user']['group']  = $this->user['CsGroups']['group_id'];
-                $_SESSION['user']['role']   = $this->user['CsGroups']['role_id'];
+                $_SESSION['user']['group']  = $this->user['CsGroups'][0]['group_id'];
+                $_SESSION['user']['role']   = $this->user['CsGroups'][0]['role_id'];
                 $_SESSION['user']['rights'] = Clansuite_ACL::createRightSession(
                                                 $_SESSION['user']['role'],
                                                 $this->user['user_id'] );
@@ -420,7 +444,7 @@ class Clansuite_User
                 $this->createUserSession($this->user['user_id']);
 
                 # Update Session in DB
-                $this->sessionSetUserId();
+                $this->sessionSetUserId($this->user['user_id']);
             }
             else # Delete cookies, if no match
 

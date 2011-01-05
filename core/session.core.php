@@ -87,6 +87,8 @@ class Clansuite_Session implements Clansuite_Session_Interface, ArrayAccess
     {
         $this->config   = $config;
         $this->request  = $request;
+        $this->session_expire_time = $this->config['session']['session_expire_time']*60;
+        if( $this->session_expire_time == '' or $this->session_expire_time == 0 ) $this->session_expire_time = 60*60;
 
         /**
          * Configure Session
@@ -99,7 +101,7 @@ class Clansuite_Session implements Clansuite_Session_Interface, ArrayAccess
          * This will call the GC in 10% of the requests.
          * Calculation : gc_probability/gc_divisor = 1/10 = 0,1 = 10%
          */
-        ini_set('session.gc_maxlifetime', $this->config['session']['session_expire_time']);
+        ini_set('session.gc_maxlifetime', $this->session_expire_time);
         ini_set('session.gc_probability', 1 );
         ini_set('session.gc_divisor', 10 );
 
@@ -149,7 +151,7 @@ class Clansuite_Session implements Clansuite_Session_Interface, ArrayAccess
         }
 
         # Start Session
-        $this->startSession($this->config['session']['session_expire_time']);
+        $this->startSession($this->session_expire_time);
     }
 
     /**
@@ -315,7 +317,7 @@ class Clansuite_Session implements Clansuite_Session_Interface, ArrayAccess
      * @usage execution rate 1/100 (session.gc_probability/session.gc_divisor)
      * @return boolean
      */
-    public function session_gc($maxlifetime)
+    public function session_gc($maxlifetime=60)
     {
         if($maxlifetime == 0 )
         {
