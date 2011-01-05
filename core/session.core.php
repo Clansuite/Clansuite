@@ -51,28 +51,36 @@ if (defined('IN_CS') === false)
  */
 class Clansuite_Session implements Clansuite_Session_Interface, ArrayAccess
 {
-    #protected $session = null; # Set common session vars
-
-    const session_name = 'suiteSID'; # session_name contains the session name
+    const session_name = 'CsuiteSID'; # session_name contains the session name
 
     /**
+     * Session Expire time in seconds.
+     * 1800 seconds / 60 = 30 Minutes
+     *
      * @var integer
      */
-    public $session_expire_time     = 30; # Session Expire time in minutes
-    public $session_probability     = 30; # Probabliity of trashing the Session as percentage
+    public $session_expire_time = 1800;
+
+    /**
+     * Probabliity of trashing the Session as percentage.
+     * (This implies that gc_divisor is fixed to 100.)
+     *
+     * @var integer
+     */
+    public $session_probability = 10;
 
     /**
      * @var object
      */
-    private $request    = null;
+    private $request = null;
 
     /**
      * @var array
      */
-    private $config     = array();
+    private $config = array();
 
     /**
-     * This creates the session
+     * This creates the session.
      *
      * Injections:
      * Clansuite Main Configuration is needed for the configuration of session variables.
@@ -87,8 +95,16 @@ class Clansuite_Session implements Clansuite_Session_Interface, ArrayAccess
     {
         $this->config   = $config;
         $this->request  = $request;
-        $this->session_expire_time = $this->config['session']['session_expire_time']*60;
-        if( $this->session_expire_time == '' or $this->session_expire_time == 0 ) $this->session_expire_time = 60*60;
+
+        /**
+         * Set the Session Expire Time.
+         * The value comming from the clansuite config and is a minute value.
+         */
+        if(isset($this->config['session']['session_expire_time'])
+           and $this->config['session']['session_expire_time'] <= 60)
+        {
+            $this->session_expire_time = $this->config['session']['session_expire_time'] * 60;
+        }
 
         /**
          * Configure Session
@@ -99,11 +115,11 @@ class Clansuite_Session implements Clansuite_Session_Interface, ArrayAccess
         /**
          * Configure Garbage Collector
          * This will call the GC in 10% of the requests.
-         * Calculation : gc_probability/gc_divisor = 1/10 = 0,1 = 10%
+         * Calculation : gc_probability/gc_divisor = 10/100 = 0,1 = 10%
          */
         ini_set('session.gc_maxlifetime', $this->session_expire_time);
-        ini_set('session.gc_probability', 1 );
-        ini_set('session.gc_divisor', 10 );
+        ini_set('session.gc_probability', $this->session_probability);
+        ini_set('session.gc_divisor', 100 );
 
         # use_trans_sid off -> because spiders will index with PHPSESSID
         # use_trans_sid on  -> considered evil
@@ -157,7 +173,7 @@ class Clansuite_Session implements Clansuite_Session_Interface, ArrayAccess
     /**
      * Start Session and throw Error on failure
      */
-    private function startSession($time = 3600)
+    private function startSession($time = 1800)
     {
         # set cookie parameters
         session_set_cookie_params($time);
@@ -317,7 +333,7 @@ class Clansuite_Session implements Clansuite_Session_Interface, ArrayAccess
      * @usage execution rate 1/100 (session.gc_probability/session.gc_divisor)
      * @return boolean
      */
-    public function session_gc($maxlifetime=60)
+    public function session_gc($maxlifetime = 30)
     {
         if($maxlifetime == 0 )
         {
@@ -327,7 +343,7 @@ class Clansuite_Session implements Clansuite_Session_Interface, ArrayAccess
         /**
          * Determine Expiretime of Session
          *
-         * $maxlifetime is a minute time value, we get this from config settings ['session']('session_expire_time']
+         * $maxlifetime is a minute time value, we get this from $config['session']['session_expire_time']
          * $sessionLifetime is seconds
          */
         $sessionlifetime = $maxlifetime * 60;

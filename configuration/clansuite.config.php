@@ -138,7 +138,6 @@ registration_term = ""
 ;----------------------------------------
 [session]
 session_expire_time = 30
-session_name = "CSuite"
 check_browser = 0
 check_host = 0
 check_ip = 0
@@ -174,6 +173,6 @@ lifetime = 3600
 ;----------------------------------------
 [smarty]
 cache = 1
-cache_lifetime = 0
+cache_lifetime = 3600
 
 ; DO NOT REMOVE THIS LINE */ ?>
