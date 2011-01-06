@@ -40,10 +40,18 @@ function smarty_function_check_permission($params, $smarty)
                                 Please provide a name in the format "module.action".');
         return;
     }
+    else # we got a permission name like "news.action_show"
+    {
+        # split string by delimiter string
+        $array = explode('.', $params['name']);
+        $module = $array[0];
+        $permission = $array[1];
+    }
 
     # perform the permission check
-    if( false !== Clansuite_ACL::checkPermission( $params['name'] ) )
+    if( false !== Clansuite_ACL::checkPermission( $module, $permission ) )
     {
+        unset($array, $name, $permission);
         return true;
     }
     else

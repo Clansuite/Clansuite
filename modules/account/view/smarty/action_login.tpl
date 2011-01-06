@@ -8,16 +8,10 @@ function hashLoginPassword(theForm)
 </script>
 {/move_to}
 
-{* OLD ERRORS
-    {if $error.not_filled == 1}<p class="error">{t}Please fill out all required fields!{/t}</p>{/if}
-    {if $error.mismatch == 1}<p class="error">{t}This combination is not stored in our database!{/t}</p>{/if}
-    {if $error.login_attempts > 0}<p class="error">{t}Failed Attempts:{/t}{$error.login_attempts}</p>{/if}
-*}
-
     <table cellpadding="0" cellspacing="0" border="0" width="100%">
         <tr>
              <td class="td_header" colspan="2">
-                <form action="index.php?mod=account&action=login"
+                <form action="{$www_root}index.php?mod=account&action=login"
                       method="post"
                       id="block_login_form"
                       accept-charset="UTF-8"
@@ -71,9 +65,9 @@ function hashLoginPassword(theForm)
         </tr>
         <tr>
             <td colspan="2" class="cell1">
-                <a href="index.php?mod=account&action=register">{t}Not yet registered ?{/t}</a> <br />
-                <a href="index.php?mod=account&action=forgot_password">{t}Forgot password ?{/t}</a> <br />
-                <a href="index.php?mod=account&action=activation_email">{t}Did not get an activation email ?{/t}</a>
+                <a href="{$www_root}index.php?mod=account&action=register">{t}Not yet registered ?{/t}</a> <br />
+                <a href="{$www_root}index.php?mod=account&action=forgot_password">{t}Forgot password ?{/t}</a> <br />
+                <a href="{$www_root}index.php?mod=account&action=activation_email">{t}Did not get an activation email ?{/t}</a>
                 </form>
             </td>
         </tr>

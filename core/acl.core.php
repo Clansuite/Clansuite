@@ -26,7 +26,7 @@
     * @author     Jens-André Koch <vain@clansuite.com>
     * @copyright  Copyleft: All rights reserved. Jens-André Koch (2005 - onwards)
     * @link       http://www.clansuite.com
-    * 
+    *
     * @version    SVN: $Id: acm.class.php 4599 2010-08-27 21:01:58Z vain $
     */
 
@@ -47,31 +47,31 @@ if(defined('IN_CS') === false)
  */
 class Clansuite_ACL
 {
-    /* 
+    /*
      * Roles Container
      * @var array
      */
     private static $_roles = array();
 
-    /* 
+    /*
      * Resources Container
      * @var array
      */
     private static $_resources = array();
 
-    /* 
+    /*
      * Rules Container
      * @var array
      */
     private static $_rules = array();
 
-    /* 
+    /*
      * Rules Container
      * @var array
      */
     private static $_rulesOverflow = array();
 
-    /* 
+    /*
      * Permission Container
      * @var array
      */
@@ -87,42 +87,49 @@ class Clansuite_ACL
     {
     }
 
-    /* -----------------------------------------------------------------------------
-       Private Functions
-     -----------------------------------------------------------------------------*/
-
-    /*
-     * ----------------------------------------------------------------------------
+    /**
      * checkPermission
-     * ----------------------------------------------------------------------------
-     * Checked for one Modul the Action Permission
      *
-     * $permission = $modulname.$actionname
+     * Checks if the user has a certain permission
+     * Proxy Method for Clansuite_ACL::checkPermission()
+     *
+     * Two values are necessary the modulname and the name of the permission,
+     * which is often the actionname.
+     *
+     * @param $modulename string The modulename, e.g. 'news'.
+     * @param $permission string The permission name, e.g. 'action_show'.
+     * @return boolean True if the user has the permission, false otherwise.
+
      */
-    public static function checkPermission( $permission )
+    public static function checkPermission( $modul_name, $permission_name )
     {
-        if( $permission == '' )
-            return false;
-
-        if( $_SESSION['user']['rights'] == '' )
-            return false;
-
-        $perms = self::extractRightSession( $_SESSION['user']['rights'] );
-        #Clansuite_Debug::printR($perms);
-
-        if( count($perms) >0 )
+        # if we got no modulname or permission, we have no access
+        if( $module_name == '' or $permission_name == '' )
         {
-            foreach( $perms as $key => $value )
+            return false;
+        }
+        else
+        {
+            # combine the module and permission name to a string
+            $permission = '';
+            $permission = $module_name .'.'. $permission_name;
+        }
+
+        $permissions = self::extractRightsFromSession();
+
+        if(count($permissions) > 0)
+        {
+            foreach($permissions as $key => $value)
             {
-                #Clansuite_Debug::printR($value);
-                if( $value == $permission)
+                if($value == $permission)
                 {
                     return true;
                 }
             }
             return false;
         }
-        else {
+        else
+        {
             return false;
         }
     }
@@ -136,33 +143,44 @@ class Clansuite_ACL
     public static function createRightSession( $roleid, $userid = 0 )
     {
         $permstring = self::getPermissions( $roleid, $userid );
+
         if( $permstring !== '' )
         {
             return strtr(base64_encode(addslashes(gzcompress(serialize($permstring),9))), '+/=', '-_,');
         }
-        else {
+        else
+        {
             return '';
         }
     }
 
-    /*
-     * ----------------------------------------------------------------------------
-     * extractRightSession
-     * ----------------------------------------------------------------------------
-     * Make the Right-String for Session
+    /**
+     * extractRightsFromSession
+     *
+     * The Permissions/Rights Session value is found in
+     * $_SESSION['user']['rights']
+     * and contains a
+     * - base64_encoded and
+     * - gzcompressed and
+     * - compacted array value.
+     * This method will revert the string to a proper array.
+     *
+     * @return array Permissions array.
      */
-    public static function extractRightSession( $permstring = '' )
+    public static function extractRightsFromSession()
     {
-        if( $permstring == '' )
+        if(empty($_SESSION['user']['rights']))
+        {
             return array();
+        }
+        else # revert the session permission string to a proper array
+        {
+            $permstring = unserialize(gzuncompress(stripslashes(base64_decode(strtr($_SESSION['user']['rights'], '-_,', '+/=')))));
 
-        $permstr = unserialize(gzuncompress(stripslashes(base64_decode(strtr($permstring, '-_,', '+/=')))));
-        #Clansuite_Debug::printR($permstr);
+            $permstring = explode(',', $permstring);
 
-        $perms = explode( ',', $permstr );
-        #Clansuite_Debug::printR($perms);
-
-        return $perms;
+            return $permstring;
+        }
     }
 
 
@@ -170,7 +188,7 @@ class Clansuite_ACL
      * ----------------------------------------------------------------------------
      * getRoleList
      * ----------------------------------------------------------------------------
-     * 
+     *
      * give an array for column header or checkboxes
      *  e.g. if $title = false
      *    [1] = root
@@ -203,12 +221,6 @@ class Clansuite_ACL
         return $alist;
     }
 
-
-
-    /* -----------------------------------------------------------------------------
-       Private Functions
-     -----------------------------------------------------------------------------*/
-
     /*
      * ----------------------------------------------------------------------------
      * getPermissions
@@ -217,7 +229,9 @@ class Clansuite_ACL
     private static function getPermissions($roleid, $userid = 0)
     {
         if( $roleid == '' )
+        {
             return '';
+        }
 
         # --- initialize ---
         $permstring = '';
@@ -252,7 +266,7 @@ class Clansuite_ACL
             if( count( $uRules ) >0 )
             {
                 // @todo
-                
+
             }
         }
 

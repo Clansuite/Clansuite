@@ -64,7 +64,7 @@ class Clansuite_Formelement_Captcha extends Clansuite_Formelement implements Cla
     /**
      * Set the name of the captcha
      *
-     * @param <type> $captcha
+     * @param string $captcha The captcha name.
      * @return object Clansuite_Formelement_Captcha (THIS is not Clansuite_Formelement_Captcha_$captcha )
      */
     public function setCaptcha($captcha = null)
@@ -81,7 +81,6 @@ class Clansuite_Formelement_Captcha extends Clansuite_Formelement implements Cla
 
         return $this;
     }
-
 
     /**
      * @return string Name of the Captcha (without the captcha part) (like re, simple)

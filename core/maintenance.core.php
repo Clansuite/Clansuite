@@ -44,7 +44,7 @@ if(defined('IN_CS') === false)
  *
  * @category    Clansuite
  * @package     Core
- * @subpackage  XDebug
+ * @subpackage  Maintenance
  */
 class Clansuite_Maintenance
 {
@@ -54,7 +54,7 @@ class Clansuite_Maintenance
     private static $timeout;
     private static $filePath;
     private static $aText = array(
-        '1' => array( 
+        '1' => array(
                 'de' => array(
                         'title'         => 'Wartungsmodus',
                         'reason'     => 'Es werden Arbeiten an der Datenbankstruktur durchgef&uuml;hrt.',
@@ -70,7 +70,7 @@ class Clansuite_Maintenance
                         'min'          => 'minutes',
                        ),
              ),
-        '2' => array( 
+        '2' => array(
                 'de' => array(
                         'title'         => '',
                         'reason'     => '',
@@ -85,13 +85,13 @@ class Clansuite_Maintenance
 
     public function run( array $config, $filePath = null )
     {
-        self::$language = $config['language']['language'];
+        self::$language = $config['language']['default'];
 
         /*
          * read reason from $config
          */
         if( $config['mainteance']['reason'] == 0 )
-        { 
+        {
             self::$reason = 1;
         }
         else {
@@ -102,7 +102,7 @@ class Clansuite_Maintenance
          * read timeout from $config
          */
         if( $config['mainteance']['timeout'] == 0 )
-        { 
+        {
             self::$timeout   = 60;
         }
         else {
