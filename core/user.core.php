@@ -59,8 +59,6 @@ class Clansuite_User
      */
     private $config     = null;
 
-    private $input      = null;
-
     /**
      * Constructor
      *
@@ -92,9 +90,9 @@ class Clansuite_User
         }
 
         $userdata = Doctrine_Query::create()
-                        ->from('CsUsers')
+                        ->from('CsUsers u')
                         ->leftJoin('CsProfiles')
-                        ->where('CsUsers.user_id = ?')
+                        ->where('u.user_id = ?')
                         ->fetchOne(array($user_id), Doctrine::HYDRATE_ARRAY);
 
         if(is_array($userdata))
@@ -127,7 +125,7 @@ class Clansuite_User
          * 3) nick
          */
 
-        if( empty($user_id) == false )
+        if( empty($user_id) === false )
         {
             # Get the user from the user_id
             $this->user = Doctrine_Query::create()
@@ -138,7 +136,7 @@ class Clansuite_User
                     ->where('u.user_id = ?')
                     ->fetchOne(array($user_id), Doctrine::HYDRATE_ARRAY);
         }
-        elseif( empty($email) == false )
+        elseif( empty($email) === false )
         {
             # Get the user from the email
             $this->user = Doctrine_Query::create()
@@ -149,7 +147,7 @@ class Clansuite_User
                     ->where('u.email = ?')
                     ->fetchOne(array($email), Doctrine::HYDRATE_ARRAY);
         }
-        elseif( empty($nick) == false )
+        elseif( empty($nick) === false )
         {
             # Get the user from the nick
             $this->user = Doctrine_Query::create()
@@ -161,25 +159,16 @@ class Clansuite_User
                     ->fetchOne(array($nick), Doctrine::HYDRATE_ARRAY);
 
         }
-        elseif( empty($nick) == false )
-        {
-            # Get the user from the nick
-            $this->user = Doctrine_Query::create()
-                    ->select('u.*,g.*')
-                    ->from('CsUsers u')
-                    ->leftJoin('u.CsGroups g')
-                    ->where('u.nick = ?')
-                    ->fetchOne(array($nick), Doctrine::HYDRATE_ARRAY);
-        }
 
         # check if this user is activated, else reset cookie, session and redirect
-        if ( is_array($this->user) and $this->user['activated'] == 0 )
+        if(is_array($this->user) and $this->user['activated'] == 0)
         {
             $this->logoutUser();
 
             # redirect
-            Clansuite_CMS::getInjector()->instantiate('Clansuite_HttpResponse')
-            ->redirect('/account/activation_email', 5, 403, _('Your account is not yet activated.'));
+            Clansuite_CMS::getInjector()
+                    ->instantiate('Clansuite_HttpResponse')
+                    ->redirect('/account/activation_email', 5, 403, _('Your account is not yet activated.'));
         }
 
         /**
@@ -204,21 +193,28 @@ class Clansuite_User
             $_SESSION['user']['activated']      = $this->user['activated'];
 
             /**
-             * Language
+             * SetLanguage
              *
-             * first take user['language'], else standard language as defined by $this->config['->language
+             * At this position the language might already by set by
+             * the language_via_get filter. the language value set via GET
+             * precedes over the user config and the general config
+             * the full order is
+             * a) language_via_get filter
+             * a) user['language'] from database / personal user setting
+             * b) standard language / fallback as defined by $this->config['language']['default']
              */
-            if ( isset($_SESSION['user']['language_via_url']) == false )
+            if (false === isset($_SESSION['user']['language_via_url']))
             {
-                $_SESSION['user']['language'] = (!empty($this->user['language']) ? $this->user['language'] : $this->config['language']['language']);
+                $_SESSION['user']['language'] = (!empty($this->user['language']) ? $this->user['language'] : $this->config['language']['default']);
             }
 
             /**
              * Frontend-Theme
              *
              * first take standard theme as defined by $config->theme
+             * @todo remove $_REQUEST, frontend theme is selectable via frontend
              */
-            if ( isset($_REQUEST['theme']) == false )
+            if (false === isset($_REQUEST['theme']))
             {
                 $_SESSION['user']['frontend_theme'] = (!empty($this->user['frontend_theme']) ? $this->user['frontend_theme'] : $this->config['template']['frontend_theme']);
             }
@@ -275,7 +271,7 @@ class Clansuite_User
             # this resets the $_SESSION['user'] array
             Clansuite_GuestUser::instantiate();
 
-            #Clansuite_Debug::firebug($_SESSION);
+            #Clansuite_Debug::printR($_SESSION);
         }
     }
 
@@ -309,8 +305,6 @@ class Clansuite_User
                     ->fetchOne(array($value), Doctrine::HYDRATE_ARRAY);
         }
 
-        #Clansuite_Debug::printR($user);
-
         # check if a given email exists
         if( $login_method == 'email' )
         {
@@ -327,7 +321,8 @@ class Clansuite_User
         # if user was found, check if passwords match each other
         if( true === (bool) $user and
             true === Clansuite_Security::check_salted_hash(
-            $passwordhash, $user['passwordhash'], $user['salt'],
+            $passwordhash,
+            $user['passwordhash'], $user['salt'],
             $this->moduleconfig['login']['hash_algorithm']))
         {
             # ok, the user with nick or email exists and the passwords matched, then return the user_id
@@ -363,7 +358,7 @@ class Clansuite_User
         }
 
         /**
-         * 3. user_id is now inserted into the session without user_id
+         * 3. user_id is now inserted into the session
          * This transforms the so called Guest-Session to a User-Session
          */
         $this->sessionSetUserId($user_id);
@@ -418,6 +413,8 @@ class Clansuite_User
         # Check for login cookie
         if ( isset($_COOKIE['cs_cookie_user_id']) and isset($_COOKIE['cs_cookie_password']) )
         {
+            Clansuite_Module_Controller::initModel('users');
+
             $this->user = Doctrine_Query::create()
                     ->select('u.user_id, u.passwordhash, u.salt')
                     ->from('CsUsers u')
@@ -456,12 +453,14 @@ class Clansuite_User
     }
 
     /**
-     * Sets user_id to a session
+     * Sets user_id to current session
+     *
+     * @param $user_id int The user_id to set to the session.
      */
     public function sessionSetUserId($user_id)
     {
         $result = Doctrine_Query::create()
-                         ->select('*') // automatically set when left out
+                         ->select('user_id')
                          ->from('CsSession')
                          ->where('session_id = ?')
                          ->fetchOne(array( session_id() ));
@@ -479,27 +478,23 @@ class Clansuite_User
     }
 
     /**
-     * Checks a permission
+     * Checks if the user has a certain permission
+     * Proxy Method for Clansuite_ACL::checkPermission()
      *
-     * necesary 2 values ->  modulname and actionname
-     * e.g.
-     * $permission =  'action_show'
-     * $modulname = 'about'
+     * Two values are necessary the modulname and the name of the permission,
+     * which is often the actionname.
+     *
+     * @param $modulename string The modulename, e.g. 'news'.
+     * @param $permission string The permission name, e.g. 'action_show'.
+     * @return boolean True if the user has the permission, false otherwise.
      */
-    public static function hasAccess( $modulname = '', $permission = '' )
+    public static function hasAccess( $modulename = '', $permission = '' )
     {
-        if( $modulname == '' )
-            return false;
-
-        if( $permission == '' )
-            return false;
-
-        // returns true or false
-        return Clansuite_ACL::checkPermission( $modulname, $permission );
+        return Clansuite_ACL::checkPermission( $modulename, $permission );
     }
 
     /**
-     * DELETE : USERS which have joined but are not activated after 3 days.
+     * Deletes all USERS which have joined but are not activated after 3 days.
      *
      * 259200 = (60s * 60m * 24h * 3d)
      */
@@ -519,19 +514,21 @@ class Clansuite_User
      */
     public function isUserAuthed()
     {
-        $boolResult = false;
-        if( isset($_SESSION['user']['authed']) and ($_SESSION['user']['authed'] === 1) )
+        if(true === isset($_SESSION['user']['authed']) and
+           true === (bool)$_SESSION['user']['authed'])
         {
-            $boolResult = true;
+            return true;
         }
-
-        return $boolResult;
+        else
+        {
+            return false;
+        }
     }
 
     /**
-     * Gives the UserID
+     * Returns the user_id from Session
      *
-     * @return int UserID
+     * @return int user_id
      */
     public function getUserIdFromSession()
     {
@@ -594,7 +591,7 @@ class Clansuite_GuestUser
          */
         if(empty($_SESSION['user']['language_via_url']))
         {
-            $_SESSION['user']['language'] = $this->config['language']['language'];
+            $_SESSION['user']['language'] = $this->config['language']['default'];
 
             if( false !== $this->config['switches']['languageswitch_via_url'] )
             {
@@ -622,11 +619,8 @@ class Clansuite_GuestUser
          * Permissions for Guests
          */
 
-        # Reset Groups
-        $_SESSION['user']['group'] = 1; # @todo hardcoded for now
-        $_SESSION['user']['role']  = 3;
-
-        # Reset Rights
+        $_SESSION['user']['group']  = 1; # @todo hardcoded for now
+        $_SESSION['user']['role']   = 3;
         $_SESSION['user']['rights'] = Clansuite_ACL::createRightSession( $_SESSION['user']['role'] );
 
         #Clansuite_Debug::printR($_SESSION);

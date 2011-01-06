@@ -32,7 +32,7 @@
 
 # Security Handler
 if (defined('IN_CS') === false)
-{ 
+{
     die('Clansuite not loaded. Direct Access forbidden.' );
 }
 
@@ -74,15 +74,21 @@ class Clansuite_Filter_LanguageViaGet implements Clansuite_Filter_Interface
          * take the initiative of filtering, if language switching is enabled in CONFIG
          * or pass through (do nothing) if disabled
          */
-        if($this->config['switches']['languageswitch_via_url'] == 1)
+        if(true === (bool) $this->config['switches']['languageswitch_via_url'])
         {
+            # fetch parameter &lang= from GET
             $language = $request->getParameterFromGet('lang');
-            if(isset($language) && false === empty($language) && (mb_strlen($language) == 2) )
-            {
-                $_SESSION['user']['language']           = mb_strtolower($request->getParameterFromGet('lang'));
-                $_SESSION['user']['language_via_url']   = 1;
-            }
 
+            if(isset($language) and (mb_strlen($language) == 2))
+            {
+                /**
+                 * memorize in the user session
+                 * a) the selected language
+                 * b) that the language was incomming via get
+                 */
+                $_SESSION['user']['language'] = mb_strtolower($language);
+                $_SESSION['user']['language_via_url'] = 1;
+            }
         }
     }
 }

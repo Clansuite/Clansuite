@@ -94,7 +94,7 @@
 
      {* User not 0 (guest) as id and is authed *}
                     {if $smarty.session.user.user_id != 0 and $smarty.session.user.authed == 1}
-                    <div class="widget size9" id="widget_usercenter">{load_module name="user" action="widget_usercenter"}</div> *}
+                    <div class="widget size9" id="widget_usercenter">{load_module name="users" action="widget_usercenter"}</div>
                     {else}
                     <div class="widget size9" id="widget_login">{load_module name="account" action="widget_login"}</div>
                     {/if}

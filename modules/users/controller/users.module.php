@@ -206,5 +206,12 @@ class Clansuite_Module_Users extends Clansuite_Module_Controller
 
         $view->assign('random_user', $random_user);
     }
+
+    public function widget_usercenter()
+    {
+        $view = $this->getView();
+
+        $view->assign('usercenter', 'some personal items');
+    }
 }
 ?>

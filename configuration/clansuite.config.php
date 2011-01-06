@@ -43,7 +43,7 @@ action = "show"
 ; language
 ;----------------------------------------
 [language]
-language = "de"
+default = "de"
 outputcharset = "UTF-8"
 timezone = "Europe/Paris"
 gmtoffset = 3600
