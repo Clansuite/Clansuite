@@ -239,18 +239,6 @@ abstract class Clansuite_Module_Controller
     }
 
     /**
-     * Proxy/convenience method for getView()
-     *
-     * @example
-     * old: $view = $this->getView(); $view->assign(....);
-     * new: $this->view()->assign(...);
-     */
-    public function view()
-    {
-        return $this->getView();
-    }
-
-    /**
      * sets the Rendering Engine
      *
      * @param string $renderEngineName Name of the RenderEngine
@@ -381,12 +369,9 @@ abstract class Clansuite_Module_Controller
      * All Output is done via the Response Object.
      * ModelData -> View -> Response Object
      *
-     * 1. This method gets an instance of the Response Object first.
-     * 2. Then gets an instance of the render engine.
-     *    (if not already instantiated in the module,
-     *     initializes proper viewfactory('smarty, json, rss'); as VIEW)
-     * 3. getLayoutTemplate
-     * 4. assign model data to that view object (a,b,c)
+     * 1. getTemplateName() - get the template to render.
+     * 2. getView() - gets an instance of the render engine.
+     * 3. assign model data to that view object (a,b,c)
      * 5. set data to response object
      *
      * @param $templates array with keys 'layout_template' / 'content_template' and templates as values
@@ -463,9 +448,9 @@ abstract class Clansuite_Module_Controller
         $form = new $classname;
 
         # assign form object directly to the view or return to work with it
-        if($assign_to_view)
+        if($assign_to_view === true)
         {
-            $this->view()->assign($formname, $form->render());
+            $this->getView()->assign($formname, $form->render());
         }
         else
         {
@@ -497,7 +482,7 @@ abstract class Clansuite_Module_Controller
         # we have a referer in the environment
         if(empty($referer) === false)
         {
-            $this->redirect($referer);
+            $this->redirect(SERVER_URL . $referer);
         }
         else # build referer on base of the current module
         {
