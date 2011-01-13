@@ -15,7 +15,7 @@
 			<ul class="sq" style="width:300px;">
 				<li><a href="index.php?mod=testunit&amp;action=uajaxuploadify">Test: Ajax Upload mit Uploadify</a></li>
 				<li><a href="index.php?mod=testunit&amp;action=uajaxswfupload">Test: Ajax Upload mit swfUpload</a></li>
-				<li><a href="index.php?mod=testunit&amp;action=uajaxprettyphoto">Test: Ajax Upload mit prettyPhoto</a></li>
+				<li><a href="index.php?mod=testunit&amp;action=uajaxprettyphoto">Test: Ajax Flash-Video mit prettyPhoto</a></li>
 			</ul>
 		</td>
 		<td width="30%">&nbsp;</td>
