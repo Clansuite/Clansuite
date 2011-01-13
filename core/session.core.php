@@ -177,7 +177,6 @@ class Clansuite_Session implements Clansuite_Session_Interface, ArrayAccess
     {
         # set cookie parameters
         session_set_cookie_params($time);
-        session_set_cookie_params(0, ROOT);
 
         # START THE SESSION
         if( true === session_start())
