@@ -96,7 +96,7 @@ class Clansuite_Formelement_SimpleCaptcha extends Clansuite_Formelement_Captcha 
  * @copyright  Copyleft: All rights reserved. Jens-André Koch (2005-onwards)
  *
  * @link       http://www.clansuite.com
- * 
+ *
  *
  * @version    SVN: $Id$
  */
@@ -113,29 +113,54 @@ class Clansuite_JustAn_Captcha
     public $image_width = 140;
 
     /**
-     * @var array $fonts Several available Fonts
+     * @var array $fonts Available Fonts.
      */
-    protected static $fonts = array('Vera.ttf'); #, 'b.ttf', 'c.ttf);
+    private static $fonts = array();
 
     /*
-     * @var string The selected font for the captcha
+     * @var string The selected font for the captcha.
      */
     public static $font;
+
+    /**
+     * @var resource The captcha image.
+     */
+    public $captcha;
 
     /**
      * Constructor.
      */
     public function __construct()
     {
-        if(extension_loaded('gd') == false)
+        if(extension_loaded('gd') === false)
         {
-            throw new Clansuite_Exception(_('GD Library nicht vorhanden'));
+            throw new Clansuite_Exception(_('GD Library missing.'));
         }
 
-        /**
-         * @todo randomize the font (add more to $fonts array)
-         */
-        self::$font = ROOT_THEMES . 'core/fonts/' . self::$fonts[0];
+        # pick a random font from the fonts dir
+        self::$font = self::getRandomFont(ROOT_THEMES . 'core/fonts/');
+    }
+
+    /**
+     * Returns a random font from the font files directory.
+     *
+     * @param string $fonts_dir The directory where the font files reside.
+     */
+    public static function getRandomFont($fonts_dir)
+    {
+        # build the fonts array by detecting all font files
+        $iterator = new DirectoryIterator($fonts_dir);
+        foreach($iterator as $file)
+        {
+            # if a fontfile.ttf is found add it to the array
+            if($file->isFile() and (strrchr($file->getPathname(), '.') == '.ttf'))
+            {
+                self::$fonts = $fonts_dir . $file->getPathname();
+            }
+        }
+
+        # return a random font file
+        return self::$fonts[array_rand(self::$fonts)];
     }
 
     /**
@@ -143,7 +168,7 @@ class Clansuite_JustAn_Captcha
      *
      * @param $length The length of the captcha string.
      */
-    function generateRandomString($length)
+    public function generateRandomString($length)
     {
         # Excluded-Chars: 0, 1, 7, I, O
         # why? because they are too simple to recognize even when effects applied upon.)
@@ -154,7 +179,7 @@ class Clansuite_JustAn_Captcha
         while(mb_strlen($string) < $length)
         {
             # a random char between 48 and 122
-            $random = rand(48, 122);
+            $random = mt_rand(48, 122);
 
             # not the excluded chars and only special chars segments
             if(in_array($random, $excludeChars) == false and
@@ -183,14 +208,14 @@ class Clansuite_JustAn_Captcha
         # set string to session
         $_SESSION['user']['simple_captcha_string'] = $captcha_string;
 
-        $captcha = imagecreatetruecolor($this->image_width, $this->image_height);
+        $this->captcha = imagecreatetruecolor($this->image_width, $this->image_height);
 
         # switch between captcha types
         switch(1)# rand(1,2))
         {
             case 1: # captcha with some effects
                 # create backgroundcolor from random RGB colors
-                $background_color = imagecolorallocate($captcha, rand(100, 255), rand(100, 255), rand(0, 255));
+                $background_color = imagecolorallocate($this->captcha, rand(100, 255), rand(100, 255), rand(0, 255));
 
                 /**
                  * Background Fill Effects
@@ -199,31 +224,31 @@ class Clansuite_JustAn_Captcha
                 {
                     case 1: # Solid Fill
 
-                        imagefill($captcha, 0, 0, $background_color);
+                        imagefill($this->captcha, 0, 0, $background_color);
                         break;
 
                     case 2: # Gradient Fill
 
-                        for($i = 0, $rd = rand(0, 100), $gr = rand(0, 100), $bl = rand(0, 100); $i <= $this->image_height; $i++)
+                        for($i = 0, $rd = mt_rand(0, 100), $gr = mt_rand(0, 100), $bl = mt_rand(0, 100); $i <= $this->image_height; $i++)
                         {
-                            $g = imagecolorallocate($captcha, $rd+=2, $gr+=2, $bl+=2);
-                            imageline($captcha, 0, $i, $this->image_width, $i, $g);
+                            $g = imagecolorallocate($this->captcha, $rd+=2, $gr+=2, $bl+=2);
+                            imageline($this->captcha, 0, $i, $this->image_width, $i, $g);
                         }
                         break;
                 }
 
                 # create textcolor from random RGB colors
-                $text_color = imagecolorallocate($captcha, rand(50, 240), rand(50, 240), rand(0, 255));
+                $text_color = imagecolorallocate($this->captcha, mt_rand(50, 240), mt_rand(50, 240), mt_rand(0, 255));
 
                 # add some noise
                 for($i = 1; $i <= 4; $i++)
                 {
-                    imageellipse($captcha, rand(1, 200), rand(1, 50), rand(50, 100), rand(12, 25), $text_color);
+                    imageellipse($this->captcha, mt_rand(1, 200), mt_rand(1, 50), mt_rand(50, 100), mt_rand(12, 25), $text_color);
                 }
 
                 for($i = 1; $i <= 4; $i++)
                 {
-                    imageellipse($captcha, rand(1, 200), rand(1, 50), rand(50, 100), rand(12, 25), $background_color);
+                    imageellipse($this->captcha, mt_rand(1, 200), mt_rand(1, 50), mt_rand(50, 100), mt_rand(12, 25), $background_color);
                 }
 
                 #Clansuite_Debug::firebug($string_length);
@@ -233,21 +258,45 @@ class Clansuite_JustAn_Captcha
                     /**
                      * Font Rotation Effect
                      */
-                    switch(rand(1, 2))
+                    switch(mt_rand(1, 2))
                     {
                         case 1: # Clock-Rotation (->)
-                            $rotangle = rand(0, 15);
+                            $angle = mt_rand(0, 15);
                             break;
                         case 2: # Counter-Rotation (<-)
-                            $rotangle = rand(345, 360);
+                            $angle = mt_rand(345, 360);
                             break;
                     }
 
-                    # add string to image
-                    #imagettftext ($image, $size, $angle, $x, $y, $color, $fontfile, $text)
+                    $defaultSize = min($this->image_width, $this->image_height * 2) / strlen($captcha_string);
+                    $spacing = (int) ($this->image_width * 0.9 / strlen($captcha_string));
 
-                    imagettftext($captcha, rand(16, 30), $rotangle,
-                            25 + ($i * 25), 30, 10 + ($i * 27), self::$font, $captcha_string[$i]);
+                    /**
+                     * Font Size
+                     */
+                    $size = $defaultSize / 10 * mt_rand(12, 15);
+
+                    /**
+                     * Determine cordinates X and Y
+                     *
+                     * This is done using the bounding box of a text via imageftbbox.
+                     */
+                    $bbox = imageftbbox($size, $angle, self::$font, $captcha_string[$i]);
+                    $x = $spacing / 4 + $i * $spacing + 2;
+                    $y = $height / 2 + ($box[2] - $box[5]) / 4;
+                    #$x = $bbox[0] + (imagesx($this->captcha) / 2) - ($bbox[4] / 2) - 5;
+                    #$y = $bbox[1] + (imagesy($this->captcha) / 2) - ($bbox[5] / 2) - 5;
+                    unset($bbox);
+
+                    /**
+                     * Font Color
+                     */
+                    $color = imagecolorallocate($this->captcha, mt_rand(0, 160), mt_rand(0, 160), mt_rand(0, 160));
+
+                    /**
+                     * Finally: Add the CHAR from the captcha string to the image
+                     */
+                    imagettftext($this->captcha, $size, $angle, $x, $y, $color, self::$font, $captcha_string[$i]);
                 }
 
                 # add interlacing
@@ -281,18 +330,71 @@ class Clansuite_JustAn_Captcha
               break; */
         }
 
-        # Start buffering the output stream
-        ob_start();
+        $this->render('html_embedded');
+    }
 
-        # Finally: Render image and free memory.
-        imagepng($captcha);
+    /**
+     * Render the Captcha Image on various ways
+     *
+     * @param string $render_type Types: html_embedded, direct_png. Defaults to html_embedded.
+     * @return mixed Renders the image directly or returns html string.
+     */
+    public function render($render_type = 'html_embedded')
+    {
+        # PNG direct via header
+        if($render_type == 'direct_png')
+        {
+            header("Content-type: image/png");
+            imagepng($this->captcha);
+            imagedestroy($this->captcha);
+        }
+        # embed the image into an html img tag
+        elseif($render_type == 'html_embedded')
+        {
+            # Start buffering the output stream
+            ob_start();
 
-        # Read the output buffer
-        $imagesource = ob_get_clean(); # 2 in 1 call ob_get_contents() + ob_end_clean()
-        imagedestroy($captcha);
+            # Finally: Render image and free memory.
+            imagepng($this->captcha);
 
-        # we apply some html magic here => output the image by send it as inlined data ;)
-        return sprintf('<img alt="Embedded Captcha Image" src="data:image/png;base64,%s" />', base64_encode($imagesource));
+            # Read the output buffer
+            $imagesource = ob_get_clean(); # 2 in 1 call ob_get_contents() + ob_end_clean()
+            imagedestroy($this->captcha);
+
+            # we apply some html magic here => output the image by send it as inlined data ;)
+            return sprintf('<img alt="Embedded Captcha Image" src="data:image/png;base64,%s" />', base64_encode($imagesource));
+        }
+        elseif($render_type == 'file_html')
+        {
+            # remove outdated captcha images
+            self::garbage_collection();
+            # write png to file
+            imagepng($image, $this->options['image_dir'] . '/' . $this->_id . '.png');
+            # return html img tag which points to the image file
+            return '<img alt="Captcha Image from File" src="' . $this->options['image_url'] . '/' . $this->_id . '.png" alt="' . $this->options['imgage_alt'] . '" />';
+        }
+    }
+
+    /**
+     * Garbage Collection
+     * is performed in 10% of all calls to this method and
+     * removes old captcha images from the captcha images directory.
+     */
+    public static function garbage_collection()
+    {
+        # perform the garbage_collection in 10 % of all calls
+        if(mt_rand(0, 9) == 0)
+        {
+            $iterator = new DirectoryIterator($this->options['image_dir']);
+            foreach($iterator as $file)
+            {
+                # delete all png files
+                if($file->isFile() and (strrchr($file->getPathname(), '.') == '.png'))
+                {
+                    unlink($file->getPathname());
+                }
+            }
+        }
     }
 
     /**
