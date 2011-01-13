@@ -442,10 +442,35 @@
     .mb8 { margin-bottom: 8px; }
     .mb10 { margin-bottom: 10px; }
 
+    .arial9black { font-family: Arial, Helvetica, sans-serif; font-size: 9pt; color: #000000; font-weight: normal; }
+    .arial9blue { font-family: Arial, Helvetica, sans-serif; font-size: 9pt; color: #0000FF; font-weight: normal; }
+    .arial9red { font-family: Arial, Helvetica, sans-serif; font-size: 9pt; color: #FF0000; font-weight: normal; }
+    .arial9white { font-family: Arial, Helvetica, sans-serif; font-size: 9pt; color: #FFFFFF; font-weight: normal; }
+
+    .arial10black { font-family: Arial, Helvetica, sans-serif; font-size: 10pt; color: #000000; font-weight: normal; }
+    .arial10blue { font-family: Arial, Helvetica, sans-serif; font-size: 10pt; color: #0000FF; font-weight: normal; }
+    .arial10red { font-family: Arial, Helvetica, sans-serif; font-size: 10pt; color: #FF0000; font-weight: normal; }
+    .arial10white { font-family: Arial, Helvetica, sans-serif; font-size: 10pt; color: #FFFFFF; font-weight: normal; }
+
+    .arial12black { font-family: Arial, Helvetica, sans-serif; font-size: 12pt; color: #000000; font-weight: normal; }
+    .arial12blue { font-family: Arial, Helvetica, sans-serif; font-size: 12pt; color: #0000FF; font-weight: normal; }
+    .arial12red { font-family: Arial, Helvetica, sans-serif; font-size: 12pt; color: #FF0000; font-weight: normal; }
+    .arial12white { font-family: Arial, Helvetica, sans-serif; font-size: 12pt; color: #FFFFFF; font-weight: normal; }
+
     #debug
     {
         width:98%;
     }
+
+	#testunit {}
+	#testunit a:link, body_alink { font-family: Arial, Helvetica, sans-serif; font-size: 12px; color: #000000; font-weight: bold; text-decoration: none;}
+	#testunit a:hover, a:active, body_ahover { color: red; text-decoration: underline;}
+	#testunit a:visited, body_avisited { color: #000000; text-decoration: none;}
+
+	#testunit .wrapper { width: 133px; margin: 0 auto;}
+	#testunit div.button { height: 29px; width: 133px; background: url('{$www_root_themes_core}images/button.png') 0 0; font-size: 14px; color: #C7D92C; text-align: center; padding-top: 15px;
+	#testunit div.button.hover { background: url('{$www_root_themes_core}images/button.png') 0 56px; color: #95A226; }
+
 }
 
 @media print
