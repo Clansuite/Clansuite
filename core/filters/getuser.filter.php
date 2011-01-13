@@ -48,7 +48,7 @@ if (defined('IN_CS') === false)
  */
 class Clansuite_Filter_GetUser implements Clansuite_Filter_Interface
 {
-    private $user    = null;
+    private $user = null;
 
     public function __construct(Clansuite_User $user)
     {
@@ -59,6 +59,7 @@ class Clansuite_Filter_GetUser implements Clansuite_Filter_Interface
     {
         $this->user->createUserSession();    # Create a user (Guest)
         $this->user->checkLoginCookie();     # Check for login cookie (Guest/Member)
+        unset($this->user);
     }
 }
 ?>
