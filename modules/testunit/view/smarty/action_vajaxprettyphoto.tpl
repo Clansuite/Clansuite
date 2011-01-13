@@ -15,7 +15,7 @@
 <form method="post" name="testunits" action="index.php?mod=testunit&action=uAjax_uploadify">
 
 <table class="tables" cellpadding="0" cellspacing="0" border="0" summary="testunit" align="center" style="width:800px;height:400px;border:1px solid #000;">
-	<tr valign="top"><td colspan="2" valign="middle" align="center" class="arial12white" bgcolor="#FF0000"><b>Test: Ajax Upload mit prettyPhoto</b></td></tr>
+	<tr valign="top"><td colspan="2" valign="middle" align="center" class="arial12white" bgcolor="#FF0000"><b>Test: Ajax Flash-Video mit prettyPhoto</b></td></tr>
 	<tr valign="top"><td colspan="2" valign="top" bgcolor="#000000"><img src="{$www_root_theme}images/blind.gif" border="0" height="1" width="1" alt="testunit" /></td></tr>
 	<tr valign="top"><td colspan="2" valign="top"><img src="{$www_root_theme}images/blind.gif" border="0" height="40" width="1" alt="testunit" /></td></tr>
 	<tr valign="top">

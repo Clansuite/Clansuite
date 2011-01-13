@@ -94,10 +94,10 @@ class Clansuite_Module_Testunit extends Clansuite_Module_Controller
 
 
     /**
-     * prettyPhoto Test
+     * prettyPhoto Test Video Show (vimeo, youtube, ....)
      */
     // ------------------------------------------------------------------------------------------------------------------------------------------------------------------ //
-    public function action_uajaxprettyphoto()
+    public function action_vajaxprettyphoto()
     // ------------------------------------------------------------------------------------------------------------------------------------------------------------------ //
     {
         $view = $this->getView();
