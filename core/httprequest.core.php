@@ -571,7 +571,7 @@ class Clansuite_HttpRequest implements Clansuite_Request_Interface, ArrayAccess
      */
     public static function getReferer()
     {
-        return isset($_SERVER['HTTP_REFERER']) ? $_SERVER['REQUEST_URI'] : '';
+        return isset($_SERVER['HTTP_REFERER']) ? self::getRequestURI() : '';
     }
 
     /**
