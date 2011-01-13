@@ -56,7 +56,6 @@ class Clansuite_Module_Testunit extends Clansuite_Module_Controller
         Clansuite_Breadcrumb::add( _('Show'), 'testunit/show');
 
         $view = $this->getView();
-        $view->setLayoutTemplate('testunit.tpl');
         $this->display();
     }
 
@@ -73,8 +72,7 @@ class Clansuite_Module_Testunit extends Clansuite_Module_Controller
     public function action_uajaxswfupload()
     // ------------------------------------------------------------------------------------------------------------------------------------------------------------------ //
     {
-        $view = $this->getView();
-        $view->setLayoutTemplate('testunit.tpl');
+        $view = $this->getView();        
         $view->assign('sess_name', session_name() );
         $view->assign('sess_id', session_id() );
         $this->display();
@@ -88,9 +86,8 @@ class Clansuite_Module_Testunit extends Clansuite_Module_Controller
     // ------------------------------------------------------------------------------------------------------------------------------------------------------------------ //
     {
         $view = $this->getView();
-        $view->setLayoutTemplate('testunit.tpl');
         $this->display();
-   }
+    }
 
 
     /**
@@ -101,9 +98,7 @@ class Clansuite_Module_Testunit extends Clansuite_Module_Controller
     // ------------------------------------------------------------------------------------------------------------------------------------------------------------------ //
     {
         $view = $this->getView();
-        $view->setLayoutTemplate('testunit.tpl');
         $this->display();
-   }
-
+    }
 }
 ?>
