@@ -74,7 +74,7 @@ class Clansuite_Module_News extends Clansuite_Module_Controller
         Clansuite_Breadcrumb::add( _('Show'), '/news/show');
 
         # get resultsPerPage from ModuleConfig
-        $resultsPerPage = $this->getConfigValue('resultsPerPage_show', '3');
+        $resultsPerPage = self::getConfigValue('resultsPerPage_show', '3');
 
         # Defining initial variables
         $currentPage = (int) $this->request->getParameterFromGet('page');
@@ -199,7 +199,7 @@ class Clansuite_Module_News extends Clansuite_Module_Controller
         # Set Number of Items Range 0<15 || MAX 30
         if($feed_items == null or $feed_items < 15)
         {
-            $feed_items = $this->getConfigValue('feed_items', '15');
+            $feed_items = self::getConfigValue('feed_items', '15');
         }
         elseif($feed_items > 15 )
         {
@@ -216,7 +216,7 @@ class Clansuite_Module_News extends Clansuite_Module_Controller
         # check its a valid string or set default
         if(in_array($feed_format, $feed_format_array) == false or $feed_format === null)
         {
-            $feed_format = $this->getConfigValue('feed_format', 'RSS2.0');
+            $feed_format = self::getConfigValue('feed_format', 'RSS2.0');
         }
 
         /**
@@ -224,8 +224,8 @@ class Clansuite_Module_News extends Clansuite_Module_Controller
          */
         $rss = new UniversalFeedCreator();
         $rss->useCached(); // use cached version if age<1 hour
-        $rss->title = $this->getConfigValue('feed_title', 'Feedname');
-        $rss->description = $this->getConfigValue('feed_description', 'Descriptiontext');
+        $rss->title = self::getConfigValue('feed_title', 'Feedname');
+        $rss->description = self::getConfigValue('feed_description', 'Descriptiontext');
 
         # optional
         $rss->descriptionTruncSize = 500;
@@ -238,10 +238,10 @@ class Clansuite_Module_News extends Clansuite_Module_Controller
          * Create Feed Image Object
          */
         $image = new FeedImage();
-        $image->title = $this->getConfigValue('feed_imagetitle', 'logo');
-        $image->url = $this->getConfigValue('feed_image', 'http://www.clanwebsite.net/images/logo.gif');
-        $image->link = $this->getCOnfigValue('feed_imageurl', 'http://www.clanwebsite.net');
-        $image->description = $this->getConfigValue('feed_imagedescription', 'Feed provided by clanwebsite.net. Click to visit.');
+        $image->title = self::getConfigValue('feed_imagetitle', 'logo');
+        $image->url = self::getConfigValue('feed_image', 'http://www.clanwebsite.net/images/logo.gif');
+        $image->link = self::getConfigValue('feed_imageurl', 'http://www.clanwebsite.net');
+        $image->description = self::getConfigValue('feed_imagedescription', 'Feed provided by clanwebsite.net. Click to visit.');
 
         # optional
         $image->descriptionTruncSize = 500;
@@ -333,7 +333,7 @@ class Clansuite_Module_News extends Clansuite_Module_Controller
         }
 
         # get resultsPerPage from ModuleConfig
-        $resultsPerPage = $this->getConfigValue('resultsPerPage_archive', '3');
+        $resultsPerPage = self::getConfigValue('resultsPerPage_archive', '3');
 
         #Fetch News for Archiv with Doctrine
         $newsQuery = Doctrine::getTable('CsNews')->fetchNewsForArchiv($startdate, $enddate, $currentPage, $resultsPerPage);
@@ -390,7 +390,7 @@ class Clansuite_Module_News extends Clansuite_Module_Controller
         $enddate   = date('Y-m-d');
 
         # get resultsPerPage from ModuleConfig
-        $resultsPerPage = $this->getConfigValue('resultsPerPage_fullarchive', '25');
+        $resultsPerPage = self::getConfigValue('resultsPerPage_fullarchive', '25');
 
         #Fetch News for Archiv with Doctrine
         $newsQuery = Doctrine::getTable('CsNews')->fetchNewsForFullArchiv($sortorder, $startdate, $enddate, $currentPage, $resultsPerPage);
@@ -435,7 +435,7 @@ class Clansuite_Module_News extends Clansuite_Module_Controller
          * 2) modulecfg
          * 3) hardcoded defaultvalue
          */
-        $numberNews = $this->getConfigValue('items_newswidget', $numberNews, '8');
+        $numberNews = self::getConfigValue('items_newswidget', $numberNews, '8');
 
         # fetch news via doctrine query
         $latestnews = Doctrine::getTable('CsNews')->fetchLatestNews($numberNews);

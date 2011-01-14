@@ -162,7 +162,7 @@ class Clansuite_Module_News_Admin extends Clansuite_Module_Controller
 
         $datagrid->setResultSetHook($this, 'manipulateValues');
 
-        $datagrid->setResultsPerPage($this->getConfigValue('resultsPerPage_adminshow', '5'));
+        $datagrid->setResultsPerPage(self::getConfigValue('resultsPerPage_adminshow', '5'));
 
         # Assing datagrid
         $view->assign('datagrid', $datagrid->render());
@@ -355,80 +355,7 @@ class Clansuite_Module_News_Admin extends Clansuite_Module_Controller
         # Set Pagetitle and Breadcrumbs
         Clansuite_Breadcrumb::add( _('Settings'), '/news/admin/settings');
 
-        $settings = array();
-
-        $settings['form']   = array(    'name' => 'news_settings',
-                                        'method' => 'POST',
-                                        'action' => '/news/admin/settings_update');
-
-        $settings['news'][] = array(    'id' => 'resultsPerPage_show',
-                                        'name' => 'resultsPerPage_show',
-                                        'label' => 'News Items',
-                                        'description' => _('Newsitems to show in Newsmodule'),
-                                        'formfieldtype' => 'text',
-                                        'value' => $this->getConfigValue('resultsPerPage_show', '3'));
-
-        $settings['news'][] = array(    'id' => 'items_newswidget',
-                                        'name' => 'items_newswidget',
-                                        'label' => 'LatestNews Widget Items',
-                                        'description' => _('Newsitems to show in LatestNews Widget'),
-                                        'formfieldtype' => 'text',
-                                        'value' => $this->getConfigValue('items_newswidget', '5'));
-
-        $settings['news'][] = array(    'id' => 'resultsPerPage_fullarchive',
-                                        'name' => 'resultsPerPage_fullarchive',
-                                        'label' => 'Newsarchive Items',
-                                        'description' => _('Newsitems to show in Newsarchive'),
-                                        'formfieldtype' => 'text',
-                                        'value' => $this->getConfigValue('resultsPerPage_fullarchive', '3'));
-
-        $settings['news'][] = array(    'id' => 'resultsPerPage_adminshow',
-                                        'name' => 'resultsPerPage_adminshow',
-                                        'label' => 'Admin News Items',
-                                        'description' => _('Newsitems to show in the administration area.'),
-                                        'formfieldtype' => 'text',
-                                        'value' => $this->getConfigValue('resultsPerPage_adminshow', '10'),
-                                        'validationrules' => array('int'),
-                                        'errormessage' => 'Please use digits!');
-
-        $settings['news'][] = array(    'id' => 'resultsPerPage_archive',
-                                        'name' => 'resultsPerPage_archive',
-                                        'label' => 'Newsarchive Widget Items',
-                                        'description' => _('Newsitems to show in Newsarchive'),
-                                        'formfieldtype' => 'text',
-                                        'value' => $this->getConfigValue('resultsPerPage_archive', '3'));
-
-        $settings['news'][] = array(    'id' => 'feed_format',
-                                        'name' => 'feed_format',
-                                        'label' => 'Newsfeed Format',
-                                        'description' => _('Set the default format of the news feed. You can chose among these options: RSS2.0, MBOX, OPML, ATOM, HTML, JS'),
-                                        'formfieldtype' => 'multiselect',
-                                        'value' => array( 'selected' => $this->getConfigValue('feed_format', 'RSS2.0'),
-                                                          'RSS2.0'   => 'RSS2.0',
-                                                          'MBOX'     => 'MBOX',
-                                                          'OPML'     => 'OPML',
-                                                          'ATOM'     => 'ATOM',
-                                                          'HTML'     => 'HTML',
-                                                          'JS'       => 'JS'));
-
-        $settings['news'][] = array(    'id' => 'feed_items',
-                                        'name' => 'feed_items',
-                                        'label' => 'Newsfeed Items',
-                                        'description' => _('Sets the default number of feed items.'),
-                                        'formfieldtype' => 'text',
-                                        'value' => $this->getConfigValue('feed_items', '10'));
-
-        # fill the settings array into the formgenerator
-        $form = new Clansuite_Form($settings);
-        $form->setClass('News');
-
-        # add the buttonbar
-        $form->addElement('buttonbar')->getButton('cancelbutton')->cancelURL = 'index.php?mod=news/admin';
-        $form->addDecorator('fieldset')->setLegend(_('News Settings'));
-
-        # assign the html of the form to the view
-        $this->getView()->assign('form', $form->render());
-
+        $this->loadForm();
         $this->display();
     }
 
