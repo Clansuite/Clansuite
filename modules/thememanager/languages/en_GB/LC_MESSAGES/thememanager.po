@@ -1,0 +1,50 @@
+# Gettext Portable Object Translation File.
+#
+# Clansuite - just an eSports CMS (http://www.clansuite.com)
+# Copyright © Jens-André Koch 2005 - onwards.
+# The file is distributed under the GNU/GPL v2 or (at your option) any later version.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Clansuite 0.2.1\n"
+"POT-Creation-Date: 2011-01-14T21:01:05+01:00\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: tabpage-backend.tpl:72
+#: tabpage-frontend.tpl:67
+msgid "Delete"
+msgstr "Delete"
+
+#: tabpage-backend.tpl:67
+#: tabpage-frontend.tpl:62
+msgid "Edit Main Template"
+msgstr "Edit Main Template"
+
+#: tabpage-backend.tpl:42
+msgid "Select as Default backend theme"
+msgstr "Select as Default backend theme"
+
+#: tabpage-frontend.tpl:42
+msgid "Select as Default frontend theme"
+msgstr "Select as Default frontend theme"
+
+#: tabpage-backend.tpl:52
+msgid "Select as Your backend theme"
+msgstr "Select as Your backend theme"
+
+#: tabpage-frontend.tpl:52
+msgid "Select as Your frontend theme"
+msgstr "Select as Your frontend theme"
+
+#: action_admin_show.tpl:4
+msgid "Thememanager"
+msgstr "Thememanager"
+
+#: action_admin_show.tpl:5
+msgid "Themes change the look of our Clansuite website. You can change the default theme, set a new theme for all your members or install a new theme."
+msgstr "Themes change the look of our Clansuite website. You can change the default theme, set a new theme for all your members or install a new theme."
+
+#: thememanager.admin.php:76
+msgid "success#Theme deleted: "
+msgstr "success#Theme deleted: "

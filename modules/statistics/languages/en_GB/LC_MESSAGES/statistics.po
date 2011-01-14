@@ -1,0 +1,36 @@
+# Gettext Portable Object Translation File.
+#
+# Clansuite - just an eSports CMS (http://www.clansuite.com)
+# Copyright © Jens-André Koch 2005 - onwards.
+# The file is distributed under the GNU/GPL v2 or (at your option) any later version.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Clansuite 0.2.1\n"
+"POT-Creation-Date: 2011-01-14T21:01:03+01:00\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: statistics.admin.php:80
+msgid "Defines the timeout for a user or guest. Value in minutes."
+msgstr "Defines the timeout for a user or guest. Value in minutes."
+
+#: statistics.admin.php:73
+msgid "Delete time of old database entries for the WhoIsOnline table. Value in days. After x days delete old entries !"
+msgstr "Delete time of old database entries for the WhoIsOnline table. Value in days. After x days delete old entries !"
+
+#: statistics.admin.php:62
+msgid "Settings"
+msgstr "Settings"
+
+#: widget_statistics.tpl:5
+msgid "Statistics"
+msgstr "Statistics"
+
+#: action_admin_settings.tpl:4
+msgid "Statistics - Settings"
+msgstr "Statistics - Settings"
+
+#: action_admin_settings.tpl:5
+msgid "You can control and configure the behaviour of the statistics module by the settings provided here."
+msgstr "You can control and configure the behaviour of the statistics module by the settings provided here."

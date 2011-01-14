@@ -1,0 +1,20 @@
+# Gettext Portable Object Translation File.
+#
+# Clansuite - just an eSports CMS (http://www.clansuite.com)
+# Copyright © Jens-André Koch 2005 - onwards.
+# The file is distributed under the GNU/GPL v2 or (at your option) any later version.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Clansuite 0.2.1\n"
+"POT-Creation-Date: 2011-01-14T21:00:56+01:00\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: action_admin_show.tpl:4
+msgid "Administrate the timed tasks. You can add, delete, activate, deactivate tasks."
+msgstr "Administrate the timed tasks. You can add, delete, activate, deactivate tasks."
+
+#: action_admin_show.tpl:3
+msgid "Cronjobs - timed and repetitive Tasks"
+msgstr "Cronjobs - timed and repetitive Tasks"

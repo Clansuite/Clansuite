@@ -1,0 +1,128 @@
+# Gettext Portable Object Translation File.
+#
+# Clansuite - just an eSports CMS (http://www.clansuite.com)
+# Copyright © Jens-André Koch 2005 - onwards.
+# The file is distributed under the GNU/GPL v2 or (at your option) any later version.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Clansuite 0.2.1\n"
+"POT-Creation-Date: 2011-01-14T21:00:55+01:00\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: categories.admin.php:210
+msgid " Categories deleted."
+msgstr " Categories deleted."
+
+#: action_admin_settings.tpl:4
+msgid "Categories - Settings"
+msgstr "Categories - Settings"
+
+#: categories.admin.php:285
+#: categories.admin.php:286
+msgid "Categories per Page"
+msgstr "Categories per Page"
+
+#: categories.admin.php:146
+#: categories.admin.php:184
+msgid "Category Name"
+msgstr "Category Name"
+
+#: categories.admin.php:152
+msgid "Click Inputfield to toggle Colorwheel."
+msgstr "Click Inputfield to toggle Colorwheel."
+
+#: categories.admin.php:101
+msgid "Color"
+msgstr "Color"
+
+#: categories.admin.php:108
+msgid "Create a news"
+msgstr "Create a news"
+
+#: categories.admin.php:112
+msgid "Delete selected items"
+msgstr "Delete selected items"
+
+#: categories.admin.php:77
+#: categories.admin.php:151
+#: categories.admin.php:188
+msgid "Description"
+msgstr "Description"
+
+#: categories.admin.php:128
+msgid "Edit this category"
+msgstr "Edit this category"
+
+#: categories.admin.php:96
+msgid "Icon"
+msgstr "Icon"
+
+#: categories.admin.php:91
+msgid "Image"
+msgstr "Image"
+
+#: categories.admin.php:84
+#: categories.admin.php:148
+#: categories.admin.php:186
+msgid "Module"
+msgstr "Module"
+
+#: categories.admin.php:70
+msgid "Name"
+msgstr "Name"
+
+#: categories.admin.php:152
+#: categories.admin.php:190
+msgid "Select Color"
+msgstr "Select Color"
+
+#: categories.admin.php:154
+#: categories.admin.php:193
+msgid "Select Icon"
+msgstr "Select Icon"
+
+#: categories.admin.php:153
+#: categories.admin.php:191
+msgid "Select Image"
+msgstr "Select Image"
+
+#: categories.admin.php:149
+#: categories.admin.php:187
+msgid "Select the module to create the category for."
+msgstr "Select the module to create the category for."
+
+#: categories.admin.php:275
+msgid "Settings"
+msgstr "Settings"
+
+#: categories.admin.php:189
+msgid "Sort Order"
+msgstr "Sort Order"
+
+#: categories.admin.php:236
+msgid "The category has been created."
+msgstr "The category has been created."
+
+#: categories.admin.php:263
+msgid "The category has been edited."
+msgstr "The category has been edited."
+
+#: categories.admin.php:268
+msgid "Unknown Formaction."
+msgstr "Unknown Formaction."
+
+#: action_admin_settings.tpl:5
+msgid "You can control and configure the behaviour of the Categories Module by the settings provided here."
+msgstr "You can control and configure the behaviour of the Categories Module by the settings provided here."
+
+#: action_admin_create.tpl:11
+#: action_admin_edit.tpl:11
+#: action_admin_show.tpl:13
+msgid "You can create, edit and delete Categories."
+msgstr "You can create, edit and delete Categories."
+
+#: categories.admin.php:64
+msgid "[x]"
+msgstr "[x]"

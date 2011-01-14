@@ -1,0 +1,60 @@
+# Gettext Portable Object Translation File.
+#
+# Clansuite - just an eSports CMS (http://www.clansuite.com)
+# Copyright © Jens-André Koch 2005 - onwards.
+# The file is distributed under the GNU/GPL v2 or (at your option) any later version.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Clansuite 0.2.1\n"
+"POT-Creation-Date: 2011-01-14T21:01:00+01:00\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: config.tpl:11
+msgid "Configuration Settings"
+msgstr "Configuration Settings"
+
+#: doc.tpl:11
+msgid "Documentation Settings"
+msgstr "Documentation Settings"
+
+#: action_admin_show.tpl:7
+msgid "File"
+msgstr "File"
+
+#: info.tpl:11
+msgid "Information Settings"
+msgstr "Information Settings"
+
+#: language.tpl:11
+msgid "Language Settings"
+msgstr "Language Settings"
+
+#: permission.tpl:11
+msgid "Permission Settings"
+msgstr "Permission Settings"
+
+#: routes.tpl:11
+msgid "Routes Settings"
+msgstr "Routes Settings"
+
+#: action_admin_show.tpl:25
+msgid "Save Settings"
+msgstr "Save Settings"
+
+#: modulesettings.admin.php:63
+msgid "Show"
+msgstr "Show"
+
+#: templates.tpl:11
+msgid "Templates Settings"
+msgstr "Templates Settings"
+
+#: action_admin_show.tpl:8
+msgid "changed succesfully"
+msgstr "changed succesfully"
+
+#: action_admin_show.tpl:7
+msgid "ist not writeable. Please make it writeable!"
+msgstr "ist not writeable. Please make it writeable!"
