@@ -62,7 +62,7 @@ class Clansuite_Module_Users extends Clansuite_Module_Controller
 
         // Defining initial variables
         $currentPage    = (int) $this->request->getParameter('page');
-        $resultsPerPage = (int) $this->getConfigValue('resultsPerPage', '10');
+        $resultsPerPage = (int) self::getConfigValue('resultsPerPage', '10');
 
         /* @todo news with status: draft, published, private, private+protected*/
         // Creating Pager Object with a Query Object inside
@@ -129,7 +129,7 @@ class Clansuite_Module_Users extends Clansuite_Module_Controller
     public function widget_lastregisteredusers($numberUsers)
     {
         # set cfg value, or set the the incomming value or the default value for the number of user to display
-        $numberUsers = $this->getConfigValue('items_lastregisteredusers', $numberUsers, '5');
+        $numberUsers = self::getConfigValue('items_lastregisteredusers', $numberUsers, '5');
 
         # get smarty as the view
         $view = $this->getView();

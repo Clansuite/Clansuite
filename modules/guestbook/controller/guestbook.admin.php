@@ -54,7 +54,7 @@ class Clansuite_Module_Guestbook_Admin extends Clansuite_Module_Controller
     {
         # Incoming Variables
         $currentPage    = (int) $this->request->getParameter('page');
-        $resultsPerPage = (int) $this->getConfigValue('resultsPerPage', '10');
+        $resultsPerPage = (int) self::getConfigValue('resultsPerPage', '10');
 
         // SmartyColumnSort -- Easy sorting of html table columns.
         include ROOT_LIBRARIES . 'smarty/libs/SmartyColumnSort.class.php';
@@ -363,7 +363,7 @@ class Clansuite_Module_Guestbook_Admin extends Clansuite_Module_Controller
                                         'name' => 'guestbook_resultsPerPage',
                                         'description' => _('Guestbook Items'),
                                         'formfieldtype' => 'text',
-                                        'value' => $this->getConfigValue('guestbook_resultsPerPage', '12'));
+                                        'value' => self::getConfigValue('guestbook_resultsPerPage', '12'));
 
         $form = new Clansuite_Form($settings);
 

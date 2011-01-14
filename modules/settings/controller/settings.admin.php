@@ -57,6 +57,7 @@ class Clansuite_Module_Settings_Admin extends Clansuite_Module_Controller
         $config = $this->getClansuiteConfig();
 
         # Assign array with all cache driver to smarty
+        # @todo detect available cache drivers via sysinfo.core.php
         $cache_driver = array('apc', 'memcached', 'xcache', 'eaccelerator', 'file-based');
         $view->assign('cache_driver', $cache_driver);
 
@@ -98,8 +99,6 @@ class Clansuite_Module_Settings_Admin extends Clansuite_Module_Controller
 
     /**
      * action_settings_update
-     *
-
      */
     public function action_admin_update()
     {

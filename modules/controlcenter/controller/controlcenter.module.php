@@ -148,7 +148,7 @@ class Clansuite_Module_ControlCenter extends Clansuite_Module_Controller
 
         # process output
         $i = 0;
-        $max_rss_items = $this->getConfigValue('news_rss_items', '5');
+        $max_rss_items = self::getConfigValue('news_rss_items', '5');
 
         foreach( $xml->channel->item as $items )
         {
@@ -182,28 +182,28 @@ class Clansuite_Module_ControlCenter extends Clansuite_Module_Controller
                 'name' => 'show_box_shortcuts',
                 'description' => _('Show Shortcuts'),
                 'formfieldtype' => 'selectyesno',
-                'value' => $this->getConfigValue('show_box_shortcuts', '1'));
+                'value' => self::getConfigValue('show_box_shortcuts', '1'));
 
         $settings['controlcenter'][] = array(
                 'id' => 'show_box_news',
                 'name' => 'show_box_news',
                 'description' => _('Show News'),
                 'formfieldtype' => 'selectyesno',
-                'value' => $this->getConfigValue('show_box_news', '1'));
+                'value' => self::getConfigValue('show_box_news', '1'));
 
         $settings['controlcenter'][] = array(
                 'id' => 'show_box_security',
                 'name' => 'show_box_security',
                 'description' => _('Show Security'),
                 'formfieldtype' => 'selectyesno',
-                'value' => $this->getConfigValue('show_box_security', '1'));
+                'value' => self::getConfigValue('show_box_security', '1'));
 
         $settings['controlcenter'][] = array(
                 'id' => 'show_box_extensions',
                 'name' => 'show_box_extensions',
                 'description' => _('Show Extensions'),
                 'formfieldtype' => 'selectyesno',
-                'value' => $this->getConfigValue('show_box_extensions', '1'));
+                'value' => self::getConfigValue('show_box_extensions', '1'));
 
         $form = new Clansuite_Form($settings);
 

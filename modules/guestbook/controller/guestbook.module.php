@@ -64,7 +64,7 @@ class Clansuite_Module_Guestbook extends Clansuite_Module_Controller
         # Defining initial variables
         # Pager Chapter in Doctrine Manual  -> http://www.phpdoctrine.org/documentation/manual/0_10?one-page#utilities
         $currentPage = $this->request->getParameter('page');
-        $resultsPerPage = (int) $this->getConfigValue('resultsPerPage', '10');
+        $resultsPerPage = (int) self::getConfigValue('resultsPerPage', '10');
 
         // Creating Pager Object with a Query Object inside
         $pager_layout = new Doctrine_Pager_Layout(

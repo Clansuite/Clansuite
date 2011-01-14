@@ -66,7 +66,7 @@ class Clansuite_Module_Users_Admin extends Clansuite_Module_Controller
         $view = $this->getView();
 
         $currentPage    = (int) $this->request->getParameterFromGet('page');
-        $resultsPerPage = (int) $this->getConfigValue('resultsPerPage', '25');
+        $resultsPerPage = (int) self::getConfigValue('resultsPerPage', '25');
 
         $searchletter = $this->request->getParameter('searchletter');
 
@@ -202,7 +202,7 @@ class Clansuite_Module_Users_Admin extends Clansuite_Module_Controller
                                         'label' => 'Label',
                                         'description' => _('How many Last Users'),
                                         'formfieldtype' => 'text',
-                                        'value' => $this->getConfigValue('items_lastregisteredusers', '4'));
+                                        'value' => self::getConfigValue('items_lastregisteredusers', '4'));
 
         $form = new Clansuite_Form($settings);
 

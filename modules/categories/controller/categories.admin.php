@@ -285,7 +285,7 @@ class Clansuite_Module_Categories_Admin extends Clansuite_Module_Controller
                                             'label' => _('Categories per Page'),
                                             'description' => _('Categories per Page'),
                                             'formfieldtype' => 'text',
-                                            'value' => $this->getConfigValue('items_resultsPerPage', '25'));
+                                            'value' => self::getConfigValue('items_resultsPerPage', '25'));
 
         $form = new Clansuite_Form($settings);
 

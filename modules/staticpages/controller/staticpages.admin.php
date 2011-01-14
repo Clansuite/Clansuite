@@ -232,7 +232,7 @@ class Clansuite_Module_Staticpages_Admin extends Clansuite_Module_Controller
                                         'name' => 'items_resultsPerPage',
                                         'description' => _('Staticpages per Page'),
                                         'formfieldtype' => 'text',
-                                        'value' => $this->getConfigValue('items_resultsPerPage', '25'));
+                                        'value' => self::getConfigValue('items_resultsPerPage', '25'));
 
         $form = new Clansuite_Form($settings);
 
