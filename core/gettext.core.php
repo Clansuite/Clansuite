@@ -440,8 +440,15 @@ class Clansuite_Gettext_Extractor_Tool
             $data = $this->data;
         }
 
+        # get dirname and check if dirs exist, else create it
+        $dir = dirname($outputFile);
+        if(is_dir($dir) === false)
+        {
+            mkdir($dir, 0777, true);
+        }
+
         # Output file permission check
-        if(file_exists($outputFile) and false == is_writable($outputFile))
+        if(file_exists($outputFile) and false === is_writable($outputFile))
         {
             $this->throwException('ERROR: Output file is not writable!');
         }
@@ -468,11 +475,16 @@ class Clansuite_Gettext_Extractor_Tool
         $pluralMatchRegexp = '#\%([0-9]+\$)*d#';
 
         $output = array();
-        $output[] = '# Gettext Keys exported by Clansuite_Gettext_Extractor';
-        $output[] = '# Copyright (c) '. date('Y') . ' Clansuite - just an eSports CMS';
+        $output[] = '# Gettext Portable Object Translation File.';
+        $output[] = '#';
+        $output[] = '# Clansuite - just an eSports CMS (http://www.clansuite.com)';
+        $output[] = '# Copyright © Jens-André Koch 2005 - onwards.';
+        $output[] = '# The file is distributed under the GNU/GPL v2 or (at your option) any later version.';
         $output[] = '#';
         $output[] = 'msgid ""';
         $output[] = 'msgstr ""';
+        $output[] = '"Project-Id-Version: Clansuite ' . CLANSUITE_VERSION . '\n"';
+        $output[] = '"POT-Creation-Date: ' . date('c') . '\n"';
         $output[] = '"Content-Type: text/plain; charset=UTF-8\n"';
         $output[] = '"Plural-Forms: nplurals=2; plural=(n != 1);\n"';
         $output[] = '';
