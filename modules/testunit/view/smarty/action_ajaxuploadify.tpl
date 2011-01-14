@@ -13,7 +13,7 @@ $(function(){
 
     $('#file_upload').uploadify({
             'uploader'        : '{$www_root_themes_core}javascript/uploadify/uploadify.swf',
-            'script'          : '{$www_root}uploads/upload.php',
+            'script'          : '{$www_root}uploads/uploadify.php',
             'cancelImg'       : '{$www_root_themes_core}images/icons/cancel.png',
             'buttonText'      : 'Durchsuchen',
             'multi'           : false,
