@@ -52,21 +52,19 @@ class Clansuite_User
     /**
      * @var object User Object
      */
-    private $user       = null;
+    private $user = null;
 
     /**
      * @var object Clansuite_Configuration
      */
-    private $config     = null;
+    private $config = null;
 
     /**
      * Constructor
-     *
-     * Set up references
      */
     function __construct(Clansuite_Config $config)
     {
-        $this->config       = $config;
+        $this->config = $config;
     }
 
     /**
@@ -78,7 +76,7 @@ class Clansuite_User
     public function getUser($user_id = null)
     {
         # init user_id
-        if($user_id == null)
+        if($user_id == null and $_SESSION['user']['user_id'] > 0)
         {
             # incomming via session
             $user_id = $_SESSION['user']['user_id'];
@@ -160,7 +158,10 @@ class Clansuite_User
 
         }
 
-        # check if this user is activated, else reset cookie, session and redirect
+        /**
+         * Check if this user is activated,
+         * else reset cookie, session and redirect
+         */
         if(is_array($this->user) and $this->user['activated'] == 0)
         {
             $this->logoutUser();
@@ -177,7 +178,7 @@ class Clansuite_User
         if ( is_array($this->user) )
         {
             /**
-             * User infos
+             * Transfer User Data into Session
              */
             #Clansuite_Debug::firebug($_SESSION);
             #Clansuite_Debug::firebug($this->config);
@@ -205,7 +206,14 @@ class Clansuite_User
              */
             if (false === isset($_SESSION['user']['language_via_url']))
             {
-                $_SESSION['user']['language'] = (!empty($this->user['language']) ? $this->user['language'] : $this->config['language']['default']);
+                if(false === empty($this->user['language']))
+                {
+                    $_SESSION['user']['language'] = $this->user['language'];
+                }
+                else
+                {
+                    $_SESSION['user']['language'] = $this->config['language']['default'];
+                }
             }
 
             /**
@@ -222,7 +230,7 @@ class Clansuite_User
             /**
              * Backend-Theme
              */
-            if(empty($this->user['backend_theme']) == false)
+            if(empty($this->user['backend_theme']) === false)
             {
                 $_SESSION['user']['backend_theme'] = $this->user['backend_theme'];
             }
@@ -352,7 +360,7 @@ class Clansuite_User
         /**
          * 2. Remember-Me ( set Logindata via Cookie )
          */
-        if ( $remember_me == 1 )
+        if ( $remember_me === true )
         {
             $this->setRememberMeCookie($user_id, $passwordhash);
         }
@@ -375,21 +383,21 @@ class Clansuite_User
     }
 
     /**
-     * set the remember me cookie
-     * if this cookie is found, the user is re-logged in automatically
+     * Set the remember me cookie
+     * If this cookie is found, the user is re-logged in automatically
      *
      * @param integer $user_id contains user_id
      * @param string $password contains password string
      */
     private function setRememberMeCookie($user_id, $passwordhash)
     {
-        # calculate cookie lifetime
+        # calculate cookie lifetime and combine cookie string
         $cookie_lifetime = time() + round($this->moduleconfig['login']['remember_me_time']*24*60*60);
+        $cookie_string = $user_id.'#'.$passwordhash;
 
-        setcookie('cs_cookie_user_id', $user_id, $cookie_lifetime);
-        setcookie('cs_cookie_password', $passwordhash, $cookie_lifetime);
+        setcookie('cs_cookie', $cookie_string, $cookie_lifetime);
 
-        unset($cookie_lifetime);
+        unset($cookie_string, $cookie_lifetime);
     }
 
     /**
@@ -397,12 +405,11 @@ class Clansuite_User
      */
     public function logoutUser()
     {
-        # Destroy the session
+        # Destroy the old session
         session_regenerate_id(true);
 
-        # Delete cookies
-        setcookie('cs_cookie_user_id', false );
-        setcookie('cs_cookie_password', false );
+        # Delete cookie
+        setcookie('cs_cookie', false );
     }
 
     /**
@@ -411,15 +418,19 @@ class Clansuite_User
     public function checkLoginCookie()
     {
         # Check for login cookie
-        if ( isset($_COOKIE['cs_cookie_user_id']) and isset($_COOKIE['cs_cookie_password']) )
+        if ( isset($_COOKIE['cs_cookie']) )
         {
+            $cookie_array = explode('#', $_COOKIE['cs_cookie']);
+            $cookie_user_id = (int) $cookie_array['0'];
+            $cookie_password = (string) $cookie_array['1'];
+
             Clansuite_Module_Controller::initModel('users');
 
             $this->user = Doctrine_Query::create()
                     ->select('u.user_id, u.passwordhash, u.salt')
                     ->from('CsUsers u')
                     ->where('u.user_id = ?')
-                    ->fetchOne(array((int) $_COOKIE['cs_cookie_user_id']), Doctrine::HYDRATE_ARRAY);
+                    ->fetchOne(array($user_id), Doctrine::HYDRATE_ARRAY);
 
             $this->moduleconfig = $this->config->readModuleConfig('account');
 
@@ -592,11 +603,6 @@ class Clansuite_GuestUser
         if(empty($_SESSION['user']['language_via_url']))
         {
             $_SESSION['user']['language'] = $this->config['language']['default'];
-
-            if( false !== $this->config['switches']['languageswitch_via_url'] )
-            {
-                $_SESSION['user']['language_via_url'] = 1;
-            }
         }
 
         /**
@@ -608,11 +614,6 @@ class Clansuite_GuestUser
         if(empty($_SESSION['user']['frontend_theme']))
         {
             $_SESSION['user']['frontend_theme'] = $this->config['template']['frontend_theme'];
-        }
-
-        if(empty($_SESSION['user']['backend_theme']))
-        {
-            $_SESSION['user']['backend_theme'] = $this->config['template']['backend_theme'];
         }
 
         /**
