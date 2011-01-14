@@ -1,0 +1,28 @@
+# Gettext Portable Object Translation File.
+#
+# Clansuite - just an eSports CMS (http://www.clansuite.com)
+# Copyright © Jens-André Koch 2005 - onwards.
+# The file is distributed under the GNU/GPL v2 or (at your option) any later version.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Clansuite 0.2.1\n"
+"POT-Creation-Date: 2011-01-14T21:01:04+01:00\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: testunit.module.php:52
+msgid "Show"
+msgstr "Show"
+
+#: testunit.module.php:95
+msgid "prettyphoto"
+msgstr "prettyphoto"
+
+#: testunit.module.php:68
+msgid "swfupload"
+msgstr "swfupload"
+
+#: testunit.module.php:82
+msgid "uploadify"
+msgstr "uploadify"

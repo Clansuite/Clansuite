@@ -68,10 +68,19 @@ class Clansuite_Module_Languages_Admin extends Clansuite_Module_Controller
          * All text messages of the system are in english.
          * That means that translations are based on the english language .po file.
          * This file is written in the locale directory en_GB for each module processed.
-         * 
+         *
          * ROOT/modules/modulname/languages/en_GB/LC_MESSAGES/modulname.po
+         * In the next step we build that filepath string from an array.
          */
-        $gettext_extractor->save(ROOT_MOD . $module_name . DS . 'languages' . DS . 'en_GB/LC_MESSAGES/' . $module_name . '.po');
+        $path = array();
+        $path[] = ROOT_MOD . $module_name;
+        $path[] = 'languages';
+        $path[] = 'en_GB';
+        $path[] = 'LC_MESSAGES';
+        $path[] = $module_name . '.po';
+        $path = implode(DS, $path);
+
+        $gettext_extractor->save( $path );
     }
 
     public static function scanAllModules()

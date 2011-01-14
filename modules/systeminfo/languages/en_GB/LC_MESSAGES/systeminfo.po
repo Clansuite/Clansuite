@@ -1,0 +1,28 @@
+# Gettext Portable Object Translation File.
+#
+# Clansuite - just an eSports CMS (http://www.clansuite.com)
+# Copyright © Jens-André Koch 2005 - onwards.
+# The file is distributed under the GNU/GPL v2 or (at your option) any later version.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Clansuite 0.2.1\n"
+"POT-Creation-Date: 2011-01-14T21:01:03+01:00\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: systeminfo.admin.php:239
+msgid "Alternative PHP Cache"
+msgstr "Alternative PHP Cache"
+
+#: action_admin_show_apc.tpl:9
+msgid "Current Status and statistics of AP-Cache."
+msgstr "Current Status and statistics of AP-Cache."
+
+#: systeminfo.admin.php:256
+msgid "Show"
+msgstr "Show"
+
+#: action_admin_show.tpl:5
+msgid "This overview shows pieces of information about your system, the current state of your webserver-environment and it\'s plugins."
+msgstr "This overview shows pieces of information about your system, the current state of your webserver-environment and it\'s plugins."

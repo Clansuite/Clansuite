@@ -1,0 +1,264 @@
+# Gettext Portable Object Translation File.
+#
+# Clansuite - just an eSports CMS (http://www.clansuite.com)
+# Copyright © Jens-André Koch 2005 - onwards.
+# The file is distributed under the GNU/GPL v2 or (at your option) any later version.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Clansuite 0.2.1\n"
+"POT-Creation-Date: 2011-01-14T21:01:01+01:00\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: news.admin.php:342
+msgid " News deleted."
+msgstr " News deleted."
+
+#: action_archive.tpl:25
+msgid " comments"
+msgstr " comments"
+
+#: widget_newscategories_dropdown.tpl:20
+msgid "All"
+msgstr "All"
+
+#: news.module.php:372
+msgid "Archiv"
+msgstr "Archiv"
+
+#: news.module.php:306
+msgid "Archive"
+msgstr "Archive"
+
+#: news.admin.php:111
+#: news.admin.php:210
+#: news.admin.php:259
+msgid "Category"
+msgstr "Category"
+
+#: widget_newscategories_dropdown.tpl:17
+msgid "Choose"
+msgstr "Choose"
+
+#: action_showone.tpl:75
+#: action_showone.tpl:90
+msgid "Comment"
+msgstr "Comment"
+
+#: action_showone.tpl:59
+msgid "Comments"
+msgstr "Comments"
+
+#: news.admin.php:137
+msgid "Create a news"
+msgstr "Create a news"
+
+#: news.admin.php:104
+msgid "Created at"
+msgstr "Created at"
+
+#: action_archive.tpl:44
+#: action_show.tpl:60
+#: action_showone.tpl:37
+msgid "Delete"
+msgstr "Delete"
+
+#: news.admin.php:141
+msgid "Delete selected items"
+msgstr "Delete selected items"
+
+#: news.admin.php:56
+msgid "Draft"
+msgstr "Draft"
+
+#: action_archive.tpl:44
+#: action_show.tpl:59
+#: action_showone.tpl:36
+msgid "Edit news"
+msgstr "Edit news"
+
+#: news.admin.php:157
+msgid "Edit this news"
+msgstr "Edit this news"
+
+#: action_admin_create.tpl:12
+#: action_admin_edit.tpl:10
+msgid "News - Administration"
+msgstr "News - Administration"
+
+#: action_admin_settings.tpl:4
+msgid "News - Settings"
+msgstr "News - Settings"
+
+#: action_admin_show.tpl:16
+msgid "News - Show"
+msgstr "News - Show"
+
+#: widget_archive.tpl:7
+msgid "News Archive"
+msgstr "News Archive"
+
+#: widget_newscategories_dropdown.tpl:7
+#: widget_newscategories_list.tpl:7
+msgid "News Categories"
+msgstr "News Categories"
+
+#: news_action_admin_settings.form.php:93
+msgid "News Settings"
+msgstr "News Settings"
+
+#: widget_newsfeeds.tpl:5
+msgid "Newsfeeds"
+msgstr "Newsfeeds"
+
+#: news_action_admin_settings.form.php:36
+msgid "Newsitems to show in LatestNews Widget"
+msgstr "Newsitems to show in LatestNews Widget"
+
+#: news_action_admin_settings.form.php:43
+#: news_action_admin_settings.form.php:59
+msgid "Newsitems to show in Newsarchive"
+msgstr "Newsitems to show in Newsarchive"
+
+#: news_action_admin_settings.form.php:29
+msgid "Newsitems to show in Newsmodule"
+msgstr "Newsitems to show in Newsmodule"
+
+#: news_action_admin_settings.form.php:50
+msgid "Newsitems to show in the administration area."
+msgstr "Newsitems to show in the administration area."
+
+#: action_showone.tpl:113
+msgid "No Comments"
+msgstr "No Comments"
+
+#: news.admin.php:55
+msgid "Not published"
+msgstr "Not published"
+
+#: news.admin.php:58
+msgid "Pending review"
+msgstr "Pending review"
+
+#: action_admin_edit.tpl:11
+msgid "Please edit your Article."
+msgstr "Please edit your Article."
+
+#: news.admin.php:97
+msgid "Preview"
+msgstr "Preview"
+
+#: news.admin.php:57
+msgid "Private"
+msgstr "Private"
+
+#: news.admin.php:59
+msgid "Published"
+msgstr "Published"
+
+#: widget_latestnews.tpl:8
+msgid "Recent news"
+msgstr "Recent news"
+
+#: news_action_admin_settings.form.php:66
+msgid "Set the default format of the news feed. You can chose among these options: RSS2.0, MBOX, OPML, ATOM, HTML, JS"
+msgstr "Set the default format of the news feed. You can chose among these options: RSS2.0, MBOX, OPML, ATOM, HTML, JS"
+
+#: news_action_admin_settings.form.php:79
+msgid "Sets the default number of feed items."
+msgstr "Sets the default number of feed items."
+
+#: news.admin.php:356
+msgid "Settings"
+msgstr "Settings"
+
+#: news.module.php:74
+msgid "Show"
+msgstr "Show"
+
+#: news.module.php:141
+msgid "Show News"
+msgstr "Show News"
+
+#: news.admin.php:118
+#: news.admin.php:212
+#: news.admin.php:260
+msgid "Status"
+msgstr "Status"
+
+#: news.admin.php:315
+msgid "The news doesn\\\'t exist anymore."
+msgstr "The news doesn\\\'t exist anymore."
+
+#: news.admin.php:295
+msgid "The news has been created."
+msgstr "The news has been created."
+
+#: news.admin.php:319
+msgid "The news has been edited."
+msgstr "The news has been edited."
+
+#: action_fullarchive.tpl:37
+msgid "There are no news archived."
+msgstr "There are no news archived."
+
+#: action_archive.tpl:57
+msgid "There is no news archived."
+msgstr "There is no news archived."
+
+#: news.admin.php:89
+#: news.admin.php:208
+#: news.admin.php:257
+msgid "Title"
+msgstr "Title"
+
+#: news.admin.php:324
+msgid "Unknown Formaction."
+msgstr "Unknown Formaction."
+
+#: news.admin.php:125
+msgid "User"
+msgstr "User"
+
+#: news.module.php:142
+msgid "Viewing Single News: "
+msgstr "Viewing Single News: "
+
+#: action_admin_settings.tpl:5
+msgid "You can control and configure the behaviour of the News Module by the settings provided here."
+msgstr "You can control and configure the behaviour of the News Module by the settings provided here."
+
+#: action_admin_show.tpl:17
+msgid "You can edit, delete, search and comment on news entries."
+msgstr "You can edit, delete, search and comment on news entries."
+
+#: action_admin_create.tpl:13
+msgid "You can write a new Article."
+msgstr "You can write a new Article."
+
+#: news.admin.php:215
+#: news.admin.php:261
+msgid "Your Article:"
+msgstr "Your Article:"
+
+#: news.admin.php:82
+msgid "[x]"
+msgstr "[x]"
+
+#: action_archive.tpl:25
+msgid "at"
+msgstr "at"
+
+#: news.admin.php:373
+msgid "success#The config file has been succesfully updated."
+msgstr "success#The config file has been succesfully updated."
+
+#: action_showone.tpl:75
+msgid "written :"
+msgstr "written :"
+
+#: action_archive.tpl:25
+#: action_showone.tpl:18
+msgid "written by"
+msgstr "written by"
