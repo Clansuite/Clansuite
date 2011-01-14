@@ -30,7 +30,7 @@
     * @version    SVN: $Id: about.module.php 4744 2010-09-26 23:13:04Z vain $
     */
 
-//Security Handler
+# Security Handler
 if(defined('IN_CS') === false)
 {
     die('Clansuite not loaded. Direct Access forbidden.');
@@ -43,14 +43,10 @@ if(defined('IN_CS') === false)
  * @package     Modules
  * @subpackage  Testunit
  */
-// ------------------------------------------------------------------------------------------------------------------------------------------------------------------
 class Clansuite_Module_Testunit extends Clansuite_Module_Controller
-// ------------------------------------------------------------------------------------------------------------------------------------------------------------------
 {
 
-    // ------------------------------------------------------------------------------------------------------------------------------------------------------------------ //
     public function action_show()
-    // ------------------------------------------------------------------------------------------------------------------------------------------------------------------ //
     {
         # Set Pagetitle and Breadcrumbs
         Clansuite_Breadcrumb::add( _('Show'), 'testunit/show');
@@ -59,8 +55,6 @@ class Clansuite_Module_Testunit extends Clansuite_Module_Controller
         $this->display();
     }
 
-
-
     /* -------------------------------------------------------------------------
      *    UNITS 
      * ----------------------------------------------------------------------- */
@@ -68,10 +62,11 @@ class Clansuite_Module_Testunit extends Clansuite_Module_Controller
     /**
      * swfUpload Test
      */
-    // ------------------------------------------------------------------------------------------------------------------------------------------------------------------ //
-    public function action_uajaxswfupload()
-    // ------------------------------------------------------------------------------------------------------------------------------------------------------------------ //
+    public function action_ajaxswfupload()
     {
+        # Set Pagetitle and Breadcrumbs
+        Clansuite_Breadcrumb::add( _('swfupload'), 'testunit/ajaxswfupload');
+    
         $view = $this->getView();        
         $view->assign('sess_name', session_name() );
         $view->assign('sess_id', session_id() );
@@ -81,10 +76,11 @@ class Clansuite_Module_Testunit extends Clansuite_Module_Controller
     /**
      * uploadify Test
      */
-    // ------------------------------------------------------------------------------------------------------------------------------------------------------------------ //
-    public function action_uajaxuploadify()
-    // ------------------------------------------------------------------------------------------------------------------------------------------------------------------ //
+    public function action_ajaxuploadify()
     {
+        # Set Pagetitle and Breadcrumbs
+        Clansuite_Breadcrumb::add( _('uploadify'), 'testunit/ajaxuploadify');
+    
         $view = $this->getView();
         $this->display();
     }
@@ -93,10 +89,11 @@ class Clansuite_Module_Testunit extends Clansuite_Module_Controller
     /**
      * prettyPhoto Test Video Show (vimeo, youtube, ....)
      */
-    // ------------------------------------------------------------------------------------------------------------------------------------------------------------------ //
-    public function action_vajaxprettyphoto()
-    // ------------------------------------------------------------------------------------------------------------------------------------------------------------------ //
+    public function action_ajaxprettyphoto()
     {
+        # Set Pagetitle and Breadcrumbs
+        Clansuite_Breadcrumb::add( _('prettyphoto'), 'testunit/ajaxprettyphoto');
+    
         $view = $this->getView();
         $this->display();
     }
