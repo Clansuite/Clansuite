@@ -77,10 +77,7 @@ $(function(){
 </script>
 {/move_to}
 
-<img src="{$www_root_theme}images/blind.gif" border="0" height="10" width="1" alt="testunit" /><br />
-
 <center>
-<form method="post" name="testunits" action="index.php?mod=testunit&action=uAjax_uploadify">
 
 <table class="tables" cellpadding="0" cellspacing="0" border="0" summary="testunit" align="center" style="width:800px;height:400px;border:1px solid #000;">
     <tr valign="top"><td colspan="2" valign="middle" align="center" class="arial12white" bgcolor="#FF0000"><b>Test: Ajax Upload mit Uploadify</b></td></tr>
@@ -102,7 +99,7 @@ $(function(){
         </td>
     </tr>
 </table>
-</form>
-<b>>></b>&nbsp;<a href="index.php?mod=testunit" class="arial12black">back</a>&nbsp;<b><<</b><br/>
+
+Navigation: {breadcrumbs}
+
 </center>
-<img src="{$www_root_theme}images/blind.gif" border="0" height="10" width="1" alt="testunit" /><br />
