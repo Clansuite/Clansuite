@@ -103,6 +103,8 @@ window.onload = function() {
 	</tr>
 </table>
 </form>
+{breadcrumbs}
+
 <b>>></b>&nbsp;<a href="index.php?mod=testunit" class="arial12black">back</a>&nbsp;<b><<</b><br/>
 </center>
 <img src="{$www_root_theme}images/blind.gif" border="0" height="10" width="1" alt="testunit" /><br />
