@@ -66,7 +66,7 @@ class Clansuite_Module_Rssreader extends Clansuite_Module_Controller
 
         # assign to smarty
         $view = $this->getView();
-        $view->assign('items_newswidget', $this->getConfigValue('items_newswidget', '3'));
+        $view->assign('items_newswidget', self::getConfigValue('items_newswidget', '3'));
         $view->assign('feed', $feeditems);
     }
 }

@@ -72,14 +72,14 @@ class Clansuite_Module_Statistics_Admin extends Clansuite_Module_Controller
                                                 'label' => 'delete Time',
                                                 'description' => _('Delete time of old database entries for the WhoIsOnline table. Value in days. After x days delete old entries !'),
                                                 'formfieldtype' => 'text',
-                                                'value' => $this->getConfigValue('deleteTimeWho', '1'));
+                                                'value' => self::getConfigValue('deleteTimeWho', '1'));
 
         $settings['statistics'][] = array(        'id' => 'timoutWho',
                                                 'name' => 'timoutWho',
                                                 'label' => 'Online Timeout',
                                                 'description' => _('Defines the timeout for a user or guest. Value in minutes.'),
                                                 'formfieldtype' => 'text',
-                                                'value' => $this->getConfigValue('timoutWho', '5'));
+                                                'value' => self::getConfigValue('timoutWho', '5'));
 
         # fill the settings array into the formgenerator
         $form = new Clansuite_Form($settings);

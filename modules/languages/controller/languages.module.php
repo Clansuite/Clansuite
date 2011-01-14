@@ -66,7 +66,7 @@ class Clansuite_Module_Languages extends Clansuite_Module_Controller
 
         # assign to smarty
         $view = $this->getView();
-        $view->assign('items_languages', $this->getConfigValue('items_languages', '3'));
+        $view->assign('items_languages', self::getConfigValue('items_languages', '3'));
         
         $view->assign('feed', $feeditems);
     }

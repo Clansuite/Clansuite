@@ -141,7 +141,7 @@ class Clansuite_Module_Account_Admin extends Clansuite_Module_Controller
                                         'label' => 'Newsitems',
                                         'description' => _('Newsitems to show in Newsmodule'),
                                         'formfieldtype' => 'text',
-                                        'value' => $this->getConfigValue('resultsPerPage_show', '3'));
+                                        'value' => self::getConfigValue('resultsPerPage_show', '3'));
 
         $form = new Clansuite_Form($settings);
 

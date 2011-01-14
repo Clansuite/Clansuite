@@ -58,12 +58,12 @@ class Clansuite_Module_Mibbitirc extends Clansuite_Module_Controller
         # Try to get Mibbit Options from config or set default ones
         $mibbit_options['nick']        = preg_replace('/ /', '_', $_SESSION['user']['nick']);
 
-        $mibbit_options['title']       = $this->getConfigValue('mibbit_irc_page_title',      'Clansuite Live Chat');
-        $mibbit_options['nick_prefix'] = $this->getConfigValue('mibbit_irc_nickname_prefix', 'Guest');
-        $mibbit_options['server']      = $this->getConfigValue('mibbit_irc_server',          'irc.quakenet.org');
-        $mibbit_options['channel']     = $this->getConfigValue('mibbit_irc_channel',         '#clansuite');
-        $mibbit_options['width']       = $this->getConfigValue('mibbit_irc_width',           '500');
-        $mibbit_options['height']      = $this->getConfigValue('mibbit_irc_height',          '280');
+        $mibbit_options['title']       = self::getConfigValue('mibbit_irc_page_title',      'Clansuite Live Chat');
+        $mibbit_options['nick_prefix'] = self::getConfigValue('mibbit_irc_nickname_prefix', 'Guest');
+        $mibbit_options['server']      = self::getConfigValue('mibbit_irc_server',          'irc.quakenet.org');
+        $mibbit_options['channel']     = self::getConfigValue('mibbit_irc_channel',         '#clansuite');
+        $mibbit_options['width']       = self::getConfigValue('mibbit_irc_width',           '500');
+        $mibbit_options['height']      = self::getConfigValue('mibbit_irc_height',          '280');
 
         # Set options to the view
         $this->getView()->assign('mibbit_options', $mibbit_options);

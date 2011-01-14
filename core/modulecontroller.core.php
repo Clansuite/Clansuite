@@ -77,7 +77,7 @@ abstract class Clansuite_Module_Controller
     /**
      * @var array The Module Configuration Array
      */
-    public $moduleconfig = null;
+    public static $moduleconfig = null;
 
     public function __construct(Clansuite_HttpRequest $request, Clansuite_HttpResponse $response)
     {
@@ -135,10 +135,10 @@ abstract class Clansuite_Module_Controller
      * @param string $modulename Modulename.
      * @return array configuration array of module
      */
-    public function getModuleConfig($modulename = null)
+    public static function getModuleConfig($modulename = null)
     {
         $config = self::getInjector()->instantiate('Clansuite_Config');
-        return $this->moduleconfig = $config->readModuleConfig($modulename);
+        return self::$moduleconfig = $config->readModuleConfig($modulename);
     }
 
     /**
@@ -156,11 +156,11 @@ abstract class Clansuite_Module_Controller
      *
      * @example
      * Usage for one default variable:
-     * $this->getConfigValue('items_newswidget', '8');
+     * self::getConfigValue('items_newswidget', '8');
      * Gets the value for the key items_newswidget from the moduleconfig or sets the value to 8.
      *
      * Usage for two default variables:
-     * $this->getConfigValue('items_newswidget', $_GET['numberNews'], '8');
+     * self::getConfigValue('items_newswidget', $_GET['numberNews'], '8');
      * Gets the value for the key items_newswidget from the moduleconfig or sets the value
      * incomming via GET, if nothing is incomming, sets the default value of 8.
      *
@@ -168,16 +168,16 @@ abstract class Clansuite_Module_Controller
      * @param mixed $default_one A default value, which is returned, if the keyname was not found.
      * @param mixed $default_two A default value, which is returned, if the keyname was not found and default_one is null.
      */
-    public function getConfigValue($keyname, $default_one = null, $default_two = null)
+    public static function getConfigValue($keyname, $default_one = null, $default_two = null)
     {
         # if we don't have a moduleconfig array yet, get it
-        if($this->moduleconfig === null)
+        if(self::$moduleconfig === null)
         {
-            $this->moduleconfig = $this->getModuleConfig();
+            self::$moduleconfig = self::getModuleConfig();
         }
 
         # try a lookup of the value by keyname
-        $value = Clansuite_Functions::array_find_element_by_key($keyname, $this->moduleconfig);
+        $value = Clansuite_Functions::array_find_element_by_key($keyname, self::$moduleconfig);
 
         # return value or default
         if(empty($value) == false)
@@ -422,7 +422,7 @@ abstract class Clansuite_Module_Controller
      * @param string $module The name of the action.
      * @param boolean $assign_to_view If true, the form is directly assigned as formname to the view
      */
-    public function loadForm($formname = null, $module = null, $action = null, $assign_to_view = false)
+    public function loadForm($formname = null, $module = null, $action = null, $assign_to_view = true)
     {
         if(null === $module)
         {
@@ -445,12 +445,14 @@ abstract class Clansuite_Module_Controller
         $filename  = mb_strtolower($formname) . '.form.php';
         $directory = ROOT_MOD . mb_strtolower($module) . DS . 'form/';
         Clansuite_Loader::requireFile( $directory . $filename, $classname );
+
+        # form preparation stage (combine description and add additional formelements)
         $form = new $classname;
 
         # assign form object directly to the view or return to work with it
         if($assign_to_view === true)
         {
-            $this->getView()->assign($formname, $form->render());
+            $this->getView()->assign('form', $form->render());
         }
         else
         {

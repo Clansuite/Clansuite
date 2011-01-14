@@ -133,7 +133,7 @@ class Clansuite_Module_Account extends Clansuite_Module_Controller
          *
          * Perform checks on Inputvariables & Form filled?
          */
-        if ( isset($value) and empty($value) == false and empty($password) == false )
+        if ( isset($value) and empty($value) === false and empty($password) === false )
         {
             self::checkLoginAttemps();
 
@@ -159,7 +159,7 @@ class Clansuite_Module_Account extends Clansuite_Module_Controller
 
                 # @todo this is a plugin 'login_attempts' -> move it
                 # log the login attempts to ban the ip at a specific number
-                if (!isset($_SESSION['login_attempts']))
+                if (false === isset($_SESSION['login_attempts']))
                 {
                     $_SESSION['login_attempts'] = 1;
                 }
@@ -337,7 +337,7 @@ class Clansuite_Module_Account extends Clansuite_Module_Controller
                 {
                     $userIns->activated = 1;
                     $userIns->save();
-                    $user->loginUser($userIns->user_id, 1, $pass);
+                    $user->loginUser($userIns->user_id, true, $pass);
                     $this->redirect( 'index.php', 3, 200, _('You have sucessfully registered and you are logged in.') );
                     die();
                 }
