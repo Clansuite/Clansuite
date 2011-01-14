@@ -28,7 +28,7 @@ function smarty_function_breadcrumbs($params, $smarty)
     }
     else
     {
-        $trail = array();
+        $trail = Clansuite_Breadcrumb::getTrail();
     }
 
     #Clansuite_Debug::firebug($trail);
@@ -43,7 +43,14 @@ function smarty_function_breadcrumbs($params, $smarty)
         $separator = ' &gt; ';
     }
 
-    $length = (int) $params['length'];
+    if(isset($params['length']))
+    {
+        $length = (int) $params['length'];
+    }
+    else
+    {
+        $length = 0;
+    }
 
     $links = array();
 

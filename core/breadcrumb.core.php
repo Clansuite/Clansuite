@@ -50,9 +50,18 @@ class Clansuite_Breadcrumb
      * @var array $path contains the complete path structured as array
      */
     private static $path = array();
+    
+    /**
+     * @var array $breadcrumb contains the array structure for a new breadcrumb
+     */
+    private static $breadcrumb = array('title' => '',
+                                       'link' => '',
+                                       'module' => '',
+                                       'submodule' => '',
+                                       'action' => '');
 
     /**
-     * Adds a breadcrumb new level
+     * Adds a new breadcrumb
      *
      * @param string $title Name of the trail element
      * @param string $link Link of the trail element
@@ -60,25 +69,24 @@ class Clansuite_Breadcrumb
      */
     public static function add($title, $link = '', $replace_array_position = null)
     {
-        # remove slash
-        $link = ltrim($link, '/');
-
-        $item = array('title' => ucfirst($title) );
-
-        if(isset($link))
-        {
-            $item['link'] = WWW_ROOT . $link;
-        }
+        # init new breadcrumb array
+        $breadcrumb = self::$breadcrumb;
+       
+        # set data to breadcrumb
+        $breadcrumb['title'] = ucfirst($title);
+        $breadcrumb['link']  = WWW_ROOT . ltrim($link, '/');
 
         # replace
         if(isset($replace_array_position))
         {
-            self::$path[$replace_array_position] = $item;
+            self::$path[$replace_array_position] = $breadcrumb;
         }
         else # no, just add
         {
-            self::$path[] = $item;
+            self::$path[] = $breadcrumb;
         }
+        
+        unset($breadcrumb);
     }
 
     /**
@@ -143,14 +151,8 @@ class Clansuite_Breadcrumb
         $actionName     = Clansuite_TargetRoute::getActionName();
 
         /**
-         *  FIRST PART of the TRAIL
+         * Breadcrumb Level 0    =>    Home or Controlcenter
          */
-
-        # Home (Frontend)
-        if(($moduleName != 'controlcenter') and ($submoduleName != 'admin'))
-        {
-            Clansuite_Breadcrumb::add('Home');
-        }
 
         # ControlCenter (Backend)
         if($moduleName == 'controlcenter' or $submoduleName == 'admin')
@@ -158,16 +160,24 @@ class Clansuite_Breadcrumb
             # Set Pagetitle "Control Center" and Breadcrumb-Link = '/index.php?mod=controlcenter'
             Clansuite_Breadcrumb::add('Control Center', '/controlcenter');
         }
+        else # Home (Frontend)
+        {
+            Clansuite_Breadcrumb::add('Home');
+        }
 
         /**
-         * This adds the SECOND PART of the TRAIL.
+         * Breadcrumb Level 1    =>    Module
          */
+         
         if($moduleName != 'controlcenter')
         {
             # Construct relative URL
             $url  = 'index.php?mod=' . $moduleName;
             $trailName = $moduleName;
-
+            
+            # Set Pagetitle and Breadcrumbs for that Module
+            Clansuite_Breadcrumb::add( T_( $trailName ), $url );
+            
             # Add action Part only, if not no submodule following
             if( (mb_strlen($actionName) > 0) and (mb_strlen($submoduleName) == 0))
             {
@@ -179,9 +189,6 @@ class Clansuite_Breadcrumb
             {
                 $url .= '&amp;sub=admin';
             }
-
-            # Set Pagetitle and Breadcrumbs for that Module
-            Clansuite_Breadcrumb::add( T_( $trailName ), $url );
         }
 
         # add submodule part
