@@ -16,10 +16,10 @@ window.onload = function() {
         upload_url: "{$www_root}uploads/upload.php",
 
         // File Upload Settings
-        file_size_limit : "1 MB",	// 2MB
+        file_size_limit : "2 MB",
         file_types : "*.jpg",
         file_types_description : "JPG Images",
-        file_upload_limit : 1,
+        file_upload_limit : 0,
 
         // Event Handler Settings - these functions as defined in Handlers.js
         swfupload_preload_handler : preLoad,
@@ -76,10 +76,7 @@ window.onload = function() {
 </script>
 {/move_to}
 
-<img src="{$www_root_theme}images/blind.gif" border="0" height="10" width="1" alt="testunit" /><br />
-
 <center>
-<form method="post" name="testunits" action="index.php?mod=testunit&action=uAjax_uploadify">
 
 <table class="tables" cellpadding="0" cellspacing="0" border="0" summary="testunit" align="center" style="width:800px;height:400px;border:1px solid #000;">
     <tr valign="top"><td colspan="2" valign="middle" align="center" class="arial12white" bgcolor="#FF0000"><b>Test: Ajax Upload mit swfUpload</b></td></tr>
@@ -90,8 +87,10 @@ window.onload = function() {
             <span id="spanButtonPlaceholder"></span>
         </td>
         <td valign="top" width="50%" align="left" style="padding:15px 10px;">
-            Upload-Bild:&nbsp;<input type="text" id="image_small" name="image_small" value="" />
-            <div id="divFileProgressContainer" style="height: 35px; float:right;"></div><div id="thumbnails"></div>
+            Upload-Bild:&nbsp;
+            <input type="text" id="image_small" name="image_small" value="" />
+            <div id="divFileProgressContainer" style="height: 35px; float:right;"></div>
+            <div id="thumbnails"></div>
         </td>
     </tr>
     <tr><td colspan="2"><img src="{$www_root_theme}images/blind.gif" border="0" height="20" width="1" alt="testunit" /></td></tr>
@@ -102,7 +101,6 @@ window.onload = function() {
         </td>
     </tr>
 </table>
-</form>
 
 Navigation: {breadcrumbs}
 
