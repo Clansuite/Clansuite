@@ -77,6 +77,7 @@ class Clansuite_ACL
      */
     private static $perms = array();
 
+    private static $compress_permissions = false;
 
     /**
      * Constructor
@@ -144,9 +145,15 @@ class Clansuite_ACL
     {
         $permstring = self::getPermissions( $roleid, $userid );
 
-        if( $permstring !== '' )
+        # return compressed permission string
+        if( $permstring !== '' and self::$compress_permissions === true)
         {
             return strtr(base64_encode(addslashes(gzcompress(serialize($permstring),9))), '+/=', '-_,');
+        }
+        # return uncompress permission string
+        elseif( $permstring !== '')
+        {
+            return $permstring;
         }
         else
         {
@@ -173,13 +180,19 @@ class Clansuite_ACL
         {
             return array();
         }
-        else # revert the session permission string to a proper array
+        elseif(self::$compress_permissions === true)
         {
+
+            # revert the session permission string to a proper array
             $permstring = unserialize(gzuncompress(stripslashes(base64_decode(strtr($_SESSION['user']['rights'], '-_,', '+/=')))));
 
             $permstring = explode(',', $permstring);
 
             return $permstring;
+        }
+        else
+        {
+            return $_SESSION['user']['rights'];
         }
     }
 
