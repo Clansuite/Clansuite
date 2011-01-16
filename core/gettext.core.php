@@ -464,7 +464,7 @@ class Clansuite_Gettext_Extractor_Tool
     }
 
     /**
-     * Formats fetched data to gettext syntax
+     * Formats fetched data to gettext portable object syntax
      *
      * @param array $data
      *
@@ -484,7 +484,8 @@ class Clansuite_Gettext_Extractor_Tool
         $output[] = 'msgid ""';
         $output[] = 'msgstr ""';
         $output[] = '"Project-Id-Version: Clansuite ' . CLANSUITE_VERSION . '\n"';
-        $output[] = '"POT-Creation-Date: ' . date('c') . '\n"';
+        $output[] = '"POT-Creation-Date: ' . date('Y-m-d H:iO') . '\n"';
+        $output[] = '"PO-Revision-Date: ' . date('Y-m-d H:iO') . '\n"';
         $output[] = '"Content-Type: text/plain; charset=UTF-8\n"';
         $output[] = '"Plural-Forms: nplurals=2; plural=(n != 1);\n"';
         $output[] = '';
@@ -495,23 +496,25 @@ class Clansuite_Gettext_Extractor_Tool
         {
             ksort($files);
 
+            $slashed_key = self::addSlashes($key);
+
             foreach($files as $file)
             {
                 $output[] = '#: ' . $file; # = reference
             }
 
-            $output[] = 'msgid "' . addslashes($key) . '"';
+            $output[] = 'msgid "' . $slashed_key . '"';
 
             # check for plural
             if(preg_match($pluralMatchRegexp, $key, $matches))
             {
-                $output[] = 'msgid_plural "' . addslashes($key) . '"';
-                $output[] = 'msgstr[0] "' . addslashes($key) . '"';
-                $output[] = 'msgstr[1] "' . addslashes($key) . '"';
+                $output[] = 'msgid_plural "' . $slashed_key . '"';
+                $output[] = 'msgstr[0] "' . $slashed_key . '"';
+                $output[] = 'msgstr[1] "' . $slashed_key . '"';
             }
             else # no plural
             {
-                $output[] = 'msgstr "' . addslashes($key) . '"';
+                $output[] = 'msgstr "' . $slashed_key . '"';
             }
 
             $output[] = '';
@@ -527,7 +530,7 @@ class Clansuite_Gettext_Extractor_Tool
      *
      * @return string
      */
-    public function addSlashes($string)
+    public static function addSlashes($string)
     {
         return addcslashes($string, '"');
     }
