@@ -87,7 +87,7 @@ function cssBuilder()
     $_comp .= $theme_compact;
 
     foreach( $themeFiles as $filename ) {
-        $content = _load_stylesheet($themePath.$filename);
+        $content = load_stylesheet($themePath.$filename, true);
         $_comp .= "/* [".$filename."] */" . "\n";
         $_comp .= $content."\n";
     }
@@ -109,7 +109,7 @@ function cssBuilder()
  * -------------------------------------------------------------------------------------------------
  * read_core_definition
  * -------------------------------------------------------------------------------------------------
- * 
+ *
  */
 function read_properties( $inifile )
 {
@@ -145,26 +145,14 @@ function save_stylesheet($comp_filename, $_compact)
 
 /**
  * -------------------------------------------------------------------------------------------------
- * _load_stylesheet
- * -------------------------------------------------------------------------------------------------
- * startet methode
- */
-function _load_stylesheet($filename)
-{
-    $file = load_stylesheet($filename, true);
-    return $file;
-}
-
-/**
- * -------------------------------------------------------------------------------------------------
  * load_stylesheet
  * -------------------------------------------------------------------------------------------------
- * 
+ *
  */
 function load_stylesheet($file, $optimize = false)
 {
   $contents = '';
-  if (file_exists($file)) 
+  if (file_exists($file))
   {
     # Load the local CSS stylesheet.
     $contents = file_get_contents($file);
