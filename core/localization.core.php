@@ -248,7 +248,8 @@ class Clansuite_Localization
         elseif(extension_loaded('intl'))
         {
             # Try to find best available locale based on HTTP "Accept-Language" header
-            return Locale::acceptFromHttp($_SERVER['HTTP_ACCEPT_LANGUAGE']);
+            $lang =  Locale::acceptFromHttp($_SERVER['HTTP_ACCEPT_LANGUAGE']);
+            return (array) mb_substr($lang, 0, 2);
         }
         else # fallback for no ext/intl environments
         {
