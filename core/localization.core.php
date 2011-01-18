@@ -172,7 +172,7 @@ class Clansuite_Localization
         }
         else # set a specific module directory
         {
-            $domain_directory = ROOT_MOD . $module . DS . 'languages' . DS;
+            $domain_directory = ROOT_MOD . $module . DS . 'languages';
         }
 
         # Set the Domain
@@ -236,8 +236,6 @@ class Clansuite_Localization
      * EXAMPLE:     de-de,de;q=0.8,en-us;q=0.5,en;q=0.3
      *
      * @return Array containing the list of supported languages
-     * @todo $_SERVER is an httprequest object...
-     *        the method should be placed there and data fetch from the httprequest->method
      */
     public function getBrowserLanguages()
     {
@@ -247,23 +245,30 @@ class Clansuite_Localization
             # if not return an empty language array
             return array();
         }
-
-        # explode environment variable HTTP_ACCEPT_LANGUAGE at ,
-        $browserLanguages = explode(',', $_SERVER['HTTP_ACCEPT_LANGUAGE']);
-
-        # convert the headers string to an array
-        $browserLanguagesSize = count($browserLanguages);
-
-        for($i = 0; $i < $browserLanguagesSize; $i++)
+        elseif(extension_loaded('intl'))
         {
-            # explode string at ;
-            $browserLanguage = explode(';', $browserLanguages[$i]);
-            # cut string and place into array
-            $browserLanguages[$i] = mb_substr($browserLanguage[0], 0, 2);
+            # Try to find best available locale based on HTTP "Accept-Language" header
+            return Locale::acceptFromHttp($_SERVER['HTTP_ACCEPT_LANGUAGE']);
         }
+        else # fallback for no ext/intl environments
+        {
+            # explode environment variable HTTP_ACCEPT_LANGUAGE at ,
+            $browserLanguages = explode(',', $_SERVER['HTTP_ACCEPT_LANGUAGE']);
 
-        # remove the duplicates and return the browser languages
-        return array_values(array_unique($browserLanguages));
+            # convert the headers string to an array
+            $browserLanguagesSize = count($browserLanguages);
+
+            for($i = 0; $i < $browserLanguagesSize; $i++)
+            {
+                # explode string at ;
+                $browserLanguage = explode(';', $browserLanguages[$i]);
+                # cut string and place into array
+                $browserLanguages[$i] = mb_substr($browserLanguage[0], 0, 2);
+            }
+
+            # remove the duplicates and return the browser languages
+            return array_values(array_unique($browserLanguages));
+        }
     }
 }
 ?>
