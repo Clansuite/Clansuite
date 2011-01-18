@@ -7,6 +7,5 @@ GOTO RUN
 :USE_PEAR_PATH
 set PHPBIN=%PHP_PEAR_PHP_BIN%
 :RUN
-"%PHPBIN%" "C:\Programme\Zend\Apache2\htdocs\clansuite\trunk\bin\doctrine.php" %*
-REM CALL COMMAND ,)
-cmd.exe
+"%PHPBIN%" "C:\Programme\Zend\Apache2\htdocs\clansuite\trunk\bin\doctrine.php" dbal:import "../installation/sql/clansuite.sql"
+PAUSE
