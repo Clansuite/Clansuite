@@ -94,6 +94,9 @@ class Clansuite_Doctrine
             # activate Doctrine Debug also
             Doctrine_Core::debug(true);
         }
+
+        # after init and prepare, we are done with it
+        unset($this->config);
     }
 
     /**
