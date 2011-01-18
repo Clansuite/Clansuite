@@ -1,15 +1,15 @@
 <?php
-$classLoader = new \Doctrine\Common\ClassLoader('Entities', realpath('/../doctrine'));
+$classLoader = new \Doctrine\Common\ClassLoader('Entities', realpath('../doctrine'));
 $classLoader->register();
 
-$classLoader = new \Doctrine\Common\ClassLoader('Proxies', realpath('/../doctrine'));
+$classLoader = new \Doctrine\Common\ClassLoader('Proxies', realpath('../doctrine'));
 $classLoader->register();
 
 $config = new \Doctrine\ORM\Configuration();
 $config->setMetadataCacheImpl(new \Doctrine\Common\Cache\ArrayCache);
-$driverImpl = $config->newDefaultAnnotationDriver(array(realpath('/../doctrine/entities')));
+$driverImpl = $config->newDefaultAnnotationDriver(array(realpath('../doctrine/entities')));
 $config->setMetadataDriverImpl($driverImpl);
-$config->setProxyDir('/../doctrine/proxies');
+$config->setProxyDir('../doctrine/proxies');
 $config->setProxyNamespace('Proxies');
 
 $connectionOptions = array(
