@@ -196,6 +196,7 @@ class Clansuite_Config_INI
         {
             throw new Clansuite_Exception('File not found: '.$filename, 4);
         }
+
         return parse_ini_file($filename, true);
     }
 
