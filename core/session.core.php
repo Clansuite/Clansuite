@@ -143,31 +143,32 @@ class Clansuite_Session implements Clansuite_Session_Interface, ArrayAccess
                                  );
 
         # Create new ID, if session string-lenght corrupted OR not initiated already OR application token missing
-        if (  mb_strlen(session_id()) != 32 or !isset($_SESSION['initiated']) or ((string) $_SESSION['application'] != 'CS-'.CLANSUITE_REVISION))
+        if (  mb_strlen(session_id()) != 32 or !isset($_SESSION['application']['initiated']) or ((string) $_SESSION['application']['version'] != 'CS-'.CLANSUITE_VERSION.' build:'.CLANSUITE_REVISION))
         {
             # Make a new session_id and destroy old session
             # from PHP 5.1 on , if set to true, it will force the session extension to remove the old session on an id change
             session_regenerate_id(true);
 
+            # Start Session
+            $this->startSession($this->session_expire_time);
+
             # session fixation
-            $_SESSION['initiated']      = true;
+            $_SESSION['application']['initiated']      = true;
 
             # application-marker
-            $_SESSION['application']    = 'CS-'.CLANSUITE_REVISION;
+            $_SESSION['application']['version']    = 'CS-'.CLANSUITE_VERSION.' build:'.CLANSUITE_REVISION;
 
             /**
              * Session Security Token
              * CSRF: http://shiflett.org/articles/cross-site-request-forgeries
              */
             # session token
-            $_SESSION['token']      = md5(uniqid(rand(), true));
+            $_SESSION['application']['token']      = md5(uniqid(rand(), true));
 
             # session time
-            $_SESSION['token_time'] = time();
+            $_SESSION['application']['token_time'] = time();
         }
 
-        # Start Session
-        $this->startSession($this->session_expire_time);
     }
 
     /**
