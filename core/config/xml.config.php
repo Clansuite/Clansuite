@@ -144,7 +144,7 @@ class Clansuite_Config_XML
     }
 
     /**
-     * Read the complete config array from xml file
+     * Read the config array from xml file
      *
      * @param   string  The filename
      *
@@ -161,9 +161,7 @@ class Clansuite_Config_XML
         $xml = simplexml_load_file($filename);
 
         # transform XML to PHP Array
-        $array = Clansuite_Functions::simpleXMLToArray($xml);
-
-        return $array;
+        return Clansuite_Functions::simpleXMLToArray($xml);
     }
 }
 ?>

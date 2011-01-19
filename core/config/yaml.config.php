@@ -133,16 +133,8 @@ class Clansuite_Config_YAML
          * write array
          */
 
-        # ensure we have a filename
-        if (empty($filename) === false)
-        {
-            # write YAML content to file
-            file_put_contents($yaml, $filename);
-        }
-        else
-        {
-            throw new Clansuite_Exception('Could not write to file '. $filename .' because permissions are wrong. Apply correct file und directory permissions.');
-        }
+        # write YAML content to file
+        file_put_contents($filename, $yaml);
     }
 
     /**
@@ -195,16 +187,7 @@ class Clansuite_Config_YAML
             throw new Clansuite_Exception('No YAML Parser available. Get Spyc or Syck!');
         }
 
-        # check if the php_datastructire is filled array
-        if(is_array($array) and (empty($array) === false))
-        {
-            # then return it
-            return $array;
-        }
-        else # return an empty array
-        {
-            return array();
-        }
+        return $array;
     }
 }
 ?>
