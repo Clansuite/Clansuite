@@ -62,9 +62,19 @@ class Clansuite_Formelement_Cancelbutton extends Clansuite_Formelement_Input imp
         $this->name  = 'CancelButton';
     }
 
+    public function getCancelURL()
+    {
+        return $this->cancelURL;
+    }
+
+    public function setCancelURL($cancelURL)
+    {
+        $this->cancelURL = $cancelURL;
+    }
+
     public function render()
     {
-        $this->setAdditionalAttributeText(' onclick="window.location.href=\''.$this->cancelURL.'\'"');
+        $this->setAdditionalAttributeText(' onclick="window.location.href=\''.$this->getCancelURL().'\'"');
         return parent::render();
     }
 }
