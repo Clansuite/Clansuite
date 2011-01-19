@@ -79,12 +79,12 @@ class Clansuite_Module_Account extends Clansuite_Module_Controller
     private function checkLoginAttemps()
     {
         if ( empty($_SESSION['login_attempts']) == false
-             and $_SESSION['login_attempts'] >= $this->moduleconfig['login']['max_login_attempts'] )
+             and $_SESSION['login_attempts'] >= self::$moduleconfig['login']['max_login_attempts'] )
         {
             # @todo ban action
 
             $this->redirect( WWW_ROOT, 3, '200',
-            _('You are temporarily banned. Please come back in <b>' .$this->moduleconfig['login']['login_ban_minutes'].'</b> minutes.'));
+            _('You are temporarily banned. Please come back in <b>' .self::$moduleconfig['login']['login_ban_minutes'].'</b> minutes.'));
 
             exit();
         }
@@ -117,12 +117,12 @@ class Clansuite_Module_Account extends Clansuite_Module_Controller
         /**
          * Determine the default login method by config value
          */
-        if( $this->moduleconfig['login']['login_method'] == 'nick' )
+        if( self::$moduleconfig['login']['login_method'] == 'nick' )
         {
             $value = $nick;
             unset($nick);
         }
-        elseif( $this->moduleconfig['login']['login_method'] == 'email' )
+        elseif( self::$moduleconfig['login']['login_method'] == 'email' )
         {
             $value = $email;
             unset($email);
@@ -138,7 +138,7 @@ class Clansuite_Module_Account extends Clansuite_Module_Controller
             self::checkLoginAttemps();
 
             # check whether user_id + password match
-            $user_id = $user->checkUser( $this->moduleconfig['login']['login_method'], $value, $password );
+            $user_id = $user->checkUser( self::$moduleconfig['login']['login_method'], $value, $password );
 
             # proceed if true
             if ($user_id != false)
@@ -290,7 +290,7 @@ class Clansuite_Module_Account extends Clansuite_Module_Controller
             */
 
             // Check the password
-            if (strlen($pass) < $this->moduleconfig['login']['min_pass_length'])
+            if (strlen($pass) < self::$moduleconfig['login']['min_pass_length'])
             {
                 $error['pass_too_short'] = 1;
             }
@@ -333,7 +333,7 @@ class Clansuite_Module_Account extends Clansuite_Module_Controller
                 $userIns->salt = $salt;
                 $userIns->joined = time();
 
-                if($this->moduleconfig['login']['email_activation'] == 0)
+                if(self::$moduleconfig['login']['email_activation'] == 0)
                 {
                     $userIns->activated = 1;
                     $userIns->save();
@@ -363,8 +363,8 @@ class Clansuite_Module_Account extends Clansuite_Module_Controller
 
         $view = $this->getView();
         # Assign vars
-        $view->assign( 'config', $this->moduleconfig );
-        $view->assign( 'min_length', $this->moduleconfig['login']['min_pass_length'] );
+        $view->assign( 'config', self::$moduleconfig );
+        $view->assign( 'min_length', self::$moduleconfig['login']['min_pass_length'] );
         $view->assign( 'err', $error );
         #$view->assign( 'captcha_url',  WWW_ROOT . 'index.php?mod=captcha&' . session_name() . '=' . session_id() );
 
@@ -545,7 +545,7 @@ class Clansuite_Module_Account extends Clansuite_Module_Controller
             {
                 $error['form_not_filled'] = 1;
             }
-            elseif ( !isset($pass{$this->moduleconfig['login']['min_pass_length']-1}) )
+            elseif ( !isset($pass{self::$moduleconfig['login']['min_pass_length']-1}) )
             {
                 $error['pass_too_short'] = 1;
             }
