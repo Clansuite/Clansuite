@@ -39,7 +39,7 @@ if (defined('IN_CS') === false)
 /**
  * Clansuite_Theme
  *
- * This class provides abstracted access to a theme's theme_info.xml file.
+ * This class provides abstracted (object) access to a theme's theme_info.xml file.
  */
 class Clansuite_Theme
 {

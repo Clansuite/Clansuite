@@ -622,7 +622,7 @@ class Clansuite_GuestUser
 
         $_SESSION['user']['group']  = 1; # @todo hardcoded for now
         $_SESSION['user']['role']   = 3;
-        $_SESSION['user']['rights'] = Clansuite_ACL::createRightSession( $_SESSION['user']['role'] );
+        #$_SESSION['user']['rights'] = Clansuite_ACL::createRightSession( $_SESSION['user']['role'] );
 
         #Clansuite_Debug::printR($_SESSION);
         #Clansuite_Debug::firebug($_SESSION);

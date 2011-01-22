@@ -75,6 +75,11 @@ abstract class Clansuite_Module_Controller
     public $request = null;
 
     /**
+     * @var object \Doctrine\ORM\EntityManager
+     */
+    public $doctrine_em = null;
+
+    /**
      * @var array The Module Configuration Array
      */
     public static $moduleconfig = null;
@@ -83,6 +88,41 @@ abstract class Clansuite_Module_Controller
     {
         $this->request = $request;
         $this->response = $response;
+        $this->doctrine_em = Clansuite_CMS::getEntityManager();
+    }
+
+    /**
+     * The name of the entity extracted from the classname
+     *
+     * @todo isn't this the pure "mod" name?
+     *
+     * @param string Classname
+     * @return string The name of the entity extracted from classname
+     */
+    public function getEntityNameFromClassname()
+    {
+        $entityNameArray = explode('_', get_called_class());
+
+        # add entities namespace prefix
+        $this->entityName = 'Entities\\' . $entityNameArray[2];
+
+        return $this->entityName;
+    }
+
+    /**
+     * Proxy/Convenience Getter Method for the current Repository
+     *
+     * @param string $entityName
+     * @return object Doctrine Repository
+     */
+    public function getModel($entityName = null)
+    {
+        if(null === $entityName)
+        {
+            $entityName = $this->getEntityNameFromClassname();
+        }
+
+        return $this->doctrine_em->getRepository($entityName);
     }
 
     /**
@@ -109,24 +149,20 @@ abstract class Clansuite_Module_Controller
          */
         if($recordname === null)
         {
-            $models_path = ROOT_MOD . mb_strtolower($modulename) . DS . 'model/records';
+            $models_path = realpath(ROOT_MOD . mb_strtolower($modulename) . DS . 'model') . DS;
         }
-        #else
-        #{
-            /**
-             * Modulename and Recordname differ!
-             * Like "modulemanager" as modulename and "CsModules" = "modules" as recordname.
-             */
-
-            #$models_path = ROOT_MOD . mb_strtolower($modulename) . DS . 'model' . DS . 'records';
-        #}
 
         if( is_dir($models_path) )
         {
-            Doctrine::loadModels( $models_path . '/generated' );
-            Doctrine::loadModels( $models_path );
+            set_include_path($models_path . PS . get_include_path());
+
+            $em = Clansuite_CMS::getEntityManager();
+            $config = $em->getConfiguration();
+            $config->setMetadataDriverImpl(
+            $config->newDefaultAnnotationDriver(
+                    array( $models_path, ROOT . 'doctrine' . DS )));
         }
-        # else Module has no Doctrine Records (Models)
+        # else Module has no Model Data
     }
 
     /**
@@ -401,8 +437,8 @@ abstract class Clansuite_Module_Controller
         # Debug display of Layout Template and Content Template
         if(DEBUG == true)
         {
-            Clansuite_Debug::firebug('Layout/Wrapper Template: ' . $this->view->getLayoutTemplate() . '<br />');
-            Clansuite_Debug::firebug('Template Name: ' . $templatename . '<br />');
+            #Clansuite_Debug::firebug('Layout/Wrapper Template: ' . $this->view->getLayoutTemplate() . '<br />');
+            #Clansuite_Debug::firebug('Template Name: ' . $templatename . '<br />');
         }
 
         # render the content / template

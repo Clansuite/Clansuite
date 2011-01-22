@@ -59,6 +59,11 @@ class Clansuite_CMS
     private static $config;
 
     /**
+     * @var object \Doctrine\ORM\EntityManager
+     */
+    public static $doctrine_em;
+
+    /**
      * @var array Static Array with all prefilter classnames
      */
     private static $prefilter_classes;
@@ -127,7 +132,7 @@ class Clansuite_CMS
 
         # Data Source Name Check
         # check if database settings are available in configuration
-        if(empty(self::$config['database']['type']) or
+        if(empty(self::$config['database']['driver']) or
            empty(self::$config['database']['username']) or
            empty(self::$config['database']['host']) or
            empty(self::$config['database']['name'])
@@ -394,6 +399,7 @@ class Clansuite_CMS
          */
         $paths = array(
             ROOT,
+            ROOT . 'doctrine',
             ROOT_LIBRARIES,
             ROOT_LIBRARIES . 'PEAR' . DS
         );
@@ -562,7 +568,7 @@ class Clansuite_CMS
         # define prefilters to load
         self::$prefilter_classes = array(
                                          # let the debug console always be first
-                                         'Clansuite_Filter_PhpDebugConsole',
+                                         #'Clansuite_Filter_PhpDebugConsole',
                                          'Clansuite_Filter_GetUser',
                                          #'Clansuite_Filter_Session_Security',
                                          'Clansuite_Filter_Routing',
@@ -570,7 +576,7 @@ class Clansuite_CMS
                                          'Clansuite_Filter_ThemeViaGet',
                                          'Clansuite_Filter_SetModuleLanguage',
                                          'Clansuite_Filter_StartupChecks',
-                                         'Clansuite_Filter_Statistics'
+                                         #'Clansuite_Filter_Statistics'
                                         );
 
         # register the prefilters at the DI
@@ -636,7 +642,7 @@ class Clansuite_CMS
     private static function start_Session()
     {
         # Initialize Doctrine before session start, because session is written to database
-        new Clansuite_Doctrine(self::$config);
+        self::$doctrine_em = Clansuite_Doctrine2::init(self::$config);
 
         # Initialize Session
         self::$injector->create('Clansuite_Session');
@@ -706,6 +712,14 @@ class Clansuite_CMS
     public static function getClansuiteConfig()
     {
         return self::$config;
+    }
+
+    /**
+     * @return \Doctrine\ORM\EntityManager
+     */
+    public static function getEntityManager()
+    {
+        return self::$doctrine_em;
     }
 
     /**

@@ -139,6 +139,14 @@ class Clansuite_ModuleInfoController
     /**
      * Get a list of all the module names
      *
+     * 4 in 1 method, handling the following cases:
+     * 1. array with module names
+     * 2. named array with modulenames
+     * 3. array with module names and paths
+     * 4. named array with modulenames and paths
+     *
+     * @param boolean $only_modulenames Toggle between only_names (true) and names+paths.
+     * @param boolean $named_array Toggle between named (true) and unnamed array.
      * @return array( $modulename => $module_path )
      */
     public static function getModuleNames($named_array = false, $only_modulenames = false)
@@ -180,7 +188,6 @@ class Clansuite_ModuleInfoController
         return $modules;
     }
 
-
     /**
      * Returns all activated modules
      *
@@ -188,18 +195,13 @@ class Clansuite_ModuleInfoController
      */
     public static function getAllActivatedModules()
     {
-        # copy the modules registry to temporary array
         $activated_modules_array = array();
 
-        # get all module names by fetching directory names
-        $modules = self::getModuleDirectories();
+        $modules = self::getModuleNames(true);
 
         # loop over all modules
-        foreach($modules as $module_path)
+        foreach($modules as $module)
         {
-            # strip path off
-            $module = str_replace( ROOT_MOD, '', $module_path);
-
             # check if active
             if(true === self::isModuleActive($module))
             {
@@ -242,16 +244,15 @@ class Clansuite_ModuleInfoController
      */
     public static function getModuleInformations($module = null)
     {
+        $modulename = strtolower($module);
+
         # check if the infos of this specific module were catched before
-        if(strlen($module) > 0)
+        if(isset($module) and isset(self::$modulesinfo[$modulename]))
         {
-            $modulename = strtolower($module);
-            if( isset(self::$modulesinfo[$modulename]))
-            {
-                return self::$modulesinfo[$modulename];
-            }
-            $module = ROOT_MOD.$modulename;
+            return self::$modulesinfo[$modulename];
         }
+
+        $module = ROOT_MOD . $modulename;
 
         # fetch infos for the requested $module
         return self::loadModuleInformations($module);
@@ -275,7 +276,7 @@ class Clansuite_ModuleInfoController
      * @param mixed array|string $module array with modulenames or one modulename
      * @return moduleinformations (self::$modulesinfo)
      */
-    private static function loadModuleInformations($module = null)
+    public static function loadModuleInformations($module = null)
     {
         # Init vars
         $module_directories = array();
@@ -289,11 +290,11 @@ class Clansuite_ModuleInfoController
         {
             $module_directories = self::getModuleDirectories();
         }
-        else # $module is either an array or an string
+        else
         {
+            # cast string to array
             $module_directories = array ($module);
         }
-
 
         foreach( $module_directories as $modulepath )
         {
