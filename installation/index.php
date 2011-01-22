@@ -210,7 +210,7 @@ if(isset($_POST['step_forward']) && $step == 5)
             ! ctype_digit($_POST['config']['database']['name']) &&
             preg_match('#^[a-zA-Z0-9]{1,}[a-zA-Z0-9_\-@]+[a-zA-Z0-9_\-@]*$#', $_POST['config']['database']['name']) &&
             ! empty($_POST['config']['database']['host']) &&
-            ! empty($_POST['config']['database']['type']) &&
+            ! empty($_POST['config']['database']['driver']) &&
             ! empty($_POST['config']['database']['username']) &&
             isset($_POST['config']['database']['password'])
     )

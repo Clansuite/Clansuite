@@ -1,7 +1,7 @@
 ; <?php die('Access forbidden.'); /* DO NOT MODIFY THIS LINE! ?>
 ;
 ; Clansuite Configuration File :
-; C:\Programme\Zend\Apache2\htdocs\clansuite\trunk\configuration/clansuite.config.php
+; C:\Programme\Zend\Apache2\htdocs\clansuite\trunk\configuration\clansuite.config.php
 ;
 ; This file was generated on 08-10-2010 01:22
 ;
@@ -10,14 +10,14 @@
 ; config
 ;----------------------------------------
 [config]
-staging = 1
+staging = 0
 
 ;----------------------------------------
 ; database
 ;----------------------------------------
 [database]
 host = "localhost"
-type = "mysql"
+driver = "pdo_mysql"
 username = "root"
 password = "toop"
 name = "clansuite"
@@ -109,7 +109,7 @@ reason = 1
 ;----------------------------------------
 [meta]
 description = "description"
-language = "language of this website"
+language = "en"
 author = "name of author"
 email = "webmaster@domain.com"
 keywords = "Keyword, Keyword"

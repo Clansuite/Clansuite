@@ -1,7 +1,7 @@
 <?php
 # Security Handler
 if (defined('IN_CS') === false)
-{ 
+{
     die( 'Clansuite not loaded. Direct Access forbidden.' );
 }
 ?>
@@ -31,8 +31,8 @@ if (defined('IN_CS') === false)
                                 <input class="formularright" type="text" id="host" name="config[database][host]" value="<?php echo $values['host']; ?>" />
                             </li>
                             <li>
-                                <label class="formularleft" for="type"><?php echo $language['TYPE']; ?></label>
-                                <input class="formularright" type="text" id="type" name="config[database][type]" value="<?php echo $values['type']; ?>" />
+                                <label class="formularleft" for="type"><?php echo $language['DRIVER']; ?></label>
+                                <input class="formularright" type="text" id="type" name="config[database][driver]" value="<?php echo $values['driver']; ?>" />
                             </li>
                             <li>
                                 <label class="formularleft" for="username"><?php echo $language['USERNAME']; ?></label>
