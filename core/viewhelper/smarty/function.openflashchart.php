@@ -26,10 +26,9 @@
  * {openflashchart width="200" height="200" url="http" data="" swfobject=false debug=false}
  *
  * @param array $params as described above
- * @param Smarty $smarty
  * @return string
  */
-function smarty_function_openflashchart($params, $smarty)
+function smarty_function_openflashchart($params)
 {
     include ROOT_LIBRARIES . 'open-flash-chart/php-ofc-library/open_flash_chart_object.php';
 

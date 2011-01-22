@@ -8,7 +8,7 @@
 /**
  * smarty_function_serverload
  */
-function smarty_function_serverload($params, $smarty)
+function smarty_function_serverload($params)
 {
 
     if (mb_strtoupper(mb_substr(PHP_OS, 0, 3)) === 'WIN')

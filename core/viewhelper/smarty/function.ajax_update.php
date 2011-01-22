@@ -24,7 +24,7 @@
  * @version 0.1
  */
 
-function smarty_function_ajax_update($params, $smarty)
+function smarty_function_ajax_update($params)
 {
   $update_id = isset($params['update_id']) ? $params['update_id'] : '';
   $function = isset($params['function']) ? $params['function'] : '';
