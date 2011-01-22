@@ -71,11 +71,6 @@ class Clansuite_Session implements Clansuite_Session_Interface, ArrayAccess
     public $session_probability = 10;
 
     /**
-     * @var object
-     */
-    private $request = null;
-
-    /**
      * @var array
      */
     private $config = array();
@@ -95,10 +90,15 @@ class Clansuite_Session implements Clansuite_Session_Interface, ArrayAccess
      * @param object Clansuite_HttpRequest
      */
 
-    function __construct(Clansuite_Config $config, Clansuite_HttpRequest $request)
+    function __construct(Clansuite_Config $config)
     {
         $this->config   = $config;
-        $this->request  = $request;
+
+        # session auto_start must be disabled
+        if (ini_get('session.auto_start') != 0)
+        {
+            throw new Clansuite_Exception('PHP Setting session.auto_start must be disabled.');
+        }
 
         /**
          * Set the Session Expire Time.
@@ -109,6 +109,9 @@ class Clansuite_Session implements Clansuite_Session_Interface, ArrayAccess
         {
             $this->session_expire_time = $this->config['session']['session_expire_time'] * 60;
         }
+
+        # configuration not needed any longer, free some memory
+        unset($this->config);
 
         /**
          * Configure Session
@@ -154,16 +157,16 @@ class Clansuite_Session implements Clansuite_Session_Interface, ArrayAccess
 
 
         # Start Session
-        $this->startSession($this->session_expire_time);
+        self::startSession($this->session_expire_time);
 
         # Apply and Check Session Security
-        $this->validateAndSecureSession();
+        self::validateAndSecureSession();
     }
 
     /**
      * Start Session and throw Error on failure
      */
-    private function startSession($time = 1800)
+    private static function startSession($time = 1800)
     {
         # set cookie parameters
         session_set_cookie_params($time);
@@ -189,7 +192,7 @@ class Clansuite_Session implements Clansuite_Session_Interface, ArrayAccess
      * b) OR not initiated already
      * c) OR application token missing
      */
-    private function validateAndSecureSession()
+    private static function validateAndSecureSession()
     {
         if(mb_strlen(session_id()) != 32 or
            false === isset($_SESSION['application']['initiated']) or
@@ -295,14 +298,14 @@ class Clansuite_Session implements Clansuite_Session_Interface, ArrayAccess
          * @todo wrong place. move either to statistics or whoisonline
          * determine the current location of a user by checking request['mod']
          */
-        if(isset($this->request['mod']) == false and empty($this->request['mod']))
-        {
-            $userlocation = 'sessionstart';
-        }
-        else
-        {
-            $userlocation = $this->request['mod'];
-        }
+        #if(isset($this->request['mod']) == false and empty($this->request['mod']))
+        #{
+        #    $userlocation = 'sessionstart';
+        #}
+        #else
+        #{
+        #    $userlocation = $this->request['mod'];
+        #}
 
         /**
          * Try to INSERT Session Data or REPLACE Session Data in case session_id already exists
@@ -323,7 +326,7 @@ class Clansuite_Session implements Clansuite_Session_Interface, ArrayAccess
                        'time' => time(),
                        'data' => $data,
                        'visibility' => '1', # @todo ghost mode
-                       'where' => $userlocation,
+                       'where' => 'session_start',
                        'user_id' => '0'
                     ));
         $query->execute();
