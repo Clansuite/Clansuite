@@ -37,22 +37,6 @@ if (defined('IN_CS') === false)
 }
 
 /**
- * Interface for all Cachehandler Classes to implement
- *
- * @category    Clansuite
- * @package     Core
- * @subpackage  Cache
- */
-interface Clansuite_Cache_Interface
-{
-    function contains($key);
-    function fetch($key);
-    function store($key, $data, $cache_lifetime);
-    function delete($key);
-    function stats();
-}
-
-/**
  * Cache Factory
  *
  * The static method getCache() returns the included and instantiated Cache Engine Object!
@@ -81,7 +65,7 @@ class Clansuite_Cache_Factory
             {
                 include $file;
             }
-            
+
             if(true === class_exists($class, false))
             {
                 $cache = new $class();
@@ -97,5 +81,33 @@ class Clansuite_Cache_Factory
             throw new Clansuite_Exception('Cache_Factory -> File not found: ' . $file, 31);
         }
     }
+}
+
+/**
+ * Interface for all Cache Adapters to implement
+ *
+ * @category    Clansuite
+ * @package     Core
+ * @subpackage  Cache
+ */
+interface Clansuite_Cache_Interface
+{
+    # Checks cache for a stored variable
+    function contains($key);
+
+    # Fetch a stored variable from the cache
+    function fetch($key);
+
+    # Cache a variable in the data store
+    function store($key, $data, $cache_lifetime);
+
+    # Removes a stored variable from the cache
+    function delete($key);
+
+    # Clears the cache
+    function clear();
+
+    # Fetches cache adapter statistics
+    function stats();
 }
 ?>
