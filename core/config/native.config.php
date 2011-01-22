@@ -52,16 +52,16 @@ class Clansuite_Config_Native
         {
             throw new Clansuite_Exception('PHP Array Config File not existing or not readable.');
         }
-        
+
         # it's a native php array structure so we simply include the file
         include $filename;
     }
-    
+
     public static function writeConfig($filename, array $array)
     {
         # transform the datastructure to a more readable format
-        $readable_array = var_export($array, true)
-    
+        $readable_array = var_export($array, true);
+
         # write to file
         file_put_contents($file, '<?php return ' . $readable_array . '; ?>');
     }
