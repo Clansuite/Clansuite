@@ -56,7 +56,7 @@ class Language implements ArrayAccess
         $this->language['EXTENSION_SPL'] = 'Standard PHP Library (SPL)';
         $this->language['IS_WRITEABLE_TEMP_DIR'] = 'Nutzbar: Temporäres Verzeichnis';
         $this->language['IS_WRITEABLE_CLANSUITE_ROOT'] = 'Beschreibbar: /clansuite';
-        $this->language['IS_WRITEABLE_CACHE_DIR'] = 'Beschreibbar: /clansuite/cache';        
+        $this->language['IS_WRITEABLE_CACHE_DIR'] = 'Beschreibbar: /clansuite/cache';
         $this->language['IS_WRITEABLE_SMARTY_TEMPLATES_C'] = 'Beschreibbar: /templates_c';
         $this->language['IS_WRITEABLE_SMARYT_CACHE'] = 'Beschreibbar: /cache';
         $this->language['IS_WRITEABLE_UPLOADS'] = 'Beschreibbar: /uploads';
@@ -114,7 +114,7 @@ class Language implements ArrayAccess
         $this->language['STEP4_SENTENCE5'] = 'Datenbanktabellen eines anderen CMS importieren.';
 
         $this->language['HOST'] = 'Datenbank Hostname';
-        $this->language['TYPE'] = 'Databank Typ';
+        $this->language['DRIVER'] = 'Databank Driver';
         $this->language['NAME'] = 'Datenbank Name';
         $this->language['CREATE_DATABASE'] = 'Datenbank erstellen';
         $this->language['USERNAME'] = 'Datenbank Benutzer';
@@ -176,7 +176,7 @@ class Language implements ArrayAccess
         $this->language['INSTALL_PROGRESS'] = 'Installations- fortschritt';
         $this->language['COMPLETED'] = 'Fertig';
         $this->language['CHANGE_LANGUAGE'] = 'Sprachauswahl';
-        $this->language['SHORTCUTS'] = 'Links';        
+        $this->language['SHORTCUTS'] = 'Links';
         $this->language['LIVESUPPORT'] = 'Möchten Sie Hilfe?';
         $this->language['GETLIVESUPPORT_STATIC'] = 'Live Support (Starte Chat.)';
 

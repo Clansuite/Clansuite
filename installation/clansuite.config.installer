@@ -15,7 +15,7 @@ staging = 0
 ; Database Connection Data
 ;----------------------------------------
 cache = ""
-type  = "mysql"
+driver  = "pdo_mysql"
 
 ;----------------------------------------
 ; Template

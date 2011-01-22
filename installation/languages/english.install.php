@@ -56,7 +56,7 @@ class Language implements ArrayAccess
         $this->language['EXTENSION_SPL'] = 'Standard PHP Library (SPL)';
         $this->language['IS_WRITEABLE_TEMP_DIR'] = 'Useable: Temporary Directory';
         $this->language['IS_WRITEABLE_CLANSUITE_ROOT'] = 'Can write: /clansuite';
-        $this->language['IS_WRITEABLE_CACHE_DIR'] = 'Can write: /clansuite/cache';        
+        $this->language['IS_WRITEABLE_CACHE_DIR'] = 'Can write: /clansuite/cache';
         $this->language['IS_WRITEABLE_SMARTY_TEMPLATES_C'] = 'Can write: /templates_c';
         $this->language['IS_WRITEABLE_SMARYT_CACHE'] = 'Can write: /cache';
         $this->language['IS_WRITEABLE_UPLOADS'] = 'Can write: /uploads';
@@ -113,7 +113,7 @@ class Language implements ArrayAccess
         $this->language['STEP4_SENTENCE5'] = 'Import Databasetables of another CMS?';
 
         $this->language['HOST'] = 'Database Hostname';
-        $this->language['TYPE'] = 'Databank Type';
+        $this->language['DRIVER'] = 'Databank Driver';
         $this->language['NAME'] = 'Database Name';
         $this->language['CREATE_DATABASE'] = 'Create Database?';
         $this->language['USERNAME'] = 'Database Username';
@@ -171,14 +171,14 @@ class Language implements ArrayAccess
         # Help Text for Buttons
         $this->language['CLICK_NEXT_TO_PROCEED'] = 'Click the Button ['. $this->language['NEXTSTEP'] .'] to proceed with the next Installstep.';
         $this->language['CLICK_BACK_TO_RETURN'] = 'Click the Button ['. $this->language['BACKSTEP'] .'] to return to the prior one.';
-        
+
         # Right Side Menu
         $this->language['INSTALL_PROGRESS'] = 'Install Progress';
         $this->language['COMPLETED'] = 'COMPLETED';
         $this->language['CHANGE_LANGUAGE'] = 'Change Language';
         $this->language['SHORTCUTS'] = 'Links';
         $this->language['LIVESUPPORT'] = 'Need Support?';
-        $this->language['GETLIVESUPPORT_STATIC'] = 'Live Support (Start Chat.)';        
+        $this->language['GETLIVESUPPORT_STATIC'] = 'Live Support (Start Chat.)';
 
         # Left Side Menu
         $this->language['MENU_HEADING'] = 'Installationsteps';

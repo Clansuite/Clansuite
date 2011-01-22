@@ -1,14 +1,14 @@
 ; <?php die( 'Access forbidden.' ); /* DO NOT MODIFY THIS LINE! ?>
 ;
 ; Clansuite Configuration File : Development
-; 
+;
 
 ;----------------------------------------
 ; database
 ;----------------------------------------
 [database]
 host = "localhost"
-type = "mysql"
+driver = "pdo_mysql"
 username = "root"
 password = "toop"
 name = "clansuite"
