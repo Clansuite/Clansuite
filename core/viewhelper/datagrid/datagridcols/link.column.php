@@ -38,7 +38,7 @@ if (defined('IN_CS') === false)
 
 /**
  * Clansuite Datagrid Column Renderer Link
- * 
+ *
  * Purpose: Render cells with a link
  *
  * @author Florian Wolf <xsign.dll@clansuite.com>
@@ -84,7 +84,7 @@ implements Clansuite_Datagrid_Column_Renderer_Interface
         return $this->_replacePlaceholders( $values,
                                             Clansuite_HTML::renderElement(  'a',
                                                                             $this->nameFormat,
-                                                                            array(  'href'  => Clansuite_Datagrid::addQueryToUrl($this->linkFormat),
+                                                                            array(  'href'  => Clansuite_Datagrid::appendUrl($this->linkFormat),
                                                                                     'id'    => $this->linkId,
                                                                                     'title' => $this->linkTitle )));
     }
