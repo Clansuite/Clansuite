@@ -51,7 +51,8 @@ if (defined('IN_CS') === false)
  */
 class Clansuite_Session implements Clansuite_Session_Interface, ArrayAccess
 {
-    const session_name = 'CsuiteSID'; # session_name contains the session name
+    # stop applications to influcence each other by applying a session_name
+    const session_name = 'CsuiteSID';
 
     /**
      * Session Expire time in seconds.
@@ -83,12 +84,15 @@ class Clansuite_Session implements Clansuite_Session_Interface, ArrayAccess
      * This creates the session.
      *
      * Injections:
-     * Clansuite Main Configuration is needed for the configuration of session variables.
+     * Clansuite_Config is needed for the configuration of session variables.
      * Clansuite_HttpRequest is needed to determine the current location of the user on the website.
+     *
+     * @todo reading and writing the session are transactions! implement
      *
      * Overwrite php.ini settings
      * Start the session
-     * @param object $injector Contains the Dependency Injector Phemto.
+     * @param object Clansuite_Config
+     * @param object Clansuite_HttpRequest
      */
 
     function __construct(Clansuite_Config $config, Clansuite_HttpRequest $request)
@@ -133,7 +137,13 @@ class Clansuite_Session implements Clansuite_Session_Interface, ArrayAccess
         ini_set('session.use_cookies', 1 );
         ini_set('session.use_only_cookies', 1 );
 
-        # Setup the custom session handler methods
+        # stop javascript accessing the cookie
+        ini_set('session.cookie_httponly', 1);
+
+        /**
+         * Setup the custom session handler methods
+         * Userspace Session Storage
+         */
         session_set_save_handler(   array($this, 'session_open'   ),
                                     array($this, 'session_close'  ),
                                     array($this, 'session_read'   ),
@@ -142,33 +152,12 @@ class Clansuite_Session implements Clansuite_Session_Interface, ArrayAccess
                                     array($this, 'session_gc'     )
                                  );
 
-        # Create new ID, if session string-lenght corrupted OR not initiated already OR application token missing
-        if (  mb_strlen(session_id()) != 32 or !isset($_SESSION['application']['initiated']) or ((string) $_SESSION['application']['version'] != 'CS-'.CLANSUITE_VERSION.' build:'.CLANSUITE_REVISION))
-        {
-            # Make a new session_id and destroy old session
-            # from PHP 5.1 on , if set to true, it will force the session extension to remove the old session on an id change
-            session_regenerate_id(true);
 
-            # Start Session
-            $this->startSession($this->session_expire_time);
+        # Start Session
+        $this->startSession($this->session_expire_time);
 
-            # session fixation
-            $_SESSION['application']['initiated']      = true;
-
-            # application-marker
-            $_SESSION['application']['version']    = 'CS-'.CLANSUITE_VERSION.' build:'.CLANSUITE_REVISION;
-
-            /**
-             * Session Security Token
-             * CSRF: http://shiflett.org/articles/cross-site-request-forgeries
-             */
-            # session token
-            $_SESSION['application']['token']      = md5(uniqid(rand(), true));
-
-            # session time
-            $_SESSION['application']['token_time'] = time();
-        }
-
+        # Apply and Check Session Security
+        $this->validateAndSecureSession();
     }
 
     /**
@@ -188,6 +177,43 @@ class Clansuite_Session implements Clansuite_Session_Interface, ArrayAccess
         else
         {
             throw new Clansuite_Exception('The session start failed!', 200);
+        }
+    }
+
+    /**
+     * Change from a permissive to a strict session system by applying
+     * several security flags.
+     *
+     * A new session ID is created when
+     * a) if session string-lenght corrupted
+     * b) OR not initiated already
+     * c) OR application token missing
+     */
+    private function validateAndSecureSession()
+    {
+        if(mb_strlen(session_id()) != 32 or
+           false === isset($_SESSION['application']['initiated']) or
+           ((string) $_SESSION['application']['version'] != 'CS-' . CLANSUITE_VERSION . ' build:' . CLANSUITE_REVISION))
+        {
+            # Make a new session_id and destroy old session
+            # from PHP 5.1 on , if set to true, it will force the session extension to remove the old session on an id change
+            session_regenerate_id(true);
+
+            # session fixation
+            $_SESSION['application']['initiated'] = true;
+
+            # application-marker
+            $_SESSION['application']['version'] = 'CS-' . CLANSUITE_VERSION . ' build:' . CLANSUITE_REVISION;
+
+            /**
+             * Session Security Token
+             * CSRF: http://shiflett.org/articles/cross-site-request-forgeries
+             */
+            # session token
+            $_SESSION['application']['token'] = md5(uniqid(rand(), true));
+
+            # session time
+            $_SESSION['application']['token_time'] = time();
         }
     }
 
@@ -231,20 +257,22 @@ class Clansuite_Session implements Clansuite_Session_Interface, ArrayAccess
 
         try
         {
-            $result = Doctrine_Query::create()
-                             ->select('session_data, session_starttime')
-                             ->from('CsSession')
-                             ->where('session_name = ? AND session_id = ?')
-                             ->fetchOne(array(self::session_name, $id ), Doctrine::HYDRATE_ARRAY);
+            $em = Clansuite_CMS::getEntityManager();
+            $query = $em->createQuery('SELECT s.session_data, s.session_starttime
+                                       FROM \Entities\Session s
+                                       WHERE s.session_name = :name
+                                         AND s.session_id = :id');
+            $query->setParameters(array('name' => self::session_name, 'id' => $id));
+            $result = $query->getResult();
 
             if( $result )
             {
-                return (string) $result['session_data'];  # unserialize($result['session_data']);
+                return (string) $result[0]['session_data'];  # unserialize($result['session_data']);
             }
         }
         catch(Exception $e)
         {
-            echo get_class($e).' thrown within the exception handler. Message: '.$e->getMessage().' on line '.$e->getLine();
+            echo get_class($e).' thrown within the session handler. <br /> Message: '.$e->getMessage().' on line '.$e->getLine();
             exit;
         }
 
@@ -279,15 +307,26 @@ class Clansuite_Session implements Clansuite_Session_Interface, ArrayAccess
         /**
          * Try to INSERT Session Data or REPLACE Session Data in case session_id already exists
          */
-        $session_query = new CsSession();
-        $session_query->session_id         = $id;
-        $session_query->session_name       = self::session_name;
-        $session_query->session_starttime  = time();
-        $session_query->session_data       = $data;
-        $session_query->session_visibility = 1;
-        $session_query->session_where      = $userlocation;
-        $session_query->user_id            = 0;
-        $session_query->replace();
+        $em = Clansuite_CMS::getEntityManager();
+        $query = $em->createQuery('UPDATE \Entities\Session s
+             SET s.session_id = :id,
+             s.session_name = :name,
+             s.session_starttime = :time,
+             s.session_data = :data,
+             s.session_visibility = :visibility,
+             s.session_where = :where,
+             s.user_id = :user_id
+             WHERE s.session_id = :id');
+        $query->setParameters(
+                array( 'id' => $id,
+                       'name' => self::session_name,
+                       'time' => time(),
+                       'data' => $data,
+                       'visibility' => '1', # @todo ghost mode
+                       'where' => $userlocation,
+                       'user_id' => '0'
+                    ));
+        $query->execute();
 
         return true;
     }
@@ -313,11 +352,13 @@ class Clansuite_Session implements Clansuite_Session_Interface, ArrayAccess
         /**
          * Delete session from DB
          */
-        $rows = Doctrine_Query::create()
-                        ->delete('CsSession')
-                        ->from('CsSession')
-                        ->where('session_name = ? AND session_id = ?')
-                        ->execute(array(self::session_name, $session_id));
+        $em = Clansuite_CMS::getEntityManager();
+        $query = $em->createQuery('DELETE \Entities\Session s
+                                   WHERE s.session_name = :name
+                                     AND s.session_id = :id');
+        $query->setParameters(array('name' => self::session_name,
+                                    'id' => $session_id));
+        $query->execute();
     }
 
      /**
@@ -349,11 +390,13 @@ class Clansuite_Session implements Clansuite_Session_Interface, ArrayAccess
         $sessionlifetime = $maxlifetime * 60;
         $expire_time = time() + $sessionlifetime;
 
-        Doctrine_Query::create()
-                 ->delete('CsSession')
-                 ->from('CsSession')
-                 ->where('session_name = ? AND session_starttime < ?')
-                 ->execute(array( self::session_name, $expire_time  ));
+        $em = Clansuite_CMS::getEntityManager();
+        $query = $em->createQuery('DELETE \Entities\Session s
+                                   WHERE s.session_name = :name
+                                     AND s.session_starttime < :time');
+        $query->setParameters(array('name' => self::session_name,
+                                    'time' => $expire_time));
+        $query->execute();
 
         return true;
     }

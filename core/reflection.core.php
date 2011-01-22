@@ -80,6 +80,12 @@ class Clansuite_Reflection
         return $this->classname;
     }
 
+    /**
+     * Returns all methods of a class, excluding the ones specified in param.
+     * 
+     * @param $exclude_classnames
+     * @return array Methods of the class.
+     */
     public function getMethods($exclude_classnames = null)
     {
         $methods_array = array();
