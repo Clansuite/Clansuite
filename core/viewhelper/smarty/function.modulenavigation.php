@@ -51,6 +51,7 @@ function smarty_function_modulenavigation($params, $smarty)
 
 /**
  * array_map callback function to replace the values of the 'url' key
+ * because these might be shorthands like "/index/show" etc.
  *
  * @param array $array
  */

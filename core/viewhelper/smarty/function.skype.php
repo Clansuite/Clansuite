@@ -27,7 +27,7 @@
  * @param Smarty $smarty
  * @return string
  */
-function smarty_function_skype($params, &$smarty)
+function smarty_function_skype($params, $smarty)
 {
     if(empty($params['username']))
     {

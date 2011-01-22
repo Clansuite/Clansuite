@@ -23,7 +23,7 @@
  * @param Smarty $smarty
  * @return string
  */
-function smarty_function_googleanalytics($params, &$smarty)
+function smarty_function_googleanalytics($params, $smarty)
 {
     # get the google analytics code to insert it later on into the script
     if(empty($params['code']))

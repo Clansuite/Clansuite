@@ -20,11 +20,9 @@
  * Purpose:  display name of current module<br>
  * @author   Jens-André Koch <vain@clansuite.com>
  * @license  http://www.gnu.org/copyleft/gpl.html GPL 2 / any later version
- * @param array $params
- * @param Smarty $smarty
  * @return string
  */
-function smarty_function_currentmodule($params, $smarty)
+function smarty_function_currentmodule()
 {
     return Clansuite_TargetRoute::getModuleName();
 }
