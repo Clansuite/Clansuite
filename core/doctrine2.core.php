@@ -52,15 +52,23 @@ class Clansuite_Doctrine2
      */
     public static function init($db_config)
     {
+        # ensure doctrine2 exists in the libraries folder
+        if(is_file(ROOT_LIBRARIES . 'Doctrine/Common/ClassLoader.php') === false)
+        {
+            throw new Clansuite_Exception('Doctrine2 not found. Check Libraries Folder.', 100);
+        }
+
         # get isolated loader
         require_once(ROOT_LIBRARIES . 'Doctrine/Common/ClassLoader.php');
 
-        # setup autoloader with namespace doctrine and path to search in
+        # setup autoloaders with namespace and path to search in
         $classLoader = new \Doctrine\Common\ClassLoader('Doctrine', realpath(ROOT_LIBRARIES));
         $classLoader->register();
         $classLoader = new \Doctrine\Common\ClassLoader('Symfony', realpath(ROOT_LIBRARIES .  'Doctrine/Symfony'));
         $classLoader->register();
         $classLoader = new \Doctrine\Common\ClassLoader('Entities');
+        $classLoader->register();
+        $classLoader = new \Doctrine\Common\ClassLoader('Repositories', realpath(ROOT . 'doctrine'));
         $classLoader->register();
         $classLoader = new \Doctrine\Common\ClassLoader('Proxies', realpath(ROOT . 'doctrine'));
         $classLoader->register();
@@ -104,7 +112,7 @@ class Clansuite_Doctrine2
         }
 
         $connectionOptions = array(
-            'driver'    => $db_config['database']['type'], #pdo_mysql
+            'driver'    => $db_config['database']['driver'],
             'user'      => $db_config['database']['username'],
             'password'  => $db_config['database']['password'],
             'dbname'    => $db_config['database']['name'],
@@ -115,17 +123,34 @@ class Clansuite_Doctrine2
         # @todo doctrine2: the prefix is only applicable by eventhandling?
         define('DB_PREFIX', $db_config['database']['prefix'] );
 
-        # done with config, remove to safe mem
+        # done with config, remove to safe memory
         unset($db_config);
+
+        # set up Logger
+        #$config->setSqlLogger(new \Doctrine\DBAL\Logging\EchoSqlLogger);
 
         # get EventManager
         #$evm = new \Doctrine\Common\EventManager;
 
-        # Add Extension for the Table Prefix as Eventlistener
+        # TablePrefix : Add Extension as Eventlistener
         #$tablePrefix = new \DoctrineExtensions\TablePrefix(DB_PREFIX);
         #$evm->addEventListener(\Doctrine\ORM\Events::loadClassMetadata, $tablePrefix);
 
+        # we need some more functions for mysql
+        $config->addCustomNumericFunction('RAND', 'DoctrineExtensions\Query\Mysql\Rand');
+
         return \Doctrine\ORM\EntityManager::create($connectionOptions, $config);
+    }
+
+    /**
+     * Development / Helper Method for Schema Validation
+     */
+    public static function validateSchema()
+    {
+        $_em = Clansuite_CMS::getEntityManager();
+        $validator = new SchemaValidator($_em);
+        $errors = $validator->validateMapping();
+        Clansuite_Debug::printR($errors);
     }
 }
 ?>
