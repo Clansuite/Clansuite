@@ -43,7 +43,7 @@
 # Security Handler
 if (defined('IN_CS') === false)
 {
-    die('Clansuite not loaded. Direct Access forbidden.');
+    exit('Clansuite not loaded. Direct Access forbidden.');
 }
 
 class Clansuite_CMS
@@ -112,7 +112,7 @@ class Clansuite_CMS
         $REQUIRED_PHP_VERSION = '5.3';
         if(version_compare(PHP_VERSION, $REQUIRED_PHP_VERSION, '<') === true)
         {
-            die('Your PHP Version is <b><font color="#FF0000">' . PHP_VERSION . '</font></b>!
+            exit('Your PHP Version is <b><font color="#FF0000">' . PHP_VERSION . '</font></b>!
                  Clansuite requires PHP Version <b><font color="#4CC417">' . $REQUIRED_PHP_VERSION . '</font></b>!');
         }
         unset($REQUIRED_PHP_VERSION);
@@ -120,14 +120,14 @@ class Clansuite_CMS
         # PDO Check
         if(class_exists('pdo', false) === false)
         {
-            die('<i>php_pdo</i> not enabled!');
+            exit('<i>php_pdo</i> not enabled!');
         }
 
         # PDO mysql driver Check
         # @todo the type of db-driver for pdo is set on installtion + available via config
         if(in_array('mysql', PDO::getAvailableDrivers()) === false)
         {
-            die('<i>php_pdo_mysql</i> driver not enabled.');
+            exit('<i>php_pdo_mysql</i> driver not enabled.');
         }
 
         # Data Source Name Check
@@ -138,9 +138,15 @@ class Clansuite_CMS
            empty(self::$config['database']['name'])
            )
         {
-            die('<b><font color="#FF0000">[Clansuite Error] Database Connection Settings missing!</font></b> <br />
+            exit('<b><font color="#FF0000">[Clansuite Error] Database Connection Settings missing!</font></b> <br />
                  Please use <a href="/installation/index.php">Clansuite Installation</a> to perform a proper installation.');
         }
+
+        /* @todo set magic_quotes_gpc off AND remove cleanGlobals from httprequest
+        if (true === (bool) ini_get('magic_quotes_gpc'))
+        {
+            exit('PHP Setting <i>magic_quotes_gpc</i> must be Off.');
+        }*/
     }
 
     /**
@@ -201,6 +207,7 @@ class Clansuite_CMS
          *          5. Alter php.ini settings
          *  ================================================
          */
+        set_time_limit(0);
         ini_set('short_open_tag', 'off');
         ini_set('arg_separator.input', '&amp;');
         ini_set('arg_separator.output', '&amp;');
@@ -679,12 +686,14 @@ class Clansuite_CMS
         # apply timezone defensivly
         if(isset(self::$config['language']['timezone']))
         {
-            ini_set('date.timezone', self::$config['language']['timezone']);
+            # set always if incomming via config
             date_default_timezone_set(self::$config['language']['timezone']);
         }
-        else
+        # set fallback only, if timezone was not set in php.ini
+        elseif(ini_get('date.timezone') === '')
         {
-            date_default_timezone_set('Europe/Berlin');
+                date_default_timezone_set('Europe/Berlin');
+
         }
 
         # set date formating via config
