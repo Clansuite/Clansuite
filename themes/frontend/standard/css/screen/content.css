@@ -76,8 +76,8 @@
        content:   url(images/remote.png);
     }
 
-    .float_left 
-    { 
+    .float_left
+    {
         float:left;
         display:inline;
         margin-right:1em;
@@ -85,7 +85,7 @@
     }
 
     .float_right
-    { 
+    {
         float:right;
         display:inline;
         margin-left:1em;
@@ -108,13 +108,11 @@
 
     /* Breadcrumb / Trail ( You are here >> )*/
     #breadcrumbs
-    {
+      {
         font-family: "Lucida Grande", Arial, Verdana, Helvetica, sans-serif;
         font-size: 10pt;
         color : #000000;
-        padding-top: 5px;
         padding-left: 10px;
-        margin-bottom : 5px;
     }
     #breadcrumbs a {
         color : #000000;
