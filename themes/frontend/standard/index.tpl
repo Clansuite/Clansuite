@@ -67,7 +67,7 @@
 
             {* Breadcrumb *}
             <tr class="csTopNav">
-                <td colspan="3">{include file='breadcrumbs.tpl'}</td>
+                <td class="menu_header" colspan="3">{include file='breadcrumbs.tpl'}</td>
             </tr>
 
             <tr>
@@ -90,7 +90,7 @@
 
                 <!-- Right Widget Bar -->
                 <td id="csTableright" class="cell1 size9">
-                    <div class="mt5 mb10" align="center">{addtoany}</div>
+                    {* <div class="mt5 mb10" align="center">{addtoany}</div> *}
 
      {* User not 0 (guest) as id and is authed *}
                     {if $smarty.session.user.user_id != 0 and $smarty.session.user.authed == 1}
@@ -136,7 +136,7 @@
 
                 <div class="grid20r" id="widget_stats">
                     <div class="gridcontent">
-                        {load_module name="statistics" action="widget_statistics"}
+                       {* {load_module name="statistics" action="widget_statistics"} *}
                     </div>
                 </div>
             </div>
