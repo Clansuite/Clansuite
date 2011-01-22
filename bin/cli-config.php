@@ -1,7 +1,8 @@
 <?php
 $classLoader = new \Doctrine\Common\ClassLoader('Entities', realpath('../doctrine'));
 $classLoader->register();
-
+$classLoader = new \Doctrine\Common\ClassLoader('Repositories', realpath('../doctrine'));
+$classLoader->register();
 $classLoader = new \Doctrine\Common\ClassLoader('Proxies', realpath('../doctrine'));
 $classLoader->register();
 
