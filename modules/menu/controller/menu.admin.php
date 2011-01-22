@@ -290,7 +290,7 @@ class Clansuite_Module_Menu_Admin extends Clansuite_Module_Controller
             #Clansuite_Debug::printR($value);
 
             # fetch activerecord of the adminmenu
-            $adminmenu = new CsAdminmenu();
+            $adminmenu = new \Entities\CsAdminmenu;
 
             # setup the new menuelement
             $adminmenu['id']            = (int) str_replace( 'tree-', '', $key );
@@ -305,8 +305,8 @@ class Clansuite_Module_Menu_Admin extends Clansuite_Module_Controller
             $adminmenu['permission']    = (string) $value['permission'];
 
             # save it
-            $adminmenu->save();
-        }
+            $em->persist($adminmenu);
+            $em->flush();        }
 
         # message the user
 
@@ -340,7 +340,6 @@ class Clansuite_Module_Menu_Admin extends Clansuite_Module_Controller
 
             // Get PDO Object from Doctrine
             $pdo = Doctrine_Manager::connection()->getDbh();
-
             # 1) get adminmenu table as variable $result
             $stmt1 = $pdo->prepare( 'SELECT * FROM ' . DB_PREFIX .'adminmenu' );
             $stmt1->execute();
@@ -752,19 +751,14 @@ class Clansuite_Module_Menu_Admin extends Clansuite_Module_Controller
      */
     public function fetch_adminmenu( $perm_check = true, $result = '', $parent = 0, $level = 0 )
     {
-       # this is a recursive funtion, if this is the first call to it, fetch the menu
-       if ( empty($result) )
-       {
-            # Issue Doctrine_Query
-            $result = Doctrine_Query::create()
-                                    ->select('m.*')
-                                    ->from('CsAdminmenu m')
-                                    ->setHydrationMode(Doctrine::HYDRATE_ARRAY)
-                                    #->setHydrationMode(Doctrine::HYDRATE_NONE)
-                                    ->orderby('m.sortorder ASC, m.parent ASC')
-                                    ->execute();
-
-            #Clansuite_Debug::printR($result);
+        # this is a recursive funtion, if this is the first call to it, fetch the menu
+        if(empty($result))
+        {
+            $query = $this->doctrine_em->createQuery('
+                SELECT m
+                FROM \Entities\Adminmenu m
+                ORDER BY m.sortorder ASC, m.parent ASC');
+            $result = $query->getArrayResult();
         }
 
         # initialize the output array

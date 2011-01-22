@@ -29,7 +29,7 @@
     *
     * @version    SVN: $Id$
     */
-
+use Doctrine\ORM\Tools\SchemaValidator;
 //Security Handler
 if(defined('IN_CS') === false)
 {
@@ -424,51 +424,38 @@ class Clansuite_Module_News extends Clansuite_Module_Controller
      */
     public function widget_latestnews($numberNews)
     {
-        # because, we are in a widget, we have to load the dependend records
-        parent::initModel('users');
-        parent::initModel('categories');
-
         /**
          * get the incomming value for the number of items to display
          * we have the following order:
          * 1) specified by {load_module name="" action="" items="2"}
+         *    = $numberNews incomming via parameter passed from smarty template
          * 2) modulecfg
          * 3) hardcoded defaultvalue
          */
         $numberNews = self::getConfigValue('items_newswidget', $numberNews, '8');
 
-        # fetch news via doctrine query
-        $latestnews = Doctrine::getTable('CsNews')->fetchLatestNews($numberNews);
+        $latestnews = $this->getModel()->fetchLatestNews($numberNews);
 
-        # get view and assign the fetched news
         $this->getView()->assign('widget_latestnews', $latestnews);
     }
 
     /**
-     * Widget for displaying NewsCategories in List-Style
+     * Widget for displaying used NewsCategories in List-Style
      */
     public function widget_newscategories_list()
     {
-        parent::initModel('categories');
+        $newscategories_list = $this->getModel()->fetchUsedNewsCategories();
 
-        $newscategories_list = Doctrine::getTable('CsNews')->fetchUsedNewsCategories();
-
-        # assign the fetched news to the view
         $this->getView()->assign('widget_newscategories_list', $newscategories_list);
     }
 
     /**
-     * Widget for displaying NewsCategories in Dropdown-Style
+     * Widget for displaying used NewsCategories in Dropdown-Style
      */
     public function widget_newscategories_dropdown()
     {
-        # initialize the records of other modules
-        parent::initModel('categories');
+        $newscategories_dropdown = $this->getModel()->fetchUsedNewsCategories();
 
-        # get catdropdown options from database
-        $newscategories_dropdown = Doctrine::getTable('CsNews')->fetchUsedNewsCategories();
-
-        # assign the fetched news to the view
         $this->getView()->assign('widget_newscategories_dropdown', $newscategories_dropdown);
     }
 
@@ -479,7 +466,7 @@ class Clansuite_Module_News extends Clansuite_Module_Controller
     {
         # fetch all newsentries, ordered by creation date ASCENDING
         # get catdropdown options from database
-        $widget_archive = Doctrine::getTable('CsNews')->fetchNewsArchiveWidget();
+        $widget_archive = $this->getModel()->fetchNewsArchiveWidget();
 
         # init a new array, to assign the year-month structured entries to
         $archive = array();

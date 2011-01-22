@@ -128,57 +128,38 @@ class Clansuite_Module_Users extends Clansuite_Module_Controller
      */
     public function widget_lastregisteredusers($numberUsers)
     {
-        # set cfg value, or set the the incomming value or the default value for the number of user to display
+        # set cfg value,
+        # or set the the incomming value
+        # or the default value for the number of user to display
         $numberUsers = self::getConfigValue('items_lastregisteredusers', $numberUsers, '5');
 
-        # get smarty as the view
-        $view = $this->getView();
-
         # fetch specified num of last registered users
-        $last_registered_users = Doctrine_Query::create()
-                ->select('u.user_id, u.email, u.nick, u.country, u.joined')
-                ->from('CsUsers u')
-                ->setHydrationMode(Doctrine::HYDRATE_ARRAY)
-                ->orderby('u.joined DESC')
-                ->where('u.activated = 1')
-                ->limit($numberUsers)
-                ->execute();
 
-        # assign
-        $view->assign('last_registered_users', $last_registered_users);
+        # @todo move query to users/repository
+        # $last_registered_users = $this->getModel()->getLastRegisteredUsers();
+
+        $q = $this->doctrine_em->createQueryBuilder()
+                ->select('u.user_id, u.email, u.nick, u.country, u.joined')
+                ->from('Entities\User', 'u')
+                ->orderby('u.joined', 'DESC')
+                ->where('u.activated = 1');
+        $q->setMaxResults($numberUsers);
+        $last_registered_users = $q->getQuery()->execute();
+
+        # assign data to view
+        $this->getView()->assign('last_registered_users', $last_registered_users);
     }
 
     /**
      * widget_useronline
      *
-     * Displayes the specified number of news in the news_widget.tpl.
-     * This is called from template-side by adding:
-     * {load_module name="news" action="widget_news" items="2"}
-     *
-     * @param $numberNews Number of Newsitems to fetch
-     * @param $smarty Smarty Render Engine Object
-     * @returns content of news_widget.tpl
+     * @returns content of widget_usersonline.tpl
      */
     public function widget_usersonline()
     {
-        $view = $this->getView();
-
-        /*
-        $usersonline = Doctrine_Query::create()
-                          ->select('')
-                          ->from('')
-                          ->leftJoin('')
-                          ->leftJoin('')
-                          ->setHydrationMode(Doctrine::HYDRATE_ARRAY)
-                          ->orderby('')
-                          #->limit()
-                          ->execute( array());*/
-
         $usersonline = '@todo Query';
 
-        $view->assign('usersonline', $usersonline);
-
-
+        $this->getView()->assign('usersonline', $usersonline);
     }
 
     /**
@@ -195,16 +176,14 @@ class Clansuite_Module_Users extends Clansuite_Module_Controller
     {
         $view = $this->getView();
 
-        $random_user = Doctrine_Query::create()
-                ->select('u.nick, u.email, u.country, u.joined, RANDOM() rand')
-                ->from('CsUsers u')
-                ->orderby('rand')
-                ->limit(1)
-                ->execute()
-                ->getFirst()
-                ->toArray();
+        $random_user = $this->doctrine_em->createQuery('
+                SELECT u.user_id, u.nick, u.email, u.country, u.joined, RAND() rand
+                FROM Entities\User u
+                ORDER BY rand')
+                ->setMaxResults(1)
+                ->getArrayResult();
 
-        $view->assign('random_user', $random_user);
+        $view->assign('random_user', $random_user['0']);
     }
 
     public function widget_usercenter()

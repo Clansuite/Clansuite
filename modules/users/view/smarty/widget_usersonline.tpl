@@ -1,6 +1,4 @@
-{* Debug: *}
-
-{* {$usersonline|var_dump} *}
+{* Debug: {$usersonline|var_dump} *}
 
 <!-- Start: widget_usersonline @ module users // -->
 
@@ -10,6 +8,10 @@
     </tr>
     <tr>
         <td class="cell1">
+
+            {$usersonline}
+
+
             {*    {$usersonline.number_guests}
                 <br />
                 {$usersonline.number_registered}
@@ -18,8 +20,8 @@
                 <br />
                 {gravatar email="`$random_user.email`"}
                 <br />
-                {$random_user.country}    
-             *}            
+                {$random_user.country}
+             *}
         </td>
     </tr>
 

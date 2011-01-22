@@ -41,7 +41,7 @@ function openCenteredPopup(url, windowname)
 </script>
 {/move_to}
 
-<div class="news_widget" id="widget_newsarchiv" style="width:100%">
+<div class="about_widget" id="widget_about" style="width: 100%">
     <h2 class="menu_header"> {t}About Clansuite{/t}</h2>
     <div class="cell1">
         <a id="poweredby" href="{$www_root}index.php?mod=about" onclick="openCenteredPopup(this, 'About'); return false;">

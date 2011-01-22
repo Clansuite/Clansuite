@@ -1,8 +1,10 @@
 <?php
    /**
     * Clansuite - just an eSports CMS
-    * Jens-André Koch c 2005 - onwards
+    * Jens-André Koch © 2005 - onwards
     * http://www.clansuite.com/
+    *
+    * This file is part of "Clansuite - just an eSports CMS".
     *
     * LICENSE:
     *
@@ -22,7 +24,7 @@
     *
     * @license    GNU/GPL v2 or (at your option) any later version, see "/doc/LICENSE".
     * @author     Jens-André Koch <vain@clansuite.com>
-    * @copyright  Jens-André Koch (2005 - onwards)
+    * @copyright  Jens-André Koch (2005-onwards)
     * @link       http://www.clansuite.com
     *
     * @version    SVN: $Id$
@@ -143,10 +145,14 @@ class Clansuite_Module_News_Admin extends Clansuite_Module_Controller
 
         # Instantiate the datagrid
         $datagrid = new Clansuite_Datagrid( array(
-                'Datatable'         => Doctrine::getTable('CsNews'),
-                'NamedQuery'        => 'fetchAllNews',
-                'ColumnSets'        => $ColumnSets,
-                'url'   => '?mod=news&sub=admin'
+                # Set only the name manually
+                #'Entity'       => 'Entities\News',
+                # Set the name automatically
+                'Entity'        => $this->getEntityNameFromClassname(),
+                # Table Column Descriptions
+                'ColumnSets'    => $ColumnSets,
+                # Pager URL
+                'Url'           => '?mod=news&sub=admin'
         ) );
 
         $datagrid->setBatchActions( $BatchActions );
@@ -160,7 +166,7 @@ class Clansuite_Module_News_Admin extends Clansuite_Module_Controller
         $datagrid->getColumn('Preview')->disableFeature('Sorting');
         $datagrid->getColumn('Preview')->getRenderer()->stringFormat = '<div title="%{body}">%{preview}</div>';
 
-        $datagrid->setResultSetHook($this, 'manipulateValues');
+        $datagrid->modifyResultSetViaHook($this, 'manipulateResultSet');
 
         $datagrid->setResultsPerPage(self::getConfigValue('resultsPerPage_adminshow', '5'));
 
@@ -175,14 +181,19 @@ class Clansuite_Module_News_Admin extends Clansuite_Module_Controller
     *
     * @param array $_ArrayReference
     */
-    public function manipulateValues(&$_ArrayReference)
+    public function manipulateResultSet(&$_ArrayReference)
     {
-        #Clansuite_Debug::firebug($_ArrayReference['news_status']);
+        /**
+         * map news_status from "integer" to "string"
+         */
         if(isset($this->publishing_status_map[$_ArrayReference['news_status']]))
         {
             $_ArrayReference['news_status'] = $this->publishing_status_map[$_ArrayReference['news_status']];
         }
 
+        /**
+         * shorten news_preview if body longer than 50 chars
+         */
         $wrapLength = 50;
         $_ArrayReference['news_body'] = htmlspecialchars(strip_tags($_ArrayReference['news_body']));
         if( strlen($_ArrayReference['news_body']) > $wrapLength )

@@ -5,9 +5,9 @@
 <div class="news_widget" id="widget_newscategoriesdropdown">
 
     <h2 class="menu_header"> {t}News Categories{/t}</h2>
-    
+
     <div class="cell1">
-    
+
         <form action="#">
           <label>
               <select name="newscatsdropdown" id="newscatsdropdown" size=1
@@ -22,16 +22,16 @@
               {foreach item=newscategory from=$widget_newscategories_dropdown}
 
                 <option value="{$www_root}index.php?mod=news&action=show&cat={$newscategory.cat_id}">
-                    {$newscategory.CsCategories.name} ({$newscategory.sum_news})
+                    {$newscategory.name} ({$newscategory.sum_news})
                 </option>
               {/foreach}
 
               </select>
             </label>
         </form>
-      
+
       </div>
-            
+
 </div>
 
 <!-- End Start Widget NewsCategoriesDropDown from Module News -->
