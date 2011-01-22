@@ -64,6 +64,9 @@ class Clansuite_Config_Factory
         $adapter = '';
 
         # use the filename only to detect adapter
+        # @todo simplify extension detection, but watch out for .info.php
+        #$extension = strtolower(pathinfo($configfile, PATHINFO_EXTENSION));
+
         $configfile = basename($configfile);
         preg_match('^(.config.php|.config.xml|.config.yaml|.info.php)$^', $configfile, $extension);
         $extension = $extension[0];
