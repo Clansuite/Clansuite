@@ -44,18 +44,11 @@ if(defined('IN_CS') === false)
 class Clansuite_Module_Statistics extends Clansuite_Module_Controller
 {
     /**
-     * Clansuite_Module_Statistics
-     */
-    public function initializeModule()
-    {
-    }
-
-    /**
      * This fetches the statistics from db and returns them as array.
      *
      * @return stats array
      */
-    private function fetch_wwwstats()
+    private function fetch_statistic()
     {
         $stats = array ();
 
@@ -70,7 +63,7 @@ class Clansuite_Module_Statistics extends Clansuite_Module_Controller
         $temp_array = Doctrine::getTable('CsStatistic')->fetchTodayAndYesterdayVisitors();
         $stats['today_impressions'] = $temp_array[1]['count'];
         $stats['yesterday_impressions'] = $temp_array[0]['count'];
-        
+
         $temp_array = Doctrine::getTable('CsStatistic')->sumMonthVisits();
         $stats['month_impressions'] = $temp_array;
 
@@ -91,15 +84,14 @@ class Clansuite_Module_Statistics extends Clansuite_Module_Controller
         /**
          * Calculate number of guests, based on total users subtracted by authed users
          */
-        $stats['guest_users'] = (int) $sessions_online - (int) $authed_user_session;
+        $stats['guest_users'] = $sessions_online - $authed_user_session;
 
         return $stats;
     }
-    
+
     public function widget_statistics($params)
     {
-        $view = $this->getView();
-        $view->assign('stats', self::fetch_wwwstats());
+        $this->getView()->assign('stats', self::fetch_statistic());
     }
 }
 ?>

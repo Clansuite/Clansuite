@@ -1,17 +1,11 @@
 Modul Template - Module Index - Show
-
 <br />
-
 <strong>{t}Hello{/t}</strong><br />
 <strong>{t}Welcome{/t}</strong><br />
-<br />
-{* {$smarty|var_dump} *}
-<em> {t 1=$smarty.session.user.nick}How are you, %1 ?{/t}</em>
-
 <p>
 <br />
 <strong>This demonstrates gettext-Support with Locales</strong>
-<br />
+<br /><br />
 {t}Hello World{/t}
 <br />
 {t name=$smarty.session.user.nick}How are you, %1 ?{/t}
