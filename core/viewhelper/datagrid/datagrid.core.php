@@ -82,13 +82,6 @@ class Clansuite_Datagrid_Base
     private $_description = 'This is a Clansuite Datagrid.';
 
     /**
-     * Doctrine Datatable object
-     *
-     * @var Doctrine_Datatable
-     */
-    private $_doctrineTable;
-
-    /**
      * Base URL for the Datatable
      *
      * @var string
@@ -157,16 +150,6 @@ class Clansuite_Datagrid_Base
     }
 
     /**
-     * Get Doctine Table Object
-     *
-     * @return Doctrine_Table
-     */
-    public function getDoctrineTable()
-    {
-        return $this->_doctrineTable;
-    }
-
-    /**
      * Getter Methods for Datagrid
      */
 
@@ -216,24 +199,14 @@ class Clansuite_Datagrid_Base
     }
 
     /**
-     * Sets the Doctrine Table
-     *
-     * @param Doctrine_Datatable $doctrineTable
-     */
-    public function setDoctrineTable(Doctrine_Table $doctrineTable)
-    {
-        $this->_doctrineTable = $doctrineTable;
-    }
-
-    /**
      * Add an url-string to the baseurl
      *
      * @example
-     *   $sUrl = $this->addQueryToUrl('dg_Sort=0:ASC');
+     *   $sUrl = $this->appendUrl('dg_Sort=0:ASC');
      *
      * @param string $appendString String to append to the URL.
      */
-    public static function addQueryToUrl($appendString)
+    public static function appendUrl($appendString)
     {
         $separator = '?';
 
@@ -359,49 +332,40 @@ class Clansuite_Datagrid extends Clansuite_Datagrid_Base
     );
 
     /**
-     * Maps internal variables to incoming parameters
-     * Default URL: ?sk=Title&sv=DESC&p=2&rpp=10
+     * Lookpup/Mapping Array
+     * For mapping internal variable names to their shorthand names.
+     *
+     * This determines the incoming and offgoing url parameter names
+     * for Sorting, Pagingation, Search and Reset.
+     * Structure: array( InternalName => ExternalShorthand )
+     *
+     * Example URL: ?sortC=Title&sortO=DESC&p=2&rpp=10
      *
      * @var array
      */
-    private $_inputMapping = array( 'SortKey'           => 'sk',
-                                    'SortValue'         => 'sv',
+    private $_requestParameterAliasMap = array(
+                                    'SortColumn'        => 'sortC',
+                                    'SortOrder'         => 'sortO',
                                     'Page'              => 'p',
                                     'ResultsPerPage'    => 'rpp',
-                                    'SearchValue'       => 'searchvalue',
-                                    'SearchKey'         => 'searchkey',
+                                    'SearchForValue'    => 'searchfor',
+                                    'SearchColumn'      => 'searchc',
                                     'Reset'             => 'reset' );
-
-    /**
-     * Doctrine Pager Layout object
-     *
-     * @link http://www.doctrine-project.org/documentation/manual/1_2/en/utilities#pagination:working-with-pager Doctrine_Pager_Layout
-     * @var Doctrine_Pager_Layout
-     */
-    private $_doctrinePagerLayout;
 
     /**
      * Doctrine Query object
      *
-     * @link http://www.doctrine-project.org/documentation/manual/1_2/en/dql-doctrine-query-language DQL (Doctrine Query Language)
-     * @var Doctrine_Query
+     * @var Doctrine_QueryBuilder
      */
-    private $_query;
+    private $queryBuilder;
 
     /**
-     * Doctrine Named Query
+     * String representing the Entity to use
+     * e.g. "\Entities\News"
      *
-     * @example
-     * Within the DataTable:
-     * function construct()
-     * {
-     *   $this->addNamedQuery(...)
-     * }
-     *
-     * @link http://www.doctrine-project.org/documentation/manual/1_2/en/dql-doctrine-query-language#named-queries Named Queries
      * @var string
      */
-    private $_queryName = 'fetchAll';
+    private $_doctrineEntityName;
 
     /**
      * The renderer for the datagrid
@@ -436,7 +400,7 @@ class Clansuite_Datagrid extends Clansuite_Datagrid_Base
      *
      * @var array
      */
-    private $_sortReverseDefinitions = array(
+    private static $sortReverseMap = array(
                       'ASC'     => 'DESC',
                       'DESC'    => 'ASC',
                       'NATASC'  => 'NATDESC',
@@ -509,7 +473,7 @@ class Clansuite_Datagrid extends Clansuite_Datagrid_Base
      * @param Object $caller
      * @param Methodname $methodname
     */
-    public function setResultSetHook($caller, $methodname)
+    public function modifyResultSetViaHook($caller, $methodname)
     {
         $this->_Caller          = $caller;
         $this->_ResultSetHook   = $methodname;
@@ -525,22 +489,19 @@ class Clansuite_Datagrid extends Clansuite_Datagrid_Base
         $this->_rows = $_Rows;
     }
 
-    /**
-     * Sets the queryname and updates the datagrid
-     *
-     * @param string $queryName
-     */
-    public function setQueryName($queryName)
+    public function setDoctrineEntityName($entityname)
     {
-        $this->_queryName = $queryName;
-
-        # generate a doctrine query
-        $this->_generateQuery();
+        $this->_doctrineEntityName = $entityname;;
     }
 
     //--------------------
     // Getter
     //--------------------
+
+    public function getDoctrineEntityName()
+    {
+        return $this->_doctrineEntityName;
+    }
 
     public function getBatchActions()
     {
@@ -579,28 +540,17 @@ class Clansuite_Datagrid extends Clansuite_Datagrid_Base
     }
 
     /**
-     * Get the input parameter depending on the mapping
+     * Get the shorthand input parameter name depending on the
+     * alias mapping: Internal "SortOrder" = External "sorto"
+     *
+     * @see $_requestParameterAliasMap
      *
      * @param string $_internalKey
-     * @return string $this->_InputMapping[$_InternalKey];
+     * @return string $this->_requestParameterAliasMap[$_InternalKey];
      */
-    public function getInputParameterName($_internalKey)
+    public function getParameterAlias($_internalKey)
     {
-        if( !isset($this->_inputMapping[$_internalKey]) )
-        {
-            throw new Clansuite_Exception(_('This internal key is not known to private array $_InputMapping: ') . $_internalKey);
-        }
-        return $this->_inputMapping[$_internalKey];
-    }
-
-    /**
-     * Get the pager layout object
-     *
-     * @return Doctrine_Pager_Layout
-     */
-    public function getPagerLayout()
-    {
-        return $this->_doctrinePagerLayout;
+        return $this->_requestParameterAliasMap[$_internalKey];
     }
 
     /**
@@ -634,20 +584,15 @@ class Clansuite_Datagrid extends Clansuite_Datagrid_Base
     }
 
     /**
-     * Get the pendant to DESC/ASC and NATASC/NATDESC
+     * Get the pendant (reverse definition) for a sort order
      *
-     * @return string $this->_sortReverseDefinitions[$_sortMode];
+     * @see $sortReverseMap
+     * @return string ASC, DESC, NATASC, NATDESC
      */
-    public function getSortReverseDefinition($_sortMode)
+    public function getSortDirectionOpposite($sortOrder)
     {
-        if( !isset($this->_sortReverseDefinitions[$_sortMode]) )
-        {
-            throw new Clansuite_Exception(_('This sortMode is not in the list of private var $_SortReverseDefinitions: ') . $_sortMode );
-        }
-
-        return $this->_sortReverseDefinitions[$_sortMode];
+        return self::$sortReverseMap[$sortOrder];
     }
-
 
     //--------------------
     // Class methods
@@ -656,49 +601,50 @@ class Clansuite_Datagrid extends Clansuite_Datagrid_Base
     /**
      * Constructor
      *
-     * @param array Options (Datatable, NamedQuery, ColumnSets, BaseURL)
+     * @param array Options 'Entity', 'ColumnSets', 'Url'
      */
-    public function __construct($options)
+    public function __construct(array $options)
     {
-        if( !($options['Datatable'] instanceof Doctrine_Table) )
+        /**
+         * Ensure Datagrid gets some valid options passed
+         */
+        $acceptedOptions = array( 'Entity', 'ColumnSets', 'Url');
+        foreach($acceptedOptions as $value)
         {
-            throw new Clansuite_Exception(_('Incoming data seems not to be a valid Doctrine_Table'));
+            if(false === isset($options[$value]))
+            {
+                throw new Clansuite_Exception('Datagrid Option(s) missing. Valid options are: '. var_export($acceptedOptions, true));
+            }
         }
+        unset($value);
 
         # attach Datagrid to renderer
         $this->setRenderer(new Clansuite_Datagrid_Renderer($this)); # @todo why pass $this?
 
-        # sets the doctrine table to the base class
-        $this->setDoctrineTable($options['Datatable']);
+        # sets the doctrine entity to use for the datagrid
+        # set manually        'Entity'        => 'Entities\News',
+        # or automatically    getEntityNameFromClassname()
+        if(isset($options['Entity']))
+        {
+            $this->setDoctrineEntityName($options['Entity']);
+        }
 
         # Set all columns
         # @todo load from columnset definition file / remove array from module
         $this->_setColumnSets($options['ColumnSets']);
 
-        # set queryname
-        $this->_queryName = $options['NamedQuery'];
-
         # construct url by appending to the baseURL
-        $this->setBaseUrl($options['url']);
+        $this->setBaseUrl($options['Url']);
 
         # disable some features
         # @todo css for these elements
         $this->disableFeature(array('Label', 'Caption', 'Description'));
 
-        # generate default datasets that can be overwritten
-        $this->initializeDatagrid();
-    }
-
-    /**
-     * Initialize the datagrid
-     */
-    private function initializeDatagrid()
-    {
         # set scalar values
-        $this->setAlias($this->getDoctrineTable()->getClassnameToReturn());
+        $this->setAlias( get_called_class() );
 
         # reset session?
-        if( isset($_REQUEST[$this->getInputParameterName('Reset')]) )
+        if( isset($_REQUEST[$this->getParameterAlias('Reset')]) )
         {
                $_SESSION['Datagrid_' . $this->getAlias()] = '';
         }
@@ -724,19 +670,26 @@ class Clansuite_Datagrid extends Clansuite_Datagrid_Base
     public function execute()
     {
         # generate the doctrine query
-        $this->_generateQuery();
+        $this->assembleQuery();
 
         # execute the doctrine-query
-        $this->datasets = $this->getPagerLayout()->getPager()->execute();
+        #$this->datasets = $this->getPagerLayout()->getPager()->execute();
+
+        # Get Array/Object Result Set
+        #$result = $this->queryBuilder->getQuery()->getResult();
+
+        # Get Array Result Set
+        $result = $this->queryBuilder->getQuery()->getArrayResult();
 
         # Debug
-        #Clansuite_Debug::firebug($this->_Datasets);
+        # Clansuite_Debug::printR($result);
+        #Clansuite_Debug::firebug($result);
 
         # update the current page
-        $this->getRenderer()->setCurrentPage($this->getPagerLayout()->getPager()->getPage());
+        #$this->getRenderer()->setCurrentPage($this->getPagerLayout()->getPager()->getPage());
 
         # generate the data-rows
-        $this->_generateRows($this->datasets);
+        $this->_generateRows($result);
     }
 
     /**
@@ -761,7 +714,7 @@ class Clansuite_Datagrid extends Clansuite_Datagrid_Base
     /**
      * Enables one or several datagrid feature(s)
      * Return true on success, false otherwise
-     * 
+     *
      * @see $this->_features
      * @param mixed(string|array) $features
      */
@@ -874,7 +827,8 @@ class Clansuite_Datagrid extends Clansuite_Datagrid_Base
         $this->_setColumnSets($_ColumnSets);
 
         # generate a doctrine query
-        $this->_generateQuery();
+        # @todo why assemlbe the query here?
+        $this->assembleQuery();
     }
 
     /**
@@ -907,7 +861,7 @@ class Clansuite_Datagrid extends Clansuite_Datagrid_Base
             }
             else
             {
-                $oCol->setSortMode($colSet['Sort']);
+                $oCol->setSortOrder($colSet['Sort']);
                 if( isset($colSet['SortCol']) )
                 {
                     $oCol->setSortField($colSet['SortCol']);
@@ -1034,165 +988,181 @@ class Clansuite_Datagrid extends Clansuite_Datagrid_Base
     }
 
     /**
-     * Generates a customized query for this table
+     * Generates a customized query for this entity/repository
+     *
+     * 1) $this->queryBuilder will contain a full select
+     * 2) sorting is added
+     * 3) search is added
+     * 4) pager is is  added
+     *
+     * var_dump($this->queryBuilder->getDQL());
+     *
+     * @see $this->queryBuilder
      */
-    private function _generateQuery()
+    private function assembleQuery()
     {
-        if( isset($this->_queryName) )
-        {
-            $this->_query = parent::getDoctrineTable()->createNamedQuery($this->_queryName)->setHydrationMode(Doctrine::HYDRATE_ARRAY);
-        }
-        else
-        {
-            $this->_query = parent::getDoctrineTable()
-                                ->createQuery()
-                                ->select('*')
-                                ->setHydrationMode(Doctrine::HYDRATE_ARRAY);
-        }
+        # get the "finder" method to use on the repository
+        #$methodname = $this->getRepositoryMethodName();
 
-        $this->_generateQuerySorts();
-        $this->_generateQuerySearch();
-        $this->_generatePagerLayout();
+        # call repository method with variable methodname
+        #$this->query = $this->getDoctrineRepository()->$methodname();
+
+        /**
+         * get QueryBuilder so that we can append (sorting, search etc) to the Query
+         */
+        $this->queryBuilder = Clansuite_CMS::getEntityManager()
+                       ->createQueryBuilder()
+                       ->select('a')
+                       ->from($this->getDoctrineEntityName(), 'a');
+
+        #var_dump($this->queryBuilder->getDQL()); ' = string 'SELECT a FROM Entities\News a'
+
+        $this->addSortingToQuery();
+        $this->addSearchToQuery();
+        $this->addPagerToQuery();
     }
 
     /**
      * Generate the Sorts for a query
+     *
+     * Appends the Query by "ORDERBY fieldname sortorder"
      */
-    private function _generateQuerySorts()
+    private function addSortingToQuery()
     {
-        $SortKey    = '';
-        $SortValue  = '';
+        # columnname
+        $SortColumn    = '';
+        # asc/desc
+        $SortOrder  = '';
 
-        # Set sortkey and sortvalue if in session
-        if( isset($_SESSION['Datagrid_' . $this->getAlias()]['SortKey']) and isset($_SESSION['Datagrid_' . $this->getAlias()]['SortValue']) )
+        # Set SortColumn and sortorder if in session
+        if( isset($_SESSION['Datagrid_' . $this->getAlias()]['SortColumn']) and isset($_SESSION['Datagrid_' . $this->getAlias()]['SortOrder']) )
         {
-            $SortKey    = $_SESSION['Datagrid_' . $this->getAlias()]['SortKey'];
-            $SortValue  = $_SESSION['Datagrid_' . $this->getAlias()]['SortValue'];
+            $SortColumn    = $_SESSION['Datagrid_' . $this->getAlias()]['SortColumn'];
+            $SortOrder  = $_SESSION['Datagrid_' . $this->getAlias()]['SortOrder'];
         }
 
         # Prefer requests
-        if( isset($_REQUEST[$this->_inputMapping['SortKey']]) and isset($_REQUEST[$this->_inputMapping['SortValue']]) )
+        if( isset($_REQUEST[$this->getParameterAlias('SortColumn')]) and isset($_REQUEST[$this->getParameterAlias('SortOrder')]) )
         {
-            $SortKey    = $_REQUEST[$this->_inputMapping['SortKey']];
-            $SortValue  = $_REQUEST[$this->_inputMapping['SortValue']];
+            $SortColumn    = $_REQUEST[$this->getParameterAlias('SortColumn')];
+            $SortOrder  = $_REQUEST[$this->getParameterAlias('SortOrder')];
         }
 
         # Check for valid formats of key and value
-        if( ($SortKey != '' and $SortValue != '') AND
-            ( preg_match('#^([0-9a-z_]+)#i', $SortKey) and preg_match('#([a-z]+)$#i', $SortValue) ) )
+        if( ($SortColumn != '' and $SortOrder != '') AND
+            ( preg_match('#^([0-9a-z_]+)#i', $SortColumn) and preg_match('#([a-z]+)$#i', $SortOrder) ) )
         {
-            $_SESSION['Datagrid_' . $this->getAlias()]['SortKey']   = $SortKey;
-            $_SESSION['Datagrid_' . $this->getAlias()]['SortValue'] = $SortValue;
-            $this->getRenderer()->setCurrentSortKey($SortKey);
-            $this->getRenderer()->setCurrentSortValue($SortValue);
+            $_SESSION['Datagrid_' . $this->getAlias()]['SortColumn']   = $SortColumn;
+            $_SESSION['Datagrid_' . $this->getAlias()]['SortOrder'] = $SortOrder;
 
-            $oCol = $this->getColumn($SortKey);
-            $this->_query->orderBy($oCol->getSortField() . ' ' . $SortValue);
-            $oCol->setSortMode($SortValue);
+            $this->getRenderer()->setCurrentSortColumn($SortColumn);
+            $this->getRenderer()->setCurrentSortOrder($SortOrder);
+
+            $oCol = $this->getColumn($SortColumn);
+
+            /**
+             * Add Field based ordering to the Query
+             */
+            $this->queryBuilder->add('orderBy', 'a.' . $oCol->getSortField() . ' ' . $SortOrder);
+
+            $oCol->setSortOrder($SortOrder);
         }
         else
         {
-            $_SESSION['Datagrid_' . $this->getAlias()]['SortKey']   = '';
-            $_SESSION['Datagrid_' . $this->getAlias()]['SortValue'] = '';
+            $_SESSION['Datagrid_' . $this->getAlias()]['SortColumn']   = '';
+            $_SESSION['Datagrid_' . $this->getAlias()]['SortOrder'] = '';
         }
     }
 
     /**
      * Generate the Serach for the query
+     *
+     * Appends the Query by "ANDWHERE fieldname LIKE SearchForValue"
      */
-    private function _generateQuerySearch()
+    private function addSearchToQuery()
     {
-        $SearchKey    = '';
-        $SearchValue  = '';
+        $SearchColumn    = '';
+        $SearchForValue  = '';
 
-        # Set sortkey and sortvalue if in session
-        if( isset($_SESSION['Datagrid_' . $this->getAlias()]['SearchKey']) and isset($_SESSION['Datagrid_' . $this->getAlias()]['SearchValue']) )
+        if( isset($_SESSION['Datagrid_' . $this->getAlias()]['SearchColumn']) and isset($_SESSION['Datagrid_' . $this->getAlias()]['SearchForValue']) )
         {
-            $SearchKey    = $_SESSION['Datagrid_' . $this->getAlias()]['SearchKey'];
-            $SearchValue  = $_SESSION['Datagrid_' . $this->getAlias()]['SearchValue'];
+            $SearchColumn    = $_SESSION['Datagrid_' . $this->getAlias()]['SearchColumn'];
+            $SearchForValue  = $_SESSION['Datagrid_' . $this->getAlias()]['SearchForValue'];
         }
 
-        # Prefer requests
-        if( isset($_REQUEST[$this->_inputMapping['SearchKey']]) and isset($_REQUEST[$this->_inputMapping['SearchValue']]) )
+        if( isset($_REQUEST[$this->getParameterAlias('SearchColumn')]) and isset($_REQUEST[$this->getParameterAlias('SearchForValue')]) )
         {
-            $SearchKey    = $_REQUEST[$this->_inputMapping['SearchKey']];
-            $SearchValue  = $_REQUEST[$this->_inputMapping['SearchValue']];
+            $SearchColumn    = $_REQUEST[$this->getParameterAlias('SearchColumn')];
+            $SearchForValue  = $_REQUEST[$this->getParameterAlias('SearchForValue')];
         }
 
-        $_SESSION['Datagrid_' . $this->getAlias()]['SearchKey']     = $SearchKey;
-        $_SESSION['Datagrid_' . $this->getAlias()]['SearchValue']   = $SearchValue;
+        $_SESSION['Datagrid_' . $this->getAlias()]['SearchColumn']     = $SearchColumn;
+        $_SESSION['Datagrid_' . $this->getAlias()]['SearchForValue']   = $SearchForValue;
+
+        # DEBUG
+        # var_dump( $this->queryBuilder->getDQL() ); exit;
 
         # Check for valid formats of key and value
-        if( ($SearchKey != '' and $SearchValue != '') )
+        if( ($SearchColumn != '' and $SearchForValue != '') )
         {
-            $this->_query->andWhere($this->getColumn($SearchKey)->getSortField() .' LIKE ?', array('%' . $SearchValue . '%') );
+            $this->queryBuilder->add('andWhere',
+                    # string = ANDWHERE a.fieldname LIKE :SearchForValue
+                    $qb->expr()->like(
+                            'a.' . $this->getColumn($SearchColumn)->getSortField(),
+                            '%' . $SearchForValue . '%'
+                            )
+            );
+
+            # DEBUG
+            # var_dump( $this->queryBuilder->getDQL() ); exit;
         }
     }
 
     /**
      * Generate the PagerLayout for a query
      */
-    private function _generatePagerLayout()
+    private function addPagerToQuery()
     {
         $page = null;
-        $resultsPerPage = null;
 
-        # Read session
+        # Page is incomming via Session, URL GET or Set to 1 as default
         if( isset($_SESSION['Datagrid_' . $this->getAlias()]['Page']) )
         {
             $page = $_SESSION['Datagrid_' . $this->getAlias()]['Page'];
         }
-        else
+        elseif( isset($_REQUEST[$this->getParameterAlias('Page')]) )
+        {
+            $page = (int) $_REQUEST[$this->getParameterAlias('Page')];
+
+        }
+        else # if page is not inside session or request, we are on the first page
         {
             $page = 1;
         }
 
-        if( isset($_SESSION['Datagrid_' . $this->getAlias()]['ResultsPerPage']) )
-        {
-            $resultsPerPage = $_SESSION['Datagrid_' . $this->getAlias()]['ResultsPerPage'];
-        }
-        else
-        {
-            $resultsPerPage = $this->getResultsPerPage();
-        }
-
         # Add to session
-        if( isset($_REQUEST[$this->_inputMapping['Page']]) )
-        {
-            $page = (int) $_REQUEST[$this->_inputMapping['Page']];
-            $_SESSION['Datagrid_' . $this->getAlias()]['Page'] = $page;
-        }
-
-        if( isset($_REQUEST[$this->_inputMapping['ResultsPerPage']]) )
-        {
-            #Clansuite_Debug::firebug('ResultsPerPage:' . $_ResultsPerPage);
-            $resultsPerPage = (int) $_REQUEST[$this->_inputMapping['ResultsPerPage']];
-            $_SESSION['Datagrid_' . $this->getAlias()]['ResultsPerPage'] = $resultsPerPage;
-        }
+        $_SESSION['Datagrid_' . $this->getAlias()]['Page'] = $page;
 
         # Add to renderer
         $this->getRenderer()->setCurrentPage($page);
-        $this->getRenderer()->setCurrentResultsPerPage($resultsPerPage);
+        $this->getRenderer()->setCurrentResultsPerPage($this->getResultsPerPage());
 
-        $this->setPagerLayout( new Doctrine_Pager_Layout(
-                                    new Doctrine_Pager(
-                                        $this->_query,
-                                        $page,
-                                        $resultsPerPage
-                                    ),
-                                    new Doctrine_Pager_Range_Sliding(array(
-                                        'chunk' => 5
-                                    )),
-                                    $this->addQueryToUrl('?' . $this->_inputMapping['Page'] . '={%page}')
-                              ) );
+        /**
+         * Add Pager Layout
+         *
+         * offset = current page
+         * limitPerPage = resultsPerPage
+         */
 
-        # Set the layout of the pager links
-        # '[<a href="{%url}">{%page}</a>]'
-        $this->getPagerLayout()->setTemplate($this->getRenderer()->getPagerLinkLayoutString());
+        #use DoctrineExtensions\Paginate\Paginate;
+        /*
+        $this->getDoctrineRepository()->
+        $query = $em->createQuery($dql);
 
-        # Set the layout of the pager
-        # '[{%page}]'
-        $this->getPagerLayout()->setSelectedTemplate($this->getRenderer()->getPagerLayoutString());
+        $count         = Paginate::getTotalQueryResults($query);
+        $paginateQuery = Paginate::getPaginateQuery($query, $offset, $limitPerPage);
+        $result        = $paginateQuery->getResult();
+        */
     }
 }
 
@@ -1484,18 +1454,18 @@ class Clansuite_Datagrid_Renderer
     private static $_CurrentResultsPerPage;
 
     /**
-     * Holds the current sort key
+     * Holds the current sort column
      *
      * @var string
      */
-    private $_CurrentSortKey;
+    private $_CurrentSortColumn;
 
     /**
-     * Holds the current sort value
+     * Holds the current sort order (asc, desc)
      *
      * @var string
      */
-    private $_CurrentSortValue;
+    private $_CurrentSortOrder;
 
     /**
      * The datagrid
@@ -1570,9 +1540,9 @@ class Clansuite_Datagrid_Renderer
      *
      * @param string
      */
-    public function setCurrentSortKey($_SortKey)
+    public function setCurrentSortColumn($_SortKey)
     {
-        $this->_CurrentSortKey = $_SortKey;
+        $this->_CurrentSortColumn = $_SortKey;
     }
 
     /**
@@ -1580,9 +1550,9 @@ class Clansuite_Datagrid_Renderer
      *
      * @param string
      */
-    public function setCurrentSortValue($_SortValue)
+    public function setCurrentSortOrder($_SortOrder)
     {
-        $this->_CurrentSortValue = $_SortValue;
+        $this->_CurrentSortOrder = $_SortOrder;
     }
 
     /**
@@ -1660,9 +1630,9 @@ class Clansuite_Datagrid_Renderer
      *
      * @return string
      */
-    public function getCurrentSortKey()
+    public function getCurrentSortColumn()
     {
-        return $this->_CurrentSortKey;
+        return $this->_CurrentSortColumn;
     }
 
     /**
@@ -1670,9 +1640,9 @@ class Clansuite_Datagrid_Renderer
      *
      * @return string
      */
-    public function getCurrentSortValue()
+    public function getCurrentSortOrder()
     {
-        return $this->_CurrentSortValue;
+        return $this->_CurrentSortOrder;
     }
 
     /**
@@ -1805,17 +1775,17 @@ class Clansuite_Datagrid_Renderer
      * Represents a sortstring for a-Tags
      *
      * @param string SortKey
-     * @param string SortValue
-     * @return string Returns a string such as index.php?mod=news&action=admin&sk=Title&sv=DESC
+     * @param string SortOrder
+     * @return string Returns a string such as index.php?mod=news&action=admin&sortc=Title&sorto=DESC
      */
-    private static function _getSortString($_SortKey, $_SortValue)
+    private static function getURLStringWithSorting($_SortColumn, $_SortOrder)
     {
         $url_string = sprintf('?%s=%s&%s=%s',
-                               self::getDatagrid()->getInputParameterName('SortKey'),   $_SortKey,
-                               self::getDatagrid()->getInputParameterName('SortValue'), $_SortValue
+                               self::getDatagrid()->getParameterAlias('SortColumn'),   $_SortColumn,
+                               self::getDatagrid()->getParameterAlias('SortOrder'), $_SortOrder
                              );
 
-        return self::getDatagrid()->addQueryToUrl($url_string);
+        return self::getDatagrid()->appendUrl($url_string);
     }
 
     /**
@@ -1869,12 +1839,12 @@ class Clansuite_Datagrid_Renderer
         if(self::getDatagrid()->isEnabled('Pagination'))
         {
             $htmlString .= '<tr><td class="DatagridPagination DatagridPagination-' . self::getDatagrid()->getAlias() . '" colspan="' . self::getDatagrid()->getColumnCount() . '">';
-            $htmlString .= '<div class="Pages"><span class="PagerDescription">' . _('Pages: ') . '</span>' . self::getDatagrid()->getPagerLayout() . '</div>';
+            #$htmlString .= '<div class="Pages"><span class="PagerDescription">' . _('Pages: ') . '</span>' . self::getDatagrid()->getPagerLayout() . '</div>';
 
             if($_ShowResultsPerPage)
             {
                 $htmlString .= '<div class="ResultsPerPage">';
-                $htmlString .= '<select name="' . self::getDatagrid()->getInputParameterName('ResultsPerPage') . '" onchange="this.form.submit();">';
+                $htmlString .= '<select name="' . self::getDatagrid()->getParameterAlias('ResultsPerPage') . '" onchange="this.form.submit();">';
                 $_ResultsPerPageItems = self::getResultsPerPageItems();
                 foreach($_ResultsPerPageItems as $ItemCount)
                 {
@@ -1886,7 +1856,7 @@ class Clansuite_Datagrid_Renderer
             else
             {
                 $htmlString .= '<div class="ResultsPerPage">';
-                $htmlString .= self::getDatagrid()->getPagerLayout()->getPager()->getNumResults() . _(' items');
+                #$htmlString .= self::getDatagrid()->getPagerLayout()->getPager()->getNumResults() . _(' items');
                 $htmlString .= '</div>';
             }
 
@@ -2062,9 +2032,9 @@ class Clansuite_Datagrid_Renderer
 
         if( $columnObject->isEnabled('Sorting') )
         {
-            $htmlString .= '&nbsp;<a href="' . self::_getSortString($columnObject->getAlias(), self::getDatagrid()->getSortReverseDefinition($columnObject->getSortMode())) . '">';
+            $htmlString .= '&nbsp;<a href="' . self::getURLStringWithSorting($columnObject->getAlias(), self::getDatagrid()->getSortDirectionOpposite($columnObject->getSortOrder())) . '">';
             #$htmlString .= '<img src="' . WWW_ROOT_THEMES .'/'. $_SESSION['user']['frontend_theme'] .'/" />';
-            $htmlString .= _($columnObject->getSortMode());
+            $htmlString .= _($columnObject->getSortOrder());
             $htmlString .= '</a>';
         }
 
@@ -2106,15 +2076,15 @@ class Clansuite_Datagrid_Renderer
         {
             $htmlString .= '<tr><td colspan="'.self::getDatagrid()->getColumnCount().'">';
             $htmlString .= _('Search: ');
-            $htmlString .= '<input type="text" value="'.htmlentities($_SESSION['Datagrid_' . self::getDatagrid()->getAlias()]['SearchValue']).'" name="'.self::getDatagrid()->getInputParameterName('SearchValue').'" />';
-            $htmlString .= ' <select name="'.self::getDatagrid()->getInputParameterName('SearchKey').'">';
+            $htmlString .= '<input type="text" value="'.htmlentities($_SESSION['Datagrid_' . self::getDatagrid()->getAlias()]['SearchForValue']).'" name="'.self::getDatagrid()->getParameterAlias('SearchForValue').'" />';
+            $htmlString .= ' <select name="'.self::getDatagrid()->getParameterAlias('SearchColumn').'">';
             $columnsArray = self::getDatagrid()->getColumns();
             foreach( $columnsArray as $columnObject )
             {
                 if( $columnObject->isEnabled('Search') )
                 {
                     $selected = '';
-                    if($_SESSION['Datagrid_' . self::getDatagrid()->getAlias()]['SearchKey'] == $columnObject->getAlias())
+                    if($_SESSION['Datagrid_' . self::getDatagrid()->getAlias()]['SearchColumn'] == $columnObject->getAlias())
                     {
                         $selected = ' selected="selected"';
                     }
@@ -2151,10 +2121,10 @@ class Clansuite_Datagrid_Renderer
             #$_htmlCode .= '<input type="hidden" name="action" id="ActionId" value="' . ((isset($_REQUEST['action'])&&preg_match('#^[0-9a-z_]$#i',$_REQUEST['action']))?$_REQUEST['action']:'show') . '" />';
 
             $input_field_sprintf = '<input type="hidden" name="%s" value="%s" />';
-            $htmlString .= sprintf($input_field_sprintf, self::getDatagrid()->getInputParameterName('Page'), $this->getCurrentPage());
-            $htmlString .= sprintf($input_field_sprintf, self::getDatagrid()->getInputParameterName('ResultsPerPage'), $this->getCurrentResultsPerPage());
-            $htmlString .= sprintf($input_field_sprintf, self::getDatagrid()->getInputParameterName('SortKey'), $this->getCurrentSortKey());
-            $htmlString .= sprintf($input_field_sprintf, self::getDatagrid()->getInputParameterName('SortValue'), $this->getCurrentSortValue());
+            $htmlString .= sprintf($input_field_sprintf, self::getDatagrid()->getParameterAlias('Page'), $this->getCurrentPage());
+            $htmlString .= sprintf($input_field_sprintf, self::getDatagrid()->getParameterAlias('ResultsPerPage'), $this->getCurrentResultsPerPage());
+            $htmlString .= sprintf($input_field_sprintf, self::getDatagrid()->getParameterAlias('SortColumn'), $this->getCurrentSortColumn());
+            $htmlString .= sprintf($input_field_sprintf, self::getDatagrid()->getParameterAlias('SortOrder'), $this->getCurrentSortOrder());
 
             $htmlString .= '<div class="Datagrid ' . self::getDatagrid()->getClass() . '">'.CR;
 

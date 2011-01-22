@@ -38,13 +38,13 @@ if (defined('IN_CS') === false)
 
 # conditional include of the parent class
 if (false == class_exists('Clansuite_Datagrid_Base', false))
-{ 
+{
     include dirname(__FILE__) . '/datagrid.core.php';
 }
 
 # conditional include of the parent class
 if (false ==  class_exists('Clansuite_HTML', false))
-{ 
+{
     include dirname(dirname(__FILE__)) . '/html.core.php';
 }
 
@@ -73,7 +73,7 @@ class Clansuite_Datagrid_Column extends Clansuite_Datagrid_Base
      *
      * @var string
      */
-    private $_sortMode = 'DESC';
+    private $sortOrder = 'DESC';
 
     /**
      * The sortfield of the column
@@ -164,9 +164,9 @@ class Clansuite_Datagrid_Column extends Clansuite_Datagrid_Base
      *
      * @param string
      */
-    public function setSortMode($_sortMode)
+    public function setSortOrder($sortOrder)
     {
-        $this->_sortMode = $_sortMode;
+        $this->sortOrder = $sortOrder;
     }
 
     //--------------------
@@ -208,9 +208,9 @@ class Clansuite_Datagrid_Column extends Clansuite_Datagrid_Base
      *
      * @return string
      */
-    public function getSortMode()
+    public function getSortOrder()
     {
-        return $this->_sortMode;
+        return $this->sortOrder;
     }
 
     //--------------------
@@ -297,7 +297,7 @@ class Clansuite_Datagrid_Column extends Clansuite_Datagrid_Base
     private function loadRenderer($rendererName = 'string')
     {
         $rendererName = mb_strtolower($rendererName);
-        
+
         $className = 'Clansuite_Datagrid_Column_Renderer_' . ucfirst($rendererName);
 
         if(false == class_exists($className, false))
@@ -307,7 +307,7 @@ class Clansuite_Datagrid_Column extends Clansuite_Datagrid_Base
             if( is_file($file) )
             {
                 include $file;
-                
+
                 if(false == class_exists($className, false))
                 {
                     throw new Clansuite_Exception(_('The column renderer class does not exist: ') . $className);
@@ -425,7 +425,7 @@ class Clansuite_Datagrid_Column_Renderer_Base extends Clansuite_Datagrid_Rendere
         # @todo replace count() with check for first placeholder element: if(isset($_Placeholders[1][0]))
         #       and move count into the if
         $_PlacerholderCount = count($placeholders[1]);
-        if( $_PlacerholderCount > 0 ) 
+        if( $_PlacerholderCount > 0 )
         {
             # loop over placeholders
             for($i=0;$i<$_PlacerholderCount;$i++)
