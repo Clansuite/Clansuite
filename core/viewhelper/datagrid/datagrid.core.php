@@ -54,39 +54,39 @@ if (false == class_exists('Clansuite_Datagrid_Column',false))
 class Clansuite_Datagrid_Base
 {
     // scoped vars
-    private $_alias;
-    private $_id;
-    private $_name;
-    private $_class;
-    private $_style;
+    private $alias;
+    private $id;
+    private $name;
+    private $class;
+    private $style;
 
     /**
      * Label for the datagrid
      *
      * @var string
      */
-    private $_label = 'Label';
+    private $label = 'Label';
 
     /**
      * The caption (<caption>...</caption>) for the datagrid
      *
      * @var string
      */
-    private $_caption = 'Caption';
+    private $caption = 'Caption';
 
     /**
      * The description for the datagrid
      *
      * @var string
      */
-    private $_description = 'This is a Clansuite Datagrid.';
+    private $description = 'This is a Clansuite Datagrid.';
 
     /**
      * Base URL for the Datatable
      *
      * @var string
      */
-    private static $_baseURL = null;
+    private static $baseURL = null;
 
     /**
      *  Setter Methods for a Datagrid
@@ -94,7 +94,7 @@ class Clansuite_Datagrid_Base
 
     public function setAlias($alias)
     {
-        $this->_alias = $alias;
+        $this->alias = $alias;
     }
 
     /**
@@ -102,51 +102,51 @@ class Clansuite_Datagrid_Base
      *
      * @param string $baseURL The baseURL for the datatable
      */
-    public function setBaseURL($baseURL)
+    public function setBaseURL($baseURL = null)
     {
-        if(self::$_baseURL === null)
+        if(self::$baseURL === null)
         {
-            self::$_baseURL = Clansuite_HttpRequest::getRequestURI();
+            self::$baseURL = Clansuite_HttpRequest::getRequestURI();
         }
         else
         {
-            self::$_baseURL = $baseURL;
+            self::$baseURL = $baseURL;
         }
     }
 
     public function setName($name)
     {
-        $this->_name = $name;
+        $this->name = $name;
     }
 
     public function setClass($class)
     {
-        $this->_class = $class;
+        $this->class = $class;
     }
 
     public function setId($id)
     {
-        $this->_id = $id;
+        $this->id = $id;
     }
 
     public function setStyle($style)
     {
-        $this->_style = $style;
+        $this->style = $style;
     }
 
     public function setLabel($label)
     {
-        $this->_label = $label;
+        $this->label = $label;
     }
 
     public function setCaption($caption)
     {
-        $this->_caption = $caption;
+        $this->caption = $caption;
     }
 
     public function setDescription($description)
     {
-        $this->_description = $description;
+        $this->description = $description;
     }
 
     /**
@@ -155,47 +155,47 @@ class Clansuite_Datagrid_Base
 
     public function getAlias()
     {
-        return $this->_alias;
+        return $this->alias;
     }
 
     public static function getBaseURL()
     {
-        return self::$_baseURL;
+        return self::$baseURL;
     }
 
     public function getName()
     {
-        return $this->_name;
+        return $this->name;
     }
 
     public function getClass()
     {
-        return $this->_class;
+        return $this->class;
     }
 
     public function getId()
     {
-        return $this->_id;
+        return $this->id;
     }
 
     public function getStyle()
     {
-        return $this->_style;
+        return $this->style;
     }
 
     public function getLabel()
     {
-        return $this->_label;
+        return $this->label;
     }
 
     public function getCaption()
     {
-        return $this->_caption;
+        return $this->caption;
     }
 
     public function getDescription()
     {
-        return $this->_description;
+        return $this->description;
     }
 
     /**
@@ -264,11 +264,12 @@ class Clansuite_Datagrid extends Clansuite_Datagrid_Base
     private $_batchActions = array();
 
     /**
-     * Object which called
+     * Array with class and method to call for applying a
+     * modification on the result set
      *
-     * @var object
+     * @var array
      */
-    private $_Caller;
+    private $resultSetHook = array('class' => '', 'method' => '');
 
     /**
      * Array of Clansuite_Datagrid_Cell objects
@@ -289,7 +290,7 @@ class Clansuite_Datagrid extends Clansuite_Datagrid_Base
      *
      * @var array
      */
-    private $_columns = array();
+    private $columnObjects = array();
 
     /**
      * An array of sets (arrays) to configure the columns
@@ -305,14 +306,6 @@ class Clansuite_Datagrid extends Clansuite_Datagrid_Base
      * @var string
      */
     #private $_DatagridType  = 'Normal';
-
-    /**
-     * Array of datasets
-     * Represents a doctrine dataset
-     *
-     * @var array
-     */
-    private $datasets = array();
 
     /**
      * Feature configuration for the datagrid
@@ -344,13 +337,14 @@ class Clansuite_Datagrid extends Clansuite_Datagrid_Base
      * @var array
      */
     private $_requestParameterAliasMap = array(
-                                    'SortColumn'        => 'sortC',
-                                    'SortOrder'         => 'sortO',
-                                    'Page'              => 'p',
-                                    'ResultsPerPage'    => 'rpp',
-                                    'SearchForValue'    => 'searchfor',
-                                    'SearchColumn'      => 'searchc',
-                                    'Reset'             => 'reset' );
+        'SortColumn'        => 'sortC',
+        'SortOrder'         => 'sortO',
+        'Page'              => 'p',
+        'ResultsPerPage'    => 'rpp',
+        'SearchForValue'    => 'searchfor',
+        'SearchColumn'      => 'searchc',
+        'Reset'             => 'reset'
+    );
 
     /**
      * Doctrine Query object
@@ -382,18 +376,11 @@ class Clansuite_Datagrid extends Clansuite_Datagrid_Base
     private $_resultsPerPage;
 
     /**
-     * Methodname to call on the resultset
-     *
-     * @var string
-     */
-    private $_ResultSetHook;
-
-    /**
      * Array of Clansuite_Datagrid_Row objects
      *
      * @var array
      */
-    private $_rows = array();
+    private $rowObjects = array();
 
     /**
      * Associated sortables
@@ -401,21 +388,11 @@ class Clansuite_Datagrid extends Clansuite_Datagrid_Base
      * @var array
      */
     private static $sortReverseMap = array(
-                      'ASC'     => 'DESC',
-                      'DESC'    => 'ASC',
-                      'NATASC'  => 'NATDESC',
-                      'NATDESC' => 'NATASC'
+        'ASC' => 'DESC',
+        'DESC' => 'ASC',
+        'NATASC' => 'NATDESC',
+        'NATDESC' => 'NATASC'
     );
-
-    /**
-     * Set the baseurl and modify string
-     *
-     * @param string $baseURL
-     */
-    private function _setBaseURL($baseURL)
-    {
-        #$this->_baseURL = preg_replace('#&(?!amp;)#i', '&amp;', $baseURL);
-    }
 
     /**
      * Set the batchactions
@@ -434,7 +411,7 @@ class Clansuite_Datagrid extends Clansuite_Datagrid_Base
      */
     public function setCols($_Cols)
     {
-        $this->_columns = $_Cols;
+        $this->columnObjects = $_Cols;
     }
 
     /**
@@ -470,13 +447,13 @@ class Clansuite_Datagrid extends Clansuite_Datagrid_Base
     /**
      * Set the hook for the resultset manipulation
      *
-     * @param Object $caller
+     * @param Object $class
      * @param Methodname $methodname
     */
-    public function modifyResultSetViaHook($caller, $methodname)
+    public function modifyResultSetViaHook($class, $methodname)
     {
-        $this->_Caller          = $caller;
-        $this->_ResultSetHook   = $methodname;
+        $this->resultSetHook['class']  = $class;
+        $this->resultSetHook['method'] = $methodname;
     }
 
     /**
@@ -486,7 +463,7 @@ class Clansuite_Datagrid extends Clansuite_Datagrid_Base
      */
     public function setRows($_Rows)
     {
-        $this->_rows = $_Rows;
+        $this->rowObjects = $_Rows;
     }
 
     public function setDoctrineEntityName($entityname)
@@ -516,7 +493,7 @@ class Clansuite_Datagrid extends Clansuite_Datagrid_Base
      */
     public function getColumn($sColumnKey)
     {
-        return $this->_columns[$sColumnKey];
+        return $this->columnObjects[$sColumnKey];
     }
 
     /**
@@ -536,7 +513,7 @@ class Clansuite_Datagrid extends Clansuite_Datagrid_Base
      */
     public function getColumns()
     {
-        return $this->_columns;
+        return $this->columnObjects;
     }
 
     /**
@@ -580,7 +557,7 @@ class Clansuite_Datagrid extends Clansuite_Datagrid_Base
      */
     public function getRows()
     {
-        return $this->_rows;
+        return $this->rowObjects;
     }
 
     /**
@@ -641,7 +618,7 @@ class Clansuite_Datagrid extends Clansuite_Datagrid_Base
         $this->disableFeature(array('Label', 'Caption', 'Description'));
 
         # set scalar values
-        $this->setAlias( get_called_class() );
+        $this->setAlias( $this->getDoctrineEntityName() );
 
         # reset session?
         if( isset($_REQUEST[$this->getParameterAlias('Reset')]) )
@@ -701,7 +678,7 @@ class Clansuite_Datagrid extends Clansuite_Datagrid_Base
      */
     public function isEnabled($feature)
     {
-        if( isset($this->_features[$feature]) == false )
+        if( isset($this->_features[$feature]) === false )
         {
             throw new Clansuite_Exception(_('There is no such feature in this datagrid: ') . $feature);
         }
@@ -848,7 +825,7 @@ class Clansuite_Datagrid extends Clansuite_Datagrid_Base
     {
         $colSet = null;
 
-        foreach( $this->_columnSets as $columnKey => &$colSet )
+        foreach( $this->_columnSets as $colKey => &$colSet )
         {
             $oCol = new Clansuite_Datagrid_Column();
             $oCol->setAlias($colSet['Alias']);
@@ -872,11 +849,26 @@ class Clansuite_Datagrid extends Clansuite_Datagrid_Base
                 }
             }
 
-            $oCol->setPosition($columnKey);
+            $oCol->setPosition($colKey);
             $oCol->setRenderer($colSet['Type']);
 
             # set the column object under its alias into the array of all columns
-            $this->_columns[$colSet['Alias']] = $oCol;
+            $this->columnObjects[$colSet['Alias']] = $oCol;
+        }
+    }
+
+    /**
+     * This triggers the result set modification method
+     * The modifying method works directly on the resultset,
+     * so we use the reference operator.
+     *
+     * @param array $resultset  Results Array from Doctrine Query
+     */
+    private function triggerResultSetModificationHook(&$resultset)
+    {
+        if(isset($this->resultSetHook['method']))
+        {
+            $this->resultSetHook['class']->{$this->resultSetHook['method']}($resultset);
         }
     }
 
@@ -885,48 +877,39 @@ class Clansuite_Datagrid extends Clansuite_Datagrid_Base
      *
      * @param array Results-array from doctrine named query
      */
-    private function _generateRows($datasets)
+    private function _generateRows($resultset)
     {
-        foreach( $datasets as $dataKey => $dataSet )
+        foreach( $resultset as $rowKey => $rowValues )
         {
-            # Hook
-            if( isset($this->_ResultSetHook) )
-            {
-                #Clansuite_Debug::firebug($dataSet);
-                $this->_Caller->{$this->_ResultSetHook}($dataSet);
-            }
+            /**
+             *  Trigger the Hook and pass dataSet for modification
+             */
+            $this->triggerResultSetModificationHook($rowValues);
 
             $oRow = new Clansuite_Datagrid_Row($this);
-            $oRow->setAlias('Row_' . $dataKey);
-            $oRow->setId('RowId_' . $dataKey);
-            $oRow->setName('RowName_' . $dataKey);
-            $oRow->setPosition($dataKey);
+            # @todo when this object is set, why set props?
+            $oRow->setAlias('Row_' . $rowKey);
+            $oRow->setId('RowId_' . $rowKey);
+            $oRow->setName('RowName_' . $rowKey);
+            $oRow->setPosition($rowKey);
 
-            $ColumnKey = null;
-
-            foreach( $this->_columnSets as $ColumnKey => $colSet )
+            foreach( $this->_columnSets as $columnKey => $columnSet )
             {
+                # @todo is this correct? adding the cell to row and column object?
                 $oCell = new Clansuite_Datagrid_Cell();
                 $oRow->addCell($oCell);
-                $oCol = $this->_columns[$colSet['Alias']];
+                $oCol = $this->columnObjects[$columnSet['Alias']];
                 $oCol->addCell($oCell);
 
-                $this->_rows[$dataKey] = $oRow;
+                $this->rowObjects[$rowKey] = $oRow;
 
                 $oCell->setColumnObject($oCol);
                 $oCell->setRow($oRow);
 
-                $_Values = $this->_getCellValues($colSet, $dataSet);
+                $values = $this->_getCellValues($columnSet, $rowValues);
 
-                if( $_Values !== false )
-                {
-                    $oCell->setValues($_Values);
-                }
-                else
-                {
-                    # Set empty values if not in dataset
-                    $oCell->setValues(array());
-                }
+                # Set empty values if not in dataset
+                $oCell->setValues($values);
             }
         }
     }
@@ -942,15 +925,13 @@ class Clansuite_Datagrid extends Clansuite_Datagrid_Base
     {
         $aResultSet = null;
 
-        if( !is_array($_ColumnSet) )
+        if(false === is_array($_ColumnSet))
         {
             throw new Clansuite_Exception(_('You have not supplied any columnset to validate.'));
         }
 
-        $values = array();
-
         # Standard for ResultSets is an array
-        if( !is_array($_ColumnSet['ResultSet']) )
+        if( false === is_array($_ColumnSet['ResultSet']))
         {
             $aResultSet = array($_ColumnSet['ResultSet']);
         }
@@ -959,7 +940,9 @@ class Clansuite_Datagrid extends Clansuite_Datagrid_Base
             $aResultSet = $_ColumnSet['ResultSet'];
         }
 
+        # init vars used inside foreach
         $i = 0;
+        $values = array();
 
         foreach($aResultSet as $ResultKey => $ResultValue)
         {
@@ -969,7 +952,7 @@ class Clansuite_Datagrid extends Clansuite_Datagrid_Base
 
             foreach( $_ArrayStructure as $_LevelKey )
             {
-                if( !is_array($_TmpArrayHandler) or !isset($_TmpArrayHandler[$_LevelKey]) )
+                if( false === is_array($_TmpArrayHandler) or false === isset($_TmpArrayHandler[$_LevelKey]) )
                 {
                     #Clansuite_Debug::firebug('ResultSet not found in Dataset: ' . $ResultValue, 'warn');
                     $_TmpArrayHandler = '';
@@ -1700,19 +1683,17 @@ class Clansuite_Datagrid_Renderer
         $table_sprintf  = '<table class="DatagridTable DatagridTable-%s" cellspacing="0" cellpadding="0" border="0" id="%s">'.CR;
         $table_sprintf .= CR . '%s'  . CR . '</table>'.CR;
 
-        $_innerTableContent = '';
-        $_innerTableContent .= self::renderTableCaption();
-        $_innerTableContent .= self::renderTableBody('one');
-        $_innerTableContent .= self::renderTableHeader();      # this isn't a <thead> tag, but <tbody>
-        $_innerTableContent .= self::renderTableBody('two');
-        $_innerTableContent .= self::renderTableBody('three');
-        $_innerTableContent .= self::renderTableFooter();
+        $tableContent = '';
+        $tableContent .= self::renderTableCaption();
+        $tableContent .= self::renderTableBody('one');
+        $tableContent .= self::renderTableHeader();      # this isn't a <thead> tag, but <tbody>
+        $tableContent .= self::renderTableBody('two');
+        $tableContent .= self::renderTableBody('three');
+        $tableContent .= self::renderTableFooter();
 
-        $htmlString = sprintf($table_sprintf, self::getDatagrid()->getAlias(),
-                                              self::getDatagrid()->getId(),
-                                              $_innerTableContent);
+        $html = sprintf($table_sprintf, self::getDatagrid()->getAlias(), self::getDatagrid()->getId(), $tableContent);
 
-        return $htmlString;
+        return $html;
     }
 
     /**
@@ -1725,10 +1706,6 @@ class Clansuite_Datagrid_Renderer
         if( self::getDatagrid()->isEnabled('Label') )
         {
             return '<div class="DatagridLabel DatagridLabel-'. self::getDatagrid()->getAlias() .'">' . CR . self::getDatagrid()->getLabel() . CR . '</div>';
-        }
-        else
-        {
-            return;
         }
     }
 
@@ -1743,10 +1720,6 @@ class Clansuite_Datagrid_Renderer
         {
             return '<div class="DatagridDescription DatagridDescription-'. self::getDatagrid()->getAlias() .'">' . CR . self::getDatagrid()->getDescription() . CR . '</div>';
         }
-        else
-        {
-            return;
-        }
     }
 
     /**
@@ -1756,19 +1729,19 @@ class Clansuite_Datagrid_Renderer
      */
     private static function renderTableCaption()
     {
-        $htmlString = '';
+        $html = '';
 
         if( self::getDatagrid()->isEnabled('Caption') )
         {
-            $htmlString .= '<caption>';
-            #$htmlString .= self::getDatagrid()->getCaption();
-            $htmlString .= self::renderLabel();
-            $htmlString .= self::renderDescription();
-            $htmlString .= '</caption>'.CR;
+            $html .= '<caption>';
+            #$html .= self::getDatagrid()->getCaption();
+            $html .= self::renderLabel();
+            $html .= self::renderDescription();
+            $html .= '</caption>'.CR;
 
         }
 
-        return $htmlString;
+        return $html;
     }
 
     /**
@@ -1781,9 +1754,9 @@ class Clansuite_Datagrid_Renderer
     private static function getURLStringWithSorting($_SortColumn, $_SortOrder)
     {
         $url_string = sprintf('?%s=%s&%s=%s',
-                               self::getDatagrid()->getParameterAlias('SortColumn'),   $_SortColumn,
-                               self::getDatagrid()->getParameterAlias('SortOrder'), $_SortOrder
-                             );
+            self::getDatagrid()->getParameterAlias('SortColumn'), $_SortColumn,
+            self::getDatagrid()->getParameterAlias('SortOrder'), $_SortOrder
+        );
 
         return self::getDatagrid()->appendUrl($url_string);
     }
@@ -1795,18 +1768,18 @@ class Clansuite_Datagrid_Renderer
      */
     private static function renderTableHeader()
     {
-        $htmlString = '';
+        $html = '';
 
         if( self::getDatagrid()->isEnabled('Header') )
         {
-            $htmlString .= '<tbody>'.CR; # OH MY GODDON! <thead> is not working here
-            $htmlString .= '<tr>'.CR;
-            $htmlString .= self::renderTableRowsHeader();
-            $htmlString .= '</tr>'.CR;
-            $htmlString .= '</tbody>'.CR; # OMG^2
+            $html .= '<tbody>'.CR; # @todo OH MY GODDON! <thead> is not working here
+            $html .= '<tr>'.CR;
+            $html .= self::renderTableRowsHeader();
+            $html .= '</tr>'.CR;
+            $html .= '</tbody>'.CR; # @todo OMG^2
         }
 
-        return $htmlString;
+        return $html;
     }
 
     /**
@@ -1816,14 +1789,14 @@ class Clansuite_Datagrid_Renderer
      */
     private static function renderTableRowsHeader()
     {
-        $htmlString = '';
+        $html = '';
 
-        foreach( self::getDatagrid()->getColumns() as $column )
+        foreach(self::getDatagrid()->getColumns() as $column)
         {
-            $htmlString .= self::renderTableColumn($column);
+            $html .= self::renderTableColumn($column);
         }
 
-        return $htmlString;
+        return $html;
     }
 
     /**
@@ -1834,35 +1807,35 @@ class Clansuite_Datagrid_Renderer
      */
     private static function renderTablePagination($_ShowResultsPerPage = true)
     {
-        $htmlString = '';
+        $html = '';
         #Clansuite_Debug::firebug('Pagination: ' . self::getDatagrid()->getPagerLayout());
         if(self::getDatagrid()->isEnabled('Pagination'))
         {
-            $htmlString .= '<tr><td class="DatagridPagination DatagridPagination-' . self::getDatagrid()->getAlias() . '" colspan="' . self::getDatagrid()->getColumnCount() . '">';
-            #$htmlString .= '<div class="Pages"><span class="PagerDescription">' . _('Pages: ') . '</span>' . self::getDatagrid()->getPagerLayout() . '</div>';
+            $html .= '<tr><td class="DatagridPagination DatagridPagination-' . self::getDatagrid()->getAlias() . '" colspan="' . self::getDatagrid()->getColumnCount() . '">';
+            #$html .= '<div class="Pages"><span class="PagerDescription">' . _('Pages: ') . '</span>' . self::getDatagrid()->getPagerLayout() . '</div>';
 
             if($_ShowResultsPerPage)
             {
-                $htmlString .= '<div class="ResultsPerPage">';
-                $htmlString .= '<select name="' . self::getDatagrid()->getParameterAlias('ResultsPerPage') . '" onchange="this.form.submit();">';
+                $html .= '<div class="ResultsPerPage">';
+                $html .= '<select name="' . self::getDatagrid()->getParameterAlias('ResultsPerPage') . '" onchange="this.form.submit();">';
                 $_ResultsPerPageItems = self::getResultsPerPageItems();
                 foreach($_ResultsPerPageItems as $ItemCount)
                 {
-                    $htmlString .= '<option value="' . $ItemCount . '" ' . ((self::getCurrentResultsPerPage() == $ItemCount) ? 'selected="selected"' : '') . '>' . $ItemCount . '</option>';
+                    $html .= '<option value="' . $ItemCount . '" ' . ((self::getCurrentResultsPerPage() == $ItemCount) ? 'selected="selected"' : '') . '>' . $ItemCount . '</option>';
                 }
-                $htmlString .= '</select>';
-                $htmlString .= '</div>';
+                $html .= '</select>';
+                $html .= '</div>';
             }
             else
             {
-                $htmlString .= '<div class="ResultsPerPage">';
-                #$htmlString .= self::getDatagrid()->getPagerLayout()->getPager()->getNumResults() . _(' items');
-                $htmlString .= '</div>';
+                $html .= '<div class="ResultsPerPage">';
+                #$html .= self::getDatagrid()->getPagerLayout()->getPager()->getNumResults() . _(' items');
+                $html .= '</div>';
             }
 
-            $htmlString .= '</td></tr>';
+            $html .= '</td></tr>';
         }
-        return $htmlString;
+        return $html;
     }
 
     /**
@@ -1874,35 +1847,35 @@ class Clansuite_Datagrid_Renderer
      */
     private static function renderTableBody($type = 'one')
     {
-        $htmlString = '';
+        $html = '';
 
         if($type == 'one')
         {
-            #$htmlString .= self::renderTableActions();
-            $htmlString .= self::renderTableSearch();
-            $htmlString .= self::renderTablePagination();
+            #$html .= self::renderTableActions();
+            $html .= self::renderTableSearch();
+            $html .= self::renderTablePagination();
         }
 
         if($type == 'two' or $type == 'three')
         {
-            $htmlString .= '<tbody>';
+            $html .= '<tbody>';
 
             if($type == 'two')
             {
-                #$htmlString .= self::renderTableActions();
-                $htmlString .= self::renderTableRows();
+                #$html .= self::renderTableActions();
+                $html .= self::renderTableRows();
             }
 
             if($type == 'three')
             {
-                $htmlString .= self::renderTableBatchActions();
-                $htmlString .= self::renderTablePagination(false);
+                $html .= self::renderTableBatchActions();
+                $html .= self::renderTablePagination(false);
             }
 
-            $htmlString .= '</tbody>';
+            $html .= '</tbody>';
         }
 
-        return $htmlString;
+        return $html;
     }
 
     /**
@@ -1913,31 +1886,31 @@ class Clansuite_Datagrid_Renderer
     private static function renderTableBatchActions()
     {
         $_BatchActions = self::getDatagrid()->getBatchActions();
-        $htmlString = '';
+        $html = '';
 
         if( count($_BatchActions) > 0 && self::getDatagrid()->isEnabled('BatchActions') )
         {
             $config = null;
             $config = Clansuite_CMS::getInjector()->instantiate('Clansuite_Config')->toArray();
 
-            $htmlString .= '<tr>';
-            $htmlString .= '<td class="DatagridBatchActions"><input type="checkbox" class="DatagridSelectAll" /></td>';
+            $html .= '<tr>';
+            $html .= '<td class="DatagridBatchActions"><input type="checkbox" class="DatagridSelectAll" /></td>';
 
-            $htmlString .= '<td colspan=' . (self::getDatagrid()->getColumnCount()-1) . '>';
-            $htmlString .= '<select name="action" id="BatchActionId">';
-            $htmlString .= '<option value="'.$config['defaults']['action'].'">' . _('(Choose an action)') . '</option>';
+            $html .= '<td colspan=' . (self::getDatagrid()->getColumnCount()-1) . '>';
+            $html .= '<select name="action" id="BatchActionId">';
+            $html .= '<option value="'.$config['defaults']['action'].'">' . _('(Choose an action)') . '</option>';
             foreach( $_BatchActions as $BatchAction )
             {
-                $htmlString .= '<option value="' . $BatchAction['Action'] . '">' . $BatchAction['Name'] . '</option>';
+                $html .= '<option value="' . $BatchAction['Action'] . '">' . $BatchAction['Name'] . '</option>';
             }
-            $htmlString .= '</select>';
-            $htmlString .= '<input type="submit" value="' . _('Execute') . '" />';
-            $htmlString .= '</td>';
+            $html .= '</select>';
+            $html .= '<input type="submit" value="' . _('Execute') . '" />';
+            $html .= '</td>';
 
-            $htmlString .= '</tr>';
+            $html .= '</tr>';
         }
 
-        return $htmlString;
+        return $html;
     }
 
     /**
@@ -1947,7 +1920,7 @@ class Clansuite_Datagrid_Renderer
      */
     private static function renderTableRows()
     {
-        $htmlString = '';
+        $html = '';
         $rowKey = null;
 
         $rows = self::getDatagrid()->getRows();
@@ -1957,20 +1930,20 @@ class Clansuite_Datagrid_Renderer
         {
             $i++;
             # @todo consider removing the css alternating code, in favor of css3 tr:nth-child
-            $htmlString .= self::renderTableRow($row, !($i % 2));
+            $html .= self::renderTableRow($row, !($i % 2));
         }
 
         # render a "no results" row
-        if( $htmlString == '' )
+        if( $html == '' )
         {
-            $htmlString .= '<tr class="DatagridRow DatagridRow-NoResults">';
-            $htmlString .= '<td class="DatagridCell DatagridCell-NoResults" colspan="'.self::getDatagrid()->getColumnCount().'">';
-            $htmlString .= _('No Results');
-            $htmlString .= '</td>';
-            $htmlString .= '</tr>';
+            $html .= '<tr class="DatagridRow DatagridRow-NoResults">';
+            $html .= '<td class="DatagridCell DatagridCell-NoResults" colspan="'.self::getDatagrid()->getColumnCount().'">';
+            $html .= _('No Results');
+            $html .= '</td>';
+            $html .= '</tr>';
         }
 
-        return $htmlString;
+        return $html;
     }
 
     /**
@@ -1990,17 +1963,17 @@ class Clansuite_Datagrid_Renderer
         }
 
         # @todo consider removing the css alternating code, in favor of css3 tr:nth-child
-        $htmlString = null;
-        $htmlString = '<tr class="DatagridRow DatagridRow-' . $row->getAlias() . ' ' . $_AlternateClass . '">';
+        $html = null;
+        $html = '<tr class="DatagridRow DatagridRow-' . $row->getAlias() . ' ' . $_AlternateClass . '">';
 
         $_Cells = $row->getCells();
         foreach( $_Cells as $oCell )
         {
-            $htmlString .= self::renderTableCell($oCell);
+            $html .= self::renderTableCell($oCell);
         }
-        $htmlString .= '</tr>';
+        $html .= '</tr>';
 
-        return $htmlString;
+        return $html;
     }
 
     /**
@@ -2011,11 +1984,11 @@ class Clansuite_Datagrid_Renderer
      */
     private static function renderTableCell($_oCell)
     {
-        $htmlString = '';
+        $html = '';
 
-        $htmlString .= '<td class="DatagridCell DatagridCell-Cell_' . $_oCell->getColumn()->getPosition() . '">' . $_oCell->render() . '</td>';
+        $html .= '<td class="DatagridCell DatagridCell-Cell_' . $_oCell->getColumn()->getPosition() . '">' . $_oCell->render() . '</td>';
 
-        return $htmlString;
+        return $html;
     }
 
     /**
@@ -2026,21 +1999,21 @@ class Clansuite_Datagrid_Renderer
      */
     private static function renderTableColumn($columnObject)
     {
-        $htmlString = '';
-        $htmlString .= '<th id="ColHeaderId-'. $columnObject->getAlias() . '" class="ColHeader ColHeader-'. $columnObject->getAlias() .'">';
-        $htmlString .= $columnObject->getName();
+        $html = '';
+        $html .= '<th id="ColHeaderId-'. $columnObject->getAlias() . '" class="ColHeader ColHeader-'. $columnObject->getAlias() .'">';
+        $html .= $columnObject->getName();
 
         if( $columnObject->isEnabled('Sorting') )
         {
-            $htmlString .= '&nbsp;<a href="' . self::getURLStringWithSorting($columnObject->getAlias(), self::getDatagrid()->getSortDirectionOpposite($columnObject->getSortOrder())) . '">';
-            #$htmlString .= '<img src="' . WWW_ROOT_THEMES .'/'. $_SESSION['user']['frontend_theme'] .'/" />';
-            $htmlString .= _($columnObject->getSortOrder());
-            $htmlString .= '</a>';
+            $html .= '&nbsp;<a href="' . self::getURLStringWithSorting($columnObject->getAlias(), self::getDatagrid()->getSortDirectionOpposite($columnObject->getSortOrder())) . '">';
+            #$html .= '<img src="' . WWW_ROOT_THEMES .'/'. $_SESSION['user']['frontend_theme'] .'/" />';
+            $html .= _($columnObject->getSortOrder());
+            $html .= '</a>';
         }
 
-        $htmlString .= '</th>';
+        $html .= '</th>';
 
-        return $htmlString;
+        return $html;
     }
 
     /**
@@ -2052,11 +2025,11 @@ class Clansuite_Datagrid_Renderer
     {
         if( self::getDatagrid()->isEnabled('Footer') )
         {
-            $htmlString = '';
-            $htmlString .= '<tfoot>'.CR;
+            $html = '';
+            $html .= '<tfoot>'.CR;
             # @todo getter for footer html
-            $htmlString .= '</tfoot>'.CR;
-            return $htmlString;
+            $html .= '</tfoot>'.CR;
+            return $html;
         }
         else
         {
@@ -2071,13 +2044,13 @@ class Clansuite_Datagrid_Renderer
      */
     private static function renderTableSearch()
     {
-        $htmlString = '';
+        $html = '';
         if( self::getDatagrid()->isEnabled('Search') )
         {
-            $htmlString .= '<tr><td colspan="'.self::getDatagrid()->getColumnCount().'">';
-            $htmlString .= _('Search: ');
-            $htmlString .= '<input type="text" value="'.htmlentities($_SESSION['Datagrid_' . self::getDatagrid()->getAlias()]['SearchForValue']).'" name="'.self::getDatagrid()->getParameterAlias('SearchForValue').'" />';
-            $htmlString .= ' <select name="'.self::getDatagrid()->getParameterAlias('SearchColumn').'">';
+            $html .= '<tr><td colspan="'.self::getDatagrid()->getColumnCount().'">';
+            $html .= _('Search: ');
+            $html .= '<input type="text" value="'.htmlentities($_SESSION['Datagrid_' . self::getDatagrid()->getAlias()]['SearchForValue']).'" name="'.self::getDatagrid()->getParameterAlias('SearchForValue').'" />';
+            $html .= ' <select name="'.self::getDatagrid()->getParameterAlias('SearchColumn').'">';
             $columnsArray = self::getDatagrid()->getColumns();
             foreach( $columnsArray as $columnObject )
             {
@@ -2088,15 +2061,15 @@ class Clansuite_Datagrid_Renderer
                     {
                         $selected = ' selected="selected"';
                     }
-                    $htmlString .= '<option value="'.$columnObject->getAlias().'"'.$selected.'>'.$columnObject->getName().'</option>';
+                    $html .= '<option value="'.$columnObject->getAlias().'"'.$selected.'>'.$columnObject->getName().'</option>';
                 }
             }
-            $htmlString .= '</select>';
-            $htmlString .= ' <input type="submit" value="'._('Search').'" />';
-            $htmlString .= '</td></tr>';
+            $html .= '</select>';
+            $html .= ' <input type="submit" value="'._('Search').'" />';
+            $html .= '</td></tr>';
         }
 
-        return $htmlString;
+        return $html;
     }
 
     /**
@@ -2110,31 +2083,31 @@ class Clansuite_Datagrid_Renderer
         self::getDatagrid()->execute();
 
         # Build htmlcode
-        $htmlString = '';
+        $html = '';
 
-        $htmlString .= '<link rel="stylesheet" type="text/css" href="'. WWW_ROOT_THEMES_CORE . 'css/datagrid.css" />'.CR;
-        $htmlString .= '<script src="'. WWW_ROOT_THEMES_CORE . 'javascript/datagrid.js" type="text/javascript"></script>'.CR;
+        $html .= '<link rel="stylesheet" type="text/css" href="'. WWW_ROOT_THEMES_CORE . 'css/datagrid.css" />'.CR;
+        $html .= '<script src="'. WWW_ROOT_THEMES_CORE . 'javascript/datagrid.js" type="text/javascript"></script>'.CR;
 
-        $htmlString .= '<form action="' . self::getDatagrid()->getBaseURL() . '" method="post" name="Datagrid-' . self::getDatagrid()->getAlias() . '" id="Datagrid-' . self::getDatagrid()->getAlias() . '">'.CRT;
+        $html .= '<form action="' . self::getDatagrid()->getBaseURL() . '" method="post" name="Datagrid-' . self::getDatagrid()->getAlias() . '" id="Datagrid-' . self::getDatagrid()->getAlias() . '">'.CRT;
 
             #$_htmlCode .= '<input type="hidden" name="action" value="' . Clansuite_Action_Controller_Resolver::getDefaultActionName() . '" />';
             #$_htmlCode .= '<input type="hidden" name="action" id="ActionId" value="' . ((isset($_REQUEST['action'])&&preg_match('#^[0-9a-z_]$#i',$_REQUEST['action']))?$_REQUEST['action']:'show') . '" />';
 
             $input_field_sprintf = '<input type="hidden" name="%s" value="%s" />';
-            $htmlString .= sprintf($input_field_sprintf, self::getDatagrid()->getParameterAlias('Page'), $this->getCurrentPage());
-            $htmlString .= sprintf($input_field_sprintf, self::getDatagrid()->getParameterAlias('ResultsPerPage'), $this->getCurrentResultsPerPage());
-            $htmlString .= sprintf($input_field_sprintf, self::getDatagrid()->getParameterAlias('SortColumn'), $this->getCurrentSortColumn());
-            $htmlString .= sprintf($input_field_sprintf, self::getDatagrid()->getParameterAlias('SortOrder'), $this->getCurrentSortOrder());
+            $html .= sprintf($input_field_sprintf, self::getDatagrid()->getParameterAlias('Page'), $this->getCurrentPage());
+            $html .= sprintf($input_field_sprintf, self::getDatagrid()->getParameterAlias('ResultsPerPage'), $this->getCurrentResultsPerPage());
+            $html .= sprintf($input_field_sprintf, self::getDatagrid()->getParameterAlias('SortColumn'), $this->getCurrentSortColumn());
+            $html .= sprintf($input_field_sprintf, self::getDatagrid()->getParameterAlias('SortOrder'), $this->getCurrentSortOrder());
 
-            $htmlString .= '<div class="Datagrid ' . self::getDatagrid()->getClass() . '">'.CR;
+            $html .= '<div class="Datagrid ' . self::getDatagrid()->getClass() . '">'.CR;
 
-                $htmlString .= self::renderTable();
+                $html .= self::renderTable();
 
-            $htmlString .= '</div>'.CR;
+            $html .= '</div>'.CR;
 
-        $htmlString .= '</form>'.CR;
+        $html .= '</form>'.CR;
 
-        return $htmlString;
+        return $html;
     }
 }
 ?>
