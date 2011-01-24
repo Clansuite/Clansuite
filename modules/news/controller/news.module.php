@@ -1,7 +1,7 @@
 <?php
    /**
     * Clansuite - just an eSports CMS
-    * Jens-André Koch ï¿½ 2005 - onwards
+    * Jens-André Koch © 2005 - onwards
     * http://www.clansuite.com/
     *
     * This file is part of "Clansuite - just an eSports CMS".
@@ -29,7 +29,7 @@
     *
     * @version    SVN: $Id$
     */
-use Doctrine\ORM\Tools\SchemaValidator;
+
 //Security Handler
 if(defined('IN_CS') === false)
 {
