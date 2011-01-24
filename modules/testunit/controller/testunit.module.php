@@ -97,5 +97,37 @@ class Clansuite_Module_Testunit extends Clansuite_Module_Controller
         $view = $this->getView();
         $this->display();
     }
+    
+    /**
+     * Simple Demo for using XTemplate as Render Engine
+     *
+     * @todo No Layout, yet! Outputs module content only.
+     */
+    public function action_xtemplate()
+    {
+        # fetch xtemplate as renderengine
+        $xtpl = $this->getView('xtemplate');
+        
+        # this renderengine is a block parser / frontloading one, so initalize it with template
+        $xtpl->initializeEngine( $this->getTemplateName() );
+        
+        # simple placeholder replace
+        $xtpl->assign('PLACEHOLDER_VARIABLE', 'TEST-123-TEST'); 
+        
+        # Debug XTemplate Engine
+        #Clansuite_Debug::printR($xtpl);
+        
+        # parse the Block main
+        $xtpl->parse('main');
+        
+        # direct content output = display 
+        # $xtpl->out('main');
+        
+        # indirect content output = fetch
+        $content = $xtpl->text('main');
+        
+        # push content to the response object
+        $this->response->setContent($content);
+    }
 }
 ?>
