@@ -66,7 +66,7 @@ class Clansuite_Doctrine2
         $classLoader->register();
         $classLoader = new \Doctrine\Common\ClassLoader('Symfony', realpath(ROOT_LIBRARIES .  'Doctrine/Symfony'));
         $classLoader->register();
-        $classLoader = new \Doctrine\Common\ClassLoader('Entities');
+        $classLoader = new \Doctrine\Common\ClassLoader('Entities', realpath(ROOT . 'doctrine'));
         $classLoader->register();
         $classLoader = new \Doctrine\Common\ClassLoader('Repositories', realpath(ROOT . 'doctrine'));
         $classLoader->register();
@@ -95,7 +95,7 @@ class Clansuite_Doctrine2
         # set annotation driver for entities
         $config->setMetadataDriverImpl(
             $config->newDefaultAnnotationDriver(
-                    array(ROOT . 'doctrine/entities')));
+                self::getModelPathsForAllModules()));
 
         # set proxy dirs
         $config->setProxyDir(realpath(ROOT . 'doctrine'));
@@ -151,6 +151,54 @@ class Clansuite_Doctrine2
         $validator = new SchemaValidator($_em);
         $errors = $validator->validateMapping();
         Clansuite_Debug::printR($errors);
+    }
+    
+    public static function debugLoadedClasses()
+    {
+        $em = Clansuite_CMS::getEntityManager();
+        $config = $em->getConfiguration();
+        #$config->addEntityNamespace('Core', $module_models_path); # = Core:Session
+        #$config->addEntityNamespace('Module', $module_models_path); # = Module:News
+        $classes_loaded = $config->getMetadataDriverImpl()->getAllClassNames();
+        Clansuite_Debug::firebug($classes_loaded);
+    }
+
+    public static function getModelPathsForAllModules()
+    {
+        $model_dirs = array();
+        
+        $dirs = Clansuite_ModuleInfoController::getModuleDirectories();
+        
+        foreach($dirs as $key => $dir_path)
+        {
+            /**
+             * It's easier to include dirpath models (subfolder and files will be autoloaded)
+             * therefor the records have to be removed
+             */
+        
+            # Entity Path
+            $entity_path = $dir_path . DS . 'model' . DS . 'entities' . DS; 
+
+            if(is_dir($entity_path))
+            {
+                $model_dirs[] = $entity_path;
+            }
+            
+            # Repository Path
+            $repos_path = $dir_path . DS . 'model' . DS . 'repositories' . DS;
+            
+            if(is_dir($repos_path))
+            {
+                $model_dirs[] = $repos_path;
+            }
+         }
+
+        $model_dirs[] = ROOT . 'doctrine';
+
+        $model_dirs = array_unique($model_dirs);
+
+        #Clansuite_Debug::printR($model_dirs);
+        return $model_dirs;
     }
 }
 ?>
