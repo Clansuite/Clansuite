@@ -267,8 +267,7 @@ abstract class Clansuite_Module_Controller
         # else, set the RenderEngine to the view variable and return it
         else
         {
-            $this->view = $this->getRenderEngine();
-            Clansuite_HttpRequest::getRoute()->setRenderEngine($renderEngineName);
+            $this->view = $this->getRenderEngine();            
             return $this->view;
         }
     }
@@ -281,6 +280,7 @@ abstract class Clansuite_Module_Controller
     public function setRenderEngine($renderEngineName)
     {
         $this->renderEngineName = $renderEngineName;
+        Clansuite_HttpRequest::getRoute()->setRenderEngine($renderEngineName);
     }
 
     /**
