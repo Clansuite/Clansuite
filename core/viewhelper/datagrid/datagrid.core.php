@@ -94,6 +94,7 @@ class Clansuite_Datagrid_Base
 
     public function setAlias($alias)
     {
+        $alias = str_replace('\\', '_', $alias);
         $this->alias = $alias;
     }
 
