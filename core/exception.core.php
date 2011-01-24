@@ -166,7 +166,7 @@ class Clansuite_Exception extends Exception implements Clansuite_Exception_Inter
         self::fetchExceptionTemplate($code);
 
         # development template
-        if( defined('DEBUG') and DEBUG == 1 and defined('DEVELOPMENT') and DEVELOPMENT == 1)
+        if(defined('DEVELOPMENT') and DEVELOPMENT == 1)
         {
             self::fetchExceptionDevelopmentTemplate($code);
         }
@@ -221,18 +221,8 @@ class Clansuite_Exception extends Exception implements Clansuite_Exception_Inter
         if(is_file($exception_template_file) === true)
         {
             $content = file_get_contents($exception_template_file);
-            self::setExceptionDevelopmentTemplate($content);
+            self::$exception_development_template_content = $content;
         }
-    }
-
-    /**
-     * Setter Method for the Content of the ExceptionDevelopmentTemplate
-     *
-     * @param string $content HTML Content of the Exception Development Template
-     */
-    private static function setExceptionDevelopmentTemplate($content)
-    {
-        self::$exception_development_template_content = $content;
     }
 
     /**
@@ -369,7 +359,8 @@ class Clansuite_Exception extends Exception implements Clansuite_Exception_Inter
             $placeholders['modulename'] = '';
         }
 
-        if(self::getExceptionDevelopmentTemplate($placeholders) != '')
+        # add development helper template to exceptions
+        if(defined('DEVELOPMENT') and DEVELOPMENT == 1)
         {
             $errormessage  .= '<tr><td colspan="2"><h3>Rapid Development</h3></td></tr>';
             $errormessage  .= '<tr><td colspan="2">'.self::getExceptionDevelopmentTemplate($placeholders).'</td></tr>';
