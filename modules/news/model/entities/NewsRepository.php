@@ -1,7 +1,8 @@
 <?php
 namespace Repositories;
+use Doctrine\ORM\EntityRepository;
 
-class NewsRepository extends Doctrine\ORM\EntityRepository
+class NewsRepository extends EntityRepository
 {
     public function findAllNews($arguments)
     {
@@ -20,10 +21,10 @@ class NewsRepository extends Doctrine\ORM\EntityRepository
 
          $qb = $this->createQueryBuilder('n');
 
-         /*$qb->where('u.authenticated = 1')
-            ->andWhere('u.date = :date')
+         /*$qb->where('n.status = 1')
+            ->andWhere('n.date = :date')
             ->setParameter('date', $date)
-            ->orderBy('u.name');
+            ->orderBy('n.date');
           *
           */
 
@@ -33,21 +34,14 @@ class NewsRepository extends Doctrine\ORM\EntityRepository
     /**
      * fetchLatestNews
      *
-     * Doctrine_Query to fetch Latest News
+     * @param int The number of news to fetch.
      */
-    public function findAllLatestNews($numberNews)
+    public function fetchLatestNews($numberNews)
     {
-        #$query = $_em->createQuery('SELECT a FROM Entities\User a');
-        #$r = $query->getArrayResult();
-        #Clansuite_Debug::printR($r);
 
-        #$validator = new SchemaValidator($_em);
-        #$errors = $validator->validateMapping();
-        #Clansuite_Debug::printR($errors);
-        echo $numberNews;
         # 12.2.4.1. Partial Object Syntax¶, partial c.{name, image}
         # @link http://www.doctrine-project.org/docs/orm/2.0/en/reference/dql-doctrine-query-language.html
-        $query = $_em->createQuery('SELECT n, partial u.{nick, user_id}
+        $query = $this->_em->createQuery('SELECT n, partial u.{nick, user_id}
                                    FROM Entities\News n
                                    LEFT JOIN n.authored u
                                    ORDER BY n.news_id DESC');
@@ -58,9 +52,56 @@ class NewsRepository extends Doctrine\ORM\EntityRepository
         $query->getMaxResults($numberNews);
         $latestnews = $query->getArrayResult();
 
-        Clansuite_Debug::printR($latestnews);
+        # bah, get class from global space ;)
+        #\Clansuite_Debug::printR($latestnews);
 
         return $latestnews;
+    }
+
+    /**
+     * fetch used News Categories
+     *
+     * Doctrine_Query to fetch all used News Categories
+     */
+    public function fetchUsedNewsCategories()
+    {
+        $q = $this->_em->createQuery('
+                        SELECT n.cat_id, COUNT(n.cat_id) sum_news, c.name
+                        FROM Entities\News n
+                        LEFT JOIN n.category c
+                        WHERE c.module_id = 7
+                        GROUP BY c.name');
+        $r = $q->getArrayResult();
+        #\Clansuite_Debug::printR($r);
+        return $r;
+    }
+
+    /**
+     * fetch all News Categories
+     */
+    public static function fetchAllNewsCategoriesDropDown()
+    {
+        # fetch news via doctrine query
+        $newscategories = Doctrine_Query::create()
+                                    ->select('c.cat_id, c.name')
+                                    ->from('CsCategories c')
+                                    ->where('c.module_id = 7')
+                                    ->groupBy('c.name')
+                                    ->setHydrationMode(Doctrine::HYDRATE_ARRAY)
+                                    ->execute( array() );
+    }
+
+    public function fetchNewsArchiveWidget()
+    {
+        # fetch all newsentries, ordered by creation date ASCENDING
+        $q = $this->_em->createQuery('
+                                    SELECT n.news_id, n.created_at
+                                    FROM Entities\News n
+                                    ORDER BY n.created_at ASC'
+        );
+        $r = $q->getArrayResult();
+        #\Clansuite_Debug::printR($r);
+        return $r;
     }
 }
 ?>
