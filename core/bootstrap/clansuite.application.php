@@ -406,7 +406,6 @@ class Clansuite_CMS
          */
         $paths = array(
             ROOT,
-            ROOT . 'doctrine',
             ROOT_LIBRARIES,
             ROOT_LIBRARIES . 'PEAR' . DS
         );
