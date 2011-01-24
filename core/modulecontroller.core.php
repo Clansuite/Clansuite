@@ -121,7 +121,7 @@ abstract class Clansuite_Module_Controller
         {
             $entityName = $this->getEntityNameFromClassname();
         }
-
+        #Clansuite_Debug::firebug($entityName);
         return $this->doctrine_em->getRepository($entityName);
     }
 
@@ -131,37 +131,29 @@ abstract class Clansuite_Module_Controller
      * @param $modulename Modulname
      * @param $recordname Recordname
      */
-    public static function initModel($modulename = null, $recordname = null)
-    {
-        $models_path = '';
+    public static function initModel($modulename = null)
+    {        
+        #$module_models_path = '';
 
         /**
          * Load the Records for the current module, if no modulename is specified.
          * This is for lazy usage in the modulecontroller: $this->initModel();
          */
-        if($modulename === null)
-        {
-            $modulename = Clansuite_HttpRequest::getRoute()->getModuleName();
-        }
+        #if($modulename === null)
+        #{
+        #    $modulename = Clansuite_HttpRequest::getRoute()->getModuleName();
+        #}
 
-        /**
-         * If no recordname is given, the path to records stored in the modulefolder is set.
-         */
-        if($recordname === null)
-        {
-            $models_path = realpath(ROOT_MOD . mb_strtolower($modulename) . DS . 'model') . DS;
-        }
+        #$module_models_path = realpath(ROOT_MOD . mb_strtolower($modulename) . DS . 'model') . DS;
 
-        if( is_dir($models_path) )
-        {
-            set_include_path($models_path . PS . get_include_path());
+        #if(is_dir($module_models_path))
+        #{
+            #set_include_path($module_models_path . PS . get_include_path());
+            #Clansuite_Debug::firebug($module_models_path);
 
-            $em = Clansuite_CMS::getEntityManager();
-            $config = $em->getConfiguration();
-            $config->setMetadataDriverImpl(
-            $config->newDefaultAnnotationDriver(
-                    array( $models_path, ROOT . 'doctrine' . DS )));
-        }
+          # require $models_path . 'entities' . DS . ucfirst($modulename) . '.php';
+          # require $models_path . 'repositories' . DS . ucfirst($modulename) . '.php';          
+        #}
         # else Module has no Model Data
     }
 
