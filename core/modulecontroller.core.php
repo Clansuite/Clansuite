@@ -251,8 +251,14 @@ abstract class Clansuite_Module_Controller
      *
      * @return Returns the View Object (Rendering Engine)
      */
-    public function getView()
+    public function getView($renderEngineName = null)
     {
+        # set the renderengine name
+        if(isset($renderEngineName))
+        {
+            $this->setRenderEngine($renderEngineName);
+        }
+
         # if already set, get the rendering engine from the view variable
         if (isset($this->view))
         {
@@ -262,6 +268,7 @@ abstract class Clansuite_Module_Controller
         else
         {
             $this->view = $this->getRenderEngine();
+            Clansuite_HttpRequest::getRoute()->setRenderEngine($renderEngineName);
             return $this->view;
         }
     }
@@ -419,6 +426,7 @@ abstract class Clansuite_Module_Controller
                 $this->setTemplate($templates['content_template']);
             }
         }
+
 
         # get the templatename
         $templatename = $this->getTemplateName();

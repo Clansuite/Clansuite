@@ -75,7 +75,7 @@ class Clansuite_Renderer_Smarty extends Clansuite_Renderer_Base
     /**
      * Set up Smarty Template Engine
      */
-    public function initializeEngine()
+    public function initializeEngine($template = null)
     {
         # prevent redeclaration
         if(class_exists('Smarty', false) === false)

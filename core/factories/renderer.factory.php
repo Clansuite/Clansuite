@@ -67,8 +67,7 @@ class Clansuite_Renderer_Factory
             if(true === class_exists($class, false))
             {
                 # instantiate and return the renderer and pass Config and Response objects to it
-                $view = new $class($injector->instantiate('Clansuite_Config'),
-                                $injector->instantiate('Clansuite_HttpResponse'));
+                $view = new $class($injector->instantiate('Clansuite_Config'));
                 return $view;
             }
             else
