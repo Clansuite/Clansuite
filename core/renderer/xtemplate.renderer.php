@@ -56,10 +56,9 @@ class Clansuite_Renderer_Xtemplate extends Clansuite_Renderer_Base
     public function __construct(Clansuite_Config $config)
     {
         parent::__construct($config);
-        $this->initializeEngine();
     }
 
-    public function initializeEngine()
+    public function initializeEngine($template = null)
     {
         # prevent redeclaration
         if(class_exists('XTemplate', false) == false)
@@ -75,8 +74,12 @@ class Clansuite_Renderer_Xtemplate extends Clansuite_Renderer_Base
             }
         }
 
+        $template = $this->getTemplatePath($template);
+
+        #Clansuite_Debug::firebug('Xtemplate loaded with Template: ' . $template);
+
         # Do it with XTemplate style > eat like a bird, poop like an elefant!
-        return $this->renderer = new XTemplate();
+        return $this->renderer = new XTemplate($template);
     }
 
     public function configureEngine()
@@ -84,14 +87,52 @@ class Clansuite_Renderer_Xtemplate extends Clansuite_Renderer_Base
 
     }
 
-    public function render()
+    function renderPartial($template)
     {
-        $this->renderer->out();
+
     }
 
-    public function assign($key, $value)
+    function clearVars()
     {
-        $this->renderer->assign($key, $value);
+
+    }
+
+    function clearCache()
+    {
+
+    }
+
+    function fetch($template, $data = null)
+    {
+
+    }
+
+    function display($template, $data = null)
+    {
+
+    }
+
+    /**
+     * Returns a clean xTemplate Object
+     *
+     * @return Smarty Object
+     */
+    public function getEngine()
+    {
+        # clear assigns?
+
+        return $this->renderer;
+    }
+
+    public function render($template)
+    {
+        $this->renderer->parse($template);
+        $this->renderer->out($template);
+    }
+
+    public function assign($tpl_parameter, $value = null)
+    {
+        $this->renderer->assign($tpl_parameter, $value);
     }
 }
 ?>

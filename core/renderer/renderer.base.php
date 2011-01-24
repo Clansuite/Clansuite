@@ -96,9 +96,10 @@ abstract class Clansuite_Renderer_Base
     /**
      * Initialize the render engine object
      *
+     * @param string $template Template Name for "Frontloader" Rendering Engines (xtpl).
      * @return Engine Object
      */
-    abstract public function initializeEngine();
+    abstract public function initializeEngine($template = null);
 
     /**
      * Configure the render engine object
@@ -197,12 +198,12 @@ abstract class Clansuite_Renderer_Base
         # check if template was found there, else it's null
         if($theme_template != null)
         {
-            #Clansuite_Debug::firebug(__METHOD__ .' tries fetching template ("'. $theme_template . '") from THEME directory.');
+            Clansuite_Debug::firebug(__METHOD__ .' tries fetching template ("'. $theme_template . '") from THEME directory.');
             return $theme_template;
         }
         else # fetch the template by searching in the Module Template Path
         {
-            #Clansuite_Debug::firebug(__METHOD__ .' tries fetching template ("'. $template . '") from MODULE directory.');
+            Clansuite_Debug::firebug(__METHOD__ .' tries fetching template ("'. $template . '") from MODULE directory.');
             return $this->getModuleTemplatePath($template);
         }
     }
@@ -309,13 +310,21 @@ abstract class Clansuite_Renderer_Base
         $paths = self::getModuleTemplatePaths();
 
         # check if template exists in one of the defined paths
-        return self::findFileInPaths($paths, $template);
+        $module_template = null;
+        $module_template = self::findFileInPaths($paths, $template);
 
-        # fetch renderer name for template path construction
-        $renderer = Clansuite_HttpRequest::getRoute()->getRenderEngine();
+        if($module_template != null)
+        {
+            return $module_template;
+        }
+        else
+        {
+            # fetch renderer name for template path construction
+            $renderer = Clansuite_HttpRequest::getRoute()->getRenderEngine();
 
-        # the template with that name is not found on our default paths
-        return ROOT_THEMES_CORE . 'view' . DS . $renderer . DS . 'template_not_found.tpl';
+            # the template with that name is not found on our default paths
+            return ROOT_THEMES_CORE . 'view' . DS . $renderer . DS . 'template_not_found.tpl';
+        }
     }
 
     /**

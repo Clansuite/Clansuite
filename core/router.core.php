@@ -1097,6 +1097,11 @@ class Clansuite_TargetRoute extends Clansuite_Mapper
         return self::$parameters['renderer'];
     }
 
+    public static function setRenderEngine($renderEngineName)
+    {
+        self::$parameters['renderer'] = $renderEngineName;
+    }
+
     public static function getBackendTheme()
     {
         return (isset($_SESSION['user']['backend_theme'])) ? $_SESSION['user']['backend_theme'] : 'admin';
