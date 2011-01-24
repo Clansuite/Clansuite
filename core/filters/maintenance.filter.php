@@ -32,7 +32,7 @@
 
 # Security Handler
 if (defined('IN_CS') === false)
-{ 
+{
     die('Clansuite not loaded. Direct Access forbidden.' );
 }
 
@@ -67,7 +67,7 @@ class Clansuite_Filter_Maintenance implements Clansuite_Filter_Interface
         {
             # @todo b) create override of maintenance mode, in case it's an admin user?
             $smarty =  Clansuite_Renderer_Factory::getRenderer('smarty', Clansuite_CMS::getInjector());
-            $html = $smarty->fetch( ROOT_THEMES . 'core/templates/maintenance.tpl', true);
+            $html = $smarty->fetch( ROOT_THEMES . 'core/view/smarty/maintenance.tpl', true);
 
             $response->setContent($html);
             $response->flush();

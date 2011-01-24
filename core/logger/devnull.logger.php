@@ -54,11 +54,9 @@ class Clansuite_Logger_Devnull implements Clansuite_Logger_Interface
 {
     private static $instance = null;
 
-    private $config;
-
     public function __construct(Clansuite_Config $config)
     {
-        $this->config = $config;
+
     }
 
     /**

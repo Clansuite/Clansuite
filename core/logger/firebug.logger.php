@@ -64,8 +64,6 @@ class Clansuite_Logger_Firebug implements Clansuite_Logger_Interface
 {
     private static $instance = null;
 
-    private $config;
-
     private function __construct(Clansuite_Config $config)
     {
         # load firebug only if enabled
