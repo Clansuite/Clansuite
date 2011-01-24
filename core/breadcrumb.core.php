@@ -50,7 +50,7 @@ class Clansuite_Breadcrumb
      * @var array $path contains the complete path structured as array
      */
     private static $path = array();
-    
+
     /**
      * @var array $breadcrumb contains the array structure for a new breadcrumb
      */
@@ -71,7 +71,7 @@ class Clansuite_Breadcrumb
     {
         # init new breadcrumb array
         $breadcrumb = self::$breadcrumb;
-       
+
         # set data to breadcrumb
         $breadcrumb['title'] = ucfirst($title);
         $breadcrumb['link']  = WWW_ROOT . ltrim($link, '/');
@@ -85,7 +85,7 @@ class Clansuite_Breadcrumb
         {
             self::$path[] = $breadcrumb;
         }
-        
+
         unset($breadcrumb);
     }
 
@@ -120,10 +120,14 @@ class Clansuite_Breadcrumb
             $url .= '&amp;sub=' . $submoduleName;
             self::add(_($submoduleName), $url);
         }
+        else
+        {
+            self::add(_($moduleName), $url);
+        }
 
         if((mb_strlen($actionName) > 0) and $actionName != 'action_show')
         {
-            $action = substr($actionName, 7);
+            #$action = substr($actionName, 7);
             $url .= '&amp;action=' . $action;
             self::add(_(ucfirst($action)), $url);
         }
@@ -168,16 +172,12 @@ class Clansuite_Breadcrumb
         /**
          * Breadcrumb Level 1    =>    Module
          */
-         
         if($moduleName != 'controlcenter')
         {
             # Construct relative URL
             $url  = 'index.php?mod=' . $moduleName;
             $trailName = $moduleName;
-            
-            # Set Pagetitle and Breadcrumbs for that Module
-            Clansuite_Breadcrumb::add( T_( $trailName ), $url );
-            
+
             # Add action Part only, if not no submodule following
             if( (mb_strlen($actionName) > 0) and (mb_strlen($submoduleName) == 0))
             {
@@ -203,10 +203,10 @@ class Clansuite_Breadcrumb
             {
                 $url .= '&amp;action=' . substr($actionName, 7);
             }
-
-            # Set Pagetitle and Breadcrumbs for that SubModule
-            Clansuite_Breadcrumb::add( T_( $trailName ), $url );
         }
+
+        # Set Pagetitle and Breadcrumbs for that SubModule
+        Clansuite_Breadcrumb::add( T_( $trailName ), $url );
 
         # Debug Display for Breadcumbs
         # Clansuite_Debug::firebug(Clansuite_Breadcrumb::getTrail());
