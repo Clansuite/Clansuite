@@ -147,19 +147,18 @@ class Clansuite_Logger_File implements Clansuite_Logger_Interface
      */
     public function getErrorLogFilename()
     {
-        # default hardcoded logfilename
-        $logfilename = 'error';
+        $filename = ROOT_LOGS . 'error';
 
         # if rotation is active we add a date to the filename
         if($this->config['log']['rotation'] == true)
         {
             # construct name of the log file ( FILENAME_log_DATE.txt )
-            $filename = ROOT_LOGS . $logfilename . '_log_' . date('m-d-y') . '.txt';
+            $filename =  $filename . '_log_' . date('m-d-y') . '.txt';
         }
         else
         {
             # construct name of the log file ( FILENAME_log.txt )
-            $filename = ROOT_LOGS . $logfilename . '_log.txt';
+            $filename = $filename . '_log.txt';
         }
 
         return $filename;

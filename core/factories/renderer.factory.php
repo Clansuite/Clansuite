@@ -77,7 +77,7 @@ class Clansuite_Renderer_Factory
         }
         else
         {
-            throw new Clansuite_Exception('Renderer_Factory -> File not found: ' . $class, 61);
+            throw new Clansuite_Exception('Renderer_Factory -> File not found: ' . $file, 61);
         }
     }
 }

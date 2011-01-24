@@ -62,6 +62,7 @@ class Clansuite_Config_Factory
     {
         # init var
         $adapter = '';
+        $extension  = '';
 
         # use the filename only to detect adapter
         # @todo simplify extension detection, but watch out for .info.php
@@ -158,7 +159,7 @@ class Clansuite_Config_Factory
         }
         else
         {
-            throw new Clansuite_Exception('Config_Factory -> File not found: ' . $class, 41);
+            throw new Clansuite_Exception('Config_Factory -> File not found: ' . $file, 41);
         }
     }
 }

@@ -176,5 +176,16 @@ class Clansuite_Debug
         # debug the var
         $firephp->{$firebugmethod}($var);
     }
+
+    public static function getIncludesFiles()
+    {
+        self::printR(get_included_files());
+    }
+
+    public static function getClansuiteConstants()
+    {
+        $constants = get_defined_constants(true);
+        self::printR($constants['user']);
+    }
 }
 ?>
