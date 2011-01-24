@@ -94,6 +94,26 @@ class Clansuite_Renderer_Phptal extends Clansuite_Renderer_Base
     }
 
     /**
+     * Add data to the PHPTAL view
+     *
+     * @param mixed $data
+     * @param mixed $key
+     */
+    public function assign($data, $key = null)
+    {
+        if($key != null)
+        {
+            $this->renderer->$key = $data;
+        }
+    }
+
+    /*
+    public function setTemplate($template)
+    {
+        $this->renderer->setTemplate($template);
+    }*/
+
+    /**
      * Render Engine Configuration
      * Configures the PHPTAL Object
      */
@@ -133,7 +153,7 @@ class Clansuite_Renderer_Phptal extends Clansuite_Renderer_Base
      */
     public function __set($key, $value)
     {
-        $this->renderer->set($key, $value);
+        $this->renderer->assign($key, $value);
     }
 
     /**
@@ -185,8 +205,14 @@ class Clansuite_Renderer_Phptal extends Clansuite_Renderer_Base
     /**
      * Display template
      */
-    protected function render($template)
+    protected function render($template = null)
     {
+        # get the template from the parent class
+        if($template === null)
+        {
+            $template = $this->getTemplate();
+        }
+
         $this->renderer->setTemplate($template);
 
         try
