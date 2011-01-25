@@ -395,6 +395,7 @@ class Clansuite_HttpResponse implements Clansuite_Response_Interface
         # convert from internal slashed format to external URL
         $url = Clansuite_Router::buildURL($url, false);
 
+        $filename = '';
         $linenum = '';
         $redirect_html = '';
 

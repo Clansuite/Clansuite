@@ -132,7 +132,7 @@ abstract class Clansuite_Module_Controller
      * @param $recordname Recordname
      */
     public static function initModel($modulename = null)
-    {        
+    {
         #$module_models_path = '';
 
         /**
@@ -152,7 +152,7 @@ abstract class Clansuite_Module_Controller
             #Clansuite_Debug::firebug($module_models_path);
 
           # require $models_path . 'entities' . DS . ucfirst($modulename) . '.php';
-          # require $models_path . 'repositories' . DS . ucfirst($modulename) . '.php';          
+          # require $models_path . 'repositories' . DS . ucfirst($modulename) . '.php';
         #}
         # else Module has no Model Data
     }
@@ -267,7 +267,7 @@ abstract class Clansuite_Module_Controller
         # else, set the RenderEngine to the view variable and return it
         else
         {
-            $this->view = $this->getRenderEngine();            
+            $this->view = $this->getRenderEngine();
             return $this->view;
         }
     }
@@ -526,6 +526,8 @@ abstract class Clansuite_Module_Controller
         {
             $route = Clansuite_HttpRequest::getRoute();
 
+            # we use internal rewrite style here: /module/action
+            # redirect() builds the url
             $redirect_to = '/';
             $redirect_to .= $route->getModuleName();
 
