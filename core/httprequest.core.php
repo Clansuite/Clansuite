@@ -138,15 +138,19 @@ class Clansuite_HttpRequest implements Clansuite_Request_Interface, ArrayAccess
             self::cleanGlobals();
         }
 
-        # disable magic_quotes_runtime
-        @set_magic_quotes_runtime(0);
-
-        # if magic quotes gpc is on, stripslash them
-        if ( 1 == get_magic_quotes_gpc() )
+        # the whole magic quotes crap is finally deprecated, god bless
+        if(version_compare(PHP_VERSION, '5.3', '<'))
         {
-            self::$magic_quotes_gpc = true;
-            self::fix_magic_quotes();
-            ini_set('magic_quotes_gpc', 0);
+            # disable magic_quotes_runtime
+            @set_magic_quotes_runtime(0);
+
+            # if magic quotes gpc is on, stripslash them
+            if ( 1 == get_magic_quotes_gpc() )
+            {
+                self::$magic_quotes_gpc = true;
+                self::fix_magic_quotes();
+                ini_set('magic_quotes_gpc', 0);
+            }
         }
 
         /**
