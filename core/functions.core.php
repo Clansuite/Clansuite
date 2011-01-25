@@ -858,7 +858,7 @@ class Clansuite_Functions
 
                         while($parent_folder_path = array_pop($folder_path))
                         {
-                            if(is_dir($parent_folder_path) == false and @ mkdir($parent_folder_path, fileperms($parent_folder_path)) == false)
+                            if(false === is_dir($parent_folder_path) and false === @mkdir($parent_folder_path, fileperms($parent_folder_path)))
                             {
                                 die(_('Could not create the directory that should be copied (destination). Probably a permission problem.'));
                             }
