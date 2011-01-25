@@ -51,24 +51,18 @@ class Clansuite_Filter_StartupChecks implements Clansuite_Filter_Interface
     public function executeFilter(Clansuite_HttpRequest $request, Clansuite_HttpResponse $response)
     {
         # Check if Smarty Output Dirs do EXIST
-        if(false === is_dir(ROOT . 'cache/templates_c'))
+        if(false === is_dir(ROOT . 'cache/templates_c') and (false === @mkdir(ROOT . 'cache' . DS . 'templates_c', 0755, true)))
         {
-            # try to create the missing directories, throw exception if it fails
-            if((false === mkdir(ROOT . 'cache' . DS . 'templates_c', 0755, true)))
-            {
-                throw new Clansuite_Exception('Smarty Template Directories not existant.', 9);
-            }
+            throw new Clansuite_Exception('Smarty Template Directories not existant.', 9);
+
             # @todo else # Log-Entry: "Created Directories Cache/Templates_C."
         }
 
         # Check if Smarty Output Dirs do EXIST
-        if(false === is_dir(ROOT . 'cache/cache'))
+        if(false === is_dir(ROOT . 'cache/cache') and (false === @mkdir(ROOT . 'cache' . DS . 'cache', 0755, true)))
         {
-            # try to create the missing directories, throw exception if it fails
-            if((false === mkdir(ROOT . 'cache' . DS . 'cache', 0755, true)))
-            {
-                throw new Clansuite_Exception('Smarty Template Directories not existant.', 9);
-            }
+            throw new Clansuite_Exception('Smarty Template Directories not existant.', 9);
+
             # @todo else Log-Entry: "Created Directory Cache/Cache."
         }
 

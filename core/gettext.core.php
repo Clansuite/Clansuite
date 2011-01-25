@@ -442,9 +442,9 @@ class Clansuite_Gettext_Extractor_Tool
 
         # get dirname and check if dirs exist, else create it
         $dir = dirname($outputFile);
-        if(is_dir($dir) === false)
+        if(false === is_dir($dir) and false === @mkdir($dir, 0777, true))
         {
-            mkdir($dir, 0777, true);
+           $this->throwException('ERROR: make directory failed!');
         }
 
         # Output file permission check
