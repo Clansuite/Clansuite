@@ -20,7 +20,7 @@ class User
     protected $email;
 
     /**
-     * @Column(type="string", length="25")
+     * @Column(type="string", length="25", unique="true")
      */
     protected $nick;
 
@@ -103,13 +103,26 @@ class User
      * 1) One User might have written zero to many articles.
      * 2) Not a column !
      *
-     * @OneToMany(targetEntity="News", mappedBy="authored")
+     * @OneToMany(targetEntity="News", mappedBy="news_authored_by")
      */
     private $news_authored;
 
     public function getNewsAuthored()
     {
         return $this->news_authored;
+    }
+    
+    /**
+     * 1) One User might have written zero to many articles.
+     * 2) Not a column !
+     *
+     * @OneToMany(targetEntity="Comments", mappedBy="comments_authored_by")
+     */
+    private $comments_authored;
+
+    public function getCommentsAuthored()
+    {
+        return $this->comments_authored;
     }
 
     /**
