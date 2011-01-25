@@ -137,6 +137,8 @@ class Clansuite_Router implements ArrayAccess, Clansuite_Router_Interface
         # process all segments
         foreach($segments as $segment)
         {
+            $match = '';
+
             /**
              * process static named parameter => ":contoller"
              */
@@ -239,18 +241,22 @@ class Clansuite_Router implements ArrayAccess, Clansuite_Router_Interface
             #Clansuite_Debug::firebug(WWW_ROOT . ltrim($urlstring, '/'));
             return WWW_ROOT . ltrim($urlstring, '/');
         }
-        else # ROOT/index.php?mod=xy&sub=xy&etc...
+        else # ROOT/index.php?mod=abc&action=123&etc...
         {
             $url_values = explode('/', ltrim($urlstring, '/'));
             $url_keys = array('mod', 'sub', 'action', 'id');
             $url_data = Clansuite_Functions::array_unequal_combine($url_keys, $url_values);
+            $url = '';
 
             # Defaults to &amp; for internal usage in html documents.
+            #  = ROOT/index.php?mod=abc&amp;action=123&amp;etc...
             if($internal_url === true)
             {
                 $url = http_build_query($url_data, '', '&amp;');
             }
-            elseif($internal_url === false) # external link / redirect etc.
+            # external link / redirect etc.
+            #  = ROOT/index.php?mod=abc&action=123&etc...
+            elseif($internal_url === false)
             {
                 $url = http_build_query($url_data, '', '&');
             }
@@ -328,6 +334,7 @@ class Clansuite_Router implements ArrayAccess, Clansuite_Router_Interface
          */
         if(isset($this->routes[$this->uri])) # does this check work?
         {
+            $found_route = '';
             $found_route = $this->routes[$this->uri];
         }
         else # no, there wasn't a 1:1 match. now we have to check the uri segments
@@ -335,22 +342,24 @@ class Clansuite_Router implements ArrayAccess, Clansuite_Router_Interface
             # loop over the remaining routes and try to map match the uri_segments
             foreach($this->routes as $route_pattern => $route_values)
             {
+                unset($route_pattern);
+
                 #Clansuite_Debug::firebug($route_values);
+
+                $matches = '';
 
                 /**
                  * process static named parameter
                  * like ":controller" or ":subcontroller" or ":action" or ":id"
                  * $route_pattern
                  */
-                if (true === preg_match('/^:([a-zA-Z_]+)$/', $this->uri, $match))
+                if (true === preg_match('/^:([a-zA-Z_]+)$/', $this->uri, $matches))
                 {
-                    # @todo Clansuite_TargetRoute::set*
-
-                    #Clansuite_Debug::firebug($match);
-                    $name = $match[1]; #setController($match[1]);
-                    $found_route = $name;
+                    #Clansuite_Debug::firebug($matches);
+                    # $found_route = $matches[1];
+                    # @todo
+                    Clansuite_TargetRoute::setController($matches[1]);
                 }
-
                 # dynamic regexp segment?
                 elseif(true === preg_match( $route_values['regexp'], $this->uri, $matches))
                 {
@@ -922,9 +931,9 @@ class Clansuite_TargetRoute extends Clansuite_Mapper
      */
     public static function getInstance()
     {
-        static $instance;
+        static $instance = null;
 
-        if(isset($instance) == null)
+        if($instance === null)
         {
             $instance = new Clansuite_TargetRoute();
         }
