@@ -231,7 +231,7 @@ class Clansuite_File
             }
         }
 
-        if ( false == move_uploaded_file($this->tmpName, $destination))
+        if ( false == move_uploaded_file($this->temporayName, $destination))
         {
             throw new Clansuite_Exception('Moving uploaded file failed.');
         }
@@ -247,50 +247,30 @@ class Clansuite_ImagesOnlyFilterIterator extends FilterIterator
     # whitelist of allowed image filetypes, lowercase
     private $allowed_image_filetypes = array('png', 'gif', 'jpeg', 'jpg');
 
-    /*
-    public function setup( Clansuite_Config $config )
-    {
-        # the config value is an comma separated list, so we explode it by comma into an array
-        $allowed_image_filetypes_from_config = explode(',', $config['allowed_image_filetypes']);
-
-        # then merge the hardcoded whitelist with the whitelist comming from the config
-        array_merge($this->allowed_image_filetypes, $allowed_image_filetypes_from_config);
-    }
-    */
-
     /**
      * Implements method from FilterIterator (SPL.php)
      */
     public function accept()
     {
-        #$this->setup();
-
         # get the current element from the iterator to examine the fileinfos
         $current = $this->current();
 
         # we want files, so we skip all directories
-        if ($current->getType() !== 'file')
+        if($current->getType() !== 'file')
         {
             return false;
         }
 
         # set filename and pathinfo
         $filename = $current->getFilename();
-        $fileInfo = pathinfo($filename);
+        $extension = pathinfo($filename, PATHINFO_EXTENSION);
 
-        # based on the pathinfo variable fileInfo, we check if an extension exists
-        if (empty($fileInfo['extension']))
-        {
-            return false;
-        }
-        # ensure that the extension is in the $allowed_image_filetypes whitelist
-        elseif (in_array(mb_strtolower($fileInfo['extension']), $this->allowed_image_filetypes))
+        if(isset($this->allowed_image_filetypes[$extension]))
         {
             return true;
         }
-        else
+        else # it's not a whitelisted extension
         {
-            # it's not a whitelisted extension
             return false;
         }
     }
@@ -345,7 +325,7 @@ class Clansuite_Directory
         $iterator = new $classname(new DirectoryIterator(ROOT . $this->getDirectory()));
 
         # return objects
-        if($return_as_array == null or $return_as_array == false)
+        if($return_as_array === null or $return_as_array === false)
         {
             # create new array to take the SPL FileInfo Objects
             $data = new ArrayObject();
