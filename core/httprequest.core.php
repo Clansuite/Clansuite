@@ -512,45 +512,50 @@ class Clansuite_HttpRequest implements Clansuite_Request_Interface, ArrayAccess
      */
     public static function getRemoteAddress()
     {
-        if(isset($_SERVER['HTTP_CLIENT_IP']) and self::validateIP($_SERVER['HTTP_CLIENT_IP']))
-        {
-            return $_SERVER['HTTP_CLIENT_IP'];
-        }
+        $ip = null;
 
-        if(isset($_SERVER['HTTP_X_FORWARDED_FOR']))
+        if(isset($_SERVER['HTTP_CLIENT_IP']))
         {
-            foreach(explode(',', $_SERVER['HTTP_X_FORWARDED_FOR']) as $ip)
-            {
-                if(self::validateIP(trim($ip)))
-                {
-                    return $ip;
-                }
-            }
+            $ip = $_SERVER['HTTP_CLIENT_IP'];
         }
-
-        # NGINX - with natural russian config passes the IP as REAL_IP ;)
-        if(isset($_SERVER['HTTP_X_REAL_IP']) and self::validateIP($_SERVER['HTTP_X_REAL_IP']))
+        elseif(isset($_SERVER['HTTP_X_FORWARDED_FOR']))
         {
-            return $_SERVER['HTTP_X_REAL_IP'];
+            $ip = explode(',', $_SERVER['HTTP_X_FORWARDED_FOR']);
+            $ip = array_pop($ip);
         }
-
-        if(isset($_SERVER['HTTP_FORWARDED_FOR']) and self::validateIP($_SERVER['HTTP_FORWARDED_FOR']))
+        # NGINX - with natural russian config passes the IP as REAL_IP
+        elseif(isset($_SERVER['HTTP_X_REAL_IP']))
         {
-            return $_SERVER['HTTP_FORWARDED_FOR'];
+            $ip =  $_SERVER['HTTP_X_REAL_IP'];
         }
-
-        if(isset($_SERVER['HTTP_FORWARDED']) and self::validateIP($_SERVER['HTTP_FORWARDED']))
+        elseif(isset($_SERVER['HTTP_FORWARDED_FOR']))
         {
-            return $_SERVER['HTTP_FORWARDED'];
+            $ip =  $_SERVER['HTTP_FORWARDED_FOR'];
         }
-
-        if(isset($_SERVER['HTTP_X_FORWARDED']) and self::validateIP($_SERVER['HTTP_X_FORWARDED']))
+        elseif(isset($_SERVER['HTTP_CLIENT_IP']))
         {
-            return $_SERVER['HTTP_X_FORWARDED'];
+            $ip = $_SERVER['HTTP_CLIENT_IP'];
+        }
+        elseif(isset($_SERVER['HTTP_X_CLUSTER_CLIENT_IP']))
+        {
+            $ip = $_SERVER['HTTP_X_CLUSTER_CLIENT_IP'];
+        }
+        elseif(isset($_SERVER['HTTP_FORWARDED']))
+        {
+            $ip = $_SERVER['HTTP_FORWARDED'];
+        }
+        elseif(isset($_SERVER['HTTP_X_FORWARDED']) )
+        {
+            $ip =  $_SERVER['HTTP_X_FORWARDED'];
         }
         else
         {
-            return $_SERVER['REMOTE_ADDR'];
+            $ip = $_SERVER['REMOTE_ADDR'];
+        }
+
+        if(true === self::validateIP($ip))
+        {
+            return $ip;
         }
     }
 
@@ -655,13 +660,13 @@ class Clansuite_HttpRequest implements Clansuite_Request_Interface, ArrayAccess
             }
             else
             {
-                throw Clansuite_Exception('Request Method failure. You tried to tunnel a '.$this->getParameter('method','GET').' request through an HTTP POST request.');
+                throw new Clansuite_Exception('Request Method failure. You tried to tunnel a '.$this->getParameter('method','GET').' request through an HTTP POST request.');
             }
         }
         elseif($_SERVER['REQUEST_METHOD'] == 'GET' and isset($_GET['method'])) # $this->issetParameter('GET', 'method')
         {
             # NOPE, there's no tunneling through GET!
-            throw Clansuite_Exception('Request Method failure. You tried to tunnel a '.$this->getParameter('method','GET').' request through an HTTP GET request.');
+            throw new Clansuite_Exception('Request Method failure. You tried to tunnel a '.$this->getParameter('method','GET').' request through an HTTP GET request.');
         }
     }
 
