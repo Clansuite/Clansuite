@@ -83,9 +83,7 @@ class Clansuite_Download
         # get more information about the file
         $filename = basename($filePath);
         $size = filesize($filePath);
-        $finfo = finfo_open(FILEINFO_MIME);
-        $mimetype = finfo_file($finfo, realpath($filePath));
-        finfo_close($finfo);
+        $mimetype = self::getMimeType($filePath);
 
         # Create file handle
         $fp = fopen($filePath, 'rb');
@@ -160,6 +158,20 @@ class Clansuite_Download
 
         # Close handle
         fclose($fp);
+    }
+
+    /**
+     * Returns the MimeType of the file.
+     *
+     * @param string $file Full path to file.
+     * @return string MimeType of File.
+     */
+    public static function getMimeType($file)
+    {
+        $finfo = finfo_open(FILEINFO_MIME);
+        $mimetype = finfo_file($finfo, realpath($file));
+        finfo_close($finfo);
+        return $mimetype;
     }
 
     /**
