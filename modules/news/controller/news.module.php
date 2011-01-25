@@ -129,45 +129,16 @@ class Clansuite_Module_News extends Clansuite_Module_Controller
         #(int) $this->request->getParameterFromGet('id');
         if($news_id === null) { $news_id = 1;  }
 
-        $news = Doctrine::getTable('CsNews')->fetchSingleNews($news_id);
-
-        # Debugging SQL Request
-        #Clansuite_Debug::printR($news);
+        $news = $this->getModel()->fetchSingleNews($news_id);
 
         # if a news was found
         if(!empty($news) && is_array($news))
         {
             # Set Pagetitle and Breadcrumbs
             Clansuite_Breadcrumb::replace( _('Show News'), '/news/show', 1);
-            Clansuite_Breadcrumb::add( _('Viewing Single News: ') . $news['news_title'] , '/index.php?mod=news/show');
+            Clansuite_Breadcrumb::add( _('Viewing Single News: ') . $news['news_title'] , '/index.php?mod=news&action=show');
 
-            #Clansuite_Debug::firebug($news);
-
-            # UTF8 to HTML
-            #$news[$i]['news_title'] = mb_convert_encoding( $news[$i]['news_title'] , 'UTF-8', 'HTML-ENTITIES');
-            #$news[$i]['news_body'] = mb_convert_encoding( $news[$i]['news_body'] , 'UTF-8', 'HTML-ENTITIES');
-
-            # Assign News
             $view->assign('news', $news);
-
-            /**
-             * Check if this news_id has comments and assign them to an extra smarty variable
-             * {$news_comments.} for easier access on template side.
-             * Notice: if unset is not commented, the comments array is doubled:
-             * you could also access the values via {$news.} in the tpl.
-             */
-            if(false === empty($news['CsComments']))
-            {
-                # Assign News
-                $view->assign('news_comments', $news['CsComments']);
-
-                # unsetting the $single_news['CsComments'] to save memory
-                unset($news['CsComments']);
-            }
-            else
-            {
-                $view->assign('news_comments', array());
-            }
         }
         else # no news found for this id
         {

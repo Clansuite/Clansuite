@@ -9,7 +9,7 @@ class News
     /**
      * @Id
      * @Column(type="integer")
-     * @GeneratedValue
+     * @GeneratedValue(strategy="AUTO")
      */
     protected $news_id;
 
@@ -19,7 +19,7 @@ class News
     protected $news_title;
 
     /**
-     * @Column(type="string")
+     * @Column(type="text")
      */
     protected $news_body;
 
@@ -58,7 +58,6 @@ class News
 
     ### Setter and Getter for existing Columns IN OTHER OBJECTS
 
-
     /**
      * Bidirectional - Many News are authored by one user (OWNING SIDE)
      *
@@ -71,16 +70,29 @@ class News
      * @ManyToOne(targetEntity="User", inversedBy="news_authored")
      * @JoinColumn(name="user_id", referencedColumnName="user_id")
      */
-    private $authored;
+    private $news_authored_by;
+
+    /**
+     * One News may have zero to MANY comments.
+     *
+     * @OneToMany(targetEntity="Comment", mappedBy="news")
+     */
+    public $comments;
 
     public function setAuthor(Entities\User $user)
     {
-        $this->user_id = $user->user_id;
+        $this->news_authored_by = $user->user_id;
     }
 
     public function setCategory(Entities\Category $category)
     {
         $this->cat_id = $category->cat_id;
+    }
+
+    public function addComment(Entities\Comment $comment)
+    {
+        $this->comments[] = $comment;
+        $comment->setArticle($this);
     }
 }
 ?>
