@@ -44,7 +44,7 @@ if (defined('IN_CS') === false)
  * Here we define some mbstring wrapper functions, which use custom utf8 methods internally
  * and rebuild the mbstring behaviour. This means that calls to mbstring functions throughout
  * the sourcecode are being replaced by our own UTF8 functions.
- * 
+ *
  * The UTF8 functions are stored in the class Clansuite_UTF8.
  *
  * The following functions are declared for global usage:
@@ -69,7 +69,7 @@ if (defined('IN_CS') === false)
  */
 function mb_convert_encoding($str, $to_encoding, $from_encoding = null)
 {
-    if(is_null($from_encoding))
+    if(null === $from_encoding)
     {
         return utf8_convert_encoding($str, $to_encoding);
     }
@@ -92,7 +92,7 @@ function mb_detect_encoding($str)
  */
 function mb_stripos($haystack, $needle, $offset=null)
 {
-    if(is_null($offset))
+    if(null === $offset)
     {
         return stripos($haystack, $needle);
     }
@@ -123,7 +123,7 @@ function mb_strlen($str)
  */
 function mb_strpos($haystack, $needle, $offset=null)
 {
-    if(is_null($offset))
+    if(null === $offset)
     {
         return utf8_strpos($haystack, $needle);
     }
@@ -178,7 +178,7 @@ function mb_strtoupper($str)
  */
 function mb_substr($str, $start, $length=null)
 {
-    if(is_null($length))
+    if(null === $length)
     {
         return utf8_substr($str, $start);
     }
@@ -193,7 +193,7 @@ function mb_substr($str, $start, $length=null)
  */
 function mb_substr_count($haystack, $needle, $offset=null)
 {
-    if(is_null($offset))
+    if(null === $offset)
     {
         return substr_count($haystack, $needle);
     }

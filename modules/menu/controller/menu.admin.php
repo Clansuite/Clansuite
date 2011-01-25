@@ -102,7 +102,7 @@ class Clansuite_Module_Menu_Admin extends Clansuite_Module_Controller
 
         $options = array();
 
-        if(is_null($rootId))
+        if(null === $rootId)
         {
             $options['root_id'] = 1;
         }
