@@ -213,7 +213,7 @@ if(false === function_exists('utf8_substr'))
         }
 
         // establish a pattern for length
-        if(is_null($length))
+        if(null === $length)
         {
             $length_pattern = '(.*)$';                  // the rest of the string
         }
@@ -532,7 +532,7 @@ if(false === function_exists('utf8_stripspecials'))
     {
         static $specials = null;
 
-        if(is_null($specials))
+        if(null === $specials)
         {
             #$specials = preg_quote(unicode_to_utf8(Clansuite_UTF8_Character_Table::specialchars()), '/');
             $specials = preg_quote(Clansuite_UTF8_Character_Table::specialchars2(), '/');
@@ -561,7 +561,7 @@ if(false === function_exists('utf8_strpos'))
         $comp = 0;
         $length = null;
 
-        while(is_null($length) || $length < $offset)
+        while(null === $length || $length < $offset)
         {
             $pos = strpos($haystack, $needle, $offset + $comp);
 
@@ -630,12 +630,18 @@ if(false === function_exists('utf8_unhtml'))
     function utf8_unhtml($str, $entities=null)
     {
         static $decoder = null;
-        if(is_null($decoder))
+        if(null === $decoder)
+        {
             $decoder = new utf8_entity_decoder();
-        if(is_null($entities))
+        }
+        if(null === $entities)
+        {
             return preg_replace_callback('/(&#([Xx])?([0-9A-Za-z]+);)/m', 'utf8_decode_numeric', $str);
+        }
         else
+        {
             return preg_replace_callback('/&(#)?([Xx])?([0-9A-Za-z]+);/m', array(&$decoder, 'decode'), $str);
+        }
     }
 
 }
