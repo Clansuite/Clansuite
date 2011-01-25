@@ -1,4 +1,4 @@
-<?php
+        <?php
 /**
  * CsNewsTable
  *
@@ -11,16 +11,6 @@
  */
 class CsNewsTable extends Doctrine_Table
 {
-    /**
-     * Returns an instance of this class.
-     *
-     * @return object CsNewsTable
-     */
-    public static function getInstance()
-    {
-        return Doctrine_Core::getTable('CsNews');
-    }
-
     /**
     * construct
     * Introducing Named Queries
@@ -218,33 +208,7 @@ class CsNewsTable extends Doctrine_Table
         return $news;
     }
 
-    /**
-     * fetchSingleNews
-     *
-     * Doctrine_Query to fetch News by Category
-     */
-    public static function fetchSingleNews($news_id)
-    {
-        $single_news = Doctrine_Query::create()
-                    ->select('n.*,
-                              u.nick, u.user_id, u.email, u.country,
-                              c.name, c.image, c.icon, c.color,
-                              nc.*,
-                              ncu.nick, ncu.email, ncu.country')
-                    ->from('CsNews n')
-                    ->leftJoin('n.CsUsers u')
-                    ->leftJoin('n.CsCategories c')
-                    ->leftJoin('n.CsComments nc')
-                    ->leftJoin('nc.CsUsers ncu')
-                    #->where('c.module_id = 7')
-                    ->setHydrationMode(Doctrine::HYDRATE_ARRAY)
-                    ->where('news_id = ' . $news_id)
-                    ->fetchArray();
 
-        # put things in an array-box for delivery multiple things with one return stmt
-        # and get rid of the outer array ['0']
-        return $single_news['0'];
-    }
 
     /**
      * fetchNewsForFullArchiv
@@ -369,5 +333,5 @@ class CsNewsTable extends Doctrine_Table
 
 
 
-    
+
 }

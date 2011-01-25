@@ -32,6 +32,33 @@ class NewsRepository extends EntityRepository
     }
 
     /**
+     * fetchSingleNews
+     *
+     * Doctrine_Query to fetch News by Category
+     */
+    public function fetchSingleNews($news_id)
+    {
+        $q = $this->_em->createQuery('
+                    SELECT n,
+                           partial u.{user_id, nick, email, country},
+                           partial c.{cat_id, name, description, image, icon, color},
+                           nc,
+                           partial ncu.{user_id, nick, email, country}
+                    FROM Entities\News n
+                    LEFT JOIN n.news_authored_by u
+                    LEFT JOIN n.category c
+                    LEFT JOIN n.comments nc
+                    LEFT JOIN nc.user ncu
+                    WHERE c.module_id = 7
+                    AND n.news_id = :news_id');
+        $q->setParameter('news_id', $news_id);
+        #$r = $q->getScalarResult();
+        $r = $q->getArrayResult();
+        #\Clansuite_Debug::printR($r);
+        return $r['0'];
+    }
+
+    /**
      * fetchLatestNews
      *
      * @param int The number of news to fetch.
@@ -43,7 +70,7 @@ class NewsRepository extends EntityRepository
         # @link http://www.doctrine-project.org/docs/orm/2.0/en/reference/dql-doctrine-query-language.html
         $query = $this->_em->createQuery('SELECT n, partial u.{nick, user_id}
                                    FROM Entities\News n
-                                   LEFT JOIN n.authored u
+                                   LEFT JOIN n.news_authored_by u
                                    ORDER BY n.news_id DESC');
         # Note: association via object#n.authored, real LEFT JOIN via table#n.user_id
         # Note: removed limit, because its not working: LIMIT :number_of_news
@@ -82,13 +109,14 @@ class NewsRepository extends EntityRepository
     public static function fetchAllNewsCategoriesDropDown()
     {
         # fetch news via doctrine query
-        $newscategories = Doctrine_Query::create()
-                                    ->select('c.cat_id, c.name')
-                                    ->from('CsCategories c')
-                                    ->where('c.module_id = 7')
-                                    ->groupBy('c.name')
-                                    ->setHydrationMode(Doctrine::HYDRATE_ARRAY)
-                                    ->execute( array() );
+        $q = $this->_em->createQuery('
+                                    SELECT c.cat_id, c.name
+                                    FROM Entities/Categories c
+                                    WHERE c.module_id = 7
+                                    GROUP BY c.name');
+        $r = $q->getArrayResult();
+        #\Clansuite_Debug::printR($r);
+        return $r;
     }
 
     public function fetchNewsArchiveWidget()

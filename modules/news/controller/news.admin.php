@@ -81,7 +81,7 @@ class Clansuite_Module_News_Admin extends Clansuite_Module_Controller
 
         $ColumnSets[] = array(  'Alias'     => 'Select',
                                 'ResultSet' => 'news_id',
-                                'Name'      => _('[x]'),
+                                'Name'      => '[x]',
                                 'Type'      => 'Checkbox' );
 
         $ColumnSets[] = array(  'Alias'     => 'Title',

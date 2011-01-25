@@ -1,6 +1,6 @@
 <!-- Start News /-->
 
-{* Debugoutput of News Array: {$news|var_dump} *}
+ Debugoutput of News Array: {$news|var_dump}
 
 <a id="news_top" id="news_top"></a>
 
@@ -10,12 +10,18 @@
 
 
 	<tr>
-		<td height="20" ><b>{$news.news_title} - {$news.CsCategories.name}</b></td>
-		<td rowspan="3" valign="top"><img src="{$news.CsCategories.image}" alt="Category-Image: {$news.CsCategories.name} " /></td>
+		<td height="20" ><b>{$news.news_title} - {$news.category.name}</b></td>
+		<td rowspan="3" valign="top"><img src="{$news.category.image}" alt="Category-Image: {$news.category.name} " /></td>
 	</tr>
 
 	<tr>
-		<td valign="top" class="dunkler"><font size="1">{t}written by{/t}<a href='index.php?mod=users&amp;id={$news.CsUsers.user_id}'>{$news.CsUsers.nick}</a> on {$news.created_at|date_format}</font></td>
+		<td valign="top" class="dunkler">
+        <font size="1">
+        {t}written by{/t}
+        <a href='index.php?mod=users&amp;id={$news.news_authored_by.user_id}'>{$news.news_authored_by.nick}</a>
+        on {$news.created_at|date_format}
+        </font>
+        </td>
 	</tr>
 
 	<tr>
@@ -49,16 +55,16 @@
 
 <!-- Start Comments /-->
 
-{* Debugoutput of Comments Array: {$news_comments|var_dump} *}
+Debugoutput of Comments Array: {$news.comments|var_dump} 
 
 <a id="comments" id="comments"></a>
 
-{if isset($news_comments) && isset($news_comments.0) && is_array($news_comments.0) && count($news_comments.0) > 1}
+{if isset($news_comments) && isset($news.comments.0) && is_array($news.comments.0) && count($news.comments.0) > 1}
 
 	<!-- Start Multiple Comments /-->
 	<h2>{t}Comments{/t}</h2>
 
-	{foreach item=news_comment from=$news_comments}
+	{foreach item=news_comment from=$news['comments']}
 
 	{* Debugoutput of Comments Array: {$news_comment|var_dump} *}
 
