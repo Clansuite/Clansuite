@@ -37,11 +37,38 @@
 define('IN_CS', true);
 
 # Error Reporting Level
-# error_reporting(E_ALL | E_STRICT);
+error_reporting(E_ALL | E_STRICT);
+ini_set('display_errors', true);
 
-set_include_path( dirname(__FILE__).'/tests/' . PATH_SEPARATOR .
-                  dirname(__FILE__) . PATH_SEPARATOR .
-                  get_include_path());
+# Tests take some time
+set_time_limit(0);
+
+date_default_timezone_set('Europe/Berlin');
+
+define('TESTSUBJECT_DIR', dirname(__DIR__) . DIRECTORY_SEPARATOR);   # /trunk
+define('ROOT', TESTSUBJECT_DIR);                                     # /trunk
+define('ROOT_CORE', TESTSUBJECT_DIR . 'core' . DIRECTORY_SEPARATOR); # /trunk/core
+
+$paths = array(
+        # adjust include path to SIMPLETEST DIR and UNITTESTS DIR
+        realpath(__DIR__),                 # /trunk/tests
+        realpath(__DIR__.'/simpletest'),   # /trunk/tests/simpletest
+        realpath(__DIR__.'/unittests'),    # /trunk/tests/unittests
+        # add the test subject dir
+        realpath(dirname(__DIR__)) . '/',        # /trunk
+        /**
+         * Zend Server Paths
+         * resides at = C:\Programme\Zend\
+         * Test are at = C:\Programme\Zend\Apache2\htdocs\clansuite\trunk\tests
+         */
+        realpath(dirname(dirname(dirname(dirname(dirname(__DIR__))))).'/ZendServer/bin'),
+        realpath(dirname(dirname(dirname(dirname(dirname(__DIR__))))).'/ZendServer/bin/PEAR')
+);
+#var_dump($paths);
+
+# attach original include paths
+set_include_path(implode($paths, PATH_SEPARATOR) . PATH_SEPARATOR . get_include_path());
+unset($paths);
 
 # put more bootstrapping code here
 
