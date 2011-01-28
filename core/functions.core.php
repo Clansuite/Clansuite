@@ -515,6 +515,26 @@ class Clansuite_Functions
 
         return $returnArray;
     }
+    
+    /**
+     * Remaps multi-dim array (k1=>v1, k2=>v2, k(n) => v(n)) to the values of key1=>key2 (v1 => v2).
+     * The array might have several keys, so you might map value of key2 to value of key 5 ;)
+     * Simple, but impressive!
+     *
+     * @param type $array
+     * @param type $map_value_of_key1
+     * @param type $to_value_of_key2
+     * @return type array
+     */
+    public static function map_array_keys_to_values($array, $map_value_of_key1, $to_value_of_key2)
+    {
+        $new_array = array();
+        foreach($array as $inner_array)
+        {
+           $new_array[$inner_array[$map_value_of_key1]] = $inner_array[$to_value_of_key2];
+        }
+        return $new_array;
+    }
 
     /**
      * flatten multi-dimensional array

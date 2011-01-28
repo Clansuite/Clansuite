@@ -217,7 +217,7 @@ class Clansuite_Module_News_Admin extends Clansuite_Module_Controller
 
         # Assign some formlements
         $form->addElement('text')->setName('news_form[news_title]')->setLabel(_('Title'));
-        $categories = Doctrine::getTable('CsNews')->fetchAllNewsCategoriesDropDown();
+        $categories = $this->getModel()->fetchAllNewsCategoriesDropDown();
         $form->addElement('multiselect')->setName('news_form[cat_id]')->setLabel(_('Category'))
                 ->setOptions($categories);
         $form->addElement('multiselect')->setName('news_form[news_status]')->setLabel(_('Status'))
@@ -246,7 +246,7 @@ class Clansuite_Module_News_Admin extends Clansuite_Module_Controller
         $news_id = $this->request->getParameter('id');
 
         # fetch news
-        $news = Doctrine::getTable('CsNews')->fetchSingleNews($news_id);
+        $news = $this->getModel()->fetchSingleNews($news_id);
 
         # Create a new form
         $form = new Clansuite_Form('news_form', 'post', 'index.php?mod=news&sub=admin&action=update&type=edit');
@@ -266,7 +266,7 @@ class Clansuite_Module_News_Admin extends Clansuite_Module_Controller
 
         # assign some formlements
         $form->addElement('text')->setName('news_form[news_title]')->setLabel(_('Title'))->setValue($news['news_title']);
-        $categories = Doctrine::getTable('CsNews')->fetchAllNewsCategoriesDropDown();
+        $categories = $this->getModel()->fetchAllNewsCategoriesDropDown();
         $form->addElement('multiselect')->setName('news_form[cat_id]')->setLabel(_('Category'))->setOptions($categories)->setDefaultValue($news['cat_id']);
         $form->addElement('multiselect')->setName('news_form[news_status]')->setLabel(_('Status'))->setOptions($this->publishing_status_map)->setDefaultValue($news['news_status']);
         $form->addElement('textarea')->setName('news_form[news_body]')->setID('news_form[news_body]')->setCols('110')->setRows('30')->setLabel(_('Your Article:'))->setValue($news['news_body'])
@@ -308,7 +308,7 @@ class Clansuite_Module_News_Admin extends Clansuite_Module_Controller
         elseif(isset($type) and $type == 'edit')
         {
             # fetch the news to update by news_id
-            $news = Doctrine::getTable('CsNews')->findOneByNews_Id($data['news_id']);
+            $news = $this->getModel()->findOneByNews_Id($data['news_id']);
 
             # if that news exist, update values and save
             if ($news !== false)
