@@ -55,7 +55,8 @@ class Clansuite_Filter_ThemeViaGet implements Clansuite_Filter_Interface
 
     public function __construct(Clansuite_Config $config, Clansuite_Inputfilter $input)
     {
-        $this->config = $config;
+        # reduce array size by selectionbn the section
+        $this->config = $config['switches'];
         $this->input  = $input;
     }
 
@@ -63,7 +64,7 @@ class Clansuite_Filter_ThemeViaGet implements Clansuite_Filter_Interface
     {
         // take the initiative, if themeswitching is enabled in CONFIG
         // or pass through (do nothing)
-        if($this->config['switches']['themeswitch_via_url'] == 1)
+        if($this->config['themeswitch_via_url'] == 1)
         {
             $theme = $request->getParameterFromGet('theme');
 
