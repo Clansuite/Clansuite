@@ -184,7 +184,7 @@ class Clansuite_Feed
 
     public static function write()
     {
-        clansuite_loader::loadLibrary('feedcreator.class.php');
+        clansuite_loader::loadLibrary('feedcreator');
 
         return new UniversalFeedCreator();
     }

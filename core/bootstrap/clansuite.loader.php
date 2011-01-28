@@ -178,17 +178,17 @@ class Clansuite_Loader
     public static function autoloadInclusions($classname)
     {
         # define component directories
-        $datagrid_dir = ROOT_CORE . 'viewhelper' . DS . 'datagrid' . DS;
-        $form_dir     = ROOT_CORE . 'viewhelper' . DS . 'form' . DS;
+        $datagrid_dir = ROOT_CORE . 'viewhelper/datagrid/';
+        $form_dir     = ROOT_CORE . 'viewhelper/form/';
 
         # autoloading map
         $map = array(
         # /core/config
-        'Clansuite_Config_Base'               => ROOT_CORE . 'config'. DS . 'config.base.php',
-        'Clansuite_Config_INI'                => ROOT_CORE . 'config'. DS . 'ini.config.php',
-        'Clansuite_Config_XML'                => ROOT_CORE . 'config'. DS . 'xml.config.php',
-        'Clansuite_Config_YAML'               => ROOT_CORE . 'config'. DS . 'yaml.config.php',
-        'Clansuite_Renderer_Base'             => ROOT_CORE . 'renderer' . DS . 'renderer.base.php',
+        'Clansuite_Config_Base'               => ROOT_CORE . 'config/config.base.php',
+        'Clansuite_Config_INI'                => ROOT_CORE . 'config/ini.config.php',
+        'Clansuite_Config_XML'                => ROOT_CORE . 'config/xml.config.php',
+        'Clansuite_Config_YAML'               => ROOT_CORE . 'config/yaml.config.php',
+        'Clansuite_Renderer_Base'             => ROOT_CORE . 'renderer/renderer.base.php',
         # /core
         'Clansuite_Staging'                   => ROOT_CORE . 'staging.core.php',
         'Clansuite_UTF8'                      => ROOT_CORE . 'utf8.core.php',
@@ -209,7 +209,7 @@ class Clansuite_Loader
         'Clansuite_Functions'                 => ROOT_CORE . 'functions.core.php',
         'Clansuite_XML2JSON'                  => ROOT_CORE . 'xml2json.core.php',
         'Clansuite_Doctrine'                  => ROOT_CORE . 'doctrine.core.php',
-        'Clansuite_DoctrineTools'              => ROOT_CORE . 'doctrine.core.php',
+        'Clansuite_DoctrineTools'             => ROOT_CORE . 'doctrine.core.php',
         'Clansuite_Front_Controller'          => ROOT_CORE . 'frontcontroller.core.php',
         'Clansuite_Module_Controller'         => ROOT_CORE . 'modulecontroller.core.php',
         'Clansuite_EventDispatcher'           => ROOT_CORE . 'eventdispatcher.core.php',
@@ -225,7 +225,7 @@ class Clansuite_Loader
         # /viewhelper/form
         'Clansuite_Form'                      => $form_dir . 'form.core.php',
         'Clansuite_Formelement'               => $form_dir . 'formelement.core.php',
-        'Clansuite_Formelement_Input'         => $form_dir . 'formelements' . DS . 'input.form.php',
+        'Clansuite_Formelement_Input'         => $form_dir . 'formelements/input.form.php',
         'Clansuite_Form_Decorator'            => $form_dir . 'formdecorator.core.php',
         'Clansuite_Formelement_Decorator'     => $form_dir . 'formdecorator.core.php',
         'Clansuite_Formelement_Formgenerator' => $form_dir . 'formgenerator.core.php',
@@ -325,13 +325,16 @@ class Clansuite_Loader
     }
 
     /**
-     * Require File (and register it to the autoloading map file)
+     * Include File (and register it to the autoloading map file)
      *
      * @param string $filename The file to be required
      * @return bool True on success of require, false otherwise.
      */
     public static function includeFileAndMap($filename, $classname)
     {
+        $filename = realpath($filename);
+
+        # conditional include
         include $filename;
 
         # add class and filename to the mapping array
@@ -349,6 +352,8 @@ class Clansuite_Loader
      */
     public static function requireFile($filename, $classname = null)
     {
+        $filename = realpath($filename);
+    
         if(is_file($filename) === true)
         {
             include $filename;
@@ -357,7 +362,7 @@ class Clansuite_Loader
             {
                 return true;
             }
-            if(isset($classname) and class_exists($classname, false) === true)
+            elseif(class_exists($classname, false) === true)
             {
                 return true;
             }
@@ -437,6 +442,47 @@ class Clansuite_Loader
         self::$autoloader_map = array_merge( (array) self::$autoloader_map, array( $classname => $filename ));
 
         self::writeAutoloadingMap(self::$autoloader_map);
+    }
+    
+    /**
+     * Includes a certain library classname by using a manually maintained autoloading map.
+     * Functionally the same as self::autoloadInclusions().
+     *
+     * Snoopy, SimplePie, PclZip, graph, GeSHi, feedcreator, browscap, bbcode
+     *
+     * @param string $classname Library to load.
+     * @return true if classname was included
+     */
+    public static function loadLibraray($classname)
+    {
+        # autoloading map
+        $map = array(
+        'Snoopy'               => ROOT_LIB . 'snoopy/Snoopy.class.php',
+        'SimplePie'            => ROOT_LIB . 'simplepie/simplepie.inc',
+        'PclZip'               => ROOT_LIB . 'pclzip/pclzip.lib.php',
+        'graph'                => ROOT_LIB . 'graph/graph.class.php',
+        'GeSHi'                => ROOT_LIB . 'geshi/geshi.php',
+        'feedcreator'          => ROOT_LIB . 'feedcreator/feedcreator.class.php',
+        'Browscap'             => ROOT_LIB . 'browscap/Browscap.php',
+        'BBCode'               => ROOT_LIB . 'bbcode/stringparser_bbcode.class.php',
+        );
+
+        # check if classname is in autoloading map
+        if(isset($map[$classname]))
+        {
+            # get filename for that classname
+            $filename = $map[$classname];
+
+            # and include that one
+            if(true === self::requireFile($filename, $classname))
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
     }
 }
 ?>
