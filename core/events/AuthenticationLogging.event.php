@@ -47,7 +47,7 @@ if (defined('IN_CS') === false)
  * $eventhandler->addEventHandler('onInvalidLogin', $logger);
  * $eventhandler->addEventHandler('onLogin', $logger);
  */
-class AuthenticationLogging implements Clansuite_Event
+class AuthenticationLogging implements Clansuite_Event_Interface
 {
     protected $logger;
 

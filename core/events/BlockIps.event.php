@@ -48,7 +48,7 @@ if (defined('IN_CS') === false)
  * if($event->isCancelled()) { }
  *
  */
-class BlockIps implements Clansuite_Event
+class BlockIps implements Clansuite_Event_Interface
 {
     protected $blockedIps;
 
