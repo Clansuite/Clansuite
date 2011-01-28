@@ -67,10 +67,15 @@ class NewsRepository extends EntityRepository
     {
         # 12.2.4.1. Partial Object Syntax¶, partial c.{name, image}
         # @link http://www.doctrine-project.org/docs/orm/2.0/en/reference/dql-doctrine-query-language.html
-        $query = $this->_em->createQuery('SELECT n, partial u.{nick, user_id}
-                                   FROM Entities\News n
-                                   LEFT JOIN n.news_authored_by u
-                                   ORDER BY n.news_id DESC');
+        $query = $this->_em->createQuery('
+                           SELECT n,
+                                  partial u.{nick, user_id},
+                                  partial c.{cat_id, name, description, image, icon, color}
+                           FROM Entities\News n
+                           LEFT JOIN n.news_authored_by u
+                           LEFT JOIN n.category c
+                           WHERE c.module_id = 7
+                           ORDER BY n.news_id DESC');
         # Note: association via object#n.authored, real LEFT JOIN via table#n.user_id
         # Note: removed limit, because its not working: LIMIT :number_of_news
         # LIMIT is implemented via setMaxResults()
