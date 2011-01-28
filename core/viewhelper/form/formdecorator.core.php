@@ -67,7 +67,7 @@ if (defined('IN_CS') === false)
  * @package     Core
  * @subpackage  Form
  */
-abstract class Clansuite_Form_Decorator #implements Clansuite_Form_Interface
+abstract class Clansuite_Form_Decorator implements Clansuite_Form_Decorator_Interface
 {
     # instance of form, which is to decorate
     protected $form;
@@ -115,7 +115,7 @@ abstract class Clansuite_Form_Decorator #implements Clansuite_Form_Interface
             return false;
         }
     }
-    
+
     /**
      * __call Magic Method
      *
@@ -141,7 +141,7 @@ abstract class Clansuite_Form_Decorator #implements Clansuite_Form_Interface
  * @subpackage  Form
  */
 
-abstract class Clansuite_Formelement_Decorator #implements Clansuite_Form_Interface
+abstract class Clansuite_Formelement_Decorator implements Clansuite_Formelement_Decorator_Interface
 {
     # instance of formelement, which is to decorate
     protected $formelement;
@@ -232,6 +232,11 @@ abstract class Clansuite_Formelement_Decorator #implements Clansuite_Form_Interf
 
 interface Clansuite_Formelement_Decorator_Interface
 {
-    public function decorateWith($formelement);
+    public function decorateWith($formelement_decorator);
+}
+
+interface Clansuite_Form_Decorator_Interface
+{
+    public function decorateWith($form_decorator);
 }
 ?>
