@@ -133,27 +133,33 @@ abstract class Clansuite_Module_Controller
      */
     public static function initModel($modulename = null)
     {
-        #$module_models_path = '';
+        $module_models_path = '';
 
         /**
          * Load the Records for the current module, if no modulename is specified.
          * This is for lazy usage in the modulecontroller: $this->initModel();
          */
-        #if($modulename === null)
-        #{
-        #    $modulename = Clansuite_HttpRequest::getRoute()->getModuleName();
-        #}
+        if($modulename === null)
+        {
+            $modulename = Clansuite_HttpRequest::getRoute()->getModuleName();
+        }
 
-        #$module_models_path = realpath(ROOT_MOD . mb_strtolower($modulename) . DS . 'model') . DS;
+        $module_models_path = realpath(ROOT_MOD . mb_strtolower($modulename) . DS . 'model') . DS;
 
-        #if(is_dir($module_models_path))
-        #{
-            #set_include_path($module_models_path . PS . get_include_path());
-            #Clansuite_Debug::firebug($module_models_path);
+        if(is_dir($module_models_path))
+        {
+           $entity = $module_models_path . 'entities' . DS . ucfirst($modulename) . '.php';
+           if(is_file($entity))
+           {
+               include_once $entity;
+           }
 
-          # require $models_path . 'entities' . DS . ucfirst($modulename) . '.php';
-          # require $models_path . 'repositories' . DS . ucfirst($modulename) . '.php';
-        #}
+           $repos = $module_models_path . 'repositories' . DS . ucfirst($modulename) . 'Repository.php';
+           if(is_file($repos))
+           {
+               include_once $repos;
+           }
+        }
         # else Module has no Model Data
     }
 

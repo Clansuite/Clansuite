@@ -65,7 +65,6 @@ class NewsRepository extends EntityRepository
      */
     public function fetchLatestNews($numberNews)
     {
-
         # 12.2.4.1. Partial Object Syntax¶, partial c.{name, image}
         # @link http://www.doctrine-project.org/docs/orm/2.0/en/reference/dql-doctrine-query-language.html
         $query = $this->_em->createQuery('SELECT n, partial u.{nick, user_id}
@@ -81,7 +80,6 @@ class NewsRepository extends EntityRepository
 
         # bah, get class from global space ;)
         #\Clansuite_Debug::printR($latestnews);
-
         return $latestnews;
     }
 
@@ -106,15 +104,17 @@ class NewsRepository extends EntityRepository
     /**
      * fetch all News Categories
      */
-    public static function fetchAllNewsCategoriesDropDown()
+    public function fetchAllNewsCategoriesDropDown()
     {
-        # fetch news via doctrine query
+        #require_once ROOT_MOD . 'categories/model/entities/category.php';
+
         $q = $this->_em->createQuery('
                                     SELECT c.cat_id, c.name
-                                    FROM Entities/Categories c
+                                    FROM Entities\Category c
                                     WHERE c.module_id = 7
                                     GROUP BY c.name');
         $r = $q->getArrayResult();
+        $r = \Clansuite_Functions::map_array_keys_to_values($r, 'cat_id', 'name');
         #\Clansuite_Debug::printR($r);
         return $r;
     }
