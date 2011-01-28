@@ -232,7 +232,7 @@ class Clansuite_Module_ControlCenter extends Clansuite_Module_Controller
         $config = $this->getInjector()->instantiate('Clansuite_Config');
 
         # write config
-        $config->confighandler->writeConfig( ROOT_MOD . 'controlcenter/controlcenter.config.php', $data);
+        $config->writeConfig( ROOT_MOD . 'controlcenter/controlcenter.config.php', $data);
 
         # clear the cache / compiled tpls
         $this->getView()->clearCache();
