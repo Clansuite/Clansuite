@@ -48,13 +48,6 @@ if (defined('IN_CS') === false)
  */
 class Clansuite_Filter_SmartyMoves implements Clansuite_Filter_Interface
 {
-    private $config     = null;
-
-    function __construct(Clansuite_Config $config)
-    {
-        $this->config     = $config;
-    }
-
     public function executeFilter(Clansuite_HttpRequest $request, Clansuite_HttpResponse $response)
     {
         // take the initiative or pass through (do nothing)

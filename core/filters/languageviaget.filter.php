@@ -61,11 +61,11 @@ if (defined('IN_CS') === false)
  */
 class Clansuite_Filter_LanguageViaGet implements Clansuite_Filter_Interface
 {
-    private $config     = null;     # holds instance of config
+    private $config     = null;
 
     public function __construct(Clansuite_Config $config)
     {
-        $this->config    = $config;      # set instance of config to class
+        $this->config    = $config['switches'];
     }
 
     public function executeFilter(Clansuite_HttpRequest $request, Clansuite_HttpResponse $response)
@@ -74,7 +74,7 @@ class Clansuite_Filter_LanguageViaGet implements Clansuite_Filter_Interface
          * take the initiative of filtering, if language switching is enabled in CONFIG
          * or pass through (do nothing) if disabled
          */
-        if(true === (bool) $this->config['switches']['languageswitch_via_url'])
+        if(true === (bool) $this->config['languageswitch_via_url'])
         {
             # fetch parameter &lang= from GET
             $language = $request->getParameterFromGet('lang');
