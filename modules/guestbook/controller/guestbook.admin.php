@@ -171,7 +171,7 @@ class Clansuite_Module_Guestbook_Admin extends Clansuite_Module_Controller
                       ->whereIn('gb_id = ?', $gb_id);
 
         # Transform RAW text to BB-formatted Text
-        Clansuite_Loader::loadCoreClass('bbcode');
+        Clansuite_Loader::loadLibrary('bbcode');
         $bbcode = new bbcode();
         $parsed_comment = $bbcode->parse($comment);
 

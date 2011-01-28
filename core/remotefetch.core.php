@@ -39,24 +39,23 @@ if(defined('IN_CS') === false)
 /**
  * Clansuite Remotefetch
  *
- * Adapters
  * 1: Snoppy
- * (2: cURL)
+ * 2: cURL
  * (3: Remote)
  * (4: FTP)
  */
 class Clansuite_Remotefetch
 {
     /**
-     * Fetches remote content
+     * Fetches remote content with Snoopy
      *
      * @param $url URL of remote content to fetch
      */
-    public function fetch_remote_content($url)
+    public static function snoopy_get_file($url)
     {
         $remote_content = null;
 
-        if( Clansuite_Loader::loadLibrary('snoopy') )
+        if(Clansuite_Loader::loadLibrary('snoopy'))
         {
             $s = new Snoopy();
             $s->fetch($url);
@@ -69,5 +68,27 @@ class Clansuite_Remotefetch
 
         return $remote_content;
     }
+
+    /**
+     * Fetches remote content with cURL
+     *
+     * @param $url URL of remote content to fetch
+     */
+    public static function curl_get_file($url)
+    {
+        $c = curl_init();
+        curl_setopt($c, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($c, CURLOPT_URL, $url);
+        $contents = curl_exec($c);
+        curl_close($c);
+
+        if(false === empty($contents))
+        {
+            return $contents;
+        }
+
+        return false;
+    }
+
 }
 ?>
