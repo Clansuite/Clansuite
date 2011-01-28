@@ -132,6 +132,8 @@ class Clansuite_Form /*extends Clansuite_HTML*/ implements Clansuite_Form_Interf
 
     protected $novalidation;
 
+    protected $target;
+
     /**
      * Contains action of the form.
      *
@@ -329,6 +331,31 @@ class Clansuite_Form /*extends Clansuite_HTML*/ implements Clansuite_Form_Interf
         $this->autocomplete = (bool) $bool;
 
         return $this;
+    }
+
+    /**
+     * Gets the target (_blank, _self, _parent, _top)
+     *
+     * @return type string
+     */
+    public function getTarget()
+    {
+        return $this->target;
+    }
+
+    /**
+     * Set the target of the form.
+     *
+     * _blank 	 Open in a new window
+     * _self 	  Open in the same frame as it was clicked
+     * _parent 	Open in the parent frameset
+     * _top
+     *
+     * @param string $target _blank, _self, _parent, _top
+     */
+    public function setTarget($target)
+    {
+        $this->target = $target;
     }
 
     /**
@@ -1017,20 +1044,27 @@ class Clansuite_Form /*extends Clansuite_HTML*/ implements Clansuite_Form_Interf
      */
     public function addFormelementDecorator($decorator, $formelement_position = null)
     {
-        # if no position is incomming we return the last formelement item
-        # this would be the normal call to this method, when manually chaining
-        if($formelement_position === null)
+        if(is_array($this->formelements) === false)
         {
-            # count formelements, -1 because starting with 0 not with 1
-            $position = count($this->formelements)-1;
+            throw new Clansuite_Exception('No Formelements found. Add the formelement first, then decorate it!');
         }
 
-        # get last formelement object in formelements array
-        $last_formelement_object = $this->getElementByPosition($formelement_position);
+        # if no position is incomming we return the last formelement item
+        # this is the normal call to this method, while  chaining
+        if($formelement_position === null)
+        {
+           # fetch last item of array = last_formelement
+           $formelement_object = end($this->formelements);
 
-        # and add the decorator
-        # WATCH IT! this is a call to formelement.core.php addDecorator()
-        return $last_formelement_object->addDecorator($decorator);
+           }
+        else # uh, not the last element of the formelements array, but some position
+        {
+            $formelement_object = $this->getElementByPosition($formelement_position);
+        }
+
+        # add the decorator
+        # WATCH IT! this is a forwarding call to formelement.core.php->addDecorator()
+        return $formelement_object->addDecorator($decorator);
     }
 
     /**
@@ -1230,7 +1264,7 @@ class Clansuite_Form /*extends Clansuite_HTML*/ implements Clansuite_Form_Interf
      */
     public function count()
     {
-        return count($formelements);
+        return count($this->formelements);
     }
 
     /**
