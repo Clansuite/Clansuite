@@ -59,13 +59,6 @@ if (defined('IN_CS') === false)
 class Clansuite_Config extends Clansuite_Config_Base # implements ArrayAccess
 {
     /**
-     * A configuration handler
-     *
-     * @var object
-     */
-    public $confighandler;
-
-    /**
      * This object is injected via DI.
      * The depending object needs a version of the Clansuite Config.
      * We fetch it from Clansuite_CMS.
@@ -157,12 +150,7 @@ class Clansuite_Config extends Clansuite_Config_Base # implements ArrayAccess
             $array = array();
         }
 
-        if(false === is_object($this->confighandler))
-        {
-             $this->confighandler = Clansuite_Config_Factory::getHandler($filename);
-        }
-
-        $this->confighandler->writeConfig($filename, $array);
+        Clansuite_Config_Factory::getHandler($filename)->writeConfig($filename, $array);
     }
 }
 ?>
