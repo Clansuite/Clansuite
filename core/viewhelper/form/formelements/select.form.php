@@ -135,15 +135,7 @@ class Clansuite_Formelement_Select extends Clansuite_Formelement implements Clan
             # loop over all selectfield options
             foreach ($this->options as $key => $value)
             {
-                # check if the value is the default one and in case it is, add html "selected"
-                if ($key == $this->default)
-                {
-                    $html .= '<option value="'.$key.'" selected="selected">'.$value.'</option>';
-                }
-                else # a normal select element is rendered
-                {
-                    $html .= '<option value="'.$key.'">'.$value.'</option>';
-                }
+                $html .= $this->renderOptionTag($key, $value);
             }
         }
         else
@@ -155,6 +147,19 @@ class Clansuite_Formelement_Select extends Clansuite_Formelement implements Clan
         $html .= '</select>';
 
         return $html;
+    }
+
+    private function renderOptionTag($key, $value)
+    {
+        # check if the value is the default one and in case it is, add html "selected"
+        if($key == $this->default)
+        {
+            return '<option value="' . $key . '" selected="selected">' . $value . '</option>';
+        }
+        else # a normal select element is rendered
+        {
+            return '<option value="' . $key . '">' . $value . '</option>';
+        }
     }
 
     public function __toString()

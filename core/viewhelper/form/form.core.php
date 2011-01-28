@@ -1081,6 +1081,24 @@ class Clansuite_Form /*extends Clansuite_HTML*/ implements Clansuite_Form_Interf
     }
 
     /**
+     * Add multiple decorators at once
+     *
+     * @param array $decorators Array of decorator objects or names.
+     */
+    public function addDecorators($decorators)
+    {
+        # check if multiple decorators are incomming at once
+        if(is_array($decorators))
+        {
+            # address each one of those decorators
+            foreach($decorators as $decorator)
+            {
+                $this->addDecorator($decorator);
+            }
+        }
+    }
+
+    /**
      * Adds a decorator to the form
      * <strong>WATCH IT! THIS BREAKS THE CHAINING IN REGARD TO THE FORM</strong>
      *
@@ -1089,51 +1107,33 @@ class Clansuite_Form /*extends Clansuite_HTML*/ implements Clansuite_Form_Interf
      *
      * @return Clansuite_Formdecorator object
      */
-    public function addDecorator($decorators)
+    public function addDecorator($decorator)
     {
-        # Debug of incomming decorators
-        #Clansuite_Debug::printR($decorators);
-
-        # check if multiple decorators are incomming at once
-        if(is_array($decorators))
+        # check if multiple decorator are incomming at once
+        if(is_array($decorator))
         {
-            # address each one of those decorators
-            foreach($decorators as $decorator)
-            {
-                # and check if it is an object implementing the right interface
-                if ( $decorator instanceof Clansuite_Form_Decorator_Interface )
-                {
-                    # if so, fetch this decorator objects name
-                    $decoratorname = $decorator->name;
-                }
-                else
-                {
-                    # turn it into an decorator object
-                    $decorator = $this->decoratorFactory($decorator);
-                    $decoratorname = $decorator->name;
-                    #$this->addDecorator();
-                }
-            }
+            $this->addDecorators($decorator);
         }
 
-        # if we got a string (ignore the plural, it's a one element string, like 'fieldset')
-        if (is_string($decorators))
+        # if we got a string
+        if(is_string($decorator))
         {
-            # turn it into an decorator object
-            $decorator = $this->decoratorFactory($decorators);
+            # turn it string into an decorator object
+            $decorator = $this->decoratorFactory($decorator);
+        }
+
+        # and check if it is an object implementing the right interface
+        if($decorator instanceof Clansuite_Form_Decorator_Interface)
+        {
+            # if so, fetch this decorator objects name
             $decoratorname = $decorator->name;
-            #Clansuite_Debug::printR($decorator);
         }
 
         # now check if this decorator is not already set (prevent decorator duplications)
-        if(in_array($decorator, $this->formdecorators) == false)
+        if(false === in_array($decorator, $this->formdecorators))
         {
             # set this decorator object under its name into the array
             $this->formdecorators[$decoratorname] = $decorator;
-        }
-        else # @todo ??? remove else
-        {
-            #$this->formdecorators[$decoratorname] = $decorator;
         }
 
         # WATCH IT! THIS BREAKS THE CHAINING IN REGARD TO THE FORM
