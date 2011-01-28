@@ -130,6 +130,8 @@ class Clansuite_Form /*extends Clansuite_HTML*/ implements Clansuite_Form_Interf
      */
     protected $autocomplete;
 
+    protected $novalidation;
+
     /**
      * Contains action of the form.
      *
@@ -187,13 +189,6 @@ class Clansuite_Form /*extends Clansuite_HTML*/ implements Clansuite_Form_Interf
     protected $heading;
 
     /**
-     * Contains alternative target of the form.
-     *
-     * @var string
-     */
-    protected $target;
-
-    /**
      * Flag variable to indicate, if form has an error.
      *
      * @var boolean
@@ -222,8 +217,13 @@ class Clansuite_Form /*extends Clansuite_HTML*/ implements Clansuite_Form_Interf
      * @param string $action Set the action of the form.
      *
      */
-    public function __construct($name_or_attributes, $method = null, $action = null)
+    public function __construct($name_or_attributes = null, $method = null, $action = null)
     {
+        if(null === $name_or_attributes)
+        {
+            throw new Exception('Missing argument 1 - has to be string (Name of Form) or array (Form Description Array).');
+        }
+
         # case 1: $name is a string, the name of the form
         if(is_string($name_or_attributes))
         {
@@ -243,9 +243,9 @@ class Clansuite_Form /*extends Clansuite_HTML*/ implements Clansuite_Form_Interf
     }
 
     /**
-     * Sets the method to the form.
+     * Sets the method (POST, GET) to the form.
      *
-     * @param string $method
+     * @param string $method POST or GET
      * @return Clansuite_Form
      */
     public function setMethod($method)
@@ -265,7 +265,7 @@ class Clansuite_Form /*extends Clansuite_HTML*/ implements Clansuite_Form_Interf
     }
 
     /**
-     * Returns method of this form.
+     * Returns method (GET or POST) of this form.
      *
      * @return string Name of the method of this form.
      */
@@ -275,9 +275,9 @@ class Clansuite_Form /*extends Clansuite_HTML*/ implements Clansuite_Form_Interf
     }
 
     /**
-     * Set action of this form.
+     * Set action of this form (which is the target url).
      *
-     * @param $action string Name of the action of this form.
+     * @param $action string Target URL of the action of this form.
      * @return Clansuite_Form
      */
     public function setAction($action)
@@ -285,8 +285,9 @@ class Clansuite_Form /*extends Clansuite_HTML*/ implements Clansuite_Form_Interf
         /**
          * Build correct URLs from $action strings like "/news/admin/settings_update"
          * Checks if action does not contain ?mod= / &param=xy, then rebuilds action url
+         * Watch comparision operator: not != but !== Operator
          */
-        if(false === strpos('?', $action) or false === strpos('&', $action))
+        if(false !== strpos('?', $action) or false !== strpos('&', $action))
         {
             $action = Clansuite_Router::buildURL($action);
         }
@@ -297,9 +298,9 @@ class Clansuite_Form /*extends Clansuite_HTML*/ implements Clansuite_Form_Interf
     }
 
     /**
-     * Returns action of this form.
+     * Returns action of this form (target url).
      *
-     * @return string Name of the action of this form.
+     * @return string Target Url as the action of this form.
      */
     public function getAction()
     {
@@ -313,11 +314,12 @@ class Clansuite_Form /*extends Clansuite_HTML*/ implements Clansuite_Form_Interf
      */
     public function getAutocomplete()
     {
-        return $this->autocomplete;
+        return ($this->autocomplete === true) ? 'on' : 'off';
     }
 
     /**
-     * Set action of this form.
+     * Set autocomplete of this form.
+     * If "on" browsers can store the form's input values, to auto-fill the form if the user returns to the page.
      *
      * @param $bool boolean state to set for autocomplete.
      * @return Clansuite_Form
@@ -331,16 +333,18 @@ class Clansuite_Form /*extends Clansuite_HTML*/ implements Clansuite_Form_Interf
 
     /**
      * Returns novalidation state of this form.
+     * If present the form should not be validated when submitted.
      *
      * @return boolean Returns novalidation state of this form.
      */
     public function getNoValidation()
     {
-        return $this->novalidation;
+        return ($this->novalidation === true) ? 'novalidate' : '';
     }
 
     /**
      * Set novalidation state of this form.
+     * If true the form should not be validated when submitted.
      *
      * @link http://dev.w3.org/html5/spec-author-view/association-of-controls-and-forms.html#attr-fs-novalidate
      * @param $bool boolean state to set for novalidation.
@@ -371,6 +375,11 @@ class Clansuite_Form /*extends Clansuite_HTML*/ implements Clansuite_Form_Interf
         }
     }
 
+    public function setAttribute($attribute, $value)
+    {
+        $this->{$attribute} = $value;
+    }
+
     /**
      * Setter method for Attributes
      *
@@ -399,7 +408,7 @@ class Clansuite_Form /*extends Clansuite_HTML*/ implements Clansuite_Form_Interf
                  */
                 foreach($attributes as $attribute => $value)
                 {
-                    $this->{$attribute} = $value;
+                    $this->setAttribute($attribute, $value);
                 }
             }
         }
@@ -426,6 +435,7 @@ class Clansuite_Form /*extends Clansuite_HTML*/ implements Clansuite_Form_Interf
                 $target->$key = $value;
             }
         }
+        unset($key, $value);
     }
 
     /**
@@ -476,8 +486,9 @@ class Clansuite_Form /*extends Clansuite_HTML*/ implements Clansuite_Form_Interf
 
     /**
      * Set accept-charset of this form.
+     * Like accept-charset="ISO-8859-1".
      *
-     * @param string $charset Charset of this form.
+     * @param string $charset Charset of this form (utf-8, iso-8859-1).
      * @return Clansuite_Form
      */
     public function setAcceptCharset($charset)
@@ -574,15 +585,20 @@ class Clansuite_Form /*extends Clansuite_HTML*/ implements Clansuite_Form_Interf
     /**
      * Set encoding type of this form.
      *
+     * - application/x-www-form-urlencoded
+     *  All characters are encoded before sent (this is default)
+     * - multipart/form-data
+     * 	No characters are encoded.
+     *  This value is required when you are using forms that have a file upload control
+     * - text/plain
+     *  Spaces are converted to "+" symbols, but no special characters are encoded
+     *
      * @param string $encoding Encoding type of this form.
      * @return Clansuite_Form
      */
     public function setEncoding($encoding)
     {
-        if( empty($encoding) )
-        {
-            $this->encoding = $encoding;
-        }
+        $this->encoding = $encoding;
 
         return $this;
     }
@@ -627,29 +643,6 @@ class Clansuite_Form /*extends Clansuite_HTML*/ implements Clansuite_Form_Interf
     }
 
     /**
-     * Set target of this form.
-     *
-     * @param string $target ID of this form.
-     * @return Clansuite_Form
-     */
-    public function setTarget($target)
-    {
-        $this->target = $target;
-
-        return $this;
-    }
-
-    /**
-     * Returns target of this form.
-     *
-     * @return string target of this form.
-     */
-    public function getTarget()
-    {
-        return $this->target;
-    }
-
-    /**
      * Set a button element to the buttons stack of the form.
      *
      * @param mixed Button (string) or Buttons (array)
@@ -658,7 +651,7 @@ class Clansuite_Form /*extends Clansuite_HTML*/ implements Clansuite_Form_Interf
     {
         if (is_array($button) === false)
         {
-            $submit = array($button);
+            $button = array($button);
         }
 
         $this->buttons = array_merge($this->buttons, $button);
@@ -861,18 +854,19 @@ class Clansuite_Form /*extends Clansuite_HTML*/ implements Clansuite_Form_Interf
     }
 
     /**
-     * Removes a formelement by name
+     * Removes a formelement by name (not type!)
      *
      * @param string $name
      * @return bool
      */
-    public function delElement($name)
+    public function delElementByName($name)
     {
-        foreach($this->formelements as $formelement)
+        $cnt_formelements = count($this->formelements);
+        for($i = 0; $i < $cnt_formelements; $i++)
         {
-            if($name == $formelement->getName())
+            if($name === $this->formelements[$i]->getName())
             {
-                unset($this->formelement[$formelement]);
+                unset($this->formelements[$i]);
                 return true;
             }
         }
@@ -898,7 +892,7 @@ class Clansuite_Form /*extends Clansuite_HTML*/ implements Clansuite_Form_Interf
     }
 
     /**
-     * Fetches a formelement via it's name
+     * Fetches a formelement via it's name (not type!)
      *
      * @param $name string The name of the requested formelement.
      * @return Clansuite_Formelement $formelement Object
@@ -907,7 +901,7 @@ class Clansuite_Form /*extends Clansuite_HTML*/ implements Clansuite_Form_Interf
     {
         foreach($this->formelements as $formelement)
         {
-            if($name == $formelement->getName())
+            if($name === $formelement->getName())
             {
                 return $formelement;
             }
@@ -929,17 +923,20 @@ class Clansuite_Form /*extends Clansuite_HTML*/ implements Clansuite_Form_Interf
      */
     public static function formelementFactory($formelement)
     {
-        # if not already loaded, require forelement file
-        if (false == class_exists('Clansuite_Formelement_'.$formelement,false))
+        # construct Clansuite_Formelement_Name
+        $formelement_classname = 'Clansuite_Formelement_'.ucfirst($formelement);
+
+        # if not already loaded, require formelement file
+        if (false == class_exists($formelement_classname, false))
         {
-            if(is_file(ROOT_CORE . 'viewhelper/form/formelements/'.$formelement.'.form.php') === true)
+            $file = ROOT_CORE . 'viewhelper/form/formelements/'.$formelement.'.form.php';
+
+            if(is_file($file) === true)
             {
-                include ROOT_CORE . 'viewhelper/form/formelements/'.$formelement.'.form.php';
+                include $file;
             }
         }
 
-        # construct Clansuite_Formelement_Name
-        $formelement_classname = 'Clansuite_Formelement_'.ucfirst($formelement);
         # instantiate the new formelement and return
         return new $formelement_classname;
     }
@@ -959,7 +956,7 @@ class Clansuite_Form /*extends Clansuite_HTML*/ implements Clansuite_Form_Interf
     public function processForm()
     {
         # @todo processing, validation
-        
+
         # check if form has been submitted properly
         /*if ($this->validateForm() == false)
         {
@@ -1100,9 +1097,9 @@ class Clansuite_Form /*extends Clansuite_HTML*/ implements Clansuite_Form_Interf
             # set this decorator object under its name into the array
             $this->formdecorators[$decoratorname] = $decorator;
         }
-        else
+        else # @todo ??? remove else
         {
-            $this->formdecorators[$decoratorname] = $decorator;
+            #$this->formdecorators[$decoratorname] = $decorator;
         }
 
         # WATCH IT! THIS BREAKS THE CHAINING IN REGARD TO THE FORM
@@ -1280,16 +1277,18 @@ class Clansuite_Form /*extends Clansuite_HTML*/ implements Clansuite_Form_Interf
      * Returns whether the requested $index exists
      * Implementation of SPL ArrayAccess::offsetExists()
      */
-    public function offsetExists($index)
+    public function offsetExists($offset)
     {
+        return isset($this->$offset);
     }
 
     /**
      * Returns the value at the specfied $index
      * Implementation of SPL ArrayAccess::offsetGet()
      */
-    public function offsetGet($index)
+    public function offsetGet($offset)
     {
+        return isset($this->$offset) ? $this->$offset : null;
     }
 
     /**
@@ -1299,16 +1298,18 @@ class Clansuite_Form /*extends Clansuite_HTML*/ implements Clansuite_Form_Interf
      * @param $index
      * @param $value
      */
-    public function offsetSet($index, $value)
+    public function offsetSet($offset, $value)
     {
+        $this->$offset = $value;
     }
 
     /**
      * Unsets the value at the specified $index
      * Implementation of SPL ArrayAccess::offsetUnset()
      */
-    public function offsetUnset($index)
+    public function offsetUnset($offset)
     {
+        unset($this->$offset);
     }
 
     /**
@@ -1326,7 +1327,7 @@ class Clansuite_Form /*extends Clansuite_HTML*/ implements Clansuite_Form_Interf
      */
     public function __set($name, $value)
     {
-        $this[$name] = $val;
+        $this->setAttributes(array($name => $value));
     }
 
     /**
@@ -1337,7 +1338,7 @@ class Clansuite_Form /*extends Clansuite_HTML*/ implements Clansuite_Form_Interf
      */
     public function __get($name)
     {
-        return $this[$name];
+        return $this->getAttribute($name);
     }
 }
 
@@ -1356,7 +1357,7 @@ interface Clansuite_Form_Interface
 
     # add/remove a formelement
     public function addElement($formelement, $position = null);
-    public function delElement($name);
+    public function delElementByName($name);
 
     # load/save the XML description of the form
     #public function loadDescriptionXML($xmlfile);
