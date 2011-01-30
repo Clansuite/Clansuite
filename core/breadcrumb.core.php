@@ -189,6 +189,9 @@ class Clansuite_Breadcrumb
             {
                 $url .= '&amp;sub=admin';
             }
+            
+            # Set Pagetitle and Breadcrumbs for that SubModule
+            Clansuite_Breadcrumb::add( T_( $trailName ), $url );
         }
 
         # add submodule part
@@ -203,10 +206,12 @@ class Clansuite_Breadcrumb
             {
                 $url .= '&amp;action=' . substr($actionName, 7);
             }
+            
+            # Set Pagetitle and Breadcrumbs for that SubModule
+            Clansuite_Breadcrumb::add( T_( $trailName ), $url );
         }
 
-        # Set Pagetitle and Breadcrumbs for that SubModule
-        Clansuite_Breadcrumb::add( T_( $trailName ), $url );
+        
 
         # Debug Display for Breadcumbs
         # Clansuite_Debug::firebug(Clansuite_Breadcrumb::getTrail());
