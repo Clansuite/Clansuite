@@ -48,7 +48,7 @@ class NewsRepository extends EntityRepository
                     LEFT JOIN n.news_authored_by u
                     LEFT JOIN n.category c
                     LEFT JOIN n.comments nc
-                    LEFT JOIN nc.user ncu
+                    LEFT JOIN nc.comment_authored_by ncu
                     WHERE c.module_id = 7
                     AND n.news_id = :news_id');
         $q->setParameter('news_id', $news_id);
@@ -111,8 +111,6 @@ class NewsRepository extends EntityRepository
      */
     public function fetchAllNewsCategoriesDropDown()
     {
-        #require_once ROOT_MOD . 'categories/model/entities/category.php';
-
         $q = $this->_em->createQuery('
                                     SELECT c.cat_id, c.name
                                     FROM Entities\Category c
