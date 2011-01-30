@@ -53,7 +53,9 @@ class Clansuite_Formelement_JQConfirmSubmitButton extends Clansuite_Formelement_
 {
     protected $message = 'Please Confirm';
 
-    # takes the name of the form (to trigger the original sumbit)
+    /**
+     * @var string $formid Takes the name of the form (to trigger the original sumbit).
+     */
     protected $formid;
 
     function __construct()
@@ -62,11 +64,14 @@ class Clansuite_Formelement_JQConfirmSubmitButton extends Clansuite_Formelement_
         $this->value = _('Confirm & Submit');
         $this->class = 'ButtonGreen';
 
-        #Clansuite_Debug::printR($this->formid);
-
-        # Add the Form Submit Confirmation Javascript. This is a jQuery UI Modal Confirm Dialog.
-        # to add the value of specific form.elements to the message use "+ form.elements['email'].value +"
-        # watch out, that div dialog is present in the dom, before you assign function to it via $('#dialog')
+        /**
+         * Add the Form Submit Confirmation Javascript.
+         * This is a jQuery UI Modal Confirm Dialog.
+         * 
+         * a) To add the value of specific form.elements to the message use "+ form.elements['email'].value +"
+         * b) Take care, that the div dialog is present in the DOM, BEFORE you assign function to it via $('#dialog')
+         *
+         */
         $this->description = "<div id=\"dialog\" title=\"Verify Form\">
                                   <p>If your is correct click Submit Form.</p>
                                   <p>To edit, click Cancel.<p>
