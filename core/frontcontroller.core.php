@@ -202,7 +202,7 @@ class Clansuite_Front_Controller implements Clansuite_Front_Controller_Interface
             $controllerInstance->initializeModule();
         }
 
-        Clansuite_Breadcrumb::initBreadcrumbs();
+        Clansuite_Breadcrumb::initBreadcrumbs($route->getModuleName(), $route->getSubmoduleName());
 
         # Finally: dispatch to the requested controller method
         if(true === method_exists($controllerInstance, $method))

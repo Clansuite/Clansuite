@@ -46,8 +46,6 @@ set_time_limit(0);
 date_default_timezone_set('Europe/Berlin');
 
 define('TESTSUBJECT_DIR', dirname(__DIR__) . DIRECTORY_SEPARATOR);   # /trunk
-define('ROOT', TESTSUBJECT_DIR);                                     # /trunk
-define('ROOT_CORE', TESTSUBJECT_DIR . 'core' . DIRECTORY_SEPARATOR); # /trunk/core
 
 $paths = array(
         # adjust include path to SIMPLETEST DIR and UNITTESTS DIR
@@ -69,6 +67,10 @@ $paths = array(
 # attach original include paths
 set_include_path(implode($paths, PATH_SEPARATOR) . PATH_SEPARATOR . get_include_path());
 unset($paths);
+
+#  acquire clansuite path constants
+require_once '../core/bootstrap/clansuite.application.php';
+Clansuite_CMS::initialize_Paths();
 
 # put more bootstrapping code here
 

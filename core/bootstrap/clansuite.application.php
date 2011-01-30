@@ -242,7 +242,7 @@ class Clansuite_CMS
      *   3. Setup include path for 3th party libraries
      *  ------------------------------------------------
      */
-    private static function initialize_Paths()
+    public static function initialize_Paths()
     {
         # try to load constants from APC
         if(true === function_exists('apc_load_constants') and

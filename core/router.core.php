@@ -1037,6 +1037,13 @@ class Clansuite_TargetRoute extends Clansuite_Mapper
         return self::$parameters['action'];
     }
 
+    public static function getActionNameWithoutPrefix()
+    {
+        $action = str_replace('action_', '', self::$parameters['action']);
+        $action = str_replace('admin_', '', $action);
+        return $action;
+    }
+
     public static function setId($id)
     {
         self::$parameters['params']['id'] = $id;
