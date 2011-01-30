@@ -8,9 +8,7 @@
     {$newscategories|var_dump}
 *}
 
-<!-- start jq confirm dialog -->
 {jqconfirm}
-<!-- end jq confirm dialog -->
 
 {modulenavigation}
 <div class="ModuleHeading">{t}News - Show{/t}</div>

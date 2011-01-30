@@ -381,7 +381,7 @@ class Clansuite_Module_News_Admin extends Clansuite_Module_Controller
         $this->getView()->clearCache();
 
         # Redirect
-        $this->response->redirectNoCache('/news/admin', 2, 302, _('success#The config file has been succesfully updated.'));
+        $this->response->redirectNoCache('/news/admin', 2, 302, _('success#The config file has been successfully updated.'));
     }
 }
 ?>
