@@ -12,7 +12,7 @@
 
         <!-- RSS Icon -->
         <div style="float:right;">
-            <a href="index.php?mod=news&amp;action=getfeed"> {icon name="rss" alt="Clansuite RSS News Feed"} </a>
+            <a href="{link_to href="news/getfeed"}"> {icon name="rss" alt="Clansuite RSS News Feed"} </a>
         </div>
 
         {pagination}
