@@ -264,7 +264,7 @@ class Clansuite_Cache_Memcached implements Clansuite_Cache_Interface
      * @param string $key Identifier for the data
      * @param mixed $data Data to be cached
      * @param integer $cache_lifetime How long to cache the data, in seconds
-     * @return boolean True if the data was succesfully cached, false on failure
+     * @return boolean True if the data was successfully cached, false on failure
      */
     public function set($key, $data, $cache_lifetime)
     {
@@ -277,7 +277,7 @@ class Clansuite_Cache_Memcached implements Clansuite_Cache_Interface
      * @param string $key Identifier for the data
      * @param mixed $data Data to be cached
      * @param integer $cache_lifetime How long to cache the data, in seconds
-     * @return boolean True if the data was succesfully cached, false on failure
+     * @return boolean True if the data was successfully cached, false on failure
      */
     public function store($key, $data, $cache_lifetime)
     {

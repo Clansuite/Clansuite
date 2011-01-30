@@ -793,7 +793,18 @@ class Clansuite_Router implements ArrayAccess, Clansuite_Router_Interface
  */
 class Clansuite_Mapper
 {
+    /**
+     * Classname prefix for modules
+     * 
+     * @const string
+     */
     const MODULE_CLASS_PREFIX = 'Clansuite_Module';
+    
+    /**
+     * Method prefix for module actions
+     *
+     * @const string
+     */
     const METHOD_PREFIX = 'action';
 
     /**
@@ -809,7 +820,7 @@ class Clansuite_Mapper
     /**
      * Maps the controller and subcontroller (optional) to filename
      *
-     * * @param string $controller Name of Controller
+     * @param string $controller Name of Controller
      * @param string $subcontroller Name of SubController (optional)
      * @return string filename
      */
