@@ -70,7 +70,7 @@
     {if $err.emails_mismatching == 1}<p class="error">{t}The email adresses do not match!{/t}</p>{/if}
 *}
 
-<form action="index.php?mod=account&action=register" method="post" name="register_form" id="register_form" onsubmit="hashLoginPassword(this)">
+<form action="{link_to href="account/register"}" method="post" name="register_form" id="register_form" onsubmit="hashLoginPassword(this)">
 
     <table>
 

@@ -21,7 +21,7 @@
     {if $err.pass_too_short == 1}<p class="error">{t}The password is too short!{/t}</p>{/if}
     *}
 
-    <form action="index.php?mod=account&action=forgot_password"
+    <form action="{link_to href="account/forgot_password"}"
           method="post" id="send_pass_activation" onsubmit="hashLoginPassword(this);" autocomplete="off">
     <table>
     <tr>

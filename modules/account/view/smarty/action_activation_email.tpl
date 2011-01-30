@@ -8,7 +8,7 @@
     <p>
         {t}If you have registered and still haven't got an activation email, use the form below to send it again.{/t}
     </p>
-    <form action="index.php?mod=account&action=activation_email" method="post">
+    <form action="{link_to href="account/activation_email"}" method="post">
     <table>
     <tr>
         <td>{t}Email:{/t}</td>
