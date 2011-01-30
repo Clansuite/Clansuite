@@ -2,15 +2,13 @@
                             C  L  A  N  S  U  I  T  E
 
 
-  Project Shortcuts
-  -----------------
+  ## Project Shortcuts
 
   Website 	http://clansuite.com/
   Bugtracker	http://trac.clansuite.com/
   Forum		http://forum.clansuite.com/	
 
-  What is it?
-  -----------
+  ## What is it?
 
     Clansuite is is just another php based content management system, but this one is
     state-of-the-art and especially for esport teams. It is designed to effectively manage
@@ -26,26 +24,24 @@
 
     You can find more information about Clansuite and the latest sources on the official website
     http://clansuite.com/.
+    
 
-  The Latest Version
-  ------------------
+  ## The Latest Version
 
     Details of the latest version can be found on the Clansuite homepage
     <http://clansuite.com/>.
 
 
-  Documentation
-  -------------
+  ## Documentation
 
     Documentation is available in ASCIIDOC format in the /docs/manuals directory. In particular,
     open any of the asciidoc files (*.asc) to see the clansuite manual.
     Developer Documentation is available on our website.
 
 
-  Authors
-  -------
+  ## Authors
 
-    Clansuite is maintained by Jens-André Koch <jakoch@web.de>.
+    Clansuite is maintained by Jens-André Koch <jakoch[at]web.de>.
 
     Clansuite is written and developed by the Clansuite Development Team.
     This software consists of voluntary contributions made by many individuals.
@@ -54,15 +50,13 @@
     people involved here, look at the file "AUTHORS".
 
 
-  Credits
-  -------
+  ## Credits
 
     Few third party libraries and classes, scripts and graphics and icons are bundled to Clansuite.
     The details are noted in the files "CREDITS" and "THIRD-PARTY-LIBRARIES".
 
 
-  Licensing
-  ---------
+  ## Licensing
 
     Clansuite is licensed under
 
@@ -76,8 +70,7 @@
 
     Clansuite's Documentation is licensed under the "GNU Free Documentation License".
 
-  Bugs
-  ----
+  ## Bugs
 
     If you find any bugs, please do one of the following things:
     1 ) visit the websites support-forum to report them
@@ -86,8 +79,7 @@
     More information can be found on the official website.
 
 
-  Last Words
-  ----------
+  ## Last Words
 
     Thanks for using Clansuite!
 
