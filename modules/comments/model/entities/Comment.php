@@ -3,7 +3,8 @@ namespace Entities;
 
 /**
  * -Entity(repositoryClass="Repositories\CommentsRepository")
- * @Entity @Table(name="Cs_Comments")
+ * @Entity 
+ * @Table(name="Cs_Comments")
  */
 class Comment
 {
@@ -48,7 +49,7 @@ class Comment
      */
     protected $host;
     
-     /**
+    /**
      * @ManyToOne(targetEntity="News", inversedBy="comments")
      * @JoinColumn(name="comment_id", referencedColumnName="news_id")
      */
@@ -58,16 +59,16 @@ class Comment
      * @ManyToOne(targetEntity="User", inversedBy="comments_authored")
      * @JoinColumn(name="user_id", referencedColumnName="user_id")
      */
-    private $user;
+    private $comment_authored_by;
 
-    public function setArticle(Entities\News $article)
+    public function setNewws(Entities\News $article)
     {
-        $this->news = $article;
+        $this->news = $news;
     }
 
     public function setAuthor(Entities\User $user)
     {
-        $this->user = $user;
+        $this->comment_authored_by = $user;
     }
 }
 ?>

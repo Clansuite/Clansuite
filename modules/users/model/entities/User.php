@@ -116,7 +116,7 @@ class User
      * 1) One User might have written zero to many articles.
      * 2) Not a column !
      *
-     * @OneToMany(targetEntity="Comments", mappedBy="comments_authored_by")
+     * @OneToMany(targetEntity="Comment", mappedBy="comment_authored_by")
      */
     private $comments_authored;
 
@@ -138,6 +138,7 @@ class User
     public function __construct()
     {
         $this->news_authored = new Doctrine\Common\Collections\ArrayCollection();
+        $this->comments_authored = new Doctrine\Common\Collections\ArrayCollection();
 
         /**
          * $group = $entityManager->find('Group', $groupId);

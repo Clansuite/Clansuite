@@ -77,7 +77,7 @@ class News
      *
      * @OneToMany(targetEntity="Comment", mappedBy="news")
      */
-    public $comments;
+    private $comments;
 
     public function setAuthor(Entities\User $user)
     {
@@ -92,7 +92,7 @@ class News
     public function addComment(Entities\Comment $comment)
     {
         $this->comments[] = $comment;
-        $comment->setArticle($this);
+        $comment->setNews($this);
     }
 }
 ?>
