@@ -317,7 +317,7 @@ class Clansuite_Module_Categories_Admin extends Clansuite_Module_Controller
         $this->getView()->clearCache();
 
         # Redirect
-        $this->response->redirectNoCache('/categories/admin', 2, 302, 'The config file has been succesfully updated.');
+        $this->response->redirectNoCache('/categories/admin', 2, 302, 'The config file has been successfully updated.');
     }
 }
 ?>

@@ -114,7 +114,7 @@ class Clansuite_Module_Settings_Admin extends Clansuite_Module_Controller
         $this->getView()->clearCache();
 
         # Redirect
-        $this->response->redirectNoCache('/settings/admin', 2, 302, 'The config file has been succesfully updated.');
+        $this->response->redirectNoCache('/settings/admin', 2, 302, 'The config file has been successfully updated.');
     }
 }
 ?>

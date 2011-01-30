@@ -98,7 +98,7 @@ fieldset legend {
 }
 </style>
 
-<form action="index.php?mod=settings&amp;sub=admin&amp;action=update" method="post" accept-charset="UTF-8">
+<form action="{link_to href="settings/admin/update"}" method="post" accept-charset="UTF-8">
 
 {foreach $config as $section => $array}
     <fieldset class="toggleable">

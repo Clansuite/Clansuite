@@ -3,7 +3,7 @@
 <div class="ModuleHeading">{t}Clansuite Settings{/t}</div>
 <div class="ModuleHeadingSmall">{t}Konfiguration des Systems.{/t}</div>
 
-<form action="index.php?mod=settings&amp;sub=admin&amp;action=update" method="post" accept-charset="UTF-8">
+<form action="{link_to href="settings/admin/update"}" method="post" accept-charset="UTF-8">
 
     {tabpanel name="Settings"}
        {tabpage name="Standard"}    {include file='tabpage-standard.tpl'}   {/tabpage}

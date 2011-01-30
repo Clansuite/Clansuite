@@ -106,7 +106,7 @@ class Clansuite_Module_Statistics_Admin extends Clansuite_Module_Controller
         $this->getView()->clearCache();
 
         # Redirect
-        $this->response->redirectNoCache(WWW_ROOT . '/statistics/admin/settings', 2, 302, 'The config file has been succesfully updated.');
+        $this->response->redirectNoCache(WWW_ROOT . '/statistics/admin/settings', 2, 302, 'The config file has been successfully updated.');
     }
 }
 ?>
