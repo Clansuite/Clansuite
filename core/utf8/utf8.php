@@ -989,9 +989,7 @@ if(false === function_exists('unicode_to_utf8'))
             }
         }
 
-        $result = ob_get_contents();
-        ob_end_clean();
-        return $result;
+        return ob_get_clean();
     }
 
 }
@@ -1079,9 +1077,8 @@ if(false === function_exists('utf8_bad_replace'))
             }
             $str = substr($str, strlen($matches[0]));
         }
-        $result = ob_get_contents();
-        ob_end_clean();
-        return $result;
+
+        return ob_get_clean();
     }
 
 }

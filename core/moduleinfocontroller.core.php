@@ -247,12 +247,10 @@ class Clansuite_ModuleInfoController
         $modulename = strtolower($module);
 
         # check if the infos of this specific module were catched before
-        if(isset($module) and isset(self::$modulesinfo[$modulename]))
+        if(isset(self::$modulesinfo[$modulename]))
         {
             return self::$modulesinfo[$modulename];
         }
-
-        $module = ROOT_MOD . $modulename;
 
         # fetch infos for the requested $module
         return self::loadModuleInformations($module);
@@ -286,14 +284,14 @@ class Clansuite_ModuleInfoController
          * either fetch the module requested via parameter $module
          * fetch all modules
          */
-        if($module == null)
+        if($module === null)
         {
             $module_directories = self::getModuleDirectories();
         }
         else
         {
             # cast string to array
-            $module_directories = array ($module);
+            $module_directories[] = ROOT_MOD . $module;
         }
 
         foreach( $module_directories as $modulepath )
@@ -358,7 +356,7 @@ class Clansuite_ModuleInfoController
 
         ksort(self::$modulesinfo);
 
-        //Clansuite_Debug::printR( self::$modulesinfo );
+        #Clansuite_Debug::printR( self::$modulesinfo );
 
         return self::$modulesinfo;
     }

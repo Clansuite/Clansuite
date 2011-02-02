@@ -50,7 +50,6 @@ class Clansuite_Functions
      */
     static $already_loaded = array();
 
-
     /**
      * Checks a string for a certain prefix or adds it, if missing.
      *
@@ -161,7 +160,7 @@ class Clansuite_Functions
      */
     public static function dirsize($dir)
     {
-        if(is_dir($dir) == false)
+        if(is_dir($dir) === false)
         {
             return false;
         }
@@ -178,7 +177,7 @@ class Clansuite_Functions
 
             $direntry = $dir . '/' . $entry;
 
-            if(is_dir($direntry))
+            if(is_dir($direntry) === false)
             {
                 # recursion
                 $size += self::dirsize($direntry);
@@ -204,12 +203,12 @@ class Clansuite_Functions
     public static function object2array($object)
     {
         $array = null;
-        if(is_object($object))
+        if(is_object($object) === true)
         {
             $array = array();
             foreach(get_object_vars($object) as $key => $value)
             {
-                if(is_object($value))
+                if(is_object($value) === true)
                 {
                     $array[$key] = self::object2Array($value);
                 }
@@ -230,7 +229,7 @@ class Clansuite_Functions
      */
     public function array2object($array)
     {
-        if(is_array($array) == false)
+        if(is_array($array) === false)
         {
             return $array;
         }
@@ -243,7 +242,7 @@ class Clansuite_Functions
             {
                 $name = mb_strtolower(trim($name));
 
-                if(empty($name) == false)
+                if(empty($name) === false)
                 {
                     # WATCH OUT ! Recursion.
                     $object->$name = self::array2Object($value);
@@ -294,11 +293,11 @@ class Clansuite_Functions
     {
         $array = array();
 
-        if($simplexml)
+        if($simplexml === true)
         {
             foreach($simplexml as $k => $v)
             {
-                if($simplexml['list'])
+                if($simplexml['list'] === true)
                 {
                     $array[] = self::SimpleXMLToArrayLight($v);
                 }
@@ -371,22 +370,6 @@ class Clansuite_Functions
     }
 
     /**
-     * Applies a slashfix to the path.
-     *
-     * @param $path
-     * @return $string slashfixed path
-     */
-    public static function slashfix($path)
-    {
-        # DS on win is "\"
-        if(DS == '\\')
-        {
-            # correct slashes
-            return str_replace('/', '\\', $path);
-        }
-    }
-
-    /**
      * Takes a needle and multi-dimensional haystack array and does a search on it's values.
      *
      * @param string $needle Needle to find
@@ -433,13 +416,13 @@ class Clansuite_Functions
         # Left-to-right
         foreach($array1 as $key => $value)
         {
-            if(array_key_exists($key, $array2) == false)
+            if(array_key_exists($key, $array2) === false)
             {
                 $diff[0][$key] = $value;
             }
             elseif(is_array($value))
             {
-                if(is_array($array2[$key]) == false)
+                if(is_array($array2[$key]) === false)
                 {
                     $diff[0][$key] = $value;
                     $diff[1][$key] = $array2[$key];
@@ -467,7 +450,7 @@ class Clansuite_Functions
         # Right-to-left
         foreach($array2 as $key => $value)
         {
-            if(array_key_exists($key, $array1) == false)
+            if(array_key_exists($key, $array1) === false)
             {
                 $diff[1][$key] = $value;
             }
@@ -503,19 +486,19 @@ class Clansuite_Functions
     {
         $returnArray = array();
         $key = '';
-        $i = 0;
+        $index = 0;
 
         foreach($keyArray as $key)
         {
-            if(isset($valueArray[$i]))
+            if(isset($valueArray[$index]) === true)
             {
-                $returnArray[$key] = $valueArray[$i++];
+                $returnArray[$key] = $valueArray[$index++];
             }
         }
 
         return $returnArray;
     }
-    
+
     /**
      * Remaps multi-dim array (k1=>v1, k2=>v2, k(n) => v(n)) to the values of key1=>key2 (v1 => v2).
      * The array might have several keys, so you might map value of key2 to value of key 5 ;)
@@ -986,7 +969,7 @@ class Clansuite_Functions
         if(isset(self::$already_loaded[__FUNCTION__]) === false)
         {
             # if not, load function
-            require ROOT_CORE . 'functions' . DS . mb_strtolower(__FUNCTION__) . '.function.php';
+            include ROOT_CORE . 'functions' . DS . mb_strtolower(__FUNCTION__) . '.function.php';
 
             # function loaded successfully
             self::$already_loaded[__FUNCTION__] = true;

@@ -86,10 +86,7 @@ class Clansuite_Renderer_Php extends Clansuite_Renderer_Base
 
             ob_start();
             include $file;
-            $content = ob_get_contents();
-            ob_end_clean();
-
-            return $content;
+            return ob_get_clean();
         }
         else
         {
