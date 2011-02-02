@@ -117,5 +117,19 @@ class Clansuite_Module_Index extends Clansuite_Module_Controller
 
         $this->display();
     }
+    
+    public function action_about()
+    {   
+        $this->setRenderMode('NOLAYOUT');
+        $this->display();
+    }
+    
+    /**
+     * Widget for displaying pieces of information about clansuite
+     */
+    public function widget_about()
+    {
+        # nothing to assign, it a pure template widget
+    }
 }
 ?>
