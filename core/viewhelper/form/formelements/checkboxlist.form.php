@@ -38,7 +38,7 @@ if (defined('IN_CS') === false)
 
 # conditional include of the parent class
 if (false == class_exists('Clansuite_Formelement_Checkbox',false))
-{ 
+{
     include dirname(__FILE__) . '/checkbox.form.php';
 }
 
@@ -72,11 +72,6 @@ class Clansuite_Formelement_Checkboxlist extends Clansuite_Formelement_Checkbox 
         }
 
         return $html;
-    }
-
-    public function __toString()
-    {
-        return $this->render();
     }
 }
 ?>

@@ -38,7 +38,7 @@ if (defined('IN_CS') === false)
 
 # conditional include of the parent class
 if (false == class_exists('Clansuite_Formelement_Select',false))
-{ 
+{
     include dirname(__FILE__) . '/select.form.php';
 }
 
@@ -76,9 +76,5 @@ class Clansuite_Formelement_Selectyesno extends Clansuite_Formelement_Select imp
         return parent::render();
     }
 
-    public function __toString()
-    {
-        return $this->render();
-    }
 }
 ?>

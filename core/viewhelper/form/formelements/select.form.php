@@ -162,9 +162,5 @@ class Clansuite_Formelement_Select extends Clansuite_Formelement implements Clan
         }
     }
 
-    public function __toString()
-    {
-        return $this->render();
-    }
 }
 ?>

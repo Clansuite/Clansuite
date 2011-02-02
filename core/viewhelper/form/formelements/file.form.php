@@ -73,6 +73,14 @@ class Clansuite_Formelement_File extends Clansuite_Formelement_Input implements 
         # else you'll get the filename only and not the content of the file.
     }
 
+    /**
+     * Flag variable for the uploadType.
+     *
+     * There are several different formelements available to upload files:
+     *
+     * @param $uploadType ajaxupload, apc, uploadify, html
+     * @return Clansuite_Formelement_File
+     */
     public function setUploadType($uploadType)
     {
         $this->uploadType = $uploadType;
@@ -118,11 +126,6 @@ class Clansuite_Formelement_File extends Clansuite_Formelement_Input implements 
                 return '<input name="uploadfile" type="file">';
                 break;
         }
-    }
-
-    public function __toString()
-    {
-        return $this->render();
     }
 
 }

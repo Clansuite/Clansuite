@@ -270,9 +270,5 @@ class Clansuite_Formelement_Textarea extends Clansuite_Formelement implements Cl
         return $html;
     }
 
-    public function __toString()
-    {
-        return $this->render();
-    }
 }
 ?>

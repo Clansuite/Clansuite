@@ -38,7 +38,7 @@ if (defined('IN_CS') === false)
 
 # conditional include of the parent class
 if (false == class_exists('Clansuite_Formelement_File',false))
-{ 
+{
     include dirname(__FILE__) . '/file.form.php';
 }
 
@@ -117,9 +117,5 @@ class Clansuite_Formelement_Uploadajax extends Clansuite_Formelement_File implem
         return $javascript.$html;
     }
 
-    public function __toString()
-    {
-        return $this->render();
-    }
 }
 ?>

@@ -171,9 +171,5 @@ class Clansuite_Formelement_JQSelectDate extends Clansuite_Formelement implement
         return $html;
     }
 
-    public function __toString()
-    {
-        return $this->render();
-    }
 }
 ?>

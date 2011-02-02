@@ -80,10 +80,5 @@ class Clansuite_Formelement_Wysiwygtinymce extends Clansuite_Formelement_Textare
 
         return $javascript;
     }
-
-    public function __toString()
-    {
-        return $this->render();
-    }
 }
 ?>
