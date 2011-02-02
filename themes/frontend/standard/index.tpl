@@ -100,9 +100,9 @@
                     {/if}
 
                     <div class="widget size9" id="widget_ts3viewer">{load_module name="teamspeakviewer" action="widget_ts3viewer"}</div>
-                    <div class="widget size9" id="widget_about">{load_module name="about" action="widget_about"}</div>
+                    <div class="widget size9" id="widget_about">{load_module name="index" action="widget_about"}</div>
                     {if true == {check_permission name="toolbox.widget_toolbox"}}
-                    <div class="widget size9" id="widget_cssbuilder">{load_module name="toolbox" action="widget_toolbox"}</div>
+                    <div class="widget size9" id="widget_cssbuilder">{load_module name="index" action="widget_toolbox"}</div>
                     {/if}
                 </td>
             </tr>
