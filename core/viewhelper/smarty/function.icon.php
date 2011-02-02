@@ -43,7 +43,7 @@ function smarty_function_icon($params, $smarty)
     /*if(empty($params['name']) and empty($params['src']))
     {
         trigger_error('Provide "name" or "src".', E_USER_ERROR);
-        return;   
+        return;
     }*/
 
     extract($params);
@@ -79,10 +79,9 @@ function smarty_function_icon($params, $smarty)
     {
         $icondir = 'icons';
     }
-    
+
     # transform name into a valid image src
-    $src = ROOT_THEMES . 'core/images/'.$icondir.DS.$name.'.png';
-    $src = Clansuite_Functions::slashfix($src);
+    $src = realpath(ROOT_THEMES . 'core/images/' . $icondir . DS . $name . '.png');
 
     # if we got no valid src, set a default image
     if(isset($src) and is_file($src) == false)
@@ -91,7 +90,7 @@ function smarty_function_icon($params, $smarty)
         $src = ROOT_THEMES . 'core/images/noimage.gif';
         $name = 'No Image found.'.$src;
     }
-  
+
     # we got no height, set it to zero
     if (empty($height))
     {
