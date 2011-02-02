@@ -162,7 +162,7 @@ class Clansuite_Module_Templatemanager_Admin extends Clansuite_Module_Controller
 
             $view->assign('templateeditor_relative_filename', $relative_file);
 
-            $file = Clansuite_Functions::slashfix(ROOT_MOD . $file);
+            $file = realpath(ROOT_MOD . $file);
             $view->assign('templateeditor_absolute_filename', $file);
             $view->assign('templateeditor_filename', $file);
         }
