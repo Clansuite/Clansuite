@@ -15,6 +15,7 @@ CKEDITOR                  3.4.2      GPL, LGPL, MPL           http://www.ckedito
 FCKEDITOR                 2.6.3      GPL, LGPL, MPL           http://www.fckeditor.net
 FEEDCREATOR               1.7.2      LGPL                     http://www.bitfolge.de
 FILE_GETTEXT              0.4.1      BSD (revised/new)        http://pear.php.net/package/File_Gettext/
+FirePHP                   0.3        BSD (revised/new)        http://www.firephp.org/
 GESHI                     1.0.8      GPL                      http://www.qbnz.com/highlighter/
 GRAPH                     1.8.0      LGPL v2.1 or above       http://www.zackbloom.com/graph/
 IDS (PHP-IDS)             0.6.5      LGPL                     http://www.php-ids.org/
@@ -71,5 +72,4 @@ CSS-LIBRARY               VERSION    LICENCE(S)               WEBSITE
 The Folder "/trunk/themes/core/css" contains the following libraries:
 
 Blueprint CSS-Framework   0.9.1      MIT, GPL                 http://blueprintcss.org/
-jQuery.UI.Lightness       1.7.2      MIT, GPL                 http://jqueryui.com/about
-jQuery.UI.peppergrinder   1.7.2      MIT, GPL                 http://jqueryui.com/about
+jQuery.UI.pepper-grinder  1.8.9      MIT, GPL                 http://jqueryui.com/about
