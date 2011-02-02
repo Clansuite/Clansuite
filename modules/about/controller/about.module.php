@@ -45,7 +45,7 @@ if(defined('IN_CS') === false)
  */
 class Clansuite_Module_About extends Clansuite_Module_Controller
 {
-    public function action_show()
+    public function action_showabout()
     {   
         $this->setRenderMode('NOLAYOUT');
         $this->display();
@@ -56,15 +56,7 @@ class Clansuite_Module_About extends Clansuite_Module_Controller
      */
     public function widget_about()
     {
-        # @todo fetch modules from DB or module registry file
-        /*
-        parent::initModel('modules');
-        $modules = Doctrine::getTable('CsModules')->fetchAllModules();        
-        $this->getView()->assign('modules', $modules);
-        */        
-        
         # nothing to assign, it a pure template widget
-        return;
     }
 }
 ?>
