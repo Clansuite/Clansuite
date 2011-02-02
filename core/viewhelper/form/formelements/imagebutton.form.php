@@ -51,6 +51,27 @@ if (false == class_exists('Clansuite_Formelement_Input',false))
  */
 class Clansuite_Formelement_Imagebutton extends Clansuite_Formelement_Input implements Clansuite_Formelement_Interface
 {
+    /**
+     * width of image (px)
+     *
+     * @var int
+     */
+    public $width;
+
+    /**
+     * height of image (px)
+     *
+     * @var int
+     */
+    public $height;
+
+    /**
+     * URL of image
+     *
+     * @var string
+     */
+    public $source;
+
     public function __construct()
     {
         $this->type = 'image';
@@ -61,7 +82,7 @@ class Clansuite_Formelement_Imagebutton extends Clansuite_Formelement_Input impl
      *
      * @param string $source
      */
-    public function setSource($source)
+    public function setImageURL($source)
     {
         $this->source = $source;
     }

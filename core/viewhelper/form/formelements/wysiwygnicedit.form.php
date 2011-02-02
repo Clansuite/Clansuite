@@ -38,7 +38,7 @@ if (defined('IN_CS') === false)
 
 # conditional include of the parent class
 if (false == class_exists('Clansuite_Formelement_Textarea',false))
-{ 
+{
     include dirname(__FILE__) . '/textarea.form.php';
 }
 
@@ -58,7 +58,7 @@ class Clansuite_Formelement_Wysiwygnicedit extends Clansuite_Formelement_Textare
      * This renders a textarea with the WYSWIWYG editor NicEdit attached.
      */
     public function render()
-    {  
+    {
         # a) loads the nicedit javascript file
         $javascript = '<script src="'.WWW_ROOT_THEMES_CORE . 'javascript/nicedit/nicedit.js'. '" type="text/javascript"></script>';
 
@@ -91,13 +91,8 @@ class Clansuite_Formelement_Wysiwygnicedit extends Clansuite_Formelement_Textare
 
 
         # if we are in inheritance mode, skip this, the parent class handles this already
- 
-        return $javascript.$html;
-    }
 
-    public function __toString()
-    {
-        return $this->render();
+        return $javascript.$html;
     }
 }
 ?>

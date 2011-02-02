@@ -83,10 +83,5 @@ class Clansuite_Formelement_JQSelectColor extends Clansuite_Formelement implemen
 
         return $javascript.$datepicker_js.$html;
     }
-
-    public function __toString()
-    {
-        return $this->render();
-    }
 }
 ?>

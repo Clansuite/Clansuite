@@ -38,7 +38,7 @@ if (defined('IN_CS') === false)
 
 # conditional include of the parent class
 if (false == class_exists('Clansuite_Formelement',false))
-{ 
+{
     include dirname(__DIR__) . '/formelement.core.php';
 }
 
@@ -92,27 +92,6 @@ class Clansuite_Formelement_Input extends Clansuite_Formelement implements Clans
     public $maxlength;
 
     /**
-     * URL of image
-     *
-     * @var string
-     */
-    public $source;
-
-    /**
-     * width of image (px)
-     *
-     * @var int
-     */
-    public $width;
-
-    /**
-     * height of image (px)
-     *
-     * @var int
-     */
-    public $height;
-
-    /**
      * additional string to attach to the opening form tag
      * for instance 'onSubmit="xy"'
      *
@@ -136,7 +115,7 @@ class Clansuite_Formelement_Input extends Clansuite_Formelement implements Clans
      *
      * @param $additional_attr_text of this formelement.
      */
-    public function setAdditionalAttributeText($additional_attr_text)
+    public function setAdditionalAttributeAsText($additional_attr_text)
     {
         $this->additional_attr_text = $additional_attr_text;
         return $this;
@@ -158,14 +137,10 @@ class Clansuite_Formelement_Input extends Clansuite_Formelement implements Clans
         $html .= ($this->type == 'image' and (bool) $this->width and (bool) $this->height) ? '  style="width:'.$this->width.'px; height:'.$this->height.'px;"' : null;
         $html .= (bool) $this->checked ? ' checked="checked"' : null;
         $html .= (bool) $this->additional_attr_text ? $this->additional_attr_text : null;
+        $html .= (bool) $this->additional_attributes ? $this->render_attributes($this->additional_attributes) : null;
         $html .= ' />' . CR;
 
         return $html;
-    }
-
-    public function __toString()
-    {
-        return $this->render();
     }
 }
 ?>

@@ -38,7 +38,7 @@ if (defined('IN_CS') === false)
 
 # conditional include of the parent class
 if (false == class_exists('Clansuite_Formelement_File',false))
-{ 
+{
     include dirname(__FILE__) . '/file.form.php';
 }
 
@@ -174,15 +174,10 @@ class Clansuite_Formelement_Uploadapc extends Clansuite_Formelement_File impleme
         }
         $submit = new Clansuite_Formelement_Submitbutton();
         $submit->setValue(_('Upload File'));
-        $submit->setAdditionalAttributeText("onclick=\"this.disabled=true; setInterval('getUploadProgress(\''+this.form.APC_UPLOAD_PROGRESS.value+'\')', 750); \" ");
+        $submit->setAdditionalAttributeAsText("onclick=\"this.disabled=true; setInterval('getUploadProgress(\''+this.form.APC_UPLOAD_PROGRESS.value+'\')', 750); \" ");
         $html .= $submit;
 
         return $javascript.$html;
-    }
-
-    public function __toString()
-    {
-        return $this->render();
     }
 }
 ?>

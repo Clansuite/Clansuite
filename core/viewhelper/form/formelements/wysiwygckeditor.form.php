@@ -38,7 +38,7 @@ if (defined('IN_CS') === false)
 
 # conditional include of the parent class
 if (false == class_exists('Clansuite_Formelement_Textarea',false))
-{ 
+{
     include dirname(__FILE__) . '/textarea.form.php';
 }
 
@@ -59,7 +59,7 @@ class Clansuite_Formelement_Wysiwygckeditor extends Clansuite_Formelement_Textar
      * This renders a textarea with the WYSWIWYG editor ckeditor attached.
      */
     public function render()
-    {  
+    {
         # a) loads the ckeditor javascript files
         $javascript = '<script type="text/javascript" src="'.WWW_ROOT_THEMES_CORE . 'javascript/ckeditor/ckeditor.js"></script>';
 
@@ -71,11 +71,6 @@ class Clansuite_Formelement_Wysiwygckeditor extends Clansuite_Formelement_Textar
 
         # Watch out! Serve html elements first, before javascript dom selections are applied on them!
         return $javascript;
-    }
-
-    public function __toString()
-    {
-        return $this->render();
     }
 }
 ?>

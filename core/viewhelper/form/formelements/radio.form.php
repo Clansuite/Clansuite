@@ -105,9 +105,5 @@ class Clansuite_Formelement_Radio extends Clansuite_Formelement_Input implements
         return $this;
     }
 
-    public function __toString()
-    {
-        return $this->render();
-    }
 }
 ?>

@@ -310,9 +310,5 @@ class Clansuite_Formelement_Selectcountry extends Clansuite_Formelement_Select i
         return $html;
     }
 
-    public function __toString()
-    {
-        $this->render();
-    }
 }
 ?>

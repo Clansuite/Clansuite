@@ -55,17 +55,16 @@ class Clansuite_Formelement_Buttonbar extends Clansuite_Formelement implements C
                                'cancelbutton' => '');
 
     /**
-     * Set all buttons
-     * Assoc array:
-     * "String" => object Clansuite_Formelement_*
+     * Adds the objects to the buttonnames fo the initial buttons array
      *
-     * @example:
-     *   $this->_buttons['submitbutton'] = new Clansuite_Formelement_Submitbutton();
-     * @param array $_buttons
+     * @return Clansuite_Formelement_Buttonbar
      */
-    private function _setButtons($_buttons)
+    function __construct()
     {
-        $this->_buttons[] = $_buttons;
+        # apply CSS class attribute
+        $this->setClass('buttonbar');
+
+        return $this;
     }
 
     public function addButton($buttonname)
@@ -85,20 +84,11 @@ class Clansuite_Formelement_Buttonbar extends Clansuite_Formelement implements C
      */
     public function getButton($buttonname)
     {
-        try
+        if(isset($this->_buttons[$buttonname]) and is_object($this->_buttons[$buttonname]))
         {
-            if( isset($this->_buttons[$buttonname]) and is_object($this->_buttons[$buttonname]))
-            {
-                return $this->_buttons[$buttonname];
-            }
-            else
-            {
-                $this->addButton($buttonname);
-
-                return $this->_buttons[$buttonname];
-            }
+            return $this->_buttons[$buttonname];
         }
-        catch(Exception $e)
+        else
         {
             throw new Clansuite_Exception(_('This button does not exist in this buttonbar: ') . $buttonname);
         }
@@ -120,19 +110,6 @@ class Clansuite_Formelement_Buttonbar extends Clansuite_Formelement implements C
     }
 
     /**
-     * Adds the objects to the buttonnames fo the initial buttons array
-     *
-     * @return Clansuite_Formelement_Buttonbar
-     */
-    function __construct()
-    {
-        # apply CSS class attribute
-        $this->setClass('buttonbar');
-
-        return $this;
-    }
-
-    /**
      * Renders the buttonbar with all registered buttons
      *
      * @return $htmlString HTML Representation of Clansuite_Formelement_Buttonbar
@@ -147,7 +124,7 @@ class Clansuite_Formelement_Buttonbar extends Clansuite_Formelement implements C
             {
                 $htmlString .= $buttonobject->render();
             }
-            else
+            else # does this ever happen???, see addButton!
             {
                 $formelement = Clansuite_Form::formelementFactory($buttonname);
                 $htmlString .= $formelement->render();
@@ -157,14 +134,6 @@ class Clansuite_Formelement_Buttonbar extends Clansuite_Formelement implements C
         $htmlString .= '</div>';
 
         return $htmlString;
-    }
-
-    /**
-     * @return HTML Representation of Clansuite_Formelement_Buttonbar
-     */
-    public function __toString()
-    {
-        return $this->render();
     }
 }
 ?>

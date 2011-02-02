@@ -131,9 +131,5 @@ class Clansuite_Formelement_JQSelectImage extends Clansuite_Formelement_Select i
         return $this->html;
     }
 
-    public function __toString()
-    {
-        return $this->render();
-    }
 }
 ?>

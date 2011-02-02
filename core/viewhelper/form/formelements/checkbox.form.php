@@ -38,7 +38,7 @@ if (defined('IN_CS') === false)
 
 # conditional include of the parent class
 if (false == class_exists('Clansuite_Formelement_Input',false))
-{ 
+{
     include dirname(__FILE__) . '/input.form.php';
 }
 
@@ -59,16 +59,16 @@ class Clansuite_Formelement_Checkbox extends Clansuite_Formelement_Input impleme
     public $label;
 
     /**
-     * Default option 
-     * 
-     * @var string 
+     * Default option
+     *
+     * @var string
      */
     public $default;
 
     /**
      * Options
-     * 
-     * @var array 
+     *
+     * @var array
      */
     public $options;
 
@@ -138,11 +138,6 @@ class Clansuite_Formelement_Checkbox extends Clansuite_Formelement_Input impleme
     public function render()
     {
         return parent::render() . $this->getLabel();
-    }
-
-    public function __toString()
-    {
-        return $this->render();
     }
 }
 ?>

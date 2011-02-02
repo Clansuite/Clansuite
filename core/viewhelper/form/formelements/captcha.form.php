@@ -199,10 +199,5 @@ class Clansuite_Formelement_Captcha extends Clansuite_Formelement implements Cla
 
         return $html;
     }
-
-    public function __toString()
-    {
-        return $this->render();
-    }
 }
 ?>

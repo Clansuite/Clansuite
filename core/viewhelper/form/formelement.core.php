@@ -41,7 +41,6 @@ if (defined('IN_CS') === false)
  *
  * @author     Jens-André Koch   <vain@clansuite.com>
  * @copyright  Jens-André Koch (2005-onwards)
- * @version    0.1
  *
  * @category    Clansuite
  * @package     Core
@@ -53,6 +52,8 @@ class Clansuite_Formelement /* extends Clansuite_HTML */ implements Clansuite_Fo
     public $name, $id, $type, $class, $size, $disabled, $maxlength, $style, $onclick;
 
     public $label, $value, $position, $required;
+
+    public $additional_attributes;
 
     protected $formelementdecorators = array();
 
@@ -172,26 +173,6 @@ class Clansuite_Formelement /* extends Clansuite_HTML */ implements Clansuite_Fo
     public function setClass($class)
     {
         $this->class = $class;
-
-        return $this;
-    }
-
-    /**
-     * Set class of this form.
-     *
-     * @param string $class Class to add
-     * @return Clansuite_Formelement
-     */
-    public function addClass($class)
-    {
-        if( $this->class == '' )
-        {
-            $this->class = $class;
-        }
-        else
-        {
-            $this->class = ' ' . $class;
-        }
 
         return $this;
     }
@@ -432,6 +413,28 @@ class Clansuite_Formelement /* extends Clansuite_HTML */ implements Clansuite_Fo
     }
 
     /**
+     * Renders an array of key=>value pairs as an HTML attributes string.
+     *
+     * @param array $attributes key=>value pairs corresponding to HTML attributes name="value"
+     * @return string Attributes as HTML
+     */
+    public function render_attributes(array $attributes=array())
+    {
+        if(empty($attributes))
+        {
+            return '';
+        }
+
+        $html = ' ';
+        foreach($attributes as $key => $val)
+        {
+            # html = 'key="value" '
+            $html .= $key . '="' . $val . '" ';
+        }
+        return $html;
+    }
+
+    /**
      * Setter method for a validator
      * validators are stored into an array (multiple validators for one formelement).
      *
@@ -520,6 +523,21 @@ class Clansuite_Formelement /* extends Clansuite_HTML */ implements Clansuite_Fo
     {
         # nothing, because each formelement renders itself
     }
+
+    /**
+     * __toString works in the scope of the subclass.
+     * all formelements inherit the formelement base class,
+     * so we place the magic method here, in the parent,
+     * and catch the subclass via get_class($this).
+     *
+     * @return @return HTML Representation of the subclassed Formelement
+     */
+    public function __toString()
+    {
+        $subclass = get_class($this);
+        return $subclass->render();
+    }
+
 
     /**
      * ===================================================================================
@@ -641,21 +659,22 @@ class Clansuite_Formelement /* extends Clansuite_HTML */ implements Clansuite_Fo
      */
     public function decoratorFactory($formelementdecorator)
     {
+        # construct Clansuite_Formdecorator_Name
+        $formelementdecorator_classname = 'Clansuite_Formelement_Decorator_' . ucfirst($formelementdecorator);
+
         # if not already loaded, require forelement file
-        if (false == class_exists('Clansuite_Formelement_Decorator_'.$formelementdecorator,false))
+        if(false == class_exists($formelementdecorator_classname, false))
         {
-            #if(is_file(ROOT_CORE . 'viewhelper/form/formdecorators/formelement/'.$formelementdecorator.'.form.php') === true)
-            #{
-            include ROOT_CORE . 'viewhelper/form/formdecorators/formelement/'.$formelementdecorator.'.form.php';
-            #}
+            $file = ROOT_CORE . 'viewhelper/form/formdecorators/formelement/' . $formelementdecorator . '.form.php';
+
+            if(is_file($file) === true)
+            {
+                include $file;
+            }
         }
 
-        # construct Clansuite_Formdecorator_Name
-        $formelementdecorator_classname = 'Clansuite_Formelement_Decorator_'.ucfirst($formelementdecorator);
         # instantiate the new $formdecorator
-        $formelementdecorator = new $formelementdecorator_classname();
-
-        return $formelementdecorator;
+        return new $formelementdecorator_classname;
     }
 }
 

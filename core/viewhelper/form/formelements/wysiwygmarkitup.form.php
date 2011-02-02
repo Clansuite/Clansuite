@@ -78,10 +78,5 @@ class Clansuite_Formelement_Wysiwygmarkitup extends Clansuite_Formelement_Textar
 
         return $javascript.$css;
     }
-
-    public function __toString()
-    {
-        return $this->render();
-    }
 }
 ?>
