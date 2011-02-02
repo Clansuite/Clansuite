@@ -25,7 +25,7 @@
 
     <!-- jQuery UI -->
     <script type="text/javascript" src="{$www_root_themes_core}javascript/jquery/jquery.ui.js"></script>
-    <link rel="stylesheet" type="text/css" href="{$www_root_themes}core/css/jquery/ui/peppergrinder/jquery-ui-1.7.2.custom.css" />
+    <link rel="stylesheet" type="text/css" href="{$www_root_themes}core/css/jquery/ui/pepper-grinder/jquery-ui-1.8.9.custom.css" />
 
     <!-- jQuery Pines Notify -->
     <script type="text/javascript" src="{$www_root_themes_core}javascript/jquery/jquery.pnotify.min.js"></script>
