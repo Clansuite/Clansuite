@@ -131,5 +131,10 @@ class Clansuite_Module_Index extends Clansuite_Module_Controller
     {
         # nothing to assign, it a pure template widget
     }
+    
+    public function widget_toolbox()
+    {
+        # nothing to assign, it a pure template widget
+    }
 }
 ?>
