@@ -48,6 +48,31 @@ if(defined('IN_CS') === false)
 class Clansuite_HTML /* extends DOMDocument */
 {
     /**
+     * Renders title tag.
+     *
+     * @param  string $title
+     * @access public
+     * @return string
+     */
+    public static function title($title)
+    {
+        return '<title>'.$title.'</title>'.CR;
+    }
+
+    /**
+     * Renders meta
+     *
+     * @param string $name the meta name
+     * @param string $value the meta value
+     * @access public
+     * @return string
+     */
+    public static function meta($name, $value)
+    {
+        return '<meta name="'.$name.'" content="'.$value.'">'.CR;
+    }
+
+    /**
      * Renders the HTML Tag <a href=""></a>
      *
      * @param string $url The URL (href).
@@ -62,6 +87,19 @@ class Clansuite_HTML /* extends DOMDocument */
         $html_attributes .= self::renderAttributes($attributes);
 
         return '<a href="'.$url.'" '.$html_attributes.'>'.$text.'</a>';
+    }
+
+    /**
+     * Render tag a-tag with mailto-target <a href="mailto:">text</a>
+     *
+     * @param  string $mail the email address
+     * @param  string $title the email title.
+     * @return string
+     */
+    public static function mailto($mail = '', $title = '')
+    {
+        if(empty($title)) $title = $mail;
+        return '<a href="mailto:'.$mail.'">'.$title.'</a>';
     }
 
     /**
@@ -137,6 +175,20 @@ class Clansuite_HTML /* extends DOMDocument */
     public static function img($link_to_image, $attributes = array())
     {
         return self::image($link_to_image, $attributes = array());
+    }
+
+    /**
+     * Renders icon tag
+     *
+     * @param string $url the url of the icon.
+     * @access public
+     * @return string
+     */
+    public static function icon($url)
+    {
+        return '<link rel="icon" href="'.$url.'" type="image/x-icon" />' . CR .
+               '<link rel="shortcut icon" href="'.$url.'" type="image/x-icon" />' .CR;
+
     }
 
     /**
