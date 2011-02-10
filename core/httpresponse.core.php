@@ -110,7 +110,7 @@ class Clansuite_HttpResponse implements Clansuite_Response_Interface
          * Array holding some often occuring status descriptions.
          * @var       array
          */
-        $statusCodeDescription = array(
+        static $statusCodeDescription = array(
                                        # Successful
                                        '200'    => 'OK',
                                        '201'    => 'Created',
@@ -118,6 +118,7 @@ class Clansuite_HttpResponse implements Clansuite_Response_Interface
                                        # Redirection
                                        '301'    => 'Moved Permanently',
                                        '302'    => 'Found',
+                                       '303'    => 'See Other',
                                        '304'    => 'Not Modified',
                                        '307'    => 'Temporary Redirect',
                                        # Client Error
@@ -363,11 +364,11 @@ class Clansuite_HttpResponse implements Clansuite_Response_Interface
      *
      * @param string Redirect to this URL
      * @param int    seconds before redirecting (for the html tag "meta refresh")
-     * @param int    http status code, default: '302' => 'Not Found'
+     * @param int    http status code, default: '303' => 'See other'
      * @param text   text of redirect message
      * @param string redirect mode LOCATION, REFRESH, JS, HTML
      */
-    public static function redirectNoCache($url, $time = 0, $statusCode = 302, $text = '', $mode = null)
+    public static function redirectNoCache($url, $time = 0, $statusCode = 303, $text = '', $mode = null)
     {
         self::setNoCacheHeader();
         self::redirect($url, $time, $statusCode, $text);
@@ -386,11 +387,11 @@ class Clansuite_HttpResponse implements Clansuite_Response_Interface
      *
      * @param string Redirect to this URL
      * @param int    seconds before redirecting (for the html tag "meta refresh")
-     * @param int    http status code, default: '302' => 'Not Found'
+     * @param int    http status code, default: '303' => 'See other'
      * @param text   text of redirect message
      * @param string redirect mode LOCATION, REFRESH, JS, HTML
      */
-    public static function redirect($url, $time = 0, $statusCode = 302, $message = null, $mode = null)
+    public static function redirect($url, $time = 0, $statusCode = 303, $message = null, $mode = null)
     {
         # convert from internal slashed format to external URL
         $url = Clansuite_Router::buildURL($url, false);
