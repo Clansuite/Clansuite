@@ -41,7 +41,7 @@ if(defined('IN_CS') === false)
  *
  * 1: Snoppy
  * 2: cURL
- * (3: Remote)
+ * 3: Remote
  * (4: FTP)
  */
 class Clansuite_Remotefetch
@@ -62,11 +62,18 @@ class Clansuite_Remotefetch
 
             if($s->status == 200)
             {
-                $remote_content = $s->results;
+                $content = $s->results;
             }
         }
 
-        return $remote_content;
+        if(false === empty($content))
+        {
+            return $content;
+        }
+        else
+        {
+            return false;
+        }
     }
 
     /**
@@ -76,19 +83,45 @@ class Clansuite_Remotefetch
      */
     public static function curl_get_file($url)
     {
-        $c = curl_init();
-        curl_setopt($c, CURLOPT_RETURNTRANSFER, 1);
-        curl_setopt($c, CURLOPT_URL, $url);
-        $contents = curl_exec($c);
-        curl_close($c);
+        $curl = curl_init();        
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($curl, CURLOPT_URL, $url);        
+        $content = curl_exec($curl);        
+        curl_close($curl);
 
-        if(false === empty($contents))
+        if(false === empty($content))
         {
-            return $contents;
+            return $content;
         }
-
-        return false;
+        else
+        {
+            return false;
+        }
     }
 
+    /**
+     * Fetches remote content with file_get_contents
+     *
+     * @param $url URL of remote content to fetch
+     * @param $flags
+     * @param $context 
+     */
+    public static function remote_get_file($url, $flags = null, $context = null)
+    {
+        if(true === ini_get('allow_url_fopen'))
+        {
+            $context = stream_context_create(array('http' => array('timeout' => 5)));
+            $content = file_get_contents($url, $flags, $context);
+        }
+        
+        if(false === empty($content))
+        {
+            return $content;
+        }
+        else
+        {
+            return false;
+        }
+    }
 }
 ?>
