@@ -74,6 +74,8 @@ class Clansuite_Formelement_Buttonbar extends Clansuite_Formelement implements C
 
         # attach button object to buttons array
         $this->_buttons[$buttonname] = $formelement;
+        
+        return $this;
     }
 
     /**
@@ -84,13 +86,19 @@ class Clansuite_Formelement_Buttonbar extends Clansuite_Formelement implements C
      */
     public function getButton($buttonname)
     {
+        # return the button object
         if(isset($this->_buttons[$buttonname]) and is_object($this->_buttons[$buttonname]))
         {
             return $this->_buttons[$buttonname];
         }
+        # instantiate the button object first and then return
+        elseif(isset($this->_buttons[$buttonname]) and false === is_object($this->_buttons[$buttonname]))
+        {
+            return $this->addButton($buttonname);
+        }
         else
         {
-            throw new Clansuite_Exception(_('This button does not exist in this buttonbar: ') . $buttonname);
+            throw new Clansuite_Exception(_('This button does not exist, so its not in this buttonbar: ') . $buttonname);
         }
     }
 

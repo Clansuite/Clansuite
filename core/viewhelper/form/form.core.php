@@ -117,6 +117,13 @@ class Clansuite_Form /*extends Clansuite_HTML*/ implements Clansuite_Form_Interf
      */
 
     /**
+     * Contains accept-charset of the form.
+     *
+     * @var string
+     */
+    protected $acceptcharset;
+
+    /**
      * Contains action of the form.
      *
      * @var string
@@ -130,9 +137,12 @@ class Clansuite_Form /*extends Clansuite_HTML*/ implements Clansuite_Form_Interf
      */
     protected $autocomplete;
 
-    protected $novalidation;
-
-    protected $target;
+    /**
+     * Contains encoding of the form.
+     *
+     * @var string
+     */
+    protected $encoding;
 
     /**
      * Contains action of the form.
@@ -148,6 +158,11 @@ class Clansuite_Form /*extends Clansuite_HTML*/ implements Clansuite_Form_Interf
      */
     protected $name;
 
+    protected $novalidation;
+
+    protected $target;
+
+
     /**
      * Contains id of the form.
      *
@@ -161,20 +176,6 @@ class Clansuite_Form /*extends Clansuite_HTML*/ implements Clansuite_Form_Interf
      * @var string
      */
     protected $class;
-
-    /**
-     * Contains encoding of the form.
-     *
-     * @var string
-     */
-    protected $encoding;
-
-    /**
-     * Contains accept-charset of the form.
-     *
-     * @var string
-     */
-    protected $acceptcharset;
 
     /**
      * Contains description of the form.
@@ -284,17 +285,7 @@ class Clansuite_Form /*extends Clansuite_HTML*/ implements Clansuite_Form_Interf
      */
     public function setAction($action)
     {
-        /**
-         * Build correct URLs from $action strings like "/news/admin/settings_update"
-         * Checks if action does not contain ?mod= / &param=xy, then rebuilds action url
-         * Watch comparision operator: not != but !== Operator
-         */
-        if(false !== strpos('?', $action) or false !== strpos('&', $action))
-        {
-            $action = Clansuite_Router::buildURL($action);
-        }
-
-        $this->action = $action;
+        $this->action = Clansuite_Router::buildURL($action);
 
         return $this;
     }
@@ -453,6 +444,7 @@ class Clansuite_Form /*extends Clansuite_HTML*/ implements Clansuite_Form_Interf
         $varArray = get_object_vars($object_to_copy);
         foreach($varArray as $key => $value)
         {
+            # use this object, if no target object is specified
             if($target == null)
             {
                 $this->$key = $value;
@@ -670,33 +662,6 @@ class Clansuite_Form /*extends Clansuite_HTML*/ implements Clansuite_Form_Interf
     }
 
     /**
-     * Set a button element to the buttons stack of the form.
-     *
-     * @param mixed Button (string) or Buttons (array)
-     */
-    public function setButton($button)
-    {
-        if (is_array($button) === false)
-        {
-            $button = array($button);
-        }
-
-        $this->buttons = array_merge($this->buttons, $button);
-
-        return $this;
-    }
-
-    /**
-     * Get the buttons stack.
-     *
-     * @return array Buttons
-     */
-    public function getButtons()
-    {
-        return $this->buttons;
-    }
-
-    /**
      * ===================================================================================
      *      Formerrors
      * ===================================================================================
@@ -717,11 +682,11 @@ class Clansuite_Form /*extends Clansuite_HTML*/ implements Clansuite_Form_Interf
     *
     * @param int $formelement_position
     */
-    public function applyDefaultFormelementDecorators($formelement_position)
+    public function registerDefaultFormelementDecorators()
     {
-        $this->addFormelementDecorator('label', $formelement_position);
-        $this->addFormelementDecorator('description', $formelement_position);
-        $this->addFormelementDecorator('div', $formelement_position)->setClass('formline');
+        $this->addFormelementDecorator('label');
+        $this->addFormelementDecorator('description');
+        $this->addFormelementDecorator('div')->setClass('formline');
     }
 
     /**
@@ -753,7 +718,7 @@ class Clansuite_Form /*extends Clansuite_HTML*/ implements Clansuite_Form_Interf
             if(empty($formelementdecorators))
             {
                 # set
-                $this->applyDefaultFormelementDecorators($formelement_position);
+                $this->registerDefaultFormelementDecorators($formelement_position);
 
                 # fetch again all decorators of this formelement
                 $formelementdecorators = $formelement->getDecorators();
@@ -787,14 +752,7 @@ class Clansuite_Form /*extends Clansuite_HTML*/ implements Clansuite_Form_Interf
         return $html_form;
     }
 
-    /**
-     * Set default form decorators (form)
-     */
-    public function applyDefaultFormDecorators()
-    {
-        $this->addDecorator('html5validation');
-        $this->addDecorator('form');
-    }
+    
 
     /**
     * Render this form
@@ -807,7 +765,7 @@ class Clansuite_Form /*extends Clansuite_HTML*/ implements Clansuite_Form_Interf
         $html_form = $this->renderAllFormelements();
 
         # set a common style the form by registering one or more decorators
-        $this->applyDefaultFormDecorators();
+        $this->registerDefaultFormDecorators();
 
         # iterate over all decorators
         foreach ($this->getDecorators() as $decorator)
@@ -914,7 +872,7 @@ class Clansuite_Form /*extends Clansuite_HTML*/ implements Clansuite_Form_Interf
         }
         else
         {
-            throw new Clansuite_Exception('There is no Formelement registered under this position number');
+            throw new Clansuite_Exception('No Formelement registered under this position number');
         }
     }
 
@@ -1050,7 +1008,7 @@ class Clansuite_Form /*extends Clansuite_HTML*/ implements Clansuite_Form_Interf
         }
 
         # if no position is incomming we return the last formelement item
-        # this is the normal call to this method, while  chaining
+        # this is the normal call to this method, while chaining
         if($formelement_position === null)
         {
            # fetch last item of array = last_formelement
@@ -1152,6 +1110,39 @@ class Clansuite_Form /*extends Clansuite_HTML*/ implements Clansuite_Form_Interf
     {
         return $this->formdecorators;
     }
+    
+    /**
+     * Set default form decorators (form)
+     */
+    public function registerDefaultFormDecorators()
+    {
+        $this->addDecorator('html5validation');
+        $this->addDecorator('form');
+    }
+    
+    public function removeDecorator($decorator)
+    {
+        if(isset($this->formdecorators[$decorator]))
+        {
+            unset($this->formdecorators[$decorator]);
+        }
+    }
+    
+    public function getDecorator($decorator)
+    {
+        if(isset($this->formdecorators[$decorator]))
+        {
+            return $this->formdecorators[$decorator];
+        }
+    }
+    
+    public function removeFormelementDecorator($decorator)
+    {
+        if(isset($this->decorators[$decorator]))
+        {
+            return $this->decorators[$decorator];
+        }
+    }
 
     /**
      * Factory method. Instantiates and returns a new formdecorator object.
@@ -1223,7 +1214,7 @@ class Clansuite_Form /*extends Clansuite_HTML*/ implements Clansuite_Form_Interf
     {
         foreach($this->formelements as $formelement)
         {
-            if($formelement->validate($this) == false)
+            if($formelement->validate($this) === false)
             {
                 # raise error flag
                 $this->formerror_flag = true;
