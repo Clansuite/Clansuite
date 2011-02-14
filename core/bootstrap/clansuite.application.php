@@ -291,7 +291,6 @@ class Clansuite_CMS
              * @var Purpose of ROOT is to provide the absolute path to the current working dir of clansuite
              */
             define('ROOT', getcwd() . DS, false);
-            #define('ROOT',  realpath('../'));
 
             /**
              * @var Root path of the cache directory (with trailing slash)
@@ -545,7 +544,7 @@ class Clansuite_CMS
     private static function register_DI_Core()
     {
         # define the core classes to load
-        $core_classes = array(
+        static $core_classes = array(
                               'Clansuite_Config',
                               'Clansuite_HttpRequest',
                               'Clansuite_HttpResponse',
@@ -573,8 +572,6 @@ class Clansuite_CMS
     {
         # define prefilters to load
         self::$prefilter_classes = array(
-                                         # let the debug console always be first
-                                         #'Clansuite_Filter_PhpDebugConsole',
                                          'Clansuite_Filter_GetUser',
                                          #'Clansuite_Filter_Session_Security',
                                          'Clansuite_Filter_Routing',
@@ -585,20 +582,20 @@ class Clansuite_CMS
                                          #'Clansuite_Filter_Statistics'
                                         );
 
-        # register the prefilters at the DI
-        foreach(self::$prefilter_classes as $class)
-        {
-            self::$injector->register($class);
-        }
-
         # define postfilters to load
         self::$postfilter_classes = array(
                                           #'Clansuite_Filter_HtmlTidy',
                                           'Clansuite_Filter_SmartyMoves'
                                           );
 
-        # register the postfilters at the DI
-        foreach(self::$postfilter_classes as $class)
+        if(DEBUG === true)
+        {
+            self::$injector->register('Clansuite_Filter_PhpDebugConsole');
+        }
+
+        # combine pre- and postfilters and register at DI
+        $filter_classes = self::$prefilter_classes + self::$postfilter_classes;
+        foreach($filter_classes as $class)
         {
             self::$injector->register($class);
         }
@@ -635,6 +632,7 @@ class Clansuite_CMS
         }
         foreach(self::$postfilter_classes as $class)
         {
+
             $clansuite->addPostfilter(self::$injector->instantiate($class));
         }
 

@@ -254,7 +254,7 @@ class Clansuite_Formelement_Textarea extends Clansuite_Formelement implements Cl
         /**
          * Closing of textarea tag
          */
-        $html .= "</textarea>\n";
+        $html .= '</textarea>';
 
         /**
          * Attach HTML content of WYSIWYG Editor

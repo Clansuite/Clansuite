@@ -62,6 +62,8 @@ class Clansuite_Filter_Routing implements Clansuite_Filter_Interface
 
         # set determined route back to request object
         $request->setRoute($route);
+        
+        unset($this->router);
     }
 }
 ?>
