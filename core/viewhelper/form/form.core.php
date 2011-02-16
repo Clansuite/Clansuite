@@ -92,14 +92,13 @@ if (defined('IN_CS') === false)
  *
  * @author     Jens-André Koch   <vain@clansuite.com>
  * @copyright  Jens-André Koch (2005-onwards)
- * @version    0.1
  *
  * @category    Clansuite
  * @package     Core
  * @subpackage  Form
  */
 
-class Clansuite_Form /*extends Clansuite_HTML*/ implements Clansuite_Form_Interface, ArrayAccess, Countable, Iterator
+class Clansuite_Form implements Clansuite_Form_Interface
 {
     /**
      * Contains all formelements / formobjects registered for this form.
@@ -1392,6 +1391,7 @@ class Clansuite_Form /*extends Clansuite_HTML*/ implements Clansuite_Form_Interf
      */
     public function offsetExists($offset)
     {
+        echo 'offsetExists' . $offset;
         return (isset($this->formelements[$offset]) and is_object($this->formelements[$offset]));
     }
 
@@ -1401,11 +1401,12 @@ class Clansuite_Form /*extends Clansuite_HTML*/ implements Clansuite_Form_Interf
      */
     public function offsetGet($offset)
     {
-        if (false === isset($this->formfields[$offset]) or false === is_object($this->formfields[$offset]))
-        {
-            return $this->addFormelement($offset);
-        }
-        return $this->formfields[$offset];
+        echo 'offsetGet' . $offset;
+        #if (false === isset($this->formfields[$offset]) or false === is_object($this->formfields[$offset]))
+        #{
+        #    return $this->addFormelement($offset);
+        #}
+        #return $this->formfields[$offset];
     }
 
     /**
@@ -1417,6 +1418,7 @@ class Clansuite_Form /*extends Clansuite_HTML*/ implements Clansuite_Form_Interf
      */
     public function offsetSet($offset, $value)
     {
+        echo 'offsetSet' . $offset;
         #$this->$offset = $value;
     }
 
@@ -1426,6 +1428,7 @@ class Clansuite_Form /*extends Clansuite_HTML*/ implements Clansuite_Form_Interf
      */
     public function offsetUnset($offset)
     {
+        echo $offset;
         unset($this->formelements[$offset]);
     }
 
