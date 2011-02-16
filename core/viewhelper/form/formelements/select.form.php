@@ -112,7 +112,7 @@ class Clansuite_Formelement_Select extends Clansuite_Formelement implements Clan
         $html .= '>';
 
         /**
-         * This handles the defaultt value setting via the options array key "selected".
+         * This handles the default value setting via the options array key "selected".
          * It grabs the first element in the options array, which keyname should be 'selected'
          * and then removes it, setting its value to $this->default.
          *
@@ -130,7 +130,7 @@ class Clansuite_Formelement_Select extends Clansuite_Formelement implements Clan
             unset($this->options['selected']);
         }
 
-        if(empty($this->options) == false)
+        if(empty($this->options) === false)
         {
             # loop over all selectfield options
             foreach ($this->options as $key => $value)
