@@ -211,6 +211,8 @@ class Clansuite_Form /*extends Clansuite_HTML*/ implements Clansuite_Form_Interf
      * @var array
      */
     protected $formgroups = array();
+    
+    protected $errormessages_stack = array();
 
     /**
      * Construct
@@ -957,6 +959,56 @@ class Clansuite_Form /*extends Clansuite_HTML*/ implements Clansuite_Form_Interf
         */
     }
 
+    public function populate($data = null)
+    {
+        # because $data might be an object, typecast $data to array
+        if(is_object($data))
+        {
+            $data = (array) $data;
+        }
+        
+        # autopopulate via form method POST or GET
+        if(null === $data)
+        {
+            $method = $this->getMethod();
+            if ($method === 'GET' or $method === 'POST')
+            {
+                $methodname = 'get' . $method;
+                $data = Clansuite_HttpRequest::$methodname();
+            }
+        }
+
+        # now we got an $data array to populate all the formelements with
+        $this->populateFormelements($data);
+    }
+
+    public function populateFormelements($data)
+    {
+        foreach($data as $key => $value)
+        {
+            foreach($this->formelements as $formelement)
+            {
+                # skip certain formelements (buttons, etc) from setValue()
+                # because setting value would change the visible "name" of the button
+                $type = $formelement->getType();
+                if($type == 'submit' or $type == 'button' or $type == 'cancelbutton' or $type == 'resetbutton')
+                {
+                    continue;
+                }
+
+                if($formelement->getName() == ucfirst($key))
+                {
+                    $formelement->setValue($value);
+                }
+            }
+        }
+    }
+    
+    public function getValues()
+    {
+        # return validates values, ready for model insert
+    }
+
     /**
      * ===================================================================================
      *      Form Decoration
@@ -1232,20 +1284,51 @@ class Clansuite_Form /*extends Clansuite_HTML*/ implements Clansuite_Form_Interf
 
     /**
      * ===================================================================================
+     *      Form Errormessages
+     * ===================================================================================
+     */
+     
+     public function setErrorState($boolean = true)
+     {
+        $this->form_has_error_flag = $boolean;
+     }
+     
+     public function getErrorState()
+     {
+        return $this->form_has_error_flag;
+     }
+     
+     public function hasErrors()
+     {
+        return $this->form_has_error_flag;
+     }
+
+     public function addErrormessage($errormessage)
+     {
+        $this->errormessages_stack[] = $errormessage;
+     }
+     
+     public function addErrormessages(array $errormessages)
+     {
+        $this->errormessages_stack = $errormessages;
+     }
+
+     public function resetErrormessages()
+     {
+        $this->errormessages_stack = array();
+     }
+     
+     public function getErrormessages()
+     {
+        return $this->errormessages_stack;
+     }
+
+    /**
+     * ===================================================================================
      *      SPL Implementation
      *      ArrayObject implements ArrayAccess, Countable, Iterator
      * ===================================================================================
      */
-
-    /**
-     * Appends the value
-     * Implementation of SPL ArrayObject::append()
-     *
-     * @param $value mixed
-     */
-    public function append($value)
-    {
-    }
 
     /**
      * Get the number of elements in the Iterator
@@ -1264,6 +1347,7 @@ class Clansuite_Form /*extends Clansuite_HTML*/ implements Clansuite_Form_Interf
      */
     public function current()
     {
+        return current($this->formelements);
     }
 
     /**
@@ -1272,6 +1356,7 @@ class Clansuite_Form /*extends Clansuite_HTML*/ implements Clansuite_Form_Interf
      */
     public function key()
     {
+        return key($this->formelements);
     }
 
     /**
@@ -1280,6 +1365,7 @@ class Clansuite_Form /*extends Clansuite_HTML*/ implements Clansuite_Form_Interf
      */
     public function next()
     {
+        next($this->formelements);
     }
 
     /**
@@ -1288,6 +1374,7 @@ class Clansuite_Form /*extends Clansuite_HTML*/ implements Clansuite_Form_Interf
      */
     public function rewind()
     {
+        reset($this->formelements);
     }
 
     /**
@@ -1296,6 +1383,7 @@ class Clansuite_Form /*extends Clansuite_HTML*/ implements Clansuite_Form_Interf
      */
     public function valid()
     {
+        return current($this->formelements) ? true : false;
     }
 
     /**
@@ -1304,7 +1392,7 @@ class Clansuite_Form /*extends Clansuite_HTML*/ implements Clansuite_Form_Interf
      */
     public function offsetExists($offset)
     {
-        return isset($this->$offset);
+        return (isset($this->formelements[$offset]) and is_object($this->formelements[$offset]));
     }
 
     /**
@@ -1313,7 +1401,11 @@ class Clansuite_Form /*extends Clansuite_HTML*/ implements Clansuite_Form_Interf
      */
     public function offsetGet($offset)
     {
-        return isset($this->$offset) ? $this->$offset : null;
+        if (false === isset($this->formfields[$offset]) or false === is_object($this->formfields[$offset]))
+        {
+            return $this->addFormelement($offset);
+        }
+        return $this->formfields[$offset];
     }
 
     /**
@@ -1325,7 +1417,7 @@ class Clansuite_Form /*extends Clansuite_HTML*/ implements Clansuite_Form_Interf
      */
     public function offsetSet($offset, $value)
     {
-        $this->$offset = $value;
+        #$this->$offset = $value;
     }
 
     /**
@@ -1334,7 +1426,7 @@ class Clansuite_Form /*extends Clansuite_HTML*/ implements Clansuite_Form_Interf
      */
     public function offsetUnset($offset)
     {
-        unset($this->$offset);
+        unset($this->formelements[$offset]);
     }
 
     /**

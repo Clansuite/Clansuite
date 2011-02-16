@@ -207,7 +207,19 @@ class Clansuite_Formelement /* extends Clansuite_HTML */ implements Clansuite_Fo
      */
     public function getValue()
     {
-        return htmlspecialchars($this->value);
+        if(is_array($this->value))
+        {
+            foreach($this->value as $key => $value)
+            {
+                $this->value[$key] = htmlspecialchars($value);
+            }
+            
+            return $this->value;
+        }
+        else
+        {
+            return htmlspecialchars($this->value);
+        }
     }
 
     /**
@@ -461,10 +473,11 @@ class Clansuite_Formelement /* extends Clansuite_HTML */ implements Clansuite_Fo
         foreach($this->validators as $validator)
         {
             # ensure element validates
-            if($validator->validates() == true)
+            if($validator->validates() === true)
             {
                 # everything is fine, proceed
-                return true;
+                #return true;
+                continue;
             }
             else
             {
@@ -475,34 +488,6 @@ class Clansuite_Formelement /* extends Clansuite_HTML */ implements Clansuite_Fo
                 $this->addError($validator->getError());
                 return false;
             }
-        }
-    }
-
-    /**
-     *
-     *
-     * @param formmethod get/post
-     * @return $array with form data from post/get
-     */
-    public function getIncommingFormData($formmethod)
-    {
-        $request = $this->getHttpRequest();
-
-        # better use this -> $formmethod = $request->getMethod();
-
-        $formmethod = mb_strtolower($formmethod);
-
-        # @todo tunneling detection
-
-        if($formmethod == 'post' and $request->isPost())
-        {
-            return $request->getParameter($this->getName(), 'post');
-
-        }
-
-        if($formmethod == 'get' and $request->isGet())
-        {
-            return $request->getParameter($this->getName(), 'get');
         }
     }
 
@@ -534,8 +519,17 @@ class Clansuite_Formelement /* extends Clansuite_HTML */ implements Clansuite_Fo
      */
     public function __toString()
     {
+        #var_dump(get_class($this));
         $subclass = get_class($this);
-        return $subclass->render();
+
+        if(method_exists($subclass, 'render'))
+        {
+            return $subclass->render();
+        }
+        else
+        {
+            return $this->render();
+        }
     }
 
 
