@@ -47,7 +47,7 @@ if (defined('IN_CS') === false)
  * @subpackage  Form
  */
 
-class Clansuite_Formelement /* extends Clansuite_HTML */ implements Clansuite_Formelement_Interface
+class Clansuite_Formelement implements Clansuite_Formelement_Interface
 {
     public $name, $id, $type, $class, $size, $disabled, $maxlength, $style, $onclick;
 
@@ -391,6 +391,12 @@ class Clansuite_Formelement /* extends Clansuite_HTML */ implements Clansuite_Fo
     }
 
     /**
+     * ===================================================================================
+     *      Formelement Attribute Handling
+     * ===================================================================================
+     */
+
+    /**
      * Returns the requested attribute if existing else null.
      *
      * @param $parametername
@@ -447,6 +453,12 @@ class Clansuite_Formelement /* extends Clansuite_HTML */ implements Clansuite_Fo
     }
 
     /**
+     * ===================================================================================
+     *      Formelement Validation
+     * ===================================================================================
+     */
+
+    /**
      * Setter method for a validator
      * validators are stored into an array (multiple validators for one formelement).
      *
@@ -494,13 +506,19 @@ class Clansuite_Formelement /* extends Clansuite_HTML */ implements Clansuite_Fo
     /**
      * Method adds an validation error to the formelement_validation_error stack.
      *
-     * @param $validation_error Accepts $
+     * @param $validation_error
      */
     public function addError($validation_error)
     {
         $this->formelement_validation_errors[] = $validation_error;
     }
 
+    /**
+     * ===================================================================================
+     *      Formelement Rendering
+     * ===================================================================================
+     */
+     
     /**
      * override
      */
@@ -532,7 +550,6 @@ class Clansuite_Formelement /* extends Clansuite_HTML */ implements Clansuite_Fo
         }
     }
 
-
     /**
      * ===================================================================================
      *      Formelement Decoration
@@ -559,7 +576,7 @@ class Clansuite_Formelement /* extends Clansuite_HTML */ implements Clansuite_Fo
      * Usage:
      * $form->addDecorator('fieldset')->setLegend('legendname');
      *
-     * WATCH IT! THIS BREAKS THE CHAINING IN REGARD TO THE FORM
+     * WATCH IT! THIS BREAKS THE CHAINING IN REGARD TO THE FORM OBJECT
      * @return Clansuite_Formelement_Decorator
      */
     public function addDecorator($decorators)
@@ -606,7 +623,7 @@ class Clansuite_Formelement /* extends Clansuite_HTML */ implements Clansuite_Fo
         }
 
         # now check if this decorator is not already set (prevent decorator duplications)
-        if(in_array($decoratorname, $this->formelementdecorators) == false)
+        if(in_array($decoratorname, $this->formelementdecorators) === false)
         {
             # set this decorator object under its name into the array
             $this->formelementdecorators[$decoratorname] = $decorator;
@@ -669,6 +686,27 @@ class Clansuite_Formelement /* extends Clansuite_HTML */ implements Clansuite_Fo
 
         # instantiate the new $formdecorator
         return new $formelementdecorator_classname;
+    }
+    
+    /**
+     * Magic Method: set
+     *
+     * @param $name Name of the attribute to set to the form.
+     * @param $value The value of the attribute.
+     */
+    public function __set($name, $value)
+    {
+        $this->setAttributes(array($name => $value));
+    }
+
+    /**
+     * Magic Method: get
+     *
+     * @param $name
+     */
+    public function __get($name)
+    {
+        return $this->getAttribute($name);
     }
 }
 

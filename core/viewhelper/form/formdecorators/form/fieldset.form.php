@@ -38,6 +38,11 @@ if (defined('IN_CS') === false)
 
 class Clansuite_Form_Decorator_Fieldset extends Clansuite_Form_Decorator
 {
+    /**
+     * Name of this decorator
+     *
+     * @var string
+     */
     public $name = 'fieldset';
 
     public $legend;

@@ -36,12 +36,19 @@ if (defined('IN_CS') === false)
     die('Clansuite not loaded. Direct Access forbidden.');
 }
 
-class Clansuite_Formdecorator_Label extends Clansuite_Form_Decorator
+class Clansuite_Form_Decorator_Label extends Clansuite_Form_Decorator
 {    
+    /**
+     * Name of this decorator
+     *
+     * @var string
+     */
+    public $name = 'label';
+
     /**
      * renders label BEFORE formelement
      */
-    public function render()
+    public function render($html_form_content)
     {  
            
     }

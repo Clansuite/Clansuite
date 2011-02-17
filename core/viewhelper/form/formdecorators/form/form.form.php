@@ -38,6 +38,12 @@ if (defined('IN_CS') === false)
 
 class Clansuite_Form_Decorator_Form extends Clansuite_Form_Decorator
 {
+
+    /**
+     * Name of this decorator
+     *
+     * @var string
+     */
     public $name = 'form';
 
     public function openOpenFormTag()
