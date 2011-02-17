@@ -239,7 +239,7 @@ class Clansuite_Form implements Clansuite_Form_Interface
             $this->setAttributes($name_or_attributes);
         }
 
-        if($method != null and $action != null)
+        if(isset($method) and isset($action))
         {
             $this->setMethod($method);
             $this->setAction($action);
@@ -344,10 +344,13 @@ class Clansuite_Form implements Clansuite_Form_Interface
      * _top
      *
      * @param string $target _blank, _self, _parent, _top
+     * @return Clansuite_Form
      */
     public function setTarget($target)
     {
         $this->target = $target;
+        
+        return $this;
     }
 
     /**
@@ -394,6 +397,12 @@ class Clansuite_Form implements Clansuite_Form_Interface
         }
     }
 
+    /**
+     * Setter method for Attribute
+     *
+     * @param array $attributes attribute name
+     * @param array $value value
+     */
     public function setAttribute($attribute, $value)
     {
         $this->{$attribute} = $value;
@@ -867,14 +876,11 @@ class Clansuite_Form implements Clansuite_Form_Interface
      */
     public function getElementByPosition($position)
     {
-        if(is_int($position) and isset($this->formelements[$position]))
+        if(is_numeric($position) and isset($this->formelements[$position]))
         {
             return $this->formelements[$position];
         }
-        else
-        {
-            throw new Clansuite_Exception('No Formelement registered under this position number');
-        }
+        return null;
     }
 
     /**
@@ -893,6 +899,28 @@ class Clansuite_Form implements Clansuite_Form_Interface
             }
         }
         return null;
+    }
+    
+    public function getElement($formelement_position = null)
+    {
+        # if no position is incomming we return the last formelement item
+        # this is the normal call to this method, while chaining
+        if($formelement_position === null)
+        {
+           # fetch last item of array = last_formelement
+           $formelement_object = end($this->formelements);
+        }
+        elseif(is_numeric($formelement_position))
+        {   
+            # uh, not the last element of the formelements array requested, but some position
+            $formelement_object = $this->getElementByPosition($formelement_position);
+        }
+        else # is_string
+        {
+            $formelement_object = $this->getElementByName($formelement_position);
+        }
+        
+        return $formelement_object;
     }
 
     /**
@@ -941,10 +969,9 @@ class Clansuite_Form implements Clansuite_Form_Interface
      */
     public function processForm()
     {
-        # @todo processing, validation
-
         # check if form has been submitted properly
-        /*if ($this->validateForm() == false)
+        /*
+        if ($this->validateForm() === false)
         {
             # if not, redisplay the form (decorate with errors + render)
             $form->errors();
@@ -959,6 +986,11 @@ class Clansuite_Form implements Clansuite_Form_Interface
     }
 
     public function populate($data = null)
+    {
+        $this->setValues($data);
+    }
+    
+    public function setValues($data = null)
     {
         # because $data might be an object, typecast $data to array
         if(is_object($data))
@@ -978,11 +1010,6 @@ class Clansuite_Form implements Clansuite_Form_Interface
         }
 
         # now we got an $data array to populate all the formelements with
-        $this->populateFormelements($data);
-    }
-
-    public function populateFormelements($data)
-    {
         foreach($data as $key => $value)
         {
             foreach($this->formelements as $formelement)
@@ -1015,68 +1042,6 @@ class Clansuite_Form implements Clansuite_Form_Interface
      */
 
     /**
-     * setFormelementDecorator
-     *
-     * Is a shortcut/proxy/convenience method for addFormelementDecorator()
-     * @see $this->addFormelementDecorator()
-     *
-     * WATCH IT! THIS BREAKS THE CHAINING IN REGARD TO THE FORM
-     * @return Clansuite_Formdecorator object
-     */
-    public function setFormelementDecorator($decorator, $formelement_position = null)
-    {
-        return $this->addFormelementDecorator($decorator, $formelement_position);
-    }
-
-    /**
-     * Adds a decorator to a formelement.
-     *
-     * The first parameter accepts the formelement decorator.
-     * You might specify a decorater
-     * (a) by its name or
-     * (b) multiple decorators as an array or
-     * (c) a instantied decorator object might me handed to this method.
-     * @see addDecorator()
-     *
-     * The second parameter specifies the formelement_position.
-     * If no position is given, it defaults to the last formelement in the stack of formelements.
-     *
-     * <strong>WATCH IT! THIS BREAKS THE CHAINING IN REGARD TO THE FORM</strong>
-     *
-     * @example
-     * $form->addFormelementDecorator('fieldset')->setLegend('legendname');
-     * This would attach the decorator fieldset to the last formelement of $form.
-     *
-     * @param string|array|object $decorator The formelement decorator(s) to apply to the formelement.
-     * @param int $formelement_position Position in the formelement stack.
-     * @return Clansuite_Formdecorator object
-     */
-    public function addFormelementDecorator($decorator, $formelement_position = null)
-    {
-        if(is_array($this->formelements) === false)
-        {
-            throw new Clansuite_Exception('No Formelements found. Add the formelement first, then decorate it!');
-        }
-
-        # if no position is incomming we return the last formelement item
-        # this is the normal call to this method, while chaining
-        if($formelement_position === null)
-        {
-           # fetch last item of array = last_formelement
-           $formelement_object = end($this->formelements);
-
-           }
-        else # uh, not the last element of the formelements array, but some position
-        {
-            $formelement_object = $this->getElementByPosition($formelement_position);
-        }
-
-        # add the decorator
-        # WATCH IT! this is a forwarding call to formelement.core.php->addDecorator()
-        return $formelement_object->addDecorator($decorator);
-    }
-
-    /**
      * Is a shortcut/proxy/convenience method for addDecorator()
      * <strong>WATCH IT! THIS BREAKS THE CHAINING IN REGARD TO THE FORM</strong>
      *
@@ -1096,14 +1061,10 @@ class Clansuite_Form implements Clansuite_Form_Interface
      */
     public function addDecorators($decorators)
     {
-        # check if multiple decorators are incomming at once
-        if(is_array($decorators))
+        # address each one of those decorators
+        foreach($decorators as $decorator)
         {
-            # address each one of those decorators
-            foreach($decorators as $decorator)
-            {
-                $this->addDecorator($decorator);
-            }
+            $this->addDecorator($decorator);
         }
     }
 
@@ -1170,7 +1131,7 @@ class Clansuite_Form implements Clansuite_Form_Interface
         $this->addDecorator('html5validation');
         $this->addDecorator('form');
     }
-    
+
     public function removeDecorator($decorator)
     {
         if(isset($this->formdecorators[$decorator]))
@@ -1178,20 +1139,12 @@ class Clansuite_Form implements Clansuite_Form_Interface
             unset($this->formdecorators[$decorator]);
         }
     }
-    
+
     public function getDecorator($decorator)
     {
         if(isset($this->formdecorators[$decorator]))
         {
             return $this->formdecorators[$decorator];
-        }
-    }
-    
-    public function removeFormelementDecorator($decorator)
-    {
-        if(isset($this->decorators[$decorator]))
-        {
-            return $this->decorators[$decorator];
         }
     }
 
@@ -1216,6 +1169,73 @@ class Clansuite_Form implements Clansuite_Form_Interface
         # instantiate the new $formdecorator and return
         return new $formdecorator_classname();
     }
+    
+    /**
+     * ===================================================================================
+     *      Formelement Decoration
+     * ===================================================================================
+     */
+
+    /**
+     * setFormelementDecorator
+     *
+     * Is a shortcut/proxy/convenience method for addFormelementDecorator()
+     * @see $this->addFormelementDecorator()
+     *
+     * WATCH IT! THIS BREAKS THE CHAINING IN REGARD TO THE FORM
+     * @return Clansuite_Formdecorator object
+     */
+    public function setFormelementDecorator($decorator, $formelement_position = null)
+    {
+        return $this->addFormelementDecorator($decorator, $formelement_position);
+    }
+
+    /**
+     * Adds a decorator to a formelement.
+     *
+     * The first parameter accepts the formelement decorator.
+     * You might specify a decorater
+     * (a) by its name or
+     * (b) multiple decorators as an array or
+     * (c) a instantied decorator object might me handed to this method.
+     * @see addDecorator()
+     *
+     * The second parameter specifies the formelement_position.
+     * If no position is given, it defaults to the last formelement in the stack of formelements.
+     *
+     * <strong>WATCH IT! THIS BREAKS THE CHAINING IN REGARD TO THE FORM</strong>
+     *
+     * @example
+     * $form->addFormelementDecorator('fieldset')->setLegend('legendname');
+     * This would attach the decorator fieldset to the last formelement of $form.
+     *
+     * @param string|array|object $decorator The formelement decorator(s) to apply to the formelement.
+     * @param int|string $formelement_position Position in the formelement stack or Name of formelement.
+     * @return Clansuite_Formdecorator object
+     */
+    public function addFormelementDecorator($decorator, $formelement_position = null)
+    {
+        if(is_array($this->formelements) === false)
+        {
+            throw new Clansuite_Exception('No Formelements found. Add the formelement first, then decorate it!');
+        }
+
+        $formelement_object = $this->getElement($formelement_position);
+
+        # add the decorator
+        # WATCH IT! this is a forwarding call to formelement.core.php->addDecorator()
+        return $formelement_object->addDecorator($decorator);
+    }
+    
+    public function removeFormelementDecorator($decorator, $formelement_position = null)
+    {
+        $formelement_object = $this->getElement($formelement_position);
+
+        if(isset($formelement_object->formelementdecorators[$decorator]))
+        {
+            return $formelement_object->formelementdecorators[$decorator];
+        }
+    }
 
     /**
      * ===================================================================================
@@ -1228,6 +1248,7 @@ class Clansuite_Form implements Clansuite_Form_Interface
      *
      * @return Clansuite_Form
      */
+    /*
     public function addGroup($groupname)
     {
         # @todo groupname becomes ID of decorator (e.g. a fieldset)
@@ -1235,7 +1256,7 @@ class Clansuite_Form implements Clansuite_Form_Interface
         $this->formgroups[] = $groupname;
 
         return $this;
-    }
+    }*/
 
     /**
      * ===================================================================================
@@ -1246,16 +1267,17 @@ class Clansuite_Form implements Clansuite_Form_Interface
     /**
      * Adds a validator to the formelement
      *
-     * @return Clansuite_Form
+     * @return Clansuite_Formelement
      */
-    public function addValidator()
+    public function addValidator($validator)
     {
-
+        
+    
         return $this;
     }
 
     /**
-     * Server-side validation the form.
+     * Validates the form.
      *
      * The method iterates (loops over) all formelement objects and calls the validation on each object.
      *
@@ -1265,12 +1287,13 @@ class Clansuite_Form implements Clansuite_Form_Interface
     {
         foreach($this->formelements as $formelement)
         {
-            if($formelement->validate($this) === false)
+            if($formelement->validate() === false)
             {
-                # raise error flag
-                $this->formerror_flag = true;
-
-                $formelement->getError();
+                # raise error flag on the form
+                $this->setErrorState(true);
+                
+                # and transfer errormessage from formelement to form errormessages stack
+                $this->addErrormessage($formelement->getError());
             }
         }
 
@@ -1323,116 +1346,6 @@ class Clansuite_Form implements Clansuite_Form_Interface
      }
 
     /**
-     * ===================================================================================
-     *      SPL Implementation
-     *      ArrayObject implements ArrayAccess, Countable, Iterator
-     * ===================================================================================
-     */
-
-    /**
-     * Get the number of elements in the Iterator
-     * Implementation of SPL Countable::count()
-     *
-     * @return integer Returns the number of formelements/objects registered to this form object.
-     */
-    public function count()
-    {
-        return count($this->formelements);
-    }
-
-    /**
-     * Create a new iterator from an ArrayObject instance
-     * Implementation of SPL Iterator::current
-     */
-    public function current()
-    {
-        return current($this->formelements);
-    }
-
-    /**
-     * Create a new iterator from an ArrayObject instance
-     * Implementation of SPL Iterator::key
-     */
-    public function key()
-    {
-        return key($this->formelements);
-    }
-
-    /**
-     * Create a new iterator from an ArrayObject instance
-     * Implementation of SPL Iterator::next
-     */
-    public function next()
-    {
-        next($this->formelements);
-    }
-
-    /**
-     * Create a new iterator from an ArrayObject instance
-     * Implementation of SPL Iterator::rewind
-     */
-    public function rewind()
-    {
-        reset($this->formelements);
-    }
-
-    /**
-     * Create a new iterator from an ArrayObject instance
-     * Implementation of SPL Iterator::valid
-     */
-    public function valid()
-    {
-        return current($this->formelements) ? true : false;
-    }
-
-    /**
-     * Returns whether the requested $index exists
-     * Implementation of SPL ArrayAccess::offsetExists()
-     */
-    public function offsetExists($offset)
-    {
-        echo 'offsetExists' . $offset;
-        return (isset($this->formelements[$offset]) and is_object($this->formelements[$offset]));
-    }
-
-    /**
-     * Returns the value at the specfied $index
-     * Implementation of SPL ArrayAccess::offsetGet()
-     */
-    public function offsetGet($offset)
-    {
-        echo 'offsetGet' . $offset;
-        #if (false === isset($this->formfields[$offset]) or false === is_object($this->formfields[$offset]))
-        #{
-        #    return $this->addFormelement($offset);
-        #}
-        #return $this->formfields[$offset];
-    }
-
-    /**
-     * Sets the value at the specified $index
-     * Implementation of SPL ArrayAccess::offsetSet()
-     *
-     * @param $index
-     * @param $value
-     */
-    public function offsetSet($offset, $value)
-    {
-        echo 'offsetSet' . $offset;
-        #$this->$offset = $value;
-    }
-
-    /**
-     * Unsets the value at the specified $index
-     * Implementation of SPL ArrayAccess::offsetUnset()
-     */
-    public function offsetUnset($offset)
-    {
-        echo $offset;
-        unset($this->formelements[$offset]);
-    }
-
-    /**
      * ============================
      *    Magic Methods: get/set
      * ============================
@@ -1440,7 +1353,6 @@ class Clansuite_Form implements Clansuite_Form_Interface
 
     /**
      * Magic Method: set
-     * $this via ArrayObject
      *
      * @param $name Name of the attribute to set to the form.
      * @param $value The value of the attribute.
@@ -1452,7 +1364,6 @@ class Clansuite_Form implements Clansuite_Form_Interface
 
     /**
      * Magic Method: get
-     * $this via ArrayObject
      *
      * @param $name
      */

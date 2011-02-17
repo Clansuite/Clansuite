@@ -40,8 +40,9 @@ define('IN_CS', true);
 error_reporting(E_ALL | E_STRICT);
 ini_set('display_errors', true);
 
-# Tests take some time
+# Tests take some time and memory
 set_time_limit(0);
+ini_set('memory_limit', '256M');
 
 date_default_timezone_set('Europe/Berlin');
 
@@ -71,6 +72,9 @@ unset($paths);
 #  acquire clansuite path constants
 require_once '../core/bootstrap/clansuite.application.php';
 Clansuite_CMS::initialize_Paths();
+
+# set exceptionhandling
+require_once '../core/exception.core.php';
 
 # put more bootstrapping code here
 

@@ -52,9 +52,6 @@ if (false == class_exists('Clansuite_Formelement_Select',false))
  */
 class Clansuite_Formelement_Multiselect extends Clansuite_Formelement_Select implements Clansuite_Formelement_Interface
 {
-    public function render()
-    {
-        parent::render();
-    }
+
 }
 ?>
