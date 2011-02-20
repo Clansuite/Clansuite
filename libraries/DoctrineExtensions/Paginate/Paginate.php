@@ -77,6 +77,13 @@ class Paginate
     static public function createLimitSubQuery(Query $query, $offset, $itemCountPerPage)
     {
         $subQuery = self::cloneQuery($query);
+        
+        if ( count($subQuery->getParameters()) > 0 )
+        {
+            $subQuery->free();
+            $subQuery->setDQL($query->getDQL());
+        }
+        
         $subQuery->setHint(Query::HINT_CUSTOM_TREE_WALKERS, array('DoctrineExtensions\Paginate\LimitSubqueryWalker'))
             ->setFirstResult($offset)
             ->setMaxResults($itemCountPerPage);
@@ -91,7 +98,14 @@ class Paginate
      */
     static public function createWhereInQuery(Query $query, array $ids, $namespace = 'pgid')
     {
-        $whereInQuery = clone $query;
+        $whereInQuery = self::cloneQuery($query);
+        
+        if ( count($whereInQuery->getParameters()) > 0 )
+        {
+            $whereInQuery->free();
+            $whereInQuery->setDQL($query->getDQL());
+        }
+        
         $whereInQuery->setHint(Query::HINT_CUSTOM_TREE_WALKERS, array('DoctrineExtensions\Paginate\WhereInWalker'));
         $whereInQuery->setHint('id.count', count($ids));
         $whereInQuery->setHint('pg.ns', $namespace);

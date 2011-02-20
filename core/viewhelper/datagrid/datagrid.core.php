@@ -42,6 +42,8 @@ if (false == class_exists('Clansuite_Datagrid_Column',false))
     include dirname(__FILE__) . '/datagridcol.core.php';
 }
 
+use DoctrineExtensions\Paginate\Paginate;
+
 /**
  * Clansuite Datagrid Base
  *
@@ -92,7 +94,6 @@ class Clansuite_Datagrid_Base
     /**
      *  Setter Methods for a Datagrid
      */
-
     public function setAlias($alias)
     {
         $alias = str_replace('\\', '_', $alias);
@@ -473,6 +474,11 @@ class Clansuite_Datagrid extends Clansuite_Datagrid_Base
         $this->_resultsPerPage = $resultsPerPage;
     }
 
+    public function setTotalResultsCount($count)
+    {
+        $this->TotalResultsCount = $count;
+    }
+
     /**
      * Set the hook for the resultset manipulation
      *
@@ -594,6 +600,11 @@ class Clansuite_Datagrid extends Clansuite_Datagrid_Base
         return $resultsPerPage;
     }
 
+    public function getTotalResultsCount()
+    {
+        return $this->TotalResultsCount;
+    }
+
     /**
      * Returns the row objects (Clansuite_Datagrid_Row)
      *
@@ -623,6 +634,16 @@ class Clansuite_Datagrid extends Clansuite_Datagrid_Base
     public function getSortOrder()
     {
         return $this->sortOrder;
+    }
+
+    public function setSortColumn($sortColumn)
+    {
+        $this->sortColumn = $sortColumn;
+    }
+
+    public function setSortOrder($sortOrder)
+    {
+        $this->sortOrder = $sortOrder;
     }
 
     /**
@@ -1065,8 +1086,8 @@ class Clansuite_Datagrid extends Clansuite_Datagrid_Base
             $_SESSION['Datagrid_' . $this->getAlias()]['SortColumn']   = $SortColumn;
             $_SESSION['Datagrid_' . $this->getAlias()]['SortOrder'] = $SortOrder;
 
-            $this->getRenderer()->setCurrentSortColumn($SortColumn);
-            $this->getRenderer()->setCurrentSortOrder($SortOrder);
+            $this->setSortColumn($SortColumn);
+            $this->setSortOrder($SortOrder);
 
             $oCol = $this->getColumn($SortColumn);
 
@@ -1175,12 +1196,20 @@ class Clansuite_Datagrid extends Clansuite_Datagrid_Base
          * D2 does limiting on hydration level ?
          */
         $query = $this->queryBuilder->getQuery();
+        #$query->setFirstResult( $offset )->setMaxResults( $resultsPerPage );
         #Clansuite_Debug::printR($query->getArrayResult());
 
-        $query->setFirstResult( $offset )->setMaxResults( $resultsPerPage );
+        # Step 1 - count total results
+        $count = Paginate::getTotalQueryResults($query);
+        $this->setTotalResultsCount($count);
 
-        #Clansuite_Debug::printR($query->getResult());
-        return $query;
+        # Step 2 - adding limit and offset to the query
+        $paginateQuery = Paginate::getPaginateQuery($query, $offset, $resultsPerPage);
+
+        # fetching the paginated results set
+        #Clansuite_Debug::printR($paginateQuery->getArrayResult());
+
+        return $paginateQuery;
     }
 }
 
@@ -1330,7 +1359,7 @@ class Clansuite_Datagrid_Cell extends Clansuite_Datagrid_Base
      *
      * @param Clansuite_Datagrid $_Datagrid
      */
-    public function setDatagrid($_Datagrid)
+    public function setjjjDatagrid($_Datagrid)
     {
         $this->_Datagrid = $_Datagrid;
     }
@@ -1445,19 +1474,11 @@ class Clansuite_Datagrid_Renderer
     private static $_Datagrid;
 
     /**
-     * The PagerLayout of the datagrid
-     *
-     * @var string
-     */
-    private static $_PagerLayoutString = '<span class="PagerItem Active">{%page}</span>';
-
-    /**
      * The look of the links of the pager
      *
      * @var string
      */
-    private static $_PagerLinkLayoutString = '<a href="{%url}"><span class="PagerItem Inactive">{%page}</span></a>';
-
+    # static
     /**
      * The items for results per page
      *
@@ -1488,27 +1509,13 @@ class Clansuite_Datagrid_Renderer
     }
 
     /**
-     * Set the pager layout
+     * Get the Datagrid object
      *
-     * @param string
-     * @example
-     *   setPagerLayoutString('[{%page}]');
+     * @return Clansuite_Datagrid $_Datagrid
      */
-    public static function setPagerLayoutString($_PagerLayout)
+    public static function getDatagrid()
     {
-        self::$_PagerLayout = $_PagerLayout;
-    }
-
-    /**
-     * Set the pager link layout
-     *
-     * @param string
-     * @example
-     *   setPagerLinkLayoutString('[<a href="{%url}">{%page}</a>]');
-     */
-    public static function setPagerLinkLayoutString($_PagerLinkLayout)
-    {
-        self::$_PagerLinkLayout = $_PagerLinkLayout;
+        return self::$_Datagrid;
     }
 
     /**
@@ -1521,40 +1528,242 @@ class Clansuite_Datagrid_Renderer
         self::$_ResultsPerPageItems = $_Items;
     }
 
-    /**
-     * Get the Datagrid object
-     *
-     * @return Clansuite_Datagrid $_Datagrid
-     */
-    public static function getDatagrid()
+    public static function setPagerCssClass($pagerCssClass)
     {
-        return self::$_Datagrid;
+        self::$pagerCssClass = $pagerCssClass;
+    }
+
+    public static function getPagerCssClass()
+    {
+        return self::$pagerCssClass;
     }
 
     /**
-     * Get the pager layout
+     * getFirstPage
      *
-     * @return string
+     * Returns the first page
+     *
+     * @return int first page
      */
-    public static function getPagerLayoutString()
+    public static function getFirstPage()
     {
-        return self::$_PagerLayoutString;
+        return 1;
     }
 
-
-    public static function getPagerLayout()
+    public static function getPreviousPage()
     {
-        return self::getPagerLayoutString();
+        return max(self::getDatagrid()->getPage() - 1, self::getFirstPage());
     }
 
     /**
-     * Get the pager link layout
+     * getNextPage
      *
-     * @return string
+     * Returns the next page
+     *
+     * @return int next page
      */
-    public static function getPagerLinkLayoutString()
+    public static function getNextPage()
     {
-        return self::$_PagerLinkLayoutString;
+        return min(self::getDatagrid()->getPage() + 1, self::getLastPage());
+    }
+
+    /**
+     * getLastPage
+     *
+     * Returns the last page
+     *
+     * @return int last page
+     */
+    public static function getLastPage()
+    {
+        return max(1, ceil(self::getDatagrid()->getTotalResultsCount() / self::getDatagrid()->getResultsPerPage()));
+    }
+
+    public static function getOffset()
+    {
+       return (self::getDatagrid()->getPage() - 1) * self::getDatagrid()->getResultsPerPage();
+    }
+
+    /**
+     * getFirstIndice
+     *
+     * Return the first indice number for the current page
+     *
+     * @return int First indice number
+     */
+    public static function getFirstIndice()
+    {
+        return (self::getDatagrid()->getPage() - 1) * self::getDatagrid()->getResultsPerPage() + 1;
+    }
+
+    /**
+     * getLastIndice
+     *
+     * Return the last indice number for the current page
+     *
+     * @return int Last indice number
+     */
+    public static function getLastIndice()
+    {
+        return min(self::getDatagrid()->getTotalResultsCount(), (self::getDatagrid()->getPage() * self::getDatagrid()->getResultsPerPage()));
+    }
+
+    /**
+     * haveToPaginate
+     *
+     * Return true if it's necessary to paginate or false if not
+     *
+     * @return bool true if it is necessary to paginate, false otherwise
+     */
+    public function haveToPaginate()
+    {
+        return self::getDatagrid()->getTotalResultsCount() > self::getDatagrid()->getResultsPerPage();
+    }
+
+    /**
+     * getNumberOfPages
+     *
+     * Return the number of pages ( total results / results per page )
+     * e.g.: 40 pages = 1000 results / 25 results per page.
+     *
+     * @return int Return the number of pages
+     */
+    public static function getNumberOfPages()
+    {
+        $number_of_pages = (self::getDatagrid()->getTotalResultsCount() / self::getDatagrid()->getResultsPerPage());
+
+        if($number_of_pages > (int) $number_of_pages)
+        {
+            $number_of_pages = (int) ($number_of_pages) + 1;
+        }
+
+        return $number_of_pages;
+    }
+
+    public static function renderPager()
+    {
+        $selected_page = self::getDatagrid()->getPage();
+        $results_count = self::getDatagrid()->getTotalResultsCount();
+        $results_per_page = self::getDatagrid()->getResultsPerPage();
+        $number_of_pages = self::getNumberOfPages();
+
+        $min_page_number = (int) ($selected_page - 5);
+        $max_page_number = (int) ($selected_page + 5);
+
+        if($min_page_number < 1)
+        {
+            $min_page_number = 1;
+            $max_page_number = 11;
+            $max_page_number = ($max_page_number > $number_of_pages) ? $number_of_pages : 11;
+        }
+
+        if($max_page_number > $number_of_pages)
+        {
+            $max_page_number = $number_of_pages;
+            $min_page_number = $max_page_number - 10;
+            $min_page_number = ($min_page_number < 1) ? 1 : $max_page_number - 10;
+        }
+
+        if($results_count <= $results_per_page)
+        {
+            $min_page_number = 1;
+            $max_page_number = $number_of_pages;
+        }
+
+        # init
+        $pages = $first = $prev = $next = $last = '';
+
+        # pager render modes:
+        # a) [1][2][3][4][5]
+        # b) first [1][2][3][4][5] last
+        # c) first prev [1][2][3][4][5] next last
+
+        if($selected_page > 1 and $number_of_pages > 1)
+        {
+            $url = self::getURLForPageInRange(self::getFirstPage());
+            $first = '<li class="previous"><a href="'.$url.'" title="First Page">&laquo First Page</a></li>';
+
+            $url = self::getURLForPageInRange(self::getPreviousPage());
+            $prev = '<li class="previous"><a href="'.$url.'" title="Previous Page">&laquo Previous</a></li>';
+        }
+
+        $pages = self::renderPageRangeAroundPage($selected_page, $min_page_number, $max_page_number);
+
+        if($selected_page < $number_of_pages and $number_of_pages > 1)
+        {
+
+            $url = self::getURLForPageInRange(self::getNextPage());
+            $next = '<li class="next"><a href="'.$url.'" title="Next Page">Next &raquo;</a></li>';
+
+            $url = self::getURLForPageInRange(self::getLastPage());
+            $last = '<li class="next"><a href="'.$url.'" title="Last Page">Last Page &raquo;</a></li>';
+        }
+
+        $info = '';
+        $info .= 'Total Records' . $results_count;
+        $info .= 'Number of pages' . $number_of_pages;
+        $info .= 'Current Page' . $selected_page;
+        $info .= 'Min Page Index' . $min_page_number;
+        $info .= 'Max Page Index' . $max_page_number;
+        $info .= 'Results per page' . $results_per_page;
+        #Clansuite_Debug::firebug($info);
+
+        $html = '';
+        $html .= '<ul class="pagination3">';
+        # $html .= self::getPaginationCSSdynamically();
+        $html .= "$first$prev$pages$next$last";
+        $html .= '</ul>';
+
+        return $html;
+    }
+
+    public static function getPaginationCSSdynamically()
+    {
+        $html = '<script>$(document).ready(function(){';
+        $html .= '$("<link/>", {
+                       rel: "stylesheet",
+                       type: "text/css",
+                       href: "themes/core/css/pagination.css"
+                    }).appendTo("head");';
+        $html .= '});</script>';
+        return $html;
+    }
+
+    public static function renderPageRangeAroundPage($selected_page, $min_page_number, $max_page_number)
+    {
+        $currentPageString = '<li class="active">{$page}</span>';
+        $PageInRangeString = '<li><a href="{$url}">{$page}</a></li>';
+
+        $url = self::getURLForPageInRange($selected_page);
+
+        $html = '';
+        for ($p = $min_page_number; $p <= $max_page_number; $p++)
+        {
+            if ($p != $selected_page)
+            {
+                $html .= str_replace(array('{$url}', '{$page}'), array($url, $p), $PageInRangeString);
+            }
+            else # render the current page
+            {
+                $html .= str_replace('{$page}', $p, $currentPageString);
+            }
+        }
+        return $html;
+    }
+
+    public static function getURLForPageInRange($page)
+    {
+        $url = self::getDatagrid()->getBaseURL();
+        $alias = self::getDatagrid()->getParameterAlias('Page');
+        if(defined('MOD_REWRITE'))
+        {
+            $url .= '/' . $alias . '/' . $page;
+        }
+        else
+        {
+            $url .= '&' . $alias . '=' . $page;
+        }
+        return $url;
     }
 
     /**
@@ -1567,10 +1776,6 @@ class Clansuite_Datagrid_Renderer
         return self::$_ResultsPerPageItems;
     }
 
-    //----------------------
-    // Render methods
-    //----------------------
-
     /**
      * Render the datagrid table
      *
@@ -1580,7 +1785,7 @@ class Clansuite_Datagrid_Renderer
     private static function renderTable()
     {
         $table_sprintf  = '<table class="DatagridTable DatagridTable-%s" cellspacing="0" cellpadding="0" border="0" id="%s">'.CR;
-        $table_sprintf .= CR . '%s'  . CR . '</table>'.CR;
+        $table_sprintf .= CR . '%s'  . CR . '</table>' . CR;
 
         $tableContent = '';
         $tableContent .= self::renderTableCaption();
@@ -1706,29 +1911,36 @@ class Clansuite_Datagrid_Renderer
      */
     private static function renderTablePagination($_ShowResultsPerPage = true)
     {
+        #Clansuite_Debug::printR('Pagination: ' . self::renderPager());
         $html = '';
-        #Clansuite_Debug::printR('Pagination: ' . self::getPagerLayout());
         if(self::getDatagrid()->isEnabled('Pagination'))
         {
-            $html .= '<tr><td class="DatagridPagination DatagridPagination-' . self::getDatagrid()->getAlias() . '" colspan="' . self::getDatagrid()->getColumnCount() . '">';
-            $html .= '<div class="Pages"><span class="PagerDescription">' . _('Pages: ') . '</span>' . self::getPagerLayout() . '</div>';
+            $html .= '<tr>';
+            #$html .= '<td colspan="1">';
+            #$html .= _('Page: ');
+            #$html .= '</td>';
+            $html .= '<td colspan="'.(self::getDatagrid()->getColumnCount()).'">';
 
+
+            $html .= self::renderPager();
+
+            # results per page drop down
             if($_ShowResultsPerPage)
             {
                 $html .= '<div class="ResultsPerPage">';
                 $html .= '<select name="' . self::getDatagrid()->getParameterAlias('ResultsPerPage') . '" onchange="this.form.submit();">';
                 $_ResultsPerPageItems = self::getResultsPerPageItems();
-                foreach($_ResultsPerPageItems as $ItemCount)
+                foreach($_ResultsPerPageItems as $item)
                 {
-                    $html .= '<option value="' . $ItemCount . '" ' . ((self::getDatagrid()->getResultsPerPage() == $ItemCount) ? 'selected="selected"' : '') . '>' . $ItemCount . '</option>';
+                    $html .= '<option value="' . $item . '" ' . ((self::getDatagrid()->getResultsPerPage() == $item) ? 'selected="selected"' : '') . '>' . $item . '</option>';
                 }
                 $html .= '</select>';
                 $html .= '</div>';
             }
-            else
+            else # show total number of items in results set
             {
                 $html .= '<div class="ResultsPerPage">';
-                #$html .= self::getPagerLayout()->getPager()->getNumResults() . _(' items');
+                $html .= self::getDatagrid()->getTotalResultsCount() . _(' items');
                 $html .= '</div>';
             }
 
@@ -1981,6 +2193,7 @@ class Clansuite_Datagrid_Renderer
         # Build htmlcode
         $html = '';
 
+        $html .= '<link rel="stylesheet" type="text/css" href="'. WWW_ROOT_THEMES_CORE . 'css/pagination.css" />'.CR;
         $html .= '<link rel="stylesheet" type="text/css" href="'. WWW_ROOT_THEMES_CORE . 'css/datagrid.css" />'.CR;
         $html .= '<script src="'. WWW_ROOT_THEMES_CORE . 'javascript/datagrid.js" type="text/javascript"></script>'.CR;
 

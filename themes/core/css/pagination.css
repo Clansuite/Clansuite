@@ -1,0 +1,63 @@
+/*
+    Document   : pagination
+    Created on : 19.02.2011, 14:44:18
+    Author     : v
+    Description:
+        Pagination Style for Clansuite Datagrid.
+*/
+
+/*
+  Syntax recommendation http://www.w3.org/TR/REC-CSS2/
+*/
+ul, li {
+    marign-left: 0;
+    padding-left: 0;
+    display: inline;
+    margin: 0;
+    margin-top: 0px;
+}
+
+.pagination3 li{
+    border:0; margin:0; padding:0;
+    font-size:11px;
+    list-style:none;
+    margin-right:2px;
+}
+
+.pagination3 a{
+    border:solid 1px #9aafe5;
+    margin-right:2px;
+}
+.pagination3 .previous-off,
+.pagination3 .next-off {
+    border:solid 1px #DEDEDE;
+    color:#888888;
+    display:block;
+    float:left;
+    font-weight:bold;
+    margin-right:2px;
+    padding:3px 4px;
+}
+.pagination3 .next a,
+.pagination3 .previous a {
+    font-weight:bold;
+}
+.pagination3 .active{
+    background:#2e6ab1;
+    color:#FFFFFF;
+    font-weight:bold;
+    display:block;
+    float:left;
+    padding:4px 6px;
+}
+.pagination3 a:link,
+.pagination3 a:visited {
+    color:#0e509e;
+    display:block;
+    float:left;
+    padding:3px 6px;
+    text-decoration:none;
+}
+.pagination3 a:hover{
+    border:solid 1px #0e509e;
+}
