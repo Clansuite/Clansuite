@@ -210,7 +210,7 @@ class Clansuite_Form implements Clansuite_Form_Interface
      * @var array
      */
     protected $formgroups = array();
-    
+
     protected $errormessages_stack = array();
 
     /**
@@ -349,7 +349,7 @@ class Clansuite_Form implements Clansuite_Form_Interface
     public function setTarget($target)
     {
         $this->target = $target;
-        
+
         return $this;
     }
 
@@ -692,11 +692,11 @@ class Clansuite_Form implements Clansuite_Form_Interface
     *
     * @param int $formelement_position
     */
-    public function registerDefaultFormelementDecorators()
+    public function registerDefaultFormelementDecorators($formelement)
     {
-        $this->addFormelementDecorator('label');
-        $this->addFormelementDecorator('description');
-        $this->addFormelementDecorator('div')->setClass('formline');
+        $formelement->addDecorator('label');
+        $formelement->addDecorator('description');
+        $formelement->addDecorator('div')->setClass('formline');
     }
 
     /**
@@ -705,7 +705,7 @@ class Clansuite_Form implements Clansuite_Form_Interface
     * @return Clansuite_Formelement
     */
     public function renderAllFormelements()
-    {
+    {   
         # init var
         $html_form = '';
         $html_formelement = '';
@@ -717,7 +717,6 @@ class Clansuite_Form implements Clansuite_Form_Interface
 
         # sort formelements by index
         ksort($formelements);
-        $formelement_position = 0;
 
         # loop over all registered formelements of this form and render them
         foreach( $formelements as $formelement )
@@ -727,19 +726,12 @@ class Clansuite_Form implements Clansuite_Form_Interface
 
             if(empty($formelementdecorators))
             {
-                # set
-                $this->registerDefaultFormelementDecorators($formelement_position);
+                # apply default decorators to the formelement
+                $this->registerDefaultFormelementDecorators($formelement);
 
                 # fetch again all decorators of this formelement
                 $formelementdecorators = $formelement->getDecorators();
             }
-
-            /*if($formelement_position == 1)
-            {
-                Clansuite_Debug::printR($formelements);
-            }*/
-
-            #Clansuite_Debug::printR($formelement);
 
             # then render this formelement (pure)
             $html_formelement = $formelement->render();
@@ -751,9 +743,6 @@ class Clansuite_Form implements Clansuite_Form_Interface
                 $html_formelement = $formelementdecorator->render($html_formelement);
             }
 
-            # increase formelement position
-            $formelement_position++;
-
             # append the form html with the decorated formelement html
             $html_form .= $html_formelement;
         }
@@ -762,7 +751,7 @@ class Clansuite_Form implements Clansuite_Form_Interface
         return $html_form;
     }
 
-    
+
 
     /**
     * Render this form
@@ -900,7 +889,7 @@ class Clansuite_Form implements Clansuite_Form_Interface
         }
         return null;
     }
-    
+
     public function getElement($formelement_position = null)
     {
         # if no position is incomming we return the last formelement item
@@ -911,7 +900,7 @@ class Clansuite_Form implements Clansuite_Form_Interface
            $formelement_object = end($this->formelements);
         }
         elseif(is_numeric($formelement_position))
-        {   
+        {
             # uh, not the last element of the formelements array requested, but some position
             $formelement_object = $this->getElementByPosition($formelement_position);
         }
@@ -919,7 +908,7 @@ class Clansuite_Form implements Clansuite_Form_Interface
         {
             $formelement_object = $this->getElementByName($formelement_position);
         }
-        
+
         return $formelement_object;
     }
 
@@ -989,7 +978,7 @@ class Clansuite_Form implements Clansuite_Form_Interface
     {
         $this->setValues($data);
     }
-    
+
     public function setValues($data = null)
     {
         # because $data might be an object, typecast $data to array
@@ -997,7 +986,7 @@ class Clansuite_Form implements Clansuite_Form_Interface
         {
             $data = (array) $data;
         }
-        
+
         # autopopulate via form method POST or GET
         if(null === $data)
         {
@@ -1029,7 +1018,7 @@ class Clansuite_Form implements Clansuite_Form_Interface
             }
         }
     }
-    
+
     public function getValues()
     {
         # return validates values, ready for model insert
@@ -1122,7 +1111,7 @@ class Clansuite_Form implements Clansuite_Form_Interface
     {
         return $this->formdecorators;
     }
-    
+
     /**
      * Set default form decorators (form)
      */
@@ -1169,7 +1158,7 @@ class Clansuite_Form implements Clansuite_Form_Interface
         # instantiate the new $formdecorator and return
         return new $formdecorator_classname();
     }
-    
+
     /**
      * ===================================================================================
      *      Formelement Decoration
@@ -1210,23 +1199,26 @@ class Clansuite_Form implements Clansuite_Form_Interface
      * This would attach the decorator fieldset to the last formelement of $form.
      *
      * @param string|array|object $decorator The formelement decorator(s) to apply to the formelement.
-     * @param int|string $formelement_position Position in the formelement stack or Name of formelement.
+     * @param int|string|object $formelement_position Position in the formelement stack or Name of formelement.
      * @return Clansuite_Formdecorator object
      */
-    public function addFormelementDecorator($decorator, $formelement_position = null)
+    public function addFormelementDecorator($decorator, $formelement_pos_name_obj = null)
     {
         if(is_array($this->formelements) === false)
         {
             throw new Clansuite_Exception('No Formelements found. Add the formelement first, then decorate it!');
         }
 
-        $formelement_object = $this->getElement($formelement_position);
+        if(false === is_object($formelement_pos_name_obj))
+        {
+            $formelement_object = $this->getElement($formelement_pos_name_obj);
+        }
 
         # add the decorator
         # WATCH IT! this is a forwarding call to formelement.core.php->addDecorator()
         return $formelement_object->addDecorator($decorator);
     }
-    
+
     public function removeFormelementDecorator($decorator, $formelement_position = null)
     {
         $formelement_object = $this->getElement($formelement_position);
@@ -1271,8 +1263,8 @@ class Clansuite_Form implements Clansuite_Form_Interface
      */
     public function addValidator($validator)
     {
-        
-    
+
+
         return $this;
     }
 
@@ -1291,7 +1283,7 @@ class Clansuite_Form implements Clansuite_Form_Interface
             {
                 # raise error flag on the form
                 $this->setErrorState(true);
-                
+
                 # and transfer errormessage from formelement to form errormessages stack
                 $this->addErrormessage($formelement->getError());
             }
@@ -1309,17 +1301,17 @@ class Clansuite_Form implements Clansuite_Form_Interface
      *      Form Errormessages
      * ===================================================================================
      */
-     
+
      public function setErrorState($boolean = true)
      {
         $this->form_has_error_flag = $boolean;
      }
-     
+
      public function getErrorState()
      {
         return $this->form_has_error_flag;
      }
-     
+
      public function hasErrors()
      {
         return $this->form_has_error_flag;
@@ -1329,7 +1321,7 @@ class Clansuite_Form implements Clansuite_Form_Interface
      {
         $this->errormessages_stack[] = $errormessage;
      }
-     
+
      public function addErrormessages(array $errormessages)
      {
         $this->errormessages_stack = $errormessages;
@@ -1339,7 +1331,7 @@ class Clansuite_Form implements Clansuite_Form_Interface
      {
         $this->errormessages_stack = array();
      }
-     
+
      public function getErrormessages()
      {
         return $this->errormessages_stack;

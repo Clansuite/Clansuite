@@ -177,10 +177,10 @@ class Clansuite_Module_News_Admin extends Clansuite_Module_Controller
     }
 
     /**
-    * Hook for manipulating database values
-    *
-    * @param array $_ArrayReference
-    */
+     * Hook for manipulating database values
+     *
+     * @param array $resultSet
+     */
     public function manipulateResultSet(&$_ArrayReference)
     {
         /**
@@ -248,28 +248,27 @@ class Clansuite_Module_News_Admin extends Clansuite_Module_Controller
         # fetch news
         $news = $this->getModel()->fetchSingleNews($news_id);
 
+        # utf8 handling
+        $news['news_title'] = mb_convert_encoding( $news['news_title'] , 'UTF-8', 'HTML-ENTITIES');
+        $news['news_body'] = mb_convert_encoding( $news['news_body'] , 'UTF-8', 'HTML-ENTITIES');
+
         # Create a new form
         $form = new Clansuite_Form('news_form', 'post', 'index.php?mod=news&sub=admin&action=update&type=edit');
 
         # news_id as hidden field
-        $IdElement = $form->addElement('hidden');
-        $IdElement->setDecorator('none');
-        $IdElement->setName('news_form[news_id]')->setValue($news['news_id']);
+        $form->addElement('hidden')->setName('news_form[news_id]')->setValue($news['news_id'])->setDecorator('none');
 
         # user_id as hidden field
-        $UserIdElement = $form->addElement('hidden');
-        $UserIdElement->setDecorator('none');
-        $UserIdElement->setName('news_form[user_id]')->setValue($news['user_id']);
+        $form->addElement('hidden')->setName('news_form[user_id]')->setValue($news['user_id'])->setDecorator('none');
 
-        $news['news_title'] = mb_convert_encoding( $news['news_title'] , 'UTF-8', 'HTML-ENTITIES');
-        $news['news_body'] = mb_convert_encoding( $news['news_body'] , 'UTF-8', 'HTML-ENTITIES');
-
-        # assign some formlements
         $form->addElement('text')->setName('news_form[news_title]')->setLabel(_('Title'))->setValue($news['news_title']);
         $categories = $this->getModel()->fetchAllNewsCategoriesDropDown();
-        $form->addElement('multiselect')->setName('news_form[cat_id]')->setLabel(_('Category'))->setOptions($categories)->setDefaultValue($news['cat_id']);
-        $form->addElement('multiselect')->setName('news_form[news_status]')->setLabel(_('Status'))->setOptions($this->publishing_status_map)->setDefaultValue($news['news_status']);
-        $form->addElement('textarea')->setName('news_form[news_body]')->setID('news_form[news_body]')->setCols('110')->setRows('30')->setLabel(_('Your Article:'))->setValue($news['news_body'])
+        $form->addElement('multiselect')->setName('news_form[cat_id]')->setLabel(_('Category'))
+                ->setOptions($categories)->setDefaultValue($news['cat_id']);
+        $form->addElement('multiselect')->setName('news_form[news_status]')->setLabel(_('Status'))
+                ->setOptions($this->publishing_status_map)->setDefaultValue($news['news_status']);
+        $form->addElement('textarea')->setName('news_form[news_body]')->setID('news_form[news_body]')
+                ->setCols('110')->setRows('30')->setLabel(_('Your Article:'))->setValue($news['news_body'])
                 ->setEditor('nicedit');
 
         # add the buttonbar
