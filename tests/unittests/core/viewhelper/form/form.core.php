@@ -27,10 +27,10 @@ class Clansuite_Form_Test extends UnitTestCase
         require_once TESTSUBJECT_DIR . 'core/router.core.php';
         # url building needs this
         require_once TESTSUBJECT_DIR . 'core/functions.core.php';
-        
+
         # addElement() needs Clansuite_Formelement
         require_once TESTSUBJECT_DIR . 'core/viewhelper/form/formelement.core.php';
-        
+
         require_once TESTSUBJECT_DIR . 'core/viewhelper/form/formdecorator.core.php';
     }
 
@@ -162,9 +162,9 @@ class Clansuite_Form_Test extends UnitTestCase
         $object_a->attribute_int = 9;
         $object_a->attribute_bool = true;
         $object_a->attribute_array = array('key' => 'value');
-        
+
         $object_b = new stdClass();
-        
+
         $this->form->copyObjectProperties($object_a, $object_b);
 
         $this->assertIdentical($object_a, $object_b);
@@ -317,14 +317,16 @@ class Clansuite_Form_Test extends UnitTestCase
         $this->assertFalse($this->form->FormHasErrors());
     }
 
-    public function testregisterDefaultFormelementDecorators()
+    public function testregisterDefaultFormelementDecorators_byNumericPosition()
     {
         $this->form->addElement('textarea');
-        $this->form->registerDefaultFormelementDecorators();
-       
         $formelements = $this->form->getFormelements();
-        $formelement_decorators = $formelements['0']->getDecorators();
-        
+        $textarea_formelement = $formelements['0'];
+
+        $this->form->registerDefaultFormelementDecorators($textarea_formelement);
+
+        $formelement_decorators = $textarea_formelement->getDecorators();
+
         $this->assertFalse(empty($formelement_decorators));
         $this->assertTrue(is_object($formelement_decorators['label']));
         $this->assertTrue(is_object($formelement_decorators['description']));
@@ -344,26 +346,26 @@ class Clansuite_Form_Test extends UnitTestCase
 
     public function testregisterDefaultFormDecorators()
     {
-        $this->form->registerDefaultFormDecorators();       
-        $default_form_decorators = $this->form->getDecorators();        
+        $this->form->registerDefaultFormDecorators();
+        $default_form_decorators = $this->form->getDecorators();
         $this->assertFalse(empty($default_form_decorators));
         $this->assertTrue(is_object($default_form_decorators['html5validation']));
         $this->assertTrue(is_a($default_form_decorators['html5validation'], 'Clansuite_Form_Decorator'));
         $this->assertTrue(is_object($default_form_decorators['form']));
         $this->assertTrue(is_a($default_form_decorators['form'], 'Clansuite_Form_Decorator'));
     }
-    
+
     public function testremoveDecorator()
     {
-        $this->form->registerDefaultFormDecorators();        
-        $this->form->removeDecorator('form');        
+        $this->form->registerDefaultFormDecorators();
+        $this->form->removeDecorator('form');
         $default_form_decorators = $this->form->getDecorators();
         $this->assertFalse(array_key_exists('form', $default_form_decorators));
     }
-    
+
     public function testgetDecorator()
     {
-        $this->form->registerDefaultFormDecorators();        
+        $this->form->registerDefaultFormDecorators();
         $default_form_decorators = $this->form->getDecorators();
         $this->assertTrue(array_key_exists('form', $default_form_decorators));
         $this->assertTrue($this->form->getDecorator('form'));
@@ -428,7 +430,7 @@ class Clansuite_Form_Test extends UnitTestCase
         $formelement_object = $this->form->getElementByName('myButton1');
         $this->assertIdentical('myButton1', $formelement_object->getName());
     }
-    
+
         public function testGetElement_ByName_or_ByPosition_or_LastElement()
     {
         $this->form->addElement('button')->setName('myButton1');
@@ -436,11 +438,11 @@ class Clansuite_Form_Test extends UnitTestCase
         # ByName
         $formelement_object = $this->form->getElement('myButton1');
         $this->assertIdentical('myButton1', $formelement_object->getName());
-        
+
         # ByPosition
         $formelement_object = $this->form->getElement('0');
         $this->assertIdentical('myButton1', $formelement_object->getName());
-        
+
         # Default Value null as param
         $formelement_object = $this->form->getElement();
         $this->assertIdentical('myButton1', $formelement_object->getName());
@@ -464,13 +466,13 @@ class Clansuite_Form_Test extends UnitTestCase
         $data = array('snacks' => array('cola', 'popcorn'));
 
         $this->form->populate($data);
-        
+
         $snacks_array = $this->form->getElementByName('Snacks')->getValue();
         $this->assertIdentical(count($snacks_array), 2);
         $this->assertIdentical($snacks_array[0], 'cola');
         $this->assertIdentical($snacks_array[1], 'popcorn');
     }
-    
+
     public function testsetValues()
     {
         # create multiselect "Snacks" with three options
@@ -482,7 +484,7 @@ class Clansuite_Form_Test extends UnitTestCase
         $data = array('snacks' => array('cola', 'popcorn'));
 
         $this->form->setValues($data);
-        
+
         $snacks_array = $this->form->getElementByName('Snacks')->getValue();
         $this->assertIdentical(count($snacks_array), 2);
         $this->assertIdentical($snacks_array[0], 'cola');
@@ -492,18 +494,18 @@ class Clansuite_Form_Test extends UnitTestCase
     public function testgetValues()
     {
         #$values = $this->form->getValues();
-        #$this->assertTrue(is_array($values));        
+        #$this->assertTrue(is_array($values));
     }
 
     public function testSetFormelementDecorator_formelementPositionNull()
     {
-        $this->form->addElement('textarea');        
+        $this->form->addElement('textarea');
         $this->form->setFormelementDecorator('label', null);
-        
+
         $formelements = $this->form->getFormelements();
         $textarea_element = $formelements[0];
         $decorators = $textarea_element->formelementdecorators;
-        
+
         $this->assertTrue(is_array($decorators));
         $this->assertEqual(1, count($decorators));
         $this->assertTrue(isset($decorators['label']));
@@ -514,11 +516,11 @@ class Clansuite_Form_Test extends UnitTestCase
         $this->form->addElement('textarea');
         $this->form->addElement('multiselect');
         $this->form->addFormelementDecorator('label', 1);
-        
+
         $formelements = $this->form->getFormelements();
         $textarea_element = $formelements[1];
         $decorators = $textarea_element->formelementdecorators;
-        
+
         $this->assertTrue(is_array($decorators));
         $this->assertEqual(1, count($decorators));
         $this->assertTrue(isset($decorators['label']));
@@ -527,9 +529,9 @@ class Clansuite_Form_Test extends UnitTestCase
     public function testSetDecorator()
     {
         $this->form->setDecorator('label');
-        
-        $decorators = $this->form->getDecorators(); 
-        
+
+        $decorators = $this->form->getDecorators();
+
         $this->assertTrue(is_array($decorators));
         $this->assertEqual(1, count($decorators));
         $this->assertTrue(isset($decorators['label']));
@@ -538,9 +540,9 @@ class Clansuite_Form_Test extends UnitTestCase
     public function testAddDecorator()
     {
         $this->form->addDecorator('label');
-        
-        $decorators = $this->form->getDecorators(); 
-        
+
+        $decorators = $this->form->getDecorators();
+
         $this->assertTrue(is_array($decorators));
         $this->assertEqual(1, count($decorators));
         $this->assertTrue(isset($decorators['label']));
@@ -550,11 +552,11 @@ class Clansuite_Form_Test extends UnitTestCase
     {
         $this->form->setDecorator('label');
         $decorators = $this->form->getDecorators();
-        
+
         $this->assertTrue(is_array($decorators));
         $this->assertEqual(1, count($decorators));
     }
-    
+
     public function testDecoratorFactory()
     {
         $form_decorator_object = $this->form->DecoratorFactory('label');
@@ -577,31 +579,31 @@ class Clansuite_Form_Test extends UnitTestCase
         #        'This test has not been implemented yet.'
         #);
     }
-    
+
     public function testsetErrorState()
     {
         $this->form->setErrorState(true);
         $this->assertTrue($this->form->getErrorState());
     }
-    
+
     public function testgetErrorState()
     {
         $this->form->setErrorState(true);
         $this->assertTrue($this->form->getErrorState());
-        
+
         $this->form->setErrorState(false);
         $this->assertFalse($this->form->getErrorState());
     }
-    
+
     public function testhasErrors()
     {
         $this->form->setErrorState(true);
         $this->assertTrue($this->form->hasErrors());
-        
+
         $this->form->setErrorState(false);
         $this->assertFalse($this->form->hasErrors());
     }
-    
+
     public function testaddErrorMessage()
     {
         $message = 'message text';
@@ -609,7 +611,7 @@ class Clansuite_Form_Test extends UnitTestCase
         $errormessages = $this->form->getErrorMessages();
         $this->assertIdentical($message, $errormessages['0']);
     }
-    
+
     public function testaddErrorMessages()
     {
         $set1 = array('aaa', 'bbb', 'ccc');
@@ -626,7 +628,7 @@ class Clansuite_Form_Test extends UnitTestCase
         $this->form->addErrorMessages($set2);
         $this->assertIdentical($set2, $this->form->getErrorMessages());
     }
-    
+
     public function testresetErrorMessages()
     {
         $set1 = array('aaa', 'bbb', 'ccc');
@@ -635,7 +637,7 @@ class Clansuite_Form_Test extends UnitTestCase
         $messages = $this->form->getErrorMessages();
         $this->assertTrue(empty($messages));
     }
-    
+
     public function testgetErrorMessages()
     {
         $set1 = array('aaa', 'bbb', 'ccc');
@@ -647,7 +649,7 @@ class Clansuite_Form_Test extends UnitTestCase
     {
         # this will call __set
         $this->form->method = 'methodname';
-        
+
         $this->assertEqual('methodname', $this->form->getMethod());
     }
 
@@ -655,7 +657,7 @@ class Clansuite_Form_Test extends UnitTestCase
     {
         # this will call __set
         $this->form->method = 'methodname';
-        
+
         # this will call __get
         $this->assertEqual('methodname', $this->form->method);
     }
