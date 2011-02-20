@@ -317,7 +317,7 @@ class Clansuite_Form_Test extends UnitTestCase
         $this->assertFalse($this->form->FormHasErrors());
     }
 
-    public function testregisterDefaultFormelementDecorators_byNumericPosition()
+    public function testregisterDefaultFormelementDecorators()
     {
         $this->form->addElement('textarea');
         $formelements = $this->form->getFormelements();
