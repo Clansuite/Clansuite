@@ -16,13 +16,12 @@
   /*background:#F4F4F4;*/
   font-size:93%;
   line-height:normal;
-  margin-top: -10px;
 }
 
 #tabsB ul
 {
   margin:0;
-  padding:10px 10px 0 50px;
+  /*padding:10px 10px 0 50px;*/
   list-style:none;
 }
 

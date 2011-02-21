@@ -9,7 +9,8 @@
 /*
   Syntax recommendation http://www.w3.org/TR/REC-CSS2/
 */
-ul, li {
+
+ ul, li {
     marign-left: 0;
     padding-left: 0;
     display: inline;

@@ -46,6 +46,7 @@
         font-size: 100%;
         font-family: inherit;
         vertical-align: baseline;
+
     }
 
     :focus
@@ -199,12 +200,15 @@
      */
 
     /* default */
-    ul
+    ul, li
     {
-        list-style: disc;
-        padding-left: 20px;
-        padding-top: 5px;
-        padding-bottom: 8px;
+        /*list-style: disc;*/
+        /*padding-left: 20px;*/
+        /*padding-top: 5px;*/
+        /*padding-bottom: 8px;*/        
+        padding 0;
+        display: inline;
+        margin: 0;
     }
     ol
     {
