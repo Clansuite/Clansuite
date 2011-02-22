@@ -74,7 +74,7 @@
 
     If you find any bugs, please do one of the following things:
     1 ) visit the websites support-forum to report them
-    2 ) or submit them to the bugtracker at http://bugtracker.clansuite.com/ .
+    2 ) or submit them to the [bugtracker](http://trac.clansuite.com/).
     3 ) or mail them on the developer-mailinglist.
     More information can be found on the official website.
 
