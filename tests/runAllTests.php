@@ -54,7 +54,7 @@ if(TextReporter::inCli())
     #$reporter = new ColorTextReporter();
     $reporter = new JUnitXmlReporter();
     $success = $testsuite->run($reporter);
-    file_put_contents('simpletest.xml', ob_get_contents());
+    file_put_contents(__DIR__ . '/test-results.xml', ob_get_contents());
     ob_end_clean();
     $success = true;
 }
