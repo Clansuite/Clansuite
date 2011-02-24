@@ -131,10 +131,8 @@
     <property name="sourcedir" value="${workspace}/source" />
     <property name="package" value="${job_name}.build${build_number}" />
     <property name="exportdir" value="${builddir}/export" />
-    <property name="archivedir" value="${builddir}/archive" />
     <property name="packagepath" value="${exportdir}/${job_name}" />
     <property name="checksumpath" value="${archivedir}/${package}-checksums" />
-    <property name="patchdir" value="${builddir}/patch" />
     <property name="tmpdir" value="${builddir}/tmp" />
     <property name="ignorepaths" value="libraries,tests" />
 
@@ -348,8 +346,7 @@
 
     <target name="simpletest" description="Runs simpletest unit-tests and creates report">
         <echo msg="Running simpletest unit-tests and creating test report." />
-        <exec command="php tests/runAllTest.php"
-              dir="${sourcedir}" />
+        <exec command="php ${sourcedir}/tests/runAllTests.php" />
     </target>
 
     <target name="phpcpd" description="Detects copy and pasted codesegements.">
