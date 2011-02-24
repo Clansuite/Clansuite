@@ -212,11 +212,13 @@ class Clansuite_CMS
         ini_set('arg_separator.input', '&amp;');
         ini_set('arg_separator.output', '&amp;');
 
-        # in general the memory limit is determined by php.ini, it's only raised if lower 32MB
-        if(intval(ini_get('memory_limit')) < 32)
+        # in general the memory limit is determined by php.ini, it's only raised if lower 32MB and not -1
+        $memory_limit = intval(ini_get('memory_limit'))
+        if($memory_limit != -1 and $memory_limit < 32)
         {
             ini_set('memory_limit', '32M');
         }
+        unset($memory_limit);
     }
 
     /**
@@ -355,7 +357,7 @@ class Clansuite_CMS
             /**
              * @var SERVER_URL
              */
-            define('SERVER_URL', PROTOCOL . $_SERVER['SERVER_NAME'], false);
+                define('SERVER_URL', PROTOCOL . gethostname(), false);
 
             /**
              * @var WWW_ROOT is a complete www-path with servername from SERVER_URL, depending on os-system
