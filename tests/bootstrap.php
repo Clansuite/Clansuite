@@ -71,10 +71,13 @@ unset($paths);
 
 #  acquire clansuite path constants
 require_once '../core/bootstrap/clansuite.application.php';
-Clansuite_CMS::initialize_Paths();
 
 # set exceptionhandling
 require_once '../core/exception.core.php';
+
+define('REWRITE_ENGINE_ON', 1);
+chdir('../');
+Clansuite_CMS::initialize_Paths();
 
 # put more bootstrapping code here
 
