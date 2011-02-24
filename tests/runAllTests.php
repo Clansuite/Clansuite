@@ -52,7 +52,7 @@ if(TextReporter::inCli())
     ob_start();
     #$reporter = new TextReporter();
     #$reporter = new ColorTextReporter();
-    $reporter = new JUnit_Xml_Reporter();
+    $reporter = new JUnitXmlReporter();
     $success = $testsuite->run($reporter);
     file_put_contents('simpletest.xml', ob_get_contents());
     ob_end_clean();

@@ -67,11 +67,11 @@ class Clansuite_Form_Test extends UnitTestCase
     {
         # set internal url - rebuilds the external url via router
         $this->form->setAction('/module/action');
-        $this->assertEqual('http://localhost/clansuite/trunk/index.php?mod=module&amp;sub=action', $this->form->getAction());
+        $this->assertEqual( WWW_ROOT . 'index.php?mod=module&amp;sub=action', $this->form->getAction());
 
         # set external url
         $this->form->setAction('index.php?mod=news&action=show');
-        $this->assertEqual('http://localhost/clansuite/trunk/index.php?mod=index.php%3Fmod%3Dnews%26action%3Dshow', $this->form->getAction());
+        $this->assertEqual( WWW_ROOT . 'index.php?mod=index.php%3Fmod%3Dnews%26action%3Dshow', $this->form->getAction());
     }
 
     public function testGetAction()
@@ -79,7 +79,7 @@ class Clansuite_Form_Test extends UnitTestCase
         $this->form->setAction('index.php?mod=news&action=show');
 
         # via getter - qualified url
-        $this->assertEqual('http://localhost/clansuite/trunk/index.php?mod=index.php%3Fmod%3Dnews%26action%3Dshow', $this->form->getAction());
+        $this->assertEqual( WWW_ROOT . 'index.php?mod=index.php%3Fmod%3Dnews%26action%3Dshow', $this->form->getAction());
     }
 
     public function testGetAutocomplete()
