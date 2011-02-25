@@ -64,7 +64,8 @@ class Clansuite_Formelement_Decorator_Label extends Clansuite_Formelement_Decora
         # add label
         if ( $this->formelement->hasLabel() == true)
         {
-            $html_formelement = CR . '<label>' . $this->formelement->getLabel() . '</label>'. CR . $html_formelement;
+            # for attribute points to formelements id tag
+            $html_formelement = CR . '<label for="'. $this->formelement->getId() .'">' . $this->formelement->getLabel() . '</label>'. CR . $html_formelement;
         }
 
         return $html_formelement;
