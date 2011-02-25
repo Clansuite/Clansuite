@@ -110,28 +110,28 @@ class Clansuite_HttpResponse implements Clansuite_Response_Interface
          * Array holding some often occuring status descriptions.
          * @var       array
          */
-        static $statusCodeDescription = array(
-                                       # Successful
-                                       '200'    => 'OK',
-                                       '201'    => 'Created',
-                                       '202'    => 'Accepted',
-                                       # Redirection
-                                       '301'    => 'Moved Permanently',
-                                       '302'    => 'Found',
-                                       '303'    => 'See Other',
-                                       '304'    => 'Not Modified',
-                                       '307'    => 'Temporary Redirect',
-                                       # Client Error
-                                       '400'    => 'Bad Request',
-                                       '401'    => 'Unauthorized',
-                                       '403'    => 'Forbidden',
-                                       '404'    => 'Not Found',
-                                       # Server Error
-                                       '500'    => 'Internal Server Error',
-                                       '503'    => 'Service Temporarily Unavailable'
-                                      );
+        static $statusDescription = array(
+                                           # Successful
+                                           '200'    => 'OK',
+                                           '201'    => 'Created',
+                                           '202'    => 'Accepted',
+                                           # Redirection
+                                           '301'    => 'Moved Permanently',
+                                           '302'    => 'Found',
+                                           '303'    => 'See Other',
+                                           '304'    => 'Not Modified',
+                                           '307'    => 'Temporary Redirect',
+                                           # Client Error
+                                           '400'    => 'Bad Request',
+                                           '401'    => 'Unauthorized',
+                                           '403'    => 'Forbidden',
+                                           '404'    => 'Not Found',
+                                           # Server Error
+                                           '500'    => 'Internal Server Error',
+                                           '503'    => 'Service Temporarily Unavailable'
+                                          );
 
-        return $statusCodeDescription[$statusCode];
+        return $statusDescription[$statusCode];
     }
 
      /**
@@ -156,7 +156,7 @@ class Clansuite_HttpResponse implements Clansuite_Response_Interface
     public static function setContent($content, $replace = false)
     {
         # check, if the content should be replaced
-        if($replace == false)
+        if($replace === false)
         {
             # no, replace is false, we append the content
             self::$body .= $content;
@@ -269,16 +269,16 @@ class Clansuite_HttpResponse implements Clansuite_Response_Interface
             return false;
         }
 
-        if ( !empty($domain) )
+        if (false === empty($domain) )
         {
             # Fix the domain to accept domains with and without 'www.'.
-            if ( mb_strtolower( mb_substr($domain, 0, 4) ) == 'www.' )
+            if ( mb_strtolower( mb_substr($domain, 0, 4) ) === 'www.' )
             {
                 $domain = mb_substr($domain, 4);
             }
 
             # Add the dot prefix to ensure compatibility with subdomains
-            if ( mb_substr($domain, 0, 1) != '.' )
+            if ( mb_substr($domain, 0, 1) !== '.' )
             {
                 $domain = '.'.$domain;
             }
@@ -293,11 +293,11 @@ class Clansuite_HttpResponse implements Clansuite_Response_Interface
         }
 
         header('Set-Cookie: '.rawurlencode($name).'='.rawurlencode($value)
-                                    .(empty($domain) ? '' : '; Domain='.$domain)
-                                    .(empty($maxage) ? '' : '; Max-Age='.$maxage)
-                                    .(empty($path) ? '' : '; Path='.$path)
-                                    .(!$secure ? '' : '; Secure')
-                                    .(!$HTTPOnly ? '' : '; HttpOnly'), false);
+                                    .(true === empty($domain) ? '' : '; Domain='.$domain)
+                                    .(true === empty($maxage) ? '' : '; Max-Age='.$maxage)
+                                    .(true === empty($path) ? '' : '; Path='.$path)
+                                    .(false === $secure ? '' : '; Secure')
+                                    .(false === $HTTPOnly ? '' : '; HttpOnly'), false);
         return true;
     }
 
@@ -342,13 +342,13 @@ class Clansuite_HttpResponse implements Clansuite_Response_Interface
     public static function detectTypeAndSetFlashmessage($message)
     {
         # detect if a flashmessage is tunneled
-        if(isset($message) and strpos($message, '#'))
+        if(true === isset($message) and true === strpos($message, '#'))
         {
             #  split at tunneling separator (results in: array[0] = type ; array[1] = message)
             $array = explode('#', $message);
 
             # ensure type is a valid flashmessagetype
-            if(in_array($array[0], Clansuite_Flashmessages::getFlashMessageTypes()))
+            if(true === in_array($array[0], Clansuite_Flashmessages::getFlashMessageTypes()))
             {
                 Clansuite_Flashmessages::setMessage($array[0], $array[1]);
             }
@@ -366,9 +366,8 @@ class Clansuite_HttpResponse implements Clansuite_Response_Interface
      * @param int    seconds before redirecting (for the html tag "meta refresh")
      * @param int    http status code, default: '303' => 'See other'
      * @param text   text of redirect message
-     * @param string redirect mode LOCATION, REFRESH, JS, HTML
      */
-    public static function redirectNoCache($url, $time = 0, $statusCode = 303, $text = '', $mode = null)
+    public static function redirectNoCache($url, $time = 0, $statusCode = 303, $text = '')
     {
         self::setNoCacheHeader();
         self::redirect($url, $time, $statusCode, $text);

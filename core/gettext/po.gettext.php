@@ -54,10 +54,10 @@ class Gettext_PO_File
      *
      * @link http://www.gnu.org/software/gettext/manual/gettext.html#PO-Files
      */
-    public function read($in)
+    public function read($input)
     {
         # read .po file
-        $fc= file_get_contents($in);
+        $fc= file_get_contents($input);
 
         # normalize newlines
         $fc= str_replace( array ("\r\n","\r"),
@@ -65,10 +65,10 @@ class Gettext_PO_File
                           $fc);
 
         # results array
-        $hash= array ();
+        $hash= array();
 
         # temporary array
-        $temp= array ();
+        $temp= array();
 
         # state
         $state= null;
@@ -102,7 +102,7 @@ class Gettext_PO_File
                     # start a new entry
                     if(count($temp) && array_key_exists('msgid', $temp) && array_key_exists('msgstr', $temp))
                     {
-                        if(!$fuzzy)
+                        if(false === $fuzzy)
                         {
                             $hash[] = $temp;
                         }
@@ -167,14 +167,14 @@ class Gettext_PO_File
         }
 
         # add final entry
-        if ($state == 'msgstr')
+        if ($state === 'msgstr')
         {
             $hash[]= $temp;
         }
 
         # Cleanup data, merge multiline entries, reindex hash for ksort
-        $temp= $hash;
-        $hash= array();
+        $temp = $hash;
+        $hash = array();
 
         foreach ($temp as $entry)
         {
@@ -196,7 +196,7 @@ class Gettext_PO_File
 
     private static function po_clean_helper($x)
     {
-        if (is_array($x))
+        if (true === is_array($x))
         {
             foreach ($x as $k => $v)
             {
@@ -206,13 +206,15 @@ class Gettext_PO_File
         }
         else
         {
-            if ($x[0] == '"')
+            if ($x[0] === '"')
             {
                 $x= mb_substr($x, 1, -1);
             }
 
             $x = str_replace("\"\n\"", '', $x);
             $x = str_replace('$', '\\$', $x);
+            
+            # @todo eval to clean ??? 
             $x = @ eval ("return \"$x\";");
         }
 

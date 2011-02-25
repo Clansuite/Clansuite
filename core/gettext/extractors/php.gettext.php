@@ -74,20 +74,20 @@ implements Clansuite_Gettext_Extractor_Interface
 
         foreach($tokens as $c)
         {
-            if(is_array($c))
+            if(true === is_array($c))
             {
-                if($c[0] != T_STRING && $c[0] != T_CONSTANT_ENCAPSED_STRING)
+                if($c[0] !== T_STRING and $c[0] !== T_CONSTANT_ENCAPSED_STRING)
                 {
                     continue;
                 }
 
-                if($c[0] == T_STRING && in_array($c[1], $this->tags_to_scan))
+                if($c[0] === T_STRING and true === in_array($c[1], $this->tags_to_scan))
                 {
                     $next = true;
                     continue;
                 }
 
-                if($c[0] == T_CONSTANT_ENCAPSED_STRING && $next == true)
+                if($c[0] === T_CONSTANT_ENCAPSED_STRING and $next === true)
                 {
                     $data[substr($c[1], 1, -1)][] = $pInfo['basename'] . ':' . $c[2];
                     $next = false;
@@ -95,7 +95,7 @@ implements Clansuite_Gettext_Extractor_Interface
             }
             else
             {
-                if($c == ')')
+                if($c === ')')
                 {
                     $next = false;
                 }

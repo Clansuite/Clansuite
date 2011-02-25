@@ -69,10 +69,8 @@ class Clansuite_Gettext_Extractor extends Clansuite_Gettext_Extractor_Tool
 {
     /**
      * Setup mandatory extractors
-     *
-     * @param string|bool $logToFile
      */
-    public function __construct($logToFile = false)
+    public function __construct()
     {
         # clean up
         $this->removeAllExtractors();
@@ -99,7 +97,7 @@ class Clansuite_Gettext_Extractor extends Clansuite_Gettext_Extractor_Tool
     {
         $this->inputFiles = array();
 
-        if(false == is_array($resource))
+        if(false === is_array($resource))
         {
             $resource = array($resource);
         }
@@ -170,13 +168,13 @@ class Clansuite_Gettext_Extractor_Tool
     public function __construct($logToFile = false)
     {
         # default log file
-        if(false == $logToFile)
+        if(false === $logToFile)
         {
-            $this->logHandler = fopen(ROOT_LOGS . 'gettext-extractor.log', "w");
+            $this->logHandler = fopen(ROOT_LOGS . 'gettext-extractor.log', 'w');
         }
         else # custom log file
         {
-            $this->logHandler = fopen($logToFile, "w");
+            $this->logHandler = fopen($logToFile, 'w');
         }
     }
 
@@ -185,7 +183,7 @@ class Clansuite_Gettext_Extractor_Tool
      */
     public function __destruct()
     {
-        if(is_resource($this->logHandler))
+        if(is_resource($this->logHandler) === true)
         {
             fclose($this->logHandler);
         }
@@ -198,7 +196,7 @@ class Clansuite_Gettext_Extractor_Tool
      */
     public function log($message)
     {
-        if(is_resource($this->logHandler))
+        if(is_resource($this->logHandler) === true)
         {
             fwrite($this->logHandler, $message . "\n");
         }
@@ -217,7 +215,7 @@ class Clansuite_Gettext_Extractor_Tool
      */
     protected function throwException($message)
     {
-        if(empty($message))
+        if(empty($message) === true)
         {
             $message = 'Something unexpected occured. See Clansuite_Gettext_Extractor log for details.';
         }
@@ -238,7 +236,7 @@ class Clansuite_Gettext_Extractor_Tool
             $this->throwException('Resource ' . $resource . ' is not a directory or file.');
         }
 
-        if(is_file($resource))
+        if(true === is_file($resource))
         {
             $this->inputFiles[] = realpath($resource);
             return;
@@ -260,7 +258,7 @@ class Clansuite_Gettext_Extractor_Tool
 
         while(false !== ($entry = $iterator->read()))
         {
-            if($entry == '.' or $entry == '..' or  $entry == '.svn')
+            if($entry === '.' or $entry === '..' or  $entry === '.svn')
             {
                 continue;
             }
@@ -361,7 +359,7 @@ class Clansuite_Gettext_Extractor_Tool
     {
         $extractor_classname = 'Clansuite_Gettext_Extractor_' . $extractor;
 
-        if(isset($this->extractors[$extractor]))
+        if(isset($this->extractors[$extractor]) === true)
         {
             return $this->extractors[$extractor];
         }
@@ -371,9 +369,9 @@ class Clansuite_Gettext_Extractor_Tool
             # /core/gettext/extractors/*NAME*.gettext.php
             $extractor_file = ROOT_CORE . 'gettext/extractors/' . $extractor . '.gettext.php';
 
-            if(is_file($extractor_file))
+            if(true === is_file($extractor_file))
             {
-                require_once $extractor_file;
+                include_once $extractor_file;
             }
             else
             {
@@ -403,14 +401,15 @@ class Clansuite_Gettext_Extractor_Tool
      */
     public function setExtractor($extension, $extractor)
     {
-        if(isset($this->extractor[$extension]) and in_array($extractor, $this->extractor[$extension]))
+        # already set
+        if(false === isset($this->extractor[$extension]) and false === in_array($extractor, $this->extractor[$extension]))
+        {
+            $this->extractor[$extension][] = $extractor;
+        }
+        else
         {
             return $this;
         }
-
-        $this->extractor[$extension][] = $extractor;
-
-        return $this;
     }
 
     /**
@@ -454,11 +453,11 @@ class Clansuite_Gettext_Extractor_Tool
         }
 
         # write data formatted to file
-        $handle = fopen($outputFile, "w");
+        $handle = fopen($outputFile, 'w');
         fwrite($handle, $this->formatData($data));
         fclose($handle);
 
-        $this->log('Output file '.$outputFile.' created.');
+        $this->log('Output file ' . $outputFile . ' created.');
 
         return $this;
     }
@@ -506,7 +505,7 @@ class Clansuite_Gettext_Extractor_Tool
             $output[] = 'msgid "' . $slashed_key . '"';
 
             # check for plural
-            if(preg_match($pluralMatchRegexp, $key, $matches))
+            if(0 < preg_match($pluralMatchRegexp, $key))
             {
                 $output[] = 'msgid_plural "' . $slashed_key . '"';
                 $output[] = 'msgstr[0] "' . $slashed_key . '"';
