@@ -61,7 +61,12 @@ class Clansuite_Form_Decorator_Fieldset extends Clansuite_Form_Decorator
 
     public function render($html_form_content)
     {
-        return '<fieldset><legend>'.$this->getLegend().'</legend>'. $html_form_content .'</fieldset>';
+        $html = '';
+        $html .= '<fieldset class="form">';
+        $html .= '<legend class="form"><em>' . $this->getLegend() . '</em></legend>';
+        $html .= $html_form_content;
+        $html .= '</fieldset>';
+        return $html;
     }
 }
 ?>

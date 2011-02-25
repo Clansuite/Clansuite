@@ -932,7 +932,8 @@ class Clansuite_Form implements Clansuite_Form_Interface
         # if not already loaded, require formelement file
         if (false == class_exists($formelement_classname, false))
         {
-            $file = ROOT_CORE . 'viewhelper/form/formelements/'.$formelement.'.form.php';
+            #$file = ROOT_CORE . 'viewhelper/form/formelements/'.$formelement.'.form.php';
+            $file = realpath(__DIR__.'/formelements/'.$formelement.'.form.php');
 
             if(is_file($file) === true)
             {
