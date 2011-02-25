@@ -292,7 +292,7 @@ class Clansuite_CMS
              * ROOT is the APPLICATION PATH
              * @var Purpose of ROOT is to provide the absolute path to the current working dir of clansuite
              */
-            define('ROOT', getcwd() . DS, false);
+            define('ROOT', realpath(dirname(dirname((__DIR__))) . DS), false);
 
             /**
              * @var Root path of the cache directory (with trailing slash)
