@@ -46,15 +46,15 @@ ini_set('memory_limit', '256M');
 
 date_default_timezone_set('Europe/Berlin');
 
-define('TESTSUBJECT_DIR', dirname(__DIR__) . DIRECTORY_SEPARATOR);   # /trunk
+define('TESTSUBJECT_DIR', dirname(__DIR__) . DIRECTORY_SEPARATOR); # /../tests (trunk)
 
 $paths = array(
         # adjust include path to SIMPLETEST DIR and UNITTESTS DIR
-        realpath(__DIR__),                 # /trunk/tests
-        realpath(__DIR__.'/simpletest'),   # /trunk/tests/simpletest
-        realpath(__DIR__.'/unittests'),    # /trunk/tests/unittests
+        realpath(__DIR__),                 # /tests
+        realpath(__DIR__.'/simpletest'),   # /tests/simpletest
+        realpath(__DIR__.'/unittests'),    # /tests/unittests
         # add the test subject dir
-        realpath(dirname(__DIR__)) . '/',        # /trunk
+        realpath(dirname(__DIR__)),        # /../tests (trunk)
         /**
          * Zend Server Paths
          * resides at = C:\Programme\Zend\
