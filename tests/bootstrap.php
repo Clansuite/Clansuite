@@ -70,10 +70,10 @@ set_include_path(implode($paths, PATH_SEPARATOR) . PATH_SEPARATOR . get_include_
 unset($paths);
 
 #  acquire clansuite path constants
-require_once '../core/bootstrap/clansuite.application.php';
+require_once 'core/bootstrap/clansuite.application.php';
 
 # set exceptionhandling
-require_once '../core/exception.core.php';
+require_once 'core/exception.core.php';
 
 define('REWRITE_ENGINE_ON', 1);
 chdir('../');
