@@ -213,7 +213,7 @@ class Clansuite_CMS
         ini_set('arg_separator.output', '&amp;');
 
         # in general the memory limit is determined by php.ini, it's only raised if lower 32MB and not -1
-        $memory_limit = intval(ini_get('memory_limit'))
+        $memory_limit = intval(ini_get('memory_limit'));
         if($memory_limit != -1 and $memory_limit < 32)
         {
             ini_set('memory_limit', '32M');
