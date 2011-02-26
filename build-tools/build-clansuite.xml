@@ -131,6 +131,7 @@
     <property name="sourcedir" value="${workspace}/source" />
     <property name="package" value="${job_name}.build${build_number}" />
     <property name="exportdir" value="${builddir}/export" />
+    <property name="archivedir" value="${builddir}/archive" />
     <property name="packagepath" value="${exportdir}/${job_name}" />
     <property name="checksumpath" value="${archivedir}/${package}-checksums" />
     <property name="tmpdir" value="${builddir}/tmp" />
@@ -278,10 +279,9 @@
         <mkdir dir="${builddir}/logs" />
         <mkdir dir="${builddir}/coverage" />
         <mkdir dir="${builddir}/docs" />
-        <mkdir dir="${builddir}/phpcb" />
+        <mkdir dir="${builddir}/codebrowser" />
         <mkdir dir="${builddir}/archive" />
         <mkdir dir="${builddir}/export" />
-        <mkdir dir="${builddir}/patch" />
         <mkdir dir="${builddir}/tmp" />
     </target>
 
@@ -386,7 +386,7 @@
 
     <target name="phpcb" description="PHP_Codebrowser builds a HTML Representation out of the Code-Violations.">
         <echo msg="PHP_Codebrowser builds a HTML Representation out of the Code-Violations." />
-        <exec command="phpcb --log ${builddir}/logs --output ${builddir}/phpcb" />
+        <exec command="phpcb --log ${builddir}/logs --output ${builddir}/codebrowser" />
     </target>
 
     <!-- ================================================= -->
