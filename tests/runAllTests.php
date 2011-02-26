@@ -40,6 +40,12 @@ require_once 'simpletest/reporter.php';
 require_once 'reporter.php';
 require_once 'testsuite.php';
 
+# xdebug is needed for code coverage
+if (function_exists("xdebug_start_code_coverage"))
+{    
+    require_once 'simpletest/extensions/coverage/autocoverage.php';
+}
+
 # instantiate Clansuite Testsuite
 $testsuite = new ClansuiteTestsuite();
 $success = false;
