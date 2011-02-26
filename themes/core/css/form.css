@@ -13,9 +13,17 @@
     margin:10px;
 }
 
+/*fieldset {
+    -moz-border-radius: 8px 8px 8px 8px;
+    -moz-box-shadow: 2px 2px 2px #BBBBBB;
+}*/
+
 /* not .form fieldset */
 fieldset.form {
-    background: none repeat scroll 0 0 #FAFAFA;
+     /* Firefox CSS3 Bug: */
+    -moz-border-radius: 8px 8px 8px 8px;
+    -moz-box-shadow: 2px 2px 2px #BBBBBB;
+    background-color: #FAFAFA;   
     border: 1px solid #AAA;
     display: block;
     margin: 0 0 1em;
