@@ -177,35 +177,35 @@ class Clansuite_Image
 
     private function createImageFromGIF($source)
     {
-        return ImageCreateFromGif($source);
+        return imagecreatefromgif($source);
     }
 
     private function createImageFromJPEG($source)
     {
-        return ImageCreateFromJpeg($source);
+        return imagecreatefromjpeg($source);
     }
 
     private function createImageFromPNG($source)
     {
-        return ImageCreateFromPng($source);
+        return imagecreatefrompng($source);
     }
 
     public function getWorkImageResource($width, $height)
     {
         if(function_exists("ImageCreateTrueColor"))
         {
-            return ImageCreateTrueColor($width, $height);
+            return imagecreatetruecolor($width, $height);
         }
         else
         {
-            return ImageCreate($width, $height);
+            return imagecreate($width, $height);
         }
     }
 
     public function resample()
     {
 
-        ImageCopyResampled(
+        imagecopyresampled(
                 $this->workImage, $this->originalImage, 0, 0, $this->startX, $this->startY, $this->newWidth, $this->newHeight, $this->originalWidth, $this->originalHeight
         );
 
@@ -225,22 +225,22 @@ class Clansuite_Image
 
     private function saveGIF()
     {
-        ImageGif($this->newImage, $this->thumbName . $this->imageName);
+        imagegif($this->newImage, $this->thumbName . $this->imageName);
     }
 
     private function saveJPEG()
     {
-        ImageJpeg($this->newImage, $this->thumbName . $this->imageName, $this->jpegQuality);
+        imagejpeg($this->newImage, $this->thumbName . $this->imageName, $this->jpegQuality);
     }
 
     private function savePNG()
     {
-        ImageJpeg($this->newImage, $this->thumbName . $this->imageName);
+        imagejpeg($this->newImage, $this->thumbName . $this->imageName);
     }
 
     public function __destruct()
     {
-        ImageDestroy($this->originalImage);
+        imagedestroy($this->originalImage);
     }
 
 }
@@ -252,7 +252,7 @@ class Clansuite_Watermark extends Clansuite_Image
     {
         if($function == 'image')
         {
-            $watermark = ImageCreateFromPng($config['file']);
+            $watermark = imagecreatefrompng($config['file']);
 
             imagecopy($this->workImage, $watermark, $config['pos_x'], $config['pos_y'], 0, 0, imagesx($watermark), imagesy($watermark)
             );
