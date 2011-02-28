@@ -25,6 +25,7 @@ $cc->log = 'coverage.sqlite';
 $args = CoverageUtils::parseArguments($_SERVER['argv'], TRUE);
 $cc->includes = CoverageUtils::issetOr($args['include[]'], array('.*\.php$'));
 $cc->excludes = CoverageUtils::issetOr($args['exclude[]']);
+$cc->excludes[] = 'simpletest';
 $cc->excludes[] = 'tests';
 $cc->excludes[] = 'libraries'; 
 $cc->maxDirectoryDepth = (int)CoverageUtils::issetOr($args['maxdepth'], '1');
