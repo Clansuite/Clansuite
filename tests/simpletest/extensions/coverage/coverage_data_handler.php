@@ -3,10 +3,6 @@
  * @package        SimpleTest
  * @subpackage     Extensions
  */
-/**
- * @todo	which db abstraction layer is this?
- */
-require_once 'DB/sqlite.php';
 
 /**
  * Persists code coverage data into SQLite database and aggregate data for convienent
