@@ -2,19 +2,14 @@
 require_once(dirname(__FILE__) . '/../../../autorun.php');
 
 class SimpleCoverageWriterTest extends UnitTestCase {
-	function skip() {
-        $this->skipIf(
-        		!file_exists('DB/sqlite.php'),
-                'The Coverage extension needs to have PEAR installed');
-    }
-		
-	function setUp() {
-		require_once dirname(__FILE__) .'/../simple_coverage_writer.php';
-		require_once dirname(__FILE__) .'/../coverage_calculator.php';
-		
-	}
 
-	function testGenerateSummaryReport() {
+    function setUp() {
+        require_once dirname(__FILE__) .'/../simple_coverage_writer.php';
+        require_once dirname(__FILE__) .'/../coverage_calculator.php';
+        
+    }
+
+    function testGenerateSummaryReport() {
         $writer = new SimpleCoverageWriter();
         $coverage = array('file' => array(0, 1));
         $untouched = array('missed-file');
