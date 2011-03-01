@@ -52,7 +52,7 @@ class CoverageReporter {
             fclose($byFileHnd);
         }
 
-        echo "generated report $index\n";
+        echo "Code-coverage report generated. <a href=\"$index\">View Report</a>\n";
     }
 
     function generateCoverageByFile($out, $file, $cov) {
@@ -62,7 +62,9 @@ class CoverageReporter {
     }
 
     static function reportFilename($filename) {
-        return preg_replace('|[/\\\\]|', '_', $filename) . '.html';
+        $filename = str_replace("C:\\Programme\\Zend\\Apache2\\htdocs\\clansuite\\trunk\\", '', $filename);
+        $filename = preg_replace('|[/\\\\]|', '_', $filename) . '.html';
+		return $filename;
     }
 }
 ?>

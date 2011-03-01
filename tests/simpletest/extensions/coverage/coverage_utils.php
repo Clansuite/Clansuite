@@ -58,12 +58,14 @@ class CoverageUtils {
         $args['extraArguments'] = array();
         array_shift($argv); // scriptname
         foreach ($argv as $arg) {
-            if (ereg('^--([^=]+)=(.*)', $arg, $reg)) {
+            # @todo ereg to preg_match
+            if (@ereg('^--([^=]+)=(.*)', $arg, $reg)) {
                 $args[$reg[1]] = $reg[2];
                 if ($mutliValueMode) {
                     self::addItemAsArray($args, $reg[1], $reg[2]);
                 }
-            } elseif (ereg('^[-]{1,2}([^[:blank:]]+)', $arg, $reg)) {
+            # @todo ereg to preg_match
+            } elseif (@ereg('^[-]{1,2}([^[:blank:]]+)', $arg, $reg)) {
                 $nonnull = '';
                 $args[$reg[1]] = $nonnull;
                 if ($mutliValueMode) {

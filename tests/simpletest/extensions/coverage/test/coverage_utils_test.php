@@ -16,14 +16,6 @@ class CoverageUtilsTest extends UnitTestCase {
         }
     }
 
-    function testIsPackageClassAvailable() {
-        $coverageSource = dirname(__FILE__) .'/../coverage_calculator.php';
-        $this->assertTrue(CoverageUtils::isPackageClassAvailable($coverageSource, 'CoverageCalculator'));
-        $this->assertFalse(CoverageUtils::isPackageClassAvailable($coverageSource, 'BogusCoverage'));
-        $this->assertFalse(CoverageUtils::isPackageClassAvailable('bogus-file', 'BogusCoverage'));
-        $this->assertTrue(CoverageUtils::isPackageClassAvailable('bogus-file', 'CoverageUtils'));
-    }
-
     function testParseArgumentsMultiValue() {
         $actual = CoverageUtils::parseArguments(array('scriptname', '--a=b', '--a=c'), True);
         $expected = array('extraArguments' => array(), 'a' => 'c', 'a[]' => array('b', 'c'));

@@ -35,7 +35,7 @@ class CodeCoverage  {
         $this->includeUntouchedFiles($untouched);
     }
 
-    function &getTouchedFiles() {
+    function getTouchedFiles() {
         $handler = new CoverageDataHandler($this->log);
         $touched = $handler->getFilenames();
         return $touched;
@@ -70,8 +70,8 @@ class CodeCoverage  {
     }
 
     function resetLog() {
-        error_log('reseting log');
-        $new_file = fopen($this->log, "w");
+        #echo 'Resting Code-Coverage Logfile: ' . $this->log;
+        $new_file = fopen($this->log, 'w');
         if (!$new_file) {
             throw new Exception("Could not create ". $this->log);
         }
@@ -112,15 +112,15 @@ class CodeCoverage  {
         }
     }
 
-    function writeSettings() {       
+    function writeSettings() {
         file_put_contents($this->settingsFile, $this->getSettings());
     }
 
     function getSettings() {
         $data = array(
-    	'log' => realpath($this->log), 
-    	'includes' => $this->includes, 
-    	'excludes' => $this->excludes);
+        'log' => $this->log,
+        'includes' => $this->includes,
+        'excludes' => $this->excludes);
         return serialize($data);
     }
 
