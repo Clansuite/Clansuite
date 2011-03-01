@@ -3,11 +3,11 @@ require_once(dirname(__FILE__) . '/../../../autorun.php');
 require_once(dirname(__FILE__) . '/../../../mock_objects.php');
 
 class CodeCoverageTest extends UnitTestCase {
-    
+
     function setUp() {
         require_once dirname(__FILE__) .'/../coverage.php';
     }
-    
+
     function testIsFileIncluded() {
         $coverage = new CodeCoverage();
         $this->assertTrue($coverage->isFileIncluded('aaa'));
@@ -74,14 +74,18 @@ class CodeCoverageTest extends UnitTestCase {
     }
 
     function testSettingsSerialization() {
+        $settingsFile = 'banana-boat-coverage-settings-test.dat';
         $coverage = new CodeCoverage();
         $coverage->log = '/banana/boat';
+        $coverage->settingsFile = $settingsFile;
         $coverage->includes = array('apple', 'orange');
         $coverage->excludes = array('tomato', 'pea');
+
         $data = $coverage->getSettings();
         $this->assertNotNull($data);
 
         $actual = new CodeCoverage();
+        $actual->settingsFile = $settingsFile;
         $actual->setSettings($data);
         $this->assertEqual('/banana/boat', $actual->log);
         $this->assertEqual(array('apple', 'orange'), $actual->includes);
