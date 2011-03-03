@@ -48,17 +48,9 @@ class Smarty_Internal_Data {
      */
     public function assignGlobal($varname, $value = null, $nocache = false)
     {
-        if (is_array($varname)) {
-            foreach ($varname as $_key => $_val) {
-                if ($_key != '') {
-                    Smarty::$global_tpl_vars[$_key] = new Smarty_variable($_val, $nocache);
-                } 
-            } 
-        } else {       
-            if ($varname != '') {
-                Smarty::$global_tpl_vars[$varname] = new Smarty_variable($value, $nocache);
-            } 
-        }
+        if ($varname != '') {
+            Smarty::$global_tpl_vars[$varname] = new Smarty_variable($value, $nocache);
+        } 
     } 
     /**
      * assigns values to template variables by reference
@@ -204,7 +196,9 @@ class Smarty_Internal_Data {
                 $_ptr = $this;
             } while ($_ptr !== null) {
                 foreach ($_ptr->tpl_vars AS $key => $var) {
-                    $_result[$key] = $var->value;
+                    if (!array_key_exists($key, $_result)) {
+                        $_result[$key] = $var->value;
+                    }
                 } 
                 // not found, try at parent
                 if ($search_parents) {
@@ -215,7 +209,9 @@ class Smarty_Internal_Data {
             } 
             if ($search_parents && isset(Smarty::$global_tpl_vars)) {
                 foreach (Smarty::$global_tpl_vars AS $key => $var) {
-                    $_result[$key] = $var->value;
+                    if (!array_key_exists($key, $_result)) {
+                        $_result[$key] = $var->value;
+                    }
                 } 
             } 
             return $_result;
