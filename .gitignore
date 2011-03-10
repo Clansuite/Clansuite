@@ -30,3 +30,6 @@ cache/**/*
 # Subversion
 .svn
 .svn/entries
+
+# PHPUnit
+phpunit.xml
