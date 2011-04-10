@@ -39,19 +39,29 @@ class Smarty_Internal_Data {
             } 
         } 
     } 
+
     /**
      * assigns a global Smarty variable
-     * 
-     * @param string $varname the global variable name
+     *
+     * @param string|array $varname the global variable name OR array[varname][value]
      * @param mixed $value the value to assign
      * @param boolean $nocache if true any output of this variable will be not cached
      */
     public function assignGlobal($varname, $value = null, $nocache = false)
     {
-        if ($varname != '') {
-            Smarty::$global_tpl_vars[$varname] = new Smarty_variable($value, $nocache);
-        } 
-    } 
+        if (is_array($varname)) {
+            foreach ($varname as $_key => $_val) {
+                if ($_key != '') {
+                    Smarty::$global_tpl_vars[$_key] = new Smarty_variable($_val, $nocache);
+                }
+            }
+        } else {
+            if ($varname != '') {
+                Smarty::$global_tpl_vars[$varname] = new Smarty_variable($value, $nocache);
+            }
+        }
+    }
+
     /**
      * assigns values to template variables by reference
      * 
