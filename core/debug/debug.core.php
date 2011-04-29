@@ -60,11 +60,6 @@ class Clansuite_Debug
      */
     public static function printR($var)
     {
-        /*while(ob_get_level())
-        {
-            ob_end_clean();
-        }*/
-
         if (func_num_args() > 1)
         {
             $var = func_get_args();
