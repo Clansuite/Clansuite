@@ -41,7 +41,7 @@
 </table>
 
 <!-- XUL Menu Init -->
-<script type="application/javascript">
+<script type="text/javascript">
 //<![CDATA[
     var menu1 = new XulMenu("Frontend-Menu-1");
     menu1.type = "vertical";
