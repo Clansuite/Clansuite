@@ -7,7 +7,7 @@ if (defined('IN_CS') === false)
     die( 'Clansuite not loaded. Direct Access forbidden.' );
 }
 ?>
-<script src="javascript/webtoolkit.sha1.js" type="application/javascript"></script>
+<script src="javascript/webtoolkit.sha1.js" type="text/javascript"></script>
 <script>
     function hashLoginPassword(theForm)
     {
