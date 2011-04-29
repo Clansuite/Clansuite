@@ -113,14 +113,12 @@ class Clansuite_Router implements ArrayAccess, Clansuite_Router_Interface
         $url_pattern = ltrim($url_pattern, '/');
         $segments = explode('/', $url_pattern);
 
-        # because the incomming route might have placeholders lile (:num) or (:id)
+        # the incomming route might have placeholders lile (:num) or (:id)
         $url_pattern = self::placeholdersToRegexp($url_pattern);
 
-        $regexp = '';
         $regexp = $this->processSegmentsRegExp($segments, $route_options);
-        $number_of_segments = count($segments);
         $options = array('regexp' => $regexp,
-                         'number_of_segments' => $number_of_segments);
+                         'number_of_segments' => count($segments));
 
 
         /**
@@ -236,11 +234,11 @@ class Clansuite_Router implements ArrayAccess, Clansuite_Router_Interface
             return $urlstring;
         }
         # e.g. ROOT/news/admin
-        elseif(REWRITE_ENGINE_ON === true)
-        {
+        #elseif(REWRITE_ENGINE_ON === true)
+        #{
             #Clansuite_Debug::firebug(WWW_ROOT . ltrim($urlstring, '/'));
-            return WWW_ROOT . ltrim($urlstring, '/');
-        }
+           #return WWW_ROOT . ltrim($urlstring, '/');
+        #}
         else # ROOT/index.php?mod=abc&action=123&etc...
         {
             $url_values = explode('/', ltrim($urlstring, '/'));
@@ -447,7 +445,7 @@ class Clansuite_Router implements ArrayAccess, Clansuite_Router_Interface
         }
         else # Apache Mod_Rewrite not available
         {
-            define('REWRITE_ENGINE_ON', false);
+            #define('REWRITE_ENGINE_ON', false);
             return false;
         }
     }
@@ -795,11 +793,11 @@ class Clansuite_Mapper
 {
     /**
      * Classname prefix for modules
-     * 
+     *
      * @const string
      */
     const MODULE_CLASS_PREFIX = 'Clansuite_Module';
-    
+
     /**
      * Method prefix for module actions
      *
