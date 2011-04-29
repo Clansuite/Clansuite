@@ -228,6 +228,12 @@ class Clansuite_HttpResponse implements Clansuite_Response_Interface
         if( XDEBUG === false and DEBUG === false)
         {
             Clansuite_ResponseEncode::end_outputbuffering();
+
+            # send response and do some more php processing afterwards
+            if(is_callable('fastcgi_finish_request'))
+            {
+                fastcgi_finish_request();
+            }
         }
 
         # OK, Reset -> Package delivered! Return to Base!
