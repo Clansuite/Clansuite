@@ -30,24 +30,33 @@ deny from all
 </IfModule>
 
 <IfModule mod_deflate.c>
-    AddOutputFilterByType DEFLATE text/html text/plain text/xml text/css application/x-javascript
+    AddOutputFilterByType DEFLATE text/html text/plain text/xml text/css application/x-javascript text/javascript application/javascript application/json
     SetEnvIfNoCase Request_URI \.(?:gif|jpe?g|png)$ no-gzip dont-vary
     SetEnvIfNoCase Request_URI \.(?:exe|t?gz|zip|bz2|sit|rar)$ no-gzip dont-vary
+    # webfonts and svg:
+    <FilesMatch "\.(ttf|otf|eot|svg)$" >
+        SetOutputFilter DEFLATE
+    </FilesMatch>
 </IfModule>
 
 <IfModule mod_expires.c>
+    Header set cache-control: public
     <FilesMatch "\.(ico|gif|jpg|jpeg|png|swf|css|js|html?|xml|txt)$">
-		ExpiresActive On
-		ExpiresDefault "access plus 1 years"
-	</FilesMatch>
+        ExpiresActive On
+        ExpiresDefault "access plus 1 years"
+    </FilesMatch>
 </IfModule>
 
 <IfModule mod_headers.c>
+    # Force use of Chromium Render Engine if IE
+    BrowserMatch MSIE ie
+    Header set X-UA-Compatible "IE=Edge,chrome=1" env=ie
+
     Header unset ETag
     Header unset Last-Modified
 </IfModule>
 <FilesMatch "\.(ico|gif|jpg|jpeg|png|swf|css|js|html?|xml|txt)$">
-	FileETag none
+    FileETag none
 </FilesMatch>
 
 <IfModule mod_gzip.c>
