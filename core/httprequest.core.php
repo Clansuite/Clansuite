@@ -175,11 +175,29 @@ class Clansuite_HttpRequest implements Clansuite_Request_Interface, ArrayAccess
         $this->get_parameters     = $_GET;
         $this->post_parameters    = $_POST;
         $this->cookie_parameters  = $_COOKIE;
+        
+        # REQUEST Usage forbidden
+        unset($_REQUEST);
 
         /**
          * 5) Detect REST Tunneling through POST and set request_method accordingly
          */
         $this->detectRESTTunneling();
+    }
+    
+    public function getPost()
+    {
+        return $this->post_parameters;
+    }
+    
+    public function getGet()
+    {
+        return $this->get_parameters;
+    }
+    
+    public function getCookies()
+    {
+        return $this->cookie_parameters;
     }
 
     /**
