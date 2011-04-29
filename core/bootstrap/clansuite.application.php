@@ -251,6 +251,7 @@ class Clansuite_CMS
            true === apc_load_constants('CLANSUITE_CONSTANTS', true))
         {
             # ok, constants retrieved from APC
+            # echo 'System - Constants retrieved from APC';
         }
         else
         {
@@ -357,7 +358,7 @@ class Clansuite_CMS
             /**
              * @var SERVER_URL
              */
-                define('SERVER_URL', PROTOCOL . gethostname(), false);
+                define('SERVER_URL', PROTOCOL . $_SERVER['SERVER_NAME'], false);
 
             /**
              * @var WWW_ROOT is a complete www-path with servername from SERVER_URL, depending on os-system
