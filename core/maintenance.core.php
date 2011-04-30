@@ -48,96 +48,92 @@ if(defined('IN_CS') === false)
  */
 class Clansuite_Maintenance
 {
-
     private static $language;
-    private static $reason;
-    private static $timeout;
+    private static $reason = '1';
+    private static $timeout = '60';
     private static $filePath;
     private static $aText = array(
         '1' => array(
-                'de' => array(
-                        'title'         => 'Wartungsmodus',
-                        'reason'     => 'Es werden Arbeiten an der Datenbankstruktur durchgef&uuml;hrt.',
-                        'sorry'        => 'Bitte entschuldigen Sie die Unannehmlichkeiten.',
-                        'back'        => 'Bitte besuchen Sie uns in ca. %d %s wieder.',
-                        'min'          => 'Minuten',
-                       ),
-                'en' => array(
-                        'title'         => 'Maintenance Mode',
-                        'reason'     => 'SITE is currently undergoing scheduled maintenance.',
-                        'sorry'        => 'Sorry for the inconvenience.',
-                        'back'        => 'Please try back in %d %s.',
-                        'min'          => 'minutes',
-                       ),
-             ),
+            'de' => array(
+                'title' => 'Wartungsmodus',
+                'reason' => 'Es werden Arbeiten an der Datenbankstruktur durchgef&uuml;hrt.',
+                'sorry' => 'Bitte entschuldigen Sie die Unannehmlichkeiten.',
+                'back' => 'Bitte besuchen Sie uns in ca. %d %s wieder.',
+                'min' => 'Minuten',
+            ),
+            'en' => array(
+                'title' => 'Maintenance Mode',
+                'reason' => 'SITE is currently undergoing scheduled maintenance.',
+                'sorry' => 'Sorry for the inconvenience.',
+                'back' => 'Please try back in %d %s.',
+                'min' => 'minutes',
+            ),
+        ),
         '2' => array(
-                'de' => array(
-                        'title'         => '',
-                        'reason'     => '',
-                       ),
-                'en' => array(
-                        'title'         => '',
-                        'reason'     => '',
-                       ),
-             )
+            'de' => array(
+                'title' => '',
+                'reason' => '',
+            ),
+            'en' => array(
+                'title' => '',
+                'reason' => '',
+            ),
+        )
     );
 
 
-    public function run( array $config, $filePath = null )
+    public function configure(array $config, $filePath = null)
     {
+        # set language for maintenance msg via $config value
         self::$language = $config['language']['default'];
 
-        /*
-         * read reason from $config
-         */
-        if( $config['mainteance']['reason'] == 0 )
+        # fetch reason integer from $config
+        if($config['mainteance']['reason'] > 0)
         {
-            self::$reason = 1;
-        }
-        else {
-            self::$reason    = $config['mainteance']['reason'];
+            self::$reason = $config['mainteance']['reason'];
         }
 
-        /*
-         * read timeout from $config
-         */
-        if( $config['mainteance']['timeout'] == 0 )
-        {
-            self::$timeout   = 60;
-        }
-        else {
-            self::$timeout    = $config['mainteance']['timeout'];
-        }
+        # read timeout value from $config
+        self::$timeout = $config['mainteance']['timeout'];
 
-        if( $filePath )
+        if(isset($filePath) === true)
         {
-            self::$filePath   = $filePath;
+            self::$filePath = $filePath;
         }
-        else {
-            self::$filePath   = ROOT_THEMES_CORE . 'view/smarty/maintenance.tpl';
+        else # use the default maintenance template
+        {
+            self::$filePath = ROOT_THEMES_CORE . 'view/smarty/maintenance.tpl';
         }
-
-        self::execute();
     }
 
     /**
-     * output mainteance
+     * output maintenance display
+     * 
+     * @param array $config The Clansuite Config Array.
+     * @param string $filePath FQFP for the maintenance template.
      */
-    public function execute()
+    public function show(array $config, $filePath = null)
     {
-        $title      = self::$aText[self::$reason][self::$language]['title'];
+        self::configure($config, $filePath);
+
+        $title = self::$aText[self::$reason][self::$language]['title'];
         $reason = self::$aText[self::$reason][self::$language]['reason'];
-        $sorry    = self::$aText[self::$reason][self::$language]['sorry'];
-        $back    = sprintf( self::$aText[self::$reason][self::$language]['back'], self::$timeout, self::$aText[self::$reason][self::$language]['min'] );
+        $sorry = self::$aText[self::$reason][self::$language]['sorry'];
 
-        $content = file_get_contents( self::$filePath );
+        # replacement for "Please try back in %d %s."
+        $back = sprintf(self::$aText[self::$reason][self::$language]['back'], 
+                        self::$timeout, self::$aText[self::$reason][self::$language]['min']);
 
-        $content = str_replace( '{title}', $title, $content );
-        $content = str_replace( '{reason}', $reason, $content );
-        $content = str_replace( '{back}', $back, $content );
-        $content = str_replace( '{sorry}', $sorry, $content );
+        $content = file_get_contents(self::$filePath);
+
+        $content = str_replace('{title}', $title, $content);
+        $content = str_replace('{reason}', $reason, $content);
+        $content = str_replace('{back}', $back, $content);
+        $content = str_replace('{sorry}', $sorry, $content);
 
         echo $content;
+
+        exit;
     }
 
 }

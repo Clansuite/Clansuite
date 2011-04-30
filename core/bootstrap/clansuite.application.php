@@ -176,23 +176,26 @@ class Clansuite_CMS
         if( true === (bool)self::$config['maintenance']['maintenance'] )
         {
             $token = false;
-            if( isset( $_GET['mnt'] ))
+            
+            # incoming maintenance token via GET
+            if(isset($_GET['mnt']))
             {
                 $tokenstring = $_GET['mnt'];
-                $token = Clansuite_Securitytoken::ckeckToken( $tokenstring );
+                $token = Clansuite_Securitytoken::ckeckToken($tokenstring);
             }
-
+            
+            # if token is false (or not valid) show maintenance
             if( false === $token )
             {
-                Clansuite_Maintenance::run(self::$config);
-                exit();
+                Clansuite_Maintenance::show(self::$config);
             }
             else
             {
                 self::$config['maintenance']['maintenance'] = 0;
                 Clansuite_Config_INI::writeConfig(ROOT . 'configuration/clansuite.config.php', self::$config);
-                // redirect um den Token aus der url zu löschen
-                header( 'Location: ' . SERVER_URL ) ;exit();
+                # redirect to remove the token from url
+                header('Location: ' . SERVER_URL);
+                exit();
             }
         }
 
@@ -211,14 +214,23 @@ class Clansuite_CMS
         ini_set('short_open_tag', 'off');
         ini_set('arg_separator.input', '&amp;');
         ini_set('arg_separator.output', '&amp;');
-
+        self::setMemoryLimit('32');
+    }
+    
+    /**
+     * Sets the PHP memory limit
+     * 
+     * @param string $memory_limit The memory limit in megabytes, e.g. '32' or '128'.
+     */
+    private static function setMemoryLimit($limit)
+    {
         # in general the memory limit is determined by php.ini, it's only raised if lower 32MB and not -1
         $memory_limit = intval(ini_get('memory_limit'));
-        if($memory_limit != -1 and $memory_limit < 32)
+        if($memory_limit != -1 and $memory_limit < (int) $limit )
         {
-            ini_set('memory_limit', '32M');
+            ini_set('memory_limit', $limit + 'M');
         }
-        unset($memory_limit);
+        unset($memory_limit);        
     }
 
     /**
