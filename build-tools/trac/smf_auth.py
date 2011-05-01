@@ -27,7 +27,7 @@ def check_smf_auth(user,passwd):
     if myhash==hash:
         return True
     else:
-        return True
+        return False
 
 def authenhandler(req):
     pw = req.get_basic_auth_pw()
