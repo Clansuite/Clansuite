@@ -18,12 +18,12 @@
 
     Requirements:
 
-    Phing               http://phing.info
+    Phing               http://phing.info/
     Subversion          http://subversion.tigris.org/
     phpDocumentor       http://www.phpdoc.org/
     Doxygen             http://www.stack.nl/~dimitri/doxygen/
     phpLint             http://www.icosaedro.it/phplint/
-    phpCodeSniffer      http://pear.php.net/package/PHP_CodeSniffer
+    phpCodeSniffer      http://pear.php.net/package/PHP_CodeSniffer/
     Graphviz            http://www.graphviz.org/
     phpUML              http://pear.php.net/manual/en/package.php.php-uml.api.php
                         API: http://www.baptisteautin.com/wp-content/uploads/PHP_UML/API/
@@ -434,7 +434,7 @@
 
     <target name="doc-doxygen" description="Generates the API documentation using Doxygen">
         <echo>Generates the API documentation using Doxygen</echo>
-        <exec command="doxygen" dir="." logoutput="true"/>
+        <exec command="doxygen ${svn.local.export.directory}/build-tools/doxygen/doxygen.conf" dir="." logoutput="true"/>
     </target>
 
     <target name="doc-asciidoc" description="Generates the documentation using Asciidoc">
