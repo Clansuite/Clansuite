@@ -124,9 +124,9 @@
     <property name="base.directory" value="/home/clansuite/" />                               <!-- name of the base directory = ROOT for this project-->
     <property name="build.base.directory" value="/home/clansuite/build/" />                   <!-- name of the base build directory -->
     <property name="build.src.directory" value="${build.base.directory}${packagename}/" />    <!-- name of the build directory for current package -->
-    <property name="webbase.directory" value="/var/syscp/webs/clansuite/" />                  <!-- name of the web directory for documentation = WWWROOT -->
+    <property name="webbase.directory" value="/var/www/webs/clansuite/" />                    <!-- name of the web directory for documentation = WWWROOT -->
 
-    <!-- Properties for Hudson -->
+    <!-- Properties for Jenkins -->
     <property name="builddir" value="${workspace}/build" />
     <property name="sourcedir" value="${workspace}/source" />
     <property name="package" value="${job_name}.build${build_number}" />
@@ -138,16 +138,15 @@
     <property name="ignorepaths" value="libraries,tests" />
 
     <!-- Define the Properties for Section 2) Subversion -->
-    <property name="svn.local.export.directory"  value="${base.directory}svn-export/" />     <!-- Local SVN Export Directory (todir) -->
-    <property name="svn.local.directory"         value="${base.directory}svn/" />            <!-- Local SVN Directory -->
+    <property name="svn.local.export.directory"  value="${base.directory}svn-export/" />    <!-- Local SVN Export Directory (todir) -->
+    <property name="svn.local.directory"         value="${base.directory}svn/" />           <!-- Local SVN Directory -->
 
     <!-- Define the Properties for Section 4) Tests & Validations -->
     <property name="sniffsdir" value="${sourcedir}/build-tools/CodeSniffer/Standards/Clansuite/" override="true" />
 
     <!-- Define the Properties for Section 5) Documentation -->
-    <property name="documentations.directory" value="${webbase.directory}documentation/developer/" override="true" />
-    <property name="phpdoc.directory" value="${documentations.directory}phpdoc/" override="true" />
-    <property name="doxygen.directory" value="${documentations.directory}doxygen/" override="true" />
+    <property name="phpdoc.directory" value="${webbase.directory}documentation/developer/phpdoc/" override="true" />
+    <property name="doxygen.directory" value="${webbase.directory}documentation/developer/doxygen/" override="true" />
 
     <!-- Define the Properties for Section 6) Building Archives -->
     <property name="archive.directory" value="${build.base.directory}archives" override="true" />
@@ -434,7 +433,10 @@
 
     <target name="doc-doxygen" description="Generates the API documentation using Doxygen">
         <echo>Generates the API documentation using Doxygen</echo>
+        <delete dir="${doxygen.directory}" includeemptydirs="true" />
         <exec command="doxygen ${svn.local.export.directory}/build-tools/doxygen/doxygen.conf" dir="." logoutput="true"/>
+        <exec command="chmod -R 705 ${doxygen.directory}" />
+        <exec command="chown -R clansuite:clansuite ${doxygen.directory}" />
     </target>
 
     <target name="doc-asciidoc" description="Generates the documentation using Asciidoc">
