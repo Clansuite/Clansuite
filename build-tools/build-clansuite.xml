@@ -434,14 +434,14 @@
     <target name="doc-doxygen" description="Generates the API documentation using Doxygen">
         <echo>Generates the API documentation using Doxygen</echo>
         <delete dir="${doxygen.directory}" includeemptydirs="true" />
-        <exec command="doxygen ${svn.local.export.directory}build-tools/doxygen/doxygen.conf" dir="." logoutput="true"/>
+        <exec command="doxygen ${svn.local.export.directory}build-tools/doxygen/doxygen.conf" dir="." logoutput="true" />
         <exec command="chmod -R 705 ${doxygen.directory}" />
         <exec command="chown -R clansuite:clansuite ${doxygen.directory}" />
     </target>
 
     <target name="doc-asciidoc" description="Generates the documentation using Asciidoc">
         <echo>Generates the documentation/manuals using Asciidoc</echo>
-        <exec command="asciidoc" dir="."/>
+        <exec command="asciidoc" dir="." />
     </target>
 
     <!-- ======================================== -->
