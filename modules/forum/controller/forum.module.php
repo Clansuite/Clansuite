@@ -60,14 +60,21 @@ class Clansuite_Module_Forum extends Clansuite_Module_Controller
 
         foreach( $modules_info_array as $modules_info )
         {
+            $infokey = strtolower($modules_info['name'].'_info');
+            $packagekey = strtolower($modules_info['name'].'_package');
+
             self::$moduleInfos = array(
                 'Modul'      => ucfirst($modules_info['name']),
-                'Author'     => utf8_encode($modules_info['info'][$modules_info['name'].'_info']['author']),
-                'Version'    => $modules_info['info'][$modules_info['name'].'_package']['version']
+                'Author'     => utf8_encode($modules_info['info'][$infokey]['author']),
+                'Version'    => $modules_info['info'][$packagekey]['version']
             );
         }
     }
 
+    /**
+     * Display Categories and Boards
+     * if exist only one category, will display the boards for this category widthout the category
+     */
     public function action_show()
     {
         $subboards = array();
@@ -75,12 +82,12 @@ class Clansuite_Module_Forum extends Clansuite_Module_Controller
         # Set Pagetitle and Breadcrumbs
         Clansuite_Breadcrumb::add( _('Show'), '/forum/show');
 
-        #Clansuite_Debug::printR( self::$moduleInfos );
-
         # Get Render Engine
         $view = $this->getView();
 
-        $resultCategory = Doctrine::getTable('CsForumCategory')->fetchAllForumCategories();
+        $resultCategory = $this->getModel( 'Entities\ForumCategory' )->findAllCategories();
+        #Clansuite_Debug::printR( $resultCategory );
+
         if( count($resultCategory) >1 )
         {
             $view->assign('withcat', true);
@@ -88,18 +95,23 @@ class Clansuite_Module_Forum extends Clansuite_Module_Controller
         }
         else {
             $view->assign('withcat', false);
-            $resultBoards = Doctrine::getTable('CsForumBoards')->fetchAllBoards();
+            $resultBoards = $this->getModel( 'Entities\ForumBoards' )->findBoards();
+            #Clansuite_Debug::printR( $resultBoards );
+
             foreach( $resultBoards as $board )
             {
                 $aBoards = $board;
-                $resultSubBoards = Doctrine::getTable('CsForumBoards')->fetchSubBoards( $board['board_id']);
+                $resultSubBoards = $this->getModel( 'Entities\ForumBoards' )->findSubBoards( $board['board_id'] );
                 if( count($resultSubBoards) >0 )
                 {
+                    $aBoards['subb'] = 1;
                     foreach( $resultSubBoards as $sboard ) {
                         $subboards[] = $sboard;
                     }
                     $aBoards['subboards'] = $subboards;
                     $aBoards['subboardscount'] = count($subboards);
+                } else {
+                    $aBoards['subb'] = 0;
                 }
                 $AllBoards[] = $aBoards;
             }
@@ -111,9 +123,6 @@ class Clansuite_Module_Forum extends Clansuite_Module_Controller
             //unset( $AllBoards ); unset( $aBoards ); unset( $subboards ); unset( $resultSubBoards ); unset( $resultCategory );
         }
 
-
-
-        # Prepare the Output
         $this->display();
     }
 
