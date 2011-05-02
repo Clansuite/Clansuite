@@ -144,7 +144,10 @@ class Clansuite_Doctrine2
         # we need some more functions for mysql
         $config->addCustomNumericFunction('RAND', 'DoctrineExtensions\Query\Mysql\Rand');
 
-        return \Doctrine\ORM\EntityManager::create($connectionOptions, $config);
+        $em = \Doctrine\ORM\EntityManager::create($connectionOptions, $config);
+        $em->getConnection()->setCharset('UTF8');
+
+        return $em;
     }
 
     /**
