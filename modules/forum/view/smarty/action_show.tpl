@@ -1,5 +1,5 @@
 {move_to target="pre_head_close"}
-<link rel="stylesheet" type="text/css" href="{$www_root_theme}css/forum.css" />
+<link rel="stylesheet" type="text/css" href="{$www_root_theme}css/screen/forum.css" />
 {/move_to}
 
 <div id="forum">
@@ -60,12 +60,12 @@
 			<td class="forum-boardindex borderleft borderbottom">
 				<a href="index.php?mod=forum&action=board&id={$board.board_id}">{$board.title}</a><br />
 				<span class="forum-boardindex-descr">{$board.description}</span>
-				{if $board.subboards}
+				{if $board.subb}
 				<div class="subboardtitle">Untergeordnete Boards</div>
 				<ul style="padding-left:20px;">
-				{foreach item=sboard from=$board.subboards}
-					<li><a href="index.php?mod=forum&action=board&id={$sboard.board_id}" style="font-weight:bold; font-size:8pt;" title="Themen: {$sboard.num_topics} | Beiträge {$sboard.num_posts}">{$sboard.title}</a></li>
-				{/foreach}
+					{foreach item=sboard from=$board.subboards}
+						<li><a href="index.php?mod=forum&action=board&id={$sboard.board_id}" style="font-weight:bold; font-size:8pt;" title="Themen: {$sboard.num_topics} | Beiträge {$sboard.num_posts}">{$sboard.title}</a></li>
+					{/foreach}
 				</ul>
 				{/if}
 			</td>
