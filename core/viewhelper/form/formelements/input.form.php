@@ -46,6 +46,8 @@ if (false == class_exists('Clansuite_Formelement',false))
  *  Clansuite_Formelement
  *  |
  *  \- Clansuite_Formelement_Input
+ *
+ * @link http://www.whatwg.org/specs/web-apps/current-work/multipage/the-input-element.html
  */
 class Clansuite_Formelement_Input extends Clansuite_Formelement implements Clansuite_Formelement_Interface
 {
@@ -105,6 +107,24 @@ class Clansuite_Formelement_Input extends Clansuite_Formelement implements Clans
      * @var int
      */
     public $description;
+    
+    /**
+     * A regular expression pattern, e.g. [A-Za-z]+\d+
+     *
+     * @var string
+     */
+    public $pattern;
+    
+    /**
+     * Set the regular expression pattern for client-side validation
+     * e.g. [A-Za-z]+\d+
+     *
+     * @var string
+     */
+    public function setPattern($pattern)
+    {
+        $this->pattern = $pattern;
+    }
 
     /**
      * Set Additional Attributes as Text to formelement.
@@ -132,6 +152,7 @@ class Clansuite_Formelement_Input extends Clansuite_Formelement implements Clans
         $html .= (bool) $this->value ? ' value="'.$this->value.'"' : null;
         $html .= (bool) $this->size ? ' size="'.$this->size.'"' : null;
         $html .= (bool) $this->maxlength ? ' maxlength= "'.$this->maxlength.'"' : null;
+        $html .= (bool) $this->pattern ? ' pattern= "'.$this->pattern.'"' : null;
         $html .= (bool) $this->class ? ' class="'.$this->class.'"' : null;
         $html .= ($this->type == 'image') ? ' source="'.$this->source.'"' : null;
         $html .= ($this->type == 'image' and (bool) $this->width and (bool) $this->height) ? '  style="width:'.$this->width.'px; height:'.$this->height.'px;"' : null;

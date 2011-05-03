@@ -40,12 +40,18 @@ if (defined('IN_CS') === false)
  *
  *  Clansuite_Form
  *  |
- *  \- Clansuite_Formelement_Select
+ *  \- Clansuite_Formelement_Input
  *     |
  *     \- Clansuite_Formelement_SelectColor
  */
-class Clansuite_Formelement_SelectColor extends Clansuite_Formelement_Select implements Clansuite_Formelement_Interface
+class Clansuite_Formelement_SelectColor extends Clansuite_Formelement_Input implements Clansuite_Formelement_Interface
 {
+    public function __construct()
+    {
+        # Note: HTML5 <input type="color"> is not a select formelement.
+        $this->type = 'color';
 
+        return $this;
+    }
 }
 ?>
