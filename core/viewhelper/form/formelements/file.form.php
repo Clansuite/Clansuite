@@ -123,7 +123,7 @@ class Clansuite_Formelement_File extends Clansuite_Formelement_Input implements 
                  * Currently not using the render method of the parent class
                  * return parent::render();
                  */
-                return '<input name="uploadfile" type="file">';
+                return '<input type="file" name="file[]" multiple="true">';
                 break;
         }
     }
