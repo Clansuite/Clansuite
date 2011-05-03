@@ -45,9 +45,46 @@ if(defined('IN_CS') === false)
  */
 class Clansuite_Module_About extends Clansuite_Module_Controller
 {
-    public function action_showabout()
+
+    public function initializeModule()
+    {  
+        $this->getModuleConfig();
+
+        # initialize related active-records
+        parent::initModel('about');
+    }
+
+    public function action_show()
     {   
         $this->setRenderMode('NOLAYOUT');
+
+        # Get Render Engine
+        $view = $this->getView();
+
+        // --------------------------------------
+        // Descripcions
+        // --------------------------------------
+        $tab1_id = 1;
+        $resultArticle = $this->getModel(  )->findByID( $tab1_id );
+        $view->assign('tab1_description', $resultArticle['description']);
+
+        $tab2_id = 2;
+        $resultArticle = $this->getModel(  )->findByID( $tab2_id );
+        $view->assign('tab2_description', $resultArticle['description']);
+
+        // --------------------------------------
+        // Developers
+        // --------------------------------------
+        $developer_id = 1;
+        $resultDeveloper = $this->getModel( 'Entities\AboutDeveloper' )->findByDeveloper( $developer_id );
+        $view->assign('developers1', $resultDeveloper);
+
+        $developer_id = 2;
+        $resultDeveloper = $this->getModel( 'Entities\AboutDeveloper' )->findByDeveloper( $developer_id );
+        $view->assign('developers2', $resultDeveloper);
+
+        #Clansuite_Debug::printR( $resultArticle );
+
         $this->display();
     }
     
