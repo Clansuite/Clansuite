@@ -213,8 +213,9 @@ class Gettext_PO_File
 
             $x = str_replace("\"\n\"", '', $x);
             $x = str_replace('$', '\\$', $x);
-            
-            # @todo eval to clean ??? 
+
+            # @todo eval to clean ???
+            #Clansuite_Debug:firebug($x);
             $x = @ eval ("return \"$x\";");
         }
 
