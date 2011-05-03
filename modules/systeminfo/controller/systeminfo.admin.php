@@ -144,7 +144,8 @@ class Clansuite_Module_Systeminfo_Admin extends Clansuite_Module_Controller
         $sysinfos = array();
 
         # get PDO Object from Doctrine
-        $pdo = Doctrine_Manager::connection()->getDbh();
+        $pdo = $this->doctrine_em->getConnection()->getWrappedConnection();
+        #Clansuite_Debug::printR($pdo);
         # fetch PDO::getAttributes and store them in
         $sysinfos['pdo']['driver_name']        = $pdo->getAttribute(PDO::ATTR_DRIVER_NAME);
         $sysinfos['pdo']['server_version']     = $pdo->getAttribute(PDO::ATTR_SERVER_VERSION);
@@ -180,7 +181,7 @@ class Clansuite_Module_Systeminfo_Admin extends Clansuite_Module_Controller
          */
 
         # get apc cache
-        $cache_apc = Clansuite_Cache_Factory::getCache('apc', $this->getInjector());
+        $cache_apc = Clansuite_Cache_Factory::getCache('apc');
         $apc_stats = $cache_apc->stats();
 
         # debug display of the stats data
@@ -256,7 +257,7 @@ class Clansuite_Module_Systeminfo_Admin extends Clansuite_Module_Controller
         Clansuite_Breadcrumb::add( _('Show'), '/sysinfo/showapc');
 
         # Get APC Cache
-        $cache_apc = Clansuite_Cache_Factory::getCache('apc', $this->getInjector());
+        $cache_apc = Clansuite_Cache_Factory::getCache('apc');
 
         # Assign Data to the View
         $this->getView()->assign('apc_sysinfos', $cache_apc->stats());
