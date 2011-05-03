@@ -98,15 +98,15 @@ class Clansuite_Cache_APC implements Clansuite_Cache_Interface
      * Removes a stored variable from the
      *
      * @link http://php.net/manual/en/function.apc-delete.php
-     * @param string $key Identifier for the data
+     * @param string|array $key Identifier for the data
      * @return int Number of keys deleted.
      */
-    public function delete($key)
+    public function delete($keys)
     {
-        $key = (array) $key;
+        $keys = (array) $keys;
         $keys_deleted = 0;
 
-        foreach($key as $cacheKey)
+        foreach($keys as $key)
         {
             if(true === apc_delete($key))
             {
@@ -156,6 +156,7 @@ class Clansuite_Cache_APC implements Clansuite_Cache_Interface
      */
     public function stats()
     {
+        $apc_sysinfos = array();
         # Retrieve APC Version
         $apc_sysinfos['version'] = phpversion('apc');
         $apc_sysinfos['phpversion'] = phpversion();
@@ -165,6 +166,9 @@ class Clansuite_Cache_APC implements Clansuite_Cache_Interface
          *   Retrieves APC's Shared Memory Allocation information
          * ========================================================
          */
+        if(function_exists('apc_sma_info'))
+        {
+
         $apc_sysinfos['sma_info'] = apc_sma_info(); # set "false" for details
         # Calculate "APC Memory Size" (Number of Segments * Size of Segment)
         $apc_sysinfos['sma_info']['mem_size'] = $apc_sysinfos['sma_info']['num_seg'] * $apc_sysinfos['sma_info']['seg_size'];
@@ -174,9 +178,13 @@ class Clansuite_Cache_APC implements Clansuite_Cache_Interface
 
         # Calculate "APC Free Memory Percentage" ( mem_size*100/mem_used )
         $apc_sysinfos['sma_info']['mem_avail_percentage'] = sprintf('(%.1f%%)', $apc_sysinfos['sma_info']['avail_mem'] * 100 / $apc_sysinfos['sma_info']['mem_size']);
+        }
 
+        if(function_exists('apc_cache_info') and false === extension_loaded('Zend Data Cache'))
+        {
         # Retrieves cached information and meta-data from APC's data store
         $apc_sysinfos['cache_info'] = apc_cache_info();
+        #Clansuite_Debug::printR(apc_cache_info());
         $apc_sysinfos['cache_info']['cached_files'] = count($apc_sysinfos['cache_info']['cache_list']);
         $apc_sysinfos['cache_info']['deleted_files'] = count($apc_sysinfos['cache_info']['deleted_list']);
 
@@ -211,6 +219,7 @@ class Clansuite_Cache_APC implements Clansuite_Cache_Interface
         $apc_sysinfos['system_cache_info']['insert_rate'] = sprintf('%.2f', ($apc_sysinfos['system_cache_info']['num_inserts']) / ($time - $apc_sysinfos['system_cache_info']['start_time']));
         # size
         $apc_sysinfos['system_cache_info']['size_files'] = Clansuite_Functions::getsize($apc_sysinfos['system_cache_info']['mem_size']);
+        }
 
         $apc_sysinfos['settings'] = ini_get_all('apc');
 

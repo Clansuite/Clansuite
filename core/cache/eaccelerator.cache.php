@@ -58,9 +58,21 @@ class Clansuite_Cache_Eaccelerator implements Clansuite_Cache_Interface
      */
     public function __construct()
     {
-        if( extension_loaded('eaccelerator') === false)
+        if(extension_loaded('eaccelerator') === false)
         {
             throw new Exception('The PHP extension eAccelerator (cache) is not loaded! You may enable it in "php.ini!"', 300);
+        }
+
+        # @todo ensure eaccelerator 0.9.5 is in use
+        # from 0.9.6 the user cache functions are removed
+        if(false === function_exists('eaccelerator_info'))
+        {
+            die('eAccelerator isn\'t compiled with info support!');
+        }
+        else
+        {
+            $info = eaccelerator_info();
+            $version = $info['name'];
         }
     }
 
@@ -128,11 +140,6 @@ class Clansuite_Cache_Eaccelerator implements Clansuite_Cache_Interface
      */
     public function stats()
     {
-        if(CSID_EXTENSION_LOADED_EAC == false)
-        {
-            return;
-        }
-
         # get info Get info about eAccelerator
         $eac_sysinfos['infos'] = eaccelerator_info();
 

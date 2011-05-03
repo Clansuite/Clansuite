@@ -47,6 +47,7 @@ if(defined('IN_CS') === false)
  * The XCache project is lead by mOo who is also a developer of the Lighttpd, the Webserver also known as lighty.
  *
  * @link http://xcache.lighttpd.net/
+ * @link http://xcache.lighttpd.net/wiki/XcacheApi
  *
  * @category    Clansuite
  * @package     Core
