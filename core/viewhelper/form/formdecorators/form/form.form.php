@@ -107,7 +107,7 @@ class Clansuite_Form_Decorator_Form extends Clansuite_Form_Decorator
         {
              $html_form .= ' autocomplete ';
         }
-        
+
         if( $this->getNoValidation() === true )
         {
              $html_form .= ' novalidation ';

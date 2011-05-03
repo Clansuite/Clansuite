@@ -39,12 +39,44 @@ if (defined('IN_CS') === false)
 /**
  *  Clansuite_Formelement
  *  |
- *  \- Clansuite_Formelement_Select
+ *  \- Clansuite_Formelement_Input
  *     |
  *     \- Clansuite_Formelement_SelectDate
  */
-class Clansuite_Formelement_SelectDate extends Clansuite_Formelement_Select implements Clansuite_Formelement_Interface
+class Clansuite_Formelement_SelectDate extends Clansuite_Formelement_Input implements Clansuite_Formelement_Interface
 {
+    public function __construct()
+    {
+        # Note: HTML5 <input type="date"> is not a select formelement.
+        $this->type = 'date';
 
+        return $this;
+    }
+    
+    /**
+     * HTML 5 has several Types of input formfields for date and time selection
+     *
+     * date             - Selects date, month and year
+     * month            - Selects month and year
+     * week             - Selects week and year
+     * time             - Selects time (hour and minute)
+     * datetime         - Selects time, date, month and year (UTC time)
+     * datetime-local   - Selects time, date, month and year (local time)
+     */
+    public function setType($type)
+    {
+        $types = array('date', 'month', 'week', 'time', 'datetime', 'datetime-local');
+    
+        if(in_array($type, $types) === true)
+        {
+            $this->type = $type;
+        }
+        else
+        {
+            throw new Clansuite_Exception('Invalid formfield type specified. Choose one of ' . explode(',', $types));
+        }
+
+        return $this;
+    }
 }
 ?>
