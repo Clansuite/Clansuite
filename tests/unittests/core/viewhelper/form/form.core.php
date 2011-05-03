@@ -40,7 +40,7 @@ class Clansuite_Form_Test extends UnitTestCase
      */
     public function tearDown()
     {
-        unset($this->object);
+        unset($this->form);
     }
 
     public function testSetMethod()
