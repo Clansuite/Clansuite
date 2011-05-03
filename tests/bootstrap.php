@@ -23,13 +23,9 @@
     *    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
     *
     * @license    GNU/GPL v2 or (at your option) any later version, see "/doc/LICENSE".
-    *
     * @author     Jens-André Koch   <vain@clansuite.com>
     * @copyright  Copyleft: All rights reserved. Jens-André Koch (2005-onwards)
-    *
     * @link       http://www.clansuite.com
-
-    *
     * @version    SVN: $Id$
     */
 
@@ -46,8 +42,6 @@ ini_set('memory_limit', '256M');
 
 date_default_timezone_set('Europe/Berlin');
 
-define('TESTSUBJECT_DIR', dirname(__DIR__) . DIRECTORY_SEPARATOR); # /../tests (trunk)
-
 $paths = array(
         # adjust include path to SIMPLETEST DIR and UNITTESTS DIR
         realpath(__DIR__),                 # /tests
@@ -60,8 +54,8 @@ $paths = array(
          * resides at = C:\Programme\Zend\
          * Test are at = C:\Programme\Zend\Apache2\htdocs\clansuite\trunk\tests
          */
-        realpath(dirname(dirname(dirname(dirname(dirname(__DIR__))))).'/ZendServer/bin'),
-        realpath(dirname(dirname(dirname(dirname(dirname(__DIR__))))).'/ZendServer/bin/PEAR')
+        #realpath(dirname(dirname(dirname(dirname(dirname(__DIR__))))).'/ZendServer/bin'),
+        #realpath(dirname(dirname(dirname(dirname(dirname(__DIR__))))).'/ZendServer/bin/PEAR')
 );
 #var_dump($paths);
 
@@ -69,14 +63,22 @@ $paths = array(
 set_include_path(implode($paths, PATH_SEPARATOR) . PATH_SEPARATOR . get_include_path());
 unset($paths);
 
+# needed if, run from CLI
+if(empty($_SERVER['SERVER_NAME']))
+{
+    $_SERVER['SERVER_NAME'] = gethostname();
+}
+
 #  acquire clansuite path constants
 require_once 'core/bootstrap/clansuite.application.php';
+Clansuite_CMS::initialize_Paths();
+
+# constants must be defined, after initialize_paths(), because of apc constants cache
+define('REWRITE_ENGINE_ON', 1);
+define('TESTSUBJECT_DIR', dirname(__DIR__) . DIRECTORY_SEPARATOR); # /../tests (trunk)
 
 # set exceptionhandling
 require_once 'core/exception.core.php';
-
-define('REWRITE_ENGINE_ON', 1);
-Clansuite_CMS::initialize_Paths();
 
 # put more bootstrapping code here
 
