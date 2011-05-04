@@ -72,7 +72,11 @@ class Clansuite_Doctrine2
         $classLoader->register();
         $classLoader = new \Doctrine\Common\ClassLoader('Proxies', realpath(ROOT . 'doctrine'));
         $classLoader->register();
+        
+        # Including Doctrine Extensions
         $classLoader = new \Doctrine\Common\ClassLoader('DoctrineExtensions', realpath(ROOT_LIBRARIES));
+        $classLoader->register();
+        $classLoader = new Doctrine\Common\ClassLoader("DoctrineExtensions\\NestedSet", realpath(ROOT_LIBRARIES . 'DoctrineExtensions'));
         $classLoader->register();
 
         # fetch doctrine config handler
@@ -121,7 +125,7 @@ class Clansuite_Doctrine2
             'user'      => $db_config['database']['username'],
             'password'  => $db_config['database']['password'],
             'dbname'    => $db_config['database']['name'],
-            'host'      => $db_config['database']['host']
+            'host'      => $db_config['database']['host'],
             'charset'   => $db_config['database']['charset'],
             'driverOptions' => array(
                 'charset' => $db_config['database']['charset']
@@ -139,9 +143,12 @@ class Clansuite_Doctrine2
         #$config->setSqlLogger(new \Doctrine\DBAL\Logging\EchoSqlLogger);
 
         # get EventManager
-        #$evm = new \Doctrine\Common\EventManager;
+        $evm = new Doctrine\Common\EventManager;
 
-        # TablePrefix : Add Extension(s) as Eventlistener
+        # Extension: Tree
+        #$evm->addEventSubscriber(new Gedmo\Tree\TreeListener);
+
+        # Extension: TablePrefix
         #$tablePrefix = new \DoctrineExtensions\TablePrefix(DB_PREFIX);
         #$evm->addEventListener(\Doctrine\ORM\Events::loadClassMetadata, $tablePrefix);
 
