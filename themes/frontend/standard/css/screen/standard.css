@@ -1,0 +1,540 @@
+/*
+    Document   : standard.css
+    Description: CSS for the Clansuite Standard Layout
+
+    Created on : 11.05.2009 17:23
+    Author     : vain@clansuite.com
+    Version    : SVN: $Id: standard.css 4716 2010-09-22 10:18:54Z vain $
+
+    Syntax recommendation http://www.w3.org/TR/REC-CSS2
+*/
+*
+{
+    margin:0;
+}
+body
+{
+    margin: 10px;
+    padding: 10px;
+    color:#000;
+    background: #E4E0C7;
+    /* background: url(../images/bgr.png); */
+    font-family: tahoma, verdana, arial, sans-serif;
+    font-size: 11px;
+}
+
+html { padding: 0 0 25px 0;  /* create area for ajax notification area */}
+
+#header {
+    height:180px;
+    border-bottom:1px solid #fff;
+    background:#cccccc;
+    text-align:center;
+    color:#fff;
+}
+
+#inner {
+width:100%;
+float:left;
+}
+
+#left {
+    float:left;
+    width:32%;/* note this width is 32% and not 20% */
+    margin-left:-31.9%;/* must be less than width */
+    position:relative;
+    left:-.01%;
+}
+#right {
+    margin-right:-31.9%;/* must be less than width */
+    float:right;
+    width:32%;/* note this width is 32% and not 20% */
+    position:relative;
+    left:.01%;
+}
+#middle {
+    border-left:1px solid #fff;
+    border-right:1px solid #fff;
+    background:#7eddff;
+    margin-left:20%;
+    margin-right:20%;
+ min-height:0;
+}
+/* mac hie \*/
+* html #middle {height:1%;position:relative;}
+/* end hide */
+
+#footer {
+border-top:1px solid;
+clear:both;
+color:#999999;
+font-size:10px;
+height:31px;
+padding:0.25em 0pt;
+}
+
+#footer *:link, #footer *:visited {
+color:#999999;
+}
+
+#footer hr {
+display:none;
+}
+
+#footer #poweredby {
+border:0pt none;
+float:left;
+}
+
+#footer #poweredby:hover {
+background:transparent none repeat scroll 0%;
+}
+
+#footer p {
+margin:0pt;
+}
+
+#footer p.left {
+border-left:1px solid #B7B7B7;
+border-right:1px solid #B7B7B7;
+float:left;
+margin-left:1em;
+padding:0pt 1em;
+}
+
+#footer p.right {
+float:right;
+text-align:right;
+}
+
+
+
+
+form input,
+form textarea,
+form select
+{
+    width:auto;   /* auto-size, otherwise watch for wrap on resize */
+    margin:3px 0 0 5px;  /* set margin on left of form elements rather than right of
+                              label aligns textarea better in IE */
+    padding-left: 3px;
+}
+
+input[type="text"],
+input[type="password"],
+textarea
+{
+    background-color:#FFFFFF;
+    border:1px solid #EEEEEE;
+    font-family: tahoma, verdana, arial, sans-serif;
+    font-size:100%;
+    margin:2px 0;
+    padding-left:0.2em;
+}
+.input_text
+{
+    border: 1px solid black;
+    height: 13px;
+    font-family: tahoma, verdana, arial, sans-serif;
+    font-size: 11px;
+}
+
+form select.input_text,
+select.input_text
+{
+    height: auto;
+}
+
+.input_textarea
+{
+    border: 1px solid black;
+    font-family: tahoma, verdana, arial, sans-serif;
+    font-size: 11px;
+}
+
+.checkbox
+{
+    border: 1px solid black;
+}
+
+img {
+    border: 0px;
+}
+
+table td
+{
+    vertical-align: top;
+}
+
+p
+{
+    font-family: tahoma, verdana, arial, sans-serif;
+    font-size: 11px;
+    margin: 2em;
+}
+
+table.admintable thead th
+{
+    background: #254161;
+    border: 1px solid;
+    border-color: #ffffff #ACA899 #ACA899 #ffffff;
+    padding: 5px;
+    cursor: default;
+    font-size: 12px;
+    font-weight: bold;
+    color: white;
+}
+
+table.admintable tbody
+{
+    background: #ECE9D8;
+    border: 1px solid;
+    border-color: #ffffff #ACA899 #ACA899 #ffffff;
+    cursor: default;
+}
+
+table.admintable td{
+
+    padding: 5px;
+    vertical-align: middle;
+    border-color: white;
+    border: 1px solid white;
+}
+
+table.admintable tr#cell2
+{
+    background: #E4E0C7;
+    border: 1px solid;
+    border-color: #ffffff #ACA899 #ACA899 #ffffff;
+    cursor: default;
+}
+
+table.admintable tr#cell3
+{
+    background: #E4E0C7;
+    border: 1px solid;
+    border-color: #ffffff #ACA899 #ACA899 #ffffff;
+    cursor: default;
+}
+
+.tr_row1 td
+{
+    background: #ECE9D8;
+    border: 1px solid;
+    border-color: #ffffff #ACA899 #ACA899 #ffffff;
+    padding: 5px;
+    cursor: default;
+}
+
+.tr_row2 td
+{
+    background: #E4E0C7;
+    border: 1px solid;
+    border-color: #ffffff #ACA899 #ACA899 #ffffff;
+    padding: 5px;
+    cursor: default;
+}
+
+.cell1
+{
+    background: #ECE9D8;
+    border: 1px solid;
+    border-color: #ffffff #ACA899 #ACA899 #ffffff;
+    padding: 5px;
+    cursor: default;
+}
+
+.cell2
+{
+    background: #E4E0C7;
+    border: 1px solid;
+    border-color: #ffffff #ACA899 #ACA899 #ffffff;
+    padding: 5px;
+    cursor: default;
+}
+
+.cell3
+{
+    background: #E4E0C7;
+    border: 1px solid;
+    border-color: #ffffff #ACA899 #ACA899 #ffffff;
+    padding: 0px;
+    cursor: default;
+}
+
+.red_cell
+{
+    background: #FF0000;
+    border: 1px solid;
+    border-color: #ffffff #ACA899 #ACA899 #ffffff;
+    padding: 5px;
+    cursor: default;
+}
+
+.td_header
+{
+    background: #254161;
+    border: 1px solid;
+    border-color: #ffffff #ACA899 #ACA899 #ffffff;
+    padding: 5px;
+    cursor: default;
+    font-size: 12px;
+    font-weight: bold;
+    background: url(../../images/thback.gif) repeat-x;
+}
+
+.tr_header td
+{
+    background: #254161;
+    border: 1px solid;
+    border-color: #ffffff #ACA899 #ACA899 #ffffff;
+    padding: 5px;
+    cursor: default;
+    font-size: 12px;
+    font-weight: bold;
+    background: url(../images/thback.gif) repeat-x;
+}
+
+.tr_header_small td
+{
+    background: #D5CCBB;
+    border: 1px solid;
+    border-color: #ffffff #ACA899 #ACA899 #ffffff;
+    padding: 2px;
+    padding-left: 5px;
+    cursor: default;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.td_header_small
+{
+    background: #D5CCBB;
+    border: 1px solid;
+    border-color: #ffffff #ACA899 #ACA899 #ffffff;
+    padding: 2px;
+    padding-left: 5px;
+    cursor: default;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.left_menu
+{
+    font-family: tahoma, verdana, arial, sans-serif;
+    font-size: 11px; margin: 2em;
+}
+
+.right_menu
+{
+    font-family: tahoma, verdana, arial, sans-serif;
+    font-size: 11px;
+    margin: 2em;
+}
+
+.header
+{
+    background: #ECE9D8;
+    border: 1px solid;
+    border-color: #ffffff #ACA899 #ACA899 #ffffff;
+    padding: 5px;
+    cursor: default;
+    font-weight: bold;
+}
+
+.header span
+{   /* move Date inside Header to right-side */
+    position: absolute;
+    right: 38px;
+}
+
+.menugradient {
+
+    height: 24px;
+
+    background: #ECE9D8;
+    border: 1px solid;
+    border-color: #ffffff #ACA899 #ACA899 #ffffff;
+    /* overflow: auto; Aufgrund des Floatens der Innencontainer */
+    padding-top:    1px;
+    padding-bottom: 1px;
+
+}
+
+.message_new
+{
+    border: 1px solid #999999;
+    background: #CCFF99;
+    padding: 3px;
+}
+
+.message_old
+{
+    border: 1px solid #999999;
+    background: #EEEEEE;
+    padding: 3px;
+
+}
+
+.message_date
+{
+    clear: left;
+    font-size: 10px;
+}
+
+.message_headline
+{
+    float: left;
+    clear: both;
+}
+
+.message_message
+{
+
+}
+
+.message_divider
+{
+    border-width: 1px 0px 0px 0px;
+    border-color: #000000;
+    border-style: solid;
+    clear: both;
+    height: 1px;
+}
+
+.message_buttons
+{
+    float: right;
+    top: 0px;
+}
+
+.message_selections
+{
+    float: right;
+}
+
+.profile_editcell
+{
+    background: #ECE9D8;
+    border: 1px solid;
+    border-color: #ffffff #ACA899 #ACA899 #ffffff;
+    padding: 5px;
+    cursor: default;
+}
+
+.profile_icon
+{
+    height: 13px;
+    text-align: center;
+}
+
+.ajax_input_class
+{
+    width:auto;   /* auto-size, otherwise watch for wrap on resize */
+    margin:3px 0 0 5px;  /* set margin on left of form elements rather than right of
+                              label aligns textarea better in IE */
+    padding-left: 3px;
+    border: 1px solid black;
+    height: 13px;
+    font-family: tahoma, verdana, arial, sans-serif;
+    font-size: 11px;
+}
+
+.bar
+{
+    float: left;
+    width: auto;
+}
+
+.search
+{
+    vertical-align: middle;
+    height: 30px;
+    float:  right;
+    width:  auto;
+    margin-right: 5px;
+}
+
+.search input,
+.search select
+{
+    font-family: georgia, tahoma, verdana;
+    font-size: 12px;
+    margin-top: 4px;
+}
+
+.content
+{
+    padding: 8px;
+    background: #ECE9D8;
+    border: 1px solid;
+    border-color: #ffffff #ACA899 #ACA899 #ffffff;
+}
+
+.border3d
+{
+    background: #ECE9D8;
+    border: 1px solid;
+    border-color: #ffffff #ACA899 #ACA899 #ffffff;
+}
+
+/**
+* @desc FCK Editor
+*/
+.Bold
+{
+    font-weight: bold;
+}
+
+.Title
+{
+    font-weight: bold;
+    font-size: 18px;
+    color: #cc3300;
+}
+
+.Code
+{
+    border: #8b4513 1px solid;
+    padding-right: 5px;
+    padding-left: 5px;
+    color: #000066;
+    font-family: 'Courier New' , Monospace;
+    background-color: #ff9933;
+}
+
+/* Userslist */
+#userslist {
+    width: 100%;
+    text-align: center;
+}
+#userslist, #userslist tr, #userslist th, #userslist td {
+    padding: 0 2px;
+    border: 1px solid #333;
+    border-collapse: collapse;
+}
+#userslist .nick-rank {
+    text-align: left;
+}
+#userslist .nick-rank span, #userslist .nick-rank span {
+    float: right;
+}
+
+
+/* Sidebar Widgets: News, TSViewer etc. */
+
+#left_widget_bar
+{
+    width: 200px;
+}
+
+#right_widget_bar
+{
+    width: 200px;
+}
+
+#bottom_widget_bar
+{
+
+}
+

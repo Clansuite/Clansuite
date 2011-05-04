@@ -1,0 +1,167 @@
+/*
+ * -----------------------------------------------------------------------------------------------
+ * Clansuite CSS2 Framework (CSFW)
+ * -------------------------------------------------------------------------------------------------
+ * Clansuite - just an eSports CMS
+ * Jens-André Koch © 2005 - onwards
+ * http://www.clansuite.com/
+ * -----------------------------------------------------------------------------------------------
+ * Document   : core.css
+ * Description : overload core definitions theme defined
+ * Syntax recommendation http://www.w3.org/TR/REC-CSS2
+ * -----------------------------------------------------------------------------------------------
+ * @license    GNU/GPL v2 or (at your option) any later version, see "/doc/LICENSE".
+ * @author     Paul Brand <info@isp-tenerife.net>
+ * @package      CSS
+ * subpackage    Themes
+ * @version        1.0
+ * -----------------------------------------------------------------------------------------------
+*/
+
+/* Fieldset CSS */
+/* 1. h3sform */
+/* 2. nobordersform */
+/* 3. simplyform */
+
+@media screen
+{
+
+    /* HTML TAGS */
+
+    .h3sForm h3
+    {
+        text-align: center;
+        width: 100%;
+        height: 15px;
+        border-bottom: 1px solid #999999;
+        font-size: 11px;
+    }
+
+    /* 1. h3sform */
+
+    .h3sForm fieldset
+    {
+        width: 500px;
+        padding: 0 0 0 0;
+        border: 1px solid #999999;
+        border-top-color: #CCCCCC;
+        border-left-color: #CCCCCC;
+        background: url(../images/background_form_element_lightblue.gif) repeat-x;
+        background-color: #E0F4FB;    
+    }
+
+    .h3sForm fieldset label span
+    {
+        width: 200px;	
+        font-weight: bold;
+    }
+
+    .h3sForm fieldset input
+    {
+        position: relative;
+        top: -4px;
+    }
+
+    .h3sForm fieldset.submit
+    {
+        border: none;
+        background-color: transparent;
+        text-align: center;
+    }
+
+    .h3sForm fieldset.radio
+    {
+        width: 200px;
+        clear: both;
+        border: 1px solid #999999;
+        border-top-color: #CCCCCC;
+        border-left-color: #CCCCCC;
+        margin: 0em 1em 1em 1em;
+        background: url(../images/background_form_element_blue.gif) repeat-x;
+        background-color: #C5EBF7;
+    }
+
+    .h3sForm fieldset.radio input
+    {
+        position: relative;
+        top: 4px;
+    }
+
+    .h3sForm fieldset td
+    {
+        padding: 0px 5px 15px 5px;
+    }
+
+    .h3sForm fieldset.radio h3
+    {
+        position: relative;
+        text-align: center;
+        width: 100%;
+        height: 15px;
+        border-bottom: 1px solid #999999;
+        font-size: 11px;
+    }
+
+    .h3sForm input[type=text]
+    {
+        position: relative;
+        width: 20em;
+    }
+
+
+    .h3sForm img
+    {
+      clear:right;
+      float:left;
+    }
+
+    .box
+    {
+        width: 500px;
+        border: 1px solid #999999;
+        border-top-color: #CCCCCC;
+        border-left-color: #CCCCCC;
+        background: url(../images/background_form_element_lightblue.gif) repeat-x;
+        background-color: #E0F4FB;  
+    }
+
+    .box h1
+    {
+        font-weight: bold;
+        text-align: center;
+        border-bottom: 1px solid #999999;
+    }
+
+    .box .rows
+    {
+        width: 300px;
+        margin: auto;
+    }
+
+    .box .rows h1
+    {
+        font-weight: bold;
+        text-align: center;
+        border-bottom: 1px solid #999999;
+    }
+
+    .box .rows .desc
+    {
+        font-weight: bold;
+        position: relative;
+        top: 7px;
+    }
+
+    .box .rows .input
+    {
+        position: relative;
+        top: -6px;
+        display: block;
+    }
+
+    .box .rows .input input
+    {
+        border: 1px solid black;
+    }
+
+}
