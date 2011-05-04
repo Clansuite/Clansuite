@@ -113,7 +113,7 @@ class Language implements ArrayAccess
         $this->language['STEP4_SENTENCE5'] = 'Import Databasetables of another CMS?';
 
         $this->language['HOST'] = 'Database Hostname';
-        $this->language['DRIVER'] = 'Databank Driver';
+        $this->language['DRIVER'] = 'Database Driver';
         $this->language['NAME'] = 'Database Name';
         $this->language['CREATE_DATABASE'] = 'Create Database?';
         $this->language['USERNAME'] = 'Database Username';

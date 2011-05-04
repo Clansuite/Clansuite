@@ -119,12 +119,9 @@ $_SESSION = array_merge_rec($_SESSION, $_POST);
 if(isset($_SESSION['step']))
 {
     $step = (int) intval($_SESSION['step']);
-    if(isset($_POST['step_forward']))
-    { $step++;    }
-    if(isset($_POST['step_backward']))
-    { $step--;    }
-    if($step >= $total_steps)
-    { $step = $total_steps;    }
+    if(isset($_POST['step_forward']))  { $step++; }
+    if(isset($_POST['step_backward'])) { $step--; }
+    if($step >= $total_steps)          { $step = $total_steps; }
 }
 else
 { $step = 1;}
@@ -195,7 +192,7 @@ require 'install_menu.php';
  * ===============================================
  *
  * Procedure Notice:
- * if a STEP is successful, procedd to next else return to same STEP and display error
+ * if a STEP is successful, proceed to the next, else return to the same STEP and display error
  */
 
 /**
@@ -245,7 +242,7 @@ if(isset($_POST['step_forward']) && $step == 5)
             }
 
             # remove create_database from $_POST Config array
-            # this shouldn't be written in the config file
+            # so that it will not be written in the config file later on
             unset($_POST['config']['database']['create_database']);
         }
 
@@ -281,7 +278,7 @@ if(isset($_POST['step_forward']) && $step == 5)
             else # config written
             {
 
-            } # end if: 5. insert SQL Data
+            } # end if: 5. write settings to clansuite cfg
         } # end if: 4. insert SQL Data
     }
     else # input fields empty
@@ -291,7 +288,7 @@ if(isset($_POST['step_forward']) && $step == 5)
         # Adjust Error-Message in case validity of database name FAILED
         if(isset($_POST['config']['database']['name']) && preg_match('#^[a-zA-Z0-9]{1,}[a-zA-Z0-9_\-@]+[a-zA-Z0-9_\-@]*$#', $_POST['config']['database']['name']))
         {
-            $error .= '<p>The database name you have entered, "' . $_POST['config']['database']['name'] . '", is invalid.</p>';
+            $error .= '<p>The database name you have entered ("' . $_POST['config']['database']['name'] . '") is invalid.</p>';
             $error .= '<p> It can only contain alphanumeric characters, periods, or underscores. Usable Chars: A-Z;a-z;0-9;-;_ </p>';
             $error .= '<p> Forbidden are database names containing only numbers and names like mysql-database commands.</p>';
         }
@@ -594,6 +591,7 @@ function installstep_3($language)
 function installstep_4($language, $error)
 {
     $values['host'] = isset($_SESSION['host']) ? $_SESSION['host'] : 'localhost';
+    $values['driver'] = isset($_SESSION['driver']) ? $_SESSION['driver'] : 'pdo_mysql';
     $values['type'] = isset($_SESSION['type']) ? $_SESSION['type'] : 'mysql';
     $values['name'] = isset($_SESSION['name']) ? $_SESSION['name'] : 'clansuite';
     $values['create_database'] = isset($_SESSION['create_database']) ? $_SESSION['create_database'] : '0';
@@ -623,7 +621,7 @@ function installstep_6($language)
     $values['admin_email'] = isset($_SESSION['admin_email']) ? $_SESSION['admin_email'] : 'admin@email.com';
     $values['admin_language'] = isset($_SESSION['admin_language']) ? $_SESSION['admin_language'] : 'en_EN';
 
-    require 'install-step6.php';
+    include 'install-step6.php';
 }
 
 // STEP 7 - System Check

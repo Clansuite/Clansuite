@@ -114,7 +114,7 @@ class Language implements ArrayAccess
         $this->language['STEP4_SENTENCE5'] = 'Datenbanktabellen eines anderen CMS importieren.';
 
         $this->language['HOST'] = 'Datenbank Hostname';
-        $this->language['DRIVER'] = 'Databank Driver';
+        $this->language['DRIVER'] = 'Datenbank Treiber';
         $this->language['NAME'] = 'Datenbank Name';
         $this->language['CREATE_DATABASE'] = 'Datenbank erstellen';
         $this->language['USERNAME'] = 'Datenbank Benutzer';
