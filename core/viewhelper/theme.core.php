@@ -218,9 +218,25 @@ class Clansuite_Theme
 
     public function getCSSFile()
     {
+        # ---------- CSS Browser -Toggle -------------------
+        include_once ROOT_CORE . 'tools' .DS. 'browserinfo.core.php';
+        $BrowserInfo = new Clansuite_Browserinfo();
+        $browsernick = $BrowserInfo->getBrowserNickname();
+
+        switch( $browsernick ) {
+            case 'msie':
+                    $cssPostfix = '_ie';
+                    break;
+            default:
+                    $cssPostfix = '';
+                    break;
+        }
+
         if(isset($this->theme_info['css']['mainfile']))
         {
-            return $this->getWWWPath() . 'css/' . $this->theme_info['css']['mainfile'];
+            $part = explode( '.', $this->theme_info['css']['mainfile'] );
+            $cssname = $part[0].$cssPostfix.'.'.$part[1];
+            return $this->getWWWPath() . 'css/' . $cssname;
         }
         elseif(false === isset($this->theme_info['css']['mainfile']))
         {

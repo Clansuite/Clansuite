@@ -56,6 +56,102 @@ class Clansuite_Module_Toolbox extends Clansuite_Module_Controller
     {
     }
 
+    /**
+     * ---------------------------------------------------
+     * CssBuilder
+     * ---------------------------------------------------
+     */
+    public function action_cssbuilder()
+    {
+        $this->setRenderMode('NOLAYOUT');
+        $compile = $browsers = array();
+        $htmlout = '';
+
+        if(false === class_exists('Clansuite_Cssbuilder', false))
+        {
+            include_once ROOT_CORE . 'tools/cssbuilder.core.php';
+        }
+        $builder = new Clansuite_Cssbuilder();
+
+        // -------------------------------------------------------------
+        // hier können browser hinzugefügt werden
+        // Der default (Mozilla) ist bereits vorhanden
+        // -------------------------------------------------------------
+        $builder::addBrowser( 'ie', 'Internet Explorer', true, 'ie' );
+        #$builder::addBrowser( 'chrome', 'Google Chrome', true, 'ch' );
+        #$builder::addBrowser( 'opera', 'Opera', true, 'op' );
+        #$builder::addBrowser( 'safari', 'Safari', true, 'sf' );
+        #$builder::addBrowser( 'camino', 'Camino', true, 'cam' );
+        #$builder::addBrowser( 'konqueror', 'Konqueror', true, 'cam' );
+
+        $browserArray = $builder::getBrowsers();
+
+        if( isset($_POST['submit']) )
+        {
+            if( isset($_POST['compileCore'] ))                    $compile['compileCore'] = true; else $compile['compileCore'] = false;
+            if( isset($_POST['coreImport'] ))                       $compile['coreImport'] = true; else $compile['coreImport'] = false;
+            if( isset($_POST['compileThemeFrontend'] ))    $compile['compileThemeFrontend'] = true; else $compile['compileThemeFrontend'] = false;
+            if( isset($_POST['compileThemeBackend'] ))    $compile['compileThemeBackend'] = true; else $compile['compileThemeBackend'] = false;
+
+            $compile['themeFrontendPath']    = $_POST['themeFrontendPath'];
+            $compile['themeFrontend']           = $_POST['themeFrontend'];
+            $compile['themeBackendPath']    = $_POST['themeBackendPath'];
+            $compile['themeBackend']           = $_POST['themeBackend'];
+
+            $formBrowsers = $_POST['browsers'];
+
+            $browser = array(); $i = 0;
+            foreach( $formBrowsers as $key=>$val) {
+                if( isset($val['active']) && $val['active'] == 1) {
+                    $browser[$i]['description'] = $val['description'];
+                    $browser[$i]['postfix'] = $val['postfix'];
+                    $i++;
+                }
+            }
+            $compile['browsers'] = $browser;
+
+            // Builder-Informationen übergeben
+            $builder::setBuilderInfo($compile);
+
+            if( ( true=== $compile['compileCore'] ) || 
+               ( true=== $compile['compileThemeFrontend'] and $compile['themeFrontendPath'] != '' and $compile['themeFrontend'] != '' ) || 
+               ( true=== $compile['compileThemeBackend'] and $compile['themeBackendPath'] != '' and $compile['themeBackend'] != '' )
+            ) {
+
+                // ------------------------------------------------------------
+                // Compile
+                // ------------------------------------------------------------
+                $htmlout .= '<div class="cmSuccess">';
+                for($i=0; $i<count($browser); $i++) {
+                    $htmlout .= '<p class="cmBoxTitle" style="padding-left:50px;">CSS-Builder Information <u>'.$browser[$i]['description'].'</u></p>';
+                    $htmlout .= $builder->build($i);
+                }
+                $htmlout .= '</div>';
+                $htmlout .= '<br />';
+                $htmlout .= '</td></tr></table>';
+            }
+        }
+        else {
+            $compile['compileCore']                  = false;
+            $compile['coreImport']                    = true;
+            $compile['compileThemeFrontend']  = true;
+            $compile['compileThemeBackend']  = false;
+            $compile['themeFrontendPath']       = $builder::getFrontendPath();
+            $compile['themeFrontend']              = $builder::getFrontendTheme();
+            $compile['themeBackendPath']       = $builder::getBackendPath();
+            $compile['themeBackend']              = $builder::getBackendTheme();
+        }
+
+        # Get Render Engine
+        $view = $this->getView();
+        $view->assign('browserinfo', $browserArray);
+        $view->assign('compile', $compile);
+        $view->assign('msgcompiled', $htmlout);
+
+        $this->display();
+    }
+
+
     public function widget_toolbox()
     {
     }
