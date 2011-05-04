@@ -94,7 +94,8 @@ class Clansuite_Formelement_Buttonbar extends Clansuite_Formelement implements C
         # instantiate the button object first and then return
         elseif(isset($this->_buttons[$buttonname]) and false === is_object($this->_buttons[$buttonname]))
         {
-            return $this->addButton($buttonname);
+            $this->addButton($buttonname);
+            return $this->_buttons[$buttonname];
         }
         else
         {
