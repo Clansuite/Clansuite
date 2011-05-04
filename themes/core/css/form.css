@@ -1,113 +1,115 @@
-@charset "utf-8";
 /* CSS for Clansuite Forms */
 
-/* choose one */
-@import url("clansuite_buttons.css"); /* import clansuite button styles */
-/* @import url("ui_buttons.css"); /* import jquery ui button style */
+@charset "UTF-8";
 
-.form {
-    clear:both;
-    color:#000;
-    font-family:Arial, Verdana;
-    font-size:12px;
-    margin:10px;
-}
+@media screen
+{
 
-/*fieldset {
-    -moz-border-radius: 8px 8px 8px 8px;
-    -moz-box-shadow: 2px 2px 2px #BBBBBB;
-}*/
+    .form {
+        clear:both;
+        color:#000;
+        font-family:Arial, Verdana;
+        font-size:12px;
+        margin:10px;
+    }
 
-/* not .form fieldset */
-fieldset.form {
-     /* Firefox CSS3 Bug: */
-    -moz-border-radius: 8px 8px 8px 8px;
-    -moz-box-shadow: 2px 2px 2px #BBBBBB;
-    background-color: #FAFAFA;   
-    border: 1px solid #AAA;
-    display: block;
-    margin: 0 0 1em;
-    padding: 0.5em;
-}
+    /*fieldset {
+        -moz-border-radius: 8px 8px 8px 8px;
+        -moz-box-shadow: 2px 2px 2px #BBBBBB;
+    }*/
 
-.form legend {
-    background: none repeat scroll 0 0 white;
-    border: 1px solid #BBBBBB;
-    color: #000000;
-    font-size: 110%;
-    font-weight: bold;
-    padding: 2px 12px;
-}
+    /* not .form fieldset */
+    fieldset.form {
+         /* Firefox CSS3 Bug: */
+        -moz-border-radius: 8px 8px 8px 8px;
+        -moz-box-shadow: 2px 2px 2px #BBBBBB;
+        background-color: #FAFAFA;   
+        border: 1px solid #AAA;
+        display: block;
+        margin: 0 0 1em;
+        padding: 0.5em;
+    }
 
-div.notice {
-    background:#FCF9D8;
-    border:1px solid #Fc7;
-    padding:10px;
-}
+    .form legend {
+        background: none repeat scroll 0 0 white;
+        border: 1px solid #BBBBBB;
+        color: #000000;
+        font-size: 110%;
+        font-weight: bold;
+        padding: 2px 12px;
+    }
 
-.form .formline {
-    clear:both;
-    padding-bottom:5px;
-    padding-top:5px;
-}
+    div.notice {
+        background:#FCF9D8;
+        border:1px solid #Fc7;
+        padding:10px;
+    }
 
-.form .formline,.form .formline label {
-    min-height:30px;
-}
+    .form .formline {
+        clear:both;
+        padding-bottom:5px;
+        padding-top:5px;
+    }
 
-.form .formline .forminside {
-    margin-left:200px;
-}
+    .form .formline,.form .formline label {
+        min-height:30px;
+    }
 
-.form .formline label {
-    float:left;
-    min-width:150px;
-}
+    .form .formline .forminside {
+        margin-left:200px;
+    }
 
-.form span.formdescription {
-    color:#666;
-    float:left;
-    font-size:11px;
-}
+    .form .formline label {
+        float:left;
+        min-width:150px;
+    }
 
-.form span.value {
-    font-size:11px;
-    margin-left:5px;
-}
+    .form span.formdescription {
+        color:#666;
+        float:left;
+        font-size:11px;
+    }
 
-.form .formline input[type=password],.form .formline select,.form .formline input[type=text] {
-    width:255px;
-}
+    .form span.value {
+        font-size:11px;
+        margin-left:5px;
+    }
 
-.form .formline input:focus {
-    border-color: orange;
-}
+    .form .formline input[type=password],.form .formline select,.form .formline input[type=text] {
+        width:255px;
+    }
 
-.form .formline textarea {
-    width:100%;
-}
+    .form .formline input:focus {
+        border-color: orange;
+    }
 
-.form .formline textarea:focus {
-    border-color: orange;
-}
+    .form .formline textarea {
+        width:100%;
+    }
 
-.form label em,.form .formbutton {
-    float:right;
-}
+    .form .formline textarea:focus {
+        border-color: orange;
+    }
 
-.form .formline .markitup {
-    float:left;
-    margin-bottom:5px;
-}
+    .form label em,.form .formbutton {
+        float:right;
+    }
 
-.form .formline .markitup textarea {
-    width:auto;
-}
+    .form .formline .markitup {
+        float:left;
+        margin-bottom:5px;
+    }
 
-.form .buttonbar {
-    margin-left:150px;
-}
+    .form .formline .markitup textarea {
+        width:auto;
+    }
 
-.form .formline input[type=radio],.form .formline input[type=checkbox],.form .actionbutton {
-    float:left;
+    .form .buttonbar {
+        margin-left:150px;
+    }
+
+    .form .formline input[type=radio],.form .formline input[type=checkbox],.form .actionbutton {
+        float:left;
+    }
+
 }
