@@ -138,8 +138,9 @@ class Clansuite_CMS
            empty(self::$config['database']['name'])
            )
         {
-            exit('<b><font color="#FF0000">[Clansuite Error] Database Connection Settings missing!</font></b> <br />
-                 Please use <a href="/installation/index.php">Clansuite Installation</a> to perform a proper installation.');
+            $uri = sprintf('http://%s%s', $_SERVER['SERVER_NAME'], dirname($_SERVER['PHP_SELF']) . '/installation/index.php');
+            exit('<b><font color="#FF0000">[Clansuite Error] Database misses the Session Table!</font></b> <br />
+                 Please use <a href="' . $uri . '">Clansuite Installation</a> to perform a proper installation.');
         }
 
         /* @todo set magic_quotes_gpc off AND remove cleanGlobals from httprequest
@@ -603,6 +604,7 @@ class Clansuite_CMS
                                           'Clansuite_Filter_SmartyMoves'
                                           );
 
+        # register the debug console only in DEBUG mode and before all other filters
         if(DEBUG === true)
         {
             self::$injector->register('Clansuite_Filter_PhpDebugConsole');
@@ -662,7 +664,7 @@ class Clansuite_CMS
     {
         # Initialize Doctrine before session start, because session is written to database
         self::$doctrine_em = Clansuite_Doctrine2::init(self::$config);
-
+   
         # Initialize Session
         self::$injector->create('Clansuite_Session');
 
@@ -704,8 +706,7 @@ class Clansuite_CMS
         # set fallback only, if timezone was not set in php.ini
         elseif(ini_get('date.timezone') === '')
         {
-                date_default_timezone_set('Europe/Berlin');
-
+            date_default_timezone_set('Europe/Berlin');
         }
 
         # set date formating via config
@@ -755,7 +756,7 @@ class Clansuite_CMS
      */
     public static function triggerEvent($event, $context = null, $info = null)
     {
-        if(class_exists('Clansuite_Eventdispatcher', false) == true)
+        if(class_exists('Clansuite_Eventdispatcher', false) === true)
         {
             Clansuite_Eventdispatcher::instantiate()->triggerEvent($event, $context, $info);
         }

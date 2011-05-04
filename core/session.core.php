@@ -264,7 +264,7 @@ class Clansuite_Session implements Clansuite_Session_Interface, ArrayAccess
             $query = $em->createQuery('SELECT s.session_data, s.session_starttime
                                        FROM \Entities\Session s
                                        WHERE s.session_name = :name
-                                         AND s.session_id = :id');
+                                       AND s.session_id = :id');
             $query->setParameters(array('name' => self::session_name, 'id' => $id));
             $result = $query->getResult();
 
@@ -277,11 +277,10 @@ class Clansuite_Session implements Clansuite_Session_Interface, ArrayAccess
         {
             # @todo can we throw a clansuite_exception here?
             echo get_class($e).' thrown within the session handler. <br /> Message: '.$e->getMessage().' on line '.$e->getLine();
+            $uri = sprintf('http://%s%s', $_SERVER['SERVER_NAME'], dirname($_SERVER['PHP_SELF']) . '/installation/index.php');
             exit('<p><b><font color="#FF0000">[Clansuite Error] The database table for sessions is missing.</font></b> <br />
-                 Please use <a href="/installation/index.php">Clansuite Installation</a> to perform a proper installation.</p>');
+                 Please use <a href="' . $uri . '">Clansuite Installation</a> to perform a proper installation.</p>');
         }
-
-        return '';
     }
 
     /**
