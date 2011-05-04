@@ -97,7 +97,7 @@ class Clansuite_Doctrine2
             $config->newDefaultAnnotationDriver(
                 self::getModelPathsForAllModules()));
 
-        # @todo workaround till i find a better way to acquire all the models 
+        # @todo workaround till i find a better way to acquire all the models
         $config->getMetadataDriverImpl()->getAllClassNames();
         #$classes_loaded = $config->getMetadataDriverImpl()->getAllClassNames();
         #Clansuite_Debug::firebug($classes_loaded);
@@ -106,7 +106,7 @@ class Clansuite_Doctrine2
         $config->setProxyDir(realpath(ROOT . 'doctrine'));
         $config->setProxyNamespace('Proxies');
 
-        # # regenerate proxies only in debug and not in production mode
+        # regenerate proxies only in debug and not in production mode
         if(DEBUG == true)
         {
             $config->setAutoGenerateProxyClasses(true);
@@ -122,6 +122,10 @@ class Clansuite_Doctrine2
             'password'  => $db_config['database']['password'],
             'dbname'    => $db_config['database']['name'],
             'host'      => $db_config['database']['host']
+            'charset'   => $db_config['database']['charset'],
+            'driverOptions' => array(
+                'charset' => $db_config['database']['charset']
+            )
         );
 
         # Database Prefix
@@ -137,15 +141,16 @@ class Clansuite_Doctrine2
         # get EventManager
         #$evm = new \Doctrine\Common\EventManager;
 
-        # TablePrefix : Add Extension as Eventlistener
+        # TablePrefix : Add Extension(s) as Eventlistener
         #$tablePrefix = new \DoctrineExtensions\TablePrefix(DB_PREFIX);
         #$evm->addEventListener(\Doctrine\ORM\Events::loadClassMetadata, $tablePrefix);
 
         # we need some more functions for mysql
         $config->addCustomNumericFunction('RAND', 'DoctrineExtensions\Query\Mysql\Rand');
 
+        # set UTF-8 handling of database data
         $em = \Doctrine\ORM\EntityManager::create($connectionOptions, $config);
-        $em->getConnection()->setCharset('UTF8');
+        $em->getConnection()->setCharset($db_config['database']['charset']);
 
         return $em;
     }
@@ -156,11 +161,11 @@ class Clansuite_Doctrine2
     public static function validateSchema()
     {
         $_em = Clansuite_CMS::getEntityManager();
-        $validator = new SchemaValidator($_em);
+        $validator = new \Doctrine\ORM\Tools\SchemaValidator($_em);
         $errors = $validator->validateMapping();
         Clansuite_Debug::printR($errors);
     }
-    
+
     public static function debugLoadedClasses()
     {
         $em = Clansuite_CMS::getEntityManager();
@@ -168,33 +173,33 @@ class Clansuite_Doctrine2
         #$config->addEntityNamespace('Core', $module_models_path); # = Core:Session
         #$config->addEntityNamespace('Module', $module_models_path); # = Module:News
         $classes_loaded = $config->getMetadataDriverImpl()->getAllClassNames();
-        Clansuite_Debug::firebug($classes_loaded);
+        Clansuite_Debug::printR($classes_loaded);
     }
 
     public static function getModelPathsForAllModules()
     {
         $model_dirs = array();
-        
+
         $dirs = Clansuite_ModuleInfoController::getModuleDirectories();
-        
+
         foreach($dirs as $key => $dir_path)
         {
             /**
              * It's easier to include dirpath models (subfolder and files will be autoloaded)
              * therefor the records have to be removed
              */
-        
+
             # Entity Path
-            $entity_path = $dir_path . DS . 'model' . DS . 'entities' . DS; 
+            $entity_path = $dir_path . DS . 'model' . DS . 'entities' . DS;
 
             if(is_dir($entity_path))
             {
                 $model_dirs[] = $entity_path;
             }
-            
+
             # Repository Path
             $repos_path = $dir_path . DS . 'model' . DS . 'repositories' . DS;
-            
+
             if(is_dir($repos_path))
             {
                 $model_dirs[] = $repos_path;
