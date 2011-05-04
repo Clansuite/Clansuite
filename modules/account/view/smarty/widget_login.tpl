@@ -25,7 +25,8 @@ function hashLoginPassword(theForm)
         <td class="cell2"><input class="input_text" type="text" name="email"
                    onblur="if(this.value=='')this.value=this.defaultValue;"
                    onfocus="if(this.value==this.defaultValue)this.value='';"
-                   value="email" /></td>
+                   value="email" 
+                   style="width: 100px;"/></td>
     </tr>
     {elseif isset($config.login.login_method) && $config.login.login_method == 'nick'}
     <tr>
@@ -33,7 +34,8 @@ function hashLoginPassword(theForm)
         <td class="cell2"><input class="input_text" type="text" name="nickname"
                    onblur="if(this.value=='')this.value=this.defaultValue;"
                    onfocus="if(this.value==this.defaultValue)this.value='';"
-                   value="nickname" /></td>
+                   value="nickname" 
+                   style="width: 120px;"/></td>
     </tr>
     {/if}
     <tr>
@@ -41,7 +43,8 @@ function hashLoginPassword(theForm)
         <td class="cell2"><input class="input_text" type="password" name="password" id="block_password"
                    onblur="if(this.value=='')this.value=this.defaultValue;"
                    onfocus="if(this.value==this.defaultValue)this.value='';"
-                   value="******" /></td>
+                   value="******" 
+                   style="width: 120px;"/></td>
     </tr>
     <tr>
         <td colspan="2" class="cell1">
@@ -55,13 +58,12 @@ function hashLoginPassword(theForm)
         </td>
     </tr>
     <tr>
-        <td colspan="2" class="cell1" width="70%">
-            <font size="10">
-                <a href="{$www_root}index.php?mod=account&action=register">{t}Not yet registered?{/t}</a> <br />
-                <a href="{$www_root}index.php?mod=account&action=forgot_password">{t}Forgot password?{/t}</a> <br />
-                <a href="{$www_root}index.php?mod=account&action=activation_email">{t}Did not get an activation email?{/t}</a>
-            </font>
-
+        <td colspan="2" class="cell1" width="70%" align="center">
+			<span style="font-family: Arial, Helvetica, sans-serif; font-size:11px;">
+			 <a href="{$www_root}index.php?mod=account&action=register">{t}Not yet registered?{/t}</a> <br />
+			 <a href="{$www_root}index.php?mod=account&action=forgot_password">{t}Forgot password?{/t}</a> <br />
+			 <a href="{$www_root}index.php?mod=account&action=activation_email">{t}Did not get an activation email?{/t}</a>
+			</span>
         </td>
     </tr>
 </table>
