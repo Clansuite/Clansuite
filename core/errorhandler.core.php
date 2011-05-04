@@ -262,9 +262,9 @@ class Clansuite_Errorhandler
      */
     private static function getColornameForErrornumber($errornumber)
     {
-        $colors = array( 256  => 'red', 512  => 'orange', 1024 => 'beige');
         $color = 'beige';
-        $color = $colors[$errornumber];
+        $colors = array( 256  => 'red', 512  => 'orange', 1024 => 'beige');
+        $color = isset($colors[$errornumber]) ? $colors[$errornumber] : $color;
         return $color;
     }
 
