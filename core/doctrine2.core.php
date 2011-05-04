@@ -136,9 +136,6 @@ class Clansuite_Doctrine2
         # @todo doctrine2: the prefix is only applicable by eventhandling?
         define('DB_PREFIX', $db_config['database']['prefix'] );
 
-        # done with config, remove to safe memory
-        unset($db_config);
-
         # set up Logger
         #$config->setSqlLogger(new \Doctrine\DBAL\Logging\EchoSqlLogger);
 
@@ -158,6 +155,9 @@ class Clansuite_Doctrine2
         # set UTF-8 handling of database data
         $em = \Doctrine\ORM\EntityManager::create($connectionOptions, $config);
         $em->getConnection()->setCharset($db_config['database']['charset']);
+        
+        # done with config, remove to safe memory
+        unset($db_config);
 
         return $em;
     }
