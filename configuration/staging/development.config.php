@@ -12,6 +12,7 @@ driver = "pdo_mysql"
 username = "root"
 password = "toop"
 name = "clansuite"
+charset = "UTF8"
 prefix = "cs_"
 
 ;----------------------------------------
