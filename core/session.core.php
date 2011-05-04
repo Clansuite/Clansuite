@@ -275,8 +275,10 @@ class Clansuite_Session implements Clansuite_Session_Interface, ArrayAccess
         }
         catch(Exception $e)
         {
+            # @todo can we throw a clansuite_exception here?
             echo get_class($e).' thrown within the session handler. <br /> Message: '.$e->getMessage().' on line '.$e->getLine();
-            exit;
+            exit('<p><b><font color="#FF0000">[Clansuite Error] The database table for sessions is missing.</font></b> <br />
+                 Please use <a href="/installation/index.php">Clansuite Installation</a> to perform a proper installation.</p>');
         }
 
         return '';
@@ -324,7 +326,7 @@ class Clansuite_Session implements Clansuite_Session_Interface, ArrayAccess
                 array( 'id' => $id,
                        'name' => self::session_name,
                        'time' => time(),
-                       'data' => $data,
+                       'data' => $data, # @todo serialize($data)
                        'visibility' => '1', # @todo ghost mode
                        'where' => 'session_start',
                        'user_id' => '0'
