@@ -1118,6 +1118,7 @@ class Clansuite_Form implements Clansuite_Form_Interface
     public function registerDefaultFormDecorators()
     {
         $this->addDecorator('html5validation');
+        $this->addDecorator('div')->setClass('forms');
         $this->addDecorator('form');
     }
 

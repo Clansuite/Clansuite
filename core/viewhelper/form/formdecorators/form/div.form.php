@@ -36,6 +36,15 @@ if (defined('IN_CS') === false)
     die('Clansuite not loaded. Direct Access forbidden.');
 }
 
+/**
+ * Clansuite_Form_Decorator_Div
+ *
+ * Wraps a <div> element around the html_form_content.
+ *
+ * @category Clansuite
+ * @package Clansuite_Form
+ * @subpackage Clansuite_Form_Decorator
+ */
 class Clansuite_Form_Decorator_Div extends Clansuite_Form_Decorator
 {
     /**
@@ -47,7 +56,7 @@ class Clansuite_Form_Decorator_Div extends Clansuite_Form_Decorator
 
     public function render($html_form_content)
     {
-        return $html_form_content;
+        return CR . '<div class="' . $this->getClass() . '">' . $html_form_content . '</div>' . CR;
     }
 }
 ?>
