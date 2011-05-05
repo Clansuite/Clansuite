@@ -132,10 +132,10 @@ class Clansuite_CMS
 
         # Data Source Name Check
         # check if database settings are available in configuration
-        if(empty(self::$config['database']['driver']) or
-           empty(self::$config['database']['username']) or
-           empty(self::$config['database']['host']) or
-           empty(self::$config['database']['name'])
+        if(empty(self::$config['database']['driver'] === true) or
+           empty(self::$config['database']['username'] === true) or
+           empty(self::$config['database']['host'] === true) or
+           empty(self::$config['database']['name'] === true)
            )
         {
             $uri = sprintf('http://%s%s', $_SERVER['SERVER_NAME'], dirname($_SERVER['PHP_SELF']) . '/installation/index.php');
@@ -174,17 +174,17 @@ class Clansuite_CMS
         self::$config = Clansuite_Config_INI::readConfig(ROOT . 'configuration/clansuite.config.php');
 
         # 3. Maintenance check
-        if( true === (bool)self::$config['maintenance']['maintenance'] )
+        if( true === (bool) self::$config['maintenance']['maintenance'] )
         {
             $token = false;
-            
+
             # incoming maintenance token via GET
-            if(isset($_GET['mnt']))
+            if(isset($_GET['mnt']) === true)
             {
                 $tokenstring = $_GET['mnt'];
                 $token = Clansuite_Securitytoken::ckeckToken($tokenstring);
             }
-            
+
             # if token is false (or not valid) show maintenance
             if( false === $token )
             {
@@ -201,7 +201,7 @@ class Clansuite_CMS
         }
 
         # 4. load staging configuration (overloading clansuite.config.php)
-        if(self::$config['config']['staging'] == true)
+        if(self::$config['config']['staging'] === true)
         {
             self::$config = Clansuite_Staging::overloadWithStagingConfig(self::$config);
         }
@@ -217,10 +217,10 @@ class Clansuite_CMS
         ini_set('arg_separator.output', '&amp;');
         self::setMemoryLimit('32');
     }
-    
+
     /**
      * Sets the PHP memory limit
-     * 
+     *
      * @param string $memory_limit The memory limit in megabytes, e.g. '32' or '128'.
      */
     private static function setMemoryLimit($limit)
@@ -231,7 +231,7 @@ class Clansuite_CMS
         {
             ini_set('memory_limit', $limit + 'M');
         }
-        unset($memory_limit);        
+        unset($memory_limit);
     }
 
     /**
@@ -359,7 +359,7 @@ class Clansuite_CMS
             /**
              * @var Determine Type of Protocol for Webpaths (http/https)
              */
-            if(isset($_SERVER['HTTPS']) and mb_strtolower($_SERVER['HTTPS']) == 'on')
+            if(isset($_SERVER['HTTPS']) === true and mb_strtolower($_SERVER['HTTPS']) == 'on')
             {
                 define('PROTOCOL', 'https://', false);
             }
@@ -376,7 +376,7 @@ class Clansuite_CMS
             /**
              * @var WWW_ROOT is a complete www-path with servername from SERVER_URL, depending on os-system
              */
-            if(dirname($_SERVER['PHP_SELF']) == '\\')
+            if(dirname($_SERVER['PHP_SELF']) === '\\')
             {
                 define('WWW_ROOT', SERVER_URL . '/', false);
             }
@@ -664,7 +664,7 @@ class Clansuite_CMS
     {
         # Initialize Doctrine before session start, because session is written to database
         self::$doctrine_em = Clansuite_Doctrine2::init(self::$config);
-   
+
         # Initialize Session
         self::$injector->create('Clansuite_Session');
 
@@ -698,7 +698,7 @@ class Clansuite_CMS
     private static function initialize_Timezone()
     {
         # apply timezone defensivly
-        if(isset(self::$config['language']['timezone']))
+        if(isset(self::$config['language']['timezone']) === true)
         {
             # set always if incomming via config
             date_default_timezone_set(self::$config['language']['timezone']);
@@ -710,7 +710,7 @@ class Clansuite_CMS
         }
 
         # set date formating via config
-        if(isset(self::$config['locale']['dateformat']))
+        if(isset(self::$config['locale']['dateformat']) === true)
         {
             define('DATE_FORMAT', self::$config['locale']['dateformat'], false);
         }

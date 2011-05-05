@@ -20,8 +20,8 @@ staging = 0
 host = "localhost"
 driver = "pdo_mysql"
 username = "root"
-password = "toop"
-name = "clansuite"
+password = ""
+name = "clansuite2"
 charset = "UTF8"
 prefix = "cs_"
 

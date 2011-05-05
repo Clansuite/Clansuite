@@ -117,7 +117,6 @@ class PHP_CodeSniffer_Standards_Clansuite_ClansuiteCodingStandard extends PHP_Co
                      # exists after the last content of the file, resides after content on any line, or are two empty lines in functions.
                      'Squiz/Sniffs/WhiteSpace/SuperfluousWhitespaceSniff.php',
 
-
               # ControlStructures
                      //'Generic/Sniffs/ControlStructures/InlineControlStructureSniff.php',
                      //'Squiz/Sniffs/ControlStructures/InlineIfDeclarationSniff.php',

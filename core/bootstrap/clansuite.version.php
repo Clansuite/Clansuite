@@ -61,7 +61,7 @@ final class Clansuite_Version
          * Define Clansuite SVN Revision
          */
         # File used: "root/.svn/entries"
-        if (is_file(ROOT . '.svn' . DS . 'entries'))
+        if (is_file(ROOT . '.svn' . DS . 'entries') === true)
         {
             define ('CLANSUITE_REVISION', self::getRevisionNumberFromFile());
         }
@@ -80,7 +80,7 @@ final class Clansuite_Version
     public static function getRevisionNumberFromFile()
     {
         $svn = file(ROOT . '.svn' . DS . 'entries');
-        if (is_numeric(trim($svn[3])))
+        if (is_numeric(trim($svn[3])) === true)
         {
             $version = $svn[3];
         }

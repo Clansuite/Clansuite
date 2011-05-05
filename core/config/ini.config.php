@@ -87,8 +87,8 @@ class Clansuite_Config_INI
         if(is_file($filename) === true)
         {
             $old_config_array = self::readConfig($filename);
+            
             # array merge: overwrite the array to the left, with the array to the right, when keys identical
-            # array_merge_recursive ??
             $config_array = self::array_merge_recursive_distinct($old_config_array, $array);
         }
         else
@@ -163,13 +163,13 @@ class Clansuite_Config_INI
         {
             if (!$filehandle = fopen($filename, 'wb'))
             {
-                echo _('Could not open file: '.$filename);
+                echo _('Could not open file: ') . $filename;
                 return false;
             }
 
             if (fwrite($filehandle, $content) == false)
             {
-                echo _('Could not write to file: '. $filename);
+                echo _('Could not write to file: ') . $filename;
                 return false;
 
             }
@@ -178,7 +178,7 @@ class Clansuite_Config_INI
         }
         else
         {
-            echo _('File ' . $filename . ' is not writeable. Set correct file and directory permissions.');
+            printf(_('File %s is not writeable. Set correct file and directory permissions.'), $filename);
             return false;
         }
     }
@@ -194,7 +194,7 @@ class Clansuite_Config_INI
         # check ini_filename exists
         if(is_file($filename) === false or is_readable($filename) === false)
         {
-            throw new Clansuite_Exception('File not found: '.$filename, 4);
+            throw new Clansuite_Exception('File not found: ' . $filename, 4);
         }
 
         return parse_ini_file($filename, true);
