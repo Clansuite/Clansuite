@@ -100,15 +100,7 @@
         <td class="cell1" style="padding: 3px">
             <input class="input_text" type="text" value="{if isset($config.session.session_expire_time)}{$config.session.session_expire_time}{else}30{/if}" name="config[session][session_expire_time]" />&nbsp; minutes
         </td>
-    </tr>
-    <tr>
-        <td class="cell2" width="15%">
-            {t}Session name{/t}
-        </td>
-        <td class="cell1" style="padding: 3px">
-            <input class="input_text" type="text" value="{if isset($config.session.session_name)}{$config.session.session_name}{else}CSuite{/if}" name="config[session][session_name]" />
-        </td>
-    </tr>
+    </tr>    
     <tr>
         <td class="cell2" width="15%">
             {t}Filter: Session Security - check_browser{/t}

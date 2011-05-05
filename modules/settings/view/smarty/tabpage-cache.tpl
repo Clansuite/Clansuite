@@ -17,7 +17,7 @@
         </td>
         <td class="cell1" style="padding: 3px">
             <small>Specify one of the following Cache Adapter to use: APC, memcached, xcache, eaccelerator, file-based. </small><br/>
-            {html_options name='config[cache][driver]' options=$cache_adapters selected=$config.cache.adapter separator='<br />'}
+            {html_options name='config[cache][driver]' options=$cache_driver selected=$config.cache.driver separator='<br />'}
         </td>
     </tr>
     <tr>
@@ -42,8 +42,8 @@
             {t}Cache Lifetime{/t}
         </td>
         <td class="cell1" style="padding: 3px">
-            <input class="input_text" type="text" value="{if isset($config.cache.cache_lifetime) and $config.cache.cache_lifetime == 1}{$config.cache.cache_lifetime}{else}0{/if}" name="config[cache][cache_lifetime]" />&nbsp; seconds
-            <br /> <small>{t}Note: This is automatically set to "-1" (deactiviated) if the "Developers Mode" is active.{/t}</small>
+            <input class="input_text" type="text" value="{if isset($config.cache.lifetime) and $config.cache.lifetime == 1}{$config.cache.lifetime}{else}0{/if}" name="config[cache][lifetime]" />&nbsp; seconds
+            <br /> <small>{t}Note: This is automatically set to "-1" (deactivated) if "Development Mode" active.{/t}</small>
         </td>
     </tr>
 </table>

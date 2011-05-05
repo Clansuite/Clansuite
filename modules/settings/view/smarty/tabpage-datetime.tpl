@@ -19,7 +19,7 @@
             <small>{t}You may provide the format in which dates are displayed.{/t}</small><br />
             <input class="input_text" type="text" value="{if isset($config.locale.dateformat)}{$config.locale.dateformat}{else}%A, %B %e, %Y{/if}" name="config[locale][dateformat]" />
             <br />
-            <small>{t}Example: %A, %B %e, %Y{/t} results in {$smarty.now|date_format:"%A, %B %e, %Y"} {if isset($config.locale.dateformat)} {$smarty.now|date_format:$config.defaults.dateformat} {/if} <br />
+            <small>{t}Example: %A, %B %e, %Y{/t} results in {$smarty.now|date_format:"%A, %B %e, %Y"} {if isset($config.locale.dateformat)} {$smarty.now|date_format:$config.locale.dateformat} {/if} <br />
             <a href="http://www.smarty.net/manual/de/language.modifier.date.format.php">Date Format Help</a> </small><br />            
         </td>
     </tr>
