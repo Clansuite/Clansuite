@@ -19,8 +19,8 @@ CALL :RESOLVE "%ROOT%\..\..\..\..\..\.." MYSQL_PARENT_ROOT
 SET basedir=%PARENT_ROOT%
 SET mysqldir=%MYSQL_PARENT_ROOT%\mysql\bin
 SET mysqluser=root
-SET mysqlpassword=
-SET dbname=clansuite2
+SET mysqlpassword=toop
+SET dbname=clansuite
 
 @REM Clansuite DB dumpen
 
