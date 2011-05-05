@@ -71,6 +71,30 @@ abstract class Clansuite_Form_Decorator implements Clansuite_Form_Decorator_Inte
 {
     # instance of form, which is to decorate
     protected $form;
+    
+    private $class;
+
+    /**
+    * Set class=""
+    *
+    * @param string $classname
+    */
+    public function setClass($classname)
+    {
+        $this->class = $classname;
+
+        return $this->form;
+    }
+
+    /**
+    * Get class="" values
+    *
+    * @return string
+    */
+    public function getClass()
+    {
+        return $this->class;
+    }
 
     /**
      * Constructor
