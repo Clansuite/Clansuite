@@ -161,7 +161,8 @@ class Clansuite_Cssbuilder
         # Prepare
         #-----------------------------------------------------------------------------------------------------------------
         $builderInfo = self::getBuilderInfo();
-        #Clansuite_Debug::printR( $builderInfo );
+
+        $coreadditionalFiles = $themeadditionalFiles = $themeBackadditionalFiles = array();
 
         $browser = $builderInfo['browsers'];
         $postfix = $browser[$index]['postfix'];
@@ -175,20 +176,17 @@ class Clansuite_Cssbuilder
         $coreINI = ROOT . 'themes' . DS . 'core' . DS . 'css' . DS . 'csfw' . DS . $builderINI;
         $coreInfo = $this->read_properties($coreINI);
         $coreCssName = $coreInfo['cssname'] . $postfix . '.css';
-        $coreadditionalFiles = array();
 
         /* ----- prepare core ----- */
-        if(true === $builderInfo['compileCore'])
+        /* Core-Info */
+        $corePath = ROOT . $coreInfo['path'];
+        $coreFiles = explode(',', $coreInfo['files']);
+        if(strlen($coreInfo['additionalFiles']) > 0)
         {
-            /* Core-Info */
-            $corePath = ROOT . $coreInfo['path'];
-            $coreFiles = explode(',', $coreInfo['files']);
-            if(strlen($coreInfo['additionalFiles']) > 0)
-            {
-                $coreadditionalFiles = explode(',', $coreInfo['additionalFiles']);
-            }
-            $core_compact = $this->getCoreCompactHeader($coreInfo);
+            $coreadditionalFiles = explode(',', $coreInfo['additionalFiles']);
         }
+
+        $core_compact = $this->getCoreCompactHeader($coreInfo);
 
         /* ----- prepare frontend theme ----- */
         if(true === $builderInfo['compileThemeFrontend'])
@@ -211,10 +209,6 @@ class Clansuite_Cssbuilder
             if(strlen($themeInfo['additionalFiles']) > 0)
             {
                 $themeadditionalFiles = explode(',', $themeInfo['additionalFiles']);
-            }
-            else
-            {
-                $themeadditionalFiles = array();
             }
 
             $theme_compact = $this->getThemeCompactHeader($themeInfo);
@@ -243,10 +237,6 @@ class Clansuite_Cssbuilder
             if(strlen($themeBackInfo['additionalFiles']) > 0)
             {
                 $themeBackadditionalFiles = explode(',', $themeBackInfo['additionalFiles']);
-            }
-            else
-            {
-                $themeBackadditionalFiles = array();
             }
 
             $themeBack_compact = $this->getThemeCompactHeader($themeBackInfo);
