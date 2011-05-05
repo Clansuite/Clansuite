@@ -39,7 +39,7 @@ if (defined('IN_CS') === false)
 /**
  * Clansuite_Formelement_Decorator_Div
  *
- * Wraps a <div> element around the html_fromelement_content.
+ * Wraps a <div> element around the html_formelement_content.
  *
  * @category Clansuite
  * @package Clansuite_Form
@@ -47,11 +47,16 @@ if (defined('IN_CS') === false)
  */
 class Clansuite_Formelement_Decorator_Div extends Clansuite_Formelement_Decorator
 {
+    /**
+     * Name of this decorator
+     *
+     * @var string
+     */
     public $name = 'div';
 
-    public function render($html_form_content)
+    public function render($html_formelement_content)
     {
-        return CR.'<div class="'.$this->getClass().'">' . $html_form_content . '</div>'.CR;
+        return CR . '<div class="' . $this->getClass() . '">' . $html_formelement_content . '</div>' . CR;
     }
 }
 ?>
