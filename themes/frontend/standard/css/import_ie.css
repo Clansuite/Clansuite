@@ -1,15 +1,15 @@
 /**
- * -----------------------------------------------------------------------------------------------
+ * ---------------------------------------------------------------------------------------------------
  * CSS2 Framework (CSFW)
- * -------------------------------------------------------------------------------------------------
- * @author      Paul Brand <info@isp-tenerife.net>
- * @package     CSFW
- * @subpackage  Core
- * @version     1.0
- * -----------------------------------------------------------------------------------------------
+ * ---------------------------------------------------------------------------------------------------
+ * @author       Paul Brand <info@isp-tenerife.net>
+ * @package      CSFW
+ * @subpackage   Core
+ * @version      1.0
+ * ---------------------------------------------------------------------------------------------------
  * @description  Created for - Internet Explorer
- * -----------------------------------------------------------------------------------------------
-*/
+ * ---------------------------------------------------------------------------------------------------
+ */
 
 @charset "UTF-8";
 
@@ -17,15 +17,15 @@
 @import url('../../../core/css/csfw_ie.css');
 
 /**
- * -----------------------------------------------------------------------------------------------
- * Framework:   Clansuite CSS-Framework
- * Description: Theme CSS-Files for building one compact theme importfile width IE Patches
- * Author:      Clansuite CSS-Builder
- * Version:     1.0
+ * ---------------------------------------------------------------------------------------------
+ * Framework:    Clansuite CSS-Framework
+ * Description:  Theme CSS-Files for building one compact theme importfile width IE Patches
+ * Author:       Clansuite CSS-Builder
+ * Version:      1.0
  * Version-Date: 2010/11/05
- * Created: 2011-05-04 18:20:29
- * -------------------------------------------------------------------------------------------------
-*/
+ * Created:      2011-05-05 21:44:24
+ * ---------------------------------------------------------------------------------------------
+ */
 /* [core.css] */
 @media screen{#csHeader{height:180px;text-align:center;color:#fff;}#csTopNav{}.csTopNav{background:#254161;border:1px solid;border-color:#ffffff #ACA899 #ACA899 #ffffff;padding:5px;cursor:default;font-size:12px;font-weight:bold;background:url(../images/thback.gif) repeat-x;}#csMain{padding:0;}#csBottomNav{}#csFooter{}#csCol1{margin:0;background:#ECE9D8;border-right:1px solid #595959;width:220px;}#csCol1_content{padding:5px;}#csCol2{margin:0;background:#ECE9D8;border-left:1px solid #595959;width:220px;height:100%;}#csCol2_content{padding:5px;}#csCol3{margin-left:220px;margin-right:220px;width:auto;height:100%;}#csCol3_content{padding:5px;}.form-text input{border:1px solid #444;border-color:#444 #888 #888 #444;background:#fff url(../images/css/fieldgrey.png) 0 -6px repeat-x;}.form-text input:focus{border-color:#FF8A8A #FF9393 #FF9393 #FF8A8A;background-position:0 0;}.form-text textarea{border:1px solid #444;border-color:#444 #888 #888 #444;background:#fff url(../images/css/fieldgrey.png) 0 -6px repeat-x;}.form-text textarea:focus{border-color:#FF8A8A #FF9393 #FF9393 #FF8A8A;background-position:0 0;}.form .form-button{margin:0.1em 0;padding:3px 0.5em;}.form .form-button button.round{display:block;float:left;height:24px;margin:0;padding:0 18px 0 0;border:none;color:#444;font:normal 12px arial,sans-serif;text-decoration:none;background:transparent url(../images/css/buttons/bg_buttonright.gif) no-repeat scroll top right;cursor:pointer;overflow:visible;}.form .form-button button.round span{background:transparent url(../images/css/buttons/bg_buttonleft.gif) no-repeat;display:block;line-height:16px;margin:-2px -3px 0 0;padding:4px 0 4px 18px;text-decoration:none;}.form .form-button button.round:hover{background-position:bottom right;color:#000;outline:none;}.form .form-button button.round:hover span{background-position:bottom left;padding:5px 0 3px 18px;}.form .form-button button img{float:left;margin:0 3px -3px 0 !important;padding:0;border:none;width:14px;height:14px;}}@media print{}
 
