@@ -7,17 +7,35 @@
 
 @ECHO OFF
 
+@REM Current Path
+SET ROOT=%~dp0
+@REM \installation (1 folder up)
+CALL :RESOLVE "%ROOT%\.." PARENT_ROOT
+@REM \serverpack-dir\ (6 folders up with nginx serverpack - you might need to adjust this)
+@REM MYSQL_PARENT_ROOT should contain the folder above the mysql dir
+CALL :RESOLVE "%ROOT%\..\..\..\..\..\.." MYSQL_PARENT_ROOT
+
 @REM Verzeichnisse 
-SET basedir=D:\xampplite\htdocs\work\clansuite\trunk\installation
-SET mysqldir=D:\xampplite\mysql\bin
+SET basedir=%PARENT_ROOT%
+SET mysqldir=%MYSQL_PARENT_ROOT%\mysql\bin
 SET mysqluser=root
 SET mysqlpassword=
-SET dbname=clansuite
+SET dbname=clansuite2
 
 @REM Clansuite DB dumpen
 
-@ECHO Beginning backup of %dbname%...
+@ECHO Beginning dump of %dbname%...
 %mysqldir%/mysqldump -u %mysqluser% -p%mysqlpassword% --skip-add-locks --add-drop-table --databases %dbname% > %basedir%\sql\%dbname%.sql
+@ECHO Dump successfully written... 
+@ECHO %basedir%\sql\%dbname%.sql
 
-@ECHO Finished backup!  - Press any Key -
-pause
+GOTO :HITKEY
+
+@REM Subroutine for leveling up on paths
+:RESOLVE
+SET %2=%~f1
+GOTO :EOF
+
+:HITKEY
+@ECHO Finished!
+PAUSE
