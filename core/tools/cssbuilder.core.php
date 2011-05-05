@@ -273,15 +273,6 @@ class Clansuite_Cssbuilder
                 $_comp .= $content . "\n";
             }
 
-            if(count($coreadditionalFiles) > 0)
-            {
-                foreach($coreadditionalFiles as $filename)
-                {
-                    $_comp .= "/* Import additional file: [" . trim($filename) . "] */" . "\n";
-                    $_comp .= "@import url('" . trim($filename) . "');\n\n";
-                }
-            }
-
             $this->save_stylesheet($corePath . $coreCssName, $_comp);
 
             $html .= '<p class="cmBoxMessage" style="padding-left:50px;"><b>Core Import File:</b>';
@@ -307,13 +298,13 @@ class Clansuite_Cssbuilder
                 $coreImp = ' und die Core importiert.';
             }
 
-            $_comp .= $theme_compact;
-
-            foreach($themeFiles as $filename)
+            if(count($coreadditionalFiles) > 0)
             {
-                $content = self::load_stylesheet($themePath . $filename, true);
-                $_comp .= "/* [" . basename($filename) . "] */" . "\n";
-                $_comp .= $content . "\n";
+                foreach($coreadditionalFiles as $filename)
+                {
+                    $_comp .= "/* Import additional file: [" . trim($filename) . "] */" . "\n";
+                    $_comp .= "@import url('" . trim($filename) . "');\n\n";
+                }
             }
 
             if(count($themeadditionalFiles) > 0)
@@ -323,6 +314,15 @@ class Clansuite_Cssbuilder
                     $_comp .= "/* Import additional file: [" . trim($filename) . "] */" . "\n";
                     $_comp .= "@import url('" . trim($filename) . "');\n\n";
                 }
+            }
+
+            $_comp .= $theme_compact;
+
+            foreach($themeFiles as $filename)
+            {
+                $content = self::load_stylesheet($themePath . $filename, true);
+                $_comp .= "/* [" . basename($filename) . "] */" . "\n";
+                $_comp .= $content . "\n";
             }
 
             $this->save_stylesheet($themePath . $themeCssName, $_comp);
@@ -350,13 +350,13 @@ class Clansuite_Cssbuilder
                 $coreImp = ' und die Core importiert.';
             }
 
-            $_comp .= $themeBack_compact;
-
-            foreach($themeBackFiles as $filename)
+            if(count($coreadditionalFiles) > 0)
             {
-                $content = self::load_stylesheet($themeBackPath . $filename, true);
-                $_comp .= "/* [" . basename($filename) . "] */" . "\n";
-                $_comp .= $content . "\n";
+                foreach($coreadditionalFiles as $filename)
+                {
+                    $_comp .= "/* Import additional file: [" . trim($filename) . "] */" . "\n";
+                    $_comp .= "@import url('" . trim($filename) . "');\n\n";
+                }
             }
 
             if(count($themeBackadditionalFiles) > 0)
@@ -366,6 +366,15 @@ class Clansuite_Cssbuilder
                     $_comp .= "/* Importing additional css file: [" . trim($filename) . "] */" . "\n";
                     $_comp .= "@import url('" . trim($filename) . "');\n\n";
                 }
+            }
+
+            $_comp .= $themeBack_compact;
+
+            foreach($themeBackFiles as $filename)
+            {
+                $content = self::load_stylesheet($themeBackPath . $filename, true);
+                $_comp .= "/* [" . basename($filename) . "] */" . "\n";
+                $_comp .= $content . "\n";
             }
 
             $this->save_stylesheet($themeBackPath.$themeBackCssName,$_comp);

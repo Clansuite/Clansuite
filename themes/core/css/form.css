@@ -4,7 +4,6 @@
 
 @media screen
 {
-
     .form {
         clear:both;
         color:#000;
@@ -19,18 +18,18 @@
     }*/
 
     /* not .form fieldset */
-    fieldset.form {
-         /* Firefox CSS3 Bug: */
-        -moz-border-radius: 8px 8px 8px 8px;
-        -moz-box-shadow: 2px 2px 2px #BBBBBB;
-        background-color: #FAFAFA;   
+    #forms fieldset {
+        background-color: #ffffff; /*#FAFAFA;*/   
         border: 1px solid #AAA;
         display: block;
         margin: 0 0 1em;
         padding: 0.5em;
+         /* Firefox CSS3 Bug: */
+        -moz-border-radius: 8px 8px 8px 8px;
+        -moz-box-shadow: 2px 2px 2px #BBBBBB;
     }
 
-    .form legend {
+    #forms legend {
         background: none repeat scroll 0 0 white;
         border: 1px solid #BBBBBB;
         color: #000000;
