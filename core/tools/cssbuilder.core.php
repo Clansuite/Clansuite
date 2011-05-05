@@ -187,10 +187,6 @@ class Clansuite_Cssbuilder
             {
                 $coreadditionalFiles = explode(',', $coreInfo['additionalFiles']);
             }
-            else
-            {
-                $coreadditionalFiles = array();
-            }
             $core_compact = $this->getCoreCompactHeader($coreInfo);
         }
 
