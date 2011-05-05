@@ -175,6 +175,7 @@ class Clansuite_Cssbuilder
         $coreINI = ROOT . 'themes' . DS . 'core' . DS . 'css' . DS . 'csfw' . DS . $builderINI;
         $coreInfo = $this->read_properties($coreINI);
         $coreCssName = $coreInfo['cssname'] . $postfix . '.css';
+        $coreadditionalFiles = array();
 
         /* ----- prepare core ----- */
         if(true === $builderInfo['compileCore'])
