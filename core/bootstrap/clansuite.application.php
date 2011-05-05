@@ -132,10 +132,10 @@ class Clansuite_CMS
 
         # Data Source Name Check
         # check if database settings are available in configuration
-        if(empty(self::$config['database']['driver'] === true) or
-           empty(self::$config['database']['username'] === true) or
-           empty(self::$config['database']['host'] === true) or
-           empty(self::$config['database']['name'] === true)
+        if(empty(self::$config['database']['driver']) === true or
+           empty(self::$config['database']['username']) === true or
+           empty(self::$config['database']['host']) === true or
+           empty(self::$config['database']['name']) === true
            )
         {
             $uri = sprintf('http://%s%s', $_SERVER['SERVER_NAME'], dirname($_SERVER['PHP_SELF']) . '/installation/index.php');
