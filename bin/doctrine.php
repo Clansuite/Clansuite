@@ -17,17 +17,21 @@ $classLoader->register();
 $configFile = getcwd() . DIRECTORY_SEPARATOR . 'cli-config.php';
 
 $helperSet = null;
-if (is_file($configFile)) {
-    if ( ! is_readable($configFile)) {
+if (is_file($configFile) === true)
+{
+    if (false === is_readable($configFile))
+    {
         trigger_error(
             'Configuration file [' . $configFile . '] does not have read permission.', E_ERROR
         );
     }
 
-    require $configFile;
+    include $configFile;
 
-    foreach ($GLOBALS as $helperSetCandidate) {
-        if ($helperSetCandidate instanceof \Symfony\Components\Console\Helper\HelperSet) {
+    foreach ($GLOBALS as $helperSetCandidate)
+    {
+        if ($helperSetCandidate instanceof \Symfony\Components\Console\Helper\HelperSet)
+        {
             $helperSet = $helperSetCandidate;
             break;
         }

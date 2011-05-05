@@ -104,7 +104,7 @@ class Clansuite_Gettext_Extractor extends Clansuite_Gettext_Extractor_Tool
 
         foreach($resource as $item)
         {
-            $this->log('Scanning '.$item);
+            $this->log('Scanning ' . $item);
             $this->scan($item);
         }
 

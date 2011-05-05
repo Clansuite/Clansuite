@@ -15,10 +15,10 @@ $config->setProxyNamespace('Proxies');
 
 $connectionOptions = array(
             'driver'    => 'pdo_mysql',
-            'user'      => "root",
-            'password'  => "toop",
-            'dbname'    => "clansuite",
-            'host'      => "localhost"
+            'user'      => 'root',
+            'password'  => 'toop',
+            'dbname'    => 'clansuite',
+            'host'      => 'localhost'
         );
 
 $em = \Doctrine\ORM\EntityManager::create($connectionOptions, $config);

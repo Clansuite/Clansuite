@@ -233,7 +233,7 @@ class Clansuite_Loader
         );
 
         # check if classname is in autoloading map
-        if(isset($map[$classname]))
+        if(isset($map[$classname]) === true)
         {
             # get filename for that classname
             $filename = $map[$classname];
@@ -261,7 +261,7 @@ class Clansuite_Loader
         # load the mapping file
         self::$autoloader_map = self::readAutoloadingMap();
 
-        if(isset(self::$autoloader_map[$classname]))
+        if(isset(self::$autoloader_map[$classname]) === true)
         {
             if(true === self::requireFile(self::$autoloader_map[$classname]))
             {
@@ -294,7 +294,7 @@ class Clansuite_Loader
         # Core Class
         # clansuite/core/class_name.core.php
         $file = ROOT_CORE . str_replace('_','',$filename) . '.core.php';
-        if(is_file($file))
+        if(is_file($file) === true)
         {
             return self::includeFileAndMap($file, $classname);
         }
@@ -302,7 +302,7 @@ class Clansuite_Loader
         # Event
         # clansuite/core/events/classname.class.php
         $file = ROOT_CORE . 'events' . DS . $classname . '.class.php';
-        if(is_file($file))
+        if(is_file($file) === true)
         {
             return self::includeFileAndMap($file, $classname);
         }
@@ -310,7 +310,7 @@ class Clansuite_Loader
         # Filter
         # clansuite/core/filters/classname.filter.php
         $file = ROOT_CORE . 'filters' . DS . mb_substr($filename, 7) . '.filter.php';
-        if(is_file($file))
+        if(is_file($file) === true)
         {
             return self::includeFileAndMap($file, $classname);
         }
@@ -318,7 +318,7 @@ class Clansuite_Loader
         # Viewhelper
         # clansuite/core/viewhelper/classname.core.php
         $file = ROOT_CORE . 'viewhelper' . DS . str_replace('_','.',$filename) . '.core.php';
-        if(is_file($file))
+        if(is_file($file) === true)
         {
             return self::includeFileAndMap($file, $classname);
         }
@@ -353,7 +353,7 @@ class Clansuite_Loader
     public static function requireFile($filename, $classname = null)
     {
         $filename = realpath($filename);
-    
+
         if(is_file($filename) === true)
         {
             include $filename;
@@ -389,7 +389,7 @@ class Clansuite_Loader
     {
         $mapfile = ROOT_CONFIG . 'autoloader.config.php';
 
-        if(is_writable($mapfile))
+        if(is_writable($mapfile) === true)
         {
             $bytes_written = file_put_contents($mapfile, serialize($array));
             if($bytes_written === false)
@@ -443,7 +443,7 @@ class Clansuite_Loader
 
         self::writeAutoloadingMap(self::$autoloader_map);
     }
-    
+
     /**
      * Includes a certain library classname by using a manually maintained autoloading map.
      * Functionally the same as self::autoloadInclusions().
@@ -468,7 +468,7 @@ class Clansuite_Loader
         );
 
         # check if classname is in autoloading map
-        if(isset($map[$classname]))
+        if(isset($map[$classname]) === true)
         {
             # get filename for that classname
             $filename = $map[$classname];
