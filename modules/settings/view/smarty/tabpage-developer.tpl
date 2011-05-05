@@ -80,7 +80,7 @@
             {t}Debug Mode{/t}
         </td>
         <td class="cell1" style="padding: 3px">
-            <small>{t}When you turn this setting on, the system will show all errors directly on screen instead of logging them to the errorlog.{/t}</small>
+            <small>{t}When you turn this setting on, the system will show all errors directly on screen instead of logging them to the errorlog.{/t}</small><br />
             
             <label for="debug_mode_1">
                 <input id="debug_mode_1" type="radio" value="1" name="config[error][debug]" {if isset($config.error.debug) && ($config.error.debug == 1)}checked="checked"{/if} />

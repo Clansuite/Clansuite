@@ -1,10 +1,11 @@
 ; <?php die('Access forbidden.'); /* DO NOT MODIFY THIS LINE! ?>
+; 
+; Clansuite Configuration File : 
+; C:\nginx-serverpack\nginx\www\clansuite\trunk\configuration\clansuite.config.php
+; 
+; This file was generated on 04-05-2011 23:30
 ;
-; Clansuite Configuration File :
-; C:\Programme\Zend\Apache2\htdocs\clansuite\trunk\configuration\clansuite.config.php
-;
-; This file was generated on 08-10-2010 01:22
-;
+
 
 ;----------------------------------------
 ; config
@@ -21,7 +22,7 @@ driver = "pdo_mysql"
 username = "root"
 password = "toop"
 name = "clansuite"
-charset = UTF8
+charset = "UTF8"
 prefix = "cs_"
 
 ;----------------------------------------
@@ -31,7 +32,7 @@ prefix = "cs_"
 frontend_theme = "standard"
 backend_theme = "admin"
 pagetitle = "Team Clansuite"
-
+favicon = ""
 
 ;----------------------------------------
 ; defaults
@@ -48,6 +49,7 @@ default = "de"
 outputcharset = "UTF-8"
 timezone = "Europe/Paris"
 gmtoffset = 3600
+language = "de"
 
 ;----------------------------------------
 ; locale
@@ -61,10 +63,9 @@ timezone = 0
 ; error
 ;----------------------------------------
 [error]
-debug = 0
-xdebug = 0
-development = 0
-suppress_errors = 0
+debug = 1
+xdebug = 1
+development = 1
 debug_popup = 0
 webdebug = 0
 help_edit_mode = 0
@@ -166,7 +167,7 @@ tracking = 1
 ; cache
 ;----------------------------------------
 enabled = 1
-driver = apc
+driver = "apc"
 lifetime = 3600
 
 ;----------------------------------------
@@ -175,5 +176,11 @@ lifetime = 3600
 [smarty]
 cache = 1
 cache_lifetime = 3600
+
+;----------------------------------------
+; webserver
+;----------------------------------------
+[webserver]
+mod_rewrite = 0
 
 ; DO NOT REMOVE THIS LINE */ ?>

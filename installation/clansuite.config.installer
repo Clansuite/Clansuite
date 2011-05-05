@@ -6,16 +6,10 @@
 ;
 
 ;----------------------------------------
-; config
+; Configuration
 ;----------------------------------------
 [config]
 staging = 0
-
-;----------------------------------------
-; Database Connection Data
-;----------------------------------------
-cache = ""
-driver  = "pdo_mysql"
 
 ;----------------------------------------
 ; Template
@@ -48,11 +42,10 @@ locale          = "3600"
 ; Default Error Settings
 ;----------------------------------------
 [error]
-debug 		= 1
-xdebug 		= 0
-development 	= 1
-suppress_errors = 0
-debug_popup 	= 0
+debug           = 1
+xdebug          = 0
+development     = 1
+debug_popup     = 0
 webdebug        = 0
 
 ; DO NOT REMOVE THIS LINE */ ?>
