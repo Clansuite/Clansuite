@@ -1,16 +1,13 @@
 /**
- * -----------------------------------------------------------------------------------------------
- * Framework:   Clansuite CSS2 Framework
- * Description: Core CSS-Files for building one compact core importfile
- * Author:      Clansuite CSS-Builder
- * Version:     1.0
+ * ----------------------------------------------------------------------------------------------
+ * Framework:    Clansuite CSS2 Framework
+ * Description:  Core CSS-Files for building one compact core importfile
+ * Author:       Clansuite CSS-Builder
+ * Version:      1.0
  * Version-Date: 2010/11/05
- * Created: 2011-05-04 18:17:16
- * -------------------------------------------------------------------------------------------------
-*/
-
-@charset "UTF-8";
-
+ * Created:      2011-05-05 21:44:24
+ * ----------------------------------------------------------------------------------------------
+ */
 /* [core_base.css] */
 @media all{html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-weight:inherit;font-style:inherit;font-size:100%;font-family:inherit;vertical-align:baseline;}:focus{outline:0;}table{border-collapse:separate;border-spacing:0;}blockquote:before,blockquote:after,q:before,q:after{content:"";}blockquote,q{quotes:"" "";}caption,th,td{font-weight:normal;}option{padding-left:0.4em;}select{padding:1px;}div{outline:0 none;}.clearfix:after{content:".";display:block;font-size:0;height:0;clear:both;visibility:hidden;}.clearfix{display:block;}#ie_clearing{display:none;}div:after,ol:after,form:after,dl:after,ul:after{content:".";display:block;clear:both;visibility:hidden;height:0;overflow:hidden;}}@media screen{#csCol1{float:left;width:220px}#csCol2{float:right;width:220px}#csCol3{width:auto;margin-left:220px;margin-right:220px;}#csCol1{z-index:3;}#csCol2{z-index:5;}#csCol3{z-index:1;}#csCol1_content{z-index:4;}#csCol2_content{z-index:6;}#csCol3_content{z-index:2;}#csCol1_content,#csCol2_content,#csCol3_content{position:relative;}* html #csCol1,* html #csCol2,* html #csCol3{position:relative;}* html #csCol1_content,* html #csCol2_content,* html #csCol3_content{word-wrap:break-word;}.equales{table-layout:fixed;}.equales > div{display:table-cell;float:none;margin:0;overflow:hidden;vertical-align:top;}ul,li{padding 0;display:inline;margin:0;}ol{list-style:square;padding-left:15px;padding-top:3px;padding-bottom:3px;}ol.none,ul.none{list-style:none;}ol.sq,ul.sq{list-style:square;}ol.cc,ul.cc{list-style:circle;}ol.dc,ul.dc{list-style:decimal;}ol.lr,ul.lr{list-style:lower-roman;}ol.ur,ul.ur{list-style:upper-roman;}ol.ll,ul.ll{list-style:lower-latin;}ol.lg,ul.lg{list-style:lower-greek;}ol.gg,ul.gg{list-style:georgian;}ol.dlz,ul.dlz{list-style:decimal-leading-zero;}li{padding:0 2px;}pre{width:90%;padding:0;margin:0;background:#F7F7F7;border-left:10px solid #ccc;border-top:1px solid #ccc;border-right:1px solid #ccc;border-bottom:1px solid #ccc;line-height:normal;font-family:monospace,"Lucida Console",Monaco,"Courier new",Courier,"Andale Mono";font-size:8pt;color:#707070;vertical-align:top;overflow:auto;overflow-Y:hidden;}pre code{display:block;margin:-15px 0 3px 20px;padding:3px 0;vertical-align:top;}pre:hover{position:relative;z-index:99;}}@media print{}
 
