@@ -133,7 +133,7 @@
     {include file='server_stats.tpl'}
     </div>
     <div style="font-size: 10px; text-align: right;">
-        <a href="#top">&uArr; {t} Nach oben{/t}</a> | <a href="{$www_root}controlcenter">&rArr; {t} Administration {/t}</a> | <a href="{$www_root}index.php">&rArr; {t}Show Frontpage{/t}</a>
+        <a href="#top">&#9650; {t} Nach oben{/t}</a> | <a href="{$www_root}controlcenter">&#9658; {t} Administration {/t}</a> | <a href="{$www_root}index.php">&#9658; {t}Show Frontpage{/t}</a>
     </div>
 </div>
 
