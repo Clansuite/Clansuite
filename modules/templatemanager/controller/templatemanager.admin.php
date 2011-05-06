@@ -62,7 +62,7 @@ class Clansuite_Module_Templatemanager_Admin extends Clansuite_Module_Controller
              ->setOptions($modulenames);
 
         # add the buttonbar
-        $form->addElement('buttonbar')->getButton('cancelbutton')->cancelURL = 'index.php?mod=templatemanager&sub=admin';
+        $form->addElement('buttonbar')->getButton('cancelbutton')->setCancelURL('index.php?mod=templatemanager&sub=admin');
 
         # assign the html of the form to the view
         $this->getView()->assign('module_select_dropdown_form', $form->render());

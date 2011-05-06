@@ -138,9 +138,10 @@ class Clansuite_Form_News_Action_admin_settings extends Clansuite_Form
         $this->setClass('News');
 
         # add the buttonbar
-        $this->addElement('buttonbar')->getButton('cancelbutton')->cancelURL = 'index.php?mod=news/admin';
+        $this->addElement('buttonbar')->getButton('cancelbutton')->setCancelURL('index.php?mod=news/admin');
         $this->addDecorator('fieldset')->setLegend(_('News Settings'));
 
+        # triggers __toString() and renders the form
         return $this;
     }
 }

@@ -227,7 +227,7 @@ class Clansuite_Module_News_Admin extends Clansuite_Module_Controller
                 ->setEditor();
 
         # add the buttonbar
-        $form->addElement('buttonbar')->getButton('cancelbutton')->cancelURL = 'index.php?mod=news&sub=admin';
+        $form->addElement('buttonbar')->getButton('cancelbutton')->setCancelURL('index.php?mod=news&sub=admin');
 
         # Assign the html of the form to the view
         $this->getView()->assign('form', $form->render());
@@ -272,7 +272,7 @@ class Clansuite_Module_News_Admin extends Clansuite_Module_Controller
                 ->setEditor('nicedit');
 
         # add the buttonbar
-        $form->addElement('buttonbar')->getButton('cancelbutton')->cancelURL = 'index.php?mod=news/admin';
+        $form->addElement('buttonbar')->getButton('cancelbutton')->setCancelURL('index.php?mod=news/admin');
 
         # assign the html of the form to the view
         $this->getView()->assign('form', $form->render());
