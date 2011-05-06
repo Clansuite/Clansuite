@@ -154,7 +154,7 @@ class Clansuite_Module_Categories_Admin extends Clansuite_Module_Controller
         $form->addElement('jqselectimage')->setName('cat_form[icon]')->setLabel(_('Select Icon'));
         # @todo category image upload + db insert
 
-        $form->addElement('buttonbar')->getButton('cancelbutton')->cancelURL = 'index.php?mod=categories/admin';
+        $form->addElement('buttonbar')->getButton('cancelbutton')->setCancelURL('index.php?mod=categories/admin');
 
         # assign the html of the form to the view
         $this->getView()->assign('form', $form->render());
@@ -192,7 +192,7 @@ class Clansuite_Module_Categories_Admin extends Clansuite_Module_Controller
         #$form->addElement('uploadajax')->setName('Upload Image')->setLabel(_('Upload Image'));
         $form->addElement('jqselectimage')->setName('cat_form[icon]')->setLabel(_('Select Icon'))->setDefaultValue($cat['icon']);
         #$form->addElement('uploadajax')->setName('Upload Icon')->setLabel(_('Upload Icon'));
-        $form->addElement('buttonbar')->getButton('cancelbutton')->cancelURL = 'index.php?mod=categories/admin';
+        $form->addElement('buttonbar')->getButton('cancelbutton')->setCancelURL('index.php?mod=categories/admin');
 
         # assign the html of the form to the view
         $this->getView()->assign('form', $form->render());
