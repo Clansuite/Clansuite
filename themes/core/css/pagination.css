@@ -16,6 +16,7 @@
     display: inline;
     margin: 0;
     margin-top: 0px;
+    float: left;
 }
 
 .pagination3 li{
