@@ -73,10 +73,10 @@ class Clansuite_Config_YAML
     }
 
     /**
-     * Clansuite_Config_INI is a Singleton
+     * Clansuite_Config_YAML is a Singleton
      *
      * @param string $filename Filename
-     * @return instance of Config_YAMLHandler class
+     * @return instance of Config_YAML class
      */
     public static function getInstance($filename = null)
     {
@@ -84,7 +84,7 @@ class Clansuite_Config_YAML
 
         if(isset($instance) === false)
         {
-            $instance = new Clansuite_Config_YAMLHandler($filename);
+            $instance = new Clansuite_Config_YAML($filename);
         }
 
         return $instance;
