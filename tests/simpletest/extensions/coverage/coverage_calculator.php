@@ -60,7 +60,9 @@ class CoverageCalculator {
     }
 
     static function reportFilename($filename) {
-        return preg_replace('|[/\\\\]|', '_', $filename) . '.html';
+        #$filename = str_replace("C:\\Programme\\Zend\\Apache2\\htdocs\\clansuite\\trunk\\", '', $filename);
+        $filename = preg_replace('|[/\\\\]|', '_', $filename) . '.html';
+        return $filename;
     }
 
     function percentCoverageByFile($coverage, $file, &$results) {

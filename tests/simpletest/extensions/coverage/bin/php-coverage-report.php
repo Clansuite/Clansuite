@@ -12,9 +12,9 @@
 /**#@+
  * include coverage files
  */
-require_once(dirname(__FILE__) . '/../coverage_utils.php');
-require_once(dirname(__FILE__) . '/../coverage.php');
-require_once(dirname(__FILE__) . '/../coverage_reporter.php');
+require_once dirname(__FILE__) . '/../coverage_utils.php';
+require_once dirname(__FILE__) . '/../coverage.php';
+require_once dirname(__FILE__) . '/../coverage_reporter.php';
 /**#@-*/
 $cc = CodeCoverage::getInstance();
 $cc->readSettings();

@@ -53,7 +53,7 @@ class CodeCoverage  {
         while ($file = readdir($parent)) {
             $path = "$parentPath/$file";
             if (is_dir($path)) {
-                if ($file != '.' && $file != '..') {
+                if ($file != '.' && $file != '..' && $file != '.svn') {
                     if ($this->isDirectoryIncluded($path, $directoryDepth)) {
                         $this->getUntouchedFiles($untouched, $touched, $path, $rootPath, $directoryDepth + 1);
                     }
@@ -70,7 +70,7 @@ class CodeCoverage  {
     }
 
     function resetLog() {
-        #echo 'Resting Code-Coverage Logfile: ' . $this->log;
+        # echo 'Resting Code-Coverage Logfile: ' . $this->log;
         $new_file = fopen($this->log, 'w');
         if (!$new_file) {
             throw new Exception("Could not create ". $this->log);
@@ -82,6 +82,20 @@ class CodeCoverage  {
         $handler = new CoverageDataHandler($this->log);
         $handler->createSchema();
     }
+    
+    function setRootDirectory($dir)
+    {
+        $this->root = $dir;
+    }
+    
+    function getRootDirectory()
+    {
+        if(empty($this->root))
+        {
+            $this->root = getcwd();           
+        }
+        return $this->root;
+    }
 
     function startCoverage() {
         $this->root = getcwd();
@@ -92,12 +106,14 @@ class CodeCoverage  {
     }
 
     function stopCoverage() {
-        $cov = xdebug_get_code_coverage();
-        $this->filter($cov);
+        $coverage = xdebug_get_code_coverage();
+        $this->filter($coverage);
+        
         $data = new CoverageDataHandler($this->log);
         chdir($this->root);
-        $data->write($cov);
-        unset($data); // release sqlite connection
+        $data->write($coverage);
+        unset($data); # releases sqlite connection
+        
         xdebug_stop_code_coverage();
         // make sure we wind up on same current working directory, otherwise
         // coverage handler writer doesn't know what directory to chop off
@@ -132,8 +148,10 @@ class CodeCoverage  {
     }
 
     function filter(&$coverage) {
+        
         foreach ($coverage as $file => $line) {
             if (!$this->isFileIncluded($file)) {
+                # echo '<br/>Excluded -> '. $file;
                 unset($coverage[$file]);
             }
         }
@@ -143,6 +161,7 @@ class CodeCoverage  {
         if (!empty($this->excludes)) {
             foreach ($this->excludes as $path) {
                 if (preg_match('|' . $path . '|', $file)) {
+                    #echo '<br>File Excluded with Pattern '.$path.' <br> -> '. $file;
                     return False;
                 }
             }
@@ -151,6 +170,7 @@ class CodeCoverage  {
         if (!empty($this->includes)) {
             foreach ($this->includes as $path) {
                 if (preg_match('|' . $path . '|', $file)) {
+                    #echo '<br>File Included with Pattern '.$path.' <br> -> '. $file;
                     return True;
                 }
             }
@@ -167,6 +187,7 @@ class CodeCoverage  {
         if (isset($this->excludes)) {
             foreach ($this->excludes as $path) {
                 if (preg_match('|' . $path . '|', $dir)) {
+                    #echo '<br>Dir  Exclude with Pattern '.$path.' <br> -> '. $dir;
                     return False;
                 }
             }

@@ -29,14 +29,7 @@ class CoverageReporter {
         $this->writer = new SimpleCoverageWriter();
         $this->calculator = new CoverageCalculator();
     }
-
-    function generateSummaryReport($out) {
-        $variables = $this->calculator->variables($this->coverage, $this->untouched);
-        $variables['title'] = $this->title;
-        $report = $this->writer->writeSummary($out, $variables);
-        fwrite($out, $report);
-    }
-
+    
     function generate() {
         CoverageUtils::mkdir($this->reportDir);
 
@@ -55,6 +48,14 @@ class CoverageReporter {
         echo "Code-coverage report generated. <a href=\"$index\">View Report</a>\n";
     }
 
+    function generateSummaryReport($out) {
+        $variables = $this->calculator->variables($this->coverage, $this->untouched);
+        $variables['title'] = $this->title;
+        var_dump($variables);
+        $report = $this->writer->writeSummary($out, $variables);
+        fwrite($out, $report);
+    }
+
     function generateCoverageByFile($out, $file, $cov) {
         $variables = $this->calculator->coverageByFileVariables($file, $cov);
         $variables['title'] = $this->title .' - '. $file;
@@ -64,7 +65,7 @@ class CoverageReporter {
     static function reportFilename($filename) {
         $filename = str_replace("C:\\Programme\\Zend\\Apache2\\htdocs\\clansuite\\trunk\\", '', $filename);
         $filename = preg_replace('|[/\\\\]|', '_', $filename) . '.html';
-		return $filename;
+        return $filename;
     }
 }
 ?>
