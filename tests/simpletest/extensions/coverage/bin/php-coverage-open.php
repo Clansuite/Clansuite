@@ -16,9 +16,9 @@
 /**#@+
  * include coverage files
  */
-require_once(dirname(__FILE__) . '/../coverage_utils.php');
+require_once dirname(__FILE__) . '/../coverage_utils.php';
 CoverageUtils::requireSqliteExtension();
-require_once(dirname(__FILE__) . '/../coverage.php');
+require_once dirname(__FILE__) . '/../coverage.php';
 /**#@-*/
 $cc = new CodeCoverage();
 $cc->log = 'coverage.sqlite';
