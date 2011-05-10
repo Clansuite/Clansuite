@@ -69,8 +69,7 @@ class Clansuite_DoorKeeper
 
             $request = array( 'GET'     => $_GET,
                               'POST'    => $_POST,
-                              'COOKIE'  => $_COOKIE,
-                              'REQUEST' => $_REQUEST ); # @todo determine, if $_REQUEST is redundant and already in $_GET + $_POST
+                              'COOKIE'  => $_COOKIE);
 
             # We have to setup some defines here, which are used by parse_ini_file to replace values in config.ini
 
@@ -125,38 +124,6 @@ class Clansuite_DoorKeeper
                 # @todo advanced intrustion handling system (logs, blocking etc.)
                 # test the system by adding: &id=17281 union select concat(version(),0x3a,database(),0x3a,user()),2,3--
                 exit($access_block_message);
-            }
-        }
-    }
-
-    /**
-     * Block Requests from Proxies
-     */
-    public static function blockProxies()
-    {
-        $request_headers = array(
-                                 'CLIENT_IP',
-                                 'FORWARDED',
-                                 'FORWARDED_FOR',
-                                 'FORWARDED_FOR_IP',
-                                 'HTTP_CLIENT_IP',
-                                 'HTTP_FORWARDED',
-                                 'HTTP_FORWARDED_FOR',
-                                 'HTTP_FORWARDED_FOR_IP',
-                                 'HTTP_PROXY_CONNECTION',
-                                 'HTTP_VIA',
-                                 'HTTP_X_FORWARDED',
-                                 'HTTP_X_FORWARDED_FOR',
-                                 'VIA',
-                                 'X_FORWARDED',
-                                 'X_FORWARDED_FOR'
-                                );
-
-        foreach($request_headers as $request_header)
-        {
-            if( array_key_exists($request_header,$_SERVER) )
-            {
-                die('Access Blocked for Proxies!');
             }
         }
     }

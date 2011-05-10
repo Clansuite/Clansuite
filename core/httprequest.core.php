@@ -126,7 +126,10 @@ class Clansuite_HttpRequest implements Clansuite_Request_Interface, ArrayAccess
      */
     public function __construct()
     {
-        # 1) Run Intrusion Detection System
+        # REQUEST Usage forbidden
+        unset($_REQUEST);
+    
+        # 1) Run Intrusion Detection System (on GET, POST, COOKIES)
         $doorKeeper = new Clansuite_DoorKeeper;
         $doorKeeper->runIDS();
 
@@ -156,7 +159,6 @@ class Clansuite_HttpRequest implements Clansuite_Request_Interface, ArrayAccess
         /**
          *  3) Additional Security Checks
          */
-        # Clansuite_DoorKeeper::blockProxies();
 
         # block XSS
         $_SERVER['PHP_SELF'] = htmlspecialchars($_SERVER['PHP_SELF']);
@@ -175,9 +177,6 @@ class Clansuite_HttpRequest implements Clansuite_Request_Interface, ArrayAccess
         $this->get_parameters     = $_GET;
         $this->post_parameters    = $_POST;
         $this->cookie_parameters  = $_COOKIE;
-        
-        # REQUEST Usage forbidden
-        unset($_REQUEST);
 
         /**
          * 5) Detect REST Tunneling through POST and set request_method accordingly
