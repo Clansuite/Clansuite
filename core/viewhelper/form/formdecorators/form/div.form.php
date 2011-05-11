@@ -55,8 +55,26 @@ class Clansuite_Form_Decorator_Div extends Clansuite_Form_Decorator
     public $name = 'div';
 
     public function render($html_form_content)
-    {
-        return CR . '<div class="' . $this->getClass() . '">' . $html_form_content . '</div>' . CR;
+    {   
+        # open opening div tag (unclosed first tag)
+        $html_deco = CR . '<div ';
+        
+        # add class
+        if( mb_strlen($this->getClass()) > 0 )
+        {
+             $html_deco .= 'class="' . $this->getClass() .'" ';
+        }
+        
+        # add class
+        if( mb_strlen($this->getId()) > 0 )
+        {
+             $html_deco .= 'id="' . $this->getId() .'" ';
+        }
+
+        # close opening div tag (close unclosed first tag)
+        $html_deco .= '>';
+        
+        return  $html_deco . $html_form_content . '</div>' . CR;
     }
 }
 ?>
