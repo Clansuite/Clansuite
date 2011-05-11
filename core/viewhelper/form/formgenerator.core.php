@@ -323,7 +323,10 @@ class Clansuite_Array_Formgenerator extends Clansuite_Form
                  */
                 if(isset($form_array_element['decorator']))
                 {
-                    $formelement->setDecorator($form_array_element['decorator']);
+                    if($form_array_element['decorator'] instanceOf Clansuite_Formelement_Decorator)
+                    {
+                        $formelement->setDecorator($form_array_element['decorator']);
+                    }
                 }
             }
         }

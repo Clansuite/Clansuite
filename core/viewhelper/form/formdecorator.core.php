@@ -72,7 +72,7 @@ abstract class Clansuite_Form_Decorator implements Clansuite_Form_Decorator_Inte
     # instance of form, which is to decorate
     protected $form;
     
-    private $class;
+    private $class, $id;
 
     /**
     * Set class=""
@@ -94,6 +94,28 @@ abstract class Clansuite_Form_Decorator implements Clansuite_Form_Decorator_Inte
     public function getClass()
     {
         return $this->class;
+    }
+    
+    /**
+    * Set id=""
+    *
+    * @param string $id
+    */
+    public function setId($id)
+    {
+        $this->id = $id;
+
+        return $this->form;
+    }
+
+    /**
+    * Get id="" values
+    *
+    * @return string
+    */
+    public function getId()
+    {
+        return $this->id;
     }
 
     /**
@@ -139,7 +161,7 @@ abstract class Clansuite_Form_Decorator implements Clansuite_Form_Decorator_Inte
             return false;
         }
     }
-
+    
     /**
      * __call Magic Method
      *
@@ -150,7 +172,10 @@ abstract class Clansuite_Form_Decorator implements Clansuite_Form_Decorator_Inte
      */
     public function __call($method, $parameters)
     {
-        return call_user_func_array( array($this->form, $method), $parameters);
+        if(is_object($this->form) === true)
+        {
+            return call_user_func_array( array($this->form, $method), $parameters);
+        }            
     }
 }
 
@@ -242,8 +267,6 @@ abstract class Clansuite_Formelement_Decorator implements Clansuite_Formelement_
      * __call Magic Method
      *
      * In general this calls a certain method with parameters on the object which is to decorate ($form).
-     *
-     * @toto use Clansuite_Loader here to speed it up?
      *
      * @param $method
      * @param $parameters

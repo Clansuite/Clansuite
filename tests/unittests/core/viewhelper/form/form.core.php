@@ -343,14 +343,41 @@ class Clansuite_Form_Test extends UnitTestCase
         $this->assertFalse(empty($formelements_html));
         $this->assertEqual($formelements_html, $formelements_html_expected);
     }
+    
+    public function testuseDefaultFormDecorators_variableIsPrivate()
+    {
+        $this->form->useDefaultFormDecorators = false; # will fail, because is private
+        
+        $this->form->registerDefaultFormDecorators();
+        $default_form_decorators = $this->form->getDecorators();
+        $this->assertTrue(empty($default_form_decorators));
+    }
+    
+    public function testuseDefaultFormDecorators_method_true()
+    {
+        $this->form->useDefaultFormDecorators(true);
+        
+        $this->form->registerDefaultFormDecorators();
+        $default_form_decorators = $this->form->getDecorators();
+        $this->assertFalse(empty($default_form_decorators));
+        $this->assertTrue(is_object($default_form_decorators['form']));
+        $this->assertTrue(is_a($default_form_decorators['form'], 'Clansuite_Form_Decorator'));
+    }
+    
+    public function testuseDefaultFormDecorators_method_false()
+    {
+        $this->form->useDefaultFormDecorators(false);
+        
+        $this->form->registerDefaultFormDecorators();
+        $default_form_decorators = $this->form->getDecorators();
+        $this->assertTrue(empty($default_form_decorators));
+    }
 
     public function testregisterDefaultFormDecorators()
     {
         $this->form->registerDefaultFormDecorators();
         $default_form_decorators = $this->form->getDecorators();
         $this->assertFalse(empty($default_form_decorators));
-        $this->assertTrue(is_object($default_form_decorators['html5validation']));
-        $this->assertTrue(is_a($default_form_decorators['html5validation'], 'Clansuite_Form_Decorator'));
         $this->assertTrue(is_object($default_form_decorators['form']));
         $this->assertTrue(is_a($default_form_decorators['form'], 'Clansuite_Form_Decorator'));
     }

@@ -198,14 +198,21 @@ class Clansuite_Form implements Clansuite_Form_Interface
     protected $formerror_flag = false;
 
     /**
-     * Form Decorators Array, contains one or several formdecorator objects
+     * Form Decorators Array, contains one or several formdecorator objects.
      *
      * @var array
      */
     private $formdecorators = array();
+    
+    /**
+     * Toogle variable to control registering of default Formdecorators during rendering.
+     * 
+     * @var boolean
+     */
+    private $useDefaultFormDecorators = true;
 
     /**
-     * Form Groups Array, contains one or several formgroup objects
+     * Form Groups Array, contains one or several formgroup objects.
      *
      * @var array
      */
@@ -763,17 +770,26 @@ class Clansuite_Form implements Clansuite_Form_Interface
         # the content of the form are the formelements
         $html_form = $this->renderAllFormelements();
 
-        # set a common style the form by registering one or more decorators
-        $this->registerDefaultFormDecorators();
+        if(empty($formdecorators) === true)
+        {
+            # set a common style to the form by registering one or more decorators
+            $this->registerDefaultFormDecorators();
+        }
 
         # iterate over all decorators
         foreach ($this->getDecorators() as $decorator)
         {
             # thereby sticking this form in each decorator
             $decorator->decorateWith($this);
-
+            
             # then rendering it
-            $html_form = $decorator->render($html_form);
+            $html_form = $decorator->render($html_form);            
+            
+            # remove the processed decorator from the decorators stack
+            $this->removeDecorator($decorator);
+            
+            # unset the decorator var in the foreach context
+            unset($decorator);
         }
 
         return $html_form;
@@ -1111,19 +1127,51 @@ class Clansuite_Form implements Clansuite_Form_Interface
     {
         return $this->formdecorators;
     }
+    
+    /**
+     * Toggles the Usage of Default Form Decorators
+     * If set to false, registerDefaultFormDecorators() is not called during render()
+     * 
+     * @see render()
+     * @see registerDefaultFormDecorators()
+     * 
+     * @param type $boolean Form is decorated on true (default), not decorated on false.
+     */
+    public function useDefaultFormDecorators($boolean = true)
+    {
+        $this->useDefaultFormDecorators = $boolean;
+    }
 
     /**
      * Set default form decorators (form)
      */
     public function registerDefaultFormDecorators()
     {
-        $this->addDecorator('html5validation');
-        $this->addDecorator('div')->setClass('forms');
-        $this->addDecorator('form');
+        if($this->useDefaultFormDecorators === true)
+        {
+            $this->addDecorator('html5validation');     
+            $this->addDecorator('form');
+            $this->addDecorator('fieldset');
+            $this->addDecorator('div')->setId('forms');
+        }        
     }
 
+    /**
+     * Removes a form decorator from the decorator stack by name or object.
+     * 
+     * @param mixed|string|object $decorator Object or String identifying the Form Decorator.
+     */
     public function removeDecorator($decorator)
     {
+        # check if it is an object implementing the right interface
+        if($decorator instanceof Clansuite_Form_Decorator_Interface)
+        {
+            # if so, fetch this decorator objects name
+            # overwriting $decorator object with decorator name string
+            $decorator = $decorator->name;
+        }
+        
+        # $decorator need to be string
         if(isset($this->formdecorators[$decorator]))
         {
             unset($this->formdecorators[$decorator]);
@@ -1146,16 +1194,18 @@ class Clansuite_Form implements Clansuite_Form_Interface
     public function decoratorFactory($formdecorator)
     {
         # if not already loaded, require forelement file
-        if (false == class_exists('Clansuite_Form_Decorator_'.$formdecorator,false))
+        if(false == class_exists('Clansuite_Form_Decorator_' . $formdecorator, false))
         {
-            #if(is_file(ROOT_CORE . 'viewhelper/formdecorators/form/'.$formdecorator.'.form.php'))
-            #{
-                include ROOT_CORE . 'viewhelper/form/formdecorators/form/'.$formdecorator.'.form.php';
-            #}
+            $file = ROOT_CORE . 'viewhelper/form/formdecorators/form/' . $formdecorator . '.form.php';
+
+            if(is_file($file) === true)
+            {
+                include $file;
+            }
         }
 
         # construct Clansuite_Formdecorator_Name
-        $formdecorator_classname = 'Clansuite_Form_Decorator_'.ucfirst($formdecorator);
+        $formdecorator_classname = 'Clansuite_Form_Decorator_' . ucfirst($formdecorator);
         # instantiate the new $formdecorator and return
         return new $formdecorator_classname();
     }
