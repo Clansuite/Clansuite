@@ -126,14 +126,14 @@ class Clansuite_HttpRequest implements Clansuite_Request_Interface, ArrayAccess
      */
     public function __construct()
     {
-        # REQUEST Usage forbidden
+        # 1) Drop $_REQUEST. Usage is forbidden.
         unset($_REQUEST);
     
-        # 1) Run Intrusion Detection System (on GET, POST, COOKIES)
+        # 2) Run Intrusion Detection System (on GET, POST, COOKIES)
         $doorKeeper = new Clansuite_DoorKeeper;
         $doorKeeper->runIDS();
 
-        # 2) Filter Globals and Request
+        # 3) Filter Globals and Request
 
         # Reverse the effect of register_globals
         if ((bool) ini_get('register_globals') and mb_strtolower(ini_get('register_globals')) != 'off')
@@ -157,7 +157,7 @@ class Clansuite_HttpRequest implements Clansuite_Request_Interface, ArrayAccess
         }
 
         /**
-         *  3) Additional Security Checks
+         *  4) Additional Security Checks
          */
 
         # block XSS
@@ -165,7 +165,7 @@ class Clansuite_HttpRequest implements Clansuite_Request_Interface, ArrayAccess
         $_SERVER['QUERY_STRING'] = htmlspecialchars($_SERVER['QUERY_STRING']);
 
         /**
-         *  4) Init Parameter Arrays and Assign the GLOBALS
+         *  5) Init Parameter Arrays and Assign the GLOBALS
          */
 
         # Clear Parameters Array
@@ -179,21 +179,36 @@ class Clansuite_HttpRequest implements Clansuite_Request_Interface, ArrayAccess
         $this->cookie_parameters  = $_COOKIE;
 
         /**
-         * 5) Detect REST Tunneling through POST and set request_method accordingly
+         * 6) Detect REST Tunneling through POST and set request_method accordingly
          */
         $this->detectRESTTunneling();
     }
     
+    /**
+     * Returns the POST Parameters Array.
+     * 
+     * @return array POST Parameters Array.
+     */
     public function getPost()
     {
         return $this->post_parameters;
     }
     
+    /**
+     * Returns the GET Parameters Array.
+     * 
+     * @return array GET Parameters Array.
+     */
     public function getGet()
     {
         return $this->get_parameters;
     }
     
+    /**
+     * Returns the COOKIES Parameters Array.
+     * 
+     * @return array COOKIES Parameters Array.
+     */
     public function getCookies()
     {
         return $this->cookie_parameters;
