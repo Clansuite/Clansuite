@@ -758,13 +758,11 @@ class Clansuite_Form implements Clansuite_Form_Interface
         return $html_form;
     }
 
-
-
     /**
-    * Render this form
-    *
-    * @return Clansuite_Formelement
-    */
+     * Render this form
+     *
+     * @return Clansuite_Formelement
+     */
     public function render()
     {
         # the content of the form are the formelements
@@ -772,8 +770,11 @@ class Clansuite_Form implements Clansuite_Form_Interface
 
         if(empty($formdecorators) === true)
         {
-            # set a common style to the form by registering one or more decorators
-            $this->registerDefaultFormDecorators();
+            if($this->useDefaultFormDecorators === true)
+            {
+                # set a common style to the form by registering one or more decorators
+                $this->registerDefaultFormDecorators();
+            }
         }
 
         # iterate over all decorators
@@ -998,19 +999,24 @@ class Clansuite_Form implements Clansuite_Form_Interface
     public function setValues($data = null)
     {
         # because $data might be an object, typecast $data to array
-        if(is_object($data))
+        if(is_object($data) === true)
         {
             $data = (array) $data;
         }
 
-        # autopopulate via form method POST or GET
+        # fetch data from POST or GET
         if(null === $data)
         {
             $method = $this->getMethod();
-            if ($method === 'GET' or $method === 'POST')
+            
+            if ($method === 'GET')
             {
-                $methodname = 'get' . $method;
-                $data = Clansuite_HttpRequest::$methodname();
+                $data = Clansuite_HttpRequest::getGet();
+            }
+            
+            if ($method === 'POST')
+            {
+                $data = Clansuite_HttpRequest::getPost();
             }
         }
 
@@ -1019,15 +1025,17 @@ class Clansuite_Form implements Clansuite_Form_Interface
         {
             foreach($this->formelements as $formelement)
             {
-                # skip certain formelements (buttons, etc) from setValue()
-                # because setting value would change the visible "name" of the button
                 $type = $formelement->getType();
+                
+                # skip certain formelements (buttons, etc.) from setValue()
+                # setting the value would change the visible "name" of these elements
                 if($type == 'submit' or $type == 'button' or $type == 'cancelbutton' or $type == 'resetbutton')
                 {
                     continue;
                 }
 
-                if($formelement->getName() == ucfirst($key))
+                # data key and name of formelement have to match
+                if($formelement->getName() == ucfirst($key))                        
                 {
                     $formelement->setValue($value);
                 }
@@ -1146,14 +1154,11 @@ class Clansuite_Form implements Clansuite_Form_Interface
      * Set default form decorators (form)
      */
     public function registerDefaultFormDecorators()
-    {
-        if($this->useDefaultFormDecorators === true)
-        {
+    {       
             $this->addDecorator('html5validation');     
             $this->addDecorator('form');
             $this->addDecorator('fieldset');
-            $this->addDecorator('div')->setId('forms');
-        }        
+            $this->addDecorator('div')->setId('forms');   
     }
 
     /**
@@ -1183,6 +1188,10 @@ class Clansuite_Form implements Clansuite_Form_Interface
         if(isset($this->formdecorators[$decorator]))
         {
             return $this->formdecorators[$decorator];
+        }
+        else
+        {            
+           throw new Clansuite_Exception('The Formdecorator "' . $decorator . '" was not found.'); 
         }
     }
 
