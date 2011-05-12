@@ -364,53 +364,52 @@ class Clansuite_Cssbuilder
                 $_comp .= $content . "\n";
             }
 
-            $this->save_stylesheet($themeBackPath.$themeBackCssName,$_comp);
+            $this->save_stylesheet($themeBackPath . $themeBackCssName, $_comp);
 
             $html .= '<p class="cmBoxMessage" style="padding-left:50px;"><b>Backend Theme Import File:</b>';
-            $html .= '&nbsp;&nbsp;' .$themeBackPath;
-            $html .= '<span class="cmSuccessFilenameColor"><b>'.$themeBackCssName .'</b></span> wurde generiert'.$coreImp.'</p>';
+            $html .= '&nbsp;&nbsp;' . $themeBackPath;
+            $html .= '<span class="cmSuccessFilenameColor"><b>' . $themeBackCssName . '</b></span> wurde generiert' . $coreImp . '</p>';
         }
 
         return $html;
     }
-
 
     /**
      * -------------------------------------------------------------------------------------------------
      * read_core_definition
      * -------------------------------------------------------------------------------------------------
      */
-    protected function read_properties( $inifile )
+    protected function read_properties($inifile)
     {
         $iniArray = parse_ini_file($inifile);
         #Clansuite_Debug::printR( $iniArray );
-        $iniArray['files'] = str_replace( " ", "", $iniArray['files']);
-        $iniArray['files'] = str_replace( "\t", "", $iniArray['files']);
-        $iniArray['files'] = str_replace( "\r\n", "", $iniArray['files']);
-        $iniArray['files'] = str_replace( "\r", "", $iniArray['files']);
-        $iniArray['files'] = str_replace( "\n", "", $iniArray['files']);
-        if( mb_substr( $iniArray['files'], strlen($iniArray['files'])-1) == ',' )
+        $iniArray['files'] = str_replace(" ", "", $iniArray['files']);
+        $iniArray['files'] = str_replace("\t", "", $iniArray['files']);
+        $iniArray['files'] = str_replace("\r\n", "", $iniArray['files']);
+        $iniArray['files'] = str_replace("\r", "", $iniArray['files']);
+        $iniArray['files'] = str_replace("\n", "", $iniArray['files']);
+        if(mb_substr($iniArray['files'], strlen($iniArray['files']) - 1) == ',')
         {
-            $iniArray['files'] = mb_substr( $iniArray['files'], 0, strlen($iniArray['files'])-1);
+            $iniArray['files'] = mb_substr($iniArray['files'], 0, strlen($iniArray['files']) - 1);
         }
         return $iniArray;
     }
 
-    protected function getCompactHeader( $browserInfo = '' )
+    protected function getCompactHeader($browserInfo = '')
     {
         $compact = '';
-        $compact =  "/**"."\n";
-        $compact .= " * ---------------------------------------------------------------------------------------------------"."\n";
-        $compact .= " * CSS2 Framework (CSFW)"."\n";
-        $compact .= " * ---------------------------------------------------------------------------------------------------"."\n";
-        $compact .= " * @author       Paul Brand <info@isp-tenerife.net>"."\n";
-        $compact .= " * @package      CSFW"."\n";
-        $compact .= " * @subpackage   Core"."\n";
-        $compact .= " * @version      1.0"."\n";
-        $compact .= " * ---------------------------------------------------------------------------------------------------"."\n";
-        $compact .= " * @description  Created for - ".$browserInfo."\n";
-        $compact .= " * ---------------------------------------------------------------------------------------------------"."\n";
-        $compact .= " */"."\n";
+        $compact = "/**" . "\n";
+        $compact .= " * ---------------------------------------------------------------------------------------------------" . "\n";
+        $compact .= " * CSS2 Framework (CSFW)" . "\n";
+        $compact .= " * ---------------------------------------------------------------------------------------------------" . "\n";
+        $compact .= " * @author       Paul Brand <info@isp-tenerife.net>" . "\n";
+        $compact .= " * @package      CSFW" . "\n";
+        $compact .= " * @subpackage   Core" . "\n";
+        $compact .= " * @version      1.0" . "\n";
+        $compact .= " * ---------------------------------------------------------------------------------------------------" . "\n";
+        $compact .= " * @description  Created for - " . $browserInfo . "\n";
+        $compact .= " * ---------------------------------------------------------------------------------------------------" . "\n";
+        $compact .= " */" . "\n";
         $compact .= "\n";
         $compact .= '@charset "UTF-8";';
         $compact .= "\n";
@@ -419,36 +418,36 @@ class Clansuite_Cssbuilder
         return $compact;
     }
 
-    protected function getCoreCompactHeader( $coreInfo = '' )
+    protected function getCoreCompactHeader($coreInfo = '')
     {
-        $core_compact =  '';
-        $core_compact =  "/**"."\n";
-        $core_compact .= " * ----------------------------------------------------------------------------------------------"."\n";
-        $core_compact .= " * Framework:    " .$coreInfo['framework']. "\n";
-        $core_compact .= " * Description:  " .$coreInfo['description']. "\n";
-        $core_compact .= " * Author:       " .$coreInfo['author']. "\n";
-        $core_compact .= " * Version:      " .$coreInfo['version']. "\n";
-        $core_compact .= " * Version-Date: " .$coreInfo['date']. "\n";
-        $core_compact .= " * Created:      " .date('Y-m-d H:i:s', time()). "\n";
-        $core_compact .= " * ----------------------------------------------------------------------------------------------"."\n";
-        $core_compact .= " */"."\n";
+        $core_compact = '';
+        $core_compact = "/**" . "\n";
+        $core_compact .= " * ----------------------------------------------------------------------------------------------" . "\n";
+        $core_compact .= " * Framework:    " . $coreInfo['framework'] . "\n";
+        $core_compact .= " * Description:  " . $coreInfo['description'] . "\n";
+        $core_compact .= " * Author:       " . $coreInfo['author'] . "\n";
+        $core_compact .= " * Version:      " . $coreInfo['version'] . "\n";
+        $core_compact .= " * Version-Date: " . $coreInfo['date'] . "\n";
+        $core_compact .= " * Created:      " . date('Y-m-d H:i:s', time()) . "\n";
+        $core_compact .= " * ----------------------------------------------------------------------------------------------" . "\n";
+        $core_compact .= " */" . "\n";
 
         return $core_compact;
     }
 
-    protected function getThemeCompactHeader( $themeInfo = '' )
+    protected function getThemeCompactHeader($themeInfo = '')
     {
         $theme_compact = '';
-        $theme_compact =  "/**"."\n";
-        $theme_compact .= " * ---------------------------------------------------------------------------------------------"."\n";
-        $theme_compact .= " * Framework:    " .$themeInfo['framework']. "\n";
-        $theme_compact .= " * Description:  " .$themeInfo['description']. "\n";
-        $theme_compact .= " * Author:       " .$themeInfo['author']. "\n";
-        $theme_compact .= " * Version:      " .$themeInfo['version']. "\n";
-        $theme_compact .= " * Version-Date: " .$themeInfo['date']. "\n";
-        $theme_compact .= " * Created:      " .date('Y-m-d H:i:s', time()). "\n";
-        $theme_compact .= " * ---------------------------------------------------------------------------------------------"."\n";
-        $theme_compact .= " */"."\n";
+        $theme_compact = "/**" . "\n";
+        $theme_compact .= " * ---------------------------------------------------------------------------------------------" . "\n";
+        $theme_compact .= " * Framework:    " . $themeInfo['framework'] . "\n";
+        $theme_compact .= " * Description:  " . $themeInfo['description'] . "\n";
+        $theme_compact .= " * Author:       " . $themeInfo['author'] . "\n";
+        $theme_compact .= " * Version:      " . $themeInfo['version'] . "\n";
+        $theme_compact .= " * Version-Date: " . $themeInfo['date'] . "\n";
+        $theme_compact .= " * Created:      " . date('Y-m-d H:i:s', time()) . "\n";
+        $theme_compact .= " * ---------------------------------------------------------------------------------------------" . "\n";
+        $theme_compact .= " */" . "\n";
 
         return $theme_compact;
     }
@@ -479,7 +478,6 @@ class Clansuite_Cssbuilder
      * -------------------------------------------------------------------------------------------------
      * load_stylesheet
      * -------------------------------------------------------------------------------------------------
-     *
      */
     protected static function load_stylesheet($file, $optimize = true)
     {
@@ -507,9 +505,8 @@ class Clansuite_Cssbuilder
     }
 
     /**
-     * -------------------------------------------------------------------------------------------------
      * load_stylesheet_content
-     * -------------------------------------------------------------------------------------------------
+     * 
      * stylesheet compiler
      */
     protected static function load_stylesheet_content($contents, $optimize = false)
@@ -517,9 +514,10 @@ class Clansuite_Cssbuilder
         # Remove multiple charset declarations for standards compliance (and fixing Safari problems).
         $contents = preg_replace('/^@charset\s+[\'"](\S*)\b[\'"];/i', '', $contents);
 
-        if ($optimize) {
+        if($optimize)
+        {
             // Regexp to match comment blocks.
-            $comment     = '/\*[^*]*\*+(?:[^/*][^*]*\*+)*/';
+            $comment = '/\*[^*]*\*+(?:[^/*][^*]*\*+)*/';
 
             // Regexp to match double quoted strings.
             $double_quot = '"[^"\\\\]*(?:\\\\.[^"\\\\]*)*"';
@@ -528,7 +526,7 @@ class Clansuite_Cssbuilder
             $single_quot = "'[^'\\\\]*(?:\\\\.[^'\\\\]*)*'";
 
             // Strip all comment blocks, but keep double/single quoted strings.
-            $contents = preg_replace( "<($double_quot|$single_quot)|$comment>Ss", "$1", $contents );
+            $contents = preg_replace("<($double_quot|$single_quot)|$comment>Ss", "$1", $contents);
 
             /**
              * Remove certain whitespace.
@@ -550,9 +548,7 @@ class Clansuite_Cssbuilder
                 # - Colon: Retain :pseudo-selectors.
                 | ([\(:])\s+
                 )
-                >xS',
-                '\1',
-                $contents
+                >xS', '\1', $contents
             );
 
             # End the file with a new line.
@@ -565,7 +561,6 @@ class Clansuite_Cssbuilder
 
         return $contents;
     }
-
 
     /**
      * add browser
@@ -657,6 +652,8 @@ class Clansuite_Cssbuilder
 
     /**
      * BuilderInfo contains all definitions for the builder
+     * 
+     * @param $data array Builder infos (paths, browser etc.)
      */
     public static function setBuilderInfo($data)
     {
@@ -688,5 +685,7 @@ class Clansuite_Cssbuilder
 
         self::$_builderInfo = $aBuilderInfo;
     }
+
 }
+
 ?>
