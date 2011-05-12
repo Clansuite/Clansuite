@@ -134,15 +134,20 @@ class Clansuite_Form_News_Action_admin_settings extends Clansuite_Form
      */
     public function setupForm()
     {
-        # add css
+        # form! add css
         $this->setClass('News');
 
-        # add the buttonbar
+        # formelement! add the buttonbar
         $this->addElement('buttonbar')->getButton('cancelbutton')->setCancelURL('index.php?mod=news/admin');
-        $this->addDecorator('fieldset')->setLegend(_('News Settings'));
-
-        # triggers __toString() and renders the form
-        return $this;
+ 
+        # disable application of default form decoration when rendering
+        $this->useDefaultFormDecorators(false);
+        
+        # apply the form decorators now to the form object
+        $this->registerDefaultFormDecorators();
+        
+        # modify one of the default form decorators
+        $this->getDecorator('fieldset')->setLegend(_('News Settings'));    
     }
 }
 ?>
