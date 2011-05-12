@@ -10,10 +10,47 @@
  */
 function smarty_function_serverload($params)
 {
-
-    if (mb_strtoupper(mb_substr(PHP_OS, 0, 3)) === 'WIN')
+    if(mb_strtoupper(mb_substr(PHP_OS, 0, 3)) === 'WIN')
     {
-        echo 'not available on windows';
+        $wmi = new COM("Winmgmts://");
+        $cpus = $wmi->execquery("SELECT * FROM Win32_Processor");
+        $cpuload = 0;
+        $nr_cpus = 0;
+        $loadcpu = '';
+        
+        foreach($cpus as $cpu)
+        {
+            $cpuload += $cpu->loadpercentage;
+            
+            if($nr_cpus > 0)
+            {
+               $loadcpu.= ' | '. $cpuload . '%';   
+            }
+            else # first one
+            {
+               $loadcpu.= $cpuload . '%';  
+            }
+            
+            $nr_cpus++;
+        }
+        
+        $cpuload = $cpuload / $nr_cpus;
+        
+        if($nr_cpus == 1)
+        {
+            echo '[ ' .$loadcpu. ' ]';
+        }
+        else
+        {
+            # list all processor loads and total load
+            echo '[ ' .$loadcpu. ' ] [ ' .$cpuload. ' ]';
+        }
+        
+        #if($cpuload >= $ServerLoadAllowed)
+        #{
+            # throw new Clansuite_Exception("Server load too high, come back later." );
+            # $server_load_high = true;
+        #}
     }
     else
     {
