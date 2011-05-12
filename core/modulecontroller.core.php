@@ -494,9 +494,7 @@ abstract class Clansuite_Module_Controller
         # assign form object directly to the view or return to work with it
         if($assign_to_view === true)
         {
-            # do not call render, it's already done ,)
-            # $this->getView()->assign('form', $form->render());
-
+            # do not call $form->render(), it's already done
             $this->getView()->assign('form', $form);
         }
         else

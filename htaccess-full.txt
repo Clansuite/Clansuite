@@ -1,4 +1,8 @@
-# htaccess.txt .htaccess-template for Clansuite
+# .htaccess-template for Clansuite
+#
+# Apache Configuration File
+# httpd.apache.org/docs/2.2/mod/quickreference.html
+#
 # SVN: $Id$
 
 # (1) Rename "htaccess.txt" to ".htaccess"
