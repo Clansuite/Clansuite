@@ -343,14 +343,13 @@ class Clansuite_Form_Test extends UnitTestCase
         $this->assertFalse(empty($formelements_html));
         $this->assertEqual($formelements_html, $formelements_html_expected);
     }
-    
-    public function testuseDefaultFormDecorators_variableIsPrivate()
+
+    public function testuseDefaultFormDecorators_disable_via_constructor()
     {
-        $this->form->useDefaultFormDecorators = false; # will fail, because is private
-        
-        $this->form->registerDefaultFormDecorators();
-        $default_form_decorators = $this->form->getDecorators();
-        $this->assertTrue(empty($default_form_decorators));
+        $form = new Clansuite_Form(array('useDefaultFormDecorators' => true));
+        $decorators = $form->getDecorators();
+        $this->assertEqual(array(), $decorators);
+        unset($form);
     }
     
     public function testuseDefaultFormDecorators_method_true()
@@ -364,15 +363,6 @@ class Clansuite_Form_Test extends UnitTestCase
         $this->assertTrue(is_a($default_form_decorators['form'], 'Clansuite_Form_Decorator'));
     }
     
-    public function testuseDefaultFormDecorators_method_false()
-    {
-        $this->form->useDefaultFormDecorators(false);
-        
-        $this->form->registerDefaultFormDecorators();
-        $default_form_decorators = $this->form->getDecorators();
-        $this->assertTrue(empty($default_form_decorators));
-    }
-
     public function testregisterDefaultFormDecorators()
     {
         $this->form->registerDefaultFormDecorators();
@@ -396,6 +386,16 @@ class Clansuite_Form_Test extends UnitTestCase
         $default_form_decorators = $this->form->getDecorators();
         $this->assertTrue(array_key_exists('form', $default_form_decorators));
         $this->assertTrue($this->form->getDecorator('form'));
+    }
+    
+    public function testgetDecorator_exception_notfound()
+    {
+        $this->expectException(
+            'Clansuite_Exception',
+            'The Formdecorator "not-existing-formdecorator" was not found.'
+        );
+
+        $this->form->getDecorator('not-existing-formdecorator');
     }
 
     public function testRender()
