@@ -201,7 +201,7 @@ class Clansuite_CMS
         }
 
         # 4. load staging configuration (overloading clansuite.config.php)
-        if(self::$config['config']['staging'] === true)
+        if( true === (bool) self::$config['config']['staging'] )
         {
             self::$config = Clansuite_Staging::overloadWithStagingConfig(self::$config);
         }
