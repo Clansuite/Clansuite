@@ -142,10 +142,11 @@ class Clansuite_Cssbuilder
     public function __construct()
     {
         // initializing
+        $config = Clansuite_CMS::getClansuiteConfig();
         self::setFrontendPath(ROOT . 'themes' . DS . 'frontend');
         self::setBackendPath(ROOT . 'themes' . DS . 'backend');
-        self::setFrontendTheme('standard');
-        self::setBackendTheme('admin');
+        self::setFrontendTheme($config['template']['frontend_theme']);
+        self::setBackendTheme($config['template']['backend_theme']);
         self::addBrowser('default', 'Standard Browser (Mozilla)', true, '');
     }
 
