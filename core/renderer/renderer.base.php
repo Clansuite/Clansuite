@@ -375,12 +375,12 @@ abstract class Clansuite_Renderer_Base
          *
          *    Watch it! These Paths are relative (based on WWW_ROOT), not absolute!
          */
-        $template_constants['www_root']             = WWW_ROOT;
-        $template_constants['www_root_uploads']      = WWW_ROOT . 'uploads/';
-        $template_constants['www_root_mod']         = WWW_ROOT . 'modules/' . $modulename . '/';
-        $template_constants['www_root_theme']       = $this->getTheme()->getWWWPath();
-        $template_constants['www_root_themes']      = WWW_ROOT_THEMES;
-        $template_constants['www_root_themes_core'] = WWW_ROOT_THEMES_CORE;
+        $template_constants['www_root']                 = WWW_ROOT;
+        $template_constants['www_root_uploads']         = WWW_ROOT . 'uploads/';
+        $template_constants['www_root_mod']             = WWW_ROOT . 'modules/' . $modulename . '/';
+        $template_constants['www_root_theme']           = $this->getTheme()->getWWWPath();
+        $template_constants['www_root_themes']          = WWW_ROOT_THEMES;
+        $template_constants['www_root_themes_core']     = WWW_ROOT_THEMES_CORE;
         $template_constants['www_root_themes_backend']  = WWW_ROOT_THEMES_BACKEND;
         $template_constants['www_root_themes_frontend'] = WWW_ROOT_THEMES_FRONTEND;
 
@@ -477,8 +477,6 @@ abstract class Clansuite_Renderer_Base
     {
         if($this->theme === null)
         {
-            include ROOT_CORE . 'viewhelper' . DS . 'theme.core.php';
-
             $themename = Clansuite_HttpRequest::getRoute()->getThemeName();
 
             $this->theme = new Clansuite_Theme($themename);
