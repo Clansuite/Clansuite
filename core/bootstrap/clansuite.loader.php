@@ -219,6 +219,8 @@ class Clansuite_Loader
         'Clansuite_Renderer_Factory'          => ROOT_CORE . 'factories/renderer.factory.php',
         'Clansuite_Logger_Factory'            => ROOT_CORE . 'factories/logger.factory.php',
         'Clansuite_Cache_Factory'             => ROOT_CORE . 'factories/cache.factory.php',
+        # /viewhelper/
+        'Clansuite_Theme'                     => ROOT_CORE . 'viewhelper/theme.core.php',
         # /viewhelper/datagrid
         'Clansuite_Datagrid'                  => $datagrid_dir . 'datagrid.core.php',
         'Clansuite_Datagrid_Column'           => $datagrid_dir . 'datagridcol.core.php',

@@ -46,6 +46,15 @@ if (defined('IN_CS') === false)
 class Clansuite_Doctrine2
 {
     /**
+     * A DBAL Logger Object
+     * 
+     * @var object \Doctrine\DBAL\Logging\DebugStack
+     */
+    private static $_sqlLoggerStack = '';
+    
+    private static $execTime = '';
+    
+    /**
      * Initialize auto loader of Doctrine
      *
      * @return Doctrine_Enitity_Manager
@@ -91,7 +100,7 @@ class Clansuite_Doctrine2
         {
             $cache = new \Doctrine\Common\Cache\ArrayCache;
         }
-
+        
         # set cache driver
         $config->setMetadataCacheImpl($cache);
         $config->setQueryCacheImpl($cache);
@@ -156,6 +165,16 @@ class Clansuite_Doctrine2
         $em = \Doctrine\ORM\EntityManager::create($connectionOptions, $config);
         $em->getConnection()->setCharset($db_config['database']['charset']);
         
+        # set DBAL DebugStack Logger (also needed for counting queries)
+        if(DEBUG == 1)
+        {
+            self::$_sqlLoggerStack = new \Doctrine\DBAL\Logging\DebugStack();        
+            $em->getConfiguration()->setSQLLogger(self::$_sqlLoggerStack);
+        }
+        
+        # echos SQL Queries directly on page
+        #$em->getConfiguration()->setSQLLogger(new \Doctrine\DBAL\Logging\EchoSQLLogger());
+        
         # done with config, remove to safe memory
         unset($db_config);
 
@@ -167,8 +186,8 @@ class Clansuite_Doctrine2
      */
     public static function validateSchema()
     {
-        $_em = Clansuite_CMS::getEntityManager();
-        $validator = new \Doctrine\ORM\Tools\SchemaValidator($_em);
+        $em = Clansuite_CMS::getEntityManager();
+        $validator = new \Doctrine\ORM\Tools\SchemaValidator($em);
         $errors = $validator->validateMapping();
         Clansuite_Debug::printR($errors);
     }
@@ -219,6 +238,55 @@ class Clansuite_Doctrine2
 
         #Clansuite_Debug::printR($model_dirs);
         return $model_dirs;
+    }
+    
+    /**
+     * Returns Query Counter and the exec time
+     */
+    public static function getStats()
+    {
+        echo sprintf('Doctrine Queries (%d @ %f sec)', 
+                self::$_sqlLoggerStack->currentQuery, 
+                number_format(self::getExecTime(), 5));
+    }
+    
+    /**
+     * Returns the Number of Queries 
+     * 
+     * @return int Number of Queries
+     */
+    public static function getNumberOfQueries()
+    {
+        return self::$_sqlLoggerStack->currentQuery;        
+    }
+    
+    /**
+     * Returns the total exec time for queries
+     * 
+     * @return string Number formatted time string.
+     */
+    public static function getExecTime()
+    {
+        $execTime = '';
+
+        foreach(self::$_sqlLoggerStack->queries as $query)
+        {
+            $execTime += $query['executionMS'];
+        }
+        
+        $execTime = number_format($execTime, 5);
+        
+        return $execTime;
+    }
+    
+    /**
+     * var_dumps the logger stack
+     * for a simple overview of all queries
+     */
+    public static function getLoggerStack()
+    {
+        # @todo debug dump to firebug?
+        var_dump(self::$_sqlLoggerStack);
     }
 }
 ?>
