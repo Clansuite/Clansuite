@@ -222,7 +222,15 @@ class Clansuite_Exception extends Exception implements Clansuite_Exception_Inter
         {
             $content = file_get_contents($exception_template_file);
             self::$exception_development_template_content = $content;
+            define('RAPIDDEVTPL', true);
         }
+        /*
+        else
+        {
+           # propose to create a new rapid development template
+           # link to templateditor
+        }
+        */
     }
 
     /**
@@ -360,7 +368,7 @@ class Clansuite_Exception extends Exception implements Clansuite_Exception_Inter
         }
 
         # add development helper template to exceptions
-        if(defined('DEVELOPMENT') and DEVELOPMENT == 1)
+        if(defined('DEVELOPMENT') and DEVELOPMENT == 1 and defined('RAPIDDEVTPL') and RAPIDDEVTPL == 1)
         {
             $errormessage  .= '<tr><td colspan="2"><h3>Rapid Development</h3></td></tr>';
             $errormessage  .= '<tr><td colspan="2">'.self::getExceptionDevelopmentTemplate($placeholders).'</td></tr>';
