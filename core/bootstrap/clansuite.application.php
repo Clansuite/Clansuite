@@ -770,12 +770,14 @@ class Clansuite_CMS
     public static function shutdown()
     {
         self::triggerEvent('onApplicationShutdown');
-
-        #if(DEBUG == true)
-        #{
+     
+        if(DEBUG == true)
+        {
+            echo Clansuite_Doctrine2::getStats();
+            
             # Display the General Application Runtime
-            echo 'Application Runtime: '.round(microtime(1) - constant('STARTTIME'), 3).' Seconds';
-        #}
+            echo ' Application Runtime: '.round(microtime(1) - constant('STARTTIME'), 3).' Seconds';
+        }
     }
 }
 ?>

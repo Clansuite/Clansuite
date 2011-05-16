@@ -21,29 +21,29 @@ function smarty_function_serverload($params)
         foreach($cpus as $cpu)
         {
             $cpuload += $cpu->loadpercentage;
-            
+
             if($nr_cpus > 0)
             {
-               $loadcpu.= ' | '. $cpuload . '%';   
+                $loadcpu.= ' | ' . $cpuload . '%';
             }
             else # first one
             {
-               $loadcpu.= $cpuload . '%';  
+                $loadcpu.= $cpuload . '%';
             }
-            
+
             $nr_cpus++;
         }
-        
+
         $cpuload = $cpuload / $nr_cpus;
-        
+
         if($nr_cpus == 1)
         {
-            echo '[ ' .$loadcpu. ' ]';
+            echo '[ ' . $loadcpu . ' ]';
         }
         else
         {
             # list all processor loads and total load
-            echo '[ ' .$loadcpu. ' ] [ ' .$cpuload. ' ]';
+            echo '[ ' . $loadcpu . ' ] [ ' . $cpuload . ' ]';
         }
         
         #if($cpuload >= $ServerLoadAllowed)
