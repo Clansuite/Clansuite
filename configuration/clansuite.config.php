@@ -20,8 +20,8 @@ staging = 0
 host = "localhost"
 driver = "pdo_mysql"
 username = "root"
-password = ""
-name = "clansuite2"
+password = "toop"
+name = "clansuite"
 charset = "UTF8"
 prefix = "cs_"
 
@@ -47,7 +47,7 @@ action = "show"
 [language]
 default = "de"
 outputcharset = "UTF-8"
-timezone = "Europe/Paris"
+timezone = "Europe/Berlin"
 gmtoffset = 3600
 language = "de"
 
@@ -56,7 +56,8 @@ language = "de"
 ;----------------------------------------
 [locale]
 locale = 3600
-dateformat = "%A, %B %e, %Y"
+;dateformat = "%A, %B %e, %Y"
+dateformat = "d.m.Y H:i"
 timezone = 0
 
 ;----------------------------------------
