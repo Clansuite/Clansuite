@@ -37,7 +37,7 @@ if(defined('IN_CS') === false)
 }
 
 /**
- * Clansuite_Module_News
+ * Clansuite_Module_Toolbox
  *
  * @category    Clansuite
  * @package     Modules
@@ -88,26 +88,31 @@ class Clansuite_Module_Toolbox extends Clansuite_Module_Controller
 
         if( isset($_POST['submit']) )
         {
-            if( isset($_POST['compileCore'] ))                    $compile['compileCore'] = true; else $compile['compileCore'] = false;
-            if( isset($_POST['coreImport'] ))                       $compile['coreImport'] = true; else $compile['coreImport'] = false;
-            if( isset($_POST['compileThemeFrontend'] ))    $compile['compileThemeFrontend'] = true; else $compile['compileThemeFrontend'] = false;
-            if( isset($_POST['compileThemeBackend'] ))    $compile['compileThemeBackend'] = true; else $compile['compileThemeBackend'] = false;
+            $compile['compileCore'] = (isset($_POST['compileCore'])) ? true : false;
+            $compile['coreImport'] = (isset($_POST['coreImport'])) ? true : false;
+            $compile['compileThemeFrontend'] = (isset($_POST['compileThemeFrontend'])) ? true : false;
+            $compile['compileThemeBackend'] = (isset($_POST['compileThemeBackend'])) ? true : false;
 
-            $compile['themeFrontendPath']    = $_POST['themeFrontendPath'];
-            $compile['themeFrontend']           = $_POST['themeFrontend'];
-            $compile['themeBackendPath']    = $_POST['themeBackendPath'];
-            $compile['themeBackend']           = $_POST['themeBackend'];
+            $compile['themeFrontendPath'] = $_POST['themeFrontendPath'];
+            $compile['themeFrontend'] = $_POST['themeFrontend'];
+            $compile['themeBackendPath'] = $_POST['themeBackendPath'];
+            $compile['themeBackend'] = $_POST['themeBackend'];
 
             $formBrowsers = $_POST['browsers'];
 
-            $browser = array(); $i = 0;
-            foreach( $formBrowsers as $key=>$val) {
-                if( isset($val['active']) && $val['active'] == 1) {
+            $browser = array();
+            $i = 0;
+            
+            foreach( $formBrowsers as $key => $val)
+            {
+                if(isset($val['active']) and $val['active'] == 1)
+                {
                     $browser[$i]['description'] = $val['description'];
                     $browser[$i]['postfix'] = $val['postfix'];
                     $i++;
                 }
             }
+            
             $compile['browsers'] = $browser;
 
             // Builder-Informationen übergeben
@@ -122,24 +127,31 @@ class Clansuite_Module_Toolbox extends Clansuite_Module_Controller
                 // Compile
                 // ------------------------------------------------------------
                 $htmlout .= '<div class="cmSuccess">';
-                for($i=0; $i<count($browser); $i++) {
-                    $htmlout .= '<p class="cmBoxTitle" style="padding-left:50px;">CSS-Builder Information <u>'.$browser[$i]['description'].'</u></p>';
+                
+                $nr_browsers = count($browser);
+                for($i=0; $i < $nr_browsers; $i++)
+                {
+                    $htmlout .= '<p class="cmBoxTitle" style="padding-left:50px;">';
+                    $htmlout .= 'CSS-Builder Information <u>'.$browser[$i]['description'].'</u></p>';
                     $htmlout .= $builder->build($i);
                 }
+                unset($nr_browsers);
+                
                 $htmlout .= '</div>';
                 $htmlout .= '<br />';
                 $htmlout .= '</td></tr></table>';
             }
         }
-        else {
-            $compile['compileCore']                  = false;
-            $compile['coreImport']                    = true;
-            $compile['compileThemeFrontend']  = true;
-            $compile['compileThemeBackend']  = false;
+        else
+        {
+            $compile['compileCore']             = false;
+            $compile['coreImport']              = true;
+            $compile['compileThemeFrontend']    = true;
+            $compile['compileThemeBackend']     = false;
             $compile['themeFrontendPath']       = $builder::getFrontendPath();
-            $compile['themeFrontend']              = $builder::getFrontendTheme();
-            $compile['themeBackendPath']       = $builder::getBackendPath();
-            $compile['themeBackend']              = $builder::getBackendTheme();
+            $compile['themeFrontend']           = $builder::getFrontendTheme();
+            $compile['themeBackendPath']        = $builder::getBackendPath();
+            $compile['themeBackend']            = $builder::getBackendTheme();
         }
 
         # Get Render Engine
@@ -151,7 +163,6 @@ class Clansuite_Module_Toolbox extends Clansuite_Module_Controller
         $this->display();
     }
 
-
     public function widget_toolbox()
     {
     }
@@ -159,6 +170,5 @@ class Clansuite_Module_Toolbox extends Clansuite_Module_Controller
     public function widget_toolbar()
     {
     }
-
 }
 ?>
