@@ -161,6 +161,8 @@ class Clansuite_Xdebug
                     background: none repeat scroll 0 0 #ccc;
                     border: 1px solid #666666;
                     font: 12px tahoma,verdana,arial,sans-serif;
+                    margin: 0 auto;
+                    width: 90%;
                 }
                 fieldset.xdebug-console legend {
                     background: #fff;
