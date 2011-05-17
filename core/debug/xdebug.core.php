@@ -140,9 +140,9 @@ class Clansuite_Xdebug
                     border-style: outset;
                     border-color: #BF0000;
                     border-collapse: collapse;
-                    font-size: 11px;
                     color: #222;
-                 }
+                    font: 12px tahoma,verdana,arial,sans-serif;
+                }
                 table.xdebug-console th, table.xdebug-superglobals th {
                     border: 1px inset #BF0000;
                     padding: 3px;
@@ -158,13 +158,20 @@ class Clansuite_Xdebug
                     background: #ffff88;
                 }
                 fieldset.xdebug-console {
-                    background: #fff;
+                    background: none repeat scroll 0 0 #ccc;
+                    border: 1px solid #666666;
+                    font: 12px tahoma,verdana,arial,sans-serif;
                 }
                 fieldset.xdebug-console legend {
                     background: #fff;
                     border: 1px solid #333;
                     font-weight: bold;
                     padding: 2px 15px;
+                    color: #222;
+                }
+                fieldset.xdebug-console pre {
+                    margin: 2px;
+                    text-align: left;
                 }
                 /*]]>*/
                 </style>';
