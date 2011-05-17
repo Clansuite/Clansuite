@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE theme SYSTEM "http://schemas.clansuite.com/dtd/theme_info.dtd">
+<theme>
+    <name>Dark Theme</name>
+    <author>Paul Brand</author>
+    <theme_version>0.1</theme_version>
+    <required_clansuite_version>0.2</required_clansuite_version>
+    <date>Mai 2011</date>
+    <layout mainfile="index.tpl"/>
+    <css stylename="Clansuite Dark CSS" mainfile="import.css"/>
+    <renderengine>smarty</renderengine>
+    <backendtheme>0</backendtheme>
+</theme>

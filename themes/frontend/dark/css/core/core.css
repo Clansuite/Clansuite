@@ -1,0 +1,50 @@
+/**
+ * -----------------------------------------------------------------------------------------------
+ * Clansuite CSS2 Framework (CSFW)
+ * -------------------------------------------------------------------------------------------------
+ * Clansuite - just an eSports CMS
+ * Jens-André Koch © 2005 - onwards
+ * http://www.clansuite.com/
+ * -----------------------------------------------------------------------------------------------
+ * Document   : core.css
+ * Description : content definitions
+ * Syntax recommendation http://www.w3.org/TR/REC-CSS2
+ * -----------------------------------------------------------------------------------------------
+ * @license    GNU/GPL v2 or (at your option) any later version, see "/doc/LICENSE".
+ * @author     Paul Brand <info@isp-tenerife.net>
+ * @package      CSFW
+ * subpackage    Theme
+ * @version        1.0.2
+ * -----------------------------------------------------------------------------------------------
+*/
+@media screen
+{
+    /***********************************************************************
+       Master Container's
+    ***********************************************************************/
+    #csPagepane { margin: 0 10px 0 0; }
+    #csPageaera { color: #c0c0c0; margin:10px; }
+    #csHeader { margin-top: 40px; margin-bottom: 15px; }
+    #csTopNav { margin-right: 22px;}
+    #csMain 
+    {
+        width: auto; 
+        background: transparent;
+        margin:0;
+        padding: 0;
+        vertical-align: top;
+    }
+    #csBottomNav {}
+    #csFooter { margin:10px; }
+
+    /***********************************************************************
+       Master Col's
+    ***********************************************************************/
+    #csCol1 {}
+    #csCol1_content {}
+    #csCol2 {}
+    #csCol2_content { margin-right: 3px;}
+    #csCol3 {}
+    #csCol3_content {}
+
+}

@@ -1,0 +1,100 @@
+/**
+ * -----------------------------------------------------------------------------------------------
+ * Clansuite CSS2 Framework (CSFW)
+ * -------------------------------------------------------------------------------------------------
+ * Clansuite - just an eSports CMS
+ * Jens-André Koch © 2005 - onwards
+ * http://www.clansuite.com/
+ * -----------------------------------------------------------------------------------------------
+ * Document   : content.css
+ * Description : content definitions
+ * Syntax recommendation http://www.w3.org/TR/REC-CSS2
+ * -----------------------------------------------------------------------------------------------
+ * @license    GNU/GPL v2 or (at your option) any later version, see "/doc/LICENSE".
+ * @author     Paul Brand <info@isp-tenerife.net>
+ * @package      CSFW
+ * subpackage    Theme
+ * @version        1.0.2
+ * -----------------------------------------------------------------------------------------------
+*/
+@media screen
+{
+
+    body
+    {
+        background: #232323;
+        color: #c0c0c0;
+        font-family: "Lucida Grande", Verdana, Helvetica, Arial, sans-serif;
+        font-size: 9pt;
+        margin: 0 5px 0 0;
+        padding: 0 5px 0 0;
+        background-image: url('../images/bodybg.gif');
+    }
+
+    /***********************************************************************
+       default link definition
+    ***********************************************************************/
+    a:link,
+    body_alink
+    {
+        color: #F48021;
+        text-decoration: none;
+    }
+    a:visited,
+    body_avisited
+    {
+        color: #F48021;
+        text-decoration: none;
+    }
+    a:hover,
+    a:active,
+    body_ahover
+    {
+        color: #FFFF00;
+        text-decoration: underline;
+    }
+
+
+    /***********************************************************************
+       ACL
+    ***********************************************************************/
+    .acl_permission_yes { color: #FFFF00; }
+    .acl_permission_no { color: #FF0000; }
+
+
+    /***********************************************************************
+       BREADCRUMBS
+    ***********************************************************************/
+    #breadcrumbs
+    {
+        background: #090909;
+        border: 1px solid #444444;
+        padding: 4px 10px 4px 10px;
+        margin-bottom: 10px;
+        font-family: "Lucida Grande", Verdana, Helvetica, Arial, sans-serif;
+        font-size: 9pt;
+    }
+
+
+    /***********************************************************************
+       WIDGET BAR
+    ***********************************************************************/
+    .widget-bar
+    {
+        width: 100%;
+        vertical-align: top;
+    }
+
+    .widget-bar .left
+    {
+        float: left;
+    }
+
+    .widget-bar .right
+    {
+        float: right;
+    }
+
+
+
+}

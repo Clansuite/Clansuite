@@ -14,139 +14,11 @@
  * @author     Paul Brand <info@isp-tenerife.net>
  * @package      CSFW
  * subpackage    Core
- * @version        1.0
+ * @version        1.0.2
  * -----------------------------------------------------------------------------------------------
 */
 @media screen
 {
-
-    /** 
-    * -----------------------------------------------------------------------------------------------
-    * Tabellen Box (tbox)
-    * -----------------------------------------------------------------------------------------------
-    */
-    .tbox {
-    }
-
-    /* ------- Box title ------- */
-    .tbox_title
-    {
-    }
-    .tbox_title a:link,
-    .tbox_title_alink
-    {
-    }
-    .tbox_title a:visited,
-    .tbox_title_avisited
-    {
-    }
-    .tbox_title a:hover,
-    .tbox_title a:active,
-    .tbox_title_ahover
-    {
-    }
-
-    /* ------- Box cell 1 ------- */
-    .tbox_cell1,
-    .tbox_cell1Active
-    {
-        background-image: none;
-        background-repeat: repeat;
-        background-attachment: scroll;
-        background-position: 0% 0%;
-        font-size:9pt;
-    }
-    .tbox_cell1 a:link,
-    .tbox_cell1_alink,
-    .tbox_cell1Active a:link,
-    .tbox_cell1Active_alink
-    {
-    }
-    .tbox_cell1 a:visited,
-    .tbox_cell1_avisited,
-    .tbox_cell1Active a:visited,
-    .tbox_cell1Active_avisited
-    {
-        text-decoration: none;
-    }
-    .tbox_cell1 a:hover, 
-    .tbox_cell1 a:active, 
-    .tbox_cell1_ahover,
-    .tbox_cell1Active a:hover,
-    .tbox_cell1Active a:active,
-    .tbox_cell1Active_ahover
-    {
-        text-decoration: underline;
-    }
-
-    /* ------- Box cell 2 ------- */
-    .tbox_cell2,
-    .tbox_cell2Active
-    {
-        background-image: none;
-        background-repeat: repeat;
-        background-attachment: scroll;
-        background-position: 0% 0%;
-        font-size:12px;
-    }
-    .tbox_cell2 a:link,
-    .tbox_cell2_alink,
-    .tbox_cell2Active a:link,
-    .tbox_cell2Active_alink
-    {
-        text-decoration: none;
-    }
-    .tbox_cell2 a:visited,
-    .tbox_cell2_avisited,
-    .tbox_cell2Active a:visited,
-    .tbox_cell2Active_avisited
-    {
-        text-decoration: none;
-    }
-    .tbox_cell2 a:hover, 
-    .tbox_cell2 a:active, 
-    .tbox_cell2_ahover,
-    .tbox_cell2Active a:hover,
-    .tbox_cell2Active a:active,
-    .tbox_cell2Active_ahover
-    {
-        text-decoration: underline;
-    }
-
-    /* ------- Box cell 3 ------- */
-    .tbox_cell3,
-    .tbox_cell3Active
-    {
-        background-image: none;
-        background-repeat: repeat;
-        background-attachment: scroll;
-        background-position: 0% 0%;
-        font-size:12px;
-    }
-    .tbox_cell3 a:link,
-    .tbox_cell3_alink,
-    .tbox_cell3Active a:link,
-    .tbox_cell3Active_alink
-    {
-        text-decoration: none;
-    }
-    .tbox_cell3 a:visited,
-    .tbox_cell3_avisited,
-    .tbox_cell3Active a:visited,
-    .tbox_cell3Active_avisited
-    {
-        text-decoration: none;
-    }
-    .tbox_cell3 a:hover, 
-    .tbox_cell3 a:active, 
-    .tbox_cell3_ahover,
-    .tbox_cell3Active a:hover,
-    .tbox_cell3Active a:active,
-    .tbox_cell3Active_ahover
-    {
-        text-decoration: underline;
-    }
-
 
     /** 
      * -----------------------------------------------------------------------------------------------
@@ -219,6 +91,7 @@
         height: 1px;
         border-bottom: 1px dotted #808080;
     }
+
 }
 
 

@@ -2,9 +2,8 @@
 namespace Entities;
 
 /**
- * -Entity(repositoryClass="Repositories\CommentsRepository")
- * @Entity 
- * @Table(name="Cs_Comments")
+ * @Entity(repositoryClass="Repositories\CommentRepository")
+ * @Table(name="cs_news_comments")
  */
 class Comment
 {
@@ -16,7 +15,11 @@ class Comment
     protected $comment_id;
     
     /**
-     * @Id
+     * @Column(type="integer", length="4")
+     */
+    protected $news_id;
+    
+    /**
      * @Column(type="integer", length="4")
      */
     protected $user_id;
@@ -51,7 +54,7 @@ class Comment
     
     /**
      * @ManyToOne(targetEntity="News", inversedBy="comments")
-     * @JoinColumn(name="comment_id", referencedColumnName="news_id")
+     * @JoinColumn(name="news_id", referencedColumnName="news_id")
      */
     private $news;
     
@@ -61,7 +64,7 @@ class Comment
      */
     private $comment_authored_by;
 
-    public function setNewws(Entities\News $article)
+    public function setNews(Entities\News $article)
     {
         $this->news = $news;
     }

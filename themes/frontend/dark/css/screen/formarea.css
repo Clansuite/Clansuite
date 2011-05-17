@@ -1,0 +1,360 @@
+/*
+ * -----------------------------------------------------------------------------------------------
+ * Clansuite CSS2 Framework (CSFW)
+ * -------------------------------------------------------------------------------------------------
+ * Clansuite - just an eSports CMS
+ * Jens-André Koch © 2005 - onwards
+ * http://www.clansuite.com/
+ * -----------------------------------------------------------------------------------------------
+ * Document   : formarea.css
+ * Description : form definitions
+ * Syntax recommendation http://www.w3.org/TR/REC-CSS2
+ * -----------------------------------------------------------------------------------------------
+ * @license    GNU/GPL v2 or (at your option) any later version, see "/doc/LICENSE".
+ * @author     Jens-André Koch <vain@clansuite.com>
+ * @package      CSFW
+ * subpackage    Theme
+ * @version        1.0
+ * -----------------------------------------------------------------------------------------------
+*/
+
+    /***********************************************************************
+       FANCY FORM
+    ***********************************************************************/
+
+@media screen
+{
+
+    /* ---------------------------------------------------------------
+       FORM DEFINITION
+    --------------------------------------------------------------- */
+    .formarea
+    {
+        background-color: #232323;
+        border: 1px solid #999999;
+        width: 500px;
+        margin-top: 50px;
+        margin-right: auto;
+        margin-bottom: 50px;
+        margin-left: auto;
+        position: relative;
+        padding: 25px;
+        font-size: 12px;
+        -moz-border-radius: 10px;
+        -webkit-border-radius: 10px;
+    }
+
+    .formarea h2
+    {
+        line-height: 100%;
+        color: #FFFF8A;
+        margin: 0px 0px 10px 0px;
+        font-size: 20px;
+    }
+
+    .formarea h3
+    {
+        line-height: 100%;
+        color: #cbcbcb;
+        margin: 10px 0px;
+        font-size: 15px;
+        font-weight: normal;
+    }
+
+    .formarea p
+    {
+        padding: 10px 0px;
+        color:#cbcbcb
+    }
+
+    .formarea br
+    {
+        clear:both;
+    }
+
+    .formarea .requiredfld
+    {
+        float: right;
+    }
+
+    .formarea span.required
+    {
+        color:#FF0000;
+    }
+
+    /* hinweis text */
+    .formarea span.hint
+    {
+        font-size: 10px;
+    }
+
+    /* field note text */
+    .formarea span.note
+    {
+        font-size: 11px;
+        display:block;
+        color:#666666;
+        float:left;
+    }
+
+    /* ---------------------------------------------------------------
+       FORM FIELD CONTAINER
+    --------------------------------------------------------------- */
+    .formarea .container
+    {
+        -moz-border-radius: 10px;
+        -webkit-border-radius: 10px;
+        border-top-width: 3px;
+        border-right-width: 1px;
+        border-bottom-width: 1px;
+        border-left-width: 1px;
+        border-top-style: solid;
+        border-right-style: solid;
+        border-bottom-style: solid;
+        border-left-style: solid;
+        border-top-color: #FFDBA4;
+        border-right-color: #FFDBA4;
+        border-bottom-color: #FFDBA4;
+        border-left-color: #FFDBA4;
+        background-color: #FFEBD9;
+        padding: 10px;
+    }
+
+    .formarea .container div {
+        padding: 3px 0px;
+        clear:both;
+    }
+
+    .formarea .container div label {
+        position:relative;
+        display:block;
+        text-align:right;
+        margin:0px 10px 0px 0px;
+        padding:3px 10px 0px 0px;
+        width:150px;
+        cursor:pointer;
+        float:left;
+        line-height: 18px;
+    }
+
+    .formarea .container div .labelsmall {
+        width:auto;
+    }
+
+    .formarea .container div.error
+    {
+        display:block;
+        padding: 10px 10px 10px 35px;
+        background-color: #FFDFDF;
+        border: 1px solid #FF0000;
+        border-top-width: 3px;
+        -moz-border-radius: 10px;
+        -webkit-border-radius: 10px;
+        background-image: url(../images/icons/message-warn.gif);
+        background-position: 5px 5px;
+        background-repeat: no-repeat;
+        margin-bottom: 10px;
+    }
+
+    .formarea .container div.information
+    {
+        display:block;
+        padding: 10px 10px 10px 35px;
+        background-color: #e0ebf6;
+        border: 1px solid #72a6d6;
+        border-top-width: 3px;
+        -moz-border-radius: 10px;
+        -webkit-border-radius: 10px;
+        background-image: url(../images/icons/message-info.gif);
+        background-position: 5px 5px;
+        background-repeat: no-repeat;
+        margin-bottom: 10px;
+    }
+
+    .formarea input,
+    .formarea select,
+    .formarea textarea
+    {
+        float:left;
+        font-family:Arial, Helvetica, sans-serif;
+        font-size: 12px;
+        padding:2px;
+        border: 1px solid #999999;
+        -moz-border-radius: 3px;
+        -webkit-border-radius: 3px;
+        margin: 3px 5px 0px 0px;
+    }
+
+    .formarea input.error,
+    .formarea select.error,
+    .formarea textarea.error
+    {
+        background-color: #FFDFDF;
+        border: 1px solid #FF0000;
+    }
+
+    .formarea input:hover,
+    .formarea select:hover,
+    .formarea textarea:hover
+    {
+        background-color: #FFFF99
+    }
+
+    /* ---------------------------------------------------------------
+       FORM BUTTONS
+    --------------------------------------------------------------- */
+    .formarea .buttonsarea {
+        margin: 10px 0px 0px 0px;
+        clear:both;
+    }
+
+    .formarea .buttonsarea input {
+        padding: 5px 10px;
+        border: 1px solid #999999;
+        cursor:pointer;
+        -moz-border-radius-topleft: 10px;
+        -webkit-border-top-left-radius: 10px;
+        -moz-border-radius-topright: 10px;
+        -webkit-border-top-right-radius: 10px;
+        -moz-border-radius-bottomleft: 10px;
+        -webkit-border-bottom-left-radius: 10px;
+        -moz-border-radius: 10px;
+        -webkit-border-radius: 10px;
+        /*
+        -moz-border-radius-bottomright: 0px;
+        -webkit-border-bottom-right-radius: 0px;
+        */
+    }
+
+    .formarea .buttonsarea input:hover {
+        background-color:#FFEBD9;
+        border: 1px solid #000;
+    }
+
+
+    /* ---------------------------------------------------------------
+       WIDGET FORM DEFINITION
+    --------------------------------------------------------------- */
+    .formareaWidget
+    {
+        width: 100%;
+        background-color: transparent;
+        border: 0px;
+        margin: 0px;
+        padding: 0px;
+        font-size: 9pt;
+    }
+
+    .formareaWidget p
+    {
+        padding: 3px 0px;
+        color:#cbcbcb
+    }
+
+    .formareaWidget .container
+    {
+        border: 0px;
+        background-color: transparent;
+        padding: 0px;
+    }
+
+    .formareaWidget .container div {
+        padding: 2px 0px;
+        clear: both;
+    }
+
+    .formareaWidget .container div label {
+        position: relative;
+        text-align: right;
+        margin: 2px 2px 0px 0px;
+        padding: 2px 2px 0px 2px;
+        width: 80px;
+        cursor: pointer;
+        float: left;
+        line-height: 14px;
+        display: block;
+    }
+
+    .formareaWidget .container div .labelsmall {
+        width: auto;
+        vertical-align: middle;
+    }
+
+    .formareaWidget input
+    {
+        float:left;
+        font-family: Arial, Helvetica, sans-serif;
+        font-size: 9pt;
+        padding:2px;
+        border: 1px solid #999999;
+        margin: 3px 2px 0px 0px;
+    }
+
+    .formareaWidget input:hover
+    {
+        background-color: #FFFF99;
+    }
+
+    .formareaWidget .buttonsarea {
+        margin: 5px 0px 5px 0px;
+        clear:both;
+    }
+
+    .formareaWidget .buttonsarea input {
+        padding: 2px 5px;
+        border: 1px solid #999999;
+        cursor:pointer;
+    }
+
+    .formareaWidget .buttonsarea input:hover {
+        background-color:#FFEBD9;
+        border: 1px solid #000;
+    }
+
+
+
+    /* ---------------------------------------------------------------
+       Button Color Style
+    --------------------------------------------------------------- */
+    /* GREY */
+    .buttonsarea input.btn-green
+    {
+        background-color: #C0C0C0;
+    }
+    .buttonsarea input.btn-green:hover {
+        background-color:#FFEBD9;
+        border: 1px solid #000;
+    }
+
+    /* GREEN */
+    .buttonsarea input.btn-green
+    {
+        background-color: #E8FCE2;
+    }
+    .buttonsarea input.btn-green:hover {
+        background-color:#FFEBD9;
+        border: 1px solid #000;
+    }
+
+    /* BLUE */
+    .buttonsarea input.btn-blue
+    {
+        background-color: #D7EBFF;
+    }
+    .buttonsarea input.btn-blue:hover {
+        background-color: #FFCC00;
+        border: 1px solid #000;
+    }
+
+    /* RED */
+    .buttonsarea input.btn-red
+    {
+        background-color: #E8FCE2;
+    }
+    .buttonsarea input.btn-red:hover {
+        background-color:#FFCC00;
+        border: 1px solid #000;
+    }
+
+
+}

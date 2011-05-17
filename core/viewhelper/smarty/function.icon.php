@@ -127,7 +127,12 @@ function smarty_function_icon($params, $smarty)
         $extra = '';
     }
 
-    $html = "<img src='$src' height='$height' width='$width' alt='$alt' $extra />";
+    # prepare link
+    $src = str_replace( ROOT_THEMES, '', $src );
+    $src = str_replace( '\\', '/', $src );
+    $src = WWW_ROOT_THEMES.$src;
+
+    $html = '<img src="'.$src.'" height="'.$height.'" width="'.$width.'" alt="'.$alt.'" '.$extra.' />';
 
     return $html;
 }

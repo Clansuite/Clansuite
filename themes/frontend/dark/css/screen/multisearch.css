@@ -1,0 +1,242 @@
+/*
+ * -----------------------------------------------------------------------------------------------
+ * Clansuite CSS2 Framework (CSFW)
+ * -------------------------------------------------------------------------------------------------
+ * Clansuite - just an eSports CMS
+ * Jens-André Koch © 2005 - onwards
+ * http://www.clansuite.com/
+ * -----------------------------------------------------------------------------------------------
+ * Document   : multisearch.css
+ * Description : form definitions
+ * Syntax recommendation http://www.w3.org/TR/REC-CSS2
+ * -----------------------------------------------------------------------------------------------
+ * @license    GNU/GPL v2 or (at your option) any later version, see "/doc/LICENSE".
+ * @author     Jens-André Koch <vain@clansuite.com>
+ * @package      CSFW
+ * subpackage    Theme
+ * @version        1.0
+ * -----------------------------------------------------------------------------------------------
+*/
+
+    /***********************************************************************
+       MULTI SEARCH FORM
+         e.g. Quick Search im header
+    ***********************************************************************/
+
+@media screen
+{
+    /* Ausgabe des Search -string/ -modul im header von action_mutlisearch */
+    .quicksearchstring,
+    .quicksearchmodul,
+    .quicksearchfields
+    {
+        font-family: "Lucida Grande", Verdana, Helvetica, Arial, sans-serif;
+        font-size: 9pt;
+        font-style: italic;
+        font-weight: normal;
+        color: #FFCC00;
+    }
+
+
+    /* DIV zur Positionierung des Formulares */
+    #multiSearchForm
+    {
+        float: right;
+        margin: 5px 0px;
+        /*margin-right: 10px;*/
+        padding: 4px 0px 5px 10px;
+        font-family: "Lucida Grande", Verdana, Helvetica, Arial, sans-serif;
+        font-size: 9pt; 
+        display: block;
+    }
+
+    #multiSearchForm #searchForm
+    {
+        padding: 0px 5px 8px 5px;
+        border: 1px solid #7e9dba;
+        display: inline-block;
+        width: auto;
+    }
+
+    #multiSearchForm #searchForm h2
+    {
+        margin: 5px 0px 3px 0px;
+        font-size: 11pt; 
+        font-weight: bold;
+    }
+
+    #multiSearchForm #searchForm .note
+    {
+        float: right;
+        margin: 8px 0px 3px 0px;
+        padding: 0;
+        font-size: 8pt; 
+        font-weight: normal;
+        font-style: italic;
+    }
+
+    #multiSearchForm #searchForm #selectedsearch
+    {
+        font-size: 10pt; 
+        font-weight: bold;
+    }
+
+    #multiSearchForm #searchForm .multisearchInput
+    {
+        padding: 2px 1px 1px 10px;
+        border: 0;
+        border-left: 1px solid #7e9dba;
+        margin: 0;
+        height: 21px;
+        display: inline-block;
+        width: 230px;
+        vertical-align: top;
+        background-color: #FFFFFF;
+        background-image: url('../images/icons/search.gif');
+        background-repeat: no-repeat;
+        background-position: 222px 3px;
+        color: #ACACAC;
+    }
+
+    /* first ul */
+    #multiSearchForm #searchForm ul.dropDown {
+        float: left;
+        margin:0px;
+        padding: 0px;
+        list-style:none;
+        background-image: url('../images/icons/bg_multisearch.gif');
+        background-repeat: repeat;
+        background-position: top;
+        font-weight: normal;
+        display: block;
+    }
+
+    #multiSearchForm #searchForm ul.dropDown li
+    {
+        float: left;
+        margin: 0px;
+        padding: 0px;
+        display: block;
+    }
+
+    #multiSearchForm #searchForm ul.dropDown li img
+    {
+        padding: 0px
+        border: 0;
+        vertical-align: middle;
+    }
+
+    #multiSearchForm ul.dropDown li a
+    {
+        width: 120px;
+        margin: 0px;
+        padding: 2px 0px 2px 8px;
+        border-right: 0px solid #CCCCCC;
+        background-image: url('../images/icons/multisearchForm.gif');
+        background-repeat: no-repeat;
+        background-position: 115px center;
+        vertical-align:middle;
+        text-decoration:none;
+        text-align:left;
+        font-size: 10pt; 
+        line-height: 20px;
+        color: #FFFFFF;
+        font-weight: normal;
+        display:block;
+        outline: none;
+    }
+
+    #multiSearchForm ul.dropDown li:hover
+    {
+        position:relative;
+    }
+
+    /* selectedsearch bei hover */
+    #multiSearchForm ul.dropDown li:hover>a
+    {
+        background-color: transparent;
+        text-decoration: none;
+    }
+
+    #multiSearchForm ul.dropDown li a:hover
+    {
+        position: relative;
+        background-color: transparent;
+        text-decoration: none;
+    }
+
+    #multiSearchForm ul.dropDown a:active,
+    #multiSearchForm ul.dropDown a:focus
+    {
+        outline-style: none;
+    }
+
+    #multiSearchForm ul.dropDownm li a:hover,
+    #multiSearchForm ul.dropDownm li a
+    {
+        color: #000;
+    }
+
+    #multiSearchForm ul.dropDownm li a:hover
+    {
+        background-color: #f5db89;
+    }
+
+    /* second ul */
+    #multiSearchForm ul.dropDown ul
+    {
+        position: absolute;
+        left: -1px;
+        top: 98%;
+        background-color:#fff;
+        margin: -2px 0px 0px 0px;
+        border-top: 1px solid #7e9dba;
+        border-left: 1px solid #7e9dba;
+        border-right: 1px solid #7e9dba;
+        border-bottom: 1px solid #7e9dba;
+    }
+
+    #multiSearchForm ul.dropDown a:hover ul,
+    #multiSearchForm ul.dropDown a:hover a:hover ul,
+    #multiSearchForm ul.dropDown a:hover a:hover a:hover ul
+    {
+        display:block;
+    }
+
+    #multiSearchForm ul.dropDown ul
+    {
+        margin:0px;
+        list-style:none;
+        padding:0px;
+    }
+
+    #multiSearchForm ul.dropDown ul li
+    {
+        float: left;
+        margin: 0px 0px 0px -1px;
+    }
+
+    #multiSearchForm ul.dropDown ul a
+    {
+        white-space:nowrap;
+        text-align:left;
+        border-right: 0px solid #CCCCCC;
+        border-left: 0px solid #7e9dba;
+        border-top: 0px solid #7e9dba;
+        background-image: none;
+        padding: 3px 5px 3px 5px;
+    }
+
+    #multiSearchForm ul.dropDown ul,
+    #multiSearchForm ul.dropDown a:hover ul ul
+    {
+        display:none;
+        z-index:99999;
+    }
+
+    #multiSearchForm ul.dropDown li:hover>ul
+    {
+        display:block;
+    }
+
+}

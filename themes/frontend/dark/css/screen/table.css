@@ -1,0 +1,186 @@
+/*
+ * -----------------------------------------------------------------------------------------------
+ * Clansuite CSS2 Framework (CSFW)
+ * -------------------------------------------------------------------------------------------------
+ * Clansuite - just an eSports CMS
+ * Jens-André Koch © 2005 - onwards
+ * http://www.clansuite.com/
+ * -----------------------------------------------------------------------------------------------
+ * Document   : table.css
+ * Description : form definitions
+ * Syntax recommendation http://www.w3.org/TR/REC-CSS2
+ * -----------------------------------------------------------------------------------------------
+ * @license    GNU/GPL v2 or (at your option) any later version, see "/doc/LICENSE".
+ * @author     Jens-André Koch <vain@clansuite.com>
+ * @package      CSFW
+ * subpackage    Theme
+ * @version        1.0
+ * -----------------------------------------------------------------------------------------------
+*/
+
+    /***********************************************************************
+       DIV TABLE 
+    ***********************************************************************/
+
+@media screen
+{
+
+    /* ---------------------------------------------------------------
+       Spacer between Tables
+    --------------------------------------------------------------- */
+    .tablespacer10 { height: 10px; }
+    .tablespacer20 { height: 20px; }
+    .tablespacer30 { height: 30px; }
+    .tablespacer40 { height: 40px; }
+    .tablespacer50 { height: 50px; }
+
+    /* ---------------------------------------------------------------
+       Table and Border definitions
+    --------------------------------------------------------------- */
+    .table
+    {
+        width:100%;
+        padding:0;
+        margin:0;
+        display:table;
+        table-layout:fixed;
+    }
+
+    .table-border {
+        border: 1px solid #444444;
+        color: #c0c0c0;
+    }
+    .table-border-bottom {
+        border-bottom: 1px solid #444444;
+    }
+
+    .table .bordertop
+    { 
+        border-top: 1px solid #444444;
+    }
+    .table .borderleft
+    {
+        border-left: 1px solid #444444;
+    }
+    .table .borderright
+    {
+        border-right: 1px solid #444444;
+    }
+    .table .borderbottom
+    {
+        border-bottom: 1px solid #444444;
+    }
+
+    /* ---------------------------------------------------------------
+       Table Header definitions
+    --------------------------------------------------------------- */
+    .table-header
+    {
+        background: #090909;
+        color: #c0c0c0;
+        font-family: "Lucida Grande", Verdana, Helvetica, Arial, sans-serif;
+        font-size: 10pt; 
+        padding: 5px 3px 5px 3px;
+        font-weight: bold;
+    }
+    .table-header img
+    {
+        margin-left: 5px;
+        margin-right: 5px;
+        vertical-align: bottom;
+    }
+    .table-header .writtenby
+    {
+        color: #868686;
+        font-family: "Lucida Grande", Verdana, Helvetica, Arial, sans-serif;
+        font-size: 9pt; 
+        font-style: italic; 
+        font-weight: normal;
+    }
+    .table-header .comments
+    {
+        color: #868686;
+        font-family: "Lucida Grande", Verdana, Helvetica, Arial, sans-serif;
+        font-size: 9pt; 
+        font-style: italic; 
+        font-weight: normal;
+    }
+
+    /* ---------------------------------------------------------------
+       Table Content (body) definition
+    --------------------------------------------------------------- */
+    .table-content
+    {
+        height: 100%;
+        background: #232323;
+        border: 1 px solid #999999;
+        color: #cbcbcb;
+        font-size:9pt;
+        padding: 5px 3px 5px 3px;
+        display: block;
+    }
+
+    .table-content .articlepicleft
+    {
+        float: left;
+        position: relative;
+        margin: 4px;
+        margin-right: 10px;
+        padding: 5px;
+        border: 1px solid #444444;
+    }
+    .table-content .articlepicright
+    {
+        float: right;
+        position: relative;
+        margin: 4px;
+        margin-left: 10px;
+        padding: 5px;
+        border: 1px solid #444444;
+    }
+
+
+    /* ---------------------------------------------------------------
+       Table Content Menu definition
+    --------------------------------------------------------------- */
+    .table-content-menu
+    {
+        background: #232323;
+        border: 1 px solid #999999;
+        color: #cbcbcb;
+        font-size:9pt;
+        padding: 5px 3px 5px 3px;
+    }
+    .table-content-menu img
+    {
+        margin-right: 5px;
+    }
+    .table-content-menu ul
+    {
+        list-style: none;
+        font-weight: normal;
+        font-style: normal;
+    }
+    .table-content-menu ul li
+    {
+        padding: 2px 2px 2px 5px;
+        display:block;
+    }
+    .table-content-menu ul li a
+    {
+        text-decoration: none;
+    }
+
+    /* ---------------------------------------------------------------
+       Table Footer definition
+    --------------------------------------------------------------- */
+    .table-footer
+    {
+        background: #141414;
+        color: #c0c0c0;
+        font-family: "Lucida Grande", Verdana, Helvetica, Arial, sans-serif;
+        padding: 5px 3px 5px 3px;
+        font-size: 9pt; 
+    }
+
+}

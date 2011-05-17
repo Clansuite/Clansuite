@@ -134,17 +134,7 @@ class Clansuite_Module_Users extends Clansuite_Module_Controller
         $numberUsers = self::getConfigValue('items_lastregisteredusers', $numberUsers, '5');
 
         # fetch specified num of last registered users
-
-        # @todo move query to users/repository
-        # $last_registered_users = $this->getModel()->getLastRegisteredUsers();
-
-        $q = $this->doctrine_em->createQueryBuilder()
-                ->select('u.user_id, u.email, u.nick, u.country, u.joined')
-                ->from('Entities\User', 'u')
-                ->orderby('u.joined', 'DESC')
-                ->where('u.activated = 1');
-        $q->setMaxResults($numberUsers);
-        $last_registered_users = $q->getQuery()->execute();
+        $last_registered_users = $this->getModel('Entities\User')->getLastRegisteredUsers($numberUsers);
 
         # assign data to view
         $this->getView()->assign('last_registered_users', $last_registered_users);
@@ -157,9 +147,12 @@ class Clansuite_Module_Users extends Clansuite_Module_Controller
      */
     public function widget_usersonline()
     {
-        $usersonline = '@todo Query';
+        $usersonline = 0;
+        $guests = 0;
 
         $this->getView()->assign('usersonline', $usersonline);
+        $this->getView()->assign('guests', $guests);
+        
     }
 
     /**
