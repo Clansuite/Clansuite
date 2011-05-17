@@ -1,26 +1,23 @@
 /*
-    Document   : pagination
+    Document   : pagination.css
     Created on : 19.02.2011, 14:44:18
     Author     : v
-    Description:
-        Pagination Style for Clansuite Datagrid.
+    Description: Pagination Style for Clansuite Datagrid.
+
+    Syntax recommendation http://www.w3.org/TR/REC-CSS2/
 */
 
-/*
-  Syntax recommendation http://www.w3.org/TR/REC-CSS2/
-*/
-
- ul, li {
-    marign-left: 0;
-    padding-left: 0;
+ul.pagination3 {
     display: inline;
-    margin: 0;
-    margin-top: 0px;
     float: left;
+    margin: 0;
+    padding-left: 0;
 }
 
-.pagination3 li{
-    border:0; margin:0; padding:0;
+.pagination3 li {
+    border:0; 
+    margin:0;
+    padding:0;
     font-size:11px;
     list-style:none;
     margin-right:2px;
