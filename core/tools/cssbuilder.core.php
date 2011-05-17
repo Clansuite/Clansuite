@@ -65,7 +65,7 @@ class Clansuite_Cssbuilder
     protected static $generatorVersion = '1.0.5';
     protected static $generatorVersionDate = '2011/04/29';
 
-    /*
+    /**
      * Contains the Builder informations
      *
      *  $_builderInfo[info]  contains:
@@ -105,31 +105,31 @@ class Clansuite_Cssbuilder
      */
     private static $_builderInfo = array();
 
-    /*
+    /**
      * Contains the Browser informations
      * @var array
      */
     private static $_browsers = array();
 
-    /*
+    /**
      * frontend theme
      * @var string
      */
     private static $_frontendTheme;
 
-    /*
+    /**
      * backend theme
      * @var string
      */
     private static $_backendTheme;
 
-    /*
+    /**
      * path to the frontend directory
      * @var string
      */
     private static $_frontendPath;
 
-    /*
+    /**
      * path to the backend directory
      * @var string
      */
@@ -137,14 +137,13 @@ class Clansuite_Cssbuilder
 
     /**
      * Constructor
-     *
      */
     public function __construct()
     {
         // initializing
         $config = Clansuite_CMS::getClansuiteConfig();
-        self::setFrontendPath(ROOT . 'themes' . DS . 'frontend');
-        self::setBackendPath(ROOT . 'themes' . DS . 'backend');
+        self::setFrontendPath(ROOT_THEMES_FRONTEND);
+        self::setBackendPath(ROOT_THEMES_BACKEND);
         self::setFrontendTheme($config['template']['frontend_theme']);
         self::setBackendTheme($config['template']['backend_theme']);
         self::addBrowser('default', 'Standard Browser (Mozilla)', true, '');
@@ -174,7 +173,7 @@ class Clansuite_Cssbuilder
         $builderINI = 'cssbuilder' . $postfix . '.ini';
 
         // Read Core INI-File
-        $coreINI = ROOT . 'themes' . DS . 'core' . DS . 'css' . DS . 'csfw' . DS . $builderINI;
+        $coreINI = ROOT_THEMES_CORE . 'css' . DS . 'csfw' . DS . $builderINI;
         $coreInfo = $this->read_properties($coreINI);
         $coreCssName = $coreInfo['cssname'] . $postfix . '.css';
 
@@ -467,7 +466,7 @@ class Clansuite_Cssbuilder
             return false;
         }
 
-        if(fwrite($filehandle, $_compact) == false)
+        if(fwrite($filehandle, $_compact) === false)
         {
             echo _('Could not write to file: ') . $comp_filename;
             return false;
@@ -476,14 +475,16 @@ class Clansuite_Cssbuilder
     }
 
     /**
-     * -------------------------------------------------------------------------------------------------
      * load_stylesheet
-     * -------------------------------------------------------------------------------------------------
+     * 
+     * @param $file The css file with the contents of the stylesheet.
+     * @param $optimize (optional) Boolean whether CSS contents should be minified. Defaults to FALSE
      */
     protected static function load_stylesheet($file, $optimize = true)
     {
         $contents = '';
-        if(file_exists($file))
+        
+        if(file_exists($file) === true)
         {
             # Load the local CSS stylesheet.
             $contents = file_get_contents($file);
@@ -507,59 +508,63 @@ class Clansuite_Cssbuilder
 
     /**
      * load_stylesheet_content
+     *
+     * Processes the content of a stylesheet for aggregation.
      * 
-     * stylesheet compiler
+     * @see Drupal v8, common.inc -> drupal_load_stylesheet_content()
+     * @license GPL v2+
+     * 
+     * @param $contents The contents of the stylesheet.
+     * @param $optimize (optional) Boolean whether CSS contents should be minified. Defaults to FALSE
      */
     protected static function load_stylesheet_content($contents, $optimize = false)
     {
-        # Remove multiple charset declarations for standards compliance (and fixing Safari problems).
+        // Remove multiple charset declarations for standards compliance (and fixing Safari problems).
         $contents = preg_replace('/^@charset\s+[\'"](\S*)\b[\'"];/i', '', $contents);
 
-        if($optimize)
+        if($optimize === true)
         {
+            // Perform some safe CSS optimizations.
             // Regexp to match comment blocks.
             $comment = '/\*[^*]*\*+(?:[^/*][^*]*\*+)*/';
-
             // Regexp to match double quoted strings.
             $double_quot = '"[^"\\\\]*(?:\\\\.[^"\\\\]*)*"';
-
             // Regexp to match single quoted strings.
             $single_quot = "'[^'\\\\]*(?:\\\\.[^'\\\\]*)*'";
-
             // Strip all comment blocks, but keep double/single quoted strings.
-            $contents = preg_replace("<($double_quot|$single_quot)|$comment>Ss", "$1", $contents);
-
-            /**
-             * Remove certain whitespace.
-             * There are different conditions for removing leading and trailing
-             * whitespace. To be able to use a single backreference in the replacement
-             * string, the outer pattern uses the ?| modifier, which makes all contained
-             * subpatterns appear in \1.
-             * @see http://php.net/manual/en/regexp.reference.subpatterns.php
-             */
-            $contents = preg_replace('<
-                (?|
-                # Strip leading and trailing whitespace.
-                \s*([@{};,])\s*
-                # Strip only leading whitespace from:
-                # - Closing parenthesis: Retain "@media (bar) and foo".
-                | \s+([\)])
-                # Strip only trailing whitespace from:
-                # - Opening parenthesis: Retain "@media (bar) and foo".
-                # - Colon: Retain :pseudo-selectors.
-                | ([\(:])\s+
-                )
-                >xS', '\1', $contents
+            $contents = preg_replace(
+                    "<($double_quot|$single_quot)|$comment>Ss", "$1", $contents
             );
-
-            # End the file with a new line.
+            // Remove certain whitespace.
+            // There are different conditions for removing leading and trailing
+            // whitespace.
+            // @see http://php.net/manual/en/regexp.reference.subpatterns.php
+            $contents = preg_replace('<
+              # Strip leading and trailing whitespace.
+                \s*([@{};,])\s*
+              # Strip only leading whitespace from:
+              # - Closing parenthesis: Retain "@media (bar) and foo".
+              | \s+([\)])
+              # Strip only trailing whitespace from:
+              # - Opening parenthesis: Retain "@media (bar) and foo".
+              # - Colon: Retain :pseudo-selectors.
+              | ([\(:])\s+
+            >xS',
+                    // Only one of the three capturing groups will match, so its reference
+                    // will contain the wanted value and the references for the
+                    // two non-matching groups will be replaced with empty strings.
+                    '$1$2$3', $contents
+            );
+            // End the file with a new line.
+            $contents = trim($contents);
             $contents .= "\n";
         }
 
-        # Replaces @import commands with the actual stylesheet content.
-        # This happens recursively but omits external files.
-        $contents = preg_replace_callback('/@import\s*(?:url\(\s*)?[\'"]?(?![a-z]+:)([^\'"\()]+)[\'"]?\s*\)?\s*;/', 'self::load_stylesheet', $contents);
-
+        // Replaces @import commands with the actual stylesheet content.
+        // This happens recursively but omits external files.
+        $contents = preg_replace_callback('/@import\s*(?:url\(\s*)?[\'"]?(?![a-z]+:)([^\'"\()]+)[\'"]?\s*\)?\s*;/', 
+                'self::load_stylesheet', $contents);
+        
         return $contents;
     }
 
@@ -573,7 +578,7 @@ class Clansuite_Cssbuilder
      */
     public static function addBrowser($shortname, $description = '', $active = false, $postfix = '')
     {
-        if(!empty($shortname))
+        if(false === empty($shortname))
         {
             $browserArray = self::getBrowsers();
 
@@ -653,7 +658,7 @@ class Clansuite_Cssbuilder
 
     /**
      * BuilderInfo contains all definitions for the builder
-     * 
+     *
      * @param $data array Builder infos (paths, browser etc.)
      */
     public static function setBuilderInfo($data)
@@ -661,7 +666,7 @@ class Clansuite_Cssbuilder
         $aBuilderInfo = array();
 
         // initialize width default while $data not declared
-        if(!is_array($data) || count($data) == 0)
+        if(false === is_array($data) or count($data) == 0)
         {
             $aBuilderInfo['compileCore'] = false;
             $aBuilderInfo['coreImport'] = true;
@@ -686,7 +691,5 @@ class Clansuite_Cssbuilder
 
         self::$_builderInfo = $aBuilderInfo;
     }
-
 }
-
 ?>
