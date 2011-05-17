@@ -156,5 +156,9 @@ class Clansuite_Module_Toolbox extends Clansuite_Module_Controller
     {
     }
 
+    public function widget_toolbar()
+    {
+    }
+
 }
 ?>

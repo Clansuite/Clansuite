@@ -6,14 +6,14 @@
  * Jens-André Koch © 2005 - onwards
  * http://www.clansuite.com/
  * -----------------------------------------------------------------------------------------------
- * Document   : patch_core_topbar_ie.css
- * Description : core navigation definitions
+ * Document   : patch_forum_ie.css
+ * Description : forum definitions
  * Syntax recommendation http://www.w3.org/TR/REC-CSS2
  * -----------------------------------------------------------------------------------------------
  * @license    GNU/GPL v2 or (at your option) any later version, see "/doc/LICENSE".
- * @author     Paul Brand <info@isp-tenerife.net>
+ * @author     Jens-André Koch <vain@clansuite.com>
  * @package      CSFW
- * subpackage    Core
- * @version        1.0
+ * subpackage    Theme
+ * @version        1.0.2
  * -----------------------------------------------------------------------------------------------
 */

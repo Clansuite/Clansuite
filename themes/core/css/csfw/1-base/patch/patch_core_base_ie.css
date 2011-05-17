@@ -27,3 +27,15 @@
     * html input { overflow:hidden; }
     body { o\verflow:visible; }
 }
+
+@media screen
+{
+    * html #csCol1,
+    * html #csCol2,
+    * html #csCol3 { position:relative; }
+
+    * html #csCol1_content,
+    * html #csCol2_content,
+    * html #csCol3_content { word-wrap:break-word; }
+
+}
