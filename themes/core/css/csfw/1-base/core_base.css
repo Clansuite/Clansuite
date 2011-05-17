@@ -6,74 +6,19 @@
  * Jens-André Koch © 2005 - onwards
  * http://www.clansuite.com/
  * -----------------------------------------------------------------------------------------------
- * Document   : core_base.css
- * Description : Base definitions
+ * Document:    core_base.css
+ * Description: Base definitions
  * Syntax recommendation http://www.w3.org/TR/REC-CSS2
  * -----------------------------------------------------------------------------------------------
- * @license    GNU/GPL v2 or (at your option) any later version, see "/doc/LICENSE".
- * @author     Paul Brand <info@isp-tenerife.net>
- * @package      CSFW
- * subpackage    Core
- * @version        1.0.2
+ * @license     GNU/GPL v2 or (at your option) any later version, see "/doc/LICENSE".
+ * @author      Paul Brand <info@isp-tenerife.net>
+ * @package     CSFW
+ * @subpackage  Core
+ * @version     1.0.2
  * -----------------------------------------------------------------------------------------------
 */
 @media all
 {
-    /*
-     * ----------------------------------------------------------------------------------------------
-     * reset aller elemente nach Eric Meyer 
-     * http://meyerweb.com/eric/thoughts/2007/05/01/reset-reloaded/
-     * ----------------------------------------------------------------------------------------------
-     */
-    html, body, div, span, applet, object, iframe,
-    h1, h2, h3, h4, h5, h6, p, blockquote, pre,
-    a, abbr, acronym, address, big, cite, code,
-    del, dfn, em, font, img, ins, kbd, q, s, samp,
-    small, strike, strong, sub, sup, tt, var,
-    dl, dt, dd, ol, ul, li,
-    fieldset, form, label, legend, input,
-    table, caption, tbody, tfoot, thead, tr, th, td
-    {
-        margin: 0;
-        padding: 0;
-        border: 0;
-        outline: 0;
-        font-weight: inherit;
-        font-style: inherit;
-        font-size: 100%;
-        font-family: inherit;
-        vertical-align: baseline;
-    }
-
-    :focus
-    {
-        outline: 0;
-    }
-
-    table
-    {
-        border-collapse: separate;
-        border-spacing: 0;
-    }
-
-    blockquote:before,
-    blockquote:after,
-    q:before, q:after
-    {
-        content: "";
-    }
-
-    blockquote, q
-    {
-        quotes: "" "";
-    }
-
-    caption, th, td
-    {
-        text-align: left;
-        font-weight: normal;
-    }
-
     /*
      * ----------------------------------------------------------
      * Globale Anpassungen
@@ -104,7 +49,6 @@
     .clearfix { display: block; }
 
     #ie_clearing { display:none; }
-
 
 }
 
