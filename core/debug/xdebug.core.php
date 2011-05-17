@@ -144,24 +144,27 @@ class Clansuite_Xdebug
                     color: #222;
                  }
                 table.xdebug-console th, table.xdebug-superglobals th {
-                    border:1px inset #BF0000;
+                    border: 1px inset #BF0000;
                     padding: 3px;
                     padding-bottom: 3px;
                     font-weight: bold;
                     background: #E03937;
                 }
                 table.xdebug-console td {
-                    border:1px inset grey;
+                    border: 1px inset grey;
                     padding: 2px;
                 }
                 table.xdebug-console tr:hover {
                     background: #ffff88;
                 }
+                fieldset.xdebug-console {
+                    background: #fff;
+                }
                 fieldset.xdebug-console legend {
-                    background:#fff;
-                    border:1px solid #333;
-                    font-weight:700;
-                    padding:2px 15px;
+                    background: #fff;
+                    border: 1px solid #333;
+                    font-weight: bold;
+                    padding: 2px 15px;
                 }
                 /*]]>*/
                 </style>';
