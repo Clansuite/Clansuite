@@ -22,6 +22,9 @@ function XulMenu(id) {
     this.arrow1 = null;
     this.arrow2 = null;
 
+	// i dont know if this affects IE detection
+    document.body.currentStyle = null;
+
     // Browser detection
     this.browser = {
         "ie": Boolean(document.body.currentStyle),
