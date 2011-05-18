@@ -134,7 +134,10 @@ class Clansuite_Xdebug
             echo '<!-- Disable XDebug Mode to remove this!-->
               <style type="text/css">
               /*<![CDATA[*/
+                /* center outer div */
+                #x-debug { width: 95%; padding:20px 0px 10px 0px; background: #EFEFEF; border: 1px solid #333;}
                 table.xdebug-console, table.xdebug-superglobals {
+                    width: 100%;
                     background: none repeat scroll 0 0 #FFFFCC;
                     border-width: 1px;
                     border-style: outset;
@@ -150,6 +153,12 @@ class Clansuite_Xdebug
                     font-weight: bold;
                     background: #E03937;
                 }
+                .xdebug-superglobals td {
+                    border: 1px solid #B70000;
+                    padding: 2px;
+                    padding-left: 5px;
+                    vertical-align:top;
+                }
                 table.xdebug-console td {
                     border: 1px inset grey;
                     padding: 2px;
@@ -161,26 +170,40 @@ class Clansuite_Xdebug
                     background: none repeat scroll 0 0 #ccc;
                     border: 1px solid #666666;
                     font: 12px tahoma,verdana,arial,sans-serif;
-                    margin: 0 auto;
-                    width: 90%;
+                    margin: 10px auto;
+                    padding: 10px;
+                    width: 95%;
                 }
                 fieldset.xdebug-console legend {
                     background: #fff;
                     border: 1px solid #333;
                     font-weight: bold;
-                    padding: 2px 15px;
+                    padding: 5px 15px;
                     color: #222;
+                    float: left;
+                    margin-top: -23px;
+                    margin-bottom: 10px;
                 }
                 fieldset.xdebug-console pre {
                     margin: 2px;
                     text-align: left;
+                    width: 100%;
                 }
                 /*]]>*/
-                </style>';
+                </style>
+                 <!--[if IE]>
+                 <style type="text/css">
+                    #x-debug { width: 95%; padding:30px 0px 10px 0px;}
+                    fieldset.xdebug-console legend {
+                        position:relative;
+                        top: -0.2em;
+                    }
+                 </style>
+                 <![endif]-->';
 
-            echo '<p>&nbsp;</p><fieldset class="xdebug-console"><legend>XDebug Console</legend>';
+            echo '<center><p>&nbsp;</p><div id="x-debug"><fieldset class="xdebug-console"><legend>XDebug Console</legend>';
             echo '<br/>' . xdebug_dump_superglobals() . '</br>';
-            echo '<table class="xdebug-console" width="95%">';
+            echo '<table class="xdebug-console">';
             echo '<tr><th>Name</th><th>Value</th></tr>';
             echo '<tr>';
             echo '<td style="text-align: center;">Time to execute</td>';
@@ -200,13 +223,13 @@ class Clansuite_Xdebug
             echo '</table>';
             #echo '<br/>';
             #self::displayHeaders();
-            echo '</fieldset>';
+            echo '</fieldset></div><p>&nbsp;</p></center>';
         }
     }
 
     public static function displayHeaders()
     {
-        echo '<table class="xdebug-console" width="95%">';
+        echo '<table class="xdebug-console">';
         echo '<tr><th>#</th><th>Headers</th></tr>';
         $headers = xdebug_get_headers();
         $i = 0;
