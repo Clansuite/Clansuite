@@ -2,22 +2,22 @@
  * DO NOT REMOVE THIS NOTICE
  *
  * PROJECT:   mygosuMenu
- * VERSION:   1.4.2
+ * VERSION:   1.5.5
  * COPYRIGHT: (c) 2003,2004 Cezary Tomczak
  * LINK:      http://gosu.pl/dhtml/mygosumenu.html
  * LICENSE:   BSD (revised)
  */
 
 function XulMenu(id) {
-    
+
     this.type = "horizontal";
     this.position = {
         "level1": { "top": 0, "left": 0},
         "levelX": { "top": 0, "left": 0}
     }
     this.zIndex = {
-        "visible": 6,
-        "hidden": 5
+        "visible": 1,
+        "hidden": -1
     }
     this.arrow1 = null;
     this.arrow2 = null;
