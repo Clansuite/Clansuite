@@ -383,11 +383,12 @@ class Clansuite_Cssbuilder
     {
         $iniArray = parse_ini_file($inifile);
         #Clansuite_Debug::printR( $iniArray );
-        $iniArray['files'] = str_replace(" ", "", $iniArray['files']);
-        $iniArray['files'] = str_replace("\t", "", $iniArray['files']);
-        $iniArray['files'] = str_replace("\r\n", "", $iniArray['files']);
-        $iniArray['files'] = str_replace("\r", "", $iniArray['files']);
-        $iniArray['files'] = str_replace("\n", "", $iniArray['files']);
+        
+        # replacements
+        $search = array(' ', "\t", "\r\n", "\r", "\n");
+        $replace = array('', '', '', '', '', '');
+	       $iniArray['files'] = str_replace( $search, $replace, $iniArray['files']);       
+        
         if(mb_substr($iniArray['files'], strlen($iniArray['files']) - 1) == ',')
         {
             $iniArray['files'] = mb_substr($iniArray['files'], 0, strlen($iniArray['files']) - 1);
@@ -490,7 +491,8 @@ class Clansuite_Cssbuilder
             $contents = file_get_contents($file);
 
             # image path anpassen
-            $contents = str_replace('../../', '../', $contents);
+            $contents = str_replace('../', '', $contents);
+            $contents = str_replace('../../', '../', $contents);            
 
             # Change to the current stylesheet's directory.
             $cwd = getcwd();
