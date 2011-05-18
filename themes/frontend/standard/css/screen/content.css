@@ -401,8 +401,7 @@
     .menu_header
     {
         background: url(../images/thback.gif) repeat-x scroll 0 0 transparent;
-        border-color: #ffffff #ACA899 #ACA899 #ffffff;
-        background: #254161;
+        border-color: #ffffff #ACA899 #ACA899 #ffffff;        
         border-style: solid;
         border-width: 1px;        
         cursor: default;
