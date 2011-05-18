@@ -219,23 +219,24 @@ class Clansuite_Theme
     public function getCSSFile()
     {
         # ---------- CSS Browser -Toggle -------------------
-        include_once ROOT_CORE . 'tools' .DS. 'browserinfo.core.php';
+        include_once ROOT_CORE . 'tools' . DS . 'browserinfo.core.php';
         $BrowserInfo = new Clansuite_Browserinfo();
         $browsernick = $BrowserInfo->getBrowserNickname();
 
-        switch( $browsernick ) {
+        switch($browsernick)
+        {
             case 'msie':
-                    $cssPostfix = '_ie';
-                    break;
+                $cssPostfix = '_ie';
+                break;
             default:
-                    $cssPostfix = '';
-                    break;
+                $cssPostfix = '';
+                break;
         }
 
         if(isset($this->theme_info['css']['mainfile']))
         {
-            $part = explode( '.', $this->theme_info['css']['mainfile'] );
-            $cssname = $part[0].$cssPostfix.'.'.$part[1];
+            $part = explode('.', $this->theme_info['css']['mainfile']);
+            $cssname = $part[0] . $cssPostfix . '.' . $part[1];
             return $this->getWWWPath() . 'css/' . $cssname;
         }
         elseif(false === isset($this->theme_info['css']['mainfile']))
@@ -324,6 +325,7 @@ class Clansuite_Theme
     {
         $i = 0;
         $themes = array();
+        $dirs = '';
 
         # loop through ROOT_THEMES dir
         $dirs = new DirectoryIterator( ROOT_THEMES_BACKEND );
