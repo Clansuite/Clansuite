@@ -1,4 +1,4 @@
-/*
+/**
  * -----------------------------------------------------------------------------------------------
  * Clansuite CSS2 Framework (CSFW)
  * -------------------------------------------------------------------------------------------------
@@ -6,15 +6,15 @@
  * Jens-André Koch © 2005 - onwards
  * http://www.clansuite.com/
  * -----------------------------------------------------------------------------------------------
- * Document   : core_navigation.css
- * Description : core navigation definitions
+ * Document:    core_navigation.css
+ * Description: core navigation definitions
  * Syntax recommendation http://www.w3.org/TR/REC-CSS2
  * -----------------------------------------------------------------------------------------------
- * @license    GNU/GPL v2 or (at your option) any later version, see "/doc/LICENSE".
- * @author     Paul Brand <info@isp-tenerife.net>
- * @package      CSFW
- * subpackage    Core
- * @version        1.0
+ * @license     GNU/GPL v2 or (at your option) any later version, see "/doc/LICENSE".
+ * @author      Paul Brand <info@isp-tenerife.net>
+ * @package     CSFW
+ * @subpackage  Core
+ * @version     1.0
  * -----------------------------------------------------------------------------------------------
 */
 @media screen
@@ -22,9 +22,11 @@
 
     /** 
      * -----------------------------------------------------------------------------------------------
-     * Navigation -Breadcrumbs
+     * Navigation - Breadcrumbs
      * -----------------------------------------------------------------------------------------------
      */
+    /* auskommentiert, wegen backend/admin. hier wohl f�r frontend/dark eingesetzt. 
+       @todo verschieben zum dark theme
     #breadcrumbs
     {
         width: 100%;
@@ -34,6 +36,7 @@
         font-family: "Lucida Grande", Arial, Verdana, Helvetica, sans-serif;
         font-size: 9pt;
     }
+    */
 
     /** 
      * -----------------------------------------------------------------------------------------------
@@ -43,9 +46,7 @@
     #tnav
     {
     }
-
 }
-
 
 @media print
 {
