@@ -127,6 +127,7 @@ td {
 {/capture}
 <script type="text/javascript">
 {$id = $template_name|default:''|md5}
+    var _smarty_console;
     _smarty_console = window.open("","console{$id}","width=680,height=600,resizable,scrollbars=yes");
     _smarty_console.document.write("{$debug_output|escape:'javascript'}");
     _smarty_console.document.close();
