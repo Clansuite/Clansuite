@@ -83,16 +83,18 @@ class Clansuite_Module_News extends Clansuite_Module_Controller
         # if cat is no set, we need a query to show all news regardless which category,
         if(empty($category))
         {
-            $newsQuery = Doctrine::getTable('CsNews')->fetchAllNews($currentPage, $resultsPerPage);
+            $newsQuery = $this->getModel()->findAllNews($currentPage, $resultsPerPage);
         }
         else # else we need a qry with the where(cat) statement
         {
-            $newsQuery = Doctrine::getTable('CsNews')->fetchNewsByCategory($category, $currentPage, $resultsPerPage);
+            #$newsQuery = Doctrine::getTable('CsNews')->fetchNewsByCategory($category, $currentPage, $resultsPerPage);
         }
 
         # import array variables into the current symbol table
-        extract($newsQuery);
-        unset($newsQuery);
+        //extract($newsQuery);
+        //unset($newsQuery);
+        $news = $newsQuery;
+        #Clansuite_Debug::printR( $news );
 
         # Get Render Engine
         $view = $this->getView();
@@ -107,8 +109,8 @@ class Clansuite_Module_News extends Clansuite_Module_Controller
 
         # Assign $news array and pager objects to smarty to Smarty for template output
         $view->assign('news', $news);
-        $view->assignGlobal('pager', $pager);
-        $view->assignGlobal('pager_layout', $pager_layout);
+        #$view->assignGlobal('pager', $pager);
+        #$view->assignGlobal('pager_layout', $pager_layout);
 
         $this->display();
     }
@@ -129,7 +131,8 @@ class Clansuite_Module_News extends Clansuite_Module_Controller
         #(int) $this->request->getParameterFromGet('id');
         if($news_id === null) { $news_id = 1;  }
 
-        $news = $this->getModel()->fetchSingleNews($news_id);
+        $news = $this->getModel()->findOneNews($news_id);
+        #Clansuite_Debug::printR($news);
 
         # if a news was found
         if(!empty($news) && is_array($news))
@@ -467,5 +470,50 @@ class Clansuite_Module_News extends Clansuite_Module_Controller
     {
         # nothing to assign, it a pure template widget
     }
+
+    /**
+     * Widget Newsfeeds
+     */
+    public function widget_newspublish($params)
+    {
+
+        if( is_array($params) and !empty($params))
+        {
+            foreach( $params as $row) {
+                $p = mb_split( '=', $row );
+                $parameter[$p[0]] = $p[1];
+            }
+        }
+        $news_id = (int) $parameter['id'];
+
+        $palign = $parameter['align'];
+        switch($palign) {
+            case 'left': $align = 'leftBox'; break;
+            case 'right': $align = 'rightBox'; break;
+            default: $align = 'rightBox'; break;
+        }
+        if($news_id === null  || $news_id === 0) { $news_id = 21;  }
+
+        #Clansuite_Debug::printR($parameter);
+
+        $news = $this->getModel('Entities\News')->findPublishNews($news_id);
+        $aNews = array();
+        $aNews['news_id'] = $news['news_id'];
+        $aNews['news_title'] = $news['news_title'];
+        $aNews['news_body'] = $news['news_body'];
+        $aNews['autor'] = $news['news_authored_by']['nick'];
+        $aNews['image'] = $news['category']['image'];
+        #Clansuite_Debug::printR($aNews);
+
+        $view = $this->getView();
+
+        $view->assign('boxalign', $align);
+        $view->assign('news', $aNews);
+        $view->assign('publishImage', 0);
+
+        # Prepare Output
+        $this->display();
+    }
+
 }
 ?>

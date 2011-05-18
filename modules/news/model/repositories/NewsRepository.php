@@ -1,34 +1,119 @@
 <?php
+/**
+ * Tricks :)
+ *
+ * Instead of writing
+ *
+ * $qb = $this->_em->createQueryBuilder();
+ * $qb->select('n') ->from('Entities\News', 'n')
+ *
+ * you may simply write
+ *
+ * $this->createQueryBuilder('n')
+ */
+
 namespace Repositories;
 use Doctrine\ORM\EntityRepository;
+use DoctrineExtensions\Paginate\Paginate;
 
 class NewsRepository extends EntityRepository
 {
-    public function findAllNews($arguments)
+    public function findAllNews($currentPage, $resultsPerPage)
     {
-        /**
-         * Tricks :)
-         *
-         * Instead of writing
-         *
-         * $qb = $this->_em->createQueryBuilder();
-         * $qb->select('n') ->from('Entities\News', 'n')
-         *
-         * you may simply write
-         *
-         * $this->createQueryBuilder('n')
-         */
+        $result = $aResult = array();
 
-         $qb = $this->createQueryBuilder('n');
+        $q = $this->_em->createQueryBuilder();
+        $q->select('
+                            n,
+                            partial u.{user_id, nick, email, country},
+                            partial c.{cat_id, name, description, image, icon, color},
+                            nc,
+                            partial ncu.{user_id, nick, email, country}
+                        ');
+        $q->from( 'Entities\News', 'n' );
+        $q->leftJoin( 'n.news_authored_by', 'u' );
+        $q->leftJoin( 'n.category', 'c' );
+        $q->leftJoin( 'n.comments', 'nc' );
+        $q->leftJoin( 'nc.comment_authored_by', 'ncu' );
+        $q->where( 'c.module_id = 7' );
+        $q->orderBy( 'n.news_id', 'ASC' );
 
-         /*$qb->where('n.status = 1')
-            ->andWhere('n.date = :date')
-            ->setParameter('date', $date)
-            ->orderBy('n.date');
-          *
-          */
+        $query = $q->getQuery();
+        $result = $query->getArrayResult();
 
-         return $qb->getQuery()->getResult();
+        #$count = Paginate::getTotalQueryResults($query);
+        #$paginateQuery = Paginate::getPaginateQuery($query, 0, $resultsPerPage);
+        #$result = $paginateQuery->getArrayResult();
+        #\Clansuite_Debug::printR( $result );
+
+        foreach( $result as $row )
+        {
+            if( count( $row['comments'] >0 )) {
+                $row['nr_comments'] = count( $row['comments']);
+            } else {
+                $row['nr_comments'] = 0;
+            }
+            $aResult[] = $row;
+        }
+
+        #\Clansuite_Debug::printR( $aResult );
+
+         return $aResult;
+    }
+
+    public function findOneNews($news_id)
+    {
+        $result = $aResult = array();
+
+        $q = $this->_em->createQuery('
+                    SELECT n,
+                           partial u.{user_id, nick, email, country},
+                           partial c.{cat_id, name, description, image, icon, color},
+                           nc,
+                           partial ncu.{user_id, nick, email, country}
+                    FROM Entities\News n
+                    LEFT JOIN n.news_authored_by u
+                    LEFT JOIN n.category c
+                    LEFT JOIN n.comments nc
+                    LEFT JOIN nc.comment_authored_by ncu
+                    WHERE c.module_id = 7
+                    AND n.news_id = :news_id');
+        $q->setParameter('news_id', $news_id);
+
+        $result = $q->getArrayResult();
+
+        foreach( $result as $row )
+        {
+            if( count( $row['comments'] >0 )) {
+                $row['nr_comments'] = count( $row['comments']);
+            } else {
+                $row['nr_comments'] = 0;
+            }
+            $aResult[] = $row;
+        }
+
+        #\Clansuite_Debug::printR( $aResult );
+
+         return $aResult[0];
+    }
+
+    public function findPublishNews($news_id)
+    {
+        $q = $this->_em->createQuery('
+                    SELECT n,
+                           partial u.{user_id, nick},
+                           partial c.{cat_id, image}
+                    FROM Entities\News n
+                    LEFT JOIN n.news_authored_by u
+                    LEFT JOIN n.category c
+                    WHERE n.news_id = :news_id
+                        ');
+        $q->setParameter('news_id', $news_id);
+
+        $result = $q->getArrayResult();
+        #\Clansuite_Debug::printR( $result );
+
+         return $result[0];
     }
 
     /**

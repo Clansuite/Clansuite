@@ -2,7 +2,8 @@
 namespace Entities;
 
 /**
- * @Entity(repositoryClass="Repositories\NewsRepository") @Table(name="Cs_News")
+ * @Entity(repositoryClass="Repositories\NewsRepository")
+ * @Table(name="Cs_News")
  */
 class News
 {
@@ -22,12 +23,6 @@ class News
      * @Column(type="text")
      */
     protected $news_body;
-
-    /**
-     * @OneToOne(targetEntity="Category")
-     * @JoinColumn(name="cat_id", referencedColumnName="cat_id")
-     */
-    private $category;
 
     /**
      * @Column(type="integer")
@@ -53,6 +48,14 @@ class News
      * @Column(type="integer")
      */
     protected $news_status;
+
+
+    /**
+     * @OneToOne(targetEntity="Category")
+     * @JoinColumn(name="cat_id", referencedColumnName="cat_id")
+     */
+    private $category;
+
 
     ### Setter and Getter for existing Columns IN THIS OBJECT
 
