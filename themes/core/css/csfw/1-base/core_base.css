@@ -61,22 +61,22 @@
      * ----------------------------------------------------------
      */
     /* Left Widget Bar default: 220px */
-    #csCol1 { 
-        float: left; 
+    #csCol1 {
+        float: left;
         width: 220px;
     }
 
     /* Right Widget Bar default 220 Pixel */
-    #csCol2 { 
-        float:right; 
+    #csCol2 {
+        float:right;
         width: 220px;
     }
 
     /* Flexible Middle + Center = Main Content */
-    #csCol3 { 
-        width:auto; 
-        margin-left: 230px; 
-        margin-right: 230px; 
+    #csCol3 {
+        width:auto;
+        margin-left: 230px;
+        margin-right: 230px;
     }
 
     /* Vorbereitung für absolute Positionierungen innerhalb der Inhaltsspalten */
@@ -88,15 +88,15 @@
     #csCol2_content { z-index: 6; }
     #csCol3_content { z-index: 2; }
 
-    #csCol1_content, 
-    #csCol2_content, 
-    #csCol3_content 
-       { 
-        position:relative; 
+    #csCol1_content,
+    #csCol2_content,
+    #csCol3_content
+       {
+        position:relative;
     }
 
 
-    /* 
+    /*
      * ----------------------------------------------------------------------------------------------
      * List elements: <ul> <ol> <li>
      * ----------------------------------------------------------------------------------------------
@@ -113,7 +113,7 @@
         /*list-style: disc;*/
         /*padding-left: 20px;*/
         /*padding-top: 5px;*/
-        /*padding-bottom: 8px;*/        
+        /*padding-bottom: 8px;*/
         padding: 0;
         margin: 0;
         display: inline;
@@ -205,6 +205,7 @@
         padding: 0 2px;
     }
 
+    /* 
     pre
     {
         width: 98%;
@@ -222,7 +223,7 @@
         vertical-align: top;
         overflow: auto;
         overflow-Y: hidden; /* fix: IE */
-    }
+    /* } */
 
     pre code
     {
