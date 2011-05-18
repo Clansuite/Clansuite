@@ -245,9 +245,9 @@ class Clansuite_Doctrine2
      */
     public static function getStats()
     {
-        echo sprintf('Doctrine Queries (%d @ %f sec)', 
+        echo sprintf('Doctrine Queries (%d @ %s sec)', 
                 self::$_sqlLoggerStack->currentQuery, 
-                number_format(self::getExecTime(), 5));
+                round(self::getExecTime(), 3));
     }
     
     /**

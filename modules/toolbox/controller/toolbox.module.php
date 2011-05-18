@@ -82,9 +82,7 @@ class Clansuite_Module_Toolbox extends Clansuite_Module_Controller
         #$builder::addBrowser( 'opera', 'Opera', true, 'op' );
         #$builder::addBrowser( 'safari', 'Safari', true, 'sf' );
         #$builder::addBrowser( 'camino', 'Camino', true, 'cam' );
-        #$builder::addBrowser( 'konqueror', 'Konqueror', true, 'cam' );
-
-        $browserArray = $builder::getBrowsers();
+        #$builder::addBrowser( 'konqueror', 'Konqueror', true, 'cam' );       
 
         if( isset($_POST['submit']) )
         {
@@ -156,7 +154,7 @@ class Clansuite_Module_Toolbox extends Clansuite_Module_Controller
 
         # Get Render Engine
         $view = $this->getView();
-        $view->assign('browserinfo', $browserArray);
+        $view->assign('browserinfo', $builder::getBrowsers());
         $view->assign('compile', $compile);
         $view->assign('msgcompiled', $htmlout);
 
