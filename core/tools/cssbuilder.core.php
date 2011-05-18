@@ -491,8 +491,8 @@ class Clansuite_Cssbuilder
             $contents = file_get_contents($file);
 
             # image path anpassen
-            $contents = str_replace('../', '', $contents);
-            $contents = str_replace('../../', '../', $contents);            
+            $contents = str_replace('../images', '', $contents);
+            $contents = str_replace('../../images', '../images', $contents);            
 
             # Change to the current stylesheet's directory.
             $cwd = getcwd();
