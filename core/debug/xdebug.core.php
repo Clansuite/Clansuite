@@ -130,7 +130,56 @@ class Clansuite_Xdebug
     {
         # Start XDEBUG Tracing and Coverage
         if (self::is_xdebug_active())
-        { 
+        {
+            /**
+             * This is the CSS for XDebug Fatal Error
+             */
+            echo '<!-- Disable XDebug Mode to remove this!-->
+                <style type="text/css">
+                /*<![CDATA[*/
+                table.xdebug-error {
+                     font-size: 12px;
+                     width: 95%;
+                     margin: 0 auto 10px auto;
+                     border-color: #666;
+                     border-collapse: collapse;
+                     border-style: outset;
+                     color: #222222;
+                }
+               .xdebug-error th {
+                    background: none repeat scroll 0 0 #E03937;
+                    border: 1px inset #BF0000;
+                    font-weight: bold;
+                    padding: 3px;
+                }
+                .xdebug-error td {
+                    background: none repeat scroll 0 0 #FFFFCC;
+                    border: 1px solid #B70000;
+                    padding: 2px 2px 2px 5px;
+                    vertical-align: top;
+                }
+                .xdebug-error tr:hover {
+                    background: #ffff88;
+                }
+                .xdebug-error span {
+                    display: none;
+                }
+                /*]]>*/
+                </style>';
+
+            /**
+             * Reset for hardcoded bgcolor attributes in the "xdebug-error" table.
+             * This will select all <td> elements and reset the bgcolor attribute on each element.
+             */
+            echo "<script>
+                  var xdebugErrorTableTds = document.getElementsByClassName('xdebug-error')[0].getElementsByTagName('td');
+                  for (var i = 0; i < xdebugErrorTableTds.length; i++){xdebugErrorTableTds[i].setAttribute('bgcolor', '');}
+                  </script>";
+
+
+            /**
+             * This is the CSS for XDebug Console via xdebug_dump_superglobals()
+             */
             echo '<!-- Disable XDebug Mode to remove this!-->
               <style type="text/css">
               /*<![CDATA[*/
@@ -224,14 +273,12 @@ class Clansuite_Xdebug
             #echo '<br/>';
             #self::displayHeaders();
             echo '</fieldset></div><p>&nbsp;</p></center>';
-            
+
             /**
-             * Reset for hardcoded bgcolor attributes in the xdebug table.
-             * Derick?? Why did you hardcoded this stuff?
-             * 
-             * This will select all <td> elements and reset the bgcolor attribute on each element. 
+             * Reset for hardcoded bgcolor attributes in the "xdebug-superglobals" table.
+             * This will select all <td> elements and reset the bgcolor attribute on each element.
              */
-            echo "<script>                 
+            echo "<script>
                   var xdebugTds = document.getElementsByClassName('xdebug-superglobals')[0].getElementsByTagName('td');
                   for (var i = 0; i < xdebugTds.length; i++){xdebugTds[i].setAttribute('bgcolor', '');}
                   </script>";
