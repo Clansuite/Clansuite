@@ -211,7 +211,10 @@ class Clansuite_Xdebug
                 table.xdebug-console td {
                     border: 1px inset grey;
                     padding: 2px;
+                    padding-left: 5px;
                 }
+                table.xdebug-console td.td1 {width: 30%;}
+                table.xdebug-console td.td2 {width: 70%;}
                 table.xdebug-console tr:hover, table.xdebug-superglobals tr:hover {
                     background: #ffff88;
                 }
@@ -255,17 +258,17 @@ class Clansuite_Xdebug
             echo '<table class="xdebug-console">';
             echo '<tr><th>Name</th><th>Value</th></tr>';
             echo '<tr>';
-            echo '<td style="text-align: center;">Time to execute</td>';
-            echo '<td>' . round(xdebug_time_index(), 4) . ' seconds</td>';
+            echo '<td class="td1" style="text-align: center;">Time to execute</td>';
+            echo '<td class="td2">' . round(xdebug_time_index(), 4) . ' seconds</td>';
             echo '</tr><tr>';
-            echo '<td style="text-align: center;">Memory Usage (before)</td>';
-            echo '<td>' . self::$xdebug_memory_before . ' MB</td>';
+            echo '<td class="td1" style="text-align: center;">Memory Usage (before)</td>';
+            echo '<td class="td2">' . self::$xdebug_memory_before . ' MB</td>';
             echo '</tr><tr>';
-            echo '<td style="text-align: center;">Memory Usage by Clansuite</td>';
-            echo '<td>' . self::roundMB(xdebug_memory_usage()) . ' MB</td>';
+            echo '<td class="td1" style="text-align: center;">Memory Usage by Clansuite</td>';
+            echo '<td class="td2">' . self::roundMB(xdebug_memory_usage()) . ' MB</td>';
             echo '</tr><tr>';
-            echo '<td style="text-align: center;">Memory Peak</td>';
-            echo '<td>' . self::roundMB(xdebug_peak_memory_usage()) . ' MB</td>';
+            echo '<td class="td1" style="text-align: center;">Memory Peak</td>';
+            echo '<td class="td2">' . self::roundMB(xdebug_peak_memory_usage()) . ' MB</td>';
             echo '</tr>';
             # stop tracings and var_dump
             #var_dump(xdebug_get_code_coverage());
@@ -281,6 +284,7 @@ class Clansuite_Xdebug
             echo "<script>
                   var xdebugTds = document.getElementsByClassName('xdebug-superglobals')[0].getElementsByTagName('td');
                   for (var i = 0; i < xdebugTds.length; i++){xdebugTds[i].setAttribute('bgcolor', '');}
+                  xdebugTds[0].setAttribute('width', '30%');
                   </script>";
         }
     }
@@ -293,7 +297,7 @@ class Clansuite_Xdebug
         $i = 0;
         foreach($headers as $header)
         {
-            echo '<tr><td style="text-align: center;">' . $i++ . '</td><td>' . $header . '</td></tr>';
+            echo '<tr><td class="td1" style="text-align: center;">' . $i++ . '</td><td class="td2">' . $header . '</td></tr>';
         }
         echo '</table>';
     }
