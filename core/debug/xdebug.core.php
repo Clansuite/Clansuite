@@ -130,7 +130,7 @@ class Clansuite_Xdebug
     {
         # Start XDEBUG Tracing and Coverage
         if (self::is_xdebug_active())
-        {
+        { 
             echo '<!-- Disable XDebug Mode to remove this!-->
               <style type="text/css">
               /*<![CDATA[*/
@@ -163,7 +163,7 @@ class Clansuite_Xdebug
                     border: 1px inset grey;
                     padding: 2px;
                 }
-                table.xdebug-console tr:hover {
+                table.xdebug-console tr:hover, table.xdebug-superglobals tr:hover {
                     background: #ffff88;
                 }
                 fieldset.xdebug-console {
@@ -224,6 +224,17 @@ class Clansuite_Xdebug
             #echo '<br/>';
             #self::displayHeaders();
             echo '</fieldset></div><p>&nbsp;</p></center>';
+            
+            /**
+             * Reset for hardcoded bgcolor attributes in the xdebug table.
+             * Derick?? Why did you hardcoded this stuff?
+             * 
+             * This will select all <td> elements and reset the bgcolor attribute on each element. 
+             */
+            echo "<script>                 
+                  var xdebugTds = document.getElementsByClassName('xdebug-superglobals')[0].getElementsByTagName('td');
+                  for (var i = 0; i < xdebugTds.length; i++){xdebugTds[i].setAttribute('bgcolor', '');}
+                  </script>";
         }
     }
 
