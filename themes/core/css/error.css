@@ -20,6 +20,7 @@ table {
 color: #222222;
 font-size:12px;
 }
+
 .alert {
 background:url(../images/icons/error.png) no-repeat 15px 50% #fff6bf;
 border-bottom:2px solid #ffd324;
@@ -53,7 +54,6 @@ border:1px solid #FBB;
 color:#B00;
 margin:.5em 15px 1em 0;
 padding:15px 20px 15px 50px;
-
 }
 
 .error_beige {
@@ -141,3 +141,36 @@ padding:5px
 td {
 vertical-align:top
 }
+
+/* 
+   cs-backtrace-table
+
+   keep this style equal to "xdebug superglobals" and "xdebug fatal error" table
+   of xdebug.core.php
+*/
+
+table.cs-backtrace-table {
+    background: none repeat scroll 0 0 #FFFFCC;
+    border-collapse: collapse;
+    border-color: #BF0000;
+    border-style: solid;
+    border-width: 1px;
+    color: #222222;
+    font: 12px tahoma,verdana,arial,sans-serif;
+    width: 100%;
+}
+
+table.cs-backtrace-table th {
+    background: none repeat scroll 0 0 #E03937;
+    border: 1px inset #BF0000;
+    font-weight: bold;
+    padding: 3px;
+}
+
+.cs-backtrace-table td {
+    background: none repeat scroll 0 0 #FFFFCC;
+    border: 1px solid grey;
+    padding: 2px 2px 2px 5px;
+    vertical-align: top;
+}
+

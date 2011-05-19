@@ -205,12 +205,14 @@ class Clansuite_Errorhandler
     private static function smarty_error_display( $errornumber, $errorname, $errorstring, $errorfile, $errorline, $errorcontext )
     {
         # small errorreport
-        $errormessage  =  '<h3><font color="#ff0000">&raquo; Smarty Template Error &laquo;</font></h3>';
+        $errormessage = '';
+        $errormessage .= '<span>';
+        $errormessage .=  '<h3><font color="#ff0000">&raquo; Smarty Template Error &laquo;</font></h3>';
         $errormessage .=  '<u>'. $errorname . ' (' . $errornumber .'): </u><br/>';
         $errormessage .=  '<b>'. wordwrap($errorstring,50,"\n") .'</b><br/>';
         $errormessage .=  'File: '. $errorfile. '<br/>Line: ' .$errorline;
         $errormessage .= self::getTemplateEditorLink($errorfile, $errorline, $errorcontext);
-        $errormessage .=  '<br/>';
+        $errormessage .=  '<br/></span>';
 
         return $errormessage;
     }
@@ -311,12 +313,15 @@ class Clansuite_Errorhandler
         # Error Messages
         $errormessage .= '<table>';
         $errormessage .= '<tr><td colspan="2"><h3>Error</td></tr>';
+        $errormessage .= '<tr><td>';
+        $errormessage .= '<table width="95%">';
         $errormessage .= '<tr><td colspan="2"><h4>' . $errorstring . '</h4></td></tr>';
         $errormessage .= '<tr><td width=15%><strong>Type: </strong></td><td>' . $errorname . ' '. $errornumber . '</td></tr>';
         $errormessage .= '<tr><td><strong>Path: </strong></td><td>' . dirname($errorfile) . '</td></tr>';
         $errormessage .= '<tr><td><strong>File: </strong></td><td>' . basename($errorfile) . '</td></tr>';
         $errormessage .= '<tr><td><strong>Line: </strong></td><td>' . $errorline . '</td></tr>';
-
+        $errormessage .= '</table>';
+        
         # HR Split
         $errormessage .= '<tr><td colspan="2">&nbsp;</td></tr>';
 
@@ -340,6 +345,7 @@ class Clansuite_Errorhandler
         $errormessage .= '<tr><td colspan="2">&nbsp;</td></tr>';
 
         # Environmental Informations at Errortime ( $errorcontext is not displayed )
+        $errormessage .= '<tr><td><table width="95%">';
         $errormessage .= '<tr><td colspan="2"><h3>Server Environment</h3></td></tr>';
         $errormessage .= '<tr><td><strong>Date: </strong></td><td>' . date('r') . '</td></tr>';
         $errormessage .= '<tr><td><strong>Remote: </strong></td><td>' . $_SERVER['REMOTE_ADDR'] . '</td></tr>';
@@ -347,7 +353,8 @@ class Clansuite_Errorhandler
         $errormessage .= '<tr><td><strong>Server: </strong></td><td>' . $_SERVER['SERVER_SOFTWARE'] . '</td></tr>';
         $errormessage .= '<tr><td><strong>Agent: </strong></td><td>' . $_SERVER['HTTP_USER_AGENT'] . '</td></tr>';
         $errormessage .= '<tr><td><strong>Clansuite: </strong></td><td>' . CLANSUITE_VERSION . ' ' . CLANSUITE_VERSION_STATE . ' (' . CLANSUITE_VERSION_NAME . ') [Revision #' . CLANSUITE_REVISION . ']</td></tr>';
-
+        $errormessage .= '</table>';
+        
         # HR Split
         $errormessage .= '<tr><td colspan="2">&nbsp;</td></tr>';
 
@@ -405,18 +412,23 @@ class Clansuite_Errorhandler
         # prepare a new backtrace_string
         $backtrace_string = '';
         $backtrace_string .= '<tr><td><h3>Backtrace</h3></td></tr>';
-        $backtrace_string .= '<tr><td><strong>Callstack</strong></td><td>(Recent function calls last)</td>';
-
+        $backtrace_string .= '<tr><td width="95%">';
+        $backtrace_string .= '<table class="cs-backtrace-table" width="95%">';
+        $backtrace_string .= '<tr><th><strong>Callstack</strong></td><th colspan="2">(Recent function calls last)</td></tr>';
+        
+        $backtrace_string .= '<tr><th width="2%">#</th><th>Function</th><th width="40%">Location</th></tr>';
+        
         $backtraces_count = count($backtrace)-1;
         for($i = 0; $i <= $backtraces_count; $i++)
         {
-            $backtrace_string .= '<tr><td><br />Call #'.(($backtraces_count-$i)+1).'</td></tr>';
-
-            $backtrace_string .= '<tr><td><strong>Called: </strong></td>';
+            $backtrace_string .= '<tr>';
+            
+            # Call #
+            $backtrace_string .= '<td align="center">'.(($backtraces_count-$i)+1).'</td>';
 
             if(isset($backtrace[$i]['class']) === false)
             {
-                $backtrace_string .= '<td>[PHP Core Function called]</strong></td>';
+                $backtrace_string .= '<td>[PHP Core Function called]</td>';
             }
             else
             {
@@ -438,18 +450,21 @@ class Clansuite_Errorhandler
                     }
                 }
 
-                $backtrace_string .= ')</td></tr>';
+                $backtrace_string .= ')</td>';
             }
 
             if(true === isset($backtrace[$i]['file']))
             {
-                $backtrace_string .= '<tr><td><strong>File: </strong></td><td>' . $backtrace[$i]['file'] . '</td></tr>';
-                $backtrace_string .= '<tr><td><strong>Line: </strong></td><td>' . $backtrace[$i]['line'] . '</td></tr>';
+                $backtrace[$i]['file'] = str_replace(ROOT, '..'.DS, $backtrace[$i]['file']);
+                $backtrace_string .= '<td>' . $backtrace[$i]['file'] . ':' . $backtrace[$i]['line'] . '</td>';
             }
 
             # spacer
-            $backtrace_string .= '</td></tr>';
+            $backtrace_string .= '</tr>';
         }
+        
+        # spacer
+        $backtrace_string .= '</table></td></tr>';
 
         # returns the Backtrace String
         return $backtrace_string;
@@ -568,8 +583,8 @@ class Clansuite_Errorhandler
                  * enhance readablility by imploding the array with linebreaks (CR)
                  */
                 $errorcontext_lines  = implode($result, '<br />');
-
-                $sprintf_html = '<table>
+                
+                $sprintf_html = '<table>                           
                                     <tr>
                                         <td class="num">'.CR.'%s'.CR.'</td>
                                         <td><code>'.CR.'%s'.CR.'</code></td>
@@ -599,7 +614,7 @@ class Clansuite_Errorhandler
         $search_link .= '</a>';
 
         /**
-         * Trac - Create New Ticket via GET Request
+         * @todo Trac - Create New Ticket via GET Request
          *
          * http://trac.clansuite.com/newticket/?
          * summary=abc&

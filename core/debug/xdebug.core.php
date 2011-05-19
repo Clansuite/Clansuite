@@ -154,7 +154,7 @@ class Clansuite_Xdebug
                 }
                 .xdebug-error td {
                     background: none repeat scroll 0 0 #FFFFCC;
-                    border: 1px solid #B70000;
+                    border: 1px solid grey;
                     padding: 2px 2px 2px 5px;
                     vertical-align: top;
                 }
@@ -203,7 +203,7 @@ class Clansuite_Xdebug
                     background: #E03937;
                 }
                 .xdebug-superglobals td {
-                    border: 1px solid #B70000;
+                    border: 1px solid grey;
                     padding: 2px;
                     padding-left: 5px;
                     vertical-align:top;
