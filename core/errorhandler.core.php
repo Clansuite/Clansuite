@@ -312,16 +312,18 @@ class Clansuite_Errorhandler
 
         # Error Messages
         $errormessage .= '<table>';
-        $errormessage .= '<tr><td colspan="2"><h3>Error</td></tr>';
         $errormessage .= '<tr><td>';
-        $errormessage .= '<table width="95%">';
+
+        # The inner Error Table
+        $errormessage .= '<table>';
+        $errormessage .= '<tr><td colspan="2"><h3>Error</td></tr>';
         $errormessage .= '<tr><td colspan="2"><h4>' . $errorstring . '</h4></td></tr>';
         $errormessage .= '<tr><td width=15%><strong>Type: </strong></td><td>' . $errorname . ' '. $errornumber . '</td></tr>';
         $errormessage .= '<tr><td><strong>Path: </strong></td><td>' . dirname($errorfile) . '</td></tr>';
         $errormessage .= '<tr><td><strong>File: </strong></td><td>' . basename($errorfile) . '</td></tr>';
         $errormessage .= '<tr><td><strong>Line: </strong></td><td>' . $errorline . '</td></tr>';
         $errormessage .= '</table>';
-        
+
         # HR Split
         $errormessage .= '<tr><td colspan="2">&nbsp;</td></tr>';
 
@@ -354,7 +356,7 @@ class Clansuite_Errorhandler
         $errormessage .= '<tr><td><strong>Agent: </strong></td><td>' . $_SERVER['HTTP_USER_AGENT'] . '</td></tr>';
         $errormessage .= '<tr><td><strong>Clansuite: </strong></td><td>' . CLANSUITE_VERSION . ' ' . CLANSUITE_VERSION_STATE . ' (' . CLANSUITE_VERSION_NAME . ') [Revision #' . CLANSUITE_REVISION . ']</td></tr>';
         $errormessage .= '</table>';
-        
+
         # HR Split
         $errormessage .= '<tr><td colspan="2">&nbsp;</td></tr>';
 
@@ -386,9 +388,8 @@ class Clansuite_Errorhandler
      * Transforms the output of php's debug_backtrace() to a more readable html format.
      *
      * @return string $backtrace_string contains the backtrace
-     * @todo: translations
      */
-    private static function getDebugBacktrace()
+    public static function getDebugBacktrace($backtrace = null)
     {
         # provide backtrace only when we are in Clansuite DEBUG Mode, otherwise just return
         if ( defined('DEBUG') == false xor DEBUG == 0 )
@@ -396,18 +397,23 @@ class Clansuite_Errorhandler
             return;
         }
 
-        $backtrace = debug_backtrace();
+        # if a trace is incoming, then this trace comes from an exception
+        if(isset($backtrace) === false)
+        {
+            # else (normally) the errorhandler has to fetch the backtrace
+            $backtrace = debug_backtrace();
 
-        /**
-         * Now we get rid of several last calls in the backtrace stack
-         * to get nearer to the relevant position for the error in the stack.
-         *
-         * What exactly happens is: we shift-off the calls to
-         * 1) getDebugBacktrace()   [this method]
-         * 2) yellowScreenOfDeath() [our exception and error display method]
-         * 3) trigger_error()       [php core function call]
-         */
-        $backtrace = array_slice($backtrace, 3);
+            /**
+             * Now we get rid of several last calls in the backtrace stack
+             * to get nearer to the relevant position for the error in the stack.
+             *
+             * What exactly happens is: we shift-off the calls to
+             * 1) getDebugBacktrace()   [this method]
+             * 2) yellowScreenOfDeath() [our exception and error display method]
+             * 3) trigger_error()       [php core function call]
+             */
+            $backtrace = array_slice($backtrace, 3);
+        }
 
         # prepare a new backtrace_string
         $backtrace_string = '';
@@ -415,14 +421,14 @@ class Clansuite_Errorhandler
         $backtrace_string .= '<tr><td width="95%">';
         $backtrace_string .= '<table class="cs-backtrace-table" width="95%">';
         $backtrace_string .= '<tr><th><strong>Callstack</strong></td><th colspan="2">(Recent function calls last)</td></tr>';
-        
+
         $backtrace_string .= '<tr><th width="2%">#</th><th>Function</th><th width="40%">Location</th></tr>';
-        
+
         $backtraces_count = count($backtrace)-1;
         for($i = 0; $i <= $backtraces_count; $i++)
         {
             $backtrace_string .= '<tr>';
-            
+
             # Call #
             $backtrace_string .= '<td align="center">'.(($backtraces_count-$i)+1).'</td>';
 
@@ -462,7 +468,7 @@ class Clansuite_Errorhandler
             # spacer
             $backtrace_string .= '</tr>';
         }
-        
+
         # spacer
         $backtrace_string .= '</table></td></tr>';
 
@@ -583,8 +589,8 @@ class Clansuite_Errorhandler
                  * enhance readablility by imploding the array with linebreaks (CR)
                  */
                 $errorcontext_lines  = implode($result, '<br />');
-                
-                $sprintf_html = '<table>                           
+
+                $sprintf_html = '<table>
                                     <tr>
                                         <td class="num">'.CR.'%s'.CR.'</td>
                                         <td><code>'.CR.'%s'.CR.'</code></td>
