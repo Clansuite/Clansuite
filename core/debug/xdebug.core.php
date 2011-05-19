@@ -171,9 +171,13 @@ class Clansuite_Xdebug
              * Reset for hardcoded bgcolor attributes in the "xdebug-error" table.
              * This will select all <td> elements and reset the bgcolor attribute on each element.
              */
-            echo "<script>
-                  var xdebugErrorTableTds = document.getElementsByClassName('xdebug-error')[0].getElementsByTagName('td');
-                  for (var i = 0; i < xdebugErrorTableTds.length; i++){xdebugErrorTableTds[i].setAttribute('bgcolor', '');}
+            echo "<script type=\"text/javascript\">
+                  var xdebugErrorTable = document.getElementsByClassName('xdebug-error');
+                  if(xdebugErrorTable.length > 0)
+                  { 
+                    var xdebugErrorTableTds = document.getElementsByClassName('xdebug-error')[0].getElementsByTagName('td');
+                    for (var i = 0; i < xdebugErrorTableTds.length; i++){xdebugErrorTableTds[i].setAttribute('bgcolor', '');}
+                  }
                   </script>";
 
 
@@ -281,7 +285,7 @@ class Clansuite_Xdebug
              * Reset for hardcoded bgcolor attributes in the "xdebug-superglobals" table.
              * This will select all <td> elements and reset the bgcolor attribute on each element.
              */
-            echo "<script>
+            echo "<script type=\"text/javascript\">
                   var xdebugTds = document.getElementsByClassName('xdebug-superglobals')[0].getElementsByTagName('td');
                   for (var i = 0; i < xdebugTds.length; i++){xdebugTds[i].setAttribute('bgcolor', '');}
                   xdebugTds[0].setAttribute('width', '30%');
