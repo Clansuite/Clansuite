@@ -174,7 +174,7 @@ class Clansuite_Xdebug
             echo "<script type=\"text/javascript\">
                   var xdebugErrorTable = document.getElementsByClassName('xdebug-error');
                   if(xdebugErrorTable.length > 0)
-                  { 
+                  {
                     var xdebugErrorTableTds = document.getElementsByClassName('xdebug-error')[0].getElementsByTagName('td');
                     for (var i = 0; i < xdebugErrorTableTds.length; i++){xdebugErrorTableTds[i].setAttribute('bgcolor', '');}
                   }
@@ -188,7 +188,15 @@ class Clansuite_Xdebug
               <style type="text/css">
               /*<![CDATA[*/
                 /* center outer div */
-                #x-debug { width: 95%; padding:20px 0px 10px 0px; background: #EFEFEF; border: 1px solid #333;}
+                #x-debug {
+                    width: 95%;
+                    padding:20px 0px 10px 0px;
+                    background: #EFEFEF;
+                    border: 1px solid #333;
+                    margin: 0 auto; /* centering */
+                    margin-top: 15px;
+                    margin-bottom: 15px;
+                }
                 table.xdebug-console, table.xdebug-superglobals {
                     width: 100%;
                     background: none repeat scroll 0 0 #FFFFCC;
@@ -257,7 +265,7 @@ class Clansuite_Xdebug
                  </style>
                  <![endif]-->';
 
-            echo '<center><p>&nbsp;</p><div id="x-debug"><fieldset class="xdebug-console"><legend>XDebug Console</legend>';
+            echo '<div id="x-debug"><fieldset class="xdebug-console"><legend>XDebug Console</legend>';
             echo '<br/>' . xdebug_dump_superglobals() . '</br>';
             echo '<table class="xdebug-console">';
             echo '<tr><th>Name</th><th>Value</th></tr>';
@@ -279,7 +287,7 @@ class Clansuite_Xdebug
             echo '</table>';
             #echo '<br/>';
             #self::displayHeaders();
-            echo '</fieldset></div><p>&nbsp;</p></center>';
+            echo '</fieldset></div>';
 
             /**
              * Reset for hardcoded bgcolor attributes in the "xdebug-superglobals" table.
