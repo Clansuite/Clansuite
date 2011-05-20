@@ -108,7 +108,7 @@ class Clansuite_Module_Settings_Admin extends Clansuite_Module_Controller
 
         # Get Configuration from Injector and main clansuite configuration file
         $config = $this->getInjector()->instantiate('Clansuite_Config');
-        $config->writeConfig(ROOT . 'configuration' . DS . 'clansuite.config.php', $data);
+        $config->writeConfig(ROOT_CONFIG . 'clansuite.config.php', $data);
 
         # clear the cache / compiled tpls
         $this->getView()->clearCache();
