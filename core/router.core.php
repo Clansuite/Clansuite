@@ -1343,7 +1343,7 @@ class Clansuite_Routes_Manager
         {
             # load common routes configuration
             # includes array $routes
-            include ROOT . 'configuration/routes.config.php';
+            include ROOT_CONFIG . 'routes.config.php';
         }
         else
         {

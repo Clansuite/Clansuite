@@ -75,7 +75,7 @@ class Clansuite_DoorKeeper
 
             define( 'IDS_FILTER_PATH',  ROOT_LIBRARIES . 'IDS/default_filter.xml');
             define( 'IDS_TMP_PATH',     ROOT_CACHE);
-            define( 'IDS_LOG_PATH',     ROOT . 'logs/phpids_log.txt');
+            define( 'IDS_LOG_PATH',     ROOT_LOGS . 'phpids_log.txt');
             define( 'IDS_CACHE_PATH',   ROOT_CACHE . 'phpids_defaultfilter.cache');
 
             # the following lines have to remain, till PHP_IDS team fixes their lib

@@ -51,7 +51,7 @@ class Clansuite_Filter_StartupChecks implements Clansuite_Filter_Interface
     public function executeFilter(Clansuite_HttpRequest $request, Clansuite_HttpResponse $response)
     {
         # Check if Smarty Output Dirs do EXIST
-        if(false === is_dir(ROOT . 'cache/templates_c') and (false === @mkdir(ROOT . 'cache' . DS . 'templates_c', 0755, true)))
+        if(false === is_dir(ROOT_CACHE . 'templates_c') and (false === @mkdir(ROOT_CACHE .'templates_c', 0755, true)))
         {
             throw new Clansuite_Exception('Smarty Template Directories not existant.', 9);
 
@@ -59,7 +59,7 @@ class Clansuite_Filter_StartupChecks implements Clansuite_Filter_Interface
         }
 
         # Check if Smarty Output Dirs do EXIST
-        if(false === is_dir(ROOT . 'cache/cache') and (false === @mkdir(ROOT . 'cache' . DS . 'cache', 0755, true)))
+        if(false === is_dir(ROOT_CACHE . 'cache') and (false === @mkdir(ROOT_CACHE .'cache', 0755, true)))
         {
             throw new Clansuite_Exception('Smarty Template Directories not existant.', 9);
 
@@ -67,10 +67,10 @@ class Clansuite_Filter_StartupChecks implements Clansuite_Filter_Interface
         }
 
         # Check if Smarty Output Dirs are WRITEABLE
-        if(false === is_writable(ROOT . 'cache/templates_c') or false === is_writable(ROOT . 'cache/cache'))
+        if(false === is_writable(ROOT_CACHE . 'templates_c') or false === is_writable(ROOT_CACHE . 'cache'))
         {
             # try to set permissions on the folders, throw exception if it fails
-            if((false === chmod(ROOT . 'cache/templates_c', 0755)) and (false === chmod(ROOT . 'cache/cache', 0755)))
+            if((false === chmod(ROOT_CACHE . 'templates_c', 0755)) and (false === chmod(ROOT_CACHE . 'cache', 0755)))
             {
                 throw new Clansuite_Exception('Smarty Template Directories not writable.', 10);
             }

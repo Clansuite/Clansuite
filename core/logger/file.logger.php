@@ -155,7 +155,7 @@ class Clansuite_Logger_File implements Clansuite_Logger_Interface
             # construct name of the log file ( FILENAME_log_DATE.txt )
             $filename =  $filename . '_log_' . date('m-d-y') . '.txt';
         }
-        else
+        else 
         {
             # construct name of the log file ( FILENAME_log.txt )
             $filename = $filename . '_log.txt';
@@ -176,7 +176,7 @@ class Clansuite_Logger_File implements Clansuite_Logger_Interface
         # setup default logfilename
         if($logfilename == null)
         {
-            $logfilename = ROOT . 'logs/clansuite_errorlog.txt.php';
+            $logfilename = ROOT_LOGS . 'clansuite_errorlog.txt.php';
         }
 
          $logEntries = '';

@@ -104,9 +104,9 @@ class Clansuite_Renderer_Smarty extends Clansuite_Renderer_Base
         /**
          * Directories
          */
-        $this->renderer->compile_dir = ROOT . 'cache' . DS . 'templates_c' . DS;        # directory for compiled files
-        $this->renderer->config_dir = ROOT_LIBRARIES . 'smarty' . DS . 'configs' . DS;  # directory for config files (example.conf)
-        $this->renderer->cache_dir = ROOT . 'cache' . DS . 'cache' . DS;                # directory for cached files
+        $this->renderer->compile_dir = ROOT_CACHE . 'templates_c' . DS; # directory for compiled files
+        $this->renderer->config_dir = ROOT_LIBRARIES . 'smarty' . DS . 'configs' . DS; # directory for config files (example.conf)
+        $this->renderer->cache_dir = ROOT_CACHE; # directory for cached files
 
         /**
          * Debugging
@@ -114,15 +114,15 @@ class Clansuite_Renderer_Smarty extends Clansuite_Renderer_Base
         $this->renderer->debugging = DEBUG ? true : false; # set smarty debugging, when debug on
         if($this->renderer->debugging == true)
         {
-            #$this->renderer->debug_tpl = ROOT_THEMES . 'core/view/debug.tpl';   # set debugging template for smarty
-            $this->renderer->debug_tpl  = ROOT_LIBRARIES . 'smarty/debug.tpl';   # set debugging template for smarty
+            $this->renderer->debug_tpl = ROOT_THEMES_CORE . 'view/smarty/debug.tpl';   # set debugging template for smarty
+            #$this->renderer->debug_tpl  = ROOT_LIBRARIES . 'smarty/debug.tpl';   # set debugging template for smarty
             $this->renderer->clearCompiledTemplate(); # clear compiled tpls in case of debug
             $this->renderer->clearAllCache();         # clear cache
         }
 
-        # $this->renderer->debug_ctrl       = "NONE";   # NONE (not active), URL (activates debugging if SMARTY_DEBUG found in query string)
-        # $this->renderer->global_assign    = "";       # list of vars assign to all template files
-        # $this->renderer->undefined        = null;     # defines value of undefined variables
+        # $this->renderer->debug_ctrl = "NONE"; # NONE (not active), URL (active, if SMARTY_DEBUG found in query string)
+        # $this->renderer->global_assign = "";  # list of vars assign to all template files
+        # $this->renderer->undefined = null; # defines value of undefined variables
 
         $this->renderer->auto_literal = true;     # auto delimiter of javascript/css (The literal tag of Smarty v2.x)
 
@@ -248,7 +248,7 @@ class Clansuite_Renderer_Smarty extends Clansuite_Renderer_Base
         $this->renderer->template_dir[] = $this->getModuleTemplatePaths();
 
         # 5) +6) themes dir
-        $this->renderer->template_dir[] = ROOT_THEMES . 'core' . DS . 'view' . DS . 'smarty';
+        $this->renderer->template_dir[] = ROOT_THEMES_CORE . 'view' . DS . 'smarty';
         $this->renderer->template_dir[] = ROOT_THEMES;
 
         # flatten that thing
