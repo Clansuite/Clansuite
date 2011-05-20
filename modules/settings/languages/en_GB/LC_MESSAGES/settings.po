@@ -157,14 +157,6 @@ msgstr "Devlopment Mode"
 msgid "Email sender address"
 msgstr "Email sender address"
 
-#: tabpage-minifier.tpl:19
-msgid "Enable Minfier."
-msgstr "Enable Minfier."
-
-#: tabpage-minifier.tpl:16
-msgid "Enable Minifier"
-msgstr "Enable Minifier"
-
 #: tabpage-developer.tpl:115
 msgid "Enable Webdebug Toolbar"
 msgstr "Enable Webdebug Toolbar"
@@ -290,10 +282,6 @@ msgstr "Maintenance Mode"
 #: tabpage-login.tpl:37
 msgid "Maximum login attempts"
 msgstr "Maximum login attempts"
-
-#: tabpage-minifier.tpl:11
-msgid "Minifier"
-msgstr "Minifier"
 
 #: tabpage-login.tpl:67
 msgid "Minimum password length"
@@ -584,7 +572,6 @@ msgstr "deactivated"
 #: tabpage-login.tpl:165
 #: tabpage-login.tpl:175
 #: tabpage-metatags.tpl:93
-#: tabpage-minifier.tpl:28
 #: tabpage-updates.tpl:29
 msgid "no"
 msgstr "no"
@@ -603,7 +590,6 @@ msgstr "no [Normal Time = Default Timezone]"
 #: tabpage-login.tpl:164
 #: tabpage-login.tpl:174
 #: tabpage-metatags.tpl:88
-#: tabpage-minifier.tpl:23
 #: tabpage-updates.tpl:24
 msgid "yes"
 msgstr "yes"
