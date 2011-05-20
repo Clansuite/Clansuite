@@ -101,7 +101,7 @@ class Clansuite_Staging
         }
 
         # return full path to the staging config file
-        return ROOT . 'configuration' . DS . 'staging' . DS . $filename;
+        return ROOT_CONFIG . 'staging' . DS . $filename;
     }
 }
 ?>
