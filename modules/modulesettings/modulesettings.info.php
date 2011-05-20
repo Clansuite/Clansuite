@@ -12,7 +12,7 @@ description =
 dependencies =
 package = Development
 
-[modulemanager_package]
+[modulesettings_package]
 version = 0.2-0.x-dev
 project = modulesettings
 datestamp = 
