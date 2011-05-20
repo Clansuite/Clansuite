@@ -1,7 +1,7 @@
 ; <?php die( 'Access forbidden.' ); /* DO NOT MODIFY THIS LINE! ?>
 ;
 ; Clansuite testunit Info
-; modules\testunit\testunit.info.php 
+; modules\testunit\testunit.info.php
 ;
 
 [testunit_info]
@@ -9,7 +9,7 @@ author="Jens-André Koch"
 license="GPLv2 or any later"
 link="http://www.clansuite.com"
 name = testunit
-description = 
+description =
 dependencies =
 package = Development
 
