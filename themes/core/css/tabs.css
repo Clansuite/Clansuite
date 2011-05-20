@@ -6,49 +6,50 @@
     .tabs ul {
         overflow:hidden;
         margin:0;
-        padding:0;
+        padding:0;        
+        list-style: none;
+        height: 25px; /* height of tabs */
+        border-bottom: 1px solid #999;
+        border-left: 1px solid #999;
+        width: 100%;
     }
 
     .tabs .content {
-        border-top:2px #ddd solid;
-        background:#fff;
-    }
-
-    .tabs .content * {
-        margin:0;
+        background: #fff;
     }
 
     .tabs ul li {
-        float:left;
-        list-style-type:none;
-        margin:0 0.3em 0 0;
+        float: left;
+        margin: 0;
+        padding: 0;
+        height: 24px; /* heigth of tab - 1px */
+        line-height: 24px; /* height of tab = vertically align for text */
+        border: 1px solid #999;
+        border-left: none;
+        margin-bottom: -1px; /* move item down 1px */
+        overflow: hidden;
+        position: relative;
+        background: #e0e0e0;
     }
 
     .tabs ul li a {
-        display:block;
-        width:auto;
-        font-weight:700;
-        font-size:1em;
-        background:#fff;
-        color:#666;
-        border:2px solid #ddd;
-        border-bottom:0 #eee solid;
-        margin:0;
-        padding:.2em 2em;
+        text-decoration: none;
+        color: #666;
+        display: block;
+        font-size: 1.2em;
+        padding: 0 20px;
+        border: 1px solid #fff; /* bevel look (white border inside tabbox) */
+        outline: none;
     }
 
     .tabs ul li a:focus,.tabs ul li a:hover,.tabs ul li a:active {
-        background:#fff;
-        font-weight:700;
+        background:#ccc;
         color:#666;
-        text-decoration:none;
-        border-bottom:0 #eee solid;
+        border-bottom: 1px solid #eee;
     }
 
     .tabs ul li.current a,.tabs ul li.current a:focus,.tabs ul li.current a:hover,.tabs ul li.current a:active {
         color:#444;
-        text-decoration:none;
-        font-weight:700;
         background:#bbb;
         border-color:#eee;
     }
