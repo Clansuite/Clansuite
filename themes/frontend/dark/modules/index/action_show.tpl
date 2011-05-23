@@ -30,14 +30,64 @@
 
 		<p>&nbsp;</p>
 		<p>&nbsp;</p>
-		<p>&nbsp;</p>
-		<p>&nbsp;</p>
-		<p>&nbsp;</p>
-		<p>&nbsp;</p>
-		<p>&nbsp;</p>
-		<p>&nbsp;</p>
-		<p>&nbsp;</p>
-		<p>&nbsp;</p>
+
+		<div class="table table-border">
+			<div class="table-header table-border-bottom"><img src="{$www_root_theme}images/icons/develop.png" />{t}Browser Information{/t}</div>
+			<div class="table-content-menu">
+
+				<div class="gridblock">
+					<div class="grid20l">
+						<div class="gridcontent">Browser:</div>
+					</div>
+					<div class="grid30l">
+						<div class="gridcontent">{$browserinfo.name}</div>
+					</div>
+					<div class="grid50r">
+						<div class="gridcontent">&nbsp;</div>
+					</div>
+				</div>
+
+				<div class="gridblock">
+					<div class="grid20l">
+						<div class="gridcontent"> - Version:</div>
+					</div>
+					<div class="grid30l">
+						<div class="gridcontent">{$browserinfo.version}</div>
+					</div>
+					<div class="grid50r">
+						<div class="gridcontent">&nbsp;</div>
+					</div>
+				</div>
+
+				<div class="gridblock">
+					<div class="grid20l">
+						<div class="gridcontent"> - Engine:</div>
+					</div>
+					<div class="grid30l">
+						<div class="gridcontent">{$browserinfo.engine}</div>
+					</div>
+					<div class="grid50r">
+						<div class="gridcontent">&nbsp;</div>
+					</div>
+				</div>
+
+				<div class="gridblock">
+					<div class="grid20l">
+						<div class="gridcontent">System:</div>
+					</div>
+					<div class="grid30l">
+						<div class="gridcontent">{$browserinfo.os}</div>
+					</div>
+					<div class="grid50r">
+						<div class="gridcontent">&nbsp;</div>
+					</div>
+				</div>
+
+			</div>
+		</div>
+		<div class="tablespacer10">&nbsp;</div>
+
+
 		<p>&nbsp;</p>
 		<p>&nbsp;</p>
 

@@ -221,17 +221,15 @@ class Clansuite_Theme
         # ---------- CSS Browser -Toggle -------------------
         include_once ROOT_CORE . 'tools' . DS . 'browserinfo.core.php';
         $BrowserInfo = new Clansuite_Browserinfo();
-        $browsernick = $BrowserInfo->getBrowserNickname();
-
-        switch($browsernick)
+        if( $BrowserInfo->isIE() )
         {
-            case 'msie':
-                $cssPostfix = '_ie';
-                break;
-            default:
-                $cssPostfix = '';
-                break;
+            $cssPostfix = '_ie';
         }
+        else 
+        {
+            $cssPostfix = '';
+        }
+
 
         if(isset($this->theme_info['css']['mainfile']))
         {
