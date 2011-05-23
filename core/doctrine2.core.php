@@ -47,13 +47,25 @@ class Clansuite_Doctrine2
 {
     /**
      * A DBAL Logger Object
-     * 
+     *
      * @var object \Doctrine\DBAL\Logging\DebugStack
      */
-    private static $_sqlLoggerStack = '';
-    
+    private static $sqlLoggerStack = '';
+
+    /**
+     * Doctrine2 Entity Manager
+     *
+     * @var object \Doctrine\ORM\EntityManager
+     */
+    private static $em;
+
+    /**
+     * Total execution time for all queries
+     *
+     * @var float
+     */
     private static $execTime = '';
-    
+
     /**
      * Initialize auto loader of Doctrine
      *
@@ -68,7 +80,7 @@ class Clansuite_Doctrine2
         }
 
         # get isolated loader
-        require_once(ROOT_LIBRARIES . 'Doctrine/Common/ClassLoader.php');
+        require ROOT_LIBRARIES . 'Doctrine/Common/ClassLoader.php';
 
         # setup autoloaders with namespace and path to search in
         $classLoader = new \Doctrine\Common\ClassLoader('Doctrine', realpath(ROOT_LIBRARIES));
@@ -81,11 +93,9 @@ class Clansuite_Doctrine2
         $classLoader->register();
         $classLoader = new \Doctrine\Common\ClassLoader('Proxies', realpath(ROOT . 'doctrine'));
         $classLoader->register();
-        
+
         # Including Doctrine Extensions
         $classLoader = new \Doctrine\Common\ClassLoader('DoctrineExtensions', realpath(ROOT_LIBRARIES));
-        $classLoader->register();
-        $classLoader = new Doctrine\Common\ClassLoader("DoctrineExtensions\\NestedSet", realpath(ROOT_LIBRARIES . 'DoctrineExtensions'));
         $classLoader->register();
 
         # fetch doctrine config handler
@@ -100,7 +110,7 @@ class Clansuite_Doctrine2
         {
             $cache = new \Doctrine\Common\Cache\ArrayCache;
         }
-        
+
         # set cache driver
         $config->setMetadataCacheImpl($cache);
         $config->setQueryCacheImpl($cache);
@@ -151,9 +161,6 @@ class Clansuite_Doctrine2
         # get EventManager
         $evm = new Doctrine\Common\EventManager;
 
-        # Extension: Tree
-        #$evm->addEventSubscriber(new Gedmo\Tree\TreeListener);
-
         # Extension: TablePrefix
         #$tablePrefix = new \DoctrineExtensions\TablePrefix(DB_PREFIX);
         #$evm->addEventListener(\Doctrine\ORM\Events::loadClassMetadata, $tablePrefix);
@@ -164,21 +171,44 @@ class Clansuite_Doctrine2
         # set UTF-8 handling of database data
         $em = \Doctrine\ORM\EntityManager::create($connectionOptions, $config);
         $em->getConnection()->setCharset($db_config['database']['charset']);
-        
+
         # set DBAL DebugStack Logger (also needed for counting queries)
         if(DEBUG == 1)
         {
-            self::$_sqlLoggerStack = new \Doctrine\DBAL\Logging\DebugStack();        
-            $em->getConfiguration()->setSQLLogger(self::$_sqlLoggerStack);
+            self::$sqlLoggerStack = new \Doctrine\DBAL\Logging\DebugStack();
+            $em->getConfiguration()->setSQLLogger(self::$sqlLoggerStack);
         }
-        
+
         # echos SQL Queries directly on page
         #$em->getConfiguration()->setSQLLogger(new \Doctrine\DBAL\Logging\EchoSQLLogger());
-        
-        # done with config, remove to safe memory
-        unset($db_config);
 
-        return $em;
+        self::$em = $em;
+
+        # done with config, remove to safe memory
+        unset($db_config, $em);
+
+        return self::$em;
+    }
+
+    /**
+     * Gets the entity manager to use for all tests
+     *
+     * @return Doctrine\ORM\EntityManager
+     */
+    public static function getEntityManager()
+    {
+        return self::$em;
+    }
+
+    /**
+     * Loads the schema for the given classes
+     *
+     * @param array $classes
+     */
+    protected function loadSchema($classes)
+    {
+        $schemaTool = new \Doctrine\ORM\Tools\SchemaTool($this->getEntityManager());
+        $schemaTool->createSchema($classes);
     }
 
     /**
@@ -192,6 +222,9 @@ class Clansuite_Doctrine2
         Clansuite_Debug::printR($errors);
     }
 
+    /**
+     * Development / Helper Method for displaying loaded Models
+     */
     public static function debugLoadedClasses()
     {
         $em = Clansuite_CMS::getEntityManager();
@@ -202,6 +235,11 @@ class Clansuite_Doctrine2
         Clansuite_Debug::printR($classes_loaded);
     }
 
+    /**
+     * Fetches Model Paths for all modules
+     *
+     * @return array Array with all model directories
+     */
     public static function getModelPathsForAllModules()
     {
         $model_dirs = array();
@@ -239,46 +277,46 @@ class Clansuite_Doctrine2
         #Clansuite_Debug::printR($model_dirs);
         return $model_dirs;
     }
-    
+
     /**
      * Returns Query Counter and the exec time
      */
     public static function getStats()
     {
-        echo sprintf('Doctrine Queries (%d @ %s sec)', 
-                self::$_sqlLoggerStack->currentQuery, 
+        echo sprintf('Doctrine Queries (%d @ %s sec)',
+                self::$sqlLoggerStack->currentQuery,
                 round(self::getExecTime(), 3));
     }
-    
+
     /**
-     * Returns the Number of Queries 
-     * 
+     * Returns the Number of Queries
+     *
      * @return int Number of Queries
      */
     public static function getNumberOfQueries()
     {
-        return self::$_sqlLoggerStack->currentQuery;        
+        return self::$sqlLoggerStack->currentQuery;
     }
-    
+
     /**
      * Returns the total exec time for queries
-     * 
+     *
      * @return string Number formatted time string.
      */
     public static function getExecTime()
     {
         $execTime = '';
 
-        foreach(self::$_sqlLoggerStack->queries as $query)
+        foreach(self::$sqlLoggerStack->queries as $query)
         {
             $execTime += $query['executionMS'];
         }
-        
+
         $execTime = number_format($execTime, 5);
-        
+
         return $execTime;
     }
-    
+
     /**
      * var_dumps the logger stack
      * for a simple overview of all queries
@@ -286,7 +324,7 @@ class Clansuite_Doctrine2
     public static function getLoggerStack()
     {
         # @todo debug dump to firebug?
-        var_dump(self::$_sqlLoggerStack);
+        var_dump(self::$sqlLoggerStack);
     }
 }
 ?>
