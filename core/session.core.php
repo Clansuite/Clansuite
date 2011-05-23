@@ -194,9 +194,7 @@ class Clansuite_Session implements Clansuite_Session_Interface, ArrayAccess
      */
     private static function validateAndSecureSession()
     {
-        if(mb_strlen(session_id()) != 32 or
-           false === isset($_SESSION['application']['initiated']) or
-           ((string) $_SESSION['application']['version'] != 'CS-' . CLANSUITE_VERSION . ' build:' . CLANSUITE_REVISION))
+        if(mb_strlen(session_id()) != 32 or false === isset($_SESSION['application']['initiated']))
         {
             # Make a new session_id and destroy old session
             # from PHP 5.1 on , if set to true, it will force the session extension to remove the old session on an id change
@@ -204,10 +202,7 @@ class Clansuite_Session implements Clansuite_Session_Interface, ArrayAccess
 
             # session fixation
             $_SESSION['application']['initiated'] = true;
-
-            # application-marker
-            $_SESSION['application']['version'] = 'CS-' . CLANSUITE_VERSION . ' build:' . CLANSUITE_REVISION;
-
+  
             /**
              * Session Security Token
              * CSRF: http://shiflett.org/articles/cross-site-request-forgeries
