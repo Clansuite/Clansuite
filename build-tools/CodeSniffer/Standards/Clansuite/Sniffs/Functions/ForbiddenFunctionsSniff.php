@@ -43,10 +43,9 @@ class Clansuite_Sniffs_Functions_ForbiddenFunctionsSniff extends Generic_Sniffs_
              # 3) Discourages the use of PHP debugging functions
              'print_r'          => 'null',
              'var_dump'         => 'null',
-            #'error_log'        => 'null',
+             'error_log'        => 'null',
 
               # 4) Discourages the use of normal string functions, thereby enforces the usage of mbstring functions
-             'split'           => 'mb_split',        # Split multibyte string using regular expression
              'strcut'          => 'mb_strcut',       # Get part of string
              'trimwidth'       => 'mb_strimwidth',   # Get truncated string with specified width
              'stripos'         => 'mb_stripos',      # Finds position of first occurrence of a string within another, case insensitive
@@ -64,14 +63,41 @@ class Clansuite_Sniffs_Functions_ForbiddenFunctionsSniff extends Generic_Sniffs_
              'substr'          => 'mb_substr',       # Get part of string
 
              # 5) Discourages the use of ereg-functions in general = no ereg*() and no mb_ereg_*()
-             'ereg'              => 'null',
-             'mb_ereg'           => 'null',
-             'eregi'             => 'null',
-             'mb_eregi'          => 'null',
-             'ereg_replace'      => 'null',
-             'mb_ereg_replace'   => 'null',
-             'eregi_replace'     => 'null',
-             'mb_eregi_replace'  => 'null',
+             'ereg'              => 'preg_match',
+             'mb_ereg'           => 'preg_match',
+             'eregi'             => 'preg_match with modifier i',
+             'mb_eregi'          => 'preg_match with modifier i',
+             'ereg_replace'      => 'preg_match with modifier i',
+             'mb_ereg_replace'   => 'preg_match with modifier i',
+             'eregi_replace'     => 'preg_match with modifier i',
+             'mb_eregi_replace'  => 'preg_match with modifier i',
+        
+             # 6) deprecated functions as of php 5.3
+             # http://www.php.net/manual/en/migration53.deprecated.php        
+             'call_user_method'         => 'call_user_func',
+             'call_user_method_array'   => 'call_user_func_array',
+             'define_syslog_variables'  => 'null',
+             'dl'                       => 'null',
+             'set_magic_quotes_runtime' => 'null',
+             'session_register'         => 'use the $_SESSION superglobal instead',
+             'session_unregister'       => 'use the $_SESSION superglobal instead',
+             'session_is_registered'    => 'use the $_SESSION superglobal instead',
+             'set_socket_blocking'      => 'stream_set_blocking',
+             'split'                    => 'preg_split',
+             'spliti'                   => 'preg_split with modifier i',
+             'sql_regcase'              => 'null',
+             'mysql_db_query'           => 'use mysql_select_db() and mysql_query() instead',
+             'mysql_escape_string'      => 'mysql_real_escape_string',
+        
+             # 7) deprecated ini directives / functions as of php 5.3
+             # http://www.php.net/manual/en/migration53.deprecated.php
+             'define_syslog_variables'  => 'null',
+             'register_globals'         => 'null',
+             'register_long_arrays'     => 'null',
+             'safe_mode'                => 'null',
+             'magic_quotes_gpc'         => 'null',
+             'magic_quotes_runtime'     => 'null',
+             'magic_quotes_sybase'      => 'null' 
             );
 
     /**
