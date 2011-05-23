@@ -37,8 +37,10 @@
 define('IN_CS', true);
 
 # require application bootstrap
-require_once 'core/bootstrap/clansuite.application.php';
+require 'core/bootstrap/clansuite.application.php';
 
-# Take off.
+/**
+ * Take off.
+ */
 Clansuite_CMS::run();
 ?>
