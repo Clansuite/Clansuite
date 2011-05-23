@@ -39,6 +39,7 @@ require_once 'simpletest/reporter.php';
 # setup our testsuite and reporter
 require_once 'reporter.php';
 require_once 'testsuite.php';
+require_once 'unittester.php';
 
 define('CODECOVERAGE', false);
 

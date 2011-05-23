@@ -6,8 +6,8 @@ require_once 'simpletest/autorun.php';
 # Test Subject - Clansuite_Security
 require_once TESTSUBJECT_DIR . 'core/security.core.php';
 
-class Clansuite_Security_Test extends UnitTestCase {
-
+class Clansuite_Security_Test extends Clansuite_UnitTestCase
+{
     /**
      * testMethod_generate_salt()
      */
