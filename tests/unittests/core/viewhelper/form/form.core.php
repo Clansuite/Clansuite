@@ -3,7 +3,7 @@
 # Test Subject - Clansuite_Form
 require_once TESTSUBJECT_DIR . 'core/viewhelper/form/form.core.php';
 
-class Clansuite_Form_Test extends UnitTestCase
+class Clansuite_Form_Test extends Clansuite_UnitTestCase
 {
     /**
      * @var Clansuite_Form
