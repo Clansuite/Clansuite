@@ -70,11 +70,31 @@ class Clansuite_Logger implements Clansuite_Logger_Interface
     /**
      * Iterates over all registered loggers and writes the logs
      *
-     * @param array $data array('message', 'label', 'priority')
+     * @param mixed|array|string $data array('message', 'label', 'priority') or message
+     * @param string $label label
+     * @param string $level priority level (LOG, INFO, WARNING, ERROR...)
      */
-    public function writeLog($data)
+    public function writeLog($data_or_msg, $label = null, $level = null)
     {
-        foreach ($this->loggers as $logger)
+        $data = array();
+        
+        # first parameter might be an array or an string
+        if(is_array($data_or_msg))
+        {
+            $data = $data_or_msg;
+            $data['message'] = $data['0'];
+            $data['label'] = $data['1'];
+            $data['level'] = $data['2'];
+        }
+        # first parameter is string       
+        else #if(func_num_args()==3) 
+        {
+            $data['message'] = $data_or_msg; 
+            $data['label'] = $label;
+            $data['level'] = $level;
+        }
+        
+        foreach($this->loggers as $logger)
         {
             $logger->writeLog($data);
         }
@@ -87,9 +107,12 @@ class Clansuite_Logger implements Clansuite_Logger_Interface
      */
     public function addLogger($loggers)
     {
+        # loggers might be an object, so force to array, because of foreach
+        $loggers = array($loggers);
+        
         foreach($loggers as $logger)
         {
-            if ( (in_array($logger, $this->loggers) == false) and ($logger instanceof Clansuite_Logger_Interface) )
+            if((in_array($logger, $this->loggers) == false) and ($logger instanceof Clansuite_Logger_Interface))
             {
                 $this->loggers[] = $logger;
             }
@@ -105,7 +128,7 @@ class Clansuite_Logger implements Clansuite_Logger_Interface
     {
         foreach($loggers as $logger)
         {
-            if ( (in_array($logger, $this->loggers) == true))
+            if((in_array($logger, $this->loggers) == true))
             {
                 unset($this->loggers[$logger]);
                 return true;
@@ -114,6 +137,42 @@ class Clansuite_Logger implements Clansuite_Logger_Interface
             {
                 return false;
             }
+        }
+    }
+
+    /**
+     * loadLogger (Logger Factory Method)
+     *
+     * Returns the included and instantiated Logger Engine Object!
+     *
+     * @param $adapter string (Name of logger: "file", "firebug, "db")
+     * @return Logger Object
+     */
+    public static function loadLogger($adapter)
+    {
+        $file = ROOT_CORE . 'logger' . DS . mb_strtolower($adapter) . '.logger.php';
+
+        if(is_file($file) === true)
+        {
+            $class = 'Clansuite_Logger_' . $adapter;
+            if(false === class_exists($class, false))
+            {
+                include $file;
+            }
+
+            if(true === class_exists($class, false))
+            {
+                $logger = new $class();
+                return $logger;
+            }
+            else
+            {
+                throw new Clansuite_Exception('Logger_Factory -> Class not found: ' . $class, 50);
+            }
+        }
+        else
+        {
+            throw new Clansuite_Exception('Logger_Factory -> File not found: ' . $file, 51);
         }
     }
 }

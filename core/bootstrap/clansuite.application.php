@@ -82,15 +82,16 @@ class Clansuite_CMS
 
         self::initialize_Paths();
         self::initialize_Loader();
+        self::initialize_DependencyInjection();
         self::initialize_Config();
+        #self::initialize_Logger();
         self::initialize_UTF8();
         self::perform_startup_checks();
         self::initialize_Debug();
         self::initialize_Version();
         self::initialize_Timezone();
         self::initialize_Eventdispatcher();
-        self::initialize_Errorhandling();
-        self::initialize_DependencyInjection();
+        self::initialize_Errorhandling();        
         self::register_DI_Core();
         self::register_DI_Filters();
         self::start_Session();
@@ -509,6 +510,16 @@ class Clansuite_CMS
     {
         include ROOT . 'core/bootstrap/clansuite.loader.php';
         spl_autoload_register('Clansuite_Loader::autoload');
+    }
+    
+    /**
+     * Initialize Logger
+     */
+    private static function initialize_Logger()
+    {
+        $logger = new Clansuite_Logger();
+        $firebug = $logger->loadLogger('firebug');        
+        $logger->addLogger($firebug);        
     }
 
     /**
