@@ -62,15 +62,12 @@ if(defined('IN_CS') === false)
  */
 class Clansuite_Logger_Firebug implements Clansuite_Logger_Interface
 {
-    private static $instance = null;
+    private static $firephp = null;
 
-    private function __construct(Clansuite_Config $config)
+    public function __construct()
     {
-        # load firebug only if enabled
-        if ( $config['logs']['firephp_enabled'] == true)
-        {
-            include ROOT_LIBRARIES.'firephp/FirePHP.class.php';
-        }
+        include ROOT_LIBRARIES.'firephp/FirePHP.class.php';
+        self::instantiateFirePHP();       
     }
 
     /**
@@ -78,13 +75,13 @@ class Clansuite_Logger_Firebug implements Clansuite_Logger_Interface
      *
      * @return an instance of the logger
      */
-    public static function getInstance()
+    public static function instantiateFirePHP()
     {
-        if (self::$instance == 0)
+        if (self::$firephp == 0)
         {
-            self::$instance = FirePHP::getInstance(true);
+            self::$firephp = FirePHP::getInstance(true);
         }
-        return self::$instance;
+        return self::$firephp;
     }
 
     /**
@@ -95,25 +92,25 @@ class Clansuite_Logger_Firebug implements Clansuite_Logger_Interface
      */
     public function getFirePHPLoglevel($level)
     {
-        switch ($level)
+        switch (strtoupper($level))
         {
-            case LOG:
+            case 'LOG':
                 return FirePHP::LOG;
-            case INFO:
+            case 'INFO':
                 return FirePHP::INFO;
-            case WARNING:
+            case 'WARNING':
                 return FirePHP::WARN;
-            case ERROR:
+            case 'ERROR':
                 return FirePHP::ERROR;
-            case NOTICE:
+            case 'NOTICE':
                 return FirePHP::NOTICE;
-            case DEBUG:
+            case 'DEBUG':
                 return FirePHP::DEBUG;
-            case TABLE:
+            case 'TABLE':
                 return FirePHP::TABLE;
-            case TRACE:
+            case 'TRACE':
                 return FirePHP::TRACE; # backtracing
-            case DUMP:
+            case 'DUMP':
                 return FirePHP::DUMP; # variable dumps
             default:
                 return FirePHP::ERROR;
@@ -129,8 +126,8 @@ class Clansuite_Logger_Firebug implements Clansuite_Logger_Interface
      * @param $data array date['message'], data['label'], data['level']
      */
     public function writeLog($data)
-    {
-        self::$instance->fb($data['message'], $data['label'], $this->getFirePHPLoglevel($data['level']) );
+    { 
+        self::$firephp->fb($data['message'], $data['label'], $this->getFirePHPLoglevel($data['level']) );
     }
 }
 ?>

@@ -217,7 +217,6 @@ class Clansuite_Loader
         # /core/factories
         'Clansuite_Config_Factory'            => ROOT_CORE . 'factories/config.factory.php',
         'Clansuite_Renderer_Factory'          => ROOT_CORE . 'factories/renderer.factory.php',
-        'Clansuite_Logger_Factory'            => ROOT_CORE . 'factories/logger.factory.php',
         'Clansuite_Cache_Factory'             => ROOT_CORE . 'factories/cache.factory.php',
         # /viewhelper/
         'Clansuite_Theme'                     => ROOT_CORE . 'viewhelper/theme.core.php',
@@ -459,14 +458,14 @@ class Clansuite_Loader
     {
         # autoloading map
         $map = array(
-        'Snoopy'               => ROOT_LIB . 'snoopy/Snoopy.class.php',
-        'SimplePie'            => ROOT_LIB . 'simplepie/simplepie.inc',
-        'PclZip'               => ROOT_LIB . 'pclzip/pclzip.lib.php',
-        'graph'                => ROOT_LIB . 'graph/graph.class.php',
-        'GeSHi'                => ROOT_LIB . 'geshi/geshi.php',
-        'feedcreator'          => ROOT_LIB . 'feedcreator/feedcreator.class.php',
-        'Browscap'             => ROOT_LIB . 'browscap/Browscap.php',
-        'BBCode'               => ROOT_LIB . 'bbcode/stringparser_bbcode.class.php',
+            'Snoopy' => ROOT_LIB . 'snoopy/Snoopy.class.php',
+            'SimplePie' => ROOT_LIB . 'simplepie/simplepie.inc',
+            'PclZip' => ROOT_LIB . 'pclzip/pclzip.lib.php',
+            'graph' => ROOT_LIB . 'graph/graph.class.php',
+            'GeSHi' => ROOT_LIB . 'geshi/geshi.php',
+            'feedcreator' => ROOT_LIB . 'feedcreator/feedcreator.class.php',
+            'Browscap' => ROOT_LIB . 'browscap/Browscap.php',
+            'BBCode' => ROOT_LIB . 'bbcode/stringparser_bbcode.class.php',
         );
 
         # check if classname is in autoloading map
