@@ -251,6 +251,8 @@ class Clansuite_Localization
             $lang =  Locale::acceptFromHttp($_SERVER['HTTP_ACCEPT_LANGUAGE']);
             return (array) mb_substr($lang, 0, 2);
         }
+        # @todo consider code block marked as deprecated
+        # INTL is default extension as of php5.3
         else # fallback for no ext/intl environments
         {
             # explode environment variable HTTP_ACCEPT_LANGUAGE at ,
