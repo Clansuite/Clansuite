@@ -91,7 +91,7 @@ class Clansuite_CMS
         self::initialize_Version();
         self::initialize_Timezone();
         self::initialize_Eventdispatcher();
-        self::initialize_Errorhandling();        
+        self::initialize_Errorhandling();
         self::register_DI_Core();
         self::register_DI_Filters();
         self::start_Session();
@@ -511,15 +511,15 @@ class Clansuite_CMS
         include ROOT . 'core/bootstrap/clansuite.loader.php';
         spl_autoload_register('Clansuite_Loader::autoload');
     }
-    
+
     /**
      * Initialize Logger
      */
     private static function initialize_Logger()
     {
         $logger = new Clansuite_Logger();
-        $firebug = $logger->loadLogger('firebug');        
-        $logger->addLogger($firebug);        
+        $firebug = $logger->loadLogger('firebug');
+        $logger->addLogger($firebug);
     }
 
     /**
@@ -781,11 +781,11 @@ class Clansuite_CMS
     public static function shutdown()
     {
         self::triggerEvent('onApplicationShutdown');
-     
+
         if(DEBUG == true)
         {
             echo Clansuite_Doctrine2::getStats();
-            
+
             # Display the General Application Runtime
             echo ' Application Runtime: '.round(microtime(1) - constant('STARTTIME'), 3).' Seconds';
         }

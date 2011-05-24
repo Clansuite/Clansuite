@@ -39,7 +39,7 @@ if (defined('IN_CS') === false)
 # conditional include of the parent class
 if (false == class_exists('Clansuite_Formelement_Checkbox',false))
 {
-    include dirname(__FILE__) . '/checkbox.form.php';
+    include __DIR__ . '/checkbox.form.php';
 }
 
 /**

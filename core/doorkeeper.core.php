@@ -113,9 +113,9 @@ class Clansuite_DoorKeeper
                 }
 
                 # @todo Use the IDS Logger or our own?
-                # require_once 'IDS/Log/File.php';
-                # require_once 'IDS/Log/Email.php';
-                # require_once 'IDS/Log/Composite.php';
+                # require 'IDS/Log/File.php';
+                # require 'IDS/Log/Email.php';
+                # require 'IDS/Log/Composite.php';
                 # $compositeLog = new IDS_Log_Composite();
                 # $compositeLog->addLogger(IDS_Log_Email::getInstance($init),IDS_Log_File::getInstance($init));
                 # $compositeLog->execute($result);

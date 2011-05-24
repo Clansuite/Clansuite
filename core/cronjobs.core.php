@@ -49,7 +49,7 @@ $cron = new Clansuite_Cronjobs;
  * Usually regular tasks like backup up the site's database are run using cron
  * jobs. With cron jobs, you can exactly plan when a certain command is to be
  * executed. But most homepage owners can't create cron jobs on their web
- * server – providers demand some extra money for that.
+ * servers - providers demand some extra money for that.
  * The only thing that's certain to happen quite regularly on a web page are
  * page requests. This is where pseudo-cron comes into play: With every page
  * request it checks if any cron jobs should have been run since the previous
@@ -408,7 +408,7 @@ class Clansuite_Cronjobs
             /* if ($debug)
              {
              */
-            include dirname(__FILE__) . '/' . $job[self::const_PC_CMD];
+            include __DIR__ . '/' . $job[self::const_PC_CMD];
 
             $jobname = mb_substr($job[self::const_PC_CMD], 9, -12);
 

@@ -39,7 +39,7 @@ if (defined('IN_CS') === false)
 # conditional include of the parent class
 if (false == class_exists('Clansuite_Formelement_Text',false))
 { 
-    include dirname(__FILE__) . '/text.form.php';
+    include __DIR__ . '/text.form.php';
 }
 
 /**

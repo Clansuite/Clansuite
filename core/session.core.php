@@ -202,7 +202,7 @@ class Clansuite_Session implements Clansuite_Session_Interface, ArrayAccess
 
             # session fixation
             $_SESSION['application']['initiated'] = true;
-  
+
             /**
              * Session Security Token
              * CSRF: http://shiflett.org/articles/cross-site-request-forgeries

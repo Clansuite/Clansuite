@@ -39,7 +39,7 @@ if (defined('IN_CS') === false)
 # conditional include of the parent class
 if (false == class_exists('Clansuite_Datagrid_Base', false))
 {
-    include dirname(__FILE__) . '/datagrid.core.php';
+    include __DIR__ . '/datagrid.core.php';
 }
 
 # conditional include of the parent class

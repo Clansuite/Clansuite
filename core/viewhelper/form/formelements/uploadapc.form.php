@@ -39,7 +39,7 @@ if (defined('IN_CS') === false)
 # conditional include of the parent class
 if (false == class_exists('Clansuite_Formelement_File',false))
 {
-    include dirname(__FILE__) . '/file.form.php';
+    include __DIR__ . '/file.form.php';
 }
 
 /**
@@ -157,7 +157,7 @@ class Clansuite_Formelement_Uploadapc extends Clansuite_Formelement_File impleme
          */
         if (false == class_exists('Clansuite_Formelement_Hidden',false))
         {
-            include dirname(__FILE__) . '/hidden.form.php';
+            include __DIR__ . '/hidden.form.php';
         }
         $uniqueID = md5(uniqid(mt_rand(), true));
         $hidden = new Clansuite_Formelement_Hidden();
@@ -170,7 +170,7 @@ class Clansuite_Formelement_Uploadapc extends Clansuite_Formelement_File impleme
         # add a submit button
         if (false == class_exists('Clansuite_Formelement_Submitbutton',false))
         {
-            include dirname(__FILE__) . '/submitbutton.form.php';
+            include __DIR__ . '/submitbutton.form.php';
         }
         $submit = new Clansuite_Formelement_Submitbutton();
         $submit->setValue(_('Upload File'));
