@@ -351,18 +351,18 @@ class Clansuite_Form_Test extends Clansuite_UnitTestCase
         $this->assertEqual(array(), $decorators);
         unset($form);
     }
-    
+
     public function testuseDefaultFormDecorators_method_true()
     {
         $this->form->useDefaultFormDecorators(true);
-        
+
         $this->form->registerDefaultFormDecorators();
         $default_form_decorators = $this->form->getDecorators();
         $this->assertFalse(empty($default_form_decorators));
         $this->assertTrue(is_object($default_form_decorators['form']));
         $this->assertTrue(is_a($default_form_decorators['form'], 'Clansuite_Form_Decorator'));
     }
-    
+
     public function testregisterDefaultFormDecorators()
     {
         $this->form->registerDefaultFormDecorators();
@@ -387,7 +387,7 @@ class Clansuite_Form_Test extends Clansuite_UnitTestCase
         $this->assertTrue(array_key_exists('form', $default_form_decorators));
         $this->assertTrue($this->form->getDecorator('form'));
     }
-    
+
     public function testgetDecorator_exception_notfound()
     {
         $this->expectException(
@@ -431,6 +431,13 @@ class Clansuite_Form_Test extends Clansuite_UnitTestCase
         $formelements_array = $this->form->getFormelements();
 
         $this->assertIdentical(new Clansuite_Formelement_Text, $formelements_array[0]);
+    }
+
+    public function testAddElement_switchEncodingWhenUsingFormelementFile()
+    {
+        $this->form->addElement('file');
+
+        $this->assertContainsString('enctype="multipart/form-data"', $this->form->render());
     }
 
     public function testDelElementByName()
