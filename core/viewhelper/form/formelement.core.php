@@ -213,7 +213,7 @@ class Clansuite_Formelement implements Clansuite_Formelement_Interface
             {
                 $this->value[$key] = htmlspecialchars($value);
             }
-            
+
             return $this->value;
         }
         else
@@ -518,7 +518,7 @@ class Clansuite_Formelement implements Clansuite_Formelement_Interface
      *      Formelement Rendering
      * ===================================================================================
      */
-     
+
     /**
      * override
      */
@@ -544,10 +544,10 @@ class Clansuite_Formelement implements Clansuite_Formelement_Interface
         {
             return $subclass->render();
         }
-        else
+        /*else # nothing, because each formelement renders itself
         {
             return $this->render();
-        }
+        }*/
     }
 
     /**
@@ -687,7 +687,7 @@ class Clansuite_Formelement implements Clansuite_Formelement_Interface
         # instantiate the new $formdecorator
         return new $formelementdecorator_classname;
     }
-    
+
     /**
      * Magic Method: set
      *

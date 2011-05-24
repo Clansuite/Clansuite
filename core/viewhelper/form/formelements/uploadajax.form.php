@@ -116,6 +116,5 @@ class Clansuite_Formelement_Uploadajax extends Clansuite_Formelement_File implem
 
         return $javascript.$html;
     }
-
 }
 ?>

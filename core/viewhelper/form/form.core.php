@@ -203,10 +203,10 @@ class Clansuite_Form implements Clansuite_Form_Interface
      * @var array
      */
     private $formdecorators = array();
-    
+
     /**
      * Toogle variable to control registering of default Formdecorators during rendering.
-     * 
+     *
      * @var boolean
      */
     private $useDefaultFormDecorators = true;
@@ -712,7 +712,7 @@ class Clansuite_Form implements Clansuite_Form_Interface
     * @return Clansuite_Formelement
     */
     public function renderAllFormelements()
-    {   
+    {
         # init var
         $html_form = '';
         $html_formelement = '';
@@ -782,19 +782,19 @@ class Clansuite_Form implements Clansuite_Form_Interface
         {
             # thereby sticking this form in each decorator
             $decorator->decorateWith($this);
-            
+
             # apply some settings or call some methods on the decorator
             # before rendering
             # $decorator->$value;
             # $decorator->$method($value);
             # combined $decorator->setAttributes();
-            
+
             # then rendering it
-            $html_form = $decorator->render($html_form);            
-            
+            $html_form = $decorator->render($html_form);
+
             # remove the processed decorator from the decorators stack
             $this->removeDecorator($decorator);
-            
+
             # unset the decorator var in the foreach context
             unset($decorator);
         }
@@ -840,9 +840,16 @@ class Clansuite_Form implements Clansuite_Form_Interface
          * Note: Checking for the interface is nessescary here, because checking for string, like if($formelement == string),
          * would result in true as formelement objects provide the __toString method.
          */
-        if( ($formelement instanceof Clansuite_Formelement_Interface) == false )
+        if( ($formelement instanceof Clansuite_Formelement_Interface) === false )
         {
             $formelement = $this->formelementFactory($formelement);
+        }
+
+        # little helper for easier use of the formelement "file"
+        # this switches the "encytype" attribute of form tag automatically
+        if(($formelement instanceof Clansuite_Formelement_File) === true)
+        {
+            $this->setEncoding('multipart/form-data');
         }
 
         # if we don't have a position to order the elements, we just add an element
@@ -851,7 +858,7 @@ class Clansuite_Form implements Clansuite_Form_Interface
             $this->formelements[] = $formelement;
         }
         # else we position the element under it's number to keep things in an order
-        elseif(is_int($position))
+        elseif(is_int($position) === true)
         {
             $this->formelements[$position] = $formelement;
         }
@@ -1014,12 +1021,12 @@ class Clansuite_Form implements Clansuite_Form_Interface
         if(null === $data)
         {
             $method = $this->getMethod();
-            
+
             if ($method === 'GET')
             {
                 $data = Clansuite_HttpRequest::getGet();
             }
-            
+
             if ($method === 'POST')
             {
                 $data = Clansuite_HttpRequest::getPost();
@@ -1032,7 +1039,7 @@ class Clansuite_Form implements Clansuite_Form_Interface
             foreach($this->formelements as $formelement)
             {
                 $type = $formelement->getType();
-                
+
                 # skip certain formelements (buttons, etc.) from setValue()
                 # setting the value would change the visible "name" of these elements
                 if($type == 'submit' or $type == 'button' or $type == 'cancelbutton' or $type == 'resetbutton')
@@ -1041,7 +1048,7 @@ class Clansuite_Form implements Clansuite_Form_Interface
                 }
 
                 # data key and name of formelement have to match
-                if($formelement->getName() == ucfirst($key))                        
+                if($formelement->getName() == ucfirst($key))
                 {
                     $formelement->setValue($value);
                 }
@@ -1141,14 +1148,14 @@ class Clansuite_Form implements Clansuite_Form_Interface
     {
         return $this->formdecorators;
     }
-    
+
     /**
      * Toggles the Usage of Default Form Decorators
      * If set to false, registerDefaultFormDecorators() is not called during render()
-     * 
+     *
      * @see render()
      * @see registerDefaultFormDecorators()
-     * 
+     *
      * @param type $boolean Form is decorated on true (default), not decorated on false.
      */
     public function useDefaultFormDecorators($boolean = true)
@@ -1160,16 +1167,16 @@ class Clansuite_Form implements Clansuite_Form_Interface
      * Set default form decorators (form)
      */
     public function registerDefaultFormDecorators()
-    {       
-            $this->addDecorator('html5validation');     
+    {
+            $this->addDecorator('html5validation');
             $this->addDecorator('form');
             $this->addDecorator('fieldset');
-            $this->addDecorator('div')->setId('forms');   
+            $this->addDecorator('div')->setId('forms');
     }
 
     /**
      * Removes a form decorator from the decorator stack by name or object.
-     * 
+     *
      * @param mixed|string|object $decorator Object or String identifying the Form Decorator.
      */
     public function removeDecorator($decorator)
@@ -1181,7 +1188,7 @@ class Clansuite_Form implements Clansuite_Form_Interface
             # overwriting $decorator object with decorator name string
             $decorator = $decorator->name;
         }
-        
+
         # $decorator need to be string
         if(isset($this->formdecorators[$decorator]))
         {
@@ -1196,8 +1203,8 @@ class Clansuite_Form implements Clansuite_Form_Interface
             return $this->formdecorators[$decorator];
         }
         else
-        {            
-           throw new Clansuite_Exception('The Formdecorator "' . $decorator . '" was not found.'); 
+        {
+           throw new Clansuite_Exception('The Formdecorator "' . $decorator . '" was not found.');
         }
     }
 

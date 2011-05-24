@@ -69,8 +69,9 @@ class Clansuite_Formelement_File extends Clansuite_Formelement_Input implements 
     {
         $this->type = 'file';
 
-        # watch out, that the opening form tag needs the enctype="multipart/form-data"
+        # Watch out, that the opening form tag needs the enctype="multipart/form-data"
         # else you'll get the filename only and not the content of the file.
+        # Correct encoding is automatically set, when using $form->addElement() method.
     }
 
     /**
@@ -97,21 +98,21 @@ class Clansuite_Formelement_File extends Clansuite_Formelement_Input implements 
         {
             default:
             case 'ajaxupload':
-                if(false == class_exists('Clansuite_Formelement_Uploadajax', false))
+                if(false === class_exists('Clansuite_Formelement_Uploadajax', false))
                 {
                     include 'uploadajax.form.php';
                 }
                 return new Clansuite_Formelement_Uploadajax();
                 break;
             case 'apc':
-                if(false == class_exists('Clansuite_Formelement_Uploadapc', false))
+                if(false === class_exists('Clansuite_Formelement_Uploadapc', false))
                 {
                     include 'uploadapc.form.php';
                 }
                 return new Clansuite_Formelement_Uploadapc();
                 break;
             case 'uploadify':
-                if(false == class_exists('Clansuite_Formelement_Uploadify', false))
+                if(false === class_exists('Clansuite_Formelement_Uploadify', false))
                 {
                     include 'uploadify.form.php';
                 }
@@ -127,6 +128,23 @@ class Clansuite_Formelement_File extends Clansuite_Formelement_Input implements 
                 break;
         }
     }
-
+    
+    /**
+     * Magic-Method for rendering the subclass formelements.
+     * 
+     * The render method needs a bit magic to render formelement objects directly.
+     * See the short returns calls like the following above:
+     * 
+     *      return new Clansuite_Formelement_Uploadajax();
+     * 
+     * The long form is: 
+     * 
+     *      $formelement = new Clansuite_Formelement_Uploadajax();
+     *      $formelement->render();
+     */
+    public function __toString()
+    {
+        return $this->render();
+    }
 }
 ?>
