@@ -427,10 +427,44 @@ class Clansuite_Form_Test extends Clansuite_UnitTestCase
     {
         $this->form->addElement('text');
 
-        #$this->form->getFormelementByPosition('0');
+        #$this->form->getElementByPosition('0');
         $formelements_array = $this->form->getFormelements();
 
         $this->assertIdentical(new Clansuite_Formelement_Text, $formelements_array[0]);
+    }
+    
+    public function testAddElement_withSettingAttributes()
+    {
+        $attributes = array('class' => 'myFormelementClass',
+                            'maxlength' => '20',
+                            'label' => 'myFormelementLabel');
+        
+        $this->form->addElement('text', $attributes);
+
+        $formelement_text = new Clansuite_Formelement_Text;
+        $formelement_text->setAttributes($attributes);
+
+        $this->assertIdentical($formelement_text, $this->form->getElementByPosition('0'));
+    }
+    
+    public function testAddElement_ToCertainPosition()
+    {
+        # PREPARE:
+        # this will take position 0                   
+        $this->form->addElement('file');
+        # this will take position 1   
+        $this->form->addElement('captcha');
+        
+        # TEST:
+        # this will take position 0 + reorders the array
+        $this->form->addElement('text', null, 0);
+
+        $array = array();
+        $array[] = new Clansuite_Formelement_Text;    # 0 - Text 
+        $array[] = new Clansuite_Formelement_File;    # 1 - File 
+        $array[] = new Clansuite_Formelement_Captcha; # 2 - Captcha
+
+        $this->assertIdentical($array, $this->form->getFormelements());
     }
 
     public function testAddElement_switchEncodingWhenUsingFormelementFile()

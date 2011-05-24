@@ -425,6 +425,15 @@ class Clansuite_Formelement implements Clansuite_Formelement_Interface
         {
             foreach($attributes as $attribute => $value)
             {
+                /**
+                 * attributes are directly set
+                 * one might even set a wrong one by accident, like $attribute = 'maxxxlength'
+                 * protect the developer a little bit more here.
+                 * @todo check if attribute is allowed, lookup in whitelist
+                 * @todo protect formelement attr and use setters
+                 */
+                
+                # set attribute directly
                 $this->{$attribute} = $value;
             }
         }

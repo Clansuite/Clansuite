@@ -828,13 +828,14 @@ class Clansuite_Form implements Clansuite_Form_Interface
      * @link http://docs.clansuite.com/developer/manual/de/#_clansuite_form
      *
      * @param $formelement string|object Name of formelement or Object implementing the Clansuite_Form_Interface
-     * @param $position integer The position number of this formelement (ordering) in the formelements stack.
+     * @param $attributes array Attributes for the formelement.
+     * @param $position integer The position number of this formelement (ordering) in the formelements stack. 0 is first element!
      * @return Clansuite_Form $this Form Object
      */
-    public function addElement($formelement, $position = null)
+    public function addElement($formelement, $attributes = null, $position = null)
     {
         /**
-         * We procced, if parameter $formelement is an fromelement object implementing the Clansuite_Formelement_Interface.
+         * We procceed, if parameter $formelement is an fromelement object implementing the Clansuite_Formelement_Interface.
          * Else it's a string with the name of the formelement, which we pass to the factory to deliver that formelement object.
          *
          * Note: Checking for the interface is nessescary here, because checking for string, like if($formelement == string),
@@ -851,21 +852,51 @@ class Clansuite_Form implements Clansuite_Form_Interface
         {
             $this->setEncoding('multipart/form-data');
         }
+        
+        # helper to the formelement attributes directly when adding
+        if(is_array($attributes) === true)
+        {
+            $formelement->setAttributes($attributes);
+        }
 
         # if we don't have a position to order the elements, we just add an element
-        if($position == null)
+        # this is the default behaviour
+        if($position === null)
         {
             $this->formelements[] = $formelement;
         }
         # else we position the element under it's number to keep things in an order
         elseif(is_int($position) === true)
-        {
-            $this->formelements[$position] = $formelement;
+        {            
+            # hmpf, there is already an element at this position
+            if(isset($this->formelements[$position]) === true)
+            { 
+                # insert the new element to the requested position and reorder
+                $this->formelements = $this->array_insert($formelement, $position, $this->formelements);
+            }
+            else # just add to the requested position
+            {
+                $this->formelements[$position] = $formelement;
+            }            
         }
-
+        
         # return object -> fluent interface / method chaining
         return $formelement;
     }
+    
+    /**
+     * Inserts value at a certain index into an array.
+     * 
+     * @param mixed $value The new element to insert into the array.
+     * @param array $array The "old" array.
+     * @param int $index The index to insert the value
+     *
+     * @return array $array with $value at position $index.
+     */
+    public function array_insert($value, $index, &$array)
+    {
+        return array_merge(array_slice($array, 0, $index), array($value), array_slice($array, $index));
+    }  
 
     /**
      * Removes a formelement by name (not type!)
