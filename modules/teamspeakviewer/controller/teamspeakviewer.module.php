@@ -88,7 +88,7 @@ class Clansuite_Module_Teamspeakviewer extends Clansuite_Module_Controller
         $view = $this->getView();
 
         # Load Teamspeak3 Library
-        include dirname(__FILE__).'/libraries/teamspeak3.lib.php';
+        include __DIR__.'/libraries/teamspeak3.lib.php';
 
         # hardcoded for testing
         $server_ip         = 'clansuite.com';
