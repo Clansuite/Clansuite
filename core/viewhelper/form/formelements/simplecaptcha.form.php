@@ -138,7 +138,7 @@ class Clansuite_JustAn_Captcha
         }
 
         # pick a random font from the fonts dir
-        self::$font = self::getRandomFont(ROOT_THEMES . 'core/fonts/');
+        self::$font = self::getRandomFont(ROOT_THEMES_CORE . 'fonts/');
     }
 
     /**
@@ -150,6 +150,7 @@ class Clansuite_JustAn_Captcha
     {
         # build the fonts array by detecting all font files
         $iterator = new DirectoryIterator($fonts_dir);
+        
         foreach($iterator as $file)
         {
             # if a fontfile.ttf is found add it to the array
