@@ -593,7 +593,7 @@ class Clansuite_Teamspeak3_ServerQueryInterface
         #echo 'DEBUG (Overloading): Calling object method "'.$method.'" '. implode(', ', $arguments). "\n";
 
         # construct the filename of the command
-        $command_filename = dirname(__FILE__).DIRECTORY_SEPARATOR.'commands'.DIRECTORY_SEPARATOR.$method.'.php';
+        $command_filename = __DIR__.DIRECTORY_SEPARATOR.'commands'.DIRECTORY_SEPARATOR.$method.'.php';
 
         # check if name is valid
         if(is_file($command_filename) and is_readable($command_filename))
