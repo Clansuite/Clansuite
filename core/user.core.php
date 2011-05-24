@@ -600,7 +600,7 @@ class Clansuite_GuestUser
          * Sets the Default Language for all Guest Visitors as defined by configuration value,
          * if not already set via a GET request, like "index.php?lang=fr".
          */
-        if(empty($_SESSION['user']['language_via_url']))
+        if(false === isset($_SESSION['user']['language_via_url']))
         {
             $_SESSION['user']['language'] = $this->config['language']['default'];
         }

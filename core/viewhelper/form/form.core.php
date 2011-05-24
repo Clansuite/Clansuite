@@ -783,6 +783,12 @@ class Clansuite_Form implements Clansuite_Form_Interface
             # thereby sticking this form in each decorator
             $decorator->decorateWith($this);
             
+            # apply some settings or call some methods on the decorator
+            # before rendering
+            # $decorator->$value;
+            # $decorator->$method($value);
+            # combined $decorator->setAttributes();
+            
             # then rendering it
             $html_form = $decorator->render($html_form);            
             

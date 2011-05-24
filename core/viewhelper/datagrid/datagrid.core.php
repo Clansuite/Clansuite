@@ -39,7 +39,7 @@ if (defined('IN_CS') === false)
 # conditional include of the parent class
 if (false == class_exists('Clansuite_Datagrid_Column',false))
 {
-    include dirname(__FILE__) . '/datagridcol.core.php';
+    include __DIR__ . '/datagridcol.core.php';
 }
 
 use DoctrineExtensions\Paginate\Paginate;
@@ -1168,7 +1168,7 @@ class Clansuite_Datagrid extends Clansuite_Datagrid_Base
             $page = 1;
         }
 
-        # Add to session
+        # add page to session
         $_SESSION['Datagrid_' . $this->getAlias()]['Page'] = $page;
 
         return $page;
@@ -2176,7 +2176,7 @@ class Clansuite_Datagrid_Renderer
                 }
             }
             $html .= '</select>';
-            $html .= ' <input type="submit" value="'._('Search').'" />';
+            $html .= ' <input type="submit" class="ButtonGreen" value="'._('Search').'" />';
             $html .= '</td></tr>';
         }
 

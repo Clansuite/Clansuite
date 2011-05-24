@@ -39,7 +39,7 @@ if (defined('IN_CS') === false)
 # conditional include of the parent class
 if (false == class_exists('Clansuite_Formelement_Radio',false))
 {
-    include dirname(__FILE__) . '/radio.form.php';
+    include __DIR__ . '/radio.form.php';
 }
 /**
  *  Clansuite_Form

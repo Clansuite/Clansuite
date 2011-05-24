@@ -39,7 +39,7 @@ if (defined('IN_CS') === false)
 # conditional include of the parent class
 if (false == class_exists('Clansuite_Formelement_Select',false))
 { 
-    include dirname(__FILE__) . '/select.form.php';
+    include __DIR__ . '/select.form.php';
 }
 
 /**
