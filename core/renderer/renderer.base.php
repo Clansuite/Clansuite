@@ -422,17 +422,7 @@ abstract class Clansuite_Renderer_Base
 
         # Help Tracking
         $template_constants['helptracking'] = $this->config['help']['tracking'];
-
-        /**
-         * e) Minify Compression related
-         */
-
-        # Minifed Javascripts of a certain group (?g=) of js files
-        $template_constants['minfied_javascript'] = WWW_ROOT . 'libraries/minify/?g=js&' . $_SESSION['user']['frontend_theme'];
-
-        # Minifed Stylesheets of a certain group (?g=) of css files
-        $template_constants['minfied_css'] = WWW_ROOT . 'libraries/minify/?g=css&' . $_SESSION['user']['frontend_theme'];
-
+  
         /**
          * Debug Display
          */
