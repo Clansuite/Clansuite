@@ -421,7 +421,7 @@ class Clansuite_Formelement implements Clansuite_Formelement_Interface
      */
     public function setAttributes($attributes)
     {
-        if(is_array($attributes))
+        if(is_array($attributes) === true and empty($attributes) === false)
         {
             foreach($attributes as $attribute => $value)
             {
