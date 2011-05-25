@@ -424,6 +424,13 @@ abstract class Clansuite_Renderer_Base
         $template_constants['helptracking'] = $this->config['help']['tracking'];
   
         /**
+         * e) test browserinfo
+         *   test in themes/frontend/dark/modules/index/action_show.tpl
+         */
+        $BrowserInfo = new Clansuite_Browserinfo();
+        $template_constants['browserinfo'] = $BrowserInfo->getBrowserInfo();
+
+        /**
          * Debug Display
          */
         #Clansuite_Debug::printR($template_constants);
