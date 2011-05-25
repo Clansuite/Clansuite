@@ -34,12 +34,11 @@ class Reporter extends HtmlReporter
 {
     function paintFail($message)
     {
-        parent::paintFail($message);
-        print '<span class="fail">Fail</span>: ';
-        $breadcrumb = $this->getTestList();
-        array_shift($breadcrumb);
-        print implode("-&gt;", $breadcrumb);
-        print "-&gt;$message<br /><br />\n";
+        #parent::paintFail($message);
+        print '<p><span class="fail">Fail</span>: ';
+        $breadcrumb = $this->getTestList();        
+        print '<b>' . $breadcrumb['2'] . "-&gt;" . $breadcrumb['3'] . '()</b>';
+        print "<br /> Reason : &raquo; $message &laquo; </p>\n";
     }
 
     function paintPass($message)
@@ -83,7 +82,8 @@ class Reporter extends HtmlReporter
         echo 'body { font:14px Consolas; }
               a.tooltip {text-decoration:none;}'
              . parent::getCss() .
-             ' .pass { color: green; }';
+             ' .pass { color: green; }
+               .fail { font-weight: bold; }';
     }
 
 }
