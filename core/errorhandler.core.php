@@ -88,7 +88,7 @@ class Clansuite_Errorhandler
 
         /**
          * Definition of PHP Errortypes Array - with names for all the php error codes
-         * @link http://php.oss.eznetsols.org/manual/de/errorfunc.constants.php
+         * @link http://php.net/manual/de/errorfunc.constants.php
          */
         $errorTypes = array (    1      => 'E_ERROR',               # fatal run-time errors, like php is failing memory allocation
                                  2      => 'E_WARNING',             # Run-time warnings (non-fatal errors)
@@ -101,15 +101,15 @@ class Clansuite_Errorhandler
                                  256    => 'E_USER_ERROR',          # trigger_error() / user_error() reports user-defined error
                                  512    => 'E_USER_WARNING',        # trigger_error() / user_error() reports user-defined warning
                                  1024   => 'E_USER_NOTICE',         # trigger_error() / user_error() reports user-defined notice
-                                 2047   => 'E_ALL 2047 PHP <5.2.x', # all errors and warnings + old value of E_ALL of PHP Version below 5.2.x
+                                #2047   => 'E_ALL 2047 PHP <5.2.x', # all errors and warnings + old value of E_ALL of PHP Version below 5.2.x
                                  2048   => 'E_STRICT',              # PHP suggests codechanges to ensure interoperability / forwad compat
                                  4096   => 'E_RECOVERABLE_ERROR',   # catchable fatal error, if not catched it's an e_error (since PHP 5.2.0)
-                                 6143   => 'E_ALL 6143 PHP5.2.x',   # all errors and warnings + old value of E_ALL of PHP Version 5.2.x
+                                #6143   => 'E_ALL 6143 PHP5.2.x',   # all errors and warnings + old value of E_ALL of PHP Version 5.2.x
                                  8191   => 'E_ALL 8191',            # PHP 6 -> 8191
                                  8192   => 'E_DEPRECATED',          # notice marker for 'in future' deprecated php-functions (since PHP 5.3.0)
                                  16384  => 'E_USER_DEPRECATED',     # trigger_error() / user_error() reports user-defined deprecated functions
-                                #30719  => 'E_ALL 30719 PHP5.3.x',  # all errors and warnings - E_ALL of PHP Version 5.3.x
-                                #32767  => 'E_ALL 32767 PHP6'       # all errors and warnings - E_ALL of PHP Version 6
+                                 30719  => 'E_ALL 30719 PHP5.3.x',  # all errors and warnings - E_ALL of PHP Version 5.3.x
+                                 32767  => 'E_ALL 32767 PHP6'       # all errors and warnings - E_ALL of PHP Version 6
                                  );
 
         # check if the error number exists in the errortypes array
