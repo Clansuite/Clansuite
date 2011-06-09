@@ -22,6 +22,14 @@ if (defined('IN_CS') === false)
                    <?php endif; ?>                   
                 <p><?php echo $language['STEP2_SYSTEMSETTINGS_CHECK_VALUES']; ?></p>    
                          <?php
+                         # Case-Images, to determine if a certain Setting is OK or NOT
+                         define('SETTING_TRUE',  '<img src="images/true.gif" alt="OK" height="16" width="16" border="0" />');
+                         define('SETTING_FALSE', '<img src="images/false.gif" alt="NOT" height="16" width="16" border="0" />');
+                         
+                         # determine Strings for ON, OFF, R, W
+                         define('SETTING_EXPECTED_ON', $language['STEP2_SETTING_EXPECTED_ON']);
+                         define('SETTING_EXPECTED_OFF', $language['STEP2_SETTING_EXPECTED_OFF']);
+                         
                          /**
                           * echoalternating Table-Rows
                           * Settings array = $array['settingname']['status']
@@ -35,7 +43,7 @@ if (defined('IN_CS') === false)
                             // css names
                             $css1 = 'row1';
                             $css2 = 'row2';
-
+                            
                             foreach ($settings_array as $settingname => $value)
                             {
                                 // toggle
@@ -56,11 +64,7 @@ if (defined('IN_CS') === false)
                                 echo $table_rows;
                             }
                          }
-
-                         # Case-Images, to determine if a certain Setting is OK or NOT
-                         define('SETTING_TRUE',  '<img src="images/true.gif" alt="OK" height="16" width="16" border="0" />');
-                         define('SETTING_FALSE', '<img src="images/false.gif" alt="NOT" height="16" width="16" border="0" />');
-
+                         
                          /**
                           * get_php_setting
                           * wrapper for ini_get
@@ -68,7 +72,7 @@ if (defined('IN_CS') === false)
                           * returns bool if param $get_value = true
                           * else the image defined by SETTING_TRUE/False
                           */
-                         function get_php_setting($php_functionname,$expected_value, $return_way = 'img')
+                         function get_php_setting($php_functionname, $expected_value, $return_way = 'img')
                          {
                             // get value of setting as 1 or 0
                             $value = ini_get($php_functionname);
@@ -86,7 +90,7 @@ if (defined('IN_CS') === false)
                                 case 'int':
                                                 return $value;
                                 case 'string':
-                                                return $value ? 'on' : 'off';
+                                                return $value ? SETTING_EXPECTED_ON : SETTING_EXPECTED_OFF;
                                 default:
                                 case 'img' :
                                                 if ($expected_value == true)
@@ -134,38 +138,38 @@ if (defined('IN_CS') === false)
 
                          # Setting: Session Functions
                          $required['session_functions']['label']    = $language['SESSION_FUNCTIONS'];
-                         $required['session_functions']['expected'] = 'on';
-                         $required['session_functions']['actual']   = function_exists('session_start') ? 'on' : 'off';
+                         $required['session_functions']['expected'] = SETTING_EXPECTED_ON;
+                         $required['session_functions']['actual']   = function_exists('session_start') ? SETTING_EXPECTED_ON : SETTING_EXPECTED_OFF;
                          $required['session_functions']['status']   = function_exists('session_start') ? SETTING_TRUE : SETTING_FALSE;
 
                          # Checking for correct session.auto_start configuration in php.ini
                          $required['session.auto_start']['label']      = $language['SESSION_AUTO_START'];
-                         $required['session.auto_start']['expected']   = 'off';
+                         $required['session.auto_start']['expected']   = SETTING_EXPECTED_OFF;
                          $required['session.auto_start']['actual']     = get_php_setting('session.auto_start', false, 'string');
                          $required['session.auto_start']['status']     = get_php_setting('session.auto_start', false, 'img');
                          
                          # Setting: PDO
                          $required['pdo_library']['label']    = $language['PDO_LIBRARY'];
-                         $required['pdo_library']['expected'] = 'on';
-                         $required['pdo_library']['actual']   = class_exists('pdo') ? 'on' : 'off';
+                         $required['pdo_library']['expected'] = SETTING_EXPECTED_ON;
+                         $required['pdo_library']['actual']   = class_exists('pdo') ? SETTING_EXPECTED_ON : SETTING_EXPECTED_OFF;
                          $required['pdo_library']['status']   = class_exists('pdo') ? SETTING_TRUE : SETTING_FALSE;
 
                          # Setting: PDO MySQL
                          $required['pdo_mysql_library']['label']    = $language['PDO_MYSQL_LIBRARY'];
-                         $required['pdo_mysql_library']['expected'] = 'on';
-                         $required['pdo_mysql_library']['actual']   = in_array('mysql', PDO::getAvailableDrivers() ) ? 'on' : 'off';
+                         $required['pdo_mysql_library']['expected'] = SETTING_EXPECTED_ON;
+                         $required['pdo_mysql_library']['actual']   = in_array('mysql', PDO::getAvailableDrivers() ) ? SETTING_EXPECTED_ON : SETTING_EXPECTED_OFF;
                          $required['pdo_mysql_library']['status']   = in_array('mysql', PDO::getAvailableDrivers() ) ? SETTING_TRUE : SETTING_FALSE;
 
                          # Checking for Reflection Class (used by DI-Phemto, maybe missing on modified PHP Versions)
                          $required['class_reflection']['label']      = $language['CLASS_REFLECTION'];
-                         $required['class_reflection']['expected']   = 'on';
-                         $required['class_reflection']['actual']     = class_exists('Reflection',false) ? 'on' : 'off';
+                         $required['class_reflection']['expected']   = SETTING_EXPECTED_ON;
+                         $required['class_reflection']['actual']     = class_exists('Reflection',false) ? SETTING_EXPECTED_ON : SETTING_EXPECTED_OFF;
                          $required['class_reflection']['status']     = class_exists('Reflection',false) ? SETTING_TRUE : SETTING_FALSE;
 
                          # Checking for SPL
                          $required['extension_spl']['label']      = $language['EXTENSION_SPL'];
-                         $required['extension_spl']['expected']   = 'on';
-                         $required['extension_spl']['actual']     = extension_loaded("SPL") ? 'on' : 'off';
+                         $required['extension_spl']['expected']   = SETTING_EXPECTED_ON;
+                         $required['extension_spl']['actual']     = extension_loaded("SPL") ? SETTING_EXPECTED_ON : SETTING_EXPECTED_OFF;
                          $required['extension_spl']['status']     = extension_loaded("SPL") ? SETTING_TRUE : SETTING_FALSE;
 
               # NOT USED # Checking if session.save_path is writable
@@ -217,7 +221,7 @@ if (defined('IN_CS') === false)
 
                          # Checking for correct date.timezone configuration in php.ini
                          $required['datetimezone']['label']      = $language['DATE_TIMEZONE'];
-                         $required['datetimezone']['expected']   = 'on';
+                         $required['datetimezone']['expected']   = SETTING_EXPECTED_ON;
                          $required['datetimezone']['actual']     = get_php_setting('date.timezone',true, 'string');
                          $required['datetimezone']['status']     = get_php_setting('date.timezone',true, 'img');
                          
@@ -233,7 +237,7 @@ if (defined('IN_CS') === false)
                                         
                          # Checking file uploads
                          $recommended['file_uploads']['label']      = $language['FILE_UPLOADS'];
-                         $recommended['file_uploads']['expected']   = 'on';
+                         $recommended['file_uploads']['expected']   = SETTING_EXPECTED_ON;
                          $recommended['file_uploads']['actual']     = get_php_setting('file_uploads',true, 'string');
                          $recommended['file_uploads']['status']     = get_php_setting('file_uploads',true, 'img');
 
@@ -254,158 +258,158 @@ if (defined('IN_CS') === false)
 
                          # Checking RegisterGlobals
                          $recommended['register_globals']['label']      = $language['REGISTER_GLOBALS'];
-                         $recommended['register_globals']['expected']   = 'off';
-                         $recommended['register_globals']['actual']     = ini_get('register_globals') ? 'on' : 'off';
+                         $recommended['register_globals']['expected']   = SETTING_EXPECTED_OFF;
+                         $recommended['register_globals']['actual']     = ini_get('register_globals') ? SETTING_EXPECTED_ON : SETTING_EXPECTED_OFF;
                          $recommended['register_globals']['status']     = ini_get('register_globals') ? SETTING_FALSE: SETTING_TRUE;
 
                          # Checking for allow_url_fopen
                          $recommended['allow_url_fopen']['label']       = $language['ALLOW_URL_FOPEN'];
-                         $recommended['allow_url_fopen']['expected']    = 'on';
+                         $recommended['allow_url_fopen']['expected']    = SETTING_EXPECTED_ON;
                          $recommended['allow_url_fopen']['actual']      = get_php_setting('allow_url_fopen',true,'string');
                          $recommended['allow_url_fopen']['status']      = get_php_setting('allow_url_fopen',true,'img');
 
                          # Checking for allow_url_include
                          $recommended['allow_url_include']['label']       = $language['ALLOW_URL_INCLUDE'];
-                         $recommended['allow_url_include']['expected']    = 'on';
+                         $recommended['allow_url_include']['expected']    = SETTING_EXPECTED_ON;
                          $recommended['allow_url_include']['actual']      = get_php_setting('allow_url_include',true,'string');
                          $recommended['allow_url_include']['status']      = get_php_setting('allow_url_include',true,'img');
 
                          # Checking for Safe mode
                          $recommended['safe_mode']['label']         = $language['SAFE_MODE'];
-                         $recommended['safe_mode']['expected']      = 'off';
+                         $recommended['safe_mode']['expected']      = SETTING_EXPECTED_OFF;
                          $recommended['safe_mode']['actual']        = get_php_setting('safe_mode',false,'string');
                          $recommended['safe_mode']['status']        = get_php_setting('safe_mode',false,'img');
 
                          # Checking OpenBaseDir
                          $recommended['open_basedir']['label']      = $language['OPEN_BASEDIR'];
-                         $recommended['open_basedir']['expected']   = 'off';
+                         $recommended['open_basedir']['expected']   = SETTING_EXPECTED_OFF;
                          $recommended['open_basedir']['actual']     = get_php_setting('open_basedir',false,'string');
                          $recommended['open_basedir']['status']     = get_php_setting('open_basedir',false,'img');
 
                          # Checking magic_quotes_gpc
                          $recommended['magic_quotes_gpc']['label']      = $language['MAGIC_QUOTES_GPC'];
-                         $recommended['magic_quotes_gpc']['expected']   = 'off';
+                         $recommended['magic_quotes_gpc']['expected']   = SETTING_EXPECTED_OFF;
                          $recommended['magic_quotes_gpc']['actual']     = get_php_setting('magic_quotes_gpc',false,'string');
                          $recommended['magic_quotes_gpc']['status']     = get_php_setting('magic_quotes_gpc',false,'img');
 
                          # Checking magic_quotes_runtime
                          $recommended['magic_quotes_runtime']['label']      = $language['MAGIC_QUOTES_RUNTIME'];
-                         $recommended['magic_quotes_runtime']['expected']   = 'off';
+                         $recommended['magic_quotes_runtime']['expected']   = SETTING_EXPECTED_OFF;
                          $recommended['magic_quotes_runtime']['actual']     = get_php_setting('magic_quotes_runtime',false,'string');
                          $recommended['magic_quotes_runtime']['status']     = get_php_setting('magic_quotes_runtime',false,'img');
 
                          # Checking short open tag
                          $recommended['short_open_tag']['label']      = $language['SHORT_OPEN_TAG'];
-                         $recommended['short_open_tag']['expected']   = 'off';
+                         $recommended['short_open_tag']['expected']   = SETTING_EXPECTED_OFF;
                          $recommended['short_open_tag']['actual']     = get_php_setting('short_open_tag',false,'string');
                          $recommended['short_open_tag']['status']     = get_php_setting('short_open_tag',false,'img');
                          
                          # Checking output_buffering
                          $recommended['output_buffering']['label']      = $language['OUTPUT_BUFFERING'];
-                         $recommended['output_buffering']['expected']   = 'off';
+                         $recommended['output_buffering']['expected']   = SETTING_EXPECTED_OFF;
                          $recommended['output_buffering']['actual']     = get_php_setting('output_buffering',false,'string');
                          $recommended['output_buffering']['status']     = get_php_setting('output_buffering',false,'img');
 
                          # Checking presence of XSLTProcessor
                          $recommended['xsltprocessor']['label']      = $language['XSLT_PROCESSOR'];
-                         $recommended['xsltprocessor']['expected']   = 'on';
-                         $recommended['xsltprocessor']['actual']     = class_exists('XSLTProcessor') ? 'on' : 'off';
+                         $recommended['xsltprocessor']['expected']   = SETTING_EXPECTED_ON;
+                         $recommended['xsltprocessor']['actual']     = class_exists('XSLTProcessor') ? SETTING_EXPECTED_ON : SETTING_EXPECTED_OFF;
                          $recommended['xsltprocessor']['status']     = class_exists('XSLTProcessor') ? SETTING_TRUE : SETTING_FALSE;
 
                          # Checking for PHP Extension : HASH (used in Clansuite_Security)
                          $recommended['extension_hash']['label']      = $language['EXTENSION_HASH'];
-                         $recommended['extension_hash']['expected']   = 'on';
-                         $recommended['extension_hash']['actual']     = extension_loaded('hash') ? 'on' : 'off';
+                         $recommended['extension_hash']['expected']   = SETTING_EXPECTED_ON;
+                         $recommended['extension_hash']['actual']     = extension_loaded('hash') ? SETTING_EXPECTED_ON : SETTING_EXPECTED_OFF;
                          $recommended['extension_hash']['status']     = extension_loaded('hash') ? SETTING_TRUE : SETTING_FALSE;
 
                          # Checking for PHP Extension : gettext (used in Clansuite_Localization)
                          $recommended['extension_gettext']['label']    = $language['EXTENSION_GETTEXT'];
-                         $recommended['extension_gettext']['expected'] = 'on';
-                         $recommended['extension_gettext']['actual']   = extension_loaded('gettext') ? 'on' : 'off';
+                         $recommended['extension_gettext']['expected'] = SETTING_EXPECTED_ON;
+                         $recommended['extension_gettext']['actual']   = extension_loaded('gettext') ? SETTING_EXPECTED_ON : SETTING_EXPECTED_OFF;
                          $recommended['extension_gettext']['status']   = extension_loaded('gettext') ? SETTING_TRUE : SETTING_FALSE;
 
                          # Checking for PHP Extension : tokenizer
                          $recommended['extension_tokenizer']['label']      = $language['EXTENSION_TOKENIZER'];
-                         $recommended['extension_tokenizer']['expected']  = 'on';
-                         $recommended['extension_tokenizer']['actual']    = function_exists('token_get_all') ? 'on' : 'off';
+                         $recommended['extension_tokenizer']['expected']  = SETTING_EXPECTED_ON;
+                         $recommended['extension_tokenizer']['actual']    = function_exists('token_get_all') ? SETTING_EXPECTED_ON : SETTING_EXPECTED_OFF;
                          $recommended['extension_tokenizer']['status']    = function_exists('token_get_all') ? SETTING_TRUE : SETTING_FALSE;
 
                          #  Checking for PHP Extension : GD (used systemwide, e.g. on captcha)
                          $recommended['extension_gd']['label']      = $language['EXTENSION_GD'];
-                         $recommended['extension_gd']['expected']   = 'on';
-                         $recommended['extension_gd']['actual']     = extension_loaded('gd') ? 'on' : 'off';
+                         $recommended['extension_gd']['expected']   = SETTING_EXPECTED_ON;
+                         $recommended['extension_gd']['actual']     = extension_loaded('gd') ? SETTING_EXPECTED_ON : SETTING_EXPECTED_OFF;
                          $recommended['extension_gd']['status']     = extension_loaded('gd') ? SETTING_TRUE : SETTING_FALSE;
 
                          #  Checking for PHP Extension : XML
                          $recommended['extension_xml']['label']      = $language['EXTENSION_XML'];
-                         $recommended['extension_xml']['expected']   = 'on';
-                         $recommended['extension_xml']['actual']     = extension_loaded('xml') ? 'on' : 'off';
+                         $recommended['extension_xml']['expected']   = SETTING_EXPECTED_ON;
+                         $recommended['extension_xml']['actual']     = extension_loaded('xml') ? SETTING_EXPECTED_ON : SETTING_EXPECTED_OFF;
                          $recommended['extension_xml']['status']     = extension_loaded('xml') ? SETTING_TRUE : SETTING_FALSE;
 
                          #  Checking for PHP Extension : PCRE
                          $recommended['extension_pcre']['label']      = $language['EXTENSION_PCRE'];
-                         $recommended['extension_pcre']['expected']   = 'on';
-                         $recommended['extension_pcre']['actual']     = extension_loaded('pcre') ? 'on' : 'off';
+                         $recommended['extension_pcre']['expected']   = SETTING_EXPECTED_ON;
+                         $recommended['extension_pcre']['actual']     = extension_loaded('pcre') ? SETTING_EXPECTED_ON : SETTING_EXPECTED_OFF;
                          $recommended['extension_pcre']['status']     = extension_loaded('pcre') ? SETTING_TRUE : SETTING_FALSE;
 
                          #  Checking for PHP Extension : SimpleXML (used systemwide for xml parsing)
                          $recommended['extension_simplexml']['label']      = $language['EXTENSION_SIMPLEXML'];
-                         $recommended['extension_simplexml']['expected']   = 'on';
-                         $recommended['extension_simplexml']['actual']     = extension_loaded('SimpleXML') ? 'on' : 'off';
+                         $recommended['extension_simplexml']['expected']   = SETTING_EXPECTED_ON;
+                         $recommended['extension_simplexml']['actual']     = extension_loaded('SimpleXML') ? SETTING_EXPECTED_ON : SETTING_EXPECTED_OFF;
                          $recommended['extension_simplexml']['status']     = extension_loaded('SimpleXML') ? SETTING_TRUE : SETTING_FALSE;
 
                          #  Checking for PHP Extension : Suhosin
                          $recommended['extension_suhosin']['label']      = $language['EXTENSION_SUHOSIN'];
-                         $recommended['extension_suhosin']['expected']   = 'on';
-                         $recommended['extension_suhosin']['actual']     = extension_loaded('suhosin') ? 'on' : 'off';
+                         $recommended['extension_suhosin']['expected']   = SETTING_EXPECTED_ON;
+                         $recommended['extension_suhosin']['actual']     = extension_loaded('suhosin') ? SETTING_EXPECTED_ON : SETTING_EXPECTED_OFF;
                          $recommended['extension_suhosin']['status']     = extension_loaded('suhosin') ? SETTING_TRUE : SETTING_FALSE;
 
                          #  Checking for PHP Extension : Skein Hash (used in Clansuite_Security)
                          $recommended['extension_skein']['label']      = $language['EXTENSION_SKEIN'];
-                         $recommended['extension_skein']['expected']   = 'on';
-                         $recommended['extension_skein']['actual']     = extension_loaded('skein') ? 'on' : 'off';
+                         $recommended['extension_skein']['expected']   = SETTING_EXPECTED_ON;
+                         $recommended['extension_skein']['actual']     = extension_loaded('skein') ? SETTING_EXPECTED_ON : SETTING_EXPECTED_OFF;
                          $recommended['extension_skein']['status']     = extension_loaded('skein') ? SETTING_TRUE : SETTING_FALSE;
 
                          #  Checking for PHP Extension : GeoIP
                          $recommended['extension_geoip']['label']      = $language['EXTENSION_GEOIP'];
-                         $recommended['extension_geoip']['expected']   = 'on';
-                         $recommended['extension_geoip']['actual']     = extension_loaded('geoip') ? 'on' : 'off';
+                         $recommended['extension_geoip']['expected']   = SETTING_EXPECTED_ON;
+                         $recommended['extension_geoip']['actual']     = extension_loaded('geoip') ? SETTING_EXPECTED_ON : SETTING_EXPECTED_OFF;
                          $recommended['extension_geoip']['status']     = extension_loaded('geoip') ? SETTING_TRUE : SETTING_FALSE;
 
                          #  Checking for PHP Extension : CURL
                          $recommended['extension_curl']['label']      = $language['EXTENSION_CURL'];
-                         $recommended['extension_curl']['expected']   = 'on';
-                         $recommended['extension_curl']['actual']     = extension_loaded('curl') ? 'on' : 'off';
+                         $recommended['extension_curl']['expected']   = SETTING_EXPECTED_ON;
+                         $recommended['extension_curl']['actual']     = extension_loaded('curl') ? SETTING_EXPECTED_ON : SETTING_EXPECTED_OFF;
                          $recommended['extension_curl']['status']     = extension_loaded('curl') ? SETTING_TRUE : SETTING_FALSE;
 
                          #  Checking for PHP Extension : SYCK (is a YAML-Parser used in Clansuite_YAML_Config)
                          $recommended['extension_syck']['label']      = $language['EXTENSION_SYCK'];
-                         $recommended['extension_syck']['expected']   = 'on';
-                         $recommended['extension_syck']['actual']     = extension_loaded('syck') ? 'on' : 'off';
+                         $recommended['extension_syck']['expected']   = SETTING_EXPECTED_ON;
+                         $recommended['extension_syck']['actual']     = extension_loaded('syck') ? SETTING_EXPECTED_ON : SETTING_EXPECTED_OFF;
                          $recommended['extension_syck']['status']     = extension_loaded('syck') ? SETTING_TRUE : SETTING_FALSE;
 
                          #  Checking for PHP Extension : APC (used in Clansuite_APC_Cache)
                          $recommended['extension_apc']['label']      = $language['EXTENSION_APC'];
-                         $recommended['extension_apc']['expected']   = 'on';
-                         $recommended['extension_apc']['actual']     = extension_loaded('apc') ? 'on' : 'off';
+                         $recommended['extension_apc']['expected']   = SETTING_EXPECTED_ON;
+                         $recommended['extension_apc']['actual']     = extension_loaded('apc') ? SETTING_EXPECTED_ON : SETTING_EXPECTED_OFF;
                          $recommended['extension_apc']['status']     = extension_loaded('apc') ? SETTING_TRUE : SETTING_FALSE;
 
                          #  Checking for PHP Extension : MEMCACHED? or memcache? (used in Clansuite_Memcache_Cache)
                          $recommended['extension_memcache']['label']      = $language['EXTENSION_MEMCACHE'];
-                         $recommended['extension_memcache']['expected']   = 'on';
-                         $recommended['extension_memcache']['actual']     = extension_loaded('memcache') ? 'on' : 'off';
+                         $recommended['extension_memcache']['expected']   = SETTING_EXPECTED_ON;
+                         $recommended['extension_memcache']['actual']     = extension_loaded('memcache') ? SETTING_EXPECTED_ON : SETTING_EXPECTED_OFF;
                          $recommended['extension_memcache']['status']     = extension_loaded('memcache') ? SETTING_TRUE : SETTING_FALSE;
 
                          #  Checking for PHP Extension : MCrypt (used in Clansuite_Security)
                          $recommended['extension_mcrypt']['label']      = $language['EXTENSION_MCRYPT'];
-                         $recommended['extension_mcrypt']['expected']   = 'on';
-                         $recommended['extension_mcrypt']['actual']     = extension_loaded('mcrypt') ? 'on' : 'off';
+                         $recommended['extension_mcrypt']['expected']   = SETTING_EXPECTED_ON;
+                         $recommended['extension_mcrypt']['actual']     = extension_loaded('mcrypt') ? SETTING_EXPECTED_ON : SETTING_EXPECTED_OFF;
                          $recommended['extension_mcrypt']['status']     = extension_loaded('mcrypt') ? SETTING_TRUE : SETTING_FALSE;
 
                          #  Checking for PHP Calendar : Calendar
                          $recommended['extension_calendar']['label']      = $language['EXTENSION_CALENDAR'];
-                         $recommended['extension_calendar']['expected']   = 'on';
-                         $recommended['extension_calendar']['actual']     = extension_loaded('calendar') ? 'on' : 'off';
+                         $recommended['extension_calendar']['expected']   = SETTING_EXPECTED_ON;
+                         $recommended['extension_calendar']['actual']     = extension_loaded('calendar') ? SETTING_EXPECTED_ON : SETTING_EXPECTED_OFF;
                          $recommended['extension_calendar']['status']     = extension_loaded('calendar') ? SETTING_TRUE : SETTING_FALSE;
 
                          ?>

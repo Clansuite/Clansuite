@@ -47,6 +47,9 @@ class Language implements ArrayAccess
         $this->language['STEP2_SETTING_ACTUAL'] = 'Tatsächlich';
         $this->language['STEP2_SETTING_EXPECTED'] = 'Erwartet';
         $this->language['STEP2_SETTING_STATUS'] = 'Status';
+        
+        $this->language['STEP2_SETTING_EXPECTED_ON'] = 'an';
+        $this->language['STEP2_SETTING_EXPECTED_OFF'] = 'aus';
 
         # REQUIRED SETTINGS (in order)
         $this->language['PHP_VERSION'] = 'PHP Version';
