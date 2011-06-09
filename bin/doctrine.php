@@ -47,6 +47,13 @@ $cli->addCommands(array(
     # DBAL Commands
     new \Doctrine\DBAL\Tools\Console\Command\RunSqlCommand(),
     new \Doctrine\DBAL\Tools\Console\Command\ImportCommand(),
+    # Migrations Commands
+    new \Doctrine\DBAL\Migrations\Tools\Console\Command\DiffCommand(),
+    new \Doctrine\DBAL\Migrations\Tools\Console\Command\ExecuteCommand(),
+    new \Doctrine\DBAL\Migrations\Tools\Console\Command\GenerateCommand(),
+    new \Doctrine\DBAL\Migrations\Tools\Console\Command\MigrateCommand(),
+    new \Doctrine\DBAL\Migrations\Tools\Console\Command\StatusCommand(),
+    new \Doctrine\DBAL\Migrations\Tools\Console\Command\VersionCommand(),
     # ORM Commands
     new \Doctrine\ORM\Tools\Console\Command\ClearCache\MetadataCommand(),
     new \Doctrine\ORM\Tools\Console\Command\ClearCache\ResultCommand(),
@@ -58,11 +65,11 @@ $cli->addCommands(array(
     new \Doctrine\ORM\Tools\Console\Command\ConvertDoctrine1SchemaCommand(),
     new \Doctrine\ORM\Tools\Console\Command\GenerateRepositoriesCommand(),
     new \Doctrine\ORM\Tools\Console\Command\GenerateEntitiesCommand(),
-    #new \Doctrine\ORM\Tools\Console\Command\GenerateEntitiesDbCommand(),
+    # new \Doctrine\ORM\Tools\Console\Command\GenerateEntitiesDbCommand(),
     new \Doctrine\ORM\Tools\Console\Command\GenerateProxiesCommand(),
     new \Doctrine\ORM\Tools\Console\Command\ConvertMappingCommand(),
     new \Doctrine\ORM\Tools\Console\Command\RunDqlCommand(),
-    new \Doctrine\ORM\Tools\Console\Command\ValidateSchemaCommand(),
+    new \Doctrine\ORM\Tools\Console\Command\ValidateSchemaCommand()    
 ));
 
 $cli->run();

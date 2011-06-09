@@ -5,6 +5,8 @@ $classLoader = new \Doctrine\Common\ClassLoader('Repositories', realpath('../doc
 $classLoader->register();
 $classLoader = new \Doctrine\Common\ClassLoader('Proxies', realpath('../doctrine'));
 $classLoader->register();
+$classLoader = new \Doctrine\Common\ClassLoader('Doctrine\DBAL\Migrations', realpath('../doctrine/migrations'));
+$classLoader->register();
 
 $config = new \Doctrine\ORM\Configuration();
 $config->setMetadataCacheImpl(new \Doctrine\Common\Cache\ArrayCache);
@@ -16,16 +18,18 @@ $config->setProxyNamespace('Proxies');
 $connectionOptions = array(
             'driver'    => 'pdo_mysql',
             'user'      => 'root',
-            'password'  => 'toop',
+            'password'  => '',
             'dbname'    => 'clansuite',
             'host'      => 'localhost'
         );
 
 $em = \Doctrine\ORM\EntityManager::create($connectionOptions, $config);
+$db = $em->getConnection();
 
 $helperSet = new \Symfony\Component\Console\Helper\HelperSet(array(
-    'db' => new \Doctrine\DBAL\Tools\Console\Helper\ConnectionHelper($em->getConnection()),
-    'em' => new \Doctrine\ORM\Tools\Console\Helper\EntityManagerHelper($em)
+    'db' => new \Doctrine\DBAL\Tools\Console\Helper\ConnectionHelper($db),
+    'em' => new \Doctrine\ORM\Tools\Console\Helper\EntityManagerHelper($em),
+    'dialog' => new \Symfony\Component\Console\Helper\DialogHelper(),
 ));
 
 ?>
