@@ -15,9 +15,12 @@ if (defined('IN_CS') === false)
                 <p><?php echo $language['STEP2_IN_GENERAL']; ?></p>
                 <p><?php echo $language['STEP2_SYSTEMSETTINGS_REQUIRED']; ?></p>
                 <p><?php echo $language['STEP2_SYSTEMSETTINGS_RECOMMENDED']; ?></p>
-                <p><?php echo $language['STEP2_SYSTEMSETTINGS_TAKEACTION']; ?></p>
-                <p><?php echo $language['STEP2_SYSTEMSETTINGS_CHECK_VALUES']; ?></p>
-
+                <p><?php echo $language['STEP2_SYSTEMSETTINGS_TAKEACTION']; ?></p>                
+                <p><?php if (get_cfg_var('cfg_file_path')): 
+                         echo $language['STEP2_SYSTEMSETTINGS_PHPINI']; ?> 
+                         "<strong><?php echo get_cfg_var('cfg_file_path') ?></strong>".</p>
+                   <?php endif; ?>                   
+                <p><?php echo $language['STEP2_SYSTEMSETTINGS_CHECK_VALUES']; ?></p>    
                          <?php
                          /**
                           * echoalternating Table-Rows
@@ -135,6 +138,12 @@ if (defined('IN_CS') === false)
                          $required['session_functions']['actual']   = function_exists('session_start') ? 'on' : 'off';
                          $required['session_functions']['status']   = function_exists('session_start') ? SETTING_TRUE : SETTING_FALSE;
 
+                         # Checking for correct session.auto_start configuration in php.ini
+                         $required['session.auto_start']['label']      = $language['SESSION_AUTO_START'];
+                         $required['session.auto_start']['expected']   = 'off';
+                         $required['session.auto_start']['actual']     = get_php_setting('session.auto_start', false, 'string');
+                         $required['session.auto_start']['status']     = get_php_setting('session.auto_start', false, 'img');
+                         
                          # Setting: PDO
                          $required['pdo_library']['label']    = $language['PDO_LIBRARY'];
                          $required['pdo_library']['expected'] = 'on';
@@ -206,6 +215,12 @@ if (defined('IN_CS') === false)
                          $required['is_readable_config_template']['actual']   = is_readable(INSTALLATION_ROOT . 'clansuite.config.installer') ? 'r' : '---';
                          $required['is_readable_config_template']['status']   = is_readable(INSTALLATION_ROOT . 'clansuite.config.installer') ? SETTING_TRUE : SETTING_FALSE;
 
+                         # Checking for correct date.timezone configuration in php.ini
+                         $required['datetimezone']['label']      = $language['DATE_TIMEZONE'];
+                         $required['datetimezone']['expected']   = 'on';
+                         $required['datetimezone']['actual']     = get_php_setting('date.timezone',true, 'string');
+                         $required['datetimezone']['status']     = get_php_setting('date.timezone',true, 'img');
+                         
                          # RECOMMENDED CHECKS
 
                          # Setting: PHP memory limit
@@ -215,7 +230,7 @@ if (defined('IN_CS') === false)
                          $recommended['php_memory_limit']['expected']   = 'min '. $recommended_memory_limit .'MB';
                          $recommended['php_memory_limit']['actual']     = '('. $memory_limit .')';
                          $recommended['php_memory_limit']['status']     = ($memory_limit >= $recommended_memory_limit ) ? SETTING_TRUE : SETTING_FALSE;
-
+                                        
                          # Checking file uploads
                          $recommended['file_uploads']['label']      = $language['FILE_UPLOADS'];
                          $recommended['file_uploads']['expected']   = 'on';
@@ -279,6 +294,12 @@ if (defined('IN_CS') === false)
                          $recommended['magic_quotes_runtime']['actual']     = get_php_setting('magic_quotes_runtime',false,'string');
                          $recommended['magic_quotes_runtime']['status']     = get_php_setting('magic_quotes_runtime',false,'img');
 
+                         # Checking short open tag
+                         $recommended['short_open_tag']['label']      = $language['SHORT_OPEN_TAG'];
+                         $recommended['short_open_tag']['expected']   = 'off';
+                         $recommended['short_open_tag']['actual']     = get_php_setting('short_open_tag',false,'string');
+                         $recommended['short_open_tag']['status']     = get_php_setting('short_open_tag',false,'img');
+                         
                          # Checking output_buffering
                          $recommended['output_buffering']['label']      = $language['OUTPUT_BUFFERING'];
                          $recommended['output_buffering']['expected']   = 'off';
