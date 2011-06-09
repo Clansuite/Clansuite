@@ -98,6 +98,7 @@ class Clansuite_Sniffs_Functions_ForbiddenFunctionsSniff extends Generic_Sniffs_
              'magic_quotes_gpc'         => 'null',
              'magic_quotes_runtime'     => 'null',
              'magic_quotes_sybase'      => 'null',
+             'enable_dl'                => 'null',
         
              # 8) due to performance reasons the following methods are forbidden
              'file_exists'              => 'is_file',        
