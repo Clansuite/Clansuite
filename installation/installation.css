@@ -422,6 +422,7 @@ dl dt
   font-size:12px;
   width:100%;
   z-index:0;
+  line-height: 1.5;
 }
 
 #content_footer
