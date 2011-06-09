@@ -37,6 +37,7 @@ class Language implements ArrayAccess
         $this->language['STEP2_SYSTEMSETTINGS_REQUIRED'] = 'Some of these system settings are required for the correct work of Clansuite.';
         $this->language['STEP2_SYSTEMSETTINGS_RECOMMENDED'] = 'While other settings are only recommended to enhance the security or performance.';
         $this->language['STEP2_SYSTEMSETTINGS_TAKEACTION'] = 'Please ensure that all of the required system check items listed below are green. The red marked settings show where you have to take action.';
+        $this->language['STEP2_SYSTEMSETTINGS_PHPINI'] = 'Changes to the php.ini file must be done in ';
         $this->language['STEP2_SYSTEMSETTINGS_CHECK_VALUES'] = 'The System-Check resulted in:';
 
         $this->language['STEP2_SYSTEMSETTING_REQUIRED'] = 'Required Settings (must)';
@@ -50,6 +51,7 @@ class Language implements ArrayAccess
         # REQUIRED SETTINGS (in order)
         $this->language['PHP_VERSION'] = 'PHP version';
         $this->language['SESSION_FUNCTIONS'] = 'Session Functions';
+        $this->language['SESSION_AUTO_START'] = 'Session Autostart';
         $this->language['PDO_LIBRARY'] = 'PDO - Library';
         $this->language['PDO_MYSQL_LIBRARY'] = 'PDO - MySQL - Library';
         $this->language['CLASS_REFLECTION'] = 'PHP Reflection Support';
@@ -61,6 +63,7 @@ class Language implements ArrayAccess
         $this->language['IS_WRITEABLE_SMARYT_CACHE'] = 'Can write: /cache';
         $this->language['IS_WRITEABLE_UPLOADS'] = 'Can write: /uploads';
         $this->language['IS_READABLE_CONFIG_TEMPLATE'] = 'Can read: config-template file';
+        $this->language['DATE_TIMEZONE'] = 'Set: Date/Timezone';  
 
         # RECOMMENDED SETTINGS (in order)
         $this->language['PHP_MEMORY_LIMIT'] = 'Checking PHP memory limit';
@@ -74,6 +77,7 @@ class Language implements ArrayAccess
         $this->language['OPEN_BASEDIR'] = 'OPEN_BASEDIR';
         $this->language['MAGIC_QUOTES_GPC'] = 'Magic Quotes GPC';
         $this->language['MAGIC_QUOTES_RUNTIME'] = 'Magic Quotes Runtime';
+        $this->language['SHORT_OPEN_TAG'] = 'Kurzversion öffnender PHP-Tags';
         $this->language['OUTPUT_BUFFERING'] = 'Output Buffering';
         $this->language['XSLT_PROCESSOR'] = 'XSLT Processor';
         $this->language['EXTENSION_HASH'] = 'PHP Extension: Hash';

@@ -37,6 +37,7 @@ class Language implements ArrayAccess
         $this->language['STEP2_SYSTEMSETTINGS_REQUIRED'] = 'Einige der Systemeinstellungen sind zwingend erforderlich, damit Clansuite ordnungsgemäß funktioniert.';
         $this->language['STEP2_SYSTEMSETTINGS_RECOMMENDED'] = 'Andere sind lediglich empfohlene Einstellungen, sei es aus Sicherheits- oder Performancegründen.';
         $this->language['STEP2_SYSTEMSETTINGS_TAKEACTION'] = 'Bitte stellen Sie sicher, dass die erforderlichen Einstellungen alle grün markiert sind. Die rot markierten Einstellungen zeigen Ihnen auf, wo noch Handlungsbedarf besteht.';
+        $this->language['STEP2_SYSTEMSETTINGS_PHPINI'] = 'Falls Änderungen an der PHP-Konfiguration erforderlich sind, dann nehmen sie diese in der folgenden "php.ini"-Datei vor ';
         $this->language['STEP2_SYSTEMSETTINGS_CHECK_VALUES'] = 'Die Systemüberprüfung ergab folgendes:';
 
         $this->language['STEP2_SYSTEMSETTING_REQUIRED'] = 'Erforderliche Einstellungen (Muss)';
@@ -50,6 +51,7 @@ class Language implements ArrayAccess
         # REQUIRED SETTINGS (in order)
         $this->language['PHP_VERSION'] = 'PHP Version';
         $this->language['SESSION_FUNCTIONS'] = 'Session Funktionen';
+        $this->language['SESSION_AUTO_START'] = 'Session Autostart';
         $this->language['PDO_LIBRARY'] = 'PDO - Bibliothek';
         $this->language['PDO_MYSQL_LIBRARY'] = 'PDO - MySQL - Bibliothek';
         $this->language['CLASS_REFLECTION'] = 'PHP Reflection';
@@ -61,6 +63,7 @@ class Language implements ArrayAccess
         $this->language['IS_WRITEABLE_SMARYT_CACHE'] = 'Beschreibbar: /cache';
         $this->language['IS_WRITEABLE_UPLOADS'] = 'Beschreibbar: /uploads';
         $this->language['IS_READABLE_CONFIG_TEMPLATE'] = 'Lesbar: Config-Vorlagedatei';
+        $this->language['DATE_TIMEZONE'] = 'Gesetzt: Date/Timezone';        
 
         # RECOMMENDED SETTINGS (in order)
         $this->language['PHP_MEMORY_LIMIT'] = 'PHP Memory Limit';
@@ -74,6 +77,7 @@ class Language implements ArrayAccess
         $this->language['OPEN_BASEDIR'] = 'OPEN_BASEDIR';
         $this->language['MAGIC_QUOTES_GPC'] = 'Magic Quotes GPC';
         $this->language['MAGIC_QUOTES_RUNTIME'] = 'Magic Quotes Runtime';
+        $this->language['SHORT_OPEN_TAG'] = 'Kurzversion öffnender PHP-Tags';
         $this->language['OUTPUT_BUFFERING'] = 'Output Buffering';
         $this->language['XSLT_PROCESSOR'] = 'XSLT-Prozessor';
         $this->language['EXTENSION_HASH'] = 'PHP Bibliothek: Hash';
