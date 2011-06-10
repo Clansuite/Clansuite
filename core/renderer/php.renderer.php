@@ -56,13 +56,13 @@ class Clansuite_Renderer_Php extends Clansuite_Renderer_Base
     private $data = array();
 
     /**
-     * @param string $filename
-     * @param string $directory
-     * @return Content of php template
+     * Executes the template rendering and returns the result.
      *
-     * @todo
+     * @param string $template Template Filename
+     * @param mixed $data Additional data to process
+     * @return string
      */
-    public function fetch($filename = null, $directory = null)
+    public function fetch($filename = null, $data = null)
     {
         $file = '';
 
