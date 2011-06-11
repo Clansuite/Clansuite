@@ -76,7 +76,9 @@ class Clansuite_Preprocessor
         # directory
         $directory = '.';
 
-        foreach(new DirectoryIterator($directory) as $phpfile)
+        $iterator = new DirectoryIterator($directory);
+
+        foreach($iterator as $phpfile)
         {
             # no dots, no dirs, not this file and not the target file
             if(!$phpfile->isDot() && ! $phpfile->isDir() &&
