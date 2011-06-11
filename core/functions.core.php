@@ -680,21 +680,15 @@ class Clansuite_Functions
      * This determines prefixes for binary multiples according to IEC 60027-2,
      * Second edition, 2000-11, Letter symbols to be used in electrical technology - Part 2: Telecommunications and electronics.
      *
-     * @author Mike Cochrane
-     * @param $size bytes
+     * @author Robert Eisele
+     * @param $bytes bytes
      * @return string
      */
-    public static function getsize($size)
+    public static function getsize($bytes)
     {
-        $si = array('B', 'KB', 'MB', 'GB', 'TB'); #  'PB', 'EB', 'ZB', 'YB');
-        $remainder = $i = 0;
-        while($size >= 1024 && $i < 8)
-        {
-            $remainder = (($size & 0x3ff) + $remainder) / 1024;
-            $size = $size >> 10;
-            $i++;
-        }
-        return round($size + $remainder, 2) . ' ' . $si[$i];
+        static $s = array('B', 'KB', 'MB', 'GB', 'TB'); #  'PB', 'EB', 'ZB', 'YB');
+        $e = (int)(log($byte) / (M_LN2 * 10));
+        return sprintf('%.2f' . $s[$e], $byte / pow(1024, $e));
     }
 
     /**
