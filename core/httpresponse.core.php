@@ -23,8 +23,8 @@
     *    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
     *
     * @license    GNU/GPL v2 or (at your option) any later version, see "/doc/LICENSE".
-    * @author     Jens-André Koch <vain@clansuite.com>
-    * @copyright  Copyleft: All rights reserved. Jens-André Koch (2005 - onwards)
+    * @author     Jens-AndrÃ© Koch <vain@clansuite.com>
+    * @copyright  Copyleft: All rights reserved. Jens-AndrÃ© Koch (2005 - onwards)
     * @link       http://www.clansuite.com
     *
     * @version    SVN: $Id$
@@ -210,13 +210,6 @@ class Clansuite_HttpResponse implements Clansuite_Response_Interface
                 header($name . ': ' . $value, false);
             }
         }
-
-        // unheroic approach to silence all html validators by fixing the ampersand problem ( turns & to &amp;)
-        // exclude javascript && logical operator
-        // @todo find preg_match for & replacing that does not grab && AND remove double str_replace
-        #self::$body = str_replace('&&','CS+AND+CS', self::$body);
-        #self::$body = preg_replace('/&(?![#]?[a-z0-9]{1,7};)/i', '&amp;$1', self::$body);
-        #self::$body = str_replace('CS+AND+CS','&&', self::$body);
 
         # make it possible to attach HTML content to the body directly before flushing the response
         Clansuite_CMS::triggerEvent('onBeforeResponse', array('body' => self::$body));
