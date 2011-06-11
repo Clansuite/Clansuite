@@ -1,16 +1,9 @@
-## C  L  A  N  S  U  I  T  E - just an eSports CMS
+# Clansuite - just an eSports CMS
 
 Clansuite is a Free Content Management System especially for Clans and eSports Teams.
-
 Based on PHP5, Doctrine2, Smarty3, Ajax. - Easy, comfortable, fast, flexible. 
 
-### Project
-
-* [clansuite.com](http://clansuite.com/)
-
-* [Bugtracker](http://trac.clansuite.com)
-
-* [Forum](http://forum.clansuite.com/)
+[clansuite.com](http://clansuite.com/) - [Bugtracker](http://trac.clansuite.com) - [Forum](http://forum.clansuite.com/)
 
 ## What is it?
 
@@ -21,26 +14,23 @@ processes and information on the web.
 
 Because of it's modular design approach, it could be used by everyone demanding a
 feature-rich and easy to maintain content management system.
-
 It's even suitable for "esport" and "real-life" sports teams, associations,
 personal web pages, freelancers or to create the business website for your company.
 
 Clansuite is written in PHP and requires version 5.3+.
 
-You can find more information about Clansuite and the latest sources on the official website
-http://clansuite.com/.
-
+You can find more information about Clansuite on the official website http://clansuite.com/.
 
 ## Documentation
 
 Documentation is available in ASCIIDOC format in the /docs/manuals directory.
 In particular, open any of the asciidoc files (*.asc) to see the clansuite manual.
-The [Documentation](http://docs.clansuite.com) is available on our website.
 
+The [Documentation](http://docs.clansuite.com) is also available on our website.
 
 ## Authors 
 
-Clansuite is maintained by Jens-André Koch <jakoch[at]web.de>.
+Clansuite is maintained by Jens-Andre Koch <jakoch[at]web.de>.
 
 Clansuite is written and developed by the Clansuite Development Team.
 This software consists of voluntary contributions made by many individuals.
@@ -67,14 +57,13 @@ Clansuite is licensed under
 
 Clansuite's Documentation is licensed under the "GNU Free Documentation License".
 
-
 ## Bugs
 
 If you find any bugs, please do one of the following things:
 
 * visit the [support-forum](http://forum.clansuite.com/) to report them
 * submit them to the [bugtracker](http://trac.clansuite.com/)
-* or mail them on the developer-mailinglist.
+* or mail them on the [developer-mailinglist](clansuite-dev@gna.org).
 
 More information can be found on the official website.
 
@@ -84,5 +73,5 @@ Thanks for using Clansuite!
 
 Best Regards,
 
-Jens-André Koch
+Jens-Andre Koch
 Clansuite Maintainer
