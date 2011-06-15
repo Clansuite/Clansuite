@@ -146,13 +146,13 @@ class Clansuite_CMS
 
         # magic_quotes_gpc off 
         # @todo remove cleanGlobals from httprequest
-        if (true === (bool) ini_get('magic_quotes_gpc'))
+         if(ini_get('magic_quotes_gpc') == '1' or strtolower(ini_get('magic_quotes_gpc')) == 'on')
         {
             exit('PHP Setting <i>magic_quotes_gpc</i> must be Off.');
         }
         
         # register globals off
-        if(true ===  (bool) ini_get('register_globals'))
+        if(ini_get('register_globals') == '1' or strtolower(ini_get('register_globals')) == 'on')
         {
             exit('PHP Setting <i>register_globals</i> must be Off.');
         }
