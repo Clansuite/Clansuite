@@ -1,0 +1,66 @@
+/* CSS for Clansuite jQuery Tabs */
+@media screen
+{
+    /** .tabs {overflow:hidden; margin-left:1em} **/
+    
+    .tabs ul {
+        overflow:hidden;
+        margin:0;
+        padding:0;        
+        list-style: none;
+        height: 25px; /* height of tabs */
+        border-bottom: 1px solid #999999;       
+        width: 100%;       
+    }
+
+    .tabs .content {
+        background: #fff;
+    }
+
+    .tabs ul li {
+        float: left;
+        margin: 0 1px -1px; /* move item down 1px */
+        padding: 0;
+        height: 24px; /* heigth of tab - 1px */
+        line-height: 24px; /* height of tab = vertically align for text */
+        border: 1px solid #999999;       
+        overflow: hidden;
+        position: relative;
+        background: #e0e0e0;
+        -moz-border-radius-topleft: 3px;
+        -moz-border-radius-topright: 3px;
+    }
+
+    .tabs ul li a {
+        text-decoration: none;
+        color: #666666;
+        display: block;
+        font-size: 1.2em;
+        padding: 0 20px;
+        border: 1px solid #ffffff; /* bevel look (white border inside tabbox) */
+        outline: none;
+        -moz-border-radius-topleft: 3px;
+        -moz-border-radius-topright: 3px;
+    }
+
+    .tabs ul li a:focus,.tabs ul li a:hover,.tabs ul li a:active {
+        background:#cccccc;
+        color:#666666;
+        border-bottom: 1px solid #eeeeee;
+    }
+
+    .tabs ul li.current a,.tabs ul li.current a:focus,.tabs ul li.current a:hover,.tabs ul li.current a:active {
+        color:#444444;
+        background:#bbbbbb;
+        border-color:#eeeeee;
+    }
+}
+
+.tabs .current-info {
+    color:red;
+}
+
+.accessibletabsanchor {
+    position:absolute;
+    left:-999em;
+}
