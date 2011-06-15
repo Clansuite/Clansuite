@@ -95,7 +95,6 @@ class Clansuite_Config_YAML
      *
      * @param   string  The filename
      * @return  array | boolean false
-     * @todo use file_put_contents()
      * @todo fix this return true/false thingy
      */
     public static function writeConfig($filename, array $array)
