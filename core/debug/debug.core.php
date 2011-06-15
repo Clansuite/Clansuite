@@ -65,7 +65,9 @@ class Clansuite_Debug
             $var = func_get_args();
         }
 
-        $trace = array_shift((debug_backtrace()));
+        $backtrace_array = array();
+        $backtrace_array = debug_backtrace();
+        $trace = array_shift($backtrace_array);
         $file = file($trace['file']);
 
         echo '<pre>';
@@ -73,12 +75,12 @@ class Clansuite_Debug
         echo "<div style='background: #f5f5f5; padding: 0.2em 0em;'>".htmlspecialchars($file[$trace['line']-1])."</div>\r\n";
         echo '<b>Type</b>: '.gettype($var)."\r\n"; # uhhh.. gettype is slow like hell
 
-        if (is_string($var))
+        if (is_string($var) === true)
         {
             echo '<b>Length</b>: '.mb_strlen($var)."\r\n";
         }
 
-        if (is_array($var))
+        if (is_array($var) === true)
         {
             echo '<b>Length</b>: '.count($var)."\r\n";
         }
