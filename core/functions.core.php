@@ -501,7 +501,7 @@ class Clansuite_Functions
 
     /**
      * Remaps multi-dim array (k1=>v1, k2=>v2, k(n) => v(n)) to the values of key1=>key2 (v1 => v2).
-     * The array might have several keys, so you might map value of key2 to value of key 5 ;)
+     * The array might have several keys, so you might map value of key2 to value of key5 ;)
      * Simple, but impressive!
      *
      * @param type $array
@@ -687,8 +687,8 @@ class Clansuite_Functions
     public static function getsize($bytes)
     {
         static $s = array('B', 'KB', 'MB', 'GB', 'TB'); #  'PB', 'EB', 'ZB', 'YB');
-        $e = (int)(log($byte) / (M_LN2 * 10));
-        return sprintf('%.2f' . $s[$e], $byte / pow(1024, $e));
+        $e = (int)(log($bytes) / (M_LN2 * 10));
+        return sprintf('%.2f' . $s[$e], $bytes / pow(1024, $e));
     }
 
     /**
@@ -701,7 +701,9 @@ class Clansuite_Functions
      */
     public static function vname($var, $scope = false, $prefix = 'unique', $suffix = 'value')
     {
-        if($scope)
+        $values = '';
+        
+        if($scope === true)
         {
             $values = $scope;
         }
@@ -750,14 +752,14 @@ class Clansuite_Functions
      * @param $chmod
      * @param $recursive
      */
-    function chmod($path = '', $chmod = '755', $recursive = 0 )
+    function chmod($path = '', $chmod = '755', $recursive = false )
     {
-        if(is_dir($path) == false)
+        if(is_dir($path) === false)
         {
             $file_mode = '0' . $chmod;
             $file_mode = octdec($file_mode);
 
-            if(chmod($path, $file_mode) == false)
+            if(chmod($path, $file_mode) === false)
             {
                 return false;
             }
@@ -767,12 +769,12 @@ class Clansuite_Functions
             $dir_mode_r = '0' . $chmod;
             $dir_mode_r = octdec($dir_mode_r);
 
-            if(chmod($path, $dir_mode_r) == false)
+            if(chmod($path, $dir_mode_r) === false)
             {
                 return false;
             }
 
-            if($recursive == true)
+            if($recursive === false)
             {
                 $dh = opendir($path);
                 while($file = readdir($dh))
@@ -784,14 +786,14 @@ class Clansuite_Functions
                         {
                             $mode = '0' . $chmod;
                             $mode = octdec($mode);
-                            if(chmod($fullpath, $mode) == false)
+                            if(chmod($fullpath, $mode) === false)
                             {
                                 return false;
                             }
                         }
                         else
                         {
-                            if($this->chmod($fullpath, $chmod, true) == false)
+                            if($this->chmod($fullpath, $chmod, true) === false)
                             {
                                 return false;
                             }
@@ -824,7 +826,11 @@ class Clansuite_Functions
      */
     function dir_copy($source, $destination, $overwrite = true )
     {
-        if($handle = opendir($source))
+        $folder_path = '';
+
+        $handle = opendir($source);
+
+        if($handle === true)
         {
             while(false !== ( $file = readdir($handle)))
             {
@@ -868,9 +874,9 @@ class Clansuite_Functions
                         }
                         ini_set('error_reporting', $old);
                     }
-                    elseif(is_dir($source_path))
+                    elseif(is_dir($source_path) === true)
                     {
-                        if(is_dir($target_path) == false)
+                        if(is_dir($target_path) === false)
                         {
                             if(@mkdir($target_path, fileperms($source_path)) == false
                                 );
@@ -897,7 +903,7 @@ class Clansuite_Functions
             $directory = mb_substr($directory, 0, -1);
         }
 
-        if(is_dir($directory) == false)
+        if(is_dir($directory) === false)
         {
             return false;
         }
@@ -913,7 +919,7 @@ class Clansuite_Functions
                     $path = $directory . '/' . $item;
 
                     # delete dir
-                    if(is_dir($path))
+                    if(is_dir($path) === true)
                     {
                         # remove all subdirectries via recursive call
                         self::delete_dir_content($path, true);
@@ -970,7 +976,7 @@ class Clansuite_Functions
         }
 
         # calling the loaded function
-        return UTF8_to_HTML($utf8, $encodeTags);
+        return self::UTF8_to_HTML($utf8, $encodeTags);
     }
 
     /**
@@ -993,7 +999,7 @@ class Clansuite_Functions
         $filename = ROOT_CORE . 'functions' . DS . $method . '.function.php';
 
         # check if name is valid
-        if(is_file($filename) === true and is_readable($filename))
+        if(is_file($filename) === true and is_readable($filename) === true)
         {
             # dynamically include the command
             include_once $filename;
@@ -1030,7 +1036,7 @@ class Clansuite_Functions
         $filename = ROOT_CORE . 'functions' . DS . $method . '.function.php';
 
         # check if name is valid
-        if(is_file($filename) === true and is_readable($filename))
+        if(is_file($filename) === true and is_readable($filename) === true)
         {
             # dynamically include the command
             include_once $filename;

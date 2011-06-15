@@ -74,6 +74,8 @@ class Clansuite_Staging
      */
     public static function getFilename()
     {
+        $filename = '';
+
         switch($_SERVER['SERVER_NAME'])
         {
             # development configuration

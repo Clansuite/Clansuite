@@ -223,7 +223,7 @@ class Clansuite_HttpResponse implements Clansuite_Response_Interface
             Clansuite_ResponseEncode::end_outputbuffering();
 
             # send response and do some more php processing afterwards
-            if(is_callable('fastcgi_finish_request'))
+            if(is_callable('fastcgi_finish_request') === true)
             {
                 fastcgi_finish_request();
             }

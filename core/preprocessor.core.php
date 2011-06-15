@@ -36,9 +36,6 @@ if(defined('IN_CS') === false)
     die('Clansuite not loaded. Direct Access forbidden.');
 }
 
-#clansuite_preprocessor::build_monolith();
-#clansuite_preprocessor::empower_monolith();
-
 /**
  * Clansuite Preprocesser
  *
@@ -46,8 +43,7 @@ if(defined('IN_CS') === false)
  * Purpose: Assembles all Core files into one monolithic file.
  * Performance Strategy : Include Tuning. Merge Files, for lower number of includes.
  *
- * @todo detect dependencies
- * either with get_required_files() or extension inclued()
+ * @todo detect dependencies, either with get_required_files() or extension inclued()
  *
  * 2) APC Compile Files
  */
@@ -55,6 +51,9 @@ class Clansuite_Preprocessor
 {
     protected $monolith_filename = 'clansuite_monolith.php';
 
+    /**
+     * Wraps php tags around the content of the monolith
+     */
     public static function empower_monolith()
     {
         $content = '<?php ' . file_get_contents(self::$monolith_filename) . '?>';
@@ -81,8 +80,8 @@ class Clansuite_Preprocessor
         foreach($iterator as $phpfile)
         {
             # no dots, no dirs, not this file and not the target file
-            if(!$phpfile->isDot() && ! $phpfile->isDir() &&
-                    $phpfile->getFilename() != basename($_SERVER['PHP_SELF']) &&
+            if($phpfile->isDot() === false and $phpfile->isDir() === false and
+                    $phpfile->getFilename() != basename($_SERVER['PHP_SELF']) and
                     $phpfile->getFilename() != self::$monolith_file)
             {
                 echo 'Processing: ' . $phpfile . '<br>';
@@ -126,17 +125,20 @@ class Clansuite_Preprocessor
         foreach($tokens as $token)
         {
             # if token is a string append to sourcecode
-            if(is_string($token))
+            if(is_string($token) === true)
             {
                 $stripped_sourcecode .= $token;
             }
             else
             {
+                $token_element = '';
+                $text = '';
+
                 # identify elements
                 list($token_element, $text) = $token;
 
                 # filter out comments
-                if($token_element != T_COMMENT && $token_element != T_DOC_COMMENT)
+                if($token_element != T_COMMENT and $token_element != T_DOC_COMMENT)
                 {
                     # append only, if not comment or doc_comment
                     $stripped_sourcecode .= $text;
