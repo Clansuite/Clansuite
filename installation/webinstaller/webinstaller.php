@@ -140,9 +140,9 @@ class WebInstaller
         /* Make sure we can write to the current working directory */
         if(!Platform::isDirectoryWritable())
         {
-            render('results', array('failure' => 'Local working directory' . dirname(__FILE__) .
+            render('results', array('failure' => 'Local working directory' . __DIR__ .
                 ' is not writeable!',
-                'fix' => 'ftp> chmod 777 ' . basename(dirname(__FILE__))));
+                'fix' => 'ftp> chmod 777 ' . basename(__DIR__)));
             exit;
         }
 
@@ -191,7 +191,7 @@ class WebInstaller
                     $extractor = new $method;
                     if($extractor->isSupported())
                     {
-                        $archiveName = dirname(__FILE__) . '/' .
+                        $archiveName = __DIR__ . '/' .
                                 $archiveBaseName . '.' . $extractor->getSupportedExtension();
                         if(is_file($archiveName))
                         {
@@ -228,7 +228,7 @@ class WebInstaller
                                     /**
                                      * Set the permissions in the clansuite dir
                                      */
-                                    @chmod(dirname(__FILE__) . '/clansuite', 0777);
+                                    @chmod(__DIR__ . '/clansuite', 0777);
                                 }
                             }
                             else
@@ -289,7 +289,7 @@ class WebInstaller
                     if($downloader->isSupported())
                     {
                         global $archiveBaseName;
-                        $archiveName = dirname(__FILE__) . '/' . $archiveBaseName . '.' . $extension;
+                        $archiveName = __DIR__ . '/' . $archiveBaseName . '.' . $extension;
                         /* Assemble the downlod URL */
                         $url = $this->getDownloadUrl($version, $extension, $downloader);
                         $results = $downloader->download($url, $archiveName);
@@ -336,7 +336,7 @@ class WebInstaller
                     render('results', array('failure' => "Folder $folderName has invalid characters. Can only change the permissions of folders in the current working directory."));
                     exit;
                 }
-                $folderName = dirname(__FILE__) . DIRECTORY_SEPARATOR . $folderName;
+                $folderName = __DIR__ . DIRECTORY_SEPARATOR . $folderName;
                 if(!is_file($folderName))
                 {
                     render('results', array('failure' => "Folder $folderName does not exist!"));
@@ -381,14 +381,14 @@ class WebInstaller
                     render('results', array('failure' => "Folder name $folderName has invalid characters. Can only rename within the current working directory."));
                     exit;
                 }
-                $folderName = dirname(__FILE__) . '/' . $folderName;
+                $folderName = __DIR__ . '/' . $folderName;
                 $oldFolderName = $this->findclansuiteFolder();
-                if(empty($oldFolderName) or ! is_file(dirname(__FILE__) . DIRECTORY_SEPARATOR . $oldFolderName))
+                if(empty($oldFolderName) or ! is_file(__DIR__ . DIRECTORY_SEPARATOR . $oldFolderName))
                 {
                     render('results', array('failure' => "No Clansuite folder found in  the current working directory."));
                     exit;
                 }
-                $oldFolderName = dirname(__FILE__) . DIRECTORY_SEPARATOR . $oldFolderName;
+                $oldFolderName = __DIR__ . DIRECTORY_SEPARATOR . $oldFolderName;
                 $success = @rename($oldFolderName, $folderName);
                 if(!$success)
                 {
@@ -454,7 +454,7 @@ class WebInstaller
         foreach($this->_extractMethods as $method)
         {
             $archiveName = $archiveBaseName . '.' . $method->getSupportedExtension();
-            $archiveExists = is_file(dirname(__FILE__) . '/' . $archiveName);
+            $archiveExists = is_file(__DIR__ . '/' . $archiveName);
             $isSupported = $method->isSupported();
             $extractMethods[] = array('isSupported' => $isSupported,
                 'name' => $method->getName(),
@@ -494,7 +494,7 @@ class WebInstaller
     function findClansuiteFolder()
     {
         /* Search in the current folder for a clansuite folder */
-        $basePath = dirname(__FILE__) . '/';
+        $basePath = __DIR__ . '/';
 
         # installtion in "clansuite/" directory
         if(is_file($basePath . 'clansuite') and
@@ -566,7 +566,7 @@ class WebInstaller
     {
         global $versionCheckUrl, $availableVersions;
 
-        $tempFile = dirname(__FILE__) . '/availableVersions.txt';
+        $tempFile = __DIR__ . '/availableVersions.txt';
         $currentVersions = array();
         /*
          * Fetch the version information from a remote server and if we already have it,
@@ -713,7 +713,7 @@ class Platform
 
     function isDirectoryWritable()
     {
-        return is_writable(dirname(__FILE__));
+        return is_writable(__DIR__);
     }
 
     function extendTimeLimit()
@@ -1723,11 +1723,11 @@ endforeach;
 
 <?php
 # pathname without "clansuite/"
-$pathname = dirname(__FILE__) . DIRECTORY_SEPARATOR;
+$pathname = __DIR__ . DIRECTORY_SEPARATOR;
 $pathname = str_replace("\\", "/", $pathname);
 
 # pathname with "clansuite/"
-$with_pathname = dirname(__FILE__) . DIRECTORY_SEPARATOR . 'clansuite' . DIRECTORY_SEPARATOR;
+$with_pathname = __DIR__ . DIRECTORY_SEPARATOR . 'clansuite' . DIRECTORY_SEPARATOR;
 $with_pathname = str_replace("\\", "/", $with_pathname);
 ?>
 

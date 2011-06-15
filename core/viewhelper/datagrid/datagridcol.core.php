@@ -45,7 +45,7 @@ if (false == class_exists('Clansuite_Datagrid_Base', false))
 # conditional include of the parent class
 if (false ==  class_exists('Clansuite_HTML', false))
 {
-    include dirname(dirname(__FILE__)) . '/html.core.php';
+    include dirname(__DIR__) . '/html.core.php';
 }
 
 /**
