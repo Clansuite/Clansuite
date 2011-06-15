@@ -45,25 +45,7 @@
             </label>
         </td>
     </tr>
-    <tr>
-        <td class="cell2" width="15%">
-            {t}GZip Compression{/t}
-        </td>
-        <td class="cell1" style="padding: 3px">
-            <small>{t}When you turn this setting on, your pages are served compressed to your clients - making your site quicker:{/t}</small><br />
-            
-            <label for="compression_1">
-                <input id="development_mode_1" type="radio" value="1" name="config[error][compression]" {if isset($config.error.compression) && ($config.error.compression == 1)}checked="checked"{/if} />
-                {t}yes{/t}
-            </label>
-            
-            <label for="compression_0">
-                <input id="development_mode_0" type="radio" value="0" name="config[error][compression]" {if empty($config.error.compression) or ($config.error.compression == 0)}checked="checked"{/if} />
-                {t}no{/t}
-            </label>
-        </td>
-    </tr>
-
+    
     {* /---------------------------------------------------
        |
        |     Tab: Developers >> Error Reporting
