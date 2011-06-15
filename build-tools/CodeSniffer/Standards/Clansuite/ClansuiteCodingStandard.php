@@ -50,6 +50,7 @@ class PHP_CodeSniffer_Standards_Clansuite_ClansuiteCodingStandard extends PHP_Co
               # Formatting
                      # Ensures there is a single space after cast tokens.
                      'Generic/Sniffs/Formatting/SpaceAfterCastSniff.php',
+                     # Makes sure that any use of Double Quotes ("") are warranted.
                      'Squiz/Sniffs/Strings/DoubleQuoteUsageSniff.php',
 
               # Functions - Braces
@@ -65,6 +66,7 @@ class PHP_CodeSniffer_Standards_Clansuite_ClansuiteCodingStandard extends PHP_Co
 
                      # One Line - one statement
                      'Generic/Sniffs/Formatting/DisallowMultipleStatementsSniff.php',
+                     'Squiz_Sniffs_PHP_InnerFunctionsSniff',
 
                      # CA/PMD: Detects unnecessary overriden methods that simply call their parent.
                      'Generic/Sniffs/CodeAnalysis/UselessOverridingMethodSniff.php',
@@ -79,8 +81,10 @@ class PHP_CodeSniffer_Standards_Clansuite_ClansuiteCodingStandard extends PHP_Co
                      'Squiz/Sniffs/PHP/EvalSniff.php',
 
               # Classes
+                     'Squiz/Sniffs/Classes/ClassDeclarationSniff.php',
                      'Squiz/Sniffs/Classes/LowercaseClassKeywordsSniff.php',
                      'Squiz/Sniffs/Classes/SelfMemberReferenceSniff.php',
+                     'Squiz/Sniffs/Classes/DuplicatePropertySniff.php',
 
               # Constructor
 
@@ -102,6 +106,8 @@ class PHP_CodeSniffer_Standards_Clansuite_ClansuiteCodingStandard extends PHP_Co
                      # Detects for-loops that use a function call in the test expression.
                      'Generic/Sniffs/CodeAnalysis/ForLoopWithTestFunctionCallSniff.php',
 
+                     'Generic/Sniffs/CodeAnalysis/UnconditionalIfStatementSniff.php',
+
               # WhiteSpace
                      # No Tabs. Just Spaces.
                      'Generic/Sniffs/WhiteSpace/DisallowTabIndentSniff.php',
@@ -109,6 +115,9 @@ class PHP_CodeSniffer_Standards_Clansuite_ClansuiteCodingStandard extends PHP_Co
                      'Generic/Sniffs/WhiteSpace/ScopeIndentSniff.php',
                      # Alignment of Scope Closing Braces
                      'PEAR/Sniffs/WhiteSpace/ScopeClosingBraceSniff.php',
+                     # Whitespace around typecasts
+                     'Generic/Sniffs/Formatting/SpaceAfterCastSniff.php',
+                     'Squiz/Sniffs/WhiteSpace/CastSpacingSniff.php',
                      # No Space before semicolon
                      'Squiz/Sniffs/WhiteSpace/SemicolonSpacingSniff.php',
                      # Spaces before+after Scope Keywords
@@ -116,13 +125,15 @@ class PHP_CodeSniffer_Standards_Clansuite_ClansuiteCodingStandard extends PHP_Co
                      # Checks that no whitespace proceeds the first content of the file,
                      # exists after the last content of the file, resides after content on any line, or are two empty lines in functions.
                      'Squiz/Sniffs/WhiteSpace/SuperfluousWhitespaceSniff.php',
+                     # Object Operator indented 4 spaces on new line
+                     'PEAR/Sniffs/WhiteSpace/ObjectOperatorIndentSniff.php',
 
               # ControlStructures
-                     //'Generic/Sniffs/ControlStructures/InlineControlStructureSniff.php',
-                     //'Squiz/Sniffs/ControlStructures/InlineIfDeclarationSniff.php',
-                     //'Squiz/Sniffs/ControlStructures/ControlSignatureSniff.php',
-                     //'Squiz/Sniffs/ControlStructures/ForEachLoopDeclarationSniff.php',
-                     //'Squiz/Sniffs/ControlStructures/SwitchDeclarationSniff.php',
+                     'Generic/Sniffs/ControlStructures/InlineControlStructureSniff.php',
+                     'Squiz/Sniffs/ControlStructures/InlineIfDeclarationSniff.php',
+                     'Squiz/Sniffs/ControlStructures/ControlSignatureSniff.php',
+                     'Squiz/Sniffs/ControlStructures/ForEachLoopDeclarationSniff.php',
+                     'Squiz/Sniffs/ControlStructures/SwitchDeclarationSniff.php',
 
               # VersionControl -> SVN
                      # Tests that the correct Subversion properties are set.
@@ -143,7 +154,7 @@ class PHP_CodeSniffer_Standards_Clansuite_ClansuiteCodingStandard extends PHP_Co
                     'PEAR/Sniffs/NamingConventions/ValidClassNameSniff.php',
                     # Ensures all control structure keywords are lowercase.
                     'Squiz/Sniffs/ControlStructures/LowercaseDeclarationSniff.php',
-                    # Checks that all uses of true, false and null are lowerrcase.
+                    # Checks that all uses of "true", "false" and "null" are lowercase.
                     'Generic/Sniffs/PHP/LowerCaseConstantSniff.php',
 
               # Operators
@@ -151,9 +162,12 @@ class PHP_CodeSniffer_Standards_Clansuite_ClansuiteCodingStandard extends PHP_Co
                     # enforce the use of "=== false" instead of "!"
                     'Squiz/Sniffs/Operators/ComparisonOperatorUsageSniff.php',
 
+                    # enforce the use of ++ operators when possible.
+                    'Squiz/Sniffs/Operators/IncrementDecrementUsageSniff.php',
+
                     # Discourages the use of '&&' '||' '^' as representation for logical operators.
                     # Ensures that 'and' 'or' 'xor' are used as logical operators.
-                    # dirname(__FILE__) . '/Sniffs/Operators/ValidLogicalOperatorsSniff.php',
+                    dirname(__FILE__) . '/Sniffs/Operators/ValidLogicalOperatorsSniff.php',
 
               # Comments
                     #'Squiz/Sniffs/Commenting/ClassCommentSniff.php',
