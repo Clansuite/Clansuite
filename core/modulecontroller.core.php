@@ -146,16 +146,16 @@ abstract class Clansuite_Module_Controller
 
         $module_models_path = realpath(ROOT_MOD . mb_strtolower($modulename) . DS . 'model') . DS;
 
-        if(is_dir($module_models_path))
+        if(is_dir($module_models_path) === true)
         {
            $entity = $module_models_path . 'entities' . DS . ucfirst($modulename) . '.php';
-           if(is_file($entity))
+           if(is_file($entity) === true)
            {
                include_once $entity;
            }
 
            $repos = $module_models_path . 'repositories' . DS . ucfirst($modulename) . 'Repository.php';
-           if(is_file($repos))
+           if(is_file($repos) === true)
            {
                include_once $repos;
            }
@@ -214,7 +214,7 @@ abstract class Clansuite_Module_Controller
         $value = Clansuite_Functions::array_find_element_by_key($keyname, self::$moduleconfig);
 
         # return value or default
-        if(empty($value) == false)
+        if(empty($value) === false)
         {
             return $value;
         }
@@ -253,20 +253,21 @@ abstract class Clansuite_Module_Controller
     }
 
     /**
-     * Get view
+     * Get view returns the render engine
      *
+     * @param string $renderEngineName Sets the render engine, like smarty, phptal.
      * @return Returns the View Object (Rendering Engine)
      */
     public function getView($renderEngineName = null)
     {
         # set the renderengine name
-        if(isset($renderEngineName))
+        if(isset($renderEngineName) === true)
         {
             $this->setRenderEngine($renderEngineName);
         }
 
         # if already set, get the rendering engine from the view variable
-        if (isset($this->view))
+        if (isset($this->view) === true)
         {
             return $this->view;
         }
@@ -305,7 +306,7 @@ abstract class Clansuite_Module_Controller
         }
 
         # use smarty as default, if renderEngine is not set and it's not an ajax request
-        if(empty($this->renderEngineName))
+        if(empty($this->renderEngineName) === true)
         {
             $this->setRenderEngine('smarty');
         }
@@ -348,7 +349,7 @@ abstract class Clansuite_Module_Controller
         $allowed_extensions = array('html','php','tpl');
 
         # check if extension is one of the allowed ones
-        if (false == in_array($template_extension, $allowed_extensions))
+        if (false === in_array($template_extension, $allowed_extensions))
         {
             $message = 'Template Extension invalid <strong>'.$template_extension.'</strong> on <strong>'.$template.'</strong>';
             trigger_error($message, E_USER_NOTICE);
@@ -363,7 +364,7 @@ abstract class Clansuite_Module_Controller
     public function getTemplateName()
     {
         # if the templateName was not set manually, we construct it from module/action infos
-        if(empty($this->template))
+        if(empty($this->template) === true)
         {
             $this->constructTemplateName();
         }
@@ -397,7 +398,7 @@ abstract class Clansuite_Module_Controller
      */
     public function getRenderMode()
     {
-        if(empty($this->getView()->renderMode))
+        if(empty($this->getView()->renderMode) === true)
         {
             $this->getView()->renderMode = 'LAYOUT';
         }
@@ -420,14 +421,14 @@ abstract class Clansuite_Module_Controller
     public function display(array $templates = null)
     {
         # set layout and content template by parameter array
-        if(is_array($templates))
+        if(is_array($templates) === true)
         {
-            if(isset($templates['layout_template']))
+            if(isset($templates['layout_template']) === true)
             {
                 $this->setLayoutTemplate($templates['layout_template']);
             }
 
-            if(isset($templates['content_template']))
+            if(isset($templates['content_template']) === true)
             {
                 $this->setTemplate($templates['content_template']);
             }
