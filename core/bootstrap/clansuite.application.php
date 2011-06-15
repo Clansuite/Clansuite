@@ -139,16 +139,23 @@ class Clansuite_CMS
            empty(self::$config['database']['name']) === true
            )
         {
-            $uri = sprintf('http://%s%s', $_SERVER['SERVER_NAME'], dirname($_SERVER['PHP_SELF']) . '/installation/index.php');
+            $uri = sprintf('http://%s%s', $_SERVER['SERVER_NAME'], '/installation/index.php');
             exit('<b><font color="#FF0000">[Clansuite Error] Database misses the Session Table!</font></b> <br />
                  Please use <a href="' . $uri . '">Clansuite Installation</a> to perform a proper installation.');
         }
 
-        /* @todo set magic_quotes_gpc off AND remove cleanGlobals from httprequest
+        # magic_quotes_gpc off 
+        # @todo remove cleanGlobals from httprequest
         if (true === (bool) ini_get('magic_quotes_gpc'))
         {
             exit('PHP Setting <i>magic_quotes_gpc</i> must be Off.');
-        }*/
+        }
+        
+        # register globals off
+        if(true ===  (bool) ini_get('register_globals'))
+        {
+            exit('PHP Setting <i>register_globals</i> must be Off.');
+        }
     }
 
     /**
@@ -217,6 +224,10 @@ class Clansuite_CMS
         ini_set('arg_separator.input', '&amp;');
         ini_set('arg_separator.output', '&amp;');
         self::setMemoryLimit('32');
+        if(false === gc_enabled())
+        {
+            gc_enable();
+        }
     }
 
     /**
