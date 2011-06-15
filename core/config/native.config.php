@@ -40,7 +40,7 @@ if(defined('IN_CS') === false)
 class Clansuite_Config_Native
 {
     /**
-     * Read the config array from json file
+     * Read the config array from php file
      *
      * @param   string  The filename
      *
