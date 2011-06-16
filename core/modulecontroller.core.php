@@ -65,12 +65,12 @@ abstract class Clansuite_Module_Controller
     public $template = null;
 
     /**
-     * @var object The Http_Response Object
+     * @var object Clansuite_HttpResponse
      */
     public $response = null;
 
     /**
-     * @var object The Http_Request Object
+     * @var object Clansuite_HttpRequest
      */
     public $request = null;
 
@@ -366,21 +366,12 @@ abstract class Clansuite_Module_Controller
         # if the templateName was not set manually, we construct it from module/action infos
         if(empty($this->template) === true)
         {
-            $this->constructTemplateName();
+            # construct template name
+            # @todo maybe __FUNCTION__ works too
+            $template = Clansuite_TargetRoute::getActionName() . '.tpl';
+            $this->setTemplate($template);
         }
         return $this->template;
-    }
-
-    /**
-     * constructTemplateName
-     *
-     * When this method is called, the templateName was not set manually.
-     * We construct the template name with the informations we got about the module and action and assign it via setTemplate.
-     */
-    private function constructTemplateName()
-    {
-        $template = Clansuite_TargetRoute::getActionName() . '.tpl';
-        $this->setTemplate($template);
     }
 
     /**
