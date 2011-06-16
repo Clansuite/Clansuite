@@ -113,7 +113,7 @@ abstract class Clansuite_Module_Controller
      * Proxy/Convenience Getter Method for the current Repository
      *
      * @param string $entityName
-     * @return object Doctrine Repository
+     * @return Doctrine\ORM\EntityRepository
      */
     public function getModel($entityName = null)
     {
@@ -131,7 +131,7 @@ abstract class Clansuite_Module_Controller
      * @param $modulename Modulname
      * @param $recordname Recordname
      */
-    public static function initModel($modulename = null)
+    public static function initModel($modulename = null, $entity = null)
     {
         $module_models_path = '';
 
@@ -148,16 +148,24 @@ abstract class Clansuite_Module_Controller
 
         if(is_dir($module_models_path) === true)
         {
-           $entity = $module_models_path . 'entities' . DS . ucfirst($modulename) . '.php';
+           if(isset($entity)) # method parameter
+           {
+               $entity = $module_models_path . 'entities' . DS . ucfirst($entity) . '.php';
+           }
+           else # build entity filename by modulename
+           {
+               $entity = $module_models_path . 'entities' . DS . ucfirst($modulename) . '.php';
+           }
+
            if(is_file($entity) === true)
            {
-               include_once $entity;
+               include $entity;
            }
 
            $repos = $module_models_path . 'repositories' . DS . ucfirst($modulename) . 'Repository.php';
            if(is_file($repos) === true)
            {
-               include_once $repos;
+               include $repos;
            }
         }
         # else Module has no Model Data
