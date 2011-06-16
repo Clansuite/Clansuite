@@ -140,7 +140,7 @@ class Clansuite_Formelement implements Clansuite_Formelement_Interface
     }
 
     /**
-     * Returns name of this form without brackets.
+     * Returns name of this formelement without brackets.
      *
      * @return string Name of this form.
      */
@@ -207,7 +207,7 @@ class Clansuite_Formelement implements Clansuite_Formelement_Interface
      */
     public function getValue()
     {
-        if(is_array($this->value))
+        if(is_array($this->value) === true)
         {
             foreach($this->value as $key => $value)
             {
@@ -286,7 +286,7 @@ class Clansuite_Formelement implements Clansuite_Formelement_Interface
      */
     public function hasLabel()
     {
-        if(isset($this->label))
+        if(isset($this->label) === true)
         {
             return true;
         }
@@ -304,7 +304,7 @@ class Clansuite_Formelement implements Clansuite_Formelement_Interface
      */
     public function isRequired()
     {
-        if(isset($this->required))
+        if(isset($this->required) === true)
         {
             return true;
         }
@@ -404,7 +404,7 @@ class Clansuite_Formelement implements Clansuite_Formelement_Interface
      */
     public function getAttribute($attributename)
     {
-        if(isset($this->{$attributename}))
+        if(isset($this->{$attributename}) === true)
         {
             return $this->{$attributename};
         }
@@ -438,6 +438,17 @@ class Clansuite_Formelement implements Clansuite_Formelement_Interface
             }
         }
     }
+    
+   /**
+    * Setter method for Attribute
+    * 
+    * @param type $attribute Attribute name
+    * @param type $value Value 
+    */
+    public function setAttribute($attribute, $value)
+    {
+        $this->{$attribute} = $value;       
+    }
 
     /**
      * Renders an array of key=>value pairs as an HTML attributes string.
@@ -447,7 +458,7 @@ class Clansuite_Formelement implements Clansuite_Formelement_Interface
      */
     public function render_attributes(array $attributes=array())
     {
-        if(empty($attributes))
+        if(empty($attributes) === true)
         {
             return '';
         }
@@ -549,7 +560,7 @@ class Clansuite_Formelement implements Clansuite_Formelement_Interface
         #var_dump(get_class($this));
         $subclass = get_class($this);
 
-        if(method_exists($subclass, 'render'))
+        if(method_exists($subclass, 'render') === true)
         {
             return $subclass->render();
         }
@@ -595,13 +606,13 @@ class Clansuite_Formelement implements Clansuite_Formelement_Interface
         $decorator = '';
 
         # check if multiple decorators are incomming at once
-        if(is_array($decorators))
+        if(is_array($decorators) === true)
         {
             # address each one of those decorators
             foreach($decorators as $decorator)
             {
                 # and check if it is an object implementing the right interface
-                if ( $decorator instanceof Clansuite_Formelement_Decorator_Interface )
+                if ( ($decorator instanceof Clansuite_Formelement_Decorator_Interface) === true )
                 {
                     # if so, fetch this decorator objects name
                     $decoratorname = $decorator->name;
@@ -617,14 +628,14 @@ class Clansuite_Formelement implements Clansuite_Formelement_Interface
                 }
             }
         }
-        elseif(is_object($decorators)) # one element is incomming via recursion
+        elseif(is_object($decorators) === true) # one element is incomming via recursion
         {
             $decorator = $decorators;
             $decoratorname = $decorator->name;
         }
 
         # if we got a string (ignore the plural, it's a one element string, like 'fieldset')
-        if (is_string($decorators))
+        if (is_string($decorators) === true)
         {
             # turn it into an decorator object
             $decorator = $this->decoratorFactory($decorators);
@@ -725,8 +736,8 @@ class Clansuite_Formelement implements Clansuite_Formelement_Interface
 interface Clansuite_Formelement_Interface
 {
     # add/remove attributes for a formelement
-    #public function setAttribute($attribute, $value);
-    #public function getAttribute($attribute);
+    public function setAttribute($attribute, $value);
+    public function getAttribute($attribute);
 
     # initializes the attributes of the formelement
     #public function initialize();
