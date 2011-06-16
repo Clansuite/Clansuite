@@ -218,6 +218,11 @@ class Clansuite_Loader
         'Clansuite_Config_Factory'            => ROOT_CORE . 'factories/config.factory.php',
         'Clansuite_Renderer_Factory'          => ROOT_CORE . 'factories/renderer.factory.php',
         'Clansuite_Cache_Factory'             => ROOT_CORE . 'factories/cache.factory.php',
+        # /core/files
+        'Clansuite_File'                      => ROOT_CORE . 'files/file.core.php',
+        'Clansuite_Directory'                 => ROOT_CORE . 'files/file.core.php',
+        'Clansuite_Upload'                    => ROOT_CORE . 'files/upload.core.php',
+        'Clansuite_Download'                  => ROOT_CORE . 'files/download.core.php',
         # /viewhelper/
         'Clansuite_Theme'                     => ROOT_CORE . 'viewhelper/theme.core.php',
         # /viewhelper/datagrid
