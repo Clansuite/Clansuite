@@ -238,6 +238,29 @@ class Clansuite_File
     }
 }
 
+class Clansuite_FileFilterIterator extends FilterIterator
+{
+    protected $_files;
+
+    public function __construct($iterator, array $files)
+    {
+        $this->_files = $files;
+        parent::__construct($iterator);
+    }
+
+    public function accept()
+    {
+         if(in_array($this->current(), $this->_files) === true)
+         {
+             return true;
+         }
+         else
+         {
+             return false;
+         }
+    }
+}
+
 /**
  * ImagesOnly FileType Filter for the SPL FilterIterator.
  * If the directory iterator is wrapped into this filter, it will fetch only files with a certain type.
@@ -260,13 +283,13 @@ class Clansuite_ImagesOnlyFilterIterator extends FilterIterator
         {
             return false;
         }
-
+        
         # set filename and pathinfo
         $filename = $current->getFilename();
         $extension = pathinfo($filename, PATHINFO_EXTENSION);
-
-        if(isset($this->allowed_image_filetypes[$extension]))
-        {
+      
+        if(in_array($extension, $this->allowed_image_filetypes))
+        { 
             return true;
         }
         else # it's not a whitelisted extension
@@ -279,7 +302,17 @@ class Clansuite_ImagesOnlyFilterIterator extends FilterIterator
 class Clansuite_Directory
 {
     private $filtername = 'ImagesOnly';
-    private $directory;
+    private $directory = '';
+    
+    public function __construct($directory = null)
+    {
+        if($directory !== null)
+        {
+            $this->setDirectory($directory);
+        }
+        
+        return $this;
+    }
 
     /**
      * Available Filter types: image
@@ -293,6 +326,16 @@ class Clansuite_Directory
 
     public function setDirectory($directory)
     {
+        # slash fix
+        $directory = str_replace('/', DS, $directory); 
+        $directory = str_replace('\\', DS, $directory); 
+        
+        # prefix directory with ROOT for security purposes
+        if(stristr($directory, ROOT) == false)
+        {            
+            $directory = ROOT . $directory;
+        }
+        
         $this->directory = $directory;
 
         return $this;
@@ -300,32 +343,26 @@ class Clansuite_Directory
 
     public function getDirectory()
     {
-        if(empty($this->directory) == false)
-        {
+        if(empty($this->directory) === false)
+        {            
             return $this->directory;
         }
-        else
+        else # default path
         {
-            return 'uploads/images/gallery';
+            return ROOT . 'uploads/images/gallery';
         }
     }
 
-    public function getFiles($directory = null, $return_as_array = null)
+    public function getFiles($return_as_array = false)
     {
-        # set dir
-        if(empty($directory) == false)
-        {
-            $this->setDirectory($directory);
-        }
-
-        # compose the full name of class in variable and then use it
+        # compose the full name of the filter class
         $classname = 'Clansuite_' . $this->filtername . 'FilterIterator';
 
-        # cascade of a filter for a specific file type and the directory iterator
-        $iterator = new $classname(new DirectoryIterator(ROOT . $this->getDirectory()));
+        # wrap the iterator in a filter class, when looking for a specific file type, like imagesOnly'        
+        $iterator = new $classname(new DirectoryIterator($this->getDirectory()));
 
         # return objects
-        if($return_as_array === null or $return_as_array === false)
+        if($return_as_array === false)
         {
             # create new array to take the SPL FileInfo Objects
             $data = new ArrayObject();
