@@ -70,6 +70,16 @@ class Clansuite_Module_Menu_Admin extends Clansuite_Module_Controller
         $this->display();
     }
 
+    public static function directoryIterator($dir) {
+        $iterator = new RecursiveDirectoryIterator($dir);
+        foreach(new RecursiveIteratorIterator($iterator, RecursiveIteratorIterator::CHILD_FIRST) as $file) {
+            if (false == $file->isDir()) {
+                $fileinfo[] = array($file->getFilename(), $file->getSize());
+            }
+        }
+        return $fileinfo;
+    }
+    
     /**
      * Fetches all icon filenames.
      *
@@ -81,18 +91,9 @@ class Clansuite_Module_Menu_Admin extends Clansuite_Module_Controller
         $icons = array();
 
         # Get Icons from Directory
-        $dir_handler = opendir( ROOT_THEMES_CORE . 'images/icons/' );
-
-        while( false !== ($filename = readdir($dir_handler)) )
-        {
-            if (is_file($filename) && $filename != '.' && $filename != '..')
-            {
-                $icons[] = $filename;
-            }
-        }
-
-        closedir($dir_handler);
-
+        $dir = new Clansuite_Directory(ROOT_THEMES_CORE . 'images/icons/');
+        $icons = $dir->setFilter('imagesOnly')->getFiles(true);
+        
         return $icons;
     }
 
