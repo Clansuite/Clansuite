@@ -57,32 +57,48 @@ class Clansuite_Module_Languages_Admin extends Clansuite_Module_Controller
         }
     }
 
+    /**
+     * Scans a module for language strings
+     * php/tpl => module_name/languages/en_GB/module_name.po
+     *
+     * @param string $module_name Name of the module to scan for language strings.
+     */
     public static function scanModule($module_name)
     {
-        self::createLanguagesDirIfNotExistant($module_name);
+        if(DEBUG)
+        {
+            self::createLanguagesDirIfNotExistant($module_name);
+        }
 
         $gettext_extractor = new Clansuite_Gettext_Extractor();
         $gettext_extractor->multiScan(ROOT_MOD . $module_name);
 
         /**
          * All text messages of the system are in english.
-         * That means that translations are based on the english language .po file.
-         * This file is written in the locale directory en_GB for each module processed.
-         *
-         * ROOT/modules/modulname/languages/en_GB/LC_MESSAGES/modulname.po
-         * In the next step we build that filepath string from an array.
+         * Translations are based on the english language portable object file.
+         * This file is written to the locale directory en_GB for each module processed.
          */
+
+        # ROOT/modules/{modulname}/languages/en_GB/LC_MESSAGES/{modulname}.po
         $path = array();
         $path[] = ROOT_MOD . $module_name;
         $path[] = 'languages';
         $path[] = 'en_GB';
         $path[] = 'LC_MESSAGES';
         $path[] = $module_name . '.po';
+
+        # In the next step we build that filepath string from an array.
         $path = implode(DS, $path);
 
         $gettext_extractor->save( $path );
     }
 
+    /**
+     * Scans all modules for language strings
+     *
+     * @uses scanModule()
+     * @uses Clansuite_ModuleInfoController::getModuleNames()
+     */
     public static function scanAllModules()
     {
         $module_names = Clansuite_ModuleInfoController::getModuleNames();
@@ -96,17 +112,79 @@ class Clansuite_Module_Languages_Admin extends Clansuite_Module_Controller
         }
     }
 
+    /**
+     * Scans a theme for language strings
+     * 
+     * Via GET incoming 
+     *  - "type" (frontend/backend)
+     *  - "name" (themename)
+     */
+    public function action_admin_scanTheme()
+    {
+        # name is the themename
+        $theme_name = $this->request->getParameter('name', 'GET');
+
+        # with type (frontend/backend), we know also the correct folder
+        $theme_type = $this->request->getParameter('type', 'GET');
+
+        ob_start();
+        self::scanTheme($theme_name, $theme_type);
+        $scan_log_content = ob_get_contents();
+        ob_end_clean();
+
+        # display scanner log
+        $view = $this->getView();
+        $view->assign('scan_log', $scan_log_content);
+        $this->display();
+    }
+
+    public static function scanTheme($theme_name, $theme_type)
+    {
+        if(DEBUG)
+        {
+            self::createLanguagesDirIfNotExistant($theme_name);
+        }
+
+        $gettext_extractor = new Clansuite_Gettext_Extractor();
+        $gettext_extractor->multiScan(ROOT_THEME . $theme_name);
+
+        /**
+         * All text messages of the system are in english.
+         * Translations are based on the english language portable object file.
+         * This file is written to the locale directory en_GB for each module processed.
+         */
+
+        # ROOT_THEMES/{theme_type}/{theme_name}/languages/en_GB/LC_MESSAGES/{theme_name}.po
+        $path = array();
+        $path[] = ROOT_THEMES;
+        $path[] = $theme_type;
+        $path[] = $theme_name;
+        $path[] = 'languages';
+        $path[] = 'en_GB';
+        $path[] = 'LC_MESSAGES';
+        $path[] = $theme_name . '.po';
+
+        # In the next step we build that filepath string from an array.
+        $path = implode(DS, $path);
+
+        $gettext_extractor->save( $path );
+    }
+
     public function action_admin_show()
     {
         # get themes
         $themes = Clansuite_Theme::getThemeDirectories();
 
         # get modules
-        $modules = Clansuite_ModuleInfoController::getModuleNames(true);
+        #$modules = Clansuite_ModuleInfoController::getModuleNames(true);
+        $modules = Clansuite_ModuleInfoController::loadModuleInformations();
+        # pop the counter off the end
+        array_pop($modules);
 
         $view = $this->getView();
         $view->assign('themes', $themes);
         $view->assign('modules', $modules);
+        $view->assign('cores', array()); # @todo fetch core language items
         $this->display();
     }
 
@@ -146,6 +224,20 @@ class Clansuite_Module_Languages_Admin extends Clansuite_Module_Controller
     }
 
     public function action_admin_delete()
+    {
+
+    }
+
+    public function action_admin_addnewlanguage_dialog()
+    {
+        $module_name = $this->request->getParameter('modulename', 'GET');
+
+
+
+        $this->display();
+    }
+
+    public function action_admin_addnewlanguage()
     {
 
     }
