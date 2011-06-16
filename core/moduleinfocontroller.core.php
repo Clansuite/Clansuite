@@ -55,6 +55,8 @@ class Clansuite_ModuleInfoController
      */
     private static $modulesregistry  = false;
 
+    private static $l10n_sys_locales = array();
+
     /**
      * Setter for module infos
      *
@@ -120,8 +122,11 @@ class Clansuite_ModuleInfoController
      */
     public static function isACoreModule($modulename)
     {
+        # hardcoded
         static $core_modules = array( 'account', 'categories', 'controlcenter', 'doctrine', 'menu', 'modulemanager',
                                       'users', 'settings', 'systeminfo', 'thememanager', 'templatemanager');
+
+        # @todo extract from module info file if core module or not
 
         return in_array($modulename, $core_modules);
     }
@@ -199,10 +204,8 @@ class Clansuite_ModuleInfoController
 
         $modules = self::getModuleNames(true);
 
-        # loop over all modules
         foreach($modules as $module)
         {
-            # check if active
             if(true === self::isModuleActive($module))
             {
                 $activated_modules_array[$module] = self::$modulesregistry[$module];
@@ -336,10 +339,14 @@ class Clansuite_ModuleInfoController
             if(isset($config[$modulename]))
             {
                 self::$modulesinfo[$modulename]['config'] = $config[$modulename];
+
+                # properties
                 if( isset($config['properties']))
                 {
                     self::$modulesinfo[$modulename]['settings'] = $config['properties'];
                 }
+
+                # acl
                 if( isset($config['properties_acl']))
                 {
                     self::$modulesinfo[$modulename]['acl'] = $config['properties_acl'];
@@ -350,15 +357,111 @@ class Clansuite_ModuleInfoController
                 $modules[$modulename]['config'] = $config;
             }*/
 
+            # hasLanguages
+            self::$modulesinfo[$modulename]['languages'] = self::getLanguageInfosForModule($modulepath);
+
             # take some stats: increase the module counter
             self::$modulesinfo['yy_summary']['counter'] = ++$number_of_modules;
         }
 
         ksort(self::$modulesinfo);
 
-        #Clansuite_Debug::printR( self::$modulesinfo );
+        #Clansuite_Debug::printR(self::$modulesinfo);
 
         return self::$modulesinfo;
+    }
+
+    public static function getLanguageInfosForModule($modulepath)
+    {
+        $langinfo = array();
+
+        # we are looking at the languages folder a given module
+        $module_lang_dir = $modulepath . DS . 'languages';
+
+        # return, if that languages directory does not exist
+        if(false === is_dir($module_lang_dir))
+        {
+            return 'No language dir.';
+        }
+
+        # if the language definitions are not already loaded, load them
+        if(empty(self::$l10n_sys_locales))
+        {
+            # @todo do we need these definitions, consider using INTL
+            require ROOT_CORE . 'gettext' . DS . 'locale-definitions.php';
+            self::$l10n_sys_locales = $l10n_sys_locales;
+        }
+
+        
+        # preg_match('/^[a-z]{2}(_[A-Z]{2})?\./', $locale )
+        
+        $iterator = new \RecursiveIteratorIterator(
+                        new \RecursiveDirectoryIterator($module_lang_dir),
+                            \RecursiveIteratorIterator::LEAVES_ONLY);
+
+        foreach ($iterator as $file)
+        {
+            if(0 === preg_match('/.(mo|po)$/', $file->getFileName()))
+            {
+                 continue; # echo 'Skipped : '. $file->getFileName() . '<br>';
+            }
+
+            # reduce module language path to "/en_gb/LC_MESSAGES"
+            $langdir = str_replace($module_lang_dir , '', realpath($file->getPathName()));
+            # grab language dir
+            preg_match('/(.*)LC_MESSAGES/i', $langdir, $matches);
+            # unslash
+            $language = trim($matches[1], DS);
+            #Clansuite_Debug::printR($language);
+
+            # get more data about that language by its shorthand
+            if(isset(self::$l10n_sys_locales[$language]) == true)
+            {
+                #Clansuite_Debug::printR($l10n_sys_locales[$language]);
+
+                $country_www = self::$l10n_sys_locales[$language]['country-www'];
+                $lang_native = self::$l10n_sys_locales[$language]['lang-native'];
+                $lang = self::$l10n_sys_locales[$language]['lang'];
+            }
+            else
+            {
+                $country_www = 'unknown';
+                $lang_native = '<em>locale: </em>' . $language;
+                $lang = $language;
+            }
+
+            $langinfo = array();
+            #$langinfo[] = $language;
+            $langinfo[$language]['pathName']       = realpath($file->getPathName());
+            $langinfo[$language]['fileName']       = $file->getFileName();
+            $langinfo[$language]['filePermString'] = self::file_permissions($langinfo[$language]['pathName']);
+            $langinfo[$language]['fileReadable']   = $file->isReadable();
+            $langinfo[$language]['fileWriteable']  = $file->isWritable();
+            $langinfo[$language]['timestamp']      = date(DATE_FORMAT, $file->getCTime());
+            $langinfo[$language]['country_www']    = $country_www;
+            $langinfo[$language]['lang_native']    = $lang_native;
+            $langinfo[$language]['lang']           = $lang;
+            $langinfo[$language]['poclass']        = '-' . ($file->isReadable() ? 'r' : '') . ($file->isWritable() ? 'w' : '');
+            $langinfo[$language]['moclass']        = '-' . ($file->isReadable() ? 'r' : '') . ($file->isWritable() ? 'w' : '');
+
+            #Clansuite_Debug::printR($langinfo);
+        }
+
+        return $langinfo;
+    }
+
+    /**
+     * Returns file permissions as string
+     *
+     * @staticvar array $permissions
+     * @param type $filename
+     * @return string File Permissions as string, e.h. "rwx", "rw-"
+     */
+    private static function file_permissions($filename)
+    {
+        static $permissions = array("---", "--x", "-w-", "-wx", "r--", "r-x", "rw-", "rwx");
+        $perm_oct = substr(decoct(fileperms($filename)), 3);
+        return "[" . $permissions[(int) $perm_oct[0]] . '|' . $permissions[(int) $perm_oct[1]] . '|' . $permissions[(int) $perm_oct[2]] . "]";
     }
 }
 ?>
