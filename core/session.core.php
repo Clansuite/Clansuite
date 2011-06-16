@@ -135,12 +135,12 @@ class Clansuite_Session implements Clansuite_Session_Interface, ArrayAccess
         # @todo check if there is a problem with rewriting
         #ini_set('url_rewriter.tags'         , "a=href,area=href,frame=src,form=,formfieldset=");
 
-        # use a cookie to store the session id
+        # use a cookie to store the session id (no session_id's in URL)
         # session cookies are forced!
         ini_set('session.use_cookies', 1 );
         ini_set('session.use_only_cookies', 1 );
 
-        # stop javascript accessing the cookie
+        # stop javascript accessing the cookie (XSS)
         ini_set('session.cookie_httponly', 1);
 
         /**
