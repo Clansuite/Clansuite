@@ -39,7 +39,7 @@ if(defined('IN_CS') === false)
  * Sanitizes the HTML body content.
  * Removes dangerous tags and attributes which might lead
  * to security issues like XSS or HTTP response splitting.
- * 
+ *
  * @author     Frederic Minne <zefredz@claroline.net>
  * @copyright  Copyright &copy; 2006-2007, Frederic Minne
  * @license    http://www.gnu.org/copyleft/gpl.html GNU General Public License
@@ -77,19 +77,36 @@ class Clansuite_Sanitizer
         $this->_allowObjects = false;
         $this->_allowInlineStyle = false;
 
-        $this->_allowedTags = '<a><br><b><h1><h2><h3><h4><h5><h6>'
-                . '<img><li><ol><p><strong><table><tr><td><th><u><ul><thead>'
-                . '<tbody><tfoot><em><dd><dt><dl><span><div><del><add><i><hr>'
-                . '<pre><br><blockquote><address><code><caption><abbr><acronym>'
-                . '<cite><dfn><q><ins><sup><sub><kbd><samp><var><tt><small><big>'
-        ;
+        # HTML5 Tags
+        # @link http://www.w3schools.com/html5/html5_reference.asp
+        $this->_allowedTags = '<a><abbr><address><area><article><aside>'        # <audio>
+                . '<b><base><bdo><blockquote><body><br><button>
+                   <canvas><caption><cite><code><col><colgroup><command>
+                   <datalist><dd><details><del><dfn><div><dl><dt>'
+                . '<em><eventsource>'                                           # <embed>
+                . '<fieldset><figcaption><figure><footer><form>
+                   <head><header><hgroup><hr><html><h1><h2><h3><h4><h5><h6>'
+                . '<i><img><input><ins>'                                        # <iframe>
+                . '<kbd><keygen>
+                   <label><legend><li><link>
+                   <mark><map><menu><meta><meter>
+                   <nav><noscript>
+                   <object><ol><optgroup><option><output>
+                   <p><param><pre><progress>
+                   <q>'
+                . '<rp><rt>'                                                    # add <ruby> chinese characters
+                . '<samp><script><section><select><small><source><span><strong><style><sub><summary><sup>
+                   <table><tbody><td><textarea><tfoot><th><thead><time><title><tr>
+                   <ul>
+                   <var><video>
+                   <wbr>';
 
         $this->_additionalTags = '';
     }
 
     /**
      * Add additional tags to allowed tags
-     * 
+     *
      * @param   string $tags
      */
     public function addAdditionalTags($tags)
@@ -159,7 +176,7 @@ class Clansuite_Sanitizer
 
     /**
      * Filter URLs to avoid HTTP response splitting attacks
-     * 
+     *
      * @param   string $url
      * @return  string filtered url
      */
@@ -171,7 +188,7 @@ class Clansuite_Sanitizer
 
     /**
      * Remove potential javascript in urls
-     * 
+     *
      * @param   string $url
      * @return  string filtered url
      */
@@ -186,7 +203,7 @@ class Clansuite_Sanitizer
 
     /**
      * Remove potential flaws in urls
-     * 
+     *
      * @param   string $url
      * @return  string filtered url
      */
@@ -204,7 +221,7 @@ class Clansuite_Sanitizer
 
     /**
      * Callback for PCRE
-     * 
+     *
      * @param   array $matches
      * @return  string
      * @see     sanitizeURL
@@ -216,7 +233,7 @@ class Clansuite_Sanitizer
 
     /**
      * Remove potential flaws in href attributes
-     * 
+     *
      * @param   string $str html tag
      * @return  string filtered html tag
      */
@@ -229,7 +246,7 @@ class Clansuite_Sanitizer
 
     /**
      * Callback for PCRE
-     * 
+     *
      * @param   array $matches
      * @return  string
      * @see     sanitizeURL
@@ -241,7 +258,7 @@ class Clansuite_Sanitizer
 
     /**
      * Remove potential flaws in href attributes
-     * 
+     *
      * @param   string $str html tag
      * @return  string filtered html tag
      */
@@ -254,7 +271,7 @@ class Clansuite_Sanitizer
 
     /**
      * Remove dangerous attributes from html tags
-     * 
+     *
      * @param   string $str html tag
      * @return  string filtered html tag
      */
@@ -275,7 +292,7 @@ class Clansuite_Sanitizer
 
     /**
      * Remove DOM events attributes from html tags
-     * 
+     *
      * @param   string $str html tag
      * @return  string filtered html tag
      */
@@ -295,7 +312,7 @@ class Clansuite_Sanitizer
 
     /**
      * Callback for PCRE
-     * 
+     *
      * @param   array $matches
      * @return  string
      * @see     removeDOMEvents
@@ -307,7 +324,7 @@ class Clansuite_Sanitizer
 
     /**
      * Remove style attributes from html tags
-     * 
+     *
      * @param   string $str html tag
      * @return  string filtered html tag
      */
@@ -324,7 +341,7 @@ class Clansuite_Sanitizer
 
     /**
      * Callback for PCRE
-     * 
+     *
      * @param   array $matches
      * @return  string
      * @see     removeStyle
@@ -336,7 +353,7 @@ class Clansuite_Sanitizer
 
     /**
      * Remove dangerous HTML tags
-     * 
+     *
      * @access  private
      * @param   string $str html code
      * @return  string filtered url
@@ -371,7 +388,7 @@ class Clansuite_Sanitizer
 
     /**
      * Remove unwanted tags
-     * 
+     *
      * @param   string $str html
      * @param   string $tagList allowed tag list
      */
@@ -405,10 +422,10 @@ class Clansuite_Sanitizer
 
     /**
      * Sanitize HTML
-     * 
+     *
      * - removes  dangerous tags and attributes
      * - cleand urls
-     * 
+     *
      * @param   string $html html code
      * @return  string sanitized html code
      */
@@ -429,7 +446,7 @@ class Clansuite_Sanitizer
 
 /**
  * Sanitize HTML code
- * 
+ *
  * @param   string $str html code
  * @return  string sanitized code
  */
@@ -447,7 +464,7 @@ function html_sanitize_all($str)
 
 /**
  * Sanitize HTML code, but allowObjects for editor
- * 
+ *
  * @param   string $str html code
  * @return  string sanitized code
  */
@@ -503,7 +520,7 @@ final class RemoveXSS
         {
             $replaceString = '<x>';
         }
-        
+
         # remove all non-printable characters. CR(0a) and LF(0b) and TAB(9) are allowed
         # this prevents some character re-spacing such as <java\0script>
         # note that you have to handle splits with \n, \r, and \t later since they *are* allowed in some inputs
@@ -513,7 +530,7 @@ final class RemoveXSS
         # this prevents like <IMG SRC=&#X40&#X61&#X76&#X61&#X73&#X63&#X72&#X69&#X70&#X74&#X3A&#X61&#X6C&#X65&#X72&#X74&#X28&#X27&#X58&#X53&#X53&#X27&#X29>
         $searchHexEncodings = '/&#[xX]0{0,8}(21|22|23|24|25|26|27|28|29|2a|2b|2d|2f|30|31|32|33|34|35|36|37|38|39|3a|3b|3d|3f|40|41|42|43|44|45|46|47|48|49|4a|4b|4c|4d|4e|4f|50|51|52|53|54|55|56|57|58|59|5a|5b|5c|5d|5e|5f|60|61|62|63|64|65|66|67|68|69|6a|6b|6c|6d|6e|6f|70|71|72|73|74|75|76|77|78|79|7a|7b|7c|7d|7e);?/ie';
         $searchUnicodeEncodings = '/&#0{0,8}(33|34|35|36|37|38|39|40|41|42|43|45|47|48|49|50|51|52|53|54|55|56|57|58|59|61|63|64|65|66|67|68|69|70|71|72|73|74|75|76|77|78|79|80|81|82|83|84|85|86|87|88|89|90|91|92|93|94|95|96|97|98|99|100|101|102|103|104|105|106|107|108|109|110|111|112|113|114|115|116|117|118|119|120|121|122|123|124|125|126);?/ie';
-        
+
         while(preg_match($searchHexEncodings, $val) || preg_match($searchUnicodeEncodings, $val))
         {
             $val = preg_replace($searchHexEncodings, "chr(hexdec('\\1'))", $val);
@@ -554,13 +571,13 @@ final class RemoveXSS
                 # these get multiple entries in $ra, each with the appropriate type
             }
         }
-        
+
         # only process potential words
         if(count($ra) > 0)
         {
             # keep replacing as long as the previous round replaced something
             $found = true;
-            
+
             while($found == true)
             {
                 $val_before = $val;
@@ -575,7 +592,7 @@ final class RemoveXSS
                         }
                         $pattern .= $ra[$i][0][$j];
                     }
-                    
+
                     # handle each type a little different (extra conditions to prevent false positives a bit better)
                     switch($ra[$i][1])
                     {
@@ -593,15 +610,15 @@ final class RemoveXSS
                             $pattern .= '[\s\!\#\$\%\&\(\)\*\~\+\-\_\.\,\:\;\?\@\[\/\|\\\\\]\^\`]*(?==)';
                             break;
                     }
-                    
+
                     $pattern = '/' . $pattern . '/i';
-                    
+
                     # add in <x> to nerf the tag
                     $replacement = substr_replace($ra[$i][0], $replaceString, 2, 0);
-                    
+
                     # filter out the hex tags
                     $val = preg_replace($pattern, $replacement, $val);
-                    
+
                     if($val_before == $val)
                     {
                         # no replacements were made, so exit the loop
