@@ -144,11 +144,12 @@ abstract class Clansuite_Module_Controller
             $modulename = Clansuite_HttpRequest::getRoute()->getModuleName();
         }
 
-        $module_models_path = realpath(ROOT_MOD . mb_strtolower($modulename) . DS . 'model') . DS;
+        $module_models_path = ROOT_MOD . mb_strtolower($modulename) . DS . 'model' . DS;
 
+        # check if the module has a models dir
         if(is_dir($module_models_path) === true)
         {
-           if(isset($entity)) # method parameter
+           if(isset($entity) === true) # method parameter
            {
                $entity = $module_models_path . 'entities' . DS . ucfirst($entity) . '.php';
            }
