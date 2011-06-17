@@ -11,7 +11,7 @@
 ; config
 ;----------------------------------------
 [config]
-staging = 0
+staging = 1
 
 ;----------------------------------------
 ; database
@@ -64,9 +64,9 @@ timezone = 0
 ; error
 ;----------------------------------------
 [error]
-debug = 1
-xdebug = 1
-development = 1
+debug = 0
+xdebug = 0
+development = 0
 debug_popup = 0
 webdebug = 0
 help_edit_mode = 0
