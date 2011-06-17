@@ -89,7 +89,7 @@ class Clansuite_Config_INI
             $old_config_array = self::readConfig($filename);
             
             # array merge: overwrite the array to the left, with the array to the right, when keys identical
-            $config_array = self::array_merge_recursive_distinct($old_config_array, $array);
+            $config_array = array_replace_recursive($old_config_array, $array);
         }
         else
         {
@@ -198,30 +198,6 @@ class Clansuite_Config_INI
         }
 
         return parse_ini_file($filename, true);
-    }
-
-    /**
-     * Merges two arrays recursivly
-     *
-     * @link: http://www.php.net/manual/en/function.array-merge-recursive.php
-     * @author: Daniel <daniel (at) danielsmedegaardbuus (dot) dk>
-     */
-    public static function array_merge_recursive_distinct(array $array1, array $array2)
-    {
-        $merged = $array1;
-
-        foreach($array2 as $key => $value)
-        {
-            if(is_array($value) && isset($merged[$key]) && is_array($merged[$key]))
-            {
-                $merged[$key] = self::array_merge_recursive_distinct($merged[$key], $value);
-            }
-            else
-            {
-                $merged[$key] = $value;
-            }
-        }
-        return $merged;
     }
 }
 ?>

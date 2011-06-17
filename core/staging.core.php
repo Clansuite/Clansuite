@@ -59,12 +59,8 @@ class Clansuite_Staging
         # load staging config
         $staging_config = Clansuite_Config_INI::readConfig(self::getFilename());
 
-        /**
-         * combine arrays by appendig the staging config with array_to_overload
-         * note: duplicate keys will not be overwritten 
-         * staging_config settings precede
-         */
-        return $staging_config += $array_to_overload;
+        # keys/values of array_to_overload are replaced with those of the staging_config
+        return array_replace_recursive($array_to_overload, $staging_config);
     }
 
     /**
