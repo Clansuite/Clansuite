@@ -104,15 +104,15 @@ class Clansuite_Renderer_Smarty extends Clansuite_Renderer_Base
         /**
          * Directories
          */
-        $this->renderer->compile_dir = ROOT_CACHE . 'templates_c' . DS; # directory for compiled files
-        $this->renderer->config_dir = ROOT_LIBRARIES . 'smarty' . DS . 'configs' . DS; # directory for config files (example.conf)
-        $this->renderer->cache_dir = ROOT_CACHE; # directory for cached files
+        $this->renderer->compile_dir = ROOT_CACHE . 'tpl_compile' . DS;
+        $this->renderer->config_dir  = ROOT_LIBRARIES . 'smarty' . DS . 'configs' . DS;
+        $this->renderer->cache_dir   = ROOT_CACHE . 'tpl_cache';
 
         /**
          * Debugging
          */
         $this->renderer->debugging = DEBUG ? true : false; # set smarty debugging, when debug on
-        if($this->renderer->debugging == true)
+        if($this->renderer->debugging === true)
         {
             $this->renderer->debug_tpl = ROOT_THEMES_CORE . 'view/smarty/debug.tpl';   # set debugging template for smarty
             #$this->renderer->debug_tpl  = ROOT_LIBRARIES . 'smarty/debug.tpl';   # set debugging template for smarty
@@ -130,7 +130,7 @@ class Clansuite_Renderer_Smarty extends Clansuite_Renderer_Base
          * SMARTY FILTERS
          */
         $autoload_filters = array();
-        if($this->renderer->debugging == true)
+        if($this->renderer->debugging === true)
         {
             $autoload_filters = array('pre' => array('inserttplnames'));
         }
@@ -153,7 +153,7 @@ class Clansuite_Renderer_Smarty extends Clansuite_Renderer_Base
          * recompile/rewrite templates only in debug mode
          * @see http://www.smarty.net/manual/de/variable.compile.check.php
          */
-        if($this->renderer->debugging == true)
+        if($this->renderer->debugging === true)
         {
             # if a template was changed it would be recompiled, if set to false nothing will be compiled (changes take no effect)
             $this->renderer->compile_check = true;
@@ -169,9 +169,8 @@ class Clansuite_Renderer_Smarty extends Clansuite_Renderer_Base
         /**
          * CACHING OPTIONS (set these options if caching is enabled)
          */
-        #Clansuite_Debug::printr($this->config['smarty']);
-        # var_dump($this->config['smarty']);
-        if($this->renderer->debugging == true)
+        # Clansuite_Debug::printr($this->config['smarty']);
+        if($this->renderer->debugging === true)
         {
             $this->renderer->caching                = 0;
             $this->renderer->cache_lifetime         = 0;       # refresh templates on every load
@@ -281,7 +280,7 @@ class Clansuite_Renderer_Smarty extends Clansuite_Renderer_Base
      */
     public function getEngine()
     {
-        if($this->renderer)
+        if(is_object($this->renderer) === true)
         {
             # reset all prior assigns and configuration settings
             $this->renderer->clearAllAssign();
@@ -305,7 +304,7 @@ class Clansuite_Renderer_Smarty extends Clansuite_Renderer_Base
      */
     public function setTemplatePath($templatepath)
     {
-        if(is_dir($templatepath) and is_readable($templatepath))
+        if(is_dir($templatepath) === true and is_readable($templatepath) === true)
         {
             $this->renderer->template_dir[] = $templatepath;
         }
@@ -337,13 +336,14 @@ class Clansuite_Renderer_Smarty extends Clansuite_Renderer_Base
      */
     public function assign($tpl_parameter, $value = null)
     {
-        if(is_array($tpl_parameter))
+        if(is_array($tpl_parameter) === true)
         {
-            $this->renderer->assign($tpl_parameter);
-            return;
+            $this->renderer->assign($tpl_parameter);            
         }
-
-        $this->renderer->assign($tpl_parameter, $value);
+        else
+        {
+            $this->renderer->assign($tpl_parameter, $value);
+        }
     }
 
     /**

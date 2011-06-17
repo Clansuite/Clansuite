@@ -193,18 +193,18 @@ if (defined('IN_CS') === false)
                          $required['is_writable_clansuite_cache']['actual']   = is_writeable(ROOT_CACHE) ? 'w' : '---';
                          $required['is_writable_clansuite_cache']['status']   = is_writeable(ROOT_CACHE) ? SETTING_TRUE : SETTING_FALSE;
 
-                         # Permissions Check: write on \smarty\templates_c
+                         # Permissions Check: write on \clansuite\cache\tpl_compile
                          /* commented out, because system is able to create these folders if missing, no check needed
-                         $required['is_writable_smarty_templates_c']['label']    = $language['IS_WRITEABLE_SMARTY_TEMPLATES_C'];
-                         $required['is_writable_smarty_templates_c']['expected'] = 'w';
-                         $required['is_writable_smarty_templates_c']['actual']   = is_writeable(ROOT . 'cache/templates_c') ? 'w' : '---';
-                         $required['is_writable_smarty_templates_c']['status']   = is_writeable(ROOT . 'cache/templates_c') ? SETTING_TRUE : SETTING_FALSE;
+                         $required['is_writable_smarty_tplcompile']['label']    = $language['IS_WRITEABLE_SMARTY_tpl_compile'];
+                         $required['is_writable_smarty_tplcompile']['expected'] = 'w';
+                         $required['is_writable_smarty_tplcompile']['actual']   = is_writeable(ROOT . 'cache/tpl_compile') ? 'w' : '---';
+                         $required['is_writable_smarty_tplcompile']['status']   = is_writeable(ROOT . 'cache/tpl_compile') ? SETTING_TRUE : SETTING_FALSE;
 
-                         # Permissions Check: write on \smarty\cache
-                         $required['is_writable_smarty_cache']['label']    = $language['IS_WRITEABLE_SMARYT_CACHE'];
-                         $required['is_writable_smarty_cache']['expected'] = 'w';
-                         $required['is_writable_smarty_cache']['actual']   = is_writeable(ROOT . 'cache') ? 'w' : '---';
-                         $required['is_writable_smarty_cache']['status']   = is_writeable(ROOT . 'cache') ? SETTING_TRUE : SETTING_FALSE;
+                         # Permissions Check: write on \clansuite\cache\tpl_cache
+                         $required['is_writable_smarty_tplcache']['label']    = $language['IS_WRITEABLE_SMARTY_CACHE'];
+                         $required['is_writable_smarty_tplcache']['expected'] = 'w';
+                         $required['is_writable_smarty_tplcache']['actual']   = is_writeable(ROOT . 'cache/tpl_cache') ? 'w' : '---';
+                         $required['is_writable_smarty_tplcache']['status']   = is_writeable(ROOT . 'cache/tpl_cache') ? SETTING_TRUE : SETTING_FALSE;
                          */
 
                          # Permissions Check: write on uploads folder
