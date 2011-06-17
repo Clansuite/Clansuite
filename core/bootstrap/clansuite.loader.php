@@ -393,7 +393,7 @@ class Clansuite_Loader
      */
     private static function writeAutoloadingMap($array)
     {
-        $mapfile = ROOT_CONFIG . 'autoloader.config.php';
+        $mapfile = ROOT_CONFIG . 'autoloader.classmap.php';
 
         if(is_writable($mapfile) === true)
         {
@@ -417,7 +417,7 @@ class Clansuite_Loader
     private static function readAutoloadingMap()
     {
         # check if file for the autoloading map exists
-        $mapfile = ROOT_CONFIG . 'autoloader.config.php';
+        $mapfile = ROOT_CONFIG . 'autoloader.classmap.php';
 
         if(is_file($mapfile) === false)
         {
