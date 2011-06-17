@@ -22,7 +22,7 @@ time, mark, audio, video {
     padding: 0;
     border: 0;
     font-size: 100%;
-    font: inherit;
+    /* font: inherit; */
     vertical-align: baseline;
 }
 /* HTML5 display-role reset for older browsers */
@@ -71,7 +71,7 @@ em, i {
 }
 
 h1, h2, h3, h4, h5, h6 {
-  font-weight: normal;
+  /* font-weight: normal; */
 }
 
 .ie7 address {
