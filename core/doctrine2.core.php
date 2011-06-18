@@ -158,8 +158,13 @@ class Clansuite_Doctrine2
         # set up Logger
         #$config->setSqlLogger(new \Doctrine\DBAL\Logging\EchoSqlLogger);
 
-        # get EventManager
-        $evm = new Doctrine\Common\EventManager;
+        # we need some more functions for mysql
+        $config->addCustomNumericFunction('RAND', 'DoctrineExtensions\Query\Mysql\Rand');
+
+        /**
+         * Events
+         */
+        $event = new \Doctrine\Common\EventManager;
 
         # Extension: TablePrefix
         #$tablePrefix = new \DoctrineExtensions\TablePrefix(DB_PREFIX);
@@ -168,9 +173,20 @@ class Clansuite_Doctrine2
         # we need some more functions for mysql
         $config->addCustomNumericFunction('RAND', 'DoctrineExtensions\Query\Mysql\Rand');
 
-        # set UTF-8 handling of database data
-        $em = \Doctrine\ORM\EntityManager::create($connectionOptions, $config);
-        $em->getConnection()->setCharset($db_config['database']['charset']);
+        # set UTF-8 handling of database data via Doctrine Event for MySQL
+        if(isset($db_config['database']['driver']) === true and $db_config['database']['driver'] == "pdo_mysql")
+        {
+            if(isset($db_config['database']['charset']) === true)
+            {
+                # @todo set collation too? / $db_config['database']['collation'] / "utf8_general_ci" as default?
+                $event->addEventSubscriber(
+                    new \Doctrine\DBAL\Event\Listeners\MysqlSessionInit($db_config['database']['charset'])
+                );
+            }
+        }
+
+        # Entity manager
+        $em = \Doctrine\ORM\EntityManager::create($connectionOptions, $config, $event);
 
         # set DBAL DebugStack Logger (also needed for counting queries)
         if(DEBUG == 1)
@@ -179,13 +195,13 @@ class Clansuite_Doctrine2
             $em->getConfiguration()->setSQLLogger(self::$sqlLoggerStack);
         }
 
-        # echos SQL Queries directly on page
+        # echo SQL Queries directly on page
         #$em->getConfiguration()->setSQLLogger(new \Doctrine\DBAL\Logging\EchoSQLLogger());
 
         self::$em = $em;
 
         # done with config, remove to safe memory
-        unset($db_config, $em);
+        unset($db_config, $em, $event);
 
         return self::$em;
     }
@@ -203,10 +219,15 @@ class Clansuite_Doctrine2
     /**
      * Loads the schema for the given classes
      *
-     * @param array $classes
+     * @param array $classes Classes to create the schema for. Defaults to getAllMetadata();
      */
-    protected function loadSchema($classes)
+    protected function loadSchema($classes = null)
     {
+        if($classes === null)
+        {
+            $classes = $entityManager->getMetadataFactory()->getAllMetadata();
+        }
+
         $schemaTool = new \Doctrine\ORM\Tools\SchemaTool($this->getEntityManager());
         $schemaTool->createSchema($classes);
     }
@@ -216,7 +237,7 @@ class Clansuite_Doctrine2
      */
     public static function validateSchema()
     {
-        $em = Clansuite_CMS::getEntityManager();
+        $em = self::getEntityManager();
         $validator = new \Doctrine\ORM\Tools\SchemaValidator($em);
         $errors = $validator->validateMapping();
         Clansuite_Debug::printR($errors);
@@ -227,7 +248,7 @@ class Clansuite_Doctrine2
      */
     public static function debugLoadedClasses()
     {
-        $em = Clansuite_CMS::getEntityManager();
+        $em = self::getEntityManager();
         $config = $em->getConfiguration();
         #$config->addEntityNamespace('Core', $module_models_path); # = Core:Session
         #$config->addEntityNamespace('Module', $module_models_path); # = Module:News
@@ -270,7 +291,7 @@ class Clansuite_Doctrine2
             }
          }
 
-        $model_dirs[] = ROOT . 'doctrine';
+        #$model_dirs[] = ROOT . 'doctrine';
 
         $model_dirs = array_unique($model_dirs);
 
