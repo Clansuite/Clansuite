@@ -269,6 +269,11 @@ class Clansuite_Loader
 
         if(isset(self::$autoloader_map[$classname]) === true)
         {
+            /** 
+             * @todo test if one include stmt is enough
+             * is_file and class_exists might be a bit too much here
+             * because 
+             */
             if(true === self::requireFile(self::$autoloader_map[$classname]))
             {
                 return true;
@@ -456,22 +461,24 @@ class Clansuite_Loader
      *
      * Snoopy, SimplePie, PclZip, graph, GeSHi, feedcreator, browscap, bbcode
      *
-     * @param string $classname Library to load.
+     * @param string $classname Library classname to load.
      * @return true if classname was included
      */
-    public static function loadLibraray($classname)
+    public static function loadLibrary($classname)
     {
         # autoloading map
         $map = array(
-            'Snoopy' => ROOT_LIB . 'snoopy/Snoopy.class.php',
-            'SimplePie' => ROOT_LIB . 'simplepie/simplepie.inc',
-            'PclZip' => ROOT_LIB . 'pclzip/pclzip.lib.php',
-            'graph' => ROOT_LIB . 'graph/graph.class.php',
-            'GeSHi' => ROOT_LIB . 'geshi/geshi.php',
-            'feedcreator' => ROOT_LIB . 'feedcreator/feedcreator.class.php',
-            'Browscap' => ROOT_LIB . 'browscap/Browscap.php',
-            'BBCode' => ROOT_LIB . 'bbcode/stringparser_bbcode.class.php',
+            'snoopy'        => ROOT_LIB . 'snoopy/Snoopy.class.php',
+            'simplepie'     => ROOT_LIB . 'simplepie/simplepie.inc',
+            'pclzip'        => ROOT_LIB . 'pclzip/pclzip.lib.php',
+            'graph'         => ROOT_LIB . 'graph/graph.class.php',
+            'geshi'         => ROOT_LIB . 'geshi/geshi.php',
+            'feedcreator'   => ROOT_LIB . 'feedcreator/feedcreator.class.php',
+            'browscap'      => ROOT_LIB . 'browscap/Browscap.php',
+            'bbcode'        => ROOT_LIB . 'bbcode/stringparser_bbcode.class.php',
         );
+
+        $classname = strtolower($classname);
 
         # check if classname is in autoloading map
         if(isset($map[$classname]) === true)
