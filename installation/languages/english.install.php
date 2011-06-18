@@ -62,8 +62,6 @@ class Language implements ArrayAccess
         $this->language['IS_WRITEABLE_TEMP_DIR'] = 'Useable: Temporary Directory';
         $this->language['IS_WRITEABLE_CLANSUITE_ROOT'] = 'Can write: /clansuite';
         $this->language['IS_WRITEABLE_CACHE_DIR'] = 'Can write: /clansuite/cache';
-        $this->language['IS_WRITEABLE_SMARTY_TPLCOMPILE'] = 'Can write: /tpl_compile';
-        $this->language['IS_WRITEABLE_SMARTY_TPLCACHE'] = 'Can write: /tpl_cache';
         $this->language['IS_WRITEABLE_UPLOADS'] = 'Can write: /uploads';
         $this->language['IS_READABLE_CONFIG_TEMPLATE'] = 'Can read: config-template file';
         $this->language['DATE_TIMEZONE'] = 'Set: Date/Timezone';  

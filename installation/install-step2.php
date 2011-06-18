@@ -15,24 +15,26 @@ if (defined('IN_CS') === false)
                 <p><?php echo $language['STEP2_IN_GENERAL']; ?></p>
                 <p><?php echo $language['STEP2_SYSTEMSETTINGS_REQUIRED']; ?></p>
                 <p><?php echo $language['STEP2_SYSTEMSETTINGS_RECOMMENDED']; ?></p>
-                <p><?php echo $language['STEP2_SYSTEMSETTINGS_TAKEACTION']; ?></p>                
-                <p><?php if (get_cfg_var('cfg_file_path')): 
-                         echo $language['STEP2_SYSTEMSETTINGS_PHPINI']; ?> 
+                <p><?php echo $language['STEP2_SYSTEMSETTINGS_TAKEACTION']; ?></p>
+                <p><?php if (get_cfg_var('cfg_file_path')):
+                         echo $language['STEP2_SYSTEMSETTINGS_PHPINI']; ?>
                          "<strong><?php echo get_cfg_var('cfg_file_path') ?></strong>".</p>
-                   <?php endif; ?>                   
-                <p><?php echo $language['STEP2_SYSTEMSETTINGS_CHECK_VALUES']; ?></p>    
+                   <?php endif; ?>
+                <p><?php echo $language['STEP2_SYSTEMSETTINGS_CHECK_VALUES']; ?></p>
                          <?php
                          # Case-Images, to determine if a certain Setting is OK or NOT
                          define('SETTING_TRUE',  '<img src="images/true.gif" alt="OK" height="16" width="16" border="0" />');
                          define('SETTING_FALSE', '<img src="images/false.gif" alt="NOT" height="16" width="16" border="0" />');
-                         
+
                          # determine Strings for ON, OFF, R, W
                          define('SETTING_EXPECTED_ON', $language['STEP2_SETTING_EXPECTED_ON']);
                          define('SETTING_EXPECTED_OFF', $language['STEP2_SETTING_EXPECTED_OFF']);
-                         
+
                          /**
-                          * echoalternating Table-Rows
-                          * Settings array = $array['settingname']['status']
+                          * echo alternating table rows
+                          * 
+                          * Datastructure of "settings" array
+                          * $array['settingname']['status']
                           */
                          function setting_rows($settings_array)
                          {
@@ -43,7 +45,7 @@ if (defined('IN_CS') === false)
                             // css names
                             $css1 = 'row1';
                             $css2 = 'row2';
-                            
+
                             foreach ($settings_array as $settingname => $value)
                             {
                                 // toggle
@@ -64,27 +66,33 @@ if (defined('IN_CS') === false)
                                 echo $table_rows;
                             }
                          }
-                         
+
+                         /**
+                          * Gets the boolean value of a php.ini configuration option.
+                          * 
+                          * @param string php configuration option or function name
+                          * @return bool
+                          */
+                          function iniFlag($phpvar)
+                          {
+                              $status = strtolower(ini_get($phpvar));
+                              return $status === 'on' or $status === 'true' or $status === '1';
+                          }
+
                          /**
                           * get_php_setting
-                          * wrapper for ini_get
                           *
+                          * @param string php configuration option or function name
                           * returns bool if param $get_value = true
                           * else the image defined by SETTING_TRUE/False
                           */
-                         function get_php_setting($php_functionname, $expected_value, $return_way = 'img')
+                         function get_php_setting($phpvar, $expected_value, $return_way = 'img')
                          {
-                            // get value of setting as 1 or 0
-                            $value = ini_get($php_functionname);
-                            if ($value != 1)
-                            {
-                                $value = 0;
-                            }
-                            else
-                            {
-                                $value = 1;
-                            }
-                            //echo $php_functionname .' - '.$value .' - ist:'. ini_get($php_functionname) .'- soll: '. $expected_value .'<br />';
+                            # get boolean value of setting as 1 or 0
+                            $value = (int) iniFlag($phpvar);
+
+                            #echo $phpvar .' - '.$value .' - ist:'. ini_get($phpvar) .'- soll: '. $expected_value .'<br />';
+                            
                             switch($return_way)
                             {
                                 case 'int':
@@ -93,7 +101,7 @@ if (defined('IN_CS') === false)
                                                 return $value ? SETTING_EXPECTED_ON : SETTING_EXPECTED_OFF;
                                 default:
                                 case 'img' :
-                                                if ($expected_value == true)
+                                                if ($expected_value === true)
                                                 {
                                                     return $value ? SETTING_TRUE : SETTING_FALSE;
                                                 }
@@ -112,7 +120,7 @@ if (defined('IN_CS') === false)
                              # filehandle for temp file
                              $temp_file_name = tempnam(sys_get_temp_dir(), "FOO FIGHTERS");
 
-                             if (!empty($temp_file_name))
+                             if (empty($temp_file_name) === false)
                              {
                                 $handle = fopen($temp_file_name, "w");
                                 fwrite($handle, "writing to tempfile");
@@ -147,7 +155,7 @@ if (defined('IN_CS') === false)
                          $required['session.auto_start']['expected']   = SETTING_EXPECTED_OFF;
                          $required['session.auto_start']['actual']     = get_php_setting('session.auto_start', false, 'string');
                          $required['session.auto_start']['status']     = get_php_setting('session.auto_start', false, 'img');
-                         
+
                          # Setting: PDO
                          $required['pdo_library']['label']    = $language['PDO_LIBRARY'];
                          $required['pdo_library']['expected'] = SETTING_EXPECTED_ON;
@@ -193,20 +201,6 @@ if (defined('IN_CS') === false)
                          $required['is_writable_clansuite_cache']['actual']   = is_writeable(ROOT_CACHE) ? 'w' : '---';
                          $required['is_writable_clansuite_cache']['status']   = is_writeable(ROOT_CACHE) ? SETTING_TRUE : SETTING_FALSE;
 
-                         # Permissions Check: write on \clansuite\cache\tpl_compile
-                         /* commented out, because system is able to create these folders if missing, no check needed
-                         $required['is_writable_smarty_tplcompile']['label']    = $language['IS_WRITEABLE_SMARTY_tpl_compile'];
-                         $required['is_writable_smarty_tplcompile']['expected'] = 'w';
-                         $required['is_writable_smarty_tplcompile']['actual']   = is_writeable(ROOT . 'cache/tpl_compile') ? 'w' : '---';
-                         $required['is_writable_smarty_tplcompile']['status']   = is_writeable(ROOT . 'cache/tpl_compile') ? SETTING_TRUE : SETTING_FALSE;
-
-                         # Permissions Check: write on \clansuite\cache\tpl_cache
-                         $required['is_writable_smarty_tplcache']['label']    = $language['IS_WRITEABLE_SMARTY_CACHE'];
-                         $required['is_writable_smarty_tplcache']['expected'] = 'w';
-                         $required['is_writable_smarty_tplcache']['actual']   = is_writeable(ROOT . 'cache/tpl_cache') ? 'w' : '---';
-                         $required['is_writable_smarty_tplcache']['status']   = is_writeable(ROOT . 'cache/tpl_cache') ? SETTING_TRUE : SETTING_FALSE;
-                         */
-
                          # Permissions Check: write on uploads folder
                          $required['is_writable_uploads']['label']    = $language['IS_WRITEABLE_UPLOADS'];
                          $required['is_writable_uploads']['expected'] = 'w';
@@ -225,6 +219,12 @@ if (defined('IN_CS') === false)
                          $required['datetimezone']['actual']     = get_php_setting('date.timezone',true, 'string');
                          $required['datetimezone']['status']     = get_php_setting('date.timezone',true, 'img');
                          
+                          # Checking RegisterGlobals
+                         $required['register_globals']['label']      = $language['REGISTER_GLOBALS'];
+                         $required['register_globals']['expected']   = SETTING_EXPECTED_OFF;
+                         $required['register_globals']['actual']     = ini_get('register_globals') ? SETTING_EXPECTED_ON : SETTING_EXPECTED_OFF;
+                         $required['register_globals']['status']     = ini_get('register_globals') ? SETTING_FALSE: SETTING_TRUE;
+
                          # RECOMMENDED CHECKS
 
                          # Setting: PHP memory limit
@@ -234,7 +234,7 @@ if (defined('IN_CS') === false)
                          $recommended['php_memory_limit']['expected']   = 'min '. $recommended_memory_limit .'MB';
                          $recommended['php_memory_limit']['actual']     = '('. $memory_limit .')';
                          $recommended['php_memory_limit']['status']     = ($memory_limit >= $recommended_memory_limit ) ? SETTING_TRUE : SETTING_FALSE;
-                                        
+
                          # Checking file uploads
                          $recommended['file_uploads']['label']      = $language['FILE_UPLOADS'];
                          $recommended['file_uploads']['expected']   = SETTING_EXPECTED_ON;
@@ -255,13 +255,7 @@ if (defined('IN_CS') === false)
                          $recommended['post_max_size']['expected']   = 'min 2MB';
                          $recommended['post_max_size']['actual']     = '('. $post_max_size .')';
                          $recommended['post_max_size']['status']     = ($post_max_size >= 2 ) ? SETTING_TRUE : SETTING_FALSE;
-
-                         # Checking RegisterGlobals
-                         $recommended['register_globals']['label']      = $language['REGISTER_GLOBALS'];
-                         $recommended['register_globals']['expected']   = SETTING_EXPECTED_OFF;
-                         $recommended['register_globals']['actual']     = ini_get('register_globals') ? SETTING_EXPECTED_ON : SETTING_EXPECTED_OFF;
-                         $recommended['register_globals']['status']     = ini_get('register_globals') ? SETTING_FALSE: SETTING_TRUE;
-
+                        
                          # Checking for allow_url_fopen
                          $recommended['allow_url_fopen']['label']       = $language['ALLOW_URL_FOPEN'];
                          $recommended['allow_url_fopen']['expected']    = SETTING_EXPECTED_ON;
@@ -303,7 +297,7 @@ if (defined('IN_CS') === false)
                          $recommended['short_open_tag']['expected']   = SETTING_EXPECTED_OFF;
                          $recommended['short_open_tag']['actual']     = get_php_setting('short_open_tag',false,'string');
                          $recommended['short_open_tag']['status']     = get_php_setting('short_open_tag',false,'img');
-                         
+
                          # Checking output_buffering
                          $recommended['output_buffering']['label']      = $language['OUTPUT_BUFFERING'];
                          $recommended['output_buffering']['expected']   = SETTING_EXPECTED_OFF;
