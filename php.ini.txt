@@ -9,3 +9,5 @@ safe_mode = Off;
 mysql.connect_timeout = 20;
 session.use_cookies = On;
 session.use_trans_sid = Off;
+realpath_cache_size = 64K;
+realpath_cache_ttl = 240;
