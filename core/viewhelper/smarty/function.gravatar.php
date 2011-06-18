@@ -38,8 +38,10 @@
  */
 function smarty_function_gravatar($params, $smarty)
 {
+    $email = $defaultImage = $size = $rating = '';
+
     # check for email adress
-    if(isset($params['email']))
+    if(isset($params['email']) === true)
     {
         $email = trim(mb_strtolower($params['email']));
     }
@@ -50,31 +52,21 @@ function smarty_function_gravatar($params, $smarty)
     }
 
     # default avatar
-    if(isset($params['default']))
+    if(isset($params['default']) === true)
     {
         $defaultImage = urlencode($params['default']);
     }
-    else
-    {
-        $defaultImage = '';
-    }
+
     # size
-    if(isset($params['size']))
+    if(isset($params['size']) === true)
     {
         $size = $params['size'];
     }
-    else
-    {
-        $size = '';
-    }
+
     # rating
-    if(isset($params['rating']))
+    if(isset($params['rating']) === true)
     {
         $rating = $params['rating'];
-    }
-    else
-    {
-        $rating = '';
     }
 
     # initialize gravatar library
