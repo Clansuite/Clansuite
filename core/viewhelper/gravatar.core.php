@@ -82,6 +82,7 @@ class clansuite_gravatar
         $this->setRating($rating);
         $this->setSize($size);
         $this->setDefaultAvatar($default);
+
         if(true == $nocaching )
         {
             $this->disableCaching();
@@ -99,8 +100,15 @@ class clansuite_gravatar
      */
     public function setEmail($email)
     {
-        $this->email = (string)strtolower($email);
+        if (false === filter_var($email, FILTER_VALIDATE_EMAIL))
+        {
+            throw new \InvalidArgumentException('Invalid value of $email: '.$email);
+        }
+
+        $this->email = (string) strtolower($email);
+
         $this->gravatar_properties['gravatar_id'] = md5($this->email);
+
         return $this;
     }
 
@@ -114,14 +122,17 @@ class clansuite_gravatar
      */
     public function setRating($rating = 'g')
     {
-        if (in_array($rating, $this->gravatar_ratings))
+        $rating = strtolower($rating);
+
+        if (in_array($rating, $this->gravatar_ratings) === true)
         {
-            $this->gravatar_properties['rating'] = strtolower($rating);
+            $this->gravatar_properties['rating'] = $rating;
         }
         else
         {
              $this->gravatar_properties['rating'] = 'g';
         }
+
         return $this;
     }
 
@@ -132,25 +143,39 @@ class clansuite_gravatar
      */
     public function setDefaultAvatar($image_url)
     {
-        $this->gravatar_properties['default'] = (string)urlencode($image_url);
+        $this->gravatar_properties['default'] = (string) urlencode($image_url);
+
         return $this;
     }
 
     /**
      *  setSize
-     *  Maximum Size of Gravatar is 512.
-     *  This will make sure you set it between 16 and 512.
-     *  If not Gravatar will return a size of 80 as default value.
+     *
+     *  Th maximum size for a Gravatar is 512px.
+     *  This will make sure you set it between 16px and 512px.
+     *  If not, Gravatar will return a size of 80px as default value.
+     *
      * @param $size
      * @return $this
      */
     public function setSize($size)
     {
-        $s = (int)$size;
-        if ($s > 16 && $s < 512)
+        $size = (int) $size;
+
+        /*
+        if(is_numeric($size) === false)
         {
-            $this->size = $s;
+            throw new \UnexpectedValueException('Value of $size must be numeric, is: '. $size);
         }
+
+        if($size < 16 || $size > 512)
+        {
+            throw new \OutOfRangeException('Value of $size should be between 16 and 512 (size of image in pixels). value given: '.$size);
+        }
+        */
+
+        $this->size = $size;
+
         return $this;
     }
 
@@ -160,6 +185,7 @@ class clansuite_gravatar
     public function disableCache()
     {
         $this->useCaching = false;
+
         return $this;
     }
 
@@ -168,11 +194,11 @@ class clansuite_gravatar
      */
     public function getGravatarURL()
     {
-        $gravatar_url = (string)sprintf($this->gravatar_baseurl,
-                                        $this->gravatar_properties['gravatar_id'],
-                                        $this->gravatar_properties['size'],
-                                        $this->gravatar_properties['rating'],
-                                        $this->gravatar_properties['default']);
+        $gravatar_url = (string) sprintf($this->gravatar_baseurl,
+                                         $this->gravatar_properties['gravatar_id'],
+                                         $this->gravatar_properties['size'],
+                                         $this->gravatar_properties['rating'],
+                                         $this->gravatar_properties['default']);
         return $gravatar_url;
     }
 
@@ -201,7 +227,7 @@ class clansuite_gravatar
             $html .= '<img src="'. $this->getGravatarURL() .'"';
 
             # add additional width and height
-            if(isset($this->gravatar_properties['size']))
+            if(isset($this->gravatar_properties['size']) === true)
             {
                 $html .= ' width="'.$this->gravatar_properties['size'].'"';
                 $html .= ' height="'.$this->gravatar_properties['size'].'"';
@@ -286,10 +312,10 @@ class clansuite_gravatar_cache
     public function getGravatar()
     {
         $gravatar_filename  = '';
-        $gravatar_filename .= (string)sprintf($this->gravatar_cache_url,
-                                              $this->gravatar_id,
-                                              $this->size,
-                                              $this->rating);
+        $gravatar_filename .= (string) sprintf($this->gravatar_cache_url,
+                                               $this->gravatar_id,
+                                               $this->size,
+                                               $this->rating);
 
         # absolute
         $absolute_cache_filename  = '';
@@ -300,7 +326,8 @@ class clansuite_gravatar_cache
         $relative_cache_filename .= WWW_ROOT .'/'. $this->cache_location . $gravatar_filename;
 
         # if the cache_file is detected on an absolute path and still in the cache time
-        if (is_file($absolute_cache_filename) && (filemtime($absolute_cache_filename) > strtotime('-' . $this->cache_expire_time)))
+        if (is_file($absolute_cache_filename) === true and
+           (filemtime($absolute_cache_filename) > strtotime('-' . $this->cache_expire_time)) === true)
         {
             # return it a relative path
             return $relative_cache_filename;
@@ -327,7 +354,7 @@ class clansuite_gravatar_cache
             chmod($cache_filename, 755);
 
             # Check if Cache file was created
-            if (is_file($cache_filename))
+            if (is_file($cache_filename) === true)
             {
                 return $cache_filename;
             }
@@ -344,28 +371,5 @@ class clansuite_gravatar_cache
              return $gravatar_url;
         }
     }
-}
-
-/**
- * Clansuite_Gravatar
- *
- * This is a service class for signing up to Globally Recognized Avatars as provided
- * by http://www.gravatar.com.
- *
- * I give credits and thanks to the following classes, discussions and hints:
- *
- * Wordpress Plugin: Gravatar Signup v1.6.3
- * http://txfx.net/code/wordpress/gravatar-signup/
- *
- * @author      Jens-André Koch <vain@clansuite.com>
- * @license     GNU/GPL v2 or any later license
- * @copyright   Copyleft: All rights reserved. Jens-André Koch (2005-onwards)
- *
- * @package     Clansuite
- * @subpackage  Libraries
- */
-class clansuite_gravatar_signup
-{
-    # @todo
 }
 ?>
