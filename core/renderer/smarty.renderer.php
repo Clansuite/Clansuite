@@ -106,7 +106,7 @@ class Clansuite_Renderer_Smarty extends Clansuite_Renderer_Base
          */
         $this->renderer->compile_dir = ROOT_CACHE . 'tpl_compile' . DS;
         $this->renderer->config_dir  = ROOT_LIBRARIES . 'smarty' . DS . 'configs' . DS;
-        $this->renderer->cache_dir   = ROOT_CACHE . 'tpl_cache';
+        $this->renderer->cache_dir   = ROOT_CACHE . 'tpl_cache' . DS;
 
         /**
          * Debugging
