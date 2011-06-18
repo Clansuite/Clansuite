@@ -158,13 +158,13 @@ abstract class Clansuite_Module_Controller
                $entity = $module_models_path . 'entities' . DS . ucfirst($modulename) . '.php';
            }
 
-           if(is_file($entity) === true)
+           if(is_file($entity) === true and class_exists('Entities\\' . ucfirst($modulename), false) === false)
            {
                include $entity;
            }
 
            $repos = $module_models_path . 'repositories' . DS . ucfirst($modulename) . 'Repository.php';
-           if(is_file($repos) === true)
+           if(is_file($repos) === true and class_exists('Entities\\' . ucfirst($modulename), false) === false)
            {
                include $repos;
            }
