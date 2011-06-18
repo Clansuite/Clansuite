@@ -387,11 +387,11 @@ class Clansuite_ModuleInfoController
         # if the language definitions are not already loaded, load them
         if(empty(self::$l10n_sys_locales))
         {
-            # @todo do we need these definitions, consider using INTL
-            require ROOT_CORE . 'gettext' . DS . 'locale-definitions.php';
+            # fetch arrays containing locale data
+            require ROOT_CORE . 'gettext' . DS . 'locales.gettext.php';
+
             self::$l10n_sys_locales = $l10n_sys_locales;
         }
-
         
         # preg_match('/^[a-z]{2}(_[A-Z]{2})?\./', $locale )
         
