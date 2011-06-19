@@ -66,7 +66,7 @@ class PHP_CodeSniffer_Standards_Clansuite_ClansuiteCodingStandard extends PHP_Co
 
                      # One Line - one statement
                      'Generic/Sniffs/Formatting/DisallowMultipleStatementsSniff.php',
-                     'Squiz_Sniffs_PHP_InnerFunctionsSniff',
+                     'Squiz/Sniffs/PHP/InnerFunctionsSniff.php',
 
                      # CA/PMD: Detects unnecessary overriden methods that simply call their parent.
                      'Generic/Sniffs/CodeAnalysis/UselessOverridingMethodSniff.php',
