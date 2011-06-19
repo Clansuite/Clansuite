@@ -976,7 +976,7 @@ class Clansuite_Functions
         }
 
         # calling the loaded function
-        return self::UTF8_to_HTML($utf8, $encodeTags);
+        return UTF8_to_HTML($utf8, $encodeTags);
     }
 
     /**
