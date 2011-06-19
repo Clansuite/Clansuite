@@ -52,6 +52,7 @@ if (extension_loaded('xdebug') and function_exists("xdebug_start_code_coverage")
 
     # setup code coverage
     require_once 'simpletest/extensions/coverage/coverage.php';
+
     $coverage = new CodeCoverage();
     $coverage->log = 'coverage.sqlite';
     $coverage->root = TESTSUBJECT_DIR;
