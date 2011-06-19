@@ -64,8 +64,6 @@ table.Datagrid tr:nth-child(even)		{ background-color:#fff; }
 
                 <tr class="mo-list-head">
                     <td nowrap="nowrap" colspan="2">
-                        <img src="{$www_root_themes_core}images/gettext.gif" class="alignleft" alt="GNU Gettext Icon">
-                        &nbsp;
                         <a href="{$www_root}index.php?mod=languages&sub=admin&action=addnewlanguage&modulename={$module.name}">Add New Language</a>
                     </td>
                     <td nowrap="nowrap" class="ta-right">
