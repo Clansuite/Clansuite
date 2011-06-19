@@ -13,7 +13,7 @@
  * @package    PHP_CodeSniffer
  * @subpackage Clansuite_Sniffs
  */
-class Clansuite_Sniffs_Commenting_OneLineCommentSniff implements PHP_CodeSniffer_Sniff
+class Clansuite_Sniffs_Comments_OneLineCommentSniff implements PHP_CodeSniffer_Sniff
 {
     /**
      * Returns an array of tokens this test wants to listen for.
