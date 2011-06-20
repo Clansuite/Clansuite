@@ -33,6 +33,7 @@ class Clansuite_Sniffs_Functions_ForbiddenFunctionsSniff extends Generic_Sniffs_
              'print'           => 'echo',
              'is_null'         => null,
              'create_function' => null,
+             'chop'            => 'rtrim',  # odd alias, not deprecated
 
              # 2) Discourages the use of our own debugging helper methods
              'Clansuite_Debug::printR' => 'null',
