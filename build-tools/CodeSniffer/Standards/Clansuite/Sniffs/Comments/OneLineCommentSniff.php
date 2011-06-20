@@ -3,7 +3,7 @@
  * Clansuite_Sniffs_Commenting_OneLineCommentSniff. 
  *
  * This sniff prohibits the usage of "//" on one line comments.
- * Usage of "#" is enforced.
+ * Usage of hash comments "#" is enforced.
  * 
  * @author    Jens-Andre Koch
  * @copyright 2005-onwards
@@ -38,11 +38,10 @@ class Clansuite_Sniffs_Comments_OneLineCommentSniff implements PHP_CodeSniffer_S
     public function process(PHP_CodeSniffer_File $phpcsFile, $stackPtr)
     {
         $tokens = $phpcsFile->getTokens();
-        $content = $tokens[$stackPtr]['content'];
 
-        # @todo
-        if (preg_match('/^\s*(?:\/\/[^ ]|#)/', $content)) {
-            $error = 'Single-line comments must begin with "// " (e.g. // My comment)';
+        if(preg_match('[//]', $content) === true)
+        {
+            $error = 'Single-line comments must begin with "#" (e.g. # My comment)';
             $phpcsFile->addError($error, $stackPtr);
         }
     }
