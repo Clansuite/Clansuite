@@ -102,7 +102,7 @@ class Clansuite_ACL
      * @return boolean True if the user has the permission, false otherwise.
 
      */
-    public static function checkPermission( $modul_name, $permission_name )
+    public static function checkPermission( $module_name, $permission_name )
     {
         # if we got no modulname or permission, we have no access
         if( $module_name == '' or $permission_name == '' )
