@@ -38,6 +38,7 @@ class Clansuite_Sniffs_Comments_OneLineCommentSniff implements PHP_CodeSniffer_S
     public function process(PHP_CodeSniffer_File $phpcsFile, $stackPtr)
     {
         $tokens = $phpcsFile->getTokens();
+        $content = $tokens[$stackPtr]['content'];
 
         if(preg_match('[//]', $content) === true)
         {
