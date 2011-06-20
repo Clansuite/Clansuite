@@ -62,6 +62,7 @@ if (defined('IN_CS') === false)
 class Clansuite_Loader
 {
     private static $autoloader_map = array();
+    private static $inclusions_map = array();
 
     /**
      * autoload
@@ -177,12 +178,8 @@ class Clansuite_Loader
      */
     public static function autoloadInclusions($classname)
     {
-        # define component directories
-        $datagrid_dir = ROOT_CORE . 'viewhelper/datagrid/';
-        $form_dir     = ROOT_CORE . 'viewhelper/form/';
-
         # autoloading map
-        $map = array(
+        self::$inclusions_map = array(
         # /core/config
         'Clansuite_Config_Base'               => ROOT_CORE . 'config/config.base.php',
         'Clansuite_Config_INI'                => ROOT_CORE . 'config/ini.config.php',
@@ -226,33 +223,27 @@ class Clansuite_Loader
         # /viewhelper/
         'Clansuite_Theme'                     => ROOT_CORE . 'viewhelper/theme.core.php',
         # /viewhelper/datagrid
-        'Clansuite_Datagrid'                  => $datagrid_dir . 'datagrid.core.php',
-        'Clansuite_Datagrid_Column'           => $datagrid_dir . 'datagridcol.core.php',
+        'Clansuite_Datagrid'                  => ROOT_CORE . 'viewhelper/datagrid/datagrid.core.php',
+        'Clansuite_Datagrid_Column'           => ROOT_CORE . 'viewhelper/datagrid/datagridcol.core.php',
         # /viewhelper/form
-        'Clansuite_Form'                      => $form_dir . 'form.core.php',
-        'Clansuite_Formelement'               => $form_dir . 'formelement.core.php',
-        'Clansuite_Formelement_Input'         => $form_dir . 'formelements/input.form.php',
-        'Clansuite_Form_Decorator'            => $form_dir . 'formdecorator.core.php',
-        'Clansuite_Formelement_Decorator'     => $form_dir . 'formdecorator.core.php',
-        'Clansuite_Formelement_Formgenerator' => $form_dir . 'formgenerator.core.php',
-        'Clansuite_Array_Formgenerator'       => $form_dir . 'formgenerator.core.php',
+        'Clansuite_Form'                      => ROOT_CORE . 'viewhelper/form/form.core.php',
+        'Clansuite_Formelement'               => ROOT_CORE . 'viewhelper/form/formelement.core.php',
+        'Clansuite_Formelement_Input'         => ROOT_CORE . 'viewhelper/form/formelements/input.form.php',
+        'Clansuite_Form_Decorator'            => ROOT_CORE . 'viewhelper/form/formdecorator.core.php',
+        'Clansuite_Formelement_Decorator'     => ROOT_CORE . 'viewhelper/form/formdecorator.core.php',
+        'Clansuite_Formelement_Formgenerator' => ROOT_CORE . 'viewhelper/form/formgenerator.core.php',
+        'Clansuite_Array_Formgenerator'       => ROOT_CORE . 'viewhelper/form/formgenerator.core.php',
         );
 
         # check if classname is in autoloading map
-        if(isset($map[$classname]) === true)
+        if(isset(self::$inclusions_map[$classname]) === true)
         {
-            # get filename for that classname
-            $filename = $map[$classname];
-
-            # and include that one
-            if(true === self::requireFile($filename, $classname))
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
+            include self::$inclusions_map[$classname];
+            return true;
+        }
+        else
+        {
+            return false;
         }
     }
 
@@ -269,19 +260,12 @@ class Clansuite_Loader
 
         if(isset(self::$autoloader_map[$classname]) === true)
         {
-            /** 
-             * @todo test if one include stmt is enough
-             * is_file and class_exists might be a bit too much here
-             * because 
-             */
-            if(true === self::requireFile(self::$autoloader_map[$classname]))
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
+            include self::$autoloader_map[$classname];
+            return true;
+        }
+        else
+        {
+            return false;
         }
     }
 
