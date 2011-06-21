@@ -287,7 +287,7 @@ class Clansuite_Loader
         $namespace = '';
         
         # determine position of last namespace separator 
-        if ($lastNsPos = strripos($className, '\\'))
+        if (false !== ($lastNsPos = strripos($className, '\\')))
         {
             # everything before it, is the namespace
             $namespace = substr($className, 0, $lastNsPos);
