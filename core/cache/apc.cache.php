@@ -56,7 +56,7 @@ class Clansuite_Cache_APC implements Clansuite_Cache_Interface
         {
             throw new Clansuite_Exception('The PHP extension APC (Alternative PHP Cache) is not loaded. You may enable it in "php.ini"!', 300);
         }
-    }
+    }    
 
     /**
      * Read a key from the cache
