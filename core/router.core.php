@@ -72,11 +72,6 @@ class Clansuite_Router implements ArrayAccess, Clansuite_Router_Interface
     private static $extension = '';
 
     /**
-      * @var boolean Status of rewrite Engine: true=on, false=off.
-     */
-    private static $rewriteEngineOn = false;
-
-    /**
      * Routing Table
      *
      * @var array Routes Array
@@ -328,9 +323,9 @@ class Clansuite_Router implements ArrayAccess, Clansuite_Router_Interface
 
         /**
          * Do we have a direct match ?
-         * URI = '/index/show' => Routes['/index/show']
+         * URI = '/news/show' => Routes['/news/show']
          */
-        if(isset($this->routes[$this->uri])) # does this check work?
+        if(isset($this->routes[$this->uri]) === true)
         {
             $found_route = '';
             $found_route = $this->routes[$this->uri];
@@ -405,50 +400,61 @@ class Clansuite_Router implements ArrayAccess, Clansuite_Router_Interface
     }
 
     /**
-     * Ensures Apache "RewriteEngine on" by performing two checks
-     * a) check if ModRewrite is activated in config to avoid overhead
-     * b) check if Apache Modules "mod_rewrite" is loaded/enabled
-     *    and Rewrite Engine is enabled in .htaccess"
+     * Check if ModRewrite is activated in config
      *
-     * @return bool True, if "RewriteEngine On". False otherwise.
+     * @return bool True, if "config['routing']['mod_rewrite']" true. False otherwise.
      */
     public function isRewriteEngineOn()
     {
-        $rewrite = false;
-
-        # maybe, we have a modrewrite config setting, this avoids overhead
         if(true === isset($this->config['routing']['mod_rewrite']) and true === (bool) $this->config['routing']['mod_rewrite'])
         {
-            #define('REWRITE_ENGINE_ON', true);
-            #return true;
-            $rewrite = true;
-        }
-
-        # ensure apache has module mod_rewrite active
-        if(true === function_exists('apache_get_modules') and
-           true === in_array('mod_rewrite', apache_get_modules()))
-        {
-            # load htaccess and check if RewriteEngine is enabled
-            if(true === is_file(ROOT . '.htaccess'))
-            {
-                $htaccess_content = file_get_contents(ROOT . '.htaccess');
-                self::$rewriteEngineOn = preg_match('/.*[^#][\t ]+RewriteEngine[\t ]+On/i', $htaccess_content);
-            }
-
-            if(true === (bool) self::$rewriteEngineOn and true === $rewrite)
-            {
-                define('REWRITE_ENGINE_ON', true);
-                return true;
-            }
-            else # RewriteEngine not set or commented off in htaccess
-            {
-                define('REWRITE_ENGINE_ON', false);
-                return false;
-            }
+            define('REWRITE_ENGINE_ON', true);
+            return true;
         }
         else # Apache Mod_Rewrite not available
         {
             define('REWRITE_ENGINE_ON', false);
+            return false;
+        }
+    }
+
+    /**
+     * Checks if Apache Module "mod_rewrite" is loaded/enabled
+     * and Rewrite Engine is enabled in .htaccess"
+     * 
+     * @return boolean True, if mod_rewrite on.
+     */
+    public function checkEnvForModRewrite()
+    {
+        # ensure apache has module mod_rewrite active
+        if(true === function_exists('apache_get_modules') and
+           true === in_array('mod_rewrite', apache_get_modules()))
+         {
+            if(true === is_file(ROOT . '.htaccess'))
+            {
+                # load htaccess and check if RewriteEngine is enabled
+                $htaccess_content = file_get_contents(ROOT . '.htaccess');
+                $rewriteEngineOn = preg_match('/.*[^#][\t ]+RewriteEngine[\t ]+On/i', $htaccess_content);
+
+                if(true === (bool) $rewriteEngineOn)
+                {
+                    return true;
+                }
+                else
+                {
+                    # @todo Hint: Please enable mod_rewrite in htaccess.
+                    return false;
+                }
+            }
+            else
+            {
+                # @todo Hint: No htaccess file found. Create and enable mod_rewrite.
+                return false;
+            }
+        }
+        else
+        {
+            # @todo Hint: Please enable mod_rewrite module for Apache.
             return false;
         }
     }
