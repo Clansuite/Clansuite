@@ -433,7 +433,6 @@ class Clansuite_Loader
      */
     private static function addToMapping($filename, $classname)
     {
-        $filename = str_replace('//','\\', $filename);
         self::$autoloader_map = array_merge( (array) self::$autoloader_map, array( $classname => $filename ));
 
         self::writeAutoloadingMap(self::$autoloader_map);
