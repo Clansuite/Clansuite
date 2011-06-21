@@ -70,6 +70,8 @@ class Clansuite_Xdebug
         'auto_trace' => false,
     );
 
+    protected static $outputConstants     = true;
+
     public static function configure()
     {
         if(static::$initialized === false)
@@ -285,6 +287,66 @@ class Clansuite_Xdebug
             # stop tracings and var_dump
             #var_dump(xdebug_get_code_coverage());
             echo '</table>';
+            echo '<div style="height:25px;">&nbsp;</div>';
+
+            /**
+             * Konstanten ausgeben
+             */
+            if( true === self::$outputConstants ) {
+                $aConstKeys = array( 
+                        #'apc',
+                        #'mbstring', 
+                        #'xdebug', 
+                        'user' 
+                );
+                $aConst = get_defined_constants (true);
+
+                echo '<table class="xdebug-console" style="margin-bottom: 5px;">';
+                echo '<tr><th colspan=2 style="background: #BF0000; color: #ffffff;">Konstanten definitionen</th></tr>';
+                echo '</table>';
+                foreach( $aConst as $key=>$val ) {
+                    if( in_array($key, $aConstKeys ) )
+                    {
+                        if( $key == 'user' ) $constname = 'In Clansuite definierte Konstanten';
+                        else $constname = 'System Konstanten f&uuml;r: '.$key;
+
+                        echo '<table class="xdebug-console">';
+                        echo '<tr><th colspan="2">' .$constname. '</th></tr>';
+                        foreach( $val as $key1=>$val1) {
+                            echo '<tr><td class="td1" style="padding-left:20px;color:#FF0000;">'.$key1.'</td><td class="td2">' .self::formatter($val1). '</td></tr>';
+                        }
+                        echo '</table>';
+                        echo '<div style="height:5px;"></div>';
+                    }
+                }
+                echo '</table>';
+                echo '<div style="height:25px;"></div>';
+            }
+
+            echo '<table class="xdebug-console" style="margin-bottom: 5px;">';
+            echo '<tr><th colspan=2 style="background: #BF0000; color: #ffffff;">Applikation</th></tr>';
+            echo '</table>';
+            echo '<table class="xdebug-console">';
+            echo '<tr><th>Name</th><th>Value</th></tr>';
+
+            # Browser-Information
+            echo '<tr>';
+            echo '<td class="td1" valign="top" style="padding-left:20px;"><b>Browser-Information</b></td>';
+            echo '<td class="td2">';
+                $browserinfo = new Clansuite_Browserinfo();
+                $browser = $browserinfo->getBrowserInfo();
+               echo 'Browser: <b>'.$browser['name']."</b><br/>";
+               echo 'Version:&nbsp;&nbsp;<b>'.$browser['version']."</b><br/>";
+               echo 'Engine:&nbsp;&nbsp;&nbsp;'.$browser['engine']."<br/>";
+               echo 'Browser ist Bot: '.($browserinfo->isBot()?'Ja':'Nein')."<br/>";
+               echo 'Betriebssystem: '.$browser['os']."<br/>";
+            echo '</td>';
+            echo '</tr>';
+
+            echo '</table>';
+            echo '<div style="height:25px;"></div>';
+
+
             #echo '<br/>';
             #self::displayHeaders();
             echo '</fieldset></div>';
@@ -357,5 +419,17 @@ class Clansuite_Xdebug
         # Stop the tracing and show debugging infos.
         clansuite_xdebug::render();
     }
+
+    public static function formatter($buffer)
+    {
+        $buffer = str_replace("\r", "\\r", $buffer);
+        $buffer = str_replace("\n", "\\n", $buffer);
+        $buffer = str_replace("\t", "\\t", $buffer);
+        $buffer = str_replace('<', '&lt;', $buffer);
+        $buffer = str_replace('>', '&gt;', $buffer);
+        return $buffer;
+    }
+
+
 }
 ?>

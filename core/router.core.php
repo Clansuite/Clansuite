@@ -342,7 +342,7 @@ class Clansuite_Router implements ArrayAccess, Clansuite_Router_Interface
             {
                 unset($route_pattern);
 
-                #Clansuite_Debug::firebug($route_values);
+                #Clansuite_Debug::printR($route_values);
 
                 $matches = '';
 
@@ -414,11 +414,14 @@ class Clansuite_Router implements ArrayAccess, Clansuite_Router_Interface
      */
     public function isRewriteEngineOn()
     {
+        $rewrite = false;
+
         # maybe, we have a modrewrite config setting, this avoids overhead
-        if(true === isset($this->config['routing']['modrewrite']) and true === $this->config['routing']['modrewrite'])
+        if(true === isset($this->config['routing']['mod_rewrite']) and true === (bool) $this->config['routing']['mod_rewrite'])
         {
-            define('REWRITE_ENGINE_ON', true);
-            return true;
+            #define('REWRITE_ENGINE_ON', true);
+            #return true;
+            $rewrite = true;
         }
 
         # ensure apache has module mod_rewrite active
@@ -432,7 +435,7 @@ class Clansuite_Router implements ArrayAccess, Clansuite_Router_Interface
                 self::$rewriteEngineOn = preg_match('/.*[^#][\t ]+RewriteEngine[\t ]+On/i', $htaccess_content);
             }
 
-            if(true === self::$rewriteEngineOn)
+            if(true === (bool) self::$rewriteEngineOn and true === $rewrite)
             {
                 define('REWRITE_ENGINE_ON', true);
                 return true;
@@ -445,7 +448,7 @@ class Clansuite_Router implements ArrayAccess, Clansuite_Router_Interface
         }
         else # Apache Mod_Rewrite not available
         {
-            #define('REWRITE_ENGINE_ON', false);
+            define('REWRITE_ENGINE_ON', false);
             return false;
         }
     }
