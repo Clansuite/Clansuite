@@ -15,6 +15,16 @@ class Clansuite_Feed_Test extends Clansuite_UnitTestCase
         # Dependency
         require_once TESTSUBJECT_DIR . 'core/bootstrap/clansuite.loader.php';
     }
+    
+    public function tearDown()
+    {
+        $cachefile = ROOT_CACHE . md5(self::FEED_URL);
+        if(is_file($cachefile))
+        {
+            unlink($cachefile);
+            unlink($cachefile . '.spc');
+        }
+    }
 
     /**
      * testMethod_fetchRSS()
