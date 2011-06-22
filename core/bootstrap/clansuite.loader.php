@@ -268,13 +268,13 @@ class Clansuite_Loader
             return false;
         }
     }
-    
+
     /**
      * PSR-0 Loader
-     * 
+     *
      * - hardcoded namespaceSeparator
      * - hardcoded extension
-     * 
+     *
      * @link https://groups.google.com/group/php-standards/web/psr-0-final-proposal
      * @link http://gist.github.com/221634
      */
@@ -282,25 +282,25 @@ class Clansuite_Loader
     {
         # trim opening namespace separator
         $className = ltrim($className, '\\');
-        
+
         $fileName  = '';
         $namespace = '';
-        
-        # determine position of last namespace separator 
+
+        # determine position of last namespace separator
         if (false !== ($lastNsPos = strripos($className, '\\')))
         {
             # everything before it, is the namespace
             $namespace = substr($className, 0, $lastNsPos);
             # everything after it, is the classname
             $className = substr($className, $lastNsPos + 1);
-            
+
             # replace every namespace separator with a directory separator
             $fileName  = str_replace('\\', DS, $namespace) . DS;
         }
-        
+
         # convert underscore to DS
         $fileName .= str_replace('_', DS, $className) . '.php';
-        
+
         # search on include path for the file
         if(is_string(stream_resolve_include_path($filename)) === true)
         {
@@ -488,16 +488,16 @@ class Clansuite_Loader
      */
     public static function loadLibrary($classname)
     {
-        # autoloading map
+        # autoloading map - ROOT_LIBRARIES/..
         $map = array(
-            'snoopy'        => ROOT_LIB . 'snoopy/Snoopy.class.php',
-            'simplepie'     => ROOT_LIB . 'simplepie/simplepie.inc',
-            'pclzip'        => ROOT_LIB . 'pclzip/pclzip.lib.php',
-            'graph'         => ROOT_LIB . 'graph/graph.class.php',
-            'geshi'         => ROOT_LIB . 'geshi/geshi.php',
-            'feedcreator'   => ROOT_LIB . 'feedcreator/feedcreator.class.php',
-            'browscap'      => ROOT_LIB . 'browscap/Browscap.php',
-            'bbcode'        => ROOT_LIB . 'bbcode/stringparser_bbcode.class.php',
+            'snoopy'        => 'snoopy/Snoopy.class.php',
+            'simplepie'     => 'simplepie/simplepie.inc',
+            'pclzip'        => 'pclzip/pclzip.lib.php',
+            'graph'         => 'graph/graph.class.php',
+            'geshi'         => 'geshi/geshi.php',
+            'feedcreator'   => 'feedcreator/feedcreator.class.php',
+            'browscap'      => 'browscap/Browscap.php',
+            'bbcode'        => 'bbcode/stringparser_bbcode.class.php',
         );
 
         $classname = strtolower($classname);
@@ -506,7 +506,7 @@ class Clansuite_Loader
         if(isset($map[$classname]) === true)
         {
             # get filename for that classname
-            $filename = $map[$classname];
+            $filename = ROOT_LIBRARIES . $map[$classname];
 
             # and include that one
             if(true === self::requireFile($filename, $classname))
