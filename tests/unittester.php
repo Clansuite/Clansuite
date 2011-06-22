@@ -43,6 +43,87 @@ class Clansuite_UnitTestCase extends UnitTestCase
                 $subject,
                 $message);
     }
+    
+    /**
+     * AkTestApplication->_testXPath()
+     * @author Bermi Ferrer Martinez
+     * @license LGPL
+     */
+    function _testXPath($xpath_expression)
+    
+    {
+        if(false === class_exists('DOMDocument') or false === class_exists('DOMXPath'))
+        {
+            if(function_exists('domxml_open_mem') === true)
+            {
+                $dom = domxml_open_mem($this->_response);
+                
+                if(false === $dom)
+                {
+                    $this->fail('Error parsing the document.');
+                    return false;
+                }
+                
+                #var_dump($dom);
+                $xpath = $dom->xpath_init();
+                #var_dump($xpath);
+                $ctx = $dom->xpath_new_context();
+                #var_dump($xpath_expression);
+                $result = $ctx->xpath_eval($xpath_expression);
+                #var_dump($result);
+                $return = new stdClass();
+                $return->length = count($result->nodeset);
+                return $return;
+            }
+            
+            $this->fail('No xpath support built in.');
+            
+            return false;
+        }
+        elseif(extension_loaded('domxml'))
+        {
+            $this->fail('Please disable the domxml extension. Only php5 builtin domxml is supported');
+            return false;
+        }
+
+        $dom = new DOMDocument();
+        $response = preg_replace('/(<!DOCTYPE.*?>)/is', '', $this->_response);
+
+        $dom->loadHtml($response);
+        $xpath = new DOMXPath($dom);
+        $node = $xpath->query($xpath_expression);
+        return $node;
+    }
+    
+    /**
+     * AkTestApplication->assertXPath()
+     * @author Bermi Ferrer Martinez
+     * @license LGPL 
+     *
+     * Usage: $this->assertXPath("/html/body/form[@id='test']");
+     *
+     * @param string $xpath_expression
+     * @param string $message
+     * @return node 
+     */
+    function assertXPath($xpath_expression, $message = null)
+    {
+        $node = $this->_testXPath($xpath_expression);
+        
+        if($node->length < 1)
+        {
+            $message = empty($message) ? 'Element not found using xpath: %xpath' : $message;
+            $message = str_replace('%xpath', $xpath_expression, $message);
+            $this->fail($message);
+        }
+        else
+        {
+            $message = empty($message) ? 'Element found using xpath: %xpath' : $message;
+            $this->pass($message);
+        }
+        
+        return $node;
+    }
 }
 
 /**
