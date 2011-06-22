@@ -55,20 +55,5 @@ class Clansuite_Module_Languages extends Clansuite_Module_Controller
 
         $this->display();
     }
-
-    public function widget_languages()
-    {
-        # get clansuite feed component
-        $feed = new Clansuite_Feed();
-
-        # fetch the google group clansuite for latest news
-        $feeditems = $feed->fetchRSS('http://groups.google.com/group/clansuite/feed/rss_v2_0_topics.xml');
-
-        # assign to smarty
-        $view = $this->getView();
-        $view->assign('items_languages', self::getConfigValue('items_languages', '3'));
-        
-        $view->assign('feed', $feeditems);
-    }
 }
 ?>
