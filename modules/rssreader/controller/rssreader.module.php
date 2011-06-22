@@ -58,11 +58,8 @@ class Clansuite_Module_Rssreader extends Clansuite_Module_Controller
 
     public function widget_rssreader()
     {
-        # get clansuite feed component
-        $feed = new Clansuite_Feed();
-
         # fetch the google group clansuite for latest news
-        $feeditems = $feed->fetchRSS('http://groups.google.com/group/clansuite/feed/rss_v2_0_topics.xml');
+        $feeditems = Clansuite_Feed::fetchRSS('http://groups.google.com/group/clansuite/feed/rss_v2_0_topics.xml');
 
         # assign to smarty
         $view = $this->getView();
