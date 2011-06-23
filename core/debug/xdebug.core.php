@@ -317,12 +317,7 @@ class Clansuite_Xdebug
                 );
                 $aConst = get_defined_constants (true);
 
-                echo '<table class="xdebug-console">';
-                echo '<tr><th style="background: #BF0000; color: #ffffff;">';
-                echo '<a href="javascript:;" onclick="clip(\'table-constants\')"';
-                echo 'title="Toggle (show/hide) the visibility." style="color: #fff;">';
-                echo '<span class="toggle">&#9658;</span></a>Konstanten</th></tr>';
-                echo '</table>';
+                echo self::getSectionHeadlineHTML('Konstanten');
 
                 foreach( $aConst as $key=>$val ) {
                     if( in_array($key, $aConstKeys ) )
@@ -330,10 +325,10 @@ class Clansuite_Xdebug
                         if( $key == 'user' ) $constname = 'In Clansuite definierte Konstanten';
                         else $constname = 'System Konstanten f&uuml;r: '.$key;
 
-                        echo '<table class="xdebug-console" id="table-constants" style="display:none;">';
+                        echo '<table class="xdebug-console" id="table-konstanten" style="display:none;">';
                         echo '<tr><th colspan="2">' .$constname. '</th></tr>';
                         foreach( $val as $key1=>$val1) {
-                            echo '<tr><td class="td1" style="padding-left:20px;color:#FF0000;">'.$key1.'</td><td class="td2">' .$val1. '</td></tr>';
+                            echo '<tr><td class="td1" style="padding-left:20px;color:#FF0000;">'.$key1.'</td><td class="td2">' . self::formatter($val1) . '</td></tr>';
                         }
                         echo '</table>';
                      }
@@ -341,12 +336,7 @@ class Clansuite_Xdebug
                 echo '</table>';
             }
 
-            echo '<table class="xdebug-console">';
-            echo '<tr><th style="background: #BF0000; color: #ffffff;">';
-            echo '<a href="javascript:;" onclick="clip(\'table-app\')"';
-            echo 'title="Toggle (show/hide) the visibility." style="color: #fff;">';
-            echo '<span class="toggle">&#9658;</span></a>Applikation</th></tr>';
-            echo '</table>';
+            echo self::getSectionHeadlineHTML('Applikation');
 
             echo '<table class="xdebug-console" id="table-app" style="display:none;">';
             echo '<tr><th>Name</th><th>Value</th></tr>';
@@ -448,6 +438,35 @@ class Clansuite_Xdebug
         return $buffer;
     }
 
+    /**
+     * Returns the HTML for a Section Headline of the XDEBUG Console
+     *
+     * Note:
+     * If you want to use visibility toggle for a table, you have to
+     * apply the attribute id="table-$name" to the table tag.
+     * Where $name is the hardcoded(!) parameter of this function.
+     *
+     * @example
+     * echo getSectionHeadlineHTML('System');
+     * <table id="table-system">
+     *
+     * @param string $section_name Name of the Section.
+     */
+    public static function getSectionHeadlineHTML($name)
+    {
+        $html = '';
+        $html .= '<table class="xdebug-console">';
+        $html .= '<tr>';
+        $html .= '<th style="background: #BF0000; color: #ffffff;">';
+        $html .= '<a href="javascript:;" onclick="clip(\'table-' . strtolower($name) . '\')"';
+        $html .= 'title="Toggle (show/hide) the visibility." style="color: #fff;">';
+        $html .= '<span class="toggle">&#9658;</span></a>';
+        $html .= ucfirst($name);
+        $html .= '</th></tr></table>';
+
+        return $html;
+
+    }
 
 }
 ?>
