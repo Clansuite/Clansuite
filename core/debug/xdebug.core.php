@@ -166,6 +166,12 @@ class Clansuite_Xdebug
                 .xdebug-error span {
                     display: none;
                 }
+                /** Custom Styles not related to XDEBUG **/
+                .toggle {
+                    font-size: 12px;
+                    color: white;
+                    float: left;
+                }
                 /*]]>*/
                 </style>';
 
@@ -179,9 +185,18 @@ class Clansuite_Xdebug
                   {
                     var xdebugErrorTableTds = document.getElementsByClassName('xdebug-error')[0].getElementsByTagName('td');
                     for (var i = 0; i < xdebugErrorTableTds.length; i++){xdebugErrorTableTds[i].setAttribute('bgcolor', '');}
-                  }
-                  </script>";
+                  }";
 
+            /**
+             * JS Visibility Toggle aka Clip
+             */
+            echo "
+                  function clip(x){
+                  if (document.getElementById(x).style.display == 'none') {
+                    document.getElementById(x).style.display = '';}
+                  else {
+                    document.getElementById(x).style.display = 'none';}}";
+            echo '</script>';
 
             /**
              * This is the CSS for XDebug Console via xdebug_dump_superglobals()
@@ -208,6 +223,8 @@ class Clansuite_Xdebug
                     border-collapse: collapse;
                     color: #222;
                     font: 12px tahoma,verdana,arial,sans-serif;
+                    margin-top: 5px;
+                    margin-bottom: 8px;
                 }
                 table.xdebug-console th, table.xdebug-superglobals th {
                     border: 1px inset #BF0000;
@@ -268,7 +285,7 @@ class Clansuite_Xdebug
                  <![endif]-->';
 
             echo '<div id="x-debug"><fieldset class="xdebug-console"><legend>XDebug Console</legend>';
-            echo '<br/>' . xdebug_dump_superglobals() . '</br>';
+            echo xdebug_dump_superglobals();
             echo '<table class="xdebug-console">';
             echo '<tr><th>Name</th><th>Value</th></tr>';
             echo '<tr>';
@@ -287,46 +304,51 @@ class Clansuite_Xdebug
             # stop tracings and var_dump
             #var_dump(xdebug_get_code_coverage());
             echo '</table>';
-            echo '<div style="height:25px;">&nbsp;</div>';
 
             /**
              * Konstanten ausgeben
              */
             if( true === self::$outputConstants ) {
-                $aConstKeys = array( 
+                $aConstKeys = array(
                         #'apc',
-                        #'mbstring', 
-                        #'xdebug', 
-                        'user' 
+                        #'mbstring',
+                        #'xdebug',
+                        'user'
                 );
                 $aConst = get_defined_constants (true);
 
-                echo '<table class="xdebug-console" style="margin-bottom: 5px;">';
-                echo '<tr><th colspan=2 style="background: #BF0000; color: #ffffff;">Konstanten definitionen</th></tr>';
+                echo '<table class="xdebug-console">';
+                echo '<tr><th style="background: #BF0000; color: #ffffff;">';
+                echo '<a href="javascript:;" onclick="clip(\'table-constants\')"';
+                echo 'title="Toggle (show/hide) the visibility." style="color: #fff;">';
+                echo '<span class="toggle">&#9658;</span></a>Konstanten</th></tr>';
                 echo '</table>';
+
                 foreach( $aConst as $key=>$val ) {
                     if( in_array($key, $aConstKeys ) )
                     {
                         if( $key == 'user' ) $constname = 'In Clansuite definierte Konstanten';
                         else $constname = 'System Konstanten f&uuml;r: '.$key;
 
-                        echo '<table class="xdebug-console">';
+                        echo '<table class="xdebug-console" id="table-constants" style="display:none;">';
                         echo '<tr><th colspan="2">' .$constname. '</th></tr>';
                         foreach( $val as $key1=>$val1) {
-                            echo '<tr><td class="td1" style="padding-left:20px;color:#FF0000;">'.$key1.'</td><td class="td2">' .self::formatter($val1). '</td></tr>';
+                            echo '<tr><td class="td1" style="padding-left:20px;color:#FF0000;">'.$key1.'</td><td class="td2">' .$val1. '</td></tr>';
                         }
                         echo '</table>';
-                        echo '<div style="height:5px;"></div>';
-                    }
+                     }
                 }
                 echo '</table>';
-                echo '<div style="height:25px;"></div>';
             }
 
-            echo '<table class="xdebug-console" style="margin-bottom: 5px;">';
-            echo '<tr><th colspan=2 style="background: #BF0000; color: #ffffff;">Applikation</th></tr>';
-            echo '</table>';
             echo '<table class="xdebug-console">';
+            echo '<tr><th style="background: #BF0000; color: #ffffff;">';
+            echo '<a href="javascript:;" onclick="clip(\'table-app\')"';
+            echo 'title="Toggle (show/hide) the visibility." style="color: #fff;">';
+            echo '<span class="toggle">&#9658;</span></a>Applikation</th></tr>';
+            echo '</table>';
+
+            echo '<table class="xdebug-console" id="table-app" style="display:none;">';
             echo '<tr><th>Name</th><th>Value</th></tr>';
 
             # Browser-Information
@@ -340,12 +362,8 @@ class Clansuite_Xdebug
                echo 'Engine:&nbsp;&nbsp;&nbsp;'.$browser['engine']."<br/>";
                echo 'Browser ist Bot: '.($browserinfo->isBot()?'Ja':'Nein')."<br/>";
                echo 'Betriebssystem: '.$browser['os']."<br/>";
-            echo '</td>';
-            echo '</tr>';
-
+            echo '</td></tr>';
             echo '</table>';
-            echo '<div style="height:25px;"></div>';
-
 
             #echo '<br/>';
             #self::displayHeaders();
