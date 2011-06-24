@@ -81,10 +81,8 @@ class Clansuite_Loader
         /**
          * if the classname is to exclude, then
          * 1) stop autoloading immediately
-         *
-         * Note: autoloadExclusions returns false if classname was found
          */
-        if(false === self::autoloadExclusions($classname))
+        if(true === self::autoloadExclusions($classname))
         {
             return false;
         }
@@ -135,7 +133,7 @@ class Clansuite_Loader
      * Excludes a certain classname from the autoloading.
      *
      * @param string $classname Classname to check for exclusion.
-     * @return false (if classname is to exclude)
+     * @return Returns true, if the class is to exclude.
      */
     public static function autoloadExclusions($classname)
     {
@@ -146,8 +144,7 @@ class Clansuite_Loader
         {
             if (false !== mb_strpos($classname, $classname_to_exclude))
             {
-                # Clansuite_Debug::firebug('Class exluded: '.$classname.'. Found '.$classname_to_exclude.' in classname.');
-                return false;
+                return true;
             }
         }
 
@@ -159,14 +156,13 @@ class Clansuite_Loader
         # this means if 'Doctrine" is found, but not 'Clansuite_Doctrine', exclude from our autoloading
         if (false !== mb_strpos($classname, 'Doctrine') and false === mb_strpos($classname, 'Clansuite_Doctrine'))
         {
-            return false;
+            return true;
         }
 
         # this means if 'Smarty" is found, but not 'Clansuite_Smarty', exclude from our autoloading
-        if (false !== mb_strpos($classname, 'Smarty') and
-            false === mb_strpos($classname, '_Smarty'))
+        if (false !== mb_strpos($classname, 'Smarty') and false === mb_strpos($classname, '_Smarty'))
         {
-            return false;
+            return true;
         }
     }
 
@@ -281,30 +277,31 @@ class Clansuite_Loader
     public static function autoload_PSR0_IncludePath($classname)
     {
         # trim opening namespace separator
-        $className = ltrim($className, '\\');
+        $classname = ltrim($classname, '\\');
 
-        $fileName  = '';
+        $filename  = '';
         $namespace = '';
 
         # determine position of last namespace separator
-        if (false !== ($lastNsPos = strripos($className, '\\')))
+        if (false !== ($lastNsPos = strripos($classname, '\\')))
         {
             # everything before it, is the namespace
-            $namespace = substr($className, 0, $lastNsPos);
+            $namespace = substr($classname, 0, $lastNsPos);
             # everything after it, is the classname
-            $className = substr($className, $lastNsPos + 1);
+            $classname = substr($classname, $lastNsPos + 1);
 
             # replace every namespace separator with a directory separator
-            $fileName  = str_replace('\\', DS, $namespace) . DS;
+            $filename  = str_replace('\\', DS, $namespace) . DS;
         }
 
         # convert underscore to DS
-        $fileName .= str_replace('_', DS, $className) . '.php';
-
+        $filename .= str_replace('_', DS, $classname) . '.php';
+        
         # search on include path for the file
         if(is_string(stream_resolve_include_path($filename)) === true)
-        {
-            require $fileName;
+        { 
+            include $filename;
+            return true;
         }
     }
 
