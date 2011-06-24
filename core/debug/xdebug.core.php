@@ -188,14 +188,13 @@ class Clansuite_Xdebug
                   }";
 
             /**
-             * JS Visibility Toggle aka Clip
+             * Visibility Toggle + Toggle Text Change
              */
-            echo "
-                  function clip(x){
-                  if (document.getElementById(x).style.display == 'none') {
-                    document.getElementById(x).style.display = '';}
-                  else {
-                    document.getElementById(x).style.display = 'none';}}";
+            echo 'function clip(a){document.getElementById(a).style.display=="none"
+                  ?(document.getElementById(a).style.display="block",
+                    document.getElementById("toggle-icon-"+a).innerHTML="&#9660;")
+                  :(document.getElementById(a).style.display="none",
+                    document.getElementById("toggle-icon-"+a).innerHTML="&#9658;")};';
             echo '</script>';
 
             /**
@@ -338,7 +337,7 @@ class Clansuite_Xdebug
 
             echo self::getSectionHeadlineHTML('Applikation');
 
-            echo '<table class="xdebug-console" id="table-app" style="display:none;">';
+            echo '<table class="xdebug-console" id="table-applikation" style="display:none;">';
             echo '<tr><th>Name</th><th>Value</th></tr>';
 
             # Browser-Information
@@ -460,7 +459,7 @@ class Clansuite_Xdebug
         $html .= '<th style="background: #BF0000; color: #ffffff;">';
         $html .= '<a href="javascript:;" onclick="clip(\'table-' . strtolower($name) . '\')"';
         $html .= 'title="Toggle (show/hide) the visibility." style="color: #fff;">';
-        $html .= '<span class="toggle">&#9658;</span></a>';
+        $html .= '<span class="toggle" id="toggle-icon-table-' . strtolower($name) . '">&#9658;</span></a>';
         $html .= ucfirst($name);
         $html .= '</th></tr></table>';
 
