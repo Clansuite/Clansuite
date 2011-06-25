@@ -10,9 +10,15 @@ SetEnv TZ Europe/Berlin
 
 <IfModule mod_rewrite.c>
     RewriteEngine on
+    # rewrite "www.domain.com -> domain.com"
+    #RewriteCond %{HTTPS} !=on
+    #RewriteCond %{HTTP_HOST} ^www\.(.+)$ [NC]
+    #RewriteRule ^(.*)$ http://%1/$1 [R=301,L]
+
     RewriteCond %{REQUEST_FILENAME} !-f
     RewriteCond %{REQUEST_FILENAME} !-d
     RewriteRule !\.(js|ico|gif|jpg|png|css)$ /index.php [QSA,L]
+
 </IfModule>
 
 # disable direct access to database, config, text, log and template files
@@ -37,6 +43,14 @@ deny from all
     <FilesMatch "\.(ttf|otf|eot|svg)$" >
         SetOutputFilter DEFLATE
     </FilesMatch>
+    # Netscape 4.x problems...
+    BrowserMatch ^Mozilla/4 gzip-only-text/html
+    # Netscape 4.06-4.08 problems
+    BrowserMatch ^Mozilla/4\.0[678] no-gzip
+    # MSIE masquerades as Netscape, but it is fine
+    BrowserMatch \bMSIE !no-gzip !gzip-only-text/html
+    # ensure proxies don't deliver the wrong content
+    Header append Vary User-Agent env=!dont-vary
 </IfModule>
 
 <IfModule mod_expires.c>
@@ -51,6 +65,13 @@ deny from all
     # Force use of Chromium Render Engine if IE
     BrowserMatch MSIE ie
     Header set X-UA-Compatible "IE=Edge,chrome=1" env=ie
+
+    # inform proxies that content changes based on user agent
+    Header append Vary User-Agent
+
+    # do not serve cross domain ajax
+    # code.google.com/p/html5security/wiki/CrossOriginRequestSecurity
+    Header set Access-Control-Allow-Origin "*"
 
     Header unset ETag
     Header unset Last-Modified
