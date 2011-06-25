@@ -174,15 +174,69 @@ class Clansuite_Debug
         $firephp->{$firebugmethod}($var);
     }
 
+    /**
+     * Lists all currently included (or required) files.
+     */
     public static function getIncludesFiles()
     {
         self::printR(get_included_files());
     }
 
+    /**
+     * Lists all user defined constants (Clansuite Constants).
+     */
     public static function getClansuiteConstants()
     {
         $constants = get_defined_constants(true);
         self::printR($constants['user']);
+    }
+
+    /**
+     * Displayes the debug backtrace.
+     */
+    public static function getBacktrace()
+    {
+        self::printR(debug_backtrace());
+    }
+
+    /**
+     * Lists all declared interfaces.
+     */
+    public static function getInterfaces()
+    {
+        self::printR(get_declared_interfaces());
+    }
+
+    /**
+     * Lists all declared classes.
+     */
+    public static function getClasses()
+    {
+        self::printR(get_declared_classes());
+    }
+
+    /**
+     * Lists all declared functions.
+     */
+    public static function getFunctions()
+    {
+        self::printR(get_defined_functions());
+    }
+
+    /**
+     * Lists all php extensions.
+     */
+    public static function getExtensions()
+    {
+        self::printR(get_loaded_extensions());
+    }
+
+    /**
+     * Lists all php.ini settings.
+     */
+    public static function getPhpIni()
+    {
+        self::printR(parse_ini_file(get_cfg_var('cfg_file_path'), true));
     }
 }
 ?>
