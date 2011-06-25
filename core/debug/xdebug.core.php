@@ -190,7 +190,7 @@ class Clansuite_Xdebug
             /**
              * Visibility Toggle + Toggle Text Change
              */
-            echo 'function clip(a){document.getElementById(a).style.display=="none"
+            echo 'function toggleXDebugTable(a){document.getElementById(a).style.display=="none"
                   ?(document.getElementById(a).style.display="table",
                     document.getElementById("toggle-icon-"+a).innerHTML="&#9660;")
                   :(document.getElementById(a).style.display="none",
@@ -457,7 +457,7 @@ class Clansuite_Xdebug
         $html .= '<table class="xdebug-console">';
         $html .= '<tr>';
         $html .= '<th style="background: #BF0000; color: #ffffff;">';
-        $html .= '<a href="javascript:;" onclick="clip(\'table-' . strtolower($name) . '\')"';
+        $html .= '<a href="javascript:;" onclick="toggleXDebugTable(\'table-' . strtolower($name) . '\')"';
         $html .= 'title="Toggle (show/hide) the visibility." style="color: #fff;">';
         $html .= '<span class="toggle" id="toggle-icon-table-' . strtolower($name) . '">&#9658;</span></a>';
         $html .= ucfirst($name);
