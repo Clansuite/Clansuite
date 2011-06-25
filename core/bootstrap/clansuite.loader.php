@@ -43,7 +43,7 @@ if (defined('IN_CS') === false)
  * The main function of this class is autoload() it's registered via spl_autoload_register($load_function).
  * There are several loader-functions, which are used by autoload().
  * Autoload will run, if a file is not found.
- * The procedure is (1) exclusions, (2) inclusions, (3) mapping file, (4) mapping table.
+ * The procedure is (1) exclusions, (2) inclusions, (3) mapping file or apc, (4) mapping table.
  *
  * Usage:
  * 1) include this file
@@ -61,7 +61,20 @@ if (defined('IN_CS') === false)
  */
 class Clansuite_Loader
 {
+    /**
+     * The Constant USE_APC is used in addToMapping().
+     * It toggles the usage of APC (when true) or File (when false) for reading and writing the classmap array.
+     */
+    const USE_APC = false;
+
+    /**
+     * @var array Generated Classmap from File or APC.
+     */
     private static $autoloader_map = array();
+
+    /**
+     * @var array Manually defined Classmap, @see autoloadInclusions().
+     */
     private static $inclusions_map = array();
 
     /**
@@ -91,7 +104,7 @@ class Clansuite_Loader
          * try to load the file by searching the
          * 2) hardcoded mapping table
          *
-         * autoloadInclusions returns true if classname was included
+         * Note: autoloadInclusions returns true if classname was included
          */
         if(true === self::autoloadInclusions($classname))
         {
@@ -102,9 +115,9 @@ class Clansuite_Loader
          * try to load the file by searching the
          * 3) automatically created mapping table.
          *
-         * Note: the mapping table is loaded from file.
+         * Note: the mapping table is loaded from APC or file.
          */
-        if(true === self::autoloadByMappingFile($classname))
+        if(true === self::autoloadByApcOrFileMap($classname))
         {
             return true;
         }
@@ -244,15 +257,21 @@ class Clansuite_Loader
     }
 
     /**
-     * Loads a file by classname using the autoloader map file
+     * Loads a file by classname using the autoloader mapping array from file or apc
      *
      * @param $classname The classname to look for in the autoloading map.
      * @return boolean True on file load, otherwise false.
      */
-    public static function autoloadByMappingFile($classname)
+    public static function autoloadByApcOrFileMap($classname)
     {
-        # load the mapping file
-        self::$autoloader_map = self::readAutoloadingMap();
+        if(self::USE_APC === true)
+        {
+            self::$autoloader_map = self::readAutoloadingMapApc();
+        }
+        else # load the mapping from file
+        {
+            self::$autoloader_map = self::readAutoloadingMapFile();
+        }
 
         if(isset(self::$autoloader_map[$classname]) === true)
         {
@@ -274,7 +293,7 @@ class Clansuite_Loader
      * @link https://groups.google.com/group/php-standards/web/psr-0-final-proposal
      * @link http://gist.github.com/221634
      */
-    public static function autoload_PSR0_IncludePath($classname)
+    public static function autoloadIncludePath($classname)
     {
         # trim opening namespace separator
         $classname = ltrim($classname, '\\');
@@ -296,12 +315,16 @@ class Clansuite_Loader
 
         # convert underscore to DS
         $filename .= str_replace('_', DS, $classname) . '.php';
-        
+
         # search on include path for the file
         if(is_string(stream_resolve_include_path($filename)) === true)
-        { 
+        {
             include $filename;
             return true;
+        }
+        else
+        {
+            return false;
         }
     }
 
@@ -358,6 +381,9 @@ class Clansuite_Loader
     /**
      * Include File (and register it to the autoloading map file)
      *
+     * This procedure ensures, that the autoload mapping array dataset
+     * is increased stepwise resulting in a decreasing number of autoloading tries.
+     *
      * @param string $filename The file to be required
      * @return bool True on success of require, false otherwise.
      */
@@ -409,14 +435,14 @@ class Clansuite_Loader
     }
 
     /**
-     * Writes the autoload mapping data (the relation of a classname to a filename) into a file.
+     * Writes the autoload mapping array into a file.
      * The target file is ROOT.'configuration/'.self::$autoloader
-     * The content to be written is an associative array $array consisting of the old mapping array appended by a new mapping.
-     * This procedure ensures, that the autoload mapping data is increased stepwise resulting in a decreasing number of autoloading tries.
+     * The content to be written is an associative array $array,
+     * consisting of the old mapping array appended by a new mapping.
      *
-     * @param $array associative array
+     * @param $array associative array with relation of a classname to a filename
      */
-    private static function writeAutoloadingMap($array)
+    private static function writeAutoloadingMapFile($array)
     {
         $mapfile = ROOT_CONFIG . 'autoloader.classmap.php';
 
@@ -439,14 +465,14 @@ class Clansuite_Loader
      *
      * @return unserialized file content of autoload.config file
      */
-    private static function readAutoloadingMap()
+    private static function readAutoloadingMapFile()
     {
         # check if file for the autoloading map exists
         $mapfile = ROOT_CONFIG . 'autoloader.classmap.php';
 
+        # create file, if not existant
         if(is_file($mapfile) === false)
         {
-            # create file, if not existant
             $file_resource = fopen($mapfile, 'a', false);
             fclose($file_resource);
             unset($file_resource);
@@ -461,8 +487,28 @@ class Clansuite_Loader
     }
 
     /**
+     * Reads the autoload mapping array from APC.
+     *
+     * @return array automatically generated classmap
+     */
+    private static function readAutoloadingMapApc()
+    {
+        return apc_fetch('CLANSUITE_CLASSMAP');
+    }
+
+    /**
+     * Writes the autoload mapping array to APC.
+     *
+     * @return array automatically generated classmap
+     */
+    private static function writeAutoloadingMapApc($array)
+    {
+        apc_store('CLANSUITE_CLASSMAP', $array);
+    }
+
+    /**
      * Adds a new $classname to $filename mapping to the map array.
-     * The new map array is written to file.
+     * The new map array is written to apc or file.
      *
      * @param $filename  Filename is the file to load.
      * @param $classname Classname is the lookup key for $filename.
@@ -471,7 +517,14 @@ class Clansuite_Loader
     {
         self::$autoloader_map = array_merge( (array) self::$autoloader_map, array( $classname => $filename ));
 
-        self::writeAutoloadingMap(self::$autoloader_map);
+        if(self::USE_APC === true)
+        {
+            self::writeAutoloadingMapApc(self::$autoloader_map);
+        }
+        else
+        {
+            self::writeAutoloadingMapFile(self::$autoloader_map);
+        }
     }
 
     /**
