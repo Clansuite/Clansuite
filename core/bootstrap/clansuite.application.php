@@ -110,11 +110,11 @@ class Clansuite_CMS
         #if ( is_file( 'installation/install.php') === true ) { header( 'Location: installation/check_security.php'); exit; }
 
         # PHP Version Check
-        $REQUIRED_PHP_VERSION = '5.3';
-        if(version_compare(PHP_VERSION, $REQUIRED_PHP_VERSION, '<') === true)
+        $REQUIRED_PHP_VERSION = '5.3.2';
+        if(version_compare(PHP_VERSION, $REQUIRED_PHP_VERSION, '<=') === true)
         {
-            exit('Your PHP Version is <b><font color="#FF0000">' . PHP_VERSION . '</font></b>!
-                 Clansuite requires PHP Version <b><font color="#4CC417">' . $REQUIRED_PHP_VERSION . '</font></b>!');
+            exit('Your PHP Version is <b><font color="#FF0000">' . PHP_VERSION . '</font></b>.
+                 Clansuite requires PHP Version <b><font color="#4CC417">' . $REQUIRED_PHP_VERSION . '</font></b> or newer.');
         }
         unset($REQUIRED_PHP_VERSION);
 
