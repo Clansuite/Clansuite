@@ -316,9 +316,12 @@ class Clansuite_Loader
         # convert underscore to DS
         $filename .= str_replace('_', DS, $classname) . '.php';
 
-        # search on include path for the file
-        if(is_string(stream_resolve_include_path($filename)) === true)
+        # searches on include path for the file and returns absolute path
+        $filename = stream_resolve_include_path($filename);
+
+        if(is_string($filename) === true)
         {
+
             include $filename;
             return true;
         }
@@ -442,7 +445,7 @@ class Clansuite_Loader
      *
      * @param $array associative array with relation of a classname to a filename
      */
-    private static function writeAutoloadingMapFile($array)
+    public static function writeAutoloadingMapFile($array)
     {
         $mapfile = ROOT_CONFIG . 'autoloader.classmap.php';
 
@@ -452,6 +455,10 @@ class Clansuite_Loader
             if($bytes_written === false)
             {
                 trigger_error('Autoloader could not write the map cache file: ' . $mapfile, E_USER_ERROR);
+            }
+            else 
+            {
+                return true;
             }
         }
         else
@@ -465,7 +472,7 @@ class Clansuite_Loader
      *
      * @return unserialized file content of autoload.config file
      */
-    private static function readAutoloadingMapFile()
+    public static function readAutoloadingMapFile()
     {
         # check if file for the autoloading map exists
         $mapfile = ROOT_CONFIG . 'autoloader.classmap.php';
@@ -491,7 +498,7 @@ class Clansuite_Loader
      *
      * @return array automatically generated classmap
      */
-    private static function readAutoloadingMapApc()
+    public static function readAutoloadingMapApc()
     {
         return apc_fetch('CLANSUITE_CLASSMAP');
     }
@@ -501,7 +508,7 @@ class Clansuite_Loader
      *
      * @return array automatically generated classmap
      */
-    private static function writeAutoloadingMapApc($array)
+    public static function writeAutoloadingMapApc($array)
     {
         apc_store('CLANSUITE_CLASSMAP', $array);
     }
