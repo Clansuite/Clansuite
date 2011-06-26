@@ -40,6 +40,16 @@ ini_set('display_errors', true);
 set_time_limit(0);
 ini_set('memory_limit', '256M');
 
+# PHP Version Check
+$REQUIRED_PHP_VERSION = '5.3.2';
+if(version_compare(PHP_VERSION, $REQUIRED_PHP_VERSION, '<=') === true)
+{
+    exit('Your PHP Version is <b><font color="#FF0000">' . PHP_VERSION . '</font></b>.
+         Clansuite Testsuite requires PHP Version <b><font color="#4CC417">' . $REQUIRED_PHP_VERSION . '</font></b> or newer.');
+}
+unset($REQUIRED_PHP_VERSION);
+
+# well this should be defined in PHP.ini.. fallback
 date_default_timezone_set('Europe/Berlin');
 
 $paths = array(
