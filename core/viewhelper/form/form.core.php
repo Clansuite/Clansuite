@@ -768,7 +768,7 @@ class Clansuite_Form implements Clansuite_Form_Interface
         # the content of the form are the formelements
         $html_form = $this->renderAllFormelements();
 
-        if(empty($formdecorators) === true)
+        if(empty($this->formdecorators) === true)
         {
             if($this->useDefaultFormDecorators === true)
             {
@@ -901,10 +901,12 @@ class Clansuite_Form implements Clansuite_Form_Interface
      * by it's position. stack pos 1 becomes "name-formelement-1"
      */
     public function regenerateFormelementIdentifiers()
-    { 
+    {
+       $pos_lastpart = $pos = $firstpart = $id = '';
+       
        $i = 0;
-       foreach($this->formelements as $formelement)      
-       {           
+       foreach($this->formelements as $formelement)
+       {
            $id = $formelement->getID();
 
            /**
@@ -914,13 +916,13 @@ class Clansuite_Form implements Clansuite_Form_Interface
             */
            $pos_lastpart = strrpos($id, '-') + 1;
            $pos = strlen($id) - $pos_lastpart;
-           $firstpart = substr ($id, 0, -$pos);         
-           
+           $firstpart = substr ($id, 0, -$pos);
+
            # append firstpart of old identifier with new int
            $id = $firstpart .= $i;
-           
+
            $formelement->setID($id);
-           
+
            $i++;
        }
        unset($i, $pos_lastpart, $pos, $firstpart, $id);
@@ -995,6 +997,8 @@ class Clansuite_Form implements Clansuite_Form_Interface
 
     public function getElement($formelement_position = null)
     {
+        $formelement_object = '';
+
         # if no position is incomming we return the last formelement item
         # this is the normal call to this method, while chaining
         if($formelement_position === null)
@@ -1076,7 +1080,7 @@ class Clansuite_Form implements Clansuite_Form_Interface
         }
         */
     }
-    
+
     /**
      * Get the data array
      *
@@ -1205,6 +1209,7 @@ class Clansuite_Form implements Clansuite_Form_Interface
         if($decorator instanceof Clansuite_Form_Decorator_Interface)
         {
             # if so, fetch this decorator objects name
+            $decoratorname = '';
             $decoratorname = $decorator->name;
         }
 
@@ -1365,6 +1370,7 @@ class Clansuite_Form implements Clansuite_Form_Interface
             throw new Clansuite_Exception('No Formelements found. Add the formelement first, then decorate it!');
         }
 
+        $formelement_object = '';
         if(false === is_object($formelement_pos_name_obj))
         {
             $formelement_object = $this->getElement($formelement_pos_name_obj);
@@ -1377,6 +1383,7 @@ class Clansuite_Form implements Clansuite_Form_Interface
 
     public function removeFormelementDecorator($decorator, $formelement_position = null)
     {
+        $formelement_object = '';
         $formelement_object = $this->getElement($formelement_position);
 
         if(isset($formelement_object->formelementdecorators[$decorator]))
