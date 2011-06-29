@@ -13,7 +13,7 @@
 
 if (class_exists('PHP_CodeSniffer_Standards_CodingStandard', true) === false)
 {
-    throw new PHP_CodeSniffer_Exception('Class PHP_CodeSniffer_Standards_CodingStandard not found');
+    throw new PHP_CodeSniffer_Exception('Class PHP_CodeSniffer_Standards_CodingStandard not found.');
 }
 
 /**
@@ -43,139 +43,154 @@ class PHP_CodeSniffer_Standards_Clansuite_ClansuiteCodingStandard extends PHP_Co
     public function getIncludedSniffs()
     {
         return array(
-              # Files
-                     #'Generic/Sniffs/Files/LineEndingsSniff.php',
-                     'PEAR/Sniffs/Files/IncludingFileSniff.php',
 
-              # Formatting
-                     # Ensures there is a single space after cast tokens.
-                     'Generic/Sniffs/Formatting/SpaceAfterCastSniff.php',
-                     # Makes sure that any use of Double Quotes ("") are warranted.
-                     'Squiz/Sniffs/Strings/DoubleQuoteUsageSniff.php',
+        # Files
 
-              # Functions - Braces
-                     # Checks that the opening brace of a function is on the line after the function declaration.
-                     'Generic/Sniffs/Functions/OpeningFunctionBraceBsdAllmanSniff.php',
-                     //'PEAR/Sniffs/Functions/ValidDefaultValueSniff.php',
+            #'Generic/Sniffs/Files/LineEndingsSniff.php',
+            'PEAR/Sniffs/Files/IncludingFileSniff.php',
 
-                     # Ensure function declaration does not contain duplicated arguments
-                     'Squiz/Sniffs/Functions/FunctionDuplicateArgumentSniff.php',
+        # Formatting
 
-                     # lowercased function names
-                     'Squiz/Sniffs/PHP/LowercasePHPFunctionsSniff.php',
+            # Ensures there is a single space after cast tokens.
+            'Generic/Sniffs/Formatting/SpaceAfterCastSniff.php',
+            # Makes sure that any use of Double Quotes ("") are warranted.
+            'Squiz/Sniffs/Strings/DoubleQuoteUsageSniff.php',
 
-                     # One Line - one statement
-                     'Generic/Sniffs/Formatting/DisallowMultipleStatementsSniff.php',
-                     'Squiz/Sniffs/PHP/InnerFunctionsSniff.php',
+        # Functions & Braces
 
-                     # CA/PMD: Detects unnecessary overriden methods that simply call their parent.
-                     'Generic/Sniffs/CodeAnalysis/UselessOverridingMethodSniff.php',
+            # Checks that the opening brace of a function is on the line after the function declaration.
+            'Generic/Sniffs/Functions/OpeningFunctionBraceBsdAllmanSniff.php',
+            //'PEAR/Sniffs/Functions/ValidDefaultValueSniff.php',
+            # Ensure function declaration does not contain duplicated arguments
+            'Squiz/Sniffs/Functions/FunctionDuplicateArgumentSniff.php',
+            # lowercased function names
+            'Squiz/Sniffs/PHP/LowercasePHPFunctionsSniff.php',
+            # One Line - one statement
+            'Generic/Sniffs/Formatting/DisallowMultipleStatementsSniff.php',
+            'Squiz/Sniffs/PHP/InnerFunctionsSniff.php',
+            # CA/PMD: Detects unnecessary overriden methods that simply call their parent.
+            'Generic/Sniffs/CodeAnalysis/UselessOverridingMethodSniff.php',
+            # CA/PMD: Detect double usage of incrementation variables (in inner and outer loops)
+            'Generic/Sniffs/CodeAnalysis/JumbledIncrementerSniff.php',
+            # discourage several functions in clansuite and ensure consistent usage of functions
+            dirname(__FILE__) . '/Sniffs/Functions/ForbiddenFunctionsSniff.php',
+            # The use of eval() is discouraged.
+            'Squiz/Sniffs/PHP/EvalSniff.php',
 
-                     # CA/PMD: Detect double usage of incrementation variables (in inner and outer loops)
-                     'Generic/Sniffs/CodeAnalysis/JumbledIncrementerSniff.php',
+        # Classes
 
-                     # discourage several functions in clansuite and ensure consistent usage of functions
-                     dirname(__FILE__) . '/Sniffs/Functions/ForbiddenFunctionsSniff.php',
+            'Squiz/Sniffs/Classes/ClassDeclarationSniff.php',
+            'Squiz/Sniffs/Classes/LowercaseClassKeywordsSniff.php',
+            'Squiz/Sniffs/Classes/SelfMemberReferenceSniff.php',
+            'Squiz/Sniffs/Classes/DuplicatePropertySniff.php',
+        # Constructor
+            # enforce PHP 5 constructor syntax "function __construct()"
+            'Generic/Sniffs/NamingConventions/ConstructorNameSniff.php',
 
-                     # The use of eval() is discouraged.
-                     'Squiz/Sniffs/PHP/EvalSniff.php',
+        # PHP
 
-              # Classes
-                     'Squiz/Sniffs/Classes/ClassDeclarationSniff.php',
-                     'Squiz/Sniffs/Classes/LowercaseClassKeywordsSniff.php',
-                     'Squiz/Sniffs/Classes/SelfMemberReferenceSniff.php',
-                     'Squiz/Sniffs/Classes/DuplicatePropertySniff.php',
+            # Usage of @ is not allowed.
+            'Generic/Sniffs/PHP/NoSilencedErrorsSniff.php',
+            # Stops the usage of the "global" keyword.
+            'Squiz/Sniffs/PHP/GlobalKeywordSniff.php',            
+            # Detects falsly used return, exit, break, continue statements
+            'Squiz/Sniffs/PHP/NonExecutableCodeSniff.php',
+            
+            # Makes sure that shorthand PHP open tags are not used.
+            #'Generic/Sniffs/PHP/DisallowShortOpenTagSniff.php',
+            # same as above, but a bit more strict
+            dirname(__FILE__) . '/Sniffs/PHP/OpeningClosingTagSniff.php',
 
-              # Constructor
+        # WhiteSpace
 
-                     # enforce PHP 5 constructor syntax "function __construct()"
-                     'Generic/Sniffs/NamingConventions/ConstructorNameSniff.php',
+            # No Tabs. Just Spaces.
+            'Generic/Sniffs/WhiteSpace/DisallowTabIndentSniff.php',
+            # Scope Idention - default value: 4
+            'Generic/Sniffs/WhiteSpace/ScopeIndentSniff.php',
+            # Alignment of Scope Closing Braces
+            'PEAR/Sniffs/WhiteSpace/ScopeClosingBraceSniff.php',
+            # Whitespace around typecasts
+            'Generic/Sniffs/Formatting/SpaceAfterCastSniff.php',
+            'Squiz/Sniffs/WhiteSpace/CastSpacingSniff.php',
+            # No Space before semicolon
+            'Squiz/Sniffs/WhiteSpace/SemicolonSpacingSniff.php',
+            # Spaces before+after Scope Keywords
+            'Squiz/Sniffs/WhiteSpace/ScopeKeywordSpacingSniff.php',
+            # Checks that no whitespace proceeds the first content of the file,
+            # exists after the last content of the file, resides after content on any line,
+            # or are two empty lines in functions.
+            'Squiz/Sniffs/WhiteSpace/SuperfluousWhitespaceSniff.php',
+            # Object Operator indented 4 spaces on new line
+            'PEAR/Sniffs/WhiteSpace/ObjectOperatorIndentSniff.php',
 
-              # PHP
-                     # Usage of @ is not allowed.
-                     'Generic/Sniffs/PHP/NoSilencedErrorsSniff.php',
+        # ControlStructures
 
-                     # Stops the usage of the "global" keyword.
-                     'Squiz/Sniffs/PHP/GlobalKeywordSniff.php',
+            'Generic/Sniffs/ControlStructures/InlineControlStructureSniff.php',
+            'Squiz/Sniffs/ControlStructures/InlineIfDeclarationSniff.php',
+            
+            # 1 empty line before control structures
+            dirname(__FILE__) . '/Sniffs/ControlStructures/ControlStructureBlankLineSniff.php',
+            
+            'Squiz/Sniffs/ControlStructures/ForEachLoopDeclarationSniff.php',
+            'Squiz/Sniffs/ControlStructures/SwitchDeclarationSniff.php',
+            # VersionControl -> SVN
+            # Tests that the correct Subversion properties are set.
+            #'Generic/Sniffs/VersionControl/SubversionPropertiesSniff.php',
 
-                     # Makes sure that shorthand PHP open tags are not used.
-                     'Generic/Sniffs/PHP/DisallowShortOpenTagSniff.php',
+        # CSS
 
-                     'Generic/Sniffs/CodeAnalysis/EmptyStatementSniff.php',
+            //'Squiz/Sniffs/CSS',
 
-                     # Detects for-loops that use a function call in the test expression.
-                     'Generic/Sniffs/CodeAnalysis/ForLoopWithTestFunctionCallSniff.php',
+        # Strings
 
-                     'Generic/Sniffs/CodeAnalysis/UnconditionalIfStatementSniff.php',
+            # Makes sure that any strings that are "echoed"
+            # are not enclosed in brackets like a function call.
+            'Squiz/Sniffs/Strings/EchoedStringsSniff.php',
 
-              # WhiteSpace
-                     # No Tabs. Just Spaces.
-                     'Generic/Sniffs/WhiteSpace/DisallowTabIndentSniff.php',
-                     # Scope Idention - default value: 4
-                     'Generic/Sniffs/WhiteSpace/ScopeIndentSniff.php',
-                     # Alignment of Scope Closing Braces
-                     'PEAR/Sniffs/WhiteSpace/ScopeClosingBraceSniff.php',
-                     # Whitespace around typecasts
-                     'Generic/Sniffs/Formatting/SpaceAfterCastSniff.php',
-                     'Squiz/Sniffs/WhiteSpace/CastSpacingSniff.php',
-                     # No Space before semicolon
-                     'Squiz/Sniffs/WhiteSpace/SemicolonSpacingSniff.php',
-                     # Spaces before+after Scope Keywords
-                     'Squiz/Sniffs/WhiteSpace/ScopeKeywordSpacingSniff.php',
-                     # Checks that no whitespace proceeds the first content of the file,
-                     # exists after the last content of the file, resides after content on any line, or are two empty lines in functions.
-                     'Squiz/Sniffs/WhiteSpace/SuperfluousWhitespaceSniff.php',
-                     # Object Operator indented 4 spaces on new line
-                     'PEAR/Sniffs/WhiteSpace/ObjectOperatorIndentSniff.php',
+        # Array
 
-              # ControlStructures
-                     'Generic/Sniffs/ControlStructures/InlineControlStructureSniff.php',
-                     'Squiz/Sniffs/ControlStructures/InlineIfDeclarationSniff.php',
-                     'Squiz/Sniffs/ControlStructures/ControlSignatureSniff.php',
-                     'Squiz/Sniffs/ControlStructures/ForEachLoopDeclarationSniff.php',
-                     'Squiz/Sniffs/ControlStructures/SwitchDeclarationSniff.php',
+            #'Squiz/Sniffs/Arrays/ArrayDeclarationSniff.php',
 
-              # VersionControl -> SVN
-                     # Tests that the correct Subversion properties are set.
-                     #'Generic/Sniffs/VersionControl/SubversionPropertiesSniff.php',
+        # Naming Conventions
 
-              # CSS
-                     //'Squiz/Sniffs/CSS',
+            # Ensures class and interface names start with a capital letter and use _ separators.
+            'PEAR/Sniffs/NamingConventions/ValidClassNameSniff.php',
+            # Ensures all control structure keywords are lowercase.
+            'Squiz/Sniffs/ControlStructures/LowercaseDeclarationSniff.php',
+            # Checks that all uses of "true", "false" and "null" are lowercase.
+            'Generic/Sniffs/PHP/LowerCaseConstantSniff.php',
 
-              # Strings
-                     # Makes sure that any strings that are "echoed" are not enclosed in brackets like a function call.
-                     'Squiz/Sniffs/Strings/EchoedStringsSniff.php',
+        # Operators
 
-              # Array
-                     //'Squiz/Sniffs/Arrays/ArrayDeclarationSniff.php',
+            # enforce the use of IDENTICAL (===) type operators rather than EQUAL (==) operator
+            # enforce the use of "=== false" instead of "!"
+            'Squiz/Sniffs/Operators/ComparisonOperatorUsageSniff.php',
+            # enforce the use of ++ operators when possible.
+            'Squiz/Sniffs/Operators/IncrementDecrementUsageSniff.php',
+            # Discourages the use of '&&' '||' '^' as representation for logical operators.
+            # Ensures that 'and' 'or' 'xor' are used as logical operators.
+            dirname(__FILE__) . '/Sniffs/Operators/ValidLogicalOperatorsSniff.php',
 
-              # Naming Conventions
-                    # Ensures class and interface names start with a capital letter and use _ separators.
-                    'PEAR/Sniffs/NamingConventions/ValidClassNameSniff.php',
-                    # Ensures all control structure keywords are lowercase.
-                    'Squiz/Sniffs/ControlStructures/LowercaseDeclarationSniff.php',
-                    # Checks that all uses of "true", "false" and "null" are lowercase.
-                    'Generic/Sniffs/PHP/LowerCaseConstantSniff.php',
+        # Comments
 
-              # Operators
-                    # enforce the use of IDENTICAL (===) type operators rather than EQUAL (==) operator
-                    # enforce the use of "=== false" instead of "!"
-                    'Squiz/Sniffs/Operators/ComparisonOperatorUsageSniff.php',
+            #'Squiz/Sniffs/Commenting/ClassCommentSniff.php',
+            #'Squiz/Sniffs/Commenting/FileCommentSniff.php',
+            #'Squiz/Sniffs/Commenting/FunctionCommentSniff.php',
+            #'Squiz/Sniffs/Commenting/VariableCommentSniff.php',
+            # prohibits the usage of "//", enforces usage of "#"
+            dirname(__FILE__) . '/Sniffs/Commenting/OneLineCommentSniff.php',
+            # every todo message needs a link to our bugtracker
+            dirname(__FILE__) . '/Sniffs/Commenting/TodoWithBugtrackerLinkSniff.php',
 
-                    # enforce the use of ++ operators when possible.
-                    'Squiz/Sniffs/Operators/IncrementDecrementUsageSniff.php',
+        # CodeAnalysis
 
-                    # Discourages the use of '&&' '||' '^' as representation for logical operators.
-                    # Ensures that 'and' 'or' 'xor' are used as logical operators.
-                    dirname(__FILE__) . '/Sniffs/Operators/ValidLogicalOperatorsSniff.php',
-
-              # Comments
-                    #'Squiz/Sniffs/Commenting/ClassCommentSniff.php',
-                    #'Squiz/Sniffs/Commenting/FileCommentSniff.php',
-                    #'Squiz/Sniffs/Commenting/FunctionCommentSniff.php',
-                    #'Squiz/Sniffs/Commenting/VariableCommentSniff.php',
-                   );
-
+            'Generic/Sniffs/CodeAnalysis/EmptyStatementSniff.php',
+            'Generic/Sniffs/CodeAnalysis/UnusedFunctionParameterSniff.php',
+            # Detects for-loops that use a function call in the test expression.
+            'Generic/Sniffs/CodeAnalysis/ForLoopWithTestFunctionCallSniff.php',
+            'Generic/Sniffs/CodeAnalysis/UnconditionalIfStatementSniff.php',
+            dirname(__FILE__) . '/Sniffs/CodeAnalysis/UnnecessaryFinalModifierSniff.php',
+        );
     }
 
     /**

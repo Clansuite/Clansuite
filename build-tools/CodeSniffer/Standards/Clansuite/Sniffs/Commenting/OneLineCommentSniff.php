@@ -1,10 +1,10 @@
 <?php
 /**
- * Clansuite_Sniffs_Commenting_OneLineCommentSniff. 
+ * Clansuite_Sniffs_Commenting_OneLineCommentSniff.
  *
  * This sniff prohibits the usage of "//" on one line comments.
  * Usage of hash comments "#" is enforced.
- * 
+ *
  * @author    Jens-Andre Koch
  * @copyright 2005-onwards
  * @license   GPLv2+
@@ -13,7 +13,7 @@
  * @package    PHP_CodeSniffer
  * @subpackage Clansuite_Sniffs
  */
-class Clansuite_Sniffs_Comments_OneLineCommentSniff implements PHP_CodeSniffer_Sniff
+class Clansuite_Sniffs_Commenting_OneLineCommentSniff implements PHP_CodeSniffer_Sniff
 {
     /**
      * Returns an array of tokens this test wants to listen for.
