@@ -54,7 +54,14 @@ class Clansuite_Config_Native
         }
 
         # it's a native php array structure so we simply include the file
-        include $filename;
+        $array = include $filename;
+
+        if (is_array($array) === false)
+        {
+            throw new \InvalidArgumentException('PHP Array Config File does not contain array.');
+        }
+        
+        return $array;
     }
 
     public static function writeConfig($filename, array $array)
