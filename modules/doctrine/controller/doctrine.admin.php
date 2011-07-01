@@ -162,13 +162,13 @@ class Clansuite_Module_Doctrine_Admin extends Clansuite_Module_Controller
                          */
                         # generate BaseClasses too
                         'generateBaseClasses'   => true,
-                        #'baseClassPrefix'       => 'Clansuite_ModelsBase_',
+                        #'baseClassPrefix'       => 'Clansuite_ModelBase_',
                         'baseClassPrefix'       => 'Base_',
                        #'baseClassName'         => '',
                         'baseClassesDirectory'  => 'records',
                         'generateTableClasses'  => true,              # generate Tables and Records
                         'baseTableClassName'    => '',
-                        'classPrefix'           => 'Modules_Models_', # determines the pear style nameing convention for autoload
+                        'classPrefix'           => 'Clansuite_Model_', # determines the pear style naming convention for autoload
                         'classPrefixFiles'      => true,
                         'pearStyle'             => true,
                         'suffix'                => '.model.php'
