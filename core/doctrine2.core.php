@@ -177,10 +177,9 @@ class Clansuite_Doctrine2
         if(isset($db_config['database']['driver']) === true and $db_config['database']['driver'] == "pdo_mysql")
         {
             if(isset($db_config['database']['charset']) === true)
-            {
-                # @todo set collation too? / $db_config['database']['collation'] / "utf8_general_ci" as default?
+            {                
                 $event->addEventSubscriber(
-                    new \Doctrine\DBAL\Event\Listeners\MysqlSessionInit($db_config['database']['charset'])
+                    new \Doctrine\DBAL\Event\Listeners\MysqlSessionInit($db_config['database']['charset'], 'utf8_unicode_ci')
                 );
             }
         }
