@@ -124,6 +124,29 @@ abstract class Clansuite_Module_Controller
         #Clansuite_Debug::firebug($entityName);
         return $this->doctrine_em->getRepository($entityName);
     }
+    
+    /**
+     * Saves this and all others models (calls persist + flush)
+     * Save (save one)
+     * Flush (save all)
+     * 
+     * @param object  $model Entites/xy
+     * @param boolean $flush Uses flush on true, save on false. Defaults to flush (true).
+     */
+    public function saveModel($model, $flush = true)
+    {        
+        $em = $this->doctrine_em;
+        $em->persist($model);
+        
+        if($flush === true)
+        {
+            $em->flush();
+        }
+        else
+        {
+            $em->save();
+        }        
+    }
 
     /**
      * Initalize the records of the module
