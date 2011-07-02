@@ -58,6 +58,10 @@ class Clansuite_DoorKeeper
      */
     const PHPIDS_CONVERTER_URI = 'http://dev.itratos.de/projects/php-ids/repository/raw/trunk/lib/IDS/Converter.php';
 
+    /**
+     * Note: content PHPIDS_UPDATE_XML_URI is currently not used for sha1 checking
+     */
+    #const PHPIDS_UPDATE_XML_URI = http://www.itratos.de/phpids_versions/phpids_update.xml
 
     /**
      * Initialize phpIDS and run the IDS-Monitoring on all incomming arrays
