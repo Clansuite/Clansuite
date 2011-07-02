@@ -38,9 +38,6 @@ if(defined('IN_CS') === false)
  * DoorKeeper
  *
  * These are security-methods to keep the entrance to Clansuite clean.
- * They can be called from httpRequest _constructor or httpRequest could be extended.
- * We have several things handled here:
- * (1) PHP IDS Init (2) Proxy Blocking
  *
  * @author     Jens-André Koch <vain@clansuite.com>
  * @copyright  Copyleft: All rights reserved. Jens-André Koch (2005-onwards)
@@ -52,6 +49,17 @@ if(defined('IN_CS') === false)
 class Clansuite_DoorKeeper
 {
     /**
+     * Constant string with the uri to the current PHPIDS default filter for download
+     */
+    const PHPIDS_DEFAULT_FILTER_URI = 'http://dev.itratos.de/projects/php-ids/repository/raw/trunk/lib/IDS/default_filter.xml';
+
+    /**
+     * Constant string with the uri to the current Converter.php for download
+     */
+    const PHPIDS_CONVERTER_URI = 'http://dev.itratos.de/projects/php-ids/repository/raw/trunk/lib/IDS/Converter.php';
+
+
+    /**
      * Initialize phpIDS and run the IDS-Monitoring on all incomming arrays
      *
      * Smoke Example:
@@ -60,23 +68,23 @@ class Clansuite_DoorKeeper
     public function runIDS()
     {
         // prevent redeclaration
-        if (false === class_exists('IDS_Monitor',false))
+        if(false === class_exists('IDS_Monitor', false))
         {
             # load ids init
             include ROOT_LIBRARIES . 'IDS/Init.php';
 
             # Setup the $_GLOBALS to monitor
 
-            $request = array( 'GET'     => $_GET,
-                              'POST'    => $_POST,
-                              'COOKIE'  => $_COOKIE);
+            $request = array('GET' => $_GET,
+                'POST' => $_POST,
+                'COOKIE' => $_COOKIE);
 
             # We have to setup some defines here, which are used by parse_ini_file to replace values in config.ini
 
-            define( 'IDS_FILTER_PATH',  ROOT_LIBRARIES . 'IDS/default_filter.xml');
-            define( 'IDS_TMP_PATH',     ROOT_CACHE);
-            define( 'IDS_LOG_PATH',     ROOT_LOGS . 'phpids_log.txt');
-            define( 'IDS_CACHE_PATH',   ROOT_CACHE . 'phpids_defaultfilter.cache');
+            define('IDS_FILTER_PATH', ROOT_LIBRARIES . 'IDS/default_filter.xml');
+            define('IDS_TMP_PATH', ROOT_CACHE);
+            define('IDS_LOG_PATH', ROOT_LOGS . 'phpids_log.txt');
+            define('IDS_CACHE_PATH', ROOT_CACHE . 'phpids_defaultfilter.cache');
 
             # the following lines have to remain, till PHP_IDS team fixes their lib
             # in order to create the cache file automatically
@@ -90,9 +98,11 @@ class Clansuite_DoorKeeper
                 fclose($filehandle);
             }
 
+            # autoupdate
+            #self::updateIDSFilterRules();
 
             # Initialize the System with the configuration values
-            $init = IDS_Init::init( ROOT_CONFIG . 'phpids_config.ini');
+            $init = IDS_Init::init(ROOT_CONFIG . 'phpids_config.ini');
 
             # Get IDS Monitor: and analyse the Request with Config applied
             $ids = new IDS_Monitor($request, $init);
@@ -101,31 +111,28 @@ class Clansuite_DoorKeeper
             $monitoring_result = $ids->run();
 
             #var_dump($monitoring_result);
-
             # if no results, everything is fine
-            if ( ( !$monitoring_result->isEmpty() ) or ( $monitoring_result->getImpact() > 1 ) )
+            if(( $monitoring_result->isEmpty() === false ) or ( $monitoring_result->getImpact() > 1 ))
             {
                 $access_block_message = 'Access Violation Detected by IDS! Execution stopped!';
 
-                if ( DEBUG == true )
+                if(DEBUG == true)
                 {
-                    $access_block_message .= ' <br /> Monitor:'. $monitoring_result;
+                    $access_block_message .= ' <br /> Monitor:' . $monitoring_result;
                 }
 
-                # @todo Use the IDS Logger or our own?
-                # require 'IDS/Log/File.php';
-                # require 'IDS/Log/Email.php';
-                # require 'IDS/Log/Composite.php';
-                # $compositeLog = new IDS_Log_Composite();
-                # $compositeLog->addLogger(IDS_Log_Email::getInstance($init),IDS_Log_File::getInstance($init));
-                # $compositeLog->execute($result);
-
                 # Stop the execution of the application.
-                # @todo advanced intrustion handling system (logs, blocking etc.)
-                # test the system by adding: &id=17281 union select concat(version(),0x3a,database(),0x3a,user()),2,3--
                 exit($access_block_message);
             }
         }
     }
+
+    public static function updateIDSFilterRules()
+    {
+        Clansuite_Remotefetch::updateFileIfDifferent(self::PHPIDS_DEFAULT_FILTER_URI, IDS_FILTER_PATH);
+        Clansuite_Remotefetch::updateFileIfDifferent(self::PHPIDS_CONVERTER_URI, ROOT_LIBRARIES . 'IDS/Converter.php');
+    }
+
 }
+
 ?>
