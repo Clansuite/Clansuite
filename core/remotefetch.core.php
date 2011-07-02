@@ -83,10 +83,10 @@ class Clansuite_Remotefetch
      */
     public static function curl_get_file($url)
     {
-        $curl = curl_init();        
+        $curl = curl_init();
         curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
-        curl_setopt($curl, CURLOPT_URL, $url);        
-        $content = curl_exec($curl);        
+        curl_setopt($curl, CURLOPT_URL, $url);
+        $content = curl_exec($curl);
         curl_close($curl);
 
         if(false === empty($content))
@@ -104,16 +104,16 @@ class Clansuite_Remotefetch
      *
      * @param $url URL of remote content to fetch
      * @param $flags
-     * @param $context 
+     * @param $context
      */
     public static function remote_get_file($url, $flags = null, $context = null)
     {
-        if(true === ini_get('allow_url_fopen'))
-        {
-            $context = stream_context_create(array('http' => array('timeout' => 5)));
+        #if(true === ini_get('allow_url_fopen'))
+        #{
+            $context = stream_context_create(array('http' => array('timeout' => 15)));
             $content = file_get_contents($url, $flags, $context);
-        }
-        
+        #}
+
         if(false === empty($content))
         {
             return $content;
@@ -121,6 +121,23 @@ class Clansuite_Remotefetch
         else
         {
             return false;
+        }
+    }
+
+    /**
+     * Updates a local file with the content of a remote file,
+     * when the sha1 checksums do not match.
+     */
+    public static function updateFileIfDifferent($remote_file, $local_file)
+    {
+        $data = self::remote_get_file($remote_file);
+
+        if($data !== false)
+        {
+            if(sha1($data) !== sha1_file($local_file))
+            {
+                file_put_contents($local_file, $data);
+            }
         }
     }
 }
