@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE theme SYSTEM "http://schemas.clansuite.com/dtd/theme_info.dtd">
+<theme>
+    <name>Clansuite Blueprint.css Theme</name>
+    <author>Jens-André Koch</author>
+    <theme_version>0.1</theme_version>
+    <required_clansuite_version>0.1</required_clansuite_version>
+    <date>July 2011</date>
+    <layout mainfile="index.tpl"/>
+    <css stylename="Blueprint CSS Framework" mainfile="import.css"/>
+    <renderengine>smarty</renderengine>
+    <backendtheme>0</backendtheme>
+</theme>
