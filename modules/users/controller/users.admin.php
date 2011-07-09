@@ -1,7 +1,7 @@
 <?php
    /**
     * Clansuite - just an eSports CMS
-    * Jens-AndrÈ Koch © 2005 - onwards
+    * Jens-Andr√© Koch ¬© 2005 - onwards
     * http://www.clansuite.com/
     *
     * LICENSE:
@@ -21,8 +21,8 @@
     *    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
     *
     * @license    GNU/GPL v2 or (at your option) any later version, see "/doc/LICENSE".
-    * @author     Jens-AndrÈ Koch <vain@clansuite.com>
-    * @copyright  Copyleft: All rights reserved. Jens-AndrÈ Koch (2005-onwards)
+    * @author     Jens-Andr√© Koch <vain@clansuite.com>
+    * @copyright  Copyleft: All rights reserved. Jens-Andr√© Koch (2005-onwards)
     * @link       http://www.clansuite.com
     *
     * @version    SVN: $Id: menueditor.module.php 2095 2008-06-11 23:44:20Z vain $
@@ -45,7 +45,6 @@ class Clansuite_Module_Users_Admin extends Clansuite_Module_Controller
 {
     public function initializeModule()
     {
-        parent::initModel();
     }
 
     public function action_admin_banuser()

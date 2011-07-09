@@ -1,7 +1,7 @@
 <?php
    /**
     * Clansuite - just an eSports CMS
-    * Jens-André Koch © 2005 - onwards
+    * Jens-AndrÃ© Koch Â© 2005 - onwards
     * http://www.clansuite.com/
     *
     * This file is part of "Clansuite - just an eSports CMS".
@@ -23,8 +23,8 @@
     *    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
     *
     * @license    GNU/GPL v2 or (at your option) any later version, see "/doc/LICENSE".
-    * @author     Jens-André Koch <vain@clansuite.com>
-    * @copyright  Jens-André Koch (2005 - onwards)
+    * @author     Jens-AndrÃ© Koch <vain@clansuite.com>
+    * @copyright  Jens-AndrÃ© Koch (2005 - onwards)
     * @link       http://www.clansuite.com
     *
     * @version    SVN: $Id: index.module.php 2625 2008-12-09 00:04:43Z vain $
@@ -49,9 +49,6 @@ class Clansuite_Module_Staticpages extends Clansuite_Module_Controller
     {
         # read module config
         $this->getModuleConfig();
-
-        # initialize related active-records
-        parent::initModel('staticpages');
     }
 
     #  Show a specific static page
