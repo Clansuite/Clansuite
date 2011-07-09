@@ -1,7 +1,7 @@
 <?php
    /**
     * Clansuite - just an eSports CMS
-    * Jens-André Koch © 2005 - onwards
+    * Jens-AndrÃ© Koch Â© 2005 - onwards
     * http://www.clansuite.com/
     *
     * LICENSE:
@@ -21,8 +21,8 @@
     *    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
     *
     * @license    GNU/GPL v2 or (at your option) any later version, see "/doc/LICENSE".
-    * @author     Jens-André Koch <vain@clansuite.com>
-    * @copyright  Copyleft: All rights reserved. Jens-André Koch (2005-onwards)
+    * @author     Jens-AndrÃ© Koch <vain@clansuite.com>
+    * @copyright  Copyleft: All rights reserved. Jens-AndrÃ© Koch (2005-onwards)
     * @link       http://www.clansuite.com
     *
     * @version    SVN: $Id: news.admin.php 3747 2009-11-20 14:59:46Z vain $
@@ -47,7 +47,6 @@ class Clansuite_Module_Modulemanager_Admin extends Clansuite_Module_Controller
     public function initializeModule()
     {
         $this->getModuleConfig();
-        parent::initModel('modulemanager');
     }
 
     /**
@@ -627,8 +626,8 @@ class Clansuite_Module_Modulemanager_Admin extends Clansuite_Module_Controller
      * -----------------------------------------------------------------------------------------------------------
      * action_admin_installmodulefirsttime
      * -----------------------------------------------------------------------------------------------------------
-     * WARNING: Nur verwenden für die erstmalige Erfassung aller Module
-     * hierzu müssen die Tabellen: cs_modules, cs_acl_actions, cs_acl_rules geleert werden
+     * WARNING: Nur verwenden fï¿½r die erstmalige Erfassung aller Module
+     * hierzu mï¿½ssen die Tabellen: cs_modules, cs_acl_actions, cs_acl_rules geleert werden
      */
     public function action_admin_firsttimeinstall()
     {

@@ -1,7 +1,7 @@
 <?php
    /**
     * Clansuite - just an eSports CMS
-    * Jens-André Koch © 2005 - onwards
+    * Jens-AndrÃ© Koch Â© 2005 - onwards
     * http://www.clansuite.com/
     *
     * This file is part of "Clansuite - just an eSports CMS".
@@ -50,9 +50,6 @@ class Clansuite_Module_Forum extends Clansuite_Module_Controller
     public function initializeModule()
     {  
         $this->getModuleConfig();
-
-        # initialize related active-records
-        parent::initModel('forum');
 
         $moduleinfo = new Clansuite_ModuleInfoController();
         $modules_info_array = $moduleinfo->getModuleInformations( 'Forum' );

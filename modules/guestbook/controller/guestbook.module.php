@@ -1,7 +1,7 @@
 <?php
    /**
     * Clansuite - just an eSports CMS
-    * Jens-André Koch © 2005 - onwards
+    * Jens-AndrÃ© Koch Â© 2005 - onwards
     * http://www.clansuite.com/
     *
     * This file is part of "Clansuite - just an eSports CMS".
@@ -23,8 +23,8 @@
     *    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
     *
     * @license    GNU/GPL v2 or (at your option) any later version, see "/doc/LICENSE".
-    * @author     Jens-André Koch  <vain@clansuite.com>
-    * @copyright  Jens-André Koch (2005 - onwards)
+    * @author     Jens-AndrÃ© Koch  <vain@clansuite.com>
+    * @copyright  Jens-AndrÃ© Koch (2005 - onwards)
     * @link       http://www.clansuite.com
     *
     * @version    SVN: $Id$
@@ -39,8 +39,8 @@ if(defined('IN_CS') === false)
 /**
  * This is the Clansuite Module Class - Guestbook
  *
- * @author     Jens-André Koch <vain@clansuite.com>, Florian Wolf <xsign.dll@clansuite.com>
- * @copyright  Jens-André Koch (2005 - onwards), Florian Wolf (2006-2007)
+ * @author     Jens-Andrï¿½ Koch <vain@clansuite.com>, Florian Wolf <xsign.dll@clansuite.com>
+ * @copyright  Jens-Andrï¿½ Koch (2005 - onwards), Florian Wolf (2006-2007)
  *
  * @category    Clansuite
  * @package     Modules
@@ -53,7 +53,6 @@ class Clansuite_Module_Guestbook extends Clansuite_Module_Controller
      */
     public function initializeModule()
     {
-        parent::initModel('guestbook');
     }
 
     public function action_show()
