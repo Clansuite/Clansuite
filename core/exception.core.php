@@ -410,6 +410,8 @@ class Clansuite_Exception extends Exception implements Clansuite_Exception_Inter
         # save session
         session_write_close();
 
+        ob_end_clean();
+
         # Output the errormessage
         return $errormessage;
     }
