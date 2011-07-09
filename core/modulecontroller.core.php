@@ -149,12 +149,12 @@ abstract class Clansuite_Module_Controller
     }
 
     /**
-     * Initalize the records of the module
+     * Initalizes the model (active records/entities/repositories) of the module
      *
      * @param $modulename Modulname
      * @param $recordname Recordname
      */
-    public static function initModel($modulename = null, $entity = null)
+    public static function setModel($modulename = null, $entity = null)
     {
         $module_models_path = '';
 
