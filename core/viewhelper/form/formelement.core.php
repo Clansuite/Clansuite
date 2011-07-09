@@ -312,6 +312,8 @@ class Clansuite_Formelement implements Clansuite_Formelement_Interface
         {
             return false;
         }
+
+        return $this;
     }
 
     /**
