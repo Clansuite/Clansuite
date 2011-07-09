@@ -84,8 +84,8 @@ class Clansuite_Module_Thememanager_Admin extends Clansuite_Module_Controller
     public function getThemes($themes_directory)
     {
         # init themes array
-        $themes = array();
-        $file = '';
+        $theme_info = array();
+        $dirs = $dir = '';
         $i = 1;
 
         # loop through ROOT_THEMES dir
@@ -117,8 +117,7 @@ class Clansuite_Module_Thememanager_Admin extends Clansuite_Module_Controller
                  * @see clansuite main config
                  */
                 $this->getClansuiteConfig();
-                if($this->config['template']['frontend_theme'] == $dir or
-                   $this->config['template']['backend_theme']  == $dir)
+                if($this->config['template']['frontend_theme'] == $dir or $this->config['template']['backend_theme']  == $dir)
                 {
                     $theme_info[$i]['globally_active'] = true;
                 }
@@ -128,8 +127,7 @@ class Clansuite_Module_Thememanager_Admin extends Clansuite_Module_Controller
                 }
 
                 # is this theme active for the individual user?
-                if($_SESSION['user']['frontend_theme'] == $dir or
-                   $_SESSION['user']['backend_theme']  == $dir)
+                if($_SESSION['user']['frontend_theme'] == $dir or $_SESSION['user']['backend_theme']  == $dir)
                 {
                     $theme_info[$i]['user_active'] = true;
                 }
@@ -140,15 +138,15 @@ class Clansuite_Module_Thememanager_Admin extends Clansuite_Module_Controller
 
                 # add preview image (preview_image should contain 2 files: [0]preview.img and [1]preview_thumb.img)
                 $preview_image = glob($themes_directory . $dir . DS . 'preview*.{jpg,png,gif,jpeg,JPG,PNG,GIF,JPEG}', GLOB_BRACE);
-
-                # turn ROOT_THEMES path into WWW_ROOT
-                if(strpos(strtolower($themes_directory), 'frontend'))
+                
+                # turn ROOT_THEMES path into a WWW_ROOT path
+                if(true === (bool) $theme_info[$i]['backendtheme'])
                 {
-                    $preview_image = str_replace(ROOT_THEMES_FRONTEND, WWW_ROOT_THEMES_FRONTEND . '', $preview_image);
+                    $preview_image = str_replace(ROOT_THEMES_BACKEND, WWW_ROOT_THEMES_BACKEND . '', $preview_image);                    
                 }
                 else
                 {
-                    $preview_image = str_replace(ROOT_THEMES_BACKEND, WWW_ROOT_THEMES_BACKEND . '', $preview_image);
+                    $preview_image = str_replace(ROOT_THEMES_FRONTEND, WWW_ROOT_THEMES_FRONTEND . '', $preview_image);
                 }
 
                 # fix slashes

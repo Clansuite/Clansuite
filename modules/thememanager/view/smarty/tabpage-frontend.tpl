@@ -1,9 +1,9 @@
+{* {$themes|var_dump} *}
+
 <table width="100%">
     <tbody>
 
 {foreach $themes as $theme}
-
-        {$theme|var_dump}
 
 {if $theme.backendtheme == false}
     <tr>
