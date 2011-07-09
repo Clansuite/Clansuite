@@ -32,8 +32,16 @@ class Clansuite_Sniffs_Functions_ForbiddenFunctionsSniff extends Generic_Sniffs_
              'delete'          => 'unset',
              'print'           => 'echo',
              'is_null'         => null,
+             'is_double'       => 'is_float', # odd alias, not deprecated
+             'is_integer'      => 'is_int', # odd alias, not deprecated
+             'is_long'         => 'is_int', # odd alias, not deprecated
+             'is_real'         => 'is_float', # odd alias, not deprecated
              'create_function' => null,
-             'chop'            => 'rtrim',  # odd alias, not deprecated
+             'chop'            => 'rtrim', # odd alias, not deprecated
+             'ini_alter'       => 'ini_set',    # odd alias, not deprecated
+             'join'            => 'implode',    # odd alias, not deprecated
+             'key_exists'      => 'array_key_exists', # odd alias, not deprecated
+             'fputs'           => 'fwrite',
 
              # 2) Discourages the use of our own debugging helper methods
              'Clansuite_Debug::printR' => 'null',
@@ -62,6 +70,12 @@ class Clansuite_Sniffs_Functions_ForbiddenFunctionsSniff extends Generic_Sniffs_
              'strwidth'        => 'mb_strwidth',     # Return width of string
              'substr_count'    => 'mb_substr_count', # Count the number of substring occurrences
              'substr'          => 'mb_substr',       # Get part of string
+             # 4b) Discourages the use of odd multi-bytes string aliases
+             'mbstrcut'        => 'mb_strcut', 	
+             'mbstrlen'        => 'mb_strlen',  	
+             'mbstrpos'        => 'mb_strpos', 
+             'mbstrrpos'       => 'mb_strrpos',  
+             'mbsubstr'        => 'mb_substr', 
 
              # 5) Discourages the use of ereg-functions in general = no ereg*() and no mb_ereg_*()
              'ereg'              => 'preg_match',
@@ -100,9 +114,16 @@ class Clansuite_Sniffs_Functions_ForbiddenFunctionsSniff extends Generic_Sniffs_
              'magic_quotes_runtime'     => 'null',
              'magic_quotes_sybase'      => 'null',
              'enable_dl'                => 'null',
+
+             ## 7b) deprecated ini directives / functions as of php 5.4
+             'session.bug_compat_warn'  => 'null', # ini
+             'session.bug_compat42'     => 'null', # ini
+             'y2k_compliance'           => 'null', # ini
+             'import_request_variables' => 'null', # function
+             'allow_call_time_pass_reference' => 'null', # ini
         
              # 8) due to performance reasons the following methods are forbidden
-             'file_exists'              => 'is_file',        
+             'file_exists'              => 'is_file',
             );
 
     /**
