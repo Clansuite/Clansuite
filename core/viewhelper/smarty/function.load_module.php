@@ -85,7 +85,7 @@ function smarty_function_load_module($params, $smarty)
                 Clansuite_CMS::getInjector()->instantiate('Clansuite_HttpResponse')
     );
     $controller->setView($smarty);
-    $controller->initModel($module);
+    #$controller->setModel($module);
 
     /**
      * Get the Ouptut of the Object->Method Call
