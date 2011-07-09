@@ -140,7 +140,7 @@ class Clansuite_CMS
            )
         {
             $uri = sprintf('http://%s%s', $_SERVER['SERVER_NAME'], '/installation/index.php');
-            exit('<b><font color="#FF0000">[Clansuite Error] Database misses the Session Table!</font></b> <br />
+            exit('<b><font color="#FF0000">[Clansuite Error] Database Connection Infos are missing!</font></b> <br />
                  Please use <a href="' . $uri . '">Clansuite Installation</a> to perform a proper installation.');
         }
 
