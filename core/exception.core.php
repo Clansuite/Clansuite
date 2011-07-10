@@ -282,7 +282,8 @@ class Clansuite_Exception extends Exception implements Clansuite_Exception_Inter
 
         # Errorlogo
         $errormessage .= '<div style="float: left; margin: 5px; margin-right: 25px; border:1px inset #bf0000; padding: 20px;">';
-        $errormessage .= '<img src="' . WWW_ROOT_THEMES_CORE . 'images/Clansuite-Toolbar-Icon-64-exception.png" style="border: 2px groove #000000;" alt="Clansuite Exception Icon" /></div>';
+        $errormessage .= '<img src="' . WWW_ROOT_THEMES_CORE . 'images/Clansuite-Toolbar-Icon-64-exception.png" ';
+        $errormessage .= 'style="border: 2px groove #000000;" alt="Clansuite Exception Icon" /></div>';
 
         # Fieldset Legend
         $errormessage .= '<legend>Clansuite Exception : [ ' . $this->message . ' ]</legend>';
@@ -334,10 +335,11 @@ class Clansuite_Exception extends Exception implements Clansuite_Exception_Inter
             $errormessage .= '<tr><td colspan="2"><h3>Server Environment</h3></td></tr>';
             $errormessage .= '<tr><td><strong>Date: </strong></td><td>' . date('r') . '</td></tr>';
             $errormessage .= '<tr><td><strong>Remote: </strong></td><td>' . $_SERVER['REMOTE_ADDR'] . '</td></tr>';
-            $errormessage .= '<tr><td><strong>Request: </strong></td><td>index.php?' . htmlentities($_SERVER['QUERY_STRING']) . '</td></tr>';
+            $errormessage .= '<tr><td><strong>Request: </strong></td><td>index.php?' . $_SERVER['QUERY_STRING'] . '</td></tr>';
             $errormessage .= '<tr><td><strong>Server: </strong></td><td>' . $_SERVER['SERVER_SOFTWARE'] . '</td></tr>';
             $errormessage .= '<tr><td><strong>Agent: </strong></td><td>' . $_SERVER['HTTP_USER_AGENT'] . '</td></tr>';
-            $errormessage .= '<tr><td><strong>Clansuite: </strong></td><td>' . CLANSUITE_VERSION . ' ' . CLANSUITE_VERSION_STATE . ' (' . CLANSUITE_VERSION_NAME . ') [Revision #' . CLANSUITE_REVISION . ']</td></tr>';
+            $errormessage .= '<tr><td><strong>Clansuite: </strong></td><td>' . CLANSUITE_VERSION . ' ' . CLANSUITE_VERSION_STATE;
+            $errormessage .= ' (' . CLANSUITE_VERSION_NAME . ') [Revision #' . CLANSUITE_REVISION . ']</td></tr>';
             $errormessage .= '</table></td></tr>';
 
             # Split
@@ -386,22 +388,14 @@ class Clansuite_Exception extends Exception implements Clansuite_Exception_Inter
             $errormessage  .= '<tr><td colspan="2">&nbsp;</td></tr>';
         }
 
-        # Split
-        $errormessage   .= '<tr><td colspan="2">&nbsp;</td></tr>';
+        # @todo Clansuite Error -> Trac newticket
+        $errormessage .= Clansuite_Errorhandler::getBugtrackerMessage($this->message);
 
         # close all html element table
         $errormessage   .= '</table>';
 
         # Footer with Support-Backlinks
-        $errormessage  .= '<div style="float:right;">';
-        $errormessage  .= '<strong><!-- Live Support JavaScript -->
-                           <a href="http://support.clansuite.com/chat.php" target="_blank">Contact Support (Start Chat)</a>
-                           <!-- Live Support JavaScript --></strong> | ';
-        $errormessage  .= '<strong><a href="http://trac.clansuite.com/newticket/">Bug-Report</a></strong> |
-                           <strong><a href="http://forum.clansuite.com/">Support-Forum</a></strong> |
-                           <strong><a href="http://docs.clansuite.com/">Manuals</a></strong> |
-                           <strong><a href="http://www.clansuite.com/">visit clansuite.com</a></strong>
-                           </div>';
+        $errormessage  .= Clansuite_Errorhandler::getSupportBacklinks($this);
 
         # close all html elements: fieldset, body+page
         $errormessage   .= '</fieldset>';
