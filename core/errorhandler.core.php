@@ -360,19 +360,14 @@ class Clansuite_Errorhandler
         # HR Split
         $errormessage .= '<tr><td colspan="2">&nbsp;</td></tr>';
 
+        # @todo Clansuite Error -> Trac newticket
+        $errormessage .= self::getBugtrackerMessage($errorstring);
+
         # close html elements: table
         $errormessage .= '</table>';
 
         # Footer with Support-Backlinks
-        $errormessage .= '<div style="float:right;">';
-        $errormessage .= '<strong><!-- Live Support JavaScript -->
-                           <a href="http://support.clansuite.com/chat.php" target="_blank">Contact Support (Start Chat)</a>
-                           <!-- Live Support JavaScript --></strong> | ';
-        $errormessage .= '<strong><a href="http://trac.clansuite.com/newticket/">Bug-Report</a></strong> |
-                           <strong><a href="http://forum.clansuite.com/">Support-Forum</a></strong> |
-                           <strong><a href="http://docs.clansuite.com/">Manuals</a></strong> |
-                           <strong><a href="http://www.clansuite.com/">visit clansuite.com</a></strong>
-                           </div>';
+        $errormessage .= Clansuite_Errorhandler::getSupportBacklinks();
 
         # close all html elements: fieldset, body+page
         $errormessage .= '</fieldset><br /><br />';
@@ -601,45 +596,66 @@ class Clansuite_Errorhandler
             }
         }
     }
+    
+    public static function getSupportBacklinks()
+    {
+        $html  = '<div style="padding-top: 45px; float:right;">';
+        $html  .= '<strong><!-- Live Support JavaScript -->
+                           <a href="http://support.clansuite.com/chat.php" target="_blank">Contact Support (Start Chat)</a>
+                           <!-- Live Support JavaScript --></strong> | ';
+        $html  .= '<strong><a href="http://trac.clansuite.com/newticket/">Bug-Report</a></strong> |
+                           <strong><a href="http://forum.clansuite.com/">Support-Forum</a></strong> |
+                           <strong><a href="http://docs.clansuite.com/">Manuals</a></strong> |
+                           <strong><a href="http://www.clansuite.com/">visit clansuite.com</a></strong>
+                           </div>';
+        return $html;
+    }
 
     /**
-     * Add backlinks to our bugtracker to the errormessage
+     * Adds a link to our bugtracker, for creating a new ticket with the errormessage
      *
      * @param string $errorstring the errormessage
      * @return string html-representation of the bugtracker links
      */
     public static function getBugtrackerMessage($errorstring)
     {
-        $message1 = '<h3>' . _('Found a bug in Clansuite?') . '</h3>';
+        $message1 = '<tr><td colspan="2"><h3>' . _('Found a bug in Clansuite?') . '</h3>';
         $message2 = _('If you think this should work and you can reproduce the problem, please consider creating a bug report.');
         $message3 = _('Before creating a new bug report, please first try searching for similar issues, as it is quite likely that this problem has been reported before.');
         $message4 = _('Otherwise, please create a new bug report describing the problem and explain how to reproduce it.');
 
-        $search_link = '<a href="http://trac.clansuite.com/search?q=' . $errorstring . '&noquickjump=1&ticket=on">';
+        $search_link = NL . NL . '&#9658; <a target="_blank" href="http://trac.clansuite.com/search?q=' . $errorstring . '&noquickjump=1&ticket=on">';
         $search_link .= _('Search for similar issue');
         $search_link .= '</a>';
 
-        /**
-         * @todo Trac - Create New Ticket via GET Request
-         *
-         * http://trac.clansuite.com/newticket/?
-         * summary=abc&
-         * description=abc&
-         * type=defect | bug&
-         * milestone=triage | neuzuteilung&
-         * version=CLANSUITE_VERSION
-         * component=
-         * author=WEBMATER_EMAIL
-         *
-         * urlencode($errorstring);
-         * urlencode($this->excetpion->getMessage(). chr(10));
-         */
-
-        $newticket_link = '<a href="http://trac.clansuite.com/newticket/">';
+        $newticket_link = '&nbsp; &#9658; <a target="_blank" href="'.self::getTracNewTicketURL().'">';
         $newticket_link .= _('Create new ticket');
         $newticket_link .= '</a>';
 
-        return $message1 . $message2 . $message3 . $message4 . $search_link . $newticket_link;
+        $close_table = '</td></tr>' . NL;
+
+        return $message1 . $message2 . NL . $message3 . NL . $message4 . $search_link . $newticket_link . $close_table;
+    }
+    
+    /**
+     * Returns a New Ticket URL for a GET Request
+     *
+     * urlencode($errorstring);
+     * urlencode($this->excetpion->getMessage(). chr(10));
+     */
+    public static function getTracNewTicketURL()
+    {
+        $array = array(
+            'summary'     => '',
+            'description' => '',
+            'type'        => 'defect | bug',
+            'milestone'   => 'Triage | Neuzuteilung',
+            'version'     => 'Clansuite v' . CLANSUITE_VERSION,
+            #'component'   => '',
+            'author'      => $_SESSION['user']['email'],        
+        );
+            
+        return 'http://trac.clansuite.com/newticket/?' . http_build_query($array);
     }
 }
 ?>
