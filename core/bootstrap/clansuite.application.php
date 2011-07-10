@@ -80,13 +80,13 @@ class Clansuite_CMS
          */
         define('STARTTIME', microtime(1), false);
 
-        self::initialize_Paths();
+        self::perform_startup_checks();
+        self::initialize_ConstantsAndPaths();
         self::initialize_Loader();
         self::initialize_DependencyInjection();
         self::initialize_Config();
         #self::initialize_Logger();
         self::initialize_UTF8();
-        self::perform_startup_checks();
         self::initialize_Debug();
         self::initialize_Version();
         self::initialize_Timezone();
@@ -94,6 +94,7 @@ class Clansuite_CMS
         self::initialize_Errorhandling();
         self::register_DI_Core();
         self::register_DI_Filters();
+        self::initialize_Database();
         self::start_Session();
         self::execute_Frontcontroller();
         self::shutdown();
@@ -131,26 +132,14 @@ class Clansuite_CMS
             exit('<i>php_pdo_mysql</i> driver not enabled.');
         }
 
-        # Data Source Name Check
-        # check if database settings are available in configuration
-        if(empty(self::$config['database']['driver']) === true or
-           empty(self::$config['database']['username']) === true or
-           empty(self::$config['database']['host']) === true or
-           empty(self::$config['database']['name']) === true
-           )
-        {
-            $uri = sprintf('http://%s%s', $_SERVER['SERVER_NAME'], '/installation/index.php');
-            exit('<b><font color="#FF0000">[Clansuite Error] Database Connection Infos are missing!</font></b> <br />
-                 Please use <a href="' . $uri . '">Clansuite Installation</a> to perform a proper installation.');
-        }
 
-        # magic_quotes_gpc off 
+        # magic_quotes_gpc off
         # @todo remove cleanGlobals from httprequest
          if(ini_get('magic_quotes_gpc') == '1' or strtolower(ini_get('magic_quotes_gpc')) == 'on')
         {
             exit('PHP Setting <i>magic_quotes_gpc</i> must be Off.');
         }
-        
+
         # register globals off
         if(ini_get('register_globals') == '1' or strtolower(ini_get('register_globals')) == 'on')
         {
@@ -179,7 +168,22 @@ class Clansuite_CMS
         }
 
         # 2. load the main clansuite configuration file
-        self::$config = Clansuite_Config_INI::readConfig(ROOT . 'configuration/clansuite.config.php');
+        $clansuite_cfg_cached = false;
+        if(APC === true and apc_exists('clansuite.config'))
+        {
+            self::$config = apc_fetch('clansuite.config');
+            $clansuite_cfg_cached = true;
+        }
+
+        if($clansuite_cfg_cached === false)
+        {
+            self::$config = Clansuite_Config_INI::readConfig(ROOT . 'configuration/clansuite.config.php');
+            if (APC === true)
+            {
+                apc_add('application.ini', self::$config);
+            }
+        }
+        unset($clansuite_cfg_cached);
 
         # 3. Maintenance check
         if( true === (bool) self::$config['maintenance']['maintenance'] )
@@ -269,14 +273,15 @@ class Clansuite_CMS
      *   3. Setup include path for 3th party libraries
      *  ------------------------------------------------
      */
-    public static function initialize_Paths()
+    public static function initialize_ConstantsAndPaths()
     {
+        define('APC', extension_loaded ('apc'));
+
         # try to load constants from APC
-        if(true === function_exists('apc_load_constants') and
-           true === apc_load_constants('CLANSUITE_CONSTANTS', true))
+        if(APC === true)
         {
-            # ok, constants retrieved from APC
-            # echo 'System - Constants retrieved from APC';
+            # constants retrieved from APC
+            apc_load_constants('CLANSUITE_CONSTANTS', true);
         }
         else
         {
@@ -510,7 +515,6 @@ class Clansuite_CMS
             #error_reporting(0);
             # write to errorlog
             ini_set('error_log', ROOT_LOGS . 'clansuite_errorlog.txt');
-            # @todo use logger instead of error_log()
         }
     }
 
@@ -680,13 +684,32 @@ class Clansuite_CMS
     }
 
     /**
+     * Checks config for DSN and initializes Doctrine2
+     */
+    private static function initialize_Database()
+    {
+        # Data Source Name Check
+        # check if database settings are available in configuration
+        if(empty(self::$config['database']['driver']) === true or
+           empty(self::$config['database']['username']) === true or
+           empty(self::$config['database']['host']) === true or
+           empty(self::$config['database']['name']) === true
+           )
+        {
+            $uri = sprintf('http://%s%s', $_SERVER['SERVER_NAME'], '/installation/index.php');
+            exit('<b><font color="#FF0000">[Clansuite Error] Database Connection Infos are missing!</font></b> <br />
+                 Please use <a href="' . $uri . '">Clansuite Installation</a> to perform a proper installation.');
+        }
+
+        # Initialize Doctrine before session start, because session is written to database
+        self::$doctrine_em = Clansuite_Doctrine2::init(self::$config);
+    }
+
+    /**
      * Starts a new Session and Userobject
      */
     private static function start_Session()
     {
-        # Initialize Doctrine before session start, because session is written to database
-        self::$doctrine_em = Clansuite_Doctrine2::init(self::$config);
-
         # Initialize Session
         self::$injector->create('Clansuite_Session');
 

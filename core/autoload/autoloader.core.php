@@ -456,7 +456,7 @@ class Clansuite_Loader
             {
                 trigger_error('Autoloader could not write the map cache file: ' . $mapfile, E_USER_ERROR);
             }
-            else 
+            else
             {
                 return true;
             }
