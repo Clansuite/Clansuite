@@ -11,6 +11,3 @@ GOTO RUN
 set PHPBIN=%PHP_PEAR_PHP_BIN%
 :RUN
 "%PHPBIN%" "doctrine.php" %*
-
-REM CALL COMMAND ,)
-cmd.exe
