@@ -184,9 +184,9 @@ class Clansuite_Debug
         $includedFiles = array();        
         $includedFilesTotalSize = 0;
         $includedFilesCount = 0;
+        $files = array();
 
         # fetch all included files
-        $files = array();
         $files = get_included_files();
 
         # loop over all included files and sum up filesize
@@ -200,7 +200,7 @@ class Clansuite_Debug
         # total number of included files
         $includedFilesCount = count($this->includedFiles);
 
-        self::printR(array('count' => $includedFilesCount, 'size' => $includedFilesTotalSize, 'files' => $includedFiles);
+        self::printR(array('count' => $includedFilesCount, 'size' => $includedFilesTotalSize, 'files' => $includedFiles));
     }
 
     /**
