@@ -361,7 +361,7 @@ class Clansuite_Errorhandler
         $errormessage .= '<tr><td colspan="2">&nbsp;</td></tr>';
 
         # @todo Clansuite Error -> Trac newticket
-        $errormessage .= self::getBugtrackerMessage($errorstring);
+        $errormessage .= self::getBugtrackerMessage($errorstring, $errorfile, $errorline, $errorcontext);
 
         # close html elements: table
         $errormessage .= '</table>';
@@ -617,18 +617,18 @@ class Clansuite_Errorhandler
      * @param string $errorstring the errormessage
      * @return string html-representation of the bugtracker links
      */
-    public static function getBugtrackerMessage($errorstring)
+    public static function getBugtrackerMessage($errorstring, $errorfile, $errorline, $errorcontext)
     {
         $message1 = '<tr><td colspan="2"><h3>' . _('Found a bug in Clansuite?') . '</h3>';
         $message2 = _('If you think this should work and you can reproduce the problem, please consider creating a bug report.');
         $message3 = _('Before creating a new bug report, please first try searching for similar issues, as it is quite likely that this problem has been reported before.');
         $message4 = _('Otherwise, please create a new bug report describing the problem and explain how to reproduce it.');
 
-        $search_link = NL . NL . '&#9658; <a target="_blank" href="http://trac.clansuite.com/search?q=' . $errorstring . '&noquickjump=1&ticket=on">';
+        $search_link = NL . NL . '&#9658; <a target="_blank" href="http://trac.clansuite.com/search?q=' . htmlentities($errorstring, ENT_QUOTES) . '&noquickjump=1&ticket=on">';
         $search_link .= _('Search for similar issue');
         $search_link .= '</a>';
 
-        $newticket_link = '&nbsp; &#9658; <a target="_blank" href="'.self::getTracNewTicketURL().'">';
+        $newticket_link = '&nbsp; &#9658; <a target="_blank" href="'.self::getTracNewTicketURL($errorstring, $errorfile, $errorline, $errorcontext).'">';
         $newticket_link .= _('Create new ticket');
         $newticket_link .= '</a>';
 
@@ -643,11 +643,18 @@ class Clansuite_Errorhandler
      * urlencode($errorstring);
      * urlencode($this->excetpion->getMessage(). chr(10));
      */
-    public static function getTracNewTicketURL()
+    public static function getTracNewTicketURL($summary, $errorfile, $errorline, $context)
     {
+        /**
+         * error description written in trac wiki formating style
+         * @link http://trac.clansuite.com/wiki/WikiFormatting
+         */
+        $description = '[Error] ' . $summary . ' [[BR]] [File] ' . $errorfile . ' [[BR]] [Line] ' . $errorline;
+
+        # options array for http_build_query
         $array = array(
-            'summary'     => '',
-            'description' => '',
+            'summary'     => $summary,
+            'description' => $description,
             'type'        => 'defect | bug',
             'milestone'   => 'Triage | Neuzuteilung',
             'version'     => 'Clansuite v' . CLANSUITE_VERSION,
@@ -658,4 +665,5 @@ class Clansuite_Errorhandler
         return 'http://trac.clansuite.com/newticket/?' . http_build_query($array);
     }
 }
+
 ?>
