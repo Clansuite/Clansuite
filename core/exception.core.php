@@ -116,7 +116,7 @@ class Clansuite_Exception extends Exception implements Clansuite_Exception_Inter
      * @param $exception PHP Exception Objects are valid (Type Hint).
      */
     public function exception_handler(Exception $exception)
-    {
+    {   
         # re/assign variables from an uncatched exception to this exception object
         $this->message = $exception->getMessage();
         $this->string = $exception->getTraceAsString();
@@ -389,7 +389,7 @@ class Clansuite_Exception extends Exception implements Clansuite_Exception_Inter
         }
 
         # @todo Clansuite Error -> Trac newticket
-        $errormessage .= Clansuite_Errorhandler::getBugtrackerMessage($this->message);
+        $errormessage .= Clansuite_Errorhandler::getBugtrackerMessage($this->message, $this->file, $this->line, $this->trace);
 
         # close all html element table
         $errormessage   .= '</table>';
@@ -404,7 +404,11 @@ class Clansuite_Exception extends Exception implements Clansuite_Exception_Inter
         # save session
         session_write_close();
 
-        ob_end_clean();
+        # clear all output buffers
+        if( ob_get_length() )
+        {
+            ob_end_clean();   
+        }
 
         # Output the errormessage
         return $errormessage;

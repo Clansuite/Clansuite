@@ -596,7 +596,7 @@ class Clansuite_Errorhandler
             }
         }
     }
-    
+
     public static function getSupportBacklinks()
     {
         $html  = '<div style="padding-top: 45px; float:right;">';
@@ -636,7 +636,7 @@ class Clansuite_Errorhandler
 
         return $message1 . $message2 . NL . $message3 . NL . $message4 . $search_link . $newticket_link . $close_table;
     }
-    
+
     /**
      * Returns a New Ticket URL for a GET Request
      *
@@ -659,9 +659,9 @@ class Clansuite_Errorhandler
             'milestone'   => 'Triage | Neuzuteilung',
             'version'     => 'Clansuite v' . CLANSUITE_VERSION,
             #'component'   => '',
-            'author'      => $_SESSION['user']['email'],        
+            'author'      => $_SESSION['user']['email'],
         );
-            
+
         return 'http://trac.clansuite.com/newticket/?' . http_build_query($array);
     }
 }
