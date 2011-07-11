@@ -119,7 +119,7 @@ class Clansuite_Breadcrumb
             # Level 3
             if(isset($actionName))
             {
-               
+
                 $url .= '&amp;action=' . $actionName;
                 self::add(ucfirst($actionName), $url);
             }
@@ -131,6 +131,9 @@ class Clansuite_Breadcrumb
 
     /**
      * Getter for the breadcrumbs/trail array
+     *
+     * @param bool $dynamic_add If true, adds the breadcrumbs dynamically (default), otherwise just returns.
+     * @return array self::$path The breadcrumbs array.
      */
     public static function getTrail($dynamic_add = true)
     {
@@ -146,6 +149,9 @@ class Clansuite_Breadcrumb
 
     /**
      * Breadcrumb Level 0    =>    Home or Controlcenter
+     *
+     * @param string $moduleName The module name.
+     * @param string $submoduleName The submodule name.
      */
     public static function initBreadcrumbs($moduleName = null, $submoduleName = null)
     {
@@ -160,6 +166,9 @@ class Clansuite_Breadcrumb
         }
     }
 
+    /**
+     * Resets the breadcrumbs array.
+     */
     public static function resetBreadcrumbs()
     {
         self::$path = array();
