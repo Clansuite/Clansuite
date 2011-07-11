@@ -176,10 +176,31 @@ class Clansuite_Debug
 
     /**
      * Lists all currently included (or required) files.
+     * Counts all included files and calculates total size of all inclusion.
      */
     public static function getIncludesFiles()
     {
-        self::printR(get_included_files());
+        # init vars
+        $includedFiles = array();        
+        $includedFilesTotalSize = 0;
+        $includedFilesCount = 0;
+
+        # fetch all included files
+        $files = array();
+        $files = get_included_files();
+
+        # loop over all included files and sum up filesize
+        foreach ($files as $file)
+        {
+            $size = filesize($file);
+            $includedFiles[] = array('name' => $file, 'size' => $size);
+            $includedFilesTotalSize += $size;
+        }
+        
+        # total number of included files
+        $includedFilesCount = count($this->includedFiles);
+
+        self::printR(array('count' => $includedFilesCount, 'size' => $includedFilesTotalSize, 'files' => $includedFiles);
     }
 
     /**
