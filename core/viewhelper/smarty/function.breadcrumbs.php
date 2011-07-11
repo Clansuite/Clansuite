@@ -1,12 +1,6 @@
 <?php
 /**
- * Smarty plugin
- * @package Smarty
- * @subpackage plugins
- */
-
-/**
- * This smarty function is part of "Clansuite - just an eSports CMS"
+ * This smarty function is part of "Clansuite - just an eSports CMS".
  * @link http://www.clansuite.com
  *
  * @author    Jens-André Koch <vain@clansuite.com>
@@ -14,9 +8,25 @@
  * @license   GNU General Public License v2 or any later version
  * @version   SVN $Id$
  *
+ * Smarty plugin
+ * @package Smarty
+ * @subpackage plugins
+ */
+
+/**
+ * Renders the breadcrumb navigation.
+ *
+ * @link Clansuite_Breadcrumb::getTrail() is used for trail as default.
+ *
  * @example
  * {breadcrumbs}
  *
+ * @param array  $params
+ * @param string $params['title'] If true, renders only the title. If false, renders title with link.
+ * @param string $params['trail'] The trail array, default incomming via Clansuite_Breadcrumb::getTrail().
+ * @param string $params['separator'] The separator element between Crumb Elements "&gt;" or "&raquo;".
+ * @param string $params['length'] Defines the maximum length of title (rest is truncated).
+ * @param object $smarty Smarty Render Engine
  * @return string
  */
 function smarty_function_breadcrumbs($params, $smarty)
@@ -69,12 +79,16 @@ function smarty_function_breadcrumbs($params, $smarty)
 
         if (isset($trail[$i]['link']) && $i < $trailSize - 1)
         {
-            # if parameter heading is not set, give links
-            if (!isset($params['title']))
+            # if parameter "title" (only) is not set, give links
+            if (isset($params['title']) === false)
             {
-                $links[] = '<a href="'. $trail[$i]['link'] .'" title="'. htmlspecialchars($trail[$i]['title']). '">'. $title .'</a>';
+                $links[] = sprintf('<a href="%s" title="%s">%s</a>',
+                    htmlspecialchars($trail[$i]['link']),
+                    htmlspecialchars($trail[$i]['title']),
+                    htmlspecialchars($trail[$i]['title'])
+                );
             }
-            # if heading is set, just titles
+            # if parameter "title" is set, render title only
             else
             {
                 $links[] = $title;
