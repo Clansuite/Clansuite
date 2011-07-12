@@ -15,7 +15,7 @@ class Clansuite_UnitTestCase extends UnitTestCase
     {
         $this->assertTrue(false, $msg);
     }
-    
+
     /**
      * Mark a test as skipped.
      *
@@ -27,7 +27,7 @@ class Clansuite_UnitTestCase extends UnitTestCase
     {
         $this->assertTrue(false, $msg);
     }
-    
+
     /**
      *    Will trigger a pass if the string
      *    is found in the subject. Fail otherwise.
@@ -43,27 +43,27 @@ class Clansuite_UnitTestCase extends UnitTestCase
                 $subject,
                 $message);
     }
-    
+
     /**
      * AkTestApplication->_testXPath()
      * @author Bermi Ferrer Martinez
      * @license LGPL
      */
     function _testXPath($xpath_expression)
-    
+
     {
         if(false === class_exists('DOMDocument') or false === class_exists('DOMXPath'))
         {
             if(function_exists('domxml_open_mem') === true)
             {
                 $dom = domxml_open_mem($this->_response);
-                
+
                 if(false === $dom)
                 {
                     $this->fail('Error parsing the document.');
                     return false;
                 }
-                
+
                 #var_dump($dom);
                 $xpath = $dom->xpath_init();
                 #var_dump($xpath);
@@ -75,9 +75,9 @@ class Clansuite_UnitTestCase extends UnitTestCase
                 $return->length = count($result->nodeset);
                 return $return;
             }
-            
+
             $this->fail('No xpath support built in.');
-            
+
             return false;
         }
         elseif(extension_loaded('domxml'))
@@ -94,22 +94,22 @@ class Clansuite_UnitTestCase extends UnitTestCase
         $node = $xpath->query($xpath_expression);
         return $node;
     }
-    
+
     /**
      * AkTestApplication->assertXPath()
      * @author Bermi Ferrer Martinez
-     * @license LGPL 
+     * @license LGPL
      *
      * Usage: $this->assertXPath("/html/body/form[@id='test']");
      *
      * @param string $xpath_expression
      * @param string $message
-     * @return node 
+     * @return node
      */
     function assertXPath($xpath_expression, $message = null)
     {
         $node = $this->_testXPath($xpath_expression);
-        
+
         if($node->length < 1)
         {
             $message = empty($message) ? 'Element not found using xpath: %xpath' : $message;
@@ -121,7 +121,7 @@ class Clansuite_UnitTestCase extends UnitTestCase
             $message = empty($message) ? 'Element found using xpath: %xpath' : $message;
             $this->pass($message);
         }
-        
+
         return $node;
     }
 }
@@ -163,7 +163,7 @@ class StringExpectation extends SimpleExpectation
      *    @access public
      */
     function test($compare)
-    {        
+    {
         if(strpos($compare, $this->getString()) !== false)
         {
             return true; # string is found

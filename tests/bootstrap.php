@@ -81,7 +81,7 @@ if(empty($_SERVER['SERVER_NAME']))
 
 #  acquire clansuite path constants
 require_once 'core/bootstrap/clansuite.application.php';
-Clansuite_CMS::initialize_Paths();
+Clansuite_CMS::initialize_ConstantsAndPaths();
 
 # constants must be defined, after initialize_paths(), because of apc constants cache
 define('REWRITE_ENGINE_ON', 1);

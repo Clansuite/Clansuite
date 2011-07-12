@@ -36,7 +36,7 @@ class Reporter extends HtmlReporter
     {
         #parent::paintFail($message);
         print '<p><span class="fail">Fail</span>: ';
-        $breadcrumb = $this->getTestList();        
+        $breadcrumb = $this->getTestList();
         print '<b>' . $breadcrumb['2'] . "-&gt;" . $breadcrumb['3'] . '()</b>';
         print "<br /> Reason : &raquo; $message &laquo; </p>\n";
     }
