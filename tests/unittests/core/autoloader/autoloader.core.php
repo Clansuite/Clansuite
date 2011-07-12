@@ -16,7 +16,7 @@ class Clansuite_Loader_Test extends Clansuite_UnitTestCase
         parent::setUp();
 
         # Test Subject
-        require_once TESTSUBJECT_DIR . 'core/bootstrap/clansuite.loader.php';
+        require_once TESTSUBJECT_DIR . 'core/autoload/autoloader.core.php';
 
         if(extension_loaded('APC') === true)
         {
@@ -30,8 +30,8 @@ class Clansuite_Loader_Test extends Clansuite_UnitTestCase
 
     }
 
-    /** 
-     *  Highly experimental: 
+    /**
+     *  Highly experimental:
      *  - object creation on the fly after session start: works
      *  - what about interface creation on the fly @todo
     public function createClass($name)
@@ -110,8 +110,8 @@ class Clansuite_Loader_Test extends Clansuite_UnitTestCase
         # try to load an unknown class
         $this->assertFalse(Clansuite_Loader::autoloadInclusions('SomeUnknownClass'));
 
-        # try to load "Clansuite_Config_Base" classes
-        $this->assertTrue(Clansuite_Loader::autoloadInclusions('Clansuite_Config_Base'));
+        # try to load "Clansuite_Staging" class
+        $this->assertTrue(Clansuite_Loader::autoloadInclusions('Clansuite_Staging'));
     }
 
     /**
@@ -168,9 +168,9 @@ class Clansuite_Loader_Test extends Clansuite_UnitTestCase
         }
         # file will be created
         $this->assertIdentical(array(), Clansuite_Loader::readAutoloadingMapFile());
-        $this->assertTrue(is_file($classmap_file)); 
-        
-        $array = array ( 'class' => 'file' );        
+        $this->assertTrue(is_file($classmap_file));
+
+        $array = array ( 'class' => 'file' );
         $this->assertTrue(Clansuite_Loader::writeAutoloadingMapFile($array));
         $this->assertIdentical($array, Clansuite_Loader::readAutoloadingMapFile());
     }
@@ -184,9 +184,9 @@ class Clansuite_Loader_Test extends Clansuite_UnitTestCase
         }
         # file will be created
         $this->assertIdentical(array(), Clansuite_Loader::readAutoloadingMapFile());
-        $this->assertTrue(is_file($classmap_file)); 
-        
-        $array = array ( 'class' => 'file' );        
+        $this->assertTrue(is_file($classmap_file));
+
+        $array = array ( 'class' => 'file' );
         $this->assertTrue(Clansuite_Loader::writeAutoloadingMapFile($array));
         $this->assertIdentical($array, Clansuite_Loader::readAutoloadingMapFile());
     }
@@ -195,7 +195,7 @@ class Clansuite_Loader_Test extends Clansuite_UnitTestCase
     {
         if(extension_loaded('apc'))
         {
-            $array = array ( 'class' => 'file' );        
+            $array = array ( 'class' => 'file' );
             $this->assertTrue(Clansuite_Loader::writeAutoloadingMapApc($array));
             $this->assertIdentical($array, Clansuite_Loader::readAutoloadingMapApc());
         }
@@ -206,7 +206,7 @@ class Clansuite_Loader_Test extends Clansuite_UnitTestCase
         if(extension_loaded('apc'))
         {
             $this->assertIdentical(apc_fetch('CLANSUITE_CLASSMAP'), Clansuite_Loader::readAutoloadingMapApc());
-        }               
+        }
     }
 
     public function testMethod_addToMapping()
