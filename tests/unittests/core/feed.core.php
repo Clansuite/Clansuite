@@ -13,7 +13,7 @@ class Clansuite_Feed_Test extends Clansuite_UnitTestCase
         require_once TESTSUBJECT_DIR . 'core/feed.core.php';
 
         # Dependency
-        require_once TESTSUBJECT_DIR . 'core/bootstrap/clansuite.loader.php';
+        require_once TESTSUBJECT_DIR . 'core/autoload/autoloader.core.php';
     }
     
     public function tearDown()
