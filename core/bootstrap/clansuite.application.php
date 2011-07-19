@@ -278,7 +278,7 @@ class Clansuite_CMS
         define('APC', extension_loaded ('apc'));
 
         # try to load constants from APC
-        if(APC === true)
+        if(APC == true)
         {
             # constants retrieved from APC
             apc_load_constants('CLANSUITE_CONSTANTS', true);
