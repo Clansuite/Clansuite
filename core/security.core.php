@@ -171,24 +171,38 @@ final class Clansuite_Security
     {
         # set salt to empty
         $salt = '';
-        # seed the randoms generator with microseconds since last "whole" second
-        # Note: this is considered a week seeding, as of php5.3 with ext/openssl use openssl_random_pseudo_bytes()
-        mt_srand((double) microtime()*1000000);
-        # set up the random chars to choose from
-        $chars = './0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
-        # count the number of random_chars
-        $number_of_random_chars = strlen($chars)-1;
-        # add a char from the random_chars to the salt, until we got the wanted $length
-        while(strlen($salt) < $length) {
-            # get a random char of $chars
-            $char_to_add = $chars[mt_rand(0,$number_of_random_chars)];
-            # ensure that a random_char is not used twice in the salt
-            if(strstr($salt, $char_to_add) === false)
-            {
-                # finally => add char to salt
-                $salt .= $char_to_add;
-            }
+
+        if(true === function_exists('openssl_random_pseudo_bytes'))
+        { 
+            # generate a pseudo-random string of bytes
+            $bytes = openssl_random_pseudo_bytes($length, true);
+            # encode bytes
+            $string = base64_encode($bytes);
+            # truncate base64 string to length
+            $salt = substr($string, 0, $length);
         }
+        else # use mt_srand, if extension openssl is not loaded
+        {
+            # seed the randoms generator with microseconds since last "whole" second
+            # Note: this is considered a week seeding, as of php5.3 with ext/openssl use openssl_random_pseudo_bytes()
+            mt_srand((double) microtime()*1000000);
+            # set up the random chars to choose from
+            $chars = './0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
+            # count the number of random_chars
+            $number_of_random_chars = strlen($chars)-1;
+            # add a char from the random_chars to the salt, until we got the wanted $length
+            while(strlen($salt) < $length) {
+                # get a random char of $chars
+                $char_to_add = $chars[mt_rand(0,$number_of_random_chars)];
+                # ensure that a random_char is not used twice in the salt
+                if(strstr($salt, $char_to_add) === false)
+                {
+                    # finally => add char to salt
+                    $salt .= $char_to_add;
+                }
+            }
+         }
+
         return $salt;
     }
 }
