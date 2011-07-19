@@ -240,8 +240,9 @@ class Clansuite_Loader
         'Clansuite_Formelement_Input'         => 'viewhelper/form/formelements/input.form.php',
         'Clansuite_Form_Decorator'            => 'viewhelper/form/formdecorator.core.php',
         'Clansuite_Formelement_Decorator'     => 'viewhelper/form/formdecorator.core.php',
-        'Clansuite_Formelement_Formgenerator' => 'viewhelper/form/formgenerator.core.php',
-        'Clansuite_Array_Formgenerator'       => 'viewhelper/form/formgenerator.core.php',
+        'Clansuite_Array_Formgenerator'       => 'viewhelper/form/formgenerators/array.formgenerator.php',
+        'Clansuite_Doctrine_Formgenerator'    => 'viewhelper/form/formgenerators/doctrine.formgenerator.php',
+        'Clansuite_Xml_Formgenerator'         => 'viewhelper/form/formgenerators/xml.formgenerator.php',
         );
 
         # check if classname is in autoloading map
