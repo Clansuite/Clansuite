@@ -82,13 +82,11 @@ if(empty($_SERVER['SERVER_NAME']))
 #  acquire clansuite path constants
 require_once 'core/bootstrap/clansuite.application.php';
 Clansuite_CMS::initialize_ConstantsAndPaths();
+Clansuite_CMS::initialize_Loader();
 
 # constants must be defined, after initialize_paths(), because of apc constants cache
 define('REWRITE_ENGINE_ON', 1);
 define('TESTSUBJECT_DIR', dirname(__DIR__) . DIRECTORY_SEPARATOR); # /../tests (trunk)
-
-# set exceptionhandling
-require_once 'core/exception.core.php';
 
 # put more bootstrapping code here
 
