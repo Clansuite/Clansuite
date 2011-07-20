@@ -173,13 +173,17 @@ final class Clansuite_Security
         $salt = '';
 
         if(true === function_exists('openssl_random_pseudo_bytes'))
-        { 
+        {   
             # generate a pseudo-random string of bytes
-            $bytes = openssl_random_pseudo_bytes($length, true);
+            $bytes = openssl_random_pseudo_bytes($length);
+            
             # encode bytes
             $string = base64_encode($bytes);
-            # truncate base64 string to length
-            $salt = substr($string, 0, $length);
+              
+            # truncate the base64 string to correct length
+            $salt = substr($string, 0, $length);                
+            
+            return $salt;
         }
         else # use mt_srand, if extension openssl is not loaded
         {
@@ -201,9 +205,8 @@ final class Clansuite_Security
                     $salt .= $char_to_add;
                 }
             }
+            return $salt;
          }
-
-        return $salt;
     }
 }
 ?>
