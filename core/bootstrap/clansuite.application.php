@@ -266,11 +266,11 @@ class Clansuite_CMS
      *  ================================================
      *
      *   1. Define Shorthands and Syntax Declarations
-     *   - DS, PS, NL, CR
+     *      - DS, PS, NL, CR
      *   2. Path Assignments
-     *   - ROOT_*
-     *   - WWW_ROOT & WWW_ROOT_*
-     *   3. Setup include path for 3th party libraries
+     *      - ROOT & ROOT_*
+     *      - WWW_ROOT & WWW_ROOT_*
+     *   3. Setup include_path for 3th party libraries
      *  ------------------------------------------------
      */
     public static function initialize_ConstantsAndPaths()
@@ -278,12 +278,16 @@ class Clansuite_CMS
         define('APC', extension_loaded ('apc'));
 
         # try to load constants from APC
-        if(APC == true)
+        if(APC === true)
         {
             # constants retrieved from APC
             apc_load_constants('CLANSUITE_CONSTANTS', true);
         }
-        else
+
+        # if apc is off or
+        # if apc is on, but apc_load_constants did not retrieve any constants yet
+        # then define constants
+        if(APC === false or defined('DS') == false)
         {
             /**
              * 1) Shorthands and Syntax Declarations
@@ -413,7 +417,7 @@ class Clansuite_CMS
             /**
              * define constants via APC
              */
-            if(true === function_exists('apc_load_constants'))
+            if(APC === true)
             {
                 # catch user-defined constants as array
                 $constantsarray = get_defined_constants(true);
