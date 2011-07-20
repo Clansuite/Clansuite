@@ -546,6 +546,12 @@ class Clansuite_Loader
      */
     public static function loadLibrary($classname)
     {
+        # check if class was already loaded
+        if (true === class_exists($classname, false))
+        {
+            return true;
+        }
+
         # autoloading map - ROOT_LIBRARIES/..
         $map = array(
             'snoopy'        => 'snoopy/Snoopy.class.php',
