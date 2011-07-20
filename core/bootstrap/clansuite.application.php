@@ -525,7 +525,7 @@ class Clansuite_CMS
     /**
      * Initialize Autoloader
      */
-    private static function initialize_Loader()
+    public static function initialize_Loader()
     {
         include ROOT . 'core/autoload/autoloader.core.php';
         spl_autoload_register('Clansuite_Loader::autoload');
