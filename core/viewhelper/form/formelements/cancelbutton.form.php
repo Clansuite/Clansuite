@@ -57,7 +57,7 @@ class Clansuite_Formelement_Cancelbutton extends Clansuite_Formelement_Input imp
         $this->type  = 'button';
         $this->value = _('Cancel');
 
-        $this->class = 'CancelButton';
+        $this->class = 'CancelButton ButtonRed';
         $this->id    = 'CancelButton';
         $this->name  = 'CancelButton';
     }

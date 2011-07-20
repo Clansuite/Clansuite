@@ -50,7 +50,7 @@ class Clansuite_Formelement_Resetbutton extends Clansuite_Formelement_Input impl
         $this->type = 'reset';
         $this->value = _('Reset');
 
-        $this->class    = 'ResetButton';
+        $this->class    = 'ResetButton ButtonGrey';
         $this->id       = 'ResetButton';
         $this->name     = 'ResetButton';
     }
