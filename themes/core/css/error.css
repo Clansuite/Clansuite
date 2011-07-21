@@ -138,10 +138,6 @@ content:"»";
 padding:5px
 }
 
-td {
-vertical-align:top
-}
-
 /* 
    cs-backtrace-table
 
@@ -149,14 +145,16 @@ vertical-align:top
    of xdebug.core.php
 */
 
-table.cs-backtrace-table {
+table.cs-backtrace-table {    
     background: none repeat scroll 0 0 #FFFFCC;
     border-collapse: collapse;
     border-color: #BF0000;
-    border-style: solid;
+    border-style: outset;
     border-width: 1px;
     color: #222222;
     font: 12px tahoma,verdana,arial,sans-serif;
+    margin-bottom: 8px;
+    margin-top: 5px;
     width: 100%;
 }
 
@@ -167,10 +165,13 @@ table.cs-backtrace-table th {
     padding: 3px;
 }
 
-.cs-backtrace-table td {
+table.cs-backtrace-table td {
     background: none repeat scroll 0 0 #FFFFCC;
     border: 1px solid grey;
     padding: 2px 2px 2px 5px;
     vertical-align: top;
 }
 
+table.cs-backtrace-table tr:hover td {
+    background: #ffff88;
+}

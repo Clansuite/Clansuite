@@ -160,7 +160,7 @@ class Clansuite_Xdebug
                     padding: 2px 2px 2px 5px;
                     vertical-align: top;
                 }
-                .xdebug-error tr:hover {
+                .xdebug-error tr:hover td {
                     background: #ffff88;
                 }
                 .xdebug-error span {
@@ -245,7 +245,7 @@ class Clansuite_Xdebug
                 }
                 table.xdebug-console td.td1 {width: 30%;}
                 table.xdebug-console td.td2 {width: 70%;}
-                table.xdebug-console tr:hover, table.xdebug-superglobals tr:hover {
+                table.xdebug-console tr:hover td, table.xdebug-superglobals tr:hover td {
                     background: #ffff88;
                 }
                 fieldset.xdebug-console {
