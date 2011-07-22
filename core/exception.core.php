@@ -336,6 +336,7 @@ class Clansuite_Exception extends Exception implements Clansuite_Exception_Inter
             $errormessage .= '<tr><td><strong>Date: </strong></td><td>' . date('r') . '</td></tr>';
             $errormessage .= '<tr><td><strong>Remote: </strong></td><td>' . $_SERVER['REMOTE_ADDR'] . '</td></tr>';
             $errormessage .= '<tr><td><strong>Request: </strong></td><td>index.php?' . $_SERVER['QUERY_STRING'] . '</td></tr>';
+            $errormessage .= '<tr><td><strong>PHP: </strong></td><td>' . PHP_VERSION .' '. PHP_EXTRA_VERSION . '</td></tr>';
             $errormessage .= '<tr><td><strong>Server: </strong></td><td>' . $_SERVER['SERVER_SOFTWARE'] . '</td></tr>';
             $errormessage .= '<tr><td><strong>Agent: </strong></td><td>' . $_SERVER['HTTP_USER_AGENT'] . '</td></tr>';
             $errormessage .= '<tr><td><strong>Clansuite: </strong></td><td>' . CLANSUITE_VERSION . ' ' . CLANSUITE_VERSION_STATE;
@@ -388,7 +389,7 @@ class Clansuite_Exception extends Exception implements Clansuite_Exception_Inter
             $errormessage  .= '<tr><td colspan="2">&nbsp;</td></tr>';
         }
 
-        # @todo Clansuite Error -> Trac newticket
+        # Backlink to Bugtracker with Exceptionmessage -> http://trac.clansuite.com/newticket
         $errormessage .= Clansuite_Errorhandler::getBugtrackerMessage($this->message, $this->file, $this->line, $this->trace);
 
         # close all html element table
