@@ -41,6 +41,11 @@ if(defined('IN_CS') === false)
  *
  * Handling for Gettext "Machine Object" (.mo) Files.
  *
+ * Based on php-msgfmt written by 
+ * @author Matthias Bauer
+ * @license GNU/LGPL 2.1
+ * @link http://wordpress-soc-2007.googlecode.com/svn/trunk/moeffju/php-msgfmt/
+ *
  * @category    Clansuite
  * @package     Core
  * @subpackage  Gettext
@@ -50,8 +55,6 @@ class Clansuite_Gettext_MOFile
     /**
      * Writes a GNU gettext style machine object (mo-file).
      *
-     * @author Matthias Bauer
-     *
      * @link http://www.gnu.org/software/gettext/manual/gettext.html#MO-Files
      */
     function write($hash, $out)
@@ -60,16 +63,16 @@ class Clansuite_Gettext_MOFile
         ksort($hash, SORT_STRING);
 
         # our mo file data
-        $mo= '';
+        $mo = '';
 
         # header data
-        $offsets= array ();
-        $ids= '';
-        $strings= '';
+        $offsets = array ();
+        $ids = '';
+        $strings = '';
 
         foreach ($hash as $entry)
         {
-            $id= $entry['msgid'];
+            $id = $entry['msgid'];
 
             if (isset ($entry['msgid_plural']))
             {
