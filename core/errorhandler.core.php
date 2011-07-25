@@ -657,11 +657,11 @@ class Clansuite_Errorhandler
         $array = array(
             'summary'     => $summary,
             'description' => $description,
-            'type'        => 'defect | bug',
-            'milestone'   => 'Triage | Neuzuteilung',
+            'type'        => 'defect-bug',
+            'milestone'   => 'Triage-Neuzuteilung',
             'version'     => 'Clansuite v' . CLANSUITE_VERSION,
             #'component'   => '',
-            'author'      => $_SESSION['user']['email'],
+            'author'      => isset($_SESSION['user']['email']) ? $_SESSION['user']['email'] : '',
         );
 
         return 'http://trac.clansuite.com/newticket/?' . http_build_query($array);
