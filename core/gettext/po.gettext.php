@@ -40,6 +40,11 @@ if(defined('IN_CS') === false)
  * Clansuite_Gettext_POFile
  *
  * Handling for Gettext (.po) Files.
+ * 
+ * Based on php-msgfmt written by 
+ * @author Matthias Bauer
+ * @license GNU/LGPL 2.1
+ * @link http://wordpress-soc-2007.googlecode.com/svn/trunk/moeffju/php-msgfmt/
  *
  * @category    Clansuite
  * @package     Core
@@ -50,29 +55,27 @@ class Gettext_PO_File
     /**
      * Reads a Gettext .po file
      *
-     * @author Matthias Bauer
-     *
      * @link http://www.gnu.org/software/gettext/manual/gettext.html#PO-Files
      */
     public function read($input)
     {
         # read .po file
-        $fc= file_get_contents($input);
+        $fc = file_get_contents($input);
 
         # normalize newlines
-        $fc= str_replace( array ("\r\n","\r"),
+        $fc = str_replace( array ("\r\n","\r"),
                           array ("\n", "\n"),
                           $fc);
 
         # results array
-        $hash= array();
+        $hash = array();
 
         # temporary array
-        $temp= array();
+        $temp = array();
 
         # state
-        $state= null;
-        $fuzzy= false;
+        $state = null;
+        $fuzzy = false;
 
         # iterate over lines
         foreach(explode("\n", $fc) as $line)
@@ -169,7 +172,7 @@ class Gettext_PO_File
         # add final entry
         if ($state === 'msgstr')
         {
-            $hash[]= $temp;
+            $hash[] = $temp;
         }
 
         # Cleanup data, merge multiline entries, reindex hash for ksort
@@ -208,7 +211,7 @@ class Gettext_PO_File
         {
             if ($x[0] === '"')
             {
-                $x= mb_substr($x, 1, -1);
+                $x = mb_substr($x, 1, -1);
             }
 
             $x = str_replace("\"\n\"", '', $x);
