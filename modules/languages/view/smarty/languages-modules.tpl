@@ -104,11 +104,18 @@ table.Datagrid tr:nth-child(even)		{ background-color:#fff; }
                     {* Actions: Edit - Rescan - Delete *}
                     
                     <td nowrap="nowrap" style="text-align: center;">
+                    
+                    {* Do not display edit and delete link for english language. 
+                       English is hardcoded and not editable. *}
+                    {if $language.lang == 'English'}
+                        <a href="/@todo">Rescan</a>
+                    {else}
                         <a href="/@todo">Edit</a>
                         <span> | </span>
                         <a href="/@todo">Rescan</a>
                         <span> | </span>
                         <a href="/@todo">Delete</a>
+                    {/if} 
                     </td>
 
                 </tr>
