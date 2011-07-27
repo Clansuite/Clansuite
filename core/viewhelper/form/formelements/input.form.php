@@ -115,6 +115,26 @@ class Clansuite_Formelement_Input extends Clansuite_Formelement implements Clans
      */
     public $pattern;
     
+    /** 
+     * String value for the placeholder attribute
+     * <input placeholder="some placeholder">
+     *
+     * @var string
+     */
+    public $placeholder;
+
+    public function setPlaceholder($placeholder)
+    {
+        $this->placeholder = $placeholder;
+    
+        return $this;
+    }
+
+    public function getPlaceholder()
+    {
+        return $this->placeholder;
+    }
+
     /**
      * Set the regular expression pattern for client-side validation
      * e.g. [A-Za-z]+\d+
@@ -150,6 +170,7 @@ class Clansuite_Formelement_Input extends Clansuite_Formelement implements Clans
         $html .= '<input type="'.$this->type.'" name="'.$this->name.'"';
         $html .= (bool) $this->id ? ' id="'.$this->id.'"' : null;
         $html .= (bool) $this->value ? ' value="'.$this->value.'"' : null;
+        $html .= (bool) $this->placeholder ? ' placeholder="'.$this->placeholder.'"' : null;
         $html .= (bool) $this->size ? ' size="'.$this->size.'"' : null;
         $html .= (bool) $this->maxlength ? ' maxlength= "'.$this->maxlength.'"' : null;
         $html .= (bool) $this->pattern ? ' pattern= "'.$this->pattern.'"' : null;
