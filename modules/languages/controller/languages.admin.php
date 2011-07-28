@@ -114,8 +114,8 @@ class Clansuite_Module_Languages_Admin extends Clansuite_Module_Controller
 
     /**
      * Scans a theme for language strings
-     * 
-     * Via GET incoming 
+     *
+     * Via GET incoming
      *  - "type" (frontend/backend)
      *  - "name" (themename)
      */
@@ -228,18 +228,46 @@ class Clansuite_Module_Languages_Admin extends Clansuite_Module_Controller
 
     }
 
+    /**
+     * Handle get request
+     */
     public function action_admin_addnewlanguage_dialog()
     {
-        $module_name = $this->request->getParameter('modulename', 'GET');
+        # Handle Get Request
+        $module = $this->request->getParameter('modulename', 'GET');
 
+        $form = new Clansuite_Form('languages_dropdown', 'post', 'index.php?mod=languages&sub=admin&action=addnewlanguage');
+        $form->addElement('selectlanguage')->setDescription('Use the dropdown to select a language by name or abbreviation.');
+        $form->addElement('buttonbar');
+        $form->setDecoratorAttributesArray(array('form' => array ( 'fieldset' => array ( 'legend' => _('Select the language to add') ))));        
 
+        $view = $this->getView();
+        $view->assign('modulename', $module);
+        $view->assign('form_languages_dropdown', $form->render() );
 
         $this->display();
     }
 
+    /**
+     * Handles post request byitself and forwards to action for the get request.
+     */
     public function action_admin_addnewlanguage()
     {
+        #Clansuite_Breadcrumb::add( _('Add new language'), '/languages/admin/addnewlanguage');
 
+        # handle get request
+        if(false === $this->request->issetParameter('modulename', 'POST') and false === $this->request->issetParameter('language', 'POST'))
+        {
+            # by forwarding
+            $this->action_admin_addnewlanguage_dialog();
+        }
+        else # Handle Post Request
+        {
+            $module = $this->request->getParameter('modulename', 'POST');
+            $language = $this->request->getParameter('language', 'POST');
+
+            $this->display();
+        }
     }
 
     /**
