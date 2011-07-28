@@ -347,9 +347,9 @@ class Clansuite_Form implements Clansuite_Form_Interface
     /**
      * Set the target of the form.
      *
-     * _blank 	 Open in a new window
-     * _self 	  Open in the same frame as it was clicked
-     * _parent 	Open in the parent frameset
+     * _blank    Open in a new window
+     * _self      Open in the same frame as it was clicked
+     * _parent  Open in the parent frameset
      * _top
      *
      * @param string $target _blank, _self, _parent, _top
@@ -626,7 +626,7 @@ class Clansuite_Form implements Clansuite_Form_Interface
      * - application/x-www-form-urlencoded
      *  All characters are encoded before sent (this is default)
      * - multipart/form-data
-     * 	No characters are encoded.
+     *  No characters are encoded.
      *  This value is required when you are using forms that have a file upload control
      * - text/plain
      *  Spaces are converted to "+" symbols, but no special characters are encoded
@@ -796,6 +796,7 @@ class Clansuite_Form implements Clansuite_Form_Interface
             # $decorator->$value;
             # $decorator->$method($value);
             # combined $decorator->setAttributes();
+            $this->applyDecoratorAttributes();
 
             # then rendering it
             $html_form = $decorator->render($html_form);
@@ -1264,10 +1265,10 @@ class Clansuite_Form implements Clansuite_Form_Interface
      */
     public function registerDefaultFormDecorators()
     {
-            $this->addDecorator('html5validation');
-            $this->addDecorator('form');
-            $this->addDecorator('fieldset');
-            $this->addDecorator('div')->setId('forms');
+        $this->addDecorator('html5validation');
+        $this->addDecorator('form');
+        $this->addDecorator('fieldset');
+        $this->addDecorator('div')->setId('forms');
     }
 
     /**
@@ -1327,7 +1328,73 @@ class Clansuite_Form implements Clansuite_Form_Interface
         # instantiate the new $formdecorator and return
         return new $formdecorator_classname();
     }
+    
+    public function setDecoratorAttributesArray(array $attributes)
+    {
+        $this->decoratorAttributes = $attributes;    
+    }
 
+    /**
+     *
+     * Array Structure
+     *
+     * $decorator_attributes = array(
+     *  Level 1 - key = decorator type  
+     *  'form'  => array ( 
+                   Level 2 - key = decorator name                          
+     *             'fieldset' => array (                
+                        Level 3 - key = attribute name and value = mixed(string|int)
+     *                  'description' =>  'description test')
+     *                  )     *
+     *  'formelement' = array ( array() )
+     * );
+     */
+    public function applyDecoratorAttributes()
+    { 
+        $attributes = (array) $this->decoratorAttributes;
+        
+        #Clansuite_Debug::printR($attributes);
+        
+        # level 1
+        foreach($attributes as $decorator_type => $decoratorname_array)
+        {
+            if($decorator_type === 'form')
+            {
+                # level 2
+                foreach($decoratorname_array as $decoratorname => $attribute_and_value)
+                { 
+                    $decorator = $this->getDecorator($decoratorname);
+                    #Clansuite_Debug::printR($attribute_and_value);
+                    
+                    # level 3
+                    foreach ($attribute_and_value as $attribute => $value)
+                    {
+                        $decorator->$attribute = $value;
+                    }
+                    #Clansuite_Debug::printR($decorator);
+                } 
+            }
+            
+            if($decorator_type === 'formelement')
+            {
+                # level 2
+                foreach($decoratorname_array as $decoratorname => $attribute_and_value)
+                { 
+                    $decorator = $this->getFormelementDecorator($decoratorname);
+                    #Clansuite_Debug::printR($attribute_and_value);
+                    
+                    # level 3
+                    foreach ($attribute_and_value as $attribute => $value)
+                    {
+                        $decorator->$attribute = $value;
+                    }
+                } 
+            }            
+        }
+        
+        unset($attributes, $this->decoratorAttributes);      
+    }
+        
     /**
      * ===================================================================================
      *      Formelement Decoration

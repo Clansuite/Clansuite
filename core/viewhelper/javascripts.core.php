@@ -238,19 +238,20 @@ class Clansuite_Javascripts extends Clansuite_Layout
      *
      * @params string filename of the cascading style sheet to load
      * @params boolean display the iehack css in case true, default is false
+     * 
+     * @return html style type css import
      */
     public static function addCSS($filename, $iehack = false)
     {
-        if($iehack == true)
+        $html = '<style type="text/css"> @import "' . WWW_ROOT_THEMES_CORE . 'css/' . $filename . '.css"; </style>';
+        
+        if($iehack === true)
         {
-            return '<!--[if IE]>';
+            return '<!--[if IE]>' . CR . $html . CR . '<![endif]-->' . CR;
         }
-
-        return '<style type="text/css"> @import "' . WWW_ROOT_THEMES_CORE . 'css/' . $filename . '.css"; </style>' . CR;
-
-        if($iehack == true)
+        else
         {
-            return '<![endif]-->';
+            return $html . CR;
         }
     }
 }
