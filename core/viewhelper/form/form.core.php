@@ -223,10 +223,12 @@ class Clansuite_Form implements Clansuite_Form_Interface
     /**
      * Construct
      *
+     * @example
+     * $form = Clansuite_Form('news_form', 'post', 'index.php?mod=news&sub=admin&action=update&type=create');
+     *
      * @param mixed|array|string $name_or_attributes Set the name of the form OR and array with attributes.
      * @param string $method Set the method of the form. Valid are get/post.
      * @param string $action Set the action of the form.
-     *
      */
     public function __construct($name_or_attributes = null, $method = null, $action = null)
     {
@@ -721,6 +723,12 @@ class Clansuite_Form implements Clansuite_Form_Interface
         $formelements = $this->getFormelements();
 
         #Clansuite_Debug::printR($formelements);
+
+        # developer hint: when $form->render() was triggered, but no formelement was added before
+        if(count($formelements) == 0)
+        {
+            throw new Clansuite_Exception('Formelement rendering failure. No formelements on form object. Consider adding some formelements using addElement().');
+        }
 
         # sort formelements by index
         ksort($formelements);
