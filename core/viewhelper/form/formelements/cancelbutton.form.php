@@ -50,7 +50,7 @@ class Clansuite_Formelement_Cancelbutton extends Clansuite_Formelement_Input imp
      *
      * @var string
      */
-    public $cancelURL = 'index.php';
+    public $cancelURL = 'history.back(); return false;'; # depends on javascript
 
     public function __construct()
     {
@@ -67,14 +67,31 @@ class Clansuite_Formelement_Cancelbutton extends Clansuite_Formelement_Input imp
         return $this->cancelURL;
     }
 
-    public function setCancelURL($cancelURL)
+    /**
+     * Sets the cancel URL (the url to redirect the user to, after clicking cancel)
+     *
+     * @example
+     * $form->addElement('buttonbar')
+     *        ->getButton('cancelbutton')->setCancelURL('index.php?mod=languages&sub=admin&action=show');
+     *
+     * @param string cancelURL The Cancel URL (By default wrapped by window.location.href="")
+     * @param bool suppressWrapping Toggle for wrapping
+     */
+    public function setCancelURL($cancelURL, $suppressWrapping = false)
     {
-        $this->cancelURL = $cancelURL;
+        if($suppressWrapping === false)
+        {
+            $this->cancelURL = 'window.location.href=\'' . $cancelURL . '\'';
+        }
+        else
+        {
+           $this->cancelURL = $cancelURL;
+        }
     }
 
     public function render()
     {
-        $this->setAdditionalAttributeAsText(' onclick="window.location.href=\''.$this->getCancelURL().'\'"');
+        $this->setAdditionalAttributeAsText(' onclick="' . $this->getCancelURL() . '"');
         return parent::render();
     }
 }
