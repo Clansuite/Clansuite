@@ -911,7 +911,7 @@ class Clansuite_Form implements Clansuite_Form_Interface
     public function regenerateFormelementIdentifiers()
     {
        $pos_lastpart = $pos = $firstpart = $id = '';
-       
+
        $i = 0;
        foreach($this->formelements as $formelement)
        {
