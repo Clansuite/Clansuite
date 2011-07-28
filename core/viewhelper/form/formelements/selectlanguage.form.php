@@ -56,20 +56,26 @@ class Clansuite_Formelement_Selectlanguage extends Clansuite_Formelement_Select 
     {
         # include locale arrays
         include ROOT_CORE . 'gettext/locales.gettext.php';
-        #Clansuite_Debug::printR($l10n_sys_locales);
-        
-        # prepare array structure for dropdown ( key => value )
+               
+        /**
+         * prepare array structure for dropdown ( key => value )
+         */
         $options = array();
 
         foreach($l10n_sys_locales as $locale)
         {
+            # key is the shortname
             $key = $locale['lang-www'];
+            
+            # show language native name and shortname in the drop-down
             $value = $locale['lang-native'] . ' (' . $locale['lang-www'] . ')';
                         
             $options[$key] = $value;
         }
 
         $this->setOptions($options);
+        
+        $this->setLabel( _('Select Language') );
     }
 }
 ?>
