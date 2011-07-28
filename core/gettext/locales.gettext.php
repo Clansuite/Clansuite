@@ -1,10 +1,11 @@
 <?php
 /**
  * Codestyling Localization - Locale Definitions
- * License: GNU/GPL v2 +
- * Autor: Heiko Rabe (codestyling) <info@code-styling.de>
- * @link http://code-styling.de
- * @link http://plugins.svn.wordpress.org/codestyling-localization/trunk/includes/locale-definitions.php
+ *
+ * @license GNU/GPL v2 +
+ * @author  Heiko Rabe (codestyling) <info@code-styling.de>
+ * @link    http://code-styling.de
+ * @link    http://plugins.svn.wordpress.org/codestyling-localization/trunk/includes/locale-definitions.php
  */
 $l10n_langs = array(
     'af' => array('af_AF'),

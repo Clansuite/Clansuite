@@ -36,6 +36,12 @@ if (defined('IN_CS') === false)
     die('Clansuite not loaded. Direct Access forbidden.');
 }
 
+# conditional include of the parent class
+if (false == class_exists('Clansuite_Formelement_Select',false))
+{
+    include __DIR__ . '/select.form.php';
+}
+
 /**
  *
  *  Clansuite_Form
@@ -46,6 +52,24 @@ if (defined('IN_CS') === false)
  */
 class Clansuite_Formelement_Selectlanguage extends Clansuite_Formelement_Select implements Clansuite_Formelement_Interface
 {
+    public function __construct()
+    {
+        # include locale arrays
+        include ROOT_CORE . 'gettext/locales.gettext.php';
+        #Clansuite_Debug::printR($l10n_sys_locales);
+        
+        # prepare array structure for dropdown ( key => value )
+        $options = array();
 
+        foreach($l10n_sys_locales as $locale)
+        {
+            $key = $locale['lang-www'];
+            $value = $locale['lang-native'] . ' (' . $locale['lang-www'] . ')';
+                        
+            $options[$key] = $value;
+        }
+
+        $this->setOptions($options);
+    }
 }
 ?>
