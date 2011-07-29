@@ -405,7 +405,7 @@ class Clansuite_ModuleInfoController
                  continue;  #echo 'Skipped : '. $file->getFileName() . '<br>';
             }
             
-            echo $file->getPathName() . '<br />';
+            #Clansuite_Debug::firebug('Locale file detected: ' . $file->getPathName() )';
            
             if(1 === preg_match('/[a-z]{2}_[A-Z]{2}/', $file->getPathName(), $match))
             {
