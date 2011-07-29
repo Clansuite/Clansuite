@@ -271,7 +271,7 @@ class Clansuite_Form implements Clansuite_Form_Interface
         }
         else
         {
-            throw new Clansuite_Exception('The parameter "$method" of the form has to be GET or POST.');
+            throw new Clansuite_Exception('The parameter "' . $method . '" of the form has to be GET or POST.');
         }
 
         return $this;
@@ -280,10 +280,16 @@ class Clansuite_Form implements Clansuite_Form_Interface
     /**
      * Returns method (GET or POST) of this form.
      *
-     * @return string Name of the method of this form.
+     * @return string Name of the method of this form. Defaults to POST.
      */
     public function getMethod()
     {
+        # defaults to post
+        if($this->method == '')
+        {
+            $this->method = 'post';
+        }
+
         return $this->method;
     }
 
@@ -906,8 +912,8 @@ class Clansuite_Form implements Clansuite_Form_Interface
     }
 
     /**
-     * Regenerates the generic identifier of each formelement in the stack
-     * by it's position. stack pos 1 becomes "name-formelement-1"
+     * Regenerates the generic identifier of each formelement in the stack by it's position.
+     * The formelement at stack position 1 becomes "name-formelement-1", etc.
      */
     public function regenerateFormelementIdentifiers()
     {
@@ -946,7 +952,7 @@ class Clansuite_Form implements Clansuite_Form_Interface
      *
      * @return array $array with $value at position $index.
      */
-    public function array_insert($value, $index, &$array)
+    private function array_insert($value, $index, &$array)
     {
         return array_merge(array_slice($array, 0, $index), array($value), array_slice($array, $index));
     }
@@ -1004,25 +1010,32 @@ class Clansuite_Form implements Clansuite_Form_Interface
         return null;
     }
 
-    public function getElement($formelement_position = null)
+    /**
+     * Fetches a formelement by it's name or position or
+     * returns the last element in the stack as default.
+     *
+     * @param $position string|int Name or position of the formelement.
+     * @return Clansuite_Formelement $formelement Object
+     */
+    public function getElement($position = null)
     {
         $formelement_object = '';
 
         # if no position is incomming we return the last formelement item
         # this is the normal call to this method, while chaining
-        if($formelement_position === null)
+        if($position === null)
         {
            # fetch last item of array = last_formelement
            $formelement_object = end($this->formelements);
         }
-        elseif(is_numeric($formelement_position))
+        elseif(is_numeric($position))
         {
             # uh, not the last element of the formelements array requested, but some position
-            $formelement_object = $this->getElementByPosition($formelement_position);
+            $formelement_object = $this->getElementByPosition($position);
         }
         else # is_string
         {
-            $formelement_object = $this->getElementByName($formelement_position);
+            $formelement_object = $this->getElementByName($position);
         }
 
         return $formelement_object;
@@ -1054,6 +1067,10 @@ class Clansuite_Form implements Clansuite_Form_Interface
             {
                 include $file;
             }
+            else
+            {
+                throw new Clansuite_Exception('The Formelement "'.$formelement_classname.'" does not exist.');
+            }
         }
 
         # instantiate the new formelement and return
@@ -1075,7 +1092,6 @@ class Clansuite_Form implements Clansuite_Form_Interface
     public function processForm()
     {
         # check if form has been submitted properly
-        /*
         if ($this->validateForm() === false)
         {
             # if not, redisplay the form (decorate with errors + render)
@@ -1087,7 +1103,6 @@ class Clansuite_Form implements Clansuite_Form_Interface
             # success!!
             $form->success();
         }
-        */
     }
 
     /**
@@ -1097,7 +1112,6 @@ class Clansuite_Form implements Clansuite_Form_Interface
      */
     protected function getDataArray()
     {
-
         $method = Clansuite_HttpRequest::getRequestMethod();
 
         if ($method === 'GET')
