@@ -122,7 +122,7 @@ class Clansuite_ModuleInfoController
      */
     public static function isACoreModule($modulename)
     {
-        # hardcoded
+        # hardcoded map with core modules
         static $core_modules = array( 'account', 'categories', 'controlcenter', 'doctrine', 'menu', 'modulemanager',
                                       'users', 'settings', 'systeminfo', 'thememanager', 'templatemanager');
 
@@ -375,7 +375,7 @@ class Clansuite_ModuleInfoController
     {
         $langinfo = array();
 
-        # we are looking at the languages folder a given module
+        # we are looking at the languages folder for the given module path
         $module_lang_dir = $modulepath . DS . 'languages';
 
         # return, if that languages directory does not exist
@@ -388,12 +388,11 @@ class Clansuite_ModuleInfoController
         if(empty(self::$l10n_sys_locales))
         {
             # fetch arrays containing locale data
-            require ROOT_CORE . 'gettext' . DS . 'locales.gettext.php';
-
+            require ROOT_CORE . 'gettext/locales.gettext.php';
             self::$l10n_sys_locales = $l10n_sys_locales;
         }
-        
-        # preg_match('/^[a-z]{2}(_[A-Z]{2})?\./', $locale )
+
+        $langinfo = array();
         
         $iterator = new \RecursiveIteratorIterator(
                         new \RecursiveDirectoryIterator($module_lang_dir),
@@ -403,16 +402,16 @@ class Clansuite_ModuleInfoController
         {
             if(0 === preg_match('/.(mo|po)$/', $file->getFileName()))
             {
-                 continue; # echo 'Skipped : '. $file->getFileName() . '<br>';
+                 continue;  #echo 'Skipped : '. $file->getFileName() . '<br>';
             }
-
-            # reduce module language path to "/en_gb/LC_MESSAGES"
-            $langdir = str_replace($module_lang_dir , '', realpath($file->getPathName()));
-            # grab language dir
-            preg_match('/(.*)LC_MESSAGES/i', $langdir, $matches);
-            # unslash
-            $language = trim($matches[1], DS);
-            #Clansuite_Debug::printR($language);
+            
+            echo $file->getPathName() . '<br />';
+           
+            if(1 === preg_match('/[a-z]{2}_[A-Z]{2}/', $file->getPathName(), $match))
+            {
+                # @todo rename language to locale
+                $language = $match[0];
+            }
 
             # get more data about that language by its shorthand
             if(isset(self::$l10n_sys_locales[$language]) == true)
@@ -430,7 +429,6 @@ class Clansuite_ModuleInfoController
                 $lang = $language;
             }
 
-            $langinfo = array();
             #$langinfo[] = $language;
             $langinfo[$language]['pathName']       = realpath($file->getPathName());
             $langinfo[$language]['fileName']       = $file->getFileName();
