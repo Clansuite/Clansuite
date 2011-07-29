@@ -253,8 +253,8 @@ class Clansuite_HttpResponse implements Clansuite_Response_Interface
      * @param string Domain which can read the cookie
      * @param bool Secure mode?
      * @param bool Only allow HTTP usage? (PHP 5.2)
-     * @return bool True or false whether the method has successfully run
      *
+     * @todo If namespaces are used, renamed method to setCookie().
      * Note: until php6 namespaces, the methodname can not be setCookie()
      *       because this would conflict with the php function name.
      */
@@ -341,16 +341,12 @@ class Clansuite_HttpResponse implements Clansuite_Response_Interface
     public static function detectTypeAndSetFlashmessage($message)
     {
         # detect if a flashmessage is tunneled
-        if(true === isset($message) and true === strpos($message, '#'))
+        if(true === isset($message) and true === (bool) strpos($message, '#'))
         {
-            #  split at tunneling separator (results in: array[0] = type ; array[1] = message)
+            #  split at tunneling separator
             $array = explode('#', $message);
-
-            # ensure type is a valid flashmessagetype
-            if(true === in_array($array[0], Clansuite_Flashmessages::getFlashMessageTypes()))
-            {
-                Clansuite_Flashmessages::setMessage($array[0], $array[1]);
-            }
+            # results in: array[0] = type and array[1] = message)
+            Clansuite_Flashmessages::setMessage($array[0], $array[1]);
         }
     }
 
@@ -364,12 +360,12 @@ class Clansuite_HttpResponse implements Clansuite_Response_Interface
      * @param string Redirect to this URL
      * @param int    seconds before redirecting (for the html tag "meta refresh")
      * @param int    http status code, default: '303' => 'See other'
-     * @param text   text of redirect message
+     * @param string redirect message
      */
-    public static function redirectNoCache($url, $time = 0, $statusCode = 303, $text = '')
+    public static function redirectNoCache($url, $time = 0, $statusCode = 303, $message = '')
     {
         self::setNoCacheHeader();
-        self::redirect($url, $time, $statusCode, $text);
+        self::redirect($url, $time, $statusCode, $message);
     }
 
     /**
@@ -402,7 +398,7 @@ class Clansuite_HttpResponse implements Clansuite_Response_Interface
         if (headers_sent($filename, $linenum) === false)
         {
             # clear all output buffers
-            while(@ob_end_clean());
+            #while(@ob_end_clean());
 
             # redirect to ...
             self::setStatusCode($statusCode);
@@ -415,10 +411,12 @@ class Clansuite_HttpResponse implements Clansuite_Response_Interface
                 default:
                 case 'LOCATION':
                     header('LOCATION: '. $url);
+                    session_write_close();
                     exit();
                     break;
                 case 'REFRESH':
                     header('Refresh: 0; URL="' . $url . '"');
+                    session_write_close();
                     break;
                 case 'JS':
                     $redirect_html = '<script type="text/javascript">window.location.href=' . $url . ';</script>';
