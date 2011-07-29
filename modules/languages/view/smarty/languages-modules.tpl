@@ -60,11 +60,11 @@ table.Datagrid tr:nth-child(even)		{ background-color:#fff; }
             <table width="100%" cellspacing="0" summary="localization|modules" class="mo-list" id="mo-list-{$module@iteration}">
             <tbody>
 
-                {* Add new language *}
+                {* Provides the link to add a new language *}
 
                 <tr class="mo-list-head">
                     <td nowrap="nowrap" colspan="2">
-                        <a href="{$www_root}index.php?mod=languages&sub=admin&action=addnewlanguage&modulename={$module.name}">Add New Language</a>
+                        <a href="{$www_root}index.php?mod=languages&sub=admin&action=addlanguage&modulename={$module.name}">Add Language</a>
                     </td>
                     <td nowrap="nowrap" class="ta-right">
                         {t count=$module.languages|count 1=$module.languages|count plural="%1 Languages"}%1 Language{/t}

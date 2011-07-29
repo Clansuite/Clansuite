@@ -49,48 +49,60 @@ class Clansuite_Module_Languages_Admin extends Clansuite_Module_Controller
         @set_time_limit(900);
     }
 
-    public static function createLanguagesDirIfNotExistant($module_name)
+    public static function createLanguagesDirIfNotExistant($module)
     {
-        if(false == is_dir(ROOT_MOD . $module_name . DS . 'languages'))
+        if(false == is_dir(ROOT_MOD . $module . DS . 'languages'))
         {
-            mkdir(ROOT_MOD . $module_name . DS . 'languages', 0777, true);
+            mkdir(ROOT_MOD . $module . DS . 'languages', 0777, true);
+        }
+    }
+
+    public static function createLanguage($module, $locale)
+    {
+        self::createLanguagesDirIfNotExistant($module);
+
+        /**
+         * Create directory structure for gettext translations
+         *
+         * A "locale" and "LC_MESSAGES" folder are needed, like:
+         * /languages/<ll_CC>/LC_MESSAGES/
+         */
+        $path = ROOT_MOD . $module . DS . 'languages' . DS . $locale . DS . 'LC_MESSAGES';
+        if(false == is_dir($path))
+        {
+            mkdir($path, 0777, true);
+        }
+
+        /**
+         * Create gettext portable object file - empty, to start the translation process
+         */
+        $file = $path . DS . $module . '.po';
+        if(false === is_file($file))
+        {
+            Clansuite_Gettext_Extractor_Tool::save($file);
         }
     }
 
     /**
-     * Scans a module for language strings
-     * php/tpl => module_name/languages/en_GB/module_name.po
+     * Scans a module for language strings inside php and template files.
+     *
+     * In these files all text messages are in english.
+     * Translations are based on the english language portable object file.
+     * This file is written to the locale directory en_GB for the module processed.
+     * The path is ROOT/modules/{module}/languages/en_GB/LC_MESSAGES/{module}.po
      *
      * @param string $module_name Name of the module to scan for language strings.
      */
-    public static function scanModule($module_name)
+    public static function scanModule($module)
     {
         if(DEBUG)
         {
-            self::createLanguagesDirIfNotExistant($module_name);
+            self::createLanguagesDirIfNotExistant($module);
         }
 
         $gettext_extractor = new Clansuite_Gettext_Extractor();
-        $gettext_extractor->multiScan(ROOT_MOD . $module_name);
-
-        /**
-         * All text messages of the system are in english.
-         * Translations are based on the english language portable object file.
-         * This file is written to the locale directory en_GB for each module processed.
-         */
-
-        # ROOT/modules/{modulname}/languages/en_GB/LC_MESSAGES/{modulname}.po
-        $path = array();
-        $path[] = ROOT_MOD . $module_name;
-        $path[] = 'languages';
-        $path[] = 'en_GB';
-        $path[] = 'LC_MESSAGES';
-        $path[] = $module_name . '.po';
-
-        # In the next step we build that filepath string from an array.
-        $path = implode(DS, $path);
-
-        $gettext_extractor->save( $path );
+        $gettext_extractor->multiScan(ROOT_MOD . $module);
+        $gettext_extractor->save( ROOT_MOD . $module . '/languages/en_GB/LC_MESSAGES/'. $module . '.po' );
     }
 
     /**
@@ -229,44 +241,49 @@ class Clansuite_Module_Languages_Admin extends Clansuite_Module_Controller
     }
 
     /**
-     * Handle get request
-     */
-    public function action_admin_addnewlanguage_dialog()
-    {
-        # Handle Get Request
-        $module = $this->request->getParameter('modulename', 'GET');
-
-        $form = new Clansuite_Form('languages_dropdown', 'post', 'index.php?mod=languages&sub=admin&action=addnewlanguage');
-        $form->addElement('selectlanguage')->setDescription('Use the dropdown to select a language by name or abbreviation.');
-        $form->addElement('buttonbar');
-        $form->setDecoratorAttributesArray(array('form' => array ( 'fieldset' => array ( 'legend' => _('Select the language to add') ))));        
-
-        $view = $this->getView();
-        $view->assign('modulename', $module);
-        $view->assign('form_languages_dropdown', $form->render() );
-
-        $this->display();
-    }
-
-    /**
      * Handles post request byitself and forwards to action for the get request.
      */
-    public function action_admin_addnewlanguage()
+    public function action_admin_addlanguage()
     {
-        #Clansuite_Breadcrumb::add( _('Add new language'), '/languages/admin/addnewlanguage');
+        #Clansuite_Breadcrumb::add( _('Add language'), '/languages/admin/addlanguage');
 
         # handle get request
-        if(false === $this->request->issetParameter('modulename', 'POST') and false === $this->request->issetParameter('language', 'POST'))
+        if($this->request->getRequestMethod() == 'GET')
         {
-            # by forwarding
-            $this->action_admin_addnewlanguage_dialog();
-        }
-        else # Handle Post Request
-        {
-            $module = $this->request->getParameter('modulename', 'POST');
-            $language = $this->request->getParameter('language', 'POST');
+            $module = $this->request->getParameter('modulename', 'GET');
+
+            $form = new Clansuite_Form('languages_dropdown', 'post', WWW_ROOT . 'index.php?mod=languages&sub=admin&action=addlanguage');
+            $form->setDecoratorAttributesArray(array('form' => array('fieldset' => array('legend' => _('Select the language to add')))));
+            # $_POST['locale']
+            $form->addElement('selectlocale')->setDescription('Use the dropdown to select a locale by name or abbreviation.');
+            # $_POST['module']
+            $form->addElement('hidden')->setName('module')->setValue($module);
+            $form->addElement('buttonbar');
+
+            $view = $this->getView();
+            $view->assign('modulename', $module);
+            $view->assign('form_languages_dropdown', $form->render());
 
             $this->display();
+        }
+        else
+        {
+            # Handle Post Request
+            if($this->request->getRequestMethod() == 'POST' and
+               $this->request->issetParameter('module', 'POST') and $this->request->issetParameter('locale', 'POST'))
+            {
+                # fetch incomming post parameters
+                $module = $this->request->getParameter('module', 'POST');
+                $locale = $this->request->getParameter('locale', 'POST'); # example: de_AT
+
+                # create new language file
+                self::createLanguage($module, $locale);
+
+                $this->setFlashmessage('success', 'Yo!');
+
+                # Redirect
+                #$this->response->redirectNoCache('/languages/admin', 10, 302, 'success#The language file has been successfully created.');
+            }
         }
     }
 
