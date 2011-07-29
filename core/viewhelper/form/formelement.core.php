@@ -434,22 +434,22 @@ class Clansuite_Formelement implements Clansuite_Formelement_Interface
                  * @todo check if attribute is allowed, lookup in whitelist
                  * @todo protect formelement attr and use setters
                  */
-                
+
                 # set attribute directly
                 $this->{$attribute} = $value;
             }
         }
     }
-    
+
    /**
     * Setter method for Attribute
-    * 
+    *
     * @param type $attribute Attribute name
-    * @param type $value Value 
+    * @param type $value Value
     */
     public function setAttribute($attribute, $value)
     {
-        $this->{$attribute} = $value;       
+        $this->{$attribute} = $value;
     }
 
     /**
@@ -481,6 +481,20 @@ class Clansuite_Formelement implements Clansuite_Formelement_Interface
      */
 
     /**
+     * addValidator
+     *
+     * Is a shortcut/proxy/convenience method for addValidator()
+     * @see $this->addValidator()
+     *
+     * WATCH IT! THIS BREAKS THE CHAINING IN REGARD TO THE FORM
+     * @return Clansuite_Formelement_Validator
+     */
+    public function addValidator($validator)
+    {
+        return $this->addValidator($decorators);
+    }
+
+    /**
      * Setter method for a validator
      * validators are stored into an array (multiple validators for one formelement).
      *
@@ -510,7 +524,6 @@ class Clansuite_Formelement implements Clansuite_Formelement_Interface
             if($validator->validates() === true)
             {
                 # everything is fine, proceed
-                #return true;
                 continue;
             }
             else

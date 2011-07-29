@@ -123,6 +123,11 @@ class Clansuite_Formelement_Input extends Clansuite_Formelement implements Clans
      */
     public $placeholder;
 
+    /**
+     * Set placeholder attribute value
+     *
+     * @link http://dev.w3.org/html5/spec/Overview.html#the-placeholder-attribute
+     */
     public function setPlaceholder($placeholder)
     {
         $this->placeholder = $placeholder;
