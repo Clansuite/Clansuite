@@ -486,6 +486,7 @@ class Clansuite_Gettext_Extractor_Tool
         $output[] = '"POT-Creation-Date: ' . date('Y-m-d H:iO') . '\n"';
         $output[] = '"PO-Revision-Date: ' . date('Y-m-d H:iO') . '\n"';
         $output[] = '"Content-Type: text/plain; charset=UTF-8\n"';
+        # @todo http://trac.clansuite.com/ticket/224 - fetch plural form from locale description array
         $output[] = '"Plural-Forms: nplurals=2; plural=(n != 1);\n"';
         $output[] = '';
 
