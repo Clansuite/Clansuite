@@ -52,12 +52,17 @@ if (false == class_exists('Clansuite_Formelement_Select',false))
  */
 class Clansuite_Formelement_Selectcountry extends Clansuite_Formelement_Select implements Clansuite_Formelement_Interface
 {
+    public function __construct()
+    {
+        $this->setOptions(self::getCountries());
+    }
+
     /**
      * getCountries()
      *
      * @return array with country names
      */
-    public function getCountries()
+    public static function getCountries()
     {
         $countries = array (
             _('Afghanistan'),
@@ -300,15 +305,5 @@ class Clansuite_Formelement_Selectcountry extends Clansuite_Formelement_Select i
 
          return $countries;
     }
-
-    public function render()
-    {
-        $html  = '';
-        $select_element = new Clansuite_Formelement_Select();
-        $select_element->setOptions($this->getCountries());
-        $html .= $select_element;
-        return $html;
-    }
-
 }
 ?>
