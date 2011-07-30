@@ -446,16 +446,14 @@ class Clansuite_Gettext_Extractor_Tool
            $this->throwException('ERROR: make directory failed!');
         }
 
-        # Output file permission check
-        if(file_exists($outputFile) and false === is_writable($outputFile))
+        # check file permissions on output file
+        if(true === is_file($outputFile) and false === is_writable($outputFile))
         {
             $this->throwException('ERROR: Output file is not writable!');
         }
 
         # write data formatted to file
-        $handle = fopen($outputFile, 'w');
-        fwrite($handle, $this->formatData($data));
-        fclose($handle);
+        file_put_contents($outputFile, $this->formatData($data));
 
         $this->log('Output file ' . $outputFile . ' created.');
 
@@ -463,16 +461,13 @@ class Clansuite_Gettext_Extractor_Tool
     }
 
     /**
-     * Formats fetched data to gettext portable object syntax
+     * Returns the the fileheader for a gettext portable object file
      *
-     * @param array $data
-     *
-     * @return string
+     * @param boolean $return_string Boolean true returns string (default) and false returns array.
+     * @return mixed Array or String. Returns string by default.
      */
-    protected function formatData($data)
+    public static function getPOFileHeader($return_string = true)
     {
-        $pluralMatchRegexp = '#\%([0-9]+\$)*d#';
-
         $output = array();
         $output[] = '# Gettext Portable Object Translation File.';
         $output[] = '#';
@@ -489,6 +484,30 @@ class Clansuite_Gettext_Extractor_Tool
         # @todo http://trac.clansuite.com/ticket/224 - fetch plural form from locale description array
         $output[] = '"Plural-Forms: nplurals=2; plural=(n != 1);\n"';
         $output[] = '';
+
+        if($return_string === true)
+        {
+            return implode("\n", $output);
+        }
+        else # return array
+        {
+            return $output;
+        }
+    }
+
+    /**
+     * Formats fetched data to gettext portable object syntax
+     *
+     * @param array $data
+     *
+     * @return string
+     */
+    protected function formatData($data)
+    {
+        $pluralMatchRegexp = '#\%([0-9]+\$)*d#';
+
+        $output = array();
+        $output = self::getPOFileHeader(false);
 
         ksort($data);
 
