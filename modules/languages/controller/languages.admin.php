@@ -79,7 +79,9 @@ class Clansuite_Module_Languages_Admin extends Clansuite_Module_Controller
         $file = $path . DS . $module . '.po';
         if(false === is_file($file))
         {
-            Clansuite_Gettext_Extractor_Tool::save($file);
+            include ROOT_CORE . 'gettext.core.php';
+            $fileheader = Clansuite_Gettext_Extractor_Tool::getPOFileHeader(true);
+            file_put_contents($file, $fileheader);
         }
     }
 
