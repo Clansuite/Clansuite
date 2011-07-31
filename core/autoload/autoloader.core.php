@@ -85,12 +85,6 @@ class Clansuite_Loader
      */
     public static function autoload($classname)
     {
-        # check if class was already loaded
-        if (true === class_exists($classname, false) or true === interface_exists($classname, false))
-        {
-            return true;
-        }
-
         /**
          * if the classname is to exclude, then
          * 1) stop autoloading immediately

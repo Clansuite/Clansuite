@@ -524,11 +524,14 @@ class Clansuite_CMS
 
     /**
      * Initialize Autoloader
+     * 
+     * Registers our own autoloader on the first position of the spl autoloading stack
+     * and throws an exception if autoload fails on class/interface loading.
      */
     public static function initialize_Loader()
     {
         include ROOT . 'core/autoload/autoloader.core.php';
-        spl_autoload_register('Clansuite_Loader::autoload');
+        spl_autoload_register('Clansuite_Loader::autoload', true, true);
     }
 
     /**
