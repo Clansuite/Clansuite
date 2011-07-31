@@ -18,6 +18,7 @@ class Clansuite_Loader_Test extends Clansuite_UnitTestCase
         # Test Subject
         require_once TESTSUBJECT_DIR . 'core/autoload/autoloader.core.php';
 
+        # the APC user cache needs a reset, so that the map is generated freshly each run
         if(extension_loaded('APC') === true)
         {
             # reset APC for readAutoloadingMapApc() / writeAutoloadingMapApc()
@@ -55,27 +56,19 @@ class Clansuite_Loader_Test extends Clansuite_UnitTestCase
         unset($class);
     }
     */
-
-    /**
-     * testMethod_autoload_exitsWhenClassOrInterfaceExist()
-     */
-    public function testMethod_autoload_exitsWhenClassOrInterfaceExist()
-    {
-        # Class already loaded
-        $this->assertTrue(Clansuite_Loader::autoload('ThisClassExists'));
-
-        # Interface already loaded
-        $this->assertIdentical(interface_exists('ThisInterfaceExists') ,
-                               Clansuite_Loader::autoload('ThisInterfaceExists'));
-    }
-
-    /**
+    
+     /**
      * testMethod_autoload()
      */
     public function testMethod_autoload()
     {
-        # try to load a class which is excluded, e.g. "Smarty_Internal" classes
-        #$this->assertFalse(Clansuite_Loader::autoload(''));
+        # workflow of autoloading
+        
+        # 1. testMethod_autoloadExclusions()
+        # 2. testMethod_autoloadInclusions()
+        # 3. testMethod_autoloadByApcOrFileMap()
+        # 4. testMethod_autoloadIncludePath()
+        # 5. testMethod_autoloadTryPathsAndMap()
     }
 
     /**
@@ -111,9 +104,8 @@ class Clansuite_Loader_Test extends Clansuite_UnitTestCase
         $this->assertFalse(Clansuite_Loader::autoloadInclusions('SomeUnknownClass'));
 
         # try to load "Clansuite_Staging" class
-        # @todo class already exists... :D
+        #$this->expectError(new PatternExpectation("/include(): Cannot redeclare class/i"));
         #$this->assertTrue(Clansuite_Loader::autoloadInclusions('Clansuite_Staging'));
-        $this->markTestIncomplete('This test has not been implemented yet.');
     }
 
     /**
@@ -126,7 +118,7 @@ class Clansuite_Loader_Test extends Clansuite_UnitTestCase
 
         # try to load "Clansuite_Eventdispatcher" class
         # which is expected to be inside the classmap file
-        
+
         # @todo disabled for now - i am not sure how to test...
         # way to go
         # 1) pseudo map files for apc and filecache
@@ -154,19 +146,17 @@ class Clansuite_Loader_Test extends Clansuite_UnitTestCase
      */
     public function testMethod_autoloadTryPathsAndMap()
     {
-        $this->markTestIncomplete('This test has not been implemented yet.');
-        
         # try to load a class from core path - clansuite/core/class_name.core.php
-        #$this->assertTrue(Clansuite_Loader::autoloadTryPathsAndMap('Clansuite_Router'));
+        $this->assertTrue(Clansuite_Loader::autoloadTryPathsAndMap('Clansuite_Router'));
 
         # try to load a class from events path - clansuite/core/events/classname.class.php
-        #$this->assertTrue(Clansuite_Loader::autoloadTryPathsAndMap('BlockIps'));
+        $this->assertTrue(Clansuite_Loader::autoloadTryPathsAndMap('BlockIps'));
 
         # try to load a class from filter path - clansuite/core/filters/classname.filter.php
-        #$this->assertTrue(Clansuite_Loader::autoloadTryPathsAndMap('Clansuite_Filter_HtmlTidy'));
+        $this->assertTrue(Clansuite_Loader::autoloadTryPathsAndMap('Clansuite_Filter_HtmlTidy'));
 
         # try to load a class from viewhelper path - clansuite/core/viewhelper/classname.core.php
-        #$this->assertTrue(Clansuite_Loader::autoloadTryPathsAndMap('Clansuite_Theme'));
+        $this->assertTrue(Clansuite_Loader::autoloadTryPathsAndMap('Clansuite_Theme'));
     }
 
     public function testMethod_writeAutoloadingMapFile()
@@ -236,6 +226,7 @@ class Clansuite_Loader_Test extends Clansuite_UnitTestCase
 
     public function testMethod_loadLibrary()
     {
+        $this->expectError(new PatternExpectation("/include(): Cannot redeclare class/i"));
         $this->assertTrue(Clansuite_Loader::loadLibrary('snoopy'));
     }
 }
