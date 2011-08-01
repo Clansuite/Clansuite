@@ -243,7 +243,7 @@ class Clansuite_Xdebug
                     padding: 2px;
                     padding-left: 5px;
                 }
-                table.xdebug-console td.td1 {width: 30%;}
+                table.xdebug-console td.td1 {width: 30%; padding-left:20px; color:#FF0000; }
                 table.xdebug-console td.td2 {width: 70%;}
                 table.xdebug-console tr:hover td, table.xdebug-superglobals tr:hover td {
                     background: #ffff88;
@@ -288,74 +288,32 @@ class Clansuite_Xdebug
             echo '<table class="xdebug-console">';
             echo '<tr><th>Name</th><th>Value</th></tr>';
             echo '<tr>';
-            echo '<td class="td1" style="text-align: center;">Time to execute</td>';
+            echo '<td class="td1">Time to execute</td>';
             echo '<td class="td2">' . round(xdebug_time_index(), 4) . ' seconds</td>';
             echo '</tr><tr>';
-            echo '<td class="td1" style="text-align: center;">Memory Usage (before)</td>';
+            echo '<td class="td1">Memory Usage (before)</td>';
             echo '<td class="td2">' . self::$xdebug_memory_before . ' MB</td>';
             echo '</tr><tr>';
-            echo '<td class="td1" style="text-align: center;">Memory Usage by Clansuite</td>';
+            echo '<td class="td1">Memory Usage by Clansuite</td>';
             echo '<td class="td2">' . self::roundMB(xdebug_memory_usage()) . ' MB</td>';
             echo '</tr><tr>';
-            echo '<td class="td1" style="text-align: center;">Memory Peak</td>';
+            echo '<td class="td1">Memory Peak</td>';
             echo '<td class="td2">' . self::roundMB(xdebug_peak_memory_usage()) . ' MB</td>';
             echo '</tr>';
             # stop tracings and var_dump
             #var_dump(xdebug_get_code_coverage());
             echo '</table>';
 
-            /**
-             * Konstanten ausgeben
-             */
-            if( true === self::$outputConstants ) {
-                $aConstKeys = array(
-                        #'apc',
-                        #'mbstring',
-                        #'xdebug',
-                        'user'
-                );
-                $aConst = get_defined_constants (true);
 
-                echo self::getSectionHeadlineHTML('Konstanten');
 
-                foreach( $aConst as $key=>$val ) {
-                    if( in_array($key, $aConstKeys ) )
-                    {
-                        if( $key == 'user' ) $constname = 'In Clansuite definierte Konstanten';
-                        else $constname = 'System Konstanten f&uuml;r: '.$key;
+            self::showConstants();
 
-                        echo '<table class="xdebug-console" id="table-konstanten" style="display:none;">';
-                        echo '<tr><th colspan="2">' .$constname. '</th></tr>';
-                        foreach( $val as $key1=>$val1) {
-                            echo '<tr><td class="td1" style="padding-left:20px;color:#FF0000;">'.$key1.'</td><td class="td2">' . self::formatter($val1) . '</td></tr>';
-                        }
-                        echo '</table>';
-                     }
-                }
-                echo '</table>';
-            }
+            self::showBrowserInfo();
 
-            echo self::getSectionHeadlineHTML('Applikation');
+            self::showHttpHeaders();
 
-            echo '<table class="xdebug-console" id="table-applikation" style="display:none;">';
-            echo '<tr><th>Name</th><th>Value</th></tr>';
-
-            # Browser-Information
-            echo '<tr>';
-            echo '<td class="td1" valign="top" style="padding-left:20px;"><b>Browser-Information</b></td>';
-            echo '<td class="td2">';
-                $browserinfo = new Clansuite_Browserinfo();
-                $browser = $browserinfo->getBrowserInfo();
-               echo 'Browser: <b>'.$browser['name']."</b><br/>";
-               echo 'Version:&nbsp;&nbsp;<b>'.$browser['version']."</b><br/>";
-               echo 'Engine:&nbsp;&nbsp;&nbsp;'.$browser['engine']."<br/>";
-               echo 'Browser ist Bot: '.($browserinfo->isBot()?'Ja':'Nein')."<br/>";
-               echo 'Betriebssystem: '.$browser['os']."<br/>";
-            echo '</td></tr>';
             echo '</table>';
 
-            #echo '<br/>';
-            #self::displayHeaders();
             echo '</fieldset></div>';
 
             /**
@@ -370,15 +328,91 @@ class Clansuite_Xdebug
         }
     }
 
-    public static function displayHeaders()
+    public static function showConstants()
     {
-        echo '<table class="xdebug-console">';
-        echo '<tr><th>#</th><th>Headers</th></tr>';
-        $headers = xdebug_get_headers();
-        $i = 0;
-        foreach($headers as $header)
+        # fetch all defined constants ordered by categories as key
+        $aConsts = get_defined_constants(true);
+
+        /**
+         * This array defines
+         * (a) the categories to show and
+         * (b) the order of their appearance in the constants table.
+         */
+        $aCategoriesToShow = array(
+            'user', # user category contains clansuite system defines - leave at first position!
+            'apc',
+            'mbstring',
+            'xdebug',
+        );
+
+        echo self::getSectionHeadlineHTML('Konstanten');
+
+        echo '<table class="xdebug-console" id="table-konstanten" style="display:none;">';
+
+        foreach ($aCategoriesToShow as $category)
         {
-            echo '<tr><td class="td1" style="text-align: center;">' . $i++ . '</td><td class="td2">' . $header . '</td></tr>';
+            # display only the categories to show / whitelist
+            if (isset($aConsts[$category]) === true)
+            {
+                # adjust headline
+                if ($category == 'user')
+                {
+                    echo '<tr><th colspan="2">Clansuite Constants</th></tr>';
+                }
+                else
+                {
+                    echo '<tr><th colspan="2">Constants for [' . $category . ']</th></tr>';
+                }
+
+                # table row for the constant
+                foreach ($aConsts[$category] as $name => $value)
+                {
+                    echo '<tr><td class="td1">' . $name . '</td>';
+                    echo '<td class="td2">' . self::formatter($value) . '</td></tr>';
+                }
+            }
+        }
+        echo '</table>';
+    }
+
+    public static function showBrowserInfo()
+    {
+        $browserinfo = new Clansuite_Browserinfo();
+        $browser = $browserinfo->getBrowserInfo();
+
+        echo self::getSectionHeadlineHTML('Browserinfo');
+        echo '<table class="xdebug-console" id="table-browserinfo" style="display:none;">';
+        echo '<tr><th>Name</th><th>Value</th></tr>';
+        
+        echo '<td class="td1"><b>Browser-Information</b></td>';
+        echo '<td class="td2">';
+        echo 'Browser: <b>' . $browser['name'] . "</b><br/>";
+        echo 'Version:&nbsp;&nbsp;<b>' . $browser['version'] . "</b><br/>";
+        echo 'Engine:&nbsp;&nbsp;&nbsp;' . $browser['engine'] . "<br/>";
+        echo 'Browser ist Bot: ' . ($browserinfo->isBot() ? 'Ja' : 'Nein') . "<br/>";
+        echo 'Betriebssystem: ' . $browser['os'] . "<br/>";
+        echo '</td></tr>';
+    }
+
+    public static function showHttpHeaders()
+    {
+        echo self::getSectionHeadlineHTML('HttpHeaders');
+        echo '<table class="xdebug-console" id="table-httpheaders" style="display:none;">';
+        echo '<tr><th>Name</th><th>Value</th></tr>';
+        
+        $headers = xdebug_get_headers();
+        foreach ($headers as $header)
+        {
+            /**
+             * a header like "Expires: Thu, 19 Nov 1981 08:52:00 GMT" has several doublecolons (:)
+             * we split the string by exploding it, at the first colon and returning a limited result set (2 items):
+             * $headers['0'] = 'Expires';
+             * $headers['1'] = 'Thu, 19 Nov 1981 08:52:00 GMT';
+             */
+            $headers = explode(':', $header, 2);
+
+            echo '<tr><td class="td1">' . $headers[0] . '</td>';
+            echo '<td class="td2">' . trim($headers[1]) . '</td></tr>';
         }
         echo '</table>';
     }
