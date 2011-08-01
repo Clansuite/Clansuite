@@ -103,7 +103,7 @@ class Clansuite_Module_Languages_Admin extends Clansuite_Module_Controller
         }
 
         $gettext_extractor = new Clansuite_Gettext_Extractor();
-        $gettext_extractor->multiScan(ROOT_MOD . $module);
+        $gettext_extractor->multiScan( ROOT_MOD . $module );
         $gettext_extractor->save( ROOT_MOD . $module . '/languages/en_GB/LC_MESSAGES/'. $module . '.po' );
     }
 
@@ -173,9 +173,7 @@ class Clansuite_Module_Languages_Admin extends Clansuite_Module_Controller
         $path[] = ROOT_THEMES;
         $path[] = $theme_type;
         $path[] = $theme_name;
-        $path[] = 'languages';
-        $path[] = 'en_GB';
-        $path[] = 'LC_MESSAGES';
+        $path[] = 'languages/en_GB/LC_MESSAGES';
         $path[] = $theme_name . '.po';
 
         # In the next step we build that filepath string from an array.
@@ -202,22 +200,30 @@ class Clansuite_Module_Languages_Admin extends Clansuite_Module_Controller
         $this->display();
     }
 
-    public function action_admin_scanonemodule()
+    /**
+     * Scans php/tpl files of a module and collects data into a gettext PO file
+     */
+    public function action_admin_scanmodule()
     {
-        $module_name = $this->request->getParameter('modulename', 'GET');
+        $module = $this->request->getParameter('modulename', 'GET');
 
-        # scan modules and buffer the log output
+        # scan module and buffer the log output
         ob_start();
-        self::scanModule($module_name);
+        self::scanModule($module);
         $scan_log_content = ob_get_contents();
         ob_end_clean();
 
         # display scanner log
         $view = $this->getView();
         $view->assign('scan_log', $scan_log_content);
-        $this->display();
+        
+        $this->setFlashmessage('success', _('The module was scanned successfully and the Portable Object File was updated.'));
+        $this->response->redirectNoCache('/languages/admin', 10, 302, 'success#The module has been successfully created.');
     }
 
+    /**
+     * Scans php/tpl files of all modules and collects the data into gettext PO files
+     */
     public function action_admin_scanallmodules()
     {
         # scan modules and buffer the log output
@@ -232,12 +238,17 @@ class Clansuite_Module_Languages_Admin extends Clansuite_Module_Controller
         $this->display();
     }
 
-    public function action_admin_edit()
+    public function action_admin_readlanguage()
     {
 
     }
 
-    public function action_admin_delete()
+    public function action_admin_editlanguage()
+    {
+
+    }
+
+    public function action_admin_deletelanguage()
     {
 
     }

@@ -39,10 +39,9 @@ table.Datagrid tr:nth-child(even)		{ background-color:#fff; }
 
 <table width="100%" cellspacing="0" cellpadding="0" border="0" class="Datagrid">
 <tbody>
-    <tr>
-        <th class="ColHeader">#</td>
-        <th class="ColHeader">Module</th>
-        <th class="ColHeader">Actions</th>
+    <tr>        
+        <th class="ColHeader">{t}Module{/t}</th>
+        <th class="ColHeader">{t}Languages{/t}</th>
     </tr>
 
    {foreach $modules as $module}
@@ -52,7 +51,6 @@ table.Datagrid tr:nth-child(even)		{ background-color:#fff; }
    {assign var=modulename_package value="`$module.name`_package"}
 
     <tr class="DatagridRow DatagridRow-Row_{$module@iteration}">
-        <td align="center">{$module@iteration}</td>
         <td>
              <h3 class="name">{$module.name|ucfirst}</h3>                
         </td>
@@ -60,26 +58,28 @@ table.Datagrid tr:nth-child(even)		{ background-color:#fff; }
             <table width="100%" cellspacing="0" summary="localization|modules" class="mo-list" id="mo-list-{$module@iteration}">
             <tbody>
 
-                {* Provides the link to add a new language *}
-
-                <tr class="mo-list-head">
-                    <td nowrap="nowrap" colspan="2">
-                        <a href="{$www_root}index.php?mod=languages&sub=admin&action=addlanguage&modulename={$module.name}">Add Language</a>
-                    </td>
-                    <td nowrap="nowrap" class="ta-right">
-                        {t count=$module.languages|count 1=$module.languages|count plural="%1 Languages"}%1 Language{/t}
-                    </td>
-                </tr>
-
                 {* Table Header: Language - Permissions - Actions *}
 
                 <tr class="mo-list-desc">
-                    <td nowrap="nowrap" style="text-align: center;">{t}Language{/t}</td>
-                    <td nowrap="nowrap" style="text-align: center;">{t}Permissions{/t}</td>
-                    <td nowrap="nowrap" style="text-align: center;">{t}Actions{/t}</td>
+                    <td nowrap="nowrap" style="text-align: center;" width="30%">
+                        <span style="float:center;">
+                            {t count=$module.languages|count 1=$module.languages|count plural="%1 Languages"}%1 Language{/t}                    
+                        </span>                    
+                        <span style="float:right;">     
+                            <a href="{$www_root}index.php?mod=languages&sub=admin&action=addlanguage&modulename={$module.name}">Add Language</a>
+                        </span>
+                    </td>
+                    <td nowrap="nowrap" style="text-align: center;" width="30%">{t}Permissions{/t}</td>
+                    <td nowrap="nowrap" style="text-align: center;" width="30%">{t}Actions{/t}</td>
                 </tr>
 
             {foreach $module.languages as $language}
+            
+                {if is_string($language)}
+                <tr><td> {$language} </td></tr>
+                {break}
+                {/if}
+            
                 <tr class="mo-file" lang="{$language.lang_native}">
                     
                     {* Flag and Name of Language *}
@@ -95,9 +95,21 @@ table.Datagrid tr:nth-child(even)		{ background-color:#fff; }
                     
                     <td nowrap="nowrap" align="center">
                         <div style="width: 44px;">
-                            <a title="{$language.timestamp}" class="filetype-po{$language.poclass}">&nbsp;</a>
+                            
+                            {if array_key_exists('po', $language)} 
+                            <a title="{$language.po.timestamp}" class="filetype-po{$language.po.cssClass}">&nbsp;</a>
+                            {else}
+                            <a title="No po file found." class="filetype-po">&nbsp;</a>
+                            {/if} 
+                            
                             <span style="width: 2px;" />
-                            <a title="{$language.timestamp}" class="filetype-mo{$language.moclass}">&nbsp;</a>
+                            
+                            {if array_key_exists('mo', $language)} 
+                            <a title="{$language.mo.timestamp}" class="filetype-mo{$language.mo.cssClass}">&nbsp;</a>
+                            {else}
+                            <a title="No mo file found." class="filetype-mo">&nbsp;</a>
+                            {/if} 
+                                                     
                         </div>
                     </td>
                    
@@ -108,11 +120,9 @@ table.Datagrid tr:nth-child(even)		{ background-color:#fff; }
                     {* Do not display edit and delete link for english language. 
                        English is hardcoded and not editable. *}
                     {if $language.lang == 'English'}
-                        <a href="/@todo">Rescan</a>
+                        <a href="{$www_root}index.php?mod=languages&sub=admin&action=scanmodule&modulename={$module.name}">Rescan</a>
                     {else}
-                        <a href="/@todo">Edit</a>
-                        <span> | </span>
-                        <a href="/@todo">Rescan</a>
+                        <a href="/@todo">Edit</a>                       
                         <span> | </span>
                         <a href="/@todo">Delete</a>
                     {/if} 
