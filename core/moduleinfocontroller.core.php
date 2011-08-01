@@ -378,72 +378,93 @@ class Clansuite_ModuleInfoController
         # we are looking at the languages folder for the given module path
         $module_lang_dir = $modulepath . DS . 'languages';
 
-        # return, if that languages directory does not exist
+        # return early, if languages directory does not exist
         if(false === is_dir($module_lang_dir))
         {
             return 'No language dir.';
         }
 
-        # if the language definitions are not already loaded, load them
+        # lets recurse this directory
+        $iterator = new \RecursiveIteratorIterator(
+                        new \RecursiveDirectoryIterator($module_lang_dir),
+                            \RecursiveIteratorIterator::LEAVES_ONLY);
+
+        # some leaves found (dirs and files)
+        foreach ($iterator as $file)
+        {
+            # proceed with iteration instantly, if file is not a gettext file
+            if(0 === preg_match('/.(mo|po)$/', $file->getFileName()))
+            {
+                 continue;
+            }
+           
+            # fetch locale from path (en_UK, de_DE) 
+            if(1 === preg_match('/[a-z]{2}_[A-Z]{2}/', $file->getPathName(), $match))
+            {
+                $locale = $match[0];
+            }
+        
+
+            # fetch file extension (mo|po)
+            if(version_compare(PHP_VERSION, '5.3.6') >= 0)
+            {
+                $extension = $file->getExtension();
+            }
+            else # php lower then 5.3.6
+            {
+                $extension = pathinfo($file->getFilename(), PATHINFO_EXTENSION);
+            }
+            
+            
+            /**
+             * Add some more pieces of information about the file
+             */    
+            
+            $langinfo[$locale][$extension]['pathName']       = realpath($file->getPathName());
+            $langinfo[$locale][$extension]['fileName']       = $file->getFileName();
+            $langinfo[$locale][$extension]['filePermString'] = self::file_permissions($langinfo[$locale][$extension]['pathName']);
+            $langinfo[$locale][$extension]['fileReadable']   = $file->isReadable();
+            $langinfo[$locale][$extension]['fileWriteable']  = $file->isWritable();
+            $langinfo[$locale][$extension]['timestamp']      = date(DATE_FORMAT, $file->getCTime());
+            $langinfo[$locale][$extension]['cssClass']        = '-' . ($file->isReadable() ? 'r' : '') . ($file->isWritable() ? 'w' : '');
+           
+        }
+        
+        /**
+         * Add some more pieces of information about the locale
+         */
+        
+         # if the language definitions are not already loaded, load them
         if(empty(self::$l10n_sys_locales))
         {
             # fetch arrays containing locale data
             require ROOT_CORE . 'gettext/locales.gettext.php';
             self::$l10n_sys_locales = $l10n_sys_locales;
         }
-
-        $langinfo = array();
         
-        $iterator = new \RecursiveIteratorIterator(
-                        new \RecursiveDirectoryIterator($module_lang_dir),
-                            \RecursiveIteratorIterator::LEAVES_ONLY);
-
-        foreach ($iterator as $file)
+        foreach($langinfo as $locale => $filedata)
         {
-            if(0 === preg_match('/.(mo|po)$/', $file->getFileName()))
+            # get more data about that locale from the locales array
+            if(isset(self::$l10n_sys_locales[$locale]) == true)
             {
-                 continue;  #echo 'Skipped : '. $file->getFileName() . '<br>';
+                $country_www = self::$l10n_sys_locales[$locale]['country-www'];
+                $lang_native = self::$l10n_sys_locales[$locale]['lang-native'];
+                $lang = self::$l10n_sys_locales[$locale]['lang'];
             }
-            
-            #Clansuite_Debug::firebug('Locale file detected: ' . $file->getPathName() )';
-           
-            if(1 === preg_match('/[a-z]{2}_[A-Z]{2}/', $file->getPathName(), $match))
-            {
-                # @todo rename language to locale
-                $language = $match[0];
-            }
-
-            # get more data about that language by its shorthand
-            if(isset(self::$l10n_sys_locales[$language]) == true)
-            {
-                #Clansuite_Debug::printR($l10n_sys_locales[$language]);
-
-                $country_www = self::$l10n_sys_locales[$language]['country-www'];
-                $lang_native = self::$l10n_sys_locales[$language]['lang-native'];
-                $lang = self::$l10n_sys_locales[$language]['lang'];
-            }
-            else
+            else # locale not in locales array
             {
                 $country_www = 'unknown';
-                $lang_native = '<em>locale: </em>' . $language;
-                $lang = $language;
+                $lang_native = '<em>locale: </em>' . $locale;
+                $lang = $locale;
             }
-
-            #$langinfo[] = $language;
-            $langinfo[$language]['pathName']       = realpath($file->getPathName());
-            $langinfo[$language]['fileName']       = $file->getFileName();
-            $langinfo[$language]['filePermString'] = self::file_permissions($langinfo[$language]['pathName']);
-            $langinfo[$language]['fileReadable']   = $file->isReadable();
-            $langinfo[$language]['fileWriteable']  = $file->isWritable();
-            $langinfo[$language]['timestamp']      = date(DATE_FORMAT, $file->getCTime());
-            $langinfo[$language]['country_www']    = $country_www;
-            $langinfo[$language]['lang_native']    = $lang_native;
-            $langinfo[$language]['lang']           = $lang;
-            $langinfo[$language]['poclass']        = '-' . ($file->isReadable() ? 'r' : '') . ($file->isWritable() ? 'w' : '');
-            $langinfo[$language]['moclass']        = '-' . ($file->isReadable() ? 'r' : '') . ($file->isWritable() ? 'w' : '');
-
-            #Clansuite_Debug::printR($langinfo);
+            
+            # language data
+            $langinfo[$locale]['country_www']    = $country_www;
+            $langinfo[$locale]['lang_native']    = $lang_native;
+            $langinfo[$locale]['lang']           = $lang;
         }
+        
+        #Clansuite_Debug::printR($langinfo);
 
         return $langinfo;
     }
