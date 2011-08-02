@@ -85,7 +85,7 @@ class Clansuite_DoorKeeper
 
             # We have to setup some defines here, which are used by parse_ini_file to replace values in config.ini
 
-            define('IDS_FILTER_PATH', ROOT_LIBRARIES . 'IDS/default_filter.xml');
+            define('IDS_FILTER_PATH', ROOT_LIBRARIES . 'IDS' . DS . 'default_filter.xml');
             define('IDS_TMP_PATH', ROOT_CACHE);
             define('IDS_LOG_PATH', ROOT_LOGS . 'phpids_log.txt');
             define('IDS_CACHE_PATH', ROOT_CACHE . 'phpids_defaultfilter.cache');
@@ -94,12 +94,10 @@ class Clansuite_DoorKeeper
             # in order to create the cache file automatically
             if(false === is_file(IDS_CACHE_PATH))
             {
-                $filehandle = @fopen(IDS_CACHE_PATH, 'w+');
-                if(false === $filehandle)
+                if(false === file_put_contents(IDS_CACHE_PATH, ''))
                 {
                     throw new Clansuite_Exception('PHP IDS Cache file couldn\'t be created.', 11);
                 }
-                fclose($filehandle);
             }
 
             # autoupdate
