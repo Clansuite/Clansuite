@@ -447,21 +447,18 @@ class Clansuite_ModuleInfoController
             # get more data about that locale from the locales array
             if(isset(self::$l10n_sys_locales[$locale]) == true)
             {
-                $country_www = self::$l10n_sys_locales[$locale]['country-www'];
-                $lang_native = self::$l10n_sys_locales[$locale]['lang-native'];
-                $lang = self::$l10n_sys_locales[$locale]['lang'];
+                $langinfo[$locale]['country_www']   = self::$l10n_sys_locales[$locale]['country-www'];
+                $langinfo[$locale]['lang_native']   = self::$l10n_sys_locales[$locale]['lang-native'];
+                $langinfo[$locale]['lang_www']      = self::$l10n_sys_locales[$locale]['lang-www'];
+                $langinfo[$locale]['lang']          = self::$l10n_sys_locales[$locale]['lang'];
             }
             else # locale not in locales array
             {
-                $country_www = 'unknown';
-                $lang_native = '<em>locale: </em>' . $locale;
-                $lang = $locale;
+                $langinfo[$locale]['country_www']   = 'unknown';
+                $langinfo[$locale]['lang_native']   = '<em>locale: </em>' . $locale;
+                $langinfo[$locale]['lang_www']  = '';
+                $langinfo[$locale]['lang']   = $locale;
             }
-            
-            # language data
-            $langinfo[$locale]['country_www']    = $country_www;
-            $langinfo[$locale]['lang_native']    = $lang_native;
-            $langinfo[$locale]['lang']           = $lang;
         }
         
         #Clansuite_Debug::printR($langinfo);
