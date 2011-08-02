@@ -377,13 +377,18 @@ class Clansuite_Xdebug
 
     public static function showBrowserInfo()
     {
-        $browserinfo = new Clansuite_Browserinfo();
+        if(false === class_exists('Clansuite_Browserinfo', false))
+        {
+            include ROOT_CORE . 'tools/browserinfo.core.php';
+            $browserinfo = new Clansuite_Browserinfo();
+        }
+        
         $browser = $browserinfo->getBrowserInfo();
 
         echo self::getSectionHeadlineHTML('Browserinfo');
         echo '<table class="xdebug-console" id="table-browserinfo" style="display:none;">';
         echo '<tr><th>Name</th><th>Value</th></tr>';
-        
+
         echo '<td class="td1"><b>Browser-Information</b></td>';
         echo '<td class="td2">';
         echo 'Browser: <b>' . $browser['name'] . "</b><br/>";
@@ -399,7 +404,7 @@ class Clansuite_Xdebug
         echo self::getSectionHeadlineHTML('HttpHeaders');
         echo '<table class="xdebug-console" id="table-httpheaders" style="display:none;">';
         echo '<tr><th>Name</th><th>Value</th></tr>';
-        
+
         $headers = xdebug_get_headers();
         foreach ($headers as $header)
         {

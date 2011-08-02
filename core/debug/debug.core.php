@@ -69,10 +69,11 @@ class Clansuite_Debug
         $backtrace_array = debug_backtrace();
         $trace = array_shift($backtrace_array);
         $file = file($trace['file']);
+        $trace_line = $file[$trace['line']-1];
 
         echo '<pre>';
         echo '<b>Debugging <font color=red>'.basename($trace['file']).'</font> on line <font color=red>'.$trace['line']."</font></b>:\r\n";
-        echo "<div style='background: #f5f5f5; padding: 0.2em 0em;'>".htmlspecialchars($file[$trace['line']-1])."</div>\r\n";
+        echo "<div style='background: #f5f5f5; padding: 0.2em 0em;'>".htmlspecialchars($trace_line)."</div>\r\n";
         echo '<b>Type</b>: '.gettype($var)."\r\n"; # uhhh.. gettype is slow like hell
 
         if (is_string($var) === true)
