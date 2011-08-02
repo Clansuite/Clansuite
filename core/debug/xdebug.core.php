@@ -388,10 +388,9 @@ class Clansuite_Xdebug
     {
         if(false === class_exists('Clansuite_Browserinfo', false))
         {
-            include ROOT_CORE . 'tools/browserinfo.core.php';
-            $browserinfo = new Clansuite_Browserinfo();
+            include ROOT_CORE . 'tools/browserinfo.core.php';            
         }
-        
+        $browserinfo = new Clansuite_Browserinfo();
         $browser = $browserinfo->getBrowserInfo();
 
         echo self::getSectionHeadlineHTML('Browserinfo');
