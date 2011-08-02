@@ -13,7 +13,7 @@ var arrow2 = new Image(4, 7);
 arrow2.src =  "{$www_root}modules/menu/images/arrow2.gif";
 </script>
 
-<div class="menugradient">
+<div class="adminmenu">
 
     <div class="bar">
 
