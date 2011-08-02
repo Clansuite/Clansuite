@@ -368,7 +368,16 @@ class Clansuite_Xdebug
                 foreach ($aConsts[$category] as $name => $value)
                 {
                     echo '<tr><td class="td1">' . $name . '</td>';
-                    echo '<td class="td2">' . self::formatter($value) . '</td></tr>';
+                    
+                    # handle true and false
+                    if(gettype($value) === 'boolean')
+                    {                       
+                        echo '<td class="td2">' . (int) $value . '</td></tr>'; 
+                    }
+                    else
+                    {
+                        echo '<td class="td2">' . self::formatter($value) . '</td></tr>';
+                    }
                 }
             }
         }
