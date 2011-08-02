@@ -37,7 +37,7 @@ table.Datagrid tr:nth-child(even)		{ background-color:#fff; }
 </style>
 <link rel="stylesheet" type="text/css" href="{$www_root_themes_core}css/datagrid.css" />
 
-<table width="100%" cellspacing="0" cellpadding="0" border="0" class="Datagrid">
+<table width="80%" cellspacing="0" cellpadding="0" border="0" class="Datagrid">
 <tbody>
     <tr>        
         <th class="ColHeader">{t}Module{/t}</th>
@@ -61,16 +61,19 @@ table.Datagrid tr:nth-child(even)		{ background-color:#fff; }
                 {* Table Header: Language - Permissions - Actions *}
 
                 <tr class="mo-list-desc">
-                    <td nowrap="nowrap" style="text-align: center;" width="30%">
-                        <span style="float:center;">
+                    <td style="text-align: center;" width="30%">                        
+                        
                             {t count=$module.languages|count 1=$module.languages|count plural="%1 Languages"}%1 Language{/t}                    
-                        </span>                    
-                        <span style="float:right;">     
-                            <a href="{$www_root}index.php?mod=languages&sub=admin&action=addlanguage&modulename={$module.name}">Add Language</a>
-                        </span>
+                                             
+                            <span style="float: right;">                            
+                                <a href="{$www_root}index.php?mod=languages&sub=admin&action=addlanguage&modulename={$module.name}" title="{t}Add Language{/t}">
+                                    {icon name="add" alt="{t}Add Language{/t}"}
+                                </a>
+                            </span>
+                        </div>
                     </td>
-                    <td nowrap="nowrap" style="text-align: center;" width="30%">{t}Permissions{/t}</td>
-                    <td nowrap="nowrap" style="text-align: center;" width="30%">{t}Actions{/t}</td>
+                    <td style="text-align: center;" width="30%">{t}Permissions{/t}</td>
+                    <td style="text-align: center;" width="30%">{t}Actions{/t}</td>
                 </tr>
 
             {foreach $module.languages as $language}

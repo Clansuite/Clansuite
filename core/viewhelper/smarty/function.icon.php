@@ -40,7 +40,9 @@ function smarty_function_icon($params, $smarty)
     $width = '';
     $extra = '';
 
-    /*if(empty($params['name']) and empty($params['src']))
+    /* 
+    @todo provide usage help text in error message
+    if(empty($params['name']) and empty($params['src']))
     {
         trigger_error('Provide "name" or "src".', E_USER_ERROR);
         return;
@@ -127,10 +129,9 @@ function smarty_function_icon($params, $smarty)
         $extra = '';
     }
 
-    # prepare link
-    $src = str_replace( ROOT_THEMES, '', $src );
+    # prepare link: transform absolute path into webpath and apply slashfix
+    $src = str_replace( ROOT_THEMES, WWW_ROOT_THEMES, $src );
     $src = str_replace( '\\', '/', $src );
-    $src = WWW_ROOT_THEMES.$src;
 
     $html = '<img src="'.$src.'" height="'.$height.'" width="'.$width.'" alt="'.$alt.'" '.$extra.' />';
 
