@@ -59,9 +59,9 @@ if (defined('IN_CS') === false)
                    if ((!$file->isDot()) && preg_match("/.gif$/",$file->getFilename()))
                    {
                       echo '<option style="padding-left: 30px; background-image: url(./languages/' . $file .'); background-position:5px 100%; background-repeat: no-repeat;"';
-                      $file = mb_substr($file->getFilename(), 0, -4);
+                      $file = substr($file->getFilename(), 0, -4);
                       if ($_SESSION['lang'] == $file) { echo ' selected="selected"'; }
-                      echo '>';
+                      echo ' value=' . $file .'>';
                       echo $file;
                       echo "</option>\n";
                    }
