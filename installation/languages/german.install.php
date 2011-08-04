@@ -211,8 +211,7 @@ class Language implements ArrayAccess
 
     public function offsetGet($offset)
     {
-        // @todo i have still no clue why utf8-encode() won't work!
-        return $this->unicode_converter($this->language[$offset]);
+        return utf8_encode($this->language[$offset]);
     }
 
     public function offsetSet($offset, $value)
@@ -225,41 +224,6 @@ class Language implements ArrayAccess
     {
         unset($this->language[$offset]);
         return true;
-    }
-
-    /**
-     * unicode_converter
-     *
-     * @param string $string The string to unicode encode/decode
-     * @param boolean $to_unicode Convert to (true) or from (false) Unicode
-     */
-    function unicode_converter($string, $to_unicode = true)
-    {
-        return htmlentities($string);
-        /*
-        $conversion_table = array(
-                                    "ä" => "&#228;", "Ä" => "&#196;",
-                                    "ö" => "&#246;", "Ö" => "&#214;",
-                                    "ü" => "&#252;", "Ü" => "&#220;",
-                                    "é" => "&#233;", "ß" => "&#223;"
-                                  );
-
-        # char to unicode
-        if ($to_unicode)
-        {
-            $string = strtr($string, $conversion_table);
-        }
-        # unicode to char
-        else
-        {
-            foreach ($conversion_table as $conversion_element)
-            {
-                $conversion_pool[$conversion_element] = array_search($conversion_element, $conversion_pool);
-            }
-            $string = strtr($string, $conversion_pool);
-        }
-        return $string;
-        */
     }
 }
 ?>
