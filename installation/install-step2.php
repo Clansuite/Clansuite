@@ -216,9 +216,9 @@ if (defined('IN_CS') === false)
                          # Checking for correct date.timezone configuration in php.ini
                          $required['datetimezone']['label']      = $language['DATE_TIMEZONE'];
                          $required['datetimezone']['expected']   = SETTING_EXPECTED_ON;
-                         $required['datetimezone']['actual']     = get_php_setting('date.timezone',true, 'string');
-                         $required['datetimezone']['status']     = get_php_setting('date.timezone',true, 'img');
-                         
+                         $required['datetimezone']['actual']     = ini_get("date.timezone") ? SETTING_EXPECTED_ON : SETTING_EXPECTED_OFF;
+                         $required['datetimezone']['status']     = ini_get("date.timezone") ? SETTING_TRUE : SETTING_FALSE;
+
                           # Checking RegisterGlobals
                          $required['register_globals']['label']      = $language['REGISTER_GLOBALS'];
                          $required['register_globals']['expected']   = SETTING_EXPECTED_OFF;
