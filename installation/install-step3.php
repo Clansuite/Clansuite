@@ -22,7 +22,9 @@ if (defined('IN_CS') === false)
                     <p><?php echo $language['STEP3_MUST_AGREE']; ?></p>
                     <label for="agreecheck">
                         <input type="checkbox" class="inputbox" id="agreecheck" name="agreecheck"
-                           onclick="if(this.checked==true) { document.getElementById('ButtonNext').disabled=false; } else { document.getElementById('ButtonNext').disabled=true;}" />
+                           onclick="var buttonNext = document.getElementById('ButtonNext'); 
+                                    if(this.checked==true){ buttonNext.disabled=false; buttonNext.className='ButtonGreen';
+                                    } else { buttonNext.disabled=true; buttonNext.className='ButtonGrey'; }" />
                         <?php echo $language['STEP3_CHECKBOX']; ?>
                     </label>
                 </div>
@@ -38,7 +40,7 @@ if (defined('IN_CS') === false)
                                 <input type="hidden" name="lang" value="<?php echo $_SESSION['lang']; ?>" />
                             </div>
                             <div class="alignright">
-                                <input type="submit" value="<?php echo $language['NEXTSTEP']; ?>" class="ButtonGreen" name="step_forward" id="ButtonNext" disabled="disabled" />
+                                <input type="submit" value="<?php echo $language['NEXTSTEP']; ?>" class="ButtonGrey" name="step_forward" id="ButtonNext" disabled="disabled" />
                             </div>
                         </form>
                     </div><!-- div navigation end -->
