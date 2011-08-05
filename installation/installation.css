@@ -8,7 +8,7 @@
 #rightpage {
     margin-left:820px;
     width:170px;
-    background-image:url(images/rightbox-bg.png);
+    background-image: url("images/rightbox-bg.png");
     background-repeat:repeat-y;
     position:fixed;
     top: 20px;
@@ -16,14 +16,14 @@
 
 #rightpage #top {
     height:21px;
-    background-image:url(images/rightbox-top.png);
+    background-image: url("images/rightbox-top.png");
     background-position:top right;
     background-repeat:no-repeat;
 }
 
 #rightpage #bottom {
     height:15px;
-    background:url(images/rightbox-bottom.png); 
+    background-image: url("images/rightbox-bottom.png"); 
     background-position:bottom;
     background-repeat:no-repeat;
 }
@@ -31,12 +31,12 @@
 /*
 #rightpage #bottomleft {
     height:20px;
-    background:url(images/kubrickfooter.png) no-repeat scroll 0 -40px;
+    background-image: url("images/kubrickfooter.png") no-repeat scroll 0 -40px;
 }
 
 #rightpage #bottomright {
     height:20px;
-    background:url(images/kubrickfooter.png) no-repeat scroll -650px -40px;
+    background-image: url("images/kubrickfooter.png") no-repeat scroll -650px -40px;
     float:left;
 }
 */
@@ -296,36 +296,41 @@ dl dt
   border-top-color:#CCC;
   color:#333;
   font-family:tahoma, sans-serif;
-  font-size:10px;
+  font-size:12px;
   font-weight:700;
   margin:3px;
-  padding:.1em;
+  padding: 0.2em 10px;
   white-space:nowrap;
 }
 
 .Button,.ButtonGrey
 {
-  background:url(images/background_form_element_grey.gif) repeat-x;
+  background-image: url("images/background_form_element_grey.gif");
+  background-size: contain;
 }
 
 .ButtonYellow
 {
-  background:url(images/background_form_element_yellow.gif) repeat-x;
+  background-image: url("images/background_form_element_yellow.gif");
+  background-size: contain;
 }
 
 .ButtonOrange
 {
-  background:url(images/background_form_element_orange.gif) repeat-x;
+  background-image: url("images/background_form_element_orange.gif");
+  background-size: contain; /* IE for the win */
 }
 
 .ButtonRed
 {
-  background:url(images/background_form_element_red.gif) repeat-x;
+  background-image: url("images/background_form_element_red.gif");
+  background-size: contain; /* IE for the win */
 }
 
 .ButtonGreen
 {
-  background:url(images/background_form_element_green.gif) repeat-x;
+  background-image: url("images/background_form_element_green.gif");
+  background-size: contain; /* IE for the win */
 }
 
 .Button:active,.ButtonYellow:active,.ButtonRed:active,.ButtonGreen:active,.ButtonGrey:active,.ButtonOrange:active
@@ -478,7 +483,7 @@ dl dt
 
 #footer
 {
-  background:url(images/kubrickfooter.png) no-repeat 0 100%;
+  background-image: url("images/kubrickfooter.png") no-repeat 0 100%;
   border:none;
   clear:both;
   margin:0 auto;
@@ -648,7 +653,7 @@ a,h2 a:hover,h3 a:hover
 
 #headerimg
 {
-  background:url(images/kubrickheader.png) no-repeat bottom center;
+  background-image: url("images/kubrickheader.png") no-repeat bottom center;
   height:138px;
   margin:0;
   position:relative;
