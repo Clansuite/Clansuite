@@ -462,13 +462,10 @@ if (defined('IN_CS') === false)
                                     {
                                         $button_inactive = true;   
                                     }
-                                    else
-                                    {
-                                        $button_active = true;   
-                                    }
+                                    break;
                                 }
                                 
-                                if($button_inactive )
+                                if($button_inactive === true)
                                 {
                                 ?> 
                                     <input value="<?php echo $language['NEXTSTEP']; ?>" deactivated="deactivated" class="ButtonGrey" name="step_backward" tabindex="3" />    
