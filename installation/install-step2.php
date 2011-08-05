@@ -122,9 +122,7 @@ if (defined('IN_CS') === false)
 
                              if (empty($temp_file_name) === false)
                              {
-                                $handle = fopen($temp_file_name, "w");
-                                fwrite($handle, "writing to tempfile");
-                                fclose($handle);
+                                file_put_contents($temp_file_name, 'Writing FOO to tempfile.');
                                 unlink($temp_file_name);
                                 return true;
                              }
