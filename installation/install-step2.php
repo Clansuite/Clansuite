@@ -469,7 +469,7 @@ if (defined('IN_CS') === false)
                                 if($button_inactive === true)
                                 {
                                 ?> 
-                                    <input value="<?php echo $language['NEXTSTEP']; ?>" deactivated="deactivated" class="ButtonGrey" name="step_backward" tabindex="3" />    
+                                    <input type="submit" value="<?php echo $language['NEXTSTEP']; ?>" disabled="disabled" class="ButtonGrey" name="step_forward" tabindex="1" />
                                 <?php
                                 }
                                 else
