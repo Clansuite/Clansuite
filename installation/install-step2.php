@@ -219,7 +219,7 @@ if (defined('IN_CS') === false)
                          $required['datetimezone']['actual']     = ini_get("date.timezone") ? SETTING_EXPECTED_ON : SETTING_EXPECTED_OFF;
                          $required['datetimezone']['status']     = ini_get("date.timezone") ? SETTING_TRUE : SETTING_FALSE;
 
-                          # Checking RegisterGlobals
+                         # Checking RegisterGlobals
                          $required['register_globals']['label']      = $language['REGISTER_GLOBALS'];
                          $required['register_globals']['expected']   = SETTING_EXPECTED_OFF;
                          $required['register_globals']['actual']     = ini_get('register_globals') ? SETTING_EXPECTED_ON : SETTING_EXPECTED_OFF;
@@ -456,13 +456,14 @@ if (defined('IN_CS') === false)
                         <form action="index.php" method="post">
                             <div class="alignright">
                                 <?php
+                                $button_inactive = false;
                                 foreach($required as $required_item)
                                 {
-                                    if($required_item['status'] === SETTING_TRUE)
+                                    if($required_item['status'] === SETTING_FALSE)
                                     {
-                                        $button_inactive = true;   
-                                    }
-                                    break;
+                                        $button_inactive = true;
+                                        break;  
+                                    }                                    
                                 }
                                 
                                 if($button_inactive === true)
