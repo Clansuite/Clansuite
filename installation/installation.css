@@ -257,37 +257,6 @@ dl dt
   font-weight:700;
 }
 
-#loading
-{
-  background-color:#000;
-  height:100%;
-  position:absolute;
-  width:100%;
-  z-index:98;
-}
-
-#loading_inline
-{
-  background-color:#000;
-  border-bottom:1px solid #FFF;
-  border-top:1px solid #FFF;
-  height:90px;
-  margin:auto;
-  position:absolute;
-  text-align:center;
-  top:200px;
-  width:100%;
-  z-index:99;
-}
-
-#loading_text
-{
-  color:#FFF;
-  left:48%;
-  position:absolute;
-  top:30%;
-}
-
 .Button,.ButtonYellow,.ButtonRed,.ButtonGreen,.ButtonGrey,.ButtonOrange
 {
   background-color:#FFF;
@@ -517,7 +486,6 @@ h1
   font-size:1.2em;
   text-align:center;
 }
-
 h2.pagetitle
 {
   font-size:1.6em;
@@ -551,52 +519,6 @@ h2,h2 a,h2 a:visited,h3,h3 a,h3 a:visited
   color:#333;
 }
 
-.entry p a:visited
-{
-  color:#b85b5a;
-}
-
-.commentlist li,#commentform input,#commentform textarea
-{
-  font:.9em 'Lucida Grande', Verdana, Arial, Sans-Serif;
-}
-
-.commentlist li
-{
-  font-weight:700;
-  list-style:none;
-  margin:15px 0 3px;
-  padding:5px 10px 3px;
-}
-
-.commentlist cite,.commentlist cite a
-{
-  font-size:1.1em;
-  font-style:normal;
-  font-weight:700;
-}
-
-.commentlist p
-{
-  font-weight:400;
-  line-height:1.5em;
-  margin:10px 5px 10px 0;
-  text-transform:none;
-}
-
-#commentform p
-{
-  font-family:'Lucida Grande', Verdana, Arial, Sans-Serif;
-  margin:5px 0;
-}
-
-.commentmetadata
-{
-  display:block;
-  font-weight:400;
-  margin:0;
-}
-
 #leftsidebar,#rightsidebar
 {
   font:1em 'Lucida Grande', Verdana, Arial, Sans-Serif;
@@ -623,32 +545,6 @@ a,h2 a:hover,h3 a:hover
 {
   color:#06c;
   text-decoration:none;
-}
-
-#wp-calendar #prev a
-{
-  font-size:9pt;
-  padding-left:10px;
-  text-align:left;
-}
-
-#wp-calendar a
-{
-  display:block;
-  text-decoration:none;
-}
-
-#wp-calendar caption
-{
-  font:bold 1.3em 'Lucida Grande', Verdana, Arial, Sans-Serif;
-  text-align:center;
-  width:100%;
-}
-
-#wp-calendar th
-{
-  font-style:normal;
-  text-transform:capitalize;
 }
 
 #headerimg
@@ -853,32 +749,6 @@ select
   float:left;
   padding:20px 5px 10px;
   width:160px;
-}
-
-
-
-#wp-calendar
-{
-  empty-cells:show;
-  margin:10px auto 0;
-  width:155px;
-}
-
-#wp-calendar #next a
-{
-  padding-right:10px;
-  text-align:right;
-}
-
-#wp-calendar td
-{
-  padding:3px 0;
-  text-align:center;
-}
-
-#wp-calendar td.pad:hover
-{
-  background-color:#fff;
 }
 
 acronym,abbr
