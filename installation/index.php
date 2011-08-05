@@ -122,6 +122,7 @@ if(isset($_SESSION['step']))
     if(isset($_POST['step_forward']))  { $step++; }
     if(isset($_POST['step_backward'])) { $step--; }
     if($step >= $total_steps)          { $step = $total_steps; }
+    if($step == 0) { $step = 1; }
 }
 else
 { $step = 1;}
@@ -436,8 +437,11 @@ function array_merge_rec($arr1, $arr2)
 function get_total_steps()
 {
     if(isset($_SESSION['total_steps']))
-    {return $_SESSION['total_steps'];    }
-    for($i = 1; function_exists('installstep_' . $i)==true; $i++)
+    {
+        return $_SESSION['total_steps'];
+    }
+    
+    for($i = 1; function_exists('installstep_' . $i) === true; $i++)
     {
         $_SESSION['total_steps'] = $i;
     }
@@ -565,8 +569,8 @@ function generate_hash($hash_algo = null, $string = '')
  */
 function calc_progress($this_is_step, $of_total_steps)
 {
-    $this_is_step--;
-    return round(100 / ($of_total_steps - 1) * $this_is_step, 0);
+    if($this_is_step <= 1) { return 0;}
+    return round((100 / $of_total_steps) * $this_is_step, 0);
 }
 
 // STEP 1 - Language Selection
