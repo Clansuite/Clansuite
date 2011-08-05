@@ -455,7 +455,32 @@ if (defined('IN_CS') === false)
                         </span>
                         <form action="index.php" method="post">
                             <div class="alignright">
-                                <input type="submit" value="<?php echo $language['NEXTSTEP']; ?>" class="ButtonGreen" name="step_forward" tabindex="1" />
+                                <?php
+                                foreach($required as $required_item)
+                                {
+                                    if($required_item['status'] === SETTING_TRUE)
+                                    {
+                                        $button_inactive = true;   
+                                    }
+                                    else
+                                    {
+                                        $button_active = true;   
+                                    }
+                                }
+                                
+                                if($button_inactive )
+                                {
+                                ?> 
+                                    <input value="<?php echo $language['NEXTSTEP']; ?>" deactivated="deactivated" class="ButtonGrey" name="step_backward" tabindex="3" />    
+                                <?php
+                                }
+                                else
+                                {
+                                ?>                                 
+                                    <input type="submit" value="<?php echo $language['NEXTSTEP']; ?>" class="ButtonGreen" name="step_forward" tabindex="1" />
+                                <?php
+                                }
+                                ?>                                
                             </div>
                             <div class="alignleft">
                                 <input type="submit" value="<?php echo $language['BACKSTEP']; ?>" class="ButtonRed" name="step_backward" tabindex="3" />
