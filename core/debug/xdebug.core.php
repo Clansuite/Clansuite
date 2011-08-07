@@ -304,11 +304,9 @@ class Clansuite_Xdebug
             #var_dump(xdebug_get_code_coverage());
             echo '</table>';
 
-
-
             self::showConstants();
 
-            self::showBrowserInfo();
+            #self::showBrowserInfo();
 
             self::showHttpHeaders();
 
