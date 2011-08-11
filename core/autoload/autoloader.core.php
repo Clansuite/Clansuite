@@ -149,7 +149,7 @@ class Clansuite_Loader
 
         foreach($classnames_to_exclude as $classname_to_exclude)
         {
-            if (false !== mb_strpos($classname, $classname_to_exclude))
+            if (false !== strpos($classname, $classname_to_exclude))
             {
                 return true;
             }
@@ -161,13 +161,13 @@ class Clansuite_Loader
          */
 
         # this means if 'Doctrine" is found, but not 'Clansuite_Doctrine', exclude from our autoloading
-        if (false !== mb_strpos($classname, 'Doctrine') and false === mb_strpos($classname, 'Clansuite_Doctrine'))
+        if (false !== strpos($classname, 'Doctrine') and false === strpos($classname, 'Clansuite_Doctrine'))
         {
             return true;
         }
 
         # this means if 'Smarty" is found, but not 'Clansuite_Smarty', exclude from our autoloading
-        if (false !== mb_strpos($classname, 'Smarty') and false === mb_strpos($classname, '_Smarty'))
+        if (false !== strpos($classname, 'Smarty') and false === strpos($classname, '_Smarty'))
         {
             return true;
         }
@@ -335,12 +335,12 @@ class Clansuite_Loader
     public static function autoloadTryPathsAndMap($classname)
     {
         # Start Classname to Filename Mapping
-        $filename = mb_strtolower($classname);
+        $filename = strtolower($classname);
 
         # strip 'clansuite_' from beginning of the string
-        if(false !== mb_strpos($filename, 'clansuite_'))
+        if(false !== strpos($filename, 'clansuite_'))
         {
-            $filename = mb_substr($filename, 10);
+            $filename = substr($filename, 10);
         }
 
         # Core Class
@@ -361,7 +361,7 @@ class Clansuite_Loader
 
         # Filter
         # clansuite/core/filters/classname.filter.php
-        $file = ROOT_CORE . 'filters' . DS . mb_substr($filename, 7) . '.filter.php';
+        $file = ROOT_CORE . 'filters' . DS . substr($filename, 7) . '.filter.php';
         if(is_file($file) === true)
         {
             return self::includeFileAndMap($file, $classname);
