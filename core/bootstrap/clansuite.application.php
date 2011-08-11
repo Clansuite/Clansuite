@@ -131,20 +131,6 @@ class Clansuite_CMS
         {
             exit('<i>php_pdo_mysql</i> driver not enabled.');
         }
-
-
-        # magic_quotes_gpc off
-        # @todo remove cleanGlobals from httprequest
-         if(ini_get('magic_quotes_gpc') == '1' or strtolower(ini_get('magic_quotes_gpc')) == 'on')
-        {
-            exit('PHP Setting <i>magic_quotes_gpc</i> must be Off.');
-        }
-
-        # register globals off
-        if(ini_get('register_globals') == '1' or strtolower(ini_get('register_globals')) == 'on')
-        {
-            exit('PHP Setting <i>register_globals</i> must be Off.');
-        }
         
         #  Check if clansuite.config.php is found, else we are not installed at all, so redirect to installation page
         if(is_file('configuration/clansuite.config.php') === false)
