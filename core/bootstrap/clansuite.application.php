@@ -145,6 +145,13 @@ class Clansuite_CMS
         {
             exit('PHP Setting <i>register_globals</i> must be Off.');
         }
+        
+        #  Check if clansuite.config.php is found, else we are not installed at all, so redirect to installation page
+        if(is_file('configuration/clansuite.config.php') === false)
+        {
+            header('Location: installation/index.php');
+            exit;
+        }
     }
 
     /**
@@ -152,22 +159,14 @@ class Clansuite_CMS
      *          Load Configuration
      *  ==========================================
      *
-     * 1. Check if clansuite.config.php is found, else redirect
-     * 2. Load clansuite.config.php
-     * 3. Load specific staging configuration (overloading clansuite.config.php)
-     * 4. Maintenance check
-     * 5. Alter php.ini settings
+     * 1. Load clansuite.config.php
+     * 2. Load specific staging configuration (overloading clansuite.config.php)
+     * 3. Maintenance check
+     * 4. Alter php.ini settings
      */
     private static function initialize_Config()
     {
-        # 1. Check if clansuite.config.php is found, else we are not installed at all, so redirect to installation page
-        if(is_file('configuration/clansuite.config.php') === false)
-        {
-            header('Location: installation/index.php');
-            exit;
-        }
-
-        # 2. load the main clansuite configuration file
+        # 1. load the main clansuite configuration file
         $clansuite_cfg_cached = false;
         if(APC === true and apc_exists('clansuite.config'))
         {
@@ -185,7 +184,7 @@ class Clansuite_CMS
         }
         unset($clansuite_cfg_cached);
 
-        # 3. Maintenance check
+        # 2. Maintenance check
         if( true === (bool) self::$config['maintenance']['maintenance'] )
         {
             $token = false;
@@ -212,7 +211,7 @@ class Clansuite_CMS
             }
         }
 
-        # 4. load staging configuration (overloading clansuite.config.php)
+        # 3. load staging configuration (overloading clansuite.config.php)
         if( true === (bool) self::$config['config']['staging'] )
         {
             self::$config = Clansuite_Staging::overloadWithStagingConfig(self::$config);
@@ -220,7 +219,7 @@ class Clansuite_CMS
 
         /**
          *  ================================================
-         *          5. Alter php.ini settings
+         *          4. Alter php.ini settings
          *  ================================================
          */
         set_time_limit(0);
