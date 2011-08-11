@@ -275,7 +275,7 @@ class Clansuite_CMS
      */
     public static function initialize_ConstantsAndPaths()
     {
-        define('APC', extension_loaded ('apc'));
+        define('APC', (bool) extension_loaded('apc'));
 
         # try to load constants from APC
         if(APC === true)
@@ -380,7 +380,7 @@ class Clansuite_CMS
             /**
              * @var Determine Type of Protocol for Webpaths (http/https)
              */
-            if(isset($_SERVER['HTTPS']) === true and mb_strtolower($_SERVER['HTTPS']) == 'on')
+            if(isset($_SERVER['HTTPS']) === true and strtolower($_SERVER['HTTPS']) == 'on')
             {
                 define('PROTOCOL', 'https://', false);
             }
