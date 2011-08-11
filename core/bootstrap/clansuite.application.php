@@ -119,19 +119,6 @@ class Clansuite_CMS
         }
         unset($REQUIRED_PHP_VERSION);
 
-        # PDO Check
-        if(class_exists('pdo', false) === false)
-        {
-            exit('<i>php_pdo</i> not enabled!');
-        }
-
-        # PDO mysql driver Check
-        # @todo the type of db-driver for pdo is set on installtion + available via config
-        if(in_array('mysql', PDO::getAvailableDrivers()) === false)
-        {
-            exit('<i>php_pdo_mysql</i> driver not enabled.');
-        }
-        
         #  Check if clansuite.config.php is found, else we are not installed at all, so redirect to installation page
         if(is_file('configuration/clansuite.config.php') === false)
         {
