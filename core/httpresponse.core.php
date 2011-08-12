@@ -331,6 +331,8 @@ class Clansuite_HttpResponse implements Clansuite_Response_Interface
         self::addHeader('Cache-Control', 'post-check=0, pre-check=0');
         # force immediate expiration
         self::addHeader('Expires',       '1');
+        # set date of last modification
+        self::addHeader('Last-Modified', gmdate("D, d M Y H:i:s") . ' GMT');
     }
 
     /**
@@ -347,6 +349,8 @@ class Clansuite_HttpResponse implements Clansuite_Response_Interface
             $array = explode('#', $message);
             # results in: array[0] = type and array[1] = message)
             Clansuite_Flashmessages::setMessage($array[0], $array[1]);
+            # return the message
+            return $array[1];
         }
     }
 
@@ -403,20 +407,21 @@ class Clansuite_HttpResponse implements Clansuite_Response_Interface
             # redirect to ...
             self::setStatusCode($statusCode);
 
-            # detect if redirect message is a flashmessage
-            self::detectTypeAndSetFlashmessage($message);
+            # detect if redirect message contains a flashmessage type
+            # fetch message from "type#message"
+            $message = self::detectTypeAndSetFlashmessage($message);
 
             switch($mode)
             {
                 default:
                 case 'LOCATION':
                     header('LOCATION: '. $url);
-                    session_write_close();
+                    #session_write_close(); # @todo figure out, if session closing is needed?
                     exit();
                     break;
                 case 'REFRESH':
                     header('Refresh: 0; URL="' . $url . '"');
-                    session_write_close();
+                    #session_write_close(); # @todo figure out, if session closing is needed?
                     break;
                 case 'JS':
                     $redirect_html = '<script type="text/javascript">window.location.href=' . $url . ';</script>';
