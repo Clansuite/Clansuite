@@ -152,18 +152,12 @@ class Clansuite_Browserinfo
 
     /**
      * Constructor
-     */
-    public function __construct($userAgentString = null, UAP $UAP = null)
-    {
-        $this->configureFromUserAgentString($userAgentString, $UAP);
-    }
-
-    /**
+     *
      *  Configure the User Agent from a user agent string.
      *  @param  String  $userAgentString => the user agent string.
-     *  @param  UAP  $UAP => the parser used to parse the string.   
+     *  @param  UAP  $UAP => the parser used to parse the string.
      */
-    public function configureFromUserAgentString($userAgentString, UAP $UAP = null)
+    public function __construct($userAgentString = null, UAP $UAP = null)
     {
         if($UAP == null)
         {
@@ -273,7 +267,7 @@ class Clansuite_Browserinfo
 
     /**
      *  Set Browser name
-     *  @param String - the browser name; 
+     *  @param String - the browser name;
      *  @return none.
      */
     public function setBrowserName($name)
@@ -293,7 +287,7 @@ class Clansuite_Browserinfo
 
     /**
      *  Set Browser typ
-     *  @param String - the browser typ; 
+     *  @param String - the browser typ;
      *  @return none.
      */
     public function setBrowserTyp($name)
@@ -313,7 +307,7 @@ class Clansuite_Browserinfo
 
     /**
      *  Set Browser sub typ
-     *  @param String - the browser sub typ; 
+     *  @param String - the browser sub typ;
      *  @return none.
      */
     public function setBrowserTypSub($name)
@@ -328,12 +322,12 @@ class Clansuite_Browserinfo
      */
     public function getBrowserVersion()
     {
-        return $this->browserVersion; 
+        return $this->browserVersion;
     }
 
     /**
      *  Set Browser version
-     *  @param String - the browser version; 
+     *  @param String - the browser version;
      *  @return none.
      */
     public function setBrowserVersion($version)
@@ -348,12 +342,12 @@ class Clansuite_Browserinfo
      */
     public function getBrowserVersionMajor()
     {
-        return $this->browserVersionMajor; 
+        return $this->browserVersionMajor;
     }
 
     /**
      *  Set Browser version major
-     *  @param String - the browser version major; 
+     *  @param String - the browser version major;
      *  @return none.
      */
     public function setBrowserVersionMajor($version)
@@ -368,12 +362,12 @@ class Clansuite_Browserinfo
      */
     public function getBrowserVersionMinor()
     {
-        return $this->browserVersionMinor; 
+        return $this->browserVersionMinor;
     }
 
     /**
      *  Set Browser version minor
-     *  @param String - the browser version minor; 
+     *  @param String - the browser version minor;
      *  @return none.
      */
     public function setBrowserVersionMinor($version)
@@ -388,12 +382,12 @@ class Clansuite_Browserinfo
      */
     public function getBrowserVersionRelease()
     {
-        return $this->browserVersionRelease; 
+        return $this->browserVersionRelease;
     }
 
     /**
      *  Set Browser version release
-     *  @param String - the browser version release; 
+     *  @param String - the browser version release;
      *  @return none.
      */
     public function setBrowserVersionRelease($value)
@@ -409,12 +403,12 @@ class Clansuite_Browserinfo
      */
     public function getBrowserVersionBuild()
     {
-        return $this->browserVersionBuild; 
+        return $this->browserVersionBuild;
     }
 
     /**
      *  Set Browser version build
-     *  @param String - the browser version build; 
+     *  @param String - the browser version build;
      *  @return none.
      */
     public function setBrowserVersionBuild($value)
@@ -431,7 +425,7 @@ class Clansuite_Browserinfo
      */
     public function getOperatingSystem()
     {
-        return $this->operatingSystem; 
+        return $this->operatingSystem;
     }
 
     /**
@@ -451,7 +445,7 @@ class Clansuite_Browserinfo
      */
     public function getOperatingSystemName()
     {
-        return $this->operatingSystemName; 
+        return $this->operatingSystemName;
     }
 
     /**
@@ -471,7 +465,7 @@ class Clansuite_Browserinfo
      */
     public function getOperatingSystemTyp()
     {
-        return $this->operatingSystemTyp; 
+        return $this->operatingSystemTyp;
     }
 
     /**
@@ -491,7 +485,7 @@ class Clansuite_Browserinfo
      */
     public function getOperatingSystemTypSub()
     {
-        return $this->operatingSystemTypSub; 
+        return $this->operatingSystemTypSub;
     }
 
     /**
@@ -604,7 +598,7 @@ class Clansuite_Browserinfo
             'operating_system_typ_sub' => $this->getOperatingSystemTypSub(),
             'engine' => $this->getEngine(),
             'engine_version' => $this->getEngineVersion()
-        ); 
+        );
     }
 
     /**
@@ -613,10 +607,10 @@ class Clansuite_Browserinfo
      */
     public function fromArray(array $data)
     {
-        $this->setUserAgentString($data['user_agent']); 
-        $this->setBrowserName($data['browser_name']); 
-        $this->setBrowserTyp($data['browser_typ']); 
-        $this->setBrowserTypSub($data['browser_typ_sub']); 
+        $this->setUserAgentString($data['user_agent']);
+        $this->setBrowserName($data['browser_name']);
+        $this->setBrowserTyp($data['browser_typ']);
+        $this->setBrowserTypSub($data['browser_typ_sub']);
         $this->setBrowserVersion($data['browser_version']);
         $this->setBrowserVersionMajor($data['browser_version_major']);
         $this->setBrowserVersionMinor($data['browser_version_minor']);
@@ -638,7 +632,7 @@ class Clansuite_Browserinfo
      */
     public function isUnknown()
     {
-        return empty($this->browserName); 
+        return empty($this->browserName);
     }
 
 }
@@ -682,7 +676,7 @@ class UAP
         }
 
         //parse quickly with medium accuracy
-        $informations = $this->doParse($userAgentString); 
+        $informations = $this->doParse($userAgentString);
 
         # debug
         #var_dump( $informations );
@@ -695,7 +689,7 @@ class UAP
      *
      *  @param  (String) $userAgentString => user agent string.
      *  @return (Array)  $information     => user agent informations directly in array.
-     */     
+     */
     public function doParse($userAgentString)
     {
         $userAgent = array(
@@ -767,7 +761,7 @@ class UAP
                     {
                         $userAgent['engine'] = $elements['engine'];
                     }
-                    else 
+                    else
                     {
                         $userAgent['engine'] = self::TYPE_UNKNOW;
                     }
@@ -836,7 +830,7 @@ class UAP
                     {
                         $userAgent['operating_system_typ'] = $elements['type'];
                     }
-                    else 
+                    else
                     {
                         $userAgent['operating_system_typ'] = self::TYPE_UNKNOW;
                     }
@@ -862,19 +856,19 @@ class UAP
     /**
      *  Make user agent string lowercase, and replace browser aliases.
      *
-     *  @param String $userAgentString => the dirty user agent string. 
+     *  @param String $userAgentString => the dirty user agent string.
      *  @param String $userAgentString => the clean user agent string.
      */
     public function cleanUserAgentString($userAgentString)
     {
         //clean up the string
-        $userAgentString = trim(strtolower($userAgentString));  
+        $userAgentString = trim(strtolower($userAgentString));
 
         //replace browser names with their aliases
-        #$userAgentString = strtr($userAgentString, $this->getListBrowserAliases()); 
+        #$userAgentString = strtr($userAgentString, $this->getListBrowserAliases());
 
         //replace engine names with their aliases
-        #$userAgentString = strtr($userAgentString, $this->getListEngineAliases()); 
+        #$userAgentString = strtr($userAgentString, $this->getListEngineAliases());
 
         return $userAgentString;
     }
@@ -885,7 +879,7 @@ class UAP
 
     /**
      *  Get browsers list
-     *  
+     *
      *  @param void.
      *  @return Array of browsers
      *
@@ -930,7 +924,7 @@ class UAP
     # --------------------- OPERATING SYSTEM ---------------------
     /**
      *  Get operating system list
-     *  
+     *
      *  @param void.
      *  @return array => the operating system.
      */
