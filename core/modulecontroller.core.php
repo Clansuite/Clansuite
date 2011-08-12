@@ -65,12 +65,12 @@ abstract class Clansuite_Module_Controller
     public $template = null;
 
     /**
-     * @var object Clansuite_HttpResponse
+     * @var object Clansuite_HttpResponse \Clansuite\Core\HttpResponse
      */
     public $response = null;
 
     /**
-     * @var object Clansuite_HttpRequest
+     * @var object Clansuite_HttpRequest \Clansuite\Core\HttpRequest
      */
     public $request = null;
 
@@ -89,6 +89,14 @@ abstract class Clansuite_Module_Controller
         $this->request = $request;
         $this->response = $response;
         $this->doctrine_em = Clansuite_CMS::getEntityManager();
+    }
+
+    /**
+     * @return \Doctrine\ORM\EntityManager
+     */
+    public function getDoctrineEntityManager()
+    {
+        return $this->doctrine_em;
     }
 
     /**
@@ -124,20 +132,20 @@ abstract class Clansuite_Module_Controller
         #Clansuite_Debug::firebug($entityName);
         return $this->doctrine_em->getRepository($entityName);
     }
-    
+
     /**
      * Saves this and all others models (calls persist + flush)
      * Save (save one)
      * Flush (save all)
-     * 
+     *
      * @param object  $model Entites/xy
      * @param boolean $flush Uses flush on true, save on false. Defaults to flush (true).
      */
     public function saveModel($model, $flush = true)
-    {        
+    {
         $em = $this->doctrine_em;
         $em->persist($model);
-        
+
         if($flush === true)
         {
             $em->flush();
@@ -145,7 +153,7 @@ abstract class Clansuite_Module_Controller
         else
         {
             $em->save();
-        }        
+        }
     }
 
     /**
@@ -399,7 +407,6 @@ abstract class Clansuite_Module_Controller
         if(empty($this->template) === true)
         {
             # construct template name
-            # @todo maybe __FUNCTION__ works too
             $template = Clansuite_TargetRoute::getActionName() . '.tpl';
             $this->setTemplate($template);
         }
@@ -439,9 +446,9 @@ abstract class Clansuite_Module_Controller
      * 3. assign model data to that view object (a,b,c)
      * 5. set data to response object
      *
-     * @param $templates array with keys 'layout_template' / 'content_template' and templates as values
+     * @param $templates mixed|array|string Array with keys 'layout_template' / 'content_template' and templates as values or just content template name.
      */
-    public function display(array $templates = null)
+    public function display($templates = null)
     {
         # set layout and content template by parameter array
         if(is_array($templates) === true)
@@ -456,8 +463,8 @@ abstract class Clansuite_Module_Controller
                 $this->setTemplate($templates['content_template']);
             }
         }
-
-
+# only the content template is set
+if(is_string($templates)) { $this->setTemplate($templates); }
         # get the templatename
         $templatename = $this->getTemplateName();
 
@@ -525,19 +532,6 @@ abstract class Clansuite_Module_Controller
         {
             return $form;
         }
-    }
-
-    /**
-     * Redirect (shortcut for usage in modules)
-     *
-     * @param string $url Redirect to this URL
-     * @param int    $time seconds before redirecting (for the html tag "meta refresh")
-     * @param int    $statusCode http status code, default: '302' => 'Found'
-     * @param string $message redirect text
-     */
-    public function redirect($url, $time = 0, $statusCode = 302, $message = '')
-    {
-        self::getHttpResponse()->redirect($url, $time, $statusCode, $message);
     }
 
     /**
@@ -621,7 +615,7 @@ abstract class Clansuite_Module_Controller
     /**
      * Shortcut to get the HttpRequest Object
      *
-     * @return HttpRequest Object
+     * @return \Clansuite\Core\HttpRequest
      */
     public function getHttpRequest()
     {
@@ -631,11 +625,63 @@ abstract class Clansuite_Module_Controller
     /**
      * Shortcut to get the HttpResponse Object
      *
-     * @return HttpResponse Object
+     * @return \Clansuite\Core\HttpResponse
      */
     public function getHttpResponse()
     {
         return $this->response;
     }
 }
+
+/** 
+ * Interface for all modules which implement a BREAD action structure.
+ * 
+ * Force classes implementing the interface to define this (must have) methods! 
+ * 
+ * @category    Clansuite 
+ * @package     Core 
+ * @subpackage  Module 
+ */ 
+interface Clansuite_BREAD_Module_Interface extends Clansuite_Module_Interface 
+{ 
+    public function action_browse(); 
+    public function action_read(); 
+    public function action_erase(); 
+    public function action_add(); 
+    public function action_delete(); 
+} 
+ 
+/** 
+ * Interface for all modules which implement a CRUD action structure.
+ * 
+ * Force classes implementing the interface to define this (must have) methods! 
+ * 
+ * @category    Clansuite 
+ * @package     Core 
+ * @subpackage  Module 
+ */ 
+interface Clansuite_CRUD_Module_Interface extends Clansuite_Module_Interface 
+{ 
+    public function action_create(); 
+    public function action_read(); 
+    public function action_update(); 
+    public function action_delete(); 
+} 
+ 
+/** 
+ * Interface for all modules which implement a ABCD action structure.
+ * 
+ * Force classes implementing the interface to define this (must have) methods! 
+ * 
+ * @category    Clansuite 
+ * @package     Core 
+ * @subpackage  Module 
+ */ 
+interface Clansuite_ABCD_Module_Interface extends Clansuite_Module_Interface 
+{ 
+    public function action_add(); 
+    public function action_browse(); 
+    public function action_change(); 
+    public function action_delete(); 
+} 
 ?>
