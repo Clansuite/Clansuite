@@ -122,8 +122,7 @@ class Clansuite_Doctrine2
 
         # @todo workaround till i find a better way to acquire all the models
         $config->getMetadataDriverImpl()->getAllClassNames();
-        #$classes_loaded = $config->getMetadataDriverImpl()->getAllClassNames();
-        #Clansuite_Debug::firebug($classes_loaded);
+        #Clansuite_Debug::firebug($config->getMetadataDriverImpl()->getAllClassNames());
 
         # set proxy dirs
         $config->setProxyDir(realpath(ROOT . 'doctrine'));
