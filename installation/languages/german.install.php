@@ -55,6 +55,7 @@ class Language implements ArrayAccess
         $this->language['PHP_VERSION'] = 'PHP Version';
         $this->language['SESSION_FUNCTIONS'] = 'Session Funktionen';
         $this->language['SESSION_AUTO_START'] = 'Session Autostart';
+        $this->language['PDO_LIBRARY'] = 'PDO - Bibliothek';
         $this->language['EXTENSION_PDO_MYSQL'] = 'Extension: "pdo_mysql"';
         $this->language['CLASS_REFLECTION'] = 'PHP Reflection';
         $this->language['EXTENSION_SPL'] = 'Standard PHP Library (SPL)';
