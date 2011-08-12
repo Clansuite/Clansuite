@@ -642,7 +642,7 @@ if(is_string($templates)) { $this->setTemplate($templates); }
  * @package     Core 
  * @subpackage  Module 
  */ 
-interface Clansuite_BREAD_Module_Interface extends Clansuite_Module_Interface 
+interface Clansuite_BREAD_Module_Interface
 { 
     public function action_browse(); 
     public function action_read(); 
@@ -660,7 +660,7 @@ interface Clansuite_BREAD_Module_Interface extends Clansuite_Module_Interface
  * @package     Core 
  * @subpackage  Module 
  */ 
-interface Clansuite_CRUD_Module_Interface extends Clansuite_Module_Interface 
+interface Clansuite_CRUD_Module_Interface
 { 
     public function action_create(); 
     public function action_read(); 
@@ -677,7 +677,7 @@ interface Clansuite_CRUD_Module_Interface extends Clansuite_Module_Interface
  * @package     Core 
  * @subpackage  Module 
  */ 
-interface Clansuite_ABCD_Module_Interface extends Clansuite_Module_Interface 
+interface Clansuite_ABCD_Module_Interface
 { 
     public function action_add(); 
     public function action_browse(); 
