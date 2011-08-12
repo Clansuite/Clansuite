@@ -32,7 +32,7 @@ if (defined('IN_CS') === false)
 
                          /**
                           * echo alternating table rows
-                          * 
+                          *
                           * Datastructure of "settings" array
                           * $array['settingname']['status']
                           */
@@ -69,7 +69,7 @@ if (defined('IN_CS') === false)
 
                          /**
                           * Gets the boolean value of a php.ini configuration option.
-                          * 
+                          *
                           * @param string php configuration option or function name
                           * @return bool
                           */
@@ -92,7 +92,7 @@ if (defined('IN_CS') === false)
                             $value = (int) iniFlag($phpvar);
 
                             #echo $phpvar .' - '.$value .' - ist:'. ini_get($phpvar) .'- soll: '. $expected_value .'<br />';
-                            
+
                             switch($return_way)
                             {
                                 case 'int':
@@ -155,31 +155,31 @@ if (defined('IN_CS') === false)
                          $required['session.auto_start']['status']     = get_php_setting('session.auto_start', false, 'img');
 
                          # Setting: PDO
+                         # @todo enabled by default 5.3+, consider removal
                          $required['pdo_library']['label']    = $language['PDO_LIBRARY'];
                          $required['pdo_library']['expected'] = SETTING_EXPECTED_ON;
                          $required['pdo_library']['actual']   = class_exists('pdo') ? SETTING_EXPECTED_ON : SETTING_EXPECTED_OFF;
                          $required['pdo_library']['status']   = class_exists('pdo') ? SETTING_TRUE : SETTING_FALSE;
 
                          # Setting: PDO MySQL
-                         $required['pdo_mysql_library']['label']    = $language['PDO_MYSQL_LIBRARY'];
-                         $required['pdo_mysql_library']['expected'] = SETTING_EXPECTED_ON;
-                         $required['pdo_mysql_library']['actual']   = in_array('mysql', PDO::getAvailableDrivers() ) ? SETTING_EXPECTED_ON : SETTING_EXPECTED_OFF;
-                         $required['pdo_mysql_library']['status']   = in_array('mysql', PDO::getAvailableDrivers() ) ? SETTING_TRUE : SETTING_FALSE;
+                         $required['extension_pdo_mysql']['label']    = $language['EXTENSION_PDO_MYSQL'];
+                         $required['extension_pdo_mysql']['expected'] = SETTING_EXPECTED_ON;
+                         $required['extension_pdo_mysql']['actual']   = in_array('mysql', PDO::getAvailableDrivers() ) ? SETTING_EXPECTED_ON : SETTING_EXPECTED_OFF;
+                         $required['extension_pdo_mysql']['status']   = in_array('mysql', PDO::getAvailableDrivers() ) ? SETTING_TRUE : SETTING_FALSE;
 
                          # Checking for Reflection Class (used by DI-Phemto, maybe missing on modified PHP Versions)
+                         # @todo enabled by default 5.3+, consider removal
                          $required['class_reflection']['label']      = $language['CLASS_REFLECTION'];
                          $required['class_reflection']['expected']   = SETTING_EXPECTED_ON;
                          $required['class_reflection']['actual']     = class_exists('Reflection',false) ? SETTING_EXPECTED_ON : SETTING_EXPECTED_OFF;
                          $required['class_reflection']['status']     = class_exists('Reflection',false) ? SETTING_TRUE : SETTING_FALSE;
 
                          # Checking for SPL
+                         # @todo enabled by default 5.3+, consider removal
                          $required['extension_spl']['label']      = $language['EXTENSION_SPL'];
                          $required['extension_spl']['expected']   = SETTING_EXPECTED_ON;
                          $required['extension_spl']['actual']     = extension_loaded("SPL") ? SETTING_EXPECTED_ON : SETTING_EXPECTED_OFF;
                          $required['extension_spl']['status']     = extension_loaded("SPL") ? SETTING_TRUE : SETTING_FALSE;
-
-              # NOT USED # Checking if session.save_path is writable
-              # NOT USED # Setting: Database
 
                          # Permissions Check: write on systems temporary directory
                          $required['is_writable_temp_dir']['label']    = $language['IS_WRITEABLE_TEMP_DIR'];
@@ -214,14 +214,8 @@ if (defined('IN_CS') === false)
                          # Checking for correct date.timezone configuration in php.ini
                          $required['datetimezone']['label']      = $language['DATE_TIMEZONE'];
                          $required['datetimezone']['expected']   = SETTING_EXPECTED_ON;
-                         $required['datetimezone']['actual']     = ini_get("date.timezone") ? SETTING_EXPECTED_ON : SETTING_EXPECTED_OFF;
-                         $required['datetimezone']['status']     = ini_get("date.timezone") ? SETTING_TRUE : SETTING_FALSE;
-
-                         # Checking RegisterGlobals
-                         $required['register_globals']['label']      = $language['REGISTER_GLOBALS'];
-                         $required['register_globals']['expected']   = SETTING_EXPECTED_OFF;
-                         $required['register_globals']['actual']     = ini_get('register_globals') ? SETTING_EXPECTED_ON : SETTING_EXPECTED_OFF;
-                         $required['register_globals']['status']     = ini_get('register_globals') ? SETTING_FALSE: SETTING_TRUE;
+                         $required['datetimezone']['actual']     = ini_get('date.timezone') ? SETTING_EXPECTED_ON : SETTING_EXPECTED_OFF;
+                         $required['datetimezone']['status']     = ini_get('date.timezone') ? SETTING_TRUE : SETTING_FALSE;
 
                          # RECOMMENDED CHECKS
 
@@ -253,7 +247,7 @@ if (defined('IN_CS') === false)
                          $recommended['post_max_size']['expected']   = 'min 2MB';
                          $recommended['post_max_size']['actual']     = '('. $post_max_size .')';
                          $recommended['post_max_size']['status']     = ($post_max_size >= 2 ) ? SETTING_TRUE : SETTING_FALSE;
-                        
+
                          # Checking for allow_url_fopen
                          $recommended['allow_url_fopen']['label']       = $language['ALLOW_URL_FOPEN'];
                          $recommended['allow_url_fopen']['expected']    = SETTING_EXPECTED_ON;
@@ -460,23 +454,23 @@ if (defined('IN_CS') === false)
                                     if($required_item['status'] === SETTING_FALSE)
                                     {
                                         $button_inactive = true;
-                                        break;  
-                                    }                                    
+                                        break;
+                                    }
                                 }
-                                
+
                                 if($button_inactive === true)
                                 {
-                                ?> 
+                                ?>
                                     <input type="submit" value="<?php echo $language['NEXTSTEP']; ?>" disabled="disabled" class="ButtonGrey" name="step_forward" tabindex="1" />
                                 <?php
                                 }
                                 else
                                 {
-                                ?>                                 
+                                ?>
                                     <input type="submit" value="<?php echo $language['NEXTSTEP']; ?>" class="ButtonGreen" name="step_forward" tabindex="1" />
                                 <?php
                                 }
-                                ?>                                
+                                ?>
                             </div>
                             <div class="alignleft">
                                 <input type="submit" value="<?php echo $language['BACKSTEP']; ?>" class="ButtonRed" name="step_backward" tabindex="3" />
