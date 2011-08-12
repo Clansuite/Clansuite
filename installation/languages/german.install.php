@@ -55,23 +55,21 @@ class Language implements ArrayAccess
         $this->language['PHP_VERSION'] = 'PHP Version';
         $this->language['SESSION_FUNCTIONS'] = 'Session Funktionen';
         $this->language['SESSION_AUTO_START'] = 'Session Autostart';
-        $this->language['PDO_LIBRARY'] = 'PDO - Bibliothek';
-        $this->language['PDO_MYSQL_LIBRARY'] = 'PDO - MySQL - Bibliothek';
+        $this->language['EXTENSION_PDO_MYSQL'] = 'Extension: "pdo_mysql"';
         $this->language['CLASS_REFLECTION'] = 'PHP Reflection';
         $this->language['EXTENSION_SPL'] = 'Standard PHP Library (SPL)';
         $this->language['IS_WRITEABLE_TEMP_DIR'] = 'Nutzbar: Temporäres Verzeichnis';
-        $this->language['IS_WRITEABLE_CLANSUITE_ROOT'] = 'Beschreibbar: /clansuite';
-        $this->language['IS_WRITEABLE_CACHE_DIR'] = 'Beschreibbar: /clansuite/cache';
-        $this->language['IS_WRITEABLE_UPLOADS'] = 'Beschreibbar: /uploads';
+        $this->language['IS_WRITEABLE_CLANSUITE_ROOT'] = 'Beschreibbar: "/clansuite"';
+        $this->language['IS_WRITEABLE_CACHE_DIR'] = 'Beschreibbar: "/clansuite/cache"';
+        $this->language['IS_WRITEABLE_UPLOADS'] = 'Beschreibbar: "/uploads"';
         $this->language['IS_READABLE_CONFIG_TEMPLATE'] = 'Lesbar: Config-Vorlagedatei';
-        $this->language['DATE_TIMEZONE'] = 'Gesetzt: Date/Timezone';        
+        $this->language['DATE_TIMEZONE'] = 'Zeitzone eingestellt "date.timezone"';        
 
         # RECOMMENDED SETTINGS (in order)
         $this->language['PHP_MEMORY_LIMIT'] = 'PHP Memory Limit';
         $this->language['FILE_UPLOADS'] = 'Dateiuploads erlaubt?';
         $this->language['MAX_UPLOAD_FILESIZE'] = 'Maximale Dateigröße für Uploads';
         $this->language['POST_MAX_SIZE'] = 'Maximale Größe von Posts';
-        $this->language['REGISTER_GLOBALS'] = 'REGISTER_GLOBALS';
         $this->language['ALLOW_URL_FOPEN'] = 'Zugriff auf entfernte Dateien';
         $this->language['ALLOW_URL_INCLUDE'] = 'Direkteinbindung entfernter Dateien';
         $this->language['SAFE_MODE'] = 'SAFE_MODE';

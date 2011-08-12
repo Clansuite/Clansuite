@@ -55,23 +55,21 @@ class Language implements ArrayAccess
         $this->language['PHP_VERSION'] = 'PHP version';
         $this->language['SESSION_FUNCTIONS'] = 'Session Functions';
         $this->language['SESSION_AUTO_START'] = 'Session Autostart';
-        $this->language['PDO_LIBRARY'] = 'PDO - Library';
-        $this->language['PDO_MYSQL_LIBRARY'] = 'PDO - MySQL - Library';
+        $this->language['EXTENSION_PDO_MYSQL'] = 'Extension: "pdo_mysql"';
         $this->language['CLASS_REFLECTION'] = 'PHP Reflection Support';
         $this->language['EXTENSION_SPL'] = 'Standard PHP Library (SPL)';
         $this->language['IS_WRITEABLE_TEMP_DIR'] = 'Useable: Temporary Directory';
-        $this->language['IS_WRITEABLE_CLANSUITE_ROOT'] = 'Can write: /clansuite';
-        $this->language['IS_WRITEABLE_CACHE_DIR'] = 'Can write: /clansuite/cache';
-        $this->language['IS_WRITEABLE_UPLOADS'] = 'Can write: /uploads';
+        $this->language['IS_WRITEABLE_CLANSUITE_ROOT'] = 'Can write: "/clansuite"';
+        $this->language['IS_WRITEABLE_CACHE_DIR'] = 'Can write: "/clansuite/cache"';
+        $this->language['IS_WRITEABLE_UPLOADS'] = 'Can write: "/uploads"';
         $this->language['IS_READABLE_CONFIG_TEMPLATE'] = 'Can read: config-template file';
-        $this->language['DATE_TIMEZONE'] = 'Set: Date/Timezone';  
+        $this->language['DATE_TIMEZONE'] = 'Timezone set: "date.timezone"';  
 
         # RECOMMENDED SETTINGS (in order)
         $this->language['PHP_MEMORY_LIMIT'] = 'Checking PHP memory limit';
         $this->language['FILE_UPLOADS'] = 'File Uploads enabled?';
         $this->language['MAX_UPLOAD_FILESIZE'] = 'Checking maximal upload filesize';
         $this->language['POST_MAX_SIZE'] = 'Checking maximal size of posts';
-        $this->language['REGISTER_GLOBALS'] = 'REGISTER_GLOBALS';
         $this->language['ALLOW_URL_FOPEN'] = 'Remote File Open';
         $this->language['ALLOW_URL_INCLUDE'] = 'Remote File Inclusion';
         $this->language['SAFE_MODE'] = 'SAFE_MODE';
