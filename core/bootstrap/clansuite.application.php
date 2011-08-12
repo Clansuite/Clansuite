@@ -238,7 +238,7 @@ class Clansuite_CMS
      *  ================================================
      *
      *   1. Define Shorthands and Syntax Declarations
-     *      - DS, PS, NL, CR
+     *      - APC, DS, PS, NL, CR
      *   2. Path Assignments
      *      - ROOT & ROOT_*
      *      - WWW_ROOT & WWW_ROOT_*
@@ -247,6 +247,7 @@ class Clansuite_CMS
      */
     public static function initialize_ConstantsAndPaths()
     {
+        # ensure that apc is loaded as extension
         define('APC', (bool) extension_loaded('apc'));
 
         # try to load constants from APC
@@ -496,7 +497,7 @@ class Clansuite_CMS
 
     /**
      * Initialize Autoloader
-     * 
+     *
      * Registers our own autoloader on the first position of the spl autoloading stack
      * and throws an exception if autoload fails on class/interface loading.
      */
@@ -728,6 +729,7 @@ class Clansuite_CMS
             date_default_timezone_set(self::$config['language']['timezone']);
         }
         # set fallback only, if timezone was not set in php.ini
+        # @todo this is a requirement during installation process, marking elseif for deletion
         elseif(ini_get('date.timezone') === '')
         {
             date_default_timezone_set('Europe/Berlin');
