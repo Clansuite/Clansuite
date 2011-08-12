@@ -397,13 +397,13 @@ class Clansuite_ModuleInfoController
             {
                  continue;
             }
-           
-            # fetch locale from path (en_UK, de_DE) 
+
+            # fetch locale from path (en_UK, de_DE)
             if(1 === preg_match('/[a-z]{2}_[A-Z]{2}/', $file->getPathName(), $match))
             {
                 $locale = $match[0];
             }
-        
+
 
             # fetch file extension (mo|po)
             if(version_compare(PHP_VERSION, '5.3.6') >= 0)
@@ -414,12 +414,12 @@ class Clansuite_ModuleInfoController
             {
                 $extension = pathinfo($file->getFilename(), PATHINFO_EXTENSION);
             }
-            
-            
+
+
             /**
              * Add some more pieces of information about the file
-             */    
-            
+             */
+
             $langinfo[$locale][$extension]['pathName']       = realpath($file->getPathName());
             $langinfo[$locale][$extension]['fileName']       = $file->getFileName();
             $langinfo[$locale][$extension]['filePermString'] = self::file_permissions($langinfo[$locale][$extension]['pathName']);
@@ -427,13 +427,13 @@ class Clansuite_ModuleInfoController
             $langinfo[$locale][$extension]['fileWriteable']  = $file->isWritable();
             $langinfo[$locale][$extension]['timestamp']      = date(DATE_FORMAT, $file->getCTime());
             $langinfo[$locale][$extension]['cssClass']        = '-' . ($file->isReadable() ? 'r' : '') . ($file->isWritable() ? 'w' : '');
-           
+
         }
-        
+
         /**
          * Add some more pieces of information about the locale
          */
-        
+
          # if the language definitions are not already loaded, load them
         if(empty(self::$l10n_sys_locales))
         {
@@ -441,7 +441,7 @@ class Clansuite_ModuleInfoController
             require ROOT_CORE . 'gettext/locales.gettext.php';
             self::$l10n_sys_locales = $l10n_sys_locales;
         }
-        
+
         foreach($langinfo as $locale => $filedata)
         {
             # get more data about that locale from the locales array
@@ -460,7 +460,7 @@ class Clansuite_ModuleInfoController
                 $langinfo[$locale]['lang']   = $locale;
             }
         }
-        
+
         #Clansuite_Debug::printR($langinfo);
 
         return $langinfo;

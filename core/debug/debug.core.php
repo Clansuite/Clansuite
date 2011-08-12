@@ -37,7 +37,7 @@ if(defined('IN_CS') === false)
 }
 
 /**
- * Clansuite_DEBUG
+ * Clansuite_Debug
  *
  * This class initializes debugging helpers like xdebug, the doctrine profiler,
  * firebug and printR at system start-up and displays debug
@@ -182,7 +182,7 @@ class Clansuite_Debug
     public static function getIncludesFiles()
     {
         # init vars
-        $includedFiles = array();        
+        $includedFiles = array();
         $includedFilesTotalSize = 0;
         $includedFilesCount = 0;
         $files = array();
@@ -197,11 +197,11 @@ class Clansuite_Debug
             $includedFiles[] = array('name' => $file, 'size' => $size);
             $includedFilesTotalSize += $size;
         }
-        
+
         # total number of included files
         $includedFilesCount = count($includedFiles);
         $includedFilesTotalSize = Clansuite_Functions::getsize($includedFilesTotalSize);
-        
+
         self::printR(array('count' => $includedFilesCount, 'size' => $includedFilesTotalSize, 'files' => $includedFiles));
     }
 
@@ -261,7 +261,7 @@ class Clansuite_Debug
     {
         self::printR(parse_ini_file(get_cfg_var('cfg_file_path'), true));
     }
-    
+
     /**
      * Lists all available wrappers
      */
