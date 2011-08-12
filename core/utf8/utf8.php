@@ -110,6 +110,49 @@ if(false === function_exists('utf8_check'))
 
 }
 
+if(false === function_exists('utf8_decode_entities'))
+{
+    /**
+     * Convert all unicode entities to their applicable characters.
+     *
+     * Calls utf8_chr() to convert unicode entities.
+     * HTML entities like '&nbsp;' or '&quot;' will not be decoded.
+     *
+     * @param string
+     * @return string
+     */
+    function utf8_decode_entities($str)
+    {
+        $str = preg_replace_callback('~&#x([0-9a-f]+);~i', 'utf8_hexchr_callback', $str);
+        $str = preg_replace_callback('~&#([0-9]+);~', 'utf8_chr_callback', $str);
+
+        return $str;
+    }
+
+    /**
+     * Callback function for utf8_decode_entities
+     *
+     * @param array
+     * @return string
+     */
+    function utf8_chr_callback($matches)
+    {
+        return utf8_chr($matches[1]);
+    }
+
+    /**
+     * Callback function for utf8_decode_entities
+     *
+     * @param array
+     * @return string
+     */
+    function utf8_hexchr_callback($matches)
+    {
+        return utf8_chr(hexdec($matches[1]));
+    }
+
+}
+
 if(false === function_exists('utf8_strlen'))
 {
 
@@ -662,6 +705,107 @@ if(false === function_exists('utf8_decode_numeric'))
                 break;
         }
         return unicode_to_utf8(array($cp));
+    }
+
+}
+
+if(false === function_exists('utf8_detect_encoding'))
+{
+    /**
+     * Detect the encoding of a string
+     *
+     * Use mb_detect_encoding() if available since it seems to be about 20 times
+     * faster than using ereg() or preg_match().
+     * @param string
+     * @return string
+     */
+    function utf8_detect_encoding($str)
+    {
+            if(UTF8_MBSTRING)
+            {
+                    return mb_detect_encoding($str, array('ASCII', 'ISO-2022-JP', 'UTF-8', 'EUC-JP', 'ISO-8859-1'));
+            }
+
+            if (!preg_match("/[\x80-\xFF]/", $str))
+            {
+                if (!preg_match("/\x1B/", $str))
+                {
+                    return 'ASCII';
+                }
+            }
+
+            if (preg_match("/^([\x01-\x7F]|[\xC0-\xDF][\x80-\xBF]|[\xE0-\xEF][\x80-\xBF][\x80-\xBF])+$/", $str) == 1)
+            {
+                return 'UTF-8';
+            }
+
+            if (preg_match("/^([\x01-\x7F]|\x8E[\xA0-\xDF]|\x8F[xA1-\xFE][\xA1-\xFE]|[\xA1-\xFE][\xA1-\xFE])+$/", $str) == 1)
+            {
+                return 'EUC-JP';
+            }
+
+            return 'ISO-8859-1';
+    }
+}
+
+if(false === function_exists('utf8_convert_encoding'))
+{
+
+    /**
+     * Convert character encoding
+     *
+     * Use utf8_decode() to convert UTF-8 to ISO-8859-1, otherwise use iconv()
+     * or mb_convert_encoding(). Return the original string if none of these
+     * libraries is available.
+     * @param string
+     * @param string
+     * @param string
+     * @return string
+     */
+    function utf8_convert_encoding($str, $to, $from=null)
+    {
+        if (!$str)
+        {
+            return '';
+        }
+
+        if (!$from)
+        {
+            $from = utf8_detect_encoding($str);
+        }
+
+        if ($from == $to)
+        {
+            return $str;
+        }
+
+        if ($from == 'UTF-8' and $to == 'ISO-8859-1')
+        {
+            return utf8_decode($str);
+        }
+
+        if ($from == 'ISO-8859-1' and $to == 'UTF-8')
+        {
+            return utf8_encode($str);
+        }
+
+        if (UTF8_MBSTRING)
+        {
+            @mb_substitute_character('none');
+            return @mb_convert_encoding($str, $to, $from);
+        }
+
+        if (function_exists('iconv'))
+        {
+            if (strlen($iconv = @iconv($from, $to . '//IGNORE', $str)))
+            {
+                return $iconv;
+            }
+
+            return @iconv($from, $to, $str);
+        }
+
+        return $str;
     }
 
 }
