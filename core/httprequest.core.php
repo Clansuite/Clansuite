@@ -118,8 +118,8 @@ class Clansuite_HttpRequest implements Clansuite_Request_Interface, ArrayAccess
     /**
      * Construct the Request Object
      *
-     * 1) Intrusion Detection System
-     * 2) Filter Globals and Request
+     * 1) Drop Superglobal $_REQUEST. Just hardcoded reminder for developers to not use it!
+     * 2) Intrusion Detection System
      * 3) Additional Security Checks
      * 4) Clear Array, Filter and Assign the $_REQUEST Global to it
      * 5) Detect REST Tunneling through POST and set request_method accordingly
@@ -128,36 +128,13 @@ class Clansuite_HttpRequest implements Clansuite_Request_Interface, ArrayAccess
     {
         # 1) Drop $_REQUEST. Usage is forbidden.
         unset($_REQUEST);
-    
+
         # 2) Run Intrusion Detection System (on GET, POST, COOKIES)
         $doorKeeper = new Clansuite_DoorKeeper;
         $doorKeeper->runIDS();
 
-        # 3) Filter Globals and Request
-
-        # Reverse the effect of register_globals
-        if ((bool) ini_get('register_globals') and mb_strtolower(ini_get('register_globals')) != 'off')
-        {
-            self::cleanGlobals();
-        }
-
-        # the whole magic quotes crap is finally deprecated, god bless
-        if(version_compare(PHP_VERSION, '5.3', '<'))
-        {
-            # disable magic_quotes_runtime
-            @set_magic_quotes_runtime(0);
-
-            # if magic quotes gpc is on, stripslash them
-            if ( 1 == get_magic_quotes_gpc() )
-            {
-                self::$magic_quotes_gpc = true;
-                self::fix_magic_quotes();
-                ini_set('magic_quotes_gpc', 0);
-            }
-        }
-
         /**
-         *  4) Additional Security Checks
+         *  3) Additional Security Checks
          */
 
         # block XSS
@@ -183,30 +160,30 @@ class Clansuite_HttpRequest implements Clansuite_Request_Interface, ArrayAccess
          */
         $this->detectRESTTunneling();
     }
-    
+
     /**
      * Returns the POST Parameters Array.
-     * 
+     *
      * @return array POST Parameters Array.
      */
     public function getPost()
     {
         return $this->post_parameters;
     }
-    
+
     /**
      * Returns the GET Parameters Array.
-     * 
+     *
      * @return array GET Parameters Array.
      */
     public function getGet()
     {
         return $this->get_parameters;
     }
-    
+
     /**
      * Returns the COOKIES Parameters Array.
-     * 
+     *
      * @return array COOKIES Parameters Array.
      */
     public function getCookies()
@@ -227,7 +204,7 @@ class Clansuite_HttpRequest implements Clansuite_Request_Interface, ArrayAccess
     {
         $arrayname = mb_strtoupper($arrayname);
 
-        if($arrayname == 'POST' and isset($this->post_parameters[$name]))
+        if( ($arrayname == 'POST' and isset($this->post_parameters[$name])) or isset($this->post_parameters[$name]))
         {
             if($where === false)
             {
@@ -238,7 +215,7 @@ class Clansuite_HttpRequest implements Clansuite_Request_Interface, ArrayAccess
                 return 'post';
             }
         }
-        elseif($arrayname == 'GET' and isset($this->get_parameters[$name]))
+        elseif( ($arrayname == 'GET' and isset($this->get_parameters[$name])) or isset($this->get_parameters[$name]))
         {
             if($where === false)
             {
@@ -249,7 +226,7 @@ class Clansuite_HttpRequest implements Clansuite_Request_Interface, ArrayAccess
                 return 'get';
             }
         }
-        elseif($arrayname == 'COOKIE' and isset($this->cookie_parameters[$name]))
+        elseif( ($arrayname == 'COOKIE' and isset($this->cookie_parameters[$name])) or isset($this->cookie_parameters[$name]))
         {
             if($where === false)
             {
@@ -270,7 +247,7 @@ class Clansuite_HttpRequest implements Clansuite_Request_Interface, ArrayAccess
      * get, returns a certain parameter if existing
      *
      * @param string $name Name of the Parameter
-     * @param string $arrayname G, P, C. Default = POST.
+     * @param string $arrayname GET, POST, COOKIE. Default = POST.
      * @param string $default You can set a default value. It's returned if parametername was not found.
      *
      * @return mixed data | null
@@ -280,7 +257,6 @@ class Clansuite_HttpRequest implements Clansuite_Request_Interface, ArrayAccess
         /**
          * check if the parameter exists in $arrayname
          * the third property of issetParameter is set to true, so that we get the full and correct array name back
-         * even if shortcut like G, P or C ($arrayname) was used.
          */
         $parameter_array = $this->issetParameter($name, $arrayname, true);
 
@@ -753,109 +729,6 @@ class Clansuite_HttpRequest implements Clansuite_Request_Interface, ArrayAccess
         {
             return false;
         }
-    }
-
-    /**
-     * Cleans the global scope of all variables that are found
-     * in other super-globals.
-     *
-     * This code originally from Richard Heyes and Stefan Esser
-     */
-    private static function cleanGlobals()
-    {
-        # Intercept GLOBALS overwrite
-        if ( isset($_REQUEST['GLOBALS']) or isset($_FILES['GLOBALS']) )
-        {
-            throw new Clansuite_Exception('GLOBALS overwrite attempt detected');
-        }
-
-        # List of Variables which shouldn't be unset
-        $list = array(
-                #'GLOBALS',
-                '_POST',
-                '_GET',
-                '_COOKIE',
-                '_REQUEST',
-                '_SERVER',
-                '_ENV',
-                '_FILES'
-                /**
-                 * Notice by vain:
-                 * argc+argv are php commandline (CLI) stuff
-                 * on an webserver-environment they are found in _SERVER.
-                 * CLI is not used, thats why they are commented off.
-                 *
-                 * If you need them, remove commenting.
-                 * and watch out to keep the comma on the start of the next line
-                 */
-                #,'argc','argv'
-        );
-
-        // Create a list of all of the keys from the super-global values.
-        // Use array_keys() here to preserve key integrity.
-        $keys = array_merge(
-                array_keys($_ENV),
-                array_keys($_GET),
-                array_keys($_POST),
-                array_keys($_COOKIE),
-                array_keys($_SERVER),
-                array_keys($_FILES),
-                // $_SESSION = null if you have not started the session yet.
-                // This insures that a check is performed regardless.
-                isset($_SESSION) and is_array($_SESSION) ? array_keys($_SESSION) : array()
-        );
-
-        // Unset the globals.
-        foreach ($keys as $key)
-        {
-            if (isset($GLOBALS[$key]) and in_array($key, $list) === false )
-            {
-                unset($GLOBALS[$key]);
-            }
-        }
-    }
-
-    /**
-     * Revert magic_quotes() if still enabled
-     * stripslashes + array_deep + non_recursive
-     *
-     * This while-loop is an replacement for the old recursive method.
-     * It's taken from "Guide to PHP Security" by Ilia Alshanetsky.
-     * @link http://talks.php.net/show/php-best-practices/26
-     *
-     * @param array $var Array to apply the magic quotes fix on
-     * @return Returns the magic quotes fixed $var
-     */
-    private static function fix_magic_quotes($input = null)
-    {
-        if(self::$magic_quotes_gpc == false)
-        {
-            return $input;
-        }
-
-        // if no var is specified, fix all affected superglobals
-        if ( isset($input) === false )
-        {
-            $input = array($_ENV, $_REQUEST, $_GET, $_POST, $_COOKIE, $_SERVER);
-        }
-
-        $k = null;
-        $v = null;
-
-        while ( list($k,$v) = each($input) )
-        {
-            foreach ($v as $key => $val)
-            {
-                if (is_array($val) === false)
-                {
-                    $input[$k][$key] = stripslashes($val);
-
-                    continue;
-                }
-                $input[] =& $input[$k][$key];
-            }
-        }
-        unset($input);
     }
 
     /**
