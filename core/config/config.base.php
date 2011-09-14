@@ -43,7 +43,7 @@ if(defined('IN_CS') === false)
  * @package     Core
  * @subpackage  Configuration
  */
-abstract class Clansuite_Config_Base implements ArrayAccess
+abstract class Clansuite_Config_Base /*extends ArrayObject*/ implements ArrayAccess
 {
     /**
      * Configuration Array
@@ -136,12 +136,19 @@ abstract class Clansuite_Config_Base implements ArrayAccess
 
     public function offsetGet($offset)
     {
-        return $this->__get($offset);
+        return $this->config[$offset];
     }
 
     public function offsetSet($offset, $value)
     {
-        $this->__set($offset, $value);
+        if(is_null($offset) === true)
+        {
+            $this->config[] = $value;
+        }
+        else
+        {
+            $this->config[$offset] = $value;
+        }        
     }
 
     public function offsetUnset($offset)
