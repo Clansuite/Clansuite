@@ -260,7 +260,7 @@ class Clansuite_Debug
     public static function getPhpIni()
     {
         self::printR(parse_ini_file(get_cfg_var('cfg_file_path'), true));
-    }
+    }    
 
     /**
      * Lists all available wrappers
@@ -268,10 +268,10 @@ class Clansuite_Debug
     public static function getWrappers()
     {
         $w = stream_get_wrappers();
-        echo 'openssl: ',  extension_loaded  ('openssl') ? 'yes':'no', "\n";
-        echo 'http wrapper: ', in_array('http', $w) ? 'yes':'no', "\n";
-        echo 'https wrapper: ', in_array('https', $w) ? 'yes':'no', "\n";
-        echo 'wrappers: ', self::printR($w);
+        echo 'openssl: '.  extension_loaded('openssl') ? 'yes':'no'. NL;
+        echo 'http wrapper: '. in_array('http', $w) ? 'yes':'no'. NL;
+        echo 'https wrapper: '. in_array('https', $w) ? 'yes':'no'. NL;
+        echo 'wrappers: '. self::printR($w);        
     }
 }
 ?>
