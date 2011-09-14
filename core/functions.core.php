@@ -320,23 +320,6 @@ class Clansuite_Functions
     }
 
     /**
-     * Converts a SimpleXML String recursivly to an Array
-     * preserving Attributes
-     *
-     * @param string $xml SimpleXML String
-     * @return Array
-     */
-    public static function simpleXMLToArray($simplexml, $recursionDepth=0)
-    {
-        return Clansuite_XML2JSON::simpleXMLToArray($simplexml, $recursionDepth);
-    }
-
-    public static function xmlToJson($xml)
-    {
-        return Clansuite_XML2JSON::xmlToJson($xml);
-    }
-
-    /**
      * @param string $haystack
      * @param string $replace
      * @param string $needle
