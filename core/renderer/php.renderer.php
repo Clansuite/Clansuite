@@ -52,7 +52,7 @@ if(defined('IN_CS') === false)
 class Clansuite_Renderer_Php extends Clansuite_Renderer_Base
 {
     private $file;
-    #private $template;
+
     private $data = array();
 
     /**
