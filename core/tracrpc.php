@@ -73,7 +73,7 @@ class Trac_RPC
         # CURL extension is required
         if(function_exists('curl_init') === false)
         {
-            exit('CURL extension disabled. Please enable it in "php.ini".' . "\n");
+            exit('CURL extension disabled. Please enable it in "php.ini".');
         }
 
         $this->tracURL = $tracURL;
@@ -122,7 +122,7 @@ class Trac_RPC
 
         if($this->exec_call() === true)
         {
-            return $this->get_response();
+            return $this->getResponse();
         }
         if($this->multi_call === true)
         {
@@ -177,7 +177,7 @@ class Trac_RPC
 
         if($this->exec_call() === true)
         {
-            return $this->get_response();
+            return $this->getResponse();
         }
 
         return false;
@@ -211,7 +211,7 @@ class Trac_RPC
 
         if($this->exec_call() === true)
         {
-            return $this->get_response();
+            return $this->getResponse();
         }
 
         return false;
@@ -233,7 +233,7 @@ class Trac_RPC
 
         if($this->exec_call() === true)
         {
-            return $this->get_response();
+            return $this->getResponse();
         }
 
         return false;
@@ -265,7 +265,7 @@ class Trac_RPC
 
         if($this->exec_call() === true)
         {
-            return $this->get_response();
+            return $this->getResponse();
         }
 
         return false;
@@ -293,7 +293,7 @@ class Trac_RPC
 
         if($this->exec_call() === true)
         {
-            return $this->get_response();
+            return $this->getResponse();
         }
 
         return false;
@@ -315,7 +315,7 @@ class Trac_RPC
 
         if($this->exec_call() === true)
         {
-            return $this->get_response();
+            return $this->getResponse();
         }
 
         return false;
@@ -344,7 +344,7 @@ class Trac_RPC
 
         if($this->exec_call() === true)
         {
-            return $this->get_response();
+            return $this->getResponse();
         }
 
         return false;
@@ -372,7 +372,7 @@ class Trac_RPC
 
         if($this->exec_call() === true)
         {
-            return $this->get_response();
+            return $this->getResponse();
         }
 
         return false;
@@ -459,7 +459,7 @@ class Trac_RPC
 
         if($this->exec_call() === true)
         {
-            return $this->get_response();
+            return $this->getResponse();
         }
 
 
@@ -551,7 +551,7 @@ class Trac_RPC
 
         if($this->exec_call() === true)
         {
-            return $this->get_response();
+            return $this->getResponse();
         }
 
         return false;
@@ -604,7 +604,7 @@ class Trac_RPC
 
         if($this->exec_call() === true)
         {
-            return $this->get_response();
+            return $this->getResponse();
         }
 
 
@@ -667,7 +667,7 @@ class Trac_RPC
 
         if($this->exec_call() === true)
         {
-            return $this->get_response();
+            return $this->getResponse();
         }
 
         return false;
@@ -732,7 +732,7 @@ class Trac_RPC
 
         if($this->exec_call() === true)
         {
-            return $this->get_response();
+            return $this->getResponse();
         }
 
         return false;
@@ -799,7 +799,7 @@ class Trac_RPC
 
         if($this->exec_call() === true)
         {
-            return $this->get_response();
+            return $this->getResponse();
         }
 
         return false;
@@ -866,7 +866,7 @@ class Trac_RPC
 
         if($this->exec_call() === true)
         {
-            return $this->get_response();
+            return $this->getResponse();
         }
 
         return false;
@@ -933,7 +933,7 @@ class Trac_RPC
 
         if($this->exec_call() === true)
         {
-            return $this->get_response();
+            return $this->getResponse();
         }
 
         return false;
@@ -1000,7 +1000,7 @@ class Trac_RPC
 
         if($this->exec_call() === true)
         {
-            return $this->get_response();
+            return $this->getResponse();
         }
 
         return false;
@@ -1067,7 +1067,7 @@ class Trac_RPC
 
         if($this->exec_call() === true)
         {
-            return $this->get_response();
+            return $this->getResponse();
         }
 
         return false;
@@ -1134,7 +1134,7 @@ class Trac_RPC
 
         if($this->exec_call() === true)
         {
-            return $this->get_response();
+            return $this->getResponse();
         }
 
         return false;
@@ -1200,7 +1200,7 @@ class Trac_RPC
 
         if($this->exec_call() === true)
         {
-            return $this->get_response();
+            return $this->getResponse();
         }
 
         return false;
@@ -1217,7 +1217,7 @@ class Trac_RPC
 
         if($this->exec_call() === true)
         {
-            return $this->get_response();
+            return $this->getResponse();
         }
         elseif($this->multi_call === true)
         {
@@ -1261,7 +1261,7 @@ class Trac_RPC
 
         if($this->exec_call() === true)
         {
-            return $this->get_response();
+            return $this->getResponse();
         }
 
         return false;
@@ -1289,7 +1289,7 @@ class Trac_RPC
 
         if($this->exec_call() === true)
         {
-            return $this->get_response();
+            return $this->getResponse();
         }
 
         return false;
@@ -1311,7 +1311,7 @@ class Trac_RPC
 
         if($this->exec_call() === true)
         {
-            return $this->get_response();
+            return $this->getResponse();
         }
 
         return false;
@@ -1333,7 +1333,7 @@ class Trac_RPC
 
         if($this->exec_call() === true)
         {
-            return $this->get_response();
+            return $this->getResponse();
         }
 
         return false;
@@ -1587,7 +1587,7 @@ class Trac_RPC
     {
         if(empty($response))
         {
-            $response = $this->get_response();
+            $response = $this->getResponse();
             var_dump($response);
             $this->_response = array();
         }
