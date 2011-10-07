@@ -401,12 +401,12 @@ class Clansuite_Gettext_Extractor_Tool
      */
     public function setExtractor($extension, $extractor)
     {
-        # already set
+        # not already set
         if(false === isset($this->extractor[$extension]) and false === in_array($extractor, $this->extractor[$extension]))
         {
             $this->extractor[$extension][] = $extractor;
         }
-        else
+        else # already set
         {
             return $this;
         }
