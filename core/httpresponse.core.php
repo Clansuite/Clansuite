@@ -114,7 +114,7 @@ class Clansuite_HttpResponse implements Clansuite_Response_Interface
                                            # Successful
                                            '200'    => 'OK',
                                            '201'    => 'Created',
-                                           '202'    => 'Accepted',
+                                           '202'    => 'Accepted',                                           
                                            # Redirection
                                            '301'    => 'Moved Permanently',
                                            '302'    => 'Found',

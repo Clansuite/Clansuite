@@ -472,8 +472,8 @@ class Clansuite_HttpRequest implements Clansuite_Request_Interface, ArrayAccess
             return urldecode(mb_strtolower($_SERVER['REQUEST_URI']));
         }
 
-        # MS-IIS and ISAPI Rewrite Filter
-        if(isset($_SERVER['HTTP_X_REWRITE_URL']))
+        # MS-IIS and ISAPI Rewrite Filter (only on windows platforms)
+        if(isset($_SERVER['HTTP_X_REWRITE_URL']) and stripos(PHP_OS, 'WIN') !== false)
         {
             return urldecode(mb_strtolower($_SERVER['HTTP_X_REWRITE_URL']));
         }
@@ -697,7 +697,10 @@ class Clansuite_HttpRequest implements Clansuite_Request_Interface, ArrayAccess
         }
         else # this will be POST or GET
         {
-            return $_SERVER['REQUEST_METHOD'];
+            #if(in_array(strtolower($_SERVER['REQUEST_METHOD']), array('get','post'))
+            #{
+                return $_SERVER['REQUEST_METHOD'];
+            #}
         }
     }
 
@@ -711,17 +714,17 @@ class Clansuite_HttpRequest implements Clansuite_Request_Interface, ArrayAccess
 
     /**
      * Checks if a ajax(xhr)-request is given,
-     * by checking X-Requested-With Header for xmlhttprequest.
+     * by checking X-Requested-With Header for XMLHttpRequest.
      *
-     * @return bool
+     * @return boolean true if the request is an XMLHttpRequest, false otherwise
      */
     public static function isAjax()
     {
-        if(isset($_SERVER['X-Requested-With']) and mb_strtolower($_SERVER['X-Requested-With']) === 'xmlhttprequest')
+        if(isset($_SERVER['X-Requested-With']) and $_SERVER['X-Requested-With'] === 'XMLHttpRequest')
         {
             return true;
         }
-        elseif(isset($_SERVER['HTTP_X_REQUESTED_WITH']) and mb_strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) === 'xmlhttprequest')
+        elseif(isset($_SERVER['HTTP_X_REQUESTED_WITH']) and $_SERVER['HTTP_X_REQUESTED_WITH'] === 'XMLHttpRequest')
         {
             return true;
         }
