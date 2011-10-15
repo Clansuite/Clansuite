@@ -121,6 +121,7 @@ class Clansuite_Sniffs_Functions_ForbiddenFunctionsSniff extends Generic_Sniffs_
              'y2k_compliance'           => 'null', # ini
              'import_request_variables' => 'null', # function
              'allow_call_time_pass_reference' => 'null', # ini
+             #@todo add filter for putenv("TZ=") which was removed with 5.4.0b (15.11.2011)
         
              # 8) due to performance reasons the following methods are forbidden
              'file_exists'              => 'is_file',
