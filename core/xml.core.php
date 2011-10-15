@@ -37,18 +37,18 @@ if (defined('IN_CS') === false)
 }
 
 /**
- * Clansuite_XML2JSON
+ * Clansuite_XML
  *
- * This class converts XML-based data into JSON formatted data.
+ * This class converts XML-based data into JSON or Array formatted data.
  */
-class Clansuite_XML2JSON
+class Clansuite_XML
 {
     const MAX_RECURSION_DEPTH_ALLOWED = 25;
     const FETCH_ATTRIBUTES = true;
     const REMOVE_ATTRIBUTES_SUBLEVEL = true;
 
     /**
-     * xmlToJson
+     * toJson
      *
      * This function transforms the XML based String data into JSON format. If the input XML
      * string is in table format, the resulting JSON output will also be in table format.
@@ -59,7 +59,7 @@ class Clansuite_XML2JSON
      *
      * @return Returns a string containing JSON table/tree formatted data. Otherwise, it returns an empty string.
      */
-    public static function xmlToJson($xml)
+    public static function toJson($xml)
     {
         if($xml == null)
         {
@@ -82,7 +82,7 @@ class Clansuite_XML2JSON
     }
 
     /**
-     * simpleXMLToArray
+     * toArray
      *
      * This function accepts a SimpleXmlElementObject as a single argument
      * and converts it into a PHP associative array.
@@ -95,7 +95,7 @@ class Clansuite_XML2JSON
      * @param int Recursion Depth
      * @return array Returns assoc array containing the data from XML. Otherwise, returns null.
      */
-    public static function simpleXMLToArray($xml, $recursionDepth=0)
+    public static function toArray($xml, $recursionDepth=0)
     {
         # Keep an eye on how deeply we are involved in recursion.
         if($recursionDepth > self::MAX_RECURSION_DEPTH_ALLOWED)

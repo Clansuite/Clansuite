@@ -161,7 +161,7 @@ class Clansuite_Config_XML
         $xml = simplexml_load_file($filename);
 
         # transform XML to PHP Array
-        return Clansuite_Functions::simpleXMLToArray($xml);
+        return Clansuite_XML::toArray($xml);
     }
 }
 ?>
