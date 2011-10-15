@@ -83,6 +83,7 @@ if(empty($_SERVER['SERVER_NAME']))
 require_once 'core/bootstrap/clansuite.application.php';
 Clansuite_CMS::initialize_ConstantsAndPaths();
 Clansuite_CMS::initialize_Loader();
+Clansuite_UTF8::initialize();
 
 # constants must be defined, after initialize_paths(), because of apc constants cache
 define('REWRITE_ENGINE_ON', 1);
