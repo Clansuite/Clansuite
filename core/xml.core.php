@@ -71,7 +71,7 @@ class Clansuite_XML
         $json = '';
 
         # convert the XML structure into PHP array structure.
-        $array = Clansuite_XML2JSON::simpleXMLToArray($xml);
+        $array = Clansuite_XML::toArray($xml);
 
         if(($array != null) and (sizeof($array) > 0))
         {
@@ -160,7 +160,7 @@ class Clansuite_XML
 
                 # WATCH IT ! RECURSION !!!
                 # recursively process the current (VALUE) element
-                $resultArray[$key] = self::simpleXMLToArray($value, $recursionDepth);
+                $resultArray[$key] = Clansuite_XML::toArray($value, $recursionDepth);
 
                 # decrease the recursion depth by one
                 $recursionDepth--;
