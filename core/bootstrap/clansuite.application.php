@@ -82,13 +82,13 @@ class Clansuite_CMS
 
         self::perform_startup_checks();
         self::initialize_ConstantsAndPaths();
+        self::initialize_Version();
         self::initialize_Loader();
         self::initialize_DependencyInjection();
         self::initialize_Config();
         #self::initialize_Logger();
         self::initialize_UTF8();
-        self::initialize_Debug();
-        self::initialize_Version();
+        self::initialize_Debug();        
         self::initialize_Timezone();
         self::initialize_Eventdispatcher();
         self::initialize_Errorhandling();
@@ -245,24 +245,9 @@ class Clansuite_CMS
      *   3. Setup include_path for 3th party libraries
      *  ------------------------------------------------
      */
-    public static function initialize_ConstantsAndPaths()
+    public static function define_ConstantsAndPaths()
     {
-        # ensure that apc is loaded as extension
-        define('APC', (bool) extension_loaded('apc'));
-
-        # try to load constants from APC
-        if(APC === true)
-        {
-            # constants retrieved from APC
-            apc_load_constants('CLANSUITE_CONSTANTS', true);
-        }
-
-        # if apc is off or
-        # if apc is on, but apc_load_constants did not retrieve any constants yet
-        # then define constants
-        if(APC === false or defined('DS') == false)
-        {
-            /**
+        /**
              * 1) Shorthands and Syntax Declarations
              */
 
@@ -386,9 +371,33 @@ class Clansuite_CMS
             define('WWW_ROOT_THEMES_BACKEND', WWW_ROOT_THEMES . 'backend' . '/', false);
             define('WWW_ROOT_THEMES_FRONTEND', WWW_ROOT_THEMES . 'frontend' . '/', false);
             define('WWW_ROOT_THEMES_CORE', WWW_ROOT_THEMES . 'core' . '/', false);
+    }
+    
+    /**
+     * Load Constants from APC
+     */
+    public static function initialize_ConstantsAndPaths()
+    {
+        # ensure that apc is loaded as extension
+        define('APC', (bool) extension_loaded('apc'));
+
+        # try to load constants from APC
+        if(APC === true)
+        {
+            # constants retrieved from APC
+            apc_load_constants('CLANSUITE_CONSTANTS', true);
+            return;
+        }
+
+        # if apc is off or
+        # if apc is on, but apc_load_constants did not retrieve any constants yet (first run)
+        # then define constants
+        if(APC === false or defined('DS') == false)
+        {
+            self::define_ConstantsAndPaths();
 
             /**
-             * define constants via APC
+             * Store Constants to APC
              */
             if(APC === true)
             {
@@ -705,7 +714,9 @@ class Clansuite_CMS
     private static function initialize_Version()
     {
         include ROOT_CORE . 'bootstrap/clansuite.version.php';
+
         Clansuite_Version::setVersionInformation();
+        Clansuite_Version::setVersionInformationToCaches();
     }
 
     /**
@@ -713,8 +724,8 @@ class Clansuite_CMS
      *     Set Timezone Settings
      *  ================================================
      * with (1) ini_set()
-     *      (2) date_default_timezone_set()
-     *      (3) putenv(TZ=)
+     *      (2) date_default_timezone_set() - should be set in php.ini
+     *      (3) putenv(TZ=) - was removed as of php5.4
      *
      * For a lot more timezones look in the Appendix H of the PHP Manual
      * @link http://php.net/manual/en/timezones.php
