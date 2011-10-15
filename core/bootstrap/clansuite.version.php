@@ -104,50 +104,53 @@ final class Clansuite_Version
      */
     public static function setVersionInformationToCaches()
     {
-        /**
-         * Currently we still rely on SVN, so we can use the SVN REVISION number as DEPLOY VERSION.
-         * But you might consider writing the DEPLOY_VERSION value to this file during the build process.
-         * So, when SCM moves from SVN to GIT, we have to set this by using a little deploy script.
-         */
-        define('DEPLOY_VERSION', CLANSUITE_REVISION);
-
-        /**
-         * APC
-         */
-        if(isset($_SERVER['SERVER_NAME']) === true)
+        if(APC === true)
         {
-            $key = $_SERVER['SERVER_NAME'] . '_deploy_version';
+            /**
+             * Currently we still rely on SVN, so we can use the SVN REVISION number as DEPLOY VERSION.
+             * But you might consider writing the DEPLOY_VERSION value to this file during the build process.
+             * So, when SCM moves from SVN to GIT, we have to set this by using a little deploy script.
+             */
+            define('DEPLOY_VERSION', CLANSUITE_REVISION);
+    
+            /**
+             * APC
+             */
+            if(isset($_SERVER['SERVER_NAME']) === true)
+            {
+                $key = $_SERVER['SERVER_NAME'] . '_deploy_version';
+                $cached_revision = apc_fetch($key);
+    
+                if ($cached_revision != DEPLOY_VERSION)
+                {
+                    # clear opcode cache and user cache
+                    apc_clear_cache();
+                    apc_clear_cache('user');
+    
+                    # if newer version arrived, store the revision number to apc
+                    if($cached_revision < DEPLOY_VERSION)
+                    {
+                        apc_store($key, DEPLOY_VERSION);
+                    }
+                }
+            }
+    
+            /**
+             * Realpath + stat cache is per process.
+             */
+            $key = 'php.pid_' . getmypid();
             $cached_revision = apc_fetch($key);
-
+    
             if ($cached_revision != DEPLOY_VERSION)
             {
-                # clear opcode cache and user cache
-                apc_clear_cache();
-                apc_clear_cache('user');
-
+                # clear realpath and stat cache
+                clearstatcache(true);
+    
                 # if newer version arrived, store the revision number to apc
                 if($cached_revision < DEPLOY_VERSION)
                 {
                     apc_store($key, DEPLOY_VERSION);
                 }
-            }
-        }
-
-        /**
-         * Realpath + stat cache is per process.
-         */
-        $key = 'php.pid_' . getmypid();
-        $cached_revision = apc_fetch($key);
-
-        if ($cached_revision != DEPLOY_VERSION)
-        {
-            # clear realpath and stat cache
-            clearstatcache(true);
-
-            # if newer version arrived, store the revision number to apc
-            if($cached_revision < DEPLOY_VERSION)
-            {
-                apc_store($key, DEPLOY_VERSION);
             }
         }
     }
