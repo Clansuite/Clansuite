@@ -81,7 +81,7 @@ if(empty($_SERVER['SERVER_NAME']))
 
 #  acquire clansuite path constants
 require_once 'core/bootstrap/clansuite.application.php';
-Clansuite_CMS::initialize_ConstantsAndPaths();
+Clansuite_CMS::define_ConstantsAndPaths();
 Clansuite_CMS::initialize_Loader();
 Clansuite_UTF8::initialize();
 
