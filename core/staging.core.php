@@ -79,18 +79,21 @@ class Clansuite_Staging
             case "intranet":
             case 'clansuite-dev.com':
             case 'www.clansuite-dev.com':
+            case 'clansuite.dev':
                 $filename = 'development.config.php';
                 break;
 
             # staging configuration
             case 'clansuite-stage.com':
             case 'www.clansuite-stage.com':
+            case 'clansuite.stage':
                 $filename = 'staging.config.php';
                 break;
 
             # intern configuration
             case 'clansuite-intern.com':
             case 'www.clansuite-intern.com':
+            case 'clansuite.intern':
                 $filename = 'intern.config.php';
                 break;
 
