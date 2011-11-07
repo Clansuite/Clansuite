@@ -115,10 +115,16 @@ class Clansuite_Preprocessor
             return null;
         }
 
+        # ensure token_get_all is available
+        if (false === function_exists('token_get_all'))
+        {
+            return $sourcecode;
+        }
+
         # tokenize the sourcecode
         $tokens = token_get_all($sourcecode);
 
-        # reset sourcecode
+        # init return var
         $stripped_sourcecode = '';
 
         # loop over all tokens
@@ -150,7 +156,7 @@ class Clansuite_Preprocessor
     }
 
     /**
-     * Strips Empty Lings
+     * Strips new lines by replacing with single newline
      *
      * @param $string sourcecode-string to clean up
      * @return string
@@ -171,8 +177,8 @@ class Clansuite_Preprocessor
     public static function strip_php_tags($string)
     {
         # remove php opening and closing tag from beginning and end
-        $string = mb_substr($string, mb_strlen('<?php' . PHP_EOL));
-        $string = mb_substr($string, 0, -mb_strlen('?>' . PHP_EOL));
+        $string = substr($string, strlen('<?php' . PHP_EOL));
+        $string = substr($string, 0, -strlen('?>' . PHP_EOL));
 
         # remove clansuite security line from whole string
         # @todo remove 4 lines when "if (defined('IN_CS')" is found
