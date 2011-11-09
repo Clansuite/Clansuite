@@ -59,10 +59,10 @@ class Clansuite_Renderer_Php extends Clansuite_Renderer_Base
      * Executes the template rendering and returns the result.
      *
      * @param string $template Template Filename
-     * @param mixed $data Additional data to process
+     * @param array $data Data to extract to the local scope.
      * @return string
      */
-    public function fetch($filename = null, $data = null)
+    public function fetch($filename = null, array $data = array())
     {
         $file = '';
 
@@ -78,14 +78,14 @@ class Clansuite_Renderer_Php extends Clansuite_Renderer_Base
         if(is_file($file) === true)
         {
             /**
-             * extract all templatevariables
-             * but do not overwrite an existing variable
-             * if there is a collision just prefix them with invalid_
+             * extract all template variables to local scope,
+             * but do not overwrite an existing variable.
+             * on collision, prefix variable with "invalid_".
              */
             extract($this->data, EXTR_REFS | EXTR_PREFIX_INVALID, 'invalid_');
 
             ob_start();
-            include $file;
+            include $file; # conditional include; not require !
             return ob_get_clean();
         }
         else
