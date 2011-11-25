@@ -633,55 +633,75 @@ if(is_string($templates)) { $this->setTemplate($templates); }
     }
 }
 
-/** 
+/**
  * Interface for all modules which implement a BREAD action structure.
- * 
- * Force classes implementing the interface to define this (must have) methods! 
- * 
- * @category    Clansuite 
- * @package     Core 
- * @subpackage  Module 
- */ 
+ *
+ * Force classes implementing the interface to define this (must have) methods!
+ *
+ * @category    Clansuite
+ * @package     Core
+ * @subpackage  Module
+ */
 interface Clansuite_BREAD_Module_Interface
-{ 
-    public function action_browse(); 
-    public function action_read(); 
-    public function action_erase(); 
-    public function action_add(); 
-    public function action_delete(); 
-} 
- 
-/** 
+{
+    public function action_browse();
+    public function action_read();
+    public function action_erase();
+    public function action_add();
+    public function action_delete();
+}
+
+/**
  * Interface for all modules which implement a CRUD action structure.
- * 
- * Force classes implementing the interface to define this (must have) methods! 
- * 
- * @category    Clansuite 
- * @package     Core 
- * @subpackage  Module 
- */ 
+ *
+ * Force classes implementing the interface to define this (must have) methods!
+ *
+ * @category    Clansuite
+ * @package     Core
+ * @subpackage  Module
+ */
 interface Clansuite_CRUD_Module_Interface
-{ 
-    public function action_create(); 
-    public function action_read(); 
-    public function action_update(); 
-    public function action_delete(); 
-} 
- 
-/** 
+{
+    public function action_create();
+    public function action_read();
+    public function action_update();
+    public function action_delete();
+}
+
+/**
  * Interface for all modules which implement a ABCD action structure.
- * 
- * Force classes implementing the interface to define this (must have) methods! 
- * 
- * @category    Clansuite 
- * @package     Core 
- * @subpackage  Module 
- */ 
+ *
+ * Force classes implementing the interface to define this (must have) methods!
+ *
+ * @category    Clansuite
+ * @package     Core
+ * @subpackage  Module
+ */
 interface Clansuite_ABCD_Module_Interface
-{ 
-    public function action_add(); 
-    public function action_browse(); 
-    public function action_change(); 
-    public function action_delete(); 
-} 
+{
+    public function action_add();
+    public function action_browse();
+    public function action_change();
+    public function action_delete();
+}
+
+/**
+ * Interface for all modules which implement a Sinatra-Style action structure.
+ *
+ * Force classes implementing the interface to define this (must have) methods!
+ *
+ * @category    Clansuite
+ * @package     Core
+ * @subpackage  Module
+ */
+interface Clansuite_Sinatra_Module_Interface
+{
+    public function action_index();    # GET     /foos
+    public function action_show();     # GET     /foos/:foo_id
+    public function action_new();      # GET     /foos/new
+    public function action_edit();     # GET     /foos/:foo_id/edit
+    public function action_create();   # POST    /foos
+    public function action_update();   # PUT     /foos/:foo_id
+    public function action_destroy();  # DELETE  /foos/:foo_id
+}
 ?>
