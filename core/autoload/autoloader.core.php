@@ -78,16 +78,17 @@ class Clansuite_Loader
     private static $inclusions_map = array();
 
     /**
-     * autoload
+     * Autoloads a Class
      *
-     * @param string $classname The name of the factories class
-     * @return boolean
+     * @param string $classname The name of the class
+     * @return boolean True on successful class loading, false otherwise.
      */
     public static function autoload($classname)
     {
         /**
          * if the classname is to exclude, then
-         * 1) stop autoloading immediately
+         * 1) stop autoloading immediately by
+         * returning false, to save any pointless processing
          */
         if(true === self::autoloadExclusions($classname))
         {
@@ -138,6 +139,10 @@ class Clansuite_Loader
 
     /**
      * Excludes a certain classname from the autoloading.
+     *
+     * Some libraries have their own autoloaders, like e.g. Smarty.
+     * In these cases Clansuite has the first autoloader in the stack,
+     * but is not responsible for loading.
      *
      * @param string $classname Classname to check for exclusion.
      * @return Returns true, if the class is to exclude.
@@ -446,7 +451,8 @@ class Clansuite_Loader
 
         if(is_writable($mapfile) === true)
         {
-            $bytes_written = file_put_contents($mapfile, serialize($array));
+            $bytes_written = file_put_contents($mapfile, serialize($array), LOCK_EX);
+
             if($bytes_written === false)
             {
                 trigger_error('Autoloader could not write the map cache file: ' . $mapfile, E_USER_ERROR);
