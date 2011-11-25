@@ -422,7 +422,7 @@ abstract class Clansuite_Renderer_Base
 
         # Help Tracking
         $template_constants['helptracking'] = $this->config['help']['tracking'];
-  
+
         /**
          * e) test browserinfo
          *   test in themes/frontend/dark/modules/index/action_show.tpl
@@ -480,6 +480,36 @@ abstract class Clansuite_Renderer_Base
         }
 
         return $this->theme;
+    }
+
+    /**
+     * Auto-Escape for Template Variables.
+     * This reduces the risk of forgetting to escape vars correctly.
+     *
+     * All variables assign to the template will be STRINGS,
+     * because htmlentities will cast all values to string.
+     * Character encoding used is UTF-8.
+     *
+     * @todo: do we need a config toggle for this?
+     *
+     * @param string $key The variable name.
+     * @param mixed $val The variable value.
+     */
+    public function autoEscape($key, $value)
+    {
+        if (is_array($value))
+        {
+            $clean = array();
+            foreach ($value as $key2 => $value2)
+            {
+                $clean[$key2] = htmlentities($value2, ENT_QUOTES, 'utf-8');
+            }
+        }
+        else
+        {
+            $clean = htmlentities($value2, ENT_QUOTES, 'utf-8');
+        }
+        // @todo return assign($key, $clean);
     }
 
     /**
