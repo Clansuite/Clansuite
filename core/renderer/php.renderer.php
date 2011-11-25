@@ -68,6 +68,7 @@ class Clansuite_Renderer_Php extends Clansuite_Renderer_Base
 
         if($filename === null)
         {
+            # @todo where does dir come from???
             $file = $directory . DS . $filename . '.tpl';
         }
         else
@@ -118,6 +119,8 @@ class Clansuite_Renderer_Php extends Clansuite_Renderer_Base
 
         return $this;
     }
+
+
 
     /**
      * Display the rendered template
