@@ -3,7 +3,7 @@
  * Clansuite_Sniffs_Commenting_OneLineCommentSniff.
  *
  * This sniff prohibits the usage of "//" on one line comments.
- * Usage of hash comments "#" is enforced.
+ * Usage of Perl-style (hash) comments "#" is enforced.
  *
  * @author    Jens-Andre Koch
  * @copyright 2005-onwards
