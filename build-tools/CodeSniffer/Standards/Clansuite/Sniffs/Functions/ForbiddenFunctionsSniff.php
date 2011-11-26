@@ -94,9 +94,9 @@ class Clansuite_Sniffs_Functions_ForbiddenFunctionsSniff extends Generic_Sniffs_
              'define_syslog_variables'  => 'null',
              'dl'                       => 'null',
              'set_magic_quotes_runtime' => 'null',
-             'session_register'         => 'use the $_SESSION superglobal instead',
-             'session_unregister'       => 'use the $_SESSION superglobal instead',
-             'session_is_registered'    => 'use the $_SESSION superglobal instead',
+             'session_register'         => 'use the $_SESSION superglobal instead', # function 
+             'session_unregister'       => 'use the $_SESSION superglobal instead', # function 
+             'session_is_registered'    => 'use the $_SESSION superglobal instead', # function 
              'set_socket_blocking'      => 'stream_set_blocking',
              'split'                    => 'preg_split',
              'spliti'                   => 'preg_split with modifier i',
@@ -122,7 +122,21 @@ class Clansuite_Sniffs_Functions_ForbiddenFunctionsSniff extends Generic_Sniffs_
              'import_request_variables' => 'null', # function
              'allow_call_time_pass_reference' => 'null', # ini
              #@todo add filter for putenv("TZ=") which was removed with 5.4.0b (15.11.2011)
-        
+             'get_magic_quotes_gpc'     => 'null', # function
+             'get_magic_quotes_runtime' => 'null', # function
+             'mcrypt_generic_end'       => 'null', # function
+             'mysql_list_dbs' '         => 'null', # function
+             # Alias Functions Cleanups
+             'mysqli_bind_param'        => 'use mysqli_stmt_bind_param instead',
+             'mysqli_bind_result'       => 'use mysqli_stmt_bind_result instead',
+             'mysqli_client_encoding'   => 'use mysqli_character_set_name instead',
+             'mysqli_fetch'             => 'use mysqli_stmt_fetch( instead',
+             'mysqli_param_count'       => 'use mysqli_stmt_param_count instead',
+             'mysqli_get_metadata'      => 'use mysqli_stmt_result_metadata instead',
+             'mysqli_send_long_data'    => 'use mysqli_stmt_send_long_data instead',
+             'mysqli::client_encoding'  => 'use mysqli::character_set_name instead',
+             'mysqli_stmt::stmt'        => 'null',
+
              # 8) due to performance reasons the following methods are forbidden
              'file_exists'              => 'is_file',
             );
