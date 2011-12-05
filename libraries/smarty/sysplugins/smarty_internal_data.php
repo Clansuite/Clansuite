@@ -78,8 +78,16 @@ class Smarty_Internal_Data {
      */
     public function assignGlobal($varname, $value = null, $nocache = false)
     {
-        if ($varname != '') {
-            Smarty::$global_tpl_vars[$varname] = new Smarty_variable($value, $nocache);
+        if (is_array($varname)) {
+            foreach ($varname as $_key => $_val) {
+                if ($_key != '') {
+                    Smarty::$global_tpl_vars[$_key] = new Smarty_variable($_val, $nocache);
+                }
+            }
+        } else {       
+            if ($varname != '') {
+                Smarty::$global_tpl_vars[$varname] = new Smarty_variable($value, $nocache);
+            }
         }
 
         return $this;
