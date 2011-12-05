@@ -78,7 +78,7 @@ class Clansuite_Debug
 
         if (is_string($var) === true)
         {
-            echo '<b>Length</b>: '.mb_strlen($var)."\r\n";
+            echo '<b>Length</b>: ' . strlen($var)."\r\n";
         }
 
         if (is_array($var) === true)
@@ -104,7 +104,7 @@ class Clansuite_Debug
         {
             echo '0';
         }
-        elseif(is_string($var) and mb_strlen($var) == '0')
+        elseif(is_string($var) and strlen($var) == '0')
         {
             echo '<font color=green>*EMPTY STRING*</font>';
         }
@@ -116,7 +116,7 @@ class Clansuite_Debug
         {
             $print_r = print_r($var, true);
             # str_contains < or >
-            if ((mb_strstr($print_r, '<') !== false) or (mb_strstr($print_r, '>') !== false))
+            if ((strstr($print_r, '<') !== false) or (strstr($print_r, '>') !== false))
             {
                 $print_r = htmlspecialchars($print_r);
             }
@@ -272,6 +272,15 @@ class Clansuite_Debug
         echo 'http wrapper: '. in_array('http', $w) ? 'yes':'no'. NL;
         echo 'https wrapper: '. in_array('https', $w) ? 'yes':'no'. NL;
         echo 'wrappers: '. self::printR($w);        
+    }
+
+    /**
+     * Returns a list of all registered event listeners
+     * @return array 
+     */
+    public static function getRegisteredEventListeners()
+    {
+        # @todo
     }
 }
 ?>
