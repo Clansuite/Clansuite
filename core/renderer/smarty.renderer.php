@@ -192,38 +192,14 @@ class Clansuite_Renderer_Smarty extends Clansuite_Renderer_Base
         # $this->renderer->default_template_handler_func = "";
 
         /**
-         * PHP Handling in Templates
-         *
-         * You can use this options for php handling:
-         * PHP_PASSTHRU = php tags are displayed
-         * PHP_QUOTE    = php tags are displayed as HTML-Entities
-         * PHP_REMOVE   = php tags are removed
-         * PHP_ALLOW    = php tags are allowed and executed in templates
-         */
-        #$this->renderer->allow_php_tag = true;
-        #$this->renderer->php_handling  = Smarty::PHP_PASSTHRU;
-
-        /**
-         * SECURITY SETTINGS
-         */
-
-        $this->renderer->security                            = false;
-        # $this->renderer->secure_directory                  = "";    # defines trusted directories if security is enabled
-        # $this->renderer->trusted_directory                 = "";    # defines trusted directories if security is enabled
-        # $this->renderer->security_settings[PHP_HANDLING]   = false; # if true ... $php_handling will be ignored
-        # $this->renderer->security_settings[IF_FUNCS]       = "";    # Array of allowed functions if IF statements
-        # $this->renderer->security_settings[INCLUDE_ANY]    = false; # if true ... every template can be loaded, also those which are not in secure_dir
-        # $this->renderer->security_settings[MODIFIER_FUNCS] = "";    # Array of functions which can used as variable modifier
-
-        /**
          *  ENGINE SETTINGS
          */
         # $this->renderer->left_delimiter           = "{";    # default : {
         # $this->renderer->right_delimiter          = "}";    # default : }
-        $this->renderer->show_info_header           = false;  # if true : Smarty Version and Compiler Date are displayed as comment in template files
-        $this->renderer->show_info_include          = false;  # if true : adds an HTML comment at start and end of template files
+        #$this->renderer->show_info_header           = false;  # if true : Smarty Version and Compiler Date are displayed as comment in template files
+        #$this->renderer->show_info_include          = false;  # if true : adds an HTML comment at start and end of template files
         # $this->renderer->request_vars_order       = "";     # order in which the request variables were set, same as 'variables_order' in php.ini
-        $this->renderer->use_sub_dirs               = true;   # set to false if creating subdirs is not allowed, but subdirs are more efficiant
+        #$this->renderer->use_sub_dirs               = true;   # set to false if creating subdirs is not allowed, but subdirs are more efficiant
 
         /**
          * Smarty Template Directories
@@ -238,20 +214,13 @@ class Clansuite_Renderer_Smarty extends Clansuite_Renderer_Base
          * 5) "/themes/core/view/"
          * 6) "/themes/"
          */
-        $this->renderer->template_dir = array();
-
-        # 1) + 2)
-        $this->renderer->template_dir[] = $this->getThemeTemplatePaths();
-
-        # 3) + 4)
-        $this->renderer->template_dir[] = $this->getModuleTemplatePaths();
-
-        # 5) +6) themes dir
-        $this->renderer->template_dir[] = ROOT_THEMES_CORE . 'view' . DS . 'smarty';
-        $this->renderer->template_dir[] = ROOT_THEMES;
+        $tpl_array = array( $this->getThemeTemplatePaths(), # 1 + 2
+                            $this->getModuleTemplatePaths(), # 3 + 4        
+                            ROOT_THEMES_CORE . 'view' . DS . 'smarty', # 5 
+                            ROOT_THEMES); # 6
 
         # flatten that thing
-        $this->renderer->template_dir = Clansuite_Functions::array_flatten($this->renderer->template_dir);
+        $this->renderer->template_dir = Clansuite_Functions::array_flatten($tpl_array);
 
         #Clansuite_Debug::printR($this->renderer->template_dir);
 
@@ -263,8 +232,12 @@ class Clansuite_Renderer_Smarty extends Clansuite_Renderer_Base
          * 2) clansuite core/common smarty plugins  => core\viewhelper\smarty\
          * 3) clansuite module smarty plugins       => modules\module_name\viewhelper\smarty\
          */
-        $this->renderer->plugins_dir[] = ROOT_CORE . 'viewhelper' . DS. 'smarty' . DS;
-        $this->renderer->plugins_dir[] = ROOT_MOD . Clansuite_TargetRoute::getModuleName() . DS . 'viewhelper' . DS. 'smarty' . DS;
+        
+        $this->renderer->setPluginsDir( 
+            array( ROOT_CORE . 'viewhelper' . DS. 'smarty' . DS, 
+                    ROOT_MOD . Clansuite_TargetRoute::getModuleName() . DS . 'viewhelper' . DS. 'smarty' . DS
+        ));
+
 
         #Clansuite_Debug::printR($this->renderer->plugins_dir);
 
@@ -538,13 +511,13 @@ class Clansuite_Renderer_Smarty extends Clansuite_Renderer_Base
         if($this->getRenderMode() === 'LAYOUT')
         {
             # ensure that smarty tags {$content} and {copyright} are present in the layout template
-            if(true === $this->preRenderChecks())
-            {
+            #if(true === $this->preRenderChecks())
+            #{
                 # assign the modulecontent
                 $this->assign('content', $this->fetch($template));
 
                 return $this->fetch($this->getLayoutTemplate());
-            }
+            #}
         }
     }
 
