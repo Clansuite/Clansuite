@@ -458,8 +458,7 @@ class Clansuite_Errorhandler
 
             if(true === isset($backtrace[$i]['file']))
             {
-                $backtrace[$i]['file'] = str_replace(ROOT, '..'.DS, $backtrace[$i]['file']);
-                $backtrace_string .= '<td>' . $backtrace[$i]['file'] . ':' . $backtrace[$i]['line'] . '</td>';
+                $backtrace_string .= '<td>' . self::getFileLink($backtrace[$i]['file'], $backtrace[$i]['line']) . '</td>';
             }
 
             # spacer
@@ -599,6 +598,11 @@ class Clansuite_Errorhandler
         }
     }
 
+    /**
+     * Returns the Clansuite Support Backlinks as HTML string.
+     *
+     * @return string Clansuite Support Backlinks as HTML.
+     */
     public static function getSupportBacklinks()
     {
         $html  = '<div style="padding-top: 45px; float:right;">';
@@ -609,7 +613,53 @@ class Clansuite_Errorhandler
                            <strong><a href="http://forum.clansuite.com/">Support-Forum</a></strong> |
                            <strong><a href="http://docs.clansuite.com/">Manuals</a></strong> |
                            <strong><a href="http://www.clansuite.com/">visit clansuite.com</a></strong>
-                           </div>';
+                   </div>';
+        return $html;
+    }
+
+    /**
+     * Returns a link to the file:line with the error.
+     *
+     * a) returns a link in the xdebug file_link_format, e.h. opens your IDE
+     * b) returns a link in clansuite format, e.g. opens editor module
+     * c) returns NO link, just file:line
+     *
+     * @return string Link to file and line with error.
+     */
+    public static function getFileLink($file, $line)
+    {
+        $html = '';
+        $fileLinkFormatString = '';
+        $link = '';
+
+        # a) use the file link template string provided by the "xdebug.file_link_format" configuration property
+        if ($fileLinkFormatString = ini_get('xdebug.file_link_format'))
+        {
+            # insert file:line into the fileLinkFormatString
+            $link = strtr($fileLinkFormatString, array('%f' => $file, '%l' => $line));
+
+            # shorten file string by removing the root path
+            $file = str_replace(ROOT, '..' . DS, $file);
+
+            $html .= sprintf(' in <a href="%s" title="Edit file">%s line %s</a>', $link, $file, $line);
+        }
+        /*elseif(DEVELOPMENT)
+        {   
+            # link to our editor
+            $fileLinkFormatString = 'index.php?module=editor&action=edit&file=%f&line=%l';
+
+            # insert file:line into the fileLinkFormatString
+            $link = strtr($fileLinkFormatString, array('%f' => $file, '%l' => $line));
+            $html .= sprintf(' in <a href="%s" title="Edit file">%s line %s</a>', $link, $file, $line);
+        }*/
+        else
+        {
+            # shorten file string by removing the root path
+            $file = str_replace(ROOT, '..' . DS, $file);
+
+            $html .= sprintf(' in %s line %s', $file, $line);
+        }
+
         return $html;
     }
 
