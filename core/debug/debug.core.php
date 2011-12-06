@@ -50,7 +50,7 @@ if(defined('IN_CS') === false)
 class Clansuite_Debug
 {
     /**
-     * This is an replacement for the native php function print_r() with an upgraded display
+     * This is an replacement for the native php function print_r() with an upgraded display.
      *
      * @author  cagret@gosu.pl
      * @version created 2005-06-18 modified 2006-06-04
@@ -128,6 +128,41 @@ class Clansuite_Debug
         # save session before exit
         session_write_close();
         exit;
+    }
+    
+    /**
+     * Displays the content of a variable with var_dump.
+     * The content gets escaping and pre tags are applied for better readability.
+     *
+     * @param mixed $var The variable to debug.
+     * @param bool $stop Stop execution after dump? Default is true (stops).
+     */
+    public static function dump($var, $stop = true)
+    {
+        # var_dump the content into a buffer and store it to variable
+        ob_start();
+        var_dump($var);
+        $var_dump = ob_get_clean();
+
+        /**
+         * if xdebug is on and overloaded the var_dump function, 
+         * then the output is already properly escaped and prepared for direct output.
+         * if xdebug is off, we need to apply escaping ourself.
+         * html pre tags are applied to structure the display a bit more.
+         */
+        if(false === extension_loaded('xdebug'))
+        {
+            $var_dump = preg_replace('/\]\=\>\n(\s+)/m', '] => ', $var_dump);
+            $var_dump = '<pre>' . htmlspecialchars($var_dump, ENT_QUOTES, 'UTF-8') . '</pre>';
+        }
+
+        # output the content of the buffer
+        echo $var_dump;
+        
+        if($stop === true)
+        {
+            exit;
+        }
     }
 
     /**
