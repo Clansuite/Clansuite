@@ -61,7 +61,7 @@ class Clansuite_Sniffs_PHP_OpeningClosingTagSniff implements Php_CodeSniffer_Sni
             $tokens  = $phpcsfile->gettokens();
             $opentag = $tokens[$stackptr];
 
-            if ($opentag['content'] === '<?' or $opentag['content'] === '<?='))
+            if ($opentag['content'] === '<?' or $opentag['content'] === '<?=')
             {
                 $error = 'Short PHP opening tag used. Found "'.$opentag['content'].'" Expected "<?php".';
                 $phpcsfile->adderror($error, $stackptr);
