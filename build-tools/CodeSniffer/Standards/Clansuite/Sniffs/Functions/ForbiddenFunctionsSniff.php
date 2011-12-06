@@ -44,15 +44,15 @@ class Clansuite_Sniffs_Functions_ForbiddenFunctionsSniff extends Generic_Sniffs_
              'fputs'           => 'fwrite',
 
              # 2) Discourages the use of our own debugging helper methods
-             'Clansuite_Debug::printR' => 'null',
-             'clansuite_debug::printr' => 'null',
-             'Clansuite_Debug::firebug' => 'null',
-             'clansuite_debug::firebug' => 'null',
+             'Clansuite_Debug::printR' => null,
+             'clansuite_debug::printr' => null,
+             'Clansuite_Debug::firebug' => null,
+             'clansuite_debug::firebug' => null,
 
              # 3) Discourages the use of PHP debugging functions
-             'print_r'          => 'null',
-             'var_dump'         => 'null',
-             'error_log'        => 'null',
+             'print_r'          => null,
+             'var_dump'         => null,
+             'error_log'        => null,
 
               # 4) Discourages the use of normal string functions, thereby enforces the usage of mbstring functions
              'strcut'          => 'mb_strcut',       # Get part of string
@@ -91,55 +91,56 @@ class Clansuite_Sniffs_Functions_ForbiddenFunctionsSniff extends Generic_Sniffs_
              # http://www.php.net/manual/en/migration53.deprecated.php        
              'call_user_method'         => 'call_user_func',
              'call_user_method_array'   => 'call_user_func_array',
-             'define_syslog_variables'  => 'null',
-             'dl'                       => 'null',
-             'set_magic_quotes_runtime' => 'null',
+             'define_syslog_variables'  => null,
+             'dl'                       => null,
+             'set_magic_quotes_runtime' => null,
              'session_register'         => 'use the $_SESSION superglobal instead', # function 
              'session_unregister'       => 'use the $_SESSION superglobal instead', # function 
              'session_is_registered'    => 'use the $_SESSION superglobal instead', # function 
              'set_socket_blocking'      => 'stream_set_blocking',
              'split'                    => 'preg_split',
              'spliti'                   => 'preg_split with modifier i',
-             'sql_regcase'              => 'null',
+             'sql_regcase'              => null,
              'mysql_db_query'           => 'use mysql_select_db() and mysql_query() instead',
              'mysql_escape_string'      => 'mysql_real_escape_string',
         
              # 7) deprecated ini directives / functions as of php 5.3
              # http://www.php.net/manual/en/migration53.deprecated.php
-             'define_syslog_variables'  => 'null',
-             'register_globals'         => 'null',
-             'register_long_arrays'     => 'null',
-             'safe_mode'                => 'null',
-             'magic_quotes_gpc'         => 'null',
-             'magic_quotes_runtime'     => 'null',
-             'magic_quotes_sybase'      => 'null',
-             'enable_dl'                => 'null',
+             'define_syslog_variables'  => null,
+             'register_globals'         => null,
+             'register_long_arrays'     => null,
+             'safe_mode'                => null,
+             'magic_quotes_gpc'         => null,
+             'magic_quotes_runtime'     => null,
+             'magic_quotes_sybase'      => null,
+             'enable_dl'                => null,
 
              ## 7b) deprecated ini directives / functions as of php 5.4
-             'session.bug_compat_warn'  => 'null', # ini
-             'session.bug_compat42'     => 'null', # ini
-             'y2k_compliance'           => 'null', # ini
-             'import_request_variables' => 'null', # function
-             'allow_call_time_pass_reference' => 'null', # ini
+             'session.bug_compat_warn'  => null, # ini
+             'session.bug_compat42'     => null, # ini
+             'y2k_compliance'           => null, # ini
+             'import_request_variables' => null, # function
+             'allow_call_time_pass_reference' => null, # ini
              #@todo add filter for putenv("TZ=") which was removed with 5.4.0b (15.11.2011)
-             'get_magic_quotes_gpc'     => 'null', # function
-             'get_magic_quotes_runtime' => 'null', # function
-             'mcrypt_generic_end'       => 'null', # function
-             'mysql_list_dbs' '         => 'null', # function
+             'get_magic_quotes_gpc'     => null, # function
+             'get_magic_quotes_runtime' => null, # function
+             'mcrypt_generic_end'       => null, # function
+             'mysql_list_dbs'           => null, # function
              # Alias Functions Cleanups
              'mysqli_bind_param'        => 'use mysqli_stmt_bind_param instead',
              'mysqli_bind_result'       => 'use mysqli_stmt_bind_result instead',
              'mysqli_client_encoding'   => 'use mysqli_character_set_name instead',
-             'mysqli_fetch'             => 'use mysqli_stmt_fetch( instead',
+             'mysqli_fetch'             => 'use mysqli_stmt_fetch instead',
              'mysqli_param_count'       => 'use mysqli_stmt_param_count instead',
              'mysqli_get_metadata'      => 'use mysqli_stmt_result_metadata instead',
              'mysqli_send_long_data'    => 'use mysqli_stmt_send_long_data instead',
              'mysqli::client_encoding'  => 'use mysqli::character_set_name instead',
-             'mysqli_stmt::stmt'        => 'null',
+             'mysqli_stmt::stmt'        => null,
 
              # 8) due to performance reasons the following methods are forbidden
              'file_exists'              => 'is_file',
             );
+
 
     /**
      * Returns an array of tokens this test wants to listen for.
@@ -148,10 +149,7 @@ class Clansuite_Sniffs_Functions_ForbiddenFunctionsSniff extends Generic_Sniffs_
      */
     public function register()
     {
-        return array(
-                T_STRING,
-                T_PRINT  #,
-               );
+        return array( T_STRING, T_PRINT);
     }
 }
 ?>
