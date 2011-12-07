@@ -234,8 +234,9 @@ class Clansuite_Renderer_Smarty extends Clansuite_Renderer_Base
          */
         
         $this->renderer->setPluginsDir( 
-            array( ROOT_CORE . 'viewhelper' . DS. 'smarty' . DS, 
-                    ROOT_MOD . Clansuite_TargetRoute::getModuleName() . DS . 'viewhelper' . DS. 'smarty' . DS
+            array( ROOT_LIBRARIES . 'smarty' . DS . 'plugins',
+                   ROOT_CORE . 'viewhelper' . DS . 'smarty' . DS, 
+                   ROOT_MOD . Clansuite_TargetRoute::getModuleName() . DS . 'viewhelper' . DS. 'smarty' . DS
         ));
 
 
