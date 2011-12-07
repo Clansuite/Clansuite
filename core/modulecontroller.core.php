@@ -463,8 +463,10 @@ abstract class Clansuite_Module_Controller
                 $this->setTemplate($templates['content_template']);
             }
         }
-# only the content template is set
-if(is_string($templates)) { $this->setTemplate($templates); }
+
+        # only the content template is set
+        if(is_string($templates)) { $this->setTemplate($templates); }
+
         # get the templatename
         $templatename = $this->getTemplateName();
 
