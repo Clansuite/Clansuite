@@ -43,18 +43,30 @@ if (false == class_exists('Clansuite_Formelement_Textarea',false))
 }
 
 /**
- *  Clansuite_Formelement
- *  |
- *  \- Clansuite_Formelement_Textarea
- *      |
- *      \- Clansuite_Formelement_Wysiwygckeditor
- *
+ * Clansuite_Formelement_WysiwygCkeditor
+ * 
  * @see http://ckeditor.com/ Official Website of CKeditor
  * @see http://docs.cksource.com/ CKEditor Documentations
  * @see http://docs.cksource.com/CKEditor_3.x/Developers_Guide/Integration
  */
 class Clansuite_Formelement_Wysiwygckeditor extends Clansuite_Formelement_Textarea implements Clansuite_Formelement_Interface
 {
+    public function __construct()
+    {
+        self::checkDependencies();
+    }
+    
+    /**
+     * Ensure, that the library is available, before the client requests a non-existant file.
+     */
+    public static function checkDependencies()
+    {
+        if (!is_file(ROOT_THEMES_CORE . 'javascript/ckeditor/ckeditor.js'))
+        {
+            exit('Ckeditor Javascript Library missing!');
+        }
+    }
+    
     /**
      * This renders a textarea with the WYSWIWYG editor ckeditor attached.
      */
