@@ -43,17 +43,29 @@ if (false == class_exists('Clansuite_Formelement_Textarea',false))
 }
 
 /**
- *  Clansuite_Formelement
- *  |
- *  \- Clansuite_Formelement_Textarea
- *      |
- *      \- Clansuite_Formelement_Wysiwygnicedit
+ * Clansuite_Formelement_Wysiwygnicedit
  *
  * @see Http://www.nicedit.com/ Official Website of NicEdit
  * @see http://wiki.nicedit.com/ Wiki of NicEdit
  */
 class Clansuite_Formelement_Wysiwygnicedit extends Clansuite_Formelement_Textarea implements Clansuite_Formelement_Interface
 {
+    public function __construct()
+    {
+        self::checkDependencies();
+    }
+    
+    /**
+     * Ensure, that the library is available, before the client requests a non-existant file.
+     */
+    public static function checkDependencies()
+    {
+        if (!is_file(ROOT_THEMES_CORE . 'javascript/nicedit/nicedit.js'))
+        {
+            exit('NicEdit Javascript Library missing!');
+        }
+    }
+    
     /**
      * This renders a textarea with the WYSWIWYG editor NicEdit attached.
      */
