@@ -84,11 +84,15 @@ class Clansuite_Formelement_Textarea extends Clansuite_Formelement implements Cl
 
     public function setEditor($editor = null)
     {
-        # if no editor is given, take the one definied in configuration
+        /**
+         *  if no editor is given, take the one definied in the general configuration.
+         *  the expected config setting is [editor] type.
+         *  if the configuration value is not given, use "ckeditor" as fallback.
+         */        
         if($editor == null)
-        {
+        {            
             $config = Clansuite_CMS::getInjector()->instantiate('Clansuite_Config');
-            $editor = $config['editor']['type'];
+            $editor = isset($config['editor']['type']) ? $config['editor']['type'] : 'ckeditor';
             unset($config);
         }
 
@@ -178,8 +182,8 @@ class Clansuite_Formelement_Textarea extends Clansuite_Formelement implements Cl
      */
     private function editorFactory()
     {
-        $name = $this->getEditor();
-        #Clansuite_Debug::firebug($name);
+        $name = $this->getEditor(); 
+        
 
         # construct classname
         $classname = 'Clansuite_Formelement_Wysiwyg'. $name;
