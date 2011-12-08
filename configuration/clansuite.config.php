@@ -20,7 +20,7 @@ staging = 1
 host = "localhost"
 driver = "pdo_mysql"
 username = "root"
-password = "toop"
+password = ""
 name = "clansuite"
 charset = "UTF8"
 prefix = "cs_"
@@ -64,9 +64,9 @@ timezone = 0
 ; error
 ;----------------------------------------
 [error]
-debug = 0
-xdebug = 0
-development = 0
+debug = 1
+xdebug = 1
+development = 1
 debug_popup = 0
 webdebug = 0
 help_edit_mode = 0
@@ -184,5 +184,8 @@ cache_lifetime = 3600
 ;----------------------------------------
 [webserver]
 mod_rewrite = 0
+
+[editor]
+type = "ckeditor"
 
 ; DO NOT REMOVE THIS LINE */ ?>
