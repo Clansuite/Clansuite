@@ -86,6 +86,9 @@ function smarty_gettext_strarg($str)
  */
 function smarty_block_t($params, $text, $smarty)
 {
+    # stop smarty from rendering on the opening tag
+    if (!$text) return;
+    
     $text = stripslashes($text);
 
     # set escape mode
@@ -146,6 +149,9 @@ function smarty_block_t($params, $text, $smarty)
         }
     }
 
-    return $text;
+    if(isset($text))
+    {
+        return $text;
+    }
 }
 ?>
