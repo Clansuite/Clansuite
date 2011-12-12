@@ -304,6 +304,7 @@ class Clansuite_Module_Languages_Admin extends Clansuite_Module_Controller
      * Fetch translation via Google Translation API
      *
      * @link http://code.google.com/intl/de-DE/apis/ajaxlanguage/documentation/reference.html
+     * @deprecated This API is deprecated by Google. Need to find other API translate service.
      */
     public function ajax_action_admin_translate_google()
     {
