@@ -62,8 +62,9 @@ if (defined('IN_CS') === false)
 class Clansuite_Loader
 {
     /**
-     * The Constant USE_APC is used in addToMapping().
-     * It toggles the usage of APC (when true) or File (when false) for reading and writing the classmap array.
+     * @var boolean APC on/off.
+     * This toggles the usage of APC (when true) or File (when false) for reading and writing the classmap array.
+     * @see addToMapping();
      */
     public static $use_apc = false;
 
@@ -73,7 +74,8 @@ class Clansuite_Loader
     private static $autoloader_map = array();
 
     /**
-     * @var array Manually defined Classmap, @see autoloadInclusions().
+     * @var array Manually defined Classmap
+     * @see autoloadInclusions()
      */
     private static $inclusions_map = array();
 
@@ -85,6 +87,11 @@ class Clansuite_Loader
      */
     public static function autoload($classname)
     {
+        if(true === class_exists($classname, false) or true === interface_exists($classname, false))
+        {
+            return false;
+        }
+
         /**
          * if the classname is to exclude, then
          * 1) stop autoloading immediately by
