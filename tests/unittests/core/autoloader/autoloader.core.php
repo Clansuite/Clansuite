@@ -15,20 +15,28 @@ class Clansuite_Loader_Test extends Clansuite_UnitTestCase
     {
         parent::setUp();
 
+        # Fixtures
+        set_include_path(   realpath(__DIR__.'/fixtures') . PATH_SEPARATOR . get_include_path());
+
         # Test Subject
         require_once TESTSUBJECT_DIR . 'core/autoload/autoloader.core.php';
 
-        # the APC user cache needs a reset, so that the map is generated freshly each run
-        if(extension_loaded('APC') === true)
+        /**
+         * The APC user cache needs a reset, so that the map is generated freshly each run.
+         * APC is used by readAutoloadingMapApc() / writeAutoloadingMapApc().
+         */
+        if (extension_loaded('apc') === true and ini_get('apc.enabled') and ini_get('apc.enable_cli'))
         {
-            # reset APC for readAutoloadingMapApc() / writeAutoloadingMapApc()
             apc_clear_cache('user');
         }
     }
 
     public function tearDown()
     {
-
+        if (ini_get('apc.enabled') and ini_get('apc.enable_cli'))
+        {
+            apc_clear_cache('user');
+        }
     }
 
     /**
@@ -56,14 +64,14 @@ class Clansuite_Loader_Test extends Clansuite_UnitTestCase
         unset($class);
     }
     */
-    
+
      /**
      * testMethod_autoload()
      */
     public function testMethod_autoload()
     {
         # workflow of autoloading
-        
+
         # 1. testMethod_autoloadExclusions()
         # 2. testMethod_autoloadInclusions()
         # 3. testMethod_autoloadByApcOrFileMap()
@@ -118,13 +126,8 @@ class Clansuite_Loader_Test extends Clansuite_UnitTestCase
 
         # try to load "Clansuite_Eventdispatcher" class
         # which is expected to be inside the classmap file
-
-        # @todo disabled for now - i am not sure how to test...
-        # way to go
-        # 1) pseudo map files for apc and filecache
-        # 2) dynamically unload apc extension to test filemap caching?
-        #$this->assertTrue(Clansuite_Loader::autoloadByApcOrFileMap('Clansuite_Eventdispatcher'));
-        $this->markTestIncomplete('This test has not been implemented yet.');
+        # i am not sure how to test correctly..
+        $this->assertTrue(Clansuite_Loader::autoloadByApcOrFileMap('Clansuite_Eventdispatcher'));
     }
 
     /**
@@ -133,12 +136,14 @@ class Clansuite_Loader_Test extends Clansuite_UnitTestCase
     public function testMethod_autoloadIncludePath()
     {
         # try to load an unknown class
-        $this->assertFalse(Clansuite_Loader::autoloadIncludePath('\Namespace\Library\Clansuite_SomeUnknown_Class'));
+        $this->assertFalse(Clansuite_Loader::autoloadIncludePath('\Namespace\Library\SomeUnknown_Class'));
 
-        $this->markTestIncomplete('Currently no namespaced Clansuite classes available.');
+        # set the include path to our fixtures directory, where a namespaces class exists
+        $path = __DIR__ . DS . 'fixtures';
+        set_include_path($path . PS . get_include_path());
 
         # try to load existing namespaced class
-        #$this->assertTrue(Clansuite_Loader::autoloadIncludePath('\Namespace\Library\Clansuite_Class'));
+        $this->assertTrue(Clansuite_Loader::autoloadIncludePath('\Clansuite\NamespacedClass'));
    }
 
     /**
@@ -149,7 +154,8 @@ class Clansuite_Loader_Test extends Clansuite_UnitTestCase
         # try to load a class from core path - clansuite/core/class_name.core.php
         $this->assertTrue(Clansuite_Loader::autoloadTryPathsAndMap('Clansuite_Router'));
 
-        # try to load a class from events path - clansuite/core/events/classname.class.php
+        # try to load a class from events path - clansuite/core/events/classname.event.php
+        require_once TESTSUBJECT_DIR . 'core/eventdispatcher.core.php'; # needed for the Events_Interface
         $this->assertTrue(Clansuite_Loader::autoloadTryPathsAndMap('BlockIps'));
 
         # try to load a class from filter path - clansuite/core/filters/classname.filter.php
@@ -211,22 +217,62 @@ class Clansuite_Loader_Test extends Clansuite_UnitTestCase
 
     public function testMethod_addToMapping()
     {
-        $this->markTestIncomplete('This test has not been implemented yet.');
+        if(extension_loaded('apc'))
+        {
+            Clansuite_Loader::$use_apc = true;
+            # test return value true, means it's written
+            $this->assertTrue(Clansuite_Loader::addToMapping(__DIR__ . '/fixtures/notloaded/addToMapping.php', 'addToMappingClass'));
+        }
+        else
+        {
+            Clansuite_Loader::$use_apc = false;
+            # test return value true, means it's written
+            $this->assertTrue(Clansuite_Loader::addToMapping(__DIR__ . '/fixtures/notloaded/addToMapping.php', 'addToMappingClass'));
+        }
+
+        # test if the entry was added to the autoloader class map array
+        $map = Clansuite_Loader::getAutoloaderClassMap();
+        $this->assertTrue(true, array_key_exists('addToMappingClass', $map));
+        $this->assertTrue($map['addToMappingClass'], __DIR__ . '/fixtures/notloaded/addToMapping.php');
+
+        # file not loaded, just mapped
+        $this->assertFalse(class_exists('addToMappingClass', false));
+
+        # triggering autoload via class_exists
+        $this->assertTrue(class_exists('addToMappingClass', true));
     }
 
     public function testMethod_includeFileAndMap()
     {
-        $this->markTestIncomplete('This test has not been implemented yet.');
+        Clansuite_Loader::includeFileAndMap( __DIR__ . '/fixtures/includeFileAndMap.php', 'includeFileAndMapClass' );
+
+        # test if the entry was added to the autoloader class map array
+        $map = Clansuite_Loader::getAutoloaderClassMap();
+        $this->assertTrue(true, array_key_exists('includeFileAndMapClass', $map));
+        $this->assertTrue($map['includeFileAndMapClass'], __DIR__ . '/fixtures/includeFileAndMap.php');
+
+        # file already loaded
+        $this->assertTrue(class_exists('includeFileAndMapClass', false));
     }
 
     public function testMethod_requireFile()
     {
-        $this->markTestIncomplete('This test has not been implemented yet.');
+        # a) include file
+        $this->assertTrue( Clansuite_Loader::requireFile( __DIR__ . '/fixtures/ClassForRequireFile1.php') );
+
+        # b) include class
+        $this->assertTrue( Clansuite_Loader::requireFile( __DIR__ . '/fixtures/ClassForRequireFile2.php', 'ClassForRequireFile2') );
+
+        # c) include class (second parameter), but class does not exist
+        $this->assertFalse( Clansuite_Loader::requireFile('nonExistantFile.php'), 'ThisClassDoesNotExist' );
+
+        # d) file not found returns false
+        $this->assertFalse( Clansuite_Loader::requireFile('nonExistantFile.php') );
+
     }
 
     public function testMethod_loadLibrary()
     {
-        $this->expectError(new PatternExpectation("/include(): Cannot redeclare class/i"));
         $this->assertTrue(Clansuite_Loader::loadLibrary('snoopy'));
     }
 }
