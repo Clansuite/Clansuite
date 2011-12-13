@@ -57,7 +57,7 @@ class BlockIps implements Clansuite_Event_Interface
         $this->blockedIps = $blockedIps;
     }
 
-    public function execute(Event $event)
+    public function execute(Clansuite_Event $event)
     {
         $request = Clansuite_CMS::getInjector()->instantiate('Clansuite_HttpRequest');
         $ip = $request->getRemoteAddress();
