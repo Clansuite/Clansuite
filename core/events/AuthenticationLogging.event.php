@@ -59,7 +59,7 @@ class AuthenticationLogging implements Clansuite_Event_Interface
         $this->logger = $logger;
     }
 
-    public function execute(Event $event)
+    public function execute(Clansuite_Event $event)
     {
         $authdata = $event->getInfo();
 
