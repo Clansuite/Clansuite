@@ -254,7 +254,7 @@ class Clansuite_Loader
         # check if classname is in autoloading map
         if(isset(self::$inclusions_map[$classname]) === true)
         {
-            include ROOT_CORE . self::$inclusions_map[$classname];
+            include_once ROOT_CORE . self::$inclusions_map[$classname];
             return true;
         }
         else
