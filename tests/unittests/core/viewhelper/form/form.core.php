@@ -429,13 +429,13 @@ class Clansuite_Form_Test extends Clansuite_UnitTestCase
 
         #$this->form->getElementByPosition('0');
         $formelements_array = $this->form->getFormelements();
-        
+
         $formelement = new Clansuite_Formelement_Text;
         $formelement->setID('text-formelement-0');
-        
+
         $this->assertIdentical($formelement, $formelements_array[0]);
     }
-    
+
     public function testAddElement_withSettingAttributes()
     {
         # test element
@@ -443,36 +443,36 @@ class Clansuite_Form_Test extends Clansuite_UnitTestCase
                             'maxlength' => '20',
                             'label' => 'myFormelementLabel',
                             'id' => 'text-formelement-0');
-        
+
         $this->form->addElement('text', $attributes);
         $formelement = $this->form->getElementByPosition('0');
-      
+
         $this->assertEqual($attributes['class'], $formelement->class);
         $this->assertEqual($attributes['maxlength'], $formelement->maxlength);
         $this->assertEqual($attributes['label'], $formelement->label);
         $this->assertEqual($attributes['id'], $formelement->id);
     }
-    
+
     /**
      * @covers regenerateFormelementIdentifiers
      */
     public function testAddElement_ToCertainPosition()
     {
         # PREPARE:
-        # this will take position 0                   
+        # this will take position 0
         $this->form->addElement('file');
-        # this will take position 1   
+        # this will take position 1
         $this->form->addElement('captcha');
-        
+
         # TEST:
         # this will take position 0 + reorders the array
         $this->form->addElement('text', null, 0);
 
         $array = array();
-        $array[] = new Clansuite_Formelement_Text;    # 0 - Text 
-        $array[] = new Clansuite_Formelement_File;    # 1 - File 
+        $array[] = new Clansuite_Formelement_Text;    # 0 - Text
+        $array[] = new Clansuite_Formelement_File;    # 1 - File
         $array[] = new Clansuite_Formelement_Captcha; # 2 - Captcha
-        
+
         # manually reapply formelement identifiers
         $array['0']->setID('text-formelement-0');
         $array['1']->setID('file-formelement-1');
@@ -487,24 +487,24 @@ class Clansuite_Form_Test extends Clansuite_UnitTestCase
 
         $this->assertContainsString('enctype="multipart/form-data"', $this->form->render());
     }
-    
+
     public function testregenerateFormelementIdentifiers()
     {
         # PREPARE:
-        # this will take position 0                   
+        # this will take position 0
         $this->form->addElement('file');
-        # this will take position 1   
+        # this will take position 1
         $this->form->addElement('captcha');
-        
+
         # TEST:
         # this will take position 0 + reorders the array
         $this->form->addElement('text', null, 0);
 
         $array = array();
-        $array[] = new Clansuite_Formelement_Text;    # 0 - Text 
-        $array[] = new Clansuite_Formelement_File;    # 1 - File 
+        $array[] = new Clansuite_Formelement_Text;    # 0 - Text
+        $array[] = new Clansuite_Formelement_File;    # 1 - File
         $array[] = new Clansuite_Formelement_Captcha; # 2 - Captcha
-        
+
         # manually reapply formelement identifiers
         $array['0']->setID('text-formelement-0');
         $array['1']->setID('file-formelement-1');
@@ -516,8 +516,8 @@ class Clansuite_Form_Test extends Clansuite_UnitTestCase
     public function testDelElementByName()
     {
         $this->form->addElement('textarea')->setName('myTextareaElement');
-        $this->form->delElementByName('myTextareaElement');      
-        
+        $this->form->delElementByName('myTextareaElement');
+
         $this->assertNull($this->form->getElementByName('myTextareaElement'));
     }
 
@@ -526,7 +526,7 @@ class Clansuite_Form_Test extends Clansuite_UnitTestCase
         $this->form->addElement('text');
 
         $formelements_array = $this->form->getFormelements();
-        
+
         $this->assertIdentical( $formelements_array['0'], $this->form->getElementByPosition(0));
     }
 
@@ -671,7 +671,7 @@ class Clansuite_Form_Test extends Clansuite_UnitTestCase
         $this->assertIdentical(new Clansuite_Form_Decorator_Label, $form_decorator_object);
     }
 
-    public function testAddValidator()
+    /*public function testAddValidator()
     {
         // Remove the following lines when you implement this test.
         $this->markTestIncomplete(
@@ -685,7 +685,7 @@ class Clansuite_Form_Test extends Clansuite_UnitTestCase
         $this->markTestIncomplete(
                 'This test has not been implemented yet.'
         );
-    }
+    }*/
 
     public function testsetErrorState()
     {
