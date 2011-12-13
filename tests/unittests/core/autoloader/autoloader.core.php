@@ -112,8 +112,7 @@ class Clansuite_Loader_Test extends Clansuite_UnitTestCase
         $this->assertFalse(Clansuite_Loader::autoloadInclusions('SomeUnknownClass'));
 
         # try to load "Clansuite_Staging" class
-        #$this->expectError(new PatternExpectation("/include(): Cannot redeclare class/i"));
-        #$this->assertTrue(Clansuite_Loader::autoloadInclusions('Clansuite_Staging'));
+        $this->assertTrue(Clansuite_Loader::autoloadInclusions('Clansuite_Staging'));
     }
 
     /**
@@ -124,10 +123,8 @@ class Clansuite_Loader_Test extends Clansuite_UnitTestCase
         # try to load an unknown class
         $this->assertFalse(Clansuite_Loader::autoloadByApcOrFileMap('SomeUnknownClass'));
 
-        # try to load "Clansuite_Eventdispatcher" class
-        # which is expected to be inside the classmap file
-        # i am not sure how to test correctly..
-        $this->assertTrue(Clansuite_Loader::autoloadByApcOrFileMap('Clansuite_Eventdispatcher'));
+        Clansuite_Loader::addToMapping( TESTSUBJECT_DIR . 'core/sysinfo.core.php', 'Clansuite_Sysinfo' );
+        $this->assertTrue(Clansuite_Loader::autoloadByApcOrFileMap('Clansuite_Sysinfo'));
     }
 
     /**
