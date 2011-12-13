@@ -29,23 +29,21 @@ class Clansuite_UnitTestCase extends UnitTestCase
     }
 
     /**
-     *    Will trigger a pass if the string
-     *    is found in the subject. Fail otherwise.
-     *    @param string $string     String to look for.
-     *    @param string $subject    String to search in.
-     *    @param string $message    Message to display.
-     *    @return boolean           True on pass
-     *    @access public
+     * Will trigger a pass if the string is found in the subject. Fail otherwise.
+     *
+     * @param string $string     String to look for.
+     * @param string $subject    String to search in.
+     * @param string $message    Message to display.
+     * @return boolean           True on pass
      */
-    function assertContainsString($string, $subject, $message = '%s') {
-        return $this->assert(
-                new StringExpectation($string),
-                $subject,
-                $message);
+    public function assertContainsString($string, $subject, $message = '%s')
+    {
+        return $this->assert( new StringExpectation($string), $subject, $message );
     }
 
     /**
      * AkTestApplication->_testXPath()
+     *
      * @author Bermi Ferrer Martinez
      * @license LGPL
      */
@@ -97,6 +95,7 @@ class Clansuite_UnitTestCase extends UnitTestCase
 
     /**
      * AkTestApplication->assertXPath()
+     *
      * @author Bermi Ferrer Martinez
      * @license LGPL
      *
