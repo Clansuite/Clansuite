@@ -73,7 +73,7 @@ class ClansuiteTestsuite extends TestSuite
                 if(is_dir($source_file))
                 {
                     # exlude some dirs
-                    if($file == '.' || $file == '..' || $file == '.svn')
+                    if($file == '.' || $file == '..' || $file == '.svn' || $file == 'fixtures')
                     {
                         continue;
                     }
