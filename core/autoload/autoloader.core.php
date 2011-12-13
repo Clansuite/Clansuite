@@ -65,7 +65,7 @@ class Clansuite_Loader
      * The Constant USE_APC is used in addToMapping().
      * It toggles the usage of APC (when true) or File (when false) for reading and writing the classmap array.
      */
-    const USE_APC = false;
+    public static $use_apc = false;
 
     /**
      * @var array Generated Classmap from File or APC.
@@ -264,7 +264,7 @@ class Clansuite_Loader
      */
     public static function autoloadByApcOrFileMap($classname)
     {
-        if(self::USE_APC === true)
+        if(self::$use_apc === true)
         {
             self::$autoloader_map = self::readAutoloadingMapApc();
         }
@@ -322,7 +322,7 @@ class Clansuite_Loader
         if(is_string($filename) === true)
         {
 
-            include $filename;
+            include_once $filename;
             return true;
         }
         else
@@ -357,8 +357,8 @@ class Clansuite_Loader
         }
 
         # Event
-        # clansuite/core/events/classname.class.php
-        $file = ROOT_CORE . 'events' . DS . $classname . '.class.php';
+        # clansuite/core/events/classname.event.php
+        $file = ROOT_CORE . 'events' . DS . $classname . '.event.php';
         if(is_file($file) === true)
         {
             return self::includeFileAndMap($file, $classname);
@@ -395,7 +395,7 @@ class Clansuite_Loader
         $filename = realpath($filename);
 
         # conditional include
-        include $filename;
+        include_once $filename;
 
         # add class and filename to the mapping array
         self::addToMapping($filename, $classname);
@@ -508,10 +508,11 @@ class Clansuite_Loader
      * Writes the autoload mapping array to APC.
      *
      * @return array automatically generated classmap
+     * @return boolean True if stored.
      */
     public static function writeAutoloadingMapApc($array)
     {
-        apc_store('CLANSUITE_CLASSMAP', $array);
+        return apc_store('CLANSUITE_CLASSMAP', $array);
     }
 
     /**
@@ -520,18 +521,19 @@ class Clansuite_Loader
      *
      * @param $filename  Filename is the file to load.
      * @param $classname Classname is the lookup key for $filename.
+     * @return boolean True if added to map.
      */
-    private static function addToMapping($filename, $classname)
+    public static function addToMapping($filename, $classname)
     {
         self::$autoloader_map = array_merge( (array) self::$autoloader_map, array( $classname => $filename ));
 
-        if(self::USE_APC === true)
+        if(self::$use_apc === true)
         {
-            self::writeAutoloadingMapApc(self::$autoloader_map);
+            return self::writeAutoloadingMapApc(self::$autoloader_map);
         }
         else
         {
-            self::writeAutoloadingMapFile(self::$autoloader_map);
+            return self::writeAutoloadingMapFile(self::$autoloader_map);
         }
     }
 
@@ -539,12 +541,17 @@ class Clansuite_Loader
      * Includes a certain library classname by using a manually maintained autoloading map.
      * Functionally the same as self::autoloadInclusions().
      *
+     * You can load directly:
      * Snoopy, SimplePie, PclZip, graph, GeSHi, feedcreator, browscap, bbcode
      *
+     * You can also pass a custom map, like so:
+     * loadLibrary('xtemplate', ROOT_LIBRARIES . 'xtemplate/xtemplate.class.php' )
+     *
      * @param string $classname Library classname to load.
+     * @param string $path Path to the class.
      * @return true if classname was included
      */
-    public static function loadLibrary($classname)
+    public static function loadLibrary($classname, $path = null)
     {
         # check if class was already loaded
         if (true === class_exists($classname, false))
@@ -552,25 +559,32 @@ class Clansuite_Loader
             return true;
         }
 
-        # autoloading map - ROOT_LIBRARIES/..
-        $map = array(
-            'snoopy'        => 'snoopy/Snoopy.class.php',
-            'simplepie'     => 'simplepie/simplepie.inc',
-            'pclzip'        => 'pclzip/pclzip.lib.php',
-            'graph'         => 'graph/graph.class.php',
-            'geshi'         => 'geshi/geshi.php',
-            'feedcreator'   => 'feedcreator/feedcreator.class.php',
-            'browscap'      => 'browscap/Browscap.php',
-            'bbcode'        => 'bbcode/stringparser_bbcode.class.php',
-        );
-
         $classname = strtolower($classname);
+
+        if(isset($path))
+        {
+            $map = array($classname, $path);
+        }
+        else
+        {
+            # autoloading map - ROOT_LIBRARIES/..
+            $map = array(
+                'snoopy'        => ROOT_LIBRARIES . 'snoopy/Snoopy.class.php',
+                'simplepie'     => ROOT_LIBRARIES . 'simplepie/simplepie.inc',
+                'pclzip'        => ROOT_LIBRARIES . 'pclzip/pclzip.lib.php',
+                'graph'         => ROOT_LIBRARIES . 'graph/graph.class.php',
+                'geshi'         => ROOT_LIBRARIES . 'geshi/geshi.php',
+                'feedcreator'   => ROOT_LIBRARIES . 'feedcreator/feedcreator.class.php',
+                'browscap'      => ROOT_LIBRARIES . 'browscap/Browscap.php',
+                'bbcode'        => ROOT_LIBRARIES . 'bbcode/stringparser_bbcode.class.php',
+            );
+        }
 
         # check if classname is in autoloading map
         if(isset($map[$classname]) === true)
         {
             # get filename for that classname
-            $filename = ROOT_LIBRARIES . $map[$classname];
+            $filename = $map[$classname];
 
             # and include that one
             if(true === self::requireFile($filename, $classname))
@@ -582,6 +596,16 @@ class Clansuite_Loader
                 return false;
             }
         }
+    }
+
+    /**
+     * Getter for the autoloader classmap.
+     *
+     * @return array autoloader classmap.
+     */
+    public static function getAutoloaderClassMap()
+    {
+        return self::$autoloader_map;
     }
 }
 ?>
