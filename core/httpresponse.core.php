@@ -108,30 +108,30 @@ class Clansuite_HttpResponse implements Clansuite_Response_Interface
     {
         /**
          * Array holding some often occuring status descriptions.
-         * @var       array
+         * @var array
          */
-        static $statusDescription = array(
-                                           # Successful
-                                           '200'    => 'OK',
-                                           '201'    => 'Created',
-                                           '202'    => 'Accepted',                                           
-                                           # Redirection
-                                           '301'    => 'Moved Permanently',
-                                           '302'    => 'Found',
-                                           '303'    => 'See Other',
-                                           '304'    => 'Not Modified',
-                                           '307'    => 'Temporary Redirect',
-                                           # Client Error
-                                           '400'    => 'Bad Request',
-                                           '401'    => 'Unauthorized',
-                                           '403'    => 'Forbidden',
-                                           '404'    => 'Not Found',
-                                           # Server Error
-                                           '500'    => 'Internal Server Error',
-                                           '503'    => 'Service Temporarily Unavailable'
-                                          );
+        static $statusMap = array(
+           # Successful
+           '200' => 'OK',
+           '201' => 'Created',
+           '202' => 'Accepted',
+           # Redirection
+           '301' => 'Moved Permanently',
+           '302' => 'Found',
+           '303' => 'See Other',
+           '304' => 'Not Modified',
+           '307' => 'Temporary Redirect',
+           # Client Error
+           '400' => 'Bad Request',
+           '401' => 'Unauthorized',
+           '403' => 'Forbidden',
+           '404' => 'Not Found',
+           # Server Error
+           '500' => 'Internal Server Error',
+           '503' => 'Service Temporarily Unavailable'
+        );
 
-        return $statusDescription[$statusCode];
+        return $statusMap[$statusCode];
     }
 
      /**
