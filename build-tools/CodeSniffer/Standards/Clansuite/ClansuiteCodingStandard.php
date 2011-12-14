@@ -92,10 +92,10 @@ class PHP_CodeSniffer_Standards_Clansuite_ClansuiteCodingStandard extends PHP_Co
             # Usage of @ is not allowed.
             'Generic/Sniffs/PHP/NoSilencedErrorsSniff.php',
             # Stops the usage of the "global" keyword.
-            'Squiz/Sniffs/PHP/GlobalKeywordSniff.php',            
+            'Squiz/Sniffs/PHP/GlobalKeywordSniff.php',
             # Detects falsly used return, exit, break, continue statements
             'Squiz/Sniffs/PHP/NonExecutableCodeSniff.php',
-            
+
             # Makes sure that shorthand PHP open tags are not used.
             #'Generic/Sniffs/PHP/DisallowShortOpenTagSniff.php',
             # same as above, but a bit more strict
@@ -125,12 +125,14 @@ class PHP_CodeSniffer_Standards_Clansuite_ClansuiteCodingStandard extends PHP_Co
 
         # ControlStructures
 
-            'Generic/Sniffs/ControlStructures/InlineControlStructureSniff.php',
+            #'Generic/Sniffs/ControlStructures/InlineControlStructureSniff.php',
             'Squiz/Sniffs/ControlStructures/InlineIfDeclarationSniff.php',
-            
+
             # 1 empty line before control structures
             dirname(__FILE__) . '/Sniffs/ControlStructures/ControlStructureBlankLineSniff.php',
-            
+
+            dirname(__FILE__) . '/Sniffs/ControlStructures/ControlSignatureSniff.php',
+
             'Squiz/Sniffs/ControlStructures/ForEachLoopDeclarationSniff.php',
             'Squiz/Sniffs/ControlStructures/SwitchDeclarationSniff.php',
             # VersionControl -> SVN

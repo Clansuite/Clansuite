@@ -12,7 +12,7 @@
  * @category   PHP
  * @package    PHP_CodeSniffer
  */
-class eZPublish_Sniffs_ControlStructures_ControlSignatureSniff extends PHP_CodeSniffer_Standards_AbstractPatternSniff
+class Clansuite_Sniffs_ControlStructures_ControlSignatureSniff extends PHP_CodeSniffer_Standards_AbstractPatternSniff
 {
 
     public function __construct()
@@ -30,14 +30,13 @@ class eZPublish_Sniffs_ControlStructures_ControlSignatureSniff extends PHP_CodeS
         return array(
                 'tryEOL...{EOL...}EOL...catch (...)EOL...{EOL',
                 'doEOL...{EOL...}EOL...while (...);EOL',
-                'while (...)EOL...{EOL',
                 'for (...)EOL...{EOL',
                 'if.(...)EOL...{EOL',
                 'foreach (...)EOL...{EOL',
                 '}EOL...else if (...)EOL...{EOL',
                 '}EOL...elseif (...)EOL...{EOL',
-                '}EOL...elseEOL{...EOL',
-                'doEOL...{EOL',
+                '}EOL...elseEOL{EOL...EOL',
+                'switch (...)EOL...{EOL',
                );
     }
 }
