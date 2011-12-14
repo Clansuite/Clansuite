@@ -282,7 +282,7 @@ class Clansuite_Loader
 
         if(isset(self::$autoloader_map[$classname]) === true)
         {
-            include self::$autoloader_map[$classname];
+            include_once self::$autoloader_map[$classname];
             return true;
         }
         else
