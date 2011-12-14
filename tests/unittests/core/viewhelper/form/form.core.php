@@ -1,8 +1,4 @@
 <?php
-
-# Test Subject - Clansuite_Form
-require_once TESTSUBJECT_DIR . 'core/viewhelper/form/form.core.php';
-
 class Clansuite_Form_Test extends Clansuite_UnitTestCase
 {
     /**
@@ -21,6 +17,8 @@ class Clansuite_Form_Test extends Clansuite_UnitTestCase
      */
     public function setUp()
     {
+        # Test Subject - Clansuite_Form
+        require_once TESTSUBJECT_DIR . 'core/viewhelper/form/form.core.php';
         $this->form = new Clansuite_Form('TestForm');
 
         # setAction requires Clansuite_Router for URL building

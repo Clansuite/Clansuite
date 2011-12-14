@@ -45,7 +45,6 @@ class Clansuite_Staging_Test extends Clansuite_UnitTestCase
         $this->assertEqual($overloaded_cfg['error']['development'], '1');
         # expect that both values are not equal
         $this->assertNotEqual($overloaded_cfg['error']['development'], $array_to_overload['error']['development']);
-
     }
 
     public function testFileExists_DevlopmentConfig()
