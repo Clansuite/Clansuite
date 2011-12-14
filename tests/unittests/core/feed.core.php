@@ -1,5 +1,4 @@
 <?php
-
 class Clansuite_Feed_Test extends Clansuite_UnitTestCase
 {
     # valid rss feed source
@@ -15,7 +14,7 @@ class Clansuite_Feed_Test extends Clansuite_UnitTestCase
         # Dependency
         require_once TESTSUBJECT_DIR . 'core/autoload/autoloader.core.php';
     }
-    
+
     public function tearDown()
     {
         $cachefile = ROOT_CACHE . md5(self::FEED_URL);
