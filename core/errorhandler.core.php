@@ -124,10 +124,10 @@ class Clansuite_Errorhandler
         {
             # What are the errortypes that can be handled by a user-defined errorhandler?
             case 'E_WARNING':
-                $errorname .= ' [php warning]';
+                $errorname .= ' [PHP Warning]';
                 break;
             case 'E_NOTICE':
-                $errorname .= ' [php notice]';
+                $errorname .= ' [PHP Notice]';
                 break;
             case 'E_USER_ERROR':
                 $errorname .= ' [Clansuite Internal Error]';
@@ -140,7 +140,7 @@ class Clansuite_Errorhandler
                 break;
             #case 'E_ALL':
             case 'E_STRICT':
-                $errorname .= ' [php strict]';
+                $errorname .= ' [PHP Strict]';
                 break;
             case 'E_RECOVERABLE_ERROR':
                 $errorname .= ' [php not-unstable]';
@@ -308,7 +308,7 @@ class Clansuite_Errorhandler
         $errormessage .= '<img src="' . WWW_ROOT_THEMES_CORE . 'images/Clansuite-Toolbar-Icon-64-error.png" style="border: 2px groove #000000;"/></div>';
 
         # Fieldset Legend
-        $errormessage .= '<legend>Clansuite Error : [ ' . $trimed_errorstring . ' ] </legend>';
+        $errormessage .= '<legend>Clansuite Error [ ' . $trimed_errorstring . ' ] </legend>';
 
         # Error Messages
         $errormessage .= '<table>';
@@ -316,9 +316,8 @@ class Clansuite_Errorhandler
 
         # The inner Error Table
         $errormessage .= '<table>';
-        $errormessage .= '<tr><td colspan="2"><h3>Error</td></tr>';
-        $errormessage .= '<tr><td colspan="2"><h4>' . $errorstring . '</h4></td></tr>';
-        $errormessage .= '<tr><td width=15%><strong>Type: </strong></td><td>' . $errorname . ' '. $errornumber . '</td></tr>';
+        $errormessage .= '<tr><td colspan="2"><h3>Error [' . $errorstring . ']</h3></td></tr>';
+        $errormessage .= '<tr><td width="25%"><strong>Type: </strong></td><td>' . $errorname . ' '. $errornumber . '</td></tr>';
         $errormessage .= '<tr><td><strong>Path: </strong></td><td>' . dirname($errorfile) . '</td></tr>';
         $errormessage .= '<tr><td><strong>File: </strong></td><td>' . basename($errorfile) . '</td></tr>';
         $errormessage .= '<tr><td><strong>Line: </strong></td><td>' . $errorline . '</td></tr>';
@@ -633,7 +632,8 @@ class Clansuite_Errorhandler
         $link = '';
 
         # a) use the file link template string provided by the "xdebug.file_link_format" configuration property
-        if ($fileLinkFormatString = ini_get('xdebug.file_link_format'))
+        $fileLinkFormatString = ini_get('xdebug.file_link_format');
+        if ($fileLinkFormatString != '')
         {
             # insert file:line into the fileLinkFormatString
             $link = strtr($fileLinkFormatString, array('%f' => $file, '%l' => $line));
@@ -644,7 +644,7 @@ class Clansuite_Errorhandler
             $html .= sprintf(' in <a href="%s" title="Edit file">%s line %s</a>', $link, $file, $line);
         }
         /*elseif(DEVELOPMENT)
-        {   
+        {
             # link to our editor
             $fileLinkFormatString = 'index.php?module=editor&action=edit&file=%f&line=%l';
 
@@ -671,17 +671,17 @@ class Clansuite_Errorhandler
      */
     public static function getBugtrackerMessage($errorstring, $errorfile, $errorline, $errorcontext)
     {
-        $message1 = '<tr><td colspan="2"><h3>' . _('Found a bug in Clansuite?') . '</h3>';
-        $message2 = _('If you think this should work and you can reproduce the problem, please consider creating a bug report.');
-        $message3 = _('Before creating a new bug report, please first try searching for similar issues, as it is quite likely that this problem has been reported before.');
-        $message4 = _('Otherwise, please create a new bug report describing the problem and explain how to reproduce it.');
+        $message1 = '<tr><td colspan="2"><h3>' . 'Found a bug in Clansuite?' . '</h3>';
+        $message2 = 'If you think this should work and you can reproduce the problem, please consider creating a bug report.';
+        $message3 = 'Before creating a new bug report, please first try searching for similar issues, as it is quite likely that this problem has been reported before.';
+        $message4 = 'Otherwise, please create a new bug report describing the problem and explain how to reproduce it.';
 
         $search_link = NL . NL . '&#9658; <a target="_blank" href="http://trac.clansuite.com/search?q=' . htmlentities($errorstring, ENT_QUOTES) . '&noquickjump=1&ticket=on">';
-        $search_link .= _('Search for similar issue');
+        $search_link .= 'Search for similar issue';
         $search_link .= '</a>';
 
-        $newticket_link = '&nbsp; &#9658; <a target="_blank" href="'.self::getTracNewTicketURL($errorstring, $errorfile, $errorline, $errorcontext).'">';
-        $newticket_link .= _('Create new ticket');
+        $newticket_link = '&nbsp; &#9658; <a target="_blank" href="'.self::getTracNewTicketURL($errorstring, $errorfile, $errorline).'">';
+        $newticket_link .= 'Create new ticket';
         $newticket_link .= '</a>';
 
         $close_table = '</td></tr>' . NL;
@@ -695,7 +695,7 @@ class Clansuite_Errorhandler
      * urlencode($errorstring);
      * urlencode($this->excetpion->getMessage(). chr(10));
      */
-    public static function getTracNewTicketURL($summary, $errorfile, $errorline, $context)
+    public static function getTracNewTicketURL($summary, $errorfile, $errorline)
     {
         /**
          * error description written in trac wiki formating style
