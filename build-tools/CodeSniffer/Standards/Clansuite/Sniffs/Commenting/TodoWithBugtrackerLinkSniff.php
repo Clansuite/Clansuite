@@ -2,7 +2,7 @@
 /**
  * Clansuite_Sniffs_Commenting_TodoSniff.
  *
- * Warns about TODO comments without Links to our Bugtracker.
+ * This sniff warns about @todo annotations without links to our bugtracker.
  *
  * @author    Jens-Andre Koch
  * @copyright 2005-onwards
@@ -42,8 +42,6 @@ class Clansuite_Sniffs_Commenting_TodoWithBugtrackerLinkSniff implements PHP_Cod
    * @param PHP_CodeSniffer_File $phpcsFile The file being scanned.
    * @param int                  $stackPtr  The position of the current token
    *                                        in the stack passed in $tokens.
-   *
-   * @return void
    */
   public function process(PHP_CodeSniffer_File $phpcsFile, $stackPtr)
   {

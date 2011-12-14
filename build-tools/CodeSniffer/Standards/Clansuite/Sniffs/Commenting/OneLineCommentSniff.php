@@ -33,7 +33,6 @@ class Clansuite_Sniffs_Commenting_OneLineCommentSniff implements PHP_CodeSniffer
      * @param PHP_CodeSniffer_File $phpcsFile File being scanned
      * @param int $stackPtr Position of the current token in the stack
      *        passed in $tokens.
-     * @return void
      */
     public function process(PHP_CodeSniffer_File $phpcsFile, $stackPtr)
     {
