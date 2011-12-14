@@ -423,7 +423,7 @@ class Clansuite_Loader
 
         if(is_file($filename) === true)
         {
-            include $filename;
+            include_once $filename;
 
             if(null === $classname) # just a file include, classname unimportant
             {
