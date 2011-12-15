@@ -43,13 +43,13 @@ class ClansuiteTestsuite extends TestSuite
         $this->scanDirForTests(dirname(__FILE__) . '/unittests');
 
         # Debug array with test files
-        #var_export($this->files);
+        # var_dump($this->files);
 
         if(count($this->files) > 0)
         {
             foreach($this->files as $test_file)
             {
-                #echo '<p>File '. $test_file.' was added to the tests.</p>';
+                # echo '<p>File '. $test_file.' was added to the tests.</p>';
 
                 $this->addFile($test_file);
             }
