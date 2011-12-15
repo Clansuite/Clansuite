@@ -25,7 +25,6 @@ class Clansuite_Feed_Test extends Clansuite_UnitTestCase
         if(is_file($cachefile))
         {
             unlink($cachefile);
-            unlink($cachefile . '.spc');
         }
     }
 

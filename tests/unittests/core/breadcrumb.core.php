@@ -26,7 +26,7 @@ class Clansuite_Breadcrumb_Test extends Clansuite_UnitTestCase
      */
     public function tearDown()
     {
-
+        unset($this->object);
     }
 
     /**
