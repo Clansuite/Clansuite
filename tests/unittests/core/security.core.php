@@ -8,6 +8,7 @@ class Clansuite_Security_Test extends Clansuite_UnitTestCase
         # Test Subject - Clansuite_Security
         require_once TESTSUBJECT_DIR . 'core/security.core.php';
     }
+
     /**
      * testMethod_generate_salt()
      */

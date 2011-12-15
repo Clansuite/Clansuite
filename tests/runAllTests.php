@@ -36,6 +36,9 @@ require_once 'bootstrap.php';
 require_once 'simpletest/unit_tester.php';
 require_once 'simpletest/test_case.php';
 require_once 'simpletest/reporter.php';
+# hmm, we need to load this, to get rid of the "No runnable test cases in runAlltest" error
+require_once 'simpletest/autorun.php';
+
 # setup our testsuite and reporter
 require_once 'reporter.php';
 require_once 'testsuite.php';
