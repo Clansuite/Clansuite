@@ -1,17 +1,17 @@
 /* $Id$ */
 #wrapper {
-    width:1000px;
+    width:960px;
     margin-left:auto;
     margin-right:auto;
 }
 
 #rightpage {
-    margin-left:820px;
+    margin-left:925px;
     width:170px;
     background-image: url("images/rightbox-bg.png");
     background-repeat:repeat-y;
     position:fixed;
-    top: 20px;
+    top: 35px;
 }
 
 #rightpage #top {
@@ -23,7 +23,7 @@
 
 #rightpage #bottom {
     height:15px;
-    background-image: url("images/rightbox-bottom.png"); 
+    background-image: url("images/rightbox-bottom.png");
     background-position:bottom;
     background-repeat:no-repeat;
 }
@@ -130,12 +130,12 @@ input
 }
 
 body {
-    background-color: #D5D6D7;
-	background: #d5d6d7 url("images/kubrickbgcolor.png");
-	font-size: 62.5%; /* Resets 1em to 10px */
+    background: url("http://cdn.clansuite.com/images/kubrickbgcolor.png") repeat scroll 0 0 #D5D6D7;
+    color: #333333;
+    text-align: center;
+    font-size: 62.5%; /* Resets 1em to 10px */
 	font-family: 'Lucida Grande', Verdana, Arial, Sans-Serif;
 	color: #333;
-	text-align: center;
 }
 
 .headerstyle
@@ -145,7 +145,7 @@ body {
   border-style:solid;
   border-width:1px;
   display:block;
-  margin:30px 0 10px;
+  margin:0 0 10px;
   padding:5px 0 5px 8px;
   text-decoration:none;
 }
@@ -160,14 +160,19 @@ body {
   padding:2px 0 2px 2px;
 }
 
-#sidebar
-{
-  float:left;
-  margin-left: 10px;
-  padding-top: 90px;
-  padding-left: 20px;
-  padding-right: 15px;
-  width:160px;
+#sidebar {
+    float: left;
+    margin-top: -130px;
+    width: 177px;
+}
+
+#jokerlogo {
+    margin-left: 15px;
+    padding-bottom: 20px;
+}
+
+#stepbar {
+    margin-top: 20px;
 }
 
 .left
@@ -344,37 +349,76 @@ dl dt
   top:35px;
   width:122px;
 }
-
-
+/*
+#page {
+    background-color: #FFFFFF;
+    border: 1px solid #AAAAAA;
+    border-radius: 15px 15px 0 0;
+    margin: 48px auto 25px;
+    padding: 15px 30px;
+    width: 820px;
+}
+*/
 #page
 {
-  background: #fff url(images/kubrickbg.png) repeat-y top;
-  border:0;
-  background-color: #000;
-  margin:auto;
-  padding:0;
+  background-color: #FFFFFF;
+  border: 1px solid #AAAAAA;
+  border-radius: 15px 15px 0 0;
+
+  margin: 48px auto 25px;
+  padding: 15px 30px;
+
   text-align:left;
   width:820px;
   z-index: auto;
-  float:left;
 }
 
-#header
-{
-  background: #D5D6D7 url(images/kubrickheader.png) no-repeat bottom center;
-  height:136px;
-  margin:0!important;
-  padding:0;
-  width:820px;
+#header {
+    background-color: #FFFFFF;
+    border-color: #AAAAAA;
+    border-radius: 15px 15px 0 0;
+    border-style: solid solid none;
+    border-width: 1px 1px medium;
+    float: right;
+    position: relative;
+    top: -35px;
+    left: 31px;
+    width: 80%;
+}
+
+#headerlogo {
+    background: -moz-linear-gradient(center top , #DCDCDC 0pt, #BBBBBB 50%, #B4B2B4 51%, #ACAAAC 100%) repeat scroll 0 0 transparent;
+    border-color: #DCDCDC #DCDCDC #BCBCBC;
+    border-radius: 10px 10px 10px 10px;
+    border-style: solid;
+    border-width: 1px;
+    box-shadow: 0 1px 4px black;
+    height: 90px;
+    line-height: 90px;
+    margin: 14px 17px 10px;
+    padding: 15px 0;
+    width: auto;
+    border-style: solid;
+    line-height: 90px;
+}
+
+#headerlogo h1 {
+    color: #C70430;
+    font-family: 'IM Fell DW Pica SC',serif;
+    font-size: 33px;
+    margin-top: 0;
+    text-align: center;
+    text-decoration: none;
+    text-shadow: 1px 0 1px black, -1px 0 1px white;
 }
 
 #content
 {
   border-bottom-width:20px;
-  margin-bottom:10px;
-  margin-left:17px;
-  margin-right:10px;
-  margin-top:10px;
+  margin-left: 17px;
+  margin-bottom: 0px;
+  margin-right: 0px;
+  margin-top: 0px;
 
   padding-bottom:10px;
   padding-left:20px;
@@ -387,7 +431,6 @@ dl dt
   z-index:0;
 
   border-left:1px solid #ddd;
-  border-right:1px solid #ddd;
 }
 
 #content_middle
@@ -397,6 +440,7 @@ dl dt
   width:100%;
   z-index:0;
   line-height: 1.5;
+  margin-left: 35px;
 }
 
 #content_footer
@@ -473,14 +517,6 @@ h1,h2,h3
   font-weight:700;
 }
 
-h1
-{
-  font-size:4em;
-  margin:0;
-  padding-top:40px;
-  text-align:center;
-}
-
 .description
 {
   font-size:1.2em;
@@ -493,7 +529,7 @@ h2.pagetitle
   text-align:center;
 }
 
-#leftsidebar h2,#rightsidebar h2
+#leftsidebar h2, #rightsidebar h2
 {
   font-family:'Lucida Grande', Verdana, Sans-Serif;
   font-size:1.2em;

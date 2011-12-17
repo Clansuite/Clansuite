@@ -1,28 +1,24 @@
 <?php
 # Security Handler
 if (defined('IN_CS') === false)
-{ 
+{
     die( 'Clansuite not loaded. Direct Access forbidden.' );
 }
 ?>
 
-    <!-- Fusszeile -->
     <div id="footer">
         <p style="filter:alpha(opacity=65); -moz-opacity:0.65; padding-bottom: 25px;">
             <br />
             <?php
-            # Set Timezone for date functions to avoide E_NOTICES & E_WARNINGS on calling date/time functions
-            # @todo hardcoded berlin, detection of some kind needed here?
-            # fmpov timezone of server has to be set in php.ini, so it's not in our scope
             date_default_timezone_set('Europe/Berlin');
-            $webinstaller_version = 'Version : 0.3 - '. date('l, jS F Y',getlastmod()); ?>
+            $webinstaller_version = 'Version 0.4 - '. date('l, jS F Y',getlastmod()); ?>
             Clansuite Installation <?php echo $webinstaller_version; ?>
             <br />
             SVN: $Rev$ $Author$
             <br />
-            &copy; 2005-<?php echo date('Y'); ?> by <a href="http://www.jens-andre-koch.de" target="_blank" style="text-decoration=none">Jens-Andr&#x00E9; Koch</a> &amp; Clansuite Development Team
+            &copy; 2005-<?php echo date('Y'); ?> by <a href="http://www.jens-andre-koch.de" target="_blank">Jens-Andr&#x00E9; Koch</a> &amp; Clansuite Development Team.
         </p>
-    </div><!-- Fusszeile ENDE -->
+    </div>
 </div><!-- PAGE ENDE -->
 
 <div id="rightpage">
