@@ -92,7 +92,7 @@ catch(Exception $e)
 // Define: DS; INSTALLATION_ROOT; ROOT
 define('DS', DIRECTORY_SEPARATOR);
 define('INSTALLATION_ROOT', getcwd() . DS);
-define('ROOT', dirname(getcwd()) . DS);
+define('ROOT', dirname(INSTALLATION_ROOT) . DS);
 define('ROOT_CACHE', ROOT . 'cache' . DS);
 
 // The Clansuite version this script installs
@@ -881,7 +881,7 @@ class Clansuite_Installation_Startup_Exception extends Exception
 
         /**
          * Fieldset for Exception Message
-         * 
+         *
          * You might set the following colour attributes (error_red, error_orange, error_beige) as defined in core/error.css.
          */
         $errormessage .= '<fieldset class="error_beige">';
