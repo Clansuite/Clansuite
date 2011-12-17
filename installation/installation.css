@@ -7,7 +7,7 @@
 
 #rightpage {
     margin-left:925px;
-    width:170px;
+    width:190px;
     background-image: url("images/rightbox-bg.png");
     background-repeat:repeat-y;
     position:fixed;
@@ -496,11 +496,8 @@ dl dt
 
 #footer
 {
-  background-image: url("images/kubrickfooter.png") no-repeat 0 100%;
-  border:none;
   clear:both;
-  margin:0 auto;
-  padding:0 0 0 1px;
+  padding:20px 0 0 1px;
   width:820px;
 }
 
@@ -557,7 +554,13 @@ h2,h2 a,h2 a:visited,h3,h3 a,h3 a:visited
 
 #leftsidebar,#rightsidebar
 {
+  background-color: #FFF;
   font:1em 'Lucida Grande', Verdana, Arial, Sans-Serif;
+  margin: 10px;
+  border: 1px solid #DCDCDC;
+  border-radius: 10px 10px 10px 10px;
+  box-shadow: 0 1px 2px black;
+  padding-top: 10px;
 }
 
 small,#leftsidebar ul ul li,#leftsidebar ul ol li,#rightsidebar ul ul li,#rightsidebar ul ol li,.nocomments,.postmetadata,blockquote,strike
