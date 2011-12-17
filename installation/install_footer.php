@@ -8,7 +8,7 @@ if (defined('IN_CS') === false)
 
     <div id="footer">
 
-        <p style="filter:alpha(opacity=65); -moz-opacity:0.65;">
+        <p style="opacity:0.60;">
             <br />
             <?php
             date_default_timezone_set('Europe/Berlin');
@@ -20,11 +20,11 @@ if (defined('IN_CS') === false)
             &copy; 2005-<?php echo date('Y'); ?> by <a href="http://www.jens-andre-koch.de" target="_blank">Jens-Andr&#x00E9; Koch</a> &amp; Clansuite Development Team.
         </p>
         <span style="float:left; text-align:left; margin-top: -65px;" id="footer-left">
-            <a href="http://www.opensource.org/"><img height="65" width="75" title="OpenSource Logo" alt="OpenSource Logo" src="http://cdn.clansuite.com/images/banners/opensource-75x65-t.png" style="opacity: 0.90;"></a>
+            <a href="http://www.opensource.org/"><img height="65" width="75" title="OpenSource Logo" alt="OpenSource Logo" src="http://cdn.clansuite.com/images/banners/opensource-75x65-t.png" style="opacity: 0.60;"></a>
         </span>
         <span style="float:right; text-align:right; margin-top: -30px;" id="footer-right">
             <a href="http://clansuite.com/banner/">
-                <img height="31" width="88" title="Clansuite Logo" alt="Clansuite 80x31 Crown Logo" src="http://cdn.clansuite.com/banners/clansuite-crown-banner-88x31.png">
+                <img height="31" width="88" title="Clansuite Logo" alt="Clansuite 80x31 Crown Logo" src="http://cdn.clansuite.com/banners/clansuite-crown-banner-88x31.png" style="opacity: 0.60;">
             </a>
         </span>
     </div>

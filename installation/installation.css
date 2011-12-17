@@ -616,7 +616,8 @@ a,h2 a:hover,h3 a:hover
 
 #footer p
 {
-  margin:0;
+  margin-bottom: 0;
+  padding-bottom: 0;
   padding:10px 0;
   text-align:center;
 }
