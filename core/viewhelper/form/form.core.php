@@ -581,7 +581,8 @@ class Clansuite_Form implements Clansuite_Form_Interface
     }
 
     /**
-     * Set description of this form.
+     * Sets the description text of this form.
+     * The description is a p tag after the heading (form > h2 > p).
      *
      * @param string $description Description of this form.
      * @return Clansuite_Form
@@ -604,7 +605,8 @@ class Clansuite_Form implements Clansuite_Form_Interface
     }
 
     /**
-     * Set heading of this form.
+     * Set a heading for this form.
+     * The heading is a h2 tag directly after the opening form tag.
      *
      * @param string $heading Heading of this form.
      * @return Clansuite_Form
@@ -624,6 +626,29 @@ class Clansuite_Form implements Clansuite_Form_Interface
     public function getHeading()
     {
         return $this->heading;
+    }
+
+    /**
+     * Shortcut to set the Legend text of the fieldset decorator.
+     *
+     * The legend belongs to the fieldset decorator.
+     * The fieldset decorator is a default decorator instantiated, when rendering the form.
+     * It does not exist at the time of form definition.
+     * So we keep the legend value till the fieldset decorator is instantiated.
+     * Then the decorator attributes array is automatically set applied to the form and it's objects.
+     *
+     * Note: you can use the long form anytime, when defining your form.
+     *
+     * @param string String for the legend of the fieldset.
+     */
+    public function setLegend($legend)
+    {
+        $this->setDecoratorAttributesArray(array('form' => array('fieldset' => array('legend' => $legend))));
+    }
+
+    public function getLegend()
+    {
+        return $this->decoratorAttributes['form']['fieldset']['legend'];
     }
 
     /**
@@ -1211,6 +1236,7 @@ class Clansuite_Form implements Clansuite_Form_Interface
      * @example
      * $form->addDecorator('fieldset')->setLegend('legendname');
      *
+     * @param array $decorator Array of decorator objects or names or just one string.
      * @return Clansuite_Formdecorator object
      */
     public function addDecorator($decorator)
@@ -1224,7 +1250,7 @@ class Clansuite_Form implements Clansuite_Form_Interface
         # if we got a string
         if(is_string($decorator))
         {
-            # turn it string into an decorator object
+            # turn string into an decorator object
             $decorator = $this->decoratorFactory($decorator);
         }
 
@@ -1315,7 +1341,7 @@ class Clansuite_Form implements Clansuite_Form_Interface
         }
         else
         {
-           throw new Clansuite_Exception('The Formdecorator "' . $decorator . '" was not found.');
+           throw new Clansuite_Exception('The Form does not have a Decorator called "' . $decorator . '".');
         }
     }
 
@@ -1342,73 +1368,98 @@ class Clansuite_Form implements Clansuite_Form_Interface
         # instantiate the new $formdecorator and return
         return new $formdecorator_classname();
     }
-    
+
+     /**
+     * Sets the Decorator Attributes Array
+     *
+     * Decorators are not instantiated at the time of the form definition via an array.
+     * So configuration can only be applied indirtly to these objects.
+     * The values are keept in this array and are autmatically applied, when rendering the form.
+     *
+     * @return array decoratorAttributes
+     */
     public function setDecoratorAttributesArray(array $attributes)
     {
-        $this->decoratorAttributes = $attributes;    
+        $this->decoratorAttributes = $attributes;
     }
 
     /**
+     * Returns the Decorator Attributes Array
      *
+     * Decorators are not instantiated at the time of the form definition via an array.
+     * So configuration can only be applied indirtly to these objects.
+     * The values are keept in this array and are autmatically applied, when rendering the form.
+     *
+     * @return array decoratorAttributes
+     */
+    public function getDecoratorAttributesArray()
+    {
+        return $this->decoratorAttributes;
+    }
+
+    /**
      * Array Structure
      *
      * $decorator_attributes = array(
-     *  Level 1 - key = decorator type  
-     *  'form'  => array ( 
-                   Level 2 - key = decorator name                          
-     *             'fieldset' => array (                
+     *  Level 1 - key = decorator type
+     *  'form'  => array (
+                   Level 2 - key = decorator name
+     *             'fieldset' => array (
                         Level 3 - key = attribute name and value = mixed(string|int)
      *                  'description' =>  'description test')
      *                  )     *
      *  'formelement' = array ( array() )
      * );
+     * form => array ( fieldset => array( description => description text ) )
      */
     public function applyDecoratorAttributes()
-    { 
+    {
         $attributes = (array) $this->decoratorAttributes;
-        
+
         #Clansuite_Debug::printR($attributes);
-        
+
         # level 1
         foreach($attributes as $decorator_type => $decoratorname_array)
         {
+            # apply settings for the form itself
             if($decorator_type === 'form')
             {
                 # level 2
                 foreach($decoratorname_array as $decoratorname => $attribute_and_value)
-                { 
+                {
                     $decorator = $this->getDecorator($decoratorname);
                     #Clansuite_Debug::printR($attribute_and_value);
-                    
+
                     # level 3
                     foreach ($attribute_and_value as $attribute => $value)
                     {
                         $decorator->$attribute = $value;
                     }
                     #Clansuite_Debug::printR($decorator);
-                } 
+                }
             }
-            
+
+            # apply settings to a formelement of the form
             if($decorator_type === 'formelement')
             {
                 # level 2
                 foreach($decoratorname_array as $decoratorname => $attribute_and_value)
-                { 
+                {
                     $decorator = $this->getFormelementDecorator($decoratorname);
                     #Clansuite_Debug::printR($attribute_and_value);
-                    
+
                     # level 3
                     foreach ($attribute_and_value as $attribute => $value)
                     {
                         $decorator->$attribute = $value;
                     }
-                } 
-            }            
+                }
+            }
         }
-        
-        unset($attributes, $this->decoratorAttributes);      
+
+        unset($attributes, $this->decoratorAttributes);
     }
-        
+
     /**
      * ===================================================================================
      *      Formelement Decoration

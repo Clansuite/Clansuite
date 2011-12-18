@@ -285,6 +285,22 @@ class Clansuite_Form_Test extends Clansuite_UnitTestCase
         $this->assertEqual('text/plain', $this->form->getEncoding());
     }
 
+    public function testSetLegend()
+    {
+        $this->form->setLegend('legend-set');
+
+        # via getter - returns string
+        $this->assertEqual('legend-set', $this->form->getLegend());
+    }
+
+    public function testGetLegend()
+    {
+        $this->form->setLegend('legend-get');
+
+        # via getter - returns string
+        $this->assertEqual('legend-get', $this->form->getLegend());
+    }
+
     public function testSetEncoding()
     {
         $this->form->setEncoding('text/plain');
@@ -667,6 +683,44 @@ class Clansuite_Form_Test extends Clansuite_UnitTestCase
         $form_decorator_object = $this->form->DecoratorFactory('label');
 
         $this->assertIdentical(new Clansuite_Form_Decorator_Label, $form_decorator_object);
+    }
+
+    public function testsetDecoratorAttributesArray()
+    {
+        $attributes = array('attribute1' => 'value1');
+        $this->form->setDecoratorAttributesArray($attributes);
+
+        $this->assertIdentical($attributes, $this->form->getDecoratorAttributesArray());
+    }
+
+    public function testgetDecoratorAttributesArray()
+    {
+        $attributes = array('attribute2' => 'value2');
+        $this->form->setDecoratorAttributesArray($attributes);
+
+        $this->assertIdentical($attributes, $this->form->getDecoratorAttributesArray());
+    }
+
+    public function testapplyDecoratorAttributes()
+    {
+        # decorator type will be form
+        # this is just another way of setting attributes to the form itself
+        $attributes = array('form' =>
+            array('form' => # this is Clansuite_Form_Decorator_Form
+                array('heading' => 'This is the Heading of the form.',
+                      'description' => 'This is a form description text.')
+        ));
+
+        $this->form->setDecoratorAttributesArray($attributes);
+
+        $this->form->registerDefaultFormDecorators();
+
+        $this->form->applyDecoratorAttributes();
+
+        #Clansuite_Debug::printR($this->form);
+
+        # @todo assertion 
+        #$this->assertIdentical('This is the Heading of the form.', $this->form->formdecorators['form']['heading']);
     }
 
     /*public function testAddValidator()

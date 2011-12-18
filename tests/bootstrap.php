@@ -80,9 +80,13 @@ Clansuite_CMS::define_ConstantsAndPaths();
 Clansuite_CMS::initialize_Loader();
 Clansuite_UTF8::initialize();
 
-# constants must be defined, after initialize_paths(), because of apc constants cache
+# constants must be defined, after initialize_paths(), because of the apc constants cache
 define('REWRITE_ENGINE_ON', 1);
 define('TESTSUBJECT_DIR', dirname(__DIR__) . DIRECTORY_SEPARATOR); # /../tests (trunk)
+
+# we might some debug utils
+# @todo load not add on CLI
+require_once 'core/debug/debug.core.php';
 
 # put more bootstrapping code here
 
