@@ -717,10 +717,10 @@ class Clansuite_Form_Test extends Clansuite_UnitTestCase
 
         $this->form->applyDecoratorAttributes();
 
-        #Clansuite_Debug::printR($this->form);
+        $form_decorator_form = $this->form->getDecorator('form');
 
-        # @todo assertion 
-        #$this->assertIdentical('This is the Heading of the form.', $this->form->formdecorators['form']['heading']);
+        $this->assertIdentical('This is the Heading of the form.', $form_decorator_form->heading);
+        $this->assertIdentical('This is a form description text.', $form_decorator_form->description);
     }
 
     /*public function testAddValidator()
