@@ -1,7 +1,6 @@
 <?php
 
 # Simpletest
-require_once 'simpletest/autorun.php';
 #require_once 'simpletest/extensions/phpunit_test_case.php';
 
 # PHPUnit
