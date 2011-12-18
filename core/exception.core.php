@@ -116,7 +116,7 @@ class Clansuite_Exception extends Exception implements Clansuite_Exception_Inter
      * @param $exception PHP Exception Objects are valid (Type Hint).
      */
     public function exception_handler(Exception $exception)
-    {   
+    {
         # re/assign variables from an uncatched exception to this exception object
         $this->message = $exception->getMessage();
         $this->string = $exception->getTraceAsString();
@@ -281,7 +281,7 @@ class Clansuite_Exception extends Exception implements Clansuite_Exception_Inter
         $errormessage .= '<fieldset class="error_beige">';
 
         # Errorlogo
-        $errormessage .= '<div style="float: left; margin: 5px; margin-right: 25px; border:1px inset #bf0000; padding: 20px;">';
+        $errormessage .= '<div style="float: left; margin: 5px; margin-right: 25px; padding: 20px;">';
         $errormessage .= '<img src="' . WWW_ROOT_THEMES_CORE . 'images/Clansuite-Toolbar-Icon-64-exception.png" ';
         $errormessage .= 'style="border: 2px groove #000000;" alt="Clansuite Exception Icon" /></div>';
 
@@ -304,13 +304,14 @@ class Clansuite_Exception extends Exception implements Clansuite_Exception_Inter
 
         $errormessage   .= '<tr><td>';
 
-        # The inner Exception Table
-        $errormessage   .= '<table>';
-        $errormessage   .= '<tr><td colspan="2"><h3>Exception '.$code.'</h3><h4>'.$this->message.'</h4></td></tr>';
-        $errormessage   .= '<tr><td><strong>Path: </strong></td><td>'.dirname($this->file).'</td></tr>';
-        $errormessage   .= '<tr><td><strong>File: </strong></td><td>'.basename($this->file).'</td></tr>';
-        $errormessage   .= '<tr><td><strong>Line: </strong></td><td>'.$this->line.'</td></tr>';
-        $errormessage   .= '</table>';
+        # Panel 1 - Exception Message and File
+        $errormessage   .= '<div id="panel"';
+        $errormessage   .= 'style="background: none repeat scroll 0 0 #FDF599; border: 1px dotted red; padding: 0 10px 10px;">';
+        $errormessage   .= '<h3>Exception '.$code.'</h3><h4>'.$this->message.'</h4>';
+        $errormessage   .= '<strong>File: </strong>'.dirname($this->file).DS;
+        $errormessage   .= '<strong>'.basename($this->file).'</strong>';
+        $errormessage   .= '&nbsp;<strong>Line: </strong>'.$this->line;
+        $errormessage   .= '</div>';
 
         $errormessage   .= '</td></tr>';
 
@@ -408,7 +409,7 @@ class Clansuite_Exception extends Exception implements Clansuite_Exception_Inter
         # clear all output buffers
         if( ob_get_length() )
         {
-            ob_end_clean();   
+            ob_end_clean();
         }
 
         # Output the errormessage
