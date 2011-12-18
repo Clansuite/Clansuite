@@ -75,8 +75,21 @@ class Clansuite_Formelement_Select extends Clansuite_Formelement implements Clan
         $this->type = 'select';
     }
 
-    public function setOptions($options)
+    /**
+     * Sets the array with options for the dropdown element.
+     *
+     * @param array $options
+     * @param boolean $addSelectText Adds " - Select -" as first entry to the options array. Default true.
+     * @return \Clansuite_Formelement_Select
+     */
+    public function setOptions($options, $addSelectText = true)
     {
+        if($addSelectText === true)
+        {
+            # add one entry on top for the dropdown
+            array_unshift($options, _(' - Select - '));
+        }
+
         $this->options = $options;
 
         return $this;
