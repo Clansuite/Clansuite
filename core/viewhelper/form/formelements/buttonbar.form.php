@@ -74,7 +74,7 @@ class Clansuite_Formelement_Buttonbar extends Clansuite_Formelement implements C
 
         # attach button object to buttons array
         $this->_buttons[$buttonname] = $formelement;
-        
+
         return $this;
     }
 
@@ -116,6 +116,13 @@ class Clansuite_Formelement_Buttonbar extends Clansuite_Formelement implements C
             unset($this->_buttons[$_buttonname]);
         }
         return $this;
+    }
+
+    public function setCancelButtonURL($url)
+    {
+       $this->getButton('cancelbutton')->setCancelURL($url);
+
+       return $this;
     }
 
     /**
