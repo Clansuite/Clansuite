@@ -35,6 +35,8 @@ define('IN_CS', true);
 # Error Reporting Level
 error_reporting(E_ALL | E_STRICT);
 ini_set('display_errors', true);
+ini_set('html_errors', false);
+ini_set('log_errors', false);
 
 # Tests take some time and memory
 set_time_limit(0);
@@ -59,13 +61,6 @@ $paths = array(
         realpath(__DIR__.'/unittests'),    # /tests/unittests
         # add the test subject dir
         realpath(dirname(__DIR__)),        # /../tests (trunk)
-        /**
-         * Zend Server Paths
-         * resides at = C:\Programme\Zend\
-         * Test are at = C:\Programme\Zend\Apache2\htdocs\clansuite\trunk\tests
-         */
-        #realpath(dirname(dirname(dirname(dirname(dirname(__DIR__))))).'/ZendServer/bin'),
-        #realpath(dirname(dirname(dirname(dirname(dirname(__DIR__))))).'/ZendServer/bin/PEAR')
 );
 #var_dump($paths);
 
