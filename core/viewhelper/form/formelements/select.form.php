@@ -89,7 +89,7 @@ class Clansuite_Formelement_Select extends Clansuite_Formelement implements Clan
         if($addSelectText === true)
         {
             # add one entry on top for the dropdown
-            array_unshift($options, _(' - Select - '));
+            array_unshift($options, _('Select...'));
         }
 
         $this->options = $options;
