@@ -65,6 +65,8 @@ class Clansuite_Formelement_Select extends Clansuite_Formelement implements Clan
      */
     public $size;
 
+    public $withValuesAsKeys;
+
     /**
      * @var string Label
      */
@@ -113,6 +115,27 @@ class Clansuite_Formelement_Select extends Clansuite_Formelement implements Clan
         return $this;
     }
 
+    /**
+     * Render option tags with value => value relation
+     *
+     * <option value="' . $value. '">' . $value . '</option>
+     *
+     * and not as a key => value relation
+     *
+     * <option value="' . $key . '">' . $value . '</option>
+     *
+     * This makes it a bit easier to pass actual values around via POST,
+     * instead of passing the numeric index for lookup.
+     *
+     * @return \Clansuite_Formelement_Select
+     */
+    public function withValuesAsKeys()
+    {
+        $this->withValuesAsKeys = true;
+
+        return $this;
+    }
+
     public function render()
     {
         # open the html select tag
@@ -148,7 +171,14 @@ class Clansuite_Formelement_Select extends Clansuite_Formelement implements Clan
             # loop over all selectfield options
             foreach ($this->options as $key => $value)
             {
-                $html .= $this->renderOptionTag($key, $value);
+                if($this->withValuesAsKeys === true)
+                {
+                    $html .= $this->renderOptionTag($value, $value);
+                }
+                else
+                {
+                    $html .= $this->renderOptionTag($key, $value);
+                }
             }
         }
         else
