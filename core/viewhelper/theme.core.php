@@ -225,7 +225,7 @@ class Clansuite_Theme
         {
             $cssPostfix = '_ie';
         }
-        else 
+        else
         {
             $cssPostfix = '';
         }
@@ -321,32 +321,23 @@ class Clansuite_Theme
 
     public static function getThemeDirectories()
     {
+        $themes = array();
+        
+        $themes = array_merge(
+            self::iterateDir(ROOT_THEMES_FRONTEND, 'frontend'),
+            self::iterateDir(ROOT_THEMES_BACKEND, 'backend')
+        );
+
+        return $themes;
+    }
+
+    protected static function iterateDir($dir, $type)
+    {
+        $dirs = '';
         $i = 0;
         $themes = array();
-        $dirs = '';
 
-        # loop through ROOT_THEMES dir
-        $dirs = new DirectoryIterator( ROOT_THEMES_BACKEND );
-
-        foreach($dirs as $dir)
-        {
-            # exclude .svn and core dir, take only dirs with theme_info.xml in it
-            if((!$dir->isDot()) and ($dir != '.svn') and ($dir != 'core') and (is_file($dir->getPathName() . DS . 'theme_info.xml')))
-            {
-                $i++;
-
-                # add fullpath
-                $themes[$i]['path'] = $dir->getPathName();
-
-                # add dirname
-                $themes[$i]['name'] = (string) $dir;
-
-                # set backend as type
-                $themes[$i]['type']    = 'backend';
-            }
-        }
-
-        $dirs = new DirectoryIterator( ROOT_THEMES_FRONTEND );
+        $dirs = new DirectoryIterator( $dir );
 
         foreach($dirs as $dir)
         {
@@ -362,9 +353,11 @@ class Clansuite_Theme
                 $themes[$i]['name'] = (string) $dir;
 
                 # set frontend as type
-                $themes[$i]['type']    = 'frontend';
+                $themes[$i]['type']    = $type;
             }
         }
+
+        unset($i, $dirs);
 
         return $themes;
     }
