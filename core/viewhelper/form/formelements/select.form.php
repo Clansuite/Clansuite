@@ -194,6 +194,16 @@ class Clansuite_Formelement_Select extends Clansuite_Formelement implements Clan
 
     private function renderOptionTag($key, $value)
     {
+        /**
+         * the addSelectText would be posted as value.
+         * in order to be able to use empty() on the incomming post array variables,
+         * we need to remove it. this makes it just a select helper, without data.
+         */
+        if($key == 'Select...')
+        {
+            $key = '';
+        }
+
         # check if the value is the default one and in case it is, add html "selected"
         if($key == $this->default)
         {
