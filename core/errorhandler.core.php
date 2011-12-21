@@ -304,7 +304,7 @@ class Clansuite_Errorhandler
         $errormessage .= '<fieldset class="error_' . self::getColornameForErrornumber($errornumber) . '">';
 
         # Errorlogo
-        $errormessage .= '<div style="float: left; margin: 5px; margin-right: 25px; border:1px inset #bf0000; padding: 20px;">';
+        $errormessage .= '<div style="float: left; margin: 5px; margin-right: 25px; padding: 20px;">';
         $errormessage .= '<img src="' . WWW_ROOT_THEMES_CORE . 'images/Clansuite-Toolbar-Icon-64-error.png" style="border: 2px groove #000000;"/></div>';
 
         # Fieldset Legend
