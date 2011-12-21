@@ -252,7 +252,7 @@ class Clansuite_Xdebug
                     background: none repeat scroll 0 0 #ccc;
                     border: 1px solid #666666;
                     font: 12px tahoma,verdana,arial,sans-serif;
-                    margin: 10px auto;
+                    margin: 35px;
                     padding: 10px;
                     width: 95%;
                 }
@@ -275,7 +275,6 @@ class Clansuite_Xdebug
                 </style>
                  <!--[if IE]>
                  <style type="text/css">
-                    #x-debug { width: 95%; padding:30px 0px 10px 0px;}
                     fieldset.xdebug-console legend {
                         position:relative;
                         top: -0.2em;
@@ -283,7 +282,7 @@ class Clansuite_Xdebug
                  </style>
                  <![endif]-->';
 
-            echo '<div id="x-debug"><fieldset class="xdebug-console"><legend>XDebug Console</legend>';
+            echo '<fieldset class="xdebug-console"><legend>XDebug Console</legend>';
             echo xdebug_dump_superglobals();
             echo '<table class="xdebug-console">';
             echo '<tr><th>Name</th><th>Value</th></tr>';
@@ -312,7 +311,7 @@ class Clansuite_Xdebug
 
             echo '</table>';
 
-            echo '</fieldset></div>';
+            echo '</fieldset>';
 
             /**
              * Reset for hardcoded bgcolor attributes in the "xdebug-superglobals" table.
@@ -366,11 +365,11 @@ class Clansuite_Xdebug
                 foreach ($aConsts[$category] as $name => $value)
                 {
                     echo '<tr><td class="td1">' . $name . '</td>';
-                    
+
                     # handle true and false
                     if(gettype($value) === 'boolean')
-                    {                       
-                        echo '<td class="td2">' . (int) $value . '</td></tr>'; 
+                    {
+                        echo '<td class="td2">' . (int) $value . '</td></tr>';
                     }
                     else
                     {
@@ -386,7 +385,7 @@ class Clansuite_Xdebug
     {
         if(false === class_exists('Clansuite_Browserinfo', false))
         {
-            include ROOT_CORE . 'tools/browserinfo.core.php';            
+            include ROOT_CORE . 'tools/browserinfo.core.php';
         }
         $browserinfo = new Clansuite_Browserinfo();
         $browser = $browserinfo->getBrowserInfo();
