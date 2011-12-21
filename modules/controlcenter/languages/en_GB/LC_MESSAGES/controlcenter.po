@@ -7,12 +7,13 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Clansuite 0.2.1\n"
-"POT-Creation-Date: 2011-01-14T21:00:56+01:00\n"
+"POT-Creation-Date: 2011-08-04 00:10+0200\n"
+"PO-Revision-Date: 2011-08-04 00:10+0200\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: controlcenter.module.php:78
-#: controlcenter.module.php:86
+#: controlcenter.module.php:77
+#: controlcenter.module.php:85
 #: action_about.tpl:1
 #: action_about1.tpl:1
 msgid "About Clansuite"
@@ -57,7 +58,7 @@ msgstr "Documentation"
 msgid "Donation"
 msgstr "Donation"
 
-#: controlcenter.module.php:106
+#: controlcenter.module.php:105
 msgid "Errorlog"
 msgstr "Errorlog"
 
@@ -81,12 +82,12 @@ msgstr "Licenses"
 msgid "Licenses & 3th Party Libraries"
 msgstr "Licenses & 3th Party Libraries"
 
-#: controlcenter.module.php:94
+#: controlcenter.module.php:93
 #: action_supportlinks.tpl:2
 msgid "Links for Help & Support"
 msgstr "Links for Help & Support"
 
-#: controlcenter.module.php:114
+#: controlcenter.module.php:113
 msgid "No Errorlog entries."
 msgstr "No Errorlog entries."
 
@@ -112,7 +113,7 @@ msgstr "PHP"
 msgid "Report Bug or Give Feedback"
 msgstr "Report Bug or Give Feedback"
 
-#: controlcenter.module.php:70
+#: controlcenter.module.php:69
 msgid "Report Bugs &amp; Issues"
 msgstr "Report Bugs &amp; Issues"
 
@@ -121,23 +122,23 @@ msgstr "Report Bugs &amp; Issues"
 msgid "Send bugreports, fixes, enhancements, t-shirts, money, beer & pizza to ..."
 msgstr "Send bugreports, fixes, enhancements, t-shirts, money, beer & pizza to ..."
 
-#: controlcenter.module.php:172
+#: controlcenter.module.php:171
 msgid "Settings"
 msgstr "Settings"
 
-#: controlcenter.module.php:204
+#: controlcenter.module.php:203
 msgid "Show Extensions"
 msgstr "Show Extensions"
 
-#: controlcenter.module.php:190
+#: controlcenter.module.php:189
 msgid "Show News"
 msgstr "Show News"
 
-#: controlcenter.module.php:197
+#: controlcenter.module.php:196
 msgid "Show Security"
 msgstr "Show Security"
 
-#: controlcenter.module.php:183
+#: controlcenter.module.php:182
 msgid "Show Shortcuts"
 msgstr "Show Shortcuts"
 
@@ -172,8 +173,8 @@ msgstr "Tools & Addons"
 
 #: action_about.tpl:300
 #: action_about1.tpl:310
-msgid "We are passionate open-source programmers, but passion alone doesn\'t make software."
-msgstr "We are passionate open-source programmers, but passion alone doesn\'t make software."
+msgid "We are passionate open-source programmers, but passion alone doesn't make software."
+msgstr "We are passionate open-source programmers, but passion alone doesn't make software."
 
 #: action_show.tpl:4
 msgid "Welcome."
