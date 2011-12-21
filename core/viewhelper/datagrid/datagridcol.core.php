@@ -160,9 +160,9 @@ class Clansuite_Datagrid_Column extends Clansuite_Datagrid_Base
     }
 
     /**
-     * Set the sort-mode (ASC, DESC, NATASC, NETDESC, ...)
+     * Sets the default sorting method for this column
      *
-     * @param string
+     * @param string The default sorting method, possible values are: ASC, DESC, NATASC, NETDESC.
      */
     public function setSortOrder($sortOrder)
     {
