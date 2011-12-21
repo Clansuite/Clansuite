@@ -2015,7 +2015,7 @@ class Clansuite_Datagrid_Renderer
                 $html .= '<option value="' . $BatchAction['Action'] . '">' . $BatchAction['Name'] . '</option>';
             }
             $html .= '</select>';
-            $html .= '<input type="submit" value="' . _('Execute') . '" />';
+            $html .= '<input class="ButtonOrange" type="submit" value="' . _('Execute') . '" />';
             $html .= '</td>';
 
             $html .= '</tr>';
