@@ -120,10 +120,6 @@ class Clansuite_Renderer_Smarty extends Clansuite_Renderer_Base
             $this->renderer->clearAllCache();         # clear cache
         }
 
-        # $this->renderer->debug_ctrl = "NONE"; # NONE (not active), URL (active, if SMARTY_DEBUG found in query string)
-        # $this->renderer->global_assign = "";  # list of vars assign to all template files
-        # $this->renderer->undefined = null; # defines value of undefined variables
-
         $this->renderer->auto_literal = true;     # auto delimiter of javascript/css (The literal tag of Smarty v2.x)
 
         /**
@@ -245,6 +241,12 @@ class Clansuite_Renderer_Smarty extends Clansuite_Renderer_Base
         # $this->renderer->registerPlugin('modifier', 'timemarker',  array('benchmark', 'timemarker'));
 
         #$this->renderer->registerFilter(Smarty::FILTER_VARIABLE, 'htmlspecialchars');
+
+        # Auto-Escape all variables
+        #$this->renderer->default_modifiers = array('escape:"html":"UTF-8"');
+
+        # compile time setting, tpls need recompiling
+        $this->renderer->merge_compiled_includes = true;
     }
 
     /**
@@ -312,7 +314,7 @@ class Clansuite_Renderer_Smarty extends Clansuite_Renderer_Base
     {
         if(is_array($tpl_parameter) === true)
         {
-            $this->renderer->assign($tpl_parameter);            
+            $this->renderer->assign($tpl_parameter);
         }
         else
         {
