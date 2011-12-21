@@ -231,6 +231,7 @@ class Clansuite_Xdebug
                     padding-bottom: 3px;
                     font-weight: bold;
                     background: #E03937;
+                    text-align: left;
                 }
                 .xdebug-superglobals td {
                     border: 1px solid grey;
