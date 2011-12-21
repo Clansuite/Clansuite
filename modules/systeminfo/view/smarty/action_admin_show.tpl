@@ -114,10 +114,6 @@
                 <dd>{$sysinfos.zend_thread_safty}</dd>
                 <dd><small>Whether or not Zend Thread Safty mode is active.</small></dd>
 
-                <dt>Safe Mode</dt>
-                <dd>{$sysinfos.safe_mode}</dd>
-                <dd><small>Whether or not PHP's safe mode is active.</small></dd>
-
                 <dt>Open Basedir</dt>
                 <dd>{$sysinfos.open_basedir}</dd>
                 <dd><small>This specifies the directory-tree where files can be opened by PHP. This directive is NOT affected by whether Safe Mode is turned On or Off.</small></dd>
@@ -133,14 +129,6 @@
                 <dt>Enable DL</dt>
                 <dd>{$sysinfos.enable_dl}</dd>
                 <dd><small>Whether or not the dynamical loading of php extension (at runtime) is active.</small></dd>
-
-                <dt>Magic Quotes GPC</dt>
-                <dd>{$sysinfos.magic_quotes_gpc}</dd>
-                <dd><small>Whether or not MagicQuotesGPC is active.</small></dd>
-
-                <dt>Register Globals</dt>
-                <dd>{$sysinfos.register_globals}</dd>
-                <dd><small>Whether or not Register Globals is active.</small></dd>
 
                 <dt><b>Charset and Data-handling Settings</b></dt>
 
