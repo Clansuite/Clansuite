@@ -44,25 +44,48 @@ if (defined('IN_CS') === false)
 class Clansuite_FTP
 {
     /**
-     * @param array $errors An array of any errors
+     * @var array $errors An array of any errors
      */
     public $errors = array();
-    
+
+    /**
+     * @var ressource
+     */
     private $connection;
+
+    /**
+     * @var string $server The server hostname to connect to.
+     */
     private $server;
+
+    /**
+     * @var string $username The username required to access the FTP server.
+     */
     private $username;
+
+    /**
+     * @var string $password The password required to access the FTP server.
+     */
     private $password;
+
+    /**
+     * @var int $port The port number to connect to the FTP server on.
+     */
     private $port;
+
+    /**
+     * @var bool $passive Whether or not to use a passive or active connection.
+     */
     private $passive;
 
     /**
      * Default Constructor
-     *     
-     * @param string $server The server hostname to connect to
-     * @param string $username The username required to access the FTP server
-     * @param string $password The password required to access the FTP server
-     * @param int $port The port number to connect to the FTP server on
-     * @param bool $passive Whether or not to use a passive or active connection     * 
+     *
+     * @param string $server The server hostname to connect to.
+     * @param string $username The username required to access the FTP server.
+     * @param string $password The password required to access the FTP server.
+     * @param int $port The port number to connect to the FTP server on.
+     * @param bool $passive Whether or not to use a passive or active connection.
      */
     public function __construct($server, $username, $password, $port = 21, $passive = FALSE)
     {
@@ -72,12 +95,12 @@ class Clansuite_FTP
         $this->port = $port;
         $this->passive = $passive;
     }
-    
+
     /**
-     * Tries to 
-     * (1) open a connection to the remote server 
+     * Tries to
+     * (1) open a connection to the remote server
      * (2) authenticate the user
-     * (3) sets the connection mode
+     * (3) set the connection mode
      *
      * @return bool
      */
@@ -86,7 +109,7 @@ class Clansuite_FTP
         # open connection
         if(!$connection = @ftp_connect($this->server, $this->port))
         {
-            $this->errors[] = 'Cannot connect to FTP Server, please check settings.';
+            $this->errors[] = 'Cannot connect to FTP Server, please check server and port settings.';
         }
 
         # authenticate user / login
@@ -174,7 +197,7 @@ class Clansuite_FTP
      * Deletes a remote file
      *
      * @param string $file The remote file to delete
-     * @return bool 
+     * @return bool
      */
     public function delete_file($file = '')
     {
@@ -182,7 +205,7 @@ class Clansuite_FTP
         {
             return false;
         }
-        
+
         # delete file
         if(false === @ftp_delete($this->connection, $file))
         {
@@ -197,7 +220,6 @@ class Clansuite_FTP
 
     /**
      * Rename or move a file or a directory
-     * 
      *
      * @param string $source_file The file or folder to be renamed/moved
      * @param string $renamed_file The destination or new name of the file/folder
@@ -205,6 +227,12 @@ class Clansuite_FTP
      */
     public function rename_or_move($source_file, $renamed_file)
     {
+        # if source and target files are equal, do nothing and return early
+        if($source_file == $renamed_file)
+        {
+            return true;
+        }
+
         if($this->open_connection() === false)
         {
             return false;
@@ -217,12 +245,12 @@ class Clansuite_FTP
             return false;
         }
 
-        $this->close_connection();        
+        $this->close_connection();
         return true;
     }
 
     /**
-     * Create a remote directory
+     * Create a remote directory (mkdir)
      *
      * @param string $dir The path of the remote directory to create
      * @return bool
@@ -241,13 +269,13 @@ class Clansuite_FTP
             return false;
         }
 
-        $this->close_connection();        
+        $this->close_connection();
         return true;
     }
 
     /**
-     * Delete a remote directory
-     *     
+     * Delete a remote directory (rmdir)
+     *
      * @param string $dir The path of the remote directory to delete
      * @return bool
      */
@@ -265,18 +293,18 @@ class Clansuite_FTP
             return false;
         }
 
-        $this->close_connection();        
+        $this->close_connection();
         return true;
     }
 
     /**
-     * Set permissions on a file or directory
+     * Set permissions on a file or directory (chmod)
      *
      * @param string $file The file or directory to modify
-     * @param int $chmod optional The permissions to apply Default 0644
+     * @param int $chmod optional The permissions to apply Default 0755
      * @return bool
      */
-    public function setPermissions($file, $chmod = 0644)
+    public function setPermissions($file, $chmod = 0755)
     {
         if($this->open_connection() === false)
         {
@@ -302,13 +330,13 @@ class Clansuite_FTP
             }
         }
 
-        $this->close_connection();        
+        $this->close_connection();
         return true;
     }
-    
+
     /**
      * Check if a file exists
-     *    
+     *
      * @param string $filename The remote file to check
      * @return bool|int FALSE if file doesn't exist or the number of bytes
      */
@@ -320,7 +348,7 @@ class Clansuite_FTP
     /**
      * Get the size in bytes of a remote file
      * Can be used to check if a file exists
-     *    
+     *
      * @param string $filename The remote file to check
      * @return bool|int FALSE if file doesn't exist or the number of bytes
      */
@@ -340,7 +368,7 @@ class Clansuite_FTP
             return false;
         }
 
-        $this->close_connection();        
+        $this->close_connection();
         return $file_size;
     }
 
@@ -363,7 +391,7 @@ class Clansuite_FTP
             return false;
         }
 
-        $this->close_connection();        
+        $this->close_connection();
         return true;
     }
 
@@ -386,11 +414,9 @@ class Clansuite_FTP
             return false;
         }
 
-        $this->close_connection();        
+        $this->close_connection();
         return $f;
     }
-
-    
 
     /**
      * Attempts to close the connection
@@ -403,8 +429,8 @@ class Clansuite_FTP
         {
             return false;
         }
-        
-        $this->connection = '';        
+
+        $this->connection = '';
         return true;
     }
 
