@@ -11,141 +11,141 @@
 */
 
 body {
-color:#000000;
-font-family: tahoma,verdana,arial,sans-serif;
-font-size:12px;
+    color:#000000;
+    font-family: tahoma,verdana,arial,sans-serif;
+    font-size:12px;
 }
 
 table {
-color: #222222;
-font-size:12px;
+    color: #222222;
+    font-size:12px;
 }
 
 .alert {
-background:url(../images/icons/error.png) no-repeat 15px 50% #fff6bf;
-border-bottom:2px solid #ffd324;
-border-top:2px solid #ffd324;
-padding:5px 20px 5px 45px;
-text-align:left
+    background:url(../images/icons/error.png) no-repeat 15px 50% #fff6bf;
+    border-bottom:2px solid #ffd324;
+    border-top:2px solid #ffd324;
+    padding:5px 20px 5px 45px;
+    text-align:left
 }
 
 .create_helpbox {
-background:url(../images/icons/page_edit.png) no-repeat 15px 50% #DFD;
-border:1px solid #BFB;
-color:#0B0;
-font-weight:700;
-margin:.5em 15px 1em -20px;
-padding:15px 20px 15px 50px;
+    background:url(../images/icons/page_edit.png) no-repeat 15px 50% #DFD;
+    border:1px solid #BFB;
+    color:#0B0;
+    font-weight:700;
+    margin:.5em 15px 1em -20px;
+    padding:15px 20px 15px 50px;
 }
 
 .success {
-background:url(../images/icons/information.png) no-repeat 15px 50% #DFD;
-border:1px solid #BFB;
-color:#0B0;
-font-weight:700;
-margin:.5em 15px 1em 0px;
-padding:15px 20px 15px 50px;
-font-variant: small-caps;
+    background:url(../images/icons/information.png) no-repeat 15px 50% #DFD;
+    border:1px solid #BFB;
+    color:#0B0;
+    font-weight:700;
+    margin:.5em 15px 1em 0px;
+    padding:15px 20px 15px 50px;
+    font-variant: small-caps;
 }
 
 .error {
-background:url(../images/icons/error.png) no-repeat 15px 50% #FDD;
-border:1px solid #FBB;
-color:#B00;
-margin:.5em 15px 1em 0;
-padding:15px 20px 15px 50px;
+    background:url(../images/icons/error.png) no-repeat 15px 50% #FDD;
+    border:1px solid #FBB;
+    color:#B00;
+    margin:.5em 15px 1em 0;
+    padding:15px 20px 15px 50px;
 }
 
 .error_beige {
-background:#ffc
+    background:#ffc
 }
 
 .error_helpbox {
-background:url(../images/icons/error.png) no-repeat 15px 50% #FDD;
-border:1px solid #FBB;
-color:#B00;
-font-weight:700;
-margin:.5em 15px 1em -20px;
-padding:15px 20px 15px 50px
+    background:url(../images/icons/error.png) no-repeat 15px 50% #FDD;
+    border:1px solid #FBB;
+    color:#B00;
+    font-weight:700;
+    margin:.5em 15px 1em -20px;
+    padding:15px 20px 15px 50px
 }
 
 .error_orange {
-background:#f90
+    background:#f90
 }
 
 .error_red {
-background:#af0000
+    background:#af0000
 }
 
 .error_red legend,.error_orange legend,.error_beige legend {
-background:#fff;
-border:1px solid #333;
-font-weight:700;
-padding:2px 15px
+    background:#fff;
+    border:1px solid #333;
+    font-weight:700;
+    padding:2px 15px
 }
 
 .error_red,.error_orange,.error_beige {
-border:1px solid #666;
-margin:0 auto;
-padding:12px;
-width:90%
+    border:1px solid #666;
+    margin:0 auto;
+    padding:12px;
+    width:90%
 }
 
 .info {
-background:url(../images/icons/information.png) no-repeat 15px 50% #F8FAFC;
-border-bottom:2px solid #B5D4FE;
-border-top:2px solid #B5D4FE;
-padding:5px 20px 5px 45px
+    background:url(../images/icons/information.png) no-repeat 15px 50% #F8FAFC;
+    border-bottom:2px solid #B5D4FE;
+    border-top:2px solid #B5D4FE;
+    padding:5px 20px 5px 45px
 }
 
 .messagebox {
-margin:auto;
-width:50%
+    margin:auto;
+    width:50%
 }
 
 .num {
-border-right:1px solid gray;
-color:gray;
-float:left;
-font-family:monospace;
-font-size:13px;
-margin-right:6pt;
-padding-right:6pt;
-text-align:right
+    border-right:1px solid gray;
+    color:gray;
+    float:left;
+    font-family:monospace;
+    font-size:13px;
+    margin-right:6pt;
+    padding-right:6pt;
+    text-align:right
 }
 
 a:hover {
-color:red;
-text-decoration:underline
+    color:red;
+    text-decoration:underline
 }
 
 a:link,a:visited,a:active {
-text-decoration:none
+    text-decoration:none
 }
 
 code {
-white-space:nowrap
+    white-space:nowrap
 }
 
 pre {
-margin:3px;
-/*width:62%*/
+    margin:3px;
+    /*width:62%*/
 }
 
 pre h3:before,pre h3 {
-background:#FF8;
-content:"»";
-padding:5px
+    background:#FF8;
+    content:"»";
+    padding:5px
 }
 
-/* 
+/*
    cs-backtrace-table
 
    keep this style equal to "xdebug superglobals" and "xdebug fatal error" table
    of xdebug.core.php
 */
 
-table.cs-backtrace-table {    
+table.cs-backtrace-table {
     background: none repeat scroll 0 0 #FFFFCC;
     border-collapse: collapse;
     border-color: #BF0000;

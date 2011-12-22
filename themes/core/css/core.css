@@ -1,21 +1,22 @@
 @charset "utf-8";
-/*												*/
-/*	Clansuite Core Standard Styling Classes		*/
-/*												*/
+/**
+ *	Clansuite Core Standard Styling Classes
+ */
 
-/*												*/
-/*	Import other css files						*/
-/*												*/
+/**
+ *  Import other css files
+ */
 
-/*	import form.css								*/
-/*@import url("form.css") screen;				*/
-/*	import browserfixes.css						*/
+/*	import form.css                     */
+/* @import url("form.css") screen;      */
+/*	import browserfixes.css             */
+
 @import url("browserfixes.css") screen;
-/* --------------------------------------------	*/
 
-/*												*/
-/*	Standard Core Styling						*/
-/*												*/
+
+/**
+ *	Standard Core Styling
+ */
 
 /*	widget styling	*/
 .widgetcontainer {
@@ -27,29 +28,27 @@
 .widget_content { }
 
 /*	modulstyling	*/
-.modulecontainer { 
+.modulecontainer {
     background-color:#999;
 }
 .module_title { }
 .module_content { }
 
-.twocols{ 
+.twocols{
     width:49%;
 }
 
-.threecols { 
+.threecols {
     width:33%;
 }
 
-.left { 
+.left {
     float:left;
 }
-.middle { 
+.middle {
     margin-left:auto; margin-right:auto;
 }
 
-.right { 
+.right {
     float:right;
 }
-/* --------------------------------------------	*/
-

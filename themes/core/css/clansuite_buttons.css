@@ -24,37 +24,73 @@
         border-top-color: #CCCCCC;
         border-left-color: #CCCCCC;
         color: #333333;
-        font-size: 9px;
         font-family: tahoma, sans-serif;
         font-weight: bold;
-        padding: .25em;
+        font-size: 11px;
+        font-weight: bold;
+        margin: 5px;
+        padding: 3px;
+        white-space: nowrap;
+        width: 64px;
+    }
+
+    /**
+     * Clansuite Button Styles
+     */
+
+    .Button, .ButtonYellow, .ButtonRed, .ButtonGreen, .ButtonGrey, .ButtonOrange
+    {
+        -moz-border-bottom-colors: none;
+        -moz-border-image: none;
+        -moz-border-left-colors: none;
+        -moz-border-right-colors: none;
+        -moz-border-top-colors: none;
+        background-color: #FFFFFF;
+        border-color: #CCCCCC #999999 #999999 #CCCCCC;
+        border-right: 1px solid #999999;
+        border-style: solid;
+        border-width: 1px;
+        color: #333333;
+        font-family: tahoma,sans-serif;
+        font-size: 12px;
+        font-weight: 700;
         margin: 3px;
+        padding: 0.3em 1.2em;
         white-space: nowrap;
     }
-        
-    .Button, .ButtonGrey
+
+    /**
+     * Clansuite Button Colors
+     */
+
+    .ButtonGrey
     {
-        background: url(images/background_form_element_grey.gif) repeat-x;
+        background: url(../images/background_form_element_grey.gif) repeat-x;
+        background-size: contain;
     }
 
     .ButtonYellow
     {
-        background: url(images/background_form_element_yellow.gif) repeat-x;
+        background: url(../images/background_form_element_yellow.gif) repeat-x;
+        background-size: contain;
     }
 
     .ButtonOrange
     {
-        background: url(images/background_form_element_orange.gif) repeat-x;
+        background: url(../images/background_form_element_orange.gif) repeat-x;
+        background-size: contain;
     }
 
     .ButtonRed
     {
-        background: url(images/background_form_element_red.gif) repeat-x;
+        background: url(../images/background_form_element_red.gif) repeat-x;
+        background-size: contain;
     }
 
     .ButtonGreen
     {
-        background: url(images/background_form_element_green.gif) repeat-x;
+        background: url(../images/background_form_element_green.gif) repeat-x;
+        background-size: contain;
     }
 
     .Button:active, .ButtonYellow:active,
@@ -65,5 +101,4 @@
         border-top-color: #999999;
         border-left-color: #999999;
     }
-
 }

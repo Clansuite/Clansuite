@@ -12,15 +12,15 @@
  * -----------------------------------------------------------------------------------------------
  * @license    GNU/GPL v2 or (at your option) any later version, see "/doc/LICENSE".
  * @author     Paul Brand <info@isp-tenerife.net>
- * @package      CSFW
- * subpackage    Core
- * @version        1.0.2
+ * @package    CSFW
+ * subpackage  Core
+ * @version    1.0.2
  * -----------------------------------------------------------------------------------------------
 */
 @media screen
 {
 
-    /** 
+    /**
      * -----------------------------------------------------------------------------------------------
      * Core Message Boxen
      * -----------------------------------------------------------------------------------------------
@@ -68,7 +68,7 @@
     .cmInfobox .cmBoxTitle,
     .cmWarning .cmBoxTitle,
     .cmError .cmBoxTitle,
-    .cmSuccess .cmBoxTitle 
+    .cmSuccess .cmBoxTitle
     {
         font-size: 10pt;
         font-weight:bold;
@@ -76,7 +76,7 @@
     .cmInfobox .cmBoxMessage,
     .cmWarning .cmBoxMessage,
     .cmError .cmBoxMessage,
-    .cmSuccess .cmBoxMessage 
+    .cmSuccess .cmBoxMessage
     {
         font-size: 9pt;
         padding-top: 5px;
@@ -86,7 +86,7 @@
     .cmInfobox .cmBoxLine,
     .cmWarning .cmBoxLine,
     .cmError .cmBoxLine,
-    .cmSuccess .cmBoxLine 
+    .cmSuccess .cmBoxLine
     {
         height: 1px;
         border-bottom: 1px dotted #808080;
