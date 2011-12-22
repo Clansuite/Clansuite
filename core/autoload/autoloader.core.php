@@ -193,8 +193,6 @@ class Clansuite_Loader
      */
     public static function autoloadInclusions($classname)
     {
-        echo $classname;
-
         # autoloading map
         self::$inclusions_map = array(
         # /core/config
