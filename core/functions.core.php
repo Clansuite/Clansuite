@@ -50,6 +50,18 @@ class Clansuite_Functions
      */
     static $already_loaded = array();
 
+    public static function in_string($needle, $haystack, $insensitive = false)
+    {
+        if ($insensitive === true)
+        {
+            return (false !== stristr($haystack, $needle)) ? true : false;
+        }
+        else
+        {
+            return (false !== strpos($haystack, $needle)) ? true : false;
+        }
+    }
+
     /**
      * Checks a string for a certain prefix or adds it, if missing.
      *
@@ -361,7 +373,7 @@ class Clansuite_Functions
      *
      * array_values_recursive
      */
-    static function array_find_element_by_key($needle, $haystack)
+    static function array_find_element_by_key($needle, array $haystack)
     {
         # take a look for the needle
         if(array_key_exists($needle, $haystack))
@@ -685,7 +697,7 @@ class Clansuite_Functions
     public static function vname($var, $scope = false, $prefix = 'unique', $suffix = 'value')
     {
         $values = '';
-        
+
         if($scope === true)
         {
             $values = $scope;
@@ -873,24 +885,27 @@ class Clansuite_Functions
     }
 
     /**
-     * Delete a directory or it's content recursively
+     * Delete a directory or just it's content recursively
      *
      * @param $directory directory string Name / Path of the Directory to delete.
-     * @param $subdirectory boolean subdirectory
-     * @param $simulate If true, performs a delete simulation. Returning the dirs/files to delete.
+     * @param $delete_dir_itself boolean Delete the directory itself. Default false.
      */
-    public static function delete_dir_content($directory, $subdirectory = false)
+    public static function delete_dir_content($directory, $delete_dir_itself = false)
     {
-        if(mb_substr($directory, -1) == '/')
+        if(substr($directory, -1) == '/')
         {
-            $directory = mb_substr($directory, 0, -1);
+            $directory = substr($directory, 0, -1);
         }
 
-        if(is_dir($directory) === false)
+        if(!is_file($directory) or !is_dir($directory))
         {
             return false;
         }
-        elseif(is_readable($directory))
+        elseif(!is_readable($directory))
+        {
+            return false;
+        }
+        else
         {
             # loop over all elements in that directory
             $handle = opendir($directory);
@@ -904,31 +919,30 @@ class Clansuite_Functions
                     # delete dir
                     if(is_dir($path) === true)
                     {
-                        # remove all subdirectries via recursive call
+                        # remove the content and the directory itself
                         self::delete_dir_content($path, true);
                     }
                     else # delete file
                     {
-                        echo '[Test] Deleting File ' . $path .'<br>'.CR;
-
-                        #unlink($path);
+                       unlink($path);
                     }
                 }
             }
             closedir($handle);
 
             # remove that subdir
-            if($subdirectory === true)
+            if($delete_dir_itself === true)
             {
-                echo '[Test] Deleting Dir ' . $directory .'<br>'.CR;
-
-                #if(rmdir($directory) == false)
-                #{
-                #    return false;
-                #}
+                if(rmdir($directory) == false)
+                {
+                    return false;
+                }
             }
+
+            return true;
         }
-        return true;
+
+        return false;
     }
 
 	/**
@@ -977,7 +991,7 @@ class Clansuite_Functions
 
         # Debug message for Method Overloading
         # Making it easier to see which static method is called magically
-        #Clansuite_Debug::fbg('DEBUG (Overloading): Calling static method "'.$method.'" '. implode(', ', $arguments). "\n");
+        Clansuite_Debug::fbg('DEBUG (Overloading): Calling static method "'.$method.'" '. implode(', ', $arguments). "\n");
         # construct the filename of the command
         $filename = ROOT_CORE . 'functions' . DS . $method . '.function.php';
 
