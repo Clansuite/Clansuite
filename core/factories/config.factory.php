@@ -135,11 +135,12 @@ class Clansuite_Config_Factory
     public static function getConfigurationHandler($adapter)
     {
         # path to configuration handler classes
-        $file = ROOT_CORE . 'config' . DS . mb_strtolower($adapter) . '.config.php';
+        $file = ROOT_CORE . 'config' . DS . strtolower($adapter) . '.config.php';
 
         if(is_file($file) === true)
         {
-            $class = 'Clansuite_Config_' . mb_strtoupper($adapter);
+            $class = 'Clansuite_Config_' . strtoupper($adapter);
+
             if(false === class_exists($class, false))
             {
                 include $file;
@@ -148,9 +149,7 @@ class Clansuite_Config_Factory
             if(true === class_exists($class, false))
             {
                 # instantiate and return the specific confighandler with the $configfile to read
-                return $class::getInstance();
-                #call_user_func($class.'::getInstance');
-                #return new $class();
+                return $class::getInstance();                
             }
             else
             {
