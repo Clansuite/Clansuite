@@ -157,7 +157,7 @@ class Clansuite_Loader
     public static function autoloadExclusions($classname)
     {
         # define parts of classnames for exclusion
-        $classnames_to_exclude = array('Cs', 'Smarty_Internal');
+        $classnames_to_exclude = array('Smarty_Internal'); # 'Cs'
 
         foreach($classnames_to_exclude as $classname_to_exclude)
         {
@@ -193,6 +193,8 @@ class Clansuite_Loader
      */
     public static function autoloadInclusions($classname)
     {
+        echo $classname;
+
         # autoloading map
         self::$inclusions_map = array(
         # /core/config
