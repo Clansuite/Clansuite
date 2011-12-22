@@ -235,6 +235,9 @@ class Clansuite_Loader
         'Clansuite_Directory'                 => 'files/file.core.php',
         'Clansuite_Upload'                    => 'files/upload.core.php',
         'Clansuite_Download'                  => 'files/download.core.php',
+        # /core/tools
+        'Clansuite_Browserinfo'               => 'tools/browserinfo.core.php',
+        'Clansuite_Cssbuilder'                => 'tools/cssbuilder.core.php',
         # /viewhelper/
         'Clansuite_Theme'                     => 'viewhelper/theme.core.php',
         # /viewhelper/datagrid
