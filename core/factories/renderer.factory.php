@@ -54,7 +54,7 @@ class Clansuite_Renderer_Factory
      */
     public static function getRenderer($adapter, $injector)
     {
-        $file = ROOT_CORE . 'renderer' . DS . mb_strtolower($adapter) . '.renderer.php';
+        $file = ROOT_CORE . 'renderer' . DS . strtolower($adapter) . '.renderer.php';
 
         if(is_file($file) === true)
         {
