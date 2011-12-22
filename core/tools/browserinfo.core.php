@@ -1,7 +1,7 @@
 <?php
    /**
-    * Clansuite - just an E-Sport CMS
-    * Jens-AndrÃ© Koch Â© 2005 - onwards
+    * Clansuite - just an eSports CMS
+    * Jens-André Koch © 2005 - onwards
     * http://www.clansuite.com/
     *
     * This file is part of "Clansuite - just an eSports CMS".
@@ -23,8 +23,8 @@
     *    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
     *
     * @license    GNU/GPL v2 or (at your option) any later version, see "/doc/LICENSE".
-    * @author     Jens-AndrÃ© Koch <vain@clansuite.com>
-    * @copyright  Copyleft: All rights reserved. Jens-AndrÃ© Koch (2005 - onwards)
+    * @author     Jens-André Koch <vain@clansuite.com>
+    * @copyright  Jens-André Koch (2005 - onwards)
     * @link       http://www.clansuite.com
     *
     * @version    SVN: $Id: acm.class.php 4599 2010-08-27 21:01:58Z vain $
@@ -155,13 +155,13 @@ class Clansuite_Browserinfo
      *
      *  Configure the User Agent from a user agent string.
      *  @param  String  $userAgentString => the user agent string.
-     *  @param  UAP  $UAP => the parser used to parse the string.
+     *  @param  UserAgentParser  $UAP => the parser used to parse the string.
      */
-    public function __construct($userAgentString = null, UAP $UAP = null)
+    public function __construct($userAgentString = null, UserAgentParser $UAP = null)
     {
         if($UAP == null)
         {
-            $UAP = new UAP();
+            $UAP = new UserAgentParser();
         }
         $this->setUserAgentString($userAgentString);
         $this->fromArray($UAP->parse($userAgentString));
@@ -257,7 +257,7 @@ class Clansuite_Browserinfo
     # --------------- BROWSER ---------------
     /**
      *  Get Browser name
-     *  @param void.
+     *
      *  @return String - the browser name
      */
     public function getBrowserName()
@@ -277,7 +277,7 @@ class Clansuite_Browserinfo
 
     /**
      *  Get Browser typ (bot, browser...)
-     *  @param void.
+     *
      *  @return String - the browser typ
      */
     public function getBrowserTyp()
@@ -297,7 +297,7 @@ class Clansuite_Browserinfo
 
     /**
      *  Get Browser sub typ (validator, pda...)
-     *  @param void.
+     *
      *  @return String - the browser sub typ
      */
     public function getBrowserTypSub()
@@ -317,7 +317,7 @@ class Clansuite_Browserinfo
 
     /**
      *  Get Browser version
-     *  @param void.
+     *
      *  @return String - the browser version
      */
     public function getBrowserVersion()
@@ -337,7 +337,7 @@ class Clansuite_Browserinfo
 
     /**
      *  Get Browser version major
-     *  @param void.
+     *
      *  @return String - the browser version major
      */
     public function getBrowserVersionMajor()
@@ -357,7 +357,7 @@ class Clansuite_Browserinfo
 
     /**
      *  Get Browser version minor
-     *  @param void.
+     *
      *  @return String - the browser version minor
      */
     public function getBrowserVersionMinor()
@@ -377,7 +377,7 @@ class Clansuite_Browserinfo
 
     /**
      *  Get Browser version release
-     *  @param void.
+     *
      *  @return String - the browser version release
      */
     public function getBrowserVersionRelease()
@@ -398,7 +398,7 @@ class Clansuite_Browserinfo
 
     /**
      *  Get Browser version build
-     *  @param void.
+     *
      *  @return String - the browser version build
      */
     public function getBrowserVersionBuild()
@@ -420,7 +420,7 @@ class Clansuite_Browserinfo
     # --------------- OPERATING SYSTEM ---------------
     /**
      *  Get the operating system
-     *  @param void.
+     *
      *  @return String - the operating system
      */
     public function getOperatingSystem()
@@ -440,7 +440,7 @@ class Clansuite_Browserinfo
 
     /**
      *  Get the operating system name ( vista, 2000, 7 ...)
-     *  @param void.
+     *
      *  @return String - the operating system name
      */
     public function getOperatingSystemName()
@@ -460,7 +460,6 @@ class Clansuite_Browserinfo
 
     /**
      *  Get the operating system typ
-     *  @param void.
      *  @return String - the operating system typ
      */
     public function getOperatingSystemTyp()
@@ -471,7 +470,6 @@ class Clansuite_Browserinfo
     /**
      *  Set Operating System sub typ ( device...)
      *  @param String - the operating system sub typ.
-     *  @return none.
      */
     public function setOperatingSystemTypSub($value)
     {
@@ -480,7 +478,7 @@ class Clansuite_Browserinfo
 
     /**
      *  Get the operating system sub typ
-     *  @param void.
+     *
      *  @return String - the operating system sub typ
      */
     public function getOperatingSystemTypSub()
@@ -501,7 +499,6 @@ class Clansuite_Browserinfo
     # --------------- ENGINE ---------------
     /**
      *  Get the Engine Name
-     *  @param void.
      *  @return String the engine name
      */
     public function getEngine()
@@ -521,7 +518,6 @@ class Clansuite_Browserinfo
 
     /**
      *  Get the Engine version
-     *  @param void.
      *  @return String the engine version
      */
     public function getEngineVersion()
@@ -542,7 +538,6 @@ class Clansuite_Browserinfo
     # --------------- USER AGENT ---------------
     /**
      *  Get the User Agent String
-     *  @param void.
      *  @return String the User Agent string
      */
     public function getUserAgentString()
@@ -568,7 +563,6 @@ class Clansuite_Browserinfo
 
     /**
      *  Returns a string combined browser name plus version
-     *  @param void.
      *  @return browser name plus version
      */
     public function getFullName()
@@ -578,7 +572,6 @@ class Clansuite_Browserinfo
 
     /**
      *  Convert the http user agent to an array.
-     *  @param void.
      */
     public function toArray()
     {
@@ -642,7 +635,7 @@ class Clansuite_Browserinfo
  * User Agent Parser (UAP)
  * -------------------------------------------------------------
  */
-class UAP
+class UserAgentParser
 {
     const TYPE_UNKNOW = 'unknow';
 
@@ -878,10 +871,9 @@ class UAP
     # -----------------------------------------------------------
 
     /**
-     *  Get browsers list
+     * Get browsers list
      *
-     *  @param void.
-     *  @return Array of browsers
+     * @return Array of browsers
      *
      * @todo file catching for performance
      */
@@ -925,7 +917,6 @@ class UAP
     /**
      *  Get operating system list
      *
-     *  @param void.
      *  @return array => the operating system.
      */
     protected function getListOperatingSystems()

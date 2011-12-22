@@ -1,7 +1,7 @@
 <?php
-   /**
-    * Clansuite - just an E-Sport CMS
-    * Jens-AndrÃ© Koch Â© 2005 - onwards
+    /**
+    * Clansuite - just an eSports CMS
+    * Jens-André Koch © 2005 - onwards
     * http://www.clansuite.com/
     *
     * This file is part of "Clansuite - just an eSports CMS".
@@ -23,8 +23,8 @@
     *    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
     *
     * @license    GNU/GPL v2 or (at your option) any later version, see "/doc/LICENSE".
-    * @author     Jens-AndrÃ© Koch <vain@clansuite.com>
-    * @copyright  Copyleft: All rights reserved. Jens-AndrÃ© Koch (2005 - onwards)
+    * @author     Jens-André Koch <vain@clansuite.com>
+    * @copyright  Jens-André Koch (2005 - onwards)
     * @link       http://www.clansuite.com
     *
     * @version    SVN: $Id$
@@ -37,18 +37,20 @@ if(defined('IN_CS') === false)
 }
 
 /**
- * Clansuite Tool Class for building compiled one import.css file
+ * Clansuite CSS Builder
  *
- * e.g. Basic for the Builder ( CLI )
- *   $oBuilder = new Clansuite_Cssbuilder();
- *   $oBuilder->setBuilderInfo( $array );
- *   $oBuilder->build();
+ * It's a tool class for merging the modularized css files of the Clansuite CSS Framework
+ * into one file, the "import.css". If you include "import.css" in your Theme you laying
+ * a solid base for your own CSS style modifications on top of our CSS Framework.
+ * Plus, you might still modify the Clansuite CSS Framework Core to your intents. 
  *
- *   Optional:
- *   $oBuilder->addBrowser( 'ie', 'Internet Explorer', true, 'ie' );
+ * Basic Usage:
+ *   $builder = new Clansuite_Cssbuilder();
+ *   $builder->setBuilderOptions( $array );
+ *   $builder->build();
  *
- *   Output messages
- *   $msg = $oBuilder->getOutputMsg();
+ * Optional:
+ *   $builder->addBrowser( 'ie', 'Internet Explorer', true, 'ie' );
  *
  * @author      Paul Brand <info@isp-tenerife.net>
  *
@@ -68,26 +70,26 @@ class Clansuite_Cssbuilder
     /**
      * Contains the Builder informations
      *
-     *  $_builderInfo[info]  contains:
+     *  $_configuration[info]  contains:
      *               [generator]   = <generator name>
      *               [version]      = <generator version>
      *               [date]          = <version date>
      *
-     *  $_builderInfo[core]  contains:
+     *  $_configuration[core]  contains:
      *               [compile]     = true|false
      *               [import]       = true|false
      *
-     *  $_builderInfo[frontend]  contains:
+     *  $_configuration[frontend]  contains:
      *               [compile]     = true|false
      *               [path]          = <frontend path>
      *               [theme]       = <theme>
      *
-     *  $_builderInfo[backend]  contains:
+     *  $_configuration[backend]  contains:
      *               [compile]     = true|false
      *               [path]          = <backend path>
      *               [theme]       = <theme>
      *
-     *  $_builderInfo[browsers]  contains:
+     *  $_configuration[browsers]  contains:
      *               [default]
      *                     [description]   = Standard Browser (Mozilla)
      *                     [active]          = true|false
@@ -103,7 +105,7 @@ class Clansuite_Cssbuilder
      *
      * @var array
      */
-    private static $_builderInfo = array();
+    private static $_configuration = array();
 
     /**
      * Contains the Browser informations
@@ -150,9 +152,7 @@ class Clansuite_Cssbuilder
     }
 
     /**
-     * -------------------------------------------------------------------------------------------------
      * Compiler
-     * -------------------------------------------------------------------------------------------------
      */
     public function build($index)
     {
@@ -160,11 +160,11 @@ class Clansuite_Cssbuilder
         #-----------------------------------------------------------------------------------------------------------------
         # Prepare
         #-----------------------------------------------------------------------------------------------------------------
-        $builderInfo = self::getBuilderInfo();
+        $config = self::getConfiguration();
 
         $coreadditionalFiles = $themeadditionalFiles = $themeBackadditionalFiles = array();
 
-        $browser = $builderInfo['browsers'];
+        $browser = $config['browsers'];
         $postfix = $browser[$index]['postfix'];
         if($postfix != '')
         {
@@ -189,18 +189,18 @@ class Clansuite_Cssbuilder
         $core_compact = $this->getCoreCompactHeader($coreInfo);
 
         /* ----- prepare frontend theme ----- */
-        if(true === $builderInfo['compileThemeFrontend'])
+        if(true === $config['compileThemeFrontend'])
         {
-            if(mb_substr($builderInfo['themeFrontendPath'], strlen($builderInfo['themeFrontendPath']) - 1) == '/' ||
-                    mb_substr($builderInfo['themeFrontendPath'], strlen($builderInfo['themeFrontendPath']) - 1) == '\/')
+            if(mb_substr($config['themeFrontendPath'], strlen($config['themeFrontendPath']) - 1) == '/' ||
+                    mb_substr($config['themeFrontendPath'], strlen($config['themeFrontendPath']) - 1) == '\/')
             {
-                $builderInfo['themeFrontendPath'] = mb_substr($builderInfo['themeFrontendPath'], strlen($builderInfo['themeFrontendPath']) - 1);
+                $config['themeFrontendPath'] = mb_substr($config['themeFrontendPath'], strlen($config['themeFrontendPath']) - 1);
             }
 
             // Read INI-File
-            $themeINI = $builderInfo['themeFrontendPath'] . DS . $builderInfo['themeFrontend'] . DS . 'css' . DS . $builderINI;
+            $themeINI = $config['themeFrontendPath'] . DS . $config['themeFrontend'] . DS . 'css' . DS . $builderINI;
             $themeInfo = $this->read_properties($themeINI);
-            $themeInfo['path'] = str_replace("{theme}", $builderInfo['themeFrontend'], $themeInfo['path']);
+            $themeInfo['path'] = str_replace("{theme}", $config['themeFrontend'], $themeInfo['path']);
 
             /* Theme-Info */
             $themePath = ROOT . $themeInfo['path'];
@@ -217,17 +217,17 @@ class Clansuite_Cssbuilder
         #Clansuite_Debug::printR( $themeFiles );
 
         /* ----- prepare backend theme ----- */
-        if(true === $builderInfo['compileThemeBackend'])
+        if(true === $config['compileThemeBackend'])
         {
-            if(mb_substr($builderInfo['themeBackendPath'], strlen($builderInfo['themeBackendPath']) - 1) == '/' ||
-                    mb_substr($builderInfo['themeBackendPath'], strlen($builderInfo['themeBackendPath']) - 1) == '\/')
+            if(mb_substr($config['themeBackendPath'], strlen($config['themeBackendPath']) - 1) == '/' ||
+                    mb_substr($config['themeBackendPath'], strlen($config['themeBackendPath']) - 1) == '\/')
             {
-                $builderInfo['themeBackendPath'] = mb_substr($builderInfo['themeBackendPath'], strlen($builderInfo['themeBackendPath']) - 1);
+                $config['themeBackendPath'] = mb_substr($config['themeBackendPath'], strlen($config['themeBackendPath']) - 1);
             }
             // Read INI-File
-            $themeBackINI = $builderInfo['themeBackendPath'] . DS . $builderInfo['themeBackend'] . DS . 'css' . DS . $builderINI;
+            $themeBackINI = $config['themeBackendPath'] . DS . $config['themeBackend'] . DS . 'css' . DS . $builderINI;
             $themeBackInfo = $this->read_properties($themeBackINI);
-            $themeBackInfo['path'] = str_replace("{theme}", $builderInfo['themeBackend'], $themeBackInfo['path']);
+            $themeBackInfo['path'] = str_replace("{theme}", $config['themeBackend'], $themeBackInfo['path']);
 
             /* Theme-Info */
             $themeBackPath = ROOT . $themeBackInfo['path'];
@@ -248,7 +248,7 @@ class Clansuite_Cssbuilder
         #-----------------------------------------------------------------------------------------------------------------
         # Build Core CSS
         #-----------------------------------------------------------------------------------------------------------------
-        if(true === $builderInfo['compileCore'])
+        if(true === $config['compileCore'])
         {
             $_comp = '';
             $_comp .= $core_compact;
@@ -273,12 +273,12 @@ class Clansuite_Cssbuilder
         /**
          * create Info + compiled frontend theme stylesheet
          */
-        if(true === $builderInfo['compileThemeFrontend'])
+        if(true === $config['compileThemeFrontend'])
         {
             $coreImp = '.';
             $_comp = $_compact;
 
-            if(true === $builderInfo['coreImport'])
+            if(true === $config['coreImport'])
             {
                 $_comp .= "/** [Core Import] */\n";
                 $_comp .= "@import url('../../../core/css/" . $coreCssName . "');\n\n";
@@ -325,12 +325,12 @@ class Clansuite_Cssbuilder
         /**
          * create Info + compiled backend theme stylesheet
          */
-        if(true === $builderInfo['compileThemeBackend'])
+        if(true === $config['compileThemeBackend'])
         {
             $coreImp = '.';
             $_comp = $_compact;
 
-            if(true === $builderInfo['coreImport'])
+            if(true === $config['coreImport'])
             {
                 $_comp .= "/** [Core Import] */\n";
                 $_comp .= "@import url('../../../core/css/" . $coreCssName . "');\n\n";
@@ -383,12 +383,12 @@ class Clansuite_Cssbuilder
     {
         $iniArray = parse_ini_file($inifile);
         #Clansuite_Debug::printR( $iniArray );
-        
+
         # replacements
         $search = array(' ', "\t", "\r\n", "\r", CR);
         $replace = array('', '', '', '', '', '');
-	       $iniArray['files'] = str_replace( $search, $replace, $iniArray['files']);       
-        
+	       $iniArray['files'] = str_replace( $search, $replace, $iniArray['files']);
+
         if(mb_substr($iniArray['files'], strlen($iniArray['files']) - 1) == ',')
         {
             $iniArray['files'] = mb_substr($iniArray['files'], 0, strlen($iniArray['files']) - 1);
@@ -434,7 +434,7 @@ class Clansuite_Cssbuilder
         $core_compact .= ' * Description:  ' . $coreInfo['description'] . CR;
         $core_compact .= ' * Author:       ' . $coreInfo['author'] . CR;
         $core_compact .= ' * Version:      ' . $coreInfo['version'] . CR;
-        $core_compact .= ' * Version-Date: ' . $coreInfo['date'] . CR;       
+        $core_compact .= ' * Version-Date: ' . $coreInfo['date'] . CR;
         $core_compact .= ' * ----------------------------------------------------------------------------------------------' . CR;
         $core_compact .= ' */' . CR;
 
@@ -484,14 +484,14 @@ class Clansuite_Cssbuilder
 
     /**
      * load_stylesheet
-     * 
+     *
      * @param $file The css file with the contents of the stylesheet.
      * @param $optimize (optional) Boolean whether CSS contents should be minified. Defaults to FALSE
      */
     protected static function load_stylesheet($file, $optimize = true)
     {
         $contents = '';
-        
+
         if(file_exists($file) === true)
         {
             # Load the local CSS stylesheet.
@@ -499,7 +499,7 @@ class Clansuite_Cssbuilder
 
             # image path anpassen
             #$contents = str_replace('../images', 'images', $contents);
-            $contents = str_replace('../../images', '../images', $contents);            
+            $contents = str_replace('../../images', '../images', $contents);
 
             # Change to the current stylesheet's directory.
             $cwd = getcwd();
@@ -519,10 +519,10 @@ class Clansuite_Cssbuilder
      * load_stylesheet_content
      *
      * Processes the content of a stylesheet for aggregation.
-     * 
+     *
      * @see Drupal v8, common.inc -> drupal_load_stylesheet_content()
      * @license GPL v2+
-     * 
+     *
      * @param $contents The contents of the stylesheet.
      * @param $optimize (optional) Boolean whether CSS contents should be minified. Defaults to FALSE
      */
@@ -571,9 +571,9 @@ class Clansuite_Cssbuilder
 
         // Replaces @import commands with the actual stylesheet content.
         // This happens recursively but omits external files.
-        $contents = preg_replace_callback('/@import\s*(?:url\(\s*)?[\'"]?(?![a-z]+:)([^\'"\()]+)[\'"]?\s*\)?\s*;/', 
+        $contents = preg_replace_callback('/@import\s*(?:url\(\s*)?[\'"]?(?![a-z]+:)([^\'"\()]+)[\'"]?\s*\)?\s*;/',
                 'self::load_stylesheet', $contents);
-        
+
         return $contents;
     }
 
@@ -630,9 +630,9 @@ class Clansuite_Cssbuilder
         return self::$_browsers;
     }
 
-    public static function getBuilderInfo()
+    public static function getConfiguration()
     {
-        return self::$_builderInfo;
+        return self::$_configuration;
     }
 
     /**
@@ -668,37 +668,31 @@ class Clansuite_Cssbuilder
     /**
      * BuilderInfo contains all definitions for the builder
      *
-     * @param $data array Builder infos (paths, browser etc.)
+     * @param $config array Builder infos (paths, browser etc.)
      */
-    public static function setBuilderInfo($data)
+    public static function setConfiguration(array $config = null)
     {
-        $aBuilderInfo = array();
-
-        // initialize width default while $data not declared
-        if(false === is_array($data) or count($data) == 0)
+        // initialize with default values when $options not declared
+        if($config === null)
         {
-            $aBuilderInfo['compileCore'] = false;
-            $aBuilderInfo['coreImport'] = true;
+            $config['compileCore'] = false;
+            $config['coreImport'] = true;
 
-            $aBuilderInfo['compileThemeFrontend'] = true;
-            $aBuilderInfo['themeFrontendPath'] = self::getFrontendPath();
-            $aBuilderInfo['themeFrontend'] = self::getFrontendTheme();
+            $config['compileThemeFrontend'] = true;
+            $config['themeFrontendPath'] = self::getFrontendPath();
+            $config['themeFrontend'] = self::getFrontendTheme();
 
-            $aBuilderInfo['compileThemeBackend'] = false;
-            $aBuilderInfo['themeBackendPath'] = self::getBackendPath();
-            $aBuilderInfo['themeBackend'] = self::getBackendTheme();
-            $aBuilderInfo['browsers'] = self::getBrowsers();
-        }
-        else
-        {
-            $aBuilderInfo = $data;
+            $config['compileThemeBackend'] = false;
+            $config['themeBackendPath'] = self::getBackendPath();
+            $config['themeBackend'] = self::getBackendTheme();
+            $config['browsers'] = self::getBrowsers();
         }
 
-        $aBuilderInfo['info']['generator_name'] = self::$generatorName;
-        $aBuilderInfo['info']['generator_version'] = self::$generatorVersion;
-        $aBuilderInfo['info']['generator_version_date'] = self::$generatorVersionDate;
+        $config['info']['generator_name'] = self::$generatorName;
+        $config['info']['generator_version'] = self::$generatorVersion;
+        $config['info']['generator_version_date'] = self::$generatorVersionDate;
 
-        self::$_builderInfo = $aBuilderInfo;
+        self::$_configuration = $config;
     }
 }
 ?>
