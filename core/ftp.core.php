@@ -89,6 +89,11 @@ class Clansuite_FTP
      */
     public function __construct($server, $username, $password, $port = 21, $passive = FALSE)
     {
+        if(extension_loaded('ftp') === false)
+        {
+            throw new Exception('PHP extension FTP is not loaded.');
+        }
+
         $this->server = $server;
         $this->username = $username;
         $this->password = $password;
