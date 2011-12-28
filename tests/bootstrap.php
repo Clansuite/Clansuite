@@ -88,6 +88,16 @@ define('TESTSUBJECT_DIR', dirname(__DIR__) . DIRECTORY_SEPARATOR); # /../tests (
 # @todo load not add on CLI
 require_once 'core/debug/debug.core.php';
 
+/**
+ * Gettext Replacement
+ * 
+ * @param type $msgid
+ */
+function _($msgid)
+{
+    return $msgid;
+}
+
 # put more bootstrapping code here
 
 /**

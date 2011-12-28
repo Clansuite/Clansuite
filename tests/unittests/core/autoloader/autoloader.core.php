@@ -85,7 +85,7 @@ class Clansuite_Loader_Test extends Clansuite_UnitTestCase
     public function testMethod_autoloadExclusions()
     {
         # exclude "Cs" classes
-        $this->assertTrue(Clansuite_Loader::autoloadExclusions('Cs_SomeClass'));
+        #$this->assertTrue(Clansuite_Loader::autoloadExclusions('Cs_SomeClass'));
 
         # exclude "Smarty_Internal" classes
         $this->assertTrue(Clansuite_Loader::autoloadExclusions('Smarty_Internal_SomeClass'));
