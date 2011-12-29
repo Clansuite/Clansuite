@@ -153,18 +153,27 @@
 
     <!-- Define Fileset "clansuite.projectfiles" -->
     <fileset id="clansuite.projectfiles" dir="${svn.local.export.directory}">   <!-- based on trunk -->
-        <include name="**" />                           <!-- include all files -->
+        <include name="**/**" />                        <!-- include all files -->
         <exclude name="build-tools/**" />               <!-- exclude build-tools directory -->
-        <exclude name="tests/**" />                     <!-- exclude tests directory -->
+        <exclude name="**/tests/**" />                  <!-- exclude tests directory -->
         <exclude name="tmp/**" />                       <!-- exclude temporary directory -->
-        <exclude name=".htaccess"/>                     <!-- exclude htaccess -->
+        <exclude name=".htaccess"/>
+        <exclude name="build.xml" />
+        <exclude name="**/*.log" />
+        <exclude name="**/.svn/**" />
+        <exclude name="**/.git/**" />
+        <exclude name="**/nbproject" />                 <!-- exclude netbeans configuration file -->
+        <exclude name="**/.project" />                  <!-- exclude eclipse configuration file -->
+        <exclude name="**/.buildpath" />
+        <exclude name="**/.settings" />
+        <exclude name="**/.idea/**" />                  <!-- exclude phpstorm configuration file -->
     </fileset>
 
     <!-- Define Fileset "clansuite.projectfiles.docs" Documentation Fileset (exclude Smarty, because Phing is stupid :) -->
     <fileset id="clansuite.projectfiles.docs" dir="${svn.local.export.directory}">   <!-- based on trunk -->
         <include name="**/*.php" />                     <!-- include all php files -->
         <exclude name="build-tools/**" />               <!-- exclude build-tools directory -->
-        <exclude name="tests/**" />                     <!-- exclude tests directory -->
+        <exclude name="**/tests/**" />                  <!-- exclude tests directory -->
         <exclude name="*Test.php"/>                     <!-- exclude all test files -->
         <exclude name="**/*Test.php"/>
         <exclude name="tmp/**p" />                      <!-- exclude temporary directory -->
@@ -385,7 +394,9 @@
 
     <target name="phpcb" description="PHP_Codebrowser builds a HTML Representation out of the Code-Violations.">
         <echo msg="PHP_Codebrowser builds a HTML Representation out of the Code-Violations." />
-        <exec command="phpcb --log ${builddir}/logs --output ${builddir}/codebrowser" />
+        <exec command="phpcb --log ${builddir}/logs
+                             --exclude '*libraries/*'
+                             --output ${builddir}/codebrowser" />
     </target>
 
     <!-- ================================================= -->
