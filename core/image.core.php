@@ -41,9 +41,9 @@ if(defined('IN_CS') === false)
  *
  * @author     Daniel Winterfeldt
  *
- * @package     clansuite
- * @subpackage  core
- * @category    image
+ * @package     Clansuite
+ * @subpackage  Core
+ * @category    Image
  */
 class Clansuite_Image
 {
@@ -245,6 +245,15 @@ class Clansuite_Image
 
 }
 
+/**
+ * Clansuite Core Class for Image Watermarking
+ *
+ * @author     Daniel Winterfeldt
+ *
+ * @package     Clansuite
+ * @subpackage  Core
+ * @category    Image
+ */
 class Clansuite_Watermark extends Clansuite_Image
 {
 
@@ -261,6 +270,15 @@ class Clansuite_Watermark extends Clansuite_Image
 
 }
 
+/**
+ * Clansuite Core Class for Image Thumbnailing
+ *
+ * @author     Daniel Winterfeldt
+ *
+ * @package     Clansuite
+ * @subpackage  Core
+ * @category    Image
+ */
 class Clansuite_Thumbnail extends Clansuite_Image
 {
     protected $object;
@@ -287,16 +305,25 @@ class Clansuite_Thumbnail extends Clansuite_Image
             return $ratio;
         }
 
-        if($object->newHeight != 0)
+        if($this->object->newHeight != 0)
         {
-            $ratio = $object->originalHeight / $object->newHeight;
-            $object->newWidth((int) round($object->originalWidth / $ratio));
+            $ratio = $this->object->originalHeight / $this->object->newHeight;
+            $this->object->newWidth((int) round($this->object->originalWidth / $ratio));
             return $ratio;
         }
     }
 
 }
 
+/**
+ * Clansuite Core Class for Image Cropping
+ *
+ * @author     Daniel Winterfeldt
+ *
+ * @package     Clansuite
+ * @subpackage  Core
+ * @category    Image
+ */
 class Clansuite_Crop extends Clansuite_Image
 {
 
