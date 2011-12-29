@@ -24,7 +24,7 @@
     * @license    GNU/GPL v2 or (at your option) any later version, see "/doc/LICENSE".
     * @author     Jens-André Koch <vain@clansuite.com>
     * @copyright  Jens-André Koch (2005 - onwards)
-    * @author     Florian Wolf <xsign.dll@clansuite.com> 2005-2006
+    * @author     Florian Wolf <xsign.dll@clansuite.com>
     * @copyright  Florian Wolf (2005-2006)
     *
     * @version    SVN: $Id$
@@ -40,25 +40,30 @@ define('IN_CS', true);
 # Debugging Handler
 define('DEBUG', false);
 
+# Define: DS; INSTALLATION_ROOT; ROOT
+define('DS', DIRECTORY_SEPARATOR);
+define('INSTALLATION_ROOT', __DIR__ . DS);
+define('ROOT', dirname(INSTALLATION_ROOT) . DS);
+define('ROOT_CACHE', ROOT . 'cache' . DS);
+
 /**
- * Suppress Errors and use E_STRICT when Debugging
- * E_STRICT forbids the shortage of "<?php echo$language->XY ?>" to "<?php echo $language->XY ?>"
- * so we use E_ALL when DEBUGING. This is just an installer btw :)
+ * @var HTML Break + Carriage Return
  */
+define('NL', "<br />\r\n", false);
+define('CR', "\n");
+
+# Error Reporting Level
+error_reporting(E_ALL | E_STRICT);
 ini_set('display_startup_errors', true);
 ini_set('display_errors', true);
-error_reporting(E_ALL | E_STRICT);
 
-if(DEBUG)
-{
-    var_dump($_SESSION);
-    var_dump($_POST);
-}
+// Define $error
+$error = '';
 
 /**
- *  ================================================
+ *  =====================
  *     Startup Checks
- *  ================================================
+ *  =====================
  */
 try
 {
@@ -89,21 +94,24 @@ catch(Exception $e)
     exit($e);
 }
 
-// Define: DS; INSTALLATION_ROOT; ROOT
-define('DS', DIRECTORY_SEPARATOR);
-define('INSTALLATION_ROOT', getcwd() . DS);
-define('ROOT', dirname(INSTALLATION_ROOT) . DS);
-define('ROOT_CACHE', ROOT . 'cache' . DS);
-
 // The Clansuite version this script installs
 require ROOT . 'core/bootstrap/clansuite.version.php';
 
-// Define $error
-$error = '';
+// Initialize Doctrine2 Autoloader
+use Doctrine\Common\ClassLoader;
+require ROOT . 'libraries/Doctrine/Common/ClassLoader.php';
+$classLoader = new ClassLoader('Doctrine', ROOT . 'libraries/');
+$classLoader->register();
 
-#========================
-#      SELF DELETION
-#========================
+if(DEBUG)
+{
+    var_export($_SESSION, false);
+    var_export($_POST, false);
+}
+
+#===================
+#   SELF DELETION
+#===================
 
 if(isset($_GET['delete_installation']))
 {
@@ -111,13 +119,13 @@ if(isset($_GET['delete_installation']))
 }
 
 #================================
-#    STEP HANDLING + PROGRESS
+#   STEP HANDLING + PROGRESS
 #================================
 # Get Total Steps and if we are at max_steps, set step to max
 $total_steps = get_total_steps();
 
 # Update the session with the given variables!
-$_SESSION = array_merge_rec($_SESSION, $_POST);
+$_SESSION = array_merge_rec($_POST, $_SESSION);
 
 # STEP HANDLING
 if(isset($_SESSION['step']))
@@ -143,7 +151,7 @@ date_default_timezone_set('Europe/Berlin');
 # Get language from GET
 if(isset($_GET['lang']) and empty($_GET['lang']) === false)
 {
-    $lang = (string) htmlspecialchars($_GET['lang']);
+    $lang = (string) htmlspecialchars($_GET['lang'], ENT_QUOTES, 'UTF-8');
 }
 else
 {
@@ -209,83 +217,102 @@ if(isset($_POST['step_forward']) && $step == 5)
 {
     # check if input-fields are filled
     if(!empty($_POST['config']['database']['name']) &&
-            ! ctype_digit($_POST['config']['database']['name']) &&
-            preg_match('#^[a-zA-Z0-9]{1,}[a-zA-Z0-9_\-@]+[a-zA-Z0-9_\-@]*$#', $_POST['config']['database']['name']) &&
-            ! empty($_POST['config']['database']['host']) &&
-            ! empty($_POST['config']['database']['driver']) &&
-            ! empty($_POST['config']['database']['username']) &&
-            isset($_POST['config']['database']['password'])
-    )
+        ! ctype_digit($_POST['config']['database']['name']) &&
+        preg_match('#^[a-zA-Z0-9]{1,}[a-zA-Z0-9_\-@]+[a-zA-Z0-9_\-@]*$#', $_POST['config']['database']['name']) &&
+        ! empty($_POST['config']['database']['host']) &&
+        ! empty($_POST['config']['database']['driver']) &&
+        ! empty($_POST['config']['database']['username']) &&
+        isset($_POST['config']['database']['password']))
     {
 
         /**
          * 1. Check if Connection Data is valid (establish db connection)
          */
-        $db_connection = '';
-        $db_connection = @mysql_pconnect(
-                        $_POST['config']['database']['host'],
-                        $_POST['config']['database']['username'],
-                        $_POST['config']['database']['password']);
-        if($db_connection == false)
-        {
-            $step = 4;
-            $error = 'Konnte keine Verbindung zur Datenbank herstellen. Host, User+PW prï¿½fen.' . '<br />' . mysql_error();
-        }
+        $config = new \Doctrine\DBAL\Configuration();
+
+
 
         /**
-         * 2. create the database?
-         *
-         * http://dev.mysql.com/doc/refman/5.0/en/charset-unicode-sets.html
-         * so for german language there are "utf8_general_ci" or "utf8_unicode_ci"
+         * 2. Create Database?
          */
-        if(isset($_POST['config']['database']['create_database']) and
-                 $_POST['config']['database']['create_database'] == 'on')
+        if(isset($_POST['config']['database']['create_database']) and $_POST['config']['database']['create_database'] == 'on')
         {
-            if(!@mysql_query('CREATE DATABASE ' . $_POST['config']['database']['name'] . ' DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci', $db_connection))
+            try
+            {
+                # connection without dbname (must be blank for create table)
+                $connectionParams = array(
+                    'user'      => $_POST['config']['database']['username'],
+                    'password'  => $_POST['config']['database']['password'],
+                    'host'      => $_POST['config']['database']['host'],
+                    'driver'    => $_POST['config']['database']['driver'],
+                );
+
+                $connection = \Doctrine\DBAL\DriverManager::getConnection($connectionParams, $config);
+                $connection->setCharset('UTF8');
+
+                /**
+                 * fetch doctrine schema manager
+                 * and create database
+                 */
+                $schema_manager = $connection->getSchemaManager();
+                $schema_manager->createDatabase($_POST['config']['database']['name']);
+
+                /**
+                 * Another way of doing this, is via the specific database platform command
+                 * for creating the database, so: ask the platform which sql cmd to use...
+                 * Results for pdo_mysql in a string like 'CREATE DATABASE name'.
+                 */
+                #$db = $connection->getDatabasePlatform();
+                #$sql = $db->getCreateDatabaseSQL('databasename');
+                #$connection->exec($sql);
+            }
+            catch(Exception $e)
             {
                 $step = 4;
-                $error = $language['ERROR_WHILE_CREATING_DATABASE'] . '<br />' . mysql_error();
+                $error = $language['ERROR_WHILE_CREATING_DATABASE'] . NL . $e->getMessage();
             }
-
-            # remove create_database from $_POST Config array
-            # so that it will not be written in the config file later on
-            unset($_POST['config']['database']['create_database']);
         }
 
         /**
-         * 3. Check if database is selectable
+         * Reconnect to database
          */
-        if(!@mysql_select_db($_POST['config']['database']['name']))
+        unset($connection);
+
+        # setup connection paramets, this time with dbname
+        $connectionParams = array(
+            'dbname'    => $_POST['config']['database']['name'],
+            'user'      => $_POST['config']['database']['username'],
+            'password'  => $_POST['config']['database']['password'],
+            'host'      => $_POST['config']['database']['host'],
+            'driver'    => $_POST['config']['database']['driver'],
+        );
+
+        # get connection
+        $connection = \Doctrine\DBAL\DriverManager::getConnection($connectionParams, $config);
+        $connection->setCharset('UTF8');
+
+        /**
+         * 4. Insert SQL Data into Database
+         */
+        try
+        {
+            $sqlFile = INSTALLATION_ROOT . 'sql/clansuite.sql';
+            importSQL($sqlFile, $connection);
+        }
+        catch(Exception $e)
         {
             $step = 4;
-            $error = 'Datenbanktabelle konnte nicht selektiert werden. Entweder falsch benannt oder momentan nicht erreichbar.' . '<br />' . mysql_error();
+            $error = $language['ERROR_NO_DB_CONNECT'] . NL . $e->getMessage();
         }
 
         /**
-         * 4. Insert SQL Data
+         * 5. Write Settings to clansuite.config.php
          */
-        $sqlfile = INSTALLATION_ROOT . 'sql/clansuite.sql';
-        if(!loadSQL($sqlfile, $_POST['config']['database']['host'],
-                        $_POST['config']['database']['name'],
-                        $_POST['config']['database']['username'],
-                        $_POST['config']['database']['password']))
+        if(false === write_config_settings($_POST['config']))
         {
             $step = 4;
-            $error = $language['ERROR_NO_DB_CONNECT'] . '<br />' . mysql_error();
+            $error = 'Config not written.'. NL;
         }
-        else # sql inserted correctly into database
-        {
-            # 5. Write Settings to clansuite.config.php
-            if(!write_config_settings($_POST['config']))
-            {
-                $step = 4;
-                $error = 'Config not written <br />';
-            }
-            else # config written
-            {
-
-            } # end if: 5. write settings to clansuite cfg
-        } # end if: 4. insert SQL Data
     }
     else # input fields empty
     {
@@ -308,19 +335,19 @@ if(isset($_POST['step_forward']) && $step == 5)
  */
 if(isset($_POST['step_forward']) && $step == 6)
 {
-    #var_dump($_SESSION);
+
     # check if input-fields are filled
     if(isset($_POST['config']['template']['pagetitle']) &&
-            isset($_POST['config']['email']['from']) &&
-            isset($_POST['config']['language']['timezone']))
+       isset($_POST['config']['email']['from']) &&
+       isset($_POST['config']['language']['timezone']))
     {
-        $array_to_write = array();
-        $array_to_write = $_POST['config'];
-        $array_to_write['language']['gmtoffset'] = (int) $_POST['config']['language']['timezone'];
-        $array_to_write['language']['timezone'] = (string) timezone_name_from_abbr('', $_POST['config']['language']['timezone'], 0);
+        $config_array = array();
+        $config_array = $_POST['config'];
+        $config_array['language']['gmtoffset'] = (int) $_POST['config']['language']['timezone'];
+        $config_array['language']['timezone'] = (string) timezone_name_from_abbr('', $_POST['config']['language']['timezone'], 0);
 
         # write Settings to clansuite.config.php
-        if(!write_config_settings($array_to_write))
+        if(!write_config_settings($config_array))
         {
             $step = 5;
             $error = 'Config not written <br />';
@@ -338,14 +365,17 @@ if(isset($_POST['step_forward']) && $step == 6)
 }
 
 /**
- * ========================================================
+ * ===============================================================
  *      Handling of Installation STEP 6 - Create Administrator
- * ========================================================
+ * ===============================================================
  */
 if(isset($_POST['step_forward']) && $step == 7)
 {
+    // Security Class is required for Password Hashes
+    require ROOT . 'core/security.core.php';
+
     # checken, ob admin name und password vorhanden
-    # wenn nicht, fehler : zurï¿½ck zu STEP6
+    # wenn nicht, fehler : zurï¿?ck zu STEP6
     if(!isset($_POST['admin_name']) && ! isset($_POST['admin_password']))
     {
         $step = 6;
@@ -353,15 +383,13 @@ if(isset($_POST['step_forward']) && $step == 7)
     }
     else
     {
-        # @todo Check mysql connect
-        $db = @mysql_pconnect($_SESSION['config']['database']['host'], $_SESSION['config']['database']['username'], $_SESSION['config']['database']['password']);
         // Generate activation code & salted hash
-        $hashArr = build_salted_hash($_POST['admin_password'], $_SESSION['encryption']);
+        $hashArr = Clansuite_Security::build_salted_hash($_POST['admin_password'], $_SESSION['encryption']);
         $hash = $hashArr['hash'];
         $salt = $hashArr['salt'];
 
         // Insert User to DB
-        # @todo check mysql insert
+        $connection->
         $result = @mysql_query('INSERT INTO ' . $_SESSION['config']['database']['prefix'] . 'users SET
                                 email= \'' . $_POST['admin_email'] . '\',
                                 nick= \'' . $_POST['admin_name'] . '\',
@@ -454,117 +482,6 @@ function get_total_steps()
 }
 
 /**
- * This functions takes a clear (password) string and prefixes a random string called
- * "salt" to it. The new combined "salt+password" string is then passed to the hashing
- * method to get an hash return value.
- * So whatï¿½s stored in the database is Hash(password, users_salt).
- *
- * Why salting? 2 Reasons:
- * 1) Make Dictionary Attacks (pre-generated lists of hashes) useless
- *    The dictionary has to be recalculated for every account.
- * 2) Using a salt fixes the issue of multiple user-accounts having the same password
- *    revealing themselves by identical hashes. So in case two passwords would be the
- *    same, the random salt makes the difference while creating the hash.
- *
- * @param string A clear-text string, like a password "JohnDoe$123"
- *
- * @return $hash is an array, containing ['salt'] and ['hash']
- */
-function build_salted_hash($string = '', $hash_algo = '')
-{
-    # set up the array
-    $salted_hash_array = array();
-    # generate the salt with fixed length 6 and place it into the array
-    $salted_hash_array['salt'] = generate_salt(6);
-    # combine salt and string
-    $salted_string = $salted_hash_array['salt'] . $string;
-    # generate hash from "salt+string" and place it into the array
-    $salted_hash_array['hash'] = generate_hash($hash_algo, $salted_string);
-    # return array with elements ['salt'], ['hash']
-    return $salted_hash_array;
-}
-
-/**
- * This is security.class.php -> method generate_salt().
- *
- * Get random string/salt of size $length
- * mt_srand() && mt_rand() are used to generate even better
- * randoms, because of mersenne-twisting.
- *
- * @param integer $length Length of random string to return
- *
- * @return string Returns a string with random generated characters and numbers
- */
-function generate_salt($length)
-{
-    # set salt to empty
-    $salt = '';
-
-    # seed the randoms generator with microseconds since last "whole" second
-    mt_srand((double) microtime() * 1000000);
-
-    # set up the random chars to choose from
-    $chars = "./0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
-
-    # count the number of random_chars
-    $number_of_random_chars = mb_strlen($chars);
-
-    # add a char from the random_chars to the salt, until we got the wanted $length
-    for($i = 0; $i < $length; ++$i)
-    {
-        # get a random char of $chars
-        $char_to_add = $chars[mt_rand(0, $number_of_random_chars)];
-
-        # ensure that a random_char is not used twice in the salt
-        if(!strstr($salt, $char_to_add))
-        {
-            # finally => add char to salt
-            $salt .= $char_to_add;
-        }
-    }
-    return $salt;
-}
-
-/**
- * This function generates a HASH of a given string using the requested hash_algorithm.
- * When using hash() we have several hashing algorithms like: md5, sha1, sha256 etc.
- * To get a complete list of available hash encodings use: print_r(hash_algos());
- * When it's not possible to use hash() for any reason, we use "md5" and "sha1".
- *
- * @link http://www.php.net/manual/en/ref.hash.php
- *
- * @param $string String to build a HASH from
- * @param $hash_type Encoding to use for the HASH (sha1, md5) default = sha1
- *
- * @return hashed string
- */
-function generate_hash($hash_algo = null, $string = '')
-{
-    # Get Config Value for Hash-Algo/Encryption
-    if($hash_algo == null)
-    {
-        $hash_algo = $_SESSION['encryption'];
-    }
-
-    # check, if we can use hash()
-    if(function_exists('hash'))
-    {
-        return hash($hash_algo, $string);
-    }
-    else
-    {   # when hash() not available, do hashing the old way
-        switch($hash_algo)
-        {
-            case 'MD5': return md5($string);
-                break;
-            default:
-            case 'SHA1': return sha1($string);
-                break;
-        }
-    }
-}
-
-/**
  * Calculate Progress
  * is used to display install-progress in percentages
  *
@@ -599,14 +516,13 @@ function installstep_3($language)
 // STEP 4 - System Check
 function installstep_4($language, $error)
 {
-    $values['host'] = isset($_SESSION['host']) ? $_SESSION['host'] : 'localhost';
-    $values['driver'] = isset($_SESSION['driver']) ? $_SESSION['driver'] : 'pdo_mysql';
-    $values['type'] = isset($_SESSION['type']) ? $_SESSION['type'] : 'mysql';
-    $values['name'] = isset($_SESSION['name']) ? $_SESSION['name'] : 'clansuite';
-    $values['create_database'] = isset($_SESSION['create_database']) ? $_SESSION['create_database'] : '0';
-    $values['username'] = isset($_SESSION['user']) ? $_SESSION['user'] : '';
-    $values['password'] = isset($_SESSION['pass']) ? $_SESSION['pass'] : '';
-    $values['prefix'] = isset($_SESSION['prefix']) ? $_SESSION['prefix'] : 'cs_';
+    $values['host']             = isset($_SESSION['host'])             ? $_SESSION['host'] : 'localhost';
+    $values['driver']           = isset($_SESSION['driver'])           ? $_SESSION['driver'] : 'pdo_mysql';
+    $values['name']             = isset($_SESSION['name'])             ? $_SESSION['name'] : 'clansuite';
+    $values['create_database']  = isset($_SESSION['create_database'])  ? $_SESSION['create_database'] : '0';
+    $values['username']         = isset($_SESSION['user'])             ? $_SESSION['user'] : '';
+    $values['password']         = isset($_SESSION['pass'])             ? $_SESSION['pass'] : '';
+    $values['prefix']           = isset($_SESSION['prefix'])           ? $_SESSION['prefix'] : 'cs_';
 
     include INSTALLATION_ROOT . 'install-step4.php';
 }
@@ -614,10 +530,10 @@ function installstep_4($language, $error)
 // STEP 5 - System Check
 function installstep_5($language)
 {
-    $values['pagetitle'] = isset($_SESSION['pagetitle']) ? $_SESSION['pagetitle'] : 'Team Clansuite';
-    $values['from'] = isset($_SESSION['from']) ? $_SESSION['from'] : 'system@website.com';
-    $values['timezone'] = isset($_SESSION['timezone']) ? $_SESSION['timezone'] : '0';
-    $values['encryption'] = isset($_SESSION['encryption']) ? $_SESSION['encryption'] : 'SHA1';
+    $values['pagetitle']    = isset($_SESSION['pagetitle'])   ? $_SESSION['pagetitle'] : 'Team Clansuite';
+    $values['from']         = isset($_SESSION['from'])        ? $_SESSION['from'] : 'webmaster@website.com';
+    $values['timezone']     = isset($_SESSION['timezone'])    ? $_SESSION['timezone'] : '3600';
+    $values['encryption']   = isset($_SESSION['encryption'])  ? $_SESSION['encryption'] : 'SHA1';
 
     include INSTALLATION_ROOT . 'install-step5.php';
 }
@@ -625,10 +541,10 @@ function installstep_5($language)
 // STEP 6 - System Check
 function installstep_6($language)
 {
-    $values['admin_name'] = isset($_SESSION['admin_name']) ? $_SESSION['admin_name'] : 'admin';
-    $values['admin_password'] = isset($_SESSION['admin_password']) ? $_SESSION['admin_password'] : 'admin';
-    $values['admin_email'] = isset($_SESSION['admin_email']) ? $_SESSION['admin_email'] : 'admin@email.com';
-    $values['admin_language'] = isset($_SESSION['admin_language']) ? $_SESSION['admin_language'] : 'en_EN';
+    $values['admin_name']       = isset($_SESSION['admin_name'])     ? $_SESSION['admin_name'] : 'admin';
+    $values['admin_password']   = isset($_SESSION['admin_password']) ? $_SESSION['admin_password'] : 'admin';
+    $values['admin_email']      = isset($_SESSION['admin_email'])    ? $_SESSION['admin_email'] : 'admin@email.com';
+    $values['admin_language']   = isset($_SESSION['admin_language']) ? $_SESSION['admin_language'] : 'en_EN';
 
     include 'install-step6.php';
 }
@@ -640,63 +556,58 @@ function installstep_7($language)
 }
 
 /**
- * Load an SQL stream into the database one command at a time
+ * Load an SQL stream into the database one command at a time.
  *
  * @params $sqlfile The file containing the mysql-dump data
- * @params $hostname Database Hostname
- * @params $database Database Name
- * @params $username Database Username
- * @params $password Database Password
- * @return BOOLEAN Returns true, if SQL was injected successfully
+ * @params $connection Instance of a PDO Connection Object
+ *
+ * @return boolean Returns true, if SQL was imported successfully.
  */
-function loadSQL($sqlfile, $hostname, $database, $username, $password)
+function importSQL($sqlfile, $connection)
 {
-    #echo"Loading SQL";
-    if($connection = @mysql_pconnect($hostname, $username, $password))
-    {
-        # select database
-        mysql_select_db($database, $connection);
-        # ensure database entries are written as UTF8
-        mysql_query("SET NAMES 'utf8'");
+    $queries = getQueriesFromSQLFile($sqlfile);
 
-        if(!is_readable($sqlfile))
-        {
-            die("$sqlfile does not exist or is not readable");
-        }
-        $queries = getQueriesFromSQLFile($sqlfile);
-        for($i = 0, $ix = count($queries); $i < $ix; ++$i)
-        {
-            $sql = $queries[$i];
-
-            if(!mysql_query($sql, $connection))
-            {
-                die(sprintf("error while executing mysql query #%u: %s<br />\nerror: %s", $i + 1, $sql, mysql_error()));
-            }
-        }
-        #echo"$ix queries imported";
-        return true; //"SQL file loaded correctly";
-    }
-    else
+    foreach($queries as $query)
     {
-        return false; //"ERROR: Could not log on to database to load SQL file: ".mysql_error() ;
+        try
+        {
+            $connection->exec($query);
+        }
+        catch (Exception $e)
+        {
+            echo $e->getMessage() . "<br/> <p>The sql is: $query</p>";
+
+        }
     }
+
+    return true;
 }
 
 /**
- * getQueriesFromSQLFile
+ * getQueriesFromSQLFile parses a sql file and extracts all queries.
+ *
  * - strips off all comments, sql notes, empty lines from an sql file
  * - trims white-spaces
  * - filters the sql-string for sql-keywords
  * - replaces the db_prefix
  *
  * @param $file sqlfile
+ *
  * @return trimmed array of sql queries
  */
-function getQueriesFromSQLFile($file)
+function getQueriesFromSQLFile($sqlfile)
 {
+    if(is_readable($sqlfile) === false)
+    {
+        throw new Exception($sqlfile . 'does not exist or is not readable.');
+    }
+
+    # read file into array
+    $file = file($sqlfile);
+
     # import file line by line
     # and filter (remove) those lines, beginning with an sql comment token
-    $file = array_filter(file($file),
+    $file = array_filter($file,
                     create_function('$line',
                             'return strpos(ltrim($line), "--") !== 0;'));
 
@@ -706,10 +617,12 @@ function getQueriesFromSQLFile($file)
                             'return strpos(ltrim($line), "/*") !== 0;'));
 
     # this is a whitelist of SQL commands, which are allowed to follow a semicolon
-    $keywords = array('ALTER', 'CREATE', 'DELETE', 'DROP', 'INSERT', 'REPLACE', 'SELECT', 'SET',
-        'TRUNCATE', 'UPDATE', 'USE');
+    $keywords = array(
+        'ALTER', 'CREATE', 'DELETE', 'DROP', 'INSERT',
+        'REPLACE', 'SELECT', 'SET', 'TRUNCATE', 'UPDATE', 'USE'
+    );
 
-    # create the regular expression
+    # create the regular expression for matching the whitelisted keywords
     $regexp = sprintf('/\s*;\s*(?=(%s)\b)/s', implode('|', $keywords));
 
     # split there
@@ -718,9 +631,9 @@ function getQueriesFromSQLFile($file)
     # remove trailing semicolon or whitespaces
     $splitter = array_map(create_function('$line',
                             'return preg_replace("/[\s;]*$/", "", $line);'),
-                    $splitter);
+                          $splitter);
 
-    # replace the database prefix
+    # replace the default database prefix "cs_"
     $table_prefix = $_POST['config']['database']['prefix'];
     $splitter = preg_replace("/`cs_/", "`$table_prefix", $splitter);
 
@@ -732,15 +645,13 @@ function getQueriesFromSQLFile($file)
  * Writes the Database-Settings into the clansuite.config.php
  *
  * @param $data_array
- * @return BOOLEAN true, if clansuite.config.php could be written to the INSTALLATION_ROOT
  *
+ * @return BOOLEAN true, if clansuite.config.php could be written to the INSTALLATION_ROOT
  */
 function write_config_settings($data_array)
 {
     # Read/Write Handler for Configfiles
     include ROOT . 'core/config/ini.config.php';
-
-    define('CR', "\n");
 
     # throw not needed / non-setting vars out
     unset($data_array['step_forward']);
@@ -772,14 +683,21 @@ function write_config_settings($data_array)
  */
 function deleteInstallationFolder()
 {
-    echo "Deleting ";
-    $dir = getcwd();
-    removeDirectory($dir);
-    if(!file_exists($dir))
+    echo "Deleting Directory - " . __DIR__;
+
+    removeDirectory(__DIR__);
+
+    # display success message
+    if(false === file_exists(__DIR__))
     {
-        echo '<p><center><h1>Finished!</h1><br /><p><a href="../index.php">Click here to proceed!</a></p></center></p>';
+        echo '<p><center>
+                <h1>Finished!</h1>
+                <br />
+                <p><a href="../index.php">Click here to proceed!</a></p>
+              </center></p>';
     }
-    die();
+
+    exit();
 }
 
 /**
@@ -856,13 +774,12 @@ function pdo_conect($dbname, $name, $password)
  */
 class Clansuite_Installation_Startup_Exception extends Exception
 {
-
     /**
-     *    Define Exceptionmessage && Code via constructor
+     * Define Exceptionmessage && Code via constructor
+     * and hand it over to the parent Exception Class
      */
     public function __construct($message, $code = 0)
     {
-        // hand it over to the Exception Class, which is parent
         parent::__construct($message, $code);
     }
 

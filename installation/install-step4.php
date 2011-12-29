@@ -12,11 +12,10 @@ if (defined('IN_CS') === false)
                     <img src="images/64px-Document-save.svg.png" border="0" style="vertical-align:middle" alt="installstep image" />
                     <?php echo $language['STEP4_DATABASE']; ?>
                 </h2>
-                <?php if ($error != '' ) { ?>
-                <fieldset class="error_red">
-                    <legend>Error</legend>
+                <?php if (!empty($error)) { ?>
+                <div class="error_red">
                     <strong><?php echo $error ?></strong>
-                </fieldset>
+                </div>
                 <?php } ?>
                 <p><?php echo $language['STEP4_SENTENCE1']; ?></p>
                 <p><?php echo $language['STEP4_SENTENCE2']; ?></p>

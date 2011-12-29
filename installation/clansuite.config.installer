@@ -48,4 +48,7 @@ development     = 1
 debug_popup     = 0
 webdebug        = 0
 
+[maintenance]
+maintenance     = 0
+
 ; DO NOT REMOVE THIS LINE */ ?>

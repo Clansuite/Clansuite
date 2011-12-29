@@ -7,7 +7,6 @@ if (defined('IN_CS') === false)
 ?>
 
     <div id="footer">
-
         <p style="opacity:0.60;">
             <br />
             <?php
@@ -28,11 +27,12 @@ if (defined('IN_CS') === false)
             </a>
         </span>
     </div>
+
 </div><!-- PAGE ENDE -->
 
 <div id="rightpage">
    <div id="rightsidebar">
-   <div id="rightinner">
+
         <ul>
 
             <!-- Installation Progress BAR -->
@@ -105,19 +105,19 @@ if (defined('IN_CS') === false)
 
             <!-- Clansuite Shortcuts -->
             <li><h2><?php echo $language['SHORTCUTS']; ?></h2></li>
-            <li><strong><a href="http://www.clansuite.com/">Website</a></strong></li>
+            <li><strong><a href="http://clansuite.com/">Website</a></strong></li>
             <li><strong><a href="http://forum.clansuite.com/">Forum</a></strong></li>
-            <li><strong><a href="http://forum.clansuite.com/index.php?board=25">Installsupport</a></strong></li>
+            <li><strong><a href="http://forum.clansuite.com/index.php?board=4">Supportforum</a></strong></li>
             <li><strong><a href="http://trac.clansuite.com/">Bugtracker</a></strong></li>
             <li><strong><a href="http://webchat.quakenet.org/?channels=clansuite">IRC Webchat</a></strong></li>
-            <li><strong><a href="http://www.clansuite.com/toolbar/">Toolbar</a></strong></li>
+            <li><strong><a href="http://clansuite.com/toolbar/">Toolbar</a></strong></li>
 
             <!-- Link Us -->
             <li><h2>Link us</h2></li>
-            <li><a href="http://www.clansuite.com/banner/" target="_blank"><img src="http://www.clansuite.com/banner/clansuite-crown-banner-88x31.png" alt="Clansuite 80x31 LOGO" /></a></li>
+            <li><a href="http://clansuite.com/banner/" target="_blank"><img src="http://clansuite.com/banner/clansuite-crown-banner-88x31.png" alt="Clansuite 80x31 LOGO" /></a></li>
 
        </ul>
-    </div><!-- rightinner ENDE -->
+   
     </div><!-- rightsidebar ENDE -->
 </div><!-- rightpage ENDE -->
 
