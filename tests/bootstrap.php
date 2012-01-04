@@ -93,9 +93,12 @@ require_once 'core/debug/debug.core.php';
  * 
  * @param type $msgid
  */
-function _($msgid)
+if (!function_exists('_'))
 {
-    return $msgid;
+    function _($msgid)
+    {
+        return $msgid;
+    }
 }
 
 # put more bootstrapping code here
