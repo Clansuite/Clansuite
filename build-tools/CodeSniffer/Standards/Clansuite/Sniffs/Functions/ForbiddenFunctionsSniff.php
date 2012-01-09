@@ -136,6 +136,8 @@ class Clansuite_Sniffs_Functions_ForbiddenFunctionsSniff extends Generic_Sniffs_
              'mysqli_send_long_data'    => 'use mysqli_stmt_send_long_data instead',
              'mysqli::client_encoding'  => 'use mysqli::character_set_name instead',
              'mysqli_stmt::stmt'        => null,
+             'die'                      => 'use exit',
+             'flush'                    => 'rename method from flush to send',
 
              # 8) due to performance reasons the following methods are forbidden
              'file_exists'              => 'is_file',
