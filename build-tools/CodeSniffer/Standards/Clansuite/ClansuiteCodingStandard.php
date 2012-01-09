@@ -160,6 +160,8 @@ class PHP_CodeSniffer_Standards_Clansuite_ClansuiteCodingStandard extends PHP_Co
             # Ensures all control structure keywords are lowercase.
             'Squiz/Sniffs/ControlStructures/LowercaseDeclarationSniff.php',
             # Checks that all uses of "true", "false" and "null" are lowercase.
+            # zend_register_constant()
+            # http://svn.php.net/viewvc/php/php-src/trunk/Zend/zend_constants.c?view=markup
             'Generic/Sniffs/PHP/LowerCaseConstantSniff.php',
 
         # Operators
