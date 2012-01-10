@@ -1,15 +1,10 @@
 <?php
 /**
- * Clansuite Smarty Viewhelper
- *
- * @category Clansuite
- * @package Smarty
- * @subpackage Viewhelper
+ * Clansuite Smarty Viewhelper for rendering Flashmessages
  */
-
 function smarty_function_flashmessages($params, $smarty)
 {
-    # rener only a certain type-set of flashmessages
+    # render only a certain type of flashmessages
     if(isset($params['type']))
     {
         return Clansuite_Flashmessages::render($params['type']);
