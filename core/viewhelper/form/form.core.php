@@ -730,7 +730,7 @@ class Clansuite_Form implements Clansuite_Form_Interface
      */
     public function formHasErrors()
     {
-        return $this->formerror_flag;
+        return $this->error;
     }
 
     /**
@@ -1125,28 +1125,29 @@ class Clansuite_Form implements Clansuite_Form_Interface
      * processForm
      *
      * This is the main formular processing loop.
-     * If the form doesn't validate, redisplay it, else present "Success"-Message!
+     * If the form does not validate, then redisplay it,
+     * else present "Success"-Message!
      */
     public function processForm()
     {
         # check if form has been submitted properly
-        if ($this->validateForm() === false)
+        if ($this->validate() === false)
         {
             # if not, redisplay the form (decorate with errors + render)
-            $this->addValidator($validator);
-            $this->renderFormWithErrors();
+            $this->addDecorator('errors');
+            $this->render();
 
         }
-        else # form was properly filled, display a success web page
+        else # form was properly filled, display a success web page or a flashmessage
         {
-            # success!!
-            $this->success();
+            /**
+             * Success - form content valid.
+             * The "noerror" decorator implementation decides,
+             * if a success web page or a flashmessage is used.
+             */
+            $this->addDecorator('noerror');
+            $this->render();
         }
-    }
-
-    public function renderFormWithErrors()
-    {
-
     }
 
     /**
@@ -1624,6 +1625,7 @@ class Clansuite_Form implements Clansuite_Form_Interface
      * Validates the form.
      *
      * The method iterates (loops over) all formelement objects and calls the validation on each object.
+     * In other words: a form is valid, if all formelement are valid. Suprise, suprise.
      *
      * @return boolean Returns true if form validates, false if validation fails, because errors exist.
      */
@@ -1636,8 +1638,8 @@ class Clansuite_Form implements Clansuite_Form_Interface
                 # raise error flag on the form
                 $this->setErrorState(true);
 
-                # and transfer errormessage from formelement to form errormessages stack
-                $this->addErrormessage($formelement->getError());
+                # and transfer errormessages from formelement to form errormessages stack
+                #$this->addErrorMessage($formelement->getErrorMessages());
             }
         }
 
@@ -1678,12 +1680,12 @@ class Clansuite_Form implements Clansuite_Form_Interface
         return $this->error;
      }
 
-     public function addErrormessage($errormessage)
+     public function addErrorMessage($errormessage)
      {
         $this->errormessages[] = $errormessage;
      }
 
-     public function addErrormessages(array $errormessages)
+     public function addErrorMessages(array $errormessages)
      {
         $this->errormessages = $errormessages;
      }

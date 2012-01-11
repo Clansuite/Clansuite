@@ -727,17 +727,36 @@ class Clansuite_Form_Test extends Clansuite_UnitTestCase
         );
     }*/
 
-    public function testValidateForm()
+    public function testValidateForm_false()
     {
-        $this->form->addElement('textarea')->setRequired()->expect('required, string, maxlength=100');
+        $this->form->addElement('textarea')
+                ->setName('Textarea-Validate-Test')
+                ->setRequired()
+                ->setRules('required, string, maxlength=100');
 
+        # no value set, but required
+        $this->assertFalse($this->form->validateForm());
 
-        $this->form->validateForm();
+        # set a value, exceeding maxlength
+        $element = $this->form->getElementByName('Textarea-Validate-Test');
+        $element->setValue('0123456789-0123456789'); # 21 chars
 
-        // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-                'This test has not been implemented yet.'
-        );
+        # max length exceeded
+        $this->assertFalse($this->form->validateForm());
+    }
+
+    public function testValidateForm_true()
+    {
+        $this->form->addElement('textarea')
+                ->setName('Textarea-Validate-Test')
+                ->setRequired()
+                ->setRules('required, string, maxlength=20');
+
+        # set value, length ok
+        $element = $this->form->getElementByName('Textarea-Validate-Test');
+        $element->setValue('01234567890123456789'); # 20 chars
+
+        $this->assertTrue($this->form->validateForm());
     }
 
     public function testsetRequired()
