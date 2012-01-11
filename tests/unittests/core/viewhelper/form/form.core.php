@@ -27,9 +27,9 @@ class Clansuite_Form_Test extends Clansuite_UnitTestCase
         require_once TESTSUBJECT_DIR . 'core/functions.core.php';
 
         # addElement() needs Clansuite_Formelement
-        require_once TESTSUBJECT_DIR . 'core/viewhelper/form/formelement.core.php';
-
-        require_once TESTSUBJECT_DIR . 'core/viewhelper/form/formdecorator.core.php';
+        require_once TESTSUBJECT_DIR . 'core/viewhelper/form/formelement.php';
+        require_once TESTSUBJECT_DIR . 'core/viewhelper/form/formelementdecorator.php';
+        require_once TESTSUBJECT_DIR . 'core/viewhelper/form/formdecorator.php';
     }
 
     /**
