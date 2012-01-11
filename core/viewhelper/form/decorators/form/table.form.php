@@ -36,58 +36,18 @@ if (defined('IN_CS') === false)
     die('Clansuite not loaded. Direct Access forbidden.');
 }
 
-# conditional include of the parent class
-if (false == class_exists('Clansuite_Form',false))
+class Clansuite_Form_Decorator_Table extends Clansuite_Form_Decorator
 {
-    include __DIR__ . '/form.core.php';
-}
-
-/**
- * Clansuite Form Generator via XML
- *
- * Purpose:
- * 1) form generation (html representation) from an xml description file (xml->form(html))
- * 2) xml generation from an array description of the form (form(array)->xml).
- */
-class Clansuite_XML_Formgenerator extends Clansuite_Form
-{
-    public function generateFormByXML($filename)
-    {
-        # XML -> toArray -> Clansuite_Array_Formgenerator->generate($array)
-        $array = array();
-        $array = new Clansuite_Config($filename);
-
-        #Clansuite_Debug::firebug($filename);
-        #Clansuite_Debug::firebug($array);
-        $form = '';
-        $form = new Clansuite_Array_Formgenerator($array);
-
-        #Clansuite_Debug::firebug($form);
-
-        return $form;
-    }
-
     /**
-     * Facade/Shortcut
-     */
-    public function generate($array)
-    {
-        $this->generateFormByXML($array);
-    }
-
-    /**
-     * Generates a XML Form Description File from an form describing array
+     * Name of this decorator
      *
-     * @param $array
+     * @var string
      */
-    public function generateXMLByArray($array)
+    public $name = 'table';
+
+    public function render($html_form_content)
     {
-        /* $filename = ROOT_MODULES . $array['modulename'] . DS . 'forms/';
-          $filename .= $array['actionname'] . 'form.xml.php';
-
-          Clansuite_Config_XML::writeConfig($filename, $array);
-         */
+        return 'TABLE' .$html_form_content;
     }
-
 }
 ?>

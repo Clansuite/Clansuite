@@ -1099,7 +1099,7 @@ class Clansuite_Form implements Clansuite_Form_Interface
         # if not already loaded, require formelement file
         if (false == class_exists($formelement_classname, false))
         {
-            $file = ROOT_CORE . 'viewhelper/form/formelements/'.$formelement.'.form.php';
+            $file = ROOT_CORE . 'viewhelper/form/elements/'.$formelement.'.form.php';
 
             if(is_file($file) === true)
             {
@@ -1394,14 +1394,18 @@ class Clansuite_Form implements Clansuite_Form_Interface
     /**
      * Factory method. Instantiates and returns a new formdecorator object.
      *
+     * @param string Name of Formdecorator.
      * @return Clansuite_Formdecorator
      */
-    public function decoratorFactory($formdecorator)
+    public function decoratorFactory($decorator)
     {
+        # construct Clansuite_Form_Decorator_Name
+        $class = 'Clansuite_Form_Decorator_' . ucfirst($decorator);
+
         # if not already loaded, require forelement file
-        if(false == class_exists('Clansuite_Form_Decorator_' . $formdecorator, false))
+        if(false == class_exists('Clansuite_Form_Decorator_' . $decorator, false))
         {
-            $file = ROOT_CORE . 'viewhelper/form/formdecorators/form/' . $formdecorator . '.form.php';
+            $file = ROOT_CORE . 'viewhelper/form/decorators/form/' . $decorator . '.form.php';
 
             if(is_file($file) === true)
             {
@@ -1409,10 +1413,8 @@ class Clansuite_Form implements Clansuite_Form_Interface
             }
         }
 
-        # construct Clansuite_Formdecorator_Name
-        $formdecorator_classname = 'Clansuite_Form_Decorator_' . ucfirst($formdecorator);
         # instantiate the new $formdecorator and return
-        return new $formdecorator_classname();
+        return new $class();
     }
 
      /**

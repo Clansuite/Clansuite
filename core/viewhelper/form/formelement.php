@@ -556,13 +556,6 @@ class Clansuite_Formelement implements Clansuite_Formelement_Interface
      */
     public function getValidator($validator)
     {
-        # load baseclass
-        # @todo move to map / autoloader
-        if(false == class_exists('Clansuite_Formelement_Validator', false))
-        {
-            include ROOT_CORE . 'viewhelper/form/validator.php';
-        }
-
         # construct classname
         $class = 'Clansuite_Formelement_Validator_' . ucfirst($validator);
 
@@ -846,13 +839,13 @@ class Clansuite_Formelement implements Clansuite_Formelement_Interface
      */
     public function decoratorFactory($decorator)
     {
-        # construct Clansuite_Formdecorator_Name
+        # construct Clansuite_Formelement_Decorator_Name
         $class = 'Clansuite_Formelement_Decorator_' . ucfirst($decorator);
 
         # if not already loaded, require forelement file
         if(false == class_exists($class, false))
         {
-            $file = ROOT_CORE . 'viewhelper/form/formdecorators/formelement/' . $decorator . '.form.php';
+            $file = ROOT_CORE . 'viewhelper/form/decorators/formelement/' . $decorator . '.form.php';
 
             if(is_file($file) === true)
             {
