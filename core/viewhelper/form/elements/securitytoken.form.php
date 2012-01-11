@@ -36,24 +36,44 @@ if (defined('IN_CS') === false)
     die('Clansuite not loaded. Direct Access forbidden.');
 }
 
-# conditional include of the parent class
-if (false == class_exists('Clansuite_Formelement_Input',false))
-{ 
-    include __DIR__ . '/input.form.php';
-}
 
-/**
- *  Clansuite_Formelement
- *  |
- *  \- Clansuite_Formelement_Input
- *      |
- *      \- Clansuite_Formelement_Hidden
- */
-class Clansuite_Formelement_Hidden extends Clansuite_Formelement_Input implements Clansuite_Formelement_Interface
+class Clansuite_Formelement_Securitytoken extends Clansuite_Formelement_Hidden implements Clansuite_Formelement_Interface
 {
-    public function __construct()
+    public function __construct(l)
     {
-        $this->type = 'hidden';
+        parent::__construct();
+        
+        $this->isRequired();
+        $this->setValidator('NotEmpty');
+        $this->initCsrfValidator();
+    }
+    
+    public function initCsrfValidator()
+    {
+        $session = $this->getSession();
+        
+        if (isset($session->hash))
+        {
+            $validHash = $session->hash;
+        }
+        else
+        {
+            $validHash = null;
+        }
+
+        $this->addValidator('Identical', true, array($validHash));
+        
+        return $this;
+    }
+
+    # getHash
+    # setHashToSession
+    # getHashFromSession
+    # compare
+
+    public function render()
+    {
+
     }
 }
 ?>

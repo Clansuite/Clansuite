@@ -36,6 +36,12 @@ if (defined('IN_CS') === false)
     die('Clansuite not loaded. Direct Access forbidden.');
 }
 
+interface Clansuite_Form_Decorator_Interface
+{
+    public function decorateWith($form_decorator);
+    public function getName();
+}
+
 /**
  * Clansuite_Form_Decorator
  *
@@ -71,8 +77,18 @@ abstract class Clansuite_Form_Decorator implements Clansuite_Form_Decorator_Inte
 {
     # instance of form, which is to decorate
     protected $form;
-    
-    private $class, $id;
+
+    private $name, $class, $id;
+
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    public function setName($name)
+    {
+        $this->name = $name;
+    }
 
     /**
     * Set class=""
@@ -95,7 +111,7 @@ abstract class Clansuite_Form_Decorator implements Clansuite_Form_Decorator_Inte
     {
         return $this->class;
     }
-    
+
     /**
     * Set id=""
     *
@@ -161,7 +177,7 @@ abstract class Clansuite_Form_Decorator implements Clansuite_Form_Decorator_Inte
             return false;
         }
     }
-    
+
     /**
      * __call Magic Method
      *
@@ -175,115 +191,7 @@ abstract class Clansuite_Form_Decorator implements Clansuite_Form_Decorator_Inte
         if(is_object($this->form) === true)
         {
             return call_user_func_array( array($this->form, $method), $parameters);
-        }            
-    }
-}
-
-/**
- * Clansuite_Formelement_Decorator
- *
- * @author     Jens-André Koch  <vain@clansuite.com>
- * @copyright  Jens-André Koch (2005-onwards)
- *
- * @category    Clansuite
- * @package     Core
- * @subpackage  Form
- */
-
-abstract class Clansuite_Formelement_Decorator implements Clansuite_Formelement_Decorator_Interface
-{
-    # instance of formelement, which is to decorate
-    protected $formelement;
-
-    private $class;
-
-    /**
-    * Set class=""
-    *
-    * @param string $classname
-    */
-    public function setClass($classname)
-    {
-        $this->class = $classname;
-
-        return $this->formelement;
-    }
-
-    /**
-    * Get class="" values
-    *
-    * @return string
-    */
-    public function getClass()
-    {
-        return $this->class;
-    }
-
-    /**
-     * Constructor
-     *
-     * @param $form Accepts a Clansuite_Form Object implementing the Clansuite_Form_Interface.
-     */
-    /*public function __construct(Clansuite_Form_Interface $form)
-    {
-        $this->decorate($form);
-    }*/
-
-    /**
-     * Setter method to set the object which is to decorate.
-     *
-     * @param $form object of type Clansuite_Form_Interface or Clansuite_Form_Decorator_Interface
-     */
-    public function decorateWith($formelement)
-    {
-        $this->formelement = $formelement;
-    }
-
-    /**
-     * Purpose of this method is to check, if this object or a decorator implements a certain method.
-     *
-     * @param $method
-     * @return boolean
-     */
-    public function hasMethod($method)
-    {
-        # check if method exists in this object
-        if(method_exists($this, $method))
-        {
-            return true;
-        }
-        # check if method exists in the decorator of this object
-        elseif($this->formelement instanceof Clansuite_Formelement_Decorator)
-        {
-            return $this->formelement->hasMethod($method);
-        }
-        else # nope, method does not exist
-        {
-            return false;
         }
     }
-
-    /**
-     * __call Magic Method
-     *
-     * In general this calls a certain method with parameters on the object which is to decorate ($form).
-     *
-     * @param $method
-     * @param $parameters
-     */
-    public function __call($method, $parameters)
-    {
-        return call_user_func_array(array($this->formelement, $method), $parameters);
-    }
-}
-
-interface Clansuite_Formelement_Decorator_Interface
-{
-    public function decorateWith($formelement_decorator);
-}
-
-interface Clansuite_Form_Decorator_Interface
-{
-    public function decorateWith($form_decorator);
 }
 ?>
