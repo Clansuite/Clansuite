@@ -52,9 +52,10 @@ if (false == class_exists('Clansuite_Formelement',false))
 class Clansuite_Formelement_Input extends Clansuite_Formelement implements Clansuite_Formelement_Interface
 {
     /**
-     * input type
+     * The formelement input type, e.g.
+     * text, password, checkbox, radio, submit, reset, file, hidden, image, button.
      *
-     * @var int
+     * @var string
      */
     public $type;
 
@@ -107,15 +108,15 @@ class Clansuite_Formelement_Input extends Clansuite_Formelement implements Clans
      * @var int
      */
     public $description;
-    
+
     /**
      * A regular expression pattern, e.g. [A-Za-z]+\d+
      *
      * @var string
      */
     public $pattern;
-    
-    /** 
+
+    /**
      * String value for the placeholder attribute
      * <input placeholder="some placeholder">
      *
@@ -131,10 +132,15 @@ class Clansuite_Formelement_Input extends Clansuite_Formelement implements Clans
     public function setPlaceholder($placeholder)
     {
         $this->placeholder = $placeholder;
-    
+
         return $this;
     }
 
+    /**
+     * Get Placeholder <input placeholder="some placeholder">
+     *
+     * @return type
+     */
     public function getPlaceholder()
     {
         return $this->placeholder;
@@ -163,11 +169,14 @@ class Clansuite_Formelement_Input extends Clansuite_Formelement implements Clans
     public function setAdditionalAttributeAsText($additional_attr_text)
     {
         $this->additional_attr_text = $additional_attr_text;
+
         return $this;
     }
 
     /**
-     * generates html code of element
+     * Renders the html code of the input element.
+     *
+     * @return string
      */
     public function render()
     {

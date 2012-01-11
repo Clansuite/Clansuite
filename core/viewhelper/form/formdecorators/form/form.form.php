@@ -38,7 +38,6 @@ if (defined('IN_CS') === false)
 
 class Clansuite_Form_Decorator_Form extends Clansuite_Form_Decorator
 {
-
     /**
      * Name of this decorator
      *
@@ -161,7 +160,7 @@ class Clansuite_Form_Decorator_Form extends Clansuite_Form_Decorator
     {
         # put all the pieces of html together
         $html_form_content = $this->openOpenFormTag().              # <form
-                             $this->getFormTagAttributesAsHTML().   #  ....
+                             $this->getFormTagAttributesAsHTML().   #  id/method/action/...
                              $this->closeOpenFormTag().             # >
                              $this->addHeading().                   # heading
                              $this->addDescription().               # description

@@ -69,7 +69,7 @@ class Clansuite_Formelement implements Clansuite_Formelement_Interface
      *
      * @var formelement_validation_errors
      */
-    protected $formelement_validation_errors = array();
+    protected $validation_errors = array();
 
     /**
      * Set id of this form.
@@ -201,7 +201,7 @@ class Clansuite_Formelement implements Clansuite_Formelement_Interface
     }
 
     /**
-     * Return the value (escaped)
+     * Return the (escaped!) value of the formelement.
      *
      * @return string Escaped string
      */
@@ -223,7 +223,7 @@ class Clansuite_Formelement implements Clansuite_Formelement_Interface
     }
 
     /**
-     * Returns the value (unescaped)
+     * Returns the (unescaped!) value
      *
      * @return string Unescaped string
      */
@@ -297,8 +297,8 @@ class Clansuite_Formelement implements Clansuite_Formelement_Interface
     }
 
     /**
-     * Returns boolean true if this formelement is required.
-     * Use this in conditionals.
+     * This method provides a shortcut for checking if an formelement is required.
+     * You might use this in conditional checks.
      *
      * @return boolean True if formelement is required, false if not.
      */
@@ -317,31 +317,15 @@ class Clansuite_Formelement implements Clansuite_Formelement_Interface
     }
 
     /**
-     * Returns required status.
+     * Set required state for the formelement.
+     * A formelement is required, when the user is expected to (must) enter data into the formelement.
      *
-     * @return boolean True if formelement is required, false if not.
-     */
-    public function getRequired()
-    {
-        return $this->required;
-    }
-
-    /**
-     * Set required status for this formelement.
-     *
-     * @param boolean $required Set required status. Defaults to true.
+     * @param boolean $required Set required state. Defaults to true.
      * @return Clansuite_Formelement
      */
-    public function setRequired($required = null)
+    public function setRequired($required = true)
     {
-        if($required === null)
-        {
-            $this->required = true;
-        }
-        else
-        {
-            $this->required = (bool) $required;
-        }
+        $this->required = ($required === true) ? true : false;
 
         return $this;
     }
@@ -481,27 +465,56 @@ class Clansuite_Formelement implements Clansuite_Formelement_Interface
      */
 
     /**
+     * expect / setRules
+     *
+     * set validation rules
+     * $rules['input-firstname']  = "required";
+     * $rules['input-email']      = "required, email";
+     */
+    public function expect($rule)
+    {
+        if(false === is_string($rule))
+        {
+            throw new Clansuite_Exception('Parameter $rule must be of type string.');
+        }
+
+        $rules = explode(',', $rule);
+
+        foreach($rules as $rule)
+        {
+            $this->addValidator($rule);
+        }
+    }
+
+    /**
      * addValidator
      *
      * Is a shortcut/proxy/convenience method for addValidator()
-     * @see $this->addValidator()
      *
-     * WATCH IT! THIS BREAKS THE CHAINING IN REGARD TO THE FORM
+     * WATCH OUT! THIS BREAKS THE CHAINING IN REGARD TO THE FORM
      * @return Clansuite_Formelement_Validator
      */
     public function addValidator($validator)
     {
-        return $this->addValidator($decorators);
+        if(false === is_object($validator))
+        {
+
+        }
+
+        $this->setValidator($validator);
+
+        return $this;
     }
 
     /**
-     * Setter method for a validator
-     * validators are stored into an array (multiple validators for one formelement).
+     * Setter method for a validator.
+     * The Validator is stored into the validators array.
+     * So a formelement might have multiple validators.
      *
      * @param Clansuite_Validator $validator Accepts a Clansuite_Validator Object that has to implement Clansuite_Validator_Interface.
      * @return Clansuite_Formelement
      */
-    public function setValidator(Clansuite_Form_Validation_Interface $validator)
+    public function setValidator(/*Clansuite_Formelement_Validates_Interface*/ $validator)
     {
         $this->validators[] = $validator;
 
@@ -509,8 +522,7 @@ class Clansuite_Formelement implements Clansuite_Formelement_Interface
     }
 
     /**
-     * validation method for a single formelement
-     * it processes all registered validators for this formelement.
+     * The validation method processes all registered validators of a sinngle formelement.
      *
      * @see $validators array
      * @return boolean
@@ -528,11 +540,12 @@ class Clansuite_Formelement implements Clansuite_Formelement_Interface
             }
             else
             {
-                # raise error flag
-                $formelement_validation_error = true;
+                # raise the error flag on the formelement
+                $this->setError(true);
 
-                # fetch error from the validator to the formelement
+                # and transfer error message from the validator to the formelement
                 $this->addError($validator->getError());
+
                 return false;
             }
         }
@@ -545,8 +558,28 @@ class Clansuite_Formelement implements Clansuite_Formelement_Interface
      */
     public function addError($validation_error)
     {
-        $this->formelement_validation_errors[] = $validation_error;
+        $this->validation_errors[] = $validation_error;
     }
+
+    /**
+      * Sets the error state of the form (formHasError).
+      *
+      * @param boolean $boolean
+      */
+     public function setError($boolean = true)
+     {
+        $this->error = $boolean;
+     }
+
+     /**
+      * Returns the error state of the form.
+      *
+      * @return boolean False, if form has an error. True, otherwise.
+      */
+     public function hasError()
+     {
+        return $this->error;
+     }
 
     /**
      * ===================================================================================
@@ -597,7 +630,7 @@ class Clansuite_Formelement implements Clansuite_Formelement_Interface
      * Is a shortcut/proxy/convenience method for addDecorator()
      * @see $this->addDecorator()
      *
-     * WATCH IT! THIS BREAKS THE CHAINING IN REGARD TO THE FORM
+     * WATCH OUT! THIS BREAKS THE CHAINING IN REGARD TO THE FORM
      * @return Clansuite_Formelement_Decorator
      */
     public function setDecorator($decorators)
@@ -611,7 +644,7 @@ class Clansuite_Formelement implements Clansuite_Formelement_Interface
      * Usage:
      * $form->addDecorator('fieldset')->setLegend('legendname');
      *
-     * WATCH IT! THIS BREAKS THE CHAINING IN REGARD TO THE FORM OBJECT
+     * WATCH OUT! THIS BREAKS THE CHAINING IN REGARD TO THE FORM OBJECT
      * @return Clansuite_Formelement_Decorator
      */
     public function addDecorator($decorators)
@@ -638,7 +671,7 @@ class Clansuite_Formelement implements Clansuite_Formelement_Interface
                     $decorator = $this->decoratorFactory($decorator);
                     $decoratorname = $decorator->name;
 
-                    # WATCH IT! RECURSION!
+                    # WATCH OUT! RECURSION!
                     $this->addDecorator($decorator);
                 }
             }
@@ -664,7 +697,7 @@ class Clansuite_Formelement implements Clansuite_Formelement_Interface
             $this->formelementdecorators[$decoratorname] = $decorator;
         }
 
-        # WATCH IT! THIS BREAKS THE CHAINING IN REGARD TO THE FORM
+        # WATCH OUT! THIS BREAKS THE CHAINING IN REGARD TO THE FORM
         # We dont return $this here, because $this would be the formelement.
         # Insted the decorator is returned, to apply some properties.
         # @return decorator object

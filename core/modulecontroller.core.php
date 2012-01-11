@@ -65,17 +65,17 @@ abstract class Clansuite_Module_Controller
     public $template = null;
 
     /**
-     * @var object Clansuite_HttpResponse \Clansuite\Core\HttpResponse
+     * @var Clansuite_HttpResponse \Clansuite\Core\HttpResponse
      */
     public $response = null;
 
     /**
-     * @var object Clansuite_HttpRequest \Clansuite\Core\HttpRequest
+     * @var Clansuite_HttpRequest \Clansuite\Core\HttpRequest
      */
     public $request = null;
 
     /**
-     * @var object \Doctrine\ORM\EntityManager
+     * @var \Doctrine\ORM\EntityManager
      */
     public $doctrine_em = null;
 
