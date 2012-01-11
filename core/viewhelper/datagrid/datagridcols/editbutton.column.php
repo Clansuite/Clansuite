@@ -36,11 +36,6 @@ if (defined('IN_CS') === false)
     die('Clansuite not loaded. Direct Access forbidden.');
 }
 
-if (false === class_exists('Clansuite_Formelement_Imagebutton', false))
-{ 
-    include ROOT_CORE . 'viewhelper/formelements/imagebutton.form.php';
-}
-
 /**
  * Clansuite Datagrid Col Renderer for EditButton Cells
  *
