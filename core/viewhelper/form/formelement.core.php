@@ -49,6 +49,9 @@ if (defined('IN_CS') === false)
 
 class Clansuite_Formelement implements Clansuite_Formelement_Interface
 {
+    /**
+     * @var string
+     */
     public $name, $id, $type, $class, $size, $disabled, $maxlength, $style, $onclick;
 
     public $label, $value, $position, $required;
@@ -60,16 +63,16 @@ class Clansuite_Formelement implements Clansuite_Formelement_Interface
     /**
      * validators are stored into an array. making multiple validators for one formelement possible.
      *
-     * @var validator
+     * @var array
      */
     protected $validators = array();
 
     /**
-     * error stack array storing the incomming errors from validators.
+     * The error messages array stores the incomming errors fromelement validators.
      *
-     * @var formelement_validation_errors
+     * @var array
      */
-    protected $validation_errors = array();
+    protected $errormessages = array();
 
     /**
      * Set id of this form.
@@ -467,11 +470,11 @@ class Clansuite_Formelement implements Clansuite_Formelement_Interface
     /**
      * expect / setRules
      *
-     * set validation rules
-     * $rules['input-firstname']  = "required";
-     * $rules['input-email']      = "required, email";
+     * set validation rules as string
+     * "required, maxlength=20";
+     * "required, email";
      */
-    public function expect($rule)
+    public function setRules($rule)
     {
         if(false === is_string($rule))
         {
@@ -482,7 +485,19 @@ class Clansuite_Formelement implements Clansuite_Formelement_Interface
 
         foreach($rules as $rule)
         {
-            $this->addValidator($rule);
+            $rule = trim($rule);
+
+            if(false === strpos($rule, '='))
+            {
+                # if there is no "=", then there is no value to set
+                # rule is then the name of a validator
+                $this->addValidator($rule);
+            }
+            else # ok -> property name to value relationship
+            {
+                $array = explode('=', $rule);
+                $this->addValidator($array[0], array($array[0] => $array[1]));
+            }
         }
     }
 
@@ -491,19 +506,31 @@ class Clansuite_Formelement implements Clansuite_Formelement_Interface
      *
      * Is a shortcut/proxy/convenience method for addValidator()
      *
+     * @param object|string Formelement Validator
+     * @param mixed A Validator Property Value.
      * WATCH OUT! THIS BREAKS THE CHAINING IN REGARD TO THE FORM
      * @return Clansuite_Formelement_Validator
      */
-    public function addValidator($validator)
+    public function addValidator($validator, $properties = null)
     {
         if(false === is_object($validator))
         {
+            if($validator === 'required' and false === $this->isRequired())
+            {
+                $this->setRequired();
+            }
 
+            $validator = $this->getValidator($validator);
+        }
+
+        if(isset($properties))
+        {
+            $validator->setProperties($properties);
         }
 
         $this->setValidator($validator);
 
-        return $this;
+        return $validator;
     }
 
     /**
@@ -522,18 +549,86 @@ class Clansuite_Formelement implements Clansuite_Formelement_Interface
     }
 
     /**
-     * The validation method processes all registered validators of a sinngle formelement.
+     * Returns a form validator object.
+     * Also a factory method, which instantiates and returns a new formvalidator object.
+     *
+     * @return Clansuite_Formvalidator
+     */
+    public function getValidator($validator)
+    {
+        # load baseclass
+        # @todo move to map / autoloader
+        if(false == class_exists('Clansuite_Formelement_Validator', false))
+        {
+            include ROOT_CORE . 'viewhelper/form/validator.php';
+        }
+
+        # construct classname
+        $class = 'Clansuite_Formelement_Validator_' . ucfirst($validator);
+
+        # return early, if this object is already stored
+        if(isset($this->validators[$class]))
+        {
+            return $this->validators[$class];
+        }
+        # autoloader
+        elseif(true === class_exists($class))
+        {
+
+            return new $class;
+        }
+        # factory method part
+        elseif(false == class_exists($class, false))
+        {
+            $file = ROOT_CORE . 'viewhelper/form/validators/' . $validator . '.php';
+
+            if(is_file($file) === true)
+            {
+                include $file;
+            }
+            unset($file);
+
+            return new $class();
+        }
+        # validator not found
+        else
+        {
+            throw new Clansuite_Exception('Validator named ' . $validator . ' not available.');
+        }
+    }
+
+    /**
+     * Validates the value of a formelement.
+     *
+     * The validation method processes the value of the formelement
+     * by passing it to all registered validators of the formelement.
+     * The value of the formelement is valid, when it satisfies
+     * each of the element's validation rules.
      *
      * @see $validators array
      * @return boolean
      */
     public function validate()
     {
+        $value = $this->getValue();
+
+        # return early, if value empty|null and not required
+        if((('' === $value) or (null === $value)) and false === $this->isRequired())
+        {
+            return true;
+        }
+
+        # no rules / validators
+        if(null === $this->validators)
+        {
+            return true;
+        }
+
         # iterate over all validators
         foreach($this->validators as $validator)
         {
             # ensure element validates
-            if($validator->validates() === true)
+            if($validator->validate($value) === true)
             {
                 # everything is fine, proceed
                 continue;
@@ -544,21 +639,34 @@ class Clansuite_Formelement implements Clansuite_Formelement_Interface
                 $this->setError(true);
 
                 # and transfer error message from the validator to the formelement
-                $this->addError($validator->getError());
+                $this->addErrorMessage($validator->getErrorMessage());
 
                 return false;
             }
         }
+
+        # formelement value is valid
+        return true;
     }
 
     /**
      * Method adds an validation error to the formelement_validation_error stack.
      *
+     * @param $errormessage
+     */
+    public function addErrorMessage($errormessage)
+    {
+        $this->errormessages[] = $errormessage;
+    }
+
+    /**
+     * Returns the validation_error stack.
+     *
      * @param $validation_error
      */
-    public function addError($validation_error)
+    public function getErrorMessages()
     {
-        $this->validation_errors[] = $validation_error;
+        return $this->errormessages;
     }
 
     /**
@@ -605,7 +713,6 @@ class Clansuite_Formelement implements Clansuite_Formelement_Interface
      */
     public function __toString()
     {
-        #var_dump(get_class($this));
         $subclass = get_class($this);
 
         if(method_exists($subclass, 'render') === true)
@@ -734,17 +841,18 @@ class Clansuite_Formelement implements Clansuite_Formelement_Interface
     /**
      * Factory method. Instantiates and returns a new formdecorator object.
      *
+     * @param string Formelement Decorator.
      * @return Clansuite_Formelement_Decorator
      */
-    public function decoratorFactory($formelementdecorator)
+    public function decoratorFactory($decorator)
     {
         # construct Clansuite_Formdecorator_Name
-        $formelementdecorator_classname = 'Clansuite_Formelement_Decorator_' . ucfirst($formelementdecorator);
+        $class = 'Clansuite_Formelement_Decorator_' . ucfirst($decorator);
 
         # if not already loaded, require forelement file
-        if(false == class_exists($formelementdecorator_classname, false))
+        if(false == class_exists($class, false))
         {
-            $file = ROOT_CORE . 'viewhelper/form/formdecorators/formelement/' . $formelementdecorator . '.form.php';
+            $file = ROOT_CORE . 'viewhelper/form/formdecorators/formelement/' . $decorator . '.form.php';
 
             if(is_file($file) === true)
             {
@@ -753,7 +861,7 @@ class Clansuite_Formelement implements Clansuite_Formelement_Interface
         }
 
         # instantiate the new $formdecorator
-        return new $formelementdecorator_classname;
+        return new $class;
     }
 
     /**
