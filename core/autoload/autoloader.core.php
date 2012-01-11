@@ -244,14 +244,17 @@ class Clansuite_Loader
         'Clansuite_Datagrid'                  => 'viewhelper/datagrid/datagrid.core.php',
         'Clansuite_Datagrid_Column'           => 'viewhelper/datagrid/datagridcol.core.php',
         # /viewhelper/form
-        'Clansuite_Form'                      => 'viewhelper/form/form.core.php',
-        'Clansuite_Formelement'               => 'viewhelper/form/formelement.core.php',
-        'Clansuite_Formelement_Input'         => 'viewhelper/form/formelements/input.form.php',
-        'Clansuite_Form_Decorator'            => 'viewhelper/form/formdecorator.core.php',
-        'Clansuite_Formelement_Decorator'     => 'viewhelper/form/formdecorator.core.php',
-        'Clansuite_Array_Formgenerator'       => 'viewhelper/form/formgenerators/array.formgenerator.php',
-        'Clansuite_Doctrine_Formgenerator'    => 'viewhelper/form/formgenerators/doctrine.formgenerator.php',
-        'Clansuite_Xml_Formgenerator'         => 'viewhelper/form/formgenerators/xml.formgenerator.php',
+        'Clansuite_Form'                      => 'viewhelper/form/form.php',
+        'Clansuite_Formelement'               => 'viewhelper/form/formelement.php',
+        'Clansuite_Form_Decorator'            => 'viewhelper/form/formdecorator.php',
+        'Clansuite_Formelement_Decorator'     => 'viewhelper/form/formelementdecorator.php',
+        'Clansuite_Formelement_Validator'     => 'viewhelper/form/formelementvalidator.php',
+        'Clansuite_Formelement_Input'         => 'viewhelper/form/elements/input.php',
+        'Clansuite_Formelement_Imagebutton'   => 'viewhelper/form/elements/imagebutton.php',
+        'Clansuite_Formelement_Checkbox'      => 'viewhelper/form/elements/checkbox.form.php',
+        'Clansuite_Array_Formgenerator'       => 'viewhelper/form/generators/array.php',
+        'Clansuite_Doctrine_Formgenerator'    => 'viewhelper/form/generators/doctrine.php',
+        'Clansuite_Xml_Formgenerator'         => 'viewhelper/form/generators/xml.php',
         );
 
         # check if classname is in autoloading map
