@@ -155,21 +155,23 @@ class Clansuite_Form_Test extends Clansuite_UnitTestCase
 
     public function testCopyObjectProperties()
     {
-        $object_a = new stdClass();
-        $object_a->attribute_string = 'value_of_attr_a';
-        $object_a->attribute_int = 9;
-        $object_a->attribute_bool = true;
-        $object_a->attribute_array = array('key' => 'value');
+        # prefilled object
+        $from_object_a = new stdClass();
+        $from_object_a->attribute_string = 'value_of_attr_a';
+        $from_object_a->attribute_int = 9;
+        $from_object_a->attribute_bool = true;
+        $from_object_a->attribute_array = array('key' => 'value');
 
-        $object_b = new stdClass();
+        # empty target object
+        $to_object_b = new stdClass();
 
-        $this->form->copyObjectProperties($object_a, $object_b);
+        $this->form->copyObjectProperties($from_object_a, $to_object_b);
 
-        $this->assertIdentical($object_a, $object_b);
-        $this->assertTrue($object_a->attribute_string, 'value_of_attr_a');
-        $this->assertTrue($object_a->attribute_int, 9);
-        $this->assertTrue($object_a->attribute_bool, true);
-        $this->assertTrue($object_a->attribute_array['key'], 'value');
+        $this->assertIdentical($from_object_a, $to_object_b);
+        $this->assertTrue($to_object_b->attribute_string, 'value_of_attr_a');
+        $this->assertTrue($to_object_b->attribute_int, 9);
+        $this->assertTrue($to_object_b->attribute_bool, true);
+        $this->assertTrue($to_object_b->attribute_array['key'], 'value');
     }
 
     /**
@@ -576,25 +578,7 @@ class Clansuite_Form_Test extends Clansuite_UnitTestCase
         $this->assertIdentical(new Clansuite_Formelement_Text, $formelement_object);
     }
 
-    public function testPopulate()
-    {
-        # create multiselect "Snacks" with three options
-        $this->form->addElement('multiselect')->setName('Snacks')->setOptions(
-            array('cola' => 'Cola', 'popcorn' => 'Popcorn', 'peanuts' => 'Peanuts')
-        );
-
-        # two options were selected (array is incomming via post)
-        $data = array('snacks' => array('cola', 'popcorn'));
-
-        $this->form->populate($data);
-
-        $snacks_array = $this->form->getElementByName('Snacks')->getValue();
-        $this->assertIdentical(count($snacks_array), 2);
-        $this->assertIdentical($snacks_array[0], 'cola');
-        $this->assertIdentical($snacks_array[1], 'popcorn');
-    }
-
-    public function testsetValues()
+    public function testsetValues_DataArrayPassedToMethod()
     {
         # create multiselect "Snacks" with three options
         $this->form->addElement('multiselect')->setName('Snacks')->setOptions(
@@ -614,8 +598,20 @@ class Clansuite_Form_Test extends Clansuite_UnitTestCase
 
     public function testgetValues()
     {
-        #$values = $this->form->getValues();
-        #$this->assertTrue(is_array($values));
+        $this->form->addElement('textarea', array('value' => 'Some Text Inside The First Textarea'));
+        $this->form->addElement('textarea', array('value' => 'More Text Inside The Second Textarea'));
+
+        $values = $this->form->getValues();
+
+        $this->assertTrue(is_array($values));
+        $this->assertIdentical(count($values), 2);
+
+        $expected_values = array (
+            'textarea-formelement-0' => 'Some Text Inside The First Textarea',
+            'textarea-formelement-1' => 'More Text Inside The Second Textarea'
+        );
+
+        $this->assertIdentical($values, $expected_values);
     }
 
     public function testSetFormelementDecorator_formelementPositionNull()
@@ -729,38 +725,54 @@ class Clansuite_Form_Test extends Clansuite_UnitTestCase
         $this->markTestIncomplete(
                 'This test has not been implemented yet.'
         );
-    }
+    }*/
 
     public function testValidateForm()
     {
+        $this->form->addElement('textarea')->setRequired()->expect('required, string, maxlength=100');
+
+
+        $this->form->validateForm();
+
         // Remove the following lines when you implement this test.
         $this->markTestIncomplete(
                 'This test has not been implemented yet.'
         );
-    }*/
+    }
+
+    public function testsetRequired()
+    {
+        $this->form->addElement('textarea')->setName('Textarea-A')->setRequired();
+
+        $formelement = $this->form->getElementByName('Textarea-A');
+        $this->assertTrue($formelement->required);
+        $this->assertTrue($formelement->isRequired());
+    }
+
+    public function testIsRequired()
+    {
+        $this->form->addElement('textarea')->setName('Textarea-A')->setRequired();
+        $formelement = $this->form->getElementByName('Textarea-A');
+        $this->assertTrue($formelement->required);
+        $this->assertTrue($formelement->isRequired());
+    }
 
     public function testsetErrorState()
     {
         $this->form->setErrorState(true);
+        $this->assertTrue($this->form->error);
         $this->assertTrue($this->form->getErrorState());
     }
 
     public function testgetErrorState()
     {
         $this->form->setErrorState(true);
+        $this->assertTrue($this->form->error);
         $this->assertTrue($this->form->getErrorState());
 
         $this->form->setErrorState(false);
+        $this->assertFalse($this->form->error);
         $this->assertFalse($this->form->getErrorState());
-    }
-
-    public function testhasErrors()
-    {
-        $this->form->setErrorState(true);
-        $this->assertTrue($this->form->hasErrors());
-
-        $this->form->setErrorState(false);
-        $this->assertFalse($this->form->hasErrors());
     }
 
     public function testaddErrorMessage()

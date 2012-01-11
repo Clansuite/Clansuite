@@ -88,7 +88,7 @@ class Clansuite_CMS
         self::initialize_Config();
         #self::initialize_Logger();
         self::initialize_UTF8();
-        self::initialize_Debug();        
+        self::initialize_Debug();
         self::initialize_Timezone();
         self::initialize_Eventdispatcher();
         self::initialize_Errorhandling();
@@ -141,6 +141,7 @@ class Clansuite_CMS
     {
         # 1. load the main clansuite configuration file
         $clansuite_cfg_cached = false;
+
         if(APC === true and apc_exists('clansuite.config'))
         {
             self::$config = apc_fetch('clansuite.config');
@@ -158,7 +159,8 @@ class Clansuite_CMS
         unset($clansuite_cfg_cached);
 
         # 2. Maintenance check
-        if( true === (bool) self::$config['maintenance']['maintenance'] )
+        if( isset(self::$config['maintenance']['maintenance']) and
+            true === (bool) self::$config['maintenance']['maintenance'] )
         {
             $token = false;
 
@@ -199,6 +201,7 @@ class Clansuite_CMS
         ini_set('short_open_tag', 'off');
         ini_set('arg_separator.input', '&amp;');
         ini_set('arg_separator.output', '&amp;');
+        ini_set('default_charset', 'utf-8');
         self::setMemoryLimit('32');
         if(false === gc_enabled())
         {
@@ -248,131 +251,131 @@ class Clansuite_CMS
     public static function define_ConstantsAndPaths()
     {
         /**
-             * 1) Shorthands and Syntax Declarations
-             */
+         * 1) Shorthands and Syntax Declarations
+         */
 
-            /**
-             * @var DS is a shorthand for DIRECTORY_SEPARATOR
-             */
-            define('DS', DIRECTORY_SEPARATOR, false);
+        /**
+         * @var DS is a shorthand for DIRECTORY_SEPARATOR
+         */
+        define('DS', DIRECTORY_SEPARATOR, false);
 
-            /**
-             * @var PS is a shorthand for PATH_SEPARATOR
-             */
-            define('PS', PATH_SEPARATOR, false);
+        /**
+         * @var PS is a shorthand for PATH_SEPARATOR
+         */
+        define('PS', PATH_SEPARATOR, false);
 
-            /**
-             * @var HTML Break + Carriage Return "<br />\r\n"
-             */
-            define('NL', "<br />\r\n", false);
+        /**
+         * @var NL is a shorthand for a HTML NEWLINE (HTML Break + Carriage Return)
+         */
+        define('NL', "<br />\r\n", false);
 
-            /**
-             * @var Carriage Return "\n"
-             */
-            define('CR', "\n", false);
+        /**
+         * @var Carriage Return "\n"
+         */
+        define('CR', "\n", false);
 
-            /**
-             * @var Carriage Return and Tabulator "\n\t"
-             */
-            define('CRT', "\n\t", false);
+        /**
+         * @var Carriage Return and Tabulator "\n\t"
+         */
+        define('CRT', "\n\t", false);
 
-            /**
-             * 2) Path Assignments
-             *    ROOT and directories related to ROOT as absolute path shortcuts.
-             */
+        /**
+         * 2) Path Assignments
+         *    ROOT and directories related to ROOT as absolute path shortcuts.
+         */
 
-            /**
-             * ROOT is the APPLICATION PATH
-             * @var Purpose of ROOT is to provide the absolute path to the current working dir of clansuite
-             */
-            define('ROOT', realpath(dirname(dirname(__DIR__))) . DS, false);
+        /**
+         * ROOT is the APPLICATION PATH
+         * @var Purpose of ROOT is to provide the absolute path to the current working dir of clansuite
+         */
+        define('ROOT', realpath(dirname(dirname(__DIR__))) . DS, false);
 
-            /**
-             * @var Root path of the cache directory (with trailing slash)
-             */
-            define('ROOT_CACHE', ROOT . 'cache' . DS, false);
+        /**
+         * @var Root path of the cache directory (with trailing slash)
+         */
+        define('ROOT_CACHE', ROOT . 'cache' . DS, false);
 
-            /**
-             * @var Root path of the config directory (with trailing slash)
-             */
-            define('ROOT_CONFIG', ROOT . 'configuration' . DS, false);
+        /**
+         * @var Root path of the config directory (with trailing slash)
+         */
+        define('ROOT_CONFIG', ROOT . 'configuration' . DS, false);
 
-            /**
-             * @var Root path of the core directory (with trailing slash)
-             */
-            define('ROOT_CORE', ROOT . 'core' . DS, false);
+        /**
+         * @var Root path of the core directory (with trailing slash)
+         */
+        define('ROOT_CORE', ROOT . 'core' . DS, false);
 
-            /**
-             * @var Root path of the languages directory (with trailing slash)
-             */
-            define('ROOT_LANGUAGES', ROOT . 'languages' . DS, false);
+        /**
+         * @var Root path of the languages directory (with trailing slash)
+         */
+        define('ROOT_LANGUAGES', ROOT . 'languages' . DS, false);
 
-            /**
-             * @var Root path of the libraries directory (with trailing slash)
-             */
-            define('ROOT_LIBRARIES', ROOT . 'libraries' . DS, false);
+        /**
+         * @var Root path of the libraries directory (with trailing slash)
+         */
+        define('ROOT_LIBRARIES', ROOT . 'libraries' . DS, false);
 
-            /**
-             * @var Root path of the logs directory (with trailing slash)
-             */
-            define('ROOT_LOGS', ROOT . 'logs' . DS, false);
+        /**
+         * @var Root path of the logs directory (with trailing slash)
+         */
+        define('ROOT_LOGS', ROOT . 'logs' . DS, false);
 
-            /**
-             * @var ROOT_MOD Root path of the modules directory (with trailing slash)
-             */
-            define('ROOT_MOD', ROOT . 'modules' . DS, false);
+        /**
+         * @var ROOT_MOD Root path of the modules directory (with trailing slash)
+         */
+        define('ROOT_MOD', ROOT . 'modules' . DS, false);
 
-            /**
-             * @var Root path of the themes directory (with trailing slash)
-             */
-            define('ROOT_THEMES', ROOT . 'themes' . DS, false);
-            define('ROOT_THEMES_BACKEND', ROOT_THEMES . 'backend' . DS, false);
-            define('ROOT_THEMES_FRONTEND', ROOT_THEMES . 'frontend' . DS, false);
-            define('ROOT_THEMES_CORE', ROOT_THEMES . 'core' . DS, false);
+        /**
+         * @var Root path of the themes directory (with trailing slash)
+         */
+        define('ROOT_THEMES', ROOT . 'themes' . DS, false);
+        define('ROOT_THEMES_BACKEND', ROOT_THEMES . 'backend' . DS, false);
+        define('ROOT_THEMES_FRONTEND', ROOT_THEMES . 'frontend' . DS, false);
+        define('ROOT_THEMES_CORE', ROOT_THEMES . 'core' . DS, false);
 
-            /**
-             * @var Root path of the upload directory (with trailing slash)
-             */
-            define('ROOT_UPLOAD', ROOT . 'uploads' . DS, false);
+        /**
+         * @var Root path of the upload directory (with trailing slash)
+         */
+        define('ROOT_UPLOAD', ROOT . 'uploads' . DS, false);
 
-            /**
-             * @var Determine Type of Protocol for Webpaths (http/https)
-             */
-            if(isset($_SERVER['HTTPS']) === true and strtolower($_SERVER['HTTPS']) == 'on')
-            {
-                define('PROTOCOL', 'https://', false);
-            }
-            else
-            {
-                define('PROTOCOL', 'http://', false);
-            }
+        /**
+         * @var Determine Type of Protocol for Webpaths (http/https)
+         */
+        if (isset($_SERVER['HTTPS']) === true and strtolower($_SERVER['HTTPS']) == 'on')
+        {
+            define('PROTOCOL', 'https://', false);
+        }
+        else
+        {
+            define('PROTOCOL', 'http://', false);
+        }
 
-            /**
-             * @var SERVER_URL
-             */
-                define('SERVER_URL', PROTOCOL . $_SERVER['SERVER_NAME'], false);
+        /**
+         * @var SERVER_URL
+         */
+        define('SERVER_URL', PROTOCOL . $_SERVER['SERVER_NAME'], false);
 
-            /**
-             * @var WWW_ROOT is a complete www-path with servername from SERVER_URL, depending on os-system
-             */
-            if(dirname($_SERVER['PHP_SELF']) === '\\')
-            {
-                define('WWW_ROOT', SERVER_URL . '/', false);
-            }
-            else
-            {
-                define('WWW_ROOT', SERVER_URL . dirname($_SERVER['PHP_SELF']) . '/', false);
-            }
+        /**
+         * @var WWW_ROOT is a complete www-path with servername from SERVER_URL, depending on os-system
+         */
+        if (dirname($_SERVER['PHP_SELF']) === '\\')
+        {
+            define('WWW_ROOT', SERVER_URL . '/', false);
+        }
+        else
+        {
+            define('WWW_ROOT', SERVER_URL . dirname($_SERVER['PHP_SELF']) . '/', false);
+        }
 
-            /**
-             * @var WWW_ROOT_THEMES defines the themes folder
-             */
-            define('WWW_ROOT_THEMES', WWW_ROOT . 'themes' . '/', false);
-            define('WWW_ROOT_THEMES_BACKEND', WWW_ROOT_THEMES . 'backend' . '/', false);
-            define('WWW_ROOT_THEMES_FRONTEND', WWW_ROOT_THEMES . 'frontend' . '/', false);
-            define('WWW_ROOT_THEMES_CORE', WWW_ROOT_THEMES . 'core' . '/', false);
+        /**
+         * @var WWW_ROOT_THEMES defines the themes folder
+         */
+        define('WWW_ROOT_THEMES', WWW_ROOT . 'themes' . '/', false);
+        define('WWW_ROOT_THEMES_BACKEND', WWW_ROOT_THEMES . 'backend' . '/', false);
+        define('WWW_ROOT_THEMES_FRONTEND', WWW_ROOT_THEMES . 'frontend' . '/', false);
+        define('WWW_ROOT_THEMES_CORE', WWW_ROOT_THEMES . 'core' . '/', false);
     }
-    
+
     /**
      * Load Constants from APC
      */
