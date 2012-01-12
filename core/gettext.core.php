@@ -193,6 +193,8 @@ class Clansuite_Gettext_Extractor_Tool
      * Writes messages into log or dumps them on screen
      *
      * @param string $message
+     *
+     * @return string Html Log Message if logHandler resource is false.
      */
     public function log($message)
     {
@@ -244,6 +246,7 @@ class Clansuite_Gettext_Extractor_Tool
 
         # It's a directory
         $resource = realpath($resource);
+
         if(false === $resource)
         {
             return;
@@ -316,11 +319,11 @@ class Clansuite_Gettext_Extractor_Tool
             $this->log('Extracting data from file ' . $inputFile);
 
             # Check file extension
-            $info = pathinfo($inputFile);
+            $fileExtension = pathinfo($inputFile, PATHINFO_EXTENSION);
 
             foreach($this->extractors as $extension => $extractor)
             {
-                if($info['extension'] !== $extension)
+                if($fileExtension !== $extension)
                 {
                     continue;
                 }
@@ -464,6 +467,7 @@ class Clansuite_Gettext_Extractor_Tool
      * Returns the the fileheader for a gettext portable object file
      *
      * @param boolean $return_string Boolean true returns string (default) and false returns array.
+     *
      * @return mixed Array or String. Returns string by default.
      */
     public static function getPOFileHeader($return_string = true)
@@ -543,7 +547,7 @@ class Clansuite_Gettext_Extractor_Tool
     }
 
     /**
-     * Escapes the given string, so it does not break the gettext syntax.
+     * Escapes a string without breaking gettext syntax.
      *
      * @param string $string
      *
@@ -551,7 +555,7 @@ class Clansuite_Gettext_Extractor_Tool
      */
     public static function addSlashes($string)
     {
-        return addcslashes($string, '"');
+        return addcslashes($string, self::ESCAPE_CHARS);
     }
 }
 
