@@ -586,6 +586,27 @@ fieldset legend
 
 }
 
+.formular
+{
+  list-style-image:none;
+  list-style-type:none;
+  margin-bottom:5px;
+}
+
+.formularleft
+{
+ float: left;
+ text-align: right;
+ width: 40%;
+ margin-right: 2%;
+ padding-top: 2px;
+}
+
+.formularright
+{
+ margin-left : 2%;
+}
+
 .row1
 {
     background-color: #EEEEEE;
