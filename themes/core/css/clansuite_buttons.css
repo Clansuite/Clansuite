@@ -31,7 +31,7 @@
         margin: 5px;
         padding: 3px;
         white-space: nowrap;
-        width: 64px;
+        min-width: 64px;
     }
 
     /**
