@@ -36,18 +36,12 @@ if (defined('IN_CS') === false)
     die('Clansuite not loaded. Direct Access forbidden.');
 }
 
-/**
- *
- *  Clansuite_Formelement
- *  |
- *  \- Clansuite_Formelement_Image
- */
 class Clansuite_Formelement_Image extends Clansuite_Formelement implements Clansuite_Formelement_Interface
 {
-    
+
     public static function render()
     {
-        return '<input ' . $this->renderAttributes() . '>';   
+        return '<input ' . $this->renderAttributes() . '>';
     }
 }
 ?>

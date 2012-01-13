@@ -36,15 +36,9 @@ if (defined('IN_CS') === false)
     die('Clansuite not loaded. Direct Access forbidden.');
 }
 
-# conditional include of the parent class
-if (false == class_exists('Clansuite_Formelement_Textarea',false))
-{
-    include __DIR__ . '/textarea.form.php';
-}
-
 /**
  * Clansuite_Formelement_WysiwygCkeditor
- * 
+ *
  * @see http://ckeditor.com/ Official Website of CKeditor
  * @see http://docs.cksource.com/ CKEditor Documentations
  * @see http://docs.cksource.com/CKEditor_3.x/Developers_Guide/Integration
@@ -55,7 +49,7 @@ class Clansuite_Formelement_Wysiwygckeditor extends Clansuite_Formelement_Textar
     {
         self::checkDependencies();
     }
-    
+
     /**
      * Ensure, that the library is available, before the client requests a non-existant file.
      */
@@ -66,7 +60,7 @@ class Clansuite_Formelement_Wysiwygckeditor extends Clansuite_Formelement_Textar
             exit('Ckeditor Javascript Library missing!');
         }
     }
-    
+
     /**
      * This renders a textarea with the WYSWIWYG editor ckeditor attached.
      */

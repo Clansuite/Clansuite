@@ -36,12 +36,6 @@ if(defined('IN_CS') === false)
     die('Clansuite not loaded. Direct Access forbidden.');
 }
 
-# conditional include of the parent class
-if (false == class_exists('Clansuite_Formelement_Textarea', false))
-{
-    include __DIR__ . '/textarea.form.php';
-}
-
 /**
  * Clansuite_Formelement_Wysiwygmarkitup
  *
@@ -53,18 +47,18 @@ class Clansuite_Formelement_Wysiwygmarkitup extends Clansuite_Formelement_Textar
     {
         self::checkDependencies();
     }
-    
+
     /**
      * Ensure, that the library is available, before the client requests a non-existant file.
      */
     public static function checkDependencies()
-    {       
+    {
         if (!is_file(ROOT_THEMES_CORE . 'javascript/markitup/jquery.markitup.js'))
         {
             exit('MarkitUp Javascript Library missing!');
         }
     }
-    
+
     /**
      * This renders a textarea with the WYSWIWYG editor markItUp! attached.
      */

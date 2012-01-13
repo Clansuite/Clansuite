@@ -36,19 +36,6 @@ if (defined('IN_CS') === false)
     die('Clansuite not loaded. Direct Access forbidden.');
 }
 
-# conditional include of the parent class
-if (false == class_exists('Clansuite_Formelement_File',false))
-{
-    include __DIR__ . '/file.form.php';
-}
-
-/**
- *  Clansuite_Formelement
- *  |
- *  \- Clansuite_Formelement_File
- *      |
- *      \- Clansuite_Formelement_Uploadapc
- */
 class Clansuite_Formelement_Uploadapc extends Clansuite_Formelement_File implements Clansuite_Formelement_Interface
 {
     /**
@@ -155,7 +142,7 @@ class Clansuite_Formelement_Uploadapc extends Clansuite_Formelement_File impleme
          * b) with a unique tracking id for the file
          * c) placed before the input file element.
          */
-        if (false == class_exists('Clansuite_Formelement_Hidden',false))
+        if (false === class_exists('Clansuite_Formelement_Hidden',false))
         {
             include __DIR__ . '/hidden.form.php';
         }
@@ -168,9 +155,9 @@ class Clansuite_Formelement_Uploadapc extends Clansuite_Formelement_File impleme
         $html .= '<input name="uploadfile" size="30" type="file">';
 
         # add a submit button
-        if (false == class_exists('Clansuite_Formelement_Submitbutton',false))
+        if (false === class_exists('Clansuite_Formelement_Submitbutton',false))
         {
-            include __DIR__ . '/submitbutton.form.php';
+            include __DIR__ . '/submitbutton.php';
         }
         $submit = new Clansuite_Formelement_Submitbutton();
         $submit->setValue(_('Upload File'));

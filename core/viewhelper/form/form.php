@@ -1099,7 +1099,7 @@ class Clansuite_Form implements Clansuite_Form_Interface
         # if not already loaded, require formelement file
         if (false == class_exists($formelement_classname, false))
         {
-            $file = ROOT_CORE . 'viewhelper/form/elements/'.$formelement.'.form.php';
+            $file = ROOT_CORE . 'viewhelper/form/elements/'.$formelement.'.php';
 
             if(is_file($file) === true)
             {
@@ -1405,7 +1405,7 @@ class Clansuite_Form implements Clansuite_Form_Interface
         # if not already loaded, require forelement file
         if(false == class_exists('Clansuite_Form_Decorator_' . $decorator, false))
         {
-            $file = ROOT_CORE . 'viewhelper/form/decorators/form/' . $decorator . '.form.php';
+            $file = ROOT_CORE . 'viewhelper/form/decorators/form/' . $decorator . '.php';
 
             if(is_file($file) === true)
             {

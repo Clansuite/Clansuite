@@ -36,12 +36,6 @@ if (defined('IN_CS') === false)
     die('Clansuite not loaded. Direct Access forbidden.');
 }
 
-# conditional include of the parent class
-if (false == class_exists('Clansuite_Formelement_Textarea',false))
-{
-    include __DIR__ . '/textarea.form.php';
-}
-
 /**
  * Clansuite_Formelement_Wysiwygtinymce
  *
@@ -55,18 +49,18 @@ class Clansuite_Formelement_Wysiwygtinymce extends Clansuite_Formelement_Textare
     {
         self::checkDependencies();
     }
-    
+
     /**
      * Ensure, that the library is available, before the client requests a non-existant file.
      */
     public static function checkDependencies()
-    {       
+    {
         if (!is_file(ROOT_THEMES_CORE . 'javascript/tiny_mce/tiny_mce.js'))
         {
             exit('TinyMCE Library missing!');
         }
     }
-    
+
     /**
      * This renders a textarea with the WYSWIWYG editor TinyMCE attached.
      */

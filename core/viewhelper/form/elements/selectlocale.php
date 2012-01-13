@@ -36,19 +36,6 @@ if (defined('IN_CS') === false)
     die('Clansuite not loaded. Direct Access forbidden.');
 }
 
-# conditional include of the parent class
-if (false == class_exists('Clansuite_Formelement_Select',false))
-{
-    include __DIR__ . '/select.form.php';
-}
-
-/**
- *  Clansuite_Form
- *  |
- *  \- Clansuite_Formelement_Select
- *     |
- *     \- Clansuite_Formelement_Selectlocale
- */
 class Clansuite_Formelement_Selectlocale extends Clansuite_Formelement_Select implements Clansuite_Formelement_Interface
 {
     /**
@@ -60,7 +47,7 @@ class Clansuite_Formelement_Selectlocale extends Clansuite_Formelement_Select im
     {
         # include locale arrays
         include ROOT_CORE . 'gettext/locales.gettext.php';
-               
+
         /**
          * prepare array structure for dropdown ( key => value )
          */
@@ -71,7 +58,7 @@ class Clansuite_Formelement_Selectlocale extends Clansuite_Formelement_Select im
             /**
              * Key is the locale name.
              *
-             * a locale name has the form ‘ll_CC’. 
+             * a locale name has the form ‘ll_CC’.
              * Where ‘ll’ is an ISO 639 two-letter language code, and ‘CC’ is an ISO 3166 two-letter country code.
              * Both codes are separated by a underscore.
              *
@@ -79,7 +66,7 @@ class Clansuite_Formelement_Selectlocale extends Clansuite_Formelement_Select im
              * For example, for German in Austria, ll is de, and CC is AT. The locale is "de_AT".
              */
             $key = $locale;
-            
+
             /**
              * Value consists of a long form of the language name and the locale code with hyphen.
              * This string will be displayed in the dropdown.
@@ -88,14 +75,14 @@ class Clansuite_Formelement_Selectlocale extends Clansuite_Formelement_Select im
              * "lang-www" contains a hyphen and not an underscore!
              */
             $value = $locale_array['lang-native'] . ' (' . $locale_array['lang-www'] . ')';
-                        
+
             $options[$key] = $value;
         }
 
         $this->setOptions($options);
-        
+
         $this->setLabel( _('Select Locale') );
-        
+
         # You will find the value of the drop down in $_POST['locale']!
         $this->setName('locale');
     }

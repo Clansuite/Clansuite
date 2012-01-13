@@ -36,11 +36,6 @@ if (defined('IN_CS') === false)
     die('Clansuite not loaded. Direct Access forbidden.');
 }
 
-/**
- *  Clansuite_Formelement
- *  |
- *  \- Clansuite_Formelement_Captcha
- */
 class Clansuite_Formelement_Captcha extends Clansuite_Formelement implements Clansuite_Formelement_Interface
 {
     /**
@@ -83,7 +78,7 @@ class Clansuite_Formelement_Captcha extends Clansuite_Formelement implements Cla
     }
 
     /**
-     * @return string Name of the Captcha (without the captcha part) (like re, simple)
+     * @return string Name of the Captcha
      */
     public function getCaptcha()
     {
@@ -132,7 +127,7 @@ class Clansuite_Formelement_Captcha extends Clansuite_Formelement implements Cla
         # load file
         if (class_exists($classname, false) === false)
         {
-            include ROOT_CORE .'viewhelper/form/formelements/'. $name .'captcha.form.php';
+            include ROOT_CORE .'viewhelper/form/formelements/'. $name .'captcha.php';
         }
 
         # instantiate

@@ -36,19 +36,6 @@ if (defined('IN_CS') === false)
     die('Clansuite not loaded. Direct Access forbidden.');
 }
 
-# conditional include of the parent class
-if (false == class_exists('Clansuite_Formelement_Input',false))
-{ 
-    include __DIR__ . '/input.form.php';
-}
-
-/**
- *  Clansuite_Formelement
- *  |
- *  \- Clansuite_Formelement_Input
- *      |
- *      \- Clansuite_Formelement_Number
- */
 class Clansuite_Formelement_Number extends Clansuite_Formelement_Input implements Clansuite_Formelement_Interface
 {
     public function __construct()
@@ -57,34 +44,34 @@ class Clansuite_Formelement_Number extends Clansuite_Formelement_Input implement
 
         return $this;
     }
-    
+
     /**
      * Specifies the minimum value allowed
      */
     public function setMin($min)
     {
         $this->min = $min;
-        
+
         return $this;
     }
-    
+
     /**
      * Specifies the maximum value allowed
      */
     public function setMax($max)
     {
         $this->max = $max;
-        
+
         return $this;
     }
-    
+
     /**
      * Specifies legal number intervals (if step="2", legal numbers could be -2,0,2,4, etc)
      */
     public function setStep($step)
     {
         $this->step = $step;
-        
+
         return $this;
     }
 }

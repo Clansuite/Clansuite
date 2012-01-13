@@ -36,18 +36,6 @@ if (defined('IN_CS') === false)
     die('Clansuite not loaded. Direct Access forbidden.');
 }
 
-# conditional include of the parent class
-if (false == class_exists('Clansuite_Formelement_Radio',false))
-{
-    include __DIR__ . '/radio.form.php';
-}
-/**
- *  Clansuite_Form
- *  |
- *  \- Clansuite_Formelement_Radio
- *     |
- *     \- Clansuite_Formelement_Radiolist
- */
 class Clansuite_Formelement_Radiolist extends Clansuite_Formelement_Radio implements Clansuite_Formelement_Interface
 {
     protected $options;
@@ -83,7 +71,7 @@ class Clansuite_Formelement_Radiolist extends Clansuite_Formelement_Radio implem
                   ->setName($value)
                   ->setDescription($value)
                   ->setLabel($value);
-            
+
             # check the element, if value is "active"
             if( $this->value == $key)
             {
@@ -92,7 +80,7 @@ class Clansuite_Formelement_Radiolist extends Clansuite_Formelement_Radio implem
 
             # assign it as output
             $html .= $radio;
-            
+
             #Clansuite_Debug::printR($html);
 
             # if we have more options comming up, add a seperator

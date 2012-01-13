@@ -36,12 +36,6 @@ if (defined('IN_CS') === false)
     die('Clansuite not loaded. Direct Access forbidden.');
 }
 
-# conditional include of the parent class
-if (false == class_exists('Clansuite_Formelement_Textarea',false))
-{
-    include __DIR__ . '/textarea.form.php';
-}
-
 /**
  * Clansuite_Formelement_Wysiwygnicedit
  *
@@ -54,7 +48,7 @@ class Clansuite_Formelement_Wysiwygnicedit extends Clansuite_Formelement_Textare
     {
         self::checkDependencies();
     }
-    
+
     /**
      * Ensure, that the library is available, before the client requests a non-existant file.
      */
@@ -65,7 +59,7 @@ class Clansuite_Formelement_Wysiwygnicedit extends Clansuite_Formelement_Textare
             exit('NicEdit Javascript Library missing!');
         }
     }
-    
+
     /**
      * This renders a textarea with the WYSWIWYG editor NicEdit attached.
      */

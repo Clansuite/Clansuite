@@ -845,7 +845,7 @@ class Clansuite_Formelement implements Clansuite_Formelement_Interface
         # if not already loaded, require forelement file
         if(false == class_exists($class, false))
         {
-            $file = ROOT_CORE . 'viewhelper/form/decorators/formelement/' . $decorator . '.form.php';
+            $file = ROOT_CORE . 'viewhelper/form/decorators/formelement/' . $decorator . '.php';
 
             if(is_file($file) === true)
             {
