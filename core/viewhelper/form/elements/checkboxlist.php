@@ -36,19 +36,6 @@ if (defined('IN_CS') === false)
     die('Clansuite not loaded. Direct Access forbidden.');
 }
 
-# conditional include of the parent class
-if (false == class_exists('Clansuite_Formelement_Checkbox',false))
-{
-    include __DIR__ . '/checkbox.form.php';
-}
-
-/**
- *  Clansuite_Formelement_Input
- *  |
- *  \ - Clansuite_Formelement_Checkbox
- *      |
- *      \- Clansuite_Formelement_Checkboxlist
- */
 class Clansuite_Formelement_Checkboxlist extends Clansuite_Formelement_Checkbox implements Clansuite_Formelement_Interface
 {
     public function getOptions()

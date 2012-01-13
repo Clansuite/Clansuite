@@ -36,19 +36,6 @@ if (defined('IN_CS') === false)
     die('Clansuite not loaded. Direct Access forbidden.');
 }
 
-# conditional include of the parent class
-if (false == class_exists('Clansuite_Formelement_Input',false))
-{
-    include __DIR__ . '/input.form.php';
-}
-
-/**
- *  Clansuite_Formelement
- *  |
- *  \- Clansuite_Formelement_Input
- *     |
- *     \- Clansuite_Formelement_JQConfirmSubmitButton
- */
 class Clansuite_Formelement_JQConfirmSubmitButton extends Clansuite_Formelement_Input implements Clansuite_Formelement_Interface
 {
     protected $message = 'Please Confirm';
@@ -67,7 +54,7 @@ class Clansuite_Formelement_JQConfirmSubmitButton extends Clansuite_Formelement_
         /**
          * Add the Form Submit Confirmation Javascript.
          * This is a jQuery UI Modal Confirm Dialog.
-         * 
+         *
          * a) To add the value of specific form.elements to the message use "+ form.elements['email'].value +"
          * b) Take care, that the div dialog is present in the DOM, BEFORE you assign function to it via $('#dialog')
          *

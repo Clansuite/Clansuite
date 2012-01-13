@@ -26,7 +26,7 @@
     * @author     Jens-André Koch <vain@clansuite.com>
     * @copyright  Jens-André Koch (2005-onwards)
     * @link       http://www.clansuite.com
-    * 
+    *
     * @version    SVN: $Id$
     */
 
@@ -36,12 +36,6 @@ if (defined('IN_CS') === false)
     die('Clansuite not loaded. Direct Access forbidden.');
 }
 
-/**
- *
- *  Clansuite_Form
- *  |
- *  \- Clansuite_Formelement_Errors
- */
 class Clansuite_Formelement_Errors extends Clansuite_Formelement implements Clansuite_Formelement_Interface
 {
 

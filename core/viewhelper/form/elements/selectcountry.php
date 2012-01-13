@@ -36,20 +36,6 @@ if (defined('IN_CS') === false)
     die('Clansuite not loaded. Direct Access forbidden.');
 }
 
-# conditional include of the parent class
-if (false == class_exists('Clansuite_Formelement_Select',false))
-{
-    include __DIR__ . '/select.form.php';
-}
-
-/**
- *
- *  Clansuite_Form
- *  |
- *  \- Clansuite_Formelement_Select
- *     |
- *     \- Clansuite_Formelement_Selectcountry
- */
 class Clansuite_Formelement_Selectcountry extends Clansuite_Formelement_Select implements Clansuite_Formelement_Interface
 {
     public function __construct()

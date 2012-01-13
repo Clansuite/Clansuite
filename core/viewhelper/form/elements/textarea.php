@@ -51,10 +51,10 @@ class Clansuite_Formelement_Textarea extends Clansuite_Formelement implements Cl
      *
      * There are several different wysiwyg editor formelements available:
      *
-     * 1) Nicedit   -> wysiwygnicedit.form.php
-     * 2) TinyMCE   -> wysiwygtinymce.form.php
-     * 3) CKEditor  -> wysiwygckeditor.form.php
-     * 4) markItUp  -> wysiwygmarkItUp.form.phg
+     * 1) Nicedit   -> wysiwygnicedit.php
+     * 2) TinyMCE   -> wysiwygtinymce.php
+     * 3) CKEditor  -> wysiwygckeditor.php
+     * 4) markItUp  -> wysiwygmarkItUp.phg
      *
      * @var string
      */
@@ -88,9 +88,9 @@ class Clansuite_Formelement_Textarea extends Clansuite_Formelement implements Cl
          *  if no editor is given, take the one definied in the general configuration.
          *  the expected config setting is [editor] type.
          *  if the configuration value is not given, use "ckeditor" as fallback.
-         */        
+         */
         if($editor == null)
-        {            
+        {
             $config = Clansuite_CMS::getInjector()->instantiate('Clansuite_Config');
             $editor = isset($config['editor']['type']) ? $config['editor']['type'] : 'ckeditor';
             unset($config);
@@ -182,8 +182,8 @@ class Clansuite_Formelement_Textarea extends Clansuite_Formelement implements Cl
      */
     private function editorFactory()
     {
-        $name = $this->getEditor(); 
-        
+        $name = $this->getEditor();
+
 
         # construct classname
         $classname = 'Clansuite_Formelement_Wysiwyg'. $name;
@@ -191,7 +191,7 @@ class Clansuite_Formelement_Textarea extends Clansuite_Formelement implements Cl
         # load file
         if(class_exists($classname, false) === false)
         {
-            include ROOT_CORE . 'viewhelper/form/formelements/wysiwyg' . $name . '.form.php';
+            include ROOT_CORE . 'viewhelper/form/elements/wysiwyg' . $name . '.php';
         }
 
         # instantiate

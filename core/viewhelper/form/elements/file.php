@@ -42,13 +42,6 @@ if (false == class_exists('Clansuite_Formelement_Input',false))
     include __DIR__ . '/input.form.php';
 }
 
-/**
- *  Clansuite_Formelement
- *  |
- *  \- Clansuite_Formelement_Input
- *      |
- *      \- Clansuite_Formelement_File
- */
 class Clansuite_Formelement_File extends Clansuite_Formelement_Input implements Clansuite_Formelement_Interface
 {
     /**
@@ -56,9 +49,9 @@ class Clansuite_Formelement_File extends Clansuite_Formelement_Input implements 
      *
      * There are several different formelements available to upload files:
      *
-     * 1) Ajaxupload    -> uploadajax.form.php
-     * 2) APC           -> uploadapc.form.php
-     * 3) Uploadify     -> uploadify.form.php
+     * 1) Ajaxupload    -> uploadajax.php
+     * 2) APC           -> uploadapc.php
+     * 3) Uploadify     -> uploadify.php
      * 4) Default HTML  -> this class
      *
      * @string
@@ -91,30 +84,27 @@ class Clansuite_Formelement_File extends Clansuite_Formelement_Input implements 
 
     public function render()
     {
-        /**
-         * Switch for uploadType
-         */
         switch($this->uploadType)
         {
             default:
             case 'ajaxupload':
                 if(false === class_exists('Clansuite_Formelement_Uploadajax', false))
                 {
-                    include 'uploadajax.form.php';
+                    include __DIR__ . '/uploadajax.php';
                 }
                 return new Clansuite_Formelement_Uploadajax();
                 break;
             case 'apc':
                 if(false === class_exists('Clansuite_Formelement_Uploadapc', false))
                 {
-                    include 'uploadapc.form.php';
+                    include __DIR__ . '/uploadapc.php';
                 }
                 return new Clansuite_Formelement_Uploadapc();
                 break;
             case 'uploadify':
                 if(false === class_exists('Clansuite_Formelement_Uploadify', false))
                 {
-                    include 'uploadify.form.php';
+                    include __DIR__ . '/uploadify.php';
                 }
                 return new Clansuite_Formelement_Uploadify();
                 break;
@@ -128,17 +118,17 @@ class Clansuite_Formelement_File extends Clansuite_Formelement_Input implements 
                 break;
         }
     }
-    
+
     /**
      * Magic-Method for rendering the subclass formelements.
-     * 
+     *
      * The render method needs a bit magic to render formelement objects directly.
      * See the short returns calls like the following above:
-     * 
+     *
      *      return new Clansuite_Formelement_Uploadajax();
-     * 
-     * The long form is: 
-     * 
+     *
+     * The long form is:
+     *
      *      $formelement = new Clansuite_Formelement_Uploadajax();
      *      $formelement->render();
      */

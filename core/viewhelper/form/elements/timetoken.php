@@ -37,18 +37,15 @@ if (defined('IN_CS') === false)
 }
 
 /**
- *
- *  Clansuite_Formelement
- *  |
- *  \- Clansuite_Formelement_Timetoken
+ * Clansuite_Formelement_Timetoken
  */
 class Clansuite_Formelement_Timetoken extends Clansuite_Formelement implements Clansuite_Formelement_Interface
 {
     public function generateToken()
     {
-       # @todo consider using PHP Spam Kit Class  
+       # @todo consider using PHP Spam Kit Class
     }
-    
+
     /**
      * Inserts a hidden input field for a token. Reducing the risk of an CSRF exploit.
      */

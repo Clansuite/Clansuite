@@ -37,9 +37,7 @@ if (defined('IN_CS') === false)
 }
 
 /**
- *  Clansuite_Formelement
- *  |
- *  \- Clansuite_Formelement_Input
+ * Clansuite_Formelement_Input
  *
  * @link http://www.whatwg.org/specs/web-apps/current-work/multipage/the-input-element.html
  */
