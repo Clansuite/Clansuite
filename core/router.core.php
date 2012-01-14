@@ -222,7 +222,7 @@ class Clansuite_Router implements ArrayAccess, Clansuite_Router_Interface
      */
     public static function buildURL($urlstring, $internal_url = true)
     {
-        # if urlstring is already a qualified url
+        # if urlstring is already a qualified url (http://...)
         if(false !== strpos($urlstring, WWW_ROOT . 'index.php?mod='))
         {
             # there is no need to rebuild it, just return
@@ -236,9 +236,47 @@ class Clansuite_Router implements ArrayAccess, Clansuite_Router_Interface
         #}
         else # ROOT/index.php?mod=abc&action=123&etc...
         {
-            $url_values = explode('/', ltrim($urlstring, '/'));
-            $url_keys = array('mod', 'sub', 'action', 'id');
-            $url_data = Clansuite_Functions::array_unequal_combine($url_keys, $url_values);
+            # remove all double slahes
+            while (false !== strpos($urlstring, '//'))
+            {
+                $url = str_replace('//', '/', $urlstring);
+            }
+
+            # get only the part after "index.php=?"
+            if(false !== strpos($urlstring, 'index.php?'))
+            {
+                $urlstring = strstr($urlstring, 'index.php?');
+            }
+
+            # and explode the string into an indexed array
+            $urlstring = ltrim($urlstring, '/');
+            $url_params_idx_array = explode('/', $urlstring);
+
+            var_dump($url_params_idx_array);
+
+            /**
+             * This turns the indexed url parameters array into a named one.
+             * [0]=> "news"  to  [mod]    => "news"
+             * [1]=> "show"  to  [action] => "show"
+             *
+             * It also a static whitelist for url parameter keys.
+             *
+             * @todo how do i get the dynamic parameter names in here? year, date, etc.
+             * To solve this, maybe, the first index might be used to load the routes of that module.
+             * Then a reverse lookup in the routes table. For now this is static.
+             */
+            if($url_params_idx_array[1] === 'admin')
+            {
+                # module admin whitelist
+                $url_keys = array('mod', 'sub', 'action', 'id', 'type');
+            }
+            else
+            {
+                # public module whitelist
+                $url_keys = array('mod', 'action', 'id', 'type');
+            }
+
+            $url_data = Clansuite_Functions::array_unequal_combine($url_keys, $url_params_idx_array);
             $url = '';
 
             # Defaults to &amp; for internal usage in html documents.
@@ -254,6 +292,7 @@ class Clansuite_Router implements ArrayAccess, Clansuite_Router_Interface
                 $url = http_build_query($url_data, '', '&');
             }
 
+            #Clansuite_Debug::printR(WWW_ROOT . 'index.php?' . $url);
             #Clansuite_Debug::firebug(WWW_ROOT . 'index.php?' . $url);
             return WWW_ROOT . 'index.php?' . $url;
         }
@@ -337,7 +376,7 @@ class Clansuite_Router implements ArrayAccess, Clansuite_Router_Interface
             {
                 unset($route_pattern);
 
-                #Clansuite_Debug::printR($route_values);
+                Clansuite_Debug::printR($route_values);
 
                 $matches = '';
 
@@ -421,7 +460,7 @@ class Clansuite_Router implements ArrayAccess, Clansuite_Router_Interface
     /**
      * Checks if Apache Module "mod_rewrite" is loaded/enabled
      * and Rewrite Engine is enabled in .htaccess"
-     * 
+     *
      * @return boolean True, if mod_rewrite on.
      */
     public function checkEnvForModRewrite()
@@ -467,7 +506,7 @@ class Clansuite_Router implements ArrayAccess, Clansuite_Router_Interface
      * This function (3) strips slashes from beginning and end and (4) prepends a slash.
      * A multislash removal is not needed, because of the later usage of preg_split.
      *
-     * @param string $reuest_uril this is basically Clansuite_HttpRequest::getRequestURI
+     * @param string $request_url Clansuite_HttpRequest::getRequestURI
      *
      * @return string Request URL
      */
