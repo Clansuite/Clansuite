@@ -124,14 +124,17 @@ class Clansuite_HttpRequest implements Clansuite_Request_Interface, ArrayAccess
      * 4) Clear Array, Filter and Assign the $_REQUEST Global to it
      * 5) Detect REST Tunneling through POST and set request_method accordingly
      */
-    public function __construct()
+    public function __construct($ids_on = false)
     {
         # 1) Drop $_REQUEST. Usage is forbidden.
         unset($_REQUEST);
 
-        # 2) Run Intrusion Detection System (on GET, POST, COOKIES)
-        $doorKeeper = new Clansuite_DoorKeeper;
-        $doorKeeper->runIDS();
+        if($ids_on === true)
+        {
+            # 2) Run Intrusion Detection System (on GET, POST, COOKIES)
+            $doorKeeper = new Clansuite_DoorKeeper;
+            $doorKeeper->runIDS();
+        }
 
         /**
          *  3) Additional Security Checks
@@ -636,21 +639,20 @@ class Clansuite_HttpRequest implements Clansuite_Request_Interface, ArrayAccess
      *
      * This method takes care for REST (Representational State Transfer) by tunneling PUT, DELETE through POST (principal of least power).
      * Ok, this is faked or spoofed REST, but lowers the power of POST and it's short and nice in html forms.
-     * @todo allow 'GET' through POST?
+     * @todo consider allowing 'GET' through POST?
      *
      * @see https://wiki.nbic.nl/index.php/REST.inc
      * @see http://www.w3.org/Protocols/rfc2616/rfc2616-sec9.html
      */
     public function detectRESTTunneling()
     {
-        # this will allow DELETE and PUT
-        $rest_methodnames = array('DELETE', 'PUT');
+        $allowed_rest_methodnames = array('DELETE', 'PUT');
 
         # request_method has to be POST AND GET has to to have the method GET
-        if ($_SERVER['REQUEST_METHOD'] == 'POST' and isset($_GET['method']))
+        if ($_SERVER['REQUEST_METHOD'] == 'POST' and $this->issetParameter('GET', 'method'))
         {
             # check for allowed rest commands
-            if (in_array(mb_strtoupper($_GET['method']), $rest_methodnames))
+            if (in_array(mb_strtoupper($_GET['method']), $allowed_rest_methodnames))
             {
                 # set the internal (tunneled) method as new REQUEST_METHOD
                 self::setRequestMethod($_GET['method']);
@@ -675,7 +677,7 @@ class Clansuite_HttpRequest implements Clansuite_Request_Interface, ArrayAccess
                 throw new Clansuite_Exception('Request Method failure. You tried to tunnel a '.$this->getParameter('method','GET').' request through an HTTP POST request.');
             }
         }
-        elseif($_SERVER['REQUEST_METHOD'] == 'GET' and isset($_GET['method'])) # $this->issetParameter('GET', 'method')
+        elseif($_SERVER['REQUEST_METHOD'] == 'GET' and $this->issetParameter('GET', 'method'))
         {
             # NOPE, there's no tunneling through GET!
             throw new Clansuite_Exception('Request Method failure. You tried to tunnel a '.$this->getParameter('method','GET').' request through an HTTP GET request.');
@@ -683,24 +685,22 @@ class Clansuite_HttpRequest implements Clansuite_Request_Interface, ArrayAccess
     }
 
     /**
-     * Get the REQUEST METHOD
-     * Returns the internal request method first, then $_SERVER REQUEST_METHOD.
+     * Get the REQUEST METHOD (POST, GET, PUT, DELETE)
+     *
+     * The internally set request_method (PUT or DELETE) is returned first,
+     * because we might have a REST-tunneling.
      *
      * @return string request method
      */
     public static function getRequestMethod()
     {
-        # first get the internally set request_method (PUT or DELETE) because we might have a REST-tunneling
         if(isset(self::$request_method))
         {
             return self::$request_method;
         }
-        else # this will be POST or GET
+        else
         {
-            #if(in_array(strtolower($_SERVER['REQUEST_METHOD']), array('get','post'))
-            #{
-                return $_SERVER['REQUEST_METHOD'];
-            #}
+            return $_SERVER['REQUEST_METHOD'];
         }
     }
 
