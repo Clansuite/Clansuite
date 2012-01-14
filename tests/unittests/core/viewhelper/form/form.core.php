@@ -1,15 +1,13 @@
 <?php
+/**
+ * @todo method chaining tests on all setter methods
+ */
 class Clansuite_Form_Test extends Clansuite_UnitTestCase
 {
     /**
      * @var Clansuite_Form
      */
     protected $form;
-
-    public function markTestIncomplete($msg)
-    {
-        $this->assertTrue(false, $msg);
-    }
 
     /**
      * Sets up the fixture, for example, opens a network connection.
@@ -69,7 +67,7 @@ class Clansuite_Form_Test extends Clansuite_UnitTestCase
 
         # set external url
         $this->form->setAction('index.php?mod=news&action=show');
-        $this->assertEqual( WWW_ROOT . 'index.php?mod=index.php%3Fmod%3Dnews%26action%3Dshow', $this->form->getAction());
+        $this->assertEqual( WWW_ROOT . 'index.php?mod%3Dnews%26action%3Dshow', $this->form->getAction());
     }
 
     public function testGetAction()
@@ -77,7 +75,7 @@ class Clansuite_Form_Test extends Clansuite_UnitTestCase
         $this->form->setAction('index.php?mod=news&action=show');
 
         # via getter - qualified url
-        $this->assertEqual( WWW_ROOT . 'index.php?mod=index.php%3Fmod%3Dnews%26action%3Dshow', $this->form->getAction());
+        $this->assertEqual( WWW_ROOT . 'index.php?mod%3Dnews%26action%3Dshow', $this->form->getAction());
     }
 
     public function testGetAutocomplete()
@@ -293,6 +291,16 @@ class Clansuite_Form_Test extends Clansuite_UnitTestCase
 
         # via getter - returns string
         $this->assertEqual('legend-set', $this->form->getLegend());
+
+        # allows method chaining
+        $this->assertEqual($this->form, $this->form->setLegend('returns form object'));
+    }
+
+    public function testSetLegend_allowsMethodChaining()
+    {
+        $return_value = $this->form->setLegend('returns form object');
+
+        $this->assertIdentical($this->form, $return_value);
     }
 
     public function testGetLegend()

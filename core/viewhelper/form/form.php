@@ -637,19 +637,24 @@ class Clansuite_Form implements Clansuite_Form_Interface
     /**
      * Shortcut to set the Legend text of the fieldset decorator.
      *
-     * The legend belongs to the fieldset decorator.
+     * The legend tag belongs to the fieldset decorator.
      * The fieldset decorator is a default decorator instantiated, when rendering the form.
      * It does not exist at the time of form definition.
-     * So we keep the legend value till the fieldset decorator is instantiated.
-     * Then the decorator attributes array is automatically set applied to the form and it's objects.
+     * So we keep the legend value stored, till the fieldset decorator is instantiated.
+     * Then the decorator attributes array is automatically assigned to the form and it's objects.
      *
-     * Note: you can use the long form anytime, when defining your form.
+     * Note: you can use the long form (array notation) anytime, when defining your form.
+     * Though using method chaining is a bit nicer (fluent interface).
      *
-     * @param string String for the legend of the fieldset.
+     * @param string String for the legend tag of the fieldset.
+     *
+     * @return object Clansuite_Form
      */
     public function setLegend($legend)
     {
         $this->setDecoratorAttributesArray(array('form' => array('fieldset' => array('legend' => $legend))));
+
+        return $this;
     }
 
     public function getLegend()
