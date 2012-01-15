@@ -81,7 +81,7 @@ class Language implements ArrayAccess
         $this->language['SESSION_FUNCTIONS'] = 'Session Funktionen';
         $this->language['SESSION_AUTO_START'] = 'Session Autostart';
         $this->language['PDO_LIBRARY'] = 'PDO - Bibliothek';
-        $this->language['EXTENSION_PDO_MYSQL'] = 'Extension: "pdo_mysql"';
+        $this->language['EXTENSION_PDO_MYSQL'] = 'Erweiterung: "pdo_mysql"';
         $this->language['CLASS_REFLECTION'] = 'PHP Reflection';
         $this->language['EXTENSION_SPL'] = 'Standard PHP Library (SPL)';
         $this->language['IS_WRITEABLE_TEMP_DIR'] = 'Nutzbar: Temporäres Verzeichnis';
@@ -105,22 +105,22 @@ class Language implements ArrayAccess
         $this->language['SHORT_OPEN_TAG'] = 'Kurzversion öffnender PHP-Tags';
         $this->language['OUTPUT_BUFFERING'] = 'Output Buffering';
         $this->language['XSLT_PROCESSOR'] = 'XSLT-Prozessor';
-        $this->language['EXTENSION_HASH'] = 'PHP Bibliothek: Hash';
-        $this->language['EXTENSION_GETTEXT'] = 'PHP Bibliothek: Gettext';
-        $this->language['EXTENSION_TOKENIZER'] = 'PHP Bibliothek: Tokenizer';
-        $this->language['EXTENSION_GD'] = 'PHP Bibliothek: GD';
-        $this->language['EXTENSION_XML'] = 'PHP Bibliothek: XML';
-        $this->language['EXTENSION_PCRE'] = 'PHP Bibliothek: PCRE (Perl Regexp)';
-        $this->language['EXTENSION_SIMPLEXML'] = 'PHP Bibliothek: SimpleXML';
-        $this->language['EXTENSION_SUHOSIN'] = 'PHP Bibliothek: Suhosin';
-        $this->language['EXTENSION_SKEIN'] = 'PHP Bibliothek: Skein';
-        $this->language['EXTENSION_GEOIP'] = 'PHP Bibliothek: GeoIP';
-        $this->language['EXTENSION_CURL'] = 'PHP Bibliothek: cURL';
-        $this->language['EXTENSION_SYCK'] = 'PHP Bibliothek: SYCK';
-        $this->language['EXTENSION_APC'] = 'PHP Bibliothek: APC';
-        $this->language['EXTENSION_MEMCACHE'] = 'PHP Bibliothek: MEMCACHE';
-        $this->language['EXTENSION_MCRYPT'] = 'PHP Bibliothek: MCRYPT';
-        $this->language['EXTENSION_CALENDAR'] = 'PHP Bibliothek: CALENDAR';
+        $this->language['EXTENSION_HASH'] = 'PHP Erweiterung: Hash';
+        $this->language['EXTENSION_GETTEXT'] = 'PHP Erweiterung: Gettext';
+        $this->language['EXTENSION_TOKENIZER'] = 'PHP Erweiterung: Tokenizer';
+        $this->language['EXTENSION_GD'] = 'PHP Erweiterung: GD';
+        $this->language['EXTENSION_XML'] = 'PHP Erweiterung: XML';
+        $this->language['EXTENSION_PCRE'] = 'PHP Erweiterung: PCRE (Perl Regexp)';
+        $this->language['EXTENSION_SIMPLEXML'] = 'PHP Erweiterung: SimpleXML';
+        $this->language['EXTENSION_SUHOSIN'] = 'PHP Erweiterung: Suhosin';
+        $this->language['EXTENSION_SKEIN'] = 'PHP Erweiterung: Skein';
+        $this->language['EXTENSION_GEOIP'] = 'PHP Erweiterung: GeoIP';
+        $this->language['EXTENSION_CURL'] = 'PHP Erweiterung: cURL';
+        $this->language['EXTENSION_SYCK'] = 'PHP Erweiterung: SYCK';
+        $this->language['EXTENSION_APC'] = 'PHP Erweiterung: APC';
+        $this->language['EXTENSION_MEMCACHE'] = 'PHP Erweiterung: MEMCACHE';
+        $this->language['EXTENSION_MCRYPT'] = 'PHP Erweiterung: MCRYPT';
+        $this->language['EXTENSION_CALENDAR'] = 'PHP Erweiterung: CALENDAR';
 
         // STEP 3 - Licence
         $this->language['STEP3_LICENCE'] = 'Schritt [3] GNU/GPL Lizenz';
