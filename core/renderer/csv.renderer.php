@@ -52,7 +52,7 @@ if(defined('IN_CS') === false)
 class Clansuite_Renderer_CSV extends Clansuite_Renderer_Base
 {
     private $data = array();
-    private $header = array();   
+    private $header = array();
 
     public function initializeEngine()
     {
@@ -65,12 +65,13 @@ class Clansuite_Renderer_CSV extends Clansuite_Renderer_Base
     }
 
     /**
-     * @param string $filepath location of where the csv file should be saved
+     * @param string $template The filepath location of where to save the csv file.
+     * @param array|object viewdata
      */
-    public function render($filepath)
+    public function render($template, $viewdata)
     {
-
-        $this->mssafe_csv($filepath, $this->data, $this->header);
+        $this->data = $viewdata;
+        $this->mssafe_csv($template, $this->data, $this->header);
     }
 
     /**
@@ -101,7 +102,9 @@ class Clansuite_Renderer_CSV extends Clansuite_Renderer_Base
      */
     private function mssafe_csv($filepath, $data, $header = array())
     {
-        if($fp = fopen($filepath, 'w'))
+        $fp = fopen($filepath, 'w');
+
+        if($fp === true)
         {
             $show_header = true;
 

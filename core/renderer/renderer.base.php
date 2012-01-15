@@ -77,6 +77,11 @@ abstract class Clansuite_Renderer_Base
     protected $config = null;
 
     /**
+     * @var array|object Viewdata
+     */
+    public $viewdata = null;
+
+    /**
      * Construct Renderer
      *
      * @param Clansuite_Config Object
@@ -109,9 +114,11 @@ abstract class Clansuite_Renderer_Base
     /**
      * Renders the given Template with renderMode wrapped (with Layout)
      *
+     * @param string Template
+     * @param array|object Data to assign to the template.
      * @return string
      */
-    abstract public function render($template);
+    abstract public function render($template, $viewdata);
 
     /**
      * Renders the given Template with renderMode unwrapped (without Layout)

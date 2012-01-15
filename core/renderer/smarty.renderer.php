@@ -69,11 +69,13 @@ class Clansuite_Renderer_Smarty extends Clansuite_Renderer_Base
         $this->configureEngine();
 
         # debug display of all smarty related directories
-        #$this->renderer->testInstall();
+        # $this->renderer->testInstall();
     }
 
     /**
      * Set up Smarty Template Engine
+     *
+     * @param string $template Template Name for "Frontloader" Rendering Engines (xtpl).
      */
     public function initializeEngine($template = null)
     {
@@ -211,8 +213,8 @@ class Clansuite_Renderer_Smarty extends Clansuite_Renderer_Base
          * 6) "/themes/"
          */
         $tpl_array = array( $this->getThemeTemplatePaths(), # 1 + 2
-                            $this->getModuleTemplatePaths(), # 3 + 4        
-                            ROOT_THEMES_CORE . 'view' . DS . 'smarty', # 5 
+                            $this->getModuleTemplatePaths(), # 3 + 4
+                            ROOT_THEMES_CORE . 'view' . DS . 'smarty', # 5
                             ROOT_THEMES); # 6
 
         # flatten that thing
@@ -228,10 +230,10 @@ class Clansuite_Renderer_Smarty extends Clansuite_Renderer_Base
          * 2) clansuite core/common smarty plugins  => core\viewhelper\smarty\
          * 3) clansuite module smarty plugins       => modules\module_name\viewhelper\smarty\
          */
-        
-        $this->renderer->setPluginsDir( 
+
+        $this->renderer->setPluginsDir(
             array( ROOT_LIBRARIES . 'smarty' . DS . 'plugins',
-                   ROOT_CORE . 'viewhelper' . DS . 'smarty' . DS, 
+                   ROOT_CORE . 'viewhelper' . DS . 'smarty' . DS,
                    ROOT_MOD . Clansuite_TargetRoute::getModuleName() . DS . 'viewhelper' . DS. 'smarty' . DS
         ));
 
@@ -312,7 +314,7 @@ class Clansuite_Renderer_Smarty extends Clansuite_Renderer_Base
      */
     public function assign($tpl_parameter, $value = null)
     {
-        if(is_array($tpl_parameter) === true)
+        if(is_array($tpl_parameter) === true or is_object($tpl_parameter) === true )
         {
             $this->renderer->assign($tpl_parameter);
         }
@@ -486,10 +488,16 @@ class Clansuite_Renderer_Smarty extends Clansuite_Renderer_Base
      * 3. return the wrapper layout tpl
      *
      * @param string $templatename Template Filename
+     * @param array|object $data Data to assign to the view.
      * @return wrapper tpl layout
      */
-    public function render($template)
+    public function render($template, $viewdata = null)
     {
+        if(isset($viewdata))
+        {
+            $this->assign($viewdata);
+        }
+
         # 1. assign common template values and Clansuite constants as Smarty Template Variables.
         $this->renderer->assignGlobal($this->getConstants());
 

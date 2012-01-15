@@ -63,7 +63,7 @@ class Clansuite_Renderer_Xtemplate extends Clansuite_Renderer_Base
         # prevent redeclaration
         if(class_exists('XTemplate', false) == false)
         {
-            # check if Smarty library exists
+            # check if library exists
             if(is_file(ROOT_LIBRARIES . 'xtemplate/xtemplate.class.php') === true)
             {
                 include ROOT_LIBRARIES . 'xtemplate/xtemplate.class.php';
@@ -124,8 +124,9 @@ class Clansuite_Renderer_Xtemplate extends Clansuite_Renderer_Base
         return $this->renderer;
     }
 
-    public function render($template)
+    public function render($template, $viewdata)
     {
+        $this->renderer->assign($viewdata);
         $this->renderer->parse($template);
         $this->renderer->out($template);
     }
