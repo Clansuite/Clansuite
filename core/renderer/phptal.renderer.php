@@ -97,10 +97,10 @@ class Clansuite_Renderer_Phptal extends Clansuite_Renderer_Base
     /**
      * Add data to the PHPTAL view
      *
-     * @param mixed $tpl_parameter
-     * @param mixed $value
+     * @param mixed $tpl_parameter The placeholder.
+     * @param mixed $value The value.
      */
-    public function assign($tpl_parameter, $value)
+    public function assign($tpl_parameter, $value = null)
     {
         if(is_array($tpl_parameter))
         {
@@ -111,15 +111,17 @@ class Clansuite_Renderer_Phptal extends Clansuite_Renderer_Base
         }
         else
         {
-            $this->renderer->$param = $val;
+            if ($tpl_parameter != null)
+            {
+                $this->renderer->$tpl_parameter = $value;
+            }
         }
     }
 
-    /*
     public function setTemplate($template)
     {
         $this->renderer->setTemplate($template);
-    }*/
+    }
 
     /**
      * Render Engine Configuration
@@ -167,6 +169,85 @@ class Clansuite_Renderer_Phptal extends Clansuite_Renderer_Base
         return $this->renderer;
     }
 
+
+    /**
+     * Display template
+     *
+     * @param $template
+     * @param $returnOutput
+     * @return string Rendered Template Content
+     */
+    protected function render($template = null, $returnContent = false)
+    {
+        # get the template from the parent class
+        if($template === null)
+        {
+            $template = $this->getTemplate();
+        }
+
+        $this->renderer->setTemplate($template);
+
+        try
+        {
+            # let PHPTAL process the template
+            $output = $this->renderer->execute();
+
+            # return or echo the content
+            if ($returnContent === true)
+            {
+                return $content;
+            }
+            else
+            {
+                echo $content;
+            }
+        }
+        catch (Exception $e)
+        {
+            throw new Clansuite_Exception($e);
+        }
+    }
+
+    /**
+     * Fetches Template
+     *
+     * @param $template Template
+     * @return string Rendered Template Content.
+     */
+    protected function fetch($template)
+    {
+        return $this->render($template, true);
+    }
+
+    /**
+     * Set charset encoding
+     *
+     * @param string encoding
+     */
+    public function setEncoding($encoding)
+    {
+        return $this->renderer->setEncoding($encoding);
+    }
+
+    /**
+     * Set output mode
+     *
+     * @param int output mode
+     */
+    public function setOutputMode($outputMode)
+    {
+        return $this->renderer->setOutputMode($outputMode);
+    }
+
+    /**
+     * Set cache lifetime
+     *
+     * @param int lifetime in days
+     */
+    public function setLifetime($lifetime)
+    {
+        return $this->renderer->setCacheLifetime($lifetime);
+    }
     /**
      * Set PHPTAL variables
      *
@@ -223,83 +304,5 @@ class Clansuite_Renderer_Phptal extends Clansuite_Renderer_Base
         $this->phptal = clone $this->phptal;
     }
     */
-
-    /**
-     * Display template
-     *
-     * @param $template
-     * @param $returnOutput
-     * @return string Rendered Template Content
-     */
-    protected function render($template = null, $returnContent = false)
-    {
-        # get the template from the parent class
-        if($template === null)
-        {
-            $template = $this->getTemplate();
-        }
-
-        $this->renderer->setTemplate($template);
-
-        try
-        {
-            # let PHPTAL process the template
-            $output = $this->renderer->execute();
-
-            if ($returnContent === true)
-            {
-                return $content;
-            }
-            else
-            {
-                echo $content;
-            }
-        }
-        catch (Clansuite_Exception $e)
-        {
-            throw new Clansuite_Exception($e);
-        }
-    }
-
-    /**
-     * Fetches Template
-     *
-     * @param $template Template
-     * @return string Rendered Template Content.
-     */
-    protected function fetch($template)
-    {
-        return $this->render($template, true);
-    }
-
-    /**
-     * Set charset encoding
-     *
-     * @param string encoding
-     */
-    public function setEncoding($encoding)
-    {
-        return $this->renderer->setEncoding($encoding);
-    }
-
-    /**
-     * Set output mode
-     *
-     * @param int output mode
-     */
-    public function setOutputMode($outputMode)
-    {
-        return $this->renderer->setOutputMode($outputMode);
-    }
-
-    /**
-     * Set cache lifetime
-     *
-     * @param int lifetime in days
-     */
-    public function setLifetime($lifetime)
-    {
-        return $this->renderer->setCacheLifetime($lifetime);
-    }
 }
 ?>

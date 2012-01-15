@@ -106,6 +106,7 @@ class Clansuite_Renderer_Php extends Clansuite_Renderer_Base
     {
         if(is_object($key))
         {
+            # @todo pull object props to array
             $this->data[$key] = $value->fetch();
         }
         elseif(is_array($key))
@@ -127,9 +128,11 @@ class Clansuite_Renderer_Php extends Clansuite_Renderer_Base
      *
      * @return string HTML Representation of Template with Vars
      */
-    public function render()
+    public function render($template, $viewdata)
     {
-        return $this->fetch();
+        $this->assign($viewdata);
+
+        return $this->fetch($template);
     }
 
     /**

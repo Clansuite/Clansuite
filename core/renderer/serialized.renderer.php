@@ -53,10 +53,15 @@ class Clansuite_Renderer_Serialized extends Clansuite_Renderer_Base
 {
     /**
      * Render serialized PHP data
+     * 
+     * @param $template Unused.
+     * @param $viewdata Data to serialize.
+     *
+     * @return string Serialized data.
      */
-    public function render($data)
+    public function render($template, $viewdata)
     {
-        return serialize($this->data);
+        return serialize($this->viewdata);
     }
 }
 ?>
