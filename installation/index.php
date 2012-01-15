@@ -802,7 +802,7 @@ class Clansuite_Installation_Startup_Exception extends Exception
          * You might set the following colour attributes (error_red, error_orange, error_beige) as defined in core/error.css.
          */
         $errormessage .= '<fieldset class="error_beige">';
-        $errormessage .= '<div style="float: left; margin: 5px; margin-right: 25px; border:1px inset #bf0000; padding: 20px;">';
+        $errormessage .= '<div style="float:left; padding: 15px;">';
         $errormessage .= '<img src="images/Clansuite-Toolbar-Icon-64-error.png" style="border: 2px groove #000000;" alt="Clansuite Error Icon" /></div>';
         $errormessage .= '<legend>Clansuite Installation Error</legend>';
         $errormessage .= '<p><strong>' . $this->message . '</strong>';
@@ -828,17 +828,17 @@ class Clansuite_Installation_Startup_Exception extends Exception
          */
         $errormessage .= '<fieldset class="error_beige">';
         $errormessage .= '<legend>Help</legend>';
-        $errormessage .= '<p>';
-        $errormessage .= '1) You might use <a href="phpinfo.php">phpinfo()</a> to check your serversettings. <br />';
+        $errormessage .= '<ol>';
+        $errormessage .= '<li>You might use <a href="phpinfo.php">phpinfo()</a> to check your serversettings.</li>';
 
         if( get_cfg_var('cfg_file_path') )
         {
             $cfg_file_path = get_cfg_var('cfg_file_path');
         }
-        $errormessage .= '2) Check your php.ini ('. $cfg_file_path .') and ensure all needed extensions are loaded. ';
-        $errormessage .= 'After a modification of your php.ini you must restart your webserver.<br />';
+        $errormessage .= '<li>Check your php.ini ('. $cfg_file_path .') and ensure all needed extensions are loaded. <br />';
+        $errormessage .= 'After a modification of your php.ini you must restart your webserver.</li>';
 
-        $errormessage .= '3) Check the webservers errorlog.</p><p>';
+        $errormessage .= '<li>Check the webservers errorlog.</li></ol><p>';
         $errormessage .= "If you can't solve the error yourself, feel free to contact us at our website's <a href=\"http://forum.clansuite.com/index.php?board=25.0\">Installation - Support Forum</a>.<br/>";
         $errormessage .= '</p></fieldset>';
         $errormessage .= '</body></html>';
