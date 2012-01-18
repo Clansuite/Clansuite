@@ -420,10 +420,10 @@ class Clansuite_Formelement implements Clansuite_Formelement_Interface
                  * To protect the developer a bit more, we are focing the usage of a setter method.
                  * If the setter method exists most likely the property will exist too, i guess.
                  */
-                if(DEBUG == true)
+                if( defined('DEBUG') and DEBUG == true )
                 {
                     $method = 'set' . $attribute;
-                    $this->{$method}($value);
+                    $this->$method($value);
                 }
                 else # while in production mode
                 {
