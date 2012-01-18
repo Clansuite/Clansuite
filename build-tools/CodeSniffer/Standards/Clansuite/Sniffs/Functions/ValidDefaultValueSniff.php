@@ -13,7 +13,7 @@
  * @package    PHP_CodeSniffer
  * @subpackage Clansuite_Sniffs
  */
-class Clansuite_Sniffs_Methods_ValidDefaultValueSniff implements PHP_CodeSniffer_Sniff
+class Clansuite_Sniffs_Functions_ValidDefaultValueSniff implements PHP_CodeSniffer_Sniff
 {
 
     /**

@@ -22,7 +22,7 @@
  * @package    PHP_CodeSniffer
  * @subpackage Clansuite_Sniffs
  */
-class Clansuite_Sniffs_PHP_OpeningClosingTagSniff implements Php_CodeSniffer_Sniff
+class Clansuite_Sniffs_PHP_PHPOpeningClosingTagSniff implements Php_CodeSniffer_Sniff
 {
     /**
      * Returns an array of tokens this test wants to listen for.

@@ -20,7 +20,7 @@
  * @package    PHP_CodeSniffer
  * @subpackage Clansuite_Sniffs
  */
-class Clansuite_Sniffs_PHP_DeprecatedNewReferenceSniff implements PHP_CodeSniffer_Sniff
+class Clansuite_Sniffs_Operators_DeprecatedNewReferenceSniff implements PHP_CodeSniffer_Sniff
 {
     /**
      * If true, an error will be thrown; otherwise a warning.
