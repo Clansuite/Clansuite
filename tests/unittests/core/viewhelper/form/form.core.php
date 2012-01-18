@@ -62,20 +62,24 @@ class Clansuite_Form_Test extends Clansuite_UnitTestCase
     public function testSetAction()
     {
         # set internal url - rebuilds the external url via router
-        $this->form->setAction('/module/action');
-        $this->assertEqual( WWW_ROOT . 'index.php?mod=module&amp;sub=action', $this->form->getAction());
+        $this->form->setAction('/news/show');
+        $this->assertEqual( WWW_ROOT . 'index.php?mod=news&amp;action=show', $this->form->getAction());
 
         # set external url
+        $this->form->setAction(WWW_ROOT .'index.php?mod=news&action=show');
+        $this->assertEqual( WWW_ROOT . 'index.php?mod=news&action=show', $this->form->getAction());
+
+        # set external url withput www_root (http root)
         $this->form->setAction('index.php?mod=news&action=show');
-        $this->assertEqual( WWW_ROOT . 'index.php?mod%3Dnews%26action%3Dshow', $this->form->getAction());
+        $this->assertEqual( WWW_ROOT . 'index.php?mod=news&action=show', $this->form->getAction());
     }
 
     public function testGetAction()
     {
-        $this->form->setAction('index.php?mod=news&action=show');
-
         # via getter - qualified url
-        $this->assertEqual( WWW_ROOT . 'index.php?mod%3Dnews%26action%3Dshow', $this->form->getAction());
+        $url = WWW_ROOT . 'index.php?mod=news&action=show';
+        $this->form->setAction( $url );
+        $this->assertEqual( $url, $this->form->getAction());
     }
 
     public function testGetAutocomplete()

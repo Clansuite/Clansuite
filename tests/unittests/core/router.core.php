@@ -99,6 +99,11 @@ class Clansuite_Router_Test extends Clansuite_UnitTestCase
         $url = $this->router->buildURL($urlstring, $internal_url);
         $this->assertEqual(WWW_ROOT . 'index.php?mod=news&amp;action=show', $url);
 
+        $urlstring = '/news/admin/edit/1';
+        $internal_url = true;
+        $url = $this->router->buildURL($urlstring, $internal_url);
+        $this->assertEqual(WWW_ROOT . 'index.php?mod=news&amp;sub=admin&amp;action=edit&amp;id=1', $url);
+
         /*$urlstring = '';
         $internal_url = false;
 
