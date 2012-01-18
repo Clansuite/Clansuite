@@ -352,6 +352,10 @@
         </phplint>
     </target>
 
+    <target name="run-tests" description="Run some tests.">
+        <phingcall target="simpletest" />
+    </target>
+
     <target name="simpletest" description="Runs simpletest unit-tests and creates report">
         <echo msg="Running simpletest unit-tests and creating test report." />
         <exec command="php ${sourcedir}/tests/runAllTests.php" />
@@ -382,6 +386,13 @@
         <exec command="phpcs --extensions=php --report=checkstyle
                              --standard=${sourcedir}/build-tools/CodeSniffer/Standards/Clansuite/
                              --ignore=${ignorepaths} ${sourcedir} > ${builddir}/logs/phpcs.xml" escape="false" />
+    </target>
+
+    <target name="phpcs-local" description="Runs the PHP-Codesniffer task and reports coding standard violations">
+        <echo msg="PHP_CodeSniffer runs CodeSniffs and reports coding standard violations." />
+        <exec command="phpcs --extensions=php --report=checkstyle
+                             --standard=/home/clansuite/svn-export/build-tools/CodeSniffer/Standards/Clansuite/ruleset.xml
+                             --ignore=${ignorepaths} /home/clansuite/svn > phpcs.xml" escape="false" />
     </target>
 
     <!-- bootstrap=${project}/test/bootstrap.php  -->
