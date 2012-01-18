@@ -366,7 +366,8 @@ class Clansuite_TargetRoute extends Clansuite_Mapper
             'modrewrite' => false
         );
 
-        self::$parameters = array_merge(self::$parameters, $reset_params);
+        #self::$parameters = array_merge(self::$parameters, $reset_params);
+        self::$parameters = $reset_params;
     }
 
     public static function getRoute()

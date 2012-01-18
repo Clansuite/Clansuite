@@ -223,10 +223,16 @@ class Clansuite_Router implements ArrayAccess, Clansuite_Router_Interface
     public static function buildURL($urlstring, $internal_url = true)
     {
         # if urlstring is already a qualified url (http://...)
-        if(false !== strpos($urlstring, WWW_ROOT . 'index.php?mod='))
+        if(false !== strpos($urlstring, WWW_ROOT . 'index.php?'))
         {
             # there is no need to rebuild it, just return
             return $urlstring;
+        }
+        elseif(false !== strpos($urlstring, 'index.php?'))
+        {
+            # there is no need to rebuild it, just the http prefix is missing
+            # add that and return
+            return WWW_ROOT . $urlstring;
         }
         # e.g. ROOT/news/admin
         #elseif(REWRITE_ENGINE_ON === true)
@@ -236,28 +242,30 @@ class Clansuite_Router implements ArrayAccess, Clansuite_Router_Interface
         #}
         else # ROOT/index.php?mod=abc&action=123&etc...
         {
-            # remove all double slahes
-            while (false !== strpos($urlstring, '//'))
-            {
-                $url = str_replace('//', '/', $urlstring);
-            }
-
             # get only the part after "index.php=?"
             if(false !== strpos($urlstring, 'index.php?'))
             {
                 $urlstring = strstr($urlstring, 'index.php?');
             }
 
-            # and explode the string into an indexed array
-            $urlstring = ltrim($urlstring, '/');
-            $url_params_idx_array = explode('/', $urlstring);
+            # remove all double slahes
+            while (false !== strpos($urlstring, '//'))
+            {
+                $urlstring = str_replace('//', '/', $urlstring);
+            }
 
-            var_dump($url_params_idx_array);
+            # remove space and slashes from begin and end of string
+            $urlstring = trim($urlstring, ' /');
+
+            # so something like "news/show/2" is left
+            # explode the string into an indexed array
+            $url_params_idx_array = explode('/', $urlstring);
 
             /**
              * This turns the indexed url parameters array into a named one.
              * [0]=> "news"  to  [mod]    => "news"
              * [1]=> "show"  to  [action] => "show"
+             * [2]=> "2"     to  [id]     => "2"
              *
              * It also a static whitelist for url parameter keys.
              *
@@ -265,7 +273,7 @@ class Clansuite_Router implements ArrayAccess, Clansuite_Router_Interface
              * To solve this, maybe, the first index might be used to load the routes of that module.
              * Then a reverse lookup in the routes table. For now this is static.
              */
-            if($url_params_idx_array[1] === 'admin')
+            if(isset($url_params_idx_array[1]) and $url_params_idx_array[1] === 'admin')
             {
                 # module admin whitelist
                 $url_keys = array('mod', 'sub', 'action', 'id', 'type');
@@ -277,20 +285,11 @@ class Clansuite_Router implements ArrayAccess, Clansuite_Router_Interface
             }
 
             $url_data = Clansuite_Functions::array_unequal_combine($url_keys, $url_params_idx_array);
-            $url = '';
 
             # Defaults to &amp; for internal usage in html documents.
-            #  = ROOT/index.php?mod=abc&amp;action=123&amp;etc...
-            if($internal_url === true)
-            {
-                $url = http_build_query($url_data, '', '&amp;');
-            }
-            # external link / redirect etc.
-            #  = ROOT/index.php?mod=abc&action=123&etc...
-            elseif($internal_url === false)
-            {
-                $url = http_build_query($url_data, '', '&');
-            }
+            $arg_separator = ($internal_url === true) ? '&amp;' : '&';
+
+            $url = http_build_query($url_data, '', $arg_separator);
 
             #Clansuite_Debug::printR(WWW_ROOT . 'index.php?' . $url);
             #Clansuite_Debug::firebug(WWW_ROOT . 'index.php?' . $url);

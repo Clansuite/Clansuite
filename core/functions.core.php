@@ -483,10 +483,20 @@ class Clansuite_Functions
         $key = '';
         $index = 0;
 
+        # more keys than values, reduce keys array
+        while(count($keyArray) > count($valueArray))
+        {
+            array_pop($keyArray);
+        }
+
+        # @todo more values than keys ?
+        # add pseudo keys a la "key-0"
+
         foreach($keyArray as $key)
         {
-            if(isset($valueArray[$index]) === true)
+            if(isset($valueArray[$index]))
             {
+                # index is used, then incremented for the next turn in foreach (post-increment-operator)
                 $returnArray[$key] = $valueArray[$index++];
             }
         }
