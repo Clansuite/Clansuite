@@ -39,8 +39,6 @@ function smarty_function_modulenavigation($params, $smarty)
         # for further processing of the menu items
         $modulenavigation = array_map("applyCallbacks", $modulenavigation);
 
-        var_dump($modulenavigation);
-
         $smarty->assign('modulenavigation', $modulenavigation);
 
         # The file is located in clansuite/themes/core/view/smarty/modulenavigation-generic.tpl
