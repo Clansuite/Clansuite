@@ -415,15 +415,21 @@ class Clansuite_Formelement implements Clansuite_Formelement_Interface
             foreach($attributes as $attribute => $value)
             {
                 /**
-                 * attributes are directly set
-                 * one might even set a wrong one by accident, like $attribute = 'maxxxlength'
-                 * protect the developer a little bit more here.
-                 * @todo check if attribute is allowed, lookup in whitelist
-                 * @todo protect formelement attr and use setters
+                 * In DEBUG mode the attributes are set via a setter method.
+                 * So one might even set a wrong one by accident, like $attribute = 'maxxxlength'.
+                 * To protect the developer a bit more, we are focing the usage of a setter method.
+                 * If the setter method exists most likely the property will exist too, i guess.
                  */
-
-                # set attribute directly
-                $this->{$attribute} = $value;
+                if(DEBUG == true)
+                {
+                    $method = 'set' . $attribute;
+                    $this->{$method}($value);
+                }
+                else # while in production mode
+                {
+                    # set attribute directly
+                    $this->{$attribute} = $value;
+                }
             }
         }
     }
