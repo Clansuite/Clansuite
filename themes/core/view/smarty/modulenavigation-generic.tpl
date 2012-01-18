@@ -80,12 +80,25 @@
 
     {* if the condition is not met, then do not display the menu item *}
     {if isset($item.condition) === true and $item.condition === false}
-    {continue}
+
+    {* the condition is not met, let's show that, but only in debug mode *}
+    {if DEBUG == true}
+    <li>
+        <a href="{$item.url}"
+           title="{$item.title} The condition of this menu item is false. The menu item will not be displayed, when DEBUG mode is off.">
+            <span>{$item.name} <font color="red">(!)</font></span>
+        </a>
+    </li>
+    {else}
+        {continue}
     {/if}
-    
+
+    {else}
     <li>
         <a href="{$item.url}" title="{$item.title}"> <span>{$item.name}</span> </a>
     </li>
+    {/if}
+
     {/foreach}
     </ul>
 </div>
