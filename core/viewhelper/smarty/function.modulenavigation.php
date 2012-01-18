@@ -26,38 +26,79 @@
  */
 function smarty_function_modulenavigation($params, $smarty)
 {
-    $modulename = Clansuite_HttpRequest::getRoute()->getModuleName();
-    $modulenavigation_file = ROOT_MOD. $modulename . DS . $modulename . '.menu.php';
+    $module = Clansuite_HttpRequest::getRoute()->getModuleName();
 
-    if( is_file($modulenavigation_file) )
+    $file = ROOT_MOD. $module . DS . $module . '.menu.php';
+
+    if( is_file($file) )
     {
         # this includes the file, which contains a php array name $modulenavigation
-        include $modulenavigation_file;
+        include $file;
 
-        # convert URLs by callback
-        $modulenavigation = array_map("convertURLs", $modulenavigation);
+        # push the $modulenavigation array to a callback function
+        # for further processing of the menu items
+        $modulenavigation = array_map("applyCallbacks", $modulenavigation);
+
+        var_dump($modulenavigation);
 
         $smarty->assign('modulenavigation', $modulenavigation);
+
         # The file is located in clansuite/themes/core/view/smarty/modulenavigation-generic.tpl
         return $smarty->fetch('modulenavigation-generic.tpl');
     }
-    else
+    else # the module menu navigation file is missing
     {
-        $smarty->assign('modulename', $modulename);
+        $smarty->assign('modulename', $module);
         $errormessage = $smarty->fetch('modulenavigation_not_found.tpl');
         trigger_error($errormessage);
     }
 }
 
 /**
- * array_map callback function to replace the values of the 'url' key
- * because these might be shorthands like "/index/show" etc.
+ * array_map callback function
  *
- * @param array $array
+ * 1) convert short urls
+ * 2) execute callback conditions of menu items
+ *
+ * @param array $modulenavigation
  */
-function convertURLs($array)
+function applyCallbacks(array $modulenavigation)
 {
-    $array['url'] = Clansuite_Router::buildURL($array['url']);
-    return $array;
+    /**
+     * 1) Convert Short Urls
+     *
+     * This replaces the values of the 'url' key (array['url']),
+     * because these might be shorthands, like "/index/show".
+     */
+    $modulenavigation['url'] = Clansuite_Router::buildURL($modulenavigation['url']);
+
+    /**
+     * 2) Conditions of menu items
+     *
+     * If the condition of the menu item is not met,
+     * then condition is set to false, otherwise true.
+     */
+    if(isset($modulenavigation['condition']) === true)
+    {
+        /**
+         * the if statement evaluates the content of the key condition
+         * and compares it to false, then reassigns the boolean value as
+         * the condition value.
+         *
+         * for now you might define 'condition' => extension_loaded('apc')
+         *
+         * @todo check usage of closures
+         */
+        if($modulenavigation['condition'] === false)
+        {
+            $modulenavigation['condition'] = false;
+        }
+        else
+        {
+            $modulenavigation['condition'] = true;
+        }
+    }
+
+    return $modulenavigation;
 }
 ?>

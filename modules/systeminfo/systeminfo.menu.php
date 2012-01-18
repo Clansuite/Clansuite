@@ -52,7 +52,8 @@ $modulenavigation = array(
         'name' => 'Alternative PHP Cache',
         'url' => '/systeminfo/admin/show_apc',
         'icon' => '',
-        'title' => ''
+        'title' => '',
+        'condition' => extension_loaded('apc')
     ),
 );
 ?>

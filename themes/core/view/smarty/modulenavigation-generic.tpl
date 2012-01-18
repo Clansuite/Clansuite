@@ -77,6 +77,12 @@
 <div id="tabsB">
     <ul>
     {foreach $modulenavigation as $item}
+
+    {* if the condition is not met, then do not display the menu item *}
+    {if isset($item.condition) === true and $item.condition === false}
+    {continue}
+    {/if}
+    
     <li>
         <a href="{$item.url}" title="{$item.title}"> <span>{$item.name}</span> </a>
     </li>
