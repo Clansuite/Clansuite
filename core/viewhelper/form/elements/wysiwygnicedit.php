@@ -68,16 +68,14 @@ class Clansuite_Formelement_Wysiwygnicedit extends Clansuite_Formelement_Textare
         # a) loads the nicedit javascript file
         $javascript = '<script src="'.WWW_ROOT_THEMES_CORE . 'javascript/nicedit/nicedit.js'. '" type="text/javascript"></script>';
 
-        # watch it! the online version has some icons changes
-        #$javascript = '<script type="text/javascript" src="http://js.nicedit.com/nicEdit-latest.js"></script>';
-
         # b) handler to attach nicedit to all textareas
         $javascript .= "<script type=\"text/javascript\">// <![CDATA[
                         var wysiwyg;
                             bkLib.onDomLoaded(function() {
-                              wysiwyg = new nicEditor({     fullPanel : true,
+                              wysiwyg = new nicEditor({
+                                    fullPanel : true,
                                     iconsPath : '" . WWW_ROOT_THEMES_CORE . "/javascript/nicedit/nicEditorIcons.gif',
-                                    maxHeight : 600,
+                                    maxHeight : 320,
                                     bbCode    : true,
                                     xhtml     : true
                                   }).panelInstance('".$this->name."');
@@ -86,14 +84,26 @@ class Clansuite_Formelement_Wysiwygnicedit extends Clansuite_Formelement_Textare
 
         # wysiwyg.instanceById('page_body').saveContent();
 
-        # c) css style
-        $html = '<STYLE type="text/css">'.CR.'
+        /**
+         * c) css style
+         *
+         * Developer Notice
+         *
+         * nicEdit has the following CSS classes:
+         *
+         * .nicEdit-panelContain
+         * .nicEdit-panel
+         * .nicEdit-main
+         * .nicEdit-button
+         * .nicEdit-select
+         */
+        $html = '<style type="text/css">'.CR.'
                  .nicEdit-main {
                     background-color: #eee !important;
                     font-size: 16px;
                     padding: 3px;
                     }'.CR.'
-                </STYLE>';
+                </style>';
 
 
         # if we are in inheritance mode, skip this, the parent class handles this already
