@@ -99,65 +99,6 @@
 
     /* ###################   Buttons   ################### */
 
-    .Button,
-    .ButtonYellow,
-    .ButtonRed,
-    .ButtonGreen,
-    .ButtonGrey,
-    .ButtonOrange
-    {
-        background-color: #FFFFFF;
-        border: 1px solid #999999;
-        border-top-color: #CCCCCC;
-        border-left-color: #CCCCCC;
-        color: #333333;
-        font-size: 9px;
-        font-family: tahoma, sans-serif;
-        font-weight: bold;
-        padding: .25em;
-        margin: 3px;
-        white-space: nowrap;
-    }
-
-    .Button,
-    .ButtonGrey
-    {
-        background: url(../images/background_form_element_grey.gif) repeat-x;
-    }
-
-    .ButtonYellow
-    {
-        background: url(../images/background_form_element_yellow.gif) repeat-x;
-    }
-
-    .ButtonOrange
-    {
-        background: url(../images/background_form_element_orange.gif) repeat-x;
-    }
-
-    .ButtonRed
-    {
-        background: url(../images/background_form_element_red.gif) repeat-x;
-    }
-
-    .ButtonGreen
-    {
-        background: url(../images/background_form_element_green.gif) repeat-x;
-    }
-
-    .Button:active,
-    .ButtonYellow:active,
-    .ButtonRed:active,
-    .ButtonGreen:active,
-    .ButtonGrey:active,
-    .ButtonOrange:active
-    {
-        border: 1px solid #CCCCCC;
-        border-top-color: #999999;
-        border-left-color: #999999;
-    }
-
-
     .crudbutton
     {
         text-align: center;
