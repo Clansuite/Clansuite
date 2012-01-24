@@ -103,17 +103,6 @@ table {
     width:50%
 }
 
-.num {
-    border-right:1px solid gray;
-    color:gray;
-    float:left;
-    font-family:monospace;
-    font-size:13px;
-    margin-right:6pt;
-    padding-right:6pt;
-    text-align:right
-}
-
 a:hover {
     color:red;
     text-decoration:underline
@@ -123,8 +112,22 @@ a:link,a:visited,a:active {
     text-decoration:none
 }
 
+.num {
+    width: 10px;
+    border-right:1px solid gray;
+    color:gray;
+    padding-right: 6px;
+    text-align:right;
+    font-family:monospace;
+    font-size:14px;
+    line-height: 1.3em;
+}
+
 code {
-    white-space:nowrap
+    white-space: nowrap;
+    font-family: monospace;
+    font-size: 14px;
+    line-height: 1.3em;
 }
 
 pre {

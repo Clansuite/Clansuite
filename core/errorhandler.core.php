@@ -565,8 +565,8 @@ class Clansuite_Errorhandler
                 # colourize the errorous linenumber red
                 $lines_array[$surrounding_lines] = '<span style="color: white; background-color:#BF0000;">'.$lines_array[$surrounding_lines].'</span>';
 
-                # transform linenumbers array to string for later display
-                $lines_html = implode($lines_array, '<br />');
+                # transform linenumbers array to string for later display, use spaces as separator
+                $lines_html = implode($lines_array, ' ');
 
                 # get ALL LINES syntax highlighted source-code of the file and explode it into an array
                 $array_content = explode('<br />', highlight_file($file, true));
