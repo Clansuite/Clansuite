@@ -322,7 +322,7 @@ class Clansuite_Theme
     public static function getThemeDirectories()
     {
         $themes = array();
-        
+
         $themes = array_merge(
             self::iterateDir(ROOT_THEMES_FRONTEND, 'frontend'),
             self::iterateDir(ROOT_THEMES_BACKEND, 'backend')
@@ -331,7 +331,15 @@ class Clansuite_Theme
         return $themes;
     }
 
-    protected static function iterateDir($dir, $type)
+    /**
+     * Iterates over a theme dir (backend / frontend) and fetches some data.
+     *
+     * @param string $dir ROOT_THEMES_FRONTEND, ROOT_THEMES_BACKEND
+     * @param string $type 'frontend' or 'backend'
+     * @param boolean $only_index_name
+     * @return string
+     */
+    protected static function iterateDir($dir, $type, $only_index_name = true)
     {
         $dirs = '';
         $i = 0;
@@ -346,14 +354,24 @@ class Clansuite_Theme
             {
                 $i++;
 
-                # add fullpath
-                $themes[$i]['path'] = $dir->getPathName();
+                if($only_index_name === false)
+                {
+                    # add fullpath
+                    $themes[$i]['path'] = $dir->getPathName();
 
-                # add dirname
-                $themes[$i]['name'] = (string) $dir;
+                    # set frontend as type
+                    $themes[$i]['type']    = $type;
 
-                # set frontend as type
-                $themes[$i]['type']    = $type;
+                    # add dirname
+                    $themes[$i]['name'] = $type . DS .  (string) $dir;
+                }
+                else
+                {
+                    # add dirname
+                    $themes[$i] = $type . DS . (string) $dir;
+                }
+
+
             }
         }
 
