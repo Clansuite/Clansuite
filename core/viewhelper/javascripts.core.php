@@ -191,7 +191,9 @@ class Clansuite_Javascripts extends Clansuite_Layout
         {
             foreach($filenames as $filename)
             {
-                return '<script src="{$www_root_themes_core}'.$filename.'" type="text/javascript"></script>'.CR;
+                $js_file = WWW_ROOT_THEMES_CORE . 'javascript/'.$filename.'.js';
+
+                return '<script src="'.$js_file.'" type="text/javascript"></script>'.CR;
             }
         }
     }
@@ -203,17 +205,9 @@ class Clansuite_Javascripts extends Clansuite_Layout
      */
     public static function addJS($filename)
     {
-        $javascript = WWW_ROOT_THEMES_CORE . 'javascript/'.$filename.'.js';
+        $js_file = WWW_ROOT_THEMES_CORE . 'javascript/'.$filename.'.js';
 
-        if( defined('OB_GZIP') )
-        {
-            #self::addToCompressionWhitelist($javascript);
-            return '<script src="' . WWW_ROOT_THEMES_CORE . 'compress.php?js=' . $javascript . '" type="text/javascript"></script>' . CR;
-        }
-        else
-        {
-            return '<script src="'.$javascript.'" type="text/javascript"></script>'.CR;
-        }
+        return '<script src="'.$js_file.'" type="text/javascript"></script>'.CR;
     }
 
     /**
@@ -238,13 +232,13 @@ class Clansuite_Javascripts extends Clansuite_Layout
      *
      * @params string filename of the cascading style sheet to load
      * @params boolean display the iehack css in case true, default is false
-     * 
+     *
      * @return html style type css import
      */
     public static function addCSS($filename, $iehack = false)
     {
         $html = '<style type="text/css"> @import "' . WWW_ROOT_THEMES_CORE . 'css/' . $filename . '.css"; </style>';
-        
+
         if($iehack === true)
         {
             return '<!--[if IE]>' . CR . $html . CR . '<![endif]-->' . CR;
