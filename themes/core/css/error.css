@@ -116,11 +116,12 @@ a:link,a:visited,a:active {
     width: 10px;
     border-right:1px solid gray;
     color:gray;
-    padding-right: 6px;
+    padding: 0.6em;
     text-align:right;
     font-family:monospace;
     font-size:14px;
     line-height: 1.3em;
+    margin-top: 0 !important;
 }
 
 code {
@@ -131,8 +132,12 @@ code {
 }
 
 pre {
-    margin:3px;
-    /*width:62%*/
+    font-family: monospace;
+    font-size: 14px;
+    line-height: 1.3em;
+    overflow: auto;
+    padding: 0.7em !important;
+    margin-top: 0 !important;
 }
 
 pre h3:before,pre h3 {
