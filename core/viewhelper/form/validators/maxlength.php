@@ -83,7 +83,7 @@ class Clansuite_Formelement_Validator_Maxlength extends Clansuite_Formelement_Va
         }
     }
 
-    public function processValidationLogic($value)
+    protected function processValidationLogic($value)
     {
         if (self::getStringLength($value) >= $this->getMaxlength())
         {
