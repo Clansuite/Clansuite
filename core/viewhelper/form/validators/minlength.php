@@ -36,28 +36,28 @@ if (defined('IN_CS') === false)
     die('Clansuite not loaded. Direct Access forbidden.');
 }
 
-class Clansuite_Formelement_Validator_Maxlength extends Clansuite_Formelement_Validator
+class Clansuite_Formelement_Validator_Minlength extends Clansuite_Formelement_Validator
 {
-    public $maxlength;
+    public $minlength;
 
-    public function getMaxlength()
+    public function getMinlength()
     {
-        return $this->maxlength;
+        return $this->minlength;
     }
 
-    /**
-     * Setter for the maximum length of the string.
+     /**
+     * Setter for the minimum length of the string.
      *
-     * @param integer $maxlength
+     * @param integer $minlength
      */
-    public function setMaxlength($maxlength)
+    public function setMinlength($minlength)
     {
-        $this->maxlength = (int) $maxlength;
+        $this->minlength = (int) $minlength;
     }
 
     public function getErrorMessage()
     {
-        return _('The value exceeds the maxlength of ' . $this->getMaxlength() .' chars.');
+        return _('The value deceeds (is less than) the Minlength of ' . $this->getMinlength() .' chars.');
     }
 
     /**
@@ -85,7 +85,7 @@ class Clansuite_Formelement_Validator_Maxlength extends Clansuite_Formelement_Va
 
     public function processValidationLogic($value)
     {
-        if (self::getStringLength($value) >= $this->getMaxlength())
+        if (self::getStringLength($value) <= $this->getMinlength())
         {
             return false;
         }
