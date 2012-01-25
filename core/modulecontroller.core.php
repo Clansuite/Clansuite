@@ -118,9 +118,10 @@ abstract class Clansuite_Module_Controller
     }
 
     /**
-     * Proxy/Convenience Getter Method for the current Repository
+     * Proxy/Convenience Getter Method for the Repository of the current Module.
      *
-     * @param string $entityName
+     *
+     * @param string $entityName Name of an Entity, like "\Entities\User".
      * @return Doctrine\ORM\EntityRepository
      */
     public function getModel($entityName = null)
@@ -129,7 +130,7 @@ abstract class Clansuite_Module_Controller
         {
             $entityName = $this->getEntityNameFromClassname();
         }
-        #Clansuite_Debug::firebug($entityName);
+
         return $this->doctrine_em->getRepository($entityName);
     }
 
@@ -138,21 +139,20 @@ abstract class Clansuite_Module_Controller
      * Save (save one)
      * Flush (save all)
      *
-     * @param object  $model Entites/xy
+     * @param object  $model Entity.
      * @param boolean $flush Uses flush on true, save on false. Defaults to flush (true).
      */
-    public function saveModel($model, $flush = true)
+    public function saveModel(\Doctrine\ORM\Mapping\Entity $model, $flush = true)
     {
-        $em = $this->doctrine_em;
-        $em->persist($model);
+        $this->doctrine_em->persist($model);
 
         if($flush === true)
         {
-            $em->flush();
+            $this->doctrine_em->flush();
         }
         else
         {
-            $em->save();
+            $this->doctrine_em->save();
         }
     }
 
