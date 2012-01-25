@@ -42,7 +42,7 @@ if(defined('IN_CS') === false)
  * It's a tool class for merging the modularized css files of the Clansuite CSS Framework
  * into one file, the "import.css". If you include "import.css" in your Theme you laying
  * a solid base for your own CSS style modifications on top of our CSS Framework.
- * Plus, you might still modify the Clansuite CSS Framework Core to your intents. 
+ * Plus, you might still modify the Clansuite CSS Framework Core to your intents.
  *
  * Basic Usage:
  *   $builder = new Clansuite_Cssbuilder();
@@ -144,6 +144,7 @@ class Clansuite_Cssbuilder
     {
         // initializing
         $config = Clansuite_CMS::getClansuiteConfig();
+
         self::setFrontendPath(ROOT_THEMES_FRONTEND);
         self::setBackendPath(ROOT_THEMES_BACKEND);
         self::setFrontendTheme($config['template']['frontend_theme']);
@@ -157,13 +158,14 @@ class Clansuite_Cssbuilder
     public function build($index)
     {
 
-        #-----------------------------------------------------------------------------------------------------------------
-        # Prepare
-        #-----------------------------------------------------------------------------------------------------------------
+        /**
+         * Configuration
+         */
         $config = self::getConfiguration();
 
         $coreadditionalFiles = $themeadditionalFiles = $themeBackadditionalFiles = array();
 
+        # build browser specific configuration filename
         $browser = $config['browsers'];
         $postfix = $browser[$index]['postfix'];
         if($postfix != '')
@@ -174,7 +176,7 @@ class Clansuite_Cssbuilder
 
         // Read Core INI-File
         $coreINI = ROOT_THEMES_CORE . 'css' . DS . 'csfw' . DS . $builderINI;
-        $coreInfo = $this->read_properties($coreINI);
+        $coreInfo = $this->readCssBuilderIni($coreINI);
         $coreCssName = $coreInfo['cssname'] . $postfix . '.css';
 
         /* ----- prepare core ----- */
@@ -188,7 +190,9 @@ class Clansuite_Cssbuilder
 
         $core_compact = $this->getCoreCompactHeader($coreInfo);
 
-        /* ----- prepare frontend theme ----- */
+        /**
+         * prepare frontend theme
+         */
         if(true === $config['compileThemeFrontend'])
         {
             if(mb_substr($config['themeFrontendPath'], strlen($config['themeFrontendPath']) - 1) == '/' ||
@@ -199,7 +203,7 @@ class Clansuite_Cssbuilder
 
             // Read INI-File
             $themeINI = $config['themeFrontendPath'] . DS . $config['themeFrontend'] . DS . 'css' . DS . $builderINI;
-            $themeInfo = $this->read_properties($themeINI);
+            $themeInfo = $this->readCssBuilderIni($themeINI);
             $themeInfo['path'] = str_replace("{theme}", $config['themeFrontend'], $themeInfo['path']);
 
             /* Theme-Info */
@@ -216,7 +220,9 @@ class Clansuite_Cssbuilder
 
         #Clansuite_Debug::printR( $themeFiles );
 
-        /* ----- prepare backend theme ----- */
+        /**
+         * prepare backend theme
+         */
         if(true === $config['compileThemeBackend'])
         {
             if(mb_substr($config['themeBackendPath'], strlen($config['themeBackendPath']) - 1) == '/' ||
@@ -226,7 +232,7 @@ class Clansuite_Cssbuilder
             }
             // Read INI-File
             $themeBackINI = $config['themeBackendPath'] . DS . $config['themeBackend'] . DS . 'css' . DS . $builderINI;
-            $themeBackInfo = $this->read_properties($themeBackINI);
+            $themeBackInfo = $this->readCssBuilderIni($themeBackINI);
             $themeBackInfo['path'] = str_replace("{theme}", $config['themeBackend'], $themeBackInfo['path']);
 
             /* Theme-Info */
@@ -242,12 +248,12 @@ class Clansuite_Cssbuilder
             $themeBack_compact = $this->getThemeCompactHeader($themeBackInfo);
         }
 
-        $_compact = $this->getCompactHeader($browser[$index]['description']);
+        $_compact = $this->getCssFileHeader($browser[$index]['description']);
         $html = '';
 
-        #-----------------------------------------------------------------------------------------------------------------
-        # Build Core CSS
-        #-----------------------------------------------------------------------------------------------------------------
+        /**
+         *  Build Core CSS
+         */
         if(true === $config['compileCore'])
         {
             $_comp = '';
@@ -267,9 +273,9 @@ class Clansuite_Cssbuilder
             $html .= '<span class="cmSuccessFilenameColor"><b>' . $coreCssName . '</b></span> wurde generiert</p>';
         }
 
-        #-----------------------------------------------------------------------------------------------------------------
-        # Build Frontend Theme CSS
-        #-----------------------------------------------------------------------------------------------------------------
+        /**
+         * Build Frontend Theme CSS
+         */
         /**
          * create Info + compiled frontend theme stylesheet
          */
@@ -319,9 +325,10 @@ class Clansuite_Cssbuilder
             $html .= '<span class="cmSuccessFilenameColor"><b>' . $themeCssName . '</b></span> wurde generiert' . $coreImp . '</p>';
         }
 
-        #-----------------------------------------------------------------------------------------------------------------
-        # Build Backend Theme CSS
-        #-----------------------------------------------------------------------------------------------------------------
+        /**
+         *  Build Backend Theme CSS
+         */
+
         /**
          * create Info + compiled backend theme stylesheet
          */
@@ -375,11 +382,11 @@ class Clansuite_Cssbuilder
     }
 
     /**
-     * -------------------------------------------------------------------------------------------------
-     * read_core_definition
-     * -------------------------------------------------------------------------------------------------
+     * Reads the ini file
+     *
+     * @return array ini array
      */
-    protected function read_properties($inifile)
+    protected function readCssBuilderIni($inifile)
     {
         $iniArray = parse_ini_file($inifile);
         #Clansuite_Debug::printR( $iniArray );
@@ -387,77 +394,100 @@ class Clansuite_Cssbuilder
         # replacements
         $search = array(' ', "\t", "\r\n", "\r", CR);
         $replace = array('', '', '', '', '', '');
-	       $iniArray['files'] = str_replace( $search, $replace, $iniArray['files']);
+	    $iniArray['files'] = str_replace( $search, $replace, $iniArray['files']);
 
         if(mb_substr($iniArray['files'], strlen($iniArray['files']) - 1) == ',')
         {
             $iniArray['files'] = mb_substr($iniArray['files'], 0, strlen($iniArray['files']) - 1);
         }
+
         return $iniArray;
     }
 
-    protected function getCompactHeader($browserInfo = '')
+    /**
+     * Returns the header text for the css file.
+     *
+     * @param string $browserInfo Name of the browser this css file is written for.
+     * @return string Header text for the css file.
+     */
+    protected function getCssFileHeader($browserInfo = '')
     {
-        $compact  = '';
-        $compact  = '/**' . CR;
-        $compact .= ' * This file has been auto-generated by the Clansuite CSS Framework.' . CR;
-        $compact .= ' * Its a compilation of several css files. Do not edit manually. Use CssBuilder!' . CR;
-        $compact .= ' * Last Update:  ' . date('Y-m-d H:i:s', time()) . CR;
-        $compact .= ' * ---------------------------------------------------------------------------------------------------' . CR;
-        $compact .= ' * CSS2 Framework (CSFW)' . CR;
-        $compact .= ' * ---------------------------------------------------------------------------------------------------' . CR;
-        $compact .= ' * @author       Paul Brand <info@isp-tenerife.net>' . CR;
-        $compact .= ' * @package      CSFW' . CR;
-        $compact .= ' * @subpackage   Core' . CR;
-        $compact .= ' * @version      1.0' . CR;
-        $compact .= ' * ---------------------------------------------------------------------------------------------------' . CR;
-        $compact .= ' * @description  Created for - ' . $browserInfo . CR;
-        $compact .= ' * ---------------------------------------------------------------------------------------------------' . CR;
-        $compact .= ' */' . CR;
-        $compact .= CR;
-        $compact .= '@charset "UTF-8";';
-        $compact .= CR;
-        $compact .= CR;
+        $header  = '';
+        $header  = '/**' . CR;
+        $header .= ' * ---------------------------------------------------------------------------------------------------' . CR;
+        $header .= ' * Clansuite CSS Framework' . CR;
+        $header .= ' * ---------------------------------------------------------------------------------------------------' . CR;
+        $header .= ' * This file has been auto-generated by the Clansuite CSS Framework.' . CR;
+        $header .= ' * Its a compilation of several css files. Do not edit manually. Use the CssBuilder!' . CR;
+        $header .= ' * Last Update:  ' . date('Y-m-d H:i:s', time()) . CR;
+        $header .= ' * ---------------------------------------------------------------------------------------------------' . CR;
+        $header .= ' * @author       Paul Brand <info@isp-tenerife.net>' . CR;
+        $header .= ' * @package      CSFW' . CR;
+        $header .= ' * @subpackage   Core' . CR;
+        $header .= ' * @version      1.0' . CR;
+        $header .= ' * ---------------------------------------------------------------------------------------------------' . CR;
+        $header .= ' * @description  Created for - ' . $browserInfo . CR;
+        $header .= ' * ---------------------------------------------------------------------------------------------------' . CR;
+        $header .= ' * @generated' . CR;
+        $header .= ' */' . CR;
+        $header .= CR;
+        $header .= '@charset "UTF-8";';
+        $header .= CR;
+        $header .= CR;
 
-        return $compact;
+        return $header;
     }
 
+    /**
+     * Returns the header text for the core css file.
+     *
+     * @param array $coreInfo Array version information about this class.
+     * @return string Header text for the core css file.
+     */
     protected function getCoreCompactHeader($coreInfo = '')
     {
-        $core_compact  = '';
-        $core_compact  = '/**' . CR;
-        $core_compact .= ' * This file has been auto-generated by the Clansuite CSS Framework.' . CR;
-        $core_compact .= ' * Its a compilation of several css files. Do not edit manually. Use CssBuilder!' . CR;
-        $core_compact .= ' * Last Update:  ' . date('Y-m-d H:i:s', time()) . CR;
-        $core_compact .= ' * ----------------------------------------------------------------------------------------------' . CR;
-        $core_compact .= ' * Framework:    ' . $coreInfo['framework'] . CR;
-        $core_compact .= ' * Description:  ' . $coreInfo['description'] . CR;
-        $core_compact .= ' * Author:       ' . $coreInfo['author'] . CR;
-        $core_compact .= ' * Version:      ' . $coreInfo['version'] . CR;
-        $core_compact .= ' * Version-Date: ' . $coreInfo['date'] . CR;
-        $core_compact .= ' * ----------------------------------------------------------------------------------------------' . CR;
-        $core_compact .= ' */' . CR;
+        $header  = '';
+        $header  = '/**' . CR;
+        $header .= ' * This file has been auto-generated by the Clansuite CSS Framework.' . CR;
+        $header .= ' * Its a compilation of several css files. Do not edit manually. Use the CssBuilder!' . CR;
+        $header .= ' * Last Update:  ' . date('Y-m-d H:i:s', time()) . CR;
+        $header .= ' * ----------------------------------------------------------------------------------------------' . CR;
+        $header .= ' * Framework:    ' . $coreInfo['framework'] . CR;
+        $header .= ' * Description:  ' . $coreInfo['description'] . CR;
+        $header .= ' * Author:       ' . $coreInfo['author'] . CR;
+        $header .= ' * Version:      ' . $coreInfo['version'] . CR;
+        $header .= ' * Version-Date: ' . $coreInfo['date'] . CR;
+        $header .= ' * ----------------------------------------------------------------------------------------------' . CR;
+        $header .= ' * @generated' . CR;
+        $header .= ' */' . CR;
 
-        return $core_compact;
+        return $header;
     }
 
+    /**
+     * Returns the header text for the theme css file.
+     *
+     * @param array $themeInfo Array with version information about the theme.
+     * @return string Header text for the theme css file.
+     */
     protected function getThemeCompactHeader($themeInfo = '')
     {
-        $theme_compact  = '';
-        $theme_compact  = '/**' . CR;
-        $theme_compact .= ' * This file has been auto-generated by the Clansuite CSS Framework.' . CR;
-        $theme_compact .= ' * Its a compilation of several css files. Do not edit manually. Use CssBuilder!' . CR;
-        $theme_compact .= ' * Last Update:  ' . date('Y-m-d H:i:s', time()) . CR;
-        $theme_compact .= ' * ---------------------------------------------------------------------------------------------' . CR;
-        $theme_compact .= ' * Framework:    ' . $themeInfo['framework'] . CR;
-        $theme_compact .= ' * Description:  ' . $themeInfo['description'] . CR;
-        $theme_compact .= ' * Author:       ' . $themeInfo['author'] . CR;
-        $theme_compact .= ' * Version:      ' . $themeInfo['version'] . CR;
-        $theme_compact .= ' * Version-Date: ' . $themeInfo['date'] . CR;
-        $theme_compact .= ' * ---------------------------------------------------------------------------------------------' . CR;
-        $theme_compact .= ' */' . CR;
+        $header  = '';
+        $header  = '/**' . CR;
+        $header .= ' * This file has been auto-generated by the Clansuite CSS Framework.' . CR;
+        $header .= ' * Its a compilation of several css files. Do not edit manually. Use CssBuilder!' . CR;
+        $header .= ' * Last Update:  ' . date('Y-m-d H:i:s', time()) . CR;
+        $header .= ' * ---------------------------------------------------------------------------------------------' . CR;
+        $header .= ' * Framework:    ' . $themeInfo['framework'] . CR;
+        $header .= ' * Description:  ' . $themeInfo['description'] . CR;
+        $header .= ' * Author:       ' . $themeInfo['author'] . CR;
+        $header .= ' * Version:      ' . $themeInfo['version'] . CR;
+        $header .= ' * Version-Date: ' . $themeInfo['date'] . CR;
+        $header .= ' * ---------------------------------------------------------------------------------------------' . CR;
+        $header .= ' * @generated' . CR;
+        $header .= ' */' . CR;
 
-        return $theme_compact;
+        return $header;
     }
 
     /**
@@ -564,9 +594,9 @@ class Clansuite_Cssbuilder
                     // two non-matching groups will be replaced with empty strings.
                     '$1$2$3', $contents
             );
+            
             // End the file with a new line.
-            $contents = trim($contents);
-            $contents .= CR;
+            $contents = trim($contents) . CR;
         }
 
         // Replaces @import commands with the actual stylesheet content.
