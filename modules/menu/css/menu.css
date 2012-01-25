@@ -1,14 +1,7 @@
-/*
-** -------------------------------------------------
-**
-**   Menu.css, XulMenu
-**
-**   Modified by: Michael F. S. Christensen
-**
-**   Valid CSS2 stylesheet (www.w3c.org)
-**
-** -------------------------------------------------
-*/
+/**
+ * Menu.css for XulMenu
+ * Modified by: Michael F. S. Christensen
+ */
 
 .XulMenu {
     font-family: tahoma, verdana, arial, sans-serif;
@@ -150,5 +143,3 @@
     color: black;
     padding: 3px 2px 3px 2px;
 }
-
-* html .XulMenu td { position: relative; } /* ie 5.0 fix */
