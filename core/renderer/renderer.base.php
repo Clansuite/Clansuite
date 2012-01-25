@@ -501,6 +501,7 @@ abstract class Clansuite_Renderer_Base
      *
      * @param string $key The variable name.
      * @param mixed $val The variable value.
+     * @return boolean True if data was assigned to view; false if not.
      */
     public function autoEscape($key, $value)
     {
@@ -511,12 +512,15 @@ abstract class Clansuite_Renderer_Base
             {
                 $clean[$key2] = htmlentities($value2, ENT_QUOTES, 'utf-8');
             }
+
+            return $this->assign($clean);
         }
         else
         {
             $clean = htmlentities($value2, ENT_QUOTES, 'utf-8');
+
+            return $this->assign($key, $clean);
         }
-        // @todo return assign($key, $clean);
     }
 
     /**
