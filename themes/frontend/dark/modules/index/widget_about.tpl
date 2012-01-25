@@ -46,7 +46,7 @@ function openCenteredPopup(url, windowname)
 	<div class="table-content-menu">
 		<ul>
 			<li>
-				<center><a href="index.php?mod=about" onclick="openCenteredPopup(this, 'About'); return false;">
+				<center><a href="{$www_root}index.php?mod=controlcenter&amp;action=about" onclick="openCenteredPopup(this, 'About'); return false;">
 					<img src="http://cdn.clansuite.com/banners/powered_by_clansuite.png" alt="Powered by Clansuite" align="middle" />
 				</a></center>
 			</li>
