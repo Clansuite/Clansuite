@@ -168,9 +168,10 @@ class Clansuite_Front_Controller implements Clansuite_Front_Controller_Interface
      * invokes the correct controller and method.
      *
      * Workflow
-     * 1. inject Route Object
-     * 2. extract infos about correct controller, correct method with correct parameters
-     * 3. finally call controller->method(parms)!
+     * 1. injects Route Object
+     * 2. extracts info about correct controller, correct method with correct parameters
+     * 3. tries to call the method "initializeModule" on the controller
+     * 4. finally tries to call the controller with method(parms)!
      *
      * The dispatcher forwards to the pagecontroller = modulecontroller + moduleaction
      */
