@@ -95,8 +95,9 @@ abstract class Clansuite_Formelement_Validator
     }
 
     /**
-     * Each Formelement Validator returns a errormessage.
-     * Wrap this in a gettext shorthand call, like
+     * Each Formelement Validator must return an errormessage.
+     * The errormessage must be wrapped in a gettext shorthand call,
+     * like so:
      * return _('This value is not ok.');
      *
      * @param string The Errormessage, when the validation fails.
@@ -104,6 +105,7 @@ abstract class Clansuite_Formelement_Validator
     abstract public function getErrorMessage();
 
     /**
+     * Each Formelement Validator must implement validation logic.
      * This is the pure validation logic, called by validate().
      * If you need more complex things for validation, then
      * add some static helper functions for usage inside this method.
