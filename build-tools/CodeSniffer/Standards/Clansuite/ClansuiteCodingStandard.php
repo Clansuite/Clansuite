@@ -70,7 +70,7 @@ class PHP_CodeSniffer_Standards_Clansuite_ClansuiteCodingStandard extends PHP_Co
             'Squiz/Sniffs/ControlStructures/InlineIfDeclarationSniff.php',
 
             # 1 empty line before control structures
-            dirname(__FILE__) . '/Sniffs/ControlStructures/ControlStructureBlankLineSniff.php',
+            #dirname(__FILE__) . '/Sniffs/ControlStructures/ControlStructureBlankLineSniff.php',
 
             #dirname(__FILE__) . '/Sniffs/ControlStructures/ControlSignatureSniff.php',
 
