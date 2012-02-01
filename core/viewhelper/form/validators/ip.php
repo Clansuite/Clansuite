@@ -36,36 +36,18 @@ if (defined('IN_CS') === false)
     die('Clansuite not loaded. Direct Access forbidden.');
 }
 
-class Clansuite_Formelement_Validator_Range extends Clansuite_Formelement_Validator
+class Clansuite_Formelement_Validator_Ip extends Clansuite_Formelement_Validator
 {
-    /**
-     * @var filter var options
-     */
-    private $options = array();
-
-    /**
-     * Setter for the range array.
-     *
-     * @param int $minimum_length The minimum length of the string.
-     * @param int $maximum_length The maximum length of the string.
-     */
-    public function setRange($minimum_length, $maximum_length)
-    {
-        $this->options['options']['min_range'] = $minimum_length;
-        $this->options['options']['max_range'] = $maximum_length;
-    }
-
     public function getErrorMessage()
     {
-        $min = $this->options['options']['min_range']
-        $max = $this->options['options']['max_range']
-
-        return _('The value is outside the range of ' . $min .' <> '. $max .' chars.');
+        return _('The value must be a IP.');
     }
 
     protected function processValidationLogic($value)
     {
-        if(filter_var($value, FILTER_VALIDATE_INT, $this->options) !== FALSE))
+        $options = array();
+
+        if(true === (bool) filter_var( $value, FILTER_VALIDATE_IP, $options ))
         {
             return true;
         }
