@@ -42,7 +42,7 @@ class Clansuite_Formelement_Validator_Minvalue extends Clansuite_Formelement_Val
 {
     public $minvalue;
 
-    public function getMinvalue()
+    public function getMinValue()
     {
         return $this->minvalue;
     }
@@ -52,19 +52,19 @@ class Clansuite_Formelement_Validator_Minvalue extends Clansuite_Formelement_Val
      *
      * @param integer $minvalue
      */
-    public function setMinvalue($minvalue)
+    public function setMinValue($minvalue)
     {
         $this->minvalue = (int) $minvalue;
     }
 
     public function getErrorMessage()
     {
-        return _('The value deceeds (is less than) the minvalue of ' . $this->getMinvalue() . ' chars.');
+        return _('The value deceeds (is less than) the minvalue of ' . $this->getMinValue() . ' chars.');
     }
 
     protected function processValidationLogic($value)
     {
-        if($value <= $this->getMinvalue())
+        if($value < $this->getMinValue())
         {
             return false;
         }

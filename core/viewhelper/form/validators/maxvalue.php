@@ -42,7 +42,7 @@ class Clansuite_Formelement_Validator_Maxvalue extends Clansuite_Formelement_Val
 {
     public $maxvalue;
 
-    public function getMaxvalue()
+    public function getMaxValue()
     {
         return $this->maxvalue;
     }
@@ -52,19 +52,19 @@ class Clansuite_Formelement_Validator_Maxvalue extends Clansuite_Formelement_Val
      *
      * @param integer $maxvalue
      */
-    public function setMaxvalue($maxvalue)
+    public function setMaxValue($maxvalue)
     {
         $this->maxvalue = (int) $maxvalue;
     }
 
     public function getErrorMessage()
     {
-        return _('The value exceeds the maxvalue of ' . $this->getMaxvalue() . ' chars.');
+        return _('The value exceeds the maxvalue of ' . $this->getMaxValue() . ' chars.');
     }
 
     protected function processValidationLogic($value)
     {
-        if($value > $this->getMaxvalue())
+        if($value > $this->getMaxValue())
         {
             return false;
         }

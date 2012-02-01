@@ -1632,7 +1632,7 @@ class Clansuite_Form implements Clansuite_Form_Interface
      * Validates the form.
      *
      * The method iterates (loops over) all formelement objects and calls the validation on each object.
-     * In other words: a form is valid, if all formelement are valid. Suprise, suprise.
+     * In other words: a form is valid, if all formelement are valid. Surprise, surprise.
      *
      * @return boolean Returns true if form validates, false if validation fails, because errors exist.
      */
@@ -1646,7 +1646,7 @@ class Clansuite_Form implements Clansuite_Form_Interface
                 $this->setErrorState(true);
 
                 # and transfer errormessages from formelement to form errormessages stack
-                #$this->addErrorMessage($formelement->getErrorMessages());
+                $this->addErrorMessage($formelement->getErrorMessages());
             }
         }
 

@@ -75,6 +75,13 @@ class Clansuite_Formelement implements Clansuite_Formelement_Interface
     protected $errormessages = array();
 
     /**
+     * Error status (flag variable) of the formelement.
+     *
+     * @var boolean
+     */
+    protected $error = false;
+
+    /**
      * Set id of this form.
      *
      * @param $id string ID of this form.
@@ -617,7 +624,7 @@ class Clansuite_Formelement implements Clansuite_Formelement_Interface
             return true;
         }
 
-        # no rules / validators
+        # return early, if we have a value, but no rules / validators
         if(null === $this->validators)
         {
             return true;

@@ -88,7 +88,7 @@ class Clansuite_Formelement_Validator_Minlength extends Clansuite_Formelement_Va
 
     protected function processValidationLogic($value)
     {
-        if (self::getStringLength($value) <= $this->getMinlength())
+        if (self::getStringLength($value) < $this->getMinlength())
         {
             return false;
         }
