@@ -767,7 +767,7 @@ class Clansuite_Form_Test extends Clansuite_UnitTestCase
         # set value, length ok
         $element = $this->form->getElementByName('Textarea-Validate-Test');
         $element->setValue('01234567890123456789'); # 20 chars
-
+        
         $this->assertTrue($this->form->validateForm());
     }
 
