@@ -1,0 +1,9 @@
+Clansuite Coding Standard
+-------------------------
+
+This repository contains the Clansuite Coding Standard.
+
+You need PHP_CodeSniffer (http://pear.php.net/package/PHP_CodeSniffer).
+
+Installation via PEAR  : pear install PHP_CodeSniffer
+Installation via PYRUS : php pyrus.phar install pear/PHP_CodeSniffer
