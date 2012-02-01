@@ -45,9 +45,7 @@ class Clansuite_Formelement_Validator_Url extends Clansuite_Formelement_Validato
 
     protected function processValidationLogic($value)
     {
-        $options = array();
-        
-        if(true === (bool) filter_var( $value, FILTER_VALIDATE_URL, $options ))
+        if(true === (bool) filter_var( $value, FILTER_VALIDATE_URL, $this->getOptions() ))
         {
             return true;
         }

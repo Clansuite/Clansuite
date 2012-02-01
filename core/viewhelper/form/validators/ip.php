@@ -36,6 +36,14 @@ if (defined('IN_CS') === false)
     die('Clansuite not loaded. Direct Access forbidden.');
 }
 
+/**
+ * Validator for an IP address.
+ * The validator accepts IPv4 and IPv6 addresses.
+ * If you want only one version, use the flags FILTER_FLAG_IPV4
+ * or FILTER_FLAG_IPV6 via setOptions().
+ *
+ * @see http://www.php.net/manual/en/filter.filters.validate.php
+ */
 class Clansuite_Formelement_Validator_Ip extends Clansuite_Formelement_Validator
 {
     public function getErrorMessage()
@@ -45,9 +53,7 @@ class Clansuite_Formelement_Validator_Ip extends Clansuite_Formelement_Validator
 
     protected function processValidationLogic($value)
     {
-        $options = array();
-
-        if(true === (bool) filter_var( $value, FILTER_VALIDATE_IP, $options ))
+        if(true === (bool) filter_var( $value, FILTER_VALIDATE_IP, $this->getOptions() ))
         {
             return true;
         }

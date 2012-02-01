@@ -36,6 +36,9 @@ if (defined('IN_CS') === false)
     die('Clansuite not loaded. Direct Access forbidden.');
 }
 
+/**
+ * Validates the lenght of a string with maxlength given.
+ */
 class Clansuite_Formelement_Validator_Maxlength extends Clansuite_Formelement_Validator
 {
     public $maxlength;

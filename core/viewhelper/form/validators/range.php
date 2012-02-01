@@ -57,15 +57,15 @@ class Clansuite_Formelement_Validator_Range extends Clansuite_Formelement_Valida
 
     public function getErrorMessage()
     {
-        $min = $this->options['options']['min_range']
-        $max = $this->options['options']['max_range']
+        $min = $this->options['options']['min_range'];
+        $max = $this->options['options']['max_range'];
 
         return _('The value is outside the range of ' . $min .' <> '. $max .' chars.');
     }
 
     protected function processValidationLogic($value)
     {
-        if(filter_var($value, FILTER_VALIDATE_INT, $this->options) !== FALSE))
+        if(filter_var($value, FILTER_VALIDATE_INT, $this->options) !== FALSE)
         {
             return true;
         }

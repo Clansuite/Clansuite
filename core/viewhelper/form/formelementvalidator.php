@@ -46,6 +46,35 @@ abstract class Clansuite_Formelement_Validator
     public $error = false;
 
     /**
+     * General prupose options array.
+     * For instance, this options array is passed as third parameter to
+     * filter_var($value, FILTER_CONSTANT, $options).
+     *
+     * @var array
+     */
+    public $options = array();
+
+    /**
+     * Getter for Options.
+     *
+     * @return array
+     */
+    public function getOptions()
+    {
+        return $this->options;
+    }
+
+    /**
+     * Setter for Options.
+     *
+     * @param array $options
+     */
+    public function setOptions(array $options)
+    {
+        $this->options = $options;
+    }
+
+    /**
      * Setter for the error state of the validator.
      *
      * @param boolean $bool True if error, false if not.
@@ -85,7 +114,7 @@ abstract class Clansuite_Formelement_Validator
     abstract protected function processValidationLogic($value);
 
     /**
-     * Accepts an options array and assigns object property names (by key) and values (by value) accordingly.
+     * Accepts an array and assigns object property names (by key) and values (by value) accordingly.
      * The objects needs a setter method for the value.
      *
      * Example:
