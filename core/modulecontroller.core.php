@@ -92,7 +92,7 @@ abstract class Clansuite_Module_Controller
     }
 
     /**
-     * Returns the Doctrine Entity Manager 
+     * Returns the Doctrine Entity Manager
      *
      * @return \Doctrine\ORM\EntityManager
      */
@@ -199,7 +199,7 @@ abstract class Clansuite_Module_Controller
            }
 
            $repos = $module_models_path . 'repositories' . DS . ucfirst($modulename) . 'Repository.php';
-           
+
            if(is_file($repos) === true and class_exists('Entities\\' . ucfirst($modulename), false) === false)
            {
                include $repos;
@@ -371,17 +371,6 @@ abstract class Clansuite_Module_Controller
     }
 
     /**
-     * Set the template name
-     *
-     * @param string $template Name of the Template with full Path
-     */
-    public function setTemplate($template)
-    {
-        #self::checkTemplateExtension($template);
-        $this->template = $template;
-    }
-
-    /**
      * Sets the Render Mode
      *
      * @param string $mode The RenderModes are LAYOUT or NOLAYOUT.
@@ -421,25 +410,28 @@ abstract class Clansuite_Module_Controller
      */
     public function display($templates = null)
     {
+        include ROOT_CORE . 'renderer/templatemapper.php';
+        $view_mapper = new Clansuite_View_Mapper;
+
         # set layout and content template by parameter array
         if(is_array($templates) === true)
         {
             if(isset($templates['layout_template']) === true)
             {
-                $this->setLayoutTemplate($templates['layout_template']);
+                $view_mapper->setLayoutTemplate($templates['layout_template']);
             }
 
             if(isset($templates['content_template']) === true)
             {
-                $this->setTemplate($templates['content_template']);
+                $view_mapper->setTemplate($templates['content_template']);
             }
         }
 
         # only the content template is set
-        if(is_string($templates)) { $this->setTemplate($templates); }
+        if(is_string($templates)) { $view_mapper->setTemplate($templates); }
 
         # get the templatename
-        $templatename = $this->getTemplateName();
+        $templatename = $view_mapper->getTemplateName();
 
         # get the view
         $this->view = $this->getView();
@@ -520,7 +512,7 @@ abstract class Clansuite_Module_Controller
         {
             $route = Clansuite_HttpRequest::getRoute();
 
-            # we use internal rewrite style here: /module/action            
+            # we use internal rewrite style here: /module/action
             $redirect_to = '/' . $route->getModuleName();
             $submodule = $route->getSubModuleName();
 

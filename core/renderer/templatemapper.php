@@ -42,12 +42,19 @@ if(defined('IN_CS') === false)
  * By definition a mapper sets up a communication between two independent objects.
  * Clansuite_View_Mapper is a "class action" to "template" mapper.
  * This has nothing to do with rendering, but with template selection for the view.
- * If no template was set manually in the action of a module (class), 
- * this class will help determining the template, 
+ * If no template was set manually in the action of a module (class),
+ * this class will help determining the template,
  * by mapping the requested class and action to a template.
  */
 class Clansuite_View_Mapper
 {
+    /**
+     * Template name.
+     *
+     * @var string
+     */
+    public $template;
+
     /**
      * Ensures the template extension is correct.
      *
@@ -81,11 +88,22 @@ class Clansuite_View_Mapper
         {
             # construct template name
             $template = Clansuite_TargetRoute::getActionName() . '.tpl';
-             
+
             $this->setTemplate($template);
         }
 
         return $this->template;
+    }
+
+    /**
+     * Set the template name
+     *
+     * @param string $template Name of the Template with full Path
+     */
+    public function setTemplate($template)
+    {
+        #self::checkTemplateExtension($template);
+        $this->template = (string) $template;
     }
 }
 ?>
