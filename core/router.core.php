@@ -48,7 +48,8 @@ if(defined('IN_CS') === false)
  * Normally all requests made map to a specific physical resource rather than a logical name.
  * With Routing you are able to map a logical name to a specific physical name.
  * Examples: map a logical URL (a mod_rewritten one) to a Controller/Method/Parameter
- * or map a FileRequest via logical URL (a mod_rewritten one) to a DownloadController/Method/Parameters
+ * or map a FileRequest via logical URL (a mod_rewritten one) to a DownloadController/Method/Parameters.
+ * Routes are a valuable concept because they separate your URLs from your data. 
  *
  * There are two different URL Formatings allowed:
  * 1. Slashes as Segment Dividers-Style, like so: /mod/sub/action/id
@@ -94,6 +95,35 @@ class Clansuite_Router implements ArrayAccess, Clansuite_Router_Interface
     }
 
     /**
+     * Get and prepare the SERVER_URL/URI
+     *
+     * Several fixes are applied to the $request_url (which is Clansuite_HttpRequest::getRequestURI())
+     * It's already (1) lowercased and (2) urldecoded when incomming.
+     * This function (3) strips slashes from beginning and end and (4) prepends a slash.
+     * Then (5) strips PHP_SELF from the uri string.
+     * A multislash removal is not needed, because of the later usage of preg_split.
+     *
+     * @param string $request_url Clansuite_HttpRequest::getRequestURI
+     *
+     * @return string Request URL
+     */
+    private function prepareRequestURI($request_uri)
+    {
+        #Clansuite_Debug::firebug('The unprepared Server Request URI is "' . $request_uri . '"');
+
+        # add slash in front + remove slash at the end
+        $this->uri = '/' . trim($request_uri, '/');
+
+        # subtract PHP_SELF from uri
+        $url_directory_prefix_length = strlen(dirname($_SERVER['PHP_SELF']));
+        $this->uri = substr($this->uri, $url_directory_prefix_length);
+
+        #Clansuite_Debug::firebug('The prepared Server Request URI is "' . $this->uri . '"');
+
+        return $this->uri;
+    }
+
+    /**
      * Add route
      *
      * @param string $url_pattern
@@ -104,16 +134,21 @@ class Clansuite_Router implements ArrayAccess, Clansuite_Router_Interface
         /**
          * 1) Preprocess the route
          */
+
         # split the pattern describing the URL target into uri segments
         $url_pattern = ltrim($url_pattern, '/');
-        $segments = explode('/', $url_pattern);
-
-        # the incomming route might have placeholders lile (:num) or (:id)
+        
+        # then transform placeholders like (:num) or (:id)
         $url_pattern = self::placeholdersToRegexp($url_pattern);
 
+        $segments = explode('/', $url_pattern);
+
         $regexp = $this->processSegmentsRegExp($segments, $route_options);
-        $options = array('regexp' => $regexp,
-                         'number_of_segments' => count($segments));
+        
+        $options = array(
+            'regexp' => $regexp,
+            'number_of_segments' => count($segments)
+        );
 
 
         /**
@@ -497,33 +532,6 @@ class Clansuite_Router implements ArrayAccess, Clansuite_Router_Interface
         }
     }
 
-    /**
-     * Get and prepare the SERVER_URL/URI
-     *
-     * Several fixes are applied the $request_url (which is Clansuite_HttpRequest::getRequestURI())
-     * It's already (1) lowercased and (2) urldecoded when incomming.
-     * This function (3) strips slashes from beginning and end and (4) prepends a slash.
-     * A multislash removal is not needed, because of the later usage of preg_split.
-     *
-     * @param string $request_url Clansuite_HttpRequest::getRequestURI
-     *
-     * @return string Request URL
-     */
-    private function prepareRequestURI($request_uri)
-    {
-        #Clansuite_Debug::firebug('The unprepared Server Request URI is "' . $request_uri . '"');
-
-        # add slash in front + remove slash at the end
-        $this->uri = '/' . trim($request_uri, '/');
-
-        # path subtraction (get length of dirname of php_self and subtract from uri)
-        $url_directory_prefix_length = strlen(dirname($_SERVER['PHP_SELF']));
-        $this->uri = substr($this->uri, $url_directory_prefix_length);
-
-        #Clansuite_Debug::firebug('The prepared Server Request URI is "' . $this->uri . '"');
-
-        return $this->uri;
-    }
 
     /**
      * NoRewriteRouting
