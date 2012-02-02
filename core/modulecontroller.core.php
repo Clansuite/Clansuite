@@ -92,6 +92,8 @@ abstract class Clansuite_Module_Controller
     }
 
     /**
+     * Returns the Doctrine Entity Manager 
+     *
      * @return \Doctrine\ORM\EntityManager
      */
     public function getDoctrineEntityManager()
@@ -157,7 +159,7 @@ abstract class Clansuite_Module_Controller
     }
 
     /**
-     * Initalizes the model (active records/entities/repositories) of the module
+     * Initializes the model (active records/entities/repositories) of the module
      *
      * @param $modulename Modulname
      * @param $recordname Recordname
@@ -180,12 +182,14 @@ abstract class Clansuite_Module_Controller
         # check if the module has a models dir
         if(is_dir($module_models_path) === true)
         {
-           if(isset($entity) === true) # method parameter
+           if(isset($entity) === true)
            {
+               # use second parameter of method
                $entity = $module_models_path . 'entities' . DS . ucfirst($entity) . '.php';
            }
-           else # build entity filename by modulename
+           else
            {
+               # build entity filename by modulename
                $entity = $module_models_path . 'entities' . DS . ucfirst($modulename) . '.php';
            }
 
@@ -195,6 +199,7 @@ abstract class Clansuite_Module_Controller
            }
 
            $repos = $module_models_path . 'repositories' . DS . ucfirst($modulename) . 'Repository.php';
+           
            if(is_file($repos) === true and class_exists('Entities\\' . ucfirst($modulename), false) === false)
            {
                include $repos;
@@ -239,8 +244,9 @@ abstract class Clansuite_Module_Controller
      * incomming via GET, if nothing is incomming, sets the default value of 8.
      *
      * @param string $keyname The keyname to find in the array.
-     * @param mixed $default_one A default value, which is returned, if the keyname was not found.
-     * @param mixed $default_two A default value, which is returned, if the keyname was not found and default_one is null.
+     * @param mixed $default_one A default value returned, when keyname was not found.
+     * @param mixed $default_two A default value returned, when keyname was not found and default_one is null.
+     * @return mixed
      */
     public static function getConfigValue($keyname, $default_one = null, $default_two = null)
     {
@@ -376,44 +382,6 @@ abstract class Clansuite_Module_Controller
     }
 
     /**
-     * Ensures the template extension is correct.
-     *
-     * @param string $template The template filename.
-     */
-    public static function checkTemplateExtension($template)
-    {
-        # get extension of template
-        $template_extension = mb_strtolower(pathinfo($template, PATHINFO_EXTENSION));
-
-        # whitelist definition for listing all allowed template filetypes
-        $allowed_extensions = array('html','php','tpl');
-
-        # check if extension is one of the allowed ones
-        if (false === in_array($template_extension, $allowed_extensions))
-        {
-            $message = 'Template Extension invalid <strong>'.$template_extension.'</strong> on <strong>'.$template.'</strong>';
-            trigger_error($message, E_USER_NOTICE);
-        }
-    }
-
-    /**
-     * Returns the Template Name
-     *
-     * @return Returns the templateName as String
-     */
-    public function getTemplateName()
-    {
-        # if the templateName was not set manually, we construct it from module/action infos
-        if(empty($this->template) === true)
-        {
-            # construct template name
-            $template = Clansuite_TargetRoute::getActionName() . '.tpl';
-            $this->setTemplate($template);
-        }
-        return $this->template;
-    }
-
-    /**
      * Sets the Render Mode
      *
      * @param string $mode The RenderModes are LAYOUT or NOLAYOUT.
@@ -425,6 +393,8 @@ abstract class Clansuite_Module_Controller
 
     /**
      * Get the Render Mode
+     *
+     * @return string LAYOUT|NOLAYOUT
      */
     public function getRenderMode()
     {
@@ -432,6 +402,7 @@ abstract class Clansuite_Module_Controller
         {
             $this->getView()->renderMode = 'LAYOUT';
         }
+
         return $this->getView()->renderMode;
     }
 
@@ -474,11 +445,8 @@ abstract class Clansuite_Module_Controller
         $this->view = $this->getView();
 
         # Debug display of Layout Template and Content Template
-        if(DEBUG == true)
-        {
-            #Clansuite_Debug::firebug('Layout/Wrapper Template: ' . $this->view->getLayoutTemplate() . '<br />');
-            #Clansuite_Debug::firebug('Template Name: ' . $templatename . '<br />');
-        }
+        #Clansuite_Debug::firebug('Layout/Wrapper Template: ' . $this->view->getLayoutTemplate() . '<br />');
+        #Clansuite_Debug::firebug('Template Name: ' . $templatename . '<br />');
 
         # render the content / template
         $content = $this->view->render($templatename);
@@ -541,7 +509,6 @@ abstract class Clansuite_Module_Controller
      */
     public function redirectToReferer()
     {
-        $referer = '';
         $referer = self::getHttpRequest()->getReferer();
 
         # we have a referer in the environment
@@ -553,17 +520,16 @@ abstract class Clansuite_Module_Controller
         {
             $route = Clansuite_HttpRequest::getRoute();
 
-            # we use internal rewrite style here: /module/action
-            # redirect() builds the url
-            $redirect_to = '/';
-            $redirect_to .= $route->getModuleName();
-
+            # we use internal rewrite style here: /module/action            
+            $redirect_to = '/' . $route->getModuleName();
             $submodule = $route->getSubModuleName();
+
             if(empty($submodule) === false)
             {
                 $redirect_to .= '/'. $submodule;
             }
 
+            # redirect() builds the url
             $this->redirect($redirect_to);
         }
     }

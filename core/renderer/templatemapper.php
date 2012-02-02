@@ -39,12 +39,53 @@ if(defined('IN_CS') === false)
 /**
  * Clansuite_View_Mapper
  *
+ * By definition a mapper sets up a communication between two independent objects.
  * Clansuite_View_Mapper is a "class action" to "template" mapper.
  * This has nothing to do with rendering, but with template selection for the view.
- * If no template was set manually, this class will help determining the template,
+ * If no template was set manually in the action of a module (class), 
+ * this class will help determining the template, 
  * by mapping the requested class and action to a template.
  */
 class Clansuite_View_Mapper
 {
+    /**
+     * Ensures the template extension is correct.
+     *
+     * @param string $template The template filename.
+     */
+    public static function checkTemplateExtension($template)
+    {
+        # get extension of template
+        $template_extension = mb_strtolower(pathinfo($template, PATHINFO_EXTENSION));
 
+        # whitelist definition for listing all allowed template filetypes
+        $allowed_extensions = array('html','php','tpl');
+
+        # check if extension is one of the allowed ones
+        if (false === in_array($template_extension, $allowed_extensions))
+        {
+            $message = 'Template Extension invalid <strong>'.$template_extension.'</strong> on <strong>'.$template.'</strong>';
+            trigger_error($message, E_USER_NOTICE);
+        }
+    }
+
+    /**
+     * Returns the Template Name
+     *
+     * @return Returns the templateName as String
+     */
+    public function getTemplateName()
+    {
+        # if the templateName was not set manually, we construct it from module/action infos
+        if(empty($this->template) === true)
+        {
+            # construct template name
+            $template = Clansuite_TargetRoute::getActionName() . '.tpl';
+             
+            $this->setTemplate($template);
+        }
+
+        return $this->template;
+    }
 }
+?>
