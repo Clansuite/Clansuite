@@ -74,7 +74,7 @@ class Clansuite_Cache_APC implements Clansuite_Cache_Interface
      *
      * @param string $key Identifier for the data
      * @param mixed $data Data to be cached
-     * @param integer $cache_lifetime How long to cache the data, in seconds
+     * @param integer $cache_lifetime How long to cache the data, in minutes.
      * @param boolean $overwrite If overwrite true, key will be overwritten.
      * @return boolean True if the data was successfully cached, false on failure
      */
@@ -86,11 +86,11 @@ class Clansuite_Cache_APC implements Clansuite_Cache_Interface
         }
         elseif($overwrite == false)
         {
-            return apc_add($key, $data, $cache_lifetime);
+            return apc_add($key, $data, $cache_lifetime * 60);
         }
         else # overwrite
         {
-            return apc_store($key, $data, $cache_lifetime);
+            return apc_store($key, $data, $cache_lifetime * 60);
         }
     }
 
