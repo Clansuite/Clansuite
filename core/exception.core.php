@@ -101,12 +101,12 @@ class Clansuite_Exception extends Exception implements Clansuite_Exception_Inter
     /**
      * @var string HTML Representation of the Exception Template
      */
-    private static $exception_template_content = '';
+    private static $exception_template = '';
 
     /**
      * @var string HTML Representation of the Exception Development (RAD) Template
      */
-    private static $exception_development_template_content = '';
+    private static $exception_dev_template = '';
 
     /**
      * Exception Handler Callback
@@ -137,21 +137,20 @@ class Clansuite_Exception extends Exception implements Clansuite_Exception_Inter
             self::fetchExceptionTemplates($this->code);
         }
 
-        echo $this->yellowScreenOfDeath();
-    }
+        /**
+         * @todo
+         * 1. catch Smarty "Template Syntax" Errors
+         * 2. provide link to templateeditor (file:line) to fix the error
+         */
+        #$smartyError = (false !== stristr($this->message, 'Syntax Error in template')) ? true : false;
 
-    /**
-     * Method for Conditional Usage (Shortcut/Convenience Method)
-     *
-     * @example
-     * Usage: someFunction() OR throwException();
-     *
-     * @param string $message Exception Message
-     * @param int $code Exception Code
-     */
-    public function throwException($message = null, $code = null)
-    {
-        throw new Clansuite_Exception($message, $code);
+        /**
+         * @todo
+         * 1. catch Smarty "Unable to load template file" Errors
+         * 2. provide link to templatefilemanager (module:file)
+         */
+
+        echo $this->yellowScreenOfDeath();
     }
 
     /**
@@ -194,7 +193,7 @@ class Clansuite_Exception extends Exception implements Clansuite_Exception_Inter
         # ensure file is there, load it and set it to classvariable
         if(is_file($exception_template_file) === true)
         {
-            self::$exception_template_content = file_get_contents($exception_template_file);
+            self::$exception_template = file_get_contents($exception_template_file);
         }
     }
 
@@ -221,14 +220,13 @@ class Clansuite_Exception extends Exception implements Clansuite_Exception_Inter
         if(is_file($exception_template_file) === true)
         {
             $content = file_get_contents($exception_template_file);
-            self::$exception_development_template_content = $content;
+            self::$exception_dev_template = $content;
             define('RAPIDDEVTPL', true);
         }
         /*
         else
         {
-           # propose to create a new rapid development template
-           # link to templateditor
+           # @todo propose to create a new rapid development template via tpleditor
         }
         */
     }
@@ -240,7 +238,7 @@ class Clansuite_Exception extends Exception implements Clansuite_Exception_Inter
      */
     private static function getExceptionDevelopmentTemplate($placeholders)
     {
-        $original_file_content = self::$exception_development_template_content;
+        $original_file_content = self::$exception_dev_template;
         $replaced_content = '';
 
         if(isset($placeholders['modulename']))
@@ -306,7 +304,7 @@ class Clansuite_Exception extends Exception implements Clansuite_Exception_Inter
 
         # Panel 1 - Exception Message and File
         $errormessage   .= '<div id="panel"';
-        $errormessage   .= 'style="background: none repeat scroll 0 0 #FDF599; border: 1px dotted red; padding: 0 10px 10px;">';
+        $errormessage   .= 'style="background: none repeat scroll 0 0 #FDF599; border: 1px solid #E03937; border-radius: 3px; padding: 0 10px 10px;">';
         $errormessage   .= '<h3>Exception '.$code.'</h3><h4>'.$this->message.'</h4>';
         $errormessage   .= '<strong>File: </strong>'.dirname($this->file).DS;
         $errormessage   .= '<strong>'.basename($this->file).'</strong>';
@@ -349,10 +347,10 @@ class Clansuite_Exception extends Exception implements Clansuite_Exception_Inter
         }
 
         # HEADING <Additional Information>
-        if(empty(self::$exception_template_content) === false)
+        if(empty(self::$exception_template) === false)
         {
             $errormessage  .= '<tr><td colspan="2"><h3>Additional Information & Solution Suggestion</h3></td></tr>';
-            $errormessage  .= '<tr><td colspan="2">'.self::$exception_template_content.'</td></tr>';
+            $errormessage  .= '<tr><td colspan="2">'.self::$exception_template.'</td></tr>';
 
             # Split
             $errormessage  .= '<tr><td colspan="2">&nbsp;</td></tr>';
