@@ -56,10 +56,6 @@ table {
     padding:15px 20px 15px 50px;
 }
 
-.error_beige {
-    background:#ffc
-}
-
 .error_helpbox {
     background:url(../images/icons/error.png) no-repeat 15px 50% #FDD;
     border:1px solid #FBB;
@@ -69,22 +65,18 @@ table {
     padding:15px 20px 15px 50px
 }
 
-.error_orange {
-    background:#f90
-}
-
 .error_red {
     background:#af0000
 }
 
-.error_red legend,.error_orange legend,.error_beige legend {
+.error_red legend {
     background:#fff;
     border:1px solid #333;
     font-weight:700;
     padding:2px 15px
 }
 
-.error_red,.error_orange,.error_beige {
+.error_red {
     border:1px solid #666;
     margin:0 auto;
     padding:12px;
