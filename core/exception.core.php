@@ -275,8 +275,8 @@ class Clansuite_Exception extends Exception implements Clansuite_Exception_Inter
         # Body
         $errormessage .= '<body>';
 
-        # Fieldset with colours (error_red, error_orange, error_beige)
-        $errormessage .= '<fieldset class="error_beige">';
+        # Fieldset
+        $errormessage .= '<fieldset class="error_yellow">';
 
         # Errorlogo
         $errormessage .= '<div style="float: left; margin: 5px; margin-right: 25px; padding: 20px;">';
