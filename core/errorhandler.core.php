@@ -257,20 +257,6 @@ class Clansuite_Errorhandler
     }
 
     /**
-     * Returns colorname for errornumber
-     *
-     * @param int $errornumber the errornumber to get the colorname for
-     * @return string
-     */
-    private static function getColornameForErrornumber($errornumber)
-    {
-        $color = 'beige';
-        $colors = array( 256  => 'red', 512  => 'orange', 1024 => 'beige');
-        $color = isset($colors[$errornumber]) ? $colors[$errornumber] : $color;
-        return $color;
-    }
-
-    /**
      * Yellow Screen of Death (YSOD) is used to display a Clansuite Error
      *
      * @param int $errornumber
@@ -300,8 +286,8 @@ class Clansuite_Errorhandler
         # Body
         $errormessage .= '<body>';
 
-        # Fieldset colored (error_red, error_orange, error_beige)
-        $errormessage .= '<fieldset class="error_' . self::getColornameForErrornumber($errornumber) . '">';
+        # Fieldset colored
+        $errormessage .= '<fieldset class="error_red">';
 
         # Errorlogo
         $errormessage .= '<div style="float: left; margin: 5px; margin-right: 25px; padding: 20px;">';
