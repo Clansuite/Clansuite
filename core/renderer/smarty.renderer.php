@@ -212,10 +212,12 @@ class Clansuite_Renderer_Smarty extends Clansuite_Renderer_Base
          * 5) "/themes/core/view/"
          * 6) "/themes/"
          */
-        $tpl_array = array( $this->getThemeTemplatePaths(), # 1 + 2
-                            $this->getModuleTemplatePaths(), # 3 + 4
-                            ROOT_THEMES_CORE . 'view' . DS . 'smarty', # 5
-                            ROOT_THEMES); # 6
+        $tpl_array = array(
+            Clansuite_View_Mapper::getThemeTemplatePaths(), # 1 + 2
+            Clansuite_View_Mapper::getModuleTemplatePaths(), # 3 + 4
+            ROOT_THEMES_CORE . 'view' . DS . 'smarty', # 5
+            ROOT_THEMES # 6
+        );
 
         # flatten that thing
         $this->renderer->template_dir = Clansuite_Functions::array_flatten($tpl_array);
@@ -232,9 +234,10 @@ class Clansuite_Renderer_Smarty extends Clansuite_Renderer_Base
          */
 
         $this->renderer->setPluginsDir(
-            array( ROOT_LIBRARIES . 'smarty' . DS . 'plugins',
-                   ROOT_CORE . 'viewhelper' . DS . 'smarty' . DS,
-                   ROOT_MOD . Clansuite_TargetRoute::getModuleName() . DS . 'viewhelper' . DS. 'smarty' . DS
+            array(
+                ROOT_LIBRARIES . 'smarty' . DS . 'plugins',
+                ROOT_CORE . 'viewhelper' . DS . 'smarty' . DS,
+                ROOT_MOD . Clansuite_TargetRoute::getModuleName() . DS . 'viewhelper' . DS . 'smarty' . DS
         ));
 
 
@@ -397,8 +400,8 @@ class Clansuite_Renderer_Smarty extends Clansuite_Renderer_Base
      */
     public function fetch($template, $cache_id = null, $compile_id = null, $parent = null, $display = false)
     {
-        # asks the parent class (renderer.base.core) for the template path
-        $template = $this->getTemplatePath($template);
+        # ask the view mapper for the template path
+        $template = Clansuite_View_Mapper::getTemplatePath($template);
 
         # create cache_id
         if($cache_id === null)
@@ -510,9 +513,12 @@ class Clansuite_Renderer_Smarty extends Clansuite_Renderer_Base
         $this->renderer->assignGlobal('templatename', $template);
 
         /**
-         * Rendering depends on the RenderMode
+         * Rendering depends on the RenderMode.
          *
-         * If the modulecontent should be rendered in a layout (LAYOUT) or without a layout (NOLAYOUT).
+         * RenderMode "NOLAYOUT" means that only the (module) content template is rendered.
+         *
+         * RenderMode "LAYOUT" means that the (module) content template is embedded,
+         * into a layout template, by replacing the {$content} placeholder.
          */
         if($this->getRenderMode() === 'NOLAYOUT')
         {

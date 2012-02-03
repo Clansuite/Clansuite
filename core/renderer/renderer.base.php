@@ -60,8 +60,6 @@ abstract class Clansuite_Renderer_Base
      * @var string The layout template
      */
     public $layoutTemplate = null;
-
-    /**
      * @var string The "content" template
      */
     public $template = null;
@@ -182,186 +180,6 @@ abstract class Clansuite_Renderer_Base
     }
 
     /**
-     * Returns the Template Path
-     *
-     * Fetches the template by searching in the
-     * 1) Theme Template Paths
-     * 2) Modules Template Paths
-     * Note the Path Priority: Themes before Modules.
-     *
-     * @return $templatepath
-     */
-    public function getTemplatePath($template)
-    {
-        # done: if template is a qualified path and template filename
-        if(is_file($template) === true)
-        {
-            return $template;
-        }
-
-        # fetch the template by searching in the Theme Template Paths
-        $theme_template = $this->getThemeTemplatePath($template);
-
-        # check if template was found there, else it's null
-        if($theme_template != null)
-        {
-            #Clansuite_Debug::firebug(__METHOD__ .' tries fetching template ("'. $theme_template . '") from THEME directory.');
-            return $theme_template;
-        }
-        else # fetch the template by searching in the Module Template Path
-        {
-            #Clansuite_Debug::firebug(__METHOD__ .' tries fetching template ("'. $template . '") from MODULE directory.');
-            return $this->getModuleTemplatePath($template);
-        }
-    }
-
-    /**
-     * Return Theme Template Paths
-     *
-     * @return array Theme Template Paths
-     */
-    public static function getThemeTemplatePaths()
-    {
-        # get module, submodule, renderer names
-        $module    = Clansuite_HttpRequest::getRoute()->getModuleName();
-        $submodule = Clansuite_HttpRequest::getRoute()->getSubModuleName();
-        #$renderer  = Clansuite_HttpRequest::getRoute()->getRenderEngine();
-
-        $theme_paths = array();
-
-        /**
-         * 1. BACKEND THEME
-         * when controlcenter or admin is requested, it has to be a BACKEND theme
-         */
-        if($module == 'controlcenter' or $submodule == 'admin')
-        {
-            # get backend theme from session for path construction
-            $backendtheme  = Clansuite_HttpRequest::getRoute()->getBackendTheme();
-
-            # (a) USER BACKENDTHEME - check in the active session backendtheme
-            # e.g. /themes/backend/ + admin/template_name.tpl
-            $theme_paths[] = ROOT_THEMES_BACKEND . $backendtheme . DS;
-            # e.g. /themes/backend/ + admin/modules/template_name.tpl
-            $theme_paths[] = ROOT_THEMES_BACKEND . $backendtheme . DS . 'modules' . DS . $module . DS;
-            # (b) BACKEND FALLBACK - check the fallback dir: themes/admin
-            $theme_paths[] = ROOT_THEMES_BACKEND . 'admin' . DS;
-        }
-        /**
-         * 2. FRONTEND THEME
-         */
-        else
-        {
-            # get frontend theme from session for path construction
-            $frontendtheme = Clansuite_HttpRequest::getRoute()->getFrontendTheme();
-
-            # (a) USER FRONTENDTHEME - check, if template exists in current session user THEME
-            $theme_paths[] = ROOT_THEMES_FRONTEND . $frontendtheme . DS;
-            # (b) FRONTEND FALLBACK - check, if template exists in usertheme/modulename/tpl
-            $theme_paths[] = ROOT_THEMES_FRONTEND . $frontendtheme . DS . 'modules' . DS . $module . DS;
-            # (c) FRONTEND FALLBACK - check, if template exists in standard theme
-            $theme_paths[] = ROOT_THEMES_FRONTEND . 'standard' . DS;
-        }
-
-        return $theme_paths;
-    }
-
-    /**
-     * Returns the fullpath to Template by searching in the Theme Template Paths
-     *
-     * Note: For the implementation of module specific renderers and their related templates two ways exist:
-     * a) add either a directory named after the "renderer/", like modules/modulename/view/renderer/actioname.tpl
-     * b) name fileextension of the templates after the renderer (.xtpl, .phptpl, .tal).
-     *
-     * @param string $template Template Filename
-     * @return string
-     */
-    public function getThemeTemplatePath($template)
-    {
-        $paths = self::getThemeTemplatePaths();
-
-        return self::findFileInPaths($paths, $template);
-    }
-
-    /**
-     * Returns Module Template Paths
-     *
-     * @return array Module Template Paths
-     */
-    public static function getModuleTemplatePaths()
-    {
-        # fetch modulename for template path construction
-        $module = Clansuite_TargetRoute::getModuleName();
-
-        # fetch renderer name for template path construction
-        $renderer = Clansuite_HttpRequest::getRoute()->getRenderEngine();
-
-        # compose templates paths in the module dir
-        $module_paths = array(
-            ROOT_MOD,
-            ROOT_MOD . $module . DS,
-            ROOT_MOD . $module . DS . 'view' . DS,
-            ROOT_MOD . $module . DS . 'view' . DS . $renderer . DS
-        );
-
-        return $module_paths;
-    }
-
-    /**
-     * Returns the fullpath to Template by searching in the Module Template Path
-     *
-     * @param string $template Template Filename
-     * @return string
-     */
-    public function getModuleTemplatePath($template)
-    {
-        $paths = self::getModuleTemplatePaths();
-
-        # check if template exists in one of the defined paths
-        $module_template = null;
-        $module_template = self::findFileInPaths($paths, $template);
-        #Clansuite_Debug::firebug($module_template);
-        if($module_template != null)
-        {
-            return $module_template;
-        }
-        else
-        {
-            # fetch renderer name for template path construction
-            $renderer = Clansuite_HttpRequest::getRoute()->getRenderEngine();
-
-            # the template with that name is not found on our default paths
-            return ROOT_THEMES_CORE . 'view' . DS . $renderer . DS . 'template_not_found.tpl';
-        }
-    }
-
-    /**
-     * Checks all paths of the array for the filename
-     *
-     * @param array $paths Paths to check
-     * @param strig $filename template name
-     * @return string Filepath.
-     */
-    public static function findFileInPaths($paths, $filename)
-    {
-        # check if file exists in one of the defined paths
-        foreach($paths as $path)
-        {
-            $file = $path . $filename;
-
-            #Clansuite_Debug::firebug($file);
-
-            if(is_file($file) === true)
-            {
-                # file found
-                return $file;
-            }
-        }
-
-        # file not found
-        return false;
-    }
-
-    /**
      * Constants for overall usage in all templates of all render engines
      *
      * a) Assign Web Paths
@@ -385,7 +203,7 @@ abstract class Clansuite_Renderer_Base
         $template_constants['www_root']                 = WWW_ROOT;
         $template_constants['www_root_uploads']         = WWW_ROOT . 'uploads/';
         $template_constants['www_root_mod']             = WWW_ROOT . 'modules/' . $modulename . '/';
-        $template_constants['www_root_theme']           = $this->getTheme()->getWWWPath();
+        $template_constants['www_root_theme']           = $this->getTheme()->getWebPath();
         $template_constants['www_root_themes']          = WWW_ROOT_THEMES;
         $template_constants['www_root_themes_core']     = WWW_ROOT_THEMES_CORE;
         $template_constants['www_root_themes_backend']  = WWW_ROOT_THEMES_BACKEND;
@@ -464,9 +282,9 @@ abstract class Clansuite_Renderer_Base
      */
     public function getLayoutTemplate()
     {
-        if ($this->layoutTemplate == null)
+        if($this->layoutTemplate == null)
         {
-            $this->setLayoutTemplate($this->getTheme()->getLayoutFile());
+            $this->setLayoutTemplate( $this->getTheme()->getLayoutFile() );
         }
 
         return $this->layoutTemplate;
@@ -545,7 +363,7 @@ abstract class Clansuite_Renderer_Base
         }
         else
         {
-            throw new Exception('Method "'. $method .'" not existant in RenderEngine "' . get_class($this->renderer) .'"!', 1);
+            throw new Exception('Method "'. $method .'()" not existant in Render Engine "' . get_class($this->renderer) .'"!', 1);
         }
     }
 

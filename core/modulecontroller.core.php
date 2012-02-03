@@ -410,7 +410,6 @@ abstract class Clansuite_Module_Controller
      */
     public function display($templates = null)
     {
-        include ROOT_CORE . 'renderer/templatemapper.php';
         $view_mapper = new Clansuite_View_Mapper;
 
         # set layout and content template by parameter array
@@ -427,11 +426,11 @@ abstract class Clansuite_Module_Controller
             }
         }
 
-        # only the content template is set
+        # only the "content template" is set
         if(is_string($templates)) { $view_mapper->setTemplate($templates); }
 
         # get the templatename
-        $templatename = $view_mapper->getTemplateName();
+        $template = $view_mapper->getTemplateName();
 
         # get the view
         $this->view = $this->getView();
@@ -441,12 +440,12 @@ abstract class Clansuite_Module_Controller
         #Clansuite_Debug::firebug('Template Name: ' . $templatename . '<br />');
 
         # render the content / template
-        $content = $this->view->render($templatename);
+        $content = $this->view->render($template);
 
         # push content to the response object
         $this->response->setContent($content);
 
-        unset($content, $templatename);
+        unset($content, $template);
     }
 
     /**
