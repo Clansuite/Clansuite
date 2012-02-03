@@ -108,7 +108,7 @@ class Clansuite_Theme
         }
     }
 
-    public function getWWWPath($theme = null)
+    public function getWebPath($theme = null)
     {
         if($theme == null)
         {
@@ -235,12 +235,12 @@ class Clansuite_Theme
         {
             $part = explode('.', $this->theme_info['css']['mainfile']);
             $cssname = $part[0] . $cssPostfix . '.' . $part[1];
-            return $this->getWWWPath() . 'css/' . $cssname;
+            return $this->getWebPath() . 'css/' . $cssname;
         }
         elseif(false === isset($this->theme_info['css']['mainfile']))
         {
             # maybe we have a theme css file named after the theme
-            $css_file = $this->getWWWPath() . 'css/' . $this->getName() . '.css';
+            $css_file = $this->getWebPath() . 'css/' . $this->getName() . '.css';
 
             if(is_file($css_file))
             {
@@ -281,12 +281,12 @@ class Clansuite_Theme
     {
         if(isset($this->theme_info['javascript']['mainfile']))
         {
-            return $this->getWWWPath() . 'javascript/' . $this->theme_info['javascript']['mainfile'];
+            return $this->getWebPath() . 'javascript/' . $this->theme_info['javascript']['mainfile'];
         }
         elseif(false === isset($this->theme_info['javascript']['mainfile']))
         {
             # maybe we have a main javascript file named after the theme
-            $js_file = $this->getWWWPath() . 'javascript/' . $this->getName() . '.js';
+            $js_file = $this->getWebPath() . 'javascript/' . $this->getName() . '.js';
 
             if(is_file($js_file))
             {
