@@ -15,31 +15,23 @@
     </tr>
     <tr>
         <td bgcolor="#dde9cf" valign="top" colspan="2">
+
             <table cellspacing="1" width="100%" border="0">
             <tbody>
                 <tr bgcolor="#ffffff">
                     <td>
-                    <table cellspacing="6" width="100%" >
-                    <tbody>
-                        <tr valign="top">
-                            <td>
-                                <!-- Assign Data of Clansuite Errorlog -->
-                                {$errorlog}
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <div align="right">
-                                    <a target="blank" href="http://www.clansuite.com/index.php?page=news"><b>Full Report &raquo;</b></a>
-                                </div>
-                            </td>
-                        </tr>
-                    </tbody>
-                    </table>
+                        <div>
+                            <!-- Assign Data of Clansuite Errorlog -->
+                            {$errorlog}
+                            <div align="right">
+                                <a target="blank" href="http://www.clansuite.com/index.php?page=news"><b>Full Report &raquo;</b></a>
+                            </div>
+                        </div>
                     </td>
                 </tr>
             </tbody>
             </table>
+
         </td>
     </tr>
 </tbody>

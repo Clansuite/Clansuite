@@ -18,23 +18,13 @@
             <tbody>
                 <tr bgcolor="#ffffff">
                     <td>
-                    <table cellspacing="6" width="100%" >
-                    <tbody>
-                        <tr valign="top">
-                            <td>
-                                <!-- Assign Data of Clansuite Newsfeed -->
-                                {$newsfeed}
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <div align="right">
-                                    <a target="blank" href="http://www.clansuite.com/index.php?page=news"><b>More &raquo;</b></a>
-                                </div>
-                            </td>
-                        </tr>
-                    </tbody>
-                    </table>
+                        <div>
+                            <!-- Assign Data of Clansuite Newsfeed -->
+                            {$newsfeed}
+                            <div align="right" class="button">
+                                <a target="blank" href="http://www.clansuite.com/index.php?page=news"><b>More &raquo;</b></a>
+                            </div>
+                        </div>
                     </td>
                 </tr>
             </tbody>

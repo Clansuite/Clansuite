@@ -9,7 +9,7 @@
 {/move_to}
 
 <!-- Tab Table for the Shortcuts -->
-<table cellspacing="0" cellpadding="0" width="100%">
+<table cellspacing="0" cellpadding="0" width="98%">
 	<tbody>
 		<tr style="height: 15px;">
 			<td style="min-width: 120px; background-color: #ACD943; text-align: bottom;" width="33%" valign="bottom">
@@ -99,7 +99,7 @@
 				</div>
 				{* End:Shortcuts Content *}
 
-				<input class="ButtonOrange" type="button" value="Edit" />                    
+				<input class="ButtonOrange" type="button" value="Edit" />
 			</td>
 
 		</tr>
