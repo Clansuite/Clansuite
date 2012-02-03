@@ -581,14 +581,14 @@ class Clansuite_Errorhandler
 
                 /**
                  * transform the array into html string
-                 * enhance readablility by imploding the array with linebreaks (CR)
+                 * enhance readablility by imploding the array with spaces (formerly <br>; when inside <code>)
                  */
-                $errorcontext_lines  = implode($result, '<br />');
+                $errorcontext_lines  = implode($result, ' ');
 
                 $sprintf_html = '<table>
                                     <tr>
                                         <td class="num">'.CR.'%s'.CR.'</td>
-                                        <td><code>'.CR.'%s'.CR.'</code></td>
+                                        <td><pre>'.CR.'%s'.CR.'</pre></td>
                                     </tr>
                                 </table>';
 
