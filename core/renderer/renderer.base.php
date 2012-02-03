@@ -60,6 +60,8 @@ abstract class Clansuite_Renderer_Base
      * @var string The layout template
      */
     public $layoutTemplate = null;
+
+    /**
      * @var string The "content" template
      */
     public $template = null;
