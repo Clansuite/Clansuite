@@ -65,18 +65,22 @@ table {
     padding:15px 20px 15px 50px
 }
 
-.error_red {
-    background:#af0000
+.error_yellow {
+    background: #ffc;
 }
 
-.error_red legend {
+.error_red {
+    background: #ffc;
+}
+
+.error_red legend, .error_yellow legend {
     background:#fff;
     border:1px solid #333;
     font-weight:700;
     padding:2px 15px
 }
 
-.error_red {
+.error_red, .error_yellow {
     border:1px solid #666;
     margin:0 auto;
     padding:12px;
