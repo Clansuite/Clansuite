@@ -167,6 +167,8 @@ table.cs-backtrace-table th {
     border: 1px inset #BF0000;
     font-weight: bold;
     padding: 3px;
+    text-align: left;
+    line-height: 1.5em;
 }
 
 table.cs-backtrace-table td {
