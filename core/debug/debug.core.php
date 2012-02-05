@@ -208,13 +208,15 @@ class Clansuite_Debug
         $file = $line = $function = $class = $object = '';
 
         $trace  = debug_backtrace();
-        $file       = $trace[$level]['file'];
-        $line       = $trace[$level]['line'];
-        $function   = $trace[$level]['function'];
-        $class      = $trace[$level]['class'];
+        $file     = $trace[$level]['file'];
+        $line     = $trace[$level]['line'];
+        $function = $trace[$level]['function'];
+        $class    = $trace[$level]['class'];
 
-        return sprintf('You are debugging like fire in %s->%s() on line "%s" in file "%s".',
-                $class, $function, $line, $file);
+        return sprintf(
+            'You are debugging like fire in %s->%s() on line "%s" in file "%s".',
+            $class, $function, $line, $file
+        );
     }
 
     /**
@@ -224,11 +226,9 @@ class Clansuite_Debug
     public static function getIncludesFiles()
     {
         # init vars
-        $includedFiles = array();
-        $includedFilesTotalSize = 0;
-        $includedFilesCount = 0;
-        $files = array();
-
+        $includedFiles = $files = array();
+        $includedFilesTotalSize = $includedFilesCount = 0;
+        
         # fetch all included files
         $files = get_included_files();
 
