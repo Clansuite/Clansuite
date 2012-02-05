@@ -108,6 +108,18 @@ class Clansuite_View_Mapper
     }
 
     /**
+     * Get the template name
+     *
+     * Proxies to Clansuite_View_Mapper::getTemplate()
+     *
+     * @return string $template Name of the Template (full path)
+     */
+    public function getTemplate()
+    {
+        return $this->template;
+    }
+
+    /**
      * Returns the Template Path
      *
      * Fetches the template by searching in the

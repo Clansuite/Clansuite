@@ -301,7 +301,7 @@ abstract class Clansuite_Module_Controller
     /**
      * Get view returns the render engine
      *
-     * @param string $renderEngineName Sets the render engine, like smarty, phptal.
+     * @param string $renderEngineName Name of the render engine, like smarty, phptal.
      * @return Returns the View Object (Rendering Engine)
      */
     public function getView($renderEngineName = null)
@@ -313,7 +313,7 @@ abstract class Clansuite_Module_Controller
         }
 
         # if already set, get the rendering engine from the view variable
-        if (isset($this->view) === true)
+        if(isset($this->view) === true)
         {
             return $this->view;
         }
@@ -410,7 +410,11 @@ abstract class Clansuite_Module_Controller
      */
     public function display($templates = null)
     {
-        $view_mapper = new Clansuite_View_Mapper;
+        # get the view
+        $this->view = $this->getView();
+
+        # get the view mapper
+        $view_mapper = $this->view->getViewMapper();
 
         # set layout and content template by parameter array
         if(is_array($templates) === true)
@@ -431,9 +435,6 @@ abstract class Clansuite_Module_Controller
 
         # get the templatename
         $template = $view_mapper->getTemplateName();
-
-        # get the view
-        $this->view = $this->getView();
 
         # Debug display of Layout Template and Content Template
         #Clansuite_Debug::firebug('Layout/Wrapper Template: ' . $this->view->getLayoutTemplate() . '<br />');

@@ -52,7 +52,7 @@ abstract class Clansuite_Renderer_Base
     public $renderer = null;
 
     /**
-     * @var Object Holds instance of the Theme Object
+     * @var object Holds instance of the Theme Object
      */
     public $theme = null;
 
@@ -60,11 +60,6 @@ abstract class Clansuite_Renderer_Base
      * @var string The layout template
      */
     public $layoutTemplate = null;
-
-    /**
-     * @var string The "content" template
-     */
-    public $template = null;
 
     /**
      * @var string Variable for the RenderMode (available: WRAPPED)
@@ -82,13 +77,19 @@ abstract class Clansuite_Renderer_Base
     public $viewdata = null;
 
     /**
+     * @var object Clansuite_View_Mapper
+     */
+    public $view_mapper = null;
+
+    /**
      * Construct Renderer
      *
      * @param Clansuite_Config Object
      */
     public function __construct(Clansuite_Config $config)
     {
-        $this->config   = $config;
+        $this->config = $config;
+        $this->view_mapper = new Clansuite_View_Mapper();
     }
 
     /**
@@ -163,22 +164,38 @@ abstract class Clansuite_Renderer_Base
      */
     abstract public function clearCache();
 
+    public function getViewMapper()
+    {
+        return $this->view_mapper;
+    }
+
+    public function setViewMapper(Clansuite_View_Mapper $view_mapper)
+    {
+        $this->view_mapper = $view_mapper;
+    }
+
     /**
-     * Set the template name
+     * Set the template name.
+     *
+     * Proxies to Clansuite_View_Mapper::setTemplate()
      *
      * @param string $template Name of the Template (full path)
      */
     public function setTemplate($template)
     {
-        $this->template = $template;
+        $this->getViewMapper()->setTemplate($template);
     }
 
     /**
      * Get the template name
+     *
+     * Proxies to Clansuite_View_Mapper::getTemplate()
+     *
+     * @return string $template Name of the Template (full path)
      */
     public function getTemplate()
     {
-        return $this->template;
+        return $this->getViewMapper()->getTemplate();
     }
 
     /**
