@@ -309,27 +309,15 @@ class Clansuite_Errorhandler
         $errormessage .= '<tr><td><strong>Line: </strong></td><td>' . $errorline . '</td></tr>';
         $errormessage .= '</table>';
 
-        # HR Split
-        $errormessage .= '<tr><td colspan="2">&nbsp;</td></tr>';
-
         # Error Context
-        $errormessage .= '<tr><td colspan="2"><h3>Context</h3></td></tr>';
-        $errormessage .= '<tr><td colspan="2">' . self::getErrorContext($errorfile, $errorline, 8) . '</td></tr>';
-
-        # HR Split
-        $errormessage .= '<tr><td colspan="2">&nbsp;</td></tr>';
+        $errormessage .= '<tr><td colspan="2"><h3>Context</h3>';
+        $errormessage .= self::getErrorContext($errorfile, $errorline, 8) . '</td></tr>';
 
         # Add Debug Backtracing
         $errormessage .= '<tr><td>' . self::getDebugBacktrace($trimed_errorstring) . '</td></tr>';
 
-        # HR Split
-        # $errormessage .= '<tr><td colspan="2">&nbsp;</td></tr>';
-
         #
         # $errormessage .= '<tr><td>' . self::getBugtrackerSearch() . '</td></tr>';
-
-        # HR Split
-        $errormessage .= '<tr><td colspan="2">&nbsp;</td></tr>';
 
         # Environmental Informations at Errortime ( $errorcontext is not displayed )
         $errormessage .= '<tr><td><table width="95%">';
@@ -343,9 +331,6 @@ class Clansuite_Errorhandler
         $errormessage .= '<tr><td><strong>Clansuite: </strong></td><td>' . CLANSUITE_VERSION . ' ' . CLANSUITE_VERSION_STATE;
         $errormessage .= ' (' . CLANSUITE_VERSION_NAME . ') [Revision #' . CLANSUITE_REVISION . ']</td></tr>';
         $errormessage .= '</table>';
-
-        # HR Split
-        $errormessage .= '<tr><td colspan="2">&nbsp;</td></tr>';
 
         # Backlink to Bugtracker with Errormessage -> http://trac.clansuite.com/newticket
         $errormessage .= self::getBugtrackerMessage($errorstring, $errorfile, $errorline, $errorcontext);
@@ -399,12 +384,11 @@ class Clansuite_Errorhandler
 
         # prepare a new backtrace_string
         $backtrace_string = '';
-        $backtrace_string .= '<tr><td><h3>Backtrace</h3></td></tr>';
-        $backtrace_string .= '<tr><td width="95%">';
+        $backtrace_string .= '<tr><td width="95%"><h3>Backtrace</h3>';
         $backtrace_string .= '<table class="cs-backtrace-table" width="95%">';
-        $backtrace_string .= '<tr><th><strong>Callstack</strong></td><th colspan="2">(Recent function calls last)</td></tr>';
 
-        $backtrace_string .= '<tr><th width="2%">#</th><th>Function</th><th width="40%">Location</th></tr>';
+        # table row 1 - header
+        $backtrace_string .= '<tr><th width="2%">Callstack</th><th>Function (recent function calls last)</th><th width="40%">Location</th></tr>';
 
         $backtraces_count = count($backtrace)-1;
         for($i = 0; $i <= $backtraces_count; $i++)
