@@ -129,7 +129,7 @@ class Clansuite_Debug
         session_write_close();
         exit;
     }
-    
+
     /**
      * Displays the content of a variable with var_dump.
      * The content gets escaping and pre tags are applied for better readability.
@@ -145,7 +145,7 @@ class Clansuite_Debug
         $var_dump = ob_get_clean();
 
         /**
-         * if xdebug is on and overloaded the var_dump function, 
+         * if xdebug is on and overloaded the var_dump function,
          * then the output is already properly escaped and prepared for direct output.
          * if xdebug is off, we need to apply escaping ourself.
          * html pre tags are applied to structure the display a bit more.
@@ -158,7 +158,7 @@ class Clansuite_Debug
 
         # output the content of the buffer
         echo $var_dump;
-        
+
         if($stop === true)
         {
             exit;
@@ -168,9 +168,9 @@ class Clansuite_Debug
     /**
      * Debug logs the output of $var to the firebug console
      *
-     * @param mixed $var
-     * @param $firebugmethod log,info,warn, error
-     * @param $backtrace boolean Enables tracing of the origin of the debug call (adds a seconds fb msg).
+     * @param mixed $var The variable to debug.
+     * @param $firebugmethod The firebug method to call (log,info,warn, error). Defaults to "log".
+     *
      * @return Content of $var will be returned via Header and is displayed in the FireBugConsole.
      */
     public static function firebug($var, $firebugmethod = 'log')
@@ -183,31 +183,38 @@ class Clansuite_Debug
 
         $firephp = FirePHP::getInstance(true);
 
-        # get callstack and log the origin of the call to Clansuite_Debug::firebug()
-        $backtrace_array = array();
-        $backtrace_array = debug_backtrace();
-
-        # check if debug origin was inside class/method or function, adjust message
-        $classname = '';
-        if(isset($backtrace_array[1]['class']) == false)
-        {
-            $classname = '';
-        }
-        else
-        {
-            $classname = $backtrace_array[1]['class'];
-        }
-
-        $infomsg = sprintf('You are debugging like fire in %s->%s() on line "%s" in file "%s".',
-                $classname, $backtrace_array[1]['function'],
-                $backtrace_array[0]['line'], $backtrace_array[0]['file']);
-
-        $firephp->info($infomsg);
-
-        unset($infomsg, $backtrace_array);
+        /**
+         * Adds an info message about the position of the firebug call (origin).
+         * This is very helpful, if you spread Debug::firebug() calls all over your code.
+         */
+        $firephp->info(self::getWhereDebugWasCalled());
 
         # debug the var
         $firephp->{$firebugmethod}($var);
+    }
+
+    /**
+     * Returns the position of a call.
+     *
+     * This is used in combination with Clansuite_Debug::firebug(),
+     * to determine the origin of the call.
+     *
+     * @param type $level default 1.
+     * @return string Message with origin of the debug call.
+     */
+    public static function getWhereDebugWasCalled($level = 1)
+    {
+        $trace  = array();
+        $file = $line = $function = $class = $object = '';
+
+        $trace  = debug_backtrace();
+        $file       = $trace[$level]['file'];
+        $line       = $trace[$level]['line'];
+        $function   = $trace[$level]['function'];
+        $class      = $trace[$level]['class'];
+
+        return sprintf('You are debugging like fire in %s->%s() on line "%s" in file "%s".',
+                $class, $function, $line, $file);
     }
 
     /**
@@ -295,7 +302,7 @@ class Clansuite_Debug
     public static function getPhpIni()
     {
         self::printR(parse_ini_file(get_cfg_var('cfg_file_path'), true));
-    }    
+    }
 
     /**
      * Lists all available wrappers
@@ -306,12 +313,12 @@ class Clansuite_Debug
         echo 'openssl: '.  extension_loaded('openssl') ? 'yes':'no'. NL;
         echo 'http wrapper: '. in_array('http', $w) ? 'yes':'no'. NL;
         echo 'https wrapper: '. in_array('https', $w) ? 'yes':'no'. NL;
-        echo 'wrappers: '. self::printR($w);        
+        echo 'wrappers: '. self::printR($w);
     }
 
     /**
      * Returns a list of all registered event listeners
-     * @return array 
+     * @return array
      */
     public static function getRegisteredEventListeners()
     {
