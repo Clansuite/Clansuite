@@ -1,7 +1,7 @@
-{* Template: /modules/templatemanager/action_admin_editor.tpl *}
+{* Template: /modules/templatemanager/action_admin_edit.tpl *}
 
 {move_to target="pre_head_close"}
-<script type="text/javascript" src="{$www_root}libraries/codemirror/js/codemirror.js"></script>
+<script type="text/javascript" src="{$www_root}libraries/codemirror/codemirror.js"></script>
 <script type="text/javascript" src="{$www_root_themes_core}javascript/codemirror_config.js"></script>
 
 <!-- Line Numbers for CodeMirror : crappy solution, because it depends on the correct line heigth -->
@@ -28,6 +28,21 @@
 {else}
     <div class="ModuleHeadingSmall">{t}You are editing: {/t} <font color="red"> {$templateeditor_absolute_filename} </font></div>
 {/if}
+
+{* @todo
+Tabs:
+Edit Source
+View Original (rendered)
+View Edited (rendered)
+Show Diff
+Save Changes
+
+ -zum Editieren des Quelltextes
+- so wie es als Webseite aussieht
+- so wie es mit Veränderungen als Webseite aussieht
+- Textdifferenz in Patchform + Downloadmöglichkeit
+- Abspeichern der Änderungen
+*}
 
 <div style="border: 1px solid black; background: white; padding: 3px;">
 
