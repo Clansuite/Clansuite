@@ -56,7 +56,7 @@ class Clansuite_Cache_APC implements Clansuite_Cache_Interface
         {
             throw new Clansuite_Exception('The PHP extension APC (Alternative PHP Cache) is not loaded. You may enable it in "php.ini"!', 300);
         }
-    }    
+    }
 
     /**
      * Read a key from the cache
@@ -78,7 +78,7 @@ class Clansuite_Cache_APC implements Clansuite_Cache_Interface
      * @param boolean $overwrite If overwrite true, key will be overwritten.
      * @return boolean True if the data was successfully cached, false on failure
      */
-    public function store($key, $data, $cache_lifetime, $overwrite = false)
+    public function store($key, $data, $cache_lifetime = 0, $overwrite = false)
     {
         if($key === null)
         {

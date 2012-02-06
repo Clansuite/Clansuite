@@ -93,7 +93,7 @@ class Clansuite_Cache_Memcached implements Clansuite_Cache_Interface
         #$this->memcached->setOption(Memcached::OPT_HASH, Memcached::MD5);
         $this->memcached->setOption(Memcached::OPT_LIBKETAMA_COMPATIBLE, true);
     }
-    
+
     /**
      * Contains checks if a key exists in the cache
      *
@@ -154,12 +154,12 @@ class Clansuite_Cache_Memcached implements Clansuite_Cache_Interface
      *
      * @param string $key Identifier for the data
      * @param mixed $data Data to be cached
-     * @param integer $cache_lifetime How long to cache the data, in seconds
+     * @param integer $cache_lifetime How long to cache the data, in minutes
      * @return boolean True if the data was successfully cached, false on failure
      */
     public function set($key, $data, $cache_lifetime = 0)
     {
-        return $this->store($key, $data, $cache_lifetime);
+        return $this->store($key, $data, $cache_lifetime * 60);
     }
 
     /**
@@ -178,7 +178,7 @@ class Clansuite_Cache_Memcached implements Clansuite_Cache_Interface
             $data = (array) $data;
         }
 
-        if( $this->memcached->set($key, $data, $cache_lifetime) === true )
+        if( $this->memcached->set($key, $data, $cache_lifetime * 60) === true )
         {
             return true;
         }
@@ -226,10 +226,10 @@ class Clansuite_Cache_Memcached implements Clansuite_Cache_Interface
         # combine arrays
         return compact($version, $stats, $serverlist);
     }
-    
+
     /**
      * Returns an the Memcached instance
-     * 
+     *
      * @return object \Memcached Cache Engine
      */
     public function getEngine()

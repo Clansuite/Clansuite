@@ -82,12 +82,12 @@ class Clansuite_Cache_Xcache implements Clansuite_Cache_Interface
      *
      * @param string $key Identifier for the data
      * @param mixed $data Data to be cached
-     * @param integer $cache_lifetime How long to cache the data, in seconds
+     * @param integer $cache_lifetime How long to cache the data, in minutes
      * @return boolean True if the data was successfully cached, false on failure
      */
-    public function store($key, $data, $cache_lifetime)
+    public function store($key, $data, $cache_lifetime = 0)
     {
-        return xcache_set($key, $data, $cache_lifetime);
+        return xcache_set($key, $data, $cache_lifetime * 60);
     }
 
     /**

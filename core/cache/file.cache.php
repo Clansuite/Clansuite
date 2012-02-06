@@ -107,18 +107,18 @@ class Clansuite_Cache_File implements Clansuite_Cache_Interface
      *
      * @param string $key Identifier for the data
      * @param mixed $data Data to be cached
-     * @param integer $cache_lifetime How long to cache the data, in seconds
+     * @param integer $cache_lifetime How long to cache the data, in minutes
      *
      * @return boolean True if the data was successfully cached, false on failure
      */
-    public function store($key, $data, $cache_lifetime)
+    public function store($key, $data, $cache_lifetime = 0)
     {
         # get name and lifetime
         $file = $this->filesystemKey($key);
         $cache_lifetime = str_pad( (int) $cache_lifetime, 10, '0', STR_PAD_LEFT);
 
         # write key file
-        $success = (bool) file_put_contents($file, $cache_lifetime, FILE_EX);
+        $success = (bool) file_put_contents($file, $cache_lifetime * 60, FILE_EX);
 
         # append serialized value to file
         if ( $success )
