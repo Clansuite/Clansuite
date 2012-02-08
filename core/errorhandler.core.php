@@ -284,7 +284,7 @@ class Clansuite_Errorhandler
 
         # Header
         $html = '<html><head>';
-        $html .= '<title>Clansuite Error | ' . $trimed_errorstring . ' | Code: ' . $errornumber . '</title>';
+        $html .= '<title>Clansuite Error</title>';
         $html .= '<link rel="stylesheet" href="' . WWW_ROOT_THEMES_CORE . 'css/error.css" type="text/css" />';
         $html .= '</head>';
 
@@ -299,20 +299,19 @@ class Clansuite_Errorhandler
         $html .= '<img src="' . WWW_ROOT_THEMES_CORE . 'images/Clansuite-Toolbar-Icon-64-error.png" style="border: 2px groove #000000;"/></div>';
 
         # Fieldset Legend
-        $html .= '<legend>Clansuite Error [ ' . $trimed_errorstring . ' ] </legend>';
+        $html .= '<legend>Clansuite Error</legend>';
 
-        # Error Messages
-        $html .= '<table>';
-        $html .= '<tr><td>';
+        # Error Table
+        $html .= '<table><tr><td>';
 
         # The inner Error Table
-        $html .= '<table>';
-        $html .= '<tr><td colspan="2"><h3>Error [' . $errorstring . ']</h3></td></tr>';
-        $html .= '<tr><td width="25%"><strong>Type: </strong></td><td>' . $errorname . ' '. $errornumber . '</td></tr>';
-        $html .= '<tr><td><strong>Path: </strong></td><td>' . dirname($errorfile) . '</td></tr>';
-        $html .= '<tr><td><strong>File: </strong></td><td>' . basename($errorfile) . '</td></tr>';
-        $html .= '<tr><td><strong>Line: </strong></td><td>' . $errorline . '</td></tr>';
-        $html .= '</table>';
+        $html .= '<div id="panel"';
+        $html .= 'style="background: none repeat scroll 0 0 #FDF599; border: 1px solid #E03937; border-radius: 3px; padding: 0 0 15px 15px; margin-bottom: 10px; box-shadow: 0 1px 2px gray;">';
+        $html .= '<h3>Error <span style="font-weight: normal; font-size: 11px;">'.$errorname . ' ('. $errornumber .')</span></h3><h4>'.$errorstring.'</h4>';
+        $html .= '<strong>File: </strong>'.dirname($errorfile).DS;
+        $html .= '<strong>'.basename($errorfile).'</strong>';
+        $html .= '&nbsp;(Line '.$errorline.')';
+        $html .= '</div>';
 
         # Error Context
         $html .= '<tr><td colspan="2"><h3>Context</h3>';

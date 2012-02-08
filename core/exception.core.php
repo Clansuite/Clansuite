@@ -277,45 +277,44 @@ class Clansuite_Exception extends Exception implements Clansuite_Exception_Inter
         }
 
         # Header
-        $errormessage = '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">';
-        $errormessage .= '<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">';
-        $errormessage .= '<head>';
-        $errormessage .= '<title>Clansuite Exception ' . $code . ' - ' . $this->message . '</title>';
-        $errormessage .= '<link rel="stylesheet" href="' . WWW_ROOT_THEMES_CORE . 'css/error.css" type="text/css" />';
-        $errormessage .= '</head>';
+        $html = '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">';
+        $html .= '<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">';
+        $html .= '<head>';
+        $html .= '<title>Clansuite Exception ' . $code . ' - ' . $this->message . '</title>';
+        $html .= '<link rel="stylesheet" href="' . WWW_ROOT_THEMES_CORE . 'css/error.css" type="text/css" />';
+        $html .= '</head>';
 
         # Body
-        $errormessage .= '<body>';
+        $html .= '<body>';
 
         # Fieldset
-        $errormessage .= '<fieldset class="error_yellow">';
+        $html .= '<fieldset class="error_yellow">';
 
         # Errorlogo
-        $errormessage .= '<div style="float: left; margin: 5px; margin-right: 25px; padding: 20px;">';
-        $errormessage .= '<img src="' . WWW_ROOT_THEMES_CORE . 'images/Clansuite-Toolbar-Icon-64-exception.png" ';
-        $errormessage .= 'style="border: 2px groove #000000;" alt="Clansuite Exception Icon" /></div>';
+        $html .= '<div style="float: left; margin: 5px; margin-right: 25px; padding: 20px;">';
+        $html .= '<img src="' . WWW_ROOT_THEMES_CORE . 'images/Clansuite-Toolbar-Icon-64-exception.png" ';
+        $html .= 'style="border: 2px groove #000000;" alt="Clansuite Exception Icon" /></div>';
 
         # Fieldset Legend
-        $errormessage .= '<legend>Clansuite Exception</legend>';
+        $html .= '<legend>Clansuite Exception</legend>';
 
-        # Error Messages from Object (table)
-        # HEADING <Exception Object>
-        $errormessage   .= '<table>';
+        # Exception Table
+        $html   .= '<table><tr><td>';
 
         /**
          * Panel 1
          *
          * Exception Message and File
          */
-        $errormessage  .= '<tr><td>';
-        $errormessage   .= '<div id="panel"';
-        $errormessage   .= 'style="background: none repeat scroll 0 0 #FDF599; border: 1px solid #E03937; border-radius: 3px; padding: 0 10px 10px;">';
-        $errormessage   .= '<h3>Exception '.$code.'</h3><h4>'.$this->message.'</h4>';
-        $errormessage   .= '<strong>File: </strong>'.dirname($this->file).DS;
-        $errormessage   .= '<strong>'.basename($this->file).'</strong>';
-        $errormessage   .= '&nbsp;<strong>Line: </strong>'.$this->line;
-        $errormessage   .= '</div>';
-        $errormessage   .= '</td></tr>';
+
+        $html .= '<div id="panel"';
+        $html .= 'style="background: none repeat scroll 0 0 #FDF599; border: 1px solid #E03937; border-radius: 3px; padding: 0 0 15px 15px; margin-bottom: 10px; box-shadow: 0 1px 2px gray;">';
+        $html .= '<h3>Exception '.$code.'</h3><h4>'.$this->message.'</h4>';
+        $html .= '<strong>File: </strong>'.dirname($this->file).DS;
+        $html .= '<strong>'.basename($this->file).'</strong>';
+        $html .= '&nbsp;(Line '.$this->line.')';
+        $html .= '</div>';
+        $html .= '</td></tr>';
 
         /**
          * Panel 2
@@ -325,7 +324,7 @@ class Clansuite_Exception extends Exception implements Clansuite_Exception_Inter
         if ( defined('DEBUG') and DEBUG == 1 )
         {
             # lets get the backtrace as html table
-            $errormessage   .= Clansuite_Errorhandler::getDebugBacktrace($this->trace);
+            $html   .= Clansuite_Errorhandler::getDebugBacktrace($this->trace);
         }
 
         /**
@@ -335,17 +334,17 @@ class Clansuite_Exception extends Exception implements Clansuite_Exception_Inter
          */
         if ( defined('DEBUG') and DEBUG == 1 )
         {
-            $errormessage .= '<tr><td><table width="95%">';
-            $errormessage .= '<tr><td colspan="2"><h3>Server Environment</h3></td></tr>';
-            $errormessage .= '<tr><td><strong>Date: </strong></td><td>' . date('r') . '</td></tr>';
-            $errormessage .= '<tr><td><strong>Remote: </strong></td><td>' . $_SERVER['REMOTE_ADDR'] . '</td></tr>';
-            $errormessage .= '<tr><td><strong>Request: </strong></td><td>index.php?' . $_SERVER['QUERY_STRING'] . '</td></tr>';
-            $errormessage .= '<tr><td><strong>PHP: </strong></td><td>' . PHP_VERSION .' '. PHP_EXTRA_VERSION . '</td></tr>';
-            $errormessage .= '<tr><td><strong>Server: </strong></td><td>' . $_SERVER['SERVER_SOFTWARE'] . '</td></tr>';
-            $errormessage .= '<tr><td><strong>Agent: </strong></td><td>' . $_SERVER['HTTP_USER_AGENT'] . '</td></tr>';
-            $errormessage .= '<tr><td><strong>Clansuite: </strong></td><td>' . CLANSUITE_VERSION . ' ' . CLANSUITE_VERSION_STATE;
-            $errormessage .= ' (' . CLANSUITE_VERSION_NAME . ') [Revision #' . CLANSUITE_REVISION . ']</td></tr>';
-            $errormessage .= '</table></td></tr>';
+            $html .= '<tr><td><table width="95%">';
+            $html .= '<tr><td colspan="2"><h3>Server Environment</h3></td></tr>';
+            $html .= '<tr><td><strong>Date: </strong></td><td>' . date('r') . '</td></tr>';
+            $html .= '<tr><td><strong>Remote: </strong></td><td>' . $_SERVER['REMOTE_ADDR'] . '</td></tr>';
+            $html .= '<tr><td><strong>Request: </strong></td><td>index.php?' . $_SERVER['QUERY_STRING'] . '</td></tr>';
+            $html .= '<tr><td><strong>PHP: </strong></td><td>' . PHP_VERSION .' '. PHP_EXTRA_VERSION . '</td></tr>';
+            $html .= '<tr><td><strong>Server: </strong></td><td>' . $_SERVER['SERVER_SOFTWARE'] . '</td></tr>';
+            $html .= '<tr><td><strong>Agent: </strong></td><td>' . $_SERVER['HTTP_USER_AGENT'] . '</td></tr>';
+            $html .= '<tr><td><strong>Clansuite: </strong></td><td>' . CLANSUITE_VERSION . ' ' . CLANSUITE_VERSION_STATE;
+            $html .= ' (' . CLANSUITE_VERSION_NAME . ') [Revision #' . CLANSUITE_REVISION . ']</td></tr>';
+            $html .= '</table></td></tr>';
         }
 
         /**
@@ -355,8 +354,8 @@ class Clansuite_Exception extends Exception implements Clansuite_Exception_Inter
          */
         if(empty(self::$exception_template) === false)
         {
-            $errormessage  .= '<tr><td colspan="2"><h3>Additional Information & Solution Suggestion</h3>';
-            $errormessage  .= self::$exception_template.'</td></tr>';
+            $html  .= '<tr><td colspan="2"><h3>Additional Information & Solution Suggestion</h3>';
+            $html  .= self::$exception_template.'</td></tr>';
         }
 
         /**
@@ -387,8 +386,8 @@ class Clansuite_Exception extends Exception implements Clansuite_Exception_Inter
         # add development helper template to exceptions
         if(defined('DEVELOPMENT') and DEVELOPMENT == 1 and defined('RAPIDDEVTPL') and RAPIDDEVTPL == 1)
         {
-            $errormessage  .= '<tr><td colspan="2"><h3>Rapid Development</h3>';
-            $errormessage  .= self::getExceptionDevelopmentTemplate($placeholders).'</td></tr>';
+            $html  .= '<tr><td colspan="2"><h3>Rapid Development</h3>';
+            $html  .= self::getExceptionDevelopmentTemplate($placeholders).'</td></tr>';
         }
 
         /**
@@ -397,21 +396,21 @@ class Clansuite_Exception extends Exception implements Clansuite_Exception_Inter
          * Backlink to Bugtracker with Exceptionmessage
          * @link http://trac.clansuite.com/newticket
          */
-        $errormessage .= Clansuite_Errorhandler::getBugtrackerMessage($this->message, $this->file, $this->line, $this->trace);
+        $html .= Clansuite_Errorhandler::getBugtrackerMessage($this->message, $this->file, $this->line, $this->trace);
 
         # close all html element table
-        $errormessage   .= '</table>';
+        $html   .= '</table>';
 
         /**
          * Panel 7
          *
          * Footer with Support-Backlinks
          */
-        $errormessage  .= Clansuite_Errorhandler::getSupportBacklinks($this);
+        $html  .= Clansuite_Errorhandler::getSupportBacklinks($this);
 
         # close all html elements: fieldset, body+page
-        $errormessage   .= '</fieldset>';
-        $errormessage   .= '</body></html>';
+        $html   .= '</fieldset>';
+        $html   .= '</body></html>';
 
         # save session
         session_write_close();
@@ -423,7 +422,7 @@ class Clansuite_Exception extends Exception implements Clansuite_Exception_Inter
         }
 
         # Output the errormessage
-        return $errormessage;
+        return $html;
     }
 
     /**
