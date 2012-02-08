@@ -299,7 +299,7 @@ class Clansuite_Exception extends Exception implements Clansuite_Exception_Inter
         $html .= '<legend>Clansuite Exception</legend>';
 
         # Exception Table
-        $html   .= '<table><tr><td>';
+        $html   .= '<table width="80%"><tr><td>';
 
         /**
          * Panel 1
@@ -307,8 +307,7 @@ class Clansuite_Exception extends Exception implements Clansuite_Exception_Inter
          * Exception Message and File
          */
 
-        $html .= '<div id="panel"';
-        $html .= 'style="background: none repeat scroll 0 0 #FDF599; border: 1px solid #E03937; border-radius: 3px; padding: 0 0 15px 15px; margin-bottom: 10px; box-shadow: 0 1px 2px gray;">';
+        $html .= '<div id="panel1" class="panel">';
         $html .= '<h3>Exception '.$code.'</h3><h4>'.$this->message.'</h4>';
         $html .= '<strong>File: </strong>'.dirname($this->file).DS;
         $html .= '<strong>'.basename($this->file).'</strong>';

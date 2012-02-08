@@ -21,6 +21,26 @@ table {
     font-size:12px;
 }
 
+.panel {
+    background: none repeat scroll 0 0 #FDF599;
+    border: 1px solid #E03937;
+    border-radius: 3px 3px 3px 3px;
+    box-shadow: 0 1px 2px gray;
+    margin-bottom: 10px;
+    padding: 0 0 15px 15px;
+}
+
+.panel h3 {
+    border-bottom: 1px dotted #E03937;
+    padding-bottom: 0.6em;
+    width: 20%;
+}
+
+.panel smalltext {
+    font-weight: normal;
+    font-size: 10px;
+}
+
 .alert {
     background:url(../images/icons/error.png) no-repeat 15px 50% #fff6bf;
     border-bottom:2px solid #ffd324;

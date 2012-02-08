@@ -302,20 +302,22 @@ class Clansuite_Errorhandler
         $html .= '<legend>Clansuite Error</legend>';
 
         # Error Table
-        $html .= '<table><tr><td>';
+        $html .= '<table width="80%"><tr><td>';
 
         # The inner Error Table
-        $html .= '<div id="panel"';
-        $html .= 'style="background: none repeat scroll 0 0 #FDF599; border: 1px solid #E03937; border-radius: 3px; padding: 0 0 15px 15px; margin-bottom: 10px; box-shadow: 0 1px 2px gray;">';
-        $html .= '<h3>Error <span style="font-weight: normal; font-size: 11px;">'.$errorname . ' ('. $errornumber .')</span></h3><h4>'.$errorstring.'</h4>';
+        $html .= '<div id="panel1" class="panel">';
+        $html .= '<h3>Error <span class="small">'.$errorname . ' ('. $errornumber .')</span></h3><h4>'.$errorstring.'</h4>';
         $html .= '<strong>File: </strong>'.dirname($errorfile).DS;
         $html .= '<strong>'.basename($errorfile).'</strong>';
         $html .= '&nbsp;(Line '.$errorline.')';
         $html .= '</div>';
 
         # Error Context
-        $html .= '<tr><td colspan="2"><h3>Context</h3>';
-        $html .= self::getErrorContext($errorfile, $errorline, 8) . '</td></tr>';
+        $html .= '<tr><td colspan="2">';
+        $html .= '<div id="panel2" class="panel">';
+        $html .= '<h3>Context</h3>';
+        $html .= '<span class="smalltext">You are viewing the source code of '. $errorfile.' around line '. $errorline .'.</span>';
+        $html .= self::getErrorContext($errorfile, $errorline, 8) . '</div></td></tr>';
 
         # Add Debug Backtracing
         $html .= '<tr><td>' . self::getDebugBacktrace($trimed_errorstring) . '</td></tr>';
