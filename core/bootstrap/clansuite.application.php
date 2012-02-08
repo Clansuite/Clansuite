@@ -193,6 +193,21 @@ class Clansuite_CMS
         }
 
         /**
+         * Deny service, if the system load is too high.
+         */
+        if(defined('DEBUG') and DEBUG == false)
+        {
+            $max_load = isset(self::$config['load']['max']) ? (float) self::$config['load']['max'] : 80;
+
+            if (Clansuite_Functions::get_server_load() > $max_load)
+            {
+                $retry = (int) mt_rand(45, 90);
+                header ('Retry-After: '.$retry);
+                header('HTTP/1.1 503 Too busy, try again later');
+                die('HTTP/1.1 503 Server too busy. Please try again later.');
+            }
+        }
+        /**
          *  ================================================
          *          4. Alter php.ini settings
          *  ================================================

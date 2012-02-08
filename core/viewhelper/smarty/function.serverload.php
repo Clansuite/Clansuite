@@ -17,7 +17,7 @@ function smarty_function_serverload($params)
         $cpuload = 0;
         $nr_cpus = 0;
         $loadcpu = '';
-        
+
         foreach($cpus as $cpu)
         {
             $cpuload += $cpu->loadpercentage;
@@ -45,12 +45,6 @@ function smarty_function_serverload($params)
             # list all processor loads and total load
             echo '[ ' . $loadcpu . ' ] [ ' . $cpuload . ' ]';
         }
-        
-        #if($cpuload >= $ServerLoadAllowed)
-        #{
-            # throw new Clansuite_Exception("Server load too high, come back later." );
-            # $server_load_high = true;
-        #}
     }
     else
     {
@@ -70,21 +64,12 @@ function smarty_function_serverload($params)
         }
 
         # get
-        $load = sys_getloadavg();
-        if(empty($load))
+        $cpuload = sys_getloadavg();
+        if(empty($cpuload))
         {
-            $load = array(0, 0, 0);
+            $cpuload = array(0, 0, 0);
         }
-        echo '1[' .$load[0]. '] 5[' .$load[1]. '] 15[' .$load[2]. ']';
-
-        /*
-        // check for shut down in case 80 processes
-        if ($load > 80)
-        {
-           header('HTTP/1.1 503 Too busy, try again later.');
-           die('Server too busy ('. $load[0] .'). Please try again later. ');
-        }
-        */
+        echo '1[' .$cpuload[0]. '] 5[' .$cpuload[1]. '] 15[' .$cpuload[2]. ']';
     }
 }
 ?>
