@@ -96,13 +96,24 @@ abstract class Clansuite_Formelement_Validator
 
     /**
      * Each Formelement Validator must return an errormessage.
-     * The errormessage must be wrapped in a gettext shorthand call,
-     * like so:
+     * The errormessage must be wrapped in a gettext shorthand call, like:
      * return _('This value is not ok.');
      *
      * @param string The Errormessage, when the validation fails.
      */
     abstract public function getErrorMessage();
+
+    /**
+     * A Formelement Validator must (!might) return a hint message.
+     * The hint message is a description of the validator to the user.
+     * It describes how the formelement should be filled to validate.
+     *
+     * The hint message must be wrapped in a gettext shorthand call, like
+     * return _('You should enter a valid credit card number.');
+     *
+     * @return string Validation Hint Message
+     */
+    abstract public function getValidationHint();
 
     /**
      * Each Formelement Validator must implement validation logic.
