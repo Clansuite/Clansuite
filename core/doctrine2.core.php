@@ -138,6 +138,7 @@ class Clansuite_Doctrine2
             $config->setAutoGenerateProxyClasses(false);
         }
 
+        # use main configuration values for setting up the connection
         $connectionOptions = array(
             'driver'    => $db_config['database']['driver'],
             'user'      => $db_config['database']['username'],
@@ -150,11 +151,7 @@ class Clansuite_Doctrine2
             )
         );
 
-        # Database Prefix
-        # @todo doctrine2: the prefix is only applicable by eventhandling?
-        define('DB_PREFIX', $db_config['database']['prefix'] );
-
-        # set up Logger
+             # set up Logger
         #$config->setSqlLogger(new \Doctrine\DBAL\Logging\EchoSqlLogger);
 
         # we need some more functions for mysql
@@ -165,20 +162,39 @@ class Clansuite_Doctrine2
          */
         $event = new \Doctrine\Common\EventManager;
 
-        # Extension: TablePrefix
+        /**
+         * Database Prefix
+         *
+         * @todo doctrine2: is the prefix is only applicable by eventhandling?
+         * Is there an easier way doing this?
+         * For now the solution is to use Event + Doctrine Extension: TablePrefix.
+         */
+        define('DB_PREFIX', $db_config['database']['prefix'] );
         #$tablePrefix = new \DoctrineExtensions\TablePrefix(DB_PREFIX);
         #$evm->addEventListener(\Doctrine\ORM\Events::loadClassMetadata, $tablePrefix);
 
-        # we need some more functions for mysql
+        /**
+         * Custom Functions
+         *
+         * We need some more functions for mysql, like RAND for random values.
+         */
         $config->addCustomNumericFunction('RAND', 'DoctrineExtensions\Query\Mysql\Rand');
 
-        # set UTF-8 handling of database data via Doctrine Event for MySQL
-        if(isset($db_config['database']['driver']) === true and $db_config['database']['driver'] == "pdo_mysql")
+        /**
+         * Set UTF-8 handling of database data via Doctrine Event for MySQL.
+         */
+        if(isset($db_config['database']['driver']) === true and
+                 $db_config['database']['driver'] == "pdo_mysql")
         {
+             /**
+              * @todo eval database.charset true?
+              * wouldn't it be better to use utf-8 to name it explicitly
+              */
             if(isset($db_config['database']['charset']) === true)
-            {                
+            {
                 $event->addEventSubscriber(
-                    new \Doctrine\DBAL\Event\Listeners\MysqlSessionInit($db_config['database']['charset'], 'utf8_unicode_ci')
+                    new \Doctrine\DBAL\Event\Listeners\MysqlSessionInit(
+                            $db_config['database']['charset'], 'utf8_unicode_ci')
                 );
             }
         }
@@ -187,14 +203,16 @@ class Clansuite_Doctrine2
         $em = \Doctrine\ORM\EntityManager::create($connectionOptions, $config, $event);
 
         # set DBAL DebugStack Logger (also needed for counting queries)
-        if(DEBUG == 1)
+        if(defined('DEBUG') and DEBUG == 1)
         {
             self::$sqlLoggerStack = new \Doctrine\DBAL\Logging\DebugStack();
             $em->getConfiguration()->setSQLLogger(self::$sqlLoggerStack);
-        }
 
-        # echo SQL Queries directly on page
-        #$em->getConfiguration()->setSQLLogger(new \Doctrine\DBAL\Logging\EchoSQLLogger());
+            /**
+             * Echo SQL Queries directly on the page.
+             */
+            #$em->getConfiguration()->setSQLLogger(new \Doctrine\DBAL\Logging\EchoSQLLogger());
+        }
 
         self::$em = $em;
 
