@@ -68,7 +68,6 @@ interface Clansuite_Front_Controller_Interface
  * the ActionController_Resolver_Interface (so it's again an implementation against an interface)
  * and the Dependency Injector.
  *
- * @implements  Clansuite_Front_Controller_Interface
  * @category    Clansuite
  * @package     Core
  * @subpackage  FrontController
@@ -86,9 +85,9 @@ class Clansuite_Front_Controller implements Clansuite_Front_Controller_Interface
     private $response;
 
     /**
-     * @var object Clansuite_TargetRoute
+     * @var object Clansuite_Router
      */
-    private $route;
+    private $router;
 
     /**
      * @var object Clansuite_FilterManager for Prefilters
@@ -115,6 +114,7 @@ class Clansuite_Front_Controller implements Clansuite_Front_Controller_Interface
            $this->pre_filtermanager  = new Clansuite_Filtermanager();
            $this->post_filtermanager = new Clansuite_Filtermanager();
            $this->event_dispatcher   = Clansuite_EventDispatcher::instantiate();
+           #$this->router             = new Clansuite_Router();
     }
 
     /**
@@ -184,11 +184,11 @@ class Clansuite_Front_Controller implements Clansuite_Front_Controller_Interface
             throw new Clansuite_Exception('The dispatcher is unable to forward. No route object given.', 99);
         }
 
-        $classname    = $route->getClassname();
-        $method       = $route->getMethod();
-        $parameters   = $route->getParameters();
+        $classname    = $route::getClassname();
+        $method       = $route::getMethod();
+        $parameters   = $route::getParameters();
         #$request_meth = Clansuite_HttpRequest::getRequestMethod();
-        #$renderengine = $route->getRenderEngine();
+        #$renderengine = $route::getRenderEngine();
 
         #Clansuite_Debug::firebug($route);
         #unset($route);
@@ -197,15 +197,26 @@ class Clansuite_Front_Controller implements Clansuite_Front_Controller_Interface
 
         $controllerInstance = new $classname($request, $response);
 
-        # Initialize the Module
-        if(true === method_exists($controllerInstance, 'initializeModule'))
+        /**
+         * Initialize the Module
+         *
+         * by calling the "_initializeModule" method on the controller.
+         * A module might(!) implement this method for initialization of helper objects.
+         *
+         * Note the underscore! The method name is intentionally underscored.
+         * This places the method on top in the method navigator of your IDE.
+         */
+        if(true === method_exists($controllerInstance, '_initializeModule'))
         {
-            $controllerInstance->initializeModule();
+
+            $controllerInstance->_initializeModule();
         }
 
         Clansuite_Breadcrumb::initBreadcrumbs($route->getModuleName(), $route->getSubmoduleName());
 
-        # Finally: dispatch to the requested controller method
+        /**
+         * Finally: dispatch to the requested controller method
+         */
         if(true === method_exists($controllerInstance, $method))
         {
             $controllerInstance->$method($parameters);
