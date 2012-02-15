@@ -68,7 +68,7 @@ class Clansuite_Logger implements Clansuite_Logger_Interface
     public $loggers = array();
 
     /**
-     * Iterates over all registered loggers and writes the logs
+     * Iterates over all registered loggers and writes the log entry.
      *
      * @param mixed|array|string $data array('message', 'label', 'priority') or message
      * @param string $label label
@@ -77,7 +77,7 @@ class Clansuite_Logger implements Clansuite_Logger_Interface
     public function writeLog($data_or_msg, $label = null, $level = null)
     {
         $data = array();
-        
+
         # first parameter might be an array or an string
         if(is_array($data_or_msg))
         {
@@ -86,14 +86,14 @@ class Clansuite_Logger implements Clansuite_Logger_Interface
             $data['label'] = $data['1'];
             $data['level'] = $data['2'];
         }
-        # first parameter is string       
-        else #if(func_num_args()==3) 
+        # first parameter is string
+        else
         {
-            $data['message'] = $data_or_msg; 
+            $data['message'] = $data_or_msg;
             $data['label'] = $label;
             $data['level'] = $level;
         }
-        
+
         foreach($this->loggers as $logger)
         {
             $logger->writeLog($data);
@@ -103,13 +103,13 @@ class Clansuite_Logger implements Clansuite_Logger_Interface
     /**
      * Registers new logger(s) as composite element(s)
      *
-     * @param $logger array One or several loggers to add
+     * @param array $logger One or several loggers to add
      */
     public function addLogger($loggers)
     {
-        # loggers might be an object, so force to array, because of foreach
+        # loggers might be an object, so it's typecasted to array, because of foreach
         $loggers = array($loggers);
-        
+
         foreach($loggers as $logger)
         {
             if((in_array($logger, $this->loggers) == false) and ($logger instanceof Clansuite_Logger_Interface))
@@ -122,7 +122,7 @@ class Clansuite_Logger implements Clansuite_Logger_Interface
     /**
      * Removes logger(s) from the compositum
      *
-     * @param $logger array One or several loggers to remove
+     * @param array $logger One or several loggers to remove
      */
     public function removeLogger($loggers)
     {
@@ -141,14 +141,12 @@ class Clansuite_Logger implements Clansuite_Logger_Interface
     }
 
     /**
-     * loadLogger (Logger Factory Method)
+     * Its a Logger Factory Method, which includeds, instantiates and returns a logger object.
      *
-     * Returns the included and instantiated Logger Engine Object!
-     *
-     * @param $adapter string (Name of logger: "file", "firebug, "db")
-     * @return Logger Object
+     * @param string $adapter Name of logger: file, firebug (default), db.
+     * @return Clansuite_Logger Object
      */
-    public static function loadLogger($adapter)
+    public static function instantiate($adapter = 'firebug')
     {
         $file = ROOT_CORE . 'logger' . DS . mb_strtolower($adapter) . '.logger.php';
 
