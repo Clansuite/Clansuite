@@ -217,6 +217,7 @@ abstract class Clansuite_Module_Controller
     public static function getModuleConfig($modulename = null)
     {
         $config = self::getInjector()->instantiate('Clansuite_Config');
+
         return self::$moduleconfig = $config->readModuleConfig($modulename);
     }
 
@@ -522,7 +523,7 @@ abstract class Clansuite_Module_Controller
             }
 
             # redirect() builds the url
-            $this->redirect($redirect_to);
+            $this->getHttpResponse()->redirect($redirect_to);
         }
     }
 
@@ -534,7 +535,22 @@ abstract class Clansuite_Module_Controller
      */
     public function redirect404($url, $time = 5)
     {
-        $this->redirect($url, $time, 404, _('The URL you requested is not available.'));
+        $this->getHttpResponse()->redirect($url, $time, 404, _('The URL you requested is not available.'));
+    }
+
+    /**
+     * Redirects to a new URL.
+     * It's a proxy method using the HttpResponse Object.
+     *
+     * @param string $url Redirect to this URL.
+     * @param int $time Seconds before redirecting (for the html tag "meta refresh")
+     * @param int $statusCode Http status code, default: '303' => 'See other'
+     * @param string $message Text of redirect message.
+     * @param string $mode The redirect mode: LOCATION, REFRESH, JS, HTML.
+     */
+    public function redirect($url, $time = 0, $statusCode = 303, $message = null, $mode = null)
+    {
+        $this->getHttpResponse()->redirect($url, $time, $statusCode, $message, $mode);
     }
 
     /**
@@ -589,6 +605,7 @@ abstract class Clansuite_Module_Controller
      */
     public function getHttpResponse()
     {
+        /* @var \Clansuite\Core\HttpResponse */
         return $this->response;
     }
 }
