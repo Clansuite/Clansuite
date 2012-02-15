@@ -87,6 +87,13 @@ class Clansuite_Formelement_Input extends Clansuite_Formelement implements Clans
     public $maxlength;
 
     /**
+     * disabled
+     *
+     * @var boolean
+     */
+    public $disabled;
+
+    /**
      * additional string to attach to the opening form tag
      * for instance 'onSubmit="xy"'
      *
@@ -150,6 +157,36 @@ class Clansuite_Formelement_Input extends Clansuite_Formelement implements Clans
     }
 
     /**
+     * defines length of field in letters
+     *
+     * @param int $size
+     */
+    public function setSize($size)
+    {
+        $this->size = (int) $size;
+    }
+
+    /**
+     * defines allowed length of input in letters
+     *
+     * @param int $length
+     */
+    public function setMaxLength($length)
+    {
+        $this->maxlength = (int) $length;
+    }
+
+    /**
+     * defines allowed length of input in letters
+     *
+     * @param boolean $disabled True or False.
+     */
+    public function setDisabled($disabled)
+    {
+        $this->disabled = (bool) $disabled;
+    }
+
+    /**
      * Set Additional Attributes as Text to formelement.
      *
      * @example
@@ -178,8 +215,9 @@ class Clansuite_Formelement_Input extends Clansuite_Formelement implements Clans
         $html .= (bool) $this->value ? ' value="'.$this->value.'"' : null;
         $html .= (bool) $this->placeholder ? ' placeholder="'.$this->placeholder.'"' : null;
         $html .= (bool) $this->size ? ' size="'.$this->size.'"' : null;
-        $html .= (bool) $this->maxlength ? ' maxlength= "'.$this->maxlength.'"' : null;
-        $html .= (bool) $this->pattern ? ' pattern= "'.$this->pattern.'"' : null;
+        $html .= (bool) $this->disabled ? ' disabled="disabled"' : null;
+        $html .= (bool) $this->maxlength ? ' maxlength="'.$this->maxlength.'"' : null;
+        $html .= (bool) $this->pattern ? ' pattern="'.$this->pattern.'"' : null;
         $html .= (bool) $this->class ? ' class="'.$this->class.'"' : null;
         $html .= ($this->type == 'image') ? ' source="'.$this->source.'"' : null;
         $html .= ($this->type == 'image' and (bool) $this->width and (bool) $this->height) ? '  style="width:'.$this->width.'px; height:'.$this->height.'px;"' : null;
