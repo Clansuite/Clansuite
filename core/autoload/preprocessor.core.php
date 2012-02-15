@@ -61,18 +61,19 @@ class Clansuite_Preprocessor
     }
 
     /**
-     * Combines all clansuite files to ONE file
+     * Combines all files to ONE file
+     *
+     * @return boolean True, on successful build.
      */
     public static function build_monolith()
     {
-        echo 'Guess what? Building a huge monolith! Ok, lets go...<br/>';
-
+        # remove existing monolith
         if(is_file(self::$monolith_file) === true)
         {
             unlink(self::$monolith_file);
         }
 
-        # directory
+        # this directory
         $directory = '.';
 
         $iterator = new DirectoryIterator($directory);
@@ -80,11 +81,12 @@ class Clansuite_Preprocessor
         foreach($iterator as $phpfile)
         {
             # no dots, no dirs, not this file and not the target file
-            if($phpfile->isDot() === false and $phpfile->isDir() === false and
-                    $phpfile->getFilename() != basename($_SERVER['PHP_SELF']) and
-                    $phpfile->getFilename() != self::$monolith_file)
+            if($phpfile->isDot() === false and
+               $phpfile->isDir() === false and
+               $phpfile->getFilename() != basename($_SERVER['PHP_SELF']) and
+               $phpfile->getFilename() != self::$monolith_file)
             {
-                echo 'Processing: ' . $phpfile . '<br>';
+                #echo 'Processing: ' . $phpfile . '<br>';
 
                 # get file content
                 $content = file_get_contents(self::$monolith_file);
@@ -93,19 +95,21 @@ class Clansuite_Preprocessor
                 $new_content = self::remove_comments_from_string($content);
                 #$new_content = self::strip_php_tags($new_content);
                 #$new_content = self::strip_empty_lines($new_content);
+
                 # write the modified content to the monolith file
                 file_put_contents(self::$monolith_file, $new_content, FILE_APPEND);
             }
         }
 
-        echo 'Monolith successfully build!';
+        #echo 'Monolith successfully build!';
+        return true;
     }
 
     /**
-     * remove_comments_from_string, guess what? :)
+     * Removes any comments from string
      *
-     * @param $sourcecode sourcecode-string to clean up
-     * @return string
+     * @param $sourcecode The sourcecode string to clean up.
+     * @return string The sourcecode string without comments.
      */
     public static function remove_comments_from_string($sourcecode)
     {
@@ -156,7 +160,7 @@ class Clansuite_Preprocessor
     }
 
     /**
-     * Strips new lines by replacing with single newline
+     * Strips new lines by replacing them with a single newline.
      *
      * @param $string sourcecode-string to clean up
      * @return string
@@ -169,7 +173,7 @@ class Clansuite_Preprocessor
     }
 
     /**
-     * Strips PHP Tags
+     * Strips all openening and closing PHP Tags.
      *
      * @param $string sourcecode-string to clean up
      * @return string
