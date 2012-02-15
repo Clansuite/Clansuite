@@ -74,6 +74,11 @@ class Clansuite_Theme
         }
     }
 
+    /**
+     * Getter for the "theme_info.xml" file of the currently activated theme.
+     *
+     * @return string Filepath to "theme_info.xml" of the currently activated theme.
+     */
     public function getCurrentThemeInfoFile()
     {
         # get array for frontend or backend theme
@@ -90,6 +95,13 @@ class Clansuite_Theme
         }
     }
 
+    /**
+     * Looks for the requested theme in the frontend and backend theme folder
+     * and returns the theme path.
+     *
+     * @param string $theme Theme name.
+     * @return string Path to theme.
+     */
     public function getPath($theme = null)
     {
         if($theme == null)
@@ -108,6 +120,13 @@ class Clansuite_Theme
         }
     }
 
+    /**
+     * Looks for the requested theme in the frontend and backend theme folder
+     * and returns the web path of the theme.
+     *
+     * @param string $theme Theme name.
+     * @return string Webpath of theme (for usage in templates).
+     */
     public function getWebPath($theme = null)
     {
         if($theme == null)
@@ -128,6 +147,13 @@ class Clansuite_Theme
         }
     }
 
+    /**
+     * Returns "theme_info.xml" for the requested theme.
+     *
+     * @param string $theme Theme name.
+     * @return string File path to "theme_info.xml" file.
+     * @throws Clansuite_Exception
+     */
     public function getInfoFile($theme)
     {
         $theme_info_file = $this->getPath($theme) . 'theme_info.xml';
@@ -342,6 +368,7 @@ class Clansuite_Theme
     protected static function iterateDir($dir, $type, $only_index_name = true)
     {
         $dirs = '';
+        $dir_tmp = '';
         $i = 0;
         $themes = array();
 
@@ -349,10 +376,22 @@ class Clansuite_Theme
 
         foreach($dirs as $dir)
         {
-            # exclude .svn and core dir, take only dirs with theme_info.xml in it
-            if((!$dir->isDot()) and ($dir != '.svn') and ($dir != 'core') and (is_file($dir->getPathName() . DS . 'theme_info.xml')))
+            /**
+             * Skip early on dots, like "." or ".." or ".svn", by cheching the first char.
+             * we can not use DirectoryIterator::isDot() here, because it only checks "." and "..".
+             */
+            $dir_tmp = $dir->getFilename();
+            if ($dir_tmp{0} === '.')
             {
-                $i++;
+                continue;
+            }
+
+            /**
+             * take only directories in account, which contain a "theme_info.xml" file
+             */
+            if(is_file($dir->getPathName() . DS . 'theme_info.xml'))
+            {
+                $i = $i + 1;
 
                 if($only_index_name === false)
                 {
@@ -370,12 +409,10 @@ class Clansuite_Theme
                     # add dirname
                     $themes[$i] = $type . DS . (string) $dir;
                 }
-
-
             }
         }
 
-        unset($i, $dirs);
+        unset($i, $dirs, $dir_tmp);
 
         return $themes;
     }
