@@ -82,6 +82,13 @@ abstract class Clansuite_Renderer_Base
     public $view_mapper = null;
 
     /**
+     * Directive for auto-escaping of template variables before rendering.
+     * @todo
+     * @var boolean
+     */
+    #public $autoEscape = true;
+
+    /**
      * Construct Renderer
      *
      * @param Clansuite_Config Object
@@ -160,9 +167,29 @@ abstract class Clansuite_Renderer_Base
     abstract public function clearVars();
 
     /**
+     * Returns all assigned template variables.
+     */
+    abstract public function getVars();
+
+    /**
+     * Enables / disables the caching of templates.
+     */
+    abstract public function setCaching($boolean);
+
+    /**
+     * Checks if a template is cached.
+     *
+     * @param string $template the resource handle of the template file or template object
+     * @param mixed $cache_id cache id to be used with this template
+     * @param mixed $compile_id compile id to be used with this template
+     * @return boolean Returns true in case the template is cached, false otherwise.
+     */
+    abstract public function isCached($template, $cache_id = null, $compile_id = null);
+
+    /**
      * Reset the Cache of the Renderer
      */
-    abstract public function clearCache();
+    abstract public function clearCache($template_name, $cache_id = null, $compile_id = null, $exp_time = null, $type = null);
 
     public function getViewMapper()
     {
