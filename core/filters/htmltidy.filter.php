@@ -47,7 +47,6 @@ if (defined('IN_CS') === false)
  * @category    Clansuite
  * @package     Core
  * @subpackage  Filters
- * @implements  Clansuite_Filter_Interface
  */
 class Clansuite_Filter_HtmlTidy implements Clansuite_Filter_Interface
 {
@@ -60,60 +59,63 @@ class Clansuite_Filter_HtmlTidy implements Clansuite_Filter_Interface
 
     public function executeFilter(Clansuite_HttpRequest $request, Clansuite_HttpResponse $response)
     {
-        // take the initiative or pass through (do nothing)
+        # htmltidy must be enabled in configuration
         if( $this->config['htmltidy']['enabled'] == 1 and extension_loaded('tidy'))
         {
-            # get output from response
-            $content = $response->getContent();
+            # bypass
+            return;
+        }
 
-            # init tidy
-            $tidy = new tidy;
+        # get output from response
+        $content = $response->getContent();
 
-            /*
-                $tidyoptions = array( 'indent-spaces'    => 4,
-                                      'wrap'             => 120,
-                                      'indent'           => auto,
-                                      'tidy-mark'        => true,
-                                      'show-body-only'   => true,
-                                      'force-output'     => true,
-                                      'output-xhtml'     => true,
-                                      'clean'            => true,
-                                      'hide-comments'    => false,
-                                      'join-classes'     => false,
-                                      'join-styles'      => false,
-                                      'doctype'          => 'strict',
-                                      'lower-literals'   => true,
-                                      'quote-ampersand'  => true,
-                                      'wrap'             => 0,
-                                      'drop-font-tags'   => true,
-                                      'drop-empty-paras' => true,
-                                      'drop-proprietary-attributes' => true);
-            */
+        # init tidy
+        $tidy = new tidy;
 
-           $tidyoptions = array(
-                'clean' => true,
-                #'doctype' => 'strict',
-                'doctype' => 'transitional',
-                'output-xhtml' => true,
-                'drop-proprietary-attributes' => true,
-                'lower-literals' => true,
-                #'quote-ampersand' => true,
-                'show-body-only' => false,
-                'indent-spaces' => 4,
-                'wrap' => 130,
-                'indent' => 'auto'
-            );
+        /*
+        $tidyoptions = array(
+           'indent-spaces'    => 4,
+            'wrap'             => 120,
+            'indent'           => auto,
+            'tidy-mark'        => true,
+            'show-body-only'   => true,
+            'force-output'     => true,
+            'output-xhtml'     => true,
+            'clean'            => true,
+            'hide-comments'    => false,
+            'join-classes'     => false,
+            'join-styles'      => false,
+            'doctype'          => 'strict',
+            'lower-literals'   => true,
+            'quote-ampersand'  => true,
+            'wrap'             => 0,
+            'drop-font-tags'   => true,
+            'drop-empty-paras' => true,
+            'drop-proprietary-attributes' => true);
+        */
 
-            # tidy the output
-            $tidy->parseString($content, $tidyoptions, 'utf8');
-            $tidy->cleanRepair();
+        $tidyoptions = array(
+            'clean' => true,
+            #'doctype' => 'strict',
+            'doctype' => 'transitional',
+            'output-xhtml' => true,
+            'drop-proprietary-attributes' => true,
+            'lower-literals' => true,
+            #'quote-ampersand' => true,
+            'show-body-only' => false,
+            'indent-spaces' => 4,
+            'wrap' => 130,
+            'indent' => 'auto'
+        );
 
-            # @todo diagnose? errorreport?
+        # tidy the output
+        $tidy->parseString($content, $tidyoptions, 'utf8');
+        $tidy->cleanRepair();
 
-            # set output to response
-            $response->setContent(tidy_get_output($tidy), true);
+        # @todo diagnose? errorreport?
 
-        }// else => bypass
+        # set output to response
+        $response->setContent(tidy_get_output($tidy), true);
     }
 }
 ?>

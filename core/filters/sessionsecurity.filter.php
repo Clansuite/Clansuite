@@ -32,7 +32,7 @@
 
 # Security Handler
 if (defined('IN_CS') === false)
-{ 
+{
     die('Clansuite not loaded. Direct Access forbidden.' );
 }
 
@@ -51,7 +51,6 @@ if (defined('IN_CS') === false)
  * @category    Clansuite
  * @package     Core
  * @subpackage  Filters
- * @implements  Clansuite_Filter_Interface
  */
 class Clansuite_Filter_SessionSecurity implements Clansuite_Filter_Interface
 {

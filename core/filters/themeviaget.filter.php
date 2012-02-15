@@ -46,7 +46,6 @@ if(defined('IN_CS') === false)
  * @category    Clansuite
  * @package     Core
  * @subpackage  Filters
- * @implements  Clansuite_Filter_Interface
  */
 class Clansuite_Filter_ThemeViaGet implements Clansuite_Filter_Interface
 {
@@ -55,36 +54,47 @@ class Clansuite_Filter_ThemeViaGet implements Clansuite_Filter_Interface
 
     public function __construct(Clansuite_Config $config, Clansuite_Inputfilter $input)
     {
-        # reduce array size by selectionbn the section
+        # reduce array size by selection of the section
         $this->config = $config['switches'];
         $this->input  = $input;
     }
 
     public function executeFilter(Clansuite_HttpRequest $request, Clansuite_HttpResponse $response)
     {
-        // take the initiative, if themeswitching is enabled in CONFIG
-        // or pass through (do nothing)
+        # themeswitching must is enabled in configuration
         if($this->config['themeswitch_via_url'] == 1)
         {
-            $theme = $request->getParameterFromGet('theme');
+            return;
+        }
 
-            if(isset($theme) and false === empty($theme))
-            {
-                # Inputfilter for $_GET['theme'] (Allowed Chars: abc, 0-9, underscore)
-                if(false === $this->input->check( $theme, 'is_abc|is_int|is_custom', '_' ) )
-                {
-                    throw new Clansuite_Exception('Please provide a proper theme name.');
-                }
+        # check for "?theme=mytheme" URL parameter
+        if(false === $request->issetParameter('theme', 'GET'))
+        {
+            return;
+        }
 
-                $themedir = ROOT_THEMES_FRONTEND . $theme . DS;
+        $theme = '';
+        $theme = $request->getParameterFromGet('theme');
 
-                # theme exists, set it as session-user-theme
-                if(is_dir($themedir) and is_file($themedir . 'theme_info.xml'))
-                {
-                    $_SESSION['user']['frontend_theme'] = $theme;
-                }
-            }// else => no "?theme=xy" appendix => bypass
-        }// else => bypass
+        /**
+         * Inputfilter for $_GET['theme']. Allowed Chars are: az, 0-9, underscore.
+         *
+         */
+        if(false === $this->input->check( $theme, 'is_abc|is_int|is_custom', '_' ) )
+        {
+            throw new InvalidArgumentException('Please provide a proper theme name.');
+        }
+
+        $themedir = '';
+        $themedir = ROOT_THEMES_FRONTEND . $theme . DS;
+
+        # theme exists, set it as session-user-theme
+        if(is_dir($themedir) and is_file($themedir . 'theme_info.xml'))
+        {
+            $_SESSION['user']['frontend_theme'] = $theme;
+        }
+
+        unset($theme, $themedir);
     }
 }
 ?>

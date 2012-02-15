@@ -57,7 +57,6 @@ if (defined('IN_CS') === false)
  * @category    Clansuite
  * @package     Core
  * @subpackage  Filters
- * @implements  Clansuite_Filter_Interface
  */
 class Clansuite_Filter_LanguageViaGet implements Clansuite_Filter_Interface
 {
@@ -76,19 +75,21 @@ class Clansuite_Filter_LanguageViaGet implements Clansuite_Filter_Interface
          */
         if(true === (bool) $this->config['languageswitch_via_url'])
         {
-            # fetch parameter &lang= from GET
-            $language = $request->getParameterFromGet('lang');
+            return;
+        }
 
-            if(isset($language) and (mb_strlen($language) == 2))
-            {
-                /**
-                 * memorize in the user session
-                 * a) the selected language
-                 * b) that the language was incomming via get
-                 */
-                $_SESSION['user']['language'] = mb_strtolower($language);
-                $_SESSION['user']['language_via_url'] = 1;
-            }
+        # fetch URL parameter "&lang=" from $_GET['lang']
+        $language = $request->getParameterFromGet('lang');
+
+        if(isset($language) and (mb_strlen($language) == 2))
+        {
+            /**
+             * memorize in the user session
+             * a) the selected language
+             * b) that the language was incomming via get
+             */
+            $_SESSION['user']['language'] = mb_strtolower($language);
+            $_SESSION['user']['language_via_url'] = 1;
         }
     }
 }

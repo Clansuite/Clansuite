@@ -26,7 +26,7 @@
     * @author     Jens-André Koch <vain@clansuite.com>
     * @copyright  Jens-André Koch (2005 - onwards)
     * @link       http://www.clansuite.com
-    * 
+    *
     * @version    SVN: $Id$
     */
 
@@ -44,7 +44,6 @@ if(defined('IN_CS') === false)
  * @category    Clansuite
  * @package     Core
  * @subpackage  Filters
- * @implements  Clansuite_Filter_Interface
  */
 class Clansuite_Filter_SetModuleLanguage implements Clansuite_Filter_Interface
 {

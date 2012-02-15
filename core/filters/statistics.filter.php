@@ -46,7 +46,6 @@ if (defined('IN_CS') === false)
  * @category    Clansuite
  * @package     Core
  * @subpackage  Filters
- * @implements  Clansuite_Filter_Interface
  */
 class Clansuite_Filter_Statistics implements Clansuite_Filter_Interface
 {
@@ -78,17 +77,19 @@ class Clansuite_Filter_Statistics implements Clansuite_Filter_Interface
         # take the initiative or pass through (do nothing)
         if (isset ($this->config['statistics']['enabled']) and $this->config['statistics']['enabled'] == 1)
         {
-            # @todo aquire pieces of informtion from current visitor
-            # Determine the client's browser and system information based on
-            # $_SERVER['HTTP_USER_AGENT']
-
-            /**
-             * The Who logics, must be processed in a seperate filter
-             */
-            Doctrine::getTable('CsStatistic')->deleteWhoEntriesOlderThen($this->statsWhoDeleteTime);
-            $this->updateStatistics($request->getRemoteAddress());
-            $this->updateWhoTables($request->getRemoteAddress(), $request->getRequestURI());
+            return;
         }
+
+        # @todo aquire pieces of informtion from current visitor
+        # Determine the client's browser and system information based on
+        # $_SERVER['HTTP_USER_AGENT']
+
+        /**
+            * The Who logics, must be processed in a seperate filter
+            */
+        Doctrine::getTable('CsStatistic')->deleteWhoEntriesOlderThen($this->statsWhoDeleteTime);
+        $this->updateStatistics($request->getRemoteAddress());
+        $this->updateWhoTables($request->getRemoteAddress(), $request->getRequestURI());
     }
 
     /**

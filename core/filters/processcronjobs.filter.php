@@ -44,7 +44,6 @@ if (defined('IN_CS') === false)
  * @category    Clansuite
  * @package     Core
  * @subpackage  Filters
- * @implements  Clansuite_Filter_Interface
  */
 class Clansuite_Filter_ProcessCronjobs implements Clansuite_Filter_Interface
 {
@@ -59,12 +58,11 @@ class Clansuite_Filter_ProcessCronjobs implements Clansuite_Filter_Interface
 
     public function executeFilter(Clansuite_HttpRequest $request, Clansuite_HttpResponse $response)
     {
-        // take the initiative, if cronjob processing is enabled in Clansuite_Config
-        // or pass through (do nothing)
+        // take the initiative, if cronjob processing is enabled in configuration
         if($this->config['cronjobs']['enabled'] == 1)
         {
             $this->cronjobs->execute();
-        }// else => bypass
+        }
     }
 }
 ?>

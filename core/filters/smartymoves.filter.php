@@ -37,60 +37,89 @@ if (defined('IN_CS') === false)
 }
 
 /**
- * Clansuite Filter - Smarty Moves
+ * Clansuite Filter - Smarty2 Subtemplate Moves
  *
- * Purpose: detect block-tags, move content of such blocks, remove tags afterwards
+ * This is a Smarty2 related Filter.
+ * Before the Smarty3 {block} tag was invented, there was no functionality
+ * for assigning content from a child-template to the master-template.
+ *
+ * This filter works together with the {move_to} smarty viewhelper.
+ * In the subtemplate the {move_to} command is used.
+ * This inserts special text fragments into the template,
+ * marking the positions of texts which are to be moved by this filter.
+ * This filter detects these special text fragments in the output of smarty
+ * and performs the moves accordingly.
+ *
+ * PRE_HEAD_CLOSE
+ * POST_BODY_OPEN
+ * PRE_BODY_CLOSE
+ *
+ * Purpose: detect block-tags, move content of such blocks, remove tags afterwards.
  *
  * @category    Clansuite
  * @package     Core
  * @subpackage  Filters
- * @implements  Clansuite_Filter_Interface
  */
 class Clansuite_Filter_SmartyMoves implements Clansuite_Filter_Interface
 {
     public function executeFilter(Clansuite_HttpRequest $request, Clansuite_HttpResponse $response)
     {
-        // take the initiative or pass through (do nothing)
-        #if( #@todo renderengine is smarty)
-        #{
-        # get output from response
-        $tpl_output = $response->getContent();
+        /**
+         * If the renderer is not smarty, then bypass the filter.
+         */
+        if($request->getRoute()->getRenderEngine() != 'smarty')
+        {
+            return;
+        }
 
-        # PRE_HEAD_CLOSE = x</head>
+        /**
+         * Get HttpResponse output buffer
+         */
+        $content = $response->getContent();
+
+        /**
+         * This matches the PRE_HEAD_CLOSE tag.
+         * The X marks the position: X</head>
+         */
         $matches = array();
-        preg_match_all('!@@@SMARTY:PRE_HEAD_CLOSE:BEGIN@@@(.*?)@@@SMARTY:PRE_HEAD_CLOSE:END@@@!is', $tpl_output, $matches);
-        $tpl_output = preg_replace('!@@@SMARTY:PRE_HEAD_CLOSE:BEGIN@@@(.*?)@@@SMARTY:PRE_HEAD_CLOSE:END@@@!is', '', $tpl_output);
+        preg_match_all('!@@@SMARTY:PRE_HEAD_CLOSE:BEGIN@@@(.*?)@@@SMARTY:PRE_HEAD_CLOSE:END@@@!is', $content, $matches);
+        $content = preg_replace('!@@@SMARTY:PRE_HEAD_CLOSE:BEGIN@@@(.*?)@@@SMARTY:PRE_HEAD_CLOSE:END@@@!is', '', $content);
         $matches = array_unique($matches[1]);
         foreach($matches as $value)
         {
-            $tpl_output = str_replace('</head>', $value."\n".'</head>', $tpl_output);
+            $content = str_replace('</head>', $value."\n".'</head>', $content);
         }
 
-        # POST_BODY_OPEN = <body>x
+        /**
+         * This matches the POST_BODY_OPEN tag.
+         * The X marks the position: <body>X
+         */
         $matches = array();
-        preg_match_all('!@@@SMARTY:POST_BODY_OPEN:BEGIN@@@(.*?)@@@SMARTY:POST_BODY_OPEN:END@@@!is', $tpl_output, $matches);
-        $tpl_output = preg_replace('!@@@SMARTY:POST_BODY_OPEN:BEGIN@@@(.*?)@@@SMARTY:POST_BODY_OPEN:END@@@!is', '', $tpl_output);
+        preg_match_all('!@@@SMARTY:POST_BODY_OPEN:BEGIN@@@(.*?)@@@SMARTY:POST_BODY_OPEN:END@@@!is', $content, $matches);
+        $content = preg_replace('!@@@SMARTY:POST_BODY_OPEN:BEGIN@@@(.*?)@@@SMARTY:POST_BODY_OPEN:END@@@!is', '', $content);
         $matches = array_unique($matches[1]);
         foreach($matches as $values)
         {
-
-            $tpl_output = str_replace('<body>', '<body>'."\n".$value, $tpl_output);
+            $content = str_replace('<body>', '<body>'."\n".$value, $content);
         }
 
-        # PRE_BODY_CLOSE = x</body>
+        /**
+         * This matches the POST_BODY_OPEN tag.
+         * The X marks the position: X</body>
+         */
         $matches = array();
-        preg_match_all('!@@@SMARTY:PRE_BODY_CLOSE:BEGIN@@@(.*?)@@@SMARTY:PRE_BODY_CLOSE:END@@@!is', $tpl_output, $matches);
-        $tpl_output = preg_replace('!@@@SMARTY:PRE_BODY_CLOSE:BEGIN@@@(.*?)@@@SMARTY:PRE_BODY_CLOSE:END@@@!is', '', $tpl_output);
+        preg_match_all('!@@@SMARTY:PRE_BODY_CLOSE:BEGIN@@@(.*?)@@@SMARTY:PRE_BODY_CLOSE:END@@@!is', $content, $matches);
+        $content = preg_replace('!@@@SMARTY:PRE_BODY_CLOSE:BEGIN@@@(.*?)@@@SMARTY:PRE_BODY_CLOSE:END@@@!is', '', $content);
         $matches = array_unique($matches[1]);
         foreach($matches as $values)
         {
-            $tpl_output = str_replace('</body>', $value."\n".'</body>', $tpl_output);
+            $content = str_replace('</body>', $value."\n".'</body>', $content);
         }
 
-        # set output to response
-        $response->setContent($tpl_output, true);
-
-        #}// else => bypass
+        /**
+         * Replace the http response buffer
+         */
+        $response->setContent($content, true);
     }
 }
 ?>

@@ -45,7 +45,6 @@ if (defined('IN_CS') === false)
  * @category    Clansuite
  * @package     Core
  * @subpackage  Filters
- * @implements  Clansuite_Filter_Interface
  */
 class Clansuite_Filter_Maintenance implements Clansuite_Filter_Interface
 {
@@ -59,20 +58,27 @@ class Clansuite_Filter_Maintenance implements Clansuite_Filter_Interface
     public function executeFilter(Clansuite_HttpRequest $request, Clansuite_HttpResponse $response)
     {
         /**
-         * take the initiative,
-         * if maintenance is enabled in CONFIG
-         * or pass through (do nothing)
+         * maintenance mode must be enabled in configuration
          */
         if($this->config['maintenance']['maintenance'] == 1)
         {
-            # @todo b) create override of maintenance mode, in case it's an admin user?
-            $smarty =  Clansuite_Renderer_Factory::getRenderer('smarty', Clansuite_CMS::getInjector());
-            $html = $smarty->fetch( ROOT_THEMES . 'core/view/smarty/maintenance.tpl', true);
-
-            $response->setContent($html);
-            $response->flush();
-            exit();
+            return;
         }
-    } // else => bypass
+
+        /**
+         * @todo b) create override of maintenance mode, in case it's an admin user?
+         */
+
+        # fetch renderer
+        $smarty = Clansuite_Renderer_Factory::getRenderer('smarty', Clansuite_CMS::getInjector());
+
+        # fetch maintenance template
+        $html = $smarty->fetch(ROOT_THEMES . 'core/view/smarty/maintenance.tpl', true);
+
+        # output
+        $response->setContent($html);
+        $response->flush();
+        exit();
+    }
 }
 ?>
