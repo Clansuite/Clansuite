@@ -31,6 +31,28 @@ class Clansuite_Formelement_Validator_Maxlength_Test extends Clansuite_UnitTestC
         unset($this->validator);
     }
 
+    public function testMethod_getMaxlength()
+    {
+        $this->validator->maxlength = 1980;
+
+		# getter returns integer
+        $this->assertEqual(1980, $this->validator->geMaxlength());
+
+        # getter returns integer not string
+        $this->assertNotIdentical('1980', $this->validator->getMinlength());
+    }
+
+    public function testMethod_setMaxlength()
+    {
+         # setter accepts numeric
+         $this->validator->setMaxlength(19);
+         $this->assertEqual(19, $this->validator->getMaxlength());
+
+         # setter accepts string
+         $this->validator->setMaxlength('19');
+         $this->assertEqual(19, $this->validator->getMaxlength());
+    }
+
     public function testMethod_processValidationLogic()
     {
         /**
@@ -52,6 +74,22 @@ class Clansuite_Formelement_Validator_Maxlength_Test extends Clansuite_UnitTestC
         $value = ''; # 0 chars
         $this->validator->setMaxlength('0');
         $this->assertTrue($this->validator->validate($value));
+    }
+
+    public function testMethod_getErrorMessage()
+    {
+        $this->validator->setMaxlength('1980');
+
+        $this->assertEqual('The value exceeds the maxlength of 1980 chars',
+                           $this->validator->getErrorMessage());;
+    }
+
+    public function testMethod_getValidationHint()
+    {
+        $this->validator->setMaxlength('1980');
+
+        $this->assertEqual('Please enter 1980 chars at maximum.',
+                           $this->validator->getValidationHint());;
     }
 }
 ?>

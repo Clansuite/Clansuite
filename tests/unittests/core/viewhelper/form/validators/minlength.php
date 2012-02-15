@@ -31,13 +31,24 @@ class Clansuite_Formelement_Validator_Minlength_Test extends Clansuite_UnitTestC
         unset($this->validator);
     }
 
+    public function testMethod_getMinlength()
+    {
+        # set property
+        $this->validator->minlength = 123;
+
+        # getter returns integer
+        $this->assertEqual(123, $this->validator->getMinlength());
+
+        # getter returns integer not string
+        $this->assertNotIdentical('123', $this->validator->getMinlength());
+    }
+
     public function testMethod_setMinlength()
     {
-        $value = 10;
+        # set property
         $this->validator->setMinlength('10');
 
-        # setter
-        $this->assertEqual($value, $this->validator->getMinlength());
+        $this->assertEqual(10, $this->validator->getMinlength());
 
         # property
         $this->assertEqual($value, $this->validator->minlength);
@@ -65,6 +76,22 @@ class Clansuite_Formelement_Validator_Minlength_Test extends Clansuite_UnitTestC
         $value = ''; # 0 chars
         $this->validator->setMinlength('0');
         $this->assertTrue($this->validator->validate($value));
+    }
+
+    public function testMethod_getErrorMessage()
+    {
+        $this->validator->setMinlength('19');
+
+        $this->assertEqual('The value deceeds (is less than) the Minlength of 19 chars.',
+                           $this->validator->getErrorMessage());;
+    }
+
+    public function testMethod_getValidationHint()
+    {
+        $this->validator->setMinlength('19');
+
+        $this->assertEqual('Please enter 19 chars at maximum.',
+                           $this->validator->getValidationHint());;
     }
 }
 ?>
