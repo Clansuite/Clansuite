@@ -60,7 +60,16 @@ class Clansuite_Formelement_Validator_Maxlength extends Clansuite_Formelement_Va
 
     public function getErrorMessage()
     {
-        return _('The value exceeds the maxlength of ' . $this->getMaxlength() .' chars.');
+        $msg = _('The value exceeds the maxlength of %s chars');
+
+        return sprintf($msg, $this->getMaxlength());
+    }
+
+    public function getValidationHint()
+    {
+        $msg = _('Please enter %s chars at maximum.');
+
+        return sprintf($msg, $this->getMaxlength());
     }
 
     /**

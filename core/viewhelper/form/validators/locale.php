@@ -37,72 +37,30 @@ if (defined('IN_CS') === false)
 }
 
 /**
- * Validates the lenght of a string with maxlength given.
+ * Validates the given language is really a language.
  */
-class Clansuite_Formelement_Validator_Minlength extends Clansuite_Formelement_Validator
+class Clansuite_Formelement_Validator_Locale extends Clansuite_Formelement_Validator
 {
-    public $minlength;
-
-    public function getMinlength()
+    public function getValidationHint()
     {
-        return $this->minlength;
-    }
-
-     /**
-     * Setter for the minimum length of the string.
-     *
-     * @param integer $minlength
-     */
-    public function setMinlength($minlength)
-    {
-        $this->minlength = (int) $minlength;
+        return _('Please select a valid locale.');
     }
 
     public function getErrorMessage()
     {
-        $msg = _('The value deceeds (is less than) the Minlength of %s chars.');
-
-        return sprintf($msg, $this->getMinlength());
-    }
-
-    public function getValidationHint()
-    {
-        $msg = _('Please enter %s chars at maximum.');
-
-        return sprintf($msg, $this->getMinlength());
-    }
-
-    /**
-     * Get length of passed string.
-     * Takes multibyte characters into account, if functions available.
-     *
-     * @param string $string
-     * @return integer $length
-     */
-    public static function getStringLength($string)
-    {
-        if(function_exists('iconv_strlen'))
-        {
-            return iconv_strlen($string, 'UTF-8');
-        }
-        else if(function_exists('mb_strlen'))
-        {
-            return mb_strlen($string, 'utf8');
-        }
-        else
-        {
-            return strlen(utf8_decode($string));
-        }
+        return _('The value is not a valid locale.');
     }
 
     protected function processValidationLogic($value)
     {
-        if (self::getStringLength($value) < $this->getMinlength())
+        if(false === Locale::isLocale($value, true))
+        {
+            return true;
+        }
+        else
         {
             return false;
         }
-
-        return true;
     }
 }
 ?>

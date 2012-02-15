@@ -55,17 +55,29 @@ class Clansuite_Formelement_Validator_Range extends Clansuite_Formelement_Valida
         $this->options['options']['max_range'] = $maximum_length;
     }
 
+    public function getValidationHint()
+    {
+        $min = $this->options['options']['min_range'];
+        $max = $this->options['options']['max_range'];
+
+        $msg = _('Please enter text within the in the range of %s to %s chars.');
+
+        return sprintf($msg, $min, $max);
+    }
+
     public function getErrorMessage()
     {
         $min = $this->options['options']['min_range'];
         $max = $this->options['options']['max_range'];
 
-        return _('The value is outside the range of ' . $min .' <> '. $max .' chars.');
+        $msg = _('The value is outside the range of %s <> %s chars.');
+
+        return sprintf($msg, $min, $max)
     }
 
     protected function processValidationLogic($value)
     {
-        if(filter_var($value, FILTER_VALIDATE_INT, $this->options) !== FALSE)
+        if(false !== filter_var($value, FILTER_VALIDATE_INT, $this->options))
         {
             return true;
         }

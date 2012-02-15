@@ -38,6 +38,11 @@ if (defined('IN_CS') === false)
 
 class Clansuite_Formelement_Validator_Email extends Clansuite_Formelement_Validator
 {
+    public function getValidationHint()
+    {
+        return _('Please enter a valid email address.');
+    }
+
     public function getErrorMessage()
     {
         return _('The value must be an email address.');

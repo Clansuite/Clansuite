@@ -38,6 +38,11 @@ if (defined('IN_CS') === false)
 
 class Clansuite_Formelement_Validator_Required extends Clansuite_Formelement_Validator
 {
+    public function getValidationHint()
+    {
+        return _('Please fill the formfield. The value must not be empty.');
+    }
+
     public function getErrorMessage()
     {
         return _('The value is required.');
@@ -45,7 +50,7 @@ class Clansuite_Formelement_Validator_Required extends Clansuite_Formelement_Val
 
     protected function processValidationLogic($value)
     {
-        if(isset($value) and '' !== $value)
+        if(isset($value) and ('' !== $value))
         {
             return true;
         }

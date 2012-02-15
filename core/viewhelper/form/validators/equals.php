@@ -36,73 +36,55 @@ if (defined('IN_CS') === false)
     die('Clansuite not loaded. Direct Access forbidden.');
 }
 
-/**
- * Validates the lenght of a string with maxlength given.
- */
-class Clansuite_Formelement_Validator_Minlength extends Clansuite_Formelement_Validator
+class Clansuite_Formelement_Validator_Equals extends Clansuite_Formelement_Validator
 {
-    public $minlength;
-
-    public function getMinlength()
-    {
-        return $this->minlength;
-    }
-
-     /**
-     * Setter for the minimum length of the string.
+    /**
+     * The equals to field
      *
-     * @param integer $minlength
+     * @var string
      */
-    public function setMinlength($minlength)
+    public $equalsTo;
+
+    /**
+     * EqualsTo Setter
+     *
+     * @param string $equalsTo The equals to field
+     */
+    public function setEqualsTo($equalsTo)
     {
-        $this->minlength = (int) $minlength;
+        $this->equalsTo = $equalsTo;
     }
 
-    public function getErrorMessage()
+    /**
+     * EqualsTo Getter
+     *
+     * @return string the equals to field
+     */
+    public function getEqualsTo()
     {
-        $msg = _('The value deceeds (is less than) the Minlength of %s chars.');
-
-        return sprintf($msg, $this->getMinlength());
+        return $this->equalsTo;
     }
 
     public function getValidationHint()
     {
-        $msg = _('Please enter %s chars at maximum.');
-
-        return sprintf($msg, $this->getMinlength());
+        return _('The values must be equal.');
     }
 
-    /**
-     * Get length of passed string.
-     * Takes multibyte characters into account, if functions available.
-     *
-     * @param string $string
-     * @return integer $length
-     */
-    public static function getStringLength($string)
+    public function getErrorMessage()
     {
-        if(function_exists('iconv_strlen'))
-        {
-            return iconv_strlen($string, 'UTF-8');
-        }
-        else if(function_exists('mb_strlen'))
-        {
-            return mb_strlen($string, 'utf8');
-        }
-        else
-        {
-            return strlen(utf8_decode($string));
-        }
+        return _('The values must be equal.');
     }
 
     protected function processValidationLogic($value)
     {
-        if (self::getStringLength($value) < $this->getMinlength())
+        if ($this->equalsTo == $value) # $this->element->getValue())
+        {
+            return true;
+        }
+        else
         {
             return false;
         }
-
-        return true;
     }
 }
 ?>

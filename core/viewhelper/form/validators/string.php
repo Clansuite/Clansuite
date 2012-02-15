@@ -38,6 +38,11 @@ if (defined('IN_CS') === false)
 
 class Clansuite_Formelement_Validator_String extends Clansuite_Formelement_Validator
 {
+    public function getValidationHint()
+    {
+        return _('Please enter a string.');
+    }
+
     public function getErrorMessage()
     {
         return _('The value must be a string.');
