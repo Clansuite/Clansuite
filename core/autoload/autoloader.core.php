@@ -238,6 +238,8 @@ class Clansuite_Loader
         # /core/tools
         'Clansuite_Browserinfo'               => 'tools/browserinfo.core.php',
         'Clansuite_Cssbuilder'                => 'tools/cssbuilder.core.php',
+        # /core/renderer
+        'Clansuite_View_Mapper'               => 'renderer/templatemapper.php',
         # /viewhelper/
         'Clansuite_Theme'                     => 'viewhelper/theme.core.php',
         # /viewhelper/datagrid
@@ -250,6 +252,7 @@ class Clansuite_Loader
         'Clansuite_Formelement_Decorator'     => 'viewhelper/form/formelementdecorator.php',
         'Clansuite_Formelement_Validator'     => 'viewhelper/form/formelementvalidator.php',
         'Clansuite_Formelement_Input'         => 'viewhelper/form/elements/input.php',
+        'Clansuite_Formelement_Button'        => 'viewhelper/form/elements/button.php',
         'Clansuite_Formelement_Imagebutton'   => 'viewhelper/form/elements/imagebutton.php',
         'Clansuite_Formelement_Checkbox'      => 'viewhelper/form/elements/checkbox.php',
         'Clansuite_Formelement_Select'        => 'viewhelper/form/elements/select.php',
