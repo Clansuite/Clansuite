@@ -48,7 +48,7 @@ class Clansuite_TargetRoute extends Clansuite_Mapper
         # Call
         'controller'    => 'index',
         'subcontroller' => null,
-        'action'        => 'show',
+        'action'        => 'list',
         'method'        => null,
         'params'        => null,
         # Output
@@ -298,12 +298,6 @@ class Clansuite_TargetRoute extends Clansuite_Mapper
         return ROOT_MOD . self::getController() . DS;
     }
 
-    public static function debug()
-    {
-        $string = (string) implode(",", self::$parameters);
-        Clansuite_Debug::firebug($string);
-    }
-
     /**
      * Method to check if the TargetRoute relates to correct file, controller and action.
      *
@@ -373,6 +367,12 @@ class Clansuite_TargetRoute extends Clansuite_Mapper
     public static function getRoute()
     {
         return self::$parameters;
+    }
+
+    public static function _debug()
+    {
+        $string = (string) implode(",", self::$parameters);
+        Clansuite_Debug::firebug($string);
     }
 }
 ?>
