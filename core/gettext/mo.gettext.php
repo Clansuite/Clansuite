@@ -41,7 +41,7 @@ if(defined('IN_CS') === false)
  *
  * Handling for Gettext "Machine Object" (.mo) Files.
  *
- * Based on php-msgfmt written by 
+ * Based on php-msgfmt written by
  * @author Matthias Bauer
  * @copyright 2007 Matthias Bauer
  * @license GNU/LGPL 2.1
@@ -57,8 +57,11 @@ class Clansuite_Gettext_MOFile
      * Writes a GNU gettext style machine object (mo-file).
      *
      * @link http://www.gnu.org/software/gettext/manual/gettext.html#MO-Files
+     *
+     * @param $hash
+     * @param $file mo file to write.
      */
-    function write($hash, $out)
+    function write($hash, $file)
     {
         # sort by msgid
         ksort($hash, SORT_STRING);
@@ -99,10 +102,11 @@ class Clansuite_Gettext_MOFile
         }
 
         # keys start after the header (7 words) + index tables ($#hash * 4 words)
-        $key_start= 7 * 4 + count($hash) * 4 * 4;
+        # originally: 7 * 4 + count($hash) * 4 * 4
+        $key_start= 28 + count($hash) * 16;
 
         # values start right after the keys
-        $value_start= $key_start +mb_strlen($ids);
+        $value_start= $key_start + mb_strlen($ids);
 
         # first all key offsets, then all value offsets
         $key_offsets= array ();
@@ -124,8 +128,8 @@ class Clansuite_Gettext_MOFile
         $mo .= pack('Iiiiiii', 0x950412de,          # magic number
                     0,                              # version
                     count($hash),                   # number of entries in the catalog
-                    7 * 4,                          # key index offset
-                    7 * 4 + count($hash) * 8,       # value index offset,
+                    28,                             # key index offset (7*4)
+                    28 + count($hash) * 8,          # value index offset (7*4 + length of hash*8)
                     0,                              # hashtable size (unused, thus 0)
                     $key_start                      # hashtable offset
         );
@@ -142,7 +146,7 @@ class Clansuite_Gettext_MOFile
         # strings
         $mo .= $strings;
 
-        file_put_contents($out, $mo);
+        file_put_contents($file, $mo);
     }
 }
 ?>

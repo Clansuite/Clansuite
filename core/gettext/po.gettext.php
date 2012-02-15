@@ -40,8 +40,8 @@ if(defined('IN_CS') === false)
  * Clansuite_Gettext_POFile
  *
  * Handling for Gettext (.po) Files.
- * 
- * Based on php-msgfmt written by 
+ *
+ * Based on php-msgfmt written by
  * @author Matthias Bauer
  * @copyright 2007 Matthias Bauer
  * @license GNU/LGPL 2.1
@@ -57,16 +57,17 @@ class Gettext_PO_File
      * Reads a Gettext .po file
      *
      * @link http://www.gnu.org/software/gettext/manual/gettext.html#PO-Files
+     *
+     * @param string $file Path to PO file.
+     * @return mixed|boolean|array
      */
-    public function read($input)
+    public static function read($file)
     {
         # read .po file
-        $fc = file_get_contents($input);
+        $file_content = file_get_contents($file);
 
         # normalize newlines
-        $fc = str_replace( array ("\r\n","\r"),
-                          array ("\n", "\n"),
-                          $fc);
+        $file_content = str_replace(array("\r\n", "\r"), array("\n", "\n"), $file_content);
 
         # results array
         $hash = array();
@@ -78,8 +79,10 @@ class Gettext_PO_File
         $state = null;
         $fuzzy = false;
 
+        $fc_array = explode("\n", $file_content);
+
         # iterate over lines
-        foreach(explode("\n", $fc) as $line)
+        foreach($fc_array as $line)
         {
             $line = trim($line);
 
@@ -88,7 +91,15 @@ class Gettext_PO_File
                 continue;
             }
 
-            list ($key, $data) = explode(' ', $line, 2);
+            /**
+             * PHP Bug?
+             * When the silencing operator is removed an
+             * E_NOTICE Undefined offset: 1 will be thrown.
+             * It's utter bullshit...
+             *
+             * Note: leave the silence op!
+             */
+            @list($key, $data) = explode(' ', $line, 2);
 
             switch($key)
             {

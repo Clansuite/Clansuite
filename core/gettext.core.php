@@ -228,7 +228,8 @@ class Clansuite_Gettext_Extractor_Tool
     }
 
     /**
-     * Scans given files or directories (recursively) and stores extracted gettext keys in a buffer
+     * Scans given files or directories (recursively) for input files.
+     *
      * @param string $resource File or directory
      */
     protected function scan($resource)
@@ -296,11 +297,11 @@ class Clansuite_Gettext_Extractor_Tool
     }
 
     /**
-     * Extracts gettext keys from input files
+     * Extracts gettext keys from multiple input files using multiple extraction adapters.
      *
-     * @param array $inputFiles
+     * @param array $inputFiles Array, defining a set of files.
      *
-     * @return array
+     * @return array All gettext keys of all input files.
      */
     protected function extract($inputFiles)
     {
@@ -323,6 +324,7 @@ class Clansuite_Gettext_Extractor_Tool
 
             foreach($this->extractors as $extension => $extractor)
             {
+                # check, if the extractor handles a file extension like this
                 if($fileExtension !== $extension)
                 {
                     continue;
@@ -430,12 +432,12 @@ class Clansuite_Gettext_Extractor_Tool
     /**
      * Saves extracted data into gettext file
      *
-     * @param string $outputFile
+     * @param string $file
      * @param array $data
      *
      * @return Clansuite_Gettext_Extractor
      */
-    public function save($outputFile, $data = null)
+    public function save($file, $data = null)
     {
         if($data === null)
         {
@@ -443,34 +445,34 @@ class Clansuite_Gettext_Extractor_Tool
         }
 
         # get dirname and check if dirs exist, else create it
-        $dir = dirname($outputFile);
+        $dir = dirname($file);
         if(false === is_dir($dir) and false === @mkdir($dir, 0777, true))
         {
            $this->throwException('ERROR: make directory failed!');
         }
 
         # check file permissions on output file
-        if(true === is_file($outputFile) and false === is_writable($outputFile))
+        if(true === is_file($file) and false === is_writable($file))
         {
             $this->throwException('ERROR: Output file is not writable!');
         }
 
         # write data formatted to file
-        file_put_contents($outputFile, $this->formatData($data));
+        file_put_contents($file, $this->formatData($data));
 
-        $this->log('Output file ' . $outputFile . ' created.');
+        $this->log('Output file ' . $file . ' created.');
 
         return $this;
     }
 
     /**
-     * Returns the the fileheader for a gettext portable object file
+     * Returns a fileheader for a gettext portable object file.
      *
-     * @param boolean $return_string Boolean true returns string (default) and false returns array.
+     * @param boolean $return_as_string True, returns a string (default) and false returns an array.
      *
      * @return mixed Array or String. Returns string by default.
      */
-    public static function getPOFileHeader($return_string = true)
+    public static function getPOFileHeader($return_as_string = true)
     {
         $output = array();
         $output[] = '# Gettext Portable Object Translation File.';
@@ -489,7 +491,7 @@ class Clansuite_Gettext_Extractor_Tool
         $output[] = '"Plural-Forms: nplurals=2; plural=(n != 1);\n"';
         $output[] = '';
 
-        if($return_string === true)
+        if($return_as_string === true)
         {
             return implode("\n", $output);
         }
