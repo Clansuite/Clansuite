@@ -41,6 +41,7 @@ if (defined('IN_CS') === false)
  *
  * It's a wrapper class for
  * a) GeShi Code/Syntax Highligther
+ *    This is used with the code tags, like [code]<?php ... ?>[/code]
  * b) bbcode_stringparser.
  *
  * @author     Jens-André Koch   <vain@clansuite.com>
@@ -92,18 +93,54 @@ class Clansuite_Bbcode
         $this->bbcode->addParser (array ('block', 'inline', 'link', 'listitem',), 'nl2br');
 
         /**
-         * Generate Standard BB Codes such as [url][/url] etc.
+         * Generate Standard BB Codes
          */
 
-        $this->bbcode->addCode ('url', 'usecontent?', array( $this, 'do_bbcode_url'), array ('usecontent_param' => 'default'),
-                          'link', array ('listitem', 'block', 'inline'), array ('link'));
-        $this->bbcode->addCode ('link', 'callback_replace_single', array( $this, 'do_bbcode_url' ), array (),
-                          'link', array ('listitem', 'block', 'inline'), array ('link'));
-        $this->bbcode->addCode ('img', 'usecontent', array( $this, 'do_bbcode_img' ), array (),
-                          'image', array ('listitem', 'block', 'inline', 'link'), array ());
-        $this->bbcode->addCode ('code', 'usecontent?', array( $this, 'do_bbcode_code' ), array ('usecontent_param' => 'default'),
-                          'code', array ('listitem', 'block', 'inline'), array ('code'));
-        $this->bbcode->setOccurrenceType ('img', 'image');
+        /**
+         * BB Code: [url][/url]
+         */
+        $this->bbcode->addCode('url',
+                'usecontent?',
+                array($this, 'do_bbcode_url'),
+                array('usecontent_param' => 'default'),
+                'link',
+                array('listitem', 'block', 'inline'),
+                array('link'));
+
+        /**
+         * BB Code: [link][/link]
+         */
+        $this->bbcode->addCode('link',
+                'callback_replace_single',
+                array($this, 'do_bbcode_url'),
+                array(),
+                'link',
+                array('listitem', 'block', 'inline'),
+                array('link'));
+
+        /**
+         * BB Code: [link][/link]
+         */
+        $this->bbcode->addCode('img',
+                'usecontent',
+                array($this, 'do_bbcode_img'),
+                array(), 'image',
+                array('listitem', 'block', 'inline',
+                    'link'),
+                array());
+        /**
+         * BB Code: [code][/code]
+         * This uses geshi syntax highlighting.
+         */
+        $this->bbcode->addCode('code',
+                'usecontent?',
+                array($this, 'do_bbcode_code'),
+                array('usecontent_param' => 'default'),
+                'code',
+                array('listitem', 'block', 'inline'),
+                array('code'));
+
+        $this->bbcode->setOccurrenceType('img', 'image');
     }
 
     /**
