@@ -207,7 +207,7 @@ class Clansuite_HTML /* extends DOMDocument */
      *
      * @return string html
      */
-    public static function liste($attributes = array())
+    public static function list($attributes = array())
     {
         $html = '';
 
@@ -217,7 +217,7 @@ class Clansuite_HTML /* extends DOMDocument */
             if (is_array($attribute))
             {
                 # watch out! recursion
-                $html .= self::liste($attribute);
+                $html .= self::list($attribute);
             }
             else
             {
@@ -271,9 +271,9 @@ class Clansuite_HTML /* extends DOMDocument */
      *
      * @param array $attributes array of attributes
      *
-     * @return Render the HTML String of Attributes
+     * @return string Renders the HTML String of Attributes
      */
-    public static function renderAttributes($attributes = array())
+    public static function renderAttributes(array $attributes = array())
     {
         $html = '';
 
@@ -282,6 +282,12 @@ class Clansuite_HTML /* extends DOMDocument */
             # insert all attributes
             foreach($attributes as $key => $value)
             {
+                # ignore null values
+                if(is_null($value))
+                {
+                    continue;
+                }
+
                 $html .= ' ' . $key . '"' . $value . '"';
             }
         }
