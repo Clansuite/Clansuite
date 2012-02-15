@@ -38,8 +38,9 @@ if (defined('IN_CS') === false)
 
 interface Clansuite_Form_Decorator_Interface
 {
-    public function decorateWith($form_decorator);
+    public function decorateWith(Clansuite_Form_Interface $form);
     public function getName();
+    public function render($html_form_content);
 }
 
 /**
@@ -75,8 +76,12 @@ interface Clansuite_Form_Decorator_Interface
  */
 abstract class Clansuite_Form_Decorator implements Clansuite_Form_Decorator_Interface
 {
-    # instance of form, which is to decorate
-    protected $form;
+    /**
+     * Instance of the form, which is to decorate.
+     *
+     * @var Clansuite_Form Defaults to null.
+     */
+    protected $form = null;
 
     private $name, $class, $id;
 
@@ -91,7 +96,7 @@ abstract class Clansuite_Form_Decorator implements Clansuite_Form_Decorator_Inte
     }
 
     /**
-    * Set class=""
+    * Set css class
     *
     * @param string $classname
     */
@@ -103,7 +108,7 @@ abstract class Clansuite_Form_Decorator implements Clansuite_Form_Decorator_Inte
     }
 
     /**
-    * Get class="" values
+    * Get css class
     *
     * @return string
     */
@@ -113,7 +118,7 @@ abstract class Clansuite_Form_Decorator implements Clansuite_Form_Decorator_Inte
     }
 
     /**
-    * Set id=""
+    * Set html id attribute
     *
     * @param string $id
     */
@@ -125,7 +130,7 @@ abstract class Clansuite_Form_Decorator implements Clansuite_Form_Decorator_Inte
     }
 
     /**
-    * Get id="" values
+    * Get html id attribute value
     *
     * @return string
     */
@@ -135,23 +140,38 @@ abstract class Clansuite_Form_Decorator implements Clansuite_Form_Decorator_Inte
     }
 
     /**
-     * Constructor
-     *
-     * @param $form Accepts a Clansuite_Form Object implementing the Clansuite_Form_Interface.
-     */
-    /*public function __construct(Clansuite_Form_Interface $form)
-    {
-        $this->decorate($form);
-    }*/
-
-    /**
-     * Setter method to set the object which is to decorate.
+     * Setter method to set the form object which is to decorate.
      *
      * @param $form object of type Clansuite_Form_Interface or Clansuite_Form_Decorator_Interface
      */
-    public function decorateWith($form)
+    public function decorateWith(Clansuite_Form_Interface $form)
     {
+        if (null === $form)
+        {
+            throw InvalidArgumentException('Form is null!');
+        }
+
         $this->form = $form;
+    }
+
+    /**
+     * Form setter.
+     *
+     * @param Form $form
+     */
+    public function setForm(Clansuite_Form $form)
+    {
+        $this->decorateWith($form);
+    }
+
+    /**
+     * Form Getter
+     *
+     * @return object Clansuite_Form
+     */
+    public function getForm()
+    {
+        return $this->form;
     }
 
     /**
