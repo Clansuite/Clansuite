@@ -44,25 +44,5 @@ class Clansuite_Formelement_Text extends Clansuite_Formelement_Input implements 
 
         return $this;
     }
-
-    /**
-     * defines length of field in letters
-     *
-     * @param int $size
-     */
-    public function setSize($size)
-    {
-        $this->size = $size;
-    }
-
-    /**
-     * defines allowed length of input in letters
-     *
-     * @param int $length
-     */
-    public function setMaxLength($length)
-    {
-        $this->maxlength = $length;
-    }
 }
 ?>
