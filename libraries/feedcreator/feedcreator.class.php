@@ -7,6 +7,8 @@ www.bitfolge.de
 kaib@bitfolge.de
 v1.3 work by Scott Reynen (scott@randomchaos.com) and Kai Blankenhorn
 v1.5 OPML support by Dirk Clemens
+v1.7.2-mod on-the-fly feed generation by Fabian Wolf (info@f2w.de)
+v1.7.2-ppt ATOM 1.0 support by Mohammad Hafiz bin Ismail (mypapit@gmail.com)
 
 This library is free software; you can redistribute it and/or
 modify it under the terms of the GNU Lesser General Public
@@ -26,8 +28,19 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 
 Changelog:
+3 May 2009 Martin Brampton (counterpoint)
+	Converted to PHP5
+
 13-04-2006 Neil Thompson (neilt)
 	added functionality for Atom 1.0
+
+v1.7.2-ppt	11-21-05
+	added Atom 1.0 support
+	added enclosure support for RSS 2.0/ATOM 1.0
+	added docs for v1.7.2-ppt only!
+
+v1.7.2-mod	03-12-05
+	added output function outputFeed for on-the-fly feed generation
 
 v1.7.2	10-11-04
 	license changed to LGPL
@@ -141,6 +154,14 @@ while ($data = mysql_fetch_object($res)) {
     item->descriptionTruncSize = 500;
     item->descriptionHtmlSyndicated = true;
 
+    //optional (enclosure)
+    $item->enclosure = new EnclosureItem();
+    $item->enclosure->url='http://http://www.dailyphp.net/media/voice.mp3';
+    $item->enclosure->length="950230";
+    $item->enclosure->type='audio/x-mpeg'
+
+
+
     $item->date = $data->newsdate;
     $item->source = "http://www.dailyphp.net";
     $item->author = "John Doe";
@@ -149,9 +170,11 @@ while ($data = mysql_fetch_object($res)) {
 }
 
 // valid format strings are: RSS0.91, RSS1.0, RSS2.0, PIE0.1 (deprecated),
-// MBOX, OPML, ATOM1.0, HTML, JS
+// MBOX, OPML, ATOM, ATOM10, ATOM0.3, HTML, JS
 echo $rss->saveFeed("RSS1.0", "news/feed.xml");
 
+//to generate "on-the-fly"
+$rss->outputFeed("RSS1.0");
 
 ***************************************************************************
 *          A little setup                                                 *
@@ -168,12 +191,12 @@ class FeedItem extends HtmlDescribable {
 	/**
 	 * Mandatory attributes of an item.
 	 */
-	var $title, $description, $link;
+	public $title, $description, $link;
 
 	/**
 	 * Optional attributes of an item.
 	 */
-	var $author, $authorEmail, $image, $category, $comments, $guid, $source, $creator;
+	public $author, $authorEmail, $image, $category, $comments, $guid, $source, $creator;
 
 	/**
 	 * Publishing date of an item. May be in one of the following formats:
@@ -188,7 +211,18 @@ class FeedItem extends HtmlDescribable {
 	 *	Unix:
 	 *	1043082341
 	 */
-	var $date;
+	public $date;
+
+	/**
+	 * Add <enclosure> element tag RSS 2.0
+	 * modified by : Mohammad Hafiz bin Ismail (mypapit@gmail.com)
+	 *
+	 *
+	 * display :
+	 * <enclosure length="17691" url="http://something.com/picture.jpg" type="image/jpeg" />
+	 *
+	 */
+	public $enclosure;
 
 	/**
 	 * Any additional elements to include as an assiciated array. All $key => $value pairs
@@ -198,12 +232,32 @@ class FeedItem extends HtmlDescribable {
 	 * if $value contains markup. This may be abused to embed tags not implemented by
 	 * the FeedCreator class used.
 	 */
-	var $additionalElements = Array();
+	public $additionalElements = Array();
 
 	// on hold
-	// var $source;
+	// public $source;
 }
 
+class EnclosureItem extends HtmlDescribable {
+	/*
+	*
+	* core variables
+	*
+	**/
+	public $url,$length,$type;
+
+	/*
+	* For use with another extension like Yahoo mRSS
+	* Warning :
+	* These variables might not show up in
+	* later release / not finalize yet!
+	*
+	*/
+	public $width, $height, $title, $description, $keywords, $thumburl;
+
+	public $additionalElements = Array();
+
+}
 
 
 /**
@@ -215,12 +269,12 @@ class FeedImage extends HtmlDescribable {
 	/**
 	 * Mandatory attributes of an image.
 	 */
-	var $title, $url, $link;
+	public $title, $url, $link;
 
 	/**
 	 * Optional attributes of an image.
 	 */
-	var $width, $height, $description;
+	public $width, $height, $description;
 }
 
 
@@ -233,19 +287,19 @@ class HtmlDescribable {
 	/**
 	 * Indicates whether the description field should be rendered in HTML.
 	 */
-	var $descriptionHtmlSyndicated;
+	public $descriptionHtmlSyndicated;
 
 	/**
 	 * Indicates whether and to how many characters a description should be truncated.
 	 */
-	var $descriptionTruncSize;
+	public $descriptionTruncSize;
 
 	/**
 	 * Returns a formatted description field, depending on descriptionHtmlSyndicated and
 	 * $descriptionTruncSize properties
 	 * @return    string    the formatted description
 	 */
-	function getDescription() {
+	public function getDescription() {
 		$descriptionField = new FeedHtmlField($this->description);
 		$descriptionField->syndicateHtml = $this->descriptionHtmlSyndicated;
 		$descriptionField->truncSize = $this->descriptionTruncSize;
@@ -266,19 +320,19 @@ class FeedHtmlField {
 	/**
 	 * Mandatory attributes of a FeedHtmlField.
 	 */
-	var $rawFieldContent;
+	public $rawFieldContent;
 
 	/**
 	 * Optional attributes of a FeedHtmlField.
 	 *
 	 */
-	var $truncSize, $syndicateHtml;
+	public $truncSize, $syndicateHtml;
 
 	/**
 	 * Creates a new instance of FeedHtmlField.
 	 * @param  $string: if given, sets the rawFieldContent property
 	 */
-	function FeedHtmlField($parFieldContent) {
+	public function FeedHtmlField($parFieldContent) {
 		if ($parFieldContent) {
 			$this->rawFieldContent = $parFieldContent;
 		}
@@ -289,7 +343,7 @@ class FeedHtmlField {
 	 * Creates the right output, depending on $truncSize, $syndicateHtml properties.
 	 * @return string    the formatted field
 	 */
-	function output() {
+	public function output() {
 		// when field available and syndicated in html we assume
 		// - valid html in $rawFieldContent and we enclose in CDATA tags
 		// - no truncation (truncating risks producing invalid html)
@@ -320,25 +374,86 @@ class FeedHtmlField {
  * @since 1.3
  * @author Kai Blankenhorn <kaib@bitfolge.de>
  */
-class UniversalFeedCreator extends FeedCreator {
-	var $_feed;
+class UniversalFeedCreator { # extends FeedCreator {
+	protected $_feed = null;
+	protected $_format = '';
 
-	function _setFormat($format) {
+	protected function _setMIME($format) {
 		switch (strtoupper($format)) {
 
 			case "2.0":
+				// fall through
+			case "RSS2.0":
+				header('Content-type: text/xml', true);
+				break;
+
+			case "1.0":
+				// fall through
+			case "RSS1.0":
+				header('Content-type: text/xml', true);
+				break;
+
+			case "PIE0.1":
+				header('Content-type: text/xml', true);
+				break;
+
+			case "MBOX":
+				header('Content-type: text/plain', true);
+				break;
+
+			case "OPML":
+				header('Content-type: text/xml', true);
+				break;
+
+			case "ATOM":
+				// fall through: always the latest ATOM version
+			case "ATOM1.0":
+				header('Content-type: application/xml', true);
+				break;
+
+			case "ATOM0.3":
+				header('Content-type: application/xml', true);
+				break;
+
+
+			case "HTML":
+				header('Content-type: text/html', true);
+				break;
+
+			case "JS":
+				// fall through
+			case "JAVASCRIPT":
+				header('Content-type: text/javascript', true);
+				break;
+
+			default:
+			case "0.91":
+				// fall through
+			case "RSS0.91":
+				header('Content-type: text/xml', true);
+				break;
+		}
+	}
+
+	protected function _setFormat($format) {
+		switch (strtoupper($format)) {
+
+			case "2.0":
+				$this->_format = 'RSS2.0';
 				// fall through
 			case "RSS2.0":
 				$this->_feed = new RSSCreator20();
 				break;
 
 			case "1.0":
+				$this->_format = 'RSS1.0';
 				// fall through
 			case "RSS1.0":
 				$this->_feed = new RSSCreator10();
 				break;
 
 			case "0.91":
+				$this->_format = 'RSS0.91';
 				// fall through
 			case "RSS0.91":
 				$this->_feed = new RSSCreator091();
@@ -363,11 +478,15 @@ class UniversalFeedCreator extends FeedCreator {
 				$this->_feed = new AtomCreator10();
 				break;
 
+			case "ATOM0.3":
+				$this->_feed = new AtomCreator03();
+				break;
 			case "HTML":
 				$this->_feed = new HTMLCreator();
 				break;
 
 			case "JS":
+				$this->_format = 'JAVASCRIPT';
 				// fall through
 			case "JAVASCRIPT":
 				$this->_feed = new JSCreator();
@@ -395,7 +514,7 @@ class UniversalFeedCreator extends FeedCreator {
 	 *			"PIE0.1", "mbox", "RSS0.91", "RSS1.0", "RSS2.0", "OPML", "ATOM1.0", "HTML", "JS"
 	 * @return    string    the contents of the feed.
 	 */
-	function createFeed($format = "RSS0.91") {
+	public function createFeed($format='RSS0.91') {
 		$this->_setFormat($format);
 		return $this->_feed->createFeed();
 	}
@@ -412,8 +531,8 @@ class UniversalFeedCreator extends FeedCreator {
 	 * @param	string	filename	optional	the filename where a recent version of the feed is saved. If not specified, the filename is $_SERVER['PHP_SELF'] with the extension changed to .xml (see _generateFilename()).
 	 * @param	boolean	displayContents	optional	send the content of the file or not. If true, the file will be sent in the body of the response.
 	 */
-	function saveFeed($format="RSS0.91", $filename="", $displayContents=true) {
-		$this->_setFormat($format);
+	public function saveFeed($format='RSS0.91', $filename='', $displayContents=true) {
+		if ($format) $this->_setFormat($format);
 		$this->_feed->saveFeed($filename, $displayContents);
 	}
 
@@ -430,10 +549,24 @@ class UniversalFeedCreator extends FeedCreator {
     * @param filename   string   optional the filename where a recent version of the feed is saved. If not specified, the filename is $_SERVER['PHP_SELF'] with the extension changed to .xml (see _generateFilename()).
     * @param timeout int      optional the timeout in seconds before a cached version is refreshed (defaults to 3600 = 1 hour)
     */
-   function useCached($format="RSS0.91", $filename="", $timeout=3600) {
-      $this->_setFormat($format);
+   public function useCached($format='RSS0.91', $filename='', $timeout=3600) {
+      if ($format) $this->_setFormat($format);
       $this->_feed->useCached($filename, $timeout);
    }
+
+
+   /**
+	* Outputs feed to the browser - needed for on-the-fly feed generation (like it is done in WordPress, etc.)
+	*
+	* @param	format	string	format the feed should comply to. Valid values are:
+    * 							"PIE0.1" (deprecated), "mbox", "RSS0.91", "RSS1.0", "RSS2.0", "OPML", "ATOM0.3".
+	*/
+   public function outputFeed($format='RSS0.91') {
+		$this->_setFormat($format);
+		$this->_setMIME($format);
+		$this->_feed->outputFeed();
+   }
+
 
 }
 
@@ -446,25 +579,35 @@ class UniversalFeedCreator extends FeedCreator {
  * @author Kai Blankenhorn <kaib@bitfolge.de>
  * @since 1.4
  */
-class FeedCreator extends HtmlDescribable {
+abstract class FeedCreator extends HtmlDescribable {
+
+	/**
+	 * An identifier to be used to create the name for a cache file
+	 */
+	protected $identifier = '';
+
+	/**
+	 * The file extension to be used in the cache file
+	 */
+	protected $suffix = 'xml';
 
 	/**
 	 * Mandatory attributes of a feed.
 	 */
-	var $title, $description, $link;
+	public $title, $description, $link;
 
 
 	/**
 	 * Optional attributes of a feed.
 	 */
-	var $syndicationURL, $image, $language, $copyright, $pubDate, $lastBuildDate, $editor, $editorEmail, $webmaster, $category, $docs, $ttl, $rating, $skipHours, $skipDays;
+	public $syndicationURL, $image, $language, $copyright, $pubDate, $lastBuildDate, $editor, $editorEmail, $webmaster, $category, $docs, $ttl, $rating, $skipHours, $skipDays;
 
 	/**
 	* The url of the external xsl stylesheet used to format the naked rss feed.
 	* Ignored in the output when empty.
 	*/
-	var $xslStyleSheet = "";
-	
+	public $xslStyleSheet = "";
+
 	/**
 	* The url of the external xsl stylesheet used to format the naked rss feed.
 	* Ignored in the output when empty.
@@ -473,9 +616,10 @@ class FeedCreator extends HtmlDescribable {
 
 
 	/**
-	 * @access private
+	 * @access private (cannot be private because it is accessed from a related class,
+	 * but is private to the framework and should not be used outside - Martin Brampton)
 	 */
-	var $items = Array();
+	public $items = Array();
 
 
 	/**
@@ -483,14 +627,14 @@ class FeedCreator extends HtmlDescribable {
 	 * @since 1.4
 	 * @access private
 	 */
-	var $contentType = "application/xml";
+	protected $contentType = "application/xml";
 
 
 	/**
 	 * This feed's character encoding.
 	 * @since 1.6.1
 	 **/
-	var $encoding = "ISO-8859-1";
+	public $encoding = "UTF-8";
 
 
 	/**
@@ -501,9 +645,10 @@ class FeedCreator extends HtmlDescribable {
 	 * if $value contains markup. This may be abused to embed tags not implemented by
 	 * the FeedCreator class used.
 	 */
-	var $additionalElements = Array();
+	public $additionalElements = Array();
 
-	public function __construct () {
+    public function __construct ($identifier='') {
+		$this->identifier = $identifier ? $identifier : 'RSSfeed'.uniqid();
 
 		// your local timezone, set to "" to disable or for GMT
 		if (!defined("TIME_ZONE")) {
@@ -524,7 +669,7 @@ class FeedCreator extends HtmlDescribable {
 	 * @param object FeedItem $item The FeedItem to add to the feed.
 	 * @access public
 	 */
-	function addItem($item) {
+	public function addItem($item) {
 		$this->items[] = $item;
 	}
 
@@ -541,7 +686,7 @@ class FeedCreator extends HtmlDescribable {
 	 * @param int        length the maximum length the string should be truncated to
 	 * @return string    the truncated string
 	 */
-	function iTrunc($string, $length) {
+	public static function iTrunc($string, $length) {
 		if (strlen($string)<=$length) {
 			return $string;
 		}
@@ -574,7 +719,7 @@ class FeedCreator extends HtmlDescribable {
 	 * The format of this comment seems to be recognized by
 	 * Syndic8.com.
 	 */
-	function _createGeneratorComment() {
+	protected function _createGeneratorComment() {
 		return "<!-- generator=\"".FEEDCREATOR_VERSION."\" -->\n";
 	}
 
@@ -586,7 +731,7 @@ class FeedCreator extends HtmlDescribable {
 	 * @param indentString	string	a string that will be inserted before every generated line
 	 * @return    string    the XML tags corresponding to $additionalElements
 	 */
-	function _createAdditionalElements($elements, $indentString="") {
+	protected function _createAdditionalElements($elements, $indentString="") {
 		$ae = "";
 		if (is_array($elements)) {
 			foreach($elements AS $key => $value) {
@@ -596,10 +741,10 @@ class FeedCreator extends HtmlDescribable {
 		return $ae;
 	}
 
-	function _createStylesheetReferences() {
+	protected function _createStylesheetReferences() {
 		$xml = "";
-		if ($this->cssStyleSheet) $xml .= "<?xml-stylesheet href=\"".$this->cssStyleSheet."\" type=\"text/css\"?>\n";
-		if ($this->xslStyleSheet) $xml .= "<?xml-stylesheet href=\"".$this->xslStyleSheet."\" type=\"text/xsl\"?>\n";
+		if (!empty($this->cssStyleSheet)) $xml .= "<?xml-stylesheet href=\"".$this->cssStyleSheet."\" type=\"text/css\"?>\n";
+		if (!empty($this->xslStyleSheet)) $xml .= "<?xml-stylesheet href=\"".$this->xslStyleSheet."\" type=\"text/xsl\"?>\n";
 		return $xml;
 	}
 
@@ -609,8 +754,8 @@ class FeedCreator extends HtmlDescribable {
 	 * @abstract
 	 * @return    string    the feed's complete text
 	 */
-	function createFeed() {
-	}
+	public abstract function createFeed();
+
 
 	/**
 	 * Generate a filename for the feed cache file. The result will be $_SERVER['PHP_SELF'] with the extension changed to .xml.
@@ -628,7 +773,7 @@ class FeedCreator extends HtmlDescribable {
 	 * @since 1.4
 	 * @access private
 	 */
-	function _generateFilename() {
+	protected function _generateFilename() {
 		$fileInfo = pathinfo($_SERVER['PHP_SELF']);
 		return substr($fileInfo["basename"],0,-(strlen($fileInfo["extension"])+1)).".xml";
 	}
@@ -638,7 +783,7 @@ class FeedCreator extends HtmlDescribable {
 	 * @since 1.4
 	 * @access private
 	 */
-	function _redirect($filename) {
+	protected function _redirect($filename) {
 		// attention, heavily-commented-out-area
 
 		// maybe use this in addition to file time checking
@@ -669,7 +814,7 @@ class FeedCreator extends HtmlDescribable {
 	 * @param filename	string	optional	the filename where a recent version of the feed is saved. If not specified, the filename is $_SERVER['PHP_SELF'] with the extension changed to .xml (see _generateFilename()).
 	 * @param timeout	int		optional	the timeout in seconds before a cached version is refreshed (defaults to 3600 = 1 hour)
 	 */
-	function useCached($filename="", $timeout=3600) {
+	public function useCached($filename="", $timeout=3600) {
 		$this->_timeout = $timeout;
 		if ($filename=="") {
 			$filename = $this->_generateFilename();
@@ -688,7 +833,7 @@ class FeedCreator extends HtmlDescribable {
 	 * @param filename	string	optional	the filename where a recent version of the feed is saved. If not specified, the filename is $_SERVER['PHP_SELF'] with the extension changed to .xml (see _generateFilename()).
 	 * @param redirect	boolean	optional	send an HTTP redirect header or not. If true, the user will be automatically redirected to the created file.
 	 */
-	function saveFeed($filename="", $displayContents=true) {
+	public function saveFeed($filename="", $displayContents=true) {
 		if ($filename=="") {
 			$filename = $this->_generateFilename();
 		}
@@ -704,6 +849,15 @@ class FeedCreator extends HtmlDescribable {
 		}
 	}
 
+	/**
+	 * Outputs this feed directly to the browser - for on-the-fly feed generation
+	 * @since 1.7.2-mod
+	 *
+	 * still missing: proper header output - currently you have to add it manually
+	 */
+	public function outputFeed() {
+		echo $this->createFeed();
+	}
 }
 
 
@@ -712,17 +866,17 @@ class FeedCreator extends HtmlDescribable {
  * Usually, you won't need to use this.
  */
 class FeedDate {
-	var $unix;
+	public $unix;
 
 	/**
 	 * Creates a new instance of FeedDate representing a given date.
 	 * Accepts RFC 822, ISO 8601 date formats as well as unix time stamps.
 	 * @param mixed $dateString optional the date this FeedDate will represent. If not specified, the current date and time is used.
 	 */
-	function FeedDate($dateString="") {
+	public function __construct ($dateString='') {
 		if ($dateString=="") $dateString = date("r");
 
-		if (is_integer($dateString)) {
+		if (is_numeric($dateString)) {
 			$this->unix = $dateString;
 			return;
 		}
@@ -771,7 +925,7 @@ class FeedDate {
 	 *
 	 * @return a date in RFC 822 format
 	 */
-	function rfc822() {
+	public function rfc822() {
 		//return gmdate("r",$this->unix);
 		$date = gmdate("D, d M Y H:i:s", $this->unix);
 		if (TIME_ZONE!="") $date .= " ".str_replace(":","",TIME_ZONE);
@@ -781,9 +935,9 @@ class FeedDate {
 	/**
 	 * Gets the date stored in this FeedDate as an ISO 8601 date.
 	 *
-	 * @return a date in ISO 8601 format
+	 * @return a date in ISO 8601 (RFC 3339) format
 	 */
-	function iso8601() {
+	public function iso8601() {
 		$date = gmdate("Y-m-d\TH:i:sO",$this->unix);
 		$date = substr($date,0,22) . ':' . substr($date,-2);
 		if (TIME_ZONE!="") $date = str_replace("+00:00",TIME_ZONE,$date);
@@ -795,7 +949,7 @@ class FeedDate {
 	 *
 	 * @return a date as a unix time stamp
 	 */
-	function unix() {
+	public function unix() {
 		return $this->unix;
 	}
 }
@@ -815,7 +969,7 @@ class RSSCreator10 extends FeedCreator {
 	 * The feed will contain all items previously added in the same order.
 	 * @return    string    the feed's complete text
 	 */
-	function createFeed() {
+	public function createFeed() {
 		$feed = "<?xml version=\"1.0\" encoding=\"".$this->encoding."\"?>\n";
 		$feed.= $this->_createGeneratorComment();
 		if ($this->cssStyleSheet=="") {
@@ -893,9 +1047,10 @@ class RSSCreator091 extends FeedCreator {
 	 * Stores this RSS feed's version number.
 	 * @access private
 	 */
-	var $RSSVersion;
+	protected $RSSVersion;
 
-	function RSSCreator091() {
+	public function __construct ($identifier='') {
+		parent::__construct($identifier);
 		$this->_setRSSVersion("0.91");
 		$this->contentType = "application/rss+xml";
 	}
@@ -904,7 +1059,7 @@ class RSSCreator091 extends FeedCreator {
 	 * Sets this RSS feed's version number.
 	 * @access private
 	 */
-	function _setRSSVersion($version) {
+	protected function _setRSSVersion($version) {
 		$this->RSSVersion = $version;
 	}
 
@@ -913,7 +1068,7 @@ class RSSCreator091 extends FeedCreator {
 	 * The feed will contain all items previously added in the same order.
 	 * @return    string    the feed's complete text
 	 */
-	function createFeed() {
+	public function createFeed() {
 		$feed = "<?xml version=\"1.0\" encoding=\"".$this->encoding."\"?>\n";
 		$feed.= $this->_createGeneratorComment();
 		$feed.= $this->_createStylesheetReferences();
@@ -923,6 +1078,9 @@ class RSSCreator091 extends FeedCreator {
 		$this->descriptionTruncSize = 500;
 		$feed.= "        <description>".$this->getDescription()."</description>\n";
 		$feed.= "        <link>".$this->link."</link>\n";
+		if ('2.0' == substr($this->RSSVersion,0,3) AND !empty($this->syndicationURL)) {
+			$feed .= "		<atom:link href=\"$this->syndicationURL\" rel=\"self\" type=\"application/rss+xml\" />";
+		}
 		$now = new FeedDate();
 		$feed.= "        <lastBuildDate>".htmlspecialchars($now->rfc822())."</lastBuildDate>\n";
 		$feed.= "        <generator>".FEEDCREATOR_VERSION."</generator>\n";
@@ -1008,6 +1166,16 @@ class RSSCreator091 extends FeedCreator {
 				$feed.= "            <guid>".htmlspecialchars($this->items[$i]->guid)."</guid>\n";
 			}
 			$feed.= $this->_createAdditionalElements($this->items[$i]->additionalElements, "        ");
+			if ('2.0' == substr($this->RSSVersion,0,3) AND !empty($this->syndicationURL) AND $this->items[$i]->enclosure != NULL)
+				{
+				                $feed.= "            <enclosure url=\"";
+				                $feed.= $this->items[$i]->enclosure->url;
+				                $feed.= "\" length=\"";
+				                $feed.= $this->items[$i]->enclosure->length;
+				                $feed.= "\" type=\"";
+				                $feed.= $this->items[$i]->enclosure->type;
+				                $feed.= "\"/>\n";
+		            	}
 			$feed.= "        </item>\n";
 		}
 		$feed.= "    </channel>\n";
@@ -1027,8 +1195,9 @@ class RSSCreator091 extends FeedCreator {
  */
 class RSSCreator20 extends RSSCreator091 {
 
-    function RSSCreator20() {
-        parent::_setRSSVersion("2.0");
+    public function __construct ($identifier='') {
+		parent::__construct($identifier);
+        parent::_setRSSVersion('2.0" xmlns:atom="http://www.w3.org/2005/Atom');
     }
 
 }
@@ -1044,11 +1213,12 @@ class RSSCreator20 extends RSSCreator091 {
  */
 class PIECreator01 extends FeedCreator {
 
-	function PIECreator01() {
+	public function __construct ($identifier='') {
+		parent::__construct($identifier);
 		$this->encoding = "utf-8";
 	}
 
-	function createFeed() {
+	public function createFeed() {
 		$feed = "<?xml version=\"1.0\" encoding=\"".$this->encoding."\"?>\n";
 		$feed.= $this->_createStylesheetReferences();
 		$feed.= "<feed version=\"0.1\" xmlns=\"http://example.com/newformat#\">\n";
@@ -1084,6 +1254,89 @@ class PIECreator01 extends FeedCreator {
 }
 
 
+
+
+/**
+ * AtomCreator10 is a FeedCreator that implements the atom specification,
+ * as in http://www.atomenabled.org/developers/syndication/atom-format-spec.php
+ * Please note that just by using AtomCreator10 you won't automatically
+ * produce valid atom files. For example, you have to specify either an editor
+ * for the feed or an author for every single feed item.
+ *
+ * Some elements have not been implemented yet. These are (incomplete list):
+ * author URL, item author's email and URL, item contents, alternate links,
+ * other link content types than text/html. Some of them may be created with
+ * AtomCreator10::additionalElements.
+ *
+ * @see FeedCreator#additionalElements
+ * @since 1.7.2-mod (modified)
+ * @author Mohammad Hafiz Ismail (mypapit@gmail.com)
+ */
+class AtomCreator10 extends FeedCreator {
+
+	public function __construct ($identifier='') {
+		parent::__construct($identifier);
+		$this->contentType = "application/atom+xml";
+		$this->encoding = "utf-8";
+	}
+
+	public function createFeed() {
+		$feed = "<?xml version=\"1.0\" encoding=\"".$this->encoding."\"?>\n";
+		$feed.= $this->_createGeneratorComment();
+		$feed.= $this->_createStylesheetReferences();
+		$feed.= "<feed xmlns=\"http://www.w3.org/2005/Atom\"";
+		if ($this->language!="") {
+			$feed.= " xml:lang=\"".$this->language."\"";
+		}
+		$feed.= ">\n";
+		$feed.= "    <title>".htmlspecialchars($this->title)."</title>\n";
+		$feed.= "    <subtitle>".htmlspecialchars($this->description)."</subtitle>\n";
+		$feed.= "    <link rel=\"alternate\" type=\"text/html\" href=\"".htmlspecialchars($this->link)."\"/>\n";
+		$feed.= "    <id>".htmlspecialchars($this->link)."</id>\n";
+		$now = new FeedDate();
+		$feed.= "    <updated>".htmlspecialchars($now->iso8601())."</updated>\n";
+		if ($this->editor!="") {
+			$feed.= "    <author>\n";
+			$feed.= "        <name>".$this->editor."</name>\n";
+			if ($this->editorEmail!="") {
+				$feed.= "        <email>".$this->editorEmail."</email>\n";
+			}
+			$feed.= "    </author>\n";
+		}
+		$feed.= "    <generator>".FEEDCREATOR_VERSION."</generator>\n";
+		$feed.= "<link rel=\"self\" type=\"application/atom+xml\" href=\"". $this->syndicationURL . "\" />\n";
+		$feed.= $this->_createAdditionalElements($this->additionalElements, "    ");
+		for ($i=0;$i<count($this->items);$i++) {
+			$feed.= "    <entry>\n";
+			$feed.= "        <title>".htmlspecialchars(strip_tags($this->items[$i]->title))."</title>\n";
+			$feed.= "        <link rel=\"alternate\" type=\"text/html\" href=\"".htmlspecialchars($this->items[$i]->link)."\"/>\n";
+			if ($this->items[$i]->date=="") {
+				$this->items[$i]->date = time();
+			}
+			$itemDate = new FeedDate($this->items[$i]->date);
+			$feed.= "        <published>".htmlspecialchars($itemDate->iso8601())."</published>\n";
+			$feed.= "        <updated>".htmlspecialchars($itemDate->iso8601())."</updated>\n";
+			$feed.= "        <id>".htmlspecialchars($this->items[$i]->link)."</id>\n";
+			$feed.= $this->_createAdditionalElements($this->items[$i]->additionalElements, "        ");
+			if ($this->items[$i]->author!="") {
+				$feed.= "        <author>\n";
+				$feed.= "            <name>".htmlspecialchars($this->items[$i]->author)."</name>\n";
+				$feed.= "        </author>\n";
+			}
+			if ($this->items[$i]->description!="") {
+				$feed.= "        <summary>".htmlspecialchars($this->items[$i]->description)."</summary>\n";
+			}
+			if ($this->items[$i]->enclosure != NULL) {
+			$feed.="        <link rel=\"enclosure\" href=\"". $this->items[$i]->enclosure->url ."\" type=\"". $this->items[$i]->enclosure->type."\"  length=\"". $this->items[$i]->enclosure->length . "\" />\n";
+			}
+			$feed.= "    </entry>\n";
+		}
+		$feed.= "</feed>\n";
+		return $feed;
+	}
+}
+
+
 /**
  * DEPRECATED
  *
@@ -1105,12 +1358,13 @@ class PIECreator01 extends FeedCreator {
  */
 class AtomCreator03 extends FeedCreator {
 
-	function AtomCreator03() {
+	public function __construct ($identifier='') {
+		parent::__construct($identifier);
 		$this->contentType = "application/atom+xml";
 		$this->encoding = "utf-8";
 	}
 
-	function createFeed() {
+	public function createFeed() {
 		$feed = "<?xml version=\"1.0\" encoding=\"".$this->encoding."\"?>\n";
 		$feed.= $this->_createGeneratorComment();
 		$feed.= $this->_createStylesheetReferences();
@@ -1163,76 +1417,6 @@ class AtomCreator03 extends FeedCreator {
 	}
 }
 
-/**
- * AtomCreator10 is a FeedCreator that implements the atom specification,
- * as in http://www.atomenabled.org/
- * @author neil.thompson <nthompson@mambo-foundation.org>
- */
-class AtomCreator10 extends FeedCreator {
-
-	function AtomCreator10() {
-		$this->contentType = "application/atom+xml";
-		$this->encoding = "utf-8";
-	}
-
-	function createFeed() {
-
-		$now = new FeedDate();
-
-		$feed = "<?xml version=\"1.0\" encoding=\"".$this->encoding."\"?>\n";
-		$feed.= $this->_createGeneratorComment();
-		$feed.= $this->_createStylesheetReferences();
-		$feed.= "<feed xmlns=\"http://www.w3.org/2005/Atom\">\n";
-		$feed.= "    <title type=\"text\">".htmlspecialchars($this->title)."</title>\n";
-		$feed.= "    <subtitle>".htmlspecialchars($this->description)."</subtitle>\n";
-		$feed.= "    <link rel=\"alternate\" type=\"text/html\" hreflang=\"en\" href=\"".htmlspecialchars($this->link)."\"/>\n";
-		$feed.= "    <link rel=\"self\" type=\"application/atom+xml\"  hreflang=\"en\" href=\"".htmlspecialchars($this->link)."/index2.php?option=com_rss&amp;feed=ATOM1.0&amp;no_html=1\"/>\n";
-		$feed.= "    <id>".htmlspecialchars($this->link)."/</id>\n";
-		$feed.= "    <updated>".htmlspecialchars($now->iso8601())."</updated>\n";
-
-		if ($this->editor!="") {
-			$feed.= "    <rights>".$this->editor;
-			if ($this->editorEmail!="") {
-				$feed.= $this->editorEmail;
-			}
-			$feed.= "    </rights>\n";
-		}
-
-		$feed.= "    <generator>".FEEDCREATOR_VERSION."</generator>\n";
-
-		$feed.= $this->_createAdditionalElements($this->additionalElements, "    ");
-
-		for ($i=0;$i<count($this->items);$i++) {
-
-			$this->items[$i]->created = time();
-			$itemDate = new FeedDate($this->items[$i]->created);
-
-			$feed.= "    <entry>\n";
-			$feed.= "        <title>".htmlspecialchars(strip_tags($this->items[$i]->title))."</title>\n";
-      $feed.= "        <link rel=\"self\" type=\"application/atom+xml\" href=\"".htmlspecialchars($this->items[$i]->link)."\"/>\n";
-			$feed.= "        <link rel=\"alternate\" type=\"text/html\" href=\"".htmlspecialchars($this->items[$i]->link)."\"/>\n";
-			$feed.= "        <updated>".htmlspecialchars($itemDate->iso8601())."</updated>\n";
-			$feed.= "        <id>".htmlspecialchars($this->items[$i]->link)."</id>\n";
-			$feed.= "        <author>\n";
-      if ($this->items[$i]->author!="") {
-				$feed.= "        <name>".htmlspecialchars($this->items[$i]->author)."</name>\n";
-			}else{
-        $feed.= "       <name>".htmlspecialchars($this->link)."</name>\n";
-      }
-      $feed.= "        </author>\n";
-
-			if ($this->items[$i]->description!="") {
-				$feed.= "        <summary type=\"html\">".htmlspecialchars($this->items[$i]->description)."</summary>\n";
-			}
-			$feed.= "    </entry>\n";
-
-		}
-
-		$feed.= "</feed>\n";
-		return $feed;
-	}
-}
-
 
 /**
  * MBOXCreator is a FeedCreator that implements the mbox format
@@ -1243,12 +1427,18 @@ class AtomCreator10 extends FeedCreator {
  */
 class MBOXCreator extends FeedCreator {
 
-	function MBOXCreator() {
+	/**
+	 * The file extension to be used in the cache file
+	 */
+	protected $suffix = 'mbox';
+
+	public function __construct ($identifier='') {
+		parent::__construct($identifier);
 		$this->contentType = "text/plain";
 		$this->encoding = "ISO-8859-15";
 	}
 
-	function qp_enc($input = "", $line_max = 76) {
+	public function qp_enc($input = "", $line_max = 76) {
 		$hex = array('0','1','2','3','4','5','6','7','8','9','A','B','C','D','E','F');
 		$lines = preg_split("/(?:\r\n|\r|\n)/", $input);
 		$eol = "\r\n";
@@ -1283,7 +1473,7 @@ class MBOXCreator extends FeedCreator {
 	 * Builds the MBOX contents.
 	 * @return    string    the feed's complete text
 	 */
-	function createFeed() {
+	public function createFeed() {
 		for ($i=0;$i<count($this->items);$i++) {
 			if ($this->items[$i]->author!="") {
 				$from = $this->items[$i]->author;
@@ -1314,7 +1504,7 @@ class MBOXCreator extends FeedCreator {
 	 * @since 1.4
 	 * @access private
 	 */
-	function _generateFilename() {
+	protected function _generateFilename() {
 		$fileInfo = pathinfo($_SERVER['PHP_SELF']);
 		return substr($fileInfo["basename"],0,-(strlen($fileInfo["extension"])+1)).".mbox";
 	}
@@ -1330,11 +1520,12 @@ class MBOXCreator extends FeedCreator {
  */
 class OPMLCreator extends FeedCreator {
 
-	function OPMLCreator() {
+	public function __construct ($identifier='') {
+		parent::__construct($identifier);
 		$this->encoding = "utf-8";
 	}
 
-	function createFeed() {
+	public function createFeed() {
 		$feed = "<?xml version=\"1.0\" encoding=\"".$this->encoding."\"?>\n";
 		$feed.= $this->_createGeneratorComment();
 		$feed.= $this->_createStylesheetReferences();
@@ -1387,36 +1578,40 @@ class OPMLCreator extends FeedCreator {
  */
 class HTMLCreator extends FeedCreator {
 
-	var $contentType = "text/html";
+	/**
+	 * The file extension to be used in the cache file
+	 */
+	protected $suffix = 'html';
+	public $contentType = "text/html";
 
 	/**
 	 * Contains HTML to be output at the start of the feed's html representation.
 	 */
-	var $header;
+	public $header;
 
 	/**
 	 * Contains HTML to be output at the end of the feed's html representation.
 	 */
-	var $footer ;
+	public $footer ;
 
 	/**
 	 * Contains HTML to be output between entries. A separator is only used in
 	 * case of multiple entries.
 	 */
-	var $separator;
+	public $separator;
 
 	/**
 	 * Used to prefix the stylenames to make sure they are unique
 	 * and do not clash with stylenames on the users' page.
 	 */
-	var $stylePrefix;
+	public $stylePrefix;
 
 	/**
 	 * Determines whether the links open in a new window or not.
 	 */
-	var $openInNewWindow = true;
+	public $openInNewWindow = true;
 
-	var $imageAlign ="right";
+	public $imageAlign ="right";
 
 	/**
 	 * In case of very simple output you may want to get rid of the style tags,
@@ -1425,13 +1620,13 @@ class HTMLCreator extends FeedCreator {
 	 * and when it is non-empty, ONLY the styleless output is printed, the rest is ignored
 	 * in the function createFeed().
 	 */
-	var $stylelessOutput ="";
+	public $stylelessOutput ="";
 
 	/**
 	 * Writes the HTML.
 	 * @return    string    the scripts's complete text
 	 */
-	function createFeed() {
+	public function createFeed() {
 		// if there is styleless output, use the content of this variable and ignore the rest
 		if ($this->stylelessOutput!="") {
 			return $this->stylelessOutput;
@@ -1518,7 +1713,7 @@ class HTMLCreator extends FeedCreator {
 	 * @since 1.4
 	 * @access private
 	 */
-	function _generateFilename() {
+	protected function _generateFilename() {
 		$fileInfo = pathinfo($_SERVER['PHP_SELF']);
 		return substr($fileInfo["basename"],0,-(strlen($fileInfo["extension"])+1)).".html";
 	}
@@ -1532,13 +1727,18 @@ class HTMLCreator extends FeedCreator {
  * @author Pascal Van Hecke
  */
 class JSCreator extends HTMLCreator {
-	var $contentType = "text/javascript";
+	public $contentType = "text/javascript";
+
+	/**
+	 * The file extension to be used in the cache file
+	 */
+	protected $suffix = 'js';
 
 	/**
 	 * writes the javascript
 	 * @return    string    the scripts's complete text
 	 */
-	function createFeed()
+	public function createFeed()
 	{
 		$feed = parent::createFeed();
 		$feedArray = explode("\n",$feed);
@@ -1557,7 +1757,7 @@ class JSCreator extends HTMLCreator {
 	 * @since 1.4
 	 * @access private
 	 */
-	function _generateFilename() {
+	protected function _generateFilename() {
 		$fileInfo = pathinfo($_SERVER['PHP_SELF']);
 		return substr($fileInfo["basename"],0,-(strlen($fileInfo["extension"])+1)).".js";
 	}
