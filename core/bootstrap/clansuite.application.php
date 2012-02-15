@@ -437,8 +437,12 @@ class Clansuite_CMS
          *
          * We set INCLUDE PATHS for PEAR and other 3th party Libraries by defining an paths array first.
          * We are not setting the clansuite core path here, because files located there are handled via autoloading.
-         * The $paths array is set to the php environment with set_include_path.
-         * Note, that for set_include_path the path order is important   <first path to look>:<second path>:<etc>:
+         *
+         * The $paths array is set to the php environment with set_include_path().
+         * Note, that for set_include_path() to work properly the path order is important!
+         * <first path to look>:<second path>:<etc>:
+         *
+         * If you need to add something: use or absolute path constants (ROOT*) or realpath($your_path).
          */
         $paths = array(
             ROOT,
@@ -478,6 +482,7 @@ class Clansuite_CMS
             ini_set('max_execution_time', '300');
             ini_set('display_startup_errors', true);
             ini_set('display_errors', true);    # display errors in the browser
+
             error_reporting(E_ALL | E_STRICT);  # all errors and strict standard optimizations
 
             /**
@@ -594,18 +599,18 @@ class Clansuite_CMS
     {
         # define the core classes to load
         static $core_classes = array(
-                              'Clansuite_Config',
-                              'Clansuite_HttpRequest',
-                              'Clansuite_HttpResponse',
-                              'Clansuite_FilterManager',
-                              'Clansuite_Localization',
-                              'Clansuite_Security',
-                              'Clansuite_Inputfilter',
-                              'Clansuite_Localization',
-                              'Clansuite_User',
-                              'Clansuite_Session',
-                              'Clansuite_Router',
-                             );
+            'Clansuite_Config',
+            'Clansuite_HttpRequest',
+            'Clansuite_HttpResponse',
+            'Clansuite_FilterManager',
+            'Clansuite_Localization',
+            'Clansuite_Security',
+            'Clansuite_Inputfilter',
+            'Clansuite_Localization',
+            'Clansuite_User',
+            'Clansuite_Session',
+            'Clansuite_Router',
+        );
 
         # register them to the DI as singletons
         foreach($core_classes as $class)
@@ -621,21 +626,21 @@ class Clansuite_CMS
     {
         # define prefilters to load
         self::$prefilter_classes = array(
-                                         'Clansuite_Filter_GetUser',
-                                         #'Clansuite_Filter_Session_Security',
-                                         'Clansuite_Filter_Routing',
-                                         'Clansuite_Filter_LanguageViaGet',
-                                         'Clansuite_Filter_ThemeViaGet',
-                                         'Clansuite_Filter_SetModuleLanguage',
-                                         'Clansuite_Filter_StartupChecks',
-                                         #'Clansuite_Filter_Statistics'
-                                        );
+            'Clansuite_Filter_GetUser',
+            #'Clansuite_Filter_Session_Security',
+            'Clansuite_Filter_Routing',
+            'Clansuite_Filter_LanguageViaGet',
+            'Clansuite_Filter_ThemeViaGet',
+            'Clansuite_Filter_SetModuleLanguage',
+            'Clansuite_Filter_StartupChecks',
+            #'Clansuite_Filter_Statistics'
+        );
 
         # define postfilters to load
         self::$postfilter_classes = array(
-                                          #'Clansuite_Filter_HtmlTidy',
-                                          'Clansuite_Filter_SmartyMoves'
-                                          );
+            #'Clansuite_Filter_HtmlTidy',
+            'Clansuite_Filter_SmartyMoves'
+        );
 
         # register the debug console only in DEBUG mode and before all other filters
         if(DEBUG === true)
