@@ -135,7 +135,7 @@ class Clansuite_Mapper
 
     /**
      * Maps the action to it's method name.
-     * The prefix 'action_' (pseudo-namesspace) is used for all actions.
+     * The prefix 'action_' (pseudo-namespace) is used for all actions.
      * Example: A action named "show" will be mapped to "action_show()"
      * This is also a way to ensure some kind of whitelisting via namespacing.
      *
