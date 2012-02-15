@@ -52,10 +52,7 @@ class Clansuite_Debug
     /**
      * This is an replacement for the native php function print_r() with an upgraded display.
      *
-     * @author  cagret@gosu.pl
-     * @version created 2005-06-18 modified 2006-06-04
      * @param   mixed/array/object $var Array or Object as Variable to display
-     *
      * @returns Returns a better structured display of an array/object as native print_r
      */
     public static function printR($var)
@@ -74,6 +71,7 @@ class Clansuite_Debug
         echo '<pre>';
         echo '<b>Debugging <font color=red>'.basename($trace['file']).'</font> on line <font color=red>'.$trace['line']."</font></b>:\r\n";
         echo "<div style='background: #f5f5f5; padding: 0.2em 0em;'>".htmlspecialchars($trace_line)."</div>\r\n";
+
         echo '<b>Type</b>: '.gettype($var)."\r\n"; # uhhh.. gettype is slow like hell
 
         if (is_string($var) === true)
@@ -156,6 +154,9 @@ class Clansuite_Debug
             $var_dump = '<pre>' . htmlspecialchars($var_dump, ENT_QUOTES, 'UTF-8') . '</pre>';
         }
 
+        # display where this debug statement
+        echo self::getOriginOfDebugCall();
+
         # output the content of the buffer
         echo $var_dump;
 
@@ -185,9 +186,9 @@ class Clansuite_Debug
 
         /**
          * Adds an info message about the position of the firebug call (origin).
-         * This is very helpful, if you spread Debug::firebug() calls all over your code.
+         * This is very helpful if you spread Debug::firebug() calls all over your code.
          */
-        $firephp->info(self::getWhereDebugWasCalled());
+        $firephp->info(self::getOriginOfDebugCall());
 
         # debug the var
         $firephp->{$firebugmethod}($var);
@@ -196,39 +197,64 @@ class Clansuite_Debug
     /**
      * Returns the position of a call.
      *
-     * This is used in combination with Clansuite_Debug::firebug(),
-     * to determine the origin of the call.
+     * This is used to determine the origin of the debug call.
+     * Its mostly used in combination with several debug calls,
+     * like Clansuite_Debug::firebug() or Clansuite_Debug::printR()
+     * which are enhanced debug displays.
      *
-     * @param type $level default 1.
+     * It is a very helpful reminder to find and remove debug calls,
+     * which you spread all over your code while tracking down a bug,
+     * but forgot the trace path or where exactly they are.
+     *
+     * If you have a multitude of debug calls, debug breadcrumbs or toc
+     * would be good ;) But that's another story...
+     *
+     * The default level is 2 (0,1,2), because we have to skip
+     * the 3 calls to dump() and getWhereDebugWasCalled().
+     *
+     * @param type $level default 2.
      * @return string Message with origin of the debug call.
      */
-    public static function getWhereDebugWasCalled($level = 1)
+    public static function getOriginOfDebugCall($level = 1)
     {
         $trace  = array();
-        $file = $line = $function = $class = $object = '';
+        $file = $line = $function = $class = $object = $trace_line = '';
 
+        /**
+         * Get the backtrace.
+         */
         $trace  = debug_backtrace();
         $file     = $trace[$level]['file'];
         $line     = $trace[$level]['line'];
-        $function = $trace[$level]['function'];
-        $class    = $trace[$level]['class'];
+        #$function = $trace[$level]['function'];
+        #$class    = $trace[$level]['class'];
 
-        return sprintf(
-            'You are debugging like fire in %s->%s() on line "%s" in file "%s".',
-            $class, $function, $line, $file
+        /**
+         * Get the file, to show the exact origin of the debug call.
+         *
+         * It's one level under.
+         */
+        $file_content = file($trace[$level]['file']);
+        $origin_of_call = $file_content[ $trace[$level]['line']-1 ];
+
+        echo sprintf('<pre><b>Debugging <font color=red>%s</font> on line <font color=red>%s</font>:</b>
+            <div style="background: #f5f5f5; padding: 0.2em 0em;">%s</div></pre>',
+            basename($file), $line, htmlspecialchars($origin_of_call)
         );
     }
 
     /**
-     * Lists all currently included (or required) files.
-     * Counts all included files and calculates total size of all inclusion.
+     * The method
+     * - lists all currently included and required files.
+     * - counts all includes files
+     * - calculates the total size (combined filesize) of all inclusions
      */
-    public static function getIncludesFiles()
+    public static function getIncludedFiles()
     {
         # init vars
         $includedFiles = $files = array();
         $includedFilesTotalSize = $includedFilesCount = 0;
-        
+
         # fetch all included files
         $files = get_included_files();
 
