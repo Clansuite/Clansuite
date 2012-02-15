@@ -64,8 +64,17 @@ class Clansuite_Formelement_Buttonbar extends Clansuite_Formelement implements C
 
     public function addButton($buttonname)
     {
-        # fetch the formelement (the button)
-        $formelement = Clansuite_Form::formelementFactory($buttonname);
+        if(is_string($buttonname))
+        {
+            # fetch the formelement (the button)
+            $formelement = Clansuite_Form::formelementFactory($buttonname);
+        }
+
+        # @todo use instanceof Clansuite_Formelement_Button
+        if(is_object($buttonname) and (!$buttonname instanceof Clansuite_Formelement_Input))
+        {
+            throw new Clansuite_Exception('The button must a be formelement object.');
+        }
 
         # attach button object to buttons array
         $this->_buttons[$buttonname] = $formelement;
