@@ -99,7 +99,7 @@ interface Clansuite_Cache_Interface
     function fetch($key);
 
     # Cache a variable in the data store
-    function store($key, $data, $cache_lifetime);
+    function store($key, $data, $cache_lifetime = 0);
 
     # Removes a stored variable from the cache
     function delete($key);
