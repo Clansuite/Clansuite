@@ -45,9 +45,8 @@ if (defined('IN_CS') === false)
  * @package     Core
  * @subpackage  Cache
  */
-class Clansuite_Cache_File implements Clansuite_Cache_Interface
+class Clansuite_Cache_File extends Clansuite_Cache_Base implements Clansuite_Cache_Interface
 {
-
     /**
      * Contains checks if a key exists in the cache
      *

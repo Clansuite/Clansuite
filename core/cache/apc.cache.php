@@ -47,7 +47,7 @@ if(defined('IN_CS') === false)
  * @package     Core
  * @subpackage  Cache
  */
-class Clansuite_Cache_APC implements Clansuite_Cache_Interface
+class Clansuite_Cache_APC extends Clansuite_Cache_Base implements Clansuite_Cache_Interface
 {
 
     public function __construct()

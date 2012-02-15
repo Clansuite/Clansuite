@@ -38,24 +38,49 @@ if(defined('IN_CS') === false)
 
 class Cache
 {
-    private static $instance = null;
+    /**
+     * The cache object wrapping the cache access.
+     *
+     * @var Clansuite_Cache $cacheObject The cache object.
+     */
+    private static $cacheObject = null;
 
-    public static function instantiate($adapter)
+    /**
+     * Instantiates a cache adapter
+     *
+     * @param string $adapter The cache adapter to instantiate. Defaults to apc.
+     * @return Clansuite_Cache_Interface Cache object of the requested adapter type.
+     */
+    public static function instantiate($adapter = 'apc')
     {
-        if(self::$instance === null)
+        if(self::$cacheObject === null)
         {
-            self::$instance = Clansuite_Cache_Factory::getCache($adapter);
+            self::$cacheObject = Clansuite_Cache_Factory::getCache($adapter);
         }
+
+        return self::$cacheObject;
     }
-    
+
+    /**
+     * Checks, if data for a key is stored in the cache.
+     *
+     * @param string $key
+     * @return bool True, the key/data exists.
+     */
     public static function contains($key)
     {
-        return self::$instance->contains($key);
+        return self::$cacheObject->contains($key);
     }
 
+    /**
+     * Retrieves data by key from the cache.
+     *
+     * @param type $key
+     * @return mixed|null Returns data or null.
+     */
     public static function fetch($key = null)
     {
-        $data = self::$instance->fetch($key);
+        $data = self::$cacheObject->fetch($key);
 
         if(!$data)
         {
@@ -65,24 +90,48 @@ class Cache
         return $data;
     }
 
-    public static function store($key, $data, $cache_lifetime = 720)
+    /**
+     * Stores data by key to the cache.
+     *
+     * @param type $key The key to retrieve the data form the cache.
+     * @param type $data The data to store in the cache.
+     * @param int $cache_lifetime Cache lifetime in minutes.
+     * @return bool
+     */
+    public static function store($key, $data, $cache_lifetime = 10)
     {
-        return self::$instance->set($key, $data, $cache_lifetime);
+        return self::$cacheObject->set($key, $data, $cache_lifetime);
     }
 
+    /**
+     * Deletes data by key from the cache.
+     *
+     * @param string $key
+     * @return bool
+     */
     public static function delete($key)
     {
-        return self::$instance->delete($key);
+        return self::$cacheObject->delete($key);
     }
 
+    /**
+     * Clears the cache completely.
+     *
+     * @return bool
+     */
     public static function clear()
     {
-        return self::$instance->clear();
+        return self::$cacheObject->clear();
     }
 
+    /**
+     * Retrieves an object from the cache.
+     *
+     * @return object
+     */
     public static function fetchObject($key = null)
     {
-        $object = self::$instance->get($key);
+        $object = self::$cacheObject->get($key);
 
         if(is_string($object))
         {
@@ -92,11 +141,54 @@ class Cache
         return $object;
     }
 
-    public static function storeObject($key, $object, $cache_lifetime = 720)
+    /**
+     * Stores an object in the cache.
+     *
+     * @param type $key The key for retrieving the object.
+     * @param type $object The object to store the cache.
+     * @param type $cache_lifetime Cache liftime in minutes.
+     * @return boolean True in caching success. False on caching failure.
+     */
+    public static function storeObject($key, $object, $cache_lifetime = 10)
     {
-        return self::$instance->set($key, serialize($object), $cache_lifetime);
+        return self::$cacheObject->set($key, serialize($object), $cache_lifetime);
+    }
+}
+
+abstract class Clansuite_Cache_Base
+{
+    /**
+     * Prefix for the cache key.
+     *
+     * @var mixed Defaults to 'cs'.
+     */
+    protected $prefix = 'cs';
+
+    /**
+     * Set Prefix for the cache key.
+     *
+     * @param string $prefix The prefix for all cache keys.
+     * @throws InvalidArgumentException if prefix is empty
+     */
+    public function setPrefix($prefix)
+    {
+        if(empty($prefix))
+        {
+            throw new InvalidArgumentException('Prefix must not be empty.');
+        }
+
+        $this->prefix = $prefix;
     }
 
+    /**
+     * Get Prefix for the cache key.
+     *
+     * @return string The cache prefix
+     */
+    public function getPrefix()
+    {
+        return $this->prefix;
+    }
 }
 
 ?>

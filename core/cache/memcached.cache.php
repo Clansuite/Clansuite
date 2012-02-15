@@ -57,7 +57,7 @@ if(defined('IN_CS') === false)
  * @package     Core
  * @subpackage  Cache
  */
-class Clansuite_Cache_Memcached implements Clansuite_Cache_Interface
+class Clansuite_Cache_Memcached extends Clansuite_Cache_Base implements Clansuite_Cache_Interface
 {
     /**
      * Memcached Server
@@ -167,7 +167,7 @@ class Clansuite_Cache_Memcached implements Clansuite_Cache_Interface
      *
      * @param string $key Identifier for the data
      * @param mixed $data Data to be cached
-     * @param integer $cache_lifetime How long to cache the data, in seconds
+     * @param integer $cache_lifetime How long to cache the data, in minutes
      * @return boolean True if the data was successfully cached, false on failure.
      */
     public function store($key, $data, $cache_lifetime = 0)
@@ -239,7 +239,7 @@ class Clansuite_Cache_Memcached implements Clansuite_Cache_Interface
 
     /**
      * The connection, which was opened using Memcache::connect()
-     * will be automatically closed at the end of script execution.
+     * will be automatically closed at the end of the script execution.
      * We are nice and close it on object destruction.
      */
     public function __destruct()
