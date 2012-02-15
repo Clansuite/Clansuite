@@ -2,12 +2,13 @@
 /** -------------------------------------------------
  * OPERATING SYSTEM (OS)
  * -------------------------------------------------
- *  
- *  - search        = searchstring
+ *
+ * Array Structure:
+ *  - search      = searchstring
  *  - subsearch   = sub search in search
- *  - addsearch   = additional searchstring for spezified os
- *  - type           = os
- *  
+ *  - addsearch   = additional searchstring for specific os
+ *  - type        = os
+ *
  */
 
 $os = array(
@@ -45,7 +46,7 @@ $os = array(
 
     'Linux' =>
         array (
-            'search' => 
+            'search' =>
                 array(
                     0 => '/linux/si',
                 ),

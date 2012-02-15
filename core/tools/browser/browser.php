@@ -3,13 +3,14 @@
 /** -------------------------------------------------
  * BROWSER
  * -------------------------------------------------
- *  
+ *
+ * Array Structure:
  *  - search    = searchstring
  *  - type       = browser|bot
  *  - engine    = browserengine
  *  - vparam   = version string name
  *  - eparam   = engine string name
- *  
+ *
  */
 
 $browser = array(

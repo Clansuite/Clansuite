@@ -142,29 +142,26 @@ class Clansuite_Browserinfo
     const BROWSER_OPERA = 'Opera';
     const BROWSER_CHROME = 'Google Chrome';
     const BROWSER_SAFARI = 'Safari';
-
-    const TYPE_BOT='bot';
-    const TYPE_BROWSER='browser';
-
+    const TYPE_BOT = 'bot';
+    const TYPE_BROWSER = 'browser';
     const SYSTEM_MOBIL = 'mobil';
     const SYSTEM_CONSOLE = 'console';
-
 
     /**
      * Constructor
      *
      *  Configure the User Agent from a user agent string.
      *  @param  String  $userAgentString => the user agent string.
-     *  @param  UserAgentParser  $UAP => the parser used to parse the string.
+     *  @param  UserAgentParser  $userAgentParser => the parser used to parse the string.
      */
-    public function __construct($userAgentString = null, UserAgentParser $UAP = null)
+    public function __construct($userAgentString = null, UserAgentParser $userAgentParser = null)
     {
-        if($UAP == null)
+        if($userAgentParser == null)
         {
-            $UAP = new UserAgentParser();
+            $userAgentParser = new UserAgentParser();
         }
         $this->setUserAgentString($userAgentString);
-        $this->fromArray($UAP->parse($userAgentString));
+        $this->fromArray($userAgentParser->parse($userAgentString));
     }
 
     public function getBrowserInfo()
@@ -173,13 +170,16 @@ class Clansuite_Browserinfo
 
         $aBrowser['name'] = $this->getBrowserName();
         $aBrowser['version'] = $this->getBrowserVersion();
-        $aBrowser['engine'] = $this->getEngine() .' ' . $this->getEngineVersion();
-        $aBrowser['os'] = $this->getOperatingSystem() .' ' . $this->getOperatingSystemName();
+        $aBrowser['engine'] = $this->getEngine() . ' ' . $this->getEngineVersion();
+        $aBrowser['os'] = $this->getOperatingSystem() . ' ' . $this->getOperatingSystemName();
 
         return $aBrowser;
     }
 
-    # --------------- AS IS ---------------
+    /**
+     * Section: boolean return methods for checking the browser type.
+     */
+
     /**
      * isBot
      * @return bool
@@ -252,9 +252,8 @@ class Clansuite_Browserinfo
         return (bool) ($this->getOperatingSystemTyp() == self::SYSTEM_CONSOLE);
     }
 
-
-
     # --------------- BROWSER ---------------
+
     /**
      *  Get Browser name
      *
@@ -268,7 +267,6 @@ class Clansuite_Browserinfo
     /**
      *  Set Browser name
      *  @param String - the browser name;
-     *  @return none.
      */
     public function setBrowserName($name)
     {
@@ -288,7 +286,6 @@ class Clansuite_Browserinfo
     /**
      *  Set Browser typ
      *  @param String - the browser typ;
-     *  @return none.
      */
     public function setBrowserTyp($name)
     {
@@ -308,7 +305,6 @@ class Clansuite_Browserinfo
     /**
      *  Set Browser sub typ
      *  @param String - the browser sub typ;
-     *  @return none.
      */
     public function setBrowserTypSub($name)
     {
@@ -328,7 +324,6 @@ class Clansuite_Browserinfo
     /**
      *  Set Browser version
      *  @param String - the browser version;
-     *  @return none.
      */
     public function setBrowserVersion($version)
     {
@@ -348,7 +343,6 @@ class Clansuite_Browserinfo
     /**
      *  Set Browser version major
      *  @param String - the browser version major;
-     *  @return none.
      */
     public function setBrowserVersionMajor($version)
     {
@@ -368,7 +362,6 @@ class Clansuite_Browserinfo
     /**
      *  Set Browser version minor
      *  @param String - the browser version minor;
-     *  @return none.
      */
     public function setBrowserVersionMinor($version)
     {
@@ -388,7 +381,6 @@ class Clansuite_Browserinfo
     /**
      *  Set Browser version release
      *  @param String - the browser version release;
-     *  @return none.
      */
     public function setBrowserVersionRelease($value)
     {
@@ -409,7 +401,6 @@ class Clansuite_Browserinfo
     /**
      *  Set Browser version build
      *  @param String - the browser version build;
-     *  @return none.
      */
     public function setBrowserVersionBuild($value)
     {
@@ -418,6 +409,7 @@ class Clansuite_Browserinfo
     }
 
     # --------------- OPERATING SYSTEM ---------------
+
     /**
      *  Get the operating system
      *
@@ -431,7 +423,6 @@ class Clansuite_Browserinfo
     /**
      *  Set Operating System ( windows, linux ...)
      *  @param String - the operating system.
-     *  @return none.
      */
     public function setOperatingSystem($os)
     {
@@ -451,7 +442,6 @@ class Clansuite_Browserinfo
     /**
      *  Set Operating System typ ( os, mobile...)
      *  @param String - the operating system typ.
-     *  @return none.
      */
     public function setOperatingSystemTyp($value)
     {
@@ -489,7 +479,6 @@ class Clansuite_Browserinfo
     /**
      *  Set Operating System name
      *  @param String - the operating system name.
-     *  @return none.
      */
     public function setOperatingSystemName($value)
     {
@@ -509,7 +498,6 @@ class Clansuite_Browserinfo
     /**
      *  Set Engine name
      *  @param String - the engine name
-     *  @return none.
      */
     public function setEngine($engine)
     {
@@ -528,7 +516,6 @@ class Clansuite_Browserinfo
     /**
      *  Set Engine version
      *  @param String - the engine version
-     *  @return none.
      */
     public function setEngineVersion($version)
     {
@@ -548,7 +535,6 @@ class Clansuite_Browserinfo
     /**
      *  Set Engine name
      *  @param String - the engine name
-     *  @return none.
      */
     public function setUserAgentString($userAgentString)
     {
@@ -620,7 +606,6 @@ class Clansuite_Browserinfo
 
     /**
      *  This method tells whether this User Agent is unknown or not.
-     *  @param none.
      *  @return TRUE is the User Agent is unknown, FALSE otherwise.
      */
     public function isUnknown()
@@ -668,7 +653,7 @@ class UserAgentParser
             $userAgentString = isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] : null;
         }
 
-        //parse quickly with medium accuracy
+        # parse quickly with medium accuracy
         $informations = $this->doParse($userAgentString);
 
         # debug
@@ -787,6 +772,7 @@ class UserAgentParser
         foreach ($this->getListOperatingSystems() as $name => $elements)
         {
             $exprReg = $elements['search'];
+            
             foreach ($exprReg as $expr)
             {
                 if(preg_match($expr, $userAgent['string'], $tmp_array))
@@ -882,12 +868,14 @@ class UserAgentParser
         $aList = array();
 
         include 'browser/bot.php';
+
         foreach( $bot as $name =>$row )
         {
             $aList[$name] = $row;
         }
 
         include 'browser/browser.php';
+
         foreach( $browser as $name =>$row )
         {
             $aList[$name] = $row;
@@ -910,7 +898,6 @@ class UserAgentParser
         #var_dump($aList);
 
         return $aList;
-
     }
 
     # --------------------- OPERATING SYSTEM ---------------------
@@ -921,10 +908,10 @@ class UserAgentParser
      */
     protected function getListOperatingSystems()
     {
-
         $aList = array();
 
         include 'browser/os.php';
+
         foreach( $os as $name =>$row )
         {
             $aList[$name] = $row;
@@ -933,7 +920,6 @@ class UserAgentParser
         #var_dump($aList);
 
         return $aList;
-
     }
 
 }
