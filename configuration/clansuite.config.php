@@ -39,7 +39,7 @@ favicon = ""
 ;----------------------------------------
 [defaults]
 module = "news"
-action = "show"
+action = "list"
 
 ;----------------------------------------
 ; language
@@ -185,6 +185,9 @@ cache_lifetime = 3600
 [webserver]
 mod_rewrite = 0
 
+;----------------------------------------
+; editor
+;----------------------------------------
 [editor]
 type = "ckeditor"
 
