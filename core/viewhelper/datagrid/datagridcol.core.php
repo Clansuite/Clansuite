@@ -42,6 +42,11 @@ if (false == class_exists('Clansuite_Datagrid_Base', false))
     include __DIR__ . '/datagrid.core.php';
 }
 
+if (false == class_exists('Clansuite_Datagrid_Renderer', false))
+{
+    include __DIR__ . '/renderer.php';
+}
+
 # conditional include of the parent class
 if (false ==  class_exists('Clansuite_HTML', false))
 {
@@ -145,7 +150,7 @@ class Clansuite_Datagrid_Column extends Clansuite_Datagrid_Base
         }
         else
         {
-            $this->_renderer = $this->loadRenderer($_Renderer);
+            $this->_renderer = $this->loadColumnRenderer($_Renderer);
         }
     }
 
@@ -290,11 +295,11 @@ class Clansuite_Datagrid_Column extends Clansuite_Datagrid_Base
 
     /**
      * Load the renderer depending on a string (lowercased)
-     * The method looks into the folder "datagridcols" and loads [$name].column.php
+     * The method uses the folder "datagrid/columns" and loads [$name].php
      *
      * @param string $rendererName The renderer name
      */
-    private function loadRenderer($rendererName = 'string')
+    private function loadColumnRenderer($rendererName = 'string')
     {
         $rendererName = mb_strtolower($rendererName);
 
@@ -302,7 +307,7 @@ class Clansuite_Datagrid_Column extends Clansuite_Datagrid_Base
 
         if(false == class_exists($className, false))
         {
-            $file = ROOT_CORE . 'viewhelper/datagrid/datagridcols/' . $rendererName . '.column.php';
+            $file = ROOT_CORE . 'viewhelper/datagrid/columns/' . $rendererName . '.php';
 
             if( is_file($file) )
             {
@@ -319,7 +324,6 @@ class Clansuite_Datagrid_Column extends Clansuite_Datagrid_Base
             }
         }
 
-        #Clansuite_Debug::firebug('Loaded Column Renderer: ' . $className);
         return new $className($this);
     }
 
