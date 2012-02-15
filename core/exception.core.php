@@ -288,7 +288,7 @@ class Clansuite_Exception extends Exception implements Clansuite_Exception_Inter
         $html .= '<body>';
 
         # Fieldset
-        $html .= '<fieldset class="error_yellow">';
+        $html .= '<fieldset id="top" class="error_yellow">';
 
         # Errorlogo
         $html .= '<div style="float: left; margin: 5px; margin-right: 25px; padding: 20px;">';
@@ -299,7 +299,7 @@ class Clansuite_Exception extends Exception implements Clansuite_Exception_Inter
         $html .= '<legend>Clansuite Exception</legend>';
 
         # Exception Table
-        $html   .= '<table width="80%"><tr><td>';
+        $html .= '<table width="80%"><tr><td>';
 
         /**
          * Panel 1
@@ -309,21 +309,18 @@ class Clansuite_Exception extends Exception implements Clansuite_Exception_Inter
 
         $html .= '<div id="panel1" class="panel">';
         $html .= '<h3>Exception '.$code.'</h3><h4>'.$this->message.'</h4>';
-        $html .= '<strong>File: </strong>'.dirname($this->file).DS;
-        $html .= '<strong>'.basename($this->file).'</strong>';
-        $html .= '&nbsp;(Line '.$this->line.')';
+        $html .= '<strong>in file "' . $this->file . '"&nbsp;on line ' . $this->line.'.</strong>';
         $html .= '</div>';
-        $html .= '</td></tr>';
 
         /**
          * Panel 2
          *
          * Debug Backtrace
          */
-        if ( defined('DEBUG') and DEBUG == 1 )
+        if(defined('DEBUG') and DEBUG == 1)
         {
             # lets get the backtrace as html table
-            $html   .= Clansuite_Errorhandler::getDebugBacktrace($this->trace);
+            $html .= Clansuite_Errorhandler::getDebugBacktrace($this->trace);
         }
 
         /**
@@ -331,19 +328,20 @@ class Clansuite_Exception extends Exception implements Clansuite_Exception_Inter
          *
          * Server Environment Informations
          */
-        if ( defined('DEBUG') and DEBUG == 1 )
+        if(defined('DEBUG') and DEBUG == 1)
         {
-            $html .= '<tr><td><table width="95%">';
+            $html .= '<div id="panel3" class="panel">';
+            $html .= '<table width="95%">';
             $html .= '<tr><td colspan="2"><h3>Server Environment</h3></td></tr>';
             $html .= '<tr><td><strong>Date: </strong></td><td>' . date('r') . '</td></tr>';
             $html .= '<tr><td><strong>Remote: </strong></td><td>' . $_SERVER['REMOTE_ADDR'] . '</td></tr>';
             $html .= '<tr><td><strong>Request: </strong></td><td>index.php?' . $_SERVER['QUERY_STRING'] . '</td></tr>';
-            $html .= '<tr><td><strong>PHP: </strong></td><td>' . PHP_VERSION .' '. PHP_EXTRA_VERSION . '</td></tr>';
+            $html .= '<tr><td><strong>PHP: </strong></td><td>' . PHP_VERSION . ' ' . PHP_EXTRA_VERSION . '</td></tr>';
             $html .= '<tr><td><strong>Server: </strong></td><td>' . $_SERVER['SERVER_SOFTWARE'] . '</td></tr>';
             $html .= '<tr><td><strong>Agent: </strong></td><td>' . $_SERVER['HTTP_USER_AGENT'] . '</td></tr>';
             $html .= '<tr><td><strong>Clansuite: </strong></td><td>' . CLANSUITE_VERSION . ' ' . CLANSUITE_VERSION_STATE;
             $html .= ' (' . CLANSUITE_VERSION_NAME . ') [Revision #' . CLANSUITE_REVISION . ']</td></tr>';
-            $html .= '</table></td></tr>';
+            $html .= '</table></div>';
         }
 
         /**
@@ -353,8 +351,9 @@ class Clansuite_Exception extends Exception implements Clansuite_Exception_Inter
          */
         if(empty(self::$exception_template) === false)
         {
-            $html  .= '<tr><td colspan="2"><h3>Additional Information & Solution Suggestion</h3>';
-            $html  .= self::$exception_template.'</td></tr>';
+            $html .= '<div id="panel4" class="panel">';
+            $html .= '<h3>Additional Information & Solution Suggestion</h3>';
+            $html .= self::$exception_template . '</div>';
         }
 
         /**
@@ -385,8 +384,9 @@ class Clansuite_Exception extends Exception implements Clansuite_Exception_Inter
         # add development helper template to exceptions
         if(defined('DEVELOPMENT') and DEVELOPMENT == 1 and defined('RAPIDDEVTPL') and RAPIDDEVTPL == 1)
         {
-            $html  .= '<tr><td colspan="2"><h3>Rapid Development</h3>';
-            $html  .= self::getExceptionDevelopmentTemplate($placeholders).'</td></tr>';
+            $html .= '<div id="panel5" class="panel">';
+            $html .= '<h3>Rapid Application Development</h3>';
+            $html .= self::getExceptionDevelopmentTemplate($placeholders).'</div>';
         }
 
         /**
@@ -395,7 +395,7 @@ class Clansuite_Exception extends Exception implements Clansuite_Exception_Inter
          * Backlink to Bugtracker with Exceptionmessage
          * @link http://trac.clansuite.com/newticket
          */
-        $html .= Clansuite_Errorhandler::getBugtrackerMessage($this->message, $this->file, $this->line, $this->trace);
+        $html .= Clansuite_Errorhandler::getBugtrackerBacklinks($this->message, $this->file, $this->line, $this->trace);
 
         # close all html element table
         $html   .= '</table>';

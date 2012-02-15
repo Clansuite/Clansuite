@@ -73,7 +73,10 @@ class Clansuite_Errorhandler
      */
     public static function errorhandler( $errornumber, $errorstring, $errorfile, $errorline, $errorcontext )
     {
-        #  do just return, if the error is suppressed - cases: (silenced with @ operator or DEBUG mode active)
+        /**
+         * do just return, if the error is suppressed,
+         * due to (@)silencing-operator
+         */
         if(error_reporting() === 0)
         {
             return;
@@ -139,7 +142,7 @@ class Clansuite_Errorhandler
             case 'E_USER_NOTICE':
                 $errorname .= ' [Clansuite Internal Error]';
                 break;
-            #case 'E_ALL':
+            case 'E_ALL':
             case 'E_STRICT':
                 $errorname .= ' [PHP Strict]';
                 break;
@@ -167,8 +170,8 @@ class Clansuite_Errorhandler
              * we need to detect, if an E_USER_ERROR is either incoming from
              * SMARTY or from a template_c file (extension tpl.php).
              */
-            if( (true === (bool) mb_strpos(mb_strtolower($errorfile),'smarty')) or
-                (true === (bool) mb_strpos(mb_strtolower($errorfile),'tpl.php')) )
+            if((true === (bool) mb_strpos(mb_strtolower($errorfile), 'smarty')) or
+               (true === (bool) mb_strpos(mb_strtolower($errorfile), 'tpl.php')))
             {
                 # ok it's an Smarty Template Error - show the error via smarty_error_display inside the template
                 echo self::smarty_error_display( $errornumber, $errorname, $errorstring, $errorfile, $errorline, $errorcontext );
@@ -189,16 +192,16 @@ class Clansuite_Errorhandler
      *
      * This method defines the html-output when an Smarty Template Error occurs.
      * It's output is a shortened version of the normal error report, presenting
-     * only errorname, filename and the line of the error.
+     * only the errorname, filename and the line of the error.
      * The parameters used for the small report are $errorname, $errorfile, $errorline.
      * If you need a full errorreport, you can add more parameters from the methodsignature
      * to the $errormessage output.
      *
-     * A Smarty Template Error is only displayed, when Clansuite is in DEBUG Mode.
+     * Smarty Template Errors are only displayed, when Clansuite is in DEBUG Mode.
      * @see clansuite_error_handler()
      *
-     * The directlink to the templateeditor to edit the template file with the error is only available,
-     * when Clansuite runs in DEVELOPMENT Mode.
+     * A direct link to the template editor for editing the file with the error
+     * is only displayed, when Clansuite runs in DEVELOPMENT Mode.
      * @see addTemplateEditorLink()
      *
      * @param integer $errornumber contains the error as integer
@@ -208,16 +211,16 @@ class Clansuite_Errorhandler
      * @param $errorcontext $errorline contains context
      * @return string HTML with Smarty Error Text and Link.
      */
-    private static function smarty_error_display( $errornumber, $errorname, $errorstring, $errorfile, $errorline, $errorcontext )
+    private static function smarty_error_display($errornumber, $errorname, $errorstring, $errorfile, $errorline, $errorcontext)
     {
         $html = '';
         $html .= '<span>';
-        $html .=  '<h3><font color="#ff0000">&raquo; Smarty Template Error &laquo;</font></h3>';
-        $html .=  '<u>'. $errorname . ' (' . $errornumber .'): </u><br/>';
-        $html .=  '<b>'. wordwrap($errorstring,50,"\n") .'</b><br/>';
-        $html .=  'File: '. $errorfile. '<br/>Line: ' .$errorline;
+        $html .= '<h3><font color="#ff0000">&raquo; Smarty Template Error &laquo;</font></h3>';
+        $html .= '<u>' . $errorname . ' (' . $errornumber . '): </u><br/>';
+        $html .= '<b>' . wordwrap($errorstring, 50, "\n") . '</b><br/>';
+        $html .= 'File: ' . $errorfile . '<br/>Line: ' . $errorline;
         $html .= self::getTemplateEditorLink($errorfile, $errorline, $errorcontext);
-        $html .=  '<br/></span>';
+        $html .= '<br/></span>';
 
         return $html;
     }
@@ -236,7 +239,7 @@ class Clansuite_Errorhandler
     {
         # display the link to the templateeditor, if we are in DEVELOPMENT MODE
         # and more essential if the error relates to a template file
-        if(defined('DEVELOPMENT') and DEVELOPMENT === 1 and (mb_strpos(mb_strtolower($errorfile),'.tpl') === true))
+        if(defined('DEVELOPMENT') and DEVELOPMENT === 1 and (mb_strpos(mb_strtolower($errorfile), '.tpl') === true))
         {
             # ok, it's a template, so we have a template context to determine the templatename
             $tpl_vars = $errorcontext['this']->getTemplateVars();
@@ -252,8 +255,8 @@ class Clansuite_Errorhandler
             }
 
             # construct the link to the tpl-editor
-            $html  = '<br/><a href="index.php?mod=templatemanager&amp;sub=admin&amp;action=editor';
-            $html .= '&amp;file='.$errorfile.'&amp;line='.$errorline;
+            $html = '<br/><a href="index.php?mod=templatemanager&amp;sub=admin&amp;action=editor';
+            $html .= '&amp;file=' . $errorfile . '&amp;line=' . $errorline;
             $html .= '">Edit the Template</a>';
 
             # return the link
@@ -271,7 +274,7 @@ class Clansuite_Errorhandler
      * @param int $errorline
      * @param string $errorcontext
      */
-    private static function yellowScreenOfDeath($errornumber, $errorname, $errorstring, $errorfile, $errorline, $errorcontext )
+    private static function yellowScreenOfDeath($errornumber, $errorname, $errorstring, $errorfile, $errorline, $errorcontext)
     {
         if(mb_strlen($errorstring) > 70)
         {
@@ -292,7 +295,7 @@ class Clansuite_Errorhandler
         $html .= '<body>';
 
         # Fieldset colored
-        $html .= '<fieldset class="error_red">';
+        $html .= '<fieldset id="top" class="error_red">';
 
         # Errorlogo
         $html .= '<div style="float: left; margin: 5px; margin-right: 25px; padding: 20px;">';
@@ -306,40 +309,36 @@ class Clansuite_Errorhandler
 
         # The inner Error Table
         $html .= '<div id="panel1" class="panel">';
-        $html .= '<h3>Error <span class="small">'.$errorname . ' ('. $errornumber .')</span></h3><h4>'.$errorstring.'</h4>';
-        $html .= '<strong>File: </strong>'.dirname($errorfile).DS;
-        $html .= '<strong>'.basename($errorfile).'</strong>';
-        $html .= '&nbsp;(Line '.$errorline.')';
+        $html .= '<h3>Error <span class="small">' . $errorname . ' (' . $errornumber . ')</span></h3><h4>' . $errorstring . '</h4>';
+        $html .= '<strong>in file "' . $errorfile . '"&nbsp;on line ' . $errorline.'.</strong>';
         $html .= '</div>';
 
         # Error Context
-        $html .= '<tr><td colspan="2">';
         $html .= '<div id="panel2" class="panel">';
         $html .= '<h3>Context</h3>';
-        $html .= '<span class="smalltext">You are viewing the source code of '. $errorfile.' around line '. $errorline .'.</span>';
-        $html .= self::getErrorContext($errorfile, $errorline, 8) . '</div></td></tr>';
+        $html .= '<span class="small">You are viewing the source code of the file "' . $errorfile . '" around line ' . $errorline . '.</span><br/><br/>';
+        $html .= self::getErrorContext($errorfile, $errorline, 8) . '</div>';
 
         # Add Debug Backtracing
-        $html .= '<tr><td>' . self::getDebugBacktrace($trimed_errorstring) . '</td></tr>';
+        $html .= self::getDebugBacktrace($trimed_errorstring);
 
-        #
-        # $errormessage .= '<tr><td>' . self::getBugtrackerSearch() . '</td></tr>';
-
-        # Environmental Informations at Errortime ( $errorcontext is not displayed )
-        $html .= '<tr><td><table width="95%">';
-        $html .= '<tr><td colspan="2"><h3>Server Environment</h3></td></tr>';
+        # Environmental Informations at Errortime
+        $html .= '<div id="panel4" class="panel">';
+        $html .= '<h3>Server Environment</h3>';
+        $html .= '<table width="95%">';
+        $html .= '<tr><td colspan="2"></td></tr>';
         $html .= '<tr><td><strong>Date: </strong></td><td>' . date('r') . '</td></tr>';
         $html .= '<tr><td><strong>Remote: </strong></td><td>' . $_SERVER['REMOTE_ADDR'] . '</td></tr>';
         $html .= '<tr><td><strong>Request: </strong></td><td>' . htmlentities($_SERVER['QUERY_STRING'], ENT_QUOTES) . '</td></tr>';
-        $html .= '<tr><td><strong>PHP: </strong></td><td>' . PHP_VERSION .' '. PHP_EXTRA_VERSION . '</td></tr>';
+        $html .= '<tr><td><strong>PHP: </strong></td><td>' . PHP_VERSION . ' ' . PHP_EXTRA_VERSION . '</td></tr>';
         $html .= '<tr><td><strong>Server: </strong></td><td>' . $_SERVER['SERVER_SOFTWARE'] . '</td></tr>';
         $html .= '<tr><td><strong>Agent: </strong></td><td>' . $_SERVER['HTTP_USER_AGENT'] . '</td></tr>';
         $html .= '<tr><td><strong>Clansuite: </strong></td><td>' . CLANSUITE_VERSION . ' ' . CLANSUITE_VERSION_STATE;
         $html .= ' (' . CLANSUITE_VERSION_NAME . ') [Revision #' . CLANSUITE_REVISION . ']</td></tr>';
-        $html .= '</table>';
+        $html .= '</table></div>';
 
         # Backlink to Bugtracker with Errormessage -> http://trac.clansuite.com/newticket
-        $html .= self::getBugtrackerMessage($errorstring, $errorfile, $errorline, $errorcontext);
+        $html .= self::getBugtrackerBacklinks($errorstring, $errorfile, $errorline, $errorcontext);
 
         # close html elements: table
         $html .= '</table>';
@@ -358,7 +357,7 @@ class Clansuite_Errorhandler
     /**
      * getDebugBacktrace
      *
-     * Transforms the output of php's debug_backtrace() to a more readable html format.
+     * Transforms the output of php's  debug_backtrace() to a more readable html format.
      *
      * @return string $backtrace_string contains the backtrace
      */
@@ -378,73 +377,77 @@ class Clansuite_Errorhandler
 
             /**
              * Now we get rid of several last calls in the backtrace stack
-             * to get nearer to the relevant position for the error in the stack.
+             * to get nearer to the relevant error position in the stack.
              *
-             * What exactly happens is: we shift-off the calls to
-             * 1) getDebugBacktrace()   [this method]
+             * What exactly happens is: we shift-off the last 3 calls to
+             * 1) getDebugBacktrace()   [this method itself]
              * 2) yellowScreenOfDeath() [our exception and error display method]
              * 3) trigger_error()       [php core function call]
              */
             $trace = array_slice($trace, 3);
         }
 
-        # prepare a new backtrace_string
-        $trace_html = '';
-        $trace_html .= '<tr><td width="95%"><h3>Backtrace</h3>';
-        $trace_html .= '<table class="cs-backtrace-table" width="95%">';
+        /**
+         * Assemble the html for the backtrace panel
+         */
+        $html = '';
+        $html .= '<div id="panel3" class="panel"><h3>Backtrace</h3>';
+        $html .= '<table class="cs-backtrace-table" width="95%">';
 
         # table row 1 - header
-        $trace_html .= '<tr><th width="2%">Callstack</th><th>Function (recent function calls last)</th><th width="40%">Location</th></tr>';
+        $html .= '<tr><th width="2%">Callstack</th><th>Function (recent function calls last)</th><th width="40%">Location</th></tr>';
 
         $backtraces_count = count($trace)-1;
+
         for($i = 0; $i <= $backtraces_count; $i++)
         {
-            $trace_html .= '<tr>';
+            $html .= '<tr>';
 
-            # Call #
-            $trace_html .= '<td align="center">'.(($backtraces_count-$i)+1).'</td>';
+            # Position in the Callstack
+            $html .= '<td align="center">'.(($backtraces_count-$i)+1).'</td>';
 
             if(isset($trace[$i]['class']) === false)
             {
-                $trace_html .= '<td>[PHP Core Function called]</td>';
+                $html .= '<td>[PHP Core Function called]</td>';
             }
             else
             {
-                $trace_html .= '<td>' . $trace[$i]['class'] . '::' . $trace[$i]['function'] . '(';
+                # Function (Class::Method)
+                $html .= '<td>' . $trace[$i]['class'] . '::' . $trace[$i]['function'] . '(';
 
+                # Method Arguments
                 if(true === isset($trace[$i]['args']) and empty($trace[$i]['args']) === false)
                 {
                     $backtrace_counter_j = count($trace[$i]['args']) - 1;
+
                     for($j = 0; $j <= $backtrace_counter_j; $j++)
                     {
-                        $trace_html .= self::formatBacktraceArgument($trace[$i]['args'][$j]);
+                        $html .= self::formatBacktraceArgument($trace[$i]['args'][$j]);
 
                         # if we have several arguments to loop over
                         if($j !== $backtrace_counter_j)
                         {
                             # we split them by comma
-                            $trace_html .= ', ';
+                            $html .= ', ';
                         }
                     }
                 }
 
-                $trace_html .= ')</td>';
+                $html .= ')</td>';
             }
 
+            # Location with Link
             if(true === isset($trace[$i]['file']))
             {
-                $trace_html .= '<td>' . self::getFileLink($trace[$i]['file'], $trace[$i]['line']) . '</td>';
+                $html .= '<td>' . self::getFileLink($trace[$i]['file'], $trace[$i]['line']) . '</td>';
             }
 
-            # spacer
-            $trace_html .= '</tr>';
+            $html .= '</tr>';
         }
 
-        # spacer
-        $trace_html .= '</table></td></tr>';
+        $html .= '</table></div>';
 
-        # returns the Backtrace String
-        return $trace_html;
+        return $html;
     }
 
     /**
@@ -539,7 +542,8 @@ class Clansuite_Errorhandler
                 $lines_array = range($errorcontext_starting_line, $errorcontext_ending_line);
 
                 # colourize the errorous linenumber red
-                $lines_array[$surrounding_lines] = '<span style="color: white; background-color:#BF0000;">'.$lines_array[$surrounding_lines].'</span>';
+                $lines_array[$surrounding_lines] = '<span class="error-line">'.$lines_array[$surrounding_lines].'</span>';
+                $lines_array[$surrounding_lines] .= '<span class="error-triangle">&#9654;</span>';
 
                 # transform linenumbers array to string for later display, use spaces as separator
                 $lines_html = implode($lines_array, ' ');
@@ -580,14 +584,15 @@ class Clansuite_Errorhandler
      */
     public static function getSupportBacklinks()
     {
-        $html  = '<div style="padding-top: 45px; float:right;">';
-        $html  .= '<strong><!-- Live Support JavaScript -->
-                           <a href="http://support.clansuite.com/chat.php" target="_blank">Contact Support (Start Chat)</a>
-                           <!-- Live Support JavaScript --></strong> | ';
-        $html  .= '<strong><a href="http://trac.clansuite.com/newticket/">Bug-Report</a></strong> |
-                           <strong><a href="http://forum.clansuite.com/">Support-Forum</a></strong> |
-                           <strong><a href="http://docs.clansuite.com/">Manuals</a></strong> |
-                           <strong><a href="http://www.clansuite.com/">visit clansuite.com</a></strong>
+        $html  = '<div id="support-backlinks" style="padding-top: 45px; float:right;">';
+        $html  .= '<!-- Live Support JavaScript -->
+                   <a class="btn" href="http://support.clansuite.com/chat.php" target="_blank">Contact Support (Start Chat)</a>
+                   <!-- Live Support JavaScript -->';
+        $html  .= '<a class="btn" href="http://trac.clansuite.com/newticket/">Bug-Report</a>
+                   <a class="btn" href="http://forum.clansuite.com/">Support-Forum</a>
+                   <a class="btn" href="http://docs.clansuite.com/">Manuals</a>
+                   <a class="btn" href="http://clansuite.com/">visit clansuite.com</a>
+                   <a class="btn" href="#top"> &#9650; Top </a>
                    </div>';
         return $html;
     }
@@ -607,8 +612,14 @@ class Clansuite_Errorhandler
         $fileLinkFormatString = '';
         $link = '';
 
-        # a) use the file link template string provided by the "xdebug.file_link_format" configuration property
+        /***
+         * a) "xdebug.file_link_format"
+         *
+         * This uses the file "xdebug.file_link_format" php.ini configuration directive,
+         * which defines a link template (sprintf) for calling your Editor/IDE.
+         */
         $fileLinkFormatString = ini_get('xdebug.file_link_format');
+
         if ($fileLinkFormatString != '')
         {
             # insert file:line into the fileLinkFormatString
@@ -617,6 +628,7 @@ class Clansuite_Errorhandler
             # shorten file string by removing the root path
             $file = str_replace(ROOT, '..' . DS, $file);
 
+            # build an edit link and insert the link
             $html .= sprintf(' in <a href="%s" title="Edit file">%s line %s</a>', $link, $file, $line);
         }
         /*elseif(DEVELOPMENT)
@@ -645,24 +657,22 @@ class Clansuite_Errorhandler
      * @param string $errorstring the errormessage
      * @return string html-representation of the bugtracker links
      */
-    public static function getBugtrackerMessage($errorstring, $errorfile, $errorline, $errorcontext)
+    public static function getBugtrackerBacklinks($errorstring, $errorfile, $errorline, $errorcontext)
     {
-        $message1 = '<tr><td colspan="2"><h3>' . 'Found a bug in Clansuite?' . '</h3>';
+        $message1 = '<div id="panel5" class="panel"><h3>' . 'Found a bug in Clansuite?' . '</h3>';
         $message2 = 'If you think this should work and you can reproduce the problem, please consider creating a bug report.';
         $message3 = 'Before creating a new bug report, please first try searching for similar issues, as it is quite likely that this problem has been reported before.';
         $message4 = 'Otherwise, please create a new bug report describing the problem and explain how to reproduce it.';
 
-        $search_link = NL . NL . '&#9658; <a target="_blank" href="http://trac.clansuite.com/search?q=' . htmlentities($errorstring, ENT_QUOTES) . '&noquickjump=1&ticket=on">';
-        $search_link .= 'Search for similar issue';
+        $search_link = NL . NL . '<a class="btn" target="_blank" href="http://trac.clansuite.com/search?q=' . htmlentities($errorstring, ENT_QUOTES) . '&noquickjump=1&ticket=on">';
+        $search_link .= '&#9658; Search for similar issue';
         $search_link .= '</a>';
 
-        $newticket_link = '&nbsp; &#9658; <a target="_blank" href="'.self::getTracNewTicketURL($errorstring, $errorfile, $errorline).'">';
-        $newticket_link .= 'Create new ticket';
+        $newticket_link = '&nbsp;<a class="btn" target="_blank" href="'.self::getTracNewTicketURL($errorstring, $errorfile, $errorline).'">';
+        $newticket_link .= '&#9658; Create new ticket';
         $newticket_link .= '</a>';
 
-        $close_table = '</td></tr>' . NL;
-
-        return $message1 . $message2 . NL . $message3 . NL . $message4 . $search_link . $newticket_link . $close_table;
+        return $message1 . $message2 . NL . $message3 . NL . $message4 . $search_link . $newticket_link . '</div>' . NL;
     }
 
     /**
@@ -674,7 +684,9 @@ class Clansuite_Errorhandler
     public static function getTracNewTicketURL($summary, $errorfile, $errorline)
     {
         /**
-         * error description written in trac wiki formating style
+         * This is the error description.
+         * It's written in trac wiki formating style.
+         *
          * @link http://trac.clansuite.com/wiki/WikiFormatting
          */
         $description = '[Error] ' . $summary . ' [[BR]] [File] ' . $errorfile . ' [[BR]] [Line] ' . $errorline;
@@ -685,7 +697,7 @@ class Clansuite_Errorhandler
             'description' => $description,
             'type'        => 'defect-bug',
             'milestone'   => 'Triage-Neuzuteilung',
-            'version'     => 'Clansuite v' . CLANSUITE_VERSION,
+            'version'     => CLANSUITE_VERSION,
             #'component'   => '',
             'author'      => isset($_SESSION['user']['email']) ? $_SESSION['user']['email'] : '',
         );
