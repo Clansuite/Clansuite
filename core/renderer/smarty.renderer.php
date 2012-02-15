@@ -177,6 +177,7 @@ class Clansuite_Renderer_Smarty extends Clansuite_Renderer_Base
         }
         else
         {
+            # $this->renderer->setCaching(true);
             $this->renderer->caching = (bool) $this->config['smarty']['cache'];
             # -1 ... dont expire, 0 ... refresh everytime
             $this->renderer->cache_lifetime = isset($this->config['smarty']['cache_lifetime']) ? $this->config['smarty']['cache_lifetime'] : 0;
@@ -441,6 +442,16 @@ class Clansuite_Renderer_Smarty extends Clansuite_Renderer_Base
     }
 
     /**
+     * Returns all assigned template variables.
+     *
+     * @return array
+     */
+    public function getVars()
+    {
+        return $this->renderer->getTemplateVars();
+    }
+
+    /**
      * Clears all assigned Variables
      */
     public function clearVars()
@@ -449,12 +460,41 @@ class Clansuite_Renderer_Smarty extends Clansuite_Renderer_Base
     }
 
     /**
-     * Clears the Smarty Template Cache and removes compiled Templates
+     * Empty cache for a specific template
+     *
+     * @param string  $template_name template name
+     * @param string  $cache_id      cache id
+     * @param string  $compile_id    compile id
+     * @param integer $exp_time      expiration time
+     * @param string  $type          resource type
+     * @return integer number of cache files deleted
      */
-    public function clearCache()
+    public function clearCache($template_name, $cache_id = null, $compile_id = null, $exp_time = null, $type = null)
     {
+        $this->renderer->clearCache($template_name, $cache_id = null, $compile_id = null, $exp_time = null, $type = null);
+    }
+
+    /**
+     * Clears the Smarty Template Cache folder and removes compiled Templates
+     */
+    public function resetCache()
+    {
+        # empty cache folder
         $this->renderer->clearAllCache();
+        # empty compile folder
         $this->renderer->clearCompiledTemplate();
+    }
+
+    /**
+     * Enables or disables smarty caching
+     *
+     * @param bool $boolean
+     */
+    public function setCaching($boolean = 'true')
+    {
+        $this->renderer->caching = $boolean;
+
+        return $this;
     }
 
     /**

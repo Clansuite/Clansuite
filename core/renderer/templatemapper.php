@@ -79,6 +79,7 @@ class Clansuite_View_Mapper
 
     /**
      * Returns the Template Name
+     * Maps the action name to a template.
      *
      * @return Returns the templateName as String
      */
