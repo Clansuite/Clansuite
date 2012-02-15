@@ -150,7 +150,7 @@ class Clansuite_JustAn_Captcha
     {
         # build the fonts array by detecting all font files
         $iterator = new DirectoryIterator($fonts_dir);
-        
+
         foreach($iterator as $file)
         {
             # if a fontfile.ttf is found add it to the array
@@ -370,7 +370,7 @@ class Clansuite_JustAn_Captcha
             # remove outdated captcha images
             self::garbage_collection();
             # write png to file
-            imagepng($image, $this->options['image_dir'] . '/' . $this->_id . '.png');
+            imagepng($this->captcha, $this->options['image_dir'] . '/' . $this->_id . '.png');
             # return html img tag which points to the image file
             return '<img alt="Captcha Image from File" src="' . $this->options['image_url'] . '/' . $this->_id . '.png" alt="' . $this->options['imgage_alt'] . '" />';
         }
