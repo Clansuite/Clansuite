@@ -739,10 +739,17 @@ class Clansuite_Form implements Clansuite_Form_Interface
     }
 
     /**
-    * Sets the default positioning
-    *
-    * @param int $formelement_position
-    */
+     * ===================================================================================
+     *      Render
+     * ===================================================================================
+     */
+
+    /**
+     * Registers the default decorators for a formelement.
+     * The default decorators are: label, description, div.
+     *
+     * @param object $formelement Clansuite_Formelement_Interface
+     */
     public function registerDefaultFormelementDecorators($formelement)
     {
         $formelement->addDecorator('label');
@@ -781,7 +788,12 @@ class Clansuite_Form implements Clansuite_Form_Interface
             # fetch all decorators of this formelement
             $formelementdecorators = $formelement->getDecorators();
 
-            if(empty($formelementdecorators))
+            /**
+             * Do not add default formelement decorators
+             * 1) if some were already added manually
+             * 2) if the feature is disabled (setting is then incomming from inside the formelement)
+             */
+            if(empty($formelementdecorators) and ($formelement->disableDefaultDecorators == false))
             {
                 # apply default decorators to the formelement
                 $this->registerDefaultFormelementDecorators($formelement);
@@ -820,6 +832,7 @@ class Clansuite_Form implements Clansuite_Form_Interface
 
         if(empty($this->formdecorators) === true)
         {
+            # should the default form decorators be applied?
             if($this->useDefaultFormDecorators === true)
             {
                 # set a common style to the form by registering one or more decorators
@@ -1259,11 +1272,13 @@ class Clansuite_Form implements Clansuite_Form_Interface
      *
      * @see $this->addDecorator()
      *
+     * @param array $decorators Array of decorator objects or names or just one string.
+     * @param array $attributes Array of properties for the decorator object.
      * @return Clansuite_Formdecorator object
      */
-    public function setDecorator($decorators)
+    public function setDecorator($decorators, $attributes = null)
     {
-        return $this->addDecorator($decorators);
+        return $this->addDecorator($decorators, $attributes);
     }
 
     /**
@@ -1288,9 +1303,10 @@ class Clansuite_Form implements Clansuite_Form_Interface
      * $form->addDecorator('fieldset')->setLegend('legendname');
      *
      * @param array $decorator Array of decorator objects or names or just one string.
+     * @param array $attributes Array of properties for the decorator object.
      * @return Clansuite_Formdecorator object
      */
-    public function addDecorator($decorator)
+    public function addDecorator($decorator, $attributes = null)
     {
         # check if multiple decorator are incomming at once
         if(is_array($decorator))
@@ -1313,6 +1329,17 @@ class Clansuite_Form implements Clansuite_Form_Interface
             $decoratorname = $decorator->name;
         }
 
+        # apply attributes (2nd param) to the decorator
+        if(isset($attributes))
+        {
+            foreach($attributes as $attribute => $value)
+            {
+                $decorator->$attribute = $value;
+            }
+            #$decorator->setDecoratorAttributesArray($attributes);
+            #Clansuite_Debug::printR($decorator);
+        }
+
         # now check if this decorator is not already set (prevent decorator duplications)
         if(false === in_array($decorator, $this->formdecorators))
         {
@@ -1322,7 +1349,7 @@ class Clansuite_Form implements Clansuite_Form_Interface
 
         # WATCH OUT! THIS BREAKS THE CHAINING IN REGARD TO THE FORM
         # We dont return $this here, because $this would be the FORM.
-        # Insted the decorator is returned, to apply some properties.
+        # Instead the decorator is returned, to apply some properties.
         # @return decorator object
         return $this->formdecorators[$decoratorname];
     }
