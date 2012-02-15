@@ -59,6 +59,7 @@ class Clansuite_Formelement implements Clansuite_Formelement_Interface
     public $additional_attributes;
 
     protected $formelementdecorators = array();
+    protected $disableDefaultDecorators;
 
     /**
      * validators are stored into an array. making multiple validators for one formelement possible.
@@ -387,6 +388,28 @@ class Clansuite_Formelement implements Clansuite_Formelement_Interface
     }
 
     /**
+     * Sets the tab index value.
+     *
+     * @param type $index
+     */
+    public function setTabIndex($index)
+    {
+        $this->tabIndex = $index;
+    }
+
+    /**
+     * Returns the tabindex value.
+     *
+     * @return string
+     */
+    public function getTabIndex()
+    {
+        #return "tabindex='" . $this->tabIndex . "'";
+
+        return $this->tabIndex;
+    }
+
+    /**
      * ===================================================================================
      *      Formelement Attribute Handling
      * ===================================================================================
@@ -398,11 +421,11 @@ class Clansuite_Formelement implements Clansuite_Formelement_Interface
      * @param $parametername
      * @return mixed null or value of the attribute
      */
-    public function getAttribute($attributename)
+    public function getAttribute($attribute)
     {
-        if(isset($this->{$attributename}) === true)
+        if(isset($this->{$attribute}) === true)
         {
-            return $this->{$attributename};
+            return $this->{$attribute};
         }
         else
         {
@@ -710,8 +733,8 @@ class Clansuite_Formelement implements Clansuite_Formelement_Interface
     }
 
     /**
-     * __toString works in the scope of the subclass.
-     * all formelements inherit the formelement base class,
+     * The method __toString works in the scope of the subclass.
+     * All formelements inherit the formelement base class,
      * so we place the magic method here, in the parent,
      * and catch the subclass via get_class($this).
      *
@@ -845,6 +868,40 @@ class Clansuite_Formelement implements Clansuite_Formelement_Interface
     }
 
     /**
+     * Removes the requested decorator from the decorators stack.
+     *
+     * @param string $decoratorname
+     * @throws Clansuite_Exception
+     */
+    public function removeDecorator($decoratorname)
+    {
+        if(isset($this->formelementdecorators[$decoratorname]))
+        {
+            unset($this->formelementdecorators[$decoratorname]);
+        }
+        else
+        {
+            throw new Clansuite_Exception('Decorator does not exist.');
+        }
+    }
+
+    /**
+     * Removes all Decorators of this formelement.
+     */
+    /*public function removeDecorators()
+    {
+        $this->formelementdecorators = null;
+    }*/
+
+    /**
+     * Disables the use of default decorators on this formelement.
+     */
+    public function disableDefaultDecorators()
+    {
+        $this->disableDefaultDecorators = true;
+    }
+
+    /**
      * Factory method. Instantiates and returns a new formdecorator object.
      *
      * @param string Formelement Decorator.
@@ -901,13 +958,20 @@ interface Clansuite_Formelement_Interface
     public function setAttribute($attribute, $value);
     public function getAttribute($attribute);
 
+    # getter/ setter for the value
+    public function setValue($value);
+    public function getValue();
+
     # initializes the attributes of the formelement
     #public function initialize();
 
     # renders the output of the formobject as html
     public function render();
 
-    # sets a validation rule to a form element
+    # sets a validation rule the form element
     #public function addValidation();
+
+    #public function hasError();
+    #public function getErrorMessage();
 }
 ?>
