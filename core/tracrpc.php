@@ -36,7 +36,7 @@
  * </code>
  *
  * @package Trac-RPC
- * @author	 Brian Greenacre
+ * @author	Brian Greenacre
  * @author  Jens-André Koch <jakoch@web.de>
  * @license GNU/GPL v2+
  * @version	1.1
@@ -79,7 +79,7 @@ class Trac_RPC
         $this->tracURL = $tracURL;
 
         if( (array) $params === $params and count($params) > 0)
-        { 
+        {
             $this->username = isset($params['username']) ? $params['username'] : '';
             $this->password = isset($params['password']) ? $params['password'] : '';
             $this->multiCall = isset($params['multiCall']) ? $params['multiCall'] : false;
@@ -1354,6 +1354,9 @@ class Trac_RPC
         if(is_array($this->_request) === true)
         {
             $this->_request = json_encode(array_pop($this->_request));
+
+            $this->_request = str_replace(':',': ', $this->_request);
+            $this->_request = str_replace(',',', ', $this->_request);
         }
 
         if($this->_doCurlRequest() === true)
@@ -1447,37 +1450,11 @@ class Trac_RPC
 
         if(empty($this->_request))
         {
-            exit('Curl Request problem.');
+            exit('No valid Request.');
         }
 
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $this->tracURL);
-
-        /**
-         * if tracURL contains jsonrpc send an application/json request
-         */
-        if(strpos($this->tracURL, 'jsonrpc') === true)
-        {
-            curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/json'));
-        }
-
-        /**
-         * if tracURL contains xmlrpc send an application/xml request
-         */
-        if(strpos($this->tracURL, 'xmlrpc') === true)
-        {
-            curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/xml'));
-        }
-
-        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
-        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_HEADER, false);
-        curl_setopt($ch, CURLOPT_TIMEOUT, 30);
-        curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 5);
-        curl_setopt($ch, CURLOPT_POST, true);
-        curl_setopt($ch, CURLOPT_POSTFIELDS, $this->_request);
 
         /**
          * Set correct HttpHeader Content Type depending on the requested content type via tracURL.
@@ -1500,16 +1477,36 @@ class Trac_RPC
          *
          *      http://trac.example.com/rpc
          *      http://trac.example.com/xmlrpc
-
+         *
          * Authenticated access
          *
          *      http://trac.example.com/login/rpc
          *      http://trac.example.com/login/xmlrpc
          */
+        if(strpos($this->tracURL, 'jsonrpc') !== false)
+        {
+            curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/json'));
+        }
+
+        if(strpos($this->tracURL, 'xml') !== false)
+        {
+            curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/xml'));
+        }
+
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
+        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_HEADER, false);
+        curl_setopt($ch, CURLOPT_TIMEOUT, 30);
+        curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 5);
+        curl_setopt($ch, CURLOPT_POST, true);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $this->_request);
+
         /**
-         * if tracURL contains login, the user has to provide username and password.
+         * Determine if this is an authenticated access, then set user credentials accordingly.
          */
-        if(strpos($this->tracURL, 'login') === true)
+        if(strpos($this->tracURL, 'login') !== false)
         {
             if(empty($this->username) or empty($this->password))
             {
@@ -1517,7 +1514,7 @@ class Trac_RPC
             }
             else
             {
-                curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_BASIC | CURLAUTH_DIGEST);
+                curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_ANY); # CURLAUTH_BASIC | CURLAUTH_DIGEST
                 curl_setopt($ch, CURLOPT_USERPWD, $this->username . ':' . $this->password);
             }
         }
@@ -1531,8 +1528,6 @@ class Trac_RPC
 
         curl_close($ch);
 
-        #var_dump($response);
-        
         if($this->json_decode === true)
         {
             $this->_response = json_decode($response);
@@ -1560,7 +1555,7 @@ class Trac_RPC
         if(empty($response))
         {
             $response = $this->getResponse();
-            var_dump($response);
+
             $this->_response = array();
         }
 
