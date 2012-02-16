@@ -48,6 +48,8 @@ interface Clansuite_Request_Interface
     # Parameters
     public function issetParameter($name, $arrayname = 'POST');
     public function getParameter($name, $arrayname = 'POST');
+    public function expectParameter($parameter, $arrayname);
+    public function expectParameters(array $parameters);
     public static function getHeader($name);
 
     # Direct Access to individual Parameters Arrays
@@ -126,8 +128,9 @@ class Clansuite_HttpRequest implements Clansuite_Request_Interface, ArrayAccess
      */
     public function __construct($ids_on = false)
     {
-        # 1) Drop $_REQUEST. Usage is forbidden.
+        # 1) Drop $_REQUEST and $GLOBALS. Usage is forbidden!
         unset($_REQUEST);
+        unset($GLOBALS);
 
         if($ids_on === true)
         {
@@ -165,7 +168,8 @@ class Clansuite_HttpRequest implements Clansuite_Request_Interface, ArrayAccess
     }
 
     /**
-     * Returns the POST Parameters Array.
+     * Returns the raw POST Parameters Array.
+     * Raw means: no validation, no filtering, no sanitization.
      *
      * @return array POST Parameters Array.
      */
@@ -175,7 +179,8 @@ class Clansuite_HttpRequest implements Clansuite_Request_Interface, ArrayAccess
     }
 
     /**
-     * Returns the GET Parameters Array.
+     * Returns the raw GET Parameters Array.
+     * Raw means: no validation, no filtering, no sanitization.
      *
      * @return array GET Parameters Array.
      */
@@ -186,6 +191,7 @@ class Clansuite_HttpRequest implements Clansuite_Request_Interface, ArrayAccess
 
     /**
      * Returns the COOKIES Parameters Array.
+     * Raw means: no validation, no filtering, no sanitization.
      *
      * @return array COOKIES Parameters Array.
      */
@@ -195,30 +201,103 @@ class Clansuite_HttpRequest implements Clansuite_Request_Interface, ArrayAccess
     }
 
     /**
+     * expectParameters
+     *
+     * a) isset test          -  to determine if the parameter is incomming
+     * b) exception throwing  -  if parameter is not incomming, but expected
+     * @todo c) validation          -  validates the incomming parameter via rules
+     *
+     * $parameters array structure:
+     * $parameters = array(
+     *  'parametername' => array (      # parametername as key for rules array
+     *      'source',                   # (GET|POST)
+     *      'validation-rule'
+     * );
+     * 'modulename' => array ('GET', 'string|lowercase')
+     *
+     * @example
+     * # parameter names only
+     * $this->expectParameters(array('modulename','language'));
+     * # parameters, one with rules
+     * # parameters, all with rules
+     *
+     * @param array $parameters
+     */
+    public function expectParameters(array $parameters)
+    {
+        foreach($parameters as $parameter => $array_or_parametername)
+        {
+            /**
+             * check if we have some rules to process
+             */
+            if(true === is_array($array_or_parametername))
+            {
+                $array_name         = $array_or_parametername[0];      # GET|POST|COOKIE
+                #$validation_rules   = $array_or_parametername[1];      # some validation commands
+
+                /**
+                 * ISSET or Exception
+                 */
+                $this->expectParameter($parameter, $array_name);
+
+                /**
+                 * VALID or Exception
+                 */
+               #$this->validateParameter($parameter, $validation_rules);
+
+            }
+            else # if(is_int($array_or_parametername))
+            {
+                $this->expectParameter($array_or_parametername);
+            }
+        }
+    }
+
+    /**
+     * This method ensures that all the parameters you are expecting
+     * and which are required by your action are really incomming with the request.
+     * It's a multiple call to issetParameter(), with the difference,
+     * that it throws an Exception if not isset!
+     *
+     * a) isset test          -  to determine if the parameter is incomming
+     * b) exception throwing  -  if parameter is not incomming, but expected
+     *
+     * @param string $parameter
+     * @param string $arrayname (GET|POST|COOKIE)
+     */
+    public function expectParameter($parameter, $arrayname = '')
+    {
+        # when array is not defined issetParameter will searches (POST|GET|COOKIE)
+        if(is_string($arrayname) === true)
+        {
+            if(false === $this->issetParameter($parameter))
+            {
+                throw new Clansuite_Exception('Incoming Parameter missing: "' . $parameter . '".');
+            }
+        }
+        else # when array is defined issetParameter will search the given array
+        {
+            if(false === $this->issetParameter($parameter, $arrayname))
+            {
+                throw new Clansuite_Exception('Incoming Parameter missing: "' . $parameter . '" in Array "' . $arrayname . '".');
+            }
+        }
+    }
+
+    /**
      * isset, checks if a certain parameter exists in the parameters array
      *
      * @param string $name Name of the Parameter
-     * @param string $arrayname GET, POST, COOKIE. Default = POST.
+     * @param string $arrayname GET, POST, COOKIE. Default = GET.
      * @param boolean $where If set to true, method will return the name of the array the parameter was found in.
-     * @return mixed | boolean true|false | string arrayname
+     * @return mixed|boolean|string arrayname
      *
      */
-    public function issetParameter($name, $arrayname = 'POST', $where = false)
+    public function issetParameter($name, $arrayname = 'GET', $where = false)
     {
         $arrayname = mb_strtoupper($arrayname);
 
-        if( ($arrayname == 'POST' and isset($this->post_parameters[$name])) or isset($this->post_parameters[$name]))
-        {
-            if($where === false)
-            {
-                return true;
-            }
-            else
-            {
-                return 'post';
-            }
-        }
-        elseif( ($arrayname == 'GET' and isset($this->get_parameters[$name])) or isset($this->get_parameters[$name]))
+        if( ($arrayname == 'GET' and isset($this->get_parameters[$name])) or isset($this->get_parameters[$name]))
         {
             if($where === false)
             {
@@ -227,6 +306,17 @@ class Clansuite_HttpRequest implements Clansuite_Request_Interface, ArrayAccess
             else
             {
                 return 'get';
+            }
+        }
+        elseif( ($arrayname == 'POST' and isset($this->post_parameters[$name])) or isset($this->post_parameters[$name]))
+        {
+            if($where === false)
+            {
+                return true;
+            }
+            else
+            {
+                return 'post';
             }
         }
         elseif( ($arrayname == 'COOKIE' and isset($this->cookie_parameters[$name])) or isset($this->cookie_parameters[$name]))
@@ -615,9 +705,13 @@ class Clansuite_HttpRequest implements Clansuite_Request_Interface, ArrayAccess
     }
 
     /**
-     * Get Route
+     * Get Route returns the static Clansuite_TargetRoute object.
      *
-     * @return TargetRoute Container
+     * With php onbord tools you can't debug this.
+     * Please use Clansuite_Debug:firebug($route); to debug.
+     * Firebug uses Reflection to show the static properties and values.
+     *
+     * @return Clansuite_TargetRoute
      */
     public static function getRoute()
     {
