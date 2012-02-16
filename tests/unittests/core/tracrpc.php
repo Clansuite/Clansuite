@@ -51,8 +51,8 @@ class Clansuite_TracRPC_Test extends Clansuite_UnitTestCase
 
         # request to "/login" without credentials
         $this->trac = new Trac_RPC('http://trac.clansuite.com/login/jsonrpc');
-        $result = $this->trac->getWikiPage('ClansuiteTeam');
-        unset($result);
+        $response = $this->trac->getWikiPage('ClansuiteTeam');
+        unset($response);
     }
 
     /**
@@ -61,14 +61,103 @@ class Clansuite_TracRPC_Test extends Clansuite_UnitTestCase
     public function testMethod_Constructor_doRequest()
     {
         $this->trac = new Trac_RPC('http://trac.clansuite.com/jsonrpc');
-        $result = $this->trac->getWikiPage('ClansuiteTeam');
+        $response = $this->trac->getWikiPage('ClansuiteTeam');
 
-        $this->assertNotNull($result);
-        $this->assertTrue(is_string($result));
-        $this->assertContainsString('Maintainer', $result);
-        $this->assertContainsString('Former Developers', $result);
-
-        unset($result);
+        $this->assertNotNull($response);
+        $this->assertTrue(is_string($response));
+        $this->assertContainsString('Clansuite Team', $response);
+        unset($response);
     }
+
+    /**
+     * Not a mock. It's a live request.
+     */
+    public function testMethod_request_milestone_GetALL()
+    {
+        $this->trac = new Trac_RPC('http://trac.clansuite.com/jsonrpc');
+        $response = $this->trac->getTicketMilestone();
+
+        $this->assertNotNull($response);
+        $this->assertTrue(is_array($response));
+        $this->assertTrue(array_key_exists('Triage | Neuzuteilung',array_flip($response)));
+        unset($response);
+    }
+
+    /**
+     * Not a mock. It's a live request.
+     */
+    public function testMethod_request_milestone_GetOne()
+    {
+        $this->trac = new Trac_RPC('http://trac.clansuite.com/jsonrpc');
+        $response = $this->trac->getTicketMilestone('get', 'Clansuite 0.2.2');
+
+        $this->assertNotNull($response);
+        $this->assertTrue(is_object($response));
+
+        $real_response = self::objectToArray($response);
+
+        $this->assertContainsString('Gettext', $real_response['description']);
+        unset($response);
+    }
+
+    /**
+     * Not a mock. It's a live request.
+     */
+    public function testMethod_request_milestone_GetOne_GetDatetime()
+    {
+        $this->trac = new Trac_RPC('http://trac.clansuite.com/jsonrpc');
+        $response = $this->trac->getTicketMilestone('get', 'Clansuite 0.2.2');
+
+        $this->assertNotNull($response);
+        $this->assertTrue(is_object($response));
+
+        $real_response = self::objectToArray($response);
+
+        # datetime contains a string like "012-02-17T17:00:00"
+        $this->assertContainsString('T', $real_response['due']['1']);
+        unset($response);
+    }
+
+    /**
+     * Converts an object into an array.
+     * Handles __jsonclass__ subobject properties, too!
+     *
+     * @todo sub_array transformation:
+     * (jsonclass ( [0] = key [1] = value ))
+     * into
+     * ( key => value )
+     *
+     * @param type $d
+     * @return type
+     */
+    public static function objectToArray($d = null) {
+		/**
+         * Turn object properties into array.
+         */
+        if (is_object($d)) {
+			$d = get_object_vars($d);
+		}
+
+        /**
+         * loop over all former "properties", which might be
+         * objects and convert them to.
+         */
+        foreach($d as $key => $value)
+        {
+            if($key == '__jsonclass__')
+            {
+                $d = $value; #@todo sub-array transformation
+
+                continue;
+            }
+
+            if(is_object($value))
+            {
+                $d[$key] = self::objectToArray($value);
+            }
+        }
+
+		return $d;
+	}
 }
 ?>
