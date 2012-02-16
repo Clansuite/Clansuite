@@ -82,8 +82,8 @@ class Trac_RPC
         {
             $this->username = isset($params['username']) ? $params['username'] : '';
             $this->password = isset($params['password']) ? $params['password'] : '';
-            $this->multiCall = isset($params['multiCall']) ? $params['multiCall'] : false;
-            $this->json_decode = isset($params['json_decode']) ? $params['json_decode'] : true;
+            $this->multiCall = isset($params['multiCall']) ? (bool) $params['multiCall'] : false;
+            $this->json_decode = isset($params['json_decode']) ? (bool) $params['json_decode'] : true;
         }
     }
 
@@ -1488,7 +1488,7 @@ class Trac_RPC
             curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/json'));
         }
 
-        if(strpos($this->tracURL, 'xml') !== false)
+        if(strpos($this->tracURL, 'xmlrpc') !== false)
         {
             curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/xml'));
         }
@@ -1510,7 +1510,7 @@ class Trac_RPC
         {
             if(empty($this->username) or empty($this->password))
             {
-                die('You are trying an authenticated access without providing username and password.');
+                throw new Exception('You are trying an authenticated access without providing username and password.');
             }
             else
             {
@@ -1564,7 +1564,7 @@ class Trac_RPC
             return false;
         }
 
-        if(isset($response->result) === true)
+        if(isset($response->result) === true and is_array($response->result))
         {
             foreach($response->result as $key => $resp)
             {
