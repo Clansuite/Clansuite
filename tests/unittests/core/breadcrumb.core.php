@@ -16,7 +16,7 @@ class Clansuite_Breadcrumb_Test extends Clansuite_UnitTestCase
      */
     public function setUp()
     {
-        require_once TESTSUBJECT_DIR . 'core//breadcrumb.core.php';
+        require_once TESTSUBJECT_DIR . 'core/breadcrumb.core.php';
         $this->object = new Clansuite_Breadcrumb;
     }
 

@@ -69,7 +69,8 @@ class Clansuite_Feed_Test extends Clansuite_UnitTestCase
     {
         $feedcreator_object = Clansuite_Feed::getFeedcreator();
 
-        $this->assertIsA($feedcreator_object, 'Feedcreator');
+        #$this->assertIsA($feedcreator_object, 'FeedCreator');
+        $this->assertIsA($feedcreator_object, 'UniversalFeedCreator');
     }
 }
 ?>
