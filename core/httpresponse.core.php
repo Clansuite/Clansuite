@@ -75,17 +75,17 @@ class Clansuite_HttpResponse implements Clansuite_Response_Interface
      *
      * @var       integer
      */
-    protected static $statusCode = '200';
+    private static $statusCode = '200';
 
     /**
      * @var array Array holding the response headers.
      */
-    protected static $headers = array();
+    private static $headers = array();
 
     /**
-     * @var string String holding the response body.
+     * @var string String holding the response content (body).
      */
-    protected static $body = null;
+    private static $content = null;
 
     /**
      * Sets the HTTP Status Code for this response.
@@ -100,7 +100,17 @@ class Clansuite_HttpResponse implements Clansuite_Response_Interface
     }
 
     /**
-     * Get HTTP 1.1 status code description by status code.
+     * Returns the HTTP Status Code.
+     * 
+     * @return int HTTP Status Code.
+     */
+    public static function getStatusCode()
+    {
+        return self::$statusCode;
+    }
+
+    /**
+     * Returns the HTTP 1.1 status code description for a given status code.
      *
      * @link http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html
      */
@@ -110,7 +120,7 @@ class Clansuite_HttpResponse implements Clansuite_Response_Interface
          * Array holding some often occuring status descriptions.
          * @var array
          */
-        static $statusMap = array(
+        static $statusCodes = array(
            # Successful
            '200' => 'OK',
            '201' => 'Created',
@@ -131,7 +141,7 @@ class Clansuite_HttpResponse implements Clansuite_Response_Interface
            '503' => 'Service Temporarily Unavailable'
         );
 
-        return $statusMap[$statusCode];
+        return $statusCodes[$statusCode];
     }
 
      /**
@@ -146,25 +156,27 @@ class Clansuite_HttpResponse implements Clansuite_Response_Interface
     }
 
     /**
-     * setContent:
-     * appends content to the response body
-     * when replace is true, the bodycontent is replaced
+     * setContent appends or replaces the content of the
+     * http response buffer.
+     *
+     * appends content to the response body.
+     * when $replace is true, the bodycontent is replaced.
      *
      * @param string $content Content to store in the buffer
-     * @param boolean $replace toggles append or replace content
+     * @param boolean $replace Toggle between append or replace.
      */
     public static function setContent($content, $replace = false)
     {
         # check, if the content should be replaced
         if($replace === false)
         {
-            # no, replace is false, we append the content
-            self::$body .= $content;
+            # no, just append the content
+            self::$content .= $content;
         }
         else
         {
-            # yes, replace the body with the content
-            self::$body = $content;
+            # replace the body with the content
+            self::$content = $content;
         }
     }
 
@@ -173,7 +185,7 @@ class Clansuite_HttpResponse implements Clansuite_Response_Interface
      */
     public static function getContent()
     {
-        return self::$body;
+        return self::$content;
     }
 
     /**
@@ -194,7 +206,7 @@ class Clansuite_HttpResponse implements Clansuite_Response_Interface
         self::addHeader('HTTP/1.1', self::$statusCode.' '.self::getStatusCodeDescription(self::$statusCode));
 
         # Set X-Powered-By Header to Clansuite Signature
-        self::addHeader('X-Powered-By', '[ Clansuite - just an eSport CMS ][ Version : '. CLANSUITE_VERSION .' ][ www.clansuite.com ]');
+        self::addHeader('X-Powered-By', '[ Clansuite - just an eSport CMS ][ Version : '. CLANSUITE_VERSION .' ][ http://clansuite.com ]');
 
         # Suppress Framesets
         self::addHeader('X-Frame-Options', 'deny'); # not SAMEORIGIN
@@ -212,7 +224,7 @@ class Clansuite_HttpResponse implements Clansuite_Response_Interface
         }
 
         # make it possible to attach HTML content to the body directly before flushing the response
-        Clansuite_CMS::triggerEvent('onBeforeResponse', array('body' => self::$body));
+        Clansuite_CMS::triggerEvent('onBeforeResponse', array('content' => self::$content));
 
         # Finally echo the response body
         echo self::getContent();
@@ -238,8 +250,8 @@ class Clansuite_HttpResponse implements Clansuite_Response_Interface
      */
     public static function clearHeaders()
     {
-        self::$headers  = array();
-        self::$body     = null;
+        self::$headers = array();
+        self::$content = null;
     }
     /**
      * A better alternative (RFC 2109 compatible) to the php setcookie() function
@@ -447,7 +459,7 @@ class Clansuite_HttpResponse implements Clansuite_Response_Interface
         {
             $msg  = _('Header already send in file %s in line %s. Redirecting impossible.');
             $msg .= _('You might click this link instead to redirect yourself to the <a href="%s">target url</a> an');
-            printf($msg, $filename, $linenum, $url);
+            sprintf($msg, $filename, $linenum, $url);
             exit;
         }
     }
