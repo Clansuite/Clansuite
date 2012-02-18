@@ -780,7 +780,7 @@ class Clansuite_HttpRequest implements Clansuite_Request_Interface, ArrayAccess
 
     /**
      * Get the REQUEST METHOD (GET, HEAD, POST, PUT, DELETE)
-     * 
+     *
      * HEAD request is returned internally as GET.
      * The internally set request_method (PUT or DELETE) is returned first,
      * because we might have a REST-tunneling.
@@ -841,6 +841,52 @@ class Clansuite_HttpRequest implements Clansuite_Request_Interface, ArrayAccess
         {
             return false;
         }
+    }
+
+    /**
+     * is(GET|POST|PUT|DELETE)
+     * Boolean "getters" for several HttpRequest Types.
+     * This makes request type checking in controllers easy.
+     */
+
+    /**
+     * Determines, if request is of type GET
+     *
+     * @return boolean
+     */
+    public function isGet()
+    {
+        return (self::$request_method == 'GET');
+    }
+
+    /**
+     * Determines, if request is of type POST
+     *
+     * @return boolean
+     */
+    public function isPost()
+    {
+        return (self::$request_method == 'POST');
+    }
+
+    /**
+     * Determines, if request is of type PUT
+     *
+     * @return boolean
+     */
+    public function isPut()
+    {
+        return (self::$request_method == 'PUT');
+    }
+
+    /**
+     * Determines, if request is of type DELETE
+     *
+     * @return boolean
+     */
+    public function isDelete()
+    {
+        return (self::$request_method == 'DELETE');
     }
 
     /**
