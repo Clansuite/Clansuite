@@ -48,7 +48,7 @@ require_once 'unittester.php';
 if(CODECOVERAGE == true)
 {
     require_once 'codecoverage.php';
-    startCodeCoverage();
+    Clansuite_CodeCoverage::start();
 }
 
 # Tests -> instantiate Clansuite Testsuite
@@ -76,8 +76,8 @@ else # else display nice html report
 
 if(CODECOVERAGE == true)
 {
-    stopCodeCoverage();
-    getCodeCoverageReport();
+    Clansuite_CodeCoverage::stop();
+    Clansuite_CodeCoverage::getReport();
 }
 
 # Tests -> exit with status
