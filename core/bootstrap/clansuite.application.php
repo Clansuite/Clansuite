@@ -107,19 +107,32 @@ class Clansuite_CMS
      */
     private static function perform_startup_checks()
     {
-        # Check if install.php is still available, so we are installed but without security steps performed
-        #if ( is_file( 'installation/install.php') === true ) { header( 'Location: installation/check_security.php'); exit; }
+        /**
+         * Check if install.php is still available..
+         * This means Clansuite is installed, but without any security steps performed.
+         */
+        if(defined('LIVE') and LIVE == true and is_file('installation/install.php') === true)
+        {
+            header('Location: installation/check_security.php');
+            exit;
+        }
 
-        # PHP Version Check
+        /**
+         * PHP Version Check
+         */
         $REQUIRED_PHP_VERSION = '5.3.2';
         if(version_compare(PHP_VERSION, $REQUIRED_PHP_VERSION, '<=') === true)
         {
-            exit('Your PHP Version is <b><font color="#FF0000">' . PHP_VERSION . '</font></b>.
-                 Clansuite requires PHP Version <b><font color="#4CC417">' . $REQUIRED_PHP_VERSION . '</font></b> or newer.');
+            $msg =  _('Your PHP Version is <b><font color="#FF0000">$s</font></b>');
+            $msg .= _('Clansuite requires PHP Version <b><font color="#4CC417">%s</font></b> or newer.');
+            throw new \RuntimeException(sprintf($msg, PHP_VERSION, $REQUIRED_PHP_VERSION));
         }
         unset($REQUIRED_PHP_VERSION);
 
-        #  Check if clansuite.config.php is found, else we are not installed at all, so redirect to installation page
+        /**
+         * Check if clansuite.config.php is found,
+         * else we are not installed at all, so redirect to installation page
+         */
         if(is_file('configuration/clansuite.config.php') === false)
         {
             header('Location: installation/index.php');
