@@ -80,13 +80,27 @@ Clansuite_CMS::define_ConstantsAndPaths();
 Clansuite_CMS::initialize_Loader();
 Clansuite_UTF8::initialize();
 
-# constants must be defined, after initialize_paths(), because of the apc constants cache
+/**
+ * Constants
+ *
+ * Constants must be defined, after initialize_paths(),
+ * because of the automatic apc constants cache in
+ * define_ConstantsAndPaths().
+ */
 define('REWRITE_ENGINE_ON', 1);
 define('TESTSUBJECT_DIR', dirname(__DIR__) . DIRECTORY_SEPARATOR); # /../tests (trunk)
 
-# we might some debug utils
-# @todo load not add on CLI
-require_once 'core/debug/debug.core.php';
+# Toggle for codecoverage (depends on Xdebug)
+define('CODECOVERAGE', true);
+
+/**
+ * We might need some debug utils,
+ * when we are not in CLI mode.
+ */
+if(isCli() === false)
+{
+    require_once 'core/debug/debug.core.php';
+}
 
 /**
  * Gettext Replacement
@@ -98,6 +112,18 @@ if (!function_exists('_'))
     function _($msgid)
     {
         return $msgid;
+    }
+}
+
+function isCli()
+{
+    if(php_sapi_name() == 'cli' and empty($_SERVER['REMOTE_ADDR']))
+    {
+        return true;
+    }
+    else
+    {
+        return false;
     }
 }
 

@@ -44,35 +44,10 @@ require_once 'reporter.php';
 require_once 'testsuite.php';
 require_once 'unittester.php';
 
-define('CODECOVERAGE', false);
-
-# Coverage -> xdebug is needed for code coverage
-if (extension_loaded('xdebug') and function_exists("xdebug_start_code_coverage") and CODECOVERAGE == true)
+if(CODECOVERAGE == true)
 {
-    # ensure that the sqlite extension is loaded
-    #require_once 'simpletest/extensions/coverage/coverage_utils.php';
-    #CoverageUtils::requireSqliteExtension();
-
-    # setup code coverage
-    require_once 'simpletest/extensions/coverage/coverage.php';
-
-    $coverage = new CodeCoverage();
-    $coverage->log = 'coverage.sqlite';
-    $coverage->root = TESTSUBJECT_DIR;
-    $coverage->includes[] = '.*\.php$';
-    $coverage->excludes[] = 'simpletest';
-    $coverage->excludes[] = 'tests';
-    $coverage->excludes[] = 'libraries';
-    $coverage->excludes[] = 'coverage-report';
-    $coverage->excludes[] = 'sweety';
-    $coverage->excludes[] = './.*.php';
-    $coverage->maxDirectoryDepth = 1;
-    $coverage->resetLog();
-    $coverage->writeSettings();
-
-    # this starts the code coverage
-    $coverage->startCoverage();
-    #echo 'Code Coverage started...';
+    require_once 'codecoverage.php';
+    startCodeCoverage();
 }
 
 # Tests -> instantiate Clansuite Testsuite
@@ -100,20 +75,8 @@ else # else display nice html report
 
 if(CODECOVERAGE == true)
 {
-    # Coverage -> close coverage
-    $coverage->writeUntouched();
-    $coverage->stopCoverage();
-    #echo 'Code Coverage stopped!';
-
-    # Coverage -> generate report
-    require_once 'simpletest/extensions/coverage/coverage_reporter.php';
-    $handler = new CoverageDataHandler($coverage->log);
-    $report = new CoverageReporter();
-    $report->reportDir = 'coverage-report';
-    $report->title = 'Simpletest Coverage Report';
-    $report->coverage = $handler->read();
-    $report->untouched = $handler->readUntouchedFiles();
-    $report->generate();
+    stopCodeCoverage();
+    getCodeCoverageReport();
 }
 
 # Tests -> exit with status
