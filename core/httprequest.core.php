@@ -779,8 +779,9 @@ class Clansuite_HttpRequest implements Clansuite_Request_Interface, ArrayAccess
     }
 
     /**
-     * Get the REQUEST METHOD (POST, GET, PUT, DELETE)
-     *
+     * Get the REQUEST METHOD (GET, HEAD, POST, PUT, DELETE)
+     * 
+     * HEAD request is returned internally as GET.
      * The internally set request_method (PUT or DELETE) is returned first,
      * because we might have a REST-tunneling.
      *
@@ -794,7 +795,21 @@ class Clansuite_HttpRequest implements Clansuite_Request_Interface, ArrayAccess
         }
         else
         {
-            return $_SERVER['REQUEST_METHOD'];
+            $method = $_SERVER['REQUEST_METHOD'];
+
+            # get method from "http method override" header
+            if (isset($_SERVER['HTTP_X_HTTP_METHOD_OVERRIDE']))
+            {
+                $method = $_SERVER['HTTP_X_HTTP_METHOD_OVERRIDE'];
+            }
+
+            # add support for HEAD requests, which are GET requests
+            if($method == 'HEAD')
+            {
+                $method = 'GET';
+            }
+
+            return $method;
         }
     }
 
