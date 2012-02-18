@@ -30,6 +30,14 @@
     * @version    SVN: $Id$
     */
 
+/**
+ * Clansuite_Reporter is an extended in-browser HtmlReporter for Simpletest.
+ *
+ * Features:
+ * - paint passes as dots only
+ * - paint passes with classname
+ * - paint passes with message
+ */
 class Reporter extends HtmlReporter
 {
     function paintFail($message)
@@ -75,6 +83,22 @@ class Reporter extends HtmlReporter
         array_shift($breadcrumb);
         $testsubject_classname = $breadcrumb['1'] . '-&gt;' . $breadcrumb['2'] . '()'; # combine classname + methodname
         echo '<span class="pass">'.$testsubject_classname.'</span><br />';
+    }
+
+    /**
+     * Paints a PHP error.
+     * @param string $message Message is ignored.
+     */
+    function paintError($message)
+    {
+        # Explicitly call grandparent, not HtmlReporter::paintError.
+        SimpleScorer::paintError($message);
+        print "<span class=\"fail\">Exception</span>: <br />\n";
+        $breadcrumb = $this->getTestList();
+        array_shift($breadcrumb);
+        print implode(" -&gt; ", $breadcrumb);
+        print "<br />\n<strong>" . $this->htmlEntities($message) . "</strong><br />\n";
+        print "<pre>\n";
     }
 
     function getCss()

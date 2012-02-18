@@ -60,7 +60,7 @@ $paths = array(
         realpath(__DIR__.'/simpletest'),   # /tests/simpletest
         realpath(__DIR__.'/unittests'),    # /tests/unittests
         # add the test subject dir
-        realpath(dirname(__DIR__)),        # /../tests (trunk)
+        realpath(dirname(__DIR__)),        # ../tests
 );
 #var_dump($paths);
 
@@ -90,7 +90,7 @@ require_once 'core/debug/debug.core.php';
 
 /**
  * Gettext Replacement
- * 
+ *
  * @param type $msgid
  */
 if (!function_exists('_'))
