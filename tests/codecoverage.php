@@ -112,7 +112,7 @@ class Clansuite_CodeCoverage
         $handler = new CoverageDataHandler(self::$coverage->log);
         $report = new CoverageReporter();
         $report->reportDir = 'coverage-report';
-        $report->title = 'Simpletest Coverage Report';
+        $report->title = 'Clansuite Coverage Report';
         $report->coverage = $handler->read();
         $report->untouched = $handler->readUntouchedFiles();
         $report->generate();

@@ -91,7 +91,10 @@ define('REWRITE_ENGINE_ON', 1);
 define('TESTSUBJECT_DIR', dirname(__DIR__) . DIRECTORY_SEPARATOR); # /../tests (trunk)
 
 # Toggle for codecoverage (depends on Xdebug)
-define('CODECOVERAGE', false);
+define('PERFORM_CODECOVERAGE', false);
+
+# Toggle, whether to run WebTests
+define('PERFORM_WEBTESTS', false);
 
 /**
  * We might need some debug utils,

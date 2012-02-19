@@ -85,10 +85,18 @@ class ClansuiteTestsuite extends TestSuite
                 {
                     if(is_file($source_file) && $this->isPHPfile($file))
                     {
+                        /**
+                         * Do not add WebTests, if PERFORM_WEBTESTS is off.
+                         */
+                        if(PERFORM_WEBTESTS == false && $this->isWebTestFile($file))
+                        {
+                            continue; # with next file in while loop
+                        }
+
                         # add file to array
                         $this->files[] = realpath($source_file);
 
-                        #echo "<p>File {$source_file} was added to the tests array.</p>\n";
+                        # echo "<p>File {$source_file} was added to the tests array.</p>\n";
                     }
                 }
             }
@@ -96,10 +104,14 @@ class ClansuiteTestsuite extends TestSuite
         }
     }
 
-    protected function isPHPFile($entry)
+    protected function isPHPFile($filename)
     {
-        return preg_match('/\w+\.php$/', $entry);
+        return preg_match('/\w+\.php$/', $filename);
     }
 
+    protected function isWebTestFile($filename)
+    {
+        return preg_match('/webtest/i', $filename);
+    }
 }
 ?>

@@ -45,7 +45,7 @@ require_once 'reporter.php';
 require_once 'testsuite.php';
 require_once 'unittester.php';
 
-if(CODECOVERAGE == true)
+if(PERFORM_CODECOVERAGE == true)
 {
     require_once 'codecoverage.php';
     Clansuite_CodeCoverage::start();
@@ -74,7 +74,7 @@ else # else display nice html report
     $success = $testsuite->run(new Reporter);
 }
 
-if(CODECOVERAGE == true)
+if(PERFORM_CODECOVERAGE == true)
 {
     Clansuite_CodeCoverage::stop();
     Clansuite_CodeCoverage::getReport();
