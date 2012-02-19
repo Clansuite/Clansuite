@@ -67,7 +67,7 @@ class Clansuite_Formelement_Validator_Regexp extends Clansuite_Formelement_Valid
 
     public function getValidationHint()
     {
-        return;
+        return _('The values must match the following criteria.');
     }
 
     public function getErrorMessage()

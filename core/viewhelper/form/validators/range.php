@@ -36,12 +36,15 @@ if (defined('IN_CS') === false)
     die('Clansuite not loaded. Direct Access forbidden.');
 }
 
+/**
+ * Validates a integer to be in a certain range.
+ */
 class Clansuite_Formelement_Validator_Range extends Clansuite_Formelement_Validator
 {
     /**
      * @var filter var options
      */
-    private $options = array();
+    public $options = array();
 
     /**
      * Setter for the range array.
@@ -51,8 +54,8 @@ class Clansuite_Formelement_Validator_Range extends Clansuite_Formelement_Valida
      */
     public function setRange($minimum_length, $maximum_length)
     {
-        $this->options['options']['min_range'] = $minimum_length;
-        $this->options['options']['max_range'] = $maximum_length;
+        $this->options['options']['min_range'] = (int) $minimum_length;
+        $this->options['options']['max_range'] = (int) $maximum_length;
     }
 
     public function getValidationHint()
@@ -60,7 +63,7 @@ class Clansuite_Formelement_Validator_Range extends Clansuite_Formelement_Valida
         $min = $this->options['options']['min_range'];
         $max = $this->options['options']['max_range'];
 
-        $msg = _('Please enter text within the range of %s to %s chars.');
+        $msg = _('Please enter a value within the range of %s <> %s.');
 
         return sprintf($msg, $min, $max);
     }
@@ -70,7 +73,7 @@ class Clansuite_Formelement_Validator_Range extends Clansuite_Formelement_Valida
         $min = $this->options['options']['min_range'];
         $max = $this->options['options']['max_range'];
 
-        $msg = _('The value is outside the range of %s <> %s chars.');
+        $msg = _('The value is outside the range of %s <> %s.');
 
         return sprintf($msg, $min, $max);
     }

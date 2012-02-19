@@ -36,7 +36,7 @@ if(defined('IN_CS') === false)
 }
 
 /**
- * Validates the value of an integer with maxvalue given.
+ * Validates the value of an integer|float with maxvalue given.
  */
 class Clansuite_Formelement_Validator_Maxvalue extends Clansuite_Formelement_Validator
 {
@@ -50,16 +50,33 @@ class Clansuite_Formelement_Validator_Maxvalue extends Clansuite_Formelement_Val
     /**
      * Setter for the maximum length of the string.
      *
-     * @param integer $maxvalue
+     * @param int|float $maxvalue
      */
     public function setMaxValue($maxvalue)
     {
-        $this->maxvalue = (int) $maxvalue;
+        if(is_string($maxvalue) === true)
+        {
+            $msg = _('Parameter Maxvalue must be numeric (int|float) and not %s.');
+            $msg = sprintf($msg, gettype($maxvalue));
+
+            throw new InvalidArgumentException($msg);
+        }
+
+        $this->maxvalue = $maxvalue;
     }
 
     public function getErrorMessage()
     {
-        return _('The value exceeds the maxvalue of ' . $this->getMaxValue() . ' chars.');
+        $msg = _('The value exceeds the maximum value of %s.');
+
+        return sprintf($msg, $this->getMaxValue());
+    }
+
+    public function getValidationHint()
+    {
+        $msg = _('The value must be smaller than %s.');
+
+        return sprintf($msg, $this->getMaxValue());
     }
 
     protected function processValidationLogic($value)
@@ -71,7 +88,5 @@ class Clansuite_Formelement_Validator_Maxvalue extends Clansuite_Formelement_Val
 
         return true;
     }
-
 }
-
 ?>

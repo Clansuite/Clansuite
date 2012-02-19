@@ -1,7 +1,4 @@
 <?php
-/**
- * @todo method chaining tests on all setter methods
- */
 class Clansuite_Formelement_Validator_Maxlength_Test extends Clansuite_UnitTestCase
 {
     /**
@@ -18,8 +15,6 @@ class Clansuite_Formelement_Validator_Maxlength_Test extends Clansuite_UnitTestC
         # Test Subject
         require_once TESTSUBJECT_DIR . 'core/viewhelper/form/validators/maxlength.php';
         $this->validator = new Clansuite_Formelement_Validator_Maxlength;
-
-
     }
 
     /**
@@ -36,10 +31,10 @@ class Clansuite_Formelement_Validator_Maxlength_Test extends Clansuite_UnitTestC
         $this->validator->maxlength = 1980;
 
 		# getter returns integer
-        $this->assertEqual(1980, $this->validator->geMaxlength());
+        $this->assertEqual(1980, $this->validator->getMaxlength());
 
         # getter returns integer not string
-        $this->assertNotIdentical('1980', $this->validator->getMinlength());
+        $this->assertNotIdentical('1980', $this->validator->getMaxlength());
     }
 
     public function testMethod_setMaxlength()

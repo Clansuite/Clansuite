@@ -51,8 +51,23 @@ class Clansuite_Formelement_Validator_Ip extends Clansuite_Formelement_Validator
         return _('The value must be a IP.');
     }
 
+    public function getValidationHint()
+    {
+        return _('Please enter a valid IP address.');
+    }
+
     protected function processValidationLogic($value)
     {
+        /**
+         * Note: filter_var() does not support IDNA.
+         * The INTL extension provides the method idn_to_ascii().
+         * It converts a mbyte URL to a punycode ASCII string.
+         */
+        if(function_exists('idn_to_ascii'))
+        {
+            $value = idn_to_ascii($value);
+        }
+
         if(true === (bool) filter_var( $value, FILTER_VALIDATE_IP, $this->getOptions() ))
         {
             return true;

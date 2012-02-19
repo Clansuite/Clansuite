@@ -5,7 +5,7 @@
 class Clansuite_Formelement_Validator_Minlength_Test extends Clansuite_UnitTestCase
 {
     /**
-     * @var Clansuite_Formelement_Validator_Maxlength
+     * @var Clansuite_Formelement_Validator_minlength
      */
     protected $validator;
 
@@ -17,9 +17,8 @@ class Clansuite_Formelement_Validator_Minlength_Test extends Clansuite_UnitTestC
     {
         # Test Subject
         require_once TESTSUBJECT_DIR . 'core/viewhelper/form/validators/minlength.php';
+
         $this->validator = new Clansuite_Formelement_Validator_Minlength;
-
-
     }
 
     /**
@@ -34,24 +33,24 @@ class Clansuite_Formelement_Validator_Minlength_Test extends Clansuite_UnitTestC
     public function testMethod_getMinlength()
     {
         # set property
-        $this->validator->minlength = 123;
+        $this->validator->minlength = 1980;
 
         # getter returns integer
-        $this->assertEqual(123, $this->validator->getMinlength());
+        $this->assertEqual(1980, $this->validator->getMinlength());
 
         # getter returns integer not string
-        $this->assertNotIdentical('123', $this->validator->getMinlength());
+        $this->assertNotIdentical('1980', $this->validator->getMinlength());
     }
 
     public function testMethod_setMinlength()
     {
         # set property
-        $this->validator->setMinlength('10');
+        $this->validator->setMinlength('1980');
 
-        $this->assertEqual(10, $this->validator->getMinlength());
+        $this->assertEqual(1980, $this->validator->getMinlength());
 
         # property
-        $this->assertEqual($value, $this->validator->minlength);
+        $this->assertEqual('1980', $this->validator->minlength);
     }
 
     public function testMethod_processValidationLogic()
