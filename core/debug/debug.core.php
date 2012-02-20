@@ -124,7 +124,11 @@ class Clansuite_Debug
         echo '</pre>';
 
         # save session before exit
-        session_write_close();
+        if((bool) session_id())
+        {
+            session_write_close();
+        }
+
         exit;
     }
 

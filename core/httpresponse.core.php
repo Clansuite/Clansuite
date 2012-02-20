@@ -101,7 +101,7 @@ class Clansuite_HttpResponse implements Clansuite_Response_Interface
 
     /**
      * Returns the HTTP Status Code.
-     * 
+     *
      * @return int HTTP Status Code.
      */
     public static function getStatusCode()
@@ -193,8 +193,11 @@ class Clansuite_HttpResponse implements Clansuite_Response_Interface
      */
     public static function sendResponse()
     {
-        # Guess what?
-        session_write_close();
+        # save session before exit
+        if((bool) session_id())
+        {
+            session_write_close();
+        }
 
         # activateOutputCompression when not in debugging mode
         if( XDEBUG === false and DEBUG === false)

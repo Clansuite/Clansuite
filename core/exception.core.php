@@ -411,8 +411,11 @@ class Clansuite_Exception extends Exception implements Clansuite_Exception_Inter
         $html   .= '</fieldset>';
         $html   .= '</body></html>';
 
-        # save session
-        session_write_close();
+        # save session before exit
+        if((bool) session_id())
+        {
+            session_write_close();
+        }
 
         # clear all output buffers
         if( ob_get_length() )
