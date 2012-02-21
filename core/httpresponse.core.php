@@ -88,6 +88,11 @@ class Clansuite_HttpResponse implements Clansuite_Response_Interface
     private static $content = null;
 
     /**
+     * @var string String holding the content type.
+     */
+    private static $content_type = 'text/html';
+
+    /**
      * Sets the HTTP Status Code for this response.
      * This method is also used to set the return status code when there
      * is no error (for example for the status codes 200 (OK) or 301 (Moved permanently) ).
@@ -189,6 +194,44 @@ class Clansuite_HttpResponse implements Clansuite_Response_Interface
     }
 
     /**
+     * Set the content type
+     *
+     * @param string $type Content type: html, txt, xml, json.
+     * @return string
+     */
+    public static function setContentType($type = 'html')
+    {
+        $types = array(
+            'html' => 'text/html',
+            'txt' => 'text/plain',
+            'xml' => 'application/xml',
+            'json' => 'application/json',
+        );
+
+        if(isset($types[$type]) === false)
+        {
+            throw new InvalidArgumentException('Specified type not valid. Use: html, txt, xml or json.');
+        }
+
+        $this->content_type = $types[$type];
+    }
+
+    /**
+     * Returns the content type for insertion into the header.
+     *
+     * @return string A content type, like "application/json" or "text/html".
+     */
+    public static function getContentType()
+    {
+        if(empty($this->content_type) === true)
+        {
+            self::setContentType('html');
+        }
+
+        return $this->content_type;
+    }
+
+    /**
      * This flushes the headers and bodydata to the client.
      */
     public static function sendResponse()
@@ -215,7 +258,7 @@ class Clansuite_HttpResponse implements Clansuite_Response_Interface
         self::addHeader('X-Frame-Options', 'deny'); # not SAMEORIGIN
 
         # Send our Content-Type with UTF-8 encoding
-        self::addHeader('Content-Type', 'text/html; charset=UTF-8');
+        self::addHeader('Content-Type', $this->getContentType(). '; charset=UTF-8');
 
         # Send user specificed headers from self::$headers array
         if(false === headers_sent())
