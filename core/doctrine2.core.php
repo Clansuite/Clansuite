@@ -67,12 +67,37 @@ class Clansuite_Doctrine2
     private static $execTime = '';
 
     /**
+     * Ensure that Database Connection Informations are present
+     * in configuration. If not, point back to the installation.
+     */
+    public static function checkDataSourceName($config)
+    {
+        # check if database settings are available
+        if(empty($config['database']['driver']) === true
+        or empty($config['database']['username']) === true
+        or empty($config['database']['host']) === true
+        or empty($config['database']['name']) === true)
+        {
+            $msg1 = _('Database Connection Infos are missing!');
+            $msg2 = _('Please use <a href=%s>Clansuite Installation</a> to perform a proper installation.');
+
+            $uri = sprintf('http://%s%s', $_SERVER['SERVER_NAME'], '/installation/index.php');
+
+            $msg = $msg1 . sprintf($msg2, $uri);
+
+            throw new Clansuite_Exception($msg);
+        }
+    }
+
+    /**
      * Initialize auto loader of Doctrine
      *
      * @return Doctrine_Enitity_Manager
      */
-    public static function init($db_config)
+    public static function init($clansuite_config)
     {
+        self::checkDataSourceName($clansuite_config);
+
         # ensure doctrine2 exists in the libraries folder
         if(is_file(ROOT_LIBRARIES . 'Doctrine/Common/ClassLoader.php') === false)
         {
@@ -140,14 +165,14 @@ class Clansuite_Doctrine2
 
         # use main configuration values for setting up the connection
         $connectionOptions = array(
-            'driver'    => $db_config['database']['driver'],
-            'user'      => $db_config['database']['username'],
-            'password'  => $db_config['database']['password'],
-            'dbname'    => $db_config['database']['name'],
-            'host'      => $db_config['database']['host'],
-            'charset'   => $db_config['database']['charset'],
+            'driver'    => $clansuite_config['database']['driver'],
+            'user'      => $clansuite_config['database']['username'],
+            'password'  => $clansuite_config['database']['password'],
+            'dbname'    => $clansuite_config['database']['name'],
+            'host'      => $clansuite_config['database']['host'],
+            'charset'   => $clansuite_config['database']['charset'],
             'driverOptions' => array(
-                'charset' => $db_config['database']['charset']
+                'charset' => $clansuite_config['database']['charset']
             )
         );
 
@@ -169,7 +194,7 @@ class Clansuite_Doctrine2
          * Is there an easier way doing this?
          * For now the solution is to use Event + Doctrine Extension: TablePrefix.
          */
-        define('DB_PREFIX', $db_config['database']['prefix'] );
+        define('DB_PREFIX', $clansuite_config['database']['prefix'] );
         #$tablePrefix = new \DoctrineExtensions\TablePrefix(DB_PREFIX);
         #$evm->addEventListener(\Doctrine\ORM\Events::loadClassMetadata, $tablePrefix);
 
@@ -183,18 +208,18 @@ class Clansuite_Doctrine2
         /**
          * Set UTF-8 handling of database data via Doctrine Event for MySQL.
          */
-        if(isset($db_config['database']['driver']) === true and
-                 $db_config['database']['driver'] == "pdo_mysql")
+        if(isset($clansuite_config['database']['driver']) === true and
+                 $clansuite_config['database']['driver'] == "pdo_mysql")
         {
              /**
               * @todo eval database.charset true?
               * wouldn't it be better to use utf-8 to name it explicitly
               */
-            if(isset($db_config['database']['charset']) === true)
+            if(isset($clansuite_config['database']['charset']) === true)
             {
                 $event->addEventSubscriber(
                     new \Doctrine\DBAL\Event\Listeners\MysqlSessionInit(
-                            $db_config['database']['charset'], 'utf8_unicode_ci')
+                            $clansuite_config['database']['charset'], 'utf8_unicode_ci')
                 );
             }
         }
@@ -217,7 +242,7 @@ class Clansuite_Doctrine2
         self::$em = $em;
 
         # done with config, remove to safe memory
-        unset($db_config, $em, $event);
+        unset($clansuite_config, $em, $event);
 
         return self::$em;
     }

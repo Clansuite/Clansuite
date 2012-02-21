@@ -641,7 +641,6 @@ class Clansuite_CMS
         self::$prefilter_classes = array(
             'Clansuite_Filter_GetUser',
             #'Clansuite_Filter_Session_Security',
-            'Clansuite_Filter_Routing',
             'Clansuite_Filter_LanguageViaGet',
             'Clansuite_Filter_ThemeViaGet',
             'Clansuite_Filter_SetModuleLanguage',
@@ -676,7 +675,7 @@ class Clansuite_CMS
      */
     private static function execute_Frontcontroller()
     {
-        # Get request and response objects for Filters and RequestProcessing
+        # Get request and response objects for Filter and Request processing
         $request  = self::$injector->instantiate('Clansuite_HttpRequest');
         $response = self::$injector->instantiate('Clansuite_HttpResponse');
 
@@ -688,19 +687,22 @@ class Clansuite_CMS
         /**
          * Add the Prefilters and Postfilters to the Frontcontroller
          *
-         * - PRE-Filters are executed before ModuleAction is triggered
-         *   Examples: caching, theme
-         *
-         * - POST-Filters are executed afterwards, but before view rendering
-         *   Examples: output compression, character set modifications, breadcrumbs
+         * Prefilters are executed before the requested Module Action is executed.
+         * Examples: caching checks, theme selection.
          */
         foreach(self::$prefilter_classes as $class)
         {
             $clansuite->addPrefilter(self::$injector->instantiate($class));
         }
+
+        /**
+         * Add the Postfilters to the Frontcontroller
+         *
+         * Postfilters are executed after the action, but before view rendering.
+         * Examples: output compression, character set modifications, html tidy, breadcrumbs.
+         */
         foreach(self::$postfilter_classes as $class)
         {
-
             $clansuite->addPostfilter(self::$injector->instantiate($class));
         }
 
@@ -713,19 +715,6 @@ class Clansuite_CMS
      */
     private static function initialize_Database()
     {
-        # Data Source Name Check
-        # check if database settings are available in configuration
-        if(empty(self::$config['database']['driver']) === true or
-           empty(self::$config['database']['username']) === true or
-           empty(self::$config['database']['host']) === true or
-           empty(self::$config['database']['name']) === true
-           )
-        {
-            $uri = sprintf('http://%s%s', $_SERVER['SERVER_NAME'], '/installation/index.php');
-            exit('<b><font color="#FF0000">[Clansuite Error] Database Connection Infos are missing!</font></b> <br />
-                 Please use <a href="' . $uri . '">Clansuite Installation</a> to perform a proper installation.');
-        }
-
         # Initialize Doctrine before session start, because session is written to database
         self::$doctrine_em = Clansuite_Doctrine2::init(self::$config);
     }
