@@ -264,7 +264,7 @@ class Clansuite_Loader
         # check if classname is in autoloading map
         if(isset(self::$inclusions_map[$classname]) === true)
         {
-            include_once ROOT_CORE . self::$inclusions_map[$classname];
+            include ROOT_CORE . self::$inclusions_map[$classname];
             return true;
         }
         else
@@ -281,18 +281,21 @@ class Clansuite_Loader
      */
     public static function autoloadByApcOrFileMap($classname)
     {
-        if(self::$use_apc === true)
+        if(empty(self::$autoloader_map) === true)
         {
-            self::$autoloader_map = self::readAutoloadingMapApc();
-        }
-        else # load the mapping from file
-        {
-            self::$autoloader_map = self::readAutoloadingMapFile();
+            if(self::$use_apc === true)
+            {
+                self::$autoloader_map = self::readAutoloadingMapApc();
+            }
+            else # load the mapping from file
+            {
+                self::$autoloader_map = self::readAutoloadingMapFile();
+            }
         }
 
         if(isset(self::$autoloader_map[$classname]) === true)
         {
-            include_once self::$autoloader_map[$classname];
+            include self::$autoloader_map[$classname];
             return true;
         }
         else
@@ -339,7 +342,7 @@ class Clansuite_Loader
         if(is_string($filename) === true)
         {
 
-            include_once $filename;
+            include $filename;
             return true;
         }
         else
@@ -412,7 +415,7 @@ class Clansuite_Loader
         $filename = realpath($filename);
 
         # conditional include
-        include_once $filename;
+        include $filename;
 
         # add class and filename to the mapping array
         self::addToMapping($filename, $classname);
@@ -433,7 +436,7 @@ class Clansuite_Loader
 
         if(is_file($filename) === true)
         {
-            include_once $filename;
+            include $filename;
 
             if(null === $classname) # just a file include, classname unimportant
             {
