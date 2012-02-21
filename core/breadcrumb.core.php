@@ -94,9 +94,9 @@ class Clansuite_Breadcrumb
     }
 
     /**
-     * Adds breadcrumbs dynamically based on current module, submodule and action
+     * Adds breadcrumbs dynamically based on current module, submodule and action.
      * This might look a bit rough to the user.
-     * Please prefer adding bc's manually via add().
+     * Please prefer adding breadcrumbs manually via add().
      */
     public static function addDynamicBreadcrumbs()
     {
@@ -124,9 +124,6 @@ class Clansuite_Breadcrumb
                 self::add(ucfirst($actionName), $url);
             }
         }
-
-        # Debug Display for Breadcumbs
-        # Clansuite_Debug::firebug(Clansuite_Breadcrumb::getTrail());
     }
 
     /**
