@@ -665,23 +665,32 @@ class Clansuite_HttpRequest implements Clansuite_Request_Interface, ArrayAccess
     }
 
     /**
-     * Get $_SERVER HTTP_USER_AGENT
+     * Returns the User Agent ($_SERVER HTTP_USER_AGENT)
      *
      * @return string String denoting the user agent being which is accessing the page.
      */
     public static function getUserAgent()
     {
-        return $_SERVER['HTTP_USER_AGENT'];
+        $ua = $_SERVER['HTTP_USER_AGENT'];
+        $ua = strip_tags($ua);
+        $ua = filter_var($ua, FILTER_SANITIZE_STRING, FILTER_FLAG_STRIP_LOW | FILTER_FLAG_STRIP_HIGH);
+        return $ua;
     }
 
     /**
-     * Get $_SERVER HTTP_REFERER
+     * Returns the Referrer ($_SERVER HTTP_REFERER)
      *
      * @return string The address of the page (if any) which referred the user agent to the current page.
      */
     public static function getReferer()
     {
-        return isset($_SERVER['HTTP_REFERER']) ? self::getRequestURI() : '';
+        if(isset($_SERVER['HTTP_REFERER']) === true)
+        {
+            $refr = $_SERVER['HTTP_REFERER'];
+            $refr = strip_tags($refr);
+            $refr = filter_var($refr, FILTER_SANITIZE_STRING, FILTER_FLAG_STRIP_LOW | FILTER_FLAG_STRIP_HIGH);
+        }
+        return $refr;
     }
 
     /**
