@@ -309,8 +309,8 @@ class Clansuite_Errorhandler
 
         # The inner Error Table
         $html .= '<div id="panel1" class="panel">';
-        $html .= '<h3>Error <span class="small">' . $errorname . ' (' . $errornumber . ')</span></h3><h4>' . $errorstring . '</h4>';
-        $html .= '<strong>in file "' . $errorfile . '"&nbsp;on line ' . $errorline.'.</strong>';
+        $html .= '<h3>Error <span class="small">' . $errorname . ' (' . $errornumber . ')</span></h3>';
+        $html .= '<h4>' . $errorstring . ' in file "' . $errorfile . '"&nbsp;on line ' . $errorline.'.</h4>';
         $html .= '</div>';
 
         # Error Context
