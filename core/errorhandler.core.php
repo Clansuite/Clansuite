@@ -294,35 +294,33 @@ class Clansuite_Errorhandler
         # Body
         $html .= '<body>';
 
-        # Fieldset colored
+        # Fieldset with Legend
         $html .= '<fieldset id="top" class="error_red">';
+        $html .= '<legend>Clansuite Error</legend>';
 
-        # Errorlogo
+        # Add Errorlogo
         $html .= '<div style="float: left; margin: 5px; margin-right: 25px; padding: 20px;">';
         $html .= '<img src="' . WWW_ROOT_THEMES_CORE . 'images/Clansuite-Toolbar-Icon-64-error.png" style="border: 2px groove #000000;"/></div>';
 
-        # Fieldset Legend
-        $html .= '<legend>Clansuite Error</legend>';
-
-        # Error Table
+        # Open Error Table
         $html .= '<table width="80%"><tr><td>';
 
-        # The inner Error Table
+        # Panel 1 - Errormessage
         $html .= '<div id="panel1" class="panel">';
         $html .= '<h3>Error <span class="small">' . $errorname . ' (' . $errornumber . ')</span></h3>';
         $html .= '<h4>' . $errorstring . ' in file "' . $errorfile . '"&nbsp;on line ' . $errorline.'.</h4>';
         $html .= '</div>';
 
-        # Error Context
+        # Panel 2 - Error Context
         $html .= '<div id="panel2" class="panel">';
         $html .= '<h3>Context</h3>';
         $html .= '<span class="small">You are viewing the source code of the file "' . $errorfile . '" around line ' . $errorline . '.</span><br/><br/>';
         $html .= self::getErrorContext($errorfile, $errorline, 8) . '</div>';
 
-        # Add Debug Backtracing
+        # Panel 3 - Debug Backtracing
         $html .= self::getDebugBacktrace($trimed_errorstring);
 
-        # Environmental Informations at Errortime
+        # Panel 4 - Environmental Informations at Errortime
         $html .= '<div id="panel4" class="panel">';
         $html .= '<h3>Server Environment</h3>';
         $html .= '<table width="95%">';
@@ -337,20 +335,19 @@ class Clansuite_Errorhandler
         $html .= ' (' . CLANSUITE_VERSION_NAME . ') [Revision #' . CLANSUITE_REVISION . ']</td></tr>';
         $html .= '</table></div>';
 
-        # Backlink to Bugtracker with Errormessage -> http://trac.clansuite.com/newticket
+        # Panel 5 - Backlink to Bugtracker with Errormessage -> http://trac.clansuite.com/newticket
         $html .= self::getBugtrackerBacklinks($errorstring, $errorfile, $errorline, $errorcontext);
 
-        # close html elements: table
+        # Close Error Table
         $html .= '</table>';
 
-        # Footer with Support-Backlinks
+        # Add Footer with Support-Backlinks
         $html .= Clansuite_Errorhandler::getSupportBacklinks();
 
-        # close all html elements: fieldset, body+page
+        # Close all html elements
         $html .= '</fieldset><br /><br />';
         $html .= '</body></html>';
 
-        # Output the errormessage
         return $html;
     }
 

@@ -163,6 +163,11 @@ table {
    font-size: x-large;
 }
 
+.context-sourecode
+{
+
+}
+
 .messagebox {
     margin:auto;
     width:50%
@@ -200,9 +205,11 @@ pre {
     font-family: monospace;
     font-size: 14px;
     line-height: 1.3em;
-    overflow: auto;
     padding: 0.7em !important;
+    margin-left: 10px;
     margin-top: 0 !important;
+    max-width: 1000px; /* limit width of context display, in case source code is too long */
+    overflow: auto;    /* and force a scrollbar underneath the source */
 }
 
 pre h3:before,pre h3 {
