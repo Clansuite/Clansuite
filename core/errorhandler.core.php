@@ -276,14 +276,7 @@ class Clansuite_Errorhandler
      */
     private static function yellowScreenOfDeath($errornumber, $errorname, $errorstring, $errorfile, $errorline, $errorcontext)
     {
-        if(mb_strlen($errorstring) > 70)
-        {
-            $trimed_errorstring = mb_substr($errorstring, 0, mb_strpos($errorstring, ' ', 70)) . ' ...';
-        }
-        else
-        {
-            $trimed_errorstring = $errorstring;
-        }
+        $short_errorstring = self::shortenStringMaxLength($errorstring, 70, '...');
 
         # Header
         $html = '<html><head>';
@@ -318,7 +311,7 @@ class Clansuite_Errorhandler
         $html .= self::getErrorContext($errorfile, $errorline, 8) . '</div>';
 
         # Panel 3 - Debug Backtracing
-        $html .= self::getDebugBacktrace($trimed_errorstring);
+        $html .= self::getDebugBacktrace($short_errorstring);
 
         # Panel 4 - Environmental Informations at Errortime
         $html .= '<div id="panel4" class="panel">';
@@ -471,25 +464,17 @@ class Clansuite_Errorhandler
                 $args .= $backtraceArgument ? 'TRUE' : 'FALSE';
                 break;
             case 'integer':
-                $args .= '<span>int</span> ';
-                $args .= $backtraceArgument;
+                $args .= '<span>int</span> ' . $backtraceArgument;
                 break;
             case 'float':
-                $args .= '<span>float</span> ';
-                $args .= $backtraceArgument;
+                $args .= '<span>float</span> ' . $backtraceArgument;
                 break;
             case 'double':
-                $args .= '<span>double</span> ';
-                $args .= $backtraceArgument;
+                $args .= '<span>double</span> ' . $backtraceArgument;
                 break;
             case 'string':
-                $args .= '<span>string</span> ';
-                if((mb_strlen($backtraceArgument) > 64))
-                {
-                    $backtraceArgument = htmlspecialchars(mb_substr($backtraceArgument, 0, 64));
-                    $backtraceArgument . '...';
-                }
-                $args .= '"'. $backtraceArgument .'"';
+                $args .= '<span>string</span> "';
+                $args .= self::shortenStringMaxLength($backtraceArgument, 64, '..."');
                 break;
             case 'array':
                 $args .= '<span>array</span> ('.count($backtraceArgument).')';
@@ -568,6 +553,8 @@ class Clansuite_Errorhandler
                                         <td><pre>'.CR.'%s'.CR.'</pre></td>
                                     </tr>
                                 </table>';
+
+                # @todo consider using wordwrap() to limit too long source code lines?
 
                 return sprintf($sprintf_html, $lines_html, $errorcontext_lines);
             }
@@ -700,6 +687,30 @@ class Clansuite_Errorhandler
         );
 
         return 'http://trac.clansuite.com/newticket/?' . http_build_query($array);
+    }
+
+    public static function shortenStringMaxLength($string, $maxlength = 50, $append_string = null)
+    {
+        # already way too short...
+        if(mb_strlen($string) < $maxlength)
+        {
+            return;
+        }
+
+        # ok, lets shorten
+        if(mb_strlen($string) > $maxlength)
+        {
+            /**
+             * do not short the string, when maxlength would split a word!
+             * that would make things unreadable.
+             * so search for the next space after the requested maxlength.
+             */
+            $next_space_after_maxlength = mb_strpos($string, ' ', $maxlength);
+
+            $shortened_string = mb_substr($string, 0, $next_space_after_maxlength) . ' ...';
+        }
+
+        return $shortened_string . $append_string;
     }
 }
 
