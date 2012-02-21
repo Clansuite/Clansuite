@@ -32,9 +32,9 @@
 
 /**
  * English Language for Installation
- * 
+ *
  * Contributors: vain
- * 
+ *
  * @category        Clansuite
  * @package         Installation
  * @subpackage      Languages
@@ -72,7 +72,7 @@ class Language implements ArrayAccess
         $this->language['STEP2_SETTING_ACTUAL'] = 'Actual';
         $this->language['STEP2_SETTING_EXPECTED'] = 'Expected';
         $this->language['STEP2_SETTING_STATUS'] = 'Status';
-        
+
         $this->language['STEP2_SETTING_EXPECTED_ON'] = 'on';
         $this->language['STEP2_SETTING_EXPECTED_OFF'] = 'off';
 
@@ -89,7 +89,7 @@ class Language implements ArrayAccess
         $this->language['IS_WRITEABLE_CACHE_DIR'] = 'Can write: "/clansuite/cache"';
         $this->language['IS_WRITEABLE_UPLOADS'] = 'Can write: "/uploads"';
         $this->language['IS_READABLE_CONFIG_TEMPLATE'] = 'Can read: config-template file';
-        $this->language['DATE_TIMEZONE'] = 'Timezone set: "date.timezone"';  
+        $this->language['DATE_TIMEZONE'] = 'Timezone set: "date.timezone"';
 
         # RECOMMENDED SETTINGS (in order)
         $this->language['PHP_MEMORY_LIMIT'] = 'Checking PHP memory limit';
@@ -107,6 +107,7 @@ class Language implements ArrayAccess
         $this->language['XSLT_PROCESSOR'] = 'XSLT Processor';
         $this->language['EXTENSION_HASH'] = 'PHP Extension: Hash';
         $this->language['EXTENSION_GETTEXT'] = 'PHP Extension: Gettext';
+        $this->language['EXTENSION_MBSTRING'] = 'PHP Extension: MBString (Multi-Byte)';
         $this->language['EXTENSION_TOKENIZER'] = 'PHP Extension: Tokenizer';
         $this->language['EXTENSION_GD'] = 'PHP Extension: GD';
         $this->language['EXTENSION_XML'] = 'PHP Extension: XML';

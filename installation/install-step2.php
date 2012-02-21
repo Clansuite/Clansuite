@@ -86,29 +86,33 @@ if (defined('IN_CS') === false)
                           * returns bool if param $get_value = true
                           * else the image defined by SETTING_TRUE/False
                           */
-                         function get_php_setting($phpvar, $expected_value, $return_way = 'img')
+                         function get_php_setting($phpvar, $expected_value, $return_type = 'img')
                          {
                             # get boolean value of setting as 1 or 0
                             $value = (int) iniFlag($phpvar);
 
                             #echo $phpvar .' - '.$value .' - ist:'. ini_get($phpvar) .'- soll: '. $expected_value .'<br />';
 
-                            switch($return_way)
+                            if($return_type === 'int')
                             {
-                                case 'int':
-                                                return $value;
-                                case 'string':
-                                                return $value ? SETTING_EXPECTED_ON : SETTING_EXPECTED_OFF;
-                                default:
-                                case 'img' :
-                                                if ($expected_value === true)
-                                                {
-                                                    return $value ? SETTING_TRUE : SETTING_FALSE;
-                                                }
-                                                else
-                                                {
-                                                    return $value ? SETTING_FALSE : SETTING_TRUE;
-                                                }
+                                return $value;
+                            }
+
+                            if($return_type === 'string')
+                            {
+                                return $value ? SETTING_EXPECTED_ON : SETTING_EXPECTED_OFF;
+                            }
+
+                            if($return_type === 'img')
+                            {
+                                if($expected_value === true)
+                                {
+                                    return $value ? SETTING_TRUE : SETTING_FALSE;
+                                }
+                                else
+                                {
+                                    return $value ? SETTING_FALSE : SETTING_TRUE;
+                                }
                             }
                          }
 
@@ -313,6 +317,12 @@ if (defined('IN_CS') === false)
                          $recommended['extension_gettext']['expected'] = SETTING_EXPECTED_ON;
                          $recommended['extension_gettext']['actual']   = extension_loaded('gettext') ? SETTING_EXPECTED_ON : SETTING_EXPECTED_OFF;
                          $recommended['extension_gettext']['status']   = extension_loaded('gettext') ? SETTING_TRUE : SETTING_FALSE;
+
+                         # Checking for PHP Extension : mbstring
+                         $recommended['extension_gettext']['label']    = $language['EXTENSION_MBSTRING'];
+                         $recommended['extension_gettext']['expected'] = SETTING_EXPECTED_ON;
+                         $recommended['extension_gettext']['actual']   = extension_loaded('mbstring') ? SETTING_EXPECTED_ON : SETTING_EXPECTED_OFF;
+                         $recommended['extension_gettext']['status']   = extension_loaded('mbstring') ? SETTING_TRUE : SETTING_FALSE;
 
                          # Checking for PHP Extension : tokenizer
                          $recommended['extension_tokenizer']['label']      = $language['EXTENSION_TOKENIZER'];
