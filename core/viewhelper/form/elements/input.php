@@ -124,6 +124,23 @@ class Clansuite_Formelement_Input extends Clansuite_Formelement implements Clans
     public $placeholder;
 
     /**
+     * The readonly attribute specifies that an input field should be read-only.
+     *
+     * @var string
+     */
+    public $readonly;
+
+    /**
+     * Sets the state of the input field to read-only.
+     *
+     * @param boolean $disabled True or False.
+     */
+    public function setReadonly($readonly)
+    {
+        $this->readonly = (bool) $readonly;
+    }
+
+    /**
      * Set placeholder attribute value
      *
      * @link http://dev.w3.org/html5/spec/Overview.html#the-placeholder-attribute
@@ -215,6 +232,7 @@ class Clansuite_Formelement_Input extends Clansuite_Formelement implements Clans
         $html .= (bool) $this->value ? ' value="'.$this->value.'"' : null;
         $html .= (bool) $this->placeholder ? ' placeholder="'.$this->placeholder.'"' : null;
         $html .= (bool) $this->size ? ' size="'.$this->size.'"' : null;
+        $html .= (bool) $this->readonly ? ' readonly="readonly"' : null;
         $html .= (bool) $this->disabled ? ' disabled="disabled"' : null;
         $html .= (bool) $this->maxlength ? ' maxlength="'.$this->maxlength.'"' : null;
         $html .= (bool) $this->pattern ? ' pattern="'.$this->pattern.'"' : null;
