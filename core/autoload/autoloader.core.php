@@ -213,6 +213,8 @@ class Clansuite_Loader
         'Clansuite_Inputfilter'               => 'inputfilter.core.php',
         'Clansuite_User'                      => 'user.core.php',
         'Clansuite_Router'                    => 'router.core.php',
+        'Clansuite_TargetRoute'               => 'targetroute.core.php',
+        'Clansuite_Mapper'                    => 'mapper.core.php',
         'Clansuite_Security'                  => 'security.core.php',
         'Clansuite_Session'                   => 'session.core.php',
         'Clansuite_Filter_Interface'          => 'filtermanager.core.php',
