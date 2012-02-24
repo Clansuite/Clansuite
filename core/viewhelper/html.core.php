@@ -42,7 +42,7 @@ if(defined('IN_CS') === false)
  * The class provides helper methods to output html-tag elements.
  *
  * @category    Clansuite
- * @package     Viewhelper
+ * @package     View
  * @subpackage  HTML
  */
 class Clansuite_HTML /* extends DOMDocument */
@@ -155,7 +155,6 @@ class Clansuite_HTML /* extends DOMDocument */
      *
      * @param string $link_to_image
      * @param array $attributes
-     *
      * @return string html
      */
     public static function image($link_to_image, $attributes = array())
@@ -186,9 +185,7 @@ class Clansuite_HTML /* extends DOMDocument */
      */
     public static function icon($url)
     {
-        return '<link rel="icon" href="'.$url.'" type="image/x-icon" />' . CR .
-               '<link rel="shortcut icon" href="'.$url.'" type="image/x-icon" />' .CR;
-
+        return sprintf('<link rel="icon" href="%s" type="image/x-icon" />', $url);
     }
 
     /**
@@ -201,13 +198,12 @@ class Clansuite_HTML /* extends DOMDocument */
      *                     'UL-Heading-1',
      *                  array('LI-Element-1','LI-Element-2')
      *                    );
-     * self::list($attributes);
+     * self::liste($attributes);
      *
      * @param array $attributes array of attributes
-     *
      * @return string html
      */
-    public static function list($attributes = array())
+    public static function liste($attributes)
     {
         $html = '';
 
@@ -217,11 +213,11 @@ class Clansuite_HTML /* extends DOMDocument */
             if (is_array($attribute))
             {
                 # watch out! recursion
-                $html .= self::list($attribute);
+                $html .= self::liste($attribute);
             }
             else
             {
-                $html .= '<li>'.$attribute.'</li>' . CR;
+                $html .= '<li>' . $attribute . '</li>' . CR;
             }
         }
         $html .= '</ul>' . CR;
@@ -234,7 +230,6 @@ class Clansuite_HTML /* extends DOMDocument */
      * HTML Tag <h1>
      *
      * @param string $text string
-     *
      * @return string html
      */
     public static function h1($text)
@@ -246,7 +241,6 @@ class Clansuite_HTML /* extends DOMDocument */
      * HTML Tag <h2>
      *
      * @param $text string
-     *
      * @return string html
      */
     public static function h2($text)
@@ -258,7 +252,6 @@ class Clansuite_HTML /* extends DOMDocument */
      * HTML Tag <h3>
      *
      * @param string $text string
-     *
      * @return string html
      */
     public static function h3($text)
@@ -270,7 +263,6 @@ class Clansuite_HTML /* extends DOMDocument */
      * Render the attributes for usage in an tag element
      *
      * @param array $attributes array of attributes
-     *
      * @return string Renders the HTML String of Attributes
      */
     public static function renderAttributes(array $attributes = array())
@@ -304,7 +296,6 @@ class Clansuite_HTML /* extends DOMDocument */
      * @param string $tagname Name of the tag to render
      * @param string $text string
      * @param array $attributes array of attributes
-     *
      * @return string html with Attributes
      */
     public static function renderElement($tagname, $text = null, $attributes = array())

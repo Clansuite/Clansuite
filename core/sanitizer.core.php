@@ -500,7 +500,6 @@ function html_sanitize_editor($str)
  *
  * @author      Travis Puderbaugh <kallahar@quickwired.com>
  * @author      Jigal van Hemert <jigal@xs4all.nl>
- * @package     RemoveXSS
  */
 final class RemoveXSS
 {
