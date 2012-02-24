@@ -711,23 +711,25 @@ class Clansuite_CMS
     }
 
     /**
-     * Checks config for DSN and initializes Doctrine2
+     * Checks initializes Doctrine 2
+     *
+     * Note: Doctrine must be initialize before "session start",
+     * because the session depends on writting to the database.
      */
     private static function initialize_Database()
     {
-        # Initialize Doctrine before session start, because session is written to database
         self::$doctrine_em = Clansuite_Doctrine2::init(self::$config);
     }
 
     /**
-     * Starts a new Session and Userobject
+     * Starts a new Session and User
      */
     private static function start_Session()
     {
         # Initialize Session
         self::$injector->create('Clansuite_Session');
 
-        # register the session-depending User-Object manually
+        # register the session-depending user object manually
         self::$injector->instantiate('Clansuite_User');
     }
 
