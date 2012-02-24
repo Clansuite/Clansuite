@@ -75,32 +75,32 @@ interface Clansuite_Front_Controller_Interface
 class Clansuite_Front_Controller implements Clansuite_Front_Controller_Interface
 {
     /**
-     * @var object Clansuite_HttpRequest
+     * @var object \Clansuite_HttpRequest
      */
     private $request;
 
     /**
-     * @var object Clansuite_HttpResponse
+     * @var object \Clansuite_HttpResponse
      */
     private $response;
 
     /**
-     * @var object Clansuite_Router
+     * @var object \Clansuite_Router
      */
     private $router;
 
     /**
-     * @var object Clansuite_FilterManager for Prefilters
+     * @var object \Clansuite_FilterManager for Prefilters
      */
     private $pre_filtermanager;
 
     /**
-     * @var object Clansuite_FilterManager for Postfilters
+     * @var object \Clansuite_FilterManager for Postfilters
      */
     private $post_filtermanager;
 
     /**
-     * @var object Clansuite_EventDispatcher
+     * @var object \Clansuite_EventDispatcher
      */
     private $event_dispatcher;
 
@@ -109,12 +109,12 @@ class Clansuite_Front_Controller implements Clansuite_Front_Controller_Interface
      */
     public function __construct(Clansuite_Request_Interface $request, Clansuite_Response_Interface $response)
     {
-           $this->request            = $request;
-           $this->response           = $response;
-           $this->pre_filtermanager  = new Clansuite_Filtermanager();
-           $this->post_filtermanager = new Clansuite_Filtermanager();
-           $this->event_dispatcher   = Clansuite_EventDispatcher::instantiate();
-           #$this->router             = new Clansuite_Router();
+        $this->request            = $request;
+        $this->response           = $response;
+        $this->pre_filtermanager  = new Clansuite_Filtermanager();
+        $this->post_filtermanager = new Clansuite_Filtermanager();
+        $this->event_dispatcher   = Clansuite_EventDispatcher::instantiate();
+        $this->router             = new Clansuite_Router($this->request);
     }
 
     /**
@@ -168,7 +168,7 @@ class Clansuite_Front_Controller implements Clansuite_Front_Controller_Interface
      * invokes the correct controller and method.
      *
      * Workflow
-     * 1. injects Route Object
+     * 1. fetches Route Object
      * 2. extracts info about correct controller, correct method with correct parameters
      * 3. tries to call the method "initializeModule" on the controller
      * 4. finally tries to call the controller with method(parms)!
@@ -177,7 +177,8 @@ class Clansuite_Front_Controller implements Clansuite_Front_Controller_Interface
      */
     public function forward($request, $response)
     {
-        $route = Clansuite_HttpRequest::getRoute();
+        # fetch the target route from the request
+        $route = $request->getRoute();
 
         if($route === null)
         {
@@ -189,9 +190,6 @@ class Clansuite_Front_Controller implements Clansuite_Front_Controller_Interface
         $parameters   = $route::getParameters();
         #$request_meth = Clansuite_HttpRequest::getRequestMethod();
         #$renderengine = $route::getRenderEngine();
-
-        #Clansuite_Debug::firebug($route);
-        #unset($route);
 
         #$this->event_dispatcher->addEventHandler('onBeforeControllerMethodCall', new Clansuite_Event_InitializeModule());
 
