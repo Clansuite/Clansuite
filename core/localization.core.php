@@ -135,10 +135,12 @@ class Clansuite_Localization
     /**
      * loadTextDomain
      *
-     * This loads a new domain with a certain path into the domainstable
+     * This loads a new domain with a certain path into the domain table.
      *
-     * Info about Gettext Paths:
-     * Give a path/to/your/mo/files without LC_MESSAGES and locale!!
+     * Note: gettext paths
+     *
+     * Give a path/to/your/mo/files without LC_MESSAGES and locale!
+     *
      * If you use: T_bindtextdomain('clansuite', '/html/locales');
      * The mo.file would be looked up in /html/locales/de_DE/LC_MESSAGES/clansuite.mo
      * The $domain string specifies the mo-filename => "$domain.mo"
@@ -240,20 +242,22 @@ class Clansuite_Localization
     public function getBrowserLanguages()
     {
         # check if environment variable HTTP_ACCEPT_LANGUAGE exists
-        if(isset($_SERVER['HTTP_ACCEPT_LANGUAGE']) == false)
+        if(isset($_SERVER['HTTP_ACCEPT_LANGUAGE']) === false)
         {
             # if not return an empty language array
             return array();
         }
-        elseif(extension_loaded('intl'))
+
+        elseif(extension_loaded('intl') === true)
         {
-            # Try to find best available locale based on HTTP "Accept-Language" header
+            /**
+             * Try to find best available locale based on HTTP "Accept-Language" header
+             * via Locale class, which is part INTL, a php default extension as of php 5.3.
+             */
             $lang =  Locale::acceptFromHttp($_SERVER['HTTP_ACCEPT_LANGUAGE']);
             return (array) mb_substr($lang, 0, 2);
         }
-        # @todo consider code block marked as deprecated
-        # INTL is default extension as of php5.3
-        else # fallback for no ext/intl environments
+        else # fallback for non "ext/intl" environments
         {
             # explode environment variable HTTP_ACCEPT_LANGUAGE at ,
             $browserLanguages = explode(',', $_SERVER['HTTP_ACCEPT_LANGUAGE']);
