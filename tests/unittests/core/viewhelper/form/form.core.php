@@ -63,7 +63,14 @@ class Clansuite_Form_Test extends Clansuite_UnitTestCase
     {
         # set internal url - rebuilds the external url via router
         $this->form->setAction('/news/show');
-        $this->assertEqual( WWW_ROOT . 'index.php?mod=news&amp;action=show', $this->form->getAction());
+        if(defined('REWRITE_ENGINE_ON') and REWRITE_ENGINE_ON == false)
+        {
+            $this->assertEqual( WWW_ROOT . 'index.php?mod=news&amp;action=show', $this->form->getAction());
+        }
+        else
+        {
+            $this->assertEqual( WWW_ROOT . 'news/show', $this->form->getAction());
+        }
 
         # set external url
         $this->form->setAction(WWW_ROOT .'index.php?mod=news&action=show');
@@ -767,7 +774,7 @@ class Clansuite_Form_Test extends Clansuite_UnitTestCase
         # set value, length ok
         $element = $this->form->getElementByName('Textarea-Validate-Test');
         $element->setValue('01234567890123456789'); # 20 chars
-        
+
         $this->assertTrue($this->form->validateForm());
     }
 
