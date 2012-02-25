@@ -610,26 +610,10 @@ abstract class Clansuite_Module_Controller
     }
 }
 
-/**
- * Interface for all modules which implement a BREAD action structure.
- *
- * Force classes implementing the interface to define this (must have) methods!
- *
- * @category    Clansuite
- * @package     Core
- * @subpackage  Module
- */
-interface Clansuite_BREAD_Module_Interface
-{
-    public function action_browse();
-    public function action_read();
-    public function action_erase();
-    public function action_add();
-    public function action_delete();
-}
 
 /**
- * Interface for all modules which implement a CRUD action structure.
+ * Interface for all modules which implement a specific action structure.
+ * Inspired by Sinatra.
  *
  * Force classes implementing the interface to define this (must have) methods!
  *
@@ -637,48 +621,25 @@ interface Clansuite_BREAD_Module_Interface
  * @package     Core
  * @subpackage  Module
  */
-interface Clansuite_CRUD_Module_Interface
+interface Clansuite_Module_Interface
 {
-    public function action_create();
-    public function action_read();
-    public function action_update();
-    public function action_delete();
-}
-
-/**
- * Interface for all modules which implement a ABCD action structure.
- *
- * Force classes implementing the interface to define this (must have) methods!
- *
- * @category    Clansuite
- * @package     Core
- * @subpackage  Module
- */
-interface Clansuite_ABCD_Module_Interface
-{
-    public function action_add();
-    public function action_browse();
-    public function action_change();
-    public function action_delete();
-}
-
-/**
- * Interface for all modules which implement a Sinatra-Style action structure.
- *
- * Force classes implementing the interface to define this (must have) methods!
- *
- * @category    Clansuite
- * @package     Core
- * @subpackage  Module
- */
-interface Clansuite_Sinatra_Module_Interface
-{
-    public function action_index();    # GET     /foos
+    public function action_list();     # GET     /foos
     public function action_show();     # GET     /foos/:foo_id
     public function action_new();      # GET     /foos/new
     public function action_edit();     # GET     /foos/:foo_id/edit
     public function action_create();   # POST    /foos
     public function action_update();   # PUT     /foos/:foo_id
     public function action_destroy();  # DELETE  /foos/:foo_id
+}
+
+interface Clansuite_AdminModule_Interface
+{
+    public function action_admin_list();     # GET     /foos
+    public function action_admin_show();     # GET     /foos/:foo_id
+    public function action_admin_new();      # GET     /foos/new
+    public function action_admin_edit();     # GET     /foos/:foo_id/edit
+    public function action_admin_insert();   # POST    /foos
+    public function action_admin_update();   # PUT     /foos/:foo_id
+    public function action_admin_delete();   # DELETE  /foos/:foo_id
 }
 ?>
