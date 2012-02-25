@@ -13,7 +13,7 @@ class Clansuite_Formelement_Validator_Regexp_Test extends Clansuite_UnitTestCase
     public function setUp()
     {
         # Test Subject
-        require_once TESTSUBJECT_DIR . 'core/viewhelper/form/validators/Regexp.php';
+        require_once TESTSUBJECT_DIR . 'core/viewhelper/form/validators/regexp.php';
         $this->validator = new Clansuite_Formelement_Validator_Regexp;
     }
 
