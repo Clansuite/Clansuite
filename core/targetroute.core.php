@@ -48,7 +48,7 @@ class Clansuite_TargetRoute extends Clansuite_Mapper
         # Call
         'controller'    => 'index',
         'subcontroller' => null,
-        'action'        => 'list',
+        'action'        => 'index',
         'method'        => null,
         'params'        => null,
         # Output
@@ -86,10 +86,10 @@ class Clansuite_TargetRoute extends Clansuite_Mapper
 
     public static function getFilename()
     {
-        #if(empty(self::$parameters['filename']))
-        #{
+        if(empty(self::$parameters['filename']))
+        {
             self::setFilename(self::mapControllerToFilename(self::getModulePath(), self::getController(), self::getSubController()));
-        #}
+        }
 
         return self::$parameters['filename'];
     }
@@ -203,9 +203,11 @@ class Clansuite_TargetRoute extends Clansuite_Mapper
         {
             return self::$parameters['method'];
         }
-        else # add method prefix (action_) and subcontroller prefix (admin_)
+        else
         {
-            self::setMethod(self::mapActionToActioname(self::getAction(), self::getSubController()));
+            # add method prefix (action_) and subcontroller prefix (admin_)
+            $method = self::mapActionToActioname(self::getAction(), self::getSubController());
+            self::setMethod($method);
         }
 
         return self::$parameters['method'];
@@ -243,7 +245,7 @@ class Clansuite_TargetRoute extends Clansuite_Mapper
 
     public static function getAjaxMode()
     {
-        return (bool) self::$parameters['ajax'];
+        return Clansuite_HttpRequest::isAjax();
     }
 
     public static function getRenderEngine()
@@ -305,35 +307,29 @@ class Clansuite_TargetRoute extends Clansuite_Mapper
      */
     public static function dispatchable()
     {
-        $filename  = self::getFilename();
         $classname = self::getClassname();
-        $method    = self::getMethod();
+        $filename = self::getFilename();
+        $method = self::getMethod();
 
-        /**
-         * The file we want to call has to exists
-         */
-        if(is_file($filename))
+        # class loaded before?
+        if(class_exists($classname, false) === false)
         {
-            include $filename;
-
-            /**
-             * Inside this file, the correct class has to exist
-             */
-            if(class_exists($classname, false))
+            if(is_file($filename))
             {
-                # WATCH IT!
-                # method_exists works on objects? i just have a classname
-                # is_callable on classes ?!
-                # @todo how to get the object back for a classname?
-                if(true === in_array($method, get_class_methods($classname)))
-                {
-                      #Clansuite_Debug::firebug('(OK) Route is dispatchable: '. $filename .' '. $classname .'->'. $method);
-                      return true;
-                }
+                include $filename;
             }
         }
 
-        #Clansuite_Debug::firebug('(ERROR) Route not dispatchable: '. $filename .' '. $classname .'->'. $method);
+        if(class_exists($classname, false) === true)
+        {
+            if(is_callable($classname, $method) === true)
+            {
+                return true;
+            }
+        }
+
+        unset($filename, $classname, $method);
+
         return false;
     }
 
@@ -346,7 +342,7 @@ class Clansuite_TargetRoute extends Clansuite_Mapper
             # Call
             'controller' => 'index',
             'subcontroller' => null,
-            'action' => 'show',
+            'action' => 'index',
             'method' => null,
             'params' => null,
             # Output
@@ -371,8 +367,38 @@ class Clansuite_TargetRoute extends Clansuite_Mapper
 
     public static function _debug()
     {
-        $string = (string) implode(",", self::$parameters);
-        Clansuite_Debug::firebug($string);
+        Clansuite_Debug::printR(self::$parameters);
+    }
+
+    /**
+     * Sets the given key
+     *
+     * @param mixed $key
+     * @param mixed $value
+     * @return TargetRoute
+     */
+    public function set($key, $value)
+    {
+        $this[$key] = $value;
+
+        return $this;
+    }
+
+    /**
+     * Returns the value of the given key, if the key is not set, returns the default.
+     *
+     * @param mixed $key Key.
+     * @param mixed $default Default Value.
+     * @return mixed
+     */
+    public function get($key, $default = null)
+    {
+        return isset($this[$key]) ? $this[$key] : $default;
+    }
+
+    public function toArray()
+    {
+        return $this->getArrayCopy();
     }
 }
 ?>
