@@ -16,7 +16,7 @@ class Clansuite_Formelement_Validator_Minvalue_Test extends Clansuite_UnitTestCa
     public function setUp()
     {
         # Test Subject
-        require_once TESTSUBJECT_DIR . 'core/viewhelper/form/validators/Minvalue.php';
+        require_once TESTSUBJECT_DIR . 'core/viewhelper/form/validators/minvalue.php';
 
         $this->validator = new Clansuite_Formelement_Validator_Minvalue;
     }
