@@ -187,13 +187,11 @@ class Clansuite_Exception extends Exception implements Clansuite_Exception_Inter
      */
     private static function fetchExceptionTemplate($code)
     {
-        # construct filename with code
-        $exception_template_file = ROOT . 'themes/core/exceptions/exception-'.$code.'.html';
+        $file = ROOT . 'themes/core/exceptions/exception-' . $code . '.html';
 
-        # ensure file is there, load it and set it to classvariable
-        if(is_file($exception_template_file) === true)
+        if(is_file($file) === true)
         {
-            self::$exception_template = file_get_contents($exception_template_file);
+            self::$exception_template = file_get_contents($file);
         }
     }
 
@@ -215,12 +213,12 @@ class Clansuite_Exception extends Exception implements Clansuite_Exception_Inter
     private static function fetchExceptionDevelopmentTemplate($code)
     {
         # construct filename with code
-        $exception_template_file = ROOT . 'themes/core/exceptions/exception-dev-'.$code.'.html';
+        $file = ROOT . 'themes/core/exceptions/exception-dev-' . $code . '.html';
 
-        if(is_file($exception_template_file) === true)
+        if(is_file($file) === true)
         {
-            $content = file_get_contents($exception_template_file);
-            self::$exception_dev_template = $content;
+            self::$exception_dev_template = file_get_contents($file);
+
             define('RAPIDDEVTPL', true);
         }
         /*
