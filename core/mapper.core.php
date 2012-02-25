@@ -47,31 +47,19 @@ if (defined('IN_CS') === false)
  * @package     Core
  * @subpackage  Mapper
  */
-class Clansuite_Mapper
+class Clansuite_Mapper extends ArrayObject
 {
-    /**
-     * Classname prefix for modules
-     *
-     * @const string
-     */
+    /* @const string Classname prefix for modules */
     const MODULE_CLASS_PREFIX = 'Clansuite_Module';
 
-    /**
-     * Method prefix for module actions
-     *
-     * @const string
-     */
+    /* @const string Method prefix for module actions */
     const METHOD_PREFIX = 'action';
 
-    /**
-     * @var string Name of the Default Module
-     */
-    private static $defaultModule = 'news';
+    /* @const string Name of the Default Module */
+    const DEFAULT_MODULE = 'news';
 
-    /**
-     * @var string Name of the Default Action
-     */
-    private static $defaultAction = 'show';
+    /* @const string Name of the Default Action */
+    const DEFAULT_ACTION = 'index';
 
     /**
      * Maps the controller and subcontroller (optional) to filename
@@ -114,7 +102,6 @@ class Clansuite_Mapper
      *
      * @param string $controller Name of Controller
      * @param string $subcontroller Name of SubController (optional)
-     *
      * @return string classname
      */
     public static function mapControllerToClassname($controller, $subcontroller = null)
@@ -151,7 +138,7 @@ class Clansuite_Mapper
         # set default value for action, when not set by URL
         if(false === isset($action))
         {
-            $action = self::$defaultAction;
+            $action = self::DEFAULT_ACTION;
         }
 
         # if a $submodule is set, use it as a PREFIX on $action
