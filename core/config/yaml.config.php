@@ -67,24 +67,24 @@ class Clansuite_Config_YAML
     /**
      * Constructor
      */
-    public function __construct($filename = null)
+    public function __construct($file = null)
     {
-        return self::readConfig($filename);
+        return self::readConfig($file);
     }
 
     /**
      * Clansuite_Config_YAML is a Singleton
      *
-     * @param string $filename Filename
+     * @param string $file Filename
      * @return instance of Config_YAML class
      */
-    public static function getInstance($filename = null)
+    public static function getInstance($file = null)
     {
         static $instance;
 
         if(isset($instance) === false)
         {
-            $instance = new Clansuite_Config_YAML($filename);
+            $instance = new Clansuite_Config_YAML($file);
         }
 
         return $instance;
@@ -97,7 +97,7 @@ class Clansuite_Config_YAML
      * @return  array | boolean false
      * @todo fix this return true/false thingy
      */
-    public static function writeConfig($filename, array $array)
+    public static function writeConfig($file, array $array)
     {
         /**
          * transform PHP Array into YAML Format
@@ -133,7 +133,7 @@ class Clansuite_Config_YAML
          */
 
         # write YAML content to file
-        file_put_contents($filename, $yaml);
+        file_put_contents($file, $yaml);
     }
 
     /**
@@ -142,12 +142,12 @@ class Clansuite_Config_YAML
      * @param   string  The yaml filename
      * @return  array
      */
-    public static function readConfig($filename)
+    public static function readConfig($file)
     {
         # check if the filename exists
-        if(is_file($filename) === false or is_readable($filename) === false)
+        if(is_file($file) === false or is_readable($file) === false)
         {
-            throw new Clansuite_Exception('YAML File ' . $filename . ' not existing or not readable.');
+            throw new Clansuite_Exception('YAML File ' . $file . ' not existing or not readable.');
         }
 
         # init
@@ -155,7 +155,7 @@ class Clansuite_Config_YAML
         $yaml_content = '';
 
         # read the yaml content of the file
-        $yaml_content = file_get_contents($filename);
+        $yaml_content = file_get_contents($file);
 
         /**
          * check if the php extension SYCK is available as parser

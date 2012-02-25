@@ -46,21 +46,21 @@ class Clansuite_Config_Native
      *
      * @return  mixed array | boolean false
      */
-    public static function readConfig($filename)
+    public static function readConfig($file)
     {
-        if(is_file($filename) === false or is_readable($filename) === false)
+        if(is_file($file) === false or is_readable($file) === false)
         {
             throw new Clansuite_Exception('PHP Array Config File not existing or not readable.');
         }
 
         # it's a native php array structure so we simply include the file
-        $array = include $filename;
+        $array = include $file;
 
         if (is_array($array) === false)
         {
             throw new \InvalidArgumentException('PHP Array Config File does not contain array.');
         }
-        
+
         return $array;
     }
 

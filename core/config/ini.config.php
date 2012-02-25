@@ -66,11 +66,11 @@ class Clansuite_Config_INI
      * Writes a .ini Configfile
      * This method writes the configuration values specified to the filename.
      *
-     * @param string $filename Filename of .ini to write
+     * @param string $file Filename of .ini to write
      * @param array $array Associative Array with Ini-Values
      * @return mixed/boolean Returns the amount of bytes written to the file, or FALSE on failure.
      */
-    public static function writeConfig($filename, array $array)
+    public static function writeConfig($file, array $array)
     {
         # ensure we got an array
         if(is_array($array) === false)
@@ -78,23 +78,23 @@ class Clansuite_Config_INI
             throw new Clansuite_Exception('writeConfig Parameter $array is not an array.');
         }
 
-        if(empty($filename))
+        if(empty($file))
         {
             throw new Clansuite_Exception('writeConfig Parameter $filename is not given.');
         }
 
         # when ini_filename exists, get old config array
-        if(is_file($filename) === true)
+        if(is_file($file) === true)
         {
-            $old_config_array = self::readConfig($filename);
-            
+            $old_config_array = self::readConfig($file);
+
             # array merge: overwrite the array to the left, with the array to the right, when keys identical
             $config_array = array_replace_recursive($old_config_array, $array);
         }
         else
         {
             # create file
-            touch($filename);
+            touch($file);
 
             # the config array = the incoming assoc_array
             $config_array = $array;
@@ -105,7 +105,7 @@ class Clansuite_Config_INI
         $content .= "; <?php die('Access forbidden.'); /* DO NOT MODIFY THIS LINE! ?>\n";
         $content .= "; \n";
         $content .= "; Clansuite Configuration File : \n";
-        $content .= '; ' . $filename . "\n";
+        $content .= '; ' . $file . "\n";
         $content .= "; \n";
         $content .= '; This file was generated on ' . date('d-m-Y H:i') . "\n";
         $content .= ";\n\n";
@@ -159,17 +159,17 @@ class Clansuite_Config_INI
         # add php closing tag
         $content .= CR . '; DO NOT REMOVE THIS LINE */ ?>';
 
-        if (is_writable($filename))
+        if (is_writable($file))
         {
-            if (!$filehandle = fopen($filename, 'wb'))
+            if (!$filehandle = fopen($file, 'wb'))
             {
-                echo _('Could not open file: ') . $filename;
+                echo _('Could not open file: ') . $file;
                 return false;
             }
 
             if (fwrite($filehandle, $content) == false)
             {
-                echo _('Could not write to file: ') . $filename;
+                echo _('Could not write to file: ') . $file;
                 return false;
 
             }
@@ -178,7 +178,7 @@ class Clansuite_Config_INI
         }
         else
         {
-            printf(_('File %s is not writeable. Set correct file and directory permissions.'), $filename);
+            printf(_('File %s is not writeable. Set correct file and directory permissions.'), $file);
             return false;
         }
     }
@@ -189,15 +189,15 @@ class Clansuite_Config_INI
      * @param   string  The filename
      * @return  array | boolean false
      */
-    public static function readConfig($filename)
+    public static function readConfig($file)
     {
         # check ini_filename exists
-        if(is_file($filename) === false or is_readable($filename) === false)
+        if(is_file($file) === false or is_readable($file) === false)
         {
-            throw new Clansuite_Exception('File not found: ' . $filename, 4);
+            throw new Clansuite_Exception('File not found: ' . $file, 4);
         }
 
-        return parse_ini_file($filename, true);
+        return parse_ini_file($file, true);
     }
 }
 ?>

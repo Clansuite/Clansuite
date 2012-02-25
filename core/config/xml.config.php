@@ -49,25 +49,25 @@ class Clansuite_Config_XML
      * CONSTRUCTOR
      * sets up all variables
      */
-    public function __construct($filename = null)
+    public function __construct($file = null)
     {
-        return self::readConfig($filename);
+        return self::readConfig($file);
     }
 
     /**
      * Clansuite_Config_XML is a Singleton
      *
-     * @param object $filename Filename
+     * @param object $file Filename
      *
      * @return instance of Config_XMLHandler class
      */
-    public static function getInstance($filename = null)
+    public static function getInstance($file = null)
     {
         static $instance;
 
         if(isset($instance) === false)
         {
-            $instance = new Clansuite_Config_XML($filename);
+            $instance = new Clansuite_Config_XML($file);
         }
 
         return $instance;
@@ -81,13 +81,13 @@ class Clansuite_Config_XML
      *
      * @return  mixed array | boolean false
      */
-    public static function writeConfig($filename, $array)
+    public static function writeConfig($file, $array)
     {
         # transform assoc_array to xml
         $xml = $this->arrayToXML($array);
 
         # write xml into the file
-        file_put_contents($filename, $xml);
+        file_put_contents($file, $xml);
     }
 
     /**
@@ -150,15 +150,15 @@ class Clansuite_Config_XML
      *
      * @return  mixed array | boolean false
      */
-    public static function readConfig($filename)
+    public static function readConfig($file)
     {
-        if(is_file($filename) === false or is_readable($filename) === false)
+        if(is_file($file) === false or is_readable($file) === false)
         {
             throw new Clansuite_Exception('XML File not existing or not readable.');
         }
 
         # read file
-        $xml = simplexml_load_file($filename);
+        $xml = simplexml_load_file($file);
 
         # transform XML to PHP Array
         return Clansuite_XML::toArray($xml);

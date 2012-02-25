@@ -81,13 +81,13 @@ class Clansuite_Config_Json
      * @param   string  The filename
      * @param   array   The configuration array
      */
-    public function writeConfig($filename, array $array)
+    public function writeConfig($file, array $array)
     {
         # transform array to json object notation
         $json_content = json_encode($array);
 
         # write to json to file
-        file_put_contents($filename, $json_content);
+        file_put_contents($file, $json_content);
     }
 
     /**
