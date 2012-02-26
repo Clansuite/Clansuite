@@ -708,9 +708,9 @@ class Clansuite_Errorhandler
             $next_space_after_maxlength = mb_strpos($string, ' ', $maxlength);
 
             $shortened_string = mb_substr($string, 0, $next_space_after_maxlength) . ' ...';
-        }
 
-        return $shortened_string . $append_string;
+            return $shortened_string . $append_string;
+        }
     }
 }
 
