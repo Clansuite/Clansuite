@@ -56,13 +56,13 @@ if (defined('IN_CS') === false)
                             </li>
                         </ol>
                     </fieldset>
-                    <!--<p><?php echo $language['STEP4_SENTENCE4']; ?></p> -->
-                    <!--<p><?php echo $language['STEP4_SENTENCE5']; ?></p> -->
+                    <!--Create Table and Entries? <p><?php echo $language['STEP4_SENTENCE4']; ?></p> -->
+                    <!--Import Tables of another CMS? <p><?php echo $language['STEP4_SENTENCE5']; ?></p> -->
                     <div id="content_footer">
                         <div class="navigation">
                             <span style="font-size:10px;">
                                 <?php echo $language['CLICK_NEXT_TO_PROCEED']; ?><br />
-                                <?php echo $language['CLICK_BACK_TO_RETURN']; ?>
+                                <?php echo $language['CLICK_BACK_TO_RETURN']; ?><br />
                             </span>
                             <div class="alignright">
                                 <input type="submit" value="<?php echo $language['NEXTSTEP']; ?>" class="ButtonGreen" name="step_forward" />
@@ -71,9 +71,9 @@ if (defined('IN_CS') === false)
                                 <input type="submit" value="<?php echo $language['BACKSTEP']; ?>" class="ButtonRed" name="step_backward" />
                                 <input type="hidden" name="lang" value="<?php echo $_SESSION['lang']; ?>" />
                             </div>
-                        </div><!-- div navigation end -->
-                    </div> <!-- div content_footer end -->
+                        </div>
+                    </div>
                 </form>
-            </div> <!-- div accordion end -->
-        </div> <!-- div content_middle end -->
-    </div> <!-- div content end -->
+            </div>
+        </div>
+    </div>

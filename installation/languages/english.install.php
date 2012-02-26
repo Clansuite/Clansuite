@@ -184,7 +184,7 @@ class Language implements ArrayAccess
 
         $this->language['STEP7_SENTENCE1'] = 'Done! Congratulation - You successfully installed Clansuite.';
         $this->language['STEP7_SENTENCE2'] = 'The Developers Team hopes that you take pleasure in exploring and using Clansuite.';
-        $this->language['STEP7_SENTENCE3'] = 'Underneath you\'ll find the Links to the Frontend-Website, to the Admin Control Panel (ACP) and your Accounts Logindata.';
+        $this->language['STEP7_SENTENCE3'] = 'Underneath you\'ll find the links to the websites Frontend, to the Admin-Control-Center (ACC) and the login data of your user account.';
         $this->language['STEP7_SENTENCE4'] = 'Visit your new';
         $this->language['STEP7_SENTENCE5'] = 'Clansuite Website';
         $this->language['STEP7_SENTENCE6'] = 'or the';

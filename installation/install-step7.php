@@ -1,7 +1,7 @@
 <?php
 # Security Handler
 if (defined('IN_CS') === false)
-{ 
+{
     die( 'Clansuite not loaded. Direct Access forbidden.' );
 }
 ?>
@@ -21,9 +21,9 @@ if (defined('IN_CS') === false)
                    <p><b><?php echo $language['STEP7_SENTENCE4']; ?>
                                  <a href="../index.php"><?php echo $language['STEP7_SENTENCE5']; ?></a>
                                  <?php echo $language['STEP7_SENTENCE6']; ?>
-                                 <a href="../index.php?mod=controlcenter">Control Center (CC)</a>.                        
+                                 <a href="../index.php?mod=controlcenter">Control Center (CC)</a>.
                               </b>
-                      <br /><br />                      
+                      <br /><br />
                       <?php echo $language['STEP7_SENTENCE8']; ?>
                       <a href="http://docs.clansuite.com/user/manual"><?php echo $language['STEP7_SENTENCE9']; ?></a>.
                       <br/>
@@ -41,26 +41,26 @@ if (defined('IN_CS') === false)
                     </fieldset>
                 </p>
                <br />
-            <div id="content_footer">
-            <div class="navigation">
-                <span style="font-size:10px;">
-                    <?php echo $language['CLICK_BACK_TO_RETURN']; ?>
-                </span>
-                <form action="index.php" method="post">
-                    <div class="alignleft">
-                    <input type="submit" value="<?php echo $language['BACKSTEP']; ?>" class="ButtonRed" name="step_backward" />
-                    <input type="hidden" name="lang" value="<?php echo $_SESSION['lang']; ?>" />
+                <div id="content_footer">
+                    <div class="navigation">
+                        <span style="font-size:10px;">
+                            <?php echo $language['CLICK_BACK_TO_RETURN']; ?>
+                        </span>
+                        <form action="index.php" method="post">
+                            <div class="alignleft">
+                            <input type="submit" value="<?php echo $language['BACKSTEP']; ?>" class="ButtonRed" name="step_backward" />
+                            <input type="hidden" name="lang" value="<?php echo $_SESSION['lang']; ?>" />
+                            </div>
+                        </form>
+                        <!--
+                        <div class="alignright">
+                        <form action="index.php" name="lang" method="post">
+                            <input type="submit" value="<?php echo $language['NEXTSTEP']; ?>" class="ButtonGreen" name="step_forward"/>
+                            <input type="hidden" name="lang" value="<?php echo $_SESSION['lang']; ?>">
+                        </form>
+                        </div>-->
                     </div>
-                </form>
-                <!--
-                <div class="alignright">
-                 <form action="index.php" name="lang" method="post">
-                    <input type="submit" value="<?php echo $language['NEXTSTEP']; ?>" class="ButtonGreen" name="step_forward"/>
-                    <input type="hidden" name="lang" value="<?php echo $_SESSION['lang']; ?>">
-                 </form>
-                </div>-->
-            </div><!-- div navigation end -->
-            </div> <!-- div content_footer end -->
-            </div> <!-- div accordion end -->
-        </div> <!-- div content_middle end -->
-    </div> <!-- div content end -->
+                </div>
+            </div>
+        </div>
+    </div>

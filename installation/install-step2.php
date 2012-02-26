@@ -487,9 +487,8 @@ if (defined('IN_CS') === false)
                                 <input type="hidden" name="lang" value="<?php echo $_SESSION['lang']; ?>" />
                             </div>
                         </form>
-                    </div><!-- div navigation end -->
-                </div> <!-- div content_footer end -->
-
-            </div> <!-- div accordion end -->
-        </div> <!-- div content_middle end -->
-    </div> <!-- div content end -->
+                    </div>
+                </div> 
+            </div>
+        </div>
+    </div>

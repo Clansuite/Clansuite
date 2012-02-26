@@ -1,7 +1,7 @@
 <?php
 # Security Handler
 if (defined('IN_CS') === false)
-{ 
+{
     die( 'Clansuite not loaded. Direct Access forbidden.' );
 }
 ?>
@@ -47,9 +47,9 @@ if (defined('IN_CS') === false)
                             <div class="alignright">
                                 <input type="submit" value="<?php echo $language['NEXTSTEP']; ?>" class="ButtonGreen" name="step_forward" />
                             </div>
-                        </div> <!-- div navigation end -->
-                    </div> <!-- div content_footer end -->
+                        </div>
+                    </div>
                 </form>
-            </div> <!-- div accordion end -->
-        </div> <!-- div content_middle end -->
-     </div> <!-- div content end -->
+            </div>
+        </div>
+     </div>

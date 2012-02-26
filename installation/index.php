@@ -212,10 +212,23 @@ require 'install_menu.php';
  * ===================================================
  *      Handling of Installation STEP 4 - Database
  * ===================================================
+ *
+ * Procedure Notice:
+ * 1) check if database settings are valid
+ * 2) create table
+ * 3) connect to database
+ * 4) validate database schema
+ * 5) insert database schema
+ * 6) write database settings to config file
  */
 if(isset($_POST['step_forward']) && $step == 5)
 {
-    # check if input-fields are filled
+
+    /**
+     * 1) Valid Database Settings.
+     *
+     * Ensure the database settings incomming from input-fields are valid.
+     */
     if(!empty($_POST['config']['database']['name']) &&
         ! ctype_digit($_POST['config']['database']['name']) &&
         preg_match('#^[a-zA-Z0-9]{1,}[a-zA-Z0-9_\-@]+[a-zA-Z0-9_\-@]*$#', $_POST['config']['database']['name']) &&
@@ -224,16 +237,10 @@ if(isset($_POST['step_forward']) && $step == 5)
         ! empty($_POST['config']['database']['username']) &&
         isset($_POST['config']['database']['password']))
     {
-
         /**
-         * 1. Check if Connection Data is valid (establish db connection)
-         */
-        $config = new \Doctrine\DBAL\Configuration();
-
-
-
-        /**
-         * 2. Create Database?
+         * 2) Create database.
+         *
+         * Has the user requested to create the database?
          */
         if(isset($_POST['config']['database']['create_database']) and $_POST['config']['database']['create_database'] == 'on')
         {
@@ -247,6 +254,7 @@ if(isset($_POST['step_forward']) && $step == 5)
                     'driver'    => $_POST['config']['database']['driver'],
                 );
 
+                $config = new \Doctrine\DBAL\Configuration();
                 $connection = \Doctrine\DBAL\DriverManager::getConnection($connectionParams, $config);
                 $connection->setCharset('UTF8');
 
@@ -258,9 +266,9 @@ if(isset($_POST['step_forward']) && $step == 5)
                 $schema_manager->createDatabase($_POST['config']['database']['name']);
 
                 /**
-                 * Another way of doing this, is via the specific database platform command
-                 * for creating the database, so: ask the platform which sql cmd to use...
-                 * Results for pdo_mysql in a string like 'CREATE DATABASE name'.
+                 * Another way of doing this is via the specific database platform command.
+                 * Then for creating the database the platform is asked, which SQL CMD to use.
+                 * For "pdo_mysql" it would result in a string like 'CREATE DATABASE name'.
                  */
                 #$db = $connection->getDatabasePlatform();
                 #$sql = $db->getCreateDatabaseSQL('databasename');
@@ -274,11 +282,13 @@ if(isset($_POST['step_forward']) && $step == 5)
         }
 
         /**
-         * Reconnect to database
+         * 3) Connect to Database
          */
+
+        # Drop Connection.
         unset($connection);
 
-        # setup connection paramets, this time with dbname
+        # Setup Connection Parameters. This time with "dbname".
         $connectionParams = array(
             'dbname'    => $_POST['config']['database']['name'],
             'user'      => $_POST['config']['database']['username'],
@@ -287,17 +297,45 @@ if(isset($_POST['step_forward']) && $step == 5)
             'driver'    => $_POST['config']['database']['driver'],
         );
 
-        # get connection
+        # connect
+        $config = new \Doctrine\DBAL\Configuration();
         $connection = \Doctrine\DBAL\DriverManager::getConnection($connectionParams, $config);
         $connection->setCharset('UTF8');
 
+        # get EventManager, Configuration and EntityManager
+        $event = $connection->getEventManager();
+
+        $config = new \Doctrine\ORM\Configuration();
+
+        $cache = new \Doctrine\Common\Cache\ArrayCache();
+        $config->setMetadataCacheImpl($cache);
+        $config->setProxyDir(realpath(ROOT . 'doctrine'));
+        $config->setProxyNamespace('Proxies');
+
+        $driverImpl = $config->newDefaultAnnotationDriver(
+            getModelPathsForAllModules()
+        );
+
+        $config->setMetadataDriverImpl($driverImpl);
+
+        $em = \Doctrine\ORM\EntityManager::create($connection, $config, $event);
+
         /**
-         * 4. Insert SQL Data into Database
+         * 4) Validate Database Schemas
          */
         try
         {
-            $sqlFile = INSTALLATION_ROOT . 'sql/clansuite.sql';
-            importSQL($sqlFile, $connection);
+            # instantiate validator
+            $validator = new \Doctrine\ORM\Tools\SchemaValidator($em);
+
+            # validate
+            $validation_error = $validator->validateMapping();
+
+            # handle validation errors
+            if($validation_error)
+            {
+                var_dump($validation_error);
+            }
         }
         catch(Exception $e)
         {
@@ -306,7 +344,40 @@ if(isset($_POST['step_forward']) && $step == 5)
         }
 
         /**
-         * 5. Write Settings to clansuite.config.php
+         * 5) Insert/Update Schemas
+         *
+         * "recreate" will do a database drop, before schemas are updated.
+         */
+        try
+        {
+            $schemaTool = new \Doctrine\ORM\Tools\SchemaTool($em);
+            $metadata = $em->getMetadataFactory()->getAllMetadata();
+            if(isset($_GET['recreate']))
+            {
+                $schemaTool->dropSchema($metadata);
+            }
+            $schemaTool->updateSchema($metadata);
+
+            $em->flush();
+        }
+        catch(Exception $e)
+        {
+            $html = '';
+            $html .= 'The update failed!' . NL;
+            $html .= 'Do you want to force a database drop ('.$connectionParams['dbname'].')?' . NL;
+            $html .= 'This will result in a total loss of all data and database tables.' . NL;
+            $html .= 'It will allow for an clean installation of the database.' . NL;
+            $html .= 'WARNING: Act carefully!' . NL;
+            $html .= '<form action="index.php?step=4&recreate=true" method="post">';
+            $html .= '<input type="submit" value="Recreate Database" class="retry"></form>';
+
+            $step = 4;
+            $error = $language['ERROR_NO_DB_CONNECT'] . NL . $e->getMessage();
+            $error .= NL . NL . $html;
+        }
+
+        /**
+         * 6. Write Settings to clansuite.config.php
          */
         if(false === write_config_settings($_POST['config']))
         {
@@ -317,12 +388,23 @@ if(isset($_POST['step_forward']) && $step == 5)
     else # input fields empty
     {
         $step = 4;
-        $error = $language['ERROR_FILL_OUT_ALL_FIELDS'];
-        # Adjust Error-Message in case validity of database name FAILED
-        if(isset($_POST['config']['database']['name']) && preg_match('#^[a-zA-Z0-9]{1,}[a-zA-Z0-9_\-@]+[a-zA-Z0-9_\-@]*$#', $_POST['config']['database']['name']))
+        $error = 'The provided database settings are not valid! ';
+        $error .= $language['ERROR_FILL_OUT_ALL_FIELDS'];
+
+        /**
+         * This adjusts the error message,
+         * in case the validity of the "database name" FAILED.
+         *
+         * The database name has serious restrictions:
+         * Forbidden are database names containing
+         * only numbers and names like mysql-database commands.
+         */
+        if(isset($_POST['config']['database']['name']) &&
+           preg_match('#^[a-zA-Z0-9]{1,}[a-zA-Z0-9_\-@]+[a-zA-Z0-9_\-@]*$#', $_POST['config']['database']['name']))
         {
             $error .= '<p>The database name you have entered ("' . $_POST['config']['database']['name'] . '") is invalid.</p>';
-            $error .= '<p> It can only contain alphanumeric characters, periods, or underscores. Usable Chars: A-Z;a-z;0-9;-;_ </p>';
+            $error .= '<p> It can only contain alphanumeric characters, periods or underscores.';
+            $error .= ' You might use chars printed within brackets: [A-Z], [a-z], [0-9], [-_].</p>';
             $error .= '<p> Forbidden are database names containing only numbers and names like mysql-database commands.</p>';
         }
     }
@@ -384,20 +466,42 @@ if(isset($_POST['step_forward']) && $step == 7)
     else
     {
         // Generate activation code & salted hash
-        $hashArr = Clansuite_Security::build_salted_hash($_POST['admin_password'], $_SESSION['encryption']);
+        $hashArr = Clansuite_Security::build_salted_hash(
+            $_POST['admin_password'], $_SESSION['encryption']
+        );
         $hash = $hashArr['hash'];
         $salt = $hashArr['salt'];
 
-        // Insert User to DB
-        $connection->
-        $result = @mysql_query('INSERT INTO ' . $_SESSION['config']['database']['prefix'] . 'users SET
-                                email= \'' . $_POST['admin_email'] . '\',
-                                nick= \'' . $_POST['admin_name'] . '\',
-                                passwordhash = \'' . $hash . '\',
-                                salt = \'' . $salt . '\',
-                                joined = \'' . time() . '\',
-                                language = \'' . $_SESSION['admin_language'] . '\',
-                                activated = 1');
+        /**
+         * Insert admin user into the database.
+         *
+         * We are using a raw sql statement with bound variables passing it to Doctrine2.
+         */
+        $db = $em->getConnection();
+
+        $raw_sql_query = 'INSERT INTO ' . $_SESSION['config']['database']['prefix'] . 'users
+                          SET  email = :email,
+                               nick = :nick,
+                               passwordhash = :hash,
+                               salt = :salt,
+                               joined = :joined,
+                               language = :language,
+                               activated = 1';
+
+        $stmt = $db->prepare($raw_sql_query);
+
+        $params = array(
+            'email' => $_POST['admin_email'],
+            'nick' => $_POST['admin_name'],
+            'hash' => $hash,
+            'salt' => $salt,
+            'joined' => time(),
+            'language' => $_SESSION['admin_language'],
+            'activated' => '1'
+        );
+
+        $stmt->execute($params);
+
     }
 }
 
@@ -592,8 +696,7 @@ function importSQL($sqlfile, $connection)
  * - replaces the db_prefix
  *
  * @param $file sqlfile
- *
- * @return trimmed array of sql queries
+ * @return array Trimmed array of sql queries, ready for insertion into db.
  */
 function getQueriesFromSQLFile($sqlfile)
 {
@@ -645,7 +748,6 @@ function getQueriesFromSQLFile($sqlfile)
  * Writes the Database-Settings into the clansuite.config.php
  *
  * @param $data_array
- *
  * @return BOOLEAN true, if clansuite.config.php could be written to the INSTALLATION_ROOT
  */
 function write_config_settings($data_array)
@@ -664,7 +766,7 @@ function write_config_settings($data_array)
     }
 
     # read skeleton settings = minimum settings for initial startup
-    # (not asked from user during installation, but required paths/defaultactions etc)
+    # (not asked from user during installation, but required paths, default actions, etc.)
     $installer_config = Clansuite_Config_INI::readConfig(INSTALLATION_ROOT . 'clansuite.config.installer');
 
     # array merge: overwrite the array to the left, with the array to the right, when keys identical
@@ -766,6 +868,44 @@ function pdo_conect($dbname, $name, $password)
 }
 
 /**
+ * Fetches Model Paths for all modules
+ *
+ * @return array Array with all model directories
+ */
+function getModelPathsForAllModules()
+{
+    $model_dirs = array();
+
+    $dirs = glob( ROOT . '/modules/' . '[a-zA-Z]*', GLOB_ONLYDIR );
+
+    foreach($dirs as $key => $dir_path)
+    {
+        # Entity Path
+        $entity_path = $dir_path . DS . 'model' . DS . 'entities' . DS;
+
+        if(is_dir($entity_path))
+        {
+            $model_dirs[] = $entity_path;
+        }
+
+        # Repository Path
+        $repos_path = $dir_path . DS . 'model' . DS . 'repositories' . DS;
+
+        if(is_dir($repos_path))
+        {
+            $model_dirs[] = $repos_path;
+        }
+    }
+
+    #$model_dirs[] = ROOT . 'doctrine';
+
+    $model_dirs = array_unique($model_dirs);
+
+    #Clansuite_Debug::printR($model_dirs);
+    return $model_dirs;
+}
+
+/**
  * Clansuit Exception - Installation Startup Exception
  *
  * @category    Clansuite
@@ -789,61 +929,61 @@ class Clansuite_Installation_Startup_Exception extends Exception
     public function __toString()
     {
         # Header
-        $errormessage = '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        $html = '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
                            "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
                         <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">';
-        $errormessage .= '<head><title>Clansuite Installation - Error</title>';
-        $errormessage .= '<link rel="stylesheet" href="../themes/core/css/error.css" type="text/css" />';
-        $errormessage .= '</head><body>';
+        $html .= '<head><title>Clansuite Installation - Error</title>';
+        $html .= '<link rel="stylesheet" href="../themes/core/css/error.css" type="text/css" />';
+        $html .= '</head><body>';
 
         /**
          * Fieldset for Exception Message
          *
          * You might set the following colour attributes (error_red, error_orange, error_beige) as defined in core/error.css.
          */
-        $errormessage .= '<fieldset class="error_beige">';
-        $errormessage .= '<div style="float:left; padding: 15px;">';
-        $errormessage .= '<img src="images/Clansuite-Toolbar-Icon-64-error.png" style="border: 2px groove #000000;" alt="Clansuite Error Icon" /></div>';
-        $errormessage .= '<legend>Clansuite Installation Error</legend>';
-        $errormessage .= '<p><strong>' . $this->message . '</strong>';
+        $html .= '<fieldset class="error_beige">';
+        $html .= '<div style="float:left; padding: 15px;">';
+        $html .= '<img src="images/Clansuite-Toolbar-Icon-64-error.png" style="border: 2px groove #000000;" alt="Clansuite Error Icon" /></div>';
+        $html .= '<legend>Clansuite Installation Error</legend>';
+        $html .= '<p><strong>' . $this->message . '</strong>';
 
         /**
          * Display a table with all pieces of information of the exception.
          */
         if(DEBUG === true)
         {
-            $errormessage .= '<hr><table>';
-            $errormessage .= '<tr><td><strong>Errorcode</strong></td><td>' . $this->getCode() . '</td></tr>';
-            $errormessage .= '<tr><td><strong>Message</strong></td><td>' . $this->getMessage() . '</td></tr>';
-            $errormessage .= '<tr><td><strong>Pfad</strong></td><td>' . dirname($this->getFile()) . '</td></tr>';
-            $errormessage .= '<tr><td><strong>Datei</strong></td><td>' . basename($this->getFile()) . '</td></tr>';
-            $errormessage .= '<tr><td><strong>Zeile</strong></td><td>' . $this->getLine() . '</td></tr>';
-            $errormessage .= '</table>';
+            $html .= '<hr><table>';
+            $html .= '<tr><td><strong>Errorcode</strong></td><td>' . $this->getCode() . '</td></tr>';
+            $html .= '<tr><td><strong>Message</strong></td><td>' . $this->getMessage() . '</td></tr>';
+            $html .= '<tr><td><strong>Pfad</strong></td><td>' . dirname($this->getFile()) . '</td></tr>';
+            $html .= '<tr><td><strong>Datei</strong></td><td>' . basename($this->getFile()) . '</td></tr>';
+            $html .= '<tr><td><strong>Zeile</strong></td><td>' . $this->getLine() . '</td></tr>';
+            $html .= '</table>';
         }
 
-        $errormessage .= '</p></fieldset><br />';
+        $html .= '</p></fieldset><br />';
 
         /**
          * Fieldset for Help Message
          */
-        $errormessage .= '<fieldset class="error_beige">';
-        $errormessage .= '<legend>Help</legend>';
-        $errormessage .= '<ol>';
-        $errormessage .= '<li>You might use <a href="phpinfo.php">phpinfo()</a> to check your serversettings.</li>';
+        $html .= '<fieldset class="error_beige">';
+        $html .= '<legend>Help</legend>';
+        $html .= '<ol>';
+        $html .= '<li>You might use <a href="phpinfo.php">phpinfo()</a> to check your serversettings.</li>';
 
         if( get_cfg_var('cfg_file_path') )
         {
             $cfg_file_path = get_cfg_var('cfg_file_path');
         }
-        $errormessage .= '<li>Check your php.ini ('. $cfg_file_path .') and ensure all needed extensions are loaded. <br />';
-        $errormessage .= 'After a modification of your php.ini you must restart your webserver.</li>';
+        $html .= '<li>Check your php.ini ('. $cfg_file_path .') and ensure all needed extensions are loaded. <br />';
+        $html .= 'After a modification of your php.ini you must restart your webserver.</li>';
 
-        $errormessage .= '<li>Check the webservers errorlog.</li></ol><p>';
-        $errormessage .= "If you can't solve the error yourself, feel free to contact us at our website's <a href=\"http://forum.clansuite.com/index.php?board=25.0\">Installation - Support Forum</a>.<br/>";
-        $errormessage .= '</p></fieldset>';
-        $errormessage .= '</body></html>';
+        $html .= '<li>Check the webservers errorlog.</li></ol><p>';
+        $html .= "If you can't solve the error yourself, feel free to contact us at our website's <a href=\"http://forum.clansuite.com/index.php?board=25.0\">Installation - Support Forum</a>.<br/>";
+        $html .= '</p></fieldset>';
+        $html .= '</body></html>';
 
-        return $errormessage;
+        return $html;
     }
 
 }
