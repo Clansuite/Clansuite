@@ -39,10 +39,12 @@ if(defined('IN_CS') === false)
 /**
  * Clansuite Routes Management
  *
- * On Installation new routes are added via the method addRoutesOfModule($modulename).
- * On Deinstallation the routes are removed via method delRoutesOfModlee($modulename).
+ * On Installation
+ *      new routes are added via the method addRoutesOfModule($modulename).
+ * On Deinstallation
+ *      the routes are removed via method delRoutesOfModule($modulename).
  */
-class Clansuite_Routesmanager
+class Clansuite_Routes_Manager
 {
     public function addRoutesOfModule($modulename)
     {
@@ -120,7 +122,7 @@ class Clansuite_Routesmanager
     }
 
     /**
-     * Load Routes from Configuration File
+     * Load Routes from any Route Configuration File
      *
      * @param string Path to a (module) Routing Configuration File.
      * @return array Array of Routes.
