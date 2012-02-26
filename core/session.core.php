@@ -287,9 +287,7 @@ class Clansuite_Session implements Clansuite_Session_Interface, ArrayAccess
             $msg .= _('Please use <a href="%s">Clansuite Installation</a> to perform a proper installation.');
             $msg .= '</p>';
 
-            $msg = sprintf($msg, $uri);
-
-            trigger_error($msg, E_USER_ERROR);
+            echo sprintf($msg, $uri);
             exit;
         }
     }
