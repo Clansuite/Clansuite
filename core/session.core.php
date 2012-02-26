@@ -270,11 +270,27 @@ class Clansuite_Session implements Clansuite_Session_Interface, ArrayAccess
         }
         catch(Exception $e)
         {
-            # @todo can we throw a clansuite_exception here?
-            echo get_class($e).' thrown within the session handler. <br /> Message: '.$e->getMessage().' on line '.$e->getLine();
-            $uri = sprintf('http://%s%s', $_SERVER['SERVER_NAME'], dirname($_SERVER['PHP_SELF']) . '/installation/index.php');
-            exit('<p><b><font color="#FF0000">[Clansuite Error] The database table for sessions is missing.</font></b> <br />
-                 Please use <a href="' . $uri . '">Clansuite Installation</a> to perform a proper installation.</p>');
+            $msg = '';
+
+            if(defined('DEBUG') and DEBUG == true)
+            {
+                $msg .= get_class($e) . ' thrown within the session handler.';
+                $msg .= '<br /> Message: ' . $e->getMessage();
+            }
+
+            $uri = sprintf('http://%s%s', $_SERVER['SERVER_NAME'], dirname($_SERVER['PHP_SELF']) . 'installation/index.php');
+            $uri = str_replace('\\', '/', $uri);
+
+            $msg .= '<p><b><font color="#FF0000">[Clansuite Error] ';
+            $msg .= _('The database table for sessions is missing.');
+            $msg .= '</font></b> <br />';
+            $msg .= _('Please use <a href="%s">Clansuite Installation</a> to perform a proper installation.');
+            $msg .= '</p>';
+
+            $msg = sprintf($msg, $uri);
+
+            trigger_error($msg, E_USER_ERROR);
+            exit;
         }
     }
 
@@ -426,7 +442,7 @@ class Clansuite_Session implements Clansuite_Session_Interface, ArrayAccess
      */
     public function get($key)
     {
-        if (isset($_SESSION[$key]))
+        if(isset($_SESSION[$key]))
         {
             return $_SESSION[$key];
         }
