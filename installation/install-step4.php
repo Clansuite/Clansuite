@@ -31,7 +31,23 @@ if (defined('IN_CS') === false)
                             </li>
                             <li>
                                 <label class="formularleft" for="type"><?php echo $language['DRIVER']; ?></label>
-                                <input class="formularright" type="text" id="type" name="config[database][driver]" value="<?php echo $values['driver']; ?>" />
+                                <select class="formularright" name="config[database][driver]" id="driver">
+                                <?php
+                                    $html  = '<option value="pdo_mysql" ';
+                                    $html .= ($values['driver'] === 'pdo_mysql') ? 'selected="selected"' : '';
+                                    $html .= '>MySQL</option>';
+                                    /*
+                                    $html .= '<option value="pdo_pgsql" ';
+                                    $html .= ($values['driver'] === 'pdo_pgsql') ? 'selected="selected"' : '';
+                                    $html .= '>PostgreSQL</option>';
+
+                                    $html .= '<option value="pdo_sqlite" ';
+                                    $html .= ($values['driver'] === 'pdo_sqlite') ?  'selected="selected"' : '';
+                                    $html .= '>SQLite</option>';
+                                    */
+                                    echo $html;
+                                 ?>
+                                </select>
                             </li>
                             <li>
                                 <label class="formularleft" for="user"><?php echo $language['USERNAME']; ?></label>
