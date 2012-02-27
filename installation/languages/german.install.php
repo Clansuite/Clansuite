@@ -158,6 +158,8 @@ class Language implements ArrayAccess
         // STEP 5 - Konfiguration
         $this->language['STEP5_CONFIG'] = 'Schritt [5] Konfiguration';
 
+        $this->language['STEP5_LEGEND'] = 'Konfiguration';
+
         $this->language['STEP5_SENTENCE1'] = 'Bitte nehmen Sie nun die grundlegenden Einstellungen für Ihre Internetpräsenz mit Clansuite vor.';
         $this->language['STEP5_SENTENCE2'] = 'Nach der Installation, können sie umfangreiche Einstellungen über das Admin-Control-Panel (ACP) vornehmen.';
 
@@ -168,6 +170,8 @@ class Language implements ArrayAccess
 
         // STEP 6 - Create Administrator
         $this->language['STEP6_ADMINUSER'] = 'Schritt [6] Administrator anlegen';
+
+        $this->language['STEP6_LEGEND'] = 'Nutzerkonto des Administrators anlegen';
 
         $this->language['STEP6_SENTENCE1'] = 'In Schritt [6] legen wir ein Benutzerkonto mit den von Ihnen eingegebenen Nutzerdaten an.';
         $this->language['STEP6_SENTENCE2'] = 'Diesem Konto werden wir Administratoren-Rechte geben, d.h. sie werden in der Lage sein, sich mit diesem Konto anzumelden und alle wesentlichen Systemeinstellungen vorzunehmen.';

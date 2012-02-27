@@ -15,6 +15,8 @@ if (defined('IN_CS') === false)
                 <p><?php echo $language['STEP5_SENTENCE1']; ?></p>
                 <p><?php echo $language['STEP5_SENTENCE2']; ?></p>
                 <form action="index.php" method="post">
+                <fieldset>
+                    <legend><?php echo $language['STEP5_LEGEND']; ?></legend>
                     <ol class="formular">
                         <li>
                             <label class="formularleft" for="page_title"><?php echo $language['STEP5_CONFIG_SITENAME']; ?></label>
@@ -74,6 +76,7 @@ if (defined('IN_CS') === false)
                             </select>
                         </li>
                     </ol>
+                    </fieldset>
                     <div id="content_footer">
                         <div class="navigation">
                             <span style="font-size:10px;">

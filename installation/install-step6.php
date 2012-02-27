@@ -29,6 +29,8 @@ if (defined('IN_CS') === false)
                 <p><?php echo $language['STEP6_SENTENCE2']; ?></p>
                 <p><?php echo $language['STEP6_SENTENCE3']; ?></p>
                 <form action="index.php" method="post" name="admin_form" id="admin_form" onsubmit="return hashLoginPassword(this);">
+                <fieldset>
+                    <legend><?php echo $language['STEP6_LEGEND']; ?></legend>
                     <ol class="formular">
                         <li>
                             <label class="formularleft" for="admin_name"><?php echo $language['STEP6_ADMIN_NAME']; ?></label>
@@ -69,6 +71,7 @@ if (defined('IN_CS') === false)
                             </select>
                         </li>
                     </ol>
+                    </fieldset>
                     <div id="content_footer">
                         <div class="navigation">
                             <span style="font-size:10px;">
@@ -87,4 +90,4 @@ if (defined('IN_CS') === false)
                 </form>
             </div>
         </div>
-    </div> 
+    </div>
