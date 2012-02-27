@@ -12,7 +12,7 @@
 staging = 0
 
 [database]
-charset = "UTF-8"
+charset = "UTF8"
 
 ;----------------------------------------
 ; Template
