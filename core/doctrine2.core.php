@@ -78,12 +78,12 @@ class Clansuite_Doctrine2
         or empty($config['database']['host']) === true
         or empty($config['database']['name']) === true)
         {
-            $msg1 = _('Database Connection Infos are missing!');
+            $msg1 = _('The database connection configuration is missing.');
             $msg2 = _('Please use <a href=%s>Clansuite Installation</a> to perform a proper installation.');
 
             $uri = sprintf('http://%s%s', $_SERVER['SERVER_NAME'], '/installation/index.php');
 
-            $msg = $msg1 . sprintf($msg2, $uri);
+            $msg = $msg1 . NL . sprintf($msg2, $uri);
 
             throw new Clansuite_Exception($msg);
         }
