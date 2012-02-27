@@ -74,9 +74,9 @@ class Clansuite_Doctrine2
     {
         # check if database settings are available
         if(empty($config['database']['driver']) === true
-        or empty($config['database']['username']) === true
+        or empty($config['database']['user']) === true
         or empty($config['database']['host']) === true
-        or empty($config['database']['name']) === true)
+        or empty($config['database']['dbname']) === true)
         {
             $msg1 = _('The database connection configuration is missing.');
             $msg2 = _('Please use <a href=%s>Clansuite Installation</a> to perform a proper installation.');
@@ -166,9 +166,9 @@ class Clansuite_Doctrine2
         # use main configuration values for setting up the connection
         $connectionOptions = array(
             'driver'    => $clansuite_config['database']['driver'],
-            'user'      => $clansuite_config['database']['username'],
+            'user'      => $clansuite_config['database']['user'],
             'password'  => $clansuite_config['database']['password'],
-            'dbname'    => $clansuite_config['database']['name'],
+            'dbname'    => $clansuite_config['database']['dbname'],
             'host'      => $clansuite_config['database']['host'],
             'charset'   => $clansuite_config['database']['charset'],
             'driverOptions' => array(
