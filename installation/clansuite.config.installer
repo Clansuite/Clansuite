@@ -11,6 +11,9 @@
 [config]
 staging = 0
 
+[database]
+charset = "UTF-8"
+
 ;----------------------------------------
 ; Template
 ;----------------------------------------
@@ -23,7 +26,7 @@ backend_theme   = "admin"
 ;----------------------------------------
 [defaults]
 module = "news"
-action = "show"
+action = "list"
 
 ;----------------------------------------
 ; Default Language Setting
