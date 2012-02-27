@@ -193,6 +193,7 @@ class Language implements ArrayAccess
         $this->language['STEP7_SENTENCE9'] = 'User-Manual';
         $this->language['STEP7_SENTENCE10'] = 'Security Advise';
         $this->language['STEP7_SENTENCE11'] = 'Please don\'t forget to rename or remove the "/installation" directory for security reasons.';
+        $this->language['STEP7_SENTENCE12'] = 'Delte the subfolder "/installation" immediately!';
 
         // GLOBAL
         # Buttons

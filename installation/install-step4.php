@@ -34,16 +34,16 @@ if (defined('IN_CS') === false)
                                 <input class="formularright" type="text" id="type" name="config[database][driver]" value="<?php echo $values['driver']; ?>" />
                             </li>
                             <li>
-                                <label class="formularleft" for="username"><?php echo $language['USERNAME']; ?></label>
-                                <input class="formularright" type="text" id="username" name="config[database][username]" value="<?php echo $values['username']; ?>" />
+                                <label class="formularleft" for="user"><?php echo $language['USERNAME']; ?></label>
+                                <input class="formularright" type="text" id="username" name="config[database][user]" value="<?php echo $values['user']; ?>" />
                             </li>
                             <li>
                                 <label class="formularleft" for="password"><?php echo $language['PASSWORD']; ?></label>
                                 <input class="formularright" type="text" id="password" name="config[database][password]" value="<?php echo $values['password']; ?>" />
                             </li>
                             <li>
-                                <label class="formularleft" for="name"><?php echo $language['NAME']; ?></label>
-                                <input class="formularright" type="text" id="name" name="config[database][name]" value="<?php echo $values['name']; ?>" />
+                                <label class="formularleft" for="dbname"><?php echo $language['NAME']; ?></label>
+                                <input class="formularright" type="text" id="name" name="config[database][dbname]" value="<?php echo $values['dbname']; ?>" />
                             </li>
                             <li>
                                 <label class="formularleft" for="create_database"><?php echo $language['CREATE_DATABASE']; ?></label>

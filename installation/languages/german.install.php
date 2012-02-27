@@ -190,10 +190,11 @@ class Language implements ArrayAccess
         $this->language['STEP7_SENTENCE5'] = 'Clansuite Webseite';
         $this->language['STEP7_SENTENCE6'] = 'oder das';
 
-        $this->language['STEP7_SENTENCE8'] = 'Hilfe zur Benutzung und Konfiguration der Clansuite-Software finden Sie im ';
+        $this->language['STEP7_SENTENCE8'] = 'Hilfe zur Benutzung und Konfiguration des Clansuite CMS finden Sie im ';
         $this->language['STEP7_SENTENCE9'] = 'Benutzerhandbuch';
         $this->language['STEP7_SENTENCE10'] = 'Sicherheitshinweis';
-        $this->language['STEP7_SENTENCE11'] = 'Vergessen Sie Bitte nicht, das Verzeichnis "/installation" aus Sicherheitsgründen umzubenennen bzw. zu löschen.';
+        $this->language['STEP7_SENTENCE11'] = 'Bitte vergessen Sie nicht, das Verzeichnis "/installation" aus Sicherheitsgründen umzubenennen oder zu löschen.';
+        $this->language['STEP7_SENTENCE12'] = 'Lösche das Unterverzeichnis "/installation" sofort.';
 
         // GLOBAL
         # Buttons

@@ -131,8 +131,8 @@ $_SESSION = array_merge_rec($_POST, $_SESSION);
 if(isset($_SESSION['step']))
 {
     $step = (int) intval($_SESSION['step']);
-    if(isset($_POST['step_forward']))  { $step++; }
-    if(isset($_POST['step_backward'])) { $step--; }
+    if(isset($_POST['step_forward']))  { $step = $step + 1; }
+    if(isset($_POST['step_backward'])) { $step = $step - 1; }
     if($step >= $total_steps)          { $step = $total_steps; }
     if($step == 0) { $step = 1; }
 }
@@ -140,7 +140,7 @@ else
 { $step = 1;}
 
 # Calculate Progress
-$_SESSION['progress'] = (float) calc_progress($step, $total_steps);
+$_SESSION['progress'] = calc_progress($step, $total_steps);
 
 /**
  * ===========================
@@ -229,12 +229,12 @@ if(isset($_POST['step_forward']) && $step == 5)
      *
      * Ensure the database settings incomming from input-fields are valid.
      */
-    if(!empty($_POST['config']['database']['name']) &&
-        ! ctype_digit($_POST['config']['database']['name']) &&
-        preg_match('#^[a-zA-Z0-9]{1,}[a-zA-Z0-9_\-@]+[a-zA-Z0-9_\-@]*$#', $_POST['config']['database']['name']) &&
+    if(!empty($_POST['config']['database']['dbname']) &&
+        ! ctype_digit($_POST['config']['database']['dbname']) &&
+        preg_match('#^[a-zA-Z0-9]{1,}[a-zA-Z0-9_\-@]+[a-zA-Z0-9_\-@]*$#', $_POST['config']['database']['dbname']) &&
         ! empty($_POST['config']['database']['host']) &&
         ! empty($_POST['config']['database']['driver']) &&
-        ! empty($_POST['config']['database']['username']) &&
+        ! empty($_POST['config']['database']['user']) &&
         isset($_POST['config']['database']['password']))
     {
         /**
@@ -248,7 +248,7 @@ if(isset($_POST['step_forward']) && $step == 5)
             {
                 # connection without dbname (must be blank for create table)
                 $connectionParams = array(
-                    'user'      => $_POST['config']['database']['username'],
+                    'user'      => $_POST['config']['database']['user'],
                     'password'  => $_POST['config']['database']['password'],
                     'host'      => $_POST['config']['database']['host'],
                     'driver'    => $_POST['config']['database']['driver'],
@@ -263,7 +263,7 @@ if(isset($_POST['step_forward']) && $step == 5)
                  * and create database
                  */
                 $schema_manager = $connection->getSchemaManager();
-                $schema_manager->createDatabase($_POST['config']['database']['name']);
+                $schema_manager->createDatabase($_POST['config']['database']['dbname']);
 
                 /**
                  * Another way of doing this is via the specific database platform command.
@@ -277,7 +277,8 @@ if(isset($_POST['step_forward']) && $step == 5)
             catch(Exception $e)
             {
                 $step = 4;
-                $error = $language['ERROR_WHILE_CREATING_DATABASE'] . NL . $e->getMessage();
+                $error = $language['ERROR_WHILE_CREATING_DATABASE'] . NL . NL;
+                $error .= $e->getMessage() . '.';
             }
         }
 
@@ -290,35 +291,14 @@ if(isset($_POST['step_forward']) && $step == 5)
 
         # Setup Connection Parameters. This time with "dbname".
         $connectionParams = array(
-            'dbname'    => $_POST['config']['database']['name'],
-            'user'      => $_POST['config']['database']['username'],
+            'dbname'    => $_POST['config']['database']['dbname'],
+            'user'      => $_POST['config']['database']['user'],
             'password'  => $_POST['config']['database']['password'],
             'host'      => $_POST['config']['database']['host'],
             'driver'    => $_POST['config']['database']['driver'],
         );
 
-        # connect
-        $config = new \Doctrine\DBAL\Configuration();
-        $connection = \Doctrine\DBAL\DriverManager::getConnection($connectionParams, $config);
-        $connection->setCharset('UTF8');
-
-        # get EventManager, Configuration and EntityManager
-        $event = $connection->getEventManager();
-
-        $config = new \Doctrine\ORM\Configuration();
-
-        $cache = new \Doctrine\Common\Cache\ArrayCache();
-        $config->setMetadataCacheImpl($cache);
-        $config->setProxyDir(realpath(ROOT . 'doctrine'));
-        $config->setProxyNamespace('Proxies');
-
-        $driverImpl = $config->newDefaultAnnotationDriver(
-            getModelPathsForAllModules()
-        );
-
-        $config->setMetadataDriverImpl($driverImpl);
-
-        $em = \Doctrine\ORM\EntityManager::create($connection, $config, $event);
+        $entityManager = getEntityManager($connectionParams);
 
         /**
          * 4) Validate Database Schemas
@@ -326,7 +306,7 @@ if(isset($_POST['step_forward']) && $step == 5)
         try
         {
             # instantiate validator
-            $validator = new \Doctrine\ORM\Tools\SchemaValidator($em);
+            $validator = new \Doctrine\ORM\Tools\SchemaValidator($entityManager);
 
             # validate
             $validation_error = $validator->validateMapping();
@@ -350,15 +330,15 @@ if(isset($_POST['step_forward']) && $step == 5)
          */
         try
         {
-            $schemaTool = new \Doctrine\ORM\Tools\SchemaTool($em);
-            $metadata = $em->getMetadataFactory()->getAllMetadata();
+            $schemaTool = new \Doctrine\ORM\Tools\SchemaTool($entityManager);
+            $metadata = $entityManager->getMetadataFactory()->getAllMetadata();
             if(isset($_GET['recreate']))
             {
                 $schemaTool->dropSchema($metadata);
             }
             $schemaTool->updateSchema($metadata);
 
-            $em->flush();
+            $entityManager->flush();
         }
         catch(Exception $e)
         {
@@ -477,7 +457,7 @@ if(isset($_POST['step_forward']) && $step == 7)
          *
          * We are using a raw sql statement with bound variables passing it to Doctrine2.
          */
-        $db = $em->getConnection();
+        $db = getEntityManager()->getConnection();
 
         $raw_sql_query = 'INSERT INTO ' . $_SESSION['config']['database']['prefix'] . 'users
                           SET  email = :email,
@@ -486,7 +466,7 @@ if(isset($_POST['step_forward']) && $step == 7)
                                salt = :salt,
                                joined = :joined,
                                language = :language,
-                               activated = 1';
+                               activated = :activated';
 
         $stmt = $db->prepare($raw_sql_query);
 
@@ -593,10 +573,10 @@ function get_total_steps()
  * @params $of_total_steps Total Number of Steps
  * @return float progress-value
  */
-function calc_progress($this_is_step, $of_total_steps)
+function calc_progress($current_step, $total_steps)
 {
-    if($this_is_step <= 1) { return 0;}
-    return round((100 / $of_total_steps) * $this_is_step, 0);
+    if($current_step <= 1) { return 0;}
+    return round((100 / $total_steps) * $current_step, 0);
 }
 
 // STEP 1 - Language Selection
@@ -622,10 +602,10 @@ function installstep_4($language, $error)
 {
     $values['host']             = isset($_SESSION['host'])             ? $_SESSION['host'] : 'localhost';
     $values['driver']           = isset($_SESSION['driver'])           ? $_SESSION['driver'] : 'pdo_mysql';
-    $values['name']             = isset($_SESSION['name'])             ? $_SESSION['name'] : 'clansuite';
+    $values['dbname']           = isset($_SESSION['dbname'])           ? $_SESSION['dbname'] : 'clansuite';
     $values['create_database']  = isset($_SESSION['create_database'])  ? $_SESSION['create_database'] : '0';
-    $values['username']         = isset($_SESSION['user'])             ? $_SESSION['user'] : '';
-    $values['password']         = isset($_SESSION['pass'])             ? $_SESSION['pass'] : '';
+    $values['user']             = isset($_SESSION['user'])             ? $_SESSION['user'] : '';
+    $values['password']         = isset($_SESSION['password'])         ? $_SESSION['password'] : '';
     $values['prefix']           = isset($_SESSION['prefix'])           ? $_SESSION['prefix'] : 'cs_';
 
     include INSTALLATION_ROOT . 'install-step4.php';
@@ -660,91 +640,6 @@ function installstep_7($language)
 }
 
 /**
- * Load an SQL stream into the database one command at a time.
- *
- * @params $sqlfile The file containing the mysql-dump data
- * @params $connection Instance of a PDO Connection Object
- *
- * @return boolean Returns true, if SQL was imported successfully.
- */
-function importSQL($sqlfile, $connection)
-{
-    $queries = getQueriesFromSQLFile($sqlfile);
-
-    foreach($queries as $query)
-    {
-        try
-        {
-            $connection->exec($query);
-        }
-        catch (Exception $e)
-        {
-            echo $e->getMessage() . "<br/> <p>The sql is: $query</p>";
-
-        }
-    }
-
-    return true;
-}
-
-/**
- * getQueriesFromSQLFile parses a sql file and extracts all queries.
- *
- * - strips off all comments, sql notes, empty lines from an sql file
- * - trims white-spaces
- * - filters the sql-string for sql-keywords
- * - replaces the db_prefix
- *
- * @param $file sqlfile
- * @return array Trimmed array of sql queries, ready for insertion into db.
- */
-function getQueriesFromSQLFile($sqlfile)
-{
-    if(is_readable($sqlfile) === false)
-    {
-        throw new Exception($sqlfile . 'does not exist or is not readable.');
-    }
-
-    # read file into array
-    $file = file($sqlfile);
-
-    # import file line by line
-    # and filter (remove) those lines, beginning with an sql comment token
-    $file = array_filter($file,
-                    create_function('$line',
-                            'return strpos(ltrim($line), "--") !== 0;'));
-
-    # and filter (remove) those lines, beginning with an sql notes token
-    $file = array_filter($file,
-                    create_function('$line',
-                            'return strpos(ltrim($line), "/*") !== 0;'));
-
-    # this is a whitelist of SQL commands, which are allowed to follow a semicolon
-    $keywords = array(
-        'ALTER', 'CREATE', 'DELETE', 'DROP', 'INSERT',
-        'REPLACE', 'SELECT', 'SET', 'TRUNCATE', 'UPDATE', 'USE'
-    );
-
-    # create the regular expression for matching the whitelisted keywords
-    $regexp = sprintf('/\s*;\s*(?=(%s)\b)/s', implode('|', $keywords));
-
-    # split there
-    $splitter = preg_split($regexp, implode("\r\n", $file));
-
-    # remove trailing semicolon or whitespaces
-    $splitter = array_map(create_function('$line',
-                            'return preg_replace("/[\s;]*$/", "", $line);'),
-                          $splitter);
-
-    # replace the default database prefix "cs_"
-    $table_prefix = $_POST['config']['database']['prefix'];
-    $splitter = preg_replace("/`cs_/", "`$table_prefix", $splitter);
-
-    # remove empty lines
-    return array_filter($splitter, create_function('$line', 'return !empty($line);'));
-}
-
-/**
  * Writes the Database-Settings into the clansuite.config.php
  *
  * @param $data_array
@@ -752,12 +647,13 @@ function getQueriesFromSQLFile($sqlfile)
  */
 function write_config_settings($data_array)
 {
-    # Read/Write Handler for Configfiles
+    # Read/Write Handler for config files
     include ROOT . 'core/config/ini.config.php';
 
     # throw not needed / non-setting vars out
     unset($data_array['step_forward']);
     unset($data_array['lang']);
+    unset($data_array['create_database']);
 
     # base class is needed for Clansuite_Config_INI
     if(false === class_exists('Clansuite_Config_Base'))
@@ -778,6 +674,46 @@ function write_config_settings($data_array)
         return false;
     }
     return true;
+}
+
+function getEntityManager($connectionParams = null)
+{
+    if(is_array($connectionParams) === false)
+    {
+        # Read/Write Handler for config files
+        include ROOT . 'core/config/ini.config.php';
+
+        # fetch the dsn/connection config
+        $clansuite_config = Clansuite_Config_INI::readConfig(ROOT . 'configuration/clansuite.config.php');
+        $connectionParams = $clansuite_config['database'];
+    }
+
+    # connect
+    $config = new \Doctrine\DBAL\Configuration();
+    $connection = \Doctrine\DBAL\DriverManager::getConnection($connectionParams, $config);
+    $connection->setCharset('UTF8');
+
+    # get Event and Config
+    $event = $connection->getEventManager();
+    $config = new \Doctrine\ORM\Configuration();
+
+    # setup Cache
+    $cache = new \Doctrine\Common\Cache\ArrayCache();
+    $config->setMetadataCacheImpl($cache);
+
+    # setup Proxy Dir
+    $config->setProxyDir(realpath(ROOT . 'doctrine'));
+    $config->setProxyNamespace('Proxies');
+
+    # setup Annotation Driver
+    $driverImpl = $config->newDefaultAnnotationDriver(
+        getModelPathsForAllModules());
+    $config->setMetadataDriverImpl($driverImpl);
+
+    # finally: instantiate EntityManager
+    $entityManager = \Doctrine\ORM\EntityManager::create($connection, $config, $event);
+
+    return $entityManager;
 }
 
 /**
@@ -859,13 +795,9 @@ function removeDirectory($dir)
         # echo '[Deleting Directory] Removing of directory '.$dir.'<br/>';
     }
 }
+
 // Save+Close the Session
 session_write_close();
-
-function pdo_conect($dbname, $name, $password)
-{
-	return new PDO('mysql:host=localhost;dbname=' . $dbname, $name, $password);
-}
 
 /**
  * Fetches Model Paths for all modules
