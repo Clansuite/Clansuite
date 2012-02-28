@@ -16,6 +16,8 @@ if (defined('IN_CS') === false)
     <link rel="stylesheet" type="text/css" href="installation.css" />
     <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=IM+Fell+DW+Pica+SC&amp;subset=latin" />
     <title>Clansuite - Installation</title>
+    <script type="text/javascript" src="javascript/jquery-1.7.1.min.js"></script>
+    <script type="text/javascript" src="javascript/tooltip.js"></script>
 </head>
 <body>
 <div id="wrapper">
