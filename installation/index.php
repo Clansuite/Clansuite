@@ -66,8 +66,10 @@ ini_set('display_errors', true);
 
 if(DEBUG)
 {
-    var_export($_SESSION, false);
-    var_export($_POST, false);
+    echo 'SESSION :';
+    print_r($_SESSION);
+    echo 'POST :';
+    print_r($_POST);
 }
 
 /**
@@ -762,13 +764,13 @@ class Clansuite_Installation_Step4 extends Clansuite_Installation_Page
     {
         $values = array();
 
-        $values['host']     = isset($_SESSION['host'])     ? $_SESSION['host']     : 'localhost';
-        $values['driver']   = isset($_SESSION['driver'])   ? $_SESSION['driver']   : 'pdo_mysql';
-        $values['dbname']   = isset($_SESSION['dbname'])   ? $_SESSION['dbname']   : 'clansuite';
-        $values['user']     = isset($_SESSION['user'])     ? $_SESSION['user']     : '';
-        $values['password'] = isset($_SESSION['password']) ? $_SESSION['password'] : '';
-        $values['prefix']   = isset($_SESSION['prefix'])   ? $_SESSION['prefix']   : 'cs_';
-        $values['create_database'] = isset($_SESSION['create_database']) ? $_SESSION['create_database'] : '0';
+        $values['host']     = isset($_SESSION['config']['database']['host'])     ? $_SESSION['config']['database']['host']     : 'localhost';
+        $values['driver']   = isset($_SESSION['config']['database']['driver'])   ? $_SESSION['config']['database']['driver']   : 'pdo_mysql';
+        $values['dbname']   = isset($_SESSION['config']['database']['dbname'])   ? $_SESSION['config']['database']['dbname']   : 'clansuite';
+        $values['user']     = isset($_SESSION['config']['database']['user'])     ? $_SESSION['config']['database']['user']     : '';
+        $values['password'] = isset($_SESSION['config']['database']['password']) ? $_SESSION['config']['database']['password'] : '';
+        $values['prefix']   = isset($_SESSION['config']['database']['prefix'])   ? $_SESSION['config']['database']['prefix']   : 'cs_';
+        $values['create_database'] = isset($_SESSION['config']['database']['create_database']) ? $_SESSION['config']['database']['create_database'] : '0';
 
         return $values;
     }
@@ -981,10 +983,12 @@ class Clansuite_Installation_Step5 extends Clansuite_Installation_Page
     public function getDefaultValues()
     {
         $values = array();
-        $values['pagetitle']  = isset($_SESSION['pagetitle'])  ? $_SESSION['pagetitle']  : 'Team Clansuite';
-        $values['from']       = isset($_SESSION['from'])       ? $_SESSION['from']       : 'webmaster@website.com';
-        $values['gmtoffset']  = isset($_SESSION['gmtoffset'])  ? $_SESSION['gmtoffset']  : '3600';
+
+        $values['pagetitle']  = isset($_SESSION['template']['pagetitle']) ? $_SESSION['template']['pagetitle'] : 'Team Clansuite';
+        $values['from']       = isset($_SESSION['email']['from']) ? $_SESSION['email']['from'] : 'webmaster@website.com';
+        $values['gmtoffset']  = isset($_SESSION['language']['gmtoffset'])  ? $_SESSION['language']['gmtoffset']  : '3600';
         $values['encryption'] = isset($_SESSION['encryption']) ? $_SESSION['encryption'] : 'SHA1';
+
         return $values;
     }
 
@@ -1044,7 +1048,7 @@ class Clansuite_Installation_Step6 extends Clansuite_Installation_Page
 
     public function validateFormValues()
     {
-        if(($_POST['admin_name'] !== '') and ($_POST['admin_password'] !== ''))
+        if(($_POST['admin_name'] != '') and ($_POST['admin_password'] != ''))
         {
             // Values are valid.
             return true;
