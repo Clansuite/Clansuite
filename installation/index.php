@@ -991,9 +991,11 @@ class Clansuite_Installation_Step5 extends Clansuite_Installation_Page
     public function validateFormValues()
     {
         # check if input-fields are filled
-        if(isset($_POST['config']['template']['pagetitle']) &&
-        isset($_POST['config']['email']['from']) &&
-        isset($_POST['config']['language']['gmtoffset']))
+        if(isset($_POST['config']['template']['pagetitle'])
+            and ctype_alnum($_POST['config']['template']['pagetitle'])
+            and isset($_POST['config']['email']['from'])
+            and filter_var($_POST['config']['email']['from'], FILTER_VALIDATE_EMAIL)
+            and isset($_POST['config']['language']['gmtoffset']))
         {
             // Values are valid.
             return true;
@@ -1044,14 +1046,25 @@ class Clansuite_Installation_Step6 extends Clansuite_Installation_Page
 
     public function validateFormValues()
     {
-        if(($_POST['admin_name'] != '') and ($_POST['admin_password'] != ''))
+        if(isset($_POST['admin_name'])
+            and ctype_alnum($_POST['admin_name'])
+            and isset($_POST['admin_password'])
+            and preg_match('/^(?=.*[a-zA-Z0-9]).{5,}$/', $_POST['admin_password']))
         {
             // Values are valid.
             return true;
         }
         else
         {
-            $this->setErrorMessage($this->language['STEP6_ERROR_COULD_NOT_CREATE_ADMIN']);
+            $error = $this->language['STEP6_ERROR_COULD_NOT_CREATE_ADMIN'];
+
+            if(isset($_POST['admin_password'])
+            and preg_match('/^([a-zA-Z0-9]).{5,}$/', $_POST['admin_password']))
+            {
+                $error .= 'Your password must be at least 5 characters long. You might use the chars [a-z], [A-Z] and [0-9].';
+            }
+
+            $this->setErrorMessage($error);
 
             // Values are not valid.
             return false;
