@@ -6,8 +6,7 @@ if (class_exists('PHP_CodeSniffer_Standards_AbstractPatternSniff', true) === fal
 /**
  * Verifies that control structures conform to their coding standards.
  *
- * This is an reversed and extended version of the Squiz ControlSignatureSniff.
- * Enforcing Brackets on new line => Allman-Style.
+ * Enforcing brackets on new line (Allman-Style).
  *
  * @author    Jens-Andre Koch
  * @copyright 2005-onwards
