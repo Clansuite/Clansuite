@@ -219,6 +219,14 @@ class Language implements ArrayAccess
         $this->language['STEP7_SENTENCE11'] = 'Bitte vergessen Sie nicht, das Verzeichnis "/installation" aus Sicherheitsgründen umzubenennen oder zu löschen.';
         $this->language['STEP7_SENTENCE12'] = 'Lösche das Unterverzeichnis "/installation" sofort.';
 
+        /* @todo http://trac.clansuite.com/ticket/7
+        $this->language['STEP7_SUPPORT_ENTRY_LEGEND'] = 'Eintrag in die Support-Datenbank';
+        $this->language['STEP7_SUPPORT_ENTRY_1'] = 'Ihnen wird nun die Möglichkeit gegeben, sich in unsere Support-Datenbank einzutragen.';
+        $this->language['STEP7_SUPPORT_ENTRY_2'] = 'Der Eintrag bewirkt die Erstellung eines Nutzerkontos im Clansuite Forum und im Clansuite Bugtracker.';
+        $this->language['STEP7_SUPPORT_ENTRY_3'] = 'Der Eintrag erfolgt freiwillig. Sie stimmen der Erfassung ihrer Daten ausdrücklich zu.';
+        $this->language['STEP7_SUPPORT_ENTRY_4'] = 'Möchten Sie den Clansuite Newsletter erhalten?';
+        */
+
         // GLOBAL
         # Buttons
         $this->language['NEXTSTEP'] = 'Weiter >>';

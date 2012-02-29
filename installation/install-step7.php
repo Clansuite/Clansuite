@@ -37,6 +37,18 @@ if (defined('IN_CS') === false)
                     <br />
                     <b><a href="?delete_installation"><?php echo $language['STEP7_SENTENCE12']; ?></a></b>
                 </fieldset>
+                <!-- @todo http://trac.clansuite.com/ticket/7
+                <br />
+                <fieldset class="error_red">
+                    <legend style="border: 1px solid rgba(0, 0, 0, 0.3); border-radius: 6px; background-color: #fff;">
+                        <strong>&nbsp;<?php echo $language['STEP7_SUPPORT_ENTRY_LEGEND']; ?>&nbsp;</strong>
+                    </legend>
+                    <?php echo $language['STEP7_SUPPORT_ENTRY_1']; ?>
+                    <?php echo $language['STEP7_SUPPORT_ENTRY_2']; ?>
+                    <?php echo $language['STEP7_SUPPORT_ENTRY_3']; ?>
+                    <?php echo $language['STEP7_SUPPORT_ENTRY_4']; ?>
+                </fieldset>
+                -->
                 </p>
                 <br />
                 <div id="content_footer">

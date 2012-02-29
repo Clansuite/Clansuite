@@ -215,6 +215,14 @@ class Language implements ArrayAccess
         $this->language['STEP7_SENTENCE11'] = 'Please don\'t forget to rename or remove the "/installation" directory for security reasons.';
         $this->language['STEP7_SENTENCE12'] = 'Delte the subfolder "/installation" immediately!';
 
+        /* @todo http://trac.clansuite.com/ticket/7
+        $this->language['STEP7_SUPPORT_ENTRY_LEGEND'] = '';
+        $this->language['STEP7_SUPPORT_ENTRY_1'] = '';
+        $this->language['STEP7_SUPPORT_ENTRY_2'] = '';
+        $this->language['STEP7_SUPPORT_ENTRY_3'] = '';
+        $this->language['STEP7_SUPPORT_ENTRY_4'] = '';
+        */
+
         // GLOBAL
         # Buttons
         $this->language['NEXTSTEP'] = 'Next >>';
