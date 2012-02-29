@@ -76,6 +76,8 @@ class Language implements ArrayAccess
         $this->language['STEP2_SETTING_EXPECTED_ON'] = 'on';
         $this->language['STEP2_SETTING_EXPECTED_OFF'] = 'off';
 
+        $this->language['STEP2_FIX_REQUIRED_SETTINGS_TOOLTIP'] = 'In order to proceed you need to fix the required settings.';
+
         # REQUIRED SETTINGS (in order)
         $this->language['PHP_VERSION'] = 'PHP version';
         $this->language['SESSION_FUNCTIONS'] = 'Session Functions';
@@ -123,13 +125,13 @@ class Language implements ArrayAccess
         $this->language['EXTENSION_MCRYPT'] = 'PHP Extension: MCRYPT';
         $this->language['EXTENSION_CALENDAR'] = 'PHP Extension: CALENDAR';
 
-        // STEP 3 - Licence
-        $this->language['STEP3_LICENCE'] = 'Step [3] GNU/GPL Licence';
+        // STEP 3 - License
+        $this->language['STEP3_LICENSE'] = 'Step [3] GNU/GPL License';
 
-        $this->language['STEP3_SENTENCE1'] = 'Realize, that Clansuite as an instance of Code is released under GNU/GPL Licence Version 2 or any later version! The GNU/GPL Licence which you find below, itself is copyrighted by the Free Software Foundation.';
+        $this->language['STEP3_SENTENCE1'] = 'Realize, that Clansuite as an instance of Code is released under GNU/GPL License Version 2 or any later version! The GNU/GPL License which you find below, itself is copyrighted by the Free Software Foundation.';
         $this->language['STEP3_REVIEW_THIRDPARTY'] = 'Please review the complete list of open-source licenses governing software included in Clansuite after finishing the installation process. They can be found in the THIRD-PARTY-LIBRARIES.txt file in the "/doc" directory.';
-        $this->language['STEP3_REVIEW_CLANSUITE'] = 'Please review the Licence Terms before installing Clansuite:';
-        $this->language['STEP3_MUST_AGREE'] = 'You must agree with the GNU/GPL Licence to install Clansuite.';
+        $this->language['STEP3_REVIEW_CLANSUITE'] = 'Please review the License Terms before installing Clansuite:';
+        $this->language['STEP3_MUST_AGREE'] = 'You must agree with the GNU/GPL License to install Clansuite.';
         $this->language['STEP3_CHECKBOX'] = 'I agree and have realized that Clansuite is released under the GNU/GPL License!';
 
         // STEP 4 - Database
@@ -154,6 +156,15 @@ class Language implements ArrayAccess
         $this->language['ERROR_WHILE_CREATING_DATABASE'] = 'Database database could not be created.';
         $this->language['ERROR_FILL_OUT_ALL_FIELDS'] = 'Please fill out all fields!';
 
+        $this->language['HOST_TOOLTIP'] = 'Enter the host of your database. Its often 127.0.0.1 or simply localhost.';
+        $this->language['DRIVER_TOOLTIP'] = 'Enter the type of your database.';
+        $this->language['NAME_TOOLTIP'] = 'Enter the name of your database.';
+        $this->language['CREATEDB_TOOLTIP'] = 'If the database user entered, has the permission to create the database, you might chose to create it.';
+        $this->language['USERNAME_TOOLTIP'] = 'Enter the username with write permissions to your database.';
+        $this->language['PASSWORD_TOOLTIP'] = 'Now enter the password for this user.';
+        $this->language['PREFIX_TOOLTIP'] = 'You might enter a prefix for the Clansuite database tables.';
+        $this->language['PREFIX_TOOLTIP'] .= ' Prefixing the tables allows you to avoid naming collisions, when using only one database.';
+
         // STEP 5 - Configuration
         $this->language['STEP5_CONFIG'] = 'Step [5] Configuration';
 
@@ -165,7 +176,12 @@ class Language implements ArrayAccess
         $this->language['STEP5_CONFIG_SITENAME'] = 'Name of Website';
         $this->language['STEP5_CONFIG_EMAILFROM'] = 'Email Adress of Website';
         $this->language['STEP5_CONFIG_USERACCOUNT_ENCRYPTION'] = 'Encryption';
-        $this->language['STEP5_CONFIG_TIMEZONE'] = 'Timezone';
+        $this->language['STEP5_CONFIG_GMTOFFSET'] = 'Timezone';
+
+        $this->language['STEP5_SITENAME_TOOLTIP'] = 'Please give your new website a name. The name will show up as the title in the browser.';
+        $this->language['STEP5_SYSTEM_EMAIL_TOOLTIP'] = 'Please enter an EMail-Address. Clansuite will then use this Email-Address for mailing the users of your website.';
+        $this->language['STEP5_ACCOUNT_CRYPT_TOOLTIP'] = 'Please select the type of security measurement for the passwords of user accounts. If your database gets into wrong hands, user passwords are not stored in plain text.';
+        $this->language['STEP5_GMTOFFSET_TOOLTIP'] = 'Please select your timezone. The timezone settings is essential for all date and time calculations.';
 
         // STEP 6 - Create Administrator
         $this->language['STEP6_ADMINUSER'] = 'Step [6] Create Administrator';
@@ -219,7 +235,7 @@ class Language implements ArrayAccess
         $this->language['MENU_HEADING'] = 'Installationsteps';
         $this->language['MENUSTEP1'] = '[1] Select Language';
         $this->language['MENUSTEP2'] = '[2] Systemcheck';
-        $this->language['MENUSTEP3'] = '[3] GPL Licence';
+        $this->language['MENUSTEP3'] = '[3] GPL License';
         $this->language['MENUSTEP4'] = '[4] Database';
         $this->language['MENUSTEP5'] = '[5] Configuration';
         $this->language['MENUSTEP6'] = '[6] Create Admin';

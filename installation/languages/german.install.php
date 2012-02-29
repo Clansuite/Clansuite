@@ -123,8 +123,8 @@ class Language implements ArrayAccess
         $this->language['EXTENSION_MCRYPT'] = 'PHP Erweiterung: MCRYPT';
         $this->language['EXTENSION_CALENDAR'] = 'PHP Erweiterung: CALENDAR';
 
-        // STEP 3 - Licence
-        $this->language['STEP3_LICENCE'] = 'Schritt [3] GNU/GPL Lizenz';
+        // STEP 3 - License
+        $this->language['STEP3_LICENSE'] = 'Schritt [3] GNU/GPL Lizenz';
 
         $this->language['STEP3_SENTENCE1'] = 'Bitte nehmen Sie zur Kenntnis, dass der Clansuite Quellcode unter der GNU/GPL Lizenz Version 2 und jeder späteren Version veröffentlicht wurde! Die Urheberin der nachfolgenden GNU/GPL Lizenz ist die Free Software Foundation.';
         $this->language['STEP3_REVIEW_THIRDPARTY'] = 'Bitte überprüfen Sie nach Abschluß der Installation die Lizenzbestimmungen der Fremdbibliotheken die von Clansuite eingesetzt werden. Sie sind in der Datei THIRD-PARTY-LIBRARIES.txt im Verzeichnis "/doc" zu finden.';
@@ -151,6 +151,15 @@ class Language implements ArrayAccess
         $this->language['PASSWORD'] = 'Datenbank Passwort';
         $this->language['PREFIX'] = 'Tabellen Präfix';
 
+        $this->language['HOST_TOOLTIP'] = 'Bitte geben Sie hier den Host ihrer Datenbank ein. Beispiele: 127.0.0.1 oder localhost.';
+        $this->language['DRIVER_TOOLTIP'] = 'Bitte wählen Sie den Typ Ihrer Datenbank aus.';
+        $this->language['NAME_TOOLTIP'] = 'Geben Sie hier den Namen der Datenbank ein, in die Clansuite installiert werden soll.';
+        $this->language['CREATEDB_TOOLTIP'] = 'Falls die Datenbank noch nicht existiert und der Nutzer die entsprechende Berechtigung hat, können Sie die Datenbank anlegen lassen.';
+        $this->language['USERNAME_TOOLTIP'] = 'Geben Sie hier einen schreibberechtigten Nutzernamen Ihrer Datenbank ein.';
+        $this->language['PASSWORD_TOOLTIP'] = 'Geben Sie hier das Passwort für den Benutzer der Datenbank ein.';
+        $this->language['PREFIX_TOOLTIP'] = 'Sie können ein Präfix für die Clansuite Datenbanktabellen festlegen.';
+        $this->language['PREFIX_TOOLTIP'] .= ' Wenn Sie eine Vielzahl von Tabellen in nur eine Datenbank installieren, dann können Sie durch Präfigierung der Tabellen Namenskollisionen vermeiden.';
+
         $this->language['ERROR_NO_DB_CONNECT'] = 'Es konnte keine Datenbankverbindung aufgebaut werden.';
         $this->language['ERROR_WHILE_CREATING_DATABASE'] = 'Die Datenbank konnte nicht erstellt werden.';
         $this->language['ERROR_FILL_OUT_ALL_FIELDS'] = 'Bitte füllen Sie alle Felder aus!';
@@ -166,7 +175,12 @@ class Language implements ArrayAccess
         $this->language['STEP5_CONFIG_SITENAME'] = 'Name der Website';
         $this->language['STEP5_CONFIG_EMAILFROM'] = 'Systemmail';
         $this->language['STEP5_CONFIG_USERACCOUNT_ENCRYPTION'] = 'Verschlüsselung';
-        $this->language['STEP5_CONFIG_TIMEZONE'] = 'Zeitzone';
+        $this->language['STEP5_CONFIG_GMTOFFSET'] = 'Zeitzone';
+
+        $this->language['STEP5_SITENAME_TOOLTIP'] = 'Bitte geben Sie ihrer Webseite einen Namen. Er wird in der Titelzeile des Browsers erscheinen.';
+        $this->language['STEP5_SYSTEM_EMAIL_TOOLTIP'] = 'Bitte geben sie eine EMail-Adresse an. Clansuite wird diese Email-Adresse nutzen, um Mails an Nutzer zu verschicken.';
+        $this->language['STEP5_ACCOUNT_CRYPT_TOOLTIP'] = 'Bitte wählen Sie die das Sicherungsverfahren für die Passwörter der Nutzerkonten. Falls ihre Datenbank in falsche Hände gelangt, sind dann keine Passworter im Klartext enthalten.';
+        $this->language['STEP5_GMTOFFSET_TOOLTIP'] = 'Bitte wählen Sie ihre Zeitzone. Diese Einstellung ist für alle Datums- und Zeitberechnungen wesentlich.';
 
         // STEP 6 - Create Administrator
         $this->language['STEP6_ADMINUSER'] = 'Schritt [6] Administrator anlegen';
@@ -183,6 +197,11 @@ class Language implements ArrayAccess
         $this->language['STEP6_ADMIN_EMAIL']    = 'E-Mail Adresse';
 
         $this->language['STEP6_ERROR_COULD_NOT_CREATE_ADMIN'] = 'Benutzerkonto für den Administrator konnte nicht erstellt werden.';
+
+        $this->language['STEP6_ADMIN_NAME_TOOLTIP']     = 'Legen Sie bitte den Namen des Administrator Nutzerkontos fest. Mit diesem Namen können Sie sich später einloggen.';
+        $this->language['STEP6_ADMIN_PASSWORD_TOOLTIP'] = 'Bitte setzen Sie ein Passwort für das Nutzerkonto des Administrators.';
+        $this->language['STEP6_ADMIN_LANGUAGE_TOOLTIP'] = 'Bitte wählen Sie die Sprache des Nutzerkontos.';
+        $this->language['STEP6_ADMIN_EMAIL_TOOLTIP']    = 'Bitte geben Sie die E-Mail Adresse für das Nutzerkonto des Administrators an. Mit dieser Email können Sie sich später einloggen.';
 
         // STEP 7 - Abschluss
         $this->language['STEP7_FINISH'] = 'Schritt [7] Abschluss';

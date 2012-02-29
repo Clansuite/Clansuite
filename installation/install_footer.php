@@ -11,8 +11,8 @@ if (defined('IN_CS') === false)
             <br />
             <?php
             date_default_timezone_set('Europe/Berlin');
-            $webinstaller_version = 'Version 0.4 - '. date('l, jS F Y',getlastmod()); ?>
-            Clansuite Installation <?php echo $webinstaller_version; ?>
+            $version = CLANSUITE_VERSION . ' - ' . date('l, jS F Y', getlastmod()); ?>
+            Clansuite Installation v<?php echo $version; ?>
             <br />
             SVN: $Rev$ $Author$
             <br />
@@ -44,8 +44,8 @@ if (defined('IN_CS') === false)
                     #note by vain: this fixes a 2pixel problem while displaying the progress bar at 100percent:P
                     if ($_SESSION['step'] == 7 ) { $_SESSION['progress'] = $_SESSION['progress'] - 2; }
                     ?>
-                    <div style="border: 1px solid white; height: 5px ! important; width: <?php echo $_SESSION['progress']; ?>px; background-color: rgb(181, 0, 22);"/>
-                </div>
+                  <div style="border: 1px solid white; height: 5px ! important; width: <?php echo $_SESSION['progress']; ?>px; background-color: rgb(181, 0, 22);"></div>
+              </div>
             </li>
 
             <!-- Change Language -->
@@ -80,7 +80,7 @@ if (defined('IN_CS') === false)
                 <!-- Start Live Support Javascript -->
                 <div style="text-align:center;width:120px;">
                    <a href="javascript:void(window.open('http://support.clansuite.com/livezilla.php?code=T2ZmaXppZWxsZSBXZWJzZWl0ZSBjbGFuc3VpdGUuY29t&amp;reset=true','','width=600,height=600,left=0,top=0,resizable=yes,menubar=no,location=yes,status=yes,scrollbars=yes'))">
-                    <img src="http://support.clansuite.com/image.php?id=05" width="120" height="30" border="0" alt="LiveZilla Live Help" /></a>
+                    <img src="http://support.clansuite.com/image.php?id=05" width="120" height="30" alt="LiveZilla Live Help" /></a>
                     <noscript>
                         <div>
                          <a href="http://support.clansuite.com/livezilla.php?code=T2ZmaXppZWxsZSBXZWJzZWl0ZSBjbGFuc3VpdGUuY29t&amp;reset=true" target="_blank">Start Live Help Chat</a>
@@ -117,10 +117,18 @@ if (defined('IN_CS') === false)
             <li><a href="http://clansuite.com/banner/" target="_blank"><img src="http://clansuite.com/banner/clansuite-crown-banner-88x31.png" alt="Clansuite 80x31 LOGO" /></a></li>
 
        </ul>
-   
-    </div><!-- rightsidebar ENDE -->
-</div><!-- rightpage ENDE -->
-
-</div><!-- Wrapper ENDE -->
+    </div>
+</div>
+</div>
+<script>
+$('input[title]').poshytip({
+    className: 'tip-yellowsimple',
+    showOn: 'focus',
+    alignTo: 'target',
+    alignX: 'inner-left',
+    offsetX: 0,
+    offsetY: 5
+});
+</script>
 </body>
 </html>

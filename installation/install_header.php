@@ -10,7 +10,6 @@ if (defined('IN_CS') === false)
 <head>
     <meta charset="utf-8">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-    <meta http-equiv="content-language" content="en,de" />
     <meta name="robots" content="index,follow" />
     <link rel="shortcut icon" href="images/Clansuite-Favicon-16.ico" />
     <link rel="stylesheet" type="text/css" href="installation.css" />

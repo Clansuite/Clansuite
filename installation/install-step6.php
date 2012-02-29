@@ -11,10 +11,9 @@ if (defined('IN_CS') === false)
 <script>
     function hashLoginPassword(theForm)
     {
-        if( (theForm.admin_password.value  != '') )
-        {
-                theForm.admin_password.value  = SHA1(theForm.admin_password.value);
-                return true;
+        if((theForm.admin_password.value != '')){
+          theForm.admin_password.value = SHA1(theForm.admin_password.value);
+          return true;
         }
     }
 </script>
@@ -34,19 +33,31 @@ if (defined('IN_CS') === false)
                     <ol class="formular">
                         <li>
                             <label class="formularleft" for="admin_name"><?php echo $language['STEP6_ADMIN_NAME']; ?></label>
-                            <input class="formularright" type="text" id="admin_name" name="admin_name" value="<?php echo $values['admin_name']; ?>" />
+                            <input class="formularright" type="text" id="admin_name"
+                                   name="admin_name"
+                                   title="<?php echo $language['STEP6_ADMIN_NAME_TOOLTIP']; ?>"
+                                   value="<?php echo $values['admin_name']; ?>" />
                         </li>
                         <li>
                             <label class="formularleft" for="admin_password"><?php echo $language['STEP6_ADMIN_PASSWORD']; ?></label>
-                            <input class="formularright" type="password" id="admin_password" autocomplete="off" name="admin_password" value="<?php echo $values['admin_password']; ?>" />
+                            <input class="formularright" type="password" id="admin_password"
+                                   autocomplete="off"
+                                   name="admin_password"
+                                   title="<?php echo $language['STEP6_ADMIN_PASSWORD_TOOLTIP']; ?>"
+                                   value="<?php echo $values['admin_password']; ?>" />
                         </li>
                         <li>
                             <label class="formularleft" for="admin_email"><?php echo $language['STEP6_ADMIN_EMAIL']; ?></label>
-                            <input class="formularright" type="text" id="admin_email" name="admin_email" value="<?php echo $values['admin_email']; ?>" />
+                            <input class="formularright" type="text" id="admin_email"
+                                   name="admin_email"
+                                   title="<?php echo $language['STEP6_ADMIN_EMAIL_TOOLTIP']; ?>"
+                                   value="<?php echo $values['admin_email']; ?>" />
                         </li>
                         <li>
                             <label class="formularleft" for="admin_language"><?php echo $language['STEP6_ADMIN_LANGUAGE']; ?></label>
-                             <select class="formularright" id="admin_language" name="admin_language" style="width: 150px"
+                             <select class="formularright" id="admin_language"
+                                     title="<?php echo $language['STEP6_ADMIN_LANGUAGE_TOOLTIP']; ?>"
+                                     name="admin_language" style="width: 150px"
                             <?php
                                 echo '<option value="">- Select Language -</option>';
                                 foreach (new DirectoryIterator('./languages/') as $file) {

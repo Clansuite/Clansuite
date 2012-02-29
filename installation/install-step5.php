@@ -20,15 +20,22 @@ if (defined('IN_CS') === false)
                     <ol class="formular">
                         <li>
                             <label class="formularleft" for="page_title"><?php echo $language['STEP5_CONFIG_SITENAME']; ?></label>
-                            <input class="formularright" type="text" id="page_title" name="config[template][pagetitle]" value="<?php echo $values['pagetitle']; ?>" />
+                            <input class="formularright" type="text" id="page_title"
+                                   name="config[template][pagetitle]"
+                                   title="<?php echo $language['STEP5_SITENAME_TOOLTIP']; ?>"
+                                   value="<?php echo $values['pagetitle']; ?>" />
                         </li>
                         <li>
                             <label class="formularleft" for="from"><?php echo $language['STEP5_CONFIG_EMAILFROM']; ?></label>
-                            <input class="formularright" type="text" id="from" name="config[email][from]" value="<?php echo $values['from']; ?>" />
+                            <input class="formularright" type="text" id="from"
+                                   name="config[email][from]"
+                                   title="<?php echo $language['STEP5_SYSTEM_EMAIL_TOOLTIP']; ?>"
+                                   value="<?php echo $values['from']; ?>" />
                         </li>
                         <li>
                             <label class="formularleft" for="encrytion"><?php echo $language['STEP5_CONFIG_USERACCOUNT_ENCRYPTION']; ?></label>
-                            <select class="formularright" id="encryption" name="encryption">
+                            <select class="formularright" id="encryption" name="encryption"
+                                    title="<?php echo $language['STEP5_ACCOUNT_CRYPT_TOOLTIP']; ?>">
                                 <?php # SHA1 ?>
                                 <option value="sha1"<?php echo ($values['encryption']=='sha1') ? ' selected="selected"' : ''; ?>>SHA1</option>
                                 <?php # HASH Options ?>
@@ -47,9 +54,11 @@ if (defined('IN_CS') === false)
                             </select>
                         </li>
                         <li>
-                            <?php # timezone detection fucntion ?>
-                            <label class="formularleft" for="timezone"><?php echo $language['STEP5_CONFIG_TIMEZONE']; ?></label>
-                            <select class="formularright" id="timezone" name="config[language][timezone]" class="form">
+                            <?php # timezone selection ?>
+                            <label class="formularleft" for="timezone"><?php echo $language['STEP5_CONFIG_GMTOFFSET']; ?></label>
+                            <select class="formularright" id="timezone"
+                                    name="config[language][gmtoffset]" class="form"
+                                    title="<?php echo $language['STEP5_GMTOFFSET_TOOLTIP']; ?>">
                                 <option value="-36000">UTC -10 Hawaii</option>
                                 <option value="-32400">UTC -9 Alaska</option>
                                 <option value="-28800">UTC -8 Pacific (USA, Canada)</option>

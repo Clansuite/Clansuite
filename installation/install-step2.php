@@ -471,7 +471,9 @@ if (defined('IN_CS') === false)
                                 if($button_inactive === true)
                                 {
                                 ?>
-                                    <input type="submit" value="<?php echo $language['NEXTSTEP']; ?>" disabled="disabled" class="ButtonGrey" name="step_forward" tabindex="1" />
+                                    <input type="submit" value="<?php echo $language['NEXTSTEP']; ?>"
+                                           title="<?php echo $language['STEP2_FIX_REQUIRED_SETTINGS_TOOLTIP']; ?>"
+                                           disabled="disabled" class="ButtonGrey" name="step_forward" tabindex="1" />
                                 <?php
                                 }
                                 else
@@ -488,7 +490,7 @@ if (defined('IN_CS') === false)
                             </div>
                         </form>
                     </div>
-                </div> 
+                </div>
             </div>
         </div>
     </div>

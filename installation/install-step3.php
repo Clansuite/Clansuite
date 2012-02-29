@@ -10,14 +10,14 @@ if (defined('IN_CS') === false)
             <div class="accordion">
                 <h2 class="headerstyle">
                     <img src="images/64px-Application-certificate.svg.png" border="0" style="vertical-align:middle" alt="installstep image" />
-                    <?php echo $language['STEP3_LICENCE']; ?>
+                    <?php echo $language['STEP3_LICENSE']; ?>
                 </h2>
                 <p><?php echo $language['STEP3_SENTENCE1']; ?></p>
                 <p><?php echo $language['STEP3_REVIEW_THIRDPARTY']; ?></p>
                 <p><?php echo $language['STEP3_REVIEW_CLANSUITE']; ?></p>
-                <!-- IFRAME WITH LICENCE -->
+                <!-- IFRAME WITH LICENSE -->
                 <iframe scrolling="auto" frameborder="0" marginwidth="15" class="license" src="languages/<?php echo $_SESSION['lang']; ?>.gpl.html"></iframe>
-                <!-- CHECKBOX -> READ LICENCE -->
+                <!-- CHECKBOX -> READ LICENSE -->
                 <div class="">
                     <p><?php echo $language['STEP3_MUST_AGREE']; ?></p>
                     <label for="agreecheck">

@@ -2,12 +2,12 @@
                          C  L  A  N  S  U  I  T  E
 
 
-    Clansuite Installation - Version 0.2
-    ------------------------------------
+    Clansuite Installation
+    ----------------------
 
-    Thanks for downloading Clansuite.
+    Thanks for downloading "Clansuite - just an eSports CMS".
 
-    This Installation application will guide you in several steps through the installation of Clansuite.
+    This installation application will guide you in several steps through the installation of Clansuite.
 
      Requirements
 
