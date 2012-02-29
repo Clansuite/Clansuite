@@ -1002,8 +1002,16 @@ class Clansuite_Installation_Step5 extends Clansuite_Installation_Page
         }
         else
         {
+            $error = $this->language['ERROR_FILL_OUT_ALL_FIELDS'];
+
+            if(isset($_POST['config']['email']['from'])
+            and !filter_var($_POST['config']['email']['from'], FILTER_VALIDATE_EMAIL))
+            {
+                $error .= NL. ' Please enter a valid email address.';
+            }
+
             // some input fields are empty
-            $this->setErrorMessage($this->language['ERROR_FILL_OUT_ALL_FIELDS']);
+            $this->setErrorMessage($error);
 
             // Values are not valid.
             return false;
