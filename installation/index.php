@@ -612,42 +612,50 @@ class Clansuite_Installation_Helper
 
     public static function getDoctrineEntityManager($connectionParams = null)
     {
-        if(is_array($connectionParams) === false)
+        try
         {
-            # Read/Write Handler for config files
-            include ROOT . 'core/config/ini.config.php';
+            if(is_array($connectionParams) === false)
+            {
+                # Read/Write Handler for config files
+                include ROOT . 'core/config/ini.config.php';
 
-            # fetch the dsn/connection config
-            $clansuite_config = Clansuite_Config_INI::readConfig(ROOT . 'configuration/clansuite.config.php');
-            $connectionParams = $clansuite_config['database'];
+                # fetch the dsn/connection config
+                $clansuite_config = Clansuite_Config_INI::readConfig(ROOT . 'configuration/clansuite.config.php');
+                $connectionParams = $clansuite_config['database'];
+            }
+
+            # connect
+            $config = new \Doctrine\DBAL\Configuration();
+            $connection = \Doctrine\DBAL\DriverManager::getConnection($connectionParams, $config);
+            $connection->setCharset('UTF8');
+
+            # get Event and Config
+            $event = $connection->getEventManager();
+            $config = new \Doctrine\ORM\Configuration();
+
+            # setup Cache
+            $cache = new \Doctrine\Common\Cache\ArrayCache();
+            $config->setMetadataCacheImpl($cache);
+
+            # setup Proxy Dir
+            $config->setProxyDir(realpath(ROOT . 'doctrine'));
+            $config->setProxyNamespace('Proxies');
+
+            # setup Annotation Driver
+            $driverImpl = $config->newDefaultAnnotationDriver(
+                Clansuite_Installation_Helper::getModelPathsForAllModules());
+            $config->setMetadataDriverImpl($driverImpl);
+
+            # finally: instantiate EntityManager
+            $entityManager = \Doctrine\ORM\EntityManager::create($connection, $config, $event);
+
+            return $entityManager;
         }
-
-        # connect
-        $config = new \Doctrine\DBAL\Configuration();
-        $connection = \Doctrine\DBAL\DriverManager::getConnection($connectionParams, $config);
-        $connection->setCharset('UTF8');
-
-        # get Event and Config
-        $event = $connection->getEventManager();
-        $config = new \Doctrine\ORM\Configuration();
-
-        # setup Cache
-        $cache = new \Doctrine\Common\Cache\ArrayCache();
-        $config->setMetadataCacheImpl($cache);
-
-        # setup Proxy Dir
-        $config->setProxyDir(realpath(ROOT . 'doctrine'));
-        $config->setProxyNamespace('Proxies');
-
-        # setup Annotation Driver
-        $driverImpl = $config->newDefaultAnnotationDriver(
-            Clansuite_Installation_Helper::getModelPathsForAllModules());
-        $config->setMetadataDriverImpl($driverImpl);
-
-        # finally: instantiate EntityManager
-        $entityManager = \Doctrine\ORM\EntityManager::create($connection, $config, $event);
-
-        return $entityManager;
+        catch(Exception $e)
+        {
+            $msg = 'The initialization of Doctrine2 failed!' . NL . NL . 'Reason: ' . $e->getMessage();
+            throw new Clansuite_Installation_Exception($msg);
+        }
     }
 }
 
@@ -777,6 +785,8 @@ class Clansuite_Installation_Step4 extends Clansuite_Installation_Page
 
     public function validateFormValues()
     {
+        $error = '';
+
         /**
          *  Valid Database Settings.
          *
@@ -804,7 +814,7 @@ class Clansuite_Installation_Step4 extends Clansuite_Installation_Page
                 $error .= '<p> Forbidden are database names containing only numbers and names like mysql-database commands.</p>';
             }
 
-            if(ctype_alnum($_POST['config']['database']['user']))
+            if(!ctype_alnum($_POST['config']['database']['user']))
             {
                 $error .= '<p>The database username might only contain alphanumeric characters.';
             }
@@ -1008,7 +1018,7 @@ class Clansuite_Installation_Step5 extends Clansuite_Installation_Page
                 $error .= NL. ' Please enter a valid email address.';
             }
 
-            if(!ctype_alnum($_POST['config']['template']['pagetitle']))
+            if(preg_match('!/^[A-Za-z0-9-_\",\'\s]+$/', $_POST['config']['template']['pagetitle']))
             {
                 $error .= NL. ' Please enter a pagetitle containing only alphanumeric characters.';
             }
@@ -1070,6 +1080,8 @@ class Clansuite_Installation_Step6 extends Clansuite_Installation_Page
 
     public function validateFormValues()
     {
+        $error = '';
+
         if(isset($_POST['admin_name']) and isset($_POST['admin_password']))
         {
             if(preg_match('/^([a-zA-Z0-9]).{5,}$/', $_POST['admin_password']))
@@ -1077,9 +1089,9 @@ class Clansuite_Installation_Step6 extends Clansuite_Installation_Page
                 $error .= 'Your password must be at least 5 characters long. You might use the chars [a-z], [A-Z] and [0-9].';
             }
 
-            if(ctype_alnum($_POST['admin_name']))
+            if(!ctype_alnum($_POST['admin_name']))
             {
-                $error .= '<p>The database username might only contain alphanumeric characters.';
+                $error .= '<p>The admin username might only contain alphanumeric characters.';
             }
 
             if($error != '')
@@ -1193,27 +1205,25 @@ class Clansuite_Installation_Exception extends Exception
         $html = '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
                            "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
                         <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">';
-        $html .= '<head><title>Clansuite Installation - Error</title>';
+        $html .= '<head><title>Clansuite Installation Error</title>';
         $html .= '<link rel="stylesheet" href="../themes/core/css/error.css" type="text/css" />';
         $html .= '</head><body>';
 
         /**
          * Fieldset for Exception Message
-         *
-         * You might set the following colour attributes (error_red, error_orange, error_beige) as defined in core/error.css.
          */
-        $html .= '<fieldset class="error_beige">';
+        $html .= '<fieldset class="error_yellow">';
         $html .= '<div style="float:left; padding: 15px;">';
         $html .= '<img src="images/Clansuite-Toolbar-Icon-64-error.png" style="border: 2px groove #000000;" alt="Clansuite Error Icon" /></div>';
         $html .= '<legend>Clansuite Installation Error</legend>';
-        $html .= '<p><strong>' . $this->message . '</strong>';
+        $html .= '<p><strong>' . $this->getMessage() . '</strong>';
 
         /**
          * Display a table with all pieces of information of the exception.
          */
-        if(DEBUG === true)
+        if(DEBUG == true)
         {
-            $html .= '<hr><table>';
+            $html .= '<table>';
             $html .= '<tr><td><strong>Errorcode</strong></td><td>' . $this->getCode() . '</td></tr>';
             $html .= '<tr><td><strong>Message</strong></td><td>' . $this->getMessage() . '</td></tr>';
             $html .= '<tr><td><strong>Pfad</strong></td><td>' . dirname($this->getFile()) . '</td></tr>';
@@ -1227,7 +1237,7 @@ class Clansuite_Installation_Exception extends Exception
         /**
          * Fieldset for Help Message
          */
-        $html .= '<fieldset class="error_beige">';
+        $html .= '<fieldset class="error_yellow">';
         $html .= '<legend>Help</legend>';
         $html .= '<ol>';
         $html .= '<li>You might use <a href="phpinfo.php">phpinfo()</a> to check your serversettings.</li>';
@@ -1244,7 +1254,8 @@ class Clansuite_Installation_Exception extends Exception
         $html .= '</p></fieldset>';
         $html .= '</body></html>';
 
-        return $html;
+        # stfu...
+        exit($html);
     }
 }
 ?>
