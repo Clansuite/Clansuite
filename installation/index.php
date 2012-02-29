@@ -797,8 +797,7 @@ class Clansuite_Installation_Step4 extends Clansuite_Installation_Page
         else
         {
             // Setup Error Message
-            $error = 'The provided database settings are not valid! ';
-            $error .= $this->language['ERROR_FILL_OUT_ALL_FIELDS'];
+            $error = $this->language['ERROR_FILL_OUT_ALL_FIELDS'];
 
             $this->setErrorMessage($error);
 
@@ -918,7 +917,7 @@ class Clansuite_Installation_Step4 extends Clansuite_Installation_Page
             // force return
             $this->setStep(4);
 
-            $error = $language['ERROR_NO_DB_CONNECT'] . NL . $e->getMessage();
+            $error = $this->language['ERROR_NO_DB_CONNECT'] . NL . $e->getMessage();
 
             $this->setErrorMessage($error);
         }
@@ -954,7 +953,7 @@ class Clansuite_Installation_Step4 extends Clansuite_Installation_Page
             // force return
             $this->setStep(4);
 
-            $error = $language['ERROR_NO_DB_CONNECT'] . NL . $e->getMessage();
+            $error = $this->language['ERROR_NO_DB_CONNECT'] . NL . $e->getMessage();
             $error .= NL . NL . $html;
 
             $this->setErrorMessage($error);
