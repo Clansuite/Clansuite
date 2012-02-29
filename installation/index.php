@@ -783,21 +783,11 @@ class Clansuite_Installation_Step4 extends Clansuite_Installation_Page
          * Ensure the database settings incomming from input-fields are valid.
          */
         if(!empty($_POST['config']['database']['dbname'])
-            and !preg_match("![\"'=*{}/\\?:<>]+!i", $_POST['config']['database']['dbname'])
             and !empty($_POST['config']['database']['host'])
             and !empty($_POST['config']['database']['driver'])
             and !empty($_POST['config']['database']['user'])
-            and ctype_alnum($_POST['config']['database']['user'])
             and isset($_POST['config']['database']['password']))
         {
-            // Values are valid!
-            return true;
-        }
-        else
-        {
-            // Setup Error Message
-            $error = $this->language['ERROR_FILL_OUT_ALL_FIELDS'];
-
             /**
              * This appends the error message with more pieces of information,
              * in case the validity of the "database name" FAILED.
@@ -806,8 +796,7 @@ class Clansuite_Installation_Step4 extends Clansuite_Installation_Page
              * Forbidden are database names containing
              * only numbers and names like mysql-database commands.
              */
-            if(isset($_POST['config']['database']['dbname'])
-                    and preg_match("![\"'=*{}/\\?:<>]+!i", $_POST['config']['database']['dbname']))
+            if(preg_match("![\"'=*{}/\\?:<>]+!i", $_POST['config']['database']['dbname']))
             {
                 $error .= '<p>The database name you have entered ("' . $_POST['config']['database']['dbname'] . '") is invalid.</p>';
                 $error .= '<p> It can only contain alphanumeric characters, periods or underscores.';
@@ -815,7 +804,24 @@ class Clansuite_Installation_Step4 extends Clansuite_Installation_Page
                 $error .= '<p> Forbidden are database names containing only numbers and names like mysql-database commands.</p>';
             }
 
-            $this->setErrorMessage($error);
+            if(ctype_alnum($_POST['config']['database']['user']))
+            {
+                $error .= '<p>The database username might only contain alphanumeric characters.';
+            }
+
+            if($error != '')
+            {
+               $this->setErrorMessage($error);
+               return false;
+            }
+
+            // Values are valid!
+            return true;
+        }
+        else
+        {
+            // Setup Error Message
+            $this->setErrorMessage($this->language['ERROR_FILL_OUT_ALL_FIELDS']);
 
             // Values are not valid.
             return false;
@@ -990,25 +996,35 @@ class Clansuite_Installation_Step5 extends Clansuite_Installation_Page
 
     public function validateFormValues()
     {
+        $error = '';
+
         # check if input-fields are filled
         if(isset($_POST['config']['template']['pagetitle'])
-            and ctype_alnum($_POST['config']['template']['pagetitle'])
             and isset($_POST['config']['email']['from'])
-            and filter_var($_POST['config']['email']['from'], FILTER_VALIDATE_EMAIL)
             and isset($_POST['config']['language']['gmtoffset']))
         {
+            if(!filter_var($_POST['config']['email']['from'], FILTER_VALIDATE_EMAIL))
+            {
+                $error .= NL. ' Please enter a valid email address.';
+            }
+
+            if(!ctype_alnum($_POST['config']['template']['pagetitle']))
+            {
+                $error .= NL. ' Please enter a pagetitle containing only alphanumeric characters.';
+            }
+
+            if($error != '')
+            {
+               $this->setErrorMessage($error);
+               return false;
+            }
+
             // Values are valid.
             return true;
         }
         else
         {
             $error = $this->language['ERROR_FILL_OUT_ALL_FIELDS'];
-
-            if(isset($_POST['config']['email']['from'])
-            and !filter_var($_POST['config']['email']['from'], FILTER_VALIDATE_EMAIL))
-            {
-                $error .= NL. ' Please enter a valid email address.';
-            }
 
             // some input fields are empty
             $this->setErrorMessage($error);
@@ -1054,23 +1070,33 @@ class Clansuite_Installation_Step6 extends Clansuite_Installation_Page
 
     public function validateFormValues()
     {
-        if(isset($_POST['admin_name'])
-            and ctype_alnum($_POST['admin_name'])
-            and isset($_POST['admin_password'])
-            and preg_match('/^(?=.*[a-zA-Z0-9]).{5,}$/', $_POST['admin_password']))
+        if(isset($_POST['admin_name']) and isset($_POST['admin_password']))
         {
+            if(preg_match('/^([a-zA-Z0-9]).{5,}$/', $_POST['admin_password']))
+            {
+                $error .= 'Your password must be at least 5 characters long. You might use the chars [a-z], [A-Z] and [0-9].';
+            }
+
+            if(ctype_alnum($_POST['admin_name']))
+            {
+                $error .= '<p>The database username might only contain alphanumeric characters.';
+            }
+
+            if($error != '')
+            {
+               $this->setErrorMessage($error);
+
+                // Values are not valid.
+               return false;
+            }
+
+
             // Values are valid.
             return true;
         }
         else
         {
             $error = $this->language['STEP6_ERROR_COULD_NOT_CREATE_ADMIN'];
-
-            if(isset($_POST['admin_password'])
-            and preg_match('/^([a-zA-Z0-9]).{5,}$/', $_POST['admin_password']))
-            {
-                $error .= 'Your password must be at least 5 characters long. You might use the chars [a-z], [A-Z] and [0-9].';
-            }
 
             $this->setErrorMessage($error);
 
