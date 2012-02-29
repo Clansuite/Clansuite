@@ -783,7 +783,7 @@ class Clansuite_Installation_Step4 extends Clansuite_Installation_Page
          * Ensure the database settings incomming from input-fields are valid.
          */
         if(!empty($_POST['config']['database']['dbname'])
-            and !preg_match("![\"'*{}/\\?:<>]+!i", $_POST['config']['database']['dbname'])
+            and !preg_match("![\"'=*{}/\\?:<>]+!i", $_POST['config']['database']['dbname'])
             and !empty($_POST['config']['database']['host'])
             and !empty($_POST['config']['database']['driver'])
             and !empty($_POST['config']['database']['user'])
@@ -807,7 +807,7 @@ class Clansuite_Installation_Step4 extends Clansuite_Installation_Page
              * only numbers and names like mysql-database commands.
              */
             if(isset($_POST['config']['database']['dbname'])
-                    and preg_match("![\"'*{}/\\?:<>]+!i", $_POST['config']['database']['dbname']))
+                    and preg_match("![\"'=*{}/\\?:<>]+!i", $_POST['config']['database']['dbname']))
             {
                 $error .= '<p>The database name you have entered ("' . $_POST['config']['database']['dbname'] . '") is invalid.</p>';
                 $error .= '<p> It can only contain alphanumeric characters, periods or underscores.';
