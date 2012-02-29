@@ -783,13 +783,12 @@ class Clansuite_Installation_Step4 extends Clansuite_Installation_Page
          * Ensure the database settings incomming from input-fields are valid.
          */
         if(!empty($_POST['config']['database']['dbname'])
-                and ctype_alpha($_POST['config']['database']['dbname'])
-                and preg_match('#^[a-zA-Z0-9]{1,}[a-zA-Z0-9_\-@]+[a-zA-Z0-9_\-@]*$#', $_POST['config']['database']['dbname'])
-                and !empty($_POST['config']['database']['host'])
-                and !empty($_POST['config']['database']['driver'])
-                and !empty($_POST['config']['database']['user'])
-                and ctype_alnum($_POST['config']['database']['user'])
-                and isset($_POST['config']['database']['password']))
+            and !preg_match("![\"'*{}/\\?:<>]+!i", $_POST['config']['database']['dbname'])
+            and !empty($_POST['config']['database']['host'])
+            and !empty($_POST['config']['database']['driver'])
+            and !empty($_POST['config']['database']['user'])
+            and ctype_alnum($_POST['config']['database']['user'])
+            and isset($_POST['config']['database']['password']))
         {
             // Values are valid!
             return true;
@@ -799,26 +798,24 @@ class Clansuite_Installation_Step4 extends Clansuite_Installation_Page
             // Setup Error Message
             $error = $this->language['ERROR_FILL_OUT_ALL_FIELDS'];
 
-            $this->setErrorMessage($error);
-
             /**
-             * This adjusts the error message,
+             * This appends the error message with more pieces of information,
              * in case the validity of the "database name" FAILED.
              *
              * The database name has serious restrictions:
              * Forbidden are database names containing
              * only numbers and names like mysql-database commands.
              */
-            if(isset($_POST['config']['database']['name'])
-                    and preg_match('#^[a-zA-Z0-9]{1,}[a-zA-Z0-9_\-@]+[a-zA-Z0-9_\-@]*$#', $_POST['config']['database']['name']))
+            if(isset($_POST['config']['database']['dbname'])
+                    and preg_match("![\"'*{}/\\?:<>]+!i", $_POST['config']['database']['dbname']))
             {
-                $error .= '<p>The database name you have entered ("' . $_POST['config']['database']['name'] . '") is invalid.</p>';
+                $error .= '<p>The database name you have entered ("' . $_POST['config']['database']['dbname'] . '") is invalid.</p>';
                 $error .= '<p> It can only contain alphanumeric characters, periods or underscores.';
-                $error .= ' You might use chars printed within brackets: [A-Z], [a-z], [0-9], [-_].</p>';
+                $error .= ' You might only use chars printed within brackets: [A-Z], [a-z], [0-9], [-_].</p>';
                 $error .= '<p> Forbidden are database names containing only numbers and names like mysql-database commands.</p>';
-
-                $this->setErrorMessage($error);
             }
+
+            $this->setErrorMessage($error);
 
             // Values are not valid.
             return false;
