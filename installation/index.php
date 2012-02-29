@@ -1018,7 +1018,7 @@ class Clansuite_Installation_Step5 extends Clansuite_Installation_Page
                 $error .= NL. ' Please enter a valid email address.';
             }
 
-            if(preg_match('!/^[A-Za-z0-9-_\",\'\s]+$/', $_POST['config']['template']['pagetitle']))
+            if(preg_match('#!/^[A-Za-z0-9-_\",\'\s]+$/#', $_POST['config']['template']['pagetitle']))
             {
                 $error .= NL. ' Please enter a pagetitle containing only alphanumeric characters.';
             }
@@ -1084,11 +1084,6 @@ class Clansuite_Installation_Step6 extends Clansuite_Installation_Page
 
         if(isset($_POST['admin_name']) and isset($_POST['admin_password']))
         {
-            if(preg_match('/^([a-zA-Z0-9]).{5,}$/', $_POST['admin_password']))
-            {
-                $error .= 'Your password must be at least 5 characters long. You might use the chars [a-z], [A-Z] and [0-9].';
-            }
-
             if(!ctype_alnum($_POST['admin_name']))
             {
                 $error .= '<p>The admin username might only contain alphanumeric characters.';
