@@ -1014,7 +1014,7 @@ class Clansuite_Installation_Step5 extends Clansuite_Installation_Page
         $config_array = $_POST['config'];
 
         // transform the GMTOFFSET (3600 = GMT+1) into a timezone name, like "Europe/Berlin".
-        $config_array['language']['timezone'] = (string) timezone_name_from_abbr('', $_POST['config']['language']['timezone'], 0);
+        $config_array['language']['timezone'] = (string) timezone_name_from_abbr('', $_POST['config']['language']['gmtoffset'], 0);
 
         # write Settings to clansuite.config.php
         if(false === Clansuite_Installation_Helper::write_config_settings($config_array))
