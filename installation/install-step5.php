@@ -12,6 +12,11 @@ if (defined('IN_CS') === false)
                     <img src="images/64px-Preferences-system.svg.png" border="0" style="vertical-align:middle" alt="installstep image" />
                     <?php echo $language['STEP5_CONFIG']; ?>
                 </h2>
+                <?php if (!empty($error)) { ?>
+                <div class="error_red">
+                    <strong><?php echo $error ?></strong>
+                </div>
+                <?php } ?>
                 <p><?php echo $language['STEP5_SENTENCE1']; ?></p>
                 <p><?php echo $language['STEP5_SENTENCE2']; ?></p>
                 <form action="index.php" method="post">
