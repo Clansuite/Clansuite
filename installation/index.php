@@ -1080,30 +1080,38 @@ class Clansuite_Installation_Step6 extends Clansuite_Installation_Page
          *
          * We are using a raw sql statement with bound variables passing it to Doctrine2.
          */
-        $db = Clansuite_Installation_Helper::getDoctrineEntityManager()->getConnection();
+        try
+        {
+            $db = Clansuite_Installation_Helper::getDoctrineEntityManager()->getConnection();
 
-        $raw_sql_query = 'INSERT INTO ' . $_SESSION['config']['database']['prefix'] . 'users
-                          SET  email = :email,
-                               nick = :nick,
-                               passwordhash = :hash,
-                               salt = :salt,
-                               joined = :joined,
-                               language = :language,
-                               activated = :activated';
+            $raw_sql_query = 'INSERT INTO ' . $_SESSION['config']['database']['prefix'] . 'users
+                            SET  email = :email,
+                                nick = :nick,
+                                passwordhash = :hash,
+                                salt = :salt,
+                                joined = :joined,
+                                language = :language,
+                                activated = :activated';
 
-        $stmt = $db->prepare($raw_sql_query);
+            $stmt = $db->prepare($raw_sql_query);
 
-        $params = array(
-            'email' => $_POST['admin_email'],
-            'nick' => $_POST['admin_name'],
-            'hash' => $hashArray['hash'],
-            'salt' => $hashArray['salt'],
-            'joined' => time(),
-            'language' => $_SESSION['admin_language'],
-            'activated' => '1'
-        );
+            $params = array(
+                'email' => $_POST['admin_email'],
+                'nick' => $_POST['admin_name'],
+                'hash' => $hashArray['hash'],
+                'salt' => $hashArray['salt'],
+                'joined' => time(),
+                'language' => $_SESSION['admin_language'],
+                'activated' => '1'
+            );
 
-        $stmt->execute($params);
+            $stmt->execute($params);
+        }
+        catch(Exception $e)
+        {
+            $this->setStep(6);
+            $this->setErrormessage($e->getMessage());
+        }
     }
 
 }
