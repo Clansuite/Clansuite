@@ -27,12 +27,12 @@ class Session
     protected $session_data;
 
     /**
-     * @Column(type="integer", length="4")
+     * @Column(type="integer", length=4)
      */
     protected $session_starttime;
 
     /**
-     * @Column(type="integer", length="1")
+     * @Column(type="integer", length=1)
      */
     protected $session_visibility;
 
