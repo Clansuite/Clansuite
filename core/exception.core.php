@@ -262,6 +262,8 @@ class Clansuite_Exception extends Exception implements Clansuite_Exception_Inter
      */
     public function yellowScreenOfDeath()
     {
+        ob_start();
+        
         /**
          * @todo add backlink to the exception codes list
          */
