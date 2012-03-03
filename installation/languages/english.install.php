@@ -137,7 +137,7 @@ class Language implements ArrayAccess
         // STEP 4 - Database
         $this->language['STEP4_DATABASE'] = 'Step [4] Database';
 
-        $this->language['STEP4_SENTENCE1'] = 'In Step [4] you\'ll provide MySQL-Database Access Information and we\'ll try to connect and store some basic tables and content of Clansuite.';
+        $this->language['STEP4_SENTENCE1'] = 'In Step [4] you\'ll provide Database Access Information and we\'ll try to connect and store some basic tables and content of Clansuite.';
         $this->language['STEP4_SENTENCE2'] = 'Please provide the username and password to connect to the server here.';
         $this->language['STEP4_SENTENCE3'] = 'If this account has permission to create databases, then we will create the database for you; otherwise, you must give the name of a database that already exists.';
 
