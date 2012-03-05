@@ -162,7 +162,11 @@ class Clansuite_Installation
     {
         // Initialize Doctrine2 Autoloader
         require ROOT . 'libraries/Doctrine/Common/ClassLoader.php';
-        $classLoader = new \Doctrine\Common\ClassLoader('Doctrine', ROOT . 'libraries/');
+        $classLoader = new \Doctrine\Common\ClassLoader('Doctrine', realpath(ROOT . 'libraries/'));
+        $classLoader->register();
+
+        // Register "Doctrine Extensions" with the Autoloader
+        $classLoader = new \Doctrine\Common\ClassLoader('DoctrineExtensions', realpath(ROOT . 'libraries/'));
         $classLoader->register();
     }
 
@@ -362,7 +366,12 @@ class Clansuite_Installation
                     // Now process them.
                     $prev_step->processValues();
                 }
-                else
+
+                /**
+                 * let's test if an errormessage was set during
+                 * validateFormValues() and processValues()
+                 */
+                if($prev_step->error != '')
                 {
                     $this->error = $prev_step->error;
                     $this->step = $previous_step;
@@ -581,6 +590,9 @@ class Clansuite_Installation_Helper
     {
         $model_dirs = array();
 
+        /**
+         * All Module Entites
+         */
         $dirs = glob(ROOT . '/modules/' . '[a-zA-Z]*', GLOB_ONLYDIR);
 
         foreach($dirs as $key => $dir_path)
@@ -602,7 +614,10 @@ class Clansuite_Installation_Helper
             }
         }
 
-        #$model_dirs[] = ROOT . 'doctrine';
+        /**
+         * Core Entities
+         */
+        $model_dirs[] = ROOT . 'doctrine';
 
         $model_dirs = array_unique($model_dirs);
 
@@ -633,13 +648,18 @@ class Clansuite_Installation_Helper
             $event = $connection->getEventManager();
             $config = new \Doctrine\ORM\Configuration();
 
+            # add Table Prefix
+            $prefix = $connectionParams['prefix'];
+            $tablePrefix = new \DoctrineExtensions\TablePrefix\TablePrefix($prefix);
+            $event->addEventListener(\Doctrine\ORM\Events::loadClassMetadata, $tablePrefix);
+
             # setup Cache
             $cache = new \Doctrine\Common\Cache\ArrayCache();
             $config->setMetadataCacheImpl($cache);
 
             # setup Proxy Dir
             $config->setProxyDir(realpath(ROOT . 'doctrine'));
-            $config->setProxyNamespace('Proxies');
+            $config->setProxyNamespace('proxies');
 
             # setup Annotation Driver
             $driverImpl = $config->newDefaultAnnotationDriver(
@@ -719,6 +739,12 @@ class Clansuite_Installation_Page
 
     public function setErrorMessage($error)
     {
+        # if we already have an error message, then append the next one
+        if($this->error != '')
+        {
+            $this->error .= $error;
+        }
+
         $this->error = $error;
     }
 
@@ -877,6 +903,9 @@ class Clansuite_Installation_Step4 extends Clansuite_Installation_Page
                 #$db = $connection->getDatabasePlatform();
                 #$sql = $db->getCreateDatabaseSQL('databasename');
                 #$connection->exec($sql);
+
+                # Drop Connection.
+                unset($connection);
             }
             catch(Exception $e)
             {
@@ -893,9 +922,6 @@ class Clansuite_Installation_Step4 extends Clansuite_Installation_Page
         /**
          * 3) Connect to Database
          */
-        # Drop Connection.
-        unset($connection);
-
         # Setup Connection Parameters. This time with "dbname".
         $connectionParams = array(
             'dbname' => $_POST['config']['database']['dbname'],
@@ -903,6 +929,7 @@ class Clansuite_Installation_Step4 extends Clansuite_Installation_Page
             'password' => $_POST['config']['database']['password'],
             'host' => $_POST['config']['database']['host'],
             'driver' => $_POST['config']['database']['driver'],
+            'prefix' => $_POST['config']['database']['prefix'],
         );
 
         $entityManager = Clansuite_Installation_Helper::getDoctrineEntityManager($connectionParams);
@@ -919,11 +946,11 @@ class Clansuite_Installation_Step4 extends Clansuite_Installation_Page
             $validation_error = $validator->validateMapping();
 
             # handle validation errors
-            if($validation_error)
-            {
+            #if($validation_error)
+            #{
                 # @todo this is experimental...
                 var_dump($validation_error);
-            }
+            #}
         }
         catch(Exception $e)
         {
