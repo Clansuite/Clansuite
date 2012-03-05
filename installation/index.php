@@ -460,7 +460,7 @@ class Clansuite_Installation_Helper
         unset($data_array['create_database']);
 
         # base class is needed for Clansuite_Config_INI
-        if(false === class_exists('Clansuite_Config_Base'))
+        if(false === class_exists('Clansuite_Config_Base', false))
         {
             require ROOT . 'core/config/config.base.php';
         }
