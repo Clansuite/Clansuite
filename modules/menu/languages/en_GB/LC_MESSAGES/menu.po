@@ -7,7 +7,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Clansuite 0.2.1\n"
-"POT-Creation-Date: 2011-01-14T21:00:59+01:00\n"
+"POT-Creation-Date: 2011-08-04 00:10+0200\n"
+"PO-Revision-Date: 2011-08-04 00:10+0200\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
@@ -49,7 +50,7 @@ msgstr "Insert new Menuelement"
 msgid "Logout"
 msgstr "Logout"
 
-#: widget_menu.tpl:8
+#: widget_menu.tpl:9
 msgid "Menu"
 msgstr "Menu"
 
@@ -104,12 +105,12 @@ msgstr "View Permission"
 msgid "With the Menueditor you may modify the menu entries. You can also add new ones or modify or delete existing ones."
 msgstr "With the Menueditor you may modify the menu entries. You can also add new ones or modify or delete existing ones."
 
-#: menu.admin.php:472
-#: menu.admin.php:476
-#: menu.admin.php:503
-#: menu.admin.php:515
-#: menu.admin.php:576
-#: menu.admin.php:597
+#: menu.admin.php:471
+#: menu.admin.php:475
+#: menu.admin.php:502
+#: menu.admin.php:514
+#: menu.admin.php:575
+#: menu.admin.php:596
 msgid "name"
 msgstr "name"
 

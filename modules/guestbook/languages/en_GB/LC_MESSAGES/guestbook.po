@@ -7,7 +7,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Clansuite 0.2.1\n"
-"POT-Creation-Date: 2011-01-14T21:00:57+01:00\n"
+"POT-Creation-Date: 2011-08-04 00:10+0200\n"
+"PO-Revision-Date: 2011-08-04 00:10+0200\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
@@ -90,11 +91,11 @@ msgstr "Guestbook - Administration"
 msgid "Guestbook - Settings"
 msgstr "Guestbook - Settings"
 
-#: guestbook.admin.php:364
+#: guestbook.admin.php:363
 msgid "Guestbook Items"
 msgstr "Guestbook Items"
 
-#: guestbook.admin.php:308
+#: guestbook.admin.php:307
 msgid "Guestbook entry created."
 msgstr "Guestbook entry created."
 
@@ -117,20 +118,20 @@ msgstr "No avatar"
 msgid "Reset"
 msgstr "Reset"
 
-#: guestbook.admin.php:353
+#: guestbook.admin.php:352
 msgid "Settings"
 msgstr "Settings"
 
-#: guestbook.module.php:62
+#: guestbook.module.php:61
 msgid "Show"
 msgstr "Show"
 
-#: guestbook.admin.php:398
-msgid "The config file has been succesfully updated."
-msgstr "The config file has been succesfully updated."
+#: guestbook.admin.php:397
+msgid "The config file has been successfully updated."
+msgstr "The config file has been successfully updated."
 
-#: guestbook.admin.php:226
-#: guestbook.admin.php:231
+#: guestbook.admin.php:225
+#: guestbook.admin.php:230
 msgid "The guestbook entry has been edited."
 msgstr "The guestbook entry has been edited."
 
@@ -139,7 +140,7 @@ msgstr "The guestbook entry has been edited."
 msgid "Website"
 msgstr "Website"
 
-#: guestbook.admin.php:341
+#: guestbook.admin.php:340
 msgid "You are not allowed to view single news."
 msgstr "You are not allowed to view single news."
 
@@ -155,7 +156,7 @@ msgstr "You can edit, delete and comment guestbook entries."
 msgid "You can manage your Guestbook."
 msgstr "You can manage your Guestbook."
 
-#: guestbook.admin.php:247
+#: guestbook.admin.php:246
 msgid "You do not have sufficient rights."
 msgstr "You do not have sufficient rights."
 
@@ -169,6 +170,6 @@ msgstr "eMail"
 msgid "no website"
 msgstr "no website"
 
-#: guestbook.module.php:136
+#: guestbook.module.php:135
 msgid "not specified"
 msgstr "not specified"

@@ -7,35 +7,37 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Clansuite 0.2.1\n"
-"POT-Creation-Date: 2011-01-14T21:01:02+01:00\n"
+"POT-Creation-Date: 2011-08-04 00:10+0200\n"
+"PO-Revision-Date: 2011-08-04 00:10+0200\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: staticpages.admin.php:74
+#: staticpages.admin.php:72
 msgid "Create"
 msgstr "Create"
 
-#: staticpages.admin.php:150
+#: staticpages.admin.php:154
 msgid "Edit"
 msgstr "Edit"
 
-#: staticpages.module.php:151
+#: staticpages.module.php:148
 msgid "No static pages found."
 msgstr "No static pages found."
 
 #: staticpages.admin.php:57
-#: staticpages.module.php:134
+#: staticpages.module.php:131
 msgid "Overview"
 msgstr "Overview"
 
-#: staticpages.admin.php:223
+#: staticpages.admin.php:234
 msgid "Settings"
 msgstr "Settings"
 
-#: staticpages.module.php:72
+#: staticpages.module.php:69
 msgid "Show "
 msgstr "Show "
 
+#: action_admin_show.tpl:4
 #: overview.tpl:4
 msgid "Static Pages Overview"
 msgstr "Static Pages Overview"
@@ -44,23 +46,24 @@ msgstr "Static Pages Overview"
 msgid "Staticpages - Settings"
 msgstr "Staticpages - Settings"
 
-#: staticpages.admin.php:233
+#: staticpages.admin.php:244
 msgid "Staticpages per Page"
 msgstr "Staticpages per Page"
 
-#: staticpages.admin.php:127
+#: staticpages.admin.php:131
 msgid "The Page successfully created."
 msgstr "The Page successfully created."
 
-#: staticpages.admin.php:200
+#: staticpages.admin.php:211
 msgid "The page was successfully modified."
 msgstr "The page was successfully modified."
 
+#: action_admin_show.tpl:5
 #: overview.tpl:5
 msgid "This page shows all your static pages. You can create, modify and delete them."
 msgstr "This page shows all your static pages. You can create, modify and delete them."
 
-#: staticpages.module.php:115
+#: staticpages.module.php:112
 msgid "This static page does not exist."
 msgstr "This static page does not exist."
 

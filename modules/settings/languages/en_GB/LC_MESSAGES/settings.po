@@ -7,15 +7,16 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Clansuite 0.2.1\n"
-"POT-Creation-Date: 2011-01-14T21:01:02+01:00\n"
+"POT-Creation-Date: 2011-08-04 00:10+0200\n"
+"PO-Revision-Date: 2011-08-04 00:10+0200\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: tabpage-login.tpl:170
+#: tabpage-login.tpl:162
 msgid "Add to Comments"
 msgstr "Add to Comments"
 
-#: tabpage-login.tpl:160
+#: tabpage-login.tpl:152
 msgid "Add to Login Box"
 msgstr "Add to Login Box"
 
@@ -104,11 +105,11 @@ msgstr "Dateformat"
 msgid "Daylight Savings Time (Summertime)"
 msgstr "Daylight Savings Time (Summertime)"
 
-#: tabpage-developer.tpl:80
+#: tabpage-developer.tpl:62
 msgid "Debug Mode"
 msgstr "Debug Mode"
 
-#: tabpage-developer.tpl:135
+#: tabpage-developer.tpl:117
 msgid "Debugging in a popup"
 msgstr "Debugging in a popup"
 
@@ -157,7 +158,7 @@ msgstr "Devlopment Mode"
 msgid "Email sender address"
 msgstr "Email sender address"
 
-#: tabpage-developer.tpl:115
+#: tabpage-developer.tpl:97
 msgid "Enable Webdebug Toolbar"
 msgstr "Enable Webdebug Toolbar"
 
@@ -165,7 +166,7 @@ msgstr "Enable Webdebug Toolbar"
 msgid "Encryption method"
 msgstr "Encryption method"
 
-#: tabpage-developer.tpl:75
+#: tabpage-developer.tpl:57
 msgid "Error Reporting"
 msgstr "Error Reporting"
 
@@ -181,15 +182,15 @@ msgstr "Exim"
 msgid "Favicon"
 msgstr "Favicon"
 
-#: tabpage-login.tpl:122
+#: tabpage-login.tpl:114
 msgid "Filter: Session Security -  check_host"
 msgstr "Filter: Session Security -  check_host"
 
-#: tabpage-login.tpl:114
+#: tabpage-login.tpl:106
 msgid "Filter: Session Security - check_browser"
 msgstr "Filter: Session Security - check_browser"
 
-#: tabpage-login.tpl:130
+#: tabpage-login.tpl:122
 msgid "Filter: Session Security - check_ip"
 msgstr "Filter: Session Security - check_ip"
 
@@ -204,10 +205,6 @@ msgstr "From (name)"
 #: tabpage-language.tpl:41
 msgid "GMT Offset"
 msgstr "GMT Offset"
-
-#: tabpage-developer.tpl:50
-msgid "GZip Compression"
-msgstr "GZip Compression"
 
 #: tabpage-standard.tpl:11
 msgid "General Settings"
@@ -304,10 +301,10 @@ msgid "Normal"
 msgstr "Normal"
 
 #: tabpage-cache.tpl:46
-msgid "Note: This is automatically set to \"-1\" (deactiviated) if the \"Developers Mode\" is active."
-msgstr "Note: This is automatically set to \"-1\" (deactiviated) if the \"Developers Mode\" is active."
+msgid "Note: This is automatically set to \"-1\" (deactivated) if \"Development Mode\" active."
+msgstr "Note: This is automatically set to \"-1\" (deactivated) if \"Development Mode\" active."
 
-#: tabpage-login.tpl:147
+#: tabpage-login.tpl:139
 msgid "OpenID"
 msgstr "OpenID"
 
@@ -331,11 +328,11 @@ msgstr "Qmail"
 msgid "Recipient (email)"
 msgstr "Recipient (email)"
 
-#: tabpage-login.tpl:189
+#: tabpage-login.tpl:181
 msgid "Registration"
 msgstr "Registration"
 
-#: tabpage-login.tpl:194
+#: tabpage-login.tpl:186
 msgid "Registration & Usage Terms"
 msgstr "Registration & Usage Terms"
 
@@ -368,7 +365,7 @@ msgid "SSL encryption"
 msgstr "SSL encryption"
 
 #: action_admin_easylist.tpl:119
-#: settings.tpl:25
+#: settings.tpl:24
 msgid "Save Settings"
 msgstr "Save Settings"
 
@@ -415,10 +412,6 @@ msgstr "Session Parameters"
 #: tabpage-login.tpl:98
 msgid "Session expire time"
 msgstr "Session expire time"
-
-#: tabpage-login.tpl:106
-msgid "Session name"
-msgstr "Session name"
 
 #: tabpage-login.tpl:31
 msgid "Set the Number of days for your login cookie to be stored on your computer."
@@ -468,7 +461,7 @@ msgstr "Theme Switching"
 msgid "Timezone"
 msgstr "Timezone"
 
-#: tabpage-login.tpl:152
+#: tabpage-login.tpl:144
 msgid "Trust Root"
 msgstr "Trust Root"
 
@@ -481,18 +474,18 @@ msgid "Updates"
 msgstr "Updates"
 
 #: tabpage-metatags.tpl:81
-msgid "Webserver mod_rewrite URL\'s"
-msgstr "Webserver mod_rewrite URL\'s"
+msgid "Webserver mod_rewrite URL's"
+msgstr "Webserver mod_rewrite URL's"
 
 #: tabpage-standard.tpl:16
 msgid "Website Title"
 msgstr "Website Title"
 
-#: tabpage-login.tpl:173
-msgid "When you enable this setting, the OpenID login fields will be displayed in the comments area\'s:"
-msgstr "When you enable this setting, the OpenID login fields will be displayed in the comments area\'s:"
+#: tabpage-login.tpl:165
+msgid "When you enable this setting, the OpenID login fields will be displayed in the comments area's:"
+msgstr "When you enable this setting, the OpenID login fields will be displayed in the comments area's:"
 
-#: tabpage-login.tpl:163
+#: tabpage-login.tpl:155
 msgid "When you enable this setting, the OpenID login fields will be displayed in the login box:"
 msgstr "When you enable this setting, the OpenID login fields will be displayed in the login box:"
 
@@ -500,19 +493,15 @@ msgstr "When you enable this setting, the OpenID login fields will be displayed 
 msgid "When you enable this, Clansuite will automagically check for updates to the CMS and Modules?"
 msgstr "When you enable this, Clansuite will automagically check for updates to the CMS and Modules?"
 
-#: tabpage-developer.tpl:83
+#: tabpage-developer.tpl:65
 msgid "When you turn this setting on, the system will show all errors directly on screen instead of logging them to the errorlog."
 msgstr "When you turn this setting on, the system will show all errors directly on screen instead of logging them to the errorlog."
-
-#: tabpage-developer.tpl:53
-msgid "When you turn this setting on, your pages are served compressed to your clients - making your site quicker:"
-msgstr "When you turn this setting on, your pages are served compressed to your clients - making your site quicker:"
 
 #: tabpage-metatags.tpl:84
 msgid "When your Webserver has Mod Rewrite enabled, then you can turn this setting on to make your URLs more user friendly:"
 msgstr "When your Webserver has Mod Rewrite enabled, then you can turn this setting on to make your URLs more user friendly:"
 
-#: tabpage-developer.tpl:98
+#: tabpage-developer.tpl:80
 msgid "XDebug"
 msgstr "XDebug"
 
@@ -524,7 +513,7 @@ msgstr "You can specify an interval (in days) at which your Clansuite Applicatio
 msgid "You may provide an favicon for our website:"
 msgstr "You may provide an favicon for our website:"
 
-#: tabpage-login.tpl:197
+#: tabpage-login.tpl:189
 msgid "You may provide registration terms, which are displayed to your upcoming members during the registration process:"
 msgstr "You may provide registration terms, which are displayed to your upcoming members during the registration process:"
 
@@ -540,7 +529,7 @@ msgstr "You may want to turn off your site while performing updates or other typ
 msgid "You may want to turn on language-switching via URL. When this is activated and parameter lang is appended to your URL like \"?lang=de\", the german language (de_DE) will be used."
 msgstr "You may want to turn on language-switching via URL. When this is activated and parameter lang is appended to your URL like \"?lang=de\", the german language (de_DE) will be used."
 
-#: tabpage-developer.tpl:120
+#: tabpage-developer.tpl:102
 msgid "You may want to turn on the webdebug toolbar. When this is activated a debug toolbar will be displayed in the upper right corner."
 msgstr "You may want to turn on the webdebug toolbar. When this is activated a debug toolbar will be displayed in the upper right corner."
 
@@ -548,14 +537,14 @@ msgstr "You may want to turn on the webdebug toolbar. When this is activated a d
 msgid "You may want to turn on theme-switching via URL. When this is activated and parameter theme is appended to your URL like \"?theme=xy\", the \"xy\"-theme it will be used for display."
 msgstr "You may want to turn on theme-switching via URL. When this is activated and parameter theme is appended to your URL like \"?theme=xy\", the \"xy\"-theme it will be used for display."
 
-#: tabpage-developer.tpl:124
+#: tabpage-developer.tpl:106
 #: tabpage-standard.tpl:143
 #: tabpage-standard.tpl:163
 #: tabpage-standard.tpl:194
 msgid "activated"
 msgstr "activated"
 
-#: tabpage-developer.tpl:129
+#: tabpage-developer.tpl:111
 #: tabpage-standard.tpl:148
 #: tabpage-standard.tpl:168
 #: tabpage-standard.tpl:199
@@ -565,12 +554,11 @@ msgstr "deactivated"
 #: tabpage-cache.tpl:36
 #: tabpage-developer.tpl:27
 #: tabpage-developer.tpl:44
-#: tabpage-developer.tpl:62
-#: tabpage-developer.tpl:92
-#: tabpage-developer.tpl:109
-#: tabpage-developer.tpl:146
-#: tabpage-login.tpl:165
-#: tabpage-login.tpl:175
+#: tabpage-developer.tpl:74
+#: tabpage-developer.tpl:91
+#: tabpage-developer.tpl:128
+#: tabpage-login.tpl:157
+#: tabpage-login.tpl:167
 #: tabpage-metatags.tpl:93
 #: tabpage-updates.tpl:29
 msgid "no"
@@ -583,12 +571,11 @@ msgstr "no [Normal Time = Default Timezone]"
 #: tabpage-cache.tpl:31
 #: tabpage-developer.tpl:22
 #: tabpage-developer.tpl:39
-#: tabpage-developer.tpl:57
-#: tabpage-developer.tpl:87
-#: tabpage-developer.tpl:104
-#: tabpage-developer.tpl:141
-#: tabpage-login.tpl:164
-#: tabpage-login.tpl:174
+#: tabpage-developer.tpl:69
+#: tabpage-developer.tpl:86
+#: tabpage-developer.tpl:123
+#: tabpage-login.tpl:156
+#: tabpage-login.tpl:166
 #: tabpage-metatags.tpl:88
 #: tabpage-updates.tpl:24
 msgid "yes"

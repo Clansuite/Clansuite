@@ -7,20 +7,24 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Clansuite 0.2.1\n"
-"POT-Creation-Date: 2011-01-14T21:00:58+01:00\n"
+"POT-Creation-Date: 2011-08-04 00:10+0200\n"
+"PO-Revision-Date: 2011-08-04 00:10+0200\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: action_show.tpl:5
+#: widget_about.tpl:45
+msgid "About Clansuite"
+msgstr "About Clansuite"
+
+#: action_show.tpl:3
 msgid "Hello"
 msgstr "Hello"
 
-#: action_show.tpl:15
+#: action_show.tpl:9
 msgid "Hello World"
 msgstr "Hello World"
 
-#: action_show.tpl:9
-#: action_show.tpl:17
+#: action_show.tpl:11
 msgid "How are you, %1 ?"
 msgstr "How are you, %1 ?"
 
@@ -29,10 +33,10 @@ msgstr "How are you, %1 ?"
 msgid "Show"
 msgstr "Show"
 
-#: action_show.tpl:19
+#: action_show.tpl:13
 msgid "The 1st parameter is %1, the 2nd is %2 and the 3rd %3."
 msgstr "The 1st parameter is %1, the 2nd is %2 and the 3rd %3."
 
-#: action_show.tpl:6
+#: action_show.tpl:4
 msgid "Welcome"
 msgstr "Welcome"

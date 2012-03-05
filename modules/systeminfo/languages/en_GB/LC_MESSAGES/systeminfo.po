@@ -7,11 +7,12 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Clansuite 0.2.1\n"
-"POT-Creation-Date: 2011-01-14T21:01:03+01:00\n"
+"POT-Creation-Date: 2011-08-04 00:10+0200\n"
+"PO-Revision-Date: 2011-08-04 00:10+0200\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: systeminfo.admin.php:239
+#: systeminfo.admin.php:240
 msgid "Alternative PHP Cache"
 msgstr "Alternative PHP Cache"
 
@@ -19,10 +20,10 @@ msgstr "Alternative PHP Cache"
 msgid "Current Status and statistics of AP-Cache."
 msgstr "Current Status and statistics of AP-Cache."
 
-#: systeminfo.admin.php:256
+#: systeminfo.admin.php:257
 msgid "Show"
 msgstr "Show"
 
 #: action_admin_show.tpl:5
-msgid "This overview shows pieces of information about your system, the current state of your webserver-environment and it\'s plugins."
-msgstr "This overview shows pieces of information about your system, the current state of your webserver-environment and it\'s plugins."
+msgid "This overview shows pieces of information about your system, the current state of your webserver-environment and it's plugins."
+msgstr "This overview shows pieces of information about your system, the current state of your webserver-environment and it's plugins."

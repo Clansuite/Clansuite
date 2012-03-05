@@ -7,7 +7,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Clansuite 0.2.1\n"
-"POT-Creation-Date: 2011-01-14T21:01:05+01:00\n"
+"POT-Creation-Date: 2011-08-04 00:10+0200\n"
+"PO-Revision-Date: 2011-08-04 00:10+0200\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
@@ -33,7 +34,7 @@ msgstr "Ban"
 msgid "Chose: Pre-defined Avatar Sets"
 msgstr "Chose: Pre-defined Avatar Sets"
 
-#: users.admin.php:139
+#: users.admin.php:138
 msgid "Create New Useraccount"
 msgstr "Create New Useraccount"
 
@@ -88,7 +89,7 @@ msgstr "Gravatar: use your Globally Recognized Avatar"
 msgid "Groups"
 msgstr "Groups"
 
-#: users.admin.php:203
+#: users.admin.php:202
 msgid "How many Last Users"
 msgstr "How many Last Users"
 
@@ -145,7 +146,7 @@ msgstr "Registrationdate"
 msgid "Reset"
 msgstr "Reset"
 
-#: users.admin.php:157
+#: users.admin.php:156
 msgid "Search"
 msgstr "Search"
 
@@ -157,12 +158,12 @@ msgstr "Select"
 msgid "Send Warning"
 msgstr "Send Warning"
 
-#: users.admin.php:192
+#: users.admin.php:191
 msgid "Settings"
 msgstr "Settings"
 
-#: users.admin.php:63
-#: users.module.php:61
+#: users.admin.php:62
+#: users.module.php:59
 msgid "Show"
 msgstr "Show"
 
@@ -174,7 +175,7 @@ msgstr "Upload: Provide your own Avatar"
 msgid "User Center"
 msgstr "User Center"
 
-#: widget_usersonline.tpl:9
+#: widget_usersonline.tpl:7
 msgid "User Online"
 msgstr "User Online"
 
@@ -211,10 +212,10 @@ msgstr "Your Current Avatar"
 msgid "eMail"
 msgstr "eMail"
 
-#: users.admin.php:182
+#: users.admin.php:181
 msgid "error#No users selected to delete!"
 msgstr "error#No users selected to delete!"
 
-#: users.admin.php:178
+#: users.admin.php:177
 msgid "success#The selected user(s) were deleted."
 msgstr "success#The selected user(s) were deleted."

@@ -7,13 +7,40 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Clansuite 0.2.1\n"
-"POT-Creation-Date: 2011-01-14T21:00:58+01:00\n"
+"POT-Creation-Date: 2011-08-04 00:10+0200\n"
+"PO-Revision-Date: 2011-08-04 00:10+0200\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: widget_languages.tpl:1
-msgid "Hello World"
-msgstr "Hello World"
+#: languages-modules.tpl:66
+msgid "%1 Language"
+msgstr "%1 Language"
+
+#: languages-core.tpl:58
+#: languages-modules.tpl:76
+msgid "Actions"
+msgstr "Actions"
+
+#: languages-modules.tpl:69
+#: languages-modules.tpl:70
+msgid "Add Language"
+msgstr "Add Language"
+
+#: languages-core.tpl:38
+msgid "Description"
+msgstr "Description"
+
+#: languages-core.tpl:56
+msgid "Language"
+msgstr "Language"
+
+#: languages-modules.tpl:44
+msgid "Languages"
+msgstr "Languages"
+
+#: action_admin_new.tpl:2
+msgid "Languages - Add language"
+msgstr "Languages - Add language"
 
 #: action_admin_scanallmodules.tpl:2
 msgid "Languages - Scan All Modules"
@@ -22,6 +49,39 @@ msgstr "Languages - Scan All Modules"
 #: action_admin_show.tpl:2
 msgid "Languages - Show"
 msgstr "Languages - Show"
+
+#: languages-modules.tpl:43
+msgid "Module"
+msgstr "Module"
+
+#: languages-core.tpl:57
+#: languages-modules.tpl:75
+msgid "Permissions"
+msgstr "Permissions"
+
+#: action_admin_new.tpl:3
+msgid "Please select the target language."
+msgstr "Please select the target language."
+
+#: languages.admin.php:305
+msgid "Select the language to add"
+msgstr "Select the language to add"
+
+#: languages-core.tpl:34
+msgid "Status"
+msgstr "Status"
+
+#: languages.admin.php:235
+msgid "The module was scanned successfully and the Portable Object File was updated."
+msgstr "The module was scanned successfully and the Portable Object File was updated."
+
+#: languages-core.tpl:30
+msgid "Version"
+msgstr "Version"
+
+#: action_admin_new.tpl:3
+msgid "You are about to create a new language file for the Module: %1."
+msgstr "You are about to create a new language file for the Module: %1."
 
 #: action_admin_show.tpl:3
 msgid "You can edit, delete, search and add language items."

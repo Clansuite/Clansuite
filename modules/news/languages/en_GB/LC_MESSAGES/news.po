@@ -7,11 +7,12 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Clansuite 0.2.1\n"
-"POT-Creation-Date: 2011-01-14T21:01:01+01:00\n"
+"POT-Creation-Date: 2011-08-04 00:10+0200\n"
+"PO-Revision-Date: 2011-08-04 00:10+0200\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: news.admin.php:342
+#: news.admin.php:355
 msgid " News deleted."
 msgstr " News deleted."
 
@@ -23,17 +24,17 @@ msgstr " comments"
 msgid "All"
 msgstr "All"
 
-#: news.module.php:372
+#: news.module.php:341
 msgid "Archiv"
 msgstr "Archiv"
 
-#: news.module.php:306
+#: news.module.php:275
 msgid "Archive"
 msgstr "Archive"
 
-#: news.admin.php:111
-#: news.admin.php:210
-#: news.admin.php:259
+#: news.admin.php:109
+#: news.admin.php:219
+#: news.admin.php:269
 msgid "Category"
 msgstr "Category"
 
@@ -41,44 +42,44 @@ msgstr "Category"
 msgid "Choose"
 msgstr "Choose"
 
-#: action_showone.tpl:75
-#: action_showone.tpl:90
+#: action_showone.tpl:81
+#: action_showone.tpl:96
 msgid "Comment"
 msgstr "Comment"
 
-#: action_showone.tpl:59
+#: action_showone.tpl:65
 msgid "Comments"
 msgstr "Comments"
 
-#: news.admin.php:137
+#: news.admin.php:135
 msgid "Create a news"
 msgstr "Create a news"
 
-#: news.admin.php:104
+#: news.admin.php:102
 msgid "Created at"
 msgstr "Created at"
 
 #: action_archive.tpl:44
 #: action_show.tpl:60
-#: action_showone.tpl:37
+#: action_showone.tpl:43
 msgid "Delete"
 msgstr "Delete"
 
-#: news.admin.php:141
+#: news.admin.php:139
 msgid "Delete selected items"
 msgstr "Delete selected items"
 
-#: news.admin.php:56
+#: news.admin.php:54
 msgid "Draft"
 msgstr "Draft"
 
 #: action_archive.tpl:44
 #: action_show.tpl:59
-#: action_showone.tpl:36
+#: action_showone.tpl:42
 msgid "Edit news"
 msgstr "Edit news"
 
-#: news.admin.php:157
+#: news.admin.php:159
 msgid "Edit this news"
 msgstr "Edit this news"
 
@@ -91,7 +92,7 @@ msgstr "News - Administration"
 msgid "News - Settings"
 msgstr "News - Settings"
 
-#: action_admin_show.tpl:16
+#: action_admin_show.tpl:14
 msgid "News - Show"
 msgstr "News - Show"
 
@@ -104,7 +105,7 @@ msgstr "News Archive"
 msgid "News Categories"
 msgstr "News Categories"
 
-#: news_action_admin_settings.form.php:93
+#: news_action_admin_settings.form.php:150
 msgid "News Settings"
 msgstr "News Settings"
 
@@ -112,32 +113,32 @@ msgstr "News Settings"
 msgid "Newsfeeds"
 msgstr "Newsfeeds"
 
-#: news_action_admin_settings.form.php:36
+#: news_action_admin_settings.form.php:79
 msgid "Newsitems to show in LatestNews Widget"
 msgstr "Newsitems to show in LatestNews Widget"
 
-#: news_action_admin_settings.form.php:43
-#: news_action_admin_settings.form.php:59
+#: news_action_admin_settings.form.php:86
+#: news_action_admin_settings.form.php:102
 msgid "Newsitems to show in Newsarchive"
 msgstr "Newsitems to show in Newsarchive"
 
-#: news_action_admin_settings.form.php:29
+#: news_action_admin_settings.form.php:72
 msgid "Newsitems to show in Newsmodule"
 msgstr "Newsitems to show in Newsmodule"
 
-#: news_action_admin_settings.form.php:50
+#: news_action_admin_settings.form.php:93
 msgid "Newsitems to show in the administration area."
 msgstr "Newsitems to show in the administration area."
 
-#: action_showone.tpl:113
+#: action_showone.tpl:119
 msgid "No Comments"
 msgstr "No Comments"
 
-#: news.admin.php:55
+#: news.admin.php:53
 msgid "Not published"
 msgstr "Not published"
 
-#: news.admin.php:58
+#: news.admin.php:56
 msgid "Pending review"
 msgstr "Pending review"
 
@@ -145,15 +146,15 @@ msgstr "Pending review"
 msgid "Please edit your Article."
 msgstr "Please edit your Article."
 
-#: news.admin.php:97
+#: news.admin.php:95
 msgid "Preview"
 msgstr "Preview"
 
-#: news.admin.php:57
+#: news.admin.php:55
 msgid "Private"
 msgstr "Private"
 
-#: news.admin.php:59
+#: news.admin.php:57
 msgid "Published"
 msgstr "Published"
 
@@ -161,41 +162,41 @@ msgstr "Published"
 msgid "Recent news"
 msgstr "Recent news"
 
-#: news_action_admin_settings.form.php:66
+#: news_action_admin_settings.form.php:109
 msgid "Set the default format of the news feed. You can chose among these options: RSS2.0, MBOX, OPML, ATOM, HTML, JS"
 msgstr "Set the default format of the news feed. You can chose among these options: RSS2.0, MBOX, OPML, ATOM, HTML, JS"
 
-#: news_action_admin_settings.form.php:79
+#: news_action_admin_settings.form.php:122
 msgid "Sets the default number of feed items."
 msgstr "Sets the default number of feed items."
 
-#: news.admin.php:356
+#: news.admin.php:369
 msgid "Settings"
 msgstr "Settings"
 
-#: news.module.php:74
+#: news.module.php:69
 msgid "Show"
 msgstr "Show"
 
-#: news.module.php:141
+#: news.module.php:136
 msgid "Show News"
 msgstr "Show News"
 
-#: news.admin.php:118
-#: news.admin.php:212
-#: news.admin.php:260
+#: news.admin.php:116
+#: news.admin.php:223
+#: news.admin.php:271
 msgid "Status"
 msgstr "Status"
 
-#: news.admin.php:315
-msgid "The news doesn\\\'t exist anymore."
-msgstr "The news doesn\\\'t exist anymore."
+#: news.admin.php:328
+msgid "The news doesn\'t exist anymore."
+msgstr "The news doesn\'t exist anymore."
 
-#: news.admin.php:295
+#: news.admin.php:308
 msgid "The news has been created."
 msgstr "The news has been created."
 
-#: news.admin.php:319
+#: news.admin.php:332
 msgid "The news has been edited."
 msgstr "The news has been edited."
 
@@ -207,21 +208,21 @@ msgstr "There are no news archived."
 msgid "There is no news archived."
 msgstr "There is no news archived."
 
-#: news.admin.php:89
-#: news.admin.php:208
-#: news.admin.php:257
+#: news.admin.php:87
+#: news.admin.php:215
+#: news.admin.php:267
 msgid "Title"
 msgstr "Title"
 
-#: news.admin.php:324
+#: news.admin.php:337
 msgid "Unknown Formaction."
 msgstr "Unknown Formaction."
 
-#: news.admin.php:125
+#: news.admin.php:123
 msgid "User"
 msgstr "User"
 
-#: news.module.php:142
+#: news.module.php:137
 msgid "Viewing Single News: "
 msgstr "Viewing Single News: "
 
@@ -229,7 +230,7 @@ msgstr "Viewing Single News: "
 msgid "You can control and configure the behaviour of the News Module by the settings provided here."
 msgstr "You can control and configure the behaviour of the News Module by the settings provided here."
 
-#: action_admin_show.tpl:17
+#: action_admin_show.tpl:15
 msgid "You can edit, delete, search and comment on news entries."
 msgstr "You can edit, delete, search and comment on news entries."
 
@@ -237,28 +238,24 @@ msgstr "You can edit, delete, search and comment on news entries."
 msgid "You can write a new Article."
 msgstr "You can write a new Article."
 
-#: news.admin.php:215
-#: news.admin.php:261
+#: news.admin.php:228
+#: news.admin.php:274
 msgid "Your Article:"
 msgstr "Your Article:"
-
-#: news.admin.php:82
-msgid "[x]"
-msgstr "[x]"
 
 #: action_archive.tpl:25
 msgid "at"
 msgstr "at"
 
-#: news.admin.php:373
-msgid "success#The config file has been succesfully updated."
-msgstr "success#The config file has been succesfully updated."
+#: news.admin.php:386
+msgid "success#The config file has been successfully updated."
+msgstr "success#The config file has been successfully updated."
 
-#: action_showone.tpl:75
+#: action_showone.tpl:81
 msgid "written :"
 msgstr "written :"
 
 #: action_archive.tpl:25
-#: action_showone.tpl:18
+#: action_showone.tpl:20
 msgid "written by"
 msgstr "written by"

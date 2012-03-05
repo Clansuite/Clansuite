@@ -7,7 +7,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Clansuite 0.2.1\n"
-"POT-Creation-Date: 2011-01-14T21:00:59+01:00\n"
+"POT-Creation-Date: 2011-08-04 00:10+0200\n"
+"PO-Revision-Date: 2011-08-04 00:10+0200\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
@@ -31,7 +32,7 @@ msgstr "Administration of Modules Install"
 msgid "Administration of Modules, Extensions and Plugins"
 msgstr "Administration of Modules, Extensions and Plugins"
 
-#: modulemanager.admin.php:149
+#: modulemanager.admin.php:148
 msgid "Builder"
 msgstr "Builder"
 
@@ -43,7 +44,7 @@ msgstr "Builder for Modules"
 msgid "Choose a Methodname Structure for the Module"
 msgstr "Choose a Methodname Structure for the Module"
 
-#: modulemanager.admin.php:278
+#: modulemanager.admin.php:277
 msgid "Create"
 msgstr "Create"
 
@@ -75,15 +76,15 @@ msgstr "Doctrine"
 msgid "E-Mail"
 msgstr "E-Mail"
 
-#: modulemanager.admin.php:83
+#: modulemanager.admin.php:82
 msgid "Edit Info"
 msgstr "Edit Info"
 
-#: modulemanager.admin.php:115
+#: modulemanager.admin.php:114
 msgid "Export"
 msgstr "Export"
 
-#: modulemanager.admin.php:130
+#: modulemanager.admin.php:129
 msgid "Import & Export"
 msgstr "Import & Export"
 
@@ -193,9 +194,9 @@ msgstr "Role"
 msgid "Scope"
 msgstr "Scope"
 
-#: modulemanager.admin.php:59
-#: modulemanager.admin.php:100
-#: modulemanager.admin.php:636
+#: modulemanager.admin.php:58
+#: modulemanager.admin.php:99
+#: modulemanager.admin.php:635
 msgid "Show"
 msgstr "Show"
 

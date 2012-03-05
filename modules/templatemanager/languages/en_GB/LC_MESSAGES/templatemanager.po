@@ -7,15 +7,16 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Clansuite 0.2.1\n"
-"POT-Creation-Date: 2011-01-14T21:01:04+01:00\n"
+"POT-Creation-Date: 2011-08-04 00:10+0200\n"
+"PO-Revision-Date: 2011-08-04 00:10+0200\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: templatemanager.admin.php:119
+#: templatemanager.admin.php:118
 msgid "Edit"
 msgstr "Edit"
 
-#: templatemanager.admin.php:80
+#: templatemanager.admin.php:79
 msgid "Editor"
 msgstr "Editor"
 
@@ -31,7 +32,7 @@ msgstr "Module"
 msgid "Secondly, choose the template file to edit."
 msgstr "Secondly, choose the template file to edit."
 
-#: templatemanager.admin.php:220
+#: templatemanager.admin.php:219
 msgid "Settings"
 msgstr "Settings"
 
