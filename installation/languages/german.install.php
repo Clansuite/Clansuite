@@ -230,14 +230,18 @@ class Language implements ArrayAccess
         */
 
         // GLOBAL
+
         # Buttons
         $this->language['NEXTSTEP'] = 'Weiter >>';
         $this->language['BACKSTEP'] = '<< Zurück';
+
         # Help Text for Buttons
         $this->language['CLICK_NEXT_TO_PROCEED'] = 'Klicken Sie den Button ['. $this->language['NEXTSTEP'] .'] um fortzufahren.';
         $this->language['CLICK_BACK_TO_RETURN'] = 'Klicken Sie den Button ['. $this->language['BACKSTEP'] .'] um zum vorherigen Installationsschritt zurückzukehren.';
+
         # Right Side Menu
         $this->language['INSTALL_PROGRESS'] = 'Installations- fortschritt';
+        $this->language['SELECT_LANGUAGE'] = 'Bitte wählen Sie Ihre Sprache aus.';
         $this->language['COMPLETED'] = 'Fertig';
         $this->language['CHANGE_LANGUAGE'] = 'Sprachauswahl';
         $this->language['SHORTCUTS'] = 'Links';

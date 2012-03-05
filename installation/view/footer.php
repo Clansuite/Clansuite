@@ -53,7 +53,7 @@ if (defined('IN_CS') === false)
             <li>
                 <?php # pruefen ob es die aktuelle sprache ist, die reloaded werden soll
                       # nur reloaden, wenn neue sprache ausgewaehlt                ?>
-                <select name="lang" style="width: 100px"
+                <select title="<?php echo $language['SELECT_LANGUAGE']; ?>" name="lang" style="width: 100px"
                         onchange="window.location.href='<?php echo $_SERVER['PHP_SELF']; ?>?lang='+this.options[this.selectedIndex].value;" >
                 <?php
                 echo '<option value="">- Select Language -</option>';
