@@ -1,17 +1,11 @@
 ; <?php die('Access forbidden.'); /* DO NOT MODIFY THIS LINE! ?>
 ; 
 ; Clansuite Configuration File : 
-; C:\nginx-serverpack\nginx\www\clansuite\trunk\configuration\clansuite.config.php
+; D:\xampp\htdocs\work\clansuite\trunk\configuration/clansuite.config.php
 ; 
-; This file was generated on 04-05-2011 23:30
+; This file was generated on 05-03-2012 16:39
 ;
 
-
-;----------------------------------------
-; config
-;----------------------------------------
-[config]
-staging = 1
 
 ;----------------------------------------
 ; database
@@ -19,11 +13,17 @@ staging = 1
 [database]
 host = "localhost"
 driver = "pdo_mysql"
-username = "root"
+user = "root"
 password = ""
-name = "clansuite"
-charset = "UTF8"
+dbname = "clansuite"
 prefix = "cs_"
+charset = "UTF8"
+
+;----------------------------------------
+; config
+;----------------------------------------
+[config]
+staging = 0
 
 ;----------------------------------------
 ; template
@@ -32,7 +32,6 @@ prefix = "cs_"
 frontend_theme = "standard"
 backend_theme = "admin"
 pagetitle = "Team Clansuite"
-favicon = ""
 
 ;----------------------------------------
 ; defaults
@@ -45,27 +44,18 @@ action = "list"
 ; language
 ;----------------------------------------
 [language]
-default = "de"
+locale = "de"
 outputcharset = "UTF-8"
-timezone = "Europe/Berlin"
+timezone = "Europe/Paris"
 gmtoffset = 3600
-language = "de"
-
-;----------------------------------------
-; locale
-;----------------------------------------
-[locale]
-locale = 3600
-;dateformat = "%A, %B %e, %Y"
 dateformat = "d.m.Y H:i"
-timezone = 0
 
 ;----------------------------------------
 ; error
 ;----------------------------------------
 [error]
 debug = 1
-xdebug = 1
+xdebug = 0
 development = 1
 debug_popup = 0
 webdebug = 0
@@ -108,7 +98,7 @@ timeout = 60
 reason = 1
 
 ;----------------------------------------
-; meta
+; email
 ;----------------------------------------
 [meta]
 description = "description"
