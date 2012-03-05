@@ -2,7 +2,7 @@
 
 namespace Entities;
 
-/** @Entity @Table(name="Cs_Session") */
+/** @Entity @Table(name="Session") */
 class Session
 {
     /**
