@@ -12,7 +12,7 @@ if (defined('IN_CS') === false)
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <meta name="robots" content="index,follow" />
     <link rel="shortcut icon" href="images/Clansuite-Favicon-16.ico" />
-    <link rel="stylesheet" type="text/css" href="installation.css" />
+    <link rel="stylesheet" type="text/css" href="css/installation.css" />
     <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=IM+Fell+DW+Pica+SC&amp;subset=latin" />
     <title>Clansuite - Installation</title>
     <script type="text/javascript" src="javascript/jquery-1.7.1.min.js"></script>
