@@ -129,6 +129,14 @@ $('input[title]').poshytip({
     offsetX: 0,
     offsetY: 5
 });
+$('select').poshytip({
+    className: 'tip-yellowsimple',
+    showOn: 'focus',
+    alignTo: 'target',
+    alignX: 'inner-left',
+    offsetX: 0,
+    offsetY: 5
+});
 </script>
 </body>
 </html>
