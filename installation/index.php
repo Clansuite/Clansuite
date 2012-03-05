@@ -439,9 +439,14 @@ class Clansuite_Installation_Helper
             require ROOT . 'core/config/config.base.php';
         }
 
-        # read skeleton settings = minimum settings for initial startup
-        # (not asked from user during installation, but required paths, default actions, etc.)
-        $installer_config = Clansuite_Config_INI::readConfig(INSTALLATION_ROOT . 'clansuite.config.installer');
+        /** 
+         * Read the minimum set of configuration settings for the inital startup
+         * from the skeleton settings file (config.skeleton.ini).
+         *
+         * The user is not asked for these settings during the installation.
+         * The values might be altered in the admin control panel later on.
+         */
+        $installer_config = Clansuite_Config_INI::readConfig(INSTALLATION_ROOT . 'config.skeleton.ini');
 
         # array merge: overwrite the array to the left, with the array to the right, when keys identical
         $data_array = array_merge_recursive($data_array, $installer_config);
