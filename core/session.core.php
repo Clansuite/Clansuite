@@ -299,24 +299,10 @@ class Clansuite_Session implements Clansuite_Session_Interface, ArrayAccess
      *
      * @param integer $id contains session_id
      * @param array $data contains session_data
-     *
      * @return bool
      */
     public function session_write($id, $data)
     {
-        /**
-         * @todo wrong place. move either to statistics or whoisonline
-         * determine the current location of a user by checking request['mod']
-         */
-        #if(isset($this->request['mod']) == false and empty($this->request['mod']))
-        #{
-        #    $userlocation = 'sessionstart';
-        #}
-        #else
-        #{
-        #    $userlocation = $this->request['mod'];
-        #}
-
         /**
          * Try to INSERT Session Data or REPLACE Session Data in case session_id already exists
          */
@@ -333,7 +319,7 @@ class Clansuite_Session implements Clansuite_Session_Interface, ArrayAccess
         $query->setParameters(
                 array( 'id' => $id,
                        'name' => self::session_name,
-                       'time' => time(),
+                       'time' => (int) time(),
                        'data' => $data, # @todo serialize($data)
                        'visibility' => '1', # @todo ghost mode
                        'where' => 'session_start',
@@ -408,7 +394,7 @@ class Clansuite_Session implements Clansuite_Session_Interface, ArrayAccess
                                    WHERE s.session_name = :name
                                      AND s.session_starttime < :time');
         $query->setParameters(array('name' => self::session_name,
-                                    'time' => $expire_time));
+                                    'time' => (int) $expire_time));
         $query->execute();
 
         return true;
@@ -435,7 +421,6 @@ class Clansuite_Session implements Clansuite_Session_Interface, ArrayAccess
      * Gets Data from the Session.
      *
      * @param string key
-     *
      * @return mixed value/boolean false
      */
     public function get($key)
