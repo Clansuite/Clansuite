@@ -43,15 +43,11 @@ define('IN_CS', true);
 # Debugging Handler
 define('DEBUG', false);
 
-# Define: DS; INSTALLATION_ROOT; ROOT
+# Define: DS; INSTALLATION_ROOT; ROOT; HTML Break; Carriage Return
 define('DS', DIRECTORY_SEPARATOR);
 define('INSTALLATION_ROOT', __DIR__ . DS);
 define('ROOT', dirname(INSTALLATION_ROOT) . DS);
 define('ROOT_CACHE', ROOT . 'cache' . DS);
-
-/**
-* @var HTML Break + Carriage Return
-*/
 define('NL', "<br />\r\n", false);
 define('CR', "\n");
 
