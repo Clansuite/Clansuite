@@ -2,17 +2,17 @@
 
 namespace Entities;
 
-/** @Entity @Table(name="Cs_Adminmenu") */
+/** @Entity @Table(name="adminmenu") */
 class Adminmenu
 {
     /**
      * @Id
-     * @Column(type="integer", length="3")
-     */    
+     * @Column(type="integer", length=3)
+     */
     protected $id;
     /**
      * @Id
-     * @Column(type="integer", length="2")
+     * @Column(type="integer", length=2)
      */
     protected $parent;
     /**
@@ -36,7 +36,7 @@ class Adminmenu
      */
     protected $target;
     /**
-     * @Column(type="integer", length="3")
+     * @Column(type="integer", length=3)
      */
     protected $sortorder;
     /**

@@ -3,7 +3,7 @@ namespace Entities;
 
 /**
  * @Entity(repositoryClass="Repositories\ForumBoardsRepository")
- * @Table(name="cs_forum_boards")
+ * @Table(name="forum_boards")
  */
 
 class ForumBoards

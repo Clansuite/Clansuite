@@ -5,24 +5,24 @@ namespace Entities;
 
 /**
  * @Entity(repositoryClass="Repositories\CategoryRepository")
- * @Entity @Table(name="Cs_Categories")
+ * @Entity @Table(name="categories")
  */
 class Category
 {
     /**
      * @Id
-     * @Column(type="integer", length="4")
+     * @Column(type="integer", length=4)
      * @GeneratedValue
      */
     protected $cat_id;
 
     /**
-     * @Column(type="integer", length="4")
+     * @Column(type="integer", length=4)
      */
     protected $module_id;
 
     /**
-     * @Column(type="integer", length="4")
+     * @Column(type="integer", length=4)
      */
     protected $sortorder;
 
@@ -48,7 +48,7 @@ class Category
     protected $icon;
 
     /**
-     * @Column(type="string", length="7")
+     * @Column(type="string", length=7)
      */
     protected $color;
 
