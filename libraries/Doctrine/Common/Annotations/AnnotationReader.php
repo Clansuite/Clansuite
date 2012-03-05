@@ -65,7 +65,7 @@ final class AnnotationReader implements Reader
         'abstract'=> true, 'exception'=> true, 'magic' => true, 'api' => true,
         'final'=> true, 'filesource'=> true, 'throw' => true, 'uses' => true,
         'usedby'=> true, 'private' => true, 'Annotation' => true, 'override' => true,
-        'codeCoverageIgnore' => true, 'codeCoverageIgnoreStart' => true, 'codeCoverageIgnoreEnd' => true,
+        'codeCoverageIgnoreStart' => true, 'codeCoverageIgnoreEnd' => true,
         'Required' => true, 'Attribute' => true, 'Attributes' => true,
         'Target' => true, 'SuppressWarnings' => true,
     );
@@ -279,6 +279,7 @@ final class AnnotationReader implements Reader
      */
     private function collectParsingMetadata(ReflectionClass $class)
     {
+        $imports = self::$globalImports;
         $ignoredAnnotationNames = self::$globalIgnoredNames;
 
         $annotations = $this->preParser->parse($class->getDocComment(), 'class '.$class->name);
