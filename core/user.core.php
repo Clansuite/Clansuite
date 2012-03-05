@@ -424,7 +424,7 @@ class Clansuite_User
             $cookie_user_id = (int) $cookie_array['0'];
             $cookie_password = (string) $cookie_array['1'];
 
-            Clansuite_Module_Controller::initModel('users');
+            #Clansuite_Module_Controller::initModel('users');
 
             $this->user = Doctrine_Query::create()
                     ->select('u.user_id, u.passwordhash, u.salt')
@@ -597,12 +597,14 @@ class Clansuite_GuestUser
         /**
          * Language for Guests
          *
-         * Sets the Default Language for all Guest Visitors as defined by configuration value,
-         * if not already set via a GET request, like "index.php?lang=fr".
+         * This sets the default locale as defined by configuration value
+         * [language}[locale] for all guests visitors,
+         * If not already set via a GET request and
+         * processed in the filter (like "index.php?lang=fr").
          */
         if(false === isset($_SESSION['user']['language_via_url']))
         {
-            $_SESSION['user']['language'] = $this->config['language']['default'];
+            $_SESSION['user']['language'] = $this->config['language']['locale'];
         }
 
         /**
@@ -615,6 +617,9 @@ class Clansuite_GuestUser
         {
             $_SESSION['user']['frontend_theme'] = $this->config['template']['frontend_theme'];
         }
+
+        # @todo remove this line, when user login is reactivated
+        $_SESSION['user']['backendend_theme'] = 'admin';
 
         /**
          * Permissions for Guests
