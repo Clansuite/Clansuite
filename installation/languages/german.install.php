@@ -76,6 +76,8 @@ class Language implements ArrayAccess
         $this->language['STEP2_SETTING_EXPECTED_ON'] = 'an';
         $this->language['STEP2_SETTING_EXPECTED_OFF'] = 'aus';
 
+        $this->language['STEP2_FIX_REQUIRED_SETTINGS_TOOLTIP']  = 'Bevor Sie mit dem nächsten Installationsschritt fortfahren können, müssen Sie die erforderlichen Einstellungen überprüfen und abändern.';
+
         # REQUIRED SETTINGS (in order)
         $this->language['PHP_VERSION'] = 'PHP Version';
         $this->language['SESSION_FUNCTIONS'] = 'Session Funktionen';
