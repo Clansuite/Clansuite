@@ -162,12 +162,20 @@ class Clansuite_Installation
 
     private function autoload($classname)
     {
+        $classname = strtolower($classname);
+
+        # exclude load requests of non clansuite classes
+        # that's the case, when classname not prefixed with "clansuite"
+        if (strpos($classname, 'clansuite') === false)
+        {
+            return;
+        }
+
         # classname ot filename conversion
-        $filename = str_replace('Clansuite_Installation_', '', $classname);
-        $filename = strtolower($filename);
+        $filename = str_replace('clansuite_installation_', '', $classname);
 
         # load
-        include INSTALLATION_ROOT . 'controller/' . $filename . '.php';
+        include INSTALLATION_ROOT . 'controller' . DS . $filename . '.php';
     }
 
     public function loadDoctrine()
