@@ -99,7 +99,7 @@ body {
 
 .headerstyle
 {
-  background:#EEE url(images/gradient2.png) repeat-x scroll;
+  background:#EEE url(../images/gradient2.png) repeat-x scroll;
   border-color:#DDD #bbb #bbb #ddd;
   border-style:solid;
   border-width:1px;
@@ -176,31 +176,31 @@ a:hover
 
 .Button,.ButtonGrey
 {
-  background-image: url("images/background_form_element_grey.gif");
+  background-image: url("../images/background_form_element_grey.gif");
   background-size: contain;
 }
 
 .ButtonYellow
 {
-  background-image: url("images/background_form_element_yellow.gif");
+  background-image: url("../images/background_form_element_yellow.gif");
   background-size: contain;
 }
 
 .ButtonOrange
 {
-  background-image: url("images/background_form_element_orange.gif");
+  background-image: url("../images/background_form_element_orange.gif");
   background-size: contain; /* IE for the win */
 }
 
 .ButtonRed
 {
-  background-image: url("images/background_form_element_red.gif");
+  background-image: url("../images/background_form_element_red.gif");
   background-size: contain; /* IE for the win */
 }
 
 .ButtonGreen
 {
-  background-image: url("images/background_form_element_green.gif");
+  background-image: url("../images/background_form_element_green.gif");
   background-size: contain; /* IE for the win */
 }
 
