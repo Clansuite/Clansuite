@@ -141,6 +141,8 @@ class Clansuite_Installation
 
     public function __construct()
     {
+        spl_autoload_register(array($this, 'autoload'));
+
         $this->handleRequest_deleteInstallationFolder();
 
         $this->loadDoctrine();
@@ -156,6 +158,16 @@ class Clansuite_Installation
         $this->renderStep();
 
         register_shutdown_function('Clansuite_Installation::shutdown');
+    }
+
+    private function autoload($classname)
+    {
+        # classname ot filename conversion
+        $filename = str_replace('Clansuite_Installation_', '', $classname);
+        $filename = strtolower($filename);
+
+        # load
+        include INSTALLATION_ROOT . 'controller/' . $filename . '.php';
     }
 
     public function loadDoctrine()
@@ -301,18 +313,18 @@ class Clansuite_Installation
             {
                 $this->step = $this->step - 1;
             }
-
-            if($this->step >= $this->total_steps)
-            {
-                $this->step = $this->total_steps;
-            }
-
-            if($this->step == 0)
-            {
-                $this->step = 1;
-            }
         }
         else
+        {
+            $this->step = 1;
+        }
+
+        if($this->step >= $this->total_steps)
+        {
+            $this->step = $this->total_steps;
+        }
+
+        if($this->step == 0)
         {
             $this->step = 1;
         }
@@ -330,6 +342,12 @@ class Clansuite_Installation
 
     public function processPreviousStep()
     {
+        # there isn't a controller before step 1
+        if($this->step == 1)
+        {
+            return;
+        }
+
         $previous_step = $this->step - 1;
 
         $prev_step_class = 'Clansuite_Installation_Step' . $previous_step;
@@ -549,17 +567,18 @@ class Clansuite_Installation_Helper
      */
     public static function getTotalNumberOfSteps()
     {
-        # count only once
+        # count the files only once
         if(isset($_SESSION['total_steps']))
         {
             return $_SESSION['total_steps'];
         }
 
-        # count the number of classes named "Clansuite_Installation_StepX"
-        for($i = 1; class_exists('Clansuite_Installation_Step' . $i) === true; $i++)
-        {
-            $_SESSION['total_steps'] = $i;
-        }
+        # get array with all installaton step files
+        $step_files = glob('controller/step*.php');
+
+        # count the number of files named "stepX"
+        $_SESSION['total_steps'] = count($step_files);
+
         return $_SESSION['total_steps'];
     }
 
@@ -744,8 +763,10 @@ class Clansuite_Installation_Page
         {
             $this->error .= $error;
         }
-
-        $this->error = $error;
+        else
+        {
+            $this->error = $error;
+        }
     }
 
     public function getErrorMessage($error)
@@ -759,525 +780,4 @@ class Clansuite_Installation_Page
     }
 }
 
-/**
- * Step 1 - Language Selection
- */
-class Clansuite_Installation_Step1 extends Clansuite_Installation_Page
-{
-
-}
-
-/**
- * Step 2 - System Check
- */
-class Clansuite_Installation_Step2 extends Clansuite_Installation_Page
-{
-}
-
-/**
- * Step 3 - GPL License
- */
-class Clansuite_Installation_Step3 extends Clansuite_Installation_Page
-{
-}
-
-/**
- * STEP 4 - Database Source Name Configuration
- *
- * Procedure Notice:
- * 1) check if database settings are valid
- * 2) create table
- * 3) connect to database
- * 4) validate database schema
- * 5) insert database schema
- * 6) write database settings to config file
- */
-class Clansuite_Installation_Step4 extends Clansuite_Installation_Page
-{
-    public function getDefaultValues()
-    {
-        $values = array();
-
-        $values['host']     = isset($_SESSION['config']['database']['host'])     ? $_SESSION['config']['database']['host']     : 'localhost';
-        $values['driver']   = isset($_SESSION['config']['database']['driver'])   ? $_SESSION['config']['database']['driver']   : 'pdo_mysql';
-        $values['dbname']   = isset($_SESSION['config']['database']['dbname'])   ? $_SESSION['config']['database']['dbname']   : 'clansuite';
-        $values['user']     = isset($_SESSION['config']['database']['user'])     ? $_SESSION['config']['database']['user']     : '';
-        $values['password'] = isset($_SESSION['config']['database']['password']) ? $_SESSION['config']['database']['password'] : '';
-        $values['prefix']   = isset($_SESSION['config']['database']['prefix'])   ? $_SESSION['config']['database']['prefix']   : 'cs_';
-        $values['create_database'] = isset($_SESSION['config']['database']['create_database']) ? $_SESSION['config']['database']['create_database'] : '0';
-
-        return $values;
-    }
-
-    public function validateFormValues()
-    {
-        $error = '';
-
-        /**
-         *  Valid Database Settings.
-         *
-         * Ensure the database settings incomming from input-fields are valid.
-         */
-        if(!empty($_POST['config']['database']['dbname'])
-            and !empty($_POST['config']['database']['host'])
-            and !empty($_POST['config']['database']['driver'])
-            and !empty($_POST['config']['database']['user'])
-            and isset($_POST['config']['database']['password']))
-        {
-            /**
-             * This appends the error message with more pieces of information,
-             * in case the validity of the "database name" FAILED.
-             *
-             * The database name has serious restrictions:
-             * Forbidden are database names containing
-             * only numbers and names like mysql-database commands.
-             */
-            if(preg_match("![\"'=*{}/\\?:<>]+!i", $_POST['config']['database']['dbname']))
-            {
-                $error .= '<p>The database name you have entered ("' . $_POST['config']['database']['dbname'] . '") is invalid.</p>';
-                $error .= '<p> It can only contain alphanumeric characters, periods or underscores.';
-                $error .= ' You might only use chars printed within brackets: [A-Z], [a-z], [0-9], [-_].</p>';
-                $error .= '<p> Forbidden are database names containing only numbers and names like mysql-database commands.</p>';
-            }
-
-            if(!ctype_alnum($_POST['config']['database']['user']))
-            {
-                $error .= '<p>The database username might only contain alphanumeric characters.';
-            }
-
-            if($error != '')
-            {
-               $this->setErrorMessage($error);
-               return false;
-            }
-
-            // Values are valid!
-            return true;
-        }
-        else
-        {
-            // Setup Error Message
-            $this->setErrorMessage($this->language['ERROR_FILL_OUT_ALL_FIELDS']);
-
-            // Values are not valid.
-            return false;
-        }
-    }
-
-    public function processValues()
-    {
-        /**
-         * 2) Create database.
-         *
-         * Has the user requested to create the database?
-         */
-        if(isset($_POST['config']['database']['create_database'])
-                and $_POST['config']['database']['create_database'] == 'on')
-        {
-            try
-            {
-                # connection without dbname (must be blank for create table)
-                $connectionParams = array(
-                    'user' => $_POST['config']['database']['user'],
-                    'password' => $_POST['config']['database']['password'],
-                    'host' => $_POST['config']['database']['host'],
-                    'driver' => $_POST['config']['database']['driver'],
-                );
-
-                $config = new \Doctrine\DBAL\Configuration();
-                $connection = \Doctrine\DBAL\DriverManager::getConnection($connectionParams, $config);
-                $connection->setCharset('UTF8');
-
-                /**
-                 * fetch doctrine schema manager
-                 * and create database
-                 */
-                $schema_manager = $connection->getSchemaManager();
-                $schema_manager->createDatabase($_POST['config']['database']['dbname']);
-
-                /**
-                 * Another way of doing this is via the specific database platform command.
-                 * Then for creating the database the platform is asked, which SQL CMD to use.
-                 * For "pdo_mysql" it would result in a string like 'CREATE DATABASE name'.
-                 */
-                #$db = $connection->getDatabasePlatform();
-                #$sql = $db->getCreateDatabaseSQL('databasename');
-                #$connection->exec($sql);
-
-                # Drop Connection.
-                unset($connection);
-            }
-            catch(Exception $e)
-            {
-                // force return
-                $this->setStep(4);
-
-                $error = $this->language['ERROR_WHILE_CREATING_DATABASE'] . NL . NL;
-                $error .= $e->getMessage() . '.';
-
-                $this->setErrorMessage($error);
-            }
-        }
-
-        /**
-         * 3) Connect to Database
-         */
-        # Setup Connection Parameters. This time with "dbname".
-        $connectionParams = array(
-            'dbname' => $_POST['config']['database']['dbname'],
-            'user' => $_POST['config']['database']['user'],
-            'password' => $_POST['config']['database']['password'],
-            'host' => $_POST['config']['database']['host'],
-            'driver' => $_POST['config']['database']['driver'],
-            'prefix' => $_POST['config']['database']['prefix'],
-        );
-
-        $entityManager = Clansuite_Installation_Helper::getDoctrineEntityManager($connectionParams);
-
-        /**
-         * 4) Validate Database Schemas
-         */
-        try
-        {
-            # instantiate validator
-            $validator = new \Doctrine\ORM\Tools\SchemaValidator($entityManager);
-
-            # validate
-            $validation_error = $validator->validateMapping();
-
-            # handle validation errors
-            #if($validation_error)
-            #{
-                # @todo this is experimental...
-                var_dump($validation_error);
-            #}
-        }
-        catch(Exception $e)
-        {
-            // force return
-            $this->setStep(4);
-
-            $error = $this->language['ERROR_NO_DB_CONNECT'] . NL . $e->getMessage();
-
-            $this->setErrorMessage($error);
-        }
-
-        /**
-         * 5) Insert/Update Schemas
-         *
-         * "recreate" will do a database drop, before schemas are updated.
-         */
-        try
-        {
-            $schemaTool = new \Doctrine\ORM\Tools\SchemaTool($entityManager);
-            $metadata = $entityManager->getMetadataFactory()->getAllMetadata();
-            if(isset($_GET['recreate']))
-            {
-                $schemaTool->dropSchema($metadata);
-            }
-            $schemaTool->updateSchema($metadata);
-
-            $entityManager->flush();
-        }
-        catch(Exception $e)
-        {
-            $html = '';
-            $html .= 'The update failed!' . NL;
-            $html .= 'Do you want to force a database drop (' . $connectionParams['dbname'] . ')?' . NL;
-            $html .= 'This will result in a total loss of all data and database tables.' . NL;
-            $html .= 'It will allow for an clean installation of the database.' . NL;
-            $html .= 'WARNING: Act carefully!' . NL;
-            $html .= '<form action="index.php?step=4&recreate=true" method="post">';
-            $html .= '<input type="submit" value="Recreate Database" class="retry"></form>';
-
-            // force return
-            $this->setStep(4);
-
-            $error = $this->language['ERROR_NO_DB_CONNECT'] . NL . $e->getMessage();
-            $error .= NL . NL . $html;
-
-            $this->setErrorMessage($error);
-        }
-
-        /**
-         * 6. Write Settings to clansuite.config.php
-         */
-        if(false === Clansuite_Installation_Helper::write_config_settings($_POST['config']))
-        {
-            // force return
-            $this->setStep(4);
-
-            $error = 'Config not written.' . NL;
-
-            $this->setErrorMessage($error);
-        }
-    }
-}
-
-/**
- * Step 5 - Website Configuration
- */
-class Clansuite_Installation_Step5 extends Clansuite_Installation_Page
-{
-    public function getDefaultValues()
-    {
-        $values = array();
-
-        $values['pagetitle']  = isset($_SESSION['template']['pagetitle']) ? $_SESSION['template']['pagetitle'] : 'Team Clansuite';
-        $values['from']       = isset($_SESSION['email']['from']) ? $_SESSION['email']['from'] : 'webmaster@website.com';
-        $values['gmtoffset']  = isset($_SESSION['language']['gmtoffset'])  ? $_SESSION['language']['gmtoffset']  : '3600';
-        $values['encryption'] = isset($_SESSION['encryption']) ? $_SESSION['encryption'] : 'SHA1';
-
-        return $values;
-    }
-
-    public function validateFormValues()
-    {
-        $error = '';
-
-        # check if input-fields are filled
-        if(isset($_POST['config']['template']['pagetitle'])
-            and isset($_POST['config']['email']['from'])
-            and isset($_POST['config']['language']['gmtoffset']))
-        {
-            if(!filter_var($_POST['config']['email']['from'], FILTER_VALIDATE_EMAIL))
-            {
-                $error .= NL. ' Please enter a valid email address.';
-            }
-
-            if(preg_match('#!/^[A-Za-z0-9-_\",\'\s]+$/#', $_POST['config']['template']['pagetitle']))
-            {
-                $error .= NL. ' Please enter a pagetitle containing only alphanumeric characters.';
-            }
-
-            if($error != '')
-            {
-               $this->setErrorMessage($error);
-               return false;
-            }
-
-            // Values are valid.
-            return true;
-        }
-        else
-        {
-            $error = $this->language['ERROR_FILL_OUT_ALL_FIELDS'];
-
-            // some input fields are empty
-            $this->setErrorMessage($error);
-
-            // Values are not valid.
-            return false;
-        }
-    }
-
-    public function processValues()
-    {
-        $config_array = array();
-        $config_array = $_POST['config'];
-
-        // transform the GMTOFFSET (3600 = GMT+1) into a timezone name, like "Europe/Berlin".
-        $config_array['language']['timezone'] = (string) timezone_name_from_abbr('', $_POST['config']['language']['gmtoffset'], 0);
-
-        # write Settings to clansuite.config.php
-        if(false === Clansuite_Installation_Helper::write_config_settings($config_array))
-        {
-            $this->setStep(5);
-            $this->setErrorMessage('Config not written <br />');
-        }
-    }
-}
-
-/**
- * Step 6 - Create Administrator Account
- */
-class Clansuite_Installation_Step6 extends Clansuite_Installation_Page
-{
-    public function getDefaultValues()
-    {
-        $values = array();
-
-        $values['admin_name']     = isset($_SESSION['admin_name'])     ? $_SESSION['admin_name']     : 'admin';
-        $values['admin_password'] = isset($_SESSION['admin_password']) ? $_SESSION['admin_password'] : 'admin';
-        $values['admin_email']    = isset($_SESSION['admin_email'])    ? $_SESSION['admin_email']    : 'admin@email.com';
-        $values['admin_language'] = isset($_SESSION['admin_language']) ? $_SESSION['admin_language'] : 'en_EN';
-
-        return $values;
-    }
-
-    public function validateFormValues()
-    {
-        $error = '';
-
-        if(isset($_POST['admin_name']) and isset($_POST['admin_password']))
-        {
-            if(!ctype_alnum($_POST['admin_name']))
-            {
-                $error .= '<p>The admin username might only contain alphanumeric characters.';
-            }
-
-            if($error != '')
-            {
-               $this->setErrorMessage($error);
-
-                // Values are not valid.
-               return false;
-            }
-
-
-            // Values are valid.
-            return true;
-        }
-        else
-        {
-            $error = $this->language['STEP6_ERROR_COULD_NOT_CREATE_ADMIN'];
-
-            $this->setErrorMessage($error);
-
-            // Values are not valid.
-            return false;
-        }
-    }
-
-    public function processValues()
-    {
-        /**
-         * security class is required
-         * for building the user password and salt hashes.
-         */
-        require ROOT . 'core/security.core.php';
-
-        # generate salted hash
-        $hashArray = Clansuite_Security::build_salted_hash(
-                        $_POST['admin_password'], $_SESSION['encryption']
-        );
-
-        /**
-         * Insert admin user into the database.
-         *
-         * We are using a raw sql statement with bound variables passing it to Doctrine2.
-         */
-        try
-        {
-            $db = Clansuite_Installation_Helper::getDoctrineEntityManager()->getConnection();
-
-            $raw_sql_query = 'INSERT INTO ' . $_SESSION['config']['database']['prefix'] . 'users
-                            SET  email = :email,
-                                nick = :nick,
-                                passwordhash = :hash,
-                                salt = :salt,
-                                joined = :joined,
-                                language = :language,
-                                activated = :activated';
-
-            $stmt = $db->prepare($raw_sql_query);
-
-            $params = array(
-                'email' => $_POST['admin_email'],
-                'nick' => $_POST['admin_name'],
-                'hash' => $hashArray['hash'],
-                'salt' => $hashArray['salt'],
-                'joined' => time(),
-                'language' => $_SESSION['admin_language'],
-                'activated' => '1'
-            );
-
-            $stmt->execute($params);
-        }
-        catch(Exception $e)
-        {
-            $this->setStep(6);
-            $this->setErrormessage($e->getMessage());
-        }
-    }
-
-}
-
-/**
- * STEP 7 - Installation Success. The END.
- */
-class Clansuite_Installation_Step7 extends Clansuite_Installation_Page
-{
-}
-
-/**
- * Clansuit Installation Exception
- *
- * @category    Clansuite
- * @package     Installation
- * @subpackage  Exception
- */
-class Clansuite_Installation_Exception extends Exception
-{
-    /**
-     * Define Exceptionmessage && Code via constructor
-     * and hand it over to the parent Exception Class
-     */
-    public function __construct($message, $code = 0)
-    {
-        parent::__construct($message, $code);
-    }
-
-    /**
-     * Transform the Object to String
-     */
-    public function __toString()
-    {
-        # Header
-        $html = '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-                           "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-                        <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">';
-        $html .= '<head><title>Clansuite Installation Error</title>';
-        $html .= '<link rel="stylesheet" href="../themes/core/css/error.css" type="text/css" />';
-        $html .= '</head><body>';
-
-        /**
-         * Fieldset for Exception Message
-         */
-        $html .= '<fieldset class="error_yellow">';
-        $html .= '<div style="float:left; padding: 15px;">';
-        $html .= '<img src="images/Clansuite-Toolbar-Icon-64-error.png" style="border: 2px groove #000000;" alt="Clansuite Error Icon" /></div>';
-        $html .= '<legend>Clansuite Installation Error</legend>';
-        $html .= '<p><strong>' . $this->getMessage() . '</strong>';
-
-        /**
-         * Display a table with all pieces of information of the exception.
-         */
-        if(DEBUG == true)
-        {
-            $html .= '<table>';
-            $html .= '<tr><td><strong>Errorcode</strong></td><td>' . $this->getCode() . '</td></tr>';
-            $html .= '<tr><td><strong>Message</strong></td><td>' . $this->getMessage() . '</td></tr>';
-            $html .= '<tr><td><strong>Pfad</strong></td><td>' . dirname($this->getFile()) . '</td></tr>';
-            $html .= '<tr><td><strong>Datei</strong></td><td>' . basename($this->getFile()) . '</td></tr>';
-            $html .= '<tr><td><strong>Zeile</strong></td><td>' . $this->getLine() . '</td></tr>';
-            $html .= '</table>';
-        }
-
-        $html .= '</p></fieldset><br />';
-
-        /**
-         * Fieldset for Help Message
-         */
-        $html .= '<fieldset class="error_yellow">';
-        $html .= '<legend>Help</legend>';
-        $html .= '<ol>';
-        $html .= '<li>You might use <a href="phpinfo.php">phpinfo()</a> to check your serversettings.</li>';
-
-        if( get_cfg_var('cfg_file_path') )
-        {
-            $cfg_file_path = get_cfg_var('cfg_file_path');
-        }
-        $html .= '<li>Check your php.ini ('. $cfg_file_path .') and ensure all needed extensions are loaded. <br />';
-        $html .= 'After a modification of your php.ini you must restart your webserver.</li>';
-
-        $html .= '<li>Check the webservers errorlog.</li></ol><p>';
-        $html .= "If you can't solve the error yourself, feel free to contact us at our website's <a href=\"http://forum.clansuite.com/index.php?board=25.0\">Installation - Support Forum</a>.<br/>";
-        $html .= '</p></fieldset>';
-        $html .= '</body></html>';
-
-        # stfu...
-        exit($html);
-    }
-}
 ?>
