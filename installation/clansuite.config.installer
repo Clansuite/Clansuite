@@ -29,17 +29,13 @@ module = "news"
 action = "list"
 
 ;----------------------------------------
-; Default Language Setting
+; Language and Locale Settings
 ;----------------------------------------
 [language]
-language        = de
+locale          = "de"
 outputcharset   = "UTF-8"
-
-;----------------------------------------
-; Locale Setting
-;----------------------------------------
-[locale]
-locale          = "3600"
+gmtoffset       = "3600"
+dateformat      = "d.m.Y H:i"
 
 ;----------------------------------------
 ; Default Error Settings
