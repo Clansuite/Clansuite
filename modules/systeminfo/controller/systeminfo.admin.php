@@ -45,12 +45,12 @@ if (defined('IN_CS') === false)
  */
 class Clansuite_Module_Systeminfo_Admin extends Clansuite_Module_Controller
 {
-    public function initializeModule()
+    public function _initializeModule()
     {
         $this->getModuleConfig();
     }
 
-    public function action_admin_show()
+    public function action_admin_list()
     {
         # Set Pagetitle and Breadcrumbs - not needed
         # Clansuite_Breadcrumb::add( _('Show'), '/sysinfo/show');
@@ -111,7 +111,6 @@ class Clansuite_Module_Systeminfo_Admin extends Clansuite_Module_Controller
         $sysinfos['cfg_include_path']             = get_cfg_var('include_path');
         $sysinfos['cfg_file_path']                = realpath(get_cfg_var("cfg_file_path"));
         $sysinfos['zend_thread_safty']            = (int) function_exists('zend_thread_id');
-        $sysinfos['safe_mode']                    = (int) ini_get('safe_mode');
         $sysinfos['open_basedir']                 = (int) ini_get('open_basedir');
         $sysinfos['memory_limit']                 = ini_get('memory_limit');
         $sysinfos['allow_url_fopen']              = (int) ini_get('allow_url_fopen');
@@ -122,8 +121,6 @@ class Clansuite_Module_Systeminfo_Admin extends Clansuite_Module_Controller
         $sysinfos['disable_functions']            = (int) ini_get('disable_functions');
         $sysinfos['disable_classes']              = (int) ini_get('disable_classes');
         $sysinfos['enable_dl']                    = (int) ini_get('enable_dl');
-        $sysinfos['magic_quotes_gpc']             = (int) ini_get('magic_quotes_gpc');
-        $sysinfos['register_globals']             = (int) ini_get('register_globals');
         $sysinfos['filter_default']               = ini_get('filter.default');
         $sysinfos['zend_ze1_compatibility_mode']  = (int) ini_get('zend.ze1_compatibility_mode');
         $sysinfos['unicode_semantics']            = (int) ini_get('unicode.semantics');

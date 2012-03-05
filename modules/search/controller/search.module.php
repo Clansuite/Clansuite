@@ -46,7 +46,7 @@ if(defined('IN_CS') === false)
 class Clansuite_Module_Search extends Clansuite_Module_Controller
 {
 
-    public function initializeModule()
+    public function _initializeModule()
     {
         # read module config
         $this->getModuleConfig();

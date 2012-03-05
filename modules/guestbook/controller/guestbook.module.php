@@ -51,7 +51,7 @@ class Clansuite_Module_Guestbook extends Clansuite_Module_Controller
     /**
      * Module_Guestbook -> Execute
      */
-    public function initializeModule()
+    public function _initializeModule()
     {
     }
 

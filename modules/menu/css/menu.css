@@ -94,7 +94,7 @@
     padding: 5px 2px 4px 3px; /* top right bottom left */
     position: absolute;
     visibility: hidden;
-    z-index: 5;
+    z-index: 99;
 }
 .XulMenu .arrow {
     position: absolute;

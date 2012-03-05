@@ -47,7 +47,7 @@ class Clansuite_Module_Forum extends Clansuite_Module_Controller
 {
     private static $moduleInfos = array();
 
-    public function initializeModule()
+    public function _initializeModule()
     {  
         $this->getModuleConfig();
 

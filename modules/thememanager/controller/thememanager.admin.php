@@ -45,15 +45,23 @@ if (defined('IN_CS') === false)
  */
 class Clansuite_Module_Thememanager_Admin extends Clansuite_Module_Controller
 {
-    public function initializeModule()
+    /**
+     * @var object \Clansuite_Cssbuilder
+     */
+    private $cssbuilder = null;
+
+    public function _initializeModule()
     {
+        $this->cssbuilder = new Clansuite_Cssbuilder();
+
         #$this->getModuleConfig();
     }
 
-    public function action_admin_show()
+    public function action_admin_list()
     {
         $view = $this->getView();
         $view->assign('themes', $this->getThemesList());
+        $view->assign('cssbuilder', $this->getCssbuilderDefaultSettings());
         $this->display();
     }
 
@@ -69,7 +77,7 @@ class Clansuite_Module_Thememanager_Admin extends Clansuite_Module_Controller
             {
                 if($theme['dirname'] == $theme_to_delete)
                 {
-                    #Clansuite_Functions::delete_dir_content($theme['fullpath']);
+                    Clansuite_Functions::delete_dir_content($theme['fullpath']);
                 }
             }
 
@@ -127,7 +135,7 @@ class Clansuite_Module_Thememanager_Admin extends Clansuite_Module_Controller
                 }
 
                 # is this theme active for the individual user?
-                if($_SESSION['user']['frontend_theme'] == $dir or $_SESSION['user']['backend_theme']  == $dir)
+                if($_SESSION['user']['frontend_theme'] == $dir) # or $_SESSION['user']['backend_theme']  == $dir)
                 {
                     $theme_info[$i]['user_active'] = true;
                 }
@@ -138,11 +146,11 @@ class Clansuite_Module_Thememanager_Admin extends Clansuite_Module_Controller
 
                 # add preview image (preview_image should contain 2 files: [0]preview.img and [1]preview_thumb.img)
                 $preview_image = glob($themes_directory . $dir . DS . 'preview*.{jpg,png,gif,jpeg,JPG,PNG,GIF,JPEG}', GLOB_BRACE);
-                
+
                 # turn ROOT_THEMES path into a WWW_ROOT path
                 if(true === (bool) $theme_info[$i]['backendtheme'])
                 {
-                    $preview_image = str_replace(ROOT_THEMES_BACKEND, WWW_ROOT_THEMES_BACKEND . '', $preview_image);                    
+                    $preview_image = str_replace(ROOT_THEMES_BACKEND, WWW_ROOT_THEMES_BACKEND . '', $preview_image);
                 }
                 else
                 {
@@ -170,7 +178,7 @@ class Clansuite_Module_Thememanager_Admin extends Clansuite_Module_Controller
     }
 
     /**
-     * Get array with pieces of information about all the avaiable Themes (Skins)
+     * Get array with pieces of information about all the available Themes (Skins)
      *
      * @return array
      */
@@ -234,6 +242,111 @@ class Clansuite_Module_Thememanager_Admin extends Clansuite_Module_Controller
     public static function widget_backend_themechooser()
     {
 
+    }
+
+    /**
+     * CssBuilder
+     */
+    public function action_admin_cssbuilder()
+    {
+        $config = array();
+        $htmlout = '';
+
+        /**
+         * add more browsers
+         * Mozilla is already added as default.
+         * @todo this has to be accessible for the use in the ui,
+         * not for the developer in the php code...
+         */
+        $this->cssbuilder->addBrowser( 'ie', 'Internet Explorer', true, 'ie' );
+        #$this->cssbuilder->addBrowser( 'chrome', 'Google Chrome', true, 'ch' );
+        #$this->cssbuilder->addBrowser( 'opera', 'Opera', true, 'op' );
+        #$this->cssbuilder->addBrowser( 'safari', 'Safari', true, 'sf' );
+        #$this->cssbuilder->addBrowser( 'camino', 'Camino', true, 'cam' );
+        #$this->cssbuilder->addBrowser( 'konqueror', 'Konqueror', true, 'cam' );
+
+        if($this->request->getRequestMethod() == 'POST')
+        {
+            # @todo remove $_POST
+            $config['compileCore'] = isset($_POST['compileCore']) ? true : false;
+            $config['coreImport'] = isset($_POST['coreImport']) ? true : false;
+            $config['compileThemeFrontend'] = isset($_POST['compileThemeFrontend']) ? true : false;
+            $config['compileThemeBackend'] = isset($_POST['compileThemeBackend']) ? true : false;
+
+            $config['themeFrontendPath'] = $_POST['themeFrontendPath'];
+            $config['themeFrontend'] = $_POST['themeFrontend'];
+            $config['themeBackendPath'] = $_POST['themeBackendPath'];
+            $config['themeBackend'] = $_POST['themeBackend'];
+
+            $formBrowsers = $_POST['browsers'];
+
+            $browsers = array();
+            $i = 0;
+
+            foreach( $formBrowsers as $key => $val)
+            {
+                if(isset($val['active']) and $val['active'] == 1)
+                {
+                    $browsers[$i]['description'] = $val['description'];
+                    $browsers[$i]['postfix'] = $val['postfix'];
+                    $i++;
+                }
+            }
+            unset($key, $val);
+
+            $config['browsers'] = $browsers;
+
+            // Builder-Informationen
+            $this->cssbuilder->setConfiguration($config);
+
+            if( ( true=== $config['compileCore'] ) ||
+               ( true=== $config['compileThemeFrontend'] and $config['themeFrontendPath'] != '' and $config['themeFrontend'] != '' ) ||
+               ( true=== $config['compileThemeBackend'] and $config['themeBackendPath'] != '' and $config['themeBackend'] != '' )
+            )
+            {
+                /**
+                 * Compile
+                 */
+                $htmlout .= '<div class="cmSuccess">';
+
+                $nr_browsers = count($browsers);
+                for($i=0; $i < $nr_browsers; $i++)
+                {
+                    $htmlout .= '<p class="cmBoxTitle" style="padding-left:50px;">';
+                    $htmlout .= 'CSS-Builder Information <u>'.$browsers[$i]['description'].'</u></p>';
+                    $htmlout .= $this->cssbuilder->build($i);
+                }
+                unset($nr_browsers, $i);
+
+                $htmlout .= '</div>';
+                $htmlout .= '<br />';
+                $htmlout .= '</td></tr></table>';
+            }
+        }
+
+        # Get Render Engine
+        $view = $this->getView();
+        $view->assign('browserinfo', $this->cssbuilder->getBrowsers());
+        $view->assign('cssbuilder', $config);
+        $view->assign('msgcompiled', $htmlout);
+
+        $this->display();
+    }
+
+    protected function getCssbuilderDefaultSettings()
+    {
+        $cssbuilder = array();
+
+        $cssbuilder['compileCore']             = false;
+        $cssbuilder['coreImport']              = true;
+        $cssbuilder['compileThemeFrontend']    = true;
+        $cssbuilder['compileThemeBackend']     = false;
+        $cssbuilder['themeFrontendPath']       = $this->cssbuilder->getFrontendPath();
+        $cssbuilder['themeFrontend']           = $this->cssbuilder->getFrontendTheme();
+        $cssbuilder['themeBackendPath']        = $this->cssbuilder->getBackendPath();
+        $cssbuilder['themeBackend']            = $this->cssbuilder->getBackendTheme();
+
+        return $cssbuilder;
     }
 }
 ?>

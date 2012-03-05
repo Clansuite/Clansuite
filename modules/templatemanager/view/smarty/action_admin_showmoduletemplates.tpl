@@ -17,7 +17,7 @@
 $(function () {
     $("#templates_menu_tree").jstree({
         "core"    : { "initially_open" : [ "templates_menu_tree_root" ] },
-        "plugins" : [ "themes", "html_data", ],
+        "plugins" : [ "themes", "html_data", ]
     });
 });
 --></script>

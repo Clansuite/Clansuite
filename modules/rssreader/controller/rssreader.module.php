@@ -45,17 +45,6 @@ if(defined('IN_CS') === false)
  */
 class Clansuite_Module_Rssreader extends Clansuite_Module_Controller
 {
-    public function initializeModule()
-    {
-    }
-
-    public function action_show()
-    {
-        $view = $this->getView();
-
-        $this->display();
-    }
-
     public function widget_rssreader()
     {
         # fetch the google group clansuite for latest news

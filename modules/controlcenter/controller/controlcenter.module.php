@@ -45,11 +45,11 @@ if (defined('IN_CS') === false)
  */
 class Clansuite_Module_ControlCenter extends Clansuite_Module_Controller
 {
-    public function initializeModule()
+    public function _initializeModule()
     {
     }
 
-    public function action_show()
+    public function action_list()
     {
         # Get Render Engine
         $view = $this->getView();
@@ -164,9 +164,10 @@ class Clansuite_Module_ControlCenter extends Clansuite_Module_Controller
 
         $settings = array();
 
-        $settings['form']   = array(    'name' => 'controlcenter_settings',
-                'method' => 'POST',
-                'action' => '/controlcenter/settings_update');
+        $settings['form']   = array(
+            'name' => 'controlcenter_settings',
+            'method' => 'POST',
+            'action' => '/controlcenter/settings_update');
 
         $settings['controlcenter'][] = array(
                 'id' => 'show_box_shortcuts',

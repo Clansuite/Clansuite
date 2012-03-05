@@ -45,12 +45,12 @@ if (defined('IN_CS') === false)
  */
 class Clansuite_Module_Mibbitirc extends Clansuite_Module_Controller
 {
-    public function initializeModule()
+    public function _initializeModule()
     {
         $this->getModuleConfig();
     }
 
-    public function action_show()
+    public function action_list()
     {
         # Set Pagetitle and Breadcrumbs
         Clansuite_Breadcrumb::add( _('Show'), '/mibbitirc/show');

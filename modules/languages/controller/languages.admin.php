@@ -43,13 +43,13 @@ if(defined('IN_CS') === false)
  */
 class Clansuite_Module_Languages_Admin extends Clansuite_Module_Controller
 {
-    public function initializeModule()
+    public function _initializeModule()
     {
         # raise time limit for scanning and extraction
         @set_time_limit(900);
     }
 
-    public static function createLanguagesDirIfNotExistant($module)
+    public static function createLanguagesDirIfNotExistant($module = '')
     {
         if(false == is_dir(ROOT_MOD . $module . DS . 'languages'))
         {
@@ -64,24 +64,40 @@ class Clansuite_Module_Languages_Admin extends Clansuite_Module_Controller
         /**
          * Create directory structure for gettext translations
          *
-         * A "locale" and "LC_MESSAGES" folder are needed, like:
-         * /languages/<ll_CC>/LC_MESSAGES/
+         * Gettext needs a "locale" and "LC_MESSAGES" folder: /languages/<ll_CC>/LC_MESSAGES/
          */
+
+        # path to gettext messages folder
         $path = ROOT_MOD . $module . DS . 'languages' . DS . $locale . DS . 'LC_MESSAGES';
-        if(false == is_dir($path))
+
+        if(false === is_dir($path))
         {
-            mkdir($path, 0777, true);
+            # create dir
+            if(false === mkdir($path, 0777, true))
+            {
+                throw new Clansuite_Exception('Gettext folder creation failed.');
+            }
         }
 
         /**
-         * Create gettext portable object file - empty, to start the translation process
+         * Create gettext portable object file
          */
+
+        # path to po file
         $file = $path . DS . $module . '.po';
+
         if(false === is_file($file))
         {
+            # gettext is needed to fetch the po fileheader
             include ROOT_CORE . 'gettext.core.php';
+
             $fileheader = Clansuite_Gettext_Extractor_Tool::getPOFileHeader(true);
-            file_put_contents($file, $fileheader);
+
+            # create file
+            if(false === file_put_contents($file, $fileheader))
+            {
+                throw new Clansuite_Exception('Gettext PO file creation failed.');
+            }
         }
     }
 
@@ -95,7 +111,7 @@ class Clansuite_Module_Languages_Admin extends Clansuite_Module_Controller
      *
      * @param string $module_name Name of the module to scan for language strings.
      */
-    public static function scanModule($module)
+    public static function scanModule($module = '')
     {
         if(DEBUG)
         {
@@ -152,6 +168,12 @@ class Clansuite_Module_Languages_Admin extends Clansuite_Module_Controller
         $this->display();
     }
 
+    /**
+     * Scan Theme extracts gettext keys from a theme.
+     *
+     * @param string $theme_name
+     * @param string $theme_type "frontend", "backend"
+     */
     public static function scanTheme($theme_name, $theme_type)
     {
         if(DEBUG)
@@ -182,7 +204,7 @@ class Clansuite_Module_Languages_Admin extends Clansuite_Module_Controller
         $gettext_extractor->save( $path );
     }
 
-    public function action_admin_show()
+    public function action_admin_list()
     {
         # get themes
         $themes = Clansuite_Theme::getThemeDirectories();
@@ -216,7 +238,7 @@ class Clansuite_Module_Languages_Admin extends Clansuite_Module_Controller
         # display scanner log
         $view = $this->getView();
         $view->assign('scan_log', $scan_log_content);
-        
+
         $this->setFlashmessage('success', _('The module was scanned successfully and the Portable Object File was updated.'));
         $this->response->redirectNoCache('/languages/admin', 10, 302, 'success#The module has been successfully created.');
     }
@@ -238,35 +260,226 @@ class Clansuite_Module_Languages_Admin extends Clansuite_Module_Controller
         $this->display();
     }
 
-    public function action_admin_readlanguage()
+    /**
+     * Edit the language items of a module
+     *
+     * Left Side => Right Side
+     * English   => Target Language
+     *
+     */
+    public function action_admin_edit()
     {
+        if($this->request->getRequestMethod() == 'GET')
+        {
+            # get "module" and target "locale" for editing
+            $module = $this->request->getParameter('module', 'GET');
+            $locale = $this->request->getParameter('locale', 'GET');
 
+            # transform "de-DE" to "de_DE" because locale dirs have underscores
+            $locale = str_replace('-', '_', $locale);
+
+            /**
+             * We translate *from* english to the target language.
+             *
+             * English locale is the base for all translations.
+             * This fetches all english language strings of the module.
+             */
+            include ROOT_CORE . 'gettext/po.gettext.php';
+            $english_data = Gettext_PO_File::read( $this->getModulePOFilename($module, 'en_GB') );
+            $english_data = $this->preparePODataForView($english_data);
+
+            #Clansuite_Debug::printR($english_data);
+
+            $this->getView()->assign('english_locale', $english_data);
+
+            /**
+            * We translate *to* the target locale.
+            *
+            * The fetches the locale to edit.
+            */
+            $target_locale_pofile = $this->getModulePOFilename($module, $locale);
+            $target_locale_data = Gettext_PO_File::read( $target_locale_pofile );
+            $target_locale_data = $this->preparePODataForView($target_locale_data);
+
+            #Clansuite_Debug::printR($target_locale_data);
+
+            $this->view->assign('target_locale', $target_locale_data);
+
+            /**
+             * Setup Form
+             *
+             * This form shows one text field per language string (gettext msgstr).
+             * The english original string is displayed as formelement description text.
+             *
+             * Developer Note:
+             * ---------------
+             * If anyone wants to polish this with an implementation of a table view
+             * with ajax live-editing or inline-editing of table cells, then
+             * (a) you will make me happy and (b) if you contact me before
+             * and discuss the implementation details, then i will pay for it.
+             * Take the folling table as an good example for an gettext editor dialog:
+             * http://www.gted.org/screenshots/entries_horizontal.gif
+             *
+             */
+
+            $form = new Clansuite_Form('Edit Locale');
+            $form->setLegend('Edit Locale');
+            $form->setHeading('You are editing the "'.$locale.'" locale of the module "'.ucfirst($module).'".');
+
+            # remove metadata from end of array
+            array_pop($english_data);
+
+            $i = 0;
+            foreach($english_data as $data_set)
+            {
+                $msgid = htmlentities($data_set['msgid']);
+
+                $form->addElement('text')
+                        # use the gettext msgid as array key on $_POST
+                        ->setName('locale_form['.$msgid.']')
+                        ->setLabel('Phrase ' . $i)
+                        # show the gettext msgid as description text
+                        ->setDescription('"' . $msgid . '"');
+
+                $i = $i + 1;
+            }
+            # add hidden formfields to transfers our target locale and module
+            $form->addElement('hidden')->setName('locale')->setValue($locale);
+            $form->addElement('hidden')->setName('module')->setValue($module);
+            $form->addElement('buttonbar');
+
+            $this->view->assign('form', $form->render());
+
+            $this->display();
+        }
+
+        # update
+        if($this->request->getRequestMethod() == 'POST')
+        {
+            $this->action_admin_update();
+        }
     }
 
-    public function action_admin_editlanguage()
+    public function action_admin_update()
     {
+        if(false === ($this->request->getRequestMethod() == 'POST'))
+        {
+            return;
+        }
 
-    }
+        Clansuite_Debug::dump($this->request->getPost(), false);
 
-    public function action_admin_deletelanguage()
-    {
+        $locale_msgstr_array = $this->request->getParameterFromPost('locale_form');
+        $locale = $this->request->getParameterFromPost('locale');
+        $module = $this->request->getParameterFromPost('module');
+        var_dump($locale_msgstr_array);
 
+        /**
+         * Fetch the po file data of the target locale.
+         */
+        include ROOT_CORE . 'gettext/po.gettext.php';
+        $target_locale_pofile = $this->getModulePOFilename($module, $locale);
+        $target_locale_data = Gettext_PO_File::read( $target_locale_pofile );
+
+        /**
+         * $locale_msgstr_array is the following relation:
+         *
+         * msgid is the string in english as an identifier.
+         * msgstr is the translation string to use for the identifier.
+         *
+         * msgid  = 'house' (english)
+         * msgstr = 'haus'  (german)
+         */
+
+        $added_counter = 0;
+        $updated_counter = 0;
+
+        foreach($locale_msgstr_array as $msgid => $msgstr)
+        {
+            # only add something, if we got a translation string for this msgid
+            if($msgstr != '')
+            {
+                # if the msgstr already exists, then it's an update
+                if(true === isset($target_locale_data[$msgid]))
+                {
+                    $updated_counter = $updated_counter + 1;
+                }
+                else
+                {
+                    # a new language string is added
+                    $added_counter = $added_counter + 1;
+                }
+
+                $target_locale_data[$msgid]['msgid'] = $msgid;
+                $target_locale_data[$msgid]['msgstr'] = $msgstr;
+
+                # @todo add plural strings
+                #$target_locale_data[$msgid]['msgstr'] = array(0 => $msgstr);
+            }
+        }
+
+        Clansuite_Debug::dump($target_locale_data);
+
+        /*$msg = sprintf('Locale %s of Module %s updated. Added %s new language items. Updated %s language items.',
+                $locale, $module, $added_counter, $updated_counter);
+
+        $this->setFlashmessage('success', $msg);*/
     }
 
     /**
-     * Handles post request byitself and forwards to action for the get request.
+     * Returns the po file path for a locale of a module.
+     *
+     * @param string $module Module
+     * @param string $locale Locale (like de_DE; underscored)
      */
-    public function action_admin_addlanguage()
+    public function getModulePOFilename($module, $locale)
     {
-        #Clansuite_Breadcrumb::add( _('Add language'), '/languages/admin/addlanguage');
+        return ROOT_MOD . $module.DS.'languages'.DS.$locale.DS.'LC_MESSAGES'.DS.$module.'.po';
+    }
+
+    public function preparePODataForView($po_data)
+    {
+        # remove the first array entry, which contains po file meta data
+        array_shift($po_data);
+
+        # count the total number of items to translate
+        # and attach as meta data to the array
+        $po_data['meta']['total_num_items'] = count($po_data);
+
+        return $po_data;
+    }
+
+    public function action_admin_delete()
+    {
+        if($this->request->getRequestMethod() == 'GET')
+        {
+            $module = $this->request->getParameter('module', 'GET');
+            $locale = $this->request->getParameter('locale', 'GET');
+
+            $directory = ROOT_MOD . $module . DS . 'languages' . DS . $locale . DS;
+
+            #Clansuite_Logger::log('Deleted language '.$directory.' of module '.$module, 'adminaction', INFO);
+
+            # delete locale dir
+            Clansuite_Functions::delete_dir_content($directory, false);
+        }
+    }
+
+    /**
+     *
+     */
+    public function action_admin_new()
+    {
+        Clansuite_Breadcrumb::add( _('Add language'), '/languages/admin/new');
 
         # handle get request
         if($this->request->getRequestMethod() == 'GET')
         {
             $module = $this->request->getParameter('modulename', 'GET');
 
-            $form = new Clansuite_Form('languages_dropdown', 'post', WWW_ROOT . 'index.php?mod=languages&sub=admin&action=addlanguage');
-            $form->setDecoratorAttributesArray(array('form' => array('fieldset' => array('legend' => _('Select the language to add')))));
+            $form = new Clansuite_Form('languages_dropdown', 'post', WWW_ROOT . 'index.php?mod=languages&sub=admin&action=new');
+            $form->setLegend(_('Select the language to add'));
+
             # $_POST['locale']
             $form->addElement('selectlocale')->setDescription('Use the dropdown to select a locale by name or abbreviation.');
             # $_POST['module']
@@ -279,24 +492,29 @@ class Clansuite_Module_Languages_Admin extends Clansuite_Module_Controller
 
             $this->display();
         }
-        else
+    }
+
+    /**
+     *
+     */
+    public function action_admin_insert()
+    {
+        # Handle Post Request
+        if($this->request->getRequestMethod() == 'POST' and
+           $this->request->issetParameter('module', 'POST') and
+           $this->request->issetParameter('locale', 'POST'))
         {
-            # Handle Post Request
-            if($this->request->getRequestMethod() == 'POST' and
-               $this->request->issetParameter('module', 'POST') and $this->request->issetParameter('locale', 'POST'))
-            {
-                # fetch incomming post parameters
-                $module = $this->request->getParameter('module', 'POST');
-                $locale = $this->request->getParameter('locale', 'POST'); # example: de_AT
+            # fetch incomming post parameters
+            $module = $this->request->getParameter('module', 'POST');
+            $locale = $this->request->getParameter('locale', 'POST'); # example: de_AT
 
-                # create new language file
-                self::createLanguage($module, $locale);
+            # create new language file
+            self::createLanguage($module, $locale);
 
-                $this->setFlashmessage('success', 'Yo!');
+            $this->setFlashmessage('success', 'Yo!');
 
-                # Redirect
-                #$this->response->redirectNoCache('/languages/admin', 10, 302, 'success#The language file has been successfully created.');
-            }
+            # Redirect
+            $this->response->redirectNoCache('/languages/admin', 10, 302, 'success#The language file has been successfully created.');
         }
     }
 
@@ -335,5 +553,64 @@ class Clansuite_Module_Languages_Admin extends Clansuite_Module_Controller
             $this->redirectToReferer();
         }
     }
+}
+
+class Translate
+{
+    public $source_locale, $target_locale;
+    public $source_pofile, $target_pofile;
+
+    public $target_module;
+
+    public function getTargetModule()
+    {
+        return $this->target_module;
+    }
+
+    public function setTargetModule($target_module)
+    {
+        $this->target_module = $target_module;
+    }
+
+    public function getSourceLocale()
+    {
+        return $this->source_locale;
+    }
+
+    public function setSourceLocale($source_locale)
+    {
+        $this->source_locale = $source_locale;
+    }
+
+    public function getTargetLocale()
+    {
+        return $this->target_locale;
+    }
+
+    public function setTargetLocale($target_locale)
+    {
+        $this->target_locale = $target_locale;
+    }
+
+    public function getSourcePofile()
+    {
+        return $this->source_pofile;
+    }
+
+    public function setSourcePofile($source_pofile)
+    {
+        $this->source_pofile = $source_pofile;
+    }
+
+    public function getTargetPofile()
+    {
+        return $this->target_pofile;
+    }
+
+    public function setTargetPofile($target_pofile)
+    {
+        $this->target_pofile = $target_pofile;
+    }
+
 }
 ?>

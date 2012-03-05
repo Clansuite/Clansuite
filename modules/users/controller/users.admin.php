@@ -43,7 +43,7 @@ if(defined('IN_CS') === false)
 */
 class Clansuite_Module_Users_Admin extends Clansuite_Module_Controller
 {
-    public function initializeModule()
+    public function _initializeModule()
     {
     }
 
@@ -56,7 +56,7 @@ class Clansuite_Module_Users_Admin extends Clansuite_Module_Controller
 
     }
 
-    public function action_admin_show()
+    public function action_admin_list()
     {
         # Set Pagetitle and Breadcrumbs
         Clansuite_Breadcrumb::add( _('Show'), '/users/admin/show');

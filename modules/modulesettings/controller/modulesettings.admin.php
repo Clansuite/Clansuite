@@ -44,7 +44,7 @@ if(defined('IN_CS') === false)
 
 class Clansuite_Module_Modulesettings_Admin extends Clansuite_Module_Controller
 {
-    public function initializeModule()
+    public function _initializeModule()
     {
         $this->getModuleConfig();
     }
@@ -52,7 +52,7 @@ class Clansuite_Module_Modulesettings_Admin extends Clansuite_Module_Controller
     /**
      * Show the modulemanager
      */
-    public function action_admin_show()
+    public function action_admin_list()
     {
         $success = $error = array();
 
@@ -94,7 +94,7 @@ class Clansuite_Module_Modulesettings_Admin extends Clansuite_Module_Controller
         --------------------------------------------------------- */
 
         # --------------------------------------------
-        #  read module config file 
+        #  read module config file
         # --------------------------------------------
         if( file_exists( ROOT_MOD.$modulename.DS.$modulename.'.config.php' ))
         {
@@ -106,7 +106,7 @@ class Clansuite_Module_Modulesettings_Admin extends Clansuite_Module_Controller
         $view->assign( 'mod_settings_configfile', $configfile );
 
         # --------------------------------------------
-        #  read module info file 
+        #  read module info file
         # --------------------------------------------
         if( file_exists( ROOT_MOD.$modulename.DS.$modulename.'.info.php' ))
         {

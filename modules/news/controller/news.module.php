@@ -48,7 +48,7 @@ class Clansuite_Module_News extends Clansuite_Module_Controller
     /**
      * Module_News -> Execute
      */
-    public function initializeModule()
+    public function _initializeModule()
     {
         # read module config
         $this->getModuleConfig();
@@ -126,8 +126,11 @@ class Clansuite_Module_News extends Clansuite_Module_Controller
         #(int) $this->request->getParameterFromGet('id');
         if($news_id === null) { $news_id = 1;  }
 
-        $news = $this->getModel()->findOneNews($news_id);
-        #Clansuite_Debug::printR($news);
+        # fetch the news to update by news_id
+        # $news = $this->getModel()->find($data['news_id']);
+
+        $news = $this->getModel()->fetchSingleNews($news_id);
+        Clansuite_Debug::printR($news);
 
         # if a news was found
         if(!empty($news) && is_array($news))
@@ -140,7 +143,7 @@ class Clansuite_Module_News extends Clansuite_Module_Controller
         }
         else # no news found for this id
         {
-            $this->setTemplate('newsnotfound.tpl');
+            $view->setTemplate('newsnotfound.tpl');
         }
 
         # Prepare Output

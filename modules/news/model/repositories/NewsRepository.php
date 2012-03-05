@@ -46,11 +46,14 @@ class NewsRepository extends EntityRepository
         #$result = $paginateQuery->getArrayResult();
         #\Clansuite_Debug::printR( $result );
 
-        foreach( $result as $row )
+        foreach($result as $row)
         {
-            if( count( $row['comments'] >0 )) {
-                $row['nr_comments'] = count( $row['comments']);
-            } else {
+            if(count($row['comments'] > 0))
+            {
+                $row['nr_comments'] = count($row['comments']);
+            }
+            else
+            {
                 $row['nr_comments'] = 0;
             }
             $aResult[] = $row;
@@ -61,7 +64,7 @@ class NewsRepository extends EntityRepository
          return $aResult;
     }
 
-    public function findOneNews($news_id)
+    public function findSingeNews($news_id)
     {
         $result = $aResult = array();
 
@@ -82,11 +85,14 @@ class NewsRepository extends EntityRepository
 
         $result = $q->getArrayResult();
 
-        foreach( $result as $row )
+        foreach($result as $row)
         {
-            if( count( $row['comments'] >0 )) {
-                $row['nr_comments'] = count( $row['comments']);
-            } else {
+            if(count($row['comments'] > 0))
+            {
+                $row['nr_comments'] = count($row['comments']);
+            }
+            else
+            {
                 $row['nr_comments'] = 0;
             }
             $aResult[] = $row;
@@ -97,7 +103,7 @@ class NewsRepository extends EntityRepository
          return $aResult[0];
     }
 
-    public function findPublishNews($news_id)
+    public function findPublishedNews($news_id)
     {
         $q = $this->_em->createQuery('
                     SELECT n,
@@ -138,7 +144,17 @@ class NewsRepository extends EntityRepository
                     AND n.news_id = :news_id');
         $q->setParameter('news_id', $news_id);
         #$r = $q->getScalarResult();
+
+        # the following line should work with 5.4.0
+        # return $q->getArrayResult()['0'];
+
         $r = $q->getArrayResult();
+
+        if(empty($r))
+        {
+            exit('News Id not found.');
+        }
+
         #\Clansuite_Debug::printR($r);
         return $r['0'];
     }

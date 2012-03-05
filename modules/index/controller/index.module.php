@@ -45,10 +45,10 @@ if(defined('IN_CS') === false)
  */
 class Clansuite_Module_Index extends Clansuite_Module_Controller
 {
-    public function action_show()
+    public function action_index()
     {
         # Set Pagetitle and Breadcrumbs
-        Clansuite_Breadcrumb::add( _('Show'), '/index/show');
+        Clansuite_Breadcrumb::add( _('Show'), '/index/index');
 
         /***
          * You can set a Render Engine:
@@ -89,10 +89,10 @@ class Clansuite_Module_Index extends Clansuite_Module_Controller
         # Direct Path Assignments
         # a) call the template in root_tpl (themefolder) + path
         # This is also automagically called, when no template was set!
-        #$this->setTemplate('index/show.tpl');
+        #$view->setTemplate('index/show.tpl');
         # OR
         # b) directly call template in module path
-        #$this->setTemplate( ROOT_MOD . 'index/view/show.tpl' );
+        #$view->setTemplate( ROOT_MOD . 'index/view/show.tpl' );
 
         # Starting the View
         #$this->setView($this->getRenderEngine());
@@ -111,19 +111,19 @@ class Clansuite_Module_Index extends Clansuite_Module_Controller
         # Set Pagetitle and Breadcrumbs
         Clansuite_Breadcrumb::add( _('Show'), '/index/show');
 
-        $this->setTemplate( 'show.tpl' );
+        $view->setTemplate( 'show.tpl' );
         $view = $this->getView();
         $view->addRawContent($smarty->fetch('action_edit.tpl'));
 
         $this->display();
     }
-    
+
     public function action_about()
-    {   
+    {
         $this->setRenderMode('NOLAYOUT');
         $this->display();
     }
-    
+
     /**
      * Widget for displaying pieces of information about clansuite
      */
@@ -131,7 +131,7 @@ class Clansuite_Module_Index extends Clansuite_Module_Controller
     {
         # nothing to assign, it a pure template widget
     }
-    
+
     public function widget_toolbox()
     {
         # nothing to assign, it a pure template widget

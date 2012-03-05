@@ -107,7 +107,7 @@
         position: absolute;
         visibility: hidden;
         /*filter:progid:DXImageTransform.Microsoft.Shadow(color='#666666', Direction=135, Strength=2);*/
-        z-index: -1;
+        z-index: 99;
     }
     .XulMenu .arrow {
         position: absolute;

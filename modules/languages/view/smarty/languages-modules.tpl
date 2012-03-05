@@ -15,9 +15,9 @@
 /* overview page styles */
 .csp-active { background-color: #E7F7D3; }
 *:first-child + html tr.csp-active td{ background-color: #E7F7D3; }
-.csp-type-name { 	margin: 0pt 10px 1em 0pt; }
+.csp-type-name {    margin: 0pt 10px 1em 0pt; }
 .csp-type-info {}
-table.csp-type-info td {	padding:0; border-bottom: 0px; }
+table.csp-type-info td {    padding:0; border-bottom: 0px; }
 table.csp-type-info td.csp-info-value { padding:0 5px; }
 
 
@@ -28,8 +28,8 @@ table.mo-list tr.mo-list-head td, table.mo-list tr.mo-list-desc td { border-bott
 .ta-right { text-align: right; }
 tr.mo-file:hover td { border-bottom: 1px dashed #666 !important; }
 
-table.Datagrid tr:nth-child(odd)		{ background-color:#eee; }
-table.Datagrid tr:nth-child(even)		{ background-color:#fff; }
+table.Datagrid tr:nth-child(odd)        { background-color:#eee; }
+table.Datagrid tr:nth-child(even)       { background-color:#fff; }
 
 .name { font-size: 12px; font-weight: bold; }
 
@@ -39,7 +39,7 @@ table.Datagrid tr:nth-child(even)		{ background-color:#fff; }
 
 <table width="80%" cellspacing="0" cellpadding="0" border="0" class="Datagrid">
 <tbody>
-    <tr>        
+    <tr>
         <th class="ColHeader">{t}Module{/t}</th>
         <th class="ColHeader">{t}Languages{/t}</th>
     </tr>
@@ -52,7 +52,7 @@ table.Datagrid tr:nth-child(even)		{ background-color:#fff; }
 
     <tr class="DatagridRow DatagridRow-Row_{$module@iteration}">
         <td>
-             <h3 class="name">{$module.name|ucfirst}</h3>                
+             <h3 class="name">{$module.name|ucfirst}</h3>
         </td>
         <td>
             <table width="100%" cellspacing="0" summary="localization|modules" class="mo-list" id="mo-list-{$module@iteration}">
@@ -61,12 +61,12 @@ table.Datagrid tr:nth-child(even)		{ background-color:#fff; }
                 {* Table Header: Language - Permissions - Actions *}
 
                 <tr class="mo-list-desc">
-                    <td style="text-align: center;" width="30%">                        
-                        
-                            {t count=$module.languages|count 1=$module.languages|count plural="%1 Languages"}%1 Language{/t}                    
-                                             
-                            <span style="float: right;">                            
-                                <a href="{$www_root}index.php?mod=languages&sub=admin&action=addlanguage&modulename={$module.name}" title="{t}Add Language{/t}">
+                    <td style="text-align: center;" width="30%">
+
+                            {t count=$module.languages|count 1=$module.languages|count plural="%1 Languages"}%1 Language{/t}
+
+                            <span style="float: right;">
+                                <a href="{$www_root}index.php?mod=languages&sub=admin&action=new&modulename={$module.name}" title="{t}Add Language{/t}">
                                     {icon name="add" alt="{t}Add Language{/t}"}
                                 </a>
                             </span>
@@ -77,58 +77,58 @@ table.Datagrid tr:nth-child(even)		{ background-color:#fff; }
                 </tr>
 
             {foreach $module.languages as $language}
-            
+
                 {if is_string($language)}
                 <tr><td> {$language} </td></tr>
                 {break}
                 {/if}
-            
+
                 <tr class="mo-file" lang="{$language.lang_native}">
-                    
+
                     {* Flag and Name of Language *}
-                    
+
                     <td>
                         <img src="{$www_root_themes_core}images/countries/{$language.country_www}.png"
                              alt="(locale: {$language.lang})"
                              title="Locale: {$language.lang_native}">
                         &nbsp;{$language.lang}
                     </td>
-                    
+
                     {* File Permissions of .po|mo files *}
-                    
+
                     <td nowrap="nowrap" align="center">
                         <div style="width: 44px;">
-                            
-                            {if array_key_exists('po', $language)} 
+
+                            {if array_key_exists('po', $language)}
                             <a title="{$language.po.timestamp}" class="filetype-po{$language.po.cssClass}">&nbsp;</a>
                             {else}
                             <a title="No po file found." class="filetype-po">&nbsp;</a>
-                            {/if} 
-                            
+                            {/if}
+
                             <span style="width: 2px;" />
-                            
-                            {if array_key_exists('mo', $language)} 
+
+                            {if array_key_exists('mo', $language)}
                             <a title="{$language.mo.timestamp}" class="filetype-mo{$language.mo.cssClass}">&nbsp;</a>
                             {else}
                             <a title="No mo file found." class="filetype-mo">&nbsp;</a>
-                            {/if} 
-                                                     
+                            {/if}
+
                         </div>
                     </td>
-                   
+
                     {* Actions: Edit - Rescan - Delete *}
-                    
+
                     <td nowrap="nowrap" style="text-align: center;">
-                    
-                    {* Do not display edit and delete link for english language. 
+
+                    {* Do not display edit and delete link for english language.
                        English is hardcoded and not editable. *}
                     {if $language.lang == 'English'}
                         <a href="{$www_root}index.php?mod=languages&sub=admin&action=scanmodule&modulename={$module.name}">Rescan</a>
                     {else}
-                        <a href="/@todo">Edit</a>                       
+                        <a href="{$www_root}index.php?mod=languages&sub=admin&action=edit&module={$module.name}&locale={$language.lang_www}">Edit</a>
                         <span> | </span>
-                        <a href="/@todo">Delete</a>
-                    {/if} 
+                        <a href="{$www_root}index.php?mod=languages&sub=admin&action=delete&module={$module.name}&locale={$language.lang_www}">Delete</a>
+                    {/if}
                     </td>
 
                 </tr>

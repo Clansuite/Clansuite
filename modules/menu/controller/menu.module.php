@@ -48,7 +48,7 @@ class Clansuite_Module_Menu extends Clansuite_Module_Controller
     /**
      * Module_Menu -> Execute
      */
-    public function initializeModule()
+    public function _initializeModule()
     {
     }
 

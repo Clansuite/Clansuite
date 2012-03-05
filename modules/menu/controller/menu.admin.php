@@ -43,14 +43,11 @@ if (defined('IN_CS') === false)
  */
 class Clansuite_Module_Menu_Admin extends Clansuite_Module_Controller
 {
-    public function initializeModule()
+    public function _initializeModule()
     {
     }
 
-    /**
-     * Shows the Admin Menu Editor
-     */
-    public function action_admin_show()
+    public function action_admin_list()
     {
         # Assign Icon Filenames to View
         $this->getView()->assign('icons', self::fetchIcons());
@@ -78,7 +75,7 @@ class Clansuite_Module_Menu_Admin extends Clansuite_Module_Controller
         }
         return $fileinfo;
     }
-    
+
     /**
      * Fetches all icon filenames.
      *
@@ -92,7 +89,7 @@ class Clansuite_Module_Menu_Admin extends Clansuite_Module_Controller
         # Get Icons from Directory
         $dir = new Clansuite_Directory(ROOT_THEMES_CORE . 'images/icons/');
         $icons = $dir->setFilter('imagesOnly')->getFiles(true);
-        
+
         return $icons;
     }
 

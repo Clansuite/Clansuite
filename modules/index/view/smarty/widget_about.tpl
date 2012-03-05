@@ -44,7 +44,7 @@ function openCenteredPopup(url, windowname)
 <div class="about_widget" id="widget_about" style="width: 100%">
     <h2 class="menu_header"> {t}About Clansuite{/t}</h2>
     <div class="cell1">
-        <a id="poweredby" href="{$www_root}index.php?mod=about" onclick="openCenteredPopup(this, 'About'); return false;">
+        <a id="poweredby" href="{$www_root}index.php?mod=controlcenter&amp;action=about" onclick="openCenteredPopup(this, 'About'); return false;">
             <img src="http://cdn.clansuite.com/banners/powered_by_clansuite.png" alt="Powered by Clansuite" align="middle" />
         </a>
     </div>

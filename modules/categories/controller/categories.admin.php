@@ -45,11 +45,7 @@ if(defined('IN_CS') === false)
  */
 class Clansuite_Module_Categories_Admin extends Clansuite_Module_Controller
 {
-    public function initializeModule()
-    {
-    }
-
-    public function action_admin_show()
+    public function action_admin_list()
     {
         //--------------------------
         // Datagrid configuration
@@ -213,58 +209,52 @@ class Clansuite_Module_Categories_Admin extends Clansuite_Module_Controller
         }
     }
 
+    public function action_admin_insert()
+    {
+        # get incoming data
+        $data = $this->request->getParameter('cat_form');
+
+        $cats = new CsCategories;
+        $cats->module_id = $data['module_id'];
+        $cats->name = $data['name'];
+        $cats->description = $data['description'];
+        $cats->color = $data['color'];
+        $cats->image = $data['image'];
+        $cats->icon = $data['icon'];
+        $cats->save();
+
+        # redirect
+        $this->response->redirectNoCache('/categories/admin', 2, 302, _('The category has been created.'));
+    }
+
     public function action_admin_update()
     {
         # get incoming data
         $data = $this->request->getParameter('cat_form');
-        $type = $this->request->getParameter('type', 'GET');
 
-        if(isset($type) and $type == 'create')
+        # get the categories table
+        $catsTable = Doctrine::getTable('CsCategories');
+
+        # fetch the category to update by cat_id
+        $cats = $catsTable->findOneByCat_Id($data['cat_id']);
+
+        # if that category exist, update values and save
+        if ($cats !== false)
         {
-            $cats = new CsCategories;
+            $cats->cat_id       = $data['cat_id'];
             $cats->module_id    = $data['module_id'];
             $cats->name         = $data['name'];
             $cats->description  = $data['description'];
             $cats->color        = $data['color'];
             $cats->image        = $data['image'];
             $cats->icon         = $data['icon'];
+            $cats->sortorder    = $data['sortorder'];
             $cats->save();
-
-            # redirect
-            $this->response->redirectNoCache('/categories/admin', 2, 302, _('The category has been created.'));
         }
-        elseif(isset($type) and $type == 'edit')
-        {
-             # @todo validation
 
-            # get the categories table
-            $catsTable = Doctrine::getTable('CsCategories');
+        # redirect
+        $this->response->redirectNoCache('/categories/admin', 2, 302, _('The category has been edited.'));
 
-            # fetch the category to update by cat_id
-            $cats = $catsTable->findOneByCat_Id($data['cat_id']);
-
-            # if that category exist, update values and save
-            if ($cats !== false)
-            {
-                $cats->cat_id       = $data['cat_id'];
-                $cats->module_id    = $data['module_id'];
-                $cats->name         = $data['name'];
-                $cats->description  = $data['description'];
-                $cats->color        = $data['color'];
-                $cats->image        = $data['image'];
-                $cats->icon         = $data['icon'];
-                $cats->sortorder    = $data['sortorder'];
-                $cats->save();
-            }
-
-            # redirect
-            $this->response->redirectNoCache('/categories/admin', 2, 302, _('The category has been edited.'));
-        }
-        else
-        {
-            # redirect
-            $this->response->redirectNoCache('/categories/admin', 2, 302, _('Unknown Formaction.'));
-        }
     }
 
     public function action_admin_settings()

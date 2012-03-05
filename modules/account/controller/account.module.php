@@ -48,7 +48,7 @@ class Clansuite_Module_Account extends Clansuite_Module_Controller
     /**
      * Module_Admin -> Execute
      */
-    public function initializeModule()
+    public function _initializeModule()
     {
         # read module config
         $this->getModuleConfig();
@@ -188,7 +188,7 @@ class Clansuite_Module_Account extends Clansuite_Module_Controller
         }
         else
         {
-            $this->setTemplate('usercenter.tpl');
+            $view->setTemplate('usercenter.tpl');
         }
     }
 
@@ -456,7 +456,7 @@ class Clansuite_Module_Account extends Clansuite_Module_Controller
         $view->assign( 'err', $error );
 
         // Output
-        #$this->setTemplate('activation_email.tpl');
+        #$view->setTemplate('activation_email.tpl');
         $this->display();
     }
 
@@ -609,7 +609,7 @@ class Clansuite_Module_Account extends Clansuite_Module_Controller
         $view = $this->getView();
         $view->assign('err', $error);
 
-        #$this->setTemplate('forgot_password.tpl');
+        #$view->setTemplate('forgot_password.tpl');
         $this->display();
     }
 

@@ -45,15 +45,10 @@ if (defined('IN_CS') === false)
  */
 class Clansuite_Module_Settings_Admin extends Clansuite_Module_Controller
 {
-    /**
-     * action_settings_show
-     */
-    public function action_admin_show()
+    public function action_admin_list()
     {
-        # Get Render Engine
         $view = $this->getView();
 
-        # Get Configuration from Injector
         $config = $this->getClansuiteConfig();
 
         # Assign array with all cache driver to smarty
@@ -64,24 +59,15 @@ class Clansuite_Module_Settings_Admin extends Clansuite_Module_Controller
         $timezones = array('Berlin', 'Rio');
         $view->assign('timezones', $timezones);
 
-        # Assign Config to Smarty
         $view->assign('config', $config);
-
-        # Specifiy the template manually
-        $this->setTemplate('settings.tpl');
 
         $this->display();
     }
 
-    /**
-     * action_settings_easylist
-     */
     public function action_admin_easylist()
     {
-        # Get Render Engine
         $view = $this->getView();
 
-        # Get Configuration from Injector
         $config = $this->getClansuiteConfig();
 
         # Assign array with all cache driver to smarty
@@ -91,15 +77,11 @@ class Clansuite_Module_Settings_Admin extends Clansuite_Module_Controller
         $timezones = array('Berlin', 'Rio');
         $view->assign('timezones', $timezones);
 
-        # Assign Config to Smarty
         $view->assign('config', $config);
 
         $this->display();
     }
 
-    /**
-     * action_settings_update
-     */
     public function action_admin_update()
     {
         # Incomming Data
@@ -110,10 +92,8 @@ class Clansuite_Module_Settings_Admin extends Clansuite_Module_Controller
         $config = $this->getInjector()->instantiate('Clansuite_Config');
         $config->writeConfig(ROOT_CONFIG . 'clansuite.config.php', $data);
 
-        # clear the cache / compiled tpls
         $this->getView()->clearCache();
 
-        # Redirect
         $this->response->redirectNoCache('/settings/admin', 2, 302, 'The config file has been successfully updated.');
     }
 }

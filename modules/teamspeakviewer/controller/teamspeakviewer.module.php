@@ -46,13 +46,13 @@ class Clansuite_Module_Teamspeakviewer extends Clansuite_Module_Controller
     /**
      * Module_Teamspeakviewer -> Execute
      */
-    public function initializeModule()
+    public function _initializeModule()
     {
         # load library / init libacts2
         include ROOT_LIBRARIES . 'libacts2/Absurd.php';
     }
 
-    public function action_show()
+    public function action_list()
     {
         $server = '';
         $starttime = '';

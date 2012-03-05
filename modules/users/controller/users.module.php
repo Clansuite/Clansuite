@@ -45,7 +45,7 @@ if (defined('IN_CS') === false)
  */
 class Clansuite_Module_Users extends Clansuite_Module_Controller
 {
-    public function initializeModule()
+    public function _initializeModule()
     {
         $this->getModuleConfig();
     }
@@ -53,7 +53,7 @@ class Clansuite_Module_Users extends Clansuite_Module_Controller
     /**
      * Displayes Overview of all registered Users
      */
-    public function action_show()
+    public function action_list()
     {
         // Set Pagetitle and Breadcrumbs
         Clansuite_Breadcrumb::add( _('Show'), '/users/show');
@@ -108,7 +108,7 @@ class Clansuite_Module_Users extends Clansuite_Module_Controller
         $view->assignGlobal('pager_layout', $pager_layout);
 
         # specifiy the template manually
-        #$this->setTemplate('userslist/view/show.tpl');
+        #$view->setTemplate('userslist/view/show.tpl');
 
         $this->display();
     }
@@ -150,7 +150,7 @@ class Clansuite_Module_Users extends Clansuite_Module_Controller
 
         $this->getView()->assign('usersonline', $usersonline);
         $this->getView()->assign('guests', $guests);
-        
+
     }
 
     /**

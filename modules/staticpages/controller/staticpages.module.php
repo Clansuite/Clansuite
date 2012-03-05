@@ -45,7 +45,7 @@ class Clansuite_Module_Staticpages extends Clansuite_Module_Controller
     /**
      * Module_Staticpages -> Execute
      */
-    public function initializeModule()
+    public function _initializeModule()
     {
         # read module config
         $this->getModuleConfig();
@@ -141,7 +141,7 @@ class Clansuite_Module_Staticpages extends Clansuite_Module_Controller
         {
             # Get Render Engine
             $this->getView()->assign('overview', $result);
-            $this->setTemplate('overview.tpl');
+            $view->setTemplate('overview.tpl');
         }
         else
         {

@@ -46,11 +46,12 @@ if (defined('IN_CS') === false)
  */
 class Clansuite_Module_Cronjobs_Admin extends Clansuite_Module_Controller
 {
-    public function initializeModule()
+    public function _initializeModule()
     {
 
     }
-    public function action_admin_show()
+    
+    public function action_admin_list()
     {
         # Applying a Layout Template
         $view = $this->getView()->setLayoutTemplate('index.tpl');

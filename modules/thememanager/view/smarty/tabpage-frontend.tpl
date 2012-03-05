@@ -1,6 +1,6 @@
 {* {$themes|var_dump} *}
 
-<table width="100%">
+<table width="60%">
     <tbody>
 
 {foreach $themes as $theme}
@@ -58,7 +58,7 @@
 
         {* Call Templatemanager to edit the Main Layout Template *}
         {if isset($theme['layout']['@attributes']['mainfile'])}
-            <a href="{$www_root}index.php?mod=templatemanager&sub=admin&action=editor&file={$theme['layout']['@attributes']['mainfile']}"
+            <a href="{$www_root}index.php?mod=templatemanager&sub=admin&action=edit&file={$theme['layout']['@attributes']['mainfile']}"
                class="ButtonOrange">{t}Edit Main Template{/t}</a>
         {/if}
 

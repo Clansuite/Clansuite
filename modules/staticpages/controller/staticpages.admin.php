@@ -43,10 +43,6 @@ if(defined('IN_CS') === false)
  */
 class Clansuite_Module_Staticpages_Admin extends Clansuite_Module_Controller
 {
-    public function initializeModule()
-    {
-    }
-
     /**
      * action_admin_show()
      */
@@ -55,14 +51,12 @@ class Clansuite_Module_Staticpages_Admin extends Clansuite_Module_Controller
         # Set Pagetitle and Breadcrumbs
         Clansuite_Breadcrumb::add( _('Overview'), '/staticpages/admin/show');
 
-        $staticpages = Doctrine_Query::create()
-                              ->select('*')
-                              ->from('CsStaticPages s')
-                              ->orderby('s.title ASC')
-                              ->execute(array(), Doctrine::HYDRATE_ARRAY);
+        $model = $this->getModel()->findAll();
+
+        Clansuite_Debug::firebug($model);
 
         $view = $this->getView();
-        $view->assign( 'staticpages', $staticpages);
+        $view->assign( 'staticpages', $model);
         $view->setLayoutTemplate('index.tpl');
         $this->display();
     }
@@ -72,7 +66,13 @@ class Clansuite_Module_Staticpages_Admin extends Clansuite_Module_Controller
         # Set Pagetitle and Breadcrumbs
         Clansuite_Breadcrumb::add( _('Create'), '/staticpages/admin/create');
 
-        # @todo define form array 
+        # fetch entity
+        $model = $this->getModel();
+
+        # insert entity into the create form
+        $form = $this->loadForm($formname, $module, $action, $assign_to_view);
+
+        # @todo define form array
         $html           = $_POST['html'];
         $description    = $_POST['description'];
         $title          = $_POST['title'];
@@ -138,12 +138,12 @@ class Clansuite_Module_Staticpages_Admin extends Clansuite_Module_Controller
         # Set Layout Template
         $this->getView()->setLayoutTemplate('index.tpl');
         # specifiy the template manually
-        #$this->setTemplate('staticpages/create.tpl');
+        #$view->setTemplate('staticpages/create.tpl');
 
         $this->display();
     }
 
-    function edit_staticpages()
+    public function edit_staticpages()
     {
         # Set Pagetitle and Breadcrumbs
         Clansuite_Breadcrumb::add( _('Edit'), '/staticpages/admin/edit');
@@ -179,7 +179,14 @@ class Clansuite_Module_Staticpages_Admin extends Clansuite_Module_Controller
                 $error['give_correct_url'] = 1;
             }
 
-            $page = Doctrine::getTable('CsStaticPages')->findOneBy('title', $title);
+            $entity = $this->getModel()->findOneBySlug($slug);
+
+            if ($entity === null)
+            {
+                throw new Clansuite_Exception('Unable to find the requested Page: ' . $slug);
+            }
+            Clansuite_Debug::firebug($entity);
+            #$page = Doctrine::getTable('CsStaticPages')->findOneBy('title', $title);
 
             if ( is_array( $page ) and $info['orig_title'] != $info['title'] )
             {
@@ -187,7 +194,7 @@ class Clansuite_Module_Staticpages_Admin extends Clansuite_Module_Controller
             }
 
             if ( count( $error ) == 0 )
-            {               
+            {
                 $page->title         = $info['title'];
                 $page->description   = $info['description'];
                 $page->url           = $info['url'];
@@ -195,7 +202,7 @@ class Clansuite_Module_Staticpages_Admin extends Clansuite_Module_Controller
                 $page->iframe        = $info['iframe'];
                 $page->iframe_height = $info['iframe_height'];
                 $page->save();
-     
+
                 $this->setFlashmessage('success', _( 'The page was successfully modified.' ));
                 $this->redirect('/controlcenter/staticpages&action=show');
             }
@@ -209,7 +216,7 @@ class Clansuite_Module_Staticpages_Admin extends Clansuite_Module_Controller
         $view->assign('error', $error);
         $view->assign('info', $info);
         $view->setLayoutTemplate('index.tpl');
-        
+
         $this->display();
     }
 

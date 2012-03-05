@@ -76,7 +76,7 @@ class Clansuite_Module_Doctrine_Admin extends Clansuite_Module_Controller
     /**
      * Module_Doctrine_Admin -> Execute
      */
-    public function initializeModule()
+    public function _initializeModule()
     {
         # Path to Doctrine Library
         Doctrine_Core::setPath( ROOT_LIBRARIES . 'doctrine/' );
@@ -95,6 +95,11 @@ class Clansuite_Module_Doctrine_Admin extends Clansuite_Module_Controller
         }
 
         self::$options += self::getDoctrineOptions();
+    }
+
+    public function action_admin_list()
+    {
+        $this->display();
     }
 
     /**
@@ -175,11 +180,6 @@ class Clansuite_Module_Doctrine_Admin extends Clansuite_Module_Controller
                     );
 
         return $config;
-    }
-
-    public function action_admin_show()
-    {
-        $this->display();
     }
 
     /**
@@ -279,6 +279,43 @@ class Clansuite_Module_Doctrine_Admin extends Clansuite_Module_Controller
         #$message .= '<br /><br />The DATABASE TABLES have been successfully generated from MODELS.';
         $this->setFlashmessage('success', $message);
         $this->redirectToReferer();
+    }
+
+    public static function register($panel, $group = 'Doctrine')
+    {
+
+        $panel->addCommand($group, Command::create(
+                        'Create Schema', function ($container)
+                        {
+                            $em = $container->entityManager;
+                            $schemaTool = new \Doctrine\ORM\Tools\SchemaTool($em);
+                            $metadatas = $em->getMetadataFactory()->getAllMetadata();
+                            $schemaTool->createSchema($metadatas);
+                        }
+                )
+        );
+
+        $panel->addCommand($group, Command::create(
+                        'Update Schema', function ($container)
+                        {
+                            $em = $container->entityManager;
+                            $schemaTool = new \Doctrine\ORM\Tools\SchemaTool($em);
+                            $metadatas = $em->getMetadataFactory()->getAllMetadata();
+                            $schemaTool->updateSchema($metadatas);
+                        }
+                )
+        );
+
+        $panel->addCommand($group, Command::create(
+                        'Drop Schema', function ($container)
+                        {
+                            $em = $container->entityManager;
+                            $schemaTool = new \Doctrine\ORM\Tools\SchemaTool($em);
+                            $metadatas = $em->getMetadataFactory()->getAllMetadata();
+                            $schemaTool->dropSchema($metadatas);
+                        }
+                )
+        );
     }
 }
 ?>
