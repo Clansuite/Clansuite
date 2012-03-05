@@ -179,6 +179,16 @@ class Clansuite_HttpRequest implements Clansuite_Request_Interface, ArrayAccess
     }
 
     /**
+     * Returns the HTTP POST data in raw format via Stream.
+     *
+     * @return string HTTP POST data (raw).
+     */
+    public function getPostRaw()
+    {
+        return file_get_contents('php://input');
+    }
+
+    /**
      * Returns the raw GET Parameters Array.
      * Raw means: no validation, no filtering, no sanitization.
      *
