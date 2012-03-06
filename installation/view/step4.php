@@ -35,8 +35,7 @@ if (defined('IN_CS') === false)
                             </li>
                             <li>
                                 <label class="formularleft" for="type"><?php echo $language['DRIVER']; ?></label>
-                                <select class="formularright"
-                                        id="driver"
+                                <select class="formularright" id="type"
                                         name="config[database][driver]"
                                         title="<?php echo $language['DRIVER_TOOLTIP']; ?>">
                                 <?php
@@ -58,7 +57,7 @@ if (defined('IN_CS') === false)
                             </li>
                             <li>
                                 <label class="formularleft" for="user"><?php echo $language['USERNAME']; ?></label>
-                                <input class="formularright" type="text" id="username"
+                                <input class="formularright" type="text" id="user"
                                        name="config[database][user]"
                                        title="<?php echo $language['USERNAME_TOOLTIP']; ?>"
                                        value="<?php echo $values['user']; ?>" />
@@ -73,7 +72,7 @@ if (defined('IN_CS') === false)
                             </li>
                             <li>
                                 <label class="formularleft" for="dbname"><?php echo $language['NAME']; ?></label>
-                                <input class="formularright" type="text" id="name"
+                                <input class="formularright" type="text" id="dbname"
                                        name="config[database][dbname]"
                                        title="<?php echo $language['NAME_TOOLTIP']; ?>"
                                        value="<?php echo $values['dbname']; ?>" />
