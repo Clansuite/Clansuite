@@ -451,10 +451,12 @@ class Clansuite_Installation_Helper
         # Read/Write Handler for config files
         include ROOT . 'core/config/ini.config.php';
 
-        # throw not needed / non-setting vars out
+        /**
+         * Throw not needed setting out, before data_array gets written to file.
+         */
         unset($data_array['step_forward']);
         unset($data_array['lang']);
-        unset($data_array['create_database']);
+        unset($data_array['database']['create_database']);
 
         # base class is needed for Clansuite_Config_INI
         if(false === class_exists('Clansuite_Config_Base', false))
