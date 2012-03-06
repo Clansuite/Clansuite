@@ -20,8 +20,7 @@ if (defined('IN_CS') === false)
 </head>
 <body>
 <div id="wrapper">
-<div id="page">
-
-    <div id="header">
-        <div id="headerlogo"><h1>Clansuite - just an eSports CMS</h1></div>
-    </div>
+    <div id="page">
+        <div id="header">
+            <div id="headerlogo"><h1>Clansuite - just an eSports CMS</h1></div>
+        </div>

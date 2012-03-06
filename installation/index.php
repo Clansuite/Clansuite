@@ -742,7 +742,7 @@ class Clansuite_Installation_Page
         }
 
         include INSTALLATION_ROOT . 'view/header.php';
-        include INSTALLATION_ROOT . 'view/menu.php';
+        include INSTALLATION_ROOT . 'view/sidebar.php';
         include INSTALLATION_ROOT . 'view/step' . $step . '.php';
         include INSTALLATION_ROOT . 'view/footer.php';
 
