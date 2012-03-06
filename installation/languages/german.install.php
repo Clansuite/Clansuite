@@ -181,7 +181,7 @@ class Language implements ArrayAccess
 
         $this->language['STEP5_SITENAME_TOOLTIP'] = 'Bitte geben Sie ihrer Webseite einen Namen. Er wird in der Titelzeile des Browsers erscheinen.';
         $this->language['STEP5_SYSTEM_EMAIL_TOOLTIP'] = 'Bitte geben sie eine EMail-Adresse an. Clansuite wird diese Email-Adresse nutzen, um Mails an Nutzer zu verschicken.';
-        $this->language['STEP5_ACCOUNT_CRYPT_TOOLTIP'] = 'Bitte wählen Sie die das Sicherungsverfahren für die Passwörter der Nutzerkonten. Falls ihre Datenbank in falsche Hände gelangt, sind dann keine Passworter im Klartext enthalten.';
+        $this->language['STEP5_ACCOUNT_CRYPT_TOOLTIP'] = 'Bitte wählen Sie das Sicherungsverfahren für die Passwörter der Nutzerkonten. Falls ihre Datenbank in falsche Hände gelangt, sind dann keine Passworter im Klartext enthalten.';
         $this->language['STEP5_GMTOFFSET_TOOLTIP'] = 'Bitte wählen Sie ihre Zeitzone. Diese Einstellung ist für alle Datums- und Zeitberechnungen wesentlich.';
 
         // STEP 6 - Create Administrator
