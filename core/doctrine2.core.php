@@ -190,13 +190,13 @@ class Clansuite_Doctrine2
         /**
          * Database Prefix
          *
-         * @todo doctrine2: is the prefix is only applicable by eventhandling?
-         * Is there an easier way doing this?
-         * For now the solution is to use Event + Doctrine Extension: TablePrefix.
+         * The constant definition is for building (raw) sql queries manually.
+         * The database prefixing is registered via an event.
          */
         define('DB_PREFIX', $clansuite_config['database']['prefix'] );
-        #$tablePrefix = new \DoctrineExtensions\TablePrefix(DB_PREFIX);
-        #$evm->addEventListener(\Doctrine\ORM\Events::loadClassMetadata, $tablePrefix);
+
+        $tablePrefix = new \DoctrineExtensions\TablePrefix\TablePrefix(DB_PREFIX);
+        $event->addEventListener(\Doctrine\ORM\Events::loadClassMetadata, $tablePrefix);
 
         /**
          * Custom Functions
