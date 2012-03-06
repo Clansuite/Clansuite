@@ -66,11 +66,11 @@ if (defined('IN_CS') === false)
                                     title="<?php echo $language['STEP5_GMTOFFSET_TOOLTIP']; ?>">
                                 <option value="-36000">UTC -10 Hawaii</option>
                                 <option value="-32400">UTC -9 Alaska</option>
-                                <option value="-28800">UTC -8 Pacific (USA, Canada)</option>
-                                <option value="-25200">UTC -7 Arizona, Salt Lake City</option>
-                                <option value="-21600">UTC -6 Chicago, Mexico City</option>
-                                <option value="-18000">UTC -5 New York, Miami, Toronto</option>
-                                <option value="-14400">UTC -4 Santiago de Chile, Quebec, La Paz</option>
+                                <option value="-28800">UTC -8 Pacific Time (US &amp; Canada)</option>
+                                <option value="-25200">UTC -7 Mountain Time (US &amp; Canada)</option>
+                                <option value="-21600">UTC -6 Central Time (US &amp; Canada), Mexico City</option>
+                                <option value="-18000">UTC -5 Eastern Time (US &amp; Canada), Toronto, New York, Bogota, Lima</option>
+                                <option value="-14400">UTC -4 Atlantic Time (Canada), Caracas, La Paz, Santiago de Chile</option>
                                 <option value="-10800">UTC -3 Brasilien, Groenland</option>
                                 <option value="-7200">UTC -2 Mittelatlantik</option>
                                 <option value="-3600">UTC -1 Azoren</option>
