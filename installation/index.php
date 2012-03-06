@@ -137,7 +137,7 @@ class Clansuite_Installation
 
     public function __construct()
     {
-        spl_autoload_register(array($this, 'autoload'));
+        spl_autoload_register('Clansuite_Installation::autoload');
 
         $this->handleRequest_deleteInstallationFolder();
 
@@ -156,7 +156,7 @@ class Clansuite_Installation
         register_shutdown_function('Clansuite_Installation::shutdown');
     }
 
-    private function autoload($classname)
+    private static function autoload($classname)
     {
         $classname = strtolower($classname);
 
