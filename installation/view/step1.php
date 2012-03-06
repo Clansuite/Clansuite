@@ -20,7 +20,7 @@ if (defined('IN_CS') === false)
                     <p>
                         <input type="hidden" name="lang" value="<?php echo $_SESSION['lang']; ?>" />
                         <?php # @todo nur reloaden, wenn eine neue sprache ausgewaehlt ?>
-                        <select name="lang" style="width: 160px"
+                        <select title="<?php echo $language['SELECT_LANGUAGE']; ?>" name="lang" style="width: 160px"
                             onchange="window.location.href='<?php echo $_SERVER['PHP_SELF']; ?>?lang='+this.options[this.selectedIndex].value;" >
                         <?php
                         echo '<option value="">- Select Language -</option>';
