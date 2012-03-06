@@ -9,7 +9,7 @@ if (defined('IN_CS') === false)
         <div id="content_middle">
             <div class="accordion">
                 <h2 class="headerstyle">
-                    <img src="images/64px-Utilities-system-monitor.svg.png" border="0" style="vertical-align:middle" alt="installstep image" />
+                    <img src="images/64px-Utilities-system-monitor.svg.png" style="vertical-align:middle" alt="installstep image" />
                     <?php echo $language['STEP2_SYSTEMCHECK']; ?>
                 </h2>
                 <p><?php echo $language['STEP2_IN_GENERAL']; ?></p>
@@ -23,8 +23,8 @@ if (defined('IN_CS') === false)
                 <p><?php echo $language['STEP2_SYSTEMSETTINGS_CHECK_VALUES']; ?></p>
                          <?php
                          # Case-Images, to determine if a certain Setting is OK or NOT
-                         define('SETTING_TRUE',  '<img src="images/true.gif" alt="OK" height="16" width="16" border="0" />');
-                         define('SETTING_FALSE', '<img src="images/false.gif" alt="NOT" height="16" width="16" border="0" />');
+                         define('SETTING_TRUE',  '<img src="images/true.gif" alt="OK" height="16" width="16" />');
+                         define('SETTING_FALSE', '<img src="images/false.gif" alt="NOT" height="16" width="16" />');
 
                          # determine Strings for ON, OFF, R, W
                          define('SETTING_EXPECTED_ON', $language['STEP2_SETTING_EXPECTED_ON']);
@@ -38,7 +38,7 @@ if (defined('IN_CS') === false)
                           */
                          function setting_rows($settings_array)
                          {
-                            //introduce vars
+                            // introduce vars
                             $table_rows = null;
                             $csstoggle = null;
 
@@ -51,16 +51,16 @@ if (defined('IN_CS') === false)
                                 // toggle
                                 $csstoggle = ($csstoggle==$css1) ? $css2 : $css1;
 
-                                //starting tablerow
+                                // start table row
                                 $table_rows = '<tr class="'. $csstoggle .'">';
 
                                 #$table_rows .= '<td>'. $settingname .'=>'. $value['label'] .'</td>';
                                 $table_rows .= '<td>'. $value['label'] .'</td>';
-                                $table_rows .= '<td class="col1" align="center">' . $value['expected'] . '</td>';
-                                $table_rows .= '<td class="col2" align="center">' . $value['actual'] .'</td>';
-                                $table_rows .= '<td class="col1" align="center">' . $value['status'] .'</td>';
+                                $table_rows .= '<td class="col1">' . $value['expected'] . '</td>';
+                                $table_rows .= '<td class="col2">' . $value['actual'] .'</td>';
+                                $table_rows .= '<td class="col1">' . $value['status'] .'</td>';
 
-                                // ending tablerow
+                                // end table row
                                 $table_rows .= '</tr>';
 
                                 echo $table_rows;
@@ -212,8 +212,8 @@ if (defined('IN_CS') === false)
                          # Permissions Check: read on Configuration Template File
                          $required['is_readable_config_template']['label']    = $language['IS_READABLE_CONFIG_TEMPLATE'];
                          $required['is_readable_config_template']['expected'] = 'r';
-                         $required['is_readable_config_template']['actual']   = is_readable(INSTALLATION_ROOT . 'clansuite.config.installer') ? 'r' : '---';
-                         $required['is_readable_config_template']['status']   = is_readable(INSTALLATION_ROOT . 'clansuite.config.installer') ? SETTING_TRUE : SETTING_FALSE;
+                         $required['is_readable_config_template']['actual']   = is_readable(INSTALLATION_ROOT . 'config.skeleton.ini') ? 'r' : '---';
+                         $required['is_readable_config_template']['status']   = is_readable(INSTALLATION_ROOT . 'config.skeleton.ini') ? SETTING_TRUE : SETTING_FALSE;
 
                          # Checking for correct date.timezone configuration in php.ini
                          $required['datetimezone']['label']      = $language['DATE_TIMEZONE'];
@@ -409,7 +409,7 @@ if (defined('IN_CS') === false)
                          $recommended['extension_calendar']['status']     = extension_loaded('calendar') ? SETTING_TRUE : SETTING_FALSE;
 
                          ?>
-                <table class="settings" border="0">
+                <table class="settings">
                     <thead class="tbhead">
                         <tr>
                             <td class="tdcaption" colspan="4"><?php echo $language['STEP2_SYSTEMSETTING_REQUIRED']; ?></td>
@@ -426,7 +426,7 @@ if (defined('IN_CS') === false)
                     </tbody>
                 </table>
                 <br />
-                <table class="settings" border="0">
+                <table class="settings">
                     <thead class="tbhead">
                         <tr>
                             <td class="tdcaption" colspan="4"><?php echo $language['STEP2_SYSTEMSETTING_RECOMMENDED']; ?></td>

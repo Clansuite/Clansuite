@@ -9,7 +9,7 @@ if (defined('IN_CS') === false)
         <div id="content_middle">
             <div class="accordion">
                 <h2 class="headerstyle">
-                    <img src="images/64px-Face-smile-big.svg.png" border="0" style="vertical-align:middle" alt="installstep image" />
+                    <img src="images/64px-Face-smile-big.svg.png" style="vertical-align:middle" alt="installstep image" />
                     <?php echo $language['STEP7_FINISH']; ?>
                 </h2>
                 <?php if (!empty($error)) { ?>
@@ -19,7 +19,7 @@ if (defined('IN_CS') === false)
                 <?php } ?>
                 <p style="color:darkgreen"><strong><?php echo $language['STEP7_SENTENCE1']; ?></strong></p>
                 <p><?php echo $language['STEP7_SENTENCE2']; ?>
-                    <img src="images/face-wink.png" border="0" style="vertical-align:middle;" alt="installstep image" />
+                    <img src="images/face-wink.png" style="vertical-align:middle;" alt="installstep image" />
                     <br />
                     <?php echo $language['STEP7_SENTENCE3']; ?>
                 <p><b><?php echo $language['STEP7_SENTENCE4']; ?>

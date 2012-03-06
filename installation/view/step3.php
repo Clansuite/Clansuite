@@ -9,7 +9,7 @@ if (defined('IN_CS') === false)
         <div id="content_middle">
             <div class="accordion">
                 <h2 class="headerstyle">
-                    <img src="images/64px-Application-certificate.svg.png" border="0" style="vertical-align:middle" alt="installstep image" />
+                    <img src="images/64px-Application-certificate.svg.png" style="vertical-align:middle" alt="installstep image" />
                     <?php echo $language['STEP3_LICENSE']; ?>
                 </h2>
                 <p><?php echo $language['STEP3_SENTENCE1']; ?></p>

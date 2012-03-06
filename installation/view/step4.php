@@ -9,7 +9,7 @@ if (defined('IN_CS') === false)
         <div id="content_middle">
             <div class="accordion">
                 <h2 class="headerstyle">
-                    <img src="images/64px-Document-save.svg.png" border="0" style="vertical-align:middle" alt="installstep image" />
+                    <img src="images/64px-Document-save.svg.png" style="vertical-align:middle" alt="installstep image" />
                     <?php echo $language['STEP4_DATABASE']; ?>
                 </h2>
                 <?php if (!empty($error)) { ?>

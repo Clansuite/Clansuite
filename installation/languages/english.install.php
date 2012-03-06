@@ -224,10 +224,10 @@ class Language implements ArrayAccess
         */
 
         // GLOBAL
-        
+
         # Buttons
-        $this->language['NEXTSTEP'] = 'Next >>';
-        $this->language['BACKSTEP'] = '<< Back';
+        $this->language['NEXTSTEP'] = 'Next &gt;&gt;';
+        $this->language['BACKSTEP'] = '&lt;&lt; Back';
 
         # Help Text for Buttons
         $this->language['CLICK_NEXT_TO_PROCEED'] = 'Click the Button ['. $this->language['NEXTSTEP'] .'] to proceed with the next Installstep.';

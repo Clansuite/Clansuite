@@ -136,7 +136,7 @@ body {
 
 img
 {
-  border:0;
+  border: 0;
 }
 
 h2
@@ -607,6 +607,17 @@ fieldset legend
 {
  margin-left : 2%;
 }
+
+.col1
+{
+    text-align: center;
+}
+
+.col2
+{
+    text-align: center;
+}
+
 
 .row1
 {
