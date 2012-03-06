@@ -58,7 +58,7 @@ class Clansuite_Formelement_Validator_Locale extends Clansuite_Formelement_Valid
         # turns "de_DE" into "de"
         $short_code = mb_substr($locale, 0, 2);
 
-        if(array_key_exists($short_code, $l10n_langs))
+        if((isset($l10n_langs[$short_code]) === true) or (array_key_exists($short_code, $l10n_langs) === true))
         {
             # looks in "de" array, returns "de_AT", "de_CH", "de_DE"...
             $sublocales = $l10n_langs[$short_code];
@@ -77,7 +77,7 @@ class Clansuite_Formelement_Validator_Locale extends Clansuite_Formelement_Valid
         {
             return false;
         }
-        
+
         unset($l10n_langs);
     }
 

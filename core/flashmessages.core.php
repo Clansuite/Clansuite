@@ -118,7 +118,7 @@ class Clansuite_Flashmessages /* extends Clansuite_Session */
      */
     private static function getMessagesFromSessionAndUnset()
     {
-        if(array_key_exists('flashmessages', $_SESSION['user']) === true)
+        if(isset($_SESSION['user']['flashmessages']) === true)
         {
             self::$flashmessages = $_SESSION['user']['flashmessages'];
             unset($_SESSION['user']['flashmessages']);

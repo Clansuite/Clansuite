@@ -403,7 +403,7 @@ class Clansuite_Functions
     static function array_find_element_by_key($needle, array $haystack)
     {
         # take a look for the needle
-        if(array_key_exists($needle, $haystack))
+        if((isset($haystack[$needle]) === true) or (array_key_exists($needle, $haystack)))
         {
             # if found, return it
             return $haystack[$needle];

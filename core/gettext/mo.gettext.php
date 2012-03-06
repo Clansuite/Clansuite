@@ -70,30 +70,30 @@ class Clansuite_Gettext_MOFile
         $mo = '';
 
         # header data
-        $offsets = array ();
+        $offsets = array();
         $ids = '';
         $strings = '';
 
-        foreach ($hash as $entry)
+        foreach($hash as $entry)
         {
             $id = $entry['msgid'];
 
-            if (isset ($entry['msgid_plural']))
+            if(isset($entry['msgid_plural']))
             {
                 $id .= "\x00" . $entry['msgid_plural'];
             }
 
             # context is merged into id, separated by EOT (\x04)
-            if (array_key_exists('msgctxt', $entry))
+            if((isset($entry['msgctxt']) === true) or (array_key_exists('msgctxt', $entry) === true))
             {
-                $id= $entry['msgctxt'] . "\x04" . $id;
+                $id = $entry['msgctxt'] . "\x04" . $id;
             }
 
             # plural msgstrs are NUL-separated
-            $str= implode("\x00", $entry['msgstr']);
+            $str = implode("\x00", $entry['msgstr']);
 
             # keep track of offsets
-            $offsets[]= array ( mb_strlen($ids), mb_strlen($id), mb_strlen($strings), mb_strlen($str));
+            $offsets[] = array(mb_strlen($ids), mb_strlen($id), mb_strlen($strings), mb_strlen($str));
 
             # plural msgids are not stored (?)
             $ids .= $id . "\x00";
@@ -103,39 +103,39 @@ class Clansuite_Gettext_MOFile
 
         # keys start after the header (7 words) + index tables ($#hash * 4 words)
         # originally: 7 * 4 + count($hash) * 4 * 4
-        $key_start= 28 + count($hash) * 16;
+        $key_start = 28 + count($hash) * 16;
 
         # values start right after the keys
-        $value_start= $key_start + mb_strlen($ids);
+        $value_start = $key_start + mb_strlen($ids);
 
         # first all key offsets, then all value offsets
-        $key_offsets= array ();
-        $value_offsets= array ();
+        $key_offsets = array();
+        $value_offsets = array();
 
         # calculate
-        foreach ($offsets as $v)
+        foreach($offsets as $v)
         {
-            list ($o1, $l1, $o2, $l2)= $v;
-            $key_offsets[]= $l1;
-            $key_offsets[]= $o1 + $key_start;
-            $value_offsets[]= $l2;
-            $value_offsets[]= $o2 + $value_start;
+            list ($o1, $l1, $o2, $l2) = $v;
+            $key_offsets[] = $l1;
+            $key_offsets[] = $o1 + $key_start;
+            $value_offsets[] = $l2;
+            $value_offsets[] = $o2 + $value_start;
         }
 
-        $offsets= array_merge($key_offsets, $value_offsets);
+        $offsets = array_merge($key_offsets, $value_offsets);
 
         # write header
-        $mo .= pack('Iiiiiii', 0x950412de,          # magic number
-                    0,                              # version
-                    count($hash),                   # number of entries in the catalog
-                    28,                             # key index offset (7*4)
-                    28 + count($hash) * 8,          # value index offset (7*4 + length of hash*8)
-                    0,                              # hashtable size (unused, thus 0)
-                    $key_start                      # hashtable offset
+        $mo .= pack('Iiiiiii', 0x950412de, # magic number
+                0, # version
+                count($hash), # number of entries in the catalog
+                28, # key index offset (7*4)
+                28 + count($hash) * 8, # value index offset (7*4 + length of hash*8)
+                0, # hashtable size (unused, thus 0)
+                $key_start                      # hashtable offset
         );
 
         # offsets
-        foreach ($offsets as $offset)
+        foreach($offsets as $offset)
         {
             $mo .= pack('i', $offset);
         }
