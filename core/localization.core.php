@@ -274,7 +274,7 @@ class Clansuite_Localization
             }
 
             # remove the duplicates and return the browser languages
-            return array_values(array_unique($browserLanguages));
+            return array_values(array_keys(array_flip($browserLanguages)));
         }
     }
 }

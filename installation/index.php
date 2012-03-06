@@ -643,7 +643,8 @@ class Clansuite_Installation_Helper
          */
         $model_dirs[] = ROOT . 'doctrine';
 
-        $model_dirs = array_unique($model_dirs);
+        # array_unique
+        $model_dirs = array_keys(array_flip($model_dirs));
 
         #Clansuite_Debug::printR($model_dirs);
         return $model_dirs;

@@ -84,7 +84,7 @@ class Clansuite_Filter_SmartyMoves implements Clansuite_Filter_Interface
         $matches = array();
         preg_match_all('!@@@SMARTY:PRE_HEAD_CLOSE:BEGIN@@@(.*?)@@@SMARTY:PRE_HEAD_CLOSE:END@@@!is', $content, $matches);
         $content = preg_replace('!@@@SMARTY:PRE_HEAD_CLOSE:BEGIN@@@(.*?)@@@SMARTY:PRE_HEAD_CLOSE:END@@@!is', '', $content);
-        $matches = array_unique($matches[1]);
+        $matches = array_keys(array_flip($matches[1]));
         foreach($matches as $value)
         {
             $content = str_replace('</head>', $value."\n".'</head>', $content);
@@ -97,7 +97,7 @@ class Clansuite_Filter_SmartyMoves implements Clansuite_Filter_Interface
         $matches = array();
         preg_match_all('!@@@SMARTY:POST_BODY_OPEN:BEGIN@@@(.*?)@@@SMARTY:POST_BODY_OPEN:END@@@!is', $content, $matches);
         $content = preg_replace('!@@@SMARTY:POST_BODY_OPEN:BEGIN@@@(.*?)@@@SMARTY:POST_BODY_OPEN:END@@@!is', '', $content);
-        $matches = array_unique($matches[1]);
+        $matches = array_keys(array_flip($matches[1]));
         foreach($matches as $values)
         {
             $content = str_replace('<body>', '<body>'."\n".$value, $content);
@@ -110,7 +110,7 @@ class Clansuite_Filter_SmartyMoves implements Clansuite_Filter_Interface
         $matches = array();
         preg_match_all('!@@@SMARTY:PRE_BODY_CLOSE:BEGIN@@@(.*?)@@@SMARTY:PRE_BODY_CLOSE:END@@@!is', $content, $matches);
         $content = preg_replace('!@@@SMARTY:PRE_BODY_CLOSE:BEGIN@@@(.*?)@@@SMARTY:PRE_BODY_CLOSE:END@@@!is', '', $content);
-        $matches = array_unique($matches[1]);
+        $matches = array_keys(array_flip($matches[1]));
         foreach($matches as $values)
         {
             $content = str_replace('</body>', $value."\n".'</body>', $content);
