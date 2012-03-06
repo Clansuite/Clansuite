@@ -62,9 +62,9 @@ ini_set('display_errors', true);
 
 if(DEBUG)
 {
-    echo 'SESSION :';
+    echo 'SESSION: ';
     print_r($_SESSION);
-    echo 'POST :';
+    echo 'POST: ';
     print_r($_POST);
 }
 
@@ -308,12 +308,12 @@ class Clansuite_Installation
         {
             $this->step = (int) intval($_SESSION['step']);
 
-            if(isset($_POST['step_forward']))
+            if( isset($_POST['step_forward']) and ($this->step == $_POST['submitted_step']))
             {
                 $this->step = $this->step + 1;
             }
 
-            if(isset($_POST['step_backward']))
+            if(isset($_POST['step_backward']) and ($this->step == $_POST['submitted_step']))
             {
                 $this->step = $this->step - 1;
             }
@@ -333,7 +333,8 @@ class Clansuite_Installation
             $this->step = 1;
         }
 
-        unset($_SESSION['step_forward'], $_SESSION['step_backward']);
+        # remove not needed values
+        unset($_SESSION['step_forward'], $_SESSION['step_backward'], $_SESSION['submitted_step']);
     }
 
     public function calculateInstallationProgress()

@@ -103,6 +103,7 @@ if (defined('IN_CS') === false)
                             <div class="alignleft">
                                 <input type="submit" value="<?php echo $language['BACKSTEP']; ?>" class="ButtonRed" name="step_backward" />
                                 <input type="hidden" name="lang" value="<?php echo $_SESSION['lang']; ?>" />
+                                <input type="hidden" name="submitted_step" value="5" />
                             </div>
                         </div>
                     </div>

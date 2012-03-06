@@ -5,7 +5,7 @@ if (defined('IN_CS') === false)
     die( 'Clansuite not loaded. Direct Access forbidden.' );
     }
 ?>
-<!DOCTYPE html>
+<!doctype html>
 <html lang="de" dir="ltr">
 <head>
     <meta charset="utf-8">

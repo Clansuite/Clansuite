@@ -42,6 +42,8 @@ if (defined('IN_CS') === false)
                             </div>
                             <div class="alignright">
                                 <input type="submit" value="<?php echo $language['NEXTSTEP']; ?>" class="ButtonGrey" name="step_forward" id="ButtonNext" disabled="disabled" />
+                                <input type="hidden" name="lang" value="<?php echo $_SESSION['lang']; ?>" />
+                                <input type="hidden" name="submitted_step" value="3" />
                             </div>
                         </form>
                     </div>

@@ -46,6 +46,7 @@ if (defined('IN_CS') === false)
                             <span style="font-size:10px;"><?php echo $language['CLICK_NEXT_TO_PROCEED']; ?></span>
                             <div class="alignright">
                                 <input type="submit" value="<?php echo $language['NEXTSTEP']; ?>" class="ButtonGreen" name="step_forward" />
+                                <input type="hidden" name="submitted_step" value="1" />
                             </div>
                         </div>
                     </div>
