@@ -71,11 +71,11 @@ class Clansuite_Sniffs_Functions_ForbiddenFunctionsSniff extends Generic_Sniffs_
              'substr_count'    => 'mb_substr_count', # Count the number of substring occurrences
              'substr'          => 'mb_substr',       # Get part of string
              # 4b) Discourages the use of odd multi-bytes string aliases
-             'mbstrcut'        => 'mb_strcut', 	
-             'mbstrlen'        => 'mb_strlen',  	
-             'mbstrpos'        => 'mb_strpos', 
-             'mbstrrpos'       => 'mb_strrpos',  
-             'mbsubstr'        => 'mb_substr', 
+             'mbstrcut'        => 'mb_strcut',
+             'mbstrlen'        => 'mb_strlen',
+             'mbstrpos'        => 'mb_strpos',
+             'mbstrrpos'       => 'mb_strrpos',
+             'mbsubstr'        => 'mb_substr',
 
              # 5) Discourages the use of ereg-functions in general = no ereg*() and no mb_ereg_*()
              'ereg'              => 'preg_match',
@@ -86,24 +86,24 @@ class Clansuite_Sniffs_Functions_ForbiddenFunctionsSniff extends Generic_Sniffs_
              'mb_ereg_replace'   => 'preg_match with modifier i',
              'eregi_replace'     => 'preg_match with modifier i',
              'mb_eregi_replace'  => 'preg_match with modifier i',
-        
+
              # 6) deprecated functions as of php 5.3
-             # http://www.php.net/manual/en/migration53.deprecated.php        
+             # http://www.php.net/manual/en/migration53.deprecated.php
              'call_user_method'         => 'call_user_func',
              'call_user_method_array'   => 'call_user_func_array',
              'define_syslog_variables'  => null,
              'dl'                       => null,
              'set_magic_quotes_runtime' => null,
-             'session_register'         => 'use the $_SESSION superglobal instead', # function 
-             'session_unregister'       => 'use the $_SESSION superglobal instead', # function 
-             'session_is_registered'    => 'use the $_SESSION superglobal instead', # function 
+             'session_register'         => 'use the $_SESSION superglobal instead', # function
+             'session_unregister'       => 'use the $_SESSION superglobal instead', # function
+             'session_is_registered'    => 'use the $_SESSION superglobal instead', # function
              'set_socket_blocking'      => 'stream_set_blocking',
              'split'                    => 'preg_split',
              'spliti'                   => 'preg_split with modifier i',
              'sql_regcase'              => null,
              'mysql_db_query'           => 'use mysql_select_db() and mysql_query() instead',
              'mysql_escape_string'      => 'mysql_real_escape_string',
-        
+
              # 7) deprecated ini directives / functions as of php 5.3
              # http://www.php.net/manual/en/migration53.deprecated.php
              'define_syslog_variables'  => null,
@@ -140,7 +140,10 @@ class Clansuite_Sniffs_Functions_ForbiddenFunctionsSniff extends Generic_Sniffs_
              'flush'                    => 'rename method from flush to send',
 
              # 8) due to performance reasons the following methods are forbidden
+             # Yes, you might call these premature optimizations, if applied!
              'file_exists'              => 'is_file',
+             # The next one treats code clarity against performance. Now shut up!
+             'array_unique'             => 'array_keys(array_flip($array))',
             );
 
 
