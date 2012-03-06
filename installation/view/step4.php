@@ -27,19 +27,16 @@ if (defined('IN_CS') === false)
                         <ol class="formular">
                             <li>
                                 <label class="formularleft" for="host"><?php echo $language['HOST']; ?></label>
-                                <input class="formularright" type="text"
-                                       id="host"
-                                       name="config[database][host]"
+                                <input class="formularright" type="text" id="host" name="config[database][host]"
                                        title="<?php echo $language['HOST_TOOLTIP']; ?>"
                                        value="<?php echo $values['host']; ?>" />
                             </li>
                             <li>
                                 <label class="formularleft" for="type"><?php echo $language['DRIVER']; ?></label>
-                                <select class="formularright" id="type"
-                                        name="config[database][driver]"
+                                <select class="formularright" id="type" name="config[database][driver]"
                                         title="<?php echo $language['DRIVER_TOOLTIP']; ?>">
                                 <?php
-                                    $html  = '<option value="pdo_mysql" ';
+                                    $html  = "\t" . '<option value="pdo_mysql" ';
                                     $html .= ($values['driver'] === 'pdo_mysql') ? 'selected="selected"' : '';
                                     $html .= '>MySQL</option>';
                                     /*
@@ -51,51 +48,50 @@ if (defined('IN_CS') === false)
                                     $html .= ($values['driver'] === 'pdo_sqlite') ?  'selected="selected"' : '';
                                     $html .= '>SQLite</option>';
                                     */
-                                    echo $html;
-                                 ?>
+                                    echo $html;?>
                                 </select>
                             </li>
                             <li>
                                 <label class="formularleft" for="user"><?php echo $language['USERNAME']; ?></label>
                                 <input class="formularright" type="text" id="user"
-                                       name="config[database][user]"
                                        title="<?php echo $language['USERNAME_TOOLTIP']; ?>"
-                                       value="<?php echo $values['user']; ?>" />
+                                       name="config[database][user]" value="<?php echo $values['user']; ?>" />
                             </li>
                             <li>
                                 <label class="formularleft" for="password"><?php echo $language['PASSWORD']; ?></label>
-                                <input class="formularright" type="text" id="password"
-                                       autocomplete="off"
-                                       name="config[database][password]"
+                                <input class="formularright" type="text" id="password" autocomplete="off"
                                        title="<?php echo $language['PASSWORD_TOOLTIP']; ?>"
-                                       value="<?php echo $values['password']; ?>" />
+                                       name="config[database][password]" value="<?php echo $values['password']; ?>" />
                             </li>
                             <li>
                                 <label class="formularleft" for="dbname"><?php echo $language['NAME']; ?></label>
                                 <input class="formularright" type="text" id="dbname"
-                                       name="config[database][dbname]"
                                        title="<?php echo $language['NAME_TOOLTIP']; ?>"
-                                       value="<?php echo $values['dbname']; ?>" />
+                                       name="config[database][dbname]" value="<?php echo $values['dbname']; ?>" />
                             </li>
                             <li>
                                 <label class="formularleft" for="create_database"><?php echo $language['CREATE_DATABASE']; ?></label>
                                 <input class="formularright" type="checkbox" id="create_database"
-                                       name="config[database][create_database]"
                                        title="<?php echo $language['CREATEDB_TOOLTIP']; ?>"
+                                       name="config[database][create_database]"
                                 <?php if($values['create_database'] == '1') echo 'checked=\"checked\"'; ?> />
                             </li>
                             <li>
                                 <label class="formularleft" for="prefix"><?php echo $language['PREFIX']; ?></label>
                                 <input class="formularright" type="text" id="prefix"
-                                       name="config[database][prefix]"
                                        title="<?php echo $language['PREFIX_TOOLTIP']; ?>"
-                                       value="<?php echo $values['prefix']; ?>" />
+                                       name="config[database][prefix]" value="<?php echo $values['prefix']; ?>" />
                             </li>
                         </ol>
                     </fieldset>
-                    <!--Create Table and Entries? <p><?php echo $language['STEP4_SENTENCE4']; ?></p> -->
-                    <!--Import Tables of another CMS? <p><?php echo $language['STEP4_SENTENCE5']; ?></p> -->
+                    <?php /*
+                    // Create Table and Entries?
+                    <p><?php echo $language['STEP4_SENTENCE4']; ?></p>
+                    // Import Tables of another CMS?
+                    <p><?php echo $language['STEP4_SENTENCE5']; ?></p>
+                    */ ?>
                     <div id="content_footer">
+
                         <div class="navigation">
                             <span style="font-size:10px;">
                                 <?php echo $language['CLICK_NEXT_TO_PROCEED']; ?><br />
