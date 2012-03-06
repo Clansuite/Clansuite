@@ -92,10 +92,10 @@ class Clansuite_Session implements Clansuite_Session_Interface, ArrayAccess
 
     function __construct(Clansuite_Config $config)
     {
-        $this->config   = $config;
+        $this->config = $config;
 
         # session auto_start must be disabled
-        if (ini_get('session.auto_start') != 0)
+        if(ini_get('session.auto_start') != 0)
         {
             throw new Clansuite_Exception('PHP Setting session.auto_start must be disabled.');
         }
@@ -105,7 +105,7 @@ class Clansuite_Session implements Clansuite_Session_Interface, ArrayAccess
          * The value comming from the clansuite config and is a minute value.
          */
         if(isset($this->config['session']['session_expire_time'])
-           and $this->config['session']['session_expire_time'] <= 60)
+             and $this->config['session']['session_expire_time'] <= 60)
         {
             $this->session_expire_time = $this->config['session']['session_expire_time'] * 60;
         }
@@ -116,7 +116,7 @@ class Clansuite_Session implements Clansuite_Session_Interface, ArrayAccess
         /**
          * Configure Session
          */
-        ini_set('session.name', self::session_name );
+        ini_set('session.name', self::session_name);
         ini_set('session.save_handler', 'user');
 
         /**
@@ -126,19 +126,18 @@ class Clansuite_Session implements Clansuite_Session_Interface, ArrayAccess
          */
         ini_set('session.gc_maxlifetime', $this->session_expire_time);
         ini_set('session.gc_probability', $this->session_probability);
-        ini_set('session.gc_divisor', 100 );
+        ini_set('session.gc_divisor', 100);
 
         # use_trans_sid off -> because spiders will index with PHPSESSID
         # use_trans_sid on  -> considered evil
-        ini_set('session.use_trans_sid', 0 );
+        ini_set('session.use_trans_sid', 0);
 
         # @todo check if there is a problem with rewriting
         #ini_set('url_rewriter.tags'         , "a=href,area=href,frame=src,form=,formfieldset=");
-
         # use a cookie to store the session id (no session_id's in URL)
         # session cookies are forced!
-        ini_set('session.use_cookies', 1 );
-        ini_set('session.use_only_cookies', 1 );
+        ini_set('session.use_cookies', 1);
+        ini_set('session.use_only_cookies', 1);
 
         # stop javascript accessing the cookie (XSS)
         ini_set('session.cookie_httponly', 1);
@@ -147,13 +146,11 @@ class Clansuite_Session implements Clansuite_Session_Interface, ArrayAccess
          * Setup the custom session handler methods
          * Userspace Session Storage
          */
-        session_set_save_handler(   array($this, 'session_open'   ),
-                                    array($this, 'session_close'  ),
-                                    array($this, 'session_read'   ),
-                                    array($this, 'session_write'  ), # this redefines session_write_close()
-                                    array($this, 'session_destroy'), # this redefines session_destroy()
-                                    array($this, 'session_gc'     )
-                                 );
+        session_set_save_handler(
+                array($this, 'session_open'), array($this, 'session_close'), array($this, 'session_read'), array($this, 'session_write'), # this redefines session_write_close()
+                array($this, 'session_destroy'), # this redefines session_destroy()
+                array($this, 'session_gc')
+        );
 
 
         # Start Session
@@ -172,10 +169,10 @@ class Clansuite_Session implements Clansuite_Session_Interface, ArrayAccess
         session_set_cookie_params($time);
 
         # START THE SESSION
-        if( true === session_start())
+        if(true === session_start())
         {
             # Set Cookie + adjust the expiration time upon page load
-            setcookie(self::session_name, session_id() , time() + $time, '/');
+            setcookie(self::session_name, session_id(), time() + $time, '/');
         }
         else
         {
@@ -196,8 +193,12 @@ class Clansuite_Session implements Clansuite_Session_Interface, ArrayAccess
     {
         if(mb_strlen(session_id()) != 32 or false === isset($_SESSION['application']['initiated']))
         {
-            # Make a new session_id and destroy old session
-            # from PHP 5.1 on , if set to true, it will force the session extension to remove the old session on an id change
+            /**
+             * Make a new session_id and destroy old session
+             *
+             * From PHP 5.1 on, if set to true, it will force the
+             * session extension to remove the old session on an id change.
+             */
             session_regenerate_id(true);
 
             # session fixation
@@ -250,9 +251,6 @@ class Clansuite_Session implements Clansuite_Session_Interface, ArrayAccess
      */
     public function session_read( $id )
     {
-        # Debug Display
-        #echo 'Session ID is: '. $id .' AND Session NAME is:'. self::session_name;
-
         try
         {
             $em = Clansuite_CMS::getEntityManager();
@@ -263,7 +261,7 @@ class Clansuite_Session implements Clansuite_Session_Interface, ArrayAccess
             $query->setParameters(array('name' => self::session_name, 'id' => $id));
             $result = $query->getResult();
 
-            if( $result )
+            if($result)
             {
                 return (string) $result[0]['session_data'];  # unserialize($result['session_data']);
             }
@@ -307,24 +305,29 @@ class Clansuite_Session implements Clansuite_Session_Interface, ArrayAccess
          * Try to INSERT Session Data or REPLACE Session Data in case session_id already exists
          */
         $em = Clansuite_CMS::getEntityManager();
-        $query = $em->createQuery('UPDATE \Entities\Session s
-             SET s.session_id = :id,
-             s.session_name = :name,
-             s.session_starttime = :time,
-             s.session_data = :data,
-             s.session_visibility = :visibility,
-             s.session_where = :where,
-             s.user_id = :user_id
-             WHERE s.session_id = :id');
-        $query->setParameters(
-                array( 'id' => $id,
-                       'name' => self::session_name,
-                       'time' => (int) time(),
-                       'data' => $data, # @todo serialize($data)
-                       'visibility' => '1', # @todo ghost mode
-                       'where' => 'session_start',
-                       'user_id' => '0'
-                    ));
+
+        $query = $em->createQuery(
+            'UPDATE \Entities\Session s
+                SET s.session_id = :id,
+                s.session_name = :name,
+                s.session_starttime = :time,
+                s.session_data = :data,
+                s.session_visibility = :visibility,
+                s.session_where = :where,
+                s.user_id = :user_id
+                WHERE s.session_id = :id'
+        );
+
+        $query->setParameters(array(
+            'id' => $id,
+            'name' => self::session_name,
+            'time' => (int) time(),
+            'data' => $data, # @todo serialize($data)
+            'visibility' => '1', # @todo ghost mode
+            'where' => 'session_start',
+            'user_id' => '0')
+        );
+
         $query->execute();
 
         return true;
@@ -352,18 +355,24 @@ class Clansuite_Session implements Clansuite_Session_Interface, ArrayAccess
          * Delete session from DB
          */
         $em = Clansuite_CMS::getEntityManager();
-        $query = $em->createQuery('DELETE \Entities\Session s
-                                   WHERE s.session_name = :name
-                                     AND s.session_id = :id');
-        $query->setParameters(array('name' => self::session_name,
-                                    'id' => $session_id));
+
+        $query = $em->createQuery(
+            'DELETE \Entities\Session s
+                WHERE s.session_name = :name
+                    AND s.session_id = :id'
+        );
+
+        $query->setParameters(array(
+            'name' => self::session_name,
+            'id' => $session_id)
+        );
+
         $query->execute();
     }
 
      /**
      * Session Garbage Collector
      *
-     * @param int session life time (mins)
      * Removes the current session, if:
      * a) gc probability is reached (ini_set)
      * b) time() is reached (DB has timestamp stored, that is time() + expiration )
@@ -371,6 +380,8 @@ class Clansuite_Session implements Clansuite_Session_Interface, ArrayAccess
      * @see session.gc_maxlifetime  1800 = 30*60
      * @see session.gc_probability    1
      * @usage execution rate 1/100 (session.gc_probability/session.gc_divisor)
+     *
+     * @param int session life time (mins)
      * @return boolean
      */
     public function session_gc($maxlifetime = 30)
@@ -381,20 +392,28 @@ class Clansuite_Session implements Clansuite_Session_Interface, ArrayAccess
         }
 
         /**
-         * Determine Expiretime of Session
+         * Determine expiration time of the session
          *
-         * $maxlifetime is a minute time value, we get this from $config['session']['session_expire_time']
-         * $sessionLifetime is seconds
+         * $maxlifetime is a minute time value
+         * its fetched from $config['session']['session_expire_time']
+         * $sessionLifetime is in seconds
          */
         $sessionlifetime = $maxlifetime * 60;
         $expire_time = time() + $sessionlifetime;
 
         $em = Clansuite_CMS::getEntityManager();
-        $query = $em->createQuery('DELETE \Entities\Session s
-                                   WHERE s.session_name = :name
-                                     AND s.session_starttime < :time');
-        $query->setParameters(array('name' => self::session_name,
-                                    'time' => (int) $expire_time));
+
+        $query = $em->createQuery(
+            'DELETE \Entities\Session s
+                WHERE s.session_name = :name
+                    AND s.session_starttime < :time'
+        );
+
+        $query->setParameters(array(
+            'name' => self::session_name,
+            'time' => (int) $expire_time)
+        );
+
         $query->execute();
 
         return true;
