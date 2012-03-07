@@ -30,7 +30,7 @@ function smarty_function_triggerevent($params, $smarty)
     # we need an valid eventname to trigger it
     if(empty($params['name']))
     {
-        $smarty->trigger_error("name: Please add an event name.");
+        trigger_error("name: Please add an event name.");
         return;
     }
 

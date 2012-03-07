@@ -35,13 +35,13 @@ function smarty_function_doctype($params, $smarty)
 {
     if( !isset( $params['doctype'] ))
     {
-        $smarty->trigger_error("Parameter 'familiy' not specified! familiy=HTML or XHTML.");
+        trigger_error("Parameter 'familiy' not specified! familiy=HTML or XHTML.");
         return;
     }
 
     if( !isset( $params['level'] ))
     {
-        $smarty->trigger_error("Parameter 'level' or 'htmlTemplate' not specified!");
+        trigger_error("Parameter 'level' or 'htmlTemplate' not specified!");
         return;
     }
 

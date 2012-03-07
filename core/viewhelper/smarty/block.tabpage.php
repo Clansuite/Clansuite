@@ -30,7 +30,7 @@ function smarty_block_tabpage($params, $content, $smarty, &$repeat)
     }
     else
     {
-        $smarty->trigger_error("Tabpage Name not set! Please add Parameter 'name=tabpagename'!");
+        trigger_error("Tabpage Name not set! Please add Parameter 'name=tabpagename'!");
         return;
     }
 

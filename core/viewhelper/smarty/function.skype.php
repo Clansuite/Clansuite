@@ -31,7 +31,7 @@ function smarty_function_skype($params, $smarty)
 {
     if(empty($params['username']))
     {
-        $smarty->trigger_error("skype: missing skype parameter");
+        trigger_error("skype: missing skype parameter");
         return;
     }
 

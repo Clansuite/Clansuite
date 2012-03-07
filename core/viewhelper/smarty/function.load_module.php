@@ -151,12 +151,12 @@ function smarty_function_load_module($params, $smarty)
         }
         else
         {
-            return $smarty->trigger_error('Error! Failed to load Widget-Template for <br /> ' . $module_classname . ' -> ' . $action . '(' . $items . ')');
+            return trigger_error('Error! Failed to load Widget-Template for <br /> ' . $module_classname . ' -> ' . $action . '(' . $items . ')');
         }
     }
     else
     {
-        return $smarty->trigger_error('Error! Failed to load Widget: <br /> ' . $module_classname . ' -> ' . $action . '(' . $items . ')');
+        return trigger_error('Error! Failed to load Widget: <br /> ' . $module_classname . ' -> ' . $action . '(' . $items . ')');
     }
 }
 ?>

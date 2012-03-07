@@ -39,7 +39,7 @@ function smarty_function_png_image($params, $smarty)
 
     if (empty($src))
     {
-        $smarty->trigger_error("assign_array: missing 'src' parameter");
+        trigger_error("assign_array: missing 'src' parameter");
         return;
     }
 

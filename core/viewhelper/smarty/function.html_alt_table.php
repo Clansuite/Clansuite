@@ -102,7 +102,7 @@ function smarty_function_html_alt_table($params, $smarty)
     # mandatory parameter loop
     if (!isset($params['loop']))
     {
-        $smarty->trigger_error('html_alt_table: missing "loop" parameter');
+        trigger_error('html_alt_table: missing "loop" parameter');
         return;
     }
 

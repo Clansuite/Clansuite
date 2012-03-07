@@ -59,7 +59,7 @@ function smarty_block_move_to($params, $content, $smarty, &$repeat)
         $errormessage  = 'You are using the <font color="#FF0033">{move_to}</font> command, but the <font color="#FF0033">Parameter "target" is missing.</font>';
         $errormessage .= ' Try to append one of the following parameters:';
         $errormessage .= ' <font color="#66CC00">target="pre_head_close" , target="post_body_open" , target="pre_body_close"</font>.';
-        $smarty->trigger_error($errormessage);
+        trigger_error($errormessage);
         unset($errormessage);
         return;
     }
@@ -75,7 +75,7 @@ function smarty_block_move_to($params, $content, $smarty, &$repeat)
     # whitelist: check if tag is a valid movement position
     if( !in_array($target, $valid_movement_positions) )
     {
-        $smarty->trigger_error("Parameter 'target' needs one of the following values: pre_head_close, post_body_open, pre_body_close");
+        trigger_error("Parameter 'target' needs one of the following values: pre_head_close, post_body_open, pre_body_close");
         return;
     }
 

@@ -30,21 +30,21 @@ function smarty_function_array($params, $smarty)
     // be sure array has a name
     if( empty($params['name']) or is_string($params['name']) == false)
     {
-        $smarty->trigger_error('array: name as parameter');
+        trigger_error('array: name as parameter');
         return;
     }
 
     // be sure values parameter is present
     if(empty($params['values']))
     {
-        $smarty->trigger_error('array: missing values as parameter');
+        trigger_error('array: missing values as parameter');
         return;
     }
 
     // be sure explode parameter is present
     if( empty($params['explode']))
     {
-        $smarty->trigger_error('array: missing explode (true, false) as parameter');
+        trigger_error('array: missing explode (true, false) as parameter');
         return;
     }
     else
@@ -55,7 +55,7 @@ function smarty_function_array($params, $smarty)
     // be sure delimiter parameter is present
     if( empty($params['delimiter']))
     {
-        $smarty->trigger_error('array: missing delimiter definition as parameter');
+        trigger_error('array: missing delimiter definition as parameter');
         return;
     }
 

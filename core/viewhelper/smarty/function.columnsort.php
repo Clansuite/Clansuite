@@ -50,7 +50,7 @@ function smarty_function_columnsort($params, $smarty)
     // Retrieve the $_SESSION columnsort object.
     if(!isset($_SESSION['SmartyColumnSort'][$SMCS_id]))
     {
-        $smarty->trigger_error('columnsort: SmartyColumnSort.class.php needs to be included for columnsort to work.');
+        trigger_error('columnsort: SmartyColumnSort.class.php needs to be included for columnsort to work.');
         return;
     }
     $columnsort = $_SESSION['SmartyColumnSort'][$SMCS_id];
@@ -58,7 +58,7 @@ function smarty_function_columnsort($params, $smarty)
     // HTML
     if(!isset($params['html']))
     {
-        $smarty->trigger_error('columnsort: missing "html" parameter.');
+        trigger_error('columnsort: missing "html" parameter.');
         return;
     }
 
@@ -95,7 +95,7 @@ function smarty_function_columnsort($params, $smarty)
         $sort_asc_image = $params['asc_image'];
         $sort_desc_image = $params['desc_image'];
     } else if(isset($params['asc_image']) || isset($params['desc_image']))    {
-        $smarty->trigger_error('columnsort: Both "asc_image" and "desc_image" needs to be present, or none of them.');
+        trigger_error('columnsort: Both "asc_image" and "desc_image" needs to be present, or none of them.');
     }
     */
 
@@ -115,7 +115,7 @@ function smarty_function_columnsort($params, $smarty)
 
     if($sort_order === false)
     {
-        $smarty->trigger_error('columnsort: too few columns in translate table!');
+        trigger_error('columnsort: too few columns in translate table!');
         return;
     }
 
@@ -172,7 +172,7 @@ function _smarty_columnsort_sort_order($id, $columns, $default_sort, $smarty)
 
     if(count($columns[$id]) != 2)
     {
-        $smarty->trigger_error('columnsort: column array must be array("value", "asc|desc")');
+        trigger_error('columnsort: column array must be array("value", "asc|desc")');
         return false;
     }
 

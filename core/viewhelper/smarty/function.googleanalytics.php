@@ -38,7 +38,7 @@ function smarty_function_googleanalytics($params, $smarty)
         }
         else # no code provided via smarty function nor config
         {
-            $smarty->trigger_error("google_analytics: the parameter 'code' is missing. please specifiy your GA urchin id.");
+            trigger_error("google_analytics: the parameter 'code' is missing. please specifiy your GA urchin id.");
             return;
         }
     }
@@ -54,7 +54,7 @@ function smarty_function_googleanalytics($params, $smarty)
      */
     if(empty($params['type']))
     {
-        $smarty->trigger_error("google_analytics: the parameter 'type' is missing. please specifiy your 'async' or 'jquery'.");
+        trigger_error("google_analytics: the parameter 'type' is missing. please specifiy your 'async' or 'jquery'.");
         return;
     }
 

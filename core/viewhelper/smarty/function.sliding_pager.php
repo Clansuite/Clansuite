@@ -61,15 +61,15 @@ function smarty_function_sliding_pager($params, $smarty)
 
     /* Check parameters */
     if (empty($pagecount)) {
-        $smarty->trigger_error("sliding_pager: missing 'pagecount' parameter");
+        trigger_error("sliding_pager: missing 'pagecount' parameter");
         return;
     }
     if (empty($curpage)) {
-        $smarty->trigger_error("sliding_pager: missing 'curpage' parameter");
+        trigger_error("sliding_pager: missing 'curpage' parameter");
         return;
     }
     if (empty($baseurl)) {
-        $smarty->trigger_error("sliding_pager: missing 'baseurl' parameter");
+        trigger_error("sliding_pager: missing 'baseurl' parameter");
         return;
     }
 

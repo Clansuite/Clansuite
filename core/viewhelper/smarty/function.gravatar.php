@@ -47,7 +47,7 @@ function smarty_function_gravatar($params, $smarty)
     }
     else
     {
-        $smarty->trigger_error("Gravatar Image couldn't be loaded! Parameter 'email' not specified!");
+        trigger_error("Gravatar Image couldn't be loaded! Parameter 'email' not specified!");
         return;
     }
 

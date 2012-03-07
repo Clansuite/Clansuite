@@ -28,7 +28,7 @@ function smarty_function_link_to($params, $smarty)
     {
         $errormessage  = 'You are using the <font color="#FF0033">{link_to}</font> command, but the <font color="#FF0033">Parameter "href" is missing.</font>';
         $errormessage .= ' Try to append the parameter in the following way: <font color="#66CC00">href="/news/show"</font>.';
-        $smarty->trigger_error($errormessage);
+        trigger_error($errormessage);
         return;
     }
     else

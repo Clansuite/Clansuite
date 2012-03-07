@@ -28,7 +28,7 @@ function smarty_function_check_permission($params, $smarty)
     # ensure we got parameter name
     if( empty($params['name']) or is_string($params['name']) == false)
     {
-        $smarty->trigger_error('Parameter "name" is not a string or empty.
+        trigger_error('Parameter "name" is not a string or empty.
                                 Please provide a name in the format "module.action".');
         return;
     }
@@ -36,7 +36,7 @@ function smarty_function_check_permission($params, $smarty)
     # ensure parameter name contains a dot
     if (false === strpos($params['name'], '.'))
     {
-        $smarty->trigger_error('Parameter "name" is not in the correct format.
+        trigger_error('Parameter "name" is not in the correct format.
                                 Please provide a name in the format "module.action".');
         return;
     }
