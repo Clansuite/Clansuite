@@ -199,13 +199,16 @@ class Clansuite_HttpResponse implements Clansuite_Response_Interface
      * @param string $type Content type: html, txt, xml, json.
      * @return string
      */
-    public static function setContentType($type = 'html')
+    public static function setContentType($type = 'html', $charset = 'UTF-8')
     {
         $types = array(
+            'csv'  => 'text/csv',
             'html' => 'text/html',
-            'txt' => 'text/plain',
-            'xml' => 'application/xml',
+            'txt'  => 'text/plain',
+            'xml'  => 'application/xml',
+            'rss'  => 'application/rss+xml',
             'json' => 'application/json',
+            'js'   => 'application/javascript',
         );
 
         if(isset($types[$type]) === false)
@@ -213,7 +216,8 @@ class Clansuite_HttpResponse implements Clansuite_Response_Interface
             throw new InvalidArgumentException('Specified type not valid. Use: html, txt, xml or json.');
         }
 
-        $this->content_type = $types[$type];
+        #addHeader('Content-Type', $type . ($charset ? '; charset='.$charset.': ''));
+        self::$content_type = $types[$type];
     }
 
     /**
@@ -223,12 +227,12 @@ class Clansuite_HttpResponse implements Clansuite_Response_Interface
      */
     public static function getContentType()
     {
-        if(empty($this->content_type) === true)
+        if(empty(self::$content_type) === true)
         {
             self::setContentType('html');
         }
 
-        return $this->content_type;
+        return self::$content_type;
     }
 
     /**
@@ -258,14 +262,16 @@ class Clansuite_HttpResponse implements Clansuite_Response_Interface
         self::addHeader('X-Frame-Options', 'deny'); # not SAMEORIGIN
 
         # Send our Content-Type with UTF-8 encoding
-        self::addHeader('Content-Type', $this->getContentType(). '; charset=UTF-8');
+        self::addHeader('Content-Type', self::getContentType(). '; charset=UTF-8');
 
         # Send user specificed headers from self::$headers array
         if(false === headers_sent())
         {
             foreach(self::$headers as $name => $value)
             {
-                header($name . ': ' . $value, false);
+                $header = $name . ': ' . $value;
+                $header = str_replace(array("\n", "\r"), '', $header); # header injection
+                header($header, false);
             }
         }
 
