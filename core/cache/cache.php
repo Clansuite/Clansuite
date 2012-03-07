@@ -154,41 +154,4 @@ class Cache
         return self::$cacheObject->set($key, serialize($object), $cache_lifetime);
     }
 }
-
-abstract class Clansuite_Cache_Base
-{
-    /**
-     * Prefix for the cache key.
-     *
-     * @var mixed Defaults to 'cs'.
-     */
-    protected $prefix = 'cs';
-
-    /**
-     * Set Prefix for the cache key.
-     *
-     * @param string $prefix The prefix for all cache keys.
-     * @throws InvalidArgumentException if prefix is empty
-     */
-    public function setPrefix($prefix)
-    {
-        if(empty($prefix))
-        {
-            throw new InvalidArgumentException('Prefix must not be empty.');
-        }
-
-        $this->prefix = $prefix;
-    }
-
-    /**
-     * Get Prefix for the cache key.
-     *
-     * @return string The cache prefix
-     */
-    public function getPrefix()
-    {
-        return $this->prefix;
-    }
-}
-
 ?>
