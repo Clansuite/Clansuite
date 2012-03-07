@@ -37,14 +37,14 @@ if(defined('IN_CS') === false)
 }
 
 /**
- * Clansuite Remotefetch
+ * Clansuite Remote Request Manager
  *
  * 1: Snoppy
  * 2: cURL
  * 3: Remote
  * (4: FTP)
  */
-class Clansuite_Remotefetch
+class Clansuite_Remote_Request
 {
     /**
      * Fetches remote content with Snoopy
