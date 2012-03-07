@@ -196,57 +196,53 @@ class Clansuite_Loader
         # autoloading map
         self::$inclusions_map = array(
         # /core/config
-        'Clansuite_Config_Base'               => 'config/config.base.php',
-        'Clansuite_Config_INI'                => 'config/ini.config.php',
-        'Clansuite_Config_XML'                => 'config/xml.config.php',
-        'Clansuite_Config_YAML'               => 'config/yaml.config.php',
+        'Clansuite_Config_Base'               => 'config/base.php',
+        'Clansuite_Config_INI'                => 'config/adapter/ini.php',
+        'Clansuite_Config_XML'                => 'config/adapter/xml.php',
+        'Clansuite_Config_YAML'               => 'config/adapter/yaml.php',
         'Clansuite_Renderer_Base'             => 'renderer/renderer.base.php',
         # /core
-        'Clansuite_Staging'                   => 'staging.core.php',
-        'Clansuite_UTF8'                      => 'utf8.core.php',
-        'Clansuite_Config'                    => 'config.core.php',
-        'Clansuite_ACL'                       => 'acl.core.php',
-        'Clansuite_HttpRequest'               => 'httprequest.core.php',
-        'Clansuite_HttpResponse'              => 'httpresponse.core.php',
-        'Clansuite_FilterManager'             => 'filtermanager.core.php',
-        'Clansuite_Localization'              => 'localization.core.php',
-        'Clansuite_Inputfilter'               => 'inputfilter.core.php',
-        'Clansuite_User'                      => 'user.core.php',
-        'Clansuite_Router'                    => 'router.core.php',
-        'Clansuite_TargetRoute'               => 'targetroute.core.php',
-        'Clansuite_Mapper'                    => 'mapper.core.php',
-        'Clansuite_Security'                  => 'security.core.php',
-        'Clansuite_Session'                   => 'session.core.php',
-        'Clansuite_Filter_Interface'          => 'filtermanager.core.php',
-        'Clansuite_Gettext_Extractor'         => 'gettext.core.php',
-        'Clansuite_DoorKeeper'                => 'doorkeeper.core.php',
-        'Clansuite_Functions'                 => 'functions.core.php',
-        'Clansuite_XML2JSON'                  => 'xml2json.core.php',
-        'Clansuite_Doctrine'                  => 'doctrine.core.php',
-        'Clansuite_DoctrineTools'             => 'doctrine.core.php',
-        'Clansuite_Front_Controller'          => 'frontcontroller.core.php',
-        'Clansuite_Module_Controller'         => 'modulecontroller.core.php',
-        'Clansuite_EventDispatcher'           => 'eventdispatcher.core.php',
-        'Clansuite_Breadcrumb'                => 'breadcrumb.core.php',
-        # /core/factories
-        'Clansuite_Config_Factory'            => 'factories/config.factory.php',
-        'Clansuite_Renderer_Factory'          => 'factories/renderer.factory.php',
-        'Clansuite_Cache_Factory'             => 'factories/cache.factory.php',
+        'Clansuite_Staging'                   => 'staging.php',
+        'Clansuite_UTF8'                      => 'utf8core.php',
+        'Clansuite_Config'                    => 'config.php',
+        'Clansuite_ACL'                       => 'aclcore.php',
+        'Clansuite_HttpRequest'               => 'httprequestcore.php',
+        'Clansuite_HttpResponse'              => 'httpresponse.php',
+        'Clansuite_FilterManager'             => 'filtermanager.php',
+        'Clansuite_Localization'              => 'localization.php',
+        'Clansuite_Inputfilter'               => 'inputfilter.php',
+        'Clansuite_User'                      => 'user.php',
+        'Clansuite_Router'                    => 'router.php',
+        'Clansuite_TargetRoute'               => 'targetroute.php',
+        'Clansuite_Mapper'                    => 'mapper.php',
+        'Clansuite_Security'                  => 'security.php',
+        'Clansuite_Session'                   => 'session.php',
+        'Clansuite_Filter_Interface'          => 'filtermanager.php',
+        'Clansuite_Gettext_Extractor'         => 'gettext.php',
+        'Clansuite_DoorKeeper'                => 'doorkeeper.php',
+        'Clansuite_Functions'                 => 'functions.php',
+        'Clansuite_XML2JSON'                  => 'xml2json.php',
+        'Clansuite_Doctrine'                  => 'doctrine.php',
+        'Clansuite_DoctrineTools'             => 'doctrine.php',
+        'Clansuite_Front_Controller'          => 'frontcontroller.php',
+        'Clansuite_Module_Controller'         => 'modulecontroller.php',
+        'Clansuite_EventDispatcher'           => 'eventdispatcher.php',
+        'Clansuite_Breadcrumb'                => 'breadcrumb.php',
         # /core/files
-        'Clansuite_File'                      => 'files/file.core.php',
-        'Clansuite_Directory'                 => 'files/file.core.php',
-        'Clansuite_Upload'                    => 'files/upload.core.php',
-        'Clansuite_Download'                  => 'files/download.core.php',
+        'Clansuite_File'                      => 'files/file.php',
+        'Clansuite_Directory'                 => 'files/file.php',
+        'Clansuite_Upload'                    => 'files/upload.php',
+        'Clansuite_Download'                  => 'files/download.php',
         # /core/tools
-        'Clansuite_Browserinfo'               => 'tools/browserinfo.core.php',
-        'Clansuite_Cssbuilder'                => 'tools/cssbuilder.core.php',
+        'Clansuite_Browserinfo'               => 'tools/browserinfo.php',
+        'Clansuite_Cssbuilder'                => 'tools/cssbuilder.php',
         # /core/renderer
         'Clansuite_View_Mapper'               => 'renderer/templatemapper.php',
         # /viewhelper/
-        'Clansuite_Theme'                     => 'viewhelper/theme.core.php',
+        'Clansuite_Theme'                     => 'viewhelper/theme.php',
         # /viewhelper/datagrid
-        'Clansuite_Datagrid'                  => 'viewhelper/datagrid/datagrid.core.php',
-        'Clansuite_Datagrid_Column'           => 'viewhelper/datagrid/datagridcol.core.php',
+        'Clansuite_Datagrid'                  => 'viewhelper/datagrid/datagrid.php',
+        'Clansuite_Datagrid_Column'           => 'viewhelper/datagrid/datagridcol.php',
         # /viewhelper/form
         'Clansuite_Form'                      => 'viewhelper/form/form.php',
         'Clansuite_Formelement'               => 'viewhelper/form/formelement.php',
@@ -371,8 +367,8 @@ class Clansuite_Loader
         }
 
         # Core Class
-        # clansuite/core/class_name.core.php
-        $file = ROOT_CORE . str_replace('_','',$filename) . '.core.php';
+        # clansuite/core/class_name.php
+        $file = ROOT_CORE . str_replace('_','',$filename) . '.php';
         if(is_file($file) === true)
         {
             return self::includeFileAndMap($file, $classname);
@@ -395,8 +391,8 @@ class Clansuite_Loader
         }
 
         # Viewhelper
-        # clansuite/core/viewhelper/classname.core.php
-        $file = ROOT_CORE . 'viewhelper' . DS . str_replace('_','.',$filename) . '.core.php';
+        # clansuite/core/view/helper/classname.php
+        $file = ROOT_CORE . 'view/helper/' . str_replace('_','.',$filename) . '.php';
         if(is_file($file) === true)
         {
             return self::includeFileAndMap($file, $classname);
