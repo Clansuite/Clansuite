@@ -37,14 +37,14 @@ if(defined('IN_CS') === false)
 }
 
 /**
- * Clansuite Routes Management
+ * Clansuite Router Management
  *
  * On Installation
  *      new routes are added via the method addRoutesOfModule($modulename).
  * On Deinstallation
  *      the routes are removed via method delRoutesOfModule($modulename).
  */
-class Clansuite_Routes_Manager
+class Clansuite_Router_Manager
 {
     public function addRoutesOfModule($modulename)
     {
