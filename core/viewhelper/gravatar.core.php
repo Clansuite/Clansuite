@@ -170,9 +170,8 @@ class clansuite_gravatar
 
         if($size < 16 || $size > 512)
         {
-            throw new \OutOfRangeException('Value of $size should be between 16 and 512 (size of image in pixels). value given: '.$size);
-        }
-        */
+            throw new \OutOfRangeException('Value of $size should be between 16 and 512 (size of image in pixels), given: '.$size);
+        }*/
 
         $this->size = $size;
 
@@ -347,7 +346,7 @@ class clansuite_gravatar_cache
         # Check if caching is possible
         if($this->checkIfCachable() == true)
         {
-            # Get the Gravatar and Save a Cache File from
+            # get the Gravatar and cache it
             file_put_contents($cache_filename, file_get_contents($gravatar_url));
 
             # Set CHMOD to 755 (rwx r-x r-x)

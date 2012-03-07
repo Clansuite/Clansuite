@@ -39,19 +39,19 @@ if (defined('IN_CS') === false)
 
 class Clansuite_Formelement_Securitytoken extends Clansuite_Formelement_Hidden implements Clansuite_Formelement_Interface
 {
-    public function __construct(l)
+    public function __construct()
     {
         parent::__construct();
-        
+
         $this->isRequired();
         $this->setValidator('NotEmpty');
         $this->initCsrfValidator();
     }
-    
+
     public function initCsrfValidator()
     {
         $session = $this->getSession();
-        
+
         if (isset($session->hash))
         {
             $validHash = $session->hash;
@@ -62,7 +62,7 @@ class Clansuite_Formelement_Securitytoken extends Clansuite_Formelement_Hidden i
         }
 
         $this->addValidator('Identical', true, array($validHash));
-        
+
         return $this;
     }
 

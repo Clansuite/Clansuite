@@ -39,7 +39,8 @@ if (defined('IN_CS') === false)
 /**
  * Clansuite_Formelement_Decorator_None
  *
- * None - this hardly decorates anything at all. Wraps linebreaks around the html formelemnet content.
+ * None - this hardly decorates anything at all.
+ * Just wraps linebreaks around the html formelemnet content.
  *
  * @category Clansuite
  * @package Clansuite_Form

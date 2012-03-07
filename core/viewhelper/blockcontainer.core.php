@@ -32,15 +32,12 @@
 
 # Security Handler
 if (defined('IN_CS') === false)
-{ 
+{
     die('Clansuite not loaded. Direct Access forbidden.');
 }
 
 /**
  * Clansuite Blockcontainer
- *
- * Clansuite_Layout
- *  \- Clansuite_BlockContainer
  *
  * @category    Clansuite
  * @package     Core

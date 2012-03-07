@@ -51,6 +51,20 @@ if (false == class_exists('Clansuite_Form',false))
  */
 class Clansuite_XML_Formgenerator extends Clansuite_Form
 {
+    /**
+     * Facade/Shortcut
+     */
+    public function generate($array)
+    {
+        $this->generateFormByXML($array);
+    }
+
+    /**
+     * Generates a formular from a XML description file.
+     *
+     * @param string $filename XML file with formular description.
+     * @return \Clansuite_Array_Formgenerator
+     */
     public function generateFormByXML($filename)
     {
         # XML -> toArray -> Clansuite_Array_Formgenerator->generate($array)
@@ -67,13 +81,7 @@ class Clansuite_XML_Formgenerator extends Clansuite_Form
         return $form;
     }
 
-    /**
-     * Facade/Shortcut
-     */
-    public function generate($array)
-    {
-        $this->generateFormByXML($array);
-    }
+
 
     /**
      * Generates a XML Form Description File from an form describing array
