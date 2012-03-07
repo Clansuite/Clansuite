@@ -35,15 +35,13 @@ if(defined('IN_CS') === false)
 }
 
 /**
- * Clansuite_ModuleInfoController
- *
- * Class for ModuleManagement
+ * Clansuite_Module_Manifest_Manager
  *
  * @todo
  * A. ModuleInfoScanner
  * B. ModuleInfoReader
  */
-class Clansuite_ModuleInfoController
+class Clansuite_Module_Manifest_Manager
 {
     /**
      * @var array contains the moduleinformations
