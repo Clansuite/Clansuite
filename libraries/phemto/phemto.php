@@ -19,7 +19,7 @@ class Phemto {
     function willUse($preference) {
         $this->top->willUse($preference);
     }
-    
+
     function register($preference) {
         $this->top->willUse($preference);
     }
@@ -56,7 +56,7 @@ class Phemto {
         $this->named_parameters = array();
         return $object;
     }
-    
+
     function instantiate() {
         $values = func_get_args();
         $type = array_shift($values);
@@ -192,7 +192,7 @@ class Context {
         }
         return false;
     }
-    
+
     private function invokeSetters($context, $nesting, $class, $instance) {
         foreach ($context->settersFor($class) as $setter) {
             $context->invoke($instance, $setter, $context->createDependencies(
@@ -203,8 +203,8 @@ class Context {
 
     private function settersFor($class) {
         $setters = isset($this->types[$class]) ? $this->types[$class]->setters : array();
-        return array_values(array_unique(array_merge(
-                    $setters, $this->parent->settersFor($class))));
+        return array_values(array_keys(array_flip(array_merge(
+                    $setters, $this->parent->settersFor($class)))));
     }
 
     function wrappersFor($type) {
@@ -276,7 +276,7 @@ class Context {
 class Variable {
     public $preference;
     private $context;
-    
+
     function __construct($context) {
         $this->context = $context;
     }
@@ -285,7 +285,7 @@ class Variable {
         $this->preference = $preference;
         return $this->context;
     }
-    
+
     function useString($string) {
         $this->preference = new Value($string);
         return $this->context;
