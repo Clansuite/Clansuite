@@ -30,7 +30,7 @@
     * @version    SVN: $Id$
     */
 
-namespace Koch;
+namespace Koch\Localization;
 
 # Security Handler
 if(defined('IN_CS') === false)
