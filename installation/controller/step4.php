@@ -171,11 +171,11 @@ class Clansuite_Installation_Step4 extends Clansuite_Installation_Page
             $validation_error = $validator->validateMapping();
 
             # handle validation errors
-            #if($validation_error)
-            #{
+            if($validation_error)
+            {
                 # @todo this is experimental...
-                var_dump($validation_error);
-            #}
+                $this->setErrorMessage( var_export($validation_error, false) );
+            }
         }
         catch(Exception $e)
         {

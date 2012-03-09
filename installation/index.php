@@ -47,18 +47,22 @@ define('DEBUG', false);
 define('DS', DIRECTORY_SEPARATOR);
 define('INSTALLATION_ROOT', __DIR__ . DS);
 define('ROOT', dirname(INSTALLATION_ROOT) . DS);
-define('ROOT_CACHE', ROOT . 'cache' . DS);
+define('ROOT_CACHE', ROOT . 'cache/');
+define('ROOT_APP', ROOT . 'application/');
 define('NL', "<br />\r\n", false);
 define('CR', "\n");
 
-# load  Clansuite Version constants
-require ROOT . 'core/bootstrap/clansuite.version.php';
+# load Clansuite Version constants
+require ROOT . 'application/version.php';
 Clansuite_Version::setVersionInformation();
 
 # Error Reporting Level
 error_reporting(E_ALL | E_STRICT);
 ini_set('display_startup_errors', true);
 ini_set('display_errors', true);
+
+require ROOT . '/core/exception/exception.php';
+set_exception_handler(array(new Clansuite_Exception,'exception_handler'));
 
 if(DEBUG)
 {
@@ -449,7 +453,7 @@ class Clansuite_Installation_Helper
     public static function write_config_settings($data_array)
     {
         # Read/Write Handler for config files
-        include ROOT . 'core/config/ini.config.php';
+        include ROOT . 'core/config/adapter/ini.php';
 
         /**
          * Throw not needed setting out, before data_array gets written to file.
@@ -461,7 +465,7 @@ class Clansuite_Installation_Helper
         # base class is needed for Clansuite_Config_INI
         if(false === class_exists('Clansuite_Config_Base', false))
         {
-            require ROOT . 'core/config/config.base.php';
+            require ROOT . 'core/config/base.php';
         }
 
         # read skeleton settings = minimum settings for initial startup
@@ -472,7 +476,7 @@ class Clansuite_Installation_Helper
         $data_array = array_merge_recursive($data_array, $installer_config);
 
         # Write Config File to ROOT Directory
-        if(!Clansuite_Config_INI::writeConfig(ROOT . 'configuration/clansuite.config.php', $data_array))
+        if(!Clansuite_Config_INI::writeConfig(ROOT . 'configuration/clansuite.php', $data_array))
         {
             // config not written
             return false;
@@ -619,7 +623,7 @@ class Clansuite_Installation_Helper
         /**
          * All Module Entites
          */
-        $dirs = glob(ROOT . '/modules/' . '[a-zA-Z]*', GLOB_ONLYDIR);
+        $dirs = glob(ROOT_APP . '/modules/' . '[a-zA-Z]*', GLOB_ONLYDIR);
 
         foreach($dirs as $key => $dir_path)
         {
@@ -643,7 +647,7 @@ class Clansuite_Installation_Helper
         /**
          * Core Entities
          */
-        $model_dirs[] = ROOT . 'doctrine';
+        $model_dirs[] = ROOT_APP . 'doctrine';
 
         # array_unique
         $model_dirs = array_keys(array_flip($model_dirs));
@@ -658,11 +662,12 @@ class Clansuite_Installation_Helper
         {
             if(is_array($connectionParams) === false)
             {
-                # Read/Write Handler for config files
-                include ROOT . 'core/config/ini.config.php';
+                include ROOT . 'core/config/adapter/ini.php';
 
-                # fetch the dsn/connection config
-                $clansuite_config = Clansuite_Config_INI::readConfig(ROOT . 'configuration/clansuite.config.php');
+                # get clansuite config
+                $clansuite_config = Clansuite_Config_INI::readConfig(ROOT_APP . 'configuration/clansuite.php');
+
+                # reduce config array to the dsn/connection settings
                 $connectionParams = $clansuite_config['database'];
             }
 
@@ -785,6 +790,87 @@ class Clansuite_Installation_Page
     public function setTotalSteps($total_steps)
     {
         $this->total_steps = $total_steps;
+    }
+}
+
+/**
+ * Clansuit Installation Exception
+ *
+ * @category    Clansuite
+ * @package     Installation
+ * @subpackage  Exception
+ */
+class Clansuite_Installation_Exception extends Exception
+{
+    /**
+     * Define Exceptionmessage && Code via constructor
+     * and hand it over to the parent Exception Class
+     */
+    public function __construct($message, $code = 0)
+    {
+        parent::__construct($message, $code);
+    }
+
+    /**
+     * Transform the Object to String
+     */
+    public function __toString()
+    {
+        # Header
+        $html = '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+                           "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+                        <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">';
+        $html .= '<head><title>Clansuite Installation Error</title>';
+        $html .= '<link rel="stylesheet" href="../themes/core/css/error.css" type="text/css" />';
+        $html .= '</head><body>';
+
+        /**
+         * Fieldset for Exception Message
+         */
+        $html .= '<fieldset class="error_yellow">';
+        $html .= '<div style="float:left; padding: 15px;">';
+        $html .= '<img src="images/Clansuite-Toolbar-Icon-64-error.png" style="border: 2px groove #000000;" alt="Clansuite Error Icon" /></div>';
+        $html .= '<legend>Clansuite Installation Error</legend>';
+        $html .= '<p><strong>' . $this->getMessage() . '</strong>';
+
+        /**
+         * Display a table with all pieces of information of the exception.
+         */
+        if(DEBUG == true)
+        {
+            $html .= '<table>';
+            $html .= '<tr><td><strong>Errorcode</strong></td><td>' . $this->getCode() . '</td></tr>';
+            $html .= '<tr><td><strong>Message</strong></td><td>' . $this->getMessage() . '</td></tr>';
+            $html .= '<tr><td><strong>Pfad</strong></td><td>' . dirname($this->getFile()) . '</td></tr>';
+            $html .= '<tr><td><strong>Datei</strong></td><td>' . basename($this->getFile()) . '</td></tr>';
+            $html .= '<tr><td><strong>Zeile</strong></td><td>' . $this->getLine() . '</td></tr>';
+            $html .= '</table>';
+        }
+
+        $html .= '</p></fieldset><br />';
+
+        /**
+         * Fieldset for Help Message
+         */
+        $html .= '<fieldset class="error_yellow">';
+        $html .= '<legend>Help</legend>';
+        $html .= '<ol>';
+        $html .= '<li>You might use <a href="phpinfo.php">phpinfo()</a> to check your serversettings.</li>';
+
+        if( get_cfg_var('cfg_file_path') )
+        {
+            $cfg_file_path = get_cfg_var('cfg_file_path');
+        }
+        $html .= '<li>Check your php.ini ('. $cfg_file_path .') and ensure all needed extensions are loaded. <br />';
+        $html .= 'After a modification of your php.ini you must restart your webserver.</li>';
+
+        $html .= '<li>Check the webservers errorlog.</li></ol><p>';
+        $html .= "If you can't solve the error yourself, feel free to contact us at our website's <a href=\"http://forum.clansuite.com/index.php?board=25.0\">Installation - Support Forum</a>.<br/>";
+        $html .= '</p></fieldset>';
+        $html .= '</body></html>';
+
+        # stfu...
+        exit($html);
     }
 }
 

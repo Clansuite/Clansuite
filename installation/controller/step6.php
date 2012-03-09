@@ -64,7 +64,7 @@ class Clansuite_Installation_Step6 extends Clansuite_Installation_Page
          * security class is required
          * for building the user password and salt hashes.
          */
-        require ROOT . 'core/security.core.php';
+        require ROOT . 'core/security.php';
 
         # generate salted hash
         $hashArray = Clansuite_Security::build_salted_hash(
