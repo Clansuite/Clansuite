@@ -128,7 +128,7 @@ class Loader
 
         /**
          * Try to load the file by searching
-         * 4 ) several paths
+         * 4) several paths
          *
          * Note: If the file is found, it's added to the mapping file.
          * The next time the file is requested, it will be loaded
@@ -140,8 +140,17 @@ class Loader
         }
 
         /**
+         * Try to load the file via include path lookup.
+         * 5) psr-0 loader
+         */
+        if(true === self::autoloadIncludePath($classname))
+        {
+            return true;
+        }
+
+        /**
          * if classname was not found by any of the above methods
-         * 5) Autoloading Fail
+         * 6) Autoloading Fail
          */
         return false;
     }
