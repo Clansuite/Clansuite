@@ -1,10 +1,10 @@
 <?php
    /**
-    * Clansuite - just an eSports CMS
+    * Koch Framework
     * Jens-André Koch © 2005 - onwards
     * http://www.clansuite.com/
     *
-    * This file is part of "Clansuite - just an eSports CMS".
+    * This file is part of "Koch Framework".
     *
     * LICENSE:
     *
@@ -34,17 +34,19 @@
 # Security Handler
 if (defined('IN_CS') === false)
 {
-    die('Clansuite not loaded. Direct Access forbidden.');
+    die('Koch Framework not loaded. Direct Access forbidden.');
 }
 
+namespace Koch\View\Helper;
+
 /**
- * Clansuite Core Class for Breadcrumb Handling
+ * Koch Framework Class for Breadcrumb Handling
  *
- * @category    Clansuite
+ * @category    Koch
  * @package     Core
  * @subpackage  Breadcrumb
  */
-class Clansuite_Breadcrumb
+class Breadcrumb
 {
     /**
      * @var array $path contains the complete path structured as array
@@ -100,9 +102,9 @@ class Clansuite_Breadcrumb
      */
     public static function addDynamicBreadcrumbs()
     {
-        $moduleName    = Clansuite_TargetRoute::getModuleName();
-        $submoduleName = Clansuite_TargetRoute::getSubModuleName();
-        $actionName    = Clansuite_TargetRoute::getActionNameWithoutPrefix();
+        $moduleName    = Koch_TargetRoute::getModuleName();
+        $submoduleName = Koch_TargetRoute::getSubModuleName();
+        $actionName    = Koch_TargetRoute::getActionNameWithoutPrefix();
 
         if(isset($moduleName) and $moduleName != 'controlcenter')
         {
@@ -155,11 +157,11 @@ class Clansuite_Breadcrumb
         # ControlCenter (Backend)
         if($moduleName == 'controlcenter' or $submoduleName == 'admin')
         {
-            Clansuite_Breadcrumb::add('Control Center', '/index.php?mod=controlcenter');
+            Koch_Breadcrumb::add('Control Center', '/index.php?mod=controlcenter');
         }
         else # Home (Frontend)
         {
-            Clansuite_Breadcrumb::add('Home');
+            Koch_Breadcrumb::add('Home');
         }
     }
 

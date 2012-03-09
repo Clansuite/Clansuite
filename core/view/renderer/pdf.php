@@ -1,10 +1,10 @@
 <?php
    /**
-    * Clansuite - just an eSports CMS
+    * Koch Framework
     * Jens-André Koch © 2005 - onwards
     * http://www.clansuite.com/
     *
-    * This file is part of "Clansuite - just an eSports CMS".
+    * This file is part of "Koch Framework".
     *
     * LICENSE:
     *
@@ -33,11 +33,13 @@
 # Security Handler
 if (defined('IN_CS') === false)
 {
-    die('Clansuite not loaded. Direct Access forbidden.' );
+    die('Koch Framework not loaded. Direct Access forbidden.' );
 }
 
+namespace Koch\View\Renderer;
+
 /**
- * Clansuite View Class - View for Smarty Templates
+ * Koch FrameworkView Class - View for Smarty Templates
  *
  * This is a wrapper/adapter for the PDF Engine tcpdf.
  *
@@ -46,12 +48,12 @@ if (defined('IN_CS') === false)
  * @author     Jens-André Koch <vain@clansuite.com>
  * @copyright  Jens-André Koch (2005 - onwards)
  *
- * @category    Clansuite
+ * @category    Koch
  * @package     Core
  * @subpackage  Renderer
  */
 
-class Clansuite_Renderer_PDF extends Clansuite_Renderer_Base
+class PDF extends Renderer_Base
 {
     public function initializeEngine()
     {

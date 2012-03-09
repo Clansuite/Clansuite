@@ -1,10 +1,10 @@
 <?php
    /**
-    * Clansuite - just an eSports CMS
+    * Koch Framework
     * Jens-André Koch © 2005 - onwards
     * http://www.clansuite.com/
     *
-    * This file is part of "Clansuite - just an eSports CMS".
+    * This file is part of "Koch Framework".
     *
     * LICENSE:
     *
@@ -33,17 +33,19 @@
 # Security Handler
 if (defined('IN_CS') === false)
 {
-    die('Clansuite not loaded. Direct Access forbidden.');
+    die('Koch Framework not loaded. Direct Access forbidden.');
 }
 
+namespace Koch;
+
 /**
- * Clansuite_Upload - Clansuite Core Class for Upload Handling
+ * Koch_Upload - Koch Framework Class for Upload Handling
  *
- * @category    Clansuite
+ * @category    Koch
  * @package     Core
  * @subpackage  Upload
  */
-class Clansuite_Upload implements ArrayAccess, IteratorAggregate, Countable
+class Upload implements ArrayAccess, IteratorAggregate, Countable
 {
     protected $files = array();
 
@@ -56,7 +58,7 @@ class Clansuite_Upload implements ArrayAccess, IteratorAggregate, Countable
     }
 
     /**
-     * Parses $files variable to Clansuite_Upload_File objects.
+     * Parses $files variable to Koch_Upload_File objects.
      */
     protected function parseFiles($files)
     {
@@ -69,7 +71,7 @@ class Clansuite_Upload implements ArrayAccess, IteratorAggregate, Countable
                 $filecounter = count($files);
                 for ($i = 0; $i < $filecounter; $i++)
                 {
-                    $this->files[$formId][$i] = new Clansuite_File(
+                    $this->files[$formId][$i] = new Koch_File(
                             $fileInfo['name'][$i],
                             $fileInfo['type'][$i],
                             $fileInfo['size'][$i],
@@ -80,7 +82,7 @@ class Clansuite_Upload implements ArrayAccess, IteratorAggregate, Countable
             }
             else
             {
-                $this->files[$formId] = new Clansuite_File(
+                $this->files[$formId] = new Koch_File(
                         $fileInfo['name'],
                         $fileInfo['type'],
                         $fileInfo['size'],
@@ -106,7 +108,7 @@ class Clansuite_Upload implements ArrayAccess, IteratorAggregate, Countable
      * Returns the uploaded files that have the specified form name.
      *
      * @param $offset string  form name of file upload
-     * @return Clansuite_Upload_File|array  an uploaded file object or an array of them
+     * @return Koch_Upload_File|array  an uploaded file object or an array of them
      */
     public function offsetGet($offset)
     {
@@ -119,21 +121,21 @@ class Clansuite_Upload implements ArrayAccess, IteratorAggregate, Countable
     /**
      * Array access is read only.
      *
-     * @throws Clansuite_Upload_Exception always
+     * @throws Koch_Upload_Exception always
      */
     public function offsetSet($offset, $value)
     {
-        throw new Clansuite_Exception('Array access is read only.');
+        throw new Koch_Exception('Array access is read only.');
     }
 
     /**
      * Array access is read only.
      *
-     * @throws Clansuite_Upload_Exception always
+     * @throws Koch_Upload_Exception always
      */
     public function offsetUnset($offset)
     {
-        throw new Clansuite_Exception('Array access is read only.');
+        throw new Koch_Exception('Array access is read only.');
     }
 
     /**

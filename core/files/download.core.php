@@ -1,10 +1,10 @@
 <?php
    /**
-    * Clansuite - just an eSports CMS
+    * Koch Framework
     * Jens-André Koch © 2005 - onwards
     * http://www.clansuite.com/
     *
-    * This file is part of "Clansuite - just an eSports CMS".
+    * This file is part of "Koch Framework".
     *
     * LICENSE:
     *
@@ -33,24 +33,26 @@
 # Security Handler
 if (defined('IN_CS') === false)
 {
-    die('Clansuite not loaded. Direct Access forbidden.');
+    die('Koch Framework not loaded. Direct Access forbidden.');
 }
 
+namespace Koch;
+
 /**
- * Clansuite_Download
+ * Koch_Download
  *
- * This is the Clansuite Core Class for the handling of downloads.
+ * This is the Koch Framework Class for the handling of downloads.
  * Sending of a file to the user may be limited in speed.
  * The class supports the HTTP_RANGE Attribute for parallel and resumed downloads.
  * The class depends on the fileinfo extension (default since php5.3).
  *
  * @link http://www.php.net/manual/en/book.fileinfo.php PHP Manual for the FileInfo Extension
  *
- * @category    Clansuite
+ * @category    Koch
  * @package     Core
  * @subpackage  Download
  */
-class Clansuite_Download
+class Download
 {
     /**
      * Constructor and convenience/proxy method for sending a file as a download to the browser
@@ -77,7 +79,7 @@ class Clansuite_Download
         # Check if file exists
         if (is_file($filePath) == false)
         {
-            throw new Clansuite_Exception('File not found.');
+            throw new Koch_Exception('File not found.');
         }
 
         # get more information about the file
@@ -186,7 +188,7 @@ class Clansuite_Download
         {
             self::sendRated($filePath, $rate);
         }
-        catch (Clansuite_Exception $e)
+        catch (Koch_Exception $e)
         {
             header('HTTP/1.1 404 File Not Found');
             die('Sorry, an error occured.');
@@ -206,7 +208,7 @@ class Clansuite_Download
         {
             self::sendRated($filePath, $rate);
         }
-        catch (Clansuite_Exception $e)
+        catch (Koch_Exception $e)
         {
             header('HTTP/1.1 404 File Not Found');
             die('Sorry, an error occured.');

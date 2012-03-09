@@ -1,8 +1,8 @@
 <?php
 /**
- * Clansuite Smarty Viewhelper
+ * Koch FrameworkSmarty Viewhelper
  *
- * @category Clansuite
+ * @category Koch
  * @package Smarty
  * @subpackage Viewhelper
  */

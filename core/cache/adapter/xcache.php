@@ -1,10 +1,10 @@
 <?php
     /**
-     * Clansuite - just an eSports CMS
+     * Koch Framework
      * Jens-André Koch © 2005 - onwards
      * http://www.clansuite.com/
      *
-     * This file is part of "Clansuite - just an eSports CMS".
+     * This file is part of "Koch Framework".
      *
      * LICENSE:
      *
@@ -33,11 +33,13 @@
 # Security Handler
 if(defined('IN_CS') === false)
 {
-    die('Clansuite not loaded. Direct Access forbidden.');
+    die('Koch Framework not loaded. Direct Access forbidden.');
 }
 
+namespace Koch\Cache;
+
 /**
- * Clansuite Cache Handler for Xcache
+ * Koch FrameworkCache Handler for Xcache
  *
  * XCache is a open-source opcode cacher, which means that it accelerates the performance of PHP on servers.
  * It optimizes performance by removing the compilation time of PHP scripts by caching the compiled state of
@@ -49,11 +51,11 @@ if(defined('IN_CS') === false)
  * @link http://xcache.lighttpd.net/
  * @link http://xcache.lighttpd.net/wiki/XcacheApi
  *
- * @category    Clansuite
+ * @category    Koch
  * @package     Core
  * @subpackage  Cache
  */
-class Clansuite_Cache_Xcache extends Clansuite_Cache_Base implements Clansuite_Cache_Interface
+class Xcache extends Base implements Cache
 {
     /**
      * Contains checks if a key exists in the cache

@@ -1,10 +1,10 @@
 <?php
    /**
-    * Clansuite - just an eSports CMS
+    * Koch Framework
     * Jens-André Koch © 2005 - onwards
     * http://www.clansuite.com/
     *
-    * This file is part of "Clansuite - just an eSports CMS".
+    * This file is part of "Koch Framework".
     *
     * LICENSE:
     *
@@ -33,17 +33,19 @@
 # Security Handler
 if(defined('IN_CS') === false)
 {
-    die('Clansuite not loaded. Direct Access forbidden.');
+    die('Koch Framework not loaded. Direct Access forbidden.');
 }
 
+namespace Koch\Config;
+
 /**
- * Clansuite_Config_Base
+ * Koch_Config_Base
  *
- * @category    Clansuite
+ * @category    Koch
  * @package     Core
  * @subpackage  Configuration
  */
-abstract class Clansuite_Config_Base /*extends ArrayObject*/ implements ArrayAccess
+abstract class Base /*extends ArrayObject*/ implements ArrayAccess
 {
     /**
      * Configuration Array
@@ -148,7 +150,7 @@ abstract class Clansuite_Config_Base /*extends ArrayObject*/ implements ArrayAcc
         else
         {
             $this->config[$offset] = $value;
-        }        
+        }
     }
 
     public function offsetUnset($offset)

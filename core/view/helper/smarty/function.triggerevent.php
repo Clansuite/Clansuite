@@ -6,7 +6,7 @@
  */
 
 /**
- * This smarty function is part of "Clansuite - just an eSports CMS"
+ * This smarty function is part of "Koch Framework"
  * @link http://www.clansuite.com
  *
  * @author Jens-André Koch <jakoch@web.de>
@@ -40,7 +40,7 @@ function smarty_function_triggerevent($params, $smarty)
 
     # pass the modulename as info
     $info = array();
-    $info['modulename'] = Clansuite_Module_Controller_Resolver::getModuleName();
+    $info['modulename'] = Koch_Module_Controller_Resolver::getModuleName();
 
     /**
      * direct return to the template
@@ -48,6 +48,6 @@ function smarty_function_triggerevent($params, $smarty)
      * or just transform the $context for the later occuring rendering process
      * @see todo at context above
      */
-    return Clansuite_Eventdispatcher::instantiate()->triggerEvent($params['name'], $context, $info);
+    return Koch_Eventdispatcher::instantiate()->triggerEvent($params['name'], $context, $info);
 }
 ?>

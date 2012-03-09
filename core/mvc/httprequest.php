@@ -1,10 +1,10 @@
 <?php
    /**
-    * Clansuite - just an eSports CMS
+    * Koch Framework
     * Jens-André Koch © 2005 - onwards
     * http://www.clansuite.com/
     *
-    * This file is part of "Clansuite - just an eSports CMS".
+    * This file is part of "Koch Framework".
     *
     * LICENSE:
     *
@@ -33,17 +33,19 @@
 # Security Handler
 if (defined('IN_CS') === false)
 {
-    die('Clansuite not loaded. Direct Access forbidden.');
+    die('Koch Framework not loaded. Direct Access forbidden.');
 }
+
+namespace Koch\MVC;
 
 /**
  * Interface for the Request Object
  *
- * @category    Clansuite
+ * @category    Koch
  * @package     Core
  * @subpackage  HttpRequest
  */
-interface Clansuite_Request_Interface
+interface HttpRequest
 {
     # Parameters
     public function issetParameter($name, $arrayname = 'POST');
@@ -70,17 +72,17 @@ interface Clansuite_Request_Interface
 }
 
 /**
- * Clansuite_HttpRequest
+ * Koch_HttpRequest
  *
- * Purpose:  This is the Clansuite Core Class for Request Handling.
+ * Purpose:  This is the Koch Framework Class for Request Handling.
  * It encapsulates the access to sanitized superglobals ($_GET, $_POST, $_SERVER).
  * There are two ways of access (1) via methods and (2) via spl arrayaccess array handling.
  *
- * @category    Clansuite
+ * @category    Koch
  * @package     Core
  * @subpackage  HttpRequest
  */
-class Clansuite_HttpRequest implements Clansuite_Request_Interface, ArrayAccess
+class HttpRequest implements HttpRequest, ArrayAccess
 {
     /**
      * @var array Contains the cleaned $_POST Parameters.
@@ -135,7 +137,7 @@ class Clansuite_HttpRequest implements Clansuite_Request_Interface, ArrayAccess
         if($ids_on === true)
         {
             # 2) Run Intrusion Detection System (on GET, POST, COOKIES)
-            $doorKeeper = new Clansuite_DoorKeeper;
+            $doorKeeper = new Koch_DoorKeeper;
             $doorKeeper->runIDS();
         }
 
@@ -282,14 +284,14 @@ class Clansuite_HttpRequest implements Clansuite_Request_Interface, ArrayAccess
         {
             if(false === $this->issetParameter($parameter))
             {
-                throw new Clansuite_Exception('Incoming Parameter missing: "' . $parameter . '".');
+                throw new Koch_Exception('Incoming Parameter missing: "' . $parameter . '".');
             }
         }
         else # when array is defined issetParameter will search the given array
         {
             if(false === $this->issetParameter($parameter, $arrayname))
             {
-                throw new Clansuite_Exception('Incoming Parameter missing: "' . $parameter . '" in Array "' . $arrayname . '".');
+                throw new Koch_Exception('Incoming Parameter missing: "' . $parameter . '" in Array "' . $arrayname . '".');
             }
         }
     }
@@ -724,13 +726,13 @@ class Clansuite_HttpRequest implements Clansuite_Request_Interface, ArrayAccess
     }
 
     /**
-     * Get Route returns the static Clansuite_TargetRoute object.
+     * Get Route returns the static Koch_TargetRoute object.
      *
      * With php onbord tools you can't debug this.
-     * Please use Clansuite_Debug:firebug($route); to debug.
+     * Please use Koch_Debug:firebug($route); to debug.
      * Firebug uses Reflection to show the static properties and values.
      *
-     * @return Clansuite_TargetRoute
+     * @return Koch_TargetRoute
      */
     public static function getRoute()
     {
@@ -787,13 +789,13 @@ class Clansuite_HttpRequest implements Clansuite_Request_Interface, ArrayAccess
             }
             else
             {
-                throw new Clansuite_Exception('Request Method failure. You tried to tunnel a '.$this->getParameter('method','GET').' request through an HTTP POST request.');
+                throw new Koch_Exception('Request Method failure. You tried to tunnel a '.$this->getParameter('method','GET').' request through an HTTP POST request.');
             }
         }
         elseif($_SERVER['REQUEST_METHOD'] == 'GET' and $this->issetParameter('GET', 'method'))
         {
             # NOPE, there's no tunneling through GET!
-            throw new Clansuite_Exception('Request Method failure. You tried to tunnel a '.$this->getParameter('method','GET').' request through an HTTP GET request.');
+            throw new Koch_Exception('Request Method failure. You tried to tunnel a '.$this->getParameter('method','GET').' request through an HTTP GET request.');
         }
     }
 

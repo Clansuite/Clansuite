@@ -1,10 +1,10 @@
 <?php
    /**
-    * Clansuite - just an eSports CMS
+    * Koch Framework
     * Jens-André Koch © 2005 - onwards
     * http://www.clansuite.com/
     *
-    * This file is part of "Clansuite - just an eSports CMS".
+    * This file is part of "Koch Framework".
     *
     * LICENSE:
     *
@@ -33,11 +33,13 @@
 # Security Handler
 if (defined('IN_CS') === false)
 {
-    die('Clansuite not loaded. Direct Access forbidden.');
+    die('Koch Framework not loaded. Direct Access forbidden.');
 }
 
+namespace Koch;
+
 /**
- * This is the Clansuite Core Class for Security Handling
+ * This is the Koch Framework Class for Security Handling
  *
  * It contains helper functions for encrypting and salting strings/passwords.
  * Password hashing is not "password encryption". An encryption is reversible.
@@ -50,11 +52,11 @@ if (defined('IN_CS') === false)
  * @author     Jens-André Koch <vain@clansuite.com>
  * @copyright  Jens-André Koch (2005 - onwards)
  *
- * @category    Clansuite
+ * @category    Koch
  * @package     Core
  * @subpackage  Security
  */
-final class Clansuite_Security
+final class Security
 {
     /**
      * Checks whether a hashed password matches a stored salted+hashed password.
@@ -173,16 +175,16 @@ final class Clansuite_Security
         $salt = '';
 
         if(true === function_exists('openssl_random_pseudo_bytes'))
-        {   
+        {
             # generate a pseudo-random string of bytes
             $bytes = openssl_random_pseudo_bytes($length);
-            
+
             # encode bytes
             $string = base64_encode($bytes);
-              
+
             # truncate the base64 string to correct length
-            $salt = substr($string, 0, $length);                
-            
+            $salt = substr($string, 0, $length);
+
             return $salt;
         }
         else # use mt_srand, if extension openssl is not loaded

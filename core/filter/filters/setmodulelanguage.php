@@ -1,10 +1,10 @@
 <?php
    /**
-    * Clansuite - just an eSports CMS
+    * Koch Framework
     * Jens-André Koch © 2005 - onwards
     * http://www.clansuite.com/
     *
-    * This file is part of "Clansuite - just an eSports CMS".
+    * This file is part of "Koch Framework".
     *
     * LICENSE:
     *
@@ -33,31 +33,33 @@
 # Security Handler
 if(defined('IN_CS') === false)
 {
-    die('Clansuite not loaded. Direct Access forbidden.');
+    die('Koch Framework not loaded. Direct Access forbidden.');
 }
 
+namespace Koch\Filter;
+
 /**
- * Clansuite Filter - Set Module Language
+ * Koch FrameworkFilter - Set Module Language
  *
  * Purpose: Sets the TextDomain for the requested Module
  *
- * @category    Clansuite
+ * @category    Koch
  * @package     Core
  * @subpackage  Filters
  */
-class Clansuite_Filter_SetModuleLanguage implements Clansuite_Filter_Interface
+class SetModuleLanguage implements Filter
 {
     private $locale = null;     # holds instance of localization
 
-    public function __construct(Clansuite_Localization $locale)
+    public function __construct(Koch_Localization $locale)
     {
         $this->locale = $locale;      # set instance of localization to class
     }
 
-    public function executeFilter(Clansuite_HttpRequest $request, Clansuite_HttpResponse $response)
+    public function executeFilter(Koch_HttpRequest $request, Koch_HttpResponse $response)
     {
-        #$route = Clansuite_HttpRequest::getRoute();
-        $modulename = Clansuite_TargetRoute::getController();
+        #$route = Koch_HttpRequest::getRoute();
+        $modulename = Koch_TargetRoute::getController();
         $this->locale->loadTextDomain('LC_ALL', $modulename, $this->locale->getLocale(), $modulename);
     }
 }

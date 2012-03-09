@@ -1,10 +1,10 @@
 <?php
    /**
-    * Clansuite - just an eSports CMS
+    * Koch Framework
     * Jens-André Koch © 2005 - onwards
     * http://www.clansuite.com/
     *
-    * This file is part of "Clansuite - just an eSports CMS".
+    * This file is part of "Koch Framework".
     *
     * LICENSE:
     *
@@ -33,25 +33,27 @@
 # Security Handler
 if (defined('IN_CS') === false)
 {
-    die('Clansuite not loaded. Direct Access forbidden.');
+    die('Koch Framework not loaded. Direct Access forbidden.');
 }
 
+namespace Koch\Event;
+
 /**
- * Clansuite Event - Authentication Logging
+ * Koch FrameworkEvent - Authentication Logging
  *
  * @author     Jens-André Koch <vain@clansuite.com>
  * @copyright  Jens-André Koch (2005 - onwards)
  *
  * Usage:
- * $logger = new Clansuite_Logger('auth.log');
+ * $logger = new Koch_Logger('auth.log');
  * $eventhandler->addEventHandler('onInvalidLogin', $logger);
  * $eventhandler->addEventHandler('onLogin', $logger);
  */
-class AuthenticationLogging implements Clansuite_Event_Interface
+class AuthenticationLogging implements Interface
 {
     protected $logger;
 
-    public function __construct(Clansuite_Logger $logger, Clansuite_HttpRequest $request)
+    public function __construct(Koch_Logger $logger, Koch_HttpRequest $request)
     {
         # set request object
         $this->request = $request;
@@ -59,7 +61,7 @@ class AuthenticationLogging implements Clansuite_Event_Interface
         $this->logger = $logger;
     }
 
-    public function execute(Clansuite_Event $event)
+    public function execute(Koch_Event $event)
     {
         $authdata = $event->getInfo();
 

@@ -1,10 +1,10 @@
 <?php
    /**
-    * Clansuite - just an eSports CMS
+    * Koch Framework
     * Jens-André Koch © 2005 - onwards
     * http://www.clansuite.com/
     *
-    * This file is part of "Clansuite - just an eSports CMS".
+    * This file is part of "Koch Framework".
     *
     * LICENSE:
     *
@@ -33,19 +33,19 @@
 # Security Handler
 if (defined('IN_CS') === false)
 {
-    die('Clansuite not loaded. Direct Access forbidden.');
+    die('Koch Framework not loaded. Direct Access forbidden.');
 }
 
 /**
- * Clansuite MB_STRING Wrapper Methods
+ * Koch FrameworkMB_STRING Wrapper Methods
  *
- * Clansuite relies on mb_string functions.
+ * Koch Frameworkrelies on mb_string functions.
  * If the mbstring extension is not loaded, the mb_string functions are not available.
  * Here we define some mbstring wrapper functions, which use custom utf8 methods internally
  * and rebuild the mbstring behaviour. This means that calls to mbstring functions throughout
  * the sourcecode are being replaced by our own UTF8 functions.
  *
- * The UTF8 functions are stored in the class Clansuite_UTF8.
+ * The UTF8 functions are stored in the class Koch_UTF8.
  *
  * The following functions are declared for global usage:
  *

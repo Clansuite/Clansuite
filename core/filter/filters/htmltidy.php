@@ -1,10 +1,10 @@
 <?php
    /**
-    * Clansuite - just an eSports CMS
+    * Koch Framework
     * Jens-André Koch © 2005 - onwards
     * http://www.clansuite.com/
     *
-    * This file is part of "Clansuite - just an eSports CMS".
+    * This file is part of "Koch Framework".
     *
     * LICENSE:
     *
@@ -33,31 +33,33 @@
 # Security Handler
 if (defined('IN_CS') === false)
 {
-    die('Clansuite not loaded. Direct Access forbidden.' );
+    die('Koch Framework not loaded. Direct Access forbidden.' );
 }
 
+namespace Koch\Filter;
+
 /**
- * Clansuite Filter - HTML Tidy
+ * Koch FrameworkFilter - HTML Tidy
  *
  * Purpose: this repairs or converts the html output by tidying it.
  *
  * @link http://de3.php.net/manual/de/ref.tidy.php PHP Extension Tidy
  * @link http://de3.php.net/manual/de/function.tidy-get-config.php Tidy Config Parameters
  *
- * @category    Clansuite
+ * @category    Koch
  * @package     Core
  * @subpackage  Filters
  */
-class Clansuite_Filter_HtmlTidy implements Clansuite_Filter_Interface
+class HtmlTidy implements Filter
 {
     private $config     = null;
 
-    function __construct(Clansuite_Config $config)
+    function __construct(Koch_Config $config)
     {
         $this->config     = $config;
     }
 
-    public function executeFilter(Clansuite_HttpRequest $request, Clansuite_HttpResponse $response)
+    public function executeFilter(Koch_HttpRequest $request, Koch_HttpResponse $response)
     {
         # htmltidy must be enabled in configuration
         if( $this->config['htmltidy']['enabled'] == 1 and extension_loaded('tidy'))

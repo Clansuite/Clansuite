@@ -12,7 +12,7 @@ function smarty_function_dbexectime($params, $smarty)
 {
     if(DEBUG == 1)
     {
-        echo Clansuite_Doctrine2::getExecTime();
+        echo Koch_Doctrine2::getExecTime();
     }
     else
     {

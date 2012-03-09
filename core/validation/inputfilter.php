@@ -1,6 +1,6 @@
 <?php
    /**
-    * Clansuite - just an eSports CMS
+    * Koch Framework
     * Jens-André Koch © 2005 - onwards
     * http://www.clansuite.com/
     *
@@ -32,8 +32,10 @@
 //Security Handler
 if(defined('IN_CS') === false)
 {
-    die('Clansuite not loaded. Direct Access forbidden.');
+    die('Koch Framework not loaded. Direct Access forbidden.');
 }
+
+namespace Koch\Validation;
 
 /**
  * Inputfilter Class
@@ -46,7 +48,7 @@ if(defined('IN_CS') === false)
  * @link http://www.php.net/manual/de/ref.filter.php
  *
  */
-class Clansuite_Inputfilter
+class Inputfilter
 {
     /**
      * Modifies a given String

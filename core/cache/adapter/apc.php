@@ -1,10 +1,10 @@
 <?php
    /**
-    * Clansuite - just an eSports CMS
+    * Koch Framework
     * Jens-André Koch © 2005 - onwards
     * http://www.clansuite.com/
     *
-    * This file is part of "Clansuite - just an eSports CMS".
+    * This file is part of "Koch Framework".
     *
     * LICENSE:
     *
@@ -33,28 +33,30 @@
 # Security Handler
 if(defined('IN_CS') === false)
 {
-    die('Clansuite not loaded. Direct Access forbidden.');
+    die('Koch Framework not loaded. Direct Access forbidden.');
 }
 
+namespace Koch\Cache;
+
 /**
- * Clansuite Cache Handler for APC (Alternative PHP Cache)
+ * Koch FrameworkCache Handler for APC (Alternative PHP Cache)
  *
  * APC is a) an opcache and b) a memory based cache.
  *
  * @link http://de3.php.net/manual/de/ref.apc.php
  *
- * @category    Clansuite
+ * @category    Koch
  * @package     Core
  * @subpackage  Cache
  */
-class Clansuite_Cache_APC extends Clansuite_Cache_Base implements Clansuite_Cache_Interface
+class APC extends Base implements Cache
 {
 
     public function __construct()
     {
         if(extension_loaded('apc') === false)
         {
-            throw new Clansuite_Exception('The PHP extension APC (Alternative PHP Cache) is not loaded. You may enable it in "php.ini"!', 300);
+            throw new Koch_Exception('The PHP extension APC (Alternative PHP Cache) is not loaded. You may enable it in "php.ini"!', 300);
         }
     }
 
@@ -184,7 +186,7 @@ class Clansuite_Cache_APC extends Clansuite_Cache_Base implements Clansuite_Cach
         {
         # Retrieves cached information and meta-data from APC's data store
         $apc_sysinfos['cache_info'] = apc_cache_info();
-        #Clansuite_Debug::printR(apc_cache_info());
+        #Koch_Debug::printR(apc_cache_info());
         $apc_sysinfos['cache_info']['cached_files'] = count($apc_sysinfos['cache_info']['cache_list']);
         $apc_sysinfos['cache_info']['deleted_files'] = count($apc_sysinfos['cache_info']['deleted_list']);
 
@@ -218,7 +220,7 @@ class Clansuite_Cache_APC extends Clansuite_Cache_Base implements Clansuite_Cach
         $apc_sysinfos['system_cache_info']['miss_rate'] = sprintf('%.2f', ($apc_sysinfos['system_cache_info']['num_misses']) / ($time - $apc_sysinfos['system_cache_info']['start_time']));
         $apc_sysinfos['system_cache_info']['insert_rate'] = sprintf('%.2f', ($apc_sysinfos['system_cache_info']['num_inserts']) / ($time - $apc_sysinfos['system_cache_info']['start_time']));
         # size
-        $apc_sysinfos['system_cache_info']['size_files'] = Clansuite_Functions::getsize($apc_sysinfos['system_cache_info']['mem_size']);
+        $apc_sysinfos['system_cache_info']['size_files'] = Koch_Functions::getsize($apc_sysinfos['system_cache_info']['mem_size']);
         }
 
         $apc_sysinfos['settings'] = ini_get_all('apc');
@@ -261,7 +263,7 @@ class Clansuite_Cache_APC extends Clansuite_Cache_Base implements Clansuite_Cach
             }
         }
 
-        #$apc_sysinfos['sma_info']['size_vars']  = Clansuite_Functions::getsize($cache_user['mem_size']);
+        #$apc_sysinfos['sma_info']['size_vars']  = Koch_Functions::getsize($cache_user['mem_size']);
 
         return $apc_sysinfos;
     }

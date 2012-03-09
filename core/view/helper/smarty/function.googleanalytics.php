@@ -29,7 +29,7 @@ function smarty_function_googleanalytics($params, $smarty)
     if(empty($params['code']))
     {
         # fallback to config, if nothing was given
-        $config = Clansuite_CMS::getInjector('Clansuite_Config');
+        $config = Clansuite_CMS::getInjector('Koch_Config');
         $google_id = $config->getConfigValue('googleanalytics_id');
 
         if(empty($google_id) == false)

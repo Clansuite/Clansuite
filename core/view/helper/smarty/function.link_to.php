@@ -2,7 +2,7 @@
 /**
  * Smarty plugin
  * @package Smarty
- * @subpackage Clansuite Plugins / Smarty View Helper
+ * @subpackage Plugins
  */
 
 /**
@@ -34,7 +34,7 @@ function smarty_function_link_to($params, $smarty)
     else
     {
         # convert from internal slashed format to URL
-        return Clansuite_Router::buildURL($params['href']);
+        return Koch_Router::buildURL($params['href']);
     }
 }
 ?>

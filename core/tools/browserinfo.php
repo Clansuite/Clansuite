@@ -1,10 +1,10 @@
 <?php
    /**
-    * Clansuite - just an eSports CMS
+    * Koch Framework
     * Jens-André Koch © 2005 - onwards
     * http://www.clansuite.com/
     *
-    * This file is part of "Clansuite - just an eSports CMS".
+    * This file is part of "Koch Framework".
     *
     * LICENSE:
     *
@@ -33,19 +33,21 @@
 # Security Handler
 if(defined('IN_CS') === false)
 {
-    die('Clansuite not loaded. Direct Access forbidden.');
+    die('Koch Framework not loaded. Direct Access forbidden.');
 }
 
+namespace Koch\Tools;
+
 /**
- * Clansuite Core Class for Browser information
+ * Koch Framework Class for Browser information
  *
  * @author      Paul Brand <info@isp-tenerife.net>
  *
- * @category    Clansuite
+ * @category    Koch
  * @package     Tools
  * @subpackage  Browser
  */
-class Clansuite_Browserinfo
+class Browserinfo
 {
     /**
      * usrer agent
@@ -772,7 +774,7 @@ class UserAgentParser
         foreach ($this->getListOperatingSystems() as $name => $elements)
         {
             $exprReg = $elements['search'];
-            
+
             foreach ($exprReg as $expr)
             {
                 if(preg_match($expr, $userAgent['string'], $tmp_array))

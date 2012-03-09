@@ -1,10 +1,10 @@
 <?php
    /**
-    * Clansuite - just an eSports CMS
+    * Koch Framework
     * Jens-André Koch © 2005 - onwards
     * http://www.clansuite.com/
     *
-    * This file is part of "Clansuite - just an eSports CMS".
+    * This file is part of "Koch Framework".
     *
     * LICENSE:
     *
@@ -33,11 +33,13 @@
 # Security Handler
 if(defined('IN_CS') === false)
 {
-    die('Clansuite not loaded. Direct Access forbidden.');
+    die('Koch Framework not loaded. Direct Access forbidden.');
 }
 
+namespace Koch;
+
 /**
- * Clansuite Core Class for Feed Handling
+ * Koch Framework Class for Feed Handling
  *
  * This is a Dual-Wrapper for SimplePie and FeedCreator.
  *
@@ -53,11 +55,11 @@ if(defined('IN_CS') === false)
  * @author     Jens-André Koch <vain@clansuite.com>
  * @copyright  Jens-André Koch (2005-onwards)
  *
- * @category    Clansuite
+ * @category    Koch
  * @package     Core
  * @subpackage  Feed
  */
-class Clansuite_Feed
+class Feed
 {
     /**
      * Fetches a feed by URL and caches it - using the SimplePie Library.
@@ -151,7 +153,7 @@ class Clansuite_Feed
                 touch($cachefile);
                 chmod($cachefile, 0666);
             }
-            # Get Feed from source, Write File           
+            # Get Feed from source, Write File
             $feedcontent = file_get_contents($feed_url, FILE_TEXT);
 
             # ensure that we have rss content
@@ -163,11 +165,11 @@ class Clansuite_Feed
                     fwrite($fp, $feedcontent);
                     fclose($fp);
                 }
-                
+
                 return $feedcontent;
             }
             else
-            {                
+            {
                 return null;
             }
         }
@@ -180,7 +182,7 @@ class Clansuite_Feed
      */
     public static function getFeedcreator()
     {
-        Clansuite_Loader::loadLibrary('feedcreator');
+        Koch_Loader::loadLibrary('feedcreator');
 
         return new UniversalFeedCreator();
     }

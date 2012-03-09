@@ -1,10 +1,10 @@
 <?php
    /**
-    * Clansuite - just an eSports CMS
+    * Koch Framework
     * Jens-André Koch © 2005 - onwards005 - onwards
     * http://www.clansuite.com/
     *
-    * This file is part of "Clansuite - just an eSports CMS".
+    * This file is part of "Koch Framework".
     *
     * LICENSE:
     *
@@ -33,17 +33,19 @@
 # Security Handler
 if (defined('IN_CS') === false)
 {
-    die('Clansuite not loaded. Direct Access forbidden.');
+    die('Koch Framework not loaded. Direct Access forbidden.');
 }
 
+namespace Koch\Localization;
+
 /**
- * Clansuite Core Class for Localization (l10n) & Internationalization (i18n) Handling
+ * Koch Framework Class for Localization (l10n) & Internationalization (i18n) Handling
  *
- * @category    Clansuite
+ * @category    Koch
  * @package     Core
  * @subpackage  Localization
  */
-class Clansuite_Localization
+class Localization
 {
     # Locale Variables
     public $locale    = null;
@@ -61,7 +63,7 @@ class Clansuite_Localization
     # References
     private static $config    = null;
 
-    public function __construct(Clansuite_Config $config)
+    public function __construct(Koch_Config $config)
     {
         # Set Reference to Config
         self::$config = $config;
@@ -99,7 +101,7 @@ class Clansuite_Localization
             include ROOT_LIBRARIES . 'php-gettext/gettext.inc';
         }
 
-        # Load Clansuite Domain
+        # Load Domain
         $this->loadTextDomain('LC_ALL', $this->domain, $locale);
     }
 
@@ -150,7 +152,7 @@ class Clansuite_Localization
      */
     public function loadTextDomain($category, $domain, $locale, $module = null)
     {
-        #Clansuite_Debug::firebug($module);
+        #Koch_Debug::firebug($module);
 
         # if, $locale string is not over 3 chars long -> $locale = "en", build "en_EN"
         if(isset($locale{3}) == false)
@@ -182,7 +184,7 @@ class Clansuite_Localization
         T_bind_textdomain_codeset($domain, $this->encoding);
         T_textdomain($domain);
 
-        #Clansuite_Debug::firebug('<p>Textdomain "' .$domain .'" loaded from path "'. $domain_directory .'" for "'. $module .'"</p>');
+        #Koch_Debug::firebug('<p>Textdomain "' .$domain .'" loaded from path "'. $domain_directory .'" for "'. $module .'"</p>');
         return true;
     }
 

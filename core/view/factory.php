@@ -1,6 +1,6 @@
 <?php
    /**
-    * Clansuite - just an eSports CMS
+    * Koch Framework
     * Jens-André Koch © 2005 - onwards
     * http://www.clansuite.com/
     *
@@ -31,8 +31,10 @@
 # Security Handler
 if(defined('IN_CS') === false)
 {
-    die('Clansuite not loaded. Direct Access forbidden.');
+    die('Koch Framework not loaded. Direct Access forbidden.');
 }
+
+namespace Koch\View;
 
 /**
  * Renderer Factory
@@ -40,11 +42,11 @@ if(defined('IN_CS') === false)
  * The static method getRenderer() returns the included and instantiated
  * Rendering Engine Object - which is the View in MVC!
  *
- * @category    Clansuite
+ * @category    Koch
  * @package     Core
  * @subpackage  Renderer
  */
-class Clansuite_Renderer_Factory
+class Renderer_Factory
 {
     /**
      * getRenderer
@@ -58,7 +60,7 @@ class Clansuite_Renderer_Factory
 
         if(is_file($file) === true)
         {
-            $class = 'Clansuite_Renderer_' . $adapter;
+            $class = 'Koch_Renderer_' . $adapter;
             if(false === class_exists($class, false))
             {
                 include $file;
@@ -67,17 +69,17 @@ class Clansuite_Renderer_Factory
             if(true === class_exists($class, false))
             {
                 # instantiate and return the renderer and pass Config and Response objects to it
-                $view = new $class($injector->instantiate('Clansuite_Config'));
+                $view = new $class($injector->instantiate('Koch_Config'));
                 return $view;
             }
             else
             {
-                throw new Clansuite_Exception('Renderer_Factory -> Class not found: ' . $class, 61);
+                throw new Koch_Exception('Renderer_Factory -> Class not found: ' . $class, 61);
             }
         }
         else
         {
-            throw new Clansuite_Exception('Renderer_Factory -> File not found: ' . $file, 61);
+            throw new Koch_Exception('Renderer_Factory -> File not found: ' . $file, 61);
         }
     }
 }

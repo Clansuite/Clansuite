@@ -1,10 +1,10 @@
 <?php
    /**
-    * Clansuite - just an eSports CMS
+    * Koch Framework
     * Jens-André Koch © 2005 - onwards
     * http://www.clansuite.com/
     *
-    * This file is part of "Clansuite - just an eSports CMS".
+    * This file is part of "Koch Framework".
     *
     * LICENSE:
     *
@@ -33,11 +33,13 @@
 # Security Handler
 if(defined('IN_CS') === false)
 {
-    die('Clansuite not loaded. Direct Access forbidden.');
+    die('Koch Framework not loaded. Direct Access forbidden.');
 }
 
+namespace Koch\Localization\Gettext;
+
 /**
- * Clansuite_Gettext_MOFile
+ * Koch_Gettext_MOFile
  *
  * Handling for Gettext "Machine Object" (.mo) Files.
  *
@@ -47,11 +49,11 @@ if(defined('IN_CS') === false)
  * @license GNU/LGPL 2.1
  * @link http://wordpress-soc-2007.googlecode.com/svn/trunk/moeffju/php-msgfmt/
  *
- * @category    Clansuite
+ * @category    Koch
  * @package     Core
  * @subpackage  Gettext
  */
-class Clansuite_Gettext_MOFile
+class MOFile
 {
     /**
      * Writes a GNU gettext style machine object (mo-file).

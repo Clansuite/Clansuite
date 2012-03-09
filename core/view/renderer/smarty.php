@@ -1,10 +1,10 @@
 <?php
    /**
-    * Clansuite - just an eSports CMS
+    * Koch Framework
     * Jens-André Koch © 2005 - onwards
     * http://www.clansuite.com/
     *
-    * This file is part of "Clansuite - just an eSports CMS".
+    * This file is part of "Koch Framework".
     *
     * LICENSE:
     *
@@ -33,11 +33,13 @@
 # Security Handler
 if(defined('IN_CS') === false)
 {
-    die('Clansuite not loaded. Direct Access forbidden.');
+    die('Koch Framework not loaded. Direct Access forbidden.');
 }
 
+namespace Koch\View;
+
 /**
- * Clansuite View Class - View for Smarty Templates
+ * Koch FrameworkView Class - View for Smarty Templates
  *
  * This is a wrapper/adapter for the Smarty Template Engine.
  *
@@ -47,22 +49,22 @@ if(defined('IN_CS') === false)
  * @author     Jens-André Koch <vain@clansuite.com>
  * @copyright  Jens-André Koch (2005 - onwards)
  *
- * @category    Clansuite
+ * @category    Koch
  * @package     Core
  * @subpackage  Renderer
  */
-class Clansuite_Renderer_Smarty extends Clansuite_Renderer_Base
+class Smarty extends Renderer_Base
 {
 
     /**
      * RenderEngineConstructor
      *
      * parent::__construct does the following:
-     * 1) Apply instances of Clansuite_Config to the RenderBase
+     * 1) Apply instances of Koch_Config to the RenderBase
      * 2) Initialize the RenderEngine via parent class constructor call = self::initializeEngine()
      * 3) Configure the RenderEngine with it's specific settings = self::configureEngine();
      */
-    function __construct(Clansuite_Config $config)
+    function __construct(Koch_Config $config)
     {
         parent::__construct($config);
         $this->initializeEngine();
@@ -167,7 +169,7 @@ class Clansuite_Renderer_Smarty extends Clansuite_Renderer_Base
         /**
          * CACHING OPTIONS (set these options if caching is enabled)
          */
-        # Clansuite_Debug::printr($this->config['smarty']);
+        # Koch_Debug::printr($this->config['smarty']);
         if($this->renderer->debugging === true)
         {
             $this->renderer->caching                = 0;
@@ -214,16 +216,16 @@ class Clansuite_Renderer_Smarty extends Clansuite_Renderer_Base
          * 6) "/themes/"
          */
         $tpl_array = array(
-            Clansuite_View_Mapper::getThemeTemplatePaths(), # 1 + 2
-            Clansuite_View_Mapper::getModuleTemplatePaths(), # 3 + 4
+            Koch_View_Mapper::getThemeTemplatePaths(), # 1 + 2
+            Koch_View_Mapper::getModuleTemplatePaths(), # 3 + 4
             ROOT_THEMES_CORE . 'view' . DS . 'smarty', # 5
             ROOT_THEMES # 6
         );
 
         # flatten that thing
-        $this->renderer->template_dir = Clansuite_Functions::array_flatten($tpl_array);
+        $this->renderer->template_dir = Koch_Functions::array_flatten($tpl_array);
 
-        #Clansuite_Debug::printR($this->renderer->template_dir);
+        #Koch_Debug::printR($this->renderer->template_dir);
 
         /**
          * Smarty Plugins
@@ -238,11 +240,11 @@ class Clansuite_Renderer_Smarty extends Clansuite_Renderer_Base
             array(
                 ROOT_LIBRARIES . 'smarty' . DS . 'plugins',
                 ROOT_CORE . 'viewhelper' . DS . 'smarty' . DS,
-                ROOT_MOD . Clansuite_TargetRoute::getModuleName() . DS . 'viewhelper' . DS . 'smarty' . DS
+                ROOT_MOD . Koch_TargetRoute::getModuleName() . DS . 'viewhelper' . DS . 'smarty' . DS
         ));
 
 
-        #Clansuite_Debug::printR($this->renderer->plugins_dir);
+        #Koch_Debug::printR($this->renderer->plugins_dir);
 
         # $this->renderer->registerPlugin('modifier', 'timemarker',  array('benchmark', 'timemarker'));
 
@@ -402,7 +404,7 @@ class Clansuite_Renderer_Smarty extends Clansuite_Renderer_Base
     public function fetch($template, $cache_id = null, $compile_id = null, $parent = null, $display = false)
     {
         # ask the view mapper for the template path
-        $template = Clansuite_View_Mapper::getTemplatePath($template);
+        $template = Koch_View_Mapper::getTemplatePath($template);
 
         # create cache_id
         if($cache_id === null)
@@ -420,9 +422,9 @@ class Clansuite_Renderer_Smarty extends Clansuite_Renderer_Base
      */
     protected static function createCacheId()
     {
-        $module    = Clansuite_TargetRoute::getModuleName();
-        $submodule = Clansuite_TargetRoute::getSubModuleName();
-        $action    = Clansuite_TargetRoute::getActionName();
+        $module    = Koch_TargetRoute::getModuleName();
+        $submodule = Koch_TargetRoute::getSubModuleName();
+        $action    = Koch_TargetRoute::getActionName();
 
         return md5(strtolower($module . $submodule . $action));
     }
@@ -522,7 +524,7 @@ class Clansuite_Renderer_Smarty extends Clansuite_Renderer_Base
     }
 
     /**
-     * Clansuite_Renderer_Smarty->render
+     * Koch_Renderer_Smarty->render
      *
      * Returns the mainframe layout with inserted modulcontent (templatename).
      *
@@ -541,15 +543,15 @@ class Clansuite_Renderer_Smarty extends Clansuite_Renderer_Base
             $this->assign($viewdata);
         }
 
-        # 1. assign common template values and Clansuite constants as Smarty Template Variables.
+        # 1. assign common template values and Application constants as Smarty Template Variables.
         $this->renderer->assignGlobal($this->getConstants());
 
         /**
          * Assign the original template name and the requested module
          * This is used in template_not_found.tpl to provide a link to the templateeditor
          */
-        $this->renderer->assignGlobal('modulename', Clansuite_TargetRoute::getModuleName());
-        $this->renderer->assignGlobal('actionname', Clansuite_TargetRoute::getActionName());
+        $this->renderer->assignGlobal('modulename', Koch_TargetRoute::getModuleName());
+        $this->renderer->assignGlobal('actionname', Koch_TargetRoute::getActionName());
         $this->renderer->assignGlobal('templatename', $template);
 
         /**
@@ -590,7 +592,7 @@ class Clansuite_Renderer_Smarty extends Clansuite_Renderer_Base
     {
         $layout_tpl_name = $this->getLayoutTemplate();
 
-        $this->renderer->template_dir = Clansuite_Functions::array_flatten($this->renderer->template_dir);
+        $this->renderer->template_dir = Koch_Functions::array_flatten($this->renderer->template_dir);
 
         foreach($this->renderer->template_dir as $dir)
         {
@@ -646,7 +648,7 @@ class Clansuite_Renderer_Smarty extends Clansuite_Renderer_Base
             }
             else
             {
-                throw new Clansuite_Exception($preRenderCheck['exceptionmessage'], $preRenderCheck['exceptioncode']);
+                throw new Koch_Exception($preRenderCheck['exceptionmessage'], $preRenderCheck['exceptioncode']);
             }
         }
     }

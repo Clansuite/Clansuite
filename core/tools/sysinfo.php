@@ -1,10 +1,10 @@
 <?php
    /**
-    * Clansuite - just an eSports CMS
+    * Koch Framework
     * Jens-André Koch © 2005 - onwards
     * http://www.clansuite.com/
     *
-    * This file is part of "Clansuite - just an eSports CMS".
+    * This file is part of "Koch Framework".
     *
     * LICENSE:
     *
@@ -33,19 +33,21 @@
 # Security Handler
 if (defined('IN_CS') === false)
 {
-    die('Clansuite not loaded. Direct Access forbidden.');
+    die('Koch Framework not loaded. Direct Access forbidden.');
 }
 
+namespace Koch\Tools;
+
 /**
- * Clansuite_Systeminfo
+ * Koch_Systeminfo
  *
  * @author     Jens-André Koch
  *
- * @category    Clansuite
+ * @category    Koch
  * @package     Core
  * @subpackage  SystemInfo
  */
-class Clansuite_SystemInfo
+class SystemInfo
 {
     /**
      * @var $extensions
@@ -68,7 +70,7 @@ class Clansuite_SystemInfo
     }
 }
 
-class Clansuite_SystemInfo_Cache
+class SystemInfo_Cache
 {
     /**
      * Returns a named array for usage in select/dropdown formelements.
@@ -162,7 +164,7 @@ class Clansuite_SystemInfo_Cache
      */
     public static function hasNusphere()
     {
-        return Clansuite_SystemInfo::isLoadedExtension('phpexpress');
+        return Koch_SystemInfo::isLoadedExtension('phpexpress');
     }
 }
 ?>

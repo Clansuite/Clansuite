@@ -1,8 +1,8 @@
 <?php
 /**
- * Clansuite Smarty Viewhelper
+ * Koch FrameworkSmarty Viewhelper
  *
- * @category Clansuite
+ * @category Koch
  * @package Smarty
  * @subpackage Viewhelper
  */
@@ -88,7 +88,7 @@ function smarty_block_t($params, $text, $smarty)
 {
     # stop smarty from rendering on the opening tag
     if (!$text) return;
-    
+
     $text = stripslashes($text);
 
     # set escape mode
@@ -129,7 +129,7 @@ function smarty_block_t($params, $text, $smarty)
     }
 
     if (false === isset($escape) or $escape == 'html')
-    {   
+    {
         # html escape, default
         $text = nl2br(htmlspecialchars($text));
     }

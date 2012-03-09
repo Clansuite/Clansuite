@@ -1,10 +1,10 @@
 <?php
    /**
-    * Clansuite - just an eSports CMS
+    * Koch Framework
     * Jens-André Koch © 2005 - onwards
     * http://www.clansuite.com/
     *
-    * This file is part of "Clansuite - just an eSports CMS".
+    * This file is part of "Koch Framework".
     *
     * LICENSE:
     *
@@ -33,18 +33,20 @@
 # Security Handler
 if(defined('IN_CS') === false)
 {
-    die('Clansuite not loaded. Direct Access forbidden.');
+    die('Koch Framework not loaded. Direct Access forbidden.');
 }
 
+namespace Koch\Router;
+
 /**
- * Clansuite Router Management
+ * Koch FrameworkRouter Management
  *
  * On Installation
  *      new routes are added via the method addRoutesOfModule($modulename).
  * On Deinstallation
  *      the routes are removed via method delRoutesOfModule($modulename).
  */
-class Clansuite_Router_Manager
+class Manager
 {
     public function addRoutesOfModule($modulename)
     {

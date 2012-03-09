@@ -1,10 +1,10 @@
 <?php
    /**
-    * Clansuite - just an eSports CMS
+    * Koch Framework
     * Jens-André Koch © 2005 - onwards
     * http://www.clansuite.com/
     *
-    * This file is part of "Clansuite - just an eSports CMS".
+    * This file is part of "Koch Framework".
     *
     * LICENSE:
     *
@@ -33,20 +33,22 @@
 # Security Handler
 if(defined('IN_CS') === false)
 {
-    die('Clansuite not loaded. Direct Access forbidden.');
+    die('Koch Framework not loaded. Direct Access forbidden.');
 }
 
+namespace Koch;
+
 /**
- * Clansuite_Reflection
+ * Koch_Reflection
  *
- * Purpose of this class is to reverse-engineer classes, 
+ * Purpose of this class is to reverse-engineer classes,
  * interfaces, functions, methods and extensions.
  *
- * @category    Clansuite
+ * @category    Koch
  * @package     Core
  * @subpackage  Reflection
  */
-class Clansuite_Reflection
+class Reflection
 {
     private $classname = '';
 
@@ -82,14 +84,14 @@ class Clansuite_Reflection
 
     /**
      * Returns all methods of a class, excluding the ones specified in param.
-     * 
+     *
      * @param $exclude_classnames
      * @return array Methods of the class.
      */
     public function getMethods($exclude_classnames = null)
     {
         $methods_array = array();
-    
+
         # if exlcude_classnames is a string, turn into array
         $exclude_classnames = (array) $exclude_classnames;
 

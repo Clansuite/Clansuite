@@ -1,10 +1,10 @@
 <?php
    /**
-    * Clansuite - just an eSports CMS
+    * Koch Framework
     * Jens-André Koch © 2005 - onwards
     * http://www.clansuite.com/
     *
-    * This file is part of "Clansuite - just an eSports CMS".
+    * This file is part of "Koch Framework".
     *
     * LICENSE:
     *
@@ -33,15 +33,17 @@
 # Security Handler
 if (defined('IN_CS') === false)
 {
-    die('Clansuite not loaded. Direct Access forbidden.');
+    die('Koch Framework not loaded. Direct Access forbidden.');
 }
 
+namespace Koch\Tools;
+
 /**
- * Clansuite_XML
+ * Koch_XML
  *
  * This class converts XML-based data into JSON or Array formatted data.
  */
-class Clansuite_XML
+class XML
 {
     const MAX_RECURSION_DEPTH_ALLOWED = 25;
     const FETCH_ATTRIBUTES = true;
@@ -71,7 +73,7 @@ class Clansuite_XML
         $json = '';
 
         # convert the XML structure into PHP array structure.
-        $array = Clansuite_XML::toArray($xml);
+        $array = Koch_XML::toArray($xml);
 
         if(($array != null) and (sizeof($array) > 0))
         {
@@ -160,7 +162,7 @@ class Clansuite_XML
 
                 # WATCH IT ! RECURSION !!!
                 # recursively process the current (VALUE) element
-                $resultArray[$key] = Clansuite_XML::toArray($value, $recursionDepth);
+                $resultArray[$key] = Koch_XML::toArray($value, $recursionDepth);
 
                 # decrease the recursion depth by one
                 $recursionDepth--;

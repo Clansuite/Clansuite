@@ -1,10 +1,10 @@
 <?php
    /**
-    * Clansuite - just an eSports CMS
+    * Koch Framework
     * Jens-André Koch © 2005 - onwards
     * http://www.clansuite.com/
     *
-    * This file is part of "Clansuite - just an eSports CMS".
+    * This file is part of "Koch Framework".
     *
     * LICENSE:
     *
@@ -33,23 +33,25 @@
 //Security Handler
 if (defined('IN_CS') === false)
 {
-    die('Clansuite not loaded. Direct Access forbidden.');
+    die('Koch Framework not loaded. Direct Access forbidden.');
 }
 
+namespace Koch\Session;
+
 /**
- * This is the Clansuite Core Class for Session Handling
+ * This is the Koch Framework Class for Session Handling
  *
- * Purpose:    Clansuite Core Class for Session Handling
+ * Purpose:    Koch Framework Class for Session Handling
  *
  * @author     Jens-André Koch   <vain@clansuite.com>
  * @author     Florian Wolf      <xsign.dll@clansuite.com>
  * @copyright  Jens-André Koch (2005 - onwards), Florian Wolf (2006-2007)
  *
- * @category    Clansuite
+ * @category    Koch
  * @package     Core
  * @subpackage  Session
  */
-class Clansuite_Session implements Clansuite_Session_Interface, ArrayAccess
+class Session implements Session, ArrayAccess
 {
     # stop applications to influcence each other by applying a session_name
     const session_name = 'CsuiteSID';
@@ -79,25 +81,25 @@ class Clansuite_Session implements Clansuite_Session_Interface, ArrayAccess
      * This creates the session.
      *
      * Injections:
-     * Clansuite_Config is needed for the configuration of session variables.
-     * Clansuite_HttpRequest is needed to determine the current location of the user on the website.
+     * Koch_Config is needed for the configuration of session variables.
+     * Koch_HttpRequest is needed to determine the current location of the user on the website.
      *
      * @todo reading and writing the session are transactions! implement
      *
      * Overwrite php.ini settings
      * Start the session
-     * @param object Clansuite_Config
-     * @param object Clansuite_HttpRequest
+     * @param object Koch_Config
+     * @param object Koch_HttpRequest
      */
 
-    function __construct(Clansuite_Config $config)
+    function __construct(Koch_Config $config)
     {
         $this->config = $config;
 
         # session auto_start must be disabled
         if(ini_get('session.auto_start') != 0)
         {
-            throw new Clansuite_Exception('PHP Setting session.auto_start must be disabled.');
+            throw new Koch_Exception('PHP Setting session.auto_start must be disabled.');
         }
 
         /**
@@ -176,7 +178,7 @@ class Clansuite_Session implements Clansuite_Session_Interface, ArrayAccess
         }
         else
         {
-            throw new Clansuite_Exception('The session start failed!', 200);
+            throw new Koch_Exception('The session start failed!', 200);
         }
     }
 
@@ -279,10 +281,10 @@ class Clansuite_Session implements Clansuite_Session_Interface, ArrayAccess
             $uri = sprintf('http://%s%s', $_SERVER['SERVER_NAME'], dirname($_SERVER['PHP_SELF']) . 'installation/index.php');
             $uri = str_replace('\\', '/', $uri);
 
-            $msg .= '<p><b><font color="#FF0000">[Clansuite Error] ';
+            $msg .= '<p><b><font color="#FF0000">[Koch Framework Error] ';
             $msg .= _('The database table for sessions is missing.');
             $msg .= '</font></b> <br />';
-            $msg .= _('Please use <a href="%s">Clansuite Installation</a> to perform a proper installation.');
+            $msg .= _('Please use <a href="%s">Installation</a> to perform a proper installation.');
             $msg .= '</p>';
 
             echo sprintf($msg, $uri);
@@ -484,13 +486,13 @@ class Clansuite_Session implements Clansuite_Session_Interface, ArrayAccess
 }
 
 /**
- * Interface for Clansuite_Session
+ * Interface for Koch_Session
  *
- * @category    Clansuite
+ * @category    Koch
  * @package     Core
  * @subpackage  Session
  */
-interface Clansuite_Session_Interface
+interface Koch_Session_Interface
 {
     public function session_open();
     public function session_close();

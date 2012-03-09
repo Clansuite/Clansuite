@@ -1,10 +1,10 @@
 <?php
    /**
-    * Clansuite - just an eSports CMS
+    * Koch Framework
     * Jens-André Koch © 2005 - onwards
     * http://www.clansuite.com/
     *
-    * This file is part of "Clansuite - just an eSports CMS".
+    * This file is part of "Koch Framework".
     *
     *    This program is free software; you can redistribute it and/or modify
     *    it under the terms of the GNU General Public License as published by
@@ -31,22 +31,24 @@
 # Security Handler
 if(defined('IN_CS') === false)
 {
-    die('Clansuite not loaded. Direct Access forbidden.');
+    die('Koch Framework not loaded. Direct Access forbidden.');
 }
+
+namespace Koch;
 
 /**
  * DoorKeeper
  *
- * These are security-methods to keep the entrance to Clansuite clean.
+ * These are security-methods to keep the entrance to Koch Framework clean.
  *
  * @author     Jens-André Koch <vain@clansuite.com>
  * @copyright  Copyleft: All rights reserved. Jens-André Koch (2005-onwards)
  *
- * @category    Clansuite
+ * @category    Koch
  * @package     Core
  * @subpackage  Doorkeeper
  */
-class Clansuite_DoorKeeper
+class DoorKeeper
 {
     /**
      * Constant string with the uri to the current PHPIDS default filter for download
@@ -96,7 +98,7 @@ class Clansuite_DoorKeeper
             {
                 if(false === file_put_contents(IDS_CACHE_PATH, ''))
                 {
-                    throw new Clansuite_Exception('PHP IDS Cache file couldn\'t be created.', 11);
+                    throw new Koch_Exception('PHP IDS Cache file couldn\'t be created.', 11);
                 }
             }
 
@@ -131,8 +133,8 @@ class Clansuite_DoorKeeper
 
     public static function updateIDSFilterRules()
     {
-        Clansuite_Remotefetch::updateFileIfDifferent(self::PHPIDS_DEFAULT_FILTER_URI, IDS_FILTER_PATH);
-        Clansuite_Remotefetch::updateFileIfDifferent(self::PHPIDS_CONVERTER_URI, ROOT_LIBRARIES . 'IDS/Converter.php');
+        Koch_Remotefetch::updateFileIfDifferent(self::PHPIDS_DEFAULT_FILTER_URI, IDS_FILTER_PATH);
+        Koch_Remotefetch::updateFileIfDifferent(self::PHPIDS_CONVERTER_URI, ROOT_LIBRARIES . 'IDS/Converter.php');
     }
 
 }

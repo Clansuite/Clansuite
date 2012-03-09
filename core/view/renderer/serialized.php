@@ -1,10 +1,10 @@
 <?php
    /**
-    * Clansuite - just an eSports CMS
+    * Koch Framework
     * Jens-André Koch © 2005 - onwards
     * http://www.clansuite.com/
     *
-    * This file is part of "Clansuite - just an eSports CMS".
+    * This file is part of "Koch Framework".
     *
     * LICENSE:
     *
@@ -33,27 +33,29 @@
 # Security Handler
 if(defined('IN_CS') === false)
 {
-    die('Clansuite not loaded. Direct Access forbidden.');
+    die('Koch Framework not loaded. Direct Access forbidden.');
 }
 
+namespace Koch\View\Renderer;
+
 /**
- * Clansuite View Class - View for serialized PHP data
+ * Koch FrameworkView Class - View for serialized PHP data
  *
  * This is a wrapper/adapter for returning serialized PHP data.
  *
  * @author     Jens-André Koch <vain@clansuite.com>
  * @copyright  Jens-André Koch (2005-onwards)
  *
- * @category    Clansuite
+ * @category    Koch
  * @package     Core
  * @subpackage  View
  */
 
-class Clansuite_Renderer_Serialized extends Clansuite_Renderer_Base
+class Serialized extends Renderer_Base
 {
     /**
      * Render serialized PHP data
-     * 
+     *
      * @param $template Unused.
      * @param $viewdata Data to serialize.
      *

@@ -1,10 +1,10 @@
 <?php
    /**
-    * Clansuite - just an eSports CMS
+    * Koch Framework
     * Jens-André Koch © 2005 - onwards
     * http://www.clansuite.com/
     *
-    * This file is part of "Clansuite - just an eSports CMS".
+    * This file is part of "Koch Framework".
     *
     * LICENSE:
     *
@@ -33,19 +33,21 @@
 //Security Handler
 if(defined('IN_CS') === false)
 {
-    die('Clansuite not loaded. Direct Access forbidden.');
+    die('Koch Framework not loaded. Direct Access forbidden.');
 }
 
+namespace Koch;
+
 /**
- * Clansuite Core Class for Image Handling
+ * Koch Framework Class for Image Handling
  *
  * @author     Daniel Winterfeldt
  *
- * @package     Clansuite
+ * @package     Koch
  * @subpackage  Core
  * @category    Image
  */
-class Clansuite_Image
+class Image
 {
     /**
      * @var string
@@ -111,7 +113,7 @@ class Clansuite_Image
     protected $jpegQuality;
 
     /**
-     * Construct of Clansuite_Image Core Class
+     * Construct of Koch_Image Core Class
      */
     public function __construct($source, $target)
     {
@@ -126,22 +128,22 @@ class Clansuite_Image
 
     public function newCrop($config)
     {
-        Clansuite_Crop::__construct($config);
+        Koch_Crop::__construct($config);
     }
 
     public function newWatermarkImage($config)
     {
-        Clansuite_Watermark::__construct('image', $config);
+        Koch_Watermark::__construct('image', $config);
     }
 
     public function newWatermarkText($config)
     {
-        Clansuite_Watermark::__construct('text', $config);
+        Koch_Watermark::__construct('text', $config);
     }
 
     public function newThumbnail($config)
     {
-        new Clansuite_Thumbnail($config, $this);
+        new Koch_Thumbnail($config, $this);
     }
 
     /**
@@ -246,15 +248,15 @@ class Clansuite_Image
 }
 
 /**
- * Clansuite Core Class for Image Watermarking
+ * Koch Framework Class for Image Watermarking
  *
  * @author     Daniel Winterfeldt
  *
- * @package     Clansuite
+ * @package     Koch
  * @subpackage  Core
  * @category    Image
  */
-class Clansuite_Watermark extends Clansuite_Image
+class Koch_Watermark extends Koch_Image
 {
 
     public function __construct($function, $config)
@@ -271,19 +273,19 @@ class Clansuite_Watermark extends Clansuite_Image
 }
 
 /**
- * Clansuite Core Class for Image Thumbnailing
+ * Koch Framework Class for Image Thumbnailing
  *
  * @author     Daniel Winterfeldt
  *
- * @package     Clansuite
+ * @package     Koch
  * @subpackage  Core
  * @category    Image
  */
-class Clansuite_Thumbnail extends Clansuite_Image
+class Koch_Thumbnail extends Koch_Image
 {
     protected $object;
 
-    public function __construct($config, Clansuite_Image $object)
+    public function __construct($config, Koch_Image $object)
     {
 
         $this->object = $object;
@@ -316,15 +318,15 @@ class Clansuite_Thumbnail extends Clansuite_Image
 }
 
 /**
- * Clansuite Core Class for Image Cropping
+ * Koch Framework Class for Image Cropping
  *
  * @author     Daniel Winterfeldt
  *
- * @package     Clansuite
+ * @package     Koch
  * @subpackage  Core
  * @category    Image
  */
-class Clansuite_Crop extends Clansuite_Image
+class Koch_Crop extends Koch_Image
 {
 
     public function __construct($config)

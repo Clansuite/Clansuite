@@ -1,10 +1,10 @@
 <?php
    /**
-    * Clansuite - just an eSports CMS
+    * Koch Framework
     * Jens-André Koch © 2005 - onwards
     * http://www.clansuite.com/
     *
-    * This file is part of "Clansuite - just an eSports CMS".
+    * This file is part of "Koch Framework".
     *
     * LICENSE:
     *
@@ -33,31 +33,33 @@
 # Security Handler
 if (defined('IN_CS') === false)
 {
-    die('Clansuite not loaded. Direct Access forbidden.' );
+    die('Koch Framework not loaded. Direct Access forbidden.' );
 }
 
+namespace Koch\Filter;
+
 /**
- * Clansuite Filter - Permissions / RBACL
+ * Koch FrameworkFilter - Permissions / RBACL
  *
  * Purpose: Perform an Permissions / RBACL Check
  *
- * @category    Clansuite
+ * @category    Koch
  * @package     Core
  * @subpackage  Filters
  */
-class Clansuite_Filter_Permissions implements Clansuite_Filter_Interface
+class Permissions implements Filter
 {
     private $user    = null;
     private $rbacl   = null;
 
-    public function __construct(Clansuite_User $user)
+    public function __construct(Koch_User $user)
     {
         $this->user = $user;
         # @todo RBACL class
-        $rbacl = Clansuite_RBACL::getInstance();
+        $rbacl = Koch_RBACL::getInstance();
     }
 
-    public function executeFilter(Clansuite_HttpRequest $request, Clansuite_HttpResponse $response)
+    public function executeFilter(Koch_HttpRequest $request, Koch_HttpResponse $response)
     {
         if (!$rbacl->isAuthorized($actionname, $this->user->getUserId()))
         {

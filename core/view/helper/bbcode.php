@@ -1,10 +1,10 @@
 <?php
    /**
-    * Clansuite - just an eSports CMS
+    * Koch Framework
     * Jens-André Koch © 2005 - onwards
     * http://www.clansuite.com/
     *
-    * This file is part of "Clansuite - just an eSports CMS".
+    * This file is part of "Koch Framework".
     *
     * LICENSE:
     *
@@ -33,11 +33,13 @@
 //Security Handler
 if (defined('IN_CS') === false)
 {
-    die('Clansuite not loaded. Direct Access forbidden.');
+    die('Koch Framework not loaded. Direct Access forbidden.');
 }
 
+namespace Koch\View\Helper;
+
 /**
- * Clansuite Core Class for BBCode Handling (Wrapper) and Syntax Highlighting
+ * Koch Framework Class for BBCode Handling (Wrapper) and Syntax Highlighting
  *
  * It's a wrapper class for
  * a) GeShi Code/Syntax Highligther
@@ -48,11 +50,11 @@ if (defined('IN_CS') === false)
  * @author     Florian Wolf      <xsign.dll@clansuite.com>
  * @copyright  Jens-André Koch (2005-onwards), Florian Wolf (2006-2007)
  *
- * @category    Clansuite
+ * @category    Koch
  * @package     Core
  * @subpackage  BBCode
  */
-class Clansuite_Bbcode
+class Bbcode
 {
     /**
      * @var object instance of StringParser_BBCode

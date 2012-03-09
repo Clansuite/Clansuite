@@ -6,7 +6,7 @@
  */
 
 /**
- * This smarty function is part of "Clansuite - just an eSports CMS"
+ * This smarty function is part of "Koch Framework"
  * @link http://www.clansuite.com
  *
  * @author Jens-André Koch <jakoch@web.de>
@@ -40,7 +40,7 @@ function smarty_function_icon($params, $smarty)
     $width = '';
     $extra = '';
 
-    /* 
+    /*
     @todo provide usage help text in error message
     if(empty($params['name']) and empty($params['src']))
     {
@@ -59,7 +59,7 @@ function smarty_function_icon($params, $smarty)
         $pos = mb_strpos($src, $needle);
         if(isset($src) and is_int($pos))
         {
-            #Clansuite_Debug::printR($pos);
+            #Koch_Debug::printR($pos);
             $src = mb_substr($src, $pos + mb_strlen($needle));
             $name = basename($src);
         }

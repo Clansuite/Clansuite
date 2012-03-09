@@ -1,10 +1,10 @@
 <?php
    /**
-    * Clansuite - just an eSports CMS
+    * Koch Framework
     * Jens-André Koch © 2005 - onwards
     * http://www.clansuite.com/
     *
-    * This file is part of "Clansuite - just an eSports CMS".
+    * This file is part of "Koch Framework".
     *
     * LICENSE:
     *
@@ -33,11 +33,13 @@
 # Security Handler
 if(defined('IN_CS') === false)
 {
-    die('Clansuite not loaded. Direct Access forbidden.');
+    die('Koch Framework not loaded. Direct Access forbidden.');
 }
 
+namespace Koch\Exception;
+
 /**
- * Clansuite_Exception
+ * Koch_Exception
  *
  * Sets up a custom Exceptionhandler.
  * @see Clansuite_CMS::initialize_Errorhandling()
@@ -45,7 +47,7 @@ if(defined('IN_CS') === false)
  * Developer Notice:
  * The "Fatal error: Exception thrown without a stack frame in Unknown on line 0"
  * is of PHP dying when an exception is thrown when running INSIDE an error or exception handler.
- * Avoid stacking Exceptions, e.g. try/catch Exception($e) and then throwing a Clansuite_Exception().
+ * Avoid stacking Exceptions, e.g. try/catch Exception($e) and then throwing a Koch_Exception().
  *
  * @see http://php.net/manual/de/class.exception.php
  * @see http://php.net/manual/de/function.set-exception-handler.php
@@ -53,11 +55,11 @@ if(defined('IN_CS') === false)
  * @author     Jens-André Koch <vain@clansuite.com>
  * @copyright  Jens-André Koch (2005 - onwards)
  *
- * @category    Clansuite
+ * @category    Koch
  * @package     Core
  * @subpackage  Exceptionhandler
  */
-class Clansuite_Exception extends Exception implements Clansuite_Exception_Interface
+class Exception extends \Exception implements Interface
 {
     /**
      * Variables of a PHP Exception
@@ -179,7 +181,7 @@ class Clansuite_Exception extends Exception implements Clansuite_Exception_Inter
      *
      * @example
      * <code>
-     * throw new Clansuite_Exception('My Exception Message: ', 20);
+     * throw new Koch_Exception('My Exception Message: ', 20);
      * </code>
      * The file "exception-20.html" will be retrieved.
      *
@@ -204,7 +206,7 @@ class Clansuite_Exception extends Exception implements Clansuite_Exception_Inter
      *
      * @example
      * <code>
-     * throw new Clansuite_Exception('My Exception Message: ', 20);
+     * throw new Koch_Exception('My Exception Message: ', 20);
      * </code>
      * The file "exception-dev-20.html" will be retrieved.
      *
@@ -258,12 +260,12 @@ class Clansuite_Exception extends Exception implements Clansuite_Exception_Inter
     }
 
     /**
-     * Yellow Screen of Death (YSOD) is used to display a Clansuite Exception
+     * Yellow Screen of Death (YSOD) is used to display a Koch Framework Exception
      */
     public function yellowScreenOfDeath()
     {
         ob_start();
-        
+
         /**
          * @todo add backlink to the exception codes list
          */
@@ -320,7 +322,7 @@ class Clansuite_Exception extends Exception implements Clansuite_Exception_Inter
         if(defined('DEBUG') and DEBUG == 1)
         {
             # lets get the backtrace as html table
-            $html .= Clansuite_Errorhandler::getDebugBacktrace($this->trace);
+            $html .= Koch_Errorhandler::getDebugBacktrace($this->trace);
         }
 
         /**
@@ -395,7 +397,7 @@ class Clansuite_Exception extends Exception implements Clansuite_Exception_Inter
          * Backlink to Bugtracker with Exceptionmessage
          * @link http://trac.clansuite.com/newticket
          */
-        $html .= Clansuite_Errorhandler::getBugtrackerBacklinks($this->message, $this->file, $this->line, $this->trace);
+        $html .= Koch_Errorhandler::getBugtrackerBacklinks($this->message, $this->file, $this->line, $this->trace);
 
         # close all html element table
         $html   .= '</table>';
@@ -405,7 +407,7 @@ class Clansuite_Exception extends Exception implements Clansuite_Exception_Inter
          *
          * Footer with Support-Backlinks
          */
-        $html  .= Clansuite_Errorhandler::getSupportBacklinks($this);
+        $html  .= Koch_Errorhandler::getSupportBacklinks($this);
 
         # close all html elements: fieldset, body+page
         $html   .= '</fieldset>';
@@ -457,9 +459,9 @@ class Clansuite_Exception extends Exception implements Clansuite_Exception_Inter
 }
 
 /**
- * Clansuite_Exception has to implement the following methods.
+ * Koch_Exception has to implement the following methods.
  */
-interface Clansuite_Exception_Interface
+interface Interface
 {
     /* Protected methods inherited from Exception class */
     public function getMessage();                 // Exception message

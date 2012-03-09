@@ -1,10 +1,10 @@
 <?php
    /**
-    * Clansuite - just an eSports CMS
+    * Koch Framework
     * Jens-André Koch © 2005 - onwards
     * http://www.clansuite.com/
     *
-    * This file is part of "Clansuite - just an eSports CMS".
+    * This file is part of "Koch Framework".
     *
     * LICENSE:
     *
@@ -33,17 +33,19 @@
 # Security Handler
 if(defined('IN_CS') === false)
 {
-    die('Clansuite not loaded. Direct Access forbidden.');
+    die('Koch Framework not loaded. Direct Access forbidden.');
 }
 
+namespace Koch\Router;
+
 /**
- * Clansuite_Router
+ * Koch_Router
  *
- * Clansuite_Router does URL Formatting and internal Rewriting.
+ * Koch_Router does URL Formatting and internal Rewriting.
  * The URL is segmented and restructured to fit the internal route to a controller.
  * The internal routes are described in a central routing configuration file.
  * This central config is updated on installation and deinstallation of modules and plugins.
- * @see Clansuite_Routes_Manager
+ * @see Koch_Routes_Manager
  *
  * Normally all requests made map to a specific physical resource rather than a logical name.
  * With Routing you are able to map a logical name to a specific physical name.
@@ -55,14 +57,14 @@ if(defined('IN_CS') === false)
  * 1. Slashes as Segment Dividers-Style, like so: /mod/sub/action/id
  * 2. Fake HTML File Request or SMF-Style, like so: /mod.sub.action.id.html
  *
- * @category    Clansuite
+ * @category    Koch
  * @package     Core
  * @subpackage  Router
  */
-class Clansuite_Router implements ArrayAccess, Clansuite_Router_Interface
+class Router implements ArrayAccess, Router
 {
     /**
-     * @var object Clansuite_Config
+     * @var object Koch_Config
      */
     private $config;
 
@@ -106,7 +108,7 @@ class Clansuite_Router implements ArrayAccess, Clansuite_Router_Interface
     /**
      * Constructor.
      */
-    public function __construct(Clansuite_HttpRequest $request)
+    public function __construct(Koch_HttpRequest $request)
     {
         $this->request = $request;
 
@@ -127,7 +129,7 @@ class Clansuite_Router implements ArrayAccess, Clansuite_Router_Interface
      *
      * Several fixes are applied to the $request_uri.
      *
-     * When incomming via Clansuite_HttpRequest::getRequestURI()
+     * When incomming via Koch_HttpRequest::getRequestURI()
      * the $request_rui is already
      * (1) lowercased and
      * (2) urldecoded.
@@ -139,7 +141,7 @@ class Clansuite_Router implements ArrayAccess, Clansuite_Router_Interface
      *
      * A multislash removal is not needed, because of the later usage of preg_split().
      *
-     * @param string $request_url Clansuite_HttpRequest::getRequestURI
+     * @param string $request_url Koch_HttpRequest::getRequestURI
      * @return string Request URL
      */
     public function prepareRequestURI($request_uri)
@@ -298,12 +300,12 @@ class Clansuite_Router implements ArrayAccess, Clansuite_Router_Interface
     /**
      * Resets the routes array.
      *
-     * @return object Clansuite_Router
+     * @return object Koch_Router
      */
     public function reset($load_default_routes = false)
     {
         $this->routes = array();
-        Clansuite_TargetRoute::reset();
+        Koch_TargetRoute::reset();
 
         if($load_default_routes === true)
         {
@@ -403,7 +405,7 @@ class Clansuite_Router implements ArrayAccess, Clansuite_Router_Interface
                 $url_keys = array('mod', 'action', 'id', 'type');
             }
 
-            $url_data = Clansuite_Functions::array_unequal_combine($url_keys, $url_parameters);
+            $url_data = Koch_Functions::array_unequal_combine($url_keys, $url_parameters);
 
             /**
              * determine the separator.
@@ -419,7 +421,7 @@ class Clansuite_Router implements ArrayAccess, Clansuite_Router_Interface
     }
 
     /**
-     * Main method of Clansuite_Router
+     * Main method of Koch_Router
      *
      * The routing workflow is
      * 1. firstly, check if ModRewrite is enabled,
@@ -439,12 +441,12 @@ class Clansuite_Router implements ArrayAccess, Clansuite_Router_Interface
          */
         if(empty($this->uri) or $this->uri === '/')
         {
-            Clansuite_TargetRoute::setController($this->config['defaults']['module']);
-            Clansuite_TargetRoute::setAction($this->config['defaults']['action']);
+            Koch_TargetRoute::setController($this->config['defaults']['module']);
+            Koch_TargetRoute::setAction($this->config['defaults']['action']);
 
-            if(Clansuite_TargetRoute::dispatchable() === true)
+            if(Koch_TargetRoute::dispatchable() === true)
             {
-                return Clansuite_TargetRoute::getInstance();
+                return Koch_TargetRoute::getInstance();
             }
         }
 
@@ -464,7 +466,7 @@ class Clansuite_Router implements ArrayAccess, Clansuite_Router_Interface
      *
      * In other words, it "map matches the URI".
      *
-     * @return object Clansuite_TargetRoute
+     * @return object Koch_TargetRoute
      */
     public function match()
     {
@@ -545,16 +547,16 @@ class Clansuite_Router implements ArrayAccess, Clansuite_Router_Interface
                     $this->setSegmentsToTargetRoute($matches);
                 }
 
-                #Clansuite_TargetRoute::_debug();
+                #Koch_TargetRoute::_debug();
 
-                if(Clansuite_TargetRoute::dispatchable() === true)
+                if(Koch_TargetRoute::dispatchable() === true)
                 {
                     # route found
                     break;
                 }
                 else
                 {
-                    Clansuite_TargetRoute::reset();
+                    Koch_TargetRoute::reset();
                 }
             }
         }
@@ -564,7 +566,7 @@ class Clansuite_Router implements ArrayAccess, Clansuite_Router_Interface
         /**
          * Finally: fetch our Target Route Object.
          */
-        $targetRoute = Clansuite_TargetRoute::getInstance();
+        $targetRoute = Koch_TargetRoute::getInstance();
 
         /**
          * Inject the target route object back to the request.
@@ -797,31 +799,31 @@ class Clansuite_Router implements ArrayAccess, Clansuite_Router_Interface
         # Controller
         if(true === isset($array['mod']))
         {
-            Clansuite_TargetRoute::setController($array['mod']);
+            Koch_TargetRoute::setController($array['mod']);
             unset($array['mod']);
         }
         if(true === isset($array['controller']))
         {
-            Clansuite_TargetRoute::setController($array['controller']);
+            Koch_TargetRoute::setController($array['controller']);
             unset($array['controller']);
         }
         # SubController
         if(true === isset($array['sub']))
         {
-            Clansuite_TargetRoute::setSubController($array['sub']);
+            Koch_TargetRoute::setSubController($array['sub']);
             unset($array['sub']);
         }
 
         if(true === isset($array['subcontroller']))
         {
-            Clansuite_TargetRoute::setSubController($array['subcontroller']);
+            Koch_TargetRoute::setSubController($array['subcontroller']);
             unset($array['subcontroller']);
         }
 
         # action
         if(true === isset($array['action']))
         {
-            Clansuite_TargetRoute::setAction($array['action']);
+            Koch_TargetRoute::setAction($array['action']);
             unset($array['action']);
         }
 
@@ -829,11 +831,11 @@ class Clansuite_Router implements ArrayAccess, Clansuite_Router_Interface
         # Parameters
         if(count($array) > 0)
         {
-            Clansuite_TargetRoute::setParameters($array);
+            Koch_TargetRoute::setParameters($array);
             unset($array);
         }
 
-        return Clansuite_TargetRoute::getInstance();
+        return Koch_TargetRoute::getInstance();
     }
 
     /**
@@ -905,20 +907,20 @@ class Clansuite_Router implements ArrayAccess, Clansuite_Router_Interface
         $this->checkRouteCachingActive();
 
         # Load Routes from Cache
-        if(true === self::$use_cache and empty($this->routes) and Clansuite_Cache::contains('clansuite.routes'))
+        if(true === self::$use_cache and empty($this->routes) and Koch_Cache::contains('clansuite.routes'))
         {
-            $this->addRoutes(Clansuite_Cache::read('clansuite.routes'));
+            $this->addRoutes(Koch_Cache::read('clansuite.routes'));
         }
 
         # Load Routes from Config "routes.config.php"
         if(empty($this->routes))
         {
-            $this->addRoutes(Clansuite_Routes_Manager::loadRoutesFromConfig());
+            $this->addRoutes(Koch_Routes_Manager::loadRoutesFromConfig());
 
             # and save these routes to cache
             if(true === self::$use_cache)
             {
-                Clansuite_Cache::store('clansuite.routes', $this->getRoutes());
+                Koch_Cache::store('clansuite.routes', $this->getRoutes());
             }
         }
 
@@ -978,15 +980,15 @@ class Clansuite_Router implements ArrayAccess, Clansuite_Router_Interface
 }
 
 /**
- * Interface for Clansuite_Router(s)
+ * Interface for Koch_Router(s)
  *
  * A router has to implement the following methods to resolve the Request to a Module and the Action/Command.
  *
- * @category    Clansuite
+ * @category    Koch
  * @package     Core
  * @subpackage  Router
  */
-interface Clansuite_Router_Interface
+interface Koch_Router_Interface
 {
     function addRoute($url_pattern, array $route_options = null);
     function addRoutes(array $routes);

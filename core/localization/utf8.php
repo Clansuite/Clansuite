@@ -1,10 +1,10 @@
 <?php
    /**
-    * Clansuite - just an eSports CMS
+    * Koch Framework
     * Jens-André Koch © 2005 - onwards
     * http://www.clansuite.com/
     *
-    * This file is part of "Clansuite - just an eSports CMS".
+    * This file is part of "Koch Framework".
     *
     * LICENSE:
     *
@@ -33,13 +33,15 @@
 # Security Handler
 if (defined('IN_CS') === false)
 {
-    die('Clansuite not loaded. Direct Access forbidden.');
+    die('Koch Framework not loaded. Direct Access forbidden.');
 }
 
+namespace Koch;
+
 /**
- * Clansuite UTF8
+ * Koch FrameworkUTF8
  *
- * Clansuite relies on mbstring.
+ * Koch Frameworkrelies on mbstring.
  * This class allows running the application without the mbstring extension.
  * It loads functional replacements for the mbstring methods.
  * UTF8 functions and lookup tables are based on the Dokuwiki UTF-8 library written by Andreas Gohr.
@@ -48,7 +50,7 @@ if (defined('IN_CS') === false)
  * @author     Paul Brand
  * @author     Jens-André Koch
  */
-class Clansuite_UTF8
+class UTF8
 {
     public static function initialize()
     {

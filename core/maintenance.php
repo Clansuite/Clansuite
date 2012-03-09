@@ -1,10 +1,10 @@
 <?php
    /**
-    * Clansuite - just an eSports CMS
+    * Koch Framework
     * Jens-André Koch © 2005 - onwards
     * http://www.clansuite.com/
     *
-    * This file is part of "Clansuite - just an eSports CMS".
+    * This file is part of "Koch Framework".
     *
     * LICENSE:
     *
@@ -33,20 +33,22 @@
 # Security Handler
 if(defined('IN_CS') === false)
 {
-    die('Clansuite not loaded. Direct Access forbidden.');
+    die('Koch Framework not loaded. Direct Access forbidden.');
 }
 
+namespace Koch;
+
 /**
- * Clansuite_Maintenance
+ * Koch_Maintenance
  *
  * @author Paul Brand <info@isp-tenerife.net>
  * @todo: Umstellen auf gettext
  *
- * @category    Clansuite
+ * @category    Koch
  * @package     Core
  * @subpackage  Maintenance
  */
-class Clansuite_Maintenance
+class Maintenance
 {
     private static $language;
     private static $reason = '1';
@@ -108,8 +110,8 @@ class Clansuite_Maintenance
 
     /**
      * output maintenance display
-     * 
-     * @param array $config The Clansuite Config Array.
+     *
+     * @param array $config The Config Array.
      * @param string $filePath FQFP for the maintenance template.
      */
     public function show(array $config, $filePath = null)
@@ -121,7 +123,7 @@ class Clansuite_Maintenance
         $sorry = self::$aText[self::$reason][self::$language]['sorry'];
 
         # replacement for "Please try back in %d %s."
-        $back = sprintf(self::$aText[self::$reason][self::$language]['back'], 
+        $back = sprintf(self::$aText[self::$reason][self::$language]['back'],
                         self::$timeout, self::$aText[self::$reason][self::$language]['min']);
 
         $content = file_get_contents(self::$filePath);

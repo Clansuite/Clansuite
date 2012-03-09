@@ -1,10 +1,10 @@
 <?php
    /**
-    * Clansuite - just an eSports CMS
+    * Koch Framework
     * Jens-André Koch © 2005 - onwards
     * http://www.clansuite.com/
     *
-    * This file is part of "Clansuite - just an eSports CMS".
+    * This file is part of "Koch Framework".
     *
     * LICENSE:
     *
@@ -33,14 +33,16 @@
 # Security Handler
 if (defined('IN_CS') === false)
 {
-    die('Clansuite not loaded. Direct Access forbidden.');
+    die('Koch Framework not loaded. Direct Access forbidden.');
 }
 
+namespace Koch\Config;
+
 /**
- * Clansuite_Config
+ * Koch_Config
  *
- * This is the Config class of Clansuite.
- * And it's build around the $config array, which is a storage container for settings.
+ * This is a configuration container class.
+ * It's build around the $config array, which is the storage container for settings.
  *
  * We use some php magic in here:
  * The array access implementation makes it seem that $config is an array,
@@ -52,15 +54,15 @@ if (defined('IN_CS') === false)
  * get data, using get() : echo $cfg->get ('name');
  * get data, using array access: echo $cfg['name'];
  *
- * @category    Clansuite
+ * @category    Koch
  * @package     Core
  * @subpackage  Config
  */
-class Clansuite_Config extends Clansuite_Config_Base # implements ArrayAccess
+class Config extends Base # implements ArrayAccess
 {
     /**
      * This object is injected via DI.
-     * The depending object needs a version of the Clansuite Config.
+     * The depending object needs a version of the config.
      * We fetch it from Clansuite_CMS.
      */
     function __construct()
@@ -82,7 +84,7 @@ class Clansuite_Config extends Clansuite_Config_Base # implements ArrayAccess
     {
         if(false === is_object($this->config))
         {
-            $this->config = Clansuite_Config_Factory::getConfiguration($configfile);
+            $this->config = Koch_Config_Factory::getConfiguration($configfile);
         }
 
         return $this->config;
@@ -99,14 +101,14 @@ class Clansuite_Config extends Clansuite_Config_Base # implements ArrayAccess
         # if no modulename is set, determine the name of the current module
         if($modulename === null)
         {
-            $modulename = Clansuite_TargetRoute::getModuleName();
+            $modulename = Koch_TargetRoute::getModuleName();
         }
 
         $configfile = ROOT_MOD . $modulename . DS . $modulename . '.config.php';
 
         if(is_file($configfile))
         {
-            return Clansuite_Config_Factory::getConfiguration($configfile);
+            return Koch_Config_Factory::getConfiguration($configfile);
         }
         else # module has no configuration file
         {
@@ -129,7 +131,7 @@ class Clansuite_Config extends Clansuite_Config_Base # implements ArrayAccess
     {
         if(null == $modulename)
         {
-            $modulename = Clansuite_TargetRoute::getModuleName();
+            $modulename = Koch_TargetRoute::getModuleName();
         }
         $this->writeConfig(ROOT_MOD . $modulename . DS . $modulename . '.config.php', $array);
     }
@@ -150,7 +152,7 @@ class Clansuite_Config extends Clansuite_Config_Base # implements ArrayAccess
             $array = array();
         }
 
-        Clansuite_Config_Factory::getHandler($filename)->writeConfig($filename, $array);
+        Koch_Config_Factory::getHandler($filename)->writeConfig($filename, $array);
     }
 }
 ?>

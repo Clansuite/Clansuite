@@ -1,10 +1,10 @@
 <?php
    /**
-    * Clansuite - just an eSports CMS
+    * Koch Framework
     * Jens-André Koch © 2005 - onwards
     * http://www.clansuite.com/
     *
-    * This file is part of "Clansuite - just an eSports CMS".
+    * This file is part of "Koch Framework".
     *
     * LICENSE:
     *
@@ -33,17 +33,19 @@
 # Security Handler
 if(defined('IN_CS') === false)
 {
-    die('Clansuite not loaded. Direct Access forbidden.');
+    die('Koch Framework not loaded. Direct Access forbidden.');
 }
 
+namespace Koch\Config;
+
 /**
- * Clansuite Core File - Config Handler for XML Format (via SimpleXML)
+ * Koch FrameworkCore File - Config Handler for XML Format (via SimpleXML)
  *
- * @category    Clansuite
+ * @category    Koch
  * @package     Core
  * @subpackage  Configuration
  */
-class Clansuite_Config_XML
+class XML
 {
     /**
      * CONSTRUCTOR
@@ -55,7 +57,7 @@ class Clansuite_Config_XML
     }
 
     /**
-     * Clansuite_Config_XML is a Singleton
+     * Koch_Config_XML is a Singleton
      *
      * @param object $file Filename
      *
@@ -67,7 +69,7 @@ class Clansuite_Config_XML
 
         if(isset($instance) === false)
         {
-            $instance = new Clansuite_Config_XML($file);
+            $instance = new Koch_Config_XML($file);
         }
 
         return $instance;
@@ -154,14 +156,14 @@ class Clansuite_Config_XML
     {
         if(is_file($file) === false or is_readable($file) === false)
         {
-            throw new Clansuite_Exception('XML File not existing or not readable.');
+            throw new Koch_Exception('XML File not existing or not readable.');
         }
 
         # read file
         $xml = simplexml_load_file($file);
 
         # transform XML to PHP Array
-        return Clansuite_XML::toArray($xml);
+        return Koch_XML::toArray($xml);
     }
 }
 ?>

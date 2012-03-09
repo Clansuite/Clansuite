@@ -1,10 +1,10 @@
 <?php
    /**
-    * Clansuite - just an eSports CMS
+    * Koch Framework
     * Jens-André Koch © 2005 - onwards
     * http://www.clansuite.com/
     *
-    * This file is part of "Clansuite - just an eSports CMS".
+    * This file is part of "Koch Framework".
     *
     * LICENSE:
     *
@@ -33,10 +33,12 @@
 # Security Handler
 if (defined('IN_CS') === false)
 {
-    die('Clansuite not loaded. Direct Access forbidden.');
+    die('Koch Framework not loaded. Direct Access forbidden.');
 }
 
-class Clansuite_Widget
+namespace Koch\View\Helper;
+
+class Widget
 {
     /**
      * loadModul
@@ -61,10 +63,10 @@ class Clansuite_Widget
         $modulename = mb_strtolower($modulename);
 
         # apply classname prefix to the modulename
-        $modulename = Clansuite_Functions::ensurePrefixedWith($modulename, 'clansuite_module_');
+        $modulename = Koch_Functions::ensurePrefixedWith($modulename, 'clansuite_module_');
 
         # build classname from modulename
-        $classname = Clansuite_Functions::toUnderscoredUpperCamelCase($modulename);
+        $classname = Koch_Functions::toUnderscoredUpperCamelCase($modulename);
 
         /**
          * now we have a common string like 'clansuite_module_admin_menu' or 'clansuite_module_news'
@@ -97,7 +99,7 @@ class Clansuite_Widget
             $filename .= $moduleinfos['2'] . DS . 'controller' . DS . $moduleinfos['2'] . '.module.php';
         }
 
-        return Clansuite_Loader::requireFile($filename, $classname);
+        return Koch_Loader::requireFile($filename, $classname);
     }
 
 }

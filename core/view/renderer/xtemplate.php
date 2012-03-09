@@ -1,10 +1,10 @@
 <?php
    /**
-    * Clansuite - just an eSports CMS
+    * Koch Framework
     * Jens-André Koch © 2005 - onwards
     * http://www.clansuite.com/
     *
-    * This file is part of "Clansuite - just an eSports CMS".
+    * This file is part of "Koch Framework".
     *
     * LICENSE:
     *
@@ -33,11 +33,13 @@
 # Security Handler
 if (defined('IN_CS') === false)
 {
-    die('Clansuite not loaded. Direct Access forbidden.' );
+    die('Koch Framework not loaded. Direct Access forbidden.' );
 }
 
+namespace Koch\View\Renderer;
+
 /**
- * Clansuite Renderer Class - Renderer for Xtemplate.
+ * Koch FrameworkRenderer Class - Renderer for Xtemplate.
  *
  * This is a wrapper/adapter for rendering with XTemplate.
  *
@@ -47,13 +49,13 @@ if (defined('IN_CS') === false)
  * @author     Jens-André Koch <vain@clansuite.com>
  * @copyright  Jens-André Koch (2005-onwards)
  *
- * @category    Clansuite
+ * @category    Koch
  * @package     Core
  * @subpackage  Renderer
  */
-class Clansuite_Renderer_Xtemplate extends Clansuite_Renderer_Base
+class Xtemplate extends Renderer_Base
 {
-    public function __construct(Clansuite_Config $config)
+    public function __construct(Koch_Config $config)
     {
         parent::__construct($config);
     }
@@ -76,7 +78,7 @@ class Clansuite_Renderer_Xtemplate extends Clansuite_Renderer_Base
 
         $template = $this->getTemplatePath($template);
 
-        #Clansuite_Debug::firebug('Xtemplate loaded with Template: ' . $template);
+        #Koch_Debug::firebug('Xtemplate loaded with Template: ' . $template);
 
         # Do it with XTemplate style > eat like a bird, poop like an elefant!
         return $this->renderer = new XTemplate($template);

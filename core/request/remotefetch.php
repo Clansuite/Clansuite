@@ -1,10 +1,10 @@
 <?php
    /**
-    * Clansuite - just an eSports CMS
+    * Koch Framework
     * Jens-André Koch © 2005 - onwards
     * http://www.clansuite.com/
     *
-    * This file is part of "Clansuite - just an eSports CMS".
+    * This file is part of "Koch Framework".
     *
     * LICENSE:
     *
@@ -33,18 +33,20 @@
 # Security Handler
 if(defined('IN_CS') === false)
 {
-    die('Clansuite not loaded. Direct Access forbidden.');
+    die('Koch Framework not loaded. Direct Access forbidden.');
 }
 
+namespace Koch\Remote;
+
 /**
- * Clansuite Remote Request Manager
+ * Koch FrameworkRemote Request Manager
  *
  * 1: Snoppy
  * 2: cURL
  * 3: Remote
  * (4: FTP)
  */
-class Clansuite_Remote_Request
+class Request
 {
     /**
      * Fetches remote content with Snoopy
@@ -55,7 +57,7 @@ class Clansuite_Remote_Request
     {
         $remote_content = null;
 
-        if(Clansuite_Loader::loadLibrary('snoopy'))
+        if(Koch_Loader::loadLibrary('snoopy'))
         {
             $s = new Snoopy();
             $s->fetch($url);

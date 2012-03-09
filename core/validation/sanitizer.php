@@ -1,6 +1,6 @@
 <?php
    /**
-    * Clansuite - just an eSports CMS
+    * Koch Framework
     * Jens-André Koch © 2005 - onwards
     * http://www.clansuite.com/
     *
@@ -32,8 +32,10 @@
 //Security Handler
 if(defined('IN_CS') === false)
 {
-    die('Clansuite not loaded. Direct Access forbidden.');
+    die('Koch Framework not loaded. Direct Access forbidden.');
 }
+
+namespace Koch\Validation;
 
 /**
  * Sanitizes the HTML body content.
@@ -45,7 +47,7 @@ if(defined('IN_CS') === false)
  * @license    http://www.gnu.org/copyleft/gpl.html GNU General Public License
  * @version    1.0
  */
-class Clansuite_Sanitizer
+class Sanitizer
 {
     # Protected private fields
     protected $_allowedTags;
@@ -456,7 +458,7 @@ function html_sanitize_all($str)
 
     if(empty($san))
     {
-        $san = new Clansuite_Html_Sanitizer;
+        $san = new Koch_Html_Sanitizer;
     }
 
     return $san->sanitize($str);
@@ -474,7 +476,7 @@ function html_sanitize_editor($str)
 
     if(empty($san))
     {
-        $san = new Clansuite_Html_Sanitizer;
+        $san = new Koch_Html_Sanitizer;
         $san->allowObjects();
     }
 

@@ -1,10 +1,10 @@
 <?php
    /**
-    * Clansuite - just an eSports CMS
+    * Koch Framework
     * Jens-André Koch © 2005 - onwards
     * http://www.clansuite.com/
     *
-    * This file is part of "Clansuite - just an eSports CMS".
+    * This file is part of "Koch Framework".
     *
     * LICENSE:
     *
@@ -35,20 +35,22 @@
 # Security Handler
 if (defined('IN_CS') === false)
 {
-    die('Clansuite not loaded. Direct Access forbidden.');
+    die('Koch Framework not loaded. Direct Access forbidden.');
 }
 
+namespace Koch\Config;
+
 /**
- * Clansuite Core File - Config Handler for INI Format
+ * Koch FrameworkCore File - Config Handler for INI Format
  *
- * @category    Clansuite
+ * @category    Koch
  * @package     Core
  * @subpackage  Configuration
  */
-class Clansuite_Config_INI
+class INI
 {
     /**
-     * Clansuite_Config_INI is a Singleton
+     * Koch_Config_INI is a Singleton
      *
      * @return instance of Config_INIHandler class
      */
@@ -57,7 +59,7 @@ class Clansuite_Config_INI
         static $instance;
         if(isset($instance) == null)
         {
-            $instance = new Clansuite_Config_INI();
+            $instance = new Koch_Config_INI();
         }
         return $instance;
     }
@@ -75,12 +77,12 @@ class Clansuite_Config_INI
         # ensure we got an array
         if(is_array($array) === false)
         {
-            throw new Clansuite_Exception('writeConfig Parameter $array is not an array.');
+            throw new Koch_Exception('writeConfig Parameter $array is not an array.');
         }
 
         if(empty($file))
         {
-            throw new Clansuite_Exception('writeConfig Parameter $filename is not given.');
+            throw new Koch_Exception('writeConfig Parameter $filename is not given.');
         }
 
         # when ini_filename exists, get old config array
@@ -104,7 +106,7 @@ class Clansuite_Config_INI
         $content = '';
         $content .= "; <?php die('Access forbidden.'); /* DO NOT MODIFY THIS LINE! ?>\n";
         $content .= "; \n";
-        $content .= "; Clansuite Configuration File : \n";
+        $content .= "; Koch Framework Configuration File : \n";
         $content .= '; ' . $file . "\n";
         $content .= "; \n";
         $content .= '; This file was generated on ' . date('d-m-Y H:i') . "\n";
@@ -194,7 +196,7 @@ class Clansuite_Config_INI
         # check ini_filename exists
         if(is_file($file) === false or is_readable($file) === false)
         {
-            throw new Clansuite_Exception('File not found: ' . $file, 4);
+            throw new Koch_Exception('File not found: ' . $file, 4);
         }
 
         return parse_ini_file($file, true);

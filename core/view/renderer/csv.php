@@ -1,10 +1,10 @@
 <?php
    /**
-    * Clansuite - just an eSports CMS
+    * Koch Framework
     * Jens-André Koch © 2005 - onwards
     * http://www.clansuite.com/
     *
-    * This file is part of "Clansuite - just an eSports CMS".
+    * This file is part of "Koch Framework".
     *
     * LICENSE:
     *
@@ -33,11 +33,13 @@
 # Security Handler
 if(defined('IN_CS') === false)
 {
-    die('Clansuite not loaded. Direct Access forbidden.');
+    die('Koch Framework not loaded. Direct Access forbidden.');
 }
 
+namespace Koch\View\Renderer;
+
 /**
- * Clansuite Renderer Class - Renderer for CSV
+ * Koch FrameworkRenderer Class - Renderer for CSV
  *
  * This is a wrapper/adapter for rendering CSV Data. CSV stands for 'comma-seperated-values'.
  * These files are commonly used to export and import data into different databases.
@@ -45,11 +47,11 @@ if(defined('IN_CS') === false)
  * @author     Jens-André Koch <vain@clansuite.com>
  * @copyright  Jens-André Koch (2005-onwards)
  *
- * @category    Clansuite
+ * @category    Koch
  * @package     Core
  * @subpackage  Renderer
  */
-class Clansuite_Renderer_CSV extends Clansuite_Renderer_Base
+class CSV extends Renderer_Base
 {
     private $data = array();
     private $header = array();

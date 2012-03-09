@@ -1,10 +1,10 @@
 <?php
    /**
-    * Clansuite - just an eSports CMS
+    * Koch Framework
     * Jens-André Koch © 2005 - onwards
     * http://www.clansuite.com/
     *
-    * This file is part of "Clansuite - just an eSports CMS".
+    * This file is part of "Koch Framework".
     *
     * LICENSE:
     *
@@ -33,11 +33,13 @@
 # Security Handler
 if(defined('IN_CS') === false)
 {
-    die('Clansuite not loaded. Direct Access forbidden.');
+    die('Koch Framework not loaded. Direct Access forbidden.');
 }
 
+namespace Koch\View\Renderer;
+
 /**
- * Clansuite Renderer Class - Renderer for PHPTAL
+ * Koch FrameworkRenderer Class - Renderer for PHPTAL
  *
  * This is a wrapper/adapter for rendering with PHPTAL.
  *
@@ -47,22 +49,22 @@ if(defined('IN_CS') === false)
  * @author     Jens-André Koch <vain@clansuite.com>
  * @copyright  Jens-André Koch (2005-onwards)
  *
- * @category    Clansuite
+ * @category    Koch
  * @package     Core
  * @subpackage  Renderer
  */
-class Clansuite_Renderer_Phptal extends Clansuite_Renderer_Base
+class Phptal extends Renderer_Base
 {
     /**
      * RenderEngineConstructor
      *
      * parent::__construct does the following:
-     * 1) Apply instances of Dependency Injector Phemto and Clansuite_Config to the RenderBase
+     * 1) Apply instances of Dependency Injector Phemto and Koch_Config to the RenderBase
      * 2) Initialize the RenderEngine via parent class constructor call = self::initializeEngine()
      * 3) Configure the RenderEngine with it's specific settings = self::configureEngine();
      * 4) Eventlog
      */
-    public function __construct(Clansuite_Config $config)
+    public function __construct(Koch_Config $config)
     {
         parent::__construct($config);
         $this->initializeEngine();
@@ -86,7 +88,7 @@ class Clansuite_Renderer_Phptal extends Clansuite_Renderer_Base
             }
             else
             {
-                throw new Clansuite_Exception('PHPTal Library missing!');
+                throw new Koch_Exception('PHPTal Library missing!');
             }
         }
 
@@ -204,7 +206,7 @@ class Clansuite_Renderer_Phptal extends Clansuite_Renderer_Base
         }
         catch (Exception $e)
         {
-            throw new Clansuite_Exception($e);
+            throw new Koch_Exception($e);
         }
     }
 

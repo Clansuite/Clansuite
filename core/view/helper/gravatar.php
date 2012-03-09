@@ -1,10 +1,10 @@
 <?php
    /**
-    * Clansuite - just an eSports CMS
+    * Koch Framework
     * Jens-André Koch © 2005 - onwards
     * http://www.clansuite.com/
     *
-    * This file is part of Clansuite - just an eSports CMS
+    * This file is part of Koch Framework
     *
     * LICENSE:
     *
@@ -30,8 +30,10 @@
     * @version    SVN: $Id$
     */
 
+namespace Koch\View\Helper;
+
 /**
- * Clansuite_Gravatar
+ * Koch_Gravatar
  *
  * This is a service class for accessing the Globally Recognized Avatars as provided
  * by http://www.gravatar.com.
@@ -48,10 +50,10 @@
  * @license     GNU/GPL v2 or any later license
  * @copyright   Copyleft: All rights reserved. Jens-André Koch (2005-onwards)
  *
- * @package     Clansuite
+ * @package     Koch
  * @subpackage  Libraries
  */
-class clansuite_gravatar
+class Gravatar
 {
     # Gravatar BASE URL
     private $gravatar_baseurl = 'http://www.gravatar.com/avatar/%s?&size=%s&rating=%s&default=%s';
@@ -249,7 +251,7 @@ class clansuite_gravatar
 }
 
 /**
- * Clansuite_Gravatar_Cache
+ * Koch_Gravatar_Cache
  *
  * This is a service class for accessing cached Gravatars as provided
  * by http://www.gravatar.com.
@@ -258,7 +260,7 @@ class clansuite_gravatar
  * @license     GNU/GPL v2 or any later license
  * @copyright   Copyleft: All rights reserved. Jens-André Koch (2005-onwards)
  *
- * @package     Clansuite
+ * @package     Koch
  * @subpackage  Libraries
  */
 class clansuite_gravatar_cache

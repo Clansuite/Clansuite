@@ -1,10 +1,10 @@
 <?php
    /**
-    * Clansuite - just an eSports CMS
+    * Koch Framework
     * Jens-André Koch © 2005 - onwards
     * http://www.clansuite.com/
     *
-    * This file is part of "Clansuite - just an eSports CMS".
+    * This file is part of "Koch Framework".
     *
     * LICENSE:
     *
@@ -33,24 +33,26 @@
 # Security Handler
 if(defined('IN_CS') === false)
 {
-    die('Clansuite not loaded. Direct Access forbidden.');
+    die('Koch Framework not loaded. Direct Access forbidden.');
 }
 
+namespace Koch\Logger;
+
 /**
- * Clansuite Core File - Clansuite_Logger_Email
+ * Koch FrameworkCore File - Koch_Logger_Email
  *
  * This class is a service wrapper for sending logging messages via email.
- * The email is send using the Clansuite_Mailer, which is a wrapper for SwiftMailer.
+ * The email is send using the Koch_Mailer, which is a wrapper for SwiftMailer.
  *
  * @author      Jens-André Koch <vain@clansuite.com>
  * @copyright   Jens-André Koch (2005 - onwards)
  * @license     GPLv2 any later license
  *
- * @category    Clansuite
+ * @category    Koch
  * @package     Core
  * @subpackage  Logger
  */
-class Clansuite_Logger_Email implements Clansuite_Logger_Interface
+class Email implements Logger
 {
     private $config;
 
@@ -58,14 +60,14 @@ class Clansuite_Logger_Email implements Clansuite_Logger_Interface
 
     private $mailer = null;
 
-    public function __construct(Clansuite_Config $config)
+    public function __construct(Koch_Config $config)
     {
         $this->config = $config;
 
         # mailing of critical errors makes only sense, if we have a email of the sysadmin
         if ( $config['mail']['to_sysadmin'] == true)
         {
-            $this->mailer = new Clansuite_Mailer($config);
+            $this->mailer = new Koch_Mailer($config);
         }
     }
 
@@ -78,7 +80,7 @@ class Clansuite_Logger_Email implements Clansuite_Logger_Interface
     {
         if (self::$instance == 0)
         {
-            self::$instance = new Clansuite_Logger_Email;
+            self::$instance = new Koch_Logger_Email;
         }
         return self::$instance;
     }

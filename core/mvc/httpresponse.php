@@ -1,10 +1,10 @@
 <?php
    /**
-    * Clansuite - just an eSports CMS
+    * Koch Framework
     * Jens-André Koch © 2005 - onwards
     * http://www.clansuite.com/
     *
-    * This file is part of "Clansuite - just an eSports CMS".
+    * This file is part of "Koch Framework".
     *
     * LICENSE:
     *
@@ -33,17 +33,19 @@
 # Security Handler
 if(defined('IN_CS') === false)
 {
-    die('Clansuite not loaded. Direct Access forbidden.');
+    die('Koch Framework not loaded. Direct Access forbidden.');
 }
+
+namespace Koch\MVC;
 
 /**
  * Interface for the Response Object
  *
- * @category    Clansuite
+ * @category    Koch
  * @package     Core
  * @subpackage  HttpResponse
  */
-interface Clansuite_Response_Interface
+interface HttpResponse
 {
     # Output Methods
     public static function setStatusCode($statusCode);
@@ -57,17 +59,17 @@ interface Clansuite_Response_Interface
 }
 
 /**
- * Clansuite_HttpResponse $response
+ * Koch_HttpResponse $response
  *
- * Purpose:  Clansuite Core Class for Response Handling
+ * Purpose:  Koch Framework Class for Response Handling
  *
- * This class represents the web response object on a request processed by Clansuite.
+ * This class represents the web response object on a request processed by Koch Framework.
  *
- * @category    Clansuite
+ * @category    Koch
  * @package     Core
  * @subpackage  HttpResponse
  */
-class Clansuite_HttpResponse implements Clansuite_Response_Interface
+class HttpResponse implements HttpResponse
 {
     /**
      * Status of the response as integer value.
@@ -249,7 +251,7 @@ class Clansuite_HttpResponse implements Clansuite_Response_Interface
         # activateOutputCompression when not in debugging mode
         if( XDEBUG === false and DEBUG === false)
         {
-            Clansuite_ResponseEncode::start_outputbuffering('7');
+            Koch_ResponseEncode::start_outputbuffering('7');
         }
 
         # Send the status line
@@ -284,7 +286,7 @@ class Clansuite_HttpResponse implements Clansuite_Response_Interface
         // Flush Compressed Buffer
         if( XDEBUG === false and DEBUG === false)
         {
-            Clansuite_ResponseEncode::end_outputbuffering();
+            Koch_ResponseEncode::end_outputbuffering();
 
             # send response and do some more php processing afterwards
             if(is_callable('fastcgi_finish_request') === true)
@@ -412,7 +414,7 @@ class Clansuite_HttpResponse implements Clansuite_Response_Interface
             #  split at tunneling separator
             $array = explode('#', $message);
             # results in: array[0] = type and array[1] = message)
-            Clansuite_Flashmessages::setMessage($array[0], $array[1]);
+            Koch_Flashmessages::setMessage($array[0], $array[1]);
             # return the message
             return $array[1];
         }
@@ -456,7 +458,7 @@ class Clansuite_HttpResponse implements Clansuite_Response_Interface
     public static function redirect($url, $time = 0, $statusCode = 303, $message = null, $mode = null)
     {
         # convert from internal slashed format to external URL
-        $url = Clansuite_Router::buildURL($url, false);
+        $url = Koch_Router::buildURL($url, false);
 
         $filename = '';
         $linenum = '';

@@ -24,7 +24,7 @@
  */
 function smarty_modifier_megabytes($string)
 {
-    return Clansuite_Functions::getsize($string);
+    return Koch_Functions::getsize($string);
 }
 
 /* vim: set expandtab: */

@@ -1,10 +1,10 @@
 <?php
     /**
-     * Clansuite - just an eSports CMS
+     * Koch Framework
      * Jens-André Koch © 2005 - onwards
      * http://www.clansuite.com/
      *
-     * This file is part of "Clansuite - just an eSports CMS".
+     * This file is part of "Koch Framework".
      *
      * LICENSE:
      *
@@ -33,22 +33,24 @@
 # Security Handler
 if (defined('IN_CS') === false)
 {
-    die('Clansuite not loaded. Direct Access forbidden.' );
+    die('Koch Framework not loaded. Direct Access forbidden.' );
 }
 
+namespace Koch\View\Renderer;
+
 /**
- * Clansuite View Class - View for XSLT/XML
+ * Koch FrameworkView Class - View for XSLT/XML
  *
  * This is a wrapper/adapter for returning XML/XSLT data.
  *
  * @author     Jens-André Koch <vain@clansuite.com>
  * @copyright  Jens-André Koch (2005-onwards)
  *
- * @category    Clansuite
+ * @category    Koch
  * @package     Core
  * @subpackage  View
  */
-class Clansuite_Renderer_Xslt extends Clansuite_Renderer_Base
+class Xslt extends Renderer_Base
 {
     /**
      * holds instance of XSLT Render Engine (object)
@@ -62,7 +64,7 @@ class Clansuite_Renderer_Xslt extends Clansuite_Renderer_Base
      */
     protected $xslfile = null;
 
-    public function __construct(Clansuite_Config $config)
+    public function __construct(Koch_Config $config)
     {
         parent::__construct($config);
 

@@ -1,10 +1,10 @@
 <?php
    /**
-    * Clansuite - just an eSports CMS
+    * Koch Framework
     * Jens-André Koch © 2005 - onwards
     * http://www.clansuite.com/
     *
-    * This file is part of "Clansuite - just an eSports CMS".
+    * This file is part of "Koch Framework".
     *
     * LICENSE:
     *
@@ -33,21 +33,23 @@
 # Security Handler
 if(defined('IN_CS') === false)
 {
-    die('Clansuite not loaded. Direct Access forbidden.');
+    die('Koch Framework not loaded. Direct Access forbidden.');
 }
 
+namespace Koch\Debug;
+
 /**
- * Clansuite_Debug
+ * Koch_Debug
  *
  * This class initializes debugging helpers like xdebug, the doctrine profiler,
  * firebug and printR at system start-up and displays debug
  * and runtime-informations on demand or at application shutdown.
  *
- * @category    Clansuite
+ * @category    Koch
  * @package     Core
  * @subpackage  Debug
  */
-class Clansuite_Debug
+class Debug
 {
     /**
      * This is an replacement for the native php function print_r() with an upgraded display.
@@ -203,7 +205,7 @@ class Clansuite_Debug
      *
      * This is used to determine the origin of the debug call.
      * Its mostly used in combination with several debug calls,
-     * like Clansuite_Debug::firebug() or Clansuite_Debug::printR()
+     * like Koch_Debug::firebug() or Koch_Debug::printR()
      * which are enhanced debug displays.
      *
      * It is a very helpful reminder to find and remove debug calls,
@@ -272,15 +274,15 @@ class Clansuite_Debug
 
         # total number of included files
         $includedFilesCount = count($includedFiles);
-        $includedFilesTotalSize = Clansuite_Functions::getsize($includedFilesTotalSize);
+        $includedFilesTotalSize = Koch_Functions::getsize($includedFilesTotalSize);
 
         self::printR(array('count' => $includedFilesCount, 'size' => $includedFilesTotalSize, 'files' => $includedFiles));
     }
 
     /**
-     * Lists all user defined constants (Clansuite Constants).
+     * Lists all user defined constants (Application Constants).
      */
-    public static function getClansuiteConstants()
+    public static function getApplicationConstants()
     {
         $constants = get_defined_constants(true);
         self::printR($constants['user']);

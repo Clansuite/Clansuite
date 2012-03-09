@@ -1,10 +1,10 @@
 <?php
    /**
-    * Clansuite - just an eSports CMS
+    * Koch Framework
     * Jens-André Koch © 2005 - onwards
     * http://www.clansuite.com/
     *
-    * This file is part of "Clansuite - just an eSports CMS".
+    * This file is part of "Koch Framework".
     *
     * LICENSE:
     *
@@ -33,15 +33,17 @@
 # Security Handler
 if(defined('IN_CS') === false)
 {
-    die('Clansuite not loaded. Direct Access forbidden.');
+    die('Koch Framework not loaded. Direct Access forbidden.');
 }
+
+namespace Koch\Cache;
 
 class Cache
 {
     /**
      * The cache object wrapping the cache access.
      *
-     * @var Clansuite_Cache $cacheObject The cache object.
+     * @var Koch_Cache $cacheObject The cache object.
      */
     private static $cacheObject = null;
 
@@ -49,13 +51,13 @@ class Cache
      * Instantiates a cache adapter
      *
      * @param string $adapter The cache adapter to instantiate. Defaults to apc.
-     * @return Clansuite_Cache_Interface Cache object of the requested adapter type.
+     * @return Koch_Cache_Interface Cache object of the requested adapter type.
      */
     public static function instantiate($adapter = 'apc')
     {
         if(self::$cacheObject === null)
         {
-            self::$cacheObject = Clansuite_Cache_Factory::getCache($adapter);
+            self::$cacheObject = Koch_Cache_Factory::getCache($adapter);
         }
 
         return self::$cacheObject;

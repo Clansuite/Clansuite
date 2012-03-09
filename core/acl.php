@@ -1,10 +1,10 @@
 <?php
    /**
-    * Clansuite - just an E-Sport CMS
+    * Koch Framework- just an E-Sport CMS
     * Jens-André Koch © 2005 - onwards
     * http://www.clansuite.com/
     *
-    * This file is part of "Clansuite - just an eSports CMS".
+    * This file is part of "Koch Framework".
     *
     * LICENSE:
     *
@@ -33,19 +33,21 @@
 # Security Handler
 if(defined('IN_CS') === false)
 {
-    die('Clansuite not loaded. Direct Access forbidden.');
+    die('Koch Framework not loaded. Direct Access forbidden.');
 }
 
+namespace Koch;
+
 /**
- * Clansuite Core Class for Role and User Based Access Control Management
+ * Koch Framework Class for Role and User Based Access Control Management
  *
  * @author      Paul Brand <info@isp-tenerife.net>
  *
- * @category    Clansuite
+ * @category    Koch
  * @package     Core
  * @subpackage  ACL
  */
-class Clansuite_ACL
+class ACL
 {
     /*
      * Roles Container
@@ -92,7 +94,7 @@ class Clansuite_ACL
      * checkPermission
      *
      * Checks if the user has a certain permission
-     * Proxy Method for Clansuite_ACL::checkPermission()
+     * Proxy Method for Koch_ACL::checkPermission()
      *
      * Two values are necessary the modulname and the name of the permission,
      * which is often the actionname.
@@ -291,7 +293,7 @@ class Clansuite_ACL
         }
 
         $permstring = mb_substr( $permstring, 0, strlen($permstring)-1);
-        #Clansuite_Debug::printR($permstring);
+        #Koch_Debug::printR($permstring);
 
         return $permstring;
     }

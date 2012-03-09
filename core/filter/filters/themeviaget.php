@@ -1,10 +1,10 @@
 <?php
    /**
-    * Clansuite - just an eSports CMS
+    * Koch Framework
     * Jens-André Koch © 2005 - onwards
     * http://www.clansuite.com/
     *
-    * This file is part of "Clansuite - just an eSports CMS".
+    * This file is part of "Koch Framework".
     *
     * LICENSE:
     *
@@ -33,33 +33,35 @@
 # Security Handler
 if(defined('IN_CS') === false)
 {
-    die('Clansuite not loaded. Direct Access forbidden.');
+    die('Koch Framework not loaded. Direct Access forbidden.');
 }
 
+namespace Koch\Filter;
+
 /**
- * Clansuite Filter - Theme via URL
+ * Koch FrameworkFilter - Theme via URL
  *
  * Purpose: Sets Theme via URL by appendix $_GET['theme']
  * Usage example: index.php?theme=themename
  * When request parameter 'theme' is set, the user session value for theme will be updated
  *
- * @category    Clansuite
+ * @category    Koch
  * @package     Core
  * @subpackage  Filters
  */
-class Clansuite_Filter_ThemeViaGet implements Clansuite_Filter_Interface
+class ThemeViaGet implements Filter
 {
     private $config     = null;
     private $input      = null;
 
-    public function __construct(Clansuite_Config $config, Clansuite_Inputfilter $input)
+    public function __construct(Koch_Config $config, Koch_Inputfilter $input)
     {
         # reduce array size by selection of the section
         $this->config = $config['switches'];
         $this->input  = $input;
     }
 
-    public function executeFilter(Clansuite_HttpRequest $request, Clansuite_HttpResponse $response)
+    public function executeFilter(Koch_HttpRequest $request, Koch_HttpResponse $response)
     {
         # themeswitching must is enabled in configuration
         if($this->config['themeswitch_via_url'] == 1)

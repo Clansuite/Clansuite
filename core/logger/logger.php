@@ -1,10 +1,10 @@
 <?php
    /**
-    * Clansuite - just an eSports CMS
+    * Koch Framework
     * Jens-André Koch © 2005 - onwards
     * http://www.clansuite.com/
     *
-    * This file is part of "Clansuite - just an eSports CMS".
+    * This file is part of "Koch Framework".
     *
     * LICENSE:
     *
@@ -33,34 +33,36 @@
 # Security Handler
 if (defined('IN_CS') === false)
 {
-    die('Clansuite not loaded. Direct Access forbidden.');
+    die('Koch Framework not loaded. Direct Access forbidden.');
 }
+
+namespace Koch\Logger\Helper;
 
 /**
  * Interface for the Logger Object
  *
- * @category    Clansuite
+ * @category    Koch
  * @package     Core
  * @subpackage  Logger
  */
-interface Clansuite_Logger_Interface
+interface Logger
 {
     # each logger has to provide the method writeLog()
     public function writeLog($data);
 }
 
 /**
- * Clansuite_Logger
+ * Koch_Logger
  *
  * This class represents a compositum for all loggers.
  * A new logger object is added with addLogger(), removed with removeLogger().
  * The composition is fired via method writeLog().
  *
- * @category    Clansuite
+ * @category    Koch
  * @package     Core
  * @subpackage  Logger
  */
-class Clansuite_Logger implements Clansuite_Logger_Interface
+class Logger implements Logger
 {
     /**
      * @var array Array constains a object composition of all loggers
@@ -112,7 +114,7 @@ class Clansuite_Logger implements Clansuite_Logger_Interface
 
         foreach($loggers as $logger)
         {
-            if((in_array($logger, $this->loggers) == false) and ($logger instanceof Clansuite_Logger_Interface))
+            if((in_array($logger, $this->loggers) == false) and ($logger instanceof Koch_Logger_Interface))
             {
                 $this->loggers[] = $logger;
             }
@@ -144,7 +146,7 @@ class Clansuite_Logger implements Clansuite_Logger_Interface
      * Its a Logger Factory Method, which includeds, instantiates and returns a logger object.
      *
      * @param string $adapter Name of logger: file, firebug (default), db.
-     * @return Clansuite_Logger Object
+     * @return Koch_Logger Object
      */
     public static function instantiate($adapter = 'firebug')
     {
@@ -152,7 +154,7 @@ class Clansuite_Logger implements Clansuite_Logger_Interface
 
         if(is_file($file) === true)
         {
-            $class = 'Clansuite_Logger_' . $adapter;
+            $class = 'Koch_Logger_' . $adapter;
             if(false === class_exists($class, false))
             {
                 include $file;
@@ -165,12 +167,12 @@ class Clansuite_Logger implements Clansuite_Logger_Interface
             }
             else
             {
-                throw new Clansuite_Exception('Logger_Factory -> Class not found: ' . $class, 50);
+                throw new Koch_Exception('Logger_Factory -> Class not found: ' . $class, 50);
             }
         }
         else
         {
-            throw new Clansuite_Exception('Logger_Factory -> File not found: ' . $file, 51);
+            throw new Koch_Exception('Logger_Factory -> File not found: ' . $file, 51);
         }
     }
 }

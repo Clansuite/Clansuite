@@ -2,7 +2,7 @@
 /**
  * Smarty plugin
  * @package Smarty
- * @subpackage Clansuite Plugins / Smarty View Helper
+ * @subpackage Plugins
  */
 
 /**
@@ -26,7 +26,7 @@
  */
 function smarty_function_modulenavigation($params, $smarty)
 {
-    $module = Clansuite_HttpRequest::getRoute()->getModuleName();
+    $module = Koch_HttpRequest::getRoute()->getModuleName();
 
     $file = ROOT_MOD. $module . DS . $module . '.menu.php';
 
@@ -69,7 +69,7 @@ function applyCallbacks(array $modulenavigation)
      * This replaces the values of the 'url' key (array['url']),
      * because these might be shorthands, like "/index/show".
      */
-    $modulenavigation['url'] = Clansuite_Router::buildURL($modulenavigation['url']);
+    $modulenavigation['url'] = Koch_Router::buildURL($modulenavigation['url']);
 
     /**
      * 2) Conditions of menu items

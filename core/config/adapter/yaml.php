@@ -1,10 +1,10 @@
 <?php
    /**
-    * Clansuite - just an eSports CMS
+    * Koch Framework
     * Jens-André Koch © 2005 - onwards
     * http://www.clansuite.com/
     *
-    * This file is part of "Clansuite - just an eSports CMS".
+    * This file is part of "Koch Framework".
     *
     * LICENSE:
     *
@@ -34,11 +34,13 @@
 # Security Handler
 if(defined('IN_CS') === false)
 {
-    die('Clansuite not loaded. Direct Access forbidden.');
+    die('Koch Framework not loaded. Direct Access forbidden.');
 }
 
+namespace Koch\Config;
+
 /**
- * Clansuite Core File - Config Handler for YAML Format
+ * Koch FrameworkCore File - Config Handler for YAML Format
  *
  * Purpose: This Confighandler supports the YAML-Fileformat.
  *
@@ -58,11 +60,11 @@ if(defined('IN_CS') === false)
  * @link http://github.com/why/syck/tree/master PECL SYCK Repository
  * @link http://spyc.sourceforge.net/ SPYC Library Website at Sourceforge
  *
- * @category    Clansuite
+ * @category    Koch
  * @package     Core
  * @subpackage  Configuration
  */
-class Clansuite_Config_YAML
+class YAML
 {
     /**
      * Constructor
@@ -73,7 +75,7 @@ class Clansuite_Config_YAML
     }
 
     /**
-     * Clansuite_Config_YAML is a Singleton
+     * Koch_Config_YAML is a Singleton
      *
      * @param string $file Filename
      * @return instance of Config_YAML class
@@ -84,7 +86,7 @@ class Clansuite_Config_YAML
 
         if(isset($instance) === false)
         {
-            $instance = new Clansuite_Config_YAML($file);
+            $instance = new Koch_Config_YAML($file);
         }
 
         return $instance;
@@ -125,7 +127,7 @@ class Clansuite_Config_YAML
         }
         else # we have no YAML Parser - too bad :(
         {
-            throw new Clansuite_Exception('No YAML Parser available. Get Spyc or Syck!');
+            throw new Koch_Exception('No YAML Parser available. Get Spyc or Syck!');
         }
 
         /**
@@ -147,7 +149,7 @@ class Clansuite_Config_YAML
         # check if the filename exists
         if(is_file($file) === false or is_readable($file) === false)
         {
-            throw new Clansuite_Exception('YAML File ' . $file . ' not existing or not readable.');
+            throw new Koch_Exception('YAML File ' . $file . ' not existing or not readable.');
         }
 
         # init
@@ -183,7 +185,7 @@ class Clansuite_Config_YAML
         }
         else # we have no YAML Parser - too bad :(
         {
-            throw new Clansuite_Exception('No YAML Parser available. Get Spyc or Syck!');
+            throw new Koch_Exception('No YAML Parser available. Get Spyc or Syck!');
         }
 
         return $array;

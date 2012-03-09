@@ -1,10 +1,10 @@
 <?php
    /**
-    * Clansuite - just an eSports CMS
+    * Koch Framework
     * Jens-André Koch © 2005 - onwards
     * http://www.clansuite.com/
     *
-    * This file is part of "Clansuite - just an eSports CMS".
+    * This file is part of "Koch Framework".
     *
     * LICENSE:
     *
@@ -33,22 +33,24 @@
 # Security Handler
 if(defined('IN_CS') === false)
 {
-    die('Clansuite not loaded. Direct Access forbidden.');
+    die('Koch Framework not loaded. Direct Access forbidden.');
 }
 
+namespace Koch\Localization\Gettext;
+
 /**
- * Clansuite_Gettext_Extractor_Template
+ * Koch_Gettext_Extractor_Template
  *
  * Extracts translation strings from templates by scanning for certain placeholders, like {t}, {_}.
  *
  * @author Karel Klíma
  * @author Jens-Andre Koch
  *
- * @category    Clansuite
+ * @category    Koch
  * @package     Core
  * @subpackage  Gettext
  */
-class Clansuite_Gettext_Extractor_Template extends Clansuite_Gettext_Extractor_Base implements Clansuite_Gettext_Extractor_Interface
+class Template extends Base implements Extractor
 {
     const L_DELIMITER = '{';
     const R_DELIMITER = '}';

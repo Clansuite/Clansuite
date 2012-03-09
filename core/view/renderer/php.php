@@ -1,10 +1,10 @@
 <?php
    /**
-    * Clansuite - just an eSports CMS
+    * Koch Framework
     * Jens-André Koch © 2005 - onwards
     * http://www.clansuite.com/
     *
-    * This file is part of "Clansuite - just an eSports CMS".
+    * This file is part of "Koch Framework".
     *
     * LICENSE:
     *
@@ -33,23 +33,25 @@
 # Security Handler
 if(defined('IN_CS') === false)
 {
-    die('Clansuite not loaded. Direct Access forbidden.');
+    die('Koch Framework not loaded. Direct Access forbidden.');
 }
 
+namespace Koch\View\Renderer;
+
 /**
- * Clansuite Renderer Class - Renderer for native PHP Templates
+ * Koch FrameworkRenderer Class - Renderer for native PHP Templates
  *
  * This is a wrapper/adapter for using native PHP as Template Engine.
  *
  * @author     Jens-André Koch <vain@clansuite.com>
  * @copyright  Jens-André Koch (2005-onwards)
  *
- * @category    Clansuite
+ * @category    Koch
  * @package     Core
  * @subpackage  Renderer
  */
 
-class Clansuite_Renderer_Php extends Clansuite_Renderer_Base
+class Php extends Renderer_Base
 {
     private $file;
 
@@ -91,7 +93,7 @@ class Clansuite_Renderer_Php extends Clansuite_Renderer_Base
         }
         else
         {
-            throw new Clansuite_Excpetion('PHP Renderer Error: Template ' . $file . ' not found!', 99);
+            throw new Koch_Excpetion('PHP Renderer Error: Template ' . $file . ' not found!', 99);
         }
     }
 
@@ -100,7 +102,7 @@ class Clansuite_Renderer_Php extends Clansuite_Renderer_Base
      *
      * @param mixed $key Object with template vars (extraction method fetch), or array or key/value pair
      * @param mixed $value Variable value
-     * @return Clansuite_Renderer_PHP
+     * @return Koch_Renderer_PHP
      */
     public function assign($key, $value=null)
     {
@@ -139,7 +141,7 @@ class Clansuite_Renderer_Php extends Clansuite_Renderer_Base
      * Render the content and return it
      *
      * @example
-     * echo new Clansuite_Renderer_PHP($file, array('title' => 'My title'));
+     * echo new Koch_Renderer_PHP($file, array('title' => 'My title'));
      *
      * @return string  HTML Representation
      */

@@ -1,10 +1,10 @@
 <?php
    /**
-    * Clansuite - just an eSports CMS
+    * Koch Framework
     * Jens-André Koch © 2005 - onwards
     * http://www.clansuite.com/
     *
-    * This file is part of "Clansuite - just an eSports CMS".
+    * This file is part of "Koch Framework".
     *
     * LICENSE:
     *
@@ -33,28 +33,30 @@
 # Security Handler
 if(defined('IN_CS') === false)
 {
-    die('Clansuite not loaded. Direct Access forbidden.');
+    die('Koch Framework not loaded. Direct Access forbidden.');
 }
+
+namespace Koch\MVC;
 
 /**
  * Interface for FrontController
  *
  * The Frontcontroller has to implement the following methods.
  *
- * @category    Clansuite
+ * @category    Koch
  * @package     Core
  * @subpackage  FrontController
  */
-interface Clansuite_Front_Controller_Interface
+interface FrontController
 {
-    public function __construct(Clansuite_Request_Interface $request, Clansuite_Response_Interface $response);
+    public function __construct(Koch_Request_Interface $request, Koch_Response_Interface $response);
     public function processRequest();
-    public function addPreFilter(Clansuite_Filter_Interface $filter);
-    public function addPostFilter(Clansuite_Filter_Interface $filter);
+    public function addPreFilter(Koch_Filter_Interface $filter);
+    public function addPostFilter(Koch_Filter_Interface $filter);
 }
 
 /**
- * Clansuite FrontController
+ * Koch FrameworkFrontController
  *
  * It's basically a FrontController (which should better be named RequestController)
  * with fassade (addPreFilter, addPostFilter) to both filtermanagers / filterchains on top.
@@ -68,53 +70,53 @@ interface Clansuite_Front_Controller_Interface
  * the ActionController_Resolver_Interface (so it's again an implementation against an interface)
  * and the Dependency Injector.
  *
- * @category    Clansuite
+ * @category    Koch
  * @package     Core
  * @subpackage  FrontController
  */
-class Clansuite_Front_Controller implements Clansuite_Front_Controller_Interface
+class FrontController implements FrontController
 {
     /**
-     * @var object \Clansuite_HttpRequest
+     * @var object \Koch_HttpRequest
      */
     private $request;
 
     /**
-     * @var object \Clansuite_HttpResponse
+     * @var object \Koch_HttpResponse
      */
     private $response;
 
     /**
-     * @var object \Clansuite_Router
+     * @var object \Koch_Router
      */
     private $router;
 
     /**
-     * @var object \Clansuite_FilterManager for Prefilters
+     * @var object \Koch_FilterManager for Prefilters
      */
     private $pre_filtermanager;
 
     /**
-     * @var object \Clansuite_FilterManager for Postfilters
+     * @var object \Koch_FilterManager for Postfilters
      */
     private $post_filtermanager;
 
     /**
-     * @var object \Clansuite_EventDispatcher
+     * @var object \Koch_EventDispatcher
      */
     private $event_dispatcher;
 
     /**
      * Constructor
      */
-    public function __construct(Clansuite_Request_Interface $request, Clansuite_Response_Interface $response)
+    public function __construct(Koch_Request_Interface $request, Koch_Response_Interface $response)
     {
         $this->request            = $request;
         $this->response           = $response;
-        $this->pre_filtermanager  = new Clansuite_Filtermanager();
-        $this->post_filtermanager = new Clansuite_Filtermanager();
-        $this->event_dispatcher   = Clansuite_EventDispatcher::instantiate();
-        $this->router             = new Clansuite_Router($this->request);
+        $this->pre_filtermanager  = new Koch_Filtermanager();
+        $this->post_filtermanager = new Koch_Filtermanager();
+        $this->event_dispatcher   = Koch_EventDispatcher::instantiate();
+        $this->router             = new Koch_Router($this->request);
     }
 
     /**
@@ -122,9 +124,9 @@ class Clansuite_Front_Controller implements Clansuite_Front_Controller_Interface
      *
      * This filter is processed *before* the Controller->Action is executed.
      *
-     * @param object $filter Object implementing the Clansuite_Filter_Interface.
+     * @param object $filter Object implementing the Koch_Filter_Interface.
      */
-    public function addPreFilter(Clansuite_Filter_Interface $filter)
+    public function addPreFilter(Koch_Filter_Interface $filter)
     {
         $this->pre_filtermanager->addFilter($filter);
     }
@@ -134,15 +136,15 @@ class Clansuite_Front_Controller implements Clansuite_Front_Controller_Interface
      *
      * This filter is processed *after* Controller->Action was executed.
      *
-     * @param object $filter Object implementing the Clansuite_Filter_Interface.
+     * @param object $filter Object implementing the Koch_Filter_Interface.
      */
-    public function addPostFilter(Clansuite_Filter_Interface $filter)
+    public function addPostFilter(Koch_Filter_Interface $filter)
     {
         $this->post_filtermanager->addFilter($filter);
     }
 
     /**
-     * Clansuite_Front_Controller::processRequest() = dispatch()
+     * Koch_Front_Controller::processRequest() = dispatch()
      *
      * Speaking in very basic concepts: this is a RequestHandler.
      * The C in MVC. It handles the dispatching of the request.
@@ -182,16 +184,16 @@ class Clansuite_Front_Controller implements Clansuite_Front_Controller_Interface
 
         if($route === null)
         {
-            throw new Clansuite_Exception('The dispatcher is unable to forward. No route object given.', 99);
+            throw new Koch_Exception('The dispatcher is unable to forward. No route object given.', 99);
         }
 
         $classname    = $route::getClassname();
         $method       = $route::getMethod();
         $parameters   = $route::getParameters();
-        #$request_meth = Clansuite_HttpRequest::getRequestMethod();
+        #$request_meth = Koch_HttpRequest::getRequestMethod();
         #$renderengine = $route::getRenderEngine();
 
-        #$this->event_dispatcher->addEventHandler('onBeforeControllerMethodCall', new Clansuite_Event_InitializeModule());
+        #$this->event_dispatcher->addEventHandler('onBeforeControllerMethodCall', new Koch_Event_InitializeModule());
 
         $controllerInstance = new $classname($request, $response);
 
@@ -210,7 +212,7 @@ class Clansuite_Front_Controller implements Clansuite_Front_Controller_Interface
             $controllerInstance->_initializeModule();
         }
 
-        Clansuite_Breadcrumb::initBreadcrumbs($route->getModuleName(), $route->getSubmoduleName());
+        Koch_Breadcrumb::initBreadcrumbs($route->getModuleName(), $route->getSubmoduleName());
 
         /**
          * Finally: dispatch to the requested controller method

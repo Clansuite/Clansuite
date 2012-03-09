@@ -1,6 +1,6 @@
 <?php
    /**
-    * Clansuite - just an eSports CMS
+    * Koch Framework
     * Jens-André Koch © 2005 - onwards
     * http://www.clansuite.com/
     *
@@ -31,8 +31,10 @@
 # Security Handler
 if(defined('IN_CS') === false)
 {
-    die('Clansuite not loaded. Direct Access forbidden.');
+    die('Koch Framework not loaded. Direct Access forbidden.');
 }
+
+namespace Koch\Config;
 
 /**
  * Configuration Factory
@@ -40,11 +42,11 @@ if(defined('IN_CS') === false)
  * The static method getConfiguration() includes and instantiates a Configuration Engine Object
  * and injects the configfile.
  *
- * @category    Clansuite
+ * @category    Koch
  * @package     Core
  * @subpackage  Config
  */
-class Clansuite_Config_Factory
+class Factory
 {
     /**
      * Instantiates the correct subclass determined by the fileextension
@@ -88,7 +90,7 @@ class Clansuite_Config_Factory
         }
         else
         {
-            throw new Clansuite_Exception('No handler for that type of configuration file found (' . $extension .')');
+            throw new Koch_Exception('No handler for that type of configuration file found (' . $extension .')');
         }
 
         return $adapter;
@@ -139,7 +141,7 @@ class Clansuite_Config_Factory
 
         if(is_file($file) === true)
         {
-            $class = 'Clansuite_Config_' . strtoupper($adapter);
+            $class = 'Koch_Config_' . strtoupper($adapter);
 
             if(false === class_exists($class, false))
             {
@@ -149,16 +151,16 @@ class Clansuite_Config_Factory
             if(true === class_exists($class, false))
             {
                 # instantiate and return the specific confighandler with the $configfile to read
-                return $class::getInstance();                
+                return $class::getInstance();
             }
             else
             {
-                throw new Clansuite_Exception('Config_Factory -> Class not found: ' . $class, 40);
+                throw new Koch_Exception('Config_Factory -> Class not found: ' . $class, 40);
             }
         }
         else
         {
-            throw new Clansuite_Exception('Config_Factory -> File not found: ' . $file, 41);
+            throw new Koch_Exception('Config_Factory -> File not found: ' . $file, 41);
         }
     }
 }

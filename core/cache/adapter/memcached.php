@@ -1,10 +1,10 @@
 <?php
     /**
-     * Clansuite - just an eSports CMS
+     * Koch Framework
      * Jens-André Koch © 2005 - onwards
      * http://www.clansuite.com/
      *
-     * This file is part of "Clansuite - just an eSports CMS".
+     * This file is part of "Koch Framework".
      *
      * LICENSE:
      *
@@ -33,11 +33,13 @@
 # Security Handler
 if(defined('IN_CS') === false)
 {
-    die('Clansuite not loaded. Direct Access forbidden.');
+    die('Koch Framework not loaded. Direct Access forbidden.');
 }
 
+namespace Koch\Cache;
+
 /**
- * Clansuite Cache Handler for Memcached
+ * Koch FrameworkCache Handler for Memcached
  *
  * memcached is a high-performance, distributed memory object caching system, generic in nature,
  * but intended for use in speeding up dynamic web applications by alleviating database load.
@@ -53,11 +55,11 @@ if(defined('IN_CS') === false)
  * @link http://github.com/andreiz/php-memcached/tree/master
  * @link http://pecl.php.net/package/memcached
  *
- * @category    Clansuite
+ * @category    Koch
  * @package     Core
  * @subpackage  Cache
  */
-class Clansuite_Cache_Memcached extends Clansuite_Cache_Base implements Clansuite_Cache_Interface
+class Memcached extends Base implements Cache
 {
     /**
      * Memcached Server

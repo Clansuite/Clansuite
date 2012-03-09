@@ -1,10 +1,10 @@
 <?php
     /**
-     * Clansuite - just an eSports CMS
+     * Koch Framework
      * Jens-André Koch © 2005 - onwards
      * http://www.clansuite.com/
      *
-     * This file is part of "Clansuite - just an eSports CMS".
+     * This file is part of "Koch Framework".
      *
      * LICENSE:
      *
@@ -26,21 +26,16 @@
      * @author     Jens-André Koch <vain@clansuite.com>
      * @copyright  Jens-André Koch (2005 - onwards)
      * @link       http://www.clansuite.com
-     * 
+     *
      * @version    SVN: $Id$
      */
 
-# Security Handler
-/**
- * f (defined('IN_CS') === false)
- {
- * ie('Clansuite not loaded. Direct Access forbidden.');
- }
- */
-$cron = new Clansuite_Cronjobs;
+namespace Koch\Cronjob;
+
+$cron = new Cron;
 
 /**
- * Clansuite Cronjobs is a service wrapper class for stack processing of regular tasks.
+ * Koch FrameworkCronjobs is a service wrapper class for stack processing of regular tasks.
  *
  * This is a fork of Kai Blankenhorn's pseudo-cron v1.3
  * (c) 2003,2004 Kai Blankenhorn, www.bitfolge.de/pseudocron, <kaib@bitfolge.de>
@@ -153,11 +148,11 @@ $cron = new Clansuite_Cronjobs;
  * v1.0    01-17-2003
  *     initial release
  *
- * @category    Clansuite
+ * @category    Koch
  * @package     Core
  * @subpackage  Cron
  */
-class Clansuite_Cronjobs
+class Cronjobs
 {
     # Setting: How to load cronjobs from FILE or DB
 
@@ -401,9 +396,9 @@ class Clansuite_Cronjobs
             #echo '<br>Running     '.$job[self::const_PC_CRONLINE];
             #echo '<br> Last run:       '.date('r',$lastActual);
             #echo '<br> Last scheduled: '.date('r',$lastScheduled);
-            #Clansuite_Logger::writeLog('Running     '.$job[self::const_PC_CRONLINE]);
-            #Clansuite_Logger::writeLog('  Last run:       '.date('r',$lastActual));
-            #Clansuite_Logger::writeLog('  Last scheduled: '.date('r',$lastScheduled));
+            #Koch_Logger::writeLog('Running     '.$job[self::const_PC_CRONLINE]);
+            #Koch_Logger::writeLog('  Last run:       '.date('r',$lastActual));
+            #Koch_Logger::writeLog('  Last scheduled: '.date('r',$lastScheduled));
 
             /* if ($debug)
              {
@@ -413,7 +408,7 @@ class Clansuite_Cronjobs
             $jobname = mb_substr($job[self::const_PC_CMD], 9, -12);
 
             # instantiate job
-            $classname = 'Clansuite_Cronjob_' . ucfirst($jobname);
+            $classname = 'Koch_Cronjob_' . ucfirst($jobname);
             $job_object = new $classname;
             # execute
             $job_object->execute();
@@ -443,10 +438,10 @@ class Clansuite_Cronjobs
         {
             if($debug)
             {
-                Clansuite_Logger::writeLog('Skipping     ' . $job[self::const_PC_CRONLINE]);
-                Clansuite_Logger::writeLog('  Last run:       ' . date('r', $lastActual));
-                Clansuite_Logger::writeLog('  Last scheduled: ' . date('r', $lastScheduled));
-                Clansuite_Logger::writeLog('Completed    ' . $job[self::const_PC_CRONLINE]);
+                Koch_Logger::writeLog('Skipping     ' . $job[self::const_PC_CRONLINE]);
+                Koch_Logger::writeLog('  Last run:       ' . date('r', $lastActual));
+                Koch_Logger::writeLog('  Last scheduled: ' . date('r', $lastScheduled));
+                Koch_Logger::writeLog('Completed    ' . $job[self::const_PC_CRONLINE]);
             }
 
             return false;
@@ -584,9 +579,9 @@ class Clansuite_Cronjobs
 }
 
 /**
- * Interface for Clansuite_Cronjob
+ * Interface for Koch_Cronjob
  */
-interface Clansuite_Cronjob_Interface
+interface Koch_Cronjob_Interface
 {
     function execute();
 }

@@ -1,10 +1,10 @@
 <?php
    /**
-    * Clansuite - just an eSports CMS
+    * Koch Framework
     * Jens-André Koch © 2005 - onwards
     * http://www.clansuite.com/
     *
-    * This file is part of "Clansuite - just an eSports CMS".
+    * This file is part of "Koch Framework".
     *
     * LICENSE:
     *
@@ -33,16 +33,18 @@
 # Security Handler
 if(defined('IN_CS') === false)
 {
-    die('Clansuite not loaded. Direct Access forbidden.');
+    die('Koch Framework not loaded. Direct Access forbidden.');
 }
 
+namespace Koch;
+
 /**
- * Clansuite Core Class for Access Control Management
+ * Koch Framework Class for Access Control Management
  *
- * The Access Control Management System of Clansuite is based on and inspired by Sensei.
+ * The Access Control Management System of Koch Framework is based on and inspired by Sensei.
  * Fmpov Sensei was an experimental CMS to test Doctrine. By now (2009) i consider the
  * Sensei Project as dead (last SVN-commit 2007) and to save some of the work done,
- * i "forked" the ACL System and modified it for Clansuite.
+ * i "forked" the ACL System and modified it for Koch Framework.
  * The original implementation was done by :
  * @author      Janne Vanhala <jpvanhal@cc.hut.fi>
  * @author      Konsta Vesterinen <kvesteri@cc.hut.fi>
@@ -53,11 +55,11 @@ if(defined('IN_CS') === false)
  * @copyright   Jens-André Koch (2009-onwards)
  * @license     GNU/GPL v2 or (at your option) any later version, see "/doc/LICENSE".
  *
- * @category    Clansuite
+ * @category    Koch
  * @package     Core
  * @subpackage  ACM
  */
-class Clansuite_ACM
+class ACM
 {
     /**
      * removeAccess
@@ -65,7 +67,7 @@ class Clansuite_ACM
      *
      * Removes an access rule defined for this user.
      *
-     * @param Clansuite_User|Clansuite_Group $record
+     * @param Koch_User|Koch_Group $record
      * @param string $resource     name of the resource
      * @param string $permission   name of the permission
      *
@@ -74,19 +76,19 @@ class Clansuite_ACM
     public function removeAccess(Doctrine_Record $record, $resource = null, $permission = null)
     {
         # ensure $record is either object of type User or Group
-        if($record instanceof Clansuite_User)
+        if($record instanceof Koch_User)
         {
-            $accessClass = 'Clansuite_Acl_UserAccess';
+            $accessClass = 'Koch_Acl_UserAccess';
             $linkField = 'user_id';
         }
-        elseif($record instanceof Clansuite_Group)
+        elseif($record instanceof Koch_Group)
         {
-            $accessClass = 'Clansuite_Acl_GroupAccess';
+            $accessClass = 'Koch_Acl_GroupAccess';
             $linkField = 'group_id';
         }
         else
         {
-            throw new Clansuite_Exception('Unknown object given to ACM.');
+            throw new Koch_Exception('Unknown object given to ACM.');
         }
 
         if($permission === null)
@@ -116,7 +118,7 @@ class Clansuite_ACM
      * Defines whether given user/group is allowed or denied to access given resource
      * with given permission.
      *
-     * @param Clansuite_User|Clansuite_Group $record
+     * @param Koch_User|Koch_Group $record
      * @param string $resource        name of the resource
      * @param string $permission      name of the permission
      * @param boolean $allow          defines whether this user has access to
@@ -124,19 +126,19 @@ class Clansuite_ACM
      */
     public function setAccess(Doctrine_Record $record, $resource = null, $permission = null, $allow)
     {
-        if($record instanceof Clansuite_User)
+        if($record instanceof Koch_User)
         {
-            $accessClass = 'Clansuite_Acl_UserAccess';
+            $accessClass = 'Koch_Acl_UserAccess';
             $linkField = 'user_id';
         }
-        elseif($record instanceof Clansuite_Group)
+        elseif($record instanceof Koch_Group)
         {
-            $accessClass = 'Clansuite_Acl_GroupAccess';
+            $accessClass = 'Koch_Acl_GroupAccess';
             $linkField = 'group_id';
         }
         else
         {
-            throw new Clansuite_Acl_Exception('Unknown object given.');
+            throw new Koch_Acl_Exception('Unknown object given.');
         }
 
         if($permission === null)
@@ -165,13 +167,13 @@ class Clansuite_ACM
             {
                 $link = Doctrine_Query::create()
                         #->select('*') #autoadded
-                        ->from('Clansuite_Acl_ResourcePermission p')
+                        ->from('Koch_Acl_ResourcePermission p')
                         ->where('p.resource = ? AND p.permission = ?')
                         ->fetchOne(array($resource, $permission), Doctrine::HYDRATE_ARRAY);
 
                 if(!$link)
                 {
-                    throw new Clansuite_Acl_Exception('Resource ' . $resource . ' does not have link to permission ' . $permission);
+                    throw new Koch_Acl_Exception('Resource ' . $resource . ' does not have link to permission ' . $permission);
                 }
             }
 
@@ -191,7 +193,7 @@ class Clansuite_ACM
      * Checks whether a user or a group has access to given resource with given
      * permission.
      *
-     * @param Clansuite_User|Clansuite_Group $record  A user or group object
+     * @param Koch_User|Koch_Group $record  A user or group object
      * @param string $resource Name of the resource. If null, global resource
      * is assumed.
      * @param string $permission Name of the permission. If null, global
@@ -200,10 +202,10 @@ class Clansuite_ACM
      */
     public function hasAccess(Doctrine_Record $record, $resource = null, $permission = null)
     {
-        if(!$record instanceof Clansuite_User &&
-                ! $record instanceof Clansuite_Group)
+        if(!$record instanceof Koch_User &&
+                ! $record instanceof Koch_Group)
         {
-            throw new Clansuite_Acl_Exception('Unknown object given.');
+            throw new Koch_Acl_Exception('Unknown object given.');
         }
 
         $defPerm = $this->getOption('global_permission');
@@ -261,7 +263,7 @@ class Clansuite_ACM
     {
         $link = Doctrine_Query::create()
                 #->select()
-                ->from('Clansuite_Acl_ResourcePermission p')
+                ->from('Koch_Acl_ResourcePermission p')
                 ->where('p.resource = ? AND p.permission = ?')
                 ->fetchOne(array($resource, $permission), Doctrine::HYDRATE_ARRAY);
 

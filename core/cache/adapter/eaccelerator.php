@@ -1,10 +1,10 @@
 <?php
    /**
-    * Clansuite - just an eSports CMS
+    * Koch Framework
     * Jens-André Koch © 2005 - onwards
     * http://www.clansuite.com/
     *
-    * This file is part of "Clansuite - just an eSports CMS".
+    * This file is part of "Koch Framework".
     *
     * LICENSE:
     *
@@ -33,11 +33,13 @@
 # Security Handler
 if (defined('IN_CS') === false)
 {
-    die('Clansuite not loaded. Direct Access forbidden.');
+    die('Koch Framework not loaded. Direct Access forbidden.');
 }
 
+namespace Koch\Cache;
+
 /**
- * Clansuite Cache Handler for eAccelerator
+ * Koch FrameworkCache Handler for eAccelerator
  *
  * eAccelerator was born in December 2004 as a fork of the Turck MMCache project (by Dmitry Stogov).
  * eAccelerator stores compiled PHP scripts in shared memory and executes code directly from it.
@@ -47,11 +49,11 @@ if (defined('IN_CS') === false)
  *
  * @link http://eaccelerator.net/
  *
- * @category    Clansuite
+ * @category    Koch
  * @package     Core
  * @subpackage  Cache
  */
-class Clansuite_Cache_Eaccelerator extends Clansuite_Cache_Base implements Clansuite_Cache_Interface
+class Eaccelerator extends Base implements Cache
 {
     /**
      * Constructor.

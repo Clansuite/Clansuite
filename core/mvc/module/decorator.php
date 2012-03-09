@@ -1,10 +1,10 @@
 <?php
    /**
-    * Clansuite - just an eSports CMS
+    * Koch Framework
     * Jens-André Koch © 2005 - onwards
     * http://www.clansuite.com/
     *
-    * This file is part of "Clansuite - just an eSports CMS".
+    * This file is part of "Koch Framework".
     *
     * LICENSE:
     *
@@ -33,8 +33,10 @@
 # Security Handler
 if(defined('IN_CS') === false)
 {
-    die('Clansuite not loaded. Direct Access forbidden.');
+    die('Koch Framework not loaded. Direct Access forbidden.');
 }
+
+namespace Koch\Module;
 
 /**
  * Decorator for the ModuleController
@@ -46,7 +48,7 @@ if(defined('IN_CS') === false)
  * @copyright  Jens-André Koch (2005 - onwards)
  * @version    0.1
  */
-class Clansuite_Module_ControllerDecorator
+class ControllerDecorator
 {
     # the moduleController to decorate
     protected $_moduleController;
@@ -54,7 +56,7 @@ class Clansuite_Module_ControllerDecorator
     /**
      * Decorate
      */
-    public function decorate(Clansuite_Module_Interface $moduleController)
+    public function decorate(Koch_Module_Interface $moduleController)
     {
         $this->_moduleController = $moduleController;
     }
@@ -73,7 +75,7 @@ class Clansuite_Module_ControllerDecorator
         }
 
         # is the method provided by an encapsulated decorator?
-        if($this->_moduleController instanceof Clansuite_Module_ControllerDecorator)
+        if($this->_moduleController instanceof Koch_Module_ControllerDecorator)
         {
             # dig into the encapsulated controller and ask for the method
             return $this->_moduleController->hasMethod($methodname);

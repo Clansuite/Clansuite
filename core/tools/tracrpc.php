@@ -1,4 +1,6 @@
 <?php
+namespace Koch\Tools;
+
 /**
  * Trac Remote Procedure Call (RPC) Class
  *

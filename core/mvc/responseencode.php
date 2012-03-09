@@ -1,10 +1,10 @@
 <?php
    /**
-    * Clansuite - just an eSports CMS
+    * Koch Framework
     * Jens-André Koch © 2005 - onwards
     * http://www.clansuite.com/
     *
-    * This file is part of "Clansuite - just an eSports CMS".
+    * This file is part of "Koch Framework".
     *
     * LICENSE:
     *
@@ -33,11 +33,13 @@
 # Security Handler
 if(defined('IN_CS') === false)
 {
-    die('Clansuite not loaded. Direct Access forbidden.');
+    die('Koch Framework not loaded. Direct Access forbidden.');
 }
 
+namespace Koch\MVC;
+
 /**
- * Clansuite_ResponseEncode
+ * Koch_ResponseEncode
  * formerly known as gzip_encode - a class to gzip encode php output.
  *
  * @author      Sandy McArthur, Jr. <Leknor@Leknor.com>
@@ -46,7 +48,7 @@ if(defined('IN_CS') === false)
  * @license     GNU/GPL v2 or (at your option) any later version, see "/doc/LICENSE"
  *
  * Usage:
- * 1. Include/require/autoload the class file (Clansuite_ResponseEncode).
+ * 1. Include/require/autoload the class file (Koch_ResponseEncode).
  * 2. Start Output buffering by calling
  *    self::start_outputbuffering();
  * 3. At the very end of your script you have to end the outputbuffering by calling
@@ -84,7 +86,7 @@ if(defined('IN_CS') === false)
  *          Removed second/third parameter.
  *          Removed unused class properties.
  *          Added start_outputbuffering() and end_outputbuffering methods.
- *          Renamed class from gzip_encode to Clansuite_ResponseEncode.
+ *          Renamed class from gzip_encode to Koch_ResponseEncode.
  *          Relicensed under GNU/GPL v2 or (at your option) any later version.
  *  0.68:   Applied latest fixed from the Typo3 Team.
  *  0.67:   Added Vary header to aid in caching.
@@ -112,9 +114,9 @@ if(defined('IN_CS') === false)
  *  0.2:    Checks for 'gzip' in the Accept-Encoding header
  *  0.1:    First working version.
  */
-class Clansuite_ResponseEncode
+class Koch_ResponseEncode
 {
-    # Version of the Clansuite_ResponseEncode class
+    # Version of the Koch_ResponseEncode class
     public static $version = 0.7;
 
     /**
@@ -154,13 +156,13 @@ class Clansuite_ResponseEncode
         }
         else
         {
-            trigger_error('Function gzcompress() not found. PHP Extension Zlib needs to be installed for Clansuite_ResponseEncode.', E_USER_WARNING);
+            trigger_error('Function gzcompress() not found. PHP Extension Zlib needs to be installed for Koch_ResponseEncode.', E_USER_WARNING);
             return;
         }
 
         if (function_exists('crc32') == false)
         {
-            trigger_error('Function crc32() not found. Needed for Clansuite_ResponseEncode', E_USER_WARNING);
+            trigger_error('Function crc32() not found. Needed for Koch_ResponseEncode', E_USER_WARNING);
             return;
         }
     }
@@ -275,7 +277,7 @@ class Clansuite_ResponseEncode
         header('Content-Encoding: ' . $encoding);
         header('Vary: Accept-Encoding');
         header('Content-Length: ' . (int) mb_strlen($gzdata));
-        header('X-Content-Encoded-By: Clansuite_ResponseEncode v' . self::$version);
+        header('X-Content-Encoded-By: Koch_ResponseEncode v' . self::$version);
 
         /**
          * Note by Jens-André Koch:

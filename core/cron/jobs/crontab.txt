@@ -1,4 +1,4 @@
-# Clansuite Crontab
+# Koch Framework Crontab
 #
 # Comments start with '#'
 #

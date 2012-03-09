@@ -1,14 +1,14 @@
 <?php
 /**
- * Clansuite Smarty Viewhelper
+ * Koch Framework Smarty Viewhelper
  *
- * @category Clansuite
+ * @category Koch
  * @package Smarty
  * @subpackage Viewhelper
  */
 
 /**
- * This smarty function is part of "Clansuite - just an eSports CMS"
+ * This smarty function is part of "Koch Framework"
  * @link http://www.clansuite.com
  *
  * @author Jens-André Koch <jakoch@web.de>
@@ -38,11 +38,11 @@ function smarty_block_messagebox($params, $text, $smarty)
         $textbox_type = $params['type'];
     }
 
-    # whitelist for messagebox_levels 
+    # whitelist for messagebox_levels
     $messagebox_level = array( 'hint', 'notice', 'alert', 'info');
 
     if (isset($params['level']) and in_array(mb_strtolower($params['level']), $messagebox_level))
-    {        
+    {
         $textbox_level = mb_strtolower($params['level']);
         unset($params['level']);
     }
@@ -61,12 +61,12 @@ function smarty_block_messagebox($params, $text, $smarty)
         case "div":
             $textbox_type = 'div';
             $sprintf_textbox_text .= '<div class="messagebox %2$s">%3$s</div>';
-            break;        
+            break;
         case "fieldset":
             $sprintf_textbox_text .= '<fieldset class="error_help %s"><legend>%s</legend><em>%s</em></fieldset>';
             break;
     }
-    
+
     $text = sprintf($sprintf_textbox_text, $textbox_type, $textbox_level, $text);
 
     return $text;

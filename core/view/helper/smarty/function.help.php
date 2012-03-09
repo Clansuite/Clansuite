@@ -2,7 +2,7 @@
 /**
  * Smarty plugin
  * @package Smarty
- * @subpackage Clansuite Plugins / Smarty View Helper
+ * @subpackage Plugins
  */
 
 /**
@@ -27,7 +27,7 @@
 function smarty_function_help($params, $smarty)
 {
     $modulename = $smarty->getTemplateVars('template_of_module');
-    
+
     # check if file exists
     if( $smarty->templateExists( $modulename. '/view/smarty/help.tpl') )
     {

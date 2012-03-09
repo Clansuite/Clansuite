@@ -410,7 +410,7 @@ if(false === function_exists('utf8_strtolower'))
             return mb_strtolower($string, 'utf-8');
         }
 
-        return strtr($string, Clansuite_UTF8_Character_Table::uppercase_to_lowercase());
+        return strtr($string, Koch_UTF8_Character_Table::uppercase_to_lowercase());
     }
 
 }
@@ -434,7 +434,7 @@ if(false === function_exists('utf8_strtoupper'))
             return mb_strtoupper($string, 'utf-8');
         }
 
-        return strtr($string, Clansuite_UTF8_Character_Table::lower_to_upper());
+        return strtr($string, Koch_UTF8_Character_Table::lower_to_upper());
     }
 
 }
@@ -524,12 +524,12 @@ if(false === function_exists('utf8_deaccent'))
         if($case <= 0)
         {
 
-            $string = strtr($string, Clansuite_UTF8_Character_Table::lowercaseaccents());
+            $string = strtr($string, Koch_UTF8_Character_Table::lowercaseaccents());
         }
 
         if($case >= 0)
         {
-            $string = strtr($string, Clansuite_UTF8_Character_Table::uppercaseaccents());
+            $string = strtr($string, Koch_UTF8_Character_Table::uppercaseaccents());
         }
 
         return $string;
@@ -552,7 +552,7 @@ if(false === function_exists('utf8_romanize'))
             return $string; # nothing to do
         }
 
-        return strtr($string, Clansuite_UTF8_Character_Table::romanize());
+        return strtr($string, Koch_UTF8_Character_Table::romanize());
     }
 
 }
@@ -577,8 +577,8 @@ if(false === function_exists('utf8_stripspecials'))
 
         if(null === $specials)
         {
-            #$specials = preg_quote(unicode_to_utf8(Clansuite_UTF8_Character_Table::specialchars()), '/');
-            $specials = preg_quote(Clansuite_UTF8_Character_Table::specialchars2(), '/');
+            #$specials = preg_quote(unicode_to_utf8(Koch_UTF8_Character_Table::specialchars()), '/');
+            $specials = preg_quote(Koch_UTF8_Character_Table::specialchars2(), '/');
         }
 
         return preg_replace('/[' . $additional . '\x00-\x19' . $specials . ']/u', $repl, $string);

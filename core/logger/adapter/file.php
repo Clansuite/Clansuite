@@ -1,10 +1,10 @@
 <?php
    /**
-    * Clansuite - just an eSports CMS
+    * Koch Framework
     * Jens-André Koch © 2005 - onwards
     * http://www.clansuite.com/
     *
-    * This file is part of "Clansuite - just an eSports CMS".
+    * This file is part of "Koch Framework".
     *
     * LICENSE:
     *
@@ -33,16 +33,13 @@
 # Security Handler
 if(defined('IN_CS') === false)
 {
-    die('Clansuite not loaded. Direct Access forbidden.');
+    die('Koch Framework not loaded. Direct Access forbidden.');
 }
 
-if(false === interface_exists('Clansuite_Logger_Interface', false))
-{
-    include ROOT_CORE . 'logger.core.php';
-}
+namespace Koch\Logger;
 
 /**
- * Clansuite Core File - Clansuite_Logger_File
+ * Koch FrameworkCore File - Koch_Logger_File
  *
  * This class is a service wrapper for logging messages to a logfile.
  *
@@ -50,17 +47,17 @@ if(false === interface_exists('Clansuite_Logger_Interface', false))
  * @copyright   Jens-André Koch (2005 - onwards)
  * @license     GPLv2 any later license
  *
- * @category    Clansuite
+ * @category    Koch
  * @package     Core
  * @subpackage  Logger
  */
-class Clansuite_Logger_File implements Clansuite_Logger_Interface
+class File implements Logger
 {
     private static $instance = null;
 
     private $config;
 
-    public function __construct(Clansuite_Config $config)
+    public function __construct(Koch_Config $config)
     {
         $this->config = $config;
     }
@@ -74,7 +71,7 @@ class Clansuite_Logger_File implements Clansuite_Logger_Interface
     {
         if (self::$instance == 0)
         {
-            self::$instance = new Clansuite_Logger_File();
+            self::$instance = new Koch_Logger_File();
         }
         return self::$instance;
     }
@@ -155,7 +152,7 @@ class Clansuite_Logger_File implements Clansuite_Logger_Interface
             # construct name of the log file ( FILENAME_log_DATE.txt )
             $filename =  $filename . '_log_' . date('m-d-y') . '.txt';
         }
-        else 
+        else
         {
             # construct name of the log file ( FILENAME_log.txt )
             $filename = $filename . '_log.txt';

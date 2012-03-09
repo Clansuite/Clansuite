@@ -1,10 +1,10 @@
 <?php
    /**
-    * Clansuite - just an eSports CMS
+    * Koch Framework
     * Jens-André Koch © 2005 - onwards
     * http://www.clansuite.com/
     *
-    * This file is part of "Clansuite - just an eSports CMS".
+    * This file is part of "Koch Framework".
     *
     * LICENSE:
     *
@@ -34,10 +34,12 @@
 # Security Handler
 if(defined('IN_CS') === false)
 {
-    die('Clansuite not loaded. Direct Access forbidden.');
+    die('Koch Framework not loaded. Direct Access forbidden.');
 }
 
-class Clansuite_Config_Native
+namespace Koch\Config;
+
+class Native
 {
     /**
      * Read the config array from php file
@@ -50,7 +52,7 @@ class Clansuite_Config_Native
     {
         if(is_file($file) === false or is_readable($file) === false)
         {
-            throw new Clansuite_Exception('PHP Array Config File not existing or not readable.');
+            throw new Koch_Exception('PHP Array Config File not existing or not readable.');
         }
 
         # it's a native php array structure so we simply include the file

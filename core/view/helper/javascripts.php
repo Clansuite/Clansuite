@@ -1,10 +1,10 @@
 <?php
    /**
-    * Clansuite - just an eSports CMS
+    * Koch Framework
     * Jens-André Koch © 2005 - onwards
     * http://www.clansuite.com/
     *
-    * This file is part of "Clansuite - just an eSports CMS".
+    * This file is part of "Koch Framework".
     *
     * LICENSE:
     *
@@ -33,11 +33,13 @@
 # Security Handler
 if (defined('IN_CS') === false)
 {
-    die('Clansuite not loaded. Direct Access forbidden.');
+    die('Koch Framework not loaded. Direct Access forbidden.');
 }
 
+namespace Koch\View\Helper;
+
 /**
- * Clansuite_Javascripts is a (View) Helper Library and Service Gateway for all
+ * Koch_Javascripts is a (View) Helper Library and Service Gateway for all
  * the Javascript and CSS Libraries utilized.
  *
  * Purpose: Standardization of Initialization and Loading of single Files and Libraries
@@ -47,7 +49,7 @@ if (defined('IN_CS') === false)
  * For single (non-library) files: "/themes/core/css" and "/themes/core/javascripts/".
  * For libraries with own subfolders for css, js, misc stuff: "/themes/core/libraries/".
  */
-class Clansuite_Javascripts extends Clansuite_Layout
+class Javascripts extends Layout
 {
 
     public static function addJS_JQuery()

@@ -1,10 +1,10 @@
 <?php
    /**
-    * Clansuite - just an eSports CMS
+    * Koch Framework
     * Jens-André Koch © 2005 - onwards
     * http://www.clansuite.com/
     *
-    * This file is part of "Clansuite - just an eSports CMS".
+    * This file is part of "Koch Framework".
     *
     * LICENSE:
     *
@@ -33,28 +33,30 @@
 # Security Handler
 if (defined('IN_CS') === false)
 {
-    die('Clansuite not loaded. Direct Access forbidden.' );
+    die('Koch Framework not loaded. Direct Access forbidden.' );
 }
 
+namespace Koch\Filter;
+
 /**
- * Clansuite Filter - Get User
+ * Koch FrameworkFilter - Get User
  *
  * Purpose: Setup the user object
  *
- * @category    Clansuite
+ * @category    Koch
  * @package     Core
  * @subpackage  Filters
  */
-class Clansuite_Filter_GetUser implements Clansuite_Filter_Interface
+class GetUser implements Filter
 {
     private $user = null;
 
-    public function __construct(Clansuite_User $user)
+    public function __construct(Koch_User $user)
     {
         $this->user = $user;
     }
 
-    public function executeFilter(Clansuite_HttpRequest $request, Clansuite_HttpResponse $response)
+    public function executeFilter(Koch_HttpRequest $request, Koch_HttpResponse $response)
     {
         $this->user->createUserSession();    # Create a user (Guest)
         $this->user->checkLoginCookie();     # Check for login cookie (Guest/Member)

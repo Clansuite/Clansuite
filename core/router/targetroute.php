@@ -1,10 +1,10 @@
 <?php
    /**
-    * Clansuite - just an eSports CMS
+    * Koch Framework
     * Jens-André Koch © 2005 - onwards
     * http://www.clansuite.com/
     *
-    * This file is part of "Clansuite - just an eSports CMS".
+    * This file is part of "Koch Framework".
     *
     * LICENSE:
     *
@@ -33,13 +33,17 @@
 # Security Handler
 if(defined('IN_CS') === false)
 {
-    die('Clansuite not loaded. Direct Access forbidden.');
+    die('Koch Framework not loaded. Direct Access forbidden.');
 }
 
+namespace Koch\Router;
+
+use Koch\MVC\Mapper;
+
 /**
- * Clansuite_TargetRoute (processed RequestObject)
+ * Koch_Router_TargetRoute (processed RequestObject)
  */
-class Clansuite_TargetRoute extends Clansuite_Mapper
+class TargetRoute extends Mapper
 {
     public static $parameters = array(
         # File
@@ -63,9 +67,9 @@ class Clansuite_TargetRoute extends Clansuite_Mapper
     );
 
     /**
-     * Clansuite_TargetRoute is a Singleton
+     * Koch_TargetRoute is a Singleton
      *
-     * @return instance of Clansuite_TargetRoute class
+     * @return instance of Koch_TargetRoute class
      */
     public static function getInstance()
     {
@@ -73,7 +77,7 @@ class Clansuite_TargetRoute extends Clansuite_Mapper
 
         if($instance === null)
         {
-            $instance = new Clansuite_TargetRoute();
+            $instance = new Koch_TargetRoute();
         }
 
         return $instance;
@@ -235,7 +239,7 @@ class Clansuite_TargetRoute extends Clansuite_Mapper
 
     public static function getRequestMethod()
     {
-        return Clansuite_HttpRequest::getRequestMethod();
+        return Koch_HttpRequest::getRequestMethod();
     }
 
     public static function getLayoutMode()
@@ -245,7 +249,7 @@ class Clansuite_TargetRoute extends Clansuite_Mapper
 
     public static function getAjaxMode()
     {
-        return Clansuite_HttpRequest::isAjax();
+        return Koch_HttpRequest::isAjax();
     }
 
     public static function getRenderEngine()
@@ -367,7 +371,7 @@ class Clansuite_TargetRoute extends Clansuite_Mapper
 
     public static function _debug()
     {
-        Clansuite_Debug::printR(self::$parameters);
+        Koch\Debug::printR(self::$parameters);
     }
 
     /**

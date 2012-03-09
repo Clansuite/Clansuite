@@ -1,10 +1,10 @@
 <?php
    /**
-    * Clansuite - just an eSports CMS
+    * Koch Framework
     * Jens-André Koch © 2005 - onwards
     * http://www.clansuite.com/
     *
-    * This file is part of "Clansuite - just an eSports CMS".
+    * This file is part of "Koch Framework".
     *
     * LICENSE:
     *
@@ -33,11 +33,13 @@
 //Security Handler
 if (defined('IN_CS') === false)
 {
-    die('Clansuite not loaded. Direct Access forbidden.');
+    die('Koch Framework not loaded. Direct Access forbidden.');
 }
 
+namespace Koch\Exception
+
 /**
- * Clansuite Core Class for Errorhandling
+ * Koch Framework Class for Errorhandling
  *
  * Sets up a custom Errorhandler.
  * @see Clansuite_CMS::initialize_Errorhandling()
@@ -49,14 +51,14 @@ if (defined('IN_CS') === false)
  * 2) trigger_error('Errorhandler Test - This should trigger a E_USER_NOTICE!', E_USER_NOTICE);
  * </code>
  *
- * @category    Clansuite
+ * @category    Koch
  * @package     Core
  * @subpackage  Errorhandler
  */
-class Clansuite_Errorhandler
+class Errorhandler
 {
     /**
-     * Clansuite Error callback.
+     * Koch FrameworkError callback.
      *
      * This is basically a switch defining the actions taken,
      * in case of serveral PHP error states
@@ -134,13 +136,13 @@ class Clansuite_Errorhandler
                 $errorname .= ' [PHP Notice]';
                 break;
             case 'E_USER_ERROR':
-                $errorname .= ' [Clansuite Internal Error]';
+                $errorname .= ' [Koch Framework Internal Error]';
                 break;
             case 'E_USER_WARNING':
-                $errorname .= ' [Clansuite Internal Error]';
+                $errorname .= ' [Koch Framework Internal Error]';
                 break;
             case 'E_USER_NOTICE':
-                $errorname .= ' [Clansuite Internal Error]';
+                $errorname .= ' [Koch Framework Internal Error]';
                 break;
             case 'E_ALL':
             case 'E_STRICT':
@@ -197,11 +199,11 @@ class Clansuite_Errorhandler
      * If you need a full errorreport, you can add more parameters from the methodsignature
      * to the $errormessage output.
      *
-     * Smarty Template Errors are only displayed, when Clansuite is in DEBUG Mode.
+     * Smarty Template Errors are only displayed, when Koch Framework is in DEBUG Mode.
      * @see clansuite_error_handler()
      *
      * A direct link to the template editor for editing the file with the error
-     * is only displayed, when Clansuite runs in DEVELOPMENT Mode.
+     * is only displayed, when Koch Framework runs in DEVELOPMENT Mode.
      * @see addTemplateEditorLink()
      *
      * @param integer $errornumber contains the error as integer
@@ -265,7 +267,7 @@ class Clansuite_Errorhandler
     }
 
     /**
-     * Yellow Screen of Death (YSOD) is used to display a Clansuite Error
+     * Yellow Screen of Death (YSOD) is used to display a Koch Framework Error
      *
      * @param int $errornumber
      * @param string $errorname
@@ -280,7 +282,7 @@ class Clansuite_Errorhandler
 
         # Header
         $html = '<html><head>';
-        $html .= '<title>Clansuite Error</title>';
+        $html .= '<title>Koch Framework Error</title>';
         $html .= '<link rel="stylesheet" href="' . WWW_ROOT_THEMES_CORE . 'css/error.css" type="text/css" />';
         $html .= '</head>';
 
@@ -289,7 +291,7 @@ class Clansuite_Errorhandler
 
         # Fieldset with Legend
         $html .= '<fieldset id="top" class="error_red">';
-        $html .= '<legend>Clansuite Error</legend>';
+        $html .= '<legend>Koch Framework Error</legend>';
 
         # Add Errorlogo
         $html .= '<div style="float: left; margin: 5px; margin-right: 25px; padding: 20px;">';
@@ -335,7 +337,7 @@ class Clansuite_Errorhandler
         $html .= '</table>';
 
         # Add Footer with Support-Backlinks
-        $html .= Clansuite_Errorhandler::getSupportBacklinks();
+        $html .= Koch_Errorhandler::getSupportBacklinks();
 
         # Close all html elements
         $html .= '</fieldset><br /><br />';
@@ -353,7 +355,7 @@ class Clansuite_Errorhandler
      */
     public static function getDebugBacktrace($trace = null)
     {
-        # provide backtrace only when we are in Clansuite DEBUG Mode, otherwise just return
+        # provide backtrace only when we are in Koch Framework DEBUG Mode, otherwise just return
         if ( defined('DEBUG') == false xor DEBUG == 0 )
         {
             return;

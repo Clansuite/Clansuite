@@ -1,10 +1,10 @@
 <?php
    /**
-    * Clansuite - just an eSports CMS
+    * Koch Framework
     * Jens-André Koch © 2005 - onwards
     * http://www.clansuite.com/
     *
-    * This file is part of "Clansuite - just an eSports CMS".
+    * This file is part of "Koch Framework".
     *
     * LICENSE:
     *
@@ -34,10 +34,12 @@
 # Security Handler
 if(defined('IN_CS') === false)
 {
-    die('Clansuite not loaded. Direct Access forbidden.');
+    die('Koch Framework not loaded. Direct Access forbidden.');
 }
 
-class Clansuite_Config_Json
+namespace Koch\Config;
+
+class Json
 {
     /**
      * Read the config array from json file
@@ -49,7 +51,7 @@ class Clansuite_Config_Json
     {
         if(is_file($filename) === false or is_readable($filename) === false)
         {
-            throw new Clansuite_Exception( _('JSON Config File not existing or not readable.') );
+            throw new Koch_Exception( _('JSON Config File not existing or not readable.') );
         }
 
         # read file
@@ -68,7 +70,7 @@ class Clansuite_Config_Json
 
             $msg = _('JSON Error in file %s : $s');
 
-            throw new Clansuite_Exception( sprintf($msg, $filename, $json_error_message) );
+            throw new Koch_Exception( sprintf($msg, $filename, $json_error_message) );
         }
 
         # return json as PHP array

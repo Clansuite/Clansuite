@@ -1,6 +1,6 @@
 <?php
 /**
- * This smarty function is part of "Clansuite - just an eSports CMS"
+ * This smarty function is part of "Koch Framework"
  * @link http://www.clansuite.com
  *
  * @author Jens-André Koch <vain@clansuite.com>

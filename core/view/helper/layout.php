@@ -1,10 +1,10 @@
 <?php
    /**
-    * Clansuite - just an eSports CMS
+    * Koch Framework
     * Jens-André Koch © 2005 - onwards
     * http://www.clansuite.com/
     *
-    * This file is part of "Clansuite - just an eSports CMS".
+    * This file is part of "Koch Framework".
     *
     * LICENSE:
     *
@@ -33,15 +33,17 @@
 # Security Handler
 if (defined('IN_CS') === false)
 {
-    die('Clansuite not loaded. Direct Access forbidden.');
+    die('Koch Framework not loaded. Direct Access forbidden.');
 }
+
+namespace Koch\View\Helper;
 
 /**
  * Interface for all Nodes (Leaf-Objects)
  *
  * Each node (leaf-object) has to provide a method...
  */
-interface Clansuite_View_Node_Interface
+interface Koch_View_Node_Interface
 {
     /**
      * Get the contents of this component in string form
@@ -66,9 +68,9 @@ interface Clansuite_View_Node_Interface
 }
 
 /**
- * Clansuite_CompositeView_Iterator
+ * Koch_CompositeView_Iterator
  */
-class Clansuite_Composite_Iterator implements ArrayAccess, Countable, Iterator
+class Koch_Composite_Iterator implements ArrayAccess, Countable, Iterator
 {
     private $composite = array();
 
@@ -196,7 +198,7 @@ class Clansuite_Composite_Iterator implements ArrayAccess, Countable, Iterator
 }
 
 /**
- * Clansuite Core Class for Layout Handling
+ * Koch Framework Class for Layout Handling
  *
  * The Layout Object provides a document tree for the output elements.
  * Speaking in patterns: this is a "composite" view (GoF - German Edition - Page 239).
@@ -219,11 +221,11 @@ class Clansuite_Composite_Iterator implements ArrayAccess, Countable, Iterator
  * @author      Jens-André Koch   <vain@clansuite.com>
  * @copyright   Jens-André Koch (2005-onwards)
  *
- * @category    Clansuite
+ * @category    Koch
  * @package     Core
  * @subpackage  Layout
  */
-class Clansuite_View_Layout implements Clansuite_View_Node_Interface
+class Koch_View_Layout implements Koch_View_Node_Interface
 {
     /**
      * Representation of the tree with leaf-nodes.
@@ -235,7 +237,7 @@ class Clansuite_View_Layout implements Clansuite_View_Node_Interface
     /**
      * Adds / appends a new view-node (leaf-object) to the bottom of the stack
      */
-    public function appendNode(Clansuite_View_Node_Interface $component)
+    public function appendNode(Koch_View_Node_Interface $component)
     {
         $components[] = $component;
     }
@@ -245,7 +247,7 @@ class Clansuite_View_Layout implements Clansuite_View_Node_Interface
      */
     public function getIterator()
     {
-        $composite = new Clansuite_Composite_Iterator($this->composite);
+        $composite = new Koch_Composite_Iterator($this->composite);
     }
 
     /**

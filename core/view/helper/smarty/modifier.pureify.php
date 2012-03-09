@@ -6,7 +6,7 @@
  */
 
 /**
- * This smarty function is part of "Clansuite - just an eSports CMS"
+ * This smarty function is part of "Koch Framework"
  * @link http://www.clansuite.com
  *
  * @author Jens-André Koch <jakoch@web.de>
@@ -30,19 +30,19 @@ function smarty_modifier_purify($string)
      * @var object HTMLPurifier
      */
     static $purifier;
-    
+
     if (isset($purifier) == false or class_exists('HTMLPurifier', false) === false)
     {
         include ROOT_LIBRARIES . 'IDS/vendors/htmlpurifier/HTMLPurifier.php';
-        
-        $config = HTMLPurifier_Config::createDefault();        
+
+        $config = HTMLPurifier_Config::createDefault();
         $config->set('Core.Encoding', 'ISO-8859-1');
         $config->set('HTML.Allowed', 'p,b,i,br,blockquote,em,li,ol,ul,strong,sub,sup,table,tbody,td,tfoot,th,thead,tr,u');
         $config->set('AutoFormat.AutoParagraph', true);
-        
+
         $purifier = new HTMLPurifier($config);
     }
-    
+
     return $purifier->purify($string);
 }
 ?>

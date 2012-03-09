@@ -1,10 +1,10 @@
 <?php
    /**
-    * Clansuite - just an eSports CMS
+    * Koch Framework
     * Jens-André Koch © 2005 - onwards
     * http://www.clansuite.com/
     *
-    * This file is part of "Clansuite - just an eSports CMS".
+    * This file is part of "Koch Framework".
     *
     * LICENSE:
     *
@@ -33,11 +33,13 @@
 # Security Handler
 if (defined('IN_CS') === false)
 {
-    die('Clansuite not loaded. Direct Access forbidden.' );
+    die('Koch Framework not loaded. Direct Access forbidden.' );
 }
 
+namespace Koch\View\Renderer;
+
 /**
- * Clansuite View Class - View for JSON data
+ * Koch FrameworkView Class - View for JSON data
  *
  * This is a wrapper/adapter for returning JSON data.
  *
@@ -51,11 +53,11 @@ if (defined('IN_CS') === false)
  * 1) The method renderByHeader() wraps the json directly in the header.
  * 2) The method render() returns the json data for later rendering (as body).
  *
- * @category    Clansuite
+ * @category    Koch
  * @package     Core
  * @subpackage  View
  */
-class Clansuite_Renderer_Json extends Clansuite_Renderer_Base
+class Json extends Renderer_Base
 {
     public function initializeEngine()
     {

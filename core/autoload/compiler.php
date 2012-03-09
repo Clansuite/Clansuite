@@ -1,10 +1,10 @@
 <?php
    /**
-    * Clansuite - just an eSports CMS
+    * Koch Framework
     * Jens-André Koch © 2005 - onwards
     * http://www.clansuite.com/
     *
-    * This file is part of "Clansuite - just an eSports CMS".
+    * This file is part of "Koch Framework".
     *
     * LICENSE:
     *
@@ -33,21 +33,26 @@
 # Security Handler
 if(defined('IN_CS') === false)
 {
-    die('Clansuite not loaded. Direct Access forbidden.');
+    die('Koch Framework not loaded. Direct Access forbidden.');
 }
 
+namespace Koch\Autoload;
+
 /**
- * Clansuite Preprocesser
+ * Koch FrameworkMonolith Builder
  *
+ * Purpose: Assembles all core files into one monolithic file.
+
  * 1) Includes
- * Purpose: Assembles all Core files into one monolithic file.
- * Performance Strategy : Include Tuning. Merge Files, for lower number of includes.
+ * This is a performance strategy called "Include Tuning".
+ * Files are merged, for a lower number of includes.
+ * Use php/ext inclued() to check that.
  *
  * @todo detect dependencies, either with get_required_files() or extension inclued()
  *
  * 2) APC Compile Files
  */
-class Clansuite_Preprocessor
+class Compiler
 {
     protected $monolith_filename = 'clansuite_monolith.php';
 
@@ -65,7 +70,7 @@ class Clansuite_Preprocessor
      *
      * @return boolean True, on successful build.
      */
-    public static function build_monolith()
+    public static function build()
     {
         # remove existing monolith
         if(is_file(self::$monolith_file) === true)
@@ -186,8 +191,8 @@ class Clansuite_Preprocessor
 
         # remove clansuite security line from whole string
         # @todo remove 4 lines when "if (defined('IN_CS')" is found
-        $string = str_replace("if (defined('IN_CS') === false){ die('Clansuite not loaded. Direct Access forbidden.'); }" . PHP_EOL, "", $string);
-        $string = str_replace("if (defined('IN_CS') === false) { die('Clansuite not loaded. Direct Access forbidden.'); }", '', $string);
+        $string = str_replace("if (defined('IN_CS') === false){ die('Koch Framework not loaded. Direct Access forbidden.'); }" . PHP_EOL, "", $string);
+        $string = str_replace("if (defined('IN_CS') === false) { die('Koch Framework not loaded. Direct Access forbidden.'); }", '', $string);
 
         # remove php opening tag from whole string
         $string = str_replace('<?php', '', $string);

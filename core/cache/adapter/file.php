@@ -1,10 +1,10 @@
 <?php
    /**
-    * Clansuite - just an eSports CMS
+    * Koch Framework
     * Jens-André Koch © 2005 - onwards
     * http://www.clansuite.com/
     *
-    * This file is part of "Clansuite - just an eSports CMS".
+    * This file is part of "Koch Framework".
     *
     * LICENSE:
     *
@@ -33,19 +33,21 @@
 # Security Handler
 if (defined('IN_CS') === false)
 {
-    die('Clansuite not loaded. Direct Access forbidden.');
+    die('Koch Framework not loaded. Direct Access forbidden.');
 }
 
+namespace Koch\Cache;
+
 /**
- * Clansuite Cache Handler for Filecaching
+ * Koch FrameworkCache Handler for Filecaching
  *
  * The Filecache stores directly to disk.
  *
- * @category    Clansuite
+ * @category    Koch
  * @package     Core
  * @subpackage  Cache
  */
-class Clansuite_Cache_File extends Clansuite_Cache_Base implements Clansuite_Cache_Interface
+class File extends Base implements Cache
 {
     /**
      * Contains checks if a key exists in the cache

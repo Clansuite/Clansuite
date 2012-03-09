@@ -1,10 +1,10 @@
 <?php
    /**
-    * Clansuite - just an eSports CMS
+    * Koch Framework
     * Jens-André Koch © 2005 - onwards
     * http://www.clansuite.com/
     *
-    * This file is part of "Clansuite - just an eSports CMS".
+    * This file is part of "Koch Framework".
     *
     * LICENSE:
     *
@@ -33,26 +33,28 @@
 # Security Handler
 if (defined('IN_CS') === false)
 {
-    die('Clansuite not loaded. Direct Access forbidden.' );
+    die('Koch Framework not loaded. Direct Access forbidden.' );
 }
 
+namespace Koch\Filter;
+
 /**
- * Clansuite PHP_Debug Debugging Console
+ * Koch FrameworkPHP_Debug Debugging Console
  *
- * @category    Clansuite
+ * @category    Koch
  * @package     Core
  * @subpackage  Filters
  */
-class Clansuite_Filter_PhpDebugConsole implements Clansuite_Filter_Interface
+class PhpDebugConsole implements Filter
 {
     private $config     = null;
 
-    public function __construct(Clansuite_Config $config)
+    public function __construct(Koch_Config $config)
     {
         $this->config    = $config;
     }
 
-    public function executeFilter(Clansuite_HttpRequest $request, Clansuite_HttpResponse $response)
+    public function executeFilter(Koch_HttpRequest $request, Koch_HttpResponse $response)
     {
         # webdebug must be enabled in configuration
         if(isset($this->config['error']['webdebug']) and $this->config['error']['webdebug'] == 1)
@@ -104,13 +106,13 @@ class Clansuite_Filter_PhpDebugConsole implements Clansuite_Filter_Interface
             #'HTML_DIV_templates_pattern' => array('/var/www-protected/php-debug.com' => '/var/www/php-debug')
         );
 
-        #Clansuite_Debug::printR($options);
+        #Koch_Debug::printR($options);
 
         # Initialiaze Object
         $debug = new PHP_Debug($options);
 
         # Set Title to Debug Console
-        $debug->add('Clansuite DEBUG INFO');
+        $debug->add('Koch Framework DEBUG INFO');
 
         /**
             *  Load JS / CSS for PHP Debug Console into the Output Buffer
@@ -128,14 +130,14 @@ class Clansuite_Filter_PhpDebugConsole implements Clansuite_Filter_Interface
         $event = new DebugConsoleResponse_Event($debugbarHTML);
 
         # and output the debugging console at the end of the application runtime
-        Clansuite_Eventdispatcher::instantiate()->addEventHandler('onApplicationShutdown', $event);
+        Koch_Eventdispatcher::instantiate()->addEventHandler('onApplicationShutdown', $event);
     }
 }
 
 /**
  * Helper Object for echoing the HTML content
  */
-class DebugConsoleResponse_Event # implements Clansuite_Event_Interface
+class DebugConsoleResponse_Event # implements Koch_Event_Interface
 {
     public $name = 'DebugConsoleResponse';
 

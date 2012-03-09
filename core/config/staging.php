@@ -1,10 +1,10 @@
 <?php
    /**
-    * Clansuite - just an eSports CMS
+    * Koch Framework
     * Jens-André Koch © 2005 - onwards
     * http://www.clansuite.com/
     *
-    * This file is part of "Clansuite - just an eSports CMS".
+    * This file is part of "Koch Framework".
     *
     * LICENSE:
     *
@@ -33,20 +33,22 @@
 # Security Handler
 if (defined('IN_CS') === false)
 {
-    die('Clansuite not loaded. Direct Access forbidden.');
+    die('Koch Framework not loaded. Direct Access forbidden.');
 }
 
+namespace Koch\Config;
+
 /**
- * Clansuite_Staging
+ * Koch_Staging
  *
  * @author     Paul Brand
  * @author     Jens-André Koch
  *
- * @category    Clansuite
+ * @category    Koch
  * @package     Core
  * @subpackage  Config
  */
-class Clansuite_Staging
+class Staging
 {
     /**
      * Loads a staging configuration file and overloads the given array
@@ -57,7 +59,7 @@ class Clansuite_Staging
     public static function overloadWithStagingConfig($array_to_overload)
     {
         # load staging config
-        $staging_config = Clansuite_Config_INI::readConfig(self::getFilename());
+        $staging_config = Koch_Config_INI::readConfig(self::getFilename());
 
         # keys/values of array_to_overload are replaced with those of the staging_config
         return array_replace_recursive($array_to_overload, $staging_config);

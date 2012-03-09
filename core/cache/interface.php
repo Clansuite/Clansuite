@@ -1,7 +1,7 @@
 <?php
    /**
     * Koch Framework
-    * Jens-André Koch © 2005 - onwards
+    * Jens-AndrÃ© Koch Â© 2005 - onwards
     * http://www.clansuite.com/
     *
     * This file is part of "Koch Framework".
@@ -23,68 +23,46 @@
     *    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
     *
     * @license    GNU/GPL v2 or (at your option) any later version, see "/doc/LICENSE".
-    * @author     Jens-André Koch <vain@clansuite.com>
-    * @copyright  Jens-André Koch (2005 - onwards)
+    * @author     Jens-AndrÃ© Koch <vain@clansuite.com>
+    * @copyright  Jens-AndrÃ© Koch (2005 - onwards)
     * @link       http://www.clansuite.com
     *
     * @version    SVN: $Id$
     */
 
 # Security Handler
-if(defined('IN_CS') === false)
+if (defined('IN_CS') === false)
 {
     die('Koch Framework not loaded. Direct Access forbidden.');
 }
 
-namespace Koch\Logger;
+namespace Koch\Cache;
 
 /**
- * Koch FrameworkCore File - Koch_Logger_Devnull
- *
- * This class is a service wrapper for logging messages to /dev/null.
- * It's a dummy logger - doing nothing.
- *
- * @author      Jens-André Koch <vain@clansuite.com>
- * @copyright   Jens-André Koch (2005 - onwards)
- * @license     GPLv2 any later license
+ * Interface for all Cache Adapters to implement
  *
  * @category    Koch
  * @package     Core
- * @subpackage  Logger
+ * @subpackage  Cache
  */
-class Devnull implements Logger
+interface Cache
 {
-    private static $instance = null;
+    # Checks cache for a stored variable
+    function contains($key);
 
-    public function __construct(Koch_Config $config)
-    {
+    # Fetch a stored variable from the cache
+    function fetch($key);
 
-    }
+    # Cache a variable in the data store
+    function store($key, $data, $cache_lifetime = 0);
 
-    /**
-     * returns an instance / singleton
-     *
-     * @return an instance of the logger
-     */
-    public static function getInstance()
-    {
-        if (self::$instance == 0)
-        {
-            self::$instance = new Koch_Logger_Devnull();
-        }
-        return self::$instance;
-    }
+    # Removes a stored variable from the cache
+    function delete($key);
 
-    /**
-     * writeLog
-     *
-     * writes a string to /dev/null nirvana.
-     *
-     * @param $string The string to append to the logfile.
-     */
-    public function writeLog($string)
-    {
-        unset($string);
-    }
+    # Clears the cache
+    function clear();
+
+    # Fetches cache adapter statistics
+    function stats();
 }
 ?>

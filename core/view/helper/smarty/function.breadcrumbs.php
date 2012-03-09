@@ -1,6 +1,6 @@
 <?php
 /**
- * This smarty function is part of "Clansuite - just an eSports CMS".
+ * This smarty function is part of "Koch Framework".
  * @link http://www.clansuite.com
  *
  * @author    Jens-André Koch <vain@clansuite.com>
@@ -16,14 +16,14 @@
 /**
  * Renders the breadcrumb navigation.
  *
- * @link Clansuite_Breadcrumb::getTrail() is used for trail as default.
+ * @link Koch_Breadcrumb::getTrail() is used for trail as default.
  *
  * @example
  * {breadcrumbs}
  *
  * @param array  $params
  * @param string $params['title'] If true, renders only the title. If false, renders title with link.
- * @param string $params['trail'] The trail array, default incomming via Clansuite_Breadcrumb::getTrail().
+ * @param string $params['trail'] The trail array, default incomming via Koch_Breadcrumb::getTrail().
  * @param string $params['separator'] The separator element between Crumb Elements "&gt;" or "&raquo;".
  * @param string $params['length'] Defines the maximum length of title (rest is truncated).
  * @param object $smarty Smarty Render Engine
@@ -38,10 +38,10 @@ function smarty_function_breadcrumbs($params, $smarty)
     }
     else
     {
-        $trail = Clansuite_Breadcrumb::getTrail();
+        $trail = Koch_Breadcrumb::getTrail();
     }
 
-    #Clansuite_Debug::firebug($trail);
+    #Koch_Debug::firebug($trail);
 
     # is the seperator element set via the smarty function call?
     if (isset($params['separator']))

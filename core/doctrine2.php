@@ -1,10 +1,10 @@
 <?php
    /**
-    * Clansuite - just an eSports CMS
+    * Koch Framework
     * Jens-André Koch © 2005 - onwards
     * http://www.clansuite.com/
     *
-    * This file is part of "Clansuite - just an eSports CMS".
+    * This file is part of "Koch Framework".
     *
     * LICENSE:
     *
@@ -33,17 +33,19 @@
 # Security Handler
 if (defined('IN_CS') === false)
 {
-    die('Clansuite not loaded. Direct Access forbidden.');
+    die('Koch Framework not loaded. Direct Access forbidden.');
 }
 
+namespace Koch;
+
 /**
- * Clansuite Core Class for the Initialization of Doctrine 2
+ * Koch Framework Class for the Initialization of Doctrine 2
  *
- * @category    Clansuite
+ * @category    Koch
  * @package     Core
  * @subpackage  Doctrine
  */
-class Clansuite_Doctrine2
+class Doctrine2
 {
     /**
      * A DBAL Logger Object
@@ -79,13 +81,13 @@ class Clansuite_Doctrine2
         or empty($config['database']['dbname']) === true)
         {
             $msg1 = _('The database connection configuration is missing.');
-            $msg2 = _('Please use <a href=%s>Clansuite Installation</a> to perform a proper installation.');
+            $msg2 = _('Please use <a href=%s>Installation</a> to perform a proper installation.');
 
             $uri = sprintf('http://%s%s', $_SERVER['SERVER_NAME'], '/installation/index.php');
 
             $msg = $msg1 . NL . sprintf($msg2, $uri);
 
-            throw new Clansuite_Exception($msg);
+            throw new Koch_Exception($msg);
         }
     }
 
@@ -101,7 +103,7 @@ class Clansuite_Doctrine2
         # ensure doctrine2 exists in the libraries folder
         if(is_file(ROOT_LIBRARIES . 'Doctrine/Common/ClassLoader.php') === false)
         {
-            throw new Clansuite_Exception('Doctrine2 not found. Check Libraries Folder.', 100);
+            throw new Koch_Exception('Doctrine2 not found. Check Libraries Folder.', 100);
         }
 
         # get isolated loader
@@ -147,7 +149,7 @@ class Clansuite_Doctrine2
 
         # @todo workaround till i find a better way to acquire all the models
         $config->getMetadataDriverImpl()->getAllClassNames();
-        #Clansuite_Debug::firebug($config->getMetadataDriverImpl()->getAllClassNames());
+        #Koch_Debug::firebug($config->getMetadataDriverImpl()->getAllClassNames());
 
         # set proxy dirs
         $config->setProxyDir(realpath(ROOT . 'doctrine'));
@@ -281,7 +283,7 @@ class Clansuite_Doctrine2
         $em = self::getEntityManager();
         $validator = new \Doctrine\ORM\Tools\SchemaValidator($em);
         $errors = $validator->validateMapping();
-        Clansuite_Debug::printR($errors);
+        Koch_Debug::printR($errors);
     }
 
     /**
@@ -294,7 +296,7 @@ class Clansuite_Doctrine2
         #$config->addEntityNamespace('Core', $module_models_path); # = Core:Session
         #$config->addEntityNamespace('Module', $module_models_path); # = Module:News
         $classes_loaded = $config->getMetadataDriverImpl()->getAllClassNames();
-        Clansuite_Debug::printR($classes_loaded);
+        Koch_Debug::printR($classes_loaded);
     }
 
     /**
@@ -306,7 +308,7 @@ class Clansuite_Doctrine2
     {
         $model_dirs = array();
 
-        $dirs = Clansuite_ModuleInfoController::getModuleDirectories();
+        $dirs = Koch_ModuleInfoController::getModuleDirectories();
 
         foreach($dirs as $key => $dir_path)
         {
@@ -336,7 +338,7 @@ class Clansuite_Doctrine2
 
         $model_dirs = array_keys(array_flip($model_dirs));
 
-        #Clansuite_Debug::printR($model_dirs);
+        #Koch_Debug::printR($model_dirs);
         return $model_dirs;
     }
 

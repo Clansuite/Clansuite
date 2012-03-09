@@ -6,7 +6,7 @@
  */
 
 /**
- * This smarty function is part of "Clansuite - just an eSports CMS"
+ * This smarty function is part of "Koch Framework"
  * @link http://www.clansuite.com
  *
  * @author Jens-André Koch <jakoch@web.de>
@@ -14,7 +14,7 @@
  * @license GNU General Public License v2 or any later version
  * @version SVN $Id$
  *
- * Clansuite Smarty Plugin
+ * Koch FrameworkSmarty Plugin
  * --------------------------------------------------------
  * File:    prefilter.inserttplnames.php
  * Type:    prefilter

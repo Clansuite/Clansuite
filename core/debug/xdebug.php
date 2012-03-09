@@ -1,10 +1,10 @@
 <?php
    /**
-    * Clansuite - just an eSports CMS
+    * Koch Framework
     * Jens-André Koch © 2005 - onwards
     * http://www.clansuite.com/
     *
-    * This file is part of "Clansuite - just an eSports CMS".
+    * This file is part of "Koch Framework".
     *
     * LICENSE:
     *
@@ -33,20 +33,22 @@
 # Security Handler
 if(defined('IN_CS') === false)
 {
-    die('Clansuite not loaded. Direct Access forbidden.');
+    die('Koch Framework not loaded. Direct Access forbidden.');
 }
 
+namespace Koch\Debug;
+
 /**
- * Clansuite_XDebug
+ * Koch_XDebug
  *
  * This class initializes xdebug at system start-up and displays debug
  * and runtime-informations at application shutdown.
  *
- * @category    Clansuite
+ * @category    Koch
  * @package     Core
  * @subpackage  XDebug
  */
-class Clansuite_Xdebug
+class Xdebug
 {
     public static $xdebug_memory_before = '';
 
@@ -355,7 +357,7 @@ class Clansuite_Xdebug
                 # adjust headline
                 if ($category == 'user')
                 {
-                    echo '<tr><th colspan="2">Clansuite Constants</th></tr>';
+                    echo '<tr><th colspan="2">Application Constants</th></tr>';
                 }
                 else
                 {
@@ -384,11 +386,11 @@ class Clansuite_Xdebug
 
     public static function showBrowserInfo()
     {
-        if(false === class_exists('Clansuite_Browserinfo', false))
+        if(false === class_exists('Koch_Browserinfo', false))
         {
             include ROOT_CORE . 'tools/browserinfo.core.php';
         }
-        $browserinfo = new Clansuite_Browserinfo();
+        $browserinfo = new Koch_Browserinfo();
         $browser = $browserinfo->getBrowserInfo();
 
         echo self::getSectionHeadlineHTML('Browserinfo');

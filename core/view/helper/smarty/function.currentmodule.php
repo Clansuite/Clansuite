@@ -2,7 +2,7 @@
 /**
  * Smarty plugin
  * @package Smarty
- * @subpackage Clansuite Plugins / Smarty View Helper
+ * @subpackage Plugins
  */
 
 /**
@@ -24,6 +24,6 @@
  */
 function smarty_function_currentmodule()
 {
-    return Clansuite_TargetRoute::getModuleName();
+    return Koch_TargetRoute::getModuleName();
 }
 ?>

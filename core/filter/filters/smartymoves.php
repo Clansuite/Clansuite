@@ -1,10 +1,10 @@
 <?php
    /**
-    * Clansuite - just an eSports CMS
+    * Koch Framework
     * Jens-André Koch © 2005 - onwards
     * http://www.clansuite.com/
     *
-    * This file is part of "Clansuite - just an eSports CMS".
+    * This file is part of "Koch Framework".
     *
     * LICENSE:
     *
@@ -33,11 +33,13 @@
 # Security Handler
 if (defined('IN_CS') === false)
 {
-    die('Clansuite not loaded. Direct Access forbidden.' );
+    die('Koch Framework not loaded. Direct Access forbidden.' );
 }
 
+namespace Koch\Filter;
+
 /**
- * Clansuite Filter - Smarty2 Subtemplate Moves
+ * Koch FrameworkFilter - Smarty2 Subtemplate Moves
  *
  * This is a Smarty2 related Filter.
  * Before the Smarty3 {block} tag was invented, there was no functionality
@@ -56,13 +58,13 @@ if (defined('IN_CS') === false)
  *
  * Purpose: detect block-tags, move content of such blocks, remove tags afterwards.
  *
- * @category    Clansuite
+ * @category    Koch
  * @package     Core
  * @subpackage  Filters
  */
-class Clansuite_Filter_SmartyMoves implements Clansuite_Filter_Interface
+class SmartyMoves implements Filter
 {
-    public function executeFilter(Clansuite_HttpRequest $request, Clansuite_HttpResponse $response)
+    public function executeFilter(Koch_HttpRequest $request, Koch_HttpResponse $response)
     {
         /**
          * If the renderer is not smarty, then bypass the filter.

@@ -1,10 +1,10 @@
 <?php
    /**
-    * Clansuite - just an eSports CMS
+    * Koch Framework
     * Jens-André Koch © 2005 - onwards
     * http://www.clansuite.com/
     *
-    * This file is part of "Clansuite - just an eSports CMS".
+    * This file is part of "Koch Framework".
     *
     * LICENSE:
     *
@@ -33,18 +33,20 @@
 # Security Handler
 if (defined('IN_CS') === false)
 {
-    die('Clansuite not loaded. Direct Access forbidden.');
+    die('Koch Framework not loaded. Direct Access forbidden.');
 }
 
+namespace Koch\Debug;
+
 /**
- * Clansuite Core Class for the Initialization of the phpDoctrine Profiler
+ * Koch Framework Class for the Initialization of the phpDoctrine Profiler
  * Its an debugging utility.
  *
- * @category    Clansuite
+ * @category    Koch
  * @package     Core
  * @subpackage  Doctrine
  */
-class Clansuite_Doctrine_Profiler
+class DoctrineProfiler
 {
     /**
      * Returns Doctrine's connection profiler
@@ -64,7 +66,7 @@ class Clansuite_Doctrine_Profiler
         # instantiate Profiler and attach to doctrine connection
         Doctrine_Manager::connection()->setListener(new Doctrine_Connection_Profiler);
 
-        register_shutdown_function('Clansuite_Doctrine_Profiler::shutdown');
+        register_shutdown_function('Koch_Doctrine_Profiler::shutdown');
     }
 
     /**

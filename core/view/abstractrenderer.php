@@ -1,10 +1,10 @@
 <?php
    /**
-    * Clansuite - just an eSports CMS
+    * Koch Framework
     * Jens-André Koch © 2005 - onwards
     * http://www.clansuite.com/
     *
-    * This file is part of "Clansuite - just an eSports CMS".
+    * This file is part of "Koch Framework".
     *
     * LICENSE:
     *
@@ -33,18 +33,20 @@
 # Security Handler
 if(defined('IN_CS') === false)
 {
-    die('Clansuite not loaded. Direct Access forbidden.');
+    die('Koch Framework not loaded. Direct Access forbidden.');
 }
+
+namespace Koch\View;
 
 /**
  * A abstract base class for all our view rendering engines.
  * All renderers must extend from this class.
  *
- * @category    Clansuite
+ * @category    Koch
  * @package     Core
  * @subpackage  Renderer
  */
-abstract class Clansuite_Renderer_Base
+abstract class Renderer_Base
 {
     /**
      * @var Object Holds instance of the Rendering Engine Object
@@ -67,7 +69,7 @@ abstract class Clansuite_Renderer_Base
     public $renderMode = null;
 
     /**
-     * @var object Clansuite_Config
+     * @var object Koch_Config
      */
     protected $config = null;
 
@@ -77,7 +79,7 @@ abstract class Clansuite_Renderer_Base
     public $viewdata = null;
 
     /**
-     * @var object Clansuite_View_Mapper
+     * @var object Koch_View_Mapper
      */
     public $view_mapper = null;
 
@@ -91,12 +93,12 @@ abstract class Clansuite_Renderer_Base
     /**
      * Construct Renderer
      *
-     * @param Clansuite_Config Object
+     * @param Koch_Config Object
      */
-    public function __construct(Clansuite_Config $config)
+    public function __construct(Koch_Config $config)
     {
         $this->config = $config;
-        $this->view_mapper = new Clansuite_View_Mapper();
+        $this->view_mapper = new Koch_View_Mapper();
     }
 
     /**
@@ -196,7 +198,7 @@ abstract class Clansuite_Renderer_Base
         return $this->view_mapper;
     }
 
-    public function setViewMapper(Clansuite_View_Mapper $view_mapper)
+    public function setViewMapper(Koch_View_Mapper $view_mapper)
     {
         $this->view_mapper = $view_mapper;
     }
@@ -204,7 +206,7 @@ abstract class Clansuite_Renderer_Base
     /**
      * Set the template name.
      *
-     * Proxies to Clansuite_View_Mapper::setTemplate()
+     * Proxies to Koch_View_Mapper::setTemplate()
      *
      * @param string $template Name of the Template (full path)
      */
@@ -216,7 +218,7 @@ abstract class Clansuite_Renderer_Base
     /**
      * Get the template name
      *
-     * Proxies to Clansuite_View_Mapper::getTemplate()
+     * Proxies to Koch_View_Mapper::getTemplate()
      *
      * @return string $template Name of the Template (full path)
      */
@@ -230,14 +232,14 @@ abstract class Clansuite_Renderer_Base
      *
      * a) Assign Web Paths
      * b) Meta
-     * c) Clansuite version
+     * c) Application version
      * d) Page related
      *
      * @return array $template_constants
      */
     public function getConstants()
     {
-        $modulename = Clansuite_HttpRequest::getRoute()->getModuleName();
+        $modulename = Koch_HttpRequest::getRoute()->getModuleName();
 
         $template_constants = array();
 
@@ -286,7 +288,7 @@ abstract class Clansuite_Renderer_Base
         $template_constants['javascript'] = $this->getTheme()->getJSFile();
 
         # Breadcrumb
-        $template_constants['trail'] = Clansuite_Breadcrumb::getTrail();
+        $template_constants['trail'] = Koch_Breadcrumb::getTrail();
 
         # Templatename itself
         $template_constants['templatename'] = $this->getTemplate();
@@ -298,13 +300,13 @@ abstract class Clansuite_Renderer_Base
          * e) test browserinfo
          *   test in themes/frontend/dark/modules/index/action_show.tpl
          */
-        $BrowserInfo = new Clansuite_Browserinfo();
+        $BrowserInfo = new Koch_Browserinfo();
         $template_constants['browserinfo'] = $BrowserInfo->getBrowserInfo();
 
         /**
          * Debug Display
          */
-        #Clansuite_Debug::printR($template_constants);
+        #Koch_Debug::printR($template_constants);
 
         return $template_constants;
     }
@@ -337,17 +339,17 @@ abstract class Clansuite_Renderer_Base
     }
 
     /**
-     * Returns the object Clansuite_Theme for accessing Configuration Values
+     * Returns the object Koch_Theme for accessing Configuration Values
      *
-     * @return object Clansuite_Theme
+     * @return object Koch_Theme
      */
     public function getTheme()
     {
         if($this->theme === null)
         {
-            $themename = Clansuite_HttpRequest::getRoute()->getThemeName();
+            $themename = Koch_HttpRequest::getRoute()->getThemeName();
 
-            $this->theme = new Clansuite_Theme($themename);
+            $this->theme = new Koch_Theme($themename);
         }
 
         return $this->theme;

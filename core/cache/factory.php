@@ -1,10 +1,10 @@
 <?php
    /**
-    * Clansuite - just an eSports CMS
+    * Koch Framework
     * Jens-André Koch © 2005 - onwards
     * http://www.clansuite.com/
     *
-    * This file is part of "Clansuite - just an eSports CMS".
+    * This file is part of "Koch Framework".
     *
     * LICENSE:
     *
@@ -33,19 +33,21 @@
 # Security Handler
 if (defined('IN_CS') === false)
 {
-    die('Clansuite not loaded. Direct Access forbidden.');
+    die('Koch Framework not loaded. Direct Access forbidden.');
 }
+
+namespace Koch\Cache;
 
 /**
  * Cache Factory
  *
  * The static method getCache() returns the included and instantiated Cache Engine Object!
  *
- * @category    Clansuite
+ * @category    Koch
  * @package     Core
  * @subpackage  Cache
  */
-class Clansuite_Cache_Factory
+class Factory
 {
     /**
      * Returns the instance of the requested cache_adapter
@@ -59,7 +61,7 @@ class Clansuite_Cache_Factory
 
         if(is_file($file) === true)
         {
-            $class = 'Clansuite_Cache_' . $adapter;
+            $class = 'Koch_Cache_' . $adapter;
 
             if(false === class_exists($class, false))
             {
@@ -73,41 +75,14 @@ class Clansuite_Cache_Factory
             }
             else
             {
-                throw new Clansuite_Exception('Cache_Factory -> Class not found: ' . $class, 30);
+                throw new Koch_Exception('Cache_Factory -> Class not found: ' . $class, 30);
             }
         }
         else
         {
-            throw new Clansuite_Exception('Cache_Factory -> File not found: ' . $file, 31);
+            throw new Koch_Exception('Cache_Factory -> File not found: ' . $file, 31);
         }
     }
 }
 
-/**
- * Interface for all Cache Adapters to implement
- *
- * @category    Clansuite
- * @package     Core
- * @subpackage  Cache
- */
-interface Clansuite_Cache_Interface
-{
-    # Checks cache for a stored variable
-    function contains($key);
-
-    # Fetch a stored variable from the cache
-    function fetch($key);
-
-    # Cache a variable in the data store
-    function store($key, $data, $cache_lifetime = 0);
-
-    # Removes a stored variable from the cache
-    function delete($key);
-
-    # Clears the cache
-    function clear();
-
-    # Fetches cache adapter statistics
-    function stats();
-}
 ?>

@@ -1,10 +1,10 @@
 <?php
    /**
-    * Clansuite - just an eSports CMS
+    * Koch Framework
     * Jens-André Koch © 2005 - onwards
     * http://www.clansuite.com/
     *
-    * This file is part of "Clansuite - just an eSports CMS".
+    * This file is part of "Koch Framework".
     *
     * LICENSE:
     *
@@ -33,11 +33,13 @@
 # Security Handler
 if (defined('IN_CS') === false)
 {
-    die('Clansuite not loaded. Direct Access forbidden.' );
+    die('Koch Framework not loaded. Direct Access forbidden.' );
 }
 
+namespace Koch\Filter;
+
 /**
- * Clansuite Filter - Language via URL
+ * Koch FrameworkFilter - Language via URL
  *
  * I10N/I18N Localization and Internationalization
  * Purpose: Set Language via URL by appendix $_GET['lang']
@@ -54,20 +56,20 @@ if (defined('IN_CS') === false)
  * Note: The check if a certain language exists is not important,
  *       because there are 1) english hardcoded values and 2) the default language as fallback.
  *
- * @category    Clansuite
+ * @category    Koch
  * @package     Core
  * @subpackage  Filters
  */
-class Clansuite_Filter_LanguageViaGet implements Clansuite_Filter_Interface
+class LanguageViaGet implements Filter
 {
     private $config     = null;
 
-    public function __construct(Clansuite_Config $config)
+    public function __construct(Koch_Config $config)
     {
         $this->config    = $config['switches'];
     }
 
-    public function executeFilter(Clansuite_HttpRequest $request, Clansuite_HttpResponse $response)
+    public function executeFilter(Koch_HttpRequest $request, Koch_HttpResponse $response)
     {
         /**
          * take the initiative of filtering, if language switching is enabled in CONFIG

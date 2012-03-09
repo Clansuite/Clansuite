@@ -1,10 +1,10 @@
 <?php
    /**
-    * Clansuite - just an eSports CMS
+    * Koch Framework
     * Jens-André Koch © 2005 - onwards
     * http://www.clansuite.com/
     *
-    * This file is part of "Clansuite - just an eSports CMS".
+    * This file is part of "Koch Framework".
     *
     * LICENSE:
     *
@@ -33,11 +33,13 @@
 # Security Handler
 if (defined('IN_CS') === false)
 {
-    die('Clansuite not loaded. Direct Access forbidden.');
+    die('Koch Framework not loaded. Direct Access forbidden.');
 }
 
+namespace Koch\Localization\Gettext;
+
 /**
- * Clansuite_Gettext
+ * Koch_Gettext
  *
  * 1. Gettext extraction is normally performed by the "xgettext" tool.
  *    http://www.gnu.org/software/hello/manual/gettext/xgettext-Invocation.html
@@ -52,7 +54,7 @@ if (defined('IN_CS') === false)
  *       and their counterparts in templates, often {t('term')} or {_('term')}.
  *    b) POT/PO/MO File Handling = reading and writing.
  *
- * The Clansuite_Gettext is based on and inspired by
+ * The Koch_Gettext is based on and inspired by
  *  - Karel Klima's "GettextExtractor v2" (new BSD)
  *  - Drupals "translation_extraction" (GPL)
  *  - Matthias Bauer's work on PO/MO Filehandling for Wordpress during GSoC 2007 (GPL)
@@ -61,11 +63,11 @@ if (defined('IN_CS') === false)
  * @author Karel Klíma
  * @author Jens-André Koch
  *
- * @category    Clansuite
+ * @category    Koch
  * @package     Core
  * @subpackage  Gettext
  */
-class Clansuite_Gettext_Extractor extends Clansuite_Gettext_Extractor_Tool
+class Extractor extends Extractor_Tool
 {
     /**
      * Setup mandatory extractors
@@ -91,7 +93,7 @@ class Clansuite_Gettext_Extractor extends Clansuite_Gettext_Extractor_Tool
      *
      * @param string|array $resource
      *
-     * @return Clansuite_Gettext_Extractor
+     * @return Koch_Gettext_Extractor
      */
     public function multiScan($resource)
     {
@@ -114,8 +116,10 @@ class Clansuite_Gettext_Extractor extends Clansuite_Gettext_Extractor_Tool
     }
 }
 
+namespace Koch\Localization\Gettext\Extractor;
+
 /**
- * Clansuite_Gettext_Extractor_Tool
+ * Koch_Gettext_Extractor_Tool
  *
  * Gettext extraction is normally performed by the "xgettext" tool.
  * http://www.gnu.org/software/hello/manual/gettext/xgettext-Invocation.html
@@ -127,11 +131,11 @@ class Clansuite_Gettext_Extractor extends Clansuite_Gettext_Extractor_Tool
  * @author Karel Klíma
  * @author Jens-André Koch
  *
- * @category    Clansuite
+ * @category    Koch
  * @package     Core
  * @subpackage  Gettext
  */
-class Clansuite_Gettext_Extractor_Tool
+class Tool
 {
     /**
      * @var resource
@@ -213,18 +217,18 @@ class Clansuite_Gettext_Extractor_Tool
      *
      * @param string $message
      *
-     * @throws Clansuite_Exception
+     * @throws Koch_Exception
      */
     protected function throwException($message)
     {
         if(empty($message) === true)
         {
-            $message = 'Something unexpected occured. See Clansuite_Gettext_Extractor log for details.';
+            $message = 'Something unexpected occured. See Koch_Gettext_Extractor log for details.';
         }
 
         $this->log($message);
 
-        throw new Clansuite_Exception($message);
+        throw new Koch_Exception($message);
     }
 
     /**
@@ -354,15 +358,15 @@ class Clansuite_Gettext_Extractor_Tool
     }
 
     /**
-     * Factory Method - Gets an instance of a Clansuite_Gettext_Extractor
+     * Factory Method - Gets an instance of a Koch_Gettext_Extractor
      *
      * @param string $extractor
      *
-     * @return object Extractor Object implementing Clansuite_Gettext_Extractor_Interface
+     * @return object Extractor Object implementing Koch_Gettext_Extractor_Interface
      */
     public function getExtractor($extractor)
     {
-        $extractor_classname = 'Clansuite_Gettext_Extractor_' . $extractor;
+        $extractor_classname = 'Koch_Gettext_Extractor_' . $extractor;
 
         if(isset($this->extractors[$extractor]) === true)
         {
@@ -402,7 +406,7 @@ class Clansuite_Gettext_Extractor_Tool
      * @param string $extension
      * @param string $extractor
      *
-     * @return Clansuite_Gettext_Extractor
+     * @return Koch_Gettext_Extractor
      */
     public function setExtractor($extension, $extractor)
     {
@@ -420,7 +424,7 @@ class Clansuite_Gettext_Extractor_Tool
     /**
      * Removes all extractor settings
      *
-     * @return Clansuite_Gettext_Extractor
+     * @return Koch_Gettext_Extractor
      */
     public function removeAllExtractors()
     {
@@ -435,7 +439,7 @@ class Clansuite_Gettext_Extractor_Tool
      * @param string $file
      * @param array $data
      *
-     * @return Clansuite_Gettext_Extractor
+     * @return Koch_Gettext_Extractor
      */
     public function save($file, $data = null)
     {
@@ -477,7 +481,7 @@ class Clansuite_Gettext_Extractor_Tool
         $output = array();
         $output[] = '# Gettext Portable Object Translation File.';
         $output[] = '#';
-        $output[] = '# Clansuite - just an eSports CMS (http://www.clansuite.com)';
+        $output[] = '# Koch Framework (http://www.clansuite.com)';
         $output[] = '# Copyright © Jens-André Koch 2005 - onwards.';
         $output[] = '# The file is distributed under the GNU/GPL v2 or (at your option) any later version.';
         $output[] = '#';
@@ -564,7 +568,7 @@ class Clansuite_Gettext_Extractor_Tool
 /**
  * Base Class of all Gettext Extractors
  */
-class Clansuite_Gettext_Extractor_Base
+class Extractor_Base
 {
     /**
      * @var array Definition of all the tags to scan.
@@ -576,7 +580,7 @@ class Clansuite_Gettext_Extractor_Base
      *
      * @param mixed|array|string $tag String or Array of Tags.
      *
-     * @return Object Clansuite_Gettext_Extractor
+     * @return Object Koch_Gettext_Extractor
      */
     public function addTags($tags)
     {
@@ -604,7 +608,7 @@ class Clansuite_Gettext_Extractor_Base
      *
      * @param string $tag
      *
-     * @return Object Clansuite_Gettext_Extractor
+     * @return Object Koch_Gettext_Extractor
      */
     public function removeTag($tag)
     {
@@ -616,7 +620,7 @@ class Clansuite_Gettext_Extractor_Base
     /**
      * Removes all tags
      *
-     * @return object Clansuite_Gettext_Extractor
+     * @return object Koch_Gettext_Extractor
      */
     public function removeAllTags()
     {
@@ -627,9 +631,9 @@ class Clansuite_Gettext_Extractor_Base
 }
 
 /**
- * Clansuite_Gettext_Extractor_Interface
+ * Koch_Gettext_Extractor_Interface
  */
-interface Clansuite_Gettext_Extractor_Interface
+interface Extractor
 {
     public function extract($file);
 }

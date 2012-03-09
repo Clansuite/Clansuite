@@ -1,10 +1,10 @@
 <?php
    /**
-    * Clansuite - just an eSports CMS
+    * Koch Framework
     * Jens-André Koch © 2005 - onwards
     * http://www.clansuite.com/
     *
-    * This file is part of "Clansuite - just an eSports CMS".
+    * This file is part of "Koch Framework".
     *
     * LICENSE:
     *
@@ -33,17 +33,19 @@
 # Security Handler
 if(defined('IN_CS') === false)
 {
-    die('Clansuite not loaded. Direct Access forbidden.');
+    die('Koch Framework not loaded. Direct Access forbidden.');
 }
 
+namespace Koch;
+
 /**
- * Clansuite_File - Clansuite Core Class for the File Object
+ * Koch_File - Koch Framework Class for the File Object
  *
- * @category    Clansuite
+ * @category    Koch
  * @package     Core
  * @subpackage  File
  */
-class Clansuite_File
+class File
 {
     protected $name;
     protected $type;
@@ -163,7 +165,7 @@ class Clansuite_File
      *
      * @param $extensions array  an array of allowed file extensions. If empty,
      * every file extension is allowed.
-     * @return Clansuite_File  this object
+     * @return Koch_File  this object
      */
     public function setAllowedExtensions(array $extensions = array())
     {
@@ -187,32 +189,32 @@ class Clansuite_File
      *
      * @param $destination string  destination directory
      * @param $overwrite boolean overwrite
-     * @throws Clansuite_Exception  on failure
+     * @throws Koch_Exception  on failure
      */
     public function moveTo($destination, $overwrite = false)
     {
         # ensure upload was valid
         if ( false == $this->isValid())
         {
-            throw new Clansuite_Exception('File upload was not successful.', $this->getError());
+            throw new Koch_Exception('File upload was not successful.', $this->getError());
         }
 
         # ensure a valid file extension was used
         if ( false == $this->hasValidExtension())
         {
-            throw new Clansuite_Exception('File does not have an allowed extension.');
+            throw new Koch_Exception('File does not have an allowed extension.');
         }
 
         # ensure destination directory exists
         if ( false == is_dir($destination))
         {
-            throw new Clansuite_Exception($destination . ' is not a directory.');
+            throw new Koch_Exception($destination . ' is not a directory.');
         }
 
         # ensure destination directory is writeable
         if ( false == is_writeable($destination))
         {
-            throw new Clansuite_Exception('Cannot write to destination directory ' . $destination);
+            throw new Koch_Exception('Cannot write to destination directory ' . $destination);
         }
 
         # check if the destination as a file exists
@@ -221,24 +223,24 @@ class Clansuite_File
             # exit here, if overwrite is not requested
             if ( false == $overwrite)
             {
-                throw new Clansuite_Exception('File ' . $destination . ' already exists.');
+                throw new Koch_Exception('File ' . $destination . ' already exists.');
             }
 
 
             if ( false == is_writeable($destination))
             {
-                throw new Clansuite_Exception('Cannot overwrite ' . $destination);
+                throw new Koch_Exception('Cannot overwrite ' . $destination);
             }
         }
 
         if ( false == move_uploaded_file($this->temporayName, $destination))
         {
-            throw new Clansuite_Exception('Moving uploaded file failed.');
+            throw new Koch_Exception('Moving uploaded file failed.');
         }
     }
 }
 
-class Clansuite_FileFilterIterator extends FilterIterator
+class Koch_FileFilterIterator extends FilterIterator
 {
     protected $_files;
 
@@ -265,7 +267,7 @@ class Clansuite_FileFilterIterator extends FilterIterator
  * ImagesOnly FileType Filter for the SPL FilterIterator.
  * If the directory iterator is wrapped into this filter, it will fetch only files with a certain type.
  */
-class Clansuite_ImagesOnlyFilterIterator extends FilterIterator
+class Koch_ImagesOnlyFilterIterator extends FilterIterator
 {
     # whitelist of allowed image filetypes, lowercase
     private $allowed_image_filetypes = array('png', 'gif', 'jpeg', 'jpg');
@@ -283,13 +285,13 @@ class Clansuite_ImagesOnlyFilterIterator extends FilterIterator
         {
             return false;
         }
-        
+
         # set filename and pathinfo
         $filename = $current->getFilename();
         $extension = pathinfo($filename, PATHINFO_EXTENSION);
-      
+
         if(in_array($extension, $this->allowed_image_filetypes))
-        { 
+        {
             return true;
         }
         else # it's not a whitelisted extension
@@ -299,18 +301,18 @@ class Clansuite_ImagesOnlyFilterIterator extends FilterIterator
     }
 }
 
-class Clansuite_Directory
+class Koch_Directory
 {
     private $filtername = 'ImagesOnly';
     private $directory = '';
-    
+
     public function __construct($directory = null)
     {
         if($directory !== null)
         {
             $this->setDirectory($directory);
         }
-        
+
         return $this;
     }
 
@@ -327,15 +329,15 @@ class Clansuite_Directory
     public function setDirectory($directory)
     {
         # slash fix
-        $directory = str_replace('/', DS, $directory); 
-        $directory = str_replace('\\', DS, $directory); 
-        
+        $directory = str_replace('/', DS, $directory);
+        $directory = str_replace('\\', DS, $directory);
+
         # prefix directory with ROOT for security purposes
         if(stristr($directory, ROOT) == false)
-        {            
+        {
             $directory = ROOT . $directory;
         }
-        
+
         $this->directory = $directory;
 
         return $this;
@@ -344,7 +346,7 @@ class Clansuite_Directory
     public function getDirectory()
     {
         if(empty($this->directory) === false)
-        {            
+        {
             return $this->directory;
         }
         else # default path
@@ -356,9 +358,9 @@ class Clansuite_Directory
     public function getFiles($return_as_array = false)
     {
         # compose the full name of the filter class
-        $classname = 'Clansuite_' . $this->filtername . 'FilterIterator';
+        $classname = 'Koch_' . $this->filtername . 'FilterIterator';
 
-        # wrap the iterator in a filter class, when looking for a specific file type, like imagesOnly'        
+        # wrap the iterator in a filter class, when looking for a specific file type, like imagesOnly'
         $iterator = new $classname(new DirectoryIterator($this->getDirectory()));
 
         # return objects

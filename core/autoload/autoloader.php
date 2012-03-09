@@ -1,10 +1,10 @@
 <?php
    /**
-    * Clansuite - just an eSports CMS
+    * Koch Framework
     * Jens-André Koch © 2005 - onwards
     * http://www.clansuite.com/
     *
-    * This file is part of "Clansuite - just an eSports CMS".
+    * This file is part of "Koch Framework".
     *
     * LICENSE:
     *
@@ -33,11 +33,13 @@
 # Security Handler
 if (defined('IN_CS') === false)
 {
-    die('Clansuite not loaded. Direct Access forbidden.');
+    die('Koch Framework not loaded. Direct Access forbidden.');
 }
 
+namespace Koch\Autoload;
+
 /**
- * Clansuite_Loader
+ * Koch Loader
  *
  * This Loader overwrites the Zend Engines_autoload with our own user defined loading functions.
  * The main function of this class is autoload() it's registered via spl_autoload_register($load_function).
@@ -47,7 +49,7 @@ if (defined('IN_CS') === false)
  *
  * Usage:
  * 1) include this file
- * 2) spl_autoload_register('Clansuite_Loader::autoload');
+ * 2) spl_autoload_register('Koch_Loader::autoload');
  *
  * PHP Manual: __autoload
  * @link http://www.php.net/manual/en/language.oop5.autoload.php
@@ -55,11 +57,11 @@ if (defined('IN_CS') === false)
  * PHP Manual: spl_autoload_register
  * @link http://www.php.net/manual/de/function.spl-autoload-register.php
  *
- * @category    Clansuite
+ * @category    Koch
  * @package     Core
  * @subpackage  Loader
  */
-class Clansuite_Loader
+class Loader
 {
     /**
      * @var boolean APC on/off.
@@ -148,7 +150,7 @@ class Clansuite_Loader
      * Excludes a certain classname from the autoloading.
      *
      * Some libraries have their own autoloaders, like e.g. Smarty.
-     * In these cases Clansuite has the first autoloader in the stack,
+     * In these cases Koch Framework has the first autoloader in the stack,
      * but is not responsible for loading.
      *
      * @param string $classname Classname to check for exclusion.
@@ -172,13 +174,13 @@ class Clansuite_Loader
          * But include our own wrapper classes for both libraries.
          */
 
-        # this means if 'Doctrine" is found, but not 'Clansuite_Doctrine', exclude from our autoloading
-        if (false !== strpos($classname, 'Doctrine') and false === strpos($classname, 'Clansuite_Doctrine'))
+        # this means if 'Doctrine" is found, but not 'Koch_Doctrine', exclude from our autoloading
+        if (false !== strpos($classname, 'Doctrine') and false === strpos($classname, 'Koch_Doctrine'))
         {
             return true;
         }
 
-        # this means if 'Smarty" is found, but not 'Clansuite_Smarty', exclude from our autoloading
+        # this means if 'Smarty" is found, but not 'Koch_Smarty', exclude from our autoloading
         if (false !== strpos($classname, 'Smarty') and false === strpos($classname, '_Smarty'))
         {
             return true;
@@ -196,67 +198,67 @@ class Clansuite_Loader
         # autoloading map
         self::$inclusions_map = array(
         # /core/config
-        'Clansuite_Config_Base'               => 'config/base.php',
-        'Clansuite_Config_INI'                => 'config/adapter/ini.php',
-        'Clansuite_Config_XML'                => 'config/adapter/xml.php',
-        'Clansuite_Config_YAML'               => 'config/adapter/yaml.php',
-        'Clansuite_Renderer_Base'             => 'renderer/renderer.base.php',
+        'Koch_Config_Base'               => 'config/base.php',
+        'Koch_Config_INI'                => 'config/adapter/ini.php',
+        'Koch_Config_XML'                => 'config/adapter/xml.php',
+        'Koch_Config_YAML'               => 'config/adapter/yaml.php',
+        'Koch_Renderer_Base'             => 'renderer/renderer.base.php',
         # /core
-        'Clansuite_Staging'                   => 'staging.php',
-        'Clansuite_UTF8'                      => 'utf8core.php',
-        'Clansuite_Config'                    => 'config.php',
-        'Clansuite_ACL'                       => 'aclcore.php',
-        'Clansuite_HttpRequest'               => 'httprequestcore.php',
-        'Clansuite_HttpResponse'              => 'httpresponse.php',
-        'Clansuite_FilterManager'             => 'filtermanager.php',
-        'Clansuite_Localization'              => 'localization.php',
-        'Clansuite_Inputfilter'               => 'inputfilter.php',
-        'Clansuite_User'                      => 'user.php',
-        'Clansuite_Router'                    => 'router.php',
-        'Clansuite_TargetRoute'               => 'targetroute.php',
-        'Clansuite_Mapper'                    => 'mapper.php',
-        'Clansuite_Security'                  => 'security.php',
-        'Clansuite_Session'                   => 'session.php',
-        'Clansuite_Filter_Interface'          => 'filtermanager.php',
-        'Clansuite_Gettext_Extractor'         => 'gettext.php',
-        'Clansuite_DoorKeeper'                => 'doorkeeper.php',
-        'Clansuite_Functions'                 => 'functions.php',
-        'Clansuite_XML2JSON'                  => 'xml2json.php',
-        'Clansuite_Doctrine'                  => 'doctrine.php',
-        'Clansuite_DoctrineTools'             => 'doctrine.php',
-        'Clansuite_Front_Controller'          => 'frontcontroller.php',
-        'Clansuite_Module_Controller'         => 'modulecontroller.php',
-        'Clansuite_EventDispatcher'           => 'eventdispatcher.php',
-        'Clansuite_Breadcrumb'                => 'breadcrumb.php',
+        'Koch_Staging'                   => 'staging.php',
+        'Koch_UTF8'                      => 'utf8core.php',
+        'Koch_Config'                    => 'config.php',
+        'Koch_ACL'                       => 'aclcore.php',
+        'Koch_HttpRequest'               => 'httprequestcore.php',
+        'Koch_HttpResponse'              => 'httpresponse.php',
+        'Koch_FilterManager'             => 'filtermanager.php',
+        'Koch_Localization'              => 'localization.php',
+        'Koch_Inputfilter'               => 'inputfilter.php',
+        'Koch_User'                      => 'user.php',
+        'Koch_Router'                    => 'router.php',
+        'Koch_TargetRoute'               => 'targetroute.php',
+        'Koch_Mapper'                    => 'mapper.php',
+        'Koch_Security'                  => 'security.php',
+        'Koch_Session'                   => 'session.php',
+        'Koch_Filter_Interface'          => 'filtermanager.php',
+        'Koch_Gettext_Extractor'         => 'gettext.php',
+        'Koch_DoorKeeper'                => 'doorkeeper.php',
+        'Koch_Functions'                 => 'functions.php',
+        'Koch_XML2JSON'                  => 'xml2json.php',
+        'Koch_Doctrine'                  => 'doctrine.php',
+        'Koch_DoctrineTools'             => 'doctrine.php',
+        'Koch_Front_Controller'          => 'frontcontroller.php',
+        'Koch_Module_Controller'         => 'modulecontroller.php',
+        'Koch_EventDispatcher'           => 'eventdispatcher.php',
+        'Koch_Breadcrumb'                => 'breadcrumb.php',
         # /core/files
-        'Clansuite_File'                      => 'files/file.php',
-        'Clansuite_Directory'                 => 'files/file.php',
-        'Clansuite_Upload'                    => 'files/upload.php',
-        'Clansuite_Download'                  => 'files/download.php',
+        'Koch_File'                      => 'files/file.php',
+        'Koch_Directory'                 => 'files/file.php',
+        'Koch_Upload'                    => 'files/upload.php',
+        'Koch_Download'                  => 'files/download.php',
         # /core/tools
-        'Clansuite_Browserinfo'               => 'tools/browserinfo.php',
-        'Clansuite_Cssbuilder'                => 'tools/cssbuilder.php',
+        'Koch_Browserinfo'               => 'tools/browserinfo.php',
+        'Koch_Cssbuilder'                => 'tools/cssbuilder.php',
         # /core/renderer
-        'Clansuite_View_Mapper'               => 'renderer/templatemapper.php',
+        'Koch_View_Mapper'               => 'renderer/templatemapper.php',
         # /viewhelper/
-        'Clansuite_Theme'                     => 'viewhelper/theme.php',
+        'Koch_Theme'                     => 'viewhelper/theme.php',
         # /viewhelper/datagrid
-        'Clansuite_Datagrid'                  => 'viewhelper/datagrid/datagrid.php',
-        'Clansuite_Datagrid_Column'           => 'viewhelper/datagrid/datagridcol.php',
+        'Koch_Datagrid'                  => 'viewhelper/datagrid/datagrid.php',
+        'Koch_Datagrid_Column'           => 'viewhelper/datagrid/datagridcol.php',
         # /viewhelper/form
-        'Clansuite_Form'                      => 'viewhelper/form/form.php',
-        'Clansuite_Formelement'               => 'viewhelper/form/formelement.php',
-        'Clansuite_Form_Decorator'            => 'viewhelper/form/formdecorator.php',
-        'Clansuite_Formelement_Decorator'     => 'viewhelper/form/formelementdecorator.php',
-        'Clansuite_Formelement_Validator'     => 'viewhelper/form/formelementvalidator.php',
-        'Clansuite_Formelement_Input'         => 'viewhelper/form/elements/input.php',
-        'Clansuite_Formelement_Button'        => 'viewhelper/form/elements/button.php',
-        'Clansuite_Formelement_Imagebutton'   => 'viewhelper/form/elements/imagebutton.php',
-        'Clansuite_Formelement_Checkbox'      => 'viewhelper/form/elements/checkbox.php',
-        'Clansuite_Formelement_Select'        => 'viewhelper/form/elements/select.php',
-        'Clansuite_Array_Formgenerator'       => 'viewhelper/form/generators/array.php',
-        'Clansuite_Doctrine_Formgenerator'    => 'viewhelper/form/generators/doctrine.php',
-        'Clansuite_Xml_Formgenerator'         => 'viewhelper/form/generators/xml.php',
+        'Koch_Form'                      => 'viewhelper/form/form.php',
+        'Koch_Formelement'               => 'viewhelper/form/formelement.php',
+        'Koch_Form_Decorator'            => 'viewhelper/form/formdecorator.php',
+        'Koch_Formelement_Decorator'     => 'viewhelper/form/formelementdecorator.php',
+        'Koch_Formelement_Validator'     => 'viewhelper/form/formelementvalidator.php',
+        'Koch_Formelement_Input'         => 'viewhelper/form/elements/input.php',
+        'Koch_Formelement_Button'        => 'viewhelper/form/elements/button.php',
+        'Koch_Formelement_Imagebutton'   => 'viewhelper/form/elements/imagebutton.php',
+        'Koch_Formelement_Checkbox'      => 'viewhelper/form/elements/checkbox.php',
+        'Koch_Formelement_Select'        => 'viewhelper/form/elements/select.php',
+        'Koch_Array_Formgenerator'       => 'viewhelper/form/generators/array.php',
+        'Koch_Doctrine_Formgenerator'    => 'viewhelper/form/generators/doctrine.php',
+        'Koch_Xml_Formgenerator'         => 'viewhelper/form/generators/xml.php',
         );
 
         # check if classname is in autoloading map

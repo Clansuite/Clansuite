@@ -1,10 +1,10 @@
 <?php
    /**
-    * Clansuite - just an eSports CMS
+    * Koch Framework
     * Jens-André Koch © 2005 - onwards
     * http://www.clansuite.com/
     *
-    * This file is part of "Clansuite - just an eSports CMS".
+    * This file is part of "Koch Framework".
     *
     * LICENSE:
     *
@@ -33,17 +33,19 @@
 # Security Handler
 if(defined('IN_CS') === false)
 {
-    die('Clansuite not loaded. Direct Access forbidden.');
+    die('Koch Framework not loaded. Direct Access forbidden.');
 }
 
+namespace Koch;
+
 /**
- * Clansuite Functions
+ * Koch FrameworkFunctions
  *
- * @category    Clansuite
+ * @category    Koch
  * @package     Core
  * @subpackage  Functions
  */
-class Clansuite_Functions
+class Functions
 {
     /**
      * @var array This array contains the names of the loaded functions from directory /core/functions.
@@ -192,7 +194,7 @@ class Clansuite_Functions
      * Hint: use return getsize() on the return value of this function transform it to a readable format.
      * @see getsize()
      * @example
-     * $readable_dirsize = Clansuite_Functions::getsize(Clansuite_Functions::dirsize($dir));
+     * $readable_dirsize = Koch_Functions::getsize(Koch_Functions::dirsize($dir));
      *
      * @param $dir Directory Path
      * @return $size size of directory in bytes
@@ -1028,7 +1030,7 @@ class Clansuite_Functions
 
         # Debug message for Method Overloading
         # Making it easier to see which static method is called magically
-        Clansuite_Debug::fbg('DEBUG (Overloading): Calling static method "'.$method.'" '. implode(', ', $arguments). "\n");
+        Koch_Debug::fbg('DEBUG (Overloading): Calling static method "'.$method.'" '. implode(', ', $arguments). "\n");
         # construct the filename of the command
         $filename = ROOT_CORE . 'functions' . DS . $method . '.function.php';
 
@@ -1042,7 +1044,7 @@ class Clansuite_Functions
         }
         else
         {
-            trigger_error('Clansuite Function not found: "' . $filename . '".');
+            trigger_error('Koch Framework Function not found: "' . $filename . '".');
         }
     }
 
@@ -1065,7 +1067,7 @@ class Clansuite_Functions
 
         # Debug message for Method Overloading
         # Making it easier to see which method is called magically
-        # Clansuite_Debug::fbg('DEBUG (Overloading): Calling object method "'.$method.'" '. implode(', ', $arguments). "\n");
+        # Koch_Debug::fbg('DEBUG (Overloading): Calling object method "'.$method.'" '. implode(', ', $arguments). "\n");
         # construct the filename of the command
         $filename = ROOT_CORE . 'functions' . DS . $method . '.function.php';
 
@@ -1079,7 +1081,7 @@ class Clansuite_Functions
         }
         else
         {
-            trigger_error('Clansuite Function not found: "' . $filename . '".');
+            trigger_error('Koch Framework Function not found: "' . $filename . '".');
         }
     }
 

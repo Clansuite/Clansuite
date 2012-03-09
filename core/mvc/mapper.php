@@ -1,10 +1,10 @@
 <?php
    /**
-    * Clansuite - just an eSports CMS
+    * Koch Framework
     * Jens-André Koch © 2005 - onwards
     * http://www.clansuite.com/
     *
-    * This file is part of "Clansuite - just an eSports CMS".
+    * This file is part of "Koch Framework".
     *
     * LICENSE:
     *
@@ -33,24 +33,26 @@
 # Security Handler
 if (defined('IN_CS') === false)
 {
-    die('Clansuite not loaded. Direct Access forbidden.');
+    die('Koch Framework not loaded. Direct Access forbidden.');
 }
 
+namespace Koch\MVC;
+
 /**
- * Clansuite_Mapper
+ * Koch_Mapper
  *
  * Provides helper methods to transform (map)
  * (a) the controller name into the specific application classname and filename
  * (b) the action name into the specific application actioname.
  *
- * @category    Clansuite
+ * @category    Koch
  * @package     Core
  * @subpackage  Mapper
  */
-class Clansuite_Mapper extends ArrayObject
+class Mapper extends ArrayObject
 {
     /* @const string Classname prefix for modules */
-    const MODULE_CLASS_PREFIX = 'Clansuite_Module';
+    const MODULE_CLASS_PREFIX = 'Koch_Module';
 
     /* @const string Method prefix for module actions */
     const METHOD_PREFIX = 'action';

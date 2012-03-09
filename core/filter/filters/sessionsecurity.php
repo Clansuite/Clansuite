@@ -1,10 +1,10 @@
 <?php
    /**
-    * Clansuite - just an eSports CMS
+    * Koch Framework
     * Jens-André Koch © 2005 - onwards
     * http://www.clansuite.com/
     *
-    * This file is part of "Clansuite - just an eSports CMS".
+    * This file is part of "Koch Framework".
     *
     * LICENSE:
     *
@@ -33,11 +33,13 @@
 # Security Handler
 if (defined('IN_CS') === false)
 {
-    die('Clansuite not loaded. Direct Access forbidden.' );
+    die('Koch Framework not loaded. Direct Access forbidden.' );
 }
 
+namespace Koch\Filter;
+
 /**
- * Clansuite Filter - Session Security
+ * Koch FrameworkFilter - Session Security
  *
  * Purpose:
  * This Filter ensures the session integrity.
@@ -48,20 +50,20 @@ if (defined('IN_CS') === false)
  * 3) Host changed
  * 4) wrong passwords where tried a number of times
  *
- * @category    Clansuite
+ * @category    Koch
  * @package     Core
  * @subpackage  Filters
  */
-class Clansuite_Filter_SessionSecurity implements Clansuite_Filter_Interface
+class SessionSecurity implements Filter
 {
     private $config     = null;
 
-    function __construct(Clansuite_Config $config)
+    function __construct(Koch_Config $config)
     {
         $this->config     = $config;
     }
 
-    public function executeFilter(Clansuite_HttpRequest $request, Clansuite_HttpResponse $response)
+    public function executeFilter(Koch_HttpRequest $request, Koch_HttpResponse $response)
     {
         $this->response = $response;
 
@@ -125,7 +127,7 @@ class Clansuite_Filter_SessionSecurity implements Clansuite_Filter_Interface
          * 4. Check maximal password tries
          */
 
-        # take the initiative, if maximal_password_tries is enabled (greater 0)in Clansuite_Config
+        # take the initiative, if maximal_password_tries is enabled (greater 0)in Koch_Config
         # or pass to the next filter / do nothing
         /*if($this->config['session']['maximal_password_tries'] > 0)
         {

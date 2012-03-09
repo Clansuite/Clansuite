@@ -6,7 +6,7 @@
  */
 
 /**
- * This smarty function is part of "Clansuite - just an eSports CMS"
+ * This smarty function is part of "Koch Framework"
  * @link http://www.clansuite.com
  *
  * @author Jens-André Koch <jakoch@web.de>
@@ -25,8 +25,7 @@
  */
 function smarty_modifier_firebug($var)
 {
-    # formerly using the Clansuite Framework
-    Clansuite_Debug::firebug($var);
+    Koch_Debug::firebug($var);
 
     # using firebug directly
     /*if(false === class_exists('FirePHP', false))

@@ -1,10 +1,10 @@
 <?php
    /**
-    * Clansuite - just an eSports CMS
+    * Koch Framework
     * Jens-André Koch © 2005 - onwards
     * http://www.clansuite.com/
     *
-    * This file is part of "Clansuite - just an eSports CMS".
+    * This file is part of "Koch Framework".
     *
     * LICENSE:
     *
@@ -33,11 +33,13 @@
 # Security Handler
 if(defined('IN_CS') === false)
 {
-    die('Clansuite not loaded. Direct Access forbidden.');
+    die('Koch Framework not loaded. Direct Access forbidden.');
 }
 
+namespace Koch\Session;
+
 /**
- * Clansuite Flashmessages
+ * Koch FrameworkFlashmessages
  *
  * The sending of messages is very simple for GET-Requests.
  * You can use echo or the template to output the messages.
@@ -58,11 +60,11 @@ if(defined('IN_CS') === false)
  *
  * Inspired by Ruby on Rails Flash Messages.
  *
- * @category    Clansuite
+ * @category    Koch
  * @package     Core
  * @subpackage  Flashmessages
  */
-class Clansuite_Flashmessages /* extends Clansuite_Session */
+class Flashmessages /* extends Koch_Session */
 {
     /**
      * @var contains $session array of $flashmessages

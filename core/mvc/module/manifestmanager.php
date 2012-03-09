@@ -1,6 +1,6 @@
 <?php
    /**
-    * Clansuite - just an eSports CMS
+    * Koch Framework
     * Jens-André Koch © 2005 - onwards
     * http://www.clansuite.com/
     *
@@ -31,17 +31,19 @@
 # Security Handler
 if(defined('IN_CS') === false)
 {
-    die('Clansuite not loaded. Direct Access forbidden.');
+    die('Koch Framework not loaded. Direct Access forbidden.');
 }
 
+namespace Koch\Module;
+
 /**
- * Clansuite_Module_Manifest_Manager
+ * Koch_Module_Manifest_Manager
  *
  * @todo
  * A. ModuleInfoScanner
  * B. ModuleInfoReader
  */
-class Clansuite_Module_Manifest_Manager
+class ManifestManager
 {
     /**
      * @var array contains the moduleinformations
@@ -85,7 +87,7 @@ class Clansuite_Module_Manifest_Manager
      */
     public static function readModuleRegistry()
     {
-        return Clansuite_CMS::getInjector()->instantiate('Clansuite_Config')
+        return Clansuite_CMS::getInjector()->instantiate('Koch_Config')
                 ->readConfig(ROOT . 'configuration' . DS . 'modules.config.php');
     }
 
@@ -96,7 +98,7 @@ class Clansuite_Module_Manifest_Manager
      */
     public static function writeModuleRegistry($array)
     {
-        Clansuite_CMS::getInjector()->instantiate('Clansuite_Config')
+        Clansuite_CMS::getInjector()->instantiate('Koch_Config')
          ->writeConfig(ROOT . 'configuration' . DS . 'modules.config.php');
     }
 
@@ -108,7 +110,7 @@ class Clansuite_Module_Manifest_Manager
      */
     public static function readModuleConfig($modulename)
     {
-        return Clansuite_CMS::getInjector()->instantiate('Clansuite_Config')
+        return Clansuite_CMS::getInjector()->instantiate('Koch_Config')
                 ->readModuleConfig($modulename);
     }
 
@@ -317,10 +319,10 @@ class Clansuite_Module_Manifest_Manager
 
             # hasInfo
             $module_infofile = $modulepath . DS . $modulename . '.info.php';
-            $config_object = Clansuite_CMS::getInjector()->instantiate('Clansuite_Config');
+            $config_object = Clansuite_CMS::getInjector()->instantiate('Koch_Config');
             if(is_file($module_infofile) === true)
             {
-                #Clansuite_Debug::firebug($module_infofile);
+                #Koch_Debug::firebug($module_infofile);
 
                 self::$modulesinfo[$modulename]['info'] = $config_object->readConfig($module_infofile);
             }
@@ -364,7 +366,7 @@ class Clansuite_Module_Manifest_Manager
 
         ksort(self::$modulesinfo);
 
-        #Clansuite_Debug::printR(self::$modulesinfo);
+        #Koch_Debug::printR(self::$modulesinfo);
 
         return self::$modulesinfo;
     }
@@ -459,7 +461,7 @@ class Clansuite_Module_Manifest_Manager
             }
         }
 
-        #Clansuite_Debug::printR($langinfo);
+        #Koch_Debug::printR($langinfo);
 
         return $langinfo;
     }

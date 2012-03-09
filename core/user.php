@@ -1,10 +1,10 @@
 <?php
    /**
-    * Clansuite - just an eSports CMS
+    * Koch Framework
     * Jens-André Koch © 2005 - onwards
     * http://www.clansuite.com/
     *
-    * This file is part of "Clansuite - just an eSports CMS".
+    * This file is part of "Koch Framework".
     *
     * LICENSE:
     *
@@ -33,21 +33,23 @@
 # Security Handler
 if (defined('IN_CS') === false)
 {
-    die('Clansuite not loaded. Direct Access forbidden.');
+    die('Koch Framework not loaded. Direct Access forbidden.');
 }
 
+namespace Koch;
+
 /**
- * This Clansuite Core Class for Users Handling
+ * This Koch Framework Class for Users Handling
  *
  * @author     Jens-André Koch   <vain@clansuite.com>
  * @author     Florian Wolf      <xsign.dll@clansuite.com>
  * @copyright  Jens-André Koch (2005 - onwards), Florian Wolf (2006-2007)
  *
- * @category    Clansuite
+ * @category    Koch
  * @package     Modules
  * @subpackage  User
  */
-class Clansuite_User
+class User
 {
     /**
      * @var object User Object
@@ -55,14 +57,14 @@ class Clansuite_User
     private $user = null;
 
     /**
-     * @var object Clansuite_Configuration
+     * @var object Koch_Configuration
      */
     private $config = null;
 
     /**
      * Constructor
      */
-    function __construct(Clansuite_Config $config)
+    function __construct(Koch_Config $config)
     {
         $this->config = $config;
     }
@@ -168,7 +170,7 @@ class Clansuite_User
 
             # redirect
             Clansuite_CMS::getInjector()
-                    ->instantiate('Clansuite_HttpResponse')
+                    ->instantiate('Koch_HttpResponse')
                     ->redirect('/account/activation_email', 5, 403, _('Your account is not yet activated.'));
         }
 
@@ -180,8 +182,8 @@ class Clansuite_User
             /**
              * Transfer User Data into Session
              */
-            #Clansuite_Debug::firebug($_SESSION);
-            #Clansuite_Debug::firebug($this->config);
+            #Koch_Debug::firebug($_SESSION);
+            #Koch_Debug::firebug($this->config);
 
             $_SESSION['user']['authed']         = 1;
             $_SESSION['user']['user_id']        = $this->user['user_id'];
@@ -267,19 +269,19 @@ class Clansuite_User
             {
                 $_SESSION['user']['group']  = $this->user['CsGroups'][0]['group_id'];
                 $_SESSION['user']['role']   = $this->user['CsGroups'][0]['role_id'];
-                $_SESSION['user']['rights'] = Clansuite_ACL::createRightSession(
+                $_SESSION['user']['rights'] = Koch_ACL::createRightSession(
                                                 $_SESSION['user']['role'],
                                                 $this->user['user_id'] );
             }
 
-            #Clansuite_Debug::firebug($_SESSION);
+            #Koch_Debug::firebug($_SESSION);
         }
         else
         {
             # this resets the $_SESSION['user'] array
-            Clansuite_GuestUser::instantiate();
+            Koch_GuestUser::instantiate();
 
-            #Clansuite_Debug::printR($_SESSION);
+            #Koch_Debug::printR($_SESSION);
         }
     }
 
@@ -328,7 +330,7 @@ class Clansuite_User
 
         # if user was found, check if passwords match each other
         if( true === (bool) $user and
-            true === Clansuite_Security::check_salted_hash(
+            true === Koch_Security::check_salted_hash(
             $passwordhash,
             $user['passwordhash'], $user['salt'],
             $this->moduleconfig['login']['hash_algorithm']))
@@ -424,7 +426,7 @@ class Clansuite_User
             $cookie_user_id = (int) $cookie_array['0'];
             $cookie_password = (string) $cookie_array['1'];
 
-            #Clansuite_Module_Controller::initModel('users');
+            #Koch_Module_Controller::initModel('users');
 
             $this->user = Doctrine_Query::create()
                     ->select('u.user_id, u.passwordhash, u.salt')
@@ -438,7 +440,7 @@ class Clansuite_User
              * Proceed if match
              */
             if ( is_array($this->user) and
-                    Clansuite_Security::check_salted_hash(
+                    Koch_Security::check_salted_hash(
                             $_COOKIE['cs_cookie_password'],
                             $this->user['passwordhash'],
                             $this->user['salt'],
@@ -490,7 +492,7 @@ class Clansuite_User
 
     /**
      * Checks if the user has a certain permission
-     * Proxy Method for Clansuite_ACL::checkPermission()
+     * Proxy Method for Koch_ACL::checkPermission()
      *
      * Two values are necessary the modulname and the name of the permission,
      * which is often the actionname.
@@ -501,7 +503,7 @@ class Clansuite_User
      */
     public static function hasAccess( $modulename = '', $permission = '' )
     {
-        return Clansuite_ACL::checkPermission( $modulename, $permission );
+        return Koch_ACL::checkPermission( $modulename, $permission );
     }
 
     /**
@@ -548,18 +550,18 @@ class Clansuite_User
 }
 
 /**
- * Clansuite_GuestUser represents the initial values of the user object.
+ * Koch_GuestUser represents the initial values of the user object.
  * This is the guest visitor.
  */
-class Clansuite_GuestUser
+class Koch_GuestUser
 {
     /**
-     * @var object Clansuite_GuestUser is a singleton.
+     * @var object Koch_GuestUser is a singleton.
      */
     static private $instance = null;
 
     /**
-     * @var object Clansuite_Configuration
+     * @var object Koch_Configuration
      */
     private $config = null;
 
@@ -578,7 +580,7 @@ class Clansuite_GuestUser
 
     function __construct()
     {
-        $this->config = Clansuite_CMS::getInjector()->instantiate('Clansuite_Config');
+        $this->config = Clansuite_CMS::getInjector()->instantiate('Koch_Config');
 
         /**
          * Fill $_SESSION[user] with Guest-User-infos
@@ -627,10 +629,10 @@ class Clansuite_GuestUser
 
         $_SESSION['user']['group']  = 1; # @todo hardcoded for now
         $_SESSION['user']['role']   = 3;
-        #$_SESSION['user']['rights'] = Clansuite_ACL::createRightSession( $_SESSION['user']['role'] );
+        #$_SESSION['user']['rights'] = Koch_ACL::createRightSession( $_SESSION['user']['role'] );
 
-        #Clansuite_Debug::printR($_SESSION);
-        #Clansuite_Debug::firebug($_SESSION);
+        #Koch_Debug::printR($_SESSION);
+        #Koch_Debug::firebug($_SESSION);
     }
 }
 ?>

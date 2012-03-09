@@ -1,10 +1,10 @@
 <?php
    /**
-    * Clansuite - just an eSports CMS
+    * Koch Framework
     * Jens-André Koch © 2005 - onwards
     * http://www.clansuite.com/
     *
-    * This file is part of "Clansuite - just an eSports CMS".
+    * This file is part of "Koch Framework".
     *
     * LICENSE:
     *
@@ -33,11 +33,13 @@
 # Security Handler
 if(defined('IN_CS') === false)
 {
-    die('Clansuite not loaded. Direct Access forbidden.');
+    die('Koch Framework not loaded. Direct Access forbidden.');
 }
 
+namespace Koch\Logger;
+
 /**
- * Clansuite Core File - Clansuite_Logger_Firebug
+ * Koch FrameworkCore File - Koch_Logger_Firebug
  *
  * This class is a service wrapper for logging messages to the firebug browser console
  * via the famous FirePHP Firefox extension.
@@ -56,18 +58,18 @@ if(defined('IN_CS') === false)
  * @copyright   Jens-André Koch (2005 - onwards)
  * @license     GPLv2 any later license
  *
- * @category    Clansuite
+ * @category    Koch
  * @package     Core
  * @subpackage  Logger
  */
-class Clansuite_Logger_Firebug implements Clansuite_Logger_Interface
+class Firebug implements Logger
 {
     private static $firephp = null;
 
     public function __construct()
     {
         include ROOT_LIBRARIES.'firephp/FirePHP.class.php';
-        self::instantiateFirePHP();       
+        self::instantiateFirePHP();
     }
 
     /**
@@ -126,7 +128,7 @@ class Clansuite_Logger_Firebug implements Clansuite_Logger_Interface
      * @param $data array date['message'], data['label'], data['level']
      */
     public function writeLog($data)
-    { 
+    {
         self::$firephp->fb($data['message'], $data['label'], $this->getFirePHPLoglevel($data['level']) );
     }
 }

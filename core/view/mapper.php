@@ -1,10 +1,10 @@
 <?php
    /**
-    * Clansuite - just an eSports CMS
+    * Koch Framework
     * Jens-André Koch © 2005 - onwards
     * http://www.clansuite.com/
     *
-    * This file is part of "Clansuite - just an eSports CMS".
+    * This file is part of "Koch Framework".
     *
     * LICENSE:
     *
@@ -33,14 +33,16 @@
 # Security Handler
 if(defined('IN_CS') === false)
 {
-    die('Clansuite not loaded. Direct Access forbidden.');
+    die('Koch Framework not loaded. Direct Access forbidden.');
 }
 
+namespace Koch\View;
+
 /**
- * Clansuite_View_Mapper
+ * Koch_View_Mapper
  *
  * By definition a mapper sets up a communication between two independent objects.
- * Clansuite_View_Mapper is a "class action" to "template" mapper.
+ * Koch_View_Mapper is a "class action" to "template" mapper.
  * This has nothing to do with rendering, but with template selection for the view.
  * If no template was set manually in the action of a module (class),
  * this class will help determining the template,
@@ -49,7 +51,7 @@ if(defined('IN_CS') === false)
  * layout_template selection, depends on the main configuration and user selection (settings).
  *
  */
-class Clansuite_View_Mapper
+class Mapper
 {
     /**
      * @var string Template name.
@@ -89,7 +91,7 @@ class Clansuite_View_Mapper
         if(empty($this->template) === true)
         {
             # construct template name
-            $template = Clansuite_TargetRoute::getActionName() . '.tpl';
+            $template = Koch_TargetRoute::getActionName() . '.tpl';
 
             $this->setTemplate($template);
         }
@@ -111,7 +113,7 @@ class Clansuite_View_Mapper
     /**
      * Get the template name
      *
-     * Proxies to Clansuite_View_Mapper::getTemplate()
+     * Proxies to Koch_View_Mapper::getTemplate()
      *
      * @return string $template Name of the Template (full path)
      */
@@ -144,12 +146,12 @@ class Clansuite_View_Mapper
         # check if template was found there, else it's null
         if($theme_template != null)
         {
-            #Clansuite_Debug::firebug(__METHOD__ .' tries fetching template ("'. $theme_template . '") from THEME directory.');
+            #Koch_Debug::firebug(__METHOD__ .' tries fetching template ("'. $theme_template . '") from THEME directory.');
             return $theme_template;
         }
         else # fetch the template by searching in the Module Template Path
         {
-            #Clansuite_Debug::firebug(__METHOD__ .' tries fetching template ("'. $template . '") from MODULE directory.');
+            #Koch_Debug::firebug(__METHOD__ .' tries fetching template ("'. $template . '") from MODULE directory.');
             return self::getModuleTemplatePath($template);
         }
     }
@@ -162,9 +164,9 @@ class Clansuite_View_Mapper
     public static function getThemeTemplatePaths()
     {
         # get module, submodule, renderer names
-        $module = Clansuite_HttpRequest::getRoute()->getModuleName();
-        $submodule = Clansuite_HttpRequest::getRoute()->getSubModuleName();
-        #$renderer  = Clansuite_HttpRequest::getRoute()->getRenderEngine();
+        $module = Koch_HttpRequest::getRoute()->getModuleName();
+        $submodule = Koch_HttpRequest::getRoute()->getSubModuleName();
+        #$renderer  = Koch_HttpRequest::getRoute()->getRenderEngine();
 
         $theme_paths = array();
 
@@ -175,7 +177,7 @@ class Clansuite_View_Mapper
         if($module == 'controlcenter' or $submodule == 'admin')
         {
             # get backend theme from session for path construction
-            $backendtheme = Clansuite_HttpRequest::getRoute()->getBackendTheme();
+            $backendtheme = Koch_HttpRequest::getRoute()->getBackendTheme();
 
             # (a) USER BACKENDTHEME - check in the active session backendtheme
             # e.g. /themes/backend/ + admin/template_name.tpl
@@ -191,7 +193,7 @@ class Clansuite_View_Mapper
         else
         {
             # get frontend theme from session for path construction
-            $frontendtheme = Clansuite_HttpRequest::getRoute()->getFrontendTheme();
+            $frontendtheme = Koch_HttpRequest::getRoute()->getFrontendTheme();
 
             # (a) USER FRONTENDTHEME - check, if template exists in current session user THEME
             $theme_paths[] = ROOT_THEMES_FRONTEND . $frontendtheme . DS;
@@ -229,10 +231,10 @@ class Clansuite_View_Mapper
     public static function getModuleTemplatePaths()
     {
         # fetch modulename for template path construction
-        $module = Clansuite_TargetRoute::getModuleName();
+        $module = Koch_TargetRoute::getModuleName();
 
         # fetch renderer name for template path construction
-        $renderer = Clansuite_HttpRequest::getRoute()->getRenderEngine();
+        $renderer = Koch_HttpRequest::getRoute()->getRenderEngine();
 
         # compose templates paths in the module dir
         $module_paths = array(
@@ -267,7 +269,7 @@ class Clansuite_View_Mapper
         else
         {
             # fetch renderer name for template path construction
-            $renderer = Clansuite_HttpRequest::getRoute()->getRenderEngine();
+            $renderer = Koch_HttpRequest::getRoute()->getRenderEngine();
 
             # the template with that name is not found on our default paths
             return ROOT_THEMES_CORE . 'view' . DS . $renderer . DS . 'template_not_found.tpl';

@@ -1,10 +1,10 @@
 <?php
    /**
-    * Clansuite - just an eSports CMS
+    * Koch Framework
     * Jens-André Koch © 2005 - onwards
     * http://www.clansuite.com/
     *
-    * This file is part of "Clansuite - just an eSports CMS".
+    * This file is part of "Koch Framework".
     *
     * LICENSE:
     *
@@ -33,11 +33,13 @@
 # Security Handler
 if (defined('IN_CS') === false)
 {
-    die('Clansuite not loaded. Direct Access forbidden.');
+    die('Koch Framework not loaded. Direct Access forbidden.');
 }
 
+namespace Koch\Event;
+
 /**
- * Clansuite Event - BlockIPs
+ * Koch FrameworkEvent - BlockIPs
  *
  * @author     Jens-André Koch <vain@clansuite.com>
  * @copyright  Jens-André Koch (2005 - onwards)
@@ -48,7 +50,7 @@ if (defined('IN_CS') === false)
  * if($event->isCancelled()) { }
  *
  */
-class BlockIps implements Clansuite_Event_Interface
+class BlockIps implements Interface
 {
     protected $blockedIps;
 
@@ -57,9 +59,9 @@ class BlockIps implements Clansuite_Event_Interface
         $this->blockedIps = $blockedIps;
     }
 
-    public function execute(Clansuite_Event $event)
+    public function execute(Koch_Event $event)
     {
-        $request = Clansuite_CMS::getInjector()->instantiate('Clansuite_HttpRequest');
+        $request = Clansuite_CMS::getInjector()->instantiate('Koch_HttpRequest');
         $ip = $request->getRemoteAddress();
 
         if(in_array($ip,$this->blockedIps))

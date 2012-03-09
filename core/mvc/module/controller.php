@@ -1,10 +1,10 @@
 <?php
    /**
-    * Clansuite - just an eSports CMS
+    * Koch Framework
     * Jens-André Koch © 2005 - onwards
     * http://www.clansuite.com/
     *
-    * This file is part of "Clansuite - just an eSports CMS".
+    * This file is part of "Koch Framework".
     *
     * LICENSE:
     *
@@ -33,8 +33,10 @@
 # Security Handler
 if(defined('IN_CS') === false)
 {
-    die('Clansuite not loaded. Direct Access forbidden.');
+    die('Koch Framework not loaded. Direct Access forbidden.');
 }
+
+namespace Koch\Module;
 
 /**
  * ModuleController
@@ -43,11 +45,11 @@ if(defined('IN_CS') === false)
  * You could call it ModuleController and ActionController.
  * It`s abstract because it should only be extended, not instantiated.
  *
- * @category    Clansuite
+ * @category    Koch
  * @package     Core
  * @subpackage  Modulecontroller
  */
-abstract class Clansuite_Module_Controller
+abstract class Controller
 {
     /**
      * @var object The rendering engine / view object
@@ -65,12 +67,12 @@ abstract class Clansuite_Module_Controller
     public $template = null;
 
     /**
-     * @var Clansuite_HttpResponse \Clansuite\Core\HttpResponse
+     * @var Koch_HttpResponse \Koch\Core\HttpResponse
      */
     public $response = null;
 
     /**
-     * @var Clansuite_HttpRequest \Clansuite\Core\HttpRequest
+     * @var Koch_HttpRequest \Koch\Core\HttpRequest
      */
     public $request = null;
 
@@ -84,7 +86,7 @@ abstract class Clansuite_Module_Controller
      */
     public static $moduleconfig = null;
 
-    public function __construct(Clansuite_HttpRequest $request, Clansuite_HttpResponse $response)
+    public function __construct(Koch_HttpRequest $request, Koch_HttpResponse $response)
     {
         $this->request = $request;
         $this->response = $response;
@@ -174,7 +176,7 @@ abstract class Clansuite_Module_Controller
          */
         if($modulename === null)
         {
-            $modulename = Clansuite_HttpRequest::getRoute()->getModuleName();
+            $modulename = Koch_HttpRequest::getRoute()->getModuleName();
         }
 
         $module_models_path = ROOT_MOD . mb_strtolower($modulename) . DS . 'model' . DS;
@@ -216,7 +218,7 @@ abstract class Clansuite_Module_Controller
      */
     public static function getModuleConfig($modulename = null)
     {
-        $config = self::getInjector()->instantiate('Clansuite_Config');
+        $config = self::getInjector()->instantiate('Koch_Config');
 
         return self::$moduleconfig = $config->readModuleConfig($modulename);
     }
@@ -258,7 +260,7 @@ abstract class Clansuite_Module_Controller
         }
 
         # try a lookup of the value by keyname
-        $value = Clansuite_Functions::array_find_element_by_key($keyname, self::$moduleconfig);
+        $value = Koch_Functions::array_find_element_by_key($keyname, self::$moduleconfig);
 
         # return value or default
         if(empty($value) === false)
@@ -334,7 +336,7 @@ abstract class Clansuite_Module_Controller
     public function setRenderEngine($renderEngineName)
     {
         $this->renderEngineName = $renderEngineName;
-        Clansuite_HttpRequest::getRoute()->setRenderEngine($renderEngineName);
+        Koch_HttpRequest::getRoute()->setRenderEngine($renderEngineName);
     }
 
     /**
@@ -368,7 +370,7 @@ abstract class Clansuite_Module_Controller
      */
     public function getRenderEngine()
     {
-        return Clansuite_Renderer_Factory::getRenderer($this->getRenderEngineName(), self::getInjector());
+        return Koch_Renderer_Factory::getRenderer($this->getRenderEngineName(), self::getInjector());
     }
 
     /**
@@ -438,8 +440,8 @@ abstract class Clansuite_Module_Controller
         $template = $view_mapper->getTemplateName();
 
         # Debug display of Layout Template and Content Template
-        #Clansuite_Debug::firebug('Layout/Wrapper Template: ' . $this->view->getLayoutTemplate() . '<br />');
-        #Clansuite_Debug::firebug('Template Name: ' . $templatename . '<br />');
+        #Koch_Debug::firebug('Layout/Wrapper Template: ' . $this->view->getLayoutTemplate() . '<br />');
+        #Koch_Debug::firebug('Template Name: ' . $templatename . '<br />');
 
         # render the content / template
         $content = $this->view->render($template);
@@ -462,12 +464,12 @@ abstract class Clansuite_Module_Controller
     {
         if(null === $module)
         {
-            $module = Clansuite_HttpRequest::getRoute()->getModuleName();
+            $module = Koch_HttpRequest::getRoute()->getModuleName();
          }
 
         if(null === $action)
         {
-            $action = Clansuite_HttpRequest::getRoute()->getActionName();
+            $action = Koch_HttpRequest::getRoute()->getActionName();
         }
 
         if(null === $formname)
@@ -477,10 +479,10 @@ abstract class Clansuite_Module_Controller
         }
 
         # construct formname, classname, filename, load file, instantiate the form
-        $classname = 'Clansuite_Form_' . $formname;
+        $classname = 'Koch_Form_' . $formname;
         $filename  = mb_strtolower($formname) . '.form.php';
         $directory = ROOT_MOD . mb_strtolower($module) . DS . 'form/';
-        Clansuite_Loader::requireFile( $directory . $filename, $classname );
+        Koch_Loader::requireFile( $directory . $filename, $classname );
 
         # form preparation stage (combine description and add additional formelements)
         $form = new $classname;
@@ -511,7 +513,7 @@ abstract class Clansuite_Module_Controller
         }
         else # build referer on base of the current module
         {
-            $route = Clansuite_HttpRequest::getRoute();
+            $route = Koch_HttpRequest::getRoute();
 
             # we use internal rewrite style here: /module/action
             $redirect_to = '/' . $route->getModuleName();
@@ -559,13 +561,13 @@ abstract class Clansuite_Module_Controller
      * @param string Name of the Event
      * @param object Eventobject
      */
-    public function addEvent($eventName, Clansuite_Event $event)
+    public function addEvent($eventName, Koch_Event $event)
     {
-        Clansuite_Eventdispatcher::instantiate()->addEventHandler($eventName, $event);
+        Koch_Eventdispatcher::instantiate()->addEventHandler($eventName, $event);
     }
 
     /**
-     * triggerEvent is shortcut/convenience method for Clansuite_Eventdispatcher->triggerEvent
+     * triggerEvent is shortcut/convenience method for Koch_Eventdispatcher->triggerEvent
      *
      * @param mixed (string|object) $event Name of Event or Event object to trigger.
      * @param object $context Context of the event triggering, often the object from where we are calling ($this). Default Null.
@@ -573,25 +575,25 @@ abstract class Clansuite_Module_Controller
      */
     public function triggerEvent($event, $context = null, $info = null)
     {
-        Clansuite_Eventdispatcher::instantiate()->triggerEvent($event, $context = null, $info = null);
+        Koch_Eventdispatcher::instantiate()->triggerEvent($event, $context = null, $info = null);
     }
 
     /**
      * Shortcut to set a Flashmessage
      *
-     * @see Clansuite_Flashmessages::setMessage()
+     * @see Koch_Flashmessages::setMessage()
      * @param string $type string error, warning, notice, success, debug
      * @param string $message string A textmessage.
      */
     public static function setFlashmessage($type, $message)
     {
-        Clansuite_Flashmessages::setMessage($type, $message);
+        Koch_Flashmessages::setMessage($type, $message);
     }
 
     /**
      * Shortcut to get the HttpRequest Object
      *
-     * @return \Clansuite\Core\HttpRequest
+     * @return \Koch\Core\HttpRequest
      */
     public function getHttpRequest()
     {
@@ -601,11 +603,11 @@ abstract class Clansuite_Module_Controller
     /**
      * Shortcut to get the HttpResponse Object
      *
-     * @return \Clansuite\Core\HttpResponse
+     * @return \Koch\Core\HttpResponse
      */
     public function getHttpResponse()
     {
-        /* @var \Clansuite\Core\HttpResponse */
+        /* @var \Koch\Core\HttpResponse */
         return $this->response;
     }
 }
@@ -617,11 +619,11 @@ abstract class Clansuite_Module_Controller
  *
  * Force classes implementing the interface to define this (must have) methods!
  *
- * @category    Clansuite
+ * @category    Koch
  * @package     Core
  * @subpackage  Module
  */
-interface Clansuite_Module_Interface
+interface Koch_Module_Interface
 {
     public function action_list();     # GET     /foos
     public function action_show();     # GET     /foos/:foo_id
@@ -632,7 +634,7 @@ interface Clansuite_Module_Interface
     public function action_destroy();  # DELETE  /foos/:foo_id
 }
 
-interface Clansuite_AdminModule_Interface
+interface Koch_AdminModule_Interface
 {
     public function action_admin_list();     # GET     /foos
     public function action_admin_show();     # GET     /foos/:foo_id

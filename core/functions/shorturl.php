@@ -1,10 +1,10 @@
 <?php
    /**
-    * Clansuite - just an eSports CMS
+    * Koch Framework
     * Jens-André Koch © 2005 - onwards
     * http://www.clansuite.com/
     *
-    * This file is part of "Clansuite - just an eSports CMS".
+    * This file is part of "Koch Framework".
     *
     * LICENSE:
     *
@@ -33,7 +33,7 @@
 # Security Handler
 if(defined('IN_CS') === false)
 {
-    die('Clansuite not loaded. Direct Access forbidden.');
+    die('Koch Framework not loaded. Direct Access forbidden.');
 }
 
 /**
@@ -60,7 +60,7 @@ function shortTinyUrl($long_url)
     }
     else
     {
-        throw new Clansuite_Exception('Unable to shorten the link.');
+        throw new Koch_Exception('Unable to shorten the link.');
     }
 
     return $short_url;

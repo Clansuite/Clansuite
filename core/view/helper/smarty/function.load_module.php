@@ -1,14 +1,14 @@
 <?php
 /**
- * Clansuite Smarty Viewhelper
+ * Koch FrameworkSmarty Viewhelper
  *
- * @category Clansuite
+ * @category Koch
  * @package Smarty
  * @subpackage Viewhelper
  */
 
 /**
- * This smarty function is part of "Clansuite - just an eSports CMS"
+ * This smarty function is part of "Koch Framework"
  * @link http://www.clansuite.com
  *
  * @author Jens-André Koch <jakoch@web.de>
@@ -36,7 +36,7 @@ function smarty_function_load_module($params, $smarty)
     # debugdisplay for the incomming parameters of a specific load_module request
     /*if($params['name'] == 'news')
     {
-        Clansuite_Debug::firebug($params);
+        Koch_Debug::firebug($params);
     }*/
 
     # Init incomming Variables
@@ -61,19 +61,19 @@ function smarty_function_load_module($params, $smarty)
         $module_classname .= $module;
     }
 
-    #Clansuite_Debug::firebug($module_classname);
+    #Koch_Debug::firebug($module_classname);
 
     # Check if class was loaded
     if(class_exists($module_classname, false) === false)
     {
-        # include function Clansuite_Widget::loadModul()
-        if(class_exists('Clansuite_Widget', false) === false)
+        # include function Koch_Widget::loadModul()
+        if(class_exists('Koch_Widget', false) === false)
         {
             require ROOT_CORE . 'viewhelper/widget.core.php';
         }
 
         # Load class, if not already loaded
-        if(Clansuite_Widget::loadModul($module_classname) === false)
+        if(Koch_Widget::loadModul($module_classname) === false)
         {
             return '<br/>Module missing or misspelled: <strong>' . $module_classname . '</strong>';
         }
@@ -81,8 +81,8 @@ function smarty_function_load_module($params, $smarty)
 
     # Instantiate Class
     $controller = new $module_classname(
-                Clansuite_CMS::getInjector()->instantiate('Clansuite_HttpRequest'),
-                Clansuite_CMS::getInjector()->instantiate('Clansuite_HttpResponse')
+                Clansuite_CMS::getInjector()->instantiate('Koch_HttpRequest'),
+                Clansuite_CMS::getInjector()->instantiate('Koch_HttpResponse')
     );
     $controller->setView($smarty);
     #$controller->setModel($module);
@@ -127,7 +127,7 @@ function smarty_function_load_module($params, $smarty)
         $template = $action . '.tpl';
 
         # for a look at the detection order uncomment the next line
-        #Clansuite_Debug::printR($smarty->template_dir);
+        #Koch_Debug::printR($smarty->template_dir);
 
         if ($smarty->templateExists('modules' . DS . $module . DS . $action . '.tpl'))
         {

@@ -1,10 +1,10 @@
 <?php
    /**
-    * Clansuite - just an eSports CMS
+    * Koch Framework
     * Jens-André Koch © 2005 - onwards
     * http://www.clansuite.com/
     *
-    * This file is part of "Clansuite - just an eSports CMS".
+    * This file is part of "Koch Framework".
     *
     * LICENSE:
     *
@@ -33,19 +33,21 @@
 # Security Handler
 if(defined('IN_CS') === false)
 {
-    die('Clansuite not loaded. Direct Access forbidden.');
+    die('Koch Framework not loaded. Direct Access forbidden.');
 }
 
+namespace Koch\View\Helper;
+
 /**
- * Clansuite_HTML
+ * Koch_HTML
  *
  * The class provides helper methods to output html-tag elements.
  *
- * @category    Clansuite
+ * @category    Koch
  * @package     View
  * @subpackage  HTML
  */
-class Clansuite_HTML /* extends DOMDocument */
+class HTML /* extends DOMDocument */
 {
     /**
      * Renders title tag.
@@ -300,7 +302,7 @@ class Clansuite_HTML /* extends DOMDocument */
      */
     public static function renderElement($tagname, $text = null, $attributes = array())
     {
-        if(method_exists('Clansuite_HTML', $tagname))
+        if(method_exists('Koch_HTML', $tagname))
         {
             if(isset($attributes['src']))
             {

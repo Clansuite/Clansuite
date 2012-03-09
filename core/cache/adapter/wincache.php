@@ -1,10 +1,10 @@
 <?php
     /**
-     * Clansuite - just an eSports CMS
+     * Koch Framework
      * Jens-André Koch © 2005 - onwards
      * http://www.clansuite.com/
      *
-     * This file is part of "Clansuite - just an eSports CMS".
+     * This file is part of "Koch Framework".
      *
      * LICENSE:
      *
@@ -33,11 +33,11 @@
 # Security Handler
 if(defined('IN_CS') === false)
 {
-    die('Clansuite not loaded. Direct Access forbidden.');
+    die('Koch Framework not loaded. Direct Access forbidden.');
 }
 
 /**
- * Clansuite Cache Handler for Windows Cache
+ * Koch FrameworkCache Handler for Windows Cache
  *
  * Windows Cache Extension for PHP is a PHP accelerator that is used to
  * increase the speed of PHP applications running on Windows and Windows Server.
@@ -51,11 +51,11 @@ if(defined('IN_CS') === false)
  * It's a PECL extension.
  * @link http://pecl.php.net/package/WinCache
  *
- * @category    Clansuite
+ * @category    Koch
  * @package     Core
  * @subpackage  Cache
  */
-class Clansuite_Cache_Wincache extends Clansuite_Cache_Base implements Clansuite_Cache_Interface
+class Wincache extends Base implements Cache
 {
     /**
      * Contains checks if a key exists in the cache

@@ -1,10 +1,10 @@
 <?php
    /**
-    * Clansuite - just an eSports CMS
+    * Koch Framework
     * Jens-André Koch © 2005 - onwards
     * http://www.clansuite.com/
     *
-    * This file is part of "Clansuite - just an eSports CMS".
+    * This file is part of "Koch Framework".
     *
     * LICENSE:
     *
@@ -33,26 +33,27 @@
 # Security Handler
 if (defined('IN_CS') === false)
 {
-    die('Clansuite not loaded. Direct Access forbidden.');
+    die('Koch Framework not loaded. Direct Access forbidden.');
 }
 
-/*
+namespace Koch\Event;
+
 /**
- * Interface for Clansuite_Event
+ * Interface for Koch_Event
  *
- * Clansuite_Events have to implement at least a execute() method
+ * Koch_Events have to implement at least a execute() method
  *
- * @category    Clansuite
+ * @category    Koch
  * @package     Core
  * @subpackage  Event
  */
-interface Clansuite_Event_Interface
+interface Interface
 {
-    public function execute(Clansuite_Event $event);
+    public function execute(Koch_Event $event);
 }
 
 /**
- * Clansuite_Eventdispatcher
+ * Koch_Eventdispatcher
  *
  * Purpose:
  * Eventdispatcher is a container class for all the EventHandlers. This class is a helper for event-driven development.
@@ -62,14 +63,14 @@ interface Clansuite_Event_Interface
  *
  * @pattern EventDispatcher, Event, Advanced Subject-Observer-Pattern, Notification Queue
  *
- * @category    Clansuite
+ * @category    Koch
  * @package     Core
  * @subpackage  Eventdispatcher
  */
-class Clansuite_Eventdispatcher
+class Eventdispatcher
 {
     /**
-     * @var object Instance of Clansuite_Eventdispatcher (singleton)
+     * @var object Instance of Koch_Eventdispatcher (singleton)
      */
     private static $instance = null;
 
@@ -79,13 +80,13 @@ class Clansuite_Eventdispatcher
     private $eventhandlers = array();
 
     /**
-     * Clansuite_Eventdispatcher is a Singleton implementation
+     * Koch_Eventdispatcher is a Singleton implementation
      */
     public static function instantiate()
     {
         if(self::$instance === null)
         {
-            self::$instance = new Clansuite_Eventdispatcher;
+            self::$instance = new Koch_Eventdispatcher;
         }
 
         return self::$instance;
@@ -122,7 +123,7 @@ class Clansuite_Eventdispatcher
      * function handler3() {
      * echo "C";
      * }
-     * $event = Clansuite_Eventdispatcher::instantiate();
+     * $event = Koch_Eventdispatcher::instantiate();
      * $event->addEventHandler('event_name1', 'handler1');
      * $event->triggerEvent('event_name1'); # Output: A
      * $event->addEventHandler('event_name2', 'handler2');
@@ -132,9 +133,9 @@ class Clansuite_Eventdispatcher
      * </code>
      *
      * @param $eventName    Name of the Event
-     * @param $eventobject object|string Instance of Clansuite_Event or filename string
+     * @param $eventobject object|string Instance of Koch_Event or filename string
      */
-    public function addEventHandler($eventName, Clansuite_Event_Interface $event_object)
+    public function addEventHandler($eventName, Koch_Event_Interface $event_object)
     {
         # if eventhandler is not set already, initialize as array
         if(isset($this->eventhandlers[$eventName]) === false)
@@ -154,7 +155,7 @@ class Clansuite_Eventdispatcher
      * function handler1() {
      * echo "A";
      * }
-     * $event = Clansuite_Eventdispatcher::instantiate();
+     * $event = Koch_Eventdispatcher::instantiate();
      * $event->addEventHandler('event_name', 'handler1');
      * $event->triggerEvent('event_name'); # Output: A
      * $event->removeEventHandler('event_name', 'handler1');
@@ -164,7 +165,7 @@ class Clansuite_Eventdispatcher
      * @param string event name
      * @param mixed event handler
      */
-    public function removeEventHandler($eventName, Clansuite_Event_Interface $event_object = null)
+    public function removeEventHandler($eventName, Koch_Event_Interface $event_object = null)
     {
         # if eventhandler is not added, we have nothing to remove
         if(isset($this->eventhandlers[$eventName]) == false)
@@ -197,7 +198,7 @@ class Clansuite_Eventdispatcher
      * function handler1() {
      * echo "A";
      * }
-     * $event = Clansuite_Eventdispatcher::instantiate();
+     * $event = Koch_Eventdispatcher::instantiate();
      * $event->addEventHandler('event_name', 'handler1');
      * $event->triggerEvent('event_name'); # Output: A
      * </code>
@@ -211,13 +212,13 @@ class Clansuite_Eventdispatcher
     {
         /**
          * init a new event object with constructor settings
-         * if $event is not an instance of Clansuite_Event.
+         * if $event is not an instance of Koch_Event.
          * $event string will be the $name inside $event object,
          * accessible with $event->getName();
          */
-        if(false === ($event instanceof Clansuite_Event))
+        if(false === ($event instanceof Koch_Event))
         {
-            $event = new Clansuite_Event($event, $context, $info);
+            $event = new Koch_Event($event, $context, $info);
         }
 
         # get the Name
@@ -261,11 +262,11 @@ class Clansuite_Eventdispatcher
 /**
  * Represents an Event
  *
- * @category    Clansuite
+ * @category    Koch
  * @package     Core
  * @subpackage  Event
  */
-class Clansuite_Event implements ArrayAccess
+class Event implements ArrayAccess
 {
     /**
      * @var Name of the event
@@ -376,7 +377,7 @@ class Clansuite_Event implements ArrayAccess
     {
         if(false == array_key_exists($name, $this->context))
         {
-            throw new Clansuite_Exception(sprintf(_('The event "%s" has no context parameter "%s" .'), $this->eventname, $name));
+            throw new Koch_Exception(sprintf(_('The event "%s" has no context parameter "%s" .'), $this->eventname, $name));
         }
 
         return $this->context[$name];
@@ -405,16 +406,16 @@ class Clansuite_Event implements ArrayAccess
 }
 
 /**
- * Clansuite_Eventloader
+ * Koch_Eventloader
  *
  * Purpose:
  * Eventloader handles the loading and registering of events by using event configuration files.
  *
- * @category    Clansuite
+ * @category    Koch
  * @package     Core
  * @subpackage  Eventloader
  */
-class Clansuite_Eventloader
+class Eventloader
 {
     /**
      * Loads and registers all events of the core and all activated modules.
@@ -445,16 +446,16 @@ class Clansuite_Eventloader
                 $filename = $array[0];
 
                 # array[1] classname
-                $classname = Clansuite_Functions::ensurePrefixedWith($array[1], 'Clansuite_Event_');
+                $classname = Koch_Functions::ensurePrefixedWith($array[1], 'Koch_Event_');
 
                 # load eventhandler
-                Clansuite_Loader::requireFile($filename, $classname);
+                Koch_Loader::requireFile($filename, $classname);
 
                 # instantiate eventhandler
                 $event_object = new $classname();
 
                 # add the eventhandler to the dispatcher
-                $eventdispatcher = Clansuite_Eventdispatcher::instantiate();
+                $eventdispatcher = Koch_Eventdispatcher::instantiate();
                 $eventdispatcher->addEventHandler($event, $event_object);
             }
         }
@@ -493,7 +494,7 @@ class Clansuite_Eventloader
     public static function loadAllModuleEvents()
     {
         # fetch all activated modules
-        $modules = Clansuite_ModuleInfoController::getAllActivatedModules();
+        $modules = Koch_ModuleInfoController::getAllActivatedModules();
 
         # load eventhandlers for each module
         foreach($modules as $module)

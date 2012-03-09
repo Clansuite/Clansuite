@@ -1,10 +1,10 @@
 <?php
    /**
-    * Clansuite - just an eSports CMS
+    * Koch Framework
     * Jens-André Koch © 2005 - onwards
     * http://www.clansuite.com/
     *
-    * This file is part of "Clansuite - just an eSports CMS".
+    * This file is part of "Koch Framework".
     *
     * LICENSE:
     *
@@ -33,15 +33,17 @@
 # Security Handler
 if (defined('IN_CS') === false)
 {
-    die('Clansuite not loaded. Direct Access forbidden.');
+    die('Koch Framework not loaded. Direct Access forbidden.');
 }
 
+namespace Koch\View\Helper;
+
 /**
- * Clansuite_Theme
+ * Koch_Theme
  *
  * This class provides abstracted (object) access to a theme's theme_info.xml file.
  */
-class Clansuite_Theme
+class Theme
 {
     public $theme = '';
     public $theme_info = array();
@@ -50,7 +52,7 @@ class Clansuite_Theme
      * Constructor, or what ;)
      *
      * @param string $theme Name of the Theme.
-     * @return Clansuite_Theme
+     * @return Koch_Theme
      */
     public function __construct($theme)
     {
@@ -70,7 +72,7 @@ class Clansuite_Theme
         }
         else
         {
-            throw new Clansuite_Exception('No Themename given.', '100');
+            throw new Koch_Exception('No Themename given.', '100');
         }
     }
 
@@ -82,7 +84,7 @@ class Clansuite_Theme
     public function getCurrentThemeInfoFile()
     {
         # get array for frontend or backend theme
-        $themepaths = Clansuite_Renderer_Base::getThemeTemplatePaths();
+        $themepaths = Koch_Renderer_Base::getThemeTemplatePaths();
 
         foreach($themepaths as $themepath)
         {
@@ -152,7 +154,7 @@ class Clansuite_Theme
      *
      * @param string $theme Theme name.
      * @return string File path to "theme_info.xml" file.
-     * @throws Clansuite_Exception
+     * @throws Koch_Exception
      */
     public function getInfoFile($theme)
     {
@@ -164,7 +166,7 @@ class Clansuite_Theme
         }
         else
         {
-            throw new Clansuite_Exception('The Themeinfo file was not found on Theme: '. $theme, '100');
+            throw new Koch_Exception('The Themeinfo file was not found on Theme: '. $theme, '100');
         }
 
         return $theme_info_file;
@@ -181,9 +183,9 @@ class Clansuite_Theme
         $theme_info_file = $this->getInfoFile($theme);
 
         # read theme info xml file into array
-        $theme_info_array = Clansuite_Config_XML::readConfig($theme_info_file);
+        $theme_info_array = Koch_Config_XML::readConfig($theme_info_file);
 
-        #Clansuite_Debug::printR($theme_info_array);
+        #Koch_Debug::printR($theme_info_array);
 
         # when setting array as object property remove the inner theme array
         $this->theme_info = $theme_info_array['theme'];
@@ -246,7 +248,7 @@ class Clansuite_Theme
     {
         # ---------- CSS Browser -Toggle -------------------
         include_once ROOT_CORE . 'tools' . DS . 'browserinfo.core.php';
-        $BrowserInfo = new Clansuite_Browserinfo();
+        $BrowserInfo = new Koch_Browserinfo();
         if( $BrowserInfo->isIE() )
         {
             $cssPostfix = '_ie';
@@ -299,7 +301,7 @@ class Clansuite_Theme
         }
         else # no main layout found !
         {
-            throw new Clansuite_Exception('No Layout File defined. Check ThemeInfo File of ' . $this->getName(), 9090);
+            throw new Koch_Exception('No Layout File defined. Check ThemeInfo File of ' . $this->getName(), 9090);
         }
     }
 

@@ -2,7 +2,7 @@
 /**
  * Smarty plugin
  * @package Smarty
- * @subpackage Clansuite Plugins / Smarty View Helper
+ * @subpackage Plugins
  */
 
 /**
