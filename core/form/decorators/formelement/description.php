@@ -1,10 +1,10 @@
 <?php
    /**
-    * Clansuite - just an eSports CMS
+    * Koch Framework
     * Jens-André Koch © 2005 - onwards
     * http://www.clansuite.com/
     *
-    * This file is part of "Clansuite - just an eSports CMS".
+    * This file is part of "Koch Framework".
     *
     * LICENSE:
     *
@@ -26,26 +26,28 @@
     * @author     Jens-André Koch <vain@clansuite.com>
     * @copyright  Jens-André Koch (2005-onwards)
     * @link       http://www.clansuite.com
-    * 
+    *
     * @version    SVN: $Id$
     */
 
 # Security Handler
 if (defined('IN_CS') === false)
 {
-    die('Clansuite not loaded. Direct Access forbidden.');
+    die('Koch Framework not loaded. Direct Access forbidden.');
 }
 
+namespace Koch\Form\Decorator;
+
 /**
- * Clansuite_Formelement_Decorator_Description
+ * Koch_Formelement_Decorator_Description
  *
  * Adds a <span> element containing the formelement description after html_fromelement_content.
  *
- * @category Clansuite
- * @package Clansuite_Form
- * @subpackage Clansuite_Form_Decorator
+ * @category Koch
+ * @package Koch_Form
+ * @subpackage Koch_Form_Decorator
  */
-class Clansuite_Formelement_Decorator_Description extends Clansuite_Formelement_Decorator
+class Decorator_Description extends Decorator
 {
     /**
      * Name of this decorator

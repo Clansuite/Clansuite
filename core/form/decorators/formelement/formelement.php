@@ -1,10 +1,10 @@
 <?php
    /**
-    * Clansuite - just an eSports CMS
+    * Koch Framework
     * Jens-André Koch © 2005 - onwards
     * http://www.clansuite.com/
     *
-    * This file is part of "Clansuite - just an eSports CMS".
+    * This file is part of "Koch Framework".
     *
     * LICENSE:
     *
@@ -33,11 +33,13 @@
 # Security Handler
 if (defined('IN_CS') === false)
 {
-    die('Clansuite not loaded. Direct Access forbidden.');
+    die('Koch Framework not loaded. Direct Access forbidden.');
 }
 
+namespace Koch\Form\Decorator;
+
 /**
- * Clansuite_Formelement_Decorator_Formelement
+ * Koch_Formelement_Decorator_Formelement
  *
  * This decorator decorates a formelement (A) with another formelement (B).
  *
@@ -45,13 +47,13 @@ if (defined('IN_CS') === false)
  * But consider a situation where you want to add only formelement (A) to the form.
  * From inside formelement (A) you can't reach the form to add another formelement (B).
  * But you can reach the addDecorator() method. And at this point this class comes in.
- * It utilizes Clansuite_Form::formelementFactory to get the formelement (B).
+ * It utilizes Koch_Form::formelementFactory to get the formelement (B).
  *
- * @category Clansuite
- * @package Clansuite_Form
- * @subpackage Clansuite_Form_Decorator
+ * @category Koch
+ * @package Koch_Form
+ * @subpackage Koch_Form_Decorator
  */
-class Clansuite_Formelement_Decorator_Formelement extends Clansuite_Formelement_Decorator
+class Formelement extends Decorator
 {
     /**
      * Name of this decorator
@@ -84,7 +86,7 @@ class Clansuite_Formelement_Decorator_Formelement extends Clansuite_Formelement_
         $this->formelementname = $formelementname;
 
         # instantiate, set to class and return formelement object
-        return $this->formelement_object = Clansuite_Form::formelementFactory($formelementname);
+        return $this->formelement_object = Koch_Form::formelementFactory($formelementname);
     }
 
     /**

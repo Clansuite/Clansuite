@@ -1,10 +1,10 @@
 <?php
    /**
-    * Clansuite - just an eSports CMS
+    * Koch Framework
     * Jens-André Koch © 2005 - onwards
     * http://www.clansuite.com/
     *
-    * This file is part of "Clansuite - just an eSports CMS".
+    * This file is part of "Koch Framework".
     *
     * LICENSE:
     *
@@ -33,10 +33,12 @@
 # Security Handler
 if (defined('IN_CS') === false)
 {
-    die('Clansuite not loaded. Direct Access forbidden.');
+    die('Koch Framework not loaded. Direct Access forbidden.');
 }
 
-class Clansuite_Formelement_Checkboxlist extends Clansuite_Formelement_Checkbox implements Clansuite_Formelement_Interface
+namespace Koch\Formelement;
+
+class Checkboxlist extends Checkbox implements Formelement
 {
     public function getOptions()
     {
@@ -50,7 +52,7 @@ class Clansuite_Formelement_Checkboxlist extends Clansuite_Formelement_Checkbox 
 
         foreach ($this->getOptions() as $key => $value)
         {
-            $checkbox_element = new Clansuite_Formelement_Checkbox();
+            $checkbox_element = new Koch_Formelement_Checkbox();
             $checkbox_element->setLabel($value);
             $checkbox_element->setName($value);
             $checkbox_element->setDescription($value);

@@ -1,10 +1,10 @@
 <?php
    /**
-    * Clansuite - just an eSports CMS
+    * Koch Framework
     * Jens-André Koch © 2005 - onwards
     * http://www.clansuite.com/
     *
-    * This file is part of "Clansuite - just an eSports CMS".
+    * This file is part of "Koch Framework".
     *
     * LICENSE:
     *
@@ -33,18 +33,15 @@
 # Security Handler
 if (defined('IN_CS') === false)
 {
-    die('Clansuite not loaded. Direct Access forbidden.');
+    die('Koch Framework not loaded. Direct Access forbidden.');
 }
+
+namespace Koch\Formelement;
 
 /**
  *
- *  Clansuite_Form
- *  |
- *  \- Clansuite_Formelement_Input
- *     |
- *     \- Clansuite_Formelement_SelectColor
  */
-class Clansuite_Formelement_SelectColor extends Clansuite_Formelement_Input implements Clansuite_Formelement_Interface
+class SelectColor extends Input implements Formelement
 {
     public function __construct()
     {

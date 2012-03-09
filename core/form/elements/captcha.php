@@ -1,10 +1,10 @@
 <?php
    /**
-    * Clansuite - just an eSports CMS
+    * Koch Framework
     * Jens-André Koch © 2005 - onwards
     * http://www.clansuite.com/
     *
-    * This file is part of "Clansuite - just an eSports CMS".
+    * This file is part of "Koch Framework".
     *
     * LICENSE:
     *
@@ -33,10 +33,12 @@
 # Security Handler
 if (defined('IN_CS') === false)
 {
-    die('Clansuite not loaded. Direct Access forbidden.');
+    die('Koch Framework not loaded. Direct Access forbidden.');
 }
 
-class Clansuite_Formelement_Captcha extends Clansuite_Formelement implements Clansuite_Formelement_Interface
+namespace Koch\Formelement;
+
+class Captcha extends Formelement implements Formelement
 {
     /**
      * @var string Name the Captcha Type: 'recaptcha', 'simplecaptcha', 'somenamecaptcha'.
@@ -60,14 +62,14 @@ class Clansuite_Formelement_Captcha extends Clansuite_Formelement implements Cla
      * Set the name of the captcha
      *
      * @param string $captcha The captcha name.
-     * @return object Clansuite_Formelement_Captcha (THIS is not Clansuite_Formelement_Captcha_$captcha )
+     * @return object Koch_Formelement_Captcha (THIS is not Koch_Formelement_Captcha_$captcha )
      */
     public function setCaptcha($captcha = null)
     {
         # if no captcha is given, take the one definied in configuration
         if($captcha == null)
         {
-            $config = Clansuite_CMS::getInjector()->instantiate('Clansuite_Config');
+            $config = Clansuite_CMS::getInjector()->instantiate('Koch_Config');
             $captcha = $config['antispam']['captchatype'];
             unset($config);
         }
@@ -87,10 +89,10 @@ class Clansuite_Formelement_Captcha extends Clansuite_Formelement implements Cla
     }
 
     /**
-     * @param Clansuite_Formelement_Interface $captchaObject
-     * @return object Clansuite_Formelement_Captcha
+     * @param Koch_Formelement_Interface $captchaObject
+     * @return object Koch_Formelement_Captcha
      */
-    public function setCaptchaFormelement(Clansuite_Formelement_Interface $captchaObject)
+    public function setCaptchaFormelement(Koch_Formelement_Interface $captchaObject)
     {
         $this->captchaObject = $captchaObject;
 
@@ -100,7 +102,7 @@ class Clansuite_Formelement_Captcha extends Clansuite_Formelement implements Cla
     /**
      * Getter for the captchaObject
      *
-     * @return object Clansuite_Formelement_XYNAMECaptcha
+     * @return object Koch_Formelement_XYNAMECaptcha
      */
     public function getCaptchaFormelement()
     {
@@ -122,7 +124,7 @@ class Clansuite_Formelement_Captcha extends Clansuite_Formelement implements Cla
         $name = $this->getCaptcha();
 
         # construct classname
-        $classname = 'Clansuite_Formelement_'. $name .'Captcha';
+        $classname = 'Koch_Formelement_'. $name .'Captcha';
 
         # load file
         if (class_exists($classname, false) === false)
@@ -190,7 +192,7 @@ class Clansuite_Formelement_Captcha extends Clansuite_Formelement implements Cla
             $html = $formelementdecorator->render($html);
         }
 
-        #Clansuite_Debug::firebug($html);
+        #Koch_Debug::firebug($html);
 
         return $html;
     }

@@ -1,10 +1,10 @@
 <?php
    /**
-    * Clansuite - just an eSports CMS
+    * Koch Framework
     * Jens-André Koch © 2005 - onwards
     * http://www.clansuite.com/
     *
-    * This file is part of "Clansuite - just an eSports CMS".
+    * This file is part of "Koch Framework".
     *
     * LICENSE:
     *
@@ -33,8 +33,10 @@
 # Security Handler
 if (defined('IN_CS') === false)
 {
-    die('Clansuite not loaded. Direct Access forbidden.');
+    die('Koch Framework not loaded. Direct Access forbidden.');
 }
+
+namespace Koch\Formelement\Validator;
 
 /**
  * Validator for an IP address.
@@ -44,7 +46,7 @@ if (defined('IN_CS') === false)
  *
  * @see http://www.php.net/manual/en/filter.filters.validate.php
  */
-class Clansuite_Formelement_Validator_Ip extends Clansuite_Formelement_Validator
+class Ip extends Validator
 {
     public function getErrorMessage()
     {

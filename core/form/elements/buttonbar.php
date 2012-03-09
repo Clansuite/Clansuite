@@ -1,10 +1,10 @@
 <?php
    /**
-    * Clansuite - just an eSports CMS
+    * Koch Framework
     * Jens-André Koch © 2005 - onwards
     * http://www.clansuite.com/
     *
-    * This file is part of "Clansuite - just an eSports CMS".
+    * This file is part of "Koch Framework".
     *
     * LICENSE:
     *
@@ -33,10 +33,12 @@
 # Security Handler
 if (defined('IN_CS') === false)
 {
-    die('Clansuite not loaded. Direct Access forbidden.');
+    die('Koch Framework not loaded. Direct Access forbidden.');
 }
 
-class Clansuite_Formelement_Buttonbar extends Clansuite_Formelement implements Clansuite_Formelement_Interface
+namespace Koch\Formelement;
+
+class Buttonbar extends Formelement implements Formelement
 {
     /**
      * Definition Array for the Buttonbar
@@ -52,7 +54,7 @@ class Clansuite_Formelement_Buttonbar extends Clansuite_Formelement implements C
     /**
      * Adds the objects to the buttonnames fo the initial buttons array
      *
-     * @return Clansuite_Formelement_Buttonbar
+     * @return Koch_Formelement_Buttonbar
      */
     function __construct()
     {
@@ -67,13 +69,13 @@ class Clansuite_Formelement_Buttonbar extends Clansuite_Formelement implements C
         if(is_string($buttonname))
         {
             # fetch the formelement (the button)
-            $formelement = Clansuite_Form::formelementFactory($buttonname);
+            $formelement = Koch_Form::formelementFactory($buttonname);
         }
 
-        # @todo use instanceof Clansuite_Formelement_Button
-        if(is_object($buttonname) and (!$buttonname instanceof Clansuite_Formelement_Input))
+        # @todo use instanceof Koch_Formelement_Button
+        if(is_object($buttonname) and (!$buttonname instanceof Koch_Formelement_Input))
         {
-            throw new Clansuite_Exception('The button must a be formelement object.');
+            throw new Koch_Exception('The button must a be formelement object.');
         }
 
         # attach button object to buttons array
@@ -86,7 +88,7 @@ class Clansuite_Formelement_Buttonbar extends Clansuite_Formelement implements C
      * Gets a button
      *
      * @param string $_buttonname
-     * @return Clansuite_Formelement_Buttonbar
+     * @return Koch_Formelement_Buttonbar
      */
     public function getButton($buttonname)
     {
@@ -103,7 +105,7 @@ class Clansuite_Formelement_Buttonbar extends Clansuite_Formelement implements C
         }
         else
         {
-            throw new Clansuite_Exception(_('This button does not exist, so its not in this buttonbar: ') . $buttonname);
+            throw new Koch_Exception(_('This button does not exist, so its not in this buttonbar: ') . $buttonname);
         }
     }
 
@@ -111,7 +113,7 @@ class Clansuite_Formelement_Buttonbar extends Clansuite_Formelement implements C
      * Remove a button from the stack
      *
      * @param string $_buttonname
-     * @return Clansuite_Formelement_Buttonbar
+     * @return Koch_Formelement_Buttonbar
      */
     public function removeButton($_buttonname)
     {
@@ -132,7 +134,7 @@ class Clansuite_Formelement_Buttonbar extends Clansuite_Formelement implements C
     /**
      * Renders the buttonbar with all registered buttons
      *
-     * @return $htmlString HTML Representation of Clansuite_Formelement_Buttonbar
+     * @return $htmlString HTML Representation of Koch_Formelement_Buttonbar
      */
     public function render()
     {
@@ -146,7 +148,7 @@ class Clansuite_Formelement_Buttonbar extends Clansuite_Formelement implements C
             }
             else # does this ever happen???, see addButton!
             {
-                $formelement = Clansuite_Form::formelementFactory($buttonname);
+                $formelement = Koch_Form::formelementFactory($buttonname);
                 $htmlString .= $formelement->render();
             }
         }

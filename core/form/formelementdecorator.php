@@ -1,10 +1,10 @@
 <?php
    /**
-    * Clansuite - just an eSports CMS
+    * Koch Framework
     * Jens-André Koch © 2005 - onwards
     * http://www.clansuite.com/
     *
-    * This file is part of "Clansuite - just an eSports CMS".
+    * This file is part of "Koch Framework".
     *
     * LICENSE:
     *
@@ -33,27 +33,29 @@
 # Security Handler
 if (defined('IN_CS') === false)
 {
-    die('Clansuite not loaded. Direct Access forbidden.');
+    die('Koch Framework not loaded. Direct Access forbidden.');
 }
 
-interface Clansuite_Formelement_Decorator_Interface
+namespace Koch\Formelement;
+
+interface Decorator
 {
-    public function decorateWith($form_decorator);
+    public function decorateWith(Formelement $form_decorator);
     public function getName();
 }
 
 /**
- * Clansuite_Formelement_Decorator
+ * Koch_Formelement_Decorator
  *
  * @author     Jens-André Koch  <vain@clansuite.com>
  * @copyright  Jens-André Koch (2005-onwards)
  *
- * @category    Clansuite
+ * @category    Koch
  * @package     Core
  * @subpackage  Form
  */
 
-abstract class Clansuite_Formelement_Decorator implements Clansuite_Formelement_Decorator_Interface
+abstract class Decorator implements Decorator
 {
     # instance of formelement, which is to decorate
     protected $formelement;
@@ -95,9 +97,9 @@ abstract class Clansuite_Formelement_Decorator implements Clansuite_Formelement_
     /**
      * Constructor
      *
-     * @param $form Accepts a Clansuite_Form Object implementing the Clansuite_Form_Interface.
+     * @param $form Accepts a Koch_Form Object implementing the Koch_Form_Interface.
      */
-    /*public function __construct(Clansuite_Form_Interface $form)
+    /*public function __construct(Koch_Form_Interface $form)
     {
         $this->decorate($form);
     }*/
@@ -105,7 +107,7 @@ abstract class Clansuite_Formelement_Decorator implements Clansuite_Formelement_
     /**
      * Setter method to set the object which is to decorate.
      *
-     * @param $form object of type Clansuite_Form_Interface or Clansuite_Form_Decorator_Interface
+     * @param $form object of type Koch_Form_Interface or Koch_Form_Decorator_Interface
      */
     public function decorateWith($formelement)
     {
@@ -126,7 +128,7 @@ abstract class Clansuite_Formelement_Decorator implements Clansuite_Formelement_
             return true;
         }
         # check if method exists in the decorator of this object
-        elseif($this->formelement instanceof Clansuite_Formelement_Decorator)
+        elseif($this->formelement instanceof Koch_Formelement_Decorator)
         {
             return $this->formelement->hasMethod($method);
         }

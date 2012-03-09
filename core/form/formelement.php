@@ -1,10 +1,10 @@
 <?php
    /**
-    * Clansuite - just an eSports CMS
+    * Koch Framework
     * Jens-André Koch © 2005 - onwards
     * http://www.clansuite.com/
     *
-    * This file is part of "Clansuite - just an eSports CMS".
+    * This file is part of "Koch Framework".
     *
     * LICENSE:
     *
@@ -33,21 +33,23 @@
 # Security Handler
 if (defined('IN_CS') === false)
 {
-    die('Clansuite not loaded. Direct Access forbidden.');
+    die('Koch Framework not loaded. Direct Access forbidden.');
 }
 
+namespace Koch;
+
 /**
- * Clansuite_Formelement
+ * Koch_Formelement
  *
  * @author     Jens-André Koch   <vain@clansuite.com>
  * @copyright  Jens-André Koch (2005-onwards)
  *
- * @category    Clansuite
+ * @category    Koch
  * @package     Core
  * @subpackage  Form
  */
 
-class Clansuite_Formelement implements Clansuite_Formelement_Interface
+class Formelement implements Formelement
 {
     /**
      * @var string
@@ -86,7 +88,7 @@ class Clansuite_Formelement implements Clansuite_Formelement_Interface
      * Set id of this form.
      *
      * @param $id string ID of this form.
-     * @return Clansuite_Formelement
+     * @return Koch_Formelement
      */
     public function setID($id)
     {
@@ -109,7 +111,7 @@ class Clansuite_Formelement implements Clansuite_Formelement_Interface
      * Set type of this form.
      *
      * @param $id string Type of this form.
-     * @return Clansuite_Formelement
+     * @return Koch_Formelement
      */
     public function setType($type)
     {
@@ -132,7 +134,7 @@ class Clansuite_Formelement implements Clansuite_Formelement_Interface
      * Set name of this form.
      *
      * @param $name string Name of this form.
-     * @return Clansuite_Formelement
+     * @return Koch_Formelement
      */
     public function setName($name)
     {
@@ -179,7 +181,7 @@ class Clansuite_Formelement implements Clansuite_Formelement_Interface
      * Set class of this form.
      *
      * @param string $class Class to set
-     * @return Clansuite_Formelement
+     * @return Koch_Formelement
      */
     public function setClass($class)
     {
@@ -202,7 +204,7 @@ class Clansuite_Formelement implements Clansuite_Formelement_Interface
      * Sets value for this element
      *
      * @param string $value
-     * @return Clansuite_Formelement
+     * @return Koch_Formelement
      */
     public function setValue($value)
     {
@@ -246,7 +248,7 @@ class Clansuite_Formelement implements Clansuite_Formelement_Interface
     /**
      * Disables this formelement.
      *
-     * @return Clansuite_Formelement
+     * @return Koch_Formelement
      */
     public function disable()
     {
@@ -258,7 +260,7 @@ class Clansuite_Formelement implements Clansuite_Formelement_Interface
     /**
      * Enables this formelement
      *
-     * @return Clansuite_Formelement
+     * @return Koch_Formelement
      */
     public function enable()
     {
@@ -271,7 +273,7 @@ class Clansuite_Formelement implements Clansuite_Formelement_Interface
      * Set label of this formelement.
      *
      * @param string $label Label of this formelement.
-     * @return Clansuite_Formelement
+     * @return Koch_Formelement
      */
     public function setLabel($label)
     {
@@ -332,7 +334,7 @@ class Clansuite_Formelement implements Clansuite_Formelement_Interface
      * A formelement is required, when the user is expected to (must) enter data into the formelement.
      *
      * @param boolean $required Set required state. Defaults to true.
-     * @return Clansuite_Formelement
+     * @return Koch_Formelement
      */
     public function setRequired($required = true)
     {
@@ -345,7 +347,7 @@ class Clansuite_Formelement implements Clansuite_Formelement_Interface
      * Set description of this formelement.
      *
      * @param string $description Description of this formelement.
-     * @return Clansuite_Formelement
+     * @return Koch_Formelement
      */
     public function setDescription($description)
     {
@@ -368,7 +370,7 @@ class Clansuite_Formelement implements Clansuite_Formelement_Interface
      * Set onclick text of this formelement.
      *
      * @param string $onclick Onclick text of this formelement.
-     * @return Clansuite_Formelement
+     * @return Koch_Formelement
      */
     public function setOnclick($onclick)
     {
@@ -514,7 +516,7 @@ class Clansuite_Formelement implements Clansuite_Formelement_Interface
     {
         if(false === is_string($rule))
         {
-            throw new Clansuite_Exception('Parameter $rule must be of type string.');
+            throw new Koch_Exception('Parameter $rule must be of type string.');
         }
 
         $rules = explode(',', $rule);
@@ -545,7 +547,7 @@ class Clansuite_Formelement implements Clansuite_Formelement_Interface
      * @param object|string Formelement Validator
      * @param mixed A Validator Property Value.
      * WATCH OUT! THIS BREAKS THE CHAINING IN REGARD TO THE FORM
-     * @return Clansuite_Formelement_Validator
+     * @return Koch_Formelement_Validator
      */
     public function addValidator($validator, $properties = null)
     {
@@ -574,10 +576,10 @@ class Clansuite_Formelement implements Clansuite_Formelement_Interface
      * The Validator is stored into the validators array.
      * So a formelement might have multiple validators.
      *
-     * @param Clansuite_Validator $validator Accepts a Clansuite_Validator Object that has to implement Clansuite_Validator_Interface.
-     * @return Clansuite_Formelement
+     * @param Koch_Validator $validator Accepts a Koch_Validator Object that has to implement Koch_Validator_Interface.
+     * @return Koch_Formelement
      */
-    public function setValidator(/*Clansuite_Formelement_Validates_Interface*/ $validator)
+    public function setValidator(/*Koch_Formelement_Validates_Interface*/ $validator)
     {
         $this->validators[] = $validator;
 
@@ -588,12 +590,12 @@ class Clansuite_Formelement implements Clansuite_Formelement_Interface
      * Returns a form validator object.
      * Also a factory method, which instantiates and returns a new formvalidator object.
      *
-     * @return Clansuite_Formvalidator
+     * @return Koch_Formvalidator
      */
     public function getValidator($validator)
     {
         # construct classname
-        $class = 'Clansuite_Formelement_Validator_' . ucfirst($validator);
+        $class = 'Koch_Formelement_Validator_' . ucfirst($validator);
 
         # return early, if this object is already stored
         if(isset($this->validators[$class]))
@@ -622,7 +624,7 @@ class Clansuite_Formelement implements Clansuite_Formelement_Interface
         # validator not found
         else
         {
-            throw new Clansuite_Exception('Validator named ' . $validator . ' not available.');
+            throw new Koch_Exception('Validator named ' . $validator . ' not available.');
         }
     }
 
@@ -767,7 +769,7 @@ class Clansuite_Formelement implements Clansuite_Formelement_Interface
      * @see $this->addDecorator()
      *
      * WATCH OUT! THIS BREAKS THE CHAINING IN REGARD TO THE FORM
-     * @return Clansuite_Formelement_Decorator
+     * @return Koch_Formelement_Decorator
      */
     public function setDecorator($decorators)
     {
@@ -781,7 +783,7 @@ class Clansuite_Formelement implements Clansuite_Formelement_Interface
      * $form->addDecorator('fieldset')->setLegend('legendname');
      *
      * WATCH OUT! THIS BREAKS THE CHAINING IN REGARD TO THE FORM OBJECT
-     * @return Clansuite_Formelement_Decorator
+     * @return Koch_Formelement_Decorator
      */
     public function addDecorator($decorators)
     {
@@ -796,7 +798,7 @@ class Clansuite_Formelement implements Clansuite_Formelement_Interface
             foreach($decorators as $decorator)
             {
                 # and check if it is an object implementing the right interface
-                if ( ($decorator instanceof Clansuite_Formelement_Decorator_Interface) === true )
+                if ( ($decorator instanceof Koch_Formelement_Decorator_Interface) === true )
                 {
                     # if so, fetch this decorator objects name
                     $decoratorname = $decorator->name;
@@ -837,11 +839,11 @@ class Clansuite_Formelement implements Clansuite_Formelement_Interface
         # We dont return $this here, because $this would be the formelement.
         # Insted the decorator is returned, to apply some properties.
         # @return decorator object
-        #Clansuite_Debug::printR($this->formelementdecorators[$decoratorname]);
-        #Clansuite_Debug::printR($this->name);
+        #Koch_Debug::printR($this->formelementdecorators[$decoratorname]);
+        #Koch_Debug::printR($this->name);
 
-        #Clansuite_Debug::firebug($this);
-        #Clansuite_Debug::firebug($this->formelementdecorators);
+        #Koch_Debug::firebug($this);
+        #Koch_Debug::firebug($this->formelementdecorators);
 
         return $this->formelementdecorators[$decoratorname];
     }
@@ -850,7 +852,7 @@ class Clansuite_Formelement implements Clansuite_Formelement_Interface
      * Getter Method for a decorators of this formelement by it's name..
      *
      * @param string $decoratorname The formelement decorator to look for in the stack of decorators.
-     * @return array Returns the object Clansuite_Formelement_Decorator_$decoratorname if registered.
+     * @return array Returns the object Koch_Formelement_Decorator_$decoratorname if registered.
      */
     public function getDecoratorByName($decoratorname)
     {
@@ -860,7 +862,7 @@ class Clansuite_Formelement implements Clansuite_Formelement_Interface
     /**
      * Getter Method for the decorators of this formelement.
      *
-     * @return array Returns the array of Clansuite_Formelement_Decorators registered to this formelement.
+     * @return array Returns the array of Koch_Formelement_Decorators registered to this formelement.
      */
     public function getDecorators()
     {
@@ -871,7 +873,7 @@ class Clansuite_Formelement implements Clansuite_Formelement_Interface
      * Removes the requested decorator from the decorators stack.
      *
      * @param string $decoratorname
-     * @throws Clansuite_Exception
+     * @throws Koch_Exception
      */
     public function removeDecorator($decoratorname)
     {
@@ -881,7 +883,7 @@ class Clansuite_Formelement implements Clansuite_Formelement_Interface
         }
         else
         {
-            throw new Clansuite_Exception('Decorator does not exist.');
+            throw new Koch_Exception('Decorator does not exist.');
         }
     }
 
@@ -905,12 +907,12 @@ class Clansuite_Formelement implements Clansuite_Formelement_Interface
      * Factory method. Instantiates and returns a new formdecorator object.
      *
      * @param string Formelement Decorator.
-     * @return Clansuite_Formelement_Decorator
+     * @return Koch_Formelement_Decorator
      */
     public function decoratorFactory($decorator)
     {
-        # construct Clansuite_Formelement_Decorator_Name
-        $class = 'Clansuite_Formelement_Decorator_' . ucfirst($decorator);
+        # construct Koch_Formelement_Decorator_Name
+        $class = 'Koch_Formelement_Decorator_' . ucfirst($decorator);
 
         # if not already loaded, require forelement file
         if(false == class_exists($class, false))
@@ -950,9 +952,9 @@ class Clansuite_Formelement implements Clansuite_Formelement_Interface
 }
 
 /**
- * Interface for a single Clansuite Form Element
+ * Interface for a single Koch Framework Formelement
  */
-interface Clansuite_Formelement_Interface
+interface Formelement
 {
     # add/remove attributes for a formelement
     public function setAttribute($attribute, $value);

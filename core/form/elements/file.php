@@ -1,10 +1,10 @@
 <?php
    /**
-    * Clansuite - just an eSports CMS
+    * Koch Framework
     * Jens-André Koch © 2005 - onwards
     * http://www.clansuite.com/
     *
-    * This file is part of "Clansuite - just an eSports CMS".
+    * This file is part of "Koch Framework".
     *
     * LICENSE:
     *
@@ -33,16 +33,12 @@
 # Security Handler
 if (defined('IN_CS') === false)
 {
-    die('Clansuite not loaded. Direct Access forbidden.');
+    die('Koch Framework not loaded. Direct Access forbidden.');
 }
 
-# conditional include of the parent class
-if (false == class_exists('Clansuite_Formelement_Input',false))
-{
-    include __DIR__ . '/input.form.php';
-}
+namespace Koch\Formelement;
 
-class Clansuite_Formelement_File extends Clansuite_Formelement_Input implements Clansuite_Formelement_Interface
+class File extends Input implements Formelement
 {
     /**
      * Flag variable for the uploadType.
@@ -73,7 +69,7 @@ class Clansuite_Formelement_File extends Clansuite_Formelement_Input implements 
      * There are several different formelements available to upload files:
      *
      * @param $uploadType ajaxupload, apc, uploadify, html
-     * @return Clansuite_Formelement_File
+     * @return Koch_Formelement_File
      */
     public function setUploadType($uploadType)
     {
@@ -88,25 +84,25 @@ class Clansuite_Formelement_File extends Clansuite_Formelement_Input implements 
         {
             default:
             case 'ajaxupload':
-                if(false === class_exists('Clansuite_Formelement_Uploadajax', false))
+                if(false === class_exists('Koch_Formelement_Uploadajax', false))
                 {
                     include __DIR__ . '/uploadajax.php';
                 }
-                return new Clansuite_Formelement_Uploadajax();
+                return new Koch_Formelement_Uploadajax();
                 break;
             case 'apc':
-                if(false === class_exists('Clansuite_Formelement_Uploadapc', false))
+                if(false === class_exists('Koch_Formelement_Uploadapc', false))
                 {
                     include __DIR__ . '/uploadapc.php';
                 }
-                return new Clansuite_Formelement_Uploadapc();
+                return new Koch_Formelement_Uploadapc();
                 break;
             case 'uploadify':
-                if(false === class_exists('Clansuite_Formelement_Uploadify', false))
+                if(false === class_exists('Koch_Formelement_Uploadify', false))
                 {
                     include __DIR__ . '/uploadify.php';
                 }
-                return new Clansuite_Formelement_Uploadify();
+                return new Koch_Formelement_Uploadify();
                 break;
             case 'html':
                 /**
@@ -125,11 +121,11 @@ class Clansuite_Formelement_File extends Clansuite_Formelement_Input implements 
      * The render method needs a bit magic to render formelement objects directly.
      * See the short returns calls like the following above:
      *
-     *      return new Clansuite_Formelement_Uploadajax();
+     *      return new Koch_Formelement_Uploadajax();
      *
      * The long form is:
      *
-     *      $formelement = new Clansuite_Formelement_Uploadajax();
+     *      $formelement = new Koch_Formelement_Uploadajax();
      *      $formelement->render();
      */
     public function __toString()

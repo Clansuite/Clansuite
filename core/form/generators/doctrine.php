@@ -1,10 +1,10 @@
 <?php
    /**
-    * Clansuite - just an eSports CMS
+    * Koch Framework
     * Jens-André Koch © 2005 - onwards
     * http://www.clansuite.com/
     *
-    * This file is part of "Clansuite - just an eSports CMS".
+    * This file is part of "Koch Framework".
     *
     * LICENSE:
     *
@@ -33,23 +33,19 @@
 # Security Handler
 if (defined('IN_CS') === false)
 {
-    die('Clansuite not loaded. Direct Access forbidden.');
+    die('Koch Framework not loaded. Direct Access forbidden.');
 }
 
-# conditional include of the parent class
-if (false == class_exists('Clansuite_Form',false))
-{
-    include __DIR__ . '/form.core.php';
-}
+namespace Koch\Form\Generator;
 
 /**
- * Clansuite Form Generator via Doctrine Records
+ * Koch FrameworkForm Generator via Doctrine Records
  *
  * Purpose: automatic form generation from doctrine records/tables.
  *
  * @todo determine and set excluded columns (maybe in record?)
  */
-class Clansuite_Doctrine_Formgenerator extends Clansuite_Form
+class Doctrine extends Form implements FormGenerator
 {
     /**
      * The typeMap is an array of all doctrine column types.
@@ -116,7 +112,7 @@ class Clansuite_Doctrine_Formgenerator extends Clansuite_Form
             if( $table->isIdentifier($columnName) )
             {
                 # add it as an hidden field
-                #$form[] = new Clansuite_Form->formfactory( 'hidden', $fieldName);
+                #$form[] = new Koch_Form->formfactory( 'hidden', $fieldName);
             }
             else
             {
@@ -124,7 +120,7 @@ class Clansuite_Doctrine_Formgenerator extends Clansuite_Form
                 $printableName = ucwords(str_replace('_','',$columnName));
 
                 # determine the columnname type and add the formfield
-                #$form[] = new Clansuite_Form->formfactory( $table->getTypeOf($columnName), $fieldName, $printableName);
+                #$form[] = new Koch_Form->formfactory( $table->getTypeOf($columnName), $fieldName, $printableName);
             }
         }
 

@@ -1,10 +1,10 @@
 <?php
    /**
-    * Clansuite - just an eSports CMS
+    * Koch Framework
     * Jens-André Koch © 2005 - onwards
     * http://www.clansuite.com/
     *
-    * This file is part of "Clansuite - just an eSports CMS".
+    * This file is part of "Koch Framework".
     *
     * LICENSE:
     *
@@ -33,23 +33,25 @@
 # Security Handler
 if (defined('IN_CS') === false)
 {
-    die('Clansuite not loaded. Direct Access forbidden.');
+    die('Koch Framework not loaded. Direct Access forbidden.');
 }
 
-interface Clansuite_Form_Decorator_Interface
+namespace Koch\Form;
+
+interface Decorator
 {
-    public function decorateWith(Clansuite_Form_Interface $form);
+    public function decorateWith(Form $form);
     public function getName();
     public function render($html_form_content);
 }
 
 /**
- * Clansuite_Form_Decorator
+ * Koch_Form_Decorator
  *
- * The base class for all decorators. It has the same type as Clansuite_Form itself.
+ * The base class for all decorators. It has the same type as Koch_Form itself.
  * The decorator pattern suggests that the decorator implements all public methods of the component which it decorates.
- * Being "of the same type as Clansuite_Form" is achieved by implementing all methods described by Clansuite_Form_Interface,
- * NOT by extending Clansuite_Form. "Implementing all methods" is achieved by using the magical __call() method.
+ * Being "of the same type as Koch_Form" is achieved by implementing all methods described by Koch_Form_Interface,
+ * NOT by extending Koch_Form. "Implementing all methods" is achieved by using the magical __call() method.
  *
  * @see __call
  *
@@ -63,23 +65,23 @@ interface Clansuite_Form_Decorator_Interface
  * and implementing each method in this way, we simply use _call($method, $parameters).
  * Ok, it's a tradeoff between magic against implementation of the interface plus loosing the knowledege
  * in which decorator the method is called. If you still want to know, if a method exists on a decorator, use hasMethod().
- * Effect is that all children of this base class have all the methods of Clansuite_Form.
+ * Effect is that all children of this base class have all the methods of Koch_Form.
  *
  * @pattern Decorator, [GoF, 216/220]
  *
  * @author     Jens-André Koch  <vain@clansuite.com>
  * @copyright  Jens-André Koch (2005-onwards)
  *
- * @category    Clansuite
+ * @category    Koch
  * @package     Core
  * @subpackage  Form
  */
-abstract class Clansuite_Form_Decorator implements Clansuite_Form_Decorator_Interface
+abstract class Decorator implements Decorator
 {
     /**
      * Instance of the form, which is to decorate.
      *
-     * @var Clansuite_Form Defaults to null.
+     * @var Koch_Form Defaults to null.
      */
     protected $form = null;
 
@@ -142,9 +144,9 @@ abstract class Clansuite_Form_Decorator implements Clansuite_Form_Decorator_Inte
     /**
      * Setter method to set the form object which is to decorate.
      *
-     * @param $form object of type Clansuite_Form_Interface or Clansuite_Form_Decorator_Interface
+     * @param $form object of type Koch_Form_Interface or Koch_Form_Decorator_Interface
      */
-    public function decorateWith(Clansuite_Form_Interface $form)
+    public function decorateWith(Koch_Form_Interface $form)
     {
         if (null === $form)
         {
@@ -159,7 +161,7 @@ abstract class Clansuite_Form_Decorator implements Clansuite_Form_Decorator_Inte
      *
      * @param Form $form
      */
-    public function setForm(Clansuite_Form $form)
+    public function setForm(Koch_Form $form)
     {
         $this->decorateWith($form);
     }
@@ -167,7 +169,7 @@ abstract class Clansuite_Form_Decorator implements Clansuite_Form_Decorator_Inte
     /**
      * Form Getter
      *
-     * @return object Clansuite_Form
+     * @return object Koch_Form
      */
     public function getForm()
     {
@@ -188,7 +190,7 @@ abstract class Clansuite_Form_Decorator implements Clansuite_Form_Decorator_Inte
             return true;
         }
         # check if method exists in the decorator of this object
-        elseif($this->form instanceof Clansuite_Form_Decorator)
+        elseif($this->form instanceof Koch_Form_Decorator)
         {
             return $this->form->hasMethod($method);
         }

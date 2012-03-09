@@ -1,10 +1,10 @@
 <?php
    /**
-    * Clansuite - just an eSports CMS
+    * Koch Framework
     * Jens-André Koch © 2005 - onwards
     * http://www.clansuite.com/
     *
-    * This file is part of "Clansuite - just an eSports CMS".
+    * This file is part of "Koch Framework".
     *
     * LICENSE:
     *
@@ -33,10 +33,12 @@
 # Security Handler
 if (defined('IN_CS') === false)
 {
-    die('Clansuite not loaded. Direct Access forbidden.');
+    die('Koch Framework not loaded. Direct Access forbidden.');
 }
 
-class Clansuite_Formelement_Radiolist extends Clansuite_Formelement_Radio implements Clansuite_Formelement_Interface
+namespace Koch\Formelement;
+
+class Radiolist extends Radio implements Formelement
 {
     protected $options;
 
@@ -66,7 +68,7 @@ class Clansuite_Formelement_Radiolist extends Clansuite_Formelement_Radio implem
         while ( list($key, $value) = each($this->options))
         {
             # setup a new radio formelement
-            $radio = new Clansuite_Formelement_Radio();
+            $radio = new Koch_Formelement_Radio();
             $radio->setValue($key)
                   ->setName($value)
                   ->setDescription($value)
@@ -81,7 +83,7 @@ class Clansuite_Formelement_Radiolist extends Clansuite_Formelement_Radio implem
             # assign it as output
             $html .= $radio;
 
-            #Clansuite_Debug::printR($html);
+            #Koch_Debug::printR($html);
 
             # if we have more options comming up, add a seperator
             if (++$i!=count($this->options))

@@ -1,10 +1,10 @@
 <?php
    /**
-    * Clansuite - just an eSports CMS
+    * Koch Framework
     * Jens-André Koch © 2005 - onwards
     * http://www.clansuite.com/
     *
-    * This file is part of "Clansuite - just an eSports CMS".
+    * This file is part of "Koch Framework".
     *
     * LICENSE:
     *
@@ -33,23 +33,19 @@
 # Security Handler
 if (defined('IN_CS') === false)
 {
-    die('Clansuite not loaded. Direct Access forbidden.');
+    die('Koch Framework not loaded. Direct Access forbidden.');
 }
 
-# conditional include of the parent class
-if (false == class_exists('Clansuite_Form',false))
-{
-    include __DIR__ . '/form.core.php';
-}
+namespace Koch\Form\Generator;
 
 /**
- * Clansuite Form Generator via XML
+ * Koch FrameworkForm Generator via XML
  *
  * Purpose:
  * 1) form generation (html representation) from an xml description file (xml->form(html))
  * 2) xml generation from an array description of the form (form(array)->xml).
  */
-class Clansuite_XML_Formgenerator extends Clansuite_Form
+class XML extends Koch_Form implements FormGenerator
 {
     /**
      * Facade/Shortcut
@@ -63,20 +59,20 @@ class Clansuite_XML_Formgenerator extends Clansuite_Form
      * Generates a formular from a XML description file.
      *
      * @param string $filename XML file with formular description.
-     * @return \Clansuite_Array_Formgenerator
+     * @return \Koch_Array_Formgenerator
      */
     public function generateFormByXML($filename)
     {
-        # XML -> toArray -> Clansuite_Array_Formgenerator->generate($array)
+        # XML -> toArray -> Koch_Array_Formgenerator->generate($array)
         $array = array();
-        $array = new Clansuite_Config($filename);
+        $array = new Koch_Config($filename);
 
-        #Clansuite_Debug::firebug($filename);
-        #Clansuite_Debug::firebug($array);
+        #Koch_Debug::firebug($filename);
+        #Koch_Debug::firebug($array);
         $form = '';
-        $form = new Clansuite_Array_Formgenerator($array);
+        $form = new Koch_Array_Formgenerator($array);
 
-        #Clansuite_Debug::firebug($form);
+        #Koch_Debug::firebug($form);
 
         return $form;
     }
@@ -93,7 +89,7 @@ class Clansuite_XML_Formgenerator extends Clansuite_Form
         /* $filename = ROOT_MODULES . $array['modulename'] . DS . 'forms/';
           $filename .= $array['actionname'] . 'form.xml.php';
 
-          Clansuite_Config_XML::writeConfig($filename, $array);
+          Koch_Config_XML::writeConfig($filename, $array);
          */
     }
 

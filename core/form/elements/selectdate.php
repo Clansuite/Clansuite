@@ -1,10 +1,10 @@
 <?php
    /**
-    * Clansuite - just an eSports CMS
+    * Koch Framework
     * Jens-André Koch © 2005 - onwards
     * http://www.clansuite.com/
     *
-    * This file is part of "Clansuite - just an eSports CMS".
+    * This file is part of "Koch Framework".
     *
     * LICENSE:
     *
@@ -33,17 +33,19 @@
 # Security Handler
 if (defined('IN_CS') === false)
 {
-    die('Clansuite not loaded. Direct Access forbidden.');
+    die('Koch Framework not loaded. Direct Access forbidden.');
 }
 
+namespace Koch\Formelement;
+
 /**
- *  Clansuite_Formelement
+ *  Koch_Formelement
  *  |
- *  \- Clansuite_Formelement_Input
+ *  \- Koch_Formelement_Input
  *     |
- *     \- Clansuite_Formelement_SelectDate
+ *     \- Koch_Formelement_SelectDate
  */
-class Clansuite_Formelement_SelectDate extends Clansuite_Formelement_Input implements Clansuite_Formelement_Interface
+class SelectDate extends Input implements Formelement
 {
     public function __construct()
     {
@@ -52,7 +54,7 @@ class Clansuite_Formelement_SelectDate extends Clansuite_Formelement_Input imple
 
         return $this;
     }
-    
+
     /**
      * HTML 5 has several Types of input formfields for date and time selection
      *
@@ -66,14 +68,14 @@ class Clansuite_Formelement_SelectDate extends Clansuite_Formelement_Input imple
     public function setType($type)
     {
         $types = array('date', 'month', 'week', 'time', 'datetime', 'datetime-local');
-    
+
         if(in_array($type, $types) === true)
         {
             $this->type = $type;
         }
         else
         {
-            throw new Clansuite_Exception('Invalid formfield type specified. Choose one of ' . explode(',', $types));
+            throw new Koch_Exception('Invalid formfield type specified. Choose one of ' . explode(',', $types));
         }
 
         return $this;

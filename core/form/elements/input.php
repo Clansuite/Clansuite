@@ -1,10 +1,10 @@
 <?php
    /**
-    * Clansuite - just an eSports CMS
+    * Koch Framework
     * Jens-André Koch © 2005 - onwards
     * http://www.clansuite.com/
     *
-    * This file is part of "Clansuite - just an eSports CMS".
+    * This file is part of "Koch Framework".
     *
     * LICENSE:
     *
@@ -33,15 +33,17 @@
 # Security Handler
 if (defined('IN_CS') === false)
 {
-    die('Clansuite not loaded. Direct Access forbidden.');
+    die('Koch Framework not loaded. Direct Access forbidden.');
 }
 
+namespace Koch\Formelement;
+
 /**
- * Clansuite_Formelement_Input
+ * Koch_Formelement_Input
  *
  * @link http://www.whatwg.org/specs/web-apps/current-work/multipage/the-input-element.html
  */
-class Clansuite_Formelement_Input extends Clansuite_Formelement implements Clansuite_Formelement_Interface
+class Input extends Formelement implements Formelement
 {
     /**
      * The formelement input type, e.g.

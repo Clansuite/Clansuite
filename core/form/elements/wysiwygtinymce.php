@@ -1,10 +1,10 @@
 <?php
    /**
-    * Clansuite - just an eSports CMS
+    * Koch Framework
     * Jens-André Koch © 2005 - onwards
     * http://www.clansuite.com/
     *
-    * This file is part of "Clansuite - just an eSports CMS".
+    * This file is part of "Koch Framework".
     *
     * LICENSE:
     *
@@ -33,17 +33,19 @@
 # Security Handler
 if (defined('IN_CS') === false)
 {
-    die('Clansuite not loaded. Direct Access forbidden.');
+    die('Koch Framework not loaded. Direct Access forbidden.');
 }
 
+namespace Koch\Formelement;
+
 /**
- * Clansuite_Formelement_Wysiwygtinymce
+ * Koch_Formelement_Wysiwygtinymce
  *
  * @link http://tinymce.moxiecode.com/ Official Website
  * @link http://tinymce.moxiecode.com/js/tinymce/docs/api/index.html API Documentation
  * @link http://tinymce.moxiecode.com/examples/ Examples
  */
-class Clansuite_Formelement_Wysiwygtinymce extends Clansuite_Formelement_Textarea implements Clansuite_Formelement_Interface
+class Wysiwygtinymce extends Textarea implements Formelement
 {
     public function __construct()
     {

@@ -1,10 +1,10 @@
 <?php
    /**
-    * Clansuite - just an eSports CMS
+    * Koch Framework
     * Jens-André Koch © 2005 - onwards
     * http://www.clansuite.com/
     *
-    * This file is part of "Clansuite - just an eSports CMS".
+    * This file is part of "Koch Framework".
     *
     * LICENSE:
     *
@@ -33,18 +33,16 @@
 # Security Handler
 if (defined('IN_CS') === false)
 {
-    die('Clansuite not loaded. Direct Access forbidden.');
+    die('Koch Framework not loaded. Direct Access forbidden.');
 }
 
+namespace Koch\Formelement;
+
 /**
- *  Clansuite_Formelement
- *  |
- *  \- Clansuite_Formelement_Textarea
- *
  * This class renders the formelement textarea.
  * It gives you the option to add a JavaScript WYSIWYG editor as textarea replacement.
  */
-class Clansuite_Formelement_Textarea extends Clansuite_Formelement implements Clansuite_Formelement_Interface
+class Textarea extends Formelement implements Formelement
 {
     /**
      * Flag variable for the What-You-See-Is-What-You-Get Editor.
@@ -91,7 +89,7 @@ class Clansuite_Formelement_Textarea extends Clansuite_Formelement implements Cl
          */
         if($editor == null)
         {
-            $config = Clansuite_CMS::getInjector()->instantiate('Clansuite_Config');
+            $config = Clansuite_CMS::getInjector()->instantiate('Koch_Config');
             $editor = isset($config['editor']['type']) ? $config['editor']['type'] : 'ckeditor';
             unset($config);
         }
@@ -157,7 +155,7 @@ class Clansuite_Formelement_Textarea extends Clansuite_Formelement implements Cl
         return $this;
     }
 
-    public function setEditorFormelement(Clansuite_Formelement_Interface $editorObject)
+    public function setEditorFormelement(Koch_Formelement_Interface $editorObject)
     {
         $this->editorObject = $editorObject;
 
@@ -186,7 +184,7 @@ class Clansuite_Formelement_Textarea extends Clansuite_Formelement implements Cl
 
 
         # construct classname
-        $classname = 'Clansuite_Formelement_Wysiwyg'. $name;
+        $classname = 'Koch_Formelement_Wysiwyg'. $name;
 
         # load file
         if(class_exists($classname, false) === false)
@@ -253,7 +251,7 @@ class Clansuite_Formelement_Textarea extends Clansuite_Formelement implements Cl
         /**
          * Content between tags (value)
          */
-        $html .= Clansuite_Functions::UTF8_to_HTML($this->getValue());
+        $html .= Koch_Functions::UTF8_to_HTML($this->getValue());
 
         /**
          * Closing of textarea tag

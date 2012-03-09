@@ -1,10 +1,10 @@
 <?php
    /**
-    * Clansuite - just an eSports CMS
+    * Koch Framework
     * Jens-André Koch © 2005 - onwards
     * http://www.clansuite.com/
     *
-    * This file is part of "Clansuite - just an eSports CMS".
+    * This file is part of "Koch Framework".
     *
     * LICENSE:
     *
@@ -33,26 +33,22 @@
 # Security Handler
 if (defined('IN_CS') === false)
 {
-    die('Clansuite not loaded. Direct Access forbidden.');
+    die('Koch Framework not loaded. Direct Access forbidden.');
 }
 
-# conditional include of the parent class
-if (false == class_exists('Clansuite_Form',false))
-{
-    include __DIR__ . '/form.core.php';
-}
+namespace Koch\Form\Generator;
 
-interface Clansuite_Formgenerator_Interface
+interface FormGenerator
 {
     public function generate($array);
 }
 
 /**
- * Clansuite Form Generator via Array
+ * Koch FrameworkForm Generator via Array
  *
  * Purpose: automatic form generation from an array.
  */
-class Clansuite_Array_Formgenerator extends Clansuite_Form implements Clansuite_Formgenerator_Interface
+class Array extends Form implements FormGenerator
 {
     public function __construct(array $form_array = null, $form_object = null)
     {
@@ -60,7 +56,7 @@ class Clansuite_Array_Formgenerator extends Clansuite_Form implements Clansuite_
         {
             if(null == $form_object)
             {
-                # init parent Clansuite_Form with name, method and action
+                # init parent Koch_Form with name, method and action
                 parent::__construct($form_array['form']['name'], $form_array['form']['method'], $form_array['form']['action']);
             }
             else
@@ -68,7 +64,7 @@ class Clansuite_Array_Formgenerator extends Clansuite_Form implements Clansuite_
                 $form_object::__construct($form_array['form']['name'], $form_array['form']['method'], $form_array['form']['action']);
             }
 
-            # unset the key form inside form_array, because the "form" description is no longer needed, parent Clansuite_Form is already informed
+            # unset the key form inside form_array, because the "form" description is no longer needed, parent Koch_Form is already informed
             unset($form_array['form']);
 
             $this->validateArray_generateForm($form_array);
@@ -87,7 +83,7 @@ class Clansuite_Array_Formgenerator extends Clansuite_Form implements Clansuite_
         }
         else # the formdescription is invalid
         {
-            throw new Clansuite_Exception('Obligatory formelements not present.', 30);
+            throw new Koch_Exception('Obligatory formelements not present.', 30);
         }
     }
 
@@ -127,16 +123,16 @@ class Clansuite_Array_Formgenerator extends Clansuite_Form implements Clansuite_
         # loop over all elements of the form description array
         foreach($form_array as $form_array_section => $form_array_elements)
         {
-            #Clansuite_Debug::firebug($form_array_elements);
-            #Clansuite_Debug::firebug($form_array_section);
+            #Koch_Debug::firebug($form_array_elements);
+            #Koch_Debug::firebug($form_array_section);
 
             foreach($form_array_elements as $form_array_element_number => $form_array_element)
             {
-                #Clansuite_Debug::firebug(array_keys($form_array_element));
-                #Clansuite_Debug::firebug($obligatory_form_array_elements);
+                #Koch_Debug::firebug(array_keys($form_array_element));
+                #Koch_Debug::firebug($obligatory_form_array_elements);
 
                 # this does the validation. it ensures that required keys are present
-                $report_differences_or_true = Clansuite_Functions::array_compare($obligatory_form_array_elements, array_keys($form_array_element));
+                $report_differences_or_true = Koch_Functions::array_compare($obligatory_form_array_elements, array_keys($form_array_element));
 
                 # errorcheck for valid formfield elements
                 if(is_array($report_differences_or_true) == false)
@@ -147,7 +143,7 @@ class Clansuite_Array_Formgenerator extends Clansuite_Form implements Clansuite_
                 else
                 {
                     # form description arrays are not identical
-                    throw new Clansuite_Exception('Form Array Structure not valid. The first array shows the obligatory form array elements.
+                    throw new Koch_Exception('Form Array Structure not valid. The first array shows the obligatory form array elements.
                          The second array shows your form definition. Please add the missing array keys with values.'
                             .var_dump($report_differences_or_true));
                 }
@@ -158,17 +154,17 @@ class Clansuite_Array_Formgenerator extends Clansuite_Form implements Clansuite_
     public function generateFormByArray($form_array)
     {
         # debug display incomming form description array
-        #Clansuite_Debug::firebug($form_array);
+        #Koch_Debug::firebug($form_array);
 
         # loop over all elements of the form description array
         foreach($form_array as $form_array_section => $form_array_elements)
         {
-            #Clansuite_Debug::firebug($form_array_elements);
-            #Clansuite_Debug::firebug($form_array_section);
+            #Koch_Debug::firebug($form_array_elements);
+            #Koch_Debug::firebug($form_array_section);
 
             foreach($form_array_elements as $form_array_element_number => $form_array_element)
             {
-                #Clansuite_Debug::firebug($form_array_element);
+                #Koch_Debug::firebug($form_array_element);
 
                 # @todo ensure these elements exist !!!
 
@@ -178,7 +174,7 @@ class Clansuite_Array_Formgenerator extends Clansuite_Form implements Clansuite_
                 # fetch the new formelement object by its positional number
                 $formelement = $this->getElementByPosition($form_array_element_number);
 
-                #Clansuite_Debug::firebug($formelement);
+                #Koch_Debug::firebug($formelement);
 
                 # and apply the settings (id, name, description, value) to it
                 $formelement->setID($form_array_element['id']);
@@ -230,7 +226,7 @@ class Clansuite_Array_Formgenerator extends Clansuite_Form implements Clansuite_
                  */
                 if(isset($form_array_element['decorator']))
                 {
-                    if($form_array_element['decorator'] instanceOf Clansuite_Formelement_Decorator)
+                    if($form_array_element['decorator'] instanceOf Koch_Formelement_Decorator)
                     {
                         $formelement->setDecorator($form_array_element['decorator']);
                     }

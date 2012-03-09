@@ -1,10 +1,10 @@
 <?php
    /**
-    * Clansuite - just an eSports CMS
+    * Koch Framework
     * Jens-André Koch © 2005 - onwards
     * http://www.clansuite.com/
     *
-    * This file is part of "Clansuite - just an eSports CMS".
+    * This file is part of "Koch Framework".
     *
     * LICENSE:
     *
@@ -33,15 +33,17 @@
 # Security Handler
 if (defined('IN_CS') === false)
 {
-    die('Clansuite not loaded. Direct Access forbidden.');
+    die('Koch Framework not loaded. Direct Access forbidden.');
 }
 
+namespace Koch\Formelement;
+
 /**
- *  Clansuite_Form
+ *  Koch_Form
  *  |
- *  \- Clansuite_Formelement_Select
+ *  \- Koch_Formelement_Select
  */
-class Clansuite_Formelement_Select extends Clansuite_Formelement implements Clansuite_Formelement_Interface
+class Select extends Formelement implements Formelement
 {
     /**
      * @var array array with options for the dropdown
@@ -82,7 +84,7 @@ class Clansuite_Formelement_Select extends Clansuite_Formelement implements Clan
      *
      * @param array $options
      * @param boolean $addSelectText Adds " - Select -" as first entry to the options array. Default true.
-     * @return \Clansuite_Formelement_Select
+     * @return \Koch_Formelement_Select
      */
     public function setOptions($options, $addSelectText = true)
     {
@@ -127,7 +129,7 @@ class Clansuite_Formelement_Select extends Clansuite_Formelement implements Clan
      * This makes it a bit easier to pass actual values around via POST,
      * instead of passing the numeric index for lookup.
      *
-     * @return \Clansuite_Formelement_Select
+     * @return \Koch_Formelement_Select
      */
     public function withValuesAsKeys()
     {

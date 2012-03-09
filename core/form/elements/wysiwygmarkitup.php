@@ -1,10 +1,10 @@
 <?php
    /**
-    * Clansuite - just an eSports CMS
+    * Koch Framework
     * Jens-André Koch © 2005 - onwards
     * http://www.clansuite.com/
     *
-    * This file is part of "Clansuite - just an eSports CMS".
+    * This file is part of "Koch Framework".
     *
     * LICENSE:
     *
@@ -33,15 +33,17 @@
 # Security Handler
 if(defined('IN_CS') === false)
 {
-    die('Clansuite not loaded. Direct Access forbidden.');
+    die('Koch Framework not loaded. Direct Access forbidden.');
 }
 
+namespace Koch\Formelement;
+
 /**
- * Clansuite_Formelement_Wysiwygmarkitup
+ * Koch_Formelement_Wysiwygmarkitup
  *
  * @see http://markitup.jaysalvat.com/home/ Official Website of markItUp!
  */
-class Clansuite_Formelement_Wysiwygmarkitup extends Clansuite_Formelement_Textarea implements Clansuite_Formelement_Interface
+class Wysiwygmarkitup extends Textarea implements Formelement
 {
     public function __construct()
     {

@@ -1,10 +1,10 @@
 <?php
    /**
-    * Clansuite - just an eSports CMS
+    * Koch Framework
     * Jens-André Koch © 2005 - onwards
     * http://www.clansuite.com/
     *
-    * This file is part of "Clansuite - just an eSports CMS".
+    * This file is part of "Koch Framework".
     *
     * LICENSE:
     *
@@ -33,15 +33,15 @@
 # Security Handler
 if (defined('IN_CS') === false)
 {
-    die('Clansuite not loaded. Direct Access forbidden.');
+    die('Koch Framework not loaded. Direct Access forbidden.');
 }
 
+namespace Koch\Formelement;
+
 /**
- *  Clansuite_Formelement
- *  |
- *  \- Clansuite_Formelement_JQSelectDate
+ *Renders jquery Datepicker for date selection, you know?
  */
-class Clansuite_Formelement_JQSelectDate extends Clansuite_Formelement implements Clansuite_Formelement_Interface
+class JQSelectDate extends Koch_Formelement implements Koch_Formelement_Interface
 {
     /**
      * Flag Variable for the output of the datepicker as an icon (if true)
@@ -103,7 +103,7 @@ class Clansuite_Formelement_JQSelectDate extends Clansuite_Formelement implement
      */
     public function getAttributes()
     {
-        #Clansuite_Debug::printR($this->attributes);
+        #Koch_Debug::printR($this->attributes);
         $attributes_html = '';
         foreach($this->attributes as $attribute => $value)
         {

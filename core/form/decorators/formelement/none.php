@@ -1,10 +1,10 @@
 <?php
    /**
-    * Clansuite - just an eSports CMS
+    * Koch Framework
     * Jens-André Koch © 2005 - onwards
     * http://www.clansuite.com/
     *
-    * This file is part of "Clansuite - just an eSports CMS".
+    * This file is part of "Koch Framework".
     *
     * LICENSE:
     *
@@ -33,20 +33,22 @@
 # Security Handler
 if (defined('IN_CS') === false)
 {
-    die('Clansuite not loaded. Direct Access forbidden.');
+    die('Koch Framework not loaded. Direct Access forbidden.');
 }
 
+namespace Koch\Form\Decorator;
+
 /**
- * Clansuite_Formelement_Decorator_None
+ * Koch_Formelement_Decorator_None
  *
  * None - this hardly decorates anything at all.
  * Just wraps linebreaks around the html formelemnet content.
  *
- * @category Clansuite
- * @package Clansuite_Form
- * @subpackage Clansuite_Form_Decorator
+ * @category Koch
+ * @package Koch_Form
+ * @subpackage Koch_Form_Decorator
  */
-class Clansuite_Formelement_Decorator_None extends Clansuite_Formelement_Decorator
+class None extends Decorator
 {
     public $name = 'none';
 

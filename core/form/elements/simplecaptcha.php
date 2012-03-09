@@ -1,10 +1,10 @@
 <?php
    /**
-    * Clansuite - just an eSports CMS
+    * Koch Framework
     * Jens-André Koch © 2005 - onwards
     * http://www.clansuite.com/
     *
-    * This file is part of "Clansuite - just an eSports CMS".
+    * This file is part of "Koch Framework".
     *
     * LICENSE:
     *
@@ -33,17 +33,13 @@
 # Security Handler
 if (defined('IN_CS') === false)
 {
-    die('Clansuite not loaded. Direct Access forbidden.');
+    die('Koch Framework not loaded. Direct Access forbidden.');
 }
 
 /**
- *  Clansuite_Formelement
- *  |
- *  \- Clansuite_Formelement_Captcha
- *      |
- *      \- Clansuite_Formelement_SimpleCaptcha
+ *
  */
-class Clansuite_Formelement_SimpleCaptcha extends Clansuite_Formelement_Captcha implements Clansuite_Formelement_Interface
+class SimpleCaptcha extends Captcha implements Formelement
 {
     public $name = 'simplecaptcha';
     public $type = 'captcha';
@@ -53,8 +49,8 @@ class Clansuite_Formelement_SimpleCaptcha extends Clansuite_Formelement_Captcha 
      */
     public function render()
     {
-        $captcha = new Clansuite_JustAn_Captcha();
-        #Clansuite_Debug::firebug('Last Captcha String = '.$_SESSION['user']['simple_captcha_string']);
+        $captcha = new Koch_JustAn_Captcha();
+        #Koch_Debug::firebug('Last Captcha String = '.$_SESSION['user']['simple_captcha_string']);
         return $captcha->generateCaptchaImage();
     }
 
@@ -88,7 +84,7 @@ class Clansuite_Formelement_SimpleCaptcha extends Clansuite_Formelement_Captcha 
  * @link http://www.pwntcha.net/test.html PwnTcha : Test the Captcha - Strength
  * @link http://captcha.megaleecher.net/ Megaleecher Captcha Kill Pro Class
  *
- * This file is part of "Clansuite - just an eSports CMS".
+ * This file is part of "Koch Framework".
  *
  * @license    GNU/GPL v2 or (at your option) any later version, see "/doc/LICENSE".
  *
@@ -100,7 +96,7 @@ class Clansuite_Formelement_SimpleCaptcha extends Clansuite_Formelement_Captcha 
  *
  * @version    SVN: $Id$
  */
-class Clansuite_JustAn_Captcha
+class Koch_JustAn_Captcha
 {
     /**
      * @var int image height
@@ -134,7 +130,7 @@ class Clansuite_JustAn_Captcha
     {
         if(extension_loaded('gd') === false)
         {
-            throw new Clansuite_Exception(_('GD Library missing.'));
+            throw new Koch_Exception(_('GD Library missing.'));
         }
 
         # pick a random font from the fonts dir
@@ -252,7 +248,7 @@ class Clansuite_JustAn_Captcha
                     imageellipse($this->captcha, mt_rand(1, 200), mt_rand(1, 50), mt_rand(50, 100), mt_rand(12, 25), $background_color);
                 }
 
-                #Clansuite_Debug::firebug($string_length);
+                #Koch_Debug::firebug($string_length);
                 # loop charwise through $captcha_string and apply a random font-effect
                 for($i = 0; $i < $string_length; $i++)
                 {

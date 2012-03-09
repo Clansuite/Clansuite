@@ -1,10 +1,10 @@
 <?php
    /**
-    * Clansuite - just an eSports CMS
+    * Koch Framework
     * Jens-André Koch © 2005 - onwards
     * http://www.clansuite.com/
     *
-    * This file is part of "Clansuite - just an eSports CMS".
+    * This file is part of "Koch Framework".
     *
     * LICENSE:
     *
@@ -33,19 +33,21 @@
 # Security Handler
 if (defined('IN_CS') === false)
 {
-    die('Clansuite not loaded. Direct Access forbidden.');
+    die('Koch Framework not loaded. Direct Access forbidden.');
 }
 
+namespace Koch\Form\Decorator;
+
 /**
- * Clansuite_Form_Decorator_Div
+ * Koch_Form_Decorator_Div
  *
  * Wraps a <div> element around the html_form_content.
  *
- * @category Clansuite
- * @package Clansuite_Form
- * @subpackage Clansuite_Form_Decorator
+ * @category Koch
+ * @package Koch_Form
+ * @subpackage Koch_Form_Decorator
  */
-class Clansuite_Form_Decorator_Div extends Clansuite_Form_Decorator
+class Div extends Decorator
 {
     /**
      * Name of this decorator
@@ -55,16 +57,16 @@ class Clansuite_Form_Decorator_Div extends Clansuite_Form_Decorator
     public $name = 'div';
 
     public function render($html_form_content)
-    {   
+    {
         # open opening div tag (unclosed first tag)
         $html_deco = CR . '<div ';
-        
+
         # add class
         if( mb_strlen($this->getClass()) > 0 )
         {
              $html_deco .= 'class="' . $this->getClass() .'" ';
         }
-        
+
         # add class
         if( mb_strlen($this->getId()) > 0 )
         {
@@ -73,7 +75,7 @@ class Clansuite_Form_Decorator_Div extends Clansuite_Form_Decorator
 
         # close opening div tag (close unclosed first tag)
         $html_deco .= '>';
-        
+
         return  $html_deco . $html_form_content . '</div>' . CR;
     }
 }

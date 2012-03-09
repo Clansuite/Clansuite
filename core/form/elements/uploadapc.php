@@ -1,10 +1,10 @@
 <?php
    /**
-    * Clansuite - just an eSports CMS
+    * Koch Framework
     * Jens-André Koch © 2005 - onwards
     * http://www.clansuite.com/
     *
-    * This file is part of "Clansuite - just an eSports CMS".
+    * This file is part of "Koch Framework".
     *
     * LICENSE:
     *
@@ -33,10 +33,12 @@
 # Security Handler
 if (defined('IN_CS') === false)
 {
-    die('Clansuite not loaded. Direct Access forbidden.');
+    die('Koch Framework not loaded. Direct Access forbidden.');
 }
 
-class Clansuite_Formelement_Uploadapc extends Clansuite_Formelement_File implements Clansuite_Formelement_Interface
+namespace Koch\Formelement;
+
+class Uploadapc extends File implements Formelement
 {
     /**
      * This renders a File Upload Form with an APC Progress Bar.
@@ -142,12 +144,12 @@ class Clansuite_Formelement_Uploadapc extends Clansuite_Formelement_File impleme
          * b) with a unique tracking id for the file
          * c) placed before the input file element.
          */
-        if (false === class_exists('Clansuite_Formelement_Hidden',false))
+        if (false === class_exists('Koch_Formelement_Hidden',false))
         {
             include __DIR__ . '/hidden.form.php';
         }
         $uniqueID = md5(uniqid(mt_rand(), true));
-        $hidden = new Clansuite_Formelement_Hidden();
+        $hidden = new Koch_Formelement_Hidden();
         $hidden->setName('APC_UPLOAD_PROGRESS')->setID('upload_status')->setValue($uniqueID);
         $html .= $hidden;
 
@@ -155,11 +157,11 @@ class Clansuite_Formelement_Uploadapc extends Clansuite_Formelement_File impleme
         $html .= '<input name="uploadfile" size="30" type="file">';
 
         # add a submit button
-        if (false === class_exists('Clansuite_Formelement_Submitbutton',false))
+        if (false === class_exists('Koch_Formelement_Submitbutton',false))
         {
             include __DIR__ . '/submitbutton.php';
         }
-        $submit = new Clansuite_Formelement_Submitbutton();
+        $submit = new Koch_Formelement_Submitbutton();
         $submit->setValue(_('Upload File'));
         $submit->setAdditionalAttributeAsText("onclick=\"this.disabled=true; setInterval('getUploadProgress(\''+this.form.APC_UPLOAD_PROGRESS.value+'\')', 750); \" ");
         $html .= $submit;

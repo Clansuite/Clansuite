@@ -1,10 +1,10 @@
 <?php
    /**
-    * Clansuite - just an eSports CMS
+    * Koch Framework
     * Jens-André Koch © 2005 - onwards
     * http://www.clansuite.com/
     *
-    * This file is part of "Clansuite - just an eSports CMS".
+    * This file is part of "Koch Framework".
     *
     * LICENSE:
     *
@@ -26,7 +26,7 @@
     * @author     Jens-André Koch <vain@clansuite.com>
     * @copyright  Jens-André Koch (2005-onwards)
     * @link       http://www.clansuite.com
-    * 
+    *
     *
     * @version    SVN: $Id$
     */
@@ -34,17 +34,19 @@
 # Security Handler
 if (defined('IN_CS') === false)
 {
-    die('Clansuite not loaded. Direct Access forbidden.');
+    die('Koch Framework not loaded. Direct Access forbidden.');
 }
 
+namespace Koch\Formelement;
+
 /**
- *  Clansuite_Formelement
+ *  Koch_Formelement
  *  |
- *  \- Clansuite_Formelement_Captcha
+ *  \- Koch_Formelement_Captcha
  *      |
- *      \- Clansuite_Formelement_ReCaptcha
+ *      \- Koch_Formelement_ReCaptcha
  */
-class Clansuite_Formelement_ReCaptcha extends Clansuite_Formelement_Captcha implements Clansuite_Formelement_Interface
+class ReCaptcha extends Captcha implements Formelement
 {
     /**
      * @var string The ReCaptcha API PublicKey. You got this key from the ReCaptcha signup page.
@@ -62,12 +64,12 @@ class Clansuite_Formelement_ReCaptcha extends Clansuite_Formelement_Captcha impl
     private $error;
 
     /**
-     * @var object Instance of Clansuite_HttpRequest Object.
+     * @var object Instance of Koch_HttpRequest Object.
      */
 
     public function __construct()
     {
-        $this->request = Clansuite_CMS::getInjector()->instantiate('Clansuite_HttpRequest');
+        $this->request = Clansuite_CMS::getInjector()->instantiate('Koch_HttpRequest');
 
         # Load Recaptcha Library
         include_once ROOT_LIBRARIES . 'recaptcha/recaptchalib.php';
@@ -79,7 +81,7 @@ class Clansuite_Formelement_ReCaptcha extends Clansuite_Formelement_Captcha impl
          * public_key  = ""
          * private_key = ""
          */
-        $config = Clansuite_CMS::getInjector()->instantiate('Clansuite_Config');
+        $config = Clansuite_CMS::getInjector()->instantiate('Koch_Config');
         $this->publicKey  = $config['recaptcha']['public_key'];
         $this->privateKey = $config['recaptcha']['private_key'];
         unset($config);
