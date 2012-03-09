@@ -30,13 +30,13 @@
     * @version    SVN: $Id: xdebug.core.php 4866 2010-10-25 19:57:34Z vain $
     */
 
+namespace Koch;
+
 # Security Handler
 if(defined('IN_CS') === false)
 {
-    die('Koch Framework not loaded. Direct Access forbidden.');
+    exit('Koch Framework not loaded. Direct Access forbidden.');
 }
-
-namespace Koch;
 
 /**
  * Koch_Maintenance

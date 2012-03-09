@@ -30,13 +30,13 @@
     * @version    SVN: $Id$
     */
 
+namespace Koch\View;
+
 # Security Handler
 if(defined('IN_CS') === false)
 {
-    die('Koch Framework not loaded. Direct Access forbidden.');
+    exit('Koch Framework not loaded. Direct Access forbidden.');
 }
-
-namespace Koch\View;
 
 /**
  * A abstract base class for all our view rendering engines.

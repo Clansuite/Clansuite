@@ -30,7 +30,7 @@
      * @version    SVN: $Id$
      */
 
-namespace Koch\Cronjob;
+namespace Koch\Cron;
 
 $cron = new Cron;
 
@@ -581,7 +581,7 @@ class Cronjobs
 /**
  * Interface for Koch_Cronjob
  */
-interface Koch_Cronjob_Interface
+interface Cronjob
 {
     function execute();
 }

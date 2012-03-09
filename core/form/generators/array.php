@@ -30,13 +30,13 @@
     * @version    SVN: $Id$
     */
 
-# Security Handler
-if (defined('IN_CS') === false)
-{
-    die('Koch Framework not loaded. Direct Access forbidden.');
-}
-
 namespace Koch\Form\Generator;
+
+# Security Handler
+if(defined('IN_CS') === false)
+{
+    exit('Koch Framework not loaded. Direct Access forbidden.');
+}
 
 interface FormGenerator
 {

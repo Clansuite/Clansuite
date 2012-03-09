@@ -30,13 +30,13 @@
     * @version    SVN: $Id$
     */
 
+namespace Koch\Debug;
+
 # Security Handler
 if(defined('IN_CS') === false)
 {
-    die('Koch Framework not loaded. Direct Access forbidden.');
+    exit('Koch Framework not loaded. Direct Access forbidden.');
 }
-
-namespace Koch\Debug;
 
 /**
  * Koch_Debug

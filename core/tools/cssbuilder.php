@@ -30,13 +30,14 @@
     * @version    SVN: $Id$
     */
 
+namespace  Koch\Tools;
+
 # Security Handler
 if(defined('IN_CS') === false)
 {
-    die('Koch Framework not loaded. Direct Access forbidden.');
+    exit('Koch Framework not loaded. Direct Access forbidden.');
 }
 
-namespace Koch\Tools;
 
 /**
  * Koch Framework CSS Builder

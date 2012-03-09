@@ -30,13 +30,14 @@
     * @version    SVN: $Id: acm.class.php 4599 2010-08-27 21:01:58Z vain $
     */
 
+namespace  Koch\Tools;
+
 # Security Handler
 if(defined('IN_CS') === false)
 {
-    die('Koch Framework not loaded. Direct Access forbidden.');
+    exit('Koch Framework not loaded. Direct Access forbidden.');
 }
 
-namespace Koch\Tools;
 
 /**
  * Koch Framework Class for Browser information

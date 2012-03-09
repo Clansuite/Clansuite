@@ -30,13 +30,13 @@
     * @version    SVN: $Id$
     */
 
-   # Security Handler
+   namespace Koch\Localization\Gettext\Extractor;
+
+# Security Handler
 if(defined('IN_CS') === false)
 {
-    die('Koch Framework not loaded. Direct Access forbidden.');
+    exit('Koch Framework not loaded. Direct Access forbidden.');
 }
-
-namespace Koch\Localization\Gettext\Extractor;
 
 /**
  * Koch_Gettext_Extractor_PHP

@@ -30,13 +30,13 @@
     * @version    SVN: $Id$
     */
 
-# Security Handler
-if (defined('IN_CS') === false)
-{
-    die('Koch Framework not loaded. Direct Access forbidden.');
-}
-
 namespace Koch\Event;
+
+# Security Handler
+if(defined('IN_CS') === false)
+{
+    exit('Koch Framework not loaded. Direct Access forbidden.');
+}
 
 /**
  * Interface for Koch_Event
@@ -47,9 +47,9 @@ namespace Koch\Event;
  * @package     Core
  * @subpackage  Event
  */
-interface Interface
+interface Event
 {
-    public function execute(Koch_Event $event);
+    public function execute(\Koch\Event\Event $event);
 }
 
 /**

@@ -30,13 +30,13 @@
     * @version    SVN: $Id$
     */
 
+namespace Koch\MVC;
+
 # Security Handler
 if(defined('IN_CS') === false)
 {
-    die('Koch Framework not loaded. Direct Access forbidden.');
+    exit('Koch Framework not loaded. Direct Access forbidden.');
 }
-
-namespace Koch\MVC;
 
 /**
  * Interface for FrontController

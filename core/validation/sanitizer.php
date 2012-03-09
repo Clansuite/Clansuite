@@ -29,13 +29,13 @@
     * @version    SVN: $Id$
     */
 
-//Security Handler
+namespace Koch\Validation;
+
+# Security Handler
 if(defined('IN_CS') === false)
 {
     die('Koch Framework not loaded. Direct Access forbidden.');
 }
-
-namespace Koch\Validation;
 
 /**
  * Sanitizes the HTML body content.

@@ -30,16 +30,12 @@
     * @version    SVN: $Id$
     */
 
-# Security Handler
-if (defined('IN_CS') === false)
-{
-    die('Clansuite not loaded. Direct Access forbidden.');
-}
+namespace Koch\Datagrid;
 
-# conditional include of the parent class
-if (false == class_exists('Clansuite_Datagrid_Column',false))
+# Security Handler
+if(defined('IN_CS') === false)
 {
-    include __DIR__ . '/datagridcol.core.php';
+    exit('Koch Framework not loaded. Direct Access forbidden.');
 }
 
 use DoctrineExtensions\Paginate\Paginate;
@@ -53,7 +49,7 @@ use DoctrineExtensions\Paginate\Paginate;
  *
  * @author Florian Wolf <xsign.dll@clansuite.com>
  */
-class Clansuite_Datagrid_Base
+class Base
 {
     /**
      * The data to render in the grid.
@@ -291,7 +287,7 @@ class Clansuite_Datagrid_Base
  * # Footer                (<tr><td>Footer</td></tr>) #
  * #--------------------------------------------------#
  */
-class Clansuite_Datagrid extends Clansuite_Datagrid_Base
+class Datagrid extends Base
 {
     //--------------------
     // Class properties
@@ -1255,7 +1251,7 @@ class Clansuite_Datagrid extends Clansuite_Datagrid_Base
  *
  * @author Florian Wolf <xsign.dll@clansuite.com>
  */
-class Clansuite_Datagrid_Row extends Clansuite_Datagrid_Base
+class Row extends Base
 {
     //--------------------
     // Class properties
@@ -1354,7 +1350,7 @@ class Clansuite_Datagrid_Row extends Clansuite_Datagrid_Base
 *
 * @author Florian Wolf <xsign.dll@clansuite.com>
 */
-class Clansuite_Datagrid_Cell extends Clansuite_Datagrid_Base
+class Cell extends Base
 {
     /**
      * Value(s) of the cell

@@ -30,10 +30,12 @@
     * @version    SVN: $Id$
     */
 
+namespace Koch\Datagrid\Column;
+
 # Security Handler
-if (defined('IN_CS') === false)
+if(defined('IN_CS') === false)
 {
-    die('Clansuite not loaded. Direct Access forbidden.');
+    exit('Koch Framework not loaded. Direct Access forbidden.');
 }
 
 /**
@@ -43,7 +45,7 @@ if (defined('IN_CS') === false)
 *
 * @author Florian Wolf <xsign.dll@clansuite.com>
 */
-class Clansuite_Datagrid_Column_Renderer_Checkbox extends Clansuite_Datagrid_Column_Renderer_Base implements Clansuite_Datagrid_Column_Renderer_Interface
+class Checkbox extends Renderer_Base implements Renderer
 {
     /**
     * Render the value(s) of a cell

@@ -30,15 +30,15 @@
     * @version    SVN: $Id$
     */
 
+namespace Koch\Cron;
+
 # Security Handler
-if (defined('IN_CS') === false)
+if(defined('IN_CS') === false)
 {
-    die('Koch Framework not loaded. Direct Access forbidden.');
+    exit('Koch Framework not loaded. Direct Access forbidden.');
 }
 
-namespace Koch\Cronjob;
-
-class Dump implements Interface
+class Dump implements Cronjob
 {
     public function execute()
     {

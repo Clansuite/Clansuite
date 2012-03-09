@@ -30,27 +30,12 @@
     * @version    SVN: $Id$
     */
 
+namespace Koch\Datagrid;
+
 # Security Handler
-if (defined('IN_CS') === false)
+if(defined('IN_CS') === false)
 {
-    die('Clansuite not loaded. Direct Access forbidden.');
-}
-
-# conditional include of the parent class
-if (false == class_exists('Clansuite_Datagrid_Base', false))
-{
-    include __DIR__ . '/datagrid.core.php';
-}
-
-if (false == class_exists('Clansuite_Datagrid_Renderer', false))
-{
-    include __DIR__ . '/renderer.php';
-}
-
-# conditional include of the parent class
-if (false ==  class_exists('Clansuite_HTML', false))
-{
-    include dirname(__DIR__) . '/html.core.php';
+    exit('Koch Framework not loaded. Direct Access forbidden.');
 }
 
 /**
@@ -60,7 +45,7 @@ if (false ==  class_exists('Clansuite_HTML', false))
  *
  * @author Florian Wolf <xsign.dll@clansuite.com>
  */
-class Clansuite_Datagrid_Column extends Clansuite_Datagrid_Base
+class Column extends Base
 {
     //--------------------
     // Class properties
@@ -343,7 +328,7 @@ class Clansuite_Datagrid_Column extends Clansuite_Datagrid_Base
 /**
  * Interface for a Clansuite Datagrid Column Renderer
  */
-interface Clansuite_Datagrid_Column_Renderer_Interface
+interface ColumnRenderer
 {
     /**
      * Render the given cell of the column
@@ -359,7 +344,7 @@ interface Clansuite_Datagrid_Column_Renderer_Interface
  *
  * @author Florian Wolf <xsign.dll@clansuite.com>
  */
-class Clansuite_Datagrid_Column_Renderer_Base extends Clansuite_Datagrid_Renderer
+class ColumnRendererBase extends Renderer
 {
     /**
      * The column object

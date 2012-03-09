@@ -30,6 +30,8 @@
      * @version    SVN: $Id$
      */
 
+namespace Koch\Cache;
+
 # Security Handler
 if(defined('IN_CS') === false)
 {

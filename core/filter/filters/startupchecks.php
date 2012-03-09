@@ -30,13 +30,14 @@
     * @version    SVN: $Id$
     */
 
+namespace  Koch\Filter;
+
 # Security Handler
-if (defined('IN_CS') === false)
+if(defined('IN_CS') === false)
 {
-    die('Koch Framework not loaded. Direct Access forbidden.' );
+    exit('Koch Framework not loaded. Direct Access forbidden.');
 }
 
-namespace Koch\Filter;
 
 /**
  * Koch Framework Filter - Startup Checks
