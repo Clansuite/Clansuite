@@ -39,40 +39,42 @@ if(defined('IN_CS') === false)
 }
 
 /**
- * Clansuite Datagrid Col Renderer Date
+ * Datagrid Column Renderer Date
  *
- * Purpose: Render date cells
+ * Renders date cells.
  *
  * @author Florian Wolf <xsign.dll@clansuite.com>
  */
-class Renderer_Date extends Renderer_Base implements ColumnRenderer
+class Date extends ColumnRenderer implements ColumnRendererInterface
 {
     /**
-    * Date format
-    * Default: d.m.Y => 13.03.2007
-    *
-    * @var string
-    */
+     * Date format
+     * Default: d.m.Y => 13.03.2007
+     *
+     * @todo make it respect the dateFormat setting from config
+     *
+     * @var string
+     */
     public $dateFormat = 'd.m.Y H:i';
 
     /**
-    * Render the value(s) of a cell
-    *
-    * @todo How to format date? user-language? user-country?
-    *
-    * @param Clansuite_Datagrid_Cell
-    * @return string Return html-code
-    */
+     * Render the value(s) of a cell
+     *
+     *
+     * @param Clansuite_Datagrid_Cell
+     * @return string Return html-code
+     */
     public function renderCell($oCell)
     {
-        #date_default_timezone_set('Europe/Berlin');
-
         $sDate = '';
+
         $oDatetime = date_create($oCell->getValue());
+
         if( $oDatetime !== false )
         {
             $sDate = $oDatetime->format($this->dateFormat);
         }
+
         return $sDate;
     }
 }

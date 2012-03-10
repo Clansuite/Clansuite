@@ -30,20 +30,21 @@
     * @version    SVN: $Id$
     */
 
-# Security Handler
-if (defined('IN_CS') === false)
-{
-    die('Clansuite not loaded. Direct Access forbidden.');
-}
+namespace Koch\Datagrid\Column;
 
+# Security Handler
+if(defined('IN_CS') === false)
+{
+    exit('Koch Framework not loaded. Direct Access forbidden.');
+}
 /**
- * Clansuite Datagrid Column Renderer String
+ * Datagrid Column Renderer String.
  *
- * Purpose: Render string cells
+ * Renders cells with string type value.
  *
  * @author Florian Wolf <xsign.dll@clansuite.com>
  */
-class Clansuite_Datagrid_Column_Renderer_String extends Clansuite_Datagrid_Column_Renderer_Base implements Clansuite_Datagrid_Column_Renderer_Interface
+class String extends ColumnRenderer implements ColumnRendererInterface
 {
     public $stringFormat = '';
 

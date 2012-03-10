@@ -30,21 +30,22 @@
     * @version    SVN: $Id$
     */
 
+namespace Koch\Datagrid\Column;
+
 # Security Handler
-if (defined('IN_CS') === false)
+if(defined('IN_CS') === false)
 {
-    die('Clansuite not loaded. Direct Access forbidden.');
+    exit('Koch Framework not loaded. Direct Access forbidden.');
 }
 
 /**
- * Clansuite Datagrid Column Renderer Link
+ * Datagrid Column Renderer Link.
  *
- * Purpose: Render cells with a link
+ * Renders cells with a link (a href).
  *
  * @author Florian Wolf <xsign.dll@clansuite.com>
  */
-class Clansuite_Datagrid_Column_Renderer_Link extends Clansuite_Datagrid_Column_Renderer_Base
-implements Clansuite_Datagrid_Column_Renderer_Interface
+class Link extends ColumnRenderer implements ColumnRendererInterface
 {
     public $link            = '';
     public $linkFormat      = '&id=%{id}';

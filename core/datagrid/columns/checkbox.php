@@ -39,20 +39,20 @@ if(defined('IN_CS') === false)
 }
 
 /**
-* Clansuite Datagrid Column Renderer Checkbox
-*
-* Purpose: Render cell with a checkbox
-*
-* @author Florian Wolf <xsign.dll@clansuite.com>
-*/
-class Checkbox extends Renderer_Base implements Renderer
+ * Datagrid Column Renderer Checkbox
+ *
+ * Renders cell with a checkbox
+ *
+ * @author Florian Wolf <xsign.dll@clansuite.com>
+ */
+class Checkbox extends ColumnRenderer implements ColumnRendererInterface
 {
     /**
-    * Render the value(s) of a cell
-    *
-    * @param Clansuite_Datagrid_Cell
-    * @return string Return html-code
-    */
+     * Render the value(s) of a cell
+     *
+     * @param Clansuite_Datagrid_Cell
+     * @return string Return html-code
+     */
     public function renderCell($oCell)
     {
         $oCheckbox = new Clansuite_Formelement_Checkbox();

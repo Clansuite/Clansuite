@@ -30,18 +30,22 @@
     * @version    SVN: $Id$
     */
 
+namespace Koch\Datagrid\Column;
+
 # Security Handler
-if (defined('IN_CS') === false)
+if(defined('IN_CS') === false)
 {
-    die('Clansuite not loaded. Direct Access forbidden.');
+    exit('Koch Framework not loaded. Direct Access forbidden.');
 }
 
 /**
- * Clansuite Datagrid Col Renderer for EditButton Cells
+ * Datagrid Column Renderer for Edit Button Cells
+ *
+ * Renders an edit button.
  *
  * @author Florian Wolf <xsign.dll@clansuite.com>
  */
-class Clansuite_Datagrid_Column_Renderer_Editbutton extends Clansuite_Datagrid_Column_Renderer_Base implements Clansuite_Datagrid_Column_Renderer_Interface
+class Editbutton extends ColumnRenderer implements ColumnRendererInterface
 {
     /**
     * Render the value(s) of a cell

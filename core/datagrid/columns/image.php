@@ -30,19 +30,20 @@
     * @version    SVN: $Id$
     */
 
+namespace Koch\Datagrid\Column;
+
 # Security Handler
-if (defined('IN_CS') === false)
+if(defined('IN_CS') === false)
 {
-    die('Clansuite not loaded. Direct Access forbidden.');
+    exit('Koch Framework not loaded. Direct Access forbidden.');
 }
 
 /**
- * Clansuite Datagrid Column Renderer Image
- * 
- * Purpose: Render cells with Image
+ * Datagrid Column Renderer Image
+ *
+ * Render cells with Image
  */
-class Clansuite_Datagrid_Column_Renderer_Image extends Clansuite_Datagrid_Column_Renderer_Base
-implements Clansuite_Datagrid_Column_Renderer_Interface
+class Image extends ColumnRenderer implements ColumnRendererInterface
 {
     public $nameWrapLength  = 25;
 

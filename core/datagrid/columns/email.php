@@ -30,31 +30,33 @@
     * @version    SVN: $Id$
     */
 
+namespace Koch\Datagrid\Column;
+
 # Security Handler
-if (defined('IN_CS') === false)
+if(defined('IN_CS') === false)
 {
-    die('Clansuite not loaded. Direct Access forbidden.');
+    exit('Koch Framework not loaded. Direct Access forbidden.');
 }
 
 /**
- * Clansuite Datagrid Col Renderer Email
- * 
- * Purpose: Render cells with email
+ * Datagrid Column Renderer Email
+ *
+ * Renders cells with email (href mailto).
  *
  * @author Florian Wolf <xsign.dll@clansuite.com>
  */
-class Clansuite_Datagrid_Column_Renderer_Email extends Clansuite_Datagrid_Column_Renderer_Base implements Clansuite_Datagrid_Column_Renderer_Interface
+class Email extends ColumnRenderer implements ColumnRendererInterface
 {
     /**
-    * Render the value(s) of a cell
-    *
-    * @param Clansuite_Datagrid_Cell
-    * @return string Return html-code
-    */
+     * Render the value(s) of a cell
+     *
+     * @param Clansuite_Datagrid_Cell
+     * @return string Return html-code
+     */
     public function renderCell($oCell)
     {
         $_Values = $oCell->getValues();
-        #Clansuite_Debug::firebug($_Values);
+
         if( isset($_Values[0]) AND isset($_Values[1]) )
         {
             return sprintf('<a href="mailto:%s">%s</a>', $_Values[0], $_Values[1] );
@@ -64,9 +66,6 @@ class Clansuite_Datagrid_Column_Renderer_Email extends Clansuite_Datagrid_Column
         {
             return sprintf('<a href="mailto:%s">%s</a>', $_Values[0], $_Values[0] );
         }
-
-        return '';
-
     }
 }
 

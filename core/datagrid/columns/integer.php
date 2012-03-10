@@ -26,32 +26,34 @@
     * @author     Jens-André Koch <vain@clansuite.com>
     * @copyright  Jens-André Koch (2005-onwards)
     * @link       http://www.clansuite.com
-    * 
+    *
     *
     * @version    SVN: $Id$
     */
 
+namespace Koch\Datagrid\Column;
+
 # Security Handler
-if (defined('IN_CS') === false)
+if(defined('IN_CS') === false)
 {
-    die('Clansuite not loaded. Direct Access forbidden.');
+    exit('Koch Framework not loaded. Direct Access forbidden.');
 }
 
 /**
- * Clansuite Datagrid Col Renderer Integer
- * 
- * Purpose: Render cells with integer value
+ * Datagrid Column Renderer Integer
+ *
+ * Renders cells with integer type value.
  *
  * @author Florian Wolf <xsign.dll@clansuite.com>
  */
-class Clansuite_Datagrid_Column_Renderer_Integer extends Clansuite_Datagrid_Column_Renderer_Base implements Clansuite_Datagrid_Column_Renderer_Interface
+class Integer extends ColumnRenderer implements ColumnRendererInterface
 {
     /**
-    * Render the value(s) of a cell
-    *
-    * @param Clansuite_Datagrid_Cell
-    * @return string Return html-code
-    */
+     * Render the value(s) of a cell
+     *
+     * @param Clansuite_Datagrid_Cell
+     * @return string Return html-code
+     */
     public function renderCell($oCell)
     {
         return $oCell->getValue();
