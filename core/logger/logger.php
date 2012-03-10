@@ -141,39 +141,6 @@ class Logger implements Logger
             }
         }
     }
-
-    /**
-     * Its a Logger Factory Method, which includeds, instantiates and returns a logger object.
-     *
-     * @param string $adapter Name of logger: file, firebug (default), db.
-     * @return Koch_Logger Object
-     */
-    public static function instantiate($adapter = 'firebug')
-    {
-        $file = ROOT_CORE . 'logger' . DS . mb_strtolower($adapter) . '.logger.php';
-
-        if(is_file($file) === true)
-        {
-            $class = 'Koch_Logger_' . $adapter;
-            if(false === class_exists($class, false))
-            {
-                include $file;
-            }
-
-            if(true === class_exists($class, false))
-            {
-                $logger = new $class();
-                return $logger;
-            }
-            else
-            {
-                throw new Koch_Exception('Logger_Factory -> Class not found: ' . $class, 50);
-            }
-        }
-        else
-        {
-            throw new Koch_Exception('Logger_Factory -> File not found: ' . $file, 51);
-        }
-    }
+    
 }
 ?>
