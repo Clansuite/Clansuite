@@ -30,7 +30,7 @@
     * @version    SVN: $Id$
     */
 
-namespace Koch\Logger;
+namespace Koch\Logger\Adapter;
 
 # Security Handler
 if(defined('IN_CS') === false)
@@ -39,7 +39,7 @@ if(defined('IN_CS') === false)
 }
 
 /**
- * Koch FrameworkCore File - Koch_Logger_Devnull
+ * Koch Framework - Log to /dev/null.
  *
  * This class is a service wrapper for logging messages to /dev/null.
  * It's a dummy logger - doing nothing.

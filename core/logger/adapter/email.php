@@ -30,7 +30,7 @@
     * @version    SVN: $Id$
     */
 
-namespace Koch\Logger;
+namespace Koch\Logger\Adapter;
 
 # Security Handler
 if(defined('IN_CS') === false)
@@ -39,7 +39,7 @@ if(defined('IN_CS') === false)
 }
 
 /**
- * Koch FrameworkCore File - Koch_Logger_Email
+ * Koch Framework - Log to email.
  *
  * This class is a service wrapper for sending logging messages via email.
  * The email is send using the Koch_Mailer, which is a wrapper for SwiftMailer.
