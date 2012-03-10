@@ -327,6 +327,9 @@ class Loader
         # trim opening namespace separator
         $classname = ltrim($classname, '\\');
 
+        # subtract our namespace
+        $classname = str_replace('Koch\\', '', $classname);
+
         $filename  = '';
         $namespace = '';
 
