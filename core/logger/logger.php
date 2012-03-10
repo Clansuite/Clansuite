@@ -30,25 +30,12 @@
     * @version    SVN: $Id$
     */
 
-namespace Koch\Logger\Helper;
+namespace Koch\Logger;
 
 # Security Handler
 if(defined('IN_CS') === false)
 {
     exit('Koch Framework not loaded. Direct Access forbidden.');
-}
-
-/**
- * Interface for the Logger Object
- *
- * @category    Koch
- * @package     Core
- * @subpackage  Logger
- */
-interface Logger
-{
-    # each logger has to provide the method writeLog()
-    public function writeLog($data);
 }
 
 /**
