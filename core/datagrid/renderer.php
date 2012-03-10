@@ -39,9 +39,8 @@ if(defined('IN_CS') === false)
 }
 
 /**
- * Clansuite Datagrid Renderer
+ * Datagrid Renderer
  *
- * Purpose:
  * Generates html-code based upon the grid settings.
  *
  * @author Florian Wolf <xsign.dll@clansuite.com>

@@ -30,13 +30,14 @@
     * @version    SVN: $Id$
     */
 
-namespace Koch\Datagrid\Column;
+namespace Koch\Datagrid\Columnrenderer;
 
 # Security Handler
 if(defined('IN_CS') === false)
 {
     exit('Koch Framework not loaded. Direct Access forbidden.');
 }
+
 /**
  * Datagrid Column Renderer String.
  *

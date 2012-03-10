@@ -30,7 +30,7 @@
     * @version    SVN: $Id$
     */
 
-namespace Koch\Datagrid\Column;
+namespace Koch\Datagrid\Columnrenderer;
 
 # Security Handler
 if(defined('IN_CS') === false)

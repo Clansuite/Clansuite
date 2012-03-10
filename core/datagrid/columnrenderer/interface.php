@@ -39,31 +39,13 @@ if(defined('IN_CS') === false)
 }
 
 /**
- * Datagrid Column Renderer Image
- *
- * Render cells with Image
+ * Interface for a Clansuite Datagrid Column Renderer
  */
-class Image extends ColumnRenderer implements ColumnRendererInterface
+interface ColumnRendererInterface
 {
-    public $nameWrapLength  = 25;
-
     /**
-     * Render the value(s) of a cell
-     *
-     * @param Clansuite_Datagrid_Cell
-     * @return string Return html-code
+     * Render the given cell of the column
      */
-    public function renderCell($oCell)
-    {
-        $image_alt = $value = $oCell->getValue();
-
-        # build an image name for the alt-tag
-        if( mb_strlen($value) > $this->nameWrapLength )
-        {
-            $image_alt = mb_substr($value, 0, $this->nameWrapLength - 5) . 'Image';
-        }
-
-        return $this->_replacePlaceholders($value, Clansuite_HTML::img( $value, array( 'alt'  => $image_alt)));
-    }
+    public function renderCell($_Value);
 }
 ?>
