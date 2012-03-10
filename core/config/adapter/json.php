@@ -31,7 +31,7 @@
     * @version    SVN: $Id$
     */
 
-namespace Koch\Config;
+namespace Koch\Config\Adapter;
 
 # Security Handler
 if(defined('IN_CS') === false)
@@ -39,6 +39,13 @@ if(defined('IN_CS') === false)
     exit('Koch Framework not loaded. Direct Access forbidden.');
 }
 
+/**
+ * Koch Framework - Config Handler for Json Format
+ *
+ * @category    Koch
+ * @package     Core
+ * @subpackage  Configuration
+ */
 class Json
 {
     /**

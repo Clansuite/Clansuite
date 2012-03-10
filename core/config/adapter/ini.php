@@ -32,7 +32,7 @@
     * @version    SVN: $Id$
     */
 
-namespace Koch\Config;
+namespace Koch\Config\Adapter;
 
 # Security Handler
 if(defined('IN_CS') === false)
@@ -41,13 +41,13 @@ if(defined('IN_CS') === false)
 }
 
 /**
- * Koch FrameworkCore File - Config Handler for INI Format
+ * Koch Framework - Config Handler for INI Format
  *
  * @category    Koch
  * @package     Core
  * @subpackage  Configuration
  */
-class INI
+class Ini
 {
     /**
      * Koch_Config_INI is a Singleton

@@ -30,7 +30,7 @@
     * @version    SVN: $Id$
     */
 
-namespace Koch\Config;
+namespace Koch\Config\Adapter;
 
 # Security Handler
 if(defined('IN_CS') === false)
@@ -39,7 +39,7 @@ if(defined('IN_CS') === false)
 }
 
 /**
- * Koch FrameworkCore File - Config Handler for XML Format (via SimpleXML)
+ * Koch Framework - Config Handler for XML Format (via SimpleXML)
  *
  * @category    Koch
  * @package     Core

@@ -31,7 +31,7 @@
     * @version    SVN: $Id$
     */
 
-namespace Koch\Config;
+namespace Koch\Config\Adapter;
 
 # Security Handler
 if(defined('IN_CS') === false)
@@ -40,7 +40,7 @@ if(defined('IN_CS') === false)
 }
 
 /**
- * Koch FrameworkCore File - Config Handler for YAML Format
+ * Koch Framework - Config Handler for YAML Format
  *
  * Purpose: This Confighandler supports the YAML-Fileformat.
  *
