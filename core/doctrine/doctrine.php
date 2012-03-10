@@ -308,7 +308,8 @@ class Doctrine
     {
         $model_dirs = array();
 
-        $dirs = Koch_ModuleInfoController::getModuleDirectories();
+        # get all module directories
+        $dirs = glob( ROOT_MOD . '[a-zA-Z]*', GLOB_ONLYDIR );
 
         foreach($dirs as $key => $dir_path)
         {
