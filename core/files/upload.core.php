@@ -38,7 +38,6 @@ if(defined('IN_CS') === false)
     exit('Koch Framework not loaded. Direct Access forbidden.');
 }
 
-
 /**
  * Koch_Upload - Koch Framework Class for Upload Handling
  *
