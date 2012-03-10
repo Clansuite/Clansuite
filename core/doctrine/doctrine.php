@@ -45,7 +45,7 @@ if(defined('IN_CS') === false)
  * @package     Core
  * @subpackage  Doctrine
  */
-class Doctrine2
+class Doctrine
 {
     /**
      * A DBAL Logger Object
