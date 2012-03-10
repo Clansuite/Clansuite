@@ -30,7 +30,7 @@
     * @version    SVN: $Id$
     */
 
-namespace Koch;
+namespace Koch\Feed;
 
 # Security Handler
 if(defined('IN_CS') === false)
@@ -39,7 +39,7 @@ if(defined('IN_CS') === false)
 }
 
 /**
- * Koch Framework Class for Feed Handling
+ * Koch Framework - Class for Feed Handling
  *
  * This is a Dual-Wrapper for SimplePie and FeedCreator.
  *
