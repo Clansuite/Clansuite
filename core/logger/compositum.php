@@ -41,7 +41,8 @@ if(defined('IN_CS') === false)
 /**
  * Koch_Logger
  *
- * This class represents a compositum for all loggers.
+ * This class represents a compositum for all registered loggers.
+ * Another name for this class would be MultiLog.
  * A new logger object is added with addLogger(), removed with removeLogger().
  * The composition is fired via method writeLog().
  *
@@ -49,7 +50,7 @@ if(defined('IN_CS') === false)
  * @package     Core
  * @subpackage  Logger
  */
-class Logger implements Logger
+class Compositum implements Logger
 {
     /**
      * @var array Array constains a object composition of all loggers
