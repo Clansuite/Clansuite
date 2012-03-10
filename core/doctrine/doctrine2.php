@@ -30,13 +30,13 @@
     * @version    SVN: $Id$
     */
 
-namespace  Koch;
+namespace Koch\Doctrine;
 
 # Security Handler
 if(defined('IN_CS') === false)
 {
     exit('Koch Framework not loaded. Direct Access forbidden.');
-} 
+}
 
 /**
  * Koch Framework Class for the Initialization of Doctrine 2
