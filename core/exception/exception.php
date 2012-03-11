@@ -59,7 +59,7 @@ if(defined('IN_CS') === false)
  * @package     Core
  * @subpackage  Exceptionhandler
  */
-class Exception extends \Exception implements Interface
+class Exception extends \Exception implements ExceptionInterface
 {
     /**
      * Variables of a PHP Exception
@@ -461,7 +461,7 @@ class Exception extends \Exception implements Interface
 /**
  * Koch_Exception has to implement the following methods.
  */
-interface Interface
+interface ExceptionInterface
 {
     /* Protected methods inherited from Exception class */
     public function getMessage();                 // Exception message
