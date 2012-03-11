@@ -33,14 +33,9 @@
     * @version    SVN: $Id$
     */
 
-# define Clansuite Security Constant
+// define Clansuite Security Constant
 define('IN_CS', true);
 
-# require application bootstrap
 require 'application/bootstrap.php';
-
-/**
- * Take off.
- */
 Clansuite_CMS::run();
 ?>
