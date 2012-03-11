@@ -30,19 +30,19 @@
     * @version    SVN: $Id$
     */
 
-//Security Handler
+namespace Koch\Exception;
+
+# Security Handler
 if (defined('IN_CS') === false)
 {
-    die('Koch Framework not loaded. Direct Access forbidden.');
+    exit('Koch Framework not loaded. Direct Access forbidden.');
 }
-
-namespace Koch\Exception
 
 /**
  * Koch Framework Class for Errorhandling
  *
  * Sets up a custom Errorhandler.
- * @see Clansuite_CMS::initialize_Errorhandling()
+ * @see Clansuite\CMS::initialize_Errorhandling()
  *
  * @example
  * <code>
@@ -337,7 +337,7 @@ class Errorhandler
         $html .= '</table>';
 
         # Add Footer with Support-Backlinks
-        $html .= Koch_Errorhandler::getSupportBacklinks();
+        $html .= self::getSupportBacklinks();
 
         # Close all html elements
         $html .= '</fieldset><br /><br />';

@@ -322,7 +322,7 @@ class Exception extends \Exception implements ExceptionInterface
         if(defined('DEBUG') and DEBUG == 1)
         {
             # lets get the backtrace as html table
-            $html .= Koch_Errorhandler::getDebugBacktrace($this->trace);
+            $html .= Errorhandler::getDebugBacktrace($this->trace);
         }
 
         /**
@@ -333,8 +333,8 @@ class Exception extends \Exception implements ExceptionInterface
         if(defined('DEBUG') and DEBUG == 1)
         {
             $html .= '<div id="panel3" class="panel">';
+            $html .= '<h3>Server Environment</h3>';
             $html .= '<table width="95%">';
-            $html .= '<tr><td colspan="2"><h3>Server Environment</h3></td></tr>';
             $html .= '<tr><td><strong>Date: </strong></td><td>' . date('r') . '</td></tr>';
             $html .= '<tr><td><strong>Remote: </strong></td><td>' . $_SERVER['REMOTE_ADDR'] . '</td></tr>';
             $html .= '<tr><td><strong>Request: </strong></td><td>index.php?' . $_SERVER['QUERY_STRING'] . '</td></tr>';
@@ -397,7 +397,7 @@ class Exception extends \Exception implements ExceptionInterface
          * Backlink to Bugtracker with Exceptionmessage
          * @link http://trac.clansuite.com/newticket
          */
-        $html .= Koch_Errorhandler::getBugtrackerBacklinks($this->message, $this->file, $this->line, $this->trace);
+        $html .= Errorhandler::getBugtrackerBacklinks($this->message, $this->file, $this->line, $this->trace);
 
         # close all html element table
         $html   .= '</table>';
@@ -407,7 +407,7 @@ class Exception extends \Exception implements ExceptionInterface
          *
          * Footer with Support-Backlinks
          */
-        $html  .= Koch_Errorhandler::getSupportBacklinks($this);
+        $html  .= Errorhandler::getSupportBacklinks($this);
 
         # close all html elements: fieldset, body+page
         $html   .= '</fieldset>';
@@ -456,23 +456,5 @@ class Exception extends \Exception implements ExceptionInterface
     {
         return $this->yellowScreenOfDeath();
     }
-}
-
-/**
- * Koch_Exception has to implement the following methods.
- */
-interface ExceptionInterface
-{
-    /* Protected methods inherited from Exception class */
-    public function getMessage();                 // Exception message
-    public function getCode();                    // User-defined Exception code
-    public function getFile();                    // Source filename
-    public function getLine();                    // Source line
-    public function getTrace();                   // An array of the backtrace()
-    public function getTraceAsString();           // Formated string of trace
-
-    /* Overrideable methods inherited from Exception class */
-    public function __toString();                 // formated string for display
-    #public function __construct($message = null, $code = 0);
 }
 ?>
