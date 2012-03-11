@@ -6,7 +6,7 @@ class Clansuite_Security_Test extends Clansuite_UnitTestCase
         parent::setUp();
 
         # Test Subject - Clansuite_Security
-        require_once TESTSUBJECT_DIR . 'core/security.core.php';
+        require_once TESTSUBJECT_DIR . 'core/security.php';
     }
 
     /**

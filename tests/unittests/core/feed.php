@@ -9,10 +9,10 @@ class Clansuite_Feed_Test extends Clansuite_UnitTestCase
         parent::setUp();
 
         # Test Subject
-        require_once TESTSUBJECT_DIR . 'core/feed.core.php';
+        require_once TESTSUBJECT_DIR . 'core/feed.php';
 
         # Dependency
-        require_once TESTSUBJECT_DIR . 'core/autoload/autoloader.core.php';
+        require_once TESTSUBJECT_DIR . 'core/autoload/autoloader.php';
 
         # valid rss feed online source
         #$this->feed_url = 'http://groups.google.com/group/clansuite/feed/rss_v2_0_msgs.xml';

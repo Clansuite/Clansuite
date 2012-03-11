@@ -20,9 +20,9 @@ class Clansuite_Form_Test extends Clansuite_UnitTestCase
         $this->form = new Clansuite_Form('TestForm');
 
         # setAction requires Clansuite_Router for URL building
-        require_once TESTSUBJECT_DIR . 'core/router.core.php';
+        require_once TESTSUBJECT_DIR . 'core/router/router.php';
         # url building needs this
-        require_once TESTSUBJECT_DIR . 'core/functions.core.php';
+        require_once TESTSUBJECT_DIR . 'core/functions.php';
 
         # addElement() needs Clansuite_Formelement
         require_once TESTSUBJECT_DIR . 'core/viewhelper/form/formelement.php';

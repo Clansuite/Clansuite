@@ -27,7 +27,7 @@ class Clansuite_Router_Test extends Clansuite_UnitTestCase
         $this->router = new Clansuite_Router($request, $config);
 
         # url building needs this
-        require_once TESTSUBJECT_DIR . 'core/functions.core.php';
+        require_once TESTSUBJECT_DIR . 'core/functions.php';
     }
 
     /**

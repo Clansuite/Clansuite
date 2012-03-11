@@ -131,7 +131,7 @@ class LoaderTest extends Clansuite_UnitTestCase
         # try to load an unknown class
         $this->assertFalse(Loader::autoloadByApcOrFileMap('SomeUnknownClass'));
 
-        Loader::addToMapping( TESTSUBJECT_DIR . 'core/sysinfo.core.php', 'Clansuite_Sysinfo' );
+        Loader::addToMapping( TESTSUBJECT_DIR . 'core/tools/sysinfo.php', 'Clansuite_Sysinfo' );
         $this->assertTrue(Loader::autoloadByApcOrFileMap('Clansuite_Sysinfo'));
     }
 
@@ -156,17 +156,17 @@ class LoaderTest extends Clansuite_UnitTestCase
      */
     public function testMethod_autoloadTryPathsAndMap()
     {
-        # try to load a class from core path - clansuite/core/class_name.core.php
+        # try to load a class from core path - clansuite/core/class_name.php
         $this->assertTrue(Loader::autoloadTryPathsAndMap('Clansuite_Router'));
 
-        # try to load a class from events path - clansuite/core/events/classname.event.php
-        require_once TESTSUBJECT_DIR . 'core/eventdispatcher.core.php'; # needed for the Events_Interface
+        # try to load a class from events path - clansuite/core/events/classname.php
+        require_once TESTSUBJECT_DIR . 'core/event/interface.php';
         $this->assertTrue(Loader::autoloadTryPathsAndMap('BlockIps'));
 
-        # try to load a class from filter path - clansuite/core/filters/classname.filter.php
+        # try to load a class from filter path - clansuite/core/filters/classname.php
         $this->assertTrue(Loader::autoloadTryPathsAndMap('Clansuite_Filter_HtmlTidy'));
 
-        # try to load a class from viewhelper path - clansuite/core/viewhelper/classname.core.php
+        # try to load a class from viewhelper path - clansuite/core/viewhelper/classname.php
         $this->assertTrue(Loader::autoloadTryPathsAndMap('Clansuite_Theme'));
     }
 

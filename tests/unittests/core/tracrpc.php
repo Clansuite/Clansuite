@@ -1,4 +1,9 @@
 <?php
+if (count(get_included_files()) == 1)
+{
+    require_once 'autorun.php';
+}
+
 class Clansuite_TracRPC_Test extends Clansuite_UnitTestCase
 {
     /**

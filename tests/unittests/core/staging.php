@@ -6,7 +6,7 @@ class Clansuite_Staging_Test extends Clansuite_UnitTestCase
         parent::setUp();
 
         # Test Subject
-        require_once TESTSUBJECT_DIR . 'core/staging.core.php';
+        require_once TESTSUBJECT_DIR . 'core/staging.php';
 
         # Dependency
         require_once TESTSUBJECT_DIR . 'core/config/ini.config.php';
