@@ -39,7 +39,7 @@ if(defined('IN_CS') === false)
 }
 
 /**
- * Koch FrameworkView Class - View for Smarty Templates
+ * Koch Framework - View Renderer for PDF.
  *
  * This is a wrapper/adapter for the PDF Engine tcpdf.
  *

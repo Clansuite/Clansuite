@@ -39,7 +39,7 @@ if(defined('IN_CS') === false)
 }
 
 /**
- * Koch FrameworkRenderer Class - Renderer for CSV
+ * Koch Framework - View Renderer for CSV data.
  *
  * This is a wrapper/adapter for rendering CSV Data. CSV stands for 'comma-seperated-values'.
  * These files are commonly used to export and import data into different databases.

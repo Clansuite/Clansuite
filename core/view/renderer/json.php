@@ -39,7 +39,7 @@ if(defined('IN_CS') === false)
 }
 
 /**
- * Koch FrameworkView Class - View for JSON data
+ * Koch Framework - View Renderer for JSON data.
  *
  * This is a wrapper/adapter for returning JSON data.
  *

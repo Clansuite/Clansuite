@@ -39,7 +39,7 @@ if(defined('IN_CS') === false)
 }
 
 /**
- * Koch FrameworkView Class - View for XSLT/XML
+ * Koch Framework - View Renderer for XSLT/XML.
  *
  * This is a wrapper/adapter for returning XML/XSLT data.
  *

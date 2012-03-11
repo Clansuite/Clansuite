@@ -39,7 +39,7 @@ if(defined('IN_CS') === false)
 }
 
 /**
- * Koch FrameworkRenderer Class - Renderer for native PHP Templates
+ * Koch Framework - View Renderer for native PHP Templates.
  *
  * This is a wrapper/adapter for using native PHP as Template Engine.
  *

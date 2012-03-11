@@ -39,7 +39,7 @@ if(defined('IN_CS') === false)
 }
 
 /**
- * Koch FrameworkRenderer Class - Renderer for Xtemplate.
+ * Koch Framework - View Renderer for Xtemplate templates.
  *
  * This is a wrapper/adapter for rendering with XTemplate.
  *

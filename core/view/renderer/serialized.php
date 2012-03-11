@@ -39,7 +39,7 @@ if(defined('IN_CS') === false)
 }
 
 /**
- * Koch FrameworkView Class - View for serialized PHP data
+ * Koch Framework - View Renderer for serialized PHP data.
  *
  * This is a wrapper/adapter for returning serialized PHP data.
  *

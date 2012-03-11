@@ -30,16 +30,17 @@
     * @version    SVN: $Id$
     */
 
-namespace Koch\View;
-
-# Security Handler
+namespace Koch\View\Renderer;
+<<<<<<< .mine
+=======
+>>>>>>> .theirs# Security Handler
 if(defined('IN_CS') === false)
 {
     exit('Koch Framework not loaded. Direct Access forbidden.');
 }
 
 /**
- * Koch FrameworkView Class - View for Smarty Templates
+ * Koch Framework - View Renderer for Smarty Templates.
  *
  * This is a wrapper/adapter for the Smarty Template Engine.
  *
@@ -232,17 +233,18 @@ class Smarty extends Renderer_Base
          *
          * Configure Smarty Viewhelper Directories
          * 1) original smarty plugins               => libraries\smarty\plugins\
-         * 2) clansuite core/common smarty plugins  => core\viewhelper\smarty\
-         * 3) clansuite module smarty plugins       => modules\module_name\viewhelper\smarty\
+         * 2) core                                  => core\view\helper\smarty
+         * 3) clansuite application smarty plugins  => application\core\viewhelper\smarty\
+         * 4) clansuite module smarty plugins       => application\modules\module_name\viewhelper\smarty\
          */
 
         $this->renderer->setPluginsDir(
             array(
-                ROOT_LIBRARIES . 'smarty' . DS . 'plugins',
-                ROOT_CORE . 'viewhelper' . DS . 'smarty' . DS,
-                ROOT_MOD . Koch_TargetRoute::getModuleName() . DS . 'viewhelper' . DS . 'smarty' . DS
+                ROOT_LIBRARIES . 'smarty/plugins',
+                KOCH . 'view/helper/smarty',
+                ROOT_CORE . 'view/helper/smarty',
+                ROOT_MOD . Clansuite_TargetRoute::getModuleName() . '/viewhelper/smarty'
         ));
-
 
         #Koch_Debug::printR($this->renderer->plugins_dir);
 

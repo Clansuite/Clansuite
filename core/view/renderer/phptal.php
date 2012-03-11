@@ -30,7 +30,7 @@
     * @version    SVN: $Id$
     */
 
-namespace  Koch\View\Renderer;
+namespace Koch\View\Renderer;
 
 # Security Handler
 if(defined('IN_CS') === false)
@@ -40,7 +40,7 @@ if(defined('IN_CS') === false)
 
 
 /**
- * Koch FrameworkRenderer Class - Renderer for PHPTAL
+ * Koch Framework - View Renderer for PHPTAL templates.
  *
  * This is a wrapper/adapter for rendering with PHPTAL.
  *
