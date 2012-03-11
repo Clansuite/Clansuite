@@ -107,7 +107,9 @@ class TargetRoute extends Mapper
     {
         if(empty(self::$parameters['classname']))
         {
-            self::setClassname(self::mapControllerToClassname(self::getController(), self::getSubController()));
+            $classname = self::mapControllerToClassname(self::getController(), self::getSubController());
+
+            self::setClassname($classname);
         }
 
         return self::$parameters['classname'];

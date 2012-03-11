@@ -137,7 +137,7 @@ class Manager
         {
             # load common routes configuration
             # includes array $routes
-            include ROOT_CONFIG . 'routes.config.php';
+            include ROOT_CONFIG . 'routes.php';
         }
         else
         {
