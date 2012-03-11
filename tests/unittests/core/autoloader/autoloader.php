@@ -101,8 +101,8 @@ class LoaderTest extends Clansuite_UnitTestCase
         # exclude "Doctrine" classes
         $this->assertTrue(Loader::autoloadExclusions('Doctrine_SomeClass'));
 
-        # but not, our own doctrine classes "Clansuite_Doctrine_"
-        $this->assertFalse(Loader::autoloadExclusions('Clansuite_Doctrine_SomeClass'));
+        # but not, our own namespaced doctrine classes "Koch\Doctrine\"
+        $this->assertFalse(Loader::autoloadExclusions('Koch\Doctrine\SomeClass'));
 
         # exclude "Smarty" classes
         $this->assertTrue(Loader::autoloadExclusions('Smarty_'));
@@ -120,7 +120,8 @@ class LoaderTest extends Clansuite_UnitTestCase
         $this->assertFalse(Loader::autoloadInclusions('SomeUnknownClass'));
 
         # try to load "Clansuite_Staging" class
-        $this->assertTrue(Loader::autoloadInclusions('Clansuite_Staging'));
+        # no definitions atm
+        #$this->assertTrue(Loader::autoloadInclusions('Clansuite_Staging'));
     }
 
     /**
@@ -151,26 +152,7 @@ class LoaderTest extends Clansuite_UnitTestCase
         $this->assertTrue(Loader::autoloadIncludePath('\Clansuite\NamespacedClass'));
    }
 
-    /**
-     * testMethod_autoloadTryPathsAndMap()
-     */
-    public function testMethod_autoloadTryPathsAndMap()
-    {
-        # try to load a class from core path - clansuite/core/class_name.php
-        $this->assertTrue(Loader::autoloadTryPathsAndMap('Clansuite_Router'));
-
-        # try to load a class from events path - clansuite/core/events/classname.php
-        require_once TESTSUBJECT_DIR . 'core/event/interface.php';
-        $this->assertTrue(Loader::autoloadTryPathsAndMap('BlockIps'));
-
-        # try to load a class from filter path - clansuite/core/filters/classname.php
-        $this->assertTrue(Loader::autoloadTryPathsAndMap('Clansuite_Filter_HtmlTidy'));
-
-        # try to load a class from viewhelper path - clansuite/core/viewhelper/classname.php
-        $this->assertTrue(Loader::autoloadTryPathsAndMap('Clansuite_Theme'));
-    }
-
-    public function testMethod_writeAutoloadingMapFile()
+   public function testMethod_writeAutoloadingMapFile()
     {
         $classmap_file = ROOT_CONFIG . 'autoloader.classmap.php';
         if(is_file($classmap_file))
@@ -181,7 +163,7 @@ class LoaderTest extends Clansuite_UnitTestCase
         $this->assertIdentical(array(), Loader::readAutoloadingMapFile());
         $this->assertTrue(is_file($classmap_file));
 
-        $array = array ( 'class' => 'file' );
+        $array = array('class' => 'file');
         $this->assertTrue(Loader::writeAutoloadingMapFile($array));
         $this->assertIdentical($array, Loader::readAutoloadingMapFile());
     }

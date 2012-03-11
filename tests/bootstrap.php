@@ -64,7 +64,7 @@ $paths = array(
     realpath(__DIR__ . '/simpletest'),  # /trunk/tests/simpletest
     realpath(__DIR__ . '/unittests'),   # /trunk/tests/unittests
 );
-var_dump($paths);
+#var_dump($paths);
 
 # attach original include paths
 set_include_path(implode($paths, PATH_SEPARATOR) . PATH_SEPARATOR . get_include_path());

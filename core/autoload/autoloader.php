@@ -110,10 +110,10 @@ class Loader
          *
          * Note: autoloadInclusions returns true if classname was included
          */
-        if(true === self::autoloadInclusions($classname))
+        /*if(true === self::autoloadInclusions($classname))
         {
             return true;
-        }
+        }*/
 
         /**
          * try to load the file by searching the
@@ -127,21 +127,12 @@ class Loader
         }
 
         /**
-         * Try to load the file by searching
-         * 4) several paths
+         * Try to load the file via include path lookup.
+         * 5) psr-0 loader
          *
          * Note: If the file is found, it's added to the mapping file.
          * The next time the file is requested, it will be loaded
          * via the method above (3)!
-         */
-        if(true === self::autoloadTryPathsAndMap($classname))
-        {
-            return true;
-        }
-
-        /**
-         * Try to load the file via include path lookup.
-         * 5) psr-0 loader
          */
         if(true === self::autoloadIncludePath($classname))
         {
@@ -183,7 +174,7 @@ class Loader
          * But include our own wrapper classes for both libraries.
          */
 
-        # this means if 'Doctrine" is found, but not 'Koch_Doctrine', exclude from our autoloading
+        # this means if 'Doctrine" is found, but not 'Koch\Doctrine', exclude from our autoloading
         if (false !== strpos($classname, 'Doctrine') and false === strpos($classname, 'Koch\Doctrine'))
         {
             return true;
@@ -297,56 +288,6 @@ class Loader
         else
         {
             return false;
-        }
-    }
-
-    /**
-     * Loads a file by trying several absolute paths
-     *
-     * @param $classname The classname to look for in the autoloading map.
-     * @return boolean True on file load, otherwise false.
-     */
-    public static function autoloadTryPathsAndMap($classname)
-    {
-        # Start Classname to Filename Mapping
-        $filename = strtolower($classname);
-
-        # strip 'clansuite_' from beginning of the string
-        if(false !== strpos($filename, 'clansuite_'))
-        {
-            $filename = substr($filename, 10);
-        }
-
-        # Core Class
-        # clansuite/core/class_name.php
-        $file = ROOT_CORE . str_replace('_','',$filename) . '.php';
-        if(is_file($file) === true)
-        {
-            return self::includeFileAndMap($file, $classname);
-        }
-
-        # Event
-        # clansuite/core/events/classname.event.php
-        $file = ROOT_CORE . 'events' . DS . $classname . '.event.php';
-        if(is_file($file) === true)
-        {
-            return self::includeFileAndMap($file, $classname);
-        }
-
-        # Filter
-        # clansuite/core/filters/classname.filter.php
-        $file = ROOT_CORE . 'filters' . DS . substr($filename, 7) . '.filter.php';
-        if(is_file($file) === true)
-        {
-            return self::includeFileAndMap($file, $classname);
-        }
-
-        # Viewhelper
-        # clansuite/core/view/helper/classname.php
-        $file = ROOT_CORE . 'view/helper/' . str_replace('_','.',$filename) . '.php';
-        if(is_file($file) === true)
-        {
-            return self::includeFileAndMap($file, $classname);
         }
     }
 
