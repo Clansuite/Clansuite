@@ -49,7 +49,7 @@ if(defined('IN_CS') === false)
  * @package     Core
  * @subpackage  Mapper
  */
-class Mapper extends ArrayObject
+class Mapper extends \ArrayObject
 {
     /* @const string Classname prefix for modules */
     const MODULE_CLASS_PREFIX = 'Koch_Module';

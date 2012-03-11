@@ -30,7 +30,7 @@
     * @version    SVN: $Id$
     */
 
-namespace  Koch\MVC;
+namespace Koch\MVC;
 
 # Security Handler
 if(defined('IN_CS') === false)
@@ -38,10 +38,10 @@ if(defined('IN_CS') === false)
     exit('Koch Framework not loaded. Direct Access forbidden.');
 }
 
-
 /**
- * Koch_ResponseEncode
- * formerly known as gzip_encode - a class to gzip encode php output.
+ * Koch Framework - Response Encode
+ * 
+ * The class is used to gzip_encode the response (php output).
  *
  * @author      Sandy McArthur, Jr. <Leknor@Leknor.com>
  * @author      Jens-André Koch <vain@clansuite.com>
