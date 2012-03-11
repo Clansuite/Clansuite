@@ -61,7 +61,7 @@ if(defined('IN_CS') === false)
  * @package     Core
  * @subpackage  Router
  */
-class Router implements ArrayAccess, Router
+class Router implements ArrayAccess, RouterInterface
 {
     /**
      * @var object Koch_Config
@@ -977,24 +977,5 @@ class Router implements ArrayAccess, Router
     {
         unset($this->routes[$name]);
     }
-}
-
-/**
- * Interface for Koch_Router(s)
- *
- * A router has to implement the following methods to resolve the Request to a Module and the Action/Command.
- *
- * @category    Koch
- * @package     Core
- * @subpackage  Router
- */
-interface Koch_Router_Interface
-{
-    function addRoute($url_pattern, array $route_options = null);
-    function addRoutes(array $routes);
-    function getRoutes();
-    function delRoute($name);
-    function generateURL($url_pattern, array $params = null, $absolute = false);
-    function route();
 }
 ?>
