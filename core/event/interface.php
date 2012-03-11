@@ -38,38 +38,17 @@ if(defined('IN_CS') === false)
     exit('Koch Framework not loaded. Direct Access forbidden.');
 }
 
-
 /**
- * Koch Framework - Event for Blocking IPs.
+ * Interface for Koch_Event
  *
- * @author     Jens-André Koch <vain@clansuite.com>
- * @copyright  Jens-André Koch (2005 - onwards)
+ * Koch_Events have to implement at least a execute() method
  *
- * Usage:
- * $blockip = new BlockIps(array('127.0.0.1'));
- * $dispatcher->addEventHandler('onLogin', $blockip);
- * if($event->isCancelled()) { }
- *
+ * @category    Koch
+ * @package     Core
+ * @subpackage  Event
  */
-class BlockIps implements Interface
+interface Event
 {
-    protected $blockedIps;
-
-    public function __construct($blockedIps)
-    {
-        $this->blockedIps = $blockedIps;
-    }
-
-    public function execute(Koch_Event $event)
-    {
-        $request = Clansuite_CMS::getInjector()->instantiate('Koch_HttpRequest');
-
-        $ip = $request->getRemoteAddress();
-
-        if(in_array($ip,$this->blockedIps))
-        {
-            $event->cancel();
-        }
-    }
+    public function execute(\Koch\Event\Event $event);
 }
 ?>
