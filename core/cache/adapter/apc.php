@@ -30,7 +30,11 @@
     * @version    SVN: $Id$
     */
 
-namespace Koch\Cache;
+namespace Koch\Cache\Adapter;
+
+use Koch\Cache\AbstractCache;
+use Koch\Cache\CacheInterface;
+use Koch\Exception\Exception;
 
 # Security Handler
 if(defined('IN_CS') === false)
@@ -49,14 +53,14 @@ if(defined('IN_CS') === false)
  * @package     Core
  * @subpackage  Cache
  */
-class APC extends Base implements Cache
+class Apc extends AbstractCache implements CacheInterface
 {
 
     public function __construct()
     {
         if(extension_loaded('apc') === false)
         {
-            throw new Koch_Exception('The PHP extension APC (Alternative PHP Cache) is not loaded. You may enable it in "php.ini"!', 300);
+            throw new Exception('The PHP extension APC (Alternative PHP Cache) is not loaded. You may enable it in "php.ini"!', 300);
         }
     }
 

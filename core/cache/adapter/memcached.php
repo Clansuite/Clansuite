@@ -32,6 +32,10 @@
 
 namespace Koch\Cache;
 
+use Koch\Cache\AbstractCache;
+use Koch\Cache\CacheInterface;
+use Koch\Exception\Exception;
+
 # Security Handler
 if(defined('IN_CS') === false)
 {
@@ -59,7 +63,7 @@ if(defined('IN_CS') === false)
  * @package     Core
  * @subpackage  Cache
  */
-class Memcached extends Base implements Cache
+class Memcached extends AbstractCache implements CacheInterface
 {
     /**
      * Memcached Server

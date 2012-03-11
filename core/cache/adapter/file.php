@@ -32,6 +32,10 @@
 
 namespace Koch\Cache;
 
+use Koch\Cache\AbstractCache;
+use Koch\Cache\CacheInterface;
+use Koch\Exception\Exception;
+
 # Security Handler
 if(defined('IN_CS') === false)
 {
@@ -47,7 +51,7 @@ if(defined('IN_CS') === false)
  * @package     Core
  * @subpackage  Cache
  */
-class File extends Base implements Cache
+class File extends AbstractCache implements CacheInterface
 {
     /**
      * Contains checks if a key exists in the cache

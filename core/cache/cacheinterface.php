@@ -1,7 +1,7 @@
-?php
+<?php
    /**
     * Koch Framework
-    * Jens-André Koch © 2005 - onwards
+    * Jens-AndrÃ© Koch Â© 2005 - onwards
     * http://www.clansuite.com/
     *
     * This file is part of "Koch Framework".
@@ -23,8 +23,8 @@
     *    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
     *
     * @license    GNU/GPL v2 or (at your option) any later version, see "/doc/LICENSE".
-    * @author     Jens-André Koch <vain@clansuite.com>
-    * @copyright  Jens-André Koch (2005 - onwards)
+    * @author     Jens-AndrÃ© Koch <vain@clansuite.com>
+    * @copyright  Jens-AndrÃ© Koch (2005 - onwards)
     * @link       http://www.clansuite.com
     *
     * @version    SVN: $Id$
@@ -38,39 +38,31 @@ if(defined('IN_CS') === false)
     exit('Koch Framework not loaded. Direct Access forbidden.');
 }
 
-abstract class Base
+/**
+ * Interface for all Cache Adapters to implement
+ *
+ * @category    Koch
+ * @package     Core
+ * @subpackage  Cache
+ */
+interface CacheInterface
 {
-    /**
-     * Prefix for the cache key.
-     *
-     * @var mixed Defaults to 'cs'.
-     */
-    protected $prefix = 'cs';
+    # Checks cache for a stored variable
+    function contains($key);
 
-    /**
-     * Set Prefix for the cache key.
-     *
-     * @param string $prefix The prefix for all cache keys.
-     * @throws InvalidArgumentException if prefix is empty
-     */
-    public function setPrefix($prefix)
-    {
-        if(empty($prefix))
-        {
-            throw new InvalidArgumentException('Prefix must not be empty.');
-        }
+    # Fetch a stored variable from the cache
+    function fetch($key);
 
-        $this->prefix = $prefix;
-    }
+    # Cache a variable in the data store
+    function store($key, $data, $cache_lifetime = 0);
 
-    /**
-     * Get Prefix for the cache key.
-     *
-     * @return string The cache prefix
-     */
-    public function getPrefix()
-    {
-        return $this->prefix;
-    }
+    # Removes a stored variable from the cache
+    function delete($key);
+
+    # Clears the cache
+    function clear();
+
+    # Fetches cache adapter statistics
+    function stats();
 }
 ?>

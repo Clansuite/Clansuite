@@ -32,6 +32,10 @@
 
 namespace Koch\Cache;
 
+use Koch\Cache\AbstractCache;
+use Koch\Cache\CacheInterface;
+use Koch\Exception\Exception;
+
 # Security Handler
 if(defined('IN_CS') === false)
 {
@@ -53,7 +57,7 @@ if(defined('IN_CS') === false)
  * @package     Core
  * @subpackage  Cache
  */
-class Eaccelerator extends Base implements Cache
+class Eaccelerator extends AbstractCache implements CacheInterface
 {
     /**
      * Constructor.
