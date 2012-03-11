@@ -57,7 +57,7 @@ class XML
     }
 
     /**
-     * Koch_Config_XML is a Singleton
+     * Koch\Config_XML is a Singleton
      *
      * @param object $file Filename
      *
@@ -69,7 +69,7 @@ class XML
 
         if(isset($instance) === false)
         {
-            $instance = new Koch_Config_XML($file);
+            $instance = new Koch\Config_XML($file);
         }
 
         return $instance;

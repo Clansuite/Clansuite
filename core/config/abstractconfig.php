@@ -39,13 +39,13 @@ if(defined('IN_CS') === false)
 }
 
 /**
- * Koch_Config_Base
+ * Koch Framework - Abstract Base Class for Config
  *
  * @category    Koch
  * @package     Core
  * @subpackage  Configuration
  */
-abstract class Base /*extends ArrayObject*/ implements ArrayAccess
+abstract class AbstractConfig /*extends ArrayObject*/ implements \ArrayAccess
 {
     /**
      * Configuration Array
@@ -74,6 +74,47 @@ abstract class Base /*extends ArrayObject*/ implements ArrayAccess
         }
 
         return $array;
+    }
+
+    /**
+     * Gets a Config Value or sets a default value
+     *
+     * @example
+     * Usage for one default variable:
+     * self::getConfigValue('items_newswidget', '8');
+     * Gets the value for the key items_newswidget from the moduleconfig or sets the value to 8.
+     *
+     * Usage for two default variables:
+     * self::getConfigValue('items_newswidget', $_GET['numberNews'], '8');
+     * Gets the value for the key items_newswidget from the moduleconfig or sets the value
+     * incomming via GET, if nothing is incomming, sets the default value of 8.
+     *
+     * @param string $keyname The keyname to find in the array.
+     * @param mixed $default_one A default value, which is returned, if the keyname was not found.
+     * @param mixed $default_two A default value, which is returned, if the keyname was not found and default_one is null.
+     */
+    public function getConfigValue($keyname, $default_one = null, $default_two = null)
+    {
+        # try a lookup of the value by keyname
+        $value = Clansuite_Functions::array_find_element_by_key($keyname, $this->config);
+
+        # return value or default
+        if(empty($value) === false)
+        {
+            return $value;
+        }
+        elseif( $default_one != null )
+        {
+            return $default_one;
+        }
+        elseif( $default_two != null )
+        {
+            return $default_two;
+        }
+        else
+        {
+            return null;
+        }
     }
 
     /**
@@ -131,16 +172,35 @@ abstract class Base /*extends ArrayObject*/ implements ArrayAccess
     /**
      * Implementation of SPL ArrayAccess
      */
+
+    /**
+     * ArrayAccess::offsetExists()
+     *
+     * @param   mixed $offset
+     * @return  mixed Clansuite_Config value
+     */
     public function offsetExists($offset)
     {
         return isset($this->config[$offset]);
     }
 
+    /**
+     * ArrayAccess::offsetGet()
+     *
+     * @param   mixed $offset
+     * @return  mixed Clansuite_Config value
+     */
     public function offsetGet($offset)
     {
         return $this->config[$offset];
     }
 
+    /**
+     * ArrayAccess::offsetSet()
+     *
+     * @param   mixed $offset
+     * @param   mixed $value
+     */
     public function offsetSet($offset, $value)
     {
         if(is_null($offset) === true)
@@ -153,6 +213,12 @@ abstract class Base /*extends ArrayObject*/ implements ArrayAccess
         }
     }
 
+    /**
+     * ArrayAccess::offsetUnset()
+     *
+     * @param   mixed $offset
+     * @return  bool true
+     */
     public function offsetUnset($offset)
     {
         unset($this->config[$offset]);

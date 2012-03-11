@@ -39,7 +39,7 @@ if(defined('IN_CS') === false)
 }
 
 /**
- * Koch_Config
+ * Koch\Config
  *
  * This is a configuration container class.
  * It's build around the $config array, which is the storage container for settings.
@@ -58,7 +58,7 @@ if(defined('IN_CS') === false)
  * @package     Core
  * @subpackage  Config
  */
-class Config extends Base # implements ArrayAccess
+class Config extends AbstractConfig
 {
     /**
      * This object is injected via DI.
@@ -70,7 +70,7 @@ class Config extends Base # implements ArrayAccess
         # if empty get from Clansuite_CMS
         if(empty($this->config))
         {
-            $this->config = Clansuite_CMS::getClansuiteConfig();
+            $this->config = \Clansuite\CMS::getClansuiteConfig();
         }
     }
 
@@ -84,7 +84,7 @@ class Config extends Base # implements ArrayAccess
     {
         if(false === is_object($this->config))
         {
-            $this->config = Koch_Config_Factory::getConfiguration($configfile);
+            $this->config = Factory::getConfiguration($configfile);
         }
 
         return $this->config;
@@ -101,14 +101,14 @@ class Config extends Base # implements ArrayAccess
         # if no modulename is set, determine the name of the current module
         if($modulename === null)
         {
-            $modulename = Koch_TargetRoute::getModuleName();
+            $modulename = Koch\Router\TargetRoute::getModuleName();
         }
 
-        $configfile = ROOT_MOD . $modulename . DS . $modulename . '.config.php';
+        $file = ROOT_MOD . $modulename . DS . $modulename . '.config.php';
 
-        if(is_file($configfile))
+        if(is_file($file))
         {
-            return Koch_Config_Factory::getConfiguration($configfile);
+            return Factory::getConfiguration($configfile);
         }
         else # module has no configuration file
         {
@@ -131,7 +131,7 @@ class Config extends Base # implements ArrayAccess
     {
         if(null == $modulename)
         {
-            $modulename = Koch_TargetRoute::getModuleName();
+            $modulename = Koch\Router\TargetRoute::getModuleName();
         }
         $this->writeConfig(ROOT_MOD . $modulename . DS . $modulename . '.config.php', $array);
     }
@@ -152,7 +152,7 @@ class Config extends Base # implements ArrayAccess
             $array = array();
         }
 
-        Koch_Config_Factory::getHandler($filename)->writeConfig($filename, $array);
+        Factory::getHandler($filename)->writeConfig($filename, $array);
     }
 }
 ?>

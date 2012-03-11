@@ -75,7 +75,7 @@ class YAML
     }
 
     /**
-     * Koch_Config_YAML is a Singleton
+     * Koch\Config_YAML is a Singleton
      *
      * @param string $file Filename
      * @return instance of Config_YAML class
@@ -86,7 +86,7 @@ class YAML
 
         if(isset($instance) === false)
         {
-            $instance = new Koch_Config_YAML($file);
+            $instance = new Koch\Config_YAML($file);
         }
 
         return $instance;

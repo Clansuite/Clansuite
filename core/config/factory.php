@@ -39,8 +39,8 @@ if(defined('IN_CS') === false)
 /**
  * Configuration Factory
  *
- * The static method getConfiguration() includes and instantiates a Configuration Engine Object
- * and injects the configfile.
+ * The static method getConfiguration() includes and instantiates
+ * a Configuration Engine Object and injects the configfile.
  *
  * @category    Koch
  * @package     Core
@@ -141,7 +141,7 @@ class Factory
 
         if(is_file($file) === true)
         {
-            $class = 'Koch_Config_' . strtoupper($adapter);
+            $class = 'Koch\Config_' . strtoupper($adapter);
 
             if(false === class_exists($class, false))
             {

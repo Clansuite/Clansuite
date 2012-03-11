@@ -50,7 +50,7 @@ if(defined('IN_CS') === false)
 class Ini
 {
     /**
-     * Koch_Config_INI is a Singleton
+     * Koch\Config_INI is a Singleton
      *
      * @return instance of Config_INIHandler class
      */
@@ -59,7 +59,7 @@ class Ini
         static $instance;
         if(isset($instance) == null)
         {
-            $instance = new Koch_Config_INI();
+            $instance = new Koch\Config_INI();
         }
         return $instance;
     }
