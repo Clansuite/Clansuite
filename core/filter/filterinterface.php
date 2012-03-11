@@ -30,55 +30,23 @@
     * @version    SVN: $Id$
     */
 
+namespace Koch\Filter;
+
 # Security Handler
-if (defined('IN_CS') === false)
+if(defined('IN_CS') === false)
 {
-    die('Koch Framework not loaded. Direct Access forbidden.' );
+    exit('Koch Framework not loaded. Direct Access forbidden.');
 }
 
 /**
- * Koch Framework - Filter for displaying a maintenace mode screen.
- *
- * Purpose: Display Maintenace Template
- * When config parameter 'maintenance' is set, the maintenance template will be displayed
+ * Interface Koch_Filter_Interface
  *
  * @category    Koch
  * @package     Core
- * @subpackage  Filters
+ * @subpackage  Filter
  */
-class Maintenance implements FilterInterface
+interface FilterInterface
 {
-    private $config = null;     # holds instance of config
-
-    public function __construct(Koch\Config $config)
-    {
-        $this->config = $config;      # set instance of config to class
-    }
-
-    public function executeFilter(HttpRequestInterface $request, HttpResponseInterface $response)
-    {
-        /**
-         * maintenance mode must be enabled in configuration
-         */
-        if($this->config['maintenance']['maintenance'] == 1)
-        {
-            return;
-        }
-
-        /**
-         * @todo b) create override of maintenance mode, in case it's an admin user?
-         */
-
-        # fetch renderer
-        $smarty = Koch_Renderer_Factory::getRenderer('smarty', Clansuite_CMS::getInjector());
-
-        # fetch maintenance template
-        $html = $smarty->fetch(ROOT_THEMES . 'core/view/smarty/maintenance.tpl', true);
-
-        # output
-        $response->setContent($html);
-        $response->flush();
-        exit();
-    }
+    public function executeFilter(HttpRequestInterface $request, HttpResponseInterface $response);
 }
 ?>

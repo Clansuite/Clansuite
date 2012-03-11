@@ -47,18 +47,18 @@ if(defined('IN_CS') === false)
  * @package     Core
  * @subpackage  Filters
  */
-class ProcessCronjobs implements Filter
+class ProcessCronjobs implements FilterInterface
 {
     private $config     = null;
     private $cronjobs    = null;
 
-    public function __construct(Koch_Config $config, Koch_Cronjobs $cronjobs)
+    public function __construct(Koch\Config $config, Koch\Cronjobs $cronjobs)
     {
         $this->config   = $config;
         $this->cronjobs = $cronjobs;
     }
 
-    public function executeFilter(Koch_HttpRequest $request, Koch_HttpResponse $response)
+    public function executeFilter(HttpRequestInterface $request, HttpResponseInterface $response)
     {
         // take the initiative, if cronjob processing is enabled in configuration
         if($this->config['cronjobs']['enabled'] == 1)

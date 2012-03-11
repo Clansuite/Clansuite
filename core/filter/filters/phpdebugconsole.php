@@ -45,16 +45,16 @@ if(defined('IN_CS') === false)
  * @package     Core
  * @subpackage  Filters
  */
-class PhpDebugConsole implements Filter
+class PhpDebugConsole implements FilterInterface
 {
     private $config     = null;
 
-    public function __construct(Koch_Config $config)
+    public function __construct(Koch\Config $config)
     {
         $this->config    = $config;
     }
 
-    public function executeFilter(Koch_HttpRequest $request, Koch_HttpResponse $response)
+    public function executeFilter(HttpRequestInterface $request, HttpResponseInterface $response)
     {
         # webdebug must be enabled in configuration
         if(isset($this->config['error']['webdebug']) and $this->config['error']['webdebug'] == 1)

@@ -48,9 +48,9 @@ if(defined('IN_CS') === false)
  * @package     Core
  * @subpackage  Filters
  */
-class StartupChecks implements Filter
+class StartupChecks implements FilterInterface
 {
-    public function executeFilter(Koch_HttpRequest $request, Koch_HttpResponse $response)
+    public function executeFilter(HttpRequestInterface $request, HttpResponseInterface $response)
     {
         # ensure smarty "tpl_compile" folder exists
         if(false === is_dir(ROOT_CACHE . 'tpl_compile') and

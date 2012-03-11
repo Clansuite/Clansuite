@@ -49,7 +49,7 @@ if(defined('IN_CS') === false)
  * @package     Core
  * @subpackage  Filters
  */
-class Statistics implements Filter
+class Statistics implements FilterInterface
 {
     private $config = null;
     private $user = null;
@@ -58,7 +58,7 @@ class Statistics implements Filter
     private $statsWhoDeleteTime = null;
     private $statsWhoTimeout = null;
 
-    function __construct(Koch_Config $config, Koch_User $user)
+    function __construct(Koch\Config $config, Koch_User $user)
     {
         $this->config = $config;
         $this->curTimestamp = time();
@@ -74,7 +74,7 @@ class Statistics implements Filter
         $this->statsWhoTimeout = $cfg['statistics']['timoutWho'];
     }
 
-    public function executeFilter(Koch_HttpRequest $request, Koch_HttpResponse $response)
+    public function executeFilter(HttpRequestInterface $request, HttpResponseInterface $response)
     {
         # take the initiative or pass through (do nothing)
         if (isset ($this->config['statistics']['enabled']) and $this->config['statistics']['enabled'] == 1)

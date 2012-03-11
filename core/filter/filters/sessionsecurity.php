@@ -54,16 +54,16 @@ if(defined('IN_CS') === false)
  * @package     Core
  * @subpackage  Filters
  */
-class SessionSecurity implements Filter
+class SessionSecurity implements FilterInterface
 {
     private $config     = null;
 
-    function __construct(Koch_Config $config)
+    function __construct(Koch\Config $config)
     {
         $this->config     = $config;
     }
 
-    public function executeFilter(Koch_HttpRequest $request, Koch_HttpResponse $response)
+    public function executeFilter(HttpRequestInterface $request, HttpResponseInterface $response)
     {
         $this->response = $response;
 
@@ -127,7 +127,7 @@ class SessionSecurity implements Filter
          * 4. Check maximal password tries
          */
 
-        # take the initiative, if maximal_password_tries is enabled (greater 0)in Koch_Config
+        # take the initiative, if maximal_password_tries is enabled (greater 0)in Koch\Config
         # or pass to the next filter / do nothing
         /*if($this->config['session']['maximal_password_tries'] > 0)
         {

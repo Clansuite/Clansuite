@@ -62,9 +62,9 @@ if(defined('IN_CS') === false)
  * @package     Core
  * @subpackage  Filters
  */
-class SmartyMoves implements Filter
+class SmartyMoves implements FilterInterface
 {
-    public function executeFilter(Koch_HttpRequest $request, Koch_HttpResponse $response)
+    public function executeFilter(HttpRequestInterface $request, HttpResponseInterface $response)
     {
         /**
          * If the renderer is not smarty, then bypass the filter.

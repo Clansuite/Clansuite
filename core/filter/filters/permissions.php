@@ -47,7 +47,7 @@ if(defined('IN_CS') === false)
  * @package     Core
  * @subpackage  Filters
  */
-class Permissions implements Filter
+class Permissions implements FilterInterface
 {
     private $user    = null;
     private $rbacl   = null;
@@ -59,7 +59,7 @@ class Permissions implements Filter
         $rbacl = Koch_RBACL::getInstance();
     }
 
-    public function executeFilter(Koch_HttpRequest $request, Koch_HttpResponse $response)
+    public function executeFilter(HttpRequestInterface $request, HttpResponseInterface $response)
     {
         if (!$rbacl->isAuthorized($actionname, $this->user->getUserId()))
         {

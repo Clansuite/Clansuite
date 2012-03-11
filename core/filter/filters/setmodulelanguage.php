@@ -38,7 +38,6 @@ if(defined('IN_CS') === false)
     exit('Koch Framework not loaded. Direct Access forbidden.');
 }
 
-
 /**
  * Koch Framework - Filter for Setting the Module Language.
  *
@@ -48,19 +47,21 @@ if(defined('IN_CS') === false)
  * @package     Core
  * @subpackage  Filters
  */
-class SetModuleLanguage implements Filter
+class SetModuleLanguage implements FilterInterface
 {
-    private $locale = null;     # holds instance of localization
+    /* @var Koch\Localization */
+    private $locale = null;
 
-    public function __construct(Koch_Localization $locale)
+    public function __construct(Koch\Localization $locale)
     {
-        $this->locale = $locale;      # set instance of localization to class
+        # set instance of localization to class
+        $this->locale = $locale;
     }
 
-    public function executeFilter(Koch_HttpRequest $request, Koch_HttpResponse $response)
+    public function executeFilter(HttpRequestInterface $request, HttpResponseInterface $response)
     {
-        #$route = Koch_HttpRequest::getRoute();
-        $modulename = Koch_TargetRoute::getController();
+        $modulename = Koch\Router\TargetRoute::getController();
+
         $this->locale->loadTextDomain('LC_ALL', $modulename, $this->locale->getLocale(), $modulename);
     }
 }

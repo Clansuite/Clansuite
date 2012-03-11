@@ -49,19 +49,19 @@ if(defined('IN_CS') === false)
  * @package     Core
  * @subpackage  Filters
  */
-class ThemeViaGet implements Filter
+class ThemeViaGet implements FilterInterface
 {
     private $config     = null;
     private $input      = null;
 
-    public function __construct(Koch_Config $config, Koch_Inputfilter $input)
+    public function __construct(Koch\Config $config, Koch_Inputfilter $input)
     {
         # reduce array size by selection of the section
         $this->config = $config['switches'];
         $this->input  = $input;
     }
 
-    public function executeFilter(Koch_HttpRequest $request, Koch_HttpResponse $response)
+    public function executeFilter(HttpRequestInterface $request, HttpResponseInterface $response)
     {
         # themeswitching must is enabled in configuration
         if($this->config['themeswitch_via_url'] == 1)

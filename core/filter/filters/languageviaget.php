@@ -60,16 +60,16 @@ if(defined('IN_CS') === false)
  * @package     Core
  * @subpackage  Filters
  */
-class LanguageViaGet implements Filter
+class LanguageViaGet implements FilterInterface
 {
     private $config     = null;
 
-    public function __construct(Koch_Config $config)
+    public function __construct(Koch\Config $config)
     {
         $this->config    = $config['switches'];
     }
 
-    public function executeFilter(Koch_HttpRequest $request, Koch_HttpResponse $response)
+    public function executeFilter(HttpRequestInterface $request, HttpResponseInterface $response)
     {
         /**
          * take the initiative of filtering, if language switching is enabled in CONFIG

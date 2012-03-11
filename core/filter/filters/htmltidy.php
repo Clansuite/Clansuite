@@ -50,16 +50,16 @@ if(defined('IN_CS') === false)
  * @package     Core
  * @subpackage  Filters
  */
-class HtmlTidy implements Filter
+class HtmlTidy implements FilterInterface
 {
     private $config     = null;
 
-    function __construct(Koch_Config $config)
+    function __construct(Koch\Config $config)
     {
         $this->config     = $config;
     }
 
-    public function executeFilter(Koch_HttpRequest $request, Koch_HttpResponse $response)
+    public function executeFilter(HttpRequestInterface $request, HttpResponseInterface $response)
     {
         # htmltidy must be enabled in configuration
         if( $this->config['htmltidy']['enabled'] == 1 and extension_loaded('tidy'))

@@ -47,16 +47,16 @@ if(defined('IN_CS') === false)
  * @package     Core
  * @subpackage  Filters
  */
-class GetUser implements Filter
+class GetUser implements FilterInterface
 {
     private $user = null;
 
-    public function __construct(Koch_User $user)
+    public function __construct(Koch\User $user)
     {
         $this->user = $user;
     }
 
-    public function executeFilter(Koch_HttpRequest $request, Koch_HttpResponse $response)
+    public function executeFilter(HttpRequestInterface $request, HttpResponseInterface $response)
     {
         # Create a user (Guest)
         $this->user->createUserSession();
