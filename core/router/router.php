@@ -454,7 +454,7 @@ class Router implements ArrayAccess, Router
         #Clansuite_CMS::triggerEvent('onInitializeRoutes', $this);
 
         # initalize Routes
-        #$this->loadDefaultRoutes();
+        $this->loadDefaultRoutes();
 
         # map match uri
         return $this->match();
