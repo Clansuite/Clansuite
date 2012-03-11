@@ -56,7 +56,7 @@ class Renderer_Factory
      */
     public static function getRenderer($adapter, $injector)
     {
-        $file = ROOT_CORE . 'renderer' . DS . strtolower($adapter) . '.renderer.php';
+        $file = KOCH . 'view/renderer/' . strtolower($adapter) . '.php';
 
         if(is_file($file) === true)
         {
