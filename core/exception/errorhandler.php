@@ -303,7 +303,7 @@ class Errorhandler
         # Panel 1 - Errormessage
         $html .= '<div id="panel1" class="panel">';
         $html .= '<h3>Error <span class="small">' . $errorname . ' (' . $errornumber . ')</span></h3>';
-        $html .= '<h4>' . $errorstring . ' in file "' . $errorfile . '"&nbsp;on line ' . $errorline.'.</h4>';
+        $html .= '<h4>' . $errorstring . '<br/>in file "' . $errorfile . '"&nbsp;on line ' . $errorline.'.</h4>';
         $html .= '</div>';
 
         # Panel 2 - Error Context
