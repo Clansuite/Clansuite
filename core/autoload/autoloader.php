@@ -184,7 +184,7 @@ class Loader
          */
 
         # this means if 'Doctrine" is found, but not 'Koch_Doctrine', exclude from our autoloading
-        if (false !== strpos($classname, 'Doctrine') and false === strpos($classname, 'Koch_Doctrine'))
+        if (false !== strpos($classname, 'Doctrine') and false === strpos($classname, 'Koch\Doctrine'))
         {
             return true;
         }
