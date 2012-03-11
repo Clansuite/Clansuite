@@ -387,7 +387,7 @@ class Errorhandler
         $html .= '<table class="cs-backtrace-table" width="95%">';
 
         # table row 1 - header
-        $html .= '<tr><th width="2%">Callstack</th><th>Function (recent function calls last)</th><th width="40%">Location</th></tr>';
+        $html .= '<tr><th width="2%">Callstack</th><th>Function (recent function calls last)</th><th width="46%">Location</th></tr>';
 
         $backtraces_count = count($trace)-1;
 
