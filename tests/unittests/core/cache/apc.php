@@ -20,6 +20,11 @@ class ApcTest extends Clansuite_UnitTestCase
     {
         $this->skipIf($this->apc_not_loaded, 'APC extension not loaded!');
 
+        if($this->apc_not_loaded)
+        {
+            $this->expectException();
+        }
+
         $cache = new Apc();
 
         $this->assertFalse($cache->contains('key1'));
