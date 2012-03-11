@@ -55,14 +55,16 @@ unset($REQUIRED_PHP_VERSION);
 date_default_timezone_set('Europe/Berlin');
 
 $paths = array(
-        # adjust include path to SIMPLETEST DIR and UNITTESTS DIR
-        realpath(__DIR__),                 # /tests
-        realpath(__DIR__.'/simpletest'),   # /tests/simpletest
-        realpath(__DIR__.'/unittests'),    # /tests/unittests
-        # add the test subject dir
-        realpath(dirname(__DIR__)),        # ../tests
+    # add the test subject dir
+    realpath(dirname(__DIR__)),                     # /trunk
+    realpath(dirname(__DIR__) . '/application'),    # /trunk/application
+    realpath(dirname(__DIR__) . '/core'),           # /trunk/application
+    # adjust include path to SIMPLETEST DIR and UNITTESTS DIR
+    realpath(__DIR__),                  # /trunk/tests
+    realpath(__DIR__ . '/simpletest'),  # /trunk/tests/simpletest
+    realpath(__DIR__ . '/unittests'),   # /trunk/tests/unittests
 );
-#var_dump($paths);
+var_dump($paths);
 
 # attach original include paths
 set_include_path(implode($paths, PATH_SEPARATOR) . PATH_SEPARATOR . get_include_path());
@@ -75,10 +77,10 @@ if(empty($_SERVER['SERVER_NAME']))
 }
 
 #  acquire clansuite path constants
-require_once 'core/bootstrap/clansuite.application.php';
-Clansuite_CMS::define_ConstantsAndPaths();
-Clansuite_CMS::initialize_Loader();
-Clansuite_UTF8::initialize();
+include '/application/bootstrap.php';
+\Clansuite\CMS::define_ConstantsAndPaths();
+\Clansuite\CMS::initialize_Loader();
+\Koch\Localization\UTF8::initialize();
 
 /**
  * Constants
@@ -102,7 +104,7 @@ define('PERFORM_WEBTESTS', false);
  */
 if(isCli() === false)
 {
-    require_once 'core/debug/debug.core.php';
+    require_once 'debug/debug.php';
 }
 
 /**
