@@ -117,6 +117,8 @@ class FrontController implements FrontController
         $this->post_filtermanager = new Koch_Filtermanager();
         $this->event_dispatcher   = Koch_EventDispatcher::instantiate();
         $this->router             = new Koch_Router($this->request);
+
+        $this->router->route();
     }
 
     /**
@@ -186,7 +188,7 @@ class FrontController implements FrontController
         {
             throw new Koch_Exception('The dispatcher is unable to forward. No route object given.', 99);
         }
-
+        
         $classname    = $route::getClassname();
         $method       = $route::getMethod();
         $parameters   = $route::getParameters();
@@ -194,6 +196,8 @@ class FrontController implements FrontController
         #$renderengine = $route::getRenderEngine();
 
         #$this->event_dispatcher->addEventHandler('onBeforeControllerMethodCall', new Koch_Event_InitializeModule());
+
+        $route::dispatchable();
 
         $controllerInstance = new $classname($request, $response);
 
