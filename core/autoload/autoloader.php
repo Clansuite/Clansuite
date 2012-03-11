@@ -205,70 +205,7 @@ class Loader
     public static function autoloadInclusions($classname)
     {
         # autoloading map
-        self::$inclusions_map = array(
-        # /core/config
-        'Koch_Config_Base'               => 'config/base.php',
-        'Koch_Config_INI'                => 'config/adapter/ini.php',
-        'Koch_Config_XML'                => 'config/adapter/xml.php',
-        'Koch_Config_YAML'               => 'config/adapter/yaml.php',
-        'Koch_Renderer_Base'             => 'renderer/renderer.base.php',
-        # /core
-        'Koch_Staging'                   => 'staging.php',
-        'Koch_UTF8'                      => 'utf8core.php',
-        'Koch_Config'                    => 'config.php',
-        'Koch_ACL'                       => 'aclcore.php',
-        'Koch_HttpRequest'               => 'httprequestcore.php',
-        'Koch_HttpResponse'              => 'httpresponse.php',
-        'Koch_FilterManager'             => 'filtermanager.php',
-        'Koch_Localization'              => 'localization.php',
-        'Koch_Inputfilter'               => 'inputfilter.php',
-        'Koch_User'                      => 'user.php',
-        'Koch_Router'                    => 'router.php',
-        'Koch_TargetRoute'               => 'targetroute.php',
-        'Koch_Mapper'                    => 'mapper.php',
-        'Koch_Security'                  => 'security.php',
-        'Koch_Session'                   => 'session.php',
-        'Koch_Filter_Interface'          => 'filtermanager.php',
-        'Koch_Gettext_Extractor'         => 'gettext.php',
-        'Koch_DoorKeeper'                => 'doorkeeper.php',
-        'Koch_Functions'                 => 'functions.php',
-        'Koch_XML2JSON'                  => 'xml2json.php',
-        'Koch_Doctrine'                  => 'doctrine.php',
-        'Koch_DoctrineTools'             => 'doctrine.php',
-        'Koch_Front_Controller'          => 'frontcontroller.php',
-        'Koch_Module_Controller'         => 'modulecontroller.php',
-        'Koch_EventDispatcher'           => 'eventdispatcher.php',
-        'Koch_Breadcrumb'                => 'breadcrumb.php',
-        # /core/files
-        'Koch_File'                      => 'files/file.php',
-        'Koch_Directory'                 => 'files/file.php',
-        'Koch_Upload'                    => 'files/upload.php',
-        'Koch_Download'                  => 'files/download.php',
-        # /core/tools
-        'Koch_Browserinfo'               => 'tools/browserinfo.php',
-        'Koch_Cssbuilder'                => 'tools/cssbuilder.php',
-        # /core/renderer
-        'Koch_View_Mapper'               => 'renderer/templatemapper.php',
-        # /viewhelper/
-        'Koch_Theme'                     => 'viewhelper/theme.php',
-        # /viewhelper/datagrid
-        'Koch_Datagrid'                  => 'viewhelper/datagrid/datagrid.php',
-        'Koch_Datagrid_Column'           => 'viewhelper/datagrid/datagridcol.php',
-        # /viewhelper/form
-        'Koch_Form'                      => 'viewhelper/form/form.php',
-        'Koch_Formelement'               => 'viewhelper/form/formelement.php',
-        'Koch_Form_Decorator'            => 'viewhelper/form/formdecorator.php',
-        'Koch_Formelement_Decorator'     => 'viewhelper/form/formelementdecorator.php',
-        'Koch_Formelement_Validator'     => 'viewhelper/form/formelementvalidator.php',
-        'Koch_Formelement_Input'         => 'viewhelper/form/elements/input.php',
-        'Koch_Formelement_Button'        => 'viewhelper/form/elements/button.php',
-        'Koch_Formelement_Imagebutton'   => 'viewhelper/form/elements/imagebutton.php',
-        'Koch_Formelement_Checkbox'      => 'viewhelper/form/elements/checkbox.php',
-        'Koch_Formelement_Select'        => 'viewhelper/form/elements/select.php',
-        'Koch_Array_Formgenerator'       => 'viewhelper/form/generators/array.php',
-        'Koch_Doctrine_Formgenerator'    => 'viewhelper/form/generators/doctrine.php',
-        'Koch_Xml_Formgenerator'         => 'viewhelper/form/generators/xml.php',
-        );
+        self::$inclusions_map = array();
 
         # check if classname is in autoloading map
         if(isset(self::$inclusions_map[$classname]) === true)
@@ -354,7 +291,7 @@ class Loader
         if(is_string($filename) === true)
         {
 
-            include $filename;
+            return self::includeFileAndMap($filename, $classname);
             return true;
         }
         else
