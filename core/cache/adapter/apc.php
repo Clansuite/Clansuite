@@ -43,7 +43,7 @@ if(defined('IN_CS') === false)
 }
 
 /**
- * Koch FrameworkCache Handler for APC (Alternative PHP Cache)
+ * Koch Framework - Cache Handler for APC (Alternative PHP Cache).
  *
  * APC is a) an opcache and b) a memory based cache.
  *

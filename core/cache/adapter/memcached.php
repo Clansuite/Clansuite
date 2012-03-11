@@ -43,7 +43,7 @@ if(defined('IN_CS') === false)
 }
 
 /**
- * Koch FrameworkCache Handler for Memcached
+ * Koch Framework - Cache Handler for Memcached.
  *
  * memcached is a high-performance, distributed memory object caching system, generic in nature,
  * but intended for use in speeding up dynamic web applications by alleviating database load.

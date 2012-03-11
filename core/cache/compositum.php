@@ -39,7 +39,7 @@ if(defined('IN_CS') === false)
 }
 
 /**
- * Koch_Logger
+ * Koch Framework - Compositum of Caches.
  *
  * This class represents a compositum for all registered cache adapters.
  * Another name for this class would be MultiCache.

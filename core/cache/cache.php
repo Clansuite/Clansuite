@@ -38,6 +38,9 @@ if(defined('IN_CS') === false)
     exit('Koch Framework not loaded. Direct Access forbidden.');
 }
 
+/**
+ * Koch Framework - Cache
+ */
 class Cache
 {
     /**

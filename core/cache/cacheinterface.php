@@ -39,7 +39,7 @@ if(defined('IN_CS') === false)
 }
 
 /**
- * Interface for all Cache Adapters to implement
+ * Interface for all Cache Adapters to implement.
  *
  * @category    Koch
  * @package     Core

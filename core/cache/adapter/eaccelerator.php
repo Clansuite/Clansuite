@@ -43,7 +43,7 @@ if(defined('IN_CS') === false)
 }
 
 /**
- * Koch FrameworkCache Handler for eAccelerator
+ * Koch Framework - Cache Handler for eAccelerator.
  *
  * eAccelerator was born in December 2004 as a fork of the Turck MMCache project (by Dmitry Stogov).
  * eAccelerator stores compiled PHP scripts in shared memory and executes code directly from it.

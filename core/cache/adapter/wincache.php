@@ -43,7 +43,7 @@ if(defined('IN_CS') === false)
 }
 
 /**
- * Koch FrameworkCache Handler for Windows Cache
+ * Koch Framework - Cache Handler for Windows Cache.
  *
  * Windows Cache Extension for PHP is a PHP accelerator that is used to
  * increase the speed of PHP applications running on Windows and Windows Server.

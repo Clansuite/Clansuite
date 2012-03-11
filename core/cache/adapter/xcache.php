@@ -43,7 +43,7 @@ if(defined('IN_CS') === false)
 }
 
 /**
- * Koch FrameworkCache Handler for Xcache
+ * Koch Framework - Cache Handler for Xcache.
  *
  * XCache is a open-source opcode cacher, which means that it accelerates the performance of PHP on servers.
  * It optimizes performance by removing the compilation time of PHP scripts by caching the compiled state of

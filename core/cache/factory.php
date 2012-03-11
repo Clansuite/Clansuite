@@ -39,7 +39,7 @@ if(defined('IN_CS') === false)
 }
 
 /**
- * Cache Factory
+ * Koch Framework - Cache Factory
  *
  * The static method getCache() returns the included and instantiated Cache Engine Object!
  *

@@ -43,7 +43,7 @@ if(defined('IN_CS') === false)
 }
 
 /**
- * Koch FrameworkCache Handler for Filecaching
+ * Koch Framework - Cache Handler for Filecaching.
  *
  * The Filecache stores directly to disk.
  *
