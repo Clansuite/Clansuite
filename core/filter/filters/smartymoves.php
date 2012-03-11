@@ -39,7 +39,7 @@ if(defined('IN_CS') === false)
 }
 
 /**
- * Koch FrameworkFilter - Smarty2 Subtemplate Moves
+ * Koch Framework - Filter for Smarty2 subtemplate moves.
  *
  * This is a Smarty2 related Filter.
  * Before the Smarty3 {block} tag was invented, there was no functionality

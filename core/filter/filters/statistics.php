@@ -39,9 +39,9 @@ if(defined('IN_CS') === false)
 }
 
 /**
- * Koch FrameworkFilter - Update Visitor Statistics
+ * Koch Framework - Filter for updating the visitor statistics.
  *
- * Purpose: this updates the statistics with the data of the current visitor
+ * This updates the statistics with the data of the current visitor.
  *
  * @author: raensen
  *

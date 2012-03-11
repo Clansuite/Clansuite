@@ -39,7 +39,7 @@ if(defined('IN_CS') === false)
 }
 
 /**
- * Koch FrameworkFilter - Theme via URL
+ * Koch Framework - Filter for Theme Selection via URL.
  *
  * Purpose: Sets Theme via URL by appendix $_GET['theme']
  * Usage example: index.php?theme=themename

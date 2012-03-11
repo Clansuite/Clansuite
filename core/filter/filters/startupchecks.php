@@ -30,7 +30,7 @@
     * @version    SVN: $Id$
     */
 
-namespace  Koch\Filter;
+namespace Koch\Filter;
 
 # Security Handler
 if(defined('IN_CS') === false)
@@ -40,7 +40,7 @@ if(defined('IN_CS') === false)
 
 
 /**
- * Koch Framework Filter - Startup Checks
+ * Koch Framework - Filter performing Startup Checks.
  *
  * Purpose: Perform Various Startup Check before running a Koch Framework Module.
  *

@@ -40,7 +40,7 @@ if(defined('IN_CS') === false)
 
 
 /**
- * Koch FrameworkFilter - Set Module Language
+ * Koch Framework - Filter for Setting the Module Language.
  *
  * Purpose: Sets the TextDomain for the requested Module
  *

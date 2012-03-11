@@ -39,7 +39,7 @@ if(defined('IN_CS') === false)
 }
 
 /**
- * Koch FrameworkPHP_Debug Debugging Console
+ * Koch Framework - Filter for displaying the Debugging Console.
  *
  * @category    Koch
  * @package     Core
@@ -106,8 +106,6 @@ class PhpDebugConsole implements Filter
             #'HTML_DIV_templates_pattern' => array('/var/www-protected/php-debug.com' => '/var/www/php-debug')
         );
 
-        #Koch_Debug::printR($options);
-
         # Initialiaze Object
         $debug = new PHP_Debug($options);
 
@@ -115,12 +113,11 @@ class PhpDebugConsole implements Filter
         $debug->add('Koch Framework DEBUG INFO');
 
         /**
-            *  Load JS / CSS for PHP Debug Console into the Output Buffer
-            */
+         *  Load JS / CSS for PHP Debug Console into the Output Buffer
+         */
         $html  = '<script type="text/javascript" src="'.$options['HTML_DIV_js_path'].'/html_div.js"></script>';
         $html .= '<link rel="stylesheet" type="text/css" media="screen" href="'.$options['HTML_DIV_css_path'].'/html_div.css" />';
 
-        # unset $options
         unset($options);
 
         # combine the html output

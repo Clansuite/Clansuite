@@ -37,7 +37,7 @@ if (defined('IN_CS') === false)
 }
 
 /**
- * Koch FrameworkFilter - Maintenace Mode
+ * Koch Framework - Filter for displaying a maintenace mode screen.
  *
  * Purpose: Display Maintenace Template
  * When config parameter 'maintenance' is set, the maintenance template will be displayed

@@ -39,7 +39,7 @@ if(defined('IN_CS') === false)
 }
 
 /**
- * Koch FrameworkFilter - Language via URL
+ * Koch Framework - Filter for Language Selection via URL.
  *
  * I10N/I18N Localization and Internationalization
  * Purpose: Set Language via URL by appendix $_GET['lang']

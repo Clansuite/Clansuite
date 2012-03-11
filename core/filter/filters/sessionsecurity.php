@@ -39,7 +39,7 @@ if(defined('IN_CS') === false)
 }
 
 /**
- * Koch FrameworkFilter - Session Security
+ * Koch Framework - Filter for Session Security.
  *
  * Purpose:
  * This Filter ensures the session integrity.

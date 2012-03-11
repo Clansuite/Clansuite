@@ -39,7 +39,7 @@ if(defined('IN_CS') === false)
 }
 
 /**
- * Koch FrameworkFilter - HTML Tidy
+ * Koch Framework - Filter for HTML Tidy (postfilter).
  *
  * Purpose: this repairs or converts the html output by tidying it.
  *

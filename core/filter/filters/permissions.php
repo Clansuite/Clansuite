@@ -39,7 +39,7 @@ if(defined('IN_CS') === false)
 }
 
 /**
- * Koch FrameworkFilter - Permissions / RBACL
+ * Koch Framework - Filter for Permissions / RBACL Checks.
  *
  * Purpose: Perform an Permissions / RBACL Check
  *

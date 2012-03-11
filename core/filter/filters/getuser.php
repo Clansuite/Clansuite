@@ -39,9 +39,9 @@ if(defined('IN_CS') === false)
 }
 
 /**
- * Koch FrameworkFilter - Get User
+ * Koch Framework - Filter for Instantiation of the User Object.
  *
- * Purpose: Setup the user object
+ * Purpose: Sets up the user session and user object.
  *
  * @category    Koch
  * @package     Core
@@ -58,8 +58,11 @@ class GetUser implements Filter
 
     public function executeFilter(Koch_HttpRequest $request, Koch_HttpResponse $response)
     {
-        $this->user->createUserSession();    # Create a user (Guest)
-        $this->user->checkLoginCookie();     # Check for login cookie (Guest/Member)
+        # Create a user (Guest)
+        $this->user->createUserSession();
+
+        # Check for login cookie (Guest/Member)
+        $this->user->checkLoginCookie();
         unset($this->user);
     }
 }

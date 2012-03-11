@@ -39,9 +39,9 @@ if(defined('IN_CS') === false)
 }
 
 /**
- * Koch FrameworkFilter - Process Cronjobs
+ * Koch Framework - Filter for triggering the processing of cronjobs.
  *
- * Purpose: processes regular jobs (cron-daemon like)
+ * Purpose: processes regular jobs (cron-daemon like).
  *
  * @category    Koch
  * @package     Core
