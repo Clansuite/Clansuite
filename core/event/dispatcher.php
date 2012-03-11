@@ -86,7 +86,7 @@ class Dispatcher
     {
         if(self::$instance === null)
         {
-            self::$instance = new Koch_Eventdispatcher;
+            self::$instance = new Dispatcher;
         }
 
         return self::$instance;
@@ -266,7 +266,7 @@ class Dispatcher
  * @package     Core
  * @subpackage  Event
  */
-class Event implements ArrayAccess
+class EventObject implements \ArrayAccess
 {
     /**
      * @var Name of the event

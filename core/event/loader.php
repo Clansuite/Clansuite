@@ -52,7 +52,7 @@ class Loader
     /**
      * Loads and registers all events of the core and all activated modules.
      */
-    public static function autoloadEvents()
+    public static function loadEvents()
     {
         #self::loadAllModuleEvents();
         self::loadCoreEvents();
@@ -100,7 +100,7 @@ class Loader
     public static function loadCoreEvents()
     {
         $events = array();
-        $events = include ROOT . 'configuration/events.config.php';
+        $events = include ROOT . 'configuration/events.php';
 
         self::loadEventHandlers($events);
     }
