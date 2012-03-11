@@ -30,18 +30,16 @@
     * @version    SVN: $Id$
     */
 
-//Security Handler
-if (defined('IN_CS') === false)
-{
-    die('Koch Framework not loaded. Direct Access forbidden.');
-}
-
 namespace Koch\Session;
 
+# Security Handler
+if (defined('IN_CS') === false)
+{
+    exit('Koch Framework not loaded. Direct Access forbidden.');
+}
+
 /**
- * This is the Koch Framework Class for Session Handling
- *
- * Purpose:    Koch Framework Class for Session Handling
+ * Koch Framework Class for Session Handling
  *
  * @author     Jens-André Koch   <vain@clansuite.com>
  * @author     Florian Wolf      <xsign.dll@clansuite.com>
@@ -51,7 +49,7 @@ namespace Koch\Session;
  * @package     Core
  * @subpackage  Session
  */
-class Session implements Session, ArrayAccess
+class Session implements SessionInterface, ArrayAccess
 {
     # stop applications to influcence each other by applying a session_name
     const session_name = 'CsuiteSID';
@@ -483,22 +481,5 @@ class Session implements Session, ArrayAccess
         unset($_SESSION[$offset]);
         return true;
     }
-}
-
-/**
- * Interface for Koch_Session
- *
- * @category    Koch
- * @package     Core
- * @subpackage  Session
- */
-interface Koch_Session_Interface
-{
-    public function session_open();
-    public function session_close();
-    public function session_read($id);
-    public function session_write($id, $data);
-    public function session_destroy($id);
-    public function session_gc($maxlifetime);
 }
 ?>
