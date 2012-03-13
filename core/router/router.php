@@ -407,7 +407,7 @@ class Router implements RouterInterface, \ArrayAccess
                 $url_keys = array('mod', 'action', 'id', 'type');
             }
 
-            $url_data = Koch_Functions::array_unequal_combine($url_keys, $url_parameters);
+            $url_data = \Koch\Functions::array_unequal_combine($url_keys, $url_parameters);
 
             /**
              * determine the separator.
