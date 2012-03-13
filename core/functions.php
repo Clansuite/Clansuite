@@ -236,69 +236,6 @@ class Functions
     }
 
     /**
-     * Converts an Object to an Array
-     *
-     * @param $object object to convert
-     * @return array
-     */
-    public static function object2array($object)
-    {
-        $array = null;
-        if(is_object($object) === true)
-        {
-            $array = array();
-            foreach(get_object_vars($object) as $key => $value)
-            {
-                if(is_object($value) === true)
-                {
-                    $array[$key] = self::object2Array($value);
-                }
-                else
-                {
-                    $array[$key] = $value;
-                }
-            }
-        }
-        return $array;
-    }
-
-    /**
-     * Converts an Array to an Object
-     *
-     * @param $array array to convert to an object
-     * @return array
-     */
-    public function array2object($array)
-    {
-        if(is_array($array) === false)
-        {
-            return $array;
-        }
-
-        $object = new stdClass();
-
-        if(is_array($array) and count($array) > 0)
-        {
-            foreach($array as $name => $value)
-            {
-                $name = mb_strtolower(trim($name));
-
-                if(empty($name) === false)
-                {
-                    # WATCH OUT ! Recursion.
-                    $object->$name = self::array2Object($value);
-                }
-            }
-
-            return $object;
-        }
-        else
-        {
-            return false;
-        }
-    }
-
-    /**
      * cut_string_backwards
      *
      * haystack = abc_def
@@ -321,43 +258,6 @@ class Functions
             return mb_substr($haystack, 0, -$needle_length);
         }
         return $haystack;
-    }
-
-    /**
-     * Converts a SimpleXML String recursivly to an Array
-     *
-     * @author Jason Sheets <jsheets at shadonet dot com>
-     * @param string $xml SimpleXML String
-     * @return Array
-     */
-    public static function simpleXMLToArrayLight($simplexml)
-    {
-        $array = array();
-
-        if($simplexml === true)
-        {
-            foreach($simplexml as $k => $v)
-            {
-                if($simplexml['list'] === true)
-                {
-                    $array[] = self::SimpleXMLToArrayLight($v);
-                }
-                else
-                {
-                    $array[$k] = self::SimpleXMLToArrayLight($v);
-                }
-            }
-        }
-
-        if(count($array) > 0)
-        {
-            return $array;
-        }
-        else
-        {
-            # WARNING! Type Conversion drops childs and attributes.
-            return (string) $simplexml;
-        }
     }
 
     /**
@@ -1005,7 +905,7 @@ class Functions
         if(isset(self::$already_loaded[__FUNCTION__]) === false)
         {
             # if not, load function
-            include ROOT_CORE . 'functions' . DS . mb_strtolower(__FUNCTION__) . '.function.php';
+            include KOCH . 'functions' . DS . mb_strtolower(__FUNCTION__) . '.php';
 
             # function loaded successfully
             self::$already_loaded[__FUNCTION__] = true;
