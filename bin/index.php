@@ -1,4 +1,35 @@
 <?php
+   /**
+    * Clansuite - just an eSports CMS
+    * Jens-André Koch © 2005 - onwards
+    * http://www.clansuite.com/
+    *
+    * This file is part of "Clansuite - just an eSports CMS".
+    *
+    * LICENSE:
+    *
+    *    This program is free software; you can redistribute it and/or modify
+    *    it under the terms of the GNU General Public License as published by
+    *    the Free Software Foundation; either version 2 of the License, or
+    *    (at your option) any later version.
+    *
+    *    This program is distributed in the hope that it will be useful,
+    *    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    *    GNU General Public License for more details.
+    *
+    *    You should have received a copy of the GNU General Public License
+    *    along with this program; if not, write to the Free Software
+    *    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+    *
+    * @license    GNU/GPL v2 or (at your option) any later version, see "/doc/LICENSE".
+    * @author     Jens-André Koch <vain@clansuite.com>
+    * @copyright  Jens-André Koch (2005 - onwards)
+    * @link       http://www.clansuite.com
+    *
+    * @version    SVN: $Id$
+    */
+
 # for localhost eyes only
 if (false === in_array($_SERVER['REMOTE_ADDR'], array('127.0.0.1', '::1')))
 {
@@ -7,7 +38,7 @@ if (false === in_array($_SERVER['REMOTE_ADDR'], array('127.0.0.1', '::1')))
 }
 
 # defines
-define('IN_PHP_CONSOLE', true);
+define('IN_CONSOLE', true);
 define('PHP_CONSOLE_VERSION', '0.1-dev');
 
 # errorlevel
@@ -168,10 +199,10 @@ else # show console page
                 <div id="outt"
                      style="color:#3F0; background:#000; overflow:auto; padding:5px; height:90%; min-height:450px; max-height:490px">
                     :-> <input tabindex="1" onkeyup="keyE(event)" style="color:#FFF;background:#333;width:100%;" id="cmd" type="text" />
-                    
+
                     <span style="text-decoration: blink;">_</span>
                 </div>
-                
+
             </form>
         </body>
     </html>

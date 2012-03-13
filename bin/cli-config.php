@@ -10,8 +10,16 @@ $classLoader->register();
 
 $config = new \Doctrine\ORM\Configuration();
 $config->setMetadataCacheImpl(new \Doctrine\Common\Cache\ArrayCache);
+
 $driverImpl = $config->newDefaultAnnotationDriver(array(realpath('../doctrine/entities')));
 $config->setMetadataDriverImpl($driverImpl);
+
+$chainDriverImpl = new \Doctrine\ORM\Mapping\Driver\DriverChain();
+$yourDefaultDriverImpl = new \Doctrine\ORM\Mapping\Driver\YamlDriver('../doctrine/yaml');
+$chainDriverImpl->addDriver($yourDefaultDriverImpl, 'Entity');
+
+$config->setMetadataDriverImpl($chainDriverImpl);
+
 $config->setProxyDir('../doctrine/proxies');
 $config->setProxyNamespace('Proxies');
 
