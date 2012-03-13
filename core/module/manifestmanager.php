@@ -87,7 +87,7 @@ class ManifestManager
      */
     public static function readModuleRegistry()
     {
-        return Clansuite_CMS::getInjector()->instantiate('Koch_Config')
+        return Clansuite_CMS::getInjector()->instantiate('Koch\Config')
                 ->readConfig(ROOT . 'configuration' . DS . 'modules.config.php');
     }
 
@@ -98,7 +98,7 @@ class ManifestManager
      */
     public static function writeModuleRegistry($array)
     {
-        Clansuite_CMS::getInjector()->instantiate('Koch_Config')
+        Clansuite_CMS::getInjector()->instantiate('Koch\Config')
          ->writeConfig(ROOT . 'configuration' . DS . 'modules.config.php');
     }
 
@@ -110,7 +110,7 @@ class ManifestManager
      */
     public static function readModuleConfig($modulename)
     {
-        return Clansuite_CMS::getInjector()->instantiate('Koch_Config')
+        return Clansuite_CMS::getInjector()->instantiate('Koch\Config')
                 ->readModuleConfig($modulename);
     }
 
@@ -319,7 +319,7 @@ class ManifestManager
 
             # hasInfo
             $module_infofile = $modulepath . DS . $modulename . '.info.php';
-            $config_object = Clansuite_CMS::getInjector()->instantiate('Koch_Config');
+            $config_object = Clansuite_CMS::getInjector()->instantiate('Koch\Config');
             if(is_file($module_infofile) === true)
             {
                 #Koch_Debug::firebug($module_infofile);

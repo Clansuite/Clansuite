@@ -32,6 +32,8 @@
 
 namespace Koch\Module;
 
+use Koch\MVC\HttpRequest;
+
 # Security Handler
 if(defined('IN_CS') === false)
 {
@@ -67,12 +69,12 @@ abstract class Controller
     public $template = null;
 
     /**
-     * @var Koch_HttpResponse \Koch\Core\HttpResponse
+     * @var \Koch\MVC\HttpResponse
      */
     public $response = null;
 
     /**
-     * @var Koch_HttpRequest \Koch\Core\HttpRequest
+     * @var \Koch\MVC\HttpRequest
      */
     public $request = null;
 
@@ -86,7 +88,7 @@ abstract class Controller
      */
     public static $moduleconfig = null;
 
-    public function __construct(Koch_HttpRequest $request, Koch_HttpResponse $response)
+    public function __construct(HttpRequestInterface $request, HttpResponseInterface $response)
     {
         $this->request = $request;
         $this->response = $response;
@@ -176,7 +178,7 @@ abstract class Controller
          */
         if($modulename === null)
         {
-            $modulename = Koch_HttpRequest::getRoute()->getModuleName();
+            $modulename = HttpRequest::getRoute()->getModuleName();
         }
 
         $module_models_path = ROOT_MOD . mb_strtolower($modulename) . DS . 'model' . DS;
@@ -218,7 +220,7 @@ abstract class Controller
      */
     public static function getModuleConfig($modulename = null)
     {
-        $config = self::getInjector()->instantiate('Koch_Config');
+        $config = self::getInjector()->instantiate('Koch\Config');
 
         return self::$moduleconfig = $config->readModuleConfig($modulename);
     }
@@ -336,7 +338,8 @@ abstract class Controller
     public function setRenderEngine($renderEngineName)
     {
         $this->renderEngineName = $renderEngineName;
-        Koch_HttpRequest::getRoute()->setRenderEngine($renderEngineName);
+
+        HttpRequest::getRoute()->setRenderEngine($renderEngineName);
     }
 
     /**
@@ -370,7 +373,7 @@ abstract class Controller
      */
     public function getRenderEngine()
     {
-        return Koch_Renderer_Factory::getRenderer($this->getRenderEngineName(), self::getInjector());
+        return Koch\View\Renderer_Factory::getRenderer($this->getRenderEngineName(), self::getInjector());
     }
 
     /**
@@ -464,12 +467,12 @@ abstract class Controller
     {
         if(null === $module)
         {
-            $module = Koch_HttpRequest::getRoute()->getModuleName();
+            $module = HttpRequest::getRoute()->getModuleName();
          }
 
         if(null === $action)
         {
-            $action = Koch_HttpRequest::getRoute()->getActionName();
+            $action = HttpRequest::getRoute()->getActionName();
         }
 
         if(null === $formname)
@@ -482,7 +485,8 @@ abstract class Controller
         $classname = 'Koch_Form_' . $formname;
         $filename  = mb_strtolower($formname) . '.form.php';
         $directory = ROOT_MOD . mb_strtolower($module) . DS . 'form/';
-        Koch_Loader::requireFile( $directory . $filename, $classname );
+
+        Loader::requireFile( $directory . $filename, $classname );
 
         # form preparation stage (combine description and add additional formelements)
         $form = new $classname;
@@ -513,10 +517,11 @@ abstract class Controller
         }
         else # build referer on base of the current module
         {
-            $route = Koch_HttpRequest::getRoute();
+            $route = HttpRequest::getRoute();
 
             # we use internal rewrite style here: /module/action
             $redirect_to = '/' . $route->getModuleName();
+
             $submodule = $route->getSubModuleName();
 
             if(empty($submodule) === false)
@@ -563,7 +568,7 @@ abstract class Controller
      */
     public function addEvent($eventName, Koch_Event $event)
     {
-        Koch_Eventdispatcher::instantiate()->addEventHandler($eventName, $event);
+        Koch\Event\Dispatcher::instantiate()->addEventHandler($eventName, $event);
     }
 
     /**
@@ -575,7 +580,7 @@ abstract class Controller
      */
     public function triggerEvent($event, $context = null, $info = null)
     {
-        Koch_Eventdispatcher::instantiate()->triggerEvent($event, $context = null, $info = null);
+        Koch\Event\Dispatcher::instantiate()->triggerEvent($event, $context = null, $info = null);
     }
 
     /**
@@ -587,7 +592,7 @@ abstract class Controller
      */
     public static function setFlashmessage($type, $message)
     {
-        Koch_Flashmessages::setMessage($type, $message);
+        Koch\Session\Flashmessages::setMessage($type, $message);
     }
 
     /**
@@ -612,36 +617,4 @@ abstract class Controller
     }
 }
 
-
-/**
- * Interface for all modules which implement a specific action structure.
- * Inspired by Sinatra.
- *
- * Force classes implementing the interface to define this (must have) methods!
- *
- * @category    Koch
- * @package     Core
- * @subpackage  Module
- */
-interface Koch_Module_Interface
-{
-    public function action_list();     # GET     /foos
-    public function action_show();     # GET     /foos/:foo_id
-    public function action_new();      # GET     /foos/new
-    public function action_edit();     # GET     /foos/:foo_id/edit
-    public function action_create();   # POST    /foos
-    public function action_update();   # PUT     /foos/:foo_id
-    public function action_destroy();  # DELETE  /foos/:foo_id
-}
-
-interface Koch_AdminModule_Interface
-{
-    public function action_admin_list();     # GET     /foos
-    public function action_admin_show();     # GET     /foos/:foo_id
-    public function action_admin_new();      # GET     /foos/new
-    public function action_admin_edit();     # GET     /foos/:foo_id/edit
-    public function action_admin_insert();   # POST    /foos
-    public function action_admin_update();   # PUT     /foos/:foo_id
-    public function action_admin_delete();   # DELETE  /foos/:foo_id
-}
 ?>
