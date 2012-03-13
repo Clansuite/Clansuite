@@ -30,7 +30,7 @@
     * @version    SVN: $Id$
     */
 
-namespace Koch\Tools;
+namespace Koch\Datatype;
 
 # Security Handler
 if(defined('IN_CS') === false)
@@ -39,7 +39,7 @@ if(defined('IN_CS') === false)
 }
 
 /**
- * Koch Framework - Class for converting XML data.
+ * Koch Framework - Class for handling and converting XML data.
  *
  * This class converts XML-based data into JSON or Array formatted data.
  */
