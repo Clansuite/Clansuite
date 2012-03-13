@@ -37,5 +37,5 @@
 define('IN_CS', true);
 
 require 'application/bootstrap.php';
-Clansuite_CMS::run();
+\Clansuite\CMS::run();
 ?>
