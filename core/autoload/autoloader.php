@@ -110,10 +110,10 @@ class Loader
          *
          * Note: autoloadInclusions returns true if classname was included
          */
-        /*if(true === self::autoloadInclusions($classname))
+        if(true === self::autoloadInclusions($classname))
         {
             return true;
-        }*/
+        }
 
         /**
          * try to load the file by searching the
@@ -196,7 +196,9 @@ class Loader
     public static function autoloadInclusions($classname)
     {
         # autoloading map
-        self::$inclusions_map = array();
+        self::$inclusions_map = array(
+            'Clansuite\Module\Controller' => 'module\controller.php'
+        );
 
         # check if classname is in autoloading map
         if(isset(self::$inclusions_map[$classname]) === true)
@@ -285,9 +287,7 @@ class Loader
 
         if(is_string($filename) === true)
         {
-
             return self::includeFileAndMap($filename, $classname);
-            return true;
         }
         else
         {

@@ -33,6 +33,7 @@
 namespace Koch\MVC;
 
 use Koch\Filter\FilterInterface;
+use Koch\View\Helper\Breadcrumb;
 
 # Security Handler
 if(defined('IN_CS') === false)
@@ -218,7 +219,7 @@ class FrontController implements FrontControllerInterface
             $controllerInstance->_initializeModule();
         }
 
-        Koch_Breadcrumb::initBreadcrumbs($route->getModuleName(), $route->getSubmoduleName());
+        Breadcrumb::initialize($route->getModuleName(), $route->getSubmoduleName());
 
         /**
          * Finally: dispatch to the requested controller method

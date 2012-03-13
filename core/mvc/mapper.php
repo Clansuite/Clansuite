@@ -52,7 +52,7 @@ if(defined('IN_CS') === false)
 class Mapper extends \ArrayObject
 {
     /* @const string Classname prefix for modules */
-    const MODULE_CLASS_PREFIX = 'Koch_Module';
+    const MODULE_CLASS_PREFIX = 'Clansuite\Module';
 
     /* @const string Method prefix for module actions */
     const METHOD_PREFIX = 'action';
@@ -111,12 +111,12 @@ class Mapper extends \ArrayObject
         $classname = '';
 
         # attach controller
-        $classname .= '_' . ucfirst($controller);
+        $classname .= '\\' . ucfirst($controller);
 
         # attach subcontroller to classname
         if(isset($subcontroller))
         {
-            $classname .= '_' . ucfirst($subcontroller);
+            $classname .= '\\' . ucfirst($subcontroller);
         }
 
         return self::MODULE_CLASS_PREFIX . $classname;

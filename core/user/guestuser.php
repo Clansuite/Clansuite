@@ -126,4 +126,5 @@ class GuestUser
         #Koch_Debug::firebug($_SESSION);
     }
 }
+
 ?>

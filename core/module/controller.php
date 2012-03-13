@@ -33,6 +33,8 @@
 namespace Koch\Module;
 
 use Koch\MVC\HttpRequest;
+use Koch\MVC\HttpRequestInterface;
+use Koch\MVC\HttpResponseInterface;
 
 # Security Handler
 if(defined('IN_CS') === false)
@@ -92,7 +94,7 @@ abstract class Controller
     {
         $this->request = $request;
         $this->response = $response;
-        $this->doctrine_em = Clansuite_CMS::getEntityManager();
+        $this->doctrine_em = \Clansuite\CMS::getEntityManager();
     }
 
     /**
@@ -226,16 +228,6 @@ abstract class Controller
     }
 
     /**
-     * Proxy/convenience method: returns the Clansuite Configuration as array
-     *
-     * @return $array Clansuite Main Configuration (/configuration/clansuite.config.php)
-     */
-    public function getClansuiteConfig()
-    {
-        return $this->config = Clansuite_CMS::getClansuiteConfig();
-    }
-
-    /**
      * Gets a Config Value or sets a default value
      *
      * @example
@@ -290,7 +282,7 @@ abstract class Controller
      */
     public static function getInjector()
     {
-        return Clansuite_CMS::getInjector();
+        return \Clansuite\CMS::getInjector();
     }
 
     /**
@@ -373,7 +365,7 @@ abstract class Controller
      */
     public function getRenderEngine()
     {
-        return Koch\View\Renderer_Factory::getRenderer($this->getRenderEngineName(), self::getInjector());
+        return \Koch\View\Factory::getRenderer($this->getRenderEngineName(), self::getInjector());
     }
 
     /**
@@ -568,7 +560,7 @@ abstract class Controller
      */
     public function addEvent($eventName, Koch_Event $event)
     {
-        Koch\Event\Dispatcher::instantiate()->addEventHandler($eventName, $event);
+        \Koch\Event\Dispatcher::instantiate()->addEventHandler($eventName, $event);
     }
 
     /**
@@ -580,7 +572,7 @@ abstract class Controller
      */
     public function triggerEvent($event, $context = null, $info = null)
     {
-        Koch\Event\Dispatcher::instantiate()->triggerEvent($event, $context = null, $info = null);
+        \Koch\Event\Dispatcher::instantiate()->triggerEvent($event, $context = null, $info = null);
     }
 
     /**
@@ -592,7 +584,19 @@ abstract class Controller
      */
     public static function setFlashmessage($type, $message)
     {
-        Koch\Session\Flashmessages::setMessage($type, $message);
+        \Koch\Session\Flashmessages::setMessage($type, $message);
+    }
+
+    /**
+     * Adds a new breadcrumb
+     *
+     * @param string $title Name of the trail element. Use Gettext _('Title')!
+     * @param string $link Link of the trail element
+     * @param string $replace_array_position Position in the array to replace with name/trail. Start = 0.
+     */
+    public static function addBreadcrumb($title, $link = '', $replace_array_position = null)
+    {
+        \Koch\View\Helper\Breadcrumb::add($title, $link, $replace_array_position);
     }
 
     /**
