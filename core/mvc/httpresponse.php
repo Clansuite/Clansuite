@@ -39,26 +39,6 @@ if(defined('IN_CS') === false)
 }
 
 /**
- * Interface for the Response Object
- *
- * @category    Koch
- * @package     Core
- * @subpackage  HttpResponse
- */
-interface HttpResponseInterface
-{
-    # Output Methods
-    public static function setStatusCode($statusCode);
-    public static function addHeader($name, $value);
-    public static function setContent($content, $replace = false);
-    public static function sendResponse();
-
-    # Cookie Methods
-    public static function createCookie($name, $value='', $maxage = 0, $path='', $domain='', $secure = false, $HTTPOnly = false);
-    public static function deleteCookie($name, $path = '/', $domain = '', $secure = false, $httponly = null);
-}
-
-/**
  * Koch Framework - Class for Response Handling
  *
  * This class represents the web response object on a request processed by Koch Framework.
@@ -276,7 +256,7 @@ class HttpResponse implements HttpResponseInterface
         }
 
         # make it possible to attach HTML content to the body directly before flushing the response
-        Clansuite_CMS::triggerEvent('onBeforeResponse', array('content' => self::$content));
+        \Clansuite\CMS::triggerEvent('onBeforeResponse', array('content' => self::$content));
 
         # Finally echo the response body
         echo self::getContent();
@@ -284,7 +264,7 @@ class HttpResponse implements HttpResponseInterface
         // Flush Compressed Buffer
         if( XDEBUG === false and DEBUG === false)
         {
-            Koch_ResponseEncode::end_outputbuffering();
+            \Koch\MVC\ResponseEncode::end_outputbuffering();
 
             # send response and do some more php processing afterwards
             if(is_callable('fastcgi_finish_request') === true)

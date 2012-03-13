@@ -49,7 +49,7 @@ function smarty_function_check_permission($params, $smarty)
     }
 
     # perform the permission check
-    if( false !== Koch_ACL::checkPermission( $module, $permission ) )
+    if( false !== Koch\RBACL\ACL::checkPermission( $module, $permission ) )
     {
         unset($array, $name, $permission);
         return true;

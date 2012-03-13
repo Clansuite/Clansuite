@@ -32,6 +32,8 @@
 
 namespace Koch\View\Helper;
 
+use Koch\View\AbstractRenderer;
+
 # Security Handler
 if(defined('IN_CS') === false)
 {
@@ -72,7 +74,7 @@ class Theme
         }
         else
         {
-            throw new Koch_Exception('No Themename given.', '100');
+            throw new \Exception('No Themename given.', '100');
         }
     }
 
@@ -84,7 +86,7 @@ class Theme
     public function getCurrentThemeInfoFile()
     {
         # get array for frontend or backend theme
-        $themepaths = Koch_Renderer_Base::getThemeTemplatePaths();
+        $themepaths = AbstractRenderer::getThemeTemplatePaths();
 
         foreach($themepaths as $themepath)
         {
@@ -166,7 +168,7 @@ class Theme
         }
         else
         {
-            throw new Koch_Exception('The Themeinfo file was not found on Theme: '. $theme, '100');
+            throw new \Exception('The Themeinfo file was not found on Theme: '. $theme, '100');
         }
 
         return $theme_info_file;
@@ -183,7 +185,7 @@ class Theme
         $theme_info_file = $this->getInfoFile($theme);
 
         # read theme info xml file into array
-        $theme_info_array = Koch_Config_XML::readConfig($theme_info_file);
+        $theme_info_array = \Koch\Config\Adapter\XML::readConfig($theme_info_file);
 
         #Koch_Debug::printR($theme_info_array);
 
@@ -246,10 +248,9 @@ class Theme
 
     public function getCSSFile()
     {
-        # ---------- CSS Browser -Toggle -------------------
-        include_once ROOT_CORE . 'tools' . DS . 'browserinfo.core.php';
-        $BrowserInfo = new Koch_Browserinfo();
-        if( $BrowserInfo->isIE() )
+        $browserInfo = new \Koch\Tools\Browserinfo();
+
+        if($browserInfo->isIE())
         {
             $cssPostfix = '_ie';
         }
@@ -301,7 +302,7 @@ class Theme
         }
         else # no main layout found !
         {
-            throw new Koch_Exception('No Layout File defined. Check ThemeInfo File of ' . $this->getName(), 9090);
+            throw new \Exception('No Layout File defined. Check ThemeInfo File of ' . $this->getName(), 9090);
         }
     }
 
@@ -374,7 +375,7 @@ class Theme
         $i = 0;
         $themes = array();
 
-        $dirs = new DirectoryIterator( $dir );
+        $dirs = new \DirectoryIterator( $dir );
 
         foreach($dirs as $dir)
         {
@@ -383,6 +384,7 @@ class Theme
              * we can not use DirectoryIterator::isDot() here, because it only checks "." and "..".
              */
             $dir_tmp = $dir->getFilename();
+
             if ($dir_tmp{0} === '.')
             {
                 continue;

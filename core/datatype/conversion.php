@@ -43,7 +43,7 @@ if(defined('IN_CS') === false)
  */
 class Conversion
 {
-    public static function XMLToArray($xml, $recursionDepth)
+    public static function XMLToArray($xml, $recursionDepth = 0)
     {
         XML::toArray($xml, $recursionDepth);
     }

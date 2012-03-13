@@ -290,20 +290,13 @@ abstract class AbstractRenderer
         $template_constants['javascript'] = $this->getTheme()->getJSFile();
 
         # Breadcrumb
-        $template_constants['trail'] = Koch_Breadcrumb::getTrail();
+        $template_constants['trail'] = \Koch\View\Helper\Breadcrumb::getTrail();
 
         # Templatename itself
         $template_constants['templatename'] = $this->getTemplate();
 
         # Help Tracking
         $template_constants['helptracking'] = $this->config['help']['tracking'];
-
-        /**
-         * e) test browserinfo
-         *   test in themes/frontend/dark/modules/index/action_show.tpl
-         */
-        $BrowserInfo = new Koch_Browserinfo();
-        $template_constants['browserinfo'] = $BrowserInfo->getBrowserInfo();
 
         /**
          * Debug Display

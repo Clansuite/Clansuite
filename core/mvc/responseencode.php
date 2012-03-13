@@ -40,7 +40,7 @@ if(defined('IN_CS') === false)
 
 /**
  * Koch Framework - Response Encode
- * 
+ *
  * The class is used to gzip_encode the response (php output).
  *
  * @author      Sandy McArthur, Jr. <Leknor@Leknor.com>
@@ -115,7 +115,7 @@ if(defined('IN_CS') === false)
  *  0.2:    Checks for 'gzip' in the Accept-Encoding header
  *  0.1:    First working version.
  */
-class Koch_ResponseEncode
+class ResponseEncode
 {
     # Version of the Koch_ResponseEncode class
     public static $version = 0.7;

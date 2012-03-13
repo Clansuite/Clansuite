@@ -38,7 +38,7 @@ function smarty_function_breadcrumbs($params, $smarty)
     }
     else
     {
-        $trail = Koch_Breadcrumb::getTrail();
+        $trail = \Koch\View\Helper\Breadcrumb::getTrail();
     }
 
     #Koch_Debug::firebug($trail);
