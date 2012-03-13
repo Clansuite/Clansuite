@@ -5,7 +5,7 @@ class SecurityTest extends Clansuite_UnitTestCase
     {
         parent::setUp();
 
-        # Test Subject - Clansuite_Security
+        # Test Subject - \Koch\Security
         require_once TESTSUBJECT_DIR . 'core/security.php';
     }
 
@@ -15,7 +15,7 @@ class SecurityTest extends Clansuite_UnitTestCase
     public function testMethod_generate_salt()
     {
         # generate a salt with length
-        $salt = Clansuite_Security::generate_salt(12);
+        $salt = \Koch\Security::generate_salt(12);
 
         # ensure $salt is a string
         $this->assertTrue(is_string($salt), true);
@@ -26,18 +26,18 @@ class SecurityTest extends Clansuite_UnitTestCase
 
     public function testMethod_generate_hash()
     {
-        $hash_md5 = Clansuite_Security::generate_hash('md5', 'admin');
+        $hash_md5 = \Koch\Security::generate_hash('md5', 'admin');
 
         $this->assertIdentical('21232f297a57a5a743894a0e4a801fc3', $hash_md5);
 
-        $hash_sha1 = Clansuite_Security::generate_hash('sha1', 'admin');
+        $hash_sha1 = \Koch\Security::generate_hash('sha1', 'admin');
 
         $this->assertIdentical('d033e22ae348aeb5660fc2140aec35850c4da997', $hash_sha1);
     }
 
     public function testMethod_build_salted_hash()
     {
-        $salted_hash = Clansuite_Security::build_salted_hash('admin', 'md5');
+        $salted_hash = \Koch\Security::build_salted_hash('admin', 'md5');
 
         $this->assertTrue(is_array($salted_hash), true);
      }
@@ -52,7 +52,7 @@ class SecurityTest extends Clansuite_UnitTestCase
         $salt = 'Sko5ie';
         $hash_algorithm = 'md5';
 
-        $bool = Clansuite_Security::check_salted_hash( $passwordhash, $databasehash, $salt, $hash_algorithm );
+        $bool = \Koch\Security::check_salted_hash( $passwordhash, $databasehash, $salt, $hash_algorithm );
 
         $this->assertTrue($bool, true);
     }
