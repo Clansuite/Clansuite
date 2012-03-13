@@ -144,6 +144,8 @@ class ReflectionCache
                 $this->crossReference($interface, $class);
             }
         }
+        # show class graph
+        #var_export($this->implementations_of);
     }
 
     private function crossReference($interface, $class)

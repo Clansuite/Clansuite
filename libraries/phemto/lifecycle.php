@@ -7,12 +7,9 @@ abstract class Lifecycle
     function __construct($class)
     {
         $this->class = $class;
-        $this->triggerAutoload($class);
-    }
 
-    private function triggerAutoload($class)
-    {
-        class_exists($class);
+        # triggerAutoload
+        class_exists($class, true);
     }
 
     function isOneOf($candidates)

@@ -2,22 +2,22 @@
 require_once __DIR__ . '/lifecycle.php';
 require_once __DIR__ . '/repository.php';
 
-class CannotFindImplementation extends Exception
+class CannotFindImplementation extends \Exception
 {
 
 }
 
-class CannotDetermineImplementation extends Exception
+class CannotDetermineImplementation extends \Exception
 {
 
 }
 
-class SetterDoesNotExist extends Exception
+class SetterDoesNotExist extends \Exception
 {
 
 }
 
-class MissingDependency extends Exception
+class MissingDependency extends \Exception
 {
 
 }
@@ -254,7 +254,8 @@ class Context
 
     function hasWrapper($type, $already_applied)
     {
-        foreach($this->wrappersFor($type) as $wrapper)
+        $wrappers = $this->wrappersFor($type);
+        foreach($wrappers as $wrapper)
         {
             if(false === in_array($wrapper, $already_applied))
             {
@@ -326,7 +327,7 @@ class Context
             {
                 return $this->variables[$parameter->getName()]->preference;
             }
-            
+
             return $this->create($this->variables[$parameter->getName()]->preference, $nesting);
         }
 
