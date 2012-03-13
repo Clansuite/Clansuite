@@ -40,13 +40,15 @@
     *  =====================================================================
     */
 
+namespace Clansuite;
+
 # Security Handler
 if (defined('IN_CS') === false)
 {
     exit('Clansuite not loaded. Direct Access forbidden.');
 }
 
-class Clansuite_CMS
+class CMS
 {
     /**
      * @var object Dependency Injector Phemto
@@ -111,7 +113,7 @@ class Clansuite_CMS
          * Check if install.php is still available..
          * This means Clansuite is installed, but without any security steps performed.
          */
-        if(defined('LIVE') and LIVE == true and is_file('installation/install.php') === true)
+        if(defined('CS_LIVE') and CS_LIVE == true and is_file('installation/install.php') === true)
         {
             header('Location: installation/check_security.php');
             exit;
@@ -130,110 +132,13 @@ class Clansuite_CMS
         unset($REQUIRED_PHP_VERSION);
 
         /**
-         * Check if clansuite.config.php is found,
-         * else we are not installed at all, so redirect to installation page
+         * Check if clansuite config file is found, else we are
+         * not installed at all and redirect to installation page.
          */
-        if(is_file('configuration/clansuite.config.php') === false)
+        if(is_file('application/configuration/clansuite.php') === false)
         {
             header('Location: installation/index.php');
             exit;
-        }
-    }
-
-    /**
-     *  ==========================================
-     *          Load Configuration
-     *  ==========================================
-     *
-     * 1. Load clansuite.config.php
-     * 2. Load specific staging configuration (overloading clansuite.config.php)
-     * 3. Maintenance check
-     * 4. Alter php.ini settings
-     */
-    private static function initialize_Config()
-    {
-        # 1. load the main clansuite configuration file
-        $clansuite_cfg_cached = false;
-
-        if(APC === true and apc_exists('clansuite.config'))
-        {
-            self::$config = apc_fetch('clansuite.config');
-            $clansuite_cfg_cached = true;
-        }
-
-        if($clansuite_cfg_cached === false)
-        {
-            self::$config = Clansuite_Config_INI::readConfig(ROOT . 'configuration/clansuite.config.php');
-            if (APC === true)
-            {
-                apc_add('application.ini', self::$config);
-            }
-        }
-        unset($clansuite_cfg_cached);
-
-        # 2. Maintenance check
-        if( isset(self::$config['maintenance']['maintenance']) and
-            true === (bool) self::$config['maintenance']['maintenance'] )
-        {
-            $token = false;
-
-            # incoming maintenance token via GET
-            if(isset($_GET['mnt']) === true)
-            {
-                $tokenstring = $_GET['mnt'];
-                $token = Clansuite_Securitytoken::ckeckToken($tokenstring);
-            }
-
-            # if token is false (or not valid) show maintenance
-            if( false === $token )
-            {
-                Clansuite_Maintenance::show(self::$config);
-            }
-            else
-            {
-                self::$config['maintenance']['maintenance'] = 0;
-                Clansuite_Config_INI::writeConfig(ROOT . 'configuration/clansuite.config.php', self::$config);
-                # redirect to remove the token from url
-                header('Location: ' . SERVER_URL);
-                exit();
-            }
-        }
-
-        # 3. load staging configuration (overloading clansuite.config.php)
-        if( true === (bool) self::$config['config']['staging'] )
-        {
-            self::$config = Clansuite_Staging::overloadWithStagingConfig(self::$config);
-        }
-
-        /**
-         * Deny service, if the system load is too high.
-         */
-        if(defined('DEBUG') and DEBUG == false)
-        {
-            $max_load = isset(self::$config['load']['max']) ? (float) self::$config['load']['max'] : 80;
-
-            if (Clansuite_Functions::get_server_load() > $max_load)
-            {
-                $retry = (int) mt_rand(45, 90);
-                header ('Retry-After: '.$retry);
-                header('HTTP/1.1 503 Too busy, try again later');
-                die('HTTP/1.1 503 Server too busy. Please try again later.');
-            }
-        }
-        /**
-         *  ================================================
-         *          4. Alter php.ini settings
-         *  ================================================
-         */
-        set_time_limit(0);
-        ini_set('short_open_tag', 'off');
-        ini_set('arg_separator.input', '&amp;');
-        ini_set('arg_separator.output', '&amp;');
-        ini_set('default_charset', 'utf-8');
-        self::setMemoryLimit('32');
-        if(false === gc_enabled())
-        {
-            gc_enable();
         }
     }
 
@@ -251,16 +156,6 @@ class Clansuite_CMS
             ini_set('memory_limit', $limit + 'M');
         }
         unset($memory_limit);
-    }
-
-    /**
-     *  ================================================
-     *     Initialize UTF8 via mbstring or fallback
-     *  ================================================
-     */
-    private static function initialize_UTF8()
-    {
-        Clansuite_UTF8::initialize();
     }
 
     /**
@@ -316,7 +211,9 @@ class Clansuite_CMS
          * ROOT is the APPLICATION PATH
          * @var Purpose of ROOT is to provide the absolute path to the current working dir of clansuite
          */
-        define('ROOT', realpath(dirname(dirname(__DIR__))) . DS, false);
+        define('ROOT', __DIR__ . DS, false);
+
+        define('KOCH', dirname(__DIR__) . DS . 'core' . DS, false);
 
         /**
          * @var Root path of the cache directory (with trailing slash)
@@ -341,7 +238,7 @@ class Clansuite_CMS
         /**
          * @var Root path of the libraries directory (with trailing slash)
          */
-        define('ROOT_LIBRARIES', ROOT . 'libraries' . DS, false);
+        define('ROOT_LIBRARIES', dirname(ROOT) .'/libraries/', false);
 
         /**
          * @var Root path of the logs directory (with trailing slash)
@@ -458,6 +355,7 @@ class Clansuite_CMS
          * If you need to add something: use or absolute path constants (ROOT*) or realpath($your_path).
          */
         $paths = array(
+            KOCH,
             ROOT,
             ROOT_LIBRARIES,
             ROOT_LIBRARIES . 'PEAR' . DS
@@ -466,6 +364,29 @@ class Clansuite_CMS
         # attach original include paths
         set_include_path(implode($paths, PS) . PS . get_include_path());
         unset($paths);
+    }
+
+    /**
+     *  ================================================
+     *     Clansuite Version Information
+     *  ================================================
+     */
+    private static function initialize_Version()
+    {
+        include ROOT . 'version.php';
+
+        Version::setVersionInformation();
+        Version::setVersionInformationToCaches();
+    }
+
+    /**
+     *  ================================================
+     *     Initialize UTF8 via mbstring or fallback
+     *  ================================================
+     */
+    private static function initialize_UTF8()
+    {
+        \Koch\Localization\UTF8::initialize();
     }
 
     /**
@@ -511,7 +432,7 @@ class Clansuite_CMS
              * helper methods for profiling, tracing and enhancing the debug displays.
              * @see clansuite_debug::printR() and clansuite_debug::firebug()
              */
-            include ROOT_CORE . 'debug/debug.core.php';
+            include KOCH . 'debug/debug.php';
 
             /**
              * @var XDebug and set it's value via the config setting ['error']['xdebug']
@@ -521,7 +442,7 @@ class Clansuite_CMS
             # If XDebug is enabled, load xdebug helpers and start the debug/tracing
             if(XDEBUG == true)
             {
-                include ROOT_CORE . 'debug/xdebug.core.php';
+                include KOCH . 'debug/xdebug.php';
                 Clansuite_XDebug::start_xdebug();
             }
         }
@@ -536,7 +457,7 @@ class Clansuite_CMS
             # do not report any errors
             #error_reporting(0);
             # write to errorlog
-            ini_set('error_log', ROOT_LOGS . 'clansuite_errorlog.txt');
+            ini_set('error_log', ROOT_LOGS . 'clansuite_error.log');
         }
     }
 
@@ -548,8 +469,8 @@ class Clansuite_CMS
      */
     public static function initialize_Loader()
     {
-        include ROOT . 'core/autoload/autoloader.core.php';
-        spl_autoload_register('Clansuite_Loader::autoload', true, true);
+        include KOCH . 'autoload/autoloader.php';
+        spl_autoload_register('\Koch\Autoload\Loader::autoload', true, true);
     }
 
     /**
@@ -557,7 +478,7 @@ class Clansuite_CMS
      */
     private static function initialize_Logger()
     {
-        $logger = new Clansuite_Logger();
+        $logger = new \Koch\Logger\Logger;
         $firebug = $logger->loadLogger('firebug');
         $logger->addLogger($firebug);
     }
@@ -567,8 +488,8 @@ class Clansuite_CMS
      */
     private static function initialize_Eventdispatcher()
     {
-        Clansuite_Eventdispatcher::instantiate();
-        Clansuite_Eventloader::autoloadEvents();
+        \Koch\Event\Dispatcher::instantiate();
+        \Koch\Event\Loader::loadEvents();
     }
 
     /**
@@ -576,22 +497,8 @@ class Clansuite_CMS
      */
     private static function initialize_Errorhandling()
     {
-        set_exception_handler(array(new Clansuite_Exception,'exception_handler'));
-        set_error_handler('Clansuite_CMS::throwError');
-    }
-
-    /**
-     * Clansuite Error Callback.
-     *
-     * @param int $errornumber
-     * @param string $errorstring
-     * @param string $errorfile
-     * @param string $errorline
-     * @param string $errorcontext
-     */
-    public static function throwError( $errornumber, $errorstring, $errorfile, $errorline, $errorcontext )
-    {
-        Clansuite_Errorhandler::errorhandler( $errornumber, $errorstring, $errorfile, $errorline, $errorcontext );
+        set_exception_handler(array(new \Koch\Exception\Exception,'exception_handler'));
+        set_error_handler('\Koch\Exception\Errorhandler::errorhandler');
     }
 
     /**
@@ -602,7 +509,104 @@ class Clansuite_CMS
     private static function initialize_DependencyInjection()
     {
         include ROOT_LIBRARIES . 'phemto/phemto.php';
-        self::$injector = new Phemto();
+        self::$injector = new \Phemto();
+    }
+
+    /**
+     *  ==========================================
+     *          Load Configuration
+     *  ==========================================
+     *
+     * 1. Load clansuite.config.php
+     * 2. Load specific staging configuration (overloading clansuite.config.php)
+     * 3. Maintenance check
+     * 4. Alter php.ini settings
+     */
+    private static function initialize_Config()
+    {
+        # 1. load the main clansuite configuration file
+        $clansuite_cfg_cached = false;
+
+        if(APC === true and apc_exists('clansuite.config'))
+        {
+            self::$config = apc_fetch('clansuite.config');
+            $clansuite_cfg_cached = true;
+        }
+
+        if($clansuite_cfg_cached === false)
+        {
+            self::$config = \Koch\Config\Adapter\Ini::readConfig(ROOT . 'configuration/clansuite.php');
+            if (APC === true)
+            {
+                apc_add('application.ini', self::$config);
+            }
+        }
+        unset($clansuite_cfg_cached);
+
+        # 2. Maintenance check
+        if( isset(self::$config['maintenance']['maintenance']) and
+            true === (bool) self::$config['maintenance']['maintenance'] )
+        {
+            $token = false;
+
+            # incoming maintenance token via GET
+            if(isset($_GET['mnt']) === true)
+            {
+                $tokenstring = $_GET['mnt'];
+                $token = Clansuite_Securitytoken::ckeckToken($tokenstring);
+            }
+
+            # if token is false (or not valid) show maintenance
+            if( false === $token )
+            {
+                Clansuite_Maintenance::show(self::$config);
+            }
+            else
+            {
+                self::$config['maintenance']['maintenance'] = 0;
+                \Koch\Config\INI::writeConfig(ROOT . 'configuration/clansuite.config.php', self::$config);
+                # redirect to remove the token from url
+                header('Location: ' . SERVER_URL);
+                exit();
+            }
+        }
+
+        # 3. load staging configuration (overloading clansuite.config.php)
+        if( true === (bool) self::$config['config']['staging'] )
+        {
+            self::$config = \Koch\Config\Staging::overloadWithStagingConfig(self::$config);
+        }
+
+        /**
+         * Deny service, if the system load is too high.
+         */
+        if(defined('DEBUG') and DEBUG == false)
+        {
+            $max_load = isset(self::$config['load']['max']) ? (float) self::$config['load']['max'] : 80;
+
+            if (\Koch\Functions::get_server_load() > $max_load)
+            {
+                $retry = (int) mt_rand(45, 90);
+                header ('Retry-After: '.$retry);
+                header('HTTP/1.1 503 Too busy, try again later');
+                die('HTTP/1.1 503 Server too busy. Please try again later.');
+            }
+        }
+        /**
+         *  ================================================
+         *          4. Alter php.ini settings
+         *  ================================================
+         */
+        set_time_limit(0);
+        ini_set('short_open_tag', 'off');
+        ini_set('arg_separator.input', '&amp;');
+        ini_set('arg_separator.output', '&amp;');
+        ini_set('default_charset', 'utf-8');
+        self::setMemoryLimit('32');
+        if(false === gc_enabled())
+        {
+            gc_enable();
+        }
     }
 
     /**
@@ -612,17 +616,16 @@ class Clansuite_CMS
     {
         # define the core classes to load
         static $core_classes = array(
-            'Clansuite_Config',
-            'Clansuite_HttpRequest',
-            'Clansuite_HttpResponse',
-            'Clansuite_FilterManager',
-            'Clansuite_Localization',
-            'Clansuite_Security',
-            'Clansuite_Inputfilter',
-            'Clansuite_Localization',
-            'Clansuite_User',
-            'Clansuite_Session',
-            'Clansuite_Router',
+            'Koch\Config\Config',
+            #'Koch\MVC\HttpRequest',
+            #'Koch\MVC\HttpResponse',
+            'Koch\Filter\Manager',
+            'Koch\Localization\Localization',
+            'Koch\Security',
+            'Koch\Validation\Inputfilter',
+            'Koch\User',
+            'Koch\Session\Session',
+            'Koch\Router\Router',
         );
 
         # register them to the DI as singletons
@@ -639,29 +642,30 @@ class Clansuite_CMS
     {
         # define prefilters to load
         self::$prefilter_classes = array(
-            'Clansuite_Filter_GetUser',
-            #'Clansuite_Filter_Session_Security',
-            'Clansuite_Filter_LanguageViaGet',
-            'Clansuite_Filter_ThemeViaGet',
-            'Clansuite_Filter_SetModuleLanguage',
-            'Clansuite_Filter_StartupChecks',
-            #'Clansuite_Filter_Statistics'
+            'Koch\Filter\Filters\GetUser',
+            #'Koch\Filter\Filters\SessionSecurity',
+            'Koch\Filter\Filters\LanguageViaGet',
+            'Koch\Filter\Filters\ThemeViaGet',
+            'Koch\Filter\Filters\SetModuleLanguage',
+            'Koch\Filter\Filters\StartupChecks',
+            #'Koch\Filter\Filters\Statistics'
         );
 
         # define postfilters to load
         self::$postfilter_classes = array(
             #'Clansuite_Filter_HtmlTidy',
-            'Clansuite_Filter_SmartyMoves'
+            'Koch\Filter\Filters\SmartyMoves'
         );
 
         # register the debug console only in DEBUG mode and before all other filters
-        if(DEBUG === true)
+        if(DEBUG == true)
         {
-            self::$injector->register('Clansuite_Filter_PhpDebugConsole');
+            self::$injector->register('Koch\Filter\Filters\PhpDebugConsole');
         }
 
         # combine pre- and postfilters and register at DI
         $filter_classes = self::$prefilter_classes + self::$postfilter_classes;
+
         foreach($filter_classes as $class)
         {
             self::$injector->register($class);
@@ -676,13 +680,13 @@ class Clansuite_CMS
     private static function execute_Frontcontroller()
     {
         # Get request and response objects for Filter and Request processing
-        $request  = self::$injector->instantiate('Clansuite_HttpRequest');
-        $response = self::$injector->instantiate('Clansuite_HttpResponse');
+        $request  = self::$injector->instantiate('Koch\MVC\HttpRequest');
+        $response = self::$injector->instantiate('Koch\MVC\HttpResponse');
 
         /**
          * Setup Frontcontroller and pass Request and Response
          */
-        $clansuite = new Clansuite_Front_Controller($request, $response);
+        $clansuite = new \Koch\MVC\FrontController($request, $response);
 
         /**
          * Add the Prefilters and Postfilters to the Frontcontroller
@@ -718,7 +722,7 @@ class Clansuite_CMS
      */
     private static function initialize_Database()
     {
-        self::$doctrine_em = Clansuite_Doctrine2::init(self::$config);
+        self::$doctrine_em = \Koch\Doctrine\Doctrine::init(self::$config);
     }
 
     /**
@@ -727,23 +731,10 @@ class Clansuite_CMS
     private static function start_Session()
     {
         # Initialize Session
-        self::$injector->create('Clansuite_Session');
+        self::$injector->create('\Koch\Session\Session');
 
         # register the session-depending user object manually
-        self::$injector->instantiate('Clansuite_User');
-    }
-
-    /**
-     *  ================================================
-     *     Clansuite Version Information
-     *  ================================================
-     */
-    private static function initialize_Version()
-    {
-        include ROOT_CORE . 'bootstrap/clansuite.version.php';
-
-        Clansuite_Version::setVersionInformation();
-        Clansuite_Version::setVersionInformationToCaches();
+        self::$injector->instantiate('\Koch\User\User');
     }
 
     /**
@@ -766,8 +757,8 @@ class Clansuite_CMS
             # set always if incomming via config
             date_default_timezone_set(self::$config['language']['timezone']);
         }
-        # set fallback only, if timezone was not set in php.ini
-        # @todo this is a requirement during installation process, marking elseif for deletion
+        # the timezone should already be set in php.ini
+        # this is just an fallback, if the system is not configured
         elseif(ini_get('date.timezone') === '')
         {
             date_default_timezone_set('Europe/Berlin');
@@ -820,9 +811,9 @@ class Clansuite_CMS
      */
     public static function triggerEvent($event, $context = null, $info = null)
     {
-        if(class_exists('Clansuite_Eventdispatcher', false) === true)
+        if(class_exists('Koch\Event\Dispatcher', false) === true)
         {
-            Clansuite_Eventdispatcher::instantiate()->triggerEvent($event, $context, $info);
+            Koch\Event\Dispatcher::instantiate()->triggerEvent($event, $context, $info);
         }
     }
 
@@ -837,7 +828,7 @@ class Clansuite_CMS
 
         if(DEBUG == true)
         {
-            echo Clansuite_Doctrine2::getStats();
+            echo Koch\Doctrine\Doctrine::getStats();
 
             # Display the General Application Runtime
             echo ' Application Runtime: '.round(microtime(1) - constant('STARTTIME'), 3).' Seconds';

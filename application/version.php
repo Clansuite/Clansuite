@@ -30,6 +30,8 @@
     * @version    SVN: $Id$
     */
 
+namespace Clansuite;
+
 # Security Handler
 if(defined('IN_CS') === false)
 {
@@ -43,9 +45,9 @@ if(defined('IN_CS') === false)
      */
 
 /**
- * Clansuite_Version
+ * Clansuite Application Version
  */
-final class Clansuite_Version
+final class Version
 {
     /**
      * Define constants for software version, versionname, state, revision numberas
@@ -112,7 +114,7 @@ final class Clansuite_Version
              * So, when SCM moves from SVN to GIT, we have to set this by using a little deploy script.
              */
             define('DEPLOY_VERSION', CLANSUITE_REVISION);
-    
+
             /**
              * APC
              */
@@ -120,13 +122,13 @@ final class Clansuite_Version
             {
                 $key = $_SERVER['SERVER_NAME'] . '_deploy_version';
                 $cached_revision = apc_fetch($key);
-    
+
                 if ($cached_revision != DEPLOY_VERSION)
                 {
                     # clear opcode cache and user cache
                     apc_clear_cache();
                     apc_clear_cache('user');
-    
+
                     # if newer version arrived, store the revision number to apc
                     if($cached_revision < DEPLOY_VERSION)
                     {
@@ -134,18 +136,18 @@ final class Clansuite_Version
                     }
                 }
             }
-    
+
             /**
              * Realpath + stat cache is per process.
              */
             $key = 'php.pid_' . getmypid();
             $cached_revision = apc_fetch($key);
-    
+
             if ($cached_revision != DEPLOY_VERSION)
             {
                 # clear realpath and stat cache
                 clearstatcache(true);
-    
+
                 # if newer version arrived, store the revision number to apc
                 if($cached_revision < DEPLOY_VERSION)
                 {
