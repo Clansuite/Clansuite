@@ -82,9 +82,6 @@ class BreadcrumbTest extends Clansuite_UnitTestCase
      */
     public function testAddDynamicBreadcrumbs()
     {
-        # dynamic breadcrumb rely in TargetRoute
-        require_once 'core/router/targetroute.php';
-
         /**
          * case A -  normal module - frontend access => module = news, action =  action_show
          *
@@ -93,7 +90,7 @@ class BreadcrumbTest extends Clansuite_UnitTestCase
 
         # add Level 1 - Home
         $this->object->resetBreadcrumbs();
-        $this->object->initBreadcrumbs();
+        $this->object->initialize();
         TargetRoute::reset();
         TargetRoute::setController('news');
         TargetRoute::setAction('action_show');
@@ -122,7 +119,7 @@ class BreadcrumbTest extends Clansuite_UnitTestCase
 
         # add Level 1 - Home
         $this->object->resetBreadcrumbs();
-        $this->object->initBreadcrumbs('news', 'admin');
+        $this->object->initialize('news', 'admin');
         TargetRoute::reset();
         TargetRoute::setController('news');
         TargetRoute::setSubController('admin');
@@ -152,7 +149,7 @@ class BreadcrumbTest extends Clansuite_UnitTestCase
 
         # add Level 1 - Home
         $this->object->resetBreadcrumbs();
-        $this->object->initBreadcrumbs('controlcenter');
+        $this->object->initialize('controlcenter');
         TargetRoute::reset();
         TargetRoute::setController('news');
         TargetRoute::setSubController(null);
@@ -198,13 +195,13 @@ class BreadcrumbTest extends Clansuite_UnitTestCase
     }
 
     /**
-     * @todo Implement testInitBreadcrumbs().
+     * @todo Implement testinitialize().
      */
-    public function testInitBreadcrumbs()
+    public function testinitialize()
     {
         # case HOME
         $this->object->resetBreadcrumbs();
-        $this->object->initBreadcrumbs();
+        $this->object->initialize();
 
         $t_array = $this->object->getTrail(false);
 
@@ -214,7 +211,7 @@ class BreadcrumbTest extends Clansuite_UnitTestCase
         # case CONTROLCENTER module
 
         $this->object->resetBreadcrumbs();
-        $this->object->initBreadcrumbs('controlcenter');
+        $this->object->initialize('controlcenter');
 
         $t_array = $this->object->getTrail(false);
 
@@ -224,7 +221,7 @@ class BreadcrumbTest extends Clansuite_UnitTestCase
         # case ADMIN submodule => the first breadcrumb is also the controlcenter (because backend of module)
 
         $this->object->resetBreadcrumbs();
-        $this->object->initBreadcrumbs('testmodule', 'admin');
+        $this->object->initialize('testmodule', 'admin');
 
         $t_array = $this->object->getTrail(false);
 
@@ -235,7 +232,7 @@ class BreadcrumbTest extends Clansuite_UnitTestCase
     public function testResetBreadcrumbs()
     {
        # lets add an HOME entry on [0]
-       $this->object->initBreadcrumbs();
+       $this->object->initialize();
        # and reset the paths array
        $this->object->resetBreadcrumbs();
 
