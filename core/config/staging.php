@@ -59,7 +59,7 @@ class Staging
     public static function overloadWithStagingConfig($array_to_overload)
     {
         # load staging config
-        $staging_config = Koch\Config_INI::readConfig(self::getFilename());
+        $staging_config = \Koch\Config\Adapter\INI::readConfig(self::getFilename());
 
         # keys/values of array_to_overload are replaced with those of the staging_config
         return array_replace_recursive($array_to_overload, $staging_config);
@@ -82,29 +82,29 @@ class Staging
             case 'clansuite-dev.com':
             case 'www.clansuite-dev.com':
             case 'clansuite.dev':
-                $filename = 'development.config.php';
+                $filename = 'development.php';
                 break;
 
             # staging configuration
             case 'clansuite-stage.com':
             case 'www.clansuite-stage.com':
             case 'clansuite.stage':
-                $filename = 'staging.config.php';
+                $filename = 'staging.php';
                 break;
 
             # intern configuration
             case 'clansuite-intern.com':
             case 'www.clansuite-intern.com':
             case 'clansuite.intern':
-                $filename = 'intern.config.php';
+                $filename = 'intern.php';
                 break;
 
             default:
-                $filename = 'production.config.php';
+                $filename = 'production.php';
         }
 
         # return full path to the staging config file
-        return ROOT_CONFIG . 'staging' . DS . $filename;
+        return ROOT_CONFIG . 'staging/' . $filename;
     }
 }
 ?>

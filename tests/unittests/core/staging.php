@@ -1,4 +1,7 @@
 <?php
+
+use \Koch\Config\Staging;
+
 class StagingTest extends Clansuite_UnitTestCase
 {
     public function setUp()
@@ -6,7 +9,7 @@ class StagingTest extends Clansuite_UnitTestCase
         parent::setUp();
 
         # Test Subject
-        require_once TESTSUBJECT_DIR . 'core/configuration/staging.php';
+        require_once TESTSUBJECT_DIR . 'core/config/staging.php';
 
         # Dependency
         require_once TESTSUBJECT_DIR . 'core/config/adapter/ini.php';
@@ -27,7 +30,7 @@ class StagingTest extends Clansuite_UnitTestCase
             'error' => array ('development' => '0')
         );
 
-        $overloaded_cfg = Clansuite_Staging::overloadWithStagingConfig($array_to_overload);
+        $overloaded_cfg = Staging::overloadWithStagingConfig($array_to_overload);
 
         # new key exists
         $this->assertTrue(array_key_exists('overloaded-key', $overloaded_cfg));
@@ -49,7 +52,7 @@ class StagingTest extends Clansuite_UnitTestCase
 
     public function testFileExists_DevlopmentConfig()
     {
-        $expected_filename = ROOT_CONFIG . 'staging' . DS . 'development.config.php';
+        $expected_filename = ROOT_CONFIG . 'staging/' . 'development.php';
 
         $this->assertTrue(is_file($expected_filename));
     }
@@ -59,9 +62,10 @@ class StagingTest extends Clansuite_UnitTestCase
      */
     public function testMethod_getFilename()
     {
-        $expected_filename = ROOT_CONFIG . 'staging' . DS . 'development.config.php';
+        $expected_filename = ROOT_CONFIG . 'staging/' . 'development.php';
 
-        $filename = Clansuite_Staging::getFilename();
+        $filename = Staging::getFilename();
+
         $this->assertEqual($filename,$expected_filename);
     }
 }

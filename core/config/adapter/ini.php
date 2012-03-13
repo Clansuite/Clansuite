@@ -59,7 +59,7 @@ class Ini
         static $instance;
         if(isset($instance) == null)
         {
-            $instance = new Koch\Config_INI();
+            $instance = new self();
         }
         return $instance;
     }
@@ -196,7 +196,7 @@ class Ini
         # check ini_filename exists
         if(is_file($file) === false or is_readable($file) === false)
         {
-            throw new Koch_Exception('File not found: ' . $file, 4);
+            throw new \Exception('File not found: ' . $file, 4);
         }
 
         return parse_ini_file($file, true);
