@@ -4,6 +4,8 @@ if (count(get_included_files()) == 1)
     require_once 'autorun.php';
 }
 
+use \Koch\Tools\Trac_RPC;
+
 class Clansuite_TracRPC_Test extends Clansuite_UnitTestCase
 {
     /**
@@ -17,7 +19,7 @@ class Clansuite_TracRPC_Test extends Clansuite_UnitTestCase
      */
     public function setUp()
     {
-        require_once TESTSUBJECT_DIR . '/core/tracrpc.php';
+        require_once TESTSUBJECT_DIR . '/core/tools/tracrpc.php';
     }
 
     /**

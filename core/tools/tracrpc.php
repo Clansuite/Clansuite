@@ -1512,7 +1512,7 @@ class Trac_RPC
         {
             if(empty($this->username) or empty($this->password))
             {
-                throw new Exception('You are trying an authenticated access without providing username and password.');
+                throw new \Exception('You are trying an authenticated access without providing username and password.');
             }
             else
             {
