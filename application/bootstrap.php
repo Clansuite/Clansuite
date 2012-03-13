@@ -285,20 +285,20 @@ class CMS
          */
         if (dirname($_SERVER['PHP_SELF']) === '\\')
         {
-            define('WWW_ROOT', SERVER_URL . '/', false);
+            define('WWW_ROOT', SERVER_URL . '/application/', false);
         }
         else
         {
-            define('WWW_ROOT', SERVER_URL . dirname($_SERVER['PHP_SELF']) . '/', false);
+            define('WWW_ROOT', SERVER_URL . dirname($_SERVER['PHP_SELF']) . '/application/', false);
         }
 
         /**
          * @var WWW_ROOT_THEMES defines the themes folder
          */
-        define('WWW_ROOT_THEMES', WWW_ROOT . 'themes' . '/', false);
-        define('WWW_ROOT_THEMES_BACKEND', WWW_ROOT_THEMES . 'backend' . '/', false);
-        define('WWW_ROOT_THEMES_FRONTEND', WWW_ROOT_THEMES . 'frontend' . '/', false);
-        define('WWW_ROOT_THEMES_CORE', WWW_ROOT_THEMES . 'core' . '/', false);
+        define('WWW_ROOT_THEMES', WWW_ROOT . 'themes/', false);
+        define('WWW_ROOT_THEMES_BACKEND', WWW_ROOT_THEMES . 'backend/', false);
+        define('WWW_ROOT_THEMES_FRONTEND', WWW_ROOT_THEMES . 'frontend/', false);
+        define('WWW_ROOT_THEMES_CORE', WWW_ROOT_THEMES . 'core/', false);
     }
 
     /**
@@ -813,7 +813,7 @@ class CMS
     {
         if(class_exists('Koch\Event\Dispatcher', false) === true)
         {
-            Koch\Event\Dispatcher::instantiate()->triggerEvent($event, $context, $info);
+            \Koch\Event\Dispatcher::instantiate()->triggerEvent($event, $context, $info);
         }
     }
 
@@ -828,7 +828,7 @@ class CMS
 
         if(DEBUG == true)
         {
-            echo Koch\Doctrine\Doctrine::getStats();
+            echo \Koch\Doctrine\Doctrine::getStats();
 
             # Display the General Application Runtime
             echo ' Application Runtime: '.round(microtime(1) - constant('STARTTIME'), 3).' Seconds';
