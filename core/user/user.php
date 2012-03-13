@@ -30,7 +30,7 @@
     * @version    SVN: $Id$
     */
 
-namespace Koch;
+namespace Koch\User;
 
 # Security Handler
 if(defined('IN_CS') === false)
@@ -39,7 +39,7 @@ if(defined('IN_CS') === false)
 }
 
 /**
- * This Koch Framework Class for Users Handling
+ * Koch Framework - Class for Users Handling
  *
  * @author     Jens-André Koch   <vain@clansuite.com>
  * @author     Florian Wolf      <xsign.dll@clansuite.com>
@@ -57,14 +57,14 @@ class User
     private $user = null;
 
     /**
-     * @var object Koch_Configuration
+     * @var object Koch\Configuration
      */
     private $config = null;
 
     /**
      * Constructor
      */
-    function __construct(Koch_Config $config)
+    function __construct(\Koch\Config\Config $config)
     {
         $this->config = $config;
     }
@@ -269,7 +269,7 @@ class User
             {
                 $_SESSION['user']['group']  = $this->user['CsGroups'][0]['group_id'];
                 $_SESSION['user']['role']   = $this->user['CsGroups'][0]['role_id'];
-                $_SESSION['user']['rights'] = Koch_ACL::createRightSession(
+                $_SESSION['user']['rights'] = Koch\ACL::createRightSession(
                                                 $_SESSION['user']['role'],
                                                 $this->user['user_id'] );
             }
@@ -279,9 +279,9 @@ class User
         else
         {
             # this resets the $_SESSION['user'] array
-            Koch_GuestUser::instantiate();
+            GuestUser::instantiate();
 
-            #Koch_Debug::printR($_SESSION);
+            #Koch\Debug\Debug::printR($_SESSION);
         }
     }
 
@@ -330,7 +330,7 @@ class User
 
         # if user was found, check if passwords match each other
         if( true === (bool) $user and
-            true === Koch_Security::check_salted_hash(
+            true === Koch\Security::check_salted_hash(
             $passwordhash,
             $user['passwordhash'], $user['salt'],
             $this->moduleconfig['login']['hash_algorithm']))
@@ -440,7 +440,7 @@ class User
              * Proceed if match
              */
             if ( is_array($this->user) and
-                    Koch_Security::check_salted_hash(
+                    Koch\Security::check_salted_hash(
                             $_COOKIE['cs_cookie_password'],
                             $this->user['passwordhash'],
                             $this->user['salt'],
@@ -503,7 +503,7 @@ class User
      */
     public static function hasAccess( $modulename = '', $permission = '' )
     {
-        return Koch_ACL::checkPermission( $modulename, $permission );
+        return Koch\ACL::checkPermission( $modulename, $permission );
     }
 
     /**
@@ -546,93 +546,6 @@ class User
     public function getUserIdFromSession()
     {
         return $_SESSION['user']['user_id'];
-    }
-}
-
-/**
- * Koch_GuestUser represents the initial values of the user object.
- * This is the guest visitor.
- */
-class Koch_GuestUser
-{
-    /**
-     * @var object Koch_GuestUser is a singleton.
-     */
-    static private $instance = null;
-
-    /**
-     * @var object Koch_Configuration
-     */
-    private $config = null;
-
-    /**
-     * @return This object is a singleton.
-     */
-    public static function instantiate()
-    {
-        if(null === self::$instance)
-        {
-            self::$instance = new self;
-        }
-
-        return self::$instance;
-    }
-
-    function __construct()
-    {
-        $this->config = Clansuite_CMS::getInjector()->instantiate('Koch_Config');
-
-        /**
-         * Fill $_SESSION[user] with Guest-User-infos
-         */
-
-        $_SESSION['user']['authed']         = 0;  # guests are not authed
-        $_SESSION['user']['user_id']        = 0;  # guests have user_id 0
-        $_SESSION['user']['nick']           = _('Guest');
-
-        $_SESSION['user']['passwordhash']   = '';
-        $_SESSION['user']['email']          = '';
-
-        $_SESSION['user']['disabled']       = 0;
-        $_SESSION['user']['activated']      = 0;
-
-        /**
-         * Language for Guests
-         *
-         * This sets the default locale as defined by configuration value
-         * [language}[locale] for all guests visitors,
-         * If not already set via a GET request and
-         * processed in the filter (like "index.php?lang=fr").
-         */
-        if(false === isset($_SESSION['user']['language_via_url']))
-        {
-            $_SESSION['user']['language'] = $this->config['language']['locale'];
-        }
-
-        /**
-         * Theme for Guests
-         *
-         * Sets the Default Theme for all Guest Visitors, if not already set via a GET request.
-         * Theme for Guest Users as defined by config['template']['frontend_theme']
-         */
-        if(empty($_SESSION['user']['frontend_theme']))
-        {
-            $_SESSION['user']['frontend_theme'] = $this->config['template']['frontend_theme'];
-        }
-
-        # @todo remove this line, when user login is reactivated
-        $_SESSION['user']['backendend_theme'] = 'admin';
-
-        /**
-         * Permissions for Guests
-         */
-
-        $_SESSION['user']['group']  = 1; # @todo hardcoded for now
-        $_SESSION['user']['role']   = 3;
-        #$_SESSION['user']['rights'] = Koch_ACL::createRightSession( $_SESSION['user']['role'] );
-
-        #Koch_Debug::printR($_SESSION);
-        #Koch_Debug::firebug($_SESSION);
     }
 }
 ?>
