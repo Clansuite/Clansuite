@@ -33,6 +33,8 @@
 
 namespace Koch\View\Helper;
 
+use Koch\Router\TargetRoute;
+
 # Security Handler
 if(defined('IN_CS') === false)
 {
@@ -102,9 +104,9 @@ class Breadcrumb
      */
     public static function addDynamicBreadcrumbs()
     {
-        $moduleName    = Koch_TargetRoute::getModuleName();
-        $submoduleName = Koch_TargetRoute::getSubModuleName();
-        $actionName    = Koch_TargetRoute::getActionNameWithoutPrefix();
+        $moduleName    = TargetRoute::getModuleName();
+        $submoduleName = TargetRoute::getSubModuleName();
+        $actionName    = TargetRoute::getActionNameWithoutPrefix();
 
         if(isset($moduleName) and $moduleName != 'controlcenter')
         {
@@ -157,11 +159,11 @@ class Breadcrumb
         # ControlCenter (Backend)
         if($moduleName == 'controlcenter' or $submoduleName == 'admin')
         {
-            Koch_Breadcrumb::add('Control Center', '/index.php?mod=controlcenter');
+            Breadcrumb::add('Control Center', '/index.php?mod=controlcenter');
         }
         else # Home (Frontend)
         {
-            Koch_Breadcrumb::add('Home');
+            Breadcrumb::add('Home');
         }
     }
 
