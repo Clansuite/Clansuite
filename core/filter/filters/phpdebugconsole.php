@@ -32,6 +32,9 @@
 
 namespace Koch\Filter;
 
+use Koch\MVC\HttpRequestInterface;
+use Koch\MVC\HttpResponseInterface;
+
 # Security Handler
 if(defined('IN_CS') === false)
 {
@@ -47,11 +50,11 @@ if(defined('IN_CS') === false)
  */
 class PhpDebugConsole implements FilterInterface
 {
-    private $config     = null;
+    private $config = null;
 
     public function __construct(Koch\Config $config)
     {
-        $this->config    = $config;
+        $this->config = $config;
     }
 
     public function executeFilter(HttpRequestInterface $request, HttpResponseInterface $response)

@@ -65,7 +65,7 @@ class XML extends Koch_Form implements FormGenerator
     {
         # XML -> toArray -> Koch_Array_Formgenerator->generate($array)
         $array = array();
-        $array = new Koch_Config($filename);
+        $array = new Koch\Config($filename);
 
         #Koch_Debug::firebug($filename);
         #Koch_Debug::firebug($array);
@@ -89,7 +89,7 @@ class XML extends Koch_Form implements FormGenerator
         /* $filename = ROOT_MODULES . $array['modulename'] . DS . 'forms/';
           $filename .= $array['actionname'] . 'form.xml.php';
 
-          Koch_Config_XML::writeConfig($filename, $array);
+          Koch\Config_XML::writeConfig($filename, $array);
          */
     }
 

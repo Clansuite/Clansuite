@@ -24,13 +24,13 @@
     *
     * @license    GNU/GPL v2 or (at your option) any later version, see "/doc/LICENSE".
     * @author     Jens-André Koch <vain@clansuite.com>
-    * @copyright  Jens-André Koch (2005 - onwards)
+    * @copyright  Copyleft: All rights reserved. Jens-André Koch (2005 - onwards)
     * @link       http://www.clansuite.com
     *
     * @version    SVN: $Id$
     */
 
-namespace Koch\Logger\Adapter;
+namespace Koch\MVC;
 
 # Security Handler
 if(defined('IN_CS') === false)
@@ -39,52 +39,22 @@ if(defined('IN_CS') === false)
 }
 
 /**
- * Koch Framework - Log to /dev/null.
- *
- * This class is a service wrapper for logging messages to /dev/null.
- * It's a dummy logger - doing nothing.
- *
- * @author      Jens-André Koch <vain@clansuite.com>
- * @copyright   Jens-André Koch (2005 - onwards)
- * @license     GPLv2 any later license
+ * Interface for the Response Object
  *
  * @category    Koch
  * @package     Core
- * @subpackage  Logger
+ * @subpackage  HttpResponse
  */
-class Devnull implements Logger
+interface HttpResponseInterface
 {
-    private static $instance = null;
+    # Output Methods
+    public static function setStatusCode($statusCode);
+    public static function addHeader($name, $value);
+    public static function setContent($content, $replace = false);
+    public static function sendResponse();
 
-    public function __construct(Koch\Config $config)
-    {
-
-    }
-
-    /**
-     * returns an instance / singleton
-     *
-     * @return an instance of the logger
-     */
-    public static function getInstance()
-    {
-        if (self::$instance == 0)
-        {
-            self::$instance = new Koch_Logger_Devnull();
-        }
-        return self::$instance;
-    }
-
-    /**
-     * writeLog
-     *
-     * writes a string to /dev/null nirvana.
-     *
-     * @param $string The string to append to the logfile.
-     */
-    public function writeLog($string)
-    {
-        unset($string);
-    }
+    # Cookie Methods
+    public static function createCookie($name, $value='', $maxage = 0, $path='', $domain='', $secure = false, $HTTPOnly = false);
+    public static function deleteCookie($name, $path = '/', $domain = '', $secure = false, $httponly = null);
 }
 ?>

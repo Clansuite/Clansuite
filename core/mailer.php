@@ -62,7 +62,7 @@ class Koch_Mailer
     /**
      * Constructor.
      */
-    function __construct( Koch_Config $config )
+    function __construct( Koch\Config $config )
     {
         $this->config = $config;
         $this->loadMailer();

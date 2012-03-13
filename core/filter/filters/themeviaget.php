@@ -30,7 +30,13 @@
     * @version    SVN: $Id$
     */
 
-namespace Koch\Filter;
+namespace Koch\Filter\Filters;
+
+use Koch\Filter\FilterInterface;
+use Koch\MVC\HttpRequestInterface;
+use Koch\MVC\HttpResponseInterface;
+use Koch\Config\Config;
+use Koch\Validation\Inputfilter;
 
 # Security Handler
 if(defined('IN_CS') === false)
@@ -54,7 +60,7 @@ class ThemeViaGet implements FilterInterface
     private $config     = null;
     private $input      = null;
 
-    public function __construct(Koch\Config $config, Koch_Inputfilter $input)
+    public function __construct(Config $config, Inputfilter $input)
     {
         # reduce array size by selection of the section
         $this->config = $config['switches'];

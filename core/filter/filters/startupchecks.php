@@ -30,14 +30,18 @@
     * @version    SVN: $Id$
     */
 
-namespace Koch\Filter;
+namespace Koch\Filter\Filters;
+
+use Koch\Filter\FilterInterface;
+use Koch\MVC\HttpRequestInterface;
+use Koch\MVC\HttpResponseInterface;
+use Koch\Exception\Exception;
 
 # Security Handler
 if(defined('IN_CS') === false)
 {
     exit('Koch Framework not loaded. Direct Access forbidden.');
 }
-
 
 /**
  * Koch Framework - Filter performing Startup Checks.
@@ -56,14 +60,14 @@ class StartupChecks implements FilterInterface
         if(false === is_dir(ROOT_CACHE . 'tpl_compile') and
           (false === @mkdir(ROOT_CACHE .'tpl_compile', 0755, true)))
         {
-            throw new Koch_Exception('Smarty Template Directories not existant.', 9);
+            throw new Exception('Smarty Template Directories not existant.', 9);
         }
 
         # ensure smarty "cache" folder exists
         if(false === is_dir(ROOT_CACHE . 'tpl_cache') and
           (false === @mkdir(ROOT_CACHE .'tpl_cache', 0755, true)))
         {
-            throw new Koch_Exception('Smarty Template Directories not existant.', 9);
+            throw new Exception('Smarty Template Directories not existant.', 9);
         }
 
         # ensure smarty folders are writable
@@ -74,7 +78,7 @@ class StartupChecks implements FilterInterface
             if((false === chmod(ROOT_CACHE . 'tpl_compile', 0755)) and
                (false === chmod(ROOT_CACHE . 'tpl_cache', 0755)))
             {
-                throw new Koch_Exception('Smarty Template Directories not writable.', 10);
+                throw new Exception('Smarty Template Directories not writable.', 10);
             }
         }
     }

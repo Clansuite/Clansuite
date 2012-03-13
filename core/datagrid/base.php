@@ -110,7 +110,7 @@ class Base
     {
         if(self::$baseURL === null)
         {
-            self::$baseURL = Clansuite_HttpRequest::getRequestURI();
+            self::$baseURL = Koch\MVC\HttpRequest::getRequestURI();
         }
         else
         {

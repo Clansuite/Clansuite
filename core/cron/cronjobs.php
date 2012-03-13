@@ -32,7 +32,7 @@
 
 namespace Koch\Cron;
 
-$cron = new Cron;
+$cron = new Cronjobs;
 
 /**
  * Koch FrameworkCronjobs is a service wrapper class for stack processing of regular tasks.

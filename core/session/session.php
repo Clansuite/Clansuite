@@ -32,6 +32,8 @@
 
 namespace Koch\Session;
 
+use Koch\Exception\Exception;
+
 # Security Handler
 if (defined('IN_CS') === false)
 {
@@ -49,7 +51,7 @@ if (defined('IN_CS') === false)
  * @package     Core
  * @subpackage  Session
  */
-class Session implements SessionInterface, ArrayAccess
+class Session implements SessionInterface, \ArrayAccess
 {
     # stop applications to influcence each other by applying a session_name
     const session_name = 'CsuiteSID';
@@ -79,25 +81,25 @@ class Session implements SessionInterface, ArrayAccess
      * This creates the session.
      *
      * Injections:
-     * Koch_Config is needed for the configuration of session variables.
+     * Koch\Config is needed for the configuration of session variables.
      * Koch_HttpRequest is needed to determine the current location of the user on the website.
      *
      * @todo reading and writing the session are transactions! implement
      *
      * Overwrite php.ini settings
      * Start the session
-     * @param object Koch_Config
+     * @param object Koch\Config
      * @param object Koch_HttpRequest
      */
 
-    function __construct(Koch_Config $config)
+    function __construct(\Koch\Config\Config $config)
     {
         $this->config = $config;
 
         # session auto_start must be disabled
         if(ini_get('session.auto_start') != 0)
         {
-            throw new Koch_Exception('PHP Setting session.auto_start must be disabled.');
+            throw new Exception('PHP Setting session.auto_start must be disabled.');
         }
 
         /**
@@ -253,7 +255,7 @@ class Session implements SessionInterface, ArrayAccess
     {
         try
         {
-            $em = Clansuite_CMS::getEntityManager();
+            $em = \Clansuite\CMS::getEntityManager();
             $query = $em->createQuery('SELECT s.session_data, s.session_starttime
                                        FROM \Entities\Session s
                                        WHERE s.session_name = :name
@@ -304,7 +306,7 @@ class Session implements SessionInterface, ArrayAccess
         /**
          * Try to INSERT Session Data or REPLACE Session Data in case session_id already exists
          */
-        $em = Clansuite_CMS::getEntityManager();
+        $em = \Clansuite\CMS::getEntityManager();
 
         $query = $em->createQuery(
             'UPDATE \Entities\Session s
@@ -354,7 +356,7 @@ class Session implements SessionInterface, ArrayAccess
         /**
          * Delete session from DB
          */
-        $em = Clansuite_CMS::getEntityManager();
+        $em = \Clansuite\CMS::getEntityManager();
 
         $query = $em->createQuery(
             'DELETE \Entities\Session s
@@ -401,7 +403,7 @@ class Session implements SessionInterface, ArrayAccess
         $sessionlifetime = $maxlifetime * 60;
         $expire_time = time() + $sessionlifetime;
 
-        $em = Clansuite_CMS::getEntityManager();
+        $em = \Clansuite\CMS::getEntityManager();
 
         $query = $em->createQuery(
             'DELETE \Entities\Session s

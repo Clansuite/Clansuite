@@ -32,13 +32,14 @@
 
 namespace Koch\Router;
 
+use Koch\MVC\Mapper;
+use Koch\MVC\HttpRequest;
+
 # Security Handler
 if(defined('IN_CS') === false)
 {
     exit('Koch Framework not loaded. Direct Access forbidden.');
 }
-
-use Koch\MVC\Mapper;
 
 /**
  * Koch_Router_TargetRoute (processed RequestObject)
@@ -77,7 +78,7 @@ class TargetRoute extends Mapper
 
         if($instance === null)
         {
-            $instance = new Koch_TargetRoute();
+            $instance = new TargetRoute();
         }
 
         return $instance;
@@ -241,7 +242,7 @@ class TargetRoute extends Mapper
 
     public static function getRequestMethod()
     {
-        return Koch_HttpRequest::getRequestMethod();
+        return HttpRequest::getRequestMethod();
     }
 
     public static function getLayoutMode()
@@ -251,7 +252,7 @@ class TargetRoute extends Mapper
 
     public static function getAjaxMode()
     {
-        return Koch_HttpRequest::isAjax();
+        return HttpRequest::isAjax();
     }
 
     public static function getRenderEngine()

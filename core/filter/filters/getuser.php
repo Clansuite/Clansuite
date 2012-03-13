@@ -30,7 +30,12 @@
     * @version    SVN: $Id$
     */
 
-namespace Koch\Filter;
+namespace Koch\Filter\Filters;
+
+use Koch\Filter\FilterInterface;
+use Koch\MVC\HttpRequestInterface;
+use Koch\MVC\HttpResponseInterface;
+use Koch\User\User;
 
 # Security Handler
 if(defined('IN_CS') === false)
@@ -51,13 +56,15 @@ class GetUser implements FilterInterface
 {
     private $user = null;
 
-    public function __construct(Koch\User $user)
+    public function __construct(User $user)
     {
         $this->user = $user;
     }
 
     public function executeFilter(HttpRequestInterface $request, HttpResponseInterface $response)
     {
+        unset($request, $response);
+
         # Create a user (Guest)
         $this->user->createUserSession();
 

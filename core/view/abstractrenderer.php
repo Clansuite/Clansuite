@@ -69,7 +69,7 @@ abstract class Renderer_Base
     public $renderMode = null;
 
     /**
-     * @var object Koch_Config
+     * @var object Koch\Config
      */
     protected $config = null;
 
@@ -93,9 +93,9 @@ abstract class Renderer_Base
     /**
      * Construct Renderer
      *
-     * @param Koch_Config Object
+     * @param Koch\Config Object
      */
-    public function __construct(Koch_Config $config)
+    public function __construct(Koch\Config $config)
     {
         $this->config = $config;
         $this->view_mapper = new Koch_View_Mapper();

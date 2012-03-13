@@ -32,6 +32,9 @@
 
 namespace Koch\Filter;
 
+use Koch\MVC\HttpRequestInterface;
+use Koch\MVC\HttpResponseInterface;
+
 # Security Handler
 if(defined('IN_CS') === false)
 {
@@ -47,7 +50,7 @@ if(defined('IN_CS') === false)
  */
 interface Filter
 {
-    public function executeFilter(Koch_HttpRequest $request, Koch_HttpResponse $response);
+    public function executeFilter(HttpRequestInterface $request, HttpResponseInterface $response);
 }
 
 /**
@@ -73,7 +76,7 @@ class Manager
      *
      * @param object $filter
      */
-    public function addFilter(Koch_Filter_Interface $filter)
+    public function addFilter(FilterInterface $filter)
     {
         $this->filters[] = $filter;
     }
@@ -84,7 +87,7 @@ class Manager
      * @param request object
      * @param response object
      */
-    public function processFilters(Koch_HttpRequest $request, Koch_HttpResponse $response)
+    public function processFilters(HttpRequestInterface $request, HttpResponseInterface $response)
     {
         foreach ($this->filters as $filter)
         {

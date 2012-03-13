@@ -30,7 +30,7 @@
     * @version    SVN: $Id$
     */
 
-namespace  Koch\Tools;
+namespace Koch\Tools;
 
 # Security Handler
 if(defined('IN_CS') === false)
@@ -40,7 +40,7 @@ if(defined('IN_CS') === false)
 
 
 /**
- * Koch Framework CSS Builder
+ * Koch Framework - CSS Builder
  *
  * It's a tool class for merging the modularized css files of the Koch CSS Framework
  * into one file, the "import.css". If you include "import.css" in your Theme you laying

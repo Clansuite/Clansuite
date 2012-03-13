@@ -1,4 +1,6 @@
 <?php
+namespace Koch\Module;
+
 /**
  * Interface for all modules which implement a specific action structure.
  * Inspired by Sinatra.

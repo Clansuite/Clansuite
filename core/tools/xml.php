@@ -39,7 +39,7 @@ if(defined('IN_CS') === false)
 }
 
 /**
- * Koch_XML
+ * Koch Framework - Class for converting XML data.
  *
  * This class converts XML-based data into JSON or Array formatted data.
  */

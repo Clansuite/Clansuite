@@ -30,7 +30,12 @@
     * @version    SVN: $Id$
     */
 
-namespace Koch\Filter;
+namespace Koch\Filter\Filters;
+
+use Koch\Filter\FilterInterface;
+use Koch\MVC\HttpRequestInterface;
+use Koch\MVC\HttpResponseInterface;
+use Koch\Config\Config;
 
 # Security Handler
 if(defined('IN_CS') === false)
@@ -62,11 +67,12 @@ if(defined('IN_CS') === false)
  */
 class LanguageViaGet implements FilterInterface
 {
-    private $config     = null;
+    private $config = null;
 
-    public function __construct(Koch\Config $config)
+    public function __construct(Config $config)
     {
-        $this->config    = $config['switches'];
+        # only subarray is relevant
+        $this->config = $config['switches'];
     }
 
     public function executeFilter(HttpRequestInterface $request, HttpResponseInterface $response)

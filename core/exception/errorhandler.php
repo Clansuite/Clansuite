@@ -58,10 +58,10 @@ if (defined('IN_CS') === false)
 class Errorhandler
 {
     /**
-     * Koch FrameworkError callback.
+     * Koch Framework - Error callback.
      *
-     * This is basically a switch defining the actions taken,
-     * in case of serveral PHP error states
+     * This is basically a switch statement, defining the actions taken,
+     * in case of serveral PHP error states.
      *
      * @link http://www.usegroup.de/software/phptutorial/debugging.html
      * @link http://www.php.net/manual/de/function.set-error-handler.php

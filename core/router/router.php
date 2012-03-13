@@ -32,6 +32,8 @@
 
 namespace Koch\Router;
 
+use Koch\MVC\HttpRequestInterface;
+
 # Security Handler
 if(defined('IN_CS') === false)
 {
@@ -61,10 +63,10 @@ if(defined('IN_CS') === false)
  * @package     Core
  * @subpackage  Router
  */
-class Router implements ArrayAccess, RouterInterface
+class Router implements RouterInterface, \ArrayAccess
 {
     /**
-     * @var object Koch_Config
+     * @var object Koch\Config
      */
     private $config;
 
@@ -108,12 +110,12 @@ class Router implements ArrayAccess, RouterInterface
     /**
      * Constructor.
      */
-    public function __construct(Koch_HttpRequest $request)
+    public function __construct(HttpRequestInterface $request)
     {
         $this->request = $request;
 
         # Set config object to the router for later access to config variables.
-        $this->config = Clansuite_CMS::getClansuiteConfig();
+        $this->config = \Clansuite\CMS::getClansuiteConfig();
 
         # get URI from request, clean it and set it as a class property
         $this->setRequestURI(self::prepareRequestURI($request->getRequestURI()));
@@ -305,7 +307,7 @@ class Router implements ArrayAccess, RouterInterface
     public function reset($load_default_routes = false)
     {
         $this->routes = array();
-        Koch_TargetRoute::reset();
+        TargetRoute::reset();
 
         if($load_default_routes === true)
         {
@@ -441,12 +443,12 @@ class Router implements ArrayAccess, RouterInterface
          */
         if(empty($this->uri) or $this->uri === '/')
         {
-            Koch_TargetRoute::setController($this->config['defaults']['module']);
-            Koch_TargetRoute::setAction($this->config['defaults']['action']);
+            TargetRoute::setController($this->config['defaults']['module']);
+            TargetRoute::setAction($this->config['defaults']['action']);
 
-            if(Koch_TargetRoute::dispatchable() === true)
+            if(TargetRoute::dispatchable() === true)
             {
-                return Koch_TargetRoute::getInstance();
+                return TargetRoute::getInstance();
             }
         }
 
@@ -466,7 +468,7 @@ class Router implements ArrayAccess, RouterInterface
      *
      * In other words, it "map matches the URI".
      *
-     * @return object Koch_TargetRoute
+     * @return object TargetRoute
      */
     public function match()
     {
@@ -547,16 +549,16 @@ class Router implements ArrayAccess, RouterInterface
                     $this->setSegmentsToTargetRoute($matches);
                 }
 
-                #Koch_TargetRoute::_debug();
+                #TargetRoute::_debug();
 
-                if(Koch_TargetRoute::dispatchable() === true)
+                if(TargetRoute::dispatchable() === true)
                 {
                     # route found
                     break;
                 }
                 else
                 {
-                    Koch_TargetRoute::reset();
+                    TargetRoute::reset();
                 }
             }
         }
@@ -566,7 +568,7 @@ class Router implements ArrayAccess, RouterInterface
         /**
          * Finally: fetch our Target Route Object.
          */
-        $targetRoute = Koch_TargetRoute::getInstance();
+        $targetRoute = TargetRoute::getInstance();
 
         /**
          * Inject the target route object back to the request.
@@ -799,31 +801,31 @@ class Router implements ArrayAccess, RouterInterface
         # Controller
         if(true === isset($array['mod']))
         {
-            Koch_TargetRoute::setController($array['mod']);
+            TargetRoute::setController($array['mod']);
             unset($array['mod']);
         }
         if(true === isset($array['controller']))
         {
-            Koch_TargetRoute::setController($array['controller']);
+            TargetRoute::setController($array['controller']);
             unset($array['controller']);
         }
         # SubController
         if(true === isset($array['sub']))
         {
-            Koch_TargetRoute::setSubController($array['sub']);
+            TargetRoute::setSubController($array['sub']);
             unset($array['sub']);
         }
 
         if(true === isset($array['subcontroller']))
         {
-            Koch_TargetRoute::setSubController($array['subcontroller']);
+            TargetRoute::setSubController($array['subcontroller']);
             unset($array['subcontroller']);
         }
 
         # action
         if(true === isset($array['action']))
         {
-            Koch_TargetRoute::setAction($array['action']);
+            TargetRoute::setAction($array['action']);
             unset($array['action']);
         }
 
@@ -831,11 +833,11 @@ class Router implements ArrayAccess, RouterInterface
         # Parameters
         if(count($array) > 0)
         {
-            Koch_TargetRoute::setParameters($array);
+            TargetRoute::setParameters($array);
             unset($array);
         }
 
-        return Koch_TargetRoute::getInstance();
+        return TargetRoute::getInstance();
     }
 
     /**
@@ -907,20 +909,20 @@ class Router implements ArrayAccess, RouterInterface
         $this->checkRouteCachingActive();
 
         # Load Routes from Cache
-        if(true === self::$use_cache and empty($this->routes) and Koch_Cache::contains('clansuite.routes'))
+        if(true === self::$use_cache and empty($this->routes) and \Koch\Cache::contains('clansuite.routes'))
         {
-            $this->addRoutes(Koch_Cache::read('clansuite.routes'));
+            $this->addRoutes(\Koch\Cache::read('clansuite.routes'));
         }
 
         # Load Routes from Config "routes.config.php"
         if(empty($this->routes))
         {
-            $this->addRoutes(Koch_Routes_Manager::loadRoutesFromConfig());
+            $this->addRoutes(Manager::loadRoutesFromConfig());
 
             # and save these routes to cache
             if(true === self::$use_cache)
             {
-                Koch_Cache::store('clansuite.routes', $this->getRoutes());
+                Koch\Cache::store('clansuite.routes', $this->getRoutes());
             }
         }
 

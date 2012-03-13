@@ -69,7 +69,7 @@ class Renderer_Factory
             if(true === class_exists($class, false))
             {
                 # instantiate and return the renderer and pass Config and Response objects to it
-                $view = new $class($injector->instantiate('Koch_Config'));
+                $view = new $class($injector->instantiate('Koch\Config'));
                 return $view;
             }
             else

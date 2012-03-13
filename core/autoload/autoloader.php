@@ -159,9 +159,7 @@ class Loader
     public static function autoloadExclusions($classname)
     {
         # define parts of classnames for exclusion
-        $classnames_to_exclude = array('Smarty_Internal'); # 'Cs'
-
-        foreach($classnames_to_exclude as $classname_to_exclude)
+        foreach(array('Smarty_Internal') as $classname_to_exclude)
         {
             if (false !== strpos($classname, $classname_to_exclude))
             {
@@ -180,8 +178,10 @@ class Loader
             return true;
         }
 
-        # this means if 'Smarty" is found, but not 'Koch_Smarty', exclude from our autoloading
-        if (false !== strpos($classname, 'Smarty') and false === strpos($classname, '_Smarty'))
+        # this means if 'Smarty" is found, but not 'Koch\Smarty', exclude from our autoloading
+        if (false !== strpos($classname, 'Smarty') and
+            false === strpos($classname, 'Koch\Smarty') and
+            false === strpos($classname, 'Filters\SmartyMoves'))
         {
             return true;
         }
@@ -252,6 +252,8 @@ class Loader
      */
     public static function autoloadIncludePath($classname)
     {
+        echo "Class requested $classname <br>";
+
         # trim opening namespace separator
         $classname = ltrim($classname, '\\');
 
@@ -278,6 +280,8 @@ class Loader
 
         # searches on include path for the file and returns absolute path
         $filename = stream_resolve_include_path($filename);
+
+        echo "$classname => $filename <br>";
 
         if(is_string($filename) === true)
         {

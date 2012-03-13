@@ -30,7 +30,11 @@
     * @version    SVN: $Id$
     */
 
-namespace Koch\Filter;
+namespace Koch\Filter\Filters;
+
+use \Koch\Filter\FilterInterface;
+use \Koch\MVC\HttpRequestInterface;
+use \Koch\MVC\HttpResponseInterface;
 
 # Security Handler
 if(defined('IN_CS') === false)

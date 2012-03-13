@@ -30,7 +30,7 @@
     * @version    SVN: $Id$
     */
 
-namespace Koch\Feed;
+namespace Koch;
 
 # Security Handler
 if(defined('IN_CS') === false)
@@ -39,7 +39,7 @@ if(defined('IN_CS') === false)
 }
 
 /**
- * Koch Framework - Class for Feed Handling
+ * Koch Framework Class for Feed Handling
  *
  * This is a Dual-Wrapper for SimplePie and FeedCreator.
  *
@@ -82,7 +82,7 @@ class Feed
         include ROOT_LIBRARIES . 'simplepie/simplepie.inc';
 
         # instantiate simplepie
-        $simplepie = new SimplePie();
+        $simplepie = new \SimplePie();
 
         # if cache_location was not specified manually
         if($cache_location == null)
@@ -182,9 +182,9 @@ class Feed
      */
     public static function getFeedcreator()
     {
-        Koch_Loader::loadLibrary('feedcreator');
+        \Koch\Autoload\Loader::loadLibrary('feedcreator');
 
-        return new UniversalFeedCreator();
+        return new \UniversalFeedCreator();
     }
 }
 ?>

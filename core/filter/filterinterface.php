@@ -32,6 +32,9 @@
 
 namespace Koch\Filter;
 
+use Koch\MVC\HttpRequestInterface;
+use Koch\MVC\HttpResponseInterface;
+
 # Security Handler
 if(defined('IN_CS') === false)
 {

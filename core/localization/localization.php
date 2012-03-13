@@ -32,6 +32,8 @@
 
 namespace Koch\Localization;
 
+use Koch\Config\Config;
+
 # Security Handler
 if(defined('IN_CS') === false)
 {
@@ -63,7 +65,7 @@ class Localization
     # References
     private static $config    = null;
 
-    public function __construct(Koch_Config $config)
+    public function __construct(Config $config)
     {
         # Set Reference to Config
         self::$config = $config;

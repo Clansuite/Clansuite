@@ -81,7 +81,7 @@ class ReCaptcha extends Captcha implements Formelement
          * public_key  = ""
          * private_key = ""
          */
-        $config = Clansuite_CMS::getInjector()->instantiate('Koch_Config');
+        $config = Clansuite_CMS::getInjector()->instantiate('Koch\Config');
         $this->publicKey  = $config['recaptcha']['public_key'];
         $this->privateKey = $config['recaptcha']['private_key'];
         unset($config);

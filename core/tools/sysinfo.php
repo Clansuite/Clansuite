@@ -39,9 +39,9 @@ if(defined('IN_CS') === false)
 }
 
 /**
- * Koch_Systeminfo
+ * Koch Framework - Systeminfo
  *
- * @author     Jens-André Koch
+ * The class provides pieces of information about the environment.
  *
  * @category    Koch
  * @package     Core

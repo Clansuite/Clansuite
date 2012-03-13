@@ -50,7 +50,9 @@ class SimpleCaptcha extends Captcha implements Formelement
     public function render()
     {
         $captcha = new \Koch\Captcha();
-        #Koch_Debug::firebug('Last Captcha String = '.$_SESSION['user']['simple_captcha_string']);
+<<<<<<< .mine
+=======>>>>>>> .theirs        #Koch_Debug::firebug('Last Captcha String = '.$_SESSION['user']['simple_captcha_string']);
+
         return $captcha->generateCaptchaImage();
     }
 
@@ -65,4 +67,5 @@ class SimpleCaptcha extends Captcha implements Formelement
         # $_SESSION['user']['simple_captcha_string']
     }
 }
-?>
+<<<<<<< .mine
+=======>>>>>>> .theirs?>

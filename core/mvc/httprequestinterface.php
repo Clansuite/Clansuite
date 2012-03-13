@@ -24,13 +24,13 @@
     *
     * @license    GNU/GPL v2 or (at your option) any later version, see "/doc/LICENSE".
     * @author     Jens-André Koch <vain@clansuite.com>
-    * @copyright  Jens-André Koch (2005 - onwards)
+    * @copyright  Copyleft: All rights reserved. Jens-André Koch (2005 - onwards)
     * @link       http://www.clansuite.com
     *
     * @version    SVN: $Id$
     */
 
-namespace Koch\Logger\Adapter;
+namespace Koch\MVC;
 
 # Security Handler
 if(defined('IN_CS') === false)
@@ -39,52 +39,35 @@ if(defined('IN_CS') === false)
 }
 
 /**
- * Koch Framework - Log to /dev/null.
- *
- * This class is a service wrapper for logging messages to /dev/null.
- * It's a dummy logger - doing nothing.
- *
- * @author      Jens-André Koch <vain@clansuite.com>
- * @copyright   Jens-André Koch (2005 - onwards)
- * @license     GPLv2 any later license
+ * Interface for the Request Object
  *
  * @category    Koch
  * @package     Core
- * @subpackage  Logger
+ * @subpackage  HttpRequest
  */
-class Devnull implements Logger
+interface HttpRequestInterface
 {
-    private static $instance = null;
+    # Parameters
+    public function issetParameter($name, $arrayname = 'POST');
+    public function getParameter($name, $arrayname = 'POST');
+    public function expectParameter($parameter, $arrayname);
+    public function expectParameters(array $parameters);
+    public static function getHeader($name);
 
-    public function __construct(Koch\Config $config)
-    {
+    # Direct Access to individual Parameters Arrays
+    public function getParameterFromCookie($name);
+    public function getParameterFromGet($name);
+    public function getParameterFromPost($name);
+    public function getParameterFromServer($name);
 
-    }
+    # Request Method
+    public static function getRequestMethod();
+    public static function setRequestMethod($method);
+    public static function isAjax();
 
-    /**
-     * returns an instance / singleton
-     *
-     * @return an instance of the logger
-     */
-    public static function getInstance()
-    {
-        if (self::$instance == 0)
-        {
-            self::$instance = new Koch_Logger_Devnull();
-        }
-        return self::$instance;
-    }
-
-    /**
-     * writeLog
-     *
-     * writes a string to /dev/null nirvana.
-     *
-     * @param $string The string to append to the logfile.
-     */
-    public function writeLog($string)
-    {
-        unset($string);
-    }
+    # $_SERVER Stuff
+    public static function getServerProtocol();
+    public static function isSecure();
+    public static function getRemoteAddress();
 }
 ?>

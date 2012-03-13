@@ -69,7 +69,7 @@ class Captcha extends Formelement implements Formelement
         # if no captcha is given, take the one definied in configuration
         if($captcha == null)
         {
-            $config = Clansuite_CMS::getInjector()->instantiate('Koch_Config');
+            $config = Clansuite_CMS::getInjector()->instantiate('Koch\Config');
             $captcha = $config['antispam']['captchatype'];
             unset($config);
         }

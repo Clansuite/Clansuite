@@ -57,7 +57,7 @@ class File implements Logger
 
     private $config;
 
-    public function __construct(Koch_Config $config)
+    public function __construct(Koch\Config $config)
     {
         $this->config = $config;
     }

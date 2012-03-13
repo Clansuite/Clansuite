@@ -30,7 +30,13 @@
     * @version    SVN: $Id$
     */
 
-namespace  Koch\Filter;
+namespace Koch\Filter\Filters;
+
+use Koch\Filter\FilterInterface;
+use Koch\MVC\HttpRequestInterface;
+use Koch\MVC\HttpResponseInterface;
+use Koch\Localization\Localization;
+use Koch\Router\TargetRoute;
 
 # Security Handler
 if(defined('IN_CS') === false)
@@ -52,7 +58,7 @@ class SetModuleLanguage implements FilterInterface
     /* @var Koch\Localization */
     private $locale = null;
 
-    public function __construct(Koch\Localization $locale)
+    public function __construct(Localization $locale)
     {
         # set instance of localization to class
         $this->locale = $locale;
@@ -60,7 +66,7 @@ class SetModuleLanguage implements FilterInterface
 
     public function executeFilter(HttpRequestInterface $request, HttpResponseInterface $response)
     {
-        $modulename = Koch\Router\TargetRoute::getController();
+        $modulename = TargetRoute::getController();
 
         $this->locale->loadTextDomain('LC_ALL', $modulename, $this->locale->getLocale(), $modulename);
     }

@@ -122,7 +122,7 @@ class Dispatcher
      * @param $eventName    Name of the Event
      * @param $eventobject object|string Instance of Koch_Event or filename string
      */
-    public function addEventHandler($eventName, Koch_Event_Interface $event_object)
+    public function addEventHandler($eventName, EventInterface $event_object)
     {
         # if eventhandler is not set already, initialize as array
         if(isset($this->eventhandlers[$eventName]) === false)
@@ -152,7 +152,7 @@ class Dispatcher
      * @param string event name
      * @param mixed event handler
      */
-    public function removeEventHandler($eventName, Koch_Event_Interface $event_object = null)
+    public function removeEventHandler($eventName, EventInterface $event_object = null)
     {
         # if eventhandler is not added, we have nothing to remove
         if(isset($this->eventhandlers[$eventName]) == false)
@@ -203,9 +203,9 @@ class Dispatcher
          * $event string will be the $name inside $event object,
          * accessible with $event->getName();
          */
-        if(false === ($event instanceof Koch_Event))
+        if(false === ($event instanceof Event))
         {
-            $event = new Koch_Event($event, $context, $info);
+            $event = new Event($event, $context, $info);
         }
 
         # get the Name

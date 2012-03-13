@@ -30,7 +30,7 @@
     * @version    SVN: $Id: acm.class.php 4599 2010-08-27 21:01:58Z vain $
     */
 
-namespace  Koch\Tools;
+namespace Koch\Tools;
 
 # Security Handler
 if(defined('IN_CS') === false)
@@ -40,7 +40,7 @@ if(defined('IN_CS') === false)
 
 
 /**
- * Koch Framework Class for Browser information
+ * Koch Framework - Class for Browser information
  *
  * @author      Paul Brand <info@isp-tenerife.net>
  *

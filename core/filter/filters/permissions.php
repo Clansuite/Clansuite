@@ -32,6 +32,9 @@
 
 namespace Koch\Filter;
 
+use Koch\MVC\HttpRequestInterface;
+use Koch\MVC\HttpResponseInterface;
+
 # Security Handler
 if(defined('IN_CS') === false)
 {
@@ -52,7 +55,7 @@ class Permissions implements FilterInterface
     private $user    = null;
     private $rbacl   = null;
 
-    public function __construct(Koch_User $user)
+    public function __construct(Koch\User\User $user)
     {
         $this->user = $user;
         # @todo RBACL class
@@ -61,7 +64,7 @@ class Permissions implements FilterInterface
 
     public function executeFilter(HttpRequestInterface $request, HttpResponseInterface $response)
     {
-        if (!$rbacl->isAuthorized($actionname, $this->user->getUserId()))
+        if (false === $rbacl->isAuthorized($actionname, $this->user->getUserId()))
         {
             # @todo errorpage, no permission to perform this action. access denied.
             $response->redirect();

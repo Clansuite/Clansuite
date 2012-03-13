@@ -1,4 +1,6 @@
 <?php
+namespace Koch\Module;
+
 interface AdminModuleInterface
 {
     public function action_admin_list();     # GET     /foos

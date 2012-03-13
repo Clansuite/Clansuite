@@ -32,6 +32,9 @@
 
 namespace Koch\Filter;
 
+use Koch\MVC\HttpRequestInterface;
+use Koch\MVC\HttpResponseInterface;
+
 # Security Handler
 if(defined('IN_CS') === false)
 {
@@ -58,7 +61,7 @@ class Statistics implements FilterInterface
     private $statsWhoDeleteTime = null;
     private $statsWhoTimeout = null;
 
-    function __construct(Koch\Config $config, Koch_User $user)
+    function __construct(Koch\Config $config, Koch\User\User $user)
     {
         $this->config = $config;
         $this->curTimestamp = time();
