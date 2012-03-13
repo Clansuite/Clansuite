@@ -189,7 +189,7 @@ class FrontController implements FrontControllerInterface
 
         if($route === null)
         {
-            throw new Koch_Exception('The dispatcher is unable to forward. No route object given.', 99);
+            throw new \Exception('The dispatcher is unable to forward. No route object given.', 99);
         }
 
         $classname    = $route::getClassname();

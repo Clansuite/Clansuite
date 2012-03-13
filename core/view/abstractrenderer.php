@@ -200,7 +200,7 @@ abstract class AbstractRenderer
         return $this->view_mapper;
     }
 
-    public function setViewMapper(Koch_View_Mapper $view_mapper)
+    public function setViewMapper(\Koch\View\Mapper $view_mapper)
     {
         $this->view_mapper = $view_mapper;
     }
@@ -301,7 +301,7 @@ abstract class AbstractRenderer
         /**
          * Debug Display
          */
-        #Koch_Debug::printR($template_constants);
+        #\Koch\Debug\Debug::printR($template_constants);
 
         return $template_constants;
     }
