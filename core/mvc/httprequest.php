@@ -45,7 +45,7 @@ if(defined('IN_CS') === false)
  * @package     Core
  * @subpackage  HttpRequest
  */
-interface HttpRequest
+interface HttpRequestInterface
 {
     # Parameters
     public function issetParameter($name, $arrayname = 'POST');
@@ -72,9 +72,8 @@ interface HttpRequest
 }
 
 /**
- * Koch_HttpRequest
+ * Koch Framework - Class for Request Handling.
  *
- * Purpose:  This is the Koch Framework Class for Request Handling.
  * It encapsulates the access to sanitized superglobals ($_GET, $_POST, $_SERVER).
  * There are two ways of access (1) via methods and (2) via spl arrayaccess array handling.
  *
@@ -82,7 +81,7 @@ interface HttpRequest
  * @package     Core
  * @subpackage  HttpRequest
  */
-class HttpRequest implements HttpRequest, ArrayAccess
+class HttpRequest implements HttpRequestInterface, \ArrayAccess
 {
     /**
      * @var array Contains the cleaned $_POST Parameters.

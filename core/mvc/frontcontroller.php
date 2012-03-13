@@ -32,6 +32,8 @@
 
 namespace Koch\MVC;
 
+use Koch\Filter\FilterInterface;
+
 # Security Handler
 if(defined('IN_CS') === false)
 {
@@ -47,12 +49,12 @@ if(defined('IN_CS') === false)
  * @package     Core
  * @subpackage  FrontController
  */
-interface FrontController
+interface FrontControllerInterface
 {
-    public function __construct(Koch_Request_Interface $request, Koch_Response_Interface $response);
+    public function __construct(HttpRequestInterface $request, HttpResponseInterface $response);
     public function processRequest();
-    public function addPreFilter(Koch_Filter_Interface $filter);
-    public function addPostFilter(Koch_Filter_Interface $filter);
+    public function addPreFilter(FilterInterface $filter);
+    public function addPostFilter(FilterInterface $filter);
 }
 
 /**
@@ -74,7 +76,7 @@ interface FrontController
  * @package     Core
  * @subpackage  FrontController
  */
-class FrontController implements FrontController
+class FrontController implements FrontControllerInterface
 {
     /**
      * @var object \Koch_HttpRequest
@@ -109,14 +111,14 @@ class FrontController implements FrontController
     /**
      * Constructor
      */
-    public function __construct(Koch_Request_Interface $request, Koch_Response_Interface $response)
+    public function __construct(HttpRequestInterface $request, HttpResponseInterface $response)
     {
         $this->request            = $request;
         $this->response           = $response;
-        $this->pre_filtermanager  = new Koch_Filtermanager();
-        $this->post_filtermanager = new Koch_Filtermanager();
-        $this->event_dispatcher   = Koch_EventDispatcher::instantiate();
-        $this->router             = new Koch_Router($this->request);
+        $this->pre_filtermanager  = new \Koch\Filter\Manager();
+        $this->post_filtermanager = new \Koch\Filter\Manager();
+        $this->event_dispatcher   = \Koch\Event\Dispatcher::instantiate();
+        $this->router             = new \Koch\Router\Router($this->request);
 
         $this->router->route();
     }
@@ -128,7 +130,7 @@ class FrontController implements FrontController
      *
      * @param object $filter Object implementing the Koch_Filter_Interface.
      */
-    public function addPreFilter(Koch_Filter_Interface $filter)
+    public function addPreFilter(FilterInterface $filter)
     {
         $this->pre_filtermanager->addFilter($filter);
     }
@@ -140,7 +142,7 @@ class FrontController implements FrontController
      *
      * @param object $filter Object implementing the Koch_Filter_Interface.
      */
-    public function addPostFilter(Koch_Filter_Interface $filter)
+    public function addPostFilter(FilterInterface $filter)
     {
         $this->post_filtermanager->addFilter($filter);
     }
@@ -188,7 +190,7 @@ class FrontController implements FrontController
         {
             throw new Koch_Exception('The dispatcher is unable to forward. No route object given.', 99);
         }
-        
+
         $classname    = $route::getClassname();
         $method       = $route::getMethod();
         $parameters   = $route::getParameters();

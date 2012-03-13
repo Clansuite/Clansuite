@@ -45,7 +45,7 @@ if(defined('IN_CS') === false)
  * @package     Core
  * @subpackage  HttpResponse
  */
-interface HttpResponse
+interface HttpResponseInterface
 {
     # Output Methods
     public static function setStatusCode($statusCode);
@@ -59,9 +59,7 @@ interface HttpResponse
 }
 
 /**
- * Koch_HttpResponse $response
- *
- * Purpose:  Koch Framework Class for Response Handling
+ * Koch Framework - Class for Response Handling
  *
  * This class represents the web response object on a request processed by Koch Framework.
  *
@@ -69,7 +67,7 @@ interface HttpResponse
  * @package     Core
  * @subpackage  HttpResponse
  */
-class HttpResponse implements HttpResponse
+class HttpResponse implements HttpResponseInterface
 {
     /**
      * Status of the response as integer value.
