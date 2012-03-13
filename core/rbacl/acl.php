@@ -30,7 +30,7 @@
     * @version    SVN: $Id: acm.class.php 4599 2010-08-27 21:01:58Z vain $
     */
 
-namespace  Koch;
+namespace  Koch\RBACL;
 
 # Security Handler
 if(defined('IN_CS') === false)
