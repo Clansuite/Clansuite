@@ -152,7 +152,7 @@ class Breadcrumb
      * @param string $moduleName The module name.
      * @param string $submoduleName The submodule name.
      */
-    public static function initBreadcrumbs($moduleName = null, $submoduleName = null)
+    public static function initialize($moduleName = null, $submoduleName = null)
     {
         # ControlCenter (Backend)
         if($moduleName == 'controlcenter' or $submoduleName == 'admin')
