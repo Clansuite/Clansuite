@@ -1,4 +1,6 @@
 <?php
+use \Koch\MVC\HttpRequest;
+
 class Clansuite_HttpRequest_Test extends Clansuite_UnitTestCase
 {
     /**
@@ -12,7 +14,7 @@ class Clansuite_HttpRequest_Test extends Clansuite_UnitTestCase
      */
     public function setUp()
     {
-        $this->request = new Clansuite_HttpRequest;
+        $this->request = new HttpRequest;
     }
 
     /**
@@ -27,13 +29,13 @@ class Clansuite_HttpRequest_Test extends Clansuite_UnitTestCase
     function testMethod_getRequestMethod()
     {
         $this->request->setRequestMethod('BEAVIS');
-        $this->assertEqual('BEAVIS', Clansuite_HttpRequest::getRequestMethod());
+        $this->assertEqual('BEAVIS', HttpRequest::getRequestMethod());
     }
 
     function testMethod_setRequestMethod()
     {
         $this->request->setRequestMethod('BUTTHEAD');
-        $this->assertEqual('BUTTHEAD', Clansuite_HttpRequest::getRequestMethod());
+        $this->assertEqual('BUTTHEAD', HttpRequest::getRequestMethod());
     }
 
     function testMethod_isGET()

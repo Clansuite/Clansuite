@@ -1,5 +1,5 @@
 <?php
-class Clansuite_Security_Test extends Clansuite_UnitTestCase
+class SecurityTest extends Clansuite_UnitTestCase
 {
     public function setUp()
     {

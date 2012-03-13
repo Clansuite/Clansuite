@@ -1,5 +1,9 @@
 <?php
-class Clansuite_Feed_Test extends Clansuite_UnitTestCase
+#namespace Koch\Test;
+
+use Koch\Feed;
+
+class FeedTest extends Clansuite_UnitTestCase
 {
     # path to valid rss feed
     public $feed_url = '';
@@ -9,7 +13,7 @@ class Clansuite_Feed_Test extends Clansuite_UnitTestCase
         parent::setUp();
 
         # Test Subject
-        require_once TESTSUBJECT_DIR . 'core/feed.php';
+        require_once TESTSUBJECT_DIR . 'core/feed/feed.php';
 
         # Dependency
         require_once TESTSUBJECT_DIR . 'core/autoload/autoloader.php';
@@ -22,6 +26,7 @@ class Clansuite_Feed_Test extends Clansuite_UnitTestCase
     public function tearDown()
     {
         $cachefile = ROOT_CACHE . md5($this->feed_url);
+
         if(is_file($cachefile))
         {
             unlink($cachefile);
@@ -33,7 +38,7 @@ class Clansuite_Feed_Test extends Clansuite_UnitTestCase
      */
     public function testMethod_fetchRSS()
     {
-        $simplepie_feed_object = Clansuite_Feed::fetchRSS($this->feed_url);
+        $simplepie_feed_object = Feed::fetchRSS($this->feed_url);
 
         $this->assertIsA($simplepie_feed_object, 'SimplePie');
     }
@@ -43,7 +48,7 @@ class Clansuite_Feed_Test extends Clansuite_UnitTestCase
      */
     public function testMethod_fetchRawRSS_withoutCaching()
     {
-        $feedcontent = Clansuite_Feed::fetchRawRSS($this->feed_url, false);
+        $feedcontent = Feed::fetchRawRSS($this->feed_url, false);
 
         $this->assertContainsString('title>clansuite.com Google Group</title>', $feedcontent);
     }
@@ -53,7 +58,7 @@ class Clansuite_Feed_Test extends Clansuite_UnitTestCase
      */
     public function testMethod_fetchRawRSS_withCaching()
     {
-        $feedcontent = Clansuite_Feed::fetchRawRSS($this->feed_url, true);
+        $feedcontent = Feed::fetchRawRSS($this->feed_url, true);
 
         # check for cache file
         $this->assertTrue(is_file(ROOT_CACHE . md5($this->feed_url)));
@@ -67,7 +72,7 @@ class Clansuite_Feed_Test extends Clansuite_UnitTestCase
      */
     public function testMethod_getFeedcreator()
     {
-        $feedcreator_object = Clansuite_Feed::getFeedcreator();
+        $feedcreator_object = Feed::getFeedcreator();
 
         #$this->assertIsA($feedcreator_object, 'FeedCreator');
         $this->assertIsA($feedcreator_object, 'UniversalFeedCreator');

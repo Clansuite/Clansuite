@@ -1,5 +1,5 @@
 <?php
-#namespace Koch\Test\Cache;
+#namespace Koch\Test;
 
 use Koch\Cache\Adapter\Apc;
 
@@ -12,7 +12,7 @@ class ApcTest extends Clansuite_UnitTestCase
         if(extension_loaded('apc') === false)
         {
             $this->apc_not_loaded = true;
-            $this->markTestSkipped('The PHP extension APC (Alternative PHP Cache) is not loaded.!');
+            #$this->markTestSkipped('The PHP extension APC (Alternative PHP Cache) is not loaded.!');
         }
     }
 

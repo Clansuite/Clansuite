@@ -7,7 +7,12 @@ if (count(get_included_files()) == 1)
 
 }
 
-class Clansuite_Router_Test extends Clansuite_UnitTestCase
+use Koch\Router\Router;
+use Koch\Router\TargetRoute;
+use Koch\MVC\HttpRequest;
+use Koch\Config\Config;
+
+class RouterTest extends Clansuite_UnitTestCase
 {
     /**
      * @var Clansuite_Router
@@ -20,11 +25,11 @@ class Clansuite_Router_Test extends Clansuite_UnitTestCase
      */
     public function setUp()
     {
-        $request = new Clansuite_HttpRequest;
+        $request = new HttpRequest;
 
-        $config = new Clansuite_Config;
+        $config = new Config();
 
-        $this->router = new Clansuite_Router($request, $config);
+        $this->router = new Router($request, $config);
 
         # url building needs this
         require_once TESTSUBJECT_DIR . 'core/functions.php';
@@ -84,10 +89,10 @@ class Clansuite_Router_Test extends Clansuite_UnitTestCase
 
     function testMethod_reset_resets_TargetRoute_too()
     {
-        Clansuite_TargetRoute::setAction('testclass');
-        $this->assertEqual('testclass', Clansuite_TargetRoute::getAction());
+        TargetRoute::setAction('testclass');
+        $this->assertEqual('testclass', TargetRoute::getAction());
         $this->router->reset();
-        $this->assertEqual('index', Clansuite_TargetRoute::getAction());
+        $this->assertEqual('index', TargetRoute::getAction());
     }
 
     function testMethod_addRoutes()
@@ -207,7 +212,7 @@ class Clansuite_Router_Test extends Clansuite_UnitTestCase
         $r['/login'] = array('controller' => 'account', 'action' => 'login');
 
         $this->router->setRequestURI('/login');
-        Clansuite_HttpRequest::setRequestMethod('GET');
+        HttpRequest::setRequestMethod('GET');
         $route = $this->router->route();
         #$route->_debug();
         $this->assertEqual('account',                   $route->getController());
@@ -224,7 +229,7 @@ class Clansuite_Router_Test extends Clansuite_UnitTestCase
         $r['/about'] = array('controller' => 'index', 'action' => 'about');
 
         $r->setRequestURI('/about');
-        Clansuite_HttpRequest::setRequestMethod('GET');
+        HttpRequest::setRequestMethod('GET');
         $route = $this->router->route();
         #$route->_debug();
         $this->assertEqual('index',                     $route->getController());
@@ -246,7 +251,7 @@ class Clansuite_Router_Test extends Clansuite_UnitTestCase
         # Action: action_index()
         # Type: GET [REST Route]
 
-        Clansuite_HttpRequest::setRequestMethod('GET');
+        HttpRequest::setRequestMethod('GET');
         $this->router->prepareRequestURI('/news');
         $route = $this->router->route();
 
@@ -265,7 +270,7 @@ class Clansuite_Router_Test extends Clansuite_UnitTestCase
         # Id: 42
         # Type: GET [REST Route]
 
-        Clansuite_HttpRequest::setRequestMethod('GET');
+        HttpRequest::setRequestMethod('GET');
         $this->router->prepareRequestURI('/news/42');
         $route = $this->router->route();
 
@@ -282,7 +287,7 @@ class Clansuite_Router_Test extends Clansuite_UnitTestCase
         # Action: action_new()
         # Type: GET [REST Route]
 
-        Clansuite_HttpRequest::setRequestMethod('GET');
+        HttpRequest::setRequestMethod('GET');
         $this->router->prepareRequestURI('/news/new');
         $route = $this->router->route();
 
@@ -299,7 +304,7 @@ class Clansuite_Router_Test extends Clansuite_UnitTestCase
         # Id: 42
         # Type: GET [REST Route]
 
-        Clansuite_HttpRequest::setRequestMethod('GET');
+        HttpRequest::setRequestMethod('GET');
         $this->router->prepareRequestURI('/news/42/edit');
         $route = $this->router->route();
         $this->assertEqual('news',                  $route->getController());
@@ -317,7 +322,7 @@ class Clansuite_Router_Test extends Clansuite_UnitTestCase
         # Id: 42
         # Type: GET [WEB]
 
-        Clansuite_HttpRequest::setRequestMethod('GET');
+        HttpRequest::setRequestMethod('GET');
         $this->router->prepareRequestURI('/news/edit/42');
         $route = $this->router->route();
 
@@ -336,7 +341,7 @@ class Clansuite_Router_Test extends Clansuite_UnitTestCase
         # Type: PUT [REST Route]
         # Post_parameters are filled.
 
-        Clansuite_HttpRequest::setRequestMethod('PUT');
+        HttpRequest::setRequestMethod('PUT');
         $this->router->prepareRequestURI('/news/42');
         $route = $this->router->route();
 
@@ -354,7 +359,7 @@ class Clansuite_Router_Test extends Clansuite_UnitTestCase
         # Type: POST [REST Route]
         # Post_parameters are filled.
 
-        Clansuite_HttpRequest::setRequestMethod('POST');
+        HttpRequest::setRequestMethod('POST');
         $this->router->prepareRequestURI('/news');
         $route = $this->router->route();
 
@@ -372,7 +377,7 @@ class Clansuite_Router_Test extends Clansuite_UnitTestCase
         # Id: 42
         # Type: DELETE [REST Route]
 
-        Clansuite_HttpRequest::setRequestMethod('DELETE');
+        HttpRequest::setRequestMethod('DELETE');
         $this->router->prepareRequestURI('/news/42');
         $route = $this->router->route();
 
@@ -391,7 +396,7 @@ class Clansuite_Router_Test extends Clansuite_UnitTestCase
         # Id: 42
         # Type: DELETE [WEB]
 
-        Clansuite_HttpRequest::setRequestMethod('DELETE');
+        HttpRequest::setRequestMethod('DELETE');
         $this->router->prepareRequestURI('/news/delete/42');
         $route = $this->router->route();
 

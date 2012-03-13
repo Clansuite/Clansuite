@@ -1,15 +1,15 @@
 <?php
-class Clansuite_Staging_Test extends Clansuite_UnitTestCase
+class StagingTest extends Clansuite_UnitTestCase
 {
     public function setUp()
     {
         parent::setUp();
 
         # Test Subject
-        require_once TESTSUBJECT_DIR . 'core/staging.php';
+        require_once TESTSUBJECT_DIR . 'core/configuration/staging.php';
 
         # Dependency
-        require_once TESTSUBJECT_DIR . 'core/config/ini.config.php';
+        require_once TESTSUBJECT_DIR . 'core/config/adapter/ini.php';
 
         # set faked server name for getFilename()
         $_SERVER['SERVER_NAME'] = 'www.clansuite-dev.com';

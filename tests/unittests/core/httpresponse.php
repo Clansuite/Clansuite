@@ -1,4 +1,6 @@
 <?php
+use Koch\MVC\HttpResponse;
+
 class Clansuite_HttpResponse_Test extends Clansuite_UnitTestCase
 {
     /**
@@ -12,7 +14,7 @@ class Clansuite_HttpResponse_Test extends Clansuite_UnitTestCase
      */
     public function setUp()
     {
-        $this->response = new Clansuite_HttpResponse;
+        $this->response = new HttpResponse;
     }
 
     /**
@@ -28,7 +30,7 @@ class Clansuite_HttpResponse_Test extends Clansuite_UnitTestCase
     {
         #$this->assertEquals(200, $this->response->getStatus());
         #$this->assertEqual(200, $this->response->statusCode);
-        $this->assertEqual(200, Clansuite_HttpResponse::getStatusCode());
+        $this->assertEqual(200, HttpResponse::getStatusCode());
     }
 }
 ?>
