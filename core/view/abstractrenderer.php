@@ -32,6 +32,8 @@
 
 namespace Koch\View;
 
+use Koch\MVC\HttpRequest;
+
 # Security Handler
 if(defined('IN_CS') === false)
 {
@@ -46,7 +48,7 @@ if(defined('IN_CS') === false)
  * @package     Core
  * @subpackage  Renderer
  */
-abstract class Renderer_Base
+abstract class AbstractRenderer
 {
     /**
      * @var Object Holds instance of the Rendering Engine Object
@@ -95,10 +97,10 @@ abstract class Renderer_Base
      *
      * @param Koch\Config Object
      */
-    public function __construct(Koch\Config $config)
+    public function __construct(\Koch\Config\Config $config)
     {
         $this->config = $config;
-        $this->view_mapper = new Koch_View_Mapper();
+        $this->view_mapper = new \Koch\View\Mapper();
     }
 
     /**
@@ -239,7 +241,7 @@ abstract class Renderer_Base
      */
     public function getConstants()
     {
-        $modulename = Koch_HttpRequest::getRoute()->getModuleName();
+        $modulename = HttpRequest::getRoute()->getModuleName();
 
         $template_constants = array();
 
@@ -347,9 +349,9 @@ abstract class Renderer_Base
     {
         if($this->theme === null)
         {
-            $themename = Koch_HttpRequest::getRoute()->getThemeName();
+            $themename = HttpRequest::getRoute()->getThemeName();
 
-            $this->theme = new Koch_Theme($themename);
+            $this->theme = new \Koch\View\Helper\Theme($themename);
         }
 
         return $this->theme;

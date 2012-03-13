@@ -32,6 +32,8 @@
 
 namespace Koch\View\Renderer;
 
+use Koch\View\AbstractRenderer;
+
 # Security Handler
 if(defined('IN_CS') === false)
 {
@@ -57,7 +59,7 @@ if(defined('IN_CS') === false)
  * @package     Core
  * @subpackage  View
  */
-class Json extends Renderer_Base
+class Json extends AbstractRenderere
 {
     public function initializeEngine()
     {

@@ -32,6 +32,8 @@
 
 namespace Koch\View\Renderer;
 
+use Koch\View\AbstractRenderer;
+
 # Security Handler
 if(defined('IN_CS') === false)
 {
@@ -49,11 +51,11 @@ if(defined('IN_CS') === false)
  * @copyright  Jens-André Koch (2005 - onwards)
  *
  * @category    Koch
- * @package     Core
+ * @package     View
  * @subpackage  Renderer
  */
 
-class PDF extends Renderer_Base
+class PDF extends AbstractRenderer
 {
     public function initializeEngine()
     {

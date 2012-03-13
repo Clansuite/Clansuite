@@ -31,9 +31,12 @@
     */
 
 namespace Koch\View\Renderer;
-<<<<<<< .mine
-=======
->>>>>>> .theirs# Security Handler
+
+use Koch\View\AbstractRenderer;
+use Koch\View\Mapper;
+use Koch\Router\TargetRoute;
+
+# Security Handler
 if(defined('IN_CS') === false)
 {
     exit('Koch Framework not loaded. Direct Access forbidden.');
@@ -51,24 +54,25 @@ if(defined('IN_CS') === false)
  * @copyright  Jens-André Koch (2005 - onwards)
  *
  * @category    Koch
- * @package     Core
+ * @package     View
  * @subpackage  Renderer
  */
-class Smarty extends Renderer_Base
+class Smarty extends AbstractRenderer
 {
-
     /**
      * RenderEngineConstructor
      *
      * parent::__construct does the following:
-     * 1) Apply instances of Koch_Config to the RenderBase
+     * 1) Apply instances of Koch\Config to the RenderBase
      * 2) Initialize the RenderEngine via parent class constructor call = self::initializeEngine()
      * 3) Configure the RenderEngine with it's specific settings = self::configureEngine();
      */
-    function __construct(Koch_Config $config)
+    function __construct(\Koch\Config\Config $config)
     {
         parent::__construct($config);
+
         $this->initializeEngine();
+
         $this->configureEngine();
 
         # debug display of all smarty related directories
@@ -97,7 +101,7 @@ class Smarty extends Renderer_Base
         }
 
         # Do it with smarty style > eat like a bird, poop like an elefant!
-        $this->renderer = new Smarty();
+        $this->renderer = new \Smarty();
     }
 
     /**
@@ -217,14 +221,14 @@ class Smarty extends Renderer_Base
          * 6) "/themes/"
          */
         $tpl_array = array(
-            Koch_View_Mapper::getThemeTemplatePaths(), # 1 + 2
-            Koch_View_Mapper::getModuleTemplatePaths(), # 3 + 4
+            Mapper::getThemeTemplatePaths(), # 1 + 2
+            Mapper::getModuleTemplatePaths(), # 3 + 4
             ROOT_THEMES_CORE . 'view' . DS . 'smarty', # 5
             ROOT_THEMES # 6
         );
 
         # flatten that thing
-        $this->renderer->template_dir = Koch_Functions::array_flatten($tpl_array);
+        $this->renderer->template_dir = \Koch\Functions::array_flatten($tpl_array);
 
         #Koch_Debug::printR($this->renderer->template_dir);
 
@@ -243,7 +247,7 @@ class Smarty extends Renderer_Base
                 ROOT_LIBRARIES . 'smarty/plugins',
                 KOCH . 'view/helper/smarty',
                 ROOT_CORE . 'view/helper/smarty',
-                ROOT_MOD . Clansuite_TargetRoute::getModuleName() . '/viewhelper/smarty'
+                ROOT_MOD . TargetRoute::getModuleName() . '/viewhelper/smarty'
         ));
 
         #Koch_Debug::printR($this->renderer->plugins_dir);
@@ -406,7 +410,7 @@ class Smarty extends Renderer_Base
     public function fetch($template, $cache_id = null, $compile_id = null, $parent = null, $display = false)
     {
         # ask the view mapper for the template path
-        $template = Koch_View_Mapper::getTemplatePath($template);
+        $template = Mapper::getTemplatePath($template);
 
         # create cache_id
         if($cache_id === null)
@@ -424,9 +428,9 @@ class Smarty extends Renderer_Base
      */
     protected static function createCacheId()
     {
-        $module    = Koch_TargetRoute::getModuleName();
-        $submodule = Koch_TargetRoute::getSubModuleName();
-        $action    = Koch_TargetRoute::getActionName();
+        $module    = TargetRoute::getModuleName();
+        $submodule = TargetRoute::getSubModuleName();
+        $action    = TargetRoute::getActionName();
 
         return md5(strtolower($module . $submodule . $action));
     }
@@ -552,8 +556,8 @@ class Smarty extends Renderer_Base
          * Assign the original template name and the requested module
          * This is used in template_not_found.tpl to provide a link to the templateeditor
          */
-        $this->renderer->assignGlobal('modulename', Koch_TargetRoute::getModuleName());
-        $this->renderer->assignGlobal('actionname', Koch_TargetRoute::getActionName());
+        $this->renderer->assignGlobal('modulename', TargetRoute::getModuleName());
+        $this->renderer->assignGlobal('actionname', TargetRoute::getActionName());
         $this->renderer->assignGlobal('templatename', $template);
 
         /**

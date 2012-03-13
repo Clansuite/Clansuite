@@ -32,6 +32,8 @@
 
 namespace Koch\View\Renderer;
 
+use Koch\View\AbstractRenderer;
+
 # Security Handler
 if(defined('IN_CS') === false)
 {
@@ -51,7 +53,7 @@ if(defined('IN_CS') === false)
  * @copyright  Jens-André Koch (2005-onwards)
  *
  * @category    Koch
- * @package     Core
+ * @package     View
  * @subpackage  Renderer
  */
 class Phptal extends Renderer_Base
@@ -60,12 +62,12 @@ class Phptal extends Renderer_Base
      * RenderEngineConstructor
      *
      * parent::__construct does the following:
-     * 1) Apply instances of Dependency Injector Phemto and Koch_Config to the RenderBase
+     * 1) Apply instances of Dependency Injector Phemto and Koch\Config to the RenderBase
      * 2) Initialize the RenderEngine via parent class constructor call = self::initializeEngine()
      * 3) Configure the RenderEngine with it's specific settings = self::configureEngine();
      * 4) Eventlog
      */
-    public function __construct(Koch_Config $config)
+    public function __construct(Koch\Config $config)
     {
         parent::__construct($config);
         $this->initializeEngine();

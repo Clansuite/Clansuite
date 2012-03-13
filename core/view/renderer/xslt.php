@@ -32,6 +32,8 @@
 
 namespace Koch\View\Renderer;
 
+use Koch\View\AbstractRenderer;
+
 # Security Handler
 if(defined('IN_CS') === false)
 {
@@ -47,10 +49,10 @@ if(defined('IN_CS') === false)
  * @copyright  Jens-André Koch (2005-onwards)
  *
  * @category    Koch
- * @package     Core
- * @subpackage  View
+ * @package     View
+ * @subpackage  Renderer
  */
-class Xslt extends Renderer_Base
+class Xslt extends AbstractRenderer
 {
     /**
      * holds instance of XSLT Render Engine (object)
@@ -64,7 +66,7 @@ class Xslt extends Renderer_Base
      */
     protected $xslfile = null;
 
-    public function __construct(Koch_Config $config)
+    public function __construct(Koch\Config $config)
     {
         parent::__construct($config);
 

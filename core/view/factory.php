@@ -46,7 +46,7 @@ if(defined('IN_CS') === false)
  * @package     Core
  * @subpackage  Renderer
  */
-class Renderer_Factory
+class Factory
 {
     /**
      * getRenderer
@@ -60,7 +60,8 @@ class Renderer_Factory
 
         if(is_file($file) === true)
         {
-            $class = 'Koch_Renderer_' . $adapter;
+            $class = 'Koch\View\Renderer\\' . $adapter;
+
             if(false === class_exists($class, false))
             {
                 include $file;
@@ -69,17 +70,17 @@ class Renderer_Factory
             if(true === class_exists($class, false))
             {
                 # instantiate and return the renderer and pass Config and Response objects to it
-                $view = new $class($injector->instantiate('Koch\Config'));
+                $view = new $class($injector->instantiate('Koch\Config\Config'));
                 return $view;
             }
             else
             {
-                throw new Koch_Exception('Renderer_Factory -> Class not found: ' . $class, 61);
+                throw new \Exception('Renderer_Factory -> Class not found: ' . $class, 61);
             }
         }
         else
         {
-            throw new Koch_Exception('Renderer_Factory -> File not found: ' . $file, 61);
+            throw new \Exception('Renderer_Factory -> File not found: ' . $file, 61);
         }
     }
 }

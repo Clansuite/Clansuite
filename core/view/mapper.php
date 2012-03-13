@@ -32,6 +32,9 @@
 
 namespace Koch\View;
 
+use Koch\Router\TargetRoute;
+use Koch\MVC\HttpRequest;
+
 # Security Handler
 if(defined('IN_CS') === false)
 {
@@ -91,7 +94,7 @@ class Mapper
         if(empty($this->template) === true)
         {
             # construct template name
-            $template = Koch_TargetRoute::getActionName() . '.tpl';
+            $template = TargetRoute::getActionName() . '.tpl';
 
             $this->setTemplate($template);
         }
@@ -164,8 +167,8 @@ class Mapper
     public static function getThemeTemplatePaths()
     {
         # get module, submodule, renderer names
-        $module = Koch_HttpRequest::getRoute()->getModuleName();
-        $submodule = Koch_HttpRequest::getRoute()->getSubModuleName();
+        $module = HttpRequest::getRoute()->getModuleName();
+        $submodule = HttpRequest::getRoute()->getSubModuleName();
         #$renderer  = Koch_HttpRequest::getRoute()->getRenderEngine();
 
         $theme_paths = array();
@@ -177,7 +180,7 @@ class Mapper
         if($module == 'controlcenter' or $submodule == 'admin')
         {
             # get backend theme from session for path construction
-            $backendtheme = Koch_HttpRequest::getRoute()->getBackendTheme();
+            $backendtheme = HttpRequest::getRoute()->getBackendTheme();
 
             # (a) USER BACKENDTHEME - check in the active session backendtheme
             # e.g. /themes/backend/ + admin/template_name.tpl
@@ -193,7 +196,7 @@ class Mapper
         else
         {
             # get frontend theme from session for path construction
-            $frontendtheme = Koch_HttpRequest::getRoute()->getFrontendTheme();
+            $frontendtheme = HttpRequest::getRoute()->getFrontendTheme();
 
             # (a) USER FRONTENDTHEME - check, if template exists in current session user THEME
             $theme_paths[] = ROOT_THEMES_FRONTEND . $frontendtheme . DS;
@@ -231,10 +234,10 @@ class Mapper
     public static function getModuleTemplatePaths()
     {
         # fetch modulename for template path construction
-        $module = Koch_TargetRoute::getModuleName();
+        $module = TargetRoute::getModuleName();
 
         # fetch renderer name for template path construction
-        $renderer = Koch_HttpRequest::getRoute()->getRenderEngine();
+        $renderer = HttpRequest::getRoute()->getRenderEngine();
 
         # compose templates paths in the module dir
         $module_paths = array(
@@ -269,7 +272,7 @@ class Mapper
         else
         {
             # fetch renderer name for template path construction
-            $renderer = Koch_HttpRequest::getRoute()->getRenderEngine();
+            $renderer = HttpRequest::getRoute()->getRenderEngine();
 
             # the template with that name is not found on our default paths
             return ROOT_THEMES_CORE . 'view' . DS . $renderer . DS . 'template_not_found.tpl';
