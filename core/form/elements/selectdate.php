@@ -45,7 +45,7 @@ if(defined('IN_CS') === false)
  *     |
  *     \- Koch_Formelement_SelectDate
  */
-class SelectDate extends Input implements Formelement
+class SelectDate extends Input implements FormelementInterface
 {
     public function __construct()
     {

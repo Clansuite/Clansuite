@@ -55,13 +55,12 @@ unset($REQUIRED_PHP_VERSION);
 date_default_timezone_set('Europe/Berlin');
 
 $paths = array(
-    # add the test subject dir
-    realpath(dirname(__DIR__)),                     # /trunk
-    realpath(dirname(__DIR__) . '/application'),    # /trunk/application
+    # add the TEST SUBJECT dir
     realpath(dirname(__DIR__) . '/core'),           # /trunk/application
-    # adjust include path to SIMPLETEST DIR and UNITTESTS DIR
+    realpath(dirname(__DIR__) . '/application'),    # /trunk/application
+    realpath(dirname(__DIR__)),                     # /trunk
+    # adjust include path to TESTS dir
     realpath(__DIR__),                  # /trunk/tests
-    realpath(__DIR__ . '/simpletest'),  # /trunk/tests/simpletest
     realpath(__DIR__ . '/unittests'),   # /trunk/tests/unittests
 );
 #var_dump($paths);

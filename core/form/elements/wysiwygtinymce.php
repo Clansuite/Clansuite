@@ -45,7 +45,7 @@ if(defined('IN_CS') === false)
  * @link http://tinymce.moxiecode.com/js/tinymce/docs/api/index.html API Documentation
  * @link http://tinymce.moxiecode.com/examples/ Examples
  */
-class Wysiwygtinymce extends Textarea implements Formelement
+class Wysiwygtinymce extends Textarea implements FormelementInterface
 {
     public function __construct()
     {

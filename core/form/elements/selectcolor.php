@@ -41,7 +41,7 @@ if(defined('IN_CS') === false)
 /**
  *
  */
-class SelectColor extends Input implements Formelement
+class SelectColor extends Input implements FormelementInterface
 {
     public function __construct()
     {

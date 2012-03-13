@@ -38,7 +38,7 @@ if(defined('IN_CS') === false)
     exit('Koch Framework not loaded. Direct Access forbidden.');
 }
 
-class Errors extends Formelement implements Formelement
+class Errors extends Formelement implements FormelementInterface
 {
 
 }

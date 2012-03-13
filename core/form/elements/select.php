@@ -43,7 +43,7 @@ if(defined('IN_CS') === false)
  *  |
  *  \- Koch_Formelement_Select
  */
-class Select extends Formelement implements Formelement
+class Select extends Formelement implements FormelementInterface
 {
     /**
      * @var array array with options for the dropdown

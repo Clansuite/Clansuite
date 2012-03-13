@@ -45,7 +45,7 @@ if(defined('IN_CS') === false)
  *     |
  *     \- Koch_Formelement_JQSelectImage
  */
-class JQSelectImage extends Select implements Formelement
+class JQSelectImage extends Select implements FormelementInterface
 {
     private $html = null;
 

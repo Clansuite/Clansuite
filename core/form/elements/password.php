@@ -38,7 +38,7 @@ if(defined('IN_CS') === false)
     exit('Koch Framework not loaded. Direct Access forbidden.');
 }
 
-class Password extends Text implements Formelement
+class Password extends Text implements FormelementInterface
 {
     /**
      * constructor

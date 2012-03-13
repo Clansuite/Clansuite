@@ -38,7 +38,7 @@ if(defined('IN_CS') === false)
     exit('Koch Framework not loaded. Direct Access forbidden.');
 }
 
-class Securitytoken extends Hidden implements Formelement
+class Securitytoken extends Hidden implements FormelementInterface
 {
     public function __construct()
     {

@@ -38,7 +38,7 @@ if(defined('IN_CS') === false)
     exit('Koch Framework not loaded. Direct Access forbidden.');
 }
 
-class Uploadajax extends File implements Formelement
+class Uploadajax extends File implements FormelementInterface
 {
     /**
      * This renders a ajax file upload form using jQuery ajaxupload.

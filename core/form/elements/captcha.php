@@ -38,7 +38,7 @@ if(defined('IN_CS') === false)
     exit('Koch Framework not loaded. Direct Access forbidden.');
 }
 
-class Captcha extends Formelement implements Formelement
+class Captcha extends Formelement implements FormelementInterface
 {
     /**
      * @var string Name the Captcha Type: 'recaptcha', 'simplecaptcha', 'somenamecaptcha'.

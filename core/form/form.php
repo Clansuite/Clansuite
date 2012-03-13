@@ -30,7 +30,7 @@
     * @version    SVN: $Id$
     */
 
-namespace Koch;
+namespace Koch\Form;
 
 # Security Handler
 if(defined('IN_CS') === false)
@@ -100,7 +100,7 @@ if(defined('IN_CS') === false)
  * @subpackage  Form
  */
 
-class Form implements Form
+class Form implements FormInterface
 {
     /**
      * Contains all formelements / formobjects registered for this form.
@@ -308,7 +308,7 @@ class Form implements Form
      */
     public function setAction($action)
     {
-        $this->action = Koch_Router::buildURL($action);
+        $this->action = \Koch\Router\Router::buildURL($action);
 
         return $this;
     }
@@ -1114,12 +1114,12 @@ class Form implements Form
     public static function formelementFactory($formelement)
     {
         # construct Koch_Formelement_Name
-        $formelement_classname = 'Koch_Formelement_'.ucfirst($formelement);
+        $formelement_classname = '\Koch\Formelement\\'.ucfirst($formelement);
 
         # if not already loaded, require formelement file
         if (false == class_exists($formelement_classname, false))
         {
-            $file = ROOT_CORE . 'viewhelper/form/elements/'.$formelement.'.php';
+            $file = KOCH . 'form/elements/'.$formelement.'.php';
 
             if(is_file($file) === true)
             {
@@ -1127,7 +1127,7 @@ class Form implements Form
             }
             else
             {
-                throw new Koch_Exception('The Formelement "'.$formelement_classname.'" does not exist.');
+                throw new \Exception('The Formelement "'.$formelement_classname.'" does not exist.');
             }
         }
 
@@ -1762,33 +1762,5 @@ class Form implements Form
     {
         return $this->getAttribute($name);
     }
-}
-
-/**
- * Interface for Koch_Form
- */
-interface Koch_Form_Interface
-{
-    # output the html representation of the form
-    public function render();
-
-    # set action, method, name
-    public function setAction($action);
-    public function setMethod($method);
-    public function setName($method);
-
-    # add/remove a formelement
-    public function addElement($formelement, $position = null);
-    public function delElementByName($name);
-
-    # load/save the XML description of the form
-    #public function loadDescriptionXML($xmlfile);
-    #public function saveDescriptionXML($xmlfile);
-
-    # shortcut method / factory method for accessing the formelements
-    public static function formelementFactory($formelement);
-
-    # callback for validation on the whole form (all formelements)
-    #public function processForm();
 }
 ?>

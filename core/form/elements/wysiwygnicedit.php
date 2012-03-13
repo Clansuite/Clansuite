@@ -44,7 +44,7 @@ if(defined('IN_CS') === false)
  * @see Http://www.nicedit.com/ Official Website of NicEdit
  * @see http://wiki.nicedit.com/ Wiki of NicEdit
  */
-class Wysiwygnicedit extends Textarea implements Formelement
+class Wysiwygnicedit extends Textarea implements FormelementInterface
 {
     public function __construct()
     {

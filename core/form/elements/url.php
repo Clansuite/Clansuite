@@ -38,7 +38,7 @@ if(defined('IN_CS') === false)
     exit('Koch Framework not loaded. Direct Access forbidden.');
 }
 
-class Url extends Input implements Formelement
+class Url extends Input implements FormelementInterface
 {
     public function __construct()
     {

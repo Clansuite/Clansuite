@@ -43,7 +43,7 @@ if(defined('IN_CS') === false)
  *
  * @see http://markitup.jaysalvat.com/home/ Official Website of markItUp!
  */
-class Wysiwygmarkitup extends Textarea implements Formelement
+class Wysiwygmarkitup extends Textarea implements FormelementInterface
 {
     public function __construct()
     {

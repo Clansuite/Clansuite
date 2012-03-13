@@ -45,7 +45,7 @@ if(defined('IN_CS') === false)
  * @see http://docs.cksource.com/ CKEditor Documentations
  * @see http://docs.cksource.com/CKEditor_3.x/Developers_Guide/Integration
  */
-class Wysiwygckeditor extends Textarea implements Formelement
+class Wysiwygckeditor extends Textarea implements FormelementInterface
 {
     public function __construct()
     {

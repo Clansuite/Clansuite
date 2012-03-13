@@ -42,7 +42,7 @@ if(defined('IN_CS') === false)
  * This class renders the formelement textarea.
  * It gives you the option to add a JavaScript WYSIWYG editor as textarea replacement.
  */
-class Textarea extends Formelement implements Formelement
+class Textarea extends Formelement implements FormelementInterface
 {
     /**
      * Flag variable for the What-You-See-Is-What-You-Get Editor.

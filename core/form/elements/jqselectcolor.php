@@ -41,7 +41,7 @@ if(defined('IN_CS') === false)
 /**
  * Renders jQuery Colorpicker for Color selection, you know?
  */
-class JQSelectColor extends Formelement implements Formelement
+class JQSelectColor extends Formelement implements FormelementInterface
 {
     /**
      * JQSelectColor uses jQuery Farbtastic Colorpicker

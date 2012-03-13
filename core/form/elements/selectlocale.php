@@ -38,7 +38,7 @@ if(defined('IN_CS') === false)
     exit('Koch Framework not loaded. Direct Access forbidden.');
 }
 
-class Selectlocale extends Select implements Formelement
+class Selectlocale extends Select implements FormelementInterface
 {
     /**
      * A locale drop-down select list

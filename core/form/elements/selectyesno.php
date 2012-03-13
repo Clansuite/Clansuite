@@ -38,7 +38,7 @@ if(defined('IN_CS') === false)
     exit('Koch Framework not loaded. Direct Access forbidden.');
 }
 
-class Selectyesno extends Select implements Formelement
+class Selectyesno extends Select implements FormelementInterface
 {
     public function getYesNo()
     {

@@ -45,7 +45,7 @@ if(defined('IN_CS') === false)
  *     |
  *     \- Koch_Formelement_Resetbutton
  */
-class Resetbutton extends Input implements Formelement
+class Resetbutton extends Input implements FormelementInterface
 {
     public function __construct()
     {

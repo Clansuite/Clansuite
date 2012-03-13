@@ -38,7 +38,7 @@ if(defined('IN_CS') === false)
     exit('Koch Framework not loaded. Direct Access forbidden.');
 }
 
-class Image extends Formelement implements Formelement
+class Image extends Formelement implements FormelementInterface
 {
 
     public static function render()

@@ -1,8 +1,13 @@
 <?php
+
+#namespace Koch;
+
+use Koch\Form\Form;
+
 /**
  * @todo method chaining tests on all setter methods
  */
-class Clansuite_Form_Test extends Clansuite_UnitTestCase
+class FormTest extends Clansuite_UnitTestCase
 {
     /**
      * @var Clansuite_Form
@@ -16,8 +21,9 @@ class Clansuite_Form_Test extends Clansuite_UnitTestCase
     public function setUp()
     {
         # Test Subject - Clansuite_Form
-        require_once TESTSUBJECT_DIR . 'core/viewhelper/form/form.php';
-        $this->form = new Clansuite_Form('TestForm');
+        #require_once TESTSUBJECT_DIR . 'core/form/forminterface.php';
+        #require_once TESTSUBJECT_DIR . 'core/form/form.php';
+        $this->form = new Form('TestForm');
 
         # setAction requires Clansuite_Router for URL building
         require_once TESTSUBJECT_DIR . 'core/router/router.php';
@@ -25,9 +31,9 @@ class Clansuite_Form_Test extends Clansuite_UnitTestCase
         require_once TESTSUBJECT_DIR . 'core/functions.php';
 
         # addElement() needs Clansuite_Formelement
-        require_once TESTSUBJECT_DIR . 'core/viewhelper/form/formelement.php';
-        require_once TESTSUBJECT_DIR . 'core/viewhelper/form/formelementdecorator.php';
-        require_once TESTSUBJECT_DIR . 'core/viewhelper/form/formdecorator.php';
+        require_once TESTSUBJECT_DIR . 'core/form/formelement.php';
+        require_once TESTSUBJECT_DIR . 'core/form/formelementdecorator.php';
+        require_once TESTSUBJECT_DIR . 'core/form/formdecorator.php';
     }
 
     /**
@@ -381,7 +387,7 @@ class Clansuite_Form_Test extends Clansuite_UnitTestCase
 
     public function testuseDefaultFormDecorators_disable_via_constructor()
     {
-        $form = new Clansuite_Form(array('useDefaultFormDecorators' => true));
+        $form = new Form(array('useDefaultFormDecorators' => true));
         $decorators = $form->getDecorators();
         $this->assertEqual(array(), $decorators);
         unset($form);

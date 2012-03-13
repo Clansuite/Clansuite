@@ -38,7 +38,7 @@ if(defined('IN_CS') === false)
     exit('Koch Framework not loaded. Direct Access forbidden.');
 }
 
-class Uploadify extends File implements Formelement
+class Uploadify extends File implements FormelementInterface
 {
     /**
      * This renders an file upload form using jQuery Uploadify.

@@ -30,7 +30,7 @@
     * @version    SVN: $Id$
     */
 
-namespace Koch;
+namespace Koch\Form;
 
 # Security Handler
 if(defined('IN_CS') === false)
@@ -49,7 +49,7 @@ if(defined('IN_CS') === false)
  * @subpackage  Form
  */
 
-class Formelement implements Formelement
+class Formelement implements FormelementInterface
 {
     /**
      * @var string
@@ -954,7 +954,7 @@ class Formelement implements Formelement
 /**
  * Interface for a single Koch Framework Formelement
  */
-interface Formelement
+interface FormelementInterface
 {
     # add/remove attributes for a formelement
     public function setAttribute($attribute, $value);

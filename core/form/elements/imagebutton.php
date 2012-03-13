@@ -38,7 +38,7 @@ if(defined('IN_CS') === false)
     exit('Koch Framework not loaded. Direct Access forbidden.');
 }
 
-class Imagebutton extends Input implements Formelement
+class Imagebutton extends Input implements FormelementInterface
 {
     /**
      * width of image (px)

@@ -38,7 +38,7 @@ if(defined('IN_CS') === false)
     exit('Koch Framework not loaded. Direct Access forbidden.');
 }
 
-class Selectcountry extends Select implements Formelement
+class Selectcountry extends Select implements FormelementInterface
 {
     public function __construct()
     {

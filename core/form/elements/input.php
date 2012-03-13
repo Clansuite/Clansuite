@@ -43,7 +43,7 @@ if(defined('IN_CS') === false)
  *
  * @link http://www.whatwg.org/specs/web-apps/current-work/multipage/the-input-element.html
  */
-class Input extends Formelement implements Formelement
+class Input extends Formelement implements FormelementInterface
 {
     /**
      * The formelement input type, e.g.

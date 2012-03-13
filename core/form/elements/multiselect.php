@@ -38,7 +38,7 @@ if(defined('IN_CS') === false)
     exit('Koch Framework not loaded. Direct Access forbidden.');
 }
 
-class Multiselect extends Select implements Formelement
+class Multiselect extends Select implements FormelementInterface
 {
 
 }

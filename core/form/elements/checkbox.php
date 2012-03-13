@@ -38,7 +38,7 @@ if(defined('IN_CS') === false)
     exit('Koch Framework not loaded. Direct Access forbidden.');
 }
 
-class Checkbox extends Input implements Formelement
+class Checkbox extends Input implements FormelementInterface
 {
     /**
      * Label next to element

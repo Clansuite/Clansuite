@@ -38,7 +38,7 @@ if(defined('IN_CS') === false)
     exit('Koch Framework not loaded. Direct Access forbidden.');
 }
 
-class File extends Input implements Formelement
+class File extends Input implements FormelementInterface
 {
     /**
      * Flag variable for the uploadType.

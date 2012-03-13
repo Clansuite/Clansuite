@@ -41,7 +41,7 @@ if(defined('IN_CS') === false)
 /**
  * Koch_Formelement_Timetoken
  */
-class Timetoken extends Formelement implements Formelement
+class Timetoken extends Formelement implements FormelementInterface
 {
     public function generateToken()
     {

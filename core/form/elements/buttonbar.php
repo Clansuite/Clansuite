@@ -30,7 +30,9 @@
     * @version    SVN: $Id$
     */
 
-namespace Koch\Formelement;
+namespace Koch\Form\Formelement;
+
+use Koch\Form;
 
 # Security Handler
 if(defined('IN_CS') === false)
@@ -38,7 +40,7 @@ if(defined('IN_CS') === false)
     exit('Koch Framework not loaded. Direct Access forbidden.');
 }
 
-class Buttonbar extends Formelement implements Formelement
+class Buttonbar extends Formelement implements FormelementInterface
 {
     /**
      * Definition Array for the Buttonbar

@@ -46,7 +46,7 @@ if(defined('IN_CS') === false)
  *      |
  *      \- Koch_Formelement_ReCaptcha
  */
-class ReCaptcha extends Captcha implements Formelement
+class ReCaptcha extends Captcha implements FormelementInterface
 {
     /**
      * @var string The ReCaptcha API PublicKey. You got this key from the ReCaptcha signup page.

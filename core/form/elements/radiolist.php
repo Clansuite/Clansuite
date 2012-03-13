@@ -38,7 +38,7 @@ if(defined('IN_CS') === false)
     exit('Koch Framework not loaded. Direct Access forbidden.');
 }
 
-class Radiolist extends Radio implements Formelement
+class Radiolist extends Radio implements FormelementInterface
 {
     protected $options;
 

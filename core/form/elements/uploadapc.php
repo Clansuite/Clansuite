@@ -38,7 +38,7 @@ if(defined('IN_CS') === false)
     exit('Koch Framework not loaded. Direct Access forbidden.');
 }
 
-class Uploadapc extends File implements Formelement
+class Uploadapc extends File implements FormelementInterface
 {
     /**
      * This renders a File Upload Form with an APC Progress Bar.

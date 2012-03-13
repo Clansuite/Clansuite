@@ -38,9 +38,9 @@ if(defined('IN_CS') === false)
     exit('Koch Framework not loaded. Direct Access forbidden.');
 }
 
-interface Decorator
+interface DecoratorInterface
 {
-    public function decorateWith(Formelement $form_decorator);
+    public function decorateWith($form_decorator);
     public function getName();
 }
 
@@ -55,7 +55,7 @@ interface Decorator
  * @subpackage  Form
  */
 
-abstract class Decorator implements Decorator
+abstract class Decorator implements DecoratorInterface
 {
     # instance of formelement, which is to decorate
     protected $formelement;

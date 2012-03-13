@@ -39,7 +39,7 @@ if (defined('IN_CS') === false)
 /**
  * Renders a simple image captcha formelement.
  */
-class SimpleCaptcha extends Captcha implements Formelement
+class SimpleCaptcha extends Captcha implements FormelementInterface
 {
     public $name = 'simplecaptcha';
     public $type = 'captcha';

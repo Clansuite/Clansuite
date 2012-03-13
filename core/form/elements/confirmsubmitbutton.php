@@ -38,7 +38,7 @@ if(defined('IN_CS') === false)
     exit('Koch Framework not loaded. Direct Access forbidden.');
 }
 
-class ConfirmSubmitButton extends Input implements Formelement
+class ConfirmSubmitButton extends Input implements FormelementInterface
 {
     protected $message = 'Please Confirm';
 
