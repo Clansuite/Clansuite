@@ -912,12 +912,12 @@ class Formelement implements FormelementInterface
     public function decoratorFactory($decorator)
     {
         # construct Koch_Formelement_Decorator_Name
-        $class = 'Koch_Formelement_Decorator_' . ucfirst($decorator);
+        $class = 'Koch\Form\Decorators\Formelement\\' . ucfirst($decorator);
 
         # if not already loaded, require forelement file
         if(false == class_exists($class, false))
         {
-            $file = ROOT_CORE . 'viewhelper/form/decorators/formelement/' . $decorator . '.php';
+            $file = ROOT_CORE . '/form/decorators/formelement/' . $decorator . '.php';
 
             if(is_file($file) === true)
             {

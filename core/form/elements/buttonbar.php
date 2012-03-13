@@ -32,7 +32,8 @@
 
 namespace Koch\Form\Formelement;
 
-use Koch\Form;
+use Koch\Form\Formelement;
+use Koch\Form\FormelementInterface;
 
 # Security Handler
 if(defined('IN_CS') === false)

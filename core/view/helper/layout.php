@@ -43,7 +43,7 @@ if(defined('IN_CS') === false)
  *
  * Each node (leaf-object) has to provide a method...
  */
-interface Koch_View_Node_Interface
+interface ViewNodeInterface
 {
     /**
      * Get the contents of this component in string form
@@ -70,7 +70,7 @@ interface Koch_View_Node_Interface
 /**
  * Koch_CompositeView_Iterator
  */
-class Koch_Composite_Iterator implements ArrayAccess, Countable, Iterator
+class CompositeViewIterator implements \ArrayAccess, \Countable, \Iterator
 {
     private $composite = array();
 
@@ -214,7 +214,7 @@ class Koch_Composite_Iterator implements ArrayAccess, Countable, Iterator
  * where they switch back and forth between doing controller and doing view logic.
  * But i have decided not to implement it that way.
  *
- * @link http://www.tml.tkk.fi/~pnr/GoF-models/html/Composite.html
+ * @link http://koti.welho.com/pnikande/GoF-models/html/Composite.html
  * @link http://java.sun.com/blueprints/patterns/CompositeView.html
  * @link http://java.sun.com/blueprints/corej2eepatterns/Patterns/CompositeView.html
  *
@@ -225,7 +225,7 @@ class Koch_Composite_Iterator implements ArrayAccess, Countable, Iterator
  * @package     Core
  * @subpackage  Layout
  */
-class Koch_View_Layout implements Koch_View_Node_Interface
+class ViewLayout implements ViewNodeInterface
 {
     /**
      * Representation of the tree with leaf-nodes.
@@ -237,9 +237,9 @@ class Koch_View_Layout implements Koch_View_Node_Interface
     /**
      * Adds / appends a new view-node (leaf-object) to the bottom of the stack
      */
-    public function appendNode(Koch_View_Node_Interface $component)
+    public function appendNode(ViewNodeInterface $component)
     {
-        $components[] = $component;
+        $this->components[] = $component;
     }
 
     /**
@@ -247,7 +247,7 @@ class Koch_View_Layout implements Koch_View_Node_Interface
      */
     public function getIterator()
     {
-        $composite = new Koch_Composite_Iterator($this->composite);
+        $composite = new CompositeViewIterator($this->composite);
     }
 
     /**
@@ -255,6 +255,8 @@ class Koch_View_Layout implements Koch_View_Node_Interface
      */
     function render($response)
     {
+        $subview = '';
+        
         foreach($this->components as $child)
         {
             $subview .=  $child->render($response);

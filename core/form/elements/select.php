@@ -30,7 +30,10 @@
     * @version    SVN: $Id$
     */
 
-namespace Koch\Formelement;
+namespace Koch\Form\Formelement;
+
+use Koch\Form\Formelement;
+use Koch\Form\FormelementInterface;
 
 # Security Handler
 if(defined('IN_CS') === false)
@@ -39,9 +42,7 @@ if(defined('IN_CS') === false)
 }
 
 /**
- *  Koch_Form
- *  |
- *  \- Koch_Formelement_Select
+ *
  */
 class Select extends Formelement implements FormelementInterface
 {

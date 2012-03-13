@@ -30,7 +30,9 @@
     * @version    SVN: $Id$
     */
 
-namespace Koch\Form\Decorator;
+namespace Koch\Form\Decorators\Formelement;
+
+use Koch\Formelement\Decorator;
 
 # Security Handler
 if(defined('IN_CS') === false)
@@ -39,15 +41,16 @@ if(defined('IN_CS') === false)
 }
 
 /**
- * Koch_Formelement_Decorator_Description
+ * Koch Framework - Formelement Decorator Description.
  *
- * Adds a <span> element containing the formelement description after html_fromelement_content.
+ * Adds a <span> element containing the formelement
+ * description after html_fromelement_content.
  *
  * @category Koch
  * @package Koch_Form
  * @subpackage Koch_Form_Decorator
  */
-class Decorator_Description extends Decorator
+class Description extends Decorator
 {
     /**
      * Name of this decorator

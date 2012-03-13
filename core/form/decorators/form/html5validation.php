@@ -30,7 +30,9 @@
     * @version    SVN: $Id$
     */
 
-namespace Koch\Form\Decorator;
+namespace Koch\Form\Decorators\Form;
+
+use Koch\Form\Decorator;
 
 # Security Handler
 if(defined('IN_CS') === false)

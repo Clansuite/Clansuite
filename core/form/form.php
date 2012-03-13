@@ -278,7 +278,7 @@ class Form implements FormInterface
         }
         else
         {
-            throw new Koch_Exception('The parameter "' . $method . '" of the form has to be GET or POST.');
+            throw new \Exception('The parameter "' . $method . '" of the form has to be GET or POST.');
         }
 
         return $this;
@@ -445,7 +445,7 @@ class Form implements FormInterface
             if(isset($attributes['form']))
             {
                 # generate a form with the formgenerator by passing the attributes array in
-                $form = new Koch_Array_Formgenerator($attributes);
+                $form = new Koch\Form\Generator\AssocArray($attributes);
                 # and copy all properties of the inner form object to ($this) outer form object =)
                 $this->copyObjectProperties($form, $this);
                 # unset inner form
@@ -773,7 +773,7 @@ class Form implements FormInterface
         # fetch all formelements
         $formelements = $this->getFormelements();
 
-        #Koch_Debug::printR($formelements);
+        #\Koch\Debug::printR($formelements);
 
         # developer hint: when $form->render() was triggered, but no formelement was added before
         if(count($formelements) == 0)
@@ -818,7 +818,7 @@ class Form implements FormInterface
             $html_form .= $html_formelement;
         }
 
-        #Koch_Debug::printR($html_form);
+        #\Koch\Debug::printR($html_form);
         return $html_form;
     }
 
@@ -908,14 +908,14 @@ class Form implements FormInterface
          * Note: Checking for the interface is nessescary here, because checking for string, like if($formelement == string),
          * would result in true as formelement objects provide the __toString method.
          */
-        if( ($formelement instanceof Koch_Formelement_Interface) === false )
+        if( ($formelement instanceof \Koch\Form\FormelementInterface) === false )
         {
             $formelement = $this->formelementFactory($formelement);
         }
 
         # little helper for easier use of the formelement "file"
         # this switches the "encytype" attribute of form tag automatically
-        if(($formelement instanceof Koch_Formelement_File) === true)
+        if(($formelement instanceof \Koch\Form\Formelement\File) === true)
         {
             $this->setEncoding('multipart/form-data');
         }
@@ -1114,10 +1114,10 @@ class Form implements FormInterface
     public static function formelementFactory($formelement)
     {
         # construct Koch_Formelement_Name
-        $formelement_classname = '\Koch\Formelement\\'.ucfirst($formelement);
+        $class = 'Koch\Form\Formelement\\'.ucfirst($formelement);
 
         # if not already loaded, require formelement file
-        if (false == class_exists($formelement_classname, false))
+        if (false === class_exists($class, false))
         {
             $file = KOCH . 'form/elements/'.$formelement.'.php';
 
@@ -1127,12 +1127,12 @@ class Form implements FormInterface
             }
             else
             {
-                throw new \Exception('The Formelement "'.$formelement_classname.'" does not exist.');
+                throw new \Exception('The Formelement "'.$class.'" does not exist.');
             }
         }
 
         # instantiate the new formelement and return
-        return new $formelement_classname;
+        return new $class;
     }
 
     /**
@@ -1324,7 +1324,7 @@ class Form implements FormInterface
         }
 
         # and check if it is an object implementing the right interface
-        if($decorator instanceof Koch_Form_Decorator_Interface)
+        if($decorator instanceof \Koch\Form\DecoratorInterface)
         {
             # if so, fetch this decorator objects name
             $decoratorname = '';
@@ -1339,7 +1339,7 @@ class Form implements FormInterface
                 $decorator->$attribute = $value;
             }
             #$decorator->setDecoratorAttributesArray($attributes);
-            #Koch_Debug::printR($decorator);
+            #\Koch\Debug::printR($decorator);
         }
 
         # now check if this decorator is not already set (prevent decorator duplications)
@@ -1399,7 +1399,7 @@ class Form implements FormInterface
     public function removeDecorator($decorator)
     {
         # check if it is an object implementing the right interface
-        if($decorator instanceof Koch_Form_Decorator_Interface)
+        if($decorator instanceof Koch\Form\DecoratorInterface)
         {
             # if so, fetch this decorator objects name
             # overwriting $decorator object with decorator name string
@@ -1421,7 +1421,7 @@ class Form implements FormInterface
         }
         else
         {
-           throw new Koch_Exception('The Form does not have a Decorator called "' . $decorator . '".');
+           throw new \Exception('The Form does not have a Decorator called "' . $decorator . '".');
         }
     }
 
@@ -1433,13 +1433,13 @@ class Form implements FormInterface
      */
     public function decoratorFactory($decorator)
     {
-        # construct Koch_Form_Decorator_Name
-        $class = 'Koch_Form_Decorator_' . ucfirst($decorator);
+        # construct Koch\Form\Decorator\Name
+        $class = 'Koch\Form\Decorators\Form\\' . ucfirst($decorator);
 
         # if not already loaded, require forelement file
-        if(false == class_exists('Koch_Form_Decorator_' . $decorator, false))
+        if(false === class_exists($class, false))
         {
-            $file = ROOT_CORE . 'viewhelper/form/decorators/form/' . $decorator . '.php';
+            $file = KOCH . 'form/decorators/form/' . $decorator . '.php';
 
             if(is_file($file) === true)
             {
@@ -1498,7 +1498,7 @@ class Form implements FormInterface
     {
         $attributes = (array) $this->decoratorAttributes;
 
-        #Koch_Debug::printR($attributes);
+        #\Koch\Debug::printR($attributes);
 
         # level 1
         foreach($attributes as $decorator_type => $decoratorname_array)
@@ -1510,14 +1510,14 @@ class Form implements FormInterface
                 foreach($decoratorname_array as $decoratorname => $attribute_and_value)
                 {
                     $decorator = $this->getDecorator($decoratorname);
-                    #Koch_Debug::printR($attribute_and_value);
+                    #\Koch\Debug::printR($attribute_and_value);
 
                     # level 3
                     foreach ($attribute_and_value as $attribute => $value)
                     {
                         $decorator->$attribute = $value;
                     }
-                    #Koch_Debug::printR($decorator);
+                    #\Koch\Debug::printR($decorator);
                 }
             }
 
@@ -1528,7 +1528,7 @@ class Form implements FormInterface
                 foreach($decoratorname_array as $decoratorname => $attribute_and_value)
                 {
                     $decorator = $this->getFormelementDecorator($decoratorname);
-                    #Koch_Debug::printR($attribute_and_value);
+                    #\Koch\Debug::printR($attribute_and_value);
 
                     # level 3
                     foreach ($attribute_and_value as $attribute => $value)
@@ -1589,7 +1589,7 @@ class Form implements FormInterface
     {
         if(is_array($this->formelements) === false)
         {
-            throw new Koch_Exception('No Formelements found. Add the formelement first, then decorate it!');
+            throw new \Exception('No Formelements found. Add the formelement first, then decorate it!');
         }
 
         $formelement_object = '';
@@ -1649,7 +1649,7 @@ class Form implements FormInterface
      */
     public function addValidator($validator)
     {
-        if(is_object($validator) and is_a($validator, Koch_Validator_Interface))
+        if(is_object($validator) and is_a($validator, Koch\Form\ValidatorInterface))
         {
 
         }

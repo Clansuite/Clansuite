@@ -107,8 +107,8 @@ class LoaderTest extends Clansuite_UnitTestCase
         # exclude "Smarty" classes
         $this->assertTrue(Loader::autoloadExclusions('Smarty_'));
 
-        # but not, our own smarty class "Clansuite_Renderer_Smarty"
-        $this->assertFalse(Loader::autoloadExclusions('Clansuite_Renderer_Smarty'));
+        # but not, our own smarty class "\Smarty"
+        $this->assertFalse(Loader::autoloadExclusions('\Smarty'));
     }
 
     /**

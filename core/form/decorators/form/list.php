@@ -30,7 +30,9 @@
     * @version    SVN: $Id$
     */
 
-namespace Koch\Form\Decorator;
+namespace Koch\Form\Decorators\Form;
+
+use Koch\Form\Decorator;
 
 # Security Handler
 if(defined('IN_CS') === false)
@@ -38,7 +40,7 @@ if(defined('IN_CS') === false)
     exit('Koch Framework not loaded. Direct Access forbidden.');
 }
 
-class List extends Decorator
+class Liste extends Decorator
 {
     /**
      * Name of this decorator
@@ -46,7 +48,6 @@ class List extends Decorator
      * @var string
      */
     public $name = 'list';
-
 
     public function render($html_form_content)
     {

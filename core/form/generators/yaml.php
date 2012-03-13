@@ -44,7 +44,7 @@ if(defined('IN_CS') === false)
  * 1) Form generation (html representation) from an yaml description file (html = $this->generate(yaml))
  * 2) YAML form description generation from an array description of the form (form(array)->xml).
  */
-class YAML extends Koch_Form implements FormGenerator
+class YAML extends Koch_Form implements FormGeneratorInterface
 {
     // @todo
 }

@@ -45,7 +45,7 @@ if(defined('IN_CS') === false)
  * 1) form generation (html representation) from an xml description file (xml->form(html))
  * 2) xml generation from an array description of the form (form(array)->xml).
  */
-class XML extends Koch_Form implements FormGenerator
+class XML extends Koch_Form implements FormGeneratorInterface
 {
     /**
      * Facade/Shortcut

@@ -401,7 +401,7 @@ class FormTest extends Clansuite_UnitTestCase
         $default_form_decorators = $this->form->getDecorators();
         $this->assertFalse(empty($default_form_decorators));
         $this->assertTrue(is_object($default_form_decorators['form']));
-        $this->assertTrue(is_a($default_form_decorators['form'], 'Clansuite_Form_Decorator'));
+        $this->assertTrue(is_a($default_form_decorators['form'], 'Koch\Form\Decorator'));
     }
 
     public function testregisterDefaultFormDecorators()
@@ -410,7 +410,7 @@ class FormTest extends Clansuite_UnitTestCase
         $default_form_decorators = $this->form->getDecorators();
         $this->assertFalse(empty($default_form_decorators));
         $this->assertTrue(is_object($default_form_decorators['form']));
-        $this->assertTrue(is_a($default_form_decorators['form'], 'Clansuite_Form_Decorator'));
+        $this->assertTrue(is_a($default_form_decorators['form'], 'Koch\Form\Decorator'));
     }
 
     public function testremoveDecorator()
@@ -432,7 +432,7 @@ class FormTest extends Clansuite_UnitTestCase
     public function testgetDecorator_exception_notfound()
     {
         $this->expectException(
-            'Clansuite_Exception',
+            'Exception',
             'The Formdecorator "not-existing-formdecorator" was not found.'
         );
 

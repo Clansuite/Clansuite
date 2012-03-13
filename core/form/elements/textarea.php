@@ -30,7 +30,10 @@
     * @version    SVN: $Id$
     */
 
-namespace Koch\Formelement;
+namespace Koch\Form\Formelement;
+
+use Koch\Form\Formelement;
+use Koch\Form\FormelementInterface;
 
 # Security Handler
 if(defined('IN_CS') === false)
@@ -251,7 +254,7 @@ class Textarea extends Formelement implements FormelementInterface
         /**
          * Content between tags (value)
          */
-        $html .= Koch_Functions::UTF8_to_HTML($this->getValue());
+        $html .= \Koch\Functions::UTF8_to_HTML($this->getValue());
 
         /**
          * Closing of textarea tag

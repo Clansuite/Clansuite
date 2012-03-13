@@ -38,7 +38,7 @@ if(defined('IN_CS') === false)
     exit('Koch Framework not loaded. Direct Access forbidden.');
 }
 
-interface FormGenerator
+interface FormGeneratorInterface
 {
     public function generate($array);
 }
@@ -48,7 +48,7 @@ interface FormGenerator
  *
  * Purpose: automatic form generation from an array.
  */
-class Array extends Form implements FormGenerator
+class AssocArray extends Form implements FormGeneratorInterface
 {
     public function __construct(array $form_array = null, $form_object = null)
     {

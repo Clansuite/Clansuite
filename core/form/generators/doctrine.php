@@ -45,7 +45,7 @@ if(defined('IN_CS') === false)
  *
  * @todo determine and set excluded columns (maybe in record?)
  */
-class Doctrine extends Form implements FormGenerator
+class Doctrine extends Form implements FormGeneratorInterface
 {
     /**
      * The typeMap is an array of all doctrine column types.
