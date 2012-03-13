@@ -562,7 +562,7 @@ class Functions
     public static function array_flatten(array $array)
     {
         $flatened_array = array();
-        foreach(new RecursiveIteratorIterator(new RecursiveArrayIterator($array)) as $value)
+        foreach(new \RecursiveIteratorIterator(new \RecursiveArrayIterator($array)) as $value)
         {
             $flatened_array[] = $value;
         }
