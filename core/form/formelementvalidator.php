@@ -30,7 +30,7 @@
     * @version    SVN: $Id$
     */
 
-namespace Koch\Formelement;
+namespace Koch\Form;
 
 # Security Handler
 if(defined('IN_CS') === false)
