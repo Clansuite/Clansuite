@@ -29,7 +29,10 @@
  *
  * @version    SVN: $Id$
  */
-namespace Koch\Formelement\Validator;
+
+namespace Koch\Form\Validators;
+
+use Koch\Form\Validator;
 
 # Security Handler
 if(defined('IN_CS') === false)

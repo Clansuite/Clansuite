@@ -30,7 +30,7 @@
     * @version    SVN: $Id$
     */
 
-namespace Koch\Form\Formelement;
+namespace Koch\Form\Elements;
 
 use Koch\Form\Formelement;
 use Koch\Form\FormelementInterface;

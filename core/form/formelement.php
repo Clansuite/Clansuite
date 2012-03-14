@@ -516,7 +516,7 @@ class Formelement implements FormelementInterface
     {
         if(false === is_string($rule))
         {
-            throw new Koch_Exception('Parameter $rule must be of type string.');
+            throw new \InvalidArgumentException('Parameter $rule must be of type string.');
         }
 
         $rules = explode(',', $rule);
@@ -595,23 +595,17 @@ class Formelement implements FormelementInterface
     public function getValidator($validator)
     {
         # construct classname
-        $class = 'Koch_Formelement_Validator_' . ucfirst($validator);
+        $class = '\Koch\Form\Validators\\' . ucfirst($validator);
 
         # return early, if this object is already stored
         if(isset($this->validators[$class]))
         {
             return $this->validators[$class];
         }
-        # autoloader
-        elseif(true === class_exists($class))
-        {
-
-            return new $class;
-        }
         # factory method part
         elseif(false == class_exists($class, false))
         {
-            $file = ROOT_CORE . 'viewhelper/form/validators/' . $validator . '.php';
+            $file = ROOT_CORE . 'form/validators/' . $validator . '.php';
 
             if(is_file($file) === true)
             {
@@ -624,7 +618,7 @@ class Formelement implements FormelementInterface
         # validator not found
         else
         {
-            throw new Koch_Exception('Validator named ' . $validator . ' not available.');
+            throw new \Exception('Validator named ' . $validator . ' not available.');
         }
     }
 
@@ -873,7 +867,7 @@ class Formelement implements FormelementInterface
      * Removes the requested decorator from the decorators stack.
      *
      * @param string $decoratorname
-     * @throws Koch_Exception
+     * @throws \Exception
      */
     public function removeDecorator($decoratorname)
     {
@@ -883,7 +877,7 @@ class Formelement implements FormelementInterface
         }
         else
         {
-            throw new Koch_Exception('Decorator does not exist.');
+            throw new \Exception('Decorator does not exist.');
         }
     }
 

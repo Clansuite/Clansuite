@@ -1113,13 +1113,13 @@ class Form implements FormInterface
      */
     public static function formelementFactory($formelement)
     {
-        # construct Koch_Formelement_Name
-        $class = 'Koch\Form\Formelement\\'.ucfirst($formelement);
+        # class = namespace "Koch\Form\Element\" + formelement name
+        $class = 'Koch\Form\Elements\\' . ucfirst($formelement);
 
         # if not already loaded, require formelement file
-        if (false === class_exists($class, false))
+        if(false === class_exists($class, false))
         {
-            $file = KOCH . 'form/elements/'.$formelement.'.php';
+            $file = KOCH . 'form/elements/' . $formelement . '.php';
 
             if(is_file($file) === true)
             {
@@ -1127,7 +1127,7 @@ class Form implements FormInterface
             }
             else
             {
-                throw new \Exception('The Formelement "'.$class.'" does not exist.');
+                throw new \Exception('The Formelement "' . $class . '" does not exist.');
             }
         }
 

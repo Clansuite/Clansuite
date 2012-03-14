@@ -30,7 +30,10 @@
     * @version    SVN: $Id$
     */
 
-namespace Koch\Formelement;
+namespace Koch\Form\Elements;
+
+use Koch\Form\Elements\Input;
+use Koch\Form\FormelementInterface;
 
 # Security Handler
 if(defined('IN_CS') === false)
@@ -88,21 +91,21 @@ class File extends Input implements FormelementInterface
                 {
                     include __DIR__ . '/uploadajax.php';
                 }
-                return new Koch_Formelement_Uploadajax();
+                return new \Koch\Form\Elements\Uploadajax();
                 break;
             case 'apc':
                 if(false === class_exists('Koch_Formelement_Uploadapc', false))
                 {
                     include __DIR__ . '/uploadapc.php';
                 }
-                return new Koch_Formelement_Uploadapc();
+                return new \Koch\Form\Elements\Uploadapc();
                 break;
             case 'uploadify':
                 if(false === class_exists('Koch_Formelement_Uploadify', false))
                 {
                     include __DIR__ . '/uploadify.php';
                 }
-                return new Koch_Formelement_Uploadify();
+                return new \Koch\Form\Elements\Uploadify();
                 break;
             case 'html':
                 /**

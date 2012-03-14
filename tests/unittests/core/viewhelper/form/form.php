@@ -471,7 +471,7 @@ class FormTest extends Clansuite_UnitTestCase
         #$this->form->getElementByPosition('0');
         $formelements_array = $this->form->getFormelements();
 
-        $formelement = new Clansuite_Formelement_Text;
+        $formelement = new \Koch\Form\Elements\Text;
         $formelement->setID('text-formelement-0');
 
         $this->assertIdentical($formelement, $formelements_array[0]);
@@ -510,9 +510,9 @@ class FormTest extends Clansuite_UnitTestCase
         $this->form->addElement('text', null, 0);
 
         $array = array();
-        $array[] = new Clansuite_Formelement_Text;    # 0 - Text
-        $array[] = new Clansuite_Formelement_File;    # 1 - File
-        $array[] = new Clansuite_Formelement_Captcha; # 2 - Captcha
+        $array[] = new Koch\Form\Elements\Text;    # 0 - Text
+        $array[] = new Koch\Form\Elements\File;    # 1 - File
+        $array[] = new Koch\Form\Elements\Captcha; # 2 - Captcha
 
         # manually reapply formelement identifiers
         $array['0']->setID('text-formelement-0');
@@ -542,9 +542,9 @@ class FormTest extends Clansuite_UnitTestCase
         $this->form->addElement('text', null, 0);
 
         $array = array();
-        $array[] = new Clansuite_Formelement_Text;    # 0 - Text
-        $array[] = new Clansuite_Formelement_File;    # 1 - File
-        $array[] = new Clansuite_Formelement_Captcha; # 2 - Captcha
+        $array[] = new \Koch\Form\Elements\Text;    # 0 - Text
+        $array[] = new \Koch\Form\Elements\File;    # 1 - File
+        $array[] = new \Koch\Form\Elements\Captcha; # 2 - Captcha
 
         # manually reapply formelement identifiers
         $array['0']->setID('text-formelement-0');
@@ -600,7 +600,7 @@ class FormTest extends Clansuite_UnitTestCase
     {
         $formelement_object = $this->form->formelementFactory('text');
 
-        $this->assertIdentical(new Clansuite_Formelement_Text, $formelement_object);
+        $this->assertIdentical(new \Koch\Form\Elements\Text, $formelement_object);
     }
 
     public function testsetValues_DataArrayPassedToMethod()
@@ -703,7 +703,7 @@ class FormTest extends Clansuite_UnitTestCase
     {
         $form_decorator_object = $this->form->DecoratorFactory('label');
 
-        $this->assertIdentical(new Clansuite_Form_Decorator_Label, $form_decorator_object);
+        $this->assertIdentical(new \Koch\Form\Decorators\Form\Label, $form_decorator_object);
     }
 
     public function testsetDecoratorAttributesArray()

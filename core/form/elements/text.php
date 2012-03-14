@@ -30,9 +30,10 @@
     * @version    SVN: $Id$
     */
 
-namespace Koch\Form\Formelement;
+namespace Koch\Form\Elements;
 
-use Koch\Form\Formelement\Input;
+use Koch\Form\Elements\Input;
+use Koch\Form\FormelementInterface;
 
 # Security Handler
 if(defined('IN_CS') === false)
