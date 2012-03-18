@@ -76,7 +76,7 @@ if(empty($_SERVER['SERVER_NAME']))
 }
 
 #  acquire clansuite path constants
-include '/application/bootstrap.php';
+include dirname(__DIR__) . '/application/bootstrap.php';
 \Clansuite\CMS::define_ConstantsAndPaths();
 \Clansuite\CMS::initialize_Loader();
 \Koch\Localization\UTF8::initialize();
