@@ -2,10 +2,10 @@
 /**
  * @todo method chaining tests on all setter methods
  */
-class Clansuite_Formelement_Validator_Minvalue_Test extends Clansuite_UnitTestCase
+class Koch_Form_Validator_Minvalue_Test extends Clansuite_UnitTestCase
 {
     /**
-     * @var Clansuite_Formelement_Validator_Minvalue
+     * @var Koch_Form_Validator_Minvalue
      */
     protected $validator;
 
@@ -16,9 +16,7 @@ class Clansuite_Formelement_Validator_Minvalue_Test extends Clansuite_UnitTestCa
     public function setUp()
     {
         # Test Subject
-        require_once TESTSUBJECT_DIR . 'core/viewhelper/form/validators/minvalue.php';
-
-        $this->validator = new Clansuite_Formelement_Validator_Minvalue;
+        $this->validator = new \Koch\Form\Validators\Minvalue;
     }
 
     /**

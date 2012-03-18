@@ -1,8 +1,8 @@
 <?php
-class Clansuite_Formelement_Validator_Locale_Test extends Clansuite_UnitTestCase
+class Koch_Form_Validators_Locale_Test extends Clansuite_UnitTestCase
 {
     /**
-     * @var Clansuite_Formelement_Validator_Locale
+     * @var Koch_Form_Validator_Locale
      */
     protected $validator;
 
@@ -13,8 +13,7 @@ class Clansuite_Formelement_Validator_Locale_Test extends Clansuite_UnitTestCase
     public function setUp()
     {
         # Test Subject
-        require_once TESTSUBJECT_DIR . 'core/viewhelper/form/validators/locale.php';
-        $this->validator = new Clansuite_Formelement_Validator_Locale;
+        $this->validator = new \Koch\Form\Validators\Locale;
     }
 
     /**

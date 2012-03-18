@@ -57,7 +57,7 @@ class Locale extends Validator
 
     public static function isLocale($locale)
     {
-        require ROOT_CORE . 'gettext/locales.gettext.php';
+        require KOCH . 'localization/locales.php';
 
         # turns "de_DE" into "de"
         $short_code = mb_substr($locale, 0, 2);

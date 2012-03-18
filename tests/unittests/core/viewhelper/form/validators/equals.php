@@ -1,8 +1,9 @@
 <?php
-class Clansuite_Formelement_Validator_Equals_Test extends Clansuite_UnitTestCase
+
+class Koch_Form_Validators_Equals_Test extends Clansuite_UnitTestCase
 {
     /**
-     * @var Clansuite_Formelement_Validator_Equals
+     * @var Koch_Form_Validator_Equals
      */
     protected $validator;
 
@@ -12,9 +13,7 @@ class Clansuite_Formelement_Validator_Equals_Test extends Clansuite_UnitTestCase
      */
     public function setUp()
     {
-        # Test Subject
-        require_once TESTSUBJECT_DIR . 'core/viewhelper/form/validators/equals.php';
-        $this->validator = new Clansuite_Formelement_Validator_Equals;
+        $this->validator = new \Koch\Form\Validators\Equals;
     }
 
     /**

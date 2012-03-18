@@ -64,7 +64,7 @@ class Maxvalue extends Validator
             $msg = _('Parameter Maxvalue must be numeric (int|float) and not %s.');
             $msg = sprintf($msg, gettype($maxvalue));
 
-            throw new InvalidArgumentException($msg);
+            throw new \InvalidArgumentException($msg);
         }
 
         $this->maxvalue = $maxvalue;

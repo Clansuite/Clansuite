@@ -64,7 +64,7 @@ class Minvalue extends Validator
             $msg = _('Parameter Minvalue must be numeric (int|float) and not %s.');
             $msg = sprintf($msg, gettype($minvalue));
 
-            throw new InvalidArgumentException($msg);
+            throw new \InvalidArgumentException($msg);
         }
 
         $this->minvalue = $minvalue;

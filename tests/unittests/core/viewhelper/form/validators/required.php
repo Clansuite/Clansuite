@@ -1,8 +1,8 @@
 <?php
-class Clansuite_Formelement_Validator_Required_Test extends Clansuite_UnitTestCase
+class Koch_Form_Validator_Required_Test extends Clansuite_UnitTestCase
 {
     /**
-     * @var Clansuite_Formelement_Validator_Required
+     * @var Koch_Form_Validator_Required
      */
     protected $validator;
 
@@ -13,8 +13,7 @@ class Clansuite_Formelement_Validator_Required_Test extends Clansuite_UnitTestCa
     public function setUp()
     {
         # Test Subject
-        require_once TESTSUBJECT_DIR . 'core/viewhelper/form/validators/required.php';
-        $this->validator = new Clansuite_Formelement_Validator_Required;
+        $this->validator = new \Koch\Form\Validators\Required;
     }
 
     /**
