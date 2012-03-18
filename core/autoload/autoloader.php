@@ -197,13 +197,13 @@ class Loader
     {
         # autoloading map
         self::$inclusions_map = array(
-            'Clansuite\Module\Controller' => 'module\controller.php'
+            'Clansuite\Module\Controller' => ROOT_CORE . 'module\controller.php',
         );
 
         # check if classname is in autoloading map
         if(isset(self::$inclusions_map[$classname]) === true)
         {
-            include ROOT_CORE . self::$inclusions_map[$classname];
+            include self::$inclusions_map[$classname];
             return true;
         }
         else
@@ -279,6 +279,8 @@ class Loader
 
         # convert underscore to DS
         $filename .= str_replace('_', DS, $classname) . '.php';
+
+        echo "$classname => $filename <br>";
 
         # searches on include path for the file and returns absolute path
         $filename = stream_resolve_include_path($filename);
