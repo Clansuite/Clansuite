@@ -61,6 +61,11 @@ class Xslt extends AbstractRenderer
     protected $xslt = null;
 
     /**
+     * @var filepath to the XSL StyleSheet file
+     */
+    public $xslfile = null;
+
+    /**
      * holds the abs path to the xsl stylesheet
      * @var string
      */
@@ -71,7 +76,7 @@ class Xslt extends AbstractRenderer
         parent::__construct($config);
 
         # instantiate the render engine
-        $this->xslt = new XSLTProcessor;
+        $this->xslt = new \XSLTProcessor;
     }
 
     /**
@@ -113,13 +118,13 @@ class Xslt extends AbstractRenderer
     {
         # $this->response()->setContentType('text/html');
 
-        # import the stylesheet  for later transformation
-        $this->xslt->importStyleSheet( DOMDocument::load($this->getXSLStyleSheet()));
+        # import the stylesheet for later transformation
+        $this->xslt->importStyleSheet( \DOMDocument::load($this->getXSLStyleSheet()));
 
         # then import the xml data (or file) into the XSLTProcessor and start the transform
-        $dom =  $this->xslt->transformToXML( DOMDocument::load( $data ) );
+        $dom = $this->xslt->transformToXML( \DOMDocument::load( $data ) );
 
-        return  $dom;
+        return $dom;
     }
 }
 ?>
