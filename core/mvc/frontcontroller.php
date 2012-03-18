@@ -219,6 +219,23 @@ class FrontController implements FrontControllerInterface
             $controllerInstance->_initializeModule();
         }
 
+        /**
+         * "Before Module Filter" is a prefilter on the module controller level.
+         *
+         *
+         * It calls the "_beforeFilter" method on the module controller.
+         * A module might(!) implement this method for initialization of helper objects.
+         * Example usage: login_required.
+         *
+         * Note the underscore! The method name is intentionally underscored.
+         * This places the method on top in the method navigator of your IDE.
+         */
+        if(true === method_exists($controllerInstance, '_beforeFilter'))
+        {
+
+            $controllerInstance->_beforeFilter();
+        }
+
         Breadcrumb::initialize($route->getModuleName(), $route->getSubmoduleName());
 
         /**
@@ -227,6 +244,22 @@ class FrontController implements FrontControllerInterface
         if(true === method_exists($controllerInstance, $method))
         {
             $controllerInstance->$method($parameters);
+        }
+
+         /**
+         * "After Module Filter" is a postfilter on the module controller level.
+         *
+         * It calls the "_afterFilter" method on the module controller.
+         * A module might(!) implement this method for running further processing
+         * on reponse data.
+         *
+         * Note the underscore! The method name is intentionally underscored.
+         * This places the method on top in the method navigator of your IDE.
+         */
+        if(true === method_exists($controllerInstance, '_afterFilter'))
+        {
+
+            $controllerInstance->_afterFilter();
         }
     }
 }
