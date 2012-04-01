@@ -120,7 +120,7 @@ if (defined('IN_CS') === false)
     </div>
 </div>
 </div>
-<script>
+<script type="text/javascript">
 $('input[title]').poshytip({
     className: 'tip-yellowsimple',
     showOn: 'focus',
