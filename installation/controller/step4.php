@@ -133,7 +133,7 @@ class Step4 extends \Clansuite\Installation_Page
                 # Drop Connection.
                 unset($connection);
             }
-            catch(Exception $e)
+            catch(\Exception $e)
             {
                 // force return
                 $this->setStep(4);

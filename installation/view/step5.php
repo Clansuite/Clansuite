@@ -37,6 +37,7 @@ if (defined('IN_CS') === false)
                                    title="<?php echo $language['STEP5_SYSTEM_EMAIL_TOOLTIP']; ?>"
                                    value="<?php echo $values['from']; ?>" />
                         </li>
+                        <?php /* Disabled Encryption and hardcoded it to SHA1.
                         <li>
                             <label class="formularleft" for="encrytion"><?php echo $language['STEP5_CONFIG_USERACCOUNT_ENCRYPTION']; ?></label>
                             <select class="formularright" id="encryption" name="encryption"
@@ -58,6 +59,7 @@ if (defined('IN_CS') === false)
                                 ?>
                             </select>
                         </li>
+                        */ ?>
                         <li>
                             <?php # timezone selection ?>
                             <label class="formularleft" for="timezone"><?php echo $language['STEP5_CONFIG_GMTOFFSET']; ?></label>
