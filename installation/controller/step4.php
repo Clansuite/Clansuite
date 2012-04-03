@@ -1,4 +1,5 @@
 <?php
+namespace Clansuite\Installation;
 
 // Security Handler
 if(defined('IN_CS') === false)
@@ -17,7 +18,7 @@ if(defined('IN_CS') === false)
  * 5) insert database schema
  * 6) write database settings to config file
  */
-class Clansuite_Installation_Step4 extends Clansuite_Installation_Page
+class Step4 extends \Clansuite\Installation_Page
 {
     public function getDefaultValues()
     {
@@ -157,7 +158,7 @@ class Clansuite_Installation_Step4 extends Clansuite_Installation_Page
             'prefix' => $_POST['config']['database']['prefix'],
         );
 
-        $entityManager = Clansuite_Installation_Helper::getDoctrineEntityManager($connectionParams);
+        $entityManager = \Clansuite\Installation_Helper::getDoctrineEntityManager($connectionParams);
 
         /**
          * 4) Validate Database Schemas
@@ -227,7 +228,7 @@ class Clansuite_Installation_Step4 extends Clansuite_Installation_Page
         /**
          * 6. Write Settings to clansuite.config.php
          */
-        if(false === Clansuite_Installation_Helper::write_config_settings($_POST['config']))
+        if(false === \Clansuite\Installation_Helper::write_config_settings($_POST['config']))
         {
             // force return
             $this->setStep(4);

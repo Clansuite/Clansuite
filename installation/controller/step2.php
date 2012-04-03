@@ -1,4 +1,5 @@
 <?php
+namespace Clansuite\Installation;
 
 // Security Handler
 if(defined('IN_CS') === false)
@@ -9,7 +10,7 @@ if(defined('IN_CS') === false)
 /**
  * Step 2 - System Check
  */
-class Clansuite_Installation_Step2 extends Clansuite_Installation_Page
+class Step2 extends \Clansuite\Installation_Page
 {
 }
 ?>

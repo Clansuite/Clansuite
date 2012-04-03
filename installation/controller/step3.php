@@ -1,4 +1,5 @@
 <?php
+namespace Clansuite\Installation;
 
 // Security Handler
 if(defined('IN_CS') === false)
@@ -9,7 +10,7 @@ if(defined('IN_CS') === false)
 /**
  * Step 3 - GPL License
  */
-class Clansuite_Installation_Step3 extends Clansuite_Installation_Page
+class Step3 extends \Clansuite\Installation_Page
 {
 }
 ?>

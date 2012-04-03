@@ -206,8 +206,8 @@ if (defined('IN_CS') === false)
                          # Permissions Check: write on uploads folder
                          $required['is_writable_uploads']['label']    = $language['IS_WRITEABLE_UPLOADS'];
                          $required['is_writable_uploads']['expected'] = 'w';
-                         $required['is_writable_uploads']['actual']   = is_writeable(ROOT . 'uploads') ? 'w' : '---';
-                         $required['is_writable_uploads']['status']   = is_writeable(ROOT . 'uploads') ? SETTING_TRUE : SETTING_FALSE;
+                         $required['is_writable_uploads']['actual']   = is_writeable(ROOT_APP . 'uploads') ? 'w' : '---';
+                         $required['is_writable_uploads']['status']   = is_writeable(ROOT_APP . 'uploads') ? SETTING_TRUE : SETTING_FALSE;
 
                          # Permissions Check: read on Configuration Template File
                          $required['is_readable_config_template']['label']    = $language['IS_READABLE_CONFIG_TEMPLATE'];
@@ -230,6 +230,7 @@ if (defined('IN_CS') === false)
                          $recommended['php_memory_limit']['expected']   = 'min '. $recommended_memory_limit .'MB';
                          $recommended['php_memory_limit']['actual']     = '('. $memory_limit .')';
                          $recommended['php_memory_limit']['status']     = ($memory_limit >= $recommended_memory_limit ) ? SETTING_TRUE : SETTING_FALSE;
+                         unset($memory_limit, $recommended_memory_limit);
 
                          # Checking file uploads
                          $recommended['file_uploads']['label']      = $language['FILE_UPLOADS'];
@@ -243,6 +244,7 @@ if (defined('IN_CS') === false)
                          $recommended['max_upload_filesize']['expected']   = 'min 2MB';
                          $recommended['max_upload_filesize']['actual']     = '('. $max_upload_filesize .')';
                          $recommended['max_upload_filesize']['status']     = ($max_upload_filesize >= 2 ) ? SETTING_TRUE : SETTING_FALSE;
+                         unset($max_upload_filesize);
 
                          # Checking post_max_size
                          # @todo post_max_size > max_upload_filesize
@@ -251,6 +253,7 @@ if (defined('IN_CS') === false)
                          $recommended['post_max_size']['expected']   = 'min 2MB';
                          $recommended['post_max_size']['actual']     = '('. $post_max_size .')';
                          $recommended['post_max_size']['status']     = ($post_max_size >= 2 ) ? SETTING_TRUE : SETTING_FALSE;
+                         unset($post_max_size);
 
                          # Checking for allow_url_fopen
                          $recommended['allow_url_fopen']['label']       = $language['ALLOW_URL_FOPEN'];
@@ -303,8 +306,8 @@ if (defined('IN_CS') === false)
                          # Checking presence of XSLTProcessor
                          $recommended['xsltprocessor']['label']      = $language['XSLT_PROCESSOR'];
                          $recommended['xsltprocessor']['expected']   = SETTING_EXPECTED_ON;
-                         $recommended['xsltprocessor']['actual']     = class_exists('XSLTProcessor') ? SETTING_EXPECTED_ON : SETTING_EXPECTED_OFF;
-                         $recommended['xsltprocessor']['status']     = class_exists('XSLTProcessor') ? SETTING_TRUE : SETTING_FALSE;
+                         $recommended['xsltprocessor']['actual']     = class_exists('XSLTProcessor', false) ? SETTING_EXPECTED_ON : SETTING_EXPECTED_OFF;
+                         $recommended['xsltprocessor']['status']     = class_exists('XSLTProcessor', false) ? SETTING_TRUE : SETTING_FALSE;
 
                          # Checking for PHP Extension : HASH (used in Clansuite_Security)
                          $recommended['extension_hash']['label']      = $language['EXTENSION_HASH'];

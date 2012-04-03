@@ -1,4 +1,5 @@
 <?php
+namespace Clansuite\Installation;
 
 // Security Handler
 if(defined('IN_CS') === false)
@@ -10,7 +11,7 @@ if(defined('IN_CS') === false)
 /**
  * Step 5 - Website Configuration
  */
-class Clansuite_Installation_Step5 extends Clansuite_Installation_Page
+class Step5 extends \Clansuite\Installation_Page
 {
     public function getDefaultValues()
     {
@@ -73,7 +74,7 @@ class Clansuite_Installation_Step5 extends Clansuite_Installation_Page
         $config_array['language']['timezone'] = (string) timezone_name_from_abbr('', $_POST['config']['language']['gmtoffset'], 0);
 
         # write Settings to clansuite.config.php
-        if(false === Clansuite_Installation_Helper::write_config_settings($config_array))
+        if(false === \Clansuite\Installation_Helper::write_config_settings($config_array))
         {
             $this->setStep(5);
             $this->setErrorMessage('Config not written <br />');

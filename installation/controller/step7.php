@@ -1,4 +1,5 @@
 <?php
+namespace Clansuite\Installation;
 
 // Security Handler
 if(defined('IN_CS') === false)
@@ -10,7 +11,7 @@ if(defined('IN_CS') === false)
 /**
  * STEP 7 - Installation Success. The END.
  */
-class Clansuite_Installation_Step7 extends Clansuite_Installation_Page
+class Step7 extends \Clansuite\Installation_Page
 {
 }
 ?>

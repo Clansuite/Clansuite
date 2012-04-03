@@ -30,6 +30,8 @@
     * @version    SVN: $Id$
     */
 
+namespace Clansuite\Installation\Language;
+
 /**
  * German Language for Installation
  *
@@ -39,7 +41,7 @@
  * @package         Installation
  * @subpackage      Languages
  */
-class Language implements ArrayAccess
+class German implements \ArrayAccess
 {
     private $language = array();
 

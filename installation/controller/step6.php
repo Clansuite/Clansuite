@@ -1,4 +1,5 @@
 <?php
+namespace Clansuite\Installation;
 
 // Security Handler
 if(defined('IN_CS') === false)
@@ -10,7 +11,7 @@ if(defined('IN_CS') === false)
 /**
  * Step 6 - Create Administrator Account
  */
-class Clansuite_Installation_Step6 extends Clansuite_Installation_Page
+class Step6 extends \Clansuite\Installation_Page
 {
     public function getDefaultValues()
     {
@@ -67,7 +68,7 @@ class Clansuite_Installation_Step6 extends Clansuite_Installation_Page
         require ROOT . 'core/security.php';
 
         # generate salted hash
-        $hashArray = Clansuite_Security::build_salted_hash(
+        $hashArray = \Koch\Security::build_salted_hash(
                         $_POST['admin_password'], $_SESSION['encryption']
         );
 
@@ -78,7 +79,7 @@ class Clansuite_Installation_Step6 extends Clansuite_Installation_Page
          */
         try
         {
-            $db = Clansuite_Installation_Helper::getDoctrineEntityManager()->getConnection();
+            $db = \Clansuite\Installation_Helper::getDoctrineEntityManager()->getConnection();
 
             $raw_sql_query = 'INSERT INTO ' . $_SESSION['config']['database']['prefix'] . 'users
                             SET  email = :email,
@@ -103,7 +104,7 @@ class Clansuite_Installation_Step6 extends Clansuite_Installation_Page
 
             $stmt->execute($params);
         }
-        catch(Exception $e)
+        catch(\Exception $e)
         {
             $this->setStep(6);
             $this->setErrormessage($e->getMessage());

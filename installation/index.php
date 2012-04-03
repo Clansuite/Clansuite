@@ -30,6 +30,8 @@
     * @version    SVN: $Id$
     */
 
+namespace Clansuite;
+
 /**
  * Bootstrap
  */
@@ -49,12 +51,16 @@ define('INSTALLATION_ROOT', __DIR__ . DS);
 define('ROOT', dirname(INSTALLATION_ROOT) . DS);
 define('ROOT_CACHE', ROOT . 'cache/');
 define('ROOT_APP', ROOT . 'application/');
+define('PROTOCOL', 'http://', false);
+define('SERVER_URL', PROTOCOL . $_SERVER['SERVER_NAME'], false);
+define('WWW_ROOT', SERVER_URL . '/application/', false);
+define('WWW_ROOT_THEMES_CORE', WWW_ROOT . 'themes/core/');
 define('NL', "<br />\r\n", false);
 define('CR', "\n");
 
 # load Clansuite Version constants
 require ROOT . 'application/version.php';
-Clansuite_Version::setVersionInformation();
+\Clansuite\Version::setVersionInformation();
 
 # Error Reporting Level
 error_reporting(E_ALL | E_STRICT);
@@ -62,7 +68,8 @@ ini_set('display_startup_errors', true);
 ini_set('display_errors', true);
 
 require ROOT . '/core/exception/exception.php';
-set_exception_handler(array(new Clansuite_Exception,'exception_handler'));
+require ROOT . '/core/exception/errorhandler.php';
+set_exception_handler(array(new \Koch\Exception\Exception,'exception_handler'));
 
 if(DEBUG)
 {
@@ -80,28 +87,28 @@ if(DEBUG)
 define('REQUIRED_PHP_VERSION', '5.3.0');
 if(version_compare(PHP_VERSION, REQUIRED_PHP_VERSION, '<=') === true)
 {
-    throw new Clansuite_Installation_Exception(
+    throw new Installation_Exception(
             'Your PHP Version is <b>' . PHP_VERSION . '</b>. Clansuite requires PHP <b>' . REQUIRED_PHP_VERSION . '</b>.', 1);
 }
 
 # PDO extension must be available
 if(false === class_exists('PDO'))
 {
-    throw new Clansuite_Installation_Exception(
+    throw new Installation_Exception(
             '"<i>PHP_PDO</i>" extension not enabled. The extension is needed for accessing the database.', 2);
 }
 
 # php_pdo_mysql driver must be available
-if(false === in_array('mysql', PDO::getAvailableDrivers()))
+if(false === in_array('mysql', \PDO::getAvailableDrivers()))
 {
-    throw new Clansuite_Installation_Exception(
+    throw new Installation_Exception(
             '"<i>php_pdo_mysql</i>" driver not enabled. The extension is needed for accessing the database.', 3);
 }
 
 /**
  * Start Installation Application
  */
-new Clansuite_Installation;
+new \Clansuite\Installation;
 
 /**
  * Clansuite Installation
@@ -112,7 +119,7 @@ new Clansuite_Installation;
  * "?reset_session"      - Resets the installaton session
  * "?delete_installaton" - Deletes the Installation Folder
  */
-class Clansuite_Installation
+class Installation
 {
     /**
      * @var string Language Locale (german, english).
@@ -141,7 +148,7 @@ class Clansuite_Installation
 
     public function __construct()
     {
-        spl_autoload_register('Clansuite_Installation::autoload');
+        spl_autoload_register('Clansuite\Installation::autoload');
 
         $this->handleRequest_deleteInstallationFolder();
 
@@ -157,22 +164,20 @@ class Clansuite_Installation
         $this->calculateInstallationProgress();
         $this->renderStep();
 
-        register_shutdown_function('Clansuite_Installation::shutdown');
+        register_shutdown_function('Clansuite\Installation::shutdown');
     }
 
     private static function autoload($classname)
     {
         $classname = strtolower($classname);
 
-        # exclude load requests of non clansuite classes
-        # that's the case, when classname not prefixed with "clansuite"
-        if (strpos($classname, 'clansuite') === false)
+        if (strpos($classname, 'doctrine') !== false)
         {
             return;
         }
 
-        # classname ot filename conversion
-        $filename = str_replace('clansuite_installation_', '', $classname);
+        # remove namespace = classname to filename conversion
+        $filename = str_replace('clansuite\installation\\', '', $classname);
 
         # load
         include INSTALLATION_ROOT . 'controller' . DS . $filename . '.php';
@@ -212,7 +217,7 @@ class Clansuite_Installation
              */
             echo "Deleting Directory - " . __DIR__;
 
-            Clansuite_Installation_Helper::removeDirectory(__DIR__);
+            \Clansuite\Installation_Helper::removeDirectory(__DIR__);
 
             # display success message
             if(false === file_exists(__DIR__))
@@ -273,16 +278,17 @@ class Clansuite_Installation
             {
                 include_once $file;
 
-                $this->language = new language;
+                $classname = '\Clansuite\Installation\Language\\' . $this->locale;
+                $this->language = new $classname;
 
                 $_SESSION['lang'] = $this->locale;
             }
             else
             {
-                throw new Clansuite_Installation_Exception('<span style="color:red">Language file missing: <strong>' . $file . '</strong></span>');
+                throw new \Clansuite\Installation_Exception('<span style="color:red">Language file missing: <strong>' . $file . '</strong></span>');
             }
         }
-        catch(Exception $e)
+        catch(\Exception $e)
         {
             exit($e);
         }
@@ -290,7 +296,7 @@ class Clansuite_Installation
 
     public function getTotalNumberOfInstallationSteps()
     {
-        $this->total_steps = Clansuite_Installation_Helper::getTotalNumberOfSteps();
+        $this->total_steps = \Clansuite\Installation_Helper::getTotalNumberOfSteps();
     }
 
     /**
@@ -303,7 +309,7 @@ class Clansuite_Installation
     public function determineCurrentStep()
     {
         # update the session with the given variables!
-        $_SESSION = Clansuite_Installation_Helper::array_merge_rec($_POST, $_SESSION);
+        $_SESSION = \Clansuite\Installation_Helper::array_merge_rec($_POST, $_SESSION);
 
         /**
          * STEP HANDLING
@@ -346,7 +352,7 @@ class Clansuite_Installation
         /**
          * Calculate Progress Percentage
          */
-        $_SESSION['progress'] = Clansuite_Installation_Helper::calculateProgress($this->step, $this->total_steps);
+        $_SESSION['progress'] = \Clansuite\Installation_Helper::calculateProgress($this->step, $this->total_steps);
     }
 
     public function processPreviousStep()
@@ -359,7 +365,7 @@ class Clansuite_Installation
 
         $previous_step = $this->step - 1;
 
-        $prev_step_class = 'Clansuite_Installation_Step' . $previous_step;
+        $prev_step_class = '\Clansuite\Installation\Step' . $previous_step;
 
         if(class_exists($prev_step_class))
         {
@@ -415,18 +421,18 @@ class Clansuite_Installation
          * =========================================================
          */
 
-        $step_class = 'Clansuite_Installation_Step' . $this->step;
+        $step_class = '\Clansuite\Installation\Step' . $this->step;
 
         if(class_exists($step_class))
         {
-            $_SESSION['step'] = $this->step;
+           $_SESSION['step'] = $this->step;
 
            $step = new $step_class(
                 $this->language,
                 $this->step,
                 $this->total_steps,
                 $this->error
-            );
+           );
 
            $step->render();
         }
@@ -442,7 +448,7 @@ class Clansuite_Installation
     }
 }
 
-class Clansuite_Installation_Helper
+class Installation_Helper
 {
     /**
      * Writes the Database-Settings into the clansuite.config.php
@@ -462,21 +468,21 @@ class Clansuite_Installation_Helper
         unset($data_array['lang']);
         unset($data_array['database']['create_database']);
 
-        # base class is needed for Clansuite_Config_INI
-        if(false === class_exists('Clansuite_Config_Base', false))
+        # base class is needed for \Koch\Config\Adpater\INI
+        if(false === class_exists('AbstractConfig', false))
         {
-            require ROOT . 'core/config/base.php';
+            require ROOT . 'core/config/abstractconfig.php';
         }
 
         # read skeleton settings = minimum settings for initial startup
         # (not asked from user during installation, but required paths, default actions, etc.)
-        $installer_config = Clansuite_Config_INI::readConfig(INSTALLATION_ROOT . 'config.skeleton.ini');
+        $installer_config = \Koch\Config\Adapter\Ini::readConfig(INSTALLATION_ROOT . 'config.skeleton.ini');
 
         # array merge: overwrite the array to the left, with the array to the right, when keys identical
         $data_array = array_merge_recursive($data_array, $installer_config);
 
         # Write Config File to ROOT Directory
-        if(!Clansuite_Config_INI::writeConfig(ROOT . 'configuration/clansuite.php', $data_array))
+        if(false === \Koch\Config\Adapter\Ini::writeConfig(ROOT_APP . 'configuration/clansuite.php', $data_array))
         {
             // config not written
             return false;
@@ -572,7 +578,7 @@ class Clansuite_Installation_Helper
 
     /**
      * Returns the total number of installations steps
-     * by counting the number of classes named "Clansuite_Installation_StepX".
+     * by counting the number of classes named "\Clansuite\Installation_StepX".
      *
      * @return int Total number of install steps. $_SESSION['total_steps']
      */
@@ -665,7 +671,7 @@ class Clansuite_Installation_Helper
                 include ROOT . 'core/config/adapter/ini.php';
 
                 # get clansuite config
-                $clansuite_config = Clansuite_Config_INI::readConfig(ROOT_APP . 'configuration/clansuite.php');
+                $clansuite_config = \Koch\Config\Adapter\INI::readConfig(ROOT_APP . 'configuration/clansuite.php');
 
                 # reduce config array to the dsn/connection settings
                 $connectionParams = $clansuite_config['database'];
@@ -695,7 +701,7 @@ class Clansuite_Installation_Helper
 
             # setup Annotation Driver
             $driverImpl = $config->newDefaultAnnotationDriver(
-                Clansuite_Installation_Helper::getModelPathsForAllModules());
+                \Clansuite\Installation_Helper::getModelPathsForAllModules());
             $config->setMetadataDriverImpl($driverImpl);
 
             # finally: instantiate EntityManager
@@ -703,15 +709,15 @@ class Clansuite_Installation_Helper
 
             return $entityManager;
         }
-        catch(Exception $e)
+        catch(\Exception $e)
         {
             $msg = 'The initialization of Doctrine2 failed!' . NL . NL . 'Reason: ' . $e->getMessage();
-            throw new Clansuite_Installation_Exception($msg);
+            throw new \Clansuite\Installation_Exception($msg);
         }
     }
 }
 
-class Clansuite_Installation_Page
+class Installation_Page
 {
     public $values;
     public $step;
@@ -731,7 +737,7 @@ class Clansuite_Installation_Page
     {
         /**
          * Fetch class variables into the local scope.
-         * The just look unused, but are used in the included files.
+         * The just seem to be unused, in fact they are used by the included files.
          */
         $language       = $this->language;
         $error          = $this->error;
@@ -794,19 +800,19 @@ class Clansuite_Installation_Page
 }
 
 /**
- * Clansuit Installation Exception
+ * Clansuite Installation Exception
  *
  * @category    Clansuite
  * @package     Installation
  * @subpackage  Exception
  */
-class Clansuite_Installation_Exception extends Exception
+class Installation_Exception extends \Exception
 {
     /**
      * Define Exceptionmessage && Code via constructor
      * and hand it over to the parent Exception Class
      */
-    public function __construct($message, $code = 0)
+    public function __construct($message = '', $code = 0)
     {
         parent::__construct($message, $code);
     }

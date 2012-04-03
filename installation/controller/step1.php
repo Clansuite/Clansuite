@@ -1,4 +1,5 @@
 <?php
+namespace Clansuite\Installation;
 
 // Security Handler
 if(defined('IN_CS') === false)
@@ -9,7 +10,7 @@ if(defined('IN_CS') === false)
 /**
  * Step 1 - Language Selection
  */
-class Clansuite_Installation_Step1 extends Clansuite_Installation_Page
+class Step1 extends \Clansuite\Installation_Page
 {
 
 }
