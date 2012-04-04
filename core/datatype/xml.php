@@ -120,7 +120,8 @@ class XML
             }
         }
 
-        if($xml instanceof SimpleXMLElement)
+        if( is_a($xml, 'SimpleXMLElement') ) # works (no longer deprecated as of php 5.3.0)
+        #if($xml instanceof SimpleXMLElement)  <= fails with php 5.3.5
         {
             # Get a copy of the simpleXmlElementObject
             $copy_of_xml_object = $xml;
@@ -162,7 +163,7 @@ class XML
 
                 # WATCH IT ! RECURSION !!!
                 # recursively process the current (VALUE) element
-                $resultArray[$key] = Koch_XML::toArray($value, $recursionDepth);
+                $resultArray[$key] = self::toArray($value, $recursionDepth);
 
                 # decrease the recursion depth by one
                 $recursionDepth--;
