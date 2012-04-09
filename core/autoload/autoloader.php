@@ -279,6 +279,8 @@ class Loader
 
         # convert underscore to DS
         $filename .= str_replace('_', DS, $classname) . '.php';
+        
+        $filename = strtolower($filename);
 
         echo "$classname => $filename <br>";
 
