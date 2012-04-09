@@ -79,6 +79,8 @@ if(empty($_SERVER['SERVER_NAME']))
 include dirname(__DIR__) . '/application/bootstrap.php';
 \Clansuite\CMS::define_ConstantsAndPaths();
 \Clansuite\CMS::initialize_Loader();
+
+include dirname(__DIR__) . '/core/localization/utf8.php';
 \Koch\Localization\UTF8::initialize();
 
 /**
