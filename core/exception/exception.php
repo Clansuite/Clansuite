@@ -59,7 +59,7 @@ if(defined('IN_CS') === false)
  * @package     Core
  * @subpackage  Exceptionhandler
  */
-class Exception extends \Exception implements ExceptionInterface
+class Exception extends \Exception
 {
     /**
      * Variables of a PHP Exception
