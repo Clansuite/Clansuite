@@ -31,7 +31,7 @@ class ApcTest extends Clansuite_UnitTestCase
 
         $cache->store('key1', 'value1');
 
-        $this->assertEquals('value1', $cache->fetch('key1'));
+        $this->assertEqual('value1', $cache->fetch('key1'));
 
         $this->assertTrue($cache->contains('key1'));
 
