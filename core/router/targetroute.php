@@ -309,6 +309,7 @@ class TargetRoute extends Mapper
 
     /**
      * Method to check if the TargetRoute relates to correct file, controller and action.
+     * Ensures route is valid.
      *
      * @return boolean True if TargetRoute is dispatchable, false otherwise.
      */
@@ -318,12 +319,13 @@ class TargetRoute extends Mapper
         $filename = self::getFilename();
         $method = self::getMethod();
 
-        # class loaded before?
-        if(class_exists($classname, false) === false)
+        # was the class loaded before? no? then autoload it.
+        if(class_exists($classname) === false)
         {
-            if(is_file($filename))
+            # if still no luck, lets try loading manually
+            if(is_file(ROOT_CORE . $filename))
             {
-                include $filename;
+                include ROOT_CORE . $filename;
             }
         }
 
