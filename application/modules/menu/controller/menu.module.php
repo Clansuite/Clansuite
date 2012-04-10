@@ -45,7 +45,7 @@ if (defined('IN_CS') === false)
  * @package     Modules
  * @subpackage  Menu
  */
-class Menu extends \Clansuite\Module\Controller
+class Menu extends Controller
 {
     /**
      * Module_Menu -> Execute

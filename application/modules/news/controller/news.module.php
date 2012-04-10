@@ -45,7 +45,7 @@ if(defined('IN_CS') === false)
  * @package     Modules
  * @subpackage  News
  */
-class News extends \Clansuite\Module\Controller
+class News extends Controller
 {
     /**
      * Module_News -> Execute
