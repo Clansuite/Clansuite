@@ -41,15 +41,16 @@ if(defined('IN_CS') === false)
 /**
  * Koch Loader
  *
- * This Loader overwrites the Zend Engines_autoload with our own user defined loading functions.
- * The main function of this class is autoload() it's registered via spl_autoload_register($load_function).
- * There are several loader-functions, which are used by autoload().
+ * This Loader overwrites the Zend Engines _autoload() with our own user defined loading functions.
+ * The main function of this class is autoload().
+ * It's registered via spl_autoload_register($load_function).
  * Autoload will run, if a file is not found.
- * The procedure is (1) exclusions, (2) inclusions, (3) mapping file or apc, (4) mapping table.
+ * There are several loader-functions, which are called in a chain by autoload().
+ * The procedure is (1) exclusions, (2) inclusions, (3) mapping (file or apc), (4) include path (psr-0).
  *
  * Usage:
  * 1) include this file
- * 2) spl_autoload_register('Koch_Loader::autoload');
+ * 2) spl_autoload_register('Koch\Autoload\Loader::autoload');
  *
  * PHP Manual: __autoload
  * @link http://www.php.net/manual/en/language.oop5.autoload.php
@@ -279,15 +280,15 @@ class Loader
 
         # convert underscore to DS
         $filename .= str_replace('_', DS, $classname) . '.php';
-        
+
         $filename = strtolower($filename);
 
-        echo "$classname => $filename <br>";
+        #echo "$classname => $filename <br>";
 
         # searches on include path for the file and returns absolute path
         $filename = stream_resolve_include_path($filename);
 
-        echo "$classname => $filename <br>";
+        #echo "$classname => $filename <br>";
 
         if(is_string($filename) === true)
         {
