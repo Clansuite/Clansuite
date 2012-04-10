@@ -102,6 +102,9 @@ class Ini
             $config_array = $array;
         }
 
+        # slash fix
+        $file = str_replace('/', '\\', $file);
+
         # attach an security header at the top of the ini file
         $content = '';
         $content .= "; <?php die('Access forbidden.'); /* DO NOT MODIFY THIS LINE! ?>\n";
