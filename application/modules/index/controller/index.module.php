@@ -30,6 +30,8 @@
     * @version    SVN: $Id$
     */
 
+namespace Clansuite\Module;
+
 # Security Handler
 if(defined('IN_CS') === false)
 {
@@ -43,12 +45,12 @@ if(defined('IN_CS') === false)
  * @package     Modules
  * @subpackage  Index
  */
-class Clansuite_Module_Index extends Clansuite_Module_Controller
+class Index extends Controller //implements Koch\Module\ModuleInterface
 {
     public function action_index()
     {
         # Set Pagetitle and Breadcrumbs
-        Clansuite_Breadcrumb::add( _('Show'), '/index/index');
+        $this->addBreadcrumb( _('Show'), '/index/index');
 
         /***
          * You can set a Render Engine:
@@ -109,7 +111,7 @@ class Clansuite_Module_Index extends Clansuite_Module_Controller
     public function action_edit()
     {
         # Set Pagetitle and Breadcrumbs
-        Clansuite_Breadcrumb::add( _('Show'), '/index/show');
+        $this->addBreadcrumb( _('Show'), '/index/show');
 
         $view->setTemplate( 'show.tpl' );
         $view = $this->getView();

@@ -30,23 +30,24 @@
     * @link       http://www.clansuite.com
     * @link       http://gna.org/projects/clansuite
     *
-    * @version    SVN: $Id: $    
+    * @version    SVN: $Id: $
     */
 
-  
+namespace Clansuite\Module;
+
 //Security Handler
 if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
-  
-       
+
+
 /**
- * Clansuite Module - {$mod.module_name|capitalize} 
+ * Clansuite Module - {$mod.module_name|capitalize}
  *
  * Description: {$mod.meta.description}
  *
  * @version    {$mod.meta.initialversion}
  * @author     {$mod.meta.author} {$mod.meta.email}
  * @copyright  {$mod.meta.copyright}
- * @license    {$mod.meta.license} 
+ * @license    {$mod.meta.license}
  * @link       {$mod.meta.website}
  *
  * @category    Clansuite
@@ -54,25 +55,25 @@ if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
  * @subpackage  {$mod.module_name|capitalize}
  */
 
-class Clansuite_Module_{$mod.module_name|capitalize} extends ModuleController implements Clansuite_Module_Interface
+class {$mod.module_name|capitalize} extends ModuleController implements Clansuite_Module_Interface
 {
-    
+
     /**
-     * Module_{$mod.module_name|capitalize} -> Execute 
+     * Module_{$mod.module_name|capitalize} -> Execute
      *
      * Execute sets up common module specific stuff, needed by all actions of the module.
      * After execute is performed, the next step in the processing order is the requested action $_REQUEST['action'].
      */
-     
+
     public function execute(Clansuite_HttpRequest $request, Clansuite_HttpResponse $response)
     {
-        
+
         # read module config
         $this->config->readConfig( ROOT_MOD . '{$mod.modulename}/{$mod.modulename}.config.php');
 
-    
+
     }
-    
+
 {$frontend_methods|default}
 
 {$widget_methods|default}

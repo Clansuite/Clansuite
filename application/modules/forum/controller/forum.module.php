@@ -30,6 +30,8 @@
     * @version    SVN: $Id: news.module.php 2753 2009-01-21 22:54:47Z vain $
     */
 
+namespace Clansuite\Module;
+
 # Security Handler
 if(defined('IN_CS') === false)
 {
@@ -43,12 +45,12 @@ if(defined('IN_CS') === false)
  * @package     Modules
  * @subpackage  Forum
  */
-class Clansuite_Module_Forum extends Clansuite_Module_Controller
+class Forum extends Controller
 {
     private static $moduleInfos = array();
 
     public function _initializeModule()
-    {  
+    {
         $this->getModuleConfig();
 
         $moduleinfo = new Clansuite_ModuleInfoController();

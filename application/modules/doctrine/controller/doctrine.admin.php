@@ -30,6 +30,8 @@
     * @version    SVN: $Id$
     */
 
+namespace Clansuite\Module;
+
 //Security Handler
 if(defined('IN_CS') === false)
 {
@@ -66,7 +68,7 @@ if(defined('IN_CS') === false)
  * @package     Doctrine
  * @subpackage  Administration
  */
-class Clansuite_Module_Doctrine_Admin extends Clansuite_Module_Controller
+class Doctrine_Admin extends Controller
 {
     /**
      * @var array Doctrine Paths to models, yaml, sql, fixtures, migration data

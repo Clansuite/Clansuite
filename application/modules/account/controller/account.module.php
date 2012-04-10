@@ -30,6 +30,8 @@
     * @version    SVN: $Id$
     */
 
+namespace Clansuite\Module;
+
 # Security Handler
 if(defined('IN_CS') === false)
 {
@@ -43,7 +45,7 @@ if(defined('IN_CS') === false)
  * @package     Modules
  * @subpackage  Account
  */
-class Clansuite_Module_Account extends Clansuite_Module_Controller
+class Account extends Controller
 {
     /**
      * Module_Admin -> Execute

@@ -30,6 +30,8 @@
     * @version    SVN: $Id: rssreader.module.php 2753 2009-01-21 22:54:47Z vain $
     */
 
+namespace Clansuite\Module;
+
 //Security Handler
 if(defined('IN_CS') === false)
 {
@@ -43,7 +45,7 @@ if(defined('IN_CS') === false)
  * @package     Modules
  * @subpackage  Rssreader
  */
-class Clansuite_Module_Rssreader extends Clansuite_Module_Controller
+class Rssreader extends Controller
 {
     public function widget_rssreader()
     {

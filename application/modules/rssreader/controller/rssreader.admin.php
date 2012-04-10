@@ -28,6 +28,8 @@
     * @version    SVN: $Id: rssreader.admin.php 2750 2009-01-21 21:49:15Z vain $
     */
 
+namespace Clansuite\Module;
+
 # Security Handler
 if(defined('IN_CS') === false)
 {
@@ -41,7 +43,7 @@ if(defined('IN_CS') === false)
  * @package     Modules
  * @subpackage  Rssreader
  */
-class Clansuite_Module_Rssreader_Admin extends Clansuite_Module_Controller
+class Rssreader_Admin extends Controller
 {
 
     public function _initializeModule()

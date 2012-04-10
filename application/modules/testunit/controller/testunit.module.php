@@ -30,6 +30,8 @@
     * @version    SVN: $Id: about.module.php 4744 2010-09-26 23:13:04Z vain $
     */
 
+namespace Clansuite\Module;
+
 # Security Handler
 if(defined('IN_CS') === false)
 {
@@ -43,7 +45,7 @@ if(defined('IN_CS') === false)
  * @package     Modules
  * @subpackage  Testunit
  */
-class Clansuite_Module_Testunit extends Clansuite_Module_Controller
+class Testunit extends Controller
 {
 
     public function action_show()
@@ -56,7 +58,7 @@ class Clansuite_Module_Testunit extends Clansuite_Module_Controller
     }
 
     /* -------------------------------------------------------------------------
-     *    UNITS 
+     *    UNITS
      * ----------------------------------------------------------------------- */
 
     /**
@@ -66,8 +68,8 @@ class Clansuite_Module_Testunit extends Clansuite_Module_Controller
     {
         # Set Pagetitle and Breadcrumbs
         Clansuite_Breadcrumb::add( _('swfupload'), 'testunit/ajaxswfupload');
-    
-        $view = $this->getView();        
+
+        $view = $this->getView();
         $view->assign('sess_name', session_name() );
         $view->assign('sess_id', session_id() );
         $this->display();
@@ -80,7 +82,7 @@ class Clansuite_Module_Testunit extends Clansuite_Module_Controller
     {
         # Set Pagetitle and Breadcrumbs
         Clansuite_Breadcrumb::add( _('uploadify'), 'testunit/ajaxuploadify');
-    
+
         $view = $this->getView();
         $this->display();
     }
@@ -93,11 +95,11 @@ class Clansuite_Module_Testunit extends Clansuite_Module_Controller
     {
         # Set Pagetitle and Breadcrumbs
         Clansuite_Breadcrumb::add( _('prettyphoto'), 'testunit/ajaxprettyphoto');
-    
+
         $view = $this->getView();
         $this->display();
     }
-    
+
     /**
      * Simple Demo for using XTemplate as Render Engine
      *
@@ -107,25 +109,25 @@ class Clansuite_Module_Testunit extends Clansuite_Module_Controller
     {
         # fetch xtemplate as renderengine
         $xtpl = $this->getView('xtemplate');
-        
+
         # this renderengine is a block parser / frontloading one, so initalize it with template
         $xtpl->initializeEngine( $this->getTemplateName() );
-        
+
         # simple placeholder replace
-        $xtpl->assign('PLACEHOLDER_VARIABLE', 'TEST-123-TEST'); 
-        
+        $xtpl->assign('PLACEHOLDER_VARIABLE', 'TEST-123-TEST');
+
         # Debug XTemplate Engine
         #Clansuite_Debug::printR($xtpl);
-        
+
         # parse the Block main
         $xtpl->parse('main');
-        
-        # direct content output = display 
+
+        # direct content output = display
         # $xtpl->out('main');
-        
+
         # indirect content output = fetch
         $content = $xtpl->text('main');
-        
+
         # push content to the response object
         $this->response->setContent($content);
     }

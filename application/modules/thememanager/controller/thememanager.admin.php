@@ -30,6 +30,8 @@
     * @version    SVN: $Id: users.module.php 2634 2008-12-12 22:07:48Z vain $
     */
 
+namespace Clansuite\Module;
+
 # Security Handler
 if (defined('IN_CS') === false)
 {
@@ -43,7 +45,7 @@ if (defined('IN_CS') === false)
  * @package     Modules
  * @subpackage  Thememanager
  */
-class Clansuite_Module_Thememanager_Admin extends Clansuite_Module_Controller
+class Thememanager_Admin extends Controller
 {
     /**
      * @var object \Clansuite_Cssbuilder

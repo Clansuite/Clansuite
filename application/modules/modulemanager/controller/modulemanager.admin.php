@@ -28,6 +28,8 @@
     * @version    SVN: $Id: news.admin.php 3747 2009-11-20 14:59:46Z vain $
     */
 
+namespace Clansuite\Module;
+
 # Security Handler
 if(defined('IN_CS') === false)
 {
@@ -42,7 +44,7 @@ if(defined('IN_CS') === false)
  * @subpackage  Modulemanager
  */
 
-class Clansuite_Module_Modulemanager_Admin extends Clansuite_Module_Controller
+class Modulemanager_Admin extends Controller
 {
     public function _initializeModule()
     {
@@ -196,7 +198,7 @@ class Clansuite_Module_Modulemanager_Admin extends Clansuite_Module_Controller
         }
 
         /**
-         * Frontend = class Clansuite_Module_Modulename
+         * Frontend = class Modulename
          */
         if( isset($mod['frontend']['checked']) && $mod['frontend']['checked'] == 1)
         {

@@ -30,6 +30,8 @@
     * @version    SVN: $Id: about.module.php 4744 2010-09-26 23:13:04Z vain $
     */
 
+namespace Clansuite\Module;
+
 //Security Handler
 if(defined('IN_CS') === false)
 {
@@ -43,7 +45,7 @@ if(defined('IN_CS') === false)
  * @package     Modules
  * @subpackage  Toolbox
  */
-class Clansuite_Module_Search extends Clansuite_Module_Controller
+class Search extends Controller
 {
 
     public function _initializeModule()

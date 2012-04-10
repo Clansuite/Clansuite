@@ -33,6 +33,7 @@
     * @version    SVN: $Id: news.module.php 2753 2009-01-21 22:54:47Z vain $
     */
 
+namespace Clansuite\Module;
 
 //Security Handler
 if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
@@ -53,8 +54,8 @@ if (!defined('IN_CS')){ die('Clansuite not loaded. Direct Access forbidden.' );}
  * @package     Modules
  * @subpackage  {$mod.module_name|capitalize}
  */
- 
-class Clansuite_Module_{$mod.module_name|capitalize}_Admin extends ModuleController implements Clansuite_Module_Interface
+
+class {$mod.module_name|capitalize}_Admin extends ModuleController implements Clansuite_Module_Interface
 {
 
     /**
@@ -63,14 +64,14 @@ class Clansuite_Module_{$mod.module_name|capitalize}_Admin extends ModuleControl
      * Execute sets up common module specific stuff, needed by all actions of the module.
      * After execute is performed, the next step in the processing order is the requested action $_REQUEST['action'].
      */
-     
+
     public function execute(Clansuite_HttpRequest $request, Clansuite_HttpResponse $response)
     {
 
         # read module config
         $this->config->readConfig( ROOT_MOD . '{$mod.modulename}/{$mod.modulename}.config.php');
 
-    
+
     }
 
 {$backend_methods|default}

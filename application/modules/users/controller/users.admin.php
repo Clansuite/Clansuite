@@ -28,6 +28,8 @@
     * @version    SVN: $Id: menueditor.module.php 2095 2008-06-11 23:44:20Z vain $
     */
 
+namespace Clansuite\Module;
+
 //Security Handler
 if(defined('IN_CS') === false)
 {
@@ -41,7 +43,7 @@ if(defined('IN_CS') === false)
  * @package     Modules
  * @subpackage  Users
 */
-class Clansuite_Module_Users_Admin extends Clansuite_Module_Controller
+class Users_Admin extends Controller
 {
     public function _initializeModule()
     {

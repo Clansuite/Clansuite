@@ -31,6 +31,8 @@
     * @version    SVN: $Id: index.module.php 2873 2009-03-27 01:50:12Z vain $
     */
 
+namespace Clansuite\Module;
+
 # Security Handler
 if (defined('IN_CS') === false)
 {
@@ -44,13 +46,13 @@ if (defined('IN_CS') === false)
  * @package     Modules
  * @subpackage  Cronjobs
  */
-class Clansuite_Module_Cronjobs_Admin extends Clansuite_Module_Controller
+class Cronjobs_Admin extends Controller
 {
     public function _initializeModule()
     {
 
     }
-    
+
     public function action_admin_list()
     {
         # Applying a Layout Template

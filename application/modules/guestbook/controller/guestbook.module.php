@@ -30,6 +30,8 @@
     * @version    SVN: $Id$
     */
 
+namespace Clansuite\Module;
+
 # Security Handler
 if(defined('IN_CS') === false)
 {
@@ -46,7 +48,7 @@ if(defined('IN_CS') === false)
  * @package     Modules
  * @subpackage  Guestbook
  */
-class Clansuite_Module_Guestbook extends Clansuite_Module_Controller
+class Guestbook extends Controller
 {
     /**
      * Module_Guestbook -> Execute

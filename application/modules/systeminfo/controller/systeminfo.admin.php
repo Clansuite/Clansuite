@@ -30,6 +30,8 @@
     * @version    SVN: $Id: index.module.php 2625 2008-12-09 00:04:43Z vain $
     */
 
+namespace Clansuite\Module;
+
 # Security Handler
 if (defined('IN_CS') === false)
 {
@@ -43,7 +45,7 @@ if (defined('IN_CS') === false)
  * @package     Modules
  * @subpackage  Systeminfo
  */
-class Clansuite_Module_Systeminfo_Admin extends Clansuite_Module_Controller
+class Systeminfo_Admin extends Controller
 {
     public function _initializeModule()
     {

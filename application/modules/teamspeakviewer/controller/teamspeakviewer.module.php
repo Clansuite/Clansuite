@@ -28,6 +28,8 @@
     * @version    SVN: $Id: news.module.php 2345 2008-08-02 04:35:23Z vain $
     */
 
+namespace Clansuite\Module;
+
 # Security Handler
 if(defined('IN_CS') === false)
 {
@@ -41,7 +43,7 @@ if(defined('IN_CS') === false)
  * @package     Modules
  * @subpackage  TeamspeakViewer
  */
-class Clansuite_Module_Teamspeakviewer extends Clansuite_Module_Controller
+class Teamspeakviewer extends Controller
 {
     /**
      * Module_Teamspeakviewer -> Execute

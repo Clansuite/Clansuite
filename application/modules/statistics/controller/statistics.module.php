@@ -28,6 +28,9 @@
     * @version    SVN: $Id: index.module.php 2625 2008-12-09 00:04:43Z vain $
     */
 
+namespace Clansuite\Module;
+
+
 # Security Handler
 if(defined('IN_CS') === false)
 {
@@ -41,7 +44,7 @@ if(defined('IN_CS') === false)
  * @package     Modules
  * @subpackage  Clansuite_Module_Statistics
  */
-class Clansuite_Module_Statistics extends Clansuite_Module_Controller
+class Statistics extends Controller
 {
     /**
      * This fetches the statistics from db and returns them as array.

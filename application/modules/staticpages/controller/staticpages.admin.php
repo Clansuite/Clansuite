@@ -28,6 +28,8 @@
     * @version    SVN: $Id: news.module.php 2006 2008-05-07 09:08:40Z xsign $
     */
 
+namespace Clansuite\Module;
+
 # Security Handler
 if(defined('IN_CS') === false)
 {
@@ -41,7 +43,7 @@ if(defined('IN_CS') === false)
  * @package     Modules
  * @subpackage  Staticpages
  */
-class Clansuite_Module_Staticpages_Admin extends Clansuite_Module_Controller
+class Staticpages_Admin extends Controller
 {
     /**
      * action_admin_show()

@@ -30,6 +30,8 @@
     * @version    SVN: $Id$
     */
 
+namespace Clansuite\Module;
+
 //Security Handler
 if(defined('IN_CS') === false)
 {
@@ -43,7 +45,7 @@ if(defined('IN_CS') === false)
  * @package     Modules
  * @subpackage  News
  */
-class Clansuite_Module_News extends Clansuite_Module_Controller
+class News extends \Clansuite\Module\Controller
 {
     /**
      * Module_News -> Execute
