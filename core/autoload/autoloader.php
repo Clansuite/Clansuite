@@ -255,7 +255,7 @@ class Loader
      */
     public static function autoloadIncludePath($classname)
     {
-        echo "Class requested $classname <br>";
+        #echo "Class requested $classname <br>";
 
         # trim opening namespace separator
         $classname = ltrim($classname, '\\');
