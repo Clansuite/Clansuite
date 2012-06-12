@@ -479,7 +479,7 @@
     -->
     <target name="visualize-buildfile" description="Generates a visualization of the Clansuite Build File">
 
-        <property name="buildfile" value="build-clansuite.xml" />
+        <property name="buildfile" value="build.xml" />
         <property name="phing2dot.xsl" value="${project.basedir}/ant2dot.xsl" /> <!-- ${base.directory} -->
         <property name="dot.file" value="${buildfile}.dot" />
         <property name="png.file" value="${buildfile}.png" />
