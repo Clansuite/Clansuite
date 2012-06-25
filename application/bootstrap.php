@@ -565,7 +565,6 @@ class CMS
                 \Koch\Config\INI::writeConfig(ROOT . 'configuration/clansuite.config.php', self::$config);
                 # redirect to remove the token from url
                 header('Location: ' . SERVER_URL);
-                exit();
             }
         }
 
