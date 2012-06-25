@@ -116,7 +116,6 @@ class CMS
         if(defined('CS_LIVE') and CS_LIVE == true and is_file('installation/install.php') === true)
         {
             header('Location: installation/check_security.php');
-            exit;
         }
 
         /**
@@ -138,7 +137,6 @@ class CMS
         if(is_file('application/configuration/clansuite.php') === false)
         {
             header('Location: installation/index.php');
-            exit;
         }
     }
 
